@@ -1,5 +1,11 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -105,12 +111,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -257,8 +257,6 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private GeoPoint3D cursor3D;
 	private int cursor3DType = PREVIEW_POINT_NONE;
 	private int cursor = CURSOR_DEFAULT;
-	/** tells if the view is under animation for scale */
-	private boolean animatedScale = false;
 	/** starting and ending scales */
 	private double animatedScaleStart, animatedScaleEnd;
 	/** velocity of animated scaling */
@@ -277,14 +275,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private double animatedScaleEndY;
 	/** z end of animated scale */
 	private double animatedScaleEndZ;
-	/** tells if the view is under continue animation for rotation */
-	private boolean animatedContinueRot = false;
 	/** speed for animated rotation */
 	private double animatedRotSpeed;
 	/** starting time for animated rotation */
 	private double animatedRotTimeStart;
-	/** tells if the view is under animation for rotation */
-	private boolean animatedRot = false;
 	/** says if the view is frozen (see freeze()) */
 	private boolean isFrozen = false;
 	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.Identity();
@@ -1644,7 +1638,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	/** tells if the view is under animation */
 	public boolean isAnimated() {
-		return animatedScale || isRotAnimated() || waitForScreenTranslateAndScale;
+		return animationType != AnimationType.OFF;
 	}
 
 	/**
@@ -1653,14 +1647,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @return true if there is a rotation animation
 	 */
 	public boolean isRotAnimated() {
-		return animatedContinueRot || animatedRot;
+		return isRotAnimatedContinue()
+				|| animationType == AnimationType.ROTATION;
 	}
 
 	/**
 	 * @return true if there is a continue rotation animation
 	 */
 	public boolean isRotAnimatedContinue() {
-		return animatedContinueRot;
+		return animationType == AnimationType.CONTINUE_ROTATION;
 	}
 
 	/**
@@ -1775,7 +1770,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		animatedScaleStart = getScale();
 		animatedScaleTimeStart = app.getMillisecondTime();
 		animatedScaleEnd = newScale;
-		animatedScale = true;
+		animationType = AnimationType.SCALE;
 
 		animatedScaleTimeFactor = 0.0003 * steps;
 
@@ -1822,7 +1817,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		animatedScaleStart = getScale();
 		animatedScaleTimeStart = app.getMillisecondTime();
 		animatedScaleEnd = newScale;
-		animatedScale = true;
+		animationType = AnimationType.SCALE;
 
 		animatedScaleTimeFactor = 0.005; // it will take about 1/2s to achieve
 		// it
@@ -1844,7 +1839,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		if (Double.isNaN(rotSpeed)) {
 			Log.error("NaN values for setRotContinueAnimation");
-			stopRotAnimation();
+			stopAnimation();
 			return;
 		}
 
@@ -1855,7 +1850,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		// if speed is too small, no animation
 		if (Math.abs(rotSpeed2) < 0.01) {
-			stopRotAnimation();
+			stopAnimation();
 			return;
 		}
 
@@ -1865,8 +1860,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		else if (rotSpeed2 < -0.1)
 			rotSpeed2 = -0.1;
 		this.getSettings().setRotSpeed(0);
-		animatedContinueRot = true;
-		animatedRot = false;
+		animationType = AnimationType.CONTINUE_ROTATION;
 		animatedRotSpeed = -rotSpeed2;
 		animatedRotTimeStart = app.getMillisecondTime() - delay;
 		bOld = b;
@@ -1920,8 +1914,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		// app.storeUndoInfo();
 
-		animatedRot = true;
-		animatedContinueRot = false;
+		animationType = AnimationType.ROTATION;
 		aOld = this.a % 360;
 		bOld = this.b % 360;
 
@@ -1963,26 +1956,32 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	/**
-	 * stops the rotation animation
+	 * stops the animations
 	 */
-	public void stopRotAnimation() {
-		animatedContinueRot = false;
-		animatedRot = false;
-
+	public void stopAnimation() {
+		animationType = AnimationType.OFF;
 	}
+
+	private enum AnimationType {
+		OFF, SCALE, CONTINUE_ROTATION, ROTATION, SCREEN_TRANSLATE_AND_SCALE
+	}
+
+	private AnimationType animationType = AnimationType.OFF;
 
 	/**
 	 * animate the view for changing scale, orientation, etc.
 	 */
 	private void animate() {
-		if (animatedScale) {
+
+		switch (animationType) {
+		case SCALE:
 			double t = (app.getMillisecondTime() - animatedScaleTimeStart)
 					* animatedScaleTimeFactor;
 			t += 0.2; // starting at 1/4
 
 			if (t >= 1) {
 				t = 1;
-				animatedScale = false;
+				stopAnimation();
 			}
 
 			// Application.debug("t="+t+"\nscale="+(startScale*(1-t)+endScale*t));
@@ -1999,24 +1998,23 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setViewChangedByTranslate();
 
 			// euclidianController3D.setFlagMouseMoved();
+			break;
 
-		}
-
-		if (animatedContinueRot) {
+		case CONTINUE_ROTATION:
 			double da = (app.getMillisecondTime() - animatedRotTimeStart)
 					* animatedRotSpeed;
 
 			shiftRotAboutZ(da);
-		}
-
-		if (animatedRot) {
-			double t = (app.getMillisecondTime() - animatedRotTimeStart) * 0.001;
+			break;
+			
+		case ROTATION:
+			t = (app.getMillisecondTime() - animatedRotTimeStart) * 0.001;
 			t *= t;
 			// t+=0.2; //starting at 1/4
 
 			if (t >= 1) {
 				t = 1;
-				animatedRot = false;
+				stopAnimation();
 			}
 
 			setRotXYinDegrees(aOld * (1 - t) + aNew * t, bOld * (1 - t) + bNew
@@ -2024,9 +2022,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 			updateMatrix();
 			setViewChangedByRotate();
-		}
+			break;
 
-		if (waitForScreenTranslateAndScale) {
+		case SCREEN_TRANSLATE_AND_SCALE:
 			setXZero(XZeroOld + screenTranslateAndScaleDX);
 			setYZero(YZeroOld + screenTranslateAndScaleDY);
 			setZZero(ZZeroOld + screenTranslateAndScaleDZ);
@@ -2038,7 +2036,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setViewChangedByTranslate();
 			setWaitForUpdate();
 
-			setWaitForScreenTranslateAndScale(false);
+			stopAnimation();
+			break;
 		}
 
 	}
@@ -4366,7 +4365,6 @@ GRectangle selectionRectangle) {
 	private double screenTranslateAndScaleDX;
 	private double screenTranslateAndScaleDY;
 	private double screenTranslateAndScaleDZ;
-	private boolean waitForScreenTranslateAndScale = false;
 
 	public void screenTranslateAndScale(double dx, double dy, double newScale) {
 
@@ -4394,11 +4392,7 @@ GRectangle selectionRectangle) {
 		}
 
 		this.screenTranslateAndScaleNewScale = newScale;
-		setWaitForScreenTranslateAndScale(true);
-	}
-
-	public void setWaitForScreenTranslateAndScale(boolean flag) {
-		waitForScreenTranslateAndScale = flag;
+		animationType = AnimationType.SCREEN_TRANSLATE_AND_SCALE;
 	}
 
 	@Override
@@ -4410,6 +4404,13 @@ GRectangle selectionRectangle) {
 	public final void drawActionObjects(GGraphics2D g) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void stopScreenTranslateAndScale() {
+		if (animationType == AnimationType.SCREEN_TRANSLATE_AND_SCALE){
+			animationType = AnimationType.OFF;
+		}
+		
 	}
 
 

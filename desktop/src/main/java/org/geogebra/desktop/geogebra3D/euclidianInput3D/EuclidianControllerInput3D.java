@@ -615,7 +615,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 		// automatic rotation
 		if (view3D.isRotAnimated()) {
-			view3D.stopRotAnimation();
+			view3D.stopAnimation();
 			viewRotationOccured = true;
 		}
 

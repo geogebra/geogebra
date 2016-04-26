@@ -1649,7 +1649,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// maybe called by twoTouchEnd()
 		// we don't want a "screen translate and scale"
 		// refresh after that
-		view3D.setWaitForScreenTranslateAndScale(false);
+		view3D.stopScreenTranslateAndScale();
 
 		super.wrapMousePressed(e);
 	}
@@ -1806,7 +1806,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private void processPressForRotate3D() {
 
 		if (view3D.isRotAnimated()) {
-			view3D.stopRotAnimation();
+			view3D.stopAnimation();
 			viewRotationOccured = true;
 		}
 

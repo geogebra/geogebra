@@ -187,7 +187,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		@Override
 		protected void onClickAction() {
 			if (getView().isRotAnimatedContinue()) {
-				getView().stopRotAnimation();
+				getView().stopAnimation();
 				setIcon(playIcon);
 			} else {
 				getView().setRotContinueAnimation(0, getSliderValue() * 0.01);

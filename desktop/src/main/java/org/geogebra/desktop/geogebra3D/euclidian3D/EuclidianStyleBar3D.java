@@ -86,7 +86,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 						(btnRotateView.getSliderValue()) * 0.01);
 			} else {// if button has been clicked, toggle rotation
 				if (getView().isRotAnimatedContinue()) {
-					getView().stopRotAnimation();
+					getView().stopAnimation();
 					btnRotateView.setSelected(false);
 				} else {
 					getView().setRotContinueAnimation(0,
