@@ -180,20 +180,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}-*/ ;
 
 		private void forceResize() {
-
-			if (app != null) {
-
-				int h = dockPanel.getComponentInteriorHeight() - dockPanel.navHeightIfShown();
-				int w = dockPanel.getComponentInteriorWidth();
-
-				if (h <= 0 || w <= 0) {
-					return;
-				}
-				if (h == oldHeight && w == oldWidth) {
-					dockPanel.resizeView(w - 1, h);
-					oldHeight = h;
-					oldWidth = w - 1;
-				}
+			EuclidianView view = dockPanel.getEuclidianView();
+			if (view instanceof EuclidianViewWInterface) {
+				((EuclidianViewWInterface) view).getG2P().forceResize();
+				view.repaintView();
+				view.suggestRepaint();
 			}
 		}
 
