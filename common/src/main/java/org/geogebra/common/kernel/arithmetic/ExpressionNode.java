@@ -6293,6 +6293,21 @@ kernel, left,
 	 */
 	public String toFractionString(StringTemplate tpl) {
 
+		initFraction();
+
+		return ((ExpressionNode) resolve).toFractionStringFlat(tpl);
+
+	}
+
+	/**
+	 * @return Whether this is a fraction (also true for 1/2+1/3)
+	 */
+	public boolean isFraction() {
+		initFraction();
+		return ((ExpressionNode) resolve).getOperation() == Operation.DIVIDE;
+	}
+
+	private void initFraction() {
 		if (resolve == null || !resolve.isExpressionNode()) {
 			ExpressionValue[] fraction = new ExpressionValue[2];
 			getFraction(fraction, true);
@@ -6308,11 +6323,9 @@ kernel, left,
 					resolve = new ExpressionNode(kernel, lt / rt);
 				}
 			} else {
-				resolve = evaluate(tpl).wrap();
+				resolve = evaluate(StringTemplate.defaultTemplate).wrap();
 			}
 		}
-
-		return ((ExpressionNode) resolve).toFractionStringFlat(tpl);
 
 	}
 
