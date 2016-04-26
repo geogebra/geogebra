@@ -108,7 +108,7 @@ public class RealSense {
 						})
 				.then(
 						function(result) {
-							@org.geogebra.web.html5.main.AppW::debug(Ljava/lang/String;)('Streaming ' + @org.geogebra.web.geogebra3D.web.realsense.RealSense::imageSize.width + 'x' + @org.geogebra.web.geogebra3D.web.realsense.RealSense::imageSize.height);
+							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)('Streaming ' + @org.geogebra.web.geogebra3D.web.realsense.RealSense::imageSize.width + 'x' + @org.geogebra.web.geogebra3D.web.realsense.RealSense::imageSize.height);
 						}); //dont compiles because gwt believes it is a try catch block .catch(function (error) {
 		//@org.geogebra.web.html5.main.AppW::debug(Ljava/lang/String;)('Init failed: ' + JSON.stringify(error));
 		//});
