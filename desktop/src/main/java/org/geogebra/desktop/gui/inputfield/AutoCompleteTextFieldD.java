@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.kernel.Macro;
@@ -759,17 +760,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 			return null;
 
 		boolean korean = app.getLocale().getLanguage().equals("ko");
-
-		// start autocompletion only for words with at least two characters
-		if (korean) {
-			if (Korean.flattenKorean(curWord.toString()).length() < 2) {
-				completions = null;
-				return null;
-			}
-		} else if (curWord.length() < 2) {
+		// start autocompletion only for long enough words
+		if (!InputHelper.needsAutocomplete(curWord, app.getKernel())) {
 			completions = null;
 			return null;
 		}
+
 		cmdPrefix = curWord.toString();
 
 		if (korean)
@@ -839,11 +835,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		// don't show autocompletion popup if the current word
 		// is a defined variable
-		if (app.getKernel().lookupLabel(curWord.toString()) != null) {
-			cancelAutoCompletion();
-		} else {
-			resetCompletions();
-		}
+
+		resetCompletions();
 
 		completionsPopup.showCompletions();
 	}
