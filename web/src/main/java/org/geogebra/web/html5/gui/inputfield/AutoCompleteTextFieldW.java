@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.common.gui.inputfield.AutoComplete;
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GLabel;
@@ -26,7 +27,6 @@ import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
-import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -447,20 +447,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		                        // app.getLocale().getLanguage().equals("ko");
 
 		// start autocompletion only for words with at least two characters
-		if (korean) {
-			if (Korean.flattenKorean(curWord.toString()).length() < 2) {
-				completions = null;
-				return null;
-			}
-		} else if (curWord.length() < 2) {
+		if (!InputHelper.needsAutocomplete(curWord, app.getKernel())) {
 			completions = null;
 			return null;
 		}
-		// start autocompletion only if curWord is not a defined variable
-		if (app.getKernel().lookupLabel(curWord.toString()) != null) {
-			completions = null;
-			return null;
-		}
+
 		cmdPrefix = curWord.toString();
 
 		if (korean) {

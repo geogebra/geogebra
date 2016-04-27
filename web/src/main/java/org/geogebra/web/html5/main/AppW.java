@@ -3459,7 +3459,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	public float getPixelRatio() {
 		return Browser.getPixelRatio()
-				* (float) articleElement.getScaleX();
+				* (float) articleElement.getDataParamScale();
 	}
 
 	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<MouseTouchGestureControllerW>();

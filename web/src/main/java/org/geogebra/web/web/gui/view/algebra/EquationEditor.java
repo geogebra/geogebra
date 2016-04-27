@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AutoCompleteDictionary;
-import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -20,6 +21,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
+import com.google.gwt.user.client.ui.SuggestOracle.Response;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class EquationEditor {
@@ -34,9 +36,7 @@ public class EquationEditor {
 	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
 		public void onSuggestionsReady(SuggestOracle.Request req,
 		        SuggestOracle.Response res) {
-			sug.updateHeight();
-			component.updatePosition(sug);
-			sug.accessShowSuggestions(res, popup, sugCallback);
+			updateSuggestions(res);
 		}
 	};
 	protected AutoCompleteDictionary dict;
@@ -63,6 +63,13 @@ public class EquationEditor {
 		popup = new CompletionsPopup();
 		popup.addTextField(component);
 		sug = new ScrollableSuggestionDisplay(this);
+
+	}
+
+	protected void updateSuggestions(Response res) {
+		sug.updateHeight();
+		component.updatePosition(sug);
+		sug.accessShowSuggestions(res, popup, sugCallback);
 
 	}
 
@@ -115,7 +122,8 @@ public class EquationEditor {
 	 * Code copied from AutoCompleteTextFieldW
 	 */
 	static int updateCurrentWord(boolean searchRight, StringBuilder curWord,
-	        String text, int caretPos) {
+			String text, int initCaretPos) {
+		int caretPos = initCaretPos;
 		int curWordStart;
 		if (text == null)
 			return -1;
@@ -177,23 +185,16 @@ public class EquationEditor {
 		// so moved from method parameter to automatism
 		// updateCurrentWord(true);// although true would be nicer here
 		updateCurrentWord(false);// compatibility should be preserved
-		String sub = this.curWord.toString();
-		if (sub != null && !"".equals(sub)) {
+		if (curWord != null && curWord.length() > 0) {
 			// for length check we also need flattenKorean
-			boolean korean = false;
-			if (app.getLocalization() != null) {
-				korean = "ko".equals(app.getLocalization().getLanguage());
-			}
-			if (korean) {
-				sub = Korean.flattenKorean(sub);
-			}
-			if (sub.length() < 2) {
+			if (!InputHelper.needsAutocomplete(this.curWord, app.getKernel())) {
 				// if there is only one letter typed,
 				// for any reason, this method should
 				// hide the suggestions instead!
 				hideSuggestions();
 			} else {
-				popup.requestSuggestions(new SuggestOracle.Request(sub,
+				popup.requestSuggestions(new SuggestOracle.Request(
+						this.curWord.toString(),
 				        querylimit), popupCallback);
 			}
 		}
@@ -201,7 +202,6 @@ public class EquationEditor {
 	}
 
 	public List<String> resetCompletions() {
-		String text = component.getText();
 		updateCurrentWord(false);
 		completions = null;
 		// if (isEqualsRequired && !text.startsWith("="))
@@ -215,15 +215,10 @@ public class EquationEditor {
 		// start autocompletion only for words with at least two characters
 		// maybe this was also done in the Web case in MathQuillGGB, but
 		// it should not do harm to check it twice...
-		if (korean) {
-			if (Korean.flattenKorean(curWord.toString()).length() < 2) {
+		if (!InputHelper.needsAutocomplete(curWord, app.getKernel())) {
 				completions = null;
-				return null;
-			}
-		} else if (curWord.length() < 2) {
-			completions = null;
-			return null;
-		}
+				return null;			
+		} 
 
 		String cmdPrefix = curWord.toString();
 
@@ -252,7 +247,6 @@ public class EquationEditor {
 			this.dict = component.isForCAS() ? app.getCommandDictionaryCAS()
 					:
 			app.getCommandDictionary();
-			App.debug("COMMANDS LOADED" + dict.size());
 		}
 		return dict;
 	}
@@ -295,7 +289,7 @@ public class EquationEditor {
 					syntaxes.add(macro.toString());
 				} else {
 					// syntaxes.add(cmdInt + "[]");
-					App.debug("Can't find syntax for: " + cmd);
+					Log.debug("Can't find syntax for: " + cmd);
 				}
 
 				continue;

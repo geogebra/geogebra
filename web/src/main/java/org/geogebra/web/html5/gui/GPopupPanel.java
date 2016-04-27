@@ -1419,12 +1419,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	}
 
 	private static native int getScale(Element start, String dir) /*-{
-		while (start) {
-			if (start.getAttribute("data-scale" + dir)) {
-				return start.getAttribute("data-scale" + dir);
-			}
-			start = start.parentElement;
-		}
+
 		return 1;
 	}-*/;
 
