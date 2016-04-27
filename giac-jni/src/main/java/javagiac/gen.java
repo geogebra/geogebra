@@ -22,7 +22,8 @@ public class gen {
   }
 
   protected void finalize() {
-    delete();
+    System.err.println("gen.java: ignoring finalize()");
+    // delete();
   }
 
   public synchronized void delete() {

@@ -22,7 +22,8 @@ public class vectorg {
   }
 
   protected void finalize() {
-    delete();
+    System.err.println("vectorg.java: ignoring finalize()");
+    // delete();
   }
 
   public synchronized void delete() {

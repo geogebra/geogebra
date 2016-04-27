@@ -22,7 +22,8 @@ public class vectori {
   }
 
   protected void finalize() {
-    delete();
+    System.err.println("vectori.java: ignoring finalize()");
+    // delete();
   }
 
   public synchronized void delete() {

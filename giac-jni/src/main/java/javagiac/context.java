@@ -22,7 +22,8 @@ public class context {
   }
 
   protected void finalize() {
-    delete();
+    System.err.println("context.java: ignoring finalize()");
+    // delete();
   }
 
   public synchronized void delete() {
