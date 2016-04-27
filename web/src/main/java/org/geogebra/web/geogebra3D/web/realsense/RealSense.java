@@ -1,6 +1,7 @@
 package org.geogebra.web.geogebra3D.web.realsense;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.AsyncCallback;
@@ -110,7 +111,7 @@ public class RealSense {
 						function(result) {
 							@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)('Streaming ' + @org.geogebra.web.geogebra3D.web.realsense.RealSense::imageSize.width + 'x' + @org.geogebra.web.geogebra3D.web.realsense.RealSense::imageSize.height);
 						}); //dont compiles because gwt believes it is a try catch block .catch(function (error) {
-		//@org.geogebra.web.html5.main.AppW::debug(Ljava/lang/String;)('Init failed: ' + JSON.stringify(error));
+		//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)('Init failed: ' + JSON.stringify(error));
 		//});
 	}-*/;
 
@@ -122,7 +123,7 @@ public class RealSense {
 	                                                                              }-*/;
 
 	private static void status(String status) {
-		App.debug(status);
+		Log.debug(status);
 	}
 
 	private static native void onHandData(JavaScriptObject mid,
