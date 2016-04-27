@@ -22,9 +22,12 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -32,6 +35,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -43,7 +47,7 @@ import org.geogebra.common.util.MyMath;
  */
 public class GeoConic extends GeoConicND implements 
 		ConicMirrorable,
-		SymbolicParametersBotanaAlgo {
+		SymbolicParametersBotanaAlgo, EquationValue {
 
 	/*
 	 * ( A[0] A[3] A[4] ) matrix = ( A[3] A[1] A[5] ) ( A[4] A[5] A[2] )
@@ -603,5 +607,15 @@ public class GeoConic extends GeoConicND implements
 
 	public ValueType getValueType() {
 		return ValueType.EQUATION;
+	}
+
+	public Equation getEquation() {
+		try {
+			return (Equation) kernel.getParser().parseGeoGebraExpression(
+					this.toValueString(StringTemplate.maxPrecision));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

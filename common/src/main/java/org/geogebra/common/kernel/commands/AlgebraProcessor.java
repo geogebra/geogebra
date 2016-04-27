@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -976,6 +977,7 @@ public class AlgebraProcessor {
 			if (storeUndo && geoElements != null)
 				app.storeUndoInfo();
 		} catch (MyError e) {
+			e.printStackTrace();
 			ErrorHelper.handleError(e,
 					ve == null ? null
 							: ve.toString(StringTemplate.defaultTemplate),
@@ -1674,7 +1676,7 @@ public class AlgebraProcessor {
 
 		// Equation in x,y (linear or quadratic are valid): line or conic
 		else if (ve instanceof Equation) {
-			ret = processEquation((Equation) ve);
+			ret = processEquation((Equation) ve, ve.wrap());
 		}
 
 		// explicit Function in one variable
@@ -2171,11 +2173,14 @@ public class AlgebraProcessor {
 	 * 
 	 * @param equ
 	 *            equation
+	 * @param def
+	 *            definition node (not same as equation in case of list1(2))
 	 * @return line, conic, implicit poly or plane
 	 * @throws MyError
 	 *             e.g. for invalid operation
 	 */
-	public final GeoElement[] processEquation(Equation equ) throws MyError {
+	public final GeoElement[] processEquation(Equation equ, ExpressionNode def)
+			throws MyError {
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		//z = 7
 		if (lhs instanceof FunctionVariable
@@ -2233,7 +2238,8 @@ public class AlgebraProcessor {
 			
 			}
 		}
-		return processEquation(equ, kernel.getConstruction().isFileLoading());
+		return processEquation(equ, def,
+				kernel.getConstruction().isFileLoading());
 	}
 
 	/**
@@ -2246,7 +2252,7 @@ public class AlgebraProcessor {
 	 * @throws MyError
 	 *             e.g. for invalid operation
 	 */
-	public final GeoElement[] processEquation(Equation equ,
+	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
 			boolean allowConstant) throws MyError {
 		// AbstractApplication.debug("EQUATION: " + equ);
 		// AbstractApplication.debug("NORMALFORM POLYNOMIAL: " +
@@ -2259,7 +2265,7 @@ public class AlgebraProcessor {
 		checkNoTheta(equ);
 
 		if (equ.isFunctionDependent()) {
-			return processImplicitPoly(equ);
+			return processImplicitPoly(equ, def);
 		}
 		int deg = equ.mayBePolynomial() && !equ.hasVariableDegree() ? equ
 				.degree() : -1;
@@ -2269,11 +2275,11 @@ public class AlgebraProcessor {
 		// linear equation -> LINE
 		case 1:
 
-			return processLine(equ, equ.wrap());
+			return processLine(equ, def);
 
 			// quadratic equation -> CONIC
 		case 2:
-			return processConic(equ, equ.wrap());
+			return processConic(equ, def);
 			// pi = 3 is not an equation, #1391
 		case 0:
 			if (!allowConstant) {
@@ -2294,7 +2300,7 @@ public class AlgebraProcessor {
 				return processFunction(fun);
 			}
 			if (app.has(Feature.IMPLICIT_CURVES) || equ.mayBePolynomial()) {
-				return processImplicitPoly(equ);
+				return processImplicitPoly(equ, def);
 			}
 
 			String[] errors = { "InvalidEquation" };
@@ -2425,9 +2431,12 @@ public class AlgebraProcessor {
 	/**
 	 * @param equ
 	 *            equation
+	 * @param definition
+	 *            definition node (not same as equation in case of list1(2))
 	 * @return resulting implicit polynomial
 	 */
-	protected GeoElement[] processImplicitPoly(Equation equ) {
+	protected GeoElement[] processImplicitPoly(Equation equ,
+			ExpressionNode definition) {
 		GeoElement[] ret = new GeoElement[1];
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
@@ -2442,11 +2451,11 @@ public class AlgebraProcessor {
 			geo = poly.toGeoElement();
 		} else {
 			AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly(
-					cons, equ, true);
+					cons, equ, definition, true);
 
 			geo = algo.getGeo(); // might also return
 			// Line or Conic
-			geo.setDefinition(equ.wrap());
+			geo.setDefinition(definition);
 		}
 		ret[0] = geo;
 		// AbstractApplication.debug("User Input: "+equ);
@@ -2476,7 +2485,7 @@ public class AlgebraProcessor {
 			} else if (leaf instanceof Equation) {
 				Equation eqn = (Equation) leaf;
 				eqn.setLabels(n.getLabels());
-				return processEquation(eqn);
+				return processEquation(eqn, n);
 			} else if (leaf instanceof Function) {
 				Function fun = (Function) leaf;
 				fun.setLabels(n.getLabels());
@@ -2558,6 +2567,11 @@ public class AlgebraProcessor {
 			return processText(n, eval);
 		else if (eval instanceof MyList) {
 			return processList(n, (MyList) eval);
+		} else if (eval instanceof EquationValue) {
+			Equation eq = ((EquationValue) eval).getEquation();
+			eq.setFunctionDependent(true);
+			eq.setLabel(n.getLabel());
+			return processEquation(eq, n);
 		} else if (eval instanceof Function) {
 			return processFunction((Function) eval);
 		} else if (eval instanceof FunctionNVar) {

@@ -143,7 +143,7 @@ public class AlgoCubic extends AlgoElement {
 		try {
 			ve = parser.parseGeoGebraExpression(equation);
 			GeoImplicit result = (GeoImplicit) (algebraProcessor
-					.processEquation((Equation) ve, true)[0]);
+					.processEquation((Equation) ve, ve.wrap(), true)[0]);
 			result.remove();
 			poly.setCoeff(result.getCoeff());
 			poly.setDefined();

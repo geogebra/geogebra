@@ -226,7 +226,8 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	}
 
 	@Override
-	public GeoElement[] processImplicitPoly(Equation equ) {
+	public GeoElement[] processImplicitPoly(Equation equ,
+			ExpressionNode definition) {
 
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			Polynomial lhs = equ.getNormalForm();
@@ -246,13 +247,13 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 							cons, null, equ, true);
 					geo = surfaceAlgo.getOutput(0);
 				}
-				geo.setDefinition(equ.wrap());
+				geo.setDefinition(definition);
 				geo.setLabel(equ.getLabel());
 				return new GeoElement[] { geo };
 			}
 		}
 
-		return super.processImplicitPoly(equ);
+		return super.processImplicitPoly(equ, definition);
 	}
 
 }

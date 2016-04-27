@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -47,6 +48,7 @@ import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
@@ -57,7 +59,8 @@ import org.geogebra.common.util.StringUtil;
  */
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Traceable, Path, Translateable, Dilateable, Mirrorable, ConicMirrorable,
-		Transformable, PointRotateable, GeoImplicit, Evaluate2Var {
+		Transformable, PointRotateable, GeoImplicit, Evaluate2Var,
+		EquationValue {
 	/**
 	 * Movements around grid [TOP, BOTTOM, LEFT, RIGHT]
 	 */
@@ -1817,6 +1820,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	public double evaluate(double[] val) {
 		return evaluateImplicitCurve(val[0], val[1]);
+	}
+
+	public Equation getEquation() {
+		try {
+			return (Equation) kernel.getParser().parseGeoGebraExpression(
+					this.toValueString(StringTemplate.maxPrecision));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

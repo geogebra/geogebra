@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -19,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Dependent implicit polynomial (or line / conic)
@@ -31,6 +33,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 									// conic)
 	// private FunctionNVar[] dependentFromFunctions;
 	private Set<FunctionNVar> dependentFromFunctions;
+	private Equation equation;
 
 	/**
 	 * Creates new implicit polynomial from equation. This algo may also return
@@ -44,8 +47,10 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 	 *            equation
 	 */
 	public AlgoDependentImplicitPoly(Construction c, Equation equ,
+			ExpressionNode definition,
 			boolean simplify) {
 		super(c, false);
+		equation = equ;
 		Polynomial lhs = equ.getNormalForm();
 		coeff = lhs.getCoeff();
 		try {
@@ -70,7 +75,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 				geoElement = kernel.newImplicitPoly(c);
 			}
 
-		geoElement.setDefinition(equ.wrap());
+		geoElement.setDefinition(definition);
 		setInputOutput(); // for AlgoElement
 
 		compute(true);
@@ -106,9 +111,16 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 	}
 
 	private void compute(boolean first) {
-		Equation equation = (Equation) geoElement.getDefinition().unwrap();
+		// Equation equation = (Equation) geoElement.getDefinition().unwrap();
 		if (!first) {
-
+			boolean recomputeCoeff = false;
+			if (equation != geoElement.getDefinition().unwrap()) {
+				equation = ((EquationValue) geoElement.getDefinition()
+						.evaluate(StringTemplate.defaultTemplate))
+								.getEquation();
+				equation.setFunctionDependent(true);
+				recomputeCoeff = true;
+			}
 			if (equation.isFunctionDependent()) {
 				// boolean functionChanged=false;
 				Set<FunctionNVar> functions = new HashSet<FunctionNVar>();
@@ -116,7 +128,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 						new TreeSet<AlgoElement>());
 
 				if (!functions.equals(dependentFromFunctions)
-						|| equation.hasVariableDegree()) {
+						|| equation.hasVariableDegree() || recomputeCoeff) {
 					equation.initEquation();
 					coeff = equation.getNormalForm().getCoeff();
 					dependentFromFunctions = functions;
@@ -204,6 +216,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 				}
 			}
 		}
+		Log.debug(expr[0]);
 		double[] dCoeff = new double[expr.length];
 		for (int i = 0; i < expr.length; i++) {
 			if (expr[i] != null) {

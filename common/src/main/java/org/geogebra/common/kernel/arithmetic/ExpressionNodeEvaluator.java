@@ -555,7 +555,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			return msb;
 		}
-
+		Log.debug(lt);
+		Log.debug(rt);
 		return illegalBinary(lt, rt, "IllegalMultiplication", "*");
 	}
 

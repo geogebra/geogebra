@@ -42,6 +42,8 @@ import org.geogebra.common.kernel.algos.SymbolicParameters;
 import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.TangentAlgo;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -71,7 +73,7 @@ import org.geogebra.common.util.MyMath;
 public class GeoLine extends GeoVec3D implements Path, Translateable,
 		PointRotateable, Mirrorable, Dilateable, GeoLineND,
 		MatrixTransformable, GeoFunctionable, Transformable, Functional,
-		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo, EquationValue {
 
 	// modes
 	/** implicit equation */
@@ -1745,5 +1747,19 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	public Coords getOrigin() {
 		return getStartPoint().getCoordsInD3();
+	}
+
+	public Equation getEquation() {
+		FunctionVariable fvx = new FunctionVariable(kernel, "x");
+		FunctionVariable fvy = new FunctionVariable(kernel, "y");
+
+		ExpressionNode lhs = new ExpressionNode(kernel, this.x).multiply(fvx);
+
+		lhs = lhs.plus(new ExpressionNode(kernel, this.y)
+				.multiply(fvy));
+
+		return new Equation(kernel, lhs,
+				new ExpressionNode(kernel, this.z)
+						.multiply(-1));
 	}
 }

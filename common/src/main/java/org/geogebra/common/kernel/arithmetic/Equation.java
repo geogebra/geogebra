@@ -28,7 +28,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * stores left and right hand side of an equation as Exprssions
  */
-public class Equation extends ValidExpression {
+public class Equation extends ValidExpression implements EquationValue {
 
 	private ExpressionNode lhs;
 	private ExpressionNode rhs;
@@ -446,7 +446,8 @@ public class Equation extends ValidExpression {
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
-		GeoElement ge = kernel.getAlgebraProcessor().processEquation(this)[0];
+		GeoElement ge = kernel.getAlgebraProcessor().processEquation(this,
+				this.wrap())[0];
 		kernel.getConstruction().setSuppressLabelCreation(oldFlag);
 		return ge;
 	}
@@ -782,6 +783,10 @@ public class Equation extends ValidExpression {
 		} else {
 			return degree();
 		}
+	}
+
+	public Equation getEquation() {
+		return this;
 	}
 
 } // end of class Equation

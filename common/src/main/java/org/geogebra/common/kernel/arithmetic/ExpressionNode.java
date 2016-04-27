@@ -828,7 +828,8 @@ public class ExpressionNode extends ValidExpression implements
 
 		switch (operation) {
 		case XCOORD:
-			if (xVar != null && !left.evaluatesToNDVector()) {
+			if (xVar != null && !left.evaluatesToNDVector()
+					&& !(left.unwrap() instanceof GeoLine)) {
 				undecided.add(this);
 				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
@@ -837,7 +838,8 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case YCOORD:
-			if (yVar != null && !left.evaluatesToNDVector()) {
+			if (yVar != null && !left.evaluatesToNDVector()
+					&& !(left.unwrap() instanceof GeoLine)) {
 				undecided.add(this);
 				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
@@ -846,7 +848,8 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case ZCOORD:
-			if (zVar != null && !left.evaluatesToNDVector()) {
+			if (zVar != null && !left.evaluatesToNDVector()
+					&& !(left.unwrap() instanceof GeoLine)) {
 				undecided.add(this);
 				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
