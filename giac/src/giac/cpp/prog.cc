@@ -2677,6 +2677,8 @@ namespace giac {
   // static gen symb_prepend(const gen & args){  return symbolic(at_prepend,args); }
   gen _prepend(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    if (args.type==_VECT && args._VECTptr->size()==2 && args._VECTptr->front().type==_STRNG && args._VECTptr->back().type==_STRNG)
+      return args._VECTptr->back()+args._VECTptr->front();
     if ( (args.type!=_VECT) || (!args._VECTptr->size()) || (args._VECTptr->front().type!=_VECT) )
       return gensizeerr(contextptr);
     gen debut=args._VECTptr->front();
@@ -2930,16 +2932,40 @@ namespace giac {
   }
   static gen rand_integer_interval(const gen & x1,const gen & x2,GIAC_CONTEXT){
     static gen rand_max_plus_one=gen(rand_max2)+1;
-    if (is_strictly_positive(x1-x2,contextptr))
+    gen x2x1=x2-x1;
+    if (!is_positive(x2x1,contextptr))
       return rand_integer_interval(x2,x1,contextptr);
-    int n=(x2-x1).bindigits()/gen(rand_max2).bindigits()+1;
-    // Make n random numbers
+    int n=x2x1.bindigits()/gen(rand_max2).bindigits()+1;
     gen res=zero;
+#ifndef USE_GMP_REPLACEMENTS
+    if (unsigned(rand_max2)==(1u<<31)-1){
+      mpz_t tmp;
+      mpz_init(tmp);
+      for (int i=0;i<n;++i){
+	mpz_mul_2exp(tmp,tmp,31);
+	mpz_add_ui(tmp,tmp,giac_rand(contextptr));
+      }
+      if (x2x1.type==_INT_)
+	mpz_mul_si(tmp,tmp,x2x1.val);
+      else
+	mpz_mul(tmp,tmp,*x2x1._ZINTptr);
+      mpz_tdiv_q_2exp(tmp,tmp,31*n);
+      if (x1.type==_INT_){
+	if (x1.val>0) mpz_add_ui(tmp,tmp,x1.val); else mpz_sub_ui(tmp,tmp,-x1.val);
+      }
+      else
+	mpz_add(tmp,tmp,*x1._ZINTptr);
+      res=tmp;
+      mpz_clear(tmp);
+      return res;
+    }
+#endif
+    // Make n random numbers
     for (int i=0;i<n;++i)
       res=rand_max_plus_one*res+giac_rand(contextptr);
     // Now res is in [0,(RAND_MAX+1)^n-1]
     // Rescale in x1..x2
-    return x1+_iquo(makevecteur(res*(x2-x1),pow(rand_max_plus_one,n)),contextptr);
+    return x1+_iquo(makevecteur(res*x2x1,pow(rand_max_plus_one,n)),contextptr);
   }
   gen rand_interval(const vecteur & v,bool entier,GIAC_CONTEXT){
     static gen rand_max_plus_one=gen(rand_max2)+1;
@@ -5752,6 +5778,13 @@ namespace giac {
     }
 #endif
     if (f.type==_INT_ && f.val>=0) {
+      if (f.val==_CONFRAC){
+	if (g.type==_VECT)
+	  return _dfc2f(g,contextptr);
+	g=evalf_double(g,1,contextptr);
+	if (g.type==_DOUBLE_)
+	  return vector_int_2_vecteur(float2continued_frac(g._DOUBLE_val,epsilon(contextptr)));
+      }
       int i=f.val;
       if (f.val==_FRAC && f.subtype==_INT_TYPE)
 	return exact(g,contextptr);
@@ -5759,6 +5792,8 @@ namespace giac {
 	if (g.type==_VECT && !g._VECTptr->empty()){
 	  // check if g is a list of [coeff,[index]]
 	  vecteur & w=*g._VECTptr;
+	  if (w.front().type!=_VECT)
+	    return change_subtype(g,_POLY1__VECT);
 	  if (w.front().type==_VECT && w.front()._VECTptr->size()==2 && w.front()._VECTptr->back().type==_VECT){
 	    unsigned dim=unsigned(w.front()._VECTptr->back()._VECTptr->size());
 	    iterateur it=w.begin(),itend=w.end();

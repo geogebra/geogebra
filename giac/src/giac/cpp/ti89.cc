@@ -391,6 +391,7 @@ namespace giac {
 
   static gen denom(const gen & g,GIAC_CONTEXT){
     gen res=_fxnd(g,contextptr);
+    if (res.type!=_VECT) return res;
     return res._VECTptr->back();
   }
   gen _denom(const gen & g,GIAC_CONTEXT){
@@ -414,6 +415,7 @@ namespace giac {
 
   static gen numer(const gen & g,GIAC_CONTEXT){
     gen res=_fxnd(g,contextptr);
+    if (res.type!=_VECT) return res;
     return res._VECTptr->front();
   }
   gen _numer(const gen & g,GIAC_CONTEXT){
@@ -576,7 +578,7 @@ namespace giac {
 #ifdef GIAC_HAS_STO_38
     return w;
 #else
-    return symb_horner(w,x);
+    return (f.type==_VECT && f._VECTptr->empty())?gen(w,_POLY1__VECT):symb_horner(w,x);
 #endif
   }
   static const char _randPoly_s[]="randPoly";

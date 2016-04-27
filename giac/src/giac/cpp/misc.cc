@@ -6197,6 +6197,18 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__coth,&_coth,_coth_s);
   define_unary_function_ptr5( at_coth ,alias_at_coth,&__coth,0,true);
 
+  gen _atan2(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT)
+      return gensizeerr(contextptr);
+    if (//&& args.subtype==_SEQ__VECT 
+	args._VECTptr->size()==2)
+      return arg(args._VECTptr->front()+cst_i*args._VECTptr->back(),contextptr);
+    return gensizeerr(contextptr); //apply(args,_atan2,contextptr);
+  }
+  static const char _atan2_s []="atan2";
+  static define_unary_function_eval (__atan2,&_atan2,_atan2_s);
+  define_unary_function_ptr5( at_atan2 ,alias_at_atan2,&__atan2,0,true);
+
   gen _acoth(const gen & args,GIAC_CONTEXT){
     return atanh(inv(args,contextptr),contextptr);
   }

@@ -1512,8 +1512,21 @@ namespace giac {
     vecteur v(gen2vecteur(args));
     gen v0=v[0];
     v=*eval(v,eval_level(contextptr),contextptr)._VECTptr;
-    if (v.size()!=4 || v0.type!=_IDNT)
-      return _mid(v,contextptr);
+    if (v0.type!=_IDNT){
+      if (v.size()<3)
+	return gendimerr(contextptr);
+      if (ckmatrix(v[0]))
+	return _subMat(gen(makevecteur(v[0],v[1],v[2]),_SEQ__VECT),contextptr);
+      int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+      if (v[0].type==_VECT && v[1].type==_INT_ && v[2].type==_INT_){
+	vecteur & w =*v[0]._VECTptr;
+	int v2=v[1].val-shift, v3=v[2].val-shift;
+	if (v2<=v3 && v2>=0 && v3<int(w.size()))
+	  return gen(vecteur(w.begin()+v2,w.begin()+v3+1),v[1].subtype);
+      }
+    }
+    if (v.size()<4)
+      return gendimerr(contextptr);
     v[2]=_floor(v[2],contextptr);
     v[3]=_floor(v[3],contextptr);
     if (ckmatrix(v[1]))
@@ -4293,7 +4306,7 @@ namespace giac {
     // "LQ",
     // "LSQ",
     "LU",
-    "MAKELIST",
+    //"MAKELIST",
     "MAKEMAT",
     // "MANT",
     "MAX",
@@ -4372,7 +4385,7 @@ namespace giac {
     "TEXPAND",
     //"TRACE",
     "TRN",
-    "TRUNCATE",
+    //"TRUNCATE",
     //"UTPC",
     //"UTPF",
     //"UTPN",

@@ -651,7 +651,7 @@ namespace giac {
 	    break;
 	}
       }
-      if (!is_zero(coeffn)){
+      if (!is_exactly_zero(coeffn)){
 	// simplify inum and iden
 	bool hasnum=false,hasden=false;
 	for (int i=0;i<l_size;i++){
@@ -1934,7 +1934,7 @@ namespace giac {
       return gensizeerr(gettext("sym2poly.cc/ckdeg2_rootof"));
     vecteur & w = *pmin._VECTptr;
     int s=int(w.size());
-    if (s!=3)
+    if (s!=3)// || is_greater(linfnorm(pmin,contextptr),(1<<30),contextptr))
       return symb_rootof(p,r2sym(pmin,lt,ltend,contextptr),contextptr);
     if (p._VECTptr->size()!=2)
       return gensizeerr(gettext("sym2poly.cc/ckdeg2_rootof"));  

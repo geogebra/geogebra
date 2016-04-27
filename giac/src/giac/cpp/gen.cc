@@ -642,6 +642,38 @@ namespace giac {
     }
   }
 
+  gen::gen(longlong i,int nbits) { 
+#ifdef COMPILE_FOR_STABILITY
+    control_c();
+#endif
+    val=(int)i;
+    //    longlong temp=val;
+    if (val==i && val!=1<<31){
+      type=_INT_;
+      subtype=0;
+    }
+    else {
+#ifdef SMARTPTR64
+      * ((longlong * ) this) = longlong(new ref_mpz_t(nbits)) << 16;
+#else
+      __ZINTptr = new ref_mpz_t(nbits);
+#endif
+      type =_ZINT;
+      subtype=0;
+      // convert longlong to mpz_t
+      bool signe=(i<0);
+      if (signe)
+	i=-i;
+      unsigned int i1=i>>32;
+      unsigned int i2=(unsigned int)i;
+      mpz_set_ui(*_ZINTptr,i1);
+      mpz_mul_2exp(*_ZINTptr,*_ZINTptr,32);
+      mpz_add_ui(*_ZINTptr,*_ZINTptr,i2);
+      if (signe)
+	mpz_neg(*_ZINTptr,*_ZINTptr);
+    }
+  }
+
 #ifdef INT128
   gen::gen(int128_t i) { 
 #ifdef COMPILE_FOR_STABILITY
@@ -2766,6 +2798,15 @@ namespace giac {
     return true;
   }
 
+  bool vect_is_real(const vecteur & v,GIAC_CONTEXT){
+    const_iterateur it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      if (!it->is_real(contextptr)) 
+	return false;
+    }
+    return true;
+  }
+
   /* Checking */
   bool gen::is_real(GIAC_CONTEXT) const {
     switch (type) {
@@ -2775,6 +2816,8 @@ namespace giac {
       return (is_zero(*(_CPLXptr+1),contextptr));
     case _POLY:
       return poly_is_real(*_POLYptr);
+    case _VECT:
+      return vect_is_real(*_VECTptr,contextptr);
     default: 
       return is_zero(im(contextptr),contextptr);
     }
@@ -5920,7 +5963,7 @@ namespace giac {
   }
 
   // (-1)^n
-  static gen minus1pow(const gen & exponent,GIAC_CONTEXT){
+  static gen minus1pow(const gen & exponent,GIAC_CONTEXT,bool allow_recursion=true){
     if (exponent.type==_INT_)
       return (exponent.val%2)?-1:1;
     if (exponent.type==_ZINT){
@@ -5962,6 +6005,10 @@ namespace giac {
 	    even=true;
 	  if (!is_assumed_integer(v[i],contextptr))
 	    perhapsone=false;
+	}
+	if (allow_recursion){
+	  gen num1=_irem(makesequence(num,2*den),contextptr);
+	  if (num1!=num) return minus1pow(symb_prod(num1,symb_inv(den)),contextptr,false);
 	}
 	if (even && perhapsone)
 	  return 1;
@@ -10721,12 +10768,22 @@ namespace giac {
 #endif // NSPIRE
       if (*endchar){
 #ifdef BCD
-      giac_float gf;
-      gf=strtobcd(s,(const char **)&endchar);
-      if (!*endchar)
-	return gf;
-      // if (abs_calc_mode(contextptr)==38) return gensizeerr(gettext("Invalid float"));
+	giac_float gf;
+	gf=strtobcd(s,(const char **)&endchar);
+	if (!*endchar)
+	  return gf;
+	for (int i=0;i<l;++i){
+	  unsigned si=(unsigned char)s[i];
+	  if (si==226 || si==194)
+	    return gf;
+	}
+	// if (abs_calc_mode(contextptr)==38) return gensizeerr(gettext("Invalid float"));
 #endif
+	for (int i=0;i<l;++i){
+	  unsigned si=(unsigned char)s[i];
+	  if (si==226 || si==194)
+	    return undef;
+	}
 	return gen(string(s),contextptr);
       }
       return gen(d);
@@ -12594,16 +12651,20 @@ namespace giac {
   }
 
 #ifdef ConnectivityKit
-  void gen::dbgprint() const { }
+  const char * gen::dbgprint() const { return "Done";}
 #else
 #if defined(VISUALC) && !defined(MS_SMART)
-  void gen::dbgprint() const { ATLTRACE2("%s\r\n", this->print(0).c_str()); }
+  const char * gen::dbgprint() const { ATLTRACE2("%s\r\n", this->print(0).c_str()); return "Done";}
 #else
-  void gen::dbgprint() const{    
+  const char * gen::dbgprint() const{    
     if (this->type==_POLY)
-      _POLYptr->dbgprint();
-    else
-      COUT << this->print(context0) << endl; 
+      return _POLYptr->dbgprint();
+    static std::string s;
+    s=this->print(context0);
+#if 0 // ndef NSPIRE
+    COUT << s << std::endl; 
+#endif
+    return s.c_str();
   }
 #endif
 #endif
@@ -12616,8 +12677,13 @@ namespace giac {
     return '<' + coeff.print(context0) + ',' + exponent.print(context0) + '>' ;
   }
 
-  void monome::dbgprint() const {
-    COUT << this->print();
+  const char * monome::dbgprint() const {
+    static std::string s;
+    s=this->print();
+#if 0 // ndef NSPIRE
+    COUT << s;
+#endif
+    return s.c_str();
   }
 
 #ifndef NSPIRE

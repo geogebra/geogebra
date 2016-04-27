@@ -160,7 +160,14 @@ namespace giac {
         s +=  '+' ;
       }
     };
-    void dbgprint() const { COUT << print() << std::endl; }
+    const char * dbgprint() const { 
+      static std::string s;
+      s=print();
+#if 0 // ndef NSPIRE
+      COUT << s << std::endl; 
+#endif
+      return s.c_str();
+    }
     void high_order_degree_truncate(int n){
       // suppress terms of order >= n
       typename std::vector< monomial<T> >::iterator it=coord.begin(),itend=coord.end();

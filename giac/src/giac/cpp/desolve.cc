@@ -1130,10 +1130,10 @@ namespace giac {
 	  }
 #endif
 	  if (newsol.empty())
-	    sing.push_back(makevecteur(res,-fa*res+fb));
+	    sing.push_back(makevecteur(res,-fa*res-fb));
 	  else {
 	    for (int i=0;i<int(newsol.size());++i){
-	      sing.push_back(subst(-fa*x+fb,t,newsol[i],false,contextptr));
+	      sing.push_back(subst(-fa*x-fb,t,newsol[i],false,contextptr));
 	    }
 	  }
 	  return sing;

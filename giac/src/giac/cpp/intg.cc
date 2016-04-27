@@ -1150,22 +1150,22 @@ namespace giac {
 	    /*
 	      ( *	D=sqrt(b^2-4ac)                                    * )
 	      ( * 	a<0 and D>0 ->	x=[D*2u/[1+u^2]-b]/2a		   * )
-	      ( *			u=-[D-2*sqrt[-a]*sqrt[y]]/[2ax+b]   * )
-	      ( *			dx/sqrt[y]=2*du/[sqrt[-a]*[1+u^2]] * )
+	      ( *			u=[D-2*sqrt[-a]*sqrt[y]]/[2ax+b]   * )
+	      ( *			dx/sqrt[y]=-2*du/[sqrt[-a]*[1+u^2]] * )
 	    */
 	    gen sqrta(sqrt(-a,contextptr));
 	    identificateur id_u(" u");
 	    gen u(id_u),uu(u);
-	    gen uasx=rdiv(plus_two*sqrta*sqrt(argument,contextptr)-D,plus_two*a*gen_x+b,contextptr);
-	    gen sqrty=rdiv(D-(plus_two*a*gen_x+b)*u,plus_two*sqrta,contextptr);
-	    tmpe=eval(rdiv(complex_subst(e*sqrt(argument,contextptr),argument,pow(sqrty,2),contextptr),1+u*u,contextptr),1,contextptr);
+	    gen uasx=rdiv(D-plus_two*sqrta*sqrt(argument,contextptr),plus_two*a*gen_x+b,contextptr);
+	    tmpe=ratnormal(e*sqrt(argument,contextptr));
 	    tmpe=complex_subst(tmpe,gen_x,rdiv(rdiv(plus_two*u*D,1+u*u,contextptr)-b,plus_two*a,contextptr),contextptr);
+	    tmpe=-rdiv(plus_two,sqrta,contextptr)*tmpe/(1+u*u);
 	    tmpres=integrate_rational(tmpe,u,tmprem,uu,intmode,contextptr);
 	    // sqrt(a*x^2+b*x+c) -> a*[(x+b/2/a)^2-(D/a)^2]
 	    // -> asin(a*x+b/2)
-	    vecteur vin(makevecteur(u,symbolic(at_atan,u))),vout(makevecteur(uasx,inv(2,contextptr)*asin(ratnormal((-2*a*gen_x-b)/abs(D,contextptr)),contextptr)));
-	    remains_to_integrate=remains_to_integrate+complex_subst(rdiv(plus_two,sqrta,contextptr)*tmprem,vin,vout,contextptr);
-	    res=alpha+complex_subst(rdiv(plus_two,sqrta,contextptr)*tmpres,vin,vout,contextptr);
+	    vecteur vin(makevecteur(u,symbolic(at_atan,u))),vout(makevecteur(uasx,inv(-2,contextptr)*asin(ratnormal((-2*a*gen_x-b)/abs(D,contextptr)),contextptr)));
+	    remains_to_integrate=remains_to_integrate+complex_subst(tmprem,vin,vout,contextptr);
+	    res=alpha+complex_subst(tmpres,vin,vout,contextptr);
 	    return true;
 	  }
 	} // end sqrt of quadratic
@@ -1429,29 +1429,42 @@ namespace giac {
 	  if (tmpatan.is_symb_of_sommet(at_tan))
 	    tmpatan=tmpatan._SYMBptr->feuille;
 	  else {
-	    tmpatan=atan(tmpatan,contextptr);
-	    if (xvar.is_symb_of_sommet(at_tan)){
-	      // add residue
-	      residue=r2e(it->fact.derivative().derivative(),l,contextptr);
-	      residue=cst_pi*sign(residue,contextptr)*_floor((xvar._SYMBptr->feuille/cst_pi+plus_one_half),contextptr);
+	    // avoid floor if possible
+	    // atan(beta*tan(theta)+gamma)+floor() for beta>0 and gamma>-1
+	    // -> atan( cos(theta)*((beta-1)*sin(theta)+gamma*cos(theta))/
+	    //          (cos(theta)^2+beta*sin(theta)^2+gamma*sin(theta)*cos()) )
+	    gen beta,gamma;
+	    if (0 && xvar.is_symb_of_sommet(at_tan) && is_linear_wrt(tmpatan,xvar,beta,gamma,contextptr) && is_strictly_greater(4*beta,gamma*gamma,contextptr) ){
+	      gen argtan=ratnormal(2*xvar._SYMBptr->feuille);
+	      gen si=symbolic(at_sin,argtan),ci=symbolic(at_cos,argtan);
+	      tmpatan=symbolic(at_atan,ratnormal(((beta-1)*si+gamma*(1+ci))/(1+beta+gamma*si+(1-beta)*ci)));
+	      residue=xvar._SYMBptr->feuille;
 	    }
 	    else {
-	      // if xvar has a singularity at 0 e.g. xvar =x+1/x or x-1/x, 
-	      // add the residue at 0
-	      if (xvar.type!=_IDNT){
-		residue=ratnormal(limit(tmpatan,*x._IDNTptr,0,-1,contextptr)-limit(tmpatan,*x._IDNTptr,0,1,contextptr));
-		residue=residue*sign(x,contextptr)/2;
+	      tmpatan=atan(tmpatan,contextptr);
+	      if (xvar.is_symb_of_sommet(at_tan)){
+		// add residue
+		residue=r2e(it->fact.derivative().derivative(),l,contextptr);
+		residue=cst_pi*sign(residue,contextptr)*_floor((xvar._SYMBptr->feuille/cst_pi+plus_one_half),contextptr);
+	      }
+	      else {
+		// if xvar has a singularity at 0 e.g. xvar =x+1/x or x-1/x, 
+		// add the residue at 0
+		if (xvar.type!=_IDNT){
+		  // replacing tmpatan by atan(inv(tmpatan)) would avoid residue for int((x^2+1)/(x^4+3x^2+1)); but then it would not be continuous at 1 and -1
+		  residue=ratnormal(limit(tmpatan,*x._IDNTptr,0,-1,contextptr)-limit(tmpatan,*x._IDNTptr,0,1,contextptr));
+		  residue=residue*sign(x,contextptr)/2;
+		}
 	      }
 	    }
 	  }
-    if(!angle_radian(contextptr))
-    {
-      if(angle_degree(contextptr))
-	    tmpatan=tmpatan*deg2rad_e;
-      //grad
-      else
-        tmpatan = tmpatan*grad2rad_e;
-    }
+	  if (!angle_radian(contextptr)){
+	    if (angle_degree(contextptr))
+	      tmpatan=tmpatan*deg2rad_e;
+	    //grad
+	    else
+	      tmpatan = tmpatan*grad2rad_e;
+	  }
 	  tmpatan += residue;
 	  lnpart=lnpart+rdiv(r2e(atannum,lprime,contextptr),(r2e(alpha,lprime,contextptr))*sqrtdelta,contextptr)*tmpatan;
 	} // end else uselof
@@ -4373,6 +4386,12 @@ namespace giac {
     if (v.size()==1)
       v=gen2vecteur(eval(g,contextptr));
     if (v.size()<4){
+      if (v.size()==3 && v[1].is_symb_of_sommet(at_equal) && v[1]._SYMBptr->feuille[1].is_symb_of_sommet(at_interval)){
+	gen f=v[1]._SYMBptr->feuille;
+	gen v1=f[0];
+	gen v2=f[1]._SYMBptr->feuille[0],v3=f[1]._SYMBptr->feuille[1];
+	return seqprod(makevecteur(v[0],v1,v2,v3,v[2]),type,contextptr);
+      }
       if (v.size()==3 && !v[1].is_symb_of_sommet(at_equal) && g.subtype==_SEQ__VECT)
 	return change_subtype(seqprod(gen(makevecteur(symb_interval(v[0],v[1]),v[2]),_SEQ__VECT),type,contextptr),0);
       if (type==0)

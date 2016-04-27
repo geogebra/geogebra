@@ -41,8 +41,11 @@ namespace giac {
     this->dbgprint();
   }
 
-  void unary_function_ptr::dbgprint() const {
+  const char * unary_function_ptr::dbgprint() const {
+#ifndef NSPIRE
     CERR << ptr()->s << endl; 
+#endif
+    return ptr()->s;
   }
 
 #if 0 // def __x86_64__

@@ -9077,10 +9077,18 @@ namespace giac {
 	    continue;
 	  }
 	  if (it->g.type==_ZINT){
+#if 1
+	    int amodq=modulo(*it->g._ZINTptr,qmodval);
+	    if (amodq==jt->g)
+	      continue;
+	    mpz_mul_si(tmpz,*pmod._ZINTptr,(U*(jt->g-longlong(amodq)))%qmodval);
+	    mpz_add(*it->g._ZINTptr,*it->g._ZINTptr,tmpz);
+#else
 	    mpz_set_si(tmpz,jt->g);
 	    mpz_sub(tmpz,tmpz,*it->g._ZINTptr);
 	    mpz_mul_si(tmpz,*pmod._ZINTptr,(longlong(U)*modulo(tmpz,qmodval))%qmodval);
 	    mpz_add(*it->g._ZINTptr,*it->g._ZINTptr,tmpz);
+#endif
 	  }
 	  else {
 	    mpz_mul_si(tmpz,*pmod._ZINTptr,(U*(longlong(jt->g)-it->g.val))%qmodval);

@@ -1008,6 +1008,18 @@ namespace giac {
       f=*it;
       ++it;
       m=it->val;
+#ifndef USE_GMP_REPLACEMENTS
+      if (f.type==_ZINT && mpz_perfect_power_p(*f._ZINTptr)){
+	int nbits=mpz_sizeinbase(*f._ZINTptr,2);
+	gen h=accurate_evalf(f,nbits);
+	h=pow(h,inv(d,contextptr),contextptr);
+	h=_floor(h,contextptr);
+	if (pow(h,d,contextptr)==f){
+	  f=h;
+	  m=m*d;
+	}
+      }
+#endif
       if (m%d)
 	simpl = simpl*pow(f,m%d,contextptr);
       for (k=0;k<m/d;++k)

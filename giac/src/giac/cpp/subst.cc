@@ -2212,8 +2212,12 @@ namespace giac {
       if (lop(trye,at_ln).size()<lnv.size())
 	e=trye;
     }
-    if (!lop(e,at_exp).empty())
+    if (!lop(e,at_exp).empty()){
+      gen et=ratnormal(_texpand(e,contextptr));
+      if (lvar(et).size()<lvar(e).size())
+	e=et;
       e=_exp2pow(e,contextptr);
+    }
     if (!lop(e,at_pow).empty())
       e=powneg2invpow(e,contextptr);
     if (contains(e,cst_pi)){

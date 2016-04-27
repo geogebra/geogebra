@@ -1233,8 +1233,10 @@ namespace giac {
     }
     int eo=0;
     if (is_zero(gab) || is_zero(gm) ){
-      gm=subst(g0,x,x+(a+b)/2,false,contextptr);
-      eo=is_even_odd(gm,x,contextptr);
+      identificateur t("tintgab_");
+      gen tt(t);
+      gm=subst(g0,x,tt+(a+b)/2,false,contextptr);
+      eo=is_even_odd(gm,tt,contextptr);
     }
     if (eo==1){
       if (!intgab(g0,x,a,(a+b)/2,res,contextptr))

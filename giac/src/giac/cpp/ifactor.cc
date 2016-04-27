@@ -1867,7 +1867,7 @@ namespace giac {
     int slicesize=(QS_SIZE>=65536 && Ndl<61)?32768:QS_SIZE;
 #endif
     double B=std::exp(std::sqrt(2.0)/4*std::sqrt(std::log(Nd)*std::log(std::log(Nd))))*0.45;
-    if (B<100) B=100;
+    if (B<200) B=200;
     int pos1=70,pos0=23,afact=2,afixed=0; // pos position in the basis, afact number of factors
     // FIXME Will always include the 3 first primes of the basis
     // set a larger Mtarget gives less polynomials but also use less memory
@@ -2314,7 +2314,7 @@ namespace giac {
 	    if (pos[i]>pos[i-1]+5)
 	      break;
 	  }
-	  if (i==afixed+1){
+	  if (i<=afixed+1){
 	    --pos1;
 	    for (i=0;i<afixed;++i)
 	      pos[i]=pos0+i;

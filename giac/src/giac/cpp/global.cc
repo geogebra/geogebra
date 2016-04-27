@@ -1570,7 +1570,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int HENSEL_QUADRATIC_POWER=25;
   int KARAMUL_SIZE=17;
   int INT_KARAMUL_SIZE=300;
-  int FFTMUL_SIZE=10000; 
+  int FFTMUL_SIZE=1000; 
   int MAX_ALG_EXT_ORDER_SIZE = 4;
   int MAX_COMMON_ALG_EXT_ORDER_SIZE = 16;
   int TRY_FU_UPRIME=5;
@@ -1601,7 +1601,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int HENSEL_QUADRATIC_POWER=25;
   int KARAMUL_SIZE=17;
   int INT_KARAMUL_SIZE=300;
-  int FFTMUL_SIZE=10000; 
+  int FFTMUL_SIZE=1000; 
   int MAX_ALG_EXT_ORDER_SIZE = 6;
 #ifdef EMCC
   int MAX_COMMON_ALG_EXT_ORDER_SIZE = 16;
@@ -2532,9 +2532,9 @@ extern "C" void Sleep(unsigned int miliSecond);
      if (_epath != NULL && *_epath != 0
          && cygwin_posix_path_list_p (_epath)){
 #ifdef __x86_64__
-       int s = cygwin_conv_path (CCP_POSIX_TO_WIN_W , _epath, NULL, 0);
+       int s = cygwin_conv_path (CCP_POSIX_TO_WIN_A , _epath, NULL, 0);
        char * _win32path = (char *) malloc(s);
-       cygwin_conv_path(CCP_POSIX_TO_WIN_W,_epath, _win32path,s);
+       cygwin_conv_path(CCP_POSIX_TO_WIN_A,_epath, _win32path,s);
        s=strlen(_win32path);
 #else
        char * _win32path = (char *) malloc

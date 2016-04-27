@@ -213,6 +213,7 @@ namespace giac {
   // void fft(std::vector< std::complex<double> >& f,const std::vector< std::complex<double> > & w ,std::vector<std::complex< double> > & res);
   void fft(std::complex<double> * f,int n,const std::complex<double> * w,int m,std::complex< double> * t);
   void fft(const std::vector<int> & f,const std::vector<int> & w ,std::vector<int> & res,int modulo);
+  bool fft2mult(const std::vector<int> & a,const std::vector<int> & b,std::vector<int> & res,int modulo,bool reverseatend);
 
   // Convolution of p and q, omega a n-th root of unity, n=2^k
   // WARNING p0 and q0 are given in ascending power
@@ -220,7 +221,7 @@ namespace giac {
   // Convolution of p and q, omega a n-th root of unity, n=2^k
   // p and q are given in descending power order
   void fftconv(const modpoly & p0,const modpoly & q0,unsigned long k,const gen & omega,modpoly & pq,environment * env);
-  void fftmult(const modpoly & p,const modpoly & q,modpoly & pq);
+  void fftmult(const modpoly & p,const modpoly & q,modpoly & pq,int modulo=0);
   modpoly fftmult(const modpoly & p,const modpoly & q);
   // input A with positive int, output fft in A
   // w a 2^n-th root of unity mod p
