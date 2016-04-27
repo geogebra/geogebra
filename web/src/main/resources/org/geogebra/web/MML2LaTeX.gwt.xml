@@ -2,7 +2,6 @@
 <module rename-to='mml2LaTeX'>
   <inherits name='com.google.gwt.user.User'/> 
   <inherits name='org.geogebra.CommonMML'/>
-  <inherits name='org.geogebra.GgbJdk'/>
   <inherits name="com.himamis.retex.renderer.JLaTeXMathGWT" />
   <add-linker name="sso" />
   
