@@ -22,6 +22,10 @@
   <replace-with class="org.geogebra.web.phone.main.app.AppletFactoryPhone">
     <when-type-is class="org.geogebra.web.web.gui.applet.AppletFactory" />    
   </replace-with>
+  
+   <replace-with class="org.geogebra.web.web.gui.PNGImageFactory">
+    <when-type-is class="org.geogebra.web.web.gui.ImageFactory" />    
+  </replace-with>
 
   <!-- Compile only one permutation -->
   <collapse-all-properties />

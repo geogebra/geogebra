@@ -51,6 +51,7 @@ import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
+import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.cas.view.CASViewW;
@@ -97,6 +98,7 @@ import org.geogebra.web.web.html5.AttachedToDOM;
 import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.main.AppWapplet;
 import org.geogebra.web.web.main.GDevice;
+import org.geogebra.web.web.util.keyboard.TextFieldProcessing;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -2008,21 +2010,34 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 		if (app.has(Feature.CAS_EDITOR)) {
 			if (textField != null) {
-				onScreenKeyboard.setTextField(textField);
+				onScreenKeyboard.setProcessing(makeKeyboardListener(textField));
 			}
 		} else {
-			onScreenKeyboard.setTextField(textField == null ? getAlgebraView()
-					.getInputTreeItem() : textField);
+			onScreenKeyboard
+					.setProcessing(makeKeyboardListener(textField == null
+							? getAlgebraView().getInputTreeItem() : textField));
 		}
 
 		onScreenKeyboard.setListener(listener);
 		return onScreenKeyboard;
 	}
 
+	private KeyboardListener makeKeyboardListener(
+			MathKeyboardListener textField) {
+
+		if (textField instanceof KeyboardListener) {
+			return (KeyboardListener) textField;
+		}
+		TextFieldProcessing processField = new TextFieldProcessing();
+		processField.setField(textField);
+		return processField;
+
+	}
+
 	@Override
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
 		if (onScreenKeyboard != null) {
-			onScreenKeyboard.setTextField(textField);
+			onScreenKeyboard.setProcessing(makeKeyboardListener(textField));
 		}
 	}
 

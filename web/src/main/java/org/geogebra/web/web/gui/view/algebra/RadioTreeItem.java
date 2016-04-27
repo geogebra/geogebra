@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -1520,7 +1521,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
-		return geo.isMatrix() && geo.isIndependent()
+		return geo.isMatrix() && ((GeoList) geo).isEditableMatrix()
 				? geo.toEditableLaTeXString(substituteNumbers,
 						tpl)
 				: geo.getLaTeXAlgebraDescriptionWithFallback(

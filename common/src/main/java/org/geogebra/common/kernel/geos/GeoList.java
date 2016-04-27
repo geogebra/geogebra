@@ -2991,4 +2991,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		}
 		return super.needToShowBothRowsInAV();
 	}
+
+	public boolean isEditableMatrix() {
+		return isIndependent();
+	}
 }

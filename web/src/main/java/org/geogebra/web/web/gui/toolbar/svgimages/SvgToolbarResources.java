@@ -96,6 +96,9 @@ public interface SvgToolbarResources extends ClientBundle, ToolbarResources{
 	@Source("mode_expand.svg")
 	SVGResource mode_expand_32();
 
+	@Source("mode_expand.svg")
+	SVGResource mode_extremum_32();
+
 	@Source("mode_factor.svg")
 	SVGResource mode_factor_32();
 
@@ -218,6 +221,9 @@ public interface SvgToolbarResources extends ClientBundle, ToolbarResources{
 
 	@Source("mode_rigidpolygon.svg")
 	SVGResource mode_rigidpolygon_32();
+
+	@Source("mode_expand.svg")
+	SVGResource mode_roots_32();
 
 	@Source("mode_rotatebyangle.svg")
 	SVGResource mode_rotatebyangle_32();

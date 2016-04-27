@@ -6,12 +6,10 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Language;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 import org.geogebra.web.keyboard.KeyboardListener.ArrowType;
-import org.geogebra.web.web.util.keyboard.TextFieldProcessing;
 
 import com.google.gwt.core.client.Scheduler;
 
@@ -148,19 +146,7 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 		specialCharContainer.add(secondPageChars);
 	}
 
-	/**
-	 * The text field to be used
-	 * 
-	 * @param textField
-	 *            the text field connected to the keyboard
-	 */
-	public void setTextField(MathKeyboardListener textField) {
-		if (textField instanceof KeyboardListener) {
-		} else {
-			this.processField = new TextFieldProcessing();
-			((TextFieldProcessing) this.processField).setField(textField);
-		}
-	}
+
 
 	/**
 	 * @param mode
