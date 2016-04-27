@@ -1427,7 +1427,7 @@ __GGB__keysVar.hr.menu = {
     "Ellipse3": "Elipsa",
     "Ellipse3.Help": "Odaberite dva \u017eari\u0161ta i to\u010dku na elipsi",
     "EnableLabelDrags": "Omogu\u0107i povla\u010denje oznaka",
-    "EnableRightClick": "Omogu\u0107i desni klik, zumiranje i tipkovni\u010dke kratice",
+    "EnableRightClick": "Omogu\u0107i desni klik, zumiranje i ure\u0111ivanje tipkama",
     "EndProbabilityOf": ")",
     "English": "Engleski",
     "EnterAppletAddress": "Unesite internet adresu GeoGebrinog apleta",
