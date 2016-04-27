@@ -2993,6 +2993,25 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	}
 
 	public boolean isEditableMatrix() {
-		return isIndependent();
+		if (!isMatrix()) {
+			return false;
+		}
+		if (isIndependent()) {
+			return true;
+		}
+
+		if (getParentAlgorithm() instanceof AlgoDependentList) {
+			AlgoElement algo = getParentAlgorithm();
+			for (int i = 0; i < algo.getInputLength(); i++) {
+				GeoElement element = algo.getInput(i);
+				Log.debug("" + element);
+				if (!element.isIndependent() && !(element
+						.getParentAlgorithm() instanceof AlgoDependentList)) {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 }

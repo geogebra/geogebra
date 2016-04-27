@@ -28,7 +28,7 @@ public class WebAudioWrapper {
 			$wnd.deltaTime = 1 / $wnd.context.sampleRate;
 			$wnd.ins = this;
 			$wnd.processor = $wnd.context.createScriptProcessor(2048, 0, 1);
-			$wnd.processor.onaudioprocess = this.@org.geogebra.web.html5.sound.WebAudioWrapper::onAudioProcess(Lcom/google/gwt/core/client/JavaScriptObject;);
+			$wnd.processor.onaudioprocess = @org.geogebra.web.html5.sound.WebAudioWrapper::onAudioProcess(Lcom/google/gwt/core/client/JavaScriptObject;);
 		
 			return true;
 		} else {
@@ -52,7 +52,7 @@ public class WebAudioWrapper {
 	}
 
 
-	private native void onAudioProcess(JavaScriptObject e) /*-{
+	private static native void onAudioProcess(JavaScriptObject e) /*-{
 		var data = e.outputBuffer.getChannelData(0);
 		for (var i = 0; i < data.length; i++) {
 

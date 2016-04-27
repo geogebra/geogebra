@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -144,6 +145,21 @@ public class CommandsTest extends Assert{
 		t("matrix1(2,-1)", "6");
 		t("Delete[list1]", new String[] {});
 		t("Delete[matrix1]", new String[] {});
+	}
+
+	private GeoElement get(String label) {
+		return app.getKernel().lookupLabel(label);
+	}
+
+	@Test
+	public void listPropertiesTest() {
+		t("mat1={{1,2,3}}", "{{1, 2, 3}}");
+		Assert.assertTrue(((GeoList) get("mat1")).isEditableMatrix());
+		t("slider1=7", "7");
+		t("mat2={{1,2,slider1}}", "{{1, 2, 7}}");
+		Assert.assertTrue(((GeoList) get("mat2")).isEditableMatrix());
+		t("mat2={{1,2,slider1},Reverse[{1,2,3}]}", "{{1, 2, 7}, {3, 2, 1}}");
+		Assert.assertFalse(((GeoList) get("mat2")).isEditableMatrix());
 	}
 
 	@Test

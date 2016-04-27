@@ -1521,7 +1521,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
-		return geo.isMatrix() && ((GeoList) geo).isEditableMatrix()
+		return geo.isGeoList() && ((GeoList) geo).isEditableMatrix()
 				? geo.toEditableLaTeXString(substituteNumbers,
 						tpl)
 				: geo.getLaTeXAlgebraDescriptionWithFallback(
