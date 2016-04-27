@@ -2769,12 +2769,16 @@ GRectangle selectionRectangle) {
 		}
 	}
 
-	public final void mouseEntered() {
-		hasMouse = true;
+	public void mouseEntered() {
+		setHasMouse(true);
 	}
 
-	public final void mouseExited() {
-		hasMouse = false;
+	public void mouseExited() {
+		setHasMouse(false);
+	}
+
+	public void setHasMouse(boolean flag) {
+		hasMouse = flag;
 	}
 
 	/**
