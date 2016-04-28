@@ -60,7 +60,6 @@ import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
@@ -76,7 +75,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -135,6 +133,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * definitionPanel -> c | STRING
  */
+@SuppressWarnings("javadoc")
 public class RadioTreeItem extends AVTreeItem
  implements DoubleClickHandler,
 		ClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
@@ -247,21 +246,6 @@ public class RadioTreeItem extends AVTreeItem
 			}
 
 			setHighlighted(selected);
-		}
-
-		private String getColorString() {
-			GColor gc = geo.getAlgebraColor();
-			GColorW color = new GColorW(gc.getRGB());
-			return GColor.getColorString(color);
-
-		}
-
-		private String getBgColorString() {
-			GColor gc = geo.getAlgebraColor();
-			GColorW color = new GColorW(gc.getRed(), gc.getGreen(),
-					gc.getBlue(), BACKGROUND_ALPHA);
-			return GColor.getColorString(color);
-
 		}
 	}
 
@@ -443,8 +427,6 @@ public class RadioTreeItem extends AVTreeItem
 
 		main = new FlowPanel();
 		setWidget(main);
-		border = Dom.querySelectorForElement(getElement(), "gwt-TreeItem")
-				.getStyle();
 		definitionAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
 		selectionCtrl = getAV().getSelectionCtrl();
 		setPlainTextItem(new FlowPanel());
@@ -588,7 +570,6 @@ public class RadioTreeItem extends AVTreeItem
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
 					getBuilder(getPlainTextItem()));
 		} else {
-			IndexHTMLBuilder sb;
 			switch (kernel.getAlgebraStyle()) {
 			case Kernel.ALGEBRA_STYLE_VALUE:
 				geo.getAlgebraDescriptionTextOrHTMLDefault(
@@ -909,7 +890,7 @@ public class RadioTreeItem extends AVTreeItem
 		Scheduler.get().scheduleDeferred(resizeSliderCmd);
 	}
 
-	private void resizeSlider() {
+	void resizeSlider() {
 		if (slider == null) {
 			return;
 		}
@@ -966,7 +947,7 @@ public class RadioTreeItem extends AVTreeItem
 		return (minMaxPanel != null && minMaxPanel.isVisible());
 	}
 
-	private boolean isAnotherMinMaxOpen() {
+	boolean isAnotherMinMaxOpen() {
 		return (openedMinMaxPanel != null && openedMinMaxPanel != minMaxPanel);
 	}
 
@@ -1006,6 +987,7 @@ public class RadioTreeItem extends AVTreeItem
 	 */
 	@Override
 	public void showOrHideSuggestions() {
+		// override
 	}
 
 	/**
@@ -1013,13 +995,19 @@ public class RadioTreeItem extends AVTreeItem
 	 */
 	@Override
 	public void shuffleSuggestions(boolean down) {
-		//
+		// override
 	}
 
 	/**
 	 * Method to be overridden in InputTreeItem
+	 * 
+	 * @param str
+	 *            GeoGebra input
+	 * @param latexx
+	 *            LaTeX value
 	 */
 	public void addToHistory(String str, String latexx) {
+		// override
 	}
 
 	/**
@@ -1522,7 +1510,7 @@ public class RadioTreeItem extends AVTreeItem
 	private String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
 		return geo.isGeoList() && ((GeoList) geo).isEditableMatrix()
-				? geo.toEditableLaTeXString(substituteNumbers,
+				? geo.toEditableLaTeXString(!substituteNumbers,
 						tpl)
 				: geo.getLaTeXAlgebraDescriptionWithFallback(
 						substituteNumbers || sliderNeeded(),
@@ -1582,7 +1570,10 @@ public class RadioTreeItem extends AVTreeItem
 				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
 	}
 
-
+	private static boolean isMoveablePoint(GeoElement point) {
+		return (point.isPointInRegion() || point.isPointOnPath())
+				&& point.isChangeable();
+	}
 
 	@Override
 	public void stopEditing(String newValue0,
@@ -1596,7 +1587,6 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		}
 
-		boolean ret = false;
 		editCanceled = false;
 		removeCloseButton();
 
@@ -1610,7 +1600,7 @@ public class RadioTreeItem extends AVTreeItem
 
 			// Formula Hacks ended.
 			if (geo != null) {
-				boolean redefine = !geo.isPointOnPath();
+				boolean redefine = !isMoveablePoint(geo);
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
 						redefine, true, new AsyncOperation<GeoElement>() {
 
@@ -2090,7 +2080,6 @@ marblePanel, evt))) {
 	}
 
 	public long latestTouchEndTime = 0;
-	private Style border;
 	private boolean selectedItem = false;
 	private AVSelectionController selectionCtrl;
 
@@ -2289,6 +2278,10 @@ marblePanel, evt))) {
 		return null;
 	}
 
+	/**
+	 * @param bool
+	 *            whether pbutton should be visible
+	 */
 	protected void maybeSetPButtonVisibility(boolean bool) {
 		// only show the delete button, but not the extras
 	}
@@ -2459,7 +2452,7 @@ marblePanel, evt))) {
 	@Override
 	public void ensureEditing() {
 		if (!isEditing()) {
-			enterEditMode(true);
+			enterEditMode(geo == null || isMoveablePoint(geo));
 
 			if (av != null && ((AlgebraViewW) av).isNodeTableEmpty()) {
 				updateGUIfocus(this, false);

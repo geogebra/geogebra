@@ -641,7 +641,7 @@ public class AlgebraProcessor {
 			final ErrorHandler handler,
 			boolean autoCreateSliders,
 			final AsyncOperation<GeoElement[]> callback0,
-			boolean redefineIndependent) {
+			final boolean redefineIndependent) {
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		ve.traverse(collecter);
@@ -774,7 +774,7 @@ public class AlgebraProcessor {
 								try {
 									geos = processValidExpression(storeUndo,
 											handler,
-											ve2);
+											ve2, redefineIndependent);
 								} catch (MyError ee) {
 									ErrorHelper.handleError(ee,
 											ve2.toString(
@@ -811,7 +811,8 @@ public class AlgebraProcessor {
 		}
 
 		// process ValidExpression (built by parser)
-		GeoElement[] geos = processValidExpression(storeUndo, handler, ve);
+		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
+				redefineIndependent);
 		if (callback0 != null)
 			callback0.callback(geos);
 		return geos;
@@ -968,12 +969,13 @@ public class AlgebraProcessor {
 	 * @return processed expression
 	 */
 	public GeoElement[] processValidExpression(boolean storeUndo,
-			ErrorHandler handler, ValidExpression ve)
+			ErrorHandler handler, ValidExpression ve,
+			boolean redefineIndependent)
 	{
 		GeoElement[] geoElements = null;
 		try {
 
-			geoElements = processValidExpression(ve);
+			geoElements = processValidExpression(ve, redefineIndependent);
 			if (storeUndo && geoElements != null)
 				app.storeUndoInfo();
 		} catch (MyError e) {

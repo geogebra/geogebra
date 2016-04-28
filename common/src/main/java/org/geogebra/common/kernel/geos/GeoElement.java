@@ -2615,7 +2615,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param tpl
 	 * @return
 	 */
-	public String toEditableLaTeXString(final boolean symbolic,
+	public final String toEditableLaTeXString(final boolean symbolic,
 			StringTemplate tpl) {
 		return getLabel(tpl) + " = " + toLaTeXString(symbolic, tpl);
 	}
