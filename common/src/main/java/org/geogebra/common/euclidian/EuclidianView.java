@@ -83,152 +83,119 @@ import java.util.TreeSet;
  */
 public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		SetLabels {
-	/** says if the view has the mouse */
-	protected boolean hasMouse;
-	/** View other than EV1 and EV2 **/
-	public static int EVNO_GENERAL = 1001;
-	/** 3D View TODO: probably needs changing when we support more than 2 views **/
-	public static int EVNO_3D = -1;
-	/** euclidian view number */
-	protected int evNo = 1;
-	private double xZeroOld, yZeroOld;
-	private int mode = EuclidianConstants.MODE_MOVE;
-	/** minimal width */
-	protected static final int MIN_WIDTH = 50;
-	/** minimal height */
-	protected static final int MIN_HEIGHT = 50;
 	/** corner of export area */
 	public static final String EXPORT1 = "Export_1"; // Points used to define
-														// corners for export
-														// (if they exist)
 	/** corner of export area */
 	public static final String EXPORT2 = "Export_2";
-
-	/** pixel per centimeter (at 72dpi) */
-	protected static final double PRINTER_PIXEL_PER_CM = 72.0 / 2.54;
 	/** zoom factor of zoom mode */
 	public static final double MODE_ZOOM_FACTOR = 1.5;
 	/** zoom factor of mouse wheel */
 	public static final double MOUSE_WHEEL_ZOOM_FACTOR = 1.1;
 	/** standard pixels per unit */
 	public static final double SCALE_STANDARD = 50;
-	/** border in which axis numbers are not drawn */
-	protected static int SCREEN_BORDER = 10;
-
-	// public static final double SCALE_MAX = 10000;
-	// public static final double SCALE_MIN = 0.1;
 	/** default screen x-coord of origin */
 	public static final double XZERO_STANDARD = 215;
 	/** default screen y-coord of origin */
 	public static final double YZERO_STANDARD = 315;
-	// or use volatile image
-	// protected int drawMode = DRAW_MODE_BACKGROUND_IMAGE;
-	/** background image */
-	protected GBufferedImage bgImage;
-	/** g2d of bgImage: used for axis, grid, background images and object traces */
-	protected GGraphics2D bgGraphics;
-	// zoom rectangle colors
-	private static final GColor colZoomRectangle = AwtFactory.prototype
-			.newColor(200, 200, 230);
-	private static final GColor colZoomRectangleFill = AwtFactory.prototype
-			.newColor(200, 200, 230, 50);
-
+	/** cartesian grid */
+	public static final int GRID_CARTESIAN = 0;
+	/** isometric grid */
+	public static final int GRID_ISOMETRIC = 1;
+														// corners for export
+														// (if they exist)
+	/** polar grid */
+	public static final int GRID_POLAR = 2;
+	/** minimal width */
+	protected static final int MIN_WIDTH = 50;
+	/** minimal height */
+	protected static final int MIN_HEIGHT = 50;
+	/** pixel per centimeter (at 72dpi) */
+	protected static final double PRINTER_PIXEL_PER_CM = 72.0 / 2.54;
 	// deletion square design
 	protected static final GColor colDeletionSquare = AwtFactory.prototype
 			.newColor(128, 0, 0);
 	protected static final GBasicStroke strokeDeletionSquare = AwtFactory.prototype
 			.newBasicStroke(1.0f);
-	protected GRectangle deletionRectangle;
 
-	// colors: axes, grid, background
-	GColor axesColor;
-	private GColor gridColor;
-	protected GRectangle selectionRectangle;
+	// public static final double SCALE_MAX = 10000;
+	// public static final double SCALE_MIN = 0.1;
+	// zoom rectangle colors
+	private static final GColor colZoomRectangle = AwtFactory.prototype
+			.newColor(200, 200, 230);
+	private static final GColor colZoomRectangleFill = AwtFactory.prototype
+			.newColor(200, 200, 230, 50);
+	// or use volatile image
+	// protected int drawMode = DRAW_MODE_BACKGROUND_IMAGE;
+	private static final int MAX_PIXEL_DISTANCE = 10; // pixels
+	private static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
+	// maximum angle between two line segments
+	private static final double MAX_ANGLE = 10; // degrees
+	private static final double MAX_ANGLE_OFF_SCREEN = 45; // degrees
+	private static final double MAX_BEND = Math.tan(MAX_ANGLE * Kernel.PI_180);
+	private static final double MAX_BEND_OFF_SCREEN = Math
+			.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
+	// maximum number of bisections (max number of plot points = 2^MAX_DEPTH)
+	private static final int MAX_DEFINED_BISECTIONS = 16;
+	private static final int MAX_PROBLEM_BISECTIONS = 8;
+	// maximum number of times to loop when xDiff, yDiff are both zero
+	// eg Curve[0sin(t), 0t, t, 0, 6]
+	private static final int MAX_ZERO_COUNT = 1000;
+	// the curve is sampled at least at this many positions to plot it
+	private static final int MIN_SAMPLE_POINTS = 80;
+	/** View other than EV1 and EV2 **/
+	public static int EVNO_GENERAL = 1001;
+	/** 3D View TODO: probably needs changing when we support more than 2 views **/
+	public static int EVNO_3D = -1;
+	/** border in which axis numbers are not drawn */
+	protected static int SCREEN_BORDER = 10;
 	/**
 	 * default axes stroke
 	 */
 	static GBasicStroke defAxesStroke = AwtFactory.prototype.newBasicStroke(
 			1.0f, GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
-
 	// changed from 1.8f (same as bold grid) Michael Borcherds 2008-04-12
 	static GBasicStroke boldAxesStroke = AwtFactory.prototype
 			.newBasicStroke(2.0f,
 
 			GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER);
-
-	// axes and grid stroke
-	GBasicStroke axesStroke;
-	GBasicStroke tickStroke;
-	private GBasicStroke gridStroke;
-	/** kernel */
-	protected Kernel kernel;
-
-	/** @return line types */
-	public static final Integer[] getLineTypes() {
-		Integer[] ret = { new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DOTTED),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED),
-				new Integer(EuclidianStyleConstants.LINE_TYPE_POINTWISE) };
-		return ret;
-	}
+	private final EuclidianSettings settings;
+	// ggb3D 2009-02-05
+	private final Hits hits;
 
 	// G.Sturr added 2009-9-21
-	/** @return point styles */
-	public static final Integer[] getPointStyles() {
-		Integer[] ret = {
-				new Integer(EuclidianStyleConstants.POINT_STYLE_DOT),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_CROSS),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_CIRCLE),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_PLUS),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST),
-				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST) };
-		return ret;
-	}
-
-	// end
-	private int fontSize;
-	private GAffineTransform coordTransform = AwtFactory.prototype
-			.newAffineTransform();
+	/** minimal visible real world x */
+	public double xmin;
+	/** maximal visible real world x */
+	public double xmax;
+	/** minimal visible real world y */
+	public double ymin;
+	/** maximal visible real world y */
+	public double ymax;
+	/** lists of geos on different layers */
+	public DrawableList drawLayers[];
+	/** says if the view has the mouse */
+	protected boolean hasMouse;
+	/** euclidian view number */
+	protected int evNo = 1;
+	/** background image */
+	protected GBufferedImage bgImage;
+	/** g2d of bgImage: used for axis, grid, background images and object traces */
+	protected GGraphics2D bgGraphics;
+	protected GRectangle deletionRectangle;
+	protected GRectangle selectionRectangle;
+	/** kernel */
+	protected Kernel kernel;
 	protected double[] AxesTickInterval; // for axes =
+
+	// Michael Borcherds 2008-04-28
 	/** number formats for axes */
 	protected NumberFormatAdapter[] axesNumberFormat;
-	protected boolean[] showAxes = { true, true };
-
-	protected boolean[] logAxes = { false, false };
-
-	// distances between grid lines
-	private boolean automaticGridDistance = true;
-
+	protected boolean[] showAxes = {true, true};
+	protected boolean[] logAxes = {false, false};
 	protected double[] gridDistances;
-
-	private int gridLineStyle;
-	int axesLineType;
-
 	protected boolean gridIsBold = false; // Michael Borcherds 2008-04-11
 	/** tooltip mode in this view */
 	protected int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
-
-	// Michael Borcherds 2008-04-28
-	/** cartesian grid */
-	public static final int GRID_CARTESIAN = 0;
-	/** isometric grid */
-	public static final int GRID_ISOMETRIC = 1;
-	/** polar grid */
-	public static final int GRID_POLAR = 2;
-
-	private int gridType = GRID_CARTESIAN;
-
-	// FONTS
-	private GFont fontPoint;
-
-	private GFont fontCoords;
-
 	/** number format for print scale */
 	protected NumberFormatAdapter printScaleNF;
 
@@ -249,19 +216,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	// only used for temporary views eg Text Preview, Spreadsheet plots
 	protected int pointCapturingMode;
-
-	boolean showAxesCornerCoords = true;// private
-
 	/**
 	 * Whether axes numbers should be shown
 	 */
 	protected boolean[] showAxesNumbers;
-
 	/**
 	 * Labels fo xAxis and yAxis
 	 */
 	protected String[] axesLabels;
-
 	/**
 	 * Styles (GFont.ITALIC, GFont.BOLD)
 	 */
@@ -270,44 +232,99 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Units for axes
 	 */
 	protected String[] axesUnitLabels;
-
-	private Previewable previewDrawable;
 	/** true if painting this for the first time */
 	protected boolean firstPaint = true;
 	/** application */
 	protected App app;
-
-	private final EuclidianSettings settings;
-
-	// member variables
 	/** controller */
 	protected EuclidianController euclidianController;
-
-	// ggb3D 2009-02-05
-	private final Hits hits;
-
-	private static final int MAX_PIXEL_DISTANCE = 10; // pixels
-	private static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
-
-	// maximum angle between two line segments
-	private static final double MAX_ANGLE = 10; // degrees
-	private static final double MAX_ANGLE_OFF_SCREEN = 45; // degrees
-	private static final double MAX_BEND = Math.tan(MAX_ANGLE * Kernel.PI_180);
-	private static final double MAX_BEND_OFF_SCREEN = Math
-			.tan(MAX_ANGLE_OFF_SCREEN * Kernel.PI_180);
-
-	// maximum number of bisections (max number of plot points = 2^MAX_DEPTH)
-	private static final int MAX_DEFINED_BISECTIONS = 16;
-	private static final int MAX_PROBLEM_BISECTIONS = 8;
-
-	// maximum number of times to loop when xDiff, yDiff are both zero
-	// eg Curve[0sin(t), 0t, t, 0, 6]
-	private static final int MAX_ZERO_COUNT = 1000;
-
-	// the curve is sampled at least at this many positions to plot it
-	private static final int MIN_SAMPLE_POINTS = 80;
-
 	protected EuclidianViewCompanion companion;
+	protected NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
+
+	// member variables
+	protected Double lockedAxesRatio;
+	/** print scale ratio */
+	protected double printingScale;
+	protected DrawableList allDrawableList = new DrawableList();
+	protected boolean[] piAxisUnit;
+	protected int[] axesTickStyles;
+	// for axes labeling with numbers
+	protected boolean[] automaticAxesNumberingDistances = {true, true};
+	protected double[] axesNumberingDistances;
+	protected boolean batchUpdate;
+	// axis control vars
+	protected double[] axisCross;
+	protected boolean[] positiveAxes;
+	protected boolean[] drawBorderAxes;
+	/** reIniting is used by GeoGebraWeb */
+	protected boolean reIniting = false;
+	/**
+	 * Get styleBar
+	 */
+	protected org.geogebra.common.euclidian.EuclidianStyleBar styleBar;
+	/** Whether some trace was painted in this view */
+	protected boolean tracing = false;
+	// colors: axes, grid, background
+	GColor axesColor;
+	// axes and grid stroke
+	GBasicStroke axesStroke;
+	GBasicStroke tickStroke;
+	int axesLineType;
+	boolean showAxesCornerCoords = true;// private
+	GGeneralPath gp;
+	ArrayList<Integer> axesLabelsPositionsY = new ArrayList<Integer>();
+	ArrayList<Integer> axesLabelsPositionsX = new ArrayList<Integer>();
+	double yLabelMaxWidthPos = 0;
+	double yLabelMaxWidthNeg = 0;
+	double xLabelHeights = 0;
+	private double xZeroOld, yZeroOld;
+	private int mode = EuclidianConstants.MODE_MOVE;
+	private GColor gridColor;
+	private GBasicStroke gridStroke;
+	// end
+	private int fontSize;
+	private GAffineTransform coordTransform = AwtFactory.prototype
+			.newAffineTransform();
+	// distances between grid lines
+	private boolean automaticGridDistance = true;
+	private int gridLineStyle;
+	private int gridType = GRID_CARTESIAN;
+	// FONTS
+	private GFont fontPoint;
+	private GFont fontCoords;
+	private Previewable previewDrawable;
+	private boolean updateBackgroundOnNextRepaint;
+	private boolean updatingBounds = false;
+	private double invXscale;
+	private double invYscale;
+	private double xZero;
+	private double yZero;
+	private double xscale;
+	private double yscale;
+	// Map (geo, drawable) for GeoElements and Drawables
+	private HashMap<GeoElement, DrawableND> DrawableMap = new HashMap<GeoElement, DrawableND>(
+			500);
+	private ArrayList<GeoPointND> stickyPointList = new ArrayList<GeoPointND>();
+	/** list of background images */
+	private DrawableList bgImageList = new DrawableList();
+	private boolean needsAllDrawablesUpdate;
+	private ArrayList<GeoElement> geosWaiting = new ArrayList<GeoElement>();
+	private GeoElement[] previewFromInputBarGeos;
+	private ArrayList<GeoElement> hitPointOrBoundary, hitFilling, hitLabel;
+	private DrawAxis da;
+	private GEllipse2DDouble circle = AwtFactory.prototype.newEllipse2DDouble(); // polar
+	// grid
+	// circles
+	private GLine2D tempLine = AwtFactory.prototype.newLine2D();
+	private int widthTemp, heightTemp;
+	private double xminTemp, xmaxTemp, yminTemp, ymaxTemp;
+	private Hits tempArrayList = new Hits();
+	private MyZoomer zoomer;
+	private MyZoomer axesRatioZoomer;
+	private MyZoomer mover;
+	private MyZoomer zoomerRW;
+	private OptionsEuclidian optionPanel = null;
+	private DrawList openedComboBox = null;
 
 	/**
 	 * @param ec
@@ -316,7 +333,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            settings
 	 */
 	public EuclidianView(EuclidianController ec, int viewNo,
-			EuclidianSettings settings) {
+						 EuclidianSettings settings) {
 
 		// 1, 2 or EVNO_GENERAL
 		setEuclidianViewNo(viewNo);
@@ -348,8 +365,163 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	}
 
+	/** @return line types */
+	public static final Integer[] getLineTypes() {
+		Integer[] ret = {new Integer(EuclidianStyleConstants.LINE_TYPE_FULL),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_LONG),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DOTTED),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED),
+				new Integer(EuclidianStyleConstants.LINE_TYPE_POINTWISE)};
+		return ret;
+	}
+
+	/** @return point styles */
+	public static final Integer[] getPointStyles() {
+		Integer[] ret = {
+				new Integer(EuclidianStyleConstants.POINT_STYLE_DOT),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_CROSS),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_CIRCLE),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_PLUS),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST),
+				new Integer(EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST)};
+		return ret;
+	}
+
 	/**
-	 * 
+	 * whether to clear selection rectangle when mode selected
+	 */
+	final private static boolean clearRectangle(int mode) {
+		switch (mode) {
+			// case EuclidianConstants.MODE_PENCIL:
+			case EuclidianConstants.MODE_PEN:
+				return true; // changed
+			case EuclidianConstants.MODE_MIRROR_AT_LINE:
+				return false;
+			case EuclidianConstants.MODE_MIRROR_AT_POINT:
+				return false;
+			case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+				return false;
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+				return false;
+			case EuclidianConstants.MODE_DILATE_FROM_POINT:
+				return false;
+			default:
+				return true;
+		}
+	}
+
+	/**
+	 * @param mode mode
+	 * @return true if given mode can use selection rectangle as input
+	 */
+	final public static boolean usesSelectionAsInput(int mode) {
+		switch (mode) {
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+				return false; // changed for new "drag" behaviour
+			case EuclidianConstants.MODE_MIRROR_AT_POINT:
+			case EuclidianConstants.MODE_MIRROR_AT_LINE:
+			case EuclidianConstants.MODE_DILATE_FROM_POINT:
+			case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+			case EuclidianConstants.MODE_PEN:
+				// case EuclidianConstants.MODE_PENCIL:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 * @param mode mode
+	 * @return true if mode can handle selection rectangle as input
+	 */
+	final public static boolean usesSelectionRectangleAsInput(int mode) {
+		switch (mode) {
+			case EuclidianConstants.MODE_FITLINE:
+			case EuclidianConstants.MODE_CREATE_LIST:
+				// case EuclidianConstants.MODE_PEN:
+			case EuclidianConstants.MODE_MIRROR_AT_LINE:
+			case EuclidianConstants.MODE_MIRROR_AT_POINT:
+			case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
+			case EuclidianConstants.MODE_DILATE_FROM_POINT:
+			case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 * @param mode
+	 *            mode number
+	 * @return whether the mode is pen, pencil or freehand
+	 */
+	public static boolean isPenMode(int mode) {
+		return mode == EuclidianConstants.MODE_PEN
+				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE;
+	}
+
+	/**
+	 * changes style bold <> not bold as necessary
+	 *
+	 * @param bold
+	 *            true for bold axes
+	 * @param axesLineStyle
+	 *            old style
+	 * @return new style
+	 */
+	public static int getBoldAxes(boolean bold, int axesLineStyle) {
+
+		if (bold) {
+			return axesLineStyle | EuclidianStyleConstants.AXES_BOLD;
+		}
+		return axesLineStyle & (~EuclidianStyleConstants.AXES_BOLD);
+	}
+
+	static double estimateNumberHeight(GFont fontAxes2) {
+		return StringUtil.prototype.estimateHeight("", fontAxes2);
+	}
+
+	static double estimateTextWidth(String s, GFont fontAxes2) {
+		return StringUtil.prototype.estimateLength(s, fontAxes2);
+	}
+
+	// private double scaleRatio = 1.0;
+
+	public static String getDraggedLabels(ArrayList<String> list) {
+		if (list.size() == 0) {
+			return null;
+		}
+
+		String text = null;
+
+		// single geo
+		if (list.size() == 1) {
+			text = "FormulaText[" + list.get(0) + ", true, true]";
+		}
+
+		// multiple geos, wrap in TableText
+		else {
+			text = "TableText[";
+			for (int i = 0; i < list.size(); i++) {
+
+				text += "{FormulaText[" + list.get(i) + ", true, true]}";
+				if (i < list.size() - 1) {
+					text += ",";
+				}
+			}
+			text += "]";
+		}
+
+		return text;
+	}
+
+	/**
 	 * @return new view companion attached to this
 	 */
 	protected EuclidianViewCompanion newEuclidianViewCompanion() {
@@ -357,7 +529,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * 
 	 * @return companion
 	 */
 	public EuclidianViewCompanion getCompanion() {
@@ -369,39 +540,33 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	protected void initAxesValues() {
 		axesNumberFormat = new NumberFormatAdapter[2];
-		showAxesNumbers = new boolean[] { true, true };
-		axesLabels = new String[] { null, null };
-		axesLabelsStyle = new int[] { GFont.PLAIN, GFont.PLAIN };
-		axesUnitLabels = new String[] { null, null };
-		axesTickStyles = new int[] {
+		showAxesNumbers = new boolean[]{true, true};
+		axesLabels = new String[]{null, null};
+		axesLabelsStyle = new int[]{GFont.PLAIN, GFont.PLAIN};
+		axesUnitLabels = new String[]{null, null};
+		axesTickStyles = new int[]{
 				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
-				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
-		automaticAxesNumberingDistances = new boolean[] { true, true };
-		axesNumberingDistances = new double[] { 2, 2 };
-		drawBorderAxes = new boolean[] { false, false };
-		axisCross = new double[] { 0, 0 };
-		positiveAxes = new boolean[] { false, false };
-		piAxisUnit = new boolean[] { false, false };
-		gridDistances = new double[] { 2, 2, Math.PI / 6 };
-		AxesTickInterval = new double[] { 1, 1 };
+				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR};
+		automaticAxesNumberingDistances = new boolean[]{true, true};
+		axesNumberingDistances = new double[]{2, 2};
+		drawBorderAxes = new boolean[]{false, false};
+		axisCross = new double[]{0, 0};
+		positiveAxes = new boolean[]{false, false};
+		piAxisUnit = new boolean[]{false, false};
+		gridDistances = new double[]{2, 2, Math.PI / 6};
+		AxesTickInterval = new double[]{1, 1};
 
-	}
-
-	public void setAxesColor(GColor axesColor) {
-		if (axesColor != null) {
-			this.axesColor = axesColor;
-		}
 	}
 
 	/**
 	 * Sets the coord system to default
-	 * 
-	 * @param repaint
 	 */
 	protected void setStandardCoordSystem(boolean repaint) {
 		setCoordSystem(XZERO_STANDARD, YZERO_STANDARD, SCALE_STANDARD,
 				SCALE_STANDARD, repaint);
 	}
+
+	// on add: change resetLists()
 
 	/**
 	 * Attach this view to kernel and add all objects created so far
@@ -437,6 +602,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return mode;
 	}
 
+	/**
+	 * @param mode2 mode number
+	 */
+	public void setMode(int mode2) {
+		setMode(mode2, ModeSetter.TOOLBAR);
+
+	}
+
 	public void setMode(int mode, ModeSetter m) {
 		if (mode == this.mode) {
 			return;
@@ -457,35 +630,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * whether to clear selection rectangle when mode selected
-	 */
-	final private static boolean clearRectangle(int mode) {
-		switch (mode) {
-		// case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_PEN:
-			return true; // changed
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-			return false;
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-			return false;
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			return false;
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			return false;
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-			return false;
-		default:
-			return true;
-		}
-	}
-
-	protected NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
-
-	/**
 	 * @return the xminObject
 	 */
 	public GeoNumeric getXminObject() {
 		return (GeoNumeric) xminObject;
+	}
+
+	/**
+	 * @param xminObjectNew the xminObject to set
+	 */
+	public void setXminObject(NumberValue xminObjectNew) {
+		if (xminObject != null) {
+			((GeoNumeric) xminObject).removeEVSizeListener(this);
+		}
+		if (xminObjectNew == null) {
+			this.xminObject = new GeoNumeric(kernel.getConstruction());
+			updateBoundObjects();
+		} else {
+			this.xminObject = xminObjectNew;
+		}
+		setSizeListeners();
 	}
 
 	public void updateBoundObjects() {
@@ -497,12 +661,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	protected Double lockedAxesRatio;
-	private boolean updateBackgroundOnNextRepaint;
-
 	/**
 	 * returns true if the axes ratio is 1
-	 * 
+	 *
 	 * @return true if the axes ratio is 1
 	 */
 	public boolean isLockedAxesRatio() {
@@ -511,9 +672,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Set unit axes ratio to 1
-	 * 
-	 * @param flag
-	 *            true to set to 1, false to allow user
+	 *
+	 * @param flag true to set to 1, false to allow user
 	 */
 	public void setLockedAxesRatio(Double flag) {
 		lockedAxesRatio = flag;
@@ -521,8 +681,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			updateBounds(true, true);
 		}
 	}
-
-	private boolean updatingBounds = false;
 
 	public void updateBounds(boolean updateDrawables, boolean updateSettings) {
 
@@ -569,7 +727,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 			setAxesIntervals(getXscale(), 0);
 			setAxesIntervals(getYscale(), 1);
-			calcPrintingScale();			
+			calcPrintingScale();
 			if (isLockedAxesRatio()) {
 				this.updateBoundObjects();
 			}
@@ -612,23 +770,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param xminObjectNew
-	 *            the xminObject to set
-	 */
-	public void setXminObject(NumberValue xminObjectNew) {
-		if (xminObject != null) {
-			((GeoNumeric) xminObject).removeEVSizeListener(this);
-		}
-		if (xminObjectNew == null) {
-			this.xminObject = new GeoNumeric(kernel.getConstruction());
-			updateBoundObjects();
-		} else {
-			this.xminObject = xminObjectNew;
-		}
-		setSizeListeners();
-	}
-
-	/**
 	 * @return the xmaxObject
 	 */
 	public GeoNumeric getXmaxObject() {
@@ -636,8 +777,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param xmaxObjectNew
-	 *            the xmaxObject to set
+	 * @param xmaxObjectNew the xmaxObject to set
 	 */
 	public void setXmaxObject(NumberValue xmaxObjectNew) {
 		if (xmaxObject != null) {
@@ -685,7 +825,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * convert real world coordinate x to screen coordinate x
-	 * 
+	 *
 	 * @param xRW
 	 *            real world x coord
 	 * @return screen equivalent of real world x-coord
@@ -696,7 +836,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * convert real world coordinate y to screen coordinate y
-	 * 
+	 *
 	 * @param yRW
 	 *            real world y coord
 	 * @return screen equivalent of real world y-coord
@@ -707,7 +847,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * convert real world coordinate x to screen coordinate x
-	 * 
+	 *
 	 * @param xRW
 	 *            real world x-coord
 	 * @return screen equivalent of real world x-coord as double
@@ -721,7 +861,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * convert real world coordinate y to screen coordinate y
-	 * 
+	 *
 	 * @param yRW
 	 *            real world y-coord
 	 * @return screen equivalent of real world y-coord
@@ -736,7 +876,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * convert real world coordinate x to screen coordinate x. If the value is
 	 * outside the screen it is clipped to one pixel outside.
-	 * 
+	 *
 	 * @param xRW
 	 *            real world x coordinate
 	 * @return real world coordinate x to screen coordinate x clipped to screen
@@ -760,7 +900,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * convert real world coordinate y to screen coordinate y. If the value is
 	 * outside the screen it is clipped to one pixel outside.
-	 * 
+	 *
 	 * @param yRW
 	 *            real world y coordinate
 	 * @return real world coordinate y to screen coordinate x clipped to screen
@@ -778,7 +918,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * Converts real world coordinates to screen coordinates. Note that
 	 * MAX_SCREEN_COORD is used to avoid huge coordinates.
-	 * 
+	 *
 	 * @param inOut
 	 *            input and output array with x and y coords
 	 * @return if resulting coords are on screen
@@ -829,7 +969,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Checks if (screen) coords are on screen.
-	 * 
+	 *
 	 * @param coords
 	 *            coords
 	 * @return true if coords are on screen
@@ -841,7 +981,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Checks if (real world) coords are on view.
-	 * 
+	 *
 	 * @param coords
 	 *            coords
 	 * @return true if coords are on view
@@ -852,7 +992,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * 
+	 *
 	 * @param p1
 	 *            first point
 	 * @param p2
@@ -868,7 +1008,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Performs a quick test whether the segment p1 to p2 is off view.
-	 * 
+	 *
 	 * @param p1
 	 *            first point
 	 * @param p2
@@ -907,7 +1047,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * convert screen coordinate x to real world coordinate x
-	 * 
+	 *
 	 * @param x
 	 *            screen coord
 	 * @return real world equivalent of screen x-coord
@@ -918,7 +1058,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * convert screen coordinate y to real world coordinate y
-	 * 
+	 *
 	 * @param y
 	 *            screen coord
 	 * @return real world equivalent of screen y-coord
@@ -927,20 +1067,24 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return (getyZero() - y) * getInvYscale();
 	}
 
+	/*
+	 * void setScaleRatio(double scaleRatio) { this.scaleRatio = scaleRatio; }
+	 */
+
 	/**
 	 * Sets real world coord system, where zero point has screen coords (xZero,
 	 * yZero) and one unit is xscale pixels wide on the x-Axis and yscale pixels
 	 * heigh on the y-Axis.
-	 * 
+	 *
 	 * Also updates settings *before* all the algos that might need them are updated
 	 */
 	final public void setCoordSystem(double xZero, double yZero, double xscale,
-			double yscale) {
-		if(settings != null){
+									 double yscale) {
+		if (settings != null) {
 			settings.setCoordSystem(xZero, yZero, xscale, yscale, false);
 		}
 		setCoordSystem(xZero, yZero, xscale, yscale, true);
-		
+
 	}
 
 	/** Sets coord system from mouse move */
@@ -963,7 +1107,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * real world values.
 	 */
 	final public void setRealWorldCoordSystem(double xmin2, double xmax2,
-			double ymin2, double ymax2) {
+											  double ymin2, double ymax2) {
 		double calcXscale = getWidth() / (xmax2 - xmin2);
 		if (getXaxisLog()) {
 			calcXscale = getWidth() / (xmax2 - xmin2);
@@ -988,7 +1132,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            true to repaint
 	 */
 	public final void setCoordSystem(double xZero, double yZero, double xscale,
-			double yscale, boolean repaint) {
+									 double yscale, boolean repaint) {
 
 		if (Double.isNaN(xscale) || (xscale < Kernel.MAX_DOUBLE_PRECISION)
 				|| (xscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
@@ -1044,55 +1188,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return (GeoNumeric) ymaxObject;
 	}
 
-	/** minimal visible real world x */
-	public double xmin;
-	/** maximal visible real world x */
-	public double xmax;
-	/** minimal visible real world y */
-	public double ymin;
-	/** maximal visible real world y */
-	public double ymax;
-
-	private double invXscale;
-
-	private double invYscale;
-
-	private double xZero;
-
-	private double yZero;
-
-	private double xscale;
-
-	private double yscale;
-
-	// private double scaleRatio = 1.0;
-	/** print scale ratio */
-	protected double printingScale;
-
-	// Map (geo, drawable) for GeoElements and Drawables
-	private HashMap<GeoElement, DrawableND> DrawableMap = new HashMap<GeoElement, DrawableND>(
-			500);
-
-	private ArrayList<GeoPointND> stickyPointList = new ArrayList<GeoPointND>();
-
-	protected DrawableList allDrawableList = new DrawableList();
-	/** lists of geos on different layers */
-	public DrawableList drawLayers[];
-
-	// on add: change resetLists()
-	/** list of background images */
-	private DrawableList bgImageList = new DrawableList();
-
-	protected boolean[] piAxisUnit;
-
-	protected int[] axesTickStyles;
-
-	// for axes labeling with numbers
-	protected boolean[] automaticAxesNumberingDistances = { true, true };
-
-	protected double[] axesNumberingDistances;
-	private boolean needsAllDrawablesUpdate;
-	protected boolean batchUpdate;
+	/**
+	 * @param ymaxObjectNew
+	 *            the ymaxObject to set
+	 */
+	public void setYmaxObject(NumberValue ymaxObjectNew) {
+		if (ymaxObject != null) {
+			((GeoNumeric) ymaxObject).removeEVSizeListener(this);
+		}
+		if (ymaxObjectNew == null) {
+			this.ymaxObject = new GeoNumeric(kernel.getConstruction());
+			updateBoundObjects();
+		} else {
+			this.ymaxObject = ymaxObjectNew;
+		}
+		setSizeListeners();
+	}
 
 	/**
 	 * @param flag
@@ -1114,15 +1225,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * This is only needed for second or above euclidian views
-	 * 
-	 * @param evNo
-	 *            euclidian view number 1, 2 or EVNO_GENERAL
+	 * Switch antialiasing to true for given graphics
+	 *
+	 * @param g2
+	 *            graphics
 	 */
-	public void setEuclidianViewNo(int evNo) {
-		if (evNo >= 2) {
-			this.evNo = evNo;
-		}
+	final public void setAntialiasing(GGraphics2D g2) {
+		g2.setAntialiasing();
 	}
 
 	public int getEuclidianViewNo() {
@@ -1130,38 +1239,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param ymaxObjectNew
-	 *            the ymaxObject to set
+	 * This is only needed for second or above euclidian views
+	 *
+	 * @param evNo
+	 *            euclidian view number 1, 2 or EVNO_GENERAL
 	 */
-	public void setYmaxObject(NumberValue ymaxObjectNew) {
-		if (ymaxObject != null) {
-			((GeoNumeric) ymaxObject).removeEVSizeListener(this);
+	public void setEuclidianViewNo(int evNo) {
+		if (evNo >= 2) {
+			this.evNo = evNo;
 		}
-		if (ymaxObjectNew == null) {
-			this.ymaxObject = new GeoNumeric(kernel.getConstruction());
-			updateBoundObjects();
-		} else {
-			this.ymaxObject = ymaxObjectNew;
-		}
-		setSizeListeners();
-	}
-
-	private void setXscale(double xscale) {
-		this.xscale = xscale;
-		this.invXscale = 1 / xscale;
-	}
-
-	private void setYscale(double yscale) {
-		this.yscale = yscale;
-		this.invYscale = 1 / yscale;
-	}
-
-	/**
-	 * @param fontSize
-	 *            default font size
-	 */
-	protected void setFontSize(int fontSize) {
-		this.fontSize = fontSize;
 	}
 
 	/**
@@ -1217,12 +1303,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return xscale;
 	}
 
+	private void setXscale(double xscale) {
+		this.xscale = xscale;
+		this.invXscale = 1 / xscale;
+	}
+
 	/**
 	 * Returns the yscale of this view. The scale is the number of pixels in
 	 * screen space that represent one unit in user space.
 	 */
 	public double getYscale() {
 		return yscale;
+	}
+
+	private void setYscale(double yscale) {
+		this.yscale = yscale;
+		this.invYscale = 1 / yscale;
 	}
 
 	public double getInvXscale() {
@@ -1244,7 +1340,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * Returns the ratio yscale / xscale of this view. The scale is the number
 	 * of pixels in screen space that represent one unit in user space.
-	 * 
+	 *
 	 * @return yscale / xscale ratio
 	 */
 	public double getScaleRatio() {
@@ -1293,13 +1389,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		gridType = type;
 	}
 
-	/*
-	 * void setScaleRatio(double scaleRatio) { this.scaleRatio = scaleRatio; }
-	 */
-
 	/**
 	 * TODO check whether this is what we want
-	 * 
+	 *
 	 * @param minMax
 	 *            minima and maxima
 	 */
@@ -1327,7 +1419,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Zooms around fixed point (center of screen)
-	 * 
+	 *
 	 * @param zoomFactor
 	 *            zoom factor
 	 */
@@ -1415,7 +1507,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if currently batch update
 	 */
 	public boolean isBatchUpdate() {
@@ -1450,7 +1542,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * axis: 0 for x-axis, 1 for y-axis
-	 * 
+	 *
 	 * @param scale
 	 *            axis scale
 	 * @param axis
@@ -1535,6 +1627,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * @param fontSize
+	 *            default font size
+	 */
+	protected void setFontSize(int fontSize) {
+		this.fontSize = fontSize;
+	}
+
+	/**
 	 * renames an element
 	 */
 	public void rename(GeoElement geo) {
@@ -1576,8 +1676,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	private ArrayList<GeoElement> geosWaiting = new ArrayList<GeoElement>();
-
 	/**
 	 * adds a GeoElement to this view
 	 */
@@ -1608,7 +1706,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * create and add geo to this view
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @return true if drawable created
@@ -1621,8 +1719,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		return false;
 	}
-
-	private GeoElement[] previewFromInputBarGeos;
 
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		if (previewFromInputBarGeos != null) {
@@ -1646,17 +1742,17 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	private boolean drawableNeeded(GeoElement geo) {
-		if(geo.isVisibleInView(App.VIEW_FUNCTION_INSPECTOR)){
+		if (geo.isVisibleInView(App.VIEW_FUNCTION_INSPECTOR)) {
 			return true;
 		}
 		if (isVisibleInThisView(geo)
 				&& (geo.isLabelSet() || this.isPlotPanel())) {
 			return geo.isEuclidianVisible()
 
-						|| (geo.isGeoText()
-								&& ((GeoText) geo).isNeedsUpdatedBoundingBox())
-						|| (geo.isGeoAngle()
-							&& geo.getParentAlgorithm() instanceof AlgoAngle);
+					|| (geo.isGeoText()
+					&& ((GeoText) geo).isNeedsUpdatedBoundingBox())
+					|| (geo.isGeoAngle()
+					&& geo.getParentAlgorithm() instanceof AlgoAngle);
 		}
 		return false;
 	}
@@ -1697,6 +1793,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * sets array of GeoElements whose visual representation is inside of the
+	 * given screen rectangle
+	 */
+	public final void setHits(GRectangle rect) {
+		hits.init();
+		if (rect == null) {
+			return;
+		}
+
+		DrawableIterator it = allDrawableList.getIterator();
+		while (it.hasNext()) {
+			Drawable d = it.next();
+			GeoElement geo = d.getGeoElement();
+			if (geo.isEuclidianVisible() && d.isInside(rect)) {
+				hits.add(geo);
+			}
+		}
+	}
+
+	/**
 	 *            event coords
 	 * @return whether textfield was clicked
 	 */
@@ -1709,7 +1825,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			Drawable d = it.next();
 			if ((d.isCanvasDrawable())
 					&& (d.hit(x, y, app.getCapturingThreshold(type)) || d
-							.hitLabel(x, y))) {
+					.hitLabel(x, y))) {
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
 					((CanvasDrawable) d).setWidgetVisible(true);
@@ -1730,7 +1846,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * set hits for current mouse loc
-	 * 
+	 *
 	 * @param type
 	 *            event type
 	 */
@@ -1738,14 +1854,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setHits(euclidianController.getMouseLoc(), type);
 	}
 
+	// /////////////////////////////////////////
+	// FOR EUCLIDIANVIEWFORPLANE
+	// /////////////////////////////////////////
+
 	public void setHits(GPoint p, PointerEventType type) {
 		setHits(p, app.getCapturingThreshold(type));
 		if (type == PointerEventType.TOUCH && this.hits.size() == 0) {
 			setHits(p, app.getCapturingThreshold(type) * 3);
 		}
 	}
-
-	private ArrayList<GeoElement> hitPointOrBoundary, hitFilling, hitLabel;
 
 	/**
 	 * sets the hits of GeoElements whose visual representation is at screen
@@ -1850,7 +1968,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	public MyButton getHitButton(GPoint p,
-			PointerEventType type) {
+								 PointerEventType type) {
 
 		DrawableIterator it = allDrawableList.getIterator();
 		Drawable d = null;
@@ -1862,7 +1980,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 					&& d2.hit(p.x, p.y, app.getCapturingThreshold(type))) {
 				if (d == null
 						|| d2.getGeoElement().getLayer() >= d.getGeoElement()
-								.getLayer())
+						.getLayer())
 					d = d2;
 			}
 		}
@@ -1871,12 +1989,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return null;
 	}
 
-
 	/**
 	 * returns GeoElement whose label is at screen coords (x,y).
 	 */
 	public GeoElement getLabelHit(GPoint p,
-			PointerEventType type) {
+								  PointerEventType type) {
 		if (!getApplication().isLabelDragsEnabled()) {
 			return null;
 		}
@@ -1895,7 +2012,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Returns the drawable for the given GeoElement.
-	 * 
+	 *
 	 * @param geo
 	 *            geo
 	 * @return drawable for the given GeoElement.
@@ -1910,7 +2027,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * adds a GeoElement to this view
-	 * 
+	 *
 	 * @param draw
 	 *            drawable to be added
 	 */
@@ -1924,23 +2041,23 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		switch (geo.getGeoClassType()) {
 
-		case ANGLE:
-			if (geo.isIndependent()) {
-				drawLayers[layer].add(d);
-			} else {
-				if (geo.isDrawable()) {
+			case ANGLE:
+				if (geo.isIndependent()) {
 					drawLayers[layer].add(d);
 				} else {
-					d = null;
+					if (geo.isDrawable()) {
+						drawLayers[layer].add(d);
+					} else {
+						d = null;
+					}
 				}
-			}
-			break;
+				break;
 
-		case IMAGE:
-			if (!bgImageList.contains(d)) {
-				drawLayers[layer].add(d);
-			}
-			break;
+			case IMAGE:
+				if (!bgImageList.contains(d)) {
+					drawLayers[layer].add(d);
+				}
+				break;
 
 		default:
 			drawLayers[layer].add(d);
@@ -1968,7 +2085,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * adds a GeoElement to this view
-	 * 
+	 *
 	 * @param geo
 	 *            GeoElement to be added
 	 * @return drawable for given GeoElement
@@ -2004,15 +2121,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void resetMode() {
 		setMode(mode);
-	}
-
-	/**
-	 * @param mode2
-	 *            mode number
-	 */
-	public void setMode(int mode2) {
-		setMode(mode2, ModeSetter.TOOLBAR);
-
 	}
 
 	public void repaintView() {
@@ -2110,8 +2218,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * @return size of booleans (13 or 26)
+	 */
+	final public int getBooleanSize() {
+		return app.getCheckboxSize();
+	}
+
+	/**
 	 * Sets the global size for checkboxes. Michael Borcherds 2008-05-12
-	 * 
+	 *
 	 * @param size
 	 *            13 or 26
 	 */
@@ -2123,11 +2238,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		updateAllDrawables(true);
 	}
 
-	/**
-	 * @return size of booleans (13 or 26)
-	 */
-	final public int getBooleanSize() {
-		return app.getCheckboxSize();
+	final public int getAllowToolTips() {
+		return tooltipsInThisView;
 	}
 
 	/**
@@ -2138,17 +2250,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		tooltipsInThisView = setto;
 	}
 
-	final public int getAllowToolTips() {
-		return tooltipsInThisView;
-	}
-
-	// /////////////////////////////////////////
-	// FOR EUCLIDIANVIEWFORPLANE
-	// /////////////////////////////////////////
-
 	/**
 	 * return null if classic 2D view
-	 * 
+	 *
 	 * @return matrix representation of the plane shown by this view
 	 */
 	public CoordMatrix getMatrix() {
@@ -2157,7 +2261,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * return null if classic 2D view
-	 * 
+	 *
 	 * @return matrix inverse representation of the plane shown by this view
 	 */
 	public CoordMatrix getInverseMatrix() {
@@ -2172,6 +2276,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return companion.getTranslatedFromPlaneString();
 	}
 
+	// getters and Setters for axis control vars
+
 	public boolean isDefault2D() {
 		return companion.isDefault2D();
 	}
@@ -2182,12 +2288,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public int getViewID() {
 		switch (evNo) {
-		case 1:
-			return App.VIEW_EUCLIDIAN;
-		case 2:
-			return App.VIEW_EUCLIDIAN2;
-		default:
-			return App.VIEW_NONE;
+			case 1:
+				return App.VIEW_EUCLIDIAN;
+			case 2:
+				return App.VIEW_EUCLIDIAN2;
+			default:
+				return App.VIEW_NONE;
 		}
 	}
 
@@ -2197,7 +2303,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * 
 	 * @return null (for 2D) and xOyPlane (for 3D)
 	 */
 	public GeoPlaneND getPlaneContaining() {
@@ -2205,7 +2310,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * 
+	 *
 	 * @return null (for 2D) and xOyPlane (for 3D)
 	 */
 	public GeoDirectionND getDirection() {
@@ -2214,7 +2319,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * tranform in view coords
-	 * 
+	 *
 	 * @param coords
 	 *            point
 	 * @return the same coords for classic 2d view
@@ -2234,7 +2339,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * Replaces num by num2 in xmin, xmax,ymin,ymax. Does not add / remove EV
 	 * listeners from these numerics
-	 * 
+	 *
 	 * @param num
 	 *            old numeric
 	 * @param num2
@@ -2267,6 +2372,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return automaticGridDistance;
 	}
 
+	public void setAutomaticGridDistance(boolean flag) {
+		automaticGridDistance = flag;
+		setAxesIntervals(getXscale(), 0);
+		setAxesIntervals(getYscale(), 1);
+		if (flag) {
+			gridDistances[2] = Math.PI / 6;
+		}
+	}
+
 	public double[] getGridDistances() {
 		return gridDistances;
 	}
@@ -2283,13 +2397,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return gridLineStyle;
 	}
 
-	public void setAutomaticGridDistance(boolean flag) {
-		automaticGridDistance = flag;
-		setAxesIntervals(getXscale(), 0);
-		setAxesIntervals(getYscale(), 1);
-		if (flag) {
-			gridDistances[2] = Math.PI / 6;
-		}
+	public void setGridLineStyle(int gridLineStyle) {
+		this.gridLineStyle = gridLineStyle;
+		gridStroke = EuclidianStatic.getStroke(gridIsBold ? 2f : 1f,
+				gridLineStyle);
 	}
 
 	public int getAxesLineStyle() {
@@ -2310,11 +2421,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * @param coordTransform
-	 *            RW => EV transform
+	 * @param coordTransform RW => EV transform
 	 */
 	protected void setCoordTransform(
-GAffineTransform coordTransform) {
+			GAffineTransform coordTransform) {
 		this.coordTransform = coordTransform;
 	}
 
@@ -2329,12 +2439,11 @@ GAffineTransform coordTransform) {
 	}
 
 	/**
-	 * @param fontForGraphics
-	 *            font
+	 * @param fontForGraphics font
 	 * @return graphics correnspondin to given font
 	 */
 	public abstract GGraphics2D getTempGraphics2D(
-GFont fontForGraphics);
+			GFont fontForGraphics);
 
 	/**
 	 * @return font
@@ -2342,14 +2451,12 @@ GFont fontForGraphics);
 	public abstract GFont getFont();
 
 	/**
-	 * @param h
-	 *            new height
+	 * @param h new height
 	 */
 	protected abstract void setHeight(int h);
 
 	/**
-	 * @param h
-	 *            new width
+	 * @param h new width
 	 */
 	protected abstract void setWidth(int h);
 
@@ -2359,66 +2466,9 @@ GFont fontForGraphics);
 	protected abstract void initCursor();
 
 	/**
-	 * @param mode
-	 *            new mode for sylebar
+	 * @param mode new mode for sylebar
 	 */
 	protected abstract void setStyleBarMode(int mode);
-
-	/**
-	 * @param mode
-	 *            mode
-	 * @return true if given mode can use selection rectangle as input
-	 */
-	final public static boolean usesSelectionAsInput(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			return false; // changed for new "drag" behaviour
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-		case EuclidianConstants.MODE_PEN:
-			// case EuclidianConstants.MODE_PENCIL:
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	/**
-	 * @param mode
-	 *            mode
-	 * @return true if mode can handle selection rectangle as input
-	 */
-	final public static boolean usesSelectionRectangleAsInput(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_FITLINE:
-		case EuclidianConstants.MODE_CREATE_LIST:
-			// case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
-			return true;
-		default:
-			return false;
-		}
-	}
-
-	// axis control vars
-	protected double[] axisCross;
-	protected boolean[] positiveAxes;
-	protected boolean[] drawBorderAxes;
-
-	// getters and Setters for axis control vars
-
-	public void setSelectionRectangle(
-GRectangle selectionRectangle) {
-		// Application.printStacktrace("");
-		this.selectionRectangle = selectionRectangle;
-	}
 
 	public double[] getAxesCross() {
 		return axisCross;
@@ -2440,7 +2490,6 @@ GRectangle selectionRectangle) {
 	public void setPositiveAxes(boolean[] positiveAxis) {
 		this.positiveAxes = positiveAxis;
 	}
-
 
 	// for xml handler
 	public void setPositiveAxis(int axis, boolean isPositiveAxis) {
@@ -2476,17 +2525,16 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * @param printingScale
-	 *            scale factor for print
+	 * @param printingScale scale factor for print
 	 */
 	public final void setPrintingScale(double printingScale) {
 		this.printingScale = printingScale;
 	}
 
 	/**
-	 * 
+	 *
 	 * setters and getters for EuclidianViewInterface
-	 * 
+	 *
 	 */
 
 	public String[] getAxesLabels(boolean addBoldItalicTags) {
@@ -2498,7 +2546,7 @@ GRectangle selectionRectangle) {
 
 		if (addBoldItalicTags) {
 			for (int axis = 0; axis < axesLabels.length; axis++) {
-				if (axesLabels[axis] != null && this.settings!=null) {
+				if (axesLabels[axis] != null && this.settings != null) {
 					ret[axis] = this.settings.axisLabelForXML(axis);
 				}
 			}
@@ -2512,13 +2560,15 @@ GRectangle selectionRectangle) {
 		setAxisLabel(1, axesLabels[1]);
 	}
 
+	/*
+	 * say if the axis is logarithmic
+	 */
+
 	/**
 	 * sets the axis label to axisLabel
-	 * 
-	 * @param axis
-	 *            axis id
-	 * @param axLabel
-	 *            axis label
+	 *
+	 * @param axis    axis id
+	 * @param axLabel axis label
 	 */
 	public void setAxisLabel(int axis, String axLabel) {
 		String axisLabel = axLabel;
@@ -2542,7 +2592,7 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i
 	 *            axis index
 	 * @return axis scale
@@ -2559,6 +2609,9 @@ GRectangle selectionRectangle) {
 		setAxesIntervals(getScale(axis), axis);
 	}
 
+	// ///////////////////////////////////////
+	// previewables
+
 	public boolean[] isAutomaticAxesNumberingDistance() {
 		return automaticAxesNumberingDistances;
 	}
@@ -2568,7 +2621,7 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param dist
 	 *            numbering distance
 	 * @param axis
@@ -2588,6 +2641,17 @@ GRectangle selectionRectangle) {
 		return gridIsBold;
 	}
 
+	public void setGridIsBold(boolean gridIsBold) {
+		if (this.gridIsBold == gridIsBold) {
+			return;
+		}
+
+		this.gridIsBold = gridIsBold;
+		setGridLineStyle(gridLineStyle);
+
+		updateBackgroundImage();
+	}
+
 	public boolean[] getShowAxesNumbers() {
 		return showAxesNumbers;
 	}
@@ -2605,10 +2669,10 @@ GRectangle selectionRectangle) {
 	}
 
 	public void setAxesUnitLabels(String[] axesUnitLabels) {
-		for(int i=0;i<this.axesUnitLabels.length;i++){
-			this.axesUnitLabels[i] = axesUnitLabels[i];	
+		for (int i = 0; i < this.axesUnitLabels.length; i++) {
+			this.axesUnitLabels[i] = axesUnitLabels[i];
 		}
-		
+
 
 		// check if pi is an axis unit
 		for (int i = 0; i < getDimension(); i++) {
@@ -2623,16 +2687,12 @@ GRectangle selectionRectangle) {
 		return axesTickStyles;
 	}
 
-	public void setAxisTickStyle(int axis, int tickStyle) {
-		axesTickStyles[axis] = tickStyle;
-	}
-
 	public void setAxesTickStyles(int[] axesTickStyles) {
 		this.axesTickStyles = axesTickStyles;
 	}
 
-	public void setShowMouseCoords(boolean b) {
-		showMouseCoords = b;
+	public void setAxisTickStyle(int axis, int tickStyle) {
+		axesTickStyles[axis] = tickStyle;
 	}
 
 	public boolean getAllowShowMouseCoords() {
@@ -2645,6 +2705,10 @@ GRectangle selectionRectangle) {
 
 	public boolean getShowMouseCoords() {
 		return showMouseCoords;
+	}
+
+	public void setShowMouseCoords(boolean b) {
+		showMouseCoords = b;
 	}
 
 	public void setShowAxesRatio(boolean b) {
@@ -2669,7 +2733,7 @@ GRectangle selectionRectangle) {
 
 	/**
 	 * says if the axis is shown or not
-	 * 
+	 *
 	 * @param axis
 	 *            id of the axis
 	 * @return if the axis is shown
@@ -2687,24 +2751,21 @@ GRectangle selectionRectangle) {
 		return getShowAxis(AXIS_Y);
 	}
 
-	/*
-	 * say if the axis is logarithmic
-	 */
-
 	public boolean getLogAxis(int axis) {
 		return logAxes[axis];
 	}
+
+	// Michael Borcherds 2008-03-01
 
 	public boolean getXaxisLog() {
 		return getLogAxis(AXIS_X);
 	}
 
+	// Michael Borcherds 2008-03-01
+
 	public boolean getYaxisLog() {
 		return getLogAxis(AXIS_Y);
 	}
-
-	// ///////////////////////////////////////
-	// previewables
 
 	public Previewable createPreviewLine(ArrayList<GeoPointND> selectedPoints) {
 		return new DrawLine(this, selectedPoints, PreviewType.LINE);
@@ -2734,7 +2795,7 @@ GRectangle selectionRectangle) {
 	}
 
 	public Previewable createPreviewConic(int mode1,
-			ArrayList<GeoPointND> selectedPoints) {
+										  ArrayList<GeoPointND> selectedPoints) {
 		return new DrawConic(this, mode1, selectedPoints);
 	}
 
@@ -2807,6 +2868,10 @@ GRectangle selectionRectangle) {
 		return new DrawLine(this, selectedPoints, selectedLines, false);
 	}
 
+	public App getApplication() {
+		return this.app;
+	}
+
 	/**
 	 * @param application
 	 *            application
@@ -2815,9 +2880,9 @@ GRectangle selectionRectangle) {
 		this.app = application;
 	}
 
-	public App getApplication() {
-		return this.app;
-	}
+	// =================================================
+	// Draw Axes
+	// =================================================
 
 	/**
 	 * Update fonts
@@ -2832,8 +2897,8 @@ GRectangle selectionRectangle) {
 
 			setFontCoords(getApplication()
 					.getFontCommon(getSettings().getAxesLabelsSerif(),
-					getSettings().getAxisFontStyle(),
-					(int) Math.max(Math.round(getFontSize() * 0.75), 10)));
+							getSettings().getAxisFontStyle(),
+							(int) Math.max(Math.round(getFontSize() * 0.75), 10)));
 		}
 		updateDrawableFontSize();
 		updateBackground();
@@ -2856,17 +2921,15 @@ GRectangle selectionRectangle) {
 
 	/**
 	 * Try to focus this view
-	 * 
+	 *
 	 * @return true if successful
 	 */
 	public abstract boolean requestFocusInWindow();
 
-	// Michael Borcherds 2008-03-01
 	/**
 	 * Draws all geometric objects
-	 * 
-	 * @param g2
-	 *            graphics
+	 *
+	 * @param g2 graphics
 	 */
 	protected void drawGeometricObjects(GGraphics2D g2) {
 		// boolean
@@ -2874,8 +2937,8 @@ GRectangle selectionRectangle) {
 		int layer;
 
 		for (layer = 0; layer <= getApplication().getMaxLayerUsed(); layer++) // only
-																				// draw
-																				// layers
+		// draw
+		// layers
 		// we need
 		{
 			// if (isSVGExtensions)
@@ -2886,12 +2949,10 @@ GRectangle selectionRectangle) {
 		}
 	}
 
-	// Michael Borcherds 2008-03-01
 	/**
 	 * Draws all objects
-	 * 
-	 * @param g2
-	 *            graphics
+	 *
+	 * @param g2 graphics
 	 */
 	protected void drawObjects(GGraphics2D g2) {
 
@@ -2905,9 +2966,8 @@ GRectangle selectionRectangle) {
 
 	/**
 	 * Fills background with background color
-	 * 
-	 * @param g
-	 *            graphics
+	 *
+	 * @param g graphics
 	 */
 	final protected void clearBackground(GGraphics2D g) {
 		g.setColor(getBackgroundCommon());
@@ -2916,13 +2976,11 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * @param g
-	 *            graphics
-	 * @param transparency
-	 *            alpha value
+	 * @param g            graphics
+	 * @param transparency alpha value
 	 */
 	protected void drawBackgroundWithImages(GGraphics2D g,
-			boolean transparency) {
+											boolean transparency) {
 		if (!transparency) {
 			clearBackground(g);
 		}
@@ -2933,9 +2991,8 @@ GRectangle selectionRectangle) {
 
 	/**
 	 * Draw axes ratio next to the mouse when mouse zooming.
-	 * 
-	 * @param g2
-	 *            graphics
+	 *
+	 * @param g2 graphics
 	 */
 	final protected void drawAxesRatio(GGraphics2D g2) {
 		GPoint pos = euclidianController.mouseLoc;
@@ -2949,19 +3006,14 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * @param g2
-	 *            background graphics
+	 * @param g2 background graphics
 	 */
 	public abstract void paintBackground(GGraphics2D g2);
 
-	/** reIniting is used by GeoGebraWeb */
-	protected boolean reIniting = false;
-
 	/**
 	 * Switches re-initing flag. If re-initing, also resets background.
-	 * 
-	 * @param reiniting
-	 *            re-initing flag
+	 *
+	 * @param reiniting re-initing flag
 	 */
 	public void setReIniting(boolean reiniting) {
 		reIniting = reiniting;
@@ -2975,9 +3027,8 @@ GRectangle selectionRectangle) {
 
 	/**
 	 * Paints content of this view.
-	 * 
-	 * @param g2
-	 *            graphics
+	 *
+	 * @param g2 graphics
 	 */
 	public void paint(GGraphics2D g2) {
 		synchronized (kernel.getConcurrentModificationLock()) {
@@ -2992,8 +3043,7 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * @param g2
-	 *            graphics for background
+	 * @param g2 graphics for background
 	 */
 	public void paintTheBackground(GGraphics2D g2) {
 		// BACKGROUND
@@ -3028,7 +3078,7 @@ GRectangle selectionRectangle) {
 
 	/**
 	 * Draws zoom rectangle
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
@@ -3042,7 +3092,7 @@ GRectangle selectionRectangle) {
 
 	/**
 	 * Draws rectangle with given options
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 * @param col
@@ -3053,7 +3103,7 @@ GRectangle selectionRectangle) {
 	 *            rectangle to draw
 	 */
 	protected void drawRect(GGraphics2D g2, GColor col, GBasicStroke stroke,
-			GRectangle rect) {
+							GRectangle rect) {
 		g2.setColor(col);
 		g2.setStroke(stroke);
 		g2.draw(rect);
@@ -3061,7 +3111,7 @@ GRectangle selectionRectangle) {
 
 	/**
 	 * Draws mouse coords next to the mouse
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
@@ -3091,8 +3141,7 @@ GRectangle selectionRectangle) {
 	}
 
 	/**
-	 * @param g
-	 *            background graphics
+	 * @param g background graphics
 	 */
 	protected void drawBackgroundWithImages(GGraphics2D g) {
 		drawBackgroundWithImages(g, false);
@@ -3100,7 +3149,7 @@ GRectangle selectionRectangle) {
 
 	/**
 	 * Draws axes, grid and background images
-	 * 
+	 *
 	 * @param g
 	 *            graphics
 	 * @param clear
@@ -3191,39 +3240,28 @@ GRectangle selectionRectangle) {
 				sb.append(')');
 
 				GTextLayout layout = AwtFactory.prototype.newTextLayout(
-sb.toString(), getFontAxes(),
-								g2.getFontRenderContext());
+						sb.toString(), getFontAxes(),
+						g2.getFontRenderContext());
 				layout.draw(g2, (int) (getWidth() - 5 - EuclidianView
-						.estimateTextWidth(sb.toString(), getFontAxes())),
+								.estimateTextWidth(sb.toString(), getFontAxes())),
 						getHeight() - 5);
 			}
 		}
 
 	}
 
-	private DrawAxis da;
-
 	boolean showResetIcon() {
-		if(!getApplication().showResetIcon()
-				|| ! (getApplication().isApplet() || getApplication().isHTML5Applet())){
+		if (!getApplication().showResetIcon()
+				|| !(getApplication().isApplet() || getApplication().isHTML5Applet())) {
 			return false;
-		};
+		}
+		;
 		return isPrimaryEV();
 	}
 
-	private GEllipse2DDouble circle = AwtFactory.prototype.newEllipse2DDouble(); // polar
-																					// grid
-																					// circles
-	private GLine2D tempLine = AwtFactory.prototype.newLine2D();
-	GGeneralPath gp;
-	/**
-	 * Get styleBar
-	 */
-	protected org.geogebra.common.euclidian.EuclidianStyleBar styleBar;
-
 	/**
 	 * Draws grid
-	 * 
+	 *
 	 * @param g2
 	 *            graphics
 	 */
@@ -3251,227 +3289,223 @@ sb.toString(), getFontAxes(),
 
 		switch (gridType) {
 
-		case GRID_CARTESIAN:
+			case GRID_CARTESIAN:
 
-			// vertical grid lines
-			double tickStep = getXscale() * gridDistances[0];
-			double start = getxZero() % tickStep;
-			double pix = start;
-			double rw = getXmin() - (getXmin() % axesNumberingDistances[0]);
-			double rwBase = Kernel.checkDecimalFraction(rw);
-			if (pix < SCREEN_BORDER) {
-				pix += tickStep;
-				if (!getXaxisLog() || getXmin() < 0)
-					rw += axesNumberingDistances[0];
-			}
-			for (int i = 0; pix <= getWidth(); i++) {
-				// don't draw the grid line x=0 if the y-axis is showing
-				// or if it's too close (eg sticky axes)
-				if(getXaxisLog()){
-					double r = rwBase + Kernel.checkDecimalFraction(axesNumberingDistances[0] * i);
-					if (Math.round(r) == r)
-						rw = Math.pow(10, r); // condition of integer power
-					else {
-						rw = Math.pow(10, (int) r);
-						double decimal = r - (int) r;
-						rw = decimal * 10 * rw;
-					}
-					pix = toScreenCoordXd(rw);
+				// vertical grid lines
+				double tickStep = getXscale() * gridDistances[0];
+				double start = getxZero() % tickStep;
+				double pix = start;
+				double rw = getXmin() - (getXmin() % axesNumberingDistances[0]);
+				double rwBase = Kernel.checkDecimalFraction(rw);
+				if (pix < SCREEN_BORDER) {
+					pix += tickStep;
+					if (!getXaxisLog() || getXmin() < 0)
+						rw += axesNumberingDistances[0];
 				}
-				if (!showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
-					if (axesLabelsPositionsX.contains(new Integer(
-							(int) (pix + Kernel.MIN_PRECISION)))) {
+				for (int i = 0; pix <= getWidth(); i++) {
+					// don't draw the grid line x=0 if the y-axis is showing
+					// or if it's too close (eg sticky axes)
+					if (getXaxisLog()) {
+						double r = rwBase + Kernel.checkDecimalFraction(axesNumberingDistances[0] * i);
+						if (Math.round(r) == r)
+							rw = Math.pow(10, r); // condition of integer power
+						else {
+							rw = Math.pow(10, (int) r);
+							double decimal = r - (int) r;
+							rw = decimal * 10 * rw;
+						}
+						pix = toScreenCoordXd(rw);
+					}
+					if (!showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
+						if (axesLabelsPositionsX.contains(new Integer(
+								(int) (pix + Kernel.MIN_PRECISION)))) {
 
-						// hits axis label, draw in 2 sections
-						drawLineAvoidingLabelsV(g2, pix, 0, pix, getHeight(),
-								yCrossPix);
-					} else {
+							// hits axis label, draw in 2 sections
+							drawLineAvoidingLabelsV(g2, pix, 0, pix, getHeight(),
+									yCrossPix);
+						} else {
 
-						// not hitting axis label, just draw it
-						g2.drawStraightLine(pix, 0, pix, getHeight());
+							// not hitting axis label, just draw it
+							g2.drawStraightLine(pix, 0, pix, getHeight());
+
+						}
 
 					}
 
-				}
-
-				pix = start + (i * tickStep);
-			}
-
-			// horizontal grid lines
-			tickStep = getYscale() * gridDistances[1];
-			start = getyZero() % tickStep;
-			pix = start;
-			rw = getYmin() - (getYmin() % axesNumberingDistances[1]);
-			rwBase = Kernel.checkDecimalFraction(rw);
-			if (pix > (getHeight() - SCREEN_BORDER)) {
-				pix -= tickStep;
-				if (!getYaxisLog() || getYmin() < 0)
-					rw += axesNumberingDistances[1];
-			}
-			for (int j = 0; pix <= getHeight(); j++) {
-				// don't draw the grid line x=0 if the y-axis is showing
-				// or if it's too close (eg sticky axes)
-				if (getYaxisLog()) {
-					double r = rwBase
-							+ Kernel.checkDecimalFraction(axesNumberingDistances[1]
-									* j);
-					if (Math.round(r) == r)
-						rw = Math.pow(10, r); // condition of integer power
-					else {
-						rw = Math.pow(10, (int) r);
-						double decimal = r - (int) r;
-						rw = decimal * 10 * rw;
-					}
-					pix = 2 * getYZero() - toScreenCoordYd(rw);
+					pix = start + (i * tickStep);
 				}
 
-				if (!showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
-
-					if (axesLabelsPositionsY.contains(new Integer(
-							(int) (pix + Kernel.MIN_PRECISION)))) {
-
-						// hits axis label, draw in 2 sections
-						drawLineAvoidingLabelsH(g2, 0, pix, getWidth(), pix,
-								xCrossPix);
-					} else {
-
-						// not hitting axis label, just draw it
-						g2.drawStraightLine(0, pix, getWidth(), pix);
+				// horizontal grid lines
+				tickStep = getYscale() * gridDistances[1];
+				start = getyZero() % tickStep;
+				pix = start;
+				rw = getYmin() - (getYmin() % axesNumberingDistances[1]);
+				rwBase = Kernel.checkDecimalFraction(rw);
+				if (pix > (getHeight() - SCREEN_BORDER)) {
+					pix -= tickStep;
+					if (!getYaxisLog() || getYmin() < 0)
+						rw += axesNumberingDistances[1];
+				}
+				for (int j = 0; pix <= getHeight(); j++) {
+					// don't draw the grid line x=0 if the y-axis is showing
+					// or if it's too close (eg sticky axes)
+					if (getYaxisLog()) {
+						double r = rwBase
+								+ Kernel.checkDecimalFraction(axesNumberingDistances[1]
+								* j);
+						if (Math.round(r) == r)
+							rw = Math.pow(10, r); // condition of integer power
+						else {
+							rw = Math.pow(10, (int) r);
+							double decimal = r - (int) r;
+							rw = decimal * 10 * rw;
+						}
+						pix = 2 * getYZero() - toScreenCoordYd(rw);
 					}
+
+					if (!showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
+
+						if (axesLabelsPositionsY.contains(new Integer(
+								(int) (pix + Kernel.MIN_PRECISION)))) {
+
+							// hits axis label, draw in 2 sections
+							drawLineAvoidingLabelsH(g2, 0, pix, getWidth(), pix,
+									xCrossPix);
+						} else {
+
+							// not hitting axis label, just draw it
+							g2.drawStraightLine(0, pix, getWidth(), pix);
+						}
+					}
+
+					pix = start + (j * tickStep);
 				}
 
-				pix = start + (j * tickStep);
-			}
+				break;
 
-			break;
+			case GRID_ISOMETRIC:
 
-		case GRID_ISOMETRIC:
+				double tickStepX = getXscale() * gridDistances[0] * Math.sqrt(3.0);
+				double startX = getxZero() % (tickStepX);
+				double startX2 = getxZero() % (tickStepX / 2);
+				double tickStepY = getYscale() * gridDistances[0];
+				double startY = getyZero() % tickStepY;
 
-			double tickStepX = getXscale() * gridDistances[0] * Math.sqrt(3.0);
-			double startX = getxZero() % (tickStepX);
-			double startX2 = getxZero() % (tickStepX / 2);
-			double tickStepY = getYscale() * gridDistances[0];
-			double startY = getyZero() % tickStepY;
+				// vertical
+				pix = startX2;
+				for (int j = 0; pix <= getWidth(); j++) {
+					tempLine.setLine(pix, 0, pix, getHeight());
+					g2.draw(tempLine);
+					pix = startX2 + ((j * tickStepX) / 2.0);
+				}
 
-			// vertical
-			pix = startX2;
-			for (int j = 0; pix <= getWidth(); j++) {
-				tempLine.setLine(pix, 0, pix, getHeight());
-				g2.draw(tempLine);
-				pix = startX2 + ((j * tickStepX) / 2.0);
-			}
+				// extra lines needed because it's diagonal
+				int extra = (int) ((((getHeight() * getXscale()) / getYscale()) * Math
+						.sqrt(3.0)) / tickStepX) + 3;
 
-			// extra lines needed because it's diagonal
-			int extra = (int) ((((getHeight() * getXscale()) / getYscale()) * Math
-					.sqrt(3.0)) / tickStepX) + 3;
+				// positive gradient
+				pix = startX + (-(extra + 1) * tickStepX);
+				for (int j = -extra; pix <= getWidth(); j += 1) {
+					tempLine.setLine(
+							pix,
+							startY - tickStepY,
+							pix
+									+ (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale()) / getYscale()),
+							(startY - tickStepY) + getHeight() + tickStepY);
+					g2.draw(tempLine);
+					pix = startX + (j * tickStepX);
+				}
 
-			// positive gradient
-			pix = startX + (-(extra + 1) * tickStepX);
-			for (int j = -extra; pix <= getWidth(); j += 1) {
-				tempLine.setLine(
-						pix,
-						startY - tickStepY,
-						pix
-								+ (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale()) / getYscale()),
-						(startY - tickStepY) + getHeight() + tickStepY);
-				g2.draw(tempLine);
-				pix = startX + (j * tickStepX);
-			}
+				// negative gradient
+				pix = startX;
+				for (int j = 0; pix <= (getWidth() + ((((getHeight() * getXscale()) / getYscale()) + tickStepY) * Math
+						.sqrt(3.0))); j += 1)
+				// for (int j=0; j<=kk; j+=1)
+				{
+					tempLine.setLine(
+							pix,
+							startY - tickStepY,
+							pix
+									- (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale()) / getYscale()),
+							(startY - tickStepY) + getHeight() + tickStepY);
+					g2.draw(tempLine);
+					pix = startX + (j * tickStepX);
+				}
 
-			// negative gradient
-			pix = startX;
-			for (int j = 0; pix <= (getWidth() + ((((getHeight() * getXscale()) / getYscale()) + tickStepY) * Math
-					.sqrt(3.0))); j += 1)
-			// for (int j=0; j<=kk; j+=1)
-			{
-				tempLine.setLine(
-						pix,
-						startY - tickStepY,
-						pix
-								- (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale()) / getYscale()),
-						(startY - tickStepY) + getHeight() + tickStepY);
-				g2.draw(tempLine);
-				pix = startX + (j * tickStepX);
-			}
+				break;
 
-			break;
+			case GRID_POLAR: // G.Sturr 2010-8-13
 
-		case GRID_POLAR: // G.Sturr 2010-8-13
-
-			// find minimum grid radius
-			double min;
-			if ((getxZero() > 0) && (getxZero() < getWidth())
-					&& (getyZero() > 0) && (getyZero() < getHeight())) {
-				// origin onscreen: min = 0
-				min = 0;
-			} else {
-				// origin offscreen: min = distance to closest screen border
-				double minW = Math.min(Math.abs(getxZero()),
-						Math.abs(getxZero() - getWidth()));
-				double minH = Math.min(Math.abs(getyZero()),
-						Math.abs(getyZero() - getHeight()));
-				min = Math.min(minW, minH);
-			}
-
-			// find maximum grid radius
-			// max = max distance of origin to screen corners
-			double d1 = MyMath.length(getxZero(), getyZero()); // upper left
-			double d2 = MyMath.length(getxZero(), getyZero() - getHeight()); // lower
-																				// left
-			double d3 = MyMath.length(getxZero() - getWidth(), getyZero()); // upper
-																			// right
-			double d4 = MyMath.length(getxZero() - getWidth(), getyZero()
-					- getHeight()); // lower
-			// right
-			double max = Math.max(Math.max(d1, d2), Math.max(d3, d4));
-
-			// draw the grid circles
-			// note: x tick intervals are used for the radius intervals,
-			// it is assumed that the x/y scaling ratio is 1:1
-			double tickStepR = getXscale() * gridDistances[0];
-			double r = min - (min % tickStepR);
-			while (r <= max) {
-				circle.setFrame(getxZero() - r, getyZero() - r, 2 * r, 2 * r);
-				g2.draw(circle);
-				r = r + tickStepR;
-
-			}
-
-			// draw the radial grid lines
-			double angleStep = gridDistances[2];
-			double y1,
-			y2,
-			m;
-
-			// horizontal axis
-			tempLine.setLine(0, getyZero(), getWidth(), getyZero());
-			g2.draw(tempLine);
-
-			// radial lines
-			for (double a = angleStep; a < Math.PI; a = a + angleStep) {
-
-				if (Math.abs(a - (Math.PI / 2)) < 0.0001) {
-					// vertical axis
-					tempLine.setLine(getxZero(), 0, getxZero(), getHeight());
+				// find minimum grid radius
+				double min;
+				if ((getxZero() > 0) && (getxZero() < getWidth())
+						&& (getyZero() > 0) && (getyZero() < getHeight())) {
+					// origin onscreen: min = 0
+					min = 0;
 				} else {
-					m = Math.tan(a);
-					y1 = (m * (getxZero())) + getyZero();
-					y2 = (m * (getxZero() - getWidth())) + getyZero();
-					tempLine.setLine(0, y1, getWidth(), y2);
+					// origin offscreen: min = distance to closest screen border
+					double minW = Math.min(Math.abs(getxZero()),
+							Math.abs(getxZero() - getWidth()));
+					double minH = Math.min(Math.abs(getyZero()),
+							Math.abs(getyZero() - getHeight()));
+					min = Math.min(minW, minH);
 				}
-				g2.draw(tempLine);
-			}
 
-			break;
+				// find maximum grid radius
+				// max = max distance of origin to screen corners
+				double d1 = MyMath.length(getxZero(), getyZero()); // upper left
+				double d2 = MyMath.length(getxZero(), getyZero() - getHeight()); // lower
+				// left
+				double d3 = MyMath.length(getxZero() - getWidth(), getyZero()); // upper
+				// right
+				double d4 = MyMath.length(getxZero() - getWidth(), getyZero()
+						- getHeight()); // lower
+				// right
+				double max = Math.max(Math.max(d1, d2), Math.max(d3, d4));
+
+				// draw the grid circles
+				// note: x tick intervals are used for the radius intervals,
+				// it is assumed that the x/y scaling ratio is 1:1
+				double tickStepR = getXscale() * gridDistances[0];
+				double r = min - (min % tickStepR);
+				while (r <= max) {
+					circle.setFrame(getxZero() - r, getyZero() - r, 2 * r, 2 * r);
+					g2.draw(circle);
+					r = r + tickStepR;
+
+				}
+
+				// draw the radial grid lines
+				double angleStep = gridDistances[2];
+				double y1,
+						y2,
+						m;
+
+				// horizontal axis
+				tempLine.setLine(0, getyZero(), getWidth(), getyZero());
+				g2.draw(tempLine);
+
+				// radial lines
+				for (double a = angleStep; a < Math.PI; a = a + angleStep) {
+
+					if (Math.abs(a - (Math.PI / 2)) < 0.0001) {
+						// vertical axis
+						tempLine.setLine(getxZero(), 0, getxZero(), getHeight());
+					} else {
+						m = Math.tan(a);
+						y1 = (m * (getxZero())) + getyZero();
+						y2 = (m * (getxZero() - getWidth())) + getyZero();
+						tempLine.setLine(0, y1, getWidth(), y2);
+					}
+					g2.draw(tempLine);
+				}
+
+				break;
 		}
 
 		// reset the clipping region
 		g2.setClip(oldClip);
 	}
-
-	// =================================================
-	// Draw Axes
-	// =================================================
 
 	double getXAxisCrossingPixel() {
 		return getxZero() + (axisCross[1] * getXscale());
@@ -3495,20 +3529,14 @@ sb.toString(), getFontAxes(),
 		return fontSize + 4;
 	}
 
-	ArrayList<Integer> axesLabelsPositionsY = new ArrayList<Integer>();
-	ArrayList<Integer> axesLabelsPositionsX = new ArrayList<Integer>();
-	double yLabelMaxWidthPos = 0;
-	double yLabelMaxWidthNeg = 0;
-	double xLabelHeights = 0;
-
 	private void drawLineAvoidingLabelsH(GGraphics2D g2, double x1, double y1,
-			double x2, double y2, double xCrossPix) {
+										 double x2, double y2, double xCrossPix) {
 
 		if (xCrossPix > x1 && xCrossPix < x2) {
 			// split in 2
 			g2.drawStraightLine(x1, y1, xCrossPix
 					- (this.toRealWorldCoordY(y1) > 0 ? yLabelMaxWidthPos
-							: yLabelMaxWidthNeg) - 10, y2);
+					: yLabelMaxWidthNeg) - 10, y2);
 			g2.drawStraightLine(xCrossPix, y1, x2, y2);
 
 		} else {
@@ -3517,7 +3545,7 @@ sb.toString(), getFontAxes(),
 	}
 
 	private void drawLineAvoidingLabelsV(GGraphics2D g2, double x1, double y1,
-			double x2, double y2, double yCrossPix) {
+										 double x2, double y2, double yCrossPix) {
 
 		if (yCrossPix > y1 && yCrossPix < y2) {
 			// split in 2
@@ -3549,7 +3577,7 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * Draw combos
-	 * 
+	 *
 	 * @param g
 	 *            graphics
 	 */
@@ -3595,16 +3623,6 @@ sb.toString(), getFontAxes(),
 	}
 
 	/**
-	 * Switch antialiasing to true for given graphics
-	 * 
-	 * @param g2
-	 *            graphics
-	 */
-	final public void setAntialiasing(GGraphics2D g2) {
-		g2.setAntialiasing();
-	}
-
-	/**
 	 * @param g2
 	 *            graphics for the animation button
 	 */
@@ -3616,7 +3634,7 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * Update stylebar from settings
-	 * 
+	 *
 	 * @param evs
 	 *            settings
 	 */
@@ -3638,30 +3656,6 @@ sb.toString(), getFontAxes(),
 		return companion.showGrid(show);
 	}
 
-
-	public void setGridIsBold(boolean gridIsBold) {
-		if (this.gridIsBold == gridIsBold) {
-			return;
-		}
-
-		this.gridIsBold = gridIsBold;
-		setGridLineStyle(gridLineStyle);
-
-		updateBackgroundImage();
-	}
-
-	public void setGridColor(GColor gridColor) {
-		if (gridColor != null) {
-			this.gridColor = gridColor;
-		}
-	}
-
-	public void setGridLineStyle(int gridLineStyle) {
-		this.gridLineStyle = gridLineStyle;
-		gridStroke = EuclidianStatic.getStroke(gridIsBold ? 2f : 1f,
-				gridLineStyle);
-	}
-
 	/**
 	 * @param settings
 	 *            settings
@@ -3680,26 +3674,6 @@ sb.toString(), getFontAxes(),
 		return this.settings;
 	}
 
-	/**
-	 * sets array of GeoElements whose visual representation is inside of the
-	 * given screen rectangle
-	 */
-	public final void setHits(GRectangle rect) {
-		hits.init();
-		if (rect == null) {
-			return;
-		}
-
-		DrawableIterator it = allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
-			GeoElement geo = d.getGeoElement();
-			if (geo.isEuclidianVisible() && d.isInside(rect)) {
-				hits.add(geo);
-			}
-		}
-	}
-
 	public void updateCursor(GeoPointND point) {
 		// used in 3D
 	}
@@ -3707,7 +3681,7 @@ sb.toString(), getFontAxes(),
 	/**
 	 * sets array of GeoElements whose visual representation is inside of the
 	 * given screen rectangle
-	 * 
+	 *
 	 * @param rect
 	 *            rectangle
 	 */
@@ -3730,6 +3704,16 @@ sb.toString(), getFontAxes(),
 	public GRectangle getSelectionRectangle() {
 		return selectionRectangle;
 	}
+
+	public void setSelectionRectangle(
+			GRectangle selectionRectangle) {
+		// Application.printStacktrace("");
+		this.selectionRectangle = selectionRectangle;
+	}
+
+	/*
+	 * change logarithmic flag of the axes
+	 */
 
 	/**
 	 * @return path along border of this view
@@ -3791,7 +3775,7 @@ sb.toString(), getFontAxes(),
 	/**
 	 * Returns the bounding box of all Drawable objects in this view in screen
 	 * coordinates.
-	 * 
+	 *
 	 * @return bounds of this view
 	 */
 	public GRectangle getBounds() {
@@ -3826,15 +3810,11 @@ sb.toString(), getFontAxes(),
 		previewDrawable = p;
 	}
 
-	private int widthTemp, heightTemp;
-	private double xminTemp, xmaxTemp, yminTemp, ymaxTemp;
-
 	/**
 	 * Finds maximum pixel width and height needed to draw current x and y axis
 	 * labels. return[0] = max width, return[1] = max height
-	 * 
-	 * @param g2
-	 *            graphics
+	 *
+	 * @param g2 graphics
 	 * @return point (width,height)
 	 */
 
@@ -3865,7 +3845,7 @@ sb.toString(), getFontAxes(),
 			// 285, 285.1, 285.2 -> rounding problems
 			rw = rwBase
 					- Kernel.checkDecimalFraction(axesNumberingDistances[1]
-							* count);
+					* count);
 
 			if (pix <= maxY) {
 				if (showAxesNumbers[1]) {
@@ -3902,11 +3882,9 @@ sb.toString(), getFontAxes(),
 	/**
 	 * used for rescaling applets when the reset button is hit use
 	 * setTemporarySize(-1, -1) to disable
-	 * 
-	 * @param w
-	 *            width
-	 * @param h
-	 *            height
+	 *
+	 * @param w width
+	 * @param h height
 	 */
 	public void setTemporarySize(int w, int h) {
 		setWidth(w);
@@ -3916,13 +3894,10 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * change showing flag of the axis
-	 * 
-	 * @param axis
-	 *            id of the axis
-	 * @param flag
-	 *            show/hide
-	 * @param update
-	 *            update (or not) the background image
+	 *
+	 * @param axis   id of the axis
+	 * @param flag   show/hide
+	 * @param update update (or not) the background image
 	 */
 	public boolean setShowAxis(int axis, boolean flag, boolean update) {
 		if (flag == showAxes[axis]) {
@@ -3941,10 +3916,6 @@ sb.toString(), getFontAxes(),
 		boolean changedX = setShowAxis(AXIS_X, flag, false);
 		return setShowAxis(AXIS_Y, flag, true) || changedX;
 	}
-
-	/*
-	 * change logarithmic flag of the axes
-	 */
 
 	public boolean setLogAxis(int axis, boolean flag, boolean update) {
 		if (flag == logAxes[axis]) {
@@ -3965,8 +3936,7 @@ sb.toString(), getFontAxes(),
 	}
 
 	/**
-	 * @param bold
-	 *            true for bold axes
+	 * @param bold true for bold axes
 	 */
 	public void setBoldAxes(boolean bold) {
 		axesLineType = getBoldAxes(bold, axesLineType);
@@ -3974,7 +3944,7 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * Tells if there are any traces in the background image.
-	 * 
+	 *
 	 * @return true if there are any traces in background
 	 */
 	protected boolean isTracing() {
@@ -3989,15 +3959,12 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * Tells if there are any images in the background.
-	 * 
+	 *
 	 * @return whether there are any images in the background.
 	 */
 	protected boolean hasBackgroundImages() {
 		return bgImageList.size() > 0;
 	}
-
-	/** Whether some trace was painted in this view */
-	protected boolean tracing = false;
 
 	/**
 	 * @return background graphics
@@ -4009,7 +3976,7 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * returns settings in XML format
-	 * 
+	 *
 	 * @param sbxml
 	 *            string builder
 	 * @param asPreference
@@ -4021,7 +3988,7 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * start settings in XML format
-	 * 
+	 *
 	 * @param sbxml
 	 *            string builder
 	 * @param asPreference
@@ -4162,11 +4129,11 @@ sb.toString(), getFontAxes(),
 			sbxml.append("\t<labelStyle axes=\"");
 			sbxml.append(style);
 			sbxml.append("\"");
-			
+
 			sbxml.append(" serif=\"");
 			sbxml.append(serif);
 			sbxml.append("\"");
-			
+
 			sbxml.append("/>\n");
 		}
 
@@ -4190,10 +4157,9 @@ sb.toString(), getFontAxes(),
 
 	}
 
-
 	/**
 	 * end settings in XML format
-	 * 
+	 *
 	 * @param sbxml
 	 *            string builder
 	 */
@@ -4203,7 +4169,7 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * Draws points into an image
-	 * 
+	 *
 	 * @param ge
 	 *            image
 	 * @param x
@@ -4280,7 +4246,6 @@ sb.toString(), getFontAxes(),
 			es.setYminObject(ymio, true);
 		}
 	}
-
 
 	/**
 	 * Change coord system so that all objects are shown
@@ -4530,7 +4495,7 @@ sb.toString(), getFontAxes(),
 	 *            yMax of visible objects rectangle
 	 */
 	private void centerVisibleObjectsRect(double x0RW, double x1RW,
-			double y0RW, double y1RW) {
+										  double y0RW, double y1RW) {
 		double screenMinX = getXmin();
 		double screenMaxX = getXmax();
 		double screenMinY = getYmin();
@@ -4555,7 +4520,7 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * @return {@code true} if an object of the given TreeSet is visible in the
-	 *         graphicsView
+	 * graphicsView
 	 */
 	private boolean hasVisibleObjects(TreeSet<GeoElement> allFunctions) {
 		for (GeoElement element : allFunctions) {
@@ -4588,11 +4553,10 @@ sb.toString(), getFontAxes(),
 	 *         euclidian view
 	 */
 	private boolean outOfRange(double x0rw, double x1rw, double y0rw,
-			double y1rw) {
+							   double y1rw) {
 		return getXmin() > x0rw || getXmax() < x1rw || getYmin() > y0rw
 				|| getYmax() < y1rw;
 	}
-
 
 	/**
 	 * @return width of selection rectangle
@@ -4667,8 +4631,6 @@ sb.toString(), getFontAxes(),
 
 	}
 
-	private Hits tempArrayList = new Hits();
-
 	// for use in AlgebraController
 	final public void clickedGeo(GeoElement geo, boolean isControlDown) {
 		if (geo == null) {
@@ -4699,7 +4661,7 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * instantiate new zoomer
-	 * 
+	 *
 	 * @return zoomer
 	 */
 	protected abstract MyZoomer newZoomer();
@@ -4708,7 +4670,7 @@ sb.toString(), getFontAxes(),
 	 * Zooms around fixed point (px, py)
 	 */
 	public void zoom(double px, double py, double zoomFactor, int steps,
-			boolean storeUndo) {
+					 boolean storeUndo) {
 		if (!isZoomable()) {
 			return;
 		}
@@ -4720,16 +4682,12 @@ sb.toString(), getFontAxes(),
 
 	}
 
-	private MyZoomer zoomer;
-
 	/**
 	 * Zooms towards the given axes scale ratio. Note: Only the y-axis is
 	 * changed here. ratio = yscale / xscale;
-	 * 
-	 * @param newRatio
-	 *            new yscale / xscale ratio
-	 * @param storeUndo
-	 *            true to store undo step after
+	 *
+	 * @param newRatio  new yscale / xscale ratio
+	 * @param storeUndo true to store undo step after
 	 */
 	public final void zoomAxesRatio(double newRatio, boolean storeUndo) {
 		if (!isZoomable()) {
@@ -4745,13 +4703,10 @@ sb.toString(), getFontAxes(),
 		axesRatioZoomer.startAnimation();
 	}
 
-	private MyZoomer axesRatioZoomer;
-
 	/**
 	 * Restores standard zoom + origin position
-	 * 
-	 * @param storeUndo
-	 *            true to store undo infor
+	 *
+	 * @param storeUndo true to store undo infor
 	 */
 	public void setStandardView(boolean storeUndo) {
 		if (!isZoomable()) {
@@ -4792,11 +4747,9 @@ sb.toString(), getFontAxes(),
 	/**
 	 * Sets coord system of this view to standard. Just like setCoordSystem but
 	 * with previous animation.
-	 * 
-	 * 
 	 */
 	public void setAnimatedCoordSystem(double originX, double originY,
-			int steps, boolean storeUndo) {
+									   int steps, boolean storeUndo) {
 		setAnimatedCoordSystem(originX, originY, 0, SCALE_STANDARD, steps,
 				storeUndo);
 	}
@@ -4804,17 +4757,13 @@ sb.toString(), getFontAxes(),
 	/**
 	 * Sets coord system of this view. Just like setCoordSystem but with
 	 * previous animation.
-	 * 
-	 * 
-	 * @param originX
-	 *            x coord of old origin
-	 * @param originY
-	 *            y coord of old origin
-	 * @param newScale
-	 *            x scale
+	 *
+	 * @param originX  x coord of old origin
+	 * @param originY  y coord of old origin
+	 * @param newScale x scale
 	 */
 	public void setAnimatedCoordSystem(double originX, double originY,
-			double f, double newScale, int steps, boolean storeUndo) {
+									   double f, double newScale, int steps, boolean storeUndo) {
 
 		double ox = originX + (getXZero() - originX) * f;
 		double oy = originY + (getYZero() - originY) * f;
@@ -4836,8 +4785,6 @@ sb.toString(), getFontAxes(),
 		}
 	}
 
-	private MyZoomer mover;
-
 	/**
 	 * Sets real world coord system using min and max values for both axes in
 	 * real world values.
@@ -4850,8 +4797,6 @@ sb.toString(), getFontAxes(),
 		zoomerRW.initRW(xmin, xmax, ymin, ymax, steps, storeUndo);
 		zoomerRW.startAnimation();
 	}
-
-	private MyZoomer zoomerRW;
 
 	// for use in AlgebraController
 	final public void mouseMovedOver(GeoElement geo) {
@@ -4897,7 +4842,7 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * Updates highlighting of animation buttons.
-	 * 
+	 *
 	 * @return whether status was changed
 	 */
 	public final boolean setAnimationButtonsHighlighted(boolean flag) {
@@ -4945,6 +4890,12 @@ sb.toString(), getFontAxes(),
 		return axesColor;
 	}
 
+	public void setAxesColor(GColor axesColor) {
+		if (axesColor != null) {
+			this.axesColor = axesColor;
+		}
+	}
+
 	/**
 	 * @return grid color
 	 */
@@ -4952,9 +4903,14 @@ sb.toString(), getFontAxes(),
 		return gridColor;
 	}
 
+	public void setGridColor(GColor gridColor) {
+		if (gridColor != null) {
+			this.gridColor = gridColor;
+		}
+	}
+
 	/**
-	 * @param box
-	 *            box to be added
+	 * @param box box to be added
 	 */
 	public abstract void add(GBox box);
 
@@ -4966,7 +4922,7 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * Initializes basic properties of this view
-	 * 
+	 *
 	 * @param repaint
 	 *            true if should be repainted after
 	 */
@@ -4976,8 +4932,8 @@ sb.toString(), getFontAxes(),
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		setAxesColor(GColor.BLACK); // Michael Borcherds
-									// 2008-01-26 was
-									// darkgray
+		// 2008-01-26 was
+		// darkgray
 		setGridColor(GColor.LIGHT_GRAY);
 		setBackground(GColor.WHITE);
 
@@ -5044,20 +5000,8 @@ sb.toString(), getFontAxes(),
 	}
 
 	/**
-	 * @param mode
-	 *            mode number
-	 * @return whether the mode is pen, pencil or freehand
-	 */
-	public static boolean isPenMode(int mode) {
-		return mode == EuclidianConstants.MODE_PEN
-				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE;
-	}
-
-	private OptionsEuclidian optionPanel = null;
-	private DrawList openedComboBox = null;
-	/**
 	 * sets the option panel for gui update
-	 * 
+	 *
 	 * @param optionPanel
 	 *            option panel
 	 */
@@ -5081,23 +5025,6 @@ sb.toString(), getFontAxes(),
 	}
 
 	/**
-	 * changes style bold <> not bold as necessary
-	 * 
-	 * @param bold
-	 *            true for bold axes
-	 * @param axesLineStyle
-	 *            old style
-	 * @return new style
-	 */
-	public static int getBoldAxes(boolean bold, int axesLineStyle) {
-
-		if (bold) {
-			return axesLineStyle | EuclidianStyleConstants.AXES_BOLD;
-		}
-		return axesLineStyle & (~EuclidianStyleConstants.AXES_BOLD);
-	}
-
-	/**
 	 * @return whether axes are bold
 	 */
 	public boolean areAxesBold() {
@@ -5105,17 +5032,9 @@ sb.toString(), getFontAxes(),
 
 	}
 
-	static double estimateNumberHeight(GFont fontAxes2) {
-		return StringUtil.prototype.estimateHeight("", fontAxes2);
-	}
-
 	double estimateNumberWidth(double d, GFont fontAxes2) {
 		String s = kernel.formatPiE(d, axesNumberFormat[0],
 				StringTemplate.defaultTemplate);
-		return StringUtil.prototype.estimateLength(s, fontAxes2);
-	}
-
-	static double estimateTextWidth(String s, GFont fontAxes2) {
 		return StringUtil.prototype.estimateLength(s, fontAxes2);
 	}
 
@@ -5176,7 +5095,7 @@ sb.toString(), getFontAxes(),
 	}
 
 	/**
-	 * 
+	 *
 	 * @return new euclidian style bar
 	 */
 	abstract protected EuclidianStyleBar newEuclidianStyleBar();
@@ -5193,7 +5112,7 @@ sb.toString(), getFontAxes(),
 	}
 
 	/**
-	 * 
+	 *
 	 * @return 2 for 2D and 3 for 3D
 	 */
 	public int getDimension() {
@@ -5205,18 +5124,18 @@ sb.toString(), getFontAxes(),
 
 	/**
 	 * Scales construction and draws it to g2d.
-	 * 
+	 *
 	 * @param g2d
 	 *            export graphics
 	 * @param scale
 	 *            ratio of desired size and current size of the graphics
-	 * 
+	 *
 	 * @param transparency
 	 *            states if export should be optimized for eps. Note: if this is
 	 *            set to false, no traces are drawn.
 	 * @param exportType
 	 *            SVG, PNG etc
-	 * 
+	 *
 	 */
 	public void exportPaint(GGraphics2D g2d,
 			double scale, boolean transparency, ExportType exportType) {
@@ -5244,34 +5163,6 @@ sb.toString(), getFontAxes(),
 		double py = (-toRealWorldCoordY(getHeight()) + toRealWorldCoordY(0)) / 2;
 
 		setRealWorldCoordSystem(p.getX() - px, p.getX() + px, p.getY() - py, p.getY() + py);
-	}
-
-	public static String getDraggedLabels(ArrayList<String> list) {
-		if (list.size() == 0) {
-			return null;
-		}
-
-		String text = null;
-
-		// single geo
-		if (list.size() == 1) {
-			text = "FormulaText[" + list.get(0) + ", true, true]";
-		}
-
-		// multiple geos, wrap in TableText
-		else {
-			text = "TableText[";
-			for (int i = 0; i < list.size(); i++) {
-
-				text += "{FormulaText[" + list.get(i) + ", true, true]}";
-				if (i < list.size() - 1) {
-					text += ",";
-				}
-			}
-			text += "]";
-		}
-
-		return text;
 	}
 
 	public boolean isViewForPlane() {
@@ -5342,19 +5233,5 @@ sb.toString(), getFontAxes(),
 
 	public boolean isInPlane(CoordSys sys) {
 		return companion.isInPlane(sys);
-	}
-
-	/**
-	 * this method can be called to say the view rendering should be paused
-	 */
-	public void onPause() {
-		// only used in android for now
-	}
-
-	/**
-	 * this method can be called to say the view rendering should be resumed
-	 */
-	public void onResume() {
-		// only used in android for now
 	}
 }
