@@ -53,7 +53,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class ProverBotanasMethod {
 
-	private static long lastClock = 0;
+	private static double lastClock = 0;
 	private static int frames = 0;
 	private static int allfps = 0;
 
@@ -835,10 +835,11 @@ public class ProverBotanasMethod {
 			ProverEngine pe = geoProver.getProverEngine();
 			if (pe == ProverEngine.LOCUS_EXPLICIT
 					|| pe == ProverEngine.LOCUS_IMPLICIT) {
-				long newClock = System.nanoTime();
+				double newClock = statement.getKernel().getApplication()
+						.getMillisecondTime();
 				if (lastClock > 0) {
 					frames++;
-					long fps = 1000000000 / (newClock - lastClock);
+					int fps = (int) (1000 / (newClock - lastClock));
 					allfps += fps;
 					Log.debug("Frame " + frames + ", " + fps + " FPS, average: "
 							+ (allfps / frames) + " FPS");
