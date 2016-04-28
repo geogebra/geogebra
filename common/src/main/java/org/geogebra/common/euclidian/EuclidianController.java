@@ -8563,12 +8563,15 @@ public abstract class EuclidianController {
 			} else {
 				vec = createVectorForTranslation();
 			}
-			getAlgoDispatcher().TranslateND(null, topHit, vec);
+			GeoElement[] ret = getAlgoDispatcher().TranslateND(null, topHit,
+					vec);
 			setTranslateStart(topHit, vec);
 
 			app.setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 			movedGeoVector = vec;
 			moveMode = MOVE_VECTOR_NO_GRID;
+			// set moved geo for store undo on mouse release
+			movedGeoElement = ret[0];
 			return;
 		}
 	}
