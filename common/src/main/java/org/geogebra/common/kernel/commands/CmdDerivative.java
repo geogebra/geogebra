@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -193,6 +194,11 @@ public class CmdDerivative extends CommandProcessor {
 			label = geo.getLabel(StringTemplate.defaultTemplate);
 			for (int i = 0; i < order; i++)
 				label = label + "'";
+		} else {
+			if (geo.getParentAlgorithm() instanceof AlgoDependentGeoCopy) {
+				return getDerivLabel(geo.getParentAlgorithm().getInput(0),
+						order);
+			}
 		}
 
 		return geo.getFreeLabel(label);
