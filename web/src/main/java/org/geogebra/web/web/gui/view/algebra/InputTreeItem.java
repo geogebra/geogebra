@@ -521,53 +521,45 @@ public class InputTreeItem extends RadioTreeItem implements
 				}
 			}
 
-			helpPopup
-					.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-						public void setPosition(int offsetWidth,
-								int offsetHeight) {
-							helpPopup
-									.getElement()
-									.getStyle()
-									.setProperty(
-											"left",
-											(btnHelpToggle.getAbsoluteLeft() + btnHelpToggle
-													.getOffsetWidth()) + "px");
-
-							if (btnHelpToggle.getAbsoluteTop() < Window
-									.getClientHeight() / 2) {
-								helpPopup
-										.getElement()
-										.getStyle()
-										.setProperty(
-												"top",
-												(btnHelpToggle.getParent()
-														.getAbsoluteTop() + btnHelpToggle
-														.getParent()
-														.getOffsetHeight())
-														+ "px");
-								helpPopup.getElement().getStyle()
-										.setProperty("bottom", "auto");
-							} else {
-								helpPopup
-										.getElement()
-										.getStyle()
-										.setProperty(
-												"bottom",
-												(Window.getClientHeight() - btnHelpToggle
-														.getParent()
-														.getAbsoluteTop())
-														+ "px");
-								helpPopup.getElement().getStyle()
-										.setProperty("top", "auto");
-							}
-
-							helpPopup.show();
-						}
-					});
+			updateHelpPosition();
 
 		} else if (helpPopup != null) {
 			helpPopup.hide();
 		}
+	}
+
+	private void updateHelpPosition() {
+		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
+			public void setPosition(int offsetWidth, int offsetHeight) {
+				helpPopup.getElement().getStyle()
+						.setProperty("left",
+								(btnHelpToggle.getAbsoluteLeft()
+										+ btnHelpToggle.getOffsetWidth())
+										+ "px");
+
+				if (btnHelpToggle.getAbsoluteTop() < Window.getClientHeight()
+						/ 2) {
+					helpPopup.getElement().getStyle().setProperty("top",
+							(btnHelpToggle.getParent().getAbsoluteTop()
+									+ btnHelpToggle.getParent()
+											.getOffsetHeight())
+									+ "px");
+					helpPopup.getElement().getStyle().setProperty("bottom",
+							"auto");
+				} else {
+					helpPopup.getElement().getStyle()
+							.setProperty("bottom",
+									(Window.getClientHeight() - btnHelpToggle
+											.getParent().getAbsoluteTop())
+											+ "px");
+					helpPopup.getElement().getStyle().setProperty("top",
+							"auto");
+				}
+
+				helpPopup.show();
+			}
+		});
+
 	}
 
 	public void replaceXButtonDOM() {
@@ -1047,6 +1039,17 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	public EquationEditor getEquationEditor() {
 		return editor;
+	}
+
+	@Override
+	public void onResize() {
+		super.onResize();
+		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
+			if (helpPopup != null && helpPopup.isShowing()) {
+				updateHelpPosition();
+			}
+
+		}
 	}
 
 }
