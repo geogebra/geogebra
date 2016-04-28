@@ -1617,10 +1617,11 @@ public class Ggb2giac {
 
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b
 		// don't want normal(), eg Line[(a,b),(c,d)]
+		// X=point(xcoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)),ycoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)),zcoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)))
 		p("Line.2",
 				"[[ggblinearg0:=%0],[ggblinearg1:=%1],"
 						+ "when(is3dpoint(ggblinearg0),"
-						+ "when(is3dpoint(ggblinearg1),"
+						+ "when(ggblinearg1[0]=='pnt',"
 						// case Line[3dPoint,3dPoint]
 						+ "regroup(equation(cat(\"X=\",ggblinearg0,\"+\u03BB*\",point(xcoord(ggblinearg1-ggblinearg0),ycoord(ggblinearg1-ggblinearg0),zcoord(ggblinearg1-ggblinearg0))))),"
 						// case Line[3dPoint,Vect]
