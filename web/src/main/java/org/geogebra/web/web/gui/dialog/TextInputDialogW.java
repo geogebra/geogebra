@@ -186,20 +186,14 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 						}
 					} else {
 
-						// // Michael Borcherds 2008-04-27 changed to RealWorld
-						// not absolute
-						// startpoint contains mouse coords
-						// t.setAbsoluteScreenLoc(euclidianView.toScreenCoordX(startPoint.inhomX),
-						// euclidianView.toScreenCoordY(startPoint.inhomY));
-						// t.setAbsoluteScreenLocActive(true);
 						if (rw) {
 							Coords coords = startPoint.getInhomCoordsInD3();
 							t.setRealWorldLoc(coords.getX(), coords.getY());
 							t.setAbsoluteScreenLocActive(false);
 						} else {
 							Coords coords = startPoint.getInhomCoordsInD3();
-							t.setAbsoluteScreenLoc((int) coords.getX(),
-									(int) coords.getY());
+							t.setAbsoluteScreenLoc(activeView.toScreenCoordX(coords.getX()),
+									activeView.toScreenCoordY(coords.getY()));
 							t.setAbsoluteScreenLocActive(true);
 
 						}

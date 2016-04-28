@@ -649,11 +649,12 @@ public class EuclidianControllerCompanion {
 	 * 
 	 * @param loc
 	 *            point
-	 * @return true if set to real world coords
+	 * @return true if set to real world coords, false if set to absolute
+	 *         position on screen
 	 */
 	public boolean setCoordsToMouseLoc(GeoPointND loc) {
 		loc.setCoords(ec.xRW, ec.yRW, 1.0);
-		return true;
+		return false;
 	}
 
 }
