@@ -22,7 +22,8 @@ public class gen {
   }
 
   protected void finalize() {
-    System.err.println("gen.java: ignoring finalize()");
+		// Too verbose:
+		// System.err.println("gen.java: ignoring finalize()");
     // delete();
   }
 
