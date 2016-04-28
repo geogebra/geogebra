@@ -3897,7 +3897,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-356 and MOB-503
 		case MOBILE_PROPERTIES_VIEW:
-			return false;
+			return prerelease;
 
 		// MOB-369
 		case MOBILE_WEB_VIEW:
