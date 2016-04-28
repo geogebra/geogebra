@@ -131,9 +131,7 @@ public class CASgiacW extends CASgiac implements Evaluate {
 			exp = s;
 		}
 
-		Log.debug("giac  input:" + exp);
 		String ret = nativeEvaluateRaw(exp, true);
-		Log.debug("giac output:" + ret);
 
 		return ret;
 	}

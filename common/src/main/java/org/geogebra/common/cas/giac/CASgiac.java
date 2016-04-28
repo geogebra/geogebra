@@ -166,7 +166,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		String exp = input;
 
-		Log.debug("giac eval: " + exp);
+
 		String result = evaluate(exp, getTimeoutMilliseconds());
 
 		// FIXME: This check is too heuristic: in giac.js we can get results
@@ -192,7 +192,6 @@ public abstract class CASgiac implements CASGenericInterface {
 			}
 		}
 
-		Log.debug("CASgiac.evaluateRaw: result: " + result);
 		return result;
 	}
 
