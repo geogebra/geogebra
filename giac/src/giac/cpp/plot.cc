@@ -7407,7 +7407,7 @@ namespace giac {
   static gen translationpoint(const gen & a,const gen & b,GIAC_CONTEXT){
     if (has_i(a) || (a.type==_VECT && a._VECTptr->size()>3)){
       // change made 19 mai 2015 for e.g. translation(1+i,circle(0,1))
-      if (!b.is_symb_of_sommet(at_cercle) && evalf(b,1,contextptr).type==_SYMB)
+      if (!is_analytic(b) && !b.is_symb_of_sommet(at_cercle) && evalf(b,1,contextptr).type==_SYMB)
 	return gensizeerr(contextptr);
     }
     return a+b;

@@ -6202,7 +6202,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       return gensizeerr(contextptr);
     if (//&& args.subtype==_SEQ__VECT 
 	args._VECTptr->size()==2)
-      return arg(args._VECTptr->front()+cst_i*args._VECTptr->back(),contextptr);
+      return arg(args._VECTptr->back()+cst_i*args._VECTptr->front(),contextptr);
     return gensizeerr(contextptr); //apply(args,_atan2,contextptr);
   }
   static const char _atan2_s []="atan2";

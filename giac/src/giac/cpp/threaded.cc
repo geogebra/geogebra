@@ -23,6 +23,7 @@ using namespace std;
 #include "monomial.h"
 #include "modpoly.h"
 #include "giacintl.h"
+#include "input_parser.h"
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
@@ -77,7 +78,7 @@ mpz_class smod(const mpz_class & a,int reduce){
   }
   static const char _debug_infolevel_s []="debug_infolevel";
   static define_unary_function_eval (__debug_infolevel,&_debug_infolevel,_debug_infolevel_s);
-  define_unary_function_ptr5( at_debug_infolevel ,alias_at_debug_infolevel,&__debug_infolevel,0,true);
+  define_unary_function_ptr5( at_debug_infolevel ,alias_at_debug_infolevel,&__debug_infolevel,0,T_DIGITS);
 
   gen _step_infolevel(const gen & g0,GIAC_CONTEXT){
     if ( g0.type==_STRNG && g0.subtype==-1) return  g0;

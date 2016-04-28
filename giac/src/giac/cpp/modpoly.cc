@@ -5673,19 +5673,38 @@ namespace giac {
       *t=*s;
       ++t;
     }
+    sb=&target.front()+target.size();
+    for (;t!=sb;++t)
+      *t=0;
+  }
+
+  void makemodulop(int * a,int as,int modulo){
+    int *aend=a+as;
+    const int p3=469762049;
+    if (modulo==p3){
+      for (;a!=aend;++a)
+	*a %= p3;
+    }
+    else {
+      for (;a!=aend;++a){
+	*a -= (unsigned(modulo-*a)>>31)*modulo;
+      }
+    }
   }
 
   // res=a*b mod p
-  bool fft2mult(const vector<int> & a,const vector<int> & b,vector<int> & res,int modulo,vector<int> & W,vector<int> & T,vector<int> & fftmult_p,vector<int> & fftmult_q,bool reverseatend,bool dividebyn){
+  bool fft2mult(int ablinfnorm,const vector<int> & a,const vector<int> & b,vector<int> & res,int modulo,vector<int> & W,vector<int> & fftmult_p,vector<int> & fftmult_q,bool reverseatend,bool dividebyn){
     int as=a.size(),bs=b.size(),rs=as+bs-1;
     int logrs=sizeinbase2(rs);
     if (logrs>25) return false;
     int n=(1u<<logrs);
     W.reserve(n);
-    T.resize(n);
     res.resize(n);
 #if 1
-    fftmult_p.clear(); fftmult_p.resize(n); fftmult_q.clear(); fftmult_q.resize(n);
+    //fftmult_p.clear();
+    fftmult_p.resize(n);
+    //fftmult_q.clear();
+    fftmult_q.resize(n);
     reverse_copy(a,fftmult_p);
     reverse_copy(b,fftmult_q);
 #else
@@ -5695,14 +5714,18 @@ namespace giac {
     reverse(fftmult_q.begin(),fftmult_q.end());
     fftmult_q.resize(n);
 #endif
+    if (ablinfnorm>modulo){
+      makemodulop(&fftmult_p.front(),as,modulo);
+      makemodulop(&fftmult_q.front(),bs,modulo);
+    }
     // r:=1227303670; w:=powmod(r,2^(27-logrs),p1); 
     // fft(p,w,p1);fft(q,w,p1); res=p.*q; ifft(res,w,p1);
     const int p1=2013265921; int r=1227303670;
     if (modulo==p1){
       if (debug_infolevel>1)
 	CERR << CLOCK()*1e-6 << " + begin" << endl;
-      makepositive(&fftmult_p.front(),as,p1);
-      makepositive(&fftmult_q.front(),bs,p1);
+      //makepositive(&fftmult_p.front(),as,p1);
+      //makepositive(&fftmult_q.front(),bs,p1);
       if (debug_infolevel>1)
 	CERR << CLOCK()*1e-6 << " + end" << endl;
       int w=powmod(r,(1u<<(27-logrs)),p1);
@@ -5748,8 +5771,8 @@ namespace giac {
     if (modulo==p2){// p2 := 1811939329 ; r:=814458146; order 2^26 
       int w=powmod(r,(1u<<(26-logrs)),p2);
       W.clear();
-      makepositive(&fftmult_p.front(),as,p2);
-      makepositive(&fftmult_q.front(),bs,p2);
+      //makepositive(&fftmult_p.front(),as,p2);
+      //makepositive(&fftmult_q.front(),bs,p2);
 #if 0
       fft4wp2(W,n,w);
       fft4p2nopermafter(&fftmult_p.front(),n,&W.front());
@@ -5791,8 +5814,8 @@ namespace giac {
     if (modulo==p3){// order 2^26
       int w=powmod(r,(1u<<(26-logrs)),p3);
       W.clear();
-      makepositive(&fftmult_p.front(),as,p3);
-      makepositive(&fftmult_q.front(),bs,p3);
+      //makepositive(&fftmult_p.front(),as,p3);
+      //makepositive(&fftmult_q.front(),bs,p3);
       fft2wp3(W,n,w);
       fft2p3nopermafter(&fftmult_p.front(),n,&W.front());
       fft2p3nopermafter(&fftmult_q.front(),n,&W.front());
@@ -5821,8 +5844,8 @@ namespace giac {
     if (modulo==p4){// order 2^25
       int w=powmod(r,(1u<<(25-logrs)),p4);
       W.clear();
-      makepositive(&fftmult_p.front(),as,p4);
-      makepositive(&fftmult_q.front(),bs,p4);
+      //makepositive(&fftmult_p.front(),as,p4);
+      //makepositive(&fftmult_q.front(),bs,p4);
       fft2wp4(W,n,w);
       fft2p4nopermafter(&fftmult_p.front(),n,&W.front());
       fft2p4nopermafter(&fftmult_q.front(),n,&W.front());
@@ -6115,11 +6138,14 @@ namespace giac {
     vecteur::const_iterator it=v.begin(),itend=v.end();
     res.clear();
     res.reserve(itend-it);
+    int tmp;
     for (;it!=itend;++it){
       if (it->type==_ZINT)
-	res.push_back(modulo(*it->_ZINTptr,p));
+	tmp=modulo(*it->_ZINTptr,p);
       else
-	res.push_back(it->val % p);
+	tmp=it->val % p;
+      tmp += (unsigned(tmp)>>31)*p; // make it positive now!
+      res.push_back(tmp);
     }
     return;
     const int p1=2013265921,p2=1811939329;
@@ -6148,22 +6174,21 @@ namespace giac {
     gen P,Q;
     vecteur * res;
     int prime;
-    vector<int> * a,*b,*resp1,*resp2,*resp3;
+    vector<int> * a,*b,*resp1,*resp2,*resp3,*W,*tmp_p,*tmp_q;
   };
 
-  bool fftmult(const modpoly & p,const modpoly & q,const gen &P,const gen &Q,modpoly & pq,int modulo,	vector<int> & a,vector<int>&b,vector<int> &resp1,vector<int>&resp2,vector<int> & resp3,bool compute_pq);
+  bool fftmult(const modpoly & p,const modpoly & q,const gen &P,const gen &Q,modpoly & pq,int modulo,	vector<int> & a,vector<int>&b,vector<int> &resp1,vector<int>&resp2,vector<int> & resp3, vector<int> & W,vector<int> &tmp_p,vector<int> &tmp_q,bool compute_pq);
 
   void * do_thread_fftmult(void * ptr_){
     thread_fftmult_t * ptr=(thread_fftmult_t *) ptr_;
     modpoly curres;
-    if (fftmult(*ptr->p,*ptr->q,ptr->P,ptr->Q,curres,ptr->prime,*ptr->a,*ptr->b,*ptr->resp1,*ptr->resp2,*ptr->resp3,false))
+    if (fftmult(*ptr->p,*ptr->q,ptr->P,ptr->Q,curres,ptr->prime,*ptr->a,*ptr->b,*ptr->resp1,*ptr->resp2,*ptr->resp3,*ptr->W,*ptr->tmp_p,*ptr->tmp_q,false))
       return ptr;
     return 0;
   }
 
   // Product of polynomial with integer coeffs using FFT
-  bool fftmult(const modpoly & p,const modpoly & q,const gen &P,const gen &Q,modpoly & pq,int modulo,	vector<int> & a,vector<int>&b,vector<int> &resp1,vector<int>&resp2,vector<int> & resp3,bool compute_pq){
-    vector<int> W,T,tmp_p,tmp_q;
+  bool fftmult(const modpoly & p,const modpoly & q,const gen &P,const gen &Q,modpoly & pq,int modulo, vector<int> & a,vector<int>&b,vector<int> &resp1,vector<int>&resp2,vector<int> & resp3, vector<int> & W,vector<int> &tmp_p,vector<int> &tmp_q,bool compute_pq){
     int ps=int(p.size()),qs=int(q.size()),mindeg=giacmin(ps-1,qs-1);
     int rs=ps+qs-1;
     int logrs=sizeinbase2(rs);
@@ -6181,9 +6206,9 @@ namespace giac {
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin Kronecker gmp conversion " << rs << endl;
 	vecteur2vectorint(p,modulo,a);
-	makepositive(&a.front(),ps,modulo);
+	//makepositive(&a.front(),ps,modulo);
 	vecteur2vectorint(q,modulo,b);
-	makepositive(&b.front(),qs,modulo);
+	//makepositive(&b.front(),qs,modulo);
 	mpz_t tmp1,tmp2;
 	mpz_init2(tmp1,shift*rs);
 	mpz_init2(tmp2,shift*rs);
@@ -6226,14 +6251,16 @@ namespace giac {
       }
       double test=PQd*mindeg;
       if (test<p2*double(p1)/2 || modulo==p1 || modulo==p2 || modulo==p3 || modulo==p4){
-	vecteur2vectorint(p,modulo?modulo:p1,a);
-	vecteur2vectorint(q,modulo?modulo:p1,b);
+	int reduce=modulo?modulo:p1;
+	vecteur2vectorint(p,reduce,a);
+	vecteur2vectorint(q,reduce,b);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << ( (modulo==p2 || modulo==p3 || modulo==p4)?" begin fft2 p234 ":" begin fft2 p1 ") << rs << endl;
 	if (modulo==p2 || modulo==p3 || modulo==p4) 
-	  fft2mult(a,b,resp1,modulo,W,T,tmp_p,tmp_q,false,true);
-	else
-	  fft2mult(a,b,resp1,p1,W,T,tmp_p,tmp_q,false,true);
+	  fft2mult(reduce,a,b,resp1,modulo,W,tmp_p,tmp_q,false,true);
+	else {
+	  fft2mult(reduce,a,b,resp1,p1,W,tmp_p,tmp_q,false,true);
+	}
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << ( (modulo==p2 || modulo==p3 || modulo==p4)?" end fft2 p234 ":" end fft2 p1 ") << rs << endl;
 	if (test>=p1/2 && modulo!=p1 && modulo!=p2 && modulo!=p3 && modulo!=p4) {
@@ -6243,7 +6270,8 @@ namespace giac {
 	    vecteur2vectorint(p,p2,a);
 	    vecteur2vectorint(q,p2,b);
 	  }
-	  fft2mult(a,b,resp2,p2,W,T,tmp_p,tmp_q,false,true);
+	  reduce=modulo?modulo:p2;
+	  fft2mult(reduce,a,b,resp2,p2,W,tmp_p,tmp_q,false,true);
 	  if (debug_infolevel)
 	    CERR << CLOCK()*1e-6 << " end fft2 p2 " << rs << endl;
 	  int p1modinv=invmod(p1,p2);
@@ -6288,13 +6316,13 @@ namespace giac {
 	vecteur2vectorint(q,modulo,b);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp1 " << rs << endl;
-	fft2mult(a,b,resp1,p1,W,T,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp1,p1,W,tmp_p,tmp_q,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp2 " << rs << endl;
-	fft2mult(a,b,resp2,p2,W,T,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp2,p2,W,tmp_p,tmp_q,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp4 " << rs << endl;
-	fft2mult(a,b,resp3,p4,W,T,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp3,p4,W,tmp_p,tmp_q,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin ichinrem " << modulo << endl;
 	int n1=invmod(n,p1); if (n1<0) n1+=p1;
@@ -6335,13 +6363,13 @@ namespace giac {
 	vecteur2vectorint(q,modulo,b);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp1 " << rs << endl;
-	fft2mult(a,b,resp1,p1,W,T,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp1,p1,W,tmp_p,tmp_q,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp2 " << rs << endl;
-	fft2mult(a,b,resp2,p2,W,T,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp2,p2,W,tmp_p,tmp_q,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp3 " << rs << endl;
-	fft2mult(a,b,resp3,p3,W,T,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp3,p3,W,tmp_p,tmp_q,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin ichinrem " << modulo << endl;
 	int n1=invmod(n,p1); if (n1<0) n1+=p1;
@@ -6382,13 +6410,13 @@ namespace giac {
       if (debug_infolevel)
 	CERR << CLOCK()*1e-6 << " begin fft2 int, p1 " << rs << endl;
       // first prime used is p1
-      fftmult(p,q,P,Q,pq,p1,a,b,resp1,resp2,resp3,false);
+      fftmult(p,q,P,Q,pq,p1,a,b,resp1,resp2,resp3,W,tmp_p,tmp_q,false);
       if (debug_infolevel)
 	CERR << CLOCK()*1e-6 << " end fft2 int p1 " << rs << endl;
       gen bound=p1;
       if (debug_infolevel)
 	CERR << CLOCK()*1e-6 << " begin fft2 int p2 " << rs << endl;
-      fftmult(p,q,P,Q,pq,p2,a,b,resp2,resp1,resp3,false);
+      fftmult(p,q,P,Q,pq,p2,a,b,resp2,resp1,resp3,W,tmp_p,tmp_q,false);
       if (debug_infolevel)
 	CERR << CLOCK()*1e-6 << " end fft2 int p2 " << rs << endl;
       bound=p2*bound;
@@ -6442,9 +6470,9 @@ namespace giac {
 	vector<pthread_t> tab(nthreads);
 	vector<thread_fftmult_t> multparam(nthreads);
 	vector<bool> busy(nthreads,false);
-	vector< vector<int> > av(nthreads,vector<int>(n)),bv(nthreads,vector<int>(n)),resp1v(nthreads,vector<int>(n)),resp2v(nthreads,vector<int>(n)),resp3v(nthreads,vector<int>(n));
+	vector< vector<int> > av(nthreads,vector<int>(n)),bv(nthreads,vector<int>(n)),resp1v(nthreads,vector<int>(n)),resp2v(nthreads,vector<int>(n)),resp3v(nthreads,vector<int>(n)),Wv(nthreads,vector<int>(n)),tmp_pv(nthreads,vector<int>(n)),tmp_qv(nthreads,vector<int>(n));
 	for (int j=0;j<nthreads;++j){
-	  thread_fftmult_t tmp={&p,&q,P,Q,&curres,0,&av[j],&bv[j],&resp1v[j],&resp2v[j],&resp3v[j]};
+	  thread_fftmult_t tmp={&p,&q,P,Q,&curres,0,&av[j],&bv[j],&resp1v[j],&resp2v[j],&resp3v[j],&Wv[j],&tmp_pv[j],&tmp_qv[j]};
 	  multparam[j]=tmp;
 	}
 	int i=0;
@@ -6487,7 +6515,7 @@ namespace giac {
 	curres.clear();
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " BEGIN FFT2 MOD " << prime << endl;
-	fftmult(p,q,P,Q,curres,prime,a,b,resp1,resp2,resp3,false);
+	fftmult(p,q,P,Q,curres,prime,a,b,resp1,resp2,resp3,W,tmp_p,tmp_q,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " END FFT2 MOD " << prime << endl;
 	ichinrem_inplace(pq,resp1,bound,prime); // pq=ichinrem(pq,curres,bound,prime);
@@ -6513,9 +6541,9 @@ namespace giac {
   }
 
   void fftmult(const modpoly & p,const modpoly & q,modpoly & pq,int modulo){
-    vector<int> a,b,resp1,resp2,resp3;
+    vector<int> a,b,resp1,resp2,resp3,W,tmp_p,tmp_q;
     gen P=norm(p,context0), Q=norm(q,context0); // coeff assumed to be integers -> no context
-    fftmult(p,q,P,Q,pq,modulo,a,b,resp1,resp2,resp3,true);
+    fftmult(p,q,P,Q,pq,modulo,a,b,resp1,resp2,resp3,W,tmp_p,tmp_q,true);
   }
 
   modpoly fftmult(const modpoly & p,const modpoly & q){
