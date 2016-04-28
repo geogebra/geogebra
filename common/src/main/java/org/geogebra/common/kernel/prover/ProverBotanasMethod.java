@@ -53,6 +53,10 @@ import org.geogebra.common.util.debug.Log;
  */
 public class ProverBotanasMethod {
 
+	private static long lastClock = 0;
+	private static int frames = 0;
+	private static int allfps = 0;
+
 	private static HashMap<List<Variable>, GeoElement> botanaVarsInv;
 
 	/**
@@ -824,13 +828,28 @@ public class ProverBotanasMethod {
 
 		private void algebraicTranslation(GeoElement statement,
 				Prover prover) {
+
 			geoStatement = statement;
 			geoProver = prover;
+
+			ProverEngine pe = geoProver.getProverEngine();
+			if (pe == ProverEngine.LOCUS_EXPLICIT
+					|| pe == ProverEngine.LOCUS_IMPLICIT) {
+				long newClock = System.nanoTime();
+				if (lastClock > 0) {
+					frames++;
+					long fps = 1000000000 / (newClock - lastClock);
+					allfps += fps;
+					Log.debug("Frame " + frames + ", " + fps + " FPS, average: "
+							+ (allfps / frames) + " FPS");
+				}
+				lastClock = newClock;
+			}
+
 			/*
 			 * Make sure that the prover has the same statement. FIXME: this is
 			 * redundant, it would be enough to set the prover here.
-			 */
-			prover.setStatement(statement);
+			 */ prover.setStatement(statement);
 			setHypotheses();
 			if (result != null) {
 				return;
