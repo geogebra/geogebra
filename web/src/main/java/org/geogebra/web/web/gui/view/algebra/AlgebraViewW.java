@@ -414,7 +414,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	private void repaintSliderNode(TreeItem ti) {
 		GeoElement geo = (GeoElement) ti.getUserObject();
-		if ((geo instanceof GeoNumeric || geo instanceof GeoBoolean)
+		if ((geo instanceof GeoNumeric
+				&& !(app.has(Feature.AV_DEFINITION_AND_VALUE)
+						&& geo.needToShowBothRowsInAV())
+				|| geo instanceof GeoBoolean)
 				&& geo.isIndependent()
 				&& ti instanceof RadioTreeItem) {
 			RadioTreeItem.as(ti).repaint();

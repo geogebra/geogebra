@@ -1658,8 +1658,8 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void cancelDV() {
 		Log.debug("CANCEL DV");
-		LayoutUtilW.replace(ihtml, definitionPanel, latexItem);
-
+		// LayoutUtilW.replace(ihtml, definitionPanel, latexItem);
+		doUpdate();
 	}
 
 	/**
