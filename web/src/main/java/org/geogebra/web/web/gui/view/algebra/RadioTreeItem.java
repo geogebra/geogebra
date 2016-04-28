@@ -614,7 +614,8 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private boolean isGeoFraction() {
-		return geo instanceof GeoNumeric && geo.getDefinition().isFraction();
+		return geo instanceof GeoNumeric && geo.getDefinition() != null
+				&& geo.getDefinition().isFraction();
 	}
 
 	private boolean updateDefinitionPanel() {

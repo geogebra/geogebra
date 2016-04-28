@@ -1784,6 +1784,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public boolean needToShowBothRowsInAV() {
-		return super.needToShowBothRowsInAV() || getDefinition().isFraction();
+		return super.needToShowBothRowsInAV()
+				|| (getDefinition() != null && getDefinition().isFraction());
 	}
 }
