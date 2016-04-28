@@ -1690,7 +1690,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	public void resize() {
 		Log.debug("++++++++++++++++++++AlgebraViewW.resize()");
 		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
-			this.getInputTreeItem().setShowInputHelpPanel(false);
+			// this.getInputTreeItem().setShowInputHelpPanel(false);
 		}
 
 		if (!hasAvex()) {
