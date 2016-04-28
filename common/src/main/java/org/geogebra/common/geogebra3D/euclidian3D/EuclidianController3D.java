@@ -1894,7 +1894,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		switch (mode) {
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
 			ret = intersectionCurve(hits);
-			if (changedKernel) { // remove current intersection curve
+			if (ret != null) { // remove current intersection curve
 				intersectionCurveList.remove(resultedIntersectionCurve);
 				view3D.setPreview(null);
 			}
@@ -1985,7 +1985,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 					.switchModeForProcessMode(hits, isControlDown, callback);
 		}
 
-		return endOfSwitchModeForProcessMode(ret, changedKernel, callback);
+		return endOfSwitchModeForProcessMode(ret, changedKernel
+				|| (ret != null), callback);
 
 	}
 
