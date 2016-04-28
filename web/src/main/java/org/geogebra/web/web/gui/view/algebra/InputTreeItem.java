@@ -501,7 +501,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			dummyLabel.addStyleName("hiddenInputLabel");
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
 					.getGuiManager().getInputHelpPanel();
-			helpPanel.updateGUI();
+
 
 			if (helpPopup == null && app != null) {
 				helpPopup = new InputBarHelpPopup(this.app, this);
@@ -521,14 +521,14 @@ public class InputTreeItem extends RadioTreeItem implements
 				}
 			}
 
-			updateHelpPosition();
+			updateHelpPosition(helpPanel);
 
 		} else if (helpPopup != null) {
 			helpPopup.hide();
 		}
 	}
 
-	private void updateHelpPosition() {
+	private void updateHelpPosition(final InputBarHelpPanelW helpPanel) {
 		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 			public void setPosition(int offsetWidth, int offsetHeight) {
 				helpPopup.getElement().getStyle()
@@ -536,26 +536,30 @@ public class InputTreeItem extends RadioTreeItem implements
 								(btnHelpToggle.getAbsoluteLeft()
 										+ btnHelpToggle.getOffsetWidth())
 										+ "px");
-
-				if (btnHelpToggle.getAbsoluteTop() < Window.getClientHeight()
+				int maxOffsetHeight;
+				int totalHeight = Window.getClientHeight();
+				if (btnHelpToggle.getAbsoluteTop() < totalHeight 
 						/ 2) {
+					int top = (btnHelpToggle.getParent().getAbsoluteTop()
+							+ btnHelpToggle.getParent().getOffsetHeight());
+					maxOffsetHeight = totalHeight - top;
 					helpPopup.getElement().getStyle().setProperty("top",
-							(btnHelpToggle.getParent().getAbsoluteTop()
-									+ btnHelpToggle.getParent()
-											.getOffsetHeight())
+							top
 									+ "px");
 					helpPopup.getElement().getStyle().setProperty("bottom",
 							"auto");
 				} else {
+					int bottom = (totalHeight
+							- btnHelpToggle.getParent().getAbsoluteTop());
+					maxOffsetHeight = bottom;
 					helpPopup.getElement().getStyle()
 							.setProperty("bottom",
-									(Window.getClientHeight() - btnHelpToggle
-											.getParent().getAbsoluteTop())
+									bottom
 											+ "px");
 					helpPopup.getElement().getStyle().setProperty("top",
 							"auto");
 				}
-
+				helpPanel.updateGUI(maxOffsetHeight);
 				helpPopup.show();
 			}
 		});
@@ -1045,8 +1049,12 @@ public class InputTreeItem extends RadioTreeItem implements
 	public void onResize() {
 		super.onResize();
 		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
+			Log.debug("resize");
 			if (helpPopup != null && helpPopup.isShowing()) {
-				updateHelpPosition();
+				InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
+						.getGuiManager().getInputHelpPanel();
+				updateHelpPosition(helpPanel);
+
 			}
 
 		}

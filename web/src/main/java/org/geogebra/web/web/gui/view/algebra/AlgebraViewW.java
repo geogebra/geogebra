@@ -1691,7 +1691,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		if (!hasAvex()) {
 			return;
 		}
-
+		if (this.getInputTreeItem() != null) {
+			this.getInputTreeItem().onResize();
+		}
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti instanceof RadioTreeItem) {

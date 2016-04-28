@@ -419,7 +419,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		if (show) {
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app.getGuiManager()
 			        .getInputHelpPanel();
-			helpPanel.updateGUI();
+			helpPanel.updateGUI(AppW.getRootComponent(app).getOffsetHeight());
 			setHelpPopup();
 		
 			helpPopup
