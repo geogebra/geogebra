@@ -70,7 +70,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoUserInputElement;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.LimitedPath;
@@ -5391,26 +5390,24 @@ new GPoint(row, column));
 
 	private boolean handleUserInput(LinkedHashMap<String, String> attrs) {
 		// Application.debug(attrs.toString());
-		if (!(geo instanceof GeoUserInputElement)) {
+		if (!(geo instanceof GeoImplicit)) {
 			Log.warn("wrong element type for <userinput>: " + geo.getClass());
 			return false;
 		}
 		try {
 			if (geo.isIndependent()) {
 				String value = attrs.get("value");
-				if (value == null)
-					return false;
-				ValidExpression ve = parser.parseGeoGebraExpression(value);
-				geo.setDefinition(ve.wrap());
+				if (value != null) {
+					ValidExpression ve = parser.parseGeoGebraExpression(value);
+					geo.setDefinition(ve.wrap());
+				}
 			}
-			if (attrs.get("show") != null && attrs.get("show").equals("true"))
-				((GeoUserInputElement) geo).setInputForm();
-			else
-				((GeoUserInputElement) geo).setExtendedForm();
-			if (attrs.get("valid") != null) {
-				((GeoUserInputElement) geo)
-						.setValidInputForm(attrs.get("valid").equals("true"));
+			if (attrs.get("show") != null && attrs.get("show").equals("true")) {
+				((GeoImplicit) geo).setInputForm();
+			} else {
+				((GeoImplicit) geo).setExtendedForm();
 			}
+
 			return true;
 		} catch (Exception e) {
 			Log.debug(e.getMessage());

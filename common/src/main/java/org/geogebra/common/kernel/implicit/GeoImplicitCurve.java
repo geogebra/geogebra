@@ -563,6 +563,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			sb.append("]");
 			sb.append("\" />\n");
 		}
+		sb.append("\t<userinput show=\"");
+		sb.append(isInputForm());
+		sb.append("\"/>");
 	}
 
 	/**
