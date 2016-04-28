@@ -173,10 +173,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			var forceResize = function() {
 				that.@org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract.EuclidianPanel::forceResize()()
 			};
-			$wnd.onfocus = function(event) {
-				//console.log("force resize");
+			$wnd.addEventListener("focus", function(event) {
 				forceResize();
-			}
+			});
 		}-*/ ;
 
 		private void forceResize() {
