@@ -721,7 +721,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (updateValuePanel(geo.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplateMQ))) {
+				StringTemplate.latexTemplate))) {
 			outputPanel.add(valuePanel);
 			plainTextItem.add(outputPanel);
 
