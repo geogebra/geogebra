@@ -1697,7 +1697,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 *            event coords
+	 * event coords
+	 *
 	 * @return whether textfield was clicked
 	 */
 	public boolean textfieldClicked(int x, int y, PointerEventType type) {
@@ -1942,7 +1943,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 			break;
 
-		default:
+			default:
 			drawLayers[layer].add(d);
 			break;
 
@@ -5342,19 +5343,5 @@ sb.toString(), getFontAxes(),
 
 	public boolean isInPlane(CoordSys sys) {
 		return companion.isInPlane(sys);
-	}
-
-	/**
-	 * this method can be called to say the view rendering should be paused
-	 */
-	public void onPause() {
-		// only used in android for now
-	}
-
-	/**
-	 * this method can be called to say the view rendering should be resumed
-	 */
-	public void onResume() {
-		// only used in android for now
 	}
 }
