@@ -329,6 +329,12 @@ abstract class QuadTree {
 
 		public void mergeTo(PointList pl) {
 			this.pts.addLast(this.end);
+			if (pl == this) {
+				MyPoint startCopy = new MyPoint(this.start.x, this.start.y,
+						true);
+				this.pts.addLast(startCopy);
+				return;
+			}
 			pl.start.lineTo = true;
 			this.pts.addLast(pl.start);
 			this.end = pl.end;
