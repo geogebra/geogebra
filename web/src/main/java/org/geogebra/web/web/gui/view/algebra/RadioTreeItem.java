@@ -1369,23 +1369,11 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void updateLaTeX(String text) {
 		if (!isDefinitionAndValue()) {
+			ihtml.clear();
 			c = DrawEquationW.paintOnCanvas(geo, text, c, getFontSize());
+			ihtml.add(c);
 			return;
 		}
-
-		// String eqn = text;
-		// boolean twoRows = false;
-		// if (geo.needToShowBothRowsInAV()) {
-		// buildDefinitionAndValue();
-		// eqn = getTextForEditing(false, StringTemplate.latexTemplate);
-		// twoRows = true;
-		// }
-		//
-		// c = DrawEquationW.paintOnCanvas(geo, eqn, c, getFontSize());
-		//
-		// if (twoRows) {
-		// valC = DrawEquationW.paintOnCanvas(geo, text, valC, getFontSize());
-		// }
 	}
 
 	private void replaceToCanvas(String text, Widget old) {
