@@ -1411,7 +1411,7 @@ __GGB__keysVar.bm.menu = {
     "Distribution.Poisson": "Poisson",
     "Distribution.Scale": "Scale",
     "Distribution.Shape": "Shape",
-    "Distribution.StudentT": "Student",
+    "Distribution.StudentT": "kalanden",
     "Distribution.Weibull": "Weibull",
     "DoYouWantToSaveYourChanges": "Do you want to save your changes?",
     "DontDeleteTool": "Don't Delete Tool",

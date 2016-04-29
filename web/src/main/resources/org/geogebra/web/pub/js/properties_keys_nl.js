@@ -1253,7 +1253,7 @@ __GGB__keysVar.nl.menu = {
     "CircleArc3.Help": "Middelpunt en twee punten op de boog",
     "CircleArcTools": "Knoppen Cirkels en bogen",
     "CircleAxisPoint": "Cirkel met as door punt",
-    "CircleAxisPoint.Help": "Selecteer als, vervolgens punt op cirkel",
+    "CircleAxisPoint.Help": "Selecteer as, vervolgens punt op cirkel",
     "CirclePointRadius": "Cirkel met middelpunt en straal",
     "CirclePointRadius.Help": "Middelpunt en straal",
     "CirclePointRadiusDirection": "Cirkel met middelpunt, straal en richting",
