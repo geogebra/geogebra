@@ -94,9 +94,11 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		//AG updateFonts()
 
 		btnHelpToggle = new ToggleButton(
-				new NoDragImage(GuiResources.INSTANCE.input_help_left().getSafeUri().asString(),20),
+				new NoDragImage(GuiResources.INSTANCE.menu_icon_help()
+						.getSafeUri().asString(), 20),
 				//new Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()), 
-				new NoDragImage(GuiResources.INSTANCE.input_help_up().getSafeUri().asString(),20));
+				new NoDragImage(GuiResources.INSTANCE.menu_icon_help()
+						.getSafeUri().asString(), 20));
 		//new Image(AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri().asString()));
 		btnHelpToggle.addStyleName("inputHelp-toggleButton");
 
@@ -432,6 +434,8 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 					helpPopup.show();
 				}
 			});
+			((InputBarHelpPanelW) app.getGuiManager().getInputHelpPanel())
+					.focusCommand(inputField.getCommand());
 
 		} else if (helpPopup != null) {
 			helpPopup.hide();

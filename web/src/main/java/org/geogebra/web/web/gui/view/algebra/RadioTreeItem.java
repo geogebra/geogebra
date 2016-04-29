@@ -1822,7 +1822,7 @@ public class RadioTreeItem extends AVTreeItem
 
 			public String getCurrentCommand() {
 				return getEquationEditor() == null ? null
-						: getEquationEditor().getCureentCommand();
+						: getEquationEditor().getCurrentCommand();
 			}
 			
 		};

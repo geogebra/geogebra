@@ -470,7 +470,7 @@ public class EquationEditor {
 		return newValue;
 	}
 
-	public String getCureentCommand() {
+	public String getCurrentCommand() {
 		this.updateCurrentWord(true);
 		return curWord.toString();
 	}

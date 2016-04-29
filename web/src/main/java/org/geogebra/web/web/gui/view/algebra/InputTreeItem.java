@@ -155,6 +155,12 @@ public class InputTreeItem extends RadioTreeItem implements
 									public void execute() {
 										Log.debug("+++++++++++++++ showInputHelpPanel comes");
 										setShowInputHelpPanel(true);
+										((InputBarHelpPanelW) app
+												.getGuiManager()
+												.getInputHelpPanel())
+														.focusCommand(
+																getEquationEditor()
+																		.getCurrentCommand());
 									}
 								});
 					} else {

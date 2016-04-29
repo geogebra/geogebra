@@ -135,6 +135,9 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	// Getters/Setters & Event Handlers
 	// =================================================================
 
+	/**
+	 * Opens browser with online help
+	 */
 	protected void openOnlineHelp() {
 
 		if (getSelectedCommand() == null) {
@@ -150,6 +153,9 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 	}
 
+	/**
+	 * @return local command name
+	 */
 	public String getSelectedCommand() {
 		if (indexTree == null || indexTree.getSelectedItem() == null
 		        || indexTree.getSelectedItem().getChildCount() > 0) {
@@ -432,6 +438,32 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 
 		return ret;
+	}
+
+	/**
+	 * @param currentCommand
+	 *            command to be selected
+	 */
+	public void focusCommand(String currentCommand) {
+		if (indexTree == null || currentCommand == null) {
+			return;
+		}
+		for (int i = 0; i < indexTree.getItemCount(); i++) {
+			TreeItem group = indexTree.getItem(i);
+			if (group == null) {
+				continue;
+			}
+			for (int j = 0; j < group.getChildCount(); j++) {
+				if (group.getChild(j).getElement().getInnerText()
+						.equalsIgnoreCase(currentCommand)) {
+					group.setState(true);
+					indexTree.setSelectedItem(group.getChild(j));
+					updateDetailPanel();
+					return;
+				}
+			}
+		}
+
 	}
 
 }
