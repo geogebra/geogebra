@@ -551,14 +551,13 @@ public class InputTreeItem extends RadioTreeItem implements
 				} else {
 					int bottom = (totalHeight
 							- btnHelpToggle.getParent().getAbsoluteTop());
-					// we already have -60 elsewhere to account for the toolbar;
-					// -20 gives us extra margin
-					maxOffsetHeight = btnHelpToggle.getParent().getAbsoluteTop()
-							- 20;
-					helpPopup.getElement().getStyle()
+					maxOffsetHeight = bottom > 0 ? totalHeight - bottom
+							: totalHeight;
+					helpPopup
+							.getElement()
+							.getStyle()
 							.setProperty("bottom",
-									bottom
-											+ "px");
+									(bottom > 0 ? bottom : 0) + "px");
 					helpPopup.getElement().getStyle().setProperty("top",
 							"auto");
 				}
