@@ -618,13 +618,29 @@ public class RadioTreeItem extends AVTreeItem
 				&& geo.getDefinition().isFraction();
 	}
 
-	private boolean updateDefinitionPanel() {
+	private boolean isLatexTrivial() {
+		if (!latex) {
+			return false;
+		}
 
+		String text = getTextForEditing(false, StringTemplate.latexTemplate);
+		String[] eq = text.split("=");
+		Log.debug("EQ " + eq);
+
+		String leftSide = eq[0].trim();
+		String rightSide = eq[1].replaceFirst("\\\\left", "")
+				.replaceFirst("\\\\right", "").replaceAll(" ", "");
+		Log.debug("EQ rightside " + rightSide + "equals? "
+				+ leftSide.equals(rightSide));
+		return leftSide.equals(rightSide);
+	}
+	private boolean updateDefinitionPanel() {
+		editCanceled = false;
 		if (latex || isGeoFraction()) {
 			String text = getTextForEditing(false,
 					StringTemplate.latexTemplate);
-
 			definitionPanel.clear();
+
 			c = latexToCanvas(text);
 			definitionPanel.add(c);
 		} else if (geo != null) {
@@ -634,7 +650,6 @@ public class RadioTreeItem extends AVTreeItem
 					geo.getDefinition(StringTemplate.defaultTemplate), sb);
 
 		}
-		editCanceled = false;
 		return true;
 	}
 
@@ -697,7 +712,7 @@ public class RadioTreeItem extends AVTreeItem
 				return;
 			}
 
-			if (geo.needToShowBothRowsInAV()) {
+			if (geo.needToShowBothRowsInAV() && !isLatexTrivial()) {
 				buildItemWithTwoRows();
 			} else {
 				buildItemWithSingleRow();
