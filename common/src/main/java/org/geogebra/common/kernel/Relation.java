@@ -24,6 +24,8 @@ import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -171,6 +173,9 @@ public class Relation {
 				rr[i].callback = rm;
 			}
 		}
+
+		// just send first row to event
+		app.dispatchEvent(new Event(EventType.RELATION_TOOL, null, rr[0].info));
 
 		tablePane.showDialog(GeoGebraConstants.APPLICATION_NAME + " - "
 				+ app.getLocalization().getCommand("Relation"), rr, ra
