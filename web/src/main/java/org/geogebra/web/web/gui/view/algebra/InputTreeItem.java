@@ -552,12 +552,12 @@ public class InputTreeItem extends RadioTreeItem implements
 					int bottom = (totalHeight
 							- btnHelpToggle.getParent().getAbsoluteTop());
 					maxOffsetHeight = bottom > 0 ? totalHeight - bottom
-							: totalHeight;
+							: totalHeight - 10;
 					helpPopup
 							.getElement()
 							.getStyle()
 							.setProperty("bottom",
-									(bottom > 0 ? bottom : 0) + "px");
+									(bottom > 0 ? bottom : 10) + "px");
 					helpPopup.getElement().getStyle().setProperty("top",
 							"auto");
 				}
