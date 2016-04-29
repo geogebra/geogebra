@@ -191,6 +191,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 		getElement().addClassName("algebraView");
 
+		// needed to have an element with tabindex > 0 with focus to catch
+		// keyboard events
+		this.getElement().setAttribute("tabindex", "5000");
 		this.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
 		this.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		this.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
