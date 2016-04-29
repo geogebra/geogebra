@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.GeoSurfaceReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
@@ -1591,7 +1592,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				boolean old = kernel.getConstruction().isSuppressLabelsActive();
 				kernel.getConstruction().setSuppressLabelCreation(true);
 				GeoElement[] line = kernel.getAlgebraProcessor()
-						.doProcessValidExpression(outputVE);
+						.doProcessValidExpression(outputVE,
+								new EvalInfo(false));
 				kernel.getConstruction().setSuppressLabelCreation(old);
 				newTwinGeo = line[0];
 			} catch (MyError e) {
@@ -1892,7 +1894,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			copy.setLabel(ve.getLabel());
 			kernel.getAlgebraProcessor().setDisableGcd(true);
 			GeoElement[] ggbEval = kernel.getAlgebraProcessor()
-					.doProcessValidExpression(copy);
+					.doProcessValidExpression(copy, new EvalInfo(false));
 			
 			if (ggbEval != null) {
 				if(!allowFunction && (ggbEval[0] instanceof FunctionalNVar) && !wasFunction)

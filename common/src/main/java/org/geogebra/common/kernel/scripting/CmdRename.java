@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
@@ -28,7 +29,7 @@ public class CmdRename extends CmdScripting {
 	@Override
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-
+		EvalInfo argInfo = new EvalInfo(false);
 		switch (n) {
 		case 2:
 			// adapted from resArgs()
@@ -40,12 +41,12 @@ public class CmdRename extends CmdScripting {
 
 			// resolve first argument
 			args[0].resolveVariables();
-			arg[0] = resArg(args[0])[0];
+			arg[0] = resArg(args[0], argInfo)[0];
 
 			try {
 				// resolve second argument
 				args[1].resolveVariables();
-				arg[1] = resArg(args[1])[0];
+				arg[1] = resArg(args[1], argInfo)[0];
 			} catch (Error e) {
 				// if there's a problem with the second argument, just wrap in
 				// quotes in case it's a color

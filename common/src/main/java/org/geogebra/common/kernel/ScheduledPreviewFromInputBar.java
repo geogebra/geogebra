@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -70,7 +71,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
 			return;
 		}
-
+		EvalInfo info = new EvalInfo(false, true).withScripting(false);
 		Log.debug("preview for: " + input);
 		boolean silentModeOld = this.kernel.isSilentMode();
 		previewGeos = null;
@@ -87,7 +88,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					previewGeos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(ve,
 									false, ErrorHelper.silent(),
-									false, null, true);
+									false, null,
+									info);
 					if (previewGeos != null) {
 						for (GeoElement geo : previewGeos) {
 							geo.setSelectionAllowed(false);

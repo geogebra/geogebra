@@ -46,7 +46,7 @@ public abstract class CmdScripting extends CommandProcessor {
 	 * @param c
 	 *            command
 	 */
-	public void performAndClean(Command c) {
+	public final void performAndClean(Command c) {
 		GeoElement[] arg = perform(c);
 		for (int i = 0; arg != null && i < arg.length; i++)
 			if (arg[i] != null && !arg[i].isLabelSet()
@@ -55,7 +55,8 @@ public abstract class CmdScripting extends CommandProcessor {
 	}
 
 	@Override
-	public final GeoElement[] process(Command c) throws MyError,
+	public final GeoElement[] process(Command c, EvalInfo info)
+			throws MyError,
 			CircularDefinitionException {
 		GeoScriptAction sa = new GeoScriptAction(cons, this, c);
 		return new GeoElement[] { sa };

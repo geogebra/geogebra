@@ -54,7 +54,7 @@ public class CmdIf extends CommandProcessor {
 	 * ret.resolveVariables(); return ret; } return super.simplify(c); }
 	 */
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		if (n < 2) {
@@ -71,7 +71,7 @@ public class CmdIf extends CommandProcessor {
 				return specialFunction(c, varName, fv);
 			}
 		}
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		if (arg[0] instanceof GeoBoolean) {
 			// standard case: simple boolean condition
 			ArrayList<GeoBoolean> cond = new ArrayList<GeoBoolean>();

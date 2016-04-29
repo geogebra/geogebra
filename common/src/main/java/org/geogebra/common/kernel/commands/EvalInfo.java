@@ -9,6 +9,8 @@ public class EvalInfo {
 
 	private boolean labelOutput;
 	private TreeMap<String, String> casMap;
+	private boolean redefineIndependent = true;
+	private boolean scripting = true;
 
 	/**
 	 * @param labelOut
@@ -29,6 +31,11 @@ public class EvalInfo {
 		this.labelOutput = labelOut;
 	}
 
+	public EvalInfo(boolean labelOutput, boolean redefineIndependent) {
+		this.labelOutput = labelOutput;
+		this.redefineIndependent = redefineIndependent;
+	}
+
 	/**
 	 * @return whether outputs should be labeled
 	 */
@@ -41,6 +48,28 @@ public class EvalInfo {
 	 */
 	public TreeMap<String, String> getCASMap() {
 		return casMap;
+	}
+
+	public boolean mayRedefineIndependent() {
+		return redefineIndependent;
+	}
+
+	public EvalInfo withScripting(boolean scripting) {
+		EvalInfo ret = copy();
+		ret.scripting = scripting;
+		return ret;
+
+	}
+
+	public boolean isScripting() {
+		return scripting;
+	}
+
+	private EvalInfo copy() {
+		EvalInfo ret = new EvalInfo(this.labelOutput, this.redefineIndependent);
+		ret.scripting = this.scripting;
+		ret.casMap = this.casMap;
+		return ret;
 	}
 
 }

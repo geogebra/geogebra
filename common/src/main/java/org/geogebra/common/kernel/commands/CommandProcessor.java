@@ -105,6 +105,9 @@ public abstract class CommandProcessor {
 		return process(c);
 	}
 
+	protected final GeoElement[] resArgs(Command c) throws MyError {
+		return resArgs(c, new EvalInfo(false));
+	}
 	/**
 	 * Resolves arguments. When argument produces mor geos, only first is taken.
 	 * 
@@ -115,7 +118,9 @@ public abstract class CommandProcessor {
 	 *             if processing of some argument causes error (i.e. wrong
 	 *             syntax of subcommand)
 	 */
-	protected final GeoElement[] resArgs(Command c) throws MyError {
+	protected final GeoElement[] resArgs(Command c, EvalInfo cmdInfo)
+			throws MyError {
+		EvalInfo info = cmdInfo.withScripting(false);
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
@@ -132,7 +137,7 @@ public abstract class CommandProcessor {
 
 			// resolve i-th argument and get GeoElements
 			// use only first resolved argument object for result
-			result[i] = resArg(arg[i])[0];
+			result[i] = resArg(arg[i], info)[0];
 		}
 
 		// remove added variables from construction
@@ -220,7 +225,7 @@ public abstract class CommandProcessor {
 
 				// resolve i-th argument and get GeoElements
 				// use only first resolved argument object for result
-				result[i] = resArg(arg[i])[0];
+				result[i] = resArg(arg[i], new EvalInfo(false))[0];
 
 			}
 		}
@@ -239,8 +244,9 @@ public abstract class CommandProcessor {
 	 *             if processing argument causes error (i.e. wrong syntax of
 	 *             subcommand)
 	 */
-	protected final GeoElement[] resArg(ExpressionNode arg) throws MyError {
-		GeoElement[] geos = algProcessor.processExpressionNode(arg);
+	protected final GeoElement[] resArg(ExpressionNode arg, EvalInfo info)
+			throws MyError {
+		GeoElement[] geos = algProcessor.processExpressionNode(arg, info);
 		if (geos != null) {
 			return geos;
 		}
@@ -297,7 +303,8 @@ kernelA.getEulerNumber(), localVar));
 		if (initPos != varPos) {
 			boolean oldval = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			NumberValue initValue = (NumberValue) resArg(c.getArgument(initPos))[0];
+			NumberValue initValue = (NumberValue) resArg(c.getArgument(initPos),
+					new EvalInfo(false))[0];
 			cons.setSuppressLabelCreation(oldval);
 			num.setValue(initValue.getDouble());
 		}
@@ -353,7 +360,7 @@ kernelA.getEulerNumber(), localVar));
 		int numArgs = c.getArgumentNumber();
 
 		Construction cmdCons = c.getKernel().getConstruction();
-
+		EvalInfo argInfo = new EvalInfo(false);
 		for (int varPos = 1; varPos < numArgs; varPos += 2) {
 			String localVarName = c.getVariableName(varPos);
 			if (localVarName == null
@@ -374,7 +381,8 @@ kernelA.getEulerNumber(), localVar));
 
 			GeoList gl = null;
 			if (c.getArgumentNumber() > varPos + 1) {
-				gl = (GeoList) resArg(c.getArgument(varPos + 1))[0];
+				gl = (GeoList) resArg(c.getArgument(varPos + 1),
+						argInfo)[0];
 			}
 
 			if (gl == null) {
@@ -397,7 +405,7 @@ kernelA.getEulerNumber(), localVar));
 			// remove local variable name from kernel again
 
 		}
-		GeoElement[] arg = resArg(c.getArgument(0));
+		GeoElement[] arg = resArg(c.getArgument(0), argInfo);
 
 		return arg[0];
 	}
@@ -421,7 +429,8 @@ kernelA.getEulerNumber(), localVar));
 		int numArgs = c.getArgumentNumber();
 
 		Construction cmdCons = c.getKernel().getConstruction();
-		GeoElement geo = resArg(c.getArgument(numArgs - 2))[0];
+		EvalInfo argInfo = new EvalInfo(false);
+		GeoElement geo = resArg(c.getArgument(numArgs - 2), argInfo)[0];
 		if (geo != null && !(geo instanceof GeoList)) {
 			throw argErr(app, c.getName(), c.getArgument(numArgs - 2));
 		}
@@ -487,9 +496,9 @@ kernelA.getEulerNumber(), localVar));
 
 
 
-		number[0] = (GeoNumeric) resArg(c.getArgument(numArgs - 1))[0];
+		number[0] = (GeoNumeric) resArg(c.getArgument(numArgs - 1), argInfo)[0];
 
-		GeoElement[] arg = resArg(c.getArgument(0));
+		GeoElement[] arg = resArg(c.getArgument(0), argInfo);
 
 		return arg[0];
 	}
@@ -562,14 +571,14 @@ kernelA.getEulerNumber(), localVar));
 			cmdCons.addLocalVariable(localVarName[i], num[i]);
 			replaceZvarIfNeeded(localVarName[i], c, varPos[0]);
 		}
-
+		EvalInfo argInfo = new EvalInfo(false);
 		// initialize first value of local numeric variable from initPos
 		for (int i = 0; i < varPos.length; i++) {
 			if (initPos[i] != varPos[i]) {
 				boolean oldval = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
 				NumberValue initValue = (NumberValue) resArg(c
-						.getArgument(initPos[i]))[0];
+						.getArgument(initPos[i]), argInfo)[0];
 				cons.setSuppressLabelCreation(oldval);
 				num[i].setValue(initValue.getDouble());
 			}

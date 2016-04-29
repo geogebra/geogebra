@@ -404,7 +404,8 @@ public class AlgebraProcessor {
 			final AsyncOperation<GeoElement> callback, ErrorHandler handler) {
 		String oldLabel, newLabel;
 		GeoElement[] result;
-
+		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
+				redefineIndependent);
 
 			app.getCompanion().storeViewCreators();
 			oldLabel = geo.getLabel(StringTemplate.defaultTemplate);
@@ -460,7 +461,7 @@ public class AlgebraProcessor {
 
 				result = processAlgebraCommandNoExceptionHandling(newValue,
 						false, handler, true, changeCallback,
-						redefineIndependent);
+					info);
 
 				cons.registerFunctionVariable(null);
 				return;
@@ -468,7 +469,7 @@ public class AlgebraProcessor {
 				newValue.setLabel(oldLabel);
 				// rename to oldLabel to enable overwriting
 				result = processAlgebraCommandNoExceptionHandling(newValue,
-						false, handler, true, null, redefineIndependent);
+					false, handler, true, null, info);
 				result[0].setLabel(newLabel); // now we rename
 				app.getCompanion().recallViewCreators();
 				if (storeUndoInfo)
@@ -606,7 +607,8 @@ public class AlgebraProcessor {
 			}
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
 					handler,
-					autoCreateSliders, callback0, true);
+					autoCreateSliders, callback0,
+					new EvalInfo(cons.isSuppressLabelsActive(), true));
 
 		} catch (Exception e) {
 
@@ -641,7 +643,7 @@ public class AlgebraProcessor {
 			final ErrorHandler handler,
 			boolean autoCreateSliders,
 			final AsyncOperation<GeoElement[]> callback0,
-			final boolean redefineIndependent) {
+			final EvalInfo info) {
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		ve.traverse(collecter);
@@ -687,7 +689,8 @@ public class AlgebraProcessor {
 			try {
 				ValidExpression cp = ve.deepCopy(kernel);
 				cp.setLabels(ve.getLabels());
-				geoElements = processValidExpression(cp, redefineIndependent);
+				geoElements = processValidExpression(cp,
+						info);
 				if (storeUndo && geoElements != null)
 					app.storeUndoInfo();
 			} catch (Throwable ex) {
@@ -774,7 +777,7 @@ public class AlgebraProcessor {
 								try {
 									geos = processValidExpression(storeUndo,
 											handler,
-											ve2, redefineIndependent);
+											ve2, info);
 								} catch (MyError ee) {
 									ErrorHelper.handleError(ee,
 											ve2.toString(
@@ -812,7 +815,7 @@ public class AlgebraProcessor {
 
 		// process ValidExpression (built by parser)
 		GeoElement[] geos = processValidExpression(storeUndo, handler, ve,
-				redefineIndependent);
+				info);
 		if (callback0 != null)
 			callback0.callback(geos);
 		return geos;
@@ -970,12 +973,12 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processValidExpression(boolean storeUndo,
 			ErrorHandler handler, ValidExpression ve,
-			boolean redefineIndependent)
+			EvalInfo info)
 	{
 		GeoElement[] geoElements = null;
 		try {
 
-			geoElements = processValidExpression(ve, redefineIndependent);
+			geoElements = processValidExpression(ve, info);
 			if (storeUndo && geoElements != null)
 				app.storeUndoInfo();
 		} catch (MyError e) {
@@ -1482,7 +1485,8 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve)
 			throws MyError, Exception {
-		return processValidExpression(ve, true);
+		return processValidExpression(ve,
+				new EvalInfo(!cons.isSuppressLabelsActive(), true));
 	}
 
 	/**
@@ -1499,7 +1503,8 @@ public class AlgebraProcessor {
 	 * @return resulting geos
 	 */
 	public GeoElement[] processValidExpression(ValidExpression ve,
-			boolean redefineIndependent) throws MyError, Exception {
+			EvalInfo info)
+			throws MyError, Exception {
 
 		// check for existing labels
 		String[] labels = ve.getLabels();
@@ -1532,7 +1537,7 @@ public class AlgebraProcessor {
 		// we have to make sure that the macro mode is
 		// set back at the end
 		try {
-			ret = doProcessValidExpression(ve);
+			ret = doProcessValidExpression(ve, info);
 
 			if (ret == null) { // eg (1,2,3) running in 2D
 				Log.warn("Unhandled ValidExpression : " + ve);
@@ -1548,7 +1553,7 @@ public class AlgebraProcessor {
 			// a changeable replaceable is not redefined:
 			// it gets the value of ret[0]
 			// (note: texts are always redefined)
-			if (!redefineIndependent && replaceable.isChangeable()
+			if (!info.mayRedefineIndependent() && replaceable.isChangeable()
 					&& !(replaceable.isGeoText())) {
 				try {
 					replaceable.set(ret[0]);
@@ -1644,21 +1649,26 @@ public class AlgebraProcessor {
 	 * 
 	 * @param ve
 	 *            expression to process
+	 * @param info
+	 *            flags for processing
 	 * @return array of geos
 	 * @throws MyError
 	 *             if syntax error occurs
 	 * @throws CircularDefinitionException
 	 *             if circular definition occurs
 	 */
-	public final GeoElement[] doProcessValidExpression(final ValidExpression ve)
+	public final GeoElement[] doProcessValidExpression(final ValidExpression ve,
+			EvalInfo info)
 			throws MyError, CircularDefinitionException {
 		GeoElement[] ret = null;
 
 		if (ve instanceof ExpressionNode) {
-			ret = processExpressionNode((ExpressionNode) ve);
+			ret = processExpressionNode((ExpressionNode) ve, info);
 			if (ret != null && ret.length > 0
 					&& ret[0] instanceof GeoScriptAction) {
-				((GeoScriptAction) ret[0]).perform();
+				if (info.isScripting()) {
+					((GeoScriptAction) ret[0]).perform();
+				}
 				return new GeoElement[] {};
 			} else if (ret != null && ret.length > 0
 					&& ret[0] instanceof GeoList) {
@@ -2466,7 +2476,9 @@ public class AlgebraProcessor {
 	}
 
 
-
+	public final GeoElement[] processExpressionNode(ExpressionNode node) {
+		return processExpressionNode(node, new EvalInfo(true));
+	}
 	/**
 	 * @param node
 	 *            expression
@@ -2474,7 +2486,8 @@ public class AlgebraProcessor {
 	 * @throws MyError
 	 *             on invalid operation
 	 */
-	public GeoElement[] processExpressionNode(ExpressionNode node)
+	public final GeoElement[] processExpressionNode(ExpressionNode node,
+			EvalInfo info)
 			throws MyError {
 		ExpressionNode n = node;
 		// command is leaf: process command
@@ -2483,7 +2496,7 @@ public class AlgebraProcessor {
 			if (leaf instanceof Command) {
 				Command c = (Command) leaf;
 				c.setLabels(n.getLabels());
-				return cmdDispatcher.processCommand(c, new EvalInfo(true));
+				return cmdDispatcher.processCommand(c, info);
 			} else if (leaf instanceof Equation) {
 				Equation eqn = (Equation) leaf;
 				eqn.setLabels(n.getLabels());

@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -32,7 +33,7 @@ public class CmdFromBase extends CommandProcessor {
 		switch (n) {
 		case 2:
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
-
+			EvalInfo argInfo = new EvalInfo(false);
 			// following part is very similar to normal resArgs,
 			// but allows autocorrection for eg FromBase[2,101010]
 			cons.setSuppressLabelCreation(true);
@@ -42,13 +43,13 @@ public class CmdFromBase extends CommandProcessor {
 			GeoElement[] arg = new GeoElement[2];
 
 			argE[1].resolveVariables();
-			arg[1] = resArg(argE[1])[0];
+			arg[1] = resArg(argE[1], argInfo)[0];
 			if (!(arg[1] instanceof GeoNumberValue))
 				throw argErr(app, c.getName(), arg[1]);
 			String str = argE[0].toString(StringTemplate.defaultTemplate);
 			try {
 				argE[0].resolveVariables();
-				arg[0] = resArg(argE[0])[0];
+				arg[0] = resArg(argE[0], argInfo)[0];
 			} catch (Throwable t) {
 				// do nothing
 			}

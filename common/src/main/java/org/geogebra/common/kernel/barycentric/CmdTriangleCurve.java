@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -40,8 +41,9 @@ public class CmdTriangleCurve extends CommandProcessor {
 			tb = null,
 			tc = null;
 			arg = new GeoElement[4];
-			for (int i = 0; i < 3; i++)
-				arg[i] = resArg(c, i);
+			for (int i = 0; i < 3; i++) {
+				arg[i] = resArg(c, i, new EvalInfo(false));
+			}
 			ta = new GeoNumeric(cons);
 			tb = new GeoNumeric(cons);
 			tc = new GeoNumeric(cons);
@@ -88,7 +90,8 @@ public class CmdTriangleCurve extends CommandProcessor {
 		cons.removeLocalVariable("C");
 	}
 
-	private final GeoElement resArg(Command c, int pos) throws MyError {
+	private final GeoElement resArg(Command c, int pos, EvalInfo info)
+			throws MyError {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
@@ -99,7 +102,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 
 		// resolve i-th argument and get GeoElements
 		// use only first resolved argument object for result
-		GeoElement result = resArg(c.getArgument(pos))[0];
+		GeoElement result = resArg(c.getArgument(pos), info)[0];
 
 		cons.setSuppressLabelCreation(oldMacroMode);
 		return result;
