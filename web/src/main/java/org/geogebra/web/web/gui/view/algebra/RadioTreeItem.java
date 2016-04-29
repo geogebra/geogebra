@@ -1224,16 +1224,8 @@ public class RadioTreeItem extends AVTreeItem
 				// original text was latex.
 
 				updateItemColor();
-				if (!isInputTreeItem() && c != null) {
-					ihtml.clear();
-					ihtml.add(c);
-				} else {
-					ihtml.clear();
-					ihtml.add(getPlainTextItem());
-					// ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
-					// latexItem.getElement());
-				}
-
+				ihtml.clear();
+				ihtml.add(getPlainTextItem());
 				latex = false;
 			}
 		}
