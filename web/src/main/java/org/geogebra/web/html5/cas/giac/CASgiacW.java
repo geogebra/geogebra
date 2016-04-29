@@ -96,6 +96,9 @@ public class CASgiacW extends CASgiac implements Evaluate {
 			return "?";
 		}
 		
+		// Make sure that indices are replaced in the same way as usual:
+		s = casParser.replaceIndices(s, true);
+
 		if (Browser.externalCAS()) {
 			// native Giac so need same initString and fix as desktop
 			nativeEvaluateRaw(initString, Log.logger != null);
