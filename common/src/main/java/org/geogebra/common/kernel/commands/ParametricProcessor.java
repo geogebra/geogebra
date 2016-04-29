@@ -412,9 +412,12 @@ public class ParametricProcessor {
 	}
 
 	private GeoNumberValue piTimes(int i, Construction cons) {
-		return new AlgoDependentNumber(cons, new ExpressionNode(kernel,
+		ExpressionNode en = new ExpressionNode(kernel,
 				new MyDouble(kernel, i), Operation.MULTIPLY, new MyDouble(
-						kernel, Math.PI)), false).getNumber();
+						kernel, Math.PI));
+		GeoNumeric ret = new GeoNumeric(cons, i * Math.PI);
+		ret.setDefinition(en);
+		return ret;
 	}
 
 	/**

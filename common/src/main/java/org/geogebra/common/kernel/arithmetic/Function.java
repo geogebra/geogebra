@@ -427,6 +427,8 @@ public class Function extends FunctionNVar implements
 	 * @param rootFindingSimplification
 	 *            for root finding factors may be simplified, e.g. sqrt(x) may
 	 *            be simplified to x
+	 * @param avoidCAS
+	 *            true to only use internal code without calling CAS
 	 * @return all non-constant polynomial factors of this function
 	 * 
 	 */

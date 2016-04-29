@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -1460,8 +1461,7 @@ kernel, left,
 					} else if (right.isExpressionNode()) {
 						rightStr = ((ExpressionNode) right).getCASstring(tpl,
 								symbolic);
-					} else if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF)
-							&& right instanceof MyList) {
+					} else if (shaveBrackets()) {
 						rightStr = ((MyList) right).toString(tpl, !symbolic,
 								false);
 					} else {
@@ -1593,8 +1593,7 @@ kernel, left,
 				} else
 					rightStr = ((GeoElement) right).getLabel(tpl);
 			} else {
-				if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF)
-						&& right instanceof MyList) {
+				if (shaveBrackets()) {
 					rightStr = ((MyList) right).toString(tpl, false, false);
 				} else {
 					rightStr = right.toString(tpl);
@@ -1603,6 +1602,15 @@ kernel, left,
 		}
 		return ExpressionNode.operationToString(left, right, operation,
 				leftStr, rightStr, false, tpl, kernel);
+	}
+
+	private boolean shaveBrackets() {
+		// TODO Auto-generated method stub
+		return (operation == Operation.FUNCTION_NVAR
+				|| operation == Operation.ELEMENT_OF
+				|| (operation == Operation.VEC_FUNCTION
+						&& left instanceof GeoSurfaceCartesianND))
+				&& (right instanceof MyList);
 	}
 
 	/** like toString() but with current values of variables */
@@ -1633,8 +1641,7 @@ kernel, left,
 
 		String rightStr = null;
 		if (right != null) {
-			if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF)
-					&& right instanceof MyList) {
+			if (shaveBrackets()) {
 				rightStr = ((MyList) right).toString(tpl, true, false);
 			} else {
 				rightStr = right.toValueString(tpl);
@@ -1660,8 +1667,7 @@ kernel, left,
 
 		String rightStr = null;
 		if (right != null) {
-			if ((operation == Operation.FUNCTION_NVAR || operation == Operation.ELEMENT_OF)
-					&& right instanceof MyList) {
+			if (shaveBrackets()) {
 				rightStr = ((MyList) right).toString(tpl, true, false);
 			} else {
 				rightStr = right.toOutputValueString(tpl);

@@ -1,7 +1,6 @@
 package org.geogebra.common.main.error;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
-import org.geogebra.common.kernel.commands.MyException;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
@@ -12,9 +11,8 @@ public class ErrorHelper {
 		e.printStackTrace();
 		if (e instanceof CircularDefinitionException) {
 			handler.showError(loc.getError("CircularDefinition"));
-		} else if (e instanceof MyException) {
-			handler.showError(loc.getError("InvalidInput") + ":\n"
-					+ ((MyException) e).getInput());
+		} else if (e.getCause() instanceof MyError) {
+			handleError((MyError) e.getCause(), null, loc, handler);
 		} else if (loc.getReverseCommand(handler.getCurrentCommand()) != null) {
 
 			handleCommandError(handler.getCurrentCommand(), handler, loc);

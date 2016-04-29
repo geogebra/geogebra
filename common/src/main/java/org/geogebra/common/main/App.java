@@ -1,5 +1,12 @@
 package org.geogebra.common.main;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -31,7 +38,6 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.kernel.AnimationManager;
-import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
@@ -45,7 +51,6 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
-import org.geogebra.common.kernel.commands.MyException;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
@@ -77,13 +82,6 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.Vector;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -1576,41 +1574,9 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public final void showError(Exception e, CommandInputField f) {
-		Localization loc = getLocalization();
-		if (e instanceof MyException) {
-			int err = ((MyException) e).getErrorType();
-			if (err == MyException.INVALID_INPUT) {
-
-				// eg type
-				// seg<enter><enter> to show syntax for Segment
-				String command = f == null ? null : getReverseCommand(f
-						.getCommand());
-				if (command != null) {
-
-					getErrorHandler().showCommandError(
-							command,
-							loc.getError("InvalidInput") + "\n\n"
-									+ loc.getPlain("Syntax") + ":\n"
-									+ loc.getCommandSyntax(command));
-					return;
-				}
-				if (e.getCause() instanceof MyError) {
-					showError((MyError) e.getCause());
-					return;
-				}
-
-			} else if (err == MyException.IMBALANCED_BRACKETS) {
-				showError((MyError) e.getCause());
-				return;
-
-			}
-		} else if (e instanceof CircularDefinitionException) {
-			showError(loc.getError("CircularDefinition"));
-			return;
-		}
 		// can't work out anything better, just show "Invalid Input"
 		e.printStackTrace();
-		showError(loc.getError("InvalidInput"));
+		showError(getLocalization().getError("InvalidInput"));
 	}
 
 	/**
