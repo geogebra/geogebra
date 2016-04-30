@@ -27,7 +27,7 @@ public class CASgiacW extends CASgiac implements Evaluate {
 	/** kernel */
 	Kernel kernel;
 	/** flag indicating that JS file was loaded */
-	boolean jsLoaded = false;
+	boolean casLoaded = false;
 	private Evaluate giac;
 
 	/**
@@ -51,7 +51,7 @@ public class CASgiacW extends CASgiac implements Evaluate {
 		if (Browser.externalCAS()) {
 			Log.debug("switching to external");
 			// CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
-			this.jsLoaded = true;
+			this.casLoaded = true;
 		} else if (Browser.supportsJsCas()) {
 			initialize();
 		}
@@ -60,7 +60,7 @@ public class CASgiacW extends CASgiac implements Evaluate {
 
 	@Override
 	public String evaluateCAS(String exp) {
-		if (!jsLoaded) {
+		if (!casLoaded) {
 			return "?";
 		}
 		try {
@@ -81,7 +81,7 @@ public class CASgiacW extends CASgiac implements Evaluate {
 
 	@Override
 	public synchronized String evaluate(String s, long timeoutMilliseconds) {
-		if (!jsLoaded) {
+		if (!casLoaded) {
 			return "?";
 		}
 		
@@ -157,7 +157,7 @@ public class CASgiacW extends CASgiac implements Evaluate {
 			public void onSuccess() {
 				Log.debug("giac.js loading success");
 				JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
-				CASgiacW.this.jsLoaded = true;
+				CASgiacW.this.casLoaded = true;
 				CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 			}
 
