@@ -749,19 +749,22 @@ public abstract class Prover {
 				}
 			}
 
+			int zeros;
 			if (categories != null) {
 				size = categories.length;
 				minimum = maximum;
 				// normalize
 				maximum /= number_of_nodes;
 				mean = (double) number_of_nodes / size;
+				zeros = size - frequencies.size();
 			} else {
 				size = number_of_nodes - 1;
 				mean /= size;
+				zeros = 0;
 			}
 
 			/* computing rest of statistics */
-			int zeros = size - frequencies.size();
+
 			/* ((3/7-1/23)^2+(1/7-1/23)^2*4+18*(1/23)^2)/23 == .00925 */
 			variation_coefficient = 0;
 			/*
@@ -771,14 +774,20 @@ public abstract class Prover {
 			entropy = 0;
 			Iterator<Object> it2 = frequencies.keySet().iterator();
 			while (it2.hasNext()) {
-				Object algo = it2.next();
-				int freq = frequencies.get(algo);
+				Object node = it2.next();
+				int freq = frequencies.get(node);
 				if (freq < minimum) {
 					minimum = freq;
 				}
 				double rel_freq = freq / (double) number_of_nodes;
-				double value = rel_freq - 1.0 / size;
-				variation_coefficient += value * value;
+				double value;
+				if (node instanceof Integer) {
+					value = ((Integer) node) - mean;
+					variation_coefficient += freq * value * value;
+				} else {
+					value = rel_freq - 1.0 / size;
+					variation_coefficient += value * value;
+				}
 				entropy -= rel_freq * Math.log(rel_freq) / Math.log(2);
 			}
 			if (categories != null) {
@@ -805,7 +814,6 @@ public abstract class Prover {
 						rel_freq = 0;
 					}
 					csvAdd("NF(" + category + ")", rel_freq);
-
 				}
 			}
 
