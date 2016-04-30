@@ -608,7 +608,7 @@ public class AlgebraProcessor {
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
 					handler,
 					autoCreateSliders, callback0,
-					new EvalInfo(cons.isSuppressLabelsActive(), true));
+					new EvalInfo(!cons.isSuppressLabelsActive(), true));
 
 		} catch (Exception e) {
 
