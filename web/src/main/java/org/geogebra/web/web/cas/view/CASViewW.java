@@ -65,7 +65,6 @@ public class CASViewW extends CASView implements PrintableW {
 
 			public void run() {
 				getCAS().initCurrentCAS();
-				getCAS().getCurrentCAS().reset();
 				GuiManagerW gm = (GuiManagerW) app.getGuiManager();
 				if (gm != null) {
 					gm.reInitHelpPanel(true);

@@ -93,13 +93,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	/**
-	 * Resets the cas and unbinds all variable and function definitions.
-	 */
-	public void reset() {
-		getCurrentCAS().reset();
-	}
-
-	/**
 	 * @return Giac
 	 */
 	private synchronized CASGenericInterface getGiac() {

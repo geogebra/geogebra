@@ -30,11 +30,6 @@ public interface CASGenericInterface extends SettingListener {
 	String translateAssignment(final String label, final String body);
 
 	/**
-	 * Initializes CAS. Only needed in Web where we must download it on demand.
-	 */
-	public void initCAS();
-
-	/**
 	 * Evaluates a valid expression and returns the resulting String in GeoGebra
 	 * notation.
 	 * 
@@ -53,8 +48,7 @@ public interface CASGenericInterface extends SettingListener {
 			throws CASException;
 
 	/**
-	 * Evaluates an expression in the syntax of the currently active CAS
-	 * (MathPiper or Maxima).
+	 * Evaluates an expression in the syntax of the currently active CAS (Giac).
 	 * 
 	 * @param exp
 	 *            The expression to be evaluated.
@@ -63,11 +57,6 @@ public interface CASGenericInterface extends SettingListener {
 	 *             if evaluation fails
 	 */
 	public abstract String evaluateRaw(final String exp) throws Throwable;
-
-	/**
-	 * Resets the cas and unbinds all variable and function definitions.
-	 */
-	public abstract void reset();
 
 	/**
 	 * Call CAS asynchronously

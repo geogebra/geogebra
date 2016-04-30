@@ -3,6 +3,10 @@ package org.geogebra.desktop.cas.giac;
 import java.util.LinkedList;
 import java.util.List;
 
+import javagiac.context;
+import javagiac.gen;
+import javagiac.giac;
+
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.cas.Evaluate;
@@ -18,10 +22,6 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
-
-import javagiac.context;
-import javagiac.gen;
-import javagiac.giac;
 
 /**
  * @author michael
@@ -160,10 +160,6 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		}
 
 		return ret;
-	}
-
-	public void initCAS() {
-		Log.error("unimplemented");
 	}
 
 	/**

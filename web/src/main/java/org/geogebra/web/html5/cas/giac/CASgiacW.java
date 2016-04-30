@@ -79,17 +79,6 @@ public class CASgiacW extends CASgiac implements Evaluate {
 		}
 	}
 
-	/*
-	 * called from JavaScript when the CAS is loaded (non-Javadoc)
-	 * 
-	 * @see geogebra.common.kernel.cas.CASGenericInterface#initCAS()
-	 */
-	public void initCAS() {
-		// not called?
-	}
-
-
-
 	@Override
 	public synchronized String evaluate(String s, long timeoutMilliseconds) {
 		if (!jsLoaded) {

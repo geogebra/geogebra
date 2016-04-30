@@ -378,12 +378,6 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	/**
-	 */
-	public synchronized void reset() {
-		// TODO
-	}
-
-	/**
 	 * Timeout for CAS in milliseconds. This can be changed in the CAS options.
 	 */
 	protected long timeoutMillis = 5000;
