@@ -115,11 +115,8 @@ public class CASgiacD extends CASgiac {
 
 
 	@Override
-	protected String evaluate(String input, long timeoutMillis0)
+	protected String evaluate(String exp, long timeoutMillis0)
 			throws Throwable {
-
-		// don't need to replace Unicode when sending to JNI
-		String exp = casParser.replaceIndices(input, false);
 
 		String ret;
 		Log.debug("giac input: " + exp);
@@ -222,7 +219,11 @@ public class CASgiacD extends CASgiac {
 	}
 
 	@Override
-	public String evaluateCAS(String exp) {
+	public String evaluateCAS(String input) {
+
+		// don't need to replace Unicode when sending to JNI
+		String exp = casParser.replaceIndices(input, false);
+
 		try {
 			return evaluate(exp, timeoutMillis);
 		} catch (TimeoutException te) {

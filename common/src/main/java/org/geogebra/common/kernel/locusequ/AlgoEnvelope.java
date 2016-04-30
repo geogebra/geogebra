@@ -281,7 +281,7 @@ public class AlgoEnvelope extends AlgoElement {
 			// and construct the Jacobi matrix on our own. Here we use two Giac calls, one for
 			// the Jacobian and one for the elimination.
 			script.append("[[");
-			script.append("m:=[").append(polys).append("]],[J:=det\\_minor(");
+			script.append("m:=[").append(polys).append("]],[J:=det_minor(");
 			for (i=0; i<varsN-2; ++i) {
 				script.append("[");
 				for (int j=0; j<varsN-2; ++j) {
