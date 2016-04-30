@@ -9,7 +9,6 @@ import javagiac.giac;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
-import org.geogebra.common.cas.Evaluate;
 import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.AsynchronousCommand;
@@ -27,7 +26,7 @@ import org.geogebra.desktop.main.AppD;
  * @author michael
  * 
  */
-public class CASgiacD extends CASgiac implements Evaluate {
+public class CASgiacD extends CASgiac {
 
 	@SuppressWarnings("javadoc")
 	AppD app;
@@ -116,7 +115,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 
 	@Override
-	public String evaluate(String input, long timeoutMillis0) throws Throwable {
+	protected String evaluate(String input, long timeoutMillis0)
+			throws Throwable {
 
 		// don't need to replace Unicode when sending to JNI
 		String exp = casParser.replaceIndices(input, false);

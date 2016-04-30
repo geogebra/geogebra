@@ -22,7 +22,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
  * @author Michael Borcherds, based on Reduce version
  *
  */
-public class CASgiacW extends CASgiac implements Evaluate {
+public class CASgiacW extends CASgiac {
 
 	/** kernel */
 	Kernel kernel;
@@ -80,7 +80,7 @@ public class CASgiacW extends CASgiac implements Evaluate {
 	}
 
 	@Override
-	public synchronized String evaluate(String s, long timeoutMilliseconds) {
+	protected synchronized String evaluate(String s, long timeoutMilliseconds) {
 		if (!casLoaded) {
 			return "?";
 		}

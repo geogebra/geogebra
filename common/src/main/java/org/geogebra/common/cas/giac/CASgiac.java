@@ -209,8 +209,9 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	final public synchronized String evaluateGeoGebraCAS(
 			final ValidExpression inputExpression,
-			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell, Kernel kernel)
- throws CASException {
+			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell,
+			Kernel kernel) throws CASException {
+
 		ValidExpression casInput = inputExpression;
 		Command cmd = casInput.getTopLevelCommand();
 		boolean keepInput = (cell != null && cell.isKeepInputUsed())
