@@ -679,10 +679,8 @@ public abstract class CASgiac implements CASGenericInterface {
 	 * inequality a >=? ex1 && ex1 >=? b where a,b are literals and ex1, ex2 are
 	 * expressions with at most 3 brackets
 	 */
-	public final static RegExp inequality = RegExp
-.compile(
-			"^(.*)\\(([A-Za-z]+)>(=*)" + expression + "\\) && \\("
- + expression
+	public final static RegExp inequality = RegExp.compile(
+			"^(.*)\\(([A-Za-z]+)>(=*)" + expression + "\\) && \\(" + expression
 					+ ">(=*)([A-Za-z]+)\\)(.*)$", "");
 
 
@@ -854,10 +852,10 @@ public abstract class CASgiac implements CASGenericInterface {
 			}
 		}
 		
-		// #5099 GIAC_ERROR: string missing
-		if (ret.indexOf("Unable to solve differential equation") > 0) {
-			return "?";
-		}
+		// #5099 / TRAC-3566 GIAC_ERROR: string missing
+		// if (ret.indexOf("Unable to solve differential equation") > 0) {
+		// return "?";
+		// }
 
 		if (ret.indexOf("integrate(") > -1) {
 			// eg Integral[sqrt(sin(x))]
