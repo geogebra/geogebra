@@ -1166,7 +1166,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		}
 
-		if (isItemChecBox()) {
+		if (isItemCheckBox()) {
 			updateCheckBox();
 			updateTextItems();
 		} else if (isItemNumeric()) {
@@ -2695,7 +2695,7 @@ marblePanel, evt))) {
 				&& (slider != null && sliderPanel != null) || sliderNeeded());
 	}
 
-	private boolean isItemChecBox() {
+	private boolean isItemCheckBox() {
 		return checkBox != null;
 	}
 

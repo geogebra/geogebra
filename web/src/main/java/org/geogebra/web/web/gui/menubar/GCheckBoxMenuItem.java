@@ -32,7 +32,7 @@ public class GCheckBoxMenuItem extends MenuItem {
 
 	/**
 	 * @param html
-	 * creates a new GChecbox menuitem
+	 *            creates a new GCheckbox menuitem
 	 */
 	public GCheckBoxMenuItem(SafeHtml html) {
 	    super(html);
@@ -41,7 +41,7 @@ public class GCheckBoxMenuItem extends MenuItem {
     }
 	
 	private void initGui(SafeHtml html, boolean showCheckbox) {
-		addStyleName("GChecBoxMenuItem");
+		addStyleName("GCheckBoxMenuItem");
 		checkbox = new CheckBox();
 		checkbox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
