@@ -3822,7 +3822,7 @@ public class GeoGebraCasIntegrationTest {
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("P := (2, 0)", "(2, 0)");
 		t("Tangent[P, c]", "y = -2 * sqrt(10) + 6 + (sqrt(10) - 3) * x",
-				"y = (sqrt(10) - 3) x - 2 * sqrt(10) + 6");
+				"{y = (sqrt(10) - 3) x - 2 * sqrt(10) + 6}");
   }
 
   @Test
@@ -3834,7 +3834,7 @@ public class GeoGebraCasIntegrationTest {
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("P := (2, 3)", "(2, 3)");
 		t("Tangent[P, c]", "y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x",
-				"y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9");
+				"{y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9}");
   }
 
   @Test
@@ -3849,7 +3849,7 @@ public class GeoGebraCasIntegrationTest {
 				// sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
 		t("Tangent[C, c]", "y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x",
-				"y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9");
+				"{y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9}");
   }
 
   // TODO Add tests for other conics.
@@ -3908,17 +3908,18 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Mike_1257 () {
-    t("Tangent[(1 / sqrt(2), 1 / sqrt(2)), x^2 + y^2 = 1]", "y = -x + sqrt(2)");
+		t("Tangent[(1 / sqrt(2), 1 / sqrt(2)), x^2 + y^2 = 1]",
+				"{y = -x + sqrt(2)}");
   }
 
   @Test
   public void Mike_1258 () {
-    t("Tangent[(1, 0), x^2 + y^2 = 1]", "x = 1");
+		t("Tangent[(1, 0), x^2 + y^2 = 1]", "{x = 1}");
   }
 
   @Test
   public void Mike_1259 () {
-    t("Tangent[(1, 0), x^3 + y^3 = 1]", "x = 1");
+		t("Tangent[(1, 0), x^3 + y^3 = 1]", "{x = 1}");
   }
 
   @Test
@@ -3928,19 +3929,20 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Mike_1261 () {
-    t("Tangent[(a, sqrt(1 - a^2)), x^2 + y^2 = 1]", "y = a * sqrt(-a^(2) + 1) / (a^(2) - 1) * x - sqrt(-a^(2) + 1) / (a^(2) - 1)");
+		t("Tangent[(a, sqrt(1 - a^2)), x^2 + y^2 = 1]",
+				"{y = a * sqrt(-a^(2) + 1) / (a^(2) - 1) * x - sqrt(-a^(2) + 1) / (a^(2) - 1)}");
   }
 
   @Test
   public void Mike_1262 () {
     t("Tangent[(a, cbrt(1 - a^3)), x^3 + y^3 = 1]",
-				"y = a^(2) * cbrt(-a^(3) + 1) / (a^(3) - 1) * x + (-a^(3) + 1) * cbrt(-a^(3) + 1) / (a^(6) - 2 * a^(3) + 1)",
-				"y = (a^(2) * (-a^(3) + 1)^(1/3) / (a^(3) - 1) * x + (-a^(3) + 1) * (-a^(3) + 1)^(1/3) / (a^(6) - 2 * a^(3) + 1))");
+				"{y = a^(2) * cbrt(-a^(3) + 1) / (a^(3) - 1) * x + (-a^(3) + 1) * cbrt(-a^(3) + 1) / (a^(6) - 2 * a^(3) + 1)}",
+				"{y = (a^(2) * (-a^(3) + 1)^(1/3) / (a^(3) - 1) * x + (-a^(3) + 1) * (-a^(3) + 1)^(1/3) / (a^(6) - 2 * a^(3) + 1))}");
   }
 
   @Test
   public void Mike_1263 () {
-    t("Tangent[(0, 0) ,x^2 - y^3 + 2y^2 - y = 0]", "y = 0");
+		t("Tangent[(0, 0) ,x^2 - y^3 + 2y^2 - y = 0]", "{y = 0}");
   }
 
   @Test
