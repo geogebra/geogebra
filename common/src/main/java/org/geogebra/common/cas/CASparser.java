@@ -234,8 +234,8 @@ public class CASparser implements CASParserInterface {
 
 	/**
 	 * Converts all index characters ('_', '{', '}') in the given String to
-	 * "unicode" + charactercode + DELIMITER Strings. This is needed because
-	 * MathPiper does not handle indices correctly.
+	 * "unicode" + charactercode + DELIMITER Strings. This is needed so that
+	 * labels like a_{12} are preserved
 	 * 
 	 * @param str
 	 *            input string with _,{,}
@@ -424,7 +424,7 @@ public class CASparser implements CASParserInterface {
 	/**
 	 * Returns the CAS command for the currently set CAS using the given key.
 	 * For example, getCASCommand"Expand.0" returns "ExpandBrackets( %0 )" when
-	 * MathPiper is the currently used CAS.
+	 * Giac is the currently used CAS.
 	 * 
 	 * @param command
 	 *            The command to be translated (should end in ".n", where n is

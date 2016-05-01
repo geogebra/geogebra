@@ -2629,11 +2629,10 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	/**
 	 * Returns a String that can be used to define geo in the currently used
-	 * CAS. For example, "f(x) := a*x^2", "a := 20", "g := 3x + 4y = 7" in
-	 * MathPiper or "f(x) := a*x^2", "a:20", "g: 3x + 4y == 7" in Maxima
+	 * CAS. For example, "f(x) := a*x^2", "a := 20", "g := 3x + 4y = 7"
 	 * 
 	 * @param tpl
-	 *            StringType.MAXIMA, STRING_TYPE_MATHPIPER
+	 *            StringType.Giac
 	 * @return String in the format of the current CAS.
 	 */
 	public String toCasAssignment(final StringTemplate tpl) {
@@ -6766,15 +6765,17 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * String getFormulaString(int, boolean substituteNumbers) substituteNumbers
 	 * determines (for a function) whether you want "2*x^2" or "a*x^2" returns a
 	 * string representing the formula of the GeoElement in the following
-	 * formats: getFormulaString(StringType.MathPiper) eg Sqrt(x)
+	 * formats: getFormulaString(StringType.GIAC) eg sqrt(x)
 	 * getFormulaString(StringType.LATEX) eg \sqrt(x)
 	 * getFormulaString(StringType.LIBRE_OFFICE) eg sqrt {x}
 	 * getFormulaString(StringType.GEOGEBRA) eg sqrt(x)
 	 * getFormulaString(StringType.GEOGEBRA_XML)
 	 * getFormulaString(StringType.JASYMCA)
 	 * 
-	 * @param tpl string template
-	 * @param substituteNumbers true to substitute numbers
+	 * @param tpl
+	 *            string template
+	 * @param substituteNumbers
+	 *            true to substitute numbers
 	 * @return formula string
 	 */
 	public String getFormulaString(final StringTemplate tpl,

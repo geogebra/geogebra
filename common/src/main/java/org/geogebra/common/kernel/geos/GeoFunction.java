@@ -1993,12 +1993,6 @@ CasEvaluableFunction, ParametricCurve,
 				// verticalAsymptotes = verticalAsymptotes.replace(')',' ');
 				verticalAsymptotes = verticalAsymptotes.replaceAll("x==", "");
 				verticalAsymptotes = verticalAsymptotes.replaceAll("x =", "");
-				// verticalAsymptotes =
-				// verticalAsymptotes.replaceAll("Complex(.*)", ""); // remove
-				// complex roots (MathPiper)
-
-				// verticalAsymptotes = verticalAsymptotes.replaceAll("%i", "");
-				// // remove complex roots (Maxima)
 
 				String[] verticalAsymptotesArray = verticalAsymptotes
 						.split(",");

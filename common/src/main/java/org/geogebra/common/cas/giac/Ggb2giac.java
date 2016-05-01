@@ -165,7 +165,10 @@ public class Ggb2giac {
 						+ ")][1]");
 
 		p("Derivative.3", "regroup(diff(%0,%1,%2))");
-		p("Determinant.1", "det(%0)");
+
+		// det_minor for symbolic, see GGB-830
+		p("Determinant.1", "when(size(lname(%0))==0,det(%0),det_minor(%0))");
+
 		p("Dimension.1",
 				"[[ggbdimarg:=%0], when(ggbdimarg[0]=='pnt',when(is3dpoint(ggbdimarg),3,2),dim(ggbdimarg))][1]");
 		p("Div.2",

@@ -32,7 +32,7 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * This class provides an interface for GeoGebra to use an underlying computer
- * algebra system like MPReduce, Maxima or MathPiper.
+ * algebra system like Giac.
  * 
  * @author Markus Hohenwarter
  */
@@ -548,7 +548,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 		}
 
-		// get translation ggb -> MathPiper/Maxima
+		// get translation ggb -> Giac
 		if (!outsourced) {
 			translation = translateCommandSignature(sbCASCommand
 					.toString());

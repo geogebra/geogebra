@@ -396,7 +396,6 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	public String translateAssignment(final String label, final String body) {
-		// default implementation works for MPReduce and MathPiper
 		return label + " := " + body;
 	}
 

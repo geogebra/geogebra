@@ -4435,59 +4435,6 @@ ToolbarD.getAllTools(this));
 		return (ScriptManagerD) scriptManager;
 	}
 
-	/*
-	 * current possible values http://mindprod.com/jgloss/properties.html AIX
-	 * Digital Unix FreeBSD HP UX Irix Linux Mac OS Mac OS X MPE/iX Netware 4.11
-	 * OS/2 Solaris Windows 2000 Windows 7 Windows 95 Windows 98 Windows NT
-	 * Windows Vista Windows XP
-	 */
-
-	// determines which CAS is being used
-
-	/*
-	 * public void setDefaultCAS(int CAS) { boolean success = false; if (CAS ==
-	 * CAS_MAXIMA) { Application.debug("Attempting to set CAS=Maxima"); success
-	 * = setMaximaCAS(); } else if (CAS == CAS_MPREDUCE) {
-	 * Application.debug("Attempting to set CAS=MPReduce");
-	 * kernel.setDefaultCAS(CAS_MPREDUCE); success = true; } else if (CAS ==
-	 * CAS_MATHPIPER) { Application.debug("Attempting to set CAS=MathPiper");
-	 * kernel.setDefaultCAS(CAS_MATHPIPER); success = true; }
-	 * 
-	 * // fallback / default option if (!success) {
-	 * Application.debug("Attempting to set CAS=MathPiper");
-	 * kernel.setDefaultCAS(CAS_MATHPIPER); }
-	 * 
-	 * }
-	 */
-
-	// public MaximaConfiguration maximaConfiguration = null;
-
-	/*
-	 * eg --maximaPath=
-	 * 
-	 * private void setMaximaPath(String optionValue) { maximaConfiguration =
-	 * new MaximaConfiguration();
-	 * maximaConfiguration.setMaximaExecutablePath(optionValue);
-	 * kernel.setDefaultCAS(CAS_MAXIMA); }
-	 */
-
-	/*
-	 * eg --CAS=maxima
-	 * 
-	 * private boolean setMaximaCAS(){
-	 * 
-	 * maximaConfiguration = JacomaxAutoConfigurator.guessMaximaConfiguration();
-	 * 
-	 * if (maximaConfiguration != null) { kernel.setDefaultCAS(CAS_MAXIMA);
-	 * return true; }
-	 * 
-	 * return false; }
-	 */
-
-	/*
-	 * stops eg TAB automatically transferring focus between panes
-	 */
-
 	// **************************************************************************
 	// LOGGING
 	// **************************************************************************
@@ -4839,6 +4786,12 @@ ToolbarD.getAllTools(this));
 		return System.getProperty("java.version").startsWith("1.7.");
 	}
 
+	/*
+	 * current possible values http://mindprod.com/jgloss/properties.html AIX
+	 * Digital Unix FreeBSD HP UX Irix Linux Mac OS Mac OS X MPE/iX Netware 4.11
+	 * OS/2 Solaris Windows 2000 Windows 7 Windows 95 Windows 98 Windows NT
+	 * Windows Vista Windows XP
+	 */
 	private static String OS = System.getProperty("os.name").toLowerCase(
 			Locale.US);
 

@@ -292,14 +292,6 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getAppletImplementation().evalXML(xmlString);
 	}
 
-	// public synchronized String evalMathPiper(String cmdString) {
-	// return getAppletImplementation().evalMathPiper(cmdString);
-	// }
-
-	// public synchronized String evalYacas(String cmdString) {
-	// return evalMathPiper(cmdString);
-	// }
-
 	public synchronized void debug(String string) {
 		getAppletImplementation().debug(string);
 	}
