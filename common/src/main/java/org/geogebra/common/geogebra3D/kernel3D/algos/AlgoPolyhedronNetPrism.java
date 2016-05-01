@@ -194,6 +194,11 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 
 	@Override
 	protected void adjustOutputSize(int newBottomPointsLength) {
+		adjustOutputSize(newBottomPointsLength, true);
+	}
+
+	@Override
+	protected void adjustOutputSize(int newBottomPointsLength, boolean setLabels) {
 
 		super.adjustOutputSize(newBottomPointsLength);
 
@@ -203,7 +208,9 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		if (newBottomPointsLength > nOld) {
 			// adjust top points length
 			outputPointsTop.adjustOutputSize(newBottomPointsLength - 2, false);
-			outputPointsTop.setLabels(null);
+			if (setLabels) {
+				outputPointsTop.setLabels(null);
+			}
 
 			// create new top segments
 			GeoPolyhedronNet net = getNet();
@@ -218,7 +225,9 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 					outputPointsSide.getElement(0));
 			outputSegmentsTop.addOutput(segmentTop, false);
 
-			outputSegmentsTop.setLabels(null);
+			if (setLabels) {
+				outputSegmentsTop.setLabels(null);
+			}
 			// refreshOutput() will be done below
 		}
 
@@ -251,7 +260,9 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 
 			// adjust side points length
 			outputPointsSide.adjustOutputSize(newBottomPointsLength * 2, false);
-			outputPointsSide.setLabels(null);
+			if (setLabels) {
+				outputPointsSide.setLabels(null);
+			}
 
 			// create new sides
 			GeoPolyhedronNet net = getNet();
@@ -269,9 +280,11 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 																			// list
 																			// now
 			}
-			outputSegmentsBottom.setLabels(null);
-			outputSegmentsSide.setLabels(null);
-			outputPolygonsSide.setLabels(null);
+			if (setLabels) {
+				outputSegmentsBottom.setLabels(null);
+				outputSegmentsSide.setLabels(null);
+				outputPolygonsSide.setLabels(null);
+			}
 			refreshOutput();
 
 		}

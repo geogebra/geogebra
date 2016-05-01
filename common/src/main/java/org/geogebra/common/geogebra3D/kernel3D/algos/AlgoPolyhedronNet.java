@@ -103,7 +103,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 			getNet().setAllLabelsAreSet(true);
 			int n = getPointLengthFromLabelsLength(labels.length);
 			if (n > bottomPointsLength) {
-				adjustOutputSize(n); // augment output for labels
+				adjustOutputSize(n, false); // augment output for labels
 			}
 			for (int i = 0; i < labels.length; i++) {
 				getOutput(i).setLabel(labels[i]);
@@ -246,6 +246,17 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		}
 
 	}
+
+	/**
+	 * adjust output for n bottom points
+	 * 
+	 * @param n
+	 *            new bottom points length
+	 * @param setLabels
+	 *            says if we want to set labels here (must be false on net
+	 *            creation)
+	 */
+	abstract protected void adjustOutputSize(int n, boolean setLabels);
 
 	/**
 	 * update bottom face for new length

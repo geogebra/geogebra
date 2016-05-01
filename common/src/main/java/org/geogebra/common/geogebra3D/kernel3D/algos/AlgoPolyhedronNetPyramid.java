@@ -84,6 +84,11 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 
 	@Override
 	protected void adjustOutputSize(int newBottomPointsLength) {
+		adjustOutputSize(newBottomPointsLength, true);
+	}
+
+	@Override
+	protected void adjustOutputSize(int newBottomPointsLength, boolean setLabels) {
 
 		super.adjustOutputSize(newBottomPointsLength);
 
@@ -115,7 +120,9 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 
 			// update side points
 			outputPointsSide.adjustOutputSize(newBottomPointsLength, false);
-			outputPointsSide.setLabels(null);
+			if (setLabels) {
+				outputPointsSide.setLabels(null);
+			}
 
 			// create new sides
 			GeoPolyhedronNet net = getNet();
@@ -134,9 +141,11 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 																			// list
 																			// now
 			}
-			outputSegmentsBottom.setLabels(null);
-			outputSegmentsSide.setLabels(null);
-			outputPolygonsSide.setLabels(null);
+			if (setLabels) {
+				outputSegmentsBottom.setLabels(null);
+				outputSegmentsSide.setLabels(null);
+				outputPolygonsSide.setLabels(null);
+			}
 			refreshOutput();
 
 		}
