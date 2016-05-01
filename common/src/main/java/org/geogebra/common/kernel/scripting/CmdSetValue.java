@@ -7,6 +7,8 @@ import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -95,6 +97,14 @@ public class CmdSetValue extends CmdScripting {
 				((GeoNumeric) geo).setValue(num.getDouble());
 			} else {
 				geo.set(arg2);
+			}
+			if(list.getDefinition()!=null){
+				ExpressionValue root = list.getDefinition().unwrap();
+				if(root instanceof MyList && arg2.getDefinition() !=null){
+					((MyList)root).setListElement(nn-1,arg2.getDefinition());
+				}else{
+					list.setDefinition(null);
+				}
 			}
 		} else {
 			Log.debug(geo.getParentAlgorithm());
