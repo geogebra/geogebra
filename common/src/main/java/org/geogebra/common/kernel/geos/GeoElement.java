@@ -6770,7 +6770,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * getFormulaString(StringType.LIBRE_OFFICE) eg sqrt {x}
 	 * getFormulaString(StringType.GEOGEBRA) eg sqrt(x)
 	 * getFormulaString(StringType.GEOGEBRA_XML)
-	 * getFormulaString(StringType.JASYMCA)
 	 * 
 	 * @param tpl
 	 *            string template
