@@ -87,6 +87,7 @@ public class AlgoConicCoefficients extends AlgoElement {
 		}
 
 		double[] matrix = c.getFlatMatrix();
+		g.setDefined(true);
 		((GeoNumeric) g.get(0)).setValue(matrix[0]);
 		((GeoNumeric) g.get(1)).setValue(matrix[1]);
 		((GeoNumeric) g.get(2)).setValue(matrix[2]);
