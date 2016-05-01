@@ -1901,7 +1901,7 @@ var __giac = [ {},
 { cat: "CompleteSquare", cmd:"CompleteSquare[(x-1)^2+1]", result:"(x - 1)\u00B2 + 1", notes:"GGB-617" },
 { cat: "CompleteSquare", cmd:"CompleteSquare[((-9) * x^(10)) + 4]", result:"-9 x\u00B9\u2070 + 4", notes:"GGB-617" },
 { cat: "Evaluate", cmd:"SolveODE[2*y*y'=2*x]", result:"", notes:"" },
-{ cat: "Evaluate", cmd:"Simplify[exp(x)/exp(x+1)]", result:"", notes:"needs texpand() in Giac" },
+{ cat: "Evaluate", cmd:"Simplify[exp(x)/exp(x+1)]", result:"1 / \u212F", notes:"needs texpand() in Giac" },
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 //{ cat: "Integral", cmd:"Integral[sqrt(sin(x))]", result:"?", notes:"" },
