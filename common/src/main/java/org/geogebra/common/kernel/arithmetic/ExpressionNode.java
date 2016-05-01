@@ -416,9 +416,11 @@ public class ExpressionNode extends ValidExpression implements
 					.evaluate(StringTemplate.defaultTemplate);
 			if (eval instanceof NumberValue) {
 				// we only simplify numbers that have integer values
-				if (Kernel.isInteger(((NumberValue) eval).getDouble())
-						&& !node.inspect(TRICKY_DIVISION_CHECKER)) {
-					Log.debug(node);
+				if (Kernel.isInteger(((NumberValue) eval).getDouble())) {
+					if (node.inspect(TRICKY_DIVISION_CHECKER)) {
+						node.simplifyConstantIntegers();
+						return left2;
+					}
 					return eval;
 				}
 			} else {
