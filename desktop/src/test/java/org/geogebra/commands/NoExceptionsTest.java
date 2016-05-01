@@ -1822,6 +1822,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSetFixed() {
 		t("SetFixed[ obj, b1 ]");
+		t("SetFixed[ obj, b1, b2 ]");
 	}
 
 	@Test
