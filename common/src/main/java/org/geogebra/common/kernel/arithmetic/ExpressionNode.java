@@ -60,6 +60,15 @@ import org.geogebra.common.util.debug.Log;
 public class ExpressionNode extends ValidExpression implements
 		ExpressionNodeConstants, ReplaceChildrenByValues {
 
+	private static final Inspecting TRICKY_DIVISION_CHECKER = new Inspecting() {
+
+		public boolean check(ExpressionValue v) {
+			return v.isExpressionNode()
+					&& ((ExpressionNode) v).getOperation() == Operation.DIVIDE
+					&& Kernel.isZero(v.evaluateDouble())
+					&& ((ExpressionNode) v).getLeft().evaluateDouble() != 0;
+		}
+	};
 	private Localization loc;
 	private Kernel kernel;
 	private ExpressionValue left, right;
@@ -391,40 +400,34 @@ public class ExpressionNode extends ValidExpression implements
 	 */
 	final public void simplifyConstantIntegers() {
 		if (left.isExpressionNode()) {
-			ExpressionNode node = (ExpressionNode) left;
-			if (left.isConstant()) {
-				ExpressionValue eval = node
-						.evaluate(StringTemplate.defaultTemplate);
-				if (eval instanceof NumberValue) {
-					// we only simplify numbers that have integer values
-					if (Kernel.isInteger(((NumberValue) eval).getDouble())) {
-						left = eval;
-					}
-				} else {
-					left = eval;
-				}
-			} else {
-				node.simplifyConstantIntegers();
-			}
+			left = doSimplifyConstantIntegers(left);
 		}
 
 		if ((right != null) && right.isExpressionNode()) {
-			ExpressionNode node = (ExpressionNode) right;
-			if (right.isConstant()) {
-				ExpressionValue eval = node
-						.evaluate(StringTemplate.defaultTemplate);
-				if (eval instanceof NumberValue) {
-					// we only simplify numbers that have integer values
-					if (Kernel.isInteger(((NumberValue) eval).getDouble())) {
-						right = eval;
-					}
-				} else {
-					right = eval;
+			right = doSimplifyConstantIntegers(right);
+		}
+	}
+
+	private static ExpressionValue doSimplifyConstantIntegers(
+			ExpressionValue left2) {
+		ExpressionNode node = (ExpressionNode) left2;
+		if (left2.isConstant()) {
+			ExpressionValue eval = node
+					.evaluate(StringTemplate.defaultTemplate);
+			if (eval instanceof NumberValue) {
+				// we only simplify numbers that have integer values
+				if (Kernel.isInteger(((NumberValue) eval).getDouble())
+						&& !node.inspect(TRICKY_DIVISION_CHECKER)) {
+					Log.debug(node);
+					return eval;
 				}
 			} else {
-				node.simplifyConstantIntegers();
+				return eval;
 			}
+		} else {
+			node.simplifyConstantIntegers();
 		}
+		return left2;
 	}
 
 	/**
