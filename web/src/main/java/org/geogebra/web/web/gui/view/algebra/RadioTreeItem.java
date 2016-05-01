@@ -625,13 +625,11 @@ public class RadioTreeItem extends AVTreeItem
 
 		String text = getTextForEditing(false, StringTemplate.latexTemplate);
 		String[] eq = text.split("=");
-		Log.debug("EQ " + eq);
 
 		String leftSide = eq[0].trim();
 		String rightSide = eq[1].replaceFirst("\\\\left", "")
 				.replaceFirst("\\\\right", "").replaceAll(" ", "");
-		Log.debug("EQ rightside " + rightSide + "equals? "
-				+ leftSide.equals(rightSide));
+
 		return leftSide.equals(rightSide);
 	}
 	private boolean updateDefinitionPanel() {
