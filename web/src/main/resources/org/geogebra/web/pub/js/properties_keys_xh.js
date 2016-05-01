@@ -858,7 +858,7 @@ __GGB__keysVar.xh.command = {
     "SetSeed": "LungisaISeed",
     "SetSeed.Syntax": "[ <Integer> ]",
     "SetSpinSpeed": "SetSpinSpeed",
-    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
+    "SetSpinSpeed.Syntax": "[ <Number> ]",
     "SetTooltipMode": "LungisaITooltipMode",
     "SetTooltipMode.Syntax": "[ <Into>, <Inani> ]",
     "SetTrace": "SetTrace",

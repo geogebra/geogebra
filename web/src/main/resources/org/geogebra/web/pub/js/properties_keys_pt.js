@@ -858,7 +858,7 @@ __GGB__keysVar.pt.command = {
     "SetSeed": "DefinirSemente",
     "SetSeed.Syntax": "[ <Inteiro> ]",
     "SetSpinSpeed": "ConfigurarVelocidadeDeGiro",
-    "SetSpinSpeed.Syntax3D": "[ <N\xfamero> ]",
+    "SetSpinSpeed.Syntax": "[ <N\xfamero> ]",
     "SetTooltipMode": "DefinirEstiloDaDescri\xe7\xe3o",
     "SetTooltipMode.Syntax": "[ <Objeto>, <N\xfamero> ]",
     "SetTrace": "DefinirTra\xe7o",

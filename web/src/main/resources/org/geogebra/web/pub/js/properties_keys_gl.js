@@ -858,7 +858,7 @@ __GGB__keysVar.gl.command = {
     "SetSeed": "Semente",
     "SetSeed.Syntax": "[ <Enteiro> ]",
     "SetSpinSpeed": "VelocidadeXiro",
-    "SetSpinSpeed.Syntax3D": "[ <N\xfamero> ]",
+    "SetSpinSpeed.Syntax": "[ <N\xfamero> ]",
     "SetTooltipMode": "ModoDescrici\xf3n",
     "SetTooltipMode.Syntax": "[ <Obxecto>, <0|1|2|3|4> ]",
     "SetTrace": "Rastro",

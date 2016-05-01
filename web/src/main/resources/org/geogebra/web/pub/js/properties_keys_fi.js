@@ -858,7 +858,7 @@ __GGB__keysVar.fi.command = {
     "SetSeed": "AsetaSiemenluku",
     "SetSeed.Syntax": "[ <Kokonaisluku> ]",
     "SetSpinSpeed": "AsetaPy\xf6rimisNopeus",
-    "SetSpinSpeed.Syntax3D": "[ <Luku> ]",
+    "SetSpinSpeed.Syntax": "[ <Luku> ]",
     "SetTooltipMode": "AsetaTy\xf6kaluvihjeenTila",
     "SetTooltipMode.Syntax": "[ <Objekti>, <Luku> ]",
     "SetTrace": "AsetaJ\xe4lki",

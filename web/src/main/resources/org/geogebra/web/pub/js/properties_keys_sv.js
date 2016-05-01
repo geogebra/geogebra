@@ -858,7 +858,7 @@ __GGB__keysVar.sv.command = {
     "SetSeed": "SlumtalsFr\xf6",
     "SetSeed.Syntax": "[ <Heltal> ]",
     "SetSpinSpeed": "S\xe4ttRotationsHastighet",
-    "SetSpinSpeed.Syntax3D": "[ <Tal> ]",
+    "SetSpinSpeed.Syntax": "[ <Tal> ]",
     "SetTooltipMode": "S\xe4ttTipsL\xe4ge",
     "SetTooltipMode.Syntax": "[ <Objekt>, <Tal> ]",
     "SetTrace": "Sp\xe5rP\xe5",

@@ -858,7 +858,7 @@ __GGB__keysVar.pt_PT.command = {
     "SetSeed": "DefineIn\xedcioAleat\xf3rio",
     "SetSeed.Syntax": "[ <Inteiro> ]",
     "SetSpinSpeed": "Configura\xe7\xe3oVelocidadeRota\xe7\xe3o",
-    "SetSpinSpeed.Syntax3D": "[ <N\xfamero> ]",
+    "SetSpinSpeed.Syntax": "[ <N\xfamero> ]",
     "SetTooltipMode": "DefinirDescri\xe7\xe3o",
     "SetTooltipMode.Syntax": "[ <Objeto>, <N\xfamero> ]",
     "SetTrace": "DefinirTra\xe7o",

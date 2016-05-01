@@ -858,7 +858,7 @@ __GGB__keysVar.it.command = {
     "SetSeed": "ImpSeme",
     "SetSeed.Syntax": "[ <Intero> ]",
     "SetSpinSpeed": "ImpVelocit\xe0Rotazione",
-    "SetSpinSpeed.Syntax3D": "[ <Numero> ]",
+    "SetSpinSpeed.Syntax": "[ <Numero> ]",
     "SetTooltipMode": "ImpModoTooltip",
     "SetTooltipMode.Syntax": "[ <Oggetto>, <Numero> ]",
     "SetTrace": "ImpTraccia",

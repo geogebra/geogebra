@@ -858,7 +858,7 @@ __GGB__keysVar.et.command = {
     "SetSeed": "K\xfclvaSisend",
     "SetSeed.Syntax": "[ <T\xe4isarv> ]",
     "SetSpinSpeed": "M\xe4\xe4raP\xf6\xf6rlemiseKiirus",
-    "SetSpinSpeed.Syntax3D": "[ <Arv> ]",
+    "SetSpinSpeed.Syntax": "[ <Arv> ]",
     "SetTooltipMode": "M\xe4\xe4raKohtspikriEsitus",
     "SetTooltipMode.Syntax": "[ <Objekt>, <Arv> ]",
     "SetTrace": "M\xe4\xe4raJ\xe4lg",

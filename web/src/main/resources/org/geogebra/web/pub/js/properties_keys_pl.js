@@ -858,7 +858,7 @@ __GGB__keysVar.pl.command = {
     "SetSeed": "UstawPunktStartowyGeneratoraLosowego",
     "SetSeed.Syntax": "[ <Ca\u0142kowita> ]",
     "SetSpinSpeed": "UstawSzybko\u015b\u0107Obrotu",
-    "SetSpinSpeed.Syntax3D": "[ <Liczba> ]",
+    "SetSpinSpeed.Syntax": "[ <Liczba> ]",
     "SetTooltipMode": "UstawTypPodpowiedzi",
     "SetTooltipMode.Syntax": "[ <Obiekt>, <Liczba> ]",
     "SetTrace": "Ustaw\u015alad",

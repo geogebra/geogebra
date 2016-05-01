@@ -858,7 +858,7 @@ __GGB__keysVar.is.command = {
     "SetSeed": "SetSeed",
     "SetSeed.Syntax": "[ <Heil tala> ]",
     "SetSpinSpeed": "SetSpinSpeed",
-    "SetSpinSpeed.Syntax3D": "[ <Tala> ]",
+    "SetSpinSpeed.Syntax": "[ <Tala> ]",
     "SetTooltipMode": "SetjaVerkf\xe6raHam",
     "SetTooltipMode.Syntax": "[ <Hlutur>, <Tala> ]",
     "SetTrace": "S\xfdnaSl\xf3\xf0",

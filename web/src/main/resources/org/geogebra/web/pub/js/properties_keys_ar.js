@@ -858,7 +858,7 @@ __GGB__keysVar.ar.command = {
     "SetSeed": "\u0639\u064a\u0646_\u0627\u0644\u0628\u0630\u0631\u0629",
     "SetSeed.Syntax": "[ <\u0639\u062f\u062f \u0635\u062d\u064a\u062d> ]",
     "SetSpinSpeed": "SetSpinSpeed",
-    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
+    "SetSpinSpeed.Syntax": "[ <Number> ]",
     "SetTooltipMode": "\u0639\u064a\u0646_\u0645\u0646\u0648\u0627\u0644_\u0627\u0644\u062a\u0644\u0645\u064a\u062d",
     "SetTooltipMode.Syntax": "[ <\u0643\u0627\u0626\u0646>, <\u0639\u062f\u062f> ]",
     "SetTrace": "\u0639\u064a\u0646_\u0627\u0644\u0623\u062b\u0631",

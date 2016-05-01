@@ -858,7 +858,7 @@ __GGB__keysVar.fr.command = {
     "SetSeed": "SoitGraine",
     "SetSeed.Syntax": "[ <Entier> ]",
     "SetSpinSpeed": "SoitVitesseRotation",
-    "SetSpinSpeed.Syntax3D": "[ <Nombre> ]",
+    "SetSpinSpeed.Syntax": "[ <Nombre> ]",
     "SetTooltipMode": "SoitOptionInfoBulle",
     "SetTooltipMode.Syntax": "[ <Objet>, <Num\xe9ro> ]",
     "SetTrace": "SoitTrace",

@@ -858,7 +858,7 @@ __GGB__keysVar.hu.command = {
     "SetSeed": "V\xe9letlensz\xe1mMag",
     "SetSeed.Syntax": "[ <Eg\xe9sz sz\xe1m> ]",
     "SetSpinSpeed": "Forg\xe1siSebess\xe9g",
-    "SetSpinSpeed.Syntax3D": "[ <Sz\xe1m> ]",
+    "SetSpinSpeed.Syntax": "[ <Sz\xe1m> ]",
     "SetTooltipMode": "AlakzatInform\xe1ci\xf3k",
     "SetTooltipMode.Syntax": "[ <Alakzat>, <Sz\xe1m> ]",
     "SetTrace": "NyomvonalatKapcsol",

@@ -858,7 +858,7 @@ __GGB__keysVar.sl.command = {
     "SetSeed": "NastaviSeme",
     "SetSeed.Syntax": "[ <celo \u0161tevilo> ]",
     "SetSpinSpeed": "NastaviHitrostRotiranja",
-    "SetSpinSpeed.Syntax3D": "[ <\u0161tevilo> ]",
+    "SetSpinSpeed.Syntax": "[ <\u0161tevilo> ]",
     "SetTooltipMode": "Dolo\u010diOblikoNamiga",
     "SetTooltipMode.Syntax": "[ <objekt>, <\u0161tevilo> ]",
     "SetTrace": "NastaviSled",

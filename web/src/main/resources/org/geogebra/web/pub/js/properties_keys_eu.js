@@ -858,7 +858,7 @@ __GGB__keysVar.eu.command = {
     "SetSeed": "HaziMultzoa",
     "SetSeed.Syntax": "[ <Zenbaki Osoa> ]",
     "SetSpinSpeed": "EzarriBiraketaAbiada",
-    "SetSpinSpeed.Syntax3D": "[ <Zenbakia> ]",
+    "SetSpinSpeed.Syntax": "[ <Zenbakia> ]",
     "SetTooltipMode": "FinkatuObjektuDeskripzioa",
     "SetTooltipMode.Syntax": "[ <Objektua>, <Zenbakia> ]",
     "SetTrace": "AztarnaEzarri",

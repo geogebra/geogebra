@@ -858,7 +858,7 @@ __GGB__keysVar.cs.command = {
     "SetSeed": "NastavitSeminko",
     "SetSeed.Syntax": "[ <Cel\xe9 \u010d\xedslo> ]",
     "SetSpinSpeed": "NastavitRychlostOtaceni",
-    "SetSpinSpeed.Syntax3D": "[ <\u010c\xedslo> ]",
+    "SetSpinSpeed.Syntax": "[ <\u010c\xedslo> ]",
     "SetTooltipMode": "NastavitRezimTooltip",
     "SetTooltipMode.Syntax": "[ <Objekt>, <\u010c\xedslo> ]",
     "SetTrace": "NastavitStopu",

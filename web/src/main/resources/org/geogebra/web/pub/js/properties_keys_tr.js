@@ -858,7 +858,7 @@ __GGB__keysVar.tr.command = {
     "SetSeed": "TohumAyarla",
     "SetSeed.Syntax": "[ <Tamsay\u0131> ]",
     "SetSpinSpeed": "D\xf6n\xfc\u015fH\u0131z\u0131Ayarla",
-    "SetSpinSpeed.Syntax3D": "[ <Say\u0131> ]",
+    "SetSpinSpeed.Syntax": "[ <Say\u0131> ]",
     "SetTooltipMode": "Ara\xe7\u0130pucuDurumuAyarla",
     "SetTooltipMode.Syntax": "[ <Nesne>, <Say\u0131> ]",
     "SetTrace": "\u0130zAyarla",

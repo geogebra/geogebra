@@ -858,7 +858,7 @@ __GGB__keysVar.lv.command = {
     "SetSeed": "SetSeed",
     "SetSeed.Syntax": "[ <Vesels Skaitlis> ]",
     "SetSpinSpeed": "SetSpinSpeed",
-    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
+    "SetSpinSpeed.Syntax": "[ <Number> ]",
     "SetTooltipMode": "SetTooltipMode",
     "SetTooltipMode.Syntax": "[ <Objekts>, <Skaitlis> ]",
     "SetTrace": "Atst\u0101tP\u0113das",

@@ -858,7 +858,7 @@ __GGB__keysVar.lt.command = {
     "SetSeed": "NustatytiPrad\u017ei\u0105",
     "SetSeed.Syntax": "[ <Sveikas skai\u010dius> ]",
     "SetSpinSpeed": "NustatytiSukimoGreit\u012f",
-    "SetSpinSpeed.Syntax3D": "[ <Skai\u010dius> ]",
+    "SetSpinSpeed.Syntax": "[ <Skai\u010dius> ]",
     "SetTooltipMode": "NustatytiEtiket\u0117sTip\u0105",
     "SetTooltipMode.Syntax": "[ <Objektas>, <Skai\u010dius> ]",
     "SetTrace": "NustatytiP\u0117dsak\u0105",

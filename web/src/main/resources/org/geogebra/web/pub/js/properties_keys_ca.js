@@ -858,7 +858,7 @@ __GGB__keysVar.ca.command = {
     "SetSeed": "DefineixLlavor",
     "SetSeed.Syntax": "[ <Enter> ]",
     "SetSpinSpeed": "VelocitatGir",
-    "SetSpinSpeed.Syntax3D": "[ <Nombre> ]",
+    "SetSpinSpeed.Syntax": "[ <Nombre> ]",
     "SetTooltipMode": "DefineixModeDescriptiu",
     "SetTooltipMode.Syntax": "[ <Objecte>, <Nombre> ]",
     "SetTrace": "ActivaTra\xe7",

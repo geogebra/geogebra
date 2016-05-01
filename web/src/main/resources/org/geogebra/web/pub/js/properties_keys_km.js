@@ -858,7 +858,7 @@ __GGB__keysVar.km.command = {
     "SetSeed": "SetSeed",
     "SetSeed.Syntax": "[ <Integer> ]",
     "SetSpinSpeed": "SetSpinSpeed",
-    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
+    "SetSpinSpeed.Syntax": "[ <Number> ]",
     "SetTooltipMode": "SetTooltipMode",
     "SetTooltipMode.Syntax": "[ <Object>, <Number> ]",
     "SetTrace": "SetTrace",

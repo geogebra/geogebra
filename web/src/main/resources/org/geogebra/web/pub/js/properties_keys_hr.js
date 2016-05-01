@@ -858,7 +858,7 @@ __GGB__keysVar.hr.command = {
     "SetSeed": "PostaviGenerator",
     "SetSeed.Syntax": "[ <cijeli broj> ]",
     "SetSpinSpeed": "BrzinaOkretanja",
-    "SetSpinSpeed.Syntax3D": "[ <broj> ]",
+    "SetSpinSpeed.Syntax": "[ <broj> ]",
     "SetTooltipMode": "PostaviNa\u010dinInfoObla\u010di\u0107a",
     "SetTooltipMode.Syntax": "[ <objekt>, <broj> ]",
     "SetTrace": "PostaviTrag",

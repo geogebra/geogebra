@@ -858,7 +858,7 @@ __GGB__keysVar.ms.command = {
     "SetSeed": "SetSeed",
     "SetSeed.Syntax": "[ <Integer> ]",
     "SetSpinSpeed": "SetLajuPutar",
-    "SetSpinSpeed.Syntax3D": "[ <Nombor> ]",
+    "SetSpinSpeed.Syntax": "[ <Nombor> ]",
     "SetTooltipMode": "SetModTooltip",
     "SetTooltipMode.Syntax": "[ <Objek>, <Nombor> ]",
     "SetTrace": "TetapkanSurih",

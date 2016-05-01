@@ -858,7 +858,7 @@ __GGB__keysVar.vi.command = {
     "SetSeed": "T\u1ea1oS\u1ed1Ng\u1eabuNhi\xean",
     "SetSeed.Syntax": "[ <S\u1ed1 nguy\xean> ]",
     "SetSpinSpeed": "\u0110\u1ecbnhT\u1ed1c\u0110\u1ed9Quay",
-    "SetSpinSpeed.Syntax3D": "[ <s\u1ed1 t\u1ed1c \u0111\u1ed9> ]",
+    "SetSpinSpeed.Syntax": "[ <s\u1ed1 t\u1ed1c \u0111\u1ed9> ]",
     "SetTooltipMode": "Thi\u1ebftL\u1eadpKi\u1ec3uH\u01b0\u1edbngD\u1eabn",
     "SetTooltipMode.Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <S\u1ed1> ]",
     "SetTrace": "T\u1ea1oV\u1ebft",

@@ -858,7 +858,7 @@ __GGB__keysVar.da.command = {
     "SetSeed": "SetStart",
     "SetSeed.Syntax": "[ <Heltal> ]",
     "SetSpinSpeed": "SetSpinSpeed",
-    "SetSpinSpeed.Syntax3D": "[ <Tal> ]",
+    "SetSpinSpeed.Syntax": "[ <Tal> ]",
     "SetTooltipMode": "V\xe6lgV\xe6rkt\xf8jstipTilstand",
     "SetTooltipMode.Syntax": "[ <objekt>, <tal> ]",
     "SetTrace": "S\xe6tSpor",

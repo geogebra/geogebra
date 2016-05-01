@@ -858,7 +858,7 @@ __GGB__keysVar.zh_CN.command = {
     "SetSeed": "\u8bbe\u5b9a\u79cd\u5b50",
     "SetSeed.Syntax": "[ <\u6574\u6570> ]",
     "SetSpinSpeed": "\u8f6c\u901f",
-    "SetSpinSpeed.Syntax3D": "[ <\u901f\u5ea6\u503c> ]",
+    "SetSpinSpeed.Syntax": "[ <\u901f\u5ea6\u503c> ]",
     "SetTooltipMode": "\u5de5\u5177\u63d0\u793a\u6a21\u5f0f",
     "SetTooltipMode.Syntax": "[ <\u5bf9\u8c61>, <\u6570\u503c 0_\u81ea\u52a8|1_\u5f00\u542f|2_\u5173\u95ed|3_\u6807\u9898|4_\u4e0b\u4e00\u5355\u5143\u683c> ]",
     "SetTrace": "\u8ddf\u8e2a",
