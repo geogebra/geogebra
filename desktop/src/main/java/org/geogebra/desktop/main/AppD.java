@@ -448,12 +448,12 @@ public class AppD extends App implements KeyEventDispatcher {
 		// or eg from Eclipse
 		getCodeBase(); // initialize runningFromJar
 
-		App.debug("isApplet=" + isApplet + " runningFromJar=" + runningFromJar
+		Log.debug("isApplet=" + isApplet + " runningFromJar=" + runningFromJar
 				+ " appletImpl=" + appletImpl);
 		if (!isApplet && runningFromJar) {
 			setUpLogging();
 		} else {
-			App.debug("Not setting up logging via LogManager");
+			Log.debug("Not setting up logging via LogManager");
 		}
 
 		// needed for JavaScript getCommandName(), getValueString() to work
@@ -596,8 +596,7 @@ ToolbarD.getAllTools(this));
 			// user authentication handling
 			initSignInEventFlow();
 		}
-		// GiacD giac = new GiacD();
-		// App.debug(giac.evalCAS("factor(x^4-1)"));
+
 	}
 
 	// **************************************************************************
@@ -667,7 +666,7 @@ ToolbarD.getAllTools(this));
 						.getCrossPlatformLookAndFeelClassName());
 			}
 		} catch (Exception e) {
-			App.debug(e + "");
+			Log.debug(e + "");
 		}
 	}
 
@@ -1025,7 +1024,7 @@ ToolbarD.getAllTools(this));
 
 						if (OK || "GEOGEBRAERROR".equals(result)
 								|| "RANDOM".equals(result)) {
-							App.debug("OK " + count);
+							Log.debug("OK " + count);
 						} else {
 
 							String error = "\n\nnot OK " + count + "\ncmd = "
@@ -2207,7 +2206,7 @@ ToolbarD.getAllTools(this));
 							border));
 				}
 			} catch (Exception e) {
-				App.debug("macro does not exist: ID = " + macroID);
+				Log.debug("macro does not exist: ID = " + macroID);
 				return null;
 			}
 		} else {
@@ -2218,7 +2217,7 @@ ToolbarD.getAllTools(this));
 					+ ".png";
 			icon = getToolBarImage(iconName, border);
 			if (icon == null) {
-				App.debug("icon missing for mode " + modeText + " (" + mode
+				Log.debug("icon missing for mode " + modeText + " (" + mode
 						+ ")");
 			}
 		}
@@ -2301,7 +2300,7 @@ ToolbarD.getAllTools(this));
 			showError("LoadFileFailed");
 			return null;
 		} catch (java.lang.OutOfMemoryError t) {
-			App.debug("Out of memory");
+			Log.debug("Out of memory");
 			System.gc();
 			setDefaultCursor();
 			// t.printStackTrace();
@@ -4449,10 +4448,10 @@ ToolbarD.getAllTools(this));
 	 * http://blogs.sun.com/nickstephen/entry/java_redirecting_system_out_and
 	 */
 	private void setUpLogging() {
-		App.debug("Setting up logging");
+		Log.debug("Setting up logging");
 		if (Log.logger.getLogDestination() == LogDestination.FILE) {
 			// File logging already set up, don't override:
-			App.debug("Logging into explicitly defined file into GeoGebraLogger, not using LogManager");
+			Log.debug("Logging into explicitly defined file into GeoGebraLogger, not using LogManager");
 			return;
 		}
 
@@ -4470,7 +4469,7 @@ ToolbarD.getAllTools(this));
 		}
 		logFile.append(".txt");
 
-		App.debug("Logging is redirected to " + logFile.toString());
+		Log.debug("Logging is redirected to " + logFile.toString());
 		Log.logger.setTimeShown(false); // do not print the time twice
 
 		// log file max size 10K, 1 file, append-on-open
@@ -4534,27 +4533,7 @@ ToolbarD.getAllTools(this));
 
 		Log.logger.setLogDestination(LogDestination.FILE);
 		Log.logger.setLogFile(logFile.toString());
-		App.debug(logFile.toString());
-	}
-
-	/*
-	 * return folder that the jars are running from eg needed to find local
-	 * Maxima install
-	 */
-	public static String getCodeBaseFolder() {
-		String codeBaseFolder = getCodeBase().toString();
-
-		if (!codeBaseFolder.startsWith("file:/")) {
-			return null;
-		}
-
-		// change %20 to <space>
-		if (WINDOWS) {
-			codeBaseFolder = codeBaseFolder.replaceAll("%20", " ");
-		}
-
-		// strip "file:/", leave leading / for Mac & Linux
-		return codeBaseFolder.substring(WINDOWS ? 6 : 5);
+		Log.debug(logFile.toString());
 	}
 
 	/*
@@ -5064,7 +5043,7 @@ ToolbarD.getAllTools(this));
 		@Override
 		public void run() {
 			// Display info about this particular thread
-			App.debug(Thread.currentThread() + " running");
+			Log.debug(Thread.currentThread() + " running");
 			initializeSingularWS();
 		}
 	}
@@ -5075,7 +5054,7 @@ ToolbarD.getAllTools(this));
 		t.start();
 		int i = 0;
 		while (t.isAlive()) {
-			App.debug("Waiting for the initialization: " + i++);
+			Log.debug("Waiting for the initialization: " + i++);
 			try {
 				t.join(250);
 			} catch (InterruptedException e) {
@@ -5083,7 +5062,7 @@ ToolbarD.getAllTools(this));
 			}
 			if (((System.currentTimeMillis() - startTime) > SingularWSSettings.singularWebServiceTimeout * 1000L)
 					&& t.isAlive()) {
-				App.debug("SingularWS startup timeout");
+				Log.debug("SingularWS startup timeout");
 				t.interrupt();
 				// t.join(); //
 				// http://docs.oracle.com/javase/tutorial/essential/concurrency/simple.html
@@ -5247,7 +5226,7 @@ ToolbarD.getAllTools(this));
 			// app.addMacroXML(ad.getKernel().getMacroXML(
 			// ad.getKernel().getAllMacros()));
 		} catch (Exception ex) {
-			App.debug("Could not load any macros at \"Insert File\"");
+			Log.debug("Could not load any macros at \"Insert File\"");
 			ex.printStackTrace();
 		}
 
