@@ -857,7 +857,6 @@ public class RadioTreeItem extends AVTreeItem
 
 			sliderPanel = new FlowPanel();
 
-			createAnimPanel();
 			createMinMaxPanel();
 
 			createContentPanel();
@@ -895,7 +894,7 @@ public class RadioTreeItem extends AVTreeItem
 			sliderPanel.setVisible(hasSlider);
 		}
 		if (animPanel != null) {
-			animPanel.setVisible(hasSlider);
+			animPanel.setVisible(geo != null && geo.isAnimatable());
 		}
 
 	}
@@ -951,6 +950,7 @@ public class RadioTreeItem extends AVTreeItem
 	// methods for AV Slider
 
 	private void createAnimPanel() {
+		Log.debug("CREATE:" + geo.isAnimatable());
 		animPanel = geo.isAnimatable() ? new AnimPanel(this) : null;
 
 	}
@@ -1159,7 +1159,7 @@ public class RadioTreeItem extends AVTreeItem
 	 * Updates all the contents of the AV Item
 	 */
 	protected void doUpdate() {
-
+		setNeedsUpdate(false);
 		if (hasMarblePanel()) {
 			marblePanel.update();
 		}
@@ -1192,7 +1192,6 @@ public class RadioTreeItem extends AVTreeItem
 	private void updateTextItems() {
 
 		// check for new LaTeX
-		setNeedsUpdate(false);
 		boolean latexAfterEdit = false;
 
 		if (!isDefinitionAndValue() && outputPanel != null) {
@@ -1509,7 +1508,9 @@ public class RadioTreeItem extends AVTreeItem
 				? geo.toEditableLaTeXString(!substituteNumbers,
 						tpl)
 				: geo.getLaTeXAlgebraDescriptionWithFallback(
-						substituteNumbers || sliderNeeded(),
+						substituteNumbers
+								|| (geo instanceof GeoNumeric
+										&& geo.isSimple()),
 						tpl, true);
 
 	}
@@ -2246,7 +2247,11 @@ marblePanel, evt))) {
 		if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
 			setFirst(first);
 			buttonPanel.clear();
-			if (animPanel != null && geo.isAnimatable()) {
+			Log.debug("ANIM" + geo.isAnimatable());
+			if (geo.isAnimatable()) {
+				if (animPanel == null) {
+					createAnimPanel();
+				}
 				buttonPanel.add(animPanel);
 			}
 			if (getPButton() != null) {
