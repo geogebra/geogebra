@@ -49,6 +49,10 @@ public class AlgoLocusEquation extends AlgoElement {
     private EquationSystem old_system = null; // for caching
 	private GeoElement implicitLocus = null;
     
+	private static double lastClock = 0;
+	private static int frames = 0;
+	private static int allfps = 0;
+
 	public AlgoLocusEquation(Construction cons, String label, GeoPoint locusPoint, GeoPoint movingPoint) {
 		this(cons, locusPoint, movingPoint);
         this.geoPoly.setLabel(label);
@@ -140,6 +144,28 @@ public class AlgoLocusEquation extends AlgoElement {
 	 */
 	@Override
 	public void compute() {
+
+		/*
+		 * This piece of code helps computing the FPS rate on a LocusEquation
+		 * animation. A slider must be animated in order to get the benchmark
+		 * result.
+		 */
+
+		double newClock = kernel.getApplication().getMillisecondTime();
+		if (lastClock > 0) {
+			if (kernel.isAnimationRunning()) {
+				frames++;
+				int fps = (int) (1000 / (newClock - lastClock));
+				allfps += fps;
+				Log.debug("Frame " + frames + ", " + fps + " FPS, average: "
+						+ (allfps / frames) + " FPS");
+			} else {
+				// resetting vars on manual dragging
+				frames = 0;
+				allfps = 0;
+			}
+		}
+		lastClock = newClock;
 
 		if (implicitLocus != null) {
 			computeExplicitImplicit(true);

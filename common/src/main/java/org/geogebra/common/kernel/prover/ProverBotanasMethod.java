@@ -53,10 +53,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public class ProverBotanasMethod {
 
-	private static double lastClock = 0;
-	private static int frames = 0;
-	private static int allfps = 0;
-
 	private static HashMap<List<Variable>, GeoElement> botanaVarsInv;
 
 	/**
@@ -833,36 +829,10 @@ public class ProverBotanasMethod {
 			geoProver = prover;
 
 			/*
-			 * This piece of code helps computing the FPS rate on a
-			 * LocusEquation animation. A slider must be animated in order to
-			 * get the benchmark result.
-			 */
-			ProverEngine pe = geoProver.getProverEngine();
-			if (pe == ProverEngine.LOCUS_EXPLICIT
-					|| pe == ProverEngine.LOCUS_IMPLICIT) {
-				double newClock = statement.getKernel().getApplication()
-						.getMillisecondTime();
-				if (lastClock > 0) {
-					if (statement.getKernel().isAnimationRunning()) {
-						frames++;
-						int fps = (int) (1000 / (newClock - lastClock));
-						allfps += fps;
-						Log.debug("Frame " + frames + ", " + fps
-								+ " FPS, average: "
-							+ (allfps / frames) + " FPS");
-					} else {
-						// resetting vars on manual dragging
-						frames = 0;
-						allfps = 0;
-					}
-				}
-				lastClock = newClock;
-			}
-
-			/*
 			 * Make sure that the prover has the same statement. FIXME: this is
 			 * redundant, it would be enough to set the prover here.
-			 */ prover.setStatement(statement);
+			 */
+			prover.setStatement(statement);
 			setHypotheses();
 			if (result != null) {
 				return;
