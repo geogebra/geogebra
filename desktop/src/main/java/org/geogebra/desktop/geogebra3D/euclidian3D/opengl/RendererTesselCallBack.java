@@ -1,8 +1,8 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-import javax.media.opengl.glu.GLUtessellatorCallback;
-
 import org.geogebra.desktop.main.AppD;
+
+import com.jogamp.opengl.glu.GLUtessellatorCallback;
 
 public class RendererTesselCallBack implements GLUtessellatorCallback {
 	private ManagerGLList manager;
