@@ -84,7 +84,8 @@ public class MyError extends java.lang.Error {
 			return l10n.getError(getMessage());
 		}
 		StringBuilder sb = new StringBuilder();
-		sb.append(l10n.getError(strs[0]) + "\n");
+		// space needed in case error is displayed on one line
+		sb.append(l10n.getError(strs[0]) + " \n");
 		for (int i = 1; i < strs.length; i++) {
 			sb.append(l10n.getError(strs[i]) + " ");
 		}
