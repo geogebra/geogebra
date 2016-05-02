@@ -11,13 +11,13 @@ import org.geogebra.common.util.AsyncOperation;
 public class RedefineInputHandler implements InputHandler {
 
 	private GeoElement geo;
-	private App app;
-	private String oldString; // Michael Borcherds 2007-12-31
+	App app;
+	String oldString;
 
 	public RedefineInputHandler(App app, GeoElement geo, String oldString) {
 		this.geo = geo;
 		this.app = app;
-		this.oldString=oldString; // Michael Borcherds 2007-12-31
+		this.oldString = oldString;
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class RedefineInputHandler implements InputHandler {
 		}
 		if (rawInput.equals(this.oldString)) {
 			callback.callback(true);
-			return; // Michael Borcherds 2007-12-31
+			return;
 
 		}
 		try {
@@ -57,9 +57,8 @@ public class RedefineInputHandler implements InputHandler {
 						+ ")=" + inputValue;
 			}
 			final String input = inputValue;
-			app.getKernel().getAlgebraProcessor().changeGeoElement(
-					geo, inputValue, true, true,
-					new AsyncOperation<GeoElement>() {
+			app.getKernel().getAlgebraProcessor().changeGeoElement(geo,
+					inputValue, true, true, new AsyncOperation<GeoElement>() {
 
 						@Override
 						public void callback(GeoElement newGeo) {
@@ -74,12 +73,13 @@ public class RedefineInputHandler implements InputHandler {
 								oldString = input;
 								// -----------------------------------------------------------
 							}
-							callback.callback(newGeo != null);
-									}
-					});
-			
 
-            
+							// needed for Apply button
+							if (callback != null) {
+								callback.callback(newGeo != null);
+							}
+						}
+					});
 
 			return;
 		} catch (Exception e) {

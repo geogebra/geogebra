@@ -397,7 +397,6 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 
 	private ErrorHandler getErrorHandler() {
-		// TODO Auto-generated method stub
 		return new ErrorHandler() {
 
 			public void showError(String msg) {
