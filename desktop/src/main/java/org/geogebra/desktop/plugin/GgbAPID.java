@@ -263,7 +263,7 @@ public class GgbAPID extends GgbAPI {
 				}
 
 				// more control but doesn't paste into eg Paint, Google Docs
-				GraphicExportDialog.exportPNG(true, transparent, (int) DPI,
+				GraphicExportDialog.exportPNGClipboard(transparent, (int) DPI,
 						exportScale, (AppD) app, (EuclidianViewInterfaceD) ev);
 			}
 			return "";

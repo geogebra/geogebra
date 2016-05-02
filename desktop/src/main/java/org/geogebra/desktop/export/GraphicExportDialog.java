@@ -461,25 +461,24 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			FontManagerD fm = app.getFontManager();
 			int fontSize = fm.getFontSize();
+			File pngDestination = getPNGdestination(app);
+			if (pngDestination != null) {
+				if (app.has(Feature.DESKTOP_EXPORT_BRAILLE) && braille) {
+					fm.updateDefaultFonts(fontSize, brailleFont.getFontName(),
+							brailleFont.getFontName());
 
-			if (app.has(Feature.DESKTOP_EXPORT_BRAILLE) && braille) {
-				fm.updateDefaultFonts(fontSize,
-						brailleFont.getFontName(), brailleFont.getFontName());
+					getEuclidianView().updateFonts();
+				}
 
-				getEuclidianView().updateFonts();
+				exportPNGSilent(pngDestination, toClipboard, transparent,
+						getDPI(), exportScale, app, getEuclidianView());
+
+				if (app.has(Feature.DESKTOP_EXPORT_BRAILLE) && braille) {
+					fm.updateDefaultFonts(fontSize, "SansSerif", "Serif");
+
+					getEuclidianView().updateFonts();
+				}
 			}
-
-			exportPNG(toClipboard, transparent, getDPI(), exportScale, app,
-					getEuclidianView());
-
-			if (app.has(Feature.DESKTOP_EXPORT_BRAILLE) && braille) {
-				fm.updateDefaultFonts(fontSize,
-						"SansSerif",
-						"Serif");
-
-				getEuclidianView().updateFonts();
-			}
-
 			break;
 
 		case EPS: // EPS
@@ -853,19 +852,32 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 *            whether to use clipboard or not
 	 * @return whether succesful
 	 */
-	final public static boolean exportPNG(boolean exportToClipboard,
+	final public static boolean exportPNGClipboard(
 			boolean transparent0, int dpi, double exportScale0, AppD app,
 			EuclidianViewInterfaceD ev) {
 		File file;
 		String tempDir = UtilD.getTempDir();
-		if (exportToClipboard) {
-			file = new File(tempDir + "geogebra.png");
-		} else {
-			file = app.getGuiManager().showSaveDialog(FileExtensions.PNG, null,
-					app.getPlain("png") + " " + app.getMenu("Files"), true,
-					false);
-		}
 
+			file = new File(tempDir + "geogebra.png");
+
+		return exportPNGSilent(file, true, transparent0, dpi,
+				exportScale0,
+				app, ev);
+	}
+
+	/*
+	 * Keylistener implementation of PropertiesDialog
+	 */
+
+	private static File getPNGdestination(AppD app) {
+
+		return app.getGuiManager().showSaveDialog(FileExtensions.PNG, null,
+				app.getPlain("png") + " " + app.getMenu("Files"), true, false);
+	}
+
+	private static boolean exportPNGSilent(File file, boolean exportToClipboard,
+			boolean transparent0, int dpi, double exportScale0, AppD app,
+			EuclidianViewInterfaceD ev) {
 		if (file == null) {
 			return false;
 		}
@@ -889,10 +901,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return false;
 		}
 	}
-
-	/*
-	 * Keylistener implementation of PropertiesDialog
-	 */
 
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
