@@ -69,23 +69,19 @@ import com.himamis.retex.renderer.web.font.AsyncLoadedFont.FontLoadCallback;
 
 public class Graphics2DW implements Graphics2DInterface {
 
-	private Context2d context;
+	private JLMContext2d context;
 
 	private BasicStrokeW basicStroke;
 	private ColorW color;
 	private FontW font;
 
-	private TransformW transform;
-
-	private LinkedList<TransformW> transformationStack;
-	
 	private DrawingFinishedCallback drawingFinishedCallback;
 
 	public Graphics2DW(Context2d context) {
-		this.context = context;
+		this.context = (JLMContext2d) context;
+		this.context.initTransform();
 		initBasicStroke();
 		initColor();
-		initTransform();
 		initFont();
 	}
 
@@ -102,12 +98,6 @@ public class Graphics2DW implements Graphics2DInterface {
 	private void initColor() {
 		color = new ColorW(0, 0, 0);
 		context.setStrokeStyle(color.getCssColor());
-	}
-
-	private void initTransform() {
-		transform = new TransformW();
-		transformationStack = new LinkedList<TransformW>();
-		transformationStack.add(transform.createClone());
 	}
 
 	private void initFont() {
@@ -147,19 +137,17 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public TransformW getTransform() {
-		return transform.createClone();
+		return new TransformW(context.getTransform0(),context.getTransform1(),context.getTransform2(),context.getTransform3(),context.getTransform4(),context.getTransform5());
 	}
 
 	@Override
 	public void saveTransformation() {
-		context.save();
-		transformationStack.add(transform.createClone());
+		context.saveTransform();
 	}
 
 	@Override
 	public void restoreTransformation() {
-		context.restore();
-		transform = transformationStack.pollLast();
+		context.restoreTransform();
 
 		// these values are also restored on context.restore()
 		// so we have to re-set them
@@ -257,7 +245,7 @@ public class Graphics2DW implements Graphics2DInterface {
 		private int x;
 		private int y;
 
-		private TransformW transform;
+		private TransformW transformCopy;
 		private FontW font;
 		private ColorW color;
 
@@ -267,7 +255,7 @@ public class Graphics2DW implements Graphics2DInterface {
 			this.x = x;
 			this.y = y;
 
-			transform = graphics.getTransform();
+			transformCopy = graphics.getTransform();
 			font = graphics.getFont();
 			color = graphics.getColor();
 		}
@@ -276,13 +264,16 @@ public class Graphics2DW implements Graphics2DInterface {
 			FontW oldFont = graphics.getFont();
 			ColorW oldColor = graphics.getColor();
 			
-			graphics.save();
+			graphics.saveTransformation();
 			graphics.setFont(font);
 			graphics.setColor(color);
-			graphics.transform(transform);
-			// graphics.setTransform(transform);
+			// TRAC-5353
+			// bad
+			// graphics.transform(transformCopy);
+			// good
+			graphics.setTransform(transformCopy);
 			graphics.fillTextInternal(text, x, y);
-			graphics.restore();
+			graphics.restoreTransformation();
 
 			graphics.setFont(oldFont);
 			graphics.setColor(oldColor);
@@ -373,25 +364,25 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	private void doArcPath(int x, int y, int width, int height, int startAngle,
 			int arcAngle) {
-		context.save();
+		context.saveTransform();
 		context.beginPath();
 
-		context.translate(x, y);
-		context.scale(width, height);
+		context.translate2(x, y);
+		context.scale2(width, height);
+		
 		context.arc(1, 1, 1, startAngle, arcAngle);
-		context.restore();
+		context.restoreTransform();
 	}
 
 	@Override
 	public void translate(double x, double y) {
-		context.translate(x, y);
-		transform.translate(x, y);
+		context.translate2(x, y);
 	}
+
 
 	@Override
 	public void scale(double x, double y) {
-		context.scale(x, y);
-		transform.scale(x, y);
+		context.scale2(x, y);
 	}
 
 	@Override
@@ -403,8 +394,7 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public void rotate(double theta) {
-		context.rotate(theta);
-		transform.rotate(theta);
+		context.rotate2(theta);
 	}
 
 	@Override
@@ -417,26 +407,14 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public void drawImage(Image image, Transform transform) {
-		context.save();
+		context.saveTransform(transform.getScaleX(), transform.getShearX(),
+				transform.getShearY(), transform.getScaleY(),
+				transform.getTranslateX(), transform.getTranslateY());
 
 		transform((TransformW) transform);
 		drawImage(image, 0, 0);
 
-		context.restore();
-	}
-
-	/**
-	 * Saves the context's state.
-	 */
-	protected void save() {
-		context.save();
-	}
-
-	/**
-	 * Restores the context's state.
-	 */
-	protected void restore() {
-		context.restore();
+		context.restoreTransform();
 	}
 
 	/**
@@ -448,8 +426,8 @@ public class Graphics2DW implements Graphics2DInterface {
 	 *            transformation matrix
 	 */
 	protected void transform(TransformW transform) {
-		context.transform(transform.getScaleX(), transform.getShearX(),
-				transform.getShearY(), transform.getScaleY(),
+		context.transform(transform.getScaleX(), transform.getShearY(),
+				transform.getShearX(), transform.getScaleY(),
 				transform.getTranslateX(), transform.getTranslateY());
 	}
 
@@ -461,9 +439,12 @@ public class Graphics2DW implements Graphics2DInterface {
 	 *            transformation matrix
 	 */
 	protected void setTransform(TransformW transform) {
-		context.setTransform(transform.getScaleX(), transform.getShearX(),
-				transform.getShearY(), transform.getScaleY(),
-				transform.getTranslateX(), transform.getTranslateY());
+	
+		double dp = context.getDevicePixelRatio();
+		
+		context.setTransform2(transform.getScaleX() * dp, transform.getShearY() * dp,
+				transform.getShearX() * dp, transform.getScaleY() * dp,
+				transform.getTranslateX() * dp, transform.getTranslateY() * dp);
 	}
 
 	@Override

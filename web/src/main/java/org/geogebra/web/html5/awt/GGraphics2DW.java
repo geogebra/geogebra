@@ -36,16 +36,16 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public class GGraphics2DW implements GGraphics2D {
 
 	protected final Canvas canvas;
-	private final MyContext2d context;
+	private final JLMContext2d context;
 	protected GShape clipShape = null;
 
 	private GFontW currentFont = new GFontW("normal");
 	private GColor color = new GColorW(255, 255, 255, 255);
-	private GAffineTransform currentTransform;
 	private float[] dash_array = null;
 
 	GPaint currentPaint = new GColorW(255, 255, 255, 255);
@@ -68,8 +68,8 @@ public class GGraphics2DW implements GGraphics2D {
 		this.id = counter++;
 		this.canvas = canvas;
 		setDirection();
-		this.context = (MyContext2d) canvas.getContext2d();
-		currentTransform = new AffineTransform();
+		this.context = (JLMContext2d) canvas.getContext2d();
+		this.context.initTransform();
 		preventContextMenu(canvas.getElement());
 	}
 
@@ -329,38 +329,31 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	public void translate(double tx, double ty) {
-		context.translate(tx, ty);
-		currentTransform.translate(tx, ty);
+		context.translate2(tx, ty);
 
 	}
 
 	public void scale(double sx, double sy) {
-		context.scale(sx, sy);
-		currentTransform.scale(sx, sy);
+		context.scale2(sx, sy);
 	}
 
 	public void transform(GAffineTransform Tx) {
-		context.transform(Tx.getScaleX(), Tx.getShearY(), Tx.getShearX(),
-		        Tx.getScaleY(), ((AffineTransform) Tx).getTranslateX(),
-		        ((AffineTransform) Tx).getTranslateY());
-		currentTransform.concatenate(Tx);
+		context.transform2(Tx.getScaleX(), Tx.getShearY(), Tx.getShearX(),
+				Tx.getScaleY(), ((AffineTransform) Tx).getTranslateX(),
+				((AffineTransform) Tx).getTranslateY());
 	}
 
-	public void setTransform(GAffineTransform Tx) {
-		context.setTransform(devicePixelRatio * Tx.getScaleX(),
+	private void setTransform(GAffineTransform Tx) {
+
+		context.setDevicePixelRatio(devicePixelRatio);
+
+		context.setTransform2(devicePixelRatio * Tx.getScaleX(),
 				devicePixelRatio * Tx.getShearY(),
 				devicePixelRatio * Tx.getShearX(),
-				devicePixelRatio * Tx.getScaleY(), devicePixelRatio
-						* ((AffineTransform) Tx).getTranslateX(),
+				devicePixelRatio * Tx.getScaleY(),
+				devicePixelRatio * ((AffineTransform) Tx).getTranslateX(),
 				devicePixelRatio * ((AffineTransform) Tx).getTranslateY());
-		currentTransform = Tx;
 
-	}
-
-	public GAffineTransform getTransform() {
-		GAffineTransform ret = new AffineTransform();
-		ret.setTransform(currentTransform);
-		return ret;
 	}
 
 	public GComposite getComposite() {
@@ -401,7 +394,9 @@ public class GGraphics2DW implements GGraphics2D {
 	public void setCoordinateSpaceSize(int width, int height) {
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
-		setTransform(currentTransform);
+
+		context.resetTransform(devicePixelRatio);
+
 		setWidth(width);
 		setHeight(height);
 		this.updateCanvasColor();
@@ -490,7 +485,7 @@ public class GGraphics2DW implements GGraphics2D {
 		Shape shape2 = (Shape) shape;
 
 		doDrawShape(shape2, false);
-		context.save();
+		context.saveTransform();
 		context.clip();
 	}
 
@@ -499,10 +494,10 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	public void clearRect(int x, int y, int w, int h) {
-		context.save();
-		context.setTransform(1, 0, 0, 1, 0, 0);
+		context.saveTransform();
+		context.setTransform2(1, 0, 0, 1, 0, 0);
 		context.clearRect(x, y, w, h);
-		context.restore();
+		context.restoreTransform();
 	}
 
 	public void drawLine(int x1, int y1, int x2, int y2) {
@@ -532,7 +527,7 @@ public class GGraphics2DW implements GGraphics2D {
 		clipShape = shape;
 		if (shape == null) {
 			// this may be an intentional call to restore the context
-			context.restore();
+			context.restoreTransform();
 			return;
 		}
 		Shape shape2 = (Shape) shape;
@@ -543,9 +538,9 @@ public class GGraphics2DW implements GGraphics2D {
 			// clip to overwrite
 			// in this case we don't want to double-clip something so let's
 			// restore the context
-			context.restore();
+			context.restoreTransform();
 		}
-		context.save();
+		context.saveTransform();
 		context.clip();
 	}
 
@@ -905,7 +900,7 @@ public class GGraphics2DW implements GGraphics2D {
 		return devicePixelRatio;
 	}
 
-	public MyContext2d getContext() {
+	public JLMContext2d getContext() {
 		return context;
 	}
 
@@ -973,20 +968,14 @@ public class GGraphics2DW implements GGraphics2D {
 		return this.id;
 	}
 
-	private GAffineTransform savedTransform;
-
 	@Override
 	public void saveTransform() {
-		savedTransform = getTransform();
+		context.saveTransform();
 	}
 
 	@Override
 	public void restoreTransform() {
-		if (savedTransform == null) {
-			throw new RuntimeException("The method saveTransform() was not called");
-		}
-		setTransform(savedTransform);
-		savedTransform = null;
+		context.restoreTransform();
 	}
 
 	public void setAltText(String altStr) {

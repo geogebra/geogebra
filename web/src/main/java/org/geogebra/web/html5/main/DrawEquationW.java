@@ -15,7 +15,6 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
@@ -39,6 +38,7 @@ import com.himamis.retex.renderer.web.DrawingFinishedCallback;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public class DrawEquationW extends DrawEquation {
 
@@ -1401,7 +1401,7 @@ public class DrawEquationW extends DrawEquation {
 			c.getContext2d().fillRect(0, 0, c.getCoordinateSpaceWidth(),
 					c.getCoordinateSpaceHeight());
 		}
-		Context2d ctx = c.getContext2d();
+		JLMContext2d ctx = (JLMContext2d) c.getContext2d();
 		AppW app = ((AppW) geo.getKernel().getApplication());
 		app.getDrawEquation().checkFirstCall(app);
 		GFont font = AwtFactory.prototype.newFont("geogebra", GFont.PLAIN,
@@ -1418,7 +1418,7 @@ public class DrawEquationW extends DrawEquation {
 		c.getElement().getStyle().setWidth(icon.getIconWidth(), Unit.PX);
 		c.getElement().getStyle().setHeight(icon.getIconHeight(), Unit.PX);
 		c.getElement().getStyle().setMargin(4, Unit.PX);
-		ctx.scale(ratio, ratio);
+		ctx.scale2(ratio, ratio);
 
 		icon.paintIcon(new HasForegroundColor() {
 			@Override
