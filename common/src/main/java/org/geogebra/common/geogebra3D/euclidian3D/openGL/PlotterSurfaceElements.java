@@ -675,16 +675,18 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		super(manager);
 	}
 
+
+
 	@Override
 	public void drawSphere(Coords center, double radius, int longitude,
-			double longitudeStart, int longitudeLength) {
+			double longitudeStart, int longitudeLength, double frustumRadius) {
 
 		startGeometry();
 
 		// set texture to (0,0)
 		manager.setDummyTexture();
 
-		setLatitudeMinMaxForEllipsoid(center, radius, longitude);
+		setLatitudeMinMaxForEllipsoid(center, radius, longitude, frustumRadius);
 
 		if (drawSphere == null) {
 			drawSphere = new DrawSphere();
@@ -706,13 +708,12 @@ public class PlotterSurfaceElements extends PlotterSurface {
 	}
 
 	private void setLatitudeMinMaxForEllipsoid(Coords center, double radius,
-			int longitude) {
+			int longitude, double frustumRadius) {
 
 		latitude = longitude / 4;
 
 		// check which parts are visible (latitudes)
 		Coords o = manager.getView3D().getCenter();
-		double frustumRadius = manager.getView3D().getFrustumRadius();
 
 		double z = center.getZ();
 		double zMin = o.getZ() - frustumRadius;
@@ -1408,7 +1409,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		manager.setDummyTexture();
 
 		double r = Math.max(r0, Math.max(r1, r2));
-		setLatitudeMinMaxForEllipsoid(center, r, longitude);
+		setLatitudeMinMaxForEllipsoid(center, r, longitude, manager.getView3D()
+				.getFrustumRadius());
 
 		if (drawEllipsoid == null) {
 			drawEllipsoid = new DrawEllipsoid();

@@ -681,6 +681,7 @@ public class PlotterSurface {
 
 	private Coords[] coordsArray = new Coords[0];
 
+
 	/**
 	 * draw a sphere with center and radius. view scaling is used to know how
 	 * many triangles are needed
@@ -699,6 +700,12 @@ public class PlotterSurface {
 	 */
 	public void drawSphere(Coords center, double radius, int longitude,
 			double longitudeStart, int longitudeLength) {
+		drawSphere(center, radius, longitude, longitudeStart, longitudeLength,
+				manager.getView3D().getFrustumRadius());
+	}
+
+	public void drawSphere(Coords center, double radius, int longitude,
+			double longitudeStart, int longitudeLength, double frustumRadius) {
 
 		manager.startGeometry(Manager.Type.TRIANGLES);
 
@@ -709,7 +716,6 @@ public class PlotterSurface {
 
 		// check which parts are visible (latitudes)
 		Coords o = manager.getView3D().getCenter();
-		double frustumRadius = manager.getView3D().getFrustumRadius();
 
 		double z = center.getZ();
 		double zMin = o.getZ() - frustumRadius;
@@ -948,20 +954,8 @@ public class PlotterSurface {
 	private Coords n1, n2, n3, n4, v1, v2, v3, v4;
 
 	public void drawSphere(int size, Coords center, double radius) {
-		manager.startGeometry(Manager.Type.TRIANGLES);
 
-		if (n1 == null) {
-			n1 = new Coords(4);
-			n2 = new Coords(4);
-			n3 = new Coords(4);
-			n4 = new Coords(4);
-			v1 = Coords.createInhomCoorsInD3();
-			v2 = Coords.createInhomCoorsInD3();
-			v3 = Coords.createInhomCoorsInD3();
-			v4 = Coords.createInhomCoorsInD3();
-		}
-
-		int longitude = 6;
+		int longitude = 8;
 		size += 3;
 		while (longitude * 6 <= size * size) {// find the correct longitude size
 												// (size=3 <-> longitude=12 and
@@ -969,45 +963,8 @@ public class PlotterSurface {
 			longitude *= 2;
 		}
 
-		// App.debug("========== point : longitude = "+longitude);
-
-		// longitude=2;
-
-		int latitude = longitude / 2;
-
-		// App.debug("radius = "+radius+", latitude = "+latitude+", longitude = "+longitude);
-
-		for (int ui = 0; ui < longitude; ui++) {
-
-			for (int vi = -latitude; vi < latitude; vi++) {
-
-				sphericalCoords(ui, vi, longitude, latitude, n1);
-				sphericalCoords(ui + 1, vi, longitude, latitude, n2);
-				sphericalCoords(ui + 1, vi + 1, longitude, latitude, n3);
-				sphericalCoords(ui, vi + 1, longitude, latitude, n4);
-				v1.setMul(n1, radius);
-				v2.setMul(n2, radius);
-				v3.setMul(n3, radius);
-				v4.setMul(n4, radius);
-				v1.setAdd(center, v1);
-				v2.setAdd(center, v2);
-				v3.setAdd(center, v3);
-				v4.setAdd(center, v4);
-
-				drawNV(n1, v1);
-				drawNV(n2, v2);
-				drawNV(n3, v3);
-
-				drawNV(n1, v1);
-				drawNV(n3, v3);
-				drawNV(n4, v4);
-
-
-			}
-
-		}
-
-		manager.endGeometry();
+		drawSphere(center, radius, longitude, 0, longitude,
+				Double.POSITIVE_INFINITY);
 	}
 
 	protected static void cosSin(int vi, int latitude, double[] ret) {

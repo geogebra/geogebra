@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.TypeFor3DPrinter;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -90,8 +91,8 @@ public class DrawCurve3D extends Drawable3DCurves {
 	@Override
 	public void drawInObjFormat(Renderer renderer) {
 		if (isVisible()) {
-			renderer.getGeometryManager().drawInObjFormat(getGeoElement(),
-					getGeometryIndex());
+			renderer.getGeometryManager().drawInObjFormat(this,
+					TypeFor3DPrinter.CURVE);
 		}
 	}
 
