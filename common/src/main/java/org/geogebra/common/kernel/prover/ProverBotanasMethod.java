@@ -832,17 +832,29 @@ public class ProverBotanasMethod {
 			geoStatement = statement;
 			geoProver = prover;
 
+			/*
+			 * This piece of code helps computing the FPS rate on a
+			 * LocusEquation animation. A slider must be animated in order to
+			 * get the benchmark result.
+			 */
 			ProverEngine pe = geoProver.getProverEngine();
 			if (pe == ProverEngine.LOCUS_EXPLICIT
 					|| pe == ProverEngine.LOCUS_IMPLICIT) {
 				double newClock = statement.getKernel().getApplication()
 						.getMillisecondTime();
 				if (lastClock > 0) {
-					frames++;
-					int fps = (int) (1000 / (newClock - lastClock));
-					allfps += fps;
-					Log.debug("Frame " + frames + ", " + fps + " FPS, average: "
+					if (statement.getKernel().isAnimationRunning()) {
+						frames++;
+						int fps = (int) (1000 / (newClock - lastClock));
+						allfps += fps;
+						Log.debug("Frame " + frames + ", " + fps
+								+ " FPS, average: "
 							+ (allfps / frames) + " FPS");
+					} else {
+						// resetting vars on manual dragging
+						frames = 0;
+						allfps = 0;
+					}
 				}
 				lastClock = newClock;
 			}
