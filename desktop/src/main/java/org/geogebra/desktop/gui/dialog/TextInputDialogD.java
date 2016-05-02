@@ -1093,9 +1093,67 @@ public class TextInputDialogD extends InputDialogD
 			// create new text
 			boolean createText = editGeo == null;
 			if (createText) {
-				GeoElement[] ret = kernel.getAlgebraProcessor()
-						.processAlgebraCommand(inputValue, false);
+				kernel.getAlgebraProcessor()
+						.processAlgebraCommandNoExceptionHandling(inputValue,
+								false, app.getErrorHandler(), true,
+								getCallback(callback));
+				return;
+
+			}
+
+			// change existing text
+			try {
+				kernel.getAlgebraProcessor().changeGeoElement(editGeo,
+						inputValue, true, true,
+						new AsyncOperation<GeoElement>() {
+
+							@Override
+							public void callback(GeoElement obj) {
+								// update editGeo
+								GeoText newText = (GeoText) obj;
+								editGeo = newText;
+
+								// make sure newText is using correct LaTeX
+								// setting
+								newText.setLaTeX(isLaTeX, true);
+
+								if (newText.getParentAlgorithm() != null)
+									newText.getParentAlgorithm().update();
+								else
+									newText.updateRepaint();
+
+								app.doAfterRedefine(newText);
+								callback.callback(obj != null);
+							}
+						});
+
+				// make redefined text selected
+				// app.addSelectedGeo(newText);
+				callback.callback(false);
+			} catch (Exception e) {
+				app.showError("ReplaceFailed");
+				callback.callback(false);
+			} catch (MyError err) {
+				app.showError(err);
+				callback.callback(false);
+			}
+		}
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		app.setMoveMode();
+	}
+
+	public AsyncOperation<GeoElement[]> getCallback(
+			final AsyncOperation<Boolean> callback) {
+		// TODO Auto-generated method stub
+		return new AsyncOperation<GeoElement[]>() {
+
+			@Override
+			public void callback(GeoElement[] ret) {
 				if (ret != null && ret[0] instanceof GeoText) {
+					Kernel kernel = ret[0].getKernel();
 					GeoText t = (GeoText) ret[0];
 					t.setLaTeX(isLaTeX, true);
 
@@ -1175,52 +1233,9 @@ public class TextInputDialogD extends InputDialogD
 				}
 				callback.callback(false);
 				return;
+
 			}
-
-			// change existing text
-			try {
-				kernel.getAlgebraProcessor().changeGeoElement(editGeo,
-						inputValue, true, true,
-						new AsyncOperation<GeoElement>() {
-
-							@Override
-							public void callback(GeoElement obj) {
-								// update editGeo
-								GeoText newText = (GeoText) obj;
-								editGeo = newText;
-
-								// make sure newText is using correct LaTeX
-								// setting
-								newText.setLaTeX(isLaTeX, true);
-
-								if (newText.getParentAlgorithm() != null)
-									newText.getParentAlgorithm().update();
-								else
-									newText.updateRepaint();
-
-								app.doAfterRedefine(newText);
-								callback.callback(obj != null);
-							}
-						});
-
-
-
-				// make redefined text selected
-				// app.addSelectedGeo(newText);
-				callback.callback(false);
-			} catch (Exception e) {
-				app.showError("ReplaceFailed");
-				callback.callback(false);
-			} catch (MyError err) {
-				app.showError(err);
-				callback.callback(false);
-			}
-		}
-	}
-
-	@Override
-	public void windowClosed(WindowEvent e) {
-		app.setMoveMode();
+		};
 	}
 
 	public void handleDialogVisibilityChange(boolean isVisible) {

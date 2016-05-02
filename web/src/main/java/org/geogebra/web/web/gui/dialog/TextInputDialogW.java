@@ -168,78 +168,11 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			// create new GeoText
 			boolean createText = editGeo == null;
 			if (createText) {
-				GeoElement[] ret = kernel.getAlgebraProcessor()
-						.processAlgebraCommand(inputValue, false);
-				if (ret != null && ret[0] instanceof GeoText) {
-					GeoText t = (GeoText) ret[0];
-					updateTextStyle(t);
+				kernel.getAlgebraProcessor()
+						.processAlgebraCommandNoExceptionHandling(inputValue,
+								false, app.getErrorHandler(), true,
+								getCallback(callback));
 
-					EuclidianViewInterfaceCommon activeView = kernel
-							.getApplication().getActiveEuclidianView();
-
-					if (startPoint.isLabelSet()) {
-						t.checkVisibleIn3DViewNeeded();
-						try {
-							t.setStartPoint(startPoint);
-						} catch (Exception e) {
-							// circular definition
-						}
-					} else {
-
-						if (rw) {
-							Coords coords = startPoint.getInhomCoordsInD3();
-							t.setRealWorldLoc(coords.getX(), coords.getY());
-							t.setAbsoluteScreenLocActive(false);
-						} else {
-							Coords coords = startPoint.getInhomCoordsInD3();
-							t.setAbsoluteScreenLoc(activeView.toScreenCoordX(coords.getX()),
-									activeView.toScreenCoordY(coords.getY()));
-							t.setAbsoluteScreenLocActive(true);
-
-						}
-
-						// when not a point clicked, show text only in active
-						// view
-						if (activeView.isEuclidianView3D()) {
-							// we need to add it to 3D view since by default
-							// it may not
-							kernel.getApplication().addToViews3D(t);
-							app.removeFromEuclidianView(t);
-							t.setVisibleInViewForPlane(false);
-							kernel.getApplication().removeFromViewsForPlane(t);
-						} else if (activeView.isDefault2D()) {
-							if (kernel.getApplication()
-									.isEuclidianView3Dinited()) {
-								kernel.getApplication().removeFromViews3D(t);
-							} else {
-								t.removeViews3D();
-							}
-							t.setVisibleInViewForPlane(false);
-							kernel.getApplication().removeFromViewsForPlane(t);
-						} else { // view for plane
-							app.removeFromEuclidianView(t);
-							if (kernel.getApplication()
-									.isEuclidianView3Dinited()) {
-								kernel.getApplication().removeFromViews3D(t);
-							} else {
-								t.removeViews3D();
-							}
-							t.setVisibleInViewForPlane(true);
-							kernel.getApplication().addToViewsForPlane(t);
-						}
-					}
-
-					// make sure (only) the output of the text tool is selected
-					activeView.getEuclidianController()
-							.memorizeJustCreatedGeos(ret);
-
-					t.updateRepaint();
-					app.storeUndoInfo();
-					callback.callback(true);
-					return;
-				}
-				callback.callback(false);
-				return;
 			}
 
 			// change existing text
@@ -276,6 +209,102 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 				app.showError(e.getMessage());
 				callback.callback(false);
 			}
+		}
+
+		private AsyncOperation<GeoElement[]> getCallback(
+				final AsyncOperation<Boolean> callback) {
+			// TODO Auto-generated method stub
+			return new AsyncOperation<GeoElement[]>() {
+
+				@Override
+				public void callback(GeoElement[] ret) {
+					if (ret != null && ret[0] instanceof GeoText) {
+						GeoText t = (GeoText) ret[0];
+						updateTextStyle(t);
+
+						EuclidianViewInterfaceCommon activeView = kernel
+								.getApplication().getActiveEuclidianView();
+
+						if (startPoint.isLabelSet()) {
+							t.checkVisibleIn3DViewNeeded();
+							try {
+								t.setStartPoint(startPoint);
+							} catch (Exception e) {
+								// circular definition
+							}
+						} else {
+
+							// // Michael Borcherds 2008-04-27 changed to
+							// RealWorld
+							// not absolute
+							// startpoint contains mouse coords
+							// t.setAbsoluteScreenLoc(euclidianView.toScreenCoordX(startPoint.inhomX),
+							// euclidianView.toScreenCoordY(startPoint.inhomY));
+							// t.setAbsoluteScreenLocActive(true);
+							if (rw) {
+								Coords coords = startPoint.getInhomCoordsInD3();
+								t.setRealWorldLoc(coords.getX(), coords.getY());
+								t.setAbsoluteScreenLocActive(false);
+							} else {
+								Coords coords = startPoint.getInhomCoordsInD3();
+								t.setAbsoluteScreenLoc((int) coords.getX(),
+										(int) coords.getY());
+								t.setAbsoluteScreenLocActive(true);
+
+							}
+
+							// when not a point clicked, show text only in
+							// active
+							// view
+							if (activeView.isEuclidianView3D()) {
+								// we need to add it to 3D view since by default
+								// it may not
+								kernel.getApplication().addToViews3D(t);
+								app.removeFromEuclidianView(t);
+								t.setVisibleInViewForPlane(false);
+								kernel.getApplication()
+										.removeFromViewsForPlane(t);
+							} else if (activeView.isDefault2D()) {
+								if (kernel.getApplication()
+										.isEuclidianView3Dinited()) {
+									kernel.getApplication()
+											.removeFromViews3D(t);
+								} else {
+									t.removeViews3D();
+								}
+								t.setVisibleInViewForPlane(false);
+								kernel.getApplication()
+										.removeFromViewsForPlane(t);
+							} else { // view for plane
+								app.removeFromEuclidianView(t);
+								if (kernel.getApplication()
+										.isEuclidianView3Dinited()) {
+									kernel.getApplication()
+											.removeFromViews3D(t);
+								} else {
+									t.removeViews3D();
+								}
+								t.setVisibleInViewForPlane(true);
+								kernel.getApplication().addToViewsForPlane(t);
+							}
+						}
+
+						// make sure (only) the output of the text tool is
+						// selected
+						activeView.getEuclidianController()
+								.memorizeJustCreatedGeos(ret);
+
+						t.updateRepaint();
+						app.storeUndoInfo();
+						callback.callback(true);
+						return;
+					}
+					callback.callback(false);
+					return;
+
+				}
+
+			};
 		}
 	}
 

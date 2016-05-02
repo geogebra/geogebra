@@ -653,7 +653,7 @@ public class EuclidianControllerCompanion {
 	 *         position on screen
 	 */
 	public boolean setCoordsToMouseLoc(GeoPointND loc) {
-		loc.setCoords(ec.xRW, ec.yRW, 1.0);
+		loc.setCoords(ec.mouseLoc.x, ec.mouseLoc.y, 1.0);
 		return false;
 	}
 
