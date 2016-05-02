@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
@@ -324,6 +323,19 @@ public abstract class Drawable3D extends DrawableND {
 		}
 
 		return ((Traceable) getGeoElement()).getTrace();
+	}
+
+	/**
+	 * 
+	 * @return true if something is recorded in trace
+	 */
+	protected boolean hasRecordedTrace() {
+		if (trace == null) {
+			return false;
+		}
+
+		return !trace.isEmpty();
+
 	}
 
 	/**
@@ -1234,29 +1246,16 @@ public abstract class Drawable3D extends DrawableND {
 
 	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
 
-	private TreeMap<TraceSettings, ArrayList<TraceIndex>> trace;
+	private Trace trace;
 
-	private TraceSettings traceSettingsCurrent;
 
-	protected class TraceIndex {
-		public int geom, surface;
-		public Coords center;
 
-		public TraceIndex(int geom, int surface) {
-			this.geom = geom;
-			this.surface = surface;
+	private Trace getTrace() {
+		if (trace == null) {
+			trace = new Trace();
 		}
-
-		public TraceIndex(int geom, int surface, Coords center) {
-			this.geom = geom;
-			this.surface = surface;
-			this.center = center;
-		}
-
+		return trace;
 	}
-
-	private TraceIndex lastTraceIndex;
-	private ArrayList<TraceIndex> lastTraceIndices;
 
 	/**
 	 * record trace
@@ -1267,25 +1266,7 @@ public abstract class Drawable3D extends DrawableND {
 			return;
 		}
 
-		if (trace == null) {
-			trace = new TreeMap<TraceSettings, ArrayList<TraceIndex>>();
-			traceSettingsCurrent = new TraceSettings(color, alpha);
-		}
-
-		traceSettingsCurrent.setAlpha(alpha);
-		ArrayList<TraceIndex> indices = trace.get(traceSettingsCurrent);
-		if (indices == null) {
-			indices = new ArrayList<TraceIndex>();
-			trace.put(traceSettingsCurrent.clone(), indices);
-		}
-
-		// really add trace at next current geometry record
-		if (lastTraceIndices != null) {
-			lastTraceIndices.add(lastTraceIndex);
-		}
-
-		lastTraceIndices = indices;
-		lastTraceIndex = newTraceIndex();
+		getTrace().record(this);
 
 	}
 
@@ -1445,7 +1426,6 @@ public abstract class Drawable3D extends DrawableND {
 				}
 
 				trace.clear();
-				lastTraceIndices = null;
 			}
 		}
 	}
@@ -1484,65 +1464,6 @@ public abstract class Drawable3D extends DrawableND {
 		return zPickFar;
 	}
 
-	private class TraceSettings implements Comparable<TraceSettings> {
-
-		private Coords c;
-		private double a;
-
-		public TraceSettings(Coords c, double a) {
-			this.c = c;
-			this.a = a;
-		}
-
-		public TraceSettings clone() {
-			Coords c1 = this.c.copyVector();
-			return new TraceSettings(c1, a);
-		}
-
-		public Coords getColor() {
-			return c;
-		}
-
-		public double getAlpha() {
-			return a;
-		}
-
-		public void setAlpha(double a) {
-			this.a = a;
-		}
-
-		private int getInt(double value) {
-			return (int) (256 * value);
-		}
-
-		@Override
-		public int compareTo(TraceSettings settings) {
-
-			// compare colors (r,g,b)
-			for (int i = 1; i <= 3; i++) {
-				int v1 = getInt(this.c.get(i));
-				int v2 = getInt(settings.c.get(i));
-				if (v1 < v2) {
-					return -1;
-				}
-				if (v1 > v2) {
-					return 1;
-				}
-			}
-
-			// compare alpha
-			int v1 = getInt(this.a);
-			int v2 = getInt(settings.a);
-			if (v1 < v2) {
-				return -1;
-			}
-			if (v1 > v2) {
-				return 1;
-			}
-
-			return 0;
-		}
-	}
 
 	/**
 	 * says if the drawable is hit by the hitting (e.g. ray)

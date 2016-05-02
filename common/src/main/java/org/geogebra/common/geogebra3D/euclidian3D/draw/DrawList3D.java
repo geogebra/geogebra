@@ -73,8 +73,11 @@ public class DrawList3D extends Drawable3D {
 		// remove end of list
 		for (int i = drawables.size() - 1; i >= drawablePos; i--) {
 			// getView3D().remove(drawables.get(i).getGeoElement());
-			drawable3DLists.remove((Drawable3D) drawables.get(i));
-			drawables.remove(i);
+			Drawable3D d = (Drawable3D) drawables.get(i);
+			if (!d.hasRecordedTrace()) {
+				drawable3DLists.remove(d);
+				drawables.remove(i);
+			}
 
 		}
 
