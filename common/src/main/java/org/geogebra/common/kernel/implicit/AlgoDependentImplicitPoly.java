@@ -184,7 +184,11 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 			if (geoElement instanceof GeoImplicit) {
 				((GeoImplicit) geoElement).setDefined();
 				((GeoImplicit) geoElement).fromEquation(equation, null);
-				((GeoImplicit) geoElement).setCoeff(coeff);
+				if (equation.mayBePolynomial()) {
+					((GeoImplicit) geoElement).setCoeff(coeff);
+				} else {
+					((GeoImplicit) geoElement).setCoeff((double[][]) null);
+				}
 			} else {
 				if (geoElement.hasChildren())
 					geoElement.setUndefined();
@@ -192,7 +196,11 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 					replaceGeoElement(kernel.newImplicitPoly(getConstruction()));
 					((GeoImplicit) geoElement).setDefined();
 					((GeoImplicit) geoElement).fromEquation(equation, null);
-					((GeoImplicit) geoElement).setCoeff(coeff);
+					if (equation.mayBePolynomial()) {
+						((GeoImplicit) geoElement).setCoeff(coeff);
+					} else {
+						((GeoImplicit) geoElement).setCoeff((double[][]) null);
+					}
 				}
 			}
 

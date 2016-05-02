@@ -168,7 +168,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * @param eqn
 	 *            equation
 	 */
-	public void fromEquation(Equation eqn, double[][] coeff) {
+	public void fromEquation(Equation eqn, double[][] coeffEqn) {
 		setDefinition(eqn.wrap());
 
 		ExpressionNode leftHandSide = eqn.getLHS();
@@ -217,8 +217,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		setDerivatives(x, y);
 		defined = expression.isDefined();
 
-		if (coeff != null) {
-			doSetCoeff(coeff);
+		if (coeffEqn != null) {
+			doSetCoeff(coeffEqn);
 		} else {
 			updateCoeff(eqn);
 		}
@@ -1019,6 +1019,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * @param polyDest
 	 * @param polySrc
 	 *            polyDest=polyDest*polySrc;
+	 * @param degDestX
+	 * @param degDestY
+	 * @param degSrcX
+	 * @param degSrcY
 	 */
 	static void polyMult(double[][] polyDest, double[][] polySrc,
 			int degDestX, int degDestY, int degSrcX, int degSrcY) {
@@ -1667,6 +1671,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	private void setCoeff(double[][] coeffMatrix, boolean updatePath) {
 		doSetCoeff(coeffMatrix);
+		if (coeffMatrix == null) {
+			return;
+		}
 		setDefined();
 		FunctionVariable x = new FunctionVariable(kernel, "x");
 		FunctionVariable y = new FunctionVariable(kernel, "y");
@@ -1694,6 +1701,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	private void doSetCoeff(double[][] coeffMatrix) {
+		if (coeffMatrix == null) {
+			resetCoeff();
+			return;
+		}
 		this.coeff = coeffMatrix;
 		this.degX = coeff.length - 1;
 		this.degY = coeff[0].length - 1;
