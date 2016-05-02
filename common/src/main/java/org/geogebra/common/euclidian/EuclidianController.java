@@ -3490,11 +3490,13 @@ public abstract class EuclidianController {
 	}
 
 	protected final boolean image(Hits hits) {
-		GeoPoint loc = null; // location
 
+		GeoPoint loc = null; // location
+		loc = new GeoPoint(kernel.getConstruction());
+		loc.setCoords(xRW, yRW, 1.0);
 		if (hits.isEmpty()) {
 			if (selectionPreview) {
-				return false;
+				// return false;
 			}
 			// create new Point
 			checkZooming();
@@ -3521,7 +3523,11 @@ public abstract class EuclidianController {
 			if (app.getGuiManager() != null) {// FIXME: fix this better
 				app.getGuiManager().loadImage(loc, null, altDown, view);
 			}
+			app.setMoveMode();
+			app.getActiveEuclidianView().getEuclidianController()
+					.deletePastePreviewSelected();
 			return true;
+
 		}
 
 		return false;
@@ -5558,7 +5564,8 @@ public abstract class EuclidianController {
 			case EuclidianConstants.MODE_IMAGE:
 				changedKernel = image(hits.getOtherHits(Test.GEOIMAGE,
 						tempArrayList)); // e.isAltDown());
-				break;
+
+			break;
 
 			// new slider
 			case EuclidianConstants.MODE_SLIDER:
