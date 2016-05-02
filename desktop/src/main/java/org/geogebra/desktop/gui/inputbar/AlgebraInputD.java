@@ -143,6 +143,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 		// create toggle button to hide/show the input help panel
 		btnHelpToggle = new JToggleButton() {
+			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				// make sure tooltip doesn't cover button (when window
 				// maximized)
@@ -192,9 +193,11 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			return;
 		}
 
-		btnHelpToggle.setIcon(app.getScaledIcon("inputhelp_left_18x18.png"));
+		btnHelpToggle.setIcon(app.getScaledIconCommon(
+				"/org/geogebra/common/menu_icons/p20/menu-help.png"));
 		btnHelpToggle.setSelectedIcon(app
-				.getScaledIcon("inputhelp_right_18x18.png"));
+				.getScaledIconCommon(
+						"/org/geogebra/common/menu_icons/p20/menu-help.png"));
 
 	}
 

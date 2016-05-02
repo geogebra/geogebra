@@ -16,7 +16,6 @@ import java.text.Collator;
 import java.util.Iterator;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -29,6 +28,7 @@ import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.TreeExpansionEvent;
@@ -93,7 +93,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	private JTextPane helpTextPane;
 	private JButton btnOnlineHelp, btnRefresh;
 	private SelectionTableD functionTable;
-	private JPanel tablePanel;
+	private JScrollPane tablePanel;
 	private JPanel syntaxHelpPanel;
 	private JSplitPane cmdSplitPane;
 	private JLabel titleLabel;
@@ -123,7 +123,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		contextMenu = new JPopupMenu();
 
 		JPanel commandPanel = new JPanel(new BorderLayout());
-		commandPanel.add(tablePanel, BorderLayout.NORTH);
 		commandPanel.add(cmdTree, BorderLayout.CENTER);
 		commandPanel.setBorder(BorderFactory.createEmptyBorder());
 		scroller = new JScrollPane(commandPanel);
@@ -165,6 +164,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		return (int) (1.2 * cmdTree.getPreferredSize().width);
 	}
 
+	private JScrollPane syntaxScroller;
 	private void createSyntaxPanel() {
 		JPanel p = new JPanel(new BorderLayout());
 		try {
@@ -191,16 +191,17 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		titlePanel.add(syntaxLabel, loc.borderWest());
 
 		syntaxHelpPanel = new JPanel(new BorderLayout());
-		JScrollPane scroller = new JScrollPane(helpTextPane);
-		scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		
+		syntaxScroller = new JScrollPane(this.helpTextPane);
+		syntaxScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		syntaxScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		// scroller.setBorder(BorderFactory.createEmptyBorder());
 
 		JPanel corner = new JPanel(new FlowLayout());
 		corner.setBackground(this.getBackground());
-		scroller.setCorner(ScrollPaneConstants.LOWER_RIGHT_CORNER, corner);
+		syntaxScroller.setCorner(ScrollPaneConstants.LOWER_RIGHT_CORNER, corner);
 
-		syntaxHelpPanel.add(scroller, BorderLayout.CENTER);
+		syntaxHelpPanel.add(syntaxScroller, BorderLayout.CENTER);
 		// syntaxHelpPanel.add(titlePanel,BorderLayout.NORTH);
 	}
 
@@ -257,53 +258,25 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 				.getGridColor()));
 		functionTable.addMouseListener(new TableSelectionListener());
 		functionTable.setBackground(bgColor);
-		functionTable.setVisible(false);
+		// functionTable.setVisible(false);
 
-		DefaultMutableTreeNode functionRoot = new DefaultMutableTreeNode();
 
 		functionTitleNode = new DefaultMutableTreeNode(
 				app.getMenu("MathematicalFunctions"));
-		functionTitleNode.add(new DefaultMutableTreeNode());
-		functionRoot.add(functionTitleNode);
-		fcnTree = new MyJTree(new DefaultTreeModel(functionRoot));
-		fcnTree.addTreeExpansionListener(new TreeExpansionListener() {
-			public void treeCollapsed(TreeExpansionEvent e) {
-				functionTable.setVisible(false);
-				((MyJTree) e.getSource()).rollOverRow = -1;
-			}
+		functionTitleNode.add(new DefaultMutableTreeNode(""));
 
-			public void treeExpanded(TreeExpansionEvent e) {
-				functionTable.setVisible(true);
-				((MyJTree) e.getSource()).rollOverRow = -1;
-				thisPanel.btnRefresh.setEnabled(true);
-			}
-		});
 
-		// add listener for mouse roll over
-		RollOverListener rollOverListener = new RollOverListener();
-		fcnTree.addMouseMotionListener(rollOverListener);
-		fcnTree.addMouseListener(rollOverListener);
+		/*
+		 * fPanel = new JPanel(new BorderLayout());
+		 * fPanel.add(Box.createRigidArea(new Dimension(35, 1)),
+		 * loc.borderWest()); fPanel.add(functionTable, BorderLayout.CENTER);
+		 * fPanel.setBackground(bgColor);
+		 */
+		
+		tablePanel = new JScrollPane(functionTable);
+		// tablePanel.add(functionTable, BorderLayout.NORTH);
+		// functionTable.setPreferredSize(new Dimension(500, 500));
 
-		fcnTree.getSelectionModel().setSelectionMode(
-				TreeSelectionModel.SINGLE_TREE_SELECTION);
-		renderer = new MyRenderer();
-		fcnTree.setCellRenderer(renderer);
-		fcnTree.setRootVisible(false);
-		fcnTree.setShowsRootHandles(false);
-		fcnTree.setToggleClickCount(1);
-		fcnTree.setBackground(bgColor);
-		fcnTree.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		fcnTree.setRowHeight(-1);
-
-		JPanel fPanel = new JPanel(new BorderLayout());
-		fPanel.add(Box.createRigidArea(new Dimension(35, 1)), loc.borderWest());
-		fPanel.add(functionTable, BorderLayout.CENTER);
-		fPanel.setBackground(bgColor);
-
-		tablePanel = new JPanel(new BorderLayout());
-		tablePanel.add(fcnTree, BorderLayout.NORTH);
-
-		tablePanel.add(fPanel, loc.borderWest());
 		functionTable.setAlignmentX(LEFT_ALIGNMENT);
 
 		tablePanel.setBackground(bgColor);
@@ -473,6 +446,10 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		}
 		// ignore sort and put this one first
 		rootSubCommands.insert(rootAllCommands, 0);
+
+		functionTitleNode = new DefaultMutableTreeNode(
+				app.getMenu("MathematicalFunctions"));
+		rootSubCommands.insert(functionTitleNode, 0);
 	}
 
 	/**
@@ -658,6 +635,17 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	private void showSelectedSyntax() {
 
 		String cmd = app.getReverseCommand(selectedCommand); // internal name
+
+		if (cmd == null) {
+			syntaxHelpPanel.remove(syntaxScroller);
+			syntaxHelpPanel.add(tablePanel);
+			SwingUtilities.updateComponentTreeUI(syntaxHelpPanel);
+			return;
+		} else {
+			syntaxHelpPanel.remove(tablePanel);
+			syntaxHelpPanel.add(syntaxScroller);
+			SwingUtilities.updateComponentTreeUI(syntaxHelpPanel);
+		}
 		// String s = "Syntax:\n" + app.getCommandSyntax(cmd);
 		String description = app.getLocalization().getCommandSyntax(cmd);
 		String descriptionCAS = app.getLocalization().getCommandSyntaxCAS(cmd);
