@@ -716,7 +716,7 @@ public abstract class Prover {
 			HashMap<Object, Integer> frequencies = new HashMap<Object, Integer>();
 			Iterator<Object> it = nodes.iterator();
 
-			int number_of_nodes = 1;
+			int number_of_nodes = 0;
 			maximum = 1;
 			minimum = -1; // assuming non-negative values
 			mean = 0;
@@ -758,7 +758,7 @@ public abstract class Prover {
 				mean = (double) number_of_nodes / size;
 				zeros = size - frequencies.size();
 			} else {
-				size = number_of_nodes - 1;
+				size = number_of_nodes;
 				mean /= size;
 				zeros = 0;
 			}
@@ -791,8 +791,12 @@ public abstract class Prover {
 				entropy -= rel_freq * Math.log(rel_freq) / Math.log(2);
 			}
 			if (categories != null) {
-				// normalize
-				minimum /= number_of_nodes;
+				if (zeros > 0) {
+					minimum = 0;
+				} else {
+					// normalize
+					minimum /= number_of_nodes;
+				}
 			}
 
 			double value = 1.0 / size;
