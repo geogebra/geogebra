@@ -1071,6 +1071,8 @@ public abstract class Drawable3D extends DrawableND {
 		setColors(alpha, surfaceColor, surfaceColorHighlighted);
 	}
 
+	private Coords tmpColor2 = new Coords(4), tmpCoords1 = new Coords(4);
+
 	protected void setColors(double alpha, Coords color, Coords colorHighlighted) {
 		GColor c = getGeoElement().getObjectColor();
 		color.set(new Coords((double) c.getRed() / 255,
@@ -1086,24 +1088,25 @@ public abstract class Drawable3D extends DrawableND {
 		double b = color.getZ();
 		double d = r + g + b;
 
-		Coords color2;
 		double distance;
 
 		if (d > LIGHT_COLOR) {// color is closer to white : darken it
 			distance = Math.sqrt(r * r + g * g + b * b); // euclidian distance
 															// to black
-			color2 = new Coords(0, 0, 0, color.getW()); // black
+			tmpColor2.set(0, 0, 0, color.getW()); // black
 		} else {// color is closer to black : lighten it
 			r = 1 - r;
 			g = 1 - g;
 			b = 1 - b;
 			distance = Math.sqrt(r * r + g * g + b * b); // euclidian distance
 															// to white
-			color2 = new Coords(1, 1, 1, color.getW()); // white
+			tmpColor2.set(1, 1, 1, color.getW()); // white
 		}
 
 		double s = getColorShift() / distance;
-		colorHighlighted.set(color.mul(1 - s).add(color2.mul(s)));
+		colorHighlighted.set(tmpCoords1.setAdd(tmpCoords1.setMul(color, 1 - s),
+				tmpColor2.setMul(tmpColor2, s)));
+				//color.mul(1 - s).add(color2.mul(s)));
 
 		// sufficient alpha to be seen
 		if (colorHighlighted.getW() < ALPHA_MIN_HIGHLIGHTING)
@@ -1250,7 +1253,7 @@ public abstract class Drawable3D extends DrawableND {
 
 
 
-	private Trace getTrace() {
+	protected Trace getTrace() {
 		if (trace == null) {
 			trace = new Trace();
 		}
@@ -1269,6 +1272,7 @@ public abstract class Drawable3D extends DrawableND {
 		getTrace().record(this);
 
 	}
+
 
 	/**
 	 * 
