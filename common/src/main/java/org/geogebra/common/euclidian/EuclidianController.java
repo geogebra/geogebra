@@ -3490,6 +3490,9 @@ public abstract class EuclidianController {
 	}
 
 	protected final boolean image(Hits hits) {
+		app.setMoveMode();
+		app.getActiveEuclidianView().getEuclidianController()
+				.deletePastePreviewSelected();
 
 		GeoPoint loc = null; // location
 		loc = new GeoPoint(kernel.getConstruction());
@@ -3523,9 +3526,6 @@ public abstract class EuclidianController {
 			if (app.getGuiManager() != null) {// FIXME: fix this better
 				app.getGuiManager().loadImage(loc, null, altDown, view);
 			}
-			app.setMoveMode();
-			app.getActiveEuclidianView().getEuclidianController()
-					.deletePastePreviewSelected();
 			return true;
 
 		}
