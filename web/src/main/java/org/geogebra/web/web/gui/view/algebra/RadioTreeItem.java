@@ -633,7 +633,6 @@ public class RadioTreeItem extends AVTreeItem
 		return leftSide.equals(rightSide);
 	}
 	private boolean updateDefinitionPanel() {
-		editCanceled = false;
 		if (latex || isGeoFraction()) {
 			String text = getTextForEditing(false,
 					StringTemplate.latexTemplate);
