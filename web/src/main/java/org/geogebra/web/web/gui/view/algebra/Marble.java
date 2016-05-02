@@ -26,10 +26,6 @@ public class Marble extends SimplePanel
 	void toggleVisibility(){
 		GeoElement geo = gc.getGeo();
 
-		if (geo.isGeoNumeric() && geo.needToShowBothRowsInAV()) {
-			return;
-		}
-
 		geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
 		geo.updateVisualStyle(GProperty.VISIBLE);
 		geo.getKernel().getApplication().storeUndoInfo();
