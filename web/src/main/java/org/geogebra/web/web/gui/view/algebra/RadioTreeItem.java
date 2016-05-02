@@ -866,7 +866,11 @@ public class RadioTreeItem extends AVTreeItem
 
 			addAVEXWidget(ihtml);
 			contentPanel.add(LayoutUtilW.panelRow(sliderPanel, minMaxPanel));
-			main.add(contentPanel);
+			if (contentPanel.getWidgetCount() < 1) {
+				main.add(contentPanel);
+			} else {
+				main.insert(contentPanel, 1);
+			}
 		}
 
 	}
@@ -1303,7 +1307,6 @@ public class RadioTreeItem extends AVTreeItem
 	private Canvas c;
 	private Canvas valC;
 
-	private boolean editCanceled = false;
 
 	private void renderLatex(String text0, Widget w, boolean forceMQ) {
 		if (definitionAndValue) {
@@ -1581,7 +1584,6 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		}
 
-		editCanceled = false;
 		removeCloseButton();
 
 		editing = false;
@@ -1613,7 +1615,6 @@ public class RadioTreeItem extends AVTreeItem
 				return;
 			}
 		} else {
-			editCanceled = true;
 			if (isDefinitionAndValue()) {
 				cancelDV();
 			}
@@ -2216,7 +2217,7 @@ marblePanel, evt))) {
 
 	}
 
-	private void updateSelection(boolean separated, boolean continous) {
+	void updateSelection(boolean separated, boolean continous) {
 		if (geo == null) {
 			selectionCtrl.clear();
 			getAV().updateSelection();
