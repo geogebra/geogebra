@@ -15,6 +15,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class ScheduledPreviewFromInputBar implements Runnable {
 
+	private static final int DEFAULT_MAX_LENGTH = 1000;
 	/**
 	 * 
 	 */
@@ -31,10 +32,15 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private String input = "";
 	private String validInput = "";
 	private AsyncOperation<Boolean> validation;
+	private int maxLength = DEFAULT_MAX_LENGTH;
 
 	private void setInput(String str, AsyncOperation<Boolean> validation) {
 		this.input = str;
 		this.validation = validation;
+		if (str.length() > maxLength || str.length() == 0) {
+			return;
+		}
+		long start = System.currentTimeMillis();
 		try {
 
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
@@ -44,6 +50,14 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			}
 		} catch (Throwable t) {
 			// input is invalid quite often
+		}
+		if (System.currentTimeMillis() > start + 200) {
+			maxLength = str.length();
+			validInput = null;
+		} else {
+			Log.debug(str.length() + " / " + maxLength + " time "
+					+ (System.currentTimeMillis() - start));
+			maxLength = DEFAULT_MAX_LENGTH;
 		}
 	}
 
@@ -64,10 +78,11 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private GeoElement[] previewGeos;
 
 	public void run() {
-		// TODO Auto-generated method stub
-		if (input.length() == 0) {
-			// remove preview (empty input)
-			Log.debug("remove preview (empty input)");
+		if (input.length() == 0 || validInput == null) {
+			if (validation != null) {
+				// timeout -- assume OK as we don't know if it's wrong
+				validation.callback(maxLength != DEFAULT_MAX_LENGTH);
+			}
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
 			return;
 		}
@@ -79,17 +94,15 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			this.kernel.setSilentMode(true);
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
 					.getValidExpressionNoExceptionHandling(validInput);
-			GeoCasCell casEval = this.kernel.getAlgebraProcessor().checkCasEval(
-					ve.getLabel(), input, null);
+			GeoCasCell casEval = this.kernel.getAlgebraProcessor()
+					.checkCasEval(ve.getLabel(), input, null);
 			if (casEval == null) {
 				GeoElement existingGeo = this.kernel.lookupLabel(ve.getLabel());
 				if (existingGeo == null) {
 
 					previewGeos = this.kernel.getAlgebraProcessor()
-							.processAlgebraCommandNoExceptionHandling(ve,
-									false, ErrorHelper.silent(),
-									false, null,
-									info);
+							.processAlgebraCommandNoExceptionHandling(ve, false,
+									ErrorHelper.silent(), false, null, info);
 					if (previewGeos != null) {
 						for (GeoElement geo : previewGeos) {
 							geo.setSelectionAllowed(false);
@@ -107,8 +120,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				this.kernel.notifyUpdatePreviewFromInputBar(null);
 			}
 			if (validation != null) {
-				validation.callback(
-						new Boolean(input.equals(validInput) && previewGeos != null));
+				validation.callback(new Boolean(
+						input.equals(validInput) && previewGeos != null));
 			}
 			this.kernel.setSilentMode(silentModeOld);
 
