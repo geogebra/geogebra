@@ -2588,6 +2588,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	
 	@Override
 	final public Coords getMainDirection() {
+		if (geoList.size() <= closestPointIndex) {
+			return Coords.VX;
+		}
 		return geoList.get(closestPointIndex).getMainDirection();
 	}
 
