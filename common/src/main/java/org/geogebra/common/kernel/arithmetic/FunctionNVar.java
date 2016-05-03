@@ -34,7 +34,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Function of N variables that returns either a number or a boolean. This
@@ -295,8 +294,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 
 		// simplify constant parts in expression
 		if (simplifyInt) {
-			Log.printStacktrace("SIMPLIFY");
-		expression.simplifyConstantIntegers();
+			expression.simplifyConstantIntegers();
 		}
 
 		// evaluate expression to find out about the type of function

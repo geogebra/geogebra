@@ -690,7 +690,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 			++curWordEnd;
 
 		curWord.setLength(0);
-		if (curWordEnd < length) {
+		if (curWordEnd <= length) {
 		curWord.append(text.substring(curWordStart, curWordEnd));
 		} else {
 			Log.debug("CARET OUTSIDE");

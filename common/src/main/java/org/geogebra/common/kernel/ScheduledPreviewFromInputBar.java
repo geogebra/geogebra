@@ -168,26 +168,4 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 	}
 
-	/**
-	 * preview is not recalculated if input has not changed
-	 * since last calculation
-	 *
-	 * @param newInput input
-	 * @return GeoElement[] preview for this input
-	 */
-	public GeoElement[] getPreview(String newInput) {
-
-		if (this.input.equals(newInput)) {
-			Log.debug("no update needed (same input)");
-			return previewGeos;
-		}
-
-		// create new preview immediately
-		kernel.getApplication().cancelPreview();
-		setInput(newInput, null);
-		run();
-		return previewGeos;
-
-	}
-
 }

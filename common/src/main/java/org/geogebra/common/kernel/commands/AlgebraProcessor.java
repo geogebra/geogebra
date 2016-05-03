@@ -741,7 +741,7 @@ public class AlgebraProcessor {
 			if (sb.length() > 0) {
 				// eg from Spreadsheet we don't want a popup
 				if (!autoCreateSliders) {
-					GeoElement[] rett = tryReplacingProducts(ve);
+					GeoElement[] rett = tryReplacingProducts(ve, handler);
 					if (callback0 != null && rett != null) {
 						callback0.callback(rett);
 					}
@@ -897,7 +897,8 @@ public class AlgebraProcessor {
 	 * replaceUndefinedVariables(ve, undefinedVariables, true); } return null; }
 	 */
 
-	private GeoElement[] tryReplacingProducts(ValidExpression ve) {
+	private GeoElement[] tryReplacingProducts(ValidExpression ve,
+			ErrorHandler eh) {
 		ValidExpression ve2 = (ValidExpression) ve.traverse(new Traversing() {
 
 			@Override
@@ -919,8 +920,10 @@ public class AlgebraProcessor {
 		GeoElement[] ret = null;
 		try {
 			ret = this.processValidExpression(ve2);
-		} catch (Throwable t) {
-			// invalid user input, ignore
+		} catch (MyError t) {
+			ErrorHelper.handleError(t, null, loc, eh);
+		} catch (Exception e) {
+			ErrorHelper.handleException(e, app, eh);
 		}
 		return ret;
 	}

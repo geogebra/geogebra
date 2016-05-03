@@ -103,7 +103,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 										new ErrorHandler() {
 
 											public void showError(String msg) {
-
+												Log.printStacktrace(msg);
 												updateIcons(msg != null);
 												btnHelpToggle.setToolTipText(
 														msg == null
