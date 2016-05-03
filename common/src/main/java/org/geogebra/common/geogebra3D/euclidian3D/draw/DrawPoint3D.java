@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -326,4 +328,25 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 		enlargeBounds(min, max, boundsMin, boundsMax);
 	}
 
+	@Override
+	protected void drawTracesOutline(Renderer renderer, boolean hidden) {
+
+		if (!hidden) {
+			return;
+		}
+
+		if (trace == null) {
+			return;
+		}
+
+		for (TraceSettings settings : trace.keySet()) {
+			ArrayList<TraceIndex> indices = trace.get(settings);
+			setDrawingColor(settings.getColor());
+			// App.debug(indices.size());
+			for (TraceIndex index : indices) {
+				drawGeom(renderer, index);
+			}
+		}
+
+	}
 }

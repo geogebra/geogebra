@@ -1249,7 +1249,7 @@ public abstract class Drawable3D extends DrawableND {
 
 	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
 
-	private Trace trace;
+	protected Trace trace;
 
 
 
