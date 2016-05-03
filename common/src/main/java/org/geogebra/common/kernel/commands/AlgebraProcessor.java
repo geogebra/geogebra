@@ -612,7 +612,7 @@ public class AlgebraProcessor {
 
 		} catch (Exception e) {
 
-			ErrorHelper.handleException(e, loc, handler);
+			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, cmd, loc, handler);
 		}
@@ -785,7 +785,7 @@ public class AlgebraProcessor {
 											loc2, handler);
 									return;
 								} catch (Exception ee) {
-									ErrorHelper.handleException(ee, loc2,
+									ErrorHelper.handleException(ee, app,
 											handler);
 									return;
 								}
@@ -989,7 +989,7 @@ public class AlgebraProcessor {
 					loc, handler);
 		} catch (Exception ex) {
 			Log.debug("Exception" + ex.getLocalizedMessage());
-			ErrorHelper.handleException(ex, loc, handler);
+			ErrorHelper.handleException(ex, app, handler);
 		} finally {
 			kernel.getConstruction().registerFunctionVariable(null);
 		}

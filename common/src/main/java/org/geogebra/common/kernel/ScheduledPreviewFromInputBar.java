@@ -53,7 +53,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			ErrorHelper.handleError(t, null, kernel.getLocalization(),
 					validation);
 		} catch (Exception e) {
-			ErrorHelper.handleException(e, kernel.getLocalization(),
+			ErrorHelper.handleException(e, kernel.getApplication(),
 					validation);
 		}
 		if (System.currentTimeMillis() > start + 200) {
