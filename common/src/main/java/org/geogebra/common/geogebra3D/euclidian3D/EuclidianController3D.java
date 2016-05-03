@@ -2661,6 +2661,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 			createIntersectionCurvePlanePolygon(A, (GeoPolygon) B);
 		} else if (B.isGeoPlane() && A.isGeoPolygon()) {
 			createIntersectionCurvePlanePolygon(B, (GeoPolygon) A);
+		} else if (A.isGeoPlane() && B.isGeoPolyhedron()) {
+			createIntersectionCurvePlanePolyhedron(A, (GeoPolyhedron) B);
+		} else if (B.isGeoPlane() && A.isGeoPolyhedron()) {
+			createIntersectionCurvePlanePolyhedron(B, (GeoPolyhedron) A);
 
 			// plane-quadric
 		} else if (A.isGeoPlane() && B instanceof GeoQuadric3D) {
