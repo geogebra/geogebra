@@ -2,7 +2,9 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.TreeMap;
 
 import org.geogebra.common.awt.GColor;
@@ -99,6 +101,9 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 	/** faces linked */
 	protected ArrayList<GeoPolygon> polygonsLinked;
+
+	/** points linked to this polyhedron */
+	protected ArrayList<GeoPointND> pointsLinked;
 
 	/** points created by the algo */
 	protected ArrayList<GeoPoint3D> pointsCreated;
@@ -1194,6 +1199,8 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		return false;
 	}
 
+	static private Comparator<GeoPointND> pointIdComparator = null;
+
 	@Override
 	public void set(GeoElementND geo) {
 		if (geo.isGeoPolyhedron()) {
@@ -1213,29 +1220,29 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 				topFaceIndex++;
 			}
 
-			// set polygons
-			// polygons.clear();
-			int index = 0;
-			for (GeoPolygon p : polyhedron.polygonsLinked) {
-				if (setPolygon(index, p)) {
-					index++;
+			// init copy points list
+			if (copyPoints == null) {
+				if (pointIdComparator == null){
+					pointIdComparator = new Comparator<GeoPointND>() {
+						public int compare(GeoPointND o1, GeoPointND o2) {
+							if (o1.getID() < o2.getID()) {
+								return -1;
+							}
+							if (o1.getID() > o2.getID()) {
+								return 1;
+							}
+							return 0;
+						}
+					};
 				}
-			}
-			for (GeoPolygon p : polyhedron.polygons.values()) {
-				if (setPolygon(index, p)) {
-					index++;
-				}
+				copyPoints = new TreeMap<GeoPointND, GeoPoint3D>(
+						pointIdComparator);
 			}
 
-			// set last polygons undefined
-			if (!polygons.isEmpty()) {
-				for (int i = index; i <= polygons.lastKey(); i++) {
-					polygons.get(i).setUndefined();
-				}
-			}
+			
+			int index;
 
 			// set segments
-			// segments.clear();
 			index = 0;
 			for (GeoSegmentND s : polyhedron.segmentsLinked.values()) {
 				if (setSegment(index, s)) {
@@ -1255,7 +1262,39 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 				}
 			}
 
+			// set polygons
+			index = 0;
+			for (GeoPolygon p : polyhedron.polygonsLinked) {
+				if (setPolygon(index, p)) {
+					index++;
+				}
+			}
+			for (GeoPolygon p : polyhedron.polygons.values()) {
+				if (setPolygon(index, p)) {
+					index++;
+				}
+			}
+
+			// set points values
+			for (Map.Entry<GeoPointND, GeoPoint3D> entry : copyPoints
+					.entrySet()) {
+				// set copy point to original point
+				entry.getValue().set(entry.getKey());
+			}
+
+
 		}
+	}
+
+	private TreeMap<GeoPointND, GeoPoint3D> copyPoints;
+
+	private GeoPoint3D getCopyPoint(GeoPointND point) {
+		GeoPoint3D copyPoint = copyPoints.get(point);
+		if (copyPoint == null) {
+			copyPoint = new GeoPoint3D(point);
+			copyPoints.put(point, copyPoint);
+		}
+		return copyPoint;
 	}
 
 	private boolean setPolygon(int index, GeoPolygon p) {
@@ -1263,13 +1302,35 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		if (!p.isDefined()) {
 			return false;
 		}
+		
+		int pointsLength = p.getPointsLength();
 
+		if (pointsLength == 0) {
+			return false;
+		}
+
+		// set list of points
+		GeoPoint3D[] pointsList = new GeoPoint3D[pointsLength];
+		int i = 0;
+		for (GeoPointND point : p.getPointsND()) {
+			GeoPoint3D copyPoint = getCopyPoint(point);
+			pointsList[i] = copyPoint;
+			i++;
+		}
+
+		// set polygon
 		GeoPolygon3D poly = polygons.get(index);
 		if (poly == null) {
-			poly = new GeoPolygon3D(getConstruction());
-			polygons.put(index, poly);
+			startNewFace();
+			for (GeoPointND point : pointsList) {
+				addPointToCurrentFace(point);
+			}
+			endCurrentFace();
+			poly = createPolygon(index);
+		} else {
+			poly.modifyInputPoints(pointsList);
 		}
-		poly.set(p);
+
 		return true;
 	}
 
@@ -1279,12 +1340,20 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			return false;
 		}
 
-		GeoSegment3D seg = segments.get(index);
-		if (seg == null) {
-			seg = new GeoSegment3D(getConstruction());
-			segments.put(index, seg);
+		GeoPoint3D startPoint = getCopyPoint(s.getStartPoint());
+		GeoPoint3D endPoint = getCopyPoint(s.getEndPoint());
+		ConstructionElementCycle key = ConstructionElementCycle
+				.SegmentDescription(startPoint, endPoint);
+
+
+		if (index >= segmentsIndexMax) {
+			// seg = (GeoSegment3D)
+			createNewSegment(startPoint, endPoint, key);
+		} else {
+			GeoSegment3D seg = segments.get(index);
+			seg.modifyInputPoints(startPoint, endPoint);
+			segmentsIndex.put(key, index);
 		}
-		seg.setSegment(s);
 
 		return true;
 	}
@@ -1504,61 +1573,48 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	// ////////////////////////////////
 
 	public void rotate(NumberValue r, GeoPointND S) {
-		for (GeoSegment3D seg : segments.values()) {
-			if (seg.isDefined()) {
-				seg.rotate(r, S);
+
+		for (GeoPoint3D point : copyPoints.values()) {
+			if (point.isDefined()) {
+				point.rotate(r, S);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()) {
-			if (p.isDefined()) {
-				p.rotate(r, S);
-			}
-		}
+		updatePolygonsAndSegments();
 	}
 
 	public void rotate(NumberValue r) {
 
-		for (GeoSegment3D seg : segments.values()) {
-			if (seg.isDefined()) {
-				seg.rotate(r);
+		for (GeoPoint3D point : copyPoints.values()) {
+			if (point.isDefined()) {
+				point.rotate(r);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()) {
-			if (p.isDefined()) {
-				p.rotate(r);
-			}
-		}
+		updatePolygonsAndSegments();
 
 	}
 
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
-		for (GeoSegment3D seg : segments.values()) {
-			if (seg.isDefined()) {
-				seg.rotate(r, S, orientation);
+
+		for (GeoPoint3D point : copyPoints.values()) {
+			if (point.isDefined()) {
+				point.rotate(r, S, orientation);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()) {
-			if (p.isDefined()) {
-				p.rotate(r, S, orientation);
-			}
-		}
+		updatePolygonsAndSegments();
 	}
 
 	public void rotate(NumberValue r, GeoLineND line) {
-		for (GeoSegment3D seg : segments.values()) {
-			if (seg.isDefined()) {
-				seg.rotate(r, line);
+
+		for (GeoPoint3D point : copyPoints.values()) {
+			if (point.isDefined()) {
+				point.rotate(r, line);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()) {
-			if (p.isDefined()) {
-				p.rotate(r, line);
-			}
-		}
+		updatePolygonsAndSegments();
 
 	}
 
@@ -1568,16 +1624,23 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	}
 
 	public void translate(Coords v) {
-		for (GeoSegment3D seg : segments.values()) {
-			if (seg.isDefined()) {
-				seg.translate(v);
+
+		for (GeoPoint3D point : copyPoints.values()) {
+			if (point.isDefined()) {
+				point.translate(v);
 			}
 		}
 
+		updatePolygonsAndSegments();
+	}
+
+	private void updatePolygonsAndSegments() {
+		for (GeoSegment3D seg : segments.values()) {
+			seg.getParentAlgorithm().update();
+		}
+
 		for (GeoPolygon3D p : polygons.values()) {
-			if (p.isDefined()) {
-				p.translate(v);
-			}
+			p.getParentAlgorithm().update();
 		}
 	}
 
@@ -1586,45 +1649,34 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	// //////////////////////
 
 	public void mirror(Coords Q) {
-		for (GeoSegment3D seg : segments.values()) {
-			if (seg.isDefined()) {
-				seg.mirror(Q);
+
+		for (GeoPoint3D point : copyPoints.values()) {
+			if (point.isDefined()) {
+				point.mirror(Q);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()) {
-			if (p.isDefined()) {
-				p.mirror(Q);
-			}
-		}
+		updatePolygonsAndSegments();
 	}
 
 	public void mirror(GeoLineND g) {
-		for (GeoSegment3D seg : segments.values()) {
-			if (seg.isDefined()) {
-				seg.mirror(g);
+		for (GeoPoint3D point : copyPoints.values()) {
+			if (point.isDefined()) {
+				point.mirror(g);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()) {
-			if (p.isDefined()) {
-				p.mirror(g);
-			}
-		}
+		updatePolygonsAndSegments();
 	}
 
 	public void mirror(GeoCoordSys2D plane) {
-		for (GeoSegment3D seg : segments.values()) {
-			if (seg.isDefined()) {
-				seg.mirror(plane);
+		for (GeoPoint3D point : copyPoints.values()) {
+			if (point.isDefined()) {
+				point.mirror(plane);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()) {
-			if (p.isDefined()) {
-				p.mirror(plane);
-			}
-		}
+		updatePolygonsAndSegments();
 	}
 
 	// //////////////////////
@@ -1633,17 +1685,13 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 	public void dilate(NumberValue rval, Coords S) {
 
-		for (GeoSegment3D seg : segments.values()) {
-			if (seg.isDefined()) {
-				seg.dilate(rval, S);
+		for (GeoPoint3D point : copyPoints.values()) {
+			if (point.isDefined()) {
+				point.dilate(rval, S);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()) {
-			if (p.isDefined()) {
-				p.dilate(rval, S);
-			}
-		}
+		updatePolygonsAndSegments();
 
 		double r = rval.getDouble();
 		double rAbs = Math.abs(r);
