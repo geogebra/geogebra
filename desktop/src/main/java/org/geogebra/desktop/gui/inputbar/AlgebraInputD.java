@@ -38,7 +38,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
@@ -101,15 +100,49 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 						app.getKernel().getInputPreviewHelper()
 								.updatePreviewFromInputBar(
 										inputField.getText(),
-										new AsyncOperation<Boolean>() {
+										new ErrorHandler() {
 
-											@Override
-											public void callback(Boolean obj) {
-												inputField.setBackground(
-														obj ? Color.WHITE
-																: Color.ORANGE);
+											public void showError(String msg) {
+
+												updateIcons(msg != null);
+												btnHelpToggle.setToolTipText(
+														msg == null
+																? loc.getMenu(
+																		"InputHelp")
+																: msg);
 
 											}
+
+											public void setActive(boolean b) {
+												// TODO Auto-generated method
+												// stub
+
+											}
+
+											public void showCommandError(
+													String command,
+													String message) {
+												updateIcons(true);
+												if (((GuiManagerD) app
+														.getGuiManager())
+																.hasInputHelpPanel()) {
+													InputBarHelpPanelD helpPanel = (InputBarHelpPanelD) ((GuiManagerD) app
+															.getGuiManager())
+																	.getInputHelpPanel();
+													helpPanel.focusCommand(
+															app.getLocalization()
+																	.getCommand(
+																			command));
+													btnHelpToggle.setToolTipText(
+															loc.getError(
+																	"InvalidInput"));
+												}
+											}
+
+											public String getCurrentCommand() {
+												return inputField.getCommand();
+											}
+
 										});
 					}
 				});
@@ -154,7 +187,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		// btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_16x16.png"));
 		// btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_16x16.png"));
 
-		updateIcons();
+		updateIcons(false);
 
 		// btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_20x20.png"));
 		// btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_20x20.png"));
@@ -188,17 +221,18 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		setLabels();
 	}
 
-	private void updateIcons() {
+	private void updateIcons(boolean warning) {
 		if (btnHelpToggle == null) {
 			return;
 		}
 
 		btnHelpToggle.setIcon(app.getScaledIconCommon(
-				"/org/geogebra/common/menu_icons/p20/menu-help.png"));
-		btnHelpToggle.setSelectedIcon(app
-				.getScaledIconCommon(
-						"/org/geogebra/common/menu_icons/p20/menu-help.png"));
-
+				warning ? "/org/geogebra/common/icons/png/web/dialog-error.png"
+						: "/org/geogebra/common/menu_icons/p20/menu-help.png"));
+		/*
+		 * btnHelpToggle.setSelectedIcon(app .getScaledIconCommon(
+		 * "/org/geogebra/common/menu_icons/p20/menu-help.png"));
+		 */
 	}
 
 	@Override
@@ -254,7 +288,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			helpPanel.updateFonts();
 		}
 
-		updateIcons();
+		updateIcons(false);
 
 	}
 

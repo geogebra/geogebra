@@ -828,6 +828,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		App.debug("Implementation needed...");
 	}
 
+	public boolean hasInputHelpPanel() {
+		return inputHelpPanel != null;
+	}
 	@Override
 	public InputBarHelpPanelW getInputHelpPanel() {
 		if (inputHelpPanel == null) {

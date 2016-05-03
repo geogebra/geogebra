@@ -4,8 +4,9 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -31,10 +32,10 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 	private String input = "";
 	private String validInput = "";
-	private AsyncOperation<Boolean> validation;
+	private ErrorHandler validation;
 	private int maxLength = DEFAULT_MAX_LENGTH;
 
-	private void setInput(String str, AsyncOperation<Boolean> validation) {
+	private void setInput(String str, ErrorHandler validation) {
 		this.input = str;
 		this.validation = validation;
 		if (str.length() > maxLength || str.length() == 0) {
@@ -48,8 +49,12 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			if (ve != null) {
 				validInput = input;
 			}
-		} catch (Throwable t) {
-			// input is invalid quite often
+		} catch (MyError t) {
+			ErrorHelper.handleError(t, null, kernel.getLocalization(),
+					validation);
+		} catch (Exception e) {
+			ErrorHelper.handleException(e, kernel.getLocalization(),
+					validation);
 		}
 		if (System.currentTimeMillis() > start + 200) {
 			maxLength = str.length();
@@ -78,16 +83,24 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private GeoElement[] previewGeos;
 
 	public void run() {
-		if (input.length() == 0 || validInput == null) {
+		if (input.length() == 0) {
+			if (validation != null) {
+				validation.showError(null);
+			}
+			this.kernel.notifyUpdatePreviewFromInputBar(null);
+			return;
+		}
+		if (validInput == null) {
 			if (validation != null) {
 				// timeout -- assume OK as we don't know if it's wrong
-				validation.callback(maxLength != DEFAULT_MAX_LENGTH);
+				validation.showError(maxLength != DEFAULT_MAX_LENGTH ? null
+						: kernel.getLocalization().getError("InvalidInput"));
 			}
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
 			return;
 		}
 		EvalInfo info = new EvalInfo(false, true).withScripting(false);
-		Log.debug("preview for: " + input);
+		Log.debug("preview for: " + validInput);
 		boolean silentModeOld = this.kernel.isSilentMode();
 		previewGeos = null;
 		try {
@@ -102,7 +115,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 					previewGeos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(ve, false,
-									ErrorHelper.silent(), false, null, info);
+									validation, false, null, info);
 					if (previewGeos != null) {
 						for (GeoElement geo : previewGeos) {
 							geo.setSelectionAllowed(false);
@@ -119,9 +132,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				Log.debug("cas cell ");
 				this.kernel.notifyUpdatePreviewFromInputBar(null);
 			}
-			if (validation != null) {
-				validation.callback(new Boolean(
-						input.equals(validInput) && previewGeos != null));
+			if (validation != null && previewGeos != null
+					&& validInput.equals(input)) {
+				validation.showError(null);
 			}
 			this.kernel.setSilentMode(silentModeOld);
 
@@ -142,7 +155,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	 *            validation callback
 	 */
 	public void updatePreviewFromInputBar(String newInput,
-										  AsyncOperation<Boolean> validate) {
+			ErrorHandler validate) {
 
 		if (this.input.equals(newInput)) {
 			Log.debug("no update needed (same input)");

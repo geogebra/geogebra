@@ -14,6 +14,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -27,6 +28,8 @@ import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
+import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
+import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
@@ -67,7 +70,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * File created by Arpad Fekete
  */
 public class InputTreeItem extends RadioTreeItem implements
-		HasSymbolPopup, FocusHandler, BlurHandler {
+		HasSymbolPopup, FocusHandler, BlurHandler, HasHelpButton {
 
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
@@ -138,11 +141,7 @@ public class InputTreeItem extends RadioTreeItem implements
 
 		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
 			SimplePanel sp = new SimplePanel();
-			btnHelpToggle = new ToggleButton(new NoDragImage(
-					GuiResources.INSTANCE.menu_icon_help().getSafeUri()
-							.asString()), new NoDragImage(
-					GuiResources.INSTANCE.menu_icon_help().getSafeUri()
-.asString()));
+			updateIcons(false);
 
 			btnHelpToggle.addClickHandler(new ClickHandler() {
 
@@ -502,7 +501,9 @@ public class InputTreeItem extends RadioTreeItem implements
 	public void setShowInputHelpPanel(boolean show) {
 
 		if (show) {
-			dummyLabel.addStyleName("hiddenInputLabel");
+			if (dummyLabel != null) {
+				dummyLabel.addStyleName("hiddenInputLabel");
+			}
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
 					.getGuiManager().getInputHelpPanel();
 
@@ -513,7 +514,9 @@ public class InputTreeItem extends RadioTreeItem implements
 				helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
 					public void onClose(CloseEvent<GPopupPanel> event) {
-						dummyLabel.removeStyleName("hiddenInputLabel");
+						if (dummyLabel != null) {
+							dummyLabel.removeStyleName("hiddenInputLabel");
+						}
 						ihtml.getElement().getElementsByTagName("textarea")
 								.getItem(0).focus();
 					}
@@ -957,13 +960,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			app.getKernel()
 					.getInputPreviewHelper()
 					.updatePreviewFromInputBar(editor.getText(),
-							new AsyncOperation<Boolean>() {
-
-								@Override
-								public void callback(Boolean obj) {
-									// do warning here
-								}
-							});
+							AlgebraInputW.getWarningHandler(this, app));
 		}
 	}
 
@@ -1063,6 +1060,35 @@ public class InputTreeItem extends RadioTreeItem implements
 			}
 
 		}
+	}
+
+	public void updateIcons(boolean warning) {
+		if (btnHelpToggle == null) {
+			btnHelpToggle = new ToggleButton();
+		}
+		btnHelpToggle.getUpFace()
+				.setImage(new NoDragImage(
+						(warning ? GuiResourcesSimple.INSTANCE.dialog_warning()
+								: GuiResources.INSTANCE.menu_icon_help())
+										.getSafeUri().asString(),
+						20));
+		// new
+		// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
+		btnHelpToggle.getDownFace()
+				.setImage(new NoDragImage(
+						(warning ? GuiResourcesSimple.INSTANCE.dialog_warning()
+								: GuiResources.INSTANCE.menu_icon_help())
+										.getSafeUri().asString(),
+						20));
+
+	}
+
+	public String getCommand() {
+		return getEquationEditor().getCurrentCommand();
+	}
+
+	public ToggleButton getHelpToggle() {
+		return this.btnHelpToggle;
 	}
 
 }

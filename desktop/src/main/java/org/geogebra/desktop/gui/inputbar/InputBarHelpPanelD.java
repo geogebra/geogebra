@@ -45,6 +45,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
@@ -165,6 +166,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	}
 
 	private JScrollPane syntaxScroller;
+
+	// private JLabel errorLabel;
 	private void createSyntaxPanel() {
 		JPanel p = new JPanel(new BorderLayout());
 		try {
@@ -239,10 +242,9 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		buttonPanel.setBorder(BorderFactory.createCompoundBorder(BorderFactory
 				.createMatteBorder(1, 0, 0, 0, SystemColor.controlShadow),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
-
-		// buttonPanel.setBackground(titleColor);
-		// leftPanel.setBackground(titleColor);
-		// rightPanel.setBackground(titleColor);
+		// errorLabel = new JLabel();
+		// errorLabel.setForeground(Color.RED);
+		// buttonPanel.add(errorLabel, BorderLayout.SOUTH);
 
 		return buttonPanel;
 	}
@@ -865,6 +867,37 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		public MyJTree(TreeModel tm) {
 			super(tm);
+		}
+	}
+
+	public void showError(String message) {
+		// if (message == null) {
+		// errorLabel.setVisible(false);
+		// } else {
+		// errorLabel.setVisible(true);
+		// errorLabel.setText(message);
+		// }
+
+	}
+
+	public void focusCommand(String command) {
+		for (int i = 0; i < rootSubCommands.getChildCount(); i++) {
+			TreeNode group = rootSubCommands.getChildAt(i);
+			for (int j = 0; j < group.getChildCount(); j++) {
+
+				if (group.getChildAt(j) instanceof DefaultMutableTreeNode) {
+					DefaultMutableTreeNode cmdNode = (DefaultMutableTreeNode) group
+							.getChildAt(j);
+					Log.debug(cmdNode.getUserObject());
+					if (command.equals(cmdNode.getUserObject())) {
+						TreePath path = new TreePath(
+								((DefaultTreeModel) cmdTree.getModel())
+										.getPathToRoot(group.getChildAt(j)));
+						cmdTree.setSelectionPath(path);
+						return;
+					}
+				}
+			}
 		}
 	}
 }

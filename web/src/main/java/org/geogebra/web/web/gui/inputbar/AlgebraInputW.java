@@ -13,6 +13,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -20,11 +21,11 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -45,7 +46,8 @@ import com.google.gwt.user.client.ui.ToggleButton;
  *
  */
 public class AlgebraInputW extends FlowPanel 
-implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize, AlgebraInput {
+		implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler,
+		RequiresResize, AlgebraInput, HasHelpButton {
 
 	protected AppW app;
 	protected InputPanelW inputPanel;
@@ -93,19 +95,11 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 		//AG updateFonts()
 
-		btnHelpToggle = new ToggleButton(
-				new NoDragImage(GuiResources.INSTANCE.menu_icon_help()
-						.getSafeUri().asString(), 20),
-				//new Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()), 
-				new NoDragImage(GuiResources.INSTANCE.menu_icon_help()
-						.getSafeUri().asString(), 20));
+		updateIcons(false);
 		//new Image(AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri().asString()));
 		btnHelpToggle.addStyleName("inputHelp-toggleButton");
 
 		btnHelpToggle.addClickHandler(this);
-
-		//in CSS btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_18x18.png"));
-		//in CSS	btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
 
 		labelPanel = new FlowPanel();
 		//labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
@@ -143,6 +137,24 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 	}
 
+
+	public void updateIcons(boolean warning) {
+		if (btnHelpToggle == null) {
+			btnHelpToggle = new ToggleButton();
+		}
+		btnHelpToggle.getUpFace().setImage(new NoDragImage(
+				(warning ? GuiResourcesSimple.INSTANCE.dialog_warning()
+						: GuiResources.INSTANCE.menu_icon_help()).getSafeUri()
+								.asString(),
+				20));
+				// new
+				// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
+		btnHelpToggle.getDownFace().setImage(new NoDragImage(
+				(warning ? GuiResourcesSimple.INSTANCE.dialog_warning()
+						: GuiResources.INSTANCE.menu_icon_help())
+						.getSafeUri().asString(), 20));
+
+	}
 
 	/**
 	 * Sets the width of the text field so that the entire width of the parent
@@ -262,18 +274,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
 			app.getKernel().getInputPreviewHelper()
 					.updatePreviewFromInputBar(inputField.getText(),
-							new AsyncOperation<Boolean>() {
-
-								@Override
-								public void callback(Boolean obj) {
-									((Element) inputField.getElement()
-											.getChild(0))
-													.getStyle()
-													.setBorderColor(obj ? ""
-													: "#FFA500");
-
-								}
-							});
+							getWarningHandler(this, app));
 		}
 		if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
 			app.getKernel().clearJustCreatedGeosInViews();
@@ -366,6 +367,51 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		inputField.setIsSuggestionJustHappened(false);
 	}
 
+	public static ErrorHandler getWarningHandler(final HasHelpButton input,
+			final App app2) {
+		// TODO Auto-generated method stub
+		return new ErrorHandler() {
+
+			public void showError(String msg) {
+
+				input.updateIcons(msg != null);
+				input.getHelpToggle().getElement().setTitle(msg == null
+						? app2.getLocalization().getMenu("InputHelp")
+						: msg);
+
+			}
+
+			public void setActive(boolean b) {
+				// TODO Auto-generated method
+				// stub
+
+			}
+
+			public void showCommandError(String command, String message) {
+				input.updateIcons(true);
+				if (((GuiManagerW) app2.getGuiManager())
+						.hasInputHelpPanel()) {
+					InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) ((GuiManagerW) app2
+							.getGuiManager()).getInputHelpPanel();
+					helpPanel.focusCommand(
+							app2.getLocalization().getCommand(command));
+					input.getHelpToggle().getElement().setTitle(
+							app2
+							.getLocalization().getError("InvalidInput"));
+				}
+			}
+
+			public String getCurrentCommand() {
+				return input.getCommand();
+			}
+
+		};
+	}
+
+	public String getCommand() {
+		return inputField.getCommand();
+	}
+
 	private ErrorHandler getErrorHandler() {
 		return new ErrorHandler() {
 
@@ -452,6 +498,10 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 	public AutoCompleteTextFieldW getTextField(){
 		return this.inputField;
+	}
+
+	public ToggleButton getHelpToggle() {
+		return this.btnHelpToggle;
 	}
 
 }
