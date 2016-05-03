@@ -1509,18 +1509,17 @@ ExpressionValue list():
     ExpressionValue ev;
 }
 {
-   LOOKAHEAD(5)
-   (
+   "{" 
+ (   (
      // empty list
-      "{" "}"  
+       "}"  
       {   
            return new MyList(kernel);               
        }
     )
     |
    ( 
-    // list
-    "{"
+    // list    
       ev = expressionOrEquation()     
        {   
             myList = new MyList(kernel);         
@@ -1534,6 +1533,7 @@ ExpressionValue list():
     "}"
     {  return myList;  }
    )
+ )
   
 }
 

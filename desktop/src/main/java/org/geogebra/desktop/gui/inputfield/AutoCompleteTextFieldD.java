@@ -37,6 +37,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.event.FocusListenerD;
@@ -674,8 +675,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 		curWordStart = caretPos - 1;
 		while (curWordStart >= 0 &&
 		// isLetterOrDigitOrOpenBracket so that F1 works
-				StringUtil.isLetterOrDigitOrUnderscore(text
-						.charAt(curWordStart))) {
+				(curWordStart >= text.length()
+						|| StringUtil.isLetterOrDigitOrUnderscore(
+								text.charAt(curWordStart)))) {
 			--curWordStart;
 		}
 		curWordStart++;
@@ -688,7 +690,11 @@ public class AutoCompleteTextFieldD extends MathTextField
 			++curWordEnd;
 
 		curWord.setLength(0);
+		if (curWordEnd < length) {
 		curWord.append(text.substring(curWordStart, curWordEnd));
+		} else {
+			Log.debug("CARET OUTSIDE");
+		}
 
 		// remove '[' at end
 		if (curWord.toString().endsWith("[")) {

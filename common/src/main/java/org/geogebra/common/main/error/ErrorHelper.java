@@ -16,8 +16,7 @@ public class ErrorHelper {
 			handler.showError(loc.getError("CircularDefinition"));
 		} else if (e.getCause() instanceof MyError) {
 			handleError((MyError) e.getCause(), null, loc, handler);
-		} else if (loc.getCommandSyntax(
-				loc.getReverseCommand(handler.getCurrentCommand())) != null) {
+		} else if (loc.getReverseCommand(handler.getCurrentCommand()) != null) {
 
 			handleCommandError(handler.getCurrentCommand(), handler, loc);
 		} else {
