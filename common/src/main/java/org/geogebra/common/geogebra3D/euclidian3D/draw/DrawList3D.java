@@ -75,7 +75,7 @@ public class DrawList3D extends Drawable3D {
 			// getView3D().remove(drawables.get(i).getGeoElement());
 			Drawable3D d = (Drawable3D) drawables.get(i);
 			if (d.hasTrace()) {
-				d.getTrace().addLastTraceIndex();
+				d.addLastTrace();
 			} else if (!d.hasRecordedTrace()) {
 				drawable3DLists.remove(d);
 				drawables.remove(i);
@@ -103,6 +103,14 @@ public class DrawList3D extends Drawable3D {
 		 */
 
 		return true;
+	}
+
+	@Override
+	public void addLastTrace() {
+		for (int i = 0; i < drawables.size(); i++) {
+			Drawable3D d = (Drawable3D) drawables.get(i);
+			d.addLastTrace();
+		}
 	}
 
 	/*

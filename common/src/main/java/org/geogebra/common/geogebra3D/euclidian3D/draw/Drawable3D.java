@@ -1646,4 +1646,11 @@ public abstract class Drawable3D extends DrawableND {
 	public boolean isTracing() {
 		return false;
 	}
+
+	/**
+	 * add last geometry to traces
+	 */
+	public void addLastTrace() {
+		getTrace().addLastTraceIndex();
+	}
 }
