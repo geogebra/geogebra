@@ -87,6 +87,7 @@ public class ScriptManagerW extends ScriptManager {
 					? (String) args[0] : null;
 			callListenerNative(this.api, jsFunction,
 					singleArg);
+			return;
 		}
 		app.callAppletJavaScript(jsFunction, args);
 	}
