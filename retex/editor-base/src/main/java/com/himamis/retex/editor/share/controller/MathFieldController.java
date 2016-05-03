@@ -103,7 +103,4 @@ public class MathFieldController {
 		mathField.setTeXIcon(renderer);
 	}
 
-	public void onKeyboardInput() {
-		mathField.hideCopyPasteButtons();
-	}
 }
