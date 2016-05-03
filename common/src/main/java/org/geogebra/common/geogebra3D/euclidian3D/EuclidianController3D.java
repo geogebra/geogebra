@@ -2727,35 +2727,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// check first if B is linked to polyhedron
 		if (B.getMetasLength() == 1) {
 
-			boolean oldSilentMode = getKernel().isSilentMode();
-			getKernel().setSilentMode(true);// tells the kernel not to record
-											// the algo
-
 			GeoElement polyhedron = B.getMetas()[0];
 
 			if (!polyhedron.isGeoPolyhedron()) { // e.g. for a net
 				return false;
 			}
 
-			GeoElement[] ret = kernel.getManager3D().IntersectRegion(
-					(GeoPlaneND) A, polyhedron);
-
-			boolean goAhead = true;
-			DrawIntersectionCurve3D drawPolygons = new DrawIntersectionCurve3D(
-					view3D, ret[0]);
-			for (int i = 0; i < ret.length && goAhead; i++) {
-				GeoElement geo = ret[i];
-				if (geo instanceof GeoPolygon3D) {
-					DrawPolygon3D d = new DrawPolygon3D(view3D,
-							(GeoPolygon3D) geo);
-					drawPolygons.add(d);
-					processIntersectionCurve(A, polyhedron, geo, drawPolygons);
-				} else {
-					goAhead = false;
-				}
-			}
-
-			getKernel().setSilentMode(oldSilentMode);
+			createIntersectionCurvePlanePolyhedron(A,
+					(GeoPolyhedron) polyhedron);
 
 			return true;
 
@@ -2782,6 +2761,33 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		return true;
 
+	}
+
+	private void createIntersectionCurvePlanePolyhedron(GeoElement A,
+			GeoPolyhedron polyhedron) {
+
+		boolean oldSilentMode = getKernel().isSilentMode();
+		getKernel().setSilentMode(true);// tells the kernel not to record
+										// the algo
+
+		GeoElement[] ret = kernel.getManager3D().IntersectRegion(
+				(GeoPlaneND) A, polyhedron);
+
+		boolean goAhead = true;
+		DrawIntersectionCurve3D drawPolygons = new DrawIntersectionCurve3D(
+				view3D, ret[0]);
+		for (int i = 0; i < ret.length && goAhead; i++) {
+			GeoElement geo = ret[i];
+			if (geo instanceof GeoPolygon3D) {
+				DrawPolygon3D d = new DrawPolygon3D(view3D, (GeoPolygon3D) geo);
+				drawPolygons.add(d);
+				processIntersectionCurve(A, polyhedron, geo, drawPolygons);
+			} else {
+				goAhead = false;
+			}
+		}
+
+		getKernel().setSilentMode(oldSilentMode);
 	}
 
 	private boolean createIntersectionCurvePlaneQuadric(GeoElement A,
