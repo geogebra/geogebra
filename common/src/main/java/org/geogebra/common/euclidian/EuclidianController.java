@@ -724,6 +724,11 @@ public abstract class EuclidianController {
 			return;
 		}
 
+		if (newMode == EuclidianConstants.MODE_IMAGE) {
+			image(view.getHits().getOtherHits(Test.GEOIMAGE, tempArrayList));
+		}
+		;
+
 		endOfMode(mode);
 
 		allowSelectionRectangleForTranslateByVector = true;
@@ -5561,11 +5566,11 @@ public abstract class EuclidianController {
 				break;
 
 			// new image
-			case EuclidianConstants.MODE_IMAGE:
-				changedKernel = image(hits.getOtherHits(Test.GEOIMAGE,
-						tempArrayList)); // e.isAltDown());
+		// case EuclidianConstants.MODE_IMAGE:
+		// changedKernel = image(hits.getOtherHits(Test.GEOIMAGE,
+		// tempArrayList)); // e.isAltDown());
 
-			break;
+
 
 			// new slider
 			case EuclidianConstants.MODE_SLIDER:
