@@ -6,10 +6,8 @@ import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GDialogBox;
@@ -338,15 +336,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	    
     }
 
-	public void handleException(Exception e) {
-		ErrorHelper.handleException(e, loc, this);
-
-	}
-
-	public void handleError(MyError e) {
-		ErrorHelper.handleError(e, null, loc, this);
-
-	}
 
 	public void showCommandError(String command, String message) {
 		app.getDefaultErrorHandler().showCommandError(command, message);
