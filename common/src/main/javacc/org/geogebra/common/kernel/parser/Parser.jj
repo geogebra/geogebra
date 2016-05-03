@@ -1490,7 +1490,7 @@ ExpressionValue enelement():
 |
     // cartesian vector  (x, y) or (x|y)
     LOOKAHEAD(2147483647)
-    ev = cartesianvector()
+    ev = tuple()
         { return ev; } 
  |
 
@@ -2000,10 +2000,11 @@ ExpressionNode numberFunction():
 
 
 /**
-   cartesianvector =  ( expression, expression )
- * cartesianvector3D =  ( expression, expression ) 
+ *  tuple =  ( expression, expression )
+ *  tuple =  ( expression, expression, expression )
+ * | and ; can be used instead of , 
  */
-VectorNDValue cartesianvector():
+VectorNDValue tuple():
 {     
     ExpressionValue x, y, z = null;
     Token sep;            
@@ -2012,10 +2013,10 @@ VectorNDValue cartesianvector():
     // cartesian coordinates
   
     "(" x = expressionnode() (  
-   		(   sep = <COMMA> y = expressionnode() (<COMMA> z = expressionnode())? ")"  )   
-    	|   (  sep = <VERTICAL_BAR> y = expressionnode() (<VERTICAL_BAR> z = expressionnode())? ")" )
-    	|  (  sep = <POLAR_SEPARATOR> y = expressionnode() (<POLAR_SEPARATOR> z = expressionnode())? ")" )
-		)
+   		(   sep = <COMMA> y = expressionnode() (<COMMA> z = expressionnode())?   )   
+    	|   (  sep = <VERTICAL_BAR> y = expressionnode() (<VERTICAL_BAR> z = expressionnode())? )
+    	|  (  sep = <POLAR_SEPARATOR> y = expressionnode() (<POLAR_SEPARATOR> z = expressionnode())?  )
+		)")"
     {
       if(z == null) {	       MyVecNode ret = new MyVecNode(kernel, x, y);
 	       if(sep.kind == POLAR_SEPARATOR){
