@@ -168,7 +168,15 @@ CasEvaluableFunction, ParametricCurve,
 		surfaceEvaluables = new TreeSet<SurfaceEvaluable>();
 		fun = f;
 		// setConstructionDefaults is called from initFunction
-		initFunction();
+		initFunction(true);
+	}
+
+	public GeoFunction(Construction c, Function f, boolean simplifyInt) {
+		super(c);
+		surfaceEvaluables = new TreeSet<SurfaceEvaluable>();
+		fun = f;
+		// setConstructionDefaults is called from initFunction
+		initFunction(simplifyInt);
 	}
 	/** implicit poly for composite function */
 	GeoImplicit iPoly;
@@ -402,8 +410,8 @@ CasEvaluableFunction, ParametricCurve,
 	/**
 	 * initializes function type; if boolean, uses default styl for inequalities
 	 */
-	public void initFunction() {
-		fun.initFunction();
+	public void initFunction(boolean simplifyInt) {
+		fun.initFunction(simplifyInt);
 		//apply inequality style when suitable		
 		setConstructionDefaults();
 	}

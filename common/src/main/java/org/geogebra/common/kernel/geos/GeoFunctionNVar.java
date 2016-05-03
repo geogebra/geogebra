@@ -110,10 +110,10 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	 * @param f
 	 *            function to be wrapped
 	 */
-	public GeoFunctionNVar(Construction c, FunctionNVar f) {
+	public GeoFunctionNVar(Construction c, FunctionNVar f, boolean simplifyInt) {
 		this(c, false);
 		setFunction(f);
-		fun.initFunction();
+		fun.initFunction(simplifyInt);
 		if (fun != null)
 			isInequality = fun.initIneqs(this.getFunctionExpression(), this);
 
@@ -130,8 +130,8 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	 * @param f
 	 *            function to be wrapped
 	 */
-	public GeoFunctionNVar(Construction c, String label, FunctionNVar f) {
-		this(c, f);
+	public GeoFunctionNVar(Construction c, FunctionNVar f) {
+		this(c, f, true);
 		setLabel(label);
 	}
 

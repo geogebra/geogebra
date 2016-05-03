@@ -364,7 +364,8 @@ public class AlgebraProcessor {
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(newValue);
 			if ("X".equals(ve.getLabel())) {
-				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons);
+				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons,
+						new EvalInfo(!cons.isSuppressLabelsActive()));
 			}
 			changeGeoElementNoExceptionHandling(geo, ve,
 					redefineIndependent, storeUndoInfo, callback, handler);
@@ -668,7 +669,8 @@ public class AlgebraProcessor {
 			fvX = new FunctionVariable(kernel, "x");
 		}
 		GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
-				undefinedVariables, autoCreateSliders, callback0);
+				undefinedVariables, autoCreateSliders, callback0,
+				new EvalInfo(!cons.isSuppressLabelsActive()));
 		if (ret != null) {
 			if (storeUndo) {
 				app.storeUndoInfo();
@@ -1688,17 +1690,17 @@ public class AlgebraProcessor {
 
 		// Equation in x,y (linear or quadratic are valid): line or conic
 		else if (ve instanceof Equation) {
-			ret = processEquation((Equation) ve, ve.wrap());
+			ret = processEquation((Equation) ve, ve.wrap(), info);
 		}
 
 		// explicit Function in one variable
 		else if (ve instanceof Function) {
-			ret = processFunction((Function) ve);
+			ret = processFunction((Function) ve, info);
 		}
 
 		// explicit Function in multiple variables
 		else if (ve instanceof FunctionNVar) {
-			ret = processFunctionNVar((FunctionNVar) ve);
+			ret = processFunctionNVar((FunctionNVar) ve, info);
 		}
 
 		// // Assignment: variable
@@ -1717,7 +1719,7 @@ public class AlgebraProcessor {
 	 *            function
 	 * @return GeoFunction
 	 */
-	public final GeoElement[] processFunction(Function fun) {
+	public final GeoElement[] processFunction(Function fun, EvalInfo info) {
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);
 		if (varName.equals(
 				Unicode.thetaStr)
@@ -1745,18 +1747,18 @@ public class AlgebraProcessor {
 					exp,
 					exp.evaluate(StringTemplate.defaultTemplate),
 					new FunctionVariable[] { fun.getFunctionVariable() },
-					"X".equals(ve.getLabel()) ? null : ve.getLabel());
+					"X".equals(ve.getLabel()) ? null : ve.getLabel(), info);
 			if (ret != null) {
 				return ret;
 			}
 		}
-		if (!fun.initFunction()) {
+		if (!fun.initFunction(info.isSimplifyingIntegers())) {
 			return getParamProcessor().processParametricFunction(
 					fun.getExpression(),
 					fun
 					.getExpression().evaluate(StringTemplate.defaultTemplate),
 					new FunctionVariable[] { fun.getFunctionVariable() },
-					fun.getLabel());
+					fun.getLabel(), info);
 		}
 
 		String label = fun.getLabel();
@@ -1824,7 +1826,7 @@ public class AlgebraProcessor {
 		}
 
 		if (isIndependent) {
-			f = new GeoFunction(cons, fun);
+			f = new GeoFunction(cons, fun, info.isSimplifyingIntegers());
 
 		} else {
 			f = kernel.getAlgoDispatcher().DependentFunction(fun);
@@ -2138,13 +2140,13 @@ public class AlgebraProcessor {
 	 *            function
 	 * @return GeoFunctionNVar
 	 */
-	public GeoElement[] processFunctionNVar(FunctionNVar fun) {
-		if (!fun.initFunction()) {
+	public GeoElement[] processFunctionNVar(FunctionNVar fun, EvalInfo info) {
+		if (!fun.initFunction(info.isSimplifyingIntegers())) {
 			return getParamProcessor().processParametricFunction(
 					fun.getExpression(),
 					fun.getExpression()
 							.evaluate(StringTemplate.defaultTemplate),
-					fun.getFunctionVariables(), fun.getLabel());
+					fun.getFunctionVariables(), fun.getLabel(), info);
 		}
 
 
@@ -2155,7 +2157,8 @@ public class AlgebraProcessor {
 		boolean isIndependent = (vars == null || vars.length == 0);
 
 		if (isIndependent) {
-			gf = new GeoFunctionNVar(cons, label, fun);
+			gf = new GeoFunctionNVar(cons, fun, info.isSimplifyingIntegers());
+			gf.setLabel(label);
 		} else {
 			gf = DependentFunctionNVar(label, fun);
 		}
@@ -2191,7 +2194,8 @@ public class AlgebraProcessor {
 	 * @throws MyError
 	 *             e.g. for invalid operation
 	 */
-	public final GeoElement[] processEquation(Equation equ, ExpressionNode def)
+	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
+			EvalInfo info)
 			throws MyError {
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		//z = 7
@@ -2209,7 +2213,7 @@ public class AlgebraProcessor {
 		if ((lhs instanceof Variable || lhs instanceof GeoDummyVariable)
 				&& kernel.lookupLabel("X") == null
 				&& "X".equals(lhs.toString(StringTemplate.defaultTemplate))) {
-			return getParamProcessor().processXEquation(equ);
+			return getParamProcessor().processXEquation(equ, info);
 		}
 		if (lhs instanceof Variable
 				&& kernel.lookupLabel(((Variable) lhs).getName()) == null) {
@@ -2309,7 +2313,8 @@ public class AlgebraProcessor {
 				Function fun = new Function(equ.getRHS());
 				// try to use label of equation
 				fun.setLabel(equ.getLabel());
-				return processFunction(fun);
+				return processFunction(fun,
+						new EvalInfo(!cons.isSuppressLabelsActive()));
 			}
 			if (app.has(Feature.IMPLICIT_CURVES) || equ.mayBePolynomial()) {
 				return processImplicitPoly(equ, def);
@@ -2500,15 +2505,15 @@ public class AlgebraProcessor {
 			} else if (leaf instanceof Equation) {
 				Equation eqn = (Equation) leaf;
 				eqn.setLabels(n.getLabels());
-				return processEquation(eqn, n);
+				return processEquation(eqn, n, info);
 			} else if (leaf instanceof Function) {
 				Function fun = (Function) leaf;
 				fun.setLabels(n.getLabels());
-				return processFunction(fun);
+				return processFunction(fun, info);
 			} else if (leaf instanceof FunctionNVar) {
 				FunctionNVar fun = (FunctionNVar) leaf;
 				fun.setLabels(n.getLabels());
-				return processFunctionNVar(fun);
+				return processFunctionNVar(fun, info);
 			}
 
 		}
@@ -2586,12 +2591,12 @@ public class AlgebraProcessor {
 			Equation eq = ((EquationValue) eval).getEquation();
 			eq.setFunctionDependent(true);
 			eq.setLabel(n.getLabel());
-			return processEquation(eq, n);
+			return processEquation(eq, n, info);
 		} else if (eval instanceof Function) {
-			return processFunction((Function) eval);
+			return processFunction((Function) eval, info);
 		} else if (eval instanceof FunctionNVar) {
 
-			return processFunctionNVar((FunctionNVar) eval);
+			return processFunctionNVar((FunctionNVar) eval, info);
 		}
 		// we have to process list in case list=matrix1(1), but not when
 		// list=list2

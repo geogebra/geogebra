@@ -74,7 +74,7 @@ public class ParametricProcessor {
 	 */
 	GeoElement[] checkParametricEquation(ValidExpression ve0,
 			TreeSet<String> undefinedVariables, boolean autocreateSliders,
-			AsyncOperation<GeoElement[]> callback) {
+			AsyncOperation<GeoElement[]> callback, EvalInfo info) {
 		if (undefinedVariables.isEmpty()) {
 			return null;
 		}
@@ -111,7 +111,7 @@ public class ParametricProcessor {
 				GeoElement[] ret = processParametricFunction(exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
 						new FunctionVariable[] { fv },
-						"X".equals(ve.getLabel()) ? null : ve.getLabel());
+						"X".equals(ve.getLabel()) ? null : ve.getLabel(), info);
 				if (ret != null && (num.isEmpty() || autocreateSliders)) {
 					return ret;
 				}
@@ -136,7 +136,7 @@ public class ParametricProcessor {
 				GeoElement[] ret = processParametricFunction(exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
 						new FunctionVariable[] { fv },
-						ve.getLabel());
+ ve.getLabel(), info);
 				if (ret != null && (num.isEmpty() || autocreateSliders)) {
 					return ret;
 				}
@@ -205,7 +205,8 @@ public class ParametricProcessor {
 	 * @return paramteric curve (or line, conic)
 	 */
 	protected GeoElement[] processParametricFunction(ExpressionNode exp,
-			ExpressionValue ev, FunctionVariable[] fv, String label) {
+			ExpressionValue ev, FunctionVariable[] fv, String label,
+			EvalInfo info) {
 		Construction cons = kernel.getConstruction();
 		if (fv.length < 2 && ev instanceof VectorValue
 				&& ((VectorValue) ev).getMode() != Kernel.COORD_COMPLEX) {
@@ -334,9 +335,9 @@ public class ParametricProcessor {
 			}
 			return cartesianCurve(cons, label, exp, locVar, cx, cy, null);
 		} else if (ev instanceof Function) {
-			return ap.processFunction((Function) ev);
+			return ap.processFunction((Function) ev, info);
 		} else if (ev instanceof FunctionNVar) {
-			return ap.processFunctionNVar((FunctionNVar) ev);
+			return ap.processFunctionNVar((FunctionNVar) ev, info);
 		}
 		Log.debug("InvalidFunction:"
 				+ exp.toString(StringTemplate.defaultTemplate) + ","
@@ -466,7 +467,7 @@ public class ParametricProcessor {
 	 * @return parametric curve (or line, conic) or fallback
 	 */
 	public ValidExpression checkParametricEquationF(ValidExpression ve,
-			ValidExpression fallback, Construction cons) {
+			ValidExpression fallback, Construction cons, EvalInfo info) {
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		ve.traverse(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
@@ -484,7 +485,7 @@ public class ParametricProcessor {
 				cons.setSuppressLabelCreation(true);
 				GeoElement[] ret = processParametricFunction(exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
-						new FunctionVariable[] { fv }, null);
+						new FunctionVariable[] { fv }, null, info);
 				cons.setSuppressLabelCreation(flag);
 				if (ret != null) {
 					return ret[0].wrap();
@@ -502,7 +503,7 @@ public class ParametricProcessor {
 	 *            aquation with X on LHS
 	 * @return parametric curve if possible
 	 */
-	public GeoElement[] processXEquation(Equation equ) {
+	public GeoElement[] processXEquation(Equation equ, EvalInfo info) {
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		equ.traverse(collecter);
 		final TreeSet<String> undefinedVariables = collecter.getResult();
@@ -519,7 +520,8 @@ public class ParametricProcessor {
 		GeoElement[] ret = processParametricFunction(exp,
 				exp.evaluate(StringTemplate.defaultTemplate),
 				new FunctionVariable[] { fv },
-				equ.getLabel());
+ equ.getLabel(), new EvalInfo(
+						true));
 		return ret;
 	}
 }

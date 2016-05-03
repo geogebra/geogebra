@@ -34,6 +34,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Function of N variables that returns either a number or a boolean. This
@@ -255,13 +256,17 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return sb;
 	}
 
+	public final boolean initFunction() {
+		return initFunction(true);
+	}
 	/**
 	 * Call this function to resolve variables and init the function. May throw
 	 * MyError (InvalidFunction).
 	 * 
 	 * @return whether this is a valid (numeric or boolean) function
 	 */
-	public boolean initFunction() {
+	public boolean initFunction(boolean simplifyInt) {
+
 		// replace function variables in tree
 		for (int i = 0; i < fVars.length; i++) {
 			FunctionVariable fVar = fVars[i];
@@ -289,7 +294,10 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		// by an instance of MyDouble
 
 		// simplify constant parts in expression
+		if (simplifyInt) {
+			Log.printStacktrace("SIMPLIFY");
 		expression.simplifyConstantIntegers();
+		}
 
 		// evaluate expression to find out about the type of function
 		ExpressionValue ev;

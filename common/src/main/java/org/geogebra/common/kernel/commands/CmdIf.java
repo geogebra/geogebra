@@ -198,13 +198,13 @@ public class CmdIf extends CommandProcessor {
 				|| arg.unwrap() instanceof GeoFunctionNVar) {
 			return (FunctionalNVar) arg.unwrap();
 		}
-
+		EvalInfo info = new EvalInfo(false);
 		if (vars < 2) {
 			return (GeoFunction) kernelA.getAlgebraProcessor().processFunction(
-					new Function(arg, fv[0]))[0];
+					new Function(arg, fv[0]), info)[0];
 		}
 		return (GeoFunctionNVar) kernelA.getAlgebraProcessor()
-				.processFunctionNVar(new FunctionNVar(arg, fv))[0];
+				.processFunctionNVar(new FunctionNVar(arg, fv), info)[0];
 	}
 
 	/**
@@ -275,7 +275,9 @@ public class CmdIf extends CommandProcessor {
 		}
 		FunctionNVar fun = new FunctionNVar(expr, fv);
 		if (mayUseIndependent) {
-			return new GeoFunctionNVar(cons, label, fun);
+			GeoFunctionNVar ret = new GeoFunctionNVar(cons, fun);
+			ret.setLabel(label);
+			return ret;
 		}
 		AlgoDependentFunctionNVar algo = new AlgoDependentFunctionNVar(cons,
 				label, fun);

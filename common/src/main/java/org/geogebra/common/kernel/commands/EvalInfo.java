@@ -11,6 +11,7 @@ public class EvalInfo {
 	private TreeMap<String, String> casMap;
 	private boolean redefineIndependent = true;
 	private boolean scripting = true;
+	private boolean simplifyIntegers = true;
 
 	/**
 	 * @param labelOut
@@ -69,6 +70,17 @@ public class EvalInfo {
 		EvalInfo ret = new EvalInfo(this.labelOutput, this.redefineIndependent);
 		ret.scripting = this.scripting;
 		ret.casMap = this.casMap;
+		ret.simplifyIntegers = this.simplifyIntegers;
+		return ret;
+	}
+
+	public boolean isSimplifyingIntegers() {
+		return simplifyIntegers;
+	}
+
+	public EvalInfo withSimplifying(boolean simplify) {
+		EvalInfo ret = copy();
+		ret.simplifyIntegers = simplify;
 		return ret;
 	}
 

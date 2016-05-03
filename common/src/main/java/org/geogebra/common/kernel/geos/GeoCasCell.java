@@ -1894,7 +1894,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			copy.setLabel(ve.getLabel());
 			kernel.getAlgebraProcessor().setDisableGcd(true);
 			GeoElement[] ggbEval = kernel.getAlgebraProcessor()
-					.doProcessValidExpression(copy, new EvalInfo(false));
+					.doProcessValidExpression(copy,
+							new EvalInfo(false).withSimplifying(false));
 			
 			if (ggbEval != null) {
 				if(!allowFunction && (ggbEval[0] instanceof FunctionalNVar) && !wasFunction)

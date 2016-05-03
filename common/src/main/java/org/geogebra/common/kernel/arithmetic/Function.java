@@ -136,18 +136,19 @@ public class Function extends FunctionNVar implements
 
 	}
 
+
 	/**
 	 * Call this function to resolve variables and init the function. May throw
 	 * MyError (InvalidFunction).
 	 */
 	@Override
-	public boolean initFunction() {
+	public boolean initFunction(boolean simplifyInt) {
 		if (fVars == null) {
 			// try function variable x
 			fVars = new FunctionVariable[] { new FunctionVariable(kernel) };
 		}
 
-		return super.initFunction();
+		return super.initFunction(simplifyInt);
 	}
 
 	/**

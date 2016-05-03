@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -33,7 +34,8 @@ public class ParametricProcessor3D extends ParametricProcessor {
 
 	@Override
 	protected GeoElement[] processParametricFunction(ExpressionNode exp,
-			ExpressionValue ev, FunctionVariable[] fv, String label) {
+			ExpressionValue ev, FunctionVariable[] fv, String label,
+			EvalInfo info) {
 		Construction cons = kernel.getConstruction();
 		if (ev instanceof Vector3DValue) {
 			if (fv.length == 2) {
@@ -168,7 +170,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			ac.getCurve().setLabel(label);
 			return ac.getOutput();
 		}
-		return super.processParametricFunction(exp, ev, fv, label);
+		return super.processParametricFunction(exp, ev, fv, label, info);
 
 	}
 

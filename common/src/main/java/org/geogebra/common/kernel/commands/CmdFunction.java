@@ -170,7 +170,8 @@ public class CmdFunction extends CommandProcessor {
 						c.getArgument(0).resolveVariables();
 						condFun = (GeoFunction) kernelA.getAlgebraProcessor()
 								.processFunction(
-										new Function(c.getArgument(0), fv))[0];
+										new Function(c.getArgument(0), fv),
+										new EvalInfo(false))[0];
 					}
 					GeoElement low = kernelA.getAlgebraProcessor()
 							.processExpressionNode(c.getArgument(1))[0];

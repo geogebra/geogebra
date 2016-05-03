@@ -20,6 +20,7 @@ import java.util.Set;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Unicode;
@@ -447,7 +448,7 @@ public class Equation extends ValidExpression implements EquationValue {
 		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
 		GeoElement ge = kernel.getAlgebraProcessor().processEquation(this,
-				this.wrap())[0];
+				this.wrap(), new EvalInfo(false))[0];
 		kernel.getConstruction().setSuppressLabelCreation(oldFlag);
 		return ge;
 	}
