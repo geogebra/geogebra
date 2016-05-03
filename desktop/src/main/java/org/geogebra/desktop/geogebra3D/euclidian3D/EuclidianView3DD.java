@@ -126,19 +126,32 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		// we don't want shaders with win os < vista
 		if (app.has(Feature.SHADERS_IN_DESKTOP) && !app.isApplet()
 				&& !AppD.WINDOWS_VISTA_OR_EARLIER) {
-			return new RendererCheckGLVersionD(this, !app.isApplet());
+			return new RendererCheckGLVersionD(this, canUseCanvas());
 		}
 
 		if (app.useShaders()) {
-			return new RendererShadersElements(this, !app.isApplet());
+			return new RendererShadersElements(this, canUseCanvas());
 		}
 
-		return new RendererCheckGLVersionD(this, !app.isApplet(),
+		return new RendererCheckGLVersionD(this, canUseCanvas(),
 				RendererType.GL2);
 
 	}
 
 
+	private boolean canUseCanvas() {
+		if (app.isApplet()) {
+			return false;
+		}
+
+		// TODO remove that (quick fix for jogl 2.3.2)
+		if (AppD.MAC_OS) {
+			Log.debug("XXXXXXXXXXXXXXX mac osx");
+			return false;
+		}
+
+		return true;
+	}
 
 
 	protected void setBackground(GColor updatedColor, GColor applyedColor) {
