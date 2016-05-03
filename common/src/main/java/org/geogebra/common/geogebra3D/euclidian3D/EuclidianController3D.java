@@ -2733,6 +2733,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			GeoElement polyhedron = B.getMetas()[0];
 
+			if (!polyhedron.isGeoPolyhedron()) { // e.g. for a net
+				return false;
+			}
+
 			GeoElement[] ret = kernel.getManager3D().IntersectRegion(
 					(GeoPlaneND) A, polyhedron);
 
