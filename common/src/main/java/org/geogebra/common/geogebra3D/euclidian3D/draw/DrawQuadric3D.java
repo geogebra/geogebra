@@ -1059,7 +1059,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	@Override
-	protected void clearTraceForViewChanged() {
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
 
 		if (drawPlanes != null) {
 			drawPlanes[0].clearTraceForViewChanged();
@@ -1072,7 +1072,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			drawLine.clearTraceForViewChanged();
 		}
 
-		super.clearTraceForViewChanged();
+		super.clearTraceForViewChangedByZoomOrTranslate();
 	}
 
 	@Override

@@ -1417,20 +1417,27 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * clear trace for view changed
 	 */
-	protected void clearTraceForViewChanged() {
+	final protected void clearTraceForViewChanged() {
 		if (getView3D().viewChangedByZoom()
 				|| getView3D().viewChangedByTranslate()) {
-			if (trace != null) {
-				// remove all geometry indices from openGL manager
-				for (ArrayList<TraceIndex> indices : trace.values()) {
-					for (TraceIndex index : indices) {
-						doRemoveGeometryIndex(index.geom);
-						doRemoveGeometryIndex(index.surface);
-					}
-				}
+			clearTraceForViewChangedByZoomOrTranslate();
+		}
+	}
 
-				trace.clear();
+	/**
+	 * clear trace for view changed by zoom or translate
+	 */
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
+		if (trace != null) {
+			// remove all geometry indices from openGL manager
+			for (ArrayList<TraceIndex> indices : trace.values()) {
+				for (TraceIndex index : indices) {
+					doRemoveGeometryIndex(index.geom);
+					doRemoveGeometryIndex(index.surface);
+				}
 			}
+
+			trace.clear();
 		}
 	}
 

@@ -76,9 +76,12 @@ public class DrawList3D extends Drawable3D {
 			Drawable3D d = (Drawable3D) drawables.get(i);
 			if (d.hasTrace()) {
 				d.addLastTrace();
+				d.getGeoElement().setUndefined();
 			} else if (!d.hasRecordedTrace()) {
 				drawable3DLists.remove(d);
 				drawables.remove(i);
+			} else {
+				d.getGeoElement().setUndefined();
 			}
 
 		}
@@ -136,12 +139,12 @@ public class DrawList3D extends Drawable3D {
 	}
 
 	@Override
-	protected void clearTraceForViewChanged() {
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
 			if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
-				d.clearTraceForViewChanged();
+				d.clearTraceForViewChangedByZoomOrTranslate();
 			}
 		}
 	}
