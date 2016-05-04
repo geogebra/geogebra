@@ -3712,7 +3712,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 #####################################################################################*/
 .inputHelp-tree {
 	border: none;
-	font-size: 85%;
+	/*font-size: 85%; */
 	line-height: 100%;
 	padding: 10px 4px;
 }
@@ -3732,7 +3732,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .inputHelp-detailPanelTitle {
 	width: 100%;
-	font-size: 85%;
+	/*font-size: 85%; */
 	font-weight: bold;
 	padding: 1px 10px;
 	border-bottom: 1px solid lightgray;
@@ -3740,7 +3740,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 }
 
 .inputHelp-cmdSyntax {
-	font-size: 85%;
+	/*font-size: 85%; */
 	margin: 4px;
 	padding-top: 10px;
 	padding-left: 35px;
@@ -3768,7 +3768,7 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 }
 
 .inputHelp-functionTable {
-	font-size: 85%;
+	/*font-size: 85%; */
 	padding: 10px;
 }
 
@@ -5551,6 +5551,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 .GGWToolbar .phonetoolbar_mainItem {
 	padding: 0px;
 	margin: 0px;
+	width: 600px;
 }
 
 .GGWToolbar-opened {

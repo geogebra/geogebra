@@ -118,7 +118,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		// SplitLayoutPanel
 		sp = new SplitLayoutPanel();
 		sp.addStyleName("ggbdockpanelhack");
-		sp.addEast(treeScroller, 250);
+		sp.addEast(treeScroller, 280);
 		sp.add(new ScrollPanel(detailPanel));
 
 		// now add the split panel to our main panel
