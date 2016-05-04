@@ -40,8 +40,8 @@ public class JLMContext2d extends Context2d {
 	    this.m10_ = 0;
 	    this.m01_ = 0;
 	    this.m11_ = 1;
-	    this.m02_ = 1;
-	    this.m12_ = 1;
+	    this.m02_ = 0;
+	    this.m12_ = 0;
 	    
 	    this.ggbTransformCache = [];
 
