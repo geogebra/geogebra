@@ -103,7 +103,9 @@ public class MyArbitraryConstant {
 		if (position >= consts2.size() || consts2.get(position) == null) {
 			GeoNumeric add = new GeoNumeric(c);
 			add.setSendValueToCas(false);
-			add.setAuxiliaryObject(true);
+			// GGB-810
+			// don't use constants as auxiliary objects
+			// add.setAuxiliaryObject(true);
 			boolean oldLabeling = c.isSuppressLabelsActive();
 			c.setSuppressLabelCreation(false);
 			add.setLabel(c.getIndexLabel(prefix));

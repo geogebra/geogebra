@@ -2974,6 +2974,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			this.update();
 			clearStrings();
 			cons.addToConstructionList(twinGeo, true);
+			// notify only construction protocol
+			// needed for GGB-810
+			kernel.notifyConstructionProtocol(twinGeo);
 		} else {
 			Log.debug("Fail" + oldEvalComment);
 			if (twinGeo != null && twinGeo.getLabelSimple() != null)

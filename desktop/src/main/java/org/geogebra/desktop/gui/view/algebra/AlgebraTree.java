@@ -13,6 +13,7 @@ import javax.swing.tree.TreePath;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
@@ -618,8 +619,23 @@ public class AlgebraTree extends JTree {
 		switch (mode) {
 
 		case ORDER:
-
-			return geo1.getConstructionIndex() > geo2.getConstructionIndex();
+			int geo1Index = -1;
+			int geo2index = -1;
+			// use index of twinGeo instead of corresponding geoCasCell
+			if (geo1.getParentAlgorithm() != null
+					&& geo1.getParentAlgorithm() instanceof AlgoDependentCasCell) {
+				geo1Index = geo1.getAlgoDepCasCellGeoConstIndex();
+			} else {
+				geo1Index = geo1.getConstructionIndex();
+			}
+			// use index of twinGeo instead of corresponding geoCasCell
+			if (geo2.getParentAlgorithm() != null
+					&& geo2.getParentAlgorithm() instanceof AlgoDependentCasCell) {
+				geo2index = geo2.getAlgoDepCasCellGeoConstIndex();
+			} else {
+				geo2index = geo2.getConstructionIndex();
+			}
+			return geo1Index > geo2index;
 
 		default: // alphabetical
 

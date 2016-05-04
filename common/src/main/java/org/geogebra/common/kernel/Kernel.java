@@ -3331,6 +3331,15 @@ public class Kernel {
 		}
 	}
 
+	// notify only construction protocol
+	public void notifyConstructionProtocol(GeoElement geo) {
+		for (View view : views) {
+			if (view.getViewID() == App.VIEW_CONSTRUCTION_PROTOCOL) {
+				view.add(geo);
+			}
+		}
+	}
+
 	public void setNotifyViewsActive(boolean flag) {
 		// Application.debug("setNotifyViews: " + flag);
 

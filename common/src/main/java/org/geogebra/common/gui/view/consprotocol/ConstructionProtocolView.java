@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -518,10 +519,26 @@ public class ConstructionProtocolView {
 			// if it may happen)
 			if (geo.getCorrespondingCasCell() != null) {
 				remove(geo.getCorrespondingCasCell());
+				// remove also twinGeo of geoCasCell
+				// needed for GGB-810
+				if (geo.getCorrespondingCasCell().getTwinGeo() != null
+						&& geo.getCorrespondingCasCell().getTwinGeo()
+								.equals(geo)) {
+					remove(geo);
+				}
 			}
 			RowData row = geoMap.get(geo); // lookup row for geo
 			if (row == null) { // new row
 				int index = geo.getConstructionIndex();
+				// use index of geo instead of corresponding geoCasCell
+				// needed for GGB-810
+				if (geo.getParentAlgorithm() != null
+						&& geo.getParentAlgorithm() instanceof AlgoDependentCasCell) {
+					int geoIndex = geo.getAlgoDepCasCellGeoConstIndex();
+					if (index < geoIndex) {
+						index = geoIndex;
+					}
+				}
 				int pos = 0; // there may be more rows with same index
 				int size = rowList.size();
 				while (pos < size

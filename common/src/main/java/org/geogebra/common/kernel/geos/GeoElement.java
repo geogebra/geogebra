@@ -4330,6 +4330,13 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
+	 * @return twinGeos construction index
+	 */
+	final public int getAlgoDepCasCellGeoConstIndex() {
+		return super.getConstructionIndex();
+	}
+
+	/**
 	 * Returns construction index in current construction. For a dependent
 	 * object the construction index of its parent algorithm is returned.
 	 */
