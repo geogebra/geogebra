@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -870,7 +871,15 @@ public abstract class Prover {
 				AlgoElement ae = geo.getParentAlgorithm();
 				String algo = "Free Point";
 				if (ae != null) {
-					algo = ae.getClassName().getCommand();
+					GetCommand gc = ae.getClassName();
+					if (gc != null) {
+						/*
+						 * Some algos don't have commands, e.g. IsPointOnPath.
+						 * In such cases the digraph will use "null" label for
+						 * all such nodes.
+						 */
+						algo = gc.getCommand();
+					}
 					GeoElement[] inputs = ae.getInput();
 					if (!geo.equals(statement)) {
 						edges += inputs.length;
