@@ -1024,7 +1024,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			return;
 		}
 		int keyCode = e.getNativeKeyCode();
-		if (keyCode == GWTKeycodes.KEY_TAB
+		if (keyCode == GWTKeycodes.KEY_TAB || keyCode == GWTKeycodes.KEY_F1
 				|| app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
 			e.preventDefault();
 		}

@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.gui.inputfield.AltKeys;
+import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.dom.client.Element;
@@ -84,7 +85,9 @@ public class ScriptArea extends TextArea
 	}
 
 	public void onKeyDown(KeyDownEvent e) {
-		if (GlobalKeyDispatcherW.isBadKeyEvent(e)) {
+
+		if (GlobalKeyDispatcherW.isBadKeyEvent(e)
+				|| e.getNativeKeyCode() == GWTKeycodes.KEY_F1) {
 			e.preventDefault();
 		}
 

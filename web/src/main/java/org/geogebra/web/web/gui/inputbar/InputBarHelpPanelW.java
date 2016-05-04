@@ -457,7 +457,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 				if (group.getChild(j).getElement().getInnerText()
 						.equalsIgnoreCase(currentCommand)) {
 					group.setState(true);
-					indexTree.setSelectedItem(group.getChild(j));
+					indexTree.setSelectedItem(group.getChild(j), false);
 					updateDetailPanel();
 					return;
 				}
