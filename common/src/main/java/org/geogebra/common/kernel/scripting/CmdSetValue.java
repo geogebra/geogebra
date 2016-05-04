@@ -87,6 +87,14 @@ public class CmdSetValue extends CmdScripting {
 		}
 		if (nn > list.size()) {
 			list.add((GeoElement) arg2.deepCopy(kernel));
+			if (list.getDefinition() != null) {
+				ExpressionValue root = list.getDefinition().unwrap();
+				if (root instanceof MyList && arg2.getDefinition() != null) {
+					((MyList) root).addListElement(arg2.getDefinition());
+				} else {
+					list.setDefinition(null);
+				}
+			}
 			list.updateRepaint();
 			return true;
 		}
