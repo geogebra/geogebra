@@ -407,8 +407,8 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public void drawImage(Image image, Transform transform) {
-		context.saveTransform(transform.getScaleX(), transform.getShearX(),
-				transform.getShearY(), transform.getScaleY(),
+		context.saveTransform(transform.getScaleX(), transform.getShearY(),
+				transform.getShearX(), transform.getScaleY(),
 				transform.getTranslateX(), transform.getTranslateY());
 
 		transform((TransformW) transform);
