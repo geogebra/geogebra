@@ -884,7 +884,7 @@ namespace giac {
     surd2pow(g0,subst1,subst2,contextptr);
     gen g0_(subst(g0,subst1,subst2,false,contextptr)),g0mult(1);
     // apply inv to pow and *
-    g0_=applyinv(g0_,contextptr);
+    g0_=applyinv(g0_,contextptr); if (is_undef(g0_)) return false;
     if (x.type==_IDNT && g0_.is_symb_of_sommet(at_prod) && g0_._SYMBptr->feuille.type==_VECT){
       // extract csts
       vecteur v=*g0_._SYMBptr->feuille._VECTptr,v1,v2;

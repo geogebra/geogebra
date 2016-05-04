@@ -1883,8 +1883,13 @@ namespace giac {
     ++taylorxn;
     newx=idx;
     gen tmp=subst(v[0],x,newx,false,contextptr);
-    tmp=eval(tmp,eval_level(contextptr),contextptr);
-    v[0]=tmp=subst(tmp,x,newx,false,contextptr);
+    gen tmp1=eval(tmp,eval_level(contextptr),contextptr);
+    if (!is_undef(tmp1))
+      tmp=tmp1;
+    tmp1=subst(tmp,x,newx,false,contextptr);
+    if (!is_undef(tmp1))
+      tmp=tmp1;
+    v[0]=tmp;
     v[1]=newx;
     int s=int(v.size());
     for (int i=2;i<s;++i)

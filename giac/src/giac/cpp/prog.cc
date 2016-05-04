@@ -837,7 +837,7 @@ namespace giac {
     default_args(a,b,contextptr);
     bool warn=false;
 #ifndef GIAC_HAS_STO_38
-    if (logptr(contextptr))
+    if (logptr(contextptr) && calc_mode(contextptr)!=1)
       warn=true;
 #endif
     if (warn){
@@ -1782,13 +1782,11 @@ namespace giac {
     }
     return g;
   }
-  static bool ck_is_one(const gen & g){
+  static bool ck_is_one(gen & g){
     if (is_one(g))
       return true;
     if (g.type>_POLY){
-#ifndef NO_STDEXCEPT
-      setsizeerr(gettext("Unable to eval test in loop : ")+g.print());
-#endif
+      g=gensizeerr(gettext("Unable to eval test in loop : ")+g.print());
       return false; // this will stop the loop in caller
     }
     return false;
@@ -1846,6 +1844,7 @@ namespace giac {
     int save_current_instruction=debug_ptr(newcontextptr)->current_instruction;
     int eval_lev=eval_level(newcontextptr);
     debug_struct * dbgptr=debug_ptr(newcontextptr);
+    gen testf;
 #ifndef NO_STDEXCEPT
     try {
 #endif
@@ -1873,9 +1872,9 @@ namespace giac {
 	index_name=test._SYMBptr->feuille._VECTptr->front();
       }
       for (equaltosto(initialisation,contextptr).eval(eval_lev,newcontextptr);
-	   for_in?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):ck_is_one(test.eval(eval_lev,newcontextptr).evalf(1,newcontextptr));
+	   for_in?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):ck_is_one( (testf=test.eval(eval_lev,newcontextptr).evalf(1,newcontextptr)) );
 	   ++counter,(test.val?increment.eval(eval_lev,newcontextptr):0)){
-	if (interrupted)
+	if (interrupted || is_undef(testf))
 	  break;
 	dbgptr->current_instruction=save_current_instruction;
 	findlabel=false;
@@ -1956,6 +1955,8 @@ namespace giac {
 #endif
     if (bound)
       leave(protect,loop_var,newcontextptr);
+    if (is_undef(testf))
+      return testf;
     return res==at_break?string2gen("breaked",false):res;
   }
 

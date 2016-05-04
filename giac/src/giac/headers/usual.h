@@ -240,7 +240,7 @@ namespace giac {
 
   gen _ceil(const gen & args,GIAC_CONTEXT);  
   extern const unary_function_ptr * const  at_ceil;
-  gen ceil2floor(const gen & g,GIAC_CONTEXT);
+  gen ceil2floor(const gen & g,GIAC_CONTEXT,bool quotesubst=false);
 
   gen _round(const gen & args,GIAC_CONTEXT);  
   extern const unary_function_ptr * const  at_round;

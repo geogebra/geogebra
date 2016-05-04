@@ -6031,10 +6031,10 @@ namespace giac {
   static gen ceiltofloor(const gen & g,GIAC_CONTEXT){
     return -symbolic(at_floor,-g);
   }
-  gen ceil2floor(const gen & g,GIAC_CONTEXT){
+  gen ceil2floor(const gen & g,GIAC_CONTEXT,bool quotesubst){
     const vector< const unary_function_ptr *> ceil_v(1,at_ceil);
     const vector< gen_op_context > ceil2floor_v(1,ceiltofloor);
-    return subst(g,ceil_v,ceil2floor_v,false,contextptr);
+    return subst(g,ceil_v,ceil2floor_v,quotesubst,contextptr);
   }
 
   // static symbolic symb_round(const gen & a){    return symbolic(at_round,a);  }

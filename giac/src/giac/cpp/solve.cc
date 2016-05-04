@@ -4128,7 +4128,7 @@ namespace giac {
 	  }	    
 	  if (d.type!=_FLOAT_ && d.type!=_DOUBLE_ && d.type!=_CPLX && d.type!=_REAL && d.type!=_VECT && !is_undef(d) && !is_inf(d))
 	    return gensizeerr(contextptr);
-	  if (k==0 && is_zero(d,contextptr) && is_greater(abs(fa,contextptr),eps2,contextptr)){
+	  if (k==0 && is_zero(d,contextptr) && is_greater(abs(fa,contextptr),std::sqrt(eps2),contextptr)){
 	    a=newton_rand(j,real,rand_xmin,rand_xmax,f,contextptr);
 	    fa=evalf(eval(subst(f,x,a,false,contextptr),eval_level(contextptr),contextptr),1,contextptr); 
 	    continue;
