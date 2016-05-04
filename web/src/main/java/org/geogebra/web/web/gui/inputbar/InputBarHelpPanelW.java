@@ -108,7 +108,22 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		detailPanel.setWidth("100%");
 
 		// create the index tree and put it in a scroll panel
-		indexTree = new Tree();
+		indexTree = new Tree() {
+			@Override
+			public void setSelectedItem(TreeItem item, boolean fireEvents) {
+				if (item == null) {
+					super.setSelectedItem(item, fireEvents);
+					return;
+				}
+				onSelectionNative(item, fireEvents);
+			}
+
+			private native void onSelectionNative(TreeItem item,
+					boolean fireEvents)/*-{
+		this.@com.google.gwt.user.client.ui.Tree::onSelection(Lcom/google/gwt/user/client/ui/TreeItem;ZZ)(item, fireEvents, false);
+
+	}-*/;
+		};
 		indexTree.addStyleName("inputHelp-tree");
 		indexTree.setAnimationEnabled(true);
 		ScrollPanel treeScroller = new ScrollPanel(indexTree);

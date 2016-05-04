@@ -391,7 +391,7 @@ public class AlgebraInputW extends FlowPanel
 				input.updateIcons(true);
 				if (((GuiManagerW) app2.getGuiManager())
 						.hasInputHelpPanel()) {
-					InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) ((GuiManagerW) app2
+					InputBarHelpPanelW helpPanel = ((GuiManagerW) app2
 							.getGuiManager()).getInputHelpPanel();
 					helpPanel.focusCommand(
 							app2.getLocalization().getCommand(command));
