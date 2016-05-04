@@ -476,7 +476,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	public Column<RowData, ?> getColumn(String title) {
 		Column<RowData, ?> col = null;
-		boolean defAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
+
 		if ("No.".equals(title)) {
 			col = getColumnId();
 		} else if ("Name".equals(title)) {
@@ -485,11 +485,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			if (app.has(Feature.CP_NEW_COLUMNS)) {
 				col = getColumnToolbarIcon();
 			}
-		} else if ((defAndValue && "Description".equals(title))
-				|| (!defAndValue && "Definition".equals(title))) {
+		} else if ("Description".equals(title)) {
 			col = getColumnDescription();
-		} else if ((defAndValue && "Definition".equals(title))
-				|| (!defAndValue && "Command".equals(title))) {
+		} else if ("Definition".equals(title)) {
 			if (app.has(Feature.CP_NEW_COLUMNS)) {
 				col = getColumnDefinition();
 			}

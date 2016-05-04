@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.IndexHTMLBuilder;
 
 public class ConstructionProtocolView {
@@ -335,16 +334,15 @@ public class ConstructionProtocolView {
 	public class ConstructionTableData implements View, SetLabels{
 
 		protected ConstructionTableData ctData = this;
-		final boolean defAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
 
 		public final ColumnData columns[] = {
 						new ColumnData("No.", 35, 35, SwingConstants.RIGHT, true),
 						new ColumnData("Name", 80, 50, SwingConstants.LEFT, true),
 						new ColumnData("ToolbarIcon", 35, 35, SwingConstants.CENTER,
 								false),
-				new ColumnData(defAndValue ? "Description" : "Definition", 150,
+				new ColumnData("Description", 150,
 						50, SwingConstants.LEFT, true),
-				new ColumnData(defAndValue ? "Definition" : "Command", 150, 50,
+				new ColumnData("Definition", 150, 50,
 						SwingConstants.LEFT, false),
 						new ColumnData("Value", 150, 50, SwingConstants.LEFT, true),
 						new ColumnData("Caption", 150, 50, SwingConstants.LEFT, true),

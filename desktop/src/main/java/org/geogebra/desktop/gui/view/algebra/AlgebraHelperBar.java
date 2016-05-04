@@ -210,7 +210,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		descriptionMenu.add(title);
 
 		String[] modes = new String[] { app.getPlain("Value"),
-				app.getPlain("Definition"), app.getPlain("Command") };
+				app.getPlain("Description"), app.getPlain("Definition") };
 		for (int i = 0; i < modes.length; i++) {
 			JCheckBoxMenuItem mi = new JCheckBoxMenuItem();
 			mi.setFont(app.getPlainFont());

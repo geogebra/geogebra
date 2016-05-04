@@ -118,7 +118,8 @@ public class AlgebraSettings extends AbstractSettings {
 						app.getPlain("Value"), app.getPlain("Definition"),
 						app.getPlain("Description"), }
 				: new String[] { app.getPlain("Value"),
-						app.getPlain("Definition"), app.getPlain("Command") };
+						app.getPlain("Description"),
+						app.getPlain("Definition") };
 	}
 
 	/**
