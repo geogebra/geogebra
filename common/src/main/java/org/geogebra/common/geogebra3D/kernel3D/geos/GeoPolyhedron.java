@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoTransformation;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -1282,6 +1283,11 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 				entry.getValue().set(entry.getKey());
 			}
 
+			AlgoElement algo = getParentAlgorithm();
+			if (algo == null || !(algo instanceof AlgoTransformation)) {
+				// we need it e.g. for polyhedron0 = polyhedron, for lists
+				updatePolygonsAndSegmentsAlgos();
+			}
 
 		}
 	}
@@ -1580,7 +1586,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			}
 		}
 
-		updatePolygonsAndSegments();
+		updatePolygonsAndSegmentsAlgos();
 	}
 
 	public void rotate(NumberValue r) {
@@ -1591,7 +1597,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			}
 		}
 
-		updatePolygonsAndSegments();
+		updatePolygonsAndSegmentsAlgos();
 
 	}
 
@@ -1603,7 +1609,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			}
 		}
 
-		updatePolygonsAndSegments();
+		updatePolygonsAndSegmentsAlgos();
 	}
 
 	public void rotate(NumberValue r, GeoLineND line) {
@@ -1614,7 +1620,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			}
 		}
 
-		updatePolygonsAndSegments();
+		updatePolygonsAndSegmentsAlgos();
 
 	}
 
@@ -1631,10 +1637,10 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			}
 		}
 
-		updatePolygonsAndSegments();
+		updatePolygonsAndSegmentsAlgos();
 	}
 
-	private void updatePolygonsAndSegments() {
+	private void updatePolygonsAndSegmentsAlgos() {
 		for (GeoSegment3D seg : segments.values()) {
 			seg.getParentAlgorithm().update();
 		}
@@ -1656,7 +1662,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			}
 		}
 
-		updatePolygonsAndSegments();
+		updatePolygonsAndSegmentsAlgos();
 	}
 
 	public void mirror(GeoLineND g) {
@@ -1666,7 +1672,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			}
 		}
 
-		updatePolygonsAndSegments();
+		updatePolygonsAndSegmentsAlgos();
 	}
 
 	public void mirror(GeoCoordSys2D plane) {
@@ -1676,7 +1682,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			}
 		}
 
-		updatePolygonsAndSegments();
+		updatePolygonsAndSegmentsAlgos();
 	}
 
 	// //////////////////////
@@ -1691,7 +1697,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			}
 		}
 
-		updatePolygonsAndSegments();
+		updatePolygonsAndSegmentsAlgos();
 
 		double r = rval.getDouble();
 		double rAbs = Math.abs(r);
