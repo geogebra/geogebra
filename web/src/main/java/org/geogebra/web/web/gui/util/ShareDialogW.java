@@ -84,7 +84,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// Google+
 		Anchor gpluslink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_google().getSafeUri().asString()).toString(), true,
-				"https://plus.google.com/share?url=www.geogebra.org", "_blank");
+				"http://tube-test.geogebra.org/m/simple/id/" + app.getTubeId(),
+				"_blank");
 		iconPanel.add(gpluslink);
 
 		// Pinterest
@@ -106,7 +107,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 		// Label lblLink = new Label(app.getPlain("Link") + ": ");
 		TextBox link = new TextBox();
-		link.setValue("i.e. http://tube-test.geogebra.org/m/simple/id/123666");
+		link.setValue("http://tube-test.geogebra.org/m/simple/id/"
+				+ app.getTubeId());
 		link.setReadOnly(true);
 		Image copyToClipboardIcon = new NoDragImage(AppResources.INSTANCE.edit_copy().getSafeUri().asString());
 
