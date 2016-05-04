@@ -1568,8 +1568,9 @@ namespace giac {
 	    Qg=sqrt(Qg,contextptr);
 	  else
 	    Qg=pow(Qg,inv(gen(r),contextptr),contextptr);
-	  // (g|x=a)*s(a)/p(a)/Qg^(r*a-R0)/(r*a-R0)!*sum(p(n)/s(n)*Qg^(r*n-R0)/(r*n-R0)!,n=a..inf);
-	  gen coeffa=limit(g*r2e(s,v,contextptr)/r2e(p,v,contextptr)/pow(Qg,r*a-R0,contextptr)/factorial(r*a.val-r0),*x._IDNTptr,a,1,contextptr);
+	  // (g|x=a)*s(a)/p(a)/Qg^(r*a-R0)*(r*a-R0)!*sum(p(n)/s(n)*Qg^(r*n-R0)/(r*n-R0)!,n=a..inf);
+	  gen coeffa=g*r2e(s,v,contextptr)/r2e(p,v,contextptr)/pow(Qg,r*a-R0,contextptr)*factorial(r*a.val-r0);
+	  coeffa=limit(coeffa,*x._IDNTptr,a,1,contextptr);
 	  // Set k=r*n-R0 and compute sum((p/s)((k+R0)/r)*X^k/k!,k=r*a-R0..inf)
 	  int d=p.degree(0);
 	  gen Pg=r2e(p,v,contextptr);
@@ -1583,9 +1584,10 @@ namespace giac {
 	  gen tmp=symb_horner(w,gx)*exp(gx,contextptr),remains;
 	  // substract sum(...,k=0..r*a-R0-1)
 	  for (int k=0;k<r*a.val-r0;++k){
-	    tmp -= subst(Pg,x,(k+R0)/r,false,contextptr)*pow(Qg,k)/factorial(k);
+	    // pow(Qg,k) replaced by pow(gx,k) for assume(x>0);somme(x^(4n+1)/(4n+1)!,n,1,inf);
+	    tmp -= subst(Pg,x,(k+R0)/r,false,contextptr)*pow(gx,k)/factorial(k);
 	  }
-	  // then keep terms which are = -R0 mod r = N
+	  // keep terms which are = -R0 mod r = N
 	  // for example if r=2 and R0 even, keep even terms
 	  // that is (f(X)+f(-X))/2
 	  // more generally take 
