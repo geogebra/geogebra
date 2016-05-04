@@ -84,8 +84,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// Google+
 		Anchor gpluslink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_google().getSafeUri().asString()).toString(), true,
-				"http://tube-test.geogebra.org/m/simple/id/" + app.getTubeId(),
-				"_blank");
+				"https://plus.google.com/share?url=tube-test.geogebra.org/m/simple/id/"
+						+ app.getTubeId(), "_blank");
 		iconPanel.add(gpluslink);
 
 		// Pinterest
