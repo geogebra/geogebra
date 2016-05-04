@@ -668,8 +668,7 @@ GPoint loc, GeoBoolean bool) {
 
 	@Override
 	public void openToolHelp() {
-		// TODO: move openToolHelp() into DialogManager
-		((GuiManagerD) app.getGuiManager()).openToolHelp();
+		new HelpDialog((AppD) app).openToolHelp();
 
 	}
 

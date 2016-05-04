@@ -40,6 +40,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.dialog.HelpDialog;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
@@ -391,7 +392,7 @@ app.getScaledIcon(
 		btnHelp.setToolTipText(loc.getMenuTooltip("Help"));
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				((GuiManagerD) app.getGuiManager()).openToolHelp();
+				new HelpDialog(app).openToolHelp();
 
 			}
 		});
@@ -684,7 +685,8 @@ app.getScaledIcon(
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if (e.getClickCount() >= 1) {
-						((GuiManagerD) app.getGuiManager()).openToolHelp(mode);
+						new HelpDialog(app).openToolHelp(mode);
+
 					}
 				}
 
