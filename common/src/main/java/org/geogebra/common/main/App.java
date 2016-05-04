@@ -3914,6 +3914,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_EDITOR_CARET_ALWAYS_ON_SCREEN:
 			return prerelease;
 
+		// MOB-195
+		case MOBILE_REDO:
+			return prerelease;
+
 		case FRACTIONS:
 			return prerelease;
 		case AV_EXTENSIONS:
