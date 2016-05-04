@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.mozilla.javascript.Scriptable;
 
@@ -107,7 +108,12 @@ public class ScriptManagerD extends ScriptManager {
 		if (globalScopeMap.get(app.getKernel().getConstruction()) == null) {
 			setGlobalScript();
 		}
-		CallJavaScript.evalScript(app, script, arg);
+
+		try {
+			CallJavaScript.evalScript(app, script, arg);
+		} catch (Exception e) {
+			Log.debug("error calling script " + e.getMessage());
+		}
 	}
 
 }
