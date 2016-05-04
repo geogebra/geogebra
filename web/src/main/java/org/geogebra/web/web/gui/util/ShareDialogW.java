@@ -8,6 +8,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -79,8 +80,13 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_facebook().getSafeUri().asString()));
 		// Twitter
 		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_twitter().getSafeUri().asString()));
+
 		// Google+
-		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_google().getSafeUri().asString()));
+		Anchor gpluslink = new Anchor(new NoDragImage(AppResources.INSTANCE
+				.social_google().getSafeUri().asString()).toString(), true,
+				"https://plus.google.com/share?url=www.geogebra.org", "_blank");
+		iconPanel.add(gpluslink);
+
 		// Pinterest
 		// iconPanel.add(new
 		// NoDragImage(AppResources.INSTANCE.social_twitter().getSafeUri().asString()));
