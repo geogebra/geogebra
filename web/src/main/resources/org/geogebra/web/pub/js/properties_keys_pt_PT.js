@@ -2858,7 +2858,7 @@ __GGB__keysVar.pt_PT.plain = {
     "Shutter": "Persiana",
     "SignInInProgress": "A fechar a sess\xe3o",
     "SignInSuccessful": "Inscri\xe7\xe3o com sucesso",
-    "SignInToGGT": "A iniciar a sess\xe3o no GeogebraTube",
+    "SignInToGGT": "A iniciar a sess\xe3o no Geogebra",
     "SignedInAsA": "A iniciar a sess\xe3o como %0",
     "SimpleFormulas": "F\xf3rmulas Simples",
     "Size": "Tamanho",

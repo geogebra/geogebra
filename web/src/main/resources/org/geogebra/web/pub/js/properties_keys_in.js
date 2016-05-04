@@ -1348,7 +1348,7 @@ __GGB__keysVar.in.menu = {
     "CreatePolyLine.Help": "Pilih sel kemudian klik tombol peralatan",
     "CreateTable": "Buat Tabel",
     "CreateTable.Help": "Pilih sel kemudian klik tombol peralatan",
-    "CreateYourOwn": "Create your own",
+    "CreateYourOwn": "GeoGebra Math Apps",
     "Cube": "Cube",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "Kumulatif",

@@ -1348,7 +1348,7 @@ __GGB__keysVar.is.menu = {
     "CreatePolyLine.Help": "Velji\xf0 reiti fyrir punkta og smelli\xf0 \xfev\xed n\xe6st \xe1 verkf\xe6ri\xf0",
     "CreateTable": "B\xfaa til t\xf6flu",
     "CreateTable.Help": "Velji\xf0 reiti og smelli\xf0 \xfev\xed n\xe6st \xe1 verkf\xe6ri\xf0",
-    "CreateYourOwn": "Create your own",
+    "CreateYourOwn": "GeoGebra Math Apps",
     "Cube": "Teningur",
     "Cube.Help": "Smelli\xf0 \xe1 plan (valkv\xe6tt) og \xfev\xed n\xe6st \xe1 tvo punkta",
     "Cumulative": "Dreififall",

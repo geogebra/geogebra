@@ -840,7 +840,7 @@ __GGB__keysVar.hr.command = {
     "SetFilling": "PostaviIspunu",
     "SetFilling.Syntax": "[ <objekt>, <broj> ]",
     "SetFixed": "PostaviNepomi\u010dno",
-    "SetFixed.Syntax": "[ <objekt>, <true | false> ]",
+    "SetFixed.Syntax": "[ <objekt>, <true | false> ]\n[ <objekt>, <true | false>, <true | false> ]",
     "SetLabelMode": "PostaviNa\u010dinOznake",
     "SetLabelMode.Syntax": "[ <objekt>, <broj> ]",
     "SetLayer": "PostaviSloj",

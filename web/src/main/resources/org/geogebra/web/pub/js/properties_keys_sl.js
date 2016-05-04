@@ -2104,7 +2104,7 @@ __GGB__keysVar.sl.menu = {
     "UngroupObjectes": "Razdru\u017ei objekte",
     "UnsavedChangesFound": "GeoGebra ima neshranjene spremembe. Jih obnovimo, ali zavr\u017eemo?",
     "Untitled": "Neimenovano",
-    "UploadGeoGebraTube": "Nalo\u017ei na GeogebraTube",
+    "UploadGeoGebraTube": "Nalo\u017ei na GeoGebra",
     "UpperLimit": "Zgornja meja",
     "UpperQuartile.short": "Q3",
     "UseAutoComplete": "Uporabi samodejno dopolnjevanje",

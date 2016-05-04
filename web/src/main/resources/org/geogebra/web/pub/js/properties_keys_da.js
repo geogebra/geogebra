@@ -2940,7 +2940,7 @@ __GGB__keysVar.da.plain = {
     "UntitledConstruction": "Konstruktion uden navn",
     "Up": "Op",
     "Upload": "Upload",
-    "UploadError": "Kunne ikke f\xe5 forbindelse til GeogebraTube. Afbryd upload. (Fejlkode: %0)",
+    "UploadError": "Kunne ikke f\xe5 forbindelse til Geogebra. Afbryd upload. (Fejlkode: %0)",
     "UploadPrepare": "Forbered upload",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Brug Java font i LaTex",

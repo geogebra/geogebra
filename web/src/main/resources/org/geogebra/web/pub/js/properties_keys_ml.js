@@ -1348,7 +1348,7 @@ __GGB__keysVar.ml.menu = {
     "CreatePolyLine.Help": "Select cells for points then click the tool button",
     "CreateTable": "Table",
     "CreateTable.Help": "Select cells then click the tool button",
-    "CreateYourOwn": "Create your own",
+    "CreateYourOwn": "GeoGebra Math Apps",
     "Cube": "\u0d15\u0d4d\u0d2f\u0d42\u0d2c\u0d4d",
     "Cube.Help": "Click on a plane (optional) and then 2 points",
     "Cumulative": "Cumulative",

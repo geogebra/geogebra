@@ -1348,7 +1348,7 @@ __GGB__keysVar.sr.menu = {
     "CreatePolyLine.Help": "Odaberite \u0107elije za ta\u010dke a zatim kliknite na dugme alata",
     "CreateTable": "Napravi tabelu",
     "CreateTable.Help": "Odaberite \u0107elije a zatim kliknite na dugme alata",
-    "CreateYourOwn": "Create your own",
+    "CreateYourOwn": "GeoGebra Math Apps",
     "Cube": "Kocka",
     "Cube.Help": "Kliknite na ravan (proizvoljno), zatim na dve ta\u010dke",
     "Cumulative": "Kumulativno",
