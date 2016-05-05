@@ -295,6 +295,8 @@ namespace giac {
     return t;
   }
 
+  bool is_integer_poly(const polynome & p,bool intonly);
+
   template <class U>
   bool convert_double(const polynome & p,const index_t & deg,std::vector< T_unsigned<double,U> >  & v){
     typename std::vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();

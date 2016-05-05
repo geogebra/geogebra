@@ -12148,6 +12148,8 @@ namespace giac {
       }
     }
     m=minv(m,contextptr);
+    if (is_undef(m)) 
+      return false;
     p=mmult(*_trn(p,contextptr)._VECTptr,m);
     // set d to its diagonal
     for (int i=0;i<dim;++i){
@@ -12532,8 +12534,7 @@ namespace giac {
 	  ans=francis_schur(H,0,dim,P,2*SOLVER_MAX_ITERATE,eps,true,true,true,true,contextptr);
 	  std_matrix_gen2matrice_destroy(P,p);
 	  std_matrix_gen2matrice_destroy(H,d);
-	  schur_eigenvectors(p,d,eps,contextptr);
-	  return ans;
+	  return ans && schur_eigenvectors(p,d,eps,contextptr);
 	}
       }
       else {
