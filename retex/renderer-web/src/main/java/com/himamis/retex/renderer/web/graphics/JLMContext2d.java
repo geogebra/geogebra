@@ -109,37 +109,37 @@ public class JLMContext2d extends Context2d {
 	}-*/;
 
 
-	public final native double getTransform0() /*-{
+	public final native double getScaleX() /*-{
 	
 		return this.m00_;
 
 	}-*/;
 
-	public final native double getTransform1() /*-{
+	public final native double getShearY() /*-{
 	
 		return this.m10_;
 
 	}-*/;
 
-	public final native double getTransform2() /*-{
+	public final native double getShearX() /*-{
 	
 		return this.m01_;
 
 	}-*/;
 
-	public final native double getTransform3() /*-{
+	public final native double getScaleY() /*-{
 	
 		return this.m11_;
 
 	}-*/;
 
-	public final native double getTransform4() /*-{
+	public final native double getTranslateX() /*-{
 	
 		return this.m02_;
 
 	}-*/;
 
-	public final native double getTransform5() /*-{
+	public final native double getTranslateY() /*-{
 	
 		return this.m12_;
 

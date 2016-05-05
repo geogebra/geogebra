@@ -137,7 +137,7 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public TransformW getTransform() {
-		return new TransformW(context.getTransform0(),context.getTransform1(),context.getTransform2(),context.getTransform3(),context.getTransform4(),context.getTransform5());
+		return new TransformW(context.getScaleX(),context.getShearY(),context.getShearX(),context.getScaleY(),context.getTranslateX(),context.getTranslateY());
 	}
 
 	@Override
