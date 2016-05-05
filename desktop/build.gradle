@@ -9,6 +9,16 @@ repositories {
     }
 }
 
+sourceSets {
+	main {
+	    resources {
+		srcDir 'src/main/resources'
+		// consider changing it to src/gpl/resources to exclude non-free components:
+		srcDir 'src/nonfree/resources' 
+	    }
+	}
+}
+
 File javaHome = new File(System.properties['java.home'])
 javaHome = javaHome.name == 'jre' ? javaHome.parentFile : javaHome
 String jfxrtLocation = new File("${javaHome}/jre/lib/jfxrt.jar").absolutePath

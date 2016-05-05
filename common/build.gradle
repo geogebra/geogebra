@@ -33,10 +33,14 @@ dependencies {
 
 sourceSets {
 	main {
-    	java {
+    	    java {
         	srcDir compileJavacc.outputDirectory
         	srcDir compileJavacc.inputDirectory
-    	}
+    	    }
+	    resources {
+		// consider changing it to src/gpl/resources to exclude non-free components:
+		srcDir 'src/nonfree/resources' 
+	    }
 	}
 }
 

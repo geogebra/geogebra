@@ -23,6 +23,15 @@ repositories {
 	}
 }
 
+sourceSets {
+	main {
+	    resources {
+		// consider changing it to src/gpl/resources to exclude non-free components:
+		srcDir 'src/nonfree/resources' 
+	    }
+	}
+}
+
 dependencies {
 	compile project(':web:dev'), 
 		project(':common'),
