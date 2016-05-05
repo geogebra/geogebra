@@ -5,7 +5,6 @@ buildscript {
 
     dependencies {
         classpath "com.android.tools.build:gradle:$rootProject.androidPluginVersion"
-        classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.+'
     }
 }
 
@@ -13,7 +12,6 @@ repositories {
     mavenCentral()
 }
 
-apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
