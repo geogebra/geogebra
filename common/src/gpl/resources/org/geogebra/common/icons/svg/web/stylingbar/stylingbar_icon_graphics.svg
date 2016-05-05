@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Ebene_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="712px" height="512px" viewBox="0 0 712 512" enable-background="new 0 0 712 512" xml:space="preserve">
+<g>
+	<g>
+		<rect y="41.96" fill="#999999" width="454.811" height="60"/>
+		<rect y="226" fill="#999999" width="454.811" height="60"/>
+		<rect y="412.039" fill="#999999" width="454.811" height="60.001"/>
+	</g>
+	<polyline fill="#FFFFFF" points="239.471,396.476 740.527,398.275 462.028,-30.092 	"/>
+	<circle fill="#FFFFFF" cx="332.728" cy="339.978" r="187.599"/>
+	<g>
+		<circle opacity="0.4" fill="#009900" cx="333.939" cy="341.189" r="170.81"/>
+		<g>
+			<path fill="#009900" d="M333.941,170.378c-94.338,0-170.813,76.474-170.813,170.811c0,94.336,76.474,170.811,170.813,170.811
+				c94.335,0,170.808-76.475,170.808-170.811C504.749,246.852,428.276,170.378,333.941,170.378z M333.939,494.92
+				c-84.902,0-153.73-68.828-153.73-153.73s68.828-153.729,153.73-153.729s153.729,68.827,153.729,153.729
+				S418.842,494.92,333.939,494.92z"/>
+		</g>
+	</g>
+	<g>
+		<polyline opacity="0.4" fill="#0000FF" points="265.039,380.514 712,382.119 463.569,0 		"/>
+		<g>
+			<path fill="#0000FF" d="M463.569,1.605l-198.53,380.514H712L463.569,1.605z M465.325,35.519l214.124,329.35l-385.237-0.244
+				L465.325,35.519z"/>
+		</g>
+	</g>
+</g>
+</svg>

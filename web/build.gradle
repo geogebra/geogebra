@@ -24,12 +24,17 @@ repositories {
 }
 
 sourceSets {
-	main {
-	    resources {
-		// consider changing it to src/gpl/resources to exclude non-free components:
-		srcDir 'src/nonfree/resources' 
-	    }
-	}
+    nonfree
+    gpl
+    main {
+        resources {
+            if (project.hasProperty("usegpl")) {
+                srcDirs += gpl.resources.srcDirs
+            } else {
+                srcDirs += nonfree.resources.srcDirs
+            }
+        }
+    }
 }
 
 dependencies {
