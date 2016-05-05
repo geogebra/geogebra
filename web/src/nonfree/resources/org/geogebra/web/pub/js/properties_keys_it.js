@@ -1821,7 +1821,7 @@ __GGB__keysVar.it.menu = {
     "RecoveryTitle": "Recupero blocchi anomali",
     "Red": "Rosso",
     "Redo": "Ripristina",
-    "Refresh": "Aggiorna la videata",
+    "Refresh": "Aggiorna visualizzazione",
     "RegressionAnalysis": "Analisi di regressione",
     "RegressionModel": "Modello di regressione",
     "RegularPolygon": "Poligono regolare",

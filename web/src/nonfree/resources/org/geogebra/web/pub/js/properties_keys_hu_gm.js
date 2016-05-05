@@ -2899,7 +2899,7 @@ __GGB__keysVar.hu_gm.plain = {
     "TextBeforeConstruction": "Sz\xf6veg a szerkeszt\xe9s el\u0151tt",
     "TextField": "Beviteli mez\u0151",
     "TextfieldLength": "Beviteli mez\u0151 hossza",
-    "ThanksForSigningIn": "K\xf6sz\xf6nj\xfck, hogy bel\xe9pett a GeoGebra-ba!",
+    "ThanksForSigningIn": "K\xf6sz\xf6nj\xfck, hogy bel\xe9pett a GeoGebr\xe1ba!",
     "Thickness": "Vonal vastags\xe1g",
     "TickDistance": "T\xe1vols\xe1g",
     "TimeBetweenFrames": "K\xe9pek k\xf6vet\xe9si ideje",
