@@ -18,6 +18,7 @@
 ./eliminate/isogonals3.in
 ./eliminate/symmedians.in
 ./eliminate/theorem-3-tangent-to-ellipse.in
+./eliminate/triangle-perpendiculars-through-point-ex148.out
 ./eliminate/two-circle-ex101.in
 ./gbasis/Menelaus.in
 ./gbasis/Brianchon-parabola.in
