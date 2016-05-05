@@ -864,6 +864,7 @@ public class ExpressionNode extends ValidExpression implements
 			left = left.traverse(t);
 		// distinguish between additive and multiplying constants
 		if (left instanceof GeoNumeric && !(left instanceof GeoDummyVariable)
+				&& ((GeoNumeric) left).getLabelSimple() != null
 				&& ((GeoNumeric) left).getLabelSimple().startsWith("c_")) {
 			// set multiplying constant 1
 			if (this.operation.equals(Operation.MULTIPLY)) {
