@@ -29,7 +29,8 @@ public class NoExceptionsTest {
 	@BeforeClass
 	public static void setupApp() {
 		app = new App3D(new CommandLineArguments(
-				new String[]{"--silent"}), new JFrame(), false);
+new String[] { "--silent" }),
+				new JFrame(), false);
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
 	    // Setting the general timeout to 11 seconds. Feel free to change this.
@@ -2496,8 +2497,14 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdNIntegral(){
 		t("NIntegral[x^2,-1,1]");
+		t("NIntegral[x^2]");
 	}
 	
+	@Test
+	public void cmdNDerivative() {
+		t("NDerivative[x^2]");
+	}
+
 	@Test
 	public void cmdRunClickScript(){
 		t("RunClickScript[object]");
