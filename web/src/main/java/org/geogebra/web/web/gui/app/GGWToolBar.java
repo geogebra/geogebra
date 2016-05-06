@@ -236,15 +236,17 @@ pr.menu_header_undo(), null, 32);
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				app.getExam().checkCheating();
-				if (app.getExam().isCheating()) {
-					makeRed(getElement());
+				if(app.getExam()!=null){
+					app.getExam().checkCheating();
+					if (app.getExam().isCheating()) {
+						makeRed(getElement());
+					}
+
+					timer.setText(app.getExam().timeToString(
+							System.currentTimeMillis()));
+
+					AnimationScheduler.get().requestAnimationFrame(this);
 				}
-
-				timer.setText(app.getExam().timeToString(
-						System.currentTimeMillis()));
-
-				AnimationScheduler.get().requestAnimationFrame(this);
 			}
 
 

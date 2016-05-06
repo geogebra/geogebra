@@ -404,33 +404,52 @@ public abstract class AppWFull extends AppW {
 			mainWidget.add(description);
 			//description.addStyleName("padding");
 			box.addStyleName("boxsize");
-			final CheckBox cas = new CheckBox(loc.getMenu("Perspective.CAS"));
-			cas.addStyleName("examCheckbox");
-			final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
-			allow3D.addStyleName("examCheckbox");
-			cbxPanel.add(cas);
-			cbxPanel.add(allow3D);
+	
+
+			if(getArticleElement().getDataParamEnableCAS(false)
+				||!getArticleElement().getDataParamEnableCAS(true)){
+				getExam().setCASAllowed(getArticleElement().getDataParamEnableCAS(false));
+			}else{
+				final CheckBox cas = new CheckBox(loc.getMenu("Perspective.CAS"));
+				cas.addStyleName("examCheckbox");
+				cas.setValue(true);
+				getExam().setCASAllowed(true);
+				cbxPanel.add(cas);
+				cas.addClickHandler(new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						getExam().setCASAllowed(cas.getValue());
+						getGuiManager().updateToolbarActions();
+					}
+				});
+			}
+			if(getArticleElement().getDataParamEnable3D(false)
+				||!getArticleElement().getDataParamEnable3D(true)){
+				getExam().setCASAllowed(getArticleElement().getDataParamEnable3D(false));
+			}else{
+				final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
+				allow3D.addStyleName("examCheckbox");
+				allow3D.setValue(true);
+			
+				getExam().set3DAllowed(true);
+
+				cbxPanel.add(allow3D);
+				allow3D.addClickHandler(new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						getExam().set3DAllowed(allow3D.getValue());
+						getGuiManager().updateToolbarActions();
+
+					}
+				});
+			}
+			getGuiManager().updateToolbarActions();
 			mainWidget.add(cbxPanel);
 			cbxPanel.addStyleName("ExamCheckboxPanel");
 			btnPanel.addStyleName("DialogButtonPanel");
-			cas.setValue(true);
-			allow3D.setValue(true);
-			getExam().setCASAllowed(cas.getValue());
-			getExam().set3DAllowed(allow3D.getValue());
-			
-			cas.addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					getExam().setCASAllowed(cas.getValue());
-					getGuiManager().updateToolbarActions();
-				}
-			});
-			allow3D.addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent event) {
-					getExam().set3DAllowed(allow3D.getValue());
-					getGuiManager().updateToolbarActions();
 
-				}
-			});
+
+			
+			
+			
 			mainWidget.add(btnPanel);
 			box.setWidget(mainWidget);
 			box.getCaption().setText(getMenu("exam_custom_header"));
@@ -447,6 +466,7 @@ public abstract class AppWFull extends AppW {
 					getGuiManager().updateToolbarActions();
 					getLAF().removeWindowClosingHandler();
 					fileNew();
+					updateRounding();
 					getGgbApi().setPerspective("1");
 					getGuiManager().setGeneralToolBarDefinition(
 							ToolBar.getAllToolsNoMacros(true, true));

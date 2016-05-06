@@ -3533,4 +3533,17 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 
 	}
+
+	public void updateRounding(){
+		String rounding = getArticleElement().getDataParamRounding();
+		if(getArticleElement().getDataParamRounding().length()>0){
+			String roundingNum = rounding.replace("s","").replace("f","").replace("d","").replace("p","");
+			if(rounding.contains("s")){
+				getKernel().setPrintFigures(Integer.parseInt(roundingNum));
+			}
+			else{
+				getKernel().setPrintDecimals(Integer.parseInt(roundingNum));
+			}
+		}
+	}
 }

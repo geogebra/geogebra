@@ -214,6 +214,7 @@ public class LoadFilePresenter {
 		if (p != null) {
 			app.showStartTooltip(p.getDefaultID());
 		}
+		app.updateRounding();
 	}
 
 	private static void readObjectDefaults(App app, Storage stockStore) {

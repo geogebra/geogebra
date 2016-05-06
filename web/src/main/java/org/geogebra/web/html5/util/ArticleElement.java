@@ -125,6 +125,18 @@ public final class ArticleElement extends Element {
 		return (!"false".equals(this
 		        .getAttribute("data-param-enableRightClick")));
 	}
+	
+	public boolean getDataParamEnableCAS(boolean def) {
+		return getBoolParam("data-param-enableCAS", def);
+	}
+
+	public boolean getDataParamEnable3D(boolean def) {
+		return getBoolParam("data-param-enable3D", def);
+	}
+
+	public String getDataParamRounding() {
+		return this.getAttribute("data-param-rounding");
+	}
 
 	/**
 	 * @return the data-param-ggbbase64 article attribute as String if set else
