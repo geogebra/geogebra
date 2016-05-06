@@ -815,14 +815,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 		geoImage.setImageFileName(fileName);
 
 		ArrayList<GeoPoint> corners = new ArrayList<GeoPoint>();
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 3; i++) {
 			GeoPoint p = getImageCornerFromSelection(i);
 			if (p != null) {
 				corners.add(p);
 			}
 		}
-
-		Log.debug("[GGB-777] corners: " + corners);
 		for (int i = 0; i < corners.size(); i++) {
 			geoImage.setCorner(corners.get(i), i);
 		}
