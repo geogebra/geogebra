@@ -346,7 +346,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 			case GPathIterator.SEG_CLOSE:
 				addDashLine(cx, cy, cx = mx, cy = my);
 
-				if (dasher.isConnected()) {
+				if (dasher.isConnected() && sp != null) {
 					// Connect current and head segments
 					addJoin(lp, fmx, fmy, sp.xMove, sp.yMove, true);
 					lp.join(sp);
