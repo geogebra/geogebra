@@ -810,9 +810,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * @param fileName
 	 *            The image file name.
 	 */
-	protected void setImageCornersFromSelection(String fileName) {
-		GeoImage geoImage = new GeoImage(app.getKernel().getConstruction());
-		geoImage.setImageFileName(fileName);
+	public void setImageCornersFromSelection(GeoImage geoImage) {
 
 		ArrayList<GeoPoint> corners = new ArrayList<GeoPoint>();
 		for (int i = 0; i < 3; i++) {

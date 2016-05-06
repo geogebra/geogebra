@@ -384,4 +384,6 @@ public interface GuiManagerInterface {
 	public void replaceInputSelection(String string);
 
 	public void setInputText(String definitionForInputBar);
+
+	public void setImageCornersFromSelection(GeoImage geoImage);
 }

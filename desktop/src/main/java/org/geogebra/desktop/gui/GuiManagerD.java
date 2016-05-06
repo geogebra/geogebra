@@ -3040,7 +3040,9 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 			if (app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
 					&& fileName.length == 1) {
-				setImageCornersFromSelection(fileName[0]);
+				geoImage = new GeoImage(app.getKernel().getConstruction());
+				geoImage.setImageFileName(fileName[0]);
+				setImageCornersFromSelection(geoImage);
 				return true;
 			}
 

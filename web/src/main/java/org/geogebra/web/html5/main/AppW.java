@@ -50,6 +50,7 @@ import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.ExamEnvironment;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
@@ -1557,6 +1558,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		GeoImage geoImage = new GeoImage(cons);
 		getImageManager().triggerSingleImageLoading(imgFileName, geoImage);
 		geoImage.setImageFileName(imgFileName, width, height);
+		if (has(Feature.IMAGE_DIALOG_IMMEDIATELY)) {
+			getGuiManager().setImageCornersFromSelection(geoImage);
+			return;
+		}
 
 		if (loc == null) {
 			double cx = ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4;
@@ -1574,7 +1579,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			gsp2.update();
 			geoImage.setCorner(gsp2, 1);
 		} else {
-
 			// make sure it gets a label if it doesn't have one already
 			loc.setLabel(null);
 
