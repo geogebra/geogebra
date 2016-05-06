@@ -10,7 +10,6 @@ import javax.swing.UIManager;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
-import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -97,10 +96,8 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	}
 
 	public void menuSelected(MenuEvent e) {
-		App.debug("Menu opening: " + getClass());
 
 		if (getItemCount() == 0) {
-			App.debug("creating menu items");
 			// UIManager.put("Menu.acceleratorFont", app.getPlainFont());
 			UIManager.put("MenuItem.acceleratorFont", app.getPlainFont());
 			initialized = true;
