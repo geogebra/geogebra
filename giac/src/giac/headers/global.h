@@ -248,7 +248,8 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern int HENSEL_QUADRATIC_POWER; // above #steps do quadratic Hensel lift
   extern int KARAMUL_SIZE; // Use Karatsuba multiplication if degree is >
   extern int INT_KARAMUL_SIZE; // Use Karatsuba multiplication if degree is >
-  extern int FFTMUL_SIZE; // Currently adapted to (x+1)^n
+  extern int FFTMUL_SIZE; // minimal size for fft mult of poly
+  extern int FFTMUL_INT_MAXBITS; // max number of bits for fft mult of int poly 
   // Should be lower for larger coeff
   extern int MAX_ALG_EXT_ORDER_SIZE; // x^1/d extension not algebraic if d>
   extern int MAX_COMMON_ALG_EXT_ORDER_SIZE;

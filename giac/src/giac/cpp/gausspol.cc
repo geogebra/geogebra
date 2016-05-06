@@ -1108,7 +1108,8 @@ namespace giac {
 	if ( //false 
 	     (t1==_INT_ || t1==_ZINT) && (t2==_INT_ || t2==_ZINT)
 	    ){
-	  if (0 && c1>=FFTMUL_SIZE && c2>=FFTMUL_SIZE && th.dim>1 && d10*std::log(d10)<c1*double(c2)){
+	  if (0 && 
+	      c1>=FFTMUL_SIZE && c2>=FFTMUL_SIZE && th.dim>1 && d10*std::log(d10)<c1*double(c2)){
 	    CERR << CLOCK()*1e-6 << " ?fftmult " << c1 << "*" << c2 << " fft " << d10 << endl;
 #if 1
 	    vecteur thv,otherv,resv;

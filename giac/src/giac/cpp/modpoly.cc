@@ -1117,14 +1117,15 @@ namespace giac {
 	}
 	if (ita==ita_end && itb==itb_end){
 	  //CERR << "// fftmult" << endl;
-	  fftmult(a,b,new_coord,(env && env->moduloon && env->modulo.type==_INT_)?env->modulo.val:0);
+	  if (fftmult(a,b,new_coord,(env && env->moduloon && env->modulo.type==_INT_)?env->modulo.val:0)){
 #if 0
-	  vecteur save=new_coord;
-	  Muldense_POLY1(a.begin(),ita_end,b.begin(),itb_end,env,new_coord);
-	  if (save!=new_coord)
-	    CERR << " fft mult error poly1" << a << "*" << b << ";" << (env && env->moduloon?env->modulo:zero) << endl;
+	    vecteur save=new_coord;
+	    Muldense_POLY1(a.begin(),ita_end,b.begin(),itb_end,env,new_coord);
+	    if (save!=new_coord)
+	      CERR << " fft mult error poly1" << a << "*" << b << ";" << (env && env->moduloon?env->modulo:zero) << endl;
 #endif
-	  return ;
+	    return ;
+	  }
 	}
 	ita=a.begin();
 	itb=b.begin();
@@ -4164,6 +4165,45 @@ namespace giac {
     return res;
   }
 
+  gen intnorm(const dense_POLY1 & p,GIAC_CONTEXT){
+    gen res,mres;
+    dense_POLY1::const_iterator it=p.begin(), itend=p.end();
+    for (;it!=itend;++it){
+      if (it->type==_INT_){
+	if (res.val*longlong(res.val)<it->val*longlong(it->val)){
+	  res.val=absint(it->val);
+	  mres.val=-res.val;
+	}
+	continue;
+      }
+      if (it->type!=_ZINT)
+	return norm(p,contextptr);
+      mres=res=*it;
+      if (is_positive(res,contextptr))
+	mres=-res;
+      else
+	res=-mres;
+      break;
+    }
+    for (;it!=itend;++it){
+      if (it->type==_INT_)
+	continue;
+      if (it->type!=_ZINT)
+	return norm(p,contextptr);
+      if (mpz_cmp(*it->_ZINTptr,*res._ZINTptr)>0){
+	res=*it;
+	mres=-res;
+	continue;
+      }
+      if (mpz_cmp(*mres._ZINTptr,*it->_ZINTptr)>0){
+	mres=*it;
+	res=-mres;
+      }
+    }
+    //if (res!=norm(p,contextptr)) CERR << "intnorm err" << endl;
+    return res;
+  }
+
   // assuming pmod and qmod are prime together, find r such that
   // r = p mod pmod  and r = q mod qmod
   // hence r = p + A*pmod = q + B*qmod
@@ -6242,7 +6282,7 @@ namespace giac {
     PQ=evalf_double(P*Q,1,context0);
     const int p1=2013265921,p2=1811939329,p3=469762049,p4=2113929217;
     const longlong p1p2=longlong(p1)*p2,p1p2sur2=p1p2/2;
-    if (PQ.type==_DOUBLE_){
+    if (PQ.type==_DOUBLE_ && (modulo || !my_isinf(PQ._DOUBLE_val))){
       double PQd=PQ._DOUBLE_val;
       if (modulo){
 	double pq2=modulo*double(modulo);
@@ -6405,7 +6445,7 @@ namespace giac {
 	reverse(resp1.begin(),resp1.end());
 	return true;
       }
-    }
+    } // PQ.type==_DOUBLE_
     if (modulo==0){
       if (debug_infolevel)
 	CERR << CLOCK()*1e-6 << " begin fft2 int, p1 " << rs << endl;
@@ -6425,6 +6465,8 @@ namespace giac {
 #ifndef USE_GMP_REPLACEMENTS
       if (Bound.type==_ZINT)
 	nbits=(mpz_sizeinbase(*Bound._ZINTptr,2)/64+1)*64;
+      if (nbits>FFTMUL_INT_MAXBITS)
+	return false;
 #endif
 #if 1
       int p1modinv=invmod(p1,p2);
@@ -6540,10 +6582,12 @@ namespace giac {
     return true;
   }
 
-  void fftmult(const modpoly & p,const modpoly & q,modpoly & pq,int modulo){
+  bool fftmult(const modpoly & p,const modpoly & q,modpoly & pq,int modulo){
     vector<int> a,b,resp1,resp2,resp3,W,tmp_p,tmp_q;
-    gen P=norm(p,context0), Q=norm(q,context0); // coeff assumed to be integers -> no context
-    fftmult(p,q,P,Q,pq,modulo,a,b,resp1,resp2,resp3,W,tmp_p,tmp_q,true);
+    if (debug_infolevel) CERR << CLOCK()*1e-6 << " intnorm begin" << endl;
+    gen P=intnorm(p,context0), Q=intnorm(q,context0); // coeff assumed to be integers -> no context
+    if (debug_infolevel) CERR << CLOCK()*1e-6 << " intnorm end" << endl;
+    return fftmult(p,q,P,Q,pq,modulo,a,b,resp1,resp2,resp3,W,tmp_p,tmp_q,true);
   }
 
   modpoly fftmult(const modpoly & p,const modpoly & q){

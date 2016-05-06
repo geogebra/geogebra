@@ -1571,6 +1571,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int KARAMUL_SIZE=17;
   int INT_KARAMUL_SIZE=300;
   int FFTMUL_SIZE=100; 
+  int FFTMUL_INT_MAXBITS=4000;
   int MAX_ALG_EXT_ORDER_SIZE = 4;
   int MAX_COMMON_ALG_EXT_ORDER_SIZE = 16;
   int TRY_FU_UPRIME=5;
@@ -1602,6 +1603,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int KARAMUL_SIZE=17;
   int INT_KARAMUL_SIZE=300;
   int FFTMUL_SIZE=100; 
+  int FFTMUL_INT_MAXBITS=4000;
   int MAX_ALG_EXT_ORDER_SIZE = 6;
 #ifdef EMCC
   int MAX_COMMON_ALG_EXT_ORDER_SIZE = 16;
