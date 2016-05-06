@@ -3033,17 +3033,15 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		} else {
 			// create GeoImage object(s) for this fileName
 			GeoImage geoImage = null;
-
-			if (!loc.isLabelSet()) {
-				loc.setLabel(null);
-			}
-
 			if (app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
 					&& fileName.length == 1) {
 				geoImage = new GeoImage(app.getKernel().getConstruction());
 				geoImage.setImageFileName(fileName[0]);
 				setImageCornersFromSelection(geoImage);
 				return true;
+			}
+			if (!loc.isLabelSet()) {
+				loc.setLabel(null);
 			}
 
 			for (int i = 0; i < fileName.length; i++) {

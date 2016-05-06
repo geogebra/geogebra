@@ -3506,8 +3506,10 @@ public abstract class EuclidianController {
 			// create new Point
 			checkZooming();
 
-			loc = new GeoPoint(kernel.getConstruction());
-			loc.setCoords(xRW, yRW, 1.0);
+			if (!app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)) {
+				loc = new GeoPoint(kernel.getConstruction());
+				loc.setCoords(xRW, yRW, 1.0);
+			}
 		} else {
 			// points needed
 			addSelectedPoint(hits, 1, false);
@@ -3523,15 +3525,14 @@ public abstract class EuclidianController {
 			}
 		}
 
-		// got location
-		if (loc != null) {
-			if (app.getGuiManager() != null) {// FIXME: fix this better
-				app.getGuiManager().loadImage(loc, null, altDown, view);
-			}
-			return true;
+		if (!app.has(Feature.IMAGE_DIALOG_IMMEDIATELY) && loc == null) {
+			return false;
 		}
 
-		return false;
+		if (app.getGuiManager() != null) {// FIXME: fix this better
+			app.getGuiManager().loadImage(loc, null, altDown, view);
+		}
+			return true;
 	}
 
 	protected final GeoElement[] mirrorAtPoint(Hits hits) {
