@@ -905,7 +905,7 @@ __GGB__keysVar.zh_CN.command = {
     "Solve": "\u7cbe\u786e\u89e3",
     "Solve.SyntaxCAS": "[ <\u5173\u4e8e x \u7684\u65b9\u7a0b> ]\n[ <\u65b9\u7a0b>, <\u53d8\u91cf> ]\n[ <\u65b9\u7a0b\u7ec4\u5217\u8868>, <\u53d8\u91cf\u5217\u8868> ]",
     "SolveCubic": "\u89e3\u4e09\u6b21\u591a\u9879\u5f0f",
-    "SolveCubic.Syntax": "[ <\u4e09\u6b21\u591a\u9879\u5f0f> ]",
+    "SolveCubic.SyntaxCAS": "[ <\u4e09\u6b21\u591a\u9879\u5f0f> ]",
     "SolveODE": "\u89e3\u5e38\u5fae\u5206\u65b9\u7a0b",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <f\u4e0a\u7684\u70b9> ]\n[ <f'(x, y)>, <\u8d77\u59cb x>, <\u8d77\u59cby>, <\u7ec8\u6b62x>, <\u6b65\u957f> ]\n[ <y'>, <x'>, <\u8d77\u59cb x>, <\u8d77\u59cby>, <\u7ec8\u6b62t>, <\u6b65\u957f> ]\n[ <b(x)>, <c(x)>, <f(x)>, <\u8d77\u59cbx>, <\u8d77\u59cby>, <\u8d77\u59cby'>, <\u7ec8\u6b62x>, <\u6b65\u957f> ]",
     "SolveODE.SyntaxCAS": "[ <\u65b9\u7a0b> ]\n[ <\u65b9\u7a0b>, <f\u4e0a\u7684\u70b9> ]\n[ <\u65b9\u7a0b>, <f\u4e0a\u7684\u70b9>, <f'\u4e0a\u7684\u70b9> ]\n[ <\u65b9\u7a0b>, <\u56e0\u53d8\u91cf>, <\u81ea\u53d8\u91cf>, <f\u4e0a\u7684\u70b9> ]\n[ <\u65b9\u7a0b>, <\u56e0\u53d8\u91cf>, <\u81ea\u53d8\u91cf>, <f\u4e0a\u7684\u70b9>, <f'\u4e0a\u7684\u70b9> ]",

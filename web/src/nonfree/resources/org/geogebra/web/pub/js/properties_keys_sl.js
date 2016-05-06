@@ -905,7 +905,7 @@ __GGB__keysVar.sl.command = {
     "Solve": "Re\u0161i",
     "Solve.SyntaxCAS": "[ <ena\u010dba z x> ]\n[ <ena\u010dba>, <spremenljivka> ]\n[ <seznam ena\u010db>, <seznam spremenljivk> ]",
     "SolveCubic": "Re\u0161iKubniPolinom",
-    "SolveCubic.Syntax": "[ <KubniPolinom> ]",
+    "SolveCubic.SyntaxCAS": "[ <KubniPolinom> ]",
     "SolveODE": "Re\u0161iDE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <to\u010dka na f> ]\n[ <f'(x, y)>, <za\u010detna vrednost x>, <za\u010detna vrednost  y>, <kon\u010dna vrednost x>, <kon\u010dna vrednost> ]\n[ <y'>, <x'>, <za\u010detna vrednost  x>, <za\u010detna vrednost  y>, <End t>, <Step> ]\n[ <b(x)>, <c(x)>, <f(x)>, <za\u010detna vrednost  x>, <za\u010detna vrednost  y>, <za\u010detna vrednost y'>, <kon\u010dna vrednost x>, <korak> ]",
     "SolveODE.SyntaxCAS": "[ <ena\u010dba> ]\n[ <ena\u010dba>, <odvisna spremenljivka>, <neodvisna spremenljivka> ]",

@@ -905,7 +905,7 @@ __GGB__keysVar.is.command = {
     "Solve": "Lausn",
     "Solve.SyntaxCAS": "[ <Jafna \xed x> ]\n[ <Jafna>, <Breyta> ]\n[ <Listi af j\xf6fnum>, <Listi af breytum> ]",
     "SolveCubic": "Leysa\xderi\xf0jaStigsJ\xf6fnu",
-    "SolveCubic.Syntax": "[ <\xderi\xf0ja stigs margli\xf0a> ]",
+    "SolveCubic.SyntaxCAS": "[ <\xderi\xf0ja stigs margli\xf0a> ]",
     "SolveODE": "LausnDiffurj\xf6fnu",
     "SolveODE.Syntax": "[ <f'(x y)> ]\n[ <f'(x y)>, <Punktur \xe1 f> ]\n[ <f'(x y)>, <Byrjunargildi x>, <Byrjunargildi y>, <Lokagildi x>, <Skref> ]\n[ <y'>, <x'>, <Byrjunargildi x>, <Byrjunargildi y>, <Lokagildi t>, <Skref> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Byrjunargildi x>, <Byrjunargildi y>, <Byrjunargildi y'>, <Lokagildi x>, <Skref> ]",
     "SolveODE.SyntaxCAS": "[ <Jafna> ]\n[ <Jafna>, <H\xe1\xf0 breyta>, <\xd3h\xe1\xf0 breyta> ]",

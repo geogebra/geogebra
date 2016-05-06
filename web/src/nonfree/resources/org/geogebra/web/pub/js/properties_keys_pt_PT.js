@@ -905,7 +905,7 @@ __GGB__keysVar.pt_PT.command = {
     "Solve": "Resolver",
     "Solve.SyntaxCAS": "[ <Condi\xe7\xe3o em x> ]\n[ <Condi\xe7\xe3o>, <Vari\xe1vel> ]\n[ <Lista de Condi\xe7\xf5es>, <Lista de Vari\xe1veis> ]",
     "SolveCubic": "ResolverC\xfabica",
-    "SolveCubic.Syntax": "[ <Polin\xf3mio 3\xba Grau> ]",
+    "SolveCubic.SyntaxCAS": "[ <Polin\xf3mio 3\xba Grau> ]",
     "SolveODE": "ResolverEDO",
     "SolveODE.Syntax": "[ <f(x, y)> ]\n[ <f(x, y)>, <Ponto em f> ]\n[ <f(x, y)>, <In\xedcio x>, <In\xedcio y>, <Fim x>, <Passso> ]\n[ <y'>, <x'>, <In\xedcio  x>, <In\xedcio  y>, <Fim t>, <Passo> ]\n[ <b(x)>, <c(x)>, <f(x)>, <In\xedcio  x>, <In\xedcio  y>, <In\xedcio  y'>, <Fim x>, <Passo> ]",
     "SolveODE.SyntaxCAS": "[ <Condi\xe7\xe3o> ]\n[ <Condi\xe7\xe3o>, <Ponto(s) em f> ]\n[ <Condi\xe7\xe3o>, <Ponto(s) em f>, <Pontos(s) em f'> ]\n[ <Condi\xe7\xe3o>, <Vari\xe1vel Dependente>, <Vari\xe1vel Independente>, <Ponto(s) em f> ]\n[ <Condi\xe7\xe3o>, <Vari\xe1vel Dependente>, <Vari\xe1vel Independente>, <Ponto(s) em f>, <Ponto(s) em f'> ]",

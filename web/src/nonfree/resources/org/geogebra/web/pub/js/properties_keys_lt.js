@@ -905,7 +905,7 @@ __GGB__keysVar.lt.command = {
     "Solve": "Spr\u0119sti",
     "Solve.SyntaxCAS": "[ <Lygtis priklausanti nuo x> ]\n[ <Lygtis>, <Kintamasis> ]\n[ <Lyg\u010di\u0173 s\u0105ra\u0161as>, <Kintam\u0173j\u0173 s\u0105ra\u0161as> ]",
     "SolveCubic": "I\u0161spr\u0119stiKubin\u0119Lygt\u012f",
-    "SolveCubic.Syntax": "[ <Tre\u010dio laipsnio daugianaris> ]",
+    "SolveCubic.SyntaxCAS": "[ <Tre\u010dio laipsnio daugianaris> ]",
     "SolveODE": "Spr\u0119stiODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Ta\u0161kas priklausantis f> ]\n[ <f'(x, y)>, <x prad\u017eia>, <y prad\u017eia>, <x pabaiga>, <\u017dingsnis> ]\n[ <y'>, <x'>, <x prad\u017eia>, <y prad\u017eia>, <t pabaiga>, <\u017dingsnis> ]\n[ <b(x)>, <c(x)>, <f(x)>, <x prad\u017eia>, <y prad\u017eia>, <y' prad\u017eia>, <x pabaiga>, <\u017dingsnis> ]",
     "SolveODE.SyntaxCAS": "[ <Lygtis> ]\n[ <Lygtis>, <Priklausomas kintamasis>, <Nepriklausomas kintamasis> ]",

@@ -905,7 +905,7 @@ __GGB__keysVar.no_NN.command = {
     "Solve": "L\xf8ys",
     "Solve.SyntaxCAS": "[ <Likning med x> ]\n[ <Likning>, <Variabel> ]\n[ <Liste med likningar>, <Liste med variablar> ]",
     "SolveCubic": "L\xf8ysTredjegradslikning",
-    "SolveCubic.Syntax": "[ <Tredjegradspolynom> ]",
+    "SolveCubic.SyntaxCAS": "[ <Tredjegradspolynom> ]",
     "SolveODE": "L\xf8ysODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punkt p\xe5 f> ]\n[ <f'(x, y)>, <Start x>, <Start y>, <Slutt x>, <Steg> ]\n[ <y'>, <x'>, <Start x>, <Start y>, <Slutt t>, <Steg> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <Slutt x>, <Steg> ]",
     "SolveODE.SyntaxCAS": "[ <Likning> ]\n[ <Likning>, <Avhengig variabel>, <Uavhengig variabel> ]",

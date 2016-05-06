@@ -905,7 +905,7 @@ __GGB__keysVar.in.command = {
     "Solve": "Selesaikan",
     "Solve.SyntaxCAS": "[ <Persamaan dalam x> ]\n[ <Persamaan>, <Variabel> ]\n[ <Daftar Persamaan>, <Daftar Variabel> ]",
     "SolveCubic": "SolveCubic",
-    "SolveCubic.Syntax": "[ <Cubic Polynomial> ]",
+    "SolveCubic.SyntaxCAS": "[ <Cubic Polynomial> ]",
     "SolveODE": "SelesaikanPDB",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Titik pada f> ]\n[ <f'(x, y)>, <Awal x>, <Awal y>, <Akhir x>, <Langkah> ]\n[ <y'>, <x'>, <Awal x>, <Awal y>, <Akhir t>, <Langkah> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Awal x>, <Awal y>, <Awal y'>, <Akhir x>, <Langkah> ]",
     "SolveODE.SyntaxCAS": "[ <Persamaan> ]\n[ <Persamaan>, <Titik pada f> ]\n[ <Persamaan>, <Titik pada f>, <Titik pada f'> ]\n[ <Persamaan>, <Variabel Terikat>, <Variabel Bebas>, <Titik pada f> ]\n[ <Persamaan>, <Variabel Terikat>, <Variabel Bebas>, <Titik pada f>, <Titik pada f'> ]",

@@ -905,7 +905,7 @@ __GGB__keysVar.ca_XV.command = {
     "Solve": "Resol",
     "Solve.SyntaxCAS": "[ <Equaci\xf3 d'una variable> ]\n[ <Equaci\xf3>, <Variable que volem a\xefllar> ]\n[ <Llista d'equacions>, <Llista de variables> ]",
     "SolveCubic": "ResolC\xfabica",
-    "SolveCubic.Syntax": "[ <Polinomi c\xfabic> ]",
+    "SolveCubic.SyntaxCAS": "[ <Polinomi c\xfabic> ]",
     "SolveODE": "ResolEDO",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punt de f> ]\n[ <f'(x, y)>, <x inicial>, <y inicial>, <x final>, <Pas> ]\n[ <y'>, <x'>, <x inicial>, <y inicial>, <t final>, <Pas> ]\n[ <b(x)>, <c(x)>, <f(x)>, <x inicial>, <y inicial>, <y' inicial>, <x final>, <Pas> ]",
     "SolveODE.SyntaxCAS": "[ <Equaci\xf3> ]\n[ <Equaci\xf3>, <Punt(s) de f> ]\n[ <Equaci\xf3>, <Punt(s) de f>, <Punt(s) de f'> ]\n[ <Equaci\xf3>, <Variable dependent>, <Variable independent>, <Punt(s) de f> ]\n[ <Equaci\xf3>, <Variable dependent>, <Variable independent>, <Punt(s) de f>, <Punt(s) de f'> ]",

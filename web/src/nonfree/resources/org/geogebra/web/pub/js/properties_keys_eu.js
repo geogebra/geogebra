@@ -905,7 +905,7 @@ __GGB__keysVar.eu.command = {
     "Solve": "Ebatzi",
     "Solve.SyntaxCAS": "[ <x-dun Ekuazioa> ]\n[ <Ekuazioa>, <Aldagaia> ]\n[ <Ekuazioen Zerrenda>, <Aldagaien Zerrenda> ]",
     "SolveCubic": "EbatziKubikoa",
-    "SolveCubic.Syntax": "[ <Polinomio Kubikoa> ]",
+    "SolveCubic.SyntaxCAS": "[ <Polinomio Kubikoa> ]",
     "SolveODE": "EbatziODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <f-ko Puntua> ]\n[ <f'(x, y)>, <Hasierako x>, <Hasierako y>, <Amaierako x>, <Pausoa> ]\n[ <y'>, <x'>, <Hasierako x>, <Hasierako y>, <Amaierako t>, <Pausoa> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Hasierako x>, <Hasierako y>, <Hasierako y'>, <Amaierako x>, <Pausoa> ]",
     "SolveODE.SyntaxCAS": "[ <Ekuazioa> ]\n[ <Ekuazioa>, <f-ren Puntua(k)>, <f'-ren Puntua(k)> ]\n[ <Ekuazioa>, <Mendeko Aldagaia>, <Aldagai Askea> ]\n[ <Ekuazioa>, <Menpeko Aldagaia>, <Aldagaia Askea>, <f-ren Puntua(k)> ]\n[ <Ekuazioa>, <Menpeko Aldagaia>, <Aldagaia Askea>, <f-ren Puntua(k)>, <f'-ren Puntua(k)> ]",

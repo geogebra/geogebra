@@ -905,7 +905,7 @@ __GGB__keysVar.vi.command = {
     "Solve": "Giai",
     "Solve.SyntaxCAS": "[ <Ph\u01b0\u01a1ng tr\xecnh theo bi\u1ebfn x> ]\n[ <Ph\u01b0\u01a1ng tr\xecnh>, <Bi\u1ebfn s\u1ed1> ]\n[ <Danh s\xe1ch ph\u01b0\u01a1ng tr\xecnh>, <Danh s\xe1ch bi\u1ebfn> ]",
     "SolveCubic": "Gi\u1ea3iPh\u01b0\u01a1ngTr\xecnhB\u1eadcBa",
-    "SolveCubic.Syntax": "[ <\u0110a th\u1ee9c b\u1eadc ba> ]",
+    "SolveCubic.SyntaxCAS": "[ <\u0110a th\u1ee9c b\u1eadc ba> ]",
     "SolveODE": "GiaiPhuongTrinhViPhanThuong",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <\u0110i\u1ec3m tr\xean f> ]\n[ <f'(x, y)>, <Gi\xe1 tr\u1ecb b\u1eaft \u0111\u1ea7u x>, <Gi\xe1 tr\u1ecb b\u1eaft \u0111\u1ea7u y>, <Gi\xe1 tr\u1ecb cu\u1ed1i x>, <B\u01b0\u1edbc> ]\n[ <y'>, <x'>, <Gi\xe1 tr\u1ecb b\u1eaft \u0111\u1ea7u x>, <Gi\xe1 tr\u1ecb b\u1eaft \u0111\u1ea7u y>, <Gi\xe1 tr\u1ecb cu\u1ed1i t>, <B\u01b0\u1edbc> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Gi\xe1 tr\u1ecb b\u1eaft \u0111\u1ea7u x>, <Gi\xe1 tr\u1ecb b\u1eaft \u0111\u1ea7u y>, <Gi\xe1 tr\u1ecb b\u1eaft \u0111\u1ea7u y'>, <Gi\xe1 tr\u1ecb cu\u1ed1i x>, <B\u01b0\u1edbc> ]",
     "SolveODE.SyntaxCAS": "[ <Ph\u01b0\u01a1ng tr\xecnh> ]\n[ <Ph\u01b0\u01a1ng tr\xecnh>, <\u0110i\u1ec3m tr\xean f> ]\n[ <Ph\u01b0\u01a1ng tr\xecnh>, <\u0110i\u1ec3m tr\xean f>, <\u0110i\u1ec3m tr\xean f'> ]\n[ <Ph\u01b0\u01a1ng tr\xecnh>, <Bi\u1ebfn ph\u1ee5 thu\u1ed9c>, <Bi\u1ebfn \u0111\u1ed9c l\u1eadp>, <\u0110i\u1ec3m tr\xean f> ]\n[ <Ph\u01b0\u01a1ng tr\xecnh>, <Bi\u1ebfn ph\u1ee5 thu\u1ed9c>, <Bi\u1ebfn \u0111\u1ed9c l\u1eadp>, <\u0110i\u1ec3m tr\xean f>, <\u0110i\u1ec3m tr\xean f'> ]",

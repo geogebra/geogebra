@@ -905,7 +905,7 @@ __GGB__keysVar.nl.command = {
     "Solve": "Oplossen",
     "Solve.SyntaxCAS": "[ <Vergelijking in x> ]\n[ <Vergelijking>, <Variabele> ]\n[ <Lijst van vergelijkingen>, <Lijst van variabelen> ]",
     "SolveCubic": "OplossenDerdegraad",
-    "SolveCubic.Syntax": "[ <derdegraadsveelterm> ]",
+    "SolveCubic.SyntaxCAS": "[ <derdegraadsveelterm> ]",
     "SolveODE": "DV",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x)>, <Punten op f> ]\n[ <f'(x)>, <Begin x>, <Begin y>, <Eind x>, <Stap> ]\n[ <y'>, <x'>, <Begin x>, <Begin y>, <Eind t>, <Stap> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Begin x>, <Begin y>, <Begin y'>, <Eind x>, <Stap> ]",
     "SolveODE.SyntaxCAS": "[ <Vergelijking> ]\n[ <Vergelijking>, <Punt(en) op f> ]\n[ <Vergelijking>, <Punt(en) op f>, <Punt(en) op f'> ]\n[ <Vergelijking>, <Afhankelijke variabele>, <Onafhankelijke variabele>, <Punt(en) op f> ]\n[ <Vergelijking>, <Afhankelijke variabele>, <Onafhankelijke variabele>, <Punt(en) op f>, <Punt(en) op f'> ]",
