@@ -8,11 +8,14 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * HideLayer
  */
-public class CmdHideLayer extends CmdScripting {
+public class CmdShowHideLayer extends CmdScripting {
+
+	private boolean show;
 
 	/**
 	 * Create new command processor
@@ -20,8 +23,9 @@ public class CmdHideLayer extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdHideLayer(Kernel kernel) {
+	public CmdShowHideLayer(Kernel kernel, boolean show) {
 		super(kernel);
+		this.show = show;
 	}
 
 	@Override
@@ -34,17 +38,19 @@ public class CmdHideLayer extends CmdScripting {
 			if (arg[0] instanceof NumberValue) {
 				NumberValue layerGeo = (NumberValue) arg[0];
 				int layer = (int) layerGeo.getDouble();
-
+				if (layer < 0 || layer > EuclidianStyleConstants.MAX_LAYERS) {
+					return arg;
+				}
 				Iterator<GeoElement> it = kernelA.getConstruction()
 						.getGeoSetLabelOrder().iterator();
 				while (it.hasNext()) {
 					GeoElement geo = it.next();
 					if (geo.getLayer() == layer) {
-						geo.setEuclidianVisible(false);
-						geo.updateRepaint();
+						geo.setEuclidianVisible(show);
+						geo.updateCascade();
 					}
 				}
-
+				kernelA.notifyRepaint();
 				return arg;
 
 			}

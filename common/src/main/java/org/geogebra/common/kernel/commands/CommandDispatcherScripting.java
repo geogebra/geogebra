@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.scripting.CmdCenterView;
 import org.geogebra.common.kernel.scripting.CmdCheckbox;
 import org.geogebra.common.kernel.scripting.CmdDelete;
 import org.geogebra.common.kernel.scripting.CmdExecute;
-import org.geogebra.common.kernel.scripting.CmdHideLayer;
 import org.geogebra.common.kernel.scripting.CmdLineStyle;
 import org.geogebra.common.kernel.scripting.CmdPan;
 import org.geogebra.common.kernel.scripting.CmdParseToFunction;
@@ -42,8 +41,8 @@ import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.kernel.scripting.CmdSetVisibleInView;
 import org.geogebra.common.kernel.scripting.CmdShowAxes;
 import org.geogebra.common.kernel.scripting.CmdShowGrid;
+import org.geogebra.common.kernel.scripting.CmdShowHideLayer;
 import org.geogebra.common.kernel.scripting.CmdShowLabel;
-import org.geogebra.common.kernel.scripting.CmdShowLayer;
 import org.geogebra.common.kernel.scripting.CmdSlider;
 import org.geogebra.common.kernel.scripting.CmdSlowPlot;
 import org.geogebra.common.kernel.scripting.CmdStartAnimation;
@@ -105,9 +104,9 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 		case Rename:
 			return new CmdRename(kernel);
 		case HideLayer:
-			return new CmdHideLayer(kernel);
+			return new CmdShowHideLayer(kernel, false);
 		case ShowLayer:
-			return new CmdShowLayer(kernel);
+			return new CmdShowHideLayer(kernel, true);
 		case SetCoords:
 			return new CmdSetCoords(kernel);
 		case Pan:
