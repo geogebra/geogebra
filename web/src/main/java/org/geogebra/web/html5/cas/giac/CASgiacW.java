@@ -86,12 +86,12 @@ public class CASgiacW extends CASgiac {
 		
 		if (Browser.externalCAS()) {
 			// native Giac so need same initString as desktop
-			nativeEvaluateRaw(initString, Log.logger != null);
+			nativeEvaluateRaw(initString, false);
 
 		} else {
 			// #5439
 			// restart Giac before each call
-			nativeEvaluateRaw(initStringWeb, Log.logger != null);
+			nativeEvaluateRaw(initStringWeb, false);
 		}
 		
 		// GGB-850
