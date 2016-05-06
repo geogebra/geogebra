@@ -838,8 +838,8 @@ public interface Traversing {
 							.getLeft().evaluateDouble());
 					newRight.setValue(1);
 					newRight.update();
-					en.getRight().traverse(this);
-					en.setLeft(newRight);
+					en.getLeft().traverse(this);
+					en.setRight(newRight);
 				}
 				return en;
 			}
