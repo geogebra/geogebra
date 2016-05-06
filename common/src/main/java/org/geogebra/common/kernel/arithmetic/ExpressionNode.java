@@ -5693,8 +5693,7 @@ kernel, left,
 		case MULTIPLY:
 			double lt = left.evaluateDouble();
 			double rt = right.evaluateDouble();
-			return !Double.isNaN(lt) && !Double.isNaN(rt) ? left
-					.evaluateDouble() * right.evaluateDouble() : super
+			return !Double.isNaN(lt) && !Double.isNaN(rt) ? lt * rt : super
 					.evaluateDouble();
 		case DIVIDE:
 			return left.evaluateDouble() / right.evaluateDouble();
