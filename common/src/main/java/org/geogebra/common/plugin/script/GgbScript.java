@@ -75,7 +75,7 @@ public class GgbScript extends Script {
 			} else if (app.getParserFunctions().isFunction(starr[i])) {
 				retone.append(app.getFunction(starr[i]));
 			} else {
-				App.debug("NOT FUNCTION" + starr[i]);
+				// App.debug("NOT FUNCTION" + starr[i]);
 				// do not translate name of function
 				// see #4391
 				if (i == 1 && isAssignment) {
