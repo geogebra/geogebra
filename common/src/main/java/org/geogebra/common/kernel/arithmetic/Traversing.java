@@ -823,6 +823,26 @@ public interface Traversing {
 			if (!ev.isExpressionNode())
 				return ev;
 			ExpressionNode en = (ExpressionNode) ev;
+			if (en.getOperation() == Operation.MULTIPLY) {
+				if(en.getLeft()!=null && en.getLeftTree().getOperation()==Operation.ARBCONST){
+					GeoNumeric newLeft = arbconst.nextConst(en
+							.getLeftTree().getLeft().evaluateDouble());
+					newLeft.setValue(1);
+					newLeft.update();
+					en.getRight().traverse(this);
+					en.setLeft(newLeft);
+				}
+				if (en.getRight() != null
+						&& en.getRightTree().getOperation() == Operation.ARBCONST) {
+					GeoNumeric newRight = arbconst.nextConst(en.getRightTree()
+							.getLeft().evaluateDouble());
+					newRight.setValue(1);
+					newRight.update();
+					en.getRight().traverse(this);
+					en.setLeft(newRight);
+				}
+				return en;
+			}
 			if (en.getOperation() == Operation.ARBCONST) {
 				return arbconst.nextConst(en.getLeft().evaluateDouble());
 			}

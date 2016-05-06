@@ -862,28 +862,10 @@ public class ExpressionNode extends ValidExpression implements
 			return ev;
 		if (left != null)
 			left = left.traverse(t);
-		// distinguish between additive and multiplying constants
-		if (left instanceof GeoNumeric && !(left instanceof GeoDummyVariable)
-				&& ((GeoNumeric) left).getLabelSimple() != null
-				&& ((GeoNumeric) left).getLabelSimple().startsWith("c_")) {
-			// set multiplying constant 1
-			if (this.operation.equals(Operation.MULTIPLY)) {
-				((GeoNumeric) left).setValue(1);
-				((GeoElement) left).update();
-			}
-		}
+
 		if (right != null)
 			right = right.traverse(t);
-		// handle special case -1 constant
-		if (right instanceof GeoNumeric && !(right instanceof GeoDummyVariable)
-				&& ((GeoNumeric) right).getLabelSimple().startsWith("c_")
-				&& !(left instanceof MyDouble && Kernel.isEqual(
-						left.evaluateDouble(), -1))) {
-			if (this.operation.equals(Operation.MULTIPLY)) {
-				((GeoNumeric) right).setValue(1);
-				((GeoElement) right).update();
-			}
-		}
+
 		// if we did some replacement in a leaf,
 		// we might need to update the leaf flag (#3512)
 		return ev.unwrap().wrap();
