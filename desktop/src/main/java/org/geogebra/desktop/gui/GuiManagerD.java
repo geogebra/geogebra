@@ -80,6 +80,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.plugin.Event;
@@ -3001,6 +3002,8 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 	}
 
+
+
 	/**
 	 * Creates a new GeoImage, using an image provided by either a Transferable
 	 * object or the clipboard contents, then places it at the given location
@@ -3033,6 +3036,12 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 			if (!loc.isLabelSet()) {
 				loc.setLabel(null);
+			}
+
+			if (app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
+					&& fileName.length == 1) {
+				setImageCornersFromSelection(fileName[0]);
+				return true;
 			}
 
 			for (int i = 0; i < fileName.length; i++) {
@@ -3082,6 +3091,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		app.setDefaultCursor();
 		return ret;
 	}
+
 
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 			GPoint mouseLoc) {

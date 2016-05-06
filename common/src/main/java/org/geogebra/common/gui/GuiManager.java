@@ -29,6 +29,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -787,6 +789,70 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 	public void setInputText(String string) {
+
+	}
+
+	private GeoPoint getImageCornerFromSelection(int index) {
+
+		ArrayList<GeoElement> sel = app.getSelectionManager().getSelectedGeos();
+		if (sel.size() > index) {
+			GeoElement geo0 = sel.get(index);
+			if (geo0.isGeoPoint()) {
+				return (GeoPoint) geo0;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Loads the image and sets its corners
+	 * 
+	 * @param fileName
+	 *            The image file name.
+	 */
+	protected void setImageCornersFromSelection(String fileName) {
+		GeoImage geoImage = new GeoImage(app.getKernel().getConstruction());
+		geoImage.setImageFileName(fileName);
+
+		ArrayList<GeoPoint> corners = new ArrayList<GeoPoint>();
+		for (int i = 0; i < 4; i++) {
+			GeoPoint p = getImageCornerFromSelection(i);
+			if (p != null) {
+				corners.add(p);
+			}
+		}
+
+		Log.debug("[GGB-777] corners: " + corners);
+		for (int i = 0; i < corners.size(); i++) {
+			geoImage.setCorner(corners.get(i), i);
+		}
+
+		//
+		// GeoPoint point2 = new GeoPoint(app.getKernel()
+		// .getConstruction());
+		// geoImage.calculateCornerPoint(point2, 2);
+		// geoImage.setCorner(point2, 1);
+		// point2.setLabel(null);
+		//
+		// // make sure 2nd corner is on screen
+		// double x1 = point1.inhomX;
+		// double x2 = point2.inhomX;
+		// double xmax = ev
+		// .toRealWorldCoordX((double) (ev.getWidth()) + 1);
+		// if (x2 > xmax) {
+		// point2.setCoords((x1 + 9 * xmax) / 10, point2.inhomY, 1);
+		// point2.update();
+		// }
+		//
+		geoImage.setLabel(null);
+		//
+		GeoImage.updateInstances(app);
+		// }
+		// // make sure only the last image will be selected
+		GeoElement[] geos = { geoImage };
+		app.getActiveEuclidianView().getEuclidianController().clearSelections();
+		app.getActiveEuclidianView().getEuclidianController()
+				.memorizeJustCreatedGeos(geos);
 
 	}
 

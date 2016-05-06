@@ -3815,6 +3815,9 @@ public abstract class App implements UpdateSelection {
 		case TOOL_EDITOR:
 			return prerelease;
 
+		case IMAGE_DIALOG_IMMEDIATELY:
+			return prerelease;
+
 		// TRAC-4845
 		case LOG_AXES:
 			return prerelease;
@@ -3822,6 +3825,7 @@ public abstract class App implements UpdateSelection {
 		// GGB-568
 		case SURFACE_WIREFRAME:
 			return true;
+
 
 		case ALL_PLANES_GRID:
 			return true;
