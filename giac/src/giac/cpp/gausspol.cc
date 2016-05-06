@@ -981,6 +981,7 @@ namespace giac {
       }
       p.coord.push_back(monomial<gen>(g,i));
     }
+    return true;
   }
 
 

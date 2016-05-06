@@ -877,7 +877,7 @@ namespace giac {
 	  tdeg2=0;
 	}
 	order_=order;
-#ifdef GIAC_HASH 
+#if 1 // def GIAC_HASH 
 	compute_degs(); // for hash
 #else
 #ifdef GIAC_ELIM
@@ -1021,6 +1021,10 @@ namespace giac {
   ostream & operator << (ostream & os,const tdeg_t64 & x){
 #ifdef GIAC_64VARS
     if (x.tab[0]%2){
+      // debugging
+      tdeg_t64 xsave(x); xsave.compute_degs();
+      if (xsave.tdeg!=x.tdeg || xsave.tdeg2!=x.tdeg2)
+	os << "degree error " ;
       os << "[";
       const longlong * ptr=x.ui+1,*ptrend=ptr+(x.order_.dim+degratiom1)/degratio;
       for (;ptr!=ptrend;++ptr){
