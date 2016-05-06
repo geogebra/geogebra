@@ -4012,6 +4012,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_ANGLE_FIXED_SIZE:
 			return prerelease;
 
+		// GGB-850
+		case GIAC_SELECTIVE_INIT:
+			return true;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

@@ -3,10 +3,6 @@ package org.geogebra.desktop.cas.giac;
 import java.util.LinkedList;
 import java.util.List;
 
-import javagiac.context;
-import javagiac.gen;
-import javagiac.giac;
-
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.cas.error.TimeoutException;
@@ -19,8 +15,13 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
+
+import javagiac.context;
+import javagiac.gen;
+import javagiac.giac;
 
 /**
  * @author michael
@@ -29,7 +30,7 @@ import org.geogebra.desktop.main.AppD;
 public class CASgiacD extends CASgiac {
 
 	@SuppressWarnings("javadoc")
-	AppD app;
+	App app;
 
 	/**
 	 * @param casParser
@@ -42,7 +43,7 @@ public class CASgiacD extends CASgiac {
 	public CASgiacD(CASparser casParser, CasParserTools t, Kernel k) {
 		super(casParser);
 
-		this.app = (AppD) k.getApplication();
+		this.app = k.getApplication();
 
 		this.parserTools = t;
 
@@ -271,17 +272,45 @@ public class CASgiacD extends CASgiac {
 		}
 	}
 
-	private void init(long timeoutMilliseconds) {
+	private void init(String exp, long timeoutMilliseconds) {
 		gen g = new gen(initString, C);
 		g.eval(1, C);
 
+		// GGB-850
+		if (!app.has(Feature.GIAC_SELECTIVE_INIT)) {
 		// fix for problem with eg SolveODE[y''=0,{(0,1), (1,3)}]
 		// sending all at once doesn't work from
 		// http://dev.geogebra.org/trac/changeset/42719
-		String[] sf = specialFunctions.split(";;");
-		for (int i = 0; i < sf.length; i++) {
-			g = new gen(sf[i], C);
-			giac._eval(g, C);
+			String[] sf = specialFunctions.split(";;");
+			for (int i = 0; i < sf.length; i++) {
+				g = new gen(sf[i], C);
+				giac._eval(g, C);
+			}
+
+		} else {
+
+			InitFunctions[] init = InitFunctions.values();
+
+			// Log.debug("exp = " + exp);
+
+			for (int i = 0; i < init.length; i++) {
+				InitFunctions function = init[i];
+
+				// send only necessary init commands
+				if (function.functionName == null
+						|| exp.indexOf(function.functionName) > -1) {
+					g = new gen(function.definitionString, C);
+					giac._eval(g, C);
+					// Log.debug("sending " + function);
+				} else {
+					// Log.error("not sending " + function + " "
+					// + function.functionName);
+				}
+
+				// Log.error(function.functionName + " " +
+				// function.definitionString);
+			}
+
 		}
 
 		g = new gen("\"timeout " + (timeoutMilliseconds / 1000) + "\"", C);
@@ -305,7 +334,7 @@ public class CASgiacD extends CASgiac {
 
 		// #5439
 		// reset Giac before each call
-		init(timeoutMilliseconds);
+		init(exp0, timeoutMilliseconds);
 
 		String exp = wrapInevalfa(exp0);
 
