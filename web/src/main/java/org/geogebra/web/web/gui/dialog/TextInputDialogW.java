@@ -172,6 +172,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 						.processAlgebraCommandNoExceptionHandling(inputValue,
 								false, app.getErrorHandler(), true,
 								getCallback(callback));
+				return;
 
 			}
 
