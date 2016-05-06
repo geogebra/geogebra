@@ -223,6 +223,11 @@ public class JLMContext2d extends Context2d {
 	  
 	public final native void resetTransform(double dp) /*-{
       
+		if (!this) {
+			// 3D View, ignore
+			return;
+		}
+
 		this.ggbDevicePixelRatio = dp;
 	      
 		this.setTransform(dp * this.m00_, dp * this.m10_, dp * this.m01_, dp * this.m11_, dp * this.m02_, dp * this.m12_);
