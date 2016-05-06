@@ -207,7 +207,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 				callback.callback(true);
 			} catch (Exception e) {
-				app.showError("TEXT"+e.getMessage());
+				app.showError(e.getMessage());
 				callback.callback(false);
 			}
 		}
