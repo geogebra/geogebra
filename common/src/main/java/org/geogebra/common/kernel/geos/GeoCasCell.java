@@ -1741,7 +1741,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		// silent evaluation of output in GeoGebra
 		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE, allowFunction);
 		
-		Log.debug(lastOutputEvaluationGeo);
+		// Log.debug(lastOutputEvaluationGeo);
 		
 		if (lastOutputEvaluationGeo != null && !dependsOnDummy(lastOutputEvaluationGeo)) {
 			try {
@@ -1837,7 +1837,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	@Override
 	public void updateCascade() {
 		update();
-		Log.debug("updating"+getLabel(StringTemplate.defaultTemplate));
+		// Log.debug("updating"+getLabel(StringTemplate.defaultTemplate));
 		if (twinGeo != null && !dependsOnDummy(twinGeo)) {
 			ignoreTwinGeoUpdate = true;
 			twinGeo.update();
@@ -2224,8 +2224,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			// eg x+x=y+y
 			en = new ExpressionNode(kernel, arg.unwrap(), Operation.NO_OPERATION, null);
 		}
-		Log.debug(en);
-		Log.debug("WRAPPING");
+		// Log.debug(en);
+		// Log.debug("WRAPPING");
 		Command c= new Command(kernel, "Evaluate", false);
 		c.addArgument(en);
 		ExpressionNode expr = c.wrap();
@@ -2978,7 +2978,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			// needed for GGB-810
 			kernel.notifyConstructionProtocol(twinGeo);
 		} else {
-			Log.debug("Fail" + oldEvalComment);
+			// Log.debug("Fail" + oldEvalComment);
 			if (twinGeo != null && twinGeo.getLabelSimple() != null)
 				twinGeo.doRemove();
 			// plot failed, undo assignment

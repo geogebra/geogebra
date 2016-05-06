@@ -120,7 +120,7 @@ public class CASgiacD extends CASgiac {
 			throws Throwable {
 
 		String ret;
-		Log.debug("giac input: " + exp);
+		// Log.debug("giac input: " + exp);
 
 		threadResult = null;
 		Thread thread;
@@ -138,12 +138,13 @@ public class CASgiacD extends CASgiac {
 			// good measure:
 			thread.stop();
 			// in fact, stop will do nothing (never implemented)
-			Log.debug("giac: after interrupt/stop");
+			// Log.debug("giac: after interrupt/stop");
 
 			// if we haven't got a result, CAS took too long to return
 			// eg Solve[sin(5/4 pi+x)-cos(x-3/4 pi)=sqrt(6) *
 			// cos(x)-sqrt(2)]
 			if (threadResult == null) {
+				Log.debug("Thread timeout from Giac");
 				throw new TimeoutException("Thread timeout from Giac");
 			}
 		} else {
@@ -152,8 +153,9 @@ public class CASgiacD extends CASgiac {
 
 		ret = postProcess(threadResult);
 
-		Log.debug("giac output: " + ret);
+		// Log.debug("giac output: " + ret);
 		if (ret.contains("user interruption")) {
+			Log.debug("Standard timeout from Giac");
 			throw new TimeoutException("Standard timeout from Giac");
 		}
 
@@ -258,12 +260,12 @@ public class CASgiacD extends CASgiac {
 
 		@Override
 		public void run() {
-			Log.debug("thread starting: " + exp);
+			// Log.debug("thread starting: " + exp);
 
 			try {
 				threadResult = evalRaw(exp, timeoutMillis);
 
-				Log.debug("message from thread: " + threadResult);
+				// Log.debug("message from thread: " + threadResult);
 			} catch (Throwable t) {
 				Log.debug("problem from JNI Giac: " + t.toString());
 				// force error in GeoGebra

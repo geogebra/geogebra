@@ -10,9 +10,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.js.JavaScriptInjector;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -147,17 +145,7 @@ public class CASgiacW extends CASgiac {
 		int seed = rand.nextInt(Integer.MAX_VALUE);
 		nativeEvaluateRaw("srand(" + seed + ")", false);
 
-		String exp2;
-		GLookAndFeelI laf = ((AppW) kernel.getApplication()).getLAF();
-		if (laf != null && !laf.isSmart()) {
-			// evalfa makes sure rootof() converted to decimal
-			// eg @rootof({{-4,10,-440,2025},{1,0,10,-200,375}})
-			exp2 = wrapInevalfa(exp);
-		} else {
-			exp2 = exp;
-		}
-
-		String ret = nativeEvaluateRaw(exp2, true);
+		String ret = nativeEvaluateRaw(wrapInevalfa(exp), true);
 
 		return ret;
 	}

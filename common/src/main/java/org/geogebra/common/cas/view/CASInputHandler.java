@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -96,7 +95,7 @@ public class CASInputHandler {
 				if (!text.isLabelSet()) {
 					text.setLabel("casOutput");
 				}
-				App.debug(s);
+				// App.debug(s);
 				text.setTextString(s);
 				text.update();
 
@@ -757,7 +756,7 @@ public class CASInputHandler {
 		switch (delimiter) {
 		case GeoCasCell.ROW_REFERENCE_DYNAMIC:
 		case GeoCasCell.ROW_REFERENCE_STATIC:
-			App.debug(selectedRow + ": " + str);
+			// App.debug(selectedRow + ": " + str);
 
 			boolean foundReference = false;
 			boolean addParentheses = false;

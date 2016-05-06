@@ -250,7 +250,7 @@ public class NewCASTableCellEditorW extends Label implements
 		this.thisIsEdited = false;
 		// TODO Auto-generated method stub
 		String input1 = EquationEditor.stopCommon(input2);
-		App.debug("STOPPED" + input1 + "," + latex);
+		// App.debug("STOPPED" + input1 + "," + latex);
 		this.editor.addToHistory(input1, dollarFix(latex));
 		this.ml.handleEnterKey(false, false, app);
 		return false;
@@ -266,8 +266,7 @@ public class NewCASTableCellEditorW extends Label implements
 	public void stopEditing(String latex,
 			AsyncOperation<GeoElement> callback) {
 		thisIsEdited = false;
-		// TODO Auto-generated method stub
-		App.debug("STOPPED" + latex);
+		// App.debug("STOPPED" + latex);
 	}
 
 	@Override
@@ -389,7 +388,6 @@ public class NewCASTableCellEditorW extends Label implements
 
 	public void onKeyPress(String s) {
 		String input = this.getInput();
-		App.debug("KEY PRESS" + input);
 		int editingRow = table.getEditingRow();
 		if (editingRow > 0 && input != null) {
 			boolean needsFocus = false;
