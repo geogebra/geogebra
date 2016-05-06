@@ -819,27 +819,36 @@ public abstract class GuiManager implements GuiManagerInterface {
 				corners.add(p);
 			}
 		}
+
+		if (corners.size() == 0) {
+			GeoPoint p1 = new GeoPoint(app.getKernel().getConstruction());
+			p1.setCoords(0, 0, 1.0);
+			p1.setLabel(null);
+			corners.add(p1);
+		}
+
 		for (int i = 0; i < corners.size(); i++) {
 			geoImage.setCorner(corners.get(i), i);
 		}
 
-		//
-		// GeoPoint point2 = new GeoPoint(app.getKernel()
-		// .getConstruction());
-		// geoImage.calculateCornerPoint(point2, 2);
-		// geoImage.setCorner(point2, 1);
-		// point2.setLabel(null);
-		//
-		// // make sure 2nd corner is on screen
-		// double x1 = point1.inhomX;
-		// double x2 = point2.inhomX;
-		// double xmax = ev
-		// .toRealWorldCoordX((double) (ev.getWidth()) + 1);
-		// if (x2 > xmax) {
-		// point2.setCoords((x1 + 9 * xmax) / 10, point2.inhomY, 1);
-		// point2.update();
-		// }
-		//
+		if (corners.size() == 1) {
+			GeoPoint point1 = corners.get(0);
+			GeoPoint point2 = new GeoPoint(app.getKernel().getConstruction());
+			geoImage.calculateCornerPoint(point2, 2);
+			geoImage.setCorner(point2, 1);
+			point2.setLabel(null);
+
+			// make sure 2nd corner is on screen
+			double x1 = point1.inhomX;
+			double x2 = point2.inhomX;
+			EuclidianView ev = (EuclidianView) app.getActiveEuclidianView();
+			double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
+			if (x2 > xmax) {
+				point2.setCoords((x1 + 9 * xmax) / 10, point2.inhomY, 1);
+				point2.update();
+			}
+
+		}
 		geoImage.setLabel(null);
 		//
 		GeoImage.updateInstances(app);
