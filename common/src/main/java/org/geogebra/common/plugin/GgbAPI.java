@@ -46,6 +46,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * <h3>GgbAPI - API for PlugLets</h3>
@@ -267,7 +268,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public synchronized void debug(String string) {
 
-		App.debug(string);
+		Log.debug(string);
 	}
 
 	/**
@@ -518,7 +519,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			if (geo.isVisibleInView(ev.getViewID())
 					&& app.hasEuclidianView2EitherShowingOrNot(1)
 					&& geo.isVisibleInView(app.getEuclidianView2(1).getViewID())) {
-				App.debug("EV2");
+				Log.debug("EV2");
 				// ev = app.getEuclidianView2();
 			}
 			corner.setCoords(ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y),
@@ -667,7 +668,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			kernel.refreshCASCommands();
 
 			// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
-			App.debug("all CAS up");
+			Log.debug("all CAS up");
 
 			kernel.notifyRepaint();
 		}
@@ -1445,12 +1446,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			ret = ggbcas.evaluateGeoGebraCAS(cmdString, null,
 					StringTemplate.numericDefault, kernel);
 		} catch (Throwable t) {
-			App.debug(t.toString());
+			Log.debug(t.toString());
 		}// try-catch
 
 		// useful for debugging JavaScript
 		if (debugOutput)
-			App.debug("evalGeoGebraCAS\n input:" + cmdString + "\n"
+			Log.debug("evalGeoGebraCAS\n input:" + cmdString + "\n"
 					+ "output: " + ret);
 		return ret;
 	}
@@ -1463,7 +1464,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public void login(String token) {
 		if (app.getLoginOperation() != null) {
-			App.debug("LTOKEN send via API");
+			Log.debug("LTOKEN send via API");
 			app.getLoginOperation().performTokenLogin(token, false);
 		}
 	}
