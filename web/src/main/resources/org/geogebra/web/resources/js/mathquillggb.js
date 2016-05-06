@@ -8247,4 +8247,4 @@ $.fn.mathquillggb = function(cmd, latex) {
 jQuery.noConflict(true);
 }());
 
-//@ sourceURL=mathquillggb.js
+//# sourceURL=mathquillggb.js
