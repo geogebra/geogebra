@@ -32,11 +32,16 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private FlowPanel buttonPanel;
 	private Button btOK, btCancel;
 	private String TUBEURL = "alpha.geogebra.org/m/";
+	private String sharingKey = "";
 
 	public ShareDialogW(final AppW app) {
 		super(app.getPanel());
 		this.app = app;
 		this.setGlassEnabled(true);
+		if (app.getActiveMaterial() != null
+				&& app.getActiveMaterial().getSharingKey() != null) {
+			sharingKey = app.getActiveMaterial().getSharingKey();
+		}
 
 		this.getCaption().setText(app.getMenu("Share"));
 		this.contentPanel = new VerticalPanel();
@@ -85,8 +90,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// Google+
 		Anchor gpluslink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_google().getSafeUri().asString()).toString(), true,
-				"https://plus.google.com/share?url=" + TUBEURL
-						+ app.getActiveMaterial().getSharingKey(), "_blank");
+				"https://plus.google.com/share?url=" + TUBEURL + sharingKey,
+				"_blank");
 		iconPanel.add(gpluslink);
 
 		// Pinterest
@@ -108,7 +113,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 		// Label lblLink = new Label(app.getPlain("Link") + ": ");
 		TextBox link = new TextBox();
-		link.setValue(TUBEURL + app.getActiveMaterial().getSharingKey());
+		link.setValue(TUBEURL + sharingKey);
 		link.setReadOnly(true);
 		Image copyToClipboardIcon = new NoDragImage(AppResources.INSTANCE.edit_copy().getSafeUri().asString());
 
