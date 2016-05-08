@@ -555,8 +555,18 @@ public abstract class EuclidianController {
 					} else if (geo.isGeoText()) {
 						if (((GeoText) geo).hasAbsoluteLocation()) {
 							GeoPointND loc = ((GeoText) geo).getStartPoint();
-							setStartPointLocation(loc.getInhomX(),
+							if (loc != null) {
+								setStartPointLocation(loc.getInhomX(),
 									loc.getInhomY());
+							} else {
+								double x = ((GeoText) geo)
+										.getAbsoluteScreenLocX();
+								double y = ((GeoText) geo)
+										.getAbsoluteScreenLocY();
+								x = (int) view.toRealWorldCoordX(x);
+								y = (int) view.toRealWorldCoordY(y);
+								setStartPointLocation(x, y);
+							}
 							firstMoveable = false;
 						}
 					} else if (geo.isGeoNumeric()) {
