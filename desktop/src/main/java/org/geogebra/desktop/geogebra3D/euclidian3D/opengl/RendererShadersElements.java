@@ -1,12 +1,12 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
+import javax.media.opengl.GL;
+
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
-
-import com.jogamp.opengl.GL2ES2;
 
 /**
  * renderer using shaders and drawElements()
@@ -37,7 +37,7 @@ public class RendererShadersElements extends RendererShaders {
 	public void draw(Manager.Type type, int length) {
 
 		jogl.getGL2().glDrawElements(getGLType(type), length,
-				GL2ES2.GL_UNSIGNED_SHORT, 0);
+				GL.GL_UNSIGNED_SHORT, 0);
 	}
 
 	/**
