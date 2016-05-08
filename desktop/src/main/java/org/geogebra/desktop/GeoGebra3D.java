@@ -18,14 +18,14 @@
  */
 package org.geogebra.desktop;
 
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
 import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
 
 public class GeoGebra3D extends GeoGebra {
 
-	static {
-		RendererJogl.initSingleton();
-	}
+	// hopefully not needed in JOGL 2.3.2
+	// static {
+	// RendererJogl.initSingleton();
+	// }
 
 	public static void main(String[] cmdArgs) {
 		(new GeoGebra3D()).doMain(cmdArgs);
