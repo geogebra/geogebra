@@ -5,9 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.ShortBuffer;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.fixedfunc.GLLightingFunc;
-
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
@@ -24,8 +21,12 @@ import org.geogebra.common.jre.openGL.GLBufferIndicesJavaNio;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.main.AppD;
+
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.fixedfunc.GLLightingFunc;
 
 /**
  * Renderer using shaders
@@ -107,10 +108,8 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 		// Create GPU shader handles
 		// OpenGL ES returns an index id to be stored for future reference.
-		vertShader = jogl.getGL2ES2().glCreateShader(
-				javax.media.opengl.GL2ES2.GL_VERTEX_SHADER);
-		fragShader = jogl.getGL2ES2().glCreateShader(
-				javax.media.opengl.GL2ES2.GL_FRAGMENT_SHADER);
+		vertShader = jogl.getGL2ES2().glCreateShader(GL2ES2.GL_VERTEX_SHADER);
+		fragShader = jogl.getGL2ES2().glCreateShader(GL2ES2.GL_FRAGMENT_SHADER);
 
 		// Compile the vertexShader String into a program.
 		String[] vlines = new String[] { vertexShaderString };
@@ -127,14 +126,14 @@ public class RendererImplShadersD extends RendererImplShaders {
 		// Check compile status.
 		int[] compiled = new int[1];
 		jogl.getGL2ES2().glGetShaderiv((Integer) vertShader,
-				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS,
+				GL2ES2.GL_COMPILE_STATUS,
 				compiled, 0);
 		if (compiled[0] != 0) {
 			Log.debug("Vertex shader compiled");
 		} else {
 			int[] logLength = new int[1];
 			jogl.getGL2ES2().glGetShaderiv((Integer) vertShader,
-					javax.media.opengl.GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
+					GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
 			jogl.getGL2ES2().glGetShaderInfoLog((Integer) vertShader,
@@ -156,14 +155,14 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 		// Check compile status.
 		jogl.getGL2ES2().glGetShaderiv((Integer) fragShader,
-				javax.media.opengl.GL2ES2.GL_COMPILE_STATUS,
+				GL2ES2.GL_COMPILE_STATUS,
 				compiled, 0);
 		if (compiled[0] != 0) {
 			Log.debug("Fragment shader compiled");
 		} else {
 			int[] logLength = new int[1];
 			jogl.getGL2ES2().glGetShaderiv((Integer) fragShader,
-					javax.media.opengl.GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
+					GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
 			byte[] log = new byte[logLength[0]];
 			jogl.getGL2ES2().glGetShaderInfoLog((Integer) fragShader,
