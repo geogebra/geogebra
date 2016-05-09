@@ -53,7 +53,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.export.epsgraphics.ColorMode;
 import org.geogebra.common.export.epsgraphics.EpsGraphics;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FileExtensions;
@@ -461,7 +460,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			FontManagerD fm = app.getFontManager();
 			int fontSize = fm.getFontSize();
-			File pngDestination = getPNGdestination(app);
+			File pngDestination = toClipboard ? getTmpPNG()
+					: getPNGdestination(app);
 			if (pngDestination != null) {
 				if (app.has(Feature.DESKTOP_EXPORT_BRAILLE) && braille) {
 					fm.updateDefaultFonts(fontSize, brailleFont.getFontName(),
@@ -855,19 +855,18 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	final public static boolean exportPNGClipboard(
 			boolean transparent0, int dpi, double exportScale0, AppD app,
 			EuclidianViewInterfaceD ev) {
-		File file;
-		String tempDir = UtilD.getTempDir();
-
-			file = new File(tempDir + "geogebra.png");
+		File file = getTmpPNG();
 
 		return exportPNGSilent(file, true, transparent0, dpi,
 				exportScale0,
 				app, ev);
 	}
 
-	/*
-	 * Keylistener implementation of PropertiesDialog
-	 */
+
+	private static File getTmpPNG() {
+		String tempDir = UtilD.getTempDir();
+		return new File(tempDir + "geogebra.png");
+	}
 
 	private static File getPNGdestination(AppD app) {
 
