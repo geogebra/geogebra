@@ -79,13 +79,10 @@ public class JavaFontRenderingBox extends Box {
 		fontAdapter = new FontAdapter();
 		font = fontAdapter.createFont("Serif", Font.PLAIN, 10);
 
-		try { // to avoid problems with Java 1.5
-			KERNING = fontAdapter.getTextAttribute("KERNING");
-			KERNING_ON = fontAdapter.getTextAttributeValue("KERNING_ON");
-			LIGATURES = fontAdapter.getTextAttribute("LIGATURES");
-			LIGATURES_ON = fontAdapter.getTextAttributeValue("LIGATURES_ON");
-		} catch (Exception e) {
-		}
+		KERNING = fontAdapter.getTextAttribute("KERNING");
+		KERNING_ON = fontAdapter.getTextAttributeValue("KERNING_ON");
+		LIGATURES = fontAdapter.getTextAttribute("LIGATURES");
+		LIGATURES_ON = fontAdapter.getTextAttributeValue("LIGATURES_ON");
 	}
 
 	public JavaFontRenderingBox(String str, int type, float size, Font f, boolean kerning) {
