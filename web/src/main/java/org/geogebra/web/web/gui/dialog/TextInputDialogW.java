@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -139,7 +140,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			kernel = app.getKernel();
 		}
 
-		public void processInput(String input,
+		public void processInput(String input, ErrorHandler handler,
 				AsyncOperation<Boolean> callback) {
 			if (input == null) {
 				callback.callback(false);
@@ -176,10 +177,11 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			}
 			// create new GeoText
 			boolean createText = editGeo == null;
+			handler.showError(null);
 			if (createText) {
 				kernel.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(inputValue,
-								false, app.getErrorHandler(), true,
+								false, handler, true,
 								getCallback(callback));
 				return;
 
@@ -188,7 +190,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			// change existing text
 			try {
 				kernel.getAlgebraProcessor().changeGeoElement(editGeo,
-						inputValue, true, true,
+						inputValue, true, true, TextInputDialogW.this,
 						new AsyncOperation<GeoElement>() {
 
 							@Override

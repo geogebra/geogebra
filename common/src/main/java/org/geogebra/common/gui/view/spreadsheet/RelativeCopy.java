@@ -993,13 +993,6 @@ public class RelativeCopy {
 
 			}
 
-			public void setActive(boolean b) {
-				kernel.getApplication().setErrorHandler(b ? this:null);
-
-			}
-
-			
-
 			public void handleThrowable() {
 				 
 					// if exception is thrown treat the input as text and try to update

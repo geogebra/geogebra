@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
 public class RedefineInputHandler implements InputHandler {
@@ -36,7 +37,7 @@ public class RedefineInputHandler implements InputHandler {
 		return geo;
 	}
 
-	public void processInput(String rawInput,
+	public void processInput(String rawInput, ErrorHandler handler,
 			final AsyncOperation<Boolean> callback) {
 		if (rawInput == null) {
 			callback.callback(false);
@@ -58,7 +59,8 @@ public class RedefineInputHandler implements InputHandler {
 			}
 			final String input = inputValue;
 			app.getKernel().getAlgebraProcessor().changeGeoElement(geo,
-					inputValue, true, true, new AsyncOperation<GeoElement>() {
+					inputValue, true, true, handler,
+					new AsyncOperation<GeoElement>() {
 
 						@Override
 						public void callback(GeoElement newGeo) {

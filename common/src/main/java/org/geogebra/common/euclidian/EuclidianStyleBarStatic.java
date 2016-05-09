@@ -235,7 +235,8 @@ public class EuclidianStyleBarStatic {
 
 		try {
 			app.getKernel().getAlgebraProcessor().changeGeoElement(geo, cmdtext,
-					true, true, new AsyncOperation<GeoElement>() {
+					true, true, app.getDefaultErrorHandler(),
+					new AsyncOperation<GeoElement>() {
 
 						@Override
 						public void callback(GeoElement newGeo) {

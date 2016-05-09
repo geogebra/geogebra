@@ -1591,7 +1591,8 @@ public class RadioTreeItem extends AVTreeItem
 			if (geo != null) {
 				boolean redefine = !isMoveablePoint(geo);
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
-						redefine, true, new AsyncOperation<GeoElement>() {
+						redefine, true, app.getDefaultErrorHandler(),
+						new AsyncOperation<GeoElement>() {
 
 							@Override
 							public void callback(GeoElement geo2) {

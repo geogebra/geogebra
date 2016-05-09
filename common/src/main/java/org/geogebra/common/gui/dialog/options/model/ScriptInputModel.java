@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.Script;
@@ -88,7 +89,7 @@ public class ScriptInputModel extends OptionsModel {
 	}
 
 	public void processInput(String inputText, AsyncOperation<Boolean> callback) {
-		inputHandler.processInput(inputText, callback);
+		inputHandler.processInput(inputText, app.getErrorHandler(), callback);
 	}
 
 
@@ -132,7 +133,7 @@ public class ScriptInputModel extends OptionsModel {
 			kernel = app.getKernel();
 		}
 
-		public void processInput(String inputValue,
+		public void processInput(String inputValue, ErrorHandler handler,
 				AsyncOperation<Boolean> callback) {
 			if (inputValue == null) {
 				callback.callback(false);

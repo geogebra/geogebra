@@ -283,9 +283,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		}else{
 			forceHideKeyboard();
 			wrappedPopup.hide();
-			if(app!=null){
-				app.setErrorHandler(null);
-			}
 		}
 	};
 	
@@ -315,15 +312,19 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	    
     }
 
+	private boolean showingError = false;
 	@Override
     public void showError(String msg) {
 		if(msg == null){
-			return;
-		}
-		errorPanel.clear();
-		String[] lines = msg.split("\n");
-		for (String item : lines) {
-			errorPanel.add(new Label(item));
+			showingError = false;
+
+		} else if (!showingError) {
+			showingError = true;
+			errorPanel.clear();
+			String[] lines = msg.split("\n");
+			for (String item : lines) {
+				errorPanel.add(new Label(item));
+			}
 		}
 	    
     }
@@ -336,14 +337,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		return (inputPanel.getTextComponent() != null && source == inputPanel
                 .getTextComponent().getTextField().getValueBox());
 	}
-
-	@Override
-    public void setActive(boolean b) {
-	    if(app != null){
-	    	app.setErrorHandler(b ? this : null);
-	    }
-	    
-    }
 
 
 	public void showCommandError(String command, String message) {

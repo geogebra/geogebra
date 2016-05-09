@@ -4334,18 +4334,13 @@ public abstract class App implements UpdateSelection {
 		return url;
 	}
 
-	private ErrorHandler errorHandler;
 
 	public ErrorHandler getErrorHandler() {
-		return this.errorHandler == null ? getDefaultErrorHandler()
-				: this.errorHandler;
+		return getDefaultErrorHandler();
 	}
 
 	public ErrorHandler getDefaultErrorHandler() {
 		return ErrorHelper.silent();
 	}
 
-	public void setErrorHandler(ErrorHandler errorHandler) {
-		this.errorHandler = errorHandler;
-	}
 }

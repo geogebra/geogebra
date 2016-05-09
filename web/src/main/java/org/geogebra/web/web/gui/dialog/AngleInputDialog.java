@@ -78,7 +78,6 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 	protected void actionPerformed(DomEvent e) {
 		Object source = e.getSource();
 
-		boolean finished = false;
 		success=true;
 		try {
 
@@ -91,7 +90,7 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 					inputText = "-(" + inputText + ")";
 				}
 
-				inputHandler.processInput(inputText,
+				inputHandler.processInput(inputText, this,
 						new AsyncOperation<Boolean>() {
 
 							@Override
@@ -113,7 +112,7 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 
 	}
 
-	private void afterActionPerformed(boolean finished) {
+	void afterActionPerformed(boolean finished) {
 		if (finished) {
 			wrappedPopup.hide();
 			app.getActiveEuclidianView().requestFocusInWindow();

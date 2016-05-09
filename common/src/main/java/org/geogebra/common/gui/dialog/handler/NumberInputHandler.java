@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
 public class NumberInputHandler implements InputHandler {
@@ -29,11 +30,12 @@ public class NumberInputHandler implements InputHandler {
 		app = appl;
   }
   
-	public void processInput(String inputString,
+	public void processInput(String inputString, final ErrorHandler handler,
 			final AsyncOperation<Boolean> callback0) {
 		try {
+			handler.showError(null);
 			algebraProcessor.processAlgebraCommandNoExceptionHandling(
-					inputString, false, app.getErrorHandler(), true,
+					inputString, false, handler, true,
 					new AsyncOperation<GeoElement[]>() {
 
 						@Override
@@ -49,7 +51,8 @@ public class NumberInputHandler implements InputHandler {
 									callback.callback(num);
 								}
 							} else {
-								algebraProcessor.showError("NumberExpected");
+								handler.showError(app.getLocalization()
+										.getError("NumberExpected"));
 							}
 							if (callback0 != null) {
 								callback0.callback(success);

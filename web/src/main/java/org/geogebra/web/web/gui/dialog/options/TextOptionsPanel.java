@@ -223,7 +223,7 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 			@Override
 			public void onClick(ClickEvent event) {
 				model.applyEditedGeo(editor.getDynamicTextList(), isLatex(),
-						isSerif());
+						isSerif(), app.getDefaultErrorHandler());
 				((PropertiesViewW) app.getGuiManager().getPropertiesView())
 						.getOptionPanel(OptionType.OBJECTS, 1);
 			}

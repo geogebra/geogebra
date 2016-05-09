@@ -320,12 +320,12 @@ public class AlgebraProcessor {
 	 */
 	public void changeGeoElement(GeoElement geo, String newValue,
 			boolean redefineIndependent, boolean storeUndoInfo,
-			AsyncOperation<GeoElement> callback) {
+			ErrorHandler handler, AsyncOperation<GeoElement> callback) {
 
 		try {
 			changeGeoElementNoExceptionHandling(geo, newValue,
 					redefineIndependent, storeUndoInfo, callback,
-					app.getErrorHandler());
+					handler);
 		} catch (MyError e) {
 			app.showError(e);
 		} catch (Exception e) {

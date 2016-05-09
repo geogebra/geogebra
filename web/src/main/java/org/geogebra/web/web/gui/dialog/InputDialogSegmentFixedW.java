@@ -50,7 +50,7 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		inputHandler.processInput(inputPanel.getText(),
+		inputHandler.processInput(inputPanel.getText(), this,
 				new AsyncOperation<Boolean>() {
 
 					@Override

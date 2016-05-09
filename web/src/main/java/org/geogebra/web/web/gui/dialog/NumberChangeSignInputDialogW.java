@@ -46,6 +46,6 @@ public class NumberChangeSignInputDialogW extends InputDialogW{
 //		return success;
 		
 		((NumberChangeSignInputHandler) inputHandler).processInput(inputText,
-				changingSign && checkBox.getValue(), callback);
+				changingSign && checkBox.getValue(), this, callback);
 	}
 }

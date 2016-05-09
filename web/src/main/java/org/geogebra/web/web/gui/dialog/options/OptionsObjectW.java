@@ -391,7 +391,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			tfName.addFocusListener(new FocusListenerW(this){
 				@Override
 				protected void wrapFocusLost(){
-					model.applyNameChange(tfName.getText());
+					model.applyNameChange(tfName.getText(),
+							app.getErrorHandler());
 				}	
 			});
 			tfName.addKeyHandler(new KeyHandler() {
@@ -399,7 +400,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
-						model.applyNameChange(tfName.getText());
+						model.applyNameChange(tfName.getText(),
+								app.getErrorHandler());
 					}
 				}});
 
@@ -418,17 +420,17 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				@Override
 				protected void wrapFocusLost(){
 					model.redefineCurrentGeo(currentGeoForFocusLost,  tfDefinition.getText(), 
-							redefinitionForFocusLost); 
+							redefinitionForFocusLost, NamePanel.this);
 				}
 			});
 
-			;
 			tfDefinition.addKeyHandler(new KeyHandler() {
 
 				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
-						model.applyDefinitionChange(tfDefinition.getText());
+						model.applyDefinitionChange(tfDefinition.getText(),
+								NamePanel.this);
 					}
 
 				}});
@@ -495,16 +497,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			captionLabel.setText(loc.getMenu("Button.Caption") + ":");
 		}
 
+		@Override
 		public OptionPanel updatePanel(Object[] geos) {
 			OptionPanel result = super.updatePanel(geos);
-			setActive(result != null);
 			return result;
 		}
 		
 		@Override
 		public void updateGUI(boolean showDefinition, boolean showCaption) {
 			mainWidget.clear();
-			setActive(true);
 //			if (loc.isRightToLeftReadingOrder()) {
 //				mainWidget.add(inputPanelName);
 //				mainWidget.add(nameLabel);
@@ -630,12 +631,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				errorPanel.add(new Label(item));
 			}
 
-		}
-
-
-
-		public void setActive(boolean b) {
-			getAppW().setErrorHandler(b ? this : null);
 		}
 
 		public void showCommandError(String command, String message) {

@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 
@@ -297,7 +298,7 @@ public abstract class DialogManager {
 	public static void makeRegularPolygon(final App app,
 			final EuclidianController ec, String inputString,
 			final GeoPointND geoPoint1, final GeoPointND geoPoint2,
-			final AsyncOperation<Boolean> cb) {
+			final ErrorHandler handler, final AsyncOperation<Boolean> cb) {
 		if (inputString == null || "".equals(inputString)) {
 			if (cb != null) {
 				cb.callback(false);
@@ -322,8 +323,8 @@ public abstract class DialogManager {
 				boolean success = result != null && result[0] instanceof GeoNumberValue;
 
 				if (!success) {
-					kernel.getAlgebraProcessor().showError("NumberExpected");
-					return;
+					handler.showError(
+							app.getLocalization().getError("NumberExpected"));
 				}
 
 				GeoElement[] geos = ec.getCompanion().regularPolygon(geoPoint1,
@@ -342,7 +343,7 @@ public abstract class DialogManager {
 		
 		kernel.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(inputString, false,
-						app.getErrorHandler(), true, checkNumber);
+						handler, true, checkNumber);
 
 	}
 
@@ -535,6 +536,7 @@ public abstract class DialogManager {
 	public static void makeCircleRadius(final App app,
 			final EuclidianController ec,
 			String inputString, final GeoPointND geoPoint,
+			final ErrorHandler handler,
 			final AsyncOperation<Boolean> callback) {
 		if (inputString == null || "".equals(inputString)) {
 			if (callback != null) {
@@ -552,7 +554,7 @@ public abstract class DialogManager {
 
 		kernel.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(inputString, false,
-						app.getErrorHandler(), true,
+						handler, true,
 						new AsyncOperation<GeoElement[]>() {
 
 							@Override
@@ -562,8 +564,10 @@ public abstract class DialogManager {
 								boolean success = result != null
 										&& result[0] instanceof GeoNumberValue;
 								if (!success) {
-									kernel.getAlgebraProcessor()
-											.showError("NumberExpected");
+									handler
+											.showError(app.getLocalization()
+													.getError(
+															"NumberExpected"));
 									if (callback != null) {
 										callback.callback(false);
 									}

@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
 public class ObjectNameModel extends OptionsModel {
@@ -110,10 +111,11 @@ public class ObjectNameModel extends OptionsModel {
 		return (getGeosLength() == 1);
 	}
 
-	public void applyNameChange(final String name) {
+	public void applyNameChange(final String name, ErrorHandler handler) {
 
 		nameInputHandler.setGeoElement(currentGeo);
-		nameInputHandler.processInput(name, new AsyncOperation<Boolean>() {
+		nameInputHandler.processInput(name, handler,
+				new AsyncOperation<Boolean>() {
 
 			@Override
 			public void callback(Boolean obj) {
@@ -131,9 +133,10 @@ public class ObjectNameModel extends OptionsModel {
 	
 	}
 	
-	public void applyDefinitionChange(final String definition) {
+	public void applyDefinitionChange(final String definition,
+			ErrorHandler handler) {
 		if (!definition.equals(getDefText(currentGeo))) {
-			defInputHandler.processInput(definition,
+			defInputHandler.processInput(definition, handler,
 					new AsyncOperation<Boolean>() {
 
 						@Override
@@ -174,7 +177,8 @@ public class ObjectNameModel extends OptionsModel {
 		currentGeo.updateVisualStyleRepaint(GProperty.CAPTION);
 	}
 
-	public void redefineCurrentGeo(GeoElement geo, final String text, final String redefinitionText) {
+	public void redefineCurrentGeo(GeoElement geo, final String text,
+			final String redefinitionText, ErrorHandler handler) {
 		setBusy(true);
 
 		if (isRedefinitionFailed()) {
@@ -187,7 +191,7 @@ public class ObjectNameModel extends OptionsModel {
 				
 				listener.setDefinitionText(text);
 				defInputHandler.setGeoElement(geo);
-				defInputHandler.processInput(text,
+				defInputHandler.processInput(text, handler,
 						new AsyncOperation<Boolean>() {
 
 							@Override
@@ -205,7 +209,7 @@ public class ObjectNameModel extends OptionsModel {
 			String strDefinition = redefinitionText;
 			if (!strDefinition.equals(getDefText(geo))) {
 				defInputHandler.setGeoElement(geo);
-				defInputHandler.processInput(strDefinition,
+				defInputHandler.processInput(strDefinition, handler,
 						new AsyncOperation<Boolean>() {
 
 							@Override

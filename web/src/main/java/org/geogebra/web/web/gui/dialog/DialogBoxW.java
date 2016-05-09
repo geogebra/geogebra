@@ -61,18 +61,11 @@ public class DialogBoxW extends GDialogBox {
 		}
 	}
 	
+	@Override
 	public void show(){ 
 		super.show();
 		if(eh != null){
-			eh.showError(null); 
-			eh.setActive(true);
-		}
-	} 
-			 	                         
-	public void hide(){ 
-		super.hide(); 
-		if(eh != null){
-			eh.setActive(false);
+			eh.showError(null);
 		}
 	}
 

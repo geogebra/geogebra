@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
 public class RenameInputHandler implements InputHandler {
@@ -29,7 +30,7 @@ public class RenameInputHandler implements InputHandler {
 		this.geo = geo;
 	}
 
-	public void processInput(String inputValue,
+	public void processInput(String inputValue, ErrorHandler handler,
 			AsyncOperation<Boolean> callback) {
 		GeoElement geo = this.geo;
 		

@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.handler;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
 /**
@@ -25,16 +26,16 @@ public class NumberChangeSignInputHandler extends NumberInputHandler {
    * @return number handled
    */
 	public void processInput(String inputString, boolean changeSign,
-			AsyncOperation<Boolean> callback) {
+			ErrorHandler handler, AsyncOperation<Boolean> callback) {
 		if (changeSign) {
 			StringBuilder sb = new StringBuilder();
 			sb.append("-(");
 			sb.append(inputString);
 			sb.append(")");
-			processInput(sb.toString(), callback);
+			processInput(sb.toString(), handler, callback);
 		} else {
 
-			processInput(inputString, callback);
+			processInput(inputString, handler, callback);
     }
   }
 }

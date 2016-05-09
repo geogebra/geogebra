@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 
@@ -291,14 +292,15 @@ public class TextOptionsModel extends OptionsModel {
 	}
 
 	public void applyEditedGeo(ArrayList<DynamicTextElement> text,
-			final boolean isLatex, final boolean isSerif) {
+			final boolean isLatex, final boolean isSerif,
+			ErrorHandler handler) {
 		GeoText geo0 = getGeoTextAt(0);
 		app
 				.getKernel()
 				.getAlgebraProcessor()
 				.changeGeoElement(geo0,
 						dTProcessor.buildGeoGebraString(text, isLatex), true,
-						true, new AsyncOperation<GeoElement>() {
+						true, handler, new AsyncOperation<GeoElement>() {
 
 							@Override
 							public void callback(GeoElement geo1) {
