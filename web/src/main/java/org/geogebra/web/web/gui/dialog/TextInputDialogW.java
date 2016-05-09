@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.dialog;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.TextInputDialog;
@@ -28,6 +29,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 	private int cols;
 	private int rows;
 	private String dialogTitle;
+	private boolean isTextMode;
 
 	public TextInputDialogW(App app2, String title, GeoText editGeo,
             GeoPointND startPoint, boolean rw, int cols, int rows, boolean isTextMode) {
@@ -37,7 +39,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		dialogTitle = title;
 		this.cols = cols;
 		this.rows = rows;
-//		this.isTextMode = isTextMode;
+		this.isTextMode = isTextMode;
 		this.editGeo = editGeo;
 //		textInputDialog = this;
 		inputHandler = new TextInputHandler();
@@ -83,6 +85,13 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 	 */
 	void resetEditor() {
 		editor = null;
+	}
+
+	protected void resetMode() {
+		if (isTextMode) {
+			app.setMode(EuclidianConstants.MODE_TEXT);
+		}
+
 	}
 	/**
 	 * Updates latex / serif / font size of the text from GUI
@@ -339,6 +348,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 			// return;
 		}
+		isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
 		this.startPoint = startPoint2;
 		this.rw = rw1;
 		setGeoText(text);

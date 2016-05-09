@@ -245,6 +245,9 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 				@Override
 				public void callback(Boolean ok) {
 					setVisible(!ok);
+					if (ok) {
+						resetMode();
+					}
 
 				}
 			});
@@ -259,7 +262,13 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			        tempArrayList);
 		} else if (source == btCancel) {
 			cancel();
+			resetMode();
 		}
+	}
+
+	protected void resetMode() {
+		// only needed for texts
+
 	}
 
 	protected void cancel() {

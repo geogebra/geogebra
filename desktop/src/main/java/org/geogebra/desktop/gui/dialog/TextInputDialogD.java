@@ -235,6 +235,7 @@ public class TextInputDialogD extends InputDialogD
 		this.startPoint = startPoint;
 		this.rw = rw;
 		setGeoText(text);
+		isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
 		textPreviewer.updatePreviewText(text,
 				editor.buildGeoGebraString(isLaTeX), isLaTeX);
 		editor.requestFocus();
@@ -770,8 +771,11 @@ public class TextInputDialogD extends InputDialogD
 									else
 										setVisible(!finished);
 
-									// if(isTextMode)
-									// app.setMode(EuclidianConstants.MODE_TEXT);
+									if (isTextMode) {
+										app.setMode(
+												EuclidianConstants.MODE_TEXT);
+										return;
+									}
 								}
 								if (finished)
 									app.setMode(EuclidianConstants.MODE_MOVE);
