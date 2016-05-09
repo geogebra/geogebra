@@ -738,6 +738,8 @@ public abstract class EuclidianController {
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(Test.GEOIMAGE,
 						tempArrayList));
+				initNewMode(newMode, false);
+				return;
 			}
 		}
 
@@ -756,9 +758,7 @@ public abstract class EuclidianController {
 			if (app.getActiveEuclidianView() == view) {
 				processSelection();
 			}
-		} else if ((app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
-				&& newMode == EuclidianConstants.MODE_IMAGE)) {
-			initNewMode(newMode, false);
+
 		} else {
 			if (!temporaryMode) {
 				selection.clearSelectedGeos(false);
