@@ -83,7 +83,13 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// Geogebra
 		iconPanel.add(new NoDragImage(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString()));
 		// Facebook
-		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_facebook().getSafeUri().asString()));
+		// iconPanel.add(new
+		iconPanel.add(new Anchor(new NoDragImage(AppResources.INSTANCE
+				.social_facebook().getSafeUri().asString()).toString(), true,
+				"https://www.facebook.com/sharer/sharer.php?u=" + TUBEURL
+						+ sharingKey,
+				"_blank"));
+
 		// Twitter
 		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_twitter().getSafeUri().asString()));
 
