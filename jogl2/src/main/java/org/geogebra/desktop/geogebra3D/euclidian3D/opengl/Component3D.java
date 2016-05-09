@@ -4,7 +4,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
 
-import com.jogamp.opengl.GLEventListener;
+import javax.media.opengl.GLEventListener;
 
 
 
