@@ -911,7 +911,7 @@ public class TeXFormula {
 	}
 
 	public void setDEBUG(boolean b) {
-		Box.DEBUG = b;
+		//Box.DEBUG = b;
 	}
 
 	/**

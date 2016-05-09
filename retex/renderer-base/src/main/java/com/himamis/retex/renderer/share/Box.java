@@ -74,7 +74,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Stroke;
  */
 public abstract class Box {
 
-	public static boolean DEBUG = false;
+	final public static boolean DEBUG = false;
 
 	/**
 	 * Factory providing platform independent implementations of forms used for drawing.
