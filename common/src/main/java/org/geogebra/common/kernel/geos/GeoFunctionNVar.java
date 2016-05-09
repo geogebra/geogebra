@@ -109,6 +109,8 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	 *            construction
 	 * @param f
 	 *            function to be wrapped
+	 * @param simplifyInt
+	 *            whether integers should be simplified eg 2*2 replaced by 4
 	 */
 	public GeoFunctionNVar(Construction c, FunctionNVar f, boolean simplifyInt) {
 		this(c, false);
@@ -125,14 +127,11 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	 * 
 	 * @param c
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param f
 	 *            function to be wrapped
 	 */
 	public GeoFunctionNVar(Construction c, FunctionNVar f) {
 		this(c, f, true);
-		setLabel(label);
 	}
 
 	/**
@@ -308,9 +307,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	 *            x
 	 * @param y
 	 *            y
-	 * @param z
-	 *            z
-	 * @return value at (x,y,z)
+	 * @return value at (x,y)
 	 */
 	public double evaluate(double x, double y) {
 		// Application.printStacktrace("");
