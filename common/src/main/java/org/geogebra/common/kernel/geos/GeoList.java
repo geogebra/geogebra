@@ -3017,4 +3017,27 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		}
 		return false;
 	}
+
+	/**
+	 * Gets LaTeX string including the label for edit
+	 * 
+	 * @param substituteNumbers
+	 *            whether value should be used
+	 * @param tpl
+	 *            template
+	 * @return string for AV editing
+	 */
+
+	@Override
+	public String getLaTeXAlgebraDescriptionWithFallback(
+			final boolean substituteNumbers, StringTemplate tpl,
+			boolean fallback) {
+		if (isEditableMatrix()) {
+			return getLabel(tpl) + " = "
+					+ toLaTeXString(!substituteNumbers, tpl);
+		}
+		return super.getLaTeXAlgebraDescriptionWithFallback(substituteNumbers,
+				tpl, fallback);
+	}
+
 }

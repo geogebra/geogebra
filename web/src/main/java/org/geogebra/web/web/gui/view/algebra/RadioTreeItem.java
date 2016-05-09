@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -143,7 +142,6 @@ public class RadioTreeItem extends AVTreeItem
 
 	private static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
-	private static final String REFX = "[AVR]";
 
 	private static final int SLIDER_EXT = 15;
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
@@ -215,7 +213,6 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private class MarblePanel extends FlowPanel {
-		private static final int BACKGROUND_ALPHA = 60;
 		private Marble marble;
 		private boolean selected = false;
 
@@ -274,7 +271,6 @@ public class RadioTreeItem extends AVTreeItem
 
 	static final String GTE_SIGN = "\u2264";
 
-	private static final String DV = "[DV]";
 	private LongTouchManager longTouchManager;
 
 	/**
@@ -1504,10 +1500,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
-		return geo.isGeoList() && ((GeoList) geo).isEditableMatrix()
-				? geo.toEditableLaTeXString(!substituteNumbers,
-						tpl)
-				: geo.getLaTeXAlgebraDescriptionWithFallback(
+		return geo.getLaTeXAlgebraDescriptionWithFallback(
 						substituteNumbers
 								|| (geo instanceof GeoNumeric
 										&& geo.isSimple()),
@@ -2285,6 +2278,11 @@ marblePanel, evt))) {
 		// only show the delete button, but not the extras
 	}
 
+	/**
+	 * 
+	 * @param event
+	 *            mouse move event
+	 */
 	private void onPointerMove(AbstractEvent event) {
 		/*
 		 * // tell EuclidianView to handle mouse over
@@ -2460,8 +2458,16 @@ marblePanel, evt))) {
 		}
 	}
 
+	/**
+	 * Update GUI after focus
+	 * 
+	 * @param source
+	 *            event source
+	 * @param blurtrue
+	 *            blur
+	 */
 	protected void updateGUIfocus(Object source, boolean blurtrue) {
-
+		// only in input element
 	}
 
 	@Override
@@ -2652,7 +2658,7 @@ marblePanel, evt))) {
 	}
 
 	public void autocomplete(String s) {
-
+		// TODO implement autocomplete in RTI
 	}
 
 	public FlowPanel getPlainTextItem() {

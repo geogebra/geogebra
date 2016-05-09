@@ -171,6 +171,14 @@ CasEvaluableFunction, ParametricCurve,
 		initFunction(true);
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param f
+	 *            function
+	 * @param simplifyInt
+	 *            whether integer subexperessions should be simplified
+	 */
 	public GeoFunction(Construction c, Function f, boolean simplifyInt) {
 		super(c);
 		surfaceEvaluables = new TreeSet<SurfaceEvaluable>();
@@ -407,8 +415,12 @@ CasEvaluableFunction, ParametricCurve,
 		
 		return removed;
 	}
+	
 	/**
 	 * initializes function type; if boolean, uses default styl for inequalities
+	 * 
+	 * @param simplifyInt
+	 *            whether integer subexperessions should be simplified
 	 */
 	public void initFunction(boolean simplifyInt) {
 		fun.initFunction(simplifyInt);
@@ -2898,6 +2910,10 @@ CasEvaluableFunction, ParametricCurve,
 
 	/**
 	 * GGB-605
+	 * 
+	 * @param algo
+	 *            algorithm to be used for value string instead of secret
+	 *            expression
 	 */
 	public void setSecret(AlgoElement algo) {
 		if (getFunction() != null) {
@@ -2905,8 +2921,8 @@ CasEvaluableFunction, ParametricCurve,
 		}
 	}
 
-	public void printCASEvalMapXML(StringBuilder sb) {
-		fun.printCASevalMapXML(sb);
+	public void printCASEvalMapXML(StringBuilder sbXML) {
+		fun.printCASevalMapXML(sbXML);
 	}
 
 	public void updateCASEvalMap(TreeMap<String, String> map) {
