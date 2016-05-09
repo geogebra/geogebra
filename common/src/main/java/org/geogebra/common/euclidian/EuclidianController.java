@@ -756,6 +756,9 @@ public abstract class EuclidianController {
 			if (app.getActiveEuclidianView() == view) {
 				processSelection();
 			}
+		} else if ((app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
+				&& newMode == EuclidianConstants.MODE_IMAGE)) {
+			initNewMode(newMode, false);
 		} else {
 			if (!temporaryMode) {
 				selection.clearSelectedGeos(false);
@@ -10264,6 +10267,10 @@ public abstract class EuclidianController {
 	}
 
 	protected void initNewMode(int newMode) {
+		initNewMode(newMode, true);
+	}
+
+	protected void initNewMode(int newMode, boolean clear) {
 
 		boolean wasUndoableMode = isUndoableMode();
 
@@ -10277,9 +10284,9 @@ public abstract class EuclidianController {
 		initShowMouseCoords();
 		// Michael Borcherds 2007-10-12
 		// clearSelections();
-		if (!temporaryMode
+		if (clear && (!temporaryMode
 				&& !(EuclidianView.usesSelectionRectangleAsInput(newMode) && view
-						.getSelectionRectangle() != null)) {
+.getSelectionRectangle() != null))) {
 			clearSelections();
 		}
 		// Michael Borcherds 2007-10-12

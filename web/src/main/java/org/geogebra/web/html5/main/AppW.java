@@ -1562,6 +1562,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		geoImage.setImageFileName(imgFileName, width, height);
 		if (has(Feature.IMAGE_DIALOG_IMMEDIATELY)) {
 			getGuiManager().setImageCornersFromSelection(geoImage);
+			setDefaultCursor();
 			return;
 		}
 
@@ -1609,7 +1610,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		getActiveEuclidianView().getEuclidianController().clearSelections();
 		getActiveEuclidianView().getEuclidianController()
 		        .memorizeJustCreatedGeos(geos);
-		setDefaultCursor();
+
 	}
 
 	/**
