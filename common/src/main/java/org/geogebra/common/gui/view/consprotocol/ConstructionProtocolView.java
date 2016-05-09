@@ -584,6 +584,8 @@ public class ConstructionProtocolView {
 		public void clearView() {
 			rowList.clear();
 			geoMap.clear();
+			notifyClear();
+			kernel.notifyRepaint();
 			updateNavigationBars();
 		}
 
