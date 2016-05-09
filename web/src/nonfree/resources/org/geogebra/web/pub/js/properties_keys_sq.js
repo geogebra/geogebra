@@ -2940,7 +2940,7 @@ __GGB__keysVar.sq.plain = {
     "UntitledConstruction": "Ndertim i Patitulluar",
     "Up": "Lart",
     "Upload": "Ngarko",
-    "UploadError": "Nuk munda te hyj ne GjeoGjebra-Tjub. Deshtim Ngarkimi. ( Kod Gabimi %0)",
+    "UploadError": "Nuk munda te hyj ne GeoGebra. Deshtim Ngarkimi. ( Kod Gabimi %0)",
     "UploadPrepare": "Pergatitje per Ngarkim",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Perdor Java lloj-shkrimi per tekste LaTeX",
