@@ -738,7 +738,7 @@ public abstract class EuclidianController {
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(Test.GEOIMAGE,
 						tempArrayList));
-				initNewMode(newMode, false);
+				// initNewMode(newMode, false);
 				return;
 			}
 		}
