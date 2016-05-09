@@ -56,7 +56,7 @@ import org.geogebra.desktop.main.AppD;
  * @author mathieu
  * @version
  */
-public class PropertiesViewD extends PropertiesView {
+public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 	// private GeoTree geoTree;
 
