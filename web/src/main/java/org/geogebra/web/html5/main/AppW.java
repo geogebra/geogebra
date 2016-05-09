@@ -2629,7 +2629,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 
 		if (viewID == App.VIEW_CAS) {
-			return getExam() == null || getExam().isCASAllowed();
+			return (getExam() == null || getExam().isCASAllowed())
+					&& getArticleElement().getDataParamEnableCAS(true);
 		}
 
 		return viewID != App.VIEW_EUCLIDIAN3D;
