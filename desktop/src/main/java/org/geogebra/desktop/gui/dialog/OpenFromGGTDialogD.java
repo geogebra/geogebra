@@ -3,16 +3,16 @@ package org.geogebra.desktop.gui.dialog;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 
+import javax.swing.SwingUtilities;
+
+import org.geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.main.AppD;
+import org.w3c.dom.events.Event;
+
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.scene.web.WebEvent;
-
-import javax.swing.SwingUtilities;
-
-import org.geogebra.common.main.App;
-import org.geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
-import org.geogebra.desktop.main.AppD;
-import org.w3c.dom.events.Event;
 
 /**
  * A dialog for searching and opening materials from GeoGebraTube This dialog
@@ -80,7 +80,7 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 	 *            The URL of the material to load
 	 */
 	void openURL(final String url) {
-		App.debug("Opening material from URL: " + url);
+		Log.debug("Opening material from URL: " + url);
 
 		// Close the dialog
 		SwingUtilities.invokeLater(new Runnable() {
@@ -97,7 +97,7 @@ public class OpenFromGGTDialogD extends WebViewDialog {
 	@Override
 	void onHyperlinkClicked(String href, String absoluteURL, String domainName,
 			Event ev) {
-		App.debug("Link clicked: " + href);
+		Log.debug("Link clicked: " + href);
 
 		if (!href.contains("/page/")) {
 

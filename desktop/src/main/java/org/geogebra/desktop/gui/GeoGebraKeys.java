@@ -139,7 +139,7 @@ public class GeoGebraKeys implements KeyListener {
 			if (!e.isAltDown() && numpad)
 				keyString = e.getKeyChar() + "";
 
-			App.debug("Key pressed " + StringUtil.toHexString(e.getKeyChar())
+			Log.debug("Key pressed " + StringUtil.toHexString(e.getKeyChar())
 					+ " " + keyString);
 
 			// workaround for different Java versions!!
@@ -154,7 +154,7 @@ public class GeoGebraKeys implements KeyListener {
 			else if (keyString.equals("equals"))
 				keyString = "=";
 			else if (keyString.length() > 1)
-				App.debug("Unknown keyString: " + keyString);
+				Log.debug("Unknown keyString: " + keyString);
 
 			switch (e.getKeyChar()) {
 			// workaround for shifted characters:

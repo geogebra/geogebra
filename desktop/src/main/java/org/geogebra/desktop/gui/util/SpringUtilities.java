@@ -7,7 +7,7 @@ import javax.swing.JSeparator;
 import javax.swing.Spring;
 import javax.swing.SpringLayout;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.TitleLabel;
 
 /**
@@ -21,9 +21,9 @@ public class SpringUtilities {
 	 * preferred, and maximum sizes.
 	 */
 	public static void printSizes(Component c) {
-		App.debug("minimumSize = " + c.getMinimumSize());
-		App.debug("preferredSize = " + c.getPreferredSize());
-		App.debug("maximumSize = " + c.getMaximumSize());
+		Log.debug("minimumSize = " + c.getMinimumSize());
+		Log.debug("preferredSize = " + c.getPreferredSize());
+		Log.debug("maximumSize = " + c.getMaximumSize());
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class SpringUtilities {
 		try {
 			layout = (SpringLayout) parent.getLayout();
 		} catch (ClassCastException exc) {
-			App.debug("The first argument to makeGrid must use SpringLayout.");
+			Log.debug("The first argument to makeGrid must use SpringLayout.");
 			return;
 		}
 
@@ -156,7 +156,7 @@ public class SpringUtilities {
 		try {
 			layout = (SpringLayout) parent.getLayout();
 		} catch (ClassCastException exc) {
-			App.debug("The first argument to makeCompactGrid must use SpringLayout.");
+			Log.debug("The first argument to makeCompactGrid must use SpringLayout.");
 			return;
 		}
 

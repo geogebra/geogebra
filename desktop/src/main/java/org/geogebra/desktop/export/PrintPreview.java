@@ -46,6 +46,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
@@ -182,7 +183,7 @@ public class PrintPreview extends JDialog {
 							setVisible(false);
 						} catch (PrinterException ex) {
 							ex.printStackTrace();
-							App.debug("Printing error: " + ex.toString());
+							Log.debug("Printing error: " + ex.toString());
 						}
 					}
 				};
@@ -552,7 +553,7 @@ public class PrintPreview extends JDialog {
 		pageFormat.setOrientation(m_orientation);
 
 		if (pageFormat.getWidth() == 0 || pageFormat.getHeight() == 0) {
-			App.debug("Unable to determine default page size");
+			Log.debug("Unable to determine default page size");
 			return;
 		}
 
@@ -635,7 +636,7 @@ public class PrintPreview extends JDialog {
 				PageFormat pageFormat = getDefaultPageFormat();
 				pageFormat.setOrientation(m_orientation);
 				if (pageFormat.getHeight() == 0 || pageFormat.getWidth() == 0) {
-					App.debug("Unable to determine default page size");
+					Log.debug("Unable to determine default page size");
 					return;
 				}
 				PagePreview pp = new PagePreview(m_target.get(i), pageFormat,

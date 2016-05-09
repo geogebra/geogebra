@@ -25,8 +25,8 @@ import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.gui.SetOrientation;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.view.Gridable;
@@ -328,7 +328,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	}
 
 	public boolean hasFocus() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		return false;
 	}
 
@@ -336,7 +336,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 	}
 
 	public boolean isShowing() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		return false;
 	}
 

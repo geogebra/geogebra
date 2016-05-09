@@ -825,7 +825,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 					syntaxes.add(macro.toString());
 				} else {
 					// syntaxes.add(cmdInt + "[]");
-					App.debug("Can't find syntax for: " + cmd);
+					Log.debug("Can't find syntax for: " + cmd);
 				}
 
 				continue;

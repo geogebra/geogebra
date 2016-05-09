@@ -11,7 +11,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * This class provides static methods for conveniently installing auto
@@ -34,7 +34,7 @@ public class AutoCompletion {
 			return System.getProperty("os.name").toLowerCase()
 					.contains("windows");
 		} catch (SecurityException ex) {
-			App.debug("Could not determine underlying os: " + ex);
+			Log.debug("Could not determine underlying os: " + ex);
 			return false;
 		}
 	}
@@ -64,7 +64,7 @@ public class AutoCompletion {
 		// Extract internal text field
 		JTextField textField = getInternalTextField(fileChooser);
 		if (null == textField) {
-			App.debug("Could not find an instance of JTextField inside the file chooser: "
+			Log.debug("Could not find an instance of JTextField inside the file chooser: "
 					+ fileChooser);
 			return;
 		}

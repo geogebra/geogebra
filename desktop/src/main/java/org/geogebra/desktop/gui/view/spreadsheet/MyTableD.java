@@ -51,6 +51,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
@@ -687,12 +688,12 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	}
 
 	private void printSelectionParameters() {
-		App.debug("----------------------------------");
-		App.debug("minSelectionColumn = " + minSelectionColumn);
-		App.debug("maxSelectionColumn = " + maxSelectionColumn);
-		App.debug("minSelectionRow = " + minSelectionRow);
-		App.debug("maxSelectionRow = " + maxSelectionRow);
-		App.debug("----------------------------------");
+		Log.debug("----------------------------------");
+		Log.debug("minSelectionColumn = " + minSelectionColumn);
+		Log.debug("maxSelectionColumn = " + maxSelectionColumn);
+		Log.debug("minSelectionRow = " + minSelectionRow);
+		Log.debug("maxSelectionRow = " + maxSelectionRow);
+		Log.debug("----------------------------------");
 	}
 
 	/**
@@ -1608,7 +1609,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			}
 		}
 		if (doColumns) {
-			App.debug("MyTableD.fitAll is only partly implemented");
+			Log.debug("MyTableD.fitAll is only partly implemented");
 			// for (int column = 0; column < getColumnCount(); column++) {
 			// TODO:test//fitColumn(column);
 			// }

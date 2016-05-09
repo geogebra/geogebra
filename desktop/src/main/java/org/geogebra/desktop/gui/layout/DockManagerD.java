@@ -1521,7 +1521,7 @@ public class DockManagerD extends DockManager
 	}
 
 	public void exitAllCurrent() {
-		App.debug("closing panels");
+		Log.debug("closing panels");
 		for (DockPanelD d : this.dockPanels) {
 			if (d.getFrame() != null) {
 				d.getFrame().setVisible(false);

@@ -853,7 +853,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 
 			// eg want "Norwegian", not "Norwegian (Bokmal)" etc
 			languages[i + 1] = loc1.getDisplayLanguage(Locale.ENGLISH);
-			App.debug(languages[i + 1]);
+			Log.debug(languages[i + 1]);
 			if (languages[i + 1] == "engb") {
 				languages[i + 1] = Language.getDisplayName("enGB");
 			}

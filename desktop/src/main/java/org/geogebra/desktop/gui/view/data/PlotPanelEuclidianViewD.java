@@ -33,7 +33,7 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewCommon;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.export.GraphicExportDialog;
@@ -438,7 +438,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 							d.setVisible(true);
 
 						} catch (Exception ex) {
-							App.debug("GraphicExportDialog not available");
+							Log.debug("GraphicExportDialog not available");
 						}
 						getApplication().setDefaultCursor();
 					}

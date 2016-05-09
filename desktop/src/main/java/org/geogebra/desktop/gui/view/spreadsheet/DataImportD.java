@@ -15,6 +15,7 @@ import javax.swing.text.html.parser.ParserDelegator;
 
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -89,7 +90,7 @@ public class DataImportD extends DataImport {
 						.getTransferData(DataFlavor.stringFlavor);
 				// Application.debug("pasting from String: "+buf);
 			} catch (Exception ex) {
-				App.debug("transferable has no String");
+				Log.debug("transferable has no String");
 				// ex.printStackTrace();
 				// app.showError(ex.getMessage());
 			}
@@ -179,7 +180,7 @@ public class DataImportD extends DataImport {
 		}
 
 		catch (Exception e) {
-			App.debug("clipboard: no HTML");
+			Log.debug("clipboard: no HTML");
 		}
 
 		if (sbHTML.length() != 0) {

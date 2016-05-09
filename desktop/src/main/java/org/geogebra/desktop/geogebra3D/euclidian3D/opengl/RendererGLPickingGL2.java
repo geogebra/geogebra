@@ -11,7 +11,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
@@ -19,7 +19,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 
 	public RendererGLPickingGL2(EuclidianView3D view, boolean useCanvas) {
 		super(view, useCanvas);
-		App.debug("Renderer with old GL, GL picking created");
+		Log.debug("Renderer with old GL, GL picking created");
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 	@Override
 	protected void doPick() {
 
-		// App.debug("geoToPickSize = "+geoToPickSize);
+		// Log.debug("geoToPickSize = "+geoToPickSize);
 		if (geoToPickSize != oldGeoToPickSize || needsNewPickingBuffer) {
 			int bufSize = geoToPickSize * 3 + 1 + 20;   // geoToPickSize * 3 due to pick as outline + surface + label
 			 											// TODO remove "+20" due
@@ -136,7 +136,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 		 */
 		// view3D.setHits(hits3D);
 
-		// App.debug(hits3D);
+		// Log.debug(hits3D);
 
 		waitForPick = false;
 
@@ -175,7 +175,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 										// drawable
 					drawHits[num].setZPick(zNear, zFar);
 				} else { // if for hits array, some checks are done
-							// App.debug("\n"+drawHits[num].getGeoElement());
+							// Log.debug("\n"+drawHits[num].getGeoElement());
 					if (!((EuclidianController3D) view3D
 							.getEuclidianController())
 							.useInputDepthForHitting()// (mouse instanceof
@@ -199,7 +199,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 							type = PickingType.SURFACE;
 						}
 						hits3D.addDrawable3D(drawHits[num], type, zNear, zFar);
-						// App.debug("\n"+drawHits[num].getGeoElement()+"\nzFar = "+zFar+"\nmouse z ="+((GPointWithZ)
+						// Log.debug("\n"+drawHits[num].getGeoElement()+"\nzFar = "+zFar+"\nmouse z ="+((GPointWithZ)
 						// mouse).getZ());
 					}
 				}

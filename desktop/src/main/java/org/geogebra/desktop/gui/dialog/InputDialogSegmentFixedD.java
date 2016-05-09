@@ -8,7 +8,6 @@ import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -36,7 +35,6 @@ public class InputDialogSegmentFixedD extends InputDialogD {
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		App.debug("inputdialogsegmentfixed actionperformed");
 		Object source = e.getSource();
 
 		try {

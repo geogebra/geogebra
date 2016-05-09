@@ -20,8 +20,8 @@ import java.io.FileOutputStream;
 import java.util.Locale;
 import java.util.Properties;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.Base64;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class GeoGebraPortablePreferences
@@ -108,7 +108,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 				clearPreferences(); // clean and store a blank one.
 			}// if
 		} catch (Exception e) {
-			App.debug("Problem loading settings file...");
+			Log.debug("Problem loading settings file...");
 			e.printStackTrace();
 		}// try-catch
 	}// loadPreferences
@@ -122,7 +122,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 				properties.store(os, COMMENT); // Application.debug("storePreferences(): ");properties.list(System.out);
 				os.close();
 			} catch (Exception e) {
-				App.debug("Problem with storing of preferences.properties..."
+				Log.debug("Problem with storing of preferences.properties..."
 						+ e.toString());
 			}// try-catch
 		}// if not read-only. (else do nothing...)
@@ -277,7 +277,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			// Must convert String--b64-->byte
 			String ggtString = get(TOOLS_FILE_GGT, ERROR);
 			if (ggtString.equals(ERROR)) {
-				App.debug("problem with getting GGT...");
+				Log.debug("problem with getting GGT...");
 			} else {
 				byte[] ggtFile = Base64.decode(ggtString);
 				app.loadMacroFileFromByteArray(ggtFile, true);
@@ -315,7 +315,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			// ggbPrefs.flush();
 			storePreferences();
 		} catch (Exception e) {
-			App.debug(e + "");
+			Log.debug(e + "");
 		}
 	}
 

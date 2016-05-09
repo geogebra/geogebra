@@ -246,16 +246,6 @@ public class GuiManager3D extends GuiManagerD {
 	// ////////////////////////////
 
 	@Override
-	public void attachView(int viewId) {
-
-		if (App.isView3D(viewId)) {
-			App.debug("TODO: attach 3D view?");
-		} else {
-			super.attachView(viewId);
-		}
-	}
-
-	@Override
 	protected PropertiesViewD newPropertiesViewD(AppD appD) {
 		return new PropertiesView3DD(appD);
 	}

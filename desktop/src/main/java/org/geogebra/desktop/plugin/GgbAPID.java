@@ -33,11 +33,11 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.util.ImageSelection;
@@ -218,10 +218,10 @@ public class GgbAPID extends GgbAPI {
 
 							return true;
 						} catch (Exception ex) {
-							App.debug(ex.toString());
+							Log.debug(ex.toString());
 							return false;
 						} catch (Error ex) {
-							App.debug(ex.toString());
+							Log.debug(ex.toString());
 							return false;
 						}
 

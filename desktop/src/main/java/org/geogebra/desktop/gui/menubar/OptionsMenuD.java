@@ -24,11 +24,11 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 
@@ -96,7 +96,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 			if (flag != null) {
 				flagIcon = flag;
 			} else {
-				App.debug("using flag: " + flagName);
+				Log.debug("using flag: " + flagName);
 				flagIcon = app.getScaledFlagIcon(flagName);
 
 			}
@@ -120,7 +120,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 						// geoIPflagname = "wales.png";
 
 						if (!geoIPflagname.equals(flagName)) {
-							App.debug("updating flag to: " + geoIPflagname);
+							Log.debug("updating flag to: " + geoIPflagname);
 
 							// rebuild menu with new flag
 							removeAll();

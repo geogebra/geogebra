@@ -55,7 +55,7 @@ public class ScriptManagerD extends ScriptManager {
 				evalJavaScript(((AppD) app), "ggbOnInit();", null);
 			}
 		} catch (Exception e) {
-			App.debug("Error calling ggbOnInit(): " + e.getMessage());
+			Log.debug("Error calling ggbOnInit(): " + e.getMessage());
 		}
 
 	}

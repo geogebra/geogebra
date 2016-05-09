@@ -11,7 +11,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
@@ -36,7 +36,7 @@ public abstract class RendererGL2 extends RendererD implements
 	public RendererGL2(EuclidianView3D view, boolean useCanvas) {
 		super(view, useCanvas, RendererType.GL2);
 
-		App.debug("Renderer without shaders created");
+		Log.debug("Renderer without shaders created");
 	}
 
 	@Override
@@ -254,7 +254,7 @@ public abstract class RendererGL2 extends RendererD implements
 
 		final int w = right - left;
 		final int h = top - bottom;
-		// App.debug(w+" * "+h+" = "+(w*h));
+		// Log.debug(w+" * "+h+" = "+(w*h));
 
 		// projection for real 2D
 		jogl.getGL2().glViewport(0, 0, w, h);
@@ -286,7 +286,7 @@ public abstract class RendererGL2 extends RendererD implements
 		 * // check if we start with 0 or with 1 int y =
 		 * (canvas.getLocationOnScreen().y) % 2;
 		 * 
-		 * gl.glRasterPos2i(0, h-y); //App.debug("== "+w+" * "+h+" = "+(w*h));
+		 * gl.glRasterPos2i(0, h-y); //Log.debug("== "+w+" * "+h+" = "+(w*h));
 		 * gl.glDrawPixels(w, h, GLlocal.GL_STENCIL_INDEX,
 		 * GLlocal.GL_UNSIGNED_BYTE, data);
 		 */
@@ -306,8 +306,8 @@ public abstract class RendererGL2 extends RendererD implements
 		int y0 = (canvas.getParent().getLocation().y + canvas
 				.getLocationOnScreen().y) % 2;
 
-		// App.debug("\nparent.y="+canvas.getParent().getLocation().y+"\ncanvas.y="+canvas.getLocation().y+"\nscreen.y="+canvas.getLocationOnScreen().y+"\nh="+h+"\ny0="+y0);
-		// App.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
+		// Log.debug("\nparent.y="+canvas.getParent().getLocation().y+"\ncanvas.y="+canvas.getLocation().y+"\nscreen.y="+canvas.getLocationOnScreen().y+"\nh="+h+"\ny0="+y0);
+		// Log.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
 
 		for (int y = 0; y < h / 2; y++) {
 			jogl.getGL2().glRasterPos2i(0, 2 * y + y0);

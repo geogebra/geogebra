@@ -58,19 +58,19 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		jogl = new RendererJogl();
 
 		// canvas = view;
-		App.debug("create 3D component -- use Canvas : " + useCanvas);
+		Log.debug("create 3D component -- use Canvas : " + useCanvas);
 		RendererJogl.initCaps(view.isStereoBuffered());
 		canvas = RendererJogl.createComponent3D(useCanvas);
 
-		App.debug("add gl event listener");
+		Log.debug("add gl event listener");
 		canvas.addGLEventListener(this);
 
-		App.debug("create animator");
+		Log.debug("create animator");
 		animator = RendererJogl.createAnimator(canvas, 60);
 		// animator.setRunAsFastAsPossible(true);
 		// animator.setRunAsFastAsPossible(false);
 
-		App.debug("start animator");
+		Log.debug("start animator");
 		animator.start();
 
 	}
@@ -112,7 +112,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	@Override
 	public void display(GLAutoDrawable gLDrawable) {
 
-		// App.debug(gLDrawable+"");
+		// Log.debug(gLDrawable+"");
 		setGL(gLDrawable);
 
 		drawScene();
@@ -139,7 +139,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 		switch (exportType) {
 		case ANIMATEDGIF:
-			App.debug("Exporting frame: " + export_i);
+			Log.debug("Exporting frame: " + export_i);
 
 			setExportImage();
 			if (bi == null) {
@@ -162,7 +162,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 				exportType = ExportType.NONE;
 				gifEncoder.finish();
 
-				App.debug("GIF export finished");
+				Log.debug("GIF export finished");
 				endNeedExportImage();
 
 			} else {
@@ -173,7 +173,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 		case CLIPBOARD:
 			exportType = ExportType.NONE;
-			App.debug("Exporting to clipboard");
+			Log.debug("Exporting to clipboard");
 
 			setExportImage();
 
@@ -190,7 +190,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 			break;
 		case UPLOAD_TO_GEOGEBRATUBE:
 			exportType = ExportType.NONE;
-			App.debug("Uploading to GeoGebraTube");
+			Log.debug("Uploading to GeoGebraTube");
 
 			setExportImage();
 
@@ -251,7 +251,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		// start init
 		String glInfo[] = RendererJogl.getGLInfos(drawable);
 
-		App.debug("Init on " + Thread.currentThread()
+		Log.debug("Init on " + Thread.currentThread()
 				+ "\nChosen GLCapabilities: " + glInfo[0]
 				+ "\ndouble buffered: " + glInfo[1] + "\nstereo: " + glInfo[2]
 				+ "\nstencil: " + glInfo[3] + "\nINIT GL IS: " + glInfo[4]

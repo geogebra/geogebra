@@ -556,7 +556,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (euclidianView2.get(idx) == null) {
 			boolean[] showAxis = { true, true };
 			boolean showGrid = false;
-			App.debug("Creating 2nd Euclidian View");
+			Log.debug("Creating 2nd Euclidian View");
 			EuclidianViewD ev = newEuclidianView(showAxis, showGrid, 2);
 			// euclidianView2.setEuclidianViewNo(2);
 			ev.setAntialiasing(true);
@@ -2578,7 +2578,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		} catch (MyError e) {
 			app.showError(e);
 		} catch (Exception e) {
-			App.debug("openHelp error: " + e.toString() + " " + e.getMessage()
+			Log.debug("openHelp error: " + e.toString() + " " + e.getMessage()
 					+ " " + page + " " + type);
 			app.showError(e.getMessage());
 			e.printStackTrace();
@@ -3057,7 +3057,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 				geoImage = new GeoImage(app.getKernel().getConstruction());
 				geoImage.setImageFileName(fileName[i]);
-				// App.debug("filename = " + fileName[i]);
+				// Log.debug("filename = " + fileName[i]);
 				geoImage.setCorner(point1, 0);
 
 				GeoPoint point2 = new GeoPoint(app.getKernel()
@@ -3253,7 +3253,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 				.replace("</i>", "").replace("</span>", "")
 				.replace("<m:r>", "<m:r><m:t>")
 				.replace("</m:r>", "</m:t></m:r>");
-		App.debug(ooml);
+		Log.debug(ooml);
 		Source xmlFile = new StreamSource(new StringReader(
 				"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
 						+ "<w:document xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\" "

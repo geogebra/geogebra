@@ -12,6 +12,7 @@ import javax.swing.JRadioButtonMenuItem;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
 public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
@@ -74,7 +75,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 			if (item instanceof JRadioButtonMenuItem) {
 				((JRadioButtonMenuItem) item).setSelected(true);
 			} else {
-				App.debug("Bad construction of radiobutton menu. All item must be an instance of JRadioButtonMenuItem.");
+				Log.debug("Bad construction of radiobutton menu. All item must be an instance of JRadioButtonMenuItem.");
 			}
 		}
 	}

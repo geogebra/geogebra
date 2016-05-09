@@ -6,7 +6,7 @@ import java.awt.geom.Path2D;
 
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author kondr
@@ -30,7 +30,7 @@ public class GBasicStrokeD implements GBasicStroke {
 	public static BasicStroke getAwtStroke(GBasicStroke s) {
 		if (!(s instanceof GBasicStrokeD)) {
 			if (s != null)
-				App.debug("other type");
+				Log.debug("other type");
 			return null;
 		} else
 			return ((GBasicStrokeD) s).impl;
@@ -54,7 +54,7 @@ public class GBasicStrokeD implements GBasicStroke {
 			Path2D p2d = (Path2D) shapeD;
 			if (p2d.getCurrentPoint() != null
 					&& Double.isNaN(p2d.getCurrentPoint().getX())) {
-				App.debug("fix kicks in");
+				Log.debug("fix kicks in");
 				return new GGenericShapeD(shapeD);
 			}
 		}

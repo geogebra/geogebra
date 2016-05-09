@@ -64,10 +64,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GColorD;
@@ -330,7 +330,7 @@ public class EuclidianViewD extends EuclidianView implements
 			} catch (Exception exc) {
 				// Catch exceptions so that we don't try to set a null
 				// cursor
-				App.debug("Unable to create custom cursor.");
+				Log.debug("Unable to create custom cursor.");
 			}
 
 		}

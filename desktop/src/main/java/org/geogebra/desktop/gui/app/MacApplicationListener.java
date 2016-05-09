@@ -2,7 +2,7 @@ package org.geogebra.desktop.gui.app;
 
 import java.io.File;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
@@ -27,7 +27,7 @@ public class MacApplicationListener implements
 				Thread.sleep(100);
 				wnd = GeoGebraFrame.getActiveInstance();
 			} catch (Exception e) {
-				App.debug("MacApplicationListener.getGGBInstance(): "
+				Log.debug("MacApplicationListener.getGGBInstance(): "
 						+ e.getMessage());
 				wnd = null;
 			}
@@ -48,7 +48,7 @@ public class MacApplicationListener implements
 	}
 
 	public synchronized void handleOpenFile(com.apple.eawt.ApplicationEvent ev) {
-		App.debug("handleOpenFile event, filename: " + ev.getFilename());
+		Log.debug("handleOpenFile event, filename: " + ev.getFilename());
 
 		// open file
 		String fileName = ev.getFilename();
@@ -76,7 +76,7 @@ public class MacApplicationListener implements
 
 	public synchronized void handlePrintFile(
 			com.apple.eawt.ApplicationEvent event) {
-		App.debug("handlePrintFile event, filename: " + event.getFilename());
+		Log.debug("handlePrintFile event, filename: " + event.getFilename());
 
 		handleOpenFile(event);
 		((GuiManagerD) getGGBInstance().getApplication().getGuiManager())
@@ -85,7 +85,7 @@ public class MacApplicationListener implements
 
 	public synchronized void handleOpenApplication(
 			com.apple.eawt.ApplicationEvent ev) {
-		App.debug("handleOpenApplication event, filename: " + ev.getFilename());
+		Log.debug("handleOpenApplication event, filename: " + ev.getFilename());
 
 		// open file
 		String fileName = ev.getFilename();
@@ -100,12 +100,12 @@ public class MacApplicationListener implements
 
 	public synchronized void handlePreferences(
 			com.apple.eawt.ApplicationEvent arg0) {
-		App.debug("handlePreferences event, filename: " + arg0.getFilename());
+		Log.debug("handlePreferences event, filename: " + arg0.getFilename());
 	}
 
 	public synchronized void handleReOpenApplication(
 			com.apple.eawt.ApplicationEvent arg0) {
-		App.debug("handleReOpenApplication event, filename: "
+		Log.debug("handleReOpenApplication event, filename: "
 				+ arg0.getFilename());
 	}
 

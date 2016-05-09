@@ -28,9 +28,9 @@ import org.geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInpu
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.editor.GeoGebraEditorPane;
 import org.geogebra.desktop.main.AppD;
 
@@ -182,7 +182,7 @@ public class ScriptInputDialog extends InputDialogD implements
 	 */
 	@Override
 	public void insertGeoElement(GeoElement geo) {
-		App.debug("TODO: unimplemented");
+		Log.debug("TODO: unimplemented");
 	}
 
 	/**

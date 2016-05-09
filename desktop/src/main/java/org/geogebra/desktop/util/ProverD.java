@@ -90,7 +90,7 @@ public class ProverD extends Prover {
 		Log.trace("Construction: " + c);
 		// String cd =
 		// statement.getCommandDescription(StringTemplate.ogpTemplate);
-		// App.debug("Statement in the XML should be: " + cd);
+		// Log.debug("Statement in the XML should be: " + cd);
 
 		OpenGeoProver.settings = new OGPConfigurationSettings();
 		ILogger logger = OpenGeoProver.settings.getLogger();

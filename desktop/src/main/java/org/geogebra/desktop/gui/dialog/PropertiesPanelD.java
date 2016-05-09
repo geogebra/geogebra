@@ -152,6 +152,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
@@ -381,7 +382,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	}
 
 	public void showSliderTab() {
-		App.debug("showSliderTab()");
+		Log.debug("showSliderTab()");
 		tabs.setSelectedIndex(1);
 	}
 
@@ -3587,7 +3588,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				if (arg0.getID() == MouseEvent.MOUSE_RELEASED) {
 
 					// get the selected string
-					App.debug("processMouseEvent, index: "
+					Log.debug("processMouseEvent, index: "
 							+ this.getSelectedIndex());
 					String s = (String) latexArray[this.getSelectedIndex()];
 					// if LaTeX string, adjust the string to include selected
@@ -3595,14 +3596,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 					if (s != null) {
 
-						App.debug("processMouseEvent, S: " + s);
+						Log.debug("processMouseEvent, S: " + s);
 						lblSelectedSymbol.setText(s);
 						lblSelectedSymbol.setFont(GFontD.getAwtFont(app
 								.getFontCanDisplay(s)));
 					}
-					App.debug("handlePopupActionEvent begin");
+					Log.debug("handlePopupActionEvent begin");
 					popupButton.handlePopupActionEvent();
-					App.debug("handlePopupActionEvent end");
+					Log.debug("handlePopupActionEvent end");
 				}
 			}
 		}

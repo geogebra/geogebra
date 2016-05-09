@@ -53,7 +53,7 @@ public class EuclidianControllerHand3D extends EuclidianControllerInput3D {
 	 * MouseInfo.getPointerInfo().getLocation(); robotX = p.x; robotY = p.y;
 	 * inputPosition2DOldX = inputPosition2DX; inputPosition2DOldY =
 	 * inputPosition2DY; }else{ int x, y; if (inputPotition2DFactor > 1f){
-	 * App.debug(((int) inputPosition2DX)+","+((int) inputPosition2DY)); x =
+	 * Log.debug(((int) inputPosition2DX)+","+((int) inputPosition2DY)); x =
 	 * (int) (inputPosition2DX * screenHalfWidth / 320); y = (int)
 	 * (inputPosition2DY * screenHalfHeight / 240); if (x > screenHalfWidth *
 	 * 2){ x = (int) (screenHalfWidth * 2); } if (y > screenHalfHeight * 2){ y =
@@ -63,8 +63,8 @@ public class EuclidianControllerHand3D extends EuclidianControllerInput3D {
 	 * inputPotition2DFactor); x = robotX + dx; y = robotY + dy; } if (x >= 0 &&
 	 * x <= screenHalfWidth * 2) { if (y >= 0 && y <= screenHalfHeight * 2) { //
 	 * process mouse if (robotX != x || robotY != y) { //
-	 * App.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
-	 * //App.debug(x+","+y); robotX = x; robotY = y; robot.mouseMove(robotX,
+	 * Log.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
+	 * //Log.debug(x+","+y); robotX = x; robotY = y; robot.mouseMove(robotX,
 	 * robotY); inputPosition2DOldX = inputPosition2DX; inputPosition2DOldY =
 	 * inputPosition2DY; } } }
 	 * 

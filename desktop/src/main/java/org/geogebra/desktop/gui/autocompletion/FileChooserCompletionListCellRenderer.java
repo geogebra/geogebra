@@ -12,8 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * A simple list cell renderer derived from {@link DefaultListCellRenderer}.
@@ -76,7 +76,7 @@ public class FileChooserCompletionListCellRenderer extends
 		URL iconUrl = FileChooserCompletionListCellRenderer.class
 				.getResource(ICON_LOCATION + iconImage);
 		if (iconUrl == null) {
-			App.debug("Could not load icon: " + iconImage);
+			Log.debug("Could not load icon: " + iconImage);
 			return new ImageIcon();
 		}
 		return new ImageIcon(iconUrl);

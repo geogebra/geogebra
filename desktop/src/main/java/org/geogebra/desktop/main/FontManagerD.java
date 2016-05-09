@@ -306,7 +306,7 @@ public class FontManagerD extends FontManager {
 		final Font[] allfonts = GraphicsEnvironment
 				.getLocalGraphicsEnvironment().getAllFonts();
 		for (int j = 0; j < allfonts.length; j++) {
-			// App.debug(allfonts[j].toString());
+			// Log.debug(allfonts[j].toString());
 			final int charsDisplayed = allfonts[j]
 					.canDisplayUpTo(testCharacters);
 			if (charsDisplayed == -1) {

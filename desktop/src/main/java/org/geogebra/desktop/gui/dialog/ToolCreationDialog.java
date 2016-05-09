@@ -48,8 +48,8 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.NameDescriptionComparator;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.ToolNameIconPanel;
 import org.geogebra.desktop.gui.view.algebra.MyComboBoxListener;
@@ -300,7 +300,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 			}
 
 		} else {
-			App.debug("not compatible");
+			Log.debug("not compatible");
 			JOptionPane.showMessageDialog(this,
 					app.getLocalization().getPlain("Tool.NotCompatible")
 							+ ":\n"

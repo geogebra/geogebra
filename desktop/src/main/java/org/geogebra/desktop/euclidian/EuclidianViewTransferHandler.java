@@ -261,7 +261,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 							text = sb.toString();
 						}
 					} catch (Exception e) {
-						App.debug("Caught exception decoding text transfer:"
+						Log.debug("Caught exception decoding text transfer:"
 								+ e.getMessage());
 					}
 

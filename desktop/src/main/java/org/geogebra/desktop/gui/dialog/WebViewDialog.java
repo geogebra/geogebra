@@ -5,6 +5,18 @@ import java.awt.Point;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import javax.swing.JDialog;
+
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.main.AppD;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.events.Event;
+import org.w3c.dom.events.EventListener;
+import org.w3c.dom.events.EventTarget;
+
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -14,18 +26,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-
-import javax.swing.JDialog;
-
-import org.geogebra.common.main.App;
-import org.geogebra.desktop.main.AppD;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.events.Event;
-import org.w3c.dom.events.EventListener;
-import org.w3c.dom.events.EventTarget;
 
 /**
  * Provides basic functionality for creating a JavaFX WebView within a dialog.
@@ -114,7 +114,7 @@ public abstract class WebViewDialog extends JDialog {
 						if (newState == State.SUCCEEDED) {
 							Document doc = getWebEngine().getDocument();
 							if (doc != null) {
-								App.debug("Load page finished: "
+								Log.debug("Load page finished: "
 										+ doc.getBaseURI());
 							}
 							onPageLoaded();
@@ -204,7 +204,7 @@ public abstract class WebViewDialog extends JDialog {
 		EventListener listener = new EventListener() {
 			public void handleEvent(Event ev) {
 				String domEventType = ev.getType();
-				App.debug("EventType: " + domEventType);
+				Log.debug("EventType: " + domEventType);
 				if (domEventType.equals(EVENT_TYPE_CLICK)) {
 					String href = ((Element) ev.getTarget())
 							.getAttribute("href");

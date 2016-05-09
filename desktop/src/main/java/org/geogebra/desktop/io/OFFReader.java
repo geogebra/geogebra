@@ -9,7 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.geogebra.common.io.OFFHandler;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.opencsv.CSVException;
 
 /**
@@ -68,7 +68,7 @@ public class OFFReader {
 					new InputStreamReader(stream));
 			parse(br, handler);
 
-			App.debug(String.format("Off file has ben load:(v=%d;e=%d;f=%d)",
+			Log.debug(String.format("Off file has ben load:(v=%d;e=%d;f=%d)",
 					handler.getVertexCount(), handler.getEdgeCount(),
 					handler.getEdgeCount()));
 		} catch (FileNotFoundException e) {

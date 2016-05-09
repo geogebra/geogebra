@@ -229,7 +229,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 
 					pack();
 				} else {
-					App.debug("Upload failed. Response: #" + responseCode
+					Log.debug("Upload failed. Response: #" + responseCode
 							+ " - " + responseMessage);
 
 					BufferedReader errors = new BufferedReader(
@@ -242,7 +242,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 					}
 					errors.close();
 
-					App.debug(errorBuffer.toString());
+					Log.debug(errorBuffer.toString());
 
 					statusLabelSetText(loc.getPlain("UploadError",
 							Integer.toString(responseCode)));
@@ -255,7 +255,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 				setEnabled(false);
 				pack();
 
-				App.debug(e.getMessage());
+				Log.debug(e.getMessage());
 			}
 		} catch (IOException e) {
 			statusLabelSetText(loc.getPlain("UploadError",
@@ -263,7 +263,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 			setEnabled(false);
 			pack();
 
-			App.debug(e.getMessage());
+			Log.debug(e.getMessage());
 		}
 	}
 
@@ -328,7 +328,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 		try {
 			return URLEncoder.encode(str, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
-			App.debug("error from GeoGebraTubeExport.encode()");
+			Log.debug("error from GeoGebraTubeExport.encode()");
 			return str;
 		}
 	}

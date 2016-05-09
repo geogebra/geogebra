@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.cas.view.CASTableD;
 import org.geogebra.desktop.main.AppD;
 
@@ -174,7 +174,7 @@ public class CASDropTargetListener implements DropTargetListener {
 			}
 
 		} catch (Exception e) {
-			App.debug("DEBUG: CASDropTargetListener: exception in drop");
+			Log.debug("CASDropTargetListener: exception in drop");
 			e.printStackTrace();
 		}
 

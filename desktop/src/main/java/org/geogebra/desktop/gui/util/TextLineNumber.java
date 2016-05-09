@@ -30,8 +30,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.Utilities;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 
 /**
@@ -296,7 +296,7 @@ public class TextLineNumber extends JPanel implements CaretListener,
 				rowStartOffset = Utilities.getRowEnd(component, rowStartOffset) + 1;
 
 			} catch (Exception e) {
-				App.debug(e.getMessage());
+				Log.debug(e.getMessage());
 			}
 		}
 	}

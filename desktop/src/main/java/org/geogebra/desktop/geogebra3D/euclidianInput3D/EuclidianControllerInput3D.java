@@ -175,10 +175,10 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			onScreenX = x1;
 			onScreenY = y1;
 			input3D.setPositionOnScreen();
-			// App.debug("onS: " + x1 + "," + y1);
+			// Log.debug("onS: " + x1 + "," + y1);
 		} else {
 			input3D.setPositionOffScreen();
-			// App.debug("NOT onS: " + x1 + "," + y1);
+			// Log.debug("NOT onS: " + x1 + "," + y1);
 		}
 
 	}
@@ -210,9 +210,9 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 					glassesPosition[i].setZ(pos[2]);
 				}
 
-				//App.debug("\n"+glassesPosition);
+				//Log.debug("\n"+glassesPosition);
 
-				// App.debug(input3D.getGlassesPosition()[2]+"");
+				// Log.debug(input3D.getGlassesPosition()[2]+"");
 				// if (eyeSepIsNotSet){
 				view3D.setEyes(
 						glassesPosition[0].getX(), glassesPosition[0].getY(),
@@ -247,8 +247,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 				if (isNotMovingObjectOrView() || !input3D.hasMouseDirection()) {
 					// process mouse
 					if (robotX != onScreenX || robotY != onScreenY) {
-						// App.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
-						// App.debug(x+","+y);
+						// Log.debug(inputPosition[0]+","+inputPosition[1]+","+inputPosition[2]);
+						// Log.debug(x+","+y);
 						robotX = onScreenX;
 						robotY = onScreenY;
 						robot.mouseMove(robotX, robotY);
@@ -285,7 +285,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 					// mouse orientation
 					mouse3DOrientation.set(input3D.getMouse3DOrientation());
 
-					// App.debug("\nstart: "+startMouse3DOrientation+"\ncurrent: "+mouse3DOrientation);
+					// Log.debug("\nstart: "+startMouse3DOrientation+"\ncurrent: "+mouse3DOrientation);
 
 					if (input3D.isThirdButtonPressed()) { // process 3rd
 						// button
@@ -525,11 +525,11 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		calcCurrentRot();
 		CoordMatrix rotMatrix = getCurrentRotMatrix();
 
-		// App.debug("\n"+rot);
+		// Log.debug("\n"+rot);
 
 		// rotate view vZ
 		Coords vZrot = rotMatrix.getVz();
-		// App.debug("\n"+vZrot);
+		// Log.debug("\n"+vZrot);
 		Coords vZ1 = (vZrot.sub(vx.mul(vZrot.dotproduct(vx)))).normalize(); // project
 																			// the
 																			// rotation
@@ -555,7 +555,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 		// rotation around x (screen)
 		double rotX = Math.asin(vxp.norm()) * 180 / Math.PI;
-		// App.debug("rotX="+rotX+", vx1.dotproduct(vx) = "+vx1.dotproduct(vx)+", vxp.dotproduct(vZ1) = "+vxp.dotproduct(vZ1));
+		// Log.debug("rotX="+rotX+", vx1.dotproduct(vx) = "+vx1.dotproduct(vx)+", vxp.dotproduct(vZ1) = "+vxp.dotproduct(vZ1));
 		if (vx1.dotproduct(vx) < 0) { // check if rotX should be > 90degrees
 			rotX = 180 - rotX;
 		}
@@ -565,7 +565,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 		// rotation around z (scene)
 		double rotZ = Math.asin(vZp.norm()) * 180 / Math.PI;
-		// App.debug("rotZ="+rotZ+", vZp.dotproduct(vx) = "+vZp.dotproduct(vx)+", Coords.VZ.dotproduct(vZ1) = "+vZ1.getZ());
+		// Log.debug("rotZ="+rotZ+", vZp.dotproduct(vx) = "+vZp.dotproduct(vx)+", Coords.VZ.dotproduct(vZ1) = "+vZ1.getZ());
 		if (vZ1.getZ() < 0) { // check if rotZ should be > 90degrees
 			rotZ = 180 - rotZ;
 		}
@@ -573,7 +573,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			rotZ = -rotZ;
 		}
 
-		// App.debug("rotZ="+rotZ);
+		// Log.debug("rotZ="+rotZ);
 
 		// set the view
 		((EuclidianViewInput3D) view).setCoordSystemFromMouse3DMove(

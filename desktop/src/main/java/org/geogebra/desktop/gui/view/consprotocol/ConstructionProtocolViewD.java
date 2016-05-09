@@ -78,6 +78,7 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.export.ConstructionProtocolExportDialog;
 import org.geogebra.desktop.export.PrintPreview;
@@ -1198,13 +1199,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		@Override
 		public boolean hasFocus() {
-			App.debug("unimplemented");
+			Log.debug("unimplemented");
 			return false;
 		}
 
 		@Override
 		public boolean isShowing() {
-			App.debug("unimplemented");
+			Log.debug("unimplemented");
 			return false;
 		}
 

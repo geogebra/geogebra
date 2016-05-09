@@ -333,7 +333,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * Update the menubar.
 	 */
 	public void updateMenubar() {
-		App.debug("update menu");
+		Log.debug("update menu");
 		fileMenu.update();
 		editMenu.update();
 		viewMenu.update();
@@ -418,13 +418,13 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * @param font
 	 */
 	public static void setMenuFontRecursive(JMenuItem m, Font font) {
-		// App.debug(m.getClass());
+		// Log.debug(m.getClass());
 		if (m instanceof JMenu) {
 			JPopupMenu pm = ((JMenu) m).getPopupMenu();
 
 			MenuElement[] components = pm.getSubElements();
 
-			// App.debug(components.length);
+			// Log.debug(components.length);
 
 			for (MenuElement com : components) {
 				// System.out.println(m.getText());
@@ -437,7 +437,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 					setMenuFontRecursive((JMenuItem) com, font);
 				}
 
-				// App.debug(com.getClass());
+				// Log.debug(com.getClass());
 			}
 		}
 

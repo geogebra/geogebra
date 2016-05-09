@@ -19,8 +19,8 @@ import javax.swing.JApplet;
 import javax.swing.RepaintManager;
 import javax.swing.SwingUtilities;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.JavaScriptAPI;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.AppletImplementationInterface;
 import org.geogebra.desktop.AppletSplashScreen;
 import org.geogebra.desktop.main.AppletImplementation;
@@ -51,7 +51,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	 */
 	@Override
 	public void init() {
-		App.debug("init");
+		Log.debug("init");
 		try {
 			SwingUtilities.invokeAndWait(new Runnable() {
 				public void run() {
@@ -75,7 +75,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		Thread runner = new Thread() {
 			@Override
 			public void run() {
-				App.debug("initAppletInBackground");
+				Log.debug("initAppletInBackground");
 				// init applet
 				getAppletImplementation();
 

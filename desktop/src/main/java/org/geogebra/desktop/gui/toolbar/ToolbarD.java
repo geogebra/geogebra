@@ -26,7 +26,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -195,10 +195,10 @@ public class ToolbarD extends JToolBar {
 			}
 		} catch (Exception e) {
 			if (dockPanel != null) {
-				App.debug("invalid toolbar string: "
+				Log.debug("invalid toolbar string: "
 						+ dockPanel.getToolbarString());
 			} else {
-				App.debug("invalid toolbar string: "
+				Log.debug("invalid toolbar string: "
 						+ app.getGuiManager().getToolbarDefinition());
 			}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());

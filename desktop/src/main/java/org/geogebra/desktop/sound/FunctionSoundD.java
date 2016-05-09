@@ -8,8 +8,8 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
 import org.geogebra.common.sound.FunctionSound;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -127,13 +127,13 @@ public final class FunctionSoundD extends FunctionSound implements LineListener 
 		LineEvent.Type type = le.getType();
 
 		if (type == LineEvent.Type.OPEN) {
-			App.debug("OPEN");
+			Log.debug("OPEN");
 		} else if (type == LineEvent.Type.CLOSE) {
-			App.debug("CLOSE");
+			Log.debug("CLOSE");
 		} else if (type == LineEvent.Type.START) {
-			App.debug("START");
+			Log.debug("START");
 		} else if (type == LineEvent.Type.STOP) {
-			App.debug("STOP");
+			Log.debug("STOP");
 		}
 	}
 

@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.options.OptionPanelD;
 import org.geogebra.desktop.gui.dialog.options.OptionsAdvancedD;
@@ -92,10 +93,10 @@ public class PropertiesViewD extends PropertiesView {
 		app.setPropertiesView(this);
 
 		// init object properties
-		App.debug("init object properties");
+		Log.debug("init object properties");
 		app.setWaitCursor();
 		getOptionPanel(OptionType.OBJECTS);
-		App.debug("end (init object properties)");
+		Log.debug("end (init object properties)");
 
 		// this.geoTree=geoTree;
 
@@ -548,7 +549,7 @@ public class PropertiesViewD extends PropertiesView {
 	@Override
 	public void attachView() {
 		if (attached) {
-			App.debug("already attached");
+			Log.debug("already attached");
 			return;
 		}
 
@@ -890,7 +891,7 @@ public class PropertiesViewD extends PropertiesView {
 	}
 
 	public void repaint() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override

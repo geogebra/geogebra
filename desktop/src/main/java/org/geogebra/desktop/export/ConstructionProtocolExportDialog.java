@@ -36,6 +36,7 @@ import javax.swing.JPanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
@@ -186,7 +187,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 							clipboard.setContents(stringSelection, null);
 						} catch (Exception ex) {
 							app.showError("SaveFileFailed");
-							App.debug(ex.toString());
+							Log.debug(ex.toString());
 						}
 					}
 				};
@@ -270,7 +271,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 			}
 			String imgBase64 = GgbAPID.base64encode(img, 72);
 			String export = prot.getHTML(imgBase64);
-			App.debug(export);
+			Log.debug(export);
 
 
 			FileWriter fw = new FileWriter(file);
@@ -290,7 +291,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 								.showURLinBrowser(HTMLfile.toURI().toURL());
 					} catch (Exception ex) {
 						app.showError("SaveFileFailed");
-						App.debug(ex.toString());
+						Log.debug(ex.toString());
 					}
 				}
 			};
@@ -298,7 +299,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 
 		} catch (IOException ex) {
 			app.showError("SaveFileFailed");
-			App.debug(ex.toString());
+			Log.debug(ex.toString());
 		}
 
 	}

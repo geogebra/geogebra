@@ -747,11 +747,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
-			App.debug(ex.toString());
+			Log.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
 			app.showError("SaveFileFailed");
-			App.debug(ex.toString());
+			Log.debug(ex.toString());
 			return false;
 		}
 	}
@@ -834,11 +834,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			app.showError("SaveFileFailed");
-			App.debug(ex.toString());
+			Log.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
 			app.showError("SaveFileFailed");
-			App.debug(ex.toString());
+			Log.debug(ex.toString());
 			return false;
 		} finally {
 			ev.restoreOldCoordSystem();
@@ -893,11 +893,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return true;
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
-			App.debug(ex.toString());
+			Log.debug(ex.toString());
 			return false;
 		} catch (Error ex) {
 			app.showError("SaveFileFailed");
-			App.debug(ex.toString());
+			Log.debug(ex.toString());
 			return false;
 		}
 	}

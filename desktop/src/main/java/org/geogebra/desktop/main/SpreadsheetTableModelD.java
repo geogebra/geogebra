@@ -2,8 +2,8 @@ package org.geogebra.desktop.main;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Desktop implementation of AbstractTableModel. To handle the abstract table
@@ -81,16 +81,16 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 	}
 
 	public boolean hasFocus() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		return false;
 	}
 
 	public void repaint() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	public boolean isShowing() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		return false;
 	}
 

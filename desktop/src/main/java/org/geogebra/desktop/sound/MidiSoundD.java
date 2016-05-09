@@ -22,7 +22,7 @@ import javax.sound.midi.Synthesizer;
 import javax.swing.JFileChooser;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.jfugue.Pattern;
 import org.jfugue.Player;
@@ -69,7 +69,7 @@ public class MidiSoundD implements MetaEventListener {
 
 			if (synthesizer == null) {
 				if ((synthesizer = MidiSystem.getSynthesizer()) == null) {
-					App.debug("getSynthesizer() failed!");
+					Log.debug("getSynthesizer() failed!");
 					return false;
 				}
 
@@ -323,13 +323,13 @@ public class MidiSoundD implements MetaEventListener {
 			synthesizer = MidiSystem.getSynthesizer();
 			synthesizer.open();
 
-			App.debug("soundbank added: " + sb);
+			Log.debug("soundbank added: " + sb);
 
 			if (sb != null) {
-				App.debug("soundbank supported: "
+				Log.debug("soundbank supported: "
 						+ synthesizer.isSoundbankSupported(sb));
 				boolean bInstrumentsLoaded = synthesizer.loadAllInstruments(sb);
-				App.debug("Instruments loaded: " + bInstrumentsLoaded);
+				Log.debug("Instruments loaded: " + bInstrumentsLoaded);
 			}
 
 		} catch (MidiUnavailableException e) {

@@ -15,7 +15,7 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
 import org.geogebra.desktop.main.AppD;
@@ -385,7 +385,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 			case KeyEvent.VK_TAB:
 				if (isFormulaBarListener)
 					return;
-				App.debug(" tab");
+				Log.debug(" tab");
 				// Application.debug("RIGHT");
 				// shift-tab moves left
 				// tab moves right

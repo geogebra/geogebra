@@ -183,7 +183,7 @@ public class App3D extends AppD {
 		if (!tubeLoginIsShowing && AppD.WINDOWS && !isApplet()
 				&& (has(Feature.REALSENSE) || has(Feature.ZSPACE))
 				&& getInput3DType().equals(Input3D.PREFS_NONE)) {
-			App.debug("============ runThreadToCheckInput3D ");
+			Log.debug("============ runThreadToCheckInput3D ");
 			Thread t = new ThreadForCheckInput3D(this);
 			t.start();
 		}
@@ -308,7 +308,7 @@ public class App3D extends AppD {
 	 * download and update realsense
 	 */
 	void updateRealSense() {
-		App.debug("\n========== updating RealSense");
+		Log.debug("\n========== updating RealSense");
 	}
 
 	boolean input3DPopupShowing = false;

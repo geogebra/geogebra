@@ -283,7 +283,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	@Override
 	public void display(GLAutoDrawable gLDrawable) {
 	
-		// App.debug(gLDrawable+"");
+		// Log.debug(gLDrawable+"");
 		setGL(gLDrawable);
 	
 		drawScene();
@@ -312,7 +312,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	
 		switch (exportType) {
 		case ANIMATEDGIF:
-			App.debug("Exporting frame: " + export_i);
+			Log.debug("Exporting frame: " + export_i);
 	
 			setExportImage();
 			if (bi == null) {
@@ -335,7 +335,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 				exportType = ExportType.NONE;
 				gifEncoder.finish();
 	
-				App.debug("GIF export finished");
+				Log.debug("GIF export finished");
 				endNeedExportImage();
 	
 			} else {
@@ -346,7 +346,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	
 		case CLIPBOARD:
 			exportType = ExportType.NONE;
-			App.debug("Exporting to clipboard");
+			Log.debug("Exporting to clipboard");
 	
 			setExportImage();
 	
@@ -363,7 +363,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 			break;
 		case UPLOAD_TO_GEOGEBRATUBE:
 			exportType = ExportType.NONE;
-			App.debug("Uploading to GeoGebraTube");
+			Log.debug("Uploading to GeoGebraTube");
 	
 			setExportImage();
 	

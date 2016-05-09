@@ -146,19 +146,19 @@ public class EuclidianControllerInput3DCompanion extends
 
 			if (startCoords.isDefined()) {
 				double distance = startCoords.distance(q);
-				// App.debug("\n -- "+(distance * ((EuclidianView3D)
+				// Log.debug("\n -- "+(distance * ((EuclidianView3D)
 				// ec.view).getScale()));
 				if (distance > 0.05) { // angle < 25.8degrees
 					startCoords.set(q);
 					startTime = time;
-					// App.debug("\n -- startCoords =\n"+startCoords);
+					// Log.debug("\n -- startCoords =\n"+startCoords);
 				} else {
-					// App.debug("\n -- same coords "+(time-startTime));
+					// Log.debug("\n -- same coords "+(time-startTime));
 				}
 			} else {
 				startCoords.set(q);
 				startTime = time;
-				// App.debug("\n -- startCoords =\n"+startCoords);
+				// Log.debug("\n -- startCoords =\n"+startCoords);
 			}
 		}
 
@@ -344,7 +344,7 @@ public class EuclidianControllerInput3DCompanion extends
 						origin = sp.point.getInhomCoordsInD3();
 						step++;
 
-						// App.debug("============== " + sp.point);
+						// Log.debug("============== " + sp.point);
 
 						// check directions
 						if (!stickyPoints.isEmpty()) {
@@ -370,7 +370,7 @@ public class EuclidianControllerInput3DCompanion extends
 							if (!stickyPointsForDirection.isEmpty()) {
 								StickyPointForDirection spd2 = stickyPointsForDirection
 										.pollFirst();
-								// App.debug("spd2 : " + spd2.getCosAbs());
+								// Log.debug("spd2 : " + spd2.getCosAbs());
 								if (spd2.getCosAbs() < COS_THRESHOLD) {
 									secondPoint = spd2.sp.point
 											.getInhomCoordsInD3();
@@ -379,7 +379,7 @@ public class EuclidianControllerInput3DCompanion extends
 									if (!stickyPointsForDirection.isEmpty()) {
 										StickyPointForDirection spd3 = stickyPointsForDirection
 												.pollFirst();
-										// App.debug("spd3 : " +
+										// Log.debug("spd3 : " +
 										// spd3.getCosAbs());
 										if (spd3.getCosAbs() < COS_THRESHOLD) {
 											thirdPoint = spd3.sp.point

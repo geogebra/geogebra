@@ -4,7 +4,7 @@ import java.awt.event.FocusEvent;
 import java.util.LinkedList;
 
 import org.geogebra.common.euclidian.event.GFocusEvent;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class GFocusEventD extends GFocusEvent {
 
@@ -12,7 +12,7 @@ public class GFocusEventD extends GFocusEvent {
 	private FocusEvent event;
 
 	private GFocusEventD(FocusEvent e) {
-		App.debug("possible missing release()");
+		Log.debug("possible missing release()");
 		this.event = e;
 	}
 

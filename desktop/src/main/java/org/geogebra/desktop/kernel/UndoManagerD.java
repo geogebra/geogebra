@@ -157,10 +157,10 @@ public class UndoManagerD extends UndoManager {
 							new Event(EventType.STOREUNDO, null));
 
 				} catch (Exception e) {
-					App.debug("storeUndoInfo: " + e.toString());
+					Log.debug("storeUndoInfo: " + e.toString());
 					e.printStackTrace();
 				} catch (java.lang.OutOfMemoryError err) {
-					App.debug("UndoManager.storeUndoInfo: " + err.toString());
+					Log.debug("UndoManager.storeUndoInfo: " + err.toString());
 					err.printStackTrace();
 				}
 

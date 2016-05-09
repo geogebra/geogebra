@@ -186,7 +186,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 				if ("processEvent".equals(event)) {
 					return;
 				}
-				// App.debug(event);
+				// Log.debug(event);
 
 				int ysize = frame.getContentPane().getHeight() - 3 * MARGIN
 						- OKHEIGHT;
@@ -198,7 +198,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 					currentHeight += thisHeight;
 				}
 				ROWHEIGHT = ((double) ysize) / currentHeight * ORIG_ROWHEIGHT;
-				// App.debug("resized to rh " + ROWHEIGHT);
+				// Log.debug("resized to rh " + ROWHEIGHT);
 				for (int i = 0; i < r; ++i) {
 					int newHeight = (int) (ROWHEIGHT * (countLines(table
 							.getValueAt(i, 0).toString())));
@@ -243,7 +243,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 				}
 			}
 		}
-		// App.debug("# " + ret + html);
+		// Log.debug("# " + ret + html);
 		return ret;
 	}
 

@@ -278,7 +278,7 @@ public class GeoGebraCasIntegrationTest {
     newPattern = newPattern.replaceAll("INDEX", "\\\\{?\\\\d+\\\\}?");
     newPattern = newPattern.replace(" ", "\\s*"); // make whitespace
     // optional
-    App.debug(newPattern);
+    Log.debug(newPattern);
     r(input, newPattern, originalPattern);
   }
 

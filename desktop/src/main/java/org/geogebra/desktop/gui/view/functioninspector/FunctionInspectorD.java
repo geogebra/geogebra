@@ -52,9 +52,9 @@ import org.geogebra.common.gui.view.functioninspector.FunctionInspector;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -710,7 +710,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 			modelXY.setValueAt(value == null ? null : getModel().format(value),
 					row, col);
 		} else {
-			App.debug("GEBASZ VAN: " + modelXY.getRowCount() + ", "
+			Log.debug("[FI] Outside of range: " + modelXY.getRowCount() + ", "
 					+ modelXY.getRowCount());
 		}
 	}

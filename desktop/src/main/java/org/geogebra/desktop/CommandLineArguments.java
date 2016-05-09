@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to parse command line arguments. A list of possible arguments for
@@ -64,7 +64,7 @@ public class CommandLineArguments {
 				addFile(cmdArgs[i]);
 
 			} else {
-				App.debug("unknown argument " + cmdArgs[i]);
+				Log.debug("unknown argument " + cmdArgs[i]);
 			}
 		}
 

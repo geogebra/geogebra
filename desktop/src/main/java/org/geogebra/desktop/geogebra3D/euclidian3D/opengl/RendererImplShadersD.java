@@ -362,7 +362,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 			((ManagerShadersObj) renderer.getGeometryManager())
 					.startObjFile(writer);
 
-			// App.debug("=== Creating .OBJ === ");
+			// Log.debug("=== Creating .OBJ === ");
 			renderer.drawable3DLists.drawInObjFormat(renderer);
 
 			writer.close();

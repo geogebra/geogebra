@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class MouseEventD extends AbstractEvent implements MouseEventND {
 
@@ -16,7 +16,7 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 	private int id;
 
 	private MouseEventD(MouseEvent e) {
-		App.debug("possible missing release()");
+		Log.debug("possible missing release()");
 		this.event = e;
 	}
 

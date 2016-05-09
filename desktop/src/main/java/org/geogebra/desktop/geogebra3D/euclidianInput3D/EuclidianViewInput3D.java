@@ -233,7 +233,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		renderer1.drawCompletingCursor(completingDelay, true);
 		return true;
 
-		// App.debug("" + input3D.getOutOfField());
+		// Log.debug("" + input3D.getOutOfField());
 
 	}
 
@@ -471,12 +471,12 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		}
 
 		public void setHitted(GeoElement newGeo, long time, Coords mousePosition) {
-			// App.debug("\nHittedGeo:\n"+getHits3D());
+			// Log.debug("\nHittedGeo:\n"+getHits3D());
 			if (newGeo == null || mousePosition == null) { // reinit geo
 				if (forgetCurrent(time)) {
 					geo = null;
 					delay = -1;
-					// App.debug("\n -- geo = null");
+					// Log.debug("\n -- geo = null");
 				}
 			} else {
 				if (newGeo == geo) { // remember last time
@@ -499,7 +499,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 					startTime = time;
 					startMousePosition.setValues(mousePosition, 3);
 				}
-				// App.debug("\n "+(time-startTime)+"-- geo = "+geo);
+				// Log.debug("\n "+(time-startTime)+"-- geo = "+geo);
 			}
 		}
 
@@ -590,13 +590,13 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 						- newCoords.getX())
 						+ Math.abs(startCoords.getY() - newCoords.getY())
 						+ Math.abs(startCoords.getZ() - newCoords.getZ());
-				// App.debug("\n -- "+(distance * ((EuclidianView3D)
+				// Log.debug("\n -- "+(distance * ((EuclidianView3D)
 				// ec.view).getScale()));
 				if (distance * getScale() > 30) {
 					startCoords.set(newCoords);
 					startTime = time;
 					delay = -1;
-					// App.debug("\n -- startCoords =\n"+startCoords);
+					// Log.debug("\n -- startCoords =\n"+startCoords);
 				} else {
 					currentCoords.set(newCoords);
 				}
@@ -604,7 +604,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 				startCoords.set(newCoords);
 				startTime = time;
 				delay = -1;
-				// App.debug("\n -- startCoords =\n"+startCoords);
+				// Log.debug("\n -- startCoords =\n"+startCoords);
 			}
 		}
 

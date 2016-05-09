@@ -602,12 +602,12 @@ public class MyXMLioD extends MyXMLio {
 				javax.imageio.ImageIO.setUseCache(useCache);
 			}
 		} catch (Exception e) {
-			App.debug(e.getMessage());
+			Log.debug(e.getMessage());
 			try {
 				// if this did not work save image as png
 				ImageIO.write(img, "png", os);
 			} catch (Exception ex) {
-				App.debug(ex.getMessage());
+				Log.debug(ex.getMessage());
 				return;
 			}
 		}

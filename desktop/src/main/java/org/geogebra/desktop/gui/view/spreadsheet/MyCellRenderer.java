@@ -316,7 +316,7 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 						setText("");
 
 					} catch (Exception e) {
-						App.debug("error in drawing latex" + e);
+						Log.debug("error in drawing latex" + e);
 					}
 				}
 			}

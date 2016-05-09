@@ -43,12 +43,12 @@ import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.MyResourceBundle;
@@ -921,9 +921,9 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 		KeyboardKeys ret1 = myKeys.get(sb.toString());
 
-		if (ret1 == null)
-			App.debug("KB Error: " + sb.toString());
-
+		if (ret1 == null) {
+			Log.debug("KB Error: " + sb.toString());
+		}
 		sb.append(getKeyboardMode()); // append 'A' for acute , ' ' for default
 										// etc
 

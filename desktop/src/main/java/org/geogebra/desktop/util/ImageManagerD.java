@@ -147,7 +147,7 @@ public class ImageManagerD extends ImageManager {
 			}
 
 			fileName = fileName.replace(".GIF", ".png");
-			App.debug("storing " + fileName + " " + img.isSVG());
+			Log.debug("storing " + fileName + " " + img.isSVG());
 			externalImageTable.put(fileName, img);
 		}
 	}
@@ -161,9 +161,9 @@ public class ImageManagerD extends ImageManager {
 					FileExtensions.PNG);
 		}
 
-		App.debug("retreiving filename = " + fileName);
+		Log.debug("retreiving filename = " + fileName);
 		MyImageD ret = externalImageTable.get(fileName);
-		// App.debug("(ret == null)" + (ret == null));
+		// Log.debug("(ret == null)" + (ret == null));
 		return ret;
 	}
 
@@ -215,12 +215,12 @@ public class ImageManagerD extends ImageManager {
 				try {
 					tracker.waitForAll();
 				} catch (InterruptedException e) {
-					App.debug("Interrupted while loading Image: " + path);
+					Log.debug("Interrupted while loading Image: " + path);
 				}
 				tracker.removeImage(img);
 			}
 		} catch (Exception e) {
-			App.debug(e.toString());
+			Log.debug(e.toString());
 		}
 
 		return img;

@@ -4,7 +4,7 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 //http://stackoverflow.com/questions/1248510/convert-string-to-keyevents
 
@@ -375,22 +375,25 @@ public class Keyboard {
 		if (!text.startsWith("<") || !text.endsWith(">")) {
 			type(altPressed, ctrlPressed, shiftPressed, text);
 		} else {
-			if (text.equals("<escape>"))
+			if (text.equals("<escape>")) {
 				doType(altPressed, ctrlPressed, shiftPressed,
 						KeyEvent.VK_ESCAPE);
-			else if (text.equals("<left>"))
+			} else if (text.equals("<left>")) {
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_LEFT);
-			else if (text.equals("<right>"))
+			} else if (text.equals("<right>")) {
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_RIGHT);
-			else if (text.equals("<up>"))
+			} else if (text.equals("<up>")) {
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_UP);
-			else if (text.equals("<down>"))
+			} else if (text.equals("<down>")) {
 				doType(altPressed, ctrlPressed, shiftPressed, KeyEvent.VK_DOWN);
-			else if (text.equals("<backspace>"))
+			}
+			else if (text.equals("<backspace>")) {
 				doType(altPressed, ctrlPressed, shiftPressed,
 						KeyEvent.VK_BACK_SPACE);
-			else
-				App.debug("unknown keycode:" + text);
+			}
+			else {
+				Log.debug("unknown keycode:" + text);
+			}
 		}
 
 	}

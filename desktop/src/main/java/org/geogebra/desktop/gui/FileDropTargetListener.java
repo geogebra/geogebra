@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.StringTokenizer;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
 public class FileDropTargetListener implements DropTargetListener {
@@ -147,7 +147,7 @@ public class FileDropTargetListener implements DropTargetListener {
 		try {
 			// try to get an image
 			if (transferable.isDataFlavorSupported(DataFlavor.imageFlavor)) {
-				App.debug("image flavor not supported");
+				Log.debug("image flavor not supported");
 				// Image img = (Image) trans.getTransferData
 				// (DataFlavor.imageFlavor);
 			} else if (transferable
@@ -179,10 +179,10 @@ public class FileDropTargetListener implements DropTargetListener {
 					}
 				}
 			} else if (transferable.isDataFlavorSupported(urlFlavor)) {
-				App.debug("url flavor not supported");
+				Log.debug("url flavor not supported");
 				// URL url = (URL) trans.getTransferData (urlFlavor);
 			} else
-				App.debug("flavor not supported: " + transferable);
+				Log.debug("flavor not supported: " + transferable);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

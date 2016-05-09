@@ -13,8 +13,8 @@ import javax.sound.sampled.SourceDataLine;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
 import org.geogebra.common.sound.SoundManager;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.sound.mp3transform.Decoder;
 
@@ -246,7 +246,7 @@ public class SoundManagerD implements SoundManager {
 				din.close();
 			}
 		} catch (Exception e) {
-			App.debug("playing MP3 failed " + url + " " + e.toString());
+			Log.debug("playing MP3 failed " + url + " " + e.toString());
 		}
 	}
 

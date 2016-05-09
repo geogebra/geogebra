@@ -106,7 +106,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 			public void componentResized(ComponentEvent e) {
 
 				Component c = e.getComponent();
-				App.debug("Applet resized to: " + c.getWidth() + ", "
+				Log.debug("Applet resized to: " + c.getWidth() + ", "
 						+ c.getHeight());
 
 				if (allowRescaling && (app != null) && !app.runningInFrame
@@ -150,7 +150,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * separate thread.
 	 */
 	public void initInBackground() {
-		App.debug("initInBackground");
+		Log.debug("initInBackground");
 
 		// start animation if wanted by ggb file
 		if (kernel.wantAnimationStarted()) {
@@ -162,7 +162,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		Object[] noArgs = {};
 		Object[] arg = { ggbOnInitParam };
 
-		App.debug("calling ggbOnInit("
+		Log.debug("calling ggbOnInit("
 				+ (((ggbOnInitParam == null) ? "" : ggbOnInitParam)) + ")");
 		app.getScriptManager().callJavaScript("ggbOnInit",
 				(ggbOnInitParam == null) ? noArgs : arg);
@@ -218,7 +218,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 				fileStr = "base64://" + fileBase64;
 			}
 		}
-		App.debug("loading " + fileStr);
+		Log.debug("loading " + fileStr);
 
 		// showToolBar = "true" or parameter is not available
 		showToolBar = "true".equals(applet.getParameter("showToolBar"));
@@ -384,7 +384,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		// replace applet's content pane
 		Container cp = applet.getContentPane();
 
-		App.debug("Initial size = " + cp.getWidth() + ", " + cp.getHeight());
+		Log.debug("Initial size = " + cp.getWidth() + ", " + cp.getHeight());
 		// Application.debug("EuclidianView size = "+app.getEuclidianView().getPreferredSize().getWidth()+", "+app.getEuclidianView().getPreferredSize().getHeight());
 
 		width = cp.getWidth();
@@ -715,7 +715,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * prints a string to the Java Console
 	 */
 	public synchronized void debug(String string) {
-		App.debug(string);
+		Log.debug(string);
 	}
 
 	/**
@@ -1252,11 +1252,11 @@ public class AppletImplementation implements AppletImplementationInterface {
 		 * if (browserWindow == null) { try { browserWindow =
 		 * JSObject.getWindow(applet);
 		 * 
-		 * if (browserWindow == null) { App.debug(
+		 * if (browserWindow == null) { Log.debug(
 		 * "Warning: could not initialize JSObject.getWindow() for GeoGebraApplet"
 		 * ); }
 		 * 
-		 * } catch (Exception e) { App.debug(
+		 * } catch (Exception e) { Log.debug(
 		 * "Exception: could not initialize JSObject.getWindow() for GeoGebraApplet"
 		 * ); } }
 		 */
@@ -1269,11 +1269,11 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 		try {
 			if (browserWindow != null) {
-				App.debug("callJavaScript: " + jsFunction);
+				Log.debug("callJavaScript: " + jsFunction);
 				return browserWindow.call(jsFunction, args);
 			}
 
-			App.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet when calling "
+			Log.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet when calling "
 					+ jsFunction);
 		} catch (Exception e) {
 			Log.error("Warning: Error calling JavaScript function '"

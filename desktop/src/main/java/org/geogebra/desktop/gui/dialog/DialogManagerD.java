@@ -42,6 +42,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.MyFileFilter;
 import org.geogebra.desktop.gui.autocompletion.AutoCompletion;
@@ -526,7 +527,7 @@ GPoint loc, GeoBoolean bool) {
 				// list
 				// Java bug
 				// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857
-				App.debug("Error creating GeoGebraFileChooser - using fallback option");
+				Log.debug("Error creating GeoGebraFileChooser - using fallback option");
 				setFileChooser(new GeoGebraFileChooser(((AppD) app),
 						((AppD) app).getCurrentImagePath(), true)); // restricted
 																	// version
@@ -656,13 +657,13 @@ GPoint loc, GeoBoolean bool) {
 
 	@Override
 	protected String prompt(String message, String def) {
-		App.debug("Shouldn't ever be called");
+		Log.debug("Shouldn't ever be called");
 		return null;
 	}
 
 	@Override
 	protected boolean confirm(String string) {
-		App.debug("Shouldn't ever be called");
+		Log.debug("Shouldn't ever be called");
 		return false;
 	}
 

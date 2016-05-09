@@ -1,7 +1,7 @@
 package org.geogebra.desktop.plugin;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdFunctionCall;
@@ -96,7 +96,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 			case Id_clearTimeout:
 			case Id_setInterval:
 			case Id_setTimeout:
-				App.debug("ignored in desktop");
+				Log.debug("ignored in desktop");
 				return null;
 			}
 		}

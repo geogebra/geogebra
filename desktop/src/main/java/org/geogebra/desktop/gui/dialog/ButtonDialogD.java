@@ -37,7 +37,7 @@ import javax.swing.text.JTextComponent;
 import org.geogebra.common.gui.dialog.ButtonDialogModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.editor.GeoGebraEditorPane;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
@@ -250,7 +250,7 @@ public class ButtonDialogD extends JDialog implements ActionListener,
 
 	public void actionPerformed(ActionEvent e) {
 		Object source = e.getSource();
-		App.debug(tfScript.getText());
+		Log.debug(tfScript.getText());
 		if (source == btOK) {
 			model.apply(tfCaption.getText(), tfScript.getText());
 			setVisible(false);

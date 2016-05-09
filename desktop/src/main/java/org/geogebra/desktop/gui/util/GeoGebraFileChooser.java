@@ -32,7 +32,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyXMLioD;
@@ -159,7 +159,7 @@ public class GeoGebraFileChooser extends JFileChooser implements
 		// invalid mode?
 		if (mode != MODE_IMAGES && mode != MODE_GEOGEBRA
 				&& mode != MODE_GEOGEBRA_SAVE && mode != MODE_DATA) {
-			App.debug("Invalid file chooser mode, MODE_GEOGEBRA used as default.");
+			Log.debug("Invalid file chooser mode, MODE_GEOGEBRA used as default.");
 			mode = MODE_GEOGEBRA;
 		}
 
@@ -546,7 +546,7 @@ public class GeoGebraFileChooser extends JFileChooser implements
 				img = null;
 			} catch (Throwable t) {
 				t.printStackTrace();
-				App.debug(t.getClass() + "");
+				Log.debug(t.getClass() + "");
 				img = null;
 			}
 		}
