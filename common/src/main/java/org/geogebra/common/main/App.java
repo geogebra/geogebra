@@ -4018,7 +4018,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-850
 		case GIAC_SELECTIVE_INIT:
-			return prerelease;
+			return true;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
