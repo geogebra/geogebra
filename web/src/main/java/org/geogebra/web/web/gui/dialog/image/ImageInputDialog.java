@@ -88,7 +88,7 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 	    		name = "webcam";
 	    		camera = true;
 	    	}
-	    	if (!loc.isLabelSet()) {
+			if (loc != null && !loc.isLabelSet()) {
 	    		loc.setLabel(null);
 	    	}
 	    	if(camera){
