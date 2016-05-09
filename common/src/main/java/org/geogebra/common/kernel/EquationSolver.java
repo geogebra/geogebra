@@ -636,7 +636,7 @@ public class EquationSolver implements EquationSolverInterface {
 					// System.out.println("    find extremum successfull: " +
 					// root);
 				} catch (Exception ex) {
-					App.debug(ex.getMessage());
+					Log.debug(ex.getMessage());
 				}
 			}
 
@@ -677,7 +677,7 @@ public class EquationSolver implements EquationSolverInterface {
 			}
 			complexRoots = laguerreSolver.solveAll(real, LAGUERRE_START);
 		} catch (Exception e) {
-			App.debug("Problem solving with LaguerreSolver"
+			Log.debug("Problem solving with LaguerreSolver"
 					+ e.getLocalizedMessage());
 			return 0;
 		}

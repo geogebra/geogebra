@@ -1,7 +1,7 @@
 package org.geogebra.common.euclidian.event;
 
 import org.geogebra.common.euclidian.draw.DrawInputBox;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class FocusListener {
 
@@ -12,7 +12,7 @@ public class FocusListener {
 			((DrawInputBox.InputFieldListener) listenerClass)
 					.focusGained(event);
 		} else {
-			App.debug("other type");
+			Log.debug("other type");
 		}
 	}
 
@@ -24,7 +24,7 @@ public class FocusListener {
 		if (listenerClass instanceof DrawInputBox.InputFieldListener) {
 			((DrawInputBox.InputFieldListener) listenerClass).focusLost(event);
 		} else {
-			App.debug("other type");
+			Log.debug("other type");
 		}
 	}
 

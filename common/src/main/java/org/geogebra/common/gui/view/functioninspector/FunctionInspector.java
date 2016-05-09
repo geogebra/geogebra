@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.util.debug.Log;
 
 
 /**
@@ -175,10 +176,10 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	
 	public void setInspectorVisible(boolean isVisible) {
 		if (isVisible) {
-			App.debug("setInspectorVisible(true)");
+			Log.debug("setInspectorVisible(true)");
 				getApp().getKernel().attach(this);
 			} else {
-			App.debug("setInspectorVisible(false)");
+			Log.debug("setInspectorVisible(false)");
 			getApp().getKernel().detach(this);
 			getApp().getSelectionManager().removeSelectionListener(sl);
 			getModel().clearGeoList();
@@ -304,11 +305,11 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	}
 
 	public void repaint() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	public boolean isShowing() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		return false;
 	}
 

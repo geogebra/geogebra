@@ -23,8 +23,8 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 public class ParametricProcessor3D extends ParametricProcessor {
 
@@ -251,8 +251,6 @@ public class ParametricProcessor3D extends ParametricProcessor {
 
 		FunctionVariable px = new FunctionVariable(kernel, "x");
 		FunctionVariable py = new FunctionVariable(kernel, "y");
-		App.debug(v.getX() + "," + v.getY());
-		App.debug(w.getX() + "," + w.getY());
 		ExpressionNode t = px.wrap().multiply(w.getY())
 				.subtract(py.wrap().multiply(w.getX()));
 
@@ -270,7 +268,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 
 		);
 		eq.setForceConic();
-		App.debug("3D proc");
+		Log.debug("3D proc");
 
 		eq.initEquation();
 		Polynomial lhs = eq.getNormalForm();
@@ -281,7 +279,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		double y = lhs.getCoeffValue("y");
 		double cst = lhs.getCoeffValue("");
 
-		App.debug("3D proc done");
+		Log.debug("3D proc done");
 
 		conic.setCoordSys(cs);
 		// conic.setMatrix(new double[] { xx, yy, -det * det, -xy, 0,

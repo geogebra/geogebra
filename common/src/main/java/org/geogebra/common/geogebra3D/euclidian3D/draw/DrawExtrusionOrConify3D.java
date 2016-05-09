@@ -276,7 +276,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 		public void callback(GeoNumberValue obj) {
 			GeoNumberValue num = (GeoNumberValue) obj;
 
-			// App.debug("callback : "+num + "," + basis + " , "+extrusionComputer);
+			// Log.debug("callback : "+num + "," + basis + " , "+extrusionComputer);
 			
 			if (extrusionComputer != null){
 				// remove the algo

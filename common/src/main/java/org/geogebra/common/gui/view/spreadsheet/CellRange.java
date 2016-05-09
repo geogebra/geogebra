@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Utility class for spreadsheet cell ranges.
@@ -547,12 +548,12 @@ public class CellRange {
 	 * Prints debugging information about the cell range
 	 */
 	public void debug() {
-		App.debug("-------------------------");
-		App.debug("anchor cell:  (" + anchorColumn + "," + anchorRow + ")");
-		App.debug("corner cells: (" + minColumn + "," + minRow + ")  ("
+		Log.debug("-------------------------");
+		Log.debug("anchor cell:  (" + anchorColumn + "," + anchorRow + ")");
+		Log.debug("corner cells: (" + minColumn + "," + minRow + ")  ("
 				+ maxColumn + "," + maxRow + ")");
-		App.debug("isRow: " + isRow());
-		App.debug("isColumn: " + isColumn());
+		Log.debug("isRow: " + isRow());
+		Log.debug("isColumn: " + isColumn());
 	}
 
 }

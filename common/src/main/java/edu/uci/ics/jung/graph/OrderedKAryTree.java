@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.apache.commons.collections15.CollectionUtils;
 import org.apache.commons.collections15.Factory;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 import edu.uci.ics.jung.graph.util.EdgeType;
 import edu.uci.ics.jung.graph.util.Pair;
@@ -796,7 +796,7 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E> implements T
 
 	public OrderedKAryTree<V, E> newInstance() {
 		// TODO Auto-generated method stub
-		App.debug("implementation needed");
+		Log.debug("implementation needed");
 		return null;
 	}
 

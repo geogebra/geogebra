@@ -33,7 +33,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.optimization.NegativeRealRootFunction;
 import org.geogebra.common.kernel.roots.RealRootFunction;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Superclass for lower/upper sum of function f in interval [a, b] with n
@@ -1883,7 +1883,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		}
 
 		catch (Exception e) {
-			App.debug(e.getMessage());
+			Log.debug(e.getMessage());
 			return false;
 		}
 

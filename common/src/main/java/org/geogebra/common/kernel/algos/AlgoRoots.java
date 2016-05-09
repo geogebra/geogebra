@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootUtil;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 //import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
 
@@ -260,9 +260,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 				m = m * 2;
 			} while (m < MAX_SAMPLES);
 			if (m > MAX_SAMPLES)
-				App.debug("We have probably lost some roots...");
+				Log.debug("We have probably lost some roots...");
 		} catch (Exception e) {
-			App.debug("Exception in compute() " + e.toString());
+			Log.debug("Exception in compute() " + e.toString());
 		}// try-catch
 
 		// }//if

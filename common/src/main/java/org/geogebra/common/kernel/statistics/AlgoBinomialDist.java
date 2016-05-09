@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -85,7 +85,7 @@ public class AlgoBinomialDist extends AlgoDistribution {
 					num.setValue(dist.probability(val)); // P(X = val)
 				}
 			} catch (Exception e) {
-				App.debug(e.getMessage());
+				Log.debug(e.getMessage());
 				num.setUndefined();
 			}
 		} else {

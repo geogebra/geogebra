@@ -1,6 +1,5 @@
 package org.geogebra.common.move.ggtapi.operations;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
@@ -11,6 +10,7 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.operations.BaseOperation;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author stefan
@@ -90,7 +90,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		GeoGebraTubeAPI api = getGeoGebraTubeAPI();
 		
 
-		App.debug("Sending call to GeoGebraTube API to authorize the login token...");
+		Log.debug("Sending call to GeoGebraTube API to authorize the login token...");
 
 		// Trigger an event to signal the login attempt
 		onEvent(new LoginAttemptEvent(user));

@@ -629,7 +629,7 @@ public class DrawLabel3D {
 				width / getFontScale(), height / getFontScale(), backgroundIndex);
 		renderer.getGeometryManager().remove(old);
 
-		// App.debug("textIndex: "+textIndex+", pickingIndex: "+pickingIndex+", backgroundIndex: "+backgroundIndex);
+		// Log.debug("textIndex: "+textIndex+", pickingIndex: "+pickingIndex+", backgroundIndex: "+backgroundIndex);
 	}
 
 	private static final int drawRectangle(Renderer renderer, double x,

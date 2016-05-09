@@ -50,8 +50,8 @@ import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasSegments;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.RotateableND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author ggb3D
@@ -258,7 +258,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	@Deprecated
 	public void updateFacesDeprecated() {
 
-		App.debug("old file version");
+		Log.debug("old file version");
 
 		// create missing faces
 		for (ConstructionElementCycle currentFace : polygonsIndex.keySet()) {
@@ -531,7 +531,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 				.SegmentDescription(segment.getStartPointAsGeoElement(),
 						segment.getEndPointAsGeoElement());
 
-		// App.debug("linked : "+key);
+		// Log.debug("linked : "+key);
 		segmentsLinked.put(key, segment);
 	}
 
@@ -1825,7 +1825,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		pp.setT(pp.getT() - index);
 		seg.pathChanged(P);
 
-		// App.debug(seg+" , "+oldT);
+		// Log.debug(seg+" , "+oldT);
 
 		// recall the old parameter
 		pp.setT(oldT);

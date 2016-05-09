@@ -560,20 +560,20 @@ public interface Traversing {
 
 				String name = v.getName(StringTemplate.defaultTemplate);
 
-				// App.debug("found VARIABLE: "+name);
+				// Log.debug("found VARIABLE: "+name);
 				if (GeoElementSpreadsheet.spreadsheetPattern.test(name)) {
 
 					String newName = RelativeCopy.updateCellNameWithOffset(
 							name, dx, dy);
 
-					// App.debug("FOUND SPREADSHEET VARIABLE: "+name + " -> " +
+					// Log.debug("FOUND SPREADSHEET VARIABLE: "+name + " -> " +
 					// newName);
 
 					// make sure new cell is autocreated if it doesn't exist
 					// already
 					v.getKernel().getConstruction().lookupLabel(newName, true);
 
-					// App.debug("setting new name to: "+newName);
+					// Log.debug("setting new name to: "+newName);
 
 					v.setName(newName);
 					variables.add(v);
@@ -727,7 +727,7 @@ public interface Traversing {
 				if (ret instanceof Variable
 						&& !v.getKernel().getConstruction()
 								.isRegistredFunctionVariable(name)) {
-					// App.debug("found undefined variable: "
+					// Log.debug("found undefined variable: "
 					// + ((Variable) ret)
 					// .getName(StringTemplate.defaultTemplate));
 					tree.add(((Variable) ret)

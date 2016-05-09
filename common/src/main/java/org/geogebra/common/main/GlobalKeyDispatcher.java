@@ -985,7 +985,7 @@ public abstract class GlobalKeyDispatcher {
 			base = 10;
 		if (isAltDown)
 			base = 100;
-		// App.debug("key pressed");
+		// Log.debug("key pressed");
 		if (geos == null || geos.size() == 0) {
 
 			// Get the EuclidianView which has the focus

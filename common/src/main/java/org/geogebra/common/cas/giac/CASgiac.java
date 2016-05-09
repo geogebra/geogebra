@@ -809,10 +809,10 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// swap 3>x into x<3
 		if (matcher != null && exp.startsWith(matcher.getGroup(1))) {
-			// App.debug(matcher.getGroup(1));
-			// App.debug(matcher.getGroup(2));
-			// App.debug(matcher.getGroup(3));
-			// App.debug(matcher.getGroup(4));
+			// Log.debug(matcher.getGroup(1));
+			// Log.debug(matcher.getGroup(2));
+			// Log.debug(matcher.getGroup(3));
+			// Log.debug(matcher.getGroup(4));
 			ret = matcher.getGroup(3) + "<" + matcher.getGroup(2)
 					+ matcher.getGroup(1);
 			Log.debug("giac output (with simple inequality converted): " + ret);
@@ -838,16 +838,16 @@ public abstract class CASgiac implements CASGenericInterface {
 
 			// matcher.getGroup(6) is either "" or "="
 
-			// App.debug("1 "+matcher.getGroup(1));
-			// App.debug("2 "+matcher.getGroup(2));
-			// App.debug("3XX"+matcher.getGroup(3)+"XX");
-			// App.debug(""+matcher.getGroup(3).equals("undefined"));
-			// App.debug("4 "+matcher.getGroup(4));
-			// App.debug("5XX"+matcher.getGroup(5)+"XX");
-			// App.debug("6 "+matcher.getGroup(6));
-			// App.debug("7 "+matcher.getGroup(7));
-			// App.debug("8 "+matcher.getGroup(8));
-			// App.debug("9 "+matcher.getGroup(9));
+			// Log.debug("1 "+matcher.getGroup(1));
+			// Log.debug("2 "+matcher.getGroup(2));
+			// Log.debug("3XX"+matcher.getGroup(3)+"XX");
+			// Log.debug(""+matcher.getGroup(3).equals("undefined"));
+			// Log.debug("4 "+matcher.getGroup(4));
+			// Log.debug("5XX"+matcher.getGroup(5)+"XX");
+			// Log.debug("6 "+matcher.getGroup(6));
+			// Log.debug("7 "+matcher.getGroup(7));
+			// Log.debug("8 "+matcher.getGroup(8));
+			// Log.debug("9 "+matcher.getGroup(9));
 
 			String g3 = matcher.getGroup(3);
 			String g5 = matcher.getGroup(5);
@@ -862,8 +862,8 @@ public abstract class CASgiac implements CASGenericInterface {
 				g5 = "";
 			}
 
-			// App.debug("g3= "+g3);
-			// App.debug("g5= "+g5);
+			// Log.debug("g3= "+g3);
+			// Log.debug("g5= "+g5);
 
 			// eg "(" + "-2" + ")"
 			String g345 = g3 + matcher.getGroup(4) + g5;

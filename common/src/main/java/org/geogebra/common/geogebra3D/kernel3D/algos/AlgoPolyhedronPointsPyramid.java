@@ -119,7 +119,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 		int nOld = outputSegmentsSide.size();
 
 		/*
-		 * App.debug("nOld:"+nOld +"\nbottomPointsLength:"+bottomPointsLength
+		 * Log.debug("nOld:"+nOld +"\nbottomPointsLength:"+bottomPointsLength
 		 * +"\nnewBottomPointsLength:"+newBottomPointsLength
 		 * +"\noutputSegmentsSide:"+outputSegmentsSide.size());
 		 */
@@ -130,8 +130,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 
 			// create new sides
 			for (int i = nOld; i < newBottomPointsLength; i++) {
-				// App.debug("bottomPoints["+i+"]="+bottomPoints[i]);
-				// App.debug("bottomPoints["+((i+1)%newBottomPointsLength)+"]="+bottomPoints[(i+1)%newBottomPointsLength]);
+				// Log.debug("bottomPoints["+i+"]="+bottomPoints[i]);
+				// Log.debug("bottomPoints["+((i+1)%newBottomPointsLength)+"]="+bottomPoints[(i+1)%newBottomPointsLength]);
 				polyhedron.startNewFace();
 				polyhedron.addPointToCurrentFace(bottomPoints[i]);
 				polyhedron.addPointToCurrentFace(bottomPoints[(i + 1)

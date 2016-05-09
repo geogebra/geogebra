@@ -1070,7 +1070,7 @@ public class CoordMatrix {
 			// for (int i : stack) {
 			// str += i + ", ";
 			// }
-			// App.debug(str);
+			// Log.debug(str);
 			int index0 = 0;
 			for (int index : stack) {
 				double factor = matrix[index][0];
@@ -1118,7 +1118,7 @@ public class CoordMatrix {
 			//
 			// }
 			//
-			// App.debug(str);
+			// Log.debug(str);
 
 		}
 
@@ -1331,7 +1331,7 @@ public class CoordMatrix {
 	static final private void pivot(double[][] matrix, PivotAbstract psr,
 			final int step, ArrayList<Integer> stack){
 		
-		// App.debug("XXXXX pivot : step = " + step);
+		// Log.debug("XXXXX pivot : step = " + step);
 
 		// last step
 		if (step == 0){
@@ -1341,11 +1341,11 @@ public class CoordMatrix {
 			int stackIndex = 0;
 			int index = stack.get(0);
 			double value = matrix[index][step];
-			// App.debug("index = " + index + " , value = " + value);
+			// Log.debug("index = " + index + " , value = " + value);
 			for (int currentStackIndex = 1 ; currentStackIndex < stack.size() ; currentStackIndex++){
 				int currentIndex = stack.get(currentStackIndex);
 				double currentValue = matrix[currentIndex][step];
-				// App.debug("currentIndex = " + currentIndex
+				// Log.debug("currentIndex = " + currentIndex
 				// + " , currentValue = " + currentValue);
 				if (Math.abs(currentValue) > Math.abs(value)){
 					stackIndex = currentStackIndex;
@@ -1626,23 +1626,23 @@ public class CoordMatrix {
 		/*
 		 * CoordMatrix m1 = CoordMatrix.Identity(3); m1.set(1, 2, 5.0);
 		 * m1.set(3, 1, 4.0); m1.set(3, 2, 3.0); m1.transpose();
-		 * App.debug("m1"); m1.SystemPrint();
+		 * Log.debug("m1"); m1.SystemPrint();
 		 * 
 		 * CoordMatrix m2 = new CoordMatrix(3, 4); m2.set(1, 1, 1.0); m2.set(2,
 		 * 2, 2.0); m2.set(3, 3, 3.0); m2.set(1, 4, 4.0); m2.set(2, 4, 3.0);
-		 * m2.set(3, 4, 1.0); m2.set(3, 2, -1.0); App.debug("m2");
+		 * m2.set(3, 4, 1.0); m2.set(3, 2, -1.0); Log.debug("m2");
 		 * m2.SystemPrint();
 		 * 
-		 * CoordMatrix m4 = m1.add(m2); App.debug("m4"); m4.SystemPrint();
+		 * CoordMatrix m4 = m1.add(m2); Log.debug("m4"); m4.SystemPrint();
 		 * 
-		 * CoordMatrix m5 = m1.mul(m2); App.debug("m5"); m5.SystemPrint();
+		 * CoordMatrix m5 = m1.mul(m2); Log.debug("m5"); m5.SystemPrint();
 		 * 
-		 * App.debug("subMatrix"); m5.subMatrix(2, 3).SystemPrint();
+		 * Log.debug("subMatrix"); m5.subMatrix(2, 3).SystemPrint();
 		 * 
 		 * m1.set(1, 2, -2.0); m1.set(3, 1, -9.0); m1.set(3, 2, -8.0);
-		 * App.debug("m1"); m1.SystemPrint(); App.debug("det m1 = " + m1.det());
+		 * Log.debug("m1"); m1.SystemPrint(); Log.debug("det m1 = " + m1.det());
 		 * 
-		 * App.debug("inverse"); CoordMatrix m4inv = m4.inverse();
+		 * Log.debug("inverse"); CoordMatrix m4inv = m4.inverse();
 		 * m4inv.SystemPrint(); m4.mul(m4inv).SystemPrint();
 		 * m4inv.mul(m4).SystemPrint();
 		 */

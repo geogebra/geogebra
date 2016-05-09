@@ -112,14 +112,14 @@ public class Triangle_dt {
 		else if ( bcnext==Old ) bcnext=New;
 		else if ( canext==Old ) canext=New;
 		else
-			App.debug("Error, switchneighbors can't find Old.");
+			Log.debug("Error, switchneighbors can't find Old.");
 	}
 
 	Triangle_dt neighbor( Point_dt p ) {
 		if ( a==p ) return canext;
 		if ( b==p ) return abnext;
 		if ( c==p ) return bcnext;
-		App.debug("Error, neighbors can't find p: " + p);
+		Log.debug("Error, neighbors can't find p: " + p);
 		return null;
 	}
 

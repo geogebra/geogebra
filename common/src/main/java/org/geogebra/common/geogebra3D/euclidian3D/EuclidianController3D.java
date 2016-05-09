@@ -678,7 +678,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// i.e. hits has to include two intersectable objects.
 	@Override
 	protected GeoPointND getSingleIntersectionPoint(Hits hits) {
-		// App.debug(hits);
+		// Log.debug(hits);
 
 		if (hits.isEmpty() || hits.size() < 2)
 			return null;
@@ -747,7 +747,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			singleIntersectionPoint = ((EuclidianControllerFor3DCompanion) companion)
 					.getSingleIntersectionPointFrom2D(a, b, false);
 
-			// App.debug("\npoint="+point+"\nmouse=\n"+project);
+			// Log.debug("\npoint="+point+"\nmouse=\n"+project);
 		}
 
 		// line/line or line/plane (only one intersection point)
@@ -809,8 +809,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 						.projectOnScreen(((GeoPoint3D) singleIntersectionPoint).getCoords()
 								.getCoordsLast1());
 
-				// App.debug("\nmouse="+mouseLoc.x+","+mouseLoc.y+"\npicked=\n"+picked+"\ncoords\n"+toScreenCoords);
-				// App.debug("X: "+Math.abs(picked.getX() -
+				// Log.debug("\nmouse="+mouseLoc.x+","+mouseLoc.y+"\npicked=\n"+picked+"\ncoords\n"+toScreenCoords);
+				// Log.debug("X: "+Math.abs(picked.getX() -
 				// toScreenCoords.getX()) + "\n" +
 				// "Y: "+Math.abs(picked.getY() - toScreenCoords.getY()));
 
@@ -1183,7 +1183,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		Hits hits = hits0.keepFirsts(Test.GEOPOINTND, Test.GEOLINEND,
 				Test.GEOCOORDSYS2DNOTPLANE);
 
-		// App.debug("\n=================\n"+hits0+"\n====\n"+hits+"\n=================\n");
+		// Log.debug("\n=================\n"+hits0+"\n====\n"+hits+"\n=================\n");
 
 		if (hits.isEmpty())
 			return null;
@@ -1714,7 +1714,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// maybe set previously by MODE_INTERSECTION_CURVE
 		hideIntersection = false;
 
-		// App.debug(mode);
+		// Log.debug(mode);
 
 		switch (mode) {
 
@@ -1832,7 +1832,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		int x = mouseLoc.x;
 		animatedRotSpeed = (x - xOld) / (time - timeOld);
 		timeOld = time;
-		// App.debug("animatedRotSpeed=" + animatedRotSpeed + "\nxOld = " + xOld
+		// Log.debug("animatedRotSpeed=" + animatedRotSpeed + "\nxOld = " + xOld
 		// + "\nx=" + x);
 		xOld = x;
 		view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x, mouseLoc.y
@@ -2500,7 +2500,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				intersectionCurveList.get(i).hitted = false;
 			}
 
-			// App.debug(hits);
+			// Log.debug(hits);
 
 			for (int i = 0; i < hits.size(); ++i) {
 				for (int j = i + 1; j < hits.size(); ++j) {
@@ -2870,7 +2870,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// App.error(""+intersectionCurveList.size());
 		for (IntersectionCurve intersectionCurve : intersectionCurveList) {
 			Drawable3D d = intersectionCurve.drawable;
-			// App.debug("\n"+d+"\ntype: "+d.getPickingType()+"\nz="+d.getZPickNear()+"\ngeo1:"+intersectionCurve.geo1+"\ngeo2:"+intersectionCurve.geo2);
+			// Log.debug("\n"+d+"\ntype: "+d.getPickingType()+"\nz="+d.getZPickNear()+"\ngeo1:"+intersectionCurve.geo1+"\ngeo2:"+intersectionCurve.geo2);
 			if (d.getZPickNear() > zNear) {
 				resultedGeo = d.getGeoElement();
 				resultedIntersectionCurve = intersectionCurve;
@@ -2878,10 +2878,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 			}
 		}
 
-		// App.debug("\n\n==== INTER: "+resultedGeo+"\nz="+zNear+"\n\n");
+		// Log.debug("\n\n==== INTER: "+resultedGeo+"\nz="+zNear+"\n\n");
 		/*
 		 * if (resultedIntersectionCurve != null)
-		 * App.debug("\ngeo1:"+resultedIntersectionCurve
+		 * Log.debug("\ngeo1:"+resultedIntersectionCurve
 		 * .geo1+"\ngeo2:"+resultedIntersectionCurve.geo2);
 		 */
 
@@ -2904,9 +2904,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 			 */
 			GeoElement geo = hits.get(i);
 			Drawable3D d = (Drawable3D) view3D.getDrawableND(geo);
-			// App.debug("\nhits("+i+"): "+geo+"\nd="+d);
+			// Log.debug("\nhits("+i+"): "+geo+"\nd="+d);
 			if (d != null) {
-				// App.debug("\nd.getZPickNear()="+d.getZPickNear()+"\nzNear="+zNear);
+				// Log.debug("\nd.getZPickNear()="+d.getZPickNear()+"\nzNear="+zNear);
 				if (d.getZPickNear() < zNear) {
 					// all next drawables are behind the intersection curve
 					checking = false;
@@ -2931,9 +2931,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return;
 		}
 
-		// App.debug("resultedGeo:"+resultedGeo);
+		// Log.debug("resultedGeo:"+resultedGeo);
 
-		// App.debug(hits+"\nA="+A+"\nB="+B);
+		// Log.debug(hits+"\nA="+A+"\nB="+B);
 
 		// Application.debug(hits);
 		// for (int j=0; j<hits.size(); ++j) {
@@ -3616,7 +3616,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		startPoint3D.set(p);
 		view3D.toSceneCoords3D(startPoint3D);
 
-		// App.debug("\n"+startPoint3D);
+		// Log.debug("\n"+startPoint3D);
 
 		// project on xOy
 		startPoint3D.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,

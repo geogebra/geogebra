@@ -64,7 +64,7 @@ public class ScriptInputModel extends OptionsModel {
 			if (script == null) {
 				script = app.createScript(ScriptType.GGBSCRIPT, "", false);
 			}
-			// App.debug(script.getText());
+			// Log.debug(script.getText());
 			listener.setInputText(script.getText());
 			setScriptType(script.getType());
 		}

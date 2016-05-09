@@ -460,7 +460,7 @@ public class Macro {
 			mk.loadXML(macroConsXML);
 		} catch (MyError e) {
 			String msg = e.getLocalizedMessage();
-			App.debug(msg);
+			Log.debug(msg);
 			e.printStackTrace();
 			throw new Exception(msg);
 		} catch (Exception e) {

@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.Test;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author Christoph
@@ -110,9 +110,9 @@ public class GeoAssignment extends Assignment {
 			} else {
 				checkCorrectness(possibleOutputGeos);
 			}
-			App.debug("Checking on " + macro.getToolName()
+			Log.debug("Checking on " + macro.getToolName()
 					+ " completed. Comparisons of Objects: " + callsToEqual);
-			App.debug("Checking on " + macro.getToolName()
+			Log.debug("Checking on " + macro.getToolName()
 					+ " completed. Checked types of Objects: "
 					+ callsToCheckTypes);
 			cons.getKernel().setSilentMode(oldSilentMode);
@@ -175,15 +175,15 @@ public class GeoAssignment extends Assignment {
 				res = Result.WRONG;
 			} else if (partRes.contains(Result.WRONG_AFTER_RANDOMIZE)) {
 				res = Result.WRONG_AFTER_RANDOMIZE;
-				App.debug("Objects wrong after Randomize: "
+				Log.debug("Objects wrong after Randomize: "
 						+ toString(possibleOutputPermutation));
-				App.debug("Objects used as inputs: " + toString(input));
+				Log.debug("Objects used as inputs: " + toString(input));
 			} else if (partRes.contains(Result.CORRECT)) {
 				res = Result.CORRECT;
 				solutionObjects = possibleOutputPermutation;
-				App.debug("Objects found to be the Solution: "
+				Log.debug("Objects found to be the Solution: "
 						+ toString(solutionObjects));
-				App.debug("Objects used as inputs: " + toString(input));
+				Log.debug("Objects used as inputs: " + toString(input));
 			}
 			input = inputPermutationUtil.next();
 

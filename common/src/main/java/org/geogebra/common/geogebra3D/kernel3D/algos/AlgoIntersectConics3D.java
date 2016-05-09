@@ -261,15 +261,15 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 						csB.getMatrixOrthonormal().inverse()
 								.mul(csA.getMatrixOrthonormal())).mul(
 						AUGMENT_DIM);
-				// App.debug("\nBtoA=\n"+BtoA);
+				// Log.debug("\nBtoA=\n"+BtoA);
 
 				CoordMatrix sB = B.getSymetricMatrix();
 				CoordMatrix sBinA = BtoA.transposeCopy().mul(sB).mul(BtoA);
-				// App.debug(/*"\ncsA=\n"+csA.getMatrixOrthonormal()+"\ncsB=\n"+csB.getMatrixOrthonormal()+*/"\nsym=\n"+sB+"\ninA\n"+sBinA);
+				// Log.debug(/*"\ncsA=\n"+csA.getMatrixOrthonormal()+"\ncsB=\n"+csB.getMatrixOrthonormal()+*/"\nsym=\n"+sB+"\ninA\n"+sBinA);
 
 				A2d.setMatrix(A.getMatrix());
 				B2d.setMatrix(sBinA);
-				// App.debug(sBinA.get(1,1)+","+B2d.matrix[0]+"");
+				// Log.debug(sBinA.get(1,1)+","+B2d.matrix[0]+"");
 				algo2d.intersectConics(A2d, B2d, points2d);
 
 				for (int i = 0; i < 4; i++)

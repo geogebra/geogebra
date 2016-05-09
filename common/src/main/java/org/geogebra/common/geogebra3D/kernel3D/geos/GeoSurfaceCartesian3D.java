@@ -750,7 +750,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	// double dy = (xyz[0] - x0) * vy - (xyz[1] - y0) * vx;
 	// double dz = (xyz[1] - y0) * vz - (xyz[2] - z0) * vy;
 	// double d = dx * dx + dy * dy + dz * dz;
-	// App.debug(xyz[0] + "," + xyz[1] + "," + xyz[2] + "," + d);
+	// Log.debug(xyz[0] + "," + xyz[1] + "," + xyz[2] + "," + d);
 	// if (d < dist) {
 	// dist = d;
 	// xyzuv[0] = xyz[0];
@@ -766,7 +766,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	//
 	// }
 	//
-	// App.debug(">>> " + xyzuv[0] + "," + xyzuv[1] + "," + xyzuv[2] + ","
+	// Log.debug(">>> " + xyzuv[0] + "," + xyzuv[1] + "," + xyzuv[2] + ","
 	// + dist);
 	// }
 
@@ -823,7 +823,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			xyzuv[2] = xyz[2];
 			xyzuv[3] = uv[0];
 			xyzuv[4] = uv[1];
-			// App.debug(">>> " + xyzuv[0] + "," + xyzuv[1] + "," + xyzuv[2]);
+			// Log.debug(">>> " + xyzuv[0] + "," + xyzuv[1] + "," + xyzuv[2]);
 			return true;
 		}
 

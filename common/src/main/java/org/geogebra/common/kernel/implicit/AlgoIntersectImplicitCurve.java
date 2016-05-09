@@ -425,12 +425,12 @@ public class AlgoIntersectImplicitCurve extends AlgoIntersect {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			if (derivative) {
-				// App.debug("Derivative exists, but failed to find intersection
+				// Log.debug("Derivative exists, but failed to find intersection
 				// using Newton's method");
 				return;
 			}
-			// App.debug("Some functions are not differentiable");
-			// App.debug("Trying to find intersections using Broyden's method");
+			// Log.debug("Some functions are not differentiable");
+			// Log.debug("Trying to find intersections using Broyden's method");
 			intersects(fun1, fun2, params, guess, outputs, vals);
 		}
 	}

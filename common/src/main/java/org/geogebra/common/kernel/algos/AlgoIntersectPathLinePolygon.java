@@ -278,9 +278,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * @return check
 	 */
 	protected boolean checkMidpoint(GeoPolygon p, Coords a, Coords b) {
-		// App.debug("\na=\n"+a+"\nb=\n"+b);
+		// Log.debug("\na=\n"+a+"\nb=\n"+b);
 		Coords midpoint = a.add(b).mul(0.5);
-		// App.debug("\n"+midpoint+"\n"+ p.isInRegion(midpoint.getX(),
+		// Log.debug("\n"+midpoint+"\n"+ p.isInRegion(midpoint.getX(),
 		// midpoint.getY()));
 		return p.isInRegion(midpoint.getX(), midpoint.getY());
 	}
@@ -313,7 +313,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 				point.projectLine(o1, d1, project, parameters);
 
-				// App.debug("\npoint=\n"+point+"\nproject=\n"+project[0]);
+				// Log.debug("\npoint=\n"+point+"\nproject=\n"+project[0]);
 
 				// check if projection is intersection point
 				if (project.equalsForKernel(point, Kernel.STANDARD_PRECISION)) {
@@ -408,7 +408,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 				for (Coords[] seg : segmentList) {
 					GeoSegmentND segment = (GeoSegmentND) outputSegments
 							.getElement(indexSegment);
-					// App.debug("\na=\n"+seg[0]+"\nb=\n"+seg[1]);
+					// Log.debug("\na=\n"+seg[0]+"\nb=\n"+seg[1]);
 					setSegment(segment, seg[0], seg[1]);
 					// ((GeoElement) segment).update(); // TODO optimize it
 					indexSegment++;

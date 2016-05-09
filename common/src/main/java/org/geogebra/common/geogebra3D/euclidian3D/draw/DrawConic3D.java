@@ -712,7 +712,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 		if (horizontalDistance > frustumRadius) {
 			alpha = Math.asin(frustumRadius / horizontalDistance);
 			beta = Math.atan2(y * e1, x * e2);
-			// App.debug("alpha = "+(alpha*180/Math.PI)+"degrees, beta = "+(beta*180/Math.PI)+"degrees");
+			// Log.debug("alpha = "+(alpha*180/Math.PI)+"degrees, beta = "+(beta*180/Math.PI)+"degrees");
 			return Visible.CENTER_OUTSIDE; // center outside
 		}
 
@@ -918,7 +918,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 			conic.pointChanged(inPlaneCoords, hittingPathParameter);
 			Coords p3d = conic.getCoordSys().getPoint(inPlaneCoords.getX(),
 					inPlaneCoords.getY()); // get nearest point on conic
-			// App.debug("\n"+p2d+"\n3d:\n"+p3d);
+			// Log.debug("\n"+p2d+"\n3d:\n"+p3d);
 
 			if (hitting.isInsideClipping(p3d)) {
 				if (project == null) {

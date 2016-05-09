@@ -995,7 +995,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	 */
 	@Override
 	final public boolean isEqual(GeoElement geo) {
-		// App.debug("Entree 3D");
+		// Log.debug("Entree 3D");
 		// return false if it's a different type
 		if (geo.isGeoPolygon()) {
 
@@ -1004,7 +1004,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			int gLength = g.getPointsLength();
 			if (gLength == this.getPointsLength()) {
 
-				// App.debug("Polygones de meme longueur");
+				// Log.debug("Polygones de meme longueur");
 				// search for a first common point
 				Coords firstPoint = this.getPoint3D(0);
 				boolean fPointFound = false;
@@ -1017,7 +1017,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 					}
 				}
 
-				// App.debug("Premier point commun : "+iFirstPoint);
+				// Log.debug("Premier point commun : "+iFirstPoint);
 				// next point
 				if (fPointFound) {
 					boolean sPointFound = false;
@@ -1035,7 +1035,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 						}
 					}
 
-					// App.debug("Second point commun : "+(iFirstPoint+step));
+					// Log.debug("Second point commun : "+(iFirstPoint+step));
 					// other points
 					if (sPointFound) {
 						int i = 2;
@@ -1045,12 +1045,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 						j = j % gLength;
 						boolean pointOK = true;
 						while ((pointOK) && (i < gLength)) {
-							// App.debug("Recherche pour : "+i+"="+j);
+							// Log.debug("Recherche pour : "+i+"="+j);
 							pointOK = (this.getPoint3D(i).equalsForKernel(g
 									.getPoint3D(j)));
 							/*
-							 * if (pointOK){ App.debug("Point suivant : "+j);
-							 * }else { App.debug("Arret : "+j); }
+							 * if (pointOK){ Log.debug("Point suivant : "+j);
+							 * }else { Log.debug("Arret : "+j); }
 							 */
 							j = j + step;
 							if (j < 0)

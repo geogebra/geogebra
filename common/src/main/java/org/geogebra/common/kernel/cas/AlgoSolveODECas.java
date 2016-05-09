@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author zbynek
@@ -159,7 +159,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo implements UsesCAS {
 				ok = true;
 			}
 		} catch (Throwable e) {
-			App.debug("AlgoSolveODECas: " + e.getMessage());
+			Log.debug("AlgoSolveODECas: " + e.getMessage());
 		}
 		if (!ok) {
 			if (g != null) {

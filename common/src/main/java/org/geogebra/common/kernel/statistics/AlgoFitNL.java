@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.optimization.FitRealFunction;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * <pre>
@@ -151,7 +151,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 			// DEBUG - to be removed:
 			int iter = LMO.getIterations();
 			if (iter > 200) {
-				App.debug("More than 200 iterations...");
+				Log.debug("More than 200 iterations...");
 			}
 
 			outputfunction.setFunction(prfunction.getFunction());
@@ -159,7 +159,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 
 		} catch (Throwable t) {
 			outputfunction.setUndefined();
-			App.debug(t.getMessage());
+			Log.debug(t.getMessage());
 		}
 
 	}

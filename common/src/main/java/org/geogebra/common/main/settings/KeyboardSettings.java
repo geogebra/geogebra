@@ -3,8 +3,8 @@ package org.geogebra.common.main.settings;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.Language;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Settings for Virtual Keyboard
@@ -131,7 +131,7 @@ public class KeyboardSettings extends AbstractSettings {
 				return;
 			}
 		}
-		App.debug("Unsupported keyboard locale: " + string);
+		Log.debug("Unsupported keyboard locale: " + string);
 	}
 
 }

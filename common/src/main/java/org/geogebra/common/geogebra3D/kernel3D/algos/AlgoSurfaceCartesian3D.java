@@ -190,7 +190,7 @@ surface.getPointExpression(),
 			//
 			// } catch (Exception e) {
 			// e.printStackTrace();
-			// App.debug("derivative failed");
+			// Log.debug("derivative failed");
 			// }
 			// if (ev == null) {
 			// curve.setUndefined();

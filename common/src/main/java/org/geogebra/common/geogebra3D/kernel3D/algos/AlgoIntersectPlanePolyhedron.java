@@ -57,15 +57,15 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 		 * = new TreeSet<GeoPolygon>();
 		 * polygons.addAll(polyh.getPolygonsLinked());
 		 * polygons.addAll(polyh.getPolygons()); currentFace = polygons.first();
-		 * polygons.remove(currentFace); App.debug(currentFace); TreeMap<Double,
+		 * polygons.remove(currentFace); Log.debug(currentFace); TreeMap<Double,
 		 * Coords> currentFaceCoords = new TreeMap<Double, Coords>();
 		 * intersectionsCoordsContained(currentFace, currentFaceCoords); if
 		 * (currentFaceCoords.size()>0){ Object[] points =
 		 * currentFaceCoords.values().toArray(); Coords b = (Coords) points[0];
 		 * for (int i=1; i<points.length; i++){ Coords a = b; b = (Coords)
-		 * points[i]; App.debug("\na=\n"+a); App.debug("\nb=\n"+b); Coords c2D =
+		 * points[i]; Log.debug("\na=\n"+a); Log.debug("\nb=\n"+b); Coords c2D =
 		 * currentFace.getNormalProjection(a.add(b).mul(0.5))[1];
-		 * App.debug(currentFace.isInRegion(c2D.getX(), c2D.getY())); } }
+		 * Log.debug(currentFace.isInRegion(c2D.getX(), c2D.getY())); } }
 		 */
 
 		for (int i = 0; i < p.getSegments().length; i++) {

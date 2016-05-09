@@ -550,7 +550,7 @@ public class Kernel {
 			LinkedHashMap<String, String> attrs) {
 
 		if (!(geo instanceof GeoVec3D)) {
-			App.debug("wrong element type for <coords>: " + geo.getClass());
+			Log.debug("wrong element type for <coords>: " + geo.getClass());
 			return false;
 		}
 		GeoVec3D v = (GeoVec3D) geo;
@@ -2305,7 +2305,7 @@ public class Kernel {
 	}
 
 	public void setLibraryJavaScript(String str) {
-		App.debug(str);
+		Log.debug(str);
 		libraryJavaScript = str;
 
 		// libraryJavaScript =
@@ -3404,7 +3404,7 @@ public class Kernel {
 		// can give java.util.ConcurrentModificationException
 		try {
 			if (!notifyViewsActive) {
-				App.debug("Number of registered views = 0");
+				Log.debug("Number of registered views = 0");
 			} else {
 				StringBuilder sb = new StringBuilder();
 				sb.append("Number of registered views = ");
@@ -3414,10 +3414,10 @@ public class Kernel {
 					sb.append(view.getClass());
 				}
 
-				App.debug(sb.toString());
+				Log.debug(sb.toString());
 			}
 		} catch (Exception e) {
-			App.debug(e.getMessage());
+			Log.debug(e.getMessage());
 		}
 
 	}
@@ -4111,7 +4111,7 @@ public class Kernel {
 			GeoClass geoType = it.next();
 
 			if (geoType.is3D) {
-				// App.debug("found 3D geo: " + geoType.xmlName);
+				// Log.debug("found 3D geo: " + geoType.xmlName);
 				kernelHas3DObjects = true;
 				break;
 			}
@@ -4541,7 +4541,7 @@ public class Kernel {
 			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
 			sb.append("]");
 
-			// App.debug(sb.toString());
+			// Log.debug(sb.toString());
 
 			p[i] = getAlgebraProcessor().evaluateToPoint(sb.toString(), true,
 					false);

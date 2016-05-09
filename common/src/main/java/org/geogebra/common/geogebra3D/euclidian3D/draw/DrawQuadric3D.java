@@ -251,7 +251,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			if (horizontalDistance > frustumRadius) {
 				alpha = Math.asin(frustumRadius / horizontalDistance);
 				beta = Math.atan2(v.getY(), v.getX());
-				// App.debug("alpha = "+(alpha*180/Math.PI)+"degrees, beta = "+(beta*180/Math.PI)+"degrees");
+				// Log.debug("alpha = "+(alpha*180/Math.PI)+"degrees, beta = "+(beta*180/Math.PI)+"degrees");
 				visible = Visible.CENTER_OUTSIDE; // center outside
 			} else {
 				visible = Visible.CENTER_INSIDE; // do as if center inside
@@ -266,7 +266,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			while (longitudeAlpha * Math.PI < alpha * longitude) {
 				longitudeAlpha *= 2;
 			}
-			// App.debug(longitudeAlpha+"");
+			// Log.debug(longitudeAlpha+"");
 			surface.drawSphere(center, radius, longitude, beta - longitudeAlpha
 					* Math.PI / longitude, longitudeAlpha);
 		} else {
@@ -663,7 +663,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				max = vMinMax[1];
 				// min -= delta;
 				// max += delta;
-				// App.debug(min+","+max);
+				// Log.debug(min+","+max);
 				center = quadric.getMidpoint3D();
 				ev1 = quadric.getEigenvec3D(0);
 				ev2 = quadric.getEigenvec3D(1);
@@ -839,7 +839,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		getView3D().getMinIntervalOutsideClipping(minmax,
 				quadric.getMidpoint3D(), quadric.getEigenvec3D(2));
 
-		// App.debug(minmax[0]+","+minmax[1]);
+		// Log.debug(minmax[0]+","+minmax[1]);
 
 		return minmax;
 	}
@@ -923,7 +923,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 					Coords center = quadric.getMidpoint3D();
 					checkSphereVisible(center, radius);
 					if (visible != Visible.TOTALLY_OUTSIDE) {
-						// App.debug(l+","+longitude);
+						// Log.debug(l+","+longitude);
 						longitude = l;
 						surface.start(getReusableSurfaceIndex());
 						drawSphere(surface, center, radius);

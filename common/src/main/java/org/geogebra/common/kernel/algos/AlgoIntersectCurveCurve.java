@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algo for intersection of a curve with a curve
@@ -190,10 +190,10 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 			ExpressionNode j01 = eny1.derivative(fVary1, kernel);
 			ExpressionNode minusj11 = eny2.derivative(fVary2, kernel);
 
-			// App.debug(j00.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
-			// App.debug(minusj10.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
-			// App.debug(j01.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
-			// App.debug(minusj11.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
+			// Log.debug(j00.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
+			// Log.debug(minusj10.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
+			// Log.debug(j01.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
+			// Log.debug(minusj11.toValueString(StringTemplate.fullFigures(StringType.GEOGEBRA_XML)));
 
 			// starting point for iteration
 			double x1 = t1.getDouble();
@@ -225,12 +225,12 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 				double j10Eval = -minusj10.evaluateDouble();
 				double j11Eval = -minusj11.evaluateDouble();
 
-				// App.debug(j00Eval+" "+j10Eval+" "+j01Eval+" "+j11Eval);
+				// Log.debug(j00Eval+" "+j10Eval+" "+j01Eval+" "+j11Eval);
 
 				double f1Eval = enx1.evaluateDouble() - enx2.evaluateDouble();
 				double f2Eval = eny1.evaluateDouble() - eny2.evaluateDouble();
 
-				// App.debug(f1Eval + " " + f2Eval);
+				// Log.debug(f1Eval + " " + f2Eval);
 
 				double determinant = j00Eval * j11Eval - j01Eval * j10Eval;
 
@@ -238,7 +238,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 				x1 = x0 - (j11Eval * f1Eval - j10Eval * f2Eval) / determinant;
 				y1 = y0 - (j00Eval * f2Eval - j01Eval * f1Eval) / determinant;
 
-				// App.debug(count+" "+x1+" "+y1);
+				// Log.debug(count+" "+x1+" "+y1);
 			}
 
 			if (count >= maxCount || Double.isNaN(x1) || Double.isNaN(y1)) {
@@ -255,9 +255,9 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 			checkPointInRange(x1, y1, point);
 
 			// if (point.isDefined()) {
-			// App.debug("("+point.inhomX+","+point.inhomY+")");
+			// Log.debug("("+point.inhomX+","+point.inhomY+")");
 			// } else {
-			// App.debug("out of range");
+			// Log.debug("out of range");
 			// }
 
 		} else {
@@ -309,7 +309,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 			sb.append(fv2);
 			sb.append("}]");
 
-			// App.debug(sb.toString());
+			// Log.debug(sb.toString());
 
 			String result = "";
 			try {
@@ -317,7 +317,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 			} catch (Throwable e) {
 				// other points are undefined
 				for (int i = 0; i < outputPoints.size(); i++) {
-					// App.debug("setting undefined "+i);
+					// Log.debug("setting undefined "+i);
 					outputPoints.getElement(i).setUndefined();
 				}
 
@@ -326,10 +326,10 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 			}
 
 			// eg {{ t = 3 / 2, t2 = 1 / 2}}
-			// App.debug(result);
+			// Log.debug(result);
 
-			// App.debug(kernel.getGeoGebraCAS().getCASparser().parseGeoGebraCASInputAndResolveDummyVars(result).evaluate(StringTemplate.maxPrecision));
-			// App.debug(kernel.getGeoGebraCAS().getCASparser().parseGeoGebraCASInput(result).evaluate(StringTemplate.maxPrecision));
+			// Log.debug(kernel.getGeoGebraCAS().getCASparser().parseGeoGebraCASInputAndResolveDummyVars(result).evaluate(StringTemplate.maxPrecision));
+			// Log.debug(kernel.getGeoGebraCAS().getCASparser().parseGeoGebraCASInput(result).evaluate(StringTemplate.maxPrecision));
 
 			// result can have eg 1/2 or sqrt(5) in so needs parsing
 			AlgebraProcessor ap = kernel.getAlgebraProcessor();
@@ -354,9 +354,9 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 					String s2 = result.substring(nextComma + 1, nextCloseBrace)
 							.replaceAll(" ", "");
 
-					// App.debug(ap.evaluateToDouble(s1.substring(fv1.length() +
+					// Log.debug(ap.evaluateToDouble(s1.substring(fv1.length() +
 					// 1), true));
-					// App.debug(ap.evaluateToDouble(s2.substring(fv2.length() +
+					// Log.debug(ap.evaluateToDouble(s2.substring(fv2.length() +
 					// 1), true));
 
 					if (s1.startsWith(fv1 + "=") && s2.startsWith(fv2 + "=")) {
@@ -365,9 +365,9 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 						double p2 = ap.evaluateToDouble(
 								s2.substring(fv2.length() + 1), true);
 
-						// App.debug(p1+" "+
+						// Log.debug(p1+" "+
 						// curve.getMinParameter()+" "+curve.getMaxParameter());
-						// App.debug(p2+" "+
+						// Log.debug(p2+" "+
 						// curve2.getMinParameter()+" "+curve2.getMaxParameter());
 
 						checkPointInRange(p1, p2, point);
@@ -379,15 +379,15 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 						double p1 = ap.evaluateToDouble(
 								s2.substring(fv1.length() + 1), true);
 
-						// App.debug(t1+" "+
+						// Log.debug(t1+" "+
 						// curve1.getMinParameter()+" "+curve1.getMaxParameter());
-						// App.debug(t2+" "+
+						// Log.debug(t2+" "+
 						// curve2.getMinParameter()+" "+curve2.getMaxParameter());
 
 						checkPointInRange(p1, p2, point);
 
 					} else {
-						App.debug("problem: " + s1 + " " + s2);
+						Log.debug("problem: " + s1 + " " + s2);
 						point.setUndefined();
 					}
 
@@ -395,17 +395,17 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 					currentBrace = result.indexOf("{", currentBrace + 1);
 				} else {
 					// something's gone wrong
-					App.debug("problem with result");
+					Log.debug("problem with result");
 					currentBrace = -1;
 				}
 			}
 		}
 
-		// App.debug(index+" "+outputPoints.size());
+		// Log.debug(index+" "+outputPoints.size());
 
 		// other points are undefined
 		for (; index < outputPoints.size(); index++) {
-			// App.debug("setting undefined "+index);
+			// Log.debug("setting undefined "+index);
 			outputPoints.getElement(index).setUndefined();
 		}
 	}
@@ -419,7 +419,7 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 
 			double x = curve.getFun(0).evaluate(p1);
 			double y = curve.getFun(1).evaluate(p1);
-			// App.debug("in range: ("+x+", "+y+")");
+			// Log.debug("in range: ("+x+", "+y+")");
 
 			point.setCoords(x, y, 1.0);
 

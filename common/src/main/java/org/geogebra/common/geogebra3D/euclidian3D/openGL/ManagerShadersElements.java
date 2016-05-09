@@ -656,7 +656,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 		GeometriesSetElements set = (GeometriesSetElements) geometriesSetList
 				.remove(index);
 		set.removeBuffers();
-		// App.debug("removeGeometrySet : " + index);
+		// Log.debug("removeGeometrySet : " + index);
 	}
 
 	@Override

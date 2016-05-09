@@ -665,7 +665,7 @@ abstract public class Manager {
 			longitude *= 2;
 		}
 
-		// App.debug("getLongitude="+longitude);
+		// Log.debug("getLongitude="+longitude);
 		return longitude;
 	}
 

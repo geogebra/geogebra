@@ -31,9 +31,9 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 3D vector class
@@ -186,7 +186,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 					}
 				}
 			} catch (CircularDefinitionException e) {
-				App.debug("set GeoVector3D: CircularDefinitionException");
+				Log.debug("set GeoVector3D: CircularDefinitionException");
 			}
 		}
 	}

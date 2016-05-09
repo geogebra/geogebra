@@ -7,7 +7,7 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /* 
  GeoGebra - Dynamic Mathematics for Everyone
@@ -167,7 +167,7 @@ public final class RegressionMath {
 			// System.out.println(System.currentTimeMillis()-time);
 			// diff(pararray,par);
 		} catch (Throwable t) {
-			App.debug(t.toString());
+			Log.debug(t.toString());
 			error = true;
 		}// try-catch. ToDo: A bit more fine-grained error-handling...
 		return !error;

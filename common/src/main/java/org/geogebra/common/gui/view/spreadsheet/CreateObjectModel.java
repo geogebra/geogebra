@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Dialog to create GeoElements (lists, matrices, tabletext, etc.) from
@@ -94,7 +95,7 @@ public class CreateObjectModel {
 			titleText = app.getMenu("CreateMatrix");
 			break;
 		}
-		App.debug("[CO] title is " + titleText);
+		Log.debug("[CO] title is " + titleText);
 		return titleText;
 
 	}

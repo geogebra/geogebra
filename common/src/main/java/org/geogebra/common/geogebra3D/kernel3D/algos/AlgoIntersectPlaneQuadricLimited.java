@@ -161,7 +161,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 		double[] topParameters = setPartPoints(algoTop, getTop(), topP);
 
 		/*
-		 * App.debug(bottomParameters[0]+","+ bottomParameters[1]+","+
+		 * Log.debug(bottomParameters[0]+","+ bottomParameters[1]+","+
 		 * topParameters[0]+","+ topParameters[1]);
 		 */
 
@@ -185,7 +185,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 			// if topParameters are NaN, and not bottomParameters,
 			// set twice the "middle" parameter for topParameters to check the
 			// order
-			// App.debug(topParameters[0]+","+bottomParameters[0]);
+			// Log.debug(topParameters[0]+","+bottomParameters[0]);
 			if (Double.isNaN(topParameters[0])) {
 				if (!Double.isNaN(bottomParameters[0])) {
 					// if parameters are equal, no hole
@@ -204,7 +204,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 						conic.pathChangedWithoutCheck(P, pp, false);
 						P = conic.getPoint(P.getX(), P.getY());
 						// check if "midpoint" is on quadric side
-						// App.debug("\n"+P+"\n"+ql.getSide().isInRegion(P));
+						// Log.debug("\n"+P+"\n"+ql.getSide().isInRegion(P));
 						if (getSide().isInRegion(P)) {
 							// set "midpoint"
 							topParameters[0] = midParameter;
@@ -259,10 +259,10 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 		 * topParameters[0]+","+ topParameters[1]);
 		 */
 
-		// App.debug("\n"+bottomP[0]+"\n"+bottomP[1]+"\n"+topP[0]+"\n"+topP[1]);
+		// Log.debug("\n"+bottomP[0]+"\n"+bottomP[1]+"\n"+topP[0]+"\n"+topP[1]);
 
 		/*
-		 * App.debug(PathNormalizer.infFunction(bottomParameters[0])+","+
+		 * Log.debug(PathNormalizer.infFunction(bottomParameters[0])+","+
 		 * PathNormalizer.infFunction(topParameters[0])+","+
 		 * PathNormalizer.infFunction(bottomParameters[1]-2)+","+
 		 * PathNormalizer.infFunction(topParameters[1]-2));
@@ -341,7 +341,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 		// calc points
 		algo.intersect(plane, c, points);
 
-		// App.debug(points[0].isDefined());
+		// Log.debug(points[0].isDefined());
 
 		if (!points[0].isDefined()) {
 			return new double[] { Double.NaN, Double.NaN };

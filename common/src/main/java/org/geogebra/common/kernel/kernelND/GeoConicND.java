@@ -358,7 +358,7 @@ FromMeta
 			// coords.setY(yt);
 			// coords.setZ(1);
 			// coordsEVtoRW(coords);
-			// App.debug("root #" + i + ": (" + coords.getX() + ","
+			// Log.debug("root #" + i + ": (" + coords.getX() + ","
 			// + coords.getY() + ") , d=" + d);
 		}
 		return param;
@@ -2969,7 +2969,7 @@ FromMeta
 		
 		setStartPointsForDoubleLine();
 		//setStartPointsForLines();
-		//App.debug("\ndouble line : " + lines[0]+"\nstart point : "+startPoints[0]);
+		//Log.debug("\ndouble line : " + lines[0]+"\nstart point : "+startPoints[0]);
 	}
 	
 	/**

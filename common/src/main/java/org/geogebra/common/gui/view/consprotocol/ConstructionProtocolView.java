@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.common.util.debug.Log;
 
 public class ConstructionProtocolView {
 	
@@ -328,7 +329,7 @@ public class ConstructionProtocolView {
 	}
 
 	public void scrollToConstructionStep(){
-		//TODO App.debug("ConstructionProtocolView.scrollToConstructionStep - unimplemented in common");
+		//TODO Log.debug("ConstructionProtocolView.scrollToConstructionStep - unimplemented in common");
 	}
 	
 	public class ConstructionTableData implements View, SetLabels{
@@ -393,7 +394,7 @@ public class ConstructionProtocolView {
 		}
 		
 		public GAbstractTableModel getImpl(){
-			App.debug("ConstructionTableData.getImpl() must be overriden");
+			Log.debug("ConstructionTableData.getImpl() must be overriden");
 			return null;
 		}
 
@@ -692,11 +693,11 @@ public class ConstructionProtocolView {
 
 		
 		protected void fireTableRowsDeleted(int firstRow, int lastRow){
-			App.debug("fireTableRowsDeleted - must be overridden");
+			Log.debug("fireTableRowsDeleted - must be overridden");
 		}
 
 		protected void fireTableRowsInserted(int firstRow, int lastRow){
-			App.debug("fireTableRowsInserted - must be overriden");
+			Log.debug("fireTableRowsInserted - must be overriden");
 		}
 		
 		public final void initView() {
@@ -708,7 +709,7 @@ public class ConstructionProtocolView {
 		}
 
 		public void updateAll() {
-			App.debug("updateAll - unimplemented");
+			Log.debug("updateAll - unimplemented");
 		}
 
 		public void notifyAddAll(int lastConstructionStep) {

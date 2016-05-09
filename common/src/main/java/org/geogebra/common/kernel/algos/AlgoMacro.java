@@ -38,7 +38,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm to invoke a specific macro.
@@ -187,7 +187,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 			getMacroConstructionState();
 
 		} catch (Exception e) {
-			App.debug("AlgoMacro compute():\n");
+			Log.debug("AlgoMacro compute():\n");
 			this.locked = false;
 			e.printStackTrace();
 			for (int i = 0; i < getOutputLength(); i++) {
@@ -219,7 +219,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 				if (macroInput[i] instanceof GeoVector)
 					((GeoVector) macroInput[i]).setStartPoint(null);
 			} catch (Exception e) {
-				App.debug("Exception while handling vector input: " + e);
+				Log.debug("Exception while handling vector input: " + e);
 			}
 			macroInput[i].setRealLabel(input[i].getLabelSimple());
 			// Application.debug("SET INPUT object: " + input[i] + " => " +
@@ -466,7 +466,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 
 			}
 		} catch (Exception e) {
-			App.debug("AlgoMacro.initLocateable:");
+			Log.debug("AlgoMacro.initLocateable:");
 			e.printStackTrace();
 		}
 	}

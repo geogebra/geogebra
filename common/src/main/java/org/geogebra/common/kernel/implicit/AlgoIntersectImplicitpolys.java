@@ -33,8 +33,8 @@ import org.geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.Cloner;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm to intersect two implicit polynomial equations<br />
@@ -209,7 +209,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 					params[3], AlgoIntersectImplicitCurve.SAMPLE_SIZE_2D, 10,
 					valPairs);
 			setPoints(valPairs);
-			App.debug(params[0] + "," + params[2] + "," + params[1] + ","
+			Log.debug(params[0] + "," + params[2] + "," + params[1] + ","
 					+ params[3] + "," + valPairs.size());
 			return;
 		}

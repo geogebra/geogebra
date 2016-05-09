@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.GeoAssignment;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Model for the ToolCreationDialog
@@ -280,7 +281,7 @@ public class ToolCreationDialogModel {
 			}
 			return true;
 		}
-		App.debug("not compatible");
+		Log.debug("not compatible");
 		return false;
 	}
 

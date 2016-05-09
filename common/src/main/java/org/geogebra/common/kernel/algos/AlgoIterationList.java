@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Iteration[ f(x), x0, n ]
@@ -254,7 +254,7 @@ public class AlgoIterationList extends AlgoElement {
 					long mem = kernel.getApplication().freeMemory();
 					list.clearCache();
 					kernel.initUndoInfo(); // clear all undo info
-					App.debug("AlgoIterationList aborted: free memory reached "
+					Log.debug("AlgoIterationList aborted: free memory reached "
 							+ mem);
 					return;
 				}
@@ -374,7 +374,7 @@ public class AlgoIterationList extends AlgoElement {
 				long mem = kernel.getApplication().freeMemory();
 				list.clearCache();
 				kernel.initUndoInfo(); // clear all undo info
-				App.debug("AlgoIterationList aborted: free memory reached "
+				Log.debug("AlgoIterationList aborted: free memory reached "
 						+ mem);
 				return;
 			}
@@ -382,7 +382,7 @@ public class AlgoIterationList extends AlgoElement {
 			// set local var value
 			// updateLocalVar(currentVal);
 			updateLocalVar(i, list.get(i - 1));
-			App.debug(expression + "");
+			Log.debug(expression + "");
 			// copy expression value to listElement
 			// if it's undefined, just copy the undefined property
 			if (expression.isDefined()) {

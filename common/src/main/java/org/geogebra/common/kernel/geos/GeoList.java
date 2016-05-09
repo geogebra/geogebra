@@ -1771,7 +1771,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			if (geo instanceof PathOrPoint){
 				final double d = p.distanceToPath((PathOrPoint) geo);
 
-				//App.debug(i+" "+d+" "+distance+" "+geo);
+				//Log.debug(i+" "+d+" "+distance+" "+geo);
 				if (d < distance) {
 					distance = d;
 					closestPointIndex = i;

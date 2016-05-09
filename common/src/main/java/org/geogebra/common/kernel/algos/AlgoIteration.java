@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Iteration[ f(x), x0, n ]
@@ -144,7 +144,7 @@ public class AlgoIteration extends AlgoElement {
 			computeSimple();
 			return;
 		}
-		App.debug(nGeo.isLabelSet() + "label");
+		Log.debug(nGeo.isLabelSet() + "label");
 		if (updateRunning)
 			return;
 		updateRunning = true;

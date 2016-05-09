@@ -132,7 +132,7 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 
 			return;
 
-			// App.debug(fitAlgo.P.getEntry(0,0)+" "+fitAlgo.P.getEntry(0,1));
+			// Log.debug(fitAlgo.P.getEntry(0,0)+" "+fitAlgo.P.getEntry(0,1));
 		}
 
 		// not a polynomial

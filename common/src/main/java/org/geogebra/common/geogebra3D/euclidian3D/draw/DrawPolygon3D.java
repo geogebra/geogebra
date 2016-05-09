@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for drawing 3D polygons.
@@ -275,7 +275,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 			}
 		} catch (Exception e) {
-			App.debug(e.getMessage());
+			Log.debug(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -376,7 +376,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		// intersection curve
 		if (segmentsPoints == null) {
-			// App.debug(this);
+			// Log.debug(this);
 			setWaitForUpdate();
 			return;
 		}
@@ -506,7 +506,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		GeoPolygon poly = (GeoPolygon) getGeoElement();
 
 		if (poly.getCoordSys() == null) {
-			App.debug("" + poly);
+			Log.debug("" + poly);
 			return false;
 		}
 

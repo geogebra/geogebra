@@ -81,7 +81,7 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 
 	@Override
 	public void compute() {
-		// App.debug("compute");
+		// Log.debug("compute");
 	}
 
 	/**

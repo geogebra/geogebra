@@ -60,7 +60,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 		for (int i = 0; i < checkpoints.length; i++) {
 			double x = checkpoints[i];
 			if (!Kernel.isZero(p * x * x + q * x + r - f.evaluate(x))) {
-				// App.debug(p + "," + q + "," + r + ","
+				// Log.debug(p + "," + q + "," + r + ","
 				// + (p * x * x + q * x + r - f.evaluate(x)));
 				isQuadratic = false;
 			}

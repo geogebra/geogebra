@@ -98,7 +98,7 @@ public class AlgoIntersectPathPlanePolygon3D extends
 		d1 = intersection[1];
 
 		// if (d1.isZero())
-		// App.debug("\np: "+p+"\no1=\n"+o1+"\nd1=\n"+d1);
+		// Log.debug("\np: "+p+"\no1=\n"+o1+"\nd1=\n"+d1);
 	}
 
 	@Override

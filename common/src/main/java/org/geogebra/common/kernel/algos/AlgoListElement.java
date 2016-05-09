@@ -20,8 +20,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Test;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * n-th element of a GeoList object.
@@ -160,7 +160,7 @@ public class AlgoListElement extends AlgoElement {
 			} while (current.isGeoList() && k < num2.length);
 			element = current.copyInternal(cons);
 		} catch (Exception e) {
-			App.debug("error initialising list");
+			Log.debug("error initialising list");
 		}
 
 		// desperate case: empty list, or malformed 2D array

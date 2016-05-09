@@ -524,7 +524,7 @@ public class PlotterBrush implements PathPlotter {
 			}
 		}
 
-		// App.debug("circle ==== longitude="+longitude);
+		// Log.debug("circle ==== longitude="+longitude);
 		return longitude;
 	}
 
@@ -1056,7 +1056,7 @@ public class PlotterBrush implements PathPlotter {
 
 	private void drawTo(boolean lineTo) {
 
-		// App.debug("\n"+p);
+		// Log.debug("\n"+p);
 
 		if (lineTo) {
 			curveTo(tmpDrawTo);

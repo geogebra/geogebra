@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor.Direction;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Helper class that handles cell formats for the spreadsheet table cell
@@ -391,11 +392,11 @@ public class CellFormat implements CellFormatInterface {
 	// for debugging
 	private static void printMap(MyHashMap formatMap) {
 
-		App.debug(" =========  map contents ==========");
+		Log.debug(" =========  map contents ==========");
 		for (Entry<GPoint, Object> entry : formatMap.entrySet()) {
 			GPoint key = entry.getKey();
 			Object value = entry.getValue();
-			App.debug(" key: " + key.x + " , " + key.y + "  value: "
+			Log.debug(" key: " + key.x + " , " + key.y + "  value: "
 					+ value.toString());
 		}
 

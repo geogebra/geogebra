@@ -35,7 +35,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  *
@@ -184,7 +184,7 @@ public class AlgoJoinPoints extends AlgoElement implements
 			Polynomial[] coords2 = Q.getPolynomials();
 			if (coords1 != null && coords2 != null) {
 				polynomials = Polynomial.crossProduct(coords1, coords2);
-				App.debug("polys(" + g.getLabelSimple() + "): "
+				Log.debug("polys(" + g.getLabelSimple() + "): "
 						+ polynomials[0].toString() + ","
 						+ polynomials[1].toString() + ","
 						+ polynomials[2].toString());

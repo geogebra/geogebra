@@ -251,7 +251,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 		// update area
 		polyhedron.setArea(l * l * areaFactor);
-		// App.debug("Aire "+polyhedron.getArea());
+		// Log.debug("Aire "+polyhedron.getArea());
 
 		// update height
 		polyhedron.setOrientedHeight(l * heightFactor);

@@ -258,7 +258,7 @@ public class ManagerElementForGLList extends Manager {
 
 
 	public void put(short value) {
-		// App.debug("" + value);
+		// Log.debug("" + value);
 		managerOriginal.normal(nx.get(value), ny.get(value),
 				nz.get(value));
 		if (hasTexture) {

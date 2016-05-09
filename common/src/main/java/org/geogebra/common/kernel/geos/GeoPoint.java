@@ -1721,7 +1721,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public void update() {
 		super.update();
 		/*
-		 * App.debug(""); System.out.print("point: " +
+		 * Log.debug(""); System.out.print("point: " +
 		 * this.getLabel(StringTemplate.defaultTemplate) + " = " +
 		 * this.toString(StringTemplate.defaultTemplate) + "\n" + "il: "); if
 		 * (this.incidenceList!=null) { for (int i=0;

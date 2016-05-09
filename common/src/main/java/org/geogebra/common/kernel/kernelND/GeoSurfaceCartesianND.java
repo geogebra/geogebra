@@ -123,7 +123,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 				for (int j = 0; j < vars.length; j++) {
 					fun2[k][j][i] = new FunctionNVar(ve.derivative(vars[j],
 							getKernel()).wrap(), vars);
-					// App.debug(k + "," + j + "," + i + ": " + fun2[k][j][i]);
+					// Log.debug(k + "," + j + "," + i + ": " + fun2[k][j][i]);
 				}
 			}
 		}

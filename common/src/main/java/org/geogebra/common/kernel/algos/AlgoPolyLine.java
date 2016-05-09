@@ -102,7 +102,7 @@ public class AlgoPolyLine extends AlgoElement implements GetPointsAlgo {
 		this.geoList = geoList;
 		this.penStroke = penStroke;
 
-		// App.debug(penStroke);
+		// Log.debug(penStroke);
 
 		// poly = new GeoPolygon(cons, points);
 		createPolyLine();

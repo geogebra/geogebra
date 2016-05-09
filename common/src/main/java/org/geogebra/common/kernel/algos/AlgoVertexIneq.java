@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class AlgoVertexIneq extends AlgoElement {
 
@@ -219,7 +219,7 @@ public class AlgoVertexIneq extends AlgoElement {
 			// no intersections possible
 			break;
 		default:
-			App.debug("Missing case" + a.getType());
+			Log.debug("Missing case" + a.getType());
 		}
 
 	}
@@ -249,7 +249,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intParamYX(Inequality a, Inequality b) {
-		App.debug(new Throwable().getStackTrace()[0].getMethodName());
+		Log.debug(new Throwable().getStackTrace()[0].getMethodName());
 		GeoPoint[] bz = b.getZeros();
 		GeoFunction af = a.getFunBorder();
 		for (GeoPoint bp : bz) {
@@ -348,7 +348,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private void intParamXLinear(Inequality a, Inequality b, int i, int j) {
-		App.debug(new Throwable().getStackTrace()[0].getMethodName());
+		Log.debug(new Throwable().getStackTrace()[0].getMethodName());
 		initHelpers();
 
 		GeoLine bl = b.getLineBorder();
@@ -427,7 +427,7 @@ public class AlgoVertexIneq extends AlgoElement {
 				ensurePoint();
 				vertices.get(validVertices).setCoords(ap.getX(), bp.getX(), 1);
 				validVertices++;
-				App.debug(ap + "," + bp);
+				Log.debug(ap + "," + bp);
 			}
 		}
 
@@ -443,7 +443,7 @@ public class AlgoVertexIneq extends AlgoElement {
 			co[1] = 2 * coef[3] * bp.getX() + 2 * coef[4];
 			co[0] = coef[1] * bp.getX() * bp.getX() + 2 * coef[5] * bp.getX()
 					+ coef[2];
-			App.debug(co[0] + "," + co[1] + "," + co[2]);
+			Log.debug(co[0] + "," + co[1] + "," + co[2]);
 			int n = kernel.getEquationSolver().solveQuadratic(co);
 
 			for (int k = 0; k < n; k++) {
@@ -462,7 +462,7 @@ public class AlgoVertexIneq extends AlgoElement {
 			co[1] = 2 * coef[3] * bp.getX() + 2 * coef[5];
 			co[0] = coef[0] * bp.getX() * bp.getX() + 2 * coef[4] * bp.getX()
 					+ coef[2];
-			App.debug(co[0] + "," + co[1] + "," + co[2]);
+			Log.debug(co[0] + "," + co[1] + "," + co[2]);
 			int n = kernel.getEquationSolver().solveQuadratic(co);
 
 			for (int k = 0; k < n; k++) {

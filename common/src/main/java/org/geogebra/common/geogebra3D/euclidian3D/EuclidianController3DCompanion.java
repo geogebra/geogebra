@@ -245,7 +245,7 @@ public class EuclidianController3DCompanion extends
 			double gy = ec.view.getGridDistances(1);
 			double x = Kernel.roundToScale(x0, gx);
 			double y = Kernel.roundToScale(y0, gy);
-			// App.debug("\n"+x+"\n"+y+"\np=\n"+project);
+			// Log.debug("\n"+x+"\n"+y+"\np=\n"+project);
 			if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
 					|| (Math.abs(x - x0) < gx
 							* ec.getPointCapturingPercentage() && Math.abs(y
@@ -288,7 +288,7 @@ public class EuclidianController3DCompanion extends
 			double gy = ec.view.getGridDistances(1);
 			double x = Kernel.roundToScale(x0, gx);
 			double y = Kernel.roundToScale(y0, gy);
-			// App.debug("\nx="+x+"\ny="+y+"\nz=\n"+z);
+			// Log.debug("\nx="+x+"\ny="+y+"\nz=\n"+z);
 			if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
 					|| (Math.abs(x - x0) < gx
 							* ec.getPointCapturingPercentage() && Math.abs(y

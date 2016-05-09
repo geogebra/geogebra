@@ -142,7 +142,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		detS = matrix[0] * matrix[1] * matrix[2] - matrix[0] * matrix[6]
 				* matrix[6] - matrix[1] * matrix[5] * matrix[5] - matrix[2]
 				* matrix[4] * matrix[4] + 2 * matrix[4] * matrix[5] * matrix[6];
-		App.debug(detS + ",");
+		Log.debug(detS + ",");
 		if (Kernel.isZero(detS)) {
 			classifyNoMidpointQuadric();
 		} else {
@@ -172,7 +172,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		eigenval[2] = 0;
 
-		// App.debug("eigenvals = " + eigenval[0] + "," + eigenval[1] + ","
+		// Log.debug("eigenvals = " + eigenval[0] + "," + eigenval[1] + ","
 		// + eigenval[2]);
 
 		// check if others eigenvalues are 0
@@ -362,7 +362,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		tmpMatrix3x3.set(2, 3, matrix[6]);
 		tmpMatrix3x3.set(3, 2, matrix[6]);
 
-		// App.debug("\n=================================\nvalue = " + value);
+		// Log.debug("\n=================================\nvalue = " + value);
 
 		ret.setX(0);
 		ret.setY(0);
@@ -370,7 +370,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		ret.setW(0);
 		tmpMatrix3x3.pivotDegenerate(ret, Coords.ZERO);
 
-		// App.debug("\nvalue = " + value + "\nmatrix = \n" + tmpMatrix3x3
+		// Log.debug("\nvalue = " + value + "\nmatrix = \n" + tmpMatrix3x3
 		// + "\nsol = \n" + ret);
 	}
 
@@ -514,7 +514,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		eigenvecND[1].setCrossProduct(eigenvecND[2], eigenvecND[0]);
 
 		// for (int i = 0; i < 3; i++) {
-		// App.debug("eigenvecND[" + i + "]=\n" + eigenvecND[i]);
+		// Log.debug("eigenvecND[" + i + "]=\n" + eigenvecND[i]);
 		// }
 
 		// set eigenvalues
@@ -694,7 +694,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		double[] coords = { x, y, z, 1 };
 		setMidpoint(coords);
 
-		// App.debug("\nmidpoint = " + x + "," + y + "," + z);
+		// Log.debug("\nmidpoint = " + x + "," + y + "," + z);
 
 		// set eigenvalues
 		eigenval[0] = detS;
@@ -846,7 +846,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	private void hyperboloidTwoSheets(double val0, double val1, double val2,
 			double beta) {
-		// App.debug("hyperboloidTwoSheets : " + val0 + "," + val1 + "," +
+		// Log.debug("hyperboloidTwoSheets : " + val0 + "," + val1 + "," +
 		// val2);
 		eigenval[0] = val1;
 		eigenval[1] = val2;
@@ -1257,7 +1257,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	protected void findEigenvectors() {
-		// App.debug("\neigen values: " + eigenval[0] + ","
+		// Log.debug("\neigen values: " + eigenval[0] + ","
 		// + eigenval[1] + ","
 		// + eigenval[2]);
 
@@ -1304,12 +1304,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 			// for (int i = 0; i < 3; i++) {
 			// for (int j = i + 1; j < 3; j++) {
-			// App.debug("dotproduct = "
+			// Log.debug("dotproduct = "
 			// + eigenvec[i].dotproduct(eigenvec[j]));
 			// }
 			// }
 			//
-			// App.debug("orientation : "
+			// Log.debug("orientation : "
 			// + eigenvec[0].crossProduct(eigenvec[1]).dotproduct(
 			// eigenvec[2]));
 		}
@@ -1320,7 +1320,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// s += "\neigen vector #" + i + ": " + "{" + v.getX() + ","
 		// + v.getY() + "," + v.getZ() + "}";
 		// }
-		// App.debug(s);
+		// Log.debug(s);
 
 	}
 
@@ -1355,7 +1355,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			}
 		}
 
-		// App.debug("\neigen value: " + mu + "\nmatrix - mu * Id:\n"
+		// Log.debug("\neigen value: " + mu + "\nmatrix - mu * Id:\n"
 		// + subEFormat(m[0], mu) + " " + format(m[4]) + " "
 		// + format(m[5]) + "\n" + format(m[4]) + " "
 		// + subEFormat(m[1], mu) + " " + format(m[6]) + "\n"
@@ -2406,7 +2406,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// compute intersection
 		CoordMatrix qm = getSymetricMatrix();
-		// App.debug("qm=\n"+qm);
+		// Log.debug("qm=\n"+qm);
 		if (tmpMatrix4x2 == null) {
 			tmpMatrix4x2 = new CoordMatrix(4, 2);
 		}
@@ -2420,7 +2420,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// sets the solution matrix from line and quadric matrix
 		CoordMatrix sm = tmpMatrix2x4.mul(qm).mul(tmpMatrix4x2);
 
-		// App.debug("sm=\n"+sm);
+		// Log.debug("sm=\n"+sm);
 		double a = sm.get(1, 1);
 		double b = sm.get(1, 2);
 		double c = sm.get(2, 2);
@@ -2454,7 +2454,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// compute intersection
 		CoordMatrix qm = getSymetricMatrix();
-		// App.debug("qm=\n"+qm);
+		// Log.debug("qm=\n"+qm);
 		if (tmpMatrix4x2 == null) {
 			tmpMatrix4x2 = new CoordMatrix(4, 2);
 		}
@@ -2468,7 +2468,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// sets the solution matrix from line and quadric matrix
 		CoordMatrix sm = tmpMatrix2x4.mul(qm).mul(tmpMatrix4x2);
 
-		// App.debug("sm=\n"+sm);
+		// Log.debug("sm=\n"+sm);
 		double a = sm.get(1, 1);
 		double b = sm.get(1, 2);
 		double c = sm.get(2, 2);

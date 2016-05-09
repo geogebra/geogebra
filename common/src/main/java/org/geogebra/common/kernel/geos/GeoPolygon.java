@@ -1767,7 +1767,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 		p0 = getPoint(0);
 		numCS = 1;
-		// App.debug(" p0 = " + p0.inhomX + "," + p0.inhomY);
+		// Log.debug(" p0 = " + p0.inhomX + "," + p0.inhomY);
 
 		int secondPoint = -1;
 		boolean secondPointFound = false;
@@ -1781,7 +1781,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			else if (!Kernel.isEqual(p0.inhomY, p1.inhomY,
 					Kernel.STANDARD_PRECISION))
 				secondPointFound = true;
-			// App.debug(" secondPointFound = " + secondPointFound);
+			// Log.debug(" secondPointFound = " + secondPointFound);
 		}
 
 		int thirdPoint = -1;
@@ -1802,7 +1802,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		// thirdPoint++;
 		// Application.debug(" secondPoint = "+secondPoint+"\n thirdPoint = "+thirdPoint);
 
-		// App.debug("numCS = " + numCS);
+		// Log.debug("numCS = " + numCS);
 
 	}
 
@@ -2031,8 +2031,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			dx2 = x2 - x1;
 			dy2 = y2 - y1;
 			int orientation2 = Kernel.compare(dy1*dx2, dx1*dy2);
-			//App.debug(""+answer+","+hasAngle360);
-			//App.debug("i : "+i+" -- orientations : "+orientation+","+orientation2);
+			//Log.debug(""+answer+","+hasAngle360);
+			//Log.debug("i : "+i+" -- orientations : "+orientation+","+orientation2);
 
 			if (!hasAngle360 && orientation2 == 0){ // U-turn
 				if (Kernel.isGreater(0, dx1*dx2+dy1*dy2)){
@@ -2076,7 +2076,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 */
 	public boolean isConvexInverseDirection(){
 		
-		//App.debug(""+convexOrientation);
+		//Log.debug(""+convexOrientation);
 		
 		return (convexOrientation > 0);
 	}

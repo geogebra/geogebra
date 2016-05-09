@@ -13,6 +13,7 @@ import org.geogebra.common.javax.swing.GSplitPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.settings.LayoutSettings;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author gabor
@@ -146,7 +147,7 @@ public abstract class Layout {
 				spData, dpData, defToolbar, true, false, true, false, true,
 				InputPositon.algebraView);
 		defaultPerspectives[i].setIconString("menu_view_spreadsheet.png");
-		App.debug("CAS support: " + app.supportsView(App.VIEW_CAS));
+		Log.debug("CAS support: " + app.supportsView(App.VIEW_CAS));
 		if (app.supportsView(App.VIEW_CAS)) {
 			// CAS & Graphics - cas and euclidian view
 			dpData = new DockPanelData[6];

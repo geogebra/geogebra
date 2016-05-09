@@ -106,21 +106,21 @@ public class AlgoFitImplicit extends AlgoElement {
 				return;
 			}
 
-			// App.debug("datasize = " + datasize);
-			// App.debug("order = " + order);
-			// App.debug("M cols = "+M.getColumnDimension());
-			// App.debug("M rows = "+M.getRowDimension());
-			// App.debug("M = "+M.toString());
+			// Log.debug("datasize = " + datasize);
+			// Log.debug("order = " + order);
+			// Log.debug("M cols = "+M.getColumnDimension());
+			// Log.debug("M rows = "+M.getRowDimension());
+			// Log.debug("M = "+M.toString());
 
 			SingularValueDecomposition svd = new SingularValueDecompositionImpl(
 					M);
 
 			V = svd.getV();
 
-			// App.debug("V = "+V.toString());
+			// Log.debug("V = "+V.toString());
 
-			// App.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
-			// App.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
+			// Log.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
+			// Log.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
 
 			makeFunction();
 
@@ -160,7 +160,7 @@ public class AlgoFitImplicit extends AlgoElement {
 					int ypower = i - xpower;
 
 					double val = power(x, xpower) * power(y, ypower);
-					// App.debug(val + "x^"+xpower+" * y^"+ypower);
+					// Log.debug(val + "x^"+xpower+" * y^"+ypower);
 
 					M.setEntry(r, c++, val);
 
@@ -198,10 +198,10 @@ public class AlgoFitImplicit extends AlgoElement {
 
 		double[][] coeffs = new double[order + 1][order + 1];
 
-		// App.debug("row/cols = "+V.getRowDimension() + " "+
+		// Log.debug("row/cols = "+V.getRowDimension() + " "+
 		// V.getColumnDimension()+" "+(order * (order + 3) / 2 -1));
 
-		// App.debug(V.toString());
+		// Log.debug(V.toString());
 
 		RealVector coeffsRV = V.getColumnVector(V.getColumnDimension() - 1);
 

@@ -198,7 +198,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					}
 				}
 
-				// App.debug("verticalLinesArray = "
+				// Log.debug("verticalLinesArray = "
 				// + verticalLinesArray.toString());
 			}
 
@@ -218,7 +218,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					}
 				}
 
-				// App.debug("horizontalLinesArray = "
+				// Log.debug("horizontalLinesArray = "
 				// + horizontalLinesArray.toString());
 			}
 

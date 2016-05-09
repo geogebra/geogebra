@@ -103,7 +103,7 @@ public abstract class PropertiesView implements View {
 
 		// App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting);
 		// App.printStacktrace("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size());
-		// App.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
+		// Log.debug("\ntype="+type+"\nisIniting="+isIniting+"\nsize="+app.getSelectedGeos().size()+"\ngeos="+geos);
 
 		if (type == null) {
 			return;

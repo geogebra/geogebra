@@ -43,7 +43,7 @@ public class DrawList3D extends Drawable3D {
 	@Override
 	protected boolean updateForItSelf() {
 
-		// App.debug("LIST -- "+getGeoElement());
+		// Log.debug("LIST -- "+getGeoElement());
 
 		isVisible = geoList.isEuclidianVisible();
 		if (!isVisible)
@@ -100,7 +100,7 @@ public class DrawList3D extends Drawable3D {
 		 * // check if a new update is needed in a next loop for (int i = 0; i <
 		 * drawables.size(); i++) { Drawable3D d = (Drawable3D)
 		 * drawables.get(i); if (!d.getGeoElement().isLabelSet()) {
-		 * //App.debug("\n"
+		 * //Log.debug("\n"
 		 * +geoList+"\n -- "+d.getGeoElement()+" -- "+d.waitForUpdate()); if
 		 * (d.waitForUpdate()){ return false; } } }
 		 */

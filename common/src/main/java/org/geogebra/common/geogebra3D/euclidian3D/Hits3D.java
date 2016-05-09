@@ -171,7 +171,7 @@ public class Hits3D extends Hits {
 			d.setPickingType(type);
 		}
 
-		// App.debug("\n"+d+"\n"+type);
+		// Log.debug("\n"+d+"\n"+type);
 
 		if (d.getPickOrder() < Drawable3D.DRAW_PICK_ORDER_MAX)
 			hitSet[d.getPickOrder()].add(d, zNear, zFar);
@@ -198,7 +198,7 @@ public class Hits3D extends Hits {
 			d.setPickingType(type);
 		}
 
-		// App.debug("\n"+d+"\n"+type);
+		// Log.debug("\n"+d+"\n"+type);
 
 		if (d.getPickOrder() < Drawable3D.DRAW_PICK_ORDER_MAX)
 			hitSet[d.getPickOrder()].add(d);
@@ -214,7 +214,7 @@ public class Hits3D extends Hits {
 
 		for (int i = 0; i < Drawable3D.DRAW_PICK_ORDER_MAX; i++) {
 			hitSetSet.add(hitSet[i]);
-			// App.debug(i+"--"+hitSet[i]);
+			// Log.debug(i+"--"+hitSet[i]);
 		}
 
 		// return nearest zNear
@@ -332,7 +332,7 @@ public class Hits3D extends Hits {
 		if (hitsLabels.isEmpty())
 			return null;
 
-		// App.debug("\nlabel:"+hitsLabels.first().zPickMin+"\nfirst hit:"+drawables3D.get(0).zPickMin);
+		// Log.debug("\nlabel:"+hitsLabels.first().zPickMin+"\nfirst hit:"+drawables3D.get(0).zPickMin);
 		GeoElement labelGeo = hitsLabels.first().getGeoElement();
 		// check if the label hit is the first geo hitted
 		if (labelGeo == topHits.get(0))

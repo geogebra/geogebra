@@ -250,7 +250,7 @@ public class OFFHandler {
 	}
 
 	private void addFaceLine(String line) throws CSVException {
-		App.debug(line);
+		Log.debug(line);
 		if (!OFFHandler.isComment(line)) {
 			String[] aux = nonempty(parser.parseLine(line));
 			int vCount = Integer.parseInt(aux[0]);

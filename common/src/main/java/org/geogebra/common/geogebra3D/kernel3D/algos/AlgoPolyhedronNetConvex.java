@@ -221,7 +221,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 						for (GeoSegmentND pSeg : userCutSegments) {
 							if (pSeg.isEqual(thisSegment)) {
 								newSegParent.userCut = true;
-								// App.debug("===== Cut found ----- "+thisSegment);
+								// Log.debug("===== Cut found ----- "+thisSegment);
 							}
 						}
 					}
@@ -493,9 +493,9 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			}
 			net.endCurrentFace();
 		}
-		// App.debug("Points list for each polygon");
+		// Log.debug("Points list for each polygon");
 		// for (int pNum=0;pNum<polygonInfo.size();pNum++){
-		// App.debug(pNum+": "+polygonInfo.get(pNum).pointIndex);
+		// Log.debug(pNum+": "+polygonInfo.get(pNum).pointIndex);
 		// }
 	}
 

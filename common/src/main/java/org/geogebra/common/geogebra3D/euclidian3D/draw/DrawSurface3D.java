@@ -943,7 +943,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				if (nextLeft.a == null) { // already splitted by last row
 					nextLeft = nextLeft.l;
 				}
-				// App.debug(current.u + "," + current.v);
+				// Log.debug(current.u + "," + current.v);
 				current.split(false);
 				current = nextLeft;
 			}
@@ -1237,7 +1237,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			}
 			
 			if (index < 3){
-				// App.debug("index = "+index);
+				// Log.debug("index = "+index);
 				return;
 			}
 			

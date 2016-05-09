@@ -11,8 +11,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.NumberFormatAdapter;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for drawing axis (Ox), (Oy), ...
@@ -93,7 +93,7 @@ public class DrawAxis3D extends DrawLine3D {
 		// Application.debug("iMinMax="+iMin+","+iMax);
 
 		if (nb < 1) {
-			App.debug("nb=" + nb);
+			Log.debug("nb=" + nb);
 			// labels = null;
 			return;
 		}

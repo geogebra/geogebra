@@ -189,7 +189,7 @@ public class AlgoCircleThreePoints extends AlgoElement implements
 		cx = getC().inhomX;
 		cy = getC().inhomY;
 
-		// App.debug("\n"+ax+","+ay+"\n"+bx+","+by+"\n"+cx+","+cy);
+		// Log.debug("\n"+ax+","+ay+"\n"+bx+","+by+"\n"+cx+","+cy);
 
 		// same points
 		if (Kernel.isEqual(ax, bx) && Kernel.isEqual(ay, by)) { // A = B

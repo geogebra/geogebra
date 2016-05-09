@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 
 
 public class FillingModel extends MultipleOptionsModel {
@@ -241,7 +242,7 @@ public class FillingModel extends MultipleOptionsModel {
 				}
 			} else {
 				geo.setImageFileName(fileName);
-				App.debug("geo.setImageFileName(" + fileName + ")");
+				Log.debug("geo.setImageFileName(" + fileName + ")");
 			}
 			geo.setAlphaValue(fileName.isEmpty() ? 0.0f: 1.0f);
 			geo.updateRepaint();

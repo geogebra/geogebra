@@ -219,7 +219,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 			int labelsLength = labels.length;
 
 			if (labelsLength > 1) {
-				// App.debug("\nici : "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
+				// Log.debug("\nici : "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
 				if (outputSizes != null) {
 					// set output sizes
 					outputPolygons.adjustOutputSize(outputSizes[0], false);

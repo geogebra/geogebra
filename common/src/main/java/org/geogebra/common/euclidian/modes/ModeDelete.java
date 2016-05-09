@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPenStroke;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class ModeDelete {
 	private EuclidianView view;
@@ -117,7 +117,7 @@ public class ModeDelete {
 						lastWasVisible = dataPoints[i].isDefined();
 					}
 				} else {
-					App.debug("Can't delete points on stroke. Different number of in and output points.");
+					Log.debug("Can't delete points on stroke. Different number of in and output points.");
 				}
 				if (hasVisibleLine) { // still something visible, don't delete
 					it.remove(); // remove this Stroke from hits

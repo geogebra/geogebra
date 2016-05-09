@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * This class is needed to handle dependent multivariate functions like e.g.
@@ -120,7 +120,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 								.deepCopy(kernel));
 			} catch (Exception e) {
 				e.printStackTrace();
-				App.debug("derivative failed");
+				Log.debug("derivative failed");
 			}
 
 			if (ev == null) {

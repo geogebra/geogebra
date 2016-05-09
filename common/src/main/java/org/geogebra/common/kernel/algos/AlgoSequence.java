@@ -27,9 +27,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm for the Sequence[ expression of var, var, from-value, to-value,
@@ -411,7 +411,7 @@ public class AlgoSequence extends AlgoElement {
 					long mem = kernel.getApplication().freeMemory();
 					list.clearCache();
 					kernel.initUndoInfo(); // clear all undo info
-					App.debug("AlgoSequence aborted: free memory reached "
+					Log.debug("AlgoSequence aborted: free memory reached "
 							+ mem);
 					return;
 				}
@@ -470,7 +470,7 @@ public class AlgoSequence extends AlgoElement {
 			AlgoElement drawAlgo = expression.getDrawAlgorithm();
 			if (listElement instanceof GeoNumeric
 					&& drawAlgo instanceof DrawInformationAlgo) {
-				App.debug(expression.getDrawAlgorithm().getClass().getName());
+				Log.debug(expression.getDrawAlgorithm().getClass().getName());
 				listElement.setDrawAlgorithm(((DrawInformationAlgo) drawAlgo)
 						.copy());
 				listElement.setEuclidianVisible(true);
@@ -519,7 +519,7 @@ public class AlgoSequence extends AlgoElement {
 				long mem = kernel.getApplication().freeMemory();
 				list.clearCache();
 				kernel.initUndoInfo(); // clear all undo info
-				App.debug("AlgoSequence aborted: free memory reached " + mem);
+				Log.debug("AlgoSequence aborted: free memory reached " + mem);
 				return;
 			}
 

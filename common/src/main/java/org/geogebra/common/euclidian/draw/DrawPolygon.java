@@ -37,8 +37,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -283,7 +283,7 @@ AwtFactory.prototype.newArea(gp));
 
 			}
 		} catch (Exception e) {
-			App.debug(e.getMessage());
+			Log.debug(e.getMessage());
 			e.printStackTrace();
 		}		
 	}
@@ -342,7 +342,7 @@ AwtFactory.prototype.newArea(gp));
 
 	private void drawPolygonConvex(Coords n, Coords[] vertices, int length,
 			boolean reverse) {
-		App.debug("[POLY] drawPolygonConvex");
+		Log.debug("[POLY] drawPolygonConvex");
 		Coords coordsApex = vertices[0];
 		coords[0] = coordsApex.getX();
 		coords[1] = coordsApex.getY();
@@ -376,7 +376,7 @@ AwtFactory.prototype.newArea(gp));
 
 
 	private void drawTriangleFan(Coords n, Coords[] v, TriangleFan triFan) {
-		App.debug("[POLY] drawTriangleFan");
+		Log.debug("[POLY] drawTriangleFan");
 		
 		int size = triFan.size();
 		
@@ -580,7 +580,7 @@ AwtFactory.prototype.newArea(gp));
 							double y1 = intersection.y / intersection.z;
 
 							double d = MyMath.length(x1 - xRW, y1 - yRW);
-							// App.debug("angle = "+angle+"\nang2 = "+ang2+"\n("+x1+","+y1+")");//
+							// Log.debug("angle = "+angle+"\nang2 = "+ang2+"\n("+x1+","+y1+")");//
 							// "+xRW+","+yRW);
 							// Application.debug(x1+","+y1);
 							if (d < dist) {

@@ -29,12 +29,12 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Prover.NDGCondition;
 import org.geogebra.common.util.Prover.ProofResult;
 import org.geogebra.common.util.Prover.ProverEngine;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algo for the ProveDetails command.
@@ -158,7 +158,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		int elapsedTime = (int) (cons.getApplication().getMillisecondTime() - startTime);
 
 		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
-		App.debug("Benchmarking: " + elapsedTime + " ms");
+		Log.debug("Benchmarking: " + elapsedTime + " ms");
 
 		result = p.getYesNoAnswer();
 		ndgresult = p.getNDGConditions();
@@ -174,7 +174,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 			processing = 1;
 		}
 
-		App.debug("STATEMENT IS " + proofresult + " (yes/no: " + result + ")");
+		Log.debug("STATEMENT IS " + proofresult + " (yes/no: " + result + ")");
 
 	}
 
@@ -187,13 +187,13 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	@Override
 	public void compute() {
 		if (processing == 1) {
-			App.debug("PROCESSING mode: list undefined (1->2)");
+			Log.debug("PROCESSING mode: list undefined (1->2)");
 			list.setUndefined();
 			processing = 2; // Next time we should call initialCompute()
 			return;
 		}
 		if (processing == 2) {
-			App.debug("PROCESSING mode: list should be created (2->3)");
+			Log.debug("PROCESSING mode: list should be created (2->3)");
 			processing = 3; // Next time we don't need to do anything
 			initialCompute();
 		}
@@ -318,7 +318,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		}
 		
 		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
-		App.debug("OUTPUT for ProveDetails: " + list);
+		Log.debug("OUTPUT for ProveDetails: " + list);
 
 	}
 

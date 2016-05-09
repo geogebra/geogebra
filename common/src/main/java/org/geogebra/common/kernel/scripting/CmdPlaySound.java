@@ -9,9 +9,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.sound.SoundManager;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * PlaySound
@@ -37,7 +37,7 @@ public class CmdPlaySound extends CmdScripting {
 		SoundManager sm = app.getSoundManager();
 
 		if (sm == null) {
-			App.debug("no sound manager available");
+			Log.debug("no sound manager available");
 			return new GeoElement[0];
 		}
 

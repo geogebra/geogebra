@@ -100,7 +100,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 				drawY, drawZ, width / getFontScale(), height / getFontScale(),
 				highLightIndex);
 		renderer.getGeometryManager().remove(old);
-		// App.debug("highLightIndex: "+highLightIndex);
+		// Log.debug("highLightIndex: "+highLightIndex);
 	}
 
 	@Override

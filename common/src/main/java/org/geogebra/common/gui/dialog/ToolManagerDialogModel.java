@@ -25,6 +25,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Exercise;
+import org.geogebra.common.util.debug.Log;
 
 public class ToolManagerDialogModel {
 	public interface ToolManagerDialogListener {
@@ -165,7 +166,7 @@ public class ToolManagerDialogModel {
 			listener.uploadWorksheet(macros);
 
 		} catch (Exception e) {
-			App.debug("Uploading failed");
+			Log.debug("Uploading failed");
 			e.printStackTrace();
 		}
 		app.setDefaultCursor();

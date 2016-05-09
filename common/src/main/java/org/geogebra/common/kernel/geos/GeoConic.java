@@ -176,9 +176,9 @@ public class GeoConic extends GeoConicND implements
 			// distance between centers
 			double dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 
-			//App.debug("dist ="+dist);
-			//App.debug("r1="+r1+" x1="+x1+"y1 ="+y1);
-			//App.debug("r2="+r2+" x2="+x2+"y2 ="+y2);
+			//Log.debug("dist ="+dist);
+			//Log.debug("r1="+r1+" x1="+x1+"y1 ="+y1);
+			//Log.debug("r2="+r2+" x2="+x2+"y2 ="+y2);
 
 			// circle being reflected has zero radius
 			// and it's at center of mirror
@@ -233,7 +233,7 @@ public class GeoConic extends GeoConicND implements
 				centerY = y1 + (y2 - y1) * (Math.min(x, y) + r3) / dist;
 			}
 			
-			//App.debug("r3="+r3+" centerX="+centerX+"centerY ="+centerY);
+			//Log.debug("r3="+r3+" centerX="+centerX+"centerY ="+centerY);
 			
 			// double sf=r1*r1/((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 			// setCoords( x1+sf*(x2-x1), y1+sf*(y2-y1) ,1.0);

@@ -134,7 +134,7 @@ public class GeoConicSection extends GeoConic3D implements
 				end2 = parametersArray[0].value;
 			}
 
-			// App.debug(start1+","+end1+","+start2+","+end2);
+			// Log.debug(start1+","+end1+","+start2+","+end2);
 
 			// if no parameter for second hole (NaN), set second parameter to
 			// NaN
@@ -336,7 +336,7 @@ public class GeoConicSection extends GeoConic3D implements
 
 		}
 
-		// App.debug(getType()+":"+paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);
+		// Log.debug(getType()+":"+paramStart[0]+","+paramEnd[0]+","+paramStart[1]+","+paramEnd[1]);
 	}
 
 	private void sortParameters() {

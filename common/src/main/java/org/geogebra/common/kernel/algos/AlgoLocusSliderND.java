@@ -367,7 +367,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 							geoCopy.setDefinition(def);
 							geoCopy.update();
 						} catch (Exception e) {
-							App.debug("AlgoLocusSlider: error in resetMacroConstruction(): "
+							Log.debug("AlgoLocusSlider: error in resetMacroConstruction(): "
 									+ e.getMessage());
 						}
 					}
@@ -630,7 +630,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 				// if it takes too much time to calculate a single step, we stop
 				if (updateTime > MAX_TIME_FOR_ONE_STEP) {
-					App.debug("AlgoLocusSlider: max time exceeded "
+					Log.debug("AlgoLocusSlider: max time exceeded "
 							+ updateTime);
 					maxTimeExceeded = true;
 				}

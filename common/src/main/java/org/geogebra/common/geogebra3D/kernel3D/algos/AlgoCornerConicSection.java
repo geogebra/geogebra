@@ -114,7 +114,7 @@ public class AlgoCornerConicSection extends AlgoElement3D {
 	/*
 	 * private void setPoint(double parameter, int index){
 	 * 
-	 * App.debug(index+": "+parameter); if (Double.isNaN(parameter)){
+	 * Log.debug(index+": "+parameter); if (Double.isNaN(parameter)){
 	 * outputPoints.getElement(index).setUndefined(); return; }
 	 * 
 	 * pp.setT(parameter); conic.pathChangedWithoutCheck(coords, pp); GeoPointND

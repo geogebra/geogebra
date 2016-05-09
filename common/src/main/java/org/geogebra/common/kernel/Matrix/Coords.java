@@ -14,7 +14,7 @@ package org.geogebra.common.kernel.Matrix;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -1995,7 +1995,7 @@ public class Coords {
 		v1.val[0] = 3.0;
 		v1.val[1] = 4.0;
 
-		App.debug("v1.v1 = " + v1.dotproduct(v1));
+		Log.debug("v1.v1 = " + v1.dotproduct(v1));
 	}
 
 	/**

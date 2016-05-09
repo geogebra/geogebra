@@ -257,7 +257,7 @@ public class Inequality {
 		zeros = RootMultiple(funBorder);
 
 		// for (int i = 0; i < zeros.length; i++) {
-		// App.debug(i + ":" + zeros[i]);
+		// Log.debug(i + ":" + zeros[i]);
 		// }
 
 		cons.setSuppressLabelCreation(supress);

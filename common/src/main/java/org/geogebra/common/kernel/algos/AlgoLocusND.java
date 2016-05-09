@@ -419,7 +419,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 							geoCopy.setDefinition(en);
 							geoCopy.update();
 						} catch (Exception e) {
-							App.debug("AlgoLocus: error in resetMacroConstruction(): "
+							Log.debug("AlgoLocus: error in resetMacroConstruction(): "
 									+ e.getMessage());
 						}
 					}
@@ -670,7 +670,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 				// if it takes too much time to calculate a single step, we stop
 				if (updateTime > MAX_TIME_FOR_ONE_STEP) {
-					App.debug("AlgoLocus: max time exceeded " + updateTime);
+					Log.debug("AlgoLocus: max time exceeded " + updateTime);
 					maxTimeExceeded = true;
 				}
 
@@ -882,7 +882,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		nearToScreenRect[i].setFrame(farXmin[i], farYmin[i], farXmax[i]
 				- farXmin[i], farYmax[i] - farYmin[i]);
 		return changed;
-		// App.debug(viewIndex+" -- "+xmin[i]+","+ymin[i]+" -- "+xmax[i]+","+ymax[i]);
+		// Log.debug(viewIndex+" -- "+xmin[i]+","+ymin[i]+" -- "+xmax[i]+","+ymax[i]);
 	}
 
 	protected void setMaxDistances(int i) {

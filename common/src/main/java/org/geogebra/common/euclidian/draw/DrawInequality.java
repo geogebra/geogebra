@@ -23,8 +23,8 @@ import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 import edu.uci.ics.jung.graph.util.Pair;
 
@@ -519,7 +519,7 @@ public class DrawInequality extends Drawable {
 		 * back when implicit polynomial can be shaded
 		 */
 		default:
-			App.debug("Unhandled inequality type");
+			Log.debug("Unhandled inequality type");
 			return;
 		}
 		drawable.setGeoElement(geo);

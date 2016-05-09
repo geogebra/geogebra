@@ -14,6 +14,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 public class TextOptionsModel extends OptionsModel {
 	public interface ITextOptionsListener extends PropertyListener {
@@ -143,7 +144,7 @@ public class TextOptionsModel extends OptionsModel {
 		if (geo.isGeoInputBox()) {
 			listener.setFontSizeVisibleOnly();
 		}
-		App.debug("UpdateText Properties Text");
+		Log.debug("UpdateText Properties Text");
 		GeoText text0 = getGeoTextAt(0);
 		if (text0 != null) {
 			/*

@@ -532,7 +532,7 @@ public enum Language {
 		// if eg country = GB, must return English_UK, AT -> German_Austria
 		if (country != null) {
 			for (Language l : Language.values()) {
-				// App.debug("l.toString());
+				// Log.debug("l.toString());
 				// if (l.countries != null)
 				// AbstractApplication.debug(l.countries[0]);
 				if (l.countries != null && l.countries.length > 0

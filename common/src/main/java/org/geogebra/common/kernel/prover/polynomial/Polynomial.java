@@ -967,21 +967,21 @@ public class Polynomial implements Comparable<Polynomial> {
 					freeVars, dependantVars, transcext);
  		
 			if (solvableProgram.length() > SingularWSSettings.debugMaxProgramSize)
-				App.debug(solvableProgram.length() + " bytes -> singular");
+				Log.debug(solvableProgram.length() + " bytes -> singular");
 			else
-				App.debug(solvableProgram + " -> singular");
+				Log.debug(solvableProgram + " -> singular");
 			try {
 				solvableResult = App.singularWS.directCommand(solvableProgram);
 				if (solvableResult.length() > SingularWSSettings.debugMaxProgramSize)
-					App.debug("singular -> " + solvableResult.length() + " bytes");
+					Log.debug("singular -> " + solvableResult.length() + " bytes");
 				else
-					App.debug("singular -> " + solvableResult);
+					Log.debug("singular -> " + solvableResult);
 				if ("0".equals(solvableResult))
 					return false; // no solution
 				if ("".equals(solvableResult))
 					return null; // maybe timeout (no answer)
 			} catch (Throwable e) {
-				App.debug("Could not compute solvability with SingularWS");
+				Log.debug("Could not compute solvability with SingularWS");
 				return null;
 			}
 			return true; // at least one solution exists
@@ -1090,7 +1090,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		}
 		
 		String elimResult, elimProgram;
-		App.debug("Eliminating system in " + variables.size() + " variables (" + dependentVariables.size() + " dependent)");
+		Log.debug("Eliminating system in " + variables.size() + " variables (" + dependentVariables.size() + " dependent)");
 		
 		if (App.singularWS != null && App.singularWS.isAvailable()
 				&& factorized) {
@@ -1138,7 +1138,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			if (debug != "") {
 				debug = debug.substring(0, debug.length()-1);
 			}
-			App.debug("Checking variable permutation #" + permutation + ": " + debug);
+			Log.debug("Checking variable permutation #" + permutation + ": " + debug);
 			it = dependentVariables.iterator();
 			for (int j = vSize; j < variables.size(); ++j) {
 				pVariables[j] = it.next();
@@ -1149,21 +1149,21 @@ public class Polynomial implements Comparable<Polynomial> {
 					eqSystemSubstituted, pVariables, dependentVariables);
 			
 			if (elimProgram.length() > SingularWSSettings.debugMaxProgramSize)
-				App.debug(elimProgram.length()
+				Log.debug(elimProgram.length()
 						+ " bytes -> singular");
 			else
-				App.debug(elimProgram + " -> singular");
+				Log.debug(elimProgram + " -> singular");
 			try {
 				elimResult = App.singularWS.directCommand(elimProgram);
 				if (elimResult == null) {
 					return null;
 				}
 				if (elimResult.length() > SingularWSSettings.debugMaxProgramSize)
-					App.debug("singular -> " + elimResult.length() + " bytes");
+					Log.debug("singular -> " + elimResult.length() + " bytes");
 				else
-					App.debug("singular -> " + elimResult);
+					Log.debug("singular -> " + elimResult);
 			} catch (Throwable e) {
-				App.debug("Could not compute elimination with SingularWS");
+				Log.debug("Could not compute elimination with SingularWS");
 				return null;
 			}
 		} else {

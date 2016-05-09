@@ -143,7 +143,7 @@ public class EuclidianStyleBarStatic {
 
 			} else {
 				// can't pin
-				App.debug("not pinnable");
+				Log.debug("not pinnable");
 				return null;
 			}
 
@@ -195,7 +195,7 @@ public class EuclidianStyleBarStatic {
 				ret = geo;
 			} else {
 				// can't pin
-				App.debug("not fixable");
+				Log.debug("not fixable");
 				return null;
 			}
 
@@ -231,7 +231,7 @@ public class EuclidianStyleBarStatic {
 		if (cmdtext == null)
 			return newGeo;
 
-		App.debug("redefining " + geo + " as " + cmdtext);
+		Log.debug("redefining " + geo + " as " + cmdtext);
 
 		try {
 			app.getKernel().getAlgebraProcessor().changeGeoElement(geo, cmdtext,

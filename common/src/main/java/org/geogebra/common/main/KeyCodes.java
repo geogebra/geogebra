@@ -228,7 +228,7 @@ public enum KeyCodes {
 			if (l.GWTKey == gwtKeyCode) {
 				return l;
 			}
-			// App.debug(gwtKeyCode);
+			// Log.debug(gwtKeyCode);
 		}
 
 		Log.warn("GWT keycode not found:" + gwtKeyCode);

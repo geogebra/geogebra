@@ -156,7 +156,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 		for (int i = 0; i < steps - 1; i++) {
 			sb.append("}");
 		}
-		// App.debug(sb.toString());
+		// Log.debug(sb.toString());
 		text.setTextString(sb.toString());
 
 	}

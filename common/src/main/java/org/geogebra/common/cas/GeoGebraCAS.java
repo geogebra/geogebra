@@ -240,7 +240,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					result);
 			return result;
 		} catch (Throwable e) {
-			App.debug("GeoGebraCAS.getPolynomialCoeffs(): " + e.getMessage());
+			Log.debug("GeoGebraCAS.getPolynomialCoeffs(): " + e.getMessage());
 			// e.printStackTrace();
 		}
 
@@ -400,7 +400,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				// we found unknown variable
 				else {
 					varComplNeeded = false;
-					App.debug(str + " contains unknown variable");
+					Log.debug(str + " contains unknown variable");
 					break;
 				}
 			}
@@ -944,7 +944,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		sbCASCommand.append(cmd.getArgumentNumber());
 		if (casParser.isCommandAvailable(sbCASCommand.toString()))
 			return true;
-		App.debug("NOT AVAILABLE"+sbCASCommand);
+		Log.debug("NOT AVAILABLE"+sbCASCommand);
 		sbCASCommand.setLength(0);
 		sbCASCommand.append(cmd.getName());
 		sbCASCommand.append(".N");
@@ -972,7 +972,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			// compare if the parsed expressions are equal
 			return input1normalized.equals(input2normalized);
 		} catch (Throwable th) {
-			App.debug("Invalid selection: " + localizedInput);
+			Log.debug("Invalid selection: " + localizedInput);
 			return false;
 		}
 	}

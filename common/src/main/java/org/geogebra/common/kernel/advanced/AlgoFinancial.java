@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Computes values corresponding to Excel's financial functions Rate, Nper, PMT,
@@ -331,7 +331,7 @@ public class AlgoFinancial extends AlgoElement {
 
 		} catch (Exception e) {
 			// we will still try Newton in this case
-			App.debug("problem with Brent Solver" + e.getMessage());
+			Log.debug("problem with Brent Solver" + e.getMessage());
 		}
 
 		if (Kernel.isEqual(rate, 1) || Double.isInfinite(rate)
@@ -340,7 +340,7 @@ public class AlgoFinancial extends AlgoElement {
 		}
 
 		try {
-			// App.debug("trying Newton with starting value " + rate);
+			// Log.debug("trying Newton with starting value " + rate);
 			newtonRoot = rootPolisher.solve(fun, min, max, rate);
 			if (Math.abs(fun.value(newtonRoot)) < Math.abs(fun.value(rate))) {
 				// App.error("polished result from Newton is better: \n" + rate
@@ -348,7 +348,7 @@ public class AlgoFinancial extends AlgoElement {
 				rate = newtonRoot;
 			}
 		} catch (Exception e) {
-			App.debug("problem with Newton: " + e.getMessage());
+			Log.debug("problem with Newton: " + e.getMessage());
 			return false;
 		}
 

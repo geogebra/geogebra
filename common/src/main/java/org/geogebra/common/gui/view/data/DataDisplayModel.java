@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class to dynamically display plots and statistics in coordination with the
@@ -227,7 +228,7 @@ public class DataDisplayModel {
 	
 			GeoList dataListSelected = daModel.getController().getDataSelected();
 			if(dataListSelected == null){
-				App.debug("[DDMODEL] dataListSelected is null!");
+				Log.debug("[DDMODEL] dataListSelected is null!");
 				return;
 			}
 
@@ -406,7 +407,7 @@ public class DataDisplayModel {
 				case SCATTERPLOT:
 
 					if (doCreate) {
-						App.debug("[DDMODEL]  UPDATE SCATTERPLOT");
+						Log.debug("[DDMODEL]  UPDATE SCATTERPLOT");
 					scatterPlot = statGeo.createScatterPlot(dataListSelected);
 						plotGeoList.add(scatterPlot);
 	

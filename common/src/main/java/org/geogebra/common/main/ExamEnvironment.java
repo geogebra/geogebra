@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.util.debug.Log;
 
 //import com.google.gwt.i18n.client.DateTimeFormat;
 
@@ -60,7 +61,7 @@ public class ExamEnvironment {
 						.get(cheatingEvents.size() - 1).booleanValue()) {
 					cheatingTimes.add(System.currentTimeMillis());
 					cheatingEvents.add(true);
-					App.debug("STARTED CHEATING");
+					Log.debug("STARTED CHEATING");
 				}
 
 			}
@@ -77,7 +78,7 @@ public class ExamEnvironment {
 				.get(cheatingEvents.size() - 1).booleanValue()) {
 			cheatingTimes.add(System.currentTimeMillis());
 			cheatingEvents.add(false);
-			App.debug("STOPPED CHEATING");
+			Log.debug("STOPPED CHEATING");
 		}
 	}
 

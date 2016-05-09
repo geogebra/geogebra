@@ -807,7 +807,7 @@ public class AlgebraProcessor {
 				}
 			}
 
-			// App.debug("list of variables: "+sb.toString());
+			// Log.debug("list of variables: "+sb.toString());
 
 			// ==========================
 			// step5: replace undefined variables

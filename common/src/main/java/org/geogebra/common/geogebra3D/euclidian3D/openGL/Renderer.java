@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -216,7 +217,7 @@ public abstract class Renderer {
 		// long time = System.currentTimeMillis();
 		// update 3D view and drawables
 		updateViewAndDrawables();
-		// App.debug("======= UPDATE : "+(System.currentTimeMillis() - time));
+		// Log.debug("======= UPDATE : "+(System.currentTimeMillis() - time));
 
 		
 		if (needExportImage && !exportImageEquirectangular) {
@@ -282,7 +283,7 @@ public abstract class Renderer {
 			unselectFBO();
 			needExportImage = false;
 
-			App.debug("ici");
+			Log.debug("ici");
 
 			exportImageEquirectangular = false;
 
@@ -321,7 +322,7 @@ public abstract class Renderer {
 			}
 		}
 
-		// App.debug("======= DRAW : "+(System.currentTimeMillis() - time));
+		// Log.debug("======= DRAW : "+(System.currentTimeMillis() - time));
 
 		// prepare correct color mask for next clear
 		setColorMask(true, true, true, true);
@@ -1436,7 +1437,7 @@ public abstract class Renderer {
 	 */
 	public void addOneGeoToPick() {
 		geoToPickSize++;
-		// App.debug("geoToPickSize++ ("+geoToPickSize+")");
+		// Log.debug("geoToPickSize++ ("+geoToPickSize+")");
 	}
 
 	/**
@@ -1444,7 +1445,7 @@ public abstract class Renderer {
 	 */
 	public void removeOneGeoToPick() {
 		geoToPickSize--;
-		// App.debug("geoToPickSize-- ("+geoToPickSize+")");
+		// Log.debug("geoToPickSize-- ("+geoToPickSize+")");
 		/*
 		 * if (geoToPickSize<0) App.printStacktrace("");
 		 */
@@ -1460,7 +1461,7 @@ public abstract class Renderer {
 	abstract protected void pushSceneMatrix();
 
 	protected boolean intersectsMouse3D(double zNear, double zFar, double mouseZ) {
-		// App.debug("\n"+zNear+"\n"+zFar+"\n"+mouseZ+"\n"+view3D.getScreenZOffset());
+		// Log.debug("\n"+zNear+"\n"+zFar+"\n"+mouseZ+"\n"+view3D.getScreenZOffset());
 		return mouseZ - MOUSE_PICK_DEPTH < zNear
 				&& mouseZ + MOUSE_PICK_DEPTH > zFar;
 
@@ -1490,13 +1491,13 @@ public abstract class Renderer {
 	}
 
 	public void pick(Drawable3D d, boolean intersection, PickingType type) {
-		// App.debug(d.getGeoElement()+"\npickingloop="+pickingLoop+"\ndrawHits length="+drawHits.length);
+		// Log.debug(d.getGeoElement()+"\npickingloop="+pickingLoop+"\ndrawHits length="+drawHits.length);
 		// Application.debug("1");
 		glLoadName(pickingLoop);// Application.debug("2");
 		Drawable3D ret = d.drawForPicking(this, intersection, type);
-		// App.debug(pickingLoop+": "+ret);
+		// Log.debug(pickingLoop+": "+ret);
 		if (ret != null) {
-			// App.debug("---"+ret.getGeoElement());
+			// Log.debug("---"+ret.getGeoElement());
 			drawHits[pickingLoop] = ret;// Application.debug("4");
 			pickingLoop++;// Application.debug("5");
 		}
@@ -1505,7 +1506,7 @@ public abstract class Renderer {
 	public void pickLabel(Drawable3D d) {
 		glLoadName(pickingLoop);
 		if (d.drawLabelForPicking(this)) {
-			// App.debug(""+d.getGeoElement());
+			// Log.debug(""+d.getGeoElement());
 			drawHits[pickingLoop] = d;
 			pickingLoop++;
 		}

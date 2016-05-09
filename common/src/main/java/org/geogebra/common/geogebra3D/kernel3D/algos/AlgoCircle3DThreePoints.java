@@ -134,7 +134,7 @@ public class AlgoCircle3DThreePoints extends AlgoCircleThreePoints {
 
 		coordSys.makeOrthoMatrix(false, false);
 
-		// App.debug("coordSys=\n"+coordSys.getMatrixOrthonormal().toString());
+		// Log.debug("coordSys=\n"+coordSys.getMatrixOrthonormal().toString());
 
 		for (int i = 0; i < 3; i++) {
 			// project the point on the coord sys

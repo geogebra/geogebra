@@ -451,8 +451,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		MyDouble num;
 		MyStringBuffer msb;
 
-		// App.debug(lt.getClass()+" "+lt.toString());
-		// App.debug(rt.getClass()+" "+rt.toString());
+		// Log.debug(lt.getClass()+" "+lt.toString());
+		// Log.debug(rt.getClass()+" "+rt.toString());
 
 		if (lt instanceof NumberValue) {
 			// number * number

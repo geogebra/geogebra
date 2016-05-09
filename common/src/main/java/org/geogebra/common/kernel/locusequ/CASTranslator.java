@@ -253,7 +253,7 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		for (int x = 0; x < xLength; x++) {
 			for (int y = 0; y < yLength; y++) {
 				result[x][y] = Double.parseDouble(flatData[counter]);
-				// App.debug("[LocusEqu] result[" + x + "," + y + "]=" + result[x][y]);
+				// Log.debug("[LocusEqu] result[" + x + "," + y + "]=" + result[x][y]);
 				++counter;
 			}
 		}

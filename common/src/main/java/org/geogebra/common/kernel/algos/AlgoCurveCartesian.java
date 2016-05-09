@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Cartesian curve: Curve[ x-expression in var, y-expression in var, var, from,
@@ -165,7 +165,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 
 				} catch (Exception e) {
 					e.printStackTrace();
-					App.debug("derivative failed");
+					Log.debug("derivative failed");
 				}
 				if (ev == null) {
 					curve.setUndefined();

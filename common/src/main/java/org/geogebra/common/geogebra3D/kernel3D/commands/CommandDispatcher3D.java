@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Command dispatcher for 3D
@@ -288,7 +288,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return super.commandTableSwitch(c);
 			}
 		} catch (Exception e) {
-			App.debug("command not found / CAS command called");
+			Log.debug("command not found / CAS command called");
 		}
 		return null;
 	}

@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * A DataVariable is a collection of DataItems representing data as a list of
@@ -420,7 +421,7 @@ public class DataVariable {
 		}
 
 		catch (Exception ex) {
-			App.debug("Creating list of points expression failed with exception "
+			Log.debug("Creating list of points expression failed with exception "
 					+ ex);
 		}
 

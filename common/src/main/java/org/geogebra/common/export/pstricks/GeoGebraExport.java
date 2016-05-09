@@ -63,6 +63,7 @@ import org.geogebra.common.kernel.statistics.AlgoHistogram;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /*
  import org.mozilla.javascript.Context;
@@ -420,7 +421,7 @@ public abstract class GeoGebraExport {
 			} else if (g instanceof GeoTransferFunction) {
 				drawNyquist((GeoTransferFunction) g);
 			} else {
-				App.debug("Export: unsupported GeoElement "
+				Log.debug("Export: unsupported GeoElement "
 						+ g.getGeoClassType());
 			}
 		}

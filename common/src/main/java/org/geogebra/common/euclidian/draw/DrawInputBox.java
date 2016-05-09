@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 //import javax.swing.SwingUtilities;
 
@@ -412,7 +413,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 *            input string
 	 */
 	public void setFocus(final String str) {
-		App.debug("[DrawTextFied] setFocus");
+		Log.debug("[DrawTextFied] setFocus");
 
 		textField.requestFocus();
 		if (str != null && !str.equals("\t")) {

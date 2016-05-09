@@ -256,13 +256,13 @@ public abstract class DataAnalysisController {
 		if (dataSelected == null) {
 			return;
 		}
-		App.debug("==========================");
-		App.debug("dataSelected: ");
+		Log.debug("==========================");
+		Log.debug("dataSelected: ");
 		for (int i = 0; i < dataSelected.size(); i++) {
-			App.debug(dataSelected.get(i).toString(
+			Log.debug(dataSelected.get(i).toString(
 					StringTemplate.defaultTemplate));
 		}
-		App.debug("==========================");
+		Log.debug("==========================");
 
 	}
 

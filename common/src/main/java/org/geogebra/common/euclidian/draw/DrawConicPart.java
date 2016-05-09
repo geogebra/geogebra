@@ -441,7 +441,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			for (int i = 0; i < prevPoints.size(); i++) {
 				Coords c = view.getCoordsForView(prevPoints.get(i)
 						.getCoordsInD3());
-				// App.debug("\n"+c);
+				// Log.debug("\n"+c);
 				if (!Kernel.isZero(c.getZ())) {
 					previewTempPoints[i].setUndefined();
 				} else {

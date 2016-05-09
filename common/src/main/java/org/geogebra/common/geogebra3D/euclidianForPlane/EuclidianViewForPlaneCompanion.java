@@ -28,9 +28,9 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Companion for view for plane specific stuff
@@ -196,7 +196,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		transformedMatrix = planeMatrix.mul(transform);// transform.mul(planeMatrix);
 
 		// Coords vx2 = transformedMatrix.getVx();
-		// App.debug("\nvx1=\n"+vx1+"\nvx2=\n"+vx2);
+		// Log.debug("\nvx1=\n"+vx1+"\nvx2=\n"+vx2);
 		// double dxx = vx1.dotproduct(vx2);
 		// if (dxx < 0){
 		// transformRotate += 180;
@@ -236,7 +236,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		// CoordMatrix m = toScreenMatrix.mul(planeMatrix.mul(transform));
 		CoordMatrix m = toScreenMatrix.mul(planeMatrix);
 
-		// App.debug("m=\n"+m);
+		// Log.debug("m=\n"+m);
 
 		double vXx = m.get(1, 1);
 		double vXy = m.get(2, 1);
@@ -289,7 +289,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 
 		if (!view.isShowing()) {
 			// we don't want to store view for plane that is not showing
-			App.debug("view is not showing");
+			Log.debug("view is not showing");
 			return;
 		}
 

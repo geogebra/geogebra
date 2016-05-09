@@ -366,12 +366,12 @@ public class AlgoEnvelope extends AlgoElement {
         if(!visitedAlgos.contains(algo)){
             visitedAlgos.add(algo);
             EquationList eqs = scope.getRestrictionsFromAlgo(algo);
-            App.debug("[Envelope] Restrictions init");
-            App.debug("[Envelope] Construction " + algo.getOutput()[0].toString(StringTemplate.defaultTemplate));
+            Log.debug("[Envelope] Restrictions init");
+            Log.debug("[Envelope] Construction " + algo.getOutput()[0].toString(StringTemplate.defaultTemplate));
             for(Equation eq : eqs) {
-            	App.debug(eq.toString());
+            	Log.debug(eq.toString());
             }
-            App.debug("[Envelope] Restrictions end");
+            Log.debug("[Envelope] Restrictions end");
             restrictions.addAll(eqs);
         }
     }

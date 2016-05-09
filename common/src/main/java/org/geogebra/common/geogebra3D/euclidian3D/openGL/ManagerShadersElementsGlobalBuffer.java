@@ -418,7 +418,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 		if (set != null) {
 			set.removeBuffers();
 		}
-		// App.debug("removeGeometrySet : " + index);
+		// Log.debug("removeGeometrySet : " + index);
 	}
 
 	@Override

@@ -351,7 +351,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements
 
 		// update new segments
 		for (int i = numOld - 1; i < n; i++) {
-			// App.debug(i+": "+points[i]+" , "+points[(i+1)%n]);
+			// Log.debug(i+": "+points[i]+" , "+points[(i+1)%n]);
 			((GeoSegmentND) outputSegments.getElement(i)).modifyInputPoints(
 					points[i], points[(i + 1) % n]);
 		}

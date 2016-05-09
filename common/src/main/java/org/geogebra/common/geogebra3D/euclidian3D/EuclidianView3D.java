@@ -352,7 +352,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 */
 	private static void intervalUnion(double[] minmax, double v1, double v2) {
 
-		// App.debug(v1+","+v2);
+		// Log.debug(v1+","+v2);
 
 		if (Double.isNaN(v2)) {
 			return;
@@ -412,7 +412,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		geosToBeAdded = new TreeSet<GeoElement>();
 
-		App.debug("create gl renderer");
+		Log.debug("create gl renderer");
 		renderer = createRenderer();
 
 		renderer.setDrawable3DLists(drawable3DLists);
@@ -975,7 +975,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	public void setRotXYinDegrees(double a, double b) {
 
-		// App.debug("setRotXY: "+a+","+b);
+		// Log.debug("setRotXY: "+a+","+b);
 		if (Double.isNaN(a) || Double.isNaN(b)) {
 			Log.error("NaN values for setRotXYinDegrees");
 			return;
@@ -1802,7 +1802,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			// fixed point
 		} else {
 			v = cursor3D.getInhomCoords();
-			// App.debug("\n"+v);
+			// Log.debug("\n"+v);
 			if (!v.isDefined()) {
 				v = new Coords(-animatedScaleStartX, -animatedScaleStartY,
 						-animatedScaleStartZ, 1); // takes center of the scene
@@ -2196,7 +2196,7 @@ GRectangle selectionRectangle) {
 	 */
 	public void setCursor3DType(int v) {
 		cursor3DType = v;
-		// App.debug(""+v);
+		// Log.debug(""+v);
 	}
 
 	public void setIntersectionThickness(GeoElement a, GeoElement b) {
@@ -2526,7 +2526,7 @@ GRectangle selectionRectangle) {
 	@Override
 	public void setPreview(Previewable previewDrawable) {
 
-		// App.debug(""+previewDrawable);
+		// Log.debug(""+previewDrawable);
 
 		if (this.previewDrawable == previewDrawable) {
 			return;
@@ -2653,7 +2653,7 @@ GRectangle selectionRectangle) {
 	 */
 	public void drawCursor(Renderer renderer1) {
 
-		// App.debug("\nhasMouse="
+		// Log.debug("\nhasMouse="
 		// + hasMouse
 		// + "\n!getEuclidianController().mouseIsOverLabel() "
 		// + !getEuclidianController().mouseIsOverLabel()
@@ -2684,7 +2684,7 @@ GRectangle selectionRectangle) {
 								drawPointAlready(getCursor3D());
 								break;
 							case PREVIEW_POINT_NONE:
-								// App.debug("ici");
+								// Log.debug("ici");
 								break;
 						}
 						break;
@@ -4005,7 +4005,7 @@ GRectangle selectionRectangle) {
 
 	@Override
 	protected void drawResetIcon(GGraphics2D g) {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 
 	}
 
@@ -4201,7 +4201,7 @@ GRectangle selectionRectangle) {
 
 		drawable3DLists.enlargeBounds(boundsMin, boundsMax);
 
-		// App.debug("\nmin=\n"+boundsMin+"\nmax=\n"+boundsMax);
+		// Log.debug("\nmin=\n"+boundsMin+"\nmax=\n"+boundsMax);
 
 		// no object
 		if (Double.isInfinite(boundsMin.getX())) {

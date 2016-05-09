@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -41,7 +40,6 @@ public class CmdImplicitSurface extends CommandProcessor {
 				Equation e = new Equation(kernelA, lhs, rhs);
 				GeoImplicitSurface surf = new GeoImplicitSurface(cons, e,
 						e.getLabel());
-				App.debug("" + surf.evaluateAt(0, 0, 0));
 				return new GeoElement[] { surf };
 			}
 			throw argErr(app, c.getName(), arg[0]);

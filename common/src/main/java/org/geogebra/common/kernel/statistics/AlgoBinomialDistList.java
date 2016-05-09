@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -80,7 +80,7 @@ public class AlgoBinomialDistList extends AlgoDistribution {
 
 				num.setValue(sum);
 			} catch (Exception e) {
-				App.debug(e.getMessage());
+				Log.debug(e.getMessage());
 				num.setUndefined();
 			}
 		} else {

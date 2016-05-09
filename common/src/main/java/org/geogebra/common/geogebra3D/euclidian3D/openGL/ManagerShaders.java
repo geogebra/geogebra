@@ -120,7 +120,7 @@ public class ManagerShaders extends Manager {
 		 * @param size vertices size
 		 */
 		public void allocateBuffers(int size){
-			// App.debug("allocateBuffers: "+size);
+			// Log.debug("allocateBuffers: "+size);
 			v.allocate(size * 3);
 			n.allocate(size * 3);
 			length = 0;
@@ -490,10 +490,10 @@ public class ManagerShaders extends Manager {
 
 			currentGeometriesSet = newGeometriesSet();
 			geometriesSetList.put(index, currentGeometriesSet);
-			// App.debug("newGeometriesSet : " + index);
+			// Log.debug("newGeometriesSet : " + index);
 		} else {
 			currentGeometriesSet.reset();
-			// App.debug("reuse : " + index);
+			// Log.debug("reuse : " + index);
 		}
 
 		return index;

@@ -4733,7 +4733,7 @@ kernel, left,
 						double a = fraction[0];
 						double b = fraction[1];
 
-						// App.debug(a + " / " + b);
+						// Log.debug(a + " / " + b);
 
 						if (b == 0) {
 							return wrap(new MyDouble(kernel0, Double.NaN));

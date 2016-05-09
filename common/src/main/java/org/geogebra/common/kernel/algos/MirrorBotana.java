@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class MirrorBotana {
 	private Polynomial[] botanaPolynomials;
@@ -1040,7 +1040,7 @@ public class MirrorBotana {
 			}
 			// mirror line about circle
 			else if (inGeo.isGeoLine()) {
-				App.debug("mirroring line about circle not implemented");
+				Log.debug("mirroring line about circle not implemented");
 				throw new NoSymbolicParametersException();
 			}
 			// mirror circle about circle

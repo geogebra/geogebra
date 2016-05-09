@@ -233,16 +233,16 @@ public class AlgoLocusEquation extends AlgoElement {
                 
 				if (p.getParentAlgorithm() != null
 						&& !p.getParentAlgorithm().isLocusEquable()) {
-					App.debug("[LocusEquation] Non-algebraic or unimplemented dependent point: "
+					Log.debug("[LocusEquation] Non-algebraic or unimplemented dependent point: "
 							+ p.getParentAlgorithm());
 					return null;
                 }
 				for (Object predObj : p.getAllPredecessors()) {
 					GeoElement pred = (GeoElement) predObj;
-					// App.debug("[LocusEquation] Considering " + pred);
+					// Log.debug("[LocusEquation] Considering " + pred);
 					if (pred.getParentAlgorithm() != null
 							&& !pred.getParentAlgorithm().isLocusEquable()) {
-						App.debug("[LocusEquation] Non-algebraic or unimplemented predecessor: "
+						Log.debug("[LocusEquation] Non-algebraic or unimplemented predecessor: "
 								+ pred.getParentAlgorithm());
 						return null;
 					}
@@ -277,11 +277,11 @@ public class AlgoLocusEquation extends AlgoElement {
         if(!visitedAlgos.contains(algo)){
             visitedAlgos.add(algo);
             EquationList eqs = scope.getRestrictionsFromAlgo(algo);
-			App.debug("[LocusEquation] Visiting algo "
+			Log.debug("[LocusEquation] Visiting algo "
 					+ algo.getOutput()[0]
 							.toString(StringTemplate.defaultTemplate));
             for(Equation eq : eqs) {
-				App.debug("[LocusEquation] -> " + eq.toString() + " == 0");
+				Log.debug("[LocusEquation] -> " + eq.toString() + " == 0");
             }
             restrictions.addAll(eqs);
         }

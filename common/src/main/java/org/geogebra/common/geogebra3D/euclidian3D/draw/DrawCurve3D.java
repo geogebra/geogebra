@@ -77,7 +77,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 			max = curve.getMaxParameter();
 		}
 
-		// App.debug(min+","+max);
+		// Log.debug(min+","+max);
 
 		CurvePlotter.plotCurve(curve, min, max, view, brush, false,
 				CurvePlotter.Gap.MOVE_TO);
@@ -146,7 +146,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 		closestPoint.projectLine(hitting.origin, hitting.direction, project,
 				lineCoords);
 
-		// App.debug("\n" + hitting.origin + "\nclosest point:\n" +
+		// Log.debug("\n" + hitting.origin + "\nclosest point:\n" +
 		// closestPoint
 		// + "\nclosest point on line:\n" + project);
 

@@ -339,7 +339,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 				maxFadingEndBottom = shMin;
 			}
 
-			// App.debug(maxFading + "," + max);
+			// Log.debug(maxFading + "," + max);
 
 			// use asymptotic behavior of cosh() for (un)refine radius
 			jump = Math.log(2) / max;
@@ -448,7 +448,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			// return 0;
 			// }
 			// longitudeJumps = longitudeLength;
-			// App.debug(longitudeLength + "," + latitudeLength + "," + ret);
+			// Log.debug(longitudeLength + "," + latitudeLength + "," + ret);
 			// return ret;
 			return 0;
 		}
@@ -756,7 +756,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			}
 		}
 
-		// App.debug(latitudeMin + "," + latitudeMax + "," + latitudeMaxBottom
+		// Log.debug(latitudeMin + "," + latitudeMax + "," + latitudeMaxBottom
 		// + "," + latitudeMaxTop + "," + latitude);
 
 	}
@@ -800,7 +800,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			dhos.setMinMax(min, max);
 		}
 
-		// App.debug("min=" + min + ", max=" + max + "," + latitudeMin + ","
+		// Log.debug("min=" + min + ", max=" + max + "," + latitudeMin + ","
 		// + latitudeMax + "," + latitudeMaxBottom + "," + latitudeMaxTop
 		// + "," + latitude);
 

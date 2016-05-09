@@ -53,8 +53,8 @@ import org.geogebra.common.kernel.prover.PolynomialNode;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Term;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  *
@@ -937,7 +937,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		}
 		strForGiac.append("],[");
 		strForGiac.append(labelsStr + "])");
-		App.debug(strForGiac.toString());
+		Log.debug(strForGiac.toString());
 		return strForGiac.toString();
 	}
 

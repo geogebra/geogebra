@@ -294,7 +294,7 @@ public class CASparser implements CASParserInterface {
 			}
 		}
 
-		// App.debug(insertSpecialChars(replaceIndices.toString())+" "+replaceIndices.toString());
+		// Log.debug(insertSpecialChars(replaceIndices.toString())+" "+replaceIndices.toString());
 
 		return replaceIndices.toString();
 	}

@@ -1333,17 +1333,17 @@ public class StringUtil {
 
 	}
 
-	// App.debug(StringUtil.cannonicNumber2("4.3E20"));
-	// App.debug(StringUtil.cannonicNumber2("1.203"));
-	// App.debug(StringUtil.cannonicNumber2("1.23000000"));
-	// App.debug(StringUtil.cannonicNumber2("1000"));
-	// App.debug(StringUtil.cannonicNumber2("1.20000000E20"));
-	// App.debug(StringUtil.cannonicNumber2("-4.3E20"));
-	// App.debug(StringUtil.cannonicNumber2("-1.203"));
-	// App.debug(StringUtil.cannonicNumber2("-1.23000000"));
-	// App.debug(StringUtil.cannonicNumber2("-1000"));
-	// App.debug(StringUtil.cannonicNumber2("-1.20000000E20"));
-	// App.debug(StringUtil.cannonicNumber2(".23000000000"));
+	// Log.debug(StringUtil.cannonicNumber2("4.3E20"));
+	// Log.debug(StringUtil.cannonicNumber2("1.203"));
+	// Log.debug(StringUtil.cannonicNumber2("1.23000000"));
+	// Log.debug(StringUtil.cannonicNumber2("1000"));
+	// Log.debug(StringUtil.cannonicNumber2("1.20000000E20"));
+	// Log.debug(StringUtil.cannonicNumber2("-4.3E20"));
+	// Log.debug(StringUtil.cannonicNumber2("-1.203"));
+	// Log.debug(StringUtil.cannonicNumber2("-1.23000000"));
+	// Log.debug(StringUtil.cannonicNumber2("-1000"));
+	// Log.debug(StringUtil.cannonicNumber2("-1.20000000E20"));
+	// Log.debug(StringUtil.cannonicNumber2(".23000000000"));
 
 	/*
 	 * convert 1.200000000 into 1.2 convert .23 into 0.23 convert 1.23000E20

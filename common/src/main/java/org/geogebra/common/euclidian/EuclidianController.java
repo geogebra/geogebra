@@ -5175,11 +5175,11 @@ public abstract class EuclidianController {
 			// branches reordered to prefer path, and then region
 			if ((path != null) && onPathPossible) {
 				point = companion.createNewPoint(forPreviewable, path, complex);
-				// App.debug(path);
+				// Log.debug(path);
 			} else if ((region != null) && inRegionPossible) {
 				point = companion.createNewPoint(forPreviewable, region,
 						complex);
-				// App.debug(region);
+				// Log.debug(region);
 			} else {
 				point = companion.createNewPoint(forPreviewable, complex);
 				view.setShowMouseCoords(true);

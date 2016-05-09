@@ -40,7 +40,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * List expression, e.g. with L1 = {3, 2, 1}, L2 = {5, 1, 7} such an expression
@@ -352,7 +352,7 @@ public class AlgoDependentListExpression extends AlgoElement implements
 				list.add(geo);
 
 			} else {
-				App.debug("unsupported list operation: " + element.getClass()
+				Log.debug("unsupported list operation: " + element.getClass()
 						+ "");
 			}
 		}

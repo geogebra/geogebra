@@ -11,8 +11,8 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Computes
@@ -62,7 +62,7 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 			implicitPoly.fromEquation(equ, null);
 			implicitPoly.setCoeff(poly.getCoeff());
 		} catch (MyError e) {
-			App.debug(e.getMessage());
+			Log.debug(e.getMessage());
 			implicitPoly.setUndefined();
 		}
 	}

@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoDependentList;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
+import org.geogebra.common.kernel.algos.AlgoInputBox;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -38,7 +39,6 @@ import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.algos.AlgoPolygonRegularND;
-import org.geogebra.common.kernel.algos.AlgoInputBox;
 import org.geogebra.common.kernel.algos.AlgoVector;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ConstructionElement;
@@ -50,6 +50,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * This class saves the given geos (which are usually the selected ones) into an
@@ -912,7 +913,7 @@ public class CopyPaste {
 							.getXMLio()
 							.getFullMacroXML(new ArrayList<Macro>(copiedMacros)));
 				} catch (Exception ex) {
-					App.debug("Could not load any macros at \"Paste from XML\"");
+					Log.debug("Could not load any macros at \"Paste from XML\"");
 					ex.printStackTrace();
 				}
 			}

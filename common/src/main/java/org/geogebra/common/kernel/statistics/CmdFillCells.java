@@ -14,8 +14,8 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.regexp.shared.MatchResult;
 
@@ -48,7 +48,7 @@ public class CmdFillCells extends CommandProcessor {
 				GeoList cellRange = (GeoList) arg[0];
 
 				if (!(cellRange.getParentAlgorithm() instanceof AlgoCellRange)) {
-					App.debug("not cell range");
+					Log.debug("not cell range");
 					throw argErr(app, c.getName(), arg[0]);
 
 				}

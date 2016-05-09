@@ -551,7 +551,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 				if (coeff != null) {
 
 					double coeffVal = coeff.evaluateDouble();
-					//App.debug("coeff is for " + i + " " + j + " is " + coeffVal);
+					//Log.debug("coeff is for " + i + " " + j + " is " + coeffVal);
 					if (!Kernel.isZero(coeffVal)) {
 						// one coefficient different -> definitely not equal
 						// polynomials
@@ -984,7 +984,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 				(xyzf[DICHO_FIRST][2] + xyzf[DICHO_LAST][2]) / 2,
 				xyzf[DICHO_MID]);
 
-		// App.debug("\n" + (xyzf[DICHO_FIRST][3] - xyzf[DICHO_FIRST][2]) + "/"
+		// Log.debug("\n" + (xyzf[DICHO_FIRST][3] - xyzf[DICHO_FIRST][2]) + "/"
 		// + (xyzf[DICHO_LAST][3] - xyzf[DICHO_LAST][2]) + " >> "
 		// + (xyzf[DICHO_MID][3] - xyzf[DICHO_MID][2]));
 

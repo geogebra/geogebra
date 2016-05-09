@@ -287,7 +287,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 		} else {
 			int labelsLength = labels.length;
 			if (labelsLength > 1) {
-				// App.debug("\nici : "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
+				// Log.debug("\nici : "+outputSizes[0]+","+outputSizes[1]+","+outputSizes[2]);
 				if (outputSizes != null) {
 					// set output sizes
 					outputPolygons.adjustOutputSize(outputSizes[0], false);
@@ -362,7 +362,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 		if (parent instanceof GeoPointND) {
 			// boolean b=
 			polyhedronVertices.add(c);
-			// App.debug("\nb: "+b+"\nparent: "+parent+"\ncoords:\n"+coords);
+			// Log.debug("\nb: "+b+"\nparent: "+parent+"\ncoords:\n"+coords);
 		}
 	}
 
@@ -447,7 +447,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 			 * p2.getInhomCoordsInD3(), p2)));
 			 * 
 			 * newCoordsList.put(p, segmentCoords);
-			 * //App.debug("\npoly (included):"
+			 * //Log.debug("\npoly (included):"
 			 * +p+"\nsegmentCoords.size():"+segmentCoords.size()); }
 			 */
 
@@ -470,7 +470,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 				// add (polygon,segments) to newCoordsList
 				if (segmentCoords.size() > 0) {
 					newCoordsList.put(p, segmentCoords);
-					// App.debug("\npoly:"+p+"\nnewCoords.size():"+newCoords.size()+"\nsegmentCoords.size():"+segmentCoords.size());
+					// Log.debug("\npoly:"+p+"\nnewCoords.size():"+newCoords.size()+"\nsegmentCoords.size():"+segmentCoords.size());
 				}
 			}
 		}
@@ -583,7 +583,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 		CoordsWithParent a;
 		CoordsWithParent b = null;
 
-		// App.debug("\nstart parent:"+startPoint.parent+"\nold parent:"+oldPoint.parent);
+		// Log.debug("\nstart parent:"+startPoint.parent+"\nold parent:"+oldPoint.parent);
 
 		// check if for a segment, one of the vertex as same parent as starting
 		// vertex
@@ -595,7 +595,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 			a = segment.p1;
 			if (a.parent == startPoint.parent) {
 				b = segment.p2;
-				// App.debug("\ni:"+i+"\na:"+a.parent+"\nb:"+b.parent);
+				// Log.debug("\ni:"+i+"\na:"+a.parent+"\nb:"+b.parent);
 				if (b.parent != oldPoint) { // prevent immediate return
 					notFound = false;
 				}
@@ -603,7 +603,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 				b = a;
 				a = segment.p2;
 				if (a.parent == startPoint.parent) {
-					// App.debug("\ni:"+i+"\na:"+a.parent+"\nb:"+b.parent);
+					// Log.debug("\ni:"+i+"\na:"+a.parent+"\nb:"+b.parent);
 					if (b.parent != oldPoint) { // prevent immediate return
 						notFound = false;
 					}
@@ -634,7 +634,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 	private void removeSegmentCoords(int index, GeoPolygon p2) {
 
 		segmentCoords.remove(index);
-		// App.debug("\np2:"+p2+"\nsize="+segmentCoords.size());
+		// Log.debug("\np2:"+p2+"\nsize="+segmentCoords.size());
 		if (segmentCoords.size() == 0)
 			newCoordsList.remove(p2);
 
@@ -667,7 +667,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 					pFirstPoint = p;
 					indexFirstPoint = removeSegmentCoordsIndex;
 				} else {
-					// App.debug("same: "+startPoint.parent+" -- "+oldParent+" : "+b);
+					// Log.debug("same: "+startPoint.parent+" -- "+oldParent+" : "+b);
 					removeSegmentCoords();
 					return b;
 				}
@@ -680,10 +680,10 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 		GeoPolygon p2 = null;
 		while (it.hasNext()) {
 			p2 = it.next();
-			// App.debug("\np2:"+p2+"\np2==p:"+(p2==p)+"\nkey:"+newCoordsList.containsKey(p2));
+			// Log.debug("\np2:"+p2+"\np2==p:"+(p2==p)+"\nkey:"+newCoordsList.containsKey(p2));
 			// find other polygon, contained as a key
 			if (p2 != p && newCoordsList.containsKey(p2)) {
-				// App.debug("\npoly2:"+p2);
+				// Log.debug("\npoly2:"+p2);
 				// try to find next vertex
 				b = nextVertex(p2, startPoint, oldParent);
 				if (b != null) { // if found
@@ -695,7 +695,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 					} else { // this one is ok
 						p = p2;
 						removeSegmentCoords();
-						// App.debug("other: "+firstParent+" -- "+b.parent);
+						// Log.debug("other: "+firstParent+" -- "+b.parent);
 						return b;
 					}
 				}
@@ -737,8 +737,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 		CoordsWithParent startPoint = segmentCoords.get(0).p2;
 		removeSegmentCoords(0, p);
 		vertices.add(firstPoint);
-		// App.debug("\na.parent:"+firstPoint.parent);//App.debug("\n\n\n\n\n");
-		// App.debug("\nb.parent:"+startPoint.parent+"\npoly:"+p);//App.debug("\n\n\n\n\n");
+		// Log.debug("\na.parent:"+firstPoint.parent);//Log.debug("\n\n\n\n\n");
+		// Log.debug("\nb.parent:"+startPoint.parent+"\npoly:"+p);//Log.debug("\n\n\n\n\n");
 		// at first oldParent is null, so polygons A-B-A are possible
 		GeoElementND oldParent = null;
 		while (startPoint.parent != firstPoint.parent) {
@@ -749,7 +749,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 				return null;
 			oldParent = startPoint.parent;
 			startPoint = c;
-			// App.debug("\nb.parent:"+startPoint.parent+"\npoly:"+p);//App.debug("\n\n\n\n\n");
+			// Log.debug("\nb.parent:"+startPoint.parent+"\npoly:"+p);//Log.debug("\n\n\n\n\n");
 		}
 
 		return vertices;
@@ -827,15 +827,15 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 		// set the point map
 		setNewCoords();
 
-		// App.debug("\noriginalEdges:"+originalEdges);
+		// Log.debug("\noriginalEdges:"+originalEdges);
 
 		/*
 		 * for (GeoElementND parent : parentToPolygons.keySet()){
-		 * App.debug("\nparent: "
+		 * Log.debug("\nparent: "
 		 * +parent+"\npolygons: "+parentToPolygons.get(parent)); }
 		 */
 
-		// App.debug(polyhedronVertices);
+		// Log.debug(polyhedronVertices);
 
 		// set output
 		if (newCoordsList.size() == 0 && polyhedronFaces.size() == 0) { // no
@@ -854,7 +854,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 
 			// start with one face, set a polygon, then get a new face, etc.
 			while (newCoordsList.size() != 0) {
-				// App.debug(""+newCoordsList.keySet());
+				// Log.debug(""+newCoordsList.keySet());
 				p = newCoordsList.firstKey();
 				Vertices vertices = addVertices();
 				if (vertices != null) { // prevent not matching search
@@ -874,7 +874,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 				}
 			}
 
-			// App.debug(newCoordsList.keySet());
+			// Log.debug(newCoordsList.keySet());
 
 			// set output points
 			outputPoints.adjustOutputSize(verticesList.cumulateSize
@@ -908,12 +908,12 @@ public class AlgoIntersectRegionPlanePolyhedron extends
 			segmentIndex = 0;
 			for (ArrayList<Coords> vertices : verticesList) {
 				int length = vertices.size();
-				// App.debug("polygonIndex: "+polygonIndex);
+				// Log.debug("polygonIndex: "+polygonIndex);
 				GeoPolygon outputPoly = outputPolygons.getElement(polygonIndex);
 				GeoPoint3D[] polyPoints = new GeoPoint3D[length];
 				GeoSegment3D[] polySegments = new GeoSegment3D[length];
 				for (int i = 0; i < length; i++) {
-					// App.debug(points[polygonOffset + i]);
+					// Log.debug(points[polygonOffset + i]);
 					outputSegments.getElement(segmentIndex)
 							.modifyInputPolyAndPoints(outputPoly,
 									points[pointIndex + i],

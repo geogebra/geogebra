@@ -839,7 +839,7 @@ public abstract class Drawable3D extends DrawableND {
 	public int comparePickingTo(Drawable3D d, boolean checkPickOrder) {
 
 		/*
-		 * App.debug("\ncheckPickOrder="+checkPickOrder+"\n"
+		 * Log.debug("\ncheckPickOrder="+checkPickOrder+"\n"
 		 * +"zPickNear= "+(this.zPickNear) +" | zPickFar= "+(this.zPickFar)
 		 * +" ("+this.getGeoElement()+") "+this+"\n" +"zPickFar= "+(d.zPickNear)
 		 * +" | zPickFar= "+(d.zPickFar) +" ("+d.getGeoElement()+") "+d+"\n");
@@ -883,13 +883,13 @@ public abstract class Drawable3D extends DrawableND {
 			GeoElement geo2 = d.getGeoElement();
 
 			if (geo1 == geo2) {
-				// App.debug("\nsame geo : "+geo1);
+				// Log.debug("\nsame geo : "+geo1);
 				return 0;
 			}
 
 			/*
 			 * DecimalFormat df = new DecimalFormat("0.000000000");
-			 * App.debug("\nmixed :\n"
+			 * Log.debug("\nmixed :\n"
 			 * +"zMin= "+df.format(this.zPickMin)+" | zMax= "
 			 * +df.format(this.zPickMax
 			 * )+" ("+this.getGeoElement().getLabel(StringTemplate
@@ -947,18 +947,18 @@ public abstract class Drawable3D extends DrawableND {
 
 		// finally check if one is before the other
 		if (this.zPickNear > d.zPickNear) {
-			// App.debug("-1");
+			// Log.debug("-1");
 			return -1;
 		}
 		if (this.zPickNear < d.zPickNear) {
-			// App.debug("1");
+			// Log.debug("1");
 			return 1;
 		}
 
 		// says that the two objects are equal for the comparator
 		/*
 		 * if (DEBUG){ DecimalFormat df = new DecimalFormat("0.000000000");
-		 * App.debug("equality :\n" +"zMin= "+df.format(this.zPickNear)
+		 * Log.debug("equality :\n" +"zMin= "+df.format(this.zPickNear)
 		 * +" | zMax= "+df.format(this.zPickFar)
 		 * +" ("+this.getGeoElement().getLabel
 		 * (StringTemplate.defaultTemplate)+")\n"
@@ -1306,7 +1306,7 @@ public abstract class Drawable3D extends DrawableND {
 		for (TraceSettings settings : trace.keySet()) {
 			ArrayList<TraceIndex> indices = trace.get(settings);
 			setDrawingColor(settings.getColor());
-			// App.debug(indices.size());
+			// Log.debug(indices.size());
 			for (TraceIndex index : indices) {
 				drawGeom(renderer, index);
 			}
@@ -1454,7 +1454,7 @@ public abstract class Drawable3D extends DrawableND {
 		zPickNear = zNear;
 		zPickFar = zFar;
 
-		// App.debug("\n"+getGeoElement()+" : \n"+zNear+"\n"+zFar);
+		// Log.debug("\n"+getGeoElement()+" : \n"+zNear+"\n"+zFar);
 	}
 
 	/**

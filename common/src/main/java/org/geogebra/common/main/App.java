@@ -709,7 +709,7 @@ public abstract class App implements UpdateSelection {
 				continue;
 			}
 
-			// App.debug(internal);
+			// Log.debug(internal);
 			String local = getLocalization().getCommand(internal);
 			putInTranslateCommandTable(comm, local);
 
@@ -1500,7 +1500,7 @@ public abstract class App implements UpdateSelection {
 
 	public void openMacro(String macroName) {
 		Macro editMacro = getKernel().getMacro(macroName);
-		App.debug("[STORAGE] nr: " + getKernel().getMacroNumber()
+		Log.debug("[STORAGE] nr: " + getKernel().getMacroNumber()
 				+ " macro for open is " + editMacro.getToolName());
 		openMacro(editMacro);
 
@@ -2801,7 +2801,7 @@ public abstract class App implements UpdateSelection {
 					ret = macro1.getToolHelp();
 				}
 			} catch (Exception e) {
-				App.debug("Application.getModeText(): macro does not exist: ID = "
+				Log.debug("Application.getModeText(): macro does not exist: ID = "
 						+ macroID);
 				// e.printStackTrace();
 				return "";
@@ -3517,7 +3517,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public void updateCenterPanel(boolean updateUI) {
-		App.debug("App.updateCenterPanel() implementation needed");
+		Log.debug("App.updateCenterPanel() implementation needed");
 
 	}
 
@@ -3537,7 +3537,7 @@ public abstract class App implements UpdateSelection {
 
 	public GImageIcon wrapGetModeIcon(int mode) {
 		// TODO: debug message commented out from Trunk version, probably loops
-		// App.debug("App.wrapGetModeIcon must be overriden");
+		// Log.debug("App.wrapGetModeIcon must be overriden");
 		return null;
 	}
 
@@ -3621,7 +3621,7 @@ public abstract class App implements UpdateSelection {
 	 * Should lose focus on Web applets, implement only where appropriate
 	 */
 	public void loseFocus() {
-		App.debug("Should lose focus on Web applets, ipmelment (override) only where appropriate");
+		Log.debug("Should lose focus on Web applets, ipmelment (override) only where appropriate");
 	}
 
 	/**

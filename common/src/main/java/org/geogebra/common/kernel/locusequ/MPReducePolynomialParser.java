@@ -49,7 +49,7 @@ public class MPReducePolynomialParser {
 			
 			for(Integer y : yMap.keySet()) {
 				coeffs[x][y] = yMap.get(y);
-				// App.debug("[LocusEqu] coeffs[" + x + "," + y + "]=" + coeffs[x][y]);
+				// Log.debug("[LocusEqu] coeffs[" + x + "," + y + "]=" + coeffs[x][y]);
 			}
 		}
 		

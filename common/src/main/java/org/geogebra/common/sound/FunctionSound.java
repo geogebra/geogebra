@@ -1,7 +1,7 @@
 package org.geogebra.common.sound;
 
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 
 /**
@@ -168,11 +168,11 @@ public abstract class FunctionSound {
 		 */
 	protected void loadBuffer16(double t) {
 			double value;
-			// App.debug((byte)(-10.7));
+			// Log.debug((byte)(-10.7));
 			// System.out.print("\nstart: ");
 			for (int k = 0; k < getBuf().length / 2; k++) {
 				if (k < 5 || k > getBuf().length / 2 - 6) {
-					App.debug(k + " " + (t + 1.0 * k * getSamplePeriod()));
+					Log.debug(k + " " + (t + 1.0 * k * getSamplePeriod()));
 				}
 				value = getF().evaluate(t + 1.0 * k * getSamplePeriod());
 				// System.out.print(value+",");

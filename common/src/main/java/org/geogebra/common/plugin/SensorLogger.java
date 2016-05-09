@@ -133,7 +133,7 @@ public abstract class SensorLogger {
 				port = (int) ((GeoNumeric) geo).getValue();
 			} else if (type == Types.APP_ID) {
 				appID = ((GeoText) geo).getTextString();
-				App.debug(appID);
+				Log.debug(appID);
 			} else {
 				prepareRegister(type, geo, 0);
 				listeners.put(type, (GeoNumeric) geo);

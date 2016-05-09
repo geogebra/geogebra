@@ -782,7 +782,7 @@ public class Construction {
 
 			if (ce instanceof GeoElement) {
 				// TODO: update Algebra View
-				App.debug("TODO: update Algebra View");
+				Log.debug("TODO: update Algebra View");
 			}
 
 			// move the construction element
@@ -1423,7 +1423,7 @@ public class Construction {
 			return;
 		}
 
-		// App.debug(oldGeo.getCommandDescription(StringTemplate.maxPrecision)+newGeo.getCommandDescription(StringTemplate.maxPrecision));
+		// Log.debug(oldGeo.getCommandDescription(StringTemplate.maxPrecision)+newGeo.getCommandDescription(StringTemplate.maxPrecision));
 
 		// if an object is redefined the same (eg in a script) rather than
 		// reloading the whole XML, just update it
@@ -1740,7 +1740,7 @@ public class Construction {
 		int pos = consXML.indexOf(oldXML);
 		if (pos < 0) {
 			restoreCurrentUndoInfo();
-			App.debug("replace failed: oldXML string not found:\n" + oldXML);
+			Log.debug("replace failed: oldXML string not found:\n" + oldXML);
 			// Application.debug("consXML=\n" + consXML);
 			throw new MyError(getApplication().getLocalization(),
 					"ReplaceFailed");
@@ -1792,8 +1792,8 @@ public class Construction {
 	 *            empty construction.
 	 */
 	public void setStep(int s) {
-		// App.debug("setStep"+step+" "+s);
-		App.debug(step + " to" + s);
+		// Log.debug("setStep"+step+" "+s);
+		Log.debug(step + " to" + s);
 		if (s == step || s < -1 || s >= ceList.size())
 			return;
 
@@ -1804,7 +1804,7 @@ public class Construction {
 		kernel.setNotifyConstructionProtocolViewAboutAddRemoveActive(false);
 
 		if (s < step) {
-			App.debug(step + " to" + s);
+			Log.debug(step + " to" + s);
 			// we must go from high to low there as otherwise the CAS cells
 			// would
 			// rearrange their numbers meanwhile

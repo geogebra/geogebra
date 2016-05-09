@@ -629,8 +629,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		case GIAC:
 
-			// App.debug(left.getClass()+" "+right.getClass());
-			// App.debug(leftStr+" "+rightStr);
+			// Log.debug(left.getClass()+" "+right.getClass());
+			// Log.debug(leftStr+" "+rightStr);
 
 
 			break;
@@ -1153,8 +1153,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			} else if ((left.evaluatesToNumber(false) || left instanceof NumberValue)
 					&& right.evaluatesToNonComplex2DVector()) {
 
-				// App.debug(leftStr+" "+left.getClass());
-				// App.debug(rightStr+" "+right.getClass());
+				// Log.debug(leftStr+" "+left.getClass());
+				// Log.debug(rightStr+" "+right.getClass());
 				// eg 10 + (1,2)
 				sb.append("point(real(");
 				sb.append(rightStr);
@@ -1170,7 +1170,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// ExpressionNode can return true
 			} else if ((right.evaluatesToNumber(false) || right instanceof NumberValue)
 					&& left.evaluatesToNonComplex2DVector()) {
-				// App.debug(left.getClass()+" "+right.getClass());
+				// Log.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2) + 10
 				sb.append("point(real(");
 				sb.append(leftStr);
@@ -1185,7 +1185,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// don't use isNumberValue() as that leads to an evaluate()
 			} else if ((left.evaluatesToNumber(false) || left instanceof NumberValue)
 					&& right.evaluatesTo3DVector()) {
-				// App.debug(left.getClass()+" "+right.getClass());
+				// Log.debug(left.getClass()+" "+right.getClass());
 				// eg 10 + (1,2,3)
 				sb.append("((");
 				sb.append(rightStr);
@@ -1204,7 +1204,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// don't use isNumberValue() as that leads to an evaluate()
 			} else if (left.evaluatesTo3DVector()
 					&& (right.evaluatesToNumber(false) || right instanceof NumberValue)) {
-				// App.debug(left.getClass()+" "+right.getClass());
+				// Log.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2,3) + 10
 				sb.append("((");
 				sb.append(leftStr);
@@ -1556,7 +1556,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			} else if (left.evaluatesToVectorNotPoint()
 					&& right.evaluatesToVectorNotPoint()) {
-				// App.debug(left.getClass()+" "+right.getClass());
+				// Log.debug(left.getClass()+" "+right.getClass());
 				// eg Vectors (1,2)-(3,4)
 				sb.append('(');
 				sb.append(leftStr);
@@ -1636,7 +1636,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(')');
 
 			} else if (isNDvector(right) && isNDvector(left)) {
-				// App.debug(left.getClass()+" "+right.getClass());
+				// Log.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)-(3,4)
 				// eg f: (x, y, z) = (3, 2, 1) - t (5, 1, -3)
 				sb.append("point(");
@@ -1972,8 +1972,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		case GIAC:
 
-			// App.debug(left.getClass()+" "+right.getClass());
-			// App.debug(leftStr+" "+rightStr);
+			// Log.debug(left.getClass()+" "+right.getClass());
+			// Log.debug(leftStr+" "+rightStr);
 
 			if (left instanceof MySpecialDouble
 					&& right instanceof ExpressionNode
@@ -2434,7 +2434,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(perpSign());
 				break;
 			default:
-				App.debug(((ExpressionNode) right).getOperation()
+				Log.debug(((ExpressionNode) right).getOperation()
 						+ " invalid in chain");
 			}
 			sb.append(' ');
@@ -2607,9 +2607,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 					sb.append("(");
 					sb.append(leftStr);
-					// App.debug(left.evaluatesToList());
-					// App.debug(left instanceof ListValue);
-					// App.debug(((ListValue)left).getListElement(0).evaluatesToList());
+					// Log.debug(left.evaluatesToList());
+					// Log.debug(left instanceof ListValue);
+					// Log.debug(((ListValue)left).getListElement(0).evaluatesToList());
 
 					// if list && !matrix
 					if (left.evaluatesToList() && left.getListDepth() != 2) {

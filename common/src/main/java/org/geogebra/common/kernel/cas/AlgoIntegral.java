@@ -125,8 +125,8 @@ public class AlgoIntegral extends AlgoCasBase {
 				Function funDeriv = polyDeriv.getFunction(kernel,
 						inFun.getFunctionVariable());
 
-				// App.debug(f.toString());
-				// App.debug(funDeriv.toString());
+				// Log.debug(f.toString());
+				// Log.debug(funDeriv.toString());
 
 				((GeoFunction) g).setFunction(funDeriv);
 				((GeoFunction) g).setDefined(true);

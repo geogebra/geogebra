@@ -1,6 +1,6 @@
 package org.geogebra.common.util;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class Validation {
 
@@ -28,7 +28,7 @@ public class Validation {
 			try {
 				val = Double.parseDouble(tf.getText());
 			} catch (NumberFormatException e) {
-				App.debug("invalid number:" + tf.getText());
+				Log.debug("invalid number:" + tf.getText());
 			}
 			if (!Double.isNaN(val) && !Double.isInfinite(val)
 					&& checkInterval(val))

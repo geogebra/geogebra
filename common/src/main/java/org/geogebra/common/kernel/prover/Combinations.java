@@ -17,7 +17,7 @@ import java.util.Set;
  * 
  *         Combinations b = new Combinations(a,2);
  * 
- *         while (b.hasNext()) { Set c = (Set) b.next(); App.debug(c); }
+ *         while (b.hasNext()) { Set c = (Set) b.next(); Log.debug(c); }
  */
 
 public class Combinations implements Iterator<Object> {

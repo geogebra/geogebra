@@ -428,7 +428,7 @@ public class BigPolynomial implements Cloneable {
 				dx = (new BigComplex(BigDecimal.valueOf(n))).divide(gp, mc);
 			} else {
 				// TODO handle case
-				App.debug("unhandled case");
+				Log.debug("unhandled case");
 				dx = BigComplex.ZERO;
 			}
 			if (dx.abs(mc).compareTo(plusEps) <= 0) {

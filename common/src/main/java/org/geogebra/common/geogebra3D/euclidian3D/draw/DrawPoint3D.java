@@ -342,7 +342,7 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 		for (TraceSettings settings : trace.keySet()) {
 			ArrayList<TraceIndex> indices = trace.get(settings);
 			setDrawingColor(settings.getColor());
-			// App.debug(indices.size());
+			// Log.debug(indices.size());
 			for (TraceIndex index : indices) {
 				drawGeom(renderer, index);
 			}

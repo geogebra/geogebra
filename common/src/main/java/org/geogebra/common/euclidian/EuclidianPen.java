@@ -526,7 +526,7 @@ public class EuclidianPen {
 	protected GeoElement checkShapes(int x, int y) {
 
 		count = 0;
-		App.debug(getGesture());
+		Log.debug(getGesture());
 		this.clearTemporaryInfo();
 		GPoint newPoint = new GPoint(x, y);
 		penPoints.add(newPoint);
@@ -631,33 +631,33 @@ public class EuclidianPen {
 			GeoElement geo = try_rectangle();
 			if (geo != null) {
 				recognizer_queue_length = 0;
-				App.debug("Rectangle Recognized");
+				Log.debug("Rectangle Recognized");
 				return geo;
 			}
 			geo = try_arrow();
 			if (geo != null) {
 				recognizer_queue_length = 0;
-				App.debug("Arrow Recognized");
+				Log.debug("Arrow Recognized");
 				return geo;
 			}
 
 			geo = try_closed_polygon(3);
 			if (geo != null) {
 				recognizer_queue_length = 0;
-				App.debug("Triangle Recognized");
+				Log.debug("Triangle Recognized");
 				return geo;
 			}
 
 			geo = try_closed_polygon(4);
 			if (geo != null) {
 				recognizer_queue_length = 0;
-				App.debug("Quadrilateral Recognized");
+				Log.debug("Quadrilateral Recognized");
 				return geo;
 			}
 
 			if (n == 1)// then stroke is a line
 			{
-				App.debug("Current stroke is a line");
+				Log.debug("Current stroke is a line");
 				if (Math.abs(rs.angle) < SLANT_TOLERANCE) {
 					rs.angle = 0;
 					rs.y1 = rs.y2 = rs.ycenter;
@@ -893,7 +893,7 @@ public class EuclidianPen {
 
 		}
 
-		App.debug("mono" + monotonicTest + " " + monotonicTest
+		Log.debug("mono" + monotonicTest + " " + monotonicTest
 				/ penPoints.size());
 
 		monotonicTest = monotonicTest / penPoints.size();
@@ -1315,7 +1315,7 @@ public class EuclidianPen {
 
 						double val = AlgoFitImplicit.power(px, xpower)
 								* AlgoFitImplicit.power(py, ypower);
-						// App.debug(val + "x^"+xpower+" * y^"+ypower);
+						// Log.debug(val + "x^"+xpower+" * y^"+ypower);
 
 						M.setEntry(j, c1++, val);
 					}
@@ -1330,15 +1330,15 @@ public class EuclidianPen {
 			// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
 			for (int i = 0; i < 6; i++) {
 				coeffs[5 - i] = coeffsRV.getEntry(i);
-				// App.debug("coeff of " + i + " = "+ coeffs[i]);
+				// Log.debug("coeff of " + i + " = "+ coeffs[i]);
 			}
 
 			// double eccentricity = conic.eccentricity;
 
 			// GeoVec2D midpoint = conic.b;
 
-			// App.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
-			// App.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
+			// Log.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
+			// Log.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
 
 		} catch (Throwable t) {
 			t.printStackTrace();

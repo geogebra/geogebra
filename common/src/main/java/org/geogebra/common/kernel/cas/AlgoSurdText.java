@@ -171,7 +171,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			 * Double.MAX_VALUE;
 			 * 
 			 * 
-			 * App.debug("START"); for (int p = 0 ; p < primes.length / 2; p++)
+			 * Log.debug("START"); for (int p = 0 ; p < primes.length / 2; p++)
 			 * { for (int q = 1 ; q < 100 ; q++) { // up to 400
 			 * 
 			 * double num = q + Math.sqrt(primes[p]);
@@ -181,7 +181,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			 * 
 			 * 
 			 * if (!sb.toString().equals(q+"+\\sqrt{"+primes[p]+"}")) {
-			 * //App.debug
+			 * //Log.debug
 			 * ("error:"+sb.toString()+"       "+q+"+\\sqrt{"+primes[p]+"}");
 			 * 
 			 * if (Math.abs(debug0) > Math.abs(debug1) && Math.abs(debug0) >
@@ -202,7 +202,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			 * if (sb.toString().indexOf("\\frac") > -1 &&
 			 * !sb.toString().equals(
 			 * "\\frac{"+q+"+\\sqrt{"+primes[p]+"}}{"+r+"}")) {
-			 * //App.debug("error:"
+			 * //Log.debug("error:"
 			 * +sb.toString()+"       \\frac{"+q+"+\\sqrt{"+primes
 			 * [p]+"}}{"+r+"}      "+sbDebug.toString());
 			 * 
@@ -221,7 +221,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			 * 
 			 * }
 			 * 
-			 * } } App.debug("END "+debug0max+" "+debug1max+" "+debug2max);
+			 * } } Log.debug("END "+debug0max+" "+debug1max+" "+debug2max);
 			 */
 
 			double decimal = num.getDouble();
@@ -384,7 +384,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				testValues[i] = values.get(i);
 				testNames[i] = names.get(i);
 
-				// App.debug(testNames[i]);
+				// Log.debug(testNames[i]);
 			}
 
 		} else {
@@ -686,7 +686,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// debug1 = coeffs[1];
 		// debug2 = coeffs[2];
 
-		// App.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
+		// Log.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
 		if ((coeffs[0] == 0 && coeffs[1] == 0 && coeffs[2] == 0)
 
 				// try to minimize possibility of wrong answer
@@ -694,7 +694,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				// numbers determined by commented-out code in compute() method
 				|| Math.abs(coeffs[0]) > 570 || Math.abs(coeffs[1]) > 729
 				|| Math.abs(coeffs[2]) > 465) {
-			// App.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
+			// Log.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
 			appendUndefined(sb, tpl, num1);
 		} else if (coeffs[0] == 0) {
 			// coeffs[1]: denominator; coeffs[2]: numerator
@@ -2542,7 +2542,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		 * listOfValues) {
 		 * 
 		 * if (listOfNames.length < n || listOfValues.length !=
-		 * listOfNames.length) { App.debug("error: size does not match");
+		 * listOfNames.length) { Log.debug("error: size does not match");
 		 * return; } numOfConsts = n; constStrings = listOfNames.clone();
 		 * constValues = listOfValues.clone(); }
 		 */

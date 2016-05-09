@@ -514,7 +514,7 @@ public abstract class Prover {
 		}
 
 		// Step 4: AUTO prover
-		App.debug("Using " + engine);
+		Log.debug("Using " + engine);
 		Iterator<ProverEngine> it;
 		if (isReturnExtraNDGs())
 			it = proveDetailsAutoOrder.iterator();

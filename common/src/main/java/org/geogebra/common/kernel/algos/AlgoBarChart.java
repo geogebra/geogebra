@@ -38,8 +38,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.AlgoUsingUniqueAndFrequency;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.Cloner;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Bar chart algorithm.
@@ -1119,7 +1119,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 		}
 
 		catch (Exception e) {
-			App.debug(e.getMessage());
+			Log.debug(e.getMessage());
 			return false;
 		}
 

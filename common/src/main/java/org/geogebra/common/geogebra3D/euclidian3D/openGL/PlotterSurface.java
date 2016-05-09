@@ -378,7 +378,7 @@ public class PlotterSurface {
 			longitude *= 2;
 		}
 
-		// App.debug("sphere ==== longitude="+longitude);
+		// Log.debug("sphere ==== longitude="+longitude);
 		return longitude;
 	}
 	
@@ -735,7 +735,7 @@ public class PlotterSurface {
 			latitudeMaxBottom = (int) (latitude * 2 * angle / Math.PI) + 2;
 		}
 
-		// App.debug(latitudeMaxBottom+","+latitudeMaxTop);
+		// Log.debug(latitudeMaxBottom+","+latitudeMaxTop);
 
 		int latitudeMax = Math.max(latitudeMaxTop, latitudeMaxBottom);
 

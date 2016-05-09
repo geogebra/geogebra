@@ -167,11 +167,11 @@ public abstract class TextPreviewer {
 			catch (Error e) {
 				isIndependent = true;
 				showErrorMessage = true;
-				// App.debug("resolve error:" + e.getCause());
+				// Log.debug("resolve error:" + e.getCause());
 			} catch (Exception e) {
 				showErrorMessage = true;
 				isIndependent = true;
-				// App.debug("resolve exception");
+				// Log.debug("resolve exception");
 			}
 		}
 
@@ -295,7 +295,7 @@ public abstract class TextPreviewer {
 		// isLaTeX change)
 		locateTextGeo(geo);
 
-		// App.debug("preview text geo loc:" + geo.getAbsoluteScreenLocX() +
+		// Log.debug("preview text geo loc:" + geo.getAbsoluteScreenLocX() +
 		// " , "
 		// + geo.getAbsoluteScreenLocY());
 

@@ -305,7 +305,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 			}
 
-			// App.debug(min+" "+Q1+" "+median+" "+Q3+" "+max);
+			// Log.debug(min+" "+Q1+" "+median+" "+Q3+" "+max);
 
 			tempList.add(min);
 			tempList.add(Q1);
@@ -466,7 +466,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	private void addOutlier(double x) {
 
-		// App.debug("outlier "+x);
+		// Log.debug("outlier "+x);
 
 		if (outliers == null) {
 			outliers = new ArrayList<Double>();

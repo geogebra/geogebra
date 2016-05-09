@@ -249,7 +249,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		 */
 
 		/*
-		 * { App.debug(""); for (int i=0; i<4; i++) {
+		 * { Log.debug(""); for (int i=0; i<4; i++) {
 		 * System.out.print(permutation[i]+"\t"); } System.out.println(""); for
 		 * (int i=0; i<4; i++) { System.out.println(D[i].toString() + "\t" +
 		 * P[i].toString() + "\t" + Q[i].toString()); } }
@@ -1276,7 +1276,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		// System.out.flush();
 
 		if (pointList.isStrict()) {
-			App.debug("strict list");
+			Log.debug("strict list");
 
 			PointPair pair;
 			while (!pointList.isEmpty()) {
@@ -1294,7 +1294,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			}
 
 		} else {
-			App.debug("non strict list");
+			Log.debug("non strict list");
 
 			// keep permutations
 			for (int i = 0; i < P.length; i++) {

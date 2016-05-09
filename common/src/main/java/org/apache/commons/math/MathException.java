@@ -18,7 +18,7 @@
 /* This file was modified by GeoGebra Inc. */
 package org.apache.commons.math;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 
 
@@ -184,7 +184,7 @@ public class MathException extends Exception {
             // Flush the PrintWriter before it's GC'ed.
             pw.flush();
         }*/
-    	App.debug(out);
+    	Log.debug(out);
     }
 
 	public String getSpecificPattern() {

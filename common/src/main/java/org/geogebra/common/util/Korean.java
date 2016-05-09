@@ -79,14 +79,14 @@ public class Korean {
 	// for (char i = 0x1100; i <= 0x1112; i++) {
 	// for (char j = 0x1161; j <= 0x1175; j++) {
 	// String s = i + "" + j;
-	// App.debug(i + " " + j + " " + StringUtil.toHexString(s)
+	// Log.debug(i + " " + j + " " + StringUtil.toHexString(s)
 	// + StringUtil.toHexString(unflattenKorean(s).toString()));
 	// }
 	// }
 	//
 	// for (char i = 0xac00; i <= 0xD788; i += 1) {
 	// String s = i + "";
-	// App.debug(i + " " + StringUtil.toHexString(s) + " "
+	// Log.debug(i + " " + StringUtil.toHexString(s) + " "
 	// + isKoreanLeadPlusVowelChar(i));
 	// }
 	// }
@@ -226,14 +226,14 @@ public class Korean {
 	// static {
 	// String s = "\ub450";
 	// s = flattenKorean(s);
-	// App.debug("length = " + s.length());
+	// Log.debug("length = " + s.length());
 	// for (int i = 0; i < s.length(); i++) {
-	// App.debug(StringUtil.toHexString(s.charAt(i)));
+	// Log.debug(StringUtil.toHexString(s.charAt(i)));
 	// }
 	//
 	// s = "\u1103\u116E";
 	// s = unflattenKorean(s).toString();
-	// App.debug("\u1103\u116E goes to " + StringUtil.toHexString(s));
+	// Log.debug("\u1103\u116E goes to " + StringUtil.toHexString(s));
 	// }
 
 	/*
