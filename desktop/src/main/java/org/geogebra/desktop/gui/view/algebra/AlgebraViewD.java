@@ -762,7 +762,8 @@ public class AlgebraViewD extends AlgebraTree
 				}
 			};
 			kernel.getAlgebraProcessor().changeGeoElement(selectedGeoElement,
-					newValue, redefine, true, callback);
+					newValue, redefine, true, app.getDefaultErrorHandler(),
+					callback);
 
 		}
 

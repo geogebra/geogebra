@@ -80,7 +80,7 @@ public class InputDialogDilateD extends InputDialogD {
 		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		inputHandler.processInput(inputPanel.getText(),
+		inputHandler.processInput(inputPanel.getText(), this,
 				new AsyncOperation<Boolean>() {
 
 					@Override

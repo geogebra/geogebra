@@ -73,6 +73,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
@@ -756,6 +757,7 @@ public class TextInputDialogD extends InputDialogD
 				isLaTeX = cbLaTeX.isSelected();
 				editOccurred = false;
 				inputHandler.processInput(editor.buildGeoGebraString(isLaTeX),
+						this,
 						new AsyncOperation<Boolean>() {
 
 							@Override
@@ -983,7 +985,7 @@ public class TextInputDialogD extends InputDialogD
 		if (editOccurred) {
 			editOccurred = false;// do this first to ensure no circular call
 			inputHandler.processInput(editor.buildGeoGebraString(isLaTeX),
-					new AsyncOperation<Boolean>() {
+					this, new AsyncOperation<Boolean>() {
 
 						@Override
 						public void callback(Boolean obj) {
@@ -1057,7 +1059,7 @@ public class TextInputDialogD extends InputDialogD
 			kernel = app.getKernel();
 		}
 
-		public void processInput(String inputValue,
+		public void processInput(String inputValue, ErrorHandler handler,
 				final AsyncOperation<Boolean> callback) {
 			if (inputValue == null || (editGeo != null && editGeo.isFixed())
 					|| (editGeo != null && !editGeo.isLabelSet())){
@@ -1096,10 +1098,11 @@ public class TextInputDialogD extends InputDialogD
 
 			// create new text
 			boolean createText = editGeo == null;
+			handler.showError(null);
 			if (createText) {
 				kernel.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(inputValue,
-								false, app.getErrorHandler(), true,
+								false, handler, true,
 								getCallback(callback));
 				return;
 
@@ -1108,7 +1111,7 @@ public class TextInputDialogD extends InputDialogD
 			// change existing text
 			try {
 				kernel.getAlgebraProcessor().changeGeoElement(editGeo,
-						inputValue, true, true,
+						inputValue, true, true, TextInputDialogD.this,
 						new AsyncOperation<GeoElement>() {
 
 							@Override

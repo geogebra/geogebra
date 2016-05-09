@@ -5530,11 +5530,12 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		if (source == tfName) {
 			// rename
-			model.applyNameChange(tfName.getText());
+			model.applyNameChange(tfName.getText(), app.getErrorHandler());
 
 		} else if (source == tfDefinition) {
 
-			model.applyDefinitionChange(tfDefinition.getText());
+			model.applyDefinitionChange(tfDefinition.getText(),
+					app.getErrorHandler());
 			tfDefinition.requestFocusInWindow();
 
 		} else if (source == tfCaption) {
@@ -5559,7 +5560,8 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		if (source == tfDefinition) {
 			model.redefineCurrentGeo(currentGeoForFocusLost,
-					tfDefinition.getText(), redefinitionForFocusLost);
+					tfDefinition.getText(), redefinitionForFocusLost,
+					app.getErrorHandler());
 
 			SwingUtilities.invokeLater(doActionStopped);
 

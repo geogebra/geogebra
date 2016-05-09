@@ -48,7 +48,7 @@ public class InputDialogRegularPolygonD extends InputDialogD {
 	private void processInput() {
 
 		DialogManager.makeRegularPolygon(app, ec, inputPanel.getText(),
-				geoPoint1, geoPoint2, new AsyncOperation<Boolean>() {
+				geoPoint1, geoPoint2, this, new AsyncOperation<Boolean>() {
 
 					@Override
 					public void callback(Boolean ok) {

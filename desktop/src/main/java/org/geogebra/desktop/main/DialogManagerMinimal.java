@@ -183,7 +183,7 @@ public class DialogManagerMinimal extends DialogManager {
 		String inputString = prompt(menu + " " + app.getPlain("Points"), "4");
 
 		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2,
-				new AsyncOperation<Boolean>() {
+				app.getErrorHandler(), new AsyncOperation<Boolean>() {
 
 					@Override
 					public void callback(Boolean obj) {

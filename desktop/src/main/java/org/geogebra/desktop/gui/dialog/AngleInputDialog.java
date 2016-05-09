@@ -89,7 +89,7 @@ public class AngleInputDialog extends InputDialogD {
 					inputText = "-(" + inputText + ")";
 				}
 
-				inputHandler.processInput(inputText,
+				inputHandler.processInput(inputText, this,
 						new AsyncOperation<Boolean>() {
 
 							@Override

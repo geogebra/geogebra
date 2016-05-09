@@ -208,7 +208,6 @@ public class InputDialogD extends InputDialog
 			@Override
 			public void setVisible(boolean b) {
 				super.setVisible(b);
-				setActive(b);
 				if (!b) {
 					showError(null);
 				}
@@ -555,23 +554,20 @@ public class InputDialogD extends InputDialog
 		}
 	}
 
+	private boolean showingError = false;
 	public void showError(String msg) {
-		errorPanel.removeAll();
 		if (msg == null) {
+			errorPanel.removeAll();
+			showingError = false;
 			errorPanel.add(msgLabel);
-		} else {
+		} else if (!showingError) {
+			showingError = true;
+			errorPanel.removeAll();
 			JLabel errorLabel = new JLabel(msg);
 			errorLabel.setForeground(Color.RED);
 			errorPanel.add(errorLabel);
 		}
 		SwingUtilities.updateComponentTreeUI(wrappedDialog);
-
-	}
-
-	public void setActive(boolean b) {
-		if (app != null) {
-			app.setErrorHandler(b ? this : null);
-		}
 
 	}
 

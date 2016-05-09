@@ -24,7 +24,6 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
@@ -33,9 +32,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 
@@ -392,43 +389,10 @@ public class LayoutD extends Layout implements SettingListener {
 	 * Show the prompt which is used to save the current perspective.
 	 */
 	public void showSaveDialog() {
-		InputDialogD inputDialog = new InputDialogD(app,
-				app.getPlain("PerspectiveName"),
-				app.getMenu("SaveCurrentPerspective"), "", false,
-				new SaveInputHandler(this));
-		inputDialog.showSymbolTablePopup(false);
-		inputDialog.setVisible(true);
+		// unused
 	}
 
-	private class SaveInputHandler implements InputHandler {
-		private LayoutD layout;
 
-		public SaveInputHandler(LayoutD layout) {
-			this.layout = layout;
-		}
-
-		public void processInput(String inputString,
-				AsyncOperation<Boolean> callback) {
-			// tmp is reserved for the default perspective
-			if (inputString.equals("tmp")) {
-				callback.callback(false);
-				return;
-			}
-
-			// such a perspective already exists
-			if (layout.getPerspective(inputString) != null) {
-				callback.callback(false);
-				return;
-			}
-
-			layout.addPerspective(layout.createPerspective(inputString));
-			layout.getApplication().updateMenubar();
-			GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
-
-			callback.callback(true);
-			return;
-		}
-	}
 
 	/**
 	 * Show the dialog which is used to manage the custom defined perspectives.
