@@ -352,9 +352,15 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
+			if (shape == null) {
+				return null;
+			}
 			return shape.getBounds();
 
 		case DRAW_TYPE_SEGMENT:
+			if (drawSegment == null) {
+				return null;
+			}
 			return drawSegment.getBounds();
 
 		default:
