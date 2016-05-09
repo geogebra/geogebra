@@ -7376,6 +7376,9 @@ var Cursor = P(Point, function(_) {
     }
     return text3;
   };
+  _.hasSelection = function(){
+	  return !!this.selection;
+  }
   _.show = function() {
     this.jQ = this._jQ.removeClass('blink');
     if ('intervalId' in this) //already was shown, just restart interval
@@ -8002,7 +8005,7 @@ $.fn.mathquillggb = function(cmd, latex) {
 	  block = blockId && Node.byId[blockId];
 	var cursor = block && block.cursor;
 	var ret = block && block.text();
-	if (cursor) {
+	if (cursor && !cursor.hasSelection()) {
 	  cursor.write('x');
 	  ret = block && block.text();
 	  cursor.backspace();
