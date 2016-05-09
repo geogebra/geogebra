@@ -693,7 +693,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		// now set custom row heights
 		HashMap<Integer, Integer> heightMap = settings().getHeightMap();
-		App.debug("height map size: " + heightMap.size());
+		Log.debug("height map size: " + heightMap.size());
 		for (int row = 0; row < table.getRowCount(); ++row) {
 			if (heightMap.containsKey(row)) {
 				table.setRowHeight(row, heightMap.get(row));
@@ -1195,7 +1195,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void onResize(int width, int height) {
 
 
-		// App.debug("spreadsheet wrapper size: " + width + " , " + height);
+		// Log.debug("spreadsheet wrapper size: " + width + " , " + height);
 		if (width <= 0 || height <= 0) {
 			return;
 		}

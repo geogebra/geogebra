@@ -97,15 +97,15 @@ public class PropertiesStyleBarW extends
 		
 		for (final OptionType type : OptionTypesImpl) {
 			if (typeAvailable(type)){
-				final PropertiesButton btn = new PropertiesButton(getMenuHtml(type));
-				btn.setTitle(propertiesView.getTypeString(type));
-				btn.setCommand(new Command() {
+				final PropertiesButton btn = new PropertiesButton(
+						getMenuHtml(type), new Command() {
 
 					public void execute() {
 						propertiesView.setOptionPanel(type, 0);
 						selectButton(type);
 					}
 				});
+				btn.setTitle(propertiesView.getTypeString(type));
 				toolbar.addItem(btn);
 				buttonMap.put(type, btn);
 
@@ -153,8 +153,7 @@ public class PropertiesStyleBarW extends
 	    	if (typeHtml == null) {
 	    		continue;
 	    	}
-	    	final MenuItem mi = new PropertiesButton(typeHtml);
-	    	mi.setCommand( 
+			final MenuItem mi = new PropertiesButton(typeHtml,
 	    			new Command() {
 						
 						public void execute() {

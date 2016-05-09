@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -218,7 +217,6 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 
 	private void updateMainPanel(){
-		App.debug("updateMainPanel()");
 		mainPanel.clear();
 
 		if(isZProcedure) {

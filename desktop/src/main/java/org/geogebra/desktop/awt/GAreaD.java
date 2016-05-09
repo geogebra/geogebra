@@ -9,7 +9,7 @@ import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
 public class GAreaD implements GArea, GShapeD {
 	private Area impl;
@@ -35,7 +35,7 @@ public class GAreaD implements GArea, GShapeD {
 	public static Area getAWTArea(GArea a) {
 		if (!(a instanceof GAreaD)) {
 			if (a != null)
-				AppD.debug("other type");
+				Log.debug("other type");
 			return null;
 		}
 		return ((GAreaD) a).impl;

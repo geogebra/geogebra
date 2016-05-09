@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Methods to use factories (a la JAXP).
@@ -109,11 +109,11 @@ public class Factory {
     public static Object loadFactory(String name, String file, String defaultImplementation) {
         String factoryName = findFactory(name, file, defaultImplementation);
         try {
-            AppD.debug("Loading factory: "+factoryName);
+			Log.debug("Loading factory: " + factoryName);
             Class factoryClass = Class.forName(factoryName);
             return factoryClass.newInstance();
         } catch (Exception e) {
-            AppD.debug("Unable to load factory: "+factoryName);
+			Log.debug("Unable to load factory: " + factoryName);
             e.printStackTrace();
         }
         return null;

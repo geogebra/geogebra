@@ -4,6 +4,7 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -105,7 +106,7 @@ public class GOptionPaneW extends GDialogBox implements
 		}
 
 		if (returnHandler != null) {
-			App.debug("option: " + returnOption + "  value: " + returnValue);
+			Log.debug("option: " + returnOption + "  value: " + returnValue);
 			String[] dialogResult = { returnOption + "", returnValue };
 			returnHandler.callback(dialogResult);
 
@@ -280,16 +281,16 @@ public class GOptionPaneW extends GDialogBox implements
 	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
-		App.debug("source is: " + source);
+		Log.debug("source is: " + source);
 
 		if (source == btnOK) {
-			App.debug("btnOk");
+			Log.debug("btnOk");
 			returnOption = GOptionPane.OK_OPTION;
 			close();
 		}
 
 		if (source == btnCancel) {
-			App.debug("btnCancel");
+			Log.debug("btnCancel");
 			returnOption = GOptionPane.CANCEL_OPTION;
 			close();
 		}

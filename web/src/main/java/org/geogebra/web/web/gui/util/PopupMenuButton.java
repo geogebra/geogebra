@@ -1,7 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.main.AppW;
@@ -268,7 +268,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		if (popupHandler != null) {
 			popupHandler.fireActionPerformed(this);
 		} else {
-			App.debug("PopupMenubutton has null popupHandler");
+			Log.debug("PopupMenubutton has null popupHandler");
 		}
 		
 		updateGUI();

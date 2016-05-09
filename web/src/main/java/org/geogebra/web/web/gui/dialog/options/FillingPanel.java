@@ -12,10 +12,10 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.Util;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
@@ -165,7 +165,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			GeoImage geoImage = new GeoImage(cons);
 			app.getImageManager().triggerSingleImageLoading(fn, geoImage);
 			model.applyImage(fn);
-			App.debug("Applying " + fn + " from dialog");
+			Log.debug("Applying " + fn + " from dialog");
 
 		}
 
@@ -412,7 +412,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 				if (resource != null) {
 					applyImage(resource.getName(), resource.getSafeUri()
 							.asString());
-					App.debug("Applying " + resource.getName() + " at index "
+					Log.debug("Applying " + resource.getName() + " at index "
 							+ idx);
 				} else {
 					model.applyImage("");
@@ -652,7 +652,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		if (imageFileName != null) {
 			String fileName = imageFileName.substring(imageFileName
 					.indexOf('/') + 1);
-			App.debug("Filling with " + fileName);
+			Log.debug("Filling with " + fileName);
 
 			int idx = iconNameList.lastIndexOf(fileName);
 			itemIndex = idx > 0 ? idx : 0;

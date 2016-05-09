@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Validation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -556,7 +557,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 			minus.setValue(source == minus);
 			none.setValue(source == none);
 			plus.setValue(source == plus);
-			App.debug("[Data]  - 0 + has pressed");
+			Log.debug("[Data]  - 0 + has pressed");
 			if (source == minus) {
 				getModel().getSettings().setStemAdjust(-1);
 			}
@@ -658,13 +659,13 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	public void setTableFromGeoFrequencyTable(
 			AlgoFrequencyTable parentAlgorithm, boolean b) {
-		App.debug("setTableFromGeoFrequencyTable");
+		Log.debug("setTableFromGeoFrequencyTable");
 		frequencyTable.setTableFromGeoFrequencyTable(parentAlgorithm, b);
 		resize(false);
 	}
 
 	public void removeFrequencyTable() {
-		App.debug("removeFrequencyTable");
+		Log.debug("removeFrequencyTable");
 		plotPanelSouth.remove(spFrequencyTable);
 		plotPanel.updateSize();
 		resize(false);

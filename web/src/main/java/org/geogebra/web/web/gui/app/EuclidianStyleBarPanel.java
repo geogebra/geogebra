@@ -29,7 +29,7 @@ public class EuclidianStyleBarPanel extends AbsolutePanel implements RequiresRes
     }
 
 	public void onResize() {
-		//App.debug("resized");
+		// Log.debug("resized");
     }
 
 	public void attachApp(App app) {

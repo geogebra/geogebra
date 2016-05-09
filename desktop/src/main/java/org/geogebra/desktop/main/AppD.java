@@ -108,7 +108,6 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.awt.GComponent;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GImage;
@@ -3060,15 +3059,6 @@ ToolbarD.getAllTools(this));
 
 	public Component getMainComponent() {
 		return mainComp;
-	}
-
-	/**
-	 * Returns the mainComp field which wrapped in geogebra.common.awt.Component
-	 * 
-	 * @return wrapped mainComp
-	 */
-	public GComponent wrapGetMainComponent() {
-		return AwtFactory.prototype.newComponent(mainComp);
 	}
 
 	public Dimension getPreferredSize() {

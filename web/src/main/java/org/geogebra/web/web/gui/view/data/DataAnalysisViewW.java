@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.main.AppW;
@@ -81,7 +82,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	Scheduler.ScheduledCommand deferredDataPanelOnRes = new Scheduler.ScheduledCommand() {
 		public void execute() {
 			if (model.isMultiVar() && model.showStatPanel()) {
-				App.debug("Showing MultiVar stat panel");
+				Log.debug("Showing MultiVar stat panel");
 				dataDisplayPanel1.resize(getOffsetWidth(), getOffsetHeight() - statisticsPanel.getOffsetHeight(), true);
 				
 			} else {

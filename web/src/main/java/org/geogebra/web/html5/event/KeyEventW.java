@@ -2,7 +2,7 @@ package org.geogebra.web.html5.event;
 
 import java.util.LinkedList;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class KeyEventW extends org.geogebra.common.euclidian.event.KeyEvent {
 
@@ -10,7 +10,7 @@ public class KeyEventW extends org.geogebra.common.euclidian.event.KeyEvent {
 	private com.google.gwt.event.dom.client.KeyPressEvent event;
 
 	private KeyEventW(com.google.gwt.event.dom.client.KeyPressEvent e) {
-		App.debug("possible missing release()");
+		Log.debug("possible missing release()");
 		this.event = e;
 	}
 

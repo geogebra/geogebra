@@ -9,7 +9,6 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -187,7 +186,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	public void handleLongTouch(int x, int y) {
-		App.debug("LONG TOUCH");
+		Log.debug("LONG TOUCH");
 		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH,
 		        ZeroOffset.instance);
 		event.setIsRightClick(true);

@@ -9,7 +9,7 @@ import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
 public class GRectangleD implements GRectangle2DD,
  GRectangle {
@@ -80,7 +80,7 @@ public class GRectangleD implements GRectangle2DD,
 	public static Rectangle getAWTRectangle(GRectangle rect) {
 		if (!(rect instanceof GRectangleD)) {
 			if (rect != null)
-				AppD.debug("other type");
+				Log.debug("other type");
 			return null;
 		}
 		return ((GRectangleD) rect).impl;

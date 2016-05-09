@@ -19,6 +19,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererShadersElementsW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWInterface;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
@@ -727,7 +728,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 					.setHeight(height, Style.Unit.PX);
 			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
-			App.debug("Problem with the parent element of the canvas");
+			Log.debug("Problem with the parent element of the canvas");
 		}
 	}
 

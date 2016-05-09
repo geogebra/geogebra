@@ -29,6 +29,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.event.KeyListenerW;
@@ -217,7 +218,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		addStyleName("AutoCompleteTextFieldW");
 
 		String id = DOM.createUniqueId();
-		// App.debug(id);
+		// Log.debug(id);
 		// id = id.substring(7);
 
 		textField.addStyleName("TextField");
@@ -506,7 +507,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 					syntaxes.add(macro.toString());
 				} else {
 					// syntaxes.add(cmdInt + "[]");
-					App.debug("Can't find syntax for: " + cmd);
+					Log.debug("Can't find syntax for: " + cmd);
 				}
 
 				continue;
@@ -862,7 +863,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		 * text.length() - mergeText.length(); if (decrease > 0) {
 		 * setText(mergeText); setCaretPosition(caretPos - decrease); } }
 		 */
-		App.debug("KoreanDoubles may be needed in AutocompleteTextField");
+		Log.debug("KoreanDoubles may be needed in AutocompleteTextField");
 	}
 
 	private boolean moveToNextArgument(boolean find) {
@@ -951,7 +952,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 		if (!(ch == '(' || ch == '{' || ch == '[' || ch == '}' || ch == ')' || ch == ']')) {
 			// super.keyTyped(e);
-			App.debug("super.keyTyped needed in AutocompleteTextField");
+			Log.debug("super.keyTyped needed in AutocompleteTextField");
 			return;
 		}
 
@@ -1506,7 +1507,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public boolean hasFocus() {
-		App.debug("Unimplemented");
+		Log.debug("Unimplemented");
 		return false;
 	}
 
@@ -1635,15 +1636,15 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			return;
 		}
 		Element showSymbolElement = this.showSymbolButton.getElement();
-		// App.debug("AF focused" + show);
+		// Log.debug("AF focused" + show);
 		if (showSymbolElement != null
 		        && "true"
 		                .equals(showSymbolElement.getAttribute("data-visible"))) {
 			if (show) {
-				// App.debug("AF focused2" + show);
+				// Log.debug("AF focused2" + show);
 				showSymbolElement.addClassName("shown");
 			} else {
-				// App.debug("AF focused2" + show);
+				// Log.debug("AF focused2" + show);
 				if (!"true".equals(showSymbolElement
 				        .getAttribute("data-persist"))) {
 					showSymbolElement.removeClassName("shown");

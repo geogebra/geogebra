@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GComponent;
 import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
@@ -113,7 +112,6 @@ public abstract class AwtFactory {
 
 	public abstract ActionListener newActionListener(ActionListenerI listener);
 
-	public abstract GComponent newComponent(Object component);
 
 	public abstract GPaint newTexturePaint(GBufferedImage subimage,
 			GRectangle rect);

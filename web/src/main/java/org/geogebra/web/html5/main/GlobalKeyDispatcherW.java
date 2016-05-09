@@ -7,6 +7,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.KeyCodes;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -58,7 +59,7 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public void onKeyPress(KeyPressEvent event) {
-		App.debug("Key pressed:" + event.getCharCode());
+		Log.debug("Key pressed:" + event.getCharCode());
 		setDownKeys(event);
 		event.stopPropagation();
 		if (InFocus) {
@@ -83,7 +84,7 @@ public class GlobalKeyDispatcherW extends
 
 		// this needs to be done in onKeyPress -- keyUp is not case sensitive
 		if (!event.isAltKeyDown() && !event.isControlKeyDown()) {
-			App.debug("Key pressed:" + event.getCharCode());
+			Log.debug("Key pressed:" + event.getCharCode());
 			this.renameStarted(event.getCharCode());
 		}
 	}
@@ -112,7 +113,7 @@ public class GlobalKeyDispatcherW extends
 
 		// we have keypress here only
 		// do this only, if we really have focus
-		App.debug(InFocus + "");
+		Log.debug(InFocus + "");
 		if (InFocus) {
 			handleKeyPressed(event);
 		} else if (event.getNativeKeyCode() == com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER) {
@@ -299,7 +300,7 @@ public class GlobalKeyDispatcherW extends
 
 	@Override
 	protected boolean handleCtrlShiftN(boolean isAltDown) {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		return false;
 	}
 
@@ -328,17 +329,17 @@ public class GlobalKeyDispatcherW extends
 
 	@Override
 	protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override
 	protected void createNewWindow() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override
 	protected void showPrintPreview(App app2) {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	/**

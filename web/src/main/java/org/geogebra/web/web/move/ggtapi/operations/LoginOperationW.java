@@ -1,11 +1,11 @@
 package org.geogebra.web.web.move.ggtapi.operations;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.BaseEventView;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.web.move.ggtapi.models.AuthenticationModelW;
@@ -89,7 +89,7 @@ public class LoginOperationW extends LogInOperation {
 	 */
 
 	private void processToken(String token) {
-		App.debug("LTOKEN send via message");
+		Log.debug("LTOKEN send via message");
 		performTokenLogin(token, false);
 	}
 }

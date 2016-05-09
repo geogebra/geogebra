@@ -21,10 +21,10 @@ import org.geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogLi
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.main.AppW;
@@ -368,7 +368,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	}
 
 	private void openTools() {
-		App.debug("before" + app.hashCode());
+		Log.debug("before" + app.hashCode());
 		app.setWaitCursor();
 		// for (Macro macro : toolList.getSelectedMacros()) {
 		app.storeMacro(toolList.getSelectedMacro(), false);
@@ -439,13 +439,13 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		int selSize = sel.size(); 
 
 		if (src == btUp) {
-			App.debug("Up");
+			Log.debug("Up");
 			if (idx > 0) {
 				toolList.insertMacro(toolList.getMacro(idx - 1), idx + selSize);
 				toolList.removeItem(idx - 1);
 			}
 		} else if (src == btDown) {
-			App.debug("Dowm");
+			Log.debug("Dowm");
 			if (idx + selSize < toolList.getItemCount()) {
 				toolList.insertMacro(toolList.getMacro(idx + selSize), idx);
 				toolList.removeItem(idx + selSize + 1);
@@ -473,7 +473,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	}
 	public void onMacroChange(Macro macro) {
-		App.debug("[MACROLIST] onMacroChange " + macro.getCommandName());
+		Log.debug("[MACROLIST] onMacroChange " + macro.getCommandName());
 		Macro m = toolList.getSelectedMacro();
 		m.setCommandName(macro.getCommandName());
 		m.setToolName(macro.getToolName());

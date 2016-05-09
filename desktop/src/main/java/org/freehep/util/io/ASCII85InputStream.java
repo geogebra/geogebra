@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * The ASCII85InputStream decodes ASCII base-85 encoded data. The exact
@@ -143,7 +143,7 @@ public class ASCII85InputStream extends InputStream implements ASCII85 {
      */
     public static void main(String[] args) throws Exception {
         if (args.length < 1) {
-            AppD.debug("Usage: ASCII85InputStream filename");
+			Log.debug("Usage: ASCII85InputStream filename");
             System.exit(1);
         }
         ASCII85InputStream in = new ASCII85InputStream(new FileInputStream(args[0]));

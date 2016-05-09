@@ -1,6 +1,5 @@
 package org.geogebra.web.web.move.googledrive.operations;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -185,7 +184,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	private void authorizeCallback(String token, String error) {
 		if (error != null && error.length() > 0) {
-			App.debug("GOOGLE LOGIN" + error);
+			Log.debug("GOOGLE LOGIN" + error);
 			this.loggedIn = false;
 			onEvent(new GoogleLoginEvent(false));
 		} else {
@@ -226,7 +225,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}-*/;
 
 	public void renderEvent(BaseEvent event) {
-		App.debug("event: " + event.toString());
+		Log.debug("event: " + event.toString());
 		if (event instanceof GoogleDriveLoadedEvent) {
 			checkIfOpenedFromGoogleDrive();
 			return;
@@ -546,7 +545,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	private void checkIfOpenedFromGoogleDrive() {
 		String state = URL.getQueryParameterAsString("state");
-		App.debug(state);
+		Log.debug(state);
 		if (state != null && !"".equals(state)) {
 			googleDriveURL = JSON.parse(state);
 			Log.debug(googleDriveURL);

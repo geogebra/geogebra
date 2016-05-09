@@ -16,14 +16,12 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.gui.util.ImageSelection;
-import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.FrameCollector;
 
 /**
@@ -289,7 +287,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 				&& getGL().isFunctionAvailable("glBufferDataARB")
 				&& getGL().isFunctionAvailable("glDeleteBuffersARB");
 
-		AppD.debug("openGL version : " + version + ", vbo supported : "
+		Log.debug("openGL version : " + version + ", vbo supported : "
 				+ VBOsupported);
 		
 		initFBO();

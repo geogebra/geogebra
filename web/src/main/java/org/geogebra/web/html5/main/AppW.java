@@ -412,7 +412,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (args == null || args.length == 0) {
 			callNativeJavaScript(fun);
 		} else if (args.length == 1) {
-			App.debug("calling function: " + fun + "(" + args[0].toString()
+			Log.debug("calling function: " + fun + "(" + args[0].toString()
 			        + ")");
 			callNativeJavaScript(fun, args[0].toString());
 		} else {
@@ -766,17 +766,19 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			// getKernel().setNotifyViewsActive(false); TODO would make things a
 			// lot faster, but problems with construction step and AV ordering
 			if (macros != null) {
-				// App.debug("start processing macros: "+System.currentTimeMillis());
+				// Log.debug("start processing macros:
+				// "+System.currentTimeMillis());
 				getXMLio().processXMLString(macros, true, true);
-				// App.debug("end processing macros: "+System.currentTimeMillis());
+				// Log.debug("end processing macros:
+				// "+System.currentTimeMillis());
 			}
 
-			// App.debug("start processing" + System.currentTimeMillis());
+			// Log.debug("start processing" + System.currentTimeMillis());
 			getXMLio().processXMLString(construction, true, false);
 
 
 
-			// App.debug("end processing" + System.currentTimeMillis());
+			// Log.debug("end processing" + System.currentTimeMillis());
 			// defaults (optional)
 			if (defaults2d != null) {
 				getXMLio().processXMLString(defaults2d, false, true);
@@ -875,8 +877,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 
 		// for file names e.g. /geogebra/main/nav_play.png in GeoButtons
-		// App.debug("filename2 = " + filename);
-		// App.debug("ext2 = " + ext);
+		// Log.debug("filename2 = " + filename);
+		// Log.debug("ext2 = " + ext);
 
 		if (ext.equals(FileExtensions.SVG)) {
 			// IE11/12 seems to require SVG to be base64 encoded
@@ -1033,7 +1035,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		//
 		// public void onStorageChange(StorageEvent event) {
 		// if (STORAGE_MACRO_KEY.equals(event.getKey())) {
-		// App.debug("[STORAGE] '" + STORAGE_MACRO_KEY
+		// Log.debug("[STORAGE] '" + STORAGE_MACRO_KEY
 		// + "' has changed.");
 		// }
 		// }
@@ -1083,7 +1085,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			if (map.containsKey(STORAGE_MACRO_KEY)) {
 				String macroName = storage.getItem(STORAGE_MACRO_KEY);
 				try {
-					// App.debug("[STORAGE] restoring macro " + macroName);
+					// Log.debug("[STORAGE] restoring macro " + macroName);
 					openMacro(macroName);
 					Window.setTitle(macroName);
 					setToolLoadedFromStorage(true);
@@ -1425,7 +1427,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 			@Override
 			public void onFailure(Throwable reason) {
-				App.debug("AlgoKimberlingWeights loading failure");
+				Log.debug("AlgoKimberlingWeights loading failure");
 			}
 		});
 		return cubicw;
@@ -1873,7 +1875,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * @return element of the AppFrame / GeoGebraFrame
 	 */
 	public Element getFrameElement() {
-		// App.debug("getFrameElement() returns null, should be overridden by subclasses");
+		// Log.debug("getFrameElement() returns null, should be overridden by
+		// subclasses");
 		return null;
 	}
 
@@ -1977,7 +1980,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		if (cmd != null) {
 
-			App.debug("exectuing commands: " + cmd);
+			Log.debug("exectuing commands: " + cmd);
 
 			String[] cmds = cmd.split(";");
 			for (int i = 0; i < cmds.length; i++) {
@@ -2363,7 +2366,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (getGuiManager() != null) {
 			getGuiManager().setPixelRatio(getPixelRatio());
 		}
-		// App.debug("updateUI: implementation needed for GUI"); // TODO
+		// Log.debug("updateUI: implementation needed for GUI"); // TODO
 	}
 
 	// ========================================
@@ -2381,7 +2384,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public void copyGraphicsViewToClipboard() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	// ========================================
@@ -2414,7 +2417,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public void showURLinBrowser(final String pageUrl) {
 		Window.open(pageUrl, "_blank", "");
-		debug("opening: " + pageUrl);
+		Log.debug("opening: " + pageUrl);
 
 		// assume showURLinBrowserWaiterFixedDelay is called before
 	}
@@ -2430,7 +2433,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public void exitAll() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override
@@ -2683,11 +2686,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public void updateApplicationLayout() {
-		App.debug("updateApplicationLayout: Implementation needed...");
+		Log.debug("updateApplicationLayout: Implementation needed...");
 	}
 
 	public void setShowInputHelpPanel(boolean b) {
-		App.debug("setShowInputHelpPanel: Implementation needed...");
+		Log.debug("setShowInputHelpPanel: Implementation needed...");
 	}
 
 	@Override
@@ -3133,7 +3136,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public void updateMenubar() {
 		// getGuiManager().updateMenubar();
-		App.debug("AppW.updateMenubar() - implementation needed - just finishing"); // TODO
+		Log.debug(
+				"AppW.updateMenubar() - implementation needed - just finishing"); // TODO
 		// Auto-generated
 	}
 
@@ -3181,7 +3185,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 *            wrapper (splitlayoutpanel center)
 	 */
 	public void ggwGraphicsViewDimChanged(int width, int height) {
-		// App.debug("dim changed" + getSettings().getEuclidian(1));
+		// Log.debug("dim changed" + getSettings().getEuclidian(1));
 		getSettings().getEuclidian(1).setPreferredSize(
 		        org.geogebra.common.factories.AwtFactory.prototype.newDimension(
 		                width, height));
@@ -3189,7 +3193,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// simple setting temp.
 		appCanvasHeight = height;
 		appCanvasWidth = width;
-		// App.debug("syn size");
+		// Log.debug("syn size");
 		getEuclidianView1().synCanvasSize();
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();

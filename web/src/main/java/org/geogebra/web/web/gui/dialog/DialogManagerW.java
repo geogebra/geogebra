@@ -33,6 +33,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -72,7 +73,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 	@Override
 	public boolean showFunctionInspector(GeoFunction geoFunction) {
-		App.debug("Show Function Inspector");
+		Log.debug("Show Function Inspector");
 
 		boolean success = true;
 
@@ -368,7 +369,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 		// set properties option type
 		if (type != null) {
-			App.debug("Viewing optionsPanel subtype " + subType);
+			Log.debug("Viewing optionsPanel subtype " + subType);
 			pv.setOptionPanel(type, subType);
 		}
 
@@ -393,7 +394,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS) {
 	
-			App.debug("[DAMODE] about to show mode " + mode);
+			Log.debug("[DAMODE] about to show mode " + mode);
 			DataAnalysisViewW da = (DataAnalysisViewW)app.getGuiManager().getDataAnalysisView();
 			da.changeMode(mode);
 			app.getGuiManager().setShowView(true, App.VIEW_DATA_ANALYSIS);
@@ -438,7 +439,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
     public void renderEvent(BaseEvent event) {
 	    if (event instanceof GoogleLoginEvent) {
 	    	if (!((GoogleLoginEvent) event).isSuccessFull()) {
-	    		App.debug("Login to Google failed");
+				Log.debug("Login to Google failed");
 	    	}
 	    }
 	    

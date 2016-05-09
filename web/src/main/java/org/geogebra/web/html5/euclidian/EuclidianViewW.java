@@ -508,7 +508,7 @@ public class EuclidianViewW extends EuclidianView implements
 			        .setHeight(height, Style.Unit.PX);
 			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
-			App.debug("Problem with the parent element of the canvas");
+			Log.debug("Problem with the parent element of the canvas");
 		}
 	}
 
@@ -1189,7 +1189,7 @@ final GGraphics2D g2) {
 	@Override
 	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
 	        GColor penColor, int penLineStyle, int penSize) {
-		App.debug("doDrawPoints() unimplemented");
+		Log.debug("doDrawPoints() unimplemented");
 
 	}
 

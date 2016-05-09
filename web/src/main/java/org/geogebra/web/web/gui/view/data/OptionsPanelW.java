@@ -8,7 +8,6 @@ import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.data.StatPanelSettings;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -702,7 +701,6 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
     }
 
 	public void resize(int height) {
-	    App.debug("[DAOPTIONPANEL] RequiresResize");
 	    spHistogram.setHeight(height + "px");
 	    spGraph.setHeight(height + "px");
     }

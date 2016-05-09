@@ -26,6 +26,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GBasicStrokeW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -796,7 +797,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			updateColumnCount();
 			updateRowCount();
 
-			// App.debug("ssGrid dim: " + ssGrid.getRowCount() + " x " +
+			// Log.debug("ssGrid dim: " + ssGrid.getRowCount() + " x " +
 			// ssGrid.getColumnCount());
 		
 			repaintAll();
@@ -994,7 +995,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			/*
 			 * // return if we have already ctrl-selected this range for
 			 * (CellRange cr : selectedCellRanges) { if
-			 * (cr.equals(newSelection)){ App.debug("reutrned"); return; } }
+			 * (cr.equals(newSelection)){ Log.debug("reutrned"); return; } }
 			 */
 
 			// handle dragging
@@ -1079,17 +1080,17 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		updateCopiableSelection();
-		// App.debug("------------------");
+		// Log.debug("------------------");
 		// for (CellRange cr: selectedCellRanges)cr.debug();
 	}
 
 	public void printSelectionParameters() {
-		App.debug("----------------------------------");
-		App.debug("minSelectionColumn = " + minSelectionColumn);
-		App.debug("maxSelectionColumn = " + maxSelectionColumn);
-		App.debug("minSelectionRow = " + minSelectionRow);
-		App.debug("maxSelectionRow = " + maxSelectionRow);
-		App.debug("----------------------------------");
+		Log.debug("----------------------------------");
+		Log.debug("minSelectionColumn = " + minSelectionColumn);
+		Log.debug("maxSelectionColumn = " + maxSelectionColumn);
+		Log.debug("minSelectionRow = " + minSelectionRow);
+		Log.debug("maxSelectionRow = " + maxSelectionRow);
+		Log.debug("----------------------------------");
 	}
 
 	/**
@@ -1436,15 +1437,15 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			top = (int) ((wt.getAbsoluteTop() ) / app.getArticleElement()
 			        .getScaleY()) ;	
 		}
-		// App.debug("-----------------------" + min);
+		// Log.debug("-----------------------" + min);
 
 		if (min) {
-			// App.debug("col x row: " + column + " x " + row + "  pixels: " +
+			// Log.debug("col x row: " + column + " x " + row + " pixels: " +
 			// left + " x " + top);
 			// getPixel2(column,row,min);
 			return new GPoint(left, top);
 		}
-		// App.debug("col x row: " + column + " x " + row + "  pixels: " + (left
+		// Log.debug("col x row: " + column + " x " + row + " pixels: " + (left
 		// + wt.getOffsetWidth()) +
 		// " x " + (top+wt.getOffsetHeight()));
 		// getPixel2(column,row,min);
@@ -1492,7 +1493,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// p.x += ssGrid.getAbsoluteLeft();
 		// p.y += ssGrid.getAbsoluteTop();
 
-		// App.debug("#2col x row: " + column + " x " + row + "  pixels: " + p.x
+		// Log.debug("#2col x row: " + column + " x " + row + " pixels: " + p.x
 		// + " x " + p.y);
 		return p;
 	}
@@ -2288,7 +2289,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void updateAllCellFormats() {
-		App.debug("updateAllCellFormats");
+		Log.debug("updateAllCellFormats");
 		for (int row = 0; row < getRowCount(); row++) {
 			for (int column = 0; column < getColumnCount(); column++) {
 				defaultTableCellRenderer.clearBorder(row, column);
@@ -2304,7 +2305,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		HashMap<GPoint, Object> map = table.getCellFormatHandler()
 				.getFormatMap(CellFormat.FORMAT_BORDER);
-		App.debug(map + "");
 
 	}
 

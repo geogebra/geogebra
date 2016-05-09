@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -429,12 +428,12 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			public void handle(String base64) {
 				if (!SaveDialogW.this.title.getText().equals(
 				        app.getKernel().getConstruction().getTitle())) {
-					App.debug("SAVE filename changed");
+					Log.debug("SAVE filename changed");
 					app.updateMaterialURL(0, null);
 					doUploadToGgt(app.getTubeId(), visibility, base64,
 					        initMaterialCB(base64, false));
 				} else if (app.getTubeId() == 0) {
-					App.debug("SAVE had no Tube ID");
+					Log.debug("SAVE had no Tube ID");
 					doUploadToGgt(app.getTubeId(), visibility, base64,
 					        initMaterialCB(base64, false));
 				} else {
@@ -506,7 +505,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				        if (parseResponse.size() == 1) {
 					        if (parseResponse.get(0).getModified() > app
 					                .getSyncStamp()) {
-						        App.debug("SAVE MULTIPLE"
+								Log.debug("SAVE MULTIPLE"
 						                + parseResponse.get(0).getModified()
 						                + ":" + app.getSyncStamp());
 								app.updateMaterialURL(0, null);

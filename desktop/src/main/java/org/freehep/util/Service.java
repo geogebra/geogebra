@@ -12,7 +12,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * This class does the same as sun.misc.Service, which may become public
@@ -36,7 +36,7 @@ public class Service {
     	                           ClassLoader.getSystemResources(name) :
     	                           loader.getResources(name);
         } catch (IOException ioe) {
-            AppD.debug("Service: cannot load "+name);
+			Log.debug("Service: cannot load " + name);
             return classList;
         }
 
@@ -62,13 +62,13 @@ public class Service {
 	                line = reader.readLine();
                 }
             } catch (IOException ioe) {
-                AppD.debug("Service: problem with: "+url);
+				Log.debug("Service: problem with: " + url);
             } finally {
                 try {
                     if (input != null) input.close();
                     if (reader != null) reader.close();
                 } catch (IOException ioe2) {
-                    AppD.debug("Service: problem with: "+url);
+					Log.debug("Service: problem with: " + url);
                 }
             }
         }
@@ -79,15 +79,15 @@ public class Service {
             try {
                 classList.add(Class.forName(className, true, loader).newInstance());
             } catch (ClassNotFoundException e) {
-                AppD.debug("Service: cannot find class: "+className);
+				Log.debug("Service: cannot find class: " + className);
             } catch (InstantiationException e) {
-                AppD.debug("Service: cannot instantiate: "+className);
+				Log.debug("Service: cannot instantiate: " + className);
             } catch (IllegalAccessException e) {
-                AppD.debug("Service: illegal access to: "+className);
+				Log.debug("Service: illegal access to: " + className);
             } catch (NoClassDefFoundError e) {
-                AppD.debug("Service: "+e+" for "+className);
+				Log.debug("Service: " + e + " for " + className);
             } catch (Exception e) {
-                AppD.debug("Service: exception for: "+className+" "+e);
+				Log.debug("Service: exception for: " + className + " " + e);
             }
         }
 	    return classList;

@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -55,11 +55,11 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 	}
 
 	public void setPaintTicks(boolean b) {
-		App.debug("not applicable for range");
+		Log.debug("not applicable for range");
 	}
 
 	public void setPaintLabels(boolean b) {
-		App.debug("not applicable for range");
+		Log.debug("not applicable for range");
 	}
 
 	public GDimensionW getPreferredSize() {

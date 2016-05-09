@@ -6,7 +6,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -483,10 +483,10 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		
 		if (doColumnResize) {
 			// If column resize has happened, resize all other selected columns
-			App.debug("doing column resize");
+			Log.debug("doing column resize");
 			int columnWidth = table.getColumnWidth(resizingColumn);
-			// App.debug("doRowResiz for selection: " + rowHeight);
-			// App.debug("min/max " + table.minSelectionRow + " , " +
+			// Log.debug("doRowResiz for selection: " + rowHeight);
+			// Log.debug("min/max " + table.minSelectionRow + " , " +
 			// table.maxSelectionRow);
 			if (table.minSelectionColumn != -1
 			        && table.maxSelectionColumn != -1
@@ -495,7 +495,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 					table.setColumnWidth(columnWidth);
 				else
 					for (int col = table.minSelectionColumn; col <= table.maxSelectionColumn; col++) {
-						App.debug("setting column, width: " + col + " , "
+						Log.debug("setting column, width: " + col + " , "
 						        + columnWidth);
 						table.setColumnWidth(col, columnWidth);
 					}

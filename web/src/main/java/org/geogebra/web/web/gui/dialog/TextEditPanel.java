@@ -8,10 +8,10 @@ import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -150,7 +150,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 				style += 2;
 			editGeo.setFontStyle(style);
 			updatePreviewPanel();
-			App.debug("BollldVagyItallic");
+			Log.debug("BollldVagyItallic");
 
 		} else if (source == btnLatex) {
 			editGeo.setLaTeX(btnLatex.getValue(), false);
@@ -299,7 +299,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	 * @return Current editor content converted to a GeoText string.
 	 */
 	public String getText() {
-		App.debug("ggb text string: "
+		Log.debug("ggb text string: "
 		        + dTProcessor.buildGeoGebraString(editor.getDynamicTextList(),
 		                isLatex()));
 		return dTProcessor.buildGeoGebraString(editor.getDynamicTextList(),

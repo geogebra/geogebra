@@ -7,8 +7,8 @@ import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAdvancedW;
@@ -126,7 +126,7 @@ public class PropertiesViewW extends PropertiesView
 	 * @return
 	 */
 	public OptionPanelW getOptionPanel(OptionType type, int subType) {
-		App.debug("[OptionPanelW] getOptionPanel " + type);
+		Log.debug("[OptionPanelW] getOptionPanel " + type);
 		//AbstractApplication.printStacktrace("type :"+type);
 		if (styleBar != null) {
 			styleBar.updateGUI();
@@ -153,7 +153,7 @@ public class PropertiesViewW extends PropertiesView
 				euclidianPanel.showCbView(false);
 			}
 
-			App.debug("euclidianPanel");
+			Log.debug("euclidianPanel");
 			return euclidianPanel;
 
 		case EUCLIDIAN2:
@@ -164,7 +164,7 @@ public class PropertiesViewW extends PropertiesView
 				euclidianPanel2.setView(((AppW)app).getEuclidianView2(1));
 				euclidianPanel2.showCbView(false);
 			}
-			App.debug("euclidianPanel2");
+			Log.debug("euclidianPanel2");
 			return euclidianPanel2;
 		case EUCLIDIAN3D:
 			if (euclidianPanel3D == null) {
@@ -174,7 +174,7 @@ public class PropertiesViewW extends PropertiesView
 		//		euclidianPanel3D.setView(((AppW)app).getEuclidianView3D());
 				euclidianPanel3D.showCbView(false);
 			}
-			App.debug("euclidianPanel2");
+			Log.debug("euclidianPanel2");
 			return euclidianPanel2;
 
 			
@@ -217,7 +217,7 @@ public class PropertiesViewW extends PropertiesView
 
 			}
 
-			App.debug("obect prop SELECTING TAB " + subType);
+			Log.debug("obect prop SELECTING TAB " + subType);
 			((OptionsObjectW) objectPanel).selectTab(subType);
 			return (OptionPanelW) objectPanel;
 		}
@@ -275,12 +275,12 @@ public class PropertiesViewW extends PropertiesView
 		if(geo.isLabelSet()){
 			updatePropertiesGUI();
 		}
-		App.debug("update(geo)");
+		Log.debug("update(geo)");
 	}
 
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		// TODO Auto-generated method stub
-		App.debug("update visual style");
+		Log.debug("update visual style");
 		if(geo.isLabelSet()){
 			updatePropertiesGUI();
 		}
@@ -297,16 +297,16 @@ public class PropertiesViewW extends PropertiesView
 
 	public void reset() {
 		// TODO Auto-generated method stub
-		App.debug("reset");
+		Log.debug("reset");
 	}
 
 	public void clearView() {
-		App.debug("Clear View");
+		Log.debug("Clear View");
 	}
 
 	public void setMode(int mode,ModeSetter m) {
 		// TODO Auto-generated method stub
-		App.debug("setting mode");
+		Log.debug("setting mode");
 	}
 
 	public int getViewID() {
@@ -351,7 +351,7 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	protected void setObjectsToolTip() {
-		App.debug("=============== PropertiesViewW.setObjectsToolTip() : TODO");
+		Log.debug("=============== PropertiesViewW.setObjectsToolTip() : TODO");
 		// styleBar.setObjectsToolTip();
 	}
 
@@ -407,7 +407,7 @@ public class PropertiesViewW extends PropertiesView
 			setOptionPanel(OptionType.OBJECTS);
 		}
 		updatePropertiesGUI();
-		App.debug("updateSelection(geos)"); 
+		Log.debug("updateSelection(geos)");
 	}
 
 	private void updatePropertiesGUI() {
@@ -422,7 +422,7 @@ public class PropertiesViewW extends PropertiesView
 		}
 
 		//		   if (optionType == OptionType.OBJECTS)  {
-		//			   App.debug("selecting tab 2");
+		// Log.debug("selecting tab 2");
 		//			   getObjectPanel().selectTab(2);
 		//		   }
 
@@ -442,7 +442,7 @@ public class PropertiesViewW extends PropertiesView
 	@Override
 	public void attachView() {
 		if (attached){
-			App.debug("already attached");
+			Log.debug("already attached");
 			return;
 		}
 
@@ -464,15 +464,15 @@ public class PropertiesViewW extends PropertiesView
 	@Override
 	public void updatePropertiesView() {
 		updatePropertiesGUI();
-		App.debug("updatePropertiesView");
+		Log.debug("updatePropertiesView");
 	}
 
 	public void repaint() {
-		App.debug("repaint");
+		Log.debug("repaint");
 	}
 
 	public boolean isShowing() {
-		App.debug("isShowing");
+		Log.debug("isShowing");
 		return false;
 	}
 

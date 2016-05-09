@@ -2,7 +2,7 @@ package org.geogebra.web.html5.gawt;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -68,7 +68,7 @@ public class GBufferedImageW implements GBufferedImage {
 		if (imageElement != null)// This should not called with null
 			img = imageElement;
 		else
-			App.debug("BufferedImage (gawt) called with null");
+			Log.debug("BufferedImage (gawt) called with null");
 	}
 
 	// this clones this bufferedimage!
@@ -86,7 +86,7 @@ public class GBufferedImageW implements GBufferedImage {
 			                cv.getCoordinateSpaceHeight()), 0, 0);
 			// img = getImageElement();
 		} else {
-			App.debug("BufferedImage (gawt) called with null Canvas");
+			Log.debug("BufferedImage (gawt) called with null Canvas");
 		}
 	}
 

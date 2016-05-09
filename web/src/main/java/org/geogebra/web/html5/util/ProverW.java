@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.util;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.Prover;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.kernel.ProverReciosMethodW;
 
 /**
@@ -21,7 +21,7 @@ public class ProverW extends Prover {
 
 	@Override
 	protected ProofResult openGeoProver(ProverEngine pe) {
-		App.debug("OGP is not implemented for the web");
+		Log.debug("OGP is not implemented for the web");
 		return ProofResult.UNKNOWN;
 	}
 }

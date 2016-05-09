@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.HasCoordsMode;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -177,7 +178,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 
 						public void execute() {
 							recordToSpreadSheetCmd();
-							// App.debug("not ported yet recordToSpreadSheetCmd();");
+									// Log.debug("not ported yet
+									// recordToSpreadSheetCmd();");
 						}
 					}, true);
 					cbItem.setSelected(geo.getSpreadsheetTrace());
@@ -362,7 +364,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		if (!(geo instanceof ViewCreator))
 			return;
 
-		App.debug("==================== addPlaneItems");
+		Log.debug("==================== addPlaneItems");
 
 		final ViewCreator plane = (ViewCreator) geo;
 
@@ -370,7 +372,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 			public void execute() {
 				plane.setView2DVisible(true);
-				App.debug("set plane visible : " + plane);
+				Log.debug("set plane visible : " + plane);
 			}
 		};
 		addAction(

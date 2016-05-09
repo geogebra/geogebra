@@ -7,7 +7,6 @@ import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GComponent;
 import org.geogebra.common.awt.GCubicCurve2D;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GEllipse2DDouble;
@@ -30,7 +29,6 @@ import org.geogebra.common.euclidian.event.ActionListener;
 import org.geogebra.common.euclidian.event.ActionListenerI;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.main.App;
 import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
 import org.geogebra.ggbjdk.java.awt.geom.Arc2D;
 import org.geogebra.ggbjdk.java.awt.geom.Area;
@@ -251,13 +249,6 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
 	public FocusListener newFocusListener(Object listener) {
 		return new FocusListenerW(listener);
-	}
-
-	@Override
-	public GComponent newComponent(Object component) {
-		App.debug("newComponent: implementation needed really"); // TODO
-																 // Auto-generated
-		return null;
 	}
 
 	@Override

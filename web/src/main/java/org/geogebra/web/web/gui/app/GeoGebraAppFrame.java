@@ -5,6 +5,7 @@ package org.geogebra.web.web.gui.app;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -164,7 +165,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		ch = Window.getClientHeight() ;
 		
 		app = factory.getApplication(article, this, this.laf, this.device); 
-		App.debug("Callbacks ...");
+		Log.debug("Callbacks ...");
 		
 		this.addDomHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent event) {
@@ -201,7 +202,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 			RootLayoutPanel.get().getElement().addClassName("AppFrameParent");
 		}
 		//Debugging purposes
-		App.debug("Done");
+		Log.debug("Done");
     }
 	
 	/**

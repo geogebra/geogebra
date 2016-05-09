@@ -1542,7 +1542,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 	public void openFileAsImage(String fileName) {
-		App.debug(fileName);
+		Log.debug(fileName);
 
 	}
 

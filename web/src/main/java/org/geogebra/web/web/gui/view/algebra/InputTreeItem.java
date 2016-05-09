@@ -14,6 +14,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -902,13 +903,13 @@ public class InputTreeItem extends RadioTreeItem implements
 	}
 
 	private void setBorderButtonVisible(int i, boolean b) {
-		App.debug("setBorderVisible() implementation needed"); // TODO
+		Log.debug("setBorderVisible() implementation needed"); // TODO
 		                                                       // Auto-generated
 	}
 
 	private void setBorderButton(int i, ImageData createUpDownTriangleIcon,
 	        ClickHandler al) {
-		App.debug("setBorderButton() implementation needed"); // TODO
+		Log.debug("setBorderButton() implementation needed"); // TODO
 		                                                      // Auto-generated
 	}
 

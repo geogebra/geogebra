@@ -24,6 +24,7 @@ import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -720,8 +721,8 @@ public class GgbAPIW extends GgbAPI {
 
 				MyImageW img = (MyImageW) geo.getFillImage();
 
-				App.debug("filename = " + fileName);
-				App.debug("ext = " + ext);
+				Log.debug("filename = " + fileName);
+				Log.debug("ext = " + ext);
 				addImageToArchive(filePath, fileName, url, ext, img, archive);
 			}
 		}
@@ -784,11 +785,11 @@ public class GgbAPIW extends GgbAPI {
 		int index = svgAsXML.indexOf(',');
 		svgAsXML = svgAsXML.substring(index + 1);
 
-		App.debug("svgAsXML = " + svgAsXML);
+		Log.debug("svgAsXML = " + svgAsXML);
 
 		svgAsXML = ((AppW) app).decodeBase64String(svgAsXML);
 
-		App.debug("svgAsXML (decoded) = " + svgAsXML);
+		Log.debug("svgAsXML (decoded) = " + svgAsXML);
 
 		archive.put(fileName, svgAsXML);
 	}
@@ -803,7 +804,7 @@ public class GgbAPIW extends GgbAPI {
 
 			@Override
 			public void run() {
-				App.debug("Loading failed for id" + material);
+				Log.debug("Loading failed for id" + material);
 
 			}
 		});

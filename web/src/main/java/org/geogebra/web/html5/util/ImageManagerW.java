@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.io.MyXMLioW;
@@ -52,7 +53,7 @@ public class ImageManagerW extends ImageManager {
 
 	public void addExternalImage(String fileName, String src) {
 		if (fileName != null && src != null) {
-			App.debug("addExternalImage: " + fileName);
+			Log.debug("addExternalImage: " + fileName);
 			String fn = StringUtil.removeLeadingSlash(fileName);
 			ImageElement img = Document.get().createImageElement();
 			externalImageSrcs.put(fn, src);
@@ -68,7 +69,7 @@ public class ImageManagerW extends ImageManager {
 		imagesLoaded++;
 		if (imagesLoaded == externalImageSrcs.size()) {
 			try {
-				App.debug("images loaded");
+				Log.debug("images loaded");
 				// Macros (optional)
 				if (macros != null) {
 					// macros = DataUtil.utf8Decode(macros);

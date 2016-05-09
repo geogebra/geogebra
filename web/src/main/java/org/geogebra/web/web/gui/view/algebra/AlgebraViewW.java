@@ -28,6 +28,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -151,7 +152,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	public AlgebraViewW(AlgebraController algCtrl) {
 		super(new TreeImages());
-		App.debug("creating Algebra View");
+		Log.debug("creating Algebra View");
 		this.algebraController = algCtrl;
 		this.app = (AppW) algCtrl.getApplication();
 		this.loc = app.getLocalization();
@@ -1648,7 +1649,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	public boolean hasFocus() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		return false;
 	}
 

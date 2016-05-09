@@ -6,9 +6,9 @@ import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.gui.inputfield.DynamicTextElement.DynamicTextType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
 
@@ -198,7 +198,7 @@ public class GeoTextEditor extends RichTextArea {
 
 		switch (DOM.eventGetType(event)) {
 		case Event.ONCONTEXTMENU:
-			App.debug("contextmenu event in rta");
+			Log.debug("contextmenu event in rta");
 			break;
 
 		}
@@ -222,12 +222,12 @@ public class GeoTextEditor extends RichTextArea {
 
 	public void handlePaste() {
 		editPanel.updatePreviewPanel();
-		// App.debug("Paste!");
+		// Log.debug("Paste!");
 	}
 
 	public void handleCut() {
 		editPanel.updatePreviewPanel();
-		// App.debug("Cut!");
+		// Log.debug("Cut!");
 	}
 
 	/**

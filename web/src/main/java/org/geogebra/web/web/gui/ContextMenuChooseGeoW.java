@@ -8,7 +8,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.Command;
@@ -102,7 +102,8 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 		public void onBrowserEvent(Event event) {
 			view.getEuclidianController().doSingleHighlighting(geo);
-			App.debug("view.getEuclidianController().doSingleHighlighting(geo) called");
+			Log.debug(
+					"view.getEuclidianController().doSingleHighlighting(geo) called");
 		}
 
 	}

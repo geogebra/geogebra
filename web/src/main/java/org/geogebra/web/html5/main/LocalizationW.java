@@ -3,10 +3,10 @@ package org.geogebra.web.html5.main;
 import java.util.Iterator;
 import java.util.MissingResourceException;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.util.MyDictionary;
@@ -88,7 +88,7 @@ public final class LocalizationW extends Localization {
 		String ret = getPropertyNative(localeStr, key, "command");
 
 		if (ret == null || "".equals(ret)) {
-			App.debug("command key not found: " + key);
+			Log.debug("command key not found: " + key);
 			return key;
 		}
 
@@ -116,7 +116,7 @@ public final class LocalizationW extends Localization {
 		String ret = getPropertyNative(localeStr, key, "plain");
 
 		if (ret == null || "".equals(ret)) {
-			// App.debug("plain key not found: "+key+" "+ret);
+			// Log.debug("plain key not found: "+key+" "+ret);
 			return key;
 		}
 
@@ -142,7 +142,7 @@ public final class LocalizationW extends Localization {
 		String ret = getPropertyNative(localeStr, key, "menu");
 
 		if (ret == null || "".equals(ret)) {
-			// App.debug("menu key not found: "+key);
+			// Log.debug("menu key not found: "+key);
 			return key;
 		}
 
@@ -203,7 +203,7 @@ public final class LocalizationW extends Localization {
 		String ret = getPropertyNative(localeStr, key, "error");
 
 		if (ret == null || "".equals(ret)) {
-			App.debug("error key not found: " + key);
+			Log.debug("error key not found: " + key);
 			return key;
 		}
 
@@ -221,7 +221,7 @@ public final class LocalizationW extends Localization {
 		String ret = getPropertyNative(localeStr, "S_" + key, "symbols");
 
 		if (ret == null || "".equals(ret)) {
-			App.debug("menu key not found: " + key);
+			Log.debug("menu key not found: " + key);
 			return null;
 		}
 
@@ -239,7 +239,7 @@ public final class LocalizationW extends Localization {
 		String ret = getPropertyNative(localeStr, "T_" + key, "symbols");
 
 		if (ret == null || "".equals(ret)) {
-			App.debug("menu key not found: " + key);
+			Log.debug("menu key not found: " + key);
 			return null;
 		}
 
@@ -360,8 +360,8 @@ public final class LocalizationW extends Localization {
 
 		setCommandChanged(true);
 
-		App.debug("keys loaded for language: " + lang);
-		App.debug("TODO: reinitialize GUI on language change");
+		Log.debug("keys loaded for language: " + lang);
+		Log.debug("TODO: reinitialize GUI on language change");
 
 		updateLanguageFlags(lang);
 

@@ -39,6 +39,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -306,7 +307,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	        final boolean updatePropertiesView) {
 
 		if (!(((AppW) app).getEuclidianViewpanel() instanceof DockPanel)) {
-			App.debug("This part of the code should not have run!");
+			Log.debug("This part of the code should not have run!");
 			return;
 		}
 
@@ -349,7 +350,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		if (altDown) {
 			// AppW.nativeConsole("alt down");
-			App.debug("trying to paste image");
+			Log.debug("trying to paste image");
 
 			// try to paste image in html format eg
 			// http://jsfiddle.net/bvFNL/8/
@@ -367,7 +368,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			// white-space: normal; widows: 1; word-spacing: 0px;
 			// -webkit-text-stroke-width: 0px;\"><!--EndFragment-->";
 
-			App.debug("trying to paste image " + html);
+			Log.debug("trying to paste image " + html);
 
 			String pngMarker = "data:image/png;base64,";
 
@@ -469,7 +470,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public boolean isInputFieldSelectionListener() {
 		// TODO Auto-generated method stub
-		// App.debug("unimplemented method");
+		// Log.debug("unimplemented method");
 		return false;
 	}
 
@@ -557,7 +558,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public View getConstructionProtocolData() {
-		// App.debug("unimplemented method");
+		// Log.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -608,7 +609,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void updateSpreadsheetColumnWidths() {
 		// TODO Auto-generated method stub
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		// if (spreadsheetView != null) {
 		// spreadsheetView.updateColumnWidths();
 		// }
@@ -734,7 +735,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			layout.registerPanel((DockPanelW) ((AppW) app)
 			        .getEuclidianViewpanel());
 		} else {
-			App.debug("This part of the code should not have been called!");
+			Log.debug("This part of the code should not have been called!");
 			return false;
 		}
 
@@ -825,7 +826,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void updateAlgebraInput() {
-		App.debug("Implementation needed...");
+		Log.debug("Implementation needed...");
 	}
 
 	public boolean hasInputHelpPanel() {
@@ -1015,7 +1016,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void showPropertiesViewSliderTab() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override
@@ -1026,13 +1027,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	protected boolean loadURL_base64(final String url) {
-		App.debug("implementation needed");
+		Log.debug("implementation needed");
 		return true;
 	}
 
 	@Override
 	protected boolean loadFromApplet(final String url) throws Exception {
-		App.debug("implementation needed");
+		Log.debug("implementation needed");
 		return false;
 	}
 
@@ -1076,13 +1077,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void startEditing(final GeoElement geoElement) {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 
 	}
 
 	@Override
 	public boolean noMenusOpen() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		return true;
 	}
 
@@ -1095,19 +1096,19 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void showGraphicExport() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 
 	}
 
 	@Override
 	public void showPSTricksExport() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 
 	}
 
 	@Override
 	public void showWebpageExport() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 
 	}
 
@@ -1136,7 +1137,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void attachConstructionProtocolView() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override
@@ -1147,7 +1148,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void attachAssignmentView() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 	
 	public DataCollectionView getDataCollectionView() {
@@ -1226,7 +1227,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void attachDataAnalysisView() {
-		App.debug("DAMODE attachDataAnalysisView");
+		Log.debug("DAMODE attachDataAnalysisView");
 		getDataAnalysisView();
 		dataAnalysisView.attachView();
 	}
@@ -1247,22 +1248,22 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void detachAssignmentView() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override
 	public void detachProbabilityCalculatorView() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override
 	public void detachCasView() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override
 	public void detachConstructionProtocolView() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override
@@ -1279,7 +1280,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		} catch (final MyError e) {
 			app.showError(e);
 		} catch (final Exception e) {
-			App.debug("openHelp error: " + e.toString() + " " + e.getMessage()
+			Log.debug("openHelp error: " + e.toString() + " " + e.getMessage()
 			        + " " + page + " " + type);
 			app.showError(e.getMessage());
 			e.printStackTrace();
@@ -1300,7 +1301,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void showURLinBrowser(final String strURL) {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override
@@ -1313,7 +1314,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void clearInputbar() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 	}
 
 	@Override
@@ -1323,13 +1324,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public int getInputHelpPanelMinimumWidth() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		return 0;
 	}
 
 	@Override
 	public void exitAll() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		// TODO Auto-generated method stub
 
 	}
@@ -1337,7 +1338,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public boolean saveCurrentFile() {
 		// TODO Auto-generated method stub
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		return false;
 	}
 
@@ -1352,7 +1353,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void allowGUIToRefresh() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		// TODO Auto-generated method stub
 
 	}
@@ -1360,7 +1361,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void updateFrameTitle() {
 		// TODO Auto-generated method stub
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 
 	}
 
@@ -1422,7 +1423,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void setShowToolBarHelp(final boolean showToolBarHelp) {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		// TODO Auto-generated method stub
 
 	}
@@ -1435,7 +1436,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (euclidianView2.get(idx) == null) {
 			final boolean[] showAxis = { true, true };
 			final boolean showGrid = false;
-			App.debug("Creating 2nd Euclidian View");
+			Log.debug("Creating 2nd Euclidian View");
 			final EuclidianViewW ev = newEuclidianView(showAxis, showGrid, 2);
 			euclidianView2.set(idx, ev);
 			// euclidianView2.setEuclidianViewNo(2);
@@ -1480,7 +1481,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void updateFrameSize() {
 		// TODO Auto-generated method stub
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 
 	}
 
@@ -1799,7 +1800,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void detachView(final int viewId) {
 		switch (viewId) {
 		case App.VIEW_FUNCTION_INSPECTOR:
-			App.debug("Detaching VIEW_FUNCTION_INSPECTOR");
+			Log.debug("Detaching VIEW_FUNCTION_INSPECTOR");
 			((DialogManagerW) app.getDialogManager()).getFunctionInspector()
 			        .setInspectorVisible(false);
 			break;
@@ -1912,7 +1913,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			double panelRightToAppRight = panelLeftToAppRight
 					- panel.getOffsetWidth();
 			if (panel.isVisible()) {
-				App.debug("PANEL" + panelRightToAppRight + ","
+				Log.debug("PANEL" + panelRightToAppRight + ","
 					+ panelLeftToAppRight + "," + panel.getViewId());
 			}
 			if (menuOpen && panel.isVisible()

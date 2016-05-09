@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -53,7 +54,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		for (DockPanelW panel : panels) {
 			final int viewId = panel.getViewId();
 			if (panel.canCustomizeToolbar()) {
-				App.debug("[customize] view id for button is " + viewId);
+				Log.debug("[customize] view id for button is " + viewId);
 				ResourcePrototype res = null;
 				switch (viewId) {
 				case App.VIEW_DATA_ANALYSIS:

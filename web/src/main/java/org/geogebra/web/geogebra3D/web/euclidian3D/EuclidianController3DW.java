@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EnvironmentStyleW;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
@@ -351,7 +352,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	public void onHandValues(int mx, int my, int mz, int ox, int oy, int oz,
 	        int ow, String name) {
 
-		App.debug(mx + "," + my + "," + mz + " -- " + name);
+		Log.debug(mx + "," + my + "," + mz + " -- " + name);
 
 	}
 

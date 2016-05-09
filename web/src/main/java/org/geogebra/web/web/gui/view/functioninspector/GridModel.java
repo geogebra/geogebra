@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.view.functioninspector;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class GridModel {
 
@@ -74,31 +74,31 @@ public class GridModel {
 	public void setHeader(int col, String title) {
 		if (col < getColumnCount())  {
 			headers.set(col, title);
-			// App.debug("[GRIDMODEL] setHeader(" + col + "," + title +")");
+			// Log.debug("[GRIDMODEL] setHeader(" + col + "," + title +")");
 			listener.updateHeader(col, title);
 		}
 	}
 
 	public void setData(int row, int col, Object value) {
 		if (col < getColumnCount() && row < getRowCount())  {
-			App.debug("[GRID MODEL] setData(" + row + ", " + col + ", " +value + ")");
-			List<DataCell> list = data.get(row);
+			Log.debug("[GRID MODEL] setData(" + row + ", " + col + ", " + value
+					+ ")");
 			DataCell cell = new DataCell(value, false);
 			data.get(row).set(col, cell);
 			listener.updateDataCell(row, col, cell);
-			App.debug(toString());
+			Log.debug(toString());
 		}
 	}
 
 	public DataCell getData(int row, int col) {
-	//	// App.debug("[GRIDMODEL] getData(" + col + ", " + row + ")");
+		// // Log.debug("[GRIDMODEL] getData(" + col + ", " + row + ")");
 		DataCell result = null;
 		if (col < columnCount && row < rowCount)  {
 			List<DataCell> list = data.get(row);
 			result = list.get(col);
 			
 		}
-		// App.debug("[GRIDMODEL] = " + result);
+		// Log.debug("[GRIDMODEL] = " + result);
 		
 		return result;
 	}
@@ -118,7 +118,7 @@ public class GridModel {
 
 	
 	public void addRow(List<DataCell> row) {
-		// App.debug("[GRIDMODEL] addRow(" + row + ")");
+		// Log.debug("[GRIDMODEL] addRow(" + row + ")");
 		data.add(row);
 		listener.addRow(row);
 	}
@@ -192,22 +192,22 @@ public class GridModel {
 		for (List<DataCell> rowData: data) {
 			rowData.add(new DataCell(null, false));
 		}
-		// App.debug(headers.toString());
+		// Log.debug(headers.toString());
 		listener.appendColumn(name);
 	}
 
 	public void removeColumn() {
-		// App.debug("removeColumn");
+		// Log.debug("removeColumn");
 		int col = headers.size() - 1;
 		
-		// App.debug(headers.toString());
+		// Log.debug(headers.toString());
 		headers.remove(col);
 		for (int row = 0; row < data.size(); row++) {
 			List<DataCell> rowData = data.get(row);
 			if (col < rowData.size()) {
 				rowData.remove(col);
 			} else {
-				// App.debug("Warning: rowData size is " + rowData.size());
+				// Log.debug("Warning: rowData size is " + rowData.size());
 			}
 			
 			

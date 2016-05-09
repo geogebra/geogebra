@@ -6,7 +6,6 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.cas.view.CASViewW;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.app.VerticalPanelSmart;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -22,7 +21,6 @@ public class CASDockPanelW extends NavigableDockPanelW {
 
 	SimpleLayoutPanel toplevel;
 
-	VerticalPanelSmart ancestor;
 	CASViewW sview;
 
 

@@ -6,7 +6,7 @@ import org.geogebra.common.gui.CustomizeToolbarModel;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -198,17 +198,17 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 			TreeItem leaf = branch.getChild(0);
 			if (leaf == null) {
-				App.debug("[CUSTOMIZE] no leafs, should never happen!");
+				Log.debug("[CUSTOMIZE] no leafs, should never happen!");
 				return;
 			}
 
 			DraggableTool branchTool = (DraggableTool) branch.getUserObject();
 			DraggableTool firstTool = (DraggableTool) leaf.getUserObject();
-			App.debug("[CUSTOMIZE] branch: " + branchTool.getTitle());
-			App.debug("[CUSTOMIZE] first: " + firstTool.getTitle());
+			Log.debug("[CUSTOMIZE] branch: " + branchTool.getTitle());
+			Log.debug("[CUSTOMIZE] first: " + firstTool.getTitle());
 
 			if (branchTool.getMode() != firstTool.getMode()) {
-				App.debug("[CUSTOMIZE] branch and first tool does not match");
+				Log.debug("[CUSTOMIZE] branch and first tool does not match");
 				branchTool.setMode(firstTool.getMode());
 			}
 
@@ -246,11 +246,11 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					event.preventDefault();
 					event.stopPropagation();
 					if (draggingTool == tool) {
-						App.debug("Dropping tool to itself");
+						Log.debug("Dropping tool to itself");
 						return;
 					}
 					int idx = indexOf(item);
-					App.debug(PREFIX + "drop on item " + idx);
+					Log.debug(PREFIX + "drop on item " + idx);
 					insertTool(idx, draggingTool);
 					tool.removeStyleName("insertAfterBranch");
 					tool.removeStyleName("insertBeforeBranch");
@@ -263,7 +263,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				public void onDragEnter(DragEnterEvent event) {
 					event.preventDefault();
 					event.stopPropagation();
-					App.debug("dragEnter");
+					Log.debug("dragEnter");
 					tool.addStyleName("insertBeforeBranch");
 				}
 			});
@@ -273,7 +273,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				public void onDragLeave(DragLeaveEvent event) {
 					event.preventDefault();
 					event.stopPropagation();
-					App.debug("dragLeave");
+					Log.debug("dragLeave");
 					tool.removeStyleName("insertAfterBranch");
 					tool.removeStyleName("insertBeforeBranch");
 				}
@@ -427,13 +427,13 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				public void onDrop(DropEvent event) {
 					if (draggingTool == tool
 					        || draggingTool.treeItem == treeItem) {
-						App.debug("Dropping tool to itself");
+						Log.debug("Dropping tool to itself");
 						tool.removeHighligts();
 						return;
 					}
 
 					if (tool.afterLastLeaf(event.getNativeEvent().getClientY())) {
-						App.debug("Adding as last leaf!");
+						Log.debug("Adding as last leaf!");
 						addTool(draggingTool);
 					} else {
 						int idx = treeItem.getChildIndex(tool.treeItem);
@@ -490,7 +490,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			addDomHandler(new DragStartHandler() {
 
 				public void onDragStart(DragStartEvent event) {
-					App.debug("!DRAG START!");
+					Log.debug("!DRAG START!");
 					draggingTool = DraggableTool.this;
 					event.setData("text", "draggginggg");
 					event.getDataTransfer().setDragImage(getElement(), 10, 10);
@@ -646,7 +646,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		btDefalutToolbar.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				App.debug("[Customize] reset");
+				Log.debug("[Customize] reset");
 				resetDefaultToolbar();
 
 			}
@@ -656,7 +656,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		btApply.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
-				App.debug("[Customize] apply");
+				Log.debug("[Customize] apply");
 				apply();
 			}
 		});
@@ -696,23 +696,23 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 						return;
 					}
 
-					App.debug("Drop " + draggingTool.getTitle());
+					Log.debug("Drop " + draggingTool.getTitle());
 					if (draggingTool.isLeaf()) {
-						App.debug("[DROP] leaf");
+						Log.debug("[DROP] leaf");
 						usedToolToAll(draggingTool.getMode());
 						draggingTool.removeFromTree();
 
 					} else {
-						App.debug("[DROP] branch");
+						Log.debug("[DROP] branch");
 						if (draggingTool.treeItem == null) {
-							App.debug("[DROP] dragging.treeItem == null");
+							Log.debug("[DROP] dragging.treeItem == null");
 
 						}
 						for (int i = 0; i < draggingTool.treeItem
 						        .getChildCount(); i++) {
 							DraggableTool tool = (DraggableTool) (draggingTool.treeItem
 							        .getChild(i).getUserObject());
-							App.debug("Dropping branch");
+							Log.debug("Dropping branch");
 							usedToolToAll(tool.getMode());
 						}
 
@@ -860,7 +860,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		// usedToolsPanel.add(buildItem(mode));
 		// }
 		//
-		App.debug("[CUSTOMIZE] " + usedTools);
+		Log.debug("[CUSTOMIZE] " + usedTools);
 	}
 
 	private void updateAllTools() {
@@ -1002,7 +1002,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			        (w - DRAGABLE_TOOLS_PADDING) + "px");
 		}
 
-		App.debug("[CUSTOMIZE] onResize");
 	}
 
 	@Override

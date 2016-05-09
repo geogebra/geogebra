@@ -14,6 +14,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 
@@ -224,7 +225,7 @@ public class LayoutW extends Layout implements SettingListener {
 		if(index >= 0 && index < perspectives.size()) {
 			perspectives.remove(index);
 		} else {
-			App.debug("Invalid perspective index: " + index);
+			Log.debug("Invalid perspective index: " + index);
 		}
 	}
 	

@@ -1,10 +1,15 @@
 package org.geogebra.web.tablet;
 
-import org.geogebra.common.main.App;
-
+/**
+ * LAF for Windows Store app
+ *
+ */
 public class TabletWinLookAndFeel extends TabletLookAndFeel implements TabletLookAndFeelI {
+	/**
+	 * Creates new LAF for Windows Store app
+	 */
 	public TabletWinLookAndFeel(){
-		App.debug("WIN");
+		//
 	}
 	@Override
 	public boolean exportSupported() {

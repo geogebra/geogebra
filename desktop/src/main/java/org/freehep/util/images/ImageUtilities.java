@@ -12,7 +12,7 @@ import java.awt.image.ImageObserver;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author Mark Donszelmann
@@ -137,7 +137,8 @@ public class ImageUtilities {
                             break;
 
                         default:
-                            AppD.debug(ImageUtilities.class.getClass()+": Invalid code in '"+code+"'");
+						Log.debug(ImageUtilities.class.getClass()
+								+ ": Invalid code in '" + code + "'");
                             break;
                     }
                     index++;

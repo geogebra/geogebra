@@ -3,9 +3,9 @@ package org.geogebra.web.web.gui.browser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.ResizeListener;
 import org.geogebra.web.html5.gui.view.browser.MaterialListElementI;
 import org.geogebra.web.html5.main.AppW;
@@ -91,7 +91,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 			public void onError(final Throwable exception) {
 				// FIXME implement Error Handling!
 				exception.printStackTrace();
-				App.debug(exception.getMessage());
+				Log.debug(exception.getMessage());
 			}
 
 			@Override

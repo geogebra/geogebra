@@ -674,7 +674,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					String value, NativeEvent event,
 					ValueUpdater<String> valueUpdater) {
 
-				App.debug("eventType: " + event.getType());
+				Log.debug("eventType: " + event.getType());
 
 				InputElement input = getInputElement(parent);
 				if (input != null) {
@@ -758,7 +758,7 @@ myCell) {
 		public void onBrowserEvent(Context context, Element parent,
 				String value, NativeEvent event,
 				ValueUpdater<String> valueUpdater) {
-			App.debug("event type: " + event.getType());
+			Log.debug("event type: " + event.getType());
 
 			String eventType = event.getType();
 			if (BrowserEvents.CLICK.equals(eventType)) {
@@ -794,7 +794,7 @@ myCell) {
 
 				// isEditing = (object.getIndex() == editCell.getFocusedRow() +
 				// 1);
-				// App.debug(object.getIndex() + " == "
+				// Log.debug(object.getIndex() + " == "
 				// + (editCell.getFocusedRow() + 1));
 
 				// if (isEditing) {
@@ -932,7 +932,7 @@ myCell) {
 							"style", "opacity:0.5");
 				}
 			} catch (IndexOutOfBoundsException e) {
-				App.debug("OutOfBounds:" + i + "," + table.getRowCount() + ","
+				Log.debug("OutOfBounds:" + i + "," + table.getRowCount() + ","
 						+ table.getPageStart());
 			}
 		}
@@ -957,7 +957,7 @@ myCell) {
 			try {
 	    		table.getRowElement(i).setDraggable(Element.DRAGGABLE_TRUE);
 			} catch (Exception e) {
-				App.debug("Out of bounds");
+				Log.debug("Out of bounds");
 			}
 	    }
     }	

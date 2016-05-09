@@ -108,14 +108,12 @@ public class CASViewW extends CASView implements PrintableW {
 	@Override
 	public void showSubstituteDialog(String prefix, String evalText,
 	        String postfix, int selRow) {
-		App.debug("Before creation");
 		if (subDialog != null && subDialog.getDialog().isShowing())
 			return;
 		CASSubDialogW d = new CASSubDialogW(this, prefix, evalText, postfix,
 		        selRow);
 		d.getDialog().center();
 		d.getDialog().show();
-		App.debug("CASSubDialogCreated");
 		subDialog = d;
 
 	}

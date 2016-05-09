@@ -9,6 +9,7 @@ import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.util.Slider;
@@ -368,7 +369,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		public void injectFrom(ColorTable source) {
 			injectColor(source.getSelectedColor());
 			entries.add(0, new Entry(source));
-			App.debug("capacity: " + getCapacity() + " Entries size: " + entries.size());
+			Log.debug("capacity: " + getCapacity() + " Entries size: "
+					+ entries.size());
 			if (entries.size() > getCapacity()) {
 				entries.remove(getCapacity());
 			}

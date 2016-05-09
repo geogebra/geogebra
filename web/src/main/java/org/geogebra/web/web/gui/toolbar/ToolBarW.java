@@ -9,6 +9,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
@@ -239,10 +240,10 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 			}
 		} catch (Exception e) {
 			if (dockPanel != null) {
-				App.debug("invalid toolbar string: "
+				Log.debug("invalid toolbar string: "
 				        + dockPanel.getToolbarString());
 			} else {
-				App.debug("invalid toolbar string: "
+				Log.debug("invalid toolbar string: "
 				        + app.getGuiManager().getToolbarDefinition());
 			}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());

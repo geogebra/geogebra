@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -831,7 +832,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
 		
 		Object source = event.getSource();
-		//App.debug("valuechangeevent: " + source.toString());
+		// Log.debug("valuechangeevent: " + source.toString());
 		if (source == btnCumulative) {
 			setCumulative(btnCumulative.isSelected());
 
@@ -1019,7 +1020,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 
 	private void setTextBoxMaxLength(TextBox textBox, int maxLength) {
 
-		App.debug("[LIMIT] tf " + maxLength);
+		Log.debug("[LIMIT] tf " + maxLength);
 		textBox.setMaxLength(maxLength);
 	}
 

@@ -7,7 +7,7 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.javax.swing.GComboBox;
 import org.geogebra.common.javax.swing.GLabel;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -82,7 +82,7 @@ public class GBoxW extends GBox {
 			left = (int) (left * (1 / style.getEnvironmentStyle().getScaleX()));
 			top = (int) (top * (1 / style.getEnvironmentStyle().getScaleY()));
 		} else {
-			App.debug("ec null");
+			Log.debug("ec null");
 		}
 
 		return new Rectangle(left, top, impl.getOffsetWidth(),

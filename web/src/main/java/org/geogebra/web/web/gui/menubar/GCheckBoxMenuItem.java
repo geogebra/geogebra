@@ -1,6 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -83,7 +83,7 @@ public class GCheckBoxMenuItem extends MenuItem {
 	 * @param selected wether the checbox selected or not
 	 */
 	public void setSelected(boolean selected) {
-		App.debug("setselected called");
+		Log.debug("setselected called");
 	    checkbox.setValue(selected);
 	    this.setHTML(panel.getElement().getInnerHTML());
 	    setSelectedClass(checkbox.getValue());

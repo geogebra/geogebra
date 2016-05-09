@@ -1,7 +1,7 @@
 package org.geogebra.web.web.util.debug;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author gabor
@@ -92,7 +92,7 @@ public class GeoGebraProfilerW extends GeoGebraProfiler {
 	}-*/;
 
 	private static void showError() {
-		App.debug("console methods for profiling not supported");
+		Log.debug("console methods for profiling not supported");
 	}
 
 	private static native boolean isConsoleSupported() /*-{

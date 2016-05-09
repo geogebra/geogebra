@@ -48,7 +48,6 @@ import javax.swing.KeyStroke;
 
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.main.AppD;
 
 /**
  *
@@ -109,7 +108,7 @@ public class UtilD extends Util {
 			con.setRequestMethod("HEAD");
 			return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
 		} catch (Exception e) {
-			AppD.debug("Exception: existsHttpURL: " + url);
+			Log.debug("Exception: existsHttpURL: " + url);
 			return false;
 		}
 	}

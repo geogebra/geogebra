@@ -5,7 +5,8 @@
  */
 
 package org.freehep.xml.util;
-import org.geogebra.desktop.main.AppD;
+
+import org.geogebra.common.util.debug.Log;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -59,12 +60,11 @@ public class SAXErrorHandler implements ErrorHandler
         if (fileName != null) message.append(" at "+fileName);
         message.append(" line "+exception.getLineNumber());
         if (level > maxLevel) maxLevel = level;
-        if (level >= minLevel) throw new BadXMLException(message.toString(),exception);
-        else 
-        {
-            message.append(": "+exception);
-            AppD.debug(message+""); 
-        }
+		if (level >= minLevel) {
+			throw new BadXMLException(message.toString(), exception);
+		}
+		message.append(": " + exception);
+		Log.debug(message + "");
         
     }
     /**

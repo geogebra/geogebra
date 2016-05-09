@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.sound;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.js.JavaScriptInjector;
 
@@ -23,7 +23,7 @@ public class MidiPlayerW {
 	public void initialize() {
 		GWT.runAsync(new RunAsyncCallback() {
 			public void onSuccess() {
-				App.debug(PREFIX + "jasmid.js loading success");
+				Log.debug(PREFIX + "jasmid.js loading success");
 				JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE
 						.jasmidJs());
 				MidiPlayerW.this.jsLoaded = true;
@@ -31,7 +31,7 @@ public class MidiPlayerW {
 			}
 
 			public void onFailure(Throwable reason) {
-				App.debug(PREFIX + "jasmid.js loading failure");
+				Log.debug(PREFIX + "jasmid.js loading failure");
 			}
 		});
 	}
@@ -40,7 +40,7 @@ public class MidiPlayerW {
 		RequestCallback cb = new RequestCallback() {
 
 			public void onResponseReceived(Request request, Response response) {
-				App.debug("response is " + response.getText());
+				Log.debug("response is " + response.getText());
 	//			createMidiFile(response.getText());
 			}
 

@@ -10,7 +10,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
 public class GGeneralPathD implements GGeneralPath, GShapeD {
 
@@ -32,7 +32,7 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 	public static GeneralPath getAwtGeneralPath(GGeneralPath gp) {
 		if (!(gp instanceof GGeneralPathD)) {
 			if (gp != null)
-				AppD.debug("other type");
+				Log.debug("other type");
 			return null;
 		}
 		return ((GGeneralPathD) gp).impl;

@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.layout.panels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ColumnData;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.RowData;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.AppResourcesConverter;
@@ -88,7 +89,7 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 				cpView.getData().columns[selIndex + 1].setVisible(true);
 				
 			} else { // removing a column from the table
-				App.debug("remove!");
+				Log.debug("remove!");
 				cpView.getTable().removeColumn(colIndex + 1);
 				cpView.getData().columns[selIndex + 1].setVisible(false);
 			}

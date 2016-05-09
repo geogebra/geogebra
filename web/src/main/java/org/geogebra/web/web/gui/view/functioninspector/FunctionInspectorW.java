@@ -10,9 +10,9 @@ import org.geogebra.common.gui.view.functioninspector.FunctionInspector;
 import org.geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -106,7 +106,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	 */
 	public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
 		super(app, selectedGeo);
-		App.debug("[!!!] constructor");
+		Log.debug("[!!!] constructor");
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(final ResizeEvent event) {
@@ -145,7 +145,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	private void debug(String msg) {
-		App.debug(PREFIX + " " + msg);
+		Log.debug(PREFIX + " " + msg);
 
 	}
 
@@ -156,7 +156,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		if (isTable) {
 			int row = (pointCount) / 2;
 			modelXY.setRowCount(pointCount);
-			App.debug("[updateXYTable] pointCount: " + pointCount + " row: "
+			Log.debug("[updateXYTable] pointCount: " + pointCount + " row: "
 			        + row);
 			tableXY.setCellEditable(row, 0);
 			tableXY.setSelectedRow(row);
@@ -171,7 +171,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		}
 
 		updateXYTable();
-		App.debug(modelXY.toString());
+		Log.debug(modelXY.toString());
 		updateTestPoint();
 	}
 
@@ -194,7 +194,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	public Object getXYValueAt(int row, int col) {
-		App.debug("GETDATA row: " + row + " col: " + col);
+		Log.debug("GETDATA row: " + row + " col: " + col);
 		DataCell value = modelXY.getData(row, col);
 
 		return value != null ? value.toString() : "";
@@ -443,7 +443,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	void changeXYStart() {
 		Double value = tableXY.getDoubleEdited();
-		App.debug("[TESTPOINT] edited value is: " + value);
+		Log.debug("[TESTPOINT] edited value is: " + value);
 		if (value != null) {
 			changeStart(value);
 		}
@@ -561,7 +561,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void updatePointsTab() {
-		App.debug("UPDATE POINTS TAB");
+		Log.debug("UPDATE POINTS TAB");
 		getModel().updatePoints(btnTangent.isSelected(),
 		        btnOscCircle.isSelected(), btnXYSegments.isSelected(),
 		        btnTable.isSelected());
@@ -600,7 +600,7 @@ public class FunctionInspectorW extends FunctionInspector {
 			return;
 		}
 
-		App.debug("Removing column");
+		Log.debug("Removing column");
 		getModel().removeColumn();
 		modelXY.removeColumn();
 

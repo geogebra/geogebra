@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.js.JavaScriptInjector;
 import org.geogebra.web.web.export.GifShotResources;
 
@@ -101,7 +101,7 @@ public class AnimatedGifEncoderW {
 		finished = false;
 		GWT.runAsync(new RunAsyncCallback() {
 			public void onSuccess() {
-				App.debug("gifsot.image.min.js loading success");
+				Log.debug("gifsot.image.min.js loading success");
 				JavaScriptInjector.inject(GifShotResources.INSTANCE.gifShotJs());
 				AnimatedGifEncoderW.this.jsLoaded = true;
 				if (finished) {
@@ -112,7 +112,7 @@ public class AnimatedGifEncoderW {
 			}
 
 			public void onFailure(Throwable reason) {
-				App.debug("gifsot.image.min.js loading failure");
+				Log.debug("gifsot.image.min.js loading failure");
 			}
 		});
 		gifs.clear();

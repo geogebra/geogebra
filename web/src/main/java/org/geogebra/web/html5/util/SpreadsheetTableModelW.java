@@ -3,8 +3,8 @@ package org.geogebra.web.html5.util;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
 
@@ -145,7 +145,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 
 	@Override
 	public void setValueAt(Object value, int row, int column) {
-		// App.debug(row + "," + column);
+		// Log.debug(row + "," + column);
 		// update column count if needed
 		if (column >= getColumnCount()) {
 			setColumnCount(column + 1);
@@ -177,7 +177,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 	}
 
 	public boolean hasFocus() {
-		App.debug("unimplemented");
+		Log.debug("unimplemented");
 		return false;
 	}
 

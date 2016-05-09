@@ -2,7 +2,6 @@ package org.geogebra.web.touch;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -223,12 +222,12 @@ public class FileManagerT extends FileManager {
 						        removeFile(mat);
 						        onSuccess.run();
 						        deleteMetaData(key);
-						        App.debug("DELETE success: " + key + FILE_EXT);
+								Log.debug("DELETE success: " + key + FILE_EXT);
 					        }
 
 					        @Override
 					        public void onFailure(final FileError error) {
-						        App.debug("DELETE Could not remove file: "
+								Log.debug("DELETE Could not remove file: "
 						                + key + FILE_EXT);
 					        }
 				        });
@@ -236,7 +235,7 @@ public class FileManagerT extends FileManager {
 
 			        @Override
 			        public void onFailure(final FileError reason) {
-				        App.debug("DELETE Could not get file: " + key
+						Log.debug("DELETE Could not get file: " + key
 				                + FILE_EXT);
 			        }
 
@@ -264,14 +263,14 @@ public class FileManagerT extends FileManager {
 
 					        @Override
 					        public void onFailure(final FileError error) {
-						        App.debug("Could not delete metafile");
+								Log.debug("Could not delete metafile");
 					        }
 				        });
 			        }
 
 			        @Override
 			        public void onFailure(final FileError reason) {
-				        App.debug("Could not get metafile");
+						Log.debug("Could not get metafile");
 			        }
 		        });
 	}
@@ -335,7 +334,8 @@ public class FileManagerT extends FileManager {
 									                @Override
 									                public void onFailure(
 									                        FileError reason) {
-										                App.debug("Could not read meta data ");
+																Log.debug(
+																		"Could not read meta data ");
 									                }
 								                });
 							        }
@@ -344,14 +344,15 @@ public class FileManagerT extends FileManager {
 
 					        @Override
 					        public void onFailure(final FileError error) {
-						        App.debug("Could not read the file entries");
+										Log.debug(
+												"Could not read the file entries");
 					        }
 				        });
 			}
 
 			@Override
 			public void onFailure(final FileError reason) {
-				App.debug("Could not read GGBDir");
+				Log.debug("Could not read GGBDir");
 			}
 		});
 	}
@@ -359,12 +360,12 @@ public class FileManagerT extends FileManager {
 	@Override
 	public void rename(final String newTitle, final Material mat,
 	        final Runnable callback) {
-		App.debug("RENAME" + mat.getTitle() + "->" + newTitle);
+		Log.debug("RENAME" + mat.getTitle() + "->" + newTitle);
 
 		final String newKey = FileManager.createKeyString(mat.getLocalID(),
 		        newTitle);
 		final String oldKey = getFileKey(mat);
-		App.debug("RENAME local fn" + oldKey + "," + mat.getModified());
+		Log.debug("RENAME local fn" + oldKey + "," + mat.getModified());
 		getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
 			@Override
@@ -374,7 +375,7 @@ public class FileManagerT extends FileManager {
 
 					        @Override
 					        public void onSuccess(FileEntry ggbFile) {
-						        App.debug("RENAME accessed fn" + oldKey);
+								Log.debug("RENAME accessed fn" + oldKey);
 						        ggbFile.moveTo(
 						                ggbDir,
 						                newKey + FILE_EXT,
@@ -391,7 +392,7 @@ public class FileManagerT extends FileManager {
 							                @Override
 							                public void onFailure(
 							                        FileError error) {
-								                App.debug("RENAME cannotMove fn"
+												Log.debug("RENAME cannotMove fn"
 								                        + oldKey + "/" + newKey);
 							                }
 						                });
@@ -399,7 +400,7 @@ public class FileManagerT extends FileManager {
 
 					        @Override
 					        public void onFailure(FileError error) {
-						        App.debug("RENAME not found fn" + oldKey);
+								Log.debug("RENAME not found fn" + oldKey);
 					        }
 				        });
 			}
@@ -647,7 +648,7 @@ public class FileManagerT extends FileManager {
 	void createMetaData(final String key, final Material mat,
 	        final SaveCallback cb) {
 		if (mat.isDeleted()) {
-			App.debug("DELETE flag" + mat.getId());
+			Log.debug("DELETE flag" + mat.getId());
 		}
 		getMetaFile(META_PREFIX + key, createIfNotExist,
 		        new Callback<FileEntry, FileError>() {
@@ -730,7 +731,8 @@ public class FileManagerT extends FileManager {
 									                public void onFailure(
 									                        FileError reason) {
 										                ignoreNotSyncedFile(events);
-										                App.debug("Could not read meta data");
+																Log.debug(
+																		"Could not read meta data");
 									                }
 
 								                });
@@ -934,7 +936,8 @@ public class FileManagerT extends FileManager {
 						        }else{
 
 							        String newTitle = material.getTitle();
-							        App.debug("incoming rename " + newTitle);
+											Log.debug("incoming rename "
+													+ newTitle);
 							        material.setTitle(FileManager
 							                .getTitleFromKey(key));
 							        material.setSyncStamp(material

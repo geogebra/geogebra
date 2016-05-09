@@ -1,6 +1,6 @@
 package org.geogebra.web.web.gui.dialog.image;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -56,7 +56,7 @@ public class UploadImagePanel extends VerticalPanel {
 				for (var i = 0, j = files.length; i < j; ++i) {
 					if (!files[i].type.match(fileTypes)) {
 						continue;
-					}	
+					}
 					fileToHandle = files[i];
 					break;
 				}
@@ -85,7 +85,7 @@ public class UploadImagePanel extends VerticalPanel {
 			previewImg.setHeight(previewHeight + "px");
 			add(previewImg);
 			}catch(Throwable e){
-				App.debug("ImageProblem"+e.getMessage());
+				Log.debug("ImageProblem" + e.getMessage());
 			}
 		} else {
 			previewImg.setUrl(fileData);

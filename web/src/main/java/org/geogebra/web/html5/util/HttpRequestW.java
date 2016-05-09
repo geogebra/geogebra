@@ -1,8 +1,8 @@
 package org.geogebra.web.html5.util;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
 import org.geogebra.common.util.HttpRequest;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -31,7 +31,7 @@ public class HttpRequestW extends HttpRequest {
 
 		try {
 			builder.setTimeoutMillis(timeout * 1000);
-			App.debug("Sending request " + url + " until timeout " + timeout);
+			Log.debug("Sending request " + url + " until timeout " + timeout);
 			Request request = builder.sendRequest(null, new RequestCallback() {
 				public void onError(Request request, Throwable exception) {
 					// Couldn't connect to server (could be timeout, SOP

@@ -2,7 +2,7 @@ package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
 import javax.media.opengl.glu.GLUtessellatorCallback;
 
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
 public class RendererTesselCallBack implements GLUtessellatorCallback {
 	private ManagerGLList manager;
@@ -65,7 +65,7 @@ public class RendererTesselCallBack implements GLUtessellatorCallback {
 		String estring;
 
 		estring = manager.getGLU().gluErrorString(errnum);
-		AppD.debug("Tessellation Error: " + estring);
+		Log.debug("Tessellation Error: " + estring);
 		// System.exit(0);
 	}
 

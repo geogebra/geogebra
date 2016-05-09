@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CardPanel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -312,7 +312,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		
 		int idx = coModel.getOptionType();
 
-		App.debug("[CO] object type: " + idx);
+		Log.debug("[CO] object type: " + idx);
 		cards.setSelectedIndex(idx);
 		/*
 		 * cbOrder.removeAllItems(); if(objectType == TYPE_LIST){

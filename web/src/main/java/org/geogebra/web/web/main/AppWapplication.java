@@ -5,6 +5,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
@@ -97,15 +98,15 @@ public class AppWapplication extends AppWFull {
 		                && Cookies.getCookie("SSID") == null);
 
 		afterCoreObjectsInited();
-		App.debug("after core");
+		Log.debug("after core");
 
 		resetFonts();
 		// initing = true;
 		removeDefaultContextMenu();
 
-		App.debug("checked token");
+		Log.debug("checked token");
 		if (token != null && !"".equals(token)) {
-			App.debug("LTOKEN set via URL");
+			Log.debug("LTOKEN set via URL");
 			this.getLoginOperation().performTokenLogin(token, false);
 			this.showBrowser((HeaderPanel) ((GuiManagerW) this.getGuiManager())
 			        .getBrowseView());
@@ -166,7 +167,7 @@ public class AppWapplication extends AppWFull {
 	        GeoGebraAppFrame geoGebraAppFrame, int dimension, GLookAndFeel laf,
 	        GDevice device) {
 		this(article, geoGebraAppFrame, true, dimension, laf, device);
-		App.debug("Application created");
+		Log.debug("Application created");
 	}
 
 	/**
@@ -223,7 +224,7 @@ public class AppWapplication extends AppWFull {
 
 		if (cmd != null) {
 
-			App.debug("exectuing commands: " + cmd);
+			Log.debug("exectuing commands: " + cmd);
 
 			String[] cmds = cmd.split(";");
 			for (int i = 0; i < cmds.length; i++) {
@@ -240,7 +241,7 @@ public class AppWapplication extends AppWFull {
 				.getParameter("filename");
 
 		if (filename != null) {
-			App.debug("loading file: " + filename);
+			Log.debug("loading file: " + filename);
 			GeoGebraAppFrame.fileLoader.getView().processFileName(filename);
 		}
 
@@ -351,7 +352,7 @@ public class AppWapplication extends AppWFull {
 			res = (int) Float.parseFloat(Location.getParameter(string).replace(
 					',', '.'));
 		} catch (Exception ex) {
-			App.debug("Invalid parameter " + string + ":"
+			Log.debug("Invalid parameter " + string + ":"
 					+ Location.getParameter(string));
 		}
 		return res;

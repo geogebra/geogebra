@@ -1,6 +1,5 @@
 package org.geogebra.web.geogebra3D.web.realsense;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -35,11 +34,12 @@ public class RealSense {
 			public void onSuccess(JavaScriptObject result) {
 				boolean isReady = JSON.getAsBoolean(result, "isReady");
 				if (isReady) {
-					App.debug("Hurray, Supported! " + JSON.get(result, "msg"));
+					Log.debug("Hurray, Supported! " + JSON.get(result, "msg"));
 					ResourcesInjector.injectRealSenseResources();
 					RealSense.controller = euclidianController3DW;
 				} else {
-					App.debug("Sadly, not Supported! "
+					Log.debug(
+							"Sadly, not Supported! "
 					        + JSON.get(result, "msg"));
 				}
 			}

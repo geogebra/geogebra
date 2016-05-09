@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.browser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -362,7 +361,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		        && app.getLAF().supportsGoogleDrive()) {
 			this.addDriveButton(user);
 		} else if (user != null) {
-			App.debug(user.getIdentifier());
+			Log.debug(user.getIdentifier());
 		}
 		if (user != null && user.hasOneDrive()) {
 			this.addOneDriveButton(user);

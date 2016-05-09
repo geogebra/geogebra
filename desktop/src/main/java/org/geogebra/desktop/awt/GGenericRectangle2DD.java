@@ -7,7 +7,7 @@ import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
 public class GGenericRectangle2DD implements GRectangle2DD {
 
@@ -63,7 +63,7 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 			return ((GRectangleD) r2d).impl;
 		}
 		if (r2d != null)
-			AppD.debug("other type");
+			Log.debug("other type");
 		return null;
 
 	}

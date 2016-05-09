@@ -25,7 +25,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
@@ -320,7 +319,7 @@ public class RendererW extends Renderer implements RendererShadersInterface,
 
 		if (!glContext.getShaderParameterb(shader,
 		        WebGLRenderingContext.COMPILE_STATUS)) {
-			App.debug("ERROR COMPILING SHADER: "
+			Log.debug("ERROR COMPILING SHADER: "
 			        + glContext.getShaderInfoLog(shader));
 			throw new RuntimeException(glContext.getShaderInfoLog(shader));
 		}
@@ -517,10 +516,10 @@ public class RendererW extends Renderer implements RendererShadersInterface,
 	protected Manager createManager() {
 		// if (Browser.supportsWebGLTriangleFan()){ // no TRIANGLE_FAN in
 		// internet explorer
-		// App.debug("================= supportsWebGLTriangleFan");
+		// Log.debug("================= supportsWebGLTriangleFan");
 		// return new ManagerShaders(this, view3D);
 		// }
-		// App.debug("================= doens't supportsWebGLTriangleFan");
+		// Log.debug("================= doens't supportsWebGLTriangleFan");
 		// return new ManagerShadersNoTriangleFan(this, view3D);
 
 		// wait for fix : detect webGL support correctly

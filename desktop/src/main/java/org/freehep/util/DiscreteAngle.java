@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Calculates a discrete angle from an arbitrary angle, based on a set of
@@ -101,16 +101,16 @@ public class DiscreteAngle {
         da.addAngle(10);
         da.addAngle(190);
 
-        AppD.debug("  0 results in "+da.getAngle(  0));
-        AppD.debug("  1 results in "+da.getAngle(  1));
-        AppD.debug("  5 results in "+da.getAngle(  5));
-        AppD.debug(" 80 results in "+da.getAngle( 80));
-        AppD.debug(" 90 results in "+da.getAngle( 90));
-        AppD.debug("170 results in "+da.getAngle(170));
-        AppD.debug("185 results in "+da.getAngle(185));
-        AppD.debug("186 results in "+da.getAngle(186));
-        AppD.debug("231 results in "+da.getAngle(231));
-        AppD.debug("359 results in "+da.getAngle(359));
+		Log.debug("  0 results in " + da.getAngle(0));
+		Log.debug("  1 results in " + da.getAngle(1));
+		Log.debug("  5 results in " + da.getAngle(5));
+		Log.debug(" 80 results in " + da.getAngle(80));
+		Log.debug(" 90 results in " + da.getAngle(90));
+		Log.debug("170 results in " + da.getAngle(170));
+		Log.debug("185 results in " + da.getAngle(185));
+		Log.debug("186 results in " + da.getAngle(186));
+		Log.debug("231 results in " + da.getAngle(231));
+		Log.debug("359 results in " + da.getAngle(359));
 
     }
 }

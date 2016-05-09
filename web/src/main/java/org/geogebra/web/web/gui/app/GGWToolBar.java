@@ -6,8 +6,8 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -663,7 +663,7 @@ pr.menu_header_undo(), null, 32);
 				Image img = new NoDragImage(app.getImageManager().getExternalImageSrc(iconName),32);
 				return img.getUrl();
 			} catch (Exception e) {
-				App.debug("macro does not exist: ID = " + macroID);
+				Log.debug("macro does not exist: ID = " + macroID);
 				return "";
 			}
 		}

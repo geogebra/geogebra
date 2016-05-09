@@ -3,7 +3,7 @@ package org.geogebra.web.html5.sound;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.js.JavaScriptInjector;
 
@@ -42,7 +42,7 @@ public class MidiSoundW {
 	public void initialize() {
 		GWT.runAsync(new RunAsyncCallback() {
 			public void onSuccess() {
-				App.debug(PREFIX + "WebMIDIAPIWrapper.js loading success");
+				Log.debug(PREFIX + "WebMIDIAPIWrapper.js loading success");
 				JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE
 						.webMidiAPIWrapperJs());
 				MidiSoundW.this.jsLoaded = true;
@@ -51,7 +51,7 @@ public class MidiSoundW {
 			}
 
 			public void onFailure(Throwable reason) {
-				App.debug(PREFIX + "WebMIDIAPIWrapper.js loading failure");
+				Log.debug(PREFIX + "WebMIDIAPIWrapper.js loading failure");
 			}
 		});
 	}
@@ -77,7 +77,7 @@ public class MidiSoundW {
 	}-*/;
 
 	public void add(String item) {
-		App.debug(PREFIX + "Adding output: " + item);
+		Log.debug(PREFIX + "Adding output: " + item);
 
 		outputs.add(item);
 	}
@@ -119,7 +119,7 @@ public class MidiSoundW {
 		processCommand(new Command() {
 
 			public void execute() {
-				App.debug("[MIDIW] ch: " + instrument + " note: " + note
+				Log.debug("[MIDIW] ch: " + instrument + " note: " + note
 						+ " velocity: " + velocity + " time: " + time);
 				sendNote(0, instrument, note, velocity, time);
 			}
@@ -128,10 +128,10 @@ public class MidiSoundW {
 	}
 
 	private void selectPort() {
-		App.debug(PREFIX + "selectPort()");
+		Log.debug(PREFIX + "selectPort()");
 		for (int i = 0; i < outputs.size(); i++) {
 			String out = outputs.get(i);
-			App.debug(PREFIX + "Available output: " + out + "(" + i + ")");
+			Log.debug(PREFIX + "Available output: " + out + "(" + i + ")");
 			if (MS_WAVE_SYNTH.equals(out) || TIMIDITY.equals(out)
 					|| IAC.equals(out)) {
 				outputPort = i;
@@ -183,7 +183,7 @@ public class MidiSoundW {
 		processCommand(new Command() {
 
 			public void execute() {
-				App.debug(PREFIX + "playing midi file " + url);
+				Log.debug(PREFIX + "playing midi file " + url);
 				MidiPlayerW.INSTANCE.playFile(url);
 			}
 		});

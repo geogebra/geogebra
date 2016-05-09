@@ -1,8 +1,8 @@
 package org.geogebra.web.html5.main;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
@@ -47,7 +47,7 @@ public class ScriptManagerW extends ScriptManager {
 	@Override
 	public void ggbOnInit() {
 		try {
-			// App.debug("almost there" + app.useBrowserForJavaScript());
+			// Log.debug("almost there" + app.useBrowserForJavaScript());
 			// assignGgbApplet();
 			boolean standardJS = app.getKernel().getLibraryJavaScript()
 			        .equals(Kernel.defaultLibraryJavaScript);
@@ -66,7 +66,7 @@ public class ScriptManagerW extends ScriptManager {
 
 			}
 		} catch (Throwable t) {
-			App.debug(t.getMessage());
+			Log.debug(t.getMessage());
 		}
 		// set this to run always
 		String articleid = ((AppW) app).getArticleId();
