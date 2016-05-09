@@ -3038,6 +3038,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 				geoImage = new GeoImage(app.getKernel().getConstruction());
 				geoImage.setImageFileName(fileName[0]);
 				setImageCornersFromSelection(geoImage);
+				app.setDefaultCursor();
 				return true;
 			}
 			if (!loc.isLabelSet()) {
