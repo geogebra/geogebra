@@ -75,6 +75,10 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 		int leftIndex = (int) Math.max(0, Math.floor(param));
 		int rightIndex = (int) Math.min(myPointList.size() - 1,
 				Math.ceil(param));
+		if (myPointList.isEmpty()) {
+			p.setUndefined();
+			return;
+		}
 		T leftPoint = myPointList.get(leftIndex);
 		T rightPoint = myPointList.get(rightIndex);
 
@@ -245,6 +249,9 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 
 	@Override
 	public boolean hasNext() {
+		if (myPointList.isEmpty()) {
+			return false;
+		}
 		// check if we pass the start parameter
 		// from last_param to the next parameter curr_param
 		boolean hasNext;
