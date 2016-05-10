@@ -48,7 +48,7 @@ List ext = [
 dependencies {
 	compile project(':common')
 	compile project(':common-jre')
-	compile project(':renderer-desktop')
+	compile project(':editor-desktop')
 	compile project(':jogl2')
 	compile project(':input3D:impl')
 	compile project(':giac-jni')
