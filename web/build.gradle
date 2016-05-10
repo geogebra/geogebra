@@ -40,6 +40,9 @@ sourceSets {
 dependencies {
 	compile project(':web:dev'), 
 		project(':common'),
+		project(':renderer-base'),
+		project(':editor-base'),
+		project(':renderer-web'),
 		project(':editor-web'),
 		project(':ggbjdk'),
 		files(project(':common').sourceSets.main.allSource.srcDirs),
