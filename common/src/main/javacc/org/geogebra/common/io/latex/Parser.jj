@@ -24,16 +24,13 @@ public class Parser {
         this.inputController = new InputController(metaModel, cursorController);
     }
 
-    private static MathComponent convertSuperscriptToNormal(MetaModel metaModel, String superscript) {
-            if (superscript.length() != 1) {
-                throw new UnsupportedOperationException("Not a character");
-            }
-            char sup = superscript.charAt(0);
+    private static MathComponent convertSuperscriptToNormal(MetaModel metaModel, char sup) {
+            
             if (sup >= '\u2070' && sup <= '\u2079' && sup != '\u2071' && sup != '\u2072' && sup != '\u2073') {
                 return createCharacter(Character.toString((char) (sup - '\u2070' + '0')), metaModel);
             } else if (sup == '\u00b9') {
                 return createCharacter("1", metaModel);
-            } else if (sup == '\u00b2') {
+            } else if (sup == '\u00b2') { 
                 return createCharacter("2", metaModel);
             } else if (sup == '\u00b3') {
                 return createCharacter("3", metaModel);
@@ -86,17 +83,10 @@ PARSER_END(Parser)
 
 <DEFAULT> TOKEN : {
       < POWER : "^" >
-    | < SUP_ZERO : "â�°" >
-    | < SUP_ONE : "Â¹" >
-    | < SUP_TWO : "Â²" >
-    | < SUP_THREE : "Â³" >
-    | < SUP_FOUR : "â�´" >
-    | < SUP_FIVE : "â�µ" >
-    | < SUP_SIX : "â�¶" >
-    | < SUP_SEVEN : "â�·" >
-    | < SUP_EIGHT : "â�¸" >
-    | < SUP_NINE : "â�¹" >
-    | < SUP_MINUS : "â�»" >
+    | < SUPERSCRIPT_MINUS: "\u207b" >
+    | < POWERN: (<SUPERSCRIPT_MINUS>)? ( <INDEXDIGIT> )+ >
+    | < #INDEXDIGIT:                                     // unicode digits
+       [ "\u2070","\u2074"-"\u2079","\u00b9","\u00b2","\u00b3","\u207a"] >
     | < SUBSCRIPT : "_" >
     | < FRACTION : "/" >
     | < FRACTION_DIVIDER : "\u200b" >
@@ -154,17 +144,17 @@ void superscript(MathContainer currentField) :
 
 }
 {
-    ((t = <SUP_ONE> | t = <SUP_TWO> | t = <SUP_THREE> | t = <SUP_FOUR> | t = <SUP_FIVE>
-        | t = <SUP_SIX> | t = <SUP_SEVEN> | t = <SUP_EIGHT> | t = <SUP_NINE> | t = <SUP_MINUS>) {
-        if (mathSequence == null) {
-            MathFunction power = new MathFunction(metaModel.getGeneral("^"));
-            mathSequence = new MathSequence();
-            power.setArgument(0, mathSequence);
-            currentField.addArgument(power);
-        }
-        MathComponent mathCharacter = convertSuperscriptToNormal(metaModel, t.image);
-        mathSequence.addArgument(mathCharacter);
-    })+
+    (t = <POWERN>) {
+        
+        MathFunction power = new MathFunction(metaModel.getGeneral("^"));
+        mathSequence = new MathSequence();
+        power.setArgument(0, mathSequence);
+        currentField.addArgument(power);
+        for(int i=0;i<t.image.length();i++)        {          
+	        MathComponent mathCharacter = convertSuperscriptToNormal(metaModel, t.image.charAt(i));
+	        mathSequence.addArgument(mathCharacter);
+      	}
+    }
 }
 
 void power(MathContainer currentField) : { }
@@ -356,7 +346,7 @@ void mathCharacter(MathContainer currentField) :
                 MathComponent comp = currentField.getArgument(s - 1);
                 if (comp instanceof MathCharacter) {
                     MathCharacter mc = (MathCharacter) comp;
-                    if (mc.isCharacter() || mc.isSymbol()) {
+                    if ((mc.isCharacter() || mc.isSymbol()) && !";".equals(mc.toString())) {
                         MetaCharacter times = metaModel.getOperator("*");
                         MathCharacter timesChar = new MathCharacter(times);
                         currentField.addArgument(timesChar);
