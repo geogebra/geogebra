@@ -31,9 +31,9 @@ gwt {
 
 dependencies {
 	compile project(':renderer-web')
-        compile project(':editor-base')
-	compile files(project(':renderer-base').sourceSets.main.java.srcDirs)
-        compile files(project(':renderer-web').sourceSets.main.java.srcDirs)
+	compile project(':editor-base')
+	compile files(project(':editor-base').sourceSets.main.java.srcDirs)
+	compile files(project(':renderer-web').sourceSets.main.java.srcDirs)
 	compile 'com.google.gwt:gwt-dev:2.7.0'
 	compile 'com.google.gwt:gwt-user:2.7.0'
 	testCompile 'com.google.gwt:gwt-user:2.7.0'
@@ -53,7 +53,7 @@ task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 		'-port', '8888',
 		'-superDevMode',
 		'-war', file('war'),
-		'org.scilab.forge.JLaTeXMathGWTDev'
+		'com.himamis.retex.editor.JLMEditorExportedLibrary'
 	systemProperty 'gwt.persistentunitcachedir', '../build/gwt/devModeCache'
 }
 task jarAll(type: Jar) {
