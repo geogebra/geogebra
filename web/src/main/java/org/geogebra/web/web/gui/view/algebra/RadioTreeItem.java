@@ -646,6 +646,27 @@ public class RadioTreeItem extends AVTreeItem
 		return true;
 	}
 
+	private boolean isSymbolicDiffers() {
+		if (!(geo instanceof HasSymbolicMode)) {
+			return false;
+		}
+
+		HasSymbolicMode sm = (HasSymbolicMode) geo;
+		boolean orig = sm.isSymboicMode();
+		String text1 = geo.getLaTeXAlgebraDescription(true,
+				StringTemplate.latexTemplate);
+		sm.setSymbolicMode(!orig);
+		String text2 = geo.getLaTeXAlgebraDescription(true,
+				StringTemplate.latexTemplate);
+
+		sm.setSymbolicMode(orig);
+		if (text1 == null) {
+			return true;
+		}
+
+		return !text1.equals(text2);
+
+	}
 	private boolean updateValuePanel() {
 		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
 		boolean fraction = isGeoFraction() && isSymbolicGeo();
@@ -668,7 +689,9 @@ public class RadioTreeItem extends AVTreeItem
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					toggleSymbolic(lblDefinition);
+					if (isSymbolicDiffers()) {
+						toggleSymbolic(lblDefinition);
+					}
 
 				}
 			});
