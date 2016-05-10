@@ -3953,8 +3953,8 @@ public abstract class App implements UpdateSelection {
 
 			// in web (not tablet apps yet)
 			// File -> Enter Exam Mode
-		case EXAM:
-			return true;
+		case EXAM_TABLET:
+			return prerelease;
 
 		// enabled from 5.0.210.0
 		case COMBOSCROLLING:

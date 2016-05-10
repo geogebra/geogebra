@@ -55,7 +55,7 @@ public enum Feature {
 
 	CP_NEW_COLUMNS,
 
-	EXAM,
+	EXAM_TABLET,
 
 	PRINT_MENU,
 

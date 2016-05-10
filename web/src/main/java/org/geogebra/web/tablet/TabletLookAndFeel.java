@@ -72,8 +72,8 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public boolean examSupported() {
-		return false;
+	public boolean examSupported(boolean tablet) {
+		return tablet;
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public interface GLookAndFeelI {
 
 	boolean isEmbedded();
 
-	boolean examSupported();
+	boolean examSupported(boolean tabletExamExists);
 
 	boolean printSupported();
 

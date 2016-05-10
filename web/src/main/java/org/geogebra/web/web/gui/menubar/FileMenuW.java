@@ -223,7 +223,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		addSeparator();
 
-		if (app.has(Feature.EXAM) && app.getLAF().examSupported()) {
+		if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 					.menu_icons_exam_mode().getSafeUri().asString(),
 					app.getMenu("exam_menu_enter"), true),// EnterExamMode

@@ -143,7 +143,7 @@ public class GLookAndFeel implements GLookAndFeelI{
 		return false;
 	}
 
-	public boolean examSupported() {
+	public boolean examSupported(boolean tabletExamExists) {
 		return true;
 	}
 
