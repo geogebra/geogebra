@@ -820,19 +820,22 @@ public abstract class GuiManager implements GuiManagerInterface {
 			}
 		}
 
+		GeoPoint point1 = null;
+
 		if (corners.size() == 0) {
-			GeoPoint p1 = new GeoPoint(app.getKernel().getConstruction());
-			p1.setCoords(0, 0, 1.0);
-			p1.setLabel(null);
-			corners.add(p1);
+			point1 = new GeoPoint(app.getKernel().getConstruction());
+			point1.setCoords(0, 0, 1.0);
+			point1.setLabel(null);
+			corners.add(point1);
+		} else if (corners.size() == 1) {
+			point1 = corners.get(0);
 		}
 
 		for (int i = 0; i < corners.size(); i++) {
 			geoImage.setCorner(corners.get(i), i);
 		}
 
-		if (corners.size() == 1) {
-			GeoPoint point1 = corners.get(0);
+		if (corners.size() < 2) {
 			GeoPoint point2 = new GeoPoint(app.getKernel().getConstruction());
 			geoImage.calculateCornerPoint(point2, 2);
 			geoImage.setCorner(point2, 1);
