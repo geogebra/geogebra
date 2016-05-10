@@ -1201,7 +1201,7 @@ namespace giac {
 	return "\\frac{1}{\\sqrt{"+gen2tex(v.front(),contextptr)+"}}";
       string res=gen2tex(v.front(),contextptr);
       bool par = (v.front().type>=_CPLX || is_strictly_positive(-v.front(),contextptr) ) && v.front().type!=_IDNT && !ckmatrix(v.front());
-      if (par){
+      if (par && !v.front().is_symb_of_sommet(at_plus)){
 	int ress=int(res.size()),i;
 	for (i=1;i<ress;++i){
 	  if (res[i]<=32 || !isalpha(res[i]))

@@ -2280,7 +2280,6 @@ namespace giac {
       vabs2[i]=identificateur(" simplify_"+print_INT_(i));
     }
     gen esave=e;
-    e=quotesubst(e,vabs,vabs2,contextptr);
     // check for the presence of trig/atrig functions
     vecteur v1(loptab(e,sincostan_tab));
     int s1=int(v1.size()),s2=int(loptab(e,asinacosatan_tab).size());
@@ -2318,6 +2317,7 @@ namespace giac {
 	}
       }
     }
+    e=quotesubst(e,vabs,vabs2,contextptr);
 #if defined NO_STDEXCEPT // GIAC_HAS_STO_38
     {
       vecteur v2=loptab(e,asinacosatan_tab);

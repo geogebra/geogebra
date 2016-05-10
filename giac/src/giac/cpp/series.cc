@@ -716,7 +716,7 @@ namespace giac {
     e=r2sym(common,l,contextptr);
     it=v.begin();
     for (int i=0;it!=itend;++it,i=i+2){
-      if (it->type==_FRAC && is_integer(it->_FRACptr->num) && is_integer(it->_FRACptr->den))
+      if (it->type==_FRAC && is_integer(it->_FRACptr->num) && is_integer(it->_FRACptr->den) && is_integer(common))
 	*it=w[i]*rdiv(common,w[i+1],contextptr);
       else
 	*it=r2sym(w[i]*rdiv(common,w[i+1],contextptr),l,contextptr);

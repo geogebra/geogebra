@@ -4726,11 +4726,21 @@ namespace giac {
     if (a.type==_FRAC){
       if ( (b.type!=_SYMB) && (b.type!=_IDNT) )
 	return (*a._FRACptr)+b;
+      if (b.is_symb_of_sommet(at_prod) && b._SYMBptr->feuille.type==_VECT){
+	const vecteur & bf=*b._SYMBptr->feuille._VECTptr;
+	if (bf.size()==2 && is_integer(bf[0]) && bf[1].is_symb_of_sommet(at_inv) && is_cinteger(bf[1]._SYMBptr->feuille))
+	  return a+fraction(bf[0],bf[1]._SYMBptr->feuille);
+      }
       return sym_add(_FRAC2_SYMB(a),b,contextptr);
     }
     if (b.type==_FRAC){
       if ( (a.type!=_SYMB) && (a.type!=_IDNT) )
 	return a+(*b._FRACptr);
+      if (a.is_symb_of_sommet(at_prod) && a._SYMBptr->feuille.type==_VECT){
+	const vecteur & af=*a._SYMBptr->feuille._VECTptr;
+	if (af.size()==2 && is_integer(af[0]) && af[1].is_symb_of_sommet(at_inv) && is_cinteger(af[1]._SYMBptr->feuille))
+	  return fraction(af[0],af[1]._SYMBptr->feuille)+b;
+      }
       return sym_add(a,_FRAC2_SYMB(b),contextptr);
     }
     if (a.type==_EXT){

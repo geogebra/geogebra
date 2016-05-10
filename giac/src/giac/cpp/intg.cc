@@ -1000,7 +1000,7 @@ namespace giac {
 	   FIXME in usual.cc diff of ln should expand * and / and rm abs
 	   write y=argument, P=beta
 	   we want to integrate P*sqrt(y)/den=(P*y)/den* y^(-1/2)
-	   let den=y^l*D where D is prime with y
+	   *IF* den=y^l*D where D is prime with y (not always true...)
 	   P/Dy^l = P_y/y^l + P_D/D <--> P = P_y*D + P_D*y^l,
 	   find P_D and P_y by Bezout, find
 	   g = Q*D+R*y^l then Pg = P*Q*D + P*R*y^l hence
@@ -1041,7 +1041,12 @@ namespace giac {
 	  return true;
 	}
 	gen PD=C[1]/g;
-	gen Py=(P*Q+C[0]*yl)/g;
+	// changed made for int(1/(sin(x)*sqrt(sin(2*x)^3)));
+	C=_quorem(makesequence(P*Q+C[0]*yl,g,gen_x),contextptr);
+	if (!is_zero(C[1]))
+	  return false;
+	gen Py=C[0];  
+	// gen Py=(P*Q+C[0]*yl)/g;
 	C=_quorem(makesequence(Py,y,gen_x),contextptr);
 	if (is_undef(C)){
 	  res= C; 
