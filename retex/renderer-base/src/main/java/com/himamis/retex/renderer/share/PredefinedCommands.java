@@ -51,8 +51,6 @@ final class PredefinedCommands {
 
 		for (LaTeXCommand command : LaTeXCommand.values()) {
 
-			System.err.println(command.name);
-
 			switch (command.numArgs) {
 			case 1:
 				MacroInfo.Commands.put(command.getName(), new MacroInfo(command, command.arg1));
