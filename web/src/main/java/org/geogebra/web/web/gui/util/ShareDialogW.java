@@ -4,6 +4,7 @@ import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.gui.menubar.FileMenuW;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -14,6 +15,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -31,7 +33,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	// private HorizontalPanel imagePanel; for future use - to share images
 	private FlowPanel buttonPanel;
 	private Button btOK, btCancel;
-	private String TUBEURL = "alpha.geogebra.org/m/";
+	private String TUBEURL = "beta.geogebra.org/m/";
 	private String sharingKey = "";
 
 	public ShareDialogW(final AppW app) {
@@ -81,9 +83,24 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		iconPanel.addStyleName("GeoGebraIconPanel");
 
 		// Geogebra
-		iconPanel.add(new NoDragImage(AppResources.INSTANCE.GeoGebraTube().getSafeUri().asString()));
+		NoDragImage geogebraimg = new NoDragImage(AppResources.INSTANCE
+				.GeoGebraTube().getSafeUri().asString());
+		PushButton geogebrabutton = new PushButton(geogebraimg,
+				new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+						if (!FileMenuW.nativeShareSupported()) {
+							app.uploadToGeoGebraTube();
+						} else {
+							app.getGgbApi().getBase64(true,
+									FileMenuW.getShareStringHandler(app));
+						}
+			}
+
+		});
+		iconPanel.add(geogebrabutton);
+		// iconPanel.add(geogebraimg);
 		// Facebook
-		// iconPanel.add(new
 		iconPanel.add(new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_facebook().getSafeUri().asString()).toString(), true,
 				"https://www.facebook.com/sharer/sharer.php?u=" + TUBEURL

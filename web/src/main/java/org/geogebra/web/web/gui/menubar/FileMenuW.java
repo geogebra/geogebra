@@ -60,7 +60,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    
     }
 	
-	native boolean nativeShareSupported()/*-{
+	public native static boolean nativeShareSupported()/*-{
 		if ($wnd.android && $wnd.android.share) {
 			return true;
 		}
@@ -179,7 +179,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							if (!nativeShareSupported()) {
 								app.uploadToGeoGebraTube();
 							} else {
-								app.getGgbApi().getBase64(true, getShareStringHandler());
+						app.getGgbApi().getBase64(true,
+								getShareStringHandler(app));
 							}
 						}
 					});
@@ -275,7 +276,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		// }
 	}
 
-	protected StringHandler getShareStringHandler() {
+	public static StringHandler getShareStringHandler(final AppW app) {
 		return new StringHandler(){
 			@Override
 			public void handle(String s) {
