@@ -6,6 +6,9 @@ import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.FileMenuW;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -108,7 +111,18 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 				"_blank"));
 
 		// Twitter
-		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_twitter().getSafeUri().asString()));
+		Element head = Document.get().getElementsByTagName("head").getItem(0);
+		ScriptElement scriptE = Document.get().createScriptElement();
+		scriptE.setInnerText("!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');");
+		head.appendChild(scriptE);
+
+		Anchor twitterlink = new Anchor(new NoDragImage(AppResources.INSTANCE
+				.social_twitter().getSafeUri().asString()).toString(), true,
+				"https://twitter.com/share",
+				"_blank");
+		twitterlink.getElement().setAttribute("data-url", TUBEURL + sharingKey);
+		twitterlink.addStyleName("twitter-share-button");
+		iconPanel.add(twitterlink);
 
 		// Google+
 		Anchor gpluslink = new Anchor(new NoDragImage(AppResources.INSTANCE
