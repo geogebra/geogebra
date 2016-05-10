@@ -45,6 +45,6 @@ package com.himamis.retex.renderer.share;
 
 public interface Macro {
 	
-	public String executeMacro(TeXParser tp, String[] args);
+	public Object executeMacro(TeXParser tp, String[] args);
 
 }

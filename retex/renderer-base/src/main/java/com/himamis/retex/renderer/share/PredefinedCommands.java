@@ -47,286 +47,1728 @@ package com.himamis.retex.renderer.share;
 
 final class PredefinedCommands {
 
-	PredefinedCommands() {
+	static {
+
+		for (LaTeXCommand command : LaTeXCommand.values()) {
+
+			System.err.println(command.name);
+
+			switch (command.numArgs) {
+			case 1:
+				MacroInfo.Commands.put(command.getName(), new MacroInfo(command, command.arg1));
+				break;
+			case 2:
+				MacroInfo.Commands.put(command.getName(), new MacroInfo(command, command.arg1, command.arg2));
+				break;
+			}
+
+		}
+
 	}
 
-	static {
-		MacroInfo.Commands.put("newcommand", new PredefMacroInfo(0, 2, 2));
-		MacroInfo.Commands.put("renewcommand", new PredefMacroInfo(1, 2, 2));
-		MacroInfo.Commands.put("rule", new PredefMacroInfo(2, 2, 1));
-		MacroInfo.Commands.put("hspace", new PredefMacroInfo(3, 1));
-		MacroInfo.Commands.put("vspace", new PredefMacroInfo(4, 1));
-		MacroInfo.Commands.put("llap", new PredefMacroInfo(5, 1));
-		MacroInfo.Commands.put("rlap", new PredefMacroInfo(6, 1));
-		MacroInfo.Commands.put("clap", new PredefMacroInfo(7, 1));
-		MacroInfo.Commands.put("mathllap", new PredefMacroInfo(8, 1));
-		MacroInfo.Commands.put("mathrlap", new PredefMacroInfo(9, 1));
-		MacroInfo.Commands.put("mathclap", new PredefMacroInfo(10, 1));
-		MacroInfo.Commands.put("includegraphics", new PredefMacroInfo(11, 1, 1));
-		MacroInfo.Commands.put("cfrac", new PredefMacroInfo(12, 2, 1));
-		MacroInfo.Commands.put("frac", new PredefMacroInfo(13, 2));
-		MacroInfo.Commands.put("sfrac", new PredefMacroInfo(14, 2));
-		MacroInfo.Commands.put("genfrac", new PredefMacroInfo(15, 6));
-		MacroInfo.Commands.put("over", new PredefMacroInfo(16, 0));
-		MacroInfo.Commands.put("overwithdelims", new PredefMacroInfo(17, 2));
-		MacroInfo.Commands.put("atop", new PredefMacroInfo(18, 0));
-		MacroInfo.Commands.put("atopwithdelims", new PredefMacroInfo(19, 2));
-		MacroInfo.Commands.put("choose", new PredefMacroInfo(20, 0));
-		MacroInfo.Commands.put("underscore", new PredefMacroInfo(21, 0));
-		MacroInfo.Commands.put("mbox", new PredefMacroInfo(22, 1));
-		MacroInfo.Commands.put("text", new PredefMacroInfo(23, 1));
-		MacroInfo.Commands.put("intertext", new PredefMacroInfo(24, 1));
-		MacroInfo.Commands.put("binom", new PredefMacroInfo(25, 2));
-		MacroInfo.Commands.put("mathbf", new PredefMacroInfo(26, 1));
-		MacroInfo.Commands.put("bf", new PredefMacroInfo(27, 0));
-		MacroInfo.Commands.put("mathbb", new PredefMacroInfo(28, 1));
-		MacroInfo.Commands.put("mathcal", new PredefMacroInfo(29, 1));
-		MacroInfo.Commands.put("cal", new PredefMacroInfo(30, 1));
-		MacroInfo.Commands.put("mathit", new PredefMacroInfo(31, 1));
-		MacroInfo.Commands.put("it", new PredefMacroInfo(32, 0));
-		MacroInfo.Commands.put("mathrm", new PredefMacroInfo(33, 1));
-		MacroInfo.Commands.put("rm", new PredefMacroInfo(34, 0));
-		MacroInfo.Commands.put("mathscr", new PredefMacroInfo(35, 1));
-		MacroInfo.Commands.put("mathsf", new PredefMacroInfo(36, 1));
-		MacroInfo.Commands.put("sf", new PredefMacroInfo(37, 0));
-		MacroInfo.Commands.put("mathtt", new PredefMacroInfo(38, 1));
-		MacroInfo.Commands.put("tt", new PredefMacroInfo(39, 0));
-		MacroInfo.Commands.put("mathfrak", new PredefMacroInfo(40, 1));
-		MacroInfo.Commands.put("mathds", new PredefMacroInfo(41, 1));
-		MacroInfo.Commands.put("frak", new PredefMacroInfo(42, 1));
-		MacroInfo.Commands.put("Bbb", new PredefMacroInfo(43, 1));
-		MacroInfo.Commands.put("oldstylenums", new PredefMacroInfo(44, 1));
-		MacroInfo.Commands.put("bold", new PredefMacroInfo(45, 1));
-		MacroInfo.Commands.put("^", new PredefMacroInfo(46, 1));
-		MacroInfo.Commands.put("\'", new PredefMacroInfo(47, 1));
-		MacroInfo.Commands.put("\"", new PredefMacroInfo(48, 1));
-		MacroInfo.Commands.put("`", new PredefMacroInfo(49, 1));
-		MacroInfo.Commands.put("=", new PredefMacroInfo(50, 1));
-		MacroInfo.Commands.put(".", new PredefMacroInfo(51, 1));
-		MacroInfo.Commands.put("~", new PredefMacroInfo(52, 1));
-		MacroInfo.Commands.put("u", new PredefMacroInfo(53, 1));
-		MacroInfo.Commands.put("v", new PredefMacroInfo(54, 1));
-		MacroInfo.Commands.put("H", new PredefMacroInfo(55, 1));
-		MacroInfo.Commands.put("r", new PredefMacroInfo(56, 1));
-		MacroInfo.Commands.put("U", new PredefMacroInfo(57, 1));
-		MacroInfo.Commands.put("T", new PredefMacroInfo(58, 1));
-		MacroInfo.Commands.put("t", new PredefMacroInfo(59, 1));
-		MacroInfo.Commands.put("accent", new PredefMacroInfo(60, 2));
-		MacroInfo.Commands.put("grkaccent", new PredefMacroInfo(61, 2));
-		MacroInfo.Commands.put("hat", new PredefMacroInfo(62, 1));
-		MacroInfo.Commands.put("widehat", new PredefMacroInfo(63, 1));
-		MacroInfo.Commands.put("tilde", new PredefMacroInfo(64, 1));
-		MacroInfo.Commands.put("acute", new PredefMacroInfo(65, 1));
-		MacroInfo.Commands.put("grave", new PredefMacroInfo(66, 1));
-		MacroInfo.Commands.put("ddot", new PredefMacroInfo(67, 1));
-		MacroInfo.Commands.put("cyrddot", new PredefMacroInfo(68, 1));
-		MacroInfo.Commands.put("mathring", new PredefMacroInfo(69, 1));
-		MacroInfo.Commands.put("bar", new PredefMacroInfo(70, 1));
-		MacroInfo.Commands.put("breve", new PredefMacroInfo(71, 1));
-		MacroInfo.Commands.put("check", new PredefMacroInfo(72, 1));
-		MacroInfo.Commands.put("vec", new PredefMacroInfo(73, 1));
-		MacroInfo.Commands.put("dot", new PredefMacroInfo(74, 1));
-		MacroInfo.Commands.put("widetilde", new PredefMacroInfo(75, 1));
-		MacroInfo.Commands.put("nbsp", new PredefMacroInfo(76, 0));
-		MacroInfo.Commands.put("smallmatrix@@env", new PredefMacroInfo(77, 1));
-		MacroInfo.Commands.put("matrix@@env", new PredefMacroInfo(78, 1));
-		MacroInfo.Commands.put("overrightarrow", new PredefMacroInfo(79, 1));
-		MacroInfo.Commands.put("overleftarrow", new PredefMacroInfo(80, 1));
-		MacroInfo.Commands.put("overleftrightarrow", new PredefMacroInfo(81, 1));
-		MacroInfo.Commands.put("underrightarrow", new PredefMacroInfo(82, 1));
-		MacroInfo.Commands.put("underleftarrow", new PredefMacroInfo(83, 1));
-		MacroInfo.Commands.put("underleftrightarrow", new PredefMacroInfo(84, 1));
-		MacroInfo.Commands.put("xleftarrow", new PredefMacroInfo(85, 1, 1));
-		MacroInfo.Commands.put("xrightarrow", new PredefMacroInfo(86, 1, 1));
-		MacroInfo.Commands.put("underbrace", new PredefMacroInfo(87, 1));
-		MacroInfo.Commands.put("overbrace", new PredefMacroInfo(88, 1));
-		MacroInfo.Commands.put("underbrack", new PredefMacroInfo(89, 1));
-		MacroInfo.Commands.put("overbrack", new PredefMacroInfo(90, 1));
-		MacroInfo.Commands.put("underparen", new PredefMacroInfo(91, 1));
-		MacroInfo.Commands.put("overparen", new PredefMacroInfo(92, 1));
-		MacroInfo.Commands.put("sqrt", new PredefMacroInfo(93, 1, 1));
-		MacroInfo.Commands.put("sqrtsign", new PredefMacroInfo(94, 1));
-		MacroInfo.Commands.put("overline", new PredefMacroInfo(95, 1));
-		MacroInfo.Commands.put("underline", new PredefMacroInfo(96, 1));
-		MacroInfo.Commands.put("mathop", new PredefMacroInfo(97, 1));
-		MacroInfo.Commands.put("mathpunct", new PredefMacroInfo(98, 1));
-		MacroInfo.Commands.put("mathord", new PredefMacroInfo(99, 1));
-		MacroInfo.Commands.put("mathrel", new PredefMacroInfo(100, 1));
-		MacroInfo.Commands.put("mathinner", new PredefMacroInfo(101, 1));
-		MacroInfo.Commands.put("mathbin", new PredefMacroInfo(102, 1));
-		MacroInfo.Commands.put("mathopen", new PredefMacroInfo(103, 1));
-		MacroInfo.Commands.put("mathclose", new PredefMacroInfo(104, 1));
-		MacroInfo.Commands.put("joinrel", new PredefMacroInfo(105, 0));
-		MacroInfo.Commands.put("smash", new PredefMacroInfo(106, 1, 1));
-		MacroInfo.Commands.put("vdots", new PredefMacroInfo(107, 0));
-		MacroInfo.Commands.put("ddots", new PredefMacroInfo(108, 0));
-		MacroInfo.Commands.put("iddots", new PredefMacroInfo(109, 0));
-		MacroInfo.Commands.put("nolimits", new PredefMacroInfo(110, 0));
-		MacroInfo.Commands.put("limits", new PredefMacroInfo(111, 0));
-		MacroInfo.Commands.put("normal", new PredefMacroInfo(112, 0));
-		MacroInfo.Commands.put("(", new PredefMacroInfo(113, 0));
-		MacroInfo.Commands.put("[", new PredefMacroInfo(114, 0));
-		MacroInfo.Commands.put("left", new PredefMacroInfo(115, 1));
-		MacroInfo.Commands.put("middle", new PredefMacroInfo(116, 1));
-		MacroInfo.Commands.put("cr", new PredefMacroInfo(117, 0));
-		MacroInfo.Commands.put("multicolumn", new PredefMacroInfo(118, 3));
-		MacroInfo.Commands.put("hdotsfor", new PredefMacroInfo(119, 1, 1));
-		MacroInfo.Commands.put("array@@env", new PredefMacroInfo(120, 2));
-		MacroInfo.Commands.put("align@@env", new PredefMacroInfo(121, 2));
-		MacroInfo.Commands.put("aligned@@env", new PredefMacroInfo(122, 2));
-		MacroInfo.Commands.put("flalign@@env", new PredefMacroInfo(123, 2));
-		MacroInfo.Commands.put("alignat@@env", new PredefMacroInfo(124, 2));
-		MacroInfo.Commands.put("alignedat@@env", new PredefMacroInfo(125, 2));
-		MacroInfo.Commands.put("multline@@env", new PredefMacroInfo(126, 2));
-		MacroInfo.Commands.put("gather@@env", new PredefMacroInfo(127, 2));
-		MacroInfo.Commands.put("gathered@@env", new PredefMacroInfo(128, 2));
-		MacroInfo.Commands.put("shoveright", new PredefMacroInfo(129, 1));
-		MacroInfo.Commands.put("shoveleft", new PredefMacroInfo(130, 1));
-		MacroInfo.Commands.put("\\", new PredefMacroInfo(131, 0));
-		MacroInfo.Commands.put("newenvironment", new PredefMacroInfo(132, 3));
-		MacroInfo.Commands.put("renewenvironment", new PredefMacroInfo(133, 3));
-		MacroInfo.Commands.put("makeatletter", new PredefMacroInfo(134, 0));
-		MacroInfo.Commands.put("makeatother", new PredefMacroInfo(135, 0));
-		MacroInfo.Commands.put("fbox", new PredefMacroInfo(136, 1));
-		MacroInfo.Commands.put("boxed", new PredefMacroInfo(137, 1));
-		MacroInfo.Commands.put("stackrel", new PredefMacroInfo(138, 2, 1));
-		MacroInfo.Commands.put("stackbin", new PredefMacroInfo(139, 2, 1));
-		MacroInfo.Commands.put("accentset", new PredefMacroInfo(140, 2));
-		MacroInfo.Commands.put("underaccent", new PredefMacroInfo(141, 2));
-		MacroInfo.Commands.put("undertilde", new PredefMacroInfo(142, 1));
-		MacroInfo.Commands.put("overset", new PredefMacroInfo(143, 2));
-		MacroInfo.Commands.put("Braket", new PredefMacroInfo(144, 1));
-		MacroInfo.Commands.put("Set", new PredefMacroInfo(145, 1));
-		MacroInfo.Commands.put("underset", new PredefMacroInfo(146, 2));
-		MacroInfo.Commands.put("boldsymbol", new PredefMacroInfo(147, 1));
-		MacroInfo.Commands.put("LaTeX", new PredefMacroInfo(148, 0));
-		//MacroInfo.Commands.put("GeoGebra", new PredefMacroInfo(149, 0));
-		MacroInfo.Commands.put("big", new PredefMacroInfo(150, 1));
-		MacroInfo.Commands.put("Big", new PredefMacroInfo(151, 1));
-		MacroInfo.Commands.put("bigg", new PredefMacroInfo(152, 1));
-		MacroInfo.Commands.put("Bigg", new PredefMacroInfo(153, 1));
-		MacroInfo.Commands.put("bigl", new PredefMacroInfo(154, 1));
-		MacroInfo.Commands.put("Bigl", new PredefMacroInfo(155, 1));
-		MacroInfo.Commands.put("biggl", new PredefMacroInfo(156, 1));
-		MacroInfo.Commands.put("Biggl", new PredefMacroInfo(157, 1));
-		MacroInfo.Commands.put("bigr", new PredefMacroInfo(158, 1));
-		MacroInfo.Commands.put("Bigr", new PredefMacroInfo(159, 1));
-		MacroInfo.Commands.put("biggr", new PredefMacroInfo(160, 1));
-		MacroInfo.Commands.put("Biggr", new PredefMacroInfo(161, 1));
-		MacroInfo.Commands.put("displaystyle", new PredefMacroInfo(162, 0));
-		MacroInfo.Commands.put("textstyle", new PredefMacroInfo(163, 0));
-		MacroInfo.Commands.put("scriptstyle", new PredefMacroInfo(164, 0));
-		MacroInfo.Commands.put("scriptscriptstyle", new PredefMacroInfo(165, 0));
-		MacroInfo.Commands.put("sideset", new PredefMacroInfo(166, 3));
-		MacroInfo.Commands.put("prescript", new PredefMacroInfo(167, 3));
-		MacroInfo.Commands.put("rotatebox", new PredefMacroInfo(168, 2, 1));
-		MacroInfo.Commands.put("reflectbox", new PredefMacroInfo(169, 1));
-		MacroInfo.Commands.put("scalebox", new PredefMacroInfo(170, 2, 2));
-		MacroInfo.Commands.put("resizebox", new PredefMacroInfo(171, 3));
-		MacroInfo.Commands.put("raisebox", new PredefMacroInfo(172, 2, 2));
-		MacroInfo.Commands.put("shadowbox", new PredefMacroInfo(173, 1));
-		MacroInfo.Commands.put("ovalbox", new PredefMacroInfo(174, 1));
-		MacroInfo.Commands.put("doublebox", new PredefMacroInfo(175, 1));
-		MacroInfo.Commands.put("phantom", new PredefMacroInfo(176, 1));
-		MacroInfo.Commands.put("hphantom", new PredefMacroInfo(177, 1));
-		MacroInfo.Commands.put("vphantom", new PredefMacroInfo(178, 1));
-		MacroInfo.Commands.put("sp@breve", new PredefMacroInfo(179, 0));
-		MacroInfo.Commands.put("sp@hat", new PredefMacroInfo(180, 0));
-		MacroInfo.Commands.put("definecolor", new PredefMacroInfo(181, 3));
-		MacroInfo.Commands.put("textcolor", new PredefMacroInfo(182, 2));
-		MacroInfo.Commands.put("fgcolor", new PredefMacroInfo(183, 2));
-		MacroInfo.Commands.put("bgcolor", new PredefMacroInfo(184, 2));
-		MacroInfo.Commands.put("colorbox", new PredefMacroInfo(185, 2));
-		MacroInfo.Commands.put("fcolorbox", new PredefMacroInfo(186, 3));
-		MacroInfo.Commands.put("c", new PredefMacroInfo(187, 1));
-		MacroInfo.Commands.put("IJ", new PredefMacroInfo(188, 0));
-		MacroInfo.Commands.put("ij", new PredefMacroInfo(189, 0));
-		MacroInfo.Commands.put("TStroke", new PredefMacroInfo(190, 0));
-		MacroInfo.Commands.put("tStroke", new PredefMacroInfo(191, 0));
-		MacroInfo.Commands.put("Lcaron", new PredefMacroInfo(192, 0));
-		MacroInfo.Commands.put("tcaron", new PredefMacroInfo(193, 0));
-		MacroInfo.Commands.put("lcaron", new PredefMacroInfo(194, 0));
-		MacroInfo.Commands.put("k", new PredefMacroInfo(195, 1));
-		MacroInfo.Commands.put("cong", new PredefMacroInfo(196, 0));
-		MacroInfo.Commands.put("doteq", new PredefMacroInfo(197, 0));
-		//MacroInfo.Commands.put("jlmDynamic", new PredefMacroInfo(198, 1, 1));
-		MacroInfo.Commands.put("jlmExternalFont", new PredefMacroInfo(199, 1));
-		MacroInfo.Commands.put("jlmText", new PredefMacroInfo(200, 1));
-		MacroInfo.Commands.put("jlmTextit", new PredefMacroInfo(201, 1));
-		MacroInfo.Commands.put("jlmTextbf", new PredefMacroInfo(202, 1));
-		MacroInfo.Commands.put("jlmTextitbf", new PredefMacroInfo(203, 1));
-		MacroInfo.Commands.put("DeclareMathSizes", new PredefMacroInfo(204, 4));
-		MacroInfo.Commands.put("magnification", new PredefMacroInfo(205, 1));
-		MacroInfo.Commands.put("hline", new PredefMacroInfo(206, 0));
-		MacroInfo.Commands.put("tiny", new PredefMacroInfo(207, 0));
-		MacroInfo.Commands.put("scriptsize", new PredefMacroInfo(208, 0));
-		MacroInfo.Commands.put("footnotesize", new PredefMacroInfo(209, 0));
-		MacroInfo.Commands.put("small", new PredefMacroInfo(210, 0));
-		MacroInfo.Commands.put("normalsize", new PredefMacroInfo(211, 0));
-		MacroInfo.Commands.put("large", new PredefMacroInfo(212, 0));
-		MacroInfo.Commands.put("Large", new PredefMacroInfo(213, 0));
-		MacroInfo.Commands.put("LARGE", new PredefMacroInfo(214, 0));
-		MacroInfo.Commands.put("huge", new PredefMacroInfo(215, 0));
-		MacroInfo.Commands.put("Huge", new PredefMacroInfo(216, 0));
-		MacroInfo.Commands.put("jlatexmathcumsup", new PredefMacroInfo(217, 1));
-		MacroInfo.Commands.put("jlatexmathcumsub", new PredefMacroInfo(218, 1));
-		MacroInfo.Commands.put("hstrok", new PredefMacroInfo(219, 0));
-		MacroInfo.Commands.put("Hstrok", new PredefMacroInfo(220, 0));
-		MacroInfo.Commands.put("dstrok", new PredefMacroInfo(221, 0));
-		MacroInfo.Commands.put("Dstrok", new PredefMacroInfo(222, 0));
-		MacroInfo.Commands.put("dotminus", new PredefMacroInfo(223, 0));
-		MacroInfo.Commands.put("ratio", new PredefMacroInfo(224, 0));
-		MacroInfo.Commands.put("smallfrowneq", new PredefMacroInfo(225, 0));
-		MacroInfo.Commands.put("geoprop", new PredefMacroInfo(226, 0));
-		MacroInfo.Commands.put("minuscolon", new PredefMacroInfo(227, 0));
-		MacroInfo.Commands.put("minuscoloncolon", new PredefMacroInfo(228, 0));
-		MacroInfo.Commands.put("simcolon", new PredefMacroInfo(229, 0));
-		MacroInfo.Commands.put("simcoloncolon", new PredefMacroInfo(230, 0));
-		MacroInfo.Commands.put("approxcolon", new PredefMacroInfo(231, 0));
-		MacroInfo.Commands.put("approxcoloncolon", new PredefMacroInfo(232, 0));
-		MacroInfo.Commands.put("coloncolon", new PredefMacroInfo(233, 0));
-		MacroInfo.Commands.put("equalscolon", new PredefMacroInfo(234, 0));
-		MacroInfo.Commands.put("equalscoloncolon", new PredefMacroInfo(235, 0));
-		MacroInfo.Commands.put("colonminus", new PredefMacroInfo(236, 0));
-		MacroInfo.Commands.put("coloncolonminus", new PredefMacroInfo(237, 0));
-		MacroInfo.Commands.put("colonequals", new PredefMacroInfo(238, 0));
-		MacroInfo.Commands.put("coloncolonequals", new PredefMacroInfo(239, 0));
-		MacroInfo.Commands.put("colonsim", new PredefMacroInfo(240, 0));
-		MacroInfo.Commands.put("coloncolonsim", new PredefMacroInfo(241, 0));
-		MacroInfo.Commands.put("colonapprox", new PredefMacroInfo(242, 0));
-		MacroInfo.Commands.put("coloncolonapprox", new PredefMacroInfo(243, 0));
-		MacroInfo.Commands.put("kern", new PredefMacroInfo(244, 1));
-		MacroInfo.Commands.put("char", new PredefMacroInfo(245, 1));
-		MacroInfo.Commands.put("roman", new PredefMacroInfo(246, 1));
-		MacroInfo.Commands.put("Roman", new PredefMacroInfo(247, 1));
-		MacroInfo.Commands.put("textcircled", new PredefMacroInfo(248, 1));
-		MacroInfo.Commands.put("textsc", new PredefMacroInfo(249, 1));
-		MacroInfo.Commands.put("sc", new PredefMacroInfo(250, 0));
-		MacroInfo.Commands.put(",", new PredefMacroInfo(251, 0));
-		MacroInfo.Commands.put(":", new PredefMacroInfo(252, 0));
-		MacroInfo.Commands.put(";", new PredefMacroInfo(253, 0));
-		MacroInfo.Commands.put("thinspace", new PredefMacroInfo(254, 0));
-		MacroInfo.Commands.put("medspace", new PredefMacroInfo(255, 0));
-		MacroInfo.Commands.put("thickspace", new PredefMacroInfo(256, 0));
-		MacroInfo.Commands.put("!", new PredefMacroInfo(257, 0));
-		MacroInfo.Commands.put("negthinspace", new PredefMacroInfo(258, 0));
-		MacroInfo.Commands.put("negmedspace", new PredefMacroInfo(259, 0));
-		MacroInfo.Commands.put("negthickspace", new PredefMacroInfo(260, 0));
-		MacroInfo.Commands.put("quad", new PredefMacroInfo(261, 0));
-		MacroInfo.Commands.put("surd", new PredefMacroInfo(262, 0));
-		MacroInfo.Commands.put("iint", new PredefMacroInfo(263, 0));
-		MacroInfo.Commands.put("iiint", new PredefMacroInfo(264, 0));
-		MacroInfo.Commands.put("iiiint", new PredefMacroInfo(265, 0));
-		MacroInfo.Commands.put("idotsint", new PredefMacroInfo(266, 0));
-		MacroInfo.Commands.put("int", new PredefMacroInfo(267, 0));
-		MacroInfo.Commands.put("oint", new PredefMacroInfo(268, 0));
-		MacroInfo.Commands.put("lmoustache", new PredefMacroInfo(269, 0));
-		MacroInfo.Commands.put("rmoustache", new PredefMacroInfo(270, 0));
-		MacroInfo.Commands.put("-", new PredefMacroInfo(271, 0));
-		MacroInfo.Commands.put("jlmXML", new PredefMacroInfo(272, 1));
-		MacroInfo.Commands.put("above", new PredefMacroInfo(273, 0));
-		MacroInfo.Commands.put("abovewithdelims", new PredefMacroInfo(274, 2));
-		MacroInfo.Commands.put("st", new PredefMacroInfo(275, 1));
-		MacroInfo.Commands.put("fcscore", new PredefMacroInfo(276, 1));
+	public enum LaTeXCommand implements Macro {
+
+		newcommand(2, 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.newcommand_macro(tp, args);
+			}
+		},
+
+		renewcommand(2, 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.renewcommand_macro(tp, args);
+			}
+		},
+		rule(2, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.rule_macro(tp, args);
+			}
+		},
+
+		hspace(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.hvspace_macro(tp, args);
+			}
+		},
+
+		vspace(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.clrlap_macro(tp, args);
+			}
+		},
+		llap(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.clrlap_macro(tp, args);
+			}
+		},
+		rlap(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.clrlap_macro(tp, args);
+			}
+		},
+		clap(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.clrlap_macro(tp, args);
+			}
+		},
+		mathllap(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathclrlap_macro(tp, args);
+			}
+		},
+		mathrlap(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathclrlap_macro(tp, args);
+			}
+		},
+		mathclap(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathclrlap_macro(tp, args);
+			}
+		},
+		includegraphics(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.includegraphics_macro(tp, args);
+			}
+		},
+		cfrac(2, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.cfrac_macro(tp, args);
+			}
+		},
+		frac(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.frac_macro(tp, args);
+			}
+		},
+		sfrac(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.sfrac_macro(tp, args);
+			}
+		},
+		genfrac(6) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.genfrac_macro(tp, args);
+			}
+		},
+		over(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.over_macro(tp, args);
+			}
+		},
+		overwithdelims(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.overwithdelims_macro(tp, args);
+			}
+		},
+		atop(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.atop_macro(tp, args);
+			}
+		},
+		atopwithdelims(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.atopwithdelims_macro(tp, args);
+			}
+		},
+		choose(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.choose_macro(tp, args);
+			}
+		},
+		underscore(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.underscore_macro(tp, args);
+			}
+		},
+		mbox(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mbox_macro(tp, args);
+			}
+		},
+		text(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.text_macro(tp, args);
+			}
+		},
+		intertext(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.intertext_macro(tp, args);
+			}
+		},
+		binom(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.binom_macro(tp, args);
+			}
+		},
+		mathbf(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathbf_macro(tp, args);
+			}
+		},
+		bf(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.bf_macro(tp, args);
+			}
+		},
+		mathbb(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textstyle_macros(tp, args);
+			}
+		},
+		mathcal(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textstyle_macros(tp, args);
+			}
+		},
+		cal(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textstyle_macros(tp, args);
+			}
+		},
+		mathit(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathit_macro(tp, args);
+			}
+		},
+		it(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.it_macro(tp, args);
+			}
+		},
+		mathrm(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathrm_macro(tp, args);
+			}
+		},
+		rm(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.rm_macro(tp, args);
+			}
+		},
+		mathscr(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textstyle_macros(tp, args);
+			}
+		},
+		mathsf(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathsf_macro(tp, args);
+			}
+		},
+		sf(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.sf_macro(tp, args);
+			}
+		},
+		mathtt(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathtt_macro(tp, args);
+			}
+		},
+		tt(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.tt_macro(tp, args);
+			}
+		},
+		mathfrak(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textstyle_macros(tp, args);
+			}
+		},
+		mathds(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textstyle_macros(tp, args);
+			}
+		},
+		frak(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textstyle_macros(tp, args);
+			}
+		},
+		Bbb(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textstyle_macros(tp, args);
+			}
+		},
+		oldstylenums(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textstyle_macros(tp, args);
+			}
+		},
+		bold(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textstyle_macros(tp, args);
+			}
+		},
+		_circumflex("^", 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		_apostrophe("'", 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		_quote("\"", 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		_backtick("`", 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		_equals("=", 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		_period(".", 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		_tilda("~", 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		u(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		v(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		H(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		r(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		U(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		T(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.T_macro(tp, args);
+			}
+		},
+		t(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentbis_macros(tp, args);
+			}
+		},
+		accent(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macro(tp, args);
+			}
+		},
+		grkaccent(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.grkaccent_macro(tp, args);
+			}
+		},
+		hat(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		widehat(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		tilde(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		acute(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		grave(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		ddot(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		cyrddot(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		mathring(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		bar(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		breve(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		check(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		vec(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		dot(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		widetilde(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accent_macros(tp, args);
+			}
+		},
+		nbsp(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.nbsp_macro(tp, args);
+			}
+		},
+		smallmatrix__env("smallmatrix@@env", 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.smallmatrixATATenv_macro(tp, args);
+			}
+		},
+		matrix__env("matrix@@env", 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.matrixATATenv_macro(tp, args);
+			}
+		},
+		overrightarrow(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.overrightarrow_macro(tp, args);
+			}
+		},
+		overleftarrow(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.overleftarrow_macro(tp, args);
+			}
+		},
+		overleftrightarrow(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.overleftrightarrow_macro(tp, args);
+			}
+		},
+		underrightarrow(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.underrightarrow_macro(tp, args);
+			}
+		},
+		underleftarrow(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.underleftarrow_macro(tp, args);
+			}
+		},
+		underleftrightarrow(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.underleftrightarrow_macro(tp, args);
+			}
+		},
+		xleftarrow(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.xleftarrow_macro(tp, args);
+			}
+		},
+		xrightarrow(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.xrightarrow_macro(tp, args);
+			}
+		},
+		underbrace(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.underbrace_macro(tp, args);
+			}
+		},
+		overbrace(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.overbrace_macro(tp, args);
+			}
+		},
+		underbrack(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.underbrack_macro(tp, args);
+			}
+		},
+		overbrack(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.overbrack_macro(tp, args);
+			}
+		},
+		underparen(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.underparen_macro(tp, args);
+			}
+		},
+		overparen(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.overparen_macro(tp, args);
+			}
+		},
+		sqrt(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.sqrt_macro(tp, args);
+			}
+		},
+		sqrtsign(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.sqrt_macro(tp, args);
+			}
+		},
+		overline(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.overline_macro(tp, args);
+			}
+		},
+		underline(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.underline_macro(tp, args);
+			}
+		},
+		mathop(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathop_macro(tp, args);
+			}
+		},
+		mathpunct(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathpunct_macro(tp, args);
+			}
+		},
+		mathord(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathord_macro(tp, args);
+			}
+		},
+		mathrel(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathrel_macro(tp, args);
+			}
+		},
+		mathinner(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathinner_macro(tp, args);
+			}
+		},
+		mathbin(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathbin_macro(tp, args);
+			}
+		},
+		mathopen(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathopen_macro(tp, args);
+			}
+		},
+		mathclose(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.mathclose_macro(tp, args);
+			}
+		},
+		joinrel(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.joinrel_macro(tp, args);
+			}
+		},
+		smash(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.smash_macro(tp, args);
+			}
+		},
+		vdots(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.vdots_macro(tp, args);
+			}
+		},
+		ddots(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.ddots_macro(tp, args);
+			}
+		},
+		iddots(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.iddots_macro(tp, args);
+			}
+		},
+		nolimits(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.nolimits_macro(tp, args);
+			}
+		},
+		limits(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.limits_macro(tp, args);
+			}
+		},
+		normal(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.normal_macro(tp, args);
+			}
+		},
+		_parenthesis("(", 0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.leftparenthesis_macro(tp, args);
+			}
+		},
+		_squarebracket("[", 0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.leftbracket_macro(tp, args);
+			}
+		},
+		left(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.left_macro(tp, args);
+			}
+		},
+		middle(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.middle_macro(tp, args);
+			}
+		},
+		cr(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.cr_macro(tp, args);
+			}
+		},
+		multicolumn(3) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.multicolumn_macro(tp, args);
+			}
+		},
+		hdotsfor(1, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.hdotsfor_macro(tp, args);
+			}
+		},
+		array__env("array@@env", 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.arrayATATenv_macro(tp, args);
+			}
+		},
+		align__env("align@@env", 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.alignATATenv_macro(tp, args);
+			}
+		},
+		aligned__env("aligned@@env", 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.alignedATATenv_macro(tp, args);
+			}
+		},
+		flalign__env("flalign@@env", 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.flalignATATenv_macro(tp, args);
+			}
+		},
+		alignat__env("alignat@@env", 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.alignatATATenv_macro(tp, args);
+			}
+		},
+		alignedat__env("alignedat@@env", 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.alignatATATenv_macro(tp, args);
+			}
+		},
+		multline__env("multline@@env", 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.multlineATATenv_macro(tp, args);
+			}
+		},
+		gather__env("gather@@env", 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.gatherATATenv_macro(tp, args);
+			}
+		},
+		gathered__env("gathered@@env", 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.gatheredATATenv_macro(tp, args);
+			}
+		},
+		shoveright(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.shoveright_macro(tp, args);
+			}
+		},
+		shoveleft(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.shoveleft_macro(tp, args);
+			}
+		},
+		_backslash("\\", 0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.backslashcr_macro(tp, args);
+			}
+		},
+		newenvironment(3) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.newenvironment_macro(tp, args);
+			}
+		},
+		renewenvironment(3) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.renewenvironment_macro(tp, args);
+			}
+		},
+		makeatletter(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.makeatletter_macro(tp, args);
+			}
+		},
+		makeatother(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.makeatother_macro(tp, args);
+			}
+		},
+		fbox(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.fbox_macro(tp, args);
+			}
+		},
+		boxed(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.fbox_macro(tp, args);
+			}
+		},
+		stackrel(2, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.stackrel_macro(tp, args);
+			}
+		},
+		stackbin(2, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.stackbin_macro(tp, args);
+			}
+		},
+		accentset(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.accentset_macro(tp, args);
+			}
+		},
+		underaccent(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.underaccent_macro(tp, args);
+			}
+		},
+		undertilde(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.undertilde_macro(tp, args);
+			}
+		},
+		overset(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.overset_macro(tp, args);
+			}
+		},
+		Braket(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.Braket_macro(tp, args);
+			}
+		},
+		Set(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.Set_macro(tp, args);
+			}
+		},
+		underset(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.underset_macro(tp, args);
+			}
+		},
+		boldsymbol(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.boldsymbol_macro(tp, args);
+			}
+		},
+		LaTeX(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.LaTeX_macro(tp, args);
+			}
+		},
+		// GeoGebra(0) {
+		// @Override
+		// public Object handle(final TeXParser tp, final String[] args) {
+		// return PredefMacros.GeoGebra_macro(tp, args);
+		// }
+		// },
+		big(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.big_macro(tp, args);
+			}
+		},
+		Big(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.Big_macro(tp, args);
+			}
+		},
+		bigg(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.bigg_macro(tp, args);
+			}
+		},
+		Bigg(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.Bigg_macro(tp, args);
+			}
+		},
+		bigl(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.bigl_macro(tp, args);
+			}
+		},
+		Bigl(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.Bigl_macro(tp, args);
+			}
+		},
+		biggl(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.biggl_macro(tp, args);
+			}
+		},
+		Biggl(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.Biggl_macro(tp, args);
+			}
+		},
+		bigr(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.bigr_macro(tp, args);
+			}
+		},
+		Bigr(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.Bigr_macro(tp, args);
+			}
+		},
+		biggr(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.biggr_macro(tp, args);
+			}
+		},
+		Biggr(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.Biggr_macro(tp, args);
+			}
+		},
+		displaystyle(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.displaystyle_macro(tp, args);
+			}
+		},
+		textstyle(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textstyle_macro(tp, args);
+			}
+		},
+		scriptstyle(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.scriptstyle_macro(tp, args);
+			}
+		},
+		scriptscriptstyle(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.scriptscriptstyle_macro(tp, args);
+			}
+		},
+		sideset(3) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.sideset_macro(tp, args);
+			}
+		},
+		prescript(3) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.prescript_macro(tp, args);
+			}
+		},
+		rotatebox(2, 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.rotatebox_macro(tp, args);
+			}
+		},
+		reflectbox(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.reflectbox_macro(tp, args);
+			}
+		},
+		scalebox(2, 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.scalebox_macro(tp, args);
+			}
+		},
+		resizebox(3) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.resizebox_macro(tp, args);
+			}
+		},
+		raisebox(2, 2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.raisebox_macro(tp, args);
+			}
+		},
+		shadowbox(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.shadowbox_macro(tp, args);
+			}
+		},
+		ovalbox(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.ovalbox_macro(tp, args);
+			}
+		},
+		doublebox(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.doublebox_macro(tp, args);
+			}
+		},
+		phantom(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.phantom_macro(tp, args);
+			}
+		},
+		hphantom(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.hphantom_macro(tp, args);
+			}
+		},
+		vphantom(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.vphantom_macro(tp, args);
+			}
+		},
+		sp_breve("sp@breve", 0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.spATbreve_macro(tp, args);
+			}
+		},
+		sp_hat("sp@hat", 0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.spAThat_macro(tp, args);
+			}
+		},
+		definecolor(3) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.definecolor_macro(tp, args);
+			}
+		},
+		textcolor(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textcolor_macro(tp, args);
+			}
+		},
+		fgcolor(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.fgcolor_macro(tp, args);
+			}
+		},
+		bgcolor(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.bgcolor_macro(tp, args);
+			}
+		},
+		colorbox(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.colorbox_macro(tp, args);
+			}
+		},
+		fcolorbox(3) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.fcolorbox_macro(tp, args);
+			}
+		},
+		c(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.cedilla_macro(tp, args);
+			}
+		},
+		IJ(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.IJ_macro(tp, args);
+			}
+		},
+		ij(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.IJ_macro(tp, args);
+			}
+		},
+		TStroke(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.TStroke_macro(tp, args);
+			}
+		},
+		tStroke(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.TStroke_macro(tp, args);
+			}
+		},
+		Lcaron(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.LCaron_macro(tp, args);
+			}
+		},
+		tcaron(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.tcaron_macro(tp, args);
+			}
+		},
+		lcaron(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.LCaron_macro(tp, args);
+			}
+		},
+		k(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.ogonek_macro(tp, args);
+			}
+		},
+		cong(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.cong_macro(tp, args);
+			}
+		},
+		doteq(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.doteq_macro(tp, args);
+			}
+		},
+		// jlmDynamic(1,1) {
+		// @Override
+		// public Object handle(final TeXParser tp, final String[] args) {
+		// return PredefMacros.jlmDynamic_macro(tp, args);
+		// }
+		// },
+		jlmExternalFont(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.jlmExternalFont_macro(tp, args);
+			}
+		},
+		jlmText(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.jlmText_macro(tp, args);
+			}
+		},
+		jlmTextit(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.jlmTextit_macro(tp, args);
+			}
+		},
+		jlmTextbf(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.jlmTextbf_macro(tp, args);
+			}
+		},
+		jlmTextitbf(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.jlmTextitbf_macro(tp, args);
+			}
+		},
+		DeclareMathSizes(4) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.DeclareMathSizes_macro(tp, args);
+			}
+		},
+		magnification(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.magnification_macro(tp, args);
+			}
+		},
+		hline(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.hline_macro(tp, args);
+			}
+		},
+		tiny(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.size_macros(tp, args);
+			}
+		},
+		scriptsize(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.size_macros(tp, args);
+			}
+		},
+		footnotesize(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.size_macros(tp, args);
+			}
+		},
+		small(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.size_macros(tp, args);
+			}
+		},
+		normalsize(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.size_macros(tp, args);
+			}
+		},
+		large(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.size_macros(tp, args);
+			}
+		},
+		Large(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.size_macros(tp, args);
+			}
+		},
+		LARGE(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.size_macros(tp, args);
+			}
+		},
+		huge(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.size_macros(tp, args);
+			}
+		},
+		Huge(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.size_macros(tp, args);
+			}
+		},
+		jlatexmathcumsup(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.jlatexmathcumsup_macro(tp, args);
+			}
+		},
+		jlatexmathcumsub(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.jlatexmathcumsub_macro(tp, args);
+			}
+		},
+		hstrok(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.hstrok_macro(tp, args);
+			}
+		},
+		Hstrok(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.Hstrok_macro(tp, args);
+			}
+		},
+		dstrok(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.dstrok_macro(tp, args);
+			}
+		},
+		Dstrok(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.Dstrok_macro(tp, args);
+			}
+		},
+		dotminus(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.dotminus_macro(tp, args);
+			}
+		},
+		ratio(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.ratio_macro(tp, args);
+			}
+		},
+		smallfrowneq(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.smallfrowneq_macro(tp, args);
+			}
+		},
+		geoprop(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.geoprop_macro(tp, args);
+			}
+		},
+		minuscolon(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.minuscolon_macro(tp, args);
+			}
+		},
+		minuscoloncolon(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.minuscoloncolon_macro(tp, args);
+			}
+		},
+		simcolon(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.minuscoloncolon_macro(tp, args);
+			}
+		},
+		simcoloncolon(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.simcoloncolon_macro(tp, args);
+			}
+		},
+		approxcolon(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.approxcolon_macro(tp, args);
+			}
+		},
+		approxcoloncolon(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.approxcoloncolon_macro(tp, args);
+			}
+		},
+		coloncolon(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.coloncolon_macro(tp, args);
+			}
+		},
+		equalscolon(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.equalscolon_macro(tp, args);
+			}
+		},
+		equalscoloncolon(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.equalscoloncolon_macro(tp, args);
+			}
+		},
+		colonminus(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.colonminus_macro(tp, args);
+			}
+		},
+		coloncolonminus(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.coloncolonminus_macro(tp, args);
+			}
+		},
+		colonequals(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.colonequals_macro(tp, args);
+			}
+		},
+		coloncolonequals(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.coloncolonequals_macro(tp, args);
+			}
+		},
+		colonsim(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.colonsim_macro(tp, args);
+			}
+		},
+		coloncolonsim(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.coloncolonsim_macro(tp, args);
+			}
+		},
+		colonapprox(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.colonapprox_macro(tp, args);
+			}
+		},
+		coloncolonapprox(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.coloncolonapprox_macro(tp, args);
+			}
+		},
+		kern(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.kern_macro(tp, args);
+			}
+		},
+		_char("char", 1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.char_macro(tp, args);
+			}
+		},
+		roman(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.romannumeral_macro(tp, args);
+			}
+		},
+		Roman(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.romannumeral_macro(tp, args);
+			}
+		},
+		textcircled(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textcircled_macro(tp, args);
+			}
+		},
+		textsc(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.textsc_macro(tp, args);
+			}
+		},
+		sc(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.sc_macro(tp, args);
+			}
+		},
+		_comma(",", 0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.muskip_macros(tp, args);
+			}
+		},
+		_colon(":", 0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.muskip_macros(tp, args);
+			}
+		},
+		_semicolon(";", 0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.muskip_macros(tp, args);
+			}
+		},
+		thinspace(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.muskip_macros(tp, args);
+			}
+		},
+		medspace(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.muskip_macros(tp, args);
+			}
+		},
+		thickspace(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.muskip_macros(tp, args);
+			}
+		},
+		_pling("!", 0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.muskip_macros(tp, args);
+			}
+		},
+		negthinspace(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.muskip_macros(tp, args);
+			}
+		},
+		negmedspace(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.muskip_macros(tp, args);
+			}
+		},
+		negthickspace(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.muskip_macros(tp, args);
+			}
+		},
+		quad(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.quad_macro(tp, args);
+			}
+		},
+		surd(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.surd_macro(tp, args);
+			}
+		},
+		iint(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.iint_macro(tp, args);
+			}
+		},
+		iiint(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.iiint_macro(tp, args);
+			}
+		},
+		iiiint(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.iiiint_macro(tp, args);
+			}
+		},
+		idotsint(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.idotsint_macro(tp, args);
+			}
+		},
+		_int("int", 0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.int_macro(tp, args);
+			}
+		},
+		oint(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.oint_macro(tp, args);
+			}
+		},
+		lmoustache(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.lmoustache_macro(tp, args);
+			}
+		},
+		rmoustache(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.rmoustache_macro(tp, args);
+			}
+		},
+		_dash("-", 0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.insertBreakMark_macro(tp, args);
+			}
+		},
+		jlmXML(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.jlmXML_macro(tp, args);
+			}
+		},
+		above(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.above_macro(tp, args);
+			}
+		},
+		abovewithdelims(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.abovewithdelims_macro(tp, args);
+			}
+		},
+		st(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.st_macro(tp, args);
+			}
+		},
+		fcscore(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.fcscore_macro(tp, args);
+			}
+		};
+
+		private int numArgs;
+		private int arg1;
+		private int arg2;
+		private String name = null;
+
+		public String getName() {
+			return name == null ? name() : name;
+		}
+
+		LaTeXCommand(int arg1) {
+			this.arg1 = arg1;
+			numArgs = 1;
+		}
+
+		LaTeXCommand(int arg1, int arg2) {
+			this.arg1 = arg1;
+			this.arg2 = arg2;
+			numArgs = 2;
+		}
+
+		LaTeXCommand(String name, int arg1) {
+			this.arg1 = arg1;
+			this.name = name;
+			numArgs = 1;
+		}
+
+		LaTeXCommand(String name, int arg1, int arg2) {
+			this.arg1 = arg1;
+			this.arg2 = arg2;
+			this.name = name;
+			numArgs = 2;
+		}
+
+		abstract public Object executeMacro(TeXParser tp, String[] args);
+
 	}
+
 }

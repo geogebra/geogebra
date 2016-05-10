@@ -999,20 +999,18 @@ public class PredefMacros {
 			throw new ParseException("Invalid name for the command :" + newcom);
 		}
 
-		if (args[3] == null)
+		if (args[3] == null) {
 			nbArgs = new Integer(0);
-		else
+		} else {
 			nbArgs = Integer.parseInt(args[3]);
-
-		if (nbArgs == null) {
-			throw new ParseException("The optional argument should be an integer !");
 		}
-
-		if (args[4] == null)
+		
+		if (args[4] == null) {
 			NewCommandMacro.addNewCommand(newcom.substring(1), args[2], nbArgs.intValue());
-		else
+		} else {
 			NewCommandMacro.addNewCommand(newcom.substring(1), args[2], nbArgs.intValue(), args[4]);
-
+		}
+		
 		return null;
 	}
 
