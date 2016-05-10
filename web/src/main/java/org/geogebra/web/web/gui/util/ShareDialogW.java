@@ -113,15 +113,29 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// Twitter
 		Element head = Document.get().getElementsByTagName("head").getItem(0);
 		ScriptElement scriptE = Document.get().createScriptElement();
-		scriptE.setInnerText("!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');");
+
+		String scripttext = "  $('.popup').click(function(event) {var width  = 575,height = 400,"
+				+ "left   = ($(window).width()  - width)  / 2,"
+				+ "top    = ($(window).height() - height) / 2,"
+				+ "url    = this.href,"
+				+ "opts   = 'status=1' +"
+				+ "         ',width='  + width  +"
+				+ "         ',height=' + height +"
+				+ "         ',top='    + top    +"
+				+ "         ',left='   + left; " +
+
+				"    window.open(url, 'twitter', opts); " +
+
+				"    return false;});";
+
+		scriptE.setInnerText(scripttext);
 		head.appendChild(scriptE);
 
 		Anchor twitterlink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_twitter().getSafeUri().asString()).toString(), true,
-				"https://twitter.com/share",
+				"https://twitter.com/share?text=" + TUBEURL
+						+ sharingKey,
 				"_blank");
-		twitterlink.getElement().setAttribute("data-url", TUBEURL + sharingKey);
-		twitterlink.addStyleName("twitter-share-button");
 		iconPanel.add(twitterlink);
 
 		// Google+
