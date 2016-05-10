@@ -280,6 +280,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		return false;
 	}
 
+	@Override
 	public void closeAllSubmenu() {
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
 			modeToggleMenus.get(i).hideMenu();

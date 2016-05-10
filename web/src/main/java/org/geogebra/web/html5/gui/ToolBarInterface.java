@@ -10,5 +10,6 @@ public interface ToolBarInterface {
 
 	public void setVisible(boolean show);
 
+	void closeAllSubmenu();
 
 }

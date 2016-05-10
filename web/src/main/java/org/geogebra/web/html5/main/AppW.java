@@ -1563,6 +1563,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		getImageManager().triggerSingleImageLoading(imgFileName, geoImage);
 		geoImage.setImageFileName(imgFileName, width, height);
 		if (has(Feature.IMAGE_DIALOG_IMMEDIATELY)) {
+
 			getGuiManager().setImageCornersFromSelection(geoImage);
 			setDefaultCursor();
 			return;

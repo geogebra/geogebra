@@ -347,6 +347,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void loadImage(final GeoPoint loc, final Object object,
 			final boolean altDown, EuclidianView ev) {
+		((AppW) app).getToolbar().closeAllSubmenu();
 
 		if (altDown) {
 			// AppW.nativeConsole("alt down");

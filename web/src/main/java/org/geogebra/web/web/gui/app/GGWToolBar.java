@@ -1190,4 +1190,8 @@ getFirstMode(),
 	    
     }
 
+	public void closeAllSubmenu() {
+		toolBar.closeAllSubmenu();
+	}
+
 }
