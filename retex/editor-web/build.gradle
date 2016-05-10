@@ -28,6 +28,8 @@ gwt {
 	}*/
 }
 
+evaluationDependsOn ':renderer-web'
+evaluationDependsOn ':editor-base'
 
 dependencies {
 	compile project(':renderer-web')
