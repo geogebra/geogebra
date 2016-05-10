@@ -1902,6 +1902,7 @@ var __giac = [ {},
 { cat: "CompleteSquare", cmd:"CompleteSquare[((-9) * x^(10)) + 4]", result:"-9 x\u00B9\u2070 + 4", notes:"GGB-617" },
 { cat: "Evaluate", cmd:"SolveODE[2*y*y'=2*x]", result:"y = sqrt(-2 c_0 + x\u00B2)", notes:"" },
 { cat: "Evaluate", cmd:"Simplify[exp(x)/exp(x+1)]", result:"1 / \u212F", notes:"needs texpand() in Giac" },
+{ cat:"Limit", cmd:"Limit(((((1))*((x)^(2)))-(((1))*(((22/10))^(2))))/((x)-((22/10))),x,(22/10))", result:"22/5", notes:"" },
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 //{ cat: "Integral", cmd:"Integral[sqrt(sin(x))]", result:"?", notes:"" },
@@ -2072,6 +2073,7 @@ var problems = [
 { cat:"CFactor", cmd:"CFactor[sqrt(21) - 2sqrt(7) x \u03AF + 3sqrt(3) x\u00B2 \u03AF + 6x\u00B3]", result:"168 (x + \u03AF sqrt(3) / 2) (x\u00B2 - \u03AF sqrt(7) / 3) / 28", notes:"kills giac.js, #3057, Reduce gives (3x\u00B2 - \u03AF sqrt(7)) (2x + \u03AF sqrt(3)), Giac/JNI gives 168 (x + \u03AF sqrt(3) / 2) (x\u00B2 - \u03AF sqrt(7) / 3) / 28" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt((1355050424792466287485561)/(981647716744573948433529))]", result:"(1 / 990781366773 * sqrt(1355050424792466287485561))", notes:"#4008, too slow in JS" },
 { cat:"Evaluate", cmd:"Evaluate[sqrt((26188440946629826703822309)/(26942840480072343408400))]", result:"(1 / 26942840480072343408400 * sqrt(705590986846842175569890001809124163141017995600))", notes:"#4611" },
+
 
 
 ];
