@@ -1042,7 +1042,7 @@ __GGB__keysVar.uk.command = {
     "Unique.Syntax": "[ <\u0421\u043f\u0438\u0441\u043e\u043a> ]",
     "UnitOrthogonalVector": "\u041d\u043e\u0440\u043c\u0430\u043b\u044c\u043d\u0438\u0439\u041e\u0440\u0442",
     "UnitOrthogonalVector.Syntax": "[ <\u041f\u0440\u044f\u043c\u0430> ]\n[ <\u0412\u0456\u0434\u0440\u0456\u0437\u043e\u043a> ]\n[ <\u0412\u0435\u043a\u0442\u043e\u0440> ]",
-    "UnitOrthogonalVector.Syntax3D": "[ <Line> ]\n[ <Segment> ]\n[ <Vector> ]\n[ <Plane> ]",
+    "UnitOrthogonalVector.Syntax3D": "[ <\u041f\u0440\u044f\u043c\u0430> ]\n[ <\u0412\u0456\u0434\u0440\u0456\u0437\u043e\u043a> ]\n[ <\u0412\u0435\u043a\u0442\u043e\u0440> ]\n[ <\u041f\u043b\u043e\u0449\u0438\u043d\u0430> ]",
     "UnitOrthogonalVector.SyntaxCAS": "[ <\u0412\u0435\u043a\u0442\u043e\u0440> ]",
     "UnitVector": "\u041e\u0440\u0442",
     "UnitVector.Syntax": "[ <\u041e\u0431'\u0454\u043a\u0442> ]",
