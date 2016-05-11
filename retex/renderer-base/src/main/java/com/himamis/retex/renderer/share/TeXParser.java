@@ -580,11 +580,6 @@ public class TeXParser {
 					len = parseString.length();
 					pos++;
 					break;
-				case alpha:
-					parseString.replace(pos, pos + 1, "{\\alpha}");
-					len = parseString.length();
-					pos++;
-					break;
 				case SUPTWO:
 					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{2}");
 					len = parseString.length();
