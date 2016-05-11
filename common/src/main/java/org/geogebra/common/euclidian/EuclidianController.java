@@ -8973,6 +8973,8 @@ public abstract class EuclidianController {
 		setMouseLocation(event);
 		this.setViewHits(event.getType());
 
+		setMoveModeForFurnitures();
+
 		DrawList dl = getComboBoxHit();
 
 		if (!event.isRightClick() && dl != null) {
@@ -9030,7 +9032,6 @@ public abstract class EuclidianController {
 		}
 		this.pressedButton = view.getHitButton(mouseLoc, event.getType());
 		if (pressedButton != null) {
-			setMoveModeForFurnitures();
 			pressedButton.setPressed(true);
 			pressedButton.setDraggedOrContext(event.isMetaDown()
 					|| event.isPopupTrigger());
@@ -9090,9 +9091,20 @@ public abstract class EuclidianController {
 	}
 
 	private void setMoveModeForFurnitures() {
-		if (app.has(Feature.SELECT_MOVE_WHEN_FURNITURE_CLICKED)) {
-			app.setMoveMode();
+		if (!app.has(Feature.SELECT_MOVE_WHEN_FURNITURE_CLICKED)) {
+			return;
 		}
+
+		Hits hits = view.getHits();
+		if (!hits.isEmpty()) {
+			GeoElement f = hits.get(0);
+			if (f.isGeoBoolean() || f.isGeoButton() || f.isGeoInputBox()
+					|| (f.isGeoList() && ((GeoList) f).drawAsComboBox())
+					|| (f.isGeoNumeric() && ((GeoNumeric) f).isSlider())) {
+				app.setMoveMode();
+			}
+		}
+
 	}
 
 	protected boolean hasNoHitsDisablingModeForShallMoveView(Hits hits) {
