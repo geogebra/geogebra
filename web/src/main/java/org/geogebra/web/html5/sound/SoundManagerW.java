@@ -5,13 +5,12 @@ import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.sound.MidiSoundW.MidiSoundListenerW;
 
 /**
  * @author micro_000
  *
  */
-public class SoundManagerW implements SoundManager, MidiSoundListenerW {
+public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	private AppW app;
 
