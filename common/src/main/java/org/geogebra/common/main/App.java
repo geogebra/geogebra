@@ -3911,6 +3911,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_REDO:
 			return prerelease;
 
+		// MOB-455
+		case MOBILE_SAVE_BEFORE_NEW:
+			return prerelease;
+
 		case FRACTIONS:
 			return prerelease;
 		case AV_EXTENSIONS:
