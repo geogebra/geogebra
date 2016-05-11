@@ -48,9 +48,18 @@ public class CmdSecondAxis extends CommandProcessor {
 		}
 	}
 
-	protected AlgoAxisSecond getAlgoAxisSecond(Construction cons, String label,
+	/**
+	 * @param cons1
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param geoConicND
+	 *            conic
+	 * @return algo for axis (overridden in 3D)
+	 */
+	protected AlgoAxisSecond getAlgoAxisSecond(Construction cons1, String label,
 			GeoConicND geoConicND) {
 
-		return new AlgoAxisSecond(cons, label, geoConicND);
+		return new AlgoAxisSecond(cons1, label, geoConicND);
 	}
 }

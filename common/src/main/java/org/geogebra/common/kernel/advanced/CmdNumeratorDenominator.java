@@ -23,6 +23,8 @@ public class CmdNumeratorDenominator extends CommandProcessor {
 	 * 
 	 * @param kernel
 	 *            kernel
+	 * @param type
+	 *            Numerator or Denominator
 	 */
 	public CmdNumeratorDenominator(Kernel kernel, Commands type) {
 		super(kernel);

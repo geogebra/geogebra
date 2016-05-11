@@ -59,6 +59,14 @@ public class CmdPolar extends CommandProcessor {
 
 	/**
 	 * polar line to P relative to c
+	 * 
+	 * @param label
+	 *            output label
+	 * @param P
+	 *            point
+	 * @param c
+	 *            conic
+	 * @return polar
 	 */
 	protected GeoElement PolarLine(String label, GeoPointND P, GeoConicND c) {
 		AlgoPolarLine algo = new AlgoPolarLine(cons, label, c, P);
@@ -67,6 +75,14 @@ public class CmdPolar extends CommandProcessor {
 
 	/**
 	 * pole of line relative to c
+	 * 
+	 * @param label
+	 *            output label
+	 * @param line
+	 *            line
+	 * @param c
+	 *            conic
+	 * @return pole line
 	 */
 	protected GeoElement PolarPoint(String label, GeoLineND line, GeoConicND c) {
 		AlgoPolarPoint algo = new AlgoPolarPoint(cons, label, c, line);

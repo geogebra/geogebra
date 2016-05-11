@@ -33,16 +33,17 @@ public class CmdRoots extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-            case 1:
-                arg = resArgs(c);
-                if (ok[0] = arg[0].isGeoFunctionable()) {
-					EuclidianViewInterfaceCommon view = this.kernelA.getApplication().getActiveEuclidianView();
+		case 1:
+			arg = resArgs(c);
+			if (arg[0].isGeoFunctionable()) {
+				EuclidianViewInterfaceCommon view = this.kernelA
+						.getApplication().getActiveEuclidianView();
 
-                    AlgoRoots algo = new AlgoRoots(cons, c.getLabels(),
-                            ((GeoFunctionable) arg[0]).getGeoFunction(), view);
-                    return algo.getRootPoints();
-                }
-                throw argErr(app, c.getName(), getBadArg(ok, arg));
+				AlgoRoots algo = new AlgoRoots(cons, c.getLabels(),
+						((GeoFunctionable) arg[0]).getGeoFunction(), view);
+				return algo.getRootPoints();
+			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		case 3:
 			arg = resArgs(c);

@@ -159,24 +159,24 @@ public class CmdFunction extends CommandProcessor {
 
 					c.getArgument(1).resolveVariables();
 					c.getArgument(2).resolveVariables();
-
+					EvalInfo silent = new EvalInfo(false);
 					GeoFunction condFun;
 					if (c.getArgument(0).unwrap() instanceof Command) {
 						condFun = (GeoFunction) kernelA.getAlgebraProcessor()
 								.processCommand(
 										(Command) c.getArgument(0).unwrap(),
-										new EvalInfo(true))[0];
+										silent)[0];
 					} else {
 						c.getArgument(0).resolveVariables();
 						condFun = (GeoFunction) kernelA.getAlgebraProcessor()
 								.processFunction(
 										new Function(c.getArgument(0), fv),
-										new EvalInfo(false))[0];
+										silent)[0];
 					}
 					GeoElement low = kernelA.getAlgebraProcessor()
-							.processExpressionNode(c.getArgument(1))[0];
+							.processExpressionNode(c.getArgument(1), silent)[0];
 					GeoElement high = kernelA.getAlgebraProcessor()
-							.processExpressionNode(c.getArgument(2))[0];
+							.processExpressionNode(c.getArgument(2), silent)[0];
 					if (!(low instanceof NumberValue))
 						throw argErr(app, c.getName(), low);
 					if (!(high instanceof NumberValue))

@@ -30,7 +30,7 @@ public class CmdCAStoOperation extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError,
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError,
 			CircularDefinitionException {
 		ExpressionNode en = null;
 		GeoElement[] args = resArgs(c);
@@ -45,7 +45,7 @@ public class CmdCAStoOperation extends CommandProcessor {
 		default:
 			break;
 		}
-		return kernelA.getAlgebraProcessor().processExpressionNode(en);
+		return kernelA.getAlgebraProcessor().processExpressionNode(en, info);
 	}
 
 }

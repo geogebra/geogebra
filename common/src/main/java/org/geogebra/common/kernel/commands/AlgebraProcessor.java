@@ -637,8 +637,9 @@ public class AlgebraProcessor {
 	 *            whether to show a popup for undefined variables
 	 * @param callback0
 	 *            callback after the geos are created
-	 * @param redefineIndependent
-	 *            whether independent may be redefined
+	 * @param info
+	 *            flags: whether to label output, whether independent may be
+	 *            redefined etc
 	 * @return resulting geos
 	 */
 	public GeoElement[] processAlgebraCommandNoExceptionHandling(
@@ -976,6 +977,8 @@ public class AlgebraProcessor {
 	 *            handles exceptions
 	 * @param ve
 	 *            input expression
+	 * @param info
+	 *            processing information
 	 * @return processed expression
 	 */
 	public GeoElement[] processValidExpression(boolean storeUndo,
@@ -1501,8 +1504,8 @@ public class AlgebraProcessor {
 	 * 
 	 * @param ve
 	 *            expression to process
-	 * @param redefineIndependent
-	 *            == true: independent objects are redefined too
+	 * @param info
+	 *            processing information
 	 * @throws MyError
 	 *             e.g. on wrong syntax
 	 * @throws Exception
@@ -1722,6 +1725,8 @@ public class AlgebraProcessor {
 	 * 
 	 * @param fun
 	 *            function
+	 * @param info
+	 *            processing information
 	 * @return GeoFunction
 	 */
 	public final GeoElement[] processFunction(Function fun, EvalInfo info) {
@@ -2143,6 +2148,8 @@ public class AlgebraProcessor {
 	 * 
 	 * @param fun
 	 *            function
+	 * @param info
+	 *            processing information
 	 * @return GeoFunctionNVar
 	 */
 	public GeoElement[] processFunctionNVar(FunctionNVar fun, EvalInfo info) {
@@ -2195,6 +2202,8 @@ public class AlgebraProcessor {
 	 *            equation
 	 * @param def
 	 *            definition node (not same as equation in case of list1(2))
+	 * @param info
+	 *            processing information
 	 * @return line, conic, implicit poly or plane
 	 * @throws MyError
 	 *             e.g. for invalid operation
@@ -2266,6 +2275,9 @@ public class AlgebraProcessor {
 	/**
 	 * @param equ
 	 *            equation
+	 * @param def
+	 *            defining expression (either wrapped equation or something like
+	 *            list1(1))
 	 * @param allowConstant
 	 *            true to allow equations like 2=3 or x=x, false to throw
 	 *            MyError for those
@@ -2489,9 +2501,12 @@ public class AlgebraProcessor {
 	public final GeoElement[] processExpressionNode(ExpressionNode node) {
 		return processExpressionNode(node, new EvalInfo(true));
 	}
+	
 	/**
 	 * @param node
 	 *            expression
+	 * @param info
+	 *            processing information
 	 * @return resulting geos
 	 * @throws MyError
 	 *             on invalid operation
@@ -2711,7 +2726,8 @@ public class AlgebraProcessor {
 			for (int i = 0; i < size; i++) {
 				ExpressionNode en = evalList.getListElement(i).wrap();
 				// we only take one resulting object
-				GeoElement[] results = processExpressionNode(en);
+				GeoElement[] results = processExpressionNode(en,
+						new EvalInfo(false));
 				GeoElement geo = results[0];
 
 				// add to list

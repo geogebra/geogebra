@@ -30,7 +30,8 @@ public class CmdImplicitPoly extends CommandProcessor {
 		super(kernel);
 	}
 
-	private GeoElement doCommand(String a, GeoList b, Command c) {
+
+	private GeoElement doCommand(String a, GeoList b) {
 
 		AlgoImplicitPolyThroughPoints algo = new AlgoImplicitPolyThroughPoints(
 				cons, a, b);
@@ -51,8 +52,8 @@ public class CmdImplicitPoly extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		case 1:
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { doCommand(c.getLabel(), (GeoList) arg[0],
-						c) };
+				GeoElement[] ret = {
+						doCommand(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			} else if (arg[0] instanceof GeoFunctionNVar) {
 				FunctionNVar f = ((GeoFunctionNVar) arg[0]).getFunction();
@@ -84,7 +85,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 
 			GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.POINT);
 			if (list != null) {
-				GeoElement[] ret = { doCommand(c.getLabel(), list, c) };
+				GeoElement[] ret = { doCommand(c.getLabel(), list) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

@@ -48,9 +48,18 @@ public class CmdFirstAxis extends CommandProcessor {
 		}
 	}
 
-	protected AlgoAxisFirst getAlgoAxisFirst(Construction cons, String label,
+	/**
+	 * @param cons1
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param geoConicND
+	 *            conic
+	 * @return axis algo
+	 */
+	protected AlgoAxisFirst getAlgoAxisFirst(Construction cons1, String label,
 			GeoConicND geoConicND) {
 
-		return new AlgoAxisFirst(cons, label, geoConicND);
+		return new AlgoAxisFirst(cons1, label, geoConicND);
 	}
 }

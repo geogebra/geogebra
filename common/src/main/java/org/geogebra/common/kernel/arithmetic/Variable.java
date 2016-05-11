@@ -165,11 +165,10 @@ public class Variable extends ValidExpression {
 	public static ExpressionValue replacement(Kernel kernel, String name) {
 		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
 		if (name.endsWith("'")) {
-			GeoElement fn = kernel
-					.lookupLabel(name.substring(0, name.length() - 1));
-			if (fn instanceof GeoFunction) {
-				return new ExpressionNode(kernel, fn, Operation.DERIVATIVE,
-						new MyDouble(kernel, 1));
+
+			ExpressionValue ret = asDerivative(kernel, name);
+			if (ret != null) {
+				return ret;
 			}
 
 		}
@@ -230,6 +229,18 @@ public class Variable extends ValidExpression {
 		return piPower == 0 && degPower == 0 ? powers.multiply(geo2) : powers
 				.multiply(geo2)
 .multiply(piDegTo(piPower, degPower, kernel));
+	}
+
+	private static ExpressionValue asDerivative(Kernel kernel, String name) {
+		GeoElement fn = kernel
+				.lookupLabel(name.substring(0, name.length() - 1));
+		if (fn instanceof GeoFunction) {
+			return new ExpressionNode(kernel,
+					new ExpressionNode(kernel, fn, Operation.DERIVATIVE,
+							new MyDouble(kernel, 1)),
+					Operation.FUNCTION, new FunctionVariable(kernel));
+		}
+		return null;
 	}
 
 	private static ExpressionNode xyzPowers(Kernel kernel, int[] exponents) {

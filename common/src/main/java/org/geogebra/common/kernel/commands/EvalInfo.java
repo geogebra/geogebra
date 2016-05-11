@@ -84,4 +84,13 @@ public class EvalInfo {
 		return ret;
 	}
 
+	public EvalInfo withLabels(boolean b) {
+		if (b == labelOutput) {
+			return this;
+		}
+		EvalInfo ret = copy();
+		ret.labelOutput = b;
+		return ret;
+	}
+
 }
