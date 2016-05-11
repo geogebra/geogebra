@@ -9030,7 +9030,7 @@ public abstract class EuclidianController {
 		}
 		this.pressedButton = view.getHitButton(mouseLoc, event.getType());
 		if (pressedButton != null) {
-			app.setMoveMode();
+			setMoveModeForFurnitures();
 			pressedButton.setPressed(true);
 			pressedButton.setDraggedOrContext(event.isMetaDown()
 					|| event.isPopupTrigger());
@@ -9087,6 +9087,12 @@ public abstract class EuclidianController {
 			}
 		}
 		switchModeForMousePressed(event);
+	}
+
+	private void setMoveModeForFurnitures() {
+		if (app.has(Feature.SELECT_MOVE_WHEN_FURNITURE_CLICKED)) {
+			app.setMoveMode();
+		}
 	}
 
 	protected boolean hasNoHitsDisablingModeForShallMoveView(Hits hits) {
