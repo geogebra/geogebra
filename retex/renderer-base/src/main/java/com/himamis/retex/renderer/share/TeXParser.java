@@ -73,8 +73,6 @@ public class TeXParser {
 	private boolean arrayMode;
 	private boolean ignoreWhiteSpace = true;
 	private boolean isPartial;
-	private boolean autoNumberBreaking;
-
 	// the escape character
 	private static final char ESCAPE = '\\';
 
@@ -89,17 +87,12 @@ public class TeXParser {
 	// Percent char for comments
 	private static final char PERCENT = '%';
 
-	// used as second index in "delimiterNames" table (over or under)
-	private static final int OVER_DEL = 0;
-	private static final int UNDER_DEL = 1;
-
 	// script characters (for parsing)
 	private static final char SUB_SCRIPT = '_';
 	private static final char SUPER_SCRIPT = '^';
 	private static final char PRIME = '\'';
 	private static final char BACKPRIME = '\u2035';
-	private static final char DEGRE = '\u00B0';
-	public static final char alpha = '\u03B1';
+	private static final char DEGREE = '\u00B0';
 	private static final char SUPZERO = '\u2070';
 	private static final char SUPONE = '\u00B9';
 	private static final char SUPTWO = '\u00B2';
@@ -575,7 +568,8 @@ public class TeXParser {
 					len = parseString.length();
 					pos = spos;
 					break;
-				case DEGRE:
+				case DEGREE:
+					// surround in {} so that it works if there's a following character
 					parseString.replace(pos, pos + 1, "^{\\circ}");
 					len = parseString.length();
 					pos++;
@@ -737,6 +731,7 @@ public class TeXParser {
 					break;
 				default:
 
+					// https://jira.geogebra.org/browse/GGB-879
 					String tex = unicodeTeXmap.get(ch);
 					if (tex != null) {
 						// System.out.println("found " + tex);
@@ -1210,7 +1205,7 @@ public class TeXParser {
 		if (pos == len)
 			return null;
 
-		int ogroup = 1, spos;
+		int spos;
 		char ch = '\0';
 
 		skipWhiteSpace();
