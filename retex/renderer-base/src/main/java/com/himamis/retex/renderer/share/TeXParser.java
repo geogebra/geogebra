@@ -135,8 +135,9 @@ public class TeXParser {
 	protected static boolean isLoading = false;
 
 	private static final Set<String> unparsedContents = new HashSet<String>(6);
+
 	static {
-		//unparsedContents.add("jlmDynamic");
+		// unparsedContents.add("jlmDynamic");
 		unparsedContents.add("jlmText");
 		unparsedContents.add("jlmTextit");
 		unparsedContents.add("jlmTextbf");
@@ -147,9 +148,12 @@ public class TeXParser {
 	/**
 	 * Create a new TeXParser
 	 *
-	 * @param parseString the string to be parsed
-	 * @param formula the formula where to put the atoms
-	 * @throws ParseException if the string could not be parsed correctly
+	 * @param parseString
+	 *            the string to be parsed
+	 * @param formula
+	 *            the formula where to put the atoms
+	 * @throws ParseException
+	 *             if the string could not be parsed correctly
 	 */
 	public TeXParser(String parseString, TeXFormula formula) {
 		this(parseString, formula, true);
@@ -158,10 +162,14 @@ public class TeXParser {
 	/**
 	 * Create a new TeXParser
 	 *
-	 * @param isPartial if true certains exceptions are not thrown
-	 * @param parseString the string to be parsed
-	 * @param formula the formula where to put the atoms
-	 * @throws ParseException if the string could not be parsed correctly
+	 * @param isPartial
+	 *            if true certains exceptions are not thrown
+	 * @param parseString
+	 *            the string to be parsed
+	 * @param formula
+	 *            the formula where to put the atoms
+	 * @throws ParseException
+	 *             if the string could not be parsed correctly
 	 */
 	public TeXParser(boolean isPartial, String parseString, TeXFormula formula) {
 		this(parseString, formula, false);
@@ -172,11 +180,15 @@ public class TeXParser {
 	/**
 	 * Create a new TeXParser with or without a first pass
 	 *
-	 * @param isPartial if true certains exceptions are not thrown
-	 * @param parseString the string to be parsed
-	 * @param firstpass a boolean to indicate if the parser must replace the user-defined macros by
-	 *        their content
-	 * @throws ParseException if the string could not be parsed correctly
+	 * @param isPartial
+	 *            if true certains exceptions are not thrown
+	 * @param parseString
+	 *            the string to be parsed
+	 * @param firstpass
+	 *            a boolean to indicate if the parser must replace the
+	 *            user-defined macros by their content
+	 * @throws ParseException
+	 *             if the string could not be parsed correctly
 	 */
 	public TeXParser(boolean isPartial, String parseString, TeXFormula formula, boolean firstpass) {
 		this.formula = formula;
@@ -198,25 +210,34 @@ public class TeXParser {
 	/**
 	 * Create a new TeXParser with or without a first pass
 	 *
-	 * @param parseString the string to be parsed
-	 * @param firstpass a boolean to indicate if the parser must replace the user-defined macros by
-	 *        their content
-	 * @throws ParseException if the string could not be parsed correctly
+	 * @param parseString
+	 *            the string to be parsed
+	 * @param firstpass
+	 *            a boolean to indicate if the parser must replace the
+	 *            user-defined macros by their content
+	 * @throws ParseException
+	 *             if the string could not be parsed correctly
 	 */
 	public TeXParser(String parseString, TeXFormula formula, boolean firstpass) {
 		this(false, parseString, formula, firstpass);
 	}
 
 	/**
-	 * Create a new TeXParser in the context of an array. When the parser meets a & a new atom is
-	 * added in the current line and when a \\ is met, a new line is created.
+	 * Create a new TeXParser in the context of an array. When the parser meets
+	 * a & a new atom is added in the current line and when a \\ is met, a new
+	 * line is created.
 	 *
-	 * @param isPartial if true certains exceptions are not thrown
-	 * @param parseString the string to be parsed
-	 * @param aoa an ArrayOfAtoms where to put the elements
-	 * @param firstpass a boolean to indicate if the parser must replace the user-defined macros by
-	 *        their content
-	 * @throws ParseException if the string could not be parsed correctly
+	 * @param isPartial
+	 *            if true certains exceptions are not thrown
+	 * @param parseString
+	 *            the string to be parsed
+	 * @param aoa
+	 *            an ArrayOfAtoms where to put the elements
+	 * @param firstpass
+	 *            a boolean to indicate if the parser must replace the
+	 *            user-defined macros by their content
+	 * @throws ParseException
+	 *             if the string could not be parsed correctly
 	 */
 	public TeXParser(boolean isPartial, String parseString, ArrayOfAtoms aoa, boolean firstpass) {
 		this(isPartial, parseString, (TeXFormula) aoa, firstpass);
@@ -224,15 +245,21 @@ public class TeXParser {
 	}
 
 	/**
-	 * Create a new TeXParser in the context of an array. When the parser meets a & a new atom is
-	 * added in the current line and when a \\ is met, a new line is created.
+	 * Create a new TeXParser in the context of an array. When the parser meets
+	 * a & a new atom is added in the current line and when a \\ is met, a new
+	 * line is created.
 	 *
-	 * @param isPartial if true certains exceptions are not thrown
-	 * @param parseString the string to be parsed
-	 * @param aoa an ArrayOfAtoms where to put the elements
-	 * @param firstpass a boolean to indicate if the parser must replace the user-defined macros by
-	 *        their content
-	 * @throws ParseException if the string could not be parsed correctly
+	 * @param isPartial
+	 *            if true certains exceptions are not thrown
+	 * @param parseString
+	 *            the string to be parsed
+	 * @param aoa
+	 *            an ArrayOfAtoms where to put the elements
+	 * @param firstpass
+	 *            a boolean to indicate if the parser must replace the
+	 *            user-defined macros by their content
+	 * @throws ParseException
+	 *             if the string could not be parsed correctly
 	 */
 	public TeXParser(boolean isPartial, String parseString, ArrayOfAtoms aoa, boolean firstpass, boolean space) {
 		this(isPartial, parseString, (TeXFormula) aoa, firstpass, space);
@@ -240,43 +267,60 @@ public class TeXParser {
 	}
 
 	/**
-	 * Create a new TeXParser in the context of an array. When the parser meets a & a new atom is
-	 * added in the current line and when a \\ is met, a new line is created.
+	 * Create a new TeXParser in the context of an array. When the parser meets
+	 * a & a new atom is added in the current line and when a \\ is met, a new
+	 * line is created.
 	 *
-	 * @param parseString the string to be parsed
-	 * @param aoa an ArrayOfAtoms where to put the elements
-	 * @param firstpass a boolean to indicate if the parser must replace the user-defined macros by
-	 *        their content
-	 * @throws ParseException if the string could not be parsed correctly
+	 * @param parseString
+	 *            the string to be parsed
+	 * @param aoa
+	 *            an ArrayOfAtoms where to put the elements
+	 * @param firstpass
+	 *            a boolean to indicate if the parser must replace the
+	 *            user-defined macros by their content
+	 * @throws ParseException
+	 *             if the string could not be parsed correctly
 	 */
 	public TeXParser(String parseString, ArrayOfAtoms aoa, boolean firstpass) {
 		this(false, parseString, (TeXFormula) aoa, firstpass);
 	}
 
 	/**
-	 * Create a new TeXParser which ignores or not the white spaces, it's useful for mbox command
+	 * Create a new TeXParser which ignores or not the white spaces, it's useful
+	 * for mbox command
 	 *
-	 * @param isPartial if true certains exceptions are not thrown
-	 * @param parseString the string to be parsed
-	 * @param firstpass a boolean to indicate if the parser must replace the user-defined macros by
-	 *        their content
-	 * @param space a boolean to indicate if the parser must ignore or not the white space
-	 * @throws ParseException if the string could not be parsed correctly
+	 * @param isPartial
+	 *            if true certains exceptions are not thrown
+	 * @param parseString
+	 *            the string to be parsed
+	 * @param firstpass
+	 *            a boolean to indicate if the parser must replace the
+	 *            user-defined macros by their content
+	 * @param space
+	 *            a boolean to indicate if the parser must ignore or not the
+	 *            white space
+	 * @throws ParseException
+	 *             if the string could not be parsed correctly
 	 */
-	public TeXParser(boolean isPartial, String parseString, TeXFormula formula, boolean firstpass,
-			boolean space) {
+	public TeXParser(boolean isPartial, String parseString, TeXFormula formula, boolean firstpass, boolean space) {
 		this(isPartial, parseString, formula, firstpass);
 		this.ignoreWhiteSpace = space;
 	}
 
 	/**
-	 * Create a new TeXParser which ignores or not the white spaces, it's useful for mbox command
+	 * Create a new TeXParser which ignores or not the white spaces, it's useful
+	 * for mbox command
 	 *
-	 * @param parseString the string to be parsed
-	 * @param firstpass a boolean to indicate if the parser must replace the user-defined macros by
-	 *        their content
-	 * @param space a boolean to indicate if the parser must ignore or not the white space
-	 * @throws ParseException if the string could not be parsed correctly
+	 * @param parseString
+	 *            the string to be parsed
+	 * @param firstpass
+	 *            a boolean to indicate if the parser must replace the
+	 *            user-defined macros by their content
+	 * @param space
+	 *            a boolean to indicate if the parser must ignore or not the
+	 *            white space
+	 * @throws ParseException
+	 *             if the string could not be parsed correctly
 	 */
 	public TeXParser(String parseString, TeXFormula formula, boolean firstpass, boolean space) {
 		this(false, parseString, formula, firstpass);
@@ -365,14 +409,16 @@ public class TeXParser {
 	}
 
 	/**
-	 * Return a boolean indicating if the character @ is considered as a letter or not
+	 * Return a boolean indicating if the character @ is considered as a letter
+	 * or not
 	 */
 	public boolean isAtLetter() {
 		return (atIsLetter != 0);
 	}
 
 	/**
-	 * Return a boolean indicating if the parser is used to parse an array or not
+	 * Return a boolean indicating if the parser is used to parse an array or
+	 * not
 	 */
 	public boolean isArrayMode() {
 		return arrayMode;
@@ -406,7 +452,8 @@ public class TeXParser {
 	/**
 	 * Rewind the current parsed string
 	 * 
-	 * @param n the number of character to be rewinded
+	 * @param n
+	 *            the number of character to be rewinded
 	 * @return the new position in the parsed string
 	 */
 	public int rewind(int n) {
@@ -425,7 +472,8 @@ public class TeXParser {
 	/**
 	 * Add a new row when the parser is in array mode
 	 * 
-	 * @throws ParseException if the parser is not in array mode
+	 * @throws ParseException
+	 *             if the parser is not in array mode
 	 */
 	public void addRow() throws ParseException {
 		if (!arrayMode)
@@ -434,9 +482,9 @@ public class TeXParser {
 	}
 
 	private void firstpass() throws ParseException {
-		
+
 		HashMap<java.lang.Character, String> unicodeTeXmap = UnicodeTeX.getMap();
-		
+
 		if (len != 0) {
 			char ch;
 			String com;
@@ -445,268 +493,266 @@ public class TeXParser {
 			MacroInfo mac;
 			while (pos < len) {
 				ch = parseString.charAt(pos);
-				
 
-					switch (ch) {
-					case ESCAPE:
-						spos = pos;
-						com = getCommand();
-						if ("newcommand".equals(com) || "renewcommand".equals(com)) {
-							args = getOptsArgs(2, 2);
-							mac = MacroInfo.Commands.get(com);
-							try {
-								mac.invoke(this, args);
-							} catch (ParseException e) {
-								if (!isPartial) {
-									throw e;
-								}
-							}
-							parseString.delete(spos, pos);
-							len = parseString.length();
-							pos = spos;
-						} else if (NewCommandMacro.isMacro(com)) {
-							mac = MacroInfo.Commands.get(com);
-							args = getOptsArgs(mac.nbArgs, mac.hasOptions ? 1 : 0);
-							args[0] = com;
-							try {
-								parseString.replace(spos, pos, (String) mac.invoke(this, args));
-							} catch (ParseException e) {
-								if (!isPartial) {
-									throw e;
-								} else {
-									spos += com.length() + 1;
-								}
-							}
-							len = parseString.length();
-							pos = spos;
-						} else if ("begin".equals(com)) {
-							args = getOptsArgs(1, 0);
-							mac = MacroInfo.Commands.get(args[1] + "@env");
-							if (mac == null) {
-								if (!isPartial) {
-									throw new ParseException("Unknown environment: " + args[1] + " at position "
-											+ getLine() + ":" + getCol());
-								}
-							} else {
-								try {
-									String[] optarg = getOptsArgs(mac.nbArgs - 1, 0);
-									String grp = getGroup("\\begin{" + args[1] + "}", "\\end{" + args[1] + "}");
-									String expr = "{\\makeatletter \\" + args[1] + "@env";
-									for (int i = 1; i <= mac.nbArgs - 1; i++)
-										expr += "{" + optarg[i] + "}";
-									expr += "{" + grp + "}\\makeatother}";
-									parseString.replace(spos, pos, expr);
-									len = parseString.length();
-									pos = spos;
-								} catch (ParseException e) {
-									if (!isPartial) {
-										throw e;
-									}
-								}
-							}
-						} else if ("makeatletter".equals(com))
-							atIsLetter++;
-						else if ("makeatother".equals(com))
-							atIsLetter--;
-						else if (unparsedContents.contains(com)) {
-							getOptsArgs(1, 0);
-						}
-						break;
-					case PERCENT:
-						spos = pos++;
-						char chr;
-						while (pos < len) {
-							chr = parseString.charAt(pos++);
-							if (chr == '\r' || chr == '\n') {
-								break;
+				switch (ch) {
+				case ESCAPE:
+					spos = pos;
+					com = getCommand();
+					if ("newcommand".equals(com) || "renewcommand".equals(com)) {
+						args = getOptsArgs(2, 2);
+						mac = MacroInfo.Commands.get(com);
+						try {
+							mac.invoke(this, args);
+						} catch (ParseException e) {
+							if (!isPartial) {
+								throw e;
 							}
 						}
-						if (pos < len) {
-							pos--;
-						}
-						parseString.replace(spos, pos, "");
+						parseString.delete(spos, pos);
 						len = parseString.length();
 						pos = spos;
-						break;
-					case DEGRE:
-						parseString.replace(pos, pos + 1, "^{\\circ}");
-						len = parseString.length();
-						pos++;
-						break;
-					case alpha:
-						parseString.replace(pos, pos + 1, "{\\alpha}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPTWO:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{2}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPTHREE:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{3}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPONE:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{1}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPZERO:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{0}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPFOUR:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{4}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPFIVE:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{5}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPSIX:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{6}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPSEVEN:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{7}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPEIGHT:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{8}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPNINE:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{9}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPPLUS:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{+}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPMINUS:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{-}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPEQUAL:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{=}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPLPAR:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{(}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPRPAR:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{)}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUPN:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{n}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBTWO:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{2}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBTHREE:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{3}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBONE:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{1}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBZERO:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{0}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBFOUR:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{4}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBFIVE:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{5}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBSIX:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{6}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBSEVEN:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{7}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBEIGHT:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{8}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBNINE:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{9}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBPLUS:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{+}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBMINUS:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{-}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBEQUAL:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{=}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBLPAR:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{(}");
-						len = parseString.length();
-						pos++;
-						break;
-					case SUBRPAR:
-						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{)}");
-						len = parseString.length();
-						pos++;
-						break;
-					default:
-						
-						String tex = unicodeTeXmap.get(ch);
-						if (tex != null) {
-							//System.out.println("found " + tex);
-							parseString.replace(pos, pos + 1, "{\\"+tex+"}");
-							len = parseString.length();
-
+					} else if (NewCommandMacro.isMacro(com)) {
+						mac = MacroInfo.Commands.get(com);
+						args = getOptsArgs(mac.nbArgs, mac.hasOptions ? 1 : 0);
+						args[0] = com;
+						try {
+							parseString.replace(spos, pos, (String) mac.invoke(this, args));
+						} catch (ParseException e) {
+							if (!isPartial) {
+								throw e;
+							} else {
+								spos += com.length() + 1;
+							}
 						}
-
-						
-						pos++;
+						len = parseString.length();
+						pos = spos;
+					} else if ("begin".equals(com)) {
+						args = getOptsArgs(1, 0);
+						mac = MacroInfo.Commands.get(args[1] + "@env");
+						if (mac == null) {
+							if (!isPartial) {
+								throw new ParseException("Unknown environment: " + args[1] + " at position " + getLine()
+										+ ":" + getCol());
+							}
+						} else {
+							try {
+								String[] optarg = getOptsArgs(mac.nbArgs - 1, 0);
+								String grp = getGroup("\\begin{" + args[1] + "}", "\\end{" + args[1] + "}");
+								String expr = "{\\makeatletter \\" + args[1] + "@env";
+								for (int i = 1; i <= mac.nbArgs - 1; i++)
+									expr += "{" + optarg[i] + "}";
+								expr += "{" + grp + "}\\makeatother}";
+								parseString.replace(spos, pos, expr);
+								len = parseString.length();
+								pos = spos;
+							} catch (ParseException e) {
+								if (!isPartial) {
+									throw e;
+								}
+							}
+						}
+					} else if ("makeatletter".equals(com))
+						atIsLetter++;
+					else if ("makeatother".equals(com))
+						atIsLetter--;
+					else if (unparsedContents.contains(com)) {
+						getOptsArgs(1, 0);
 					}
-				
+					break;
+				case PERCENT:
+					spos = pos++;
+					char chr;
+					while (pos < len) {
+						chr = parseString.charAt(pos++);
+						if (chr == '\r' || chr == '\n') {
+							break;
+						}
+					}
+					if (pos < len) {
+						pos--;
+					}
+					parseString.replace(spos, pos, "");
+					len = parseString.length();
+					pos = spos;
+					break;
+				case DEGRE:
+					parseString.replace(pos, pos + 1, "^{\\circ}");
+					len = parseString.length();
+					pos++;
+					break;
+				case alpha:
+					parseString.replace(pos, pos + 1, "{\\alpha}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPTWO:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{2}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPTHREE:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{3}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPONE:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{1}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPZERO:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{0}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPFOUR:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{4}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPFIVE:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{5}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPSIX:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{6}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPSEVEN:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{7}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPEIGHT:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{8}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPNINE:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{9}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPPLUS:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{+}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPMINUS:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{-}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPEQUAL:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{=}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPLPAR:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{(}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPRPAR:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{)}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUPN:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{n}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBTWO:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{2}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBTHREE:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{3}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBONE:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{1}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBZERO:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{0}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBFOUR:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{4}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBFIVE:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{5}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBSIX:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{6}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBSEVEN:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{7}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBEIGHT:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{8}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBNINE:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{9}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBPLUS:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{+}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBMINUS:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{-}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBEQUAL:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{=}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBLPAR:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{(}");
+					len = parseString.length();
+					pos++;
+					break;
+				case SUBRPAR:
+					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{)}");
+					len = parseString.length();
+					pos++;
+					break;
+				default:
+
+					String tex = unicodeTeXmap.get(ch);
+					if (tex != null) {
+						// System.out.println("found " + tex);
+						parseString.replace(pos, pos + 1, "{\\" + tex + "}");
+						len = parseString.length();
+
+					}
+
+					pos++;
+				}
+
 			}
 			pos = 0;
 			len = parseString.length();
@@ -716,7 +762,8 @@ public class TeXParser {
 	/**
 	 * Parse the input string
 	 * 
-	 * @throws ParseException if an error is encountered during parsing
+	 * @throws ParseException
+	 *             if an error is encountered during parsing
 	 */
 	public void parse() throws ParseException {
 		if (len != 0) {
@@ -756,8 +803,7 @@ public class TeXParser {
 							pos++;
 						}
 
-						formula.add(new MathAtom(new TeXFormula(this, getDollarGroup(DOLLAR), false).root,
-								style));
+						formula.add(new MathAtom(new TeXFormula(this, getDollarGroup(DOLLAR), false).root, style));
 						if (doubleDollar) {
 							if (parseString.charAt(pos) == DOLLAR) {
 								pos++;
@@ -786,8 +832,8 @@ public class TeXParser {
 					group--;
 					pos++;
 					if (group == -1)
-						throw new ParseException("Found a closing '" + R_GROUP + "' without an opening '"
-								+ L_GROUP + "'!");
+						throw new ParseException(
+								"Found a closing '" + R_GROUP + "' without an opening '" + L_GROUP + "'!");
 					return;
 				case SUPER_SCRIPT:
 					formula.add(getScripts(ch));
@@ -816,8 +862,7 @@ public class TeXParser {
 					break;
 				case BACKPRIME:
 					if (ignoreWhiteSpace) {
-						formula.add(new CumulativeScriptsAtom(getLastAtom(), null, SymbolAtom
-								.get("backprime")));
+						formula.add(new CumulativeScriptsAtom(getLastAtom(), null, SymbolAtom.get("backprime")));
 					} else {
 						formula.add(convertCharacter(BACKPRIME, true));
 					}
@@ -899,9 +944,11 @@ public class TeXParser {
 	/**
 	 * Get the contents between two delimiters
 	 * 
-	 * @param openclose the opening and closing character (such $)
+	 * @param openclose
+	 *            the opening and closing character (such $)
 	 * @return the enclosed contents
-	 * @throws ParseException if the contents are badly enclosed
+	 * @throws ParseException
+	 *             if the contents are badly enclosed
 	 */
 	public String getDollarGroup(char openclose) throws ParseException {
 		int spos = pos;
@@ -924,10 +971,13 @@ public class TeXParser {
 	/**
 	 * Get the contents between two delimiters
 	 * 
-	 * @param open the opening character
-	 * @param close the closing character
+	 * @param open
+	 *            the opening character
+	 * @param close
+	 *            the closing character
 	 * @return the enclosed contents
-	 * @throws ParseException if the contents are badly enclosed
+	 * @throws ParseException
+	 *             if the contents are badly enclosed
 	 */
 	public String getGroup(char open, char close) throws ParseException {
 		if (pos == len)
@@ -965,10 +1015,13 @@ public class TeXParser {
 	/**
 	 * Get the contents between two strings as in \begin{foo}...\end{foo}
 	 * 
-	 * @param open the opening string
-	 * @param close the closing string
+	 * @param open
+	 *            the opening string
+	 * @param close
+	 *            the closing string
 	 * @return the enclosed contents
-	 * @throws ParseException if the contents are badly enclosed
+	 * @throws ParseException
+	 *             if the contents are badly enclosed
 	 */
 	public String getGroup(String open, String close) throws ParseException {
 		int group = 1;
@@ -984,7 +1037,8 @@ public class TeXParser {
 			char c = parseString.charAt(pos);
 			char c1;
 
-			if (prev != ESCAPE && c == ' ') {// Trick to handle case where close == "\end {foo}"
+			if (prev != ESCAPE && c == ' ') {// Trick to handle case where close
+												// == "\end {foo}"
 				while (pos < len && parseString.charAt(pos++) == ' ') {
 					buf.append(' ');
 				}
@@ -1053,7 +1107,8 @@ public class TeXParser {
 	 * Get the argument of a command in his atomic format
 	 * 
 	 * @return the corresponding atom
-	 * @throws ParseException if the argument is incorrect
+	 * @throws ParseException
+	 *             if the argument is incorrect
 	 */
 	public Atom getArgument() throws ParseException {
 		skipWhiteSpace();
@@ -1109,7 +1164,8 @@ public class TeXParser {
 				break;
 			case '&':
 				/*
-				 * if a & is encountered at the same level as \over we must break the argument
+				 * if a & is encountered at the same level as \over we must
+				 * break the argument
 				 */
 				if (ogroup == 1) {
 					ogroup--;
@@ -1121,14 +1177,14 @@ public class TeXParser {
 			case ESCAPE:
 				pos++;
 				/*
-				 * if a \\ or a \cr is encountered at the same level as \over we must break the
-				 * argument
+				 * if a \\ or a \cr is encountered at the same level as \over we
+				 * must break the argument
 				 */
 				if (pos < len && parseString.charAt(pos) == '\\' && ogroup == 1) {
 					ogroup--;
 					pos--;
-				} else if (pos < len - 1 && parseString.charAt(pos) == 'c'
-						&& parseString.charAt(pos + 1) == 'r' && ogroup == 1) {
+				} else if (pos < len - 1 && parseString.charAt(pos) == 'c' && parseString.charAt(pos + 1) == 'r'
+						&& ogroup == 1) {
 					ogroup--;
 					pos--;
 				}
@@ -1173,15 +1229,18 @@ public class TeXParser {
 	}
 
 	/**
-	 * Convert a character in the corresponding atom in using the file TeXFormulaSettings.xml for
-	 * non-alphanumeric characters
+	 * Convert a character in the corresponding atom in using the file
+	 * TeXFormulaSettings.xml for non-alphanumeric characters
 	 * 
-	 * @param c the character to be converted
+	 * @param c
+	 *            the character to be converted
 	 * @return the corresponding atom
-	 * @throws ParseException if the character is unknown
+	 * @throws ParseException
+	 *             if the character is unknown
 	 */
 	public Atom convertCharacter(char c, boolean oneChar) throws ParseException {
-		if (ignoreWhiteSpace) {// The Unicode Greek letters in math mode are not drawn with the
+		if (ignoreWhiteSpace) {// The Unicode Greek letters in math mode are not
+								// drawn with the
 								// Greek font
 			if (c >= 945 && c <= 969) {
 				return SymbolAtom.get(TeXFormula.symbolMappings[c]);
@@ -1223,11 +1282,11 @@ public class TeXParser {
 				}
 
 				if (!isPartial) {
-					throw new ParseException("Unknown character : '" + Character.toString(c) + "' (or "
-							+ ((int) c) + ")");
+					throw new ParseException(
+							"Unknown character : '" + Character.toString(c) + "' (or " + ((int) c) + ")");
 				} else {
-					return new ColorAtom(new RomanAtom(new TeXFormula("\\text{(Unknown char " + ((int) c)
-							+ ")}").root), null, ColorUtil.RED);
+					return new ColorAtom(new RomanAtom(new TeXFormula("\\text{(Unknown char " + ((int) c) + ")}").root),
+							null, ColorUtil.RED);
 				}
 			} else {
 				if (!ignoreWhiteSpace) {// we are in text mode
@@ -1248,8 +1307,7 @@ public class TeXParser {
 			}
 		} else {
 			// alphanumeric character
-			TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap
-					.get(Character.UnicodeBlock.BASIC_LATIN);
+			TeXFormula.FontInfos fontInfos = TeXFormula.externalFontMap.get(Character.UnicodeBlock.BASIC_LATIN);
 			if (fontInfos != null) {
 				if (oneChar) {
 					return new JavaFontRenderingAtom(Character.toString(c), fontInfos);
@@ -1321,8 +1379,7 @@ public class TeXParser {
 		if (!isPartial) {
 			throw new ParseException("Unknown symbol or command or predefined TeXFormula: '" + command + "'");
 		} else {
-			return new ColorAtom(new RomanAtom(new TeXFormula("\\backslash " + command).root), null,
-					ColorUtil.RED);
+			return new ColorAtom(new RomanAtom(new TeXFormula("\\backslash " + command).root), null, ColorUtil.RED);
 		}
 	}
 
@@ -1336,9 +1393,11 @@ public class TeXParser {
 	/**
 	 * Get the arguments ant the options of a command
 	 * 
-	 * @param nbArgs the number of arguments of the command
-	 * @param opts must be 1 if the options are found before the first argument and must be 2 if
-	 *        they must be found before the second argument
+	 * @param nbArgs
+	 *            the number of arguments of the command
+	 * @param opts
+	 *            must be 1 if the options are found before the first argument
+	 *            and must be 2 if they must be found before the second argument
 	 * @return an array containing arguments and at the end the options are put
 	 */
 	/* Should be improved */
@@ -1410,7 +1469,8 @@ public class TeXParser {
 	/**
 	 * return a string with command and options and args
 	 * 
-	 * @param command name of command
+	 * @param command
+	 *            name of command
 	 * @return
 	 * @author Juan Enrique Escobar Robles
 	 */
@@ -1450,7 +1510,8 @@ public class TeXParser {
 	}
 
 	/**
-	 * Processes the given TeX command (by parsing following command arguments in the parse string).
+	 * Processes the given TeX command (by parsing following command arguments
+	 * in the parse string).
 	 */
 	private Atom processCommands(String command) throws ParseException {
 		MacroInfo mac = MacroInfo.Commands.get(command);
@@ -1471,10 +1532,11 @@ public class TeXParser {
 	}
 
 	/**
-	 * Test the validity of the name of a command. It must contains only alpha characters and
-	 * eventually a @ if makeAtletter activated
+	 * Test the validity of the name of a command. It must contains only alpha
+	 * characters and eventually a @ if makeAtletter activated
 	 * 
-	 * @param com the command's name
+	 * @param com
+	 *            the command's name
 	 * @return the validity of the name
 	 */
 	public final boolean isValidName(String com) {
@@ -1500,10 +1562,11 @@ public class TeXParser {
 	}
 
 	/**
-	 * Test the validity of a character in a command. It must contains only alpha characters and
-	 * eventually a @ if makeAtletter activated
+	 * Test the validity of a character in a command. It must contains only
+	 * alpha characters and eventually a @ if makeAtletter activated
 	 * 
-	 * @param com the command's name
+	 * @param com
+	 *            the command's name
 	 * @return the validity of the name
 	 */
 	public final boolean isValidCharacterInCommand(char ch) {
