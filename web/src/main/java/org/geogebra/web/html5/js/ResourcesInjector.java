@@ -78,8 +78,6 @@ public class ResourcesInjector {
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.base64Js());
-		JavaScriptInjector
-		        .inject(GuiResourcesSimple.INSTANCE.realsenseinfoJs());
 
 	}
 
@@ -108,13 +106,6 @@ public class ResourcesInjector {
 		for (int i = 0; i < scripts.getLength(); i++) {
 			scripts.getItem(i).removeFromParent();
 		}
-	}
-
-	public static void injectRealSenseResources() {
-		// TODO check if jquery supports promises?
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.promiseJs());
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.realsenseJs());
-
 	}
 
 }

@@ -176,12 +176,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/android/document_viewer.png")
 	ImageResource viewSaved();
 
-	@Source("org/geogebra/web/resources/js/realsenseinfo-2.0.js")
-	TextResource realsenseinfoJs();
-
-	@Source("org/geogebra/web/resources/js/realsense-2.0.js")
-	TextResource realsenseJs();
-
 	@Source("org/geogebra/web/resources/js/promise-1.0.0.min.js")
 	TextResource promiseJs();
 }
