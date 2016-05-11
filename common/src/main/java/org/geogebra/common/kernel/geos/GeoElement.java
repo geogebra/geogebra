@@ -148,12 +148,6 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private static final char[] integerLabels = { 'n', 'i', 'j', 'k', 'l', 'm', };
 
-	private static final char[] greekLowerCase = { '\u03b1', '\u03b2',
-			'\u03b3', '\u03b4', '\u03b5', '\u03b6', '\u03b7', '\u03b8',
-			'\u03b9', '\u03ba', '\u03bb', '\u03bc', '\u03bd', '\u03be',
-			'\u03bf', '\u03c1', '\u03c3', '\u03c4', '\u03c5', '\u03d5',
-			'\u03c7', '\u03c8', '\u03c9' };
-
 	private static final char[] arabic = { '\u0623', '\u0628', '\u062a',
 			'\u062b', '\u062c', '\u062d', '\u062e', '\u062f', '\u0630',
 			'\u0631', '\u0632', '\u0633', '\u0634', '\u0635', '\u0636',
@@ -169,12 +163,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			'\u05E6', '\u05E7', '\u05E8', '\u05E9', '\u05EA'
 	};
 
-	private static final char[] greekUpperCase = { // Michael Borcherds
-			// 2008-02-23
-			'\u0391', '\u0392', '\u0393', '\u0394', '\u0395', '\u0396',
-			'\u0397', '\u0398', '\u0399', '\u039a', '\u039b', '\u039c',
-			'\u039d', '\u039e', '\u039f', '\u03a0', '\u03a1', '\u03a3',
-			'\u03a4', '\u03a5', '\u03a6', '\u03a7', '\u03a8', '\u03a9' };
 	/** label mode: name*/
 	public static final int LABEL_NAME = 0;
 	/** label mode: name + value*/
@@ -3316,7 +3304,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				// (el)
 				if (getLoc().isUsingLocalizedLabels()) {
 					if (getLoc().languageIs(Language.Greek.locale)) {
-						chars = greekUpperCase;
+						chars = Unicode.greekUpperCase;
 					} else if (getLoc().languageIs(Language.Arabic.locale)) {
 						// Arabic / Arabic (Morocco)
 						chars = arabic;
@@ -3372,7 +3360,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			} else if (isGeoVector() || evaluatesTo3DVector()) {
 				chars = vectorLabels;
 			} else if (isGeoAngle()) {
-				chars = greekLowerCase;
+				chars = Unicode.greekLowerCaseNoPi;
 			} else if (isGeoText()) {
 				return defaultNumberedLabel("text"); // Name.text
 			} else if (isGeoImage()) {

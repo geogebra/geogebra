@@ -105,6 +105,26 @@ public class Unicode {
 	public static final char Psi = '\u03A8';
 	public static final char Omega = '\u03A9';
 
+	/*
+	 * Greek lower case pi NOT included, also sigmaf \u03c2 omitted \u03d5 in
+	 * place of \u03c6
+	 */
+	public static final char[] greekLowerCaseNoPi = { '\u03b1', '\u03b2',
+			'\u03b3', '\u03b4', '\u03b5', '\u03b6', '\u03b7', '\u03b8',
+			'\u03b9', '\u03ba', '\u03bb', '\u03bc', '\u03bd', '\u03be',
+			'\u03bf', '\u03c1', '\u03c3', '\u03c4', '\u03c5', '\u03d5',
+			'\u03c7', '\u03c8', '\u03c9' };
+
+	/*
+	 * all 24 Greek UPPER CASE
+	 */
+	public static final char[] greekUpperCase = { // Michael Borcherds
+			// 2008-02-23
+			'\u0391', '\u0392', '\u0393', '\u0394', '\u0395', '\u0396',
+			'\u0397', '\u0398', '\u0399', '\u039a', '\u039b', '\u039c',
+			'\u039d', '\u039e', '\u039f', '\u03a0', '\u03a1', '\u03a3',
+			'\u03a4', '\u03a5', '\u03a6', '\u03a7', '\u03a8', '\u03a9' };
+
 	public static final char SQUARE_ROOT = '\u221a';
 	public static final String PLUSMINUS = "\u00b1";
 	public static final String NOTEQUAL = "\u2260";

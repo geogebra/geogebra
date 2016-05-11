@@ -306,49 +306,13 @@ public class TableSymbols {
 
 			{ " zeta(x) " }, };
 
-	public final static String[] greekLowerCase = { "\u03b1", "\u03b2",
-			"\u03b3", "\u03b4", "\u03b5", "\u03b6", "\u03b7", "\u03b8",
-			"\u03b9", "\u03ba", "\u03bb", "\u03bc", "\u03bd", "\u03be",
-			"\u03bf", Unicode.PI_STRING, "\u03c1", "\u03c3", "\u03c4",
-			"\u03c5",
-			"\u03d5", "\u03c7", "\u03c8", "\u03c9" };
-
-	public final static String[] greekUpperCaseFull = {
-
-	"\u0391", // GREEK CAPITAL LETTER ALPHA
-			"\u0392", // GREEK CAPITAL LETTER BETA
-			"\u0393", // GREEK CAPITAL LETTER GAMMA
-			"\u0394", // GREEK CAPITAL LETTER DELTA
-			"\u0395", // GREEK CAPITAL LETTER EPSILON
-			"\u0396", // GREEK CAPITAL LETTER ZETA
-			"\u0397", // GREEK CAPITAL LETTER ETA
-			"\u0398", // GREEK CAPITAL LETTER THETA
-			"\u0399", // GREEK CAPITAL LETTER IOTA
-			"\u039A", // GREEK CAPITAL LETTER KAPPA
-			"\u039B", // GREEK CAPITAL LETTER LAMDA
-			"\u039C", // GREEK CAPITAL LETTER MU
-			"\u039D", // GREEK CAPITAL LETTER NU
-			"\u039E", // GREEK CAPITAL LETTER XI
-			"\u039F", // GREEK CAPITAL LETTER OMICRON
-			"\u03A0", // GREEK CAPITAL LETTER PI
-			"\u03A1", // GREEK CAPITAL LETTER RHO
-			"\u03A3", // GREEK CAPITAL LETTER SIGMA
-			"\u03A4", // GREEK CAPITAL LETTER TAU
-			"\u03A5", // GREEK CAPITAL LETTER UPSILON
-			"\u03A6", // GREEK CAPITAL LETTER PHI
-			"\u03A7", // GREEK CAPITAL LETTER CHI
-			"\u03A8", // GREEK CAPITAL LETTER PSI
-			"\u03A9", // GREEK CAPITAL LETTER OMEGA
-
-	};
-
 	public final static String[] greekLettersPlusVariants() {
 		ArrayList<String> list = new ArrayList<String>();
-		for (int i = 0; i < greekUpperCaseFull.length; i++) {
-			list.add(greekUpperCaseFull[i]);
+		for (int i = 0; i < Unicode.greekUpperCase.length; i++) {
+			list.add(Unicode.greekUpperCase[i] + "");
 		}
-		for (int i = 0; i < greekLowerCase.length; i++) {
-			list.add(greekLowerCase[i]);
+		for (int i = 0; i < Unicode.greekLowerCaseNoPi.length; i++) {
+			list.add(Unicode.greekLowerCaseNoPi[i] + "");
 		}
 		list.add("\u03C6"); // LaTeX /varPhi (loopy phi)
 		list.add("\u03B5"); // LaTeX /varEpsilon

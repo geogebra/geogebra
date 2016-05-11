@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Unicode;
@@ -319,9 +318,9 @@ public class AxisModel {
 			break;
 		}
 		listener.addAxisLabelItem(defaultLabel);
-		String[] greeks = TableSymbols.greekLowerCase;
+		char[] greeks = Unicode.greekLowerCaseNoPi;
 		for (int i = 0; i < greeks.length; i++) {
-			listener.addAxisLabelItem(greeks[i]);
+			listener.addAxisLabelItem(greeks[i] + "");
 		}
 
 	}
