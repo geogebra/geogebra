@@ -98,6 +98,7 @@ public class TeXParser {
 	private static final char PRIME = '\'';
 	private static final char BACKPRIME = '\u2035';
 	private static final char DEGRE = '\u00B0';
+	public static final char alpha = '\u03B1';
 	private static final char SUPZERO = '\u2070';
 	private static final char SUPONE = '\u00B9';
 	private static final char SUPTWO = '\u00B2';
@@ -522,7 +523,12 @@ public class TeXParser {
 					pos = spos;
 					break;
 				case DEGRE:
-					parseString.replace(pos, pos + 1, "^\\circ");
+					parseString.replace(pos, pos + 1, "^{\\circ}");
+					len = parseString.length();
+					pos++;
+					break;
+				case alpha:
+					parseString.replace(pos, pos + 1, "{\\alpha}");
 					len = parseString.length();
 					pos++;
 					break;
@@ -530,6 +536,7 @@ public class TeXParser {
 					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{2}");
 					len = parseString.length();
 					pos++;
+					System.err.println("SUPTWO" + parseString);
 					break;
 				case SUPTHREE:
 					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{3}");
