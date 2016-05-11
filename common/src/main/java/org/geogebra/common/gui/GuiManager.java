@@ -804,6 +804,28 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return null;
 	}
 
+	public void ensure2ndCornerOnScreen(double x1, GeoPoint point) {
+		double x2 = point.inhomX;
+		EuclidianView ev = (EuclidianView) app.getActiveEuclidianView();
+		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
+		if (x2 > xmax) {
+			point.setCoords((x1 + 9 * xmax) / 10, point.inhomY, 1);
+			point.update();
+		}
+
+	}
+
+	private void ensure1stCornerOnScreen(GeoPoint point) {
+		EuclidianView ev = (EuclidianView) app.getActiveEuclidianView();
+		double xmin = ev.toRealWorldCoordX(0.0);
+		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
+		double ymin = ev.toRealWorldCoordY(0.0);
+		double ymax = ev.toRealWorldCoordY((double) (ev.getHeight()) + 1);
+		point.setCoords(xmin + (xmax - xmin) / 5, ymax - (ymax - ymin) / 5,
+				1.0);
+		point.update();
+	}
+
 	/**
 	 * Loads the image and sets its corners
 	 * 
@@ -826,6 +848,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			point1 = new GeoPoint(app.getKernel().getConstruction());
 			point1.setCoords(0, 0, 1.0);
 			point1.setLabel(null);
+			ensure1stCornerOnScreen(point1);
 			corners.add(point1);
 		} else if (corners.size() == 1) {
 			point1 = corners.get(0);
@@ -842,15 +865,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			point2.setLabel(null);
 
 			// make sure 2nd corner is on screen
-			double x1 = point1.inhomX;
-			double x2 = point2.inhomX;
-			EuclidianView ev = (EuclidianView) app.getActiveEuclidianView();
-			double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
-			if (x2 > xmax) {
-				point2.setCoords((x1 + 9 * xmax) / 10, point2.inhomY, 1);
-				point2.update();
-			}
-
+			ensure2ndCornerOnScreen(point1.inhomX, point2);
 		}
 		geoImage.setLabel(null);
 		//
