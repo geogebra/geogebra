@@ -112,12 +112,6 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 											}
 
-											public void setActive(boolean b) {
-												// TODO Auto-generated method
-												// stub
-
-											}
-
 											public void showCommandError(
 													String command,
 													String message) {
@@ -437,11 +431,6 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 			public void showError(String msg) {
 				app.getDefaultErrorHandler().showError(msg);
-
-			}
-
-			public void setActive(boolean b) {
-				// TODO Auto-generated method stub
 
 			}
 

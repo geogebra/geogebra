@@ -37,8 +37,23 @@ public class SerializeLaTeX {
 	@Test
 	public void testExpr() {
 		checkCannon("1 * 2", "1*2");
+		checkCannon("1 == 2", "1==2");
+		checkCannon("1 = 2", "1=2");
 		checkCannon("(1 * 2)", "(1*2)");
+
+	}
+
+	@Test
+	public void testDiv() {
+		checkCannonDiv("1/|2|", "(1)/(2)");
+		checkCannonDiv("1/|(2/|3|)|", "(1)/(((2)/(3)))");
 		
+	}
+
+	private static void checkCannonDiv(String input, String output) {
+		checkCannon(input.replace("|", "" + Unicode.ZERO_WIDTH_SPACE),
+				output);
+
 	}
 
 	@Test
@@ -57,17 +72,25 @@ public class SerializeLaTeX {
 	public void testPoint() {
 		checkCannon("(1, 2)", "(1,2)");
 		checkCannon("(1; 2)", "(1;2)");
+		checkCannon("(1, 2, 3)", "(1,2,3)");
+		checkCannon("(1; 2; 3)", "(1;2;3)");
 
 	}
 
-	private void checkCannon(String input, String output) {
+	@Test
+	public void testCommand() {
+		checkCannon("turtle1=Turtle[]", "turtle1=Turtle[]");
+		checkCannon("Turtle[]", "Turtle[]");
+		checkCannon("Turtle[1*3,7]", "Turtle[1*3,7]");
+	}
+
+	private static void checkCannon(String input, String output) {
 		MathFormula mf = null;
 		try {
 			mf = parser.parse(input);
 			System.out.println(mf.getRootComponent());
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Assert.assertNull(e);
 		}
 
 		Assert.assertEquals(output, serializer.serialize(mf));

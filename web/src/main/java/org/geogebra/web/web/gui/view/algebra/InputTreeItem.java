@@ -960,7 +960,8 @@ public class InputTreeItem extends RadioTreeItem implements
 		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
 			app.getKernel()
 					.getInputPreviewHelper()
-					.updatePreviewFromInputBar(editor.getText(),
+					.updatePreviewFromInputBar(
+							EquationEditor.stopCommon(editor.getText()),
 							AlgebraInputW.getWarningHandler(this, app));
 		}
 	}

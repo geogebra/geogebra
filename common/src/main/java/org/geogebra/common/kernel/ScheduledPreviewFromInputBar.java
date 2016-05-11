@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -60,7 +61,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			maxLength = str.length();
 			validInput = null;
 		} else {
-			Log.debug(str.length() + " / " + maxLength + " time "
+			Log.debug(str + (validInput == input ? "OK" : "INVALID") + " time "
 					+ (System.currentTimeMillis() - start));
 			maxLength = DEFAULT_MAX_LENGTH;
 		}
@@ -117,6 +118,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 							.processAlgebraCommandNoExceptionHandling(ve, false,
 									validation, false, null, info);
 					if (previewGeos != null) {
+						InputHelper.centerText(previewGeos, kernel
+								.getApplication().getActiveEuclidianView());
 						for (GeoElement geo : previewGeos) {
 							geo.setSelectionAllowed(false);
 
