@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.kernel.Kernel;
 
 /**
  * @author michael
@@ -18,13 +19,15 @@ public class GeoGebraPreferencesXML {
 	/**
 	 * @return defaults as XML
 	 */
-	public static String getXML(Localization loc) {
+	public static String getXML(App app) {
 
-		int rightAngleStyle = loc.getRightAngleStyle();
+		int rightAngleStyle = app.getLocalization().getRightAngleStyle();
 
 		return "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 				+ "<geogebra format=\"5.0\" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/ggb.xsd\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >"
-				+ "<gui>" + "<window width=\""
+				+ "<gui>"
+
+				+ "<window width=\""
 
 				// dynamic bit!
 				+ defaultWindowX
@@ -61,14 +64,31 @@ public class GeoGebraPreferencesXML {
 				+ "<lineStyle axes=\"1\" grid=\"0\"/>"
 				+ "<axis id=\"0\" show=\"true\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\" axisCross=\"0.0\" positiveAxis=\"false\"/>"
 				+ "<axis id=\"1\" show=\"true\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\" axisCross=\"0.0\" positiveAxis=\"false\"/>"
-				+ "</euclidianView>" + "<kernel>"
-				+ "<continuous val=\"false\"/>" + "<decimals val=\"2\"/>"
-				+ "<angleUnit val=\"degree\"/>" + "<algebraStyle val=\"0\"/>"
+				+ "</euclidianView>"
+
+				+ "<kernel>"
+				+ "<continuous val=\"false\"/>"
+
+				+ "<decimals val=\"2\"/>"
+				+ "<angleUnit val=\"degree\"/>"
+
+				+ "<algebraStyle val=\""
+
+		// dynamic bit!
+				+ (app.has(Feature.AV_DEFINITION_AND_VALUE)
+						? Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
+						: Kernel.ALGEBRA_STYLE_VALUE)
+
+				+ "\"/>"
+
 				+ "<coordStyle val=\"0\"/>"
 				+ "<localization digits=\"false\" labels=\"true\"/>"
 				+ "<angleFromInvTrig val=\"false\"/>"
 				+ "<casSettings timeout=\"5\" expRoots=\"true\"/>"
-				+ "</kernel>" + "<scripting blocked=\"false\"/>"
+
+				+ "</kernel>"
+
+				+ "<scripting blocked=\"false\"/>"
 				+ "</geogebra>";
 	}
 

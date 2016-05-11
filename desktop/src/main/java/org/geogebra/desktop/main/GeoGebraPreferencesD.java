@@ -648,6 +648,6 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 */
 	private String getDefaultPreferences(App app) {
 
-		return GeoGebraPreferencesXML.getXML(app.getLocalization());
+		return GeoGebraPreferencesXML.getXML(app);
 	}
 }
