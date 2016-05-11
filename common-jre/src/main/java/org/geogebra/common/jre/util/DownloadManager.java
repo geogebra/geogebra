@@ -42,14 +42,14 @@ public class DownloadManager {
 
 			if (srcConnection.getContentLength() == 0) {
 				// eg running from Eclipse
-				App.debug(src.getFile() + " not found");
+				Log.debug(src.getFile() + " not found");
 				return;
 			}
 			// Check if this file has already been downloaded:
 			if (srcConnection.getLastModified() <= dest.lastModified()
 					&& srcConnection.getContentLength() == dest.length()) {
 				// Yes. No extra download is required. :-)
-				App.debug(src.getFile() + " has already been downloaded to "
+				Log.debug(src.getFile() + " has already been downloaded to "
 						+ dest.toString());
 				return;
 			}
