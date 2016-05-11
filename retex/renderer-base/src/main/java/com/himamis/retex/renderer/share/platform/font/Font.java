@@ -68,4 +68,6 @@ public interface Font {
 	
 	public Font deriveFont(int type);
 
+	public boolean isEqual(Font f);
+
 }

@@ -82,4 +82,9 @@ public class FontD implements Font {
 		}
 		return helper;
 	}
+
+	@Override
+	public boolean isEqual(Font f) {
+		return impl.equals(((FontD)f).impl);
+	}
 }
