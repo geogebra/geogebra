@@ -148,8 +148,11 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// Pinterest
 		// iconPanel.add(new
 		// NoDragImage(AppResources.INSTANCE.social_twitter().getSafeUri().asString()));
+
 		// OneNote
-		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_onenote().getSafeUri().asString()));
+		iconPanel.add(new Anchor(new NoDragImage(AppResources.INSTANCE
+				.social_onenote().getSafeUri().asString()).toString(), true,
+				"http://tube.geogebra.org/material/onenote/id/" + sharingKey));
 		// Edmodo
 		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_edmodo().getSafeUri().asString()));
 		// Classroom
