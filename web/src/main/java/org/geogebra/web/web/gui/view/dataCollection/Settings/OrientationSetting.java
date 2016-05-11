@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.dataCollection.Settings;
 
 import org.geogebra.common.plugin.SensorLogger.Types;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 
@@ -27,8 +28,8 @@ public class OrientationSetting extends SensorSetting {
 
 	@Override
 	protected void addContent() {
-		addRow("\u03B1", Types.ORIENTATION_X);
-		addRow("\u03B2", Types.ORIENTATION_Y);
-		addRow("\u03B3", Types.ORIENTATION_Z);
+		addRow(Unicode.alpha + "", Types.ORIENTATION_X);
+		addRow(Unicode.beta + "", Types.ORIENTATION_Y);
+		addRow(Unicode.gamma + "", Types.ORIENTATION_Z);
 	}
 }
