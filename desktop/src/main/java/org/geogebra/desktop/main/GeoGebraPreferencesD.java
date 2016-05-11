@@ -111,12 +111,13 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 
 	// preferences node name for GeoGebra
 	private Preferences ggbPrefs, ggbPrefsSystem;
+
 	{
 
 		try {
 			if (PROPERTY_FILEPATH == null) {
-				ggbPrefs = Preferences.userRoot().node(
-					GeoGebraConstants.PREFERENCES_ROOT);
+				ggbPrefs = Preferences.userRoot()
+						.node(GeoGebraConstants.PREFERENCES_ROOT);
 			}
 		} catch (Exception e) {
 			// thrown when running unsigned JAR
@@ -124,22 +125,24 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		}
 
 		try {
-			if (PROPERTY_FILEPATH == null
-					&& Preferences.systemRoot().nodeExists(
-					GeoGebraConstants.PREFERENCES_ROOT_GLOBAL)) {
-				ggbPrefsSystem = Preferences.systemRoot().node(
-						GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
-				// System.out.println("system preference "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL+
+			if (PROPERTY_FILEPATH == null && Preferences.systemRoot()
+					.nodeExists(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL)) {
+				ggbPrefsSystem = Preferences.systemRoot()
+						.node(GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
+				// System.out.println("system preference
+				// "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL+
 				// " exists");
 			} else {
 				ggbPrefsSystem = null;
-				// System.out.println("system preference "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL+
+				// System.out.println("system preference
+				// "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL+
 				// " does not exist");
 			}
 		} catch (Exception e) {
 			// thrown when running unsigned JAR
 			ggbPrefsSystem = null;
-			// System.out.println("Error : system preference "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
+			// System.out.println("Error : system preference
+			// "+GeoGebraConstants.PREFERENCES_ROOT_GLOBAL);
 		}
 
 	}
@@ -179,8 +182,8 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		if (singleton == null) {
 			if (!(PROPERTY_FILEPATH == null)) { // Application.debug(PROPERTY_FILENAME);
 				singleton = GeoGebraPortablePreferences.getPref();
-			}// if (else leave it to original)
-		}// if
+			} // if (else leave it to original)
+		} // if
 			// --- New code end
 		if (singleton == null)
 			singleton = new GeoGebraPreferencesD();
@@ -395,7 +398,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		byte[] macros = app.getMacroFileAsByteArray();
 
 		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
-			
+
 			// make sure folder exists
 			new File(PREFS_PATH).mkdirs();
 
@@ -543,16 +546,14 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 
 		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
 
-			String userPrefsXML = UtilD
-.loadFileIntoString(WINDOWS_USERS_PREFS);
-			String objectPrefsXML = UtilD.loadFileIntoString(
-WINDOWS_OBJECTS_PREFS);
+			String userPrefsXML = UtilD.loadFileIntoString(WINDOWS_USERS_PREFS);
+			String objectPrefsXML = UtilD
+					.loadFileIntoString(WINDOWS_OBJECTS_PREFS);
 
-			byte[] ggtFile = UtilD.loadFileIntoByteArray(
-WINDOWS_MACROS_PREFS);
+			byte[] ggtFile = UtilD.loadFileIntoByteArray(WINDOWS_MACROS_PREFS);
 
 			if (ggtFile != null) {
-			app.loadMacroFileFromByteArray(ggtFile, true);
+				app.loadMacroFileFromByteArray(ggtFile, true);
 			}
 
 			if (userPrefsXML != null) {
@@ -590,8 +591,7 @@ WINDOWS_MACROS_PREFS);
 			// Application3D!
 			{
 				String xmlDef = getPref().loadPreference(
-						XML_DEFAULT_OBJECT_PREFERENCES,
-						factoryDefaultXml);
+						XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
 				if (!xmlDef.equals(factoryDefaultXml)) {
 					boolean eda = app.getKernel().getElementDefaultAllowed();
 					app.getKernel().setElementDefaultAllowed(true);
@@ -621,7 +621,7 @@ WINDOWS_MACROS_PREFS);
 	 * Clears all user preferences.
 	 */
 	public void clearPreferences(App app) {
-		
+
 		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
 			try {
 				new File(WINDOWS_OBJECTS_PREFS).delete();
@@ -634,7 +634,7 @@ WINDOWS_MACROS_PREFS);
 
 			return;
 		}
-		
+
 		try {
 			ggbPrefs.clear();
 			ggbPrefs.flush();
