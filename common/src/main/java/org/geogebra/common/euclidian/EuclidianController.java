@@ -3542,6 +3542,7 @@ public abstract class EuclidianController {
 			return false;
 		}
 
+
 		if (app.getGuiManager() != null) {// FIXME: fix this better
 			app.getGuiManager().loadImage(loc, null, altDown, view);
 		}
@@ -9029,6 +9030,7 @@ public abstract class EuclidianController {
 		}
 		this.pressedButton = view.getHitButton(mouseLoc, event.getType());
 		if (pressedButton != null) {
+			app.setMoveMode();
 			pressedButton.setPressed(true);
 			pressedButton.setDraggedOrContext(event.isMetaDown()
 					|| event.isPopupTrigger());
