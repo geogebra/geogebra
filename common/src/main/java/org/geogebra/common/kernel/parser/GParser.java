@@ -11,7 +11,7 @@ public class GParser extends Parser {
 
 	@Override
 	public ParseException generateParseException() {
-		return new ParseException();
+		return new ParseException("Unexpected token" + token.image);
 
 	}
 

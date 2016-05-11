@@ -118,9 +118,9 @@ public abstract class CommandProcessor {
 	 *             if processing of some argument causes error (i.e. wrong
 	 *             syntax of subcommand)
 	 */
-	protected final GeoElement[] resArgs(Command c, EvalInfo cmdInfo)
+	protected final GeoElement[] resArgs(Command c, EvalInfo info)
 			throws MyError {
-		EvalInfo info = cmdInfo.withScripting(false);
+
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 

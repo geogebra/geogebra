@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -2241,15 +2242,17 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	 * Performs all GeoScriptActions contained in this list
 	 * @return number of actions that were performed
 	 */
-	public int performScriptActions() {
+	public int performScriptActions(EvalInfo info) {
 		int actions = 0;
 		for (int i = 0; i < size(); i++) {
 			if (get(i) instanceof GeoScriptAction) {
-				((GeoScriptAction) get(i)).perform();
+				if (info.isScripting()) {
+					((GeoScriptAction) get(i)).perform();
+				}
 				actions++;
 			}
 			if (get(i) instanceof GeoList)
-				actions += ((GeoList) get(i)).performScriptActions();
+				actions += ((GeoList) get(i)).performScriptActions(info);
 		}
 		return actions;
 	}

@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
@@ -163,6 +164,15 @@ public class Variable extends ValidExpression {
 	 */
 	public static ExpressionValue replacement(Kernel kernel, String name) {
 		// holds powers of x,y,z: eg {"xxx","y","zzzzz"}
+		if (name.endsWith("'")) {
+			GeoElement fn = kernel
+					.lookupLabel(name.substring(0, name.length() - 1));
+			if (fn instanceof GeoFunction) {
+				return new ExpressionNode(kernel, fn, Operation.DERIVATIVE,
+						new MyDouble(kernel, 1));
+			}
+
+		}
 		int[] exponents = new int[] { 0, 0, 0, 0 };
 		int i;
 		ExpressionValue geo2 = null;

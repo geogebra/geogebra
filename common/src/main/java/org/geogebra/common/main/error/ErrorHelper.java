@@ -1,6 +1,7 @@
 package org.geogebra.common.main.error;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -9,7 +10,11 @@ import org.geogebra.common.util.debug.Log;
 public class ErrorHelper {
 	public static void handleException(Exception e, App app,
 			ErrorHandler handler) {
-		e.printStackTrace();
+		if (e instanceof ParseException) {
+			Log.error(e.getMessage());
+		} else {
+			e.printStackTrace();
+		}
 		Localization loc = app.getLocalization();
 		app.initTranslatedCommands();
 		if (e instanceof CircularDefinitionException) {

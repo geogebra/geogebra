@@ -314,6 +314,8 @@ public class AlgebraProcessor {
 	 *            true to allow redefinition of free objects
 	 * @param storeUndoInfo
 	 *            true to make undo step
+	 * @param handler
+	 *            error handler
 	 * 
 	 * @param callback
 	 *            receives changed geo
@@ -1677,7 +1679,7 @@ public class AlgebraProcessor {
 				return new GeoElement[] {};
 			} else if (ret != null && ret.length > 0
 					&& ret[0] instanceof GeoList) {
-				int actions = ((GeoList) ret[0]).performScriptActions();
+				int actions = ((GeoList) ret[0]).performScriptActions(info);
 				if (actions > 0) {
 					ret[0].remove();
 					return new GeoElement[] {};
