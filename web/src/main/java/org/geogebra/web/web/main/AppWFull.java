@@ -13,9 +13,11 @@ import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GOptionPane;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
@@ -315,7 +317,9 @@ public abstract class AppWFull extends AppW {
 		kernel.removeAllMacros();
 		// reload the saved/(default) preferences
 		GeoGebraPreferencesW.getPref().loadXMLPreferences(this);
-
+		if (has(Feature.AV_DEFINITION_AND_VALUE)) {
+			kernel.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
+		}
 		resetAllToolbars();
 	}
 
