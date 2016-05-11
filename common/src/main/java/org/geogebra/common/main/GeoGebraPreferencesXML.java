@@ -46,14 +46,15 @@ public class GeoGebraPreferencesXML {
 				+ "<tooltipSettings language=\"\" timeout=\"0\"/>"
 				+ "</gui>"
 				+ "<euclidianView>"
- + "<size width=\"640\" height=\"480\"/>"
+
+				+ "<size width=\"640\" height=\"480\"/>"
 				+ "<coordSystem xZero=\"215.0\" yZero=\"315.0\" scale=\"50.0\" yscale=\"50.0\"/>"
 				+ "<evSettings axes=\"true\" grid=\"false\" gridIsBold=\"false\" pointCapturing=\"3\" rightAngleStyle=\""
 
 		// dynamic
-				+ rightAngleStyle +
+				+ rightAngleStyle
 
-		"\" checkboxSize=\"26\" gridType=\"0\"/>"
+				+ "\" checkboxSize=\"26\" gridType=\"0\"/>"
 				+ "<bgColor r=\"255\" g=\"255\" b=\"255\"/>"
 				+ "<axesColor r=\"0\" g=\"0\" b=\"0\"/>"
 				+ "<gridColor r=\"192\" g=\"192\" b=\"192\"/>"
