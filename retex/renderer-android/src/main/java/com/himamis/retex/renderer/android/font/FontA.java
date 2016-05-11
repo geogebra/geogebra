@@ -1,9 +1,9 @@
 package com.himamis.retex.renderer.android.font;
 
-import android.graphics.Typeface;
-
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.TextAttribute;
+
+import android.graphics.Typeface;
 
 import java.util.Map;
 
@@ -59,7 +59,8 @@ public class FontA implements Font {
     
 	@Override
 	public boolean isEqual(Font f) {
-        return mName.equals(((FontA) f).mName) && mTypeface.equals(((FontA) f).mTypeface) && mSize == ((FontA) f).mSize;
+        FontA font = (FontA) f;
+        return mName.equals(font.mName) && mTypeface.equals(font.mTypeface) && mSize == font.mSize;
     }
 
 }
