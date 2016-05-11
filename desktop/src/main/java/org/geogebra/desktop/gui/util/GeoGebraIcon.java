@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.awt.GBasicStrokeD;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
@@ -286,7 +287,7 @@ public class GeoGebraIcon {
 	public static ImageIcon createSymbolTableIcon(Font font, boolean isRollOver) {
 
 		int s = 14;
-		String alpha = "\u03B1";
+		String alpha = Unicode.alpha + "";
 
 		BufferedImage image = new BufferedImage(s, s,
 				BufferedImage.TYPE_INT_ARGB);
