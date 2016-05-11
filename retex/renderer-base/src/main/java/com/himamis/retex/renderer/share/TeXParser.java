@@ -536,7 +536,6 @@ public class TeXParser {
 					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{2}");
 					len = parseString.length();
 					pos++;
-					System.err.println("SUPTWO" + parseString);
 					break;
 				case SUPTHREE:
 					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{3}");
