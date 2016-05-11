@@ -45,9 +45,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/zipjs/arraybuffer.js")
 	TextResource arrayBufferJs();
 
-	@Source("org/geogebra/web/resources/js/gif.js")
-	TextResource gifJs();
-
 	@Source("org/geogebra/web/resources/js/zipjs/dataview.js")
 	TextResource dataViewJs();
 

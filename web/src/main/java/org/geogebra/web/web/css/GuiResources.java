@@ -53,9 +53,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/images/splash-ggb4.svg")
 	TextResource ggb4Splash();
 
-	@Source("org/geogebra/web/resources/js/gif.worker.js")
-	TextResource gifWorkerJs();
-
 	// TOOLBAR
 	// Little triangles for tools with submenu
 	@Source("org/geogebra/common/icons/png/web/toolbar-further-tools-icon.png")
