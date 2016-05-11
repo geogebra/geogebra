@@ -66,6 +66,8 @@ import org.geogebra.common.util.GStringTokenizer;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 
+import com.himamis.retex.renderer.share.UnicodeTeX;
+
 /**
  * Generates PGF/Tikz string representation of current view.
  * 
@@ -1068,7 +1070,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				if (!st.startsWith("$"))
 					code.append("$");
 				for (int i = 0; i < st.length(); i++) {
-					String uCode = "" + st.charAt(i);
+					char uCode = st.charAt(i);
 					if (UnicodeTeX.getMap().containsKey(uCode)) {
 						addTextPackage();
 						st = st.replaceAll("\\" + uCode, "\\\\"
@@ -1080,7 +1082,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			else {
 				st = st.replaceAll("\\\\", "\\\\textbackslash ");
 				for (int i = 0; i < st.length(); i++) {
-					String uCode = "" + st.charAt(i);
+					char uCode = st.charAt(i);
 					if (UnicodeTeX.getMap().containsKey(uCode)) {
 						addTextPackage();
 						st = st.replaceAll("\\" + uCode, "\\$\\\\"

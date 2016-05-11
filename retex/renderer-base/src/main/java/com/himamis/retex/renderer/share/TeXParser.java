@@ -45,6 +45,7 @@
 
 package com.himamis.retex.renderer.share;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -433,6 +434,9 @@ public class TeXParser {
 	}
 
 	private void firstpass() throws ParseException {
+		
+		HashMap<java.lang.Character, String> unicodeTeXmap = UnicodeTeX.getMap();
+		
 		if (len != 0) {
 			char ch;
 			String com;
@@ -441,255 +445,268 @@ public class TeXParser {
 			MacroInfo mac;
 			while (pos < len) {
 				ch = parseString.charAt(pos);
-				switch (ch) {
-				case ESCAPE:
-					spos = pos;
-					com = getCommand();
-					if ("newcommand".equals(com) || "renewcommand".equals(com)) {
-						args = getOptsArgs(2, 2);
-						mac = MacroInfo.Commands.get(com);
-						try {
-							mac.invoke(this, args);
-						} catch (ParseException e) {
-							if (!isPartial) {
-								throw e;
-							}
-						}
-						parseString.delete(spos, pos);
-						len = parseString.length();
-						pos = spos;
-					} else if (NewCommandMacro.isMacro(com)) {
-						mac = MacroInfo.Commands.get(com);
-						args = getOptsArgs(mac.nbArgs, mac.hasOptions ? 1 : 0);
-						args[0] = com;
-						try {
-							parseString.replace(spos, pos, (String) mac.invoke(this, args));
-						} catch (ParseException e) {
-							if (!isPartial) {
-								throw e;
-							} else {
-								spos += com.length() + 1;
-							}
-						}
-						len = parseString.length();
-						pos = spos;
-					} else if ("begin".equals(com)) {
-						args = getOptsArgs(1, 0);
-						mac = MacroInfo.Commands.get(args[1] + "@env");
-						if (mac == null) {
-							if (!isPartial) {
-								throw new ParseException("Unknown environment: " + args[1] + " at position "
-										+ getLine() + ":" + getCol());
-							}
-						} else {
+				
+
+					switch (ch) {
+					case ESCAPE:
+						spos = pos;
+						com = getCommand();
+						if ("newcommand".equals(com) || "renewcommand".equals(com)) {
+							args = getOptsArgs(2, 2);
+							mac = MacroInfo.Commands.get(com);
 							try {
-								String[] optarg = getOptsArgs(mac.nbArgs - 1, 0);
-								String grp = getGroup("\\begin{" + args[1] + "}", "\\end{" + args[1] + "}");
-								String expr = "{\\makeatletter \\" + args[1] + "@env";
-								for (int i = 1; i <= mac.nbArgs - 1; i++)
-									expr += "{" + optarg[i] + "}";
-								expr += "{" + grp + "}\\makeatother}";
-								parseString.replace(spos, pos, expr);
-								len = parseString.length();
-								pos = spos;
+								mac.invoke(this, args);
 							} catch (ParseException e) {
 								if (!isPartial) {
 									throw e;
 								}
 							}
+							parseString.delete(spos, pos);
+							len = parseString.length();
+							pos = spos;
+						} else if (NewCommandMacro.isMacro(com)) {
+							mac = MacroInfo.Commands.get(com);
+							args = getOptsArgs(mac.nbArgs, mac.hasOptions ? 1 : 0);
+							args[0] = com;
+							try {
+								parseString.replace(spos, pos, (String) mac.invoke(this, args));
+							} catch (ParseException e) {
+								if (!isPartial) {
+									throw e;
+								} else {
+									spos += com.length() + 1;
+								}
+							}
+							len = parseString.length();
+							pos = spos;
+						} else if ("begin".equals(com)) {
+							args = getOptsArgs(1, 0);
+							mac = MacroInfo.Commands.get(args[1] + "@env");
+							if (mac == null) {
+								if (!isPartial) {
+									throw new ParseException("Unknown environment: " + args[1] + " at position "
+											+ getLine() + ":" + getCol());
+								}
+							} else {
+								try {
+									String[] optarg = getOptsArgs(mac.nbArgs - 1, 0);
+									String grp = getGroup("\\begin{" + args[1] + "}", "\\end{" + args[1] + "}");
+									String expr = "{\\makeatletter \\" + args[1] + "@env";
+									for (int i = 1; i <= mac.nbArgs - 1; i++)
+										expr += "{" + optarg[i] + "}";
+									expr += "{" + grp + "}\\makeatother}";
+									parseString.replace(spos, pos, expr);
+									len = parseString.length();
+									pos = spos;
+								} catch (ParseException e) {
+									if (!isPartial) {
+										throw e;
+									}
+								}
+							}
+						} else if ("makeatletter".equals(com))
+							atIsLetter++;
+						else if ("makeatother".equals(com))
+							atIsLetter--;
+						else if (unparsedContents.contains(com)) {
+							getOptsArgs(1, 0);
 						}
-					} else if ("makeatletter".equals(com))
-						atIsLetter++;
-					else if ("makeatother".equals(com))
-						atIsLetter--;
-					else if (unparsedContents.contains(com)) {
-						getOptsArgs(1, 0);
-					}
-					break;
-				case PERCENT:
-					spos = pos++;
-					char chr;
-					while (pos < len) {
-						chr = parseString.charAt(pos++);
-						if (chr == '\r' || chr == '\n') {
-							break;
+						break;
+					case PERCENT:
+						spos = pos++;
+						char chr;
+						while (pos < len) {
+							chr = parseString.charAt(pos++);
+							if (chr == '\r' || chr == '\n') {
+								break;
+							}
 						}
+						if (pos < len) {
+							pos--;
+						}
+						parseString.replace(spos, pos, "");
+						len = parseString.length();
+						pos = spos;
+						break;
+					case DEGRE:
+						parseString.replace(pos, pos + 1, "^{\\circ}");
+						len = parseString.length();
+						pos++;
+						break;
+					case alpha:
+						parseString.replace(pos, pos + 1, "{\\alpha}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPTWO:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{2}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPTHREE:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{3}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPONE:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{1}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPZERO:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{0}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPFOUR:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{4}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPFIVE:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{5}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPSIX:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{6}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPSEVEN:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{7}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPEIGHT:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{8}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPNINE:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{9}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPPLUS:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{+}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPMINUS:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{-}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPEQUAL:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{=}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPLPAR:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{(}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPRPAR:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{)}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUPN:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{n}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBTWO:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{2}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBTHREE:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{3}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBONE:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{1}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBZERO:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{0}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBFOUR:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{4}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBFIVE:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{5}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBSIX:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{6}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBSEVEN:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{7}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBEIGHT:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{8}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBNINE:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{9}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBPLUS:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{+}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBMINUS:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{-}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBEQUAL:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{=}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBLPAR:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{(}");
+						len = parseString.length();
+						pos++;
+						break;
+					case SUBRPAR:
+						parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{)}");
+						len = parseString.length();
+						pos++;
+						break;
+					default:
+						
+						String tex = unicodeTeXmap.get(ch);
+						if (tex != null) {
+							//System.out.println("found " + tex);
+							parseString.replace(pos, pos + 1, "{\\"+tex+"}");
+							len = parseString.length();
+
+						}
+
+						
+						pos++;
 					}
-					if (pos < len) {
-						pos--;
-					}
-					parseString.replace(spos, pos, "");
-					len = parseString.length();
-					pos = spos;
-					break;
-				case DEGRE:
-					parseString.replace(pos, pos + 1, "^{\\circ}");
-					len = parseString.length();
-					pos++;
-					break;
-				case alpha:
-					parseString.replace(pos, pos + 1, "{\\alpha}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPTWO:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{2}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPTHREE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{3}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPONE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{1}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPZERO:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{0}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPFOUR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{4}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPFIVE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{5}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPSIX:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{6}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPSEVEN:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{7}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPEIGHT:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{8}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPNINE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{9}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPPLUS:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{+}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPMINUS:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{-}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPEQUAL:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{=}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPLPAR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{(}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPRPAR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{)}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUPN:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{n}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBTWO:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{2}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBTHREE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{3}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBONE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{1}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBZERO:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{0}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBFOUR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{4}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBFIVE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{5}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBSIX:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{6}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBSEVEN:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{7}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBEIGHT:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{8}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBNINE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{9}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBPLUS:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{+}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBMINUS:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{-}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBEQUAL:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{=}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBLPAR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{(}");
-					len = parseString.length();
-					pos++;
-					break;
-				case SUBRPAR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{)}");
-					len = parseString.length();
-					pos++;
-					break;
-				default:
-					pos++;
-				}
+				
 			}
 			pos = 0;
 			len = parseString.length();

@@ -73,6 +73,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.renderer.share.UnicodeTeX;
+
 /*
  import org.mozilla.javascript.Context;
  import org.mozilla.javascript.Scriptable;
@@ -3526,10 +3528,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	protected String convertUnicodeToText(String s) {
 		// import unicode;
 		String s1 = new String(s);
-		Iterator<String> it = UnicodeTeX.getMap().keySet().iterator();
+		Iterator<Character> it = UnicodeTeX.getMap().keySet().iterator();
 		while (it.hasNext()) {
-			String skey = it.next();
-			s1 = s1.replace(skey, UnicodeTeX.getMap().get(skey) + " ");
+			char skey = it.next();
+			s1 = s1.replace(skey + "", UnicodeTeX.getMap().get(skey) + " ");
 		}
 		return s1.replace(Unicode.DEGREE, "o ")
 				// degree symbol
@@ -3549,11 +3551,12 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	protected String convertUnicodeToLatex(String s) {
 		// import unicode;
 		String s1 = new String(s);
-		Iterator<String> it = UnicodeTeX.getMap().keySet().iterator();
+		Iterator<Character> it = UnicodeTeX.getMap().keySet().iterator();
 		// look up unicodeTable conversions and replace with LaTeX commands
 		while (it.hasNext()) {
-			String skey = it.next();
-			s1 = s1.replace(skey, "\\\\" + UnicodeTeX.getMap().get(skey) + " ");
+			char skey = it.next();
+			s1 = s1.replace(skey + "",
+					"\\\\" + UnicodeTeX.getMap().get(skey) + " ");
 		}
 
 		// strip dollar signs

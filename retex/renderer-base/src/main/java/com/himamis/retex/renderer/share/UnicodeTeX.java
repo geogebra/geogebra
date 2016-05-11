@@ -1,22 +1,20 @@
-package org.geogebra.common.export.pstricks;
+package com.himamis.retex.renderer.share;
 
 import java.util.HashMap;
 
-import org.geogebra.common.util.Unicode;
-
 public class UnicodeTeX {
 
-	private static HashMap<String, String> unicode2tex = null;
+	private static HashMap<Character, String> unicode2tex = null;
 
 	private static void p(char unicode, String tex) {
-		unicode2tex.put(unicode + "", tex);
+		unicode2tex.put(unicode, tex);
 	}
 
-	public static HashMap<String, String> getMap() {
+	public static HashMap<Character, String> getMap() {
 		if (unicode2tex != null) {
 			return unicode2tex;
 		}
-		unicode2tex = new HashMap<String, String>();
+		unicode2tex = new HashMap<Character, String>();
 		p('\u00a3', "sterling");
 		p('\u00a5', "yen");
 		p('\u00a9', "copyright");
@@ -25,7 +23,7 @@ public class UnicodeTeX {
 		p('\u00ae', "circledR");
 		p('\u00b1', "pm");
 		p('\u00b4', "textasciiacute");
-		p(Unicode.micro, "mu");
+		p('\u00b5', "mu");
 		p('\u00b7', "cdotp");
 		p('\u00bb', "gg");
 		p('\u00bc', "frac 14");
@@ -78,7 +76,7 @@ public class UnicodeTeX {
 		p('\u03bc', "mu");
 		p('\u03bd', "nu");
 		p('\u03be', "xi");
-		p(Unicode.pi, "pi");
+		p('\u03C0', "pi");
 		p('\u03c1', "rho");
 		p('\u03c2', "varsigma");
 		p('\u03c3', "sigma");
@@ -195,7 +193,7 @@ public class UnicodeTeX {
 		p('\u2205', "varnothing");
 		p('\u2206', "triangle");
 		p('\u2207', "nabla");
-		p(Unicode.IS_ELEMENT_OF, "in");
+		//p(Unicode.IS_ELEMENT_OF, "in");
 		p('\u2209', "notin");
 		p('\u220a', "in");
 		p('\u220b', "ni");
@@ -287,11 +285,11 @@ public class UnicodeTeX {
 		p('\u227f', "succsim");
 		p('\u2280', "nprec");
 		p('\u2281', "nsucc");
-		p(Unicode.IS_SUBSET_OF_STRICT, "subset");
+		p('\u2282', "subset");
 		p('\u2283', "supset");
 		p('\u2284', "nsubset");
 		p('\u2285', "nsupset");
-		p(Unicode.IS_SUBSET_OF, "subseteq");
+		p('\u2286', "subseteq");
 		p('\u2287', "supseteq");
 		p('\u2288', "nsubseteq");
 		p('\u2289', "nsupseteq");
@@ -320,7 +318,7 @@ public class UnicodeTeX {
 		p('\u22a2', "vdash");
 		p('\u22a3', "dashv");
 		p('\u22a4', "top");
-		p(Unicode.PERPENDICULAR, "perp");
+		p('\u22a5', "perp");
 		p('\u22a7', "models");
 		p('\u22a8', "vDash");
 		p('\u22a9', "Vdash");
