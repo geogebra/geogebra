@@ -56,4 +56,10 @@ public class FontA implements Font {
         // FIXME cannot infer Font from type
         return this;
     }
+    
+	@Override
+	public boolean isEqual(Font f) {
+		return mName.equals(((FontA)f).mName) && typeface.equals(typeface) && mSize == ((FontA)f).mSize;
+	}
+
 }
