@@ -8,8 +8,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
+import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -19,10 +19,10 @@ import org.geogebra.common.kernel.geos.Furniture;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -922,12 +922,16 @@ public abstract class GlobalKeyDispatcher {
 
 	private static void setGeoProperties(GeoElement geo, int lineThicknessIncr,
 			int pointSizeIncr, int angleSizeIncr, boolean blackWhiteMode) {
+
 		if (!geo.isGeoText() && !geo.isGeoImage() && !geo.isGeoPolygon()) { // affects
 			// bounding
 			// box
-			int lineThickness = Math.max(2, geo.getLineThickness()
-					+ lineThicknessIncr);
-			geo.setLineThickness(lineThickness);
+			int geoLineThickness = geo.getLineThickness();
+			if (geoLineThickness != 0) {
+				int lineThickness = Math.max(2, geoLineThickness
+						+ lineThicknessIncr);
+				geo.setLineThickness(lineThickness);
+			}
 		}
 
 		if (geo instanceof PointProperties) {
