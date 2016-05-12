@@ -1469,18 +1469,7 @@ ExpressionValue enelement():
   ev = list()
       { return ev; }      
 | 
-    // parenthesis
-    LOOKAHEAD(2147483647)
-    "("  ev = expressionOrEquation()  ")" 
-        {
-          if(GiacParsing)        {          ev = ev.unwrap();
-        }
-         if(ev instanceof ExpressionNode)
-        {
-          ((ExpressionNode)ev).setBrackets(true);
-        }
-        return ev; }                    
-| 
+     
     // absolute value
     LOOKAHEAD(2147483647)
     <VERTICAL_BAR> ev = expressionnode() <VERTICAL_BAR> 
@@ -2004,21 +1993,31 @@ ExpressionNode numberFunction():
  *  tuple =  ( expression, expression, expression )
  * | and ; can be used instead of , 
  */
-VectorNDValue tuple():
+ExpressionValue tuple():
 {     
-    ExpressionValue x, y, z = null;
-    Token sep;            
+    ExpressionValue x, y=null, z = null;
+    Token sep = null;            
 }
 {   
     // cartesian coordinates
   
-    "(" x = expressionnode() (  
-   		(   sep = <COMMA> y = expressionnode() (<COMMA> z = expressionnode())?   )   
-    	|   (  sep = <VERTICAL_BAR> y = expressionnode() (<VERTICAL_BAR> z = expressionnode())? )
-    	|  (  sep = <POLAR_SEPARATOR> y = expressionnode() (<POLAR_SEPARATOR> z = expressionnode())?  )
-		)")"
+    "(" x = expressionOrEquation() (  
+   		(   sep = <COMMA> y = expressionOrEquation() (<COMMA> z = expressionnode())?   )   
+    	|   (  sep = <VERTICAL_BAR> y = expressionOrEquation() (<VERTICAL_BAR> z = expressionnode())? )
+    	|  (  sep = <POLAR_SEPARATOR> y = expressionOrEquation() (<POLAR_SEPARATOR> z = expressionnode())?  )
+		)? ")"
     {
-      if(z == null) {	       MyVecNode ret = new MyVecNode(kernel, x, y);
+      if(y == null)      {
+         if(GiacParsing)
+        {
+          x = x.unwrap();
+        }
+         if(x instanceof ExpressionNode)
+        {
+          ((ExpressionNode)x).setBrackets(true);
+        }
+        return x;      }
+      else if(z == null) {	       MyVecNode ret = new MyVecNode(kernel, x, y);
 	       if(sep.kind == POLAR_SEPARATOR){
 	             ret.setPolarCoords(x,y);	       }
 	       return ret;      }      else {          MyVec3DNode ret = new MyVec3DNode(kernel, x, y, z);
