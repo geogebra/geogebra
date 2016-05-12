@@ -67,6 +67,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -490,6 +491,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			updateGUI(true, true);
 		}
 
+		public boolean onUndefinedVariables(String string,
+				AsyncOperation<String[]> callback) {
+			return app.getGuiManager().checkAutoCreateSliders(string, callback);
+		}
 		@Override
 		public void setLabels() {
 			nameLabel.setText(loc.getPlain("Name") + ":");
@@ -1566,6 +1571,4 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		update(geos);
 
 	}
-	
-
 }

@@ -159,6 +159,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import org.geogebra.common.plugin.SensorLogger;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.FileExtensions;
@@ -4325,9 +4326,10 @@ ToolbarD.getAllTools(this));
 
 				}
 
-				public void setActive(boolean b) {
-					// TODO Auto-generated method stub
-
+				public boolean onUndefinedVariables(String string,
+						AsyncOperation<String[]> callback) {
+					return getGuiManager().checkAutoCreateSliders(string,
+							callback);
 				}
 
 				

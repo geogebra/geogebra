@@ -1,6 +1,7 @@
 package org.geogebra.commands;
 
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.util.AsyncOperation;
 import org.junit.Assert;
 
 public class TestErrorHandler implements ErrorHandler {
@@ -12,9 +13,9 @@ public class TestErrorHandler implements ErrorHandler {
 
 	}
 
-	public void setActive(boolean b) {
-		// TODO Auto-generated method stub
-
+	public boolean onUndefinedVariables(String string,
+			AsyncOperation<String[]> callback) {
+		return false;
 	}
 
 	public void showCommandError(String command, String message) {

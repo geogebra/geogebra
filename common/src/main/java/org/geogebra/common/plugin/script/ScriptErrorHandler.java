@@ -5,6 +5,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.AsyncOperation;
 
 public class ScriptErrorHandler implements ErrorHandler {
 
@@ -30,9 +31,9 @@ public class ScriptErrorHandler implements ErrorHandler {
 
 	}
 
-	public void setActive(boolean b) {
-		// TODO Auto-generated method stub
-
+	public boolean onUndefinedVariables(String string,
+			AsyncOperation<String[]> callback) {
+		return false;
 	}
 
 	public void showCommandError(String command, String message) {

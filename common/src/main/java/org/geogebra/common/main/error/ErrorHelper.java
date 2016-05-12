@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
 public class ErrorHelper {
@@ -53,23 +54,22 @@ public class ErrorHelper {
 
 			public void showError(String msg) {
 				Log.printStacktrace(msg);
-				// TODO Auto-generated method stub
-
-			}
-
-			public void setActive(boolean b) {
-				// TODO Auto-generated method stub
 
 			}
 
 			public void showCommandError(String command, String message) {
-				// TODO Auto-generated method stub
+				Log.warn(command + ":" + message);
 
 			}
 
 			public String getCurrentCommand() {
 				// TODO Auto-generated method stub
 				return null;
+			}
+
+			public boolean onUndefinedVariables(String string,
+					AsyncOperation<String[]> callback) {
+				return false;
 			}
 
 		};

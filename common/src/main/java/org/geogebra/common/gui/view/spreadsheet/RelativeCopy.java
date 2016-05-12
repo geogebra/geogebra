@@ -1038,6 +1038,11 @@ public class RelativeCopy {
 
 			}
 
+			public boolean onUndefinedVariables(String string,
+					AsyncOperation<String[]> callback) {
+				return false;
+			}
+
 			public String getCurrentCommand() {
 				// TODO Auto-generated method stub
 				return null;

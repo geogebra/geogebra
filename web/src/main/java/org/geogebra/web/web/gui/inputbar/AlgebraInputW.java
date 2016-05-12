@@ -357,10 +357,9 @@ public class AlgebraInputW extends FlowPanel
 
 			}
 
-			public void setActive(boolean b) {
-				// TODO Auto-generated method
-				// stub
-
+			public boolean onUndefinedVariables(String string,
+					AsyncOperation<String[]> callback) {
+				return false;
 			}
 
 			public void showCommandError(String command, String message) {
@@ -396,9 +395,10 @@ public class AlgebraInputW extends FlowPanel
 
 			}
 
-			public void setActive(boolean b) {
-				// TODO Auto-generated method stub
-
+			public boolean onUndefinedVariables(String string,
+					AsyncOperation<String[]> callback) {
+				return app.getGuiManager().checkAutoCreateSliders(string,
+						callback);
 			}
 
 			public void showCommandError(String command, String message) {

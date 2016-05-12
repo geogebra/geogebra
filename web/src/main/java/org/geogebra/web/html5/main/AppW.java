@@ -2945,9 +2945,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 			}
 
-			public void setActive(boolean b) {
-				// TODO Auto-generated method stub
-
+			public boolean onUndefinedVariables(String string,
+					AsyncOperation<String[]> callback) {
+				return getGuiManager().checkAutoCreateSliders(string, callback);
 			}
 
 			public void showCommandError(final String command, String message) {

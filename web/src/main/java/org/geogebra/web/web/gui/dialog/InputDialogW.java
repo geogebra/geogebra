@@ -344,7 +344,11 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	}
 
 	public String getCurrentCommand() {
-		// TODO Auto-generated method stub
-		return null;
+		return inputPanel.getTextComponent().getCommand();
+	}
+
+	public boolean onUndefinedVariables(String string,
+			AsyncOperation<String[]> callback) {
+		return app.getGuiManager().checkAutoCreateSliders(string, callback);
 	}
 }

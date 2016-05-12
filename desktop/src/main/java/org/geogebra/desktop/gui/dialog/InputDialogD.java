@@ -581,4 +581,9 @@ public class InputDialogD extends InputDialog
 		return null;
 	}
 
+	public boolean onUndefinedVariables(String string,
+			AsyncOperation<String[]> callback) {
+		return app.getGuiManager().checkAutoCreateSliders(string, callback);
+	}
+
 }

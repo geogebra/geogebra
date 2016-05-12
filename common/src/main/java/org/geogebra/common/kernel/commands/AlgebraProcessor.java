@@ -760,7 +760,7 @@ public class AlgebraProcessor {
 				// Yes: create sliders and draw line
 				// No: go back into input bar and allow user to change input
 				final Localization loc2 = loc;
-				if (app.getGuiManager() != null) {
+
 					AsyncOperation<String[]> callback = null;
 
 					// final FunctionVariable fvX2 = fvX;
@@ -804,14 +804,14 @@ public class AlgebraProcessor {
 						}
 
 					};
+				boolean autoCreateSlidersAnswer = handler
+						.onUndefinedVariables(sb.toString(), callback);
 
-					boolean autoCreateSlidersAnswer = this.app.getGuiManager()
-							.checkAutoCreateSliders(sb.toString(), callback);
 					if (!autoCreateSlidersAnswer) {
 						return null;
 					}
 				}
-			}
+
 
 			// Log.debug("list of variables: "+sb.toString());
 
