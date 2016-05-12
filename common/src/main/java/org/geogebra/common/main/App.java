@@ -3918,8 +3918,9 @@ public abstract class App implements UpdateSelection {
 		case FRACTIONS:
 			return prerelease;
 
+		// GGB-856
 		case SELECT_MOVE_WHEN_FURNITURE_CLICKED:
-			return prerelease;
+			return true;
 
 		case AV_EXTENSIONS:
 		case DATA_COLLECTION:
