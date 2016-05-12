@@ -78,6 +78,8 @@ import org.geogebra.web.web.gui.properties.OptionPanel;
 import org.geogebra.web.web.gui.properties.SliderPanelW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -411,19 +413,28 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			tfDefinition = inputPanelDef
 					.getTextComponent();
 			tfDefinition.setAutoComplete(false);
-			tfDefinition.addFocusListener(new FocusListenerW(this){
-				@Override
-				public void wrapFocusGained() {
-					//started to type something : store current geo if focus lost
-					currentGeoForFocusLost = model.getCurrentGeo();
-				}
+			tfDefinition.addBlurHandler(new BlurHandler() {
 
-				@Override
-				protected void wrapFocusLost(){
-					model.redefineCurrentGeo(currentGeoForFocusLost,  tfDefinition.getText(), 
-							redefinitionForFocusLost, NamePanel.this);
+				public void onBlur(BlurEvent event) {
+
+					model.applyDefinitionChange(tfDefinition.getText(),
+							NamePanel.this);
 				}
 			});
+			// tfDefinition.addFocusListener(new FocusListenerW(this){
+			// @Override
+			// public void wrapFocusGained() {
+			// //started to type something : store current geo if focus lost
+			// currentGeoForFocusLost = model.getCurrentGeo();
+			// }
+			//
+			// @Override
+			// protected void wrapFocusLost(){
+			// model.redefineCurrentGeo(currentGeoForFocusLost,
+			// tfDefinition.getText(),
+			// redefinitionForFocusLost, NamePanel.this);
+			// }
+			// });
 
 			tfDefinition.addKeyHandler(new KeyHandler() {
 
