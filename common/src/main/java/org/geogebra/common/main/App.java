@@ -3849,6 +3849,12 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
+			if (isDesktop()) {
+				return false;
+			}
+			if (isAndroid()) {
+				return false;
+			}
 			return prerelease;
 
 		case INPUTHELP_SHOWN_IN_AV:
@@ -4339,6 +4345,22 @@ public abstract class App implements UpdateSelection {
 
 	public ErrorHandler getDefaultErrorHandler() {
 		return ErrorHelper.silent();
+	}
+
+	/**
+	 * 
+	 * @return true if running in native "desktop" Java
+	 */
+	public boolean isDesktop() {
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return true if running on native Android (not WebView)
+	 */
+	private boolean isAndroid() {
+		return false;
 	}
 
 }

@@ -5514,4 +5514,8 @@ ToolbarD.getAllTools(this));
 		return new DockBar(app);
 	}
 
+	public boolean isDesktop() {
+		return true;
+	}
+
 }
