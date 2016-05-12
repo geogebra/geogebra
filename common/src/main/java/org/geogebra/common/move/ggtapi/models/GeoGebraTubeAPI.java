@@ -11,6 +11,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.ggtapi.requests.DeleteRequest;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
+import org.geogebra.common.move.ggtapi.requests.ShareRequest;
 import org.geogebra.common.move.ggtapi.requests.SyncCallback;
 import org.geogebra.common.move.ggtapi.requests.SyncRequest;
 import org.geogebra.common.move.ggtapi.requests.UploadRequest;
@@ -338,6 +339,14 @@ public abstract class GeoGebraTubeAPI {
 	public void deleteMaterial(Material material, final MaterialCallbackI cb) {
 		performRequest(
 				DeleteRequest.getRequestElement(material).toJSONString(client),
+				cb);
+	}
+
+	public void shareMaterial(Material material, String to, String message,
+			final MaterialCallbackI cb) {
+		performRequest(
+				ShareRequest.getRequestElement(material, message, to)
+						.toJSONString(client),
 				cb);
 	}
 
