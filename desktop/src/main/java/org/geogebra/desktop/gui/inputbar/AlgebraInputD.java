@@ -388,6 +388,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			return;
 		case KeyEvent.VK_ENTER:
 			app.getKernel().clearJustCreatedGeosInViews();
+			boolean valid = app.getKernel().getInputPreviewHelper().isValid();
 			String input = app.getKernel().getInputPreviewHelper()
 					.getInput(getTextField().getText());
 
@@ -404,7 +405,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 				app.getKernel()
 						.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(input,
-									true, getErrorHandler(), true,
+								true, getErrorHandler(valid), true,
 									new InputBarCallback(app, inputField, input));
 
 
@@ -433,7 +434,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 
 
-	private ErrorHandler getErrorHandler() {
+	private ErrorHandler getErrorHandler(final boolean valid) {
 		return new ErrorHandler() {
 
 			public void showError(String msg) {
@@ -452,8 +453,13 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
-				return app.getGuiManager().checkAutoCreateSliders(string,
+				if (valid) {
+					return app.getGuiManager().checkAutoCreateSliders(string,
 						callback);
+				} else {
+					callback.callback(new String[] { "7" });
+					return false;
+				}
 			}
 		};
 	}

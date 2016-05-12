@@ -56,6 +56,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, kernel.getApplication(),
 					validation);
+		} catch (Error e) {
+			ErrorHelper.handleException(new Exception(e),
+					kernel.getApplication(), validation);
 		}
 		if (System.currentTimeMillis() > start + 200) {
 			maxLength = str.length();
@@ -82,8 +85,10 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	}
 
 	private GeoElement[] previewGeos;
+	private String[] sliders;
 
 	public void run() {
+		cleanOldSliders();
 		if (input.length() == 0) {
 			if (validation != null) {
 				validation.showError(null);
@@ -149,6 +154,20 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		}
 	}
 
+	private void cleanOldSliders() {
+		if (sliders != null) {
+			for (int i = 0; i < sliders.length; i++) {
+				GeoElement slider = kernel.lookupLabel(sliders[i].trim());
+				slider.setFixed(false);
+				slider.remove();
+
+			}
+			kernel.notifyRepaint();
+			sliders = null;
+		}
+
+	}
+
 	/**
 	 * try to create/update preview for input typed
 	 * 
@@ -192,6 +211,17 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		run();
 		return previewGeos;
 
+	}
+
+	public void addSliders(String string) {
+		cleanOldSliders();
+		sliders = string.split(",");
+
+	}
+
+	public boolean isValid() {
+		Log.debug(input + "," + validInput);
+		return input != null && input.equals(validInput);
 	}
 
 }

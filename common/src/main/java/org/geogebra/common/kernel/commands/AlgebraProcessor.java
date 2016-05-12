@@ -782,6 +782,7 @@ public class AlgebraProcessor {
 								// ve2, fvX2);
 								replaceUndefinedVariables(ve2,
 										new TreeSet<GeoNumeric>(), null);
+						}
 								try {
 									geos = processValidExpression(storeUndo,
 											handler,
@@ -797,7 +798,7 @@ public class AlgebraProcessor {
 											handler);
 									return;
 								}
-									}
+
 							if (callback0 != null) {
 								callback0.callback(geos);
 								}

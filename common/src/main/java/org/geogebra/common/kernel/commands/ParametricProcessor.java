@@ -72,7 +72,7 @@ public class ParametricProcessor {
 	 *            call this after sliders are created
 	 * @return resulting elements
 	 */
-	GeoElement[] checkParametricEquation(ValidExpression ve0,
+	final GeoElement[] checkParametricEquation(ValidExpression ve0,
 			TreeSet<String> undefinedVariables, boolean autocreateSliders,
 			AsyncOperation<GeoElement[]> callback, EvalInfo info) {
 		if (undefinedVariables.isEmpty()) {
