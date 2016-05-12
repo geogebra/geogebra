@@ -54,15 +54,16 @@ public class ExportMenuW extends MenuBar {
 				app) {
 
 			public void execute() {
+						app.getSelectionManager().clearSelectedGeos();
 				hide();
 				String url = ((EuclidianViewWInterface) app
 						.getActiveEuclidianView()).getExportImageDataUrl(1.0,
-						false);
+ false);
 
 				app.getFileManager().showExportAsPictureDialog(url,
 						app.getExportTitle(), app);
 			}
-		});
+				});
 		if (!app.getLAF().isTablet()) {
 			addItem(MainMenu
 					.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri()
