@@ -6062,47 +6062,6 @@ kernel, left,
 		return null;
 	}
 	
-
-
-	/**
-	 * check if expression is trustable or halftrustable
-	 * 
-	 * @param trustCheck
-	 *            output parameter
-	 */
-	public void isTrustableExpression(TrustCheck trustCheck) {
-		if (this.isExpressionNode()) {
-			// square of something is trustable
-			if (this.isVariableSquare()) {
-				trustCheck.setTrustable(true);
-				return;
-			}
-			// halftrusted expression, eg. a/b
-			if ((this.getLeft() instanceof Variable
-					|| this.getLeft() instanceof GeoElement)
-					&& (this.getRight() instanceof Variable
-							|| this.getRight() instanceof GeoElement)
-					&& (operation == Operation.MULTIPLY || operation == Operation.DIVIDE)) {
-				trustCheck.setHalfTrustable(true);
-				return;
-			}
-		}
-	}
-
-	private boolean isVariableSquare() {
-		if ((this.getLeft() instanceof Variable
-				|| this.getLeft() instanceof GeoElement || (this.getLeft()
-				.isExpressionNode() && this.getLeftTree().getLeft() instanceof Command))
-				&& this.getOperation() == Operation.POWER
-				&& this.getRight() instanceof NumberValue) {
-			double d = this.getRight().evaluateDouble();
-			if (Kernel.isInteger(d) && d % 2 == 0) {
-				return true;
-			}
-		}
-		return false;
-	}
-
 	@Override
 	public ValueType getValueType() {
 		if (resolve == null) {

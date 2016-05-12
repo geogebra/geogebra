@@ -25,7 +25,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
@@ -33,10 +32,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoNumericLabelCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoNumericReplacer;
-import org.geogebra.common.kernel.arithmetic.TrustCheck;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
@@ -69,8 +66,6 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	private int nrOfMaxDecimals;
 	// substitution list of segments with variables
 	private ArrayList<Map.Entry<GeoElement, Variable>> varSubstListOfSegs;
-
-	private boolean trustable = true;
 
 	private GeoBoolean bool; // output
 
@@ -516,7 +511,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	// procedure to traverse inorder the expression
-	private TrustCheck traverseExpression(ExpressionNode node)
+	private void traverseExpression(ExpressionNode node)
 			throws NoSymbolicParametersException {
 		if (node.getLeft() != null && node.getLeft().isGeoElement()
 				&& node.getLeft() instanceof GeoSegment) {
@@ -538,89 +533,29 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			}
 			allSegmentsFromExpression.add((GeoSegment) node.getRight());
 		}
-		TrustCheck leftCheck = null, rightCheck = null;
 		if (node.getLeft() != null && node.getLeft().isExpressionNode()) {
-			leftCheck = traverseExpression((ExpressionNode) node.getLeft());
+			traverseExpression((ExpressionNode) node.getLeft());
 		}
 		if (node.getRight() != null && node.getRight().isExpressionNode()) {
-			rightCheck = traverseExpression((ExpressionNode) node.getRight());
+			traverseExpression((ExpressionNode) node.getRight());
 		}
-		TrustCheck nodeCheck = new TrustCheck();
-		node.isTrustableExpression(nodeCheck);
-		// expression is trusted, if children are trusted
+
 		if (node.getLeft() != null && node.getLeft().isExpressionNode()
- && leftCheck.getTrustable()
-				&& node.getRight().isExpressionNode()
-				&& rightCheck.getTrustable()) {
-			nodeCheck.setTrustable(true);
-			return nodeCheck;
+				&& node.getRight().isExpressionNode()) {
+			return;
 		}
 		// case number with segment, eg. 2*a^2
 		if (node.getLeft() instanceof MyDouble
 				&& node.getRight().isExpressionNode()
-				&& rightCheck.getTrustable()
 				&& (node.getOperation() == Operation.DIVIDE || node
 						.getOperation() == Operation.MULTIPLY)) {
-			nodeCheck.setTrustable(true);
-			return nodeCheck;
+			return;
 		}
 		// case segment with number, eg. a^2*1,5
 		if (node.getRight() instanceof MyDouble
-				&& node.getLeft().isExpressionNode()
-				&& leftCheck.getTrustable()) {
-			nodeCheck.setTrustable(true);
-			return nodeCheck;
+				&& node.getLeft().isExpressionNode()) {
+			return;
 		}
-		// * and / with number is trusted
-		if (node.getLeft() instanceof MyDouble
-				|| node.getRight() instanceof MyDouble) {
-			if ((node.getOperation() == Operation.DIVIDE || node.getOperation() == Operation.MULTIPLY)) {
-				nodeCheck.setTrustable(true);
-				 }
-		}
-		// case we have something in even power
-		// check if in the parentheses we have halfTrusted expression (segments
-		// multiplied or divided)
-		if (node.getOperation() == Operation.POWER) {
-			if (node.getRight() instanceof MyDouble) {
-				double d = node.getRight().evaluateDouble();
-				if (Kernel.isInteger(d) && d % 2 == 0
-						&& (node.getLeft() instanceof GeoElement
-								|| node.getLeft() instanceof Variable || (node
-								.getLeft().isExpressionNode() && leftCheck
-								.getHalfTrustable()))) {
-					nodeCheck.setTrustable(true);
-				}
-			}
-		}
-		// h*j*2 or h*j*k halfTrusted
-		if (node.getLeft().isExpressionNode()
-				&& leftCheck.getHalfTrustable()
-				&& node.getRight() instanceof NumberValue
-				&& (node.getOperation() == Operation.DIVIDE || node
-						.getOperation() == Operation.MULTIPLY)) {
-			nodeCheck.setHalfTrustable(true);
-		}
-		// 2*h*j or k*h*j halfTrusted
-		if (node.getRight() != null
-				&& node.getRight().isExpressionNode()
-				&& rightCheck.getHalfTrustable()
-				&& node.getLeft() instanceof NumberValue
-				&& (node.getOperation() == Operation.DIVIDE || node
-						.getOperation() == Operation.MULTIPLY)) {
-			nodeCheck.setHalfTrustable(true);
-		}
-		// h*j*k*l halfTrusted
-		if (node.getLeft() != null
-				&& node.getLeft().isExpressionNode()
-				&& node.getRight().isExpressionNode()
-				&& leftCheck.getHalfTrustable()
-				&& rightCheck.getHalfTrustable()
-				&& (node.getOperation() == Operation.DIVIDE || node
-						.getOperation() == Operation.MULTIPLY)) {
-			nodeCheck.setHalfTrustable(true);
-		}
-		return nodeCheck;
 	}
 
 	public Polynomial[][] getBotanaPolynomials()
@@ -739,9 +674,9 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				|| (root.getLeft() instanceof GeoElement
 						&& root.getRight() instanceof MyDouble
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN))){
-			TrustCheck rootCheck = traverseExpression(root);
+			traverseExpression(root);
 			// try to check substituted and expanded expression
-			if (!rootCheck.getTrustable()) {
+			if (true) {
 				ExpressionNode rootCopy = root.deepCopy(kernel);
 				// collect all labels of GeoNumerics from expression
 				Set<String> setOfGeoNumLabels = new TreeSet<String>();
@@ -792,21 +727,12 @@ public class AlgoDependentBoolean extends AlgoElement implements
 							.getCASparser()
 							.parseGeoGebraCASInputAndResolveDummyVars(
 									expandGiacOutput, kernel, null);
-						// check if expanded expression is trustable
-						rootCheck = traverseExpression((ExpressionNode) expandValidExp);
+						traverseExpression((ExpressionNode) expandValidExp);
 					}
 				} catch (Throwable e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
-			// we won't accept untrusted expressions
-			if (root.getLeftTree().isExpressionNode()
-					&& root.getRightTree().isExpressionNode()
-					&& !rootCheck.getTrustable()) {
-				trustable = false;
-				// not safe
-				// expressions
 			}
 			Polynomial[][] ret = null;
 			return ret;
@@ -816,22 +742,6 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	// TODO Consider locusequability
-
-	/**
-	 * @return true - if root contains segment squares false - otherwise
-	 */
-
-	public boolean isTrustable() {
-		return trustable;
-	}
-
-	/**
-	 * @param trustable
-	 *            -
-	 */
-	public void setTrustable(boolean trustable) {
-		this.trustable = trustable;
-	}
 
 	/**
 	 * @return input expression
