@@ -46,6 +46,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private Tree indexTree;
 	private VerticalPanel syntaxPanel;
 	private Button btnOnlineHelp;
+	private Button btnClose;
 	private LocaleSensitiveComparator comparator;
 	private SplitLayoutPanel sp;
 	private InlineLabel lblSyntax;
@@ -77,7 +78,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		// create help button
 		btnOnlineHelp = new Button(app.getPlain("ShowOnlineHelp"));
-		btnOnlineHelp.getElement().getStyle().setMargin(3, Style.Unit.PX);
+		// btnOnlineHelp.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btnOnlineHelp.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				openOnlineHelp();
@@ -85,10 +86,25 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		});
 		render(app.getNetworkOperation().isOnline());
 		app.getNetworkOperation().getView().add(this);
-		btnOnlineHelp.getElement().getStyle().setTextAlign(TextAlign.RIGHT);
+		// btnOnlineHelp.getElement().getStyle().setTextAlign(TextAlign.RIGHT);
+		btnOnlineHelp.addStyleName("inputHelp-OnlineHelpBtn");
+
 		FlowPanel pnlButton = new FlowPanel();
 		pnlButton.add(btnOnlineHelp);
 		pnlButton.getElement().getStyle().setFloat(Style.Float.RIGHT);
+
+		// create close button
+		btnClose = new Button(app.getMenu("Close"));
+		// btnClose.getElement().getStyle().setMargin(3, Style.Unit.PX);
+		btnClose.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				hide();
+				// TODO add closing
+			}
+		});
+		btnClose.setStyleName("inputHelp-CancelBtn");
+		// btnClose.addStyleName("");
+		pnlButton.add(btnClose);
 
 		// create detail title panel
 		lblSyntax = new InlineLabel();
@@ -101,9 +117,10 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		detailTitlePanel.add(pnlButton);
 		detailTitlePanel.addStyleName("inputHelp-detailPanelTitle");
 
+		add(detailTitlePanel);
 		// create the detail panel
 		VerticalPanel detailPanel = new VerticalPanel();
-		detailPanel.add(detailTitlePanel);
+		// detailPanel.add(detailTitlePanel);
 		detailPanel.add(syntaxPanel);
 		detailPanel.setWidth("100%");
 
@@ -168,6 +185,10 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 	}
 
+	protected void hide() {
+		((InputBarHelpPopup) this.getParent()).hide();
+	}
+
 	/**
 	 * @return local command name
 	 */
@@ -210,7 +231,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		itmFunction = new MyTreeItem();
 		itmFunction.setWidget(new TreeItemButton(app.getLocalization().getMenu(
-		        "MathematicalFunctions"), itmFunction, true));
+"MathematicalFunctions"), itmFunction, false));
 		indexTree.addItem(itmFunction);
 
 		MyTreeItem itmAllCommands = new MyTreeItem();

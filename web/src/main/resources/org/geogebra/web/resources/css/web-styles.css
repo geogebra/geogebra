@@ -3760,6 +3760,30 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 	font-style: italic;
 	color: darkred;
 }
+.inputHelp-OnlineHelpBtn {
+	text-align: right;
+	font-size: 100%;
+	margin: 3px;
+}
+
+.inputHelp-CancelBtn {
+	font-size: 110%;
+	margin: 3px;
+	color: #666666;
+	border: none;
+	background: none;
+	text-decoration: underline;
+	padding: 5px 15px;
+	box-shadow: none;
+	font-weight: normal;
+}
+.inputHelp-CancelBtn:hover, 
+.inputHelp-CancelBtn:active {
+	color: #6161FF;
+	background: none;
+	border: none;
+	box-shadow: none;
+}
 
 .inputHelp-headerCAS {
 	font-style: italic;
