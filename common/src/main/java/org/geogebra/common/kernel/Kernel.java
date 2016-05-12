@@ -2662,7 +2662,8 @@ public class Kernel {
 	 */
 	final public int getAlgebraStyle() {
 		if (app != null
-				&& algebraStyle == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
+				&& algebraStyle == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
+				&& !app.has(Feature.AV_DEFINITION_AND_VALUE)) {
 			return Kernel.ALGEBRA_STYLE_VALUE;
 		}
 		return algebraStyle;
