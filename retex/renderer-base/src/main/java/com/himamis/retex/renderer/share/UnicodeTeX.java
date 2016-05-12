@@ -24,7 +24,7 @@ public class UnicodeTeX {
 		p('\u00ac', "neg");
 		// p('\u00ae', "circledR");
 		p('\u00b1', "pm");
-		p('\u00b4', "textasciiacute");
+		// p('\u00b4', "textasciiacute");
 		p('\u00b5', "mu");
 		p('\u00b7', "cdotp");
 		// p('\u00bb', "gg");
@@ -239,7 +239,7 @@ public class UnicodeTeX {
 		// p('\u2241', "nsim");
 		p('\u2242', "eqsim");
 		p('\u2243', "simeq");
-		p('\u2244', "nsime");
+		// p('\u2244', "nsime");
 		p('\u2245', "cong");
 		p('\u2247', "ncong");
 		p('\u2248', "approx");
