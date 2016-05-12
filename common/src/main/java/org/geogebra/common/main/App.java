@@ -4359,7 +4359,7 @@ public abstract class App implements UpdateSelection {
 	 * 
 	 * @return true if running on native Android (not WebView)
 	 */
-	private boolean isAndroid() {
+	protected boolean isAndroid() {
 		return false;
 	}
 
