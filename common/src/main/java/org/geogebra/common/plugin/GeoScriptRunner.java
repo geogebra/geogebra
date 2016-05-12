@@ -30,8 +30,8 @@ public class GeoScriptRunner implements EventListener {
 				app.storeUndoInfo();
 			} else {
 				app.setBlockUpdateScripts(true);
-				script.run(evt);
-				app.setBlockUpdateScripts(false);
+				boolean ok = script.run(evt);
+				app.setBlockUpdateScripts(!ok);
 			}
 		} catch (ScriptError e) {
 			app.showError(e.getScriptError());

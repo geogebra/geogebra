@@ -87,7 +87,7 @@ public abstract class Script {
 	 * @throws ScriptError
 	 *             error thrown if the script cannot be run
 	 */
-	public abstract void run(Event evt) throws ScriptError;
+	public abstract boolean run(Event evt) throws ScriptError;
 
 	/**
 	 * Get the script's type

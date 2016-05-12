@@ -25,7 +25,7 @@ public class JsScript extends Script {
 	}
 
 	@Override
-	public void run(Event evt) throws ScriptError {
+	public boolean run(Event evt) throws ScriptError {
 		String label = evt.target.getLabel(StringTemplate.defaultTemplate);
 		boolean update = evt.type == EventType.UPDATE;
 		Object[] args;
@@ -48,6 +48,7 @@ public class JsScript extends Script {
 			} else {
 				app.evalJavaScript(app, text, evt.argument);
 			}
+			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ScriptError(app.getPlain(update ? "OnUpdate" : "OnClick")

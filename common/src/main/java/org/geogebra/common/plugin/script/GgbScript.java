@@ -3,6 +3,7 @@ package org.geogebra.common.plugin.script;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.ScriptError;
@@ -33,10 +34,10 @@ public class GgbScript extends Script {
 	}
 
 	@Override
-	public void run(Event evt) throws ScriptError {
+	public boolean run(Event evt) throws ScriptError {
 		String scriptText;
 		if (text == null) {
-			return;
+			return true;
 		}
 		if (evt.argument == null) {
 			scriptText = text;
@@ -44,18 +45,22 @@ public class GgbScript extends Script {
 			scriptText = text.replaceAll("%0", evt.argument);
 		}
 		String[] lines = scriptText.split("\n");
+		boolean success = true;
 		for (int i = 0; i < lines.length; i++) {
 			String line = lines[i].trim();
 			if (line.equals("") || line.charAt(0) == '#') {
 				continue;
 			}
 			try {
-				proc.processAlgebraCommandNoExceptionHandling(line, false,
+				GeoElement[] res = proc
+						.processAlgebraCommandNoExceptionHandling(line, false,
 						new ScriptErrorHandler(app, evt, i), false, null);
+				success = success && res != null;
 			} catch (Throwable e) {
 
 			}
 		}
+		return success;
 	}
 
 	public static String script2LocalizedScript(App app, String st) {
