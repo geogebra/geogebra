@@ -6597,18 +6597,21 @@ public abstract class EuclidianController {
 					if (hit != null) {
 						if (hit.isGeoButton() && !(hit.isGeoInputBox())) {
 							checkBoxOrButtonJustHitted = true;
+						if (app.showView(App.VIEW_PROPERTIES) == false) {
 							selection.removeSelectedGeo(hit, true, false); // make
 							// sure
 							// doesn't
 							// get
 							// selected
 							app.updateSelection(false);
+						}
 						} else if (hit.isGeoBoolean()) {
 							GeoBoolean bool = (GeoBoolean) (hits.get(0));
 							if (!isCheckboxFixed(bool)) { // otherwise changed on
 								// mouse
 								// down
 								hitCheckBox(bool);
+							if (app.showView(App.VIEW_PROPERTIES) == false) {
 								selection.removeSelectedGeo(bool, true, false); // make
 								// sure
 								// doesn't
@@ -6616,6 +6619,7 @@ public abstract class EuclidianController {
 								// selected
 								app.updateSelection(false);
 								bool.updateCascade();
+							}
 							}
 					} else {
 							GeoElement geo1 = chooseGeo(hits, true);
@@ -7527,8 +7531,7 @@ public abstract class EuclidianController {
 			if (!isMoveCheckboxExpected()) {
 				movedGeoBoolean.setValue(!movedGeoBoolean.getBoolean());
 
-				if (!(app.getGuiManager().hasPropertiesView() && app
-						.getGuiManager().getPropertiesView().isShowing())) {
+				if (app.showView(App.VIEW_PROPERTIES) == false) {
 					selection.removeSelectedGeo(movedGeoBoolean); // make sure
 					// doesn't get
 					// selected
@@ -8267,7 +8270,7 @@ public abstract class EuclidianController {
 		if (circleRadiusDrag(event)) {
 			return;
 		}
-		if (pressedButton != null) {
+		if (pressedButton != null && !app.showView(App.VIEW_PROPERTIES)) {
 			pressedButton.setDraggedOrContext(true);
 		}
 		if (penMode(mode)) {
@@ -9036,11 +9039,7 @@ public abstract class EuclidianController {
 		}
 		this.pressedButton = view.getHitButton(mouseLoc, event.getType());
 		if (pressedButton != null) {
-			if (app.getGuiManager().hasPropertiesView()
-					&& app.getGuiManager().getPropertiesView().isShowing()) {
-				app.getSelectionManager()
-						.addSelectedGeo(pressedButton.getButton());
-			} else {
+			if (app.showView(App.VIEW_PROPERTIES) == false) {
 				pressedButton.setPressed(true);
 				pressedButton.setDraggedOrContext(
 						event.isMetaDown() || event.isPopupTrigger());
@@ -9048,6 +9047,9 @@ public abstract class EuclidianController {
 				if (!event.isRightClick()) {
 					runScriptsIfNeeded(pressedButton.getButton());
 				}
+			} else {
+				app.getSelectionManager()
+						.addSelectedGeo(pressedButton.getButton());
 			}
 		}
 
@@ -9540,8 +9542,7 @@ public abstract class EuclidianController {
 
 		app.storeUndoInfoIfSetCoordSystemOccured();
 
-		if (pressedButton != null && !(app.getGuiManager().hasPropertiesView()
-				&& app.getGuiManager().getPropertiesView().isShowing())) {
+		if (pressedButton != null && !(app.showView(App.VIEW_PROPERTIES))) {
 			pressedButton.setDraggedOrContext(pressedButton
 					.getDraggedOrContext() || meta);
 
