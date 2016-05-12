@@ -3001,6 +3001,16 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	private void doSetLabel(final String newLabel) {
+		// needed for GGB-810
+		if (cons.isFileLoading() && this instanceof GeoNumeric
+				&& newLabel.startsWith("c_")) {
+			GeoElement geo = cons.lookupLabel(newLabel);
+			// remove from construction duplicate of constant
+			if (geo != null) {
+				cons.removeFromConstructionList(geo);
+				cons.removeLabel(geo);
+			}
+		}
 		// UPDATE KERNEL
 		if (!labelSet && isIndependent()) {
 			// add independent object to list of all Construction Elements
