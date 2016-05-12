@@ -58,6 +58,18 @@ public class ResourceLoaderD implements ResourceLoader {
 			//System.out.println("absolute path used for:" + path);
 			return is;
 		}
+		is = FactoryProviderDesktop.class.getResourceAsStream(
+				"/com/himamis/retex/renderer/desktop/greek/" + path);
+		if (is != null) {
+			// System.out.println("absolute path used for:" + path);
+			return is;
+		}
+		is = FactoryProviderDesktop.class.getResourceAsStream(
+				"/com/himamis/retex/renderer/desktop/cyrillic/" + path);
+		if (is != null) {
+			// System.out.println("absolute path used for:" + path);
+			return is;
+		}
 
 
 		if (base != null) {

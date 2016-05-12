@@ -45,7 +45,6 @@
 
 package com.himamis.retex.renderer.share;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -476,7 +475,8 @@ public class TeXParser {
 
 	private void firstpass() throws ParseException {
 
-		HashMap<java.lang.Character, String> unicodeTeXmap = UnicodeTeX.getMap();
+		// HashMap<java.lang.Character, String> unicodeTeXmap =
+		// UnicodeTeX.getMap();
 
 		if (len != 0) {
 			char ch;
@@ -732,13 +732,13 @@ public class TeXParser {
 				default:
 
 					// https://jira.geogebra.org/browse/GGB-879
-					String tex = unicodeTeXmap.get(ch);
-					if (tex != null) {
-						// System.out.println("found " + tex);
-						parseString.replace(pos, pos + 1, "{\\" + tex + "}");
-						len = parseString.length();
-
-					}
+					// String tex = unicodeTeXmap.get(ch);
+					// if (tex != null) {
+					// // System.out.println("found " + tex);
+					// parseString.replace(pos, pos + 1, "{\\" + tex + "}");
+					// len = parseString.length();
+					//
+					// }
 
 					pos++;
 				}

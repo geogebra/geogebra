@@ -200,10 +200,14 @@ public class DefaultTeXFont implements TeXFont {
 		}
 		if (!b) {
 			TeXParser.isLoading = true;
-			addTeXFontDescription(base, new Resource().loadResource(base, language), language);
+			Object res = new Resource().loadResource(base, language);
+			System.out.println(
+					"ADDING ALPHABET " + language + ":" + res + "," + base);
+			addTeXFontDescription(base, res, language);
 			for (int i = 0; i < alphabet.length; i++) {
 				loadedAlphabets.add(alphabet[i]);
 			}
+			System.out.println("ADDED");
 			TeXParser.isLoading = false;
 		}
 	}
