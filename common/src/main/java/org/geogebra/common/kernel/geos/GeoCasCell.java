@@ -2739,7 +2739,16 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (geo instanceof GeoDummyVariable) {
 			GeoElement subst = ((GeoDummyVariable) geo)
 					.getElementWithSameName();
-			if (subst != null && !subst.sendValueToCas) {
+			if (subst != null
+					&& (!subst.sendValueToCas ||
+					// needed for GGB-810
+					// skip constants
+							(subst.getLabelSimple() != null
+							&& subst.getLabelSimple().startsWith("c_")))) {
+				return false;
+			} else if (subst == null
+					&& ((GeoDummyVariable) geo).getVarName() != null
+					&& ((GeoDummyVariable) geo).getVarName().startsWith("c_")) {
 				return false;
 			}
 			return true;

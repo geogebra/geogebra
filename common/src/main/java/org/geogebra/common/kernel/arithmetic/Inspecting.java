@@ -128,7 +128,11 @@ public interface Inspecting {
 						}
 						isOtherVar = true;
 						GeoElement subst = gdv.getElementWithSameName();
-						if (subst != null && !subst.getSendValueToCas()) {
+						if (subst != null && (!subst.getSendValueToCas()
+								// skip constants
+								// needed for GGB-810
+								|| (subst.getLabelSimple() != null && subst
+										.getLabelSimple().startsWith("c_")))) {
 							return false;
 						}
 						return true;
@@ -145,7 +149,11 @@ public interface Inspecting {
 				if (v instanceof GeoDummyVariable) {
 					GeoElement subst = ((GeoDummyVariable) v)
 							.getElementWithSameName();
-					if (subst != null && !subst.getSendValueToCas()) {
+					if (subst != null && (!subst.getSendValueToCas()
+							// skip constants
+							// needed for GGB-810
+							|| (subst.getLabelSimple() != null && subst
+									.getLabelSimple().startsWith("c_")))) {
 						return false;
 					}
 					return true;
