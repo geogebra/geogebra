@@ -78,7 +78,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		// create help button
 		btnOnlineHelp = new Button(app.getPlain("ShowOnlineHelp"));
-		// btnOnlineHelp.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btnOnlineHelp.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				openOnlineHelp();
@@ -86,7 +85,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		});
 		render(app.getNetworkOperation().isOnline());
 		app.getNetworkOperation().getView().add(this);
-		// btnOnlineHelp.getElement().getStyle().setTextAlign(TextAlign.RIGHT);
 		btnOnlineHelp.addStyleName("inputHelp-OnlineHelpBtn");
 
 		FlowPanel pnlButton = new FlowPanel();
@@ -95,15 +93,12 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 		// create close button
 		btnClose = new Button(app.getMenu("Close"));
-		// btnClose.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btnClose.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				hide();
-				// TODO add closing
 			}
 		});
 		btnClose.setStyleName("inputHelp-CancelBtn");
-		// btnClose.addStyleName("");
 		pnlButton.add(btnClose);
 
 		// create detail title panel
@@ -120,7 +115,6 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		add(detailTitlePanel);
 		// create the detail panel
 		VerticalPanel detailPanel = new VerticalPanel();
-		// detailPanel.add(detailTitlePanel);
 		detailPanel.add(syntaxPanel);
 		detailPanel.setWidth("100%");
 

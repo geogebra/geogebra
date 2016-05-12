@@ -3810,7 +3810,7 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 
 .algebraHelpButton{
 	display: inline-block;
-	padding: 1px 3px 1px 5px;
+	padding: 0px 3px 0px 5px;
 }
 
 .algebraHelpButton img{
