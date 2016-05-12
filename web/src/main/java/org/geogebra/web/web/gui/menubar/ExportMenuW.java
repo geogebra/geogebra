@@ -54,7 +54,10 @@ public class ExportMenuW extends MenuBar {
 				app) {
 
 			public void execute() {
-						app.getSelectionManager().clearSelectedGeos();
+						app.getActiveEuclidianView()
+								.setSelectionRectangle(null);
+						app.getActiveEuclidianView().getEuclidianController()
+								.clearSelections();
 				hide();
 				String url = ((EuclidianViewWInterface) app
 						.getActiveEuclidianView()).getExportImageDataUrl(1.0,
