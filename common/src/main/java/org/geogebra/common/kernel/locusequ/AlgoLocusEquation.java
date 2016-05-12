@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.prover.ProverBotanasMethod;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Prover.ProverEngine;
@@ -45,7 +44,8 @@ public class AlgoLocusEquation extends AlgoElement {
     private GeoPoint movingPoint, locusPoint;
     public static final String CLASS_NAME = "AlgoLocusEqu";
 	private GeoImplicit geoPoly;
-    private GeoElement[] efficientInput, standardInput;
+	private GeoElement[] efficientInput, standardInput;
+	private String efficientInputFingerprint;
     private EquationSystem old_system = null; // for caching
 	private GeoElement implicitLocus = null;
     
@@ -68,7 +68,7 @@ public class AlgoLocusEquation extends AlgoElement {
 		this.geoPoly = kernel.newImplicitPoly(cons);
         
         setInputOutput();
-        compute();
+		initialCompute();
     }
 
 	public AlgoLocusEquation(Construction cons, String label,
@@ -87,7 +87,7 @@ public class AlgoLocusEquation extends AlgoElement {
 		this.geoPoly = kernel.newImplicitPoly(cons);
 
 		setInputOutput();
-		compute();
+		initialCompute();
 	}
 
 	/* (non-Javadoc)
@@ -130,8 +130,30 @@ public class AlgoLocusEquation extends AlgoElement {
 		setOutput(0, this.geoPoly.toGeoElement());
         
         setEfficientDependencies(standardInput, efficientInput);
+		efficientInputFingerprint = fingerprint(efficientInput);
 	}
     
+	/*
+	 * We use a very hacky way to avoid drawing locus equation when the curve is
+	 * not changed. To achieve that, we create a fingerprint of the current
+	 * coordinates or other important parameters of the efficient input. (It
+	 * contains only those inputs which are relevant in computing the curve,
+	 * hence if they are not changed, the curve will not be recomputed.) The
+	 * fingerprint function should eventually be improved. Here we assume that
+	 * the input objects are always in the same order (that seems sensible) and
+	 * the obtained algebraic description changes iff the object does. This may
+	 * not be the case if rounding/precision is not as presumed.
+	 */
+	private static String fingerprint(GeoElement[] input) {
+		String ret = "";
+		int size = input.length;
+		for (int i = 0; i < size; ++i) {
+			ret += input[i].getAlgebraDescription(
+					StringTemplate.defaultTemplate) + ",";
+		}
+		return ret;
+	}
+
     /**
      * @return the result.
      */
@@ -144,7 +166,16 @@ public class AlgoLocusEquation extends AlgoElement {
 	 */
 	@Override
 	public void compute() {
+		String efficientInputFingerprintPrev = efficientInputFingerprint;
+		setInputOutput();
+		if (!efficientInputFingerprintPrev.equals(efficientInputFingerprint)) {
+			Log.debug(efficientInputFingerprintPrev + " -> "
+					+ efficientInputFingerprint);
+			initialCompute();
+		}
+	}
 
+	public void initialCompute() {
 		/*
 		 * This piece of code helps computing the FPS rate on a LocusEquation
 		 * animation. A slider must be animated in order to get the benchmark
@@ -507,6 +538,7 @@ public class AlgoLocusEquation extends AlgoElement {
 		setOutput(0, this.geoPoly.toGeoElement());
 
 		setEfficientDependencies(standardInput, efficientInput);
+		efficientInputFingerprint = fingerprint(efficientInput);
 
 	}
 
