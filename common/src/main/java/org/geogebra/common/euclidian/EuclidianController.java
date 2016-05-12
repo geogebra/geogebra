@@ -7526,9 +7526,13 @@ public abstract class EuclidianController {
 			// important for electronic whiteboards / tablets
 			if (!isMoveCheckboxExpected()) {
 				movedGeoBoolean.setValue(!movedGeoBoolean.getBoolean());
-				selection.removeSelectedGeo(movedGeoBoolean); // make sure
-				// doesn't get
-				// selected
+
+				if (!(app.getGuiManager().hasPropertiesView() && app
+						.getGuiManager().getPropertiesView().isShowing())) {
+					selection.removeSelectedGeo(movedGeoBoolean); // make sure
+					// doesn't get
+					// selected
+				}
 				movedGeoBoolean.updateCascade();
 				this.checkboxChangeOccured = true;
 			}
@@ -9032,12 +9036,18 @@ public abstract class EuclidianController {
 		}
 		this.pressedButton = view.getHitButton(mouseLoc, event.getType());
 		if (pressedButton != null) {
-			pressedButton.setPressed(true);
-			pressedButton.setDraggedOrContext(event.isMetaDown()
-					|| event.isPopupTrigger());
+			if (app.getGuiManager().hasPropertiesView()
+					&& app.getGuiManager().getPropertiesView().isShowing()) {
+				app.getSelectionManager()
+						.addSelectedGeo(pressedButton.getButton());
+			} else {
+				pressedButton.setPressed(true);
+				pressedButton.setDraggedOrContext(
+						event.isMetaDown() || event.isPopupTrigger());
 
-			if (!event.isRightClick()) {
-				runScriptsIfNeeded(pressedButton.getButton());
+				if (!event.isRightClick()) {
+					runScriptsIfNeeded(pressedButton.getButton());
+				}
 			}
 		}
 
@@ -9530,7 +9540,8 @@ public abstract class EuclidianController {
 
 		app.storeUndoInfoIfSetCoordSystemOccured();
 
-		if (pressedButton != null) {
+		if (pressedButton != null && !(app.getGuiManager().hasPropertiesView()
+				&& app.getGuiManager().getPropertiesView().isShowing())) {
 			pressedButton.setDraggedOrContext(pressedButton
 					.getDraggedOrContext() || meta);
 
@@ -9842,9 +9853,9 @@ public abstract class EuclidianController {
 				// created
 				// by a
 				// script
-				if (checkBoxOrButtonJustHitted) // does nothing
-					checkBoxOrButtonJustHitted = false;
-				else
+				// if (checkBoxOrButtonJustHitted) // does nothing
+				// checkBoxOrButtonJustHitted = false;
+				// else
 					app.getGuiManager()
 							.mouseReleasedForPropertiesView(
 									mode != EuclidianConstants.MODE_MOVE
