@@ -469,13 +469,22 @@ public class CoordSys {
 		return equationVector;
 	}
 
-	/*
-	 * set the equation vector
+	/**
+	 * creates the coord sys from the equation, e.g. ax+by+cz+d=0 for planes
 	 * 
-	 * @param vals
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @param d
 	 * 
-	 * public void setEquationVector(double[] vals){ equationVector.set(vals); }
 	 */
+	public void makeCoordSys(double a, double b, double c, double d) {
+		resetCoordSys();
+
+		equationVector.set(a, b, c, d);
+
+		makeCoordSys();
+	}
 
 	/**
 	 * creates the coord sys from the equation, e.g. ax+by+cz+d=0 for planes
@@ -487,6 +496,13 @@ public class CoordSys {
 		resetCoordSys();
 
 		equationVector.set(vals);
+
+		makeCoordSys();
+	}
+
+	private void makeCoordSys() {
+
+		double[] vals = equationVector.get();
 
 		// sets the origin : first non-zero value sets the coord ( - const value
 		// / coeff value)

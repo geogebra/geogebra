@@ -90,12 +90,6 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
-	private void setEquation(double a, double b, double c, double d,
-			boolean makeCoordSys) {
-
-		setEquation(new double[] { a, b, c, d }, makeCoordSys);
-
-	}
 
 	public void setEquation(double a, double b, double c, double d) {
 
@@ -107,11 +101,12 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		setEquation(x, y, z, w, false);
 	}
 
-	private void setEquation(double[] v, boolean makeCoordSys) {
+	private void setEquation(double a, double b, double c, double d,
+			boolean makeCoordSys) {
 
 		if (makeCoordSys || !getCoordSys().isDefined()) {
 			setDefinition(null);
-			getCoordSys().makeCoordSys(v);
+			getCoordSys().makeCoordSys(a, b, c, d);
 			getCoordSys().makeOrthoMatrix(true, true);
 		}
 	}
@@ -348,8 +343,12 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	@Override
-	public boolean isEqual(GeoElement Geo) {
-		// TODO Raccord de methode auto-genere
+	public boolean isEqual(GeoElement geo) {
+		if (geo.isGeoPlane()) {
+			Coords ev1 = getCoordSys().getEquationVector();
+			Coords ev2 = ((GeoPlane3D) geo).getCoordSys().getEquationVector();
+			return !ev1.isLinearIndependentAllCoords(ev2);
+		}
 		return false;
 	}
 

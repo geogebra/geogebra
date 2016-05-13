@@ -662,6 +662,48 @@ public class Coords {
 
 	}
 
+	final public boolean isLinearIndependentAllCoords(Coords v) {
+
+		int index = 0;
+		boolean notFound = true;
+		double r1 = 0, r2 = 0;
+
+		// first try to find non zero coords
+		while (notFound && index < getLength()) {
+			double c1 = val[index];
+			double c2 = v.val[index];
+			if (Kernel.isZero(c1)) {
+				if (!Kernel.isZero(c2)) {
+					return true;
+				}
+				// c1 and c2 are 0: continue
+			} else {
+				// c1 is not 0
+				if (Kernel.isZero(c2)) {
+					return true;
+				}
+				// c2 is not 0
+				notFound = false;
+				r1 = c1;
+				r2 = c2;
+			}
+			index++;
+		}
+
+		// with non zero coords, verify other coords are dependents
+		while (index < getLength()) {
+			double value = r1 * v.val[index] - val[index] * r2;
+			if (!Kernel.isZero(value)) {
+				return true;
+			}
+			index++;
+		}
+
+		// all coords are lin dep
+		return false;
+
+	}
+
 	/**
 	 * returns the scalar norm.
 	 * <p>
