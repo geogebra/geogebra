@@ -645,60 +645,10 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * curWordEnd are set to this word's start and end position
 	 */
 	public void updateCurrentWord(boolean searchRight) {
-		String text = getText();
-		if (text == null)
-			return;
-		int caretPos = getCaretPosition();
-
-		if (searchRight) {
-			// search to right first to see if we are inside [ ]
-			boolean insideBrackets = false;
-			curWordStart = caretPos;
-
-			while (curWordStart < text.length()) {
-				char c = text.charAt(curWordStart);
-				if (c == '[')
-					break;
-				if (c == ']')
-					insideBrackets = true;
-				curWordStart++;
-			}
-
-			// found [, so go back until we get a ]
-			if (insideBrackets) {
-				while (caretPos > 0 && text.charAt(caretPos) != '[')
-					caretPos--;
-			}
-		}
-
-		// search to the left
-		curWordStart = caretPos - 1;
-		while (curWordStart >= 0 &&
-		// isLetterOrDigitOrOpenBracket so that F1 works
-				(curWordStart >= text.length()
-						|| StringUtil.isLetterOrDigitOrUnderscore(
-								text.charAt(curWordStart)))) {
-			--curWordStart;
-		}
-		curWordStart++;
-		// search to the right
-		int curWordEnd = caretPos;
-		int length = text.length();
-		while (curWordEnd < length
-				&& StringUtil.isLetterOrDigitOrUnderscore(text
-						.charAt(curWordEnd)))
-			++curWordEnd;
-
-		curWord.setLength(0);
-		if (curWordEnd <= length) {
-		curWord.append(text.substring(curWordStart, curWordEnd));
-		} else {
-			Log.debug("CARET OUTSIDE");
-		}
-
-		// remove '[' at end
-		if (curWord.toString().endsWith("[")) {
-			curWord.setLength(curWord.length() - 1);
+		int next = InputHelper.updateCurrentWord(searchRight, this.curWord,
+				getText(), getCaretPosition(), true);
+		if (next > -1) {
+			this.curWordStart = next;
 		}
 	}
 

@@ -170,8 +170,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				String oldText = getText();
 				int pos = getValueBox().getCursorPos();
 				StringBuilder sb = new StringBuilder();
-				int wp = AutoCompleteTextFieldW.updateCurrentWord(false,
-				        new StringBuilder(), oldText, pos);
+				int wp = InputHelper.updateCurrentWord(false,
+						new StringBuilder(), oldText, pos, true);
 				/*
 				 * if(wp <= 0){ wp = pos; }
 				 */
@@ -757,66 +757,15 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	 * curWordEnd are set to this word's start and end position
 	 */
 	public void updateCurrentWord(boolean searchRight) {
-		int next = updateCurrentWord(searchRight, this.curWord, getText(),
-		        getCaretPosition());
+		int next = InputHelper.updateCurrentWord(searchRight, this.curWord,
+				getText(),
+				getCaretPosition(), true);
 		if (next > -1) {
 			this.curWordStart = next;
 		}
 	}
 
-	static int updateCurrentWord(boolean searchRight, StringBuilder curWord,
-	        String text, int caretPos) {
-		int curWordStart;
-		if (text == null)
-			return -1;
 
-		if (searchRight) {
-			// search to right first to see if we are inside [ ]
-			boolean insideBrackets = false;
-			curWordStart = caretPos;
-
-			while (curWordStart < text.length()) {
-				char c = text.charAt(curWordStart);
-				if (c == '[')
-					break;
-				if (c == ']')
-					insideBrackets = true;
-				curWordStart++;
-			}
-
-			// found [, so go back until we get a ]
-			if (insideBrackets) {
-				while (caretPos > 0 && text.charAt(caretPos) != '[')
-					caretPos--;
-			}
-		}
-
-		// search to the left
-		curWordStart = caretPos - 1;
-		while (curWordStart >= 0 &&
-		// isLetterOrDigitOrOpenBracket so that F1 works
-		        StringUtil.isLetterOrDigitOrUnderscore(text
-		                .charAt(curWordStart))) {
-			--curWordStart;
-		}
-		curWordStart++;
-		// search to the right
-		int curWordEnd = caretPos;
-		int length = text.length();
-		while (curWordEnd < length
-		        && StringUtil.isLetterOrDigitOrUnderscore(text
-		                .charAt(curWordEnd)))
-			++curWordEnd;
-
-		curWord.setLength(0);
-		curWord.append(text.substring(curWordStart, curWordEnd));
-
-		// remove '[' at end
-		if (curWord.toString().endsWith("[")) {
-			curWord.setLength(curWord.length() - 1);
-		}
-		return curWordStart;
-	}
 
 	/*
 	 * just show syntax error (already correctly formulated by

@@ -103,9 +103,9 @@ public class EquationEditor {
 	 * AutoCompleteTextFieldW
 	 */
 	public void updateCurrentWord(boolean searchRight) {
-		int next = updateCurrentWord(searchRight, this.curWord,
+		int next = InputHelper.updateCurrentWord(searchRight, this.curWord,
 		        component.getText(),
-		        getCaretPosition());
+				getCaretPosition(), false);
 		if (next > -1) {
 			this.curWordStart = next;
 		}
@@ -114,70 +114,6 @@ public class EquationEditor {
 	public int getCaretPosition() {
 		return DrawEquationW
 				.getCaretPosInEditedValue(component.getLaTeXElement());
-	}
-	
-
-
-	/**
-	 * Code copied from AutoCompleteTextFieldW
-	 */
-	static int updateCurrentWord(boolean searchRight, StringBuilder curWord,
-			String text, int initCaretPos) {
-		int caretPos = initCaretPos;
-		int curWordStart;
-		if (text == null)
-			return -1;
-
-		if (searchRight) {
-			// search to right first to see if we are inside [ ]
-			boolean insideBrackets = false;
-			curWordStart = caretPos;
-
-			while (curWordStart < text.length()) {
-				char c = text.charAt(curWordStart);
-				if (c == '[' || c == '(' || c == '{')
-					break;
-				if (c == ']' || c == ')' || c == '}')
-					insideBrackets = true;
-				curWordStart++;
-			}
-
-			// found [, so go back until we get a ]
-			if (insideBrackets) {
-				while (caretPos > 0 && text.charAt(caretPos) != '['
-				        && text.charAt(caretPos) != '('
-				        && text.charAt(caretPos) != '{')
-					caretPos--;
-			}
-		}
-
-		// search to the left
-		curWordStart = caretPos - 1;
-		while (curWordStart >= 0 &&
-		// isLetterOrDigitOrOpenBracket so that F1 works
-		        StringUtil.isLetterOrDigitOrUnderscore(text
-		                .charAt(curWordStart))) {
-			--curWordStart;
-		}
-		curWordStart++;
-		// search to the right
-		int curWordEnd = caretPos;
-		int length = text.length();
-		while (curWordEnd < length
-		        && StringUtil.isLetterOrDigitOrUnderscore(text
-		                .charAt(curWordEnd)))
-			++curWordEnd;
-
-		curWord.setLength(0);
-		curWord.append(text.substring(curWordStart, curWordEnd));
-
-		// remove '[' at end
-		if (curWord.toString().endsWith("[")
-		        || curWord.toString().endsWith("(")
-		        || curWord.toString().endsWith("{")) {
-			curWord.setLength(curWord.length() - 1);
-		}
-		return curWordStart;
 	}
 
 	public boolean popupSuggestions() {
