@@ -96,7 +96,7 @@ final class PredefinedCommands {
 		vspace(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.clrlap_macro(tp, args);
+				return PredefMacros.hvspace_macro(tp, args);
 			}
 		},
 		llap(1) {
