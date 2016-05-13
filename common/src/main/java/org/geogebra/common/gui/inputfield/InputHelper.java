@@ -115,7 +115,7 @@ public class InputHelper {
 		}
 
 		// remove '[' at end
-		if (isOpenBracket(
+		if (curWord.length() > 0 && isOpenBracket(
 				curWord.charAt(curWord.length() - 1), onlySquareBrackets)) {
 			curWord.setLength(curWord.length() - 1);
 		}
