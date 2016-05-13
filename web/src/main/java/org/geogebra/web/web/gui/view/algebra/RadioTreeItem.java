@@ -675,13 +675,19 @@ public class RadioTreeItem extends AVTreeItem
 				StringTemplate.latexTemplateMQ) : text);
 	}
 
+	private void addPrefixLabel(String text) {
+		final Label label = new Label(text);
+		label.addStyleName("prefix");
+		outputPanel.add(label);
+	}
 	private boolean updateValuePanel(String text) {
 		if (geo == null || !geo.needToShowBothRowsInAV()) {
 			return false;
 		}
 
 		outputPanel.clear();
-		if (app.has(Feature.FRACTIONS) && isSymbolicDiffers()) {
+		if (app.has(Feature.FRACTIONS)) {
+			if (isSymbolicDiffers()) {
 			final MyToggleButton2 btnSymbolic = new MyToggleButton2(
 					getOutputPrefix());
 			btnSymbolic.addStyleName("symbolicButton");
@@ -693,10 +699,12 @@ public class RadioTreeItem extends AVTreeItem
 				}
 			});
 			outputPanel.add(btnSymbolic);
+			} else {
+				addPrefixLabel(Unicode.CAS_OUTPUT_NUMERIC);
+			}
+
 		} else {
-			final Label lblDefinition = new Label(getOutputPrefix());
-			lblDefinition.addStyleName("prefix");
-			outputPanel.add(lblDefinition);
+			addPrefixLabel(getOutputPrefix());
 		}
 
 		valuePanel.clear();
