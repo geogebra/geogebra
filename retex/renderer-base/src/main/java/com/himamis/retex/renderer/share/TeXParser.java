@@ -475,9 +475,6 @@ public class TeXParser {
 
 	private void firstpass() throws ParseException {
 
-		// HashMap<java.lang.Character, String> unicodeTeXmap =
-		// UnicodeTeX.getMap();
-
 		if (len != 0) {
 			char ch;
 			String com;
@@ -730,16 +727,6 @@ public class TeXParser {
 					pos++;
 					break;
 				default:
-
-					// https://jira.geogebra.org/browse/GGB-879
-					// String tex = unicodeTeXmap.get(ch);
-					// if (tex != null) {
-					// // System.out.println("found " + tex);
-					// parseString.replace(pos, pos + 1, "{\\" + tex + "}");
-					// len = parseString.length();
-					//
-					// }
-
 					pos++;
 				}
 

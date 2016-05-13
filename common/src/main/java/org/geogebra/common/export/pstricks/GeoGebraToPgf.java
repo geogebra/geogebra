@@ -13,6 +13,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.DrawPoint;
+import org.geogebra.common.export.UnicodeTeX;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
@@ -65,8 +66,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.GStringTokenizer;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
-
-import com.himamis.retex.renderer.share.UnicodeTeX;
 
 /**
  * Generates PGF/Tikz string representation of current view.
