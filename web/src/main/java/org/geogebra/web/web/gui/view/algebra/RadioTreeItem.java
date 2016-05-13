@@ -64,6 +64,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
+import org.geogebra.web.web.gui.util.MyToggleButton2;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JsArray;
@@ -679,25 +680,25 @@ public class RadioTreeItem extends AVTreeItem
 			return false;
 		}
 
-		final Label lblDefinition = new Label(getOutputPrefix());
-		lblDefinition.addStyleName("prefix");
+		outputPanel.clear();
+		if (app.has(Feature.FRACTIONS) && isSymbolicDiffers()) {
+			final MyToggleButton2 btnSymbolic = new MyToggleButton2(
+					getOutputPrefix());
+			btnSymbolic.addStyleName("symbolicButton");
+			btnSymbolic.addClickHandler(new ClickHandler() {
 
-		if (app.has(Feature.FRACTIONS)) {
-			ClickStartHandler.init(lblDefinition, new ClickStartHandler() {
-
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					if (isSymbolicDiffers()) {
-						toggleSymbolic(lblDefinition);
-					}
+				public void onClick(ClickEvent event) {
+					toggleSymbolic(btnSymbolic);
 
 				}
 			});
+			outputPanel.add(btnSymbolic);
+		} else {
+			final Label lblDefinition = new Label(getOutputPrefix());
+			lblDefinition.addStyleName("prefix");
+			outputPanel.add(lblDefinition);
 		}
 
-		updateColor(lblDefinition);
-		outputPanel.clear();
-		outputPanel.add(lblDefinition);
 		valuePanel.clear();
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 		geo.getAlgebraDescriptionTextOrHTMLDefault(sb);
@@ -808,12 +809,12 @@ public class RadioTreeItem extends AVTreeItem
 	// return lblDefinition;
 	// }
 
-	void toggleSymbolic(Label lbl) {
+	void toggleSymbolic(MyToggleButton2 button) {
 		if (geo instanceof HasSymbolicMode) {
 			((HasSymbolicMode) geo)
 					.setSymbolicMode(!((HasSymbolicMode) geo).isSymboicMode());
 			geo.updateRepaint();
-			lbl.setText(getOutputPrefix());
+			button.setText(getOutputPrefix());
 		}
 	}
 	private void updateFont(Widget w) {
