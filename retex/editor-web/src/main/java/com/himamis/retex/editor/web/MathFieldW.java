@@ -190,4 +190,9 @@ public class MathFieldW implements MathField {
 		// TODO Auto-generated method stub
 
 	}
+
+	public void fireInputChangedEvent() {
+		// TODO Auto-generated method stub
+
+	}
 }
