@@ -8054,7 +8054,7 @@ $.fn.mathquillggb = function(cmd, latex) {
 	        block = blockId && Node.byId[blockId],
 	        cursor = block && block.cursor;
 
-        if (cursor) {
+        if (cursor && cursor[L]!=0) {
           // first deleting the current word
           var ilen = cw.length;
           while (ilen > 0) {
