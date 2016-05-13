@@ -3857,6 +3857,10 @@ public abstract class App implements UpdateSelection {
 			}
 			return prerelease;
 
+		// GGB-639
+		case FRACTIONS:
+			return prerelease;
+
 		case INPUTHELP_SHOWN_IN_AV:
 			return prerelease;
 
@@ -3923,9 +3927,6 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-393
 		case MOBILE_SWITCH_KEYBOARD:
-			return prerelease;
-
-		case FRACTIONS:
 			return prerelease;
 
 		// GGB-856
