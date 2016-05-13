@@ -676,64 +676,64 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				&& root.getOperation().equals(Operation.EQUAL_BOOLEAN))){
 			traverseExpression(root);
 			// try to check substituted and expanded expression
-			if (true) {
-				ExpressionNode rootCopy = root.deepCopy(kernel);
-				// collect all labels of GeoNumerics from expression
-				Set<String> setOfGeoNumLabels = new TreeSet<String>();
-				rootCopy.traverse(GeoNumericLabelCollector
-						.getCollector(setOfGeoNumLabels));
-				if (!setOfGeoNumLabels.isEmpty()) {
-					substNeeded = true;
-				}
-				Iterator<String> it = setOfGeoNumLabels.iterator();
-				while (it.hasNext()) {
-					String varStr = it.next();
-					// get GeoNumeric from construction with given label
-					GeoNumeric geo = (GeoNumeric) cons
-							.geoTableVarLookup(varStr);
-					// get substitute formula of GeoNumeric
-					ExpressionNode replExp = ((AlgoDependentNumber) geo
-							.getParentAlgorithm()).getExpression();
-					GeoNumericReplacer repl = GeoNumericReplacer.getReplacer(
-							geo, replExp, kernel);
-					// replace GeoNumeric with formula expression
-					rootCopy.traverse(repl);
-				}
-				// traverse substituted expression to collect segments
-				traverseExpression(rootCopy);
-				
-				if (((rootCopy.getLeft() instanceof GeoSegment
-						&& rootCopy.getRight() instanceof MyDouble) || 
-						(rootCopy.getRight() instanceof GeoSegment
-								&& rootCopy.getLeft() instanceof MyDouble)) 
-						&& rootCopy.getOperation().equals(
-								Operation.EQUAL_BOOLEAN)) {
-					Polynomial[][] ret = null;
-					return ret;
-				}
-				
-				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-				try {
-					// get expanded expression of root
-					String expandGiacOutput = cas.getCurrentCAS().evaluateRaw(
-							"expand("
-									+ rootCopy.getLeftTree().toString(
-											StringTemplate.giacTemplate) + ")");
-					if (!expandGiacOutput.contains("?")
-							&& !expandGiacOutput.equals("{}")) {
-						// parse expanded string into expression
-						ValidExpression expandValidExp = (kernel
-								.getGeoGebraCAS())
+
+			ExpressionNode rootCopy = root.deepCopy(kernel);
+			// collect all labels of GeoNumerics from expression
+			Set<String> setOfGeoNumLabels = new TreeSet<String>();
+			rootCopy.traverse(
+					GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
+			if (!setOfGeoNumLabels.isEmpty()) {
+				substNeeded = true;
+			}
+			Iterator<String> it = setOfGeoNumLabels.iterator();
+			while (it.hasNext()) {
+				String varStr = it.next();
+				// get GeoNumeric from construction with given label
+				GeoNumeric geo = (GeoNumeric) cons.geoTableVarLookup(varStr);
+				// get substitute formula of GeoNumeric
+				ExpressionNode replExp = ((AlgoDependentNumber) geo
+						.getParentAlgorithm()).getExpression();
+				GeoNumericReplacer repl = GeoNumericReplacer.getReplacer(geo,
+						replExp, kernel);
+				// replace GeoNumeric with formula expression
+				rootCopy.traverse(repl);
+			}
+			// traverse substituted expression to collect segments
+			traverseExpression(rootCopy);
+
+			if (((rootCopy.getLeft() instanceof GeoSegment
+					&& rootCopy.getRight() instanceof MyDouble)
+					|| (rootCopy.getRight() instanceof GeoSegment
+							&& rootCopy.getLeft() instanceof MyDouble))
+					&& rootCopy.getOperation()
+							.equals(Operation.EQUAL_BOOLEAN)) {
+				Polynomial[][] ret = null;
+				return ret;
+			}
+
+			GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+			try {
+				// get expanded expression of root
+				String expandGiacOutput = cas.getCurrentCAS()
+						.evaluateRaw(
+								"expand("
+										+ rootCopy.getLeftTree().toString(
+												StringTemplate.giacTemplate)
+										+ ")");
+				if (!expandGiacOutput.contains("?")
+						&& !expandGiacOutput.equals("{}")) {
+					// parse expanded string into expression
+					ValidExpression expandValidExp = (kernel.getGeoGebraCAS())
 							.getCASparser()
 							.parseGeoGebraCASInputAndResolveDummyVars(
 									expandGiacOutput, kernel, null);
-						traverseExpression((ExpressionNode) expandValidExp);
-					}
-				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					traverseExpression((ExpressionNode) expandValidExp);
 				}
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+
 			Polynomial[][] ret = null;
 			return ret;
 
