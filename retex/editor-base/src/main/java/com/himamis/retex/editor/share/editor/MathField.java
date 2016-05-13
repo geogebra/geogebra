@@ -71,4 +71,6 @@ public interface MathField {
      * @param dy y distance from current call to last call
      */
     void scroll(int dx, int dy);
+
+    void fireInputChangedEvent();
 }

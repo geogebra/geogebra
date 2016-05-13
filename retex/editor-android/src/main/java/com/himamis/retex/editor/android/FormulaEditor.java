@@ -210,7 +210,11 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     public void setKeyListener(KeyListener keyListener) {
-        setOnKeyListener(new KeyListenerAdapter(keyListener));
+        setOnKeyListener(new KeyListenerAdapter(keyListener, this));
+    }
+
+    public void onEnter() {
+        // used in AlgebraInput
     }
 
     @Override
@@ -301,6 +305,11 @@ public class FormulaEditor extends View implements MathField {
     }
 
     private int iconWidth;
+
+    public void fireInputChangedEvent() {
+        // implemented in AlgebraInput
+    }
+
 
     private void updateShiftX() {
 
@@ -430,6 +439,11 @@ public class FormulaEditor extends View implements MathField {
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(this, InputMethodManager.SHOW_FORCED);
         return true;
+    }
+
+    protected void hideSoftKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getWindowToken(), 0);
     }
 
     public void showCopyPasteButtons() {

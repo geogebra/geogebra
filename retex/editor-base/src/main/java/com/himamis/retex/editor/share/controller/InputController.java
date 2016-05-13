@@ -645,5 +645,52 @@ public class InputController {
 
 	}
 
+    public boolean handleChar(EditorState editorState, char ch) {
+        boolean handled = false;
+        // backspace, delete and escape are handled for key down
+        if (ch == 8 || ch == 127 || ch == 27) {
+            return true;
+        }
+        deleteSelection(editorState);
+        MetaModel metaModel = editorState.getMetaModel();
+        if (isArrayCloseKey(ch, editorState) || ch == InputController.FUNCTION_CLOSE_KEY) {
+            endField(editorState, ch);
+            handled = true;
+        } else if (metaModel.isFunctionOpenKey(ch)) {
+            newBraces(editorState, ch);
+            handled = true;
+        } else if (ch == '^') {
+            newScript(editorState, "^");
+            handled = true;
+        } else if (ch == '_') {
+            newScript(editorState, "_");
+            handled = true;
+        } else if (ch == '\\') {
+            newFunction(editorState, "frac", 1);
+            handled = true;
+        } else if (metaModel.isArrayOpenKey(ch)) {
+            newArray(editorState, 1, ch);
+            handled = true;
+        } else if (metaModel.isOperator("" + ch)) {
+            newOperator(editorState, ch);
+            handled = true;
+        } else if (metaModel.isSymbol("" + ch)) {
+            newSymbol(editorState, ch);
+            handled = true;
+        } else if (metaModel.isCharacter("" + ch)) {
+            newCharacter(editorState, ch);
+            handled = true;
+        }
+        return handled;
+    }
+
+    private boolean isArrayCloseKey(char key, EditorState editorState) {
+        MathContainer parent = editorState.getCurrentField().getParent();
+        if (parent != null && parent instanceof MathArray) {
+            MathArray array = (MathArray) parent;
+            return array.getCloseKey() == key;
+        }
+        return false;
+    }
 
 }

@@ -2,9 +2,6 @@ package com.himamis.retex.editor.share.controller;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
-import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.model.MathArray;
-import com.himamis.retex.editor.share.model.MathContainer;
 
 public class KeyListenerImpl implements KeyListener {
 
@@ -81,50 +78,7 @@ public class KeyListenerImpl implements KeyListener {
     @Override
     public boolean onKeyTyped(KeyEvent keyEvent) {
         char ch = keyEvent.getUnicodeKeyChar();
-        MetaModel metaModel = editorState.getMetaModel();
-        boolean handled = false;
-		// backspace, delete and escape are handled for key down
-		if (ch == 8 || ch == 127 || ch == 27) {
-			return true;
-		}
-		inputController.deleteSelection(editorState);
-        if (isArrayCloseKey(ch) || ch == InputController.FUNCTION_CLOSE_KEY) {
-            inputController.endField(editorState, ch);
-            handled = true;
-        } else if (metaModel.isFunctionOpenKey(ch)) {
-            inputController.newBraces(editorState, ch);
-            handled = true;
-        } else if (ch == '^') {
-            inputController.newScript(editorState, "^");
-            handled = true;
-        } else if (ch == '_') {
-            inputController.newScript(editorState, "_");
-            handled = true;
-        } else if (ch == '\\') {
-            inputController.newFunction(editorState, "frac", 1);
-            handled = true;
-        } else if (metaModel.isArrayOpenKey(ch)) {
-            inputController.newArray(editorState, 1, ch);
-            handled = true;
-        } else if (metaModel.isOperator("" + ch)) {
-            inputController.newOperator(editorState, ch);
-            handled = true;
-        } else if (metaModel.isSymbol("" + ch)) {
-            inputController.newSymbol(editorState, ch);
-            handled = true;
-        } else if (metaModel.isCharacter("" + ch)) {
-            inputController.newCharacter(editorState, ch);
-            handled = true;
-        }
-        return handled;
-    }
+		return inputController.handleChar(editorState, ch);
+	}
 
-    private boolean isArrayCloseKey(char key) {
-        MathContainer parent = editorState.getCurrentField().getParent();
-        if (parent != null && parent instanceof MathArray) {
-            MathArray array = (MathArray) parent;
-            return array.getCloseKey() == key;
-        }
-        return false;
-    }
 }

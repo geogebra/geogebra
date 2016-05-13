@@ -67,6 +67,7 @@ public class MathFieldController {
 					.setType(type).build();
 
 			mathField.setTeXIcon(renderer);
+			mathField.fireInputChangedEvent();
 		} catch (Exception e) {
 			System.out.println(selectionStart);
 			System.out.println(selectionEnd);

@@ -5,14 +5,17 @@ import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.himamis.retex.editor.android.FormulaEditor;
 import com.himamis.retex.editor.share.event.KeyListener;
 
 public class KeyListenerAdapter implements View.OnKeyListener {
 
     private KeyListener mKeyListener;
+    private FormulaEditor mFormulaEditor;
 
-    public KeyListenerAdapter(KeyListener keyListener) {
+    public KeyListenerAdapter(KeyListener keyListener, FormulaEditor formulaEditor) {
         mKeyListener = keyListener;
+        mFormulaEditor = formulaEditor;
     }
 
     @Override
@@ -22,6 +25,10 @@ public class KeyListenerAdapter implements View.OnKeyListener {
                 return mKeyListener.onKeyPressed(wrapEvent(event));
             case KeyEvent.ACTION_UP:
             case KeyEvent.ACTION_MULTIPLE:
+                if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
+                    mFormulaEditor.onEnter();
+                    return true;
+                }
                 com.himamis.retex.editor.share.event.KeyEvent wrappedEvent = wrapEvent(event);
                 boolean ret = mKeyListener.onKeyReleased(wrappedEvent);
                 if (wrappedEvent.getUnicodeKeyChar() != '\0') {
