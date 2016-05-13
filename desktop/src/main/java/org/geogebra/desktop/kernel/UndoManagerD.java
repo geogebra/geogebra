@@ -262,9 +262,11 @@ public class UndoManagerD extends UndoManager {
 	@Override
 	public synchronized void processXML(String strXML) throws Exception {
 		construction.setFileLoading(true);
+		construction.setCasCellUpdate(true);
 		((MyXMLioD) construction.getXMLio()).processXMLString(
 				strXML, true, false, true);
 		construction.setFileLoading(false);
+		construction.setCasCellUpdate(false);
 	}
 
 }

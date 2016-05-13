@@ -2220,7 +2220,7 @@ public class Construction {
 						.isReserved(label))
 			return false;
 
-		if (fileLoading && geoTable.containsKey(label)
+		if (fileLoading && !isCasCellUpdate() && geoTable.containsKey(label)
 				&& label.startsWith("c_")) {
 			return true;
 		}
@@ -2948,6 +2948,7 @@ public class Construction {
 	}
 
 	private boolean fileLoading;
+	private boolean casCellUpdate = false;
 	private boolean updateConstructionRunning;
 
 	/**
@@ -2966,6 +2967,21 @@ public class Construction {
 	 */
 	public boolean isFileLoading() {
 		return fileLoading;
+	}
+
+	/**
+	 * @param b
+	 *            true if cas cell is updated
+	 */
+	public void setCasCellUpdate(boolean b) {
+		casCellUpdate = b;
+	}
+
+	/**
+	 * @return whether we have cas cell update
+	 */
+	public boolean isCasCellUpdate() {
+		return casCellUpdate;
 	}
 
 	// update all indices >= pos
