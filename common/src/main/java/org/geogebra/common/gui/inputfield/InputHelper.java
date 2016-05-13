@@ -85,7 +85,7 @@ public class InputHelper {
 
 			// found [, so go back until we get a ]
 			if (insideBrackets) {
-				while (caretPos > 0 && isOpenBracket(text.charAt(caretPos),
+				while (caretPos > 0 && !isOpenBracket(text.charAt(caretPos),
 						onlySquareBrackets))
 					caretPos--;
 			}
