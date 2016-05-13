@@ -110,7 +110,7 @@ public class AlgoDerivative extends AlgoCasBase {
 		super(cons, f, fast ? Commands.NDerivative : Commands.Derivative, info);
 		this.var = var;
 		this.order = order;
-		this.fast = fast;
+		this.fast = fast || !info.isUsingCAS();
 
 		setInputOutput(); // for AlgoElement
 		compute();

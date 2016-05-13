@@ -849,11 +849,10 @@ public class Function extends FunctionNVar implements
 	/**
 	 * Returns n-th derivative of this function wrapped as a GeoFunction object.
 	 */
-	public GeoFunction getGeoDerivative(int n) {
+	public GeoFunction getGeoDerivative(int n, boolean fast) {
 		if (geoDeriv == null)
 			geoDeriv = new GeoFunction(kernel.getConstruction());
-
-		Function deriv = getDerivative(n, false);
+		Function deriv = getDerivative(n, fast);
 		geoDeriv.setFunction(deriv);
 		geoDeriv.setDefined(deriv != null);
 		return geoDeriv;
@@ -899,7 +898,6 @@ public class Function extends FunctionNVar implements
 	 * @return n-th derivative
 	 */
 	final Function getDerivative(int n, boolean keepFractions, boolean fast) {
-
 		// check if it's a polynomial
 		PolyFunction polyDeriv = getNumericPolynomialDerivative(n, true);
 

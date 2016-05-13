@@ -614,7 +614,7 @@ public class AlgebraProcessor {
 					new EvalInfo(!cons.isSuppressLabelsActive(), true));
 
 		} catch (Exception e) {
-
+			e.printStackTrace();
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, cmd, loc, handler);
@@ -1843,7 +1843,7 @@ public class AlgebraProcessor {
 			f = new GeoFunction(cons, fun, info.isSimplifyingIntegers());
 
 		} else {
-			f = kernel.getAlgoDispatcher().DependentFunction(fun);
+			f = kernel.getAlgoDispatcher().DependentFunction(fun, info);
 			if (label == null) {
 				label = AlgoDependentFunction.getDerivativeLabel(fun);
 			}

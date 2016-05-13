@@ -1433,7 +1433,7 @@ public enum Operation {
 			if (rt instanceof NumberValue) {
 				if (lt instanceof Functional) { // derivative of GeoFunction
 					return ((Functional) lt).getGeoDerivative((int) Math
-							.round(((NumberValue) rt).getDouble()));
+							.round(((NumberValue) rt).getDouble()), true);
 				} else if (lt instanceof GeoCurveCartesianND) { // derivative of
 																// GeoCurveCartesian
 					return ((GeoCurveCartesianND) lt)

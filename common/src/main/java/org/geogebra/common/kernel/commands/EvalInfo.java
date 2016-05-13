@@ -12,6 +12,7 @@ public class EvalInfo {
 	private boolean redefineIndependent = true;
 	private boolean scripting = true;
 	private boolean simplifyIntegers = true;
+	private boolean useCAS = true;
 
 	/**
 	 * @param labelOut
@@ -62,6 +63,12 @@ public class EvalInfo {
 
 	}
 
+	public EvalInfo withCAS(boolean cas) {
+		EvalInfo ret = copy();
+		ret.useCAS = cas;
+		return ret;
+	}
+
 	public boolean isScripting() {
 		return scripting;
 	}
@@ -71,6 +78,7 @@ public class EvalInfo {
 		ret.scripting = this.scripting;
 		ret.casMap = this.casMap;
 		ret.simplifyIntegers = this.simplifyIntegers;
+		ret.useCAS = this.useCAS;
 		return ret;
 	}
 
@@ -91,6 +99,10 @@ public class EvalInfo {
 		EvalInfo ret = copy();
 		ret.labelOutput = b;
 		return ret;
+	}
+
+	public boolean isUsingCAS() {
+		return useCAS;
 	}
 
 }

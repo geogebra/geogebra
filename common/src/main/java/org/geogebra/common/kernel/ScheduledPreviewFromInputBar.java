@@ -105,7 +105,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
 			return;
 		}
-		EvalInfo info = new EvalInfo(false, true).withScripting(false);
+		EvalInfo info = new EvalInfo(false, true).withScripting(false)
+				.withCAS(false);
 		Log.debug("preview for: " + validInput);
 		boolean silentModeOld = this.kernel.isSilentMode();
 		previewGeos = null;

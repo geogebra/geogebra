@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -70,7 +71,8 @@ public class CmdSlowPlot extends CommandProcessor {
 						.apply(Operation.IF,
 								arg[0].wrap().apply(Operation.FUNCTION, x));
 				GeoFunction g = cons.getKernel().getAlgoDispatcher()
-						.DependentFunction(new Function(exp, x));
+						.DependentFunction(new Function(exp, x),
+								new EvalInfo(true));
 				String label = c.getLabel();
 				if (g.validate(label == null)) {
 					g.setLabel(label);

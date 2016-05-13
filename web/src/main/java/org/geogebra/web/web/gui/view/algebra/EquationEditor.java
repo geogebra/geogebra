@@ -133,6 +133,8 @@ public class EquationEditor {
 						this.curWord.toString(),
 				        querylimit), popupCallback);
 			}
+		} else {
+			hideSuggestions();
 		}
 		return true;
 	}

@@ -339,7 +339,11 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		}
 		if(this.funExpanded[i] == null){
 			this.funExpanded[i] = new Function(getFun(i),this.kernel);
-			ExpressionNode expr = AlgoDependentFunction.expandFunctionDerivativeNodes(getFun(i).getExpression().deepCopy(this.kernel)).wrap();
+			ExpressionNode expr = AlgoDependentFunction
+					.expandFunctionDerivativeNodes(
+							getFun(i).getExpression().deepCopy(this.kernel),
+							false)
+					.wrap();
 			this.funExpanded[i].setExpression(expr);
 		}
 		return this.funExpanded[i];

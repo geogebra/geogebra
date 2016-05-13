@@ -611,7 +611,7 @@ CasEvaluableFunction, ParametricCurve,
 		return fun.evaluateBoolean(x);
 	}
 
-	public GeoFunction getGeoDerivative(int order) {
+	public GeoFunction getGeoDerivative(int order, boolean fast) {
 		if (derivGeoFun == null) {
 			derivGeoFun = new GeoFunction(cons);
 		}
@@ -619,7 +619,7 @@ CasEvaluableFunction, ParametricCurve,
 		// if (getParentAlgorithm() instanceof AlgoFunctionFreehand)
 		// derivGeoFun.setUndefined();
 		// else
-		derivGeoFun.setDerivative(this, order, false);
+		derivGeoFun.setDerivative(this, order, fast);
 
 		return derivGeoFun;
 	}
@@ -1795,7 +1795,7 @@ CasEvaluableFunction, ParametricCurve,
 
 		try {
 			// get first derivative
-			GeoFunction deriv = f.getGeoDerivative(1);
+			GeoFunction deriv = f.getGeoDerivative(1, false);
 
 			// get function and function variable string using temp variable
 			// prefixes,

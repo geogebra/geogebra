@@ -54,8 +54,13 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	private ExpressionNode expression;
 	private boolean expContainsFunctions; // expression contains functions
 	private HashSet<GeoElement> unconditionalInput;
+	private boolean fast;
 
+	public AlgoDependentFunction(Construction cons, Function fun,
+			boolean addToConsList) {
+		this(cons, fun, addToConsList, false);
 
+	}
 
 	/**
 	 * @param cons
@@ -66,12 +71,13 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 *            whether to add this to construction list
 	 */
 	public AlgoDependentFunction(Construction cons, Function fun,
-			boolean addToConsList) {
+			boolean addToConsList, boolean fast) {
 		super(cons, false);
 		fun.initFunction();
 		if (addToConsList) {
 			cons.addToConstructionList(this, false);
 		}
+		this.fast = fast;
 		this.fun = fun;
 		f = new GeoFunction(cons, false);
 		f.setFunction(fun);
@@ -139,7 +145,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				// Kernel.internationalizeDigits = false;
 				// TODO: seems that we never read internationalize digits flag
 				// here ...
-				ev = expandFunctionDerivativeNodes(expression.deepCopy(kernel));
+				ev = expandFunctionDerivativeNodes(expression.deepCopy(kernel),
+						this.fast);
 
 				// Kernel.internationalizeDigits = internationalizeDigits;
 
@@ -196,7 +203,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 * @return new ExpressionNode as result
 	 */
 	public static ExpressionValue expandFunctionDerivativeNodes(
-			ExpressionValue ev) {
+			ExpressionValue ev, boolean fast) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;
 			ExpressionValue leftValue = node.getLeft().unwrap();
@@ -205,7 +212,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 			case FUNCTION:
 				// could be DERIVATIVE node
 				if (leftValue.isExpressionNode()) {
-					leftValue = expandFunctionDerivativeNodes(leftValue);
+					leftValue = expandFunctionDerivativeNodes(leftValue, fast);
 					node.setLeft(leftValue);
 					if (leftValue.isExpressionNode())
 						return node;
@@ -214,12 +221,12 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				// we do NOT expand GeoFunctionConditional objects in expression
 				// tree
 				return substituteFunction((Functional) leftValue,
-						node.getRight());
+						node.getRight(), fast);
 				
 			case FUNCTION_NVAR:
 				// make sure we expand $ in $A1(x,y)
 				if (leftValue.isExpressionNode()) {
-					leftValue = expandFunctionDerivativeNodes(leftValue);
+					leftValue = expandFunctionDerivativeNodes(leftValue, fast);
 					node.setLeft(leftValue);
 					if (leftValue.isExpressionNode())
 						return node;
@@ -228,7 +235,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 					return null;
 				}
 				ExpressionValue ret = expandFunctionalNVar(leftValue,
-						node.getRight(), 0);
+						node.getRight(), 0, fast);
 				return ret == null ? ev : ret;
 			case DERIVATIVE:
 				// don't expand derivative of GeoFunctionConditional
@@ -245,9 +252,10 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 								.getOperation() == Operation.$VAR_ROW_COL))
 					leftValue = ((ExpressionNode) leftValue).getLeft();
 				if(leftValue instanceof GeoCasCell){
-					return ((Functional) ((GeoCasCell)leftValue).getTwinGeo()).getGeoDerivative(order);	
+					return ((Functional) ((GeoCasCell) leftValue).getTwinGeo())
+							.getGeoDerivative(order, fast);
 				}
-				return ((Functional) leftValue).getGeoDerivative(order);
+				return ((Functional) leftValue).getGeoDerivative(order, fast);
 			case ELEMENT_OF:
 				Log.debug("expand");
 				  //list(x,x) cannot be expanded	
@@ -269,14 +277,15 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 					if (res instanceof Functional
 							&& constants >= list.size() - 1) {
 						return substituteFunction(((Functional) res),list
-								.getListElement(list.size() - 1));
+								.getListElement(list.size() - 1), fast);
 					}
 					if (res instanceof FunctionalNVar
 							&& constants >= list.size() - ((FunctionalNVar) res)
 									.getFunctionVariables().length) {
 						ret = expandFunctionalNVar(res, node.getRight(),
 								list.size() - ((FunctionalNVar) res)
-										.getFunctionVariables().length);
+										.getFunctionVariables().length,
+								fast);
 						return ret == null ? ev : ret;
 					}
 					if (!(res instanceof FunctionalNVar)) {
@@ -293,23 +302,25 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				return leftValue;
 
 			default: // recursive calls
-				node.setLeft(expandFunctionDerivativeNodes(leftValue));
-				node.setRight(expandFunctionDerivativeNodes(node.getRight()));
+				node.setLeft(expandFunctionDerivativeNodes(leftValue, fast));
+				node.setRight(
+						expandFunctionDerivativeNodes(node.getRight(), fast));
 				return node;
 			}
 		} else if (ev instanceof MyNumberPair) {
 			((MyNumberPair) ev)
 					.setX(expandFunctionDerivativeNodes(((MyNumberPair) ev)
-							.getX()));
+							.getX(), fast));
 			((MyNumberPair) ev)
 					.setY(expandFunctionDerivativeNodes(((MyNumberPair) ev)
-							.getY()));
+							.getY(), fast));
 		}
 		return ev;
 	}
 
 	private static ExpressionValue expandFunctionalNVar(
-			ExpressionValue leftValue, ExpressionValue right, int offset) {
+			ExpressionValue leftValue, ExpressionValue right, int offset,
+			boolean fast) {
 
 		FunctionNVar funN = ((FunctionalNVar) leftValue).getFunction();
 		FunctionVariable[] xy = funN.getFunctionVariables();
@@ -324,20 +335,21 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 		for (int i = 0; i < xy.length; i++)
 			funNExpression = funNExpression
 					.replace(xy[i], expandFunctionDerivativeNodes(
-							((MyList) right).getListElement(i + offset)))
+							((MyList) right).getListElement(i + offset), fast))
 					.wrap();
 		return (funNExpression);
 	}
 
 	private static ExpressionValue substituteFunction(Functional leftValue,
-			ExpressionValue right) {
+			ExpressionValue right, boolean fast) {
 		Function fun = leftValue.getFunction();
 		FunctionVariable x = fun.getFunctionVariable();
 		// don't destroy the function
 		ExpressionNode funcExpression = fun.getExpression().getCopy(
 				fun.getKernel());
 		// now replace every x in function by the expanded argument
-		return funcExpression.replace(x, expandFunctionDerivativeNodes(right)
+		return funcExpression.replace(x,
+				expandFunctionDerivativeNodes(right, fast)
 				.wrap());
 	}
 

@@ -159,7 +159,8 @@ public class AlgoCurveCartesian extends AlgoElement {
 					// Kernel.internationalizeDigits = false;
 					// TODO: seems that we never read internationalize digits flag
 					// here ...
-					ev = AlgoDependentFunction.expandFunctionDerivativeNodes(exp[i].deepCopy(kernel));
+					ev = AlgoDependentFunction.expandFunctionDerivativeNodes(
+							exp[i].deepCopy(kernel), false);
 
 					// Kernel.internationalizeDigits = internationalizeDigits;
 

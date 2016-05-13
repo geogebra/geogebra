@@ -117,7 +117,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements
 			try { // needed for eg f(x)=floor(x) f'(x)
 				ev = AlgoDependentFunction
 						.expandFunctionDerivativeNodes(expression
-								.deepCopy(kernel));
+								.deepCopy(kernel), false);
 			} catch (Exception e) {
 				e.printStackTrace();
 				Log.debug("derivative failed");
