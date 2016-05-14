@@ -56,6 +56,14 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	private HashSet<GeoElement> unconditionalInput;
 	private boolean fast;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param fun
+	 *            input function
+	 * @param addToConsList
+	 *            whether to add this to construction list
+	 */
 	public AlgoDependentFunction(Construction cons, Function fun,
 			boolean addToConsList) {
 		this(cons, fun, addToConsList, false);
@@ -69,6 +77,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 *            input function
 	 * @param addToConsList
 	 *            whether to add this to construction list
+	 * @param fast
+	 *            use fast derivatives
 	 */
 	public AlgoDependentFunction(Construction cons, Function fun,
 			boolean addToConsList, boolean fast) {
@@ -199,6 +209,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 * 
 	 * @param ev
 	 *            expression to expand (only ExpressionNodes are affected)
+	 * @param fast
+	 *            use fast derivatives
 	 * 
 	 * @return new ExpressionNode as result
 	 */
@@ -408,6 +420,12 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 * @return label
 	 */
 	public static String getDerivativeLabel(Function fun) {
+		// f'(x+3) should use default label
+		if (fun.getExpression().getRight() != null
+				&& !(fun.getExpression().getRight().unwrap() instanceof FunctionVariable)) {
+			return null;
+		}
+		// f'(x) should be called f'
 		ExpressionValue ev = fun.getExpression().getLeft();
 		if (ev.isExpressionNode()) {
 			ExpressionNode enL = (ExpressionNode) (fun.getExpression()
