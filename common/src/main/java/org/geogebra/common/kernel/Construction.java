@@ -117,7 +117,7 @@ public class Construction {
 	 * loaded)
 	 * 
 	 * */
-	public TreeSet<GeoClass> usedGeos = new TreeSet<GeoClass>();
+	private TreeSet<GeoClass> usedGeos = new TreeSet<GeoClass>();
 
 	/**
 	 * creates the ConstructionDefaults consDefaults
@@ -1585,6 +1585,7 @@ public class Construction {
 	}
 
 	private boolean isRemovingGeoToReplaceIt = false;
+	private boolean ignoringNewTypes;
 
 	/**
 	 * 
@@ -2635,6 +2636,34 @@ public class Construction {
 		}
 	}
 
+	public void setIgnoringNewTypes(boolean b) {
+		this.ignoringNewTypes = b;
+	}
+	public void addUsedType(GeoClass c) {
+		if (this.ignoringNewTypes) {
+			return;
+		}
+		this.usedGeos.add(c);
+	}
+
+	public boolean has3DObjects() {
+
+		Iterator<GeoClass> it = usedGeos.iterator();
+
+		boolean kernelHas3DObjects = false;
+
+		while (it.hasNext()) {
+			GeoClass geoType = it.next();
+
+			if (geoType.is3D) {
+				Log.debug("found 3D geo: " + geoType.xmlName);
+				kernelHas3DObjects = true;
+				break;
+			}
+		}
+
+		return kernelHas3DObjects;
+	}
 	/**
 	 * Returns a set with all labeled GeoElement objects sorted in alphabetical
 	 * order of their type strings and labels (e.g. Line g, Line h, Point A,

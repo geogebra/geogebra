@@ -108,7 +108,6 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
@@ -422,8 +421,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		attachView();
 
 		initAxisAndPlane();
-		boolean was3d = kernel3D.getConstruction().usedGeos
-				.contains(GeoClass.POINT3D);
+		kernel3D.getConstruction().setIgnoringNewTypes(true);
 		// previewables
 		cursor3D = new GeoPoint3D(kernel3D.getConstruction());
 		cursor3D.setCoords(0, 0, 0, 1);
@@ -438,9 +436,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		cursorOnXOYPlane.setMoveNormalDirection(Coords.VZ);
 		cursorOnXOYPlane.setRegion(xOyPlane);
 		cursorOnXOYPlane.setMoveMode(GeoPointND.MOVE_MODE_XY);
-		if (!was3d) {
-			kernel3D.getConstruction().usedGeos.remove(GeoClass.POINT3D);
-		}
+		kernel3D.getConstruction().setIgnoringNewTypes(false);
 		// point decorations
 		initPointDecorations();
 

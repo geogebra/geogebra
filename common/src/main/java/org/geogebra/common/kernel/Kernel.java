@@ -4106,25 +4106,6 @@ public class Kernel {
 		return getApplication().getLocalization();
 	}
 
-	public boolean kernelHas3DObjects() {
-
-		Iterator<GeoClass> it = cons.usedGeos.iterator();
-
-		boolean kernelHas3DObjects = false;
-
-		while (it.hasNext()) {
-			GeoClass geoType = it.next();
-
-			if (geoType.is3D) {
-				// Log.debug("found 3D geo: " + geoType.xmlName);
-				kernelHas3DObjects = true;
-				break;
-			}
-		}
-
-		return kernelHas3DObjects;
-	}
-
 	/**
 	 * Returns the kernel settings in XML format.
 	 */
@@ -4134,7 +4115,7 @@ public class Kernel {
 		sb.append("<kernel>\n");
 
 		// is 3D?
-		if (kernelHas3DObjects()) {
+		if (cons.has3DObjects()) {
 			// DO NOT REMOVE
 			// it's important we pick up errors involving this quickly
 			Log.error("************************************");

@@ -497,8 +497,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public GeoElement(final Construction c) {
 		super(c);
-		c.usedGeos.add(this.getGeoClassType());
-
+		c.addUsedType(this.getGeoClassType());
 		graphicsadapter = kernel.getApplication().newGeoElementGraphicsAdapter();
 		// this.geoID = geoCounter++;
 

@@ -100,7 +100,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	@Override
 	public void createDefaultGeoElements() {
 		super.createDefaultGeoElements();
-
+		cons.setIgnoringNewTypes(true);
 		// line intersection
 		GeoConic3D intersectionCurve = new GeoConic3D(cons);
 		intersectionCurve.setLocalVariableLabel("Intersection curve");
@@ -167,6 +167,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		surface.setLineThickness(1);
 		surface.setDefaultGeoType(DEFAULT_SURFACECARTESIAN3D);
 		defaultGeoElements.put(DEFAULT_SURFACECARTESIAN3D, surface);
+		cons.setIgnoringNewTypes(false);
 	}
 
 	@Override

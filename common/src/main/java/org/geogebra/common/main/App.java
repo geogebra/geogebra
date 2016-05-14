@@ -3002,7 +3002,8 @@ public abstract class App implements UpdateSelection {
 
 		sb.append("// is3D=is 3D applet using 3D view, AV=Algebra View, SV=Spreadsheet View, CV=CAS View, EV2=Graphics View 2, CP=Construction Protocol, PC=Probability Calculator, DA=Data Analysis, FI=Function Inspector, PV=Python, macro=Macro View\n");
 		sb.append("var views = {");
-		sb.append("'is3D': " + (kernel.kernelHas3DObjects() ? "1" : "0"));
+		sb.append("'is3D': "
+				+ (kernel.getConstruction().has3DObjects() ? "1" : "0"));
 		sb.append(",'AV': "
 				+ (gui.hasAlgebraView() && gui.getAlgebraView().isShowing() ? "1"
 				: "0"));

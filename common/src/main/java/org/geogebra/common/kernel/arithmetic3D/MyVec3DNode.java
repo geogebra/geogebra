@@ -58,7 +58,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	 */
 	public MyVec3DNode(Kernel kernel) {
 		this.kernel = kernel;
-		kernel.getConstruction().usedGeos.add(GeoClass.POINT3D);
+		kernel.getConstruction().addUsedType(GeoClass.POINT3D);
 	}
 
 	/**
