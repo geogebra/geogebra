@@ -108,7 +108,9 @@ public class CmdSetValue extends CmdScripting {
 			}
 			if(list.getDefinition()!=null){
 				ExpressionValue root = list.getDefinition().unwrap();
-				if(root instanceof MyList && arg2.getDefinition() !=null){
+				// sizes different == something went wrong
+				if (root instanceof MyList && arg2.getDefinition() != null
+						&& ((MyList) root).size() == list.size()) {
 					((MyList)root).setListElement(nn-1,arg2.getDefinition());
 				}else{
 					list.setDefinition(null);

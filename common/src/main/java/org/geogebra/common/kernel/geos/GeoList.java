@@ -161,7 +161,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	@Override
 	public void set(final GeoElementND geo) {
-
+		setDefinition(!geo.isIndependent() ? null : geo.getDefinition());
 		if (geo.isGeoNumeric()) { // eg SetValue[list, 2]
 			// 1 -> first element
 			setSelectedIndex(-1 + (int) ((GeoNumeric) geo).getDouble(), true);
