@@ -770,10 +770,8 @@ public class InputTreeItem extends RadioTreeItem implements
 			// it can only be non-null when
 			// app.has(Feature.INPUT_SHOWN_IN_INPUTBAR)
 			// if (dummyLabel.getElement().hasParentElement()) {
-			if ((dummyLabel.getElement() != null)
-					&& ihtml.getElement().isOrHasChild(dummyLabel.getElement())) {
-				ihtml.getElement().removeChild(dummyLabel.getElement());
-			}
+			dummyLabel.removeFromParent();
+
 		}
 
 		if (((AlgebraViewW) av).isNodeTableEmpty()) {
