@@ -865,7 +865,7 @@ public class InputTreeItem extends RadioTreeItem implements
 				// just making sure here as well
 				//dummyLabel.getElement().removeFromParent();
 			//}
-			ihtml.getElement().insertFirst(dummyLabel.getElement());
+		ihtml.insert(dummyLabel, 0);
 		//}
 	}
 
