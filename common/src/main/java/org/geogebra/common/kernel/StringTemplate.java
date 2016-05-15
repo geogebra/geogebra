@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -1131,9 +1130,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// eg {1,2,3} + 10
 				sb.append("map(");
 				sb.append(leftStr);
-				sb.append(",ggx->ggx+");
+				sb.append(",ggx->ggx+(");
 				sb.append(rightStr);
-				sb.append(")");
+				sb.append("))");
 
 				// don't use isNumberValue(), isListValue as those lead to an
 				// evaluate()
@@ -1142,9 +1141,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// eg 10 + {1,2,3}
 				sb.append("map(");
 				sb.append(rightStr);
-				sb.append(",ggx->ggx+");
+				sb.append(",ggx->ggx+(");
 				sb.append(leftStr);
-				sb.append(")");
+				sb.append("))");
 
 				// instanceof VectorValue rather than isVectorValue() as
 				// ExpressionNode can return true
@@ -1476,9 +1475,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 				// eg {1,2,3} + 10
 				sb.append("map(");
 				sb.append(leftStr);
-				sb.append(",ggx->ggx-");
+				sb.append(",ggx->ggx-(");
 				sb.append(rightStr);
-				sb.append(")");
+				sb.append("))");
 
 			} else if ((left.evaluatesToNumber(false) || left instanceof NumberValue)
 					&& right.evaluatesToList()) {
