@@ -2424,7 +2424,7 @@ marblePanel, evt))) {
 
 	public void setDraggable() {
 		Widget draggableContent = main;
-		if (app.has(Feature.AV_EXTENSIONS) && geo instanceof GeoNumeric
+		if (geo instanceof GeoNumeric
 				&& slider != null) {
 			return;
 			// draggableContent = ihtml;

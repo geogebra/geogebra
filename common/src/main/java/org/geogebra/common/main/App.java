@@ -3935,7 +3935,6 @@ public abstract class App implements UpdateSelection {
 		case SELECT_MOVE_WHEN_FURNITURE_CLICKED:
 			return true;
 
-		case AV_EXTENSIONS:
 		case DATA_COLLECTION:
 		case INPUT_SHOWN_IN_INPUTBAR:
 		case ADD_NEW_OBJECT_BUTTON:

@@ -64,6 +64,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
+@SuppressWarnings("javadoc")
 public class AlgebraViewW extends Tree implements LayerView,
  AlgebraView,
 OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
@@ -136,7 +137,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	private StringBuilder sbXML;
 
 	private RadioTreeItem activeItem;
-	private static boolean avex = false;
 	// private AlgebraHelperBar helperBar;
 
 	private AlgebraController algebraController;
@@ -164,10 +164,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		this.addOpenHandler(this);
 		selectionCtrl = new AVSelectionController(app);
 
-		setAvex(app.has(Feature.AV_EXTENSIONS));
 		algCtrl.setView(this);
 		initGUI((AlgebraControllerW) algCtrl);
-		if (hasAvex()) {
+
 			app.getSelectionManager()
 					.addSelectionListener(new GeoElementSelectionListener() {
 						public void geoElementSelected(GeoElement geo,
@@ -176,7 +175,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 							updateSelection();
 						}
 					});
-		}
+
 	}
 
 	private void initGUI(AlgebraControllerW algCtrl) {
@@ -214,16 +213,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (event.getTypeInt() == Event.ONBLUR) {
-			if (hasAvex()) {
-				
-			} else
- if (getSelectionCtrl().getSelectedGeo() == null) {
-				setActiveTreeItem(null);
-			}
-		}
-
-
 		// as arrow keys are prevented in super.onBrowserEvent,
 		// we need to handle arrow key events before that
 		switch (DOM.eventGetType(event)) {
@@ -283,11 +272,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	public boolean suggestRepaint(){
 
 		// repaint sliders as fast as possible
-		if (app.has(Feature.AV_EXTENSIONS)) {
-			if (isShowing()) {
-				deferredRepaintSliders();
-			}
+
+		if (isShowing()) {
+			deferredRepaintSliders();
 		}
+
 
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
 			return false;
@@ -916,12 +905,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob
 					.toString(), GuiResources.INSTANCE.algebra_tree_open()
 					.getSafeUri(), GuiResources.INSTANCE.algebra_tree_closed()
-.getSafeUri(),
-					hasAvex()));
+				.getSafeUri()));
 
 	}
 
-	public final AVTreeItem createAVItem(final GeoElement ob) {
+	public final static AVTreeItem createAVItem(final GeoElement ob) {
 		AVTreeItem ti = null;
 
 		ti = RadioTreeItem.create(ob);
@@ -1088,6 +1076,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	public void clearView() {
 		nodeTable.clear();
 		clearTree();
+		if (inputPanelLatex != null) {
+			inputPanelLatex.setText("");
+		}
 		showAlgebraInput(false);
 		if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
 			kernel.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
@@ -1318,11 +1309,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		.addClassName("NewRadioButtonTreeItemParent");
 		inputPanelLatex.replaceXButtonDOM();
 		
-		if (hasAvex()) {
-			unselect(getSelectionCtrl().getSelectedGeo());
-			unselect(getSelectionCtrl().getLastSelectedGeo());
-		}
 		
+		unselect(getSelectionCtrl().getSelectedGeo());
+		unselect(getSelectionCtrl().getLastSelectedGeo());
+
 		if (appletHack) {
 			if (!isNodeTableEmpty()) {
 				AutoCompleteTextFieldW.showSymbolButtonIfExists(
@@ -1453,7 +1443,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	public void setActiveTreeItem(RadioTreeItem item) {
 
-		if (hasAvex() && item == null) {
+		if (item == null) {
 			getSelectionCtrl().clear();
 		}
 
@@ -1464,14 +1454,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			removeCloseButton();
 		}
 
-		if (hasAvex() && activeItem != null && !sameItem
+		if (activeItem != null && !sameItem
 				&& !selectionCtrl.isMultiSelect()) {
 			selectRow(activeItem.getGeo(), false);
 		}
 
 		this.activeItem = item;
 		//
-		if (hasAvex() && activeItem != null) {
+		if (activeItem != null) {
 			selectRow(activeItem.getGeo(), true);
 		}
 	}
@@ -1483,10 +1473,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 	public void selectRow(GeoElement geo, boolean select) {
-		if (!hasAvex()) {
-			return;
-		}
-		
 		TreeItem node = nodeTable.get(geo);
 		if (node == null) {
 			return;
@@ -1621,7 +1607,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				for (int j = 0; j < getItem(i).getChildCount(); j++) {
 					TreeItem item = getItem(i).getChild(j);
 					item.setSelected(false);
-					if (hasAvex() && item instanceof RadioTreeItem) {
+					if (item instanceof RadioTreeItem) {
 						unselect(RadioTreeItem.as(item).getGeo());
 					}
 				}
@@ -1699,9 +1685,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	public void resize() {
 
-		if (!hasAvex()) {
-			return;
-		}
 		if (this.getInputTreeItem() != null) {
 			this.getInputTreeItem().onResize();
 		}
@@ -1723,7 +1706,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	public void updateSelection() {
-		if (!hasAvex() || selectionCtrl.isMultiSelect()) {
+		if (selectionCtrl.isMultiSelect()) {
 			return;
 		}
 
@@ -1757,10 +1740,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	private void unselect(GeoElement geo) {
-		if (!hasAvex()) {
-			return;
-		}
-
 		if (geo == null) {
 			return;
 		}
@@ -1771,21 +1750,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	public void resetItems(boolean unselectAll) {
-		if (hasAvex()) {
-			RadioTreeItem.closeMinMaxPanel();
-			updateSelection();
-
-		}
-
+		RadioTreeItem.closeMinMaxPanel();
+		updateSelection();
 	}
 
-	public static boolean hasAvex() {
-		return avex;
-	}
-
-	public static void setAvex(boolean avex) {
-		AlgebraViewW.avex = avex;
-	}
 
 	public AVSelectionController getSelectionCtrl() {
 		return selectionCtrl;

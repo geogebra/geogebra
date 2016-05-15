@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -655,9 +654,7 @@ public interface Traversing {
 							kernel.getConstruction(), name, 1);
 					kernel.getConstruction().setSuppressLabelCreation(old);
 					undefined.add(slider);
-					boolean visible = !kernel.getApplication().has(
-							Feature.AV_EXTENSIONS)
-							|| !kernel.getApplication().showView(
+					boolean visible = !kernel.getApplication().showView(
 									App.VIEW_ALGEBRA)
 							|| kernel.getApplication().showAutoCreatedSlidersInEV();
 					GeoNumeric.setSliderFromDefault(slider, false, visible);

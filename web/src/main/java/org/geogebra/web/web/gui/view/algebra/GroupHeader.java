@@ -18,13 +18,12 @@ public class GroupHeader extends FlowPanel {
 	protected OpenButton open;
 
 	public GroupHeader(SelectionManager selection, TreeItem parent,
-			String strlab, SafeUri showUrl, SafeUri hiddenUrl,
-			boolean hasAvex) {
+			String strlab, SafeUri showUrl, SafeUri hiddenUrl) {
 		
 		this.setStyleName("elemHeading");
 		
 		add(open = new OpenButton(showUrl, hiddenUrl, parent));
-		add(il = new GroupNameLabel(selection, parent, strlab, hasAvex));
+		add(il = new GroupNameLabel(selection, parent, strlab));
 	}
 	
 	public class OpenButton extends SimplePanel

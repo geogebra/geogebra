@@ -53,14 +53,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		super(app, App.VIEW_ALGEBRA);
 		app.getSettings().getAlgebra().addListener(this);
 
-		if (app.has(Feature.AV_EXTENSIONS)) {
-			update(null);
-		} else {
-			addTreeModeButton();
-			addMenuButton();
-			addViewButton();
-			setLabels();
-		}
+		update(null);
 
 		createColorBtn();
 		btnColor.setChangeEventHandler(this);
@@ -142,10 +135,6 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	}
 
 	public void update(GeoElement selectedItem) {
-
-		if (!app.has(Feature.AV_EXTENSIONS)) {
-			return;
-		}
 
 		this.selectedEntry = selectedItem;
 

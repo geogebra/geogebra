@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
@@ -82,10 +81,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		sliderPanel.add(positionPanel);
 		animationPanel = new FlowPanel();
 
-		if (app.has(Feature.AV_EXTENSIONS)) {
-			avPanel = new CheckboxPanel("ShowSliderInAlgebraView",
+		avPanel = new CheckboxPanel("ShowSliderInAlgebraView",
 					app.getLocalization(), new ExtendedAVModel(null));
-		}
+
 
 		cbSliderFixed = new CheckBox();
 		cbSliderFixed.addClickHandler(new ClickHandler(){
@@ -210,9 +208,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	public OptionPanel updatePanel(Object[] geos) {
 		stepPanel.updatePanel(geos);
 		speedPanel.updatePanel(geos);
-		if (app.has(Feature.AV_EXTENSIONS)) {
-			avPanel.updatePanel(geos);
-		}
+		avPanel.updatePanel(geos);
 		return super.updatePanel(geos);
 	}
 	protected void applyMin() {
@@ -254,9 +250,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			mainPanel.add(sliderPanel);
 			mainPanel.add(animationPanel);
 		}
-		if (app.has(Feature.AV_EXTENSIONS)) {
-			mainPanel.add(avPanel.getWidget());
-		}
+
+		mainPanel.add(avPanel.getWidget());
+
 		setWidget(mainPanel);
 	}
 
@@ -286,9 +282,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 		stepPanel.setLabels();
 		speedPanel.setLabels();
-		if (app.has(Feature.AV_EXTENSIONS)) {
-			avPanel.setLabels();
-		}
+
+		avPanel.setLabels();
+
 	}
 
 	private NumberValue getNumberFromInput(final String inputText) {

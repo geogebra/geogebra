@@ -3,8 +3,6 @@ package org.geogebra.common.main;
 public enum Feature {
 	ALL_LANGUAGES,
 
-	AV_EXTENSIONS,
-
 	LOCALSTORAGE_FILES,
 
 	TUBE_BETA,

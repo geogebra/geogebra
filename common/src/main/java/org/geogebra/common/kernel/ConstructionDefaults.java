@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -408,9 +407,8 @@ public class ConstructionDefaults {
 		number.setIntervalMax(GeoNumeric.DEFAULT_SLIDER_MAX);
 		number.setIntervalMin(GeoNumeric.DEFAULT_SLIDER_MIN);
 		number.setAnimationStep(GeoNumeric.DEFAULT_SLIDER_INCREMENT);
-		if (cons.getApplication().has(Feature.AV_EXTENSIONS)) {
-			number.setAutoStep(true);
-		}
+		number.setAutoStep(true);
+
 		number.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
 		number.setAlphaValue(DEFAULT_NUMBER_ALPHA);
 		number.setDefaultGeoType(DEFAULT_NUMBER);
@@ -428,9 +426,7 @@ public class ConstructionDefaults {
 		angle.setAlphaValue(DEFAULT_ANGLE_ALPHA);
 		angle.setDrawable(true, false);
 		angle.setDrawable(true, false);
-		if (cons.getApplication().has(Feature.AV_EXTENSIONS)) {
-			angle.setAutoStep(true);
-		}
+		angle.setAutoStep(true);
 		angle.setArcSize(angleSize);
 		/*
 		 * we have to set min/max/increment/speed here because

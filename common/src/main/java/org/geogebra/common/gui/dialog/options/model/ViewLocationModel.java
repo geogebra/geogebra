@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 public class ViewLocationModel extends OptionsModel {
 	public interface IGraphicsViewLocationListener extends PropertyListener {
@@ -53,7 +52,7 @@ public class ViewLocationModel extends OptionsModel {
 				}
 			}
 
-			if (app.has(Feature.AV_EXTENSIONS) && geo.isAlgebraVisible()) {
+			if (geo.isAlgebraVisible()) {
 				isInAV = true;
 			}
 
@@ -63,10 +62,9 @@ public class ViewLocationModel extends OptionsModel {
 		listener.selectView(1, isInEV2);
 		listener.selectView(2, isInEV3D);
 		listener.selectView(3, isInEVForPlane);
-		if (app.has(Feature.AV_EXTENSIONS)) {
-			listener.selectView(4, isInAV);
-		}
 		
+		listener.selectView(4, isInAV);
+
 	}
 
 	public void applyToEuclidianView1(boolean value) {
@@ -128,9 +126,6 @@ public class ViewLocationModel extends OptionsModel {
 	}
 
 	public void applyToAlgebraView(Boolean value) {
-		if (!app.has(Feature.AV_EXTENSIONS)) {
-			return;
-		}
 
 		AlgebraView av = app.getAlgebraView();
 		for (int i = 0; i < getGeosLength(); i++) {

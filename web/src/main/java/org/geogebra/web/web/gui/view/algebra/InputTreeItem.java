@@ -689,8 +689,8 @@ public class InputTreeItem extends RadioTreeItem implements
 	}
 
 	@Override
-	public void setFocus(boolean b, boolean scheduledVersion) {
-		if (AlgebraViewW.hasAvex() && b) {
+	public void setFocus(boolean focus, boolean scheduledVersion) {
+		if (focus) {
 			app.getSelectionManager().clearSelectedGeos();
 			getAV().updateSelection();
 		}
@@ -705,12 +705,12 @@ public class InputTreeItem extends RadioTreeItem implements
 					false, true, false);
 
 			if (setFocusAllowed || !setFocusScheduled) {
-				DrawEquationW.focusEquationMathQuillGGB(latexItem, b);
+				DrawEquationW.focusEquationMathQuillGGB(latexItem, focus);
 			}
 
 			app.getGuiManager().focusScheduled(true, false, true);
 		} else {
-			DrawEquationW.focusEquationMathQuillGGB(latexItem, b);
+			DrawEquationW.focusEquationMathQuillGGB(latexItem, focus);
 		}
 	}
 
@@ -758,10 +758,10 @@ public class InputTreeItem extends RadioTreeItem implements
 	@Override
 	public void onFocus(FocusEvent event) {
 		super.onFocus(event);
-		if (app.has(Feature.AV_EXTENSIONS)) {
-			getAV().getSelectionCtrl().clear();
-			RadioTreeItem.closeMinMaxPanel();
-		}
+
+		getAV().getSelectionCtrl().clear();
+		RadioTreeItem.closeMinMaxPanel();
+
 		// earlier this method was mainly called from setFocus,
 		// and now it is also called from there, but in an
 		// indirect way: first MathQuillGGB textarea gets focus,

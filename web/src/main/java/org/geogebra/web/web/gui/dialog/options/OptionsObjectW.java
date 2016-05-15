@@ -64,7 +64,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
@@ -1161,10 +1160,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				}
 			});
 
-			if (app.has(Feature.AV_EXTENSIONS)) {
 
-				cbAlgebraView = new CheckBox();
-				cbAlgebraView.addClickHandler(new ClickHandler() {
+
+			cbAlgebraView = new CheckBox();
+			cbAlgebraView.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
@@ -1172,7 +1171,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 				}
 			});
-			}
+
 			FlowPanel mainPanel = new FlowPanel();
 			FlowPanel checkBoxPanel = new FlowPanel();
 			checkBoxPanel.setStyleName("optionsPanelIndent");
@@ -1180,9 +1179,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			checkBoxPanel.add(cbGraphicsView2);
 			checkBoxPanel.add(cbGraphicsView3D);
 			checkBoxPanel.add(cbGraphicsViewForPlane);
-			if (app.has(Feature.AV_EXTENSIONS)) {
-				checkBoxPanel.add(cbAlgebraView);
-			}
+			checkBoxPanel.add(cbAlgebraView);
 			
 			mainPanel.add(title);
 			title.setStyleName("panelTitle");
@@ -1207,9 +1204,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				break;
 
 			case 4:
-				if (app.has(Feature.AV_EXTENSIONS)) {
 					cbAlgebraView.setValue(isSelected);
-				}
 				break;
 
 			}
@@ -1222,9 +1217,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			cbGraphicsView2.setText(localize("DrawingPad2"));
 			cbGraphicsView3D.setText(localize("GraphicsView3D"));
 			cbGraphicsViewForPlane.setText(localize("ExtraViews"));
-			if (app.has(Feature.AV_EXTENSIONS)) {
-				cbAlgebraView.setText(localize("Algebra"));
-			}
+			cbAlgebraView.setText(localize("Algebra"));
+
 		}
 
 		public void setCheckBox3DVisible(boolean flag) {

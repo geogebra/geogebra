@@ -24,9 +24,6 @@ public class AVTreeItem extends TreeItem {
 	@Override
 	public void setSelected(boolean selected) {
 		super.setSelected(selected);
-		if (!AlgebraViewW.hasAvex()) {
-			return;
-		}
 
 		Element w = Dom.querySelectorForElement(this.getElement(),
 				"gwt-TreeItem-selected");
