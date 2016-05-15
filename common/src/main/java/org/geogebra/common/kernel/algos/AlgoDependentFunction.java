@@ -420,24 +420,25 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 * @return label
 	 */
 	public static String getDerivativeLabel(Function fun) {
+		ExpressionNode expr = fun.getExpression().unwrap().wrap();
+		Log.debug("DERIVATIVE");
 		// f'(x+3) should use default label
-		if (fun.getExpression().getRight() != null
-				&& !(fun.getExpression().getRight().unwrap() instanceof FunctionVariable)) {
+		if (expr.getRight() != null
+				&& !(expr.getRight().unwrap() instanceof FunctionVariable)) {
 			return null;
 		}
 		// f'(x) should be called f'
-		ExpressionValue ev = fun.getExpression().getLeft();
-		if (ev.isExpressionNode()) {
-			ExpressionNode enL = (ExpressionNode) (fun.getExpression()
-					.getLeft());
-			if (enL.getOperation().equals(Operation.DERIVATIVE)) {
-				if (enL.getLeft().isGeoElement()) {
+		ExpressionValue exprL = expr.getLeft();
+		if (exprL.isExpressionNode()) {
+			ExpressionNode enLL = (ExpressionNode) expr.getLeft();
+			if (enLL.getOperation().equals(Operation.DERIVATIVE)) {
+				if (enLL.getLeft().isGeoElement()) {
 
-					GeoElement geo = (GeoElement) enL.getLeft();
+					GeoElement geo = (GeoElement) enLL.getLeft();
 
 					if (geo.isLabelSet()) {
 
-						ExpressionValue evR = (enL.getRight());
+						ExpressionValue evR = (enLL.getRight());
 
 						if (evR instanceof NumberValue) {
 							NumberValue num = (NumberValue) evR;
