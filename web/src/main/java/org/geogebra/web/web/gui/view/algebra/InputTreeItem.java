@@ -667,7 +667,11 @@ public class InputTreeItem extends RadioTreeItem implements
 	 * addToHistory is filled!
 	 */
 	public void setText(String s) {
+		if (this.dummyLabel != null) {
+			dummyLabel.removeFromParent();
+		}
 		editor.setText(s, false);
+		updatePreview();
 	}
 
 	public List<String> resetCompletions() {
@@ -843,8 +847,9 @@ public class InputTreeItem extends RadioTreeItem implements
 		if (!DrawEquationW.targetHasFeature(getElement(),
 				"BlurDoesntUpdateGUIFeature", true)) {
 
-			if (isEmpty() && app.has(Feature.INPUT_SHOWN_IN_INPUTBAR))
+			if (isEmpty()) {
 				addDummyLabel();
+			}
 
 			if (((AlgebraViewW) av).isNodeTableEmpty()) {
 				// #5245#comment:8, cases B and C excluded
@@ -955,6 +960,10 @@ public class InputTreeItem extends RadioTreeItem implements
 			}
 		}
 
+		updatePreview();
+	}
+
+	private void updatePreview() {
 		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
 			app.getKernel()
 					.getInputPreviewHelper()
@@ -962,6 +971,7 @@ public class InputTreeItem extends RadioTreeItem implements
 							EquationEditor.stopCommon(editor.getText()),
 							AlgebraInputW.getWarningHandler(this, app));
 		}
+
 	}
 
 	protected boolean isEmpty() {
