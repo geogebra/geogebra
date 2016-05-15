@@ -14,14 +14,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
-import org.geogebra.web.html5.gui.util.BasicIcons;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
@@ -36,7 +34,6 @@ import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 
-import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -78,19 +75,29 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	// create special formula button (matrix, piecewise function, parametric
 	// curve)
-	protected PushButton pButton = null;
-
+	/** + button */
+	protected PushButton plusButton = null;
+	/** Popup for history */
 	HistoryPopupW historyPopup;
+	/** Popup for submenu */
 	ButtonPopupMenu specialPopup;
+	/** Editor */
 	EquationEditor editor;
+	/** label "Input..." */
 	Label dummyLabel;
 
 	private Label piecewiseLabel, matrixLabel, curveLabel;
-
+	/** Help popup */
 	InputBarHelpPopup helpPopup;
-
+	/** Help button */
 	ToggleButton btnHelpToggle;
 
+	/**
+	 * Creates new input tree item
+	 * 
+	 * @param kern
+	 *            kernel
+	 */
 	public InputTreeItem(Kernel kern) {
 		super(kern);
 		// this method is still not able to show an editing box!
@@ -146,11 +153,13 @@ public class InputTreeItem extends RadioTreeItem implements
 
 			btnHelpToggle.addClickHandler(new ClickHandler() {
 
+				@Override
 				public void onClick(ClickEvent event) {
 					if (btnHelpToggle.isDown()) {
 						app.hideKeyboard();
 						Scheduler.get().scheduleDeferred(
 								new Scheduler.ScheduledCommand() {
+									@Override
 									public void execute() {
 										setShowInputHelpPanel(true);
 										((InputBarHelpPanelW) app
@@ -225,13 +234,13 @@ public class InputTreeItem extends RadioTreeItem implements
 			// pButton and xButton are invisible, then
 			// buttonPanel should show either, e.g.
 			// by adding an additional CSS class to it
-			pButton = new PushButton(new Image(
+			plusButton = new PushButton(new Image(
 					GuiResources.INSTANCE.algebra_new()));
-			pButton.getUpHoveringFace().setImage(
+			plusButton.getUpHoveringFace().setImage(
 					new Image(GuiResources.INSTANCE.algebra_new_hover()));
-			pButton.getElement().setAttribute("data-visible", "false");
-			pButton.addStyleName("XButtonNeighbour");
-			pButton.addMouseDownHandler(new MouseDownHandler() {
+			plusButton.getElement().setAttribute("data-visible", "false");
+			plusButton.addStyleName("XButtonNeighbour");
+			plusButton.addMouseDownHandler(new MouseDownHandler() {
 				// ClickHandler changed to MouseDownHandler,
 				// but maybe it's not that important here
 				@Override
@@ -253,7 +262,7 @@ public class InputTreeItem extends RadioTreeItem implements
 							EuclidianStyleBarW.CURRENT_POP_UP = specialPopup;
 
 							app.registerPopup(specialPopup);
-							specialPopup.showRelativeTo(pButton);
+							specialPopup.showRelativeTo(plusButton);
 							specialPopup.getFocusPanel().getElement().focus();
 						} else {
 							specialPopup.setVisible(false);
@@ -299,6 +308,7 @@ public class InputTreeItem extends RadioTreeItem implements
 					.getPlain("PiecewiseFunction")));
 			// ClickHandler is Okay here, but maybe MouseDownHandler is better?
 			actual.addDomHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent ce) {
 					ce.stopPropagation();
 					specialPopup.setVisible(false);
@@ -311,6 +321,7 @@ public class InputTreeItem extends RadioTreeItem implements
 						// in theory, fun is never null, but what if?
 						// same code as for matrices, see comments there
 						Timer tim = new Timer() {
+							@Override
 							public void run() {
 								app.getAlgebraView().startEditing(fun);
 							}
@@ -326,6 +337,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			actual.add(new Image(GuiResources.INSTANCE.algebra_new_matrix()));
 			actual.add(matrixLabel = new Label(app.getMenu("Matrix")));
 			actual.addDomHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent ce) {
 					ce.stopPropagation();
 					specialPopup.setVisible(false);
@@ -336,6 +348,7 @@ public class InputTreeItem extends RadioTreeItem implements
 							.create2x2IdentityMatrix(app.getKernel());
 					// scheduleDeferred alone does not work well!
 					Timer tim2 = new Timer() {
+						@Override
 						public void run() {
 							app.getAlgebraView().startEditing(mat);
 						}
@@ -361,6 +374,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			actual.add(new Image(GuiResources.INSTANCE.algebra_new_parametric()));
 			actual.add(curveLabel = new Label(app.getPlain("CurveCartesian")));
 			actual.addDomHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent ce) {
 					ce.stopPropagation();
 					specialPopup.setVisible(false);
@@ -373,6 +387,7 @@ public class InputTreeItem extends RadioTreeItem implements
 						// in theory, fun is never null, but what if?
 						// same code as for matrices, see comments there
 						Timer tim = new Timer() {
+							@Override
 							public void run() {
 								app.getAlgebraView().startEditing(curve);
 							}
@@ -393,8 +408,9 @@ public class InputTreeItem extends RadioTreeItem implements
 			}
 		});
 
-		if (pButton != null) {
-			ClickStartHandler.init(pButton, new ClickStartHandler(false, true) {
+		if (plusButton != null) {
+			ClickStartHandler.init(plusButton, new ClickStartHandler(false,
+					true) {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					// nothing to do here; just makes sure that
@@ -404,12 +420,12 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 
 		try{
-			//TRY-CATCH needed for Win8 app //TODO find better solution
 			btnDelete.setFocus(false);
-			if (pButton != null) {
-				pButton.setFocus(false);
+			if (plusButton != null) {
+				plusButton.setFocus(false);
 			}
 		}catch(Throwable t){
+			// TRY-CATCH needed for Win8 app //TODO find better solution
 		}
 		// add(textField);// done in super()
 
@@ -419,8 +435,8 @@ public class InputTreeItem extends RadioTreeItem implements
 
 		main.add(buttonPanel);// dirty hack of adding it two times!
 
-		if (pButton != null) {
-			this.buttonPanel.add(pButton);
+		if (plusButton != null) {
+			this.buttonPanel.add(plusButton);
 		}
 
 		this.buttonPanel.add(btnDelete);
@@ -430,8 +446,8 @@ public class InputTreeItem extends RadioTreeItem implements
 		// but later this.replaceXButtonDOM() should be used instead
 
 		btnDelete.getElement().setAttribute("data-visible", "true");
-		if (pButton != null) {
-			pButton.getElement().setAttribute("data-visible", "true");
+		if (plusButton != null) {
+			plusButton.getElement().setAttribute("data-visible", "true");
 		}
 		addStyleName("SymbolCanBeShown");
 
@@ -499,6 +515,10 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 	}
 
+	/**
+	 * @param show
+	 *            true to show input help
+	 */
 	public void setShowInputHelpPanel(boolean show) {
 
 		if (show) {
@@ -514,6 +534,7 @@ public class InputTreeItem extends RadioTreeItem implements
 				helpPopup.addAutoHidePartner(this.getElement());
 				helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
+					@Override
 					public void onClose(CloseEvent<GPopupPanel> event) {
 						if (dummyLabel != null) {
 							dummyLabel.removeStyleName("hiddenInputLabel");
@@ -538,6 +559,7 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	private void updateHelpPosition(final InputBarHelpPanelW helpPanel) {
 		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
+			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
 				helpPopup.getElement().getStyle()
 						.setProperty("left",
@@ -576,12 +598,15 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	}
 
+	/**
+	 * Adds + and delete buttons to the button panel
+	 */
 	public void replaceXButtonDOM() {
 		getWidget().getElement().getParentElement()
 				.appendChild(buttonPanel.getElement());
 		// Internet Explorer seems to also require this lately:
-		if (pButton != null) {
-			buttonPanel.getElement().appendChild(pButton.getElement());
+		if (plusButton != null) {
+			buttonPanel.getElement().appendChild(plusButton.getElement());
 		}
 		buttonPanel.getElement().appendChild(getDeleteButton().getElement());
 	}
@@ -655,6 +680,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		return super.stopNewFormulaCreation(newValue0, latex, callback);
 	}
 
+	@Override
 	public boolean getAutoComplete() {
 		return true;
 	}
@@ -666,6 +692,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	 * it in the historyMap class, which should be filled the same time when
 	 * addToHistory is filled!
 	 */
+	@Override
 	public void setText(String s) {
 		if (this.dummyLabel != null) {
 			dummyLabel.removeFromParent();
@@ -674,6 +701,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		updatePreview();
 	}
 
+	@Override
 	public List<String> resetCompletions() {
 		return editor.resetCompletions();
 	}
@@ -688,6 +716,7 @@ public class InputTreeItem extends RadioTreeItem implements
 
 
 
+	@Override
 	public List<String> getCompletions() {
 		return editor.getCompletions();
 	}
@@ -718,13 +747,14 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 	}
 
+	@Override
 	public void showPopup(boolean show) {
 		if (this.buttonPanel == null) {
 			return;
 		}
 		buttonPanel.setVisible(show);
 		setButtonVisible(getDeleteButton(), show);
-		setButtonVisible(pButton, show);
+		setButtonVisible(plusButton, show);
 	}
 
 	/**
@@ -732,7 +762,11 @@ public class InputTreeItem extends RadioTreeItem implements
 	 * code used simply xButton.setVisible(true)... to be compatible with both,
 	 * this method is here
 	 * 
-	 * @param visible
+	 * @param button
+	 *            button
+	 * 
+	 * @param show
+	 *            ehether it should be visible
 	 */
 	public void setButtonVisible(final PushButton button, boolean show) {
 		if (button == null) {
@@ -804,6 +838,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	 * @param blurtrue
 	 *            : whether we are in blurred mode
 	 */
+	@Override
 	protected void updateGUIfocus(Object source, boolean blurtrue) {
 		// deselects current selection
 		((AlgebraViewW) av).setActiveTreeItem(null);
@@ -874,6 +909,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		//}
 	}
 
+	@Override
 	public ArrayList<String> getHistory() {
 		return editor.getHistory();
 	}
@@ -881,6 +917,9 @@ public class InputTreeItem extends RadioTreeItem implements
 	/**
 	 * Add a history popup list and an embedded popup button. See
 	 * AlgebraInputBar
+	 * 
+	 * @param isDownPopup
+	 *            whether history is pointing down
 	 */
 	public void addHistoryPopup(boolean isDownPopup) {
 
@@ -888,33 +927,11 @@ public class InputTreeItem extends RadioTreeItem implements
 			historyPopup = new HistoryPopupW(this, app.getPanel());
 
 		historyPopup.setDownPopup(isDownPopup);
-
-		ClickHandler al = new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				// AGString cmd = event.;
-				// AGif (cmd.equals(1 + BorderButton.cmdSuffix)) {
-				// TODO: should up/down orientation be tied to InputBar?
-				// show popup
-				historyPopup.showPopup();
-
-			}
-		};
-		setBorderButton(1, BasicIcons.createUpDownTriangleIcon(false, true), al);
-		this.setBorderButtonVisible(1, false);
 	}
 
-	private void setBorderButtonVisible(int i, boolean b) {
-		Log.debug("setBorderVisible() implementation needed"); // TODO
-		                                                       // Auto-generated
-	}
 
-	private void setBorderButton(int i, ImageData createUpDownTriangleIcon,
-	        ClickHandler al) {
-		Log.debug("setBorderButton() implementation needed"); // TODO
-		                                                      // Auto-generated
-	}
+
+
 
 
 
@@ -939,21 +956,21 @@ public class InputTreeItem extends RadioTreeItem implements
 	@Override
 	public void typing(boolean heuristic) {
 		if (app.has(Feature.EXPAND_AV_FOR_LONG_EQUATIONS)) {
-			if (isEmpty() && pButton != null) {
-				pButton.setVisible(true);
+			if (isEmpty() && plusButton != null) {
+				plusButton.setVisible(true);
 			} else {
-				pButton.setVisible(false);
+				plusButton.setVisible(false);
 			}
 		} else {
 			if (btnDelete != null) {
 				if (heuristic || !isEmpty()) {
-					if (pButton == null) {
+					if (plusButton == null) {
 						buttonPanel.setVisible(true);
 					}
 					setButtonVisible(btnDelete, true);
 				} else {
 					setButtonVisible(btnDelete, false);
-					if (pButton == null) {
+					if (plusButton == null) {
 						buttonPanel.setVisible(false);
 					}
 				}
@@ -974,6 +991,9 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	}
 
+	/**
+	 * @return whether input text is empty
+	 */
 	protected boolean isEmpty() {
 		return "".equals(getText().trim());
 	}
@@ -983,6 +1003,9 @@ public class InputTreeItem extends RadioTreeItem implements
 		sug.setPositionRelativeTo(ihtml);
 	}
 
+	/**
+	 * Update localization
+	 */
 	public void setLabels() {
 		editor.resetLanguage();
 		if (dummyLabel != null) {
@@ -995,10 +1018,14 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 	}
 
+	/**
+	 * Remove the main panel from parent
+	 */
 	public void removeFromParent() {
 		main.removeFromParent();
 	}
 
+	@Override
 	public void autocomplete(String s) {
 		editor.autocomplete(s, false);
 	}
@@ -1008,6 +1035,12 @@ public class InputTreeItem extends RadioTreeItem implements
 		return true;
 	}
 
+	/**
+	 * @param fkey
+	 *            2 for F2, 3 for F3 etc
+	 * @param geo2
+	 *            selected element
+	 */
 	public void handleFKey(int fkey, GeoElement geo2) {
 		switch (fkey) {
 		case 3: // F3 key: copy definition to input field
@@ -1054,6 +1087,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		return true;
 	}
 
+	@Override
 	public EquationEditor getEquationEditor() {
 		return editor;
 	}
@@ -1072,6 +1106,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 	}
 
+	@Override
 	public void updateIcons(boolean warning) {
 		if (btnHelpToggle == null) {
 			btnHelpToggle = new ToggleButton();
@@ -1093,10 +1128,12 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	}
 
+	@Override
 	public String getCommand() {
 		return getEquationEditor().getCurrentCommand();
 	}
 
+	@Override
 	public ToggleButton getHelpToggle() {
 		return this.btnHelpToggle;
 	}
