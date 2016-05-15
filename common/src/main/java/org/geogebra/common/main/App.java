@@ -3805,8 +3805,9 @@ public abstract class App implements UpdateSelection {
 		case TOOL_EDITOR:
 			return prerelease;
 
+		// GGB-777
 		case IMAGE_DIALOG_IMMEDIATELY:
-			return prerelease;
+			return true;
 
 		// TRAC-4845
 		case LOG_AXES:
