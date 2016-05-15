@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
@@ -166,7 +167,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 			((GuiManagerW) app.getGuiManager())
 			        .setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
 		} else {
-			setMode(EuclidianConstants.MODE_MOVE);
+			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
 			// app.setMode(EuclidianConstants.MODE_MOVE);
 			// app.getGuiManager().updateToolbar();
 		}
@@ -180,7 +181,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 			((GuiManagerW) app.getGuiManager())
 			        .setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
 		} else {
-			setMode(EuclidianConstants.MODE_MOVE);
+			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.DOCK_PANEL);
 			// app.setMode(EuclidianConstants.MODE_MOVE);
 			// app.getGuiManager().updateToolbar();
 		}

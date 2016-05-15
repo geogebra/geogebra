@@ -177,7 +177,7 @@ public class OptionsAlgebraD extends OptionsAlgebra
 	private void updateDescription() {
 		ignoreActions = true;
 		String[] modes = new String[] { app.getPlain("Value"),
-				app.getPlain("Definition"), app.getPlain("Command") };
+				app.getPlain("Description"), app.getPlain("Definition") };
 		description.removeAllItems();
 
 		for (int i = 0; i < modes.length; i++) {
@@ -185,7 +185,9 @@ public class OptionsAlgebraD extends OptionsAlgebra
 		}
 
 		int descMode = app.getKernel().getAlgebraStyle();
-		description.setSelectedIndex(descMode);
+		if (descMode < modes.length) {
+			description.setSelectedIndex(descMode);
+		}
 		ignoreActions = false;
 	}
 

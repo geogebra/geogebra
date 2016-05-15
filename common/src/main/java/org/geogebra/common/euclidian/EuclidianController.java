@@ -718,7 +718,7 @@ public abstract class EuclidianController {
 		return mode;
 	}
 
-	public void setMode(int newMode) {
+	public void setMode(int newMode, ModeSetter ms) {
 		if (pen != null) {
 			pen.resetPenOffsets();
 		}
@@ -734,7 +734,8 @@ public abstract class EuclidianController {
 			return;
 		}
 
-		if (app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)) {
+		if (app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
+				&& ms == ModeSetter.TOOLBAR) {
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(Test.GEOIMAGE,
 						tempArrayList));
@@ -9015,7 +9016,7 @@ public abstract class EuclidianController {
 			app.getGuiManager().mousePressedForPropertiesView();
 
 			if (view instanceof PlotPanelEuclidianViewInterface) {
-				setMode(EuclidianConstants.MODE_MOVE);
+				setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 			}
 		} else if (app.isHTML5Applet() && view != null) {
 			if (!isComboboxFocused()) {

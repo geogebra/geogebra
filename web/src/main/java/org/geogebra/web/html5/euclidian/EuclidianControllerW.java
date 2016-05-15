@@ -165,7 +165,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			((GuiManagerInterfaceW) app.getGuiManager())
 			        .setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		} else {
-			setMode(EuclidianConstants.MODE_MOVE);
+			setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 			// app.setMode(EuclidianConstants.MODE_MOVE);
 			// app.getGuiManager().updateToolbar();
 		}
@@ -235,7 +235,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			if (mode == EuclidianConstants.MODE_MOVE
 					|| mode == EuclidianConstants.MODE_TRANSLATEVIEW
 					|| mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
-			setMode(mode);
+				setMode(mode, ModeSetter.TOOLBAR);
 			}
 			// app.setMode(EuclidianConstants.MODE_MOVE);
 			// app.getGuiManager().updateToolbar();

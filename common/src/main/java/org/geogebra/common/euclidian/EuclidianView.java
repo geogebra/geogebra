@@ -444,7 +444,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		this.mode = mode;
 		initCursor();
 		getEuclidianController().clearJustCreatedGeos();
-		getEuclidianController().setMode(mode);
+		getEuclidianController().setMode(mode, m);
 		if (clearRectangle(mode)) {
 			setSelectionRectangle(null);
 		}

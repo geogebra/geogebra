@@ -48,6 +48,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitCurve3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -3995,7 +3996,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	public void setMode(int newMode) {
+	public void setMode(int newMode, ModeSetter ms) {
 
 		// clear specific modes fields
 
@@ -4007,7 +4008,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// clear pyramid/prism basis
 		pyramidBasis = null;
 
-		super.setMode(newMode);
+		super.setMode(newMode, ms);
 
 		if (!temporaryMode) {
 			initPointMoveMode();

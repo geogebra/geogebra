@@ -3807,7 +3807,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-777
 		case IMAGE_DIALOG_IMMEDIATELY:
-			return true;
+			return prerelease;
 
 		// TRAC-4845
 		case LOG_AXES:
@@ -3936,7 +3936,6 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case DATA_COLLECTION:
-		case INPUT_SHOWN_IN_INPUTBAR:
 		case ADD_NEW_OBJECT_BUTTON:
 		case CAS_EDITOR:
 		case UNDO_FOR_TOOLS:
