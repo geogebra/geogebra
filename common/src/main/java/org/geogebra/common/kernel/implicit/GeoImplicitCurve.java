@@ -475,6 +475,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * Updates the path of the curve.
 	 */
 	public void updatePath() {
+		if (!calcPath) {
+			return;
+		}
 		double[] viewBounds = kernel.getViewBoundsForGeo(this);
 		if (viewBounds[0] == Double.POSITIVE_INFINITY) {
 			viewBounds = new double[] { -10, 10, -10, 10, 10, 10 };
@@ -754,7 +757,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		} else {
 			MyDouble r2 = new MyDouble(kernel,
 					c.getHalfAxis(0) * c.getHalfAxis(0));
-			expression.translate(c.getMidpoint2D().mul(-1));
+			expression.getFunction().translate(-c.getMidpoint2D().getX(),
+					-c.getMidpoint2D().getY());
 			FunctionVariable x = expression.getFunctionVariables()[0];
 			FunctionVariable y = expression.getFunctionVariables()[1];
 			ExpressionNode expr = expression.getFunctionExpression()
@@ -778,6 +782,18 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 	}
 
+	/**
+	 * replace x by px/qx and y by py/qy
+	 * 
+	 * @param pX
+	 *            x numerator
+	 * @param pY
+	 *            y numerator
+	 * @param qX
+	 *            x denominator
+	 * @param qY
+	 *            y denominator
+	 */
 	public void plugInRatPoly(double[][] pX, double[][] pY, double[][] qX,
 			double[][] qY) {
 		int degXpX = pX.length - 1;
@@ -1015,14 +1031,20 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	/**
+	 * polyDest=polyDest*polySrc;
 	 * 
 	 * @param polyDest
+	 *            destination polynomial (coefficients)
 	 * @param polySrc
-	 *            polyDest=polyDest*polySrc;
+	 *            source polynomial
 	 * @param degDestX
+	 *            x degree of dest
 	 * @param degDestY
+	 *            y degree of dest
 	 * @param degSrcX
+	 *            x degree of src
 	 * @param degSrcY
+	 *            y degree of src
 	 */
 	static void polyMult(double[][] polyDest, double[][] polySrc,
 			int degDestX, int degDestY, int degSrcX, int degSrcY) {
@@ -1429,6 +1451,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 		@Override
 		public void polishPointOnPath(GeoPointND pt) {
+			pt.updateCoords();
 			double x1 = onScreen(pt.getInhomX(), this.x, this.x + this.w);
 			double y1 = onScreen(pt.getInhomY(), this.y, this.y + this.h);
 			double d1 = evaluateImplicitCurve(x1, y1);
@@ -1714,6 +1737,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return CoordSys.Identity3D;
 	}
 
+	/**
+	 * @param coeff
+	 *            coeefficients
+	 * @param kernel
+	 *            kernel
+	 * @param tpl
+	 *            string template
+	 * @return string representation of polynomial with given coefficients
+	 */
 	protected static String toRawValueString(double[][] coeff, Kernel kernel,
 			StringTemplate tpl) {
 		if (coeff == null)

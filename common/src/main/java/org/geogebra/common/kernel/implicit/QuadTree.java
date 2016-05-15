@@ -274,7 +274,7 @@ abstract class QuadTree {
 	}
 
 	public void polishPointOnPath(GeoPointND pt) {
-		pt.setUndefined();
+		// pt.setUndefined();
 	}
 
 	public List<Coords> probablePoints(GeoImplicitCurve other, int n) {

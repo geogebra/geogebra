@@ -47,7 +47,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				app.setWaitCursor();
 				app.fileNew();
 				app.setDefaultCursor();
-				app.showStartScreen();
 			}
 		};
 	    addStyleName("GeoGebraMenuBar");
