@@ -1466,6 +1466,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				d2 = evaluateImplicitCurve(x2, y2);
 				if (d2 * d1 <= 0.0) {
 					int count = 0;
+					mx = x1;
+					my = y1;
 					while (!Kernel.isZero(d2) && count < 64) {
 						mx = 0.5 * (x1 + x2);
 						my = 0.5 * (y1 + y2);
@@ -1485,6 +1487,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 						}
 						count++;
 					}
+					// we didn't hit exact 0, let's use the closest we have
+					pt.setCoords(new Coords(mx, my, 1.0), false);
+					return;
 				}
 			}
 		}
