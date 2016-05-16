@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectFunctionNVarPlane;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectImplicitSurfacePlane;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.advanced.CmdIntersectPath;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -100,44 +101,13 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 				return result;
 			}
 
-			if ((ok[0] = (arg[0].isGeoPlane()))
-					&& (ok[1] = (arg[1].isGeoImplicitSurface()))) {
-				GeoElement[] result = new GeoElement[] { new AlgoIntersectImplicitSurfacePlane(
-						cons, (GeoImplicitSurface) arg[1], (GeoPlaneND) arg[0])
-						.getOutput()[0] };
-				result[0].setLabel(c.getLabel());
-				return result;
-			}
-			if ((ok[1] = (arg[1].isGeoPlane()))
-					&& (ok[0] = (arg[0].isGeoImplicitSurface()))) {
-				GeoElement[] result = new GeoElement[] { new AlgoIntersectImplicitSurfacePlane(
-						cons, (GeoImplicitSurface) arg[0], (GeoPlaneND) arg[1])
-						.getOutput()[0] };
-				result[0].setLabel(c.getLabel());
-				return result;
-			}
-
-			if ((ok[0] = (arg[0].isGeoPlane()))
-					&& (ok[1] = (arg[1].isGeoFunctionNVar()))) {
-				GeoElement[] result = new GeoElement[] {
-						new AlgoIntersectFunctionNVarPlane(cons,
-								(GeoFunctionNVar) arg[1],
-								(GeoPlaneND) arg[0]).getOutput()[0] };
-				result[0].setLabel(c.getLabel());
-				return result;
-			}
-			if ((ok[1] = (arg[1].isGeoPlane()))
-					&& (ok[0] = (arg[0].isGeoFunctionNVar()))) {
-				GeoElement[] result = new GeoElement[] {
-						new AlgoIntersectFunctionNVarPlane(cons,
-								(GeoFunctionNVar) arg[0],
-								(GeoPlaneND) arg[1]).getOutput()[0] };
-				result[0].setLabel(c.getLabel());
-				return result;
+			GeoElement ret = processPlaneSurface(kernelA, arg, ok, c.getLabel());
+			if(ret != null){
+				return new GeoElement[] { ret };
 			}
 
 			// intersection plane/quadric
-			GeoElement ret = processQuadricPlane(kernelA, c, arg, ok);
+			ret = processQuadricPlane(kernelA, c, arg, ok);
 			if (ret != null) {
 				return new GeoElement[] { ret };
 			}
@@ -147,6 +117,43 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 		default:
 			return super.process(c);
 		}
+	}
+
+	public static GeoElement processPlaneSurface(Kernel kernel,
+			GeoElement[] arg, boolean[] ok,
+			String label) {
+		Construction cons = kernel.getConstruction();
+		GeoElement result = null;
+		if ((ok[0] = (arg[0].isGeoPlane()))
+				&& (ok[1] = (arg[1].isGeoImplicitSurface()))) {
+			result =  new AlgoIntersectImplicitSurfacePlane(
+					cons, (GeoImplicitSurface) arg[1], (GeoPlaneND) arg[0])
+					.getOutput()[0];
+		}
+		else if ((ok[1] = (arg[1].isGeoPlane()))
+				&& (ok[0] = (arg[0].isGeoImplicitSurface()))) {
+			result = new AlgoIntersectImplicitSurfacePlane(
+					cons, (GeoImplicitSurface) arg[0], (GeoPlaneND) arg[1])
+					.getOutput()[0] ;
+		}
+
+		else if ((ok[0] = (arg[0].isGeoPlane()))
+				&& (ok[1] = (arg[1].isGeoFunctionNVar()))) {
+			result =  new AlgoIntersectFunctionNVarPlane(
+					cons, (GeoFunctionNVar) arg[1], (GeoPlaneND) arg[0])
+					.getOutput()[0] ;
+		}
+		else if ((ok[1] = (arg[1].isGeoPlane()))
+				&& (ok[0] = (arg[0].isGeoFunctionNVar()))) {
+			result =  new AlgoIntersectFunctionNVarPlane(
+					cons, (GeoFunctionNVar) arg[0], (GeoPlaneND) arg[1])
+					.getOutput()[0];
+			
+		}
+		if(result != null){
+			result.setLabel(label);
+		}
+		return result;
 	}
 
 	/**

@@ -2833,7 +2833,16 @@ public class AlgebraProcessor {
 	private GeoElement[] processPointVector(ExpressionNode n,
 			ExpressionValue evaluate) {
 		String label = n.getLabel();
-
+		if(evaluate instanceof MyVecNode){
+			if (app.has(Feature.IMPLICIT_SURFACES)
+					&& ((MyVecNode) evaluate).getX().unwrap() instanceof EquationValue
+					&& ((MyVecNode) evaluate).getY().unwrap() instanceof EquationValue) {
+				Command inter = new Command(kernel, "Intersect", false);
+				inter.addArgument(((MyVecNode) evaluate).getX().wrap());
+				inter.addArgument(((MyVecNode) evaluate).getY().wrap());
+				return processCommand(inter, new EvalInfo(true));
+			}
+		}
 		GeoVec2D p = ((VectorValue) evaluate).getVector();
 
 		boolean polar = p.getMode() == Kernel.COORD_POLAR;
