@@ -17,7 +17,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConicSection3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawImplicitCurve3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawIntersectionCurve3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLine3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
@@ -45,7 +44,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
-import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitCurve3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
@@ -219,14 +217,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// //////////////////////////////////////////
 	// setters movedGeoElement -> movedGeoPoint, ...
 
-	private double[] getMinMax(double min, double val, double max) {
-
+	private static double[] getMinMax(double min, double val, double max) {
+		double min1 = min, max1 = max;
 		if (val < min)
-			min = val;
+			min1 = val;
 		else if (val > max)
-			max = val;
+			max1 = val;
 
-		return new double[] { min, max };
+		return new double[] { min1, max1 };
 	}
 
 	@Override
@@ -654,7 +652,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected void createNewPointIntersection(GeoPointND intersectionPoint) {
 		GeoPoint3D point3D = view3D.getCursor3D();
-		point3D.setCoords(intersectionPoint.getCoordsInD3().getInhomCoords(),
+		point3D.setCoords(point3D.getCoords()
+				.setInhomCoords(intersectionPoint.getCoordsInD3()),
 				false);
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_DEPENDENT);
 		view3D.setIntersectionPoint(intersectionPoint);
@@ -1701,14 +1700,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void initNewMode(int mode) {
+	protected void initNewMode(int newMode) {
 
-		super.initNewMode(mode);
+		super.initNewMode(newMode);
 
 	}
 
 	@Override
-	protected Previewable switchPreviewableForInitNewMode(int mode) {
+	protected Previewable switchPreviewableForInitNewMode(int previewMode) {
 
 		Previewable previewDrawable = null;
 
@@ -1717,7 +1716,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// Log.debug(mode);
 
-		switch (mode) {
+		switch (previewMode) {
 
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
 			previewDrawable = view3D.createPreviewSphere(getSelectedPointList());
@@ -1736,7 +1735,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
 			previewDrawable = view3D.createPreviewPyramidOrPrism(
-					getSelectedPointList(), getSelectedPolygonList(), mode);
+					getSelectedPointList(), getSelectedPolygonList(),
+					previewMode);
 			break;
 
 		case EuclidianConstants.MODE_INTERSECTION_CURVE: // line through two
@@ -1744,7 +1744,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			break;
 
 		default:
-			previewDrawable = super.switchPreviewableForInitNewMode(mode);
+			previewDrawable = super.switchPreviewableForInitNewMode(
+					previewMode);
 			break;
 		}
 
@@ -1782,9 +1783,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * break; default: super.mouseClickedMode(e,mode); } }
 	 */
 
-	// TODO
+
 	@Override
 	public void processModeLock() {
+		// TODO
 	}
 
 	// /////////////////////////////////////////
@@ -1886,7 +1888,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected boolean switchModeForProcessMode(Hits hits,
-			boolean isControlDown, AsyncOperation callback) {
+			boolean isControlDown, AsyncOperation<Boolean> callback) {
 
 		boolean changedKernel = false;
 
@@ -2025,9 +2027,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected GeoElement[] switchModeForThreePoints(int mode) {
+	protected GeoElement[] switchModeForThreePoints(int threePointsMode) {
 
-		switch (mode) {
+		switch (threePointsMode) {
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
 			GeoPointND[] points = getSelectedPointsND();
 			GeoPlane3D ret0 = (GeoPlane3D) getKernel().getManager3D().Plane3D(
@@ -2035,16 +2037,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 			GeoElement[] ret = { ret0 };
 			return ret;
 		default:
-			return super.switchModeForThreePoints(mode);
+			return super.switchModeForThreePoints(threePointsMode);
 
 		}
 
 	}
 
 	@Override
-	protected GeoElement[] switchModeForCircleOrSphere2(int mode) {
+	protected GeoElement[] switchModeForCircleOrSphere2(int sphereNDMode) {
 
-		switch (mode) {
+		switch (sphereNDMode) {
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
 			GeoPointND[] points = getSelectedPointsND();
 			GeoElement[] ret = { null };
@@ -2052,7 +2054,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					points[1]);
 			return ret;
 		default:
-			return super.switchModeForCircleOrSphere2(mode);
+			return super.switchModeForCircleOrSphere2(sphereNDMode);
 		}
 	}
 
@@ -2188,9 +2190,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// MOUSE RELEASED
 
 	@Override
-	protected boolean switchModeForMouseReleased(int mode, Hits hits,
+	protected boolean switchModeForMouseReleased(int releaseMode, Hits hits,
 			boolean changedKernel, boolean control, PointerEventType type) {
-		switch (mode) {
+		switch (releaseMode) {
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
 			return true;
 		case EuclidianConstants.MODE_EXTRUSION:
@@ -2216,7 +2218,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// TODO implement choose geo
 			return true;
 		default:
-			return super.switchModeForMouseReleased(mode, hits, changedKernel,
+			return super.switchModeForMouseReleased(releaseMode, hits,
+					changedKernel,
 					control, type);
 
 		}
@@ -2245,8 +2248,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * get two objects (lines or conics) and create intersection point
 	 */
 	@Override
-	protected GeoElement[] intersect(Hits hits) {
-
+	protected GeoElement[] intersect(Hits hits0) {
+		Hits hits = hits0;
 		// AppD.debug(hits);
 		if (hits.isEmpty())
 			return null;
@@ -2707,25 +2710,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	}
 
-	private boolean createIntersectionCurvePlaneFunctionNVar(GeoPlane3D A,
-			GeoFunctionNVar B) {
-
-		if (!B.isFun2Var()) {
-			return false;
-		}
-
-		// add intersection to tempArrayList
-		boolean oldSilentMode = getKernel().isSilentMode();
-		getKernel().setSilentMode(true);// tells the kernel not to record
-										// the algo
-		GeoElement ret = kernel.getManager3D().IntersectPlaneFunctionNVar(A, B)[0];
-		// ret.setLabel(null);
-		Drawable3D d = new DrawImplicitCurve3D(view3D, (GeoImplicitCurve3D) ret);
-		getKernel().setSilentMode(oldSilentMode);
-		processIntersectionCurve(A, B, ret, d);
-		return true;
-	}
-
 	private boolean createIntersectionCurvePlanePolygon(GeoElement A,
 			GeoPolygon B) {
 
@@ -3079,7 +3063,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// selectedCS2D list, similar to selectedCS1D
 
 	/** selected 2D coord sys */
-	@SuppressWarnings("unchecked")
 	/** add hits to selectedCS2D
 	 * @param hits hits
 	 * @param max max number of hits to add
@@ -3106,7 +3089,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * 
 	 * @return selected 2D coord sys
 	 */
-	@SuppressWarnings("unchecked")
 	final protected GeoCoordSys2D[] getSelectedCS2D() {
 		GeoCoordSys2D[] planes = new GeoCoordSys2D[selectedCS2D.size()];
 		int i = 0;
@@ -3154,7 +3136,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * 
 	 * @return selected planes
 	 */
-	@SuppressWarnings("unchecked")
 	final protected GeoPlane3D[] getSelectedPlanes() {
 		GeoPlane3D[] planes = new GeoPlane3D[selectedPlane.size()];
 		int i = 0;
@@ -3565,8 +3546,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private Coords startPoint3D = new Coords(0, 0, 0, 1);
 	private Coords startPoint3DxOy = new Coords(0, 0, 0, 1);
 
-	private double zRW;
-
 	protected Coords translationVec3D = new Coords(4);
 
 	/**
@@ -3585,7 +3564,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            current mouse pos
 	 */
 	protected void updateTranslationVector(Coords point) {
-		translationVec3D = point.sub(startPoint3D);
+		point.sub(startPoint3D, translationVec3D);
 	}
 
 	@Override
@@ -3718,7 +3697,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.toSceneCoords3D(point);
 		xRW = point.getX();
 		yRW = point.getY();
-		zRW = point.getZ();
 	}
 
 	@Override
@@ -4079,18 +4057,18 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return view3D.getCursor3D().getInhomCoordsInD3();
 	}
 
-	public static String rotateObject(App app, String inputText,
+	public static String rotateObject(App app, String rawInput,
 			boolean clockwise, GeoPolygon[] polys, GeoLineND[] lines,
 			GeoElement[] selGeos, EuclidianController3D ec) {
 		String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
-		String angleText = inputText;
+		final String angleText = rawInput;
 		Kernel kernel = app.getKernel();
 
 		// avoid labeling of num
 		Construction cons = kernel.getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-
+		String inputText = rawInput;
 		// negative orientation ?
 		if (ec.viewOrientationForClockwise(clockwise, lines[0])) {
 			inputText = "-(" + inputText + ")";
@@ -4229,6 +4207,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return false;
 	}
 
+	@Override
 	public void onPinchPhone(int x, int y, double scaleFactor) {
 		view3D.screenTranslateAndScale(
 				x - twoTouchStartX,
