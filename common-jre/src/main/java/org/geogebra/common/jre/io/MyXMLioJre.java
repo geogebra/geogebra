@@ -37,8 +37,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import javax.imageio.ImageIO;
-
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.io.QDParser;
@@ -418,6 +416,10 @@ public abstract class MyXMLioJre extends MyXMLio {
 		writeImageToStream(zip, fileName, img);
 	}
 
+	abstract protected boolean getImageUseCache();
+
+	abstract protected void setImageUseCache(boolean useCache);
+
 	final public void writeImageToStream(OutputStream os, String fileName,
 			MyImageJre img) {
 		// if we get here we need to save the image from the memory
@@ -433,15 +435,15 @@ public abstract class MyXMLioJre extends MyXMLio {
 			boolean useCache = true;
 			// circumvent security issues by disabling disk-based caching
 			if (app.isApplet()) {
-				useCache = ImageIO.getUseCache();
-				javax.imageio.ImageIO.setUseCache(false);
+				useCache = getImageUseCache();
+				setImageUseCache(false);
 			}
 
 			writeImage(img, ext, os);
 
 			// restore caching to prevent side-effects
 			if (app.isApplet()) {
-				javax.imageio.ImageIO.setUseCache(useCache);
+				setImageUseCache(useCache);
 			}
 		} catch (Exception e) {
 			Log.debug(e.getMessage());
