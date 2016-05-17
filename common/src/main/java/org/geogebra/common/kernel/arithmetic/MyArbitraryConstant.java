@@ -143,6 +143,25 @@ public class MyArbitraryConstant {
 	}
 
 	/**
+	 * Return the list of constants
+	 * 
+	 * @return consts
+	 */
+	public ArrayList<GeoNumeric> getConstList() {
+		return consts;
+	}
+
+	/**
+	 * @return cas cell that contains the constant
+	 */
+	public GeoCasCell getCasCell() {
+		if (isCAS()) {
+			return (GeoCasCell) ce;
+		}
+		return null;
+	}
+
+	/**
 	 * @return number of arbconsts, arbcomplexes and arbints together
 	 */
 	public int getTotalNumberOfConsts() {

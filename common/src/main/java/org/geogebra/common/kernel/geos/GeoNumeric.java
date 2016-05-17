@@ -654,7 +654,15 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		// see MyDouble.toString()
 		if (tpl.hasCASType()) {
 			if (this.label != null && this.label.startsWith("c_")) {
-				this.setSendValueToCas(false);
+				// needed for GGB-903
+				// if label starts with c_
+				// look up if it is stored as constant
+				GeoNumeric geo = this.cons.lookupConstantLabel(label);
+				if (geo != null) {
+					this.setSendValueToCas(false);
+				} else {
+					this.setSendValueToCas(true);
+				}
 			}
 			if (!sendValueToCas) {
 				return "(ggbtmpvar" + label + ")";

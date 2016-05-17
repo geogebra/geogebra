@@ -2176,6 +2176,30 @@ public class Construction {
 	}
 
 	/**
+	 * Search for constant with given label
+	 * 
+	 * @param label
+	 *            - label of constant
+	 * @return constant(GeoNumeric) from arbitraryConsTable with label
+	 */
+	public GeoNumeric lookupConstantLabel(String label) {
+		if (!getArbitraryConsTable().isEmpty()) {
+			for (MyArbitraryConstant arbConst : getArbitraryConsTable()
+					.values()) {
+				ArrayList<GeoNumeric> constList = arbConst.getConstList();
+				if (constList != null && !constList.isEmpty()) {
+					for (GeoNumeric constant : constList) {
+						if (constant.getLabelSimple().equals(label)) {
+							return constant;
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Returns geo if it is available at the current construction step,
 	 * otherwise returns null.
 	 */
