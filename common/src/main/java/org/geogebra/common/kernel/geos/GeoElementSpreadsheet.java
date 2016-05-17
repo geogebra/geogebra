@@ -264,6 +264,9 @@ public class GeoElementSpreadsheet {
 	 * @return created geo or null
 	 */
 	public static GeoElement autoCreate(String label, Construction cons) {
+		if (cons.getKernel().isSilentMode()) {
+			return null;
+		}
 		MatchResult cellNameMatcher = spreadsheetPattern
 				.exec(label);
 		if (cellNameMatcher != null) {

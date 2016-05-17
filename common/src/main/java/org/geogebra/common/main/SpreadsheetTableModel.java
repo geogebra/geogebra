@@ -191,6 +191,9 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	}
 
 	public void update(GeoElement geo) {
+		if (geo.isEmptySpreadsheetCell() && geo.isDefined()) {
+			geo.setEmptySpreadsheetCell(false);
+		}
 		updateWithoutTrace(geo);
 
 		// trace value
@@ -198,9 +201,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 			app.getTraceManager().traceToSpreadsheet(geo);
 		}
 
-		if (geo.isEmptySpreadsheetCell() && geo.isDefined()) {
-			geo.setEmptySpreadsheetCell(false);
-		}
+
 
 	}
 
