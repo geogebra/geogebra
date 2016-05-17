@@ -5,6 +5,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.FileMenuW;
+import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -190,7 +191,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		emailPanel.addStyleName("GeoGebraEmailPanel");
 
 		Label lblRecipient = new Label(app.getPlain("share_recipient") + ":");
-		TextBox recipient = new TextBox();
+		final TextBox recipient = new TextBox();
 		recipient.getElement().setPropertyString("placeholder", app.getPlain("share_to"));
 
 		Label lblMessage = new Label(app.getPlain("share_message") + ":");
@@ -202,6 +203,21 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		emailPanel.add(recipient);
 		emailPanel.add(lblMessage);
 		emailPanel.add(message);
+
+		emailPanel.add(new Button("sendmail...", new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				app.getLoginOperation()
+						.getGeoGebraTubeAPI()
+						.shareMaterial(app.getActiveMaterial(),
+								recipient.getText(), "test-message",
+								new MaterialCallback() {
+
+								});
+
+			}
+
+		}));
 
 		return emailPanel;
 	}
