@@ -60,7 +60,7 @@ public class AppWsimple extends AppW {
 		afterCoreObjectsInited();
 		resetFonts();
 		removeDefaultContextMenu(this.getArticleElement());
-		if (Browser.runningLocal()) {
+		if (Browser.runningLocal() && ae.isEnableUsageStats()) {
 			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA))
 			        .checkAvailable(null);
 		}

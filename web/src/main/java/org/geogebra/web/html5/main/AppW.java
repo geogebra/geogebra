@@ -1705,7 +1705,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 				initGoogleDriveEventFlow();
 			}
 			if (mayLogIn) {
-			loginOperation.performTokenLogin();
+				loginOperation.performTokenLogin();
 			}
 		} else {
 			loginOperation.startOffline();

@@ -626,4 +626,8 @@ public final class ArticleElement extends Element {
 				.equals(this.getAttribute("data-param-errorDialogsActive"));
 	}
 
+	public boolean isEnableUsageStats() {
+		return this.getBoolParam("data-param-enableUsageStats", true);
+	}
+
 }

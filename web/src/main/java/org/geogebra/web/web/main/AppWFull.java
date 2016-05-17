@@ -400,16 +400,16 @@ public abstract class AppWFull extends AppW {
 			btnOk.setText(loc.getMenu("exam_start_button"));
 			btnCancel.setText(loc.getMenu("Cancel"));
 			btnHelp.setText(loc.getMenu("Help"));
-			Label description = new Label(loc.getMenu("exam_custom_description"));
-			mainWidget.add(description);
+
 			//description.addStyleName("padding");
 			box.addStyleName("boxsize");
-	
+			int checkboxes = 0;
 
 			if(getArticleElement().getDataParamEnableCAS(false)
 				||!getArticleElement().getDataParamEnableCAS(true)){
 				getExam().setCASAllowed(getArticleElement().getDataParamEnableCAS(false));
 			}else{
+				checkboxes++;
 				final CheckBox cas = new CheckBox(loc.getMenu("Perspective.CAS"));
 				cas.addStyleName("examCheckbox");
 				cas.setValue(true);
@@ -426,6 +426,7 @@ public abstract class AppWFull extends AppW {
 				||!getArticleElement().getDataParamEnable3D(true)){
 				getExam().setCASAllowed(getArticleElement().getDataParamEnable3D(false));
 			}else{
+				checkboxes++;
 				final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
 				allow3D.addStyleName("examCheckbox");
 				allow3D.setValue(true);
@@ -442,9 +443,14 @@ public abstract class AppWFull extends AppW {
 				});
 			}
 			getGuiManager().updateToolbarActions();
-			mainWidget.add(cbxPanel);
-			cbxPanel.addStyleName("ExamCheckboxPanel");
-			btnPanel.addStyleName("DialogButtonPanel");
+			if (checkboxes > 0) {
+				Label description = new Label(
+						loc.getMenu("exam_custom_description"));
+				mainWidget.add(description);
+				mainWidget.add(cbxPanel);
+				cbxPanel.addStyleName("ExamCheckboxPanel");
+				btnPanel.addStyleName("DialogButtonPanel");
+			}
 
 
 			
