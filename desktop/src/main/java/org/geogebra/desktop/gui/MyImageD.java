@@ -21,7 +21,7 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.jre.gui.MyImageJre;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
@@ -30,7 +30,7 @@ import com.kitfox.svg.SVGCache;
 import com.kitfox.svg.SVGDiagram;
 import com.kitfox.svg.SVGUniverse;
 
-public class MyImageD implements MyImage {
+public class MyImageD implements MyImageJre {
 
 	private Image img;
 	private SVGDiagram diagram;
@@ -136,6 +136,10 @@ public class MyImageD implements MyImage {
 
 	public Image getImage() {
 		return img;
+	}
+
+	public boolean hasNonNullImplementation() {
+		return img != null;
 	}
 
 	public boolean isSVG() {

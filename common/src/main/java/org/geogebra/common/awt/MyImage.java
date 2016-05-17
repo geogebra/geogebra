@@ -20,4 +20,5 @@ public interface MyImage {
 
 	GGraphics2D createGraphics();
 
+
 }
