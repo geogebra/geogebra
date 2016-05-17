@@ -206,13 +206,7 @@ GAlphaComposite.SRC_OVER, alpha);
 			// don't need this)
 			// turns false if the image doen't want interpolation
 			needsInterpolationRenderingHint = (geoImage.isInterpolate())
-					&& (!(Kernel.isEqual(at.getScaleX(), 1.0,
-							Kernel.MAX_PRECISION)
-							&& Kernel.isEqual(at.getScaleY(), 1.0,
-									Kernel.MAX_PRECISION)
-							&& Kernel.isEqual(at.getShearX(), 0.0,
-									Kernel.MAX_PRECISION) && Kernel.isEqual(
-									at.getShearY(), 0.0, Kernel.MAX_PRECISION))
+					&& (!isTranslation(at)
 							|| view.getPixelRatio() != 1);
 		}
 
@@ -228,6 +222,13 @@ GAlphaComposite.SRC_OVER, alpha);
 
 		if (isInBackground)
 			view.updateBackgroundImage();
+	}
+
+	private static boolean isTranslation(GAffineTransform at2) {
+		return Kernel.isEqual(at2.getScaleX(), 1.0, Kernel.MAX_PRECISION)
+				&& Kernel.isEqual(at2.getScaleY(), 1.0, Kernel.MAX_PRECISION)
+				&& Kernel.isEqual(at2.getShearX(), 0.0, Kernel.MAX_PRECISION)
+				&& Kernel.isEqual(at2.getShearY(), 0.0, Kernel.MAX_PRECISION);
 	}
 
 	/**
