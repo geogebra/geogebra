@@ -345,7 +345,7 @@ public abstract class GeoGebraTubeAPI {
 	public void shareMaterial(Material material, String to, String message,
 			final MaterialCallbackI cb) {
 		performRequest(
-				ShareRequest.getRequestElement(material, message, to)
+				ShareRequest.getRequestElement(material, to, message)
 						.toJSONString(client),
 				cb);
 	}
