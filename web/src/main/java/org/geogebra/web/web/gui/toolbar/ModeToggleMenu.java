@@ -3,7 +3,9 @@ package org.geogebra.web.web.gui.toolbar;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -269,7 +271,11 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			Widget mi = getItemList().getWidget(i);
 			// found item for mode?
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
-				selectItem(mi);
+
+				if (!(app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
+						&& mode == EuclidianConstants.MODE_IMAGE)) {
+					selectItem(mi);
+				}
 				
 				showToolTipBottom(mode, m);
 				return true;
@@ -299,14 +305,18 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				&& tbutton.getElement().getAttribute("mode").equals(miMode)) {
 			return;
 		}
-		
+
 		tbutton.getElement().setAttribute("mode",miMode);
+		//
 		tbutton.clear();
-		Image buttonImage = new NoDragImage(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)),32);
+		Image buttonImage = new NoDragImage(((GGWToolBar) app.getToolbar())
+				.getImageURL(Integer.parseInt(miMode)), 32);
 		buttonImage.addStyleName("toolbar_icon");
 		tbutton.add(buttonImage);
-		
-//		tbutton.getElement().setInnerHTML(new Image(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)))+"");
+
+		tbutton.getElement()
+				.setInnerHTML(new Image(((GGWToolBar) app.getToolbar())
+						.getImageURL(Integer.parseInt(miMode))) + "");
 		toolbar.update();
 		setCssToSelected();
 
