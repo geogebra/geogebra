@@ -42,7 +42,9 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.javax.swing.GPopupMenuD;
 import org.geogebra.desktop.main.AppD;
 
@@ -185,8 +187,18 @@ public class ModeToggleMenu extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
-			selectItem(item);
+			if (!(app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
+					&& Integer.toString(EuclidianConstants.MODE_IMAGE)
+							.equals(item.getActionCommand()))) {
+				selectItem(item);
+			} else {
+				tbutton.setActionCommand(item.getActionCommand());
+				tbutton.setSelected(false);
+
+
+			}
 			tbutton.doClick();
+
 		}
 	}
 
