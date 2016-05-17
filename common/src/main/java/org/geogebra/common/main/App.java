@@ -3923,7 +3923,7 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_REDO:
 			return prerelease;
 
-		// MOB-455
+		// MOB-606
 		case MOBILE_SAVE_BEFORE_NEW:
 			return prerelease;
 
