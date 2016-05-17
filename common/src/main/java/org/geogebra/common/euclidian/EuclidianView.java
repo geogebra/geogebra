@@ -5345,4 +5345,8 @@ sb.toString(), getFontAxes(),
 	public boolean isInPlane(CoordSys sys) {
 		return companion.isInPlane(sys);
 	}
+
+	public float getPixelRatio() {
+		return 1;
+	}
 }

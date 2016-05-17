@@ -206,13 +206,14 @@ GAlphaComposite.SRC_OVER, alpha);
 			// don't need this)
 			// turns false if the image doen't want interpolation
 			needsInterpolationRenderingHint = (geoImage.isInterpolate())
-					&& !(Kernel.isEqual(at.getScaleX(), 1.0,
+					&& (!(Kernel.isEqual(at.getScaleX(), 1.0,
 							Kernel.MAX_PRECISION)
 							&& Kernel.isEqual(at.getScaleY(), 1.0,
 									Kernel.MAX_PRECISION)
 							&& Kernel.isEqual(at.getShearX(), 0.0,
 									Kernel.MAX_PRECISION) && Kernel.isEqual(
-							at.getShearY(), 0.0, Kernel.MAX_PRECISION));
+									at.getShearY(), 0.0, Kernel.MAX_PRECISION))
+							|| view.getPixelRatio() != 1);
 		}
 
 		if (isInBackground != geoImage.isInBackground()) {

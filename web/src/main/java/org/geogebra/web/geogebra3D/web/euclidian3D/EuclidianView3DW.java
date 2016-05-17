@@ -484,7 +484,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
-	private double getPixelRatio() {
+	public float getPixelRatio() {
 		if (((AppW) app).getArticleElement().disableHiRes3D()) {
 			return 1;
 		}

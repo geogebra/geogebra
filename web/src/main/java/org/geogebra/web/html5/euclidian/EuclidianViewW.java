@@ -1288,4 +1288,8 @@ final GGraphics2D g2) {
 		});
 	}
 
+	public float getPixelRatio() {
+		return app.getPixelRatio();
+	}
+
 }

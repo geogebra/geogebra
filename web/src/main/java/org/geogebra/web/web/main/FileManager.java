@@ -127,6 +127,7 @@ public abstract class FileManager implements FileManagerI {
 		        .getCanvasBase64WithTypeString());
 		mat.setAuthor(app.getLoginOperation().getUserName());
 		if (app.getActiveMaterial() != null) {
+			mat.setSharingKey(app.getActiveMaterial().getSharingKey());
 			mat.setVisibility(app.getActiveMaterial().getVisibility());
 			mat.setURL(app.getActiveMaterial().getURL());
 		}
