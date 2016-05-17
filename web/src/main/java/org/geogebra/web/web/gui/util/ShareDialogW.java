@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.util;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
@@ -200,13 +201,11 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		message.setVisibleLines(3);
 
 		emailPanel.add(lblRecipient);
-		emailPanel.add(recipient);
-		emailPanel.add(lblMessage);
-		emailPanel.add(message);
 
 		emailPanel.add(new Button("sendmail...", new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
+				Log.debug("send mail to: " + recipient.getText());
 				app.getLoginOperation()
 						.getGeoGebraTubeAPI()
 						.shareMaterial(app.getActiveMaterial(),
@@ -218,6 +217,10 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 			}
 
 		}));
+
+		emailPanel.add(recipient);
+		emailPanel.add(lblMessage);
+		emailPanel.add(message);
 
 		return emailPanel;
 	}
