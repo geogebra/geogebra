@@ -99,6 +99,10 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 	 *            string for copying/cutting
 	 */
 	public void setSelectedContent(String str) {
+		if (focusTextarea.getValue().isEmpty()
+				&& (str == null || str.isEmpty())) {
+			return;
+		}
 		focusTextarea.setValue(str);
 		focusTextarea.select();
 	}
