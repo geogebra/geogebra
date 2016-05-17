@@ -1141,18 +1141,27 @@ pr.menu_header_undo(), null, 32);
 
 	@Override
     public void onResize() {
+		setToolbarWidth(app.getWidth());
+	}
+
+	/**
+	 * @param width
+	 *            pixel width
+	 */
+	public void setToolbarWidth(double width) {
 		 if(toolbars.get(0).getGroupCount() < 0){ 
 	 	        return; 
-         }
+		}
 		 
-		int maxButtons = getMaxButtons();
+		int maxButtons = getMaxButtons((int) width);
 		if (maxButtons > 0) {
 			toolbars.get(0).setMaxButtons(maxButtons);
 		}
 
+
 	}
 
-	private int getMaxButtons() {
+	private int getMaxButtons(int appWidth) {
 		int extraButtons = 0;
 		if (app.isUndoRedoEnabled()) {
 			extraButtons = 90;
@@ -1169,7 +1178,7 @@ pr.menu_header_undo(), null, 32);
 				extraButtons += 55;
 			}
 		}
-		return ((int) app.getWidth() - extraButtons - 20) / 45;
+		return (appWidth - extraButtons - 20) / 45;
 	}
 
 	/**
