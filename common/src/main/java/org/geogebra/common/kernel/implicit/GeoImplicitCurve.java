@@ -163,10 +163,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	/**
-	 * Create expression from the equation
+	 * Create expression from the equation. If it is in form
+	 * (p1)^n1*(p2)^n2*...=0, then it will be rewritten as p1*p2*...=0. This
+	 * improves displaying.
 	 * 
 	 * @param eqn
 	 *            equation
+	 * @param coeffEqn
+	 *            coefficients of the equation
+	 * 
 	 */
 	public void fromEquation(Equation eqn, double[][] coeffEqn) {
 		setDefinition(eqn.wrap());
@@ -175,8 +180,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		ExpressionNode rightHandSide = eqn.getRHS();
 
 		ExpressionNode expr = null;
+		ExpressionValue right = rightHandSide.getRight();
 		// we want to simplify the factors if right side is 0
-		if (rightHandSide.getRight() == null
+		if ((right == null) || (right instanceof MyDouble
+				&& Double.isNaN(right.evaluateDouble()))
 				&& rightHandSide.getLeft() instanceof MyDouble
 				&& Kernel.isEqual(rightHandSide.getLeft().evaluateDouble(), 0)) {
 			ExpressionNode copyLeft = leftHandSide.deepCopy(kernel);
@@ -196,13 +203,18 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		ExpressionNode functionExpression;
-		// if there was no simplify of factors
 		if (expr == null) {
+			// if there was no simplify of factors
 			functionExpression = new ExpressionNode(kernel, leftHandSide,
 					Operation.MINUS, rightHandSide);
 		} else {
 			// return simplified expression
 			functionExpression = expr;
+			eqn = new Equation(kernel, expr, new MyDouble(kernel, 0.0));
+			/*
+			 * the formula in AV is still unsimplified, maybe we want to
+			 * change/fix this someday
+			 */
 		}
 		FunctionVariable x = new FunctionVariable(kernel, "x");
 		FunctionVariable y = new FunctionVariable(kernel, "y");
@@ -217,6 +229,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		setDerivatives(x, y);
 		defined = expression.isDefined();
 
+		// create/update coefficients
 		if (coeffEqn != null) {
 			doSetCoeff(coeffEqn);
 		} else {
