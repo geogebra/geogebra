@@ -39,7 +39,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.view.algebra.AlgebraInputDropTargetListener;
@@ -413,7 +412,6 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 
 			} catch (Exception ee) {
-				Log.debug("EXCEPTION" + ee.getClass());
 				inputField.addToHistory(getTextField().getText());
 				app.showError(ee, inputField);
 				return;
@@ -457,10 +455,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 				if (valid) {
 					return app.getGuiManager().checkAutoCreateSliders(string,
 						callback);
-				} else {
-					callback.callback(new String[] { "7" });
-					return false;
 				}
+				callback.callback(new String[] { "7" });
+				return false;
 			}
 		};
 	}

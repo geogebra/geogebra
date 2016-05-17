@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.inputbar;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
@@ -44,14 +45,18 @@ import com.google.gwt.user.client.ui.ToggleButton;
 public class AlgebraInputW extends FlowPanel 
 		implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler,
 		RequiresResize, AlgebraInput, HasHelpButton {
-
+	/** app */
 	protected AppW app;
+	/** input panel */
 	protected InputPanelW inputPanel;
+	/** text component */
 	protected AutoCompleteTextFieldW inputField;
+	/** panel for help button */
 	protected FlowPanel eastPanel;
 	//protected FlowPanel innerPanel;
-	protected FlowPanel labelPanel;
+	/** button for help */
 	protected ToggleButton btnHelpToggle;
+	/** help popup */
 	protected InputBarHelpPopup helpPopup;
 	//	protected PopupPanel helpPopup;
 	private boolean focused = false;
@@ -64,9 +69,10 @@ public class AlgebraInputW extends FlowPanel
 	}
 
 	/**
-	 * @param app Application
+	 * @param app1
+	 *            Application
 	 * 
-	 * Attaches Application and creates the GUI of AlgebraInput
+	 *            Attaches Application and creates the GUI of AlgebraInput
 	 */
 	public void init(AppW app1) {
 		this.app = app1;
@@ -87,7 +93,7 @@ public class AlgebraInputW extends FlowPanel
 		inputField.getTextBox().addFocusHandler(this);
 		inputField.getTextBox().addBlurHandler(this);
 
-		inputField.addHistoryPopup(app.showInputTop());
+		inputField.addHistoryPopup(app.getInputPosition() == InputPositon.top);
 
 		//AG updateFonts()
 
@@ -97,10 +103,8 @@ public class AlgebraInputW extends FlowPanel
 
 		btnHelpToggle.addClickHandler(this);
 
-		labelPanel = new FlowPanel();
 		//labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		//labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
-		labelPanel.setStyleName("AlgebraInputLabel");
 
 
 
@@ -110,7 +114,6 @@ public class AlgebraInputW extends FlowPanel
 
 		// place all components in an inner panel
 		//innerPanel = new FlowPanel();	    
-		add(labelPanel);
 		//innerPanel.setCellHorizontalAlignment(labelPanel, ALIGN_RIGHT);
 		//innerPanel.setCellVerticalAlignment(labelPanel, ALIGN_MIDDLE);
 		add(inputPanel);
@@ -200,30 +203,22 @@ public class AlgebraInputW extends FlowPanel
 	}
 
 	/**
-	 * Sets the content of the input textfield and gives focus
-	 * to the input textfield.
-	 * @param str 
+	 * Sets the content of the input textfield and gives focus to the input
+	 * textfield.
+	 * 
+	 * @param str
+	 *            replacement string
 	 */
 	public void replaceString(String str) {
 		inputField.setText(str);
 	}
 
-	// see actionPerformed
-	public void insertCommand(String cmd) {
-		if (cmd == null) return;
-
-		int pos = inputField.getCaretPosition();
-		String oldText = inputField.getText();
-		String newText = 
-				oldText.substring(0, pos) + 
-				cmd + "[]" +
-				oldText.substring(pos);			 			
-
-		inputField.setText(newText);
-		inputField.setCaretPosition(pos + cmd.length() + 1);		
-		inputField.requestFocus();
-	}
-
+	/**
+	 * Insert string at caret position
+	 * 
+	 * @param str
+	 *            string to be inserted
+	 */
 	public void insertString(String str) {
 		if (str == null) return;
 
@@ -276,6 +271,8 @@ public class AlgebraInputW extends FlowPanel
 			app.getKernel().clearJustCreatedGeosInViews();
 			final String input = app.getKernel().getInputPreviewHelper()
 					.getInput(getTextField().getText());
+			boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
+					|| app.getKernel().getInputPreviewHelper().isValid();
 
 			if (input == null || input.length() == 0)
 			{
@@ -321,7 +318,7 @@ public class AlgebraInputW extends FlowPanel
 
 				app.getKernel().getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(input, true,
-								getErrorHandler(), true, callback);
+								getErrorHandler(valid), true, callback);
 
 
 			} catch (Exception ee) {
@@ -343,6 +340,13 @@ public class AlgebraInputW extends FlowPanel
 		inputField.setIsSuggestionJustHappened(false);
 	}
 
+	/**
+	 * @param input
+	 *            input bar (plaintext or editor)
+	 * @param app2
+	 *            app
+	 * @return handler for preview errors
+	 */
 	public static ErrorHandler getWarningHandler(final HasHelpButton input,
 			final App app2) {
 		// TODO Auto-generated method stub
@@ -387,7 +391,7 @@ public class AlgebraInputW extends FlowPanel
 		return inputField.getCommand();
 	}
 
-	private ErrorHandler getErrorHandler() {
+	private ErrorHandler getErrorHandler(final boolean valid) {
 		return new ErrorHandler() {
 
 			public void showError(String msg) {
@@ -397,8 +401,12 @@ public class AlgebraInputW extends FlowPanel
 
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
-				return app.getGuiManager().checkAutoCreateSliders(string,
+				if (valid) {
+					return app.getGuiManager().checkAutoCreateSliders(string,
 						callback);
+				}
+				callback.callback(new String[] { "7" });
+				return false;
 			}
 
 			public void showCommandError(String command, String message) {
@@ -438,6 +446,11 @@ public class AlgebraInputW extends FlowPanel
 		}
 	}
 
+	/**
+	 * 
+	 * @param show
+	 *            whether inputhelp should be shown
+	 */
 	public void setShowInputHelpPanel(boolean show) {
 		
 		if (show) {
@@ -468,10 +481,16 @@ public class AlgebraInputW extends FlowPanel
 		this.inputField.setText(s);
 	}
 
+	/**
+	 * @return whether this has focus
+	 */
 	public boolean hasFocus(){
 		return this.focused || AutoCompleteTextFieldW.showSymbolButtonFocused;
 	}
 
+	/**
+	 * @return text field
+	 */
 	public AutoCompleteTextFieldW getTextField(){
 		return this.inputField;
 	}

@@ -1701,7 +1701,10 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		app.getKernel().clearJustCreatedGeosInViews();
-		final String input = newValue;
+		boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
+				|| app.getKernel().getInputPreviewHelper().isValid();
+		final String input = app.getKernel().getInputPreviewHelper()
+				.getInput(newValue);
 		if (input == null || input.length() == 0) {
 			app.getActiveEuclidianView().requestFocusInWindow(); // Michael
 			// Borcherds
@@ -1761,7 +1764,7 @@ public class RadioTreeItem extends AVTreeItem
 					.getKernel()
 					.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
-							getErrorHandler(), true, callback);
+							getErrorHandler(valid), true, callback);
 
 			if (newGeo != null && newGeo.length == 1
 					&& newGeo[0] instanceof GeoText) {
@@ -1803,7 +1806,7 @@ public class RadioTreeItem extends AVTreeItem
 		return true;
 	}
 
-	protected ErrorHandler getErrorHandler() {
+	protected ErrorHandler getErrorHandler(final boolean valid) {
 		// TODO Auto-generated method stub
 		return new ErrorHandler(){
 
@@ -1814,8 +1817,12 @@ public class RadioTreeItem extends AVTreeItem
 
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
-				return app.getGuiManager().checkAutoCreateSliders(string,
+				if (valid) {
+					return app.getGuiManager().checkAutoCreateSliders(string,
 						callback);
+				}
+				callback.callback(new String[] { "7" });
+				return false;
 			}
 
 			public void showCommandError(String command, String message) {
