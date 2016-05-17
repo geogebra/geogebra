@@ -8,9 +8,6 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.FileMenuW;
 import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -113,25 +110,27 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 				"_blank"));
 
 		// Twitter
-		Element head = Document.get().getElementsByTagName("head").getItem(0);
-		ScriptElement scriptE = Document.get().createScriptElement();
-
-		String scripttext = "  $('.popup').click(function(event) {var width  = 575,height = 400,"
-				+ "left   = ($(window).width()  - width)  / 2,"
-				+ "top    = ($(window).height() - height) / 2,"
-				+ "url    = this.href,"
-				+ "opts   = 'status=1' +"
-				+ "         ',width='  + width  +"
-				+ "         ',height=' + height +"
-				+ "         ',top='    + top    +"
-				+ "         ',left='   + left; " +
-
-				"    window.open(url, 'twitter', opts); " +
-
-				"    return false;});";
-
-		scriptE.setInnerText(scripttext);
-		head.appendChild(scriptE);
+		// Element head =
+		// Document.get().getElementsByTagName("head").getItem(0);
+		// ScriptElement scriptE = Document.get().createScriptElement();
+		//
+		// String scripttext =
+		// "  $('.popup').click(function(event) {var width  = 575,height = 400,"
+		// + "left   = ($(window).width()  - width)  / 2,"
+		// + "top    = ($(window).height() - height) / 2,"
+		// + "url    = this.href,"
+		// + "opts   = 'status=1' +"
+		// + "         ',width='  + width  +"
+		// + "         ',height=' + height +"
+		// + "         ',top='    + top    +"
+		// + "         ',left='   + left; " +
+		//
+		// "    window.open(url, 'twitter', opts); " +
+		//
+		// "    return false;});";
+		//
+		// scriptE.setInnerText(scripttext);
+		// head.appendChild(scriptE);
 
 		Anchor twitterlink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_twitter().getSafeUri().asString()).toString(), true,
@@ -157,11 +156,12 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 				"http://tube.geogebra.org/material/onenote/id/" + sharingKey));
 
 		// Edmodo
+		String source_desc = (app.getActiveMaterial() != null) ? "&source="
+				+ app.getActiveMaterial().getId() + "&desc="
+				+ app.getActiveMaterial().getDescription() : "";
 		iconPanel.add(new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_edmodo().getSafeUri().asString()).toString(), true,
-				"http://www.edmodo.com/home?share=1&source="
-						+ app.getActiveMaterial().getId() + "&desc="
-						+ app.getActiveMaterial().getDescription() + "&url="
+				"http://www.edmodo.com/home?share=1 " + source_desc + "&url="
 						+ TUBEURL + sharingKey, "_blank"));
 
 		// Classroom
