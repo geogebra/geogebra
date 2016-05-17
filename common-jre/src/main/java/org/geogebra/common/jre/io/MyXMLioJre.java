@@ -18,12 +18,10 @@ the Free Software Foundation.
 
 package org.geogebra.common.jre.io;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -106,45 +104,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 	protected abstract void readZip(ZipInputStream zip, boolean isGGTfile)
 			throws Exception;
 
-	/**
-	 * Get the preview image of a ggb file.
-	 * 
-	 * @param file
-	 * @throws IOException
-	 * @return
-	 */
-	public final static BufferedImage getPreviewImage(File file)
-			throws IOException {
-		// just allow preview images for ggb files
-		if (!file.getName().endsWith(".ggb")) {
-			throw new IllegalArgumentException(
-					"Preview image source file has to be of the type .ggb");
-		}
-
-		FileInputStream fis = new FileInputStream(file);
-		ZipInputStream zip = new ZipInputStream(fis);
-		BufferedImage result = null;
-
-		// get all entries from the zip archive
-		while (true) {
-			ZipEntry entry = zip.getNextEntry();
-			if (entry == null)
-				break;
-
-			if (entry.getName().equals(XML_FILE_THUMBNAIL)) {
-				result = ImageIO.read(zip);
-				break;
-			}
-
-			// get next entry
-			zip.closeEntry();
-		}
-
-		zip.close();
-		fis.close();
-
-		return result;
-	}
 
 	/**
 	 * Handles the XML file stored in buffer.
