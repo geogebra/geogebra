@@ -80,10 +80,17 @@ public class DrawLocus extends Drawable {
 		labelVisible = geo.isLabelVisible();
 		if (labelVisible) {
 			labelDesc = geo.getLabelDescription();
-			xLabel = (int) (lastPointCoords[0] - 5);
-			yLabel = (int) (lastPointCoords[1] + 4 + view.getFontSize());
-			// we add 25% width for sure
-			addLabelOffsetEnsureOnScreen(1.25, 1.0, view.getFontLine());
+			double xmin = view.getXmin();
+			double xmax = view.getXmax();
+			double ymin = view.getYmin();
+			double ymax = view.getYmax();
+			double x = lastPointCoords[0];
+			double y = lastPointCoords[1];
+			double width = view.getWidth();
+			double height = view.getHeight();
+			xLabel = (int) ((x - xmin) / (xmax - xmin) * width);
+			yLabel = (int) (height - (y - ymin) / (ymax - ymin) * height);
+			addLabelOffsetEnsureOnScreen(1.0, 1.0, view.getFontLine());
 		}
 
 		// draw trace
