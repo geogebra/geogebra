@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
@@ -64,6 +63,11 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
+
+/**
+ * HTML5 version of AV
+ *
+ */
 @SuppressWarnings("javadoc")
 public class AlgebraViewW extends Tree implements LayerView,
  AlgebraView,
@@ -72,14 +76,18 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * Flag for LaTeX rendering
 	 */
 	final private static boolean renderLaTeX = true;
+	/** app */
 	protected final AppW app; // parent appame
+	/** Localization */
 	protected final Localization loc;
+	/** Kernel */
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	// protected AlgebraInputW inputPanel;
+	/** Input item */
 	InputTreeItem inputPanelLatex;
 	private AlgebraStyleBarW styleBar;
-	public boolean editing = false;
+	private boolean editing = false;
 	private GeoElement draggedGeo;
 	// to store width if original was thiner than needed.
 	private Integer originalWidth = null;
@@ -128,9 +136,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	private TreeItem rootLayer;
 	private HashMap<Integer, TreeItem> layerNodesMap;
 
-	// although Java also allowed protected, NewRadioButtonTreeItem can use
-	// package private
-	HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(
+	private HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(
 			500);
 
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
@@ -142,14 +148,20 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	private AlgebraController algebraController;
 	private AVSelectionController selectionCtrl;
 
-	// How many sliders are inserted with input box.
-	// Used to calculate automatic positions [GGB-55]
+	/**
+	 * @return algebra controller
+	 */
 	public AlgebraController getAlgebraController() {
 		return algebraController;
 	}
 
 
-
+	/**
+	 * Creates new AV
+	 * 
+	 * @param algCtrl
+	 *            controller
+	 */
 	public AlgebraViewW(AlgebraController algCtrl) {
 		super(new TreeImages());
 		Log.debug("creating Algebra View");
@@ -217,7 +229,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		// we need to handle arrow key events before that
 		switch (DOM.eventGetType(event)) {
 		case Event.ONKEYUP:
-			switch (DOM.eventGetKeyCode(event)) {
+			switch (event.getKeyCode()) {
 			case KeyCodes.KEY_UP:
 			case KeyCodes.KEY_DOWN:
 			case KeyCodes.KEY_LEFT:
@@ -262,6 +274,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		repaintScheduler.requestAnimationFrame(repaintCallback);
 	}
 
+	/**
+	 * Repaint sliders in next animation frame
+	 */
 	public void deferredRepaintSliders() {
 		repaintScheduler.requestAnimationFrame(repaintSlidersCallback);
 	}
@@ -318,7 +333,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * updates node of GeoElement geo (needed for highlighting)
 	 * 
-	 * @see EuclidianView#setHighlighted()
 	 */
 	public void update(GeoElement geo) {
 		long start = System.currentTimeMillis();
@@ -480,6 +494,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	/**
 	 * returns settings in XML format
+	 * 
+	 * @param sb
+	 *            string builder
 	 */
 	public final void getXML(StringBuilder sb) {
 
@@ -545,10 +562,17 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			this.collapsedNodes.add(collapsedNodes[i]);
 	}
 
-	public boolean showAuxiliaryObjects() {
+	/**
+	 * @return whether auxiliary objects are showing
+	 */
+	private boolean showAuxiliaryObjects() {
 		return app.showAuxiliaryObjects;
 	}
 
+	/**
+	 * @param flag
+	 *            whether to show auxiliary
+	 */
 	public void setShowAuxiliaryObjects(boolean flag) {
 		if (this.isShowingAuxiliaryObjects == flag) {
 			return;
@@ -633,9 +657,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	}
 
+	/** whether it's attached to kernel */
 	protected boolean attached = false;
 	private TreeItem dummy;
 
+	/**
+	 * Fill this view and attach it to kernel
+	 */
 	public void attachView() {
 
 		if (attached)
@@ -653,6 +681,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		 */
 	}
 
+	/**
+	 * Detach this from kernel
+	 */
 	public void detachView() {
 		kernel.detach(this);
 		clearView();
@@ -807,6 +838,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * 
 	 * @param geo
+	 *            element
+	 * @param forceLayer
+	 *            override layer stored in Geo
 	 * @return parent node of this geo
 	 */
 	protected TreeItem getParentNode(GeoElement geo, int forceLayer) {
@@ -909,6 +943,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	}
 
+	/**
+	 * @param ob
+	 *            geo element
+	 * @return AV item
+	 */
 	public final static AVTreeItem createAVItem(final GeoElement ob) {
 		AVTreeItem ti = null;
 
@@ -1080,9 +1119,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			inputPanelLatex.setText("");
 		}
 		showAlgebraInput(false);
-		if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
-			kernel.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
-		}
+
 	}
 
 	/**
@@ -1093,7 +1130,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		add(geo);
 	}
 
-	protected void removeAuxiliaryNode() {
+	private void removeAuxiliaryNode() {
 		removeItem(auxiliaryNode);
 	}
 
@@ -1102,7 +1139,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * parent node. Note: all children of parent must have instances of
 	 * GeoElement as user objects.
 	 * 
+	 * @param parent
+	 *            parent node
+	 * @param newGeo
+	 *            geo to be inserted
+	 * 
 	 * @param mode
+	 *            sort mode
+	 * @return position
 	 */
 	final public int getInsertPosition(TreeItem parent,
 			GeoElement newGeo, SortMode mode) {
@@ -1156,6 +1200,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * children of parent have to be instances of GeoElement sorted
 	 * alphabetically by their names.
 	 * 
+	 * @param parent
+	 *            parent node
+	 * @param geoLabel
+	 *            label of geo
+	 * 
 	 * @return -1 when not found
 	 */
 	final public static int binarySearchGeo(TreeItem parent, String geoLabel) {
@@ -1186,6 +1235,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * Performs a linear search for geo among the children of parent.
 	 * 
+	 * @param parent
+	 *            parent node
+	 * @param geoLabel
+	 *            label of geo
 	 * @return -1 when not found
 	 */
 	final public static int linearSearchGeo(TreeItem parent, String geoLabel) {
@@ -1280,7 +1333,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	}
 
-	protected TreeItem inputPanelTreeItem;
+	private TreeItem inputPanelTreeItem;
 
 	/**
 	 * @return the RadioButtonTreeItem containing the input-box
@@ -1289,6 +1342,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		return inputPanelLatex;
 	}
 
+	/**
+	 * Create new input panel and add it
+	 */
 	public void setInputPanel() {
 
 		// usually, inputPanel is here, but not in use (not attached)
@@ -1439,6 +1495,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 */
 	public boolean isNodeTableEmpty() {
 		return this.nodeTable.isEmpty();
+	}
+
+	public int getNodeTableSize() {
+		return this.nodeTable.size();
 	}
 
 	public void setActiveTreeItem(RadioTreeItem item) {
@@ -1629,6 +1689,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		return renderLaTeX;
 	}
 
+	/**
+	 * 
+	 * @param event
+	 *            drag event
+	 * @param geo
+	 *            element
+	 */
 	public void dragStart(DragStartEvent event, GeoElement geo) {
 		setDraggedGeo(geo);
 	}
@@ -1661,6 +1728,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		getStyleElement().getStyle().setFontSize(font.getSize(), Style.Unit.PX);
 	}
 
+	/**
+	 * @param ratio
+	 *            pixel ratio
+	 */
 	public void setPixelRatio(double ratio) {
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
@@ -1765,14 +1836,20 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		this.selectionCtrl = selectionCtrl;
 	}
 
-	/*
+	/**
 	 * Gets the original width before AV expansion to restore original width
 	 * after.
+	 * 
+	 * @return original width in pixels
 	 */
 	public Integer getOriginalWidth() {
 		return originalWidth;
 	}
 
+	/**
+	 * @param oldWidth
+	 *            original width in pixels
+	 */
 	public void setOriginalWidth(Integer oldWidth) {
 		this.originalWidth = oldWidth;
 	}

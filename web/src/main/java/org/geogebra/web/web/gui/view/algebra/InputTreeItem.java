@@ -815,7 +815,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		if (((AlgebraViewW) av).isNodeTableEmpty()) {
 			// #5245#comment:8, cases B and C excluded
 			updateGUIfocus(event == null ? this : event.getSource(), false);
-		} else if (((AlgebraViewW) av).nodeTable.size() == 1) {
+		} else if (((AlgebraViewW) av).getNodeTableSize() == 1) {
 			// maybe a new element has just been created?
 			// note: we are not doing this on blur!
 			updateGUIfocus(event == null ? this : event.getSource(), false);
