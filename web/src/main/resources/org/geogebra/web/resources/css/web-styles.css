@@ -6143,7 +6143,8 @@ body.application[dir=rtl] .deleteAlgebra {
 .avItemContent .optionsSlider .ui-slider .ui-slider-handle {
 	width: 12px;
 	height: 12px;
-	
+	/* kill image from defult JQueryUI */
+	background-image:none;
 	border-radius: 12px;
 	-webkit-border-radius: 12px;
 	-moz-border-radius: 12px;
