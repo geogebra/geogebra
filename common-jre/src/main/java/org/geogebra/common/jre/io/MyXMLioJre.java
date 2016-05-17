@@ -416,9 +416,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 		writeImageToStream(zip, fileName, img);
 	}
 
-	abstract protected boolean getImageUseCache();
-
-	abstract protected void setImageUseCache(boolean useCache);
 
 	final public void writeImageToStream(OutputStream os, String fileName,
 			MyImageJre img) {
@@ -432,19 +429,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			else
 				ext = "PNG";
 
-			boolean useCache = true;
-			// circumvent security issues by disabling disk-based caching
-			if (app.isApplet()) {
-				useCache = getImageUseCache();
-				setImageUseCache(false);
-			}
-
 			writeImage(img, ext, os);
-
-			// restore caching to prevent side-effects
-			if (app.isApplet()) {
-				setImageUseCache(useCache);
-			}
 		} catch (Exception e) {
 			Log.debug(e.getMessage());
 			try {

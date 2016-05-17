@@ -227,13 +227,4 @@ public class MyXMLioD extends MyXMLioJre {
 		return result;
 	}
 
-	@Override
-	protected boolean getImageUseCache() {
-		return ImageIO.getUseCache();
-	}
-
-	@Override
-	protected void setImageUseCache(boolean useCache) {
-		ImageIO.setUseCache(useCache);
-	}
 }
