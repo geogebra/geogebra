@@ -25,6 +25,7 @@ public class CASgiacD extends CASgiacJre {
 	 */
 	public CASgiacD(CASparser casParser, CasParserTools t, Kernel k) {
 		super(casParser, t, k);
+		createContext();
 	}
 
 	private static boolean giacLoaded = false;

@@ -137,7 +137,14 @@ public abstract class CASgiacJre extends CASgiac {
 	/**
 	 * Giac's context
 	 */
-	context C = new context();
+	context C;
+
+	/**
+	 * create context
+	 */
+	final protected void createContext() {
+		C = new context();
+	}
 
 	@Override
 	public String evaluateCAS(String input) {
