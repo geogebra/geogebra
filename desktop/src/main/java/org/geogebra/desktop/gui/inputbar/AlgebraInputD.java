@@ -388,7 +388,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			return;
 		case KeyEvent.VK_ENTER:
 			app.getKernel().clearJustCreatedGeosInViews();
-			boolean valid = app.getKernel().getInputPreviewHelper().isValid();
+			boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
+					|| app.getKernel().getInputPreviewHelper().isValid();
 			String input = app.getKernel().getInputPreviewHelper()
 					.getInput(getTextField().getText());
 

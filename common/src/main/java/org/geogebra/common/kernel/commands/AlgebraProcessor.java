@@ -2482,11 +2482,14 @@ public class AlgebraProcessor {
 				&& !equ.hasVariableDegree();
 		GeoImplicit poly;
 		GeoElement geo = null;
-		if (isIndependent) {
+		if (isIndependent || equ.isForcedSurface()) {
 			poly = kernel.getApplication().has(Feature.IMPLICIT_CURVES) ? new GeoImplicitCurve(
 					cons, equ) : new GeoImplicitPoly(cons, lhs);
 			poly.setDefinition(equ.wrap());
 			geo = poly.toGeoElement();
+			if (equ.isForcedSurface()) {
+				geo.setUndefined();
+			}
 		} else {
 			AlgoDependentImplicitPoly algo = new AlgoDependentImplicitPoly(
 					cons, equ, definition, true);
@@ -2830,13 +2833,17 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	private static boolean isEquation(ExpressionValue ev) {
+		return ev.unwrap() instanceof EquationValue
+				&& !(ev.unwrap() instanceof NumberValue);
+	}
 	private GeoElement[] processPointVector(ExpressionNode n,
 			ExpressionValue evaluate) {
 		String label = n.getLabel();
 		if(evaluate instanceof MyVecNode){
 			if (app.has(Feature.IMPLICIT_SURFACES)
-					&& ((MyVecNode) evaluate).getX().unwrap() instanceof EquationValue
-					&& ((MyVecNode) evaluate).getY().unwrap() instanceof EquationValue) {
+					&& isEquation(((MyVecNode) evaluate).getX())
+					&& isEquation(((MyVecNode) evaluate).getY())) {
 				Command inter = new Command(kernel, "Intersect", false);
 				inter.addArgument(((MyVecNode) evaluate).getX().wrap());
 				inter.addArgument(((MyVecNode) evaluate).getY().wrap());
