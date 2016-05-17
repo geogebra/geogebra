@@ -55,6 +55,7 @@
 	
 	.avOutput {
 		min-height: 40px;
+		padding-top: 5px;
 		font-weight: bold;
 		display: flex;
 		align-items: center;
@@ -75,9 +76,29 @@
 	.avOutput .symbolicButton {
 		width: 16px;
 		height: 16px;
-		background-color: #3b7fc4;
+		color: #6161FF;
+		background-color: #FFFFFF;
+		border: #6161FF solid 1px;
+		margin-right: 10px;
+		}
 		
+	.avOutput .symbolicButton:hover {
+		background-color: #CCCCFF;
+		}
+		
+	.btn-numeric {
+		font-size: 130%;
+		padding: 2px 3px 4px 3px;
+		-webkit-transform: translateY(-50%);
+ 		-ms-transform: translateY(-50%);
+  		transform: translateY(-50%);
 		}	
+		
+	.btn-prefix {
+		font-size:150%;
+		padding: 0px 3px 6px 3px;
+	}	
+			
 	.avValue {
 		min-height: 40px;
 	}

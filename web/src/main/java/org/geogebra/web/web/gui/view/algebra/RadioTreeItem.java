@@ -691,11 +691,16 @@ public class RadioTreeItem extends AVTreeItem
 			final MyToggleButton2 btnSymbolic = new MyToggleButton2(
 					getOutputPrefix());
 			btnSymbolic.addStyleName("symbolicButton");
+				if (getOutputPrefix() == Unicode.CAS_OUTPUT_NUMERIC) {
+					btnSymbolic.addStyleName("btn-numeric");
+				}
+				if (getOutputPrefix() == Unicode.CAS_OUTPUT_PREFIX) {
+					btnSymbolic.addStyleName("btn-prefix");
+				}
 			btnSymbolic.addClickHandler(new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
-					toggleSymbolic(btnSymbolic);
-
+						toggleSymbolic(btnSymbolic);
 				}
 			});
 			outputPanel.add(btnSymbolic);
@@ -817,13 +822,20 @@ public class RadioTreeItem extends AVTreeItem
 	// return lblDefinition;
 	// }
 
+	/**
+	 * 
+	 * @param button
+	 * @return true if output is numeric, false otherwise
+	 */
 	void toggleSymbolic(MyToggleButton2 button) {
 		if (geo instanceof HasSymbolicMode) {
 			((HasSymbolicMode) geo)
 					.setSymbolicMode(!((HasSymbolicMode) geo).isSymboicMode());
+
 			geo.updateRepaint();
 			button.setText(getOutputPrefix());
 		}
+
 	}
 	private void updateFont(Widget w) {
 		w.getElement().getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
@@ -1701,10 +1713,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		app.getKernel().clearJustCreatedGeosInViews();
-		boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
-				|| app.getKernel().getInputPreviewHelper().isValid();
-		final String input = app.getKernel().getInputPreviewHelper()
-				.getInput(newValue);
+		final String input = newValue;
 		if (input == null || input.length() == 0) {
 			app.getActiveEuclidianView().requestFocusInWindow(); // Michael
 			// Borcherds
@@ -1764,7 +1773,7 @@ public class RadioTreeItem extends AVTreeItem
 					.getKernel()
 					.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
-							getErrorHandler(valid), true, callback);
+ getErrorHandler(), true, callback);
 
 			if (newGeo != null && newGeo.length == 1
 					&& newGeo[0] instanceof GeoText) {
@@ -1806,7 +1815,7 @@ public class RadioTreeItem extends AVTreeItem
 		return true;
 	}
 
-	protected ErrorHandler getErrorHandler(final boolean valid) {
+	protected ErrorHandler getErrorHandler() {
 		// TODO Auto-generated method stub
 		return new ErrorHandler(){
 
@@ -1817,12 +1826,8 @@ public class RadioTreeItem extends AVTreeItem
 
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
-				if (valid) {
-					return app.getGuiManager().checkAutoCreateSliders(string,
+				return app.getGuiManager().checkAutoCreateSliders(string,
 						callback);
-				}
-				callback.callback(new String[] { "7" });
-				return false;
 			}
 
 			public void showCommandError(String command, String message) {

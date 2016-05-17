@@ -1417,7 +1417,7 @@ public class DrawEquationW extends DrawEquation {
 		c.setCoordinateSpaceHeight((int) (icon.getIconHeight() * ratio));
 		c.getElement().getStyle().setWidth(icon.getIconWidth(), Unit.PX);
 		c.getElement().getStyle().setHeight(icon.getIconHeight(), Unit.PX);
-		c.getElement().getStyle().setMargin(4, Unit.PX);
+		// c.getElement().getStyle().setMargin(4, Unit.PX);
 		ctx.scale2(ratio, ratio);
 
 		icon.paintIcon(new HasForegroundColor() {
