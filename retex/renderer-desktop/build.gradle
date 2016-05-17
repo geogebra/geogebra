@@ -4,10 +4,11 @@ repositories {
     mavenCentral()
 }
 
-sourceCompatibility = 1.5
-targetCompatibility = 1.5
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
 
 dependencies {
 	compile project(':renderer-base')
 	testCompile 'junit:junit:4.11'
 }
+
