@@ -320,7 +320,9 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		// Set text according to algebra style
 		String text = "";
 		String latex = null;
-		if (geo.isIndependent()) {
+		if (geo.isEmptySpreadsheetCell()) {
+			text = "";
+		} else if (geo.isIndependent()) {
 			if (geo.isLaTeXDrawableGeo()
 			        && (geo.isGeoText() ? ((GeoText) geo).isLaTeX() : true)) {
 

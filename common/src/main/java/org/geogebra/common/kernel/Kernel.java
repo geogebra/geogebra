@@ -2654,7 +2654,11 @@ public class Kernel {
 	}
 	
 	final public void setAlgebraStyleSpreadsheet(int style) {
-		algebraStyleSpreadsheet = style;
+		if (style == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
+			algebraStyleSpreadsheet = Kernel.ALGEBRA_STYLE_VALUE;
+		} else {
+			algebraStyleSpreadsheet = style;
+		}
 	}
 
 	/**
