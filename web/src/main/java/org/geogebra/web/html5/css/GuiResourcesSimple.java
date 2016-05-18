@@ -51,6 +51,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/zipjs/zip-3.js")
 	TextResource zipJs();
 
+	// used by ExamUtil (eg toggleFullScreen)
 	@Source("org/geogebra/web/resources/js/visibility.js")
 	TextResource visibilityJs();
 
