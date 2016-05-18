@@ -194,8 +194,8 @@ public class ModeToggleMenu extends JPanel {
 			} else {
 				tbutton.setActionCommand(item.getActionCommand());
 				tbutton.setSelected(false);
-
-
+				tbutton.getModel().setRollover(false);
+				tbutton.repaint();
 			}
 			tbutton.doClick();
 
