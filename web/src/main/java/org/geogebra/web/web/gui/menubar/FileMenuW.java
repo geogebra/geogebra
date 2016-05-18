@@ -161,6 +161,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 					@Override
 					public void doExecute() {
+					if (app.getActiveMaterial() == null) {
+						app.getGuiManager().save();
+						return;
+					}
 						new ShareDialogW(app);
 					}
 				});
