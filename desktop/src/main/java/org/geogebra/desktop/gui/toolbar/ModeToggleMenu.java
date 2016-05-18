@@ -117,8 +117,12 @@ public class ModeToggleMenu extends JPanel {
 
 	private void selectItem(JMenuItem mi) {
 		// check if the menu item is already selected
+		boolean imageDialog = app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
+				&& mi.getActionCommand().equals(
+						Integer.toString(EuclidianConstants.MODE_IMAGE));
 		if (tbutton.isSelected()
-				&& tbutton.getActionCommand() == mi.getActionCommand()) {
+				&& tbutton.getActionCommand() == mi.getActionCommand()
+				&& !imageDialog) {
 			return;
 		}
 
@@ -127,6 +131,9 @@ public class ModeToggleMenu extends JPanel {
 				.getActionCommand())));
 		tbutton.setActionCommand(mi.getActionCommand());
 		tbutton.setSelected(true);
+		if (imageDialog) {
+			tbutton.doClick();
+		}
 		// tbutton.requestFocus();
 	}
 
