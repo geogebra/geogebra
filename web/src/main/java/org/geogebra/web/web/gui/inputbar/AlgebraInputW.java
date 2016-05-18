@@ -443,6 +443,9 @@ public class AlgebraInputW extends FlowPanel
 			if (btnHelpToggle != null) {
 				helpPopup.setBtnHelpToggle(this.btnHelpToggle);
 			}
+		} else if (app != null && helpPopup.getWidget() == null) {
+			helpPopup.add((InputBarHelpPanelW) app.getGuiManager()
+					.getInputHelpPanel());
 		}
 	}
 
