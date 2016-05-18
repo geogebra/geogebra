@@ -61,6 +61,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * NewRadioButtonTreeItem for creating new formulas in the algebra view
@@ -548,6 +549,8 @@ public class InputTreeItem extends RadioTreeItem implements
 				if (btnHelpToggle != null) {
 					helpPopup.setBtnHelpToggle(btnHelpToggle);
 				}
+			} else if (app != null) {
+				helpPopup.add((Widget) app.getGuiManager().getInputHelpPanel());
 			}
 
 			updateHelpPosition(helpPanel);
