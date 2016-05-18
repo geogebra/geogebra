@@ -163,7 +163,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// OneNote
 		iconPanel.add(new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_onenote().getSafeUri().asString()).toString(), true,
-				"http://tube.geogebra.org/material/onenote/id/" + sharingKey));
+				"http://tube.geogebra.org/material/onenote/id/" + sharingKey,
+				"_blank"));
 
 		// Edmodo
 		String source_desc = (app.getActiveMaterial() != null) ? "&source="
