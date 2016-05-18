@@ -144,7 +144,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 		Anchor twitterlink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_twitter().getSafeUri().asString()).toString(), true,
-				"https://twitter.com/share?text=" + TUBEURL
+				"https://twitter.com/share?url=" + TUBEURL
 						+ sharingKey,
 				"_blank");
 		iconPanel.add(twitterlink);
