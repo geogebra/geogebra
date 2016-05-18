@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.laf;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.SmartTouchHandler;
@@ -23,7 +24,12 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class SmartLookAndFeel extends GLookAndFeel{
-	
+	/**
+	 * Creates smart LAF
+	 */
+	public SmartLookAndFeel() {
+		ToolTipManagerW.setEnabled(false);
+	}
 	
 	@Override
     public boolean undoRedoSupported() {

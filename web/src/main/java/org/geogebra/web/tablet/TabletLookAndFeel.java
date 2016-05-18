@@ -2,6 +2,7 @@ package org.geogebra.web.tablet;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.tablet.gui.browser.TabletMaterialElement;
 import org.geogebra.web.web.gui.browser.MaterialListElement;
@@ -13,6 +14,12 @@ public class TabletLookAndFeel extends GLookAndFeel {
 
 	public static final int PROVIDER_PANEL_WIDTH = 0;
 
+	/**
+	 * Creates tablet LAF
+	 */
+	public TabletLookAndFeel() {
+		ToolTipManagerW.setEnabled(false);
+	}
 	@Override
 	public void addWindowClosingHandler(AppW app) {
 		// no close message on tablet
