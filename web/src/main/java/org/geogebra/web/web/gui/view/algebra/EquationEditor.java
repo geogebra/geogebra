@@ -121,7 +121,8 @@ public class EquationEditor {
 		// so moved from method parameter to automatism
 		// updateCurrentWord(true);// although true would be nicer here
 		updateCurrentWord(false);// compatibility should be preserved
-		if (curWord != null && curWord.length() > 0) {
+		if (curWord != null && curWord.length() > 0
+				&& !"sqrt".equals(curWord.toString())) {
 			// for length check we also need flattenKorean
 			if (!InputHelper.needsAutocomplete(this.curWord, app.getKernel())) {
 				// if there is only one letter typed,
@@ -240,6 +241,7 @@ public class EquationEditor {
 	}
 
 	public boolean hideSuggestions() {
+		Log.printStacktrace("request");
 		if (sug.isSuggestionListShowing()) {
 			sug.hideSuggestions();
 		}
