@@ -231,9 +231,10 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	
 	public boolean selectMode(int mode, ModeSetter m) {
 		String modeText = mode + "";
-
+		boolean imageDialog = app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
+				&& mode == EuclidianConstants.MODE_IMAGE;
 		//If there is only one menuitem, there is no submenu -> set the button selected, if the mode is the same.
-		if (menu.size() == 1 ){
+		if (menu.size() == 1 && !imageDialog) {
 			if (menu.get(0) == mode) {
 				
 
@@ -272,8 +273,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			// found item for mode?
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 
-				if (!(app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
-						&& mode == EuclidianConstants.MODE_IMAGE)) {
+				if (!imageDialog) {
 					selectItem(mi);
 				}
 				
