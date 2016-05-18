@@ -35,7 +35,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	// private HorizontalPanel imagePanel; for future use - to share images
 	private FlowPanel buttonPanel;
 	private Button btSendMail, btCancel;
-	private String TUBEURL = "beta.geogebra.org/m/";
+	private String TUBEURL = "http://ggbm.at/";
 	private String sharingKey = "";
 	private TextBox recipient;
 	private TextArea message;
