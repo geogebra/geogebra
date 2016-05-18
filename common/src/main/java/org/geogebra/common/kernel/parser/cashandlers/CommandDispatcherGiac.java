@@ -128,7 +128,7 @@ public class CommandDispatcherGiac {
 		/** symbolic z coord*/
 		zcoordsymb(Operation.ZCOORD),
 		/** alt(x) */
- altsymb(Operation.ALT),
+		altsymb(Operation.ALT),
 
 		/** GeoGebra vector */
 		ggbvect(Operation.NO_OPERATION),
@@ -196,6 +196,8 @@ public class CommandDispatcherGiac {
 		floor(Operation.FLOOR),
 		/** ceiling */
 		ceiling(Operation.CEIL),
+		/** rand(n) gives random integer from [0,n-1] */
+		rand(Operation.NO_OPERATION),
 
 		;
 		private Operation op;
@@ -574,6 +576,7 @@ public class CommandDispatcherGiac {
 			case poly1: // eg ggbtmpvarp = (ggbtmpvarz)+(((1,2))*(ggbtmpvarz))
 			case integrate: // eg Integral[exp(x^3)]
 			case bounded_function: // eg Limit[cos(x),infinity]
+			case rand: // eg RandomBetween[0, undefined variable]
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
 
