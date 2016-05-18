@@ -33,7 +33,6 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private HorizontalPanel copyLinkPanel;
 	private VerticalPanel emailPanel;
 	// private HorizontalPanel imagePanel; for future use - to share images
-	private FlowPanel buttonPanel;
 	private Button btSendMail, btCancel;
 	private String TUBEURL = "http://ggbm.at/";
 	private String sharingKey = "";
@@ -52,7 +51,6 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		this.getCaption().setText(app.getMenu("Share"));
 		this.contentPanel = new VerticalPanel();
 		this.contentPanel.add(getTabPanel());
-		this.contentPanel.add(getButtonPanel());
 		this.add(this.contentPanel);
 
 		this.setVisible(true);
@@ -78,6 +76,16 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		linkPanel.add(new Label(""));
 		linkPanel.add(getIconPanel());
 		linkPanel.add(getCopyLinkPanel());
+
+		btCancel = new Button(app.getPlain("Cancel"));
+		btCancel.getElement().setAttribute("action", "Cancel");
+		btCancel.addClickHandler(this);
+		btCancel.addStyleName("cancelBtn");
+
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("DialogButtonPanel");
+		buttonPanel.add(btCancel);
+		linkPanel.add(buttonPanel);
 
 		return linkPanel;
 	}
@@ -207,6 +215,15 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		emailPanel.add(lblMessage);
 		emailPanel.add(message);
 
+		btSendMail = new Button(app.getPlain("SendMail"));
+		btSendMail.getElement().setAttribute("action", "OK");
+		btSendMail.addClickHandler(this);
+
+		FlowPanel buttonPanel = new FlowPanel();
+		buttonPanel.addStyleName("DialogButtonPanel");
+		buttonPanel.add(btSendMail);
+		emailPanel.add(buttonPanel);
+
 		return emailPanel;
 	}
 
@@ -218,23 +235,6 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	 * 
 	 * return imagePanel; }
 	 */
-	private FlowPanel getButtonPanel() {
-		btSendMail = new Button(app.getPlain("SendMail"));
-		btSendMail.getElement().setAttribute("action", "OK");
-		btSendMail.addClickHandler(this);
-
-		btCancel = new Button(app.getPlain("Cancel"));
-		btCancel.getElement().setAttribute("action", "Cancel");
-		btCancel.addClickHandler(this);
-		btCancel.addStyleName("cancelBtn");
-
-		buttonPanel = new FlowPanel();
-		buttonPanel.add(btSendMail);
-		buttonPanel.add(btCancel);
-		buttonPanel.addStyleName("DialogButtonPanel");
-
-		return buttonPanel;
-	}
 
 	// TODO implement
 	@Override
