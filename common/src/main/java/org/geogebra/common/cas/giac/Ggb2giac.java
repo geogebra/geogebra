@@ -58,13 +58,13 @@ public class Ggb2giac {
 
 		p("BinomialDist.4",
 				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=%2]],"
-						+ "if %3=true then "
+						+ "if %3==true then "
 						// needed for GGB-841
 						// if %2 is not a number for BinomialDist[n, p, k, true]
 						// use
-						// Sum[BinomialCoefficient[n, i]p^i(1-p)^(n-i), i, 1, k]
+						// Sum[BinomialCoefficient[n, i]p^i(1-p)^(n-i), i, 0, k]
 						+ "when ( type(%2)==DOM_IDENT ,"
-						+ " expand(sum(binomial(%0,ggbtmpvari)*pow(%1,ggbtmpvari)*pow(1-%1,%0-ggbtmpvari),ggbtmpvari,1,%2)),"
+						+ " expand(sum(binomial(%0,ggbtmpvari)*pow(%1,ggbtmpvari)*pow(1-%1,%0-ggbtmpvari),ggbtmpvari,0,%2)),"
 						+ " binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2))"
 						+ "else binomial(ggbbinarg0,ggbbinarg2,ggbbinarg1) fi][1]");
 
@@ -329,7 +329,7 @@ public class Ggb2giac {
 		p("GroebnerLexDeg.2", "gbasis(%0,%1,tdeg)");
 
 		p("HyperGeometric.5",
-				"[[m:=%1],[ng:=%0],[n:=%2],[kk:=%3],if %4=true then sum(binomial(m,k)*binomial((ng-m),(n-k))/binomial(ng,n),k,0,floor(kk)) "
+				"[[m:=%1],[ng:=%0],[n:=%2],[kk:=%3],if %4==true then sum(binomial(m,k)*binomial((ng-m),(n-k))/binomial(ng,n),k,0,floor(kk)) "
 						+ "else binomial(m,kk)*binomial((ng-m),(n-kk))/binomial(ng,n) fi][4]");
 		p("Identity.1", "identity(round(%0))");
 
@@ -840,7 +840,7 @@ public class Ggb2giac {
 		p("NIntegral.4", "romberg(%%0,%%1,%%2,%%3)");
 		p("Normal.3", "normald_cdf(%0,%1,%2)");
 		p("Normal.4",
-				"[[[ggbnormarg0:=%0],[ggbnormarg1:=%1],[ggbnormarg2:=%2]],if %3=true then normald_cdf(ggbnormarg0,ggbnormarg1,ggbnormarg2) else (1/sqrt(2*pi*((ggbnormarg1)^2))) * exp(-((ggbnormarg2-(ggbnormarg0))^2) / (2*((ggbnormarg1)^2))) fi][1]");
+				"[[[ggbnormarg0:=%0],[ggbnormarg1:=%1],[ggbnormarg2:=%2]],if %3==true then normald_cdf(ggbnormarg0,ggbnormarg1,ggbnormarg2) else (1/sqrt(2*pi*((ggbnormarg1)^2))) * exp(-((ggbnormarg2-(ggbnormarg0))^2) / (2*((ggbnormarg1)^2))) fi][1]");
 		p("nPr.2", "perm(%0,%1)");
 
 		// #4124 / TRAC-3835 wrap input in evalf
@@ -934,8 +934,8 @@ public class Ggb2giac {
 		p("PartialFractions.1", "partfrac(%0)");
 		p("PartialFractions.2", "partfrac(%0,%1)");
 		p("Pascal.4",
-				"[[[ggbpasarg0:=%0],[ggbpasarg1:=%1],[ggbpasarg2:=%2]],if %3=true then Beta(ggbpasarg0,1+floor(ggbpasarg2),ggbpasarg1,1) else (1-(%1))^(ggbpasarg2)*(ggbpasarg1)^(ggbpasarg0)*binomial(ggbpasarg0+ggbpasarg2-1,ggbpasarg0-1) fi][1]");
-		p("Poisson.3", "if %2=true then "
+				"[[[ggbpasarg0:=%0],[ggbpasarg1:=%1],[ggbpasarg2:=%2]],if %3==true then Beta(ggbpasarg0,1+floor(ggbpasarg2),ggbpasarg1,1) else (1-(%1))^(ggbpasarg2)*(ggbpasarg1)^(ggbpasarg0)*binomial(ggbpasarg0+ggbpasarg2-1,ggbpasarg0-1) fi][1]");
+		p("Poisson.3", "if %2==true then "
 				+ "exp(-(%0))*sum ((%0)^k/k!,k,0,floor(%1)) "
 				+ "else normal((%0)^(%1)/factorial(floor(%1))*exp(-%0)) fi");
 		p("Polynomial.N",
@@ -986,7 +986,7 @@ public class Ggb2giac {
 		p("ReducedRowEchelonForm.1", "rref(%0)");
 		p("Sample.2", "flatten1(seq(rand(1,%0),j,1,%1))");
 		p("Sample.3",
-				"[[[ggbsamarg0:=%0],[ggbsamarg1:=%1]],if %2=true then flatten1(seq(rand(1,ggbsamarg0),j,1,ggbsamarg1)) else rand(ggbsamarg1,ggbsamarg0) fi][1]");
+				"[[[ggbsamarg0:=%0],[ggbsamarg1:=%1]],if %2==true then flatten1(seq(rand(1,ggbsamarg0),j,1,ggbsamarg1)) else rand(ggbsamarg1,ggbsamarg0) fi][1]");
 		p("SampleVariance.1",
 				" [[ggbsvans:=%0],[ggbsvans:=normal(variance(ggbsvans)*size(ggbsvans)/(size(ggbsvans)-1))],ggbsvans][2]");
 		p("SampleSD.1", "normal(stddevp(%0))");
@@ -1370,7 +1370,7 @@ public class Ggb2giac {
 		p("Variance.1", "normal(variance(%0))");
 		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
 		p("Zipf.4", // %1=exponent
-				"[[[ggbzipfarg0:=%0],[ggbzipfarg1:=%1],[ggbzipfarg2:=%2]],if %3=true then harmonic(ggbzipfarg1,ggbzipfarg2)/harmonic(ggbzipfarg1,ggbzipfarg0) else 1/((ggbzipfarg2)^ggbzipfarg1*harmonic(ggbzipfarg1,ggbzipfarg0)) fi][1]");
+				"[[[ggbzipfarg0:=%0],[ggbzipfarg1:=%1],[ggbzipfarg2:=%2]],if %3==true then harmonic(ggbzipfarg1,ggbzipfarg2)/harmonic(ggbzipfarg1,ggbzipfarg0) else 1/((ggbzipfarg2)^ggbzipfarg1*harmonic(ggbzipfarg1,ggbzipfarg0)) fi][1]");
 		// TODO check if it's easier to implement with giac's zip command
 		p("Zip.N",
 				"[[ggbzipans(l):=begin local len,res,sbl,xpr,k,j;xpr:=l[0];len:=length(l[2]);res:={};"
