@@ -549,7 +549,7 @@ public class InputTreeItem extends RadioTreeItem implements
 				if (btnHelpToggle != null) {
 					helpPopup.setBtnHelpToggle(btnHelpToggle);
 				}
-			} else if (app != null) {
+			} else if (app != null && helpPopup.getWidget() == null) {
 				helpPopup.add((Widget) app.getGuiManager().getInputHelpPanel());
 			}
 
