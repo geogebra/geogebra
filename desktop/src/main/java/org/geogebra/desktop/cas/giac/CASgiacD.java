@@ -90,4 +90,13 @@ public class CASgiacD extends CASgiacJre {
 		return !AppD.LINUX;
 	}
 
+	@Override
+	final protected void stopThread(Thread thread) {
+		// thread.interrupt() doesn't seem to stop it, so add this for
+		// good measure:
+		thread.stop();
+		// in fact, stop will do nothing (never implemented)
+		// Log.debug("giac: after interrupt/stop");
+	}
+
 }

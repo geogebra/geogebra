@@ -187,7 +187,7 @@ public abstract class CASgiacJre extends CASgiac {
 			thread.interrupt();
 			// thread.interrupt() doesn't seem to stop it, so add this for
 			// good measure:
-			thread.stop();
+			stopThread(thread);
 			// in fact, stop will do nothing (never implemented)
 			// Log.debug("giac: after interrupt/stop");
 
@@ -212,6 +212,14 @@ public abstract class CASgiacJre extends CASgiac {
 
 		return ret;
 	}
+
+	/**
+	 * stop thread. TODO remove it?
+	 * 
+	 * @param thread
+	 *            thread
+	 */
+	abstract protected void stopThread(Thread thread);
 
 	/**
 	 * Queue of asynchronous commands that are waiting for update
