@@ -1903,6 +1903,13 @@ var __giac = [ {},
 { cat: "Evaluate", cmd:"SolveODE[2*y*y'=2*x]", result:"y = sqrt(-2 c_0 + x\u00B2)", notes:"" },
 { cat: "Evaluate", cmd:"Simplify[exp(x)/exp(x+1)]", result:"1 / \u212F", notes:"needs texpand() in Giac" },
 { cat:"Limit", cmd:"Limit(((((1))*((x)^(2)))-(((1))*(((22/10))^(2))))/((x)-((22/10))),x,(22/10))", result:"22/5", notes:"" },
+{ cat:"BinomialDist", cmd:"BinomialDist[n, p, k, true]", result:"gGbSuM(p^i n! (-p + 1)^(-i + n) / (i! (-i + n)!), i,0, k)", notes:"GGB-841" },
+{ cat:"BinomialDist", cmd:"BinomialDist[10, 1/10, k, true]", result:"gGbSuM(1977006755367 / 1562500 (1 / 10)^i (9 / 10)^(-i) / (i! (-i + 10)!), i,0, k)", notes:"GGB-841" },
+{ cat:"BinomialDist", cmd:"BinomialDist[10, p, 6, true]", result:"(1 - p)\u00B9\u2070 + 10p (1 - p)\u2079 + 45p\u00B2 (1 - p)\u2078 + 120p\u00B3 (1 - p)\u2077 + 210p\u2074 (1 - p)\u2076 + 252p\u2075 (1 - p)\u2075 + 210p\u2076 (1 - p)\u2074", notes:"GGB-841" },
+{ cat:"BinomialDist", cmd:"BinomialDist[n, 0.2, 5, true]", result:"(4 / 5)^n + gamma(n + 1) / gamma(n) / 5 (4 / 5)^(n - 1) + gamma(n + 1) / 2 / gamma(n - 2 + 1) / 25 (4 / 5)^(n - 2) + gamma(n + 1) / 6 / gamma(n - 3 + 1) / 125 (4 / 5)^(n - 3) + gamma(n + 1) / 24 / gamma(n - 4 + 1) / 625 (4 / 5)^(n - 4) + gamma(n + 1) / 120 / gamma(n - 5 + 1) / 3125 (4 / 5)^(n - 5)", notes:"GGB-841" },
+{ cat:"RandomBetween", cmd:"RandomBetween[undef1, undef2]", result:"undef1 + ?", notes:"odd but OK" },
+
+
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 //{ cat: "Integral", cmd:"Integral[sqrt(sin(x))]", result:"?", notes:"" },
