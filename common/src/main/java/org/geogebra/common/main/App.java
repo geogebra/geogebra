@@ -3884,7 +3884,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-524
 		case MOBILE_CLEAR_INPUT_BUTTON:
-			return prerelease;
+			return true;
 
 		// MOB-427
 		case MOBILE_SMOOTH_PINCH:
