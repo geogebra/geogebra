@@ -34,9 +34,11 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private VerticalPanel emailPanel;
 	// private HorizontalPanel imagePanel; for future use - to share images
 	private FlowPanel buttonPanel;
-	private Button btOK, btCancel;
+	private Button btSendMail, btCancel;
 	private String TUBEURL = "beta.geogebra.org/m/";
 	private String sharingKey = "";
+	private TextBox recipient;
+	private TextArea message;
 
 	public ShareDialogW(final AppW app) {
 		super(app.getPanel());
@@ -192,32 +194,15 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		emailPanel.addStyleName("GeoGebraEmailPanel");
 
 		Label lblRecipient = new Label(app.getPlain("share_recipient") + ":");
-		final TextBox recipient = new TextBox();
+		recipient = new TextBox();
 		recipient.getElement().setPropertyString("placeholder", app.getPlain("share_to"));
 
 		Label lblMessage = new Label(app.getPlain("share_message") + ":");
-		TextArea message = new TextArea();
+		message = new TextArea();
 		message.getElement().setPropertyString("placeholder", app.getPlain("share_message_text"));
 		message.setVisibleLines(3);
 
 		emailPanel.add(lblRecipient);
-
-		emailPanel.add(new Button("sendmail...", new ClickHandler() {
-
-			public void onClick(ClickEvent event) {
-				Log.debug("send mail to: " + recipient.getText());
-				app.getLoginOperation()
-						.getGeoGebraTubeAPI()
-						.shareMaterial(app.getActiveMaterial(),
-								recipient.getText(), "test-message",
-								new MaterialCallback() {
-
-								});
-
-			}
-
-		}));
-
 		emailPanel.add(recipient);
 		emailPanel.add(lblMessage);
 		emailPanel.add(message);
@@ -234,10 +219,9 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	 * return imagePanel; }
 	 */
 	private FlowPanel getButtonPanel() {
-
-		btOK = new Button(app.getPlain("OK"));
-		btOK.getElement().setAttribute("action", "OK");
-		btOK.addClickHandler(this);
+		btSendMail = new Button(app.getPlain("SendMail"));
+		btSendMail.getElement().setAttribute("action", "OK");
+		btSendMail.addClickHandler(this);
 
 		btCancel = new Button(app.getPlain("Cancel"));
 		btCancel.getElement().setAttribute("action", "Cancel");
@@ -245,7 +229,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		btCancel.addStyleName("cancelBtn");
 
 		buttonPanel = new FlowPanel();
-		buttonPanel.add(btOK);
+		buttonPanel.add(btSendMail);
 		buttonPanel.add(btCancel);
 		buttonPanel.addStyleName("DialogButtonPanel");
 
@@ -257,7 +241,15 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	public void onClick(ClickEvent event) {
 
 		Object source = event.getSource();
-		if (source == btOK) {
+		if (source == btSendMail) {
+			Log.debug("send mail to: " + recipient.getText());
+			app.getLoginOperation()
+					.getGeoGebraTubeAPI()
+					.shareMaterial(app.getActiveMaterial(),
+							recipient.getText(), message.getText(),
+							new MaterialCallback() {
+								//
+							});
 			hide();
 		} else if (source == btCancel) {
 			hide();
