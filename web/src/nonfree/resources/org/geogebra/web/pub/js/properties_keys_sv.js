@@ -2823,6 +2823,7 @@ __GGB__keysVar.sv.plain = {
     "SelectionAllowed": "Urval m\xf6jligt",
     "Semicircle": "Halvcirkel",
     "SemicircleThroughAandB": "Halvcirkel genom %0 och %1",
+    "Send": "Send",
     "SendFeedback": "Skicka Feedback",
     "SeveralVersionsOfA": "Notera att det finns flera versioner av: %0",
     "SharedByA": "Delad av: %0",

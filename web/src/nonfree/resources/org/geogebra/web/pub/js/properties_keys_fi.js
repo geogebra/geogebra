@@ -2823,6 +2823,7 @@ __GGB__keysVar.fi.plain = {
     "SelectionAllowed": "Valinta sallittu",
     "Semicircle": "Puoliympyr\xe4",
     "SemicircleThroughAandB": "%0:n ja %1:n kautta kulkeva puoliympyr\xe4",
+    "Send": "Send",
     "SendFeedback": "L\xe4het\xe4 palautetta",
     "SeveralVersionsOfA": "Huomaa, ett\xe4 on useita versioita kohteesta: %0",
     "SharedByA": "Jakanut %0",

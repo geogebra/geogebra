@@ -2823,6 +2823,7 @@ __GGB__keysVar.nl.plain = {
     "SelectionAllowed": "Selectie toegestaan",
     "Semicircle": "Halfcirkel",
     "SemicircleThroughAandB": "Halfcirkel door %0 en %1",
+    "Send": "Send",
     "SendFeedback": "Verstuur feedback",
     "SeveralVersionsOfA": "Merk op dat er verscheidene versie van : %0 zijn",
     "SharedByA": "Gedeeld door: %0",

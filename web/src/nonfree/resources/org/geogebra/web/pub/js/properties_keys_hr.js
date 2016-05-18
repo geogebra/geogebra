@@ -2823,6 +2823,7 @@ __GGB__keysVar.hr.plain = {
     "SelectionAllowed": "Dozvoli odabir",
     "Semicircle": "Polukru\u017enica",
     "SemicircleThroughAandB": "Polukru\u017enica kroz %0 i %1",
+    "Send": "Send",
     "SendFeedback": "Po\u0161alji povratnu informaciju",
     "SeveralVersionsOfA": "Nekoliko je ina\u010dica od: %0",
     "SharedByA": "Dijeljeno od: %0",

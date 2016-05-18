@@ -2823,6 +2823,7 @@ __GGB__keysVar.xh.plain = {
     "SelectionAllowed": "Okukhethiweyo okuvumelekileyo",
     "Semicircle": "uSiqingathaSangqa",
     "SemicircleThroughAandB": "Isiqingatha sesaNgqa esiphumela ku %0 kunye no %1",
+    "Send": "Send",
     "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Kwabelwana ngayo ngu: %0",

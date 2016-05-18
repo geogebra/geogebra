@@ -2823,6 +2823,7 @@ __GGB__keysVar.es_UY.plain = {
     "SelectionAllowed": "Selecci\xf3n habilitada",
     "Semicircle": "Semicircunferencia",
     "SemicircleThroughAandB": "Semicircunferencia de di\xe1metro %0 %1",
+    "Send": "Send",
     "SendFeedback": "Enviar comentario",
     "SeveralVersionsOfA": "Hay que tener en cuenta que hay varias versiones de: %0",
     "SharedByA": "Compartido por: %0",

@@ -2823,6 +2823,7 @@ __GGB__keysVar.no_NB.plain = {
     "SelectionAllowed": "Velg med museklikk",
     "Semicircle": "Halvsirkel",
     "SemicircleThroughAandB": "Halvsirkel gjennom %0 og %1",
+    "Send": "Send",
     "SendFeedback": "Send tilbakemelding",
     "SeveralVersionsOfA": "Merk at der er flere versjoner av: %0",
     "SharedByA": "Delt av: %0",

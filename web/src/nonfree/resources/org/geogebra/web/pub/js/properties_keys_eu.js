@@ -2823,6 +2823,7 @@ __GGB__keysVar.eu.plain = {
     "SelectionAllowed": "Hautapen Onartua",
     "Semicircle": "Zirkunferentzierdia",
     "SemicircleThroughAandB": "Zirkunferentzierdia %0 eta %1-(e)tik pasatuz",
+    "Send": "Send",
     "SendFeedback": "Bidali Berrelikadura",
     "SeveralVersionsOfA": "Ohartu %0-(r)en hainbat bertsio dauela",
     "SharedByA": "%0-(e)k partekatua",

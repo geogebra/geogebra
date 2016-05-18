@@ -2823,6 +2823,7 @@ __GGB__keysVar.ne.plain = {
     "SelectionAllowed": "\u091b\u0928\u094c\u091f \u0917\u0930\u094d\u0928\u0938\u0915\u093f\u0928\u094d\u091b",
     "Semicircle": "\u0905\u0930\u094d\u0927\u0935\u0943\u0924",
     "SemicircleThroughAandB": "%0 \u0930 %1 \u092d\u090f\u0930 \u091c\u093e\u0928\u0947 \u0905\u0930\u094d\u0927\u0935\u0943\u0924",
+    "Send": "Send",
     "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",

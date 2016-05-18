@@ -2823,6 +2823,7 @@ __GGB__keysVar.fr.plain = {
     "SelectionAllowed": "S\xe9lectionnable",
     "Semicircle": "Demi-cercle",
     "SemicircleThroughAandB": "Demi-cercle d\xe9fini par %0 et %1",
+    "Send": "Envoyer",
     "SendFeedback": "Envoi d'une appr\xe9ciation",
     "SeveralVersionsOfA": "Noter qu'il y a plusieurs versions de : %0",
     "SharedByA": "Partag\xe9 par : %0",

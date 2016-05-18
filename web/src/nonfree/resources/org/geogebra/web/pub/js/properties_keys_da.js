@@ -2823,6 +2823,7 @@ __GGB__keysVar.da.plain = {
     "SelectionAllowed": "Udv\xe6lgelse tilladt",
     "Semicircle": "Halvcirkel",
     "SemicircleThroughAandB": "Halvcirkel gennem %0 og %1",
+    "Send": "Send",
     "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "V\xe6r opm\xe6rksom p\xe5 at der er flere versioner af: %0",
     "SharedByA": "Delt af : %0",

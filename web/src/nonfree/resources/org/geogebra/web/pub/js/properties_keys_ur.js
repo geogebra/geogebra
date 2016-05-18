@@ -2823,6 +2823,7 @@ __GGB__keysVar.ur.plain = {
     "SelectionAllowed": "Selection Allowed",
     "Semicircle": "Semicircle",
     "SemicircleThroughAandB": "Semicircle through %0 and %1",
+    "Send": "Send",
     "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",

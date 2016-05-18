@@ -2823,6 +2823,7 @@ __GGB__keysVar.mr.plain = {
     "SelectionAllowed": "Selection Allowed",
     "Semicircle": "\u0905\u0930\u094d\u0927\u0935\u0930\u094d\u0924\u0941\u0933",
     "SemicircleThroughAandB": "%0, %1 \u092e\u0927\u0942\u0928 \u0905\u0930\u094d\u0927\u0935\u0930\u094d\u0924\u0941\u0933",
+    "Send": "Send",
     "SendFeedback": "Send Feedback",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",

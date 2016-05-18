@@ -2823,6 +2823,7 @@ __GGB__keysVar.ja.plain = {
     "SelectionAllowed": "\u9078\u629e\u3092\u8a31\u3059",
     "Semicircle": "\u534a\u5186",
     "SemicircleThroughAandB": "%0 \u3068 %1 \u3092\u901a\u308b\u534a\u5186",
+    "Send": "Send",
     "SendFeedback": "\u30d5\u30a3\u30fc\u30c9\u30d0\u30c3\u30af\u3092\u9001\u308b",
     "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "%0 \u306b\u3088\u3063\u3066\u5171\u6709\u3055\u308c\u3066\u3044\u307e\u3059",
