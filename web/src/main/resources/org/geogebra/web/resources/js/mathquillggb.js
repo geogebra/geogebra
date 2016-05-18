@@ -8062,7 +8062,7 @@ $.fn.mathquillggb = function(cmd, latex) {
         	      (cursor[L] instanceof VanillaSymbol)) {
         		  cursor.backspace();
             	  ilen--;
-        	  } else
+        	  } else if (cursor[L] != 0)
         	  //if (cursor[L] instanceof MathCommand)
         	  {
         		  var cname = cursor[L].text().replace(/\W/g, '');
@@ -8075,6 +8075,8 @@ $.fn.mathquillggb = function(cmd, latex) {
         			  // maybe console.log & break would be better here
         			  ilen--;
         		  }
+        	  }else {
+        		  return;
         	  }
           }
 

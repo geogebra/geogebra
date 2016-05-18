@@ -1387,6 +1387,7 @@ public abstract class EuclidianController {
 			if (!selectionList.equals(getSelectedGeoList())) {
 				getSelectedGeoList().remove(geo);
 			}
+			selection.removeSelectedGeo((GeoElement) geo, true, true);
 			ret = -1;
 		} else { // new element: add to selection
 			if (selectionList.size() < max) {
@@ -1394,11 +1395,9 @@ public abstract class EuclidianController {
 				if (!selectionList.equals(getSelectedGeoList())) {
 					getSelectedGeoList().add((GeoElement) geo);
 				}
+				selection.addSelectedGeo((GeoElement) geo, true, true);
 				ret = 1;
 			}
-		}
-		if (ret != 0) {
-			selection.toggleSelectedGeo((GeoElement) geo);
 		}
 		return ret;
 	}

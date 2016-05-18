@@ -2177,7 +2177,12 @@ marblePanel, evt))) {
 			}
 
 		}
-		updateSelection(event.isControlDown(), event.isShiftDown());
+		if (app.getActiveEuclidianView()
+				.getMode() == EuclidianConstants.MODE_MOVE
+				|| app.getActiveEuclidianView()
+						.getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
+			updateSelection(event.isControlDown(), event.isShiftDown());
+		}
 
 	}
 
