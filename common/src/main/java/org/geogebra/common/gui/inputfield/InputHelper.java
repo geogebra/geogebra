@@ -38,14 +38,12 @@ public class InputHelper {
 				boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
 
-				double x = (ev.getXmin() + ev.getXmax()) / 2;
-				double y = (ev.getYmin() + ev.getYmax()) / 2;
-				x = (int) ev.toScreenCoordX(x);
-				y = (int) ev.toScreenCoordY(y);
+				GeoPoint p = new GeoPoint(text.getConstruction(), null,
+						(ev.getXmin() + ev.getXmax()) / 2,
+						(ev.getYmin() + ev.getYmax()) / 2, 1.0);
 
-				GeoPoint p = new GeoPoint(text.getConstruction(), null, x, y, 1.0);
 				cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
-				
+
 				try {
 					text.setStartPoint(p);
 					text.update();

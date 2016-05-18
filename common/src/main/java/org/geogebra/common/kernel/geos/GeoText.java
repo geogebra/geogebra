@@ -87,7 +87,7 @@ public class GeoText extends GeoElement implements Locateable,
 	final public static int FONTSIZE_EXTRA_LARGE = 6;
 
 	// for absolute screen location
-	private boolean hasAbsoluteScreenLocation = true;
+	private boolean hasAbsoluteScreenLocation = false;
 
 	/**
 	 * Creates new text
@@ -293,9 +293,8 @@ public class GeoText extends GeoElement implements Locateable,
 			// add new dependencies
 			startPoint.getLocateableList().registerLocateable(this);
 
-			// absolute screen position should be activated
-			setAbsoluteScreenLoc((int) p.getInhomX(), (int) p.getInhomY());
-			setAbsoluteScreenLocActive(true);
+			// absolute screen position should be deactivated
+			setAbsoluteScreenLocActive(false);
 		}
 	}
 

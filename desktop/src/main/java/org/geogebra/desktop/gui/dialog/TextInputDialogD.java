@@ -1186,7 +1186,8 @@ public class TextInputDialogD extends InputDialogD
 						// t.setAbsoluteScreenLocActive(true);
 						if (rw) {
 							Coords coords = startPoint.getInhomCoordsInD3();
-							t.setRealWorldLoc(coords.getX(), coords.getY());
+							t.setRealWorldLoc(activeView.toRealWorldCoordX(coords.getX()), 
+									activeView.toRealWorldCoordY(coords.getY()));
 							t.setAbsoluteScreenLocActive(false);
 						} else {
 							Coords coords = startPoint.getInhomCoordsInD3();
