@@ -2947,7 +2947,7 @@ body.application[dir=rtl] .DialogButtonPanel button {
 /*---------------- SHARE DIALOG -------------*/
 .GeoGebraTabLayout {
 	width: 500px;
-	height: 200px;
+	height: 255px;
 }
 .GeoGebraLinkPanel {	
 	height: 100%;
