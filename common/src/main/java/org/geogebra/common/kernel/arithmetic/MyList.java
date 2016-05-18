@@ -287,8 +287,13 @@ public class MyList extends ValidExpression implements ListValue,
 				setIdentityMatrix();
 			}
 			if (power < 0) {
-				listElements = this.invert().listElements;
+				MyList invert = this.invert();
+				listElements = invert.listElements;
 				power *= -1;
+				if (!invert.isDefined) {
+					this.isDefined = false;
+					return;
+				}
 				if (power == 1) {
 					MyList RHlist = this.deepCopy(kernel);
 					RHlist.setIdentityMatrix();
@@ -539,7 +544,8 @@ public class MyList extends ValidExpression implements ListValue,
 		g.inverseImmediate();
 		MyList gl = new MyList(kernel);
 		g.getMyList(gl, kernel);
-		return gl.getMyList();
+		gl.isDefined = !g.isUndefined();
+		return gl;
 	}
 
 	/**

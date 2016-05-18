@@ -2747,6 +2747,10 @@ public class AlgebraProcessor {
 			// Create GeoList object
 			ret[0] = kernel.getAlgoDispatcher().List(label, geoElements,
 					isIndependent);
+			if (!evalList.isDefined()) {
+				ret[0].setUndefined();
+				ret[0].updateRepaint();
+			}
 			ret[0].setDefinition(n);
 		}
 
