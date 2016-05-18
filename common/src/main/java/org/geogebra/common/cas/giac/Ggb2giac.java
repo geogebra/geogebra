@@ -58,7 +58,15 @@ public class Ggb2giac {
 
 		p("BinomialDist.4",
 				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=%2]],"
-						+ "if %3=true then binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2) else binomial(ggbbinarg0,ggbbinarg2,ggbbinarg1) fi][1]");
+						+ "if %3=true then "
+						// needed for GGB-841
+						// if %2 is not a number for BinomialDist[n, p, k, true]
+						// use
+						// Sum[BinomialCoefficient[n, i]p^i(1-p)^(n-i), i, 1, k]
+						+ "when ( type(%2)==DOM_IDENT ,"
+						+ " expand(sum(binomial(%0,ggbtmpvari)*pow(%1,ggbtmpvari)*pow(1-%1,%0-ggbtmpvari),ggbtmpvari,1,%2)),"
+						+ " binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2))"
+						+ "else binomial(ggbbinarg0,ggbbinarg2,ggbbinarg1) fi][1]");
 
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
 
