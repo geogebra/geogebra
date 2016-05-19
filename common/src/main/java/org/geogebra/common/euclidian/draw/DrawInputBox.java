@@ -79,7 +79,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		this.geo = geo;
 		box = geo.getKernel().getApplication().getSwingFactory()
 				.createHorizontalBox(view.getEuclidianController());
-		setHitRect(box.getBounds());
 		// action listener for checkBox
 		// bl = new ButtonListener();
 		ifListener = new InputFieldListener();

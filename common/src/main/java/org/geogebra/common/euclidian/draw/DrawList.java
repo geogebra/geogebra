@@ -958,7 +958,6 @@ public final class DrawList extends CanvasDrawable
 		labelRectangle.setBounds(xLabel, yLabel,
 				(int) (getHitRect().getWidth()),
 				(int) (getHitRect().getHeight()));
-		setHitRect(labelRectangle);
 
 	}
 

@@ -274,10 +274,6 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	public GRectangle getHitRect() {
-		return hitRect;
-	}
-
-	public void setHitRect(GRectangle hitRect) {
-		this.hitRect = hitRect;
+		return labelRectangle;
 	}
 }
