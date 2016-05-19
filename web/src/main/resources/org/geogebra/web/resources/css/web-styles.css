@@ -3571,7 +3571,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .cpScrollPanel {
 	width: 100%;
-	height: 100%;
+	height: 90%;
 	cursor: default;
 	background-color: #FFFFFF;
 }
@@ -3669,7 +3669,6 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 .cpHeaderHolderPanel{
 	background-color: #F8F8F8;
 	overflow: hidden !important;
-	border-bottom: 1px solid #DDDDDD;
 }
 
 /*
