@@ -344,6 +344,9 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	@Override
 	public boolean isEqual(GeoElement geo) {
+		if (!geo.isDefined() || !isDefined()) {
+			return false;
+		}
 		if (geo.isGeoPlane()) {
 			Coords ev1 = getCoordSys().getEquationVector();
 			Coords ev2 = ((GeoPlane3D) geo).getCoordSys().getEquationVector();
