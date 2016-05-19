@@ -1364,7 +1364,7 @@ namespace giac {
     for (int d=0;d<deg;++d)
       dv_d.push_back(v_d[d]*(double)(deg-d)) ;
 #ifndef __APPLE__
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       COUT << "Aroot init " << c0 << " after renormalization: " << v_d << endl << "Diff " << dv_d << endl;
 #endif
     // newton method with prefactor
@@ -1389,7 +1389,7 @@ namespace giac {
 	}
 	newfc=horner(v_d,newc);
 #ifndef __APPLE__
-	if (debug_infolevel>1)
+	if (debug_infolevel>2)
 	  CERR << "proot (j=" << j << "i=" << i << "), z'=" << newc << " f(z')=" << newfc << " f(z)=" << fc << " " << prefact << endl;
 #endif
 	if (abs(rapport)<eps)
@@ -5986,11 +5986,11 @@ namespace giac {
     res.clear(); // insure that res will be build properly
     // Modular algorithm for matrix integer reduction
     // Find Hadamard bound
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << "rref padic/modular " << CLOCK() << endl;
     bool inverting=fullreduction==2;
     gen h2=4*square_hadamard_bound(a),h20=h2;
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << "rref padic hadamard done " << CLOCK() << endl;
     gen p,det_mod_p,pi_p;
     int done=0;
@@ -6046,7 +6046,7 @@ namespace giac {
 	  return 1;
 	}
 	lcmdeno(resb,factdet,contextptr);
-	if (debug_infolevel>1)
+	if (debug_infolevel>2)
 	  CERR << "lif=" << factdet << endl;
 	h2=iquo(h2,factdet*factdet)+1;
 	det=smod(det*invmod(factdet,p),p);
@@ -6129,7 +6129,7 @@ namespace giac {
 	}
 #endif
 	p=nextp(p+1,factdet);
-	if (as>10 && debug_infolevel>1)
+	if (as>10 && debug_infolevel>2)
 	  CERR << CLOCK() << " detrref, % done " << evalf_double(_evalf(gen(makevecteur(200*ln(pi_p,contextptr)/ln(h2,contextptr),20),_SEQ__VECT),contextptr),1,contextptr)<< ", prime " << p << ", det/lif=" << det << endl;
 	if (!in_modrref(a,N,res,pivots,det_mod_p,l,lmax,c,cmax,
 			0 /* fullreduction */,dont_swap_below,p.val,1 /* det */,1 /* mult by 1*/,false /* inverting */,true/* no initial mod */
@@ -6140,7 +6140,7 @@ namespace giac {
 	  // FIXME clean launched threads
 	  return 0;
 	}
-	if (debug_infolevel>1)
+	if (debug_infolevel>2)
 	  CERR << CLOCK() << " end rref " << endl;
 #ifdef HAVE_LIBPTHREAD
 	// get back launched mod det
@@ -6270,7 +6270,7 @@ namespace giac {
 	  }
 	}
 #endif
-	if (as>10 && debug_infolevel>1)
+	if (as>10 && debug_infolevel>2)
 	  CERR << CLOCK() << " modrref, % done " << evalf_double(_evalf(gen(makevecteur(200*ln(pi_p,contextptr)/ln(h2,contextptr),20),_SEQ__VECT),contextptr),1,contextptr)<< ", prime " << p << endl;
 	if (rref_or_det_or_lu==3){
 	  if (is_zero(det_mod_p,contextptr))
@@ -6295,7 +6295,7 @@ namespace giac {
 	  // early termination if abs(det*2)<pi_p and linfnorm(res)*linfnorm(original_matrix)*size*2<pi_p
 	  // smod_inplace(res,pi_p);
 	  if (is_greater(pi_p,2*abs(det,contextptr),contextptr) && is_greater(pi_p,2*linfnorm(res,contextptr)*linfa,contextptr)){
-	    if (debug_infolevel>1)
+	    if (debug_infolevel>2)
 	      *logptr(contextptr) << CLOCK() << gettext(" Early termination") << endl;
 	    break;
 	  }
@@ -6312,10 +6312,10 @@ namespace giac {
 	  // since the denominator is likely (about 6/pi^2) to be the lif
 	  // therefore we could compute divisor=det/lif and test divisibility
 	  // of res by divisor
-	  if (debug_infolevel>1)
+	  if (debug_infolevel>2)
 	    *logptr(contextptr) << CLOCK() << gettext(" dividing by determinant") << endl;
 	  divvecteur(res,det,res);
-	  if (debug_infolevel>1)
+	  if (debug_infolevel>2)
 	    *logptr(contextptr) << CLOCK() << gettext(" end dividing by determinant") << endl;
 	}
 	else
@@ -6586,7 +6586,7 @@ namespace giac {
 	  for (int i=0;i<polydim;++i){
 	    summaxdeg[i]=std::min(summaxdeg[i],col_sumpartialdeg[i]);
 	  }
-	  if (debug_infolevel>1)
+	  if (debug_infolevel>2)
 	    CERR << "Total degree " << maxtotaldeg << ", partial degrees " << summaxdeg << endl;
 	  // Now modify algorithm to RREF_LAGRANGE if it's faster
 	  double lagrange_time=std::pow(double(as),2)*(as*10+160); 
@@ -6603,7 +6603,7 @@ namespace giac {
 	    bareiss_time += tmp;
 	  }
 	  bareiss_time *= as; // take account of the size of the coefficients
-	  if (debug_infolevel>1)
+	  if (debug_infolevel>2)
 	    CERR << "lagrange " << lagrange_time << " bareiss " << bareiss_time << endl;
 	  if (lagrange_time<bareiss_time){
 	    algorithm=RREF_LAGRANGE;
@@ -6693,10 +6693,10 @@ namespace giac {
 	return 0;
       if ( (!fullreduction) && (l==lmax-1) )
 	break;
-      if (debug_infolevel>1)
+      if (debug_infolevel>2)
 	CERR <<  "// mrref line " << l << ":" << CLOCK() <<endl;
       pivot=M[l][c];
-      if (debug_infolevel>1){
+      if (debug_infolevel>2){
 	CERR << "// ";
 	print_debug_info(pivot);
       }
@@ -6705,7 +6705,7 @@ namespace giac {
       if (l<dont_swap_below){ // scan current line for the best pivot available
 	for (int ctemp=c+1;ctemp<cmax;++ctemp){
 	  temp=M[l][ctemp];
-	  if (debug_infolevel>1)
+	  if (debug_infolevel>2)
 	    print_debug_info(temp);
 	  if (!is_zero(temp,contextptr) && temp.islesscomplexthan(pivot)){
 	    pivot=temp;
@@ -6726,7 +6726,7 @@ namespace giac {
 	else {
 	  for (int ltemp=l+1;ltemp<lmax;++ltemp){
 	    temp=M[ltemp][c];
-	    if (debug_infolevel>1)
+	    if (debug_infolevel>2)
 	      print_debug_info(temp);
 	    if (!is_zero(temp,contextptr) && temp.islesscomplexthan(pivot)){
 	      pivot=temp;
@@ -6735,7 +6735,7 @@ namespace giac {
 	  }
 	}
       }
-      if (debug_infolevel>1)
+      if (debug_infolevel>2)
 	CERR << endl;
       //COUT << M << endl << pivot << endl;
       if (!is_zero(pivot,contextptr)){
@@ -6818,7 +6818,7 @@ namespace giac {
 	    }
 	  }
 	  if (rref_or_det_or_lu==1 && algorithm!=RREF_GAUSS_JORDAN) {
-	    if (debug_infolevel>1)
+	    if (debug_infolevel>2)
 	      CERR << "//mrref clear line " << l << endl;
 	    // clear pivot line to save memory
 	    M[l].clear();
@@ -6840,7 +6840,7 @@ namespace giac {
 	    pivots.push_back(r2sym(pivot,lv,contextptr));
 	  else
 	    pivots.push_back(pivot);
-	  if (debug_infolevel>1)
+	  if (debug_infolevel>2)
 	    CERR << pivots.back() << endl;
 	}
       }
@@ -6855,7 +6855,7 @@ namespace giac {
 	  l++;
       }
     } // end for reduction loop
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << "// mrref reduction end:" << CLOCK() << endl;
     if (step_rref){
       std_matrix_gen2matrice(M,res);
@@ -6866,7 +6866,7 @@ namespace giac {
     if (algorithm!=RREF_GAUSS_JORDAN){
       int last=giacmin(lmax,cmax);
       det=M[last-1][last-1];
-      if ( (debug_infolevel>1) && (det.type==_POLY) )
+      if ( (debug_infolevel>2) && (det.type==_POLY) )
 	CERR << "// polynomial size " << det._POLYptr->coord.size() << endl;
       if (rref_or_det_or_lu==1) // erase last line of the matrix
 	M[lmax-1].clear();
@@ -6891,7 +6891,7 @@ namespace giac {
       vector_int2vecteur(permutation,P);
       pivots.push_back(P);
     }
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << "// mrref end:" << CLOCK() << " " << M << endl;
     return 1;
   }
@@ -7372,7 +7372,7 @@ namespace giac {
     for (int L=lmax-1;L>=l;--L){
       vector<int> & NL=N[L];
       if (NL.empty()) continue;
-      if (debug_infolevel>1){
+      if (debug_infolevel>2){
 	if (L%10==9){ CERR << "+"; CERR.flush();}
 	if (L%500==499){ CERR << CLOCK() << " remaining " << l-L << endl; }
       }
@@ -7565,7 +7565,7 @@ namespace giac {
 	  thread_modular_reduction_t redparam[64];
 	  if (nthreads>64) nthreads=64;
 	  for (int j=0;j<nthreads;++j){
-	    thread_modular_reduction_t tmp={&N,&pivotcols,effl,pivotcol,temp,l,lmax,c,cmax,rref_or_det_or_lu,modulo,j==0 && debug_infolevel>1};
+	    thread_modular_reduction_t tmp={&N,&pivotcols,effl,pivotcol,temp,l,lmax,c,cmax,rref_or_det_or_lu,modulo,j==0 && debug_infolevel>2};
 	    redparam[j]=tmp;
 	  }
 	  int kstep=int(std::ceil((lmax-effl)/double(nthreads))),k=effl;
@@ -7590,7 +7590,7 @@ namespace giac {
 	}
 #endif
 	if (!reduction_done)
-	  smallmodrref_lower(N,l,effl,lmax,c,cmax,pivotcols,modulo,debug_infolevel>1);
+	  smallmodrref_lower(N,l,effl,lmax,c,cmax,pivotcols,modulo,debug_infolevel>2);
 	if (debug_infolevel>2)
 	  CERR << CLOCK() << " rref_lower end " << effl << ".." << lmax << "/" << c << ".." << cmax << endl;
 	// reduce second half
@@ -7664,7 +7664,7 @@ namespace giac {
       // substract P2^-1*L3*U3 from D and recursive call to lu will determine P2, L2 and U2
       // (line swaps will replace inplace P2^-1*L3 by L3)
       int taille=giacmin(lmax-l,cmax-c)/2;
-      if (debug_infolevel>1)
+      if (debug_infolevel>2)
 	CERR << CLOCK() << " recursive call mod " << modulo << " size " << taille << endl;
       tmpptr->Ainv.resize(cmax-c-taille);
       tmpptr->y.resize(taille);
@@ -7749,7 +7749,7 @@ namespace giac {
 	in_mmult_mod(N,tmpptr->Ainv,N,l+taille,c+taille,modulo,l+taille,lmax,c,c+taille,false);
 	// final lu decomposition
 	smallmodrref(nthreads,N,pivots,permutation,maxrankcols,idet,l+taille,lmax,c+taille,cmax,false,false,modulo,2,false);
-	if (debug_infolevel>1)
+	if (debug_infolevel>2)
 	  CERR << CLOCK() << " end recursive call mod " << modulo << " size " << taille << endl;
 	// matrice dbg;
 	// vectvector_int2vecteur(N,dbg);
@@ -7785,7 +7785,7 @@ namespace giac {
 	// lu
 	tmpptr->permblock.clear(); tmpptr->maxrankblock.clear(); tmpptr->pivblock.clear();
 	longlong idetblock;
-	if (debug_infolevel>1)
+	if (debug_infolevel>2)
 	  CERR << CLOCK() << "block reduction mod " << modulo << " size " << det_blocksize << " " << workptr << endl;
 	smallmodrref(nthreads,tmpptr->Ainv,tmpptr->pivblock,tmpptr->permblock,tmpptr->maxrankblock,idetblock,0,det_blocksize,0,det_blocksize,0,false,modulo,2,true);
 	if (idetblock){
@@ -7850,7 +7850,7 @@ namespace giac {
 	}
       } // end if is_zero(pivot), true pivot found on line or column
       if (pivot){
-	if (debug_infolevel>1){
+	if (debug_infolevel>2){
 	  if (l%10==9){ CERR << "+"; CERR.flush();}
 	  if (l%500==499){ CERR << CLOCK() << " remaining " << lmax-l << endl; }
 	}
@@ -7925,7 +7925,7 @@ namespace giac {
 	  thread_modular_reduction_t redparam[64];
 	  if (nthreads>64) nthreads=64;
 	  for (int j=0;j<nthreads;++j){
-	    thread_modular_reduction_t tmp={&N,0,l,pivotcol,temp,linit,lmax,c,effcmax,rref_or_det_or_lu,modulo,j==0 && debug_infolevel>1};
+	    thread_modular_reduction_t tmp={&N,0,l,pivotcol,temp,linit,lmax,c,effcmax,rref_or_det_or_lu,modulo,j==0 && debug_infolevel>2};
 	    redparam[j]=tmp;
 	  }
 	  int kstep=int(std::ceil((lmax-effl)/double(nthreads))),k=effl;
@@ -8091,7 +8091,7 @@ namespace giac {
       // substract P2^-1*L3*U3 from D and recursive call to lu will determine P2, L2 and U2
       // (line swaps will replace inplace P2^-1*L3 by L3)
       int taille=mmult_double_blocksize;
-      if (debug_infolevel>1)
+      if (debug_infolevel>2)
 	CERR << CLOCK() << " recursive call double size " << taille << endl;
       tmpptr->y.resize(taille);
       tmpptr->y1.resize(taille);
@@ -8141,7 +8141,7 @@ namespace giac {
       in_mmult_double(N,tmpptr->Ainv,N,l+taille,c+taille,l+taille,lmax,c,c+taille,false);
       // final lu decomposition
       in_doublerref(N,pivots,permutation,maxrankcols,idet,l+taille,lmax,c+taille,cmax,false,false,eps,2,false,0);
-      if (debug_infolevel>1)
+      if (debug_infolevel>2)
 	CERR << CLOCK() << " end recursive call double size " << taille << endl;
       // matrice dbg;
       // vectvector_int2vecteur(N,dbg);
@@ -8314,7 +8314,7 @@ namespace giac {
       }
     longlong idet=1;
     vector<int> permutation,maxrankcol;
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << CLOCK() << " begin smallmodrref " << endl;
     smallmodrref(1,N,pivots,permutation,maxrankcol,idet,l,lmax,c,cmax,fullreduction,dont_swap_below,Modulo,rref_or_det_or_lu,true,workptr);
 #ifndef GIAC_HAS_STO_38
@@ -8325,7 +8325,7 @@ namespace giac {
       // CERR << a << "*" << smod(dbg,Modulo) << " % " << Modulo << endl;
     }
 #endif
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << CLOCK() << " rref done smallmodrref " << endl;
     det = smod(longlong(idet),Modulo);
     if (!is_one(mult_by_det_mod_p)){
@@ -8339,7 +8339,7 @@ namespace giac {
     }
     if (rref_or_det_or_lu!=1)
       vectvector_int2vecteur(N,res);
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << CLOCK() << " end smallmodrref " << endl;
     if (rref_or_det_or_lu==2 && !inverting){
       vecteur P;
@@ -8406,7 +8406,7 @@ namespace giac {
 	else {      // scan M current column for the best pivot available
 	  for (int ltemp=l+1;ltemp<lmax;++ltemp){
 	    temp=M[ltemp][c];
-	    if (debug_infolevel>1)
+	    if (debug_infolevel>2)
 	      print_debug_info(temp);
 	    if (!is_exactly_zero(temp)){
 	      pivot=temp;
@@ -9314,7 +9314,7 @@ namespace giac {
     if (is_zero(h2))
       h2=4*square_hadamard_bound(ab);
     gen pip(1);
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << "Modinv begin " << CLOCK() << endl;
     for (int tryinv=0;;++tryinv){
       if (modinv(a,c,p,det_mod_p))
@@ -9326,7 +9326,7 @@ namespace giac {
 	return -1;
       p=nextprime(p+1);
     }
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << "Modinv end " << CLOCK() << endl;
     unsigned n=1;
     gen pn=p;
@@ -9335,7 +9335,7 @@ namespace giac {
       pn = pn * p;
     }
     vecteur resp=padic_linsolve_c(a,b,c,n,p,reconstruct);
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << "Padic end " << CLOCK() << endl;
     // rational reconstruction
     unsigned s=unsigned(resp.size());
@@ -10198,7 +10198,7 @@ namespace giac {
     }
     // compute all possibles i*i det with columns 0..i using (i-1)*(i-1) det
     for (int i=2;i<n;++i){
-      if (debug_infolevel>1)
+      if (debug_infolevel>2)
 	CERR << "// Computing " << i+1 << "*" << i+1 << "minors " << CLOCK() << endl;
       swap(old_tab,tab_mineurs);
       tab_mineurs.clear();
@@ -10237,7 +10237,7 @@ namespace giac {
 	  index[j+1]=index[j]+1;
       }
     }
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << "// Computation done " << CLOCK() << endl;
     res = res/deno;
     if (convert_internal)
@@ -16005,7 +16005,7 @@ namespace giac {
       if (oper.size()<1000 || oper.size()<P.size()*(P.size()/5.))
 	return;
     }
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << CLOCK() << "hessenberg_ortho3 compute P, flush size " << oper.size() << endl;
     int nH=int(P.size());
     int cstart=0,cstep=nH;
@@ -16033,14 +16033,14 @@ namespace giac {
 	  pthread_join(tab[j],&ptr);
       }
       oper.clear();
-      if (debug_infolevel>1)
+      if (debug_infolevel>2)
 	CERR << CLOCK() << "hessenberg_ortho3 end compute P " << endl;
       return;
     }
 #endif
     thread_hessenberg_p_t tmp={&P,&oper,0,nH};
     do_hessenberg_p((void *)&tmp);
-    if (debug_infolevel>1)
+    if (debug_infolevel>2)
       CERR << CLOCK() << "hessenberg_ortho3 end compute P" << endl;
     oper.clear();
   }

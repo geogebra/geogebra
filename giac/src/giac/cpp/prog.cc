@@ -4799,6 +4799,21 @@ namespace giac {
   static define_unary_function_eval2 (__complex_mode,&_complex_mode,_complex_mode_s,&printasDigits);
   define_unary_function_ptr( at_complex_mode ,alias_at_complex_mode ,&__complex_mode);
 
+  gen _keep_algext(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG &&  g.subtype==-1) return  g;
+    gen args(g);
+    if (g.type==_DOUBLE_)
+      args=int(g._DOUBLE_val);    
+    if (args.type!=_INT_)
+      return keep_algext(contextptr);
+    keep_algext((args.val)!=0,contextptr);
+    parent_cas_setup(contextptr);
+    return args;
+  }
+  static const char _keep_algext_s []="keep_algext";
+  static define_unary_function_eval2 (__keep_algext,&_keep_algext,_keep_algext_s,&printasDigits);
+  define_unary_function_ptr( at_keep_algext ,alias_at_keep_algext ,&__keep_algext);
+
   gen _angle_radian(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
     gen args(g);

@@ -300,6 +300,9 @@ namespace giac {
   gen _complex_mode(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_complex_mode;
 
+  gen _keep_algext(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_keep_algext;
+
   gen _angle_radian(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_angle_radian;
  

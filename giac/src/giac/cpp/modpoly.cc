@@ -1607,17 +1607,15 @@ namespace giac {
 
   modpoly operator / (const modpoly & th,const modpoly & other) {  
     modpoly rem,quo;
-    environment * env=new environment;
-    DivRem(th,other,env,quo,rem);
-    delete env;
+    environment env;
+    DivRem(th,other,&env,quo,rem);
     return quo;
   }
 
   modpoly operator % (const modpoly & th,const modpoly & other) {  
     modpoly rem,quo;
-    environment * env=new environment;
-    DivRem(th,other,env,quo,rem);
-    delete env;
+    environment env;
+    DivRem(th,other,&env,quo,rem);
     return rem;
   }
 
@@ -2784,7 +2782,7 @@ namespace giac {
   }
 
   bool gcd_modular(const polynome &p_orig, const polynome & q_orig, polynome & pgcd,polynome & pcofactor,polynome & qcofactor,bool compute_cofactors){
-    if (debug_infolevel)
+    if (debug_infolevel>1)
       CERR << "gcd modular algo begin " << CLOCK() << endl;
     int dim=p_orig.dim;
     vector< T_unsigned<gen,hashgcd_U> > p,q,g,pcof,qcof;
@@ -4142,6 +4140,20 @@ namespace giac {
     for (;it!=itend;++it){
       n=gcd(n,*it,context0);
       if (n==n1)
+        return 1;
+    }
+    return n;
+  }
+
+  // gcd of coeff of p and g
+  gen lgcd(const dense_POLY1 & p,const gen & g){
+    if (p.empty())
+      return g;
+    dense_POLY1::const_iterator it=p.begin(),itend=p.end();
+    gen n(g);
+    for (;it!=itend;++it){
+      n=gcd(n,*it,context0);
+      if (is_one(n))
         return 1;
     }
     return n;
@@ -5733,7 +5745,7 @@ namespace giac {
   }
 
   // res=a*b mod p
-  bool fft2mult(int ablinfnorm,const vector<int> & a,const vector<int> & b,vector<int> & res,int modulo,vector<int> & W,vector<int> & fftmult_p,vector<int> & fftmult_q,bool reverseatend,bool dividebyn){
+  bool fft2mult(int ablinfnorm,const vector<int> & a,const vector<int> & b,vector<int> & res,int modulo,vector<int> & W,vector<int> & fftmult_p,vector<int> & fftmult_q,bool reverseatend,bool dividebyn,bool makeplus){
     int as=a.size(),bs=b.size(),rs=as+bs-1;
     int logrs=sizeinbase2(rs);
     if (logrs>25) return false;
@@ -5764,8 +5776,10 @@ namespace giac {
     if (modulo==p1){
       if (debug_infolevel>1)
 	CERR << CLOCK()*1e-6 << " + begin" << endl;
-      //makepositive(&fftmult_p.front(),as,p1);
-      //makepositive(&fftmult_q.front(),bs,p1);
+      if (makeplus){
+	makepositive(&fftmult_p.front(),as,p1);
+	makepositive(&fftmult_q.front(),bs,p1);
+      }
       if (debug_infolevel>1)
 	CERR << CLOCK()*1e-6 << " + end" << endl;
       int w=powmod(r,(1u<<(27-logrs)),p1);
@@ -5811,8 +5825,10 @@ namespace giac {
     if (modulo==p2){// p2 := 1811939329 ; r:=814458146; order 2^26 
       int w=powmod(r,(1u<<(26-logrs)),p2);
       W.clear();
-      //makepositive(&fftmult_p.front(),as,p2);
-      //makepositive(&fftmult_q.front(),bs,p2);
+      if (makeplus){
+	makepositive(&fftmult_p.front(),as,p2);
+	makepositive(&fftmult_q.front(),bs,p2);
+      }
 #if 0
       fft4wp2(W,n,w);
       fft4p2nopermafter(&fftmult_p.front(),n,&W.front());
@@ -5854,8 +5870,10 @@ namespace giac {
     if (modulo==p3){// order 2^26
       int w=powmod(r,(1u<<(26-logrs)),p3);
       W.clear();
-      //makepositive(&fftmult_p.front(),as,p3);
-      //makepositive(&fftmult_q.front(),bs,p3);
+      if (makeplus){
+	makepositive(&fftmult_p.front(),as,p3);
+	makepositive(&fftmult_q.front(),bs,p3);
+      }
       fft2wp3(W,n,w);
       fft2p3nopermafter(&fftmult_p.front(),n,&W.front());
       fft2p3nopermafter(&fftmult_q.front(),n,&W.front());
@@ -5884,8 +5902,10 @@ namespace giac {
     if (modulo==p4){// order 2^25
       int w=powmod(r,(1u<<(25-logrs)),p4);
       W.clear();
-      //makepositive(&fftmult_p.front(),as,p4);
-      //makepositive(&fftmult_q.front(),bs,p4);
+      if (makeplus){
+	makepositive(&fftmult_p.front(),as,p4);
+	makepositive(&fftmult_q.front(),bs,p4);
+      }
       fft2wp4(W,n,w);
       fft2p4nopermafter(&fftmult_p.front(),n,&W.front());
       fft2p4nopermafter(&fftmult_q.front(),n,&W.front());
@@ -6187,26 +6207,6 @@ namespace giac {
       tmp += (unsigned(tmp)>>31)*p; // make it positive now!
       res.push_back(tmp);
     }
-    return;
-    const int p1=2013265921,p2=1811939329;
-    if (p==p1){
-      for (;it!=itend;++it){
-	if (it->type==_ZINT)
-	  res.push_back(modulo(*it->_ZINTptr,p1));
-	else
-	  res.push_back(it->val % p1);
-      }
-      return;
-    }
-    if (p==p2){
-      for (;it!=itend;++it){
-	if (it->type==_ZINT)
-	  res.push_back(modulo(*it->_ZINTptr,p2));
-	else
-	  res.push_back(it->val % p2);
-      }
-      return;
-    }
   } 
 
   struct thread_fftmult_t {
@@ -6227,6 +6227,165 @@ namespace giac {
     return 0;
   }
 
+  // valid values for nbits=24 or 16, zsize>=2
+  static void zsplit(const vecteur & p, int zsize,int nbits,vector<int> & pz){
+    size_t s=p.size();
+    int * target=&pz[0];
+    int nbytes=nbits/8;
+    int mask=0xffffff;
+    if (nbits==16)
+      mask=0xffff;
+    vector<unsigned> tmp(zsize+2);
+    for (size_t i=0;i<s;++i,target+=zsize){
+      gen z=p[i];
+      if (z.type==_INT_){
+	int Z=z.val;
+	if (Z>0){
+	  *target = Z & mask;
+	  target[1] = Z >> nbits;
+	}
+	else {
+	  Z=-Z;
+	  *target = -(Z & mask);
+	  target[1] = -(Z >> nbits);
+	}
+      }
+      else {
+	size_t countp=0;
+	for (int j=0;j<zsize+2;++j)
+	  tmp[j]=0;
+	mpz_export(&tmp[0],&countp,-1,4,0,0,*z._ZINTptr);
+	if (nbits==16){
+	  for (int i=0;i<countp;++i){
+	    target[2*i]=tmp[i] & 0xffff;
+	    target[2*i+1]=tmp[i] >> 16;
+	  }
+	}
+	else {
+	  int * targetsave=target;
+	  for (int i=0;i<countp;i+=3){
+	    *target=tmp[i] & 0xffffff;
+	    ++target;
+	    *target=((tmp[i+1]&0xffff) << 8) | (tmp[i]>>24);
+	    ++target;
+	    *target=((tmp[i+2]&0xff)<< 16) | (tmp[i+1]>>16);
+	    ++target;
+	    *target=tmp[i+2] >> 8;
+	    ++target;
+	  }
+	  target = targetsave; 
+	}
+	if (mpz_sgn(*z._ZINTptr)<0){
+	  for (int i=0;i<zsize;++i)
+	    target[i]=-target[i];
+	}
+      }
+    }
+  }
+
+  // pz is not const because we modify it in place for sign/carries handling
+  static void zbuild(vector<longlong> & pz,int zsize,int nbits,vecteur & p){
+    size_t s=pz.size()/zsize;
+    int base=1<<nbits;
+    longlong base2=longlong(base)*base;
+    int nbytes=nbits/8;
+    longlong mask=0xffffffLL;
+    int nbits2=2*nbits;
+    if (nbits==16){
+      mask=0xffff;
+    }
+    vector<int> tmp(zsize+5);
+    vector<unsigned> tmp2(zsize+2);
+    mpz_t z;
+    mpz_init(z);
+    longlong * source=&pz[0];
+    for (size_t i=0;i<s;++i){
+      // handle sign/carry from source[0..zsize-1] to tmp[0..zsize+2]
+      longlong * end=source+zsize;
+      longlong * begin=source;
+      // find sign
+      for (--end;end>=begin;--end){
+	if (*end)
+	  break;
+      }
+      if (end<begin){
+	source += zsize;
+	continue; // coeff in p is 0
+      }
+      int sign=ulonglong(*end)>>63; // 1 for neg, 0 for positive
+      ++end;
+      if (sign){
+	for (;begin<end;++begin){
+	  *begin=-*begin;
+	}
+      }
+      // now make all coeff positive
+      begin=source;
+      for (;;){
+	if (*begin>=0){
+	  ++begin;
+	  if (begin==end)
+	    break;
+	  continue;
+	}
+	longlong s=1+(ulonglong(-*begin)>>nbits2); 
+	*begin += s*base;
+	++begin;
+	if (begin==end){
+	  CERR << "unexpected carry" << endl;
+	  break;
+	}
+	*begin -= s;
+      }
+      // make all coeff smaller than base
+      for (int j=0;j<zsize+5;++j)
+	tmp[j]=0;
+      int * ptr=&tmp[0];
+      begin=source;
+      for (;;){
+	*ptr=(*begin) & mask;
+	++ptr; 
+	if (begin+1==end) 
+	  break;
+	begin[1] += (ulonglong(*begin) >> nbits);
+	++begin;
+      }
+      *ptr = (ulonglong(*begin) >> nbits) & mask; ++ptr;
+      *ptr = (ulonglong(*begin) >> (2*nbits)) & mask; ++ptr;
+      if (nbits==16)
+	*ptr = (ulonglong(*begin) >> 48) & mask;
+      source += zsize;
+      // base 2^16/2^24 to 2^32
+      for (int j=0;j<zsize+2;++j)
+	tmp2[j]=0;
+      if (nbits==16){
+	int s =(zsize+2)/2;
+	for (int i=0;i<s;++i){
+	  tmp2[i]=tmp[2*i] | (unsigned(tmp[2*i+1])<<16);
+	}
+      }
+      else {
+	int j=0;
+	for (int i=0;i<zsize+2;i+=4){
+	  tmp2[j]=tmp[i] | ((unsigned(tmp[i+1])&0xff)<<24);
+	  ++j;
+	  tmp2[j]=(tmp[i+1]>>8) | ((unsigned(tmp[i+2])&0xffff)<<16);
+	  ++j;
+	  tmp2[j]=(tmp[i+2]>>16) | (unsigned(tmp[i+3])<<8);
+	  ++j;
+	}
+      }
+      mpz_import(z,zsize,-1,4,0,0,&tmp2[0]);
+      if (sign)
+	mpz_neg(z,z);
+      if (mpz_sizeinbase(z,2)<31)
+	p[i]=mpz_get_si(z);
+      else
+	p[i]=z;
+    }
+    mpz_clear(z);
+  }
+
   // Product of polynomial with integer coeffs using FFT
   bool fftmult(const modpoly & p,const modpoly & q,const gen &P,const gen &Q,modpoly & pq,int modulo, vector<int> & a,vector<int>&b,vector<int> &resp1,vector<int>&resp2,vector<int> & resp3, vector<int> & W,vector<int> &tmp_p,vector<int> &tmp_q,bool compute_pq){
     int ps=int(p.size()),qs=int(q.size()),mindeg=giacmin(ps-1,qs-1);
@@ -6239,7 +6398,7 @@ namespace giac {
 #if 0 // def HAVE_LIBGMP
     if (modulo){
       vector<int> a,b; 
-      int shift=int(std::ceil(std::log(modulo*double(modulo)*mindeg)/std::log(2.0)));
+      int shift=int(std::ceil(std::log(modulo*double(modulo)*(mindeg+1))/std::log(2.0)));
       if (shift<=64) shift=64;
       else shift=128;
       if (shift==64){
@@ -6289,7 +6448,7 @@ namespace giac {
 	if (pq2<PQd)
 	  PQd=pq2;
       }
-      double test=PQd*mindeg;
+      double test=PQd*(mindeg+1);
       if (test<p2*double(p1)/2 || modulo==p1 || modulo==p2 || modulo==p3 || modulo==p4){
 	int reduce=modulo?modulo:p1;
 	vecteur2vectorint(p,reduce,a);
@@ -6297,9 +6456,9 @@ namespace giac {
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << ( (modulo==p2 || modulo==p3 || modulo==p4)?" begin fft2 p234 ":" begin fft2 p1 ") << rs << endl;
 	if (modulo==p2 || modulo==p3 || modulo==p4) 
-	  fft2mult(reduce,a,b,resp1,modulo,W,tmp_p,tmp_q,false,true);
+	  fft2mult(reduce,a,b,resp1,modulo,W,tmp_p,tmp_q,false,true,false);
 	else {
-	  fft2mult(reduce,a,b,resp1,p1,W,tmp_p,tmp_q,false,true);
+	  fft2mult(reduce,a,b,resp1,p1,W,tmp_p,tmp_q,false,true,false);
 	}
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << ( (modulo==p2 || modulo==p3 || modulo==p4)?" end fft2 p234 ":" end fft2 p1 ") << rs << endl;
@@ -6311,7 +6470,7 @@ namespace giac {
 	    vecteur2vectorint(q,p2,b);
 	  }
 	  reduce=modulo?modulo:p2;
-	  fft2mult(reduce,a,b,resp2,p2,W,tmp_p,tmp_q,false,true);
+	  fft2mult(reduce,a,b,resp2,p2,W,tmp_p,tmp_q,false,true,false);
 	  if (debug_infolevel)
 	    CERR << CLOCK()*1e-6 << " end fft2 p2 " << rs << endl;
 	  int p1modinv=invmod(p1,p2);
@@ -6356,13 +6515,13 @@ namespace giac {
 	vecteur2vectorint(q,modulo,b);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp1 " << rs << endl;
-	fft2mult(modulo,a,b,resp1,p1,W,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp1,p1,W,tmp_p,tmp_q,false,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp2 " << rs << endl;
-	fft2mult(modulo,a,b,resp2,p2,W,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp2,p2,W,tmp_p,tmp_q,false,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp4 " << rs << endl;
-	fft2mult(modulo,a,b,resp3,p4,W,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp3,p4,W,tmp_p,tmp_q,false,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin ichinrem " << modulo << endl;
 	int n1=invmod(n,p1); if (n1<0) n1+=p1;
@@ -6403,13 +6562,13 @@ namespace giac {
 	vecteur2vectorint(q,modulo,b);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp1 " << rs << endl;
-	fft2mult(modulo,a,b,resp1,p1,W,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp1,p1,W,tmp_p,tmp_q,false,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp2 " << rs << endl;
-	fft2mult(modulo,a,b,resp2,p2,W,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp2,p2,W,tmp_p,tmp_q,false,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin fftp3 " << rs << endl;
-	fft2mult(modulo,a,b,resp3,p3,W,tmp_p,tmp_q,false,false);
+	fft2mult(modulo,a,b,resp3,p3,W,tmp_p,tmp_q,false,false,false);
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " begin ichinrem " << modulo << endl;
 	int n1=invmod(n,p1); if (n1<0) n1+=p1;
@@ -6447,6 +6606,84 @@ namespace giac {
       }
     } // PQ.type==_DOUBLE_
     if (modulo==0){
+      gen Bound=2*(mindeg+1)*P*Q;
+      int nbits=256;
+#ifndef USE_GMP_REPLACEMENTS
+      if (Bound.type==_ZINT)
+	nbits=(mpz_sizeinbase(*Bound._ZINTptr,2)/64+1)*64;
+      int nbytes=3;
+      if ((mindeg+1)*(1+nbits/24)>=(p1p2sur2>>48))
+	nbytes=2;
+      //int pzbound = 1 << (8*nbytes);
+      int zsize=1+nbits/(8*nbytes);
+      int nthreads=threads_allowed?threads:1;
+      // time required by int->poly fft about 2*zsize*fft(rs) where zsize=nbits/24 or nbits/16
+      // time required by ichinrem fft: 4+3*(nbits/32-4)*fft(rs)+C/2*(nbits/32)^2
+      // where C*(nbits/32) is about fft(rs) for rs=2^19 and nbits around 200
+      // -> FFTMUL_INT_MAXBITS around 1000
+      if ( //1 || 
+	  (//0 && 
+	    nbits>nthreads*FFTMUL_INT_MAXBITS)){
+	// add one more variable to convert long integer coefficients into that variable
+	longlong RS=longlong(rs)*zsize;
+	if (RS!=int(RS))
+	  return false;
+	logrs=sizeinbase2(RS);
+	if (logrs>25)
+	  return false;
+	int RS2=1<<logrs;
+	vector<int> pz(p.size()*zsize),qz(q.size()*zsize);
+	// split p and q in pz and qz using mpz_export with basis B=2^24 (3 bytes)
+	// requires B=2^16 if min(degree) too large
+	// 8 bits unused (zero-ed), zsize int per coefficient
+	// mpz_export(&target,&countp,0,nbytes,0,8*(4-nbytes),integer);
+	// sign is ignored by mpz_export
+	if (debug_infolevel)
+	  CERR << CLOCK()*1e-6 << " begin fft2 bigint conversion " << zsize << endl;
+	zsplit(p,zsize,nbytes*8,pz);
+	zsplit(q,zsize,nbytes*8,qz);
+	if (debug_infolevel)
+	  CERR << CLOCK()*1e-6 << " begin fft2 int " << rs << endl;
+	// fftmult call below should be threaded...
+	// CERR << pz << endl << qz << endl;
+	// pz and qz must be positive!
+	fft2mult(p1,pz,qz,resp1,p1,W,tmp_p,tmp_q,false,true,true);
+	fft2mult(p2,pz,qz,resp2,p2,W,tmp_p,tmp_q,false,true,true);
+	if (debug_infolevel)
+	  CERR << CLOCK()*1e-6 << " end fft2 int, begin ichinrem " << rs << endl;
+	reverse(resp1.begin(),resp1.end());
+	reverse(resp2.begin(),resp2.end());
+	// resp1 and resp2 have size (p.size()+q.size())*rs-1
+	// but coefficients above RS are 0
+	vector<longlong> pqz(RS);
+	int p1modinv=invmod(p1,p2);
+	for (int i=0;i<RS;++i){
+	  int A=resp1[i],B=resp2[i];
+	  // A mod p1, B mod p2 -> res mod p1*p2
+	  longlong res=A+((longlong(p1modinv)*(B-A))%p2)*p1;
+	  if (res>p1p2sur2) res-=p1p2;
+	  else if (res<-p1p2sur2) res+=p1p2;
+	  pqz[i]=res;
+	}
+	//CERR << "pz:" << pz << endl <<"qz:" << qz << endl << "resp1:"<<resp1 << endl << "resp2"<<resp2 << endl ;
+	//CERR << "pqz" << pqz << endl;
+	pq.resize(rs);
+	if (debug_infolevel)
+	  CERR << CLOCK()*1e-6 << " begin int back conversion " << zsize << endl;
+	zbuild(pqz,zsize,nbytes*8,pq);
+	if (debug_infolevel)
+	  CERR << CLOCK()*1e-6 << " end fft2 " << rs << endl;
+	// fill pq from pqz using mpz_import
+	// carry handling 
+	// sum(x_k*B^k): iquorem(x_k,b^2) add quo to x_{k+2},
+	// then iquorem(rem,b) add quo to x_{k+1}
+	// after carry handling coefficients must be of type int and ||<2^24
+	// put them into a vector<int>(zsize) then
+	// mpz_import(mpz_target,count,0,nbytes,0,8*(4-nbytes),&array);
+	// where mpz_target is pq[]
+	return true;	
+      }
+#endif
       if (debug_infolevel)
 	CERR << CLOCK()*1e-6 << " begin fft2 int, p1 " << rs << endl;
       // first prime used is p1
@@ -6460,20 +6697,12 @@ namespace giac {
       if (debug_infolevel)
 	CERR << CLOCK()*1e-6 << " end fft2 int p2 " << rs << endl;
       bound=p2*bound;
-      gen Bound=2*mindeg*P*Q;
-      int nbits=256;
-#ifndef USE_GMP_REPLACEMENTS
-      if (Bound.type==_ZINT)
-	nbits=(mpz_sizeinbase(*Bound._ZINTptr,2)/64+1)*64;
-      if (nbits>FFTMUL_INT_MAXBITS)
-	return false;
-#endif
 #if 1
       int p1modinv=invmod(p1,p2);
       for (int i=0;i<rs;++i){
 	//int A=pq[i].val,B=curres[i].val;
 	int A=resp1[i],B=resp2[i];
-	// a mod p1, b mod p2 -> res mod p1*p2
+	// A mod p1, B mod p2 -> res mod p1*p2
 	longlong res=A+((longlong(p1modinv)*(B-A))%p2)*p1;
 	if (res>p1p2sur2) res-=p1p2;
 	else if (res<-p1p2sur2) res+=p1p2;
@@ -6507,7 +6736,6 @@ namespace giac {
       bound=bound_;
       int ps=primes.size();
 #ifdef HAVE_LIBPTHREAD
-      int nthreads=threads_allowed?threads:1;
       if (nthreads>1){
 	vector<pthread_t> tab(nthreads);
 	vector<thread_fftmult_t> multparam(nthreads);

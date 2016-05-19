@@ -213,7 +213,9 @@ namespace giac {
 
   gen algebraic_EXTension(const gen & a_,const gen & v){
     gen a(a_);
-    if (a.type==_VECT) a=trim(*a._VECTptr,0);
+    if (a.type==_VECT && !a._VECTptr->empty() && is_zero(a._VECTptr->front())){
+      a=trim(*a._VECTptr,0);
+    }
     if (is_zero(a) )
       return 0;
     if (a.type==_VECT){
@@ -296,8 +298,45 @@ namespace giac {
       return zero;
     if (a._VECTptr->size()==1)
       return a._VECTptr->front();
-    if (v.type==_VECT)
+    if (v.type==_VECT){
+      if (a._VECTptr->size()<v._VECTptr->size())
+	return algebraic_EXTension(a,v);
+#if 1
+      // special code for quadratic extension, if v=[1,0,-a]
+      if (v._VECTptr->size()==3 && v[0]==1 && v[1]==0){
+	gen x=-v[2],r1,r0;
+	if (a._VECTptr->size()==3){
+	  r0=a._VECTptr->front()*x+a._VECTptr->back();
+	  r1=(*a._VECTptr)[1];
+	}
+	else {
+	  const_iterateur it=a._VECTptr->begin(),itend=a._VECTptr->end()-1;
+	  for (;it<itend;){
+	    r0 = r0*x+(*it);
+	    ++it;
+	    r1 = r1*x+(*it);
+	    ++it;
+	  }
+	  if (it==itend)
+	    r0 = r0*x+(*it);
+	  else swapgen(r0,r1);
+	}
+	if (r1==0)
+	  return r0;
+	gen c=new ref_vecteur(2);
+	c._VECTptr->front()=r1;
+	c._VECTptr->back()=r0;
+	return algebraic_EXTension(c,v);
+      }
+      gen c=new ref_vecteur;
+      vecteur & rem=*c._VECTptr;
+      modpoly quo;
+      environment env;
+      DivRem(*a._VECTptr,*v._VECTptr,&env,quo,rem);
+      return algebraic_EXTension(c,v);
+#endif
       return algebraic_EXTension((*a._VECTptr) % (*v._VECTptr),v);
+    }
     if (v.type==_FRAC)
       return horner(*a._VECTptr,*v._FRACptr,true);
     if (v.type!=_EXT)
@@ -934,8 +973,12 @@ namespace giac {
     if ( (a.type!=_EXT) || (b.type!=_EXT) )
       return a+b;
     if (*(a._EXTptr+1)==*(b._EXTptr+1)){
-      if ( (a._EXTptr->type==_VECT) && (b._EXTptr->type==_VECT))
+      if ( (a._EXTptr->type==_VECT) && (b._EXTptr->type==_VECT)){
+	gen c=new ref_vecteur;
+	addmodpoly(*a._EXTptr->_VECTptr,*b._EXTptr->_VECTptr,*c._VECTptr);
+	return ext_reduce(c,*(a._EXTptr+1));
 	return ext_reduce(*(a._EXTptr->_VECTptr)+ *(b._EXTptr->_VECTptr),*(a._EXTptr+1));
+      }
       else
 	return ext_reduce(*a._EXTptr+*b._EXTptr,*(a._EXTptr+1));
     }
@@ -947,8 +990,14 @@ namespace giac {
 
   gen ext_sub(const gen & a,const gen & b,GIAC_CONTEXT){
     if (*(a._EXTptr+1)==*(b._EXTptr+1)){
-      if ( (a._EXTptr->type==_VECT) && (b._EXTptr->type==_VECT))
+      if ( (a._EXTptr->type==_VECT) && (b._EXTptr->type==_VECT)){
+#if 1
+	gen c=new ref_vecteur;
+	submodpoly(*a._EXTptr->_VECTptr,*b._EXTptr->_VECTptr,*c._VECTptr);
+	return ext_reduce(c,*(a._EXTptr+1));
+#endif
 	return ext_reduce(*(a._EXTptr->_VECTptr)- *(b._EXTptr->_VECTptr),*(a._EXTptr+1));
+      }
       else
 	return ext_reduce(*a._EXTptr-*b._EXTptr,*(a._EXTptr+1));
     }
@@ -960,8 +1009,14 @@ namespace giac {
     if ( (a.type!=_EXT) || (b.type!=_EXT) )
       return a*b;
     if (*(a._EXTptr+1)==*(b._EXTptr+1)){
-      if ((a._EXTptr->type==_VECT) && (b._EXTptr->type==_VECT))
+      if ((a._EXTptr->type==_VECT) && (b._EXTptr->type==_VECT)){
+#if 1
+	gen c=new ref_vecteur;
+	operator_times(*a._EXTptr->_VECTptr,*b._EXTptr->_VECTptr,0,*c._VECTptr);
+	return ext_reduce(c,*(a._EXTptr+1));
+#endif
 	return ext_reduce( *(a._EXTptr->_VECTptr) * *(b._EXTptr->_VECTptr),*(a._EXTptr+1));
+      }
       else
 	return ext_reduce((*a._EXTptr)*(*b._EXTptr),*(a._EXTptr+1));
     }

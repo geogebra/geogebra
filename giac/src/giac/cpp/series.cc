@@ -480,7 +480,7 @@ namespace giac {
 	  interrupted=ctrl_c=true;
 	  return false;
 	}
-	if (is_undef(res)){
+	if (is_undef(it->coeff)){
 	  final_seq.push_back(*it);
 	  return true;
 	}

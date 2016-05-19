@@ -5333,7 +5333,7 @@ namespace giac {
       return abs(args,contextptr);
     if (args.type!=_VECT)
       return args;
-    if (debug_infolevel)
+    if (debug_infolevel>2)
       CERR << "gcd begin " << CLOCK() << endl;
     vecteur::const_iterator it=args._VECTptr->begin(),itend=args._VECTptr->end();
     if (ckmatrix(args) && itend-it==2)

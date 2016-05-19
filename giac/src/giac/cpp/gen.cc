@@ -5538,6 +5538,34 @@ namespace giac {
 	return;
       }      
     }
+    if (c.type==_EXT && a.type==_EXT && b.type==_EXT){
+      if ((c._EXTptr+1)->type==_VECT && *(a._EXTptr+1)==*(c._EXTptr+1) && *(b._EXTptr+1)==*(c._EXTptr+1) && a._EXTptr->type==_VECT && b._EXTptr->type==_VECT && c._EXTptr->type==_VECT){
+	vecteur & v = *(c._EXTptr+1)->_VECTptr;
+	if (v.size()==3 && v[0]==1 && v[1]==0 && a._EXTptr->_VECTptr->size()==2 && b._EXTptr->_VECTptr->size()==2 && c._EXTptr->_VECTptr->size()==2){
+	  gen a1=a._EXTptr->_VECTptr->front(),a0=a._EXTptr->_VECTptr->back(),b1=b._EXTptr->_VECTptr->front(),b0=b._EXTptr->_VECTptr->back(),c1=c._EXTptr->_VECTptr->front(),c0=c._EXTptr->_VECTptr->back();
+	  gen d1=a1*b0+a0*b1+c1,d0=a0*b0-v[2]*a1*b1+c0;
+	  if (is_zero(d1)){ c=d0; return; }
+	  gen d=new ref_vecteur(2);
+	  d._VECTptr->front()=d1;
+	  d._VECTptr->back()=d0;
+	  if (c.ref_count()==1)
+	    *c._EXTptr=d;
+	  else
+	    c=algebraic_EXTension(d,*(c._EXTptr+1));
+	}
+	else {
+	  gen d=new ref_vecteur;
+	  vecteur ab;
+	  operator_times(*a._EXTptr->_VECTptr,*b._EXTptr->_VECTptr,0,ab);
+	  addmodpoly(ab,*c._EXTptr->_VECTptr,*d._VECTptr);
+	  if (c.ref_count()==1)
+	    *c._EXTptr=d;
+	  else
+	    c=ext_reduce(d,*(c._EXTptr+1));
+	}
+	return;
+      }
+    }
     gen g;
     type_operator_times(a,b,g);
     c += g;
@@ -9441,12 +9469,29 @@ namespace giac {
       m=-m;
     }
     r = r % m;
+#if 1
+    r += (unsigned(r)>>31)*m; // make positive
+    return r-(unsigned((m>>1)-r)>>31)*m;
+#else
     longlong tmp= longlong(r)+r;
     if (tmp>m)
       return r-m;
     if (tmp<=-m)
       return r+m;
     return r;
+#endif
+  }
+
+  int smod(longlong r,int m){
+    int R=r%m;
+    R += (unsigned(R)>>31)*m; // make positive
+    int res2=R-(unsigned((m>>1)-R)>>31)*m;
+    return res2;
+    int res1=(R>m/2)?R-m:R;
+    if (res1!=res2)
+      CERR << "smod longlong " << r << " " << m << endl;
+    return res1;
+    //return smod(R,m);
   }
 
   int gcd(int a,int b){
@@ -9685,6 +9730,13 @@ namespace giac {
 	d=gen(*d._VECTptr/g,_POLY1__VECT);
 	return gen(g,_POLY1__VECT);
       }
+      gen gg=lgcd(*n._VECTptr,d);
+      if (!is_one(gg)){
+	n=divvecteur(*n._VECTptr,gg);
+	d=d/gg;
+      }
+      return gg;
+      // old code
       gen nd=_gcd(n,context0);
       gen g=simplify(nd,d);
       if (!is_one(g)) n=divvecteur(*n._VECTptr,g);

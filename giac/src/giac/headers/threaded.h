@@ -1097,6 +1097,12 @@ namespace giac {
   // wrt to the 1st var changes
   template<class T,class U,class R>
   void smallmult(const std::vector< T_unsigned<T,U> > & v1,const std::vector< T_unsigned<T,U> > & v2,std::vector< T_unsigned<T,U> > & v,const R & reduce,size_t possible_size){
+    if (v1.empty()){ 
+      v.clear(); return; 
+    }
+    if (v2.empty()){ 
+      v.clear(); return; 
+    }
     if (&v1==&v || &v2==&v){
       std::vector< T_unsigned<T,U> > tmp;
       smallmult(v1,v2,tmp,reduce,possible_size);

@@ -912,7 +912,7 @@ namespace giac {
     double factorialaabbd=std::log(evalf_double(factorial(aa+bb+d+1),1,context0)._DOUBLE_val),
       factorialaabb=std::log(evalf_double(factorial(aa+bb+1),1,context0)._DOUBLE_val);
     r=std::exp(factorialaabbd-(factorialaabb+factoriald));
-    if (debug_infolevel)
+    if (debug_infolevel>1)
       CERR << "// " << CLOCK() << " Mul degree " << aa << "+" << bb << " size " << asize << "*" << bsize << "=" << asize*bsize << " max " << r << endl;
     new_coord.clear();
     if (my_isinf(r) || my_isnan(r) || r>1e9)
@@ -921,7 +921,7 @@ namespace giac {
       new_coord.reserve(giacmin(int(r),int(itend-it)));
     // add terms with same power
     addsamepower_gen(it,itend,new_coord);
-    if (debug_infolevel)
+    if (debug_infolevel>1)
       CERR << "// Actual mul size " << new_coord.size() << endl;
   }
 
@@ -938,14 +938,15 @@ namespace giac {
     return true;
   }
 
-  bool polynome2poly1(const polynome & p,const index_t &deg,vecteur & v){
-    std::vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
+  bool polynome2poly1(const polynome & p,const index_t & pdeg,const index_t &deg,vecteur & v){
     v.clear();
-    int tot=1;
+    int tot=0;
     for (size_t i=0;i<deg.size();++i){
       tot *= deg[i];
+      tot += pdeg[i];
     }
-    v.resize(tot);
+    v.resize(tot+1);
+    std::vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
     int u;
     index_t::const_iterator itit,ditbeg=deg.begin(),ditend=deg.end(),dit;
     gen tmp;
@@ -970,11 +971,11 @@ namespace giac {
     int u,U=v.size();
     index_t i(p.dim);
     int k;
-    for (;it!=itend;++it){
-      gen g=*it;
+    for (--itend;itend>=it;--itend){
+      gen g=*itend;
       if (is_zero(g))
 	continue;
-      u=(it-v.begin());
+      u=itend-it;
       for (k=p.dim-1,dit=ditbeg;dit!=ditend;++dit,--k){
 	i[k]=u % unsigned(*dit);
 	u = u/unsigned(*dit);
@@ -1109,15 +1110,22 @@ namespace giac {
 	if ( //false 
 	     (t1==_INT_ || t1==_ZINT) && (t2==_INT_ || t2==_ZINT)
 	    ){
-	  if (0 && 
+	  if (//1||
+	      0 && 
 	      c1>=FFTMUL_SIZE && c2>=FFTMUL_SIZE && th.dim>1 && d10*std::log(d10)<c1*double(c2)){
 	    CERR << CLOCK()*1e-6 << " ?fftmult " << c1 << "*" << c2 << " fft " << d10 << endl;
 #if 1
 	    vecteur thv,otherv,resv;
-	    polynome2poly1(th,d,thv); 
-	    polynome2poly1(other,d,otherv);
+	    polynome2poly1(th,d1,d,thv); 
+	    polynome2poly1(other,d2,d,otherv);
 	    fftmult(thv,otherv,resv,0);
 	    poly12polynome(resv,d,res);
+#if 0	    // debug
+	    polynome res1(res.dim);
+	    Mul<gen>(ita,ita_end,itb,itb_end,res1.coord,th.is_strictly_greater,th.m_is_strictly_greater);
+	    if (res1!=res)
+	      CERR << "fftmult * error " << res-res1 << endl;
+#endif
 	    return;
 #endif
 	  }
@@ -2150,10 +2158,12 @@ namespace giac {
 
   bool exactquotient(const polynome & a,const polynome & b,polynome & quo,bool allowrational){
     CLOCK_T beg=CLOCK(),delta;
+    if (debug_infolevel)
+      CERR << beg*1e-6 << " exactquo begin" << endl;
     bool res= a.Texactquotient(b,quo,allowrational);
     delta=CLOCK()-beg;
     if (delta && debug_infolevel) // a.dim>=inspectdim
-      CERR << "exactquo end " << delta << " " << res << endl;
+      CERR << "exactquo end " << delta*1e-6 << " " << res << endl;
     return res;
   }
 
@@ -3865,6 +3875,8 @@ namespace giac {
 	return false;
       if (!gcd_ext(p,q,g,pcof,qcof,vars,compute_cofactors,threads))
 	return false;
+      if (debug_infolevel>1)
+	CERR << CLOCK()*1e-6 << " success gcd_ext" << endl;
       convert_from<gen,hashgcd_U>(g,di,d);
       if (compute_cofactors){
 	convert_from<gen,hashgcd_U>(pcof,di,p_simp);
@@ -5006,8 +5018,10 @@ namespace giac {
       // convert to usual multivariate polynomials
       polynome N(unsplitmultivarpoly(norme,innerdim)),Np(unsplitmultivarpoly(norme.derivative(),innerdim));
       polynome GG=gcd(N,Np);
-      if (!GG.lexsorted_degree())
+      if (!GG.lexsorted_degree()){
+	// IMPROVE: GG might divide the initial polynomial
 	break;
+      }
     }
     bool test=factor(norme,temp,f,true,false,complexmode,1,extra_div);
     return test;
@@ -5176,7 +5190,7 @@ namespace giac {
 	    for (;f_it!=f_itend;++f_it){
 	      an=rdiv(an,pow(f_it->fact.coord.front().value,gen(f_it->mult),context0),context0);
 	    }
-	    return true;
+	    continue;// return true;
 	  }
 	}
       }
@@ -5191,6 +5205,7 @@ namespace giac {
       }
       else {
 	gen bn(1);
+	polynome pcopy(pcur);
 	for (;f_it!=f_itend;++f_it){
 	  if (k){ // shift f_it->fact
 	    //vecteur v=polynome2poly1(f_it->fact);
@@ -5201,7 +5216,19 @@ namespace giac {
 	    v=taylor(v,decal);
 	    // pcur=poly12polynome(v); 
 	    poly12polynome(v,1,pcur,f_it->fact.dim);
-	    pcur=gcd(pcur,p);
+#if 0
+	    pcur=gcd(pcur,pcopy); 
+#else
+	    if (f_it+1==f_itend){
+	      pcur=pcopy;
+	    }
+	    else {
+	      polynome dcur=simplify(pcur,pcopy);
+	      dcur.coord.swap(pcur.coord);
+	      gen t;
+	      lcmdeno(pcopy,t);
+	    }
+#endif
 	  }
 	  else
 	    pcur=gcd(f_it->fact,p);
@@ -5693,7 +5720,9 @@ namespace giac {
 	ckalg_it->value._USERptr->polyfactor(p_primit,f);
 	return true;
       }
-      if (ckalg_it->value.type==_EXT){
+      if (ckalg_it->value.type==_EXT 
+	  //&& p_primit.dim<=2
+	  ){
 	gen an;
 	if (!ext_factor(p_primit,ckalg_it->value,an,p_content,f,complexmode,extra_div))
 	  return false;

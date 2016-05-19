@@ -943,7 +943,15 @@ namespace giac {
     tensor<T> q1,b1(b0.dim); // subprincipal coeff
     if (it->index.front()==bdeg-1)
       b1=Tnextcoeff<T>(it,b.coord.end()); 
-    // if (exactquo) bn=Tlastcoeff<T>(it,itend);
+    // here it might be improved by checking that lastcoeff divides
+#if 1
+    if (exactquo){
+      tensor<T> bn=Tlastcoeff<T>(b.coord.begin(),b.coord.end());
+      tensor<T> an(Tlastcoeff<T>(a.coord.begin(),a.coord.end())),qn;
+      if (!an.Texactquotient(bn,qn,allowrational))
+	return false;
+    }
+#endif
     for ( ;(rdeg=r.lexsorted_degree()) >=bdeg;){
       it=r.coord.begin();
       itend=r.coord.end();

@@ -2171,7 +2171,7 @@ namespace giac {
       gen f=*(pp._EXTptr+1),fvalue;
 #if 1
       if ( ( ltend==lt || (ltend-lt==1 && lt->type==_VECT && lt->_VECTptr->empty()) ) 
-	   && f.type==_VECT && !has_rootof_value(f,fvalue,contextptr)){
+	   && f.type==_VECT && !has_rootof_value(f,fvalue,contextptr) && !keep_algext(contextptr) ){
 	// univariate case
 	// find minimal poly of the whole _EXT if extension degree is > 2
 	int d=int(f._VECTptr->size());

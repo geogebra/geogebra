@@ -134,10 +134,7 @@ namespace giac {
 #endif
   int gcd(int a,int b);
   int smod(int a,int b); // where b is assumed to be positive
-  inline int smod(longlong r,int m){
-    int R=r%m;
-    return smod(R,m);
-  }
+  int smod(longlong a,int b); 
   int simplify(int & a,int & b);
 
   struct ref_mpz_t {

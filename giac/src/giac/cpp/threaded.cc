@@ -247,12 +247,13 @@ mpz_class smod(const mpz_class & a,int reduce){
     return true;
   }
 
-  static bool divrem(vector< vector<int> > & a,vector< vector<int> > & b,const vector<int> & pmin, int modulo, vector< vector<int> > * qptr,bool set_q_orig_b=true);
+  static bool divrem_(vector< vector<int> > & a,vector< vector<int> > & b,const vector<int> & pmin, int modulo, vector< vector<int> > * qptr,bool set_q_orig_b,vector<int> & b0,vector<int> & b0inv,vector<int> & tmp,vector<int> & tmp1,vector<int> & tmp2,vector<int> & tmp3,vector<int> & tmp4,vector<int> & tmp5);
 
   static bool DivRem(const vector< vector<int> > & a,const vector< vector<int> > & b,const vector<int> * pminptr,int modulo,vector< vector<int> > & q,vector< vector<int> > & r){
     r=a;
     vector< vector<int> > b0(b);
-    return divrem(r,b0,*pminptr,modulo,&q,true);
+    vector<int> B0,B0inv,tmp,tmp1,tmp2,tmp3,tmp4,tmp5;
+    return divrem_(r,b0,*pminptr,modulo,&q,true,B0,B0inv,tmp,tmp1,tmp2,tmp3,tmp4,tmp5);
   }
 
   static bool gcdsmallmodpoly_ext(const vector< vector<int> > & p,const vector< vector<int> > & q,const vector<int> & pmin,int modulo,vector< vector<int> > & d);
@@ -3595,6 +3596,20 @@ mpz_class smod(const mpz_class & a,int reduce){
     DivRem(tmp,pmin,modulo,q,res);
   }
 
+  // res=a*b mod pmin,modulo with temporary passed as arg
+  static void mulext(const vector<int> & a,const vector<int> & b,const vector<int> & pmin,int modulo,vector<int> & res,vector<int> & tmp,vector<int> & q){
+    if (b.empty()){
+      res.clear();
+      return;
+    }
+    if (b.size()==1 && b.front()==1){
+      res=a;
+      return;
+    }
+    mulsmall(a.begin(),a.end(),b.begin(),b.end(),modulo,tmp);
+    DivRem(tmp,pmin,modulo,q,res);
+  }
+
   static gen mulextaux2(const gen & a,const gen & b,int modulo){
     gen res= a*b;
     if (res.type==_FRAC)
@@ -3681,14 +3696,13 @@ mpz_class smod(const mpz_class & a,int reduce){
     DivRem(tmp,pmin,modulo,q,a);
   }
 
-  static void mulext(vector< vector<int> > & a,const vector<int> & b,const vector<int> & pmin,int modulo){
+  static void mulext(vector< vector<int> > & a,const vector<int> & b,const vector<int> & pmin,int modulo,vector<int> & tmp,vector<int> & q){
     if (b.empty()){
       a.clear();
       return;
     }
     if (b.size()==1 && b.front()==1)
       return;
-    vector<int> q,tmp;
     vector< vector<int> >::iterator it=a.begin(),itend=a.end();
     for (;it!=itend;++it){
       mulsmall(it->begin(),it->end(),b.begin(),b.end(),modulo,tmp);
@@ -3701,12 +3715,20 @@ mpz_class smod(const mpz_class & a,int reduce){
   // a_=0*a+1*b
   // ...
   // 1=?*a+ainv*b
-  static bool invmodext(const vector<int> & a_,const vector<int> & pmin,int modulo,vector<int> & u0){
+  static bool invmodext_(const vector<int> & a_,const vector<int> & pmin,int modulo,vector<int> & u0,vector<int> &a,vector<int> & b,vector<int> &q,vector<int> &r,vector<int> &u1,vector<int> & u2){
     if (a_.empty())
       return false;
+    if (a_.size()==1){
+      if (gcd(modulo,a_[0])!=1)
+	return false;
+      u0.resize(1);
+      u0[0]=invmod(a_[0],modulo);
+      return true;
+    }
     if (debug_infolevel>10)
       CERR << a_ << " inv " << pmin << " mod " << modulo << endl;
-    vector<int> a(pmin),b(a_),q,r,u1,u2; // u0=ainv
+    a=pmin;
+    b=a_;
     vector<int>::iterator it,itend;
     u0.clear();
     u1.push_back(1);
@@ -3730,6 +3752,10 @@ mpz_class smod(const mpz_class & a,int reduce){
       return false;
     mulmod(u0,invmod(a.front(),modulo),modulo);
     return true;
+  }
+  static bool invmodext(const vector<int> & a_,const vector<int> & pmin,int modulo,vector<int> & u0){
+    vector<int> a,b,q,r,u1,u2; // u0=ainv
+    return invmodext_(a_,pmin,modulo,u0,a,b,q,r,u1,u2);
   }
 
   static vector<int> invmod(const vector<int> & a,const modred & R){
@@ -3822,14 +3848,13 @@ mpz_class smod(const mpz_class & a,int reduce){
 
   // a=b*q+r, modifies b (multiplication by inverse of lcoeff)
   // if you want q corresponding to original b, set q_orig_b to true
-  static bool divrem(vector< vector<int> > & a,vector< vector<int> > & b,const vector<int> & pmin, int modulo, vector< vector<int> > * qptr,bool set_q_orig_b){
+  static bool divrem_(vector< vector<int> > & a,vector< vector<int> > & b,const vector<int> & pmin, int modulo, vector< vector<int> > * qptr,bool set_q_orig_b,vector<int> & b0,vector<int> & b0inv,vector<int> & tmp,vector<int> & tmp1,vector<int> & tmp2,vector<int> & tmp3,vector<int> & tmp4,vector<int> & tmp5){
     int as=int(a.size()),bs=int(b.size());
     if (!bs)
       return false;
-    vector<int> b0,b0inv;
     if (set_q_orig_b)
       b0=b.front();
-    if (!invmodext(b.front(),pmin,modulo,b0inv))
+    if (!invmodext_(b.front(),pmin,modulo,b0inv,tmp,tmp1,tmp2,tmp3,tmp4,tmp5))
       return false;
     if (qptr)
       qptr->clear();
@@ -3839,20 +3864,34 @@ mpz_class smod(const mpz_class & a,int reduce){
       if (qptr){
 	swap(*qptr,a);
 	if (set_q_orig_b)
-	  mulext(*qptr,b0inv,pmin,modulo);
+	  mulext(*qptr,b0inv,pmin,modulo,tmp1,tmp2);
       }
       a.clear();
       return true;
     }
-    mulext(b,b0inv,pmin,modulo);
-    vector<int> tmp;
+    mulext(b,b0inv,pmin,modulo,tmp1,tmp2);
     vector< vector<int> >::iterator it,jt,jtend=b.end();
     int nstep=as-bs+1,pos=0;
+#if 0
+    if (nstep==2){ // normal remainder sequence
+      // compute quotient from a[0], a[1] and b[0]==1 b[1]
+      // x coeff of q is q1=a[0], cst coeff of q is q0=a[1]-a[0]*b[1]
+      // a -= q*b
+      // x^k coeff ak -> ak- q0*bk - q1*bk-1, but beware a[0]==lcoeff(a)
+      // a[k] = a[k]- (q1*b[k] + q0*b[k-1])
+      mulext(a[0],b[1],pmin,modulo,tmp,tmp1,tmp2);
+      submod(a[1],tmp,modulo); // store q0 in a[1] (a[1] not used anymore)
+      for (int k=2;k<a.size();++k){
+	submulext(a[k],a[0],b[k],a[1],b[k-1],pmin,modulo);
+      }
+      pos=2;
+    }
+#endif
     for (;pos<nstep;++pos){
       vector<int> & q = a[pos];
       if (qptr){
 	if (set_q_orig_b){
-	  mulext(q,b0inv,pmin,modulo,tmp);
+	  mulext(q,b0inv,pmin,modulo,tmp,tmp1,tmp2);
 	  qptr->push_back(tmp);
 	}
 	else
@@ -3860,7 +3899,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       }
       if (!q.empty()){
 	for (it=a.begin()+pos+1,jt=b.begin()+1;jt!=jtend;++it,++jt){
-	  mulext(*jt,q,pmin,modulo,tmp);
+	  mulext(*jt,q,pmin,modulo,tmp,tmp1,tmp2);
 	  submod(*it,tmp,modulo);
 	}
       }
@@ -3869,7 +3908,7 @@ mpz_class smod(const mpz_class & a,int reduce){
       ++pos;
     a.erase(a.begin(),a.begin()+pos);
     if (set_q_orig_b)
-      mulext(b,b0,pmin,modulo);
+      mulext(b,b0,pmin,modulo,tmp1,tmp2);
     return true;
   }
 
@@ -3887,19 +3926,19 @@ mpz_class smod(const mpz_class & a,int reduce){
       d=p;
       return true;
     }
-    vector<int> p0inv;
+    vector<int> p0inv,tmp1,tmp2,tmp3,tmp4,tmp5,tmp6,tmp7,tmp8;
     if (!invmodext(p.front(),pmin,modulo,p0inv))
       return false;
     d=p;
     vector< vector<int> > b(q);
     for (;!b.empty();){
-      if (!divrem(d,b,pmin,modulo,0,false))
+      if (!divrem_(d,b,pmin,modulo,0,false,tmp1,tmp2,tmp3,tmp4,tmp5,tmp6,tmp7,tmp8))
 	return false;
       swap(d,b);
     }
     if (!invmodext(d.front(),pmin,modulo,p0inv))
       return false;
-    mulext(d,p0inv,pmin,modulo);
+    mulext(d,p0inv,pmin,modulo,tmp1,tmp2);
     return true;
   }
 
@@ -4520,6 +4559,10 @@ mpz_class smod(const mpz_class & a,int reduce){
     int res=mod_gcd_ext(p_orig,q_orig,vars,pmin,modulo,d,pcof,qcof,compute_pcof,compute_qcof,nthreads);
     // convert back 
     inttogen(d,D);
+    if (compute_pcof)
+      inttogen(pcof,Pcof);
+    if (compute_qcof)
+      inttogen(qcof,Qcof);
     return res;
 #endif // NO_TEMPLATE_MULTGCD
   }
@@ -4850,11 +4893,23 @@ mpz_class smod(const mpz_class & a,int reduce){
     hashgcd_U var=vars.front();
     int dim=int(vars.size());
     if (dim==1){
-      vector< vector<int> > P,Q,D;
+      vector< vector<int> > P,Q,D,cof,tmp;
+      vector<int> tmp1,tmp2,tmp3,tmp4,tmp5,tmp6,tmp7,tmp8;
       convert(p_orig,var,P);
       convert(q_orig,var,Q);
       if (!gcdsmallmodpoly_ext(P,Q,pmin,modulo,D))
 	return 0;
+      // should compute pcof and qcof if compute_p/qcofactor true
+      if (compute_pcofactor){
+	if (!divrem_(P,D,pmin,modulo,&cof,true,tmp1,tmp2,tmp3,tmp4,tmp5,tmp6,tmp7,tmp8))
+	  return 0;
+	convert_back(cof,var,pcof);
+      }
+      if (compute_qcofactor){
+	if (!divrem_(Q,D,pmin,modulo,&cof,true,tmp1,tmp2,tmp3,tmp4,tmp5,tmp6,tmp7,tmp8))
+	  return 0;
+	convert_back(cof,var,qcof);
+      }
       convert_back(D,var,d);
       return 1;
     }
@@ -5734,7 +5789,11 @@ mpz_class smod(const mpz_class & a,int reduce){
       // if one lcoeff of p/q is not invertible mod modulo
       // then it won't be when variables of p or q are evaluated
       // hence checking in dim 1 is sufficient
+      if (debug_infolevel>0)
+	CERR << CLOCK()*1e-6 << " begin gcd_ext mod " << modulo <<"," << pmin << endl;
       int res=gcd_ext(p,q,vars,pmin,modulo,g,pcof,qcof,compute_cofactors,compute_cofactors,nthreads);
+      if (debug_infolevel>0)
+	CERR << CLOCK()*1e-6 << " end gcd_ext mod " << modulo <<"," << pmin << endl;
 #ifdef TIMEOUT
       control_c();
 #endif
@@ -5776,6 +5835,9 @@ mpz_class smod(const mpz_class & a,int reduce){
       if (compute_cofactors){
 	ichinrem_ext(pcof,modulo,pcofactor,pimod);
 	ichinrem_ext(qcof,modulo,qcofactor,pimod);
+	CERR << "g " << d << endl;
+	CERR << "pcof " << pcofactor << endl;
+	CERR << "qcof " << qcofactor << endl;
       }
       pimod = modulo * pimod;
       // rational reconstruction and division test
@@ -5785,7 +5847,9 @@ mpz_class smod(const mpz_class & a,int reduce){
       gen tmp;
       ppz(dtest,tmp,true);
       make_ext(dtest,coefft); // make extensions
-      if (compute_cofactors){
+      if (0 && compute_cofactors){
+	// DISABLED: I don't know how equality mod m could be translated
+	// (absolute values of algebraic extension)
 	fracmod(pcofactor,pimod,pcofactortest);
 	fracmod(qcofactor,pimod,qcofactortest);
 	lcmdeno(pcofactortest);
@@ -5805,7 +5869,11 @@ mpz_class smod(const mpz_class & a,int reduce){
 	simplify(lcoeffp,lcoeffdpcof);
 	gen lcoeffdqcof=dtest.front().g*qcofactortest.front().g;
 	simplify(lcoeffq,lcoeffdqcof);
-	gen maxp=max(p_orig,context0),maxq=max(q_orig,context0),maxpcof=max(pcofactortest,context0),maxqcof=max(qcofactortest,context0),maxd=max(dtest,context0);
+	gen maxp=max(p_orig,context0);
+	gen maxq=max(q_orig,context0);
+	gen maxpcof=max(pcofactortest,context0);
+	gen maxqcof=max(qcofactortest,context0);
+	gen maxd=max(dtest,context0);
 	gen maxpmin=_max(coefft,context0),degpmin=int(pminv.size()-1);
 	if (is_undef(maxpmin)) return false;
 	gen multpmin=pow((degpmin+1)*maxpmin,degpmin,context0);
@@ -5821,12 +5889,22 @@ mpz_class smod(const mpz_class & a,int reduce){
       }
       // This division might take a very long time if not successfull
       // Make it only when we are sure (might be improved)
-      if (dtest==dtestold && hashdivrem(p_orig,dtest,pquo,rem,vars,0 /* reduce */,0/*qmax*/,true)==1 && rem.empty()){
-	if (hashdivrem(q_orig,dtest,qquo,rem,vars,0 /* reduce */,0/*qmax*/,true)==1 && rem.empty()){
-	  swap(pcofactor,pquo);
-	  swap(qcofactor,qquo);
-	  swap(d,dtest);
-	  return true;
+      if (dtest==dtestold){
+	if (debug_infolevel>0)
+	  CERR << CLOCK()*1e-6 << " gcd_ext checking gcd" << endl;
+	if (hashdivrem(p_orig,dtest,pquo,rem,vars,0 /* reduce */,0/*qmax*/,true)==1 && rem.empty()){
+	  // CERR << "p " << p_orig << endl << "dtest " << dtest << endl << "quo" << pquo << endl;
+	  if (debug_infolevel>0)
+	    CERR << CLOCK()*1e-6 << " gcd_ext checking gcd 1st test ok" << endl;
+	  if (hashdivrem(q_orig,dtest,qquo,rem,vars,0 /* reduce */,0/*qmax*/,true)==1 && rem.empty()){
+	    // CERR << "q " << q_orig << endl << "dtest " << dtest << endl << "quo" << qquo << endl;
+	    if (debug_infolevel>0)
+	      CERR << CLOCK()*1e-6 << " gcd_ext checking gcd 2nd test ok" << endl;
+	    swap(pcofactor,pquo);
+	    swap(qcofactor,qquo);
+	    swap(d,dtest);
+	    return true;
+	  }
 	}
       }
       dtestold=dtest;

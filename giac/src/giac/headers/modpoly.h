@@ -81,6 +81,7 @@ namespace giac {
   modpoly operator + (const modpoly & th,const modpoly & other);
   void Submodpoly(modpoly::const_iterator th_it,modpoly::const_iterator th_itend,modpoly::const_iterator other_it,modpoly::const_iterator other_itend,environment * env,modpoly & new_coord);
   void submodpoly(const modpoly & th, const modpoly & other, environment * env,modpoly & new_coord);
+  void submodpoly(const modpoly & th, const modpoly & other, modpoly & new_coord);
   modpoly operator_minus (const modpoly & th,const modpoly & other,environment * env);
   modpoly operator - (const modpoly & th,const modpoly & other);
   void negmodpoly(const modpoly & th, modpoly & new_coord);
@@ -158,6 +159,7 @@ namespace giac {
   modpoly simplify(modpoly & a, modpoly & b,environment * env);
   gen ppz(dense_POLY1 & q);
   gen lgcd(const dense_POLY1 & p); // gcd of coeffs
+  gen lgcd(const dense_POLY1 & p,const gen & g);
   // modular gcd
   void modpoly2smallmodpoly(const modpoly & p,std::vector<int> & v,int m);
 
