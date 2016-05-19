@@ -15,7 +15,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
@@ -34,8 +33,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private VerticalPanel emailPanel;
 	// private HorizontalPanel imagePanel; for future use - to share images
 	private Button btSendMail, btCancel;
-	private String TUBEURL = "http://ggbm.at/";
-	private String sharingKey = "";
+	String TUBEURL = "http://ggbm.at/";
+	String sharingKey = "";
 	private TextBox recipient;
 	private TextArea message;
 
@@ -78,7 +77,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		linkPanel.add(getCopyLinkPanel());
 
 		btCancel = new Button(app.getPlain("Cancel"));
-		btCancel.getElement().setAttribute("action", "Cancel");
+		// btCancel.getElement().setAttribute("action", "Cancel");
 		btCancel.addClickHandler(this);
 		btCancel.addStyleName("cancelBtn");
 
@@ -186,10 +185,17 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		copyLinkPanel.addStyleName("GeoGebraCopyLinkPanel");
 
 		// Label lblLink = new Label(app.getPlain("Link") + ": ");
-		TextBox link = new TextBox();
-		link.setValue(TUBEURL + sharingKey);
-		link.setReadOnly(true);
-		Image copyToClipboardIcon = new NoDragImage(AppResources.INSTANCE.edit_copy().getSafeUri().asString());
+		Anchor link = new Anchor(TUBEURL + sharingKey, TUBEURL + sharingKey,
+				"_blank");
+
+		PushButton copyToClipboardIcon = new PushButton(new NoDragImage(
+				AppResources.INSTANCE.edit_copy().getSafeUri().asString()),
+				new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						app.copyBase64ToClipboardChromeWebAppCase(TUBEURL
+								+ sharingKey);
+					}
+				});
 
 		// copyLinkPanel.add(lblLink);
 		copyLinkPanel.add(link);
@@ -217,7 +223,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		emailPanel.add(message);
 
 		btSendMail = new Button(app.getPlain("SendMail"));
-		btSendMail.getElement().setAttribute("action", "OK");
+		// btSendMail.getElement().setAttribute("action", "OK");
 		btSendMail.addClickHandler(this);
 
 		FlowPanel buttonPanel = new FlowPanel();
