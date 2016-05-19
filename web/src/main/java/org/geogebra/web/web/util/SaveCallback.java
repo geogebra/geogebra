@@ -77,6 +77,8 @@ public class SaveCallback {
 				app.getGuiManager().getBrowseView()
 						.refreshMaterial(mat, isLocal);
 			}
+		} else {
+			onSaved(app, state, true);
 		}
 	}
 

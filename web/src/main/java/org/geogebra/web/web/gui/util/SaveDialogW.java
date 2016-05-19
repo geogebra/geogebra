@@ -153,31 +153,43 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			@Override
 			public void onLoaded(final List<Material> parseResponse,
 			        ArrayList<Chapter> meta) {
-				if (parseResponse.size() == 1) {
-					Material newMat = parseResponse.get(0);
-					newMat.setThumbnail(((EuclidianViewWInterface) app
-					        .getActiveEuclidianView())
-					        .getCanvasBase64WithTypeString());
-					app.getKernel().getConstruction().setTitle(title.getText());
+				if (isWorksheet()) {
+					if (parseResponse.size() == 1) {
+						Material newMat = parseResponse.get(0);
+						newMat.setThumbnail(((EuclidianViewWInterface) app
+								.getActiveEuclidianView())
+								.getCanvasBase64WithTypeString());
+						app.getKernel().getConstruction()
+								.setTitle(title.getText());
 
-					// last synchronization is equal to last modified
-					app.setSyncStamp(newMat.getModified());
+						// last synchronization is equal to last modified
+						app.setSyncStamp(newMat.getModified());
 
+						newMat.setSyncStamp(newMat.getModified());
 
-					newMat.setSyncStamp(newMat.getModified());
-					if (saveType != MaterialType.ggt) {
 						app.updateMaterialURL(newMat.getId(),
-							newMat.getSharingKeyOrId());
+								newMat.getSharingKeyOrId());
+
+						app.setActiveMaterial(newMat);
+						app.setSyncStamp(newMat.getModified());
+						saveLocalIfNeeded(newMat.getModified(),
+								forked ? SaveState.FORKED : SaveState.OK);
+						// if we got there via file => new, do the file =>new
+						// now
+						runAfterSaveCallback();
+					} else {
+						resetCallback();
+						saveLocalIfNeeded(getCurrentTimestamp(app),
+								SaveState.ERROR);
 					}
-					app.setActiveMaterial(newMat);
-					app.setSyncStamp(newMat.getModified());
-					saveLocalIfNeeded(newMat.getModified(),
-					        forked ? SaveState.FORKED : SaveState.OK);
-					// if we got there via file => new, do the file =>new now
-					runAfterSaveCallback();
 				} else {
-					resetCallback();
-					saveLocalIfNeeded(getCurrentTimestamp(app), SaveState.ERROR);
+					if (parseResponse.size() == 1) {
+						SaveCallback.onSaved(app, SaveState.OK,
+								isMacro());
+					} else {
+						SaveCallback.onSaved(app, SaveState.ERROR,
+								isMacro());
+					}
 				}
 
 				hide();
@@ -195,15 +207,12 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			}
 
 			private void saveLocalIfNeeded(long modified, SaveState state) {
-				if (app.getFileManager().shouldKeep(0)
-						|| app.has(Feature.LOCALSTORAGE_FILES)
-				        || state == SaveState.ERROR) {
+				if (isWorksheet()
+						&& (app.getFileManager().shouldKeep(0)
+								|| app.has(Feature.LOCALSTORAGE_FILES) || state == SaveState.ERROR)) {
 					app.getKernel().getConstruction().setTitle(title.getText());
 					((FileManager) app.getFileManager()).saveFile(base64,
-					        modified, new SaveCallback(app, state));
-				} else {
-					SaveCallback.onSaved(app, state,
-							saveType.equals(MaterialType.ggt));
+							modified, new SaveCallback(app, state));
 				}
 			}
 		};
@@ -342,8 +351,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
 		}else {
-			if (app.getActiveMaterial() == null) {
-				app.setActiveMaterial(new Material(0, MaterialType.ggb));
+			if (app.getActiveMaterial() == null
+					|| isMacro()) {
+				app.setActiveMaterial(new Material(0, saveType));
 			}
 			switch (listBox.getSelectedIndex()) {
 			case 0:
@@ -373,7 +383,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	protected void onDontSave() {
 		hide();
-		if (saveType.equals(MaterialType.ggb)) {
+		if (isWorksheet()) {
 			app.setSaved();
 			runAfterSaveCallback();
 		}
@@ -430,14 +440,16 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			@Override
 			public void handle(String base64) {
 				if (!SaveDialogW.this.title.getText().equals(
-				        app.getKernel().getConstruction().getTitle())) {
+						app.getKernel().getConstruction().getTitle())
+						&& isWorksheet()) {
 					Log.debug("SAVE filename changed");
 					app.updateMaterialURL(0, null);
 					doUploadToGgt(app.getTubeId(), visibility, base64,
 					        initMaterialCB(base64, false));
-				} else if (app.getTubeId() == 0) {
-					Log.debug("SAVE had no Tube ID");
-					doUploadToGgt(app.getTubeId(), visibility, base64,
+				} else if (app.getTubeId() == 0
+						|| isMacro()) {
+					Log.debug("SAVE had no Tube ID or tool is saved");
+					doUploadToGgt(0, visibility, base64,
 					        initMaterialCB(base64, false));
 				} else {
 					handleSync(base64, visibility);
@@ -628,7 +640,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private void setTitle() {
 		String consTitle = app.getKernel().getConstruction().getTitle();
 		if (consTitle != null && !consTitle.equals("")
-				&& !saveType.equals(MaterialType.ggt)) {
+				&& !isMacro()) {
 			if (consTitle.startsWith(FileManager.FILE_PREFIX)) {
 				consTitle = getTitleOnly(consTitle);
 			}
@@ -690,7 +702,25 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		}
 	}
 
+	/**
+	 * @param saveType
+	 *            set the saveType for the SaveDialog
+	 */
 	public void setSaveType(MaterialType saveType) {
 		this.saveType = saveType;
+	}
+
+	/**
+	 * @return true if the MaterialType is ggb
+	 */
+	boolean isWorksheet() {
+		return saveType.equals(MaterialType.ggb);
+	}
+
+	/**
+	 * @return true if the MaterialType is ggt
+	 */
+	boolean isMacro() {
+		return saveType.equals(MaterialType.ggt);
 	}
 }
