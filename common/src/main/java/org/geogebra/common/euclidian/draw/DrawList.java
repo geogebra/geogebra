@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Draw a GeoList containing drawable objects
@@ -537,7 +536,8 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		private boolean hoverIntersectControls() {
-			return isScrollNeeded() && (itemHovered.rect.intersects(rectUp)
+			return isScrollNeeded() && itemHovered.rect != null
+					&& (itemHovered.rect.intersects(rectUp)
 					|| itemHovered.rect.intersects(rectDown));
 		}
 
@@ -748,8 +748,8 @@ public final class DrawList extends CanvasDrawable
 
 			rowCount = resultRow == 0 ? 1 : resultRow;
 			colCount = itemCount / rowCount + (maxMod == 0 ? 0 : 1);
-			Log.debug("[BALANCE] mod: " + maxMod + " cols: " + colCount
-					+ " rows: " + rowCount);
+			// Log.debug("[BALANCE] mod: " + maxMod + " cols: " + colCount
+			// + " rows: " + rowCount);
 		}
 
 		private void createItems() {
