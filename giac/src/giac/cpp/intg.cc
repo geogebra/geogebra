@@ -2525,6 +2525,12 @@ namespace giac {
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate step 2 ") << e << endl;
 #endif
+    if (e.type!=_SYMB){
+      if (e==gen_x)
+	return pow(gen_x,2,contextptr)/2;
+      else
+	return e*gen_x;
+    }
     // try with argument of the product or of a power
     v.clear();
     bool est_puissance;
