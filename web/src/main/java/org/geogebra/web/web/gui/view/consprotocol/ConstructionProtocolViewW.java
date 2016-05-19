@@ -63,6 +63,7 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Web implementation of ConstructionProtocol
@@ -130,7 +131,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			headerTable.addStyleName("cpTable");
 
 			holderPanel = new ScrollPanel();
-			holderPanel.add(headerTable);
+			final FlowPanel innerHolderPanel = new FlowPanel();
+			innerHolderPanel.add(headerTable);
+			holderPanel.add(innerHolderPanel);
 			holderPanel.addStyleName("cpHeaderHolderPanel");
 
 			cpPanel.add(holderPanel);
@@ -145,6 +148,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				@Override
 				public void onScroll(ScrollEvent event) {
 					int scrollPosition = scrollPane.getHorizontalScrollPosition();
+					if (innerHolderPanel.getOffsetWidth() < scrollPane
+							.getOffsetWidth() + scrollPosition) {
+						innerHolderPanel.setWidth((scrollPane.getOffsetWidth() + scrollPosition)
+								+ "px");
+					}
 					holderPanel.setHorizontalScrollPosition(scrollPosition);
 				}
 			});
