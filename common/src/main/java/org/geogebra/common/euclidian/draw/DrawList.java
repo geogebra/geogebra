@@ -1354,8 +1354,6 @@ public final class DrawList extends CanvasDrawable
 
 		selectedDimension = drawSelectedText(g2, 0, 0, false);
 
-		setPreferredSize(getPreferredSize());
-
 		latexLabel = measureLabel(g2, geoList, getLabelText());
 
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth, boxHeight);

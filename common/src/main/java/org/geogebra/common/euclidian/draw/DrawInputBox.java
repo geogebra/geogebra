@@ -312,8 +312,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
 
-		setPreferredSize(box.getPreferredSize());
-
 		labelRectangle.setBounds(xLabel, yLabel, getPreferredSize().getWidth(),
 				getPreferredSize().getHeight());
 		box.setBounds(labelRectangle);

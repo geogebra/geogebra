@@ -21,7 +21,6 @@ public abstract class CanvasDrawable extends Drawable {
 	GPoint labelSize = new GPoint(0, 0);
 	private int labelFontSize;
 	private GRectangle hitRect = AwtFactory.prototype.newRectangle();
-	GDimension preferredSize;
 	int boxLeft;
 	int boxTop;
 	int boxWidth;
@@ -135,7 +134,7 @@ public abstract class CanvasDrawable extends Drawable {
 	protected void drawOnCanvas(GGraphics2D g2,
 			String text) {
 		App app = view.getApplication();
-		setPreferredSize(getPreferredSize());
+		getPreferredSize();
 
 		GFont vFont = view.getFont();
 		setLabelFont(app.getFontCanDisplay(text, false, vFont.getStyle(),
@@ -232,13 +231,7 @@ public abstract class CanvasDrawable extends Drawable {
 		this.labelFontSize = labelFontSize;
 	}
 
-	public GDimension getPreferredSize() {
-		return preferredSize;
-	}
-
-	public void setPreferredSize(GDimension preferredSize) {
-		this.preferredSize = preferredSize;
-	}
+	public abstract GDimension getPreferredSize();
 
 	@Override
 	public boolean isInside(GRectangle rect) {
