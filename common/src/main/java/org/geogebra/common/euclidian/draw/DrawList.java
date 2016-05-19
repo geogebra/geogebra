@@ -493,7 +493,7 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		public void onMouseOver(int x, int y) {
-			if (!isVisible) {
+			if (!isVisible || isControlHit(x, y)) {
 				return;
 			}
 
@@ -514,14 +514,16 @@ public final class DrawList extends CanvasDrawable
 			}
 
 			updateItemHovered();
-			if (itemHovered != null) {
-				drawItem(itemHovered, false);
+			if (!(itemHovered == null || selectedIndex == item.index)) {
+				if (!hoverIntersectControls()) {
+					drawItem(itemHovered, false);
+				}
+					itemHovered = item;
+					drawItem(item, true);
+					selectedIndex = item.index;
+				viewOpt.repaintView();
 			}
 
-			drawItem(item, true);
-			itemHovered = item;
-			selectedIndex = item.index;
-			viewOpt.repaintView();
 		}
 
 		OptionItem getItemAt(int x, int y) {
@@ -532,6 +534,11 @@ public final class DrawList extends CanvasDrawable
 			}
 
 			return null;
+		}
+
+		private boolean hoverIntersectControls() {
+			return isScrollNeeded() && (itemHovered.rect.intersects(rectUp)
+					|| itemHovered.rect.intersects(rectDown));
 		}
 
 		private boolean prepareTable() {
