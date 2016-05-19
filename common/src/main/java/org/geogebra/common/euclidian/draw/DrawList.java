@@ -915,11 +915,11 @@ public final class DrawList extends CanvasDrawable
 
 	private void resetComboBox() {
 
-		if (box == null) {
-			box = view.getApplication().getSwingFactory()
-					.createHorizontalBox(view.getEuclidianController());
-		}
-		view.add(box);
+		// if (box == null) {
+		// box = view.getApplication().getSwingFactory()
+		// .createHorizontalBox(view.getEuclidianController());
+		// }
+		// view.add(box);
 	}
 
 	private void reset() {
@@ -942,7 +942,7 @@ public final class DrawList extends CanvasDrawable
 		if (geo.doHighlighting() == false) {
 			hideWidget();
 		}
-		box.setVisible(isVisible);
+		// box.setVisible(isVisible);
 
 		if (!isVisible) {
 			return;
@@ -951,14 +951,14 @@ public final class DrawList extends CanvasDrawable
 		// eg size changed etc
 		labelDesc = getLabelText();
 
-		box.validate();
+		// box.validate();
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
-		GDimension prefSize = box.getPreferredSize();
-		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
-				prefSize.getHeight());
-		box.setBounds(labelRectangle);
+		labelRectangle.setBounds(xLabel, yLabel,
+				(int) (getHitRect().getWidth()),
+				(int) (getHitRect().getHeight()));
+		setHitRect(labelRectangle);
 
 	}
 
@@ -1038,7 +1038,7 @@ public final class DrawList extends CanvasDrawable
 	final public void remove() {
 
 		if (geoList.drawAsComboBox()) {
-			view.remove(box);
+			// view.remove(box);
 		} else {
 			for (int i = drawables.size() - 1; i >= 0; i--) {
 				GeoElement currentGeo = drawables.get(i).getGeoElement();
@@ -1166,7 +1166,7 @@ public final class DrawList extends CanvasDrawable
 	@Override
 	final public GRectangle getBounds() {
 		if (geoList.drawAsComboBox()) {
-			return box.getBounds();
+			return getHitRect().getBounds();
 
 		}
 
@@ -1211,7 +1211,7 @@ public final class DrawList extends CanvasDrawable
 			drawables.clear();
 			}
 		} else {
-			view.remove(box);
+			// view.remove(box);
 		}
 
 		reset();

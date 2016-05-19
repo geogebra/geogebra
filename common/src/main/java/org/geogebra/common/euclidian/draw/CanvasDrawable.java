@@ -8,7 +8,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
-import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
@@ -20,7 +20,7 @@ public abstract class CanvasDrawable extends Drawable {
 	private GFont labelFont;
 	GPoint labelSize = new GPoint(0, 0);
 	private int labelFontSize;
-	GBox box;
+	private GRectangle hitRect = AwtFactory.prototype.newRectangle();
 	GDimension preferredSize;
 	int boxLeft;
 	int boxTop;
@@ -247,7 +247,7 @@ public abstract class CanvasDrawable extends Drawable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return box.getBounds().intersects(rect);
+		return hitRect.intersects(rect);
 	}
 
 	/**
@@ -278,5 +278,13 @@ public abstract class CanvasDrawable extends Drawable {
 		} else {
 			hideWidget();
 		}
+	}
+
+	public GRectangle getHitRect() {
+		return hitRect;
+	}
+
+	public void setHitRect(GRectangle hitRect) {
+		this.hitRect = hitRect;
 	}
 }
