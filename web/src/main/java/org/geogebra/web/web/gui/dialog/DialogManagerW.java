@@ -31,6 +31,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -334,6 +335,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		if (saveDialog == null) {
 			saveDialog = new SaveDialogW((AppW) app);
 		}
+		// set default saveType
+		saveDialog.setSaveType(MaterialType.ggb);
 		return saveDialog;
 	}
 	

@@ -401,9 +401,10 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		SaveDialogW dlg = ((DialogManagerW) app.getDialogManager())
 				.getSaveDialog();
 		dlg.setSaveType(MaterialType.ggt);
-		dlg.show();
 
+		dlg.show();
 	}
+
 	public void removeMacroFromToolbar(int i) {
 
 		app.getGuiManager().removeFromToolbarDefinition(i);

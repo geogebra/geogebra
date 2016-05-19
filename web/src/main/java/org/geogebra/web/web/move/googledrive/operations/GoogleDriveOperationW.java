@@ -536,8 +536,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		((DialogManagerW) app.getDialogManager()).getSaveDialog()
 		        .runAfterSaveCallback();
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
+		SaveCallback.onSaved(app, SaveState.OK, !isggb);
 		if (isggb) {
-			SaveCallback.onSaved(app, SaveState.OK);
 			refreshCurrentFileDescriptors(fileName, description);
 			setCurrentFileId(id);
 		}

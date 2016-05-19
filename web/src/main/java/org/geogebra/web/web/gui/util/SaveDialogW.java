@@ -202,7 +202,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 					((FileManager) app.getFileManager()).saveFile(base64,
 					        modified, new SaveCallback(app, state));
 				} else {
-					SaveCallback.onSaved(app, state);
+					SaveCallback.onSaved(app, state,
+							saveType.equals(MaterialType.ggt));
 				}
 			}
 		};
@@ -371,9 +372,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * sets the application as "saved" and closes the dialog
 	 */
 	protected void onDontSave() {
-		app.setSaved();
 		hide();
-		runAfterSaveCallback();
+		if (saveType.equals(MaterialType.ggb)) {
+			app.setSaved();
+			runAfterSaveCallback();
+		}
 	}
 
 	private void saveLocal() {
@@ -624,7 +627,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	private void setTitle() {
 		String consTitle = app.getKernel().getConstruction().getTitle();
-		if (consTitle != null && !consTitle.equals("")) {
+		if (consTitle != null && !consTitle.equals("")
+				&& !saveType.equals(MaterialType.ggt)) {
 			if (consTitle.startsWith(FileManager.FILE_PREFIX)) {
 				consTitle = getTitleOnly(consTitle);
 			}
