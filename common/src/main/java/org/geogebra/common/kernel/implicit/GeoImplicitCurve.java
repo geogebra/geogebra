@@ -85,7 +85,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private int degX;
 	private int degY;
 	private double[][] coeff;
-	private double[][] coeffSquarefree;
 
 	private double[] eval = new double[2];
 	private boolean calcPath = true;
@@ -281,8 +280,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		degX = -1;
 		degY = -1;
 		coeff = null;
-		coeffSquarefree = null;
-
 	}
 
 	private void setDerivatives(FunctionVariable x, FunctionVariable y) {
@@ -1567,13 +1564,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	public void setInputForm() {
 		inputForm = true;
 
-	}
-
-	/**
-	 * @return squarefree coefficients
-	 */
-	public double[][] getCoeffSquarefree() {
-		return coeffSquarefree;
 	}
 
 	public void preventPathCreation() {
