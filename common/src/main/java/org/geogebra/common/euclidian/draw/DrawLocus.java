@@ -88,8 +88,9 @@ public class DrawLocus extends Drawable {
 			double y = lastPointCoords[1];
 			double width = view.getWidth();
 			double height = view.getHeight();
-			xLabel = (int) ((x - xmin) / (xmax - xmin) * width);
-			yLabel = (int) (height - (y - ymin) / (ymax - ymin) * height);
+			xLabel = (int) ((x - xmin) / (xmax - xmin) * width) + 5;
+			yLabel = (int) (height - (y - ymin) / (ymax - ymin) * height) + 4
+					+ view.getFontSize();
 			addLabelOffsetEnsureOnScreen(1.0, 1.0, view.getFontLine());
 		}
 
@@ -130,6 +131,15 @@ public class DrawLocus extends Drawable {
 			gp.reset();
 
 		lastPointCoords = CurvePlotter.draw(gp, pointList, coordSys);
+		int plSize = pointList.size();
+		for (int i = 0; i < plSize; ++i) {
+			double px = ((MyPoint) pointList.get(i)).x;
+			double py = ((MyPoint) pointList.get(i)).y;
+			if (px + py < lastPointCoords[0] + lastPointCoords[1]) {
+				lastPointCoords[0] = px;
+				lastPointCoords[1] = py;
+			}
+		}
 	}
 
 	@Override
