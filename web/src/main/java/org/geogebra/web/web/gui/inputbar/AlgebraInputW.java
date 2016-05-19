@@ -145,13 +145,14 @@ public class AlgebraInputW extends FlowPanel
 				(warning ? GuiResourcesSimple.INSTANCE.dialog_warning()
 						: GuiResources.INSTANCE.menu_icon_help()).getSafeUri()
 								.asString(),
-				20));
+				24));
 				// new
 				// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
 		btnHelpToggle.getDownFace().setImage(new NoDragImage(
 				(warning ? GuiResourcesSimple.INSTANCE.dialog_warning()
 						: GuiResources.INSTANCE.menu_icon_help())
-						.getSafeUri().asString(), 20));
+						.getSafeUri().asString(),
+				24));
 
 	}
 
@@ -376,7 +377,7 @@ public class AlgebraInputW extends FlowPanel
 							app2.getLocalization().getCommand(command));
 					input.getHelpToggle().getElement().setTitle(
 							app2
-							.getLocalization().getError("InvalidInput"));
+.getLocalization().getError("InvalidInput"));
 				}
 			}
 

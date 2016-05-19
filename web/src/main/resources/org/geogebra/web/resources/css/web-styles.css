@@ -2383,6 +2383,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 
 .inputHelp-toggleButton img {
 	cursor: pointer;
+	padding-top: 4px;
 }
 
 .SymbolTable td {
@@ -3816,8 +3817,8 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 }
 
 .algebraHelpButton img{
-	width: 26px;
-	padding-top: 15px;	
+	width: 24px;
+	padding: 15px 2px 0px 0px;	
 }
 
 /* ========== Input Help  end ============ */

@@ -1120,7 +1120,7 @@ public class InputTreeItem extends RadioTreeItem implements
 						(warning ? GuiResourcesSimple.INSTANCE.dialog_warning()
 								: GuiResources.INSTANCE.menu_icon_help())
 										.getSafeUri().asString(),
-						26));
+				24));
 		// new
 		// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
 		btnHelpToggle.getDownFace()
@@ -1128,7 +1128,7 @@ public class InputTreeItem extends RadioTreeItem implements
 						(warning ? GuiResourcesSimple.INSTANCE.dialog_warning()
 								: GuiResources.INSTANCE.menu_icon_help())
 										.getSafeUri().asString(),
-						26));
+				24));
 
 	}
 
