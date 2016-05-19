@@ -26,10 +26,17 @@ public class UploadRequest implements Request {
 	/**
 	 * Used to upload the actual opened application to GeoGebraTube
 	 * 
+	 * @param tubeID
+	 *            tube ID
+	 * @param visibility
+	 *            visibility
+	 * 
 	 * @param consTitle
 	 *            title of construction
 	 * @param base64
 	 *            String
+	 * @param type
+	 *            material type
 	 */
 	UploadRequest(int tubeID, String visibility, String consTitle,
 			String base64, MaterialType type) {
@@ -46,8 +53,6 @@ public class UploadRequest implements Request {
 	/**
 	 * Used for local files. Files are saved as "private"
 	 * 
-	 * @param app
-	 *            AppW
 	 * @param mat
 	 *            Material
 	 */
@@ -65,8 +70,6 @@ public class UploadRequest implements Request {
 	/**
 	 * UploadRequest to rename files
 	 * 
-	 * @param app
-	 *            AppW
 	 * @param newTitle
 	 *            String
 	 * @param id
@@ -80,10 +83,18 @@ public class UploadRequest implements Request {
 
 	/**
 	 * to upload active construction
+	 * 
+	 * @param tubeID
+	 *            tube material ID
+	 * @param visibility
+	 *            P/O/S (private, open, shared)
 	 *
-	 * @param app      AppW
-	 * @param filename title of construction
-	 * @param base64   String
+	 * @param filename
+	 *            title of construction
+	 * @param base64
+	 *            String
+	 * @param type
+	 *            material type
 	 * @return the upload XML as JSON String
 	 */
 	public static UploadRequest getRequestElement(int tubeID,
@@ -94,9 +105,7 @@ public class UploadRequest implements Request {
 
 	/**
 	 * to upload local files
-	 *
-	 * @param app
-	 *            {@link AppW}
+	 * 
 	 * @param mat
 	 *            {@link Material}
 	 * @return the upload XML as JSON String
@@ -108,8 +117,6 @@ public class UploadRequest implements Request {
 	/**
 	 * to rename files with given id
 	 *
-	 * @param app
-	 *            AppW
 	 * @param newTitle
 	 *            String
 	 * @param id
@@ -173,7 +180,7 @@ public class UploadRequest implements Request {
 				JSONObject file = new JSONObject();
 				file.put("-base64", this.base64);
 				task.put("file", file);
-				addPhoneTag(task);
+				addPhoneTag(task, client);
 			}
 
 			api.put("task", task);
@@ -187,10 +194,14 @@ public class UploadRequest implements Request {
 
 	}
 
-	private void addPhoneTag(JSONObject task) {
+	private static void addPhoneTag(JSONObject task, ClientInfo client) {
+		if (client == null) {
+			Log.debug("Client info missing for upload ");
+			return;
+		}
 		try {
 			JSONObject tag = new JSONObject();
-			tag.put("-name", "phone");
+			tag.put("-name", client.getType());
 			JSONArray tagArray = new JSONArray();
 
 			tagArray.put(tag);
