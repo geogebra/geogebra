@@ -39,7 +39,7 @@ public class DrawLocus extends Drawable {
 
 	private boolean isVisible, labelVisible;
 	private GeneralPathClippedForCurvePlotter gp;
-	private double[] lastPointCoords;
+	private double[] labelPosition;
 	private CoordSys coordSys;
 
 	/**
@@ -84,13 +84,17 @@ public class DrawLocus extends Drawable {
 			double xmax = view.getXmax();
 			double ymin = view.getYmin();
 			double ymax = view.getYmax();
-			double x = lastPointCoords[0];
-			double y = lastPointCoords[1];
+			double x = labelPosition[0];
+			double y = labelPosition[1];
 			double width = view.getWidth();
 			double height = view.getHeight();
 			xLabel = (int) ((x - xmin) / (xmax - xmin) * width) + 5;
 			yLabel = (int) (height - (y - ymin) / (ymax - ymin) * height) + 4
 					+ view.getFontSize();
+			/*
+			 * Adding (5,4) will hopefully move the label out of the curve's
+			 * direct hiding. This is just a hack, and it does not work always.
+			 */
 			addLabelOffsetEnsureOnScreen(1.0, 1.0, view.getFontLine());
 		}
 
@@ -130,14 +134,22 @@ public class DrawLocus extends Drawable {
 		else
 			gp.reset();
 
-		lastPointCoords = CurvePlotter.draw(gp, pointList, coordSys);
+		// Use the last plotted point for positioning the label:
+		labelPosition = CurvePlotter.draw(gp, pointList, coordSys);
+		/*
+		 * Due to numerical instability of the curve plotter algorithm this
+		 * position may be changing too quickly which results in an annoying
+		 * vibration of the label. To avoid this, we prefer to find the
+		 * bottom-left position of the curve, that is, for which the sum of
+		 * coordinates is minimal.
+		 */
 		int plSize = pointList.size();
 		for (int i = 0; i < plSize; ++i) {
 			double px = ((MyPoint) pointList.get(i)).x;
 			double py = ((MyPoint) pointList.get(i)).y;
-			if (px + py < lastPointCoords[0] + lastPointCoords[1]) {
-				lastPointCoords[0] = px;
-				lastPointCoords[1] = py;
+			if (px + py < labelPosition[0] + labelPosition[1]) {
+				labelPosition[0] = px;
+				labelPosition[1] = py;
 			}
 		}
 	}
