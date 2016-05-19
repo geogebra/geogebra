@@ -50,6 +50,8 @@ import com.google.gwt.event.dom.client.DragEndEvent;
 import com.google.gwt.event.dom.client.DragEndHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
+import com.google.gwt.event.dom.client.ScrollEvent;
+import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
@@ -73,6 +75,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	public FlowPanel cpPanel;
 	/** table with constructionsteps **/
 	protected CellTable<RowData> table;
+	ScrollPanel scrollPane;
+	ScrollPanel holderPanel;
 	private StyleBarW styleBar;
 	/** possible drop index **/
 	int minIndex;
@@ -116,7 +120,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 //		
 
 		
-		ScrollPanel scrollPane = new ScrollPanel(table);
+		scrollPane = new ScrollPanel(table);
 
 
 		scrollPane.setStyleName("cpScrollPanel");
@@ -125,7 +129,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			headerTable.addStyleName("headerTable");
 			headerTable.addStyleName("cpTable");
 
-			FlowPanel holderPanel = new FlowPanel();
+			holderPanel = new ScrollPanel();
 			holderPanel.add(headerTable);
 			holderPanel.addStyleName("cpHeaderHolderPanel");
 
@@ -136,6 +140,14 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			outerScrollPanel.addStyleName("outerScrollPanel");
 			outerScrollPanel.add(cpPanel);
 			table.addStyleName("hiddenheader");
+
+			scrollPane.addScrollHandler(new ScrollHandler() {
+				@Override
+				public void onScroll(ScrollEvent event) {
+					int scrollPosition = scrollPane.getHorizontalScrollPosition();
+					holderPanel.setHorizontalScrollPosition(scrollPosition);
+				}
+			});
 		}
 		cpPanel.add(scrollPane);
 		cpPanel.addStyleName("cpPanel");
@@ -148,6 +160,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
 		settingsChanged(cps);
 		cps.addListener(this);
+		
 
 		initGUI();
 	}
@@ -220,6 +233,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				int tableWidth = table.getOffsetWidth();
 				headerTable.getElement().getStyle()
 						.setWidth(tableWidth, Unit.PX);
+
+
 			}
 
 		});

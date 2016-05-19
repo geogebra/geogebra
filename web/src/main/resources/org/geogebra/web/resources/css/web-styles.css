@@ -3648,12 +3648,13 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .cpPanel .cpScrollPanel{
 	flex-grow: 1;
-	overflow-x: hidden !important;
+	/*overflow-x: hidden !important;*/
 	overflow-y: auto !important;
 }
 
 .outerScrollPanel{
-	overflow-y: hidden !important;
+	/*overflow-y: hidden !important;*/
+	overflow: hidden !important;
 }
 
 .outerScrollPanel > div{
@@ -3667,6 +3668,8 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .cpHeaderHolderPanel{
 	background-color: #F8F8F8;
+	overflow: hidden !important;
+	border-bottom: 1px solid #DDDDDD;
 }
 
 /*
