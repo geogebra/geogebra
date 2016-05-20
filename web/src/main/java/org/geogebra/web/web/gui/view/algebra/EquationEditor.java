@@ -253,6 +253,7 @@ public class EquationEditor {
 		if (slatex == null) {
 			slatex = s;
 		}
+		Log.debug("HIST READ" + slatex + "," + s);
 		if (slatex != null) {
 			slatex = slatex.replace("\\$", "\\dollar ")
 					.replace("$", "\\dollar ").replace("(", "\\left(")
@@ -280,14 +281,21 @@ public class EquationEditor {
 		return history.get(historyIndex);
 	}
 
+	/**
+	 * @param str
+	 *            plain text
+	 * @param latex
+	 *            latex
+	 */
 	public void addToHistory(String str, String latex) {
 		// exit if the new string is the same as the last entered string
 		if (!history.isEmpty() && str.equals(history.get(history.size() - 1)))
 			return;
-
 		history.add(str);
 		historyIndex = history.size();
-		historyMap.put(str, latex);
+		if (latex != null) {
+			historyMap.put(str, latex);
+		}
 	}
 
 	/**

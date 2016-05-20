@@ -1701,19 +1701,20 @@ public class RadioTreeItem extends AVTreeItem
 	 * @return boolean whether it was successful
 	 */
 	@Override
-	public boolean stopNewFormulaCreation(String newValue0,
+	public boolean stopNewFormulaCreation(final String newValue0,
 			final String latexx, final AsyncOperation cb) {
 
 		// TODO: move to InputTreeItem? Wouldn't help much...
 
 		String newValue = newValue0;
-
 		if (newValue0 != null) {
 			newValue = EquationEditor.stopCommon(newValue);
 		}
 
 		app.getKernel().clearJustCreatedGeosInViews();
-		final String input = newValue;
+		final String input = app.has(Feature.INPUT_BAR_PREVIEW)
+				? kernel.getInputPreviewHelper().getInput(newValue) : newValue;
+
 		if (input == null || input.length() == 0) {
 			app.getActiveEuclidianView().requestFocusInWindow(); // Michael
 			// Borcherds
@@ -1721,7 +1722,9 @@ public class RadioTreeItem extends AVTreeItem
 			scrollIntoView();
 			return false;
 		}
-
+		final boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
+				|| input.equals(newValue);
+		final String newValueF = newValue;
 		app.setScrollToShow(true);
 
 		try {
@@ -1744,8 +1747,12 @@ public class RadioTreeItem extends AVTreeItem
 
 					InputHelper.centerText(geos, app.getActiveEuclidianView());
 					app.setScrollToShow(false);
-
-					addToHistory(input, latexx);
+					if(!valid){
+						addToHistory(input, null);
+						addToHistory(newValueF, latexx);
+					} else {
+						addToHistory(input, latexx);
+					}
 
 					Scheduler.get().scheduleDeferred(
 							new Scheduler.ScheduledCommand() {
@@ -1773,7 +1780,7 @@ public class RadioTreeItem extends AVTreeItem
 					.getKernel()
 					.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
- getErrorHandler(), true, callback);
+							getErrorHandler(valid), true, callback);
 
 			if (newGeo != null && newGeo.length == 1
 					&& newGeo[0] instanceof GeoText) {
@@ -1815,7 +1822,13 @@ public class RadioTreeItem extends AVTreeItem
 		return true;
 	}
 
-	protected ErrorHandler getErrorHandler() {
+	/**
+	 * @param valid
+	 *            whether this is for valid string (false = last valid substring
+	 *            used)
+	 * @return error handler
+	 */
+	protected ErrorHandler getErrorHandler(final boolean valid) {
 		// TODO Auto-generated method stub
 		return new ErrorHandler(){
 
@@ -1826,8 +1839,12 @@ public class RadioTreeItem extends AVTreeItem
 
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
-				return app.getGuiManager().checkAutoCreateSliders(string,
-						callback);
+				if (valid) {
+					return app.getGuiManager().checkAutoCreateSliders(string,
+							callback);
+				}
+				callback.callback(new String[] { "7" });
+				return false;
 			}
 
 			public void showCommandError(String command, String message) {
@@ -2372,11 +2389,20 @@ marblePanel, evt))) {
 
 	@Override
 	public String getText() {
+		return getEditorValue(false);
+	}
+
+	/**
+	 * @param latexValue
+	 *            true for latex output, false for plain text
+	 * @return editor content
+	 */
+	protected String getEditorValue(boolean latexValue) {
 		if (latexItem == null)
 			return "";
 
 		String ret = DrawEquationW.getActualEditedValue(latexItem.getElement(),
-				false);
+				latexValue);
 
 		if (ret == null)
 			return "";

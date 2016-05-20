@@ -935,12 +935,6 @@ public class InputTreeItem extends RadioTreeItem implements
 
 
 
-
-
-
-
-
-
 	@Override
 	public void addToHistory(String str, String latex) {
 		editor.addToHistory(str, latex);
@@ -986,11 +980,15 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	private void updatePreview() {
 		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
+			String text = getText();
 			app.getKernel()
 					.getInputPreviewHelper()
 					.updatePreviewFromInputBar(
-							EquationEditor.stopCommon(editor.getText()),
+							EquationEditor.stopCommon(text),
 							AlgebraInputW.getWarningHandler(this, app));
+			if (text != null) {
+				this.getEquationEditor().setLaTeX(text, getEditorValue(true));
+			}
 		}
 
 	}
