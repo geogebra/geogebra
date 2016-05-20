@@ -212,6 +212,9 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		} else if (@org.geogebra.web.html5.Browser::isInternetExplorer()()) {
 			$wnd.clipboardData.setData('Text', value);
 		}
+
+		@org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW::copyToSystemClipboard(Ljava/lang/String;)(value);
+
 	}-*/;
 
 	private VerticalPanel getEmailPanel() {
