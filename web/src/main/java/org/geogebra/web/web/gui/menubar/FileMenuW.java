@@ -157,11 +157,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		addSeparator();
 
 		if (app.has(Feature.WEB_SHARE_DIALOG)) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),
-				app.getMenu("Share"), true), true, new MenuCommand(app) {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+					.menu_icon_file_share().getSafeUri().asString(),
+					app.getMenu("Share"), true), true, new MenuCommand(app) {
 
-					@Override
-					public void doExecute() {
+				@Override
+				public void doExecute() {
 					if (app.getActiveMaterial() == null) {
 						app.getGuiManager().save();
 					} else if (!app.getLoginOperation().isLoggedIn()) {
@@ -171,9 +172,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						new ShareDialogW(app);
 					}
 
-
-					}
-				});
+				}
+			});
 
 		} else {
 		// this is enabled always
