@@ -179,12 +179,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		ExpressionNode rightHandSide = eqn.getRHS();
 
 		ExpressionNode expr = null;
-		ExpressionValue right = rightHandSide.getRight();
 		// we want to simplify the factors if right side is 0
-		if ((right == null) || (right instanceof MyDouble
-				&& Double.isNaN(right.evaluateDouble()))
-				&& rightHandSide.getLeft() instanceof MyDouble
-				&& Kernel.isEqual(rightHandSide.getLeft().evaluateDouble(), 0)) {
+		if (!rightHandSide.containsFreeFunctionVariable(null)
+				&& Kernel.isEqual(rightHandSide.evaluateDouble(), 0)) {
 			ExpressionNode copyLeft = leftHandSide.deepCopy(kernel);
 			// get factors without power of left side
 			ArrayList<ExpressionNode> factors = copyLeft.getFactorsWithoutPow();
@@ -202,6 +199,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		ExpressionNode functionExpression;
+		Equation squareFree = eqn;
 		if (expr == null) {
 			// if there was no simplify of factors
 			functionExpression = new ExpressionNode(kernel, leftHandSide,
@@ -209,7 +207,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		} else {
 			// return simplified expression
 			functionExpression = expr;
-			eqn = new Equation(kernel, expr, new MyDouble(kernel, 0.0));
+			squareFree = new Equation(kernel, expr, new MyDouble(kernel, 0.0));
 			/*
 			 * the formula in AV is still unsimplified, maybe we want to
 			 * change/fix this someday
@@ -232,7 +230,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (coeffEqn != null) {
 			doSetCoeff(coeffEqn);
 		} else {
-			updateCoeff(eqn);
+			updateCoeff(squareFree);
 		}
 		euclidianViewUpdate();
 	}
