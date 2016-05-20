@@ -5555,11 +5555,19 @@ namespace giac {
 	}
 	else {
 	  gen d=new ref_vecteur;
-	  vecteur ab;
+	  vecteur ab,rem;
 	  operator_times(*a._EXTptr->_VECTptr,*b._EXTptr->_VECTptr,0,ab);
 	  addmodpoly(ab,*c._EXTptr->_VECTptr,*d._VECTptr);
-	  if (0 && c.ref_count()==1)
-	    *c._EXTptr=d; // should take remainder!
+	  if (c.ref_count()==1){
+	    DivRem(*d._VECTptr,v,0,ab,rem); // take remainder!
+	    if (rem.size()<2){ if (rem.empty()) c=0; else c=rem.front();}
+	    else {
+	      //gen dbg=ext_reduce(d,*(c._EXTptr+1));
+	      d._VECTptr->swap(rem);
+	      *c._EXTptr=d; 
+	      //if (dbg!=c) CERR << "error" << endl;
+	    }
+	  }
 	  else
 	    c=ext_reduce(d,*(c._EXTptr+1));
 	}

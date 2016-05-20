@@ -1739,7 +1739,9 @@ namespace giac {
 	if (contains(*it,x)){
 	  *logptr(contextptr) << gettext("Warning, trying to solve ") << g << "<=0 with " << *it << endl;
 	  gen tmp=symbolic(at_solve,gen(makevecteur(symbolic(at_inferieur_egal,gen(makevecteur(g,0),_SEQ__VECT)),x),_SEQ__VECT));
-	  tmp=_tilocal(gen(tmp,_SEQ__VECT),contextptr);
+	  gen xval=eval(x,1,contextptr);
+	  tmp=_tilocal(gen(makevecteur(tmp,*it),_SEQ__VECT),contextptr);
+	  sto(xval,x,contextptr);
 	  if (tmp.type==_VECT)
 	    res=mergevecteur(res,*tmp._VECTptr);
 	  continue;

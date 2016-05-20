@@ -5019,7 +5019,7 @@ namespace giac {
       polynome N(unsplitmultivarpoly(norme,innerdim)),Np(unsplitmultivarpoly(norme.derivative(),innerdim));
       polynome GG=gcd(N,Np);
       if (!GG.lexsorted_degree()){
-	// IMPROVE: GG might divide the initial polynomial
+	// IMPROVE: GG might divide the initial polynomial if k==0
 	break;
       }
     }
@@ -5721,7 +5721,7 @@ namespace giac {
 	return true;
       }
       if (ckalg_it->value.type==_EXT 
-	  //&& p_primit.dim<=2
+	  //&& p_primit.dim<=1
 	  ){
 	gen an;
 	if (!ext_factor(p_primit,ckalg_it->value,an,p_content,f,complexmode,extra_div))
@@ -5837,6 +5837,12 @@ namespace giac {
 	int nfact=0;
 	for (;it!=itend;++it)
 	  nfact += it->mult;
+	if (0 && essai && nfactbound>nfact){
+	  nfactbound=nfact;
+	  F0=Fb;
+	  v0=v;
+	  b0=b;
+	}
 	nfactbound=giacmin(nfactbound,nfact);
       }
       if (essai<2){
