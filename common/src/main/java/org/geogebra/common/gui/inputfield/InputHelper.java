@@ -11,7 +11,18 @@ import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Helper methods used by plain text and latex editors
+ *
+ */
 public class InputHelper {
+	/**
+	 * @param curWord
+	 *            builder with current word
+	 * @param kernel
+	 *            kernel
+	 * @return whether autocomplete should open
+	 */
 	public static boolean needsAutocomplete(StringBuilder curWord,
 			Kernel kernel) {
 		if ("ko".equals(kernel.getLocalization().getLanguage())) {
@@ -24,6 +35,12 @@ public class InputHelper {
 		return kernel.lookupLabel(curWord.toString()) == null;
 	}
 
+	/**
+	 * @param geos
+	 *            geos created from input
+	 * @param ev
+	 *            view
+	 */
 	public static void centerText(GeoElement[] geos,
 			EuclidianViewInterfaceCommon ev) {
 		// create texts in the middle of the visible view
@@ -64,9 +81,25 @@ public class InputHelper {
 		return c == ']' || (!onlySquare && c == '}')
 				|| (!onlySquare && c == ')');
 	}
+
+	/**
+	 * @param searchRight
+	 *            whether to search right
+	 * @param curWord
+	 *            current word builder (will be changed)
+	 * @param text
+	 *            whole editor input
+	 * @param caretPos0
+	 *            caret position, 0 based
+	 * @param onlySquareBrackets
+	 *            flag to only skip [], for desktop compatibility TODO not
+	 *            needed?
+	 * @return word start position
+	 */
 	public static int updateCurrentWord(boolean searchRight,
 			StringBuilder curWord,
-			String text, int caretPos, boolean onlySquareBrackets) {
+			String text, int caretPos0, boolean onlySquareBrackets) {
+		int caretPos = caretPos0;
 		int curWordStart;
 		if (text == null)
 			return -1;
@@ -121,7 +154,6 @@ public class InputHelper {
 				curWord.charAt(curWord.length() - 1), onlySquareBrackets)) {
 			curWord.setLength(curWord.length() - 1);
 		}
-		Log.debug("CURRENT WORD:" + curWord);
 		return curWordStart;
 	}
 }

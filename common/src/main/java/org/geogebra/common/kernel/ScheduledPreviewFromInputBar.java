@@ -40,6 +40,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		this.input = str;
 		this.validation = validation;
 		if (str.length() > maxLength || str.length() == 0) {
+			Log.debug("Timeout at length " + maxLength);
 			return;
 		}
 		long start = System.currentTimeMillis();
@@ -110,6 +111,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		Log.debug("preview for: " + validInput);
 		boolean silentModeOld = this.kernel.isSilentMode();
 		previewGeos = null;
+		Long start = System.currentTimeMillis();
 		try {
 			this.kernel.setSilentMode(true);
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
@@ -152,6 +154,10 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			this.kernel.setSilentMode(true);
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
 			this.kernel.setSilentMode(silentModeOld);
+		}
+		if (System.currentTimeMillis() > start + 200) {
+			maxLength = validInput.length();
+			validInput = null;
 		}
 	}
 
