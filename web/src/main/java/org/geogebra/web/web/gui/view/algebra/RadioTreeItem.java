@@ -2261,7 +2261,6 @@ marblePanel, evt))) {
 		if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
 			setFirst(first);
 			buttonPanel.clear();
-			Log.debug("ANIM" + geo.isAnimatable());
 			if (geo.isAnimatable()) {
 				if (animPanel == null) {
 					createAnimPanel();
