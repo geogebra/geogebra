@@ -262,7 +262,7 @@ public class ParserFunctions {
 		put(1, "alt", Operation.ALT);
 		put(1, "Alt", Operation.ALT, null);
 
-		put(0, "random", Operation.RANDOM);
+		put(0, "random", Operation.RANDOM, "()");
 		put(1, "x", Operation.XCOORD, null);
 		put(1, "y", Operation.YCOORD, null);
 		put(1, "z", Operation.ZCOORD, null);
