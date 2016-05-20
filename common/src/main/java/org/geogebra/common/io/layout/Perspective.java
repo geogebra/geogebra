@@ -92,7 +92,7 @@ public class Perspective {
 			"Perspective.Spreadsheet", "Perspective.CAS",
 			"Perspective.3DGraphics", "Perspective.Probability" };
 	final public static String[] perspectiveSlugs = new String[] {
-			"algebra", "geometry", "spreadsheet", "cas", "3d", "probability"
+			"graphing", "geometry", "spreadsheet", "cas", "3d", "probability"
  };
 
 	/**
