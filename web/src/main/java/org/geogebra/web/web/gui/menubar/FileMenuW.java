@@ -15,6 +15,7 @@ import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.export.PrintPreviewW;
+import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.ShareDialogW;
@@ -163,9 +164,14 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					public void doExecute() {
 					if (app.getActiveMaterial() == null) {
 						app.getGuiManager().save();
-						return;
-					}
+					} else if (!app.getLoginOperation().isLoggedIn()) {
+						((SignInButton) app.getLAF().getSignInButton(app))
+								.login();
+					} else {
 						new ShareDialogW(app);
+					}
+
+
 					}
 				});
 
