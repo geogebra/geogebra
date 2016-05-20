@@ -5558,8 +5558,8 @@ namespace giac {
 	  vecteur ab;
 	  operator_times(*a._EXTptr->_VECTptr,*b._EXTptr->_VECTptr,0,ab);
 	  addmodpoly(ab,*c._EXTptr->_VECTptr,*d._VECTptr);
-	  if (c.ref_count()==1)
-	    *c._EXTptr=d;
+	  if (0 && c.ref_count()==1)
+	    *c._EXTptr=d; // should take remainder!
 	  else
 	    c=ext_reduce(d,*(c._EXTptr+1));
 	}
