@@ -192,8 +192,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 				AppResources.INSTANCE.edit_copy().getSafeUri().asString()),
 				new ClickHandler() {
 					public void onClick(ClickEvent event) {
-						app.copyBase64ToClipboardChromeWebAppCase(TUBEURL
-								+ sharingKey);
+						copyToClipboard(TUBEURL + sharingKey);
 					}
 				});
 
@@ -203,6 +202,17 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 		return copyLinkPanel;
 	}
+
+	static native void copyToClipboard(String value) /*-{
+		$wnd.console.log("clipboard");
+		$wnd.console.log($doc.isChromeWebapp());
+		if ($doc.isChromeWebapp()) { // use chrome web app copy API
+			$wnd.console.log("chomeapp");
+			app.@org.geogebra.web.html5.main.AppW::copyBase64ToClipboardChromeWebAppCase(Ljava/lang/String;)(value);
+		} else if (@org.geogebra.web.html5.Browser::isInternetExplorer()()) {
+			$wnd.clipboardData.setData('Text', value);
+		}
+	}-*/;
 
 	private VerticalPanel getEmailPanel() {
 		emailPanel = new VerticalPanel();
