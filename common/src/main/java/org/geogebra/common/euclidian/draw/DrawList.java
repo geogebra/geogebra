@@ -187,6 +187,8 @@ public final class DrawList extends CanvasDrawable
 
 		private boolean dragging = false;
 
+		private boolean dragDirection;
+
 		public DrawOptions(EuclidianView view) {
 			this.viewOpt = view;
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
@@ -254,7 +256,12 @@ public final class DrawList extends CanvasDrawable
 			int rectTop = top + dimItem.getHeight() * row;
 			if (isScrollNeeded()) {
 				rectTop += rectUp.getHeight();
-				rectTop += dragOffset;
+				if (dragDirection) {
+					rectTop -= dragOffset;
+				} else {
+					rectTop += dragOffset;
+
+				}
 			}
 			if (item.getRect() == null || item.getRect().getX() != rectLeft
 					|| item.getRect().getY() != rectTop) {
@@ -270,15 +277,33 @@ public final class DrawList extends CanvasDrawable
 			if (item.rect == null) {
 				return;
 			}
-
 			int rectLeft = (int) item.rect.getBounds().getX();
 			int rectTop = (int) item.rect.getBounds().getY();
+			int rectBottom = rectTop + (int) item.rect.getBounds().getHeight();
 
+			boolean clip = false;
 			if (this.isScrollNeeded()) {
 				int ctrlUpY = (int) (rectUp.getBounds().getY() + rectUp
 						.getBounds().getHeight());
-				g2.setClip(rectLeft, ctrlUpY, (int) item.rect.getWidth(),
+				int ctrlDownBottom = (int) (rectDown.getBounds().getY()
+						+ rectDown.getBounds().getHeight());
+
+				// no extra item drawing.
+				if ((item.index == startIdx - 1 && rectBottom < ctrlUpY)
+						|| (ctrlDownBottom < rectBottom)
+				) {
+					return;
+				}
+
+				clip = dragOffset != 0
+						&& ((item.rect.intersects(rectUp)
+						|| item.rect.intersects(rectDown)));
+
+				if (clip) {
+				
+						g2.setClip(rectLeft, ctrlUpY, (int) item.rect.getWidth(),
 						(int) (rectDown.getY() - ctrlUpY));
+				}
 			}
 			int itemHeight = dimItem.getHeight();
 			if (hover) {
@@ -317,7 +342,9 @@ public final class DrawList extends CanvasDrawable
 						item.text, rectLeft + x, rectTop + y, false,
 						false);
 			}
-			g2.setClip(0, 0, viewWidth, viewHeight);
+			if (clip) {
+				g2.setClip(0, 0, viewWidth, viewHeight);
+			}
 
 		}
 
@@ -453,21 +480,30 @@ public final class DrawList extends CanvasDrawable
 				}
 
 
-				int dY = dragged.startPoint.getY() - di.startPoint.getY();
+				int d = dragged.startPoint.getY() - di.startPoint.getY();
+				dragDirection = d > 0;
+
+				int dY = Math.abs(d);
+
 				int itemHeight = (int) (di.item.getRect().getHeight());
-				if (Math.abs(dY) > 0) {
+				if (dY > 0) {
 					setDragging(true);
 				}
 
 				int itemDiffs = dY / itemHeight;
 				if (itemDiffs != 0) {
 					dragOffset = dY % itemHeight;
-					scrollBy(itemDiffs);
+					if (dragDirection) {
+						scrollBy(itemDiffs);
+					} else {
+						scrollBy(-itemDiffs);
+
+					}
 					dragged = di;
 				} else {
 
 					if (getStartIdx() > 0 && getEndIdx() < geoList.size()) {
-						dragOffset = -dY;
+						dragOffset = dY;
 						viewOpt.repaintView();
 					}
 				}
