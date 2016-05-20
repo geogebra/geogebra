@@ -152,7 +152,7 @@ public class SimpleAppCacheLinker extends AbstractLinker {
 					        || pathName.startsWith("js/properties_")) {
 						// skip these resources
 					} else {
-						publicSourcesSb.append(pathName + "\n");
+						publicSourcesSb.append("https://app.geogebra.org/5.0/web3d/" + pathName + "\n");
 					}
 				}
 			}
