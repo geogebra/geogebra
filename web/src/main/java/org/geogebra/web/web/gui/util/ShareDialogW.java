@@ -8,6 +8,9 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.FileMenuW;
 import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -17,6 +20,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
@@ -191,6 +195,40 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		iconPanel.add(edmodolink);
 
 		// Classroom
+
+		Element head = Document.get().getElementsByTagName("head").getItem(0);
+		ScriptElement scriptE = Document.get().createScriptElement();
+		String scripttext = "window.___gcfg = {parsetags: 'explicit'};";
+		scriptE.setInnerText(scripttext);
+		head.appendChild(scriptE);
+
+		ScriptElement scriptE2 = Document.get().createScriptElement();
+		scriptE2.setSrc("https://apis.google.com/js/platform.js");
+		head.appendChild(scriptE2);
+		
+		SimplePanel classroomcontentPanel = new SimplePanel();
+		classroomcontentPanel.getElement().setId("shareggbmaterial_content");
+		
+		SimplePanel sharetoclassroomPanel = new SimplePanel();
+		sharetoclassroomPanel.addStyleName("g-sharetoclassroom");
+		sharetoclassroomPanel.getElement().setAttribute("data-size", "32");
+		sharetoclassroomPanel.getElement().setAttribute("data-url", TUBEURL + sharingKey);
+		
+		classroomcontentPanel.add(sharetoclassroomPanel);
+		FlowPanel classroomPanel = new FlowPanel();
+		classroomPanel.add(classroomcontentPanel);
+		
+		ScriptElement scriptE3 = Document.get().createScriptElement();
+		scriptE3.setInnerText("gapi.sharetoclassroom.go(\"shareggbmaterial_content\");");
+		
+		classroomPanel.getElement().appendChild(scriptE3);
+		// Element body =
+		// Document.get().getElementsByTagName("body").getItem(0);
+		// body.insertFirst(scriptE3);
+		// head.insertFirst(scriptE3);
+
+		iconPanel.add(classroomPanel);
+
 		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_google_classroom().getSafeUri().asString()));
 
 		return iconPanel;
