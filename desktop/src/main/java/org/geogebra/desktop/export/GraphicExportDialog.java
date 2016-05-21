@@ -18,7 +18,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
-import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -693,12 +692,14 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		exportEPS(app, (EuclidianViewD) ev, epsOutput, textAsShapes, pixelWidth,
 				pixelHeight, exportScale);
 
+		File file;
+
 		if (exportToClipboard) {
-			Toolkit.getDefaultToolkit().getSystemClipboard().setContents(
-					new StringSelection(epsOutput.toString()), null);
+			String tempDir = UtilD.getTempDir();
+			file = new File(tempDir + "geogebra.eps");
 
 		} else {
-			File file = app.getGuiManager().showSaveDialog(FileExtensions.EPS,
+			file = app.getGuiManager().showSaveDialog(FileExtensions.EPS,
 					null,
 					app.getPlain("eps") + " " + app.getMenu("Files"), true,
 					false);
@@ -706,10 +707,16 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			if (file == null) {
 				return false;
 			}
-
-			UtilD.writeStringToFile(epsOutput.toString(), file);
-
 		}
+
+		UtilD.writeStringToFile(epsOutput.toString(), file);
+
+		if (exportToClipboard) {
+			// note this *doesn't* copy as text
+			// so ctrl-V in notepad won't show anything
+			sendToClipboard(file);
+		}
+
 
 		return true;
 
@@ -723,8 +730,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		// Michael Borcherds 2008-03-02 BEGIN
 		File file;
-		String tempDir = UtilD.getTempDir();
 		if (exportToClipboard) {
+			String tempDir = UtilD.getTempDir();
 			file = new File(tempDir + "geogebra.emf");
 		} else {
 			file = app.getGuiManager().showSaveDialog(FileExtensions.EMF, null,
