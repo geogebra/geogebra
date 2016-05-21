@@ -93,6 +93,13 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		iconPanel = new HorizontalPanel();
 		iconPanel.addStyleName("GeoGebraIconPanel");
 
+		// ShareDialog will be closed at clicking on icons
+		ClickHandler closePopupHandler = new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				hide();
+			}
+		};
+
 		// Geogebra
 		NoDragImage geogebraimg = new NoDragImage(AppResources.INSTANCE
 				.GeoGebraTube().getSafeUri().asString());
@@ -106,17 +113,20 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 							app.getGgbApi().getBase64(true,
 									FileMenuW.getShareStringHandler(app));
 						}
+						hide();
 			}
 
 		});
 		iconPanel.add(geogebrabutton);
 		// iconPanel.add(geogebraimg);
+
 		// Facebook
-		iconPanel.add(new Anchor(new NoDragImage(AppResources.INSTANCE
+		Anchor facebooklink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_facebook().getSafeUri().asString()).toString(), true,
 				"https://www.facebook.com/sharer/sharer.php?u=" + TUBEURL
-						+ sharingKey,
-				"_blank"));
+						+ sharingKey, "_blank");
+		facebooklink.addClickHandler(closePopupHandler);
+		iconPanel.add(facebooklink);
 
 		// Twitter
 		// Element head =
@@ -146,6 +156,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 				"https://twitter.com/share?url=" + TUBEURL
 						+ sharingKey,
 				"_blank");
+		twitterlink.addClickHandler(closePopupHandler);
 		iconPanel.add(twitterlink);
 
 		// Google+
@@ -153,6 +164,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 				.social_google().getSafeUri().asString()).toString(), true,
 				"https://plus.google.com/share?url=" + TUBEURL + sharingKey,
 				"_blank");
+		gpluslink.addClickHandler(closePopupHandler);
 		iconPanel.add(gpluslink);
 
 		// Pinterest
@@ -160,19 +172,23 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// NoDragImage(AppResources.INSTANCE.social_twitter().getSafeUri().asString()));
 
 		// OneNote
-		iconPanel.add(new Anchor(new NoDragImage(AppResources.INSTANCE
+		Anchor onenote = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_onenote().getSafeUri().asString()).toString(), true,
 				"http://tube.geogebra.org/material/onenote/id/" + sharingKey,
-				"_blank"));
+				"_blank");
+		onenote.addClickHandler(closePopupHandler);
+		iconPanel.add(onenote);
 
 		// Edmodo
 		String source_desc = (app.getActiveMaterial() != null) ? "&source="
 				+ app.getActiveMaterial().getId() + "&desc="
 				+ app.getActiveMaterial().getDescription() : "";
-		iconPanel.add(new Anchor(new NoDragImage(AppResources.INSTANCE
+		Anchor edmodolink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_edmodo().getSafeUri().asString()).toString(), true,
 				"http://www.edmodo.com/home?share=1 " + source_desc + "&url="
-						+ TUBEURL + sharingKey, "_blank"));
+						+ TUBEURL + sharingKey, "_blank");
+		edmodolink.addClickHandler(closePopupHandler);
+		iconPanel.add(edmodolink);
 
 		// Classroom
 		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_google_classroom().getSafeUri().asString()));
