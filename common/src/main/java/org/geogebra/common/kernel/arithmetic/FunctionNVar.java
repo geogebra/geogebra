@@ -34,6 +34,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Function of N variables that returns either a number or a boolean. This
@@ -414,6 +415,24 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 			fVars[i].set(vals[i]);
 		}
 		return expression.evaluateDouble();
+	}
+
+	/*
+	 * Evaluation of a given factor has no meaning here, but we need to make a
+	 * dummy implementation. FIXME in Evaluate2Var eventually. (non-Javadoc)
+	 * 
+	 * @see
+	 * org.geogebra.common.kernel.arithmetic.Evaluate2Var#evaluate(double[],
+	 * int)
+	 */
+	final public double evaluate(double[] vals, int factor) {
+		Log.error("unimplemented");
+		return 0.0;
+	}
+
+	final public double evaluate(double x, double y, int factor) {
+		Log.error("unimplemented");
+		return 0.0;
 	}
 
 	final public double evaluate(double x, double y) {
@@ -809,7 +828,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	}
 
 	/**
-	 * Transletes the function by (vx,vy)
+	 * Translates the function by (vx,vy)
 	 * 
 	 * @param vx
 	 *            x-coord of translation vector
@@ -821,11 +840,10 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		// translate x
 		if (!Kernel.isZero(vx)) {
 			translateX(expression, vx, 0);
-
 		}
+		// translate y
 		if (!Kernel.isZero(vy)) {
 			translateX(expression, vy, 1);
-
 		}
 
 		// make sure that expression object is changed!

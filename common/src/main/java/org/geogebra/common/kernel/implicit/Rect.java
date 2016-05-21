@@ -43,7 +43,7 @@ class Rect {
 		}
 	}
 
-	public Rect[] split(Evaluate2Var geoImplicitCurve) {
+	public Rect[] split(Evaluate2Var geoImplicitCurve, int factor) {
 		if (this.children == null) {
 			this.children = new Rect[4];
 			for (int i = 0; i < 4; i++) {
@@ -65,11 +65,14 @@ class Rect {
 		rect[2].coords.val[0] += fx2;
 		rect[2].coords.val[1] += fy2;
 		rect[3].coords.val[1] += fy2;
-		rect[1].evals[0] = geoImplicitCurve.evaluate(rect[1].coords.val);
-		rect[2].evals[0] = geoImplicitCurve.evaluate(rect[2].coords.val);
-		rect[2].evals[1] = geoImplicitCurve.evaluate(x1 + fx, y1 + fy2);
-		rect[2].evals[3] = geoImplicitCurve.evaluate(x1 + fx2, y1 + fy);
-		rect[3].evals[0] = geoImplicitCurve.evaluate(rect[3].coords.val);
+		rect[1].evals[0] = geoImplicitCurve.evaluate(rect[1].coords.val,
+				factor);
+		rect[2].evals[0] = geoImplicitCurve.evaluate(rect[2].coords.val,
+				factor);
+		rect[2].evals[1] = geoImplicitCurve.evaluate(x1 + fx, y1 + fy2, factor);
+		rect[2].evals[3] = geoImplicitCurve.evaluate(x1 + fx2, y1 + fy, factor);
+		rect[3].evals[0] = geoImplicitCurve.evaluate(rect[3].coords.val,
+				factor);
 		rect[3].evals[1] = rect[0].evals[2] = rect[1].evals[3] = rect[2].evals[0];
 		rect[0].evals[1] = rect[1].evals[0];
 		rect[0].evals[3] = rect[3].evals[0];

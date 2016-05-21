@@ -133,8 +133,8 @@ abstract class QuadTree {
 				&& Kernel.isEqual(q1.y, q2.y, 1e-10);
 	}
 
-	public int addSegment(Rect r) {
-		int status = createSegment(r);
+	public int addSegment(Rect r, int factor) {
+		int status = createSegment(r, factor);
 		if (status == VALID) {
 			if (pts[0].x > pts[1].x) {
 				temp = pts[0];
@@ -177,7 +177,7 @@ abstract class QuadTree {
 		return status;
 	}
 
-	public int createSegment(Rect r) {
+	public int createSegment(Rect r, int factor) {
 		int gridType = config(r);
 		if (gridType == T0101 || gridType == T_INV) {
 			return gridType;
@@ -235,8 +235,10 @@ abstract class QuadTree {
 			return EMPTY;
 		}
 		// check continuity of the function between P1 and P2
-		double p = Math.abs(this.geoImplicitCurve.evaluateImplicitCurve(pts[0].x, pts[0].y));
-		double q = Math.abs(this.geoImplicitCurve.evaluateImplicitCurve(pts[1].x, pts[1].y));
+		double p = Math.abs(this.geoImplicitCurve
+				.evaluateImplicitCurve(pts[0].x, pts[0].y, factor));
+		double q = Math.abs(this.geoImplicitCurve
+				.evaluateImplicitCurve(pts[1].x, pts[1].y, factor));
 		if ((p <= q1 && q <= q2)) {
 			return VALID;
 		}

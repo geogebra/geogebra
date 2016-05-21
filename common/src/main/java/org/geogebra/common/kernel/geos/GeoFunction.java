@@ -569,6 +569,24 @@ CasEvaluableFunction, ParametricCurve,
 		return evaluate(vals[0]);
 	}
 
+	/*
+	 * Evaluation of a given factor has no meaning here, but we need to make a
+	 * dummy implementation. FIXME in Evaluate2Var eventually. (non-Javadoc)
+	 * 
+	 * @see
+	 * org.geogebra.common.kernel.arithmetic.Evaluate2Var#evaluate(double[],
+	 * int)
+	 */
+	final public double evaluate(double[] vals, int factor) {
+		Log.error("unimplemented");
+		return 0.0;
+	}
+
+	final public double evaluate(double x, double y, int factor) {
+		Log.error("unimplemented");
+		return 0.0;
+	}
+
 	/**
 	 * If restricted to interval, returns its minimum
 	 * 

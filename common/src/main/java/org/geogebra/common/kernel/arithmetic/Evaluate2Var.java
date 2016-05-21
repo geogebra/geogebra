@@ -14,9 +14,22 @@ public interface Evaluate2Var {
 	public double evaluate(double x, double y);
 
 	/**
-	 * @param val
-	 *            variable values
+	 * @param x
+	 *            first variable value
+	 * @param y
+	 *            second variable
+	 * @param factor
+	 *            number of factor if multiple factors are present
 	 * @return evaluation result
 	 */
-	public double evaluate(double[] val);
+	public double evaluate(double x, double y, int factor);
+
+	/**
+	 * @param val
+	 *            variable values
+	 * @param factor
+	 *            number of factor if multiple factors are present
+	 * @return evaluation result
+	 */
+	public double evaluate(double[] val, int factor);
 }

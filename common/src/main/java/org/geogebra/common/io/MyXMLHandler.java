@@ -5378,7 +5378,12 @@ new GPoint(row, column));
 					}
 				}
 				ExpressionNode def = geo.getDefinition();
-				((GeoImplicit) geo).setCoeff(coeff);
+				/*
+				 * Don't call setCoeff: it forces using old plotting. Instead we
+				 * make sure in GeoImplicit that everything is handled correctly
+				 * internally.
+				 */
+				// ((GeoImplicit) geo).setCoeff(coeff);
 				geo.setDefinition(def);
 				return true;
 			}

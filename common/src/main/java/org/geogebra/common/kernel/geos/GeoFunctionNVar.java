@@ -48,6 +48,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Explicit function in multiple variables, e.g. f(a, b, c) := a^2 + b - 3c.
@@ -288,6 +289,24 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		if (fun == null || !isDefined)
 			return Double.NaN;
 		return fun.evaluate(vals);
+	}
+
+	/*
+	 * Evaluation of a given factor has no meaning here, but we need to make a
+	 * dummy implementation. FIXME in Evaluate2Var eventually. (non-Javadoc)
+	 * 
+	 * @see
+	 * org.geogebra.common.kernel.arithmetic.Evaluate2Var#evaluate(double[],
+	 * int)
+	 */
+	final public double evaluate(double[] vals, int factor) {
+		Log.error("unimplemented");
+		return 0.0;
+	}
+
+	final public double evaluate(double x, double y, int factor) {
+		Log.error("unimplemented");
+		return 0.0;
 	}
 
 	/**
