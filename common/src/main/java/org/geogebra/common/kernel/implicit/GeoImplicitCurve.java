@@ -270,8 +270,18 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * we fall back to use the original input as a single factor.
 	 */
 	private void forgetFactors() {
-		coeffSquarefree = new double[1][][];
-		coeffSquarefree[0] = coeff.clone();
+		coeffSquarefree = new double[1][coeff.length][coeff[0].length];
+		for (int i = 0; i < coeff.length; ++i) {
+			for (int j = 0; j < coeff[0].length; ++j) {
+				coeffSquarefree[0][i][j] = coeff[i][j];
+			}
+		}
+		/*
+		 * These are unsupported in GWT, the first will stop with a runtime
+		 * error, the second one with a compile error. :-(
+		 */
+		// System.arraycopy(coeff, 0, coeffSquarefree[0], 0, coeff.length);
+		// coeffSquarefree[0] = coeff.clone();
 		factorExpression = new GeoFunctionNVar[1];
 		factorExpression[0] = (GeoFunctionNVar) expression.deepCopy(kernel);
 	}
