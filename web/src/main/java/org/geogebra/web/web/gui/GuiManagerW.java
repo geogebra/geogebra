@@ -2038,7 +2038,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return onScreenKeyboard;
 	}
 
-	private KeyboardListener makeKeyboardListener(
+	public static KeyboardListener makeKeyboardListener(
 			MathKeyboardListener textField) {
 
 		if (textField instanceof KeyboardListener) {

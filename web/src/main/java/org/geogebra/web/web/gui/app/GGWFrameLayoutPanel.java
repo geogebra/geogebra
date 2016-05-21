@@ -13,6 +13,8 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
+import org.geogebra.web.keyboard.OnScreenKeyBoard;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -83,6 +85,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 						@Override
 						public void run() {
 							keyBoardNeeded(false, null);
+							confirmAVInput();
 						}
 					};
 					timer.schedule(0);
@@ -103,6 +106,17 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 
 		add(glassPane);
 		add(mainPanel);
+	}
+
+	protected void confirmAVInput() {
+		if (app.getGuiManager() != null && app.has(Feature.INPUT_BAR_PREVIEW)
+				&& app.getGuiManager().getLayout().getDockManager() != null) {
+			MathKeyboardListener kl = ((DockManagerW) app.getGuiManager()
+					.getLayout().getDockManager()).getPanelForKeyboard()
+					.getKeyboardListener();
+			GuiManagerW.makeKeyboardListener(kl).onEnter();
+
+		}
 	}
 
 	public void setLayout(final AppW app) {
