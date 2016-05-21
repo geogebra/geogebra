@@ -749,6 +749,10 @@ public class InputTreeItem extends RadioTreeItem implements
 		} else {
 			DrawEquationW.focusEquationMathQuillGGB(latexItem, focus);
 		}
+		if (!focus && app.has(Feature.INPUT_BAR_PREVIEW)) {
+			DrawEquationW.newFormulaCreatedMathQuillGGB(this, getElement(),
+					getText(), getEditorValue(true));
+		}
 	}
 
 	@Override

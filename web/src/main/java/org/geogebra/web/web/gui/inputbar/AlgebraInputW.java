@@ -255,6 +255,9 @@ public class AlgebraInputW extends FlowPanel
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
 		this.focused = false;
+		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
+			onEnterPressed();
+		}
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
@@ -269,76 +272,85 @@ public class AlgebraInputW extends FlowPanel
 							getWarningHandler(this, app));
 		}
 		if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
-			app.getKernel().clearJustCreatedGeosInViews();
-			final String input = app.getKernel().getInputPreviewHelper()
-					.getInput(getTextField().getText());
-			boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
-					|| app.getKernel().getInputPreviewHelper().isValid();
+			onEnterPressed();
 
-			if (input == null || input.length() == 0)
-			{
-				app.getActiveEuclidianView().requestFocusInWindow(); // Michael Borcherds 2008-05-12
-				return;
-			}
-
-			app.setScrollToShow(true);
-
-			try {
-				AsyncOperation<GeoElement[]> callback = new AsyncOperation<GeoElement[]>() {
-
-					@Override
-					public void callback(GeoElement[] geos) {
-
-						if (geos == null) {
-							inputField.getTextBox().setFocus(true);
-							return;
-						}
-
-						// need label if we type just eg
-						// lnx
-						if (geos.length == 1 && !geos[0].labelSet) {
-							geos[0].setLabel(geos[0].getDefaultLabel());
-						}
-
-						InputHelper.centerText(geos,
-								app.getActiveEuclidianView());
-
-						app.setScrollToShow(false);
-
-
-						inputField.addToHistory(input);
-						if (!getTextField().getText().equals(input)) {
-							inputField.addToHistory(getTextField().getText());
-						}
-						inputField.setText(null);
-
-						inputField.setIsSuggestionJustHappened(false);
-					}
-
-				};
-
-				app.getKernel().getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(input, true,
-								getErrorHandler(valid), true, callback);
-
-
-			} catch (Exception ee) {
-				inputField.addToHistory(getTextField().getText());
-				GOptionPaneW.setCaller(inputField.getTextBox());
-				app.showError(ee, inputField);
-				return;
-			} catch (MyError ee) {
-				inputField.addToHistory(getTextField().getText());
-				GOptionPaneW.setCaller(inputField.getTextBox());
-				inputField.showError(ee);
-				return;
-			}				  			   
-
-		} else if (keyCode != GWTKeycodes.KEY_C && keyCode != GWTKeycodes.KEY_V && keyCode != GWTKeycodes.KEY_X) { 
-			app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg ctrl-tab 
-			if (keyCode == GWTKeycodes.KEY_ESCAPE) inputField.setText(null);
+		} else if (keyCode != GWTKeycodes.KEY_C && keyCode != GWTKeycodes.KEY_V
+				&& keyCode != GWTKeycodes.KEY_X) {
+			app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg
+																	// ctrl-tab
+			if (keyCode == GWTKeycodes.KEY_ESCAPE)
+				inputField.setText(null);
 		}
 		inputField.setIsSuggestionJustHappened(false);
+	}
+
+	private void onEnterPressed() {
+		app.getKernel().clearJustCreatedGeosInViews();
+		final String input = app.getKernel().getInputPreviewHelper()
+				.getInput(getTextField().getText());
+		boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
+				|| app.getKernel().getInputPreviewHelper().isValid();
+
+		if (input == null || input.length() == 0) {
+			app.getActiveEuclidianView().requestFocusInWindow(); // Michael
+																	// Borcherds
+																	// 2008-05-12
+			return;
+		}
+
+		app.setScrollToShow(true);
+
+		try {
+			AsyncOperation<GeoElement[]> callback = new AsyncOperation<GeoElement[]>() {
+
+				@Override
+				public void callback(GeoElement[] geos) {
+
+					if (geos == null) {
+						inputField.getTextBox().setFocus(true);
+						return;
+					}
+
+					// need label if we type just eg
+					// lnx
+					if (geos.length == 1 && !geos[0].labelSet) {
+						geos[0].setLabel(geos[0].getDefaultLabel());
+					}
+
+					InputHelper.centerText(geos, app.getActiveEuclidianView());
+
+					app.setScrollToShow(false);
+
+
+					inputField.addToHistory(input);
+					if (!getTextField().getText().equals(input)) {
+						inputField.addToHistory(getTextField().getText());
+					}
+					inputField.setText(null);
+
+					inputField.setIsSuggestionJustHappened(false);
+				}
+
+			};
+
+			app.getKernel()
+					.getAlgebraProcessor()
+					.processAlgebraCommandNoExceptionHandling(input, true,
+							getErrorHandler(valid), true, callback);
+
+
+		} catch (Exception ee) {
+			inputField.addToHistory(getTextField().getText());
+			GOptionPaneW.setCaller(inputField.getTextBox());
+			app.showError(ee, inputField);
+			return;
+		} catch (MyError ee) {
+			inputField.addToHistory(getTextField().getText());
+			GOptionPaneW.setCaller(inputField.getTextBox());
+			inputField.showError(ee);
+			return;
+		}
+
 	}
 
 	/**

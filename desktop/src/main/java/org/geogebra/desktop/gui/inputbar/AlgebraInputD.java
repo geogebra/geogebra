@@ -386,52 +386,56 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			// make sure eg Ctrl-A not passed on
 			return;
 		case KeyEvent.VK_ENTER:
-			app.getKernel().clearJustCreatedGeosInViews();
-			boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
-					|| app.getKernel().getInputPreviewHelper().isValid();
-			String input = app.getKernel().getInputPreviewHelper()
-					.getInput(getTextField().getText());
-
-			if (input == null || input.length() == 0) {
-				app.getActiveEuclidianView().requestFocus(); // Michael
-																// Borcherds
-																// 2008-05-12
-				return;
-			}
-
-			app.setScrollToShow(true);
-			try {
-
-				app.getKernel()
-						.getAlgebraProcessor()
-							.processAlgebraCommandNoExceptionHandling(input,
-								true, getErrorHandler(valid), true,
-									new InputBarCallback(app, inputField, input));
-
-
-
-
-			} catch (Exception ee) {
-				inputField.addToHistory(getTextField().getText());
-				app.showError(ee, inputField);
-				return;
-			} catch (MyError ee) {
-				inputField.addToHistory(getTextField().getText());
-				inputField.showError(ee);
-				return;
-			}
-
+			onEnterPressed();
 
 
 			break;
 		default:
-			app.getGlobalKeyDispatcher()
-					.handleGeneralKeys(e); // handle eg ctrl-tab
+			app.getGlobalKeyDispatcher().handleGeneralKeys(e); // handle eg
+																// ctrl-tab
 		}
 	}
 
 
 
+
+	private void onEnterPressed() {
+		app.getKernel().clearJustCreatedGeosInViews();
+		boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
+				|| app.getKernel().getInputPreviewHelper().isValid();
+		String input = app.getKernel().getInputPreviewHelper()
+				.getInput(getTextField().getText());
+
+		if (input == null || input.length() == 0) {
+			app.getActiveEuclidianView().requestFocus(); // Michael
+															// Borcherds
+															// 2008-05-12
+			return;
+		}
+
+		app.setScrollToShow(true);
+		try {
+
+			app.getKernel()
+					.getAlgebraProcessor()
+					.processAlgebraCommandNoExceptionHandling(input, true,
+							getErrorHandler(valid), true,
+							new InputBarCallback(app, inputField, input));
+
+
+
+
+		} catch (Exception ee) {
+			inputField.addToHistory(getTextField().getText());
+			app.showError(ee, inputField);
+			return;
+		} catch (MyError ee) {
+			inputField.addToHistory(getTextField().getText());
+			inputField.showError(ee);
+			return;
+		}
+
+	}
 
 	private ErrorHandler getErrorHandler(final boolean valid) {
 		return new ErrorHandler() {
@@ -475,7 +479,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 	}
 
 	public void focusLost(FocusEvent arg0) {
-		//
+		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
+			onEnterPressed();
+		}
 	}
 
 	public void mouseClicked(MouseEvent e) {
