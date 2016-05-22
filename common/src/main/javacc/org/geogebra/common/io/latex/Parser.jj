@@ -182,7 +182,7 @@ void fraction(MathContainer currentField) :
 
         fraction.setArgument(0, passArgs);
         argumentHelper.passArgument(editorState, fraction);
-    } (<SPACE>)? <FRACTION_DIVIDER> (<SPACE>)? {
+    }  (<SPACE>)? <FRACTION_DIVIDER> (LOOKAHEAD(2147483647) <SPACE>)? {
         MathSequence mathSequence = new MathSequence();
         mathContainer(mathSequence);
         fraction.setArgument(1, mathSequence);
@@ -337,7 +337,7 @@ void mathCharacter(MathContainer currentField) :
         currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
     }
     |
-    ((space = <SPACE>) (t = <ELSE>)?) {
+    ((space = <SPACE>)  ( LOOKAHEAD(2147483647) t = <ELSE>)?) {
         if (t != null) {
             MetaCharacter metaCharacter = createMetaCharacter(t.image, metaModel);
             if ((metaCharacter.getType() == MetaCharacter.CHARACTER ||
