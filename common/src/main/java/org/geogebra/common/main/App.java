@@ -3833,6 +3833,9 @@ public abstract class App implements UpdateSelection {
 		case SHINY_3D:
 			return true;
 
+		case CONVEX_HULL_3D:
+			return false;
+
 		case WEB_PRINT_ALGEBRA_VIEW:
 			return prerelease;
 

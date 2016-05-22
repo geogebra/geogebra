@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -160,8 +161,6 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case PlaneBisector:
 				return new CmdPlaneBisector(kernel);
 
-				// case Polyhedron: return new CmdPolyhedron(kernel);
-
 			case Prism:
 				return new CmdPrism(kernel);
 			case Pyramid:
@@ -177,6 +176,12 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdArchimedeanSolid(kernel, Commands.Dodecahedron);
 			case Icosahedron:
 				return new CmdArchimedeanSolid(kernel, Commands.Icosahedron);
+
+			case Polyhedron:
+				if (kernel.getApplication().has(Feature.CONVEX_HULL_3D)) {
+					return new CmdPolyhedronConvex(kernel);
+				}
+				return super.commandTableSwitch(c);
 
 			case Net:
 				return new CmdPolyhedronNet(kernel);

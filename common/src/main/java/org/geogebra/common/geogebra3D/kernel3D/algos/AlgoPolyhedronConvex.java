@@ -1,15 +1,22 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
+import java.util.ArrayList;
+import java.util.TreeSet;
+
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ConstructionElementCycle;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
+
+import com.github.quickhull3d.Point3d;
+import com.github.quickhull3d.QuickHull3D;
 
 public class AlgoPolyhedronConvex extends AlgoElement3D {
 
@@ -19,6 +26,10 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 
 	protected OutputHandler<GeoSegment3D> outputSegments;
 	protected OutputHandler<GeoPolygon3D> outputPolygons;
+
+	// convex hull stuff
+	private Point3d[] point3dList;
+	private QuickHull3D quickHull3D;
 
 	/**
 	 * @param c
@@ -30,9 +41,12 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 		super(c);
 
 		this.pointList = new GeoPointND[pointList.length];
+		point3dList = new Point3d[pointList.length];
 		for (int i = 0; i < pointList.length; i++) {
 			this.pointList[i] = (GeoPointND) pointList[i];
+			point3dList[i] = new Point3d();
 		}
+		quickHull3D = new QuickHull3D();
 
 		// set input
 		input = pointList;
@@ -55,16 +69,22 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 		outputPolygons = createOutputPolygons();
 		outputSegments = createOutputSegments();
 
-		// temporary code (only for 4 points)
+		// temporary code
+		updateHull();
+
 		GeoPolyhedron p = getPolyhedron();
-		for (int j = 3; j >= 0; j--) {
+
+		int[][] faceIndices = quickHull3D.getFaces(QuickHull3D.POINT_RELATIVE
+				| QuickHull3D.CLOCKWISE);
+		for (int i = 0; i < faceIndices.length; i++) {
 			p.startNewFace();
-			for (int i = 0; i < 4; i++) {
-				if (i != j) {
-					p.addPointToCurrentFace(this.pointList[i]);
-				}
+			for (int k = 0; k < faceIndices[i].length; k++) {
+				int index = faceIndices[i][k];
+				System.out.print(index + " ");
+				p.addPointToCurrentFace(this.pointList[index]);
 			}
 			p.endCurrentFace();
+			System.out.println("");
 		}
 
 		p.createFaces();
@@ -79,9 +99,52 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 		updateOutputSegmentsAndPolygonsParentAlgorithms();
 	}
 
+	private void updateHull() {
+		for (int i = 0; i < pointList.length; i++) {
+			Coords coords = pointList[i].getInhomCoordsInD3();
+			point3dList[i].set(coords.getX(), coords.getY(), coords.getZ());
+		}
+
+		quickHull3D.build(point3dList);
+	}
+
 	@Override
 	public void compute() {
-		// Log.debug("compute");
+		updateHull();
+
+		GeoPolyhedron p = getPolyhedron();
+
+		ArrayList<ConstructionElementCycle> newFaces = new ArrayList<ConstructionElementCycle>();
+		TreeSet<Integer> availableIndices = new TreeSet<Integer>();
+		availableIndices.addAll(p.getPolygonsIndices());
+
+		int[][] faceIndices = quickHull3D.getFaces(QuickHull3D.POINT_RELATIVE
+				| QuickHull3D.CLOCKWISE);
+		for (int i = 0; i < faceIndices.length; i++) {
+			p.startNewFace();
+			for (int k = 0; k < faceIndices[i].length; k++) {
+				int index = faceIndices[i][k];
+				p.addPointToCurrentFace(this.pointList[index]);
+			}
+
+			Integer index = p.getCurrentFaceIndex();
+			if (index == null) {
+				newFaces.add(p.getCurrentFace());
+			} else {
+				availableIndices.remove(index);
+			}
+		}
+
+		String s = "\nnew faces:";
+		for (ConstructionElementCycle face : newFaces) {
+			s += "\n   " + face;
+		}
+		s += "\navailable indices:";
+		for (Integer index : availableIndices) {
+			s += " " + index;
+		}
+		Log.debug(s);
+
 	}
 
 	/**
@@ -140,20 +203,6 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 
 	}
 
-	/**
-	 * 
-	 * @param polygon
-	 *            polygon
-	 * @return 3D coords of all points
-	 */
-	protected static final Coords[] getPointsCoords(GeoPolygon polygon) {
-		int l = polygon.getPointsLength();
-		Coords[] points = new Coords[l];
-		for (int i = 0; i < l; i++) {
-			points[i] = polygon.getPoint3D(i);
-		}
-		return points;
-	}
 
 	private void setUndefined() {
 		getPolyhedron().setUndefined();

@@ -238,6 +238,41 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	}
 
 	/**
+	 * 
+	 * @return index for polygon described by current constructing face (null if
+	 *         not exists)
+	 */
+	public Integer getCurrentFaceIndex() {
+		currentFace.setDirection();
+		Integer index = polygonsIndex.get(currentFace);
+		int ret;
+		if (index == null) {
+			ret = -1;
+		} else {
+			ret = index;
+		}
+		Log.debug(currentFace + ": " + ret);
+		return index;
+	}
+
+	/**
+	 * 
+	 * @return current face descriptor
+	 */
+	public ConstructionElementCycle getCurrentFace() {
+		return currentFace;
+	}
+
+	/**
+	 * 
+	 * @return constructed polygons indices
+	 */
+	public Collection<Integer> getPolygonsIndices() {
+		return polygonsIndex.values();
+	}
+
+
+	/**
 	 * last face index (for pyramid/prism)
 	 */
 	private int topFaceIndex;
