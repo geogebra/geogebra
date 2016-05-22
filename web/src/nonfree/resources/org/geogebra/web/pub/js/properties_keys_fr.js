@@ -2398,7 +2398,7 @@ __GGB__keysVar.fr.plain = {
     "DefaultPointStyle": "Style Point (d\xe9faut)",
     "Defaults": "D\xe9faut",
     "Definition": "D\xe9finition",
-    "DefinitionAndValue": "Definition & Value",
+    "DefinitionAndValue": "D\xe9finition & Valeur",
     "Delete": "Effacer",
     "DeleteARows": "Effacer %0 lignes",
     "DeleteColumnA": "Effacer Colonne %0",
