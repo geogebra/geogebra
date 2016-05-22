@@ -321,8 +321,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			// AbstractApplication.debug(n.getValue()+" "+numericIntegration(f,
 			// lowerLimit, upperLimit));
 
-		}
-		if (f.isDataFunction()) {
+		} else if (f.isDataFunction()) {
 
 			n.setValue(dataIntegration(f, lowerLimit, upperLimit));
 
