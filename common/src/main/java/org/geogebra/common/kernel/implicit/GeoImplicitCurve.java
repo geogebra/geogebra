@@ -200,6 +200,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			// get factors without power of left side
 			ArrayList<ExpressionNode> factors = copyLeft.getFactorsWithoutPow();
 			if (!factors.isEmpty()) {
+				ExpressionNode expr = new ExpressionNode(factors.get(0));
+
 				// build expressionNode from factors by multiplying
 				int noFactors = factors.size();
 				coeffSquarefree = new double[noFactors][][];
@@ -224,7 +226,21 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					FunctionNVar fun = new FunctionNVar(functionExpression,
 							new FunctionVariable[] { x, y });
 					factorExpression[i] = new GeoFunctionNVar(cons, fun);
+
+					if (i >= 1) {
+						ExpressionNode copy = expr.deepCopy(kernel);
+						expr = new ExpressionNode(kernel, copy,
+								Operation.MULTIPLY, factors.get(i));
+					}
 				}
+				/*
+				 * Use the squarefree version of the equation for non-visual
+				 * computations (like intersection or mirror about circle). This
+				 * should improve numerical stability.
+				 */
+				Equation squareFree = new Equation(kernel, expr,
+						new MyDouble(kernel, 0.0));
+				updateCoeff(squareFree);
 			}
 		}
 
@@ -250,12 +266,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (coeffEqn != null) {
 			doSetCoeff(coeffEqn);
 		} else {
-			updateCoeff(eqn);
 			/*
 			 * If the eqn was not in form ...=0, it means that we need to use
 			 * the input eqn in its unmodified as an only factor.
 			 */
 			if (coeffSquarefree == null) {
+				updateCoeff(eqn);
 				forgetFactors();
 			}
 		}
@@ -270,9 +286,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * we fall back to use the original input as a single factor.
 	 */
 	private void forgetFactors() {
-		coeffSquarefree = new double[1][coeff.length][coeff[0].length];
+		coeffSquarefree = new double[1][coeff.length][];
 		for (int i = 0; i < coeff.length; ++i) {
-			for (int j = 0; j < coeff[0].length; ++j) {
+			coeffSquarefree[0][i] = new double[coeff[i].length];
+			for (int j = 0; j < coeff[i].length; ++j) {
 				coeffSquarefree[0][i][j] = coeff[i][j];
 			}
 		}
