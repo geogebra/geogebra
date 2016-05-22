@@ -1,4 +1,4 @@
-package com.github.quickhull3d;
+package org.geogebra.common.geogebra3D.quickhull3d;
 
 /*
  * #%L
@@ -29,12 +29,6 @@ package com.github.quickhull3d;
  * #L%
  */
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PrintStream;
-import java.io.StreamTokenizer;
-import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -349,73 +343,79 @@ public class QuickHull3D {
         }
     }
 
-    private void printQhullErrors(Process proc) throws IOException {
-        boolean wrote = false;
-        InputStream es = proc.getErrorStream();
-        StringBuffer error = new StringBuffer();
-        while (es.available() > 0) {
-            error.append((char) es.read());
-            wrote = true;
-        }
-        if (wrote) {
-            error.append(" ");
-			// LOG.error(error.toString());
-        }
-    }
+	// private void printQhullErrors(Process proc) throws IOException {
+	// boolean wrote = false;
+	// InputStream es = proc.getErrorStream();
+	// StringBuffer error = new StringBuffer();
+	// while (es.available() > 0) {
+	// error.append((char) es.read());
+	// wrote = true;
+	// }
+	// if (wrote) {
+	// error.append(" ");
+	// // LOG.error(error.toString());
+	// }
+	// }
 
-    protected void setFromQhull(double[] coords, int nump, boolean triangulate) {
-        String commandStr = "./qhull i";
-        if (triangulate) {
-            commandStr += " -Qt";
-        }
-        try {
-            Process proc = Runtime.getRuntime().exec(commandStr);
-            PrintStream ps = new PrintStream(proc.getOutputStream(), false, Charset.defaultCharset().name());
-            StreamTokenizer stok = new StreamTokenizer(new InputStreamReader(proc.getInputStream(), Charset.defaultCharset()));
-
-            ps.println("3 " + nump);
-            for (int i = 0; i < nump; i++) {
-                ps.println(coords[i * 3 + 0] + " " + coords[i * 3 + 1] + " " + coords[i * 3 + 2]);
-            }
-            ps.flush();
-            ps.close();
-            Vector indexList = new Vector(3);
-            stok.eolIsSignificant(true);
-            printQhullErrors(proc);
-
-            do {
-                stok.nextToken();
-            } while (stok.sval == null || !stok.sval.startsWith("MERGEexact"));
-            for (int i = 0; i < 4; i++) {
-                stok.nextToken();
-            }
-            if (stok.ttype != StreamTokenizer.TT_NUMBER) {
-                throw new IllegalArgumentException("Expecting number of faces");
-            }
-            int numf = (int) stok.nval;
-            stok.nextToken(); // clear EOL
-            int[][] faceIndices = new int[numf][];
-            for (int i = 0; i < numf; i++) {
-                indexList.clear();
-                while (stok.nextToken() != StreamTokenizer.TT_EOL) {
-                    if (stok.ttype != StreamTokenizer.TT_NUMBER) {
-                        throw new IllegalArgumentException("Expecting face index");
-                    }
-                    indexList.add(0, Integer.valueOf((int) stok.nval));
-                }
-                faceIndices[i] = new int[indexList.size()];
-                int k = 0;
-                for (Iterator it = indexList.iterator(); it.hasNext();) {
-                    faceIndices[i][k++] = ((Integer) it.next()).intValue();
-                }
-            }
-            setHull(coords, nump, faceIndices, numf);
-        } catch (IllegalArgumentException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new IllegalStateException("problem during hull calculation", e);
-        }
-    }
+	// protected void setFromQhull(double[] coords, int nump,
+	// boolean triangulate) {
+	// String commandStr = "./qhull i";
+	// if (triangulate) {
+	// commandStr += " -Qt";
+	// }
+	// try {
+	// Process proc = Runtime.getRuntime().exec(commandStr);
+	// PrintStream ps = new PrintStream(proc.getOutputStream(), false,
+	// Charset.defaultCharset().name());
+	// StreamTokenizer stok = new StreamTokenizer(new InputStreamReader(
+	// proc.getInputStream(), Charset.defaultCharset()));
+	//
+	// ps.println("3 " + nump);
+	// for (int i = 0; i < nump; i++) {
+	// ps.println(coords[i * 3 + 0] + " " + coords[i * 3 + 1] + " "
+	// + coords[i * 3 + 2]);
+	// }
+	// ps.flush();
+	// ps.close();
+	// Vector indexList = new Vector(3);
+	// stok.eolIsSignificant(true);
+	// printQhullErrors(proc);
+	//
+	// do {
+	// stok.nextToken();
+	// } while (stok.sval == null || !stok.sval.startsWith("MERGEexact"));
+	// for (int i = 0; i < 4; i++) {
+	// stok.nextToken();
+	// }
+	// if (stok.ttype != StreamTokenizer.TT_NUMBER) {
+	// throw new IllegalArgumentException("Expecting number of faces");
+	// }
+	// int numf = (int) stok.nval;
+	// stok.nextToken(); // clear EOL
+	// int[][] faceIndices = new int[numf][];
+	// for (int i = 0; i < numf; i++) {
+	// indexList.clear();
+	// while (stok.nextToken() != StreamTokenizer.TT_EOL) {
+	// if (stok.ttype != StreamTokenizer.TT_NUMBER) {
+	// throw new IllegalArgumentException(
+	// "Expecting face index");
+	// }
+	// indexList.add(0, Integer.valueOf((int) stok.nval));
+	// }
+	// faceIndices[i] = new int[indexList.size()];
+	// int k = 0;
+	// for (Iterator it = indexList.iterator(); it.hasNext();) {
+	// faceIndices[i][k++] = ((Integer) it.next()).intValue();
+	// }
+	// }
+	// setHull(coords, nump, faceIndices, numf);
+	// } catch (IllegalArgumentException e) {
+	// throw e;
+	// } catch (Exception e) {
+	// throw new IllegalStateException("problem during hull calculation",
+	// e);
+	// }
+	// }
 
     /**
      * print all points to the print stream (very point a line)
@@ -423,12 +423,12 @@ public class QuickHull3D {
      * @param ps
      *            the print stream to write to
      */
-    public void printPoints(PrintStream ps) {
-        for (int i = 0; i < numPoints; i++) {
-            Point3d pnt = pointBuffer[i].pnt;
-            ps.println(pnt.x + ", " + pnt.y + ", " + pnt.z + ",");
-        }
-    }
+	// public void printPoints(PrintStream ps) {
+	// for (int i = 0; i < numPoints; i++) {
+	// Point3d pnt = pointBuffer[i].pnt;
+	// ps.println(pnt.x + ", " + pnt.y + ", " + pnt.z + ",");
+	// }
+	// }
 
     /**
      * Constructs the convex hull of a set of points whose coordinates are given
@@ -876,9 +876,9 @@ public class QuickHull3D {
      * @see QuickHull3D#getVertices()
      * @see QuickHull3D#getFaces()
      */
-    public void print(PrintStream ps) {
-        print(ps, 0);
-    }
+	// public void print(PrintStream ps) {
+	// print(ps, 0);
+	// }
 
     /**
      * Prints the vertices and faces of this hull to the stream ps.
@@ -902,26 +902,26 @@ public class QuickHull3D {
      * @see QuickHull3D#getVertices()
      * @see QuickHull3D#getFaces()
      */
-    public void print(PrintStream ps, int indexFlags) {
-        if ((indexFlags & INDEXED_FROM_ZERO) == 0) {
-            indexFlags |= INDEXED_FROM_ONE;
-        }
-        for (int i = 0; i < numVertices; i++) {
-            Point3d pnt = pointBuffer[vertexPointIndices[i]].pnt;
-            ps.println("v " + pnt.x + " " + pnt.y + " " + pnt.z);
-        }
-        for (Iterator fi = faces.iterator(); fi.hasNext();) {
-            Face face = (Face) fi.next();
-            int[] indices = new int[face.numVertices()];
-            getFaceIndices(indices, face, indexFlags);
-
-            ps.print("f");
-            for (int k = 0; k < indices.length; k++) {
-                ps.print(" " + indices[k]);
-            }
-            ps.println("");
-        }
-    }
+	// public void print(PrintStream ps, int indexFlags) {
+	// if ((indexFlags & INDEXED_FROM_ZERO) == 0) {
+	// indexFlags |= INDEXED_FROM_ONE;
+	// }
+	// for (int i = 0; i < numVertices; i++) {
+	// Point3d pnt = pointBuffer[vertexPointIndices[i]].pnt;
+	// ps.println("v " + pnt.x + " " + pnt.y + " " + pnt.z);
+	// }
+	// for (Iterator fi = faces.iterator(); fi.hasNext();) {
+	// Face face = (Face) fi.next();
+	// int[] indices = new int[face.numVertices()];
+	// getFaceIndices(indices, face, indexFlags);
+	//
+	// ps.print("f");
+	// for (int k = 0; k < indices.length; k++) {
+	// ps.print(" " + indices[k]);
+	// }
+	// ps.println("");
+	// }
+	// }
 
     private void getFaceIndices(int[] indices, Face face, int flags) {
         boolean ccw = (flags & CLOCKWISE) == 0;
@@ -1224,48 +1224,51 @@ public class QuickHull3D {
         }
     }
 
-    protected boolean checkFaceConvexity(Face face, double tol, PrintStream ps) {
-        double dist;
-        HalfEdge he = face.he0;
-        do {
-            face.checkConsistency();
-            // make sure edge is convex
-            dist = oppFaceDistance(he);
-            if (dist > tol) {
-                if (ps != null) {
-                    ps.println("Edge " + he.getVertexString() + " non-convex by " + dist);
-                }
-                return false;
-            }
-            dist = oppFaceDistance(he.opposite);
-            if (dist > tol) {
-                if (ps != null) {
-                    ps.println("Opposite edge " + he.opposite.getVertexString() + " non-convex by " + dist);
-                }
-                return false;
-            }
-            if (he.next.oppositeFace() == he.oppositeFace()) {
-                if (ps != null) {
-                    ps.println("Redundant vertex " + he.head().index + " in face " + face.getVertexString());
-                }
-                return false;
-            }
-            he = he.next;
-        } while (he != face.he0);
-        return true;
-    }
+	// protected boolean checkFaceConvexity(Face face, double tol, PrintStream
+	// ps) {
+	// double dist;
+	// HalfEdge he = face.he0;
+	// do {
+	// face.checkConsistency();
+	// // make sure edge is convex
+	// dist = oppFaceDistance(he);
+	// if (dist > tol) {
+	// if (ps != null) {
+	// ps.println("Edge " + he.getVertexString() + " non-convex by " + dist);
+	// }
+	// return false;
+	// }
+	// dist = oppFaceDistance(he.opposite);
+	// if (dist > tol) {
+	// if (ps != null) {
+	// ps.println("Opposite edge " + he.opposite.getVertexString() + "
+	// non-convex by " + dist);
+	// }
+	// return false;
+	// }
+	// if (he.next.oppositeFace() == he.oppositeFace()) {
+	// if (ps != null) {
+	// ps.println("Redundant vertex " + he.head().index + " in face " +
+	// face.getVertexString());
+	// }
+	// return false;
+	// }
+	// he = he.next;
+	// } while (he != face.he0);
+	// return true;
+	// }
 
-    protected boolean checkFaces(double tol, PrintStream ps) {
-        // check edge convexity
-        boolean convex = true;
-        for (Iterator it = faces.iterator(); it.hasNext();) {
-            Face face = (Face) it.next();
-            if (face.mark == Face.VISIBLE && !checkFaceConvexity(face, tol, ps)) {
-                convex = false;
-            }
-        }
-        return convex;
-    }
+	// protected boolean checkFaces(double tol, PrintStream ps) {
+	// // check edge convexity
+	// boolean convex = true;
+	// for (Iterator it = faces.iterator(); it.hasNext();) {
+	// Face face = (Face) it.next();
+	// if (face.mark == Face.VISIBLE && !checkFaceConvexity(face, tol, ps)) {
+	// convex = false;
+	// }
+	// }
+	// return convex;
+	// }
 
     /**
      * Checks the correctness of the hull using the distance tolerance returned
@@ -1279,9 +1282,9 @@ public class QuickHull3D {
      * @return true if the hull is valid
      * @see QuickHull3D#check(PrintStream,double)
      */
-    public boolean check(PrintStream ps) {
-        return check(ps, getDistanceTolerance());
-    }
+	// public boolean check(PrintStream ps) {
+	// return check(ps, getDistanceTolerance());
+	// }
 
     /**
      * Checks the correctness of the hull. This is done by making sure that no
@@ -1304,35 +1307,36 @@ public class QuickHull3D {
      * @return true if the hull is valid
      * @see QuickHull3D#check(PrintStream)
      */
-    public boolean check(PrintStream ps, double tol)
-
-    {
-        // check to make sure all edges are fully connected
-        // and that the edges are convex
-        double dist;
-        double pointTol = 10 * tol;
-
-        if (!checkFaces(tolerance, ps)) {
-            return false;
-        }
-
-        // check point inclusion
-
-        for (int i = 0; i < numPoints; i++) {
-            Point3d pnt = pointBuffer[i].pnt;
-            for (Iterator it = faces.iterator(); it.hasNext();) {
-                Face face = (Face) it.next();
-                if (face.mark == Face.VISIBLE) {
-                    dist = face.distanceToPlane(pnt);
-                    if (dist > pointTol) {
-                        if (ps != null) {
-                            ps.println("Point " + i + " " + dist + " above face " + face.getVertexString());
-                        }
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
+	// public boolean check(PrintStream ps, double tol)
+	//
+	// {
+	// // check to make sure all edges are fully connected
+	// // and that the edges are convex
+	// double dist;
+	// double pointTol = 10 * tol;
+	//
+	// if (!checkFaces(tolerance, ps)) {
+	// return false;
+	// }
+	//
+	// // check point inclusion
+	//
+	// for (int i = 0; i < numPoints; i++) {
+	// Point3d pnt = pointBuffer[i].pnt;
+	// for (Iterator it = faces.iterator(); it.hasNext();) {
+	// Face face = (Face) it.next();
+	// if (face.mark == Face.VISIBLE) {
+	// dist = face.distanceToPlane(pnt);
+	// if (dist > pointTol) {
+	// if (ps != null) {
+	// ps.println("Point " + i + " " + dist + " above face " +
+	// face.getVertexString());
+	// }
+	// return false;
+	// }
+	// }
+	// }
+	// }
+	// return true;
+	// }
 }

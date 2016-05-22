@@ -1,4 +1,4 @@
-package com.github.quickhull3d;
+package org.geogebra.common.geogebra3D.quickhull3d;
 
 /*
  * #%L
