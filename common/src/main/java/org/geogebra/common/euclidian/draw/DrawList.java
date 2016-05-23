@@ -313,8 +313,7 @@ public final class DrawList extends CanvasDrawable
 
 			} else {
 				g2.setColor(geoList.getBackgroundColor());
-				g2.fillRect(rectLeft, rectTop, dimItem.getWidth(),
- itemHeight);
+				g2.fillRect(rectLeft, rectTop, dimItem.getWidth(), itemHeight);
 
 			}
 
