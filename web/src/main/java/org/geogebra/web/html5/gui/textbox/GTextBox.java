@@ -83,4 +83,9 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 	public void setFocus(boolean b, boolean sv) {
 		this.setFocus(b);
 	}
+
+	public void onEnter(boolean b) {
+		// TODO Auto-generated method stub
+
+	}
 }

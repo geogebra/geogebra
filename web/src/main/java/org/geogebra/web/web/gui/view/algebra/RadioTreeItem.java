@@ -1692,7 +1692,6 @@ public class RadioTreeItem extends AVTreeItem
 		// LayoutUtilW.replace(ihtml, definitionPanel, latexItem);
 		doUpdate();
 	}
-
 	/**
 	 * Stop new formula creation Much of this code is copied from
 	 * AlgebraInputW.onKeyUp
@@ -1703,6 +1702,32 @@ public class RadioTreeItem extends AVTreeItem
 	@Override
 	public boolean stopNewFormulaCreation(final String newValue0,
 			final String latexx, final AsyncOperation cb) {
+		return stopNewFormulaCreation(newValue0, latexx, cb, true);
+	}
+
+	public void onEnter(final boolean keepFocus) {
+		stopEditing(getText(), new AsyncOperation<GeoElement>() {
+
+					@Override
+			public void callback(GeoElement obj) {
+						if (keepFocus) {
+							DrawEquationW.stornoFormulaMathQuillGGB(
+								RadioTreeItem.this, latexItem.getElement());
+						}
+
+					}
+		});
+	}
+	/**
+	 * Stop new formula creation Much of this code is copied from
+	 * AlgebraInputW.onKeyUp
+	 * 
+	 * @param newValue0
+	 * @return boolean whether it was successful
+	 */
+	public boolean stopNewFormulaCreation(final String newValue0,
+			final String latexx, final AsyncOperation<Object> cb,
+			final boolean keepFocus) {
 
 		// TODO: move to InputTreeItem? Wouldn't help much...
 
@@ -1759,7 +1784,7 @@ public class RadioTreeItem extends AVTreeItem
 								@Override
 								public void execute() {
 									scrollIntoView();
-							if (isInputTreeItem()) {
+									if (isInputTreeItem() && keepFocus) {
 										setFocus(true);
 									}
 								}
@@ -1809,16 +1834,25 @@ public class RadioTreeItem extends AVTreeItem
 			return false;
 		}
 		// there is also a timer to make sure it scrolls into view
-		Timer tim = new Timer() {
-			@Override
-			public void run() {
-				scrollIntoView();
-				if (isInputTreeItem()) {
-					setFocus(true);
+		if (keepFocus) {
+			Timer tim = new Timer() {
+				@Override
+				public void run() {
+					scrollIntoView();
+					if (isInputTreeItem()) {
+						setFocus(true);
+					}
 				}
-			}
-		};
-		tim.schedule(500);
+			};
+			tim.schedule(500);
+		} else {
+
+			DrawEquationW.focusEquationMathQuillGGB(latexItem, false);
+			this.setText("");
+
+
+
+		}
 		return true;
 	}
 

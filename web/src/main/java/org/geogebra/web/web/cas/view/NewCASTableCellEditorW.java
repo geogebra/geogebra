@@ -410,4 +410,18 @@ public class NewCASTableCellEditorW extends Label implements
 	public void autocomplete(String s) {
 		editor.autocomplete(s, false);
 	}
+
+	public void onEnter(boolean keepFocus) {
+		stopNewFormulaCreation(getText(), getLaTeX(),
+				new AsyncOperation<Object>() {
+
+					@Override
+					public void callback(Object obj) {
+						DrawEquationW.stornoFormulaMathQuillGGB(
+								NewCASTableCellEditorW.this,
+								seMayLaTeX);
+
+					}
+				});
+	}
 }

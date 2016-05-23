@@ -9,7 +9,7 @@ public enum EventType {
 
 	ADD("add"),
 
-	STOREUNDO("add"),
+	STOREUNDO("storeUndo"),
 
 	REMOVE("remove"),
 

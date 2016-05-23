@@ -14,7 +14,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
-import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -124,7 +123,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 						&& (y > panel.getAbsoluteTop() - app.getAbsTop())
 						&& (y < panel.getAbsoluteTop() - app.getAbsTop()
 								+ panel.getHeight()));
-				GuiManagerW.makeKeyboardListener(kl).onEnter();
+				kl.onEnter(!focusLost);
+
 			}
 
 

@@ -1664,4 +1664,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		arr.add(s);
 		validateAutoCompletion(0, arr);
 	}
+
+	public void onEnter(boolean b) {
+		// TODO Auto-generated method stub
+	}
 }

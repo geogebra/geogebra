@@ -1169,6 +1169,7 @@ public class DrawEquationW extends DrawEquation {
 	        final GeoContainer rbti, final Element parentElement,
 	        final String input, final String latex) {
 		AsyncOperation callback = new AsyncOperation() {
+			@Override
 			public void callback(Object o) {
 				// this should only be called when the new formula creation
 				// is really successful! i.e. return true as old behaviour

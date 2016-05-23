@@ -14,6 +14,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -710,16 +711,21 @@ public class InputTreeItem extends RadioTreeItem implements
 		return editor.resetCompletions();
 	}
 
+	@Override
+	public void onEnter(final boolean keepFocus) {
+		stopNewFormulaCreation(getText(), getEditorValue(true),
+				new AsyncOperation<Object>() {
 
+					@Override
+					public void callback(Object obj) {
+						if (keepFocus) {
+							DrawEquationW.stornoFormulaMathQuillGGB(
+									InputTreeItem.this, latexItem.getElement());
+						}
 
-
-
-
-
-
-
-
-
+					}
+				}, keepFocus);
+	}
 	@Override
 	public List<String> getCompletions() {
 		return editor.getCompletions();
@@ -727,6 +733,7 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	@Override
 	public void setFocus(boolean focus, boolean scheduledVersion) {
+		Log.printStacktrace("" + focus + "," + scheduledVersion);
 		if (focus) {
 			app.getSelectionManager().clearSelectedGeos();
 			getAV().updateSelection();
