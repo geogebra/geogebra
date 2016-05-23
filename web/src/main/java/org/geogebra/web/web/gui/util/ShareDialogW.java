@@ -210,10 +210,11 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		
 		SimplePanel classroomcontentPanel = new SimplePanel();
 		classroomcontentPanel.getElement().setId("shareggbmaterial_content");
+		classroomcontentPanel.addStyleName("GeoGebraShareOnGClassroom");
 		
 		SimplePanel sharetoclassroomPanel = new SimplePanel();
 		sharetoclassroomPanel.addStyleName("g-sharetoclassroom");
-		sharetoclassroomPanel.getElement().setAttribute("data-size", "32");
+		sharetoclassroomPanel.getElement().setAttribute("data-size", "30");
 		sharetoclassroomPanel.getElement().setAttribute("data-url", TUBEURL + sharingKey);
 		
 		classroomcontentPanel.add(sharetoclassroomPanel);
@@ -231,7 +232,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 		iconPanel.add(classroomPanel);
 
-		iconPanel.add(new NoDragImage(AppResources.INSTANCE.social_google_classroom().getSafeUri().asString()));
+		// iconPanel.add(new
+		// NoDragImage(AppResources.INSTANCE.social_google_classroom().getSafeUri().asString()));
 
 		return iconPanel;
 	}

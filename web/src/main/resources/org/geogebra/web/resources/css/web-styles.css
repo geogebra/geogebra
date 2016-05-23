@@ -2963,7 +2963,7 @@ body.application[dir=rtl] .DialogButtonPanel button {
 .GeoGebraIconPanel {
 	display: block;
 }
-.GeoGebraIconPanel img {
+.GeoGebraIconPanel img, .GeoGebraShareOnGClassroom {
 	margin: 5px;
 }
 .GeoGebraEmailPanel {
@@ -2977,7 +2977,6 @@ body.application[dir=rtl] .DialogButtonPanel button {
 .GeoGebraImagePanel{
 	height: 100%;
 }
-
 
 
 /*-------- RECOVER AUTO SAVED DIALOG ------------*/
