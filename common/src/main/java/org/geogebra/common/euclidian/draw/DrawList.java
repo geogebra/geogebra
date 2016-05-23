@@ -594,6 +594,9 @@ public final class DrawList extends CanvasDrawable
 			xPadding = 10;
 			yPadding = 10;
 			itemFontSize = getLabelFontSize();
+			if (isScrollNeeded()) {
+				top = MARGIN;
+			}
 
 
 
@@ -611,6 +614,9 @@ public final class DrawList extends CanvasDrawable
 
 			int tableWidth = getColCount() * dimItem.getWidth();
 			int tableHeight = rowCount * dimItem.getHeight();
+			if (isScrollNeeded()) {
+				tableHeight += dimItem.getHeight();
+			}
 
 
 			if (top + tableHeight + 2 * MARGIN > viewOpt
@@ -618,11 +624,13 @@ public final class DrawList extends CanvasDrawable
 				top = (viewOpt.getHeight() - tableHeight - MARGIN);
 				if (top < MARGIN) {
 					top = MARGIN;
-					tableHeight -= MARGIN;
+					if (!isScrollNeeded()) {
+						tableHeight -= MARGIN;
+					}
 				}
 
 				if (isScrollNeeded()) {
-					top -= (int) (rectUp.getHeight() + rectDown.getHeight());
+
 					tableHeight += 2 * (int) rectDown.getHeight();
 				}
 			}
