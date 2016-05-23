@@ -679,11 +679,20 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		if (symbolic && vector.getParentAlgorithm() instanceof DependentAlgo) {
 			AlgoElement algo = vector.getParentAlgorithm();
 			String symbolicStr = algo.toString(tpl);
+
 			// remove \left( and \right)
 			int firstIndex = symbolicStr.indexOf("\\left(");
 			int lastIndex = symbolicStr.lastIndexOf("\\right)");
+
+			if (firstIndex > -1 && lastIndex > -1) {
 			inputs = symbolicStr.substring(firstIndex + 6, lastIndex).split(
 					",");
+			} else {
+				inputs = new String[3];
+				inputs[0] = kernel.format(x, tpl);
+				inputs[1] = kernel.format(y, tpl);
+				inputs[2] = kernel.format(z, tpl);
+			}
 		} else {
 			inputs = new String[3];
 			inputs[0] = kernel.format(x,tpl);
