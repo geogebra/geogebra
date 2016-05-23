@@ -207,7 +207,8 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 	 * @see geogebra.common.kernel.locusequ.EquationTranslator#eliminate()
 	 */
 	@Override
-	public double[][] eliminate(Collection<StringBuilder> translatedRestrictions) {
+	public double[][][] eliminate(
+			Collection<StringBuilder> translatedRestrictions) {
 		
 		String script, result;
 			
@@ -222,7 +223,8 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 			}
 			Log.info("[LocusEqu] output from singular: "+result);
 			// Comment this to disable computation via SingularWS:
-			return getBivarPolyCoefficientsSingular(result);
+			// return getBivarPolyCoefficientsSingular(result);
+			Log.error("YET UNIMPLEMENTED"); // FIXME
 		}
 		
 		// Falling back to Giac:
@@ -233,8 +235,8 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 		
 		Log.info("[LocusEqu] input to cas: "+script);
 		result = cas.evaluate(script);
-		Log.info("[LocusEqu] output from cas: "+result);
-		return cas.getCurrentCAS().getBivarPolyCoefficients(result, cas);
+		Log.info("[LocusEqu] output from cas: " + result);
+		return cas.getCurrentCAS().getBivarPolyCoefficientsAll(result);
 	}
 
 	public static double[][] getBivarPolyCoefficientsSingular(String rawResult) {

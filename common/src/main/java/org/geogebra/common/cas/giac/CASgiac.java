@@ -6,7 +6,6 @@ import java.util.Random;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
-import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CASGenericInterface;
@@ -563,8 +562,17 @@ public abstract class CASgiac implements CASGenericInterface {
 				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
 				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
 				.append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;")
-				.append("cc:=append(cc,ee); od; od],cc][6]")
+				.append("cc:=append(cc,ee); od; od],") // cc][6]")
 				// See CASTranslator.createSingularScript for more details.
+				// Add the coefficients for the factors also to improve
+				// visualization:
+				.append("[ff:=factors(factorsqrfree(aa[0]))], [ccf:=[size(ff)/2]], ")
+				.append("[for ll from 0 to size(ff)-1 by 2 do aaf:=ff[ll]; bb:=coeffs(aaf,x); sx:=size(bb);")
+				.append(" sy:=size(coeffs(aaf,y)); ccf:=append(ccf,sx,sy);")
+				.append(" for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y); sd:=size(dd);")
+				.append(" for jj from sd-1 to 0 by -1 do ee:=dd[jj]; ccf:=append(ccf,ee);")
+				.append(" od; for kk from sd to sy-1 do ee:=0; ccf:=append(ccf,ee); od; od; od],")
+				.append("[cc,ccf]][9]")
 
 				.toString();
 
@@ -730,9 +738,67 @@ public abstract class CASgiac implements CASGenericInterface {
 		return "";
 	}
 
-	public double[][] getBivarPolyCoefficients(String rawResult,
-			GeoGebraCAS cas) {
-		String numbers = rawResult.substring(1, rawResult.length() - 1);
+	/**
+	 * Combine non-factorized and factorized results as a 3 dimensional array.
+	 * The input is like {{2,2,153,-300,50,0},{1,2,2,153,-300,50,0}} which
+	 * describes that both the non-factorized and the factorized forms are the
+	 * same. FIXME: Use a better example here with more factors. In the output
+	 * the 0. element in the 1. dimension contains the non-factorized values,
+	 * the next elements contain the factorized ones.
+	 * 
+	 * @param rawResult
+	 *            input string
+	 * @return array like [0]: [0,0]=153, [0,1]=-300, [1,0]=50, [1,1]=0, in [1]
+	 *         also the same
+	 */
+	public double[][][] getBivarPolyCoefficientsAll(
+			String rawResult) {
+		double[][] coeff = getBivarPolyCoefficients(rawResult);
+		double[][][] coeffSquarefree = getBivarPolySquarefreeCoefficients(
+				rawResult);
+		double[][][] retval = new double[coeffSquarefree.length + 1][][];
+		retval[0] = coeff;
+		for (int i = 0; i < coeffSquarefree.length; ++i) {
+			retval[i + 1] = coeffSquarefree[i];
+		}
+		return retval;
+	}
+
+	private static double[][][] getBivarPolySquarefreeCoefficients(
+			String rawResult) {
+
+		int firstClosingBracket = rawResult.indexOf('}');
+		String numbers = rawResult.substring(firstClosingBracket + 3,
+				rawResult.length() - 2);
+		String[] flatData = numbers.split(",");
+		int factors = Integer.parseInt(flatData[0]);
+		double[][][] result = new double[factors][][];
+		int counter = 1;
+
+		for (int factor = 0; factor < factors; ++factor) {
+
+			int xLength = Integer.parseInt(flatData[counter++]);
+			int yLength = Integer.parseInt(flatData[counter++]);
+			result[factor] = new double[xLength][yLength];
+
+			for (int x = 0; x < xLength; x++) {
+				for (int y = 0; y < yLength; y++) {
+					result[factor][x][y] = Double
+							.parseDouble(flatData[counter]);
+					Log.trace("[LocusEqu] result[" + factor + "][" + x + "," + y
+							+ "]=" + result[factor][x][y]);
+					++counter;
+				}
+			}
+		}
+
+		return result;
+
+	}
+
+	private static double[][] getBivarPolyCoefficients(String rawResult) {
+		int firstClosingBracket = rawResult.indexOf('}');
+		String numbers = rawResult.substring(2, firstClosingBracket);
 		String[] flatData = numbers.split(",");
 		int xLength = Integer.parseInt(flatData[0]);
 		int yLength = Integer.parseInt(flatData[1]);
@@ -742,7 +808,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		for (int x = 0; x < xLength; x++) {
 			for (int y = 0; y < yLength; y++) {
 				result[x][y] = Double.parseDouble(flatData[counter]);
-				Log.debug("[LocusEqu] result[" + x + "," + y + "]="
+				Log.trace("[LocusEqu] result[" + x + "," + y + "]="
 						+ result[x][y]);
 				++counter;
 			}

@@ -496,14 +496,23 @@ public class AlgoLocusEquation extends AlgoElement {
 				.append("[cc:=[sx,sy]], [for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y);")
 				.append("sd:=size(dd); for jj from sd-1 to 0 by -1 do ee:=dd[jj];")
 				.append("cc:=append(cc,ee); od; for kk from sd to sy-1 do ee:=0;")
-				.append("cc:=append(cc,ee); od; od],cc][6]");
+				.append("cc:=append(cc,ee); od; od],") // cc][6]");
+				// Add the coefficients for the factors also to improve
+				// visualization:
+				.append("[ff:=factors(factorsqrfree(aa))], [ccf:=[size(ff)/2]], ")
+				.append("[for ll from 0 to size(ff)-1 by 2 do aaf:=ff[ll]; bb:=coeffs(aaf,x); sx:=size(bb);")
+				.append(" sy:=size(coeffs(aaf,y)); ccf:=append(ccf,sx,sy);")
+				.append(" for ii from sx-1 to 0 by -1 do dd:=coeff(bb[ii],y); sd:=size(dd);")
+				.append(" for jj from sd-1 to 0 by -1 do ee:=dd[jj]; ccf:=append(ccf,ee);")
+				.append(" od; for kk from sd to sy-1 do ee:=0; ccf:=append(ccf,ee); od; od; od],")
+				.append("[cc,ccf]][9]");
 
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		try {
 			String impccoeffs = cas.getCurrentCAS().evaluateRaw(
 					script.toString());
 			Log.debug("Output from giac: " + impccoeffs);
-			return impccoeffs.substring(1, impccoeffs.length() - 1);
+			return impccoeffs;
 		} catch (Exception ex) {
 			Log.warn("Error computing locus equation");
 			return null;
@@ -558,8 +567,9 @@ public class AlgoLocusEquation extends AlgoElement {
 
 		if (result != null) {
 			try {
-				this.geoPoly.setCoeff(CASTranslator
-						.getBivarPolyCoefficientsSingular(result));
+				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+				this.geoPoly.setCoeff(cas.getCurrentCAS()
+						.getBivarPolyCoefficientsAll(result));
 				this.geoPoly.setDefined();
 
 				// Timeout => set undefined

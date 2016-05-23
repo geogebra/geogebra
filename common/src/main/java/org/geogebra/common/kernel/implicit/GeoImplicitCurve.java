@@ -1886,11 +1886,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	}
 
-	private void setCoeff(double[][] coeffMatrix, boolean updatePath) {
-		doSetCoeff(coeffMatrix);
-		if (coeffMatrix == null) {
-			return;
-		}
+	/*
+	 * Create expression if the coeff matrix is already set.
+	 */
+	private void setExpression() {
 		setDefined();
 		FunctionVariable x = new FunctionVariable(kernel, "x");
 		FunctionVariable y = new FunctionVariable(kernel, "y");
@@ -1911,6 +1910,62 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				.wrap());
 		expression = new GeoFunctionNVar(cons,
 				new FunctionNVar(expr, new FunctionVariable[] { x, y }));
+	}
+
+	/*
+	 * Create factorExpression[] if the coeff matrix is already set.
+	 */
+	private void setFactorExpression() {
+		factorExpression = new GeoFunctionNVar[coeffSquarefree.length];
+		for (int factor = 0; factor < coeffSquarefree.length; ++factor) {
+			ExpressionNode expr = null;
+			int factorDegX = coeffSquarefree[factor].length - 1;
+
+			FunctionVariable x = new FunctionVariable(kernel, "x");
+			FunctionVariable y = new FunctionVariable(kernel, "y");
+			for (int i = 0; i <= factorDegX; i++) {
+				// different rows have different lengths
+				for (int j = 0; j < coeffSquarefree[factor][i].length; j++) {
+					if (i == 0 && j == 0) {
+						expr = new ExpressionNode(kernel,
+								coeffSquarefree[factor][0][0]);
+					} else {
+						expr = expr.plus(x.wrap().power(i)
+								.multiply(y.wrap().power(j))
+								.multiplyR(coeffSquarefree[factor][i][j]));
+					}
+				}
+			}
+			factorExpression[factor] = new GeoFunctionNVar(cons,
+					new FunctionNVar(expr, new FunctionVariable[] { x, y }));
+		}
+	}
+
+	private void setCoeff(double[][][] coeffMatrix, boolean updatePath) {
+		doSetCoeff(coeffMatrix[0]);
+		if (coeffMatrix[0] == null) {
+			return;
+		}
+		setExpression();
+
+		// Setting factors.
+		this.coeffSquarefree = new double[coeffMatrix.length - 1][][];
+		for (int factor = 0; factor < coeffMatrix.length - 1; ++factor) {
+			this.coeffSquarefree[factor] = coeffMatrix[factor + 1];
+		}
+		setFactorExpression();
+
+		if (updatePath) {
+			updatePath();
+		}
+	}
+
+	private void setCoeff(double[][] coeffMatrix, boolean updatePath) {
+		doSetCoeff(coeffMatrix);
+		if (coeffMatrix == null) {
+			return;
+		}
+		setExpression();
 		// Copy coefficients and expression as single factor for visualization:
 		forgetFactors();
 
@@ -2088,6 +2143,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public void setCoeff(double[][][] coeff) {
+		setCoeff(coeff, true);
 	}
 
 }

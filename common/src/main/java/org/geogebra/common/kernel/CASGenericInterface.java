@@ -2,7 +2,6 @@ package org.geogebra.common.kernel;
 
 import java.util.HashMap;
 
-import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -158,11 +157,9 @@ public interface CASGenericInterface extends SettingListener {
 	/**
 	 * @param rawResult
 	 *            output from eliminate() and coeffs() commands
-	 * @param cas
-	 *            the currently used CAS
 	 * @return 2D array of coefficients
 	 */
-	double[][] getBivarPolyCoefficients(String rawResult, GeoGebraCAS cas);
+	double[][][] getBivarPolyCoefficientsAll(String rawResult);
 
 	/**
 	 * Make sure the result of async computation is cleared to avoid potential

@@ -19,6 +19,8 @@ public interface GeoImplicit extends GeoElementND {
 
 	void setCoeff(double[][] coeff);
 
+	void setCoeff(double[][][] coeff);
+
 	void setDefined();
 
 	int getDeg();

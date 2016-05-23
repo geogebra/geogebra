@@ -67,9 +67,10 @@ public abstract class EquationTranslator<T> {
     public abstract T opposite(T value);
     public abstract T sqrt(T value);
     
-    public double[][] eliminateSystem(EquationSystem system) {
+	public double[][][] eliminateSystem(EquationSystem system) {
     	return this.eliminate(this.translate(system));
     }
 
-    public abstract double[][] eliminate(Collection<T> translatedRestrictions);
+	public abstract double[][][] eliminate(
+			Collection<T> translatedRestrictions);
 }

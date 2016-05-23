@@ -67,6 +67,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Represents implicit bivariate polynomial equations, with degree greater than
@@ -1848,6 +1849,10 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 
 	public CoordSys getCoordSys() {
 		return CoordSys.Identity3D;
+	}
+
+	public void setCoeff(double[][][] coeff) {
+		Log.error("unimplemented");
 	}
 
 }

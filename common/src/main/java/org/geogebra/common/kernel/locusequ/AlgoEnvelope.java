@@ -138,10 +138,17 @@ public class AlgoEnvelope extends AlgoElement {
 
 		if (result != null) {
 			try{
-				this.geoPoly.setCoeff(CASTranslator.getBivarPolyCoefficientsSingular(result));
+				String locusLib = SingularWebService.getLocusLib();
+				if (!locusLib.equals("")) {
+					Log.error("YET UNIMPLEMENTED");
+				}
+
+				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+				this.geoPoly.setCoeff(cas.getCurrentCAS()
+						.getBivarPolyCoefficientsAll(result));
 				this.geoPoly.setDefined();
 				
-			//Timeout => set undefined	
+				// Timeout => set undefined
 			} catch(Exception e) {
 				this.geoPoly.setUndefined();
 			}
@@ -307,7 +314,7 @@ public class AlgoEnvelope extends AlgoElement {
 				Log.info("[Envelope] input to giac: " + script2);
 				String result = cas.getCurrentCAS().evaluateRaw(script2);
 				// Trimming [ and ]
-				result = result.substring(1,result.length()-1); 
+				// result = result.substring(1,result.length()-1);
 				return result;
 
 			} catch (Exception ex) {
