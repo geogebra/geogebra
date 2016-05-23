@@ -1,11 +1,13 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.FileMenuW;
+import org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 
 import com.google.gwt.dom.client.Document;
@@ -239,14 +241,18 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		copyLinkPanel.addStyleName("GeoGebraCopyLinkPanel");
 
 		// Label lblLink = new Label(app.getPlain("Link") + ": ");
-		Anchor link = new Anchor(TUBEURL + sharingKey, TUBEURL + sharingKey,
-				"_blank");
+
+		final TextBox link = new TextBox();
+		link.setValue(TUBEURL + sharingKey);
+		link.setReadOnly(true);
 
 		PushButton copyToClipboardIcon = new PushButton(new NoDragImage(
 				AppResources.INSTANCE.edit_copy().getSafeUri().asString()),
 				new ClickHandler() {
 					public void onClick(ClickEvent event) {
-						copyToClipboard(TUBEURL + sharingKey);
+						if (!CopyToClipboard(TUBEURL + sharingKey, link)) {
+							link.selectAll();
+						}
 					}
 				});
 
@@ -257,19 +263,16 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		return copyLinkPanel;
 	}
 
-	static native void copyToClipboard(String value) /*-{
-		$wnd.console.log("clipboard");
-		$wnd.console.log($doc.isChromeWebapp());
-		if ($doc.isChromeWebapp()) { // use chrome web app copy API
-			$wnd.console.log("chomeapp");
-			app.@org.geogebra.web.html5.main.AppW::copyBase64ToClipboardChromeWebAppCase(Ljava/lang/String;)(value);
-		} else if (@org.geogebra.web.html5.Browser::isInternetExplorer()()) {
-			$wnd.clipboardData.setData('Text', value);
+	static boolean CopyToClipboard(String value, TextBox link) {
+		if (CopyPasteCutW.copyToSystemClipboard(value))
+			return true;
+
+		if (Browser.isInternetExplorer()) {
+			CopyPasteCutW.copyToSystemClipboardIE(value);
+			return true;
 		}
-
-		@org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW::copyToSystemClipboard(Ljava/lang/String;)(value);
-
-	}-*/;
+		return false;
+	}
 
 	private VerticalPanel getEmailPanel() {
 		emailPanel = new VerticalPanel();

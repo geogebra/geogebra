@@ -336,7 +336,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 		return $wnd.clipboardData.getData('Text');
 	}-*/;
 
-	private static native void copyToSystemClipboardIE(String value) /*-{
+	public static native void copyToSystemClipboardIE(String value) /*-{
 		return $wnd.clipboardData.setData('Text', value);
 	}-*/;
 
