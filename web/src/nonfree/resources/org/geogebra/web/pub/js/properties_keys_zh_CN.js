@@ -2398,7 +2398,7 @@ __GGB__keysVar.zh_CN.plain = {
     "DefaultPointStyle": "\u9ed8\u8ba4\u70b9\u6837\u5f0f",
     "Defaults": "\u9884\u8bbe",
     "Definition": "\u5b9a\u4e49",
-    "DefinitionAndValue": "Definition & Value",
+    "DefinitionAndValue": "\u5b9a\u4e49\u4e0e\u6570\u503c",
     "Delete": "\u5220\u9664",
     "DeleteARows": "\u5220\u9664 %0 \u884c",
     "DeleteColumnA": "\u5220\u9664\u7b2c %0 \u5217",

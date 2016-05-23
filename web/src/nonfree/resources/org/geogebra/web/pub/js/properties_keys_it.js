@@ -2398,7 +2398,7 @@ __GGB__keysVar.it.plain = {
     "DefaultPointStyle": "Stile predefinito Punto",
     "Defaults": "Predefiniti",
     "Definition": "Definizione",
-    "DefinitionAndValue": "Definition & Value",
+    "DefinitionAndValue": "Definizione e valore",
     "Delete": "Elimina",
     "DeleteARows": "Elimina %0 righe",
     "DeleteColumnA": "Elimina colonna %0",

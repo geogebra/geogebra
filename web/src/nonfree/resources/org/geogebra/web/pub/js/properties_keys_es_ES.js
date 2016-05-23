@@ -2398,7 +2398,7 @@ __GGB__keysVar.es_ES.plain = {
     "DefaultPointStyle": "Estilo del punto (por defecto)",
     "Defaults": "Patrones por defecto",
     "Definition": "Definici\xf3n",
-    "DefinitionAndValue": "Definition & Value",
+    "DefinitionAndValue": "Definici\xf3n y Valor",
     "Delete": "Borra",
     "DeleteARows": "Elimina %0 filas",
     "DeleteColumnA": "Elimina columna %0",
