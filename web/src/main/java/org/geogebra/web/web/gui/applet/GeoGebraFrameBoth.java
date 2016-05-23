@@ -11,7 +11,6 @@ import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
@@ -42,24 +41,28 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private GGWToolBar ggwToolBar = null;
 	private GGWMenuBar ggwMenuBar;
 
+	/**
+	 * @param factory
+	 *            factory for applets (2D or 3D)
+	 * @param laf
+	 *            look and feel
+	 */
 	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeel laf) {
 		super(laf);
 		this.factory = factory;
 	}
 
 	@Override
-	protected AppW createApplication(ArticleElement ae, GLookAndFeelI laf) {
-		AppW app = factory.getApplet(ae, this, laf);
-		this.glass = new DockGlassPaneW(new GDimensionW(ae.getDataParamWidth(),
-				ae.getDataParamHeight()));
+	protected AppW createApplication(ArticleElement article,
+			GLookAndFeelI laf) {
+		AppW application = factory.getApplet(article, this, laf);
+		this.glass = new DockGlassPaneW(new GDimensionW(
+				article.getDataParamWidth(), article.getDataParamHeight()));
 		this.add(glass);
-		return app;
+		return application;
 	}
 
-	protected AppW createApplicationSimple(ArticleElement ae, GeoGebraFrameW gf) {
-		AppW app = new AppWsimple(ae, gf);
-		return app;
-	}
+
 
 	/**
 	 * Main entry points called by geogebra.web.Web.startGeoGebra()
@@ -104,12 +107,16 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		GeoGebraFrameW.reCheckForDummies(el);
 	}
 
-	@Override
+	/**
+	 * @return glass pane for view moving
+	 */
 	public DockGlassPaneW getGlassPane() {
 		return this.glass;
 	}
 
-	@Override
+	/**
+	 * Attach glass pane to frame
+	 */
 	public void attachGlass() {
 		if (this.glass != null) {
 			this.add(glass);

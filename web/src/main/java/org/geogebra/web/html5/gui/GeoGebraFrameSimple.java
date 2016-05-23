@@ -11,19 +11,24 @@ import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+/**
+ * Frame for simple applets (only EV showing)
+ *
+ */
 public class GeoGebraFrameSimple extends GeoGebraFrameW {
-
+	/**
+	 * Frame for simple applets (only EV showing)
+	 */
 	public GeoGebraFrameSimple() {
 		super(null);
 	}
 
-	protected AppW createApplication(ArticleElement ae,
+	@Override
+	protected AppW createApplication(ArticleElement article,
 	        GLookAndFeelI laf) {
-		AppW app = new AppWsimple(ae, this);
-		return app;
+		return new AppWsimple(article, this);
 	}
 
 	/**
@@ -55,6 +60,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	/**
 	 * @param el
 	 *            html element to render into
+	 * @param clb
+	 *            callback
 	 */
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
 
@@ -62,12 +69,6 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 				new GeoGebraFrameSimple(), clb);
 
 		GeoGebraFrameW.reCheckForDummies(el);
-	}
-
-	@Override
-	public void showBrowser(HeaderPanel bg) {
-		// no browsing in simple applets
-
 	}
 
 	@Override

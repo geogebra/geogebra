@@ -28,7 +28,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -181,13 +180,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
-	 * @param ae
+	 * The application loading continues in the splashDialog onLoad handler
+	 * 
+	 * @param articleElement
 	 *            ArticleElement
-	 *
-	 *            In the splashDialog onLoad handler will the application
-	 *            loading continue
 	 */
-	public void createSplash(ArticleElement ae) {
+	public void createSplash(ArticleElement articleElement) {
 
 		int splashWidth = 427;
 		int splashHeight = 120;
@@ -207,7 +205,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		 */
 
 		boolean showLogo = ((width >= splashWidth) && (height >= splashHeight));
-		splash = new SplashDialog(showLogo, ae.getId(), this);
+		splash = new SplashDialog(showLogo, articleElement.getId(), this);
 
 		if (splash.isPreviewExists()) {
 			splashWidth = width;
@@ -223,7 +221,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			splash.getElement().getStyle().setPosition(Position.RELATIVE);
 			splash.getElement().getStyle()
 			        .setTop((height / 2) - (splashHeight / 2), Unit.PX);
-			if (!ae.isRTL()) {
+			if (!articleElement.isRTL()) {
 				splash.getElement().getStyle()
 				        .setLeft((width / 2) - (splashWidth / 2), Unit.PX);
 			} else {
@@ -318,10 +316,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		return width;
 	}
 
+	/** Article element */
 	public ArticleElement ae;
 
-	protected int computedWidth = 0;
-	protected int computedHeight = 0;
+	private int computedWidth = 0;
+	private int computedHeight = 0;
 	private final GLookAndFeelI laf;
 
 	/**
@@ -333,6 +332,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		return onLoadCallback;
 	}
 
+	/**
+	 * @param width
+	 *            width computed from article parameters
+	 */
 	public void setComputedWidth(int width) {
 		this.computedWidth = width;
 		if (this.app != null) {
@@ -340,6 +343,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}
 
+	/**
+	 * @param height
+	 *            height computed from article parameters
+	 */
 	public void setComputedHeight(int height) {
 		this.computedHeight = height;
 		if (this.app != null) {
@@ -347,10 +354,20 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}
 
+	/**
+	 * Needs running {@link #setComputedWidth(int)} first
+	 * 
+	 * @return width computed from applet parameters
+	 */
 	public int getComputedWidth() {
 		return computedWidth;
 	}
 
+	/**
+	 * Needs running {@link #setComputedHeight(int)} first
+	 * 
+	 * @return height computed from applet parameters
+	 */
 	public int getComputedHeight() {
 		return computedHeight;
 	}
@@ -469,13 +486,14 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
-	 * @param useFullGui
-	 *            if false only one euclidianView will be available (without
-	 *            menus / ...)
+	 * @param article
+	 *            article element
+	 * @param lookAndFeel
+	 *            look and feel
 	 * @return the newly created instance of Application
 	 */
-	protected abstract AppW createApplication(ArticleElement ae,
-	        GLookAndFeelI laf);
+	protected abstract AppW createApplication(ArticleElement article,
+			GLookAndFeelI lookAndFeel);
 
 	/**
 	 * @return list of instances of GeogebraFrame
@@ -579,10 +597,14 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	/**
-	 * @param width
-	 * @param height
+	 * sets the geogebra-web applet size (width, height)
 	 * 
-	 *            sets the geogebra-web applet size (width, height)
+	 * @param width
+	 *            width in pixels
+	 * @param height
+	 *            height in pixels
+	 * 
+	 * 
 	 */
 	public void setSize(int width, int height) {
 		setPixelSize(width, height);
@@ -675,6 +697,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            Html Element
 	 * @param frame
 	 *            GeoGebraFrame subclasses
+	 * @param onLoadCallback
+	 *            load callback
 	 *
 	 */
 	public static void renderArticleElementWithFrame(final Element element,
@@ -690,7 +714,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		inst.ae = article;
 		inst.onLoadCallback = onLoadCallback;
 		inst.createSplash(article);
-		RootPanel.get(article.getId()).add(inst);
+		RootPanel root = RootPanel.get(article.getId());
+		if (root != null) {
+			RootPanel.get(article.getId()).add(inst);
+		} else {
+			Log.error("Cannot find article with ID " + article.getId());
+		}
 	}
 
 	/**
@@ -702,33 +731,27 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}-*/;
 
-	public Object getGlassPane() {
-		return null;
-	}
-
-	public void attachGlass() {
-	}
-
 	/**
 	 * removes applet from the page
 	 */
 	public void remove() {
 		this.removeFromParent();
 		// this does not do anything!
-		GeoGebraFrameW remove = GeoGebraFrameW.getInstances().remove(
+		GeoGebraFrameW.getInstances()
+				.remove(
 		        GeoGebraFrameW.getInstances().indexOf(this));
 		this.ae.removeFromParent();
 		this.ae = null;
 		this.app = null;
 		fileLoader.setView(null);
-		remove = null;
 		if (GeoGebraFrameW.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();
 		}
 	}
 
-	public abstract void showBrowser(HeaderPanel bg);
-
+	/**
+	 * @return frame ID, unused
+	 */
 	public int getFrameID() {
 		return frameID;
 	}
