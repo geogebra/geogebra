@@ -589,6 +589,7 @@ public class MaterialListElement extends FlowPanel implements
 				loadGGBfromTube();
 			} else {
 				this.app.getFileManager().openMaterial(this.material);
+				this.app.setActiveMaterial(material);
 			}
 		}
 	}
