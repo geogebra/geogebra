@@ -252,9 +252,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 				AppResources.INSTANCE.edit_copy().getSafeUri().asString()),
 				new ClickHandler() {
 					public void onClick(ClickEvent event) {
-						if (!CopyToClipboard(TUBEURL + sharingKey, link)) {
-							link.selectAll();
-						}
+						CopyToClipboard(TUBEURL + sharingKey, link);
+						link.selectAll();
 					}
 				});
 
