@@ -26,6 +26,9 @@ import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+/**
+ * Fullscreen version of applet
+ */
 public class AppWapplication extends AppWFull {
 
 	private final int AUTO_SAVE_PERIOD = 60000;
@@ -33,6 +36,7 @@ public class AppWapplication extends AppWFull {
 	// TODO remove GUI stuff from appW
 	private AuthenticationModelW authenticationModel = null;
 	private boolean menuInited = false;
+	/** Device (browser / tablet / ...) */
 	protected final GDevice device;
 	private boolean macroRestored;
 	/********************************************************
@@ -72,10 +76,7 @@ public class AppWapplication extends AppWFull {
 			}
 			RootPanel.getBodyElement().addClassName("zoomedBody");
 
-			Element el = DOM.getElementById("ggbsplash");
-			if (el != null) {
-				el.removeFromParent();
-			}
+			removeSplash();
 		} else {
 			RootPanel.getBodyElement().addClassName("application");
 		}
@@ -119,7 +120,14 @@ public class AppWapplication extends AppWFull {
 		}
 
 		restoreMacro();
-		
+	}
+
+	private static void removeSplash() {
+		Element el = DOM.getElementById("ggbsplash");
+		if (el != null) {
+			el.removeFromParent();
+		}
+
 	}
 
 	private void maybeStartAutosave() {
@@ -162,6 +170,8 @@ public class AppWapplication extends AppWFull {
 	 *            int
 	 * @param laf
 	 *            {@link GLookAndFeel}
+	 * @param device
+	 *            device (browse
 	 */
 	public AppWapplication(ArticleElement article,
 	        GeoGebraAppFrame geoGebraAppFrame, int dimension, GLookAndFeel laf,
@@ -254,7 +264,9 @@ public class AppWapplication extends AppWFull {
 		if (openMacroFromStorage()) {
 			return;
 		}
-
+		if (!getLAF().isSmart()) {
+			removeSplash();
+		}
 		String perspective = getArticleElement().getDataParamPerspective();
 
 		getGuiManager().getLayout().setPerspectives(
@@ -377,7 +389,7 @@ public class AppWapplication extends AppWFull {
 
 	@Override
 	public void loadURL_GGB(String ggburl) {
-		getAppFrame().fileLoader.getView().processFileName(ggburl);
+		GeoGebraAppFrame.fileLoader.getView().processFileName(ggburl);
 	}
 
 	@Override
