@@ -1,4 +1,4 @@
-package org.geogebra.common.geogebra3D.quickhull3d;
+package com.github.quickhull3d;
 
 /*
  * #%L
@@ -30,51 +30,42 @@ package org.geogebra.common.geogebra3D.quickhull3d;
  */
 
 /**
- * Represents vertices of the hull, as well as the points from which it is
- * formed.
- * 
- * @author John E. Lloyd, Fall 2004
+ * Maintains a single-linked list of faces for use by QuickHull3D
  */
-class Vertex {
+class FaceList {
+
+    private Face head;
+
+    private Face tail;
 
     /**
-     * Spatial point associated with this vertex.
+     * Clears this list.
      */
-    Point3d pnt;
-
-    /**
-     * Back index into an array.
-     */
-    int index;
-
-    /**
-     * List forward link.
-     */
-    Vertex prev;
-
-    /**
-     * List backward link.
-     */
-    Vertex next;
-
-    /**
-     * Current face that this vertex is outside of.
-     */
-    Face face;
-
-    /**
-     * Constructs a vertex and sets its coordinates to 0.
-     */
-    public Vertex() {
-        pnt = new Point3d();
+    public void clear() {
+        head = tail = null;
     }
 
     /**
-     * Constructs a vertex with the specified coordinates and index.
+     * Adds a vertex to the end of this list.
      */
-    public Vertex(double x, double y, double z, int idx) {
-        pnt = new Point3d(x, y, z);
-        index = idx;
+    public void add(Face vtx) {
+        if (head == null) {
+            head = vtx;
+        } else {
+            tail.next = vtx;
+        }
+        vtx.next = null;
+        tail = vtx;
     }
 
+    public Face first() {
+        return head;
+    }
+
+    /**
+     * Returns true if this list is empty.
+     */
+    public boolean isEmpty() {
+        return head == null;
+    }
 }

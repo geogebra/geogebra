@@ -1,4 +1,4 @@
-package org.geogebra.common.geogebra3D.quickhull3d;
+package com.github.quickhull3d;
 
 public class Test {
 
