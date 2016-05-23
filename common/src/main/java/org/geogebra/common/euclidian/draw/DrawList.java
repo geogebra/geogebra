@@ -401,6 +401,10 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		void scrollBy(int diff) {
+			if (!isScrollNeeded()) {
+				return;
+			}
+
 			if (startIdx + diff >= 0 && endIdx + diff < items.size() + 1) {
 				startIdx += diff;
 				update();
