@@ -77,15 +77,15 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 
 		ClickStartHandler.init(dockPanel, new ClickStartHandler() {
 			@Override
-			public void onClickStart(int x, int y, final PointerEventType type) {
+			public void onClickStart(final int x, final int y,
+					final PointerEventType type) {
 				((AppWFull) app).updateAVStylebar();
 
 				if (!CancelEventTimer.cancelKeyboardHide()) {
 					Timer timer = new Timer() {
 						@Override
 						public void run() {
-							keyBoardNeeded(false, null);
-							confirmAVInput();
+							confirmAVInput(x, y);
 						}
 					};
 					timer.schedule(0);
@@ -108,14 +108,29 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		add(mainPanel);
 	}
 
-	protected void confirmAVInput() {
+	protected void confirmAVInput(int x, int y) {
+		boolean focusLost = true;
 		if (app.getGuiManager() != null && app.has(Feature.INPUT_BAR_PREVIEW)
 				&& app.getGuiManager().getLayout().getDockManager() != null) {
-			MathKeyboardListener kl = ((DockManagerW) app.getGuiManager()
-					.getLayout().getDockManager()).getPanelForKeyboard()
+			DockPanelW panel = ((DockManagerW) app.getGuiManager().getLayout()
+					.getDockManager()).getPanelForKeyboard();
+			MathKeyboardListener kl = panel
 					.getKeyboardListener();
-			GuiManagerW.makeKeyboardListener(kl).onEnter();
+			String text = kl.getText();
+			if (text != null && !text.isEmpty()) {
+				focusLost = !((x > panel.getAbsoluteLeft() - app.getAbsLeft())
+						&& (x < panel.getAbsoluteLeft() - app.getAbsLeft()
+								+ panel.getWidth())
+						&& (y > panel.getAbsoluteTop() - app.getAbsTop())
+						&& (y < panel.getAbsoluteTop() - app.getAbsTop()
+								+ panel.getHeight()));
+				GuiManagerW.makeKeyboardListener(kl).onEnter();
+			}
 
+
+		}
+		if (focusLost) {
+			keyBoardNeeded(false, null);
 		}
 	}
 
