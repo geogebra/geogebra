@@ -322,6 +322,7 @@ function insertScript(){
 				e("ggw").setAttribute("data-param-tubeid",getURLparam("id"));
 				var previewDiv = document.createElement("div");
 				previewDiv.id= "ggbsplash";
+				previewDiv.style.zIndex = 1000;
 				var preview = document.createElement("img");
 				preview.style.margin="auto";
 				preview.src = "https://tube.geogebra.org/files/material-"+getURLparam("id")+".png";

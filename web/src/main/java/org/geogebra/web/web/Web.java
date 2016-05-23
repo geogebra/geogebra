@@ -64,6 +64,8 @@ public class Web implements EntryPoint {
 		GeoGebraProfiler.getInstance().profile();
 
 		CustomElements.registerGeoGebraWebElement();
+		// just debug for now
+		WebSimple.registerSuperdevExceptionHandler();
 		exportGGBElementRenderer();
 
 		// setLocaleToQueryParam();
