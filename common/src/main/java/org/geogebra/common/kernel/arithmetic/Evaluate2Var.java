@@ -22,7 +22,7 @@ public interface Evaluate2Var {
 	 *            number of factor if multiple factors are present
 	 * @return evaluation result
 	 */
-	public double evaluate(double x, double y, int factor);
+	// public double evaluate(double x, double y, int factor);
 
 	/**
 	 * @param val
@@ -31,5 +31,5 @@ public interface Evaluate2Var {
 	 *            number of factor if multiple factors are present
 	 * @return evaluation result
 	 */
-	public double evaluate(double[] val, int factor);
+	// public double evaluate(double[] val, int factor);
 }

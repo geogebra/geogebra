@@ -34,7 +34,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Function of N variables that returns either a number or a boolean. This
@@ -256,12 +255,19 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return sb;
 	}
 
+	/**
+	 * @return init function and simplify int nodes
+	 */
 	public final boolean initFunction() {
 		return initFunction(true);
 	}
+	
 	/**
 	 * Call this function to resolve variables and init the function. May throw
 	 * MyError (InvalidFunction).
+	 * 
+	 * @param simplifyInt
+	 *            whether int nodes should be simplified
 	 * 
 	 * @return whether this is a valid (numeric or boolean) function
 	 */
@@ -415,24 +421,6 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 			fVars[i].set(vals[i]);
 		}
 		return expression.evaluateDouble();
-	}
-
-	/*
-	 * Evaluation of a given factor has no meaning here, but we need to make a
-	 * dummy implementation. FIXME in Evaluate2Var eventually. (non-Javadoc)
-	 * 
-	 * @see
-	 * org.geogebra.common.kernel.arithmetic.Evaluate2Var#evaluate(double[],
-	 * int)
-	 */
-	final public double evaluate(double[] vals, int factor) {
-		Log.error("unimplemented");
-		return 0.0;
-	}
-
-	final public double evaluate(double x, double y, int factor) {
-		Log.error("unimplemented");
-		return 0.0;
 	}
 
 	final public double evaluate(double x, double y) {

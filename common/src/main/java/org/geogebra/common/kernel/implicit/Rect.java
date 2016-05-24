@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.implicit;
 
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.Evaluate2Var;
 
 class Rect {
 	/**
@@ -43,7 +42,7 @@ class Rect {
 		}
 	}
 
-	public Rect[] split(Evaluate2Var geoImplicitCurve, int factor) {
+	public Rect[] split(GeoImplicitCurve geoImplicitCurve, int factor) {
 		if (this.children == null) {
 			this.children = new Rect[4];
 			for (int i = 0; i < 4; i++) {
