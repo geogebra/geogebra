@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 public class PlotterBrushSection {
 
 	/** center and clock vectors */
-	Coords center;
+	private Coords center;
 
 	private Coords clockU;
 
@@ -49,8 +49,16 @@ public class PlotterBrushSection {
 		normalDevD = 0;
 	}
 
-	public void set(Coords point, float thickness, Coords clockU, Coords clockV) {
+	private void setCenter(Coords point) {
 		this.center.set(point);
+	}
+
+	public boolean centerEqualsForKernel(Coords point) {
+		return point.equalsForKernel(center, Kernel.STANDARD_PRECISION);
+	}
+
+	public void set(Coords point, float thickness, Coords clockU, Coords clockV) {
+		setCenter(point);
 		this.thickness = thickness;
 		this.clockU.set(clockU);
 		this.clockV.set(clockV);
@@ -61,7 +69,7 @@ public class PlotterBrushSection {
 	}
 
 	public void set(Coords point, float thickness) {
-		this.center.set(point);
+		setCenter(point);
 		this.thickness = thickness;
 
 		clockU.setUndefined();
@@ -73,7 +81,7 @@ public class PlotterBrushSection {
 
 	public void set(PlotterBrushSection s, Coords point, float thickness,
 			boolean updateClock) {
-		this.center.set(point);
+		setCenter(point);
 		this.thickness = thickness;
 
 		direction.setSub(center, s.center);
@@ -165,7 +173,7 @@ public class PlotterBrushSection {
 	// //////////////////////////////////
 
 	public void set(PlotterBrushSection s, Coords point, float thickness) {
-		this.center.set(point);
+		setCenter(point);
 		this.thickness = thickness;
 		this.direction.setSub(center, s.getCenter());
 		direction.calcNorm();

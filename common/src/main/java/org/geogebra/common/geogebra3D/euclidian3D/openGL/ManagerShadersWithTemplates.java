@@ -35,6 +35,8 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 	@Override
 	public int drawPoint(int size, Coords center, int index) {
 
+		getView3D().scaleXYZ(center);
+
 		// find point geometry template
 		int i = 1;
 		// int size2 = 4;

@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 
@@ -358,6 +359,7 @@ public class DrawLabel3D {
 		return drawZ;
 	}
 
+	private Coords tmpCoords = new Coords(4);
 	private Coords v = new Coords(3);
 
 	/**
@@ -369,7 +371,17 @@ public class DrawLabel3D {
 			return;
 		}
 
-		v.setMul(view.getToScreenMatrix(), origin);
+		if (view.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			tmpCoords.setX(origin.getX() * view.getXscale());
+			tmpCoords.setY(origin.getY() * view.getYscale());
+			tmpCoords.setZ(origin.getZ() * view.getZscale());
+			tmpCoords.setW(1);
+
+			v.setMul(view.getToScreenMatrix(), tmpCoords);
+		} else {
+			v.setMul(view.getToScreenMatrix(), origin);
+		}
+
 		drawX = (int) (v.getX() + xOffset);
 		if (anchor && xOffset < 0) {
 			drawX -= width / getFontScale();

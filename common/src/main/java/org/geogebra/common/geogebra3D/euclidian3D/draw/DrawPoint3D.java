@@ -82,24 +82,29 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 	protected boolean updateForItSelf() {
 
 		GeoPointND point = (GeoPointND) getGeoElement();
-		center.setValues(point.getInhomCoordsInD3(), 3);
+		// center.setValues(point.getInhomCoordsInD3(), 3);
+		Coords c = point.getInhomCoordsInD3();
+		center.setValues(c, 3);
 		center.setW(point.getPointSize()); // put point size in fourth unused
 											// coord
+
+		// warning: plotter will scale center coords
 		setGeometryIndex(getView3D()
 				.getRenderer()
 				.getGeometryManager()
 				.drawPoint(point.getPointSize(), center,
 						getReusableGeometryIndex()));
 
+
 		// bounds
 		double radius = point.getPointSize() / getView3D().getScale()
 				* DrawPoint3D.DRAW_POINT_FACTOR;
-		boundsMin.setX(center.getX() - radius);
-		boundsMin.setY(center.getY() - radius);
-		boundsMin.setZ(center.getZ() - radius);
-		boundsMax.setX(center.getX() + radius);
-		boundsMax.setY(center.getY() + radius);
-		boundsMax.setZ(center.getZ() + radius);
+		boundsMin.setX(c.getX() - radius);
+		boundsMin.setY(c.getY() - radius);
+		boundsMin.setZ(c.getZ() - radius);
+		boundsMax.setX(c.getX() + radius);
+		boundsMax.setY(c.getY() + radius);
+		boundsMax.setZ(c.getZ() + radius);
 
 		return true;
 	}

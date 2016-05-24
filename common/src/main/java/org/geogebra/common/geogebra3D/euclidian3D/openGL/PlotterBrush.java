@@ -220,7 +220,7 @@ public class PlotterBrush implements PathPlotter {
 			return;
 		}
 
-		if (point.equalsForKernel(start.center, Kernel.STANDARD_PRECISION)) {
+		if (start.centerEqualsForKernel(point)) {
 			return;
 		}
 

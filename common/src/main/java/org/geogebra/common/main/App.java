@@ -3836,6 +3836,9 @@ public abstract class App implements UpdateSelection {
 		case CONVEX_HULL_3D:
 			return false;
 
+		case DIFFERENT_AXIS_RATIO_3D:
+			return false;
+
 		case WEB_PRINT_ALGEBRA_VIEW:
 			return prerelease;
 

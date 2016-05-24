@@ -680,8 +680,9 @@ abstract public class Manager {
 	 */
 	public int drawPoint(int size, Coords center, int index) {
 
-		double radius = size / view3D.getScale()
-				* DrawPoint3D.DRAW_POINT_FACTOR;
+		double radius = getView3D().unscale(size
+				* DrawPoint3D.DRAW_POINT_FACTOR);
+		getView3D().scaleXYZ(center);
 		center.setW(1); // changed for shaders (point size)
 
 		return drawSphere(size, center, radius, index);

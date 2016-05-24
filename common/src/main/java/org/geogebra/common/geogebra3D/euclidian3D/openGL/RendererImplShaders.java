@@ -906,7 +906,7 @@ public abstract class RendererImplShaders implements RendererImpl {
 	final public void setCenter(Coords center) {
 		float[] c = center.get4ForGL();
 		// set radius info
-		c[3] *= DrawPoint3D.DRAW_POINT_FACTOR / view3D.getScale();
+		c[3] = view3D.unscale(c[3] * DrawPoint3D.DRAW_POINT_FACTOR);
 		glUniform4fv(centerLocation, c);
 	}
 

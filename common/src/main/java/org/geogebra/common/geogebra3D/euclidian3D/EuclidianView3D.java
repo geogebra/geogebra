@@ -104,6 +104,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -839,9 +840,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	protected void updateTranslationMatrix() {
-		translationMatrix.set(1, 4, getXZero());
-		translationMatrix.set(2, 4, getYZero());
-		translationMatrix.set(3, 4, getZZero());
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			translationMatrix.set(1, 4, getXZero() * getXscale());
+			translationMatrix.set(2, 4, getYZero() * getYscale());
+			translationMatrix.set(3, 4, getZZero() * getZscale());
+		}else{
+			translationMatrix.set(1, 4, getXZero());
+			translationMatrix.set(2, 4, getYZero());
+			translationMatrix.set(3, 4, getZZero());
+		}
 	}
 
 	protected void updateRotationAndScaleMatrices() {
@@ -857,7 +864,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		undoScaleMatrix.set(2, 2, 1 / getYscale());
 		undoScaleMatrix.set(3, 3, 1 / getZscale());
 
-		rotationAndScaleMatrix = rotationMatrix.mul(scaleMatrix);
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			rotationAndScaleMatrix = rotationMatrix;
+		}else{
+			rotationAndScaleMatrix = rotationMatrix.mul(scaleMatrix);
+		}
 	}
 
 	/**
@@ -875,9 +886,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		 * //TO TEST PROJECTION m.set(CoordMatrix.Identity(4)); scale = 1;
 		 */
 
-		// mInv.set(m.inverse());
-		mInv.set(undoTranslationMatrix.mul(undoScaleMatrix
-				.mul(undoRotationMatrix)));
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			mInv.set(undoTranslationMatrix.mul(undoRotationMatrix));
+		}else{
+			mInv.set(undoTranslationMatrix.mul(undoScaleMatrix
+					.mul(undoRotationMatrix)));
+		}
 
 		mInvTranspose.set(mInv.transposeCopy());
 
@@ -900,9 +914,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	protected void updateUndoTranslationMatrix() {
-		undoTranslationMatrix.set(1, 4, -getXZero());
-		undoTranslationMatrix.set(2, 4, -getYZero());
-		undoTranslationMatrix.set(3, 4, -getZZero());
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			undoTranslationMatrix.set(1, 4, -getXZero() * getXscale());
+			undoTranslationMatrix.set(2, 4, -getYZero() * getYscale());
+			undoTranslationMatrix.set(3, 4, -getZZero() * getZscale());
+		}else{
+			undoTranslationMatrix.set(1, 4, -getXZero());
+			undoTranslationMatrix.set(2, 4, -getYZero());
+			undoTranslationMatrix.set(3, 4, -getZZero());
+		}
 	}
 
 	private void updateEye() {
@@ -4421,6 +4441,46 @@ GRectangle selectionRectangle) {
 			animationType = AnimationType.OFF;
 		}
 		
+	}
+
+	/**
+	 * scale x, y, z values
+	 * 
+	 * @param coords
+	 *            coords
+	 */
+	public void scaleXYZ(Coords coords) {
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			coords.setX(coords.getX() * getXscale());
+			coords.setY(coords.getY() * getYscale());
+			coords.setZ(coords.getZ() * getZscale());
+		}
+	}
+
+	/**
+	 * TODO remove this (not needed after Feature.DIFFERENT_AXIS_RATIO_3D)
+	 * 
+	 * @param value
+	 * @return value/scale
+	 */
+	public double unscale(double value) {
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			return value;
+		}
+		return value / getScale();
+	}
+
+	/**
+	 * TODO remove this (not needed after Feature.DIFFERENT_AXIS_RATIO_3D)
+	 * 
+	 * @param value
+	 * @return value/scale
+	 */
+	public float unscale(float value) {
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			return value;
+		}
+		return (float) (value / getScale());
 	}
 
 
