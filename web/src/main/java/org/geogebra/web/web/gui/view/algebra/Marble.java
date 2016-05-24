@@ -97,11 +97,11 @@ public class Marble extends SimplePanel
 	}
 
 	/**
-	 * Steffi, 17/8/2015
-	 * Function to set the marble style for visible and unvisible geo
-	 * (Background color changes, depending on visibility)
+	 * Steffi, 17/8/2015 Function to set the marble style for visible and
+	 * unvisible geo (Background color changes, depending on visibility)
 	 * 
-	 * @param value: true for visible, false for invisible geo
+	 * @param value
+	 *            true for visible, false for invisible geo
 	 */
 	private void updateMarble(boolean value) {
 		if (value) {

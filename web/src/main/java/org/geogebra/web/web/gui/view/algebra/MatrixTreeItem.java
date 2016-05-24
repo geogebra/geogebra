@@ -34,7 +34,10 @@ public class MatrixTreeItem extends RadioTreeItem {
 	enum MatrixOps {
 		APPEND_ROW, APPEND_COLUMN, REMOVE_LAST_ROW, REMOVE_LAST_COLUMN
 	}
+
+	/** plus button */
 	PushButton pButton;
+	/** Popup for adding rows */
 	ButtonPopupMenu specialPopup;
 
 	/**
@@ -180,6 +183,7 @@ public class MatrixTreeItem extends RadioTreeItem {
 		itemList.add(actual);
 	}
 
+	@Override
 	protected PushButton getPButton() {
 		return pButton;
 	}
@@ -189,6 +193,11 @@ public class MatrixTreeItem extends RadioTreeItem {
 		pButton.setVisible(bool);
 	}
 
+	/**
+	 * @param kern
+	 *            kernel
+	 * @return matrix
+	 */
 	public static GeoList create2x2IdentityMatrix(Kernel kern) {
 
 		Construction cons = kern.getConstruction();
@@ -250,6 +259,11 @@ public class MatrixTreeItem extends RadioTreeItem {
 		});
 	}
 
+	/**
+	 * 
+	 * @param op
+	 *            matrix operation
+	 */
 	void changeSize(MatrixOps op) {
 
 		boolean edit = commonEditingCheck();
