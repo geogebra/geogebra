@@ -184,13 +184,11 @@ AwtFactory.prototype.newArea(gp));
 
 	}
 
-	private PolygonTriangulation pt = new PolygonTriangulation();
 
 	private void triangularize() {
 
-	
+		PolygonTriangulation pt = poly.getPolygonTriangulation();
 		pt.clear();
-		pt.setPolygon(poly);
 
 		Coords n = poly.getMainDirection();
 		
@@ -251,9 +249,11 @@ AwtFactory.prototype.newArea(gp));
 					pt.triangulate();
 
 					// compute 3D coords for intersections
+					pt.setCompleteVertices(vertices,
+									poly.getCoordSys(), poly.getPointsLength());
 					Coords[] verticesWithIntersections = pt
 							.getCompleteVertices(vertices,
-									poly.getCoordSys(), poly.getPointsLength());
+									poly.getPointsLength());
 
 					// draw the triangle fans
 					

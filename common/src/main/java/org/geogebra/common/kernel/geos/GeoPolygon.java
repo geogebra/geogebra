@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -2603,5 +2604,19 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
+	}
+
+	private PolygonTriangulation pt;
+
+	/**
+	 * 
+	 * @return polygon triangulation created for this
+	 */
+	public PolygonTriangulation getPolygonTriangulation() {
+		if (pt == null) {
+			pt = new PolygonTriangulation();
+			pt.setPolygon(this);
+		}
+		return pt;
 	}
 }

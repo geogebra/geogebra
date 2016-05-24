@@ -385,7 +385,7 @@ abstract public class Manager {
 	 * 
 	 * @param v
 	 */
-	protected void vertex(Coords v) {
+	final protected void vertex(Coords v) {
 		vertex(v.getX(), v.getY(), v.getZ());
 	}
 	
@@ -396,8 +396,12 @@ abstract public class Manager {
 	 *            vertex
 	 */
 	protected void vertexToScale(Coords v) {
-		scaleXYZ(v);
-		vertex(v);
+		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			vertex(v.getX() * getXscale(), v.getY() * getYscale(), v.getZ()
+					* getZscale());
+		} else {
+			vertex(v);
+		}
 	}
 
 	/**
@@ -416,7 +420,7 @@ abstract public class Manager {
 	 *            apex coords
 	 */
 	protected void triangleFanApex(Coords v) {
-		vertex(v);
+		vertexToScale(v);
 	}
 
 	/**
@@ -426,7 +430,7 @@ abstract public class Manager {
 	 *            apex coords
 	 */
 	protected void triangleFanVertex(Coords v) {
-		vertex(v);
+		vertexToScale(v);
 	}
 
 	/**
@@ -779,6 +783,21 @@ abstract public class Manager {
 		 *            coords
 		 */
 		public void scaleXYZ(Coords coords);
+
+		/**
+		 * @return scale on x-axis
+		 */
+		public double getXscale();
+
+		/**
+		 * @return scale on y-axis
+		 */
+		public double getYscale();
+
+		/**
+		 * @return scale on z-axis
+		 */
+		public double getZscale();
 	}
 	
 	/**
@@ -787,6 +806,18 @@ abstract public class Manager {
 	protected static final ScalerXYZ scalerXYZIdentity = new ScalerXYZ() {
 		public void scaleXYZ(Coords coords) {
 			// do nothing
+		}
+
+		public double getXscale() {
+			return 1;
+		}
+
+		public double getYscale() {
+			return 1;
+		}
+
+		public double getZscale() {
+			return 1;
 		}
 	};
 	
@@ -801,10 +832,31 @@ abstract public class Manager {
 	 * @param coords
 	 *            coords
 	 */
-	protected void scaleXYZ(Coords coords) {
+	public void scaleXYZ(Coords coords) {
 		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 			scalerXYZ.scaleXYZ(coords);
 		}
+	}
+
+	/**
+	 * @return scale on x-axis
+	 */
+	public double getXscale() {
+		return scalerXYZ.getXscale();
+	}
+
+	/**
+	 * @return scale on y-axis
+	 */
+	public double getYscale() {
+		return scalerXYZ.getYscale();
+	}
+
+	/**
+	 * @return scale on z-axis
+	 */
+	public double getZscale() {
+		return scalerXYZ.getZscale();
 	}
 
 }

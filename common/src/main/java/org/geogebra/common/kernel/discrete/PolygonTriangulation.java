@@ -2143,6 +2143,7 @@ public class PolygonTriangulation {
 	private Coords[] corners = null;
 
 	/**
+	 * set complete 3D vertex array (with intersections)
 	 * 
 	 * @param vertices
 	 *            original points vertices
@@ -2150,12 +2151,10 @@ public class PolygonTriangulation {
 	 *            coord sys to compute 3D points for intersections
 	 * @param length
 	 *            vertices length
-	 * @return complete 3D vertex array (with intersections)
 	 */
-	public Coords[] getCompleteVertices(Coords[] vertices, CoordSys cs,
-			int length) {
+	public void setCompleteVertices(Coords[] vertices, CoordSys cs, int length) {
 		if (maxPointIndex == length) {
-			return vertices;
+			return;
 		}
 
 		if (completeVertices.length < maxPointIndex) {
@@ -2171,6 +2170,22 @@ public class PolygonTriangulation {
 			if (point != null) {
 				completeVertices[i] = cs.getPoint(point.x, point.y);
 			}
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param vertices
+	 *            original points vertices
+	 * @param length
+	 *            vertices length
+	 * @return complete 3D vertex array (with intersections)
+	 */
+	public Coords[] getCompleteVertices(Coords[] vertices,
+			int length) {
+		if (maxPointIndex == length) {
+			return vertices;
 		}
 
 		return completeVertices;

@@ -32,8 +32,8 @@ public class ManagerShadersNoTriangleFan extends ManagerShadersWithTemplates {
 
 	@Override
 	protected void triangleFanVertex(Coords v) {
-		vertex(triangleFanApex);
-		vertex(v);
+		vertexToScale(triangleFanApex);
+		vertexToScale(v);
 	}
 
 	@Override

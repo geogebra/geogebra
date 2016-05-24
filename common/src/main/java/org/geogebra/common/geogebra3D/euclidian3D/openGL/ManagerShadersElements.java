@@ -673,7 +673,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 
 		// set vertices
 		for (int i = 0; i < length; i++) {
-			vertex(v[i]);
+			vertexToScale(v[i]);
 		}
 
 		if (reverse) {
@@ -700,7 +700,7 @@ public class ManagerShadersElements extends ManagerShadersNoTriangleFan {
 
 		// set vertices
 		for (int i = 0; i < length; i++) {
-			vertex(verticesWithIntersections[i]);
+			vertexToScale(verticesWithIntersections[i]);
 		}
 
 		// indices

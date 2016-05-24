@@ -435,7 +435,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 
 		// set vertices
 		for (int i = 0; i < length; i++) {
-			vertex(v[i]);
+			vertexToScale(v[i]);
 		}
 
 		if (reverse) {
@@ -462,7 +462,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 
 		// set vertices
 		for (int i = 0; i < length; i++) {
-			vertex(verticesWithIntersections[i]);
+			vertexToScale(verticesWithIntersections[i]);
 		}
 
 		// indices

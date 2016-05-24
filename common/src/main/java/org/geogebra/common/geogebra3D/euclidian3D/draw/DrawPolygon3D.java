@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -39,8 +40,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	public DrawPolygon3D(EuclidianView3D a_view3D, GeoPolygon polygon) {
 
 		super(a_view3D, polygon);
-
-		pt.setPolygon(polygon);
 
 		setPickingType(PickingType.SURFACE);
 
@@ -149,7 +148,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	private Coords[] vertices = new Coords[0];
-	private PolygonTriangulation pt = new PolygonTriangulation();
 
 	private void updateVertices(GeoPolygon polygon, int pointLength) {
 
@@ -211,7 +209,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		// surface
 		int index = renderer.startPolygons(getReusableSurfaceIndex());
 
-		drawPolygon(renderer, polygon, pt, vertices, pointLength);
+		drawPolygon(renderer, polygon, vertices, pointLength);
 
 		renderer.endPolygons();
 
@@ -235,10 +233,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	 *            vertices length (may <> vertices.length due to cache)
 	 */
 	static final public void drawPolygon(Renderer renderer, GeoPolygon polygon,
-			PolygonTriangulation pt, Coords[] vertices, int verticesLength) {
+			Coords[] vertices, int verticesLength) {
 
 		Coords n = polygon.getMainDirection();
 
+		PolygonTriangulation pt = polygon.getPolygonTriangulation();
 		pt.clear();
 
 		try {
@@ -249,10 +248,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				// check if the polygon is convex
 				Convexity convexity = pt.checkIsConvex();
 				if (convexity != Convexity.NOT) {
-					boolean reverse = polygon.getReverseNormalForDrawing()
-							^ (convexity == Convexity.CLOCKWISE);
-					renderer.getGeometryManager().drawPolygonConvex(n,
-							vertices, verticesLength, reverse);
+					drawConvex(renderer, polygon, n, vertices, verticesLength,
+							convexity);
 				} else {
 					// set intersections (if needed) and divide the polygon into
 					// non self-intersecting polygons
@@ -262,14 +259,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 					pt.triangulate();
 
 					// compute 3D coords for intersections
-					Coords[] verticesWithIntersections = pt
-							.getCompleteVertices(vertices,
+					pt.setCompleteVertices(vertices,
 									polygon.getCoordSys(), verticesLength);
 
 					// draw the triangle fans
-					renderer.getGeometryManager().drawTriangleFans(n,
-							verticesWithIntersections, pt.getMaxPointIndex(),
-							pt.getTriangleFans());
+					drawFans(renderer, polygon, n, vertices, verticesLength);
 
 				}
 
@@ -278,6 +272,28 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			Log.debug(e.getMessage());
 			e.printStackTrace();
 		}
+	}
+
+	static final private void drawConvex(Renderer renderer, GeoPolygon polygon,
+			Coords n,
+			Coords[] vertices, int verticesLength, Convexity convexity) {
+		boolean reverse = polygon.getReverseNormalForDrawing()
+				^ (convexity == Convexity.CLOCKWISE);
+
+		renderer.getGeometryManager().drawPolygonConvex(n, vertices,
+				verticesLength, reverse);
+	}
+
+	static final private void drawFans(Renderer renderer, GeoPolygon polygon,
+			Coords n, Coords[] vertices, int verticesLength) {
+
+		PolygonTriangulation pt = polygon.getPolygonTriangulation();
+		Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices,
+				verticesLength);
+		
+		renderer.getGeometryManager().drawTriangleFans(n,
+				verticesWithIntersections, pt.getMaxPointIndex(),
+				pt.getTriangleFans());
 	}
 
 	private void updateOutline(Renderer renderer, Coords[] vertices, int length) {
@@ -301,21 +317,44 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		if (getView3D().viewChangedByZoom()) {
 
-			if (!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()) { // no
-																			// labels
-																			// for
-																			// segments
+			Renderer renderer = getView3D().getRenderer();
+			GeoPolygon polygon = (GeoPolygon) getGeoElement();
+			int verticesLength = polygon.getPointsLength();
 
-				GeoPolygon polygon = (GeoPolygon) getGeoElement();
-				int pointLength = polygon.getPointsLength();
-				Renderer renderer = getView3D().getRenderer();
+			// no labels for segments
+			if (!((GeoPolygon) getGeoElement()).wasInitLabelsCalled()) {
+				if (vertices != null && vertices.length >= verticesLength) { // TODO
+																				// remove
+																				// this
+																				// test
+					// outline
+					updateOutline(renderer, vertices, verticesLength);
+				}
+			}
 
-				updateVertices(polygon, pointLength);
+			if (getView3D().getApplication().has(
+					Feature.DIFFERENT_AXIS_RATIO_3D)) {
+				// surface
+				PolygonTriangulation pt = polygon.getPolygonTriangulation();
+				if (pt.getMaxPointIndex() > 2) {
+					int index = renderer
+							.startPolygons(getReusableSurfaceIndex());
+					Coords n = polygon.getMainDirection();
 
-				// outline
-				updateOutline(renderer, vertices, pointLength);
+					// check if the polygon is convex
+					Convexity convexity = pt.checkIsConvex();
+					if (convexity != Convexity.NOT) {
+						drawConvex(renderer, polygon, n, vertices,
+								verticesLength, convexity);
+					} else {
+						// draw the triangle fans
+						drawFans(renderer, polygon, n, vertices, verticesLength);
+					}
 
-				recordTrace();
+					renderer.endPolygons();
+
+					setSurfaceIndex(index);
+				}
 			}
 		}
 	}
@@ -350,8 +389,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		setGeoElement(new GeoPolygon3D(kernel.getConstruction(), null));
 		getGeoElement().setIsPickable(false);
-
-		pt.setPolygon((GeoPolygon) getGeoElement());
 
 		this.selectedPoints = selectedPoints;
 

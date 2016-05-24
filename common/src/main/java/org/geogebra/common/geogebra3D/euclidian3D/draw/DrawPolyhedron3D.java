@@ -15,7 +15,6 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPointsPyramid
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -213,7 +212,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 
 	}
 
-	private PolygonTriangulation pt = new PolygonTriangulation();
 
 	private void drawPolygon(Renderer renderer, GeoPolygon polygon) {
 
@@ -239,8 +237,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 			vertices[i].setValues(polygon.getPoint3D(i), 3);
 		}
 
-		pt.setPolygon(polygon);
-		DrawPolygon3D.drawPolygon(renderer, polygon, pt, vertices,
+		DrawPolygon3D.drawPolygon(renderer, polygon, vertices,
 				polygon.getPointsLength());
 
 	}
