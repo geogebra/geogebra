@@ -705,7 +705,9 @@ public class RadioTreeItem extends AVTreeItem
 			});
 			outputPanel.add(btnSymbolic);
 			} else {
-				addPrefixLabel(Unicode.CAS_OUTPUT_NUMERIC);
+				addPrefixLabel(kernel.getLocalization().rightToLeftReadingOrder
+						? Unicode.CAS_OUTPUT_PREFIX_RTL
+						: Unicode.CAS_OUTPUT_PREFIX);
 			}
 
 		} else {
