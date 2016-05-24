@@ -57,7 +57,7 @@ public class PlotterBrushSection {
 
 	private void setCenter(Coords point) {
 		center.set(point);
-		manager.getView3D().scaleXYZ(center);
+		manager.scaleXYZ(center);
 	}
 
 	/**

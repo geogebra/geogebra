@@ -9,6 +9,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -72,6 +73,7 @@ abstract public class Manager {
 
 		// geogebra
 		this.view3D = view3D;
+		scalerXYZ = view3D;
 
 		setRenderer(renderer);
 
@@ -388,6 +390,17 @@ abstract public class Manager {
 	}
 	
 	/**
+	 * scale vertex and draw it
+	 * 
+	 * @param v
+	 *            vertex
+	 */
+	protected void vertexToScale(Coords v) {
+		scaleXYZ(v);
+		vertex(v);
+	}
+
+	/**
 	 * creates a vertex at coordinates v (direct buffer mode)
 	 * 
 	 * @param v
@@ -682,10 +695,14 @@ abstract public class Manager {
 
 		double radius = getView3D().unscale(size
 				* DrawPoint3D.DRAW_POINT_FACTOR);
-		getView3D().scaleXYZ(center);
+		scaleXYZ(center);
 		center.setW(1); // changed for shaders (point size)
 
-		return drawSphere(size, center, radius, index);
+		scalerXYZ = scalerXYZIdentity;
+		int ret = drawSphere(size, center, radius, index);
+		scalerXYZ = view3D;
+
+		return ret;
 	}
 
 	/**
@@ -699,7 +716,8 @@ abstract public class Manager {
 	 *            sphere radius
 	 * @return geometry index
 	 */
-	protected int drawSphere(int size, Coords center, double radius, int index) {
+	final protected int drawSphere(int size, Coords center, double radius,
+			int index) {
 		surface.start(index);
 		surface.drawSphere(size, center, radius);
 
@@ -749,5 +767,44 @@ abstract public class Manager {
 		return null;
 	}
 
+	/**
+	 * simple interface to scale coords
+	 *
+	 */
+	public interface ScalerXYZ {
+		/**
+		 * scale x, y, z values
+		 * 
+		 * @param coords
+		 *            coords
+		 */
+		public void scaleXYZ(Coords coords);
+	}
+	
+	/**
+	 * identity scaler
+	 */
+	protected static final ScalerXYZ scalerXYZIdentity = new ScalerXYZ() {
+		public void scaleXYZ(Coords coords) {
+			// do nothing
+		}
+	};
+	
+	/**
+	 * current scaler (identity/3D view)
+	 */
+	protected ScalerXYZ scalerXYZ;
+
+	/**
+	 * scale coords using current scaler
+	 * 
+	 * @param coords
+	 *            coords
+	 */
+	protected void scaleXYZ(Coords coords) {
+		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			scalerXYZ.scaleXYZ(coords);
+		}
+	}
 
 }

@@ -1611,7 +1611,7 @@ public class PlotterSurface {
 
 	public void drawNV(Coords normal, Coords point) {
 		manager.normal(normal);
-		manager.vertex(point);
+		manager.vertexToScale(point);
 	}
 
 	private static float getTextureCoord(int i, int n, float fadeMin,

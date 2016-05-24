@@ -54,6 +54,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawVector3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DLists;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.ScalerXYZ;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
@@ -120,7 +121,7 @@ import org.geogebra.common.util.debug.Log;
  */
 @SuppressWarnings("javadoc")
 public abstract class EuclidianView3D extends EuclidianView implements
-		EuclidianView3DInterface {
+		EuclidianView3DInterface, ScalerXYZ {
 
 	// since V3.0 this factor is 1, before it was 0.5
 	final public static double DEFAULT_GRID_DIST_FACTOR = 1;
@@ -4437,18 +4438,10 @@ GRectangle selectionRectangle) {
 		
 	}
 
-	/**
-	 * scale x, y, z values
-	 * 
-	 * @param coords
-	 *            coords
-	 */
 	public void scaleXYZ(Coords coords) {
-		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			coords.setX(coords.getX() * getXscale());
-			coords.setY(coords.getY() * getYscale());
-			coords.setZ(coords.getZ() * getZscale());
-		}
+		coords.setX(coords.getX() * getXscale());
+		coords.setY(coords.getY() * getYscale());
+		coords.setZ(coords.getZ() * getZscale());
 	}
 
 	/**

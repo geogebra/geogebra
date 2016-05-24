@@ -23,10 +23,12 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 		super(renderer, view3d);
 
 		// points geometry templates
+		scalerXYZ = scalerXYZIdentity;
 		pointGeometry = new int[3];
 		pointGeometry[0] = drawSphere(2, Coords.O, 1d, -1);
 		pointGeometry[1] = drawSphere(4, Coords.O, 1d, -1);
 		pointGeometry[2] = drawSphere(7, Coords.O, 1d, -1);
+		scalerXYZ = view3d;
 
 	}
 
@@ -35,7 +37,7 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 	@Override
 	public int drawPoint(int size, Coords center, int index) {
 
-		getView3D().scaleXYZ(center);
+		scaleXYZ(center);
 
 		// find point geometry template
 		int i = 1;
