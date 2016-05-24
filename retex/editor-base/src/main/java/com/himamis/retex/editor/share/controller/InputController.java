@@ -668,8 +668,17 @@ public class InputController {
         } else if (ch == '\\') {
             newFunction(editorState, "frac", 1);
             handled = true;
+        } else if (ch == 47) { // simple / char
+            newFunction(editorState, "frac", 1);
+            handled = true;
+        } else if (ch == 8730) { // square root char
+            newFunction(editorState, "sqrt", 0);
+            handled = true;
         } else if (metaModel.isArrayOpenKey(ch)) {
             newArray(editorState, 1, ch);
+            handled = true;
+        } else if (ch == 8226) { // big dot char
+            newOperator(editorState, '*');
             handled = true;
         } else if (metaModel.isOperator("" + ch)) {
             newOperator(editorState, ch);
