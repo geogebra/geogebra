@@ -22,17 +22,23 @@ public class KeyListenerAdapter implements View.OnKeyListener {
     public boolean onKey(View v, int keyCode, KeyEvent event) {
         switch (event.getAction()) {
             case KeyEvent.ACTION_DOWN:
-                return mKeyListener.onKeyPressed(wrapEvent(event));
+                com.himamis.retex.editor.share.event.KeyEvent wrappedEvent = wrapEvent(event);
+                boolean handled = mKeyListener.onKeyPressed(wrappedEvent);
+                mFormulaEditor.updateSuggestions(wrappedEvent, handled);
+                return handled;
             case KeyEvent.ACTION_UP:
             case KeyEvent.ACTION_MULTIPLE:
                 if (event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     mFormulaEditor.onEnter();
                     return true;
                 }
-                com.himamis.retex.editor.share.event.KeyEvent wrappedEvent = wrapEvent(event);
+                wrappedEvent = wrapEvent(event);
                 boolean ret = mKeyListener.onKeyReleased(wrappedEvent);
-                if (wrappedEvent.getUnicodeKeyChar() != '\0') {
-                    ret |= mKeyListener.onKeyTyped(wrappedEvent);
+                char unicodeChar = wrappedEvent.getUnicodeKeyChar();
+                if (unicodeChar != '\0') {
+                    handled = mKeyListener.onKeyTyped(wrappedEvent);
+                    mFormulaEditor.updateSuggestions(wrappedEvent, handled);
+                    ret |= handled;
                 }
                 return ret;
             default:
@@ -44,7 +50,8 @@ public class KeyListenerAdapter implements View.OnKeyListener {
         int keyCode = getKeyCode(keyEvent.getKeyCode());
         char charCode = getCharCode(keyEvent);
         int modifiers = getModifiers(keyEvent);
-        return new com.himamis.retex.editor.share.event.KeyEvent(keyCode, modifiers, charCode);
+        int action = getAction(keyEvent);
+        return new com.himamis.retex.editor.share.event.KeyEvent(keyCode, modifiers, charCode, action);
     }
 
     private static int getKeyCode(int nativeKeyCode) {
@@ -81,6 +88,19 @@ public class KeyListenerAdapter implements View.OnKeyListener {
             return '\0';
         } else {
             return (char) unicodeChar;
+        }
+    }
+
+    private static int getAction(KeyEvent keyEvent) {
+        switch (keyEvent.getAction()) {
+            case KeyEvent.ACTION_DOWN:
+                return com.himamis.retex.editor.share.event.KeyEvent.ACTION_DOWN;
+            case KeyEvent.ACTION_UP:
+                return com.himamis.retex.editor.share.event.KeyEvent.ACTION_UP;
+            case KeyEvent.ACTION_MULTIPLE:
+                return com.himamis.retex.editor.share.event.KeyEvent.ACTION_MULTIPLE;
+            default:
+                return com.himamis.retex.editor.share.event.KeyEvent.ACTION_UNKNOWN;
         }
     }
 }

@@ -25,6 +25,7 @@ import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelParser;
@@ -501,6 +502,16 @@ public class FormulaEditor extends View implements MathField {
         editorState.setRootComponent(formulaEditorState.rootComponent);
         editorState.setCurrentField(formulaEditorState.currentField);
         editorState.setCurrentOffset(formulaEditorState.currentOffset);
+    }
+
+    /**
+     * native keyboard key event may update suggestions
+     *
+     * @param keyEvent key event
+     * @param handled  true if char has been sent to formula
+     */
+    public void updateSuggestions(KeyEvent keyEvent, boolean handled) {
+        // implemented in AlgebraInput
     }
 
     static class FormulaEditorState extends BaseSavedState {

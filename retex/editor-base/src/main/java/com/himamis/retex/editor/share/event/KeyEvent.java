@@ -202,9 +202,15 @@ public class KeyEvent {
 	public static final int VK_DIVIDE = 0x6F;
 	public static final int VK_DELETE = 0x7F; /* ASCII DEL */
 
+	public static final int ACTION_DOWN = 0;
+	public static final int ACTION_UP = 1;
+	public static final int ACTION_MULTIPLE = 2;
+	public static final int ACTION_UNKNOWN = -1;
+
 	private int keyCode;
 	private int keyModifiers;
 	private char unicodeKeyChar;
+	private int action;
 
 	public KeyEvent(int keyCode) {
 		this(keyCode, 0);
@@ -213,11 +219,16 @@ public class KeyEvent {
 	public KeyEvent(int keyCode, int keyModifiers) {
 		this(keyCode, keyModifiers, '\0');
 	}
-	
+
 	public KeyEvent(int keyCode, int keyModifiers, char unicodeKeyChar) {
+		this(keyCode, keyModifiers, unicodeKeyChar, ACTION_UNKNOWN);
+	}
+
+	public KeyEvent(int keyCode, int keyModifiers, char unicodeKeyChar, int action) {
 		this.keyCode = keyCode;
 		this.keyModifiers = keyModifiers;
 		this.unicodeKeyChar = unicodeKeyChar;
+		this.action = action;
 	}
 
 	public int getKeyCode() {
@@ -230,5 +241,9 @@ public class KeyEvent {
 	
 	public char getUnicodeKeyChar() {
 		return unicodeKeyChar;
+	}
+
+	public int getAction() {
+		return action;
 	}
 }
