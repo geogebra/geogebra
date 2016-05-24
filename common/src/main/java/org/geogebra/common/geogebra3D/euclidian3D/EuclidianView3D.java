@@ -914,15 +914,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	protected void updateUndoTranslationMatrix() {
-		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			undoTranslationMatrix.set(1, 4, -getXZero() * getXscale());
-			undoTranslationMatrix.set(2, 4, -getYZero() * getYscale());
-			undoTranslationMatrix.set(3, 4, -getZZero() * getZscale());
-		}else{
-			undoTranslationMatrix.set(1, 4, -getXZero());
-			undoTranslationMatrix.set(2, 4, -getYZero());
-			undoTranslationMatrix.set(3, 4, -getZZero());
-		}
+		undoTranslationMatrix.set(1, 4, -getXZero());
+		undoTranslationMatrix.set(2, 4, -getYZero());
+		undoTranslationMatrix.set(3, 4, -getZZero());
 	}
 
 	private void updateEye() {

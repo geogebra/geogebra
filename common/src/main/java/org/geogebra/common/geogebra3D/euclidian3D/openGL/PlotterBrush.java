@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian3DInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 
 /**
  * 3D brush, drawing circular-section curves.
@@ -29,8 +30,7 @@ public class PlotterBrush implements PathPlotter {
 	private int index;
 
 	/** start and end sections */
-	protected PlotterBrushSection start = new PlotterBrushSection(),
-			end = new PlotterBrushSection();
+	protected PlotterBrushSection start, end;
 
 	private boolean justStarted = false;
 	private boolean notStarted = false;
@@ -131,6 +131,8 @@ public class PlotterBrush implements PathPlotter {
 	 */
 	public PlotterBrush(Manager manager) {
 		this.manager = manager;
+		start = new PlotterBrushSection(manager);
+		end = new PlotterBrushSection(manager);
 	}
 
 	// //////////////////////////////////
@@ -363,7 +365,7 @@ public class PlotterBrush implements PathPlotter {
 				factor = 0.9f * length / ARROW_LENGTH;
 			}
 			arrowPos = ARROW_LENGTH / length * factor;
-			tmpCoords3.setAdd(tmpCoords4.setMul(start.getCenter(), arrowPos),
+			tmpCoords3.setAdd(tmpCoords4.setMul(p1, arrowPos),
 					tmpCoords3.setMul(p2, 1 - arrowPos));
 
 			setTextureX(0);
@@ -379,6 +381,10 @@ public class PlotterBrush implements PathPlotter {
 							- ((int) (ticksOffset * length / ticksDistance))
 							* ticksDistance;
 					float ticksDelta = thicknessOld;
+					if (manager.getView3D().getApplication()
+							.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+						ticksDelta /= scale;
+					}
 					float ticksThickness = 4 * thicknessOld;
 					if (i <= ticksDelta)
 						i += ticksDistance;
@@ -401,6 +407,10 @@ public class PlotterBrush implements PathPlotter {
 							- ((int) (ticksOffset * length / ticksDistance))
 							* ticksDistance;
 					ticksDelta = thicknessOld;
+					if (manager.getView3D().getApplication()
+							.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+						ticksDelta /= scale;
+					}
 					ticksThickness = 4 * thicknessOld;
 					float ticksMinorThickness = 2.5f * thicknessOld;
 					boolean minor = false;
@@ -434,7 +444,12 @@ public class PlotterBrush implements PathPlotter {
 
 			textureTypeX = TEXTURE_ID;
 			setTextureX(0, 0);
-			setThickness(factor * ARROW_WIDTH);
+			if (manager.getView3D().getApplication()
+					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+				setThickness(factor * ARROW_WIDTH * scale);
+			} else {
+				setThickness(factor * ARROW_WIDTH);
+			}
 			moveTo(tmpCoords3);
 			setThickness(0);
 			moveTo(p2);
@@ -870,7 +885,7 @@ public class PlotterBrush implements PathPlotter {
 		this.lineThickness = thickness;
 		this.scale = scale;
 
-		float t = lineThickness * LINE3D_THICKNESS / scale;
+		float t = manager.getView3D().unscale(lineThickness * LINE3D_THICKNESS);
 		setThickness(t);
 		return t;
 

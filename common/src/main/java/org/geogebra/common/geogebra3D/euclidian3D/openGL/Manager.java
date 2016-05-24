@@ -68,7 +68,10 @@ abstract public class Manager {
 		// empty constructor
 	}
 
-	protected void init(Renderer renderer, EuclidianView3D view3D) {
+	final protected void init(Renderer renderer, EuclidianView3D view3D) {
+
+		// geogebra
+		this.view3D = view3D;
 
 		setRenderer(renderer);
 
@@ -87,9 +90,6 @@ abstract public class Manager {
 		mouseCursor = new PlotterMouseCursor(this);
 
 		completingCursor = new PlotterCompletingCursor(this);
-
-		// geogebra
-		this.view3D = view3D;
 
 	}
 

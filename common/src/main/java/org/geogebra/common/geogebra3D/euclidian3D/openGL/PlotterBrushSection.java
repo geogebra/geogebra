@@ -11,6 +11,8 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public class PlotterBrushSection {
 
+	private Manager manager;
+
 	/** center and clock vectors */
 	private Coords center;
 
@@ -35,8 +37,12 @@ public class PlotterBrushSection {
 
 	/**
 	 * constructor
+	 * 
+	 * @param manager
+	 *            geometry manager
 	 */
-	public PlotterBrushSection() {
+	public PlotterBrushSection(Manager manager) {
+		this.manager = manager;
 		center = Coords.createInhomCoorsInD3();
 		clockU = new Coords(4);
 		clockU.setUndefined();
@@ -50,9 +56,17 @@ public class PlotterBrushSection {
 	}
 
 	private void setCenter(Coords point) {
-		this.center.set(point);
+		center.set(point);
+		manager.getView3D().scaleXYZ(center);
 	}
 
+	/**
+	 * 
+	 * @param point
+	 *            point
+	 * @return true if section center is equal to point with Kernel standard
+	 *         precision
+	 */
 	public boolean centerEqualsForKernel(Coords point) {
 		return point.equalsForKernel(center, Kernel.STANDARD_PRECISION);
 	}
