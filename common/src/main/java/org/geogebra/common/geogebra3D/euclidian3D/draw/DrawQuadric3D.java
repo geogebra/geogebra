@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing quadrics.
@@ -899,6 +900,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	}
 
+	private boolean updateNeededForNewScale(double s) {
+		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			return true;
+		}
+		return scale < s;
+	}
+
 	@Override
 	protected void updateForView() {
 
@@ -919,7 +927,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				// redraw if sphere was not visible, or if new longitude length,
 				// or if negative zoom occured
 				if (visible == Visible.TOTALLY_OUTSIDE || l != longitude
-						|| scale < s) {
+						|| updateNeededForNewScale(s)) {
 					Coords center = quadric.getMidpoint3D();
 					checkSphereVisible(center, radius);
 					if (visible != Visible.TOTALLY_OUTSIDE) {
