@@ -4020,6 +4020,8 @@ namespace giac {
     gen n=args;
     if (n.type==_VECT && n._VECTptr->size()==1 && is_integer(n._VECTptr->front()))
       return ifactor(n,contextptr);
+    if (n.type==_VECT)
+      return apply(n,_ifactor,contextptr);
     if (!is_integral(n))
       return gensizeerr(contextptr);
     if (is_strictly_positive(-n,0))

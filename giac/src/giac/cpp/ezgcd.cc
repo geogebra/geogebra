@@ -377,6 +377,111 @@ namespace giac {
     }
     return true;
   }
+
+  void poly_truncate(const polynome & q,polynome & q1,int j){
+    q1.coord.clear();
+    vector< monomial<gen> >::const_iterator jt=q.coord.begin(),jtend=q.coord.end();
+    for (;jt!=jtend;++jt){
+      if (jt->index.total_degree()<j)
+	q1.coord.push_back(*jt);
+    }
+  }
+
+  // multiply keep only if total degree < maxdeg
+  void mulpoly_truncate(const polynome & p,const polynome & q,polynome &res,int maxdeg){
+    res.coord.clear();
+    int dim=p.dim;
+    polynome p1(dim),q1(dim),tmp(dim);
+    for (int i=0;i<maxdeg;++i){
+      // p1 total degree i of p, q1 total degree<maxdeg-i of q
+      int j=maxdeg-i;
+      // create p1 and q1
+      p1.coord.clear();
+      vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
+      for (;it!=itend;++it){
+	if (it->index.total_degree()==i)
+	  p1.coord.push_back(*it);
+      }
+      poly_truncate(q,q1,j);
+      // multiply, 
+      mulpoly(p1,q1,tmp,0);
+      // add to res
+      p1.coord.clear();
+      tmp.TAdd(res,p1);
+      p1.coord.swap(res.coord);
+    }
+  }
+	  
+  // keep only monomials of total_degree==j without first degree
+  void poly_truncate1(const polynome & q,polynome & q1,int j){
+    q1.coord.clear();
+    vector< monomial<gen> >::const_iterator it=q.coord.begin(),itend=q.coord.end();
+    index_t::const_iterator jt,jtend;
+    for (;it!=itend;++it){
+      jt=it->index.begin()+1;
+      jtend=it->index.end();
+      int otherdeg;
+      for (otherdeg=*jt,++jt;jt!=jtend;++jt){
+	otherdeg += *jt;
+      }
+      if (otherdeg==j)
+	q1.coord.push_back(*it);
+    }
+  }
+
+  void other_deg(const polynome & p,vector<int> & pdeg){
+    pdeg.reserve(p.coord.size()); pdeg.clear();
+    vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
+    for (;it!=itend;++it){
+      index_t::const_iterator jt,jtend;
+      jt=it->index.begin()+1;
+      //jtend=jt+dim-1;
+      jtend=it->index.end();
+      int otherdeg;
+      for (otherdeg=*jt,++jt;jt<jtend;++jt){
+	otherdeg += *jt;
+      }
+      pdeg.push_back(otherdeg);
+    }
+  }
+
+  // multiply keep only if total degree excluding 1st deg == maxdeg
+  void mulpoly_truncate1(const polynome & p,const polynome & q,polynome &res,int deg,polynome & p1,polynome & q1,polynome & tmp,vector<int> & pdeg,vector<int> & qdeg){
+    bool eq=deg>=0;
+    int maxdeg=eq?deg:-deg;
+    res.coord.clear();
+    int dim=p.dim;
+    int ps=int(p.coord.size()),qs=int(q.coord.size());
+    p1.coord.reserve(ps);
+    other_deg(p,pdeg);
+    other_deg(q,qdeg);
+    const vector< monomial<gen> > & pcoord=p.coord;
+    const vector< monomial<gen> > & qcoord=q.coord;
+    for (int i=0;i<=maxdeg;++i){
+      // p1 total degree <=i of p or ==i if deg>0, 
+      // q1 total degree==maxdeg-i of q
+      int j=maxdeg-i;
+      // create p1 and q1
+      p1.coord.clear();
+      for (int k=0;k<ps;++k){
+	int otherdeg=pdeg[k];
+	if (eq?otherdeg==i:otherdeg<=i)
+	  p1.coord.push_back(pcoord[k]);
+      }
+      q1.coord.clear();
+      for (int k=0;k<qs;++k){
+	if (qdeg[k]==j)
+	  q1.coord.push_back(qcoord[k]);
+      }
+      // multiply, 
+      mulpoly(p1,q1,tmp,0);
+      // add to res
+      p1.coord.clear();
+      tmp.TAdd(res,p1);
+      p1.coord.swap(res.coord);
+    }
+  }
+
 	  
   bool try_hensel_lift_factor(const polynome & pcur,const polynome & F0,const factorization & v0,int mult,factorization & f){
     int dim=pcur.dim;
@@ -546,6 +651,7 @@ namespace giac {
 	if (!is_zero(*it))
 	  U[i].coord.push_back(monomial<gen>(*it,deg-n,1,pcur_adjusted.dim));
       }
+      // CERR << Tcontent(U[i]) << endl;
     }
     polynome quo(dim),rem(dim),tmp(dim);
     // we have now pcur_adjusted = product P_i + O(total_degree>=1)
@@ -553,6 +659,67 @@ namespace giac {
     // lift to pcur_adjusted = product P_i + O(total_degree>=k+1)
     // for deg from 1 to total_degree(pcur_adjusted)
     // P_i += (pcur_adjusted-product P_i) * U_j mod total_degree(k+1)
+#if 1 // def EZGCD_DEGONLY
+    if (is_zero(b)){
+      polynome tmp4(dim),tmp5(dim),tmp6(dim),prod(dim);
+      vector<int> tmpi1,tmpi2;
+      for (int deg=1;deg<=Total;++deg){
+	prod=P[s-2];
+	for (int i=s-3;i>=0;--i){
+	  // reduce_poly(prod * P[i],b,deg+1,prod); // keep up to deg
+	  tmp.coord.clear();
+	  mulpoly_truncate1(prod,P[i],tmp,-deg,tmp4,tmp5,tmp6,tmpi1,tmpi2);
+	  prod.coord.swap(tmp.coord);
+	  //if (prod!=prod1) CERR << "err " << deg << endl;
+	} // end loop on i
+	mulpoly_truncate1(prod,P[s-1],tmp,deg,tmp4,tmp5,tmp6,tmpi1,tmpi2);
+	prod.coord.swap(tmp.coord);
+	poly_truncate1(pcur_adjusted,tmp,deg);
+	prod = tmp - prod;
+	if (prod.coord.empty()){
+	  // check total degrees
+	  int tdeg=0;
+	  for (int i=0;i<s;++i)
+	    tdeg += P[i].total_degree();
+	  if (tdeg==Total){ 
+	    if (deg!=Total){
+	      prod=P[s-1];
+	      for (int i=s-2;i>=0;--i){
+		// prod = prod * P[i]; 
+		tmp.coord.clear();
+		mulpoly(prod,P[i],tmp,0);
+		prod.coord.swap(tmp.coord);
+	      }
+	      // N.B. prod==pcur_adjusted does not always work!
+	      if ((prod-pcur_adjusted).coord.empty())
+		deg=Total;
+	    }
+	    if (deg==Total){
+	      for (int i=0;i<s;++i){
+		f.push_back(facteur<polynome>(P[i]/lgcd(P[i]),mult));
+	      }
+	      return true;
+	    }
+	  }
+	  continue;
+	}
+	//CERR << Tcontent(prod) << endl;
+	for (int i=0;i<s;++i){
+	  // U[i] depends only on 1st var no need to reduce
+	  mulpoly(prod,U[i],rem,0);
+	  //CERR << "deg " << deg << " " << Tcontent(rem) << endl;
+	  if (!divrem1(rem,P0[i],quo,tmp,0) && !rem.TDivRem1(P0[i],quo,tmp,true,0))
+	    return false;
+	  rem.coord.swap(tmp.coord); // poly_truncate1(tmp,rem,deg);
+	  // divide by D
+	  vector< monomial<gen> >::const_iterator r1=rem.coord.begin(),r2=rem.coord.end();
+	  Div<gen>(r1,r2,D,rem.coord);
+	  P[i] = P[i] + rem;
+	}
+      }
+    } // end if (is_zero(b))
+    else
+#endif
     for (int deg=1;deg<=Total;++deg){
       polynome prod(P[s-1]);
       for (int i=s-2;i>=0;--i){
@@ -576,7 +743,8 @@ namespace giac {
 	      mulpoly(prod,P[i],tmp,0);
 	      swap(tmp,prod);
 	    }
-	    if (prod==pcur_adjusted)
+	    // N.B. prod==pcur_adjusted does not always work!
+	    if ((prod-pcur_adjusted).coord.empty())
 	      deg=Total;
 	  }
 	  if (deg==Total){
@@ -588,8 +756,11 @@ namespace giac {
 	}
 	continue;
       }
+      //CERR << Tcontent(prod) << endl;
       for (int i=0;i<s;++i){
+	// U[i] depends only on 1st var no need to reduce
 	mulpoly(prod,U[i],rem,0);
+	//CERR << "deg " << deg << " " << Tcontent(rem) << endl;
 	if (!divrem1(rem,P0[i],quo,tmp,0) && !rem.TDivRem1(P0[i],quo,tmp,true,0))
 	  return false;
 	reduce_poly(tmp,b,deg+1,rem);
@@ -598,7 +769,7 @@ namespace giac {
 	Div<gen>(r1,r2,D,rem.coord);
 	P[i] = P[i] + rem;
       }
-    }
+    } // end for
     // FIXME combine factors 
     if (s==2){
       f.push_back(facteur<polynome>(pcur,mult));

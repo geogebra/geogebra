@@ -733,9 +733,8 @@ namespace giac {
   }
 
   modpoly operator * (const modpoly & a, const modpoly & b) {
-    environment * env=new environment;
-    modpoly temp(operator_times(a,b,env));
-    delete env;
+    environment env;
+    modpoly temp(operator_times(a,b,&env));
     return temp;
   }
   
@@ -3329,13 +3328,131 @@ namespace giac {
     return operator_times(operator_div(p,g,env),q,env);
   }
 
+  bool algnorme(const polynome & p_y,const polynome & pmini,polynome & n){
+    matrice S=sylvester(polynome2poly1(pmini,1),polynome2poly1(p_y,1));
+    S=mtran(S);
+    gen g=det_minor(S,vecteur(0),false,context0);
+    if (g.type!=_POLY)
+      return false;
+    n=*g._POLYptr;
+    return true;
+  }
+
   // p1*u+p2*v=d
   void egcd(const modpoly &p1, const modpoly & p2, environment * env,modpoly & u,modpoly & v,modpoly & d){
     if (!env || !env->moduloon){
       int dim=giacmax(inner_POLYdim(p1),inner_POLYdim(p2));
       polynome pp1(dim),pp2(dim),pu(dim),pv(dim),pd(dim);
+      gen den1(1),den2(1);
       poly12polynome(p1,1,pp1,dim);
+      lcmdeno(pp1,den1);
+      if (!is_one(pp1)) pp1=den1*pp1;
       poly12polynome(p2,1,pp2,dim);
+      lcmdeno(pp2,den2);
+      if (!is_one(pp2)) pp2=den2*pp2;
+      gen p1g,p2g;
+      int p1t=coefftype(pp1,p1g);
+      int p2t=coefftype(pp2,p2g);
+      if (p1t==0 && p2t==0){
+	polynome2poly1(gcd(pp1,pp2),1,d);
+	// solve sylvester matrix * []=d
+	matrice S=sylvester(p1,p2);
+	S=mtran(S);
+	int add=p1.size()+p2.size()-d.size()-2;
+	v=mergevecteur(vecteur(add,0),d);
+	u=linsolve(S,v,context0);
+	gen D;
+	lcmdeno(u,D,context0);
+	d=multvecteur(D,d);
+	v=vecteur(u.begin()+p2.size()-1,u.end());
+	u=vecteur(u.begin(),u.begin()+p2.size()-1);
+	if (!is_one(den1))
+	  u=den1*u;		
+	if (!is_one(den2))
+	  v=den2*v;
+	return;
+      }
+      if (p1t==_EXT && p2t==_EXT && p1g.type==_EXT && p2g.type==_EXT && *(p1g._EXTptr+1)==*(p2g._EXTptr+1) && (p1g._EXTptr+1)->type==_VECT){
+	polynome2poly1(gcd(pp1,pp2),1,d);
+	if (d.size()==1){
+	  polynome pmini(2),P1,P2;
+	  algext_vmin2pmin(*(p1g._EXTptr+1)->_VECTptr,pmini);
+	  polynome P1n(1),P2n(1);
+	  if (algext_convert(pp1,p1g,P1) && algext_convert(pp2,p1g,P2)){
+	    if (algnorme(P1,pmini,P1n) && algnorme(P2,pmini,P2n)){
+	      // first solve norme(p1)*un+norme(p2)*vn=d
+	      // then norme(p1)/p1*un*p1+norme(p2)/p2*vn*p2=d
+	      // hence u=norme(p1)/p1*un and v=norme(p2)/p2*vn
+	      int p1t=coefftype(P1n,p1g);
+	      int p2t=coefftype(P2n,p2g);
+	      if (p1t==0 && p2t==0){
+		//CERR << P1n % pp1 << endl;
+		//CERR << P2n % pp2 << endl;
+		P1=P1n/pp1;
+		P2=P2n/pp2;
+		// solve sylvester matrix * []=d
+		matrice S=sylvester(polynome2poly1(P1n,1),polynome2poly1(P2n,1));
+		S=mtran(S);
+		v=vecteur(S.size());
+		v[S.size()-1]=d[0];
+		u=linsolve(S,v,context0);
+		gen D;
+		lcmdeno(u,D,context0);
+		d=multvecteur(D,d);
+		int p2s=P2n.lexsorted_degree();
+		v=vecteur(u.begin()+p2s,u.end());
+		v=operator_times(v,polynome2poly1(P2,1),0);
+		u=vecteur(u.begin(),u.begin()+p2s);
+		u=operator_times(u,polynome2poly1(P1,1),0);
+		if (!is_one(den1))
+		  u=den1*u;		
+		if (!is_one(den2))
+		  v=den2*v;
+		//CERR << (operator_times(u,p1,0)+operator_times(v,p2,0))/D << endl;
+		return;
+	      }
+	    }
+	  }
+	}
+      }
+      if (0 && p1t==_EXT && p2t==0 && p1g.type==_EXT && (p1g._EXTptr+1)->type==_VECT){
+	polynome2poly1(gcd(pp1,pp2),1,d);
+	if (d.size()==1){
+	  polynome pmini(2),P1;
+	  algext_vmin2pmin(*(p1g._EXTptr+1)->_VECTptr,pmini);
+	  polynome P1n(1);
+	  if (algext_convert(pp1,p1g,P1)){
+	    if (algnorme(P1,pmini,P1n)){
+	      // first solve norme(p1)*un+p2*v=d
+	      // then norme(p1)/p1*un*p1+v*p2=d
+	      // hence u=norme(p1)/p1*un 
+	      int p1t=coefftype(P1n,p1g);
+	      if (p1t==0){
+		P1=P1n/pp1;
+		// solve sylvester matrix * []=d
+		matrice S=sylvester(polynome2poly1(P1n,1),p2);
+		S=mtran(S);
+		v=vecteur(S.size());
+		v[S.size()-1]=d[0];
+		u=linsolve(S,v,context0);
+		gen D;
+		lcmdeno(u,D,context0);
+		d=multvecteur(D,d);
+		int p2s=p2.size()-1;
+		v=vecteur(u.begin()+p2s,u.end());
+		u=vecteur(u.begin(),u.begin()+p2s);
+		u=operator_times(u,polynome2poly1(P1,1),0);
+		if (!is_one(den1))
+		  u=den1*u;		
+		if (!is_one(den2))
+		  v=den2*v;
+		//CERR << (operator_times(u,p1,0)+operator_times(v,p2,0))/D << endl;
+		return;
+	      }
+	    }
+	  }
+	}
+      }
       egcd(pp1,pp2,pu,pv,pd);
       polynome2poly1(pu,1,u);
       polynome2poly1(pv,1,v);
@@ -3343,8 +3460,12 @@ namespace giac {
       if (is_minus_one(d)){
 	d=-d; u=-u; v=-v;
       }
+      if (!is_one(den1))
+	u=den1*u;		
+      if (!is_one(den2))
+	v=den2*v;
       return;
-    }
+    } // end if modular env does not apply
     if (p2.empty()){
       u=one();
       v.clear();

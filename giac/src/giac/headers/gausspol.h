@@ -168,12 +168,17 @@ namespace giac {
   bool sqff_evident(const polynome & p,factorization & f,bool withsqrt,bool complexmode);
   // factorization over Z[i]
   bool cfactor(const polynome & p, gen & an,factorization & f,bool withsqrt,gen & extra_div);
+  // add a dimension in front of pcur for algebraic extension variable
+  bool algext_convert(const polynome & pcur,const gen & e,polynome & p_y);
+  // convert minimal polynomial of algebraic extension
+  void algext_vmin2pmin(const vecteur & v_mini,polynome & p_mini);
+
   // factorization over an algebraic extension
   // the main variable of G is the algebraic extension variable
   // the minimal polynomial of this variable is p_mini
   // G is assumed to be square-free
   // See algorithm 3.6.4 in Henri Cohen book starting at step 3
-  bool algfactor(const polynome & G,const polynome & p_mini,int & k,factorization & f,bool complexmode,gen & extra_div);
+  bool algfactor(const polynome & G,const polynome & p_mini,int & k,factorization & f,bool complexmode,gen & extra_div,polynome & Gtry);
   // sqff factorization over a finite field
   factorization squarefree_fp(const polynome & p,unsigned n,unsigned exposant);
   // univariate factorization over a finite field, once sqff

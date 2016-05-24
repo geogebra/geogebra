@@ -10158,7 +10158,7 @@ namespace giac {
     return res;
   }
 
-  static gen det_minor(const matrice & a,vecteur lv,bool convert_internal,GIAC_CONTEXT){
+  gen det_minor(const matrice & a,vecteur lv,bool convert_internal,GIAC_CONTEXT){
     int n=int(a.size());
     if (n==1)
       return a.front()._VECTptr->front();

@@ -6631,13 +6631,19 @@ namespace giac {
       return symbolic_plot_makevecteur(b_._SYMBptr->sommet,b_._SYMBptr->feuille*a,false,contextptr);
     }
     if (a.type==_FRAC){
-      if ( (b.type!=_SYMB) && (b.type!=_IDNT) )      
+      if ( (b.type!=_SYMB) && (b.type!=_IDNT) ) {
+	if (b.type==_EXT)
+	  return fraction(a._FRACptr->num*b,a._FRACptr->den).normal();
         return (*a._FRACptr)*b;
+      }
       return sym_mult(_FRAC2_SYMB(a),b,contextptr);
     }
     if (b.type==_FRAC){
-      if ( (a.type!=_SYMB) && (a.type!=_IDNT) )
+      if ( (a.type!=_SYMB) && (a.type!=_IDNT) ){
+	if (a.type==_EXT)
+	  return fraction(a*b._FRACptr->num,b._FRACptr->den).normal();
         return a*(*b._FRACptr);
+      }
       return sym_mult(a,_FRAC2_SYMB(b),contextptr);
     }
     if (a.is_symb_of_sommet(at_neg)){

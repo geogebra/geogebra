@@ -1318,6 +1318,8 @@ namespace giac {
 
 
   int ntlfactor(inttype *p, int pdeg,inttype ** result,int * resultdeg,int debug=0){
+    if (debug_infolevel)
+      CERR << CLOCK()*1e-6 << " NTL factor begin" << endl;
     NTL::ZZX f(tab2ZZX(p,pdeg));
     // COUT << "Factoring " << f << endl;
     NTL::vec_pair_ZZX_long factors;
@@ -1329,6 +1331,8 @@ namespace giac {
     for (int i=0;i<s;i++){
       ZZX2tab(factors[i].a,resultdeg[i],result[i]);
     }
+    if (debug_infolevel)
+      CERR << CLOCK()*1e-6 << " NTL factor end" << endl;
     return s;
   }
   // ithprime will not be used here

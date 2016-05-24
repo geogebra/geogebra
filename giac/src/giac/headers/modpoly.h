@@ -186,6 +186,9 @@ namespace giac {
   // p1*u+p2*v=d
   void egcd(const modpoly &p1, const modpoly & p2, environment * env,modpoly & u,modpoly & v,modpoly & d);
   bool egcd_pade(const modpoly & n,const modpoly & x,int l,modpoly & a,modpoly &b,environment * env,bool psron=true);
+  // alg extension norme for p_y, alg extension defined by pmini
+  bool algnorme(const polynome & p_y,const polynome & pmini,polynome & n);
+
   // Given [v_0 ... v_(2n-1)] (begin of the recurrence sequence) 
   // return [b_n...b_0] such that b_n*v_{n+k}+...+b_0*v_k=0
   // Example [1,-1,3,3] -> [1,-3,-6]
