@@ -2443,7 +2443,7 @@ __GGB__keysVar.ko.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "%2 \ub97c \uc9c0\ub098\uace0 %3 \uc5d0 \ud3c9\ud589\uc774\uba74\uc11c \ucd08\uc810 %0, %1 \uc744 \uac00\uc9c0\ub294 \ud0c0\uc6d0",
     "EllipseWithFociABandFirstAxisLengthC": "\ucd08\uc810 %0, %1 \uc744(\ub97c) \uc9c0\ub098\uace0, \uc8fc\ucd95\uc758 \ubc18\uc9c0\ub984\uc774 %2 \uc778 \ud0c0\uc6d0",
     "Ellipsoid": "\ud0c0\uc6d0\uccb4",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "\uc9c1\uac01 \uac15\uc870\ud558\uae30",
     "EmptyBox": "\ube48 \uc0c1\uc790",

@@ -2443,7 +2443,7 @@ __GGB__keysVar.ro.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Elips\u0103 cu focarele %0, %1 trec\xe2nd prin %2 paralel cu %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elips\u0103 cu focarele %0, %1 si lungimea primei axe %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Accentuarea in ungi drept",
     "EmptyBox": "(c\xe2mp vid)",

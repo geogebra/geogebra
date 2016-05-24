@@ -2443,7 +2443,7 @@ __GGB__keysVar.sl.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Elipsa z gori\u0161\u010dema %0, %1, ki poteka skozi %2 vzporedno z %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elipsa z gori\u0161\u010di %0, %1 in veliko polosjo %2",
     "Ellipsoid": "Elipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Ozna\u010devanje pravega kota",
     "EmptyBox": "(prazen okvir)",

@@ -2443,7 +2443,7 @@ __GGB__keysVar.et.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellips fookustega  %0 ja %1, l\xe4bib %2 ning on paralleelne %3-ga",
     "EllipseWithFociABandFirstAxisLengthC": "Ellips fookustega %0 ja %1 ning fokaalpooltelje pikkusega %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "R\xf5huta t\xe4isnurka",
     "EmptyBox": "(t\xfchi kast)",

@@ -2443,7 +2443,7 @@ __GGB__keysVar.pt_PT.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Elipse com foco %0, %1 contendo %2 paralela a %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elipse com focos %0, %1 e eixo principal de comprimento %2",
     "Ellipsoid": "Elips\xf3ide",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Enfatizar \xc2ngulo Direto",
     "EmptyBox": "(caixa vazia)",

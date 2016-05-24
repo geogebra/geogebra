@@ -2443,7 +2443,7 @@ __GGB__keysVar.tl.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse with foci %0, %1 passing through %2 parallel to %3",
     "EllipseWithFociABandFirstAxisLengthC": "Tambilugan na may foci na %0, %1 at may haba ng unang aksis na %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Bigyang-diin ang Anggulong Right",
     "EmptyBox": "(empty box)",

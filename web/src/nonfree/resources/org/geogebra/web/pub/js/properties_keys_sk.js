@@ -2443,7 +2443,7 @@ __GGB__keysVar.sk.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Elipsa s ohniskami %0, %1 prech\xe1dzaj\xfaci cez %2 a rovnobe\u017en\xe1 s %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elipsa s ohniskami %0, %1 a d\u013a\u017ekou %2 hlavnej osi",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Vyzdvihn\xfa\u0165 prav\xfd uhol",
     "EmptyBox": "(pr\xe1zdny prie\u010dinok)",

@@ -2443,7 +2443,7 @@ __GGB__keysVar.ms.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Elips dengan pusat %0, %1 melalui %2 selari dengan %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elips dengan fokus %0, %1 dan panjang paksi pertama %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Menekankan Sudut Tegak",
     "EmptyBox": "(kotak kosong)",

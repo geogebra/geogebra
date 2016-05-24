@@ -2443,7 +2443,7 @@ __GGB__keysVar.lt.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Elips\u0117 su \u017eidiniais %0, %1 einanti per %2 ir lygiagreti %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elips\u0117 su \u017eidiniais %0, %1 ir pirmos a\u0161ies ilgiu %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Pabr\u0117\u017eti tvarking\u0105 kamp\u0105",
     "EmptyBox": "(tu\u0161\u010dia)",

@@ -2443,7 +2443,7 @@ __GGB__keysVar.hu_gm.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "%2-n \xe1thalad\xf3, %3-val/vel p\xe1rhozamos %0, %1 f\xf3kusz\xfa ellipszis",
     "EllipseWithFociABandFirstAxisLengthC": "%2 negytengely hossz\xfa %0, %1 f\xf3kuszpont\xfa ellipszis",
     "Ellipsoid": "Ellipszoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Der\xe9ksz\xf6g kiemel\xe9se",
     "EmptyBox": "\xfcres doboz",

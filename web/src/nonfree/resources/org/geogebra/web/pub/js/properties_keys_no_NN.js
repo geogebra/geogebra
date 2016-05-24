@@ -2443,7 +2443,7 @@ __GGB__keysVar.no_NN.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse med brennpunkt i %0, %1 gjennom %2 parallell med %3",
     "EllipseWithFociABandFirstAxisLengthC": "Ellipse med brennpunkt %0, %1og f\xf8rsteakse med lengde %2",
     "Ellipsoid": "Ellipsoide",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Mark\xe9r rett vinkel",
     "EmptyBox": "(tom boks)",

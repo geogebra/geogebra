@@ -2443,7 +2443,7 @@ __GGB__keysVar.is.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse with foci %0, %1 passing through %2 parallel to %3",
     "EllipseWithFociABandFirstAxisLengthC": "Sporbaugur me\xf0 brennipunkta \xed %0, %1 og lengd lang\xe1ss %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Merkja r\xe9tt horn",
     "EmptyBox": "(t\xf3mur reitur)",

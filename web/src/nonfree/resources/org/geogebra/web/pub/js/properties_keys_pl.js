@@ -2443,7 +2443,7 @@ __GGB__keysVar.pl.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Elipsa o ognisku %0, %1 przechodz\u0105ca przez %2 r\xf3wnoleg\u0142a do %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elipsa z ogniskami %0, %1 i osi wielkiej %2",
     "Ellipsoid": "Elipsoida",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Zaakcentuj k\u0105t prosty",
     "EmptyBox": "(puste pole formu\u0142y)",

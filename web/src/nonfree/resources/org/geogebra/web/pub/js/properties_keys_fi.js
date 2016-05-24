@@ -2443,7 +2443,7 @@ __GGB__keysVar.fi.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipsi, jonka polttopisteet ovat %0 ja %1, joka kulkee %2 l\xe4pi ja on yhdensuuntainen %3 kanssa",
     "EllipseWithFociABandFirstAxisLengthC": "Ellipsi, jonka polttopisteet ovat %0 ja %1 ja jonka isoakseli on %2",
     "Ellipsoid": "Ellipsoidi",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Korosta suoraa kulmaa",
     "EmptyBox": "(tyhj\xe4)",

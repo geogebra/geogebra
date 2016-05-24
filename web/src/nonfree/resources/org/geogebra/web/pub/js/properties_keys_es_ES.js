@@ -2443,7 +2443,7 @@ __GGB__keysVar.es_ES.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Elipse con focos %0, %1 que pasa por %2 paralela a %3",
     "EllipseWithFociABandFirstAxisLengthC": "C\xf3nica con focos %0, %1 y longitud %2 del semieje mayor",
     "Ellipsoid": "Elipsoide",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Destacar \xe1ngulos rectos",
     "EmptyBox": "(casilla vac\xeda)",

@@ -2443,7 +2443,7 @@ __GGB__keysVar.lv.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse with foci %0, %1 passing through %2 parallel to %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elipse ar fokusu %0, %1 un pirm\u0101s ass garums %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Izcelt Taisnu Le\u0146\u0137i",
     "EmptyBox": "(tuk\u0161a kaste)",

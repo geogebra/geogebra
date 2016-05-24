@@ -2443,7 +2443,7 @@ __GGB__keysVar.zh_CN.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "\u7126\u70b9\u4e3a %0\u3001%1, \u7ecf\u8fc7\u70b9 %2 \u4e14\u5e73\u884c\u4e8e %3 \u7684\u692d\u5706",
     "EllipseWithFociABandFirstAxisLengthC": "\u7126\u70b9\u4e3a %0\u3001%1, \u534a\u957f\u8f74\u957f\u4e3a %2 \u7684\u692d\u5706",
     "Ellipsoid": "\u692d\u7403\u9762",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "\u663e\u793a\u76f4\u89d2\u6807\u8bb0",
     "EmptyBox": "(\u7a7a\u767d\u516c\u5f0f\u6846)",

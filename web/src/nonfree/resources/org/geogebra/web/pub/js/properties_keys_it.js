@@ -2443,7 +2443,7 @@ __GGB__keysVar.it.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellisse di fuochi %0, %1 passante per %2 parallela a %3",
     "EllipseWithFociABandFirstAxisLengthC": "Ellisse di fuochi %0, %1 con semiasse maggiore di lunghezza %2",
     "Ellipsoid": "Ellissoide",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Evidenzia angolo retto",
     "EmptyBox": "(casella vuota)",

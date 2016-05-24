@@ -2443,7 +2443,7 @@ __GGB__keysVar.xh.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse with foci %0, %1 passing through %2 parallel to %3",
     "EllipseWithFociABandFirstAxisLengthC": "iEllipse enee foci ezingu %0, no %1 ne axis' yokuqala ebude bungu %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Gxinisisa iDolo lasekunene",
     "EmptyBox": "(ibhokisi engenanto)",

@@ -2443,7 +2443,7 @@ __GGB__keysVar.tr.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "%0 ve %1 odakl\u0131 %2'den ge\xe7en ve %3'e paralel Elips",
     "EllipseWithFociABandFirstAxisLengthC": "%0 ve %1 odakl\u0131 ve ilk eksen uzunlu\u011fu %2 olan Elips",
     "Ellipsoid": "Elipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Dik A\xe7\u0131y\u0131 vurgula",
     "EmptyBox": "(bo\u015f kutu)",

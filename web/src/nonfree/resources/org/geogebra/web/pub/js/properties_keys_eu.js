@@ -2443,7 +2443,7 @@ __GGB__keysVar.eu.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Fokutzat %0 eta %1 puntuak dituen, %2 puntutik igarotzen den eta %3-(r)ekiko paraleloa den elipsea",
     "EllipseWithFociABandFirstAxisLengthC": "Elipsea: fokuak %0, %1 eta ardatz nagusiaren luzera %2",
     "Ellipsoid": "Elipsoidea",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Nabarmendu angelu zuzena",
     "EmptyBox": "(kutxa hutsa)",

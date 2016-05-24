@@ -2443,7 +2443,7 @@ __GGB__keysVar.ar_TN.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse with foci %0, %1 passing through %2 parallel to %3",
     "EllipseWithFociABandFirstAxisLengthC": "\u0642\u0637\u0639 \u0646\u0627\u0642\u0635 \u0628\u0626\u0631\u062a\u064a\u0647 %0 \u0648 %1 \u0645\u062d\u0648\u0631\u0647 %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "\u062d\u062f\u0651\u062f \u0627\u0644\u0632\u0627\u0648\u064a\u0629 \u0627\u0644\u0642\u0627\u0626\u0645\u0629",
     "EmptyBox": "(\u0639\u0644\u0628\u0629 \u0641\u0627\u0631\u063a\u0629)",

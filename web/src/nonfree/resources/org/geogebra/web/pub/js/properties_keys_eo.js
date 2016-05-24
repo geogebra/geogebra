@@ -2443,7 +2443,7 @@ __GGB__keysVar.eo.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse with foci %0, %1 passing through %2 parallel to %3",
     "EllipseWithFociABandFirstAxisLengthC": "Ellipse with foci %0, %1 and first axis' length %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Montri orton",
     "EmptyBox": "(malplena skatolo)",

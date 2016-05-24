@@ -2443,7 +2443,7 @@ __GGB__keysVar.sq.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse with foci %0, %1 passing through %2 parallel to %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elipsi me Vatra %0, %1 dhe GjysemBosht te Madh %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Theksoj Kendin e Drejte",
     "EmptyBox": "(kuti bosh)",

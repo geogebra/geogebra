@@ -2443,7 +2443,7 @@ __GGB__keysVar.cy.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse with foci %0, %1 passing through %2 parallel to %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elips gyda ffocysau o %0, %1 a hyd echelin gyntaf o %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Pwysleisio ongl sgw\xe2r",
     "EmptyBox": "(empty box)",

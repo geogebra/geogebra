@@ -2443,7 +2443,7 @@ __GGB__keysVar.fr.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse de foyers %0, %1 passant par %2 parall\xe8lement \xe0 %3",
     "EllipseWithFociABandFirstAxisLengthC": "Conique \xe0 centre de foyers %0 et %1 et de demi axe principal de longueur %2",
     "Ellipsoid": "Ellipso\xefde",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Marquer l'angle droit",
     "EmptyBox": "(champ vide)",

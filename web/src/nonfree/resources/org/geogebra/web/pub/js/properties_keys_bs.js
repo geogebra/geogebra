@@ -2443,7 +2443,7 @@ __GGB__keysVar.bs.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Elipsa odre\u0111ena fokusima %0, %1, ta\u010dkom %2 paralelna sa %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elipsa odre\u0111ena fokusima %0, %1 i du\u017einom %2 glavne ose elipse",
     "Ellipsoid": "Elipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Istakni pravi ugao",
     "EmptyBox": "(prazan okvir)",

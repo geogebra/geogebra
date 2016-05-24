@@ -2443,7 +2443,7 @@ __GGB__keysVar.ne.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse with foci %0, %1 passing through %2 parallel to %3",
     "EllipseWithFociABandFirstAxisLengthC": "%0, %1 \u092b\u094b\u0915\u093f  \u0930  \u092a\u094d\u0930\u0925\u092e \u0905\u0915\u094d\u0937\u0915\u094b \u0932\u092e\u094d\u092c\u093e\u0907 %2 \u092d\u090f\u0915\u094b \u0908\u0932\u094d\u092a\u093f\u0938\u094d",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "\u0938\u092e\u0915\u094b\u0923\u0932\u093e\u0908 \u091c\u094b\u0921",
     "EmptyBox": "(\u0916\u093e\u0932\u0940 \u0915\u094b\u0920\u093e)",

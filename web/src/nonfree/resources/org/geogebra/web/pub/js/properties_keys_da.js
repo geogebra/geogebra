@@ -2443,7 +2443,7 @@ __GGB__keysVar.da.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Ellipse med br\xe6ndpunkter %0, %1 gennem %2 parallel med %3",
     "EllipseWithFociABandFirstAxisLengthC": "Ellipse med br\xe6ndpunkter %0 og %1 med storaksens l\xe6ngde %2",
     "Ellipsoid": "Ellipsoid",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Fremh\xe6v Retvinkel",
     "EmptyBox": "(tom boks)",

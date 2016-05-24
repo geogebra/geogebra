@@ -2443,7 +2443,7 @@ __GGB__keysVar.ca_XV.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "El\xb7lipse amb focus %0, %1 que passa per %2 i paral\xb7lela a %3",
     "EllipseWithFociABandFirstAxisLengthC": "El\xb7lipse de focus %0 i %1 amb l'eix principal de longitud %2",
     "Ellipsoid": "El\xb7lipsoide",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Destaca l'angle recte",
     "EmptyBox": "(requadre de f\xf3rmula en blanc)",

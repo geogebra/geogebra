@@ -2443,7 +2443,7 @@ __GGB__keysVar.gl.plain = {
     "EllipseWithFociABPassingThroughCParallelToD": "Elipse con focos %0, %1 que pasa por %2 paralelamente a %3",
     "EllipseWithFociABandFirstAxisLengthC": "Elipse con focos %0, %1 e a lonxitude do primeiro eixe %2",
     "Ellipsoid": "Elipsoide",
-    "Email": "E-mail",
+    "Email": "Email",
     "Embed": "Embed",
     "EmphasizeRightAngle": "Salientar angulo recto",
     "EmptyBox": "(caixa baleira)",
