@@ -139,11 +139,9 @@ public class AlgoEnvelope extends AlgoElement {
 		if (result != null) {
 			try{
 				String locusLib = SingularWebService.getLocusLib();
-				if (!locusLib.equals("")) {
-					Log.error("YET UNIMPLEMENTED");
-				}
-
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+				// Temporary workaround by creating dummy factor:
+				result = "{{" + result + "},{1," + result + "}}";
 				this.geoPoly.setCoeff(cas.getCurrentCAS()
 						.getBivarPolyCoefficientsAll(result));
 				this.geoPoly.setDefined();

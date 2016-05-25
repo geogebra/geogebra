@@ -12,6 +12,7 @@ import java.util.Set;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.CASException;
+import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -211,10 +212,12 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 			Collection<StringBuilder> translatedRestrictions) {
 		
 		String script, result;
-			
+
+		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+		CASGenericInterface currentCAS = cas.getCurrentCAS();
 		// If SingularWS is available and quick enough, let's use it:
 		if (App.singularWS != null && App.singularWS.isAvailable() && App.singularWS.isFast()) {
-			script = this.createSingularScript(translatedRestrictions);
+			script = this.createLocusEquationScriptSingular(translatedRestrictions);
 			Log.info("[LocusEqu] input to singular: "+script);
 			try {
 				result = App.singularWS.directCommand(script);
@@ -222,50 +225,24 @@ public class CASTranslator extends EquationTranslator<StringBuilder> {
 				throw new CASException("Error in SingularWS computation");
 			}
 			Log.info("[LocusEqu] output from singular: "+result);
+			// Temporary workaround by creating dummy factor:
+			result = "{{" + result + "},{1," + result + "}}";
 			// Comment this to disable computation via SingularWS:
-			// return getBivarPolyCoefficientsSingular(result);
-			Log.error("YET UNIMPLEMENTED"); // FIXME
+			return currentCAS.getBivarPolyCoefficientsAll(result);
 		}
 		
 		// Falling back to Giac:
-		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-		script = cas.getCurrentCAS().createLocusEquationScript( 
+		script = currentCAS.createLocusEquationScript(
 				convertFloatsToRationals(CASTranslator.constructRestrictions(translatedRestrictions)),
 				this.getVars(), this.getVarsToEliminate());
 		
 		Log.info("[LocusEqu] input to cas: "+script);
 		result = cas.evaluate(script);
 		Log.info("[LocusEqu] output from cas: " + result);
-		return cas.getCurrentCAS().getBivarPolyCoefficientsAll(result);
+		return currentCAS.getBivarPolyCoefficientsAll(result);
 	}
 
-	public static double[][] getBivarPolyCoefficientsSingular(String rawResult) {
-		String[] allrows = rawResult.split("\n");
-		/* We use only the last row. Some extra algorithms in Singular may mess up
-		 * the result with some extra text, e.g. "locus detected that the mover must
-		 * avoid point (x1-5,x4+x2-4) in order to obtain the correct locus"
-		 * which cannot be parsed here correctly.
-		 */
-		String[] flatData = allrows[allrows.length - 1].split(",");
-		int xLength = Integer.parseInt(flatData[0]);
-		int yLength = Integer.parseInt(flatData[1]);
-		double[][] result = new double[xLength][yLength];
-
-		int counter = 2;
-		for (int x = 0; x < xLength; x++) {
-			for (int y = 0; y < yLength; y++) {
-				result[x][y] = Double.parseDouble(flatData[counter]);
-				// Log.debug("[LocusEqu] result[" + x + "," + y + "]=" + result[x][y]);
-				++counter;
-			}
-		}
-		
-		return result;
-	}
-
-	
-
-	private String createSingularScript(Collection<StringBuilder> restrictions) {
+	private String createLocusEquationScriptSingular(Collection<StringBuilder> restrictions) {
 		StringBuilder script = new StringBuilder();
 		String locusLib = SingularWebService.getLocusLib();
 		// locusLib = ""; // Here you can disable the grobcov library based computation.
