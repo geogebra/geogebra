@@ -38,6 +38,8 @@ public interface Functional extends Evaluatable {
 	 * 
 	 * @param order
 	 *            order of the derivative
+	 * @param fast
+	 *            flag for derivative without CAS
 	 * @return wrapped derivative
 	 */
 	public GeoFunction getGeoDerivative(int order, boolean fast);

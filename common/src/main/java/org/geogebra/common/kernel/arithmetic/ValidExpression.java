@@ -541,6 +541,11 @@ public abstract class ValidExpression implements ExpressionValue {
 
 	public abstract ValidExpression deepCopy(Kernel kernel);
 
+	/**
+	 * @param string
+	 *            command name
+	 * @return whether top level is a command and name is equal to string
+	 */
 	public boolean isTopLevelCommand(String string) {
 		return false;
 	}

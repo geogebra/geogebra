@@ -406,6 +406,8 @@ public class Command extends ValidExpression implements
 	}
 
 	/**
+	 * @param info
+	 *            context for evaluation
 	 * @return array of resulting geos
 	 */
 	public GeoElement[] evaluateMultiple(EvalInfo info) {

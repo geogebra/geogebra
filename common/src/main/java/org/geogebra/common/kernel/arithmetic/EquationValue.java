@@ -7,5 +7,8 @@ package org.geogebra.common.kernel.arithmetic;
  *
  */
 public interface EquationValue {
+	/**
+	 * @return equation
+	 */
 	public Equation getEquation();
 }
