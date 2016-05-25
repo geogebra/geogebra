@@ -53,6 +53,7 @@ public final class DrawList extends CanvasDrawable
 		implements RemoveNeeded, DropDownListener {
 	private static final int LABEL_COMBO_GAP = 10;
 	private static final int COMBO_TEXT_MARGIN = 5;
+
 	/** coresponding list as geo */
 	GeoList geoList;
 	private DrawListArray drawables;
@@ -354,7 +355,6 @@ public final class DrawList extends CanvasDrawable
 			g2.setPaint(GColor.LIGHT_GRAY);
 			g2.drawRoundRect(left - 1, top - 1, dimTable.getWidth() + 2,
 					dimTable.getHeight() + 2, ROUND, ROUND);
-
 		}
 
 		public boolean isHit(int x, int y) {
@@ -594,11 +594,6 @@ public final class DrawList extends CanvasDrawable
 			xPadding = 10;
 			yPadding = 10;
 			itemFontSize = getLabelFontSize();
-			if (isScrollNeeded()) {
-				top = MARGIN;
-			}
-
-
 
 			if (!getScrollSettings()) {
 				boolean finished = false;
@@ -743,7 +738,14 @@ public final class DrawList extends CanvasDrawable
 			// + scrollNeeded);
 
 			scrollNeeded = scrollNeeded && rowCount > 2;
+			if (scrollNeeded) {
+				top = getScrollTop();
+			}
 			return scrollNeeded;
+		}
+
+		private int getScrollTop() {
+			return MARGIN;
 		}
 
 		private int getVisibleItemCount() {
@@ -853,7 +855,7 @@ public final class DrawList extends CanvasDrawable
 					itemHovered = null;
 				}
 			}
-
+			update();
 			updateOpenedComboBox();
 			viewOpt.repaintView();
 		}
