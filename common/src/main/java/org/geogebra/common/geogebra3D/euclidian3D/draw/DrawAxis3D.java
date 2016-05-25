@@ -231,14 +231,11 @@ public class DrawAxis3D extends DrawLine3D {
 		// gets the direction vector of the axis as it is drawn on screen
 		Coords v = getView3D().getToScreenMatrix().mul(axis.getDirectionInD3());
 		v.set(3, 0); // set z-coord to 0
-		// double vScale = v.norm(); //axis scale, used for ticks distance
-		double vScale = getView3D().getScale(); // TODO use different scales for
-												// x/y/z
-		// Application.debug("vScale="+vScale);
+
 
 		// calc orthogonal offsets
-		int vx = (int) (v.get(1) * 1.5 * axis.getTickSize() / vScale);
-		int vy = (int) (v.get(2) * 1.5 * axis.getTickSize() / vScale);
+		int vx = (int) getView3D().unscale(v.get(1) * 1.5 * axis.getTickSize());
+		int vy = (int) getView3D().unscale(v.get(2) * 1.5 * axis.getTickSize());
 		numbersXOffset = -vy;
 		numbersYOffset = vx;
 
