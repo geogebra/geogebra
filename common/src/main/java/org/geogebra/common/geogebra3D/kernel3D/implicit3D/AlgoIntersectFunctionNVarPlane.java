@@ -88,11 +88,9 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 			exp = exp.traverse(vr).wrap()
 					.subtract(new FunctionVariable(kernel, "y"));
 		}
-		curve.fromEquation(
-				new Equation(kernel, exp, new ExpressionNode(kernel, 0)), null);
-		
-		// TODO Auto-generated method stub
-
+		Equation eqn = new Equation(kernel, exp, new ExpressionNode(kernel, 0));
+		eqn.initEquation();
+		curve.fromEquation(eqn, null);
 	}
 
 	@Override
