@@ -2154,7 +2154,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	@Override
 	public void vertexDirect(Coords3 p) {
-		manager.vertex(p.getXf(), p.getYf(), p.getZf());
+		manager.vertexToScale(p.getXf(), p.getYf(), p.getZf());
 	}
 
 	@Override

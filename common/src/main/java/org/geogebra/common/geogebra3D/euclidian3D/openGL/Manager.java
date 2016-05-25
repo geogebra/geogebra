@@ -395,12 +395,30 @@ abstract public class Manager {
 	 * @param v
 	 *            vertex
 	 */
-	protected void vertexToScale(Coords v) {
+	final protected void vertexToScale(Coords v) {
 		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			vertex(v.getX() * getXscale(), v.getY() * getYscale(), v.getZ()
-					* getZscale());
+			vertexToScale(v.getX(), v.getY(), v.getZ());
 		} else {
 			vertex(v);
+		}
+	}
+
+	/**
+	 * scale vertex and draw it
+	 * 
+	 * @param x
+	 *            x
+	 * @param y
+	 *            y
+	 * @param z
+	 *            z
+	 * 
+	 */
+	final protected void vertexToScale(double x, double y, double z) {
+		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			vertex(x * getXscale(), y * getYscale(), z * getZscale());
+		} else {
+			vertex(x, y, z);
 		}
 	}
 
@@ -410,7 +428,13 @@ abstract public class Manager {
 	 * @param v
 	 */
 	protected void vertexDirect(Coords3 v) {
-		vertexDirect(v.getXf(), v.getYf(), v.getZf());
+		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			vertexDirect(v.getXf() * getXscale(), v.getYf() * getYscale(),
+					v.getZf() * getZscale());
+		} else {
+			vertexDirect(v.getXf(), v.getYf(), v.getZf());
+		}
+
 	}
 
 	/**

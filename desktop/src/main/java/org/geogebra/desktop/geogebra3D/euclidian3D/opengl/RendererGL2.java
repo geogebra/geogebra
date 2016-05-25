@@ -11,6 +11,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.awt.GPointWithZ;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
@@ -42,18 +43,51 @@ public abstract class RendererGL2 extends RendererD implements
 	@Override
 	public void setClipPlanes(double[][] minMax) {
 		CoordMatrix mInvTranspose = view3D.getToSceneMatrixTranspose();
-		setClipPlane(0, mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0]))
-				.get());
-		setClipPlane(1, mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1]))
-				.get());
-		setClipPlane(2, mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0]))
-				.get());
-		setClipPlane(3, mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1]))
-				.get());
-		setClipPlane(4, mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0]))
-				.get());
-		setClipPlane(5, mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1]))
-				.get());
+		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			setClipPlane(
+					0,
+					mInvTranspose.mul(
+							new Coords(1, 0, 0, -minMax[0][0]
+									* view3D.getXscale())).get());
+			setClipPlane(
+					1,
+					mInvTranspose.mul(
+							new Coords(-1, 0, 0, minMax[0][1]
+									* view3D.getXscale())).get());
+			setClipPlane(
+					2,
+					mInvTranspose.mul(
+							new Coords(0, 1, 0, -minMax[1][0]
+									* view3D.getYscale())).get());
+			setClipPlane(
+					3,
+					mInvTranspose.mul(
+							new Coords(0, -1, 0, minMax[1][1]
+									* view3D.getYscale())).get());
+			setClipPlane(
+					4,
+					mInvTranspose.mul(
+							new Coords(0, 0, 1, -minMax[2][0]
+									* view3D.getZscale())).get());
+			setClipPlane(
+					5,
+					mInvTranspose.mul(
+							new Coords(0, 0, -1, minMax[2][1]
+									* view3D.getZscale())).get());
+		} else {
+			setClipPlane(0,
+					mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0])).get());
+			setClipPlane(1,
+					mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1])).get());
+			setClipPlane(2,
+					mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0])).get());
+			setClipPlane(3,
+					mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1])).get());
+			setClipPlane(4,
+					mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0])).get());
+			setClipPlane(5,
+					mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1])).get());
+		}
 	}
 
 	private void setClipPlane(int n, double[] equation) {
