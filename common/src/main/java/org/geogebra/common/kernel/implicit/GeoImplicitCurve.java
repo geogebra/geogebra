@@ -193,9 +193,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		ExpressionNode leftHandSide = eqn.getLHS();
 		ExpressionNode rightHandSide = eqn.getRHS();
 
-		// we want to simplify the factors if right side is 0
+		/* in the polynomial case we want to simplify the factors if right side is 0
+		 * 
+		 */
 		if (!rightHandSide.containsFreeFunctionVariable(null)
-				&& Kernel.isEqual(rightHandSide.evaluateDouble(), 0)) {
+				&& Kernel.isEqual(rightHandSide.evaluateDouble(), 0)
+				&& eqn.mayBePolynomial()) {
 			ExpressionNode copyLeft = leftHandSide.deepCopy(kernel);
 			// get factors without power of left side
 			ArrayList<ExpressionNode> factors = copyLeft.getFactorsWithoutPow();
@@ -286,11 +289,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * we fall back to use the original input as a single factor.
 	 */
 	private void forgetFactors() {
-		coeffSquarefree = new double[1][coeff.length][];
-		for (int i = 0; i < coeff.length; ++i) {
-			coeffSquarefree[0][i] = new double[coeff[i].length];
-			for (int j = 0; j < coeff[i].length; ++j) {
-				coeffSquarefree[0][i][j] = coeff[i][j];
+		if (coeff != null) {
+			coeffSquarefree = new double[1][coeff.length][];
+			for (int i = 0; i < coeff.length; ++i) {
+				coeffSquarefree[0][i] = new double[coeff[i].length];
+				for (int j = 0; j < coeff[i].length; ++j) {
+					coeffSquarefree[0][i][j] = coeff[i][j];
+				}
 			}
 		}
 		/*
