@@ -3090,7 +3090,8 @@ namespace giac {
 		v[3]=b;
 		v[2]=lv[i];
 		gen res2=_integrate(v,contextptr);
-		return res1+res2;
+		res2=res1+res2;
+		return neg?-res2:res2;
 	      }
 	    }
 	  }
