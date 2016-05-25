@@ -3923,7 +3923,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-241
 		case MOBILE_EDITOR_CARET_ALWAYS_ON_SCREEN:
-			return true; // true since 5.0.242
+			return true; // true since 5.0.241
 
 		// MOB-195
 		case MOBILE_REDO:
