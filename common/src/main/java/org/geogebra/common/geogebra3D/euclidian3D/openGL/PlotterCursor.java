@@ -49,6 +49,8 @@ public class PlotterCursor {
 
 		this.manager = manager;
 
+		manager.setScalerIdentity();
+
 		index = new int[TYPE_LENGTH];
 
 		// crosses
@@ -186,6 +188,8 @@ public class PlotterCursor {
 				0), new Coords(0, 1, 0, 0), size_move / 2, -Math.PI * 0.6,
 				Math.PI * 1.2, 64);
 		index[TYPE_ROTATION] = brush.end();
+
+		manager.setScalerView();
 
 	}
 

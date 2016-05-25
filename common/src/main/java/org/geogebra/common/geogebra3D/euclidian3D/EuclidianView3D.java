@@ -2349,7 +2349,11 @@ GRectangle selectionRectangle) {
 		// isInside(cursorOnXOYPlane.getInhomCoords());
 
 		// if (cursorOnXOYPlaneVisible)
-		cursorOnXOYPlane.getDrawingMatrix().setDiag(1 / getScale());
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			cursorOnXOYPlane.getDrawingMatrix().setDiag(1);
+		} else {
+			cursorOnXOYPlane.getDrawingMatrix().setDiag(1 / getScale());
+		}
 
 		// Application.debug(cursorOnXOYPlane.getCoords());
 		// Application.debug(cursorOnXOYPlane.getDrawingMatrix());
@@ -2399,7 +2403,7 @@ GRectangle selectionRectangle) {
 
 				case PREVIEW_POINT_REGION:
 					// use region drawing directions for the arrow
-					t = 1 / getScale();
+				t = unscale(1);
 					v = getCursor3D().getMoveNormalDirection();
 					if (v.dotproduct(getViewDirection()) > 0)
 						v = v.mul(-1);
@@ -2413,7 +2417,7 @@ GRectangle selectionRectangle) {
 					break;
 				case PREVIEW_POINT_PATH:
 					// use path drawing directions for the arrow
-					t = 1 / getScale();
+				t = unscale(1);
 					v = ((GeoElement) getCursor3D().getPath()).getMainDirection()
 							.normalized();
 					if (v.dotproduct(getViewDirection()) > 0)
@@ -2433,7 +2437,7 @@ GRectangle selectionRectangle) {
 
 				case PREVIEW_POINT_FREE:
 					// use default directions for the cross
-					t = 1 / getScale();
+				t = unscale(1);
 					getCursor3D().getDrawingMatrix().setVx(Coords.VX.mul(t));
 					getCursor3D().getDrawingMatrix().setVy(Coords.VY.mul(t));
 					getCursor3D().getDrawingMatrix().setVz(Coords.VZ.mul(t));
@@ -2441,7 +2445,7 @@ GRectangle selectionRectangle) {
 				case PREVIEW_POINT_REGION:
 
 					// use region drawing directions for the cross
-					t = 1 / getScale();
+				t = unscale(1);
 
 					v = getCursor3D().getMoveNormalDirection();
 
@@ -2455,7 +2459,7 @@ GRectangle selectionRectangle) {
 				case PREVIEW_POINT_PATH:
 				case PREVIEW_POINT_REGION_AS_PATH:
 					// use path drawing directions for the cross
-					t = 1 / getScale();
+				t = unscale(1);
 
 					GeoElement path = getCursorPath();
 					v = path.getMainDirection();
@@ -2473,15 +2477,15 @@ GRectangle selectionRectangle) {
 					break;
 				case PREVIEW_POINT_DEPENDENT:
 					// use size of intersection
-					t = getIntersectionThickness() / getScale();
+					t = unscale(getIntersectionThickness());
 					getCursor3D().getDrawingMatrix().setVx(Coords.VX.mul(t));
 					getCursor3D().getDrawingMatrix().setVy(Coords.VY.mul(t));
 					getCursor3D().getDrawingMatrix().setVz(Coords.VZ.mul(t));
 					break;
 				case PREVIEW_POINT_ALREADY:
 					// use size of point
-					t = Math.max(1, getCursor3D().getPointSize() / 6.0 + 0.5)
-							/ getScale();
+				t = unscale(Math.max(1,
+						getCursor3D().getPointSize() / 6.0 + 0.5));
 
 					if (getCursor3D().hasPath()) {
 						v = ((GeoElement) getCursor3D().getPath())

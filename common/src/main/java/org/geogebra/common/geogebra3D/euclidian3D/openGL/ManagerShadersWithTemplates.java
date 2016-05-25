@@ -23,12 +23,12 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 		super(renderer, view3d);
 
 		// points geometry templates
-		scalerXYZ = scalerXYZIdentity;
+		setScalerIdentity();
 		pointGeometry = new int[3];
 		pointGeometry[0] = drawSphere(2, Coords.O, 1d, -1);
 		pointGeometry[1] = drawSphere(4, Coords.O, 1d, -1);
 		pointGeometry[2] = drawSphere(7, Coords.O, 1d, -1);
-		scalerXYZ = view3d;
+		setScalerView();
 
 	}
 

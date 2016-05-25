@@ -73,7 +73,7 @@ abstract public class Manager {
 
 		// geogebra
 		this.view3D = view3D;
-		scalerXYZ = view3D;
+		setScalerView();
 
 		setRenderer(renderer);
 
@@ -726,9 +726,9 @@ abstract public class Manager {
 		scaleXYZ(center);
 		center.setW(1); // changed for shaders (point size)
 
-		scalerXYZ = scalerXYZIdentity;
+		setScalerIdentity();
 		int ret = drawSphere(size, center, radius, index);
-		scalerXYZ = view3D;
+		setScalerView();
 
 		return ret;
 	}
@@ -881,6 +881,20 @@ abstract public class Manager {
 	 */
 	public double getZscale() {
 		return scalerXYZ.getZscale();
+	}
+
+	/**
+	 * set scaler to identity
+	 */
+	public void setScalerIdentity() {
+		scalerXYZ = scalerXYZIdentity;
+	}
+
+	/**
+	 * set scaler to view
+	 */
+	public void setScalerView() {
+		scalerXYZ = view3D;
 	}
 
 }
