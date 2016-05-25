@@ -60,38 +60,39 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 
 	@Override
 	public void setClipPlanes(double[][] minMax) {
+
 		CoordMatrix mInvTranspose = view3D.getToSceneMatrixTranspose();
+
 		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			setClipPlane(
-					0,
-					mInvTranspose.mul(
-							new Coords(1, 0, 0, -minMax[0][0]
-									* view3D.getXscale())).get());
-			setClipPlane(
-					1,
-					mInvTranspose.mul(
-							new Coords(-1, 0, 0, minMax[0][1]
-									* view3D.getXscale())).get());
-			setClipPlane(
-					2,
-					mInvTranspose.mul(
-							new Coords(0, 1, 0, -minMax[1][0]
-									* view3D.getYscale())).get());
-			setClipPlane(
-					3,
-					mInvTranspose.mul(
-							new Coords(0, -1, 0, minMax[1][1]
-									* view3D.getYscale())).get());
-			setClipPlane(
-					4,
-					mInvTranspose.mul(
-							new Coords(0, 0, 1, -minMax[2][0]
-									* view3D.getZscale())).get());
-			setClipPlane(
-					5,
-					mInvTranspose.mul(
-							new Coords(0, 0, -1, minMax[2][1]
-									* view3D.getZscale())).get());
+			Coords c;
+			double scale;
+
+			scale = 1 / view3D.getXscale();
+			c = mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0]));
+			c.mulInside3(scale);
+			setClipPlane(0, c.get());
+			c = mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1]));
+			c.mulInside3(scale);
+			setClipPlane(1, c.get());
+
+
+			scale = 1 / view3D.getYscale();
+			c = mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0]));
+			c.mulInside3(scale);
+			setClipPlane(2, c.get());
+			c = mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1]));
+			c.mulInside3(scale);
+			setClipPlane(3, c.get());
+
+
+			scale = 1 / view3D.getZscale();
+			c = mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0]));
+			c.mulInside3(scale);
+			setClipPlane(4, c.get());
+			c = mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1]));
+			c.mulInside3(scale);
+			setClipPlane(5, c.get());
+
 		} else {
 			setClipPlane(0,
 					mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0])).get());

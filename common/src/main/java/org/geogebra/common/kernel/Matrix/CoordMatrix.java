@@ -450,6 +450,21 @@ public class CoordMatrix {
 	}
 
 	/**
+	 * transpose all values of m
+	 * 
+	 * @param m
+	 *            source matrix
+	 */
+	public void setTranspose(CoordMatrix m) {
+
+		for (int i = 1; i <= m.getRows(); i++) {
+			for (int j = 1; j <= m.getColumns(); j++) {
+				this.set(i, j, m.get(j, i));
+			}
+		}
+	}
+
+	/**
 	 * returns number of rows
 	 * 
 	 * @return number of rows

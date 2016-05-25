@@ -5,6 +5,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing 3D constant planes.
@@ -13,13 +14,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
  *
  */
 public class DrawClippingCube3D extends Drawable3DCurves {
-
-	/** "border extension" for clipping cube */
-	private float clippingBorder;
-	/** min-max values clipping cube */
-	/*
-	 * private double xmin, xmax, ymin, ymax, zmin, zmax;
-	 */
 
 	private double[][] minMax, minMaxLarge;
 
@@ -238,16 +232,26 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return minMax;
 	}
 
-	private Coords getVertexWithBorder(int x, int y, int z) {
-		return vertices[x + 2 * y + 4 * z].add(new Coords(clippingBorder
-				* (1 - 2 * x), clippingBorder * (1 - 2 * y), clippingBorder
-				* (1 - 2 * z), 0));
+	private void setVertexWithBorder(int x, int y, int z, double border,
+			Coords c) {
+		Coords v = vertices[x + 2 * y + 4 * z];
+		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			c.setX(v.getX() + border * (1 - 2 * x) / getView3D().getXscale());
+			c.setY(v.getY() + border * (1 - 2 * y) / getView3D().getYscale());
+			c.setZ(v.getZ() + border * (1 - 2 * z) / getView3D().getZscale());
+		} else {
+			c.setX(v.getX() + border * (1 - 2 * x));
+			c.setY(v.getY() + border * (1 - 2 * y));
+			c.setZ(v.getZ() + border * (1 - 2 * z));
+		}
 	}
 
 	/*
 	 * @Override protected boolean isVisible(){ return
 	 * getView3D().useClippingCube(); }
 	 */
+
+	private Coords tmpCoords1 = new Coords(3), tmpCoords2 = new Coords(3);
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -261,37 +265,51 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 
 		brush.start(getReusableGeometryIndex());
-		clippingBorder = brush.setThickness(getGeoElement().getLineThickness(),
+		// use 1.5 factor for border to avoid self clipping
+		double border = 1.5 * brush.setThickness(getGeoElement()
+				.getLineThickness(),
 				(float) getView3D().getScale());
 		brush.setAffineTexture(0.5f, 0.25f);
 
-		brush.segment(getVertexWithBorder(0, 0, 0),
-				getVertexWithBorder(1, 0, 0));
-		brush.segment(getVertexWithBorder(0, 0, 0),
-				getVertexWithBorder(0, 1, 0));
-		brush.segment(getVertexWithBorder(0, 0, 0),
-				getVertexWithBorder(0, 0, 1));
+		setVertexWithBorder(0, 0, 0, border, tmpCoords1);
+		setVertexWithBorder(1, 0, 0, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
+		setVertexWithBorder(0, 0, 0, border, tmpCoords1);
+		setVertexWithBorder(0, 1, 0, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
+		setVertexWithBorder(0, 0, 0, border, tmpCoords1);
+		setVertexWithBorder(0, 0, 1, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
 
-		brush.segment(getVertexWithBorder(1, 1, 0),
-				getVertexWithBorder(0, 1, 0));
-		brush.segment(getVertexWithBorder(1, 1, 0),
-				getVertexWithBorder(1, 0, 0));
-		brush.segment(getVertexWithBorder(1, 1, 0),
-				getVertexWithBorder(1, 1, 1));
+		setVertexWithBorder(1, 1, 0, border, tmpCoords1);
+		setVertexWithBorder(0, 1, 0, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
+		setVertexWithBorder(1, 1, 0, border, tmpCoords1);
+		setVertexWithBorder(1, 0, 0, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
+		setVertexWithBorder(1, 1, 0, border, tmpCoords1);
+		setVertexWithBorder(1, 1, 1, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
 
-		brush.segment(getVertexWithBorder(1, 0, 1),
-				getVertexWithBorder(0, 0, 1));
-		brush.segment(getVertexWithBorder(1, 0, 1),
-				getVertexWithBorder(1, 1, 1));
-		brush.segment(getVertexWithBorder(1, 0, 1),
-				getVertexWithBorder(1, 0, 0));
+		setVertexWithBorder(1, 0, 1, border, tmpCoords1);
+		setVertexWithBorder(0, 0, 1, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
+		setVertexWithBorder(1, 0, 1, border, tmpCoords1);
+		setVertexWithBorder(1, 1, 1, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
+		setVertexWithBorder(1, 0, 1, border, tmpCoords1);
+		setVertexWithBorder(1, 0, 0, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
 
-		brush.segment(getVertexWithBorder(0, 1, 1),
-				getVertexWithBorder(1, 1, 1));
-		brush.segment(getVertexWithBorder(0, 1, 1),
-				getVertexWithBorder(0, 0, 1));
-		brush.segment(getVertexWithBorder(0, 1, 1),
-				getVertexWithBorder(0, 1, 0));
+		setVertexWithBorder(0, 1, 1, border, tmpCoords1);
+		setVertexWithBorder(1, 1, 1, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
+		setVertexWithBorder(0, 1, 1, border, tmpCoords1);
+		setVertexWithBorder(0, 0, 1, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
+		setVertexWithBorder(0, 1, 1, border, tmpCoords1);
+		setVertexWithBorder(0, 1, 0, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
 
 		setGeometryIndex(brush.end());
 		

@@ -894,7 +894,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 					.mul(undoRotationMatrix)));
 		}
 
-		mInvTranspose.set(mInv.transposeCopy());
+		mInvTranspose.setTranspose(mInv);
 
 		updateEye();
 
