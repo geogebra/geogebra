@@ -6,21 +6,31 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
 
+/**
+ * Draws axes in 2D
+ */
 public class DrawAxis {
+	/** view */
 	EuclidianView view;
-	private App app;
 
+
+	/**
+	 * @param euclidianView
+	 *            view
+	 */
 	public DrawAxis(EuclidianView euclidianView) {
 		this.view = euclidianView;
-		this.app = view.getApplication();
 	}
 
+	/**
+	 * @param g2
+	 *            graphics
+	 */
 	protected void drawAxes(GGraphics2D g2) {
 
 		// TRAC-5292
@@ -184,9 +194,16 @@ public class DrawAxis {
 						view.axesLabels[0],
 						view.getFontLine().deriveFont(view.axesLabelsStyle[0]),
 						frc);
-				layout.draw(g2,
-						(int) (view.getWidth() - 10 - layout.getAdvance()),
-						(int) (yCrossPix - 4));
+				if (!view.axesLabels[0].contains("_")) {
+					layout.draw(g2,
+							(int) (view.getWidth() - 10 - layout.getAdvance()),
+							(int) (yCrossPix - 4));
+				} else {
+					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+							view.axesLabels[0],
+							view.getWidth() - 10 - layout.getAdvance(),
+							(int) (yCrossPix - 4), false, false);
+				}
 			}
 
 			// numbers
@@ -407,8 +424,15 @@ public class DrawAxis {
 						view.axesLabels[1],
 						view.getFontLine().deriveFont(view.axesLabelsStyle[1]),
 						frc);
+				if(!view.axesLabels[0].contains("_")){
 				layout.draw(g2, (int) (xCrossPix + 5),
 						(int) (5 + layout.getAscent()));
+				}else{
+					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
+							view.axesLabels[1],
+							(int) (xCrossPix + 5),
+							(int) (5 + layout.getAscent()), false, false);
+				}
 			}
 
 			// numbers
