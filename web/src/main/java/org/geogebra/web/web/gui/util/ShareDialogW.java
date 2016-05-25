@@ -10,6 +10,8 @@ import org.geogebra.web.web.gui.menubar.FileMenuW;
 import org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 
+import com.google.gwt.core.client.Callback;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ScriptElement;
@@ -218,13 +220,23 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		sharetoclassroomPanel.getElement().setAttribute("data-url", TUBEURL + sharingKey);
 		
 		classroomcontentPanel.add(sharetoclassroomPanel);
-		FlowPanel classroomPanel = new FlowPanel();
+		final FlowPanel classroomPanel = new FlowPanel();
 		classroomPanel.add(classroomcontentPanel);
-		
-		ScriptElement scriptE3 = Document.get().createScriptElement();
-		scriptE3.setInnerText("gapi.sharetoclassroom.go(\"shareggbmaterial_content\");");
-		
-		classroomPanel.getElement().appendChild(scriptE3);
+
+		addCallback(scriptE2, new Callback<Void, Exception>() {
+
+			public void onFailure(Exception reason) {
+				Log.debug("onFailure - script injection");
+
+			}
+
+			public void onSuccess(Void result) {
+				ScriptElement scriptE3 = Document.get().createScriptElement();
+				scriptE3.setInnerText("gapi.sharetoclassroom.go(\"shareggbmaterial_content\");");
+				classroomPanel.getElement().appendChild(scriptE3);
+			}
+		});
+
 		// Element body =
 		// Document.get().getElementsByTagName("body").getItem(0);
 		// body.insertFirst(scriptE3);
@@ -237,6 +249,15 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 		return iconPanel;
 	}
+
+	private static native void addCallback(JavaScriptObject scriptElement,
+			Callback<Void, Exception> callback) /*-{
+		scriptElement.onload = $entry(function() {
+			if (callback) {
+				callback.@com.google.gwt.core.client.Callback::onSuccess(Ljava/lang/Object;)(null);
+			}
+		});
+	}-*/;
 
 	private HorizontalPanel getCopyLinkPanel() {
 		copyLinkPanel = new HorizontalPanel();
