@@ -39,10 +39,24 @@
 	
 	.avTextItem {
 		display: inline-block;
+		padding-bottom: 4px;
 	}
 
 	.avPlainTextItem {
 		display: inline-block;
+		padding-bottom: 4px;
+	}
+	
+	.avPlainTextItem .canvasDef {
+		-webkit-transform: translateY(-8%);
+ 		-ms-transform: translateY(-8%);
+  		transform: translateY(-8%);
+	}
+	
+	.avPlainTextItem .canvasVal {
+		-webkit-transform: translateY(15%);
+ 		-ms-transform: translateY(15%);
+  		transform: translateY(15%);
 	}
 	
 	.avDummyLabel {
@@ -50,12 +64,19 @@
 		color: #999999;
 	}
 	.avDefinition {
-		min-height: 40px;
+		min-height: 30px;
+	}
+	
+	.avDefinitionPlain {
+		min-height: 30px;
+		padding-left: 4px;
+	}
+	.avDefinitionSimple {
+		padding-left: 4px;
 	}
 	
 	.avOutput {
-		min-height: 40px;
-		padding-top: 5px;
+		min-height: 30px;
 		font-weight: bold;
 		display: flex;
 		align-items: center;
@@ -67,10 +88,16 @@
 	.avOutput .prefix {
 		font-size: 150%;
 		position: relative;
-  		top: 50%;
-  		-webkit-transform: translateY(-50%);
- 		-ms-transform: translateY(-50%);
-  		transform: translateY(-50%);
+  
+  		-webkit-transform: translateY(-15%);
+ 		-ms-transform: translateY(-15%);
+  		transform: translateY(-15%);
+  		margin-right: 14px;
+	}
+	
+	.avOutput .prefixLatex {
+		font-size: 150%;
+		position: relative;
 	}
 
 	.avOutput .symbolicButton {
@@ -79,7 +106,8 @@
 		color: #6161FF;
 		background-color: #FFFFFF;
 		border: #6161FF solid 1px;
-		margin-right: 10px;
+		margin-right: 7px;
+  		margin-left: -4px;
 		}
 		
 	.avOutput .symbolicButton:hover {
@@ -87,20 +115,20 @@
 		}
 		
 	.btn-numeric {
-		font-size: 130%;
-		/*padding: 2px 3px 4px 3px;*/
-		-webkit-transform: translateY(-50%);
- 		-ms-transform: translateY(-50%);
-  		transform: translateY(-50%);
+		font-size: 110%;
+		padding: 2px 3px 4px 3px;
 		}	
 		
 	.btn-prefix {
 		font-size:150%;
 		padding: 0px 3px 6px 3px;
+		-webkit-transform: translateY(15%);
+ 		-ms-transform: translateY(15%);
+  		transform: translateY(15%);
 	}	
 			
 	.avValue {
-		min-height: 40px;
+		/*min-height: 20px;*/
 	}
 	
 	}

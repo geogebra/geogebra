@@ -4010,8 +4010,8 @@ body.application[dir=rtl] .avItem .marblePanel + * {
 }
 
 .GeoGebraFrame .avItem .elemText {
-	padding-top: 7px;
-	padding-bottom: 7px;
+	padding-top: 10px;
+	padding-bottom: 4px;
 	display: inline-block;
 }
 

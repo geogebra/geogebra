@@ -456,6 +456,9 @@ public class RadioTreeItem extends AVTreeItem
 
 		getPlainTextItem().addStyleName("sqrtFontFix");
 		getPlainTextItem().addStyleName("avPlainTextItem");
+		if (geo.isSimple()) {
+			getPlainTextItem().addStyleName("avDefinitionSimple");
+		}
 		updateColor(getPlainTextItem());
 		updateFont(getPlainTextItem());
 
@@ -592,7 +595,6 @@ public class RadioTreeItem extends AVTreeItem
 	private void createDVPanels() {
 		if (definitionPanel == null) {
 			definitionPanel = new FlowPanel();
-			definitionPanel.addStyleName("avDefinition");
 		}
 
 		if (outputPanel == null) {
@@ -634,6 +636,7 @@ public class RadioTreeItem extends AVTreeItem
 			definitionPanel.clear();
 
 			c = latexToCanvas(text);
+			c.addStyleName("canvasDef");
 			definitionPanel.add(c);
 		} else if (geo != null) {
 
@@ -677,7 +680,11 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void addPrefixLabel(String text) {
 		final Label label = new Label(text);
-		label.addStyleName("prefix");
+		if (!latex) {
+			label.addStyleName("prefix");
+		} else {
+			label.addStyleName("prefixLatex");
+		}
 		outputPanel.add(label);
 	}
 	private boolean updateValuePanel(String text) {
@@ -722,6 +729,7 @@ public class RadioTreeItem extends AVTreeItem
 			valC = DrawEquationW.paintOnCanvas(geo,
  text, valC,
 					getFontSize());
+			valC.addStyleName("canvasVal");
 			if (valC != null) {
 				valuePanel.clear();
 				valuePanel.add(valC);
@@ -758,6 +766,11 @@ public class RadioTreeItem extends AVTreeItem
 				? getTextForEditing(false, StringTemplate.latexTemplate)
 				: getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
 		latex = text != null;
+		if (latex) {
+			definitionPanel.addStyleName("avDefinition");
+		} else {
+			definitionPanel.addStyleName("avDefinitionPlain");
+		}
 
 		ihtml.clear();
 		if (updateDefinitionPanel()) {
@@ -1358,6 +1371,7 @@ public class RadioTreeItem extends AVTreeItem
 	private void renderLatex(String text0, Element old, boolean forceMQ) {
 		if (!forceMQ) {
 			c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
+
 			if (c != null && ihtml.getElement().isOrHasChild(old)) {
 				ihtml.getElement().replaceChild(c.getCanvasElement(), old);
 			}
@@ -1417,6 +1431,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (!isDefinitionAndValue()) {
 			ihtml.clear();
 			c = DrawEquationW.paintOnCanvas(geo, text, c, getFontSize());
+
 			ihtml.add(c);
 			return;
 		}
@@ -1454,6 +1469,11 @@ public class RadioTreeItem extends AVTreeItem
 
 		if (!isInputTreeItem() && geo.needToShowBothRowsInAV()) {
 			createDVPanels();
+			if (latex) {
+				definitionPanel.addStyleName("avDefinition");
+			} else {
+				definitionPanel.addStyleName("avDefinitionPlain");
+			}
 			updateValuePanel();
 			outputPanel.add(valuePanel);
 			ihtml.add(latexItem);
