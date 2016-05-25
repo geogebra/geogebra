@@ -1186,7 +1186,9 @@ namespace giac {
 	    tmpres=integrate_rational(tmpe,u,tmprem,uu,intmode,contextptr);
 	    // sqrt(a*x^2+b*x+c) -> a*[(x+b/2/a)^2-(D/a)^2]
 	    // -> asin(a*x+b/2)
-	    vecteur vin(makevecteur(u,symbolic(at_atan,u))),vout(makevecteur(uasx,inv(-2,contextptr)*asin(ratnormal((-2*a*gen_x-b)/abs(D,contextptr)),contextptr)));
+	    if (!is_positive(D,contextptr))
+	      D=-D;
+	    vecteur vin(makevecteur(u,symbolic(at_atan,u))),vout(makevecteur(uasx,inv(-2,contextptr)*asin(ratnormal((-2*a*gen_x-b)/D),contextptr)));
 	    remains_to_integrate=remains_to_integrate+complex_subst(tmprem,vin,vout,contextptr);
 	    res=alpha+complex_subst(tmpres,vin,vout,contextptr);
 	    return true;

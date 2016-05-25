@@ -5002,8 +5002,9 @@ namespace giac {
 	decal.coord.push_back(monomial<gen>(gen(-k),1,G.dim-1)); // -k*main_var
 	v=taylor(v,decal);
 	poly12polynome(v,2,temp,G.dim);
-	// algnorme is too slow perhaps because temp is densified
-	//if (!algnorme(p_mini,temp,norme)) 
+	// take remainder otherwise algnorme is too slow 
+	temp = temp % p_mini;
+	if (!algnorme(temp,p_mini,norme)) 
 	  norme=resultant(temp,p_mini).trunc1();
       }
       else {
