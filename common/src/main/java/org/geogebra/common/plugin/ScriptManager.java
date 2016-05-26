@@ -142,18 +142,18 @@ public abstract class ScriptManager implements EventListener {
 			String fn = listener.getText();
 			GeoElement geo = evt.target;
 			if (geo == null) {
-				callJavaScript(geo.getOldLabel(), null, null);
+				callJavaScript(fn, geo.getOldLabel(), null);
 				return;
 			}
 			String label = geo.getLabel(StringTemplate.defaultTemplate);
 			if (evt.type == EventType.RENAME) {
-				callJavaScript(geo.getOldLabel(), label, null);
+				callJavaScript(fn, geo.getOldLabel(), label);
 				return;
 			} else if (evt.argument == null) {
-				callJavaScript(listener.getText(), label, null);
+				callJavaScript(fn, label, null);
 				return;
 			}
-			callJavaScript(listener.getText(), evt.argument, null);
+			callJavaScript(fn, evt.argument, null);
 
 		}
 	}
