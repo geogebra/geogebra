@@ -5379,10 +5379,10 @@ namespace giac {
     }
     vecteur lv;
     if (a.size()==3)
-      lv=vecteur(1,a[2]);
+      lv=vecteur(1,vecteur(1,a[2]));
     else
-      lv=vecteur(1,vx_var);
-    lvar(args,lv);
+      lv=vecteur(1,vecteur(1,vx_var));
+    alg_lvar(args,lv);
     gen aa=e2r(a[0],lv,contextptr),aan,aad,bb=e2r(a[1],lv,contextptr),bbn,bbd;
     fxnd(aa,aan,aad);
     if ( (aad.type==_POLY) && (aad._POLYptr->lexsorted_degree() ) )

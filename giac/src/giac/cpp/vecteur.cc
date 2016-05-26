@@ -9334,6 +9334,7 @@ namespace giac {
       ++n;
       pn = pn * p;
     }
+    gen sqrtpn=isqrt(pn); // (pow(gen(p),int(n/2),context0)-1)/2;
     vecteur resp=padic_linsolve_c(a,b,c,n,p,reconstruct);
     if (debug_infolevel>2)
       CERR << "Padic end " << CLOCK() << endl;
@@ -9343,8 +9344,30 @@ namespace giac {
       s=std::min(s,reconstruct);
     res.clear();
     res.reserve(s);
+    gen lcmdeno(1);
     for (unsigned j=0;j<s;++j){
+      if (j){
+	gen tmp=smod(lcmdeno*resp[j],pn);
+	if (is_strictly_positive(sqrtpn+tmp,context0) && is_strictly_positive(sqrtpn-tmp,context0)){
+	  if (0){ // debug
+	    gen tmp1=tmp/lcmdeno,tmp2=fracmod(resp[j],pn);
+	    if (tmp1!=tmp2)
+	      CERR << "err" << endl;
+	  }
+	  res.push_back(tmp/lcmdeno);
+	  continue;
+	}
+      }
       res.push_back(fracmod(resp[j],pn));
+      if (res.back().type==_FRAC)
+	lcmdeno=lcm(lcmdeno,res.back()._FRACptr->den);
+    }
+    if (debug_infolevel>2)
+      CERR << "Padic end rational reconstruction " << CLOCK() << endl;
+    if (0 && A.size()==res.size()){ // debug
+      vecteur tmp(multvecteur(lcmdeno,res));
+      tmp=multmatvecteur(A,tmp);
+      CERR << tmp << multvecteur(lcmdeno,b) << endl;
     }
     return 1;    
   }

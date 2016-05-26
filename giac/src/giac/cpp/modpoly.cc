@@ -3355,22 +3355,24 @@ namespace giac {
       int p2t=coefftype(pp2,p2g);
       if (p1t==0 && p2t==0){
 	polynome2poly1(gcd(pp1,pp2),1,d);
-	// solve sylvester matrix * []=d
-	matrice S=sylvester(p1,p2);
-	S=mtran(S);
-	int add=p1.size()+p2.size()-d.size()-2;
-	v=mergevecteur(vecteur(add,0),d);
-	u=linsolve(S,v,context0);
-	gen D;
-	lcmdeno(u,D,context0);
-	d=multvecteur(D,d);
-	v=vecteur(u.begin()+p2.size()-1,u.end());
-	u=vecteur(u.begin(),u.begin()+p2.size()-1);
-	if (!is_one(den1))
-	  u=den1*u;		
-	if (!is_one(den2))
-	  v=den2*v;
-	return;
+	if (d.size()==1){
+	  // solve sylvester matrix * []=d
+	  matrice S=sylvester(p1,p2);
+	  S=mtran(S);
+	  int add=p1.size()+p2.size()-d.size()-2;
+	  v=mergevecteur(vecteur(add,0),d);
+	  u=linsolve(S,v,context0);
+	  gen D;
+	  lcmdeno(u,D,context0);
+	  d=multvecteur(D,d);
+	  v=vecteur(u.begin()+p2.size()-1,u.end());
+	  u=vecteur(u.begin(),u.begin()+p2.size()-1);
+	  if (!is_one(den1))
+	    u=den1*u;		
+	  if (!is_one(den2))
+	    v=den2*v;
+	  return;
+	}
       }
       if (p1t==_EXT && p2t==_EXT && p1g.type==_EXT && p2g.type==_EXT && *(p1g._EXTptr+1)==*(p2g._EXTptr+1) && (p1g._EXTptr+1)->type==_VECT){
 	polynome2poly1(gcd(pp1,pp2),1,d);
@@ -3402,8 +3404,10 @@ namespace giac {
 		int p2s=P2n.lexsorted_degree();
 		v=vecteur(u.begin()+p2s,u.end());
 		v=operator_times(v,polynome2poly1(P2,1),0);
+		v=operator_mod(v,p1,0);
 		u=vecteur(u.begin(),u.begin()+p2s);
 		u=operator_times(u,polynome2poly1(P1,1),0);
+		u=operator_mod(u,p2,0);
 		if (!is_one(den1))
 		  u=den1*u;		
 		if (!is_one(den2))

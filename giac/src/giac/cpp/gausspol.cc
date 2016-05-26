@@ -4541,10 +4541,125 @@ namespace giac {
   }
 
   void egcd(const polynome &p1, const polynome & p2, polynome & u,polynome & v,polynome & d){
-    if (p1.dim==1)
-      egcdlgcd(p1,p2,u,v,d);
-    else
+    polynome g=gcd(p1,p2);
+    if (g.lexsorted_degree()){
+      egcd(p1/g,p2/g,u,v,d);
+      d=g*d;
+      return;
+    }
+    if (p1.dim!=1){
       egcdpsr(p1,p2,u,v,d);
+      return;
+    }
+    gen p1g,p2g;
+    int p1t=coefftype(p1,p1g);
+    int p2t=coefftype(p2,p2g);
+    if (p1t==0 && p2t==0){
+      if (debug_infolevel>2)
+	CERR << CLOCK()*1e-6 << "starting extended gcd degrees " << p1.lexsorted_degree() << " " << p2.lexsorted_degree() << endl;
+      vecteur G,p1v,p2v;
+      polynome2poly1(g,1,G);
+      polynome2poly1(p1,1,p1v);
+      polynome2poly1(p2,1,p2v);
+      // solve sylvester matrix * []=d
+      matrice S=sylvester(p1v,p2v);
+      S=mtran(S);
+      int add=p1v.size()+p2v.size()-G.size()-2;
+      vecteur V=mergevecteur(vecteur(add,0),G);
+      vecteur U=linsolve(S,V,context0);
+      gen D;
+      lcmdeno(U,D,context0);
+      G=multvecteur(D,G);
+      V=vecteur(U.begin()+p2v.size()-1,U.end());
+      U=vecteur(U.begin(),U.begin()+p2v.size()-1);
+      poly12polynome(U,1,u);
+      poly12polynome(V,1,v);
+      poly12polynome(G,1,d);
+      return;
+    }
+    if (p1t==_EXT && p2t==_EXT && p1g.type==_EXT && p2g.type==_EXT && *(p1g._EXTptr+1)==*(p2g._EXTptr+1) && (p1g._EXTptr+1)->type==_VECT){
+      vecteur G;
+      polynome2poly1(g,1,G);
+      polynome pmini(2),P1,P2;
+      algext_vmin2pmin(*(p1g._EXTptr+1)->_VECTptr,pmini);
+      polynome P1n(1),P2n(1);
+      if (algext_convert(p1,p1g,P1) && algext_convert(p2,p1g,P2)){
+	if (algnorme(P1,pmini,P1n) && algnorme(P2,pmini,P2n)){
+	  // first solve norme(p1)*un+norme(p2)*vn=d
+	  // then norme(p1)/p1*un*p1+norme(p2)/p2*vn*p2=d
+	  // hence u=norme(p1)/p1*un and v=norme(p2)/p2*vn
+	  int p1t=coefftype(P1n,p1g);
+	  int p2t=coefftype(P2n,p2g);
+	  if (p1t==0 && p2t==0){
+	    //CERR << P1n % pp1 << endl;
+	    //CERR << P2n % pp2 << endl;
+	    P1=P1n/p1;
+	    P2=P2n/p2;
+	    // solve sylvester matrix * []=d
+	    matrice S=sylvester(polynome2poly1(P1n,1),polynome2poly1(P2n,1));
+	    S=mtran(S);
+	    vecteur V(S.size());
+	    V[S.size()-1]=G[0];
+	    vecteur U(linsolve(S,V,context0));
+	    gen D;
+	    lcmdeno(U,D,context0);
+	    G=multvecteur(D,G);
+	    poly12polynome(G,1,d);
+	    int p2s=P2n.lexsorted_degree();
+	    V=vecteur(U.begin()+p2s,U.end());
+	    poly12polynome(V,1,v);
+	    v=(v*P2) % p1;
+	    U=vecteur(U.begin(),U.begin()+p2s);
+	    poly12polynome(U,1,u);
+	    u=(u*P1) % p2;
+	    //CERR << (operator_times(u,p1,0)+operator_times(v,p2,0))/D << endl;
+	    return;
+	  }
+	}
+      }
+    }
+    if (p1t==_EXT && p2t==0 && p1g.type==_EXT && (p1g._EXTptr+1)->type==_VECT){
+      vecteur G,p2v;
+      polynome2poly1(g,1,G);
+      polynome2poly1(p2,1,p2v);
+      polynome pmini(2),P1;
+      algext_vmin2pmin(*(p1g._EXTptr+1)->_VECTptr,pmini);
+      polynome P1n(1);
+      if (algext_convert(p1,p1g,P1)){
+	if (algnorme(P1,pmini,P1n)){
+	  // first solve norme(p1)*un+p2*v=d
+	  // then norme(p1)/p1*un*p1+v*p2=d
+	  // hence u=norme(p1)/p1*un 
+	  int p1t=coefftype(P1n,p1g);
+	  if (p1t==0){
+	    P1=P1n/p1;
+	    // solve sylvester matrix * []=d
+	    matrice S=sylvester(polynome2poly1(P1n,1),p2v);
+	    S=mtran(S);
+	    vecteur V(vecteur(S.size()));
+	    V[S.size()-1]=G[0];
+	    vecteur U(linsolve(S,V,context0));
+	    gen D;
+	    lcmdeno(U,D,context0);
+	    G=multvecteur(D,G);
+	    poly12polynome(G,1,d);
+	    int p2s=p2v.size()-1;
+	    V=vecteur(U.begin()+p2s,U.end());
+	    poly12polynome(V,1,v);
+	    U=vecteur(U.begin(),U.begin()+p2s);
+	    poly12polynome(U,1,u);
+	    u=u*P1;
+	    //CERR << (operator_times(u,p1,0)+operator_times(v,p2,0))/D << endl;
+	    return;
+	  }
+	}
+      }
+    }
+    if (p2t==_EXT && p1t==0 && p2g.type==_EXT && (p2g._EXTptr+1)->type==_VECT){
+      egcd(p2,p1,v,u,d);
+      return;
+    }
+    egcdlgcd(p1,p2,u,v,d);
   }
 
   /* Factorization */
