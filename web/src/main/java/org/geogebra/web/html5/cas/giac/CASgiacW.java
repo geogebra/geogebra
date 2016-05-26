@@ -145,7 +145,9 @@ public class CASgiacW extends CASgiac {
 		int seed = rand.nextInt(Integer.MAX_VALUE);
 		nativeEvaluateRaw("srand(" + seed + ")", false);
 
-		String ret = nativeEvaluateRaw(wrapInevalfa(exp), true);
+		// show logging in tube-beta only
+		String ret = nativeEvaluateRaw(wrapInevalfa(exp), kernel
+				.getApplication().has(Feature.TUBE_BETA));
 
 		return ret;
 	}
