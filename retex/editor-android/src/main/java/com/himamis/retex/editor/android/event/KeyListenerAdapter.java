@@ -66,6 +66,8 @@ public class KeyListenerAdapter implements View.OnKeyListener {
                 return com.himamis.retex.editor.share.event.KeyEvent.VK_UP;
             case KeyEvent.KEYCODE_DPAD_DOWN:
                 return com.himamis.retex.editor.share.event.KeyEvent.VK_DOWN;
+            case KeyEvent.KEYCODE_ENTER:
+                return com.himamis.retex.editor.share.event.KeyEvent.VK_ENTER;
         }
         return 0;
     }
