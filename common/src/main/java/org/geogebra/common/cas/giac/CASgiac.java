@@ -740,16 +740,28 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	/**
 	 * Combine non-factorized and factorized results as a 3 dimensional array.
-	 * The input is like {{2,2,153,-300,50,0},{1,2,2,153,-300,50,0}} which
-	 * describes that both the non-factorized and the factorized forms are the
-	 * same. FIXME: Use a better example here with more factors. In the output
-	 * the 0. element in the 1. dimension contains the non-factorized values,
-	 * the next elements contain the factorized ones.
+	 * 
+	 * The input is like this example:
+	 * {{6,5,-184,304,-160,28,-2,52,-136,96,-14,1,-2,-12,-12,0,0,27,2,2,0,0,-10,
+	 * 0,0,0,0,1,0,0,0,0},{2,2,1,-2,1,5,5,92,-152,80,-14,1,20,-8,-8,0,0,11,2,2,0
+	 * ,0,-8,0,0,0,0,1,0,0,0,0}} describes a Steiner deltoid
+	 * (http://tube.geogebra.org/m/xWCP09dk) by its expanded polynomial
+	 * x^5+x*y^4+2*x^3*y^2-10*x^4-2*y^4-14*x*y^3-12*x^2*y^2+2*x^3*y+27*x^3+28*y^
+	 * 3+96*x*y^2-12*x^2*y-2*x^2-160*y^2-136*x*y+52*x+304*y-184 which is the
+	 * first list {6,5,...} and its two factors: x-2=0 and
+	 * y^4-14*y^3+2*y^2*x^2-8*y^2*x+80*y^2+2*y*x^2-8*y*x-152*y+x^4-8*x^3+11*x^2+
+	 * 20*x+92=0. In the second list {2,2,...} the first element tells the
+	 * number of factors (2), then the coefficients are listed (2,1,-2,1 for
+	 * x-2=0, here the first two elements describe the size of the coefficient
+	 * matrix) and the rest for the other one.
+	 * 
+	 * In the output the 0. element in the 1. dimension contains the
+	 * non-factorized values, the next elements contain the factorized ones.
 	 * 
 	 * @param rawResult
-	 *            input string
-	 * @return array like [0]: [0,0]=153, [0,1]=-300, [1,0]=50, [1,1]=0, in [1]
-	 *         also the same
+	 *            input string of coefficients of a polynomial and its factors
+	 *            in a custom format
+	 * @return the output array of coefficients in GeoImplicitCurve's format
 	 */
 	public double[][][] getBivarPolyCoefficientsAll(
 			String rawResult) {
