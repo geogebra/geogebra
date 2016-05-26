@@ -408,6 +408,7 @@ public final class DrawList extends CanvasDrawable
 			if (startIdx + diff >= 0 && endIdx + diff < items.size() + 1) {
 				startIdx += diff;
 				update();
+				// Log.error("repaint 1");
 				getView().repaintView();
 			}
 		}
@@ -507,6 +508,8 @@ public final class DrawList extends CanvasDrawable
 
 					if (getStartIdx() > 0 && getEndIdx() < geoList.size()) {
 						dragOffset = dY;
+						// Log.error("repaint 2");
+
 						viewOpt.repaintView();
 					}
 				}
@@ -554,8 +557,14 @@ public final class DrawList extends CanvasDrawable
 			updateItemHovered();
 			drawItem(item, true);
 			itemHovered = item;
+
+			if (selectedIndex != item.index) {
+
 			selectedIndex = item.index;
+				// Log.error("repaint 3");
+
 			viewOpt.repaintView();
+			}
 			// if (!(itemHovered == null || selectedIndex == item.index)) {
 			// if (!hoverIntersectControls()) {
 			// drawItem(itemHovered, false);
@@ -833,7 +842,10 @@ public final class DrawList extends CanvasDrawable
 			return visible;
 		}
 
-		public void setVisible(boolean visible) {
+		private boolean setVisible(boolean visible) {
+
+			boolean repaintNeeded = this.visible != visible;
+
 			this.visible = visible;
 			if (visible) {
 				viewOpt.setOpenedComboBox(DrawList.this);
@@ -857,7 +869,12 @@ public final class DrawList extends CanvasDrawable
 			}
 			update();
 			updateOpenedComboBox();
-			viewOpt.repaintView();
+			// Log.error("repaint 4");
+
+			repaintNeeded = true;
+			// instead of: viewOpt.repaintView();
+
+			return repaintNeeded;
 		}
 
 		public void onResize(int w, int h) {
@@ -872,7 +889,7 @@ public final class DrawList extends CanvasDrawable
 
 		}
 
-		public void toggle() {
+		private void toggle() {
 			setVisible(!visible);
 		}
 
@@ -903,6 +920,8 @@ public final class DrawList extends CanvasDrawable
 				itemHovered = items.get(idx);
 				selectedIndex = idx;
 				update();
+				// Log.error("repaint 6");
+
 				getView().repaintView();
 			}
 		}
@@ -1134,6 +1153,7 @@ public final class DrawList extends CanvasDrawable
 
 	@Override
 	final public void draw(GGraphics2D g2) {
+
 		if (isVisible && geoList.drawAsComboBox()) {
 			drawOnCanvas(g2, "");
 			return;
@@ -1566,8 +1586,8 @@ public final class DrawList extends CanvasDrawable
 	/**
 	 * Close dropdown
 	 */
-	public void closeOptions() {
-		setOptionsVisible(false);
+	public boolean closeOptions() {
+		return setOptionsVisible(false);
 	}
 
 	/**
@@ -1593,9 +1613,9 @@ public final class DrawList extends CanvasDrawable
 	 * @param optionsVisible
 	 *            change visibility of dropdown items
 	 */
-	private void setOptionsVisible(boolean optionsVisible) {
+	private boolean setOptionsVisible(boolean optionsVisible) {
 
-		drawOptions.setVisible(optionsVisible);
+		return drawOptions.setVisible(optionsVisible);
 
 	}
 
