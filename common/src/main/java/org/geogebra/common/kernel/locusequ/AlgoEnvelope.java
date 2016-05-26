@@ -128,7 +128,6 @@ public class AlgoEnvelope extends AlgoElement {
 	 */
 	@Override
 	public void compute() {
-		
 		String result = null;
 		try {
 			result = getImplicitPoly();
@@ -138,14 +137,10 @@ public class AlgoEnvelope extends AlgoElement {
 
 		if (result != null) {
 			try{
-				String locusLib = SingularWebService.getLocusLib();
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-				// Temporary workaround by creating dummy factor:
-				result = "{{" + result + "},{1," + result + "}}";
 				this.geoPoly.setCoeff(cas.getCurrentCAS()
 						.getBivarPolyCoefficientsAll(result));
 				this.geoPoly.setDefined();
-				
 				// Timeout => set undefined
 			} catch(Exception e) {
 				this.geoPoly.setUndefined();
@@ -355,7 +350,8 @@ public class AlgoEnvelope extends AlgoElement {
 		Log.info("[Envelope] input to singular: "+script);
 		String result = App.singularWS.directCommand(script.toString());
 		Log.info("[Envelope] output from singular: "+result);
-		
+		// Temporary workaround by creating dummy factor:
+		result = "{{" + result + "},{1," + result + "}}";
 		return result;
 	}
 	
