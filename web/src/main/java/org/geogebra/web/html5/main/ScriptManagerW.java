@@ -86,15 +86,26 @@ public class ScriptManagerW extends ScriptManager {
 			String singleArg = args != null && args.length > 0
 					? (String) args[0] : null;
 			callListenerNative(this.api, jsFunction,
-					singleArg);
+ singleArg, null);
 			return;
 		}
 		app.callAppletJavaScript(jsFunction, args);
 	}
 
+	public void callJavaScript(String jsFunction, Object arg0, Object arg1) {
+		if (jsFunction != null && jsFunction.length() > 0
+				&& jsFunction.charAt(0) <= '9') {
+			String singleArg = arg0 != null ? arg0.toString() : null;
+			callListenerNative(this.api, jsFunction, singleArg,
+					arg1 == null ? null : arg1.toString());
+			return;
+		}
+		((AppW) app).callAppletJavaScript(jsFunction, arg0, arg1);
+	}
+
 	private native void callListenerNative(JavaScriptObject api2,
-			String jsFunction, String object) /*-{
-		api2.listeners[jsFunction * 1](object);
+			String jsFunction, String arg0, String arg1) /*-{
+		api2.listeners[jsFunction * 1](arg0, arg1);
 
 	}-*/;
 

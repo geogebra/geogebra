@@ -107,9 +107,8 @@ public abstract class ScriptManager implements EventListener {
 		if (listeners.isEmpty()) {
 			return;
 		}
-		Object[] args = getArguments(evt);
 		for (JsScript listener : listeners) {
-			callJavaScript(listener.getText(), args);
+			callListener(listener, evt);
 		}
 	}
 
@@ -140,7 +139,22 @@ public abstract class ScriptManager implements EventListener {
 
 	private void callListener(JsScript listener, Event evt) {
 		if (listener != null) {
-			callJavaScript(listener.getText(), getArguments(evt));
+			String fn = listener.getText();
+			GeoElement geo = evt.target;
+			if (geo == null) {
+				callJavaScript(geo.getOldLabel(), null, null);
+				return;
+			}
+			String label = geo.getLabel(StringTemplate.defaultTemplate);
+			if (evt.type == EventType.RENAME) {
+				callJavaScript(geo.getOldLabel(), label, null);
+				return;
+			} else if (evt.argument == null) {
+				callJavaScript(listener.getText(), label, null);
+				return;
+			}
+			callJavaScript(listener.getText(), evt.argument, null);
+
 		}
 	}
 
@@ -455,6 +469,11 @@ public abstract class ScriptManager implements EventListener {
 
 
 	abstract public void callJavaScript(String jsFunction, Object[] args);
+
+	public void callJavaScript(String jsFunction, Object arg0,
+			Object arg1){
+		callJavaScript(jsFunction,new Object[]{arg0, arg1});
+	}
 
 	// ------ getters for listeners -------------
 

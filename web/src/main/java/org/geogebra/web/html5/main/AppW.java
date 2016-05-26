@@ -407,6 +407,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}-*/;
 
+	public native void callNativeJavaScriptMultiArg(String funcname,
+			String arg0, String arg1) /*-{
+		if ($wnd[funcname]) {
+			$wnd[funcname](arg0, arg1);
+		}
+	}-*/;
+
 	@Override
 	public void callAppletJavaScript(String fun, Object[] args) {
 		if (args == null || args.length == 0) {
@@ -422,6 +429,19 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 				jsStrings.push(obj.toString());
 			}
 			callNativeJavaScriptMultiArg(fun, jsStrings);
+		}
+
+	}
+
+	public void callAppletJavaScript(String fun, Object arg0, Object arg1) {
+		if (arg0 == null && arg1 == null) {
+			callNativeJavaScript(fun);
+		} else if (arg1 == null) {
+			Log.debug("calling function: " + fun + "(" + arg0.toString()
+					+ ")");
+			callNativeJavaScript(fun, arg0.toString());
+		} else {
+			callNativeJavaScriptMultiArg(fun, arg0.toString(), arg1.toString());
 		}
 
 	}
