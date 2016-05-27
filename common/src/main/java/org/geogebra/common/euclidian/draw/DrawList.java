@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Draw a GeoList containing drawable objects
@@ -618,7 +619,10 @@ public final class DrawList extends CanvasDrawable
 
 			int tableWidth = getColCount() * dimItem.getWidth();
 			int tableHeight = rowCount * dimItem.getHeight();
-			if (isScrollNeeded()) {
+			if (isScrollNeeded()
+					&& (top + tableHeight + 2 * rectDown.getHeight()
+							+ dimItem.getHeight()
+					<= viewHeight - MARGIN)) {
 				tableHeight += dimItem.getHeight();
 			}
 
@@ -726,15 +730,16 @@ public final class DrawList extends CanvasDrawable
 			int maxItems = geoList.size();
 			int arrowsHeight = (int) (rectUp.getHeight()
 					+ rectDown.getHeight());
-			int visibleItems = (viewOpt.getHeight() - (2 * MARGIN))
-					/ dimItem.getHeight();
+
+			int visibleItems = ((viewOpt.getHeight() - (2 * MARGIN))
+					/ dimItem.getHeight()) - 1;
 
 			if (visibleItems < maxItems - 1) {
 				visibleItems = (viewOpt.getHeight() - (2 * MARGIN + arrowsHeight))
 						/ dimItem.getHeight();
 
 			}
-			endIdx = startIdx + Math.min(visibleItems, maxItems);
+			endIdx = Math.min(startIdx + visibleItems, maxItems);
 			rowCount = getVisibleItemCount();
 			scrollNeeded = getVisibleItemCount() != maxItems;
 			if (!scrollNeeded) {
@@ -742,9 +747,10 @@ public final class DrawList extends CanvasDrawable
 				endIdx = maxItems;
 			}
 
-			// Log.debug(SCROLL_PFX + geoList.getLongDescription() + " max: "
-			// + maxItems + " endIdx: " + endIdx + " scroll needed: "
-			// + scrollNeeded);
+			Log.debug(
+					"[SCROLL] max: " + maxItems + " visible: " + visibleItems);
+			Log.debug("[SCROLL]" + "startIdx: " + startIdx + " endIdx: "
+					+ endIdx);
 
 			scrollNeeded = scrollNeeded && rowCount > 2;
 			if (scrollNeeded) {
