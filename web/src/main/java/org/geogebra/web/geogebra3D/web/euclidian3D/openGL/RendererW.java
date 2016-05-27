@@ -1767,11 +1767,18 @@ public class RendererW extends Renderer implements RendererShadersInterface,
 
 	@Override
 	public void setClipPlanes(double[][] minMax) {
-		for (int i = 0; i < 3; i++) {
-			clipPlanesMin[i] = (float) minMax[i][0];
-			clipPlanesMax[i] = (float) minMax[i][1];
+		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			for (int i = 0; i < 3; i++) {
+				double scale = view3D.getScale(i);
+				clipPlanesMin[i] = (float) (minMax[i][0] * scale);
+				clipPlanesMax[i] = (float) (minMax[i][1] * scale);
+			}
+		} else {
+			for (int i = 0; i < 3; i++) {
+				clipPlanesMin[i] = (float) minMax[i][0];
+				clipPlanesMax[i] = (float) minMax[i][1];
+			}
 		}
-
 	}
 
 	private void setClipPlanesToShader() {
