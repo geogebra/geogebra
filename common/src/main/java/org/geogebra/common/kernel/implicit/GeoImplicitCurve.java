@@ -2117,10 +2117,30 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	}
 
+	/**
+	 * Evaluate a factor of the curve of the given function.
+	 * 
+	 * @param x
+	 *            x-coordinate
+	 * @param y
+	 *            y-coordinate
+	 * @param factor
+	 *            nr. of the factor
+	 * @return the value of the function being evaluated at (x,y)
+	 */
 	public double evaluate(double x, double y, int factor) {
 		return this.evaluateImplicitCurve(x, y, factor);
 	}
 
+	/**
+	 * Evaluate a factor of the curve of the given function.
+	 * 
+	 * @param val
+	 *            the (x,y)-coordinates
+	 * @param factor
+	 *            nr. of the factor
+	 * @return the value of the function being evaluated at (x,y)
+	 */
 	public double evaluate(double[] val, int factor) {
 		return evaluateImplicitCurve(val[0], val[1], factor);
 	}
