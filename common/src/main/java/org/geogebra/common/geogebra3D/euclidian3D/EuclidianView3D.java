@@ -230,9 +230,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	// Map (geo, drawable) for GeoElements and Drawables
 	private TreeMap<GeoElement, Drawable3D> drawable3DMap = new TreeMap<GeoElement, Drawable3D>();
 	// matrix for changing coordinate system
-	private CoordMatrix4x4 m = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 mWithoutScale = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 mWithScale = CoordMatrix4x4.Identity();
-	private CoordMatrix4x4 mInv = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 mInvWithUnscale = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 mInvTranspose = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 undoRotationMatrix = CoordMatrix4x4.Identity();
@@ -286,7 +285,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private boolean isFrozen = false;
 	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 undoScaleMatrix = CoordMatrix4x4.Identity();
-	private CoordMatrix4x4 translationMatrix = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 translationMatrixWithScale = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 translationMatrixWithoutScale = CoordMatrix4x4
 			.Identity();
 	private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.Identity();
@@ -751,11 +750,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *            vector
 	 */
 	final public void toSceneCoords3D(Coords vInOut) {
-		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			changeCoords(mInvWithUnscale, vInOut);
-		} else {
-			changeCoords(mInv, vInOut);
-		}
+		changeCoords(mInvWithUnscale, vInOut);
 	}
 
 	/**
@@ -764,11 +759,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param vInOut vector
 	 */
 	final public void toScreenCoords3D(Coords vInOut) {
-		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			changeCoords(mWithScale, vInOut);
-		} else {
-			changeCoords(m, vInOut);
-		}
+		changeCoords(mWithScale, vInOut);
 	}
 
 	/**
@@ -792,16 +783,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 */
 	final public CoordMatrix4x4 getToScreenMatrix() {
 
-		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			return mWithScale;
-		}
-		return m;
+		return mWithScale;
 
 	}
 
 	final public CoordMatrix4x4 getToScreenMatrixForGL() {
-
-		return m;
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			return mWithoutScale;
+		}
+		return mWithScale;
 	}
 
 	/**
@@ -861,18 +851,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	protected void updateTranslationMatrix() {
 		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			translationMatrixWithoutScale.set(1, 4, getXZero());
-			translationMatrixWithoutScale.set(2, 4, getYZero());
-			translationMatrixWithoutScale.set(3, 4, getZZero());
-
-			translationMatrix.set(1, 4, getXZero() * getXscale());
-			translationMatrix.set(2, 4, getYZero() * getYscale());
-			translationMatrix.set(3, 4, getZZero() * getZscale());
-		}else{
-			translationMatrix.set(1, 4, getXZero());
-			translationMatrix.set(2, 4, getYZero());
-			translationMatrix.set(3, 4, getZZero());
+			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
+			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
+			translationMatrixWithScale.set(3, 4, getZZero() * getZscale());
 		}
+		translationMatrixWithoutScale.set(1, 4, getXZero());
+		translationMatrixWithoutScale.set(2, 4, getYZero());
+		translationMatrixWithoutScale.set(3, 4, getZZero());
+		
 	}
 
 	protected void updateRotationAndScaleMatrices() {
@@ -901,28 +887,16 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	protected void setGlobalMatrices() {
 
 		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			m.set(rotationMatrix.mul(translationMatrix));
-			mWithScale.set(rotationAndScaleMatrix
-					.mul(translationMatrixWithoutScale));
-		} else {
-			m.set(rotationAndScaleMatrix.mul(translationMatrix));
+			mWithoutScale.setMul(rotationMatrix, translationMatrixWithScale);
 		}
+		mWithScale
+				.setMul(rotationAndScaleMatrix, translationMatrixWithoutScale);
 
-		/*
-		 * //TO TEST PROJECTION m.set(CoordMatrix.Identity(4)); scale = 1;
-		 */
 
-		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			mInv.set(undoTranslationMatrix.mul(undoRotationMatrix));
-			// undoTranslationMatrix.mul(undoRotationMatrix, mInv);
-			mInvWithUnscale.set(undoTranslationMatrix.mul(undoScaleMatrix
-					.mul(undoRotationMatrix)));
-		}else{
-			mInv.set(undoTranslationMatrix.mul(undoScaleMatrix
-					.mul(undoRotationMatrix)));
-		}
+		mInvWithUnscale.setMul(undoTranslationMatrix,
+				tmpMatrix4x4.setMul(undoScaleMatrix, undoRotationMatrix));
 
-		mInvTranspose.setTranspose(mInv);
+		mInvTranspose.setTranspose(mInvWithUnscale);
 
 		updateEye();
 
@@ -1161,7 +1135,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			getSettings().updateOriginFromView(x, y, z);
 			updateTranslationMatrix();
 			CoordMatrix mRS = rotationMatrix.mul(scaleMatrix);
-			CoordMatrix matrix = ((mRS.inverse()).mul(translationMatrix)
+			CoordMatrix matrix = ((mRS.inverse())
+					.mul(translationMatrixWithoutScale)
 					.mul(mRS));
 			Coords origin = matrix.getOrigin();
 			setXZero(origin.getX());

@@ -18,7 +18,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
@@ -62,51 +61,18 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	public void setClipPlanes(double[][] minMax) {
 
 		CoordMatrix mInvTranspose = view3D.getToSceneMatrixTranspose();
-
-		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			Coords c;
-			double scale;
-
-			scale = 1 / view3D.getXscale();
-			c = mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0]));
-			c.mulInside3(scale);
-			setClipPlane(0, c.get());
-			c = mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1]));
-			c.mulInside3(scale);
-			setClipPlane(1, c.get());
-
-
-			scale = 1 / view3D.getYscale();
-			c = mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0]));
-			c.mulInside3(scale);
-			setClipPlane(2, c.get());
-			c = mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1]));
-			c.mulInside3(scale);
-			setClipPlane(3, c.get());
-
-
-			scale = 1 / view3D.getZscale();
-			c = mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0]));
-			c.mulInside3(scale);
-			setClipPlane(4, c.get());
-			c = mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1]));
-			c.mulInside3(scale);
-			setClipPlane(5, c.get());
-
-		} else {
-			setClipPlane(0,
-					mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0])).get());
-			setClipPlane(1,
-					mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1])).get());
-			setClipPlane(2,
-					mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0])).get());
-			setClipPlane(3,
-					mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1])).get());
-			setClipPlane(4,
-					mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0])).get());
-			setClipPlane(5,
-					mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1])).get());
-		}
+		setClipPlane(0, mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0]))
+				.get());
+		setClipPlane(1, mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1]))
+				.get());
+		setClipPlane(2, mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0]))
+				.get());
+		setClipPlane(3, mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1]))
+				.get());
+		setClipPlane(4, mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0]))
+				.get());
+		setClipPlane(5, mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1]))
+				.get());
 	}
 
 	private void setClipPlane(int n, double[] equation) {
