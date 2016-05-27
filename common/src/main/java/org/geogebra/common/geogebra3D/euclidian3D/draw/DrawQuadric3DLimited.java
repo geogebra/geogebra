@@ -110,8 +110,9 @@ public class DrawQuadric3DLimited extends Drawable3D {
 
 	@Override
 	protected void updateForView() {
-
-		// no need
+		// for outline update
+		drawBottom.updateForView();
+		drawTop.updateForView();
 	}
 
 	@Override
