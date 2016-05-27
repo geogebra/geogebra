@@ -71,6 +71,18 @@ public abstract class EquationTranslator<T> {
     	return this.eliminate(this.translate(system));
     }
 
+	/**
+	 * Compute coefficients of polynomial solution of an algebraic translation
+	 * of geometric restrictions in a construction.
+	 * 
+	 * @param translatedRestrictions
+	 *            geometric restricitions translated into algebraic equations
+	 * @return the 0. element in the 1. dimension contains the coefficients of
+	 *         the non-factorized polynomials, the next elements contain the
+	 *         factorized ones (see
+	 *         org.geogebra.common.cas.giac.getBivarPolyCoefficientsAll for more
+	 *         information)
+	 */
 	public abstract double[][][] eliminate(
 			Collection<T> translatedRestrictions);
 }
