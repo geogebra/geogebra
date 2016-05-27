@@ -17,8 +17,9 @@ import com.ogprover.pp.GeoGebraOGPOutputProverProtocol;
 import com.ogprover.utilities.logger.ILogger;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org> Implements desktop dependent
- *         parts of the Prover
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * 
+ *         Implements desktop dependent parts of the Prover.
  */
 public class ProverD extends Prover {
 
