@@ -885,7 +885,13 @@ public class PlotterBrush implements PathPlotter {
 		this.lineThickness = thickness;
 		this.scale = scale;
 
-		float t = manager.getView3D().unscale(lineThickness * LINE3D_THICKNESS);
+		float t;
+		if (manager.getView3D().getApplication()
+				.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			t = lineThickness * LINE3D_THICKNESS;
+		} else {
+			t = lineThickness * LINE3D_THICKNESS / scale;
+		}
 		setThickness(t);
 		return t;
 
