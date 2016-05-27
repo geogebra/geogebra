@@ -5,8 +5,9 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.kernel.ProverReciosMethodW;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org> Implements web dependent parts of
- *         the Prover
+ * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * 
+ *         Implements web dependent parts of the Prover.
  */
 public class ProverW extends Prover {
 
