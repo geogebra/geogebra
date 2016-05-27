@@ -2398,7 +2398,7 @@ __GGB__keysVar.pt_PT.plain = {
     "DefaultPointStyle": "Estilo do Ponto Padr\xe3o",
     "Defaults": "Padr\xf5es",
     "Definition": "Defini\xe7\xe3o",
-    "DefinitionAndValue": "Definition & Value",
+    "DefinitionAndValue": "Defini\xe7\xe3o & Valor",
     "Delete": "Apagar",
     "DeleteARows": "Apaga %0 linhas",
     "DeleteColumnA": "Apagar Coluna %0",
