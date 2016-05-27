@@ -1231,7 +1231,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public double getScale(int i) {
-		return getSettings().getXscale();
+		switch (i) {
+		case 0:
+		default:
+			return getSettings().getXscale();
+		case 1:
+			return getSettings().getYscale();
+		case 2:
+			return getSettings().getZscale();
+		}
 	}
 
 	@Override

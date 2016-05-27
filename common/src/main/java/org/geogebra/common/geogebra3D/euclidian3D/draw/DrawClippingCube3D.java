@@ -116,7 +116,9 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 		Renderer renderer = view.getRenderer();
 
-		double scale = view.getScale();
+		double xscale = view.getXscale();
+		double yscale = view.getYscale();
+		double zscale = view.getZscale();
 
 		Coords origin = getView3D().getToSceneMatrix().getOrigin();
 		double x0 = origin.getX(), y0 = origin.getY(), z0 = origin.getZ();
@@ -125,19 +127,19 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		double ymin, ymax, zmin, zmax;
 		double halfWidth = renderer.getWidth() / 2;
 
-		double xmin = -halfWidth / scale + x0;
-		double xmax = halfWidth / scale + x0;
+		double xmin = -halfWidth / xscale + x0;
+		double xmax = halfWidth / xscale + x0;
 
 		if (getView3D().getYAxisVertical()) {
-			zmin = (renderer.getBottom()) / scale + y0;
-			zmax = (renderer.getTop()) / scale + y0;
-			ymin = -halfWidth / scale + z0;
-			ymax = halfWidth / scale + z0;
+			zmin = (renderer.getBottom()) / yscale + y0;
+			zmax = (renderer.getTop()) / yscale + y0;
+			ymin = -halfWidth / zscale + z0;
+			ymax = halfWidth / zscale + z0;
 		} else {
-			ymin = (renderer.getBottom()) / scale + z0;
-			ymax = (renderer.getTop()) / scale + z0;
-			zmin = -halfWidth / scale + y0;
-			zmax = halfWidth / scale + y0;
+			ymin = (renderer.getBottom()) / zscale + z0;
+			ymax = (renderer.getTop()) / zscale + z0;
+			zmin = -halfWidth / yscale + y0;
+			zmax = halfWidth / yscale + y0;
 		}
 
 		int reductionIndex = ((GeoClippingCube3D) getGeoElement())
@@ -159,12 +161,14 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 		horizontalDiagonal = renderer.getWidth() * (1 - 2 * rv) * Math.sqrt(2);
 
+		double scaleMax = Math.max(Math.max(xscale, yscale), zscale);
+		double scaleMin = Math.min(Math.min(xscale, yscale), zscale);
 		int w = renderer.getWidth();
 		int h = renderer.getHeight();
 		int d = renderer.getVisibleDepth();
-		frustumRadius = Math.sqrt(w * w + h * h + d * d) / (2 * scale);
+		frustumRadius = Math.sqrt(w * w + h * h + d * d) / (2 * scaleMin);
 
-		frustumInteriorRadius = Math.min(w, Math.min(h, d)) / (2 * scale);
+		frustumInteriorRadius = Math.min(w, Math.min(h, d)) / (2 * scaleMax);
 		frustumInteriorRadius *= INTERIOR_RADIUS_FACTOR[reductionIndex];
 
 		// double h = minMax[2][1]-minMax[2][0]; frustumRadius = h/2;

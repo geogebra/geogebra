@@ -214,6 +214,12 @@ public class DrawAxis3D extends DrawLine3D {
 	}
 
 	@Override
+	protected float getScale() {
+		return (float) getView3D().getScale(
+				((GeoAxisND) getGeoElement()).getType());
+	}
+
+	@Override
 	protected void setAffineTexture(PlotterBrush brush, double[] minmax) {
 		brush.setAffineTexture(0f, 0f);
 	}
