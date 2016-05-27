@@ -67,8 +67,20 @@ public abstract class EquationTranslator<T> {
     public abstract T opposite(T value);
     public abstract T sqrt(T value);
     
-	public double[][][] eliminateSystem(EquationSystem system) {
-    	return this.eliminate(this.translate(system));
+	/**
+	 * Compute coefficients of polynomial solution of an algebraic translation
+	 * of geometric restrictions in a construction.
+	 * 
+	 * @param equationSystem
+	 *            geometric restricitions translated into algebraic equations
+	 * @return the 0. element in the 1. dimension contains the coefficients of
+	 *         the non-factorized polynomials, the next elements contain the
+	 *         factorized ones (see
+	 *         org.geogebra.common.cas.giac.getBivarPolyCoefficientsAll for more
+	 *         information)
+	 */
+	public double[][][] eliminateSystem(EquationSystem equationSystem) {
+		return this.eliminate(this.translate(equationSystem));
     }
 
 	/**
