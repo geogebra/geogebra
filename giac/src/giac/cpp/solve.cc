@@ -3710,6 +3710,12 @@ namespace giac {
     vecteur A; 
     if (ckmatrix(sl)){
       unsigned int n=unsigned(sl.size());
+      if (n>=GIAC_PADIC && n==x.size() && is_integer_matrice(sl) && is_integer_vecteur(x)){
+	gen p,det_mod_p,h2;
+	int res=padic_linsolve(sl,x,A,p,det_mod_p,h2);
+	if (res==1)
+	  return A;
+      }
       A=mtran(sl);
       if (ckmatrix(x)){
 	if (x.size()==1){

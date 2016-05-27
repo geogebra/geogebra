@@ -4554,7 +4554,9 @@ namespace giac {
     gen p1g,p2g;
     int p1t=coefftype(p1,p1g);
     int p2t=coefftype(p2,p2g);
-    if (p1t==0 && p2t==0){
+    if (p1t==0 && p2t==0 
+	&& p1.lexsorted_degree()>=GIAC_PADIC/2 && p2.lexsorted_degree()>=GIAC_PADIC/2
+	){
       if (debug_infolevel>2)
 	CERR << CLOCK()*1e-6 << "starting extended gcd degrees " << p1.lexsorted_degree() << " " << p2.lexsorted_degree() << endl;
       vecteur G,p1v,p2v;
@@ -4569,12 +4571,26 @@ namespace giac {
       vecteur U=linsolve(S,V,context0);
       gen D;
       lcmdeno(U,D,context0);
+      if (is_positive(-D,context0)){
+	D=-D;
+	for (iterateur it=U.begin(),itend=U.end();it!=itend;++it)
+	  *it=-*it;
+      }
       G=multvecteur(D,G);
       V=vecteur(U.begin()+p2v.size()-1,U.end());
       U=vecteur(U.begin(),U.begin()+p2v.size()-1);
       poly12polynome(U,1,u);
       poly12polynome(V,1,v);
       poly12polynome(G,1,d);
+      if (0){ // debug code
+	polynome u1,v1,d1;
+	egcdlgcd(p1,p2,u1,v1,d1);
+	if (is_positive(-d1.coord.front().value,context0)){
+	  d1=-d1; u1=-u1; v1=-v1;
+	}
+	if (u!=u1 || v!=v1 || d!=d1)
+	  CERR << "err" << endl;
+      }
       return;
     }
     if (p1t==_EXT && p2t==_EXT && p1g.type==_EXT && p2g.type==_EXT && *(p1g._EXTptr+1)==*(p2g._EXTptr+1) && (p1g._EXTptr+1)->type==_VECT){
@@ -4660,6 +4676,9 @@ namespace giac {
       return;
     }
     egcdlgcd(p1,p2,u,v,d);
+    if (is_positive(-d.coord.front().value,context0)){
+      d=-d; u=-u; v=-v;
+    }
   }
 
   /* Factorization */

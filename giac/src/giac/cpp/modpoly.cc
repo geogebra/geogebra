@@ -3340,7 +3340,7 @@ namespace giac {
 
   // p1*u+p2*v=d
   void egcd(const modpoly &p1, const modpoly & p2, environment * env,modpoly & u,modpoly & v,modpoly & d){
-    if (!env || !env->moduloon){
+    if ( (!env || !env->moduloon)){
       int dim=giacmax(inner_POLYdim(p1),inner_POLYdim(p2));
       polynome pp1(dim),pp2(dim),pu(dim),pv(dim),pd(dim);
       gen den1(1),den2(1);
@@ -3353,7 +3353,9 @@ namespace giac {
       gen p1g,p2g;
       int p1t=coefftype(pp1,p1g);
       int p2t=coefftype(pp2,p2g);
-      if (p1t==0 && p2t==0){
+      if (p1t==0 && p2t==0 
+	  && p1.size()>=GIAC_PADIC/2 && p2.size()>=GIAC_PADIC/2
+	  ){
 	polynome2poly1(gcd(pp1,pp2),1,d);
 	if (d.size()==1){
 	  // solve sylvester matrix * []=d

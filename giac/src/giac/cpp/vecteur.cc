@@ -5894,7 +5894,7 @@ namespace giac {
       if (it->type==_INT_) continue;
       if (intonly) return false;
       if (it->type==_ZINT) continue;
-      if (it->type==_CPLX && is_exactly_zero(*(it->_CPLXptr+1))) continue;
+      if (it->type==_CPLX && is_integer(*it->_CPLXptr) && is_exactly_zero(*(it->_CPLXptr+1))) continue;
       return false;
       // if (!is_integer(*it)) return false;
     }

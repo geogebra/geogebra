@@ -9658,13 +9658,19 @@ namespace giac {
       if ( (a._EXTptr+1)->type!=_VECT)
 	return symgcd(ext_reduce(a),b,contextptr);
       gen aa(lgcd(*a._EXTptr->_VECTptr));
-      gen res=gcd(aa,b,contextptr);
-      vecteur ua((*(a._EXTptr->_VECTptr))/aa),u,uv(*((a._EXTptr+1)->_VECTptr)),v,dd;
-      egcd(ua,uv,0,u,v,dd);
-      gen dd0(dd.front()),b2(rdiv(b,res,contextptr));
+      gen res=gcd(aa,b,contextptr),b2(rdiv(b,res,contextptr));
+      if (is_one(b2) || is_minus_one(b2))
+	return res;
+      vecteur ua,u,v,dd;
+      divvecteur(*(a._EXTptr->_VECTptr),aa,ua);
+      const vecteur & uv=*((a._EXTptr+1)->_VECTptr);
+      egcd(ua,uv,0,u,v,dd); 
+      // u and v are not used but we can't use gcd here because we want to
+      // "factor" dd=extension(ua,uv)*extension(u,uv)
+      gen dd0(dd.front());
       simplify(b2,dd0);
       if (is_one(dd0))
-	return res*algebraic_EXTension(ua,uv);
+	return res*algebraic_EXTension(ua,*(a._EXTptr+1));
       return res;
     }
     if (b.type==_EXT)
