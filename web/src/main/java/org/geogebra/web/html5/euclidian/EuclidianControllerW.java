@@ -54,6 +54,10 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Event;
 
+/**
+ * Web version of Euclidian controller
+ *
+ */
 public class EuclidianControllerW extends EuclidianController implements
         MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler,
         MouseOverHandler, MouseWheelHandler, TouchStartHandler,
@@ -61,14 +65,8 @@ public class EuclidianControllerW extends EuclidianController implements
         GestureStartHandler, GestureEndHandler, GestureChangeHandler,
 		IsEuclidianController, DropHandler {
 
-	/**
-	 * whether to keep the actual tool after successfully constructing an
-	 * element (if set to true) or to change back to the move tool (if set to
-	 * false)
-	 */
-	public boolean USE_STICKY_TOOLS = true;
 
-	private boolean actualSticky = false;
+
 
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
@@ -88,6 +86,9 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.moveIfWaiting();
 	}
 
+	/**
+	 * @return whether offsets were updated
+	 */
 	public boolean isOffsetsUpToDate() {
 		return mtg.isOffsetsUpToDate();
 	}
@@ -100,6 +101,12 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg = new MouseTouchGestureControllerW((AppW) app, this);
 	}
 
+	/**
+	 * Creates a new controller
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public EuclidianControllerW(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
@@ -142,6 +149,12 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.onTouchMove(event);
 	}
 
+	/**
+	 * @param touch
+	 *            first finger
+	 * @param touch2
+	 *            second finger
+	 */
 	public void twoTouchMove(Touch touch, Touch touch2) {
 		mtg.twoTouchMove(touch, touch2);
 	}
@@ -172,10 +185,20 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.onTouchStart(event);
 	}
 
+	/**
+	 * @param event
+	 *            touch event
+	 */
 	public void preventTouchIfNeeded(TouchStartEvent event) {
 		mtg.preventTouchIfNeeded(event);
 	}
 
+	/**
+	 * @param touch
+	 *            first finger
+	 * @param touch2
+	 *            second finger
+	 */
 	public void twoTouchStart(Touch touch, Touch touch2) {
 		mtg.twoTouchStart(touch, touch2);
 	}
@@ -200,6 +223,16 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.onMouseMove(event);
 	}
 
+	/**
+	 * Dispatch mouse move without timer
+	 * 
+	 * @param event
+	 *            event
+	 * @param time
+	 *            current time in milliseconds
+	 * @param startCapture
+	 *            whether to start capturing events in view
+	 */
 	public void onMouseMoveNow(PointerEvent event, long time,
 	        boolean startCapture) {
 		mtg.onMouseMoveNow(event, time, startCapture);
@@ -291,6 +324,10 @@ public class EuclidianControllerW extends EuclidianController implements
 		return mtg.isComboboxFocused();
 	}
 
+	/**
+	 * @param flag
+	 *            whether a combobox has focus
+	 */
 	public void setComboboxFocused(boolean flag) {
 		mtg.setComboboxFocused(flag);
 	}
@@ -352,17 +389,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		app.getGuiManager().showPopupMenu(geos, view, mouseLoc);
 	}
 
-	@Override
-	public void toolCompleted() {
-		if (!USE_STICKY_TOOLS && !actualSticky) {
-			// changes the selected button in the toolbar
-			((AppW) app).getToolbar().setMode(0, ModeSetter.TOOLBAR);
-
-			// change mode of the EV
-			app.getActiveEuclidianView().setMode(0, ModeSetter.TOOLBAR);
-		}
-	}
-
 	/**
 	 * set whether the actual tool should be kept after the element was
 	 * constructed or not
@@ -372,7 +398,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	 */
 	@Override
 	public void setActualSticky(boolean sticky) {
-		this.actualSticky = sticky;
+		// TODO decide if we ever want to do this
 	}
 
 	@Override
