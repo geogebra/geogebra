@@ -24,7 +24,6 @@ import org.apache.commons.math.complex.Complex;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootDerivAdapter;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 /**
