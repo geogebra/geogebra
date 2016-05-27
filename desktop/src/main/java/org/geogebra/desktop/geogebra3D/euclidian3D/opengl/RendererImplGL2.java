@@ -115,7 +115,7 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 
 	public void setMatrixView() {
 		jogl.getGL2().glPushMatrix();
-		view3D.getToScreenMatrix().get(tmpDouble16);
+		renderer.getToScreenMatrix().get(tmpDouble16);
 		jogl.getGL2().glLoadMatrixd(tmpDouble16, 0);
 	}
 
@@ -151,7 +151,7 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	public void pushSceneMatrix() {
 		// set the scene matrix
 		jogl.getGL2().glPushMatrix();
-		view3D.getToScreenMatrix().get(tmpDouble16);
+		renderer.getToScreenMatrix().get(tmpDouble16);
 		jogl.getGL2().glLoadMatrixd(tmpDouble16, 0);
 	}
 

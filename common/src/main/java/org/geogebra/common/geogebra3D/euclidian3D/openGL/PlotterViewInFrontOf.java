@@ -24,6 +24,7 @@ public class PlotterViewInFrontOf {
 	public PlotterViewInFrontOf(Manager manager) {
 
 		this.manager = manager;
+		manager.setScalerIdentity();
 
 		index = new int[1];
 
@@ -44,6 +45,7 @@ public class PlotterViewInFrontOf {
 		index[0] = brush.end();
 
 		brush.setArrowType(PlotterBrush.ARROW_TYPE_NONE);
+		manager.setScalerView();
 	}
 
 	// ////////////////////////////////

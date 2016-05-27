@@ -96,7 +96,7 @@ public abstract class RendererGL2 extends RendererD implements
 	@Override
 	protected void setMatrixView() {
 		jogl.getGL2().glPushMatrix();
-		view3D.getToScreenMatrix().get(tmpDouble16);
+		getToScreenMatrix().get(tmpDouble16);
 		jogl.getGL2().glLoadMatrixd(tmpDouble16, 0);
 	}
 
@@ -198,7 +198,7 @@ public abstract class RendererGL2 extends RendererD implements
 	protected void pushSceneMatrix() {
 		// set the scene matrix
 		jogl.getGL2().glPushMatrix();
-		view3D.getToScreenMatrix().get(tmpDouble16);
+		getToScreenMatrix().get(tmpDouble16);
 		jogl.getGL2().glLoadMatrixd(tmpDouble16, 0);
 	}
 

@@ -594,7 +594,7 @@ public class RendererW extends Renderer implements RendererShadersInterface,
 
 	@Override
 	protected void setMatrixView() {
-		tmpMatrix1.setMul(projectionMatrix, view3D.getToScreenMatrix());
+		tmpMatrix1.setMul(projectionMatrix, getToScreenMatrix());
 		tmpMatrix1.getForGL(tmpFloat16);
 		glContext.uniformMatrix4fv(matrixLocation, false, tmpFloat16);
 	}
@@ -658,7 +658,7 @@ public class RendererW extends Renderer implements RendererShadersInterface,
 	@Override
 	public void initMatrix() {
 		tmpMatrix1.setMul(projectionMatrix,
-		        tmpMatrix2.setMul(view3D.getToScreenMatrix(), getMatrix()));
+				tmpMatrix2.setMul(getToScreenMatrix(), getMatrix()));
 		tmpMatrix1.getForGL(tmpFloat16);
 		glContext.uniformMatrix4fv(matrixLocation, false, tmpFloat16);
 	}

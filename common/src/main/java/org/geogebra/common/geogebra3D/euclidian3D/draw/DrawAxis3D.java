@@ -229,7 +229,8 @@ public class DrawAxis3D extends DrawLine3D {
 		GeoAxisND axis = (GeoAxisND) getGeoElement();
 
 		// gets the direction vector of the axis as it is drawn on screen
-		Coords v = getView3D().getToScreenMatrix().mul(axis.getDirectionInD3());
+		Coords v = getView3D().getToScreenMatrixForGL().mul(
+				axis.getDirectionInD3());
 		v.set(3, 0); // set z-coord to 0
 
 

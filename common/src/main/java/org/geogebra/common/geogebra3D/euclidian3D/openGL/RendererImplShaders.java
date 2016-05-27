@@ -546,12 +546,12 @@ public abstract class RendererImplShaders implements RendererImpl {
 	public void setMatrixView() {
 
 		if (renderer.isExportingImageEquirectangular()) {
-			tmpMatrix2.set(view3D.getToScreenMatrix());
+			tmpMatrix2.set(renderer.getToScreenMatrix());
 			tmpMatrix2.set(3, 4,
 					tmpMatrix2.get(3, 4) + renderer.getEyeToScreenDistance());
 			tmpMatrix1.setMul(projectionMatrix, tmpMatrix2);
 		} else {
-			tmpMatrix1.setMul(projectionMatrix, view3D.getToScreenMatrix());
+			tmpMatrix1.setMul(projectionMatrix, renderer.getToScreenMatrix());
 		}
 
 		tmpMatrix1.getForGL(tmpFloat16);
@@ -576,12 +576,13 @@ public abstract class RendererImplShaders implements RendererImpl {
 	public void initMatrix() {
 
 		if (renderer.isExportingImageEquirectangular()) {
-			tmpMatrix1.set(view3D.getToScreenMatrix());
+			tmpMatrix1.set(renderer.getToScreenMatrix());
 			tmpMatrix1.set(3, 4,
 					tmpMatrix1.get(3, 4) + renderer.getEyeToScreenDistance());
 			tmpMatrix2.setMul(tmpMatrix1, renderer.getMatrix());
 		} else {
-			tmpMatrix2.setMul(view3D.getToScreenMatrix(), renderer.getMatrix());
+			tmpMatrix2.setMul(renderer.getToScreenMatrix(),
+					renderer.getMatrix());
 		}
 
 		tmpMatrix1.setMul(projectionMatrix, tmpMatrix2);

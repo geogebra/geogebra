@@ -231,7 +231,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private TreeMap<GeoElement, Drawable3D> drawable3DMap = new TreeMap<GeoElement, Drawable3D>();
 	// matrix for changing coordinate system
 	private CoordMatrix4x4 m = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 mWithScale = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 mInv = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 mInvWithUnscale = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 mInvTranspose = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 undoRotationMatrix = CoordMatrix4x4.Identity();
 	private double a = ANGLE_ROT_OZ;
@@ -285,14 +287,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 undoScaleMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 translationMatrix = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 translationMatrixWithoutScale = CoordMatrix4x4
+			.Identity();
 	private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix rotationMatrix;
 	private Coords viewDirectionPersp = new Coords(4);
 	private Coords tmpCoordsLength3 = new Coords(3);
 	private int intersectionThickness;
 	private GeoPointND intersectionPoint;
-	private CoordMatrix4x4 tmpMatrix4x4 = new CoordMatrix4x4();
-	private CoordMatrix4x4 tmpMatrix4x4_2 = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 tmpMatrix4x4 = CoordMatrix4x4.Identity();
 	private boolean defaultCursorWillBeHitCursor = false;
 	private double[] parameters = new double[2];
 	private boolean viewChangedByZoom = true;
@@ -748,7 +751,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *            vector
 	 */
 	final public void toSceneCoords3D(Coords vInOut) {
-		changeCoords(mInv, vInOut);
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			changeCoords(mInvWithUnscale, vInOut);
+		} else {
+			changeCoords(mInv, vInOut);
+		}
 	}
 
 	/**
@@ -757,7 +764,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param vInOut vector
 	 */
 	final public void toScreenCoords3D(Coords vInOut) {
-		changeCoords(m, vInOut);
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			changeCoords(mWithScale, vInOut);
+		} else {
+			changeCoords(m, vInOut);
+		}
 	}
 
 	/**
@@ -766,8 +777,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @return the matrix : screen coords -> scene coords.
 	 */
 	final public CoordMatrix4x4 getToSceneMatrix() {
-
-		return mInv;
+		return mInvWithUnscale;
 	}
 
 	final public CoordMatrix4x4 getToSceneMatrixTranspose() {
@@ -781,6 +791,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @return the matrix : scene coords -> screen coords.
 	 */
 	final public CoordMatrix4x4 getToScreenMatrix() {
+
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			return mWithScale;
+		}
+		return m;
+
+	}
+
+	final public CoordMatrix4x4 getToScreenMatrixForGL() {
 
 		return m;
 	}
@@ -842,6 +861,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	protected void updateTranslationMatrix() {
 		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			translationMatrixWithoutScale.set(1, 4, getXZero());
+			translationMatrixWithoutScale.set(2, 4, getYZero());
+			translationMatrixWithoutScale.set(3, 4, getZZero());
+
 			translationMatrix.set(1, 4, getXZero() * getXscale());
 			translationMatrix.set(2, 4, getYZero() * getYscale());
 			translationMatrix.set(3, 4, getZZero() * getZscale());
@@ -865,11 +888,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		undoScaleMatrix.set(2, 2, 1 / getYscale());
 		undoScaleMatrix.set(3, 3, 1 / getZscale());
 
-		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			rotationAndScaleMatrix = rotationMatrix;
-		}else{
-			rotationAndScaleMatrix = rotationMatrix.mul(scaleMatrix);
-		}
+		rotationAndScaleMatrix = rotationMatrix.mul(scaleMatrix);
 	}
 
 	/**
@@ -881,7 +900,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	protected void setGlobalMatrices() {
 
-		m.set(rotationAndScaleMatrix.mul(translationMatrix));
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			m.set(rotationMatrix.mul(translationMatrix));
+			mWithScale.set(rotationAndScaleMatrix
+					.mul(translationMatrixWithoutScale));
+		} else {
+			m.set(rotationAndScaleMatrix.mul(translationMatrix));
+		}
 
 		/*
 		 * //TO TEST PROJECTION m.set(CoordMatrix.Identity(4)); scale = 1;
@@ -889,6 +914,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 			mInv.set(undoTranslationMatrix.mul(undoRotationMatrix));
+			// undoTranslationMatrix.mul(undoRotationMatrix, mInv);
+			mInvWithUnscale.set(undoTranslationMatrix.mul(undoScaleMatrix
+					.mul(undoRotationMatrix)));
 		}else{
 			mInv.set(undoTranslationMatrix.mul(undoScaleMatrix
 					.mul(undoRotationMatrix)));
@@ -2390,6 +2418,8 @@ GRectangle selectionRectangle) {
 
 	}
 
+	private CoordMatrix4x4 cursorMatrix = new CoordMatrix4x4();
+
 	/**
 	 * update cursor3D matrix
 	 */
@@ -2401,124 +2431,171 @@ GRectangle selectionRectangle) {
 
 			switch (getCursor3DType()) {
 
-				case PREVIEW_POINT_REGION:
+			case PREVIEW_POINT_REGION:
+				// use region drawing directions for the cross
+				v = getCursor3D().getMoveNormalDirection();
+				if (v.dotproduct(getViewDirection()) > 0)
+					v = v.mul(-1);
+				CoordMatrix4x4.createOrthoToDirection(getCursor3D()
+						.getDrawingMatrix().getOrigin(), v, CoordMatrix4x4.VZ,
+						tmpCoords1, tmpCoords2, cursorMatrix);
+				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+					scaleXYZ(cursorMatrix.getOrigin());
+				} else {
 					// use region drawing directions for the arrow
-				t = unscale(1);
-					v = getCursor3D().getMoveNormalDirection();
+					t = 1 / getScale();
+					cursorMatrix.mulAllButOrigin(t);
+				}
+
+				break;
+			case PREVIEW_POINT_PATH:
+				// use path drawing directions for the arrow
+				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+					v = ((GeoElement) getCursor3D().getPath())
+							.getMainDirection().normalized();
+					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
+							.getDrawingMatrix().getOrigin(), v,
+							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
+							cursorMatrix);
+					scaleXYZ(cursorMatrix.getOrigin());
+				} else {
+					t = 1 / getScale();
+					v = ((GeoElement) getCursor3D().getPath())
+							.getMainDirection().normalized();
 					if (v.dotproduct(getViewDirection()) > 0)
 						v = v.mul(-1);
 
 					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-									.getDrawingMatrix().getOrigin(), v, CoordMatrix4x4.VZ,
-							tmpCoords1, tmpCoords2, tmpMatrix4x4);
-					tmpMatrix4x4.mulAllButOrigin(t);
-					getCursor3D().setDrawingMatrix(tmpMatrix4x4);
-
-					break;
-				case PREVIEW_POINT_PATH:
-					// use path drawing directions for the arrow
-				t = unscale(1);
-					v = ((GeoElement) getCursor3D().getPath()).getMainDirection()
-							.normalized();
-					if (v.dotproduct(getViewDirection()) > 0)
-						v = v.mul(-1);
-
-					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-									.getDrawingMatrix().getOrigin(), v, CoordMatrix4x4.VZ,
-							tmpCoords1, tmpCoords2, tmpMatrix4x4);
-					tmpMatrix4x4.mulAllButOrigin(t);
-					getCursor3D().setDrawingMatrix(tmpMatrix4x4);
-
-					break;
+							.getDrawingMatrix().getOrigin(), v,
+							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
+							cursorMatrix);
+					cursorMatrix.mulAllButOrigin(t);
+				}
+				break;
 
 			}
-		} else
+		} else {
 			switch (getCursor3DType()) {
 
-				case PREVIEW_POINT_FREE:
-					// use default directions for the cross
-				t = unscale(1);
-					getCursor3D().getDrawingMatrix().setVx(Coords.VX.mul(t));
-					getCursor3D().getDrawingMatrix().setVy(Coords.VY.mul(t));
-					getCursor3D().getDrawingMatrix().setVz(Coords.VZ.mul(t));
-					break;
-				case PREVIEW_POINT_REGION:
+			case PREVIEW_POINT_FREE:
+				// use default directions for the cross
+				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+					cursorMatrix.setDiagonal3(1);
+					cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
+							.getOrigin());
+					scaleXYZ(cursorMatrix.getOrigin());
+				} else {
+					cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
+							.getOrigin());
+					t = 1 / getScale();
+					cursorMatrix.setVx(Coords.VX.mul(t));
+					cursorMatrix.setVy(Coords.VY.mul(t));
+					cursorMatrix.setVz(Coords.VZ.mul(t));
+				}
+				break;
+			case PREVIEW_POINT_REGION:
+				// use region drawing directions for the cross
+				v = getCursor3D().getMoveNormalDirection();
+				if (v.dotproduct(getViewDirection()) > 0)
+					v = v.mul(-1);
+				CoordMatrix4x4.createOrthoToDirection(getCursor3D()
+						.getDrawingMatrix().getOrigin(), v, CoordMatrix4x4.VZ,
+						tmpCoords1, tmpCoords2, cursorMatrix);
+				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+					scaleXYZ(cursorMatrix.getOrigin());
+				} else {
+					// use region drawing directions for the arrow
+					t = 1 / getScale();
+					cursorMatrix.mulAllButOrigin(t);
+				}
+				break;
+			case PREVIEW_POINT_PATH:
+			case PREVIEW_POINT_REGION_AS_PATH:
+				// use path drawing directions for the cross
+				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+					cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
+							.getOrigin());
+					scaleXYZ(cursorMatrix.getOrigin());
+					GeoElement path = getCursorPath();
+					v = path.getMainDirection();
+					CoordMatrix4x4.completeOrtho(v, tmpCoords1, tmpCoords2,
+							cursorMatrix);
+					cursorMatrix.getVx().normalize();
+					t = 10 + path.getLineThickness();
+					cursorMatrix.getVy().mulInside3(t);
+					cursorMatrix.getVz().mulInside3(t);
+				} else {
+					cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
+							.getOrigin());
 
-					// use region drawing directions for the cross
-				t = unscale(1);
-
-					v = getCursor3D().getMoveNormalDirection();
-
-					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-									.getDrawingMatrix().getOrigin(), v, CoordMatrix4x4.VZ,
-							tmpCoords1, tmpCoords2, tmpMatrix4x4);
-					tmpMatrix4x4.mulAllButOrigin(t);
-					getCursor3D().setDrawingMatrix(tmpMatrix4x4);
-
-					break;
-				case PREVIEW_POINT_PATH:
-				case PREVIEW_POINT_REGION_AS_PATH:
-					// use path drawing directions for the cross
-				t = unscale(1);
+					t = 1 / getScale();
 
 					GeoElement path = getCursorPath();
 					v = path.getMainDirection();
 					CoordMatrix4x4.completeOrtho(v, tmpCoords1, tmpCoords2,
-							tmpMatrix4x4_2);
+							cursorMatrix);
 
-					getCursor3D().getDrawingMatrix().setVx(
-							tmpMatrix4x4_2.getVx().normalized().mul(t));
+					cursorMatrix
+							.setVx(cursorMatrix.getVx().normalized().mul(t));
 					t *= (10 + path.getLineThickness());
-					getCursor3D().getDrawingMatrix().setVy(
-							tmpMatrix4x4_2.getVy().mul(t));
-					getCursor3D().getDrawingMatrix().setVz(
-							tmpMatrix4x4_2.getVz().mul(t));
+					cursorMatrix.setVy(cursorMatrix.getVy().mul(t));
+					cursorMatrix.setVz(cursorMatrix.getVz().mul(t));
 
-					break;
-				case PREVIEW_POINT_DEPENDENT:
-					// use size of intersection
-					t = unscale(getIntersectionThickness());
-					getCursor3D().getDrawingMatrix().setVx(Coords.VX.mul(t));
-					getCursor3D().getDrawingMatrix().setVy(Coords.VY.mul(t));
-					getCursor3D().getDrawingMatrix().setVz(Coords.VZ.mul(t));
-					break;
-				case PREVIEW_POINT_ALREADY:
-					// use size of point
-				t = unscale(Math.max(1,
-						getCursor3D().getPointSize() / 6.0 + 0.5));
+				}
+				break;
+			case PREVIEW_POINT_DEPENDENT:
+				// use size of intersection
+				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
+						.getOrigin());
+				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+					scaleXYZ(cursorMatrix.getOrigin());
+				}
+				t = unscale(getIntersectionThickness());
+				cursorMatrix.getVx().setMul(Coords.VX, t);
+				cursorMatrix.getVy().setMul(Coords.VY, t);
+				cursorMatrix.getVz().setMul(Coords.VZ, t);
+				break;
+			case PREVIEW_POINT_ALREADY:
 
-					if (getCursor3D().hasPath()) {
-						v = ((GeoElement) getCursor3D().getPath())
-								.getMainDirection();
+				if (getCursor3D().hasPath()) {
+					v = ((GeoElement) getCursor3D().getPath())
+							.getMainDirection();
 
-						CoordMatrix4x4.completeOrtho(v, tmpCoords1, tmpCoords2,
-								tmpMatrix4x4);
+					CoordMatrix4x4.completeOrtho(v, tmpCoords1, tmpCoords2,
+							tmpMatrix4x4);
 
-						tmpMatrix4x4_2.setVx(tmpMatrix4x4.getVy());
-						tmpMatrix4x4_2.setVy(tmpMatrix4x4.getVz());
-						tmpMatrix4x4_2.setVz(tmpMatrix4x4.getVx());
-						tmpMatrix4x4_2.setOrigin(tmpMatrix4x4.getOrigin());
+					cursorMatrix.setVx(tmpMatrix4x4.getVy());
+					cursorMatrix.setVy(tmpMatrix4x4.getVz());
+					cursorMatrix.setVz(tmpMatrix4x4.getVx());
+					cursorMatrix.setOrigin(tmpMatrix4x4.getOrigin());
 
-					} else if (getCursor3D().hasRegion()) {
+				} else if (getCursor3D().hasRegion()) {
 
-						v = getCursor3D().getMoveNormalDirection();
+					v = getCursor3D().getMoveNormalDirection();
 
-						CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-										.getCoordsInD3(), v, CoordMatrix4x4.VZ, tmpCoords1,
-								tmpCoords2, tmpMatrix4x4_2);
-					} else {
-					CoordMatrix4x4.Identity(tmpMatrix4x4_2);
+					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
+							.getCoordsInD3(), v, CoordMatrix4x4.VZ, tmpCoords1,
+							tmpCoords2, cursorMatrix);
+				} else {
+					CoordMatrix4x4.Identity(cursorMatrix);
 				}
 
-				getCursor3D().getDrawingMatrix().setVx(
-						tmpMatrix4x4_2.getVx().normalized().mul(t));
-				getCursor3D().getDrawingMatrix().setVy(
-						tmpMatrix4x4_2.getVy().mul(t));
-					getCursor3D().getDrawingMatrix().setVz(
-							tmpMatrix4x4_2.getVz().mul(t));
-					break;
-			}
+				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
+						.getOrigin());
+				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+					scaleXYZ(cursorMatrix.getOrigin());
+				}
 
+				cursorMatrix.getVx().normalize();
+				// use size of point
+				t = unscale(Math.max(1,
+						getCursor3D().getPointSize() / 6.0 + 0.5));
+				cursorMatrix.getVx().mulInside3(t);
+				cursorMatrix.getVy().mulInside3(t);
+				cursorMatrix.getVz().mulInside3(t);
+				break;
+			}
+		}
 		// Application.debug("getCursor3DType()="+getCursor3DType());
 
 	}
@@ -2687,7 +2764,7 @@ GRectangle selectionRectangle) {
 			} else if (!getEuclidianController().mouseIsOverLabel()
 					&& ((EuclidianController3D) getEuclidianController())
 					.cursor3DVisibleForCurrentMode(getCursor3DType())) {
-				renderer1.setMatrix(getCursor3D().getDrawingMatrix());
+				renderer1.setMatrix(cursorMatrix);
 
 				switch (cursor) {
 					case CURSOR_DEFAULT:
@@ -4443,9 +4520,7 @@ GRectangle selectionRectangle) {
 	}
 
 	public void scaleXYZ(Coords coords) {
-		coords.setX(coords.getX() * getXscale());
-		coords.setY(coords.getY() * getYscale());
-		coords.setZ(coords.getZ() * getZscale());
+		coords.mulInside(getXscale(), getYscale(), getZscale());
 	}
 
 	/**

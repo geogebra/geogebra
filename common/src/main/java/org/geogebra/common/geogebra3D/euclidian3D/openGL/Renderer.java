@@ -2300,4 +2300,8 @@ public abstract class Renderer {
 		return view3D;
 	}
 
+	public CoordMatrix4x4 getToScreenMatrix() {
+		return view3D.getToScreenMatrixForGL();
+	}
+
 }

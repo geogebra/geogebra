@@ -377,7 +377,7 @@ public class DrawLabel3D {
 			tmpCoords.setZ(origin.getZ() * view.getZscale());
 			tmpCoords.setW(1);
 
-			v.setMul(view.getToScreenMatrix(), tmpCoords);
+			v.setMul(view.getToScreenMatrixForGL(), tmpCoords);
 		} else {
 			v.setMul(view.getToScreenMatrix(), origin);
 		}

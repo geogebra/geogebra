@@ -909,7 +909,7 @@ public class RendererShaders extends RendererD implements
 	@Override
 	protected void setMatrixView() {
 
-		tmpMatrix1.setMul(projectionMatrix, view3D.getToScreenMatrix());
+		tmpMatrix1.setMul(projectionMatrix, getToScreenMatrix());
 		tmpMatrix1.getForGL(tmpFloat16);
 
 		jogl.getGL2ES2().glUniformMatrix4fv(matrixLocation, 1, false,
@@ -933,7 +933,7 @@ public class RendererShaders extends RendererD implements
 	public void initMatrix() {
 
 		tmpMatrix1.setMul(projectionMatrix,
-				tmpMatrix2.setMul(view3D.getToScreenMatrix(), getMatrix()));
+				tmpMatrix2.setMul(getToScreenMatrix(), getMatrix()));
 		tmpMatrix1.getForGL(tmpFloat16);
 
 		jogl.getGL2ES2().glUniformMatrix4fv(matrixLocation, 1, false,
