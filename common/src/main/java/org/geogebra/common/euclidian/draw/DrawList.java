@@ -737,7 +737,7 @@ public final class DrawList extends CanvasDrawable
 					+ rectDown.getHeight());
 
 			int visibleItems = ((viewOpt.getHeight() - (2 * MARGIN))
-					/ dimItem.getHeight());
+					/ dimItem.getHeight()) - 1;
 
 			if (visibleItems > maxItems) {
 				// can't display more than this
