@@ -945,8 +945,12 @@ public final class DrawList extends CanvasDrawable
 			}
 		}
 
+		private void cancelDrag() {
+			dragged = null;
+			dragOffset = 0;
+		}
 		public void moveSelectorVertical(boolean moveDown) {
-
+			cancelDrag();
 			moveSelectorBy(1, moveDown);
 		}
 
