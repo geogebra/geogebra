@@ -154,6 +154,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	
 	private boolean nSolveCmdNeeded = false;
 
+	private ArrayList<String> consts;
+
 	/**
 	 * Creates new CAS cell
 	 * 
@@ -177,6 +179,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		twinGeo = null;
 		// setGeoText(commentText);
 		substList = new ArrayList<Vector<String>>();
+		consts = new ArrayList<String>();
 	}
 
 	/**
@@ -408,6 +411,14 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 */
 	public boolean getNSolveCmdNeeded() {
 		return this.nSolveCmdNeeded;
+	}
+
+	public ArrayList<String> getConsts() {
+		return consts;
+	}
+
+	public void setConsts(ArrayList<String> consts) {
+		this.consts = consts;
 	}
 
 	/**
@@ -1449,6 +1460,22 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			}
 			outputVE = parsed == null ? null : (ValidExpression) parsed
 					.traverse(Traversing.GgbVectRemover.getInstance());
+			// needed for GGB-810
+			// replace geoDummys with constants
+			if (arbconst != null && assignmentVar != null) {
+				ArrayList<GeoNumeric> constList = arbconst.getConstList();
+				if (!constList.isEmpty()) {
+					for (GeoNumeric geoNum : constList) {
+						geoNum.setSendValueToCas(true);
+						GeoDummyReplacer replacer = new GeoDummyReplacer();
+						replacer = GeoDummyReplacer.getReplacer(
+								geoNum.getLabelSimple(),
+								geoNum, false);
+						outputVE.traverse(replacer);
+					}
+				}
+			}
+
 			if(outputVE!=null){
 				CommandReplacer cr = CommandReplacer.getReplacer(kernel.getApplication());
 				outputVE.traverse(cr);
