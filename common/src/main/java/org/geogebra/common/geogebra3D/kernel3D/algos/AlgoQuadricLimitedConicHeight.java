@@ -167,7 +167,9 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 
 		// append XML for bottom once more, to avoid override of specific
 		// properties
-		bottom.getXML(false, sb);
+		if (bottom.isLabelSet()) {
+			bottom.getXML(false, sb);
+		}
 
 	}
 
