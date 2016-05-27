@@ -44,8 +44,12 @@ public class EuclidianControllerD extends EuclidianController
 
 	// boolean polygonRigid = false;
 	private int moveCounter = 0;
+
 	/***********************************************
 	 * Creates new EuclidianController
+	 * 
+	 * @param kernel
+	 *            kernel
 	 **********************************************/
 	public EuclidianControllerD(Kernel kernel) {
 		super(kernel.getApplication());
@@ -97,6 +101,7 @@ public class EuclidianControllerD extends EuclidianController
 			this.resetModeAfterFreehand();
 		}
 		wrapMouseReleased(event);
+		this.resetModeAfterFreehand();
 		event.release();
 	}
 
