@@ -732,14 +732,22 @@ public final class DrawList extends CanvasDrawable
 					+ rectDown.getHeight());
 
 			int visibleItems = ((viewOpt.getHeight() - (2 * MARGIN))
-					/ dimItem.getHeight()) - 1;
+					/ dimItem.getHeight());
 
 			if (visibleItems < maxItems - 1) {
-				visibleItems = (viewOpt.getHeight() - (2 * MARGIN + arrowsHeight))
-						/ dimItem.getHeight();
+				// visibleItems = (viewOpt.getHeight() - (2 * MARGIN +
+				// arrowsHeight))
+				// / dimItem.getHeight();
 
+				// The two additional arrows take an item by height.
+				visibleItems--;
 			}
-			endIdx = Math.min(startIdx + visibleItems, maxItems);
+			if (startIdx + visibleItems < maxItems) {
+				endIdx = startIdx + visibleItems;
+			} else {
+				startIdx = maxItems - visibleItems;
+				endIdx = maxItems;
+			}
 			rowCount = getVisibleItemCount();
 			scrollNeeded = getVisibleItemCount() != maxItems;
 			if (!scrollNeeded) {
