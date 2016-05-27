@@ -3,6 +3,7 @@ package org.geogebra.web.geogebra3D.web.euclidian3D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
@@ -11,7 +12,6 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EnvironmentStyleW;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
@@ -20,7 +20,6 @@ import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 
-import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureChangeHandler;
 import com.google.gwt.event.dom.client.GestureEndEvent;
@@ -49,6 +48,10 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Event;
 
+/**
+ * 3D euclidian controller
+ *
+ */
 public class EuclidianController3DW extends EuclidianController3D implements
         MouseDownHandler, MouseUpHandler, MouseMoveHandler, MouseOutHandler,
         MouseOverHandler, MouseWheelHandler, TouchStartHandler,
@@ -81,13 +84,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 
-
-
-	public boolean isOffsetsUpToDate() {
-		return mtg.isOffsetsUpToDate();
-	}
-
-
 	private MouseTouchGestureControllerW mtg;
 
 	@Override
@@ -97,6 +93,12 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 
+	/**
+	 * Creates new controller
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public EuclidianController3DW(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
@@ -145,17 +147,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		mtg.onTouchMove(event);
 	}
 
-	public void twoTouchMove(Touch touch, Touch touch2) {
-		mtg.twoTouchMove(touch, touch2);
-
-	}
-
-
-	private void onTouchMoveNow(PointerEvent event, long time,
-	        boolean startCapture) {
-		mtg.onTouchMoveNow(event, time, startCapture);
-	}
-
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		mtg.onTouchEnd(event);
@@ -188,14 +179,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		mtg.onPointerEventStart(event);
 	}
 
-	public void preventTouchIfNeeded(TouchStartEvent event) {
-		mtg.preventTouchIfNeeded(event);
-	}
-
-	public void twoTouchStart(Touch touch, Touch touch2) {
-		mtg.twoTouchStart(touch, touch2);
-	}
-
 
 	@Override
 	public void onMouseWheel(MouseWheelEvent event) {
@@ -217,11 +200,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		mtg.onMouseMove(event);
-	}
-
-	public void onMouseMoveNow(PointerEvent event, long time,
-	        boolean startCapture) {
-		mtg.onMouseMoveNow(event, time, startCapture);
 	}
 
 	@Override
@@ -273,15 +251,19 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 
 	/**
-	 * coordinates of the center of the multitouch-event
+	 * x-coordinates of the center of the multitouch-event
 	 */
-	protected int oldCenterX, oldCenterY;
+	protected int oldCenterX3D;
+	/**
+	 * y-coordinates of the center of the multitouch-event
+	 */
+	protected int oldCenterY3D;
 
 	@Override
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
 
-		oldCenterX = (int) (x1 + x2) / 2;
-		oldCenterY = (int) (y1 + y2) / 2;
+		oldCenterX3D = (int) (x1 + x2) / 2;
+		oldCenterY3D = (int) (y1 + y2) / 2;
 
 		twoTouchStartCommon(x1, y1, x2, y2);
 
@@ -306,30 +288,30 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		}
 
 		// check center difference
-		double centerDiff = MyMath.length(oldCenterX - centerX, oldCenterY
+		double centerDiff = MyMath.length(oldCenterX3D - centerX, oldCenterY3D
 		        - centerY);
-		if (centerDiff <= MouseTouchGestureControllerW.MIN_MOVE) {
+		if (centerDiff <= MouseTouchGestureController.MIN_MOVE) {
 			centerDiff = 0;
 		}
 
 		// process highest difference
 		if (2 * centerDiff > zoomDiff) {
 			view.rememberOrigins();
-			view.setCoordSystemFromMouseMove(centerX - oldCenterX, centerY
-			        - oldCenterY, EuclidianController.MOVE_ROTATE_VIEW);
+			view.setCoordSystemFromMouseMove(centerX - oldCenterX3D, centerY
+					- oldCenterY3D, EuclidianController.MOVE_ROTATE_VIEW);
 			viewRotationOccured = true;
 			view.repaintView();
 
 			// update values
-			oldCenterX = centerX;
-			oldCenterY = centerY;
+			oldCenterX3D = centerX;
+			oldCenterY3D = centerY;
 			this.oldDistance = newZoomDistance;
 		} else if (zoomDiff > 0) {
 			onPinch(centerX, centerY, newZoomDistance / this.oldDistance);
 
 			// update values
-			oldCenterX = centerX;
-			oldCenterY = centerY;
+			oldCenterX3D = centerX;
+			oldCenterY3D = centerY;
 			this.oldDistance = newZoomDistance;
 		}
 
@@ -339,23 +321,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	// /////////////////////////////////////////////////////
 	// specific methods for 3D controller
 	// /////////////////////////////////////////////////////
-
-	/**
-	 * @param mx
-	 * @param my
-	 * @param mz
-	 * @param ox
-	 * @param oy
-	 * @param oz
-	 * @param ow
-	 * @param name
-	 */
-	public void onHandValues(int mx, int my, int mz, int ox, int oy, int oz,
-	        int ow, String name) {
-
-		Log.debug(mx + "," + my + "," + mz + " -- " + name);
-
-	}
 
 
 	@Override

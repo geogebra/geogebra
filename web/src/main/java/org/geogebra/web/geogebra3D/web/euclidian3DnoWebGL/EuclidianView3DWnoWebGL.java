@@ -62,8 +62,8 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	}
 
 	@Override
-	public void setCurrentFile(Object f) {
-		HashMap<String, String> file = (HashMap<String, String>) f;
+	public void setCurrentFile(HashMap<String, String> f) {
+		HashMap<String, String> file = f;
 		if (file != null && file.get("geogebra_thumbnail.png") != null) {
 			ImageElement img = Document.get().createImageElement();
 			img.setSrc(file.get("geogebra_thumbnail.png"));
@@ -73,6 +73,9 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 		repaint();
 	}
 
+	/**
+	 * Update the image size
+	 */
 	public void onResize() {
 		g2p.setCoordinateSpaceSize(this.getWidth(), this.getHeight());
 		g2p.getCanvas().getElement().getParentElement().getStyle()

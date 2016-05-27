@@ -167,7 +167,8 @@ public class AppWapplication3D extends AppWapplication {
 	public void setCurrentFile(Object file) {
 		super.setCurrentFile(file);
 		if (this.isEuclidianView3Dinited()) {
-			((EuclidianView3DW) getEuclidianView3D()).setCurrentFile(file);
+			((EuclidianView3DW) getEuclidianView3D())
+					.setCurrentFile(getCurrentFile());
 		}
 	}
 

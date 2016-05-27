@@ -86,13 +86,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.moveIfWaiting();
 	}
 
-	/**
-	 * @return whether offsets were updated
-	 */
-	public boolean isOffsetsUpToDate() {
-		return mtg.isOffsetsUpToDate();
-	}
-
 	private MouseTouchGestureControllerW mtg;
 
 	@Override
@@ -221,21 +214,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		mtg.onMouseMove(event);
-	}
-
-	/**
-	 * Dispatch mouse move without timer
-	 * 
-	 * @param event
-	 *            event
-	 * @param time
-	 *            current time in milliseconds
-	 * @param startCapture
-	 *            whether to start capturing events in view
-	 */
-	public void onMouseMoveNow(PointerEvent event, long time,
-	        boolean startCapture) {
-		mtg.onMouseMoveNow(event, time, startCapture);
 	}
 
 	@Override

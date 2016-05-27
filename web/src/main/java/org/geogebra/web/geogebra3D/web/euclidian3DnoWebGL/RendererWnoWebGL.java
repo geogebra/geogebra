@@ -211,7 +211,7 @@ public class RendererWnoWebGL extends RendererW {
 	}
 
 	@Override
-	public void draw(Type type, int length) {
+	public void draw(Type drawType, int length) {
 		// no webGL context here...
 	}
 

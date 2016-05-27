@@ -2,7 +2,6 @@ package org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
-import org.geogebra.web.html5.event.PointerEvent;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -42,12 +41,6 @@ public class EuclidianController3DWnoWebGL extends EuclidianController3DW {
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
-		// nothing to do here
-	}
-
-	@Override
-	public void onMouseMoveNow(PointerEvent event, long time,
-	        boolean startCapture) {
 		// nothing to do here
 	}
 
