@@ -10,12 +10,12 @@ import java.util.Map;
 import org.geogebra.common.kernel.locusequ.arith.EquationExpression;
 
 /**
- * @author sergio
- * Translates an abstract tree to a proper representation for
- * the CAS.
+ * @author Sergio Arbeo
  * 
- * Probably, letting the translator both translate and eliminate
- * violates the single responsability principle.
+ *         Translates an abstract tree to a proper representation for the CAS.
+ * 
+ *         Probably, letting the translator both translate and eliminate
+ *         violates the single responsibility principle.
  */
 public abstract class EquationTranslator<T> {
 
