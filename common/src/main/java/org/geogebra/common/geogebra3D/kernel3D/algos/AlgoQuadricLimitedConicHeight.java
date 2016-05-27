@@ -27,6 +27,9 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	protected GeoConic3D top;
 	private GeoQuadric3DLimited quadric;
 
+	private AlgoQuadricSide algoSide;
+	private AlgoQuadricEndTop algoTop;
+
 	/**
 	 * 
 	 * @param c
@@ -59,11 +62,10 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		quadric.setParentAlgorithm(this);
 		cons.addToAlgorithmList(this);
 
-		compute();
+		setQuadric();
 
-		AlgoQuadricSide algo = new AlgoQuadricSide(cons, quadric, true, bottom);
-		cons.removeFromConstructionList(algo);
-		side = (GeoQuadric3DPart) algo.getQuadric();
+		algoSide = new AlgoQuadricSide(cons, quadric, true, bottom);
+		side = (GeoQuadric3DPart) algoSide.getQuadric();
 		quadric.setSide(side);
 
 		createTop();
@@ -89,10 +91,8 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	 * create the top side
 	 */
 	final protected void createTop() {
-		AlgoQuadricEndTop algo2 = new AlgoQuadricEndTop(cons, getQuadric());
-		algo2.setIsHelperAlgo();
-		cons.removeFromConstructionList(algo2);
-		top = algo2.getSection();
+		algoTop = new AlgoQuadricEndTop(cons, getQuadric());
+		top = algoTop.getSection();
 
 	}
 
@@ -104,8 +104,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 				getQuadric().getSide() });
 	}
 
-	@Override
-	public void compute() {
+	private void setQuadric() {
 
 		Coords o = bottom.getMidpoint3D();
 
@@ -122,6 +121,16 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		quadric.setDefined();
 
 		setQuadric(o, o2, d, bottom.getEigenvec3D(0), r, r2, 0, altitude);
+	}
+
+	@Override
+	public void compute() {
+
+		setQuadric();
+
+		// must compute side first for midpoint
+		algoSide.compute();
+		algoTop.compute();
 
 		quadric.calcVolume();
 
@@ -134,23 +143,23 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 		return quadric;
 	}
 
-	@Override
-	public void update() {
-
-		if (stopUpdateCascade) {
-			return;
-		}
-
-		compute();
-		quadric.update();
-
-		if (!getQuadric().isLabelSet()) { // geo is in sequence/list : update
-											// top and side
-			getQuadric().getTop().getParentAlgorithm().update();
-			getQuadric().getSide().getParentAlgorithm().update();
-		}
-
-	}
+	// @Override
+	// public void update() {
+	//
+	// if (stopUpdateCascade) {
+	// return;
+	// }
+	//
+	// compute();
+	// quadric.update();
+	//
+	// if (!getQuadric().isLabelSet()) { // geo is in sequence/list : update
+	// // top and side
+	// getQuadric().getTop().getParentAlgorithm().update();
+	// getQuadric().getSide().getParentAlgorithm().update();
+	// }
+	//
+	// }
 
 	@Override
 	protected void getOutputXML(StringBuilder sb) {

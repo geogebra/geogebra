@@ -19,7 +19,8 @@ public class AlgoQuadricEndTop extends AlgoQuadricEnd {
 	}
 
 	public AlgoQuadricEndTop(Construction cons, GeoQuadric3DLimited quadric) {
-		super(cons, quadric);
+		super(cons, quadric, true);
+		setIsHelperAlgo();
 	}
 
 	@Override

@@ -40,15 +40,22 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 	 *            quadric
 	 */
 	public AlgoQuadricEnd(Construction cons, GeoQuadric3DLimited quadric) {
-		super(cons);
+		this(cons, quadric, false);
+	}
+
+	public AlgoQuadricEnd(Construction cons, GeoQuadric3DLimited quadric,
+			boolean helper) {
+		super(cons, !helper);
 
 		this.quadric = quadric;
 		section = new GeoConic3D(cons);
 		coordsys = new CoordSys(2);
 		section.setCoordSys(coordsys);
 		section.setIsEndOfQuadric(true);
-		setInputOutput(new GeoElement[] { quadric },
-				new GeoElement[] { section });
+		if (!helper) {
+			setInputOutput(new GeoElement[] { quadric },
+					new GeoElement[] { section });
+		}
 
 		compute();
 

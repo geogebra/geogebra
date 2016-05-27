@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimitedOrPart;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -29,7 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
  */
 public class AlgoQuadricEnds extends AlgoElement3D {
 
-	private GeoQuadricND quadric; // input
+	private GeoQuadric3DLimited quadric; // input
 	private GeoConic3D[] sections; // output
 	private CoordSys coordsys1, coordsys2;
 
@@ -65,9 +66,21 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	 *            quadric
 	 */
 	public AlgoQuadricEnds(Construction cons, GeoQuadricND quadric) {
-		super(cons);
+		this(cons, quadric, false);
+	}
 
-		this.quadric = quadric;
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param quadric
+	 *            quadric
+	 */
+	public AlgoQuadricEnds(Construction cons, GeoQuadricND quadric,
+			boolean helper) {
+		super(cons, !helper);
+
+		this.quadric = (GeoQuadric3DLimited) quadric;
 
 		sections = new GeoConic3D[2];
 
@@ -80,7 +93,10 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		sections[1].setCoordSys(coordsys2);
 		sections[1].setIsEndOfQuadric(true);
 
-		setInputOutput(new GeoElement[] { (GeoElement) quadric }, sections);
+		// if helper, will be updated by caller
+		if (!helper) {
+			setInputOutput(new GeoElement[] { quadric }, sections);
+		}
 
 		compute();
 
@@ -155,9 +171,8 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 
 		sections[1].setMatrix(cm);
 
-		// areas
-		// sections[0].calcArea();
-		// sections[1].calcArea();
+		// update quadric volume
+		quadric.calcVolume();
 
 	}
 

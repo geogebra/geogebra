@@ -34,6 +34,9 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	protected GeoConic3D top;
 	private GeoQuadric3DLimited quadric;
 
+	private AlgoQuadricSide algoSide;
+	private AlgoQuadricEnds algoEnds;
+
 	public AlgoQuadricLimitedPointPointRadius(Construction c, String[] labels,
 			GeoPointND origin, GeoPointND secondPoint, NumberValue r, int type) {
 		super(c);
@@ -56,14 +59,14 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		quadric.setParentAlgorithm(this);
 		cons.addToAlgorithmList(this);
 
-		compute();
+		setQuadric();
 
-		AlgoQuadricSide algo = new AlgoQuadricSide(cons, quadric, true, null);
-		cons.removeFromConstructionList(algo);
-		side = (GeoQuadric3DPart) algo.getQuadric();
+		algoSide = new AlgoQuadricSide(cons, quadric, true, null);
+		cons.removeFromConstructionList(algoSide);
+		side = (GeoQuadric3DPart) algoSide.getQuadric();
 		quadric.setSide(side);
 
-		createEnds();
+		algoEnds = createEnds();
 
 		quadric.setBottomTop(bottom, top);
 
@@ -82,17 +85,21 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	 */
 	abstract protected void setOutput();
 
-	abstract protected void createEnds();
+	abstract protected AlgoQuadricEnds createEnds();
 
-	@Override
-	public void compute() {
+	final private void computeHelpers() {
+		// side must be done before ends (for midpoint)
+		algoSide.compute();
+		algoEnds.compute();
+	}
 
+	private boolean setQuadric() {
 		// check end points
 		if (!((GeoElement) origin).isDefined() || origin.isInfinite()
 				|| !((GeoElement) secondPoint).isDefined()
 				|| secondPoint.isInfinite() || !radius.isDefined()) {
 			getQuadric().setUndefined();
-			return;
+			return false;
 		}
 
 		Coords o = origin.getInhomCoordsInD3();
@@ -101,7 +108,7 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 
 		if (d.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
 			getQuadric().setUndefined();
-			return;
+			return false;
 		}
 
 		double r = radius.getDouble();
@@ -112,6 +119,18 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		quadric.setDefined();
 
 		setQuadric(o, o2, d.mul(1 / altitude), r, 0, altitude);
+
+		return true;
+	}
+
+	@Override
+	public void compute() {
+
+		if (!setQuadric()) {
+			return;
+		}
+
+		computeHelpers();
 
 		quadric.calcVolume();
 	}
@@ -175,23 +194,23 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 		return ret;
 	}
 
-	@Override
-	public void update() {
-
-		if (stopUpdateCascade) {
-			return;
-		}
-
-		compute();
-		quadric.update();
-
-		if (!getQuadric().isLabelSet()) { // geo is in sequence/list : update
-											// bottom, top and side
-			getQuadric().getBottom().getParentAlgorithm().update();
-			getQuadric().getTop().getParentAlgorithm().update();
-			getQuadric().getSide().getParentAlgorithm().update();
-		}
-
-	}
+	// @Override
+	// public void update() {
+	//
+	// if (stopUpdateCascade) {
+	// return;
+	// }
+	//
+	// compute();
+	// quadric.update();
+	//
+	// if (!getQuadric().isLabelSet()) { // geo is in sequence/list : update
+	// // bottom, top and side
+	// getQuadric().getBottom().getParentAlgorithm().update();
+	// getQuadric().getTop().getParentAlgorithm().update();
+	// getQuadric().getSide().getParentAlgorithm().update();
+	// }
+	//
+	// }
 
 }
