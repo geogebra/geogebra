@@ -619,11 +619,16 @@ public final class DrawList extends CanvasDrawable
 
 			int tableWidth = getColCount() * dimItem.getWidth();
 			int tableHeight = rowCount * dimItem.getHeight();
-			if (isScrollNeeded()
-					&& (top + tableHeight + 2 * rectDown.getHeight()
-							+ dimItem.getHeight()
-					<= viewHeight - MARGIN)) {
+			if (isScrollNeeded())
+			// && (top + tableHeight + 2 * rectDown.getHeight()
+			// + dimItem.getHeight()
+			// <= viewHeight - MARGIN))
+			{
 				tableHeight += dimItem.getHeight();
+				if (tableHeight + rectDown.getHeight() >= viewHeight) {
+					tableHeight = (int) (viewHeight - top - MARGIN
+							- 2 * rectDown.getHeight());
+				}
 			}
 
 
@@ -881,7 +886,7 @@ public final class DrawList extends CanvasDrawable
 					itemHovered = null;
 				}
 			}
-			update();
+			viewOpt.repaintView();
 			updateOpenedComboBox();
 			// Log.error("repaint 4");
 
