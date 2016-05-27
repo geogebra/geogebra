@@ -51,6 +51,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Csilla Solyom-Gecse
  *
  */
+
 public class ProverBotanasMethod {
 
 	private static HashMap<List<Variable>, GeoElement> botanaVarsInv;
