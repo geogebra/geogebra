@@ -483,16 +483,16 @@ public class Socket {
 	 *             if no key in registry
 	 */
 	static public boolean queryRegistry(final App app) throws Input3DException {
-		int registeryQueryResult = 1; // inited to bad value (correct value = 0)
+		int registryQueryResult = 1; // inited to bad value (correct value = 0)
 		boolean upToDate = false;
 		String version = null;
 		try {
 			Runtime runtime = Runtime.getRuntime();
 			Process p = runtime.exec(QUERY_REGISTERY_KEY_FRONT_CAM);
 			p.waitFor();
-			registeryQueryResult = p.exitValue();
+			registryQueryResult = p.exitValue();
 			Log.debug(QUERY_REGISTERY_KEY_FRONT_CAM + " : "
-					+ registeryQueryResult);
+					+ registryQueryResult);
 			// get query result -- so we can check version
 			try {
 				BufferedReader reader = new BufferedReader(
@@ -529,17 +529,17 @@ public class Socket {
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 				throw new Input3DException(Input3DExceptionType.INSTALL,
-						"RealSense: No key for camera in registery");
+						"RealSense: No key for camera in registry");
 			}
 		} catch (Throwable e) {
 			throw new Input3DException(Input3DExceptionType.INSTALL,
-					"RealSense: No key for camera in registery");
+					"RealSense: No key for camera in registry");
 		}
 
 		// nothing went wrong but no version found
 		if (version == null || version.length() == 0) {
 			throw new Input3DException(Input3DExceptionType.INSTALL,
-					"RealSense: No key for camera in registery");
+					"RealSense: No key for camera in registry");
 		}
 
 		// version is not up to date
