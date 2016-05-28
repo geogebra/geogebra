@@ -167,4 +167,6 @@ public interface CASGenericInterface extends SettingListener {
 	 */
 	void clearResult();
 
+	boolean isLoaded();
+
 }

@@ -6,7 +6,6 @@ import java.util.Random;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
-import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.AsynchronousCommand;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.CASGenericInterface;
@@ -1077,27 +1076,13 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	/**
-	 * Test if Giac is up and running.
+	 * Test if Giac is up and running. Overridden in CASGiacW
 	 * 
 	 * @param kernel
 	 *            kernel
 	 * @return true if Giac is already loaded
 	 */
-	public static boolean isUp(Kernel kernel) {
-		Log.debug("Testing if Giac is up and running...");
-		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-		try {
-			String output = cas.getCurrentCAS().evaluateRaw("1");
-			Log.debug("Giac evaluates 1 to " + output);
-			if (!output.equals("1")) {
-				Log.debug("Giac is not yet available");
-				return false;
-			}
-		} catch (Throwable e) {
-			Log.error("Giac is unavailable");
-			return false;
-		}
-		Log.debug("Giac is up");
+	public boolean isLoaded() {
 		return true;
 	}
 

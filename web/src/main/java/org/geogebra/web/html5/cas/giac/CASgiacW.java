@@ -202,4 +202,9 @@ public class CASgiacW extends CASgiac {
 
 	}
 
+	@Override
+	public boolean isLoaded() {
+		return casLoaded;
+	}
+
 }

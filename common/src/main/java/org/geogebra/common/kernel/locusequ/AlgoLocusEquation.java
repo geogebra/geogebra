@@ -13,7 +13,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
-import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -168,7 +167,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	 */
 	@Override
 	public void compute() {
-		if (!CASgiac.isUp(kernel)) {
+		if (!kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
 			efficientInputFingerprint = null;
 			return;
 		}

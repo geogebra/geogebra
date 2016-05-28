@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
-import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
@@ -384,7 +383,7 @@ public class ProverBotanasMethod {
 		 *            the underlying prover
 		 */
 		public AlgebraicStatement(GeoElement statement, Prover prover) {
-			if (CASgiac.isUp(statement.kernel)) {
+			if (statement.kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
 				algebraicTranslation(statement, prover);
 			} else {
 				result = ProofResult.PROCESSING;
