@@ -13,6 +13,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -20,6 +21,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
+import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -39,7 +41,7 @@ import org.geogebra.common.util.debug.Log;
  * @author sergio
  * Works out the equation for a given locus.
  */
-public class AlgoLocusEquation extends AlgoElement {
+public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
     private GeoPoint movingPoint, locusPoint;
     public static final String CLASS_NAME = "AlgoLocusEqu";
@@ -166,6 +168,10 @@ public class AlgoLocusEquation extends AlgoElement {
 	 */
 	@Override
 	public void compute() {
+		if (!CASgiac.isUp(kernel)) {
+			efficientInputFingerprint = null;
+			return;
+		}
 		String efficientInputFingerprintPrev = efficientInputFingerprint;
 		setInputOutput();
 		if (!efficientInputFingerprintPrev.equals(efficientInputFingerprint)) {

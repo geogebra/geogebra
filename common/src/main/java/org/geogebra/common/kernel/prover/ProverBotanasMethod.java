@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
@@ -383,7 +384,11 @@ public class ProverBotanasMethod {
 		 *            the underlying prover
 		 */
 		public AlgebraicStatement(GeoElement statement, Prover prover) {
-			algebraicTranslation(statement, prover);
+			if (CASgiac.isUp(statement.kernel)) {
+				algebraicTranslation(statement, prover);
+			} else {
+				result = ProofResult.PROCESSING;
+			}
 		}
 
 		private void setHypotheses() {
@@ -885,20 +890,6 @@ public class ProverBotanasMethod {
 		/* If Singular is not available, let's try Giac (mainly on web) */
 		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
 			ProverSettings.transcext = false;
-			Log.debug("Testing local CAS connection");
-			GeoGebraCAS cas = (GeoGebraCAS) statement.getKernel()
-					.getGeoGebraCAS();
-			try {
-				String output = cas.getCurrentCAS().evaluateRaw("1");
-				Log.debug("Local CAS evaluates 1 to " + output);
-				if (!(output.equals("1"))) {
-					Log.debug("Switching to PROCESSING mode");
-					return ProofResult.PROCESSING;
-				}
-			} catch (Throwable e) {
-				Log.debug("Exception, switching to PROCESSING mode");
-				return ProofResult.PROCESSING;
-			}
 		}
 
 		/* The NDG conditions (automatically created): */

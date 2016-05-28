@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
+import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -30,7 +31,7 @@ import org.geogebra.common.util.debug.Log;
  * Based on Sergio's LocusEquation.
  * Works out the equation for a given envelope.
  */
-public class AlgoEnvelope extends AlgoElement {
+public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
     private GeoPoint movingPoint;
     private GeoElement path;
