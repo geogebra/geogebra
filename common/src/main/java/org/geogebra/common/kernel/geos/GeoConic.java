@@ -613,7 +613,9 @@ public class GeoConic extends GeoConicND implements
 		try {
 			return (Equation) kernel.getParser().parseGeoGebraExpression(
 					this.toValueString(StringTemplate.maxPrecision));
-		} catch (ParseException e) {
+		} catch (Exception e) {
+			// could be ParseException or Classcast Exception
+			// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.StringIndexOutOfBoundsException&tf=String.java&tc=java.lang.String&tm=startEndAndLength&nid&an&c&s=new_status_desc&ed=0
 			e.printStackTrace();
 		}
 		return null;
