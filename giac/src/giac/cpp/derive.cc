@@ -127,7 +127,7 @@ namespace giac {
     }
     if (s.sommet==at_prod){
       bool do_step=step_infolevel(contextptr)>1 && count_noncst(s.feuille,i)>1;
-      if (s.feuille.type==_VECT && s.feuille._VECTptr->size()==2 && s.feuille._VECTptr->back().is_symb_of_sommet(at_inv)){
+      if (s.feuille.type==_VECT && s.feuille._VECTptr->size()==2 && s.feuille._VECTptr->back().is_symb_of_sommet(at_inv) && !is_constant_wrt(s.feuille._VECTptr->back()._SYMBptr->feuille,i,contextptr)){
 	gen u=s.feuille._VECTptr->front(),v=s.feuille._VECTptr->back()._SYMBptr->feuille;
 	if (do_step)
 	  gprintf(gettext("Derivative of %gen/%gen, a quotient: (u/v)'=(u'*v-u*v')/v^2"),makevecteur(u,v),contextptr);

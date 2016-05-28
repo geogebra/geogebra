@@ -2213,9 +2213,17 @@ namespace giac {
 	e=trye;
     }
     if (!lop(e,at_exp).empty()){
+#ifdef NO_STDEXCEPT
       gen et=ratnormal(_texpand(e,contextptr));
-      if (lvar(et).size()<lvar(e).size())
+      if (!is_undef(et) && lvar(et).size()<lvar(e).size())
 	e=et;
+#else
+      try {
+	gen et=ratnormal(_texpand(e,contextptr));
+	if (lvar(et).size()<lvar(e).size())
+	  e=et;
+      } catch (std::runtime_error & err){}
+#endif
       e=_exp2pow(e,contextptr);
     }
     if (!lop(e,at_pow).empty())
