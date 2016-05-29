@@ -3915,7 +3915,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-310
 		case MOBILE_CIRCLE_POINT_RADIUS:
-			return prerelease;
+			return true;
 
 		// MOB-527
 		case MOBILE_LANDSCAPE_FULLSCREEN_INPUT:
@@ -4029,7 +4029,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-413
 		case MOBILE_ANGLE_FIXED_SIZE:
-			return prerelease;
+			return true;
 
 		// GGB-850
 		case GIAC_SELECTIVE_INIT:
