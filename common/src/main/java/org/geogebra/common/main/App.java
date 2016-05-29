@@ -3914,6 +3914,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		// MOB-310
+			// from 5.0.243.0
 		case MOBILE_CIRCLE_POINT_RADIUS:
 			return true;
 
@@ -4028,6 +4029,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		// MOB-413
+			// from 5.0.243.0
 		case MOBILE_ANGLE_FIXED_SIZE:
 			return true;
 
