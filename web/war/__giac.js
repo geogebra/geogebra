@@ -1908,15 +1908,10 @@ var __giac = [ {},
 { cat:"BinomialDist", cmd:"BinomialDist[10, p, 6, true]", result:"(1 - p)\u00B9\u2070 + 10p (1 - p)\u2079 + 45p\u00B2 (1 - p)\u2078 + 120p\u00B3 (1 - p)\u2077 + 210p\u2074 (1 - p)\u2076 + 252p\u2075 (1 - p)\u2075 + 210p\u2076 (1 - p)\u2074", notes:"GGB-841" },
 { cat:"BinomialDist", cmd:"BinomialDist[n, 0.2, 5, true]", result:"(4 / 5)^n + gamma(n + 1) / gamma(n) / 5 (4 / 5)^(n - 1) + gamma(n + 1) / 2 / gamma(n - 2 + 1) / 25 (4 / 5)^(n - 2) + gamma(n + 1) / 6 / gamma(n - 3 + 1) / 125 (4 / 5)^(n - 3) + gamma(n + 1) / 24 / gamma(n - 4 + 1) / 625 (4 / 5)^(n - 4) + gamma(n + 1) / 120 / gamma(n - 5 + 1) / 3125 (4 / 5)^(n - 5)", notes:"GGB-841" },
 { cat:"RandomBetween", cmd:"RandomBetween[undef1, undef2]", result:"undef1 + ?", notes:"odd but OK" },
-{ cat:"SolveODE", cmd:"SolveODE[sin(0.016*x)*y]", result:"y = c_1711 \u212F^(-125 cos(2x / 125) / 2)" },
-{ cat:"SolveODE", cmd:"SolveODE[sin(0.017*x)*y]", result:"y = c_1722 \u212F^(-1000 cos(17x / 1000) / 17)" },
-{ cat:"SolveODE", cmd:"SolveODE[y'=0.1*sin(0.017*x-1.03)*y]", result:"y = c_1735 \u212F^(-100 cos((17x - 1030) / 1000) / 17)" },
-{ cat:"SolveODE", cmd:"SolveODE[y' = 0.01sin(0.017x - 1.03) y,(0, 100)]", result:"y = 100\u212F^(-10 cos((17x - 1030) / 1000) / 17) / \u212F^(-10 cos(103 / 100) / 17)" },
-
-
-https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation
-
-
+{ cat:"SolveODE", cmd:"SolveODE[sin(0.016*x)*y]", result:"y = c_1711 \u212F^(-125 cos(2x / 125) / 2)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
+{ cat:"SolveODE", cmd:"SolveODE[sin(0.017*x)*y]", result:"y = c_1722 \u212F^(-1000 cos(17x / 1000) / 17)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
+{ cat:"SolveODE", cmd:"SolveODE[y'=0.1*sin(0.017*x-1.03)*y]", result:"y = c_1735 \u212F^(-100 cos((17x - 1030) / 1000) / 17)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
+{ cat:"SolveODE", cmd:"SolveODE[y' = 0.01sin(0.017x - 1.03) y,(0, 100)]", result:"y = 100\u212F^(-10 cos((17x - 1030) / 1000) / 17) / \u212F^(-10 cos(103 / 100) / 17)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 //{ cat: "Integral", cmd:"Integral[sqrt(sin(x))]", result:"?", notes:"" },
