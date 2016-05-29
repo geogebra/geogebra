@@ -424,7 +424,7 @@ public class DrawAxis {
 						view.axesLabels[1],
 						view.getFontLine().deriveFont(view.axesLabelsStyle[1]),
 						frc);
-				if(!view.axesLabels[0].contains("_")){
+				if (!view.axesLabels[1].contains("_")) {
 				layout.draw(g2, (int) (xCrossPix + 5),
 						(int) (5 + layout.getAscent()));
 				}else{
