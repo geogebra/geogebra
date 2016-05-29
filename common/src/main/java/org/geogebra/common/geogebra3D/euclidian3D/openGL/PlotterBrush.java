@@ -307,11 +307,22 @@ public class PlotterBrush implements PathPlotter {
 		case TEXTURE_AFFINE:
 			// float factor = (int) (TEXTURE_AFFINE_FACTOR*length*scale); //TODO
 			// integer for cycles
-			float factor = (TEXTURE_AFFINE_FACTOR * length * scale);
+			float factor;
+			if (manager.getView3D().getApplication()
+					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+				factor = TEXTURE_AFFINE_FACTOR * length;
+			} else {
+				factor = TEXTURE_AFFINE_FACTOR * length * scale;
+			}
 			manager.texture(factor * (pos - texturePosZero) + textureValZero, 0);
 			break;
 		case TEXTURE_LINEAR:
-			manager.texture(TEXTURE_AFFINE_FACTOR * scale * pos, 0);
+			if (manager.getView3D().getApplication()
+					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+				manager.texture(TEXTURE_AFFINE_FACTOR * pos, 0);
+			} else {
+				manager.texture(TEXTURE_AFFINE_FACTOR * scale * pos, 0);
+			}
 			break;
 
 		}
@@ -337,6 +348,8 @@ public class PlotterBrush implements PathPlotter {
 	// GEOMETRY DRAWING METHODS
 	// //////////////////////////////////
 
+	private float lengthInScene;
+
 	/**
 	 * segment curve
 	 * 
@@ -345,9 +358,21 @@ public class PlotterBrush implements PathPlotter {
 	 */
 	public void segment(Coords p1, Coords p2) {
 
-		length = (float) p1.distance(p2);
-		if (Kernel.isEqual(length, 0, Kernel.STANDARD_PRECISION))
+		if (manager.getView3D().getApplication()
+				.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			tmpCoords.setSub(p2, p1);
+			manager.scaleXYZ(tmpCoords);
+			tmpCoords.calcNorm();
+			length = (float) tmpCoords.getNorm();
+			lengthInScene = (float) p1.distance(p2);
+		} else {
+			length = (float) p1.distance(p2);
+			lengthInScene = length;
+		}
+
+		if (Kernel.isEqual(length, 0, Kernel.STANDARD_PRECISION)) {
 			return;
+		}
 
 		down(p1);
 
@@ -360,11 +385,19 @@ public class PlotterBrush implements PathPlotter {
 			moveTo(p2);
 			break;
 		case ARROW_TYPE_SIMPLE:
-			factor = (float) (DrawVector.getFactor(lineThickness) * LINE3D_THICKNESS / scale);
-			if (ARROW_LENGTH * factor > 0.9f * length){
-				factor = 0.9f * length / ARROW_LENGTH;
+			if (manager.getView3D().getApplication()
+					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+				factor = (float) (DrawVector.getFactor(lineThickness)
+						* LINE3D_THICKNESS * lengthInScene / length);
+			} else {
+				factor = (float) (DrawVector.getFactor(lineThickness)
+						* LINE3D_THICKNESS / scale);
 			}
-			arrowPos = ARROW_LENGTH / length * factor;
+
+			if (ARROW_LENGTH * factor > 0.9f * lengthInScene) {
+				factor = 0.9f * lengthInScene / ARROW_LENGTH;
+			}
+			arrowPos = ARROW_LENGTH / lengthInScene * factor;
 			tmpCoords3.setAdd(tmpCoords4.setMul(p1, arrowPos),
 					tmpCoords3.setMul(p2, 1 - arrowPos));
 
@@ -376,57 +409,63 @@ public class PlotterBrush implements PathPlotter {
 					tmpCoords4.setSub(p2, p1);
 					tmpCoords4.normalize();
 					float thicknessOld = this.thickness;
+					float ticksDistanceNormed = ticksDistance / lengthInScene;
 
-					float i = ticksOffset * length
-							- ((int) (ticksOffset * length / ticksDistance))
-							* ticksDistance;
+					float i = ticksOffset
+							- ((int) (ticksOffset / ticksDistanceNormed))
+							* ticksDistanceNormed;
 					float ticksDelta = thicknessOld;
 					if (manager.getView3D().getApplication()
 							.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-						ticksDelta /= scale;
+						ticksDelta *= lengthInScene / length;
 					}
 					float ticksThickness = 4 * thicknessOld;
-					if (i <= ticksDelta)
-						i += ticksDistance;
+					if (i * lengthInScene <= ticksDelta)
+						i += ticksDistanceNormed;
 
-					for (; i <= length * (1 - arrowPos); i += ticksDistance) {
+					for (; i <= 1 - arrowPos; i += ticksDistanceNormed) {
+						double x = i * lengthInScene;
 						tmpCoords.setAdd(p1,
-								tmpCoords.setMul(tmpCoords4, i - ticksDelta));
+								tmpCoords.setMul(tmpCoords4, x - ticksDelta));
 						tmpCoords2.setAdd(p1,
-								tmpCoords2.setMul(tmpCoords4, i + ticksDelta));
+								tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
 
-						drawTick(tmpCoords, tmpCoords2, i, ticksThickness, thicknessOld);
+						drawTick(tmpCoords, tmpCoords2, i,
+								ticksThickness, thicknessOld);
 					}
 					break;
 				case MAJOR_AND_MINOR:
 					tmpCoords4.setSub(p2, p1);
 					tmpCoords4.normalize();
 					thicknessOld = this.thickness;
+					ticksDistanceNormed = ticksDistance / lengthInScene;
 
-					i = ticksOffset * length
-							- ((int) (ticksOffset * length / ticksDistance))
-							* ticksDistance;
+					i = ticksOffset
+							- ((int) (ticksOffset / ticksDistanceNormed))
+							* ticksDistanceNormed;
 					ticksDelta = thicknessOld;
 					if (manager.getView3D().getApplication()
 							.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-						ticksDelta /= scale;
+						ticksDelta *= lengthInScene / length;
 					}
 					ticksThickness = 4 * thicknessOld;
 					float ticksMinorThickness = 2.5f * thicknessOld;
 					boolean minor = false;
-					if (i > ticksDistance / 2 + ticksDelta) {
+					if (i > ticksDistanceNormed / 2 + ticksDelta
+							/ lengthInScene) {
 						minor = true;
-						i -= ticksDistance / 2;
-					} else if (i <= ticksDelta) {
-						i += ticksDistance / 2;
+						i -= ticksDistanceNormed / 2;
+					} else if (i * lengthInScene <= ticksDelta) {
+						i += ticksDistanceNormed / 2;
 						minor = true;
 					}
 
-					for (; i <= length * (1 - arrowPos); i += ticksDistance / 2) {
+					for (; i <= 1 - arrowPos; i += ticksDistanceNormed / 2) {
+						double x = i * lengthInScene;
 						tmpCoords.setAdd(p1,
-								tmpCoords.setMul(tmpCoords4, i - ticksDelta));
+								tmpCoords.setMul(tmpCoords4, x - ticksDelta));
 						tmpCoords2.setAdd(p1,
-								tmpCoords2.setMul(tmpCoords4, i + ticksDelta));
+								tmpCoords2.setMul(tmpCoords4, x + ticksDelta));
 
 						drawTick(tmpCoords, tmpCoords2, i,
 								minor ? ticksMinorThickness
@@ -446,7 +485,7 @@ public class PlotterBrush implements PathPlotter {
 			setTextureX(0, 0);
 			if (manager.getView3D().getApplication()
 					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-				setThickness(factor * ARROW_WIDTH * scale);
+				setThickness(factor * ARROW_WIDTH * length / lengthInScene);
 			} else {
 				setThickness(factor * ARROW_WIDTH);
 			}
@@ -474,7 +513,7 @@ public class PlotterBrush implements PathPlotter {
 	protected void drawTick(Coords p1b, Coords p2b, float i,
 			float ticksThickness, float thicknessOld) {
 		setTextureType(TEXTURE_AFFINE);
-		setTextureX(i / length);
+		setTextureX(i);
 		moveTo(p1b);
 		setThickness(ticksThickness);
 		setTextureType(TEXTURE_CONSTANT_0);

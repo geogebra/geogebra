@@ -180,7 +180,7 @@ public class PlotterBrushElements extends PlotterBrush {
 	protected void drawTick(Coords p1b, Coords p2b, float i,
 			float ticksThickness, float lineThickness) {
 		// setTextureType(TEXTURE_AFFINE);
-		setTextureX(i / length);
+		setTextureX(i);
 		moveTo(p1b);
 		setTextureX(0); //
 		moveTo(p1b); //
@@ -191,7 +191,7 @@ public class PlotterBrushElements extends PlotterBrush {
 		moveTo(p2b);
 		setThickness(lineThickness);
 		moveTo(p2b);
-		setTextureX(i / length); //
+		setTextureX(i); //
 		moveTo(p2b); //
 	}
 	
