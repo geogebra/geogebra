@@ -127,6 +127,9 @@ public abstract class AlgoQuadricLimitedPointPointRadius extends AlgoElement3D {
 	public void compute() {
 
 		if (!setQuadric()) {
+			bottom.setUndefined();
+			top.setUndefined();
+			side.setUndefined();
 			return;
 		}
 

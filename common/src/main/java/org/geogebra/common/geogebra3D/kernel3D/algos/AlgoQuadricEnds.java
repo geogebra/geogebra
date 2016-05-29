@@ -16,12 +16,14 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimitedOrPart;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
 /**
  * Compute the ends of a limited quadric
@@ -125,11 +127,11 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 			sections[1].setUndefined();
 			return;
 		}
-
+		
 		sections[0].setDefined();
 		sections[1].setDefined();
 
-		CoordMatrix qm = quadric.getSymetricMatrix();
+
 		Coords o1 = quadric.getMidpoint3D().add(
 				quadric.getEigenvec3D(2).mul(
 						((GeoQuadric3DLimitedOrPart) quadric)
@@ -138,6 +140,21 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 				quadric.getEigenvec3D(2)
 						.mul(((GeoQuadric3DLimitedOrPart) quadric)
 								.getTopParameter()));// pointThrough.getInhomCoordsInD3();
+
+		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_CYLINDER
+				|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
+			if (Kernel.isZero(quadric.getHalfAxis(0))
+					&& (Double.isNaN(quadric.getHalfAxis(1)) || Kernel
+							.isZero(quadric.getHalfAxis(1)))) {
+				// cylinder or cone equal to a segment
+				sections[0].setSinglePoint(o1);
+				sections[1].setSinglePoint(o2);
+				return;
+			}
+		}
+
+		CoordMatrix qm = quadric.getSymetricMatrix();
+
 		pm.setOrigin(o1);
 		Coords[] v = o2.sub(o1).completeOrthonormal();
 		pm.setVx(v[0]);
@@ -147,7 +164,8 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		// sets the conic matrix from plane and quadric matrix
 		CoordMatrix cm = pmt.mul(qm).mul(pm);
 
-		// Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
+		// Log.debug("pm=\n" + pm + "\nqm=\n" + qm + "\ncm=\n" + cm);
+
 
 		coordsys1.resetCoordSys();
 		coordsys1.addPoint(o1);
@@ -170,9 +188,6 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 		coordsys2.makeOrthoMatrix(false, false);
 
 		sections[1].setMatrix(cm);
-
-		// update quadric volume
-		quadric.calcVolume();
 
 	}
 

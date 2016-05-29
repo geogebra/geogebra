@@ -247,6 +247,25 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 
 	}
 
+	/**
+	 * set the conic as single point equal to coords
+	 * 
+	 * @param coords
+	 *            point
+	 */
+	public void setSinglePoint(Coords coords) {
+
+		coordSys.setSimpleCoordSysWithOrigin(coords);
+
+		// set midpoint as projection of m on the current coord sys
+		setMidpoint(0, 0);
+
+		setSinglePointMatrix();
+
+		singlePoint();
+
+	}
+
 	private void setSinglePointMatrix() {
 		for (int i = 0; i < matrix.length; i++)
 			matrix[i] = 0;

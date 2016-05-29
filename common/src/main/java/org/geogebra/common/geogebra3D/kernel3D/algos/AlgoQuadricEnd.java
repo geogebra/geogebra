@@ -15,6 +15,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -136,6 +137,18 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 					d.mul(quadric.getBottomParameter()));
 			Coords o2 = quadric.getMidpoint3D().add(
 					d.mul(quadric.getTopParameter()));
+
+			if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_CYLINDER
+					|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
+				// cylinder or cone equal to a segment
+				if (Kernel.isZero(quadric.getHalfAxis(0))
+						&& (Double.isNaN(quadric.getHalfAxis(1)) || Kernel
+								.isZero(quadric.getHalfAxis(1)))) {
+					section.setSinglePoint(getOrigin(o1, o2));
+					return;
+				}
+			}
+
 			pm.setOrigin(getOrigin(o1, o2));
 			Coords[] v = new Coords[3];// d.completeOrthonormal();
 			v[2] = d;

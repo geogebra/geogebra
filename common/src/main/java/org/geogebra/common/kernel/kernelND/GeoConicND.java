@@ -2753,6 +2753,9 @@ FromMeta
 			singlePoint = new GeoPoint(cons);
 		singlePoint.setCoords(b.getX(), b.getY(), 1.0d);
 		//Application.debug("singlePoint : " + b);
+
+		halfAxes[0] = 0;
+		halfAxes[1] = 0;
 	}
 
 	final private void intersectingLines(double[] mu1) {
