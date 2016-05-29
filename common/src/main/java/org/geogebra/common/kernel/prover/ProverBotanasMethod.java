@@ -383,11 +383,7 @@ public class ProverBotanasMethod {
 		 *            the underlying prover
 		 */
 		public AlgebraicStatement(GeoElement statement, Prover prover) {
-			if (statement.kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
-				algebraicTranslation(statement, prover);
-			} else {
-				result = ProofResult.PROCESSING;
-			}
+			algebraicTranslation(statement, prover);
 		}
 
 		private void setHypotheses() {
@@ -889,6 +885,20 @@ public class ProverBotanasMethod {
 		/* If Singular is not available, let's try Giac (mainly on web) */
 		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
 			ProverSettings.transcext = false;
+			Log.debug("Testing local CAS connection");
+			GeoGebraCAS cas = (GeoGebraCAS) statement.getKernel()
+					.getGeoGebraCAS();
+			try {
+				String output = cas.getCurrentCAS().evaluateRaw("1");
+				Log.debug("Local CAS evaluates 1 to " + output);
+				if (!(output.equals("1"))) {
+					Log.debug("Switching to PROCESSING mode");
+					return ProofResult.PROCESSING;
+				}
+			} catch (Throwable e) {
+				Log.debug("Exception, switching to PROCESSING mode");
+				return ProofResult.PROCESSING;
+			}
 		}
 
 		/* The NDG conditions (automatically created): */

@@ -167,10 +167,6 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	 */
 	@Override
 	public void compute() {
-		if (!kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
-			efficientInputFingerprint = null;
-			return;
-		}
 		String efficientInputFingerprintPrev = efficientInputFingerprint;
 		setInputOutput();
 		if (!efficientInputFingerprintPrev.equals(efficientInputFingerprint)) {
