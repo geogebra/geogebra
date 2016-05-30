@@ -679,16 +679,17 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	public static double numericIntegration(RealRootFunction fun, double a,
 			double b) {
 		adaptiveGaussQuadCounter = 0;
+		RealRootAdapter ad = new RealRootAdapter(fun);
 		if (a > b) {
-			return -doAdaptiveGaussQuad(fun, b, a);
+			return -doAdaptiveGaussQuad(ad, b, a);
 		}
-		return doAdaptiveGaussQuad(fun, a, b);
+		return doAdaptiveGaussQuad(ad, a, b);
 
 		// System.out.println("calls: " + adaptiveGaussQuadCounter);
 
 	}
 
-	private static double doAdaptiveGaussQuad(RealRootFunction fun, double a,
+	private static double doAdaptiveGaussQuad(RealRootAdapter fun, double a,
 			double b) {
 		if (++adaptiveGaussQuadCounter > MAX_GAUSS_QUAD_CALLS) {
 			return Double.NaN;
@@ -707,10 +708,10 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 
 		// integrate using gauss quadrature
 		try {
-			firstSum = firstGauss.integrate((new RealRootAdapter(fun)), a, b);
+			firstSum = firstGauss.integrate(fun, a, b);
 			if (Double.isNaN(firstSum))
 				return Double.NaN;
-			secondSum = secondGauss.integrate((new RealRootAdapter(fun)), a, b);
+			secondSum = secondGauss.integrate(fun, a, b);
 			if (Double.isNaN(secondSum))
 				return Double.NaN;
 		} catch (MaxIterationsExceededException e) {
