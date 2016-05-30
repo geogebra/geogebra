@@ -394,10 +394,12 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		void scrollUp() {
+			cancelDrag();
 			scrollBy(-1);
 		}
 
 		void scrollDown() {
+			cancelDrag();
 			scrollBy(1);
 		}
 
