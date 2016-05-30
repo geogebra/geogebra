@@ -22,16 +22,15 @@ import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -39,6 +38,7 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
@@ -199,6 +199,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra's input
 	 * text field.
+	 * 
+	 * @param cmdString
+	 *            command string
+	 * @return comma separated labels
 	 */
 	public synchronized String evalCommandGetLabels(String cmdString) {
 
@@ -425,6 +429,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	/**
 	 * Sets the fixed state of the object with the given name.
+	 * 
+	 * @param objName
+	 *            object name
+	 * @param fixed
+	 *            whether it should be fixed
+	 * @param selectionAllowed
+	 *            whether selection should be allowed
 	 */
 	public synchronized void setFixed(String objName, boolean fixed,
 			boolean selectionAllowed) {
@@ -1040,16 +1051,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * does not have a value.
 	 */
 	public synchronized double getValue(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
+		GeoNumberValue geo = kernel.getAlgebraProcessor().evaluateToNumeric(
+				objName, true);
 		if (geo == null)
 			return 0;
 
-		if (geo instanceof NumberValue)
-			return ((NumberValue) geo).getDouble();
-		else if (geo.isGeoBoolean())
-			return ((GeoBoolean) geo).getBoolean() ? 1 : 0;
-
-		return 0;
+		return geo.getDouble();
 	}
 
 	/**
@@ -1637,6 +1644,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return GeoGebraConstants.VERSION_STRING;
 	}
 
+	/**
+	 * Changes display style of line or conic
+	 * 
+	 * @param objName
+	 *            object name
+	 * @param style
+	 *            one of "parametric", "explicit", "implicit", "specific"
+	 */
 	public void setDisplayStyle(String objName, String style) {
 		GeoElement geo = kernel.lookupLabel(objName);
 
@@ -1659,13 +1674,13 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			GeoConic conic = (GeoConic) geo;
 
 			if (style.equals("parametric")) {
-				conic.setToStringMode(GeoConic.EQUATION_PARAMETRIC);
+				conic.setToStringMode(GeoConicND.EQUATION_PARAMETRIC);
 			} else if (style.equals("explicit")) {
-				conic.setToStringMode(GeoConic.EQUATION_EXPLICIT);
+				conic.setToStringMode(GeoConicND.EQUATION_EXPLICIT);
 			} else if (style.equals("implicit")) {
-				conic.setToStringMode(GeoConic.EQUATION_IMPLICIT);
+				conic.setToStringMode(GeoConicND.EQUATION_IMPLICIT);
 			} else if (style.equals("specific")) {
-				conic.setToStringMode(GeoConic.EQUATION_SPECIFIC);
+				conic.setToStringMode(GeoConicND.EQUATION_SPECIFIC);
 			}
 
 			geo.updateRepaint();
