@@ -256,7 +256,7 @@ public class AlgebraInputW extends FlowPanel
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
 		this.focused = false;
 		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
-			onEnterPressed();
+			onEnterPressed(false);
 		}
 	}
 
@@ -272,7 +272,7 @@ public class AlgebraInputW extends FlowPanel
 							getWarningHandler(this, app));
 		}
 		if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
-			onEnterPressed();
+			onEnterPressed(true);
 
 		} else if (keyCode != GWTKeycodes.KEY_C && keyCode != GWTKeycodes.KEY_V
 				&& keyCode != GWTKeycodes.KEY_X) {
@@ -284,7 +284,7 @@ public class AlgebraInputW extends FlowPanel
 		inputField.setIsSuggestionJustHappened(false);
 	}
 
-	private void onEnterPressed() {
+	private void onEnterPressed(final boolean explicit) {
 		app.getKernel().clearJustCreatedGeosInViews();
 		final String input = app.getKernel().getInputPreviewHelper()
 				.getInput(getTextField().getText());
@@ -336,7 +336,7 @@ public class AlgebraInputW extends FlowPanel
 			app.getKernel()
 					.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
-							getErrorHandler(valid), true, callback);
+							getErrorHandler(valid, explicit), true, callback);
 
 
 		} catch (Exception ee) {
@@ -404,26 +404,34 @@ public class AlgebraInputW extends FlowPanel
 		return inputField.getCommand();
 	}
 
-	private ErrorHandler getErrorHandler(final boolean valid) {
+	private ErrorHandler getErrorHandler(final boolean valid,
+			final boolean explicit) {
 		return new ErrorHandler() {
 
 			public void showError(String msg) {
-				app.getDefaultErrorHandler().showError(msg);
+				if (explicit) {
+					app.getDefaultErrorHandler().showError(msg);
+				}
 
 			}
 
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
-				if (valid) {
-					return app.getGuiManager().checkAutoCreateSliders(string,
-						callback);
+				if (explicit) {
+					if (valid) {
+						return app.getGuiManager()
+								.checkAutoCreateSliders(string, callback);
+					}
 				}
 				callback.callback(new String[] { "7" });
 				return false;
 			}
 
 			public void showCommandError(String command, String message) {
-				app.getDefaultErrorHandler().showCommandError(command, message);
+				if (explicit) {
+					app.getDefaultErrorHandler().showCommandError(command,
+							message);
+				}
 
 			}
 

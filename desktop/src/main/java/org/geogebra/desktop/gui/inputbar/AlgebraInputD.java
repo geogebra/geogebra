@@ -386,7 +386,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			// make sure eg Ctrl-A not passed on
 			return;
 		case KeyEvent.VK_ENTER:
-			onEnterPressed();
+			onEnterPressed(true);
 
 
 			break;
@@ -399,7 +399,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 
 
-	private void onEnterPressed() {
+	private void onEnterPressed(boolean explicit) {
 		app.getKernel().clearJustCreatedGeosInViews();
 		boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
 				|| app.getKernel().getInputPreviewHelper().isValid();
@@ -419,7 +419,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			app.getKernel()
 					.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
-							getErrorHandler(valid), true,
+							getErrorHandler(valid, explicit), true,
 							new InputBarCallback(app, inputField, input));
 
 
@@ -437,16 +437,22 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 	}
 
-	private ErrorHandler getErrorHandler(final boolean valid) {
+	private ErrorHandler getErrorHandler(final boolean valid,
+			final boolean explicit) {
 		return new ErrorHandler() {
 
 			public void showError(String msg) {
-				app.getDefaultErrorHandler().showError(msg);
+				if (explicit) {
+					app.getDefaultErrorHandler().showError(msg);
+				}
 
 			}
 
 			public void showCommandError(String command, String message) {
-				app.getDefaultErrorHandler().showCommandError(command, message);
+				if (explicit) {
+					app.getDefaultErrorHandler().showCommandError(command,
+							message);
+				}
 
 			}
 
@@ -456,11 +462,14 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
-				if (valid) {
-					return app.getGuiManager().checkAutoCreateSliders(string,
-						callback);
+				if (explicit) {
+					if (valid) {
+						return app.getGuiManager()
+								.checkAutoCreateSliders(string, callback);
+					}
+					callback.callback(new String[] { "7" });
 				}
-				callback.callback(new String[] { "7" });
+
 				return false;
 			}
 		};
@@ -480,7 +489,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 	public void focusLost(FocusEvent arg0) {
 		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
-			onEnterPressed();
+			onEnterPressed(false);
 		}
 	}
 

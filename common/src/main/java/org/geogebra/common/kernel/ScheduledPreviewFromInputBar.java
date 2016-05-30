@@ -214,7 +214,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 		// create new preview immediately
 		kernel.getApplication().cancelPreview();
-		setInput(newInput, null);
+		setInput(newInput, validation);
 		run();
 		return previewGeos;
 
@@ -227,6 +227,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	}
 
 	public boolean isValid() {
+		if (validInput == null && input != null) {
+			setInput(input, validation);
+		}
 		Log.debug(input + "," + validInput);
 		return input != null && input.equals(validInput);
 	}

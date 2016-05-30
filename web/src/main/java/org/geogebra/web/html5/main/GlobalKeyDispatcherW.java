@@ -195,6 +195,8 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public void onKeyDown(KeyDownEvent event) {
+		Log.debug("KEY pressed::"
+				+ KeyCodes.translateGWTcode(event.getNativeKeyCode()));
 		setDownKeys(event);
 		// AbstractApplication.debug("onkeydown");
 
