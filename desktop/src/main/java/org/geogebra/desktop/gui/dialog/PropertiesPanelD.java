@@ -5560,9 +5560,14 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		Object source = e.getSource();
 
 		if (source == tfDefinition) {
-			model.redefineCurrentGeo(currentGeoForFocusLost,
-					tfDefinition.getText(), redefinitionForFocusLost,
-					app.getErrorHandler());
+			if (model.getCurrentGeo() == currentGeoForFocusLost) {
+				model.applyDefinitionChange(tfDefinition.getText(),
+						app.getErrorHandler());
+			} else {
+				model.redefineCurrentGeo(currentGeoForFocusLost,
+						tfDefinition.getText(), redefinitionForFocusLost,
+						app.getErrorHandler());
+			}
 
 			SwingUtilities.invokeLater(doActionStopped);
 
