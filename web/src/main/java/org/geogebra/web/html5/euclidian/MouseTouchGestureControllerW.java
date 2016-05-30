@@ -547,15 +547,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		if ((!ec.isTextfieldHasFocus()) && (!comboBoxHit())) {
-			if (!app.isApplet()) { // #5245
-				event.preventDefault();
-			}
-			// if (app.isApplet()) {
-			// bugfix that is also in preventDefault!
-			// ec.view.requestFocus();
-			// }
-		}
+		// No prevent default here: make sure keyboard focus goes to canvas
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		ec.onPointerEventStart(e);
 
