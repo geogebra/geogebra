@@ -159,6 +159,11 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		p.compute(); // the computation of the proof
 		int elapsedTime = (int) (cons.getApplication().getMillisecondTime()
 				- startTime);
+		/*
+		 * Don't remove this. It is needed for automated testing. (String match
+		 * is assumed.)
+		 */
+		Log.debug("Benchmarking: " + elapsedTime + " ms");
 
 		ProofResult proofresult = p.getProofResult();
 		Boolean result = p.getYesNoAnswer();
@@ -174,10 +179,6 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		list.clear();
 
 		if (result != null) {
-
-			// Don't remove this. It is needed for testing the web platform.
-			// (String match is assumed.)
-			Log.debug("Benchmarking: " + elapsedTime + " ms");
 			Boolean unreadable = null;
 
 			if (proofresult == ProofResult.TRUE_NDG_UNREADABLE) {
@@ -303,7 +304,10 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 			}
 		}
 		
-		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
+		/*
+		 * Don't remove this. It is needed for testing the web platform. (String
+		 * match is assumed.)
+		 */
 		Log.debug("OUTPUT for ProveDetails: " + list);
 
 	}

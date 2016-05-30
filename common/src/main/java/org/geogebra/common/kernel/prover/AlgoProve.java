@@ -118,7 +118,10 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		p.compute(); // the computation of the proof
 		int elapsedTime = (int) (cons.getApplication().getMillisecondTime() - startTime);
 		
-		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
+		/*
+		 * Don't remove this. It is needed for automated testing. (String match
+		 * is assumed.)
+		 */
 		Log.debug("Benchmarking: " + elapsedTime + " ms");
 
 		ProofResult result = p.getProofResult();
@@ -140,7 +143,10 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 			}
 		}
 		
-		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
+		/*
+		 * Don't remove this. It is needed for testing the web platform. (String
+		 * match is assumed.)
+		 */
 		Log.debug("OUTPUT for Prove: " + bool);
 
 	}
