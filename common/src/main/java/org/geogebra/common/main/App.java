@@ -4037,6 +4037,10 @@ public abstract class App implements UpdateSelection {
 		case GIAC_SELECTIVE_INIT:
 			return true;
 
+		// GGB-334
+		case ADJUST_SLIDERS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
