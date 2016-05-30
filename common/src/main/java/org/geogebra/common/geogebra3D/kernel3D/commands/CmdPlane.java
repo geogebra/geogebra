@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentVector3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -25,6 +26,9 @@ public class CmdPlane extends CommandProcessor {
 
 		switch (n) {
 		case 1:
+			if (c.getArgument(0).unwrap() instanceof Equation) {
+				((Equation) c.getArgument(0).unwrap()).setForcePlane();
+			}
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoCoordSys2D) {
 				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()

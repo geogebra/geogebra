@@ -66,7 +66,7 @@ import org.geogebra.common.util.debug.Log;
 public abstract class GeoConicND extends GeoQuadricND implements Path,
 Translateable, GeoConicNDConstants,
 MatrixTransformable, PointRotateable, Transformable, Mirrorable, Dilateable,
-Region3D, GeoDirectionND,
+		GeoCoordSys2D,
 FromMeta
 {
 	/** avoid very large and small coefficients for numerical stability */	
