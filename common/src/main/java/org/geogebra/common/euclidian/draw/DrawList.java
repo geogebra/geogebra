@@ -200,11 +200,11 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		private int getStartIdx() {
-			return scrollSupport ? startIdx : 0;
+			return getColCount() == 1 ? startIdx : 0;
 		}
 
 		private int getEndIdx() {
-			return scrollSupport ? endIdx : items.size();
+			return getColCount() == 1 ? endIdx : items.size();
 		}
 
 		private boolean isScrollNeeded() {
