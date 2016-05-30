@@ -38,6 +38,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
@@ -466,6 +467,12 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 					if (valid) {
 						return app.getGuiManager()
 								.checkAutoCreateSliders(string, callback);
+					}
+					else if (getCurrentCommand() != null) {
+						ErrorHelper.handleCommandError(loc, getCurrentCommand(),
+								app.getDefaultErrorHandler());
+
+						return false;
 					}
 					callback.callback(new String[] { "7" });
 				}

@@ -76,9 +76,7 @@ public class StyleInjector {
 		}
 
 		private StyleElement createElement(String contents) {
-			StyleElement style = Document.get().createStyleElement();
-			style.setPropertyString("language", "text/css");
-			style.setClassName(ResourcesInjector.CLASSNAME);
+			StyleElement style = createElementGGB();
 			setContents(style, contents);
 			return style;
 		}
@@ -242,6 +240,13 @@ public class StyleInjector {
 	 */
 	public static void flush() {
 		inject(true);
+	}
+
+	public static StyleElement createElementGGB() {
+		StyleElement style = Document.get().createStyleElement();
+		style.setPropertyString("language", "text/css");
+		style.setClassName(ResourcesInjector.CLASSNAME);
+		return style;
 	}
 
 	/**

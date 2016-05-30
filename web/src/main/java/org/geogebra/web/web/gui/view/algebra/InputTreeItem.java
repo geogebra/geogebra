@@ -93,6 +93,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	/** Help button */
 	ToggleButton btnHelpToggle;
 
+
 	/**
 	 * Creates new input tree item
 	 * 
@@ -514,6 +515,9 @@ public class InputTreeItem extends RadioTreeItem implements
 				tim.schedule(500);
 			}
 		}
+		this.errorLabel = new Label();
+		errorLabel.getElement().getStyle().setColor("#FF0000");
+		main.add(errorLabel);
 	}
 
 	/**
@@ -1119,6 +1123,9 @@ public class InputTreeItem extends RadioTreeItem implements
 	public void updateIcons(boolean warning) {
 		if (btnHelpToggle == null) {
 			btnHelpToggle = new ToggleButton();
+		}
+		if (!warning && errorLabel != null) {
+			errorLabel.setText("");
 		}
 		btnHelpToggle.getUpFace()
 				.setImage(new NoDragImage(

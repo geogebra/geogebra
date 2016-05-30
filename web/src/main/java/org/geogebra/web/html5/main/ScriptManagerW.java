@@ -92,6 +92,7 @@ public class ScriptManagerW extends ScriptManager {
 		app.callAppletJavaScript(jsFunction, args);
 	}
 
+	@Override
 	public void callJavaScript(String jsFunction, Object arg0, Object arg1) {
 		if (jsFunction != null && jsFunction.length() > 0
 				&& jsFunction.charAt(0) <= '9') {

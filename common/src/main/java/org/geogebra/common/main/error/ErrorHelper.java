@@ -23,8 +23,7 @@ public class ErrorHelper {
 		} else if (e.getCause() instanceof MyError) {
 			handleError((MyError) e.getCause(), null, loc, handler);
 		} else if (loc.getReverseCommand(handler.getCurrentCommand()) != null) {
-
-			handleCommandError(handler.getCurrentCommand(), handler, loc);
+			handleCommandError(loc, handler.getCurrentCommand(), handler);
 		} else {
 			Log.debug("NO COMMAND FOR ERROR" + handler.getCurrentCommand());
 			handler.showError(loc.getError("InvalidInput"));
@@ -32,19 +31,21 @@ public class ErrorHelper {
 
 	}
 
-	private static void handleCommandError(String currentCommand,
-			ErrorHandler handler, Localization loc) {
-		String cmd = loc.getReverseCommand(currentCommand);
-		handler.showCommandError(cmd,
-				loc.getError("InvalidInput") + "\n\n" + loc.getPlain("Syntax")
-						+ ":\n" + loc.getCommandSyntax(cmd));
+	public static void handleCommandError(Localization loc, String localCommand,
+			ErrorHandler handler) {
+		String cmd = loc.getReverseCommand(localCommand);
+		handler.showCommandError(cmd, loc.getError("InvalidInput") + "\n"
+				+ localCommand + "\n\n" + loc.getPlain("Syntax")
+				+ ":\n" + loc.getCommandSyntax(cmd));
 
 	}
 
 	public static void handleError(MyError e, String cmd, Localization loc,
 			ErrorHandler handler) {
 		if (e.getcommandName() != null) {
-			handleCommandError(e.getcommandName(), handler, loc);
+			String internal = loc
+					.getReverseCommand(handler.getCurrentCommand());
+			handler.showCommandError(internal, e.getLocalizedMessage());
 		} else {
 			handler.showError(e.getLocalizedMessage());
 		}

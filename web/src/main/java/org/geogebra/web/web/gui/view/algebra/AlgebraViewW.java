@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
@@ -29,6 +28,7 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
+import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
@@ -40,7 +40,8 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -1720,19 +1721,35 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		repaintView();
 	}
 
+	private Element mqSize = null;
+	private int mqFontSize = -1;
 	/**
 	 * Not used in Web so far. Will not work with JLM.
 	 */
-	public void updateFonts() {
-		GFont font = app.getPlainFontCommon();
-		getStyleElement().getStyle().setFontSize(font.getSize(), Style.Unit.PX);
+	private void updateFonts() {
+		if (mqFontSize != app.getFontSizeWeb()) {
+			mqFontSize = app.getFontSizeWeb();
+			if (mqSize == null) {
+				mqSize = StyleInjector.createElementGGB();
+
+			}
+			mqSize.removeFromParent();
+			mqSize.setInnerText(".hasCursorPermanent span {font-size:"
+					+ app.getFontSizeWeb() + "px}");
+
+			Document.get().getElementsByTagName("head").getItem(0)
+					.appendChild(mqSize);
+		}
 	}
+
+
 
 	/**
 	 * @param ratio
 	 *            pixel ratio
 	 */
 	public void setPixelRatio(double ratio) {
+		updateFonts();
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti instanceof RadioTreeItem) {

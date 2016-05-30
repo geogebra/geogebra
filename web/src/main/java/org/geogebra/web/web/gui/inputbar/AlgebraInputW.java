@@ -8,6 +8,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -421,9 +422,16 @@ public class AlgebraInputW extends FlowPanel
 					if (valid) {
 						return app.getGuiManager()
 								.checkAutoCreateSliders(string, callback);
+					} else if (getCurrentCommand() != null) {
+						ErrorHelper.handleCommandError(app.getLocalization(),
+								getCurrentCommand(),
+								app.getDefaultErrorHandler());
+
+						return false;
 					}
+					callback.callback(new String[] { "7" });
 				}
-				callback.callback(new String[] { "7" });
+
 				return false;
 			}
 

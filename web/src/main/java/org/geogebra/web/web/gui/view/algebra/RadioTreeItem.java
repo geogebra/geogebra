@@ -38,6 +38,7 @@ import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
@@ -265,6 +266,7 @@ public class RadioTreeItem extends AVTreeItem
 	FlowPanel ihtml;
 	GTextBox tb;
 	private boolean needsUpdate;
+	protected Label errorLabel;
 
 
 
@@ -1885,11 +1887,17 @@ public class RadioTreeItem extends AVTreeItem
 	 * @return error handler
 	 */
 	protected ErrorHandler getErrorHandler(final boolean valid) {
-		// TODO Auto-generated method stub
+		if (errorLabel != null) {
+			errorLabel.setText("");
+		}
 		return new ErrorHandler(){
 
 			public void showError(String msg) {
-				app.getDefaultErrorHandler().showError(msg);
+				if (errorLabel != null) {
+					errorLabel.setText(msg);
+				} else {
+					app.getDefaultErrorHandler().showError(msg);
+				}
 				
 			}
 
@@ -1898,14 +1906,23 @@ public class RadioTreeItem extends AVTreeItem
 				if (valid) {
 					return app.getGuiManager().checkAutoCreateSliders(string,
 							callback);
+				} else if (getCurrentCommand() != null) {
+					ErrorHelper.handleCommandError(app.getLocalization(),
+							getCurrentCommand(), app.getDefaultErrorHandler());
+
+					return false;
 				}
 				callback.callback(new String[] { "7" });
 				return false;
 			}
 
 			public void showCommandError(String command, String message) {
-				app.getDefaultErrorHandler().showCommandError(command, message);
-				
+				if (errorLabel != null) {
+					errorLabel.setText(message);
+				} else {
+					app.getDefaultErrorHandler().showCommandError(command,
+							message);
+				}
 			}
 
 			public String getCurrentCommand() {
