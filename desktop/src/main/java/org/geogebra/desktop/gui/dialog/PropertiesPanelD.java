@@ -5560,6 +5560,8 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		Object source = e.getSource();
 
 		if (source == tfDefinition) {
+			// currentGeo may has changed if focus is lost by clicking another
+			// geo
 			if (model.getCurrentGeo() == currentGeoForFocusLost) {
 				model.applyDefinitionChange(tfDefinition.getText(),
 						app.getErrorHandler());
