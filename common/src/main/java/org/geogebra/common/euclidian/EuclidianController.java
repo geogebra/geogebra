@@ -5765,10 +5765,10 @@ public abstract class EuclidianController {
 
 	public final boolean processMode(Hits processHits, boolean isControlDown) {
 		final Hits hits2 = processHits;
-		AsyncOperation callback = new AsyncOperation() {
+		AsyncOperation<Boolean> callback = new AsyncOperation<Boolean>() {
 
 			@Override
-			public void callback(Object changedKernel) {
+			public void callback(Boolean changedKernel) {
 				if (changedKernel.equals(true)) {
 					storeUndoInfo();
 				}
@@ -5792,7 +5792,7 @@ public abstract class EuclidianController {
 			hits = new Hits();
 		}
 
-		AsyncOperation callback2;
+		AsyncOperation<Boolean> callback2;
 		if (callback == null) {
 			callback2 = null;
 		} else {
@@ -8251,6 +8251,10 @@ public abstract class EuclidianController {
 		}
 	}
 
+	/**
+	 * @param event
+	 *            use its source to start capturing
+	 */
 	protected void startCapture(AbstractEvent event) {
 		// for web
 
@@ -9574,12 +9578,14 @@ public abstract class EuclidianController {
 		transformCoordsOffset[1] = 0;
 
 		if (!event.isRightClick() && this.textfieldJustFocused(x, y, type)) {
+			draggingOccured = false;
 			return;
 		}
 
 		if (penMode(mode) && penDragged) {
 			getPen().handleMouseReleasedForPenMode(right, x, y);
 			storeUndoInfo();
+			draggingOccured = false;
 			return;
 		}
 
@@ -9642,25 +9648,9 @@ public abstract class EuclidianController {
 		transformCoords();
 		Hits hits = null;
 
-		if (checkResetOrAnimationHit(x, y)) {
+		if (specialRelease(y, y, event, right, alt, control, type)) {
+			draggingOccured = false;
 			return;
-		}
-
-		// if rotate, set continue animation / stop it
-		if (processReleaseForRotate3D(type)) {
-			return;
-		}
-
-		// allow drag with right mouse button or ctrl
-		// make sure Ctrl still works for selection (when no dragging occured)
-		if (right || (control && draggingOccured))// &&
-		// !TEMPORARY_MODE)
-		{
-			if (!temporaryMode) {
-				processRightReleased(right, alt, control, event.isShiftDown(),
-						type);
-				return;
-			}
 		}
 
 		// handle moving
@@ -9770,6 +9760,31 @@ public abstract class EuclidianController {
 
 		draggingOccurredBeforeRelease = false;
 
+	}
+
+	private boolean specialRelease(int x, int y, AbstractEvent event,
+			boolean right, boolean alt, boolean control, PointerEventType type) {
+		if (checkResetOrAnimationHit(x, y)) {
+			return true;
+		}
+
+		// if rotate, set continue animation / stop it
+		if (processReleaseForRotate3D(type)) {
+			return true;
+		}
+
+		// allow drag with right mouse button or ctrl
+		// make sure Ctrl still works for selection (when no dragging occured)
+		if (right || (control && draggingOccured))// &&
+		// !TEMPORARY_MODE)
+		{
+			if (!temporaryMode) {
+				processRightReleased(right, alt, control, event.isShiftDown(),
+						type);
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private boolean checkResetOrAnimationHit(int x, int y) {
@@ -10686,6 +10701,14 @@ public abstract class EuclidianController {
 		twoTouchMoveCommon(x1, y1, x2, y2);
 	}
 
+	/**
+	 * 
+	 * @param x1
+	 *            x-coord
+	 * @param y1
+	 *            y-coord
+	 * @return wrapped event
+	 */
 	protected AbstractEvent createTouchEvent(int x1, int y1) {
 		return null;
 	}
