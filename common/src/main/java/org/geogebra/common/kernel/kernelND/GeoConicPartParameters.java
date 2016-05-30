@@ -289,4 +289,44 @@ public class GeoConicPartParameters {
 			arg += Kernel.PI_2;
 		return arg - paramStart;
 	}
+
+	/**
+	 * 
+	 * @param P
+	 *            coords in conic coord sys
+	 * @return true if coords are on path
+	 */
+	public boolean isOnPath(Coords P) {
+
+		PathParameter pp = new PathParameter();
+
+		pp.setPathType(conic.type);
+
+		switch (conic.type) {
+		case GeoConicNDConstants.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_ELLIPSE:
+			setEllipseParameter(P, pp);
+			return pp.t >= 0 && pp.t <= 1;
+
+			// degenerate case: two rays or one segment
+		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+			if (posOrientation) {
+				// segment
+				conic.lines[0].doPointChanged(P, pp);
+
+				// make sure we don't get outside [0,1]
+				if (pp.t < 0) {
+					return false;
+				}
+				if (pp.t > 1) {
+					return false;
+				}
+				return true;
+			}
+			// two rays
+			return true;
+		}
+
+		return false;
+	}
 }

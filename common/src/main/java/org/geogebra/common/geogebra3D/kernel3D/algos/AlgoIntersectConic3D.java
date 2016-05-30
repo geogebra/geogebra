@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 
 /**
  *
@@ -218,8 +219,30 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 		// Application.debug(points2d[0]+"\n"+points2d[1]);
 		P[0].setCoords(cs.getPoint(points2d[0].x, points2d[0].y), false);
 		checkIsOnFirstGeo(P[0]);
+		checkIsOnConicPart(c, points2d[0], P[0]);
 		P[1].setCoords(cs.getPoint(points2d[1].x, points2d[1].y), false);
 		checkIsOnFirstGeo(P[1]);
+		checkIsOnConicPart(c, points2d[1], P[1]);
+	}
+
+	private Coords tmpCoords;
+
+	private void checkIsOnConicPart(GeoConicND c, GeoPoint point, GeoPoint3D p3d) {
+		if (c.isGeoConicPart()) {
+			if (!p3d.isDefined())
+				return;
+
+			if (tmpCoords == null) {
+				tmpCoords = new Coords(3);
+				tmpCoords.setZ(1);
+			}
+
+			tmpCoords.setX(point.x);
+			tmpCoords.setY(point.y);
+			if (!((GeoConicPartND) c).getParameters().isOnPath(tmpCoords)) {
+				p3d.setUndefined();
+			}
+		}
 	}
 
 	/**
