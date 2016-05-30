@@ -342,7 +342,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 
 			} else {
 
-				n.setValue(numericIntegration(f, lowerLimit, upperLimit));
+				// freehand functions aren't generally nice and smooth, so more
+				// iterations may be needed
+				// https://www.geogebra.org/help/topic/problem-mit-integral-unter-freihandskizze
+				n.setValue(numericIntegration(f, lowerLimit, upperLimit,
+						f.includesFreehandOrData() ? 10 : 1));
 			}
 		}
 		/*
@@ -662,8 +666,6 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		return (x2 - x1) * (y1 + y2) / 2;
 	}
 
-	// private int maxstep;
-
 	/**
 	 * Computes integral of function fun in interval a, b using an adaptive
 	 * Gauss quadrature approach.
@@ -678,20 +680,41 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	 */
 	public static double numericIntegration(RealRootFunction fun, double a,
 			double b) {
+
+		return numericIntegration(fun, a, b, 1);
+
+	}
+	
+	/**
+	 * Computes integral of function fun in interval a, b using an adaptive
+	 * Gauss quadrature approach.
+	 * 
+	 * @param fun
+	 *            function
+	 * @param a
+	 *            lower bound
+	 * @param b
+	 *            upper bound
+	 * @param maxMultiplier
+	 *            multiplier (to allow more iterations for freehand functions)
+	 * @return integral value
+	 */
+	public static double numericIntegration(RealRootFunction fun, double a,
+			double b, int maxMultiplier) {
 		adaptiveGaussQuadCounter = 0;
 		RealRootAdapter ad = new RealRootAdapter(fun);
 		if (a > b) {
-			return -doAdaptiveGaussQuad(ad, b, a);
+			return -doAdaptiveGaussQuad(ad, b, a, maxMultiplier);
 		}
-		return doAdaptiveGaussQuad(ad, a, b);
+		return doAdaptiveGaussQuad(ad, a, b, maxMultiplier);
 
 		// System.out.println("calls: " + adaptiveGaussQuadCounter);
 
 	}
 
 	private static double doAdaptiveGaussQuad(RealRootAdapter fun, double a,
-			double b) {
-		if (++adaptiveGaussQuadCounter > MAX_GAUSS_QUAD_CALLS) {
+			double b, int maxMultiplier) {
+		if (++adaptiveGaussQuadCounter > MAX_GAUSS_QUAD_CALLS * maxMultiplier) {
 			return Double.NaN;
 		}
 
@@ -739,11 +762,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			return secondSum;
 		}
 		double mid = (a + b) / 2;
-		double left = doAdaptiveGaussQuad(fun, a, mid);
+		double left = doAdaptiveGaussQuad(fun, a, mid, maxMultiplier);
 		if (Double.isNaN(left)) {
 			return Double.NaN;
 		}
-		return left + doAdaptiveGaussQuad(fun, mid, b);
+		return left + doAdaptiveGaussQuad(fun, mid, b, maxMultiplier);
 	}
 
 	@Override
