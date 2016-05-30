@@ -472,6 +472,14 @@ public abstract class ScriptManager implements EventListener {
 
 	public void callJavaScript(String jsFunction, Object arg0,
 			Object arg1){
+		if (arg0 == null) {
+			callJavaScript(jsFunction, new Object[0]);
+			return;
+		}
+		if (arg1 == null) {
+			callJavaScript(jsFunction, new Object[] { arg0 });
+			return;
+		}
 		callJavaScript(jsFunction,new Object[]{arg0, arg1});
 	}
 
