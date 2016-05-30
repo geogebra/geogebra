@@ -92,6 +92,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	InputBarHelpPopup helpPopup;
 	/** Help button */
 	ToggleButton btnHelpToggle;
+	private SimplePanel helpButtonPanel;
 
 
 	/**
@@ -150,7 +151,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		addHistoryPopup(true);
 
 		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
-			SimplePanel sp = new SimplePanel();
+			helpButtonPanel = new SimplePanel();
 			updateIcons(false);
 
 			btnHelpToggle.addClickHandler(new ClickHandler() {
@@ -179,10 +180,10 @@ public class InputTreeItem extends RadioTreeItem implements
 				}
 
 			});
-			sp.setStyleName("avHelpButtonParent");
-			sp.setWidget(btnHelpToggle);
+			helpButtonPanel.setStyleName("avHelpButtonParent");
+			helpButtonPanel.setWidget(btnHelpToggle);
 			btnHelpToggle.addStyleName("algebraHelpButton");
-			main.insert(sp, 0);
+			main.insert(helpButtonPanel, 0);
 		}
 
 		buttonPanel = new FlowPanel();
@@ -964,6 +965,9 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	@Override
 	public void typing(boolean heuristic) {
+		if (heuristic) {
+			updateLineHeight();
+		}
 		if (app.has(Feature.EXPAND_AV_FOR_LONG_EQUATIONS)) {
 			if (isEmpty() && plusButton != null) {
 				plusButton.setVisible(true);
@@ -987,6 +991,18 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 
 		updatePreview();
+	}
+
+	/**
+	 * Make sure the line height of the help icon fits the line height of the
+	 * rest
+	 */
+	protected void updateLineHeight() {
+		if (helpButtonPanel != null) {
+			this.helpButtonPanel.getElement().getStyle()
+					.setLineHeight(ihtml.getOffsetHeight(), Unit.PX);
+		}
+
 	}
 
 	private void updatePreview() {

@@ -1739,6 +1739,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 			Document.get().getElementsByTagName("head").getItem(0)
 					.appendChild(mqSize);
+			if (getInputTreeItem() != null) {
+				getInputTreeItem().updateLineHeight();
+			}
 		}
 	}
 
