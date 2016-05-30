@@ -67,6 +67,11 @@ public abstract class AbstractProverReciosMethod {
 			p.setProverEngine(ProverEngine.RECIOS_PROVER);
 			ProverBotanasMethod pbm = new ProverBotanasMethod();
 			as = pbm.new AlgebraicStatement(statement, p);
+
+			if (as.getResult() == ProofResult.PROCESSING) {
+				// Don't do further computations until CAS is ready:
+				return ProofResult.PROCESSING;
+			}
 		}
 
 		HashSet<Variable> variables = new HashSet<Variable>();

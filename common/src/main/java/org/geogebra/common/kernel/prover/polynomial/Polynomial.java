@@ -967,15 +967,16 @@ public class Polynomial implements Comparable<Polynomial> {
 					freeVars, dependantVars, transcext);
  		
 			if (solvableProgram.length() > SingularWSSettings.debugMaxProgramSize)
-				Log.debug(solvableProgram.length() + " bytes -> singular");
+				Log.trace(solvableProgram.length() + " bytes -> singular");
 			else
-				Log.debug(solvableProgram + " -> singular");
+				Log.trace(solvableProgram + " -> singular");
 			try {
 				solvableResult = App.singularWS.directCommand(solvableProgram);
 				if (solvableResult.length() > SingularWSSettings.debugMaxProgramSize)
-					Log.debug("singular -> " + solvableResult.length() + " bytes");
+					Log.trace("singular -> " + solvableResult.length()
+							+ " bytes");
 				else
-					Log.debug("singular -> " + solvableResult);
+					Log.trace("singular -> " + solvableResult);
 				if ("0".equals(solvableResult))
 					return false; // no solution
 				if ("".equals(solvableResult))
@@ -996,9 +997,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			Log.info("Not implemented (yet)");
 			return null; // cannot decide
 		}
-		Log.info("[groebnerSolvable] input to cas: "+solvableProgram);
 		solvableResult = cas.evaluate(solvableProgram);
-		Log.info("[groebnerSolvable] output from cas: "+solvableResult);	
 		if ("0".equals(solvableResult) || "false".equals(solvableResult))
 			return false; // no solution
 		if ("1".equals(solvableResult) || "true".equals(solvableResult))
@@ -1149,19 +1148,19 @@ public class Polynomial implements Comparable<Polynomial> {
 					eqSystemSubstituted, pVariables, dependentVariables);
 			
 			if (elimProgram.length() > SingularWSSettings.debugMaxProgramSize)
-				Log.debug(elimProgram.length()
+				Log.trace(elimProgram.length()
 						+ " bytes -> singular");
 			else
-				Log.debug(elimProgram + " -> singular");
+				Log.trace(elimProgram + " -> singular");
 			try {
 				elimResult = App.singularWS.directCommand(elimProgram);
 				if (elimResult == null) {
 					return null;
 				}
 				if (elimResult.length() > SingularWSSettings.debugMaxProgramSize)
-					Log.debug("singular -> " + elimResult.length() + " bytes");
+					Log.trace("singular -> " + elimResult.length() + " bytes");
 				else
-					Log.debug("singular -> " + elimResult);
+					Log.trace("singular -> " + elimResult);
 			} catch (Throwable e) {
 				Log.debug("Could not compute elimination with SingularWS");
 				return null;
@@ -1189,14 +1188,12 @@ public class Polynomial implements Comparable<Polynomial> {
 				Log.info("Not implemented (yet)");
 				return null; // cannot decide
 			}
-			Log.info("[eliminate] input to cas: " + elimProgram);
 			elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_").replace("unicode91u", "[");
-			Log.info("[eliminate] output from cas: " + elimResult);
 			if (!factorized) {
 				elimResult = "[1]: [1]: _[1]=1 _[2]="
 						+ elimResult.substring(1, elimResult.length() - 1)
 						+ " [2]: 1,1";
-				Log.info("[eliminate] rewritten: " + elimResult);
+				Log.trace("Rewritten: " + elimResult);
 			}
 		}
 
@@ -1220,7 +1217,7 @@ public class Polynomial implements Comparable<Polynomial> {
 					elimResult, variables);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
-			Log.debug(elimResult);
+			Log.debug("Cannot parse: " + elimResult);
 			e.printStackTrace();
 		}
 

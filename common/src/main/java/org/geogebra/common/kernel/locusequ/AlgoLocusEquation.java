@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Prover;
+import org.geogebra.common.util.Prover.ProofResult;
 import org.geogebra.common.util.Prover.ProverEngine;
 import org.geogebra.common.util.debug.Log;
 
@@ -167,10 +168,14 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	 */
 	@Override
 	public void compute() {
+		if (!kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
+			efficientInputFingerprint = null;
+			return;
+		}
 		String efficientInputFingerprintPrev = efficientInputFingerprint;
 		setInputOutput();
 		if (!efficientInputFingerprintPrev.equals(efficientInputFingerprint)) {
-			Log.debug(efficientInputFingerprintPrev + " -> "
+			Log.trace(efficientInputFingerprintPrev + " -> "
 					+ efficientInputFingerprint);
 			initialCompute();
 		}
@@ -265,16 +270,16 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
                 
 				if (p.getParentAlgorithm() != null
 						&& !p.getParentAlgorithm().isLocusEquable()) {
-					Log.debug("[LocusEquation] Non-algebraic or unimplemented dependent point: "
+					Log.info("Non-algebraic or unimplemented dependent point: "
 							+ p.getParentAlgorithm());
 					return null;
                 }
 				for (Object predObj : p.getAllPredecessors()) {
 					GeoElement pred = (GeoElement) predObj;
-					// Log.debug("[LocusEquation] Considering " + pred);
+					Log.trace("Considering " + pred);
 					if (pred.getParentAlgorithm() != null
 							&& !pred.getParentAlgorithm().isLocusEquable()) {
-						Log.debug("[LocusEquation] Non-algebraic or unimplemented predecessor: "
+						Log.info("Non-algebraic or unimplemented predecessor: "
 								+ pred.getParentAlgorithm());
 						return null;
 					}
@@ -309,11 +314,11 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
         if(!visitedAlgos.contains(algo)){
             visitedAlgos.add(algo);
             EquationList eqs = scope.getRestrictionsFromAlgo(algo);
-			Log.debug("[LocusEquation] Visiting algo "
+			Log.debug("Visiting algo "
 					+ algo.getOutput()[0]
 							.toString(StringTemplate.defaultTemplate));
             for(Equation eq : eqs) {
-				Log.debug("[LocusEquation] -> " + eq.toString() + " == 0");
+				Log.debug(" -> " + eq.toString() + " == 0");
             }
             restrictions.addAll(eqs);
         }
@@ -352,6 +357,10 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		ProverBotanasMethod pbm = new ProverBotanasMethod();
 		AlgebraicStatement as = pbm.new AlgebraicStatement(
 				implicit ? implicitLocus : locusPoint, p);
+		if (as.getResult() == ProofResult.PROCESSING) {
+			// Don't do further computations until CAS is ready:
+			throw new Exception();
+		}
 		Set<Set<Polynomial>> eliminationIdeal;
 
 		HashMap<Variable, Long> substitutions = new HashMap<Variable, Long>();
@@ -474,7 +483,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		}
 
 		if (result == null) {
-			Log.warn("No such implicit curve exists (0=-1)");
+			Log.info("No such implicit curve exists (0=-1)");
 			return "1,1,1";
 		}
 
@@ -486,7 +495,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		if (!vy.equals("")) {
 			implicitCurveString = implicitCurveString.replaceAll(vy, "y");
 		}
-		Log.debug("Implicit locus equation: " + implicitCurveString);
+		Log.trace("Implicit locus equation: " + implicitCurveString);
 
 		// This piece of code has been directly copied from CASgiac.java:
 		StringBuilder script = new StringBuilder();
@@ -512,10 +521,10 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		try {
 			String impccoeffs = cas.getCurrentCAS().evaluateRaw(
 					script.toString());
-			Log.debug("Output from giac: " + impccoeffs);
+			Log.trace("Output from giac: " + impccoeffs);
 			return impccoeffs;
 		} catch (Exception ex) {
-			Log.warn("Error computing locus equation");
+			Log.debug("Cannot compute locus equation (yet?)");
 			return null;
 		}
 	}
@@ -563,7 +572,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		try {
 			result = getImplicitPoly(implicit);
 		} catch (Throwable ex) {
-			Log.warn("Error computing implicit curve");
+			Log.debug("Cannot compute implicit curve (yet?)");
 		}
 
 		if (result != null) {

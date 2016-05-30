@@ -35,13 +35,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 
 	private GeoElement root; // input
 	private GeoBoolean bool; // output
-	private Prover.ProofResult result;
-	/*
-	 * We need to count the processing number for giac.js: 0: normal state (no
-	 * giac.js should be considered) 1: giac.js started, computation not yet
-	 * done 2: giac.js loaded, computation should be done 3: computation done
-	 */
-	private int processing = 0;
+	private String inputFingerprint;
 
 	/**
 	 * Proves the given statement and gives a yes/no answer (boolean)
@@ -81,6 +75,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		super.setOutputLength(1);
 		super.setOutput(0, bool);
 		setDependencies(); // done by AlgoElement
+		inputFingerprint = fingerprint(root);
 	}
 
 	/**
@@ -93,7 +88,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 	}
 
 	/**
-	 * Heavy computation of the proof
+	 * Heavy computation of the proof.
 	 */
 	public final void initialCompute() {
 
@@ -117,7 +112,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		p.setStatement(root);
 		// Don't compute extra NDG's:
 		p.setReturnExtraNDGs(false);
-
+		
 		// Adding benchmarking:
 		double startTime = cons.getApplication().getMillisecondTime();
 		p.compute(); // the computation of the proof
@@ -126,36 +121,13 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
 		Log.debug("Benchmarking: " + elapsedTime + " ms");
 
-		result = p.getProofResult();
-		if (result == ProofResult.PROCESSING) {
-			processing = 1;
-		}
+		ProofResult result = p.getProofResult();
 
 		Log.debug("STATEMENT IS " + result);
-	}
-
-	@Override
-	// Not sure how to do this hack normally.
-	final public String getDefinitionName(StringTemplate tpl) {
-		return "Prove";
-	}
-
-	@Override
-	public void compute() {
-		if (processing == 1) {
-			Log.trace("PROCESSING mode: list undefined (1->2)");
-			bool.setUndefinedProverOnly();
-			processing = 2; // Next time we should call initialCompute()
-			return;
-		}
-		if (processing == 2) {
-			Log.trace("PROCESSING mode: list should be created (2->3)");
-			processing = 3; // Next time we don't need to do anything
-			initialCompute();
-		}
 
 		if (result != null) {
-			if (result == ProofResult.UNKNOWN) {
+			if (result == ProofResult.UNKNOWN
+					|| result == ProofResult.PROCESSING) {
 				bool.setUndefinedProverOnly();
 				return;
 			}
@@ -170,8 +142,39 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 		
 		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
 		Log.debug("OUTPUT for Prove: " + bool);
-		
+
 	}
 
-	// TODO Consider locusequability
+	@Override
+	// Not sure how to do this hack normally.
+	final public String getDefinitionName(StringTemplate tpl) {
+		return "Prove";
+	}
+
+	@Override
+	public void compute() {
+		if (!kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
+			inputFingerprint = null;
+			return;
+		}
+		String inputFingerprintPrev = inputFingerprint;
+		setInputOutput();
+		if (!inputFingerprintPrev.equals(inputFingerprint)) {
+			Log.trace(inputFingerprintPrev + " -> " + inputFingerprint);
+			initialCompute();
+		}
+	}
+
+	/*
+	 * We use a very hacky way to avoid recomputing proof when the input is not
+	 * changed. To achieve that, we create a fingerprint of the current input.
+	 * The fingerprint function should eventually be improved. Here we assume
+	 * that the input objects are always in the same order (that seems sensible)
+	 * and the obtained algebraic description changes iff the object does. This
+	 * may not be the case if rounding/precision is not as presumed.
+	 */
+	private static String fingerprint(GeoElement statement) {
+		return Prover.getTextFormat(statement);
+	}
+
 }

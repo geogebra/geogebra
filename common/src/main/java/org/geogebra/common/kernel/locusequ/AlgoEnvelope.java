@@ -133,7 +133,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		try {
 			result = getImplicitPoly();
 		} catch (Throwable ex) {
-			Log.warn("Error computing implicit curve");
+			Log.debug("Cannot compute implicit curve (yet?)");
 		}
 
 		if (result != null) {
@@ -298,21 +298,27 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 			}
 			script.append(")]][1][0]");
 
-			Log.info("[Envelope] input to giac (compute det of Jacobi matrix): "+script);
+			Log.trace(
+					"Input to giac (compute det of Jacobi matrix): "
+							+ script);
 			GeoGebraCAS cas = (GeoGebraCAS) locusPoint.getKernel().getGeoGebraCAS();
 			try {
 				String det = cas.getCurrentCAS().evaluateRaw(script.toString());
-				Log.info("[Envelope] output from giac (compute det of Jacobi matrix): " + det);
+				if (det.equals("?")) {
+					Log.debug("Cannot compute det of Jacobi matrix (yet?)");
+					return null;
+				}
+				Log.trace(
+						"Output from giac (compute det of Jacobi matrix): "
+								+ det);
 				String script2 = cas.getCurrentCAS().createLocusEquationScript(polys + "," + det, vars + ",x,y", vars);
 
-				Log.info("[Envelope] input to giac: " + script2);
+				Log.trace("Input to giac: " + script2);
 				String result = cas.getCurrentCAS().evaluateRaw(script2);
-				// Trimming [ and ]
-				// result = result.substring(1,result.length()-1);
 				return result;
 
 			} catch (Exception ex) {
-				Log.warn("Error computing envelope");
+				Log.debug("Cannot compute envelope (yet?)");
 				return null;
 			}
         	
@@ -348,9 +354,9 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		// Now we obtain the coefficients (see exactly the same code for locus equation):
 		script.append("sprintf(\"%s,%s,%s\",size(coeffs(p,x)),size(coeffs(p,y)),").
 			append("coeffs(coeffs(p,x),y));");
-		Log.info("[Envelope] input to singular: "+script);
+		Log.trace("Input to singular: " + script);
 		String result = App.singularWS.directCommand(script.toString());
-		Log.info("[Envelope] output from singular: "+result);
+		Log.trace("Output from singular: " + result);
 		// Temporary workaround by creating dummy factor:
 		result = "{{" + result + "},{1," + result + "}}";
 		return result;
@@ -368,12 +374,11 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
         if(!visitedAlgos.contains(algo)){
             visitedAlgos.add(algo);
             EquationList eqs = scope.getRestrictionsFromAlgo(algo);
-            Log.debug("[Envelope] Restrictions init");
-            Log.debug("[Envelope] Construction " + algo.getOutput()[0].toString(StringTemplate.defaultTemplate));
+			Log.debug("Restriction " + algo.getOutput()[0]
+					.toString(StringTemplate.defaultTemplate));
             for(Equation eq : eqs) {
             	Log.debug(eq.toString());
             }
-            Log.debug("[Envelope] Restrictions end");
             restrictions.addAll(eqs);
         }
     }

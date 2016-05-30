@@ -45,17 +45,17 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 
 	private GeoElement root; // input
 	private GeoList list; // output
-	private Boolean result, unreadable;
-	private HashSet<NDGCondition> ndgresult;
 	private boolean relTool = false;
+	private String inputFingerprint;
 
-	/*
-	 * We need to count the processing number for giac.js: 0: normal state (no
-	 * giac.js should be considered) 1: giac.js started, computation not yet
-	 * done 2: giac.js loaded, computation should be done 3: computation done
+	/**
+	 * Proves the given statement and gives some details in a list.
+	 * 
+	 * @param cons
+	 *            The construction
+	 * @param root
+	 *            Input statement
 	 */
-	private int processing = 0;
-
 	public AlgoProveDetails(Construction cons, GeoElement root) {
 		super(cons);
 		cons.addCASAlgo(this);
@@ -68,8 +68,9 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		initialCompute();
 		compute();
 	}
+	
 	/**
-	 * Proves the given statement and gives some details in a list
+	 * Proves the given statement and gives some details in a list.
 	 * 
 	 * @param cons
 	 *            The construction
@@ -115,6 +116,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		super.setOutputLength(1);
 		super.setOutput(0, list);
 		setDependencies(); // done by AlgoElement
+		inputFingerprint = fingerprint(root);
 	}
 
 	/**
@@ -127,7 +129,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	}
 
 	/**
-	 * Heavy computation of the proof
+	 * Heavy computation of the proof.
 	 */
 	public final void initialCompute() {
 
@@ -155,57 +157,41 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		// Adding benchmarking:
 		double startTime = cons.getApplication().getMillisecondTime();
 		p.compute(); // the computation of the proof
-		int elapsedTime = (int) (cons.getApplication().getMillisecondTime() - startTime);
+		int elapsedTime = (int) (cons.getApplication().getMillisecondTime()
+				- startTime);
 
-		// Don't remove this. It is needed for testing the web platform. (String match is assumed.)
-		Log.debug("Benchmarking: " + elapsedTime + " ms");
-
-		result = p.getYesNoAnswer();
-		ndgresult = p.getNDGConditions();
-		ProofResult proofresult = p.getProofResult(); 
-		
-		if (proofresult == ProofResult.TRUE_NDG_UNREADABLE) {
-			unreadable = true;
-		}
-		if (proofresult == ProofResult.TRUE) {
-			unreadable = false;
-		}
-		if (proofresult == ProofResult.PROCESSING) {
-			processing = 1;
-		}
+		ProofResult proofresult = p.getProofResult();
+		Boolean result = p.getYesNoAnswer();
 
 		Log.debug("STATEMENT IS " + proofresult + " (yes/no: " + result + ")");
 
-	}
-
-	@Override
-	// Not sure how to do this hack normally.
-	final public String getDefinitionName(StringTemplate tpl) {
-		return "ProveDetails";
-	}
-
-	@Override
-	public void compute() {
-		if (processing == 1) {
-			Log.debug("PROCESSING mode: list undefined (1->2)");
+		if (proofresult == ProofResult.PROCESSING) {
 			list.setUndefined();
-			processing = 2; // Next time we should call initialCompute()
 			return;
-		}
-		if (processing == 2) {
-			Log.debug("PROCESSING mode: list should be created (2->3)");
-			processing = 3; // Next time we don't need to do anything
-			initialCompute();
 		}
 
 		list.setDefined(true);
 		list.clear();
 
 		if (result != null) {
+
+			// Don't remove this. It is needed for testing the web platform.
+			// (String match is assumed.)
+			Log.debug("Benchmarking: " + elapsedTime + " ms");
+			Boolean unreadable = null;
+
+			if (proofresult == ProofResult.TRUE_NDG_UNREADABLE) {
+				unreadable = true;
+			}
+			if (proofresult == ProofResult.TRUE) {
+				unreadable = false;
+			}
+
 			GeoBoolean answer = new GeoBoolean(cons);
 			answer.setValue(result);
 			list.add(answer);
 			if (result) {
+				HashSet<NDGCondition> ndgresult = p.getNDGConditions();
 				GeoList ndgConditionsList = new GeoList(cons);
 				ndgConditionsList.clear();
 				ndgConditionsList.setDrawAsComboBox(true);
@@ -322,7 +308,36 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 
 	}
 
-	
-	// TODO Consider locusequability
+	@Override
+	// Not sure how to do this hack normally.
+	final public String getDefinitionName(StringTemplate tpl) {
+		return "ProveDetails";
+	}
+
+	@Override
+	public void compute() {
+		if (!kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
+			inputFingerprint = null;
+			return;
+		}
+		String inputFingerprintPrev = inputFingerprint;
+		setInputOutput();
+		if (!inputFingerprintPrev.equals(inputFingerprint)) {
+			Log.trace(inputFingerprintPrev + " -> " + inputFingerprint);
+			initialCompute();
+		}
+	}
+
+	/*
+	 * We use a very hacky way to avoid recomputing proof when the input is not
+	 * changed. To achieve that, we create a fingerprint of the current input.
+	 * The fingerprint function should eventually be improved. Here we assume
+	 * that the input objects are always in the same order (that seems sensible)
+	 * and the obtained algebraic description changes iff the object does. This
+	 * may not be the case if rounding/precision is not as presumed.
+	 */
+	private static String fingerprint(GeoElement statement) {
+		return Prover.getTextFormat(statement);
+	}
 
 }

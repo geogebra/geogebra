@@ -30,12 +30,10 @@ import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Prover;
@@ -196,7 +194,7 @@ public class ProverBotanasMethod {
 								/* Creating the polynomial for collinearity: */
 								Polynomial p = Polynomial.collinear(fv1[0],
 										fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
-								Log.debug("Forcing non-collinearity for points "
+								Log.info("Forcing non-collinearity for points "
 										+ geo1.getLabelSimple()
 										+ ", "
 										+ geo2.getLabelSimple()
@@ -277,42 +275,6 @@ public class ProverBotanasMethod {
 		return ret;
 	}
 
-	/* formulate draw in readable format, TODO: create translation keys */
-	private static String getTextFormat(GeoElement statement) {
-		Localization loc = statement.getKernel().getLocalization();
-		ArrayList<String> freePoints = new ArrayList<String>();
-		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
-		StringBuilder hypotheses = new StringBuilder();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (geo.isGeoPoint() && geo.getParentAlgorithm() == null) {
-				freePoints.add(geo.getLabelSimple());
-			} else if (!(geo instanceof GeoNumeric)) {
-				String definition = geo
-						.getDefinitionDescription(StringTemplate.noLocalDefault);
-				String textLocalized = loc.getPlain("LetABeB",
-						geo.getLabelSimple(), definition);
-				hypotheses.append(textLocalized).append(".\n");
-			}
-		}
-		StringBuilder theoremText = new StringBuilder();
-		StringBuilder freePointsText = new StringBuilder();
-
-		for (String str : freePoints) {
-			freePointsText.append(str);
-			freePointsText.append(",");
-		}
-		freePointsText.deleteCharAt(freePointsText.length() - 1);
-		theoremText
-				.append(loc.getPlain("LetABeArbitraryPoints",
-						freePointsText.toString())).append(".\n");
-
-		theoremText.append(hypotheses);
-
-		String toProveStr = String.valueOf(statement.getParentAlgorithm());
-		theoremText.append(loc.getPlain("ProveThat", toProveStr)).append(".");
-		return theoremText.toString();
-	}
 
 	/**
 	 * Translation of a geometric statement into an algebraic one. We use
@@ -374,6 +336,15 @@ public class ProverBotanasMethod {
 		ProofResult result = null;
 
 		/**
+		 * The result of the computation.
+		 * 
+		 * @return result
+		 */
+		public ProofResult getResult() {
+			return result;
+		}
+
+		/**
 		 * Create an algebraic equation system of the statement given in the
 		 * construction, by using the underlying prover settings.
 		 * 
@@ -383,7 +354,11 @@ public class ProverBotanasMethod {
 		 *            the underlying prover
 		 */
 		public AlgebraicStatement(GeoElement statement, Prover prover) {
-			algebraicTranslation(statement, prover);
+			if (statement.kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
+				algebraicTranslation(statement, prover);
+			} else {
+				result = ProofResult.PROCESSING;
+			}
 		}
 
 		private void setHypotheses() {
@@ -403,7 +378,8 @@ public class ProverBotanasMethod {
 						if (geo instanceof GeoAxis
 								&& !(geoProver.getProverEngine() == ProverEngine.LOCUS_EXPLICIT || geoProver
 										.getProverEngine() == ProverEngine.LOCUS_IMPLICIT)) {
-							Log.debug("Statements containing axes are unsupported");
+							Log.info(
+									"Statements containing axes are unsupported");
 							result = ProofResult.UNKNOWN;
 							return;
 						}
@@ -468,7 +444,7 @@ public class ProverBotanasMethod {
 								|| (algo instanceof AlgoIntersectLineConic && ((AlgoIntersectLineConic) algo)
 										.existingIntersections() != 1)) {
 							interpretFalseAsUndefined = true;
-							Log.debug("Due to "
+							Log.info("Due to "
 									+ algo
 									+ " is not 1-1 algebraic mapping, FALSE will be interpreted as UNKNOWN");
 						}
@@ -524,13 +500,13 @@ public class ProverBotanasMethod {
 							}
 						}
 					} catch (NoSymbolicParametersException e) {
-						Log.debug(geo.getParentAlgorithm()
+						Log.info(geo.getParentAlgorithm()
 								+ " is not fully implemented");
 						result = ProofResult.UNKNOWN;
 						return;
 					}
 				} else {
-					Log.debug(geo.getParentAlgorithm() + " unimplemented");
+					Log.info(geo.getParentAlgorithm() + " unimplemented");
 					result = ProofResult.UNKNOWN;
 					return;
 				}
@@ -877,7 +853,7 @@ public class ProverBotanasMethod {
 		 * implemented at all:
 		 */
 		if (!(statement.getParentAlgorithm() instanceof SymbolicParametersBotanaAlgoAre)) {
-			Log.debug(statement.getParentAlgorithm() + " unimplemented");
+			Log.info(statement.getParentAlgorithm() + " unimplemented");
 			return ProofResult.UNKNOWN;
 			/* If not, let's not spend any time here, but give up immediately. */
 		}
@@ -885,20 +861,6 @@ public class ProverBotanasMethod {
 		/* If Singular is not available, let's try Giac (mainly on web) */
 		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
 			ProverSettings.transcext = false;
-			Log.debug("Testing local CAS connection");
-			GeoGebraCAS cas = (GeoGebraCAS) statement.getKernel()
-					.getGeoGebraCAS();
-			try {
-				String output = cas.getCurrentCAS().evaluateRaw("1");
-				Log.debug("Local CAS evaluates 1 to " + output);
-				if (!(output.equals("1"))) {
-					Log.debug("Switching to PROCESSING mode");
-					return ProofResult.PROCESSING;
-				}
-			} catch (Throwable e) {
-				Log.debug("Exception, switching to PROCESSING mode");
-				return ProofResult.PROCESSING;
-			}
 		}
 
 		/* The NDG conditions (automatically created): */

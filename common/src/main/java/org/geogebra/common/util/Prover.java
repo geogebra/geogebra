@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -17,12 +18,13 @@ import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod;
 import org.geogebra.common.kernel.prover.ProverPureSymbolicMethod;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 
@@ -666,6 +668,41 @@ public abstract class Prover {
 		this.returnExtraNDGs = returnExtraNDGs;
 	}
 
+	/* formulate draw in readable format, TODO: create translation keys */
+	public static String getTextFormat(GeoElement statement) {
+		Localization loc = statement.getKernel().getLocalization();
+		ArrayList<String> freePoints = new ArrayList<String>();
+		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
+		StringBuilder hypotheses = new StringBuilder();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo.isGeoPoint() && geo.getParentAlgorithm() == null) {
+				freePoints.add(geo.getLabelSimple());
+			} else if (!(geo instanceof GeoNumeric)) {
+				String definition = geo.getDefinitionDescription(
+						StringTemplate.noLocalDefault);
+				String textLocalized = loc.getPlain("LetABeB",
+						geo.getLabelSimple(), definition);
+				hypotheses.append(textLocalized).append(".\n");
+			}
+		}
+		StringBuilder theoremText = new StringBuilder();
+		StringBuilder freePointsText = new StringBuilder();
+
+		for (String str : freePoints) {
+			freePointsText.append(str);
+			freePointsText.append(",");
+		}
+		freePointsText.deleteCharAt(freePointsText.length() - 1);
+		theoremText.append(loc.getPlain("LetABeArbitraryPoints",
+				freePointsText.toString())).append(".\n");
+
+		theoremText.append(hypotheses);
+
+		String toProveStr = String.valueOf(statement.getParentAlgorithm());
+		theoremText.append(loc.getPlain("ProveThat", toProveStr)).append(".");
+		return theoremText.toString();
+	}
 
 	private static class StatementFeatures {
 
