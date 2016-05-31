@@ -3936,7 +3936,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-393 / MOB-646
 		case MOBILE_SWITCH_KEYBOARD:
-			return false;
+			return prerelease;
 
 		// GGB-856
 		case SELECT_MOVE_WHEN_FURNITURE_CLICKED:
