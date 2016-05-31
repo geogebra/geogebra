@@ -113,8 +113,6 @@ public enum Feature {
 
 	AV_DEFINITION_AND_VALUE,
 
-	// /GGB-605
-	NDERIVATIVE_COMMAND,
 	
 	FIX_CP_HEADER,
 

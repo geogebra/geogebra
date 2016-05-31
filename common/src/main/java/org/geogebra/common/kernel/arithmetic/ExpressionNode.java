@@ -45,7 +45,6 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
@@ -6151,10 +6150,7 @@ kernel, left,
 	 */
 	public ExpressionNode setSecret(AlgoElement algo) {
 
-		if (kernel.getApplication().has(Feature.NDERIVATIVE_COMMAND)) {
-			this.isSecret = algo;
-		}
-
+		this.isSecret = algo;
 		return this;
 	}
 
@@ -6164,11 +6160,6 @@ kernel, left,
 	 * @return true if expression shouldn't be displayed to the user
 	 */
 	public boolean isSecret() {
-
-		if (!kernel.getApplication().has(Feature.NDERIVATIVE_COMMAND)) {
-			return false;
-		}
-
 		return isSecret != null;
 	}
 

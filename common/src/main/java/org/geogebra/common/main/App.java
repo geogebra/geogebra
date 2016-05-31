@@ -4007,9 +4007,6 @@ public abstract class App implements UpdateSelection {
 		case FIX_CP_HEADER:
 			return prerelease;
 
-		case NDERIVATIVE_COMMAND:
-			return true;
-
 		case MOBILE_KEYBOARD_IN_GGBTRANS:
 			return false;
 
