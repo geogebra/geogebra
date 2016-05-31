@@ -3837,7 +3837,7 @@ public abstract class App implements UpdateSelection {
 			return false;
 			
 		case NO_CLIPPING_BOX_ON_FRONT:
-			return prerelease;
+			return false;
 
 		case WEB_PRINT_ALGEBRA_VIEW:
 			return prerelease;
