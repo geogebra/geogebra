@@ -1,8 +1,6 @@
 package javagiac;
 // This is based on runme.java. Just a playground to test various hacks with Giac conveniently.
 
-import java.lang.UnsatisfiedLinkError;
-
 public class test {
   static {
     try {

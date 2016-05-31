@@ -4,8 +4,6 @@ package javagiac;
 // 1. Compile it: "javac *.java".
 // 2. Run it: "cd ..; java -Djava.library.path=lib javagiac/minitest '1+2*(3+4)'
 
-import java.lang.UnsatisfiedLinkError;
-
 public class minitest {
   static {
     try {

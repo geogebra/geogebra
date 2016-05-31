@@ -2,7 +2,6 @@ package javagiac;
 // Command line interface to run Giac statements via JNI as a filter.
 
 import java.util.Scanner;
-import java.lang.UnsatisfiedLinkError;
 
 public class minigiac {
   static {
