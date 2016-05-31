@@ -1809,12 +1809,9 @@ public class RendererW extends Renderer implements RendererShadersInterface,
 		glContext.uniform1i(labelRenderingLocation, 0);
 	}
 
-	private float[] labelOrigin = new float[3];
-
 	@Override
-	public void setLabelOrigin(Coords origin) {
-		origin.get3ForGL(labelOrigin);
-		glContext.uniform3fv(labelOriginLocation, labelOrigin);
+	public void setLabelOrigin(float[] origin) {
+		glContext.uniform3fv(labelOriginLocation, origin);
 	}
 
 	private Hitting hitting;

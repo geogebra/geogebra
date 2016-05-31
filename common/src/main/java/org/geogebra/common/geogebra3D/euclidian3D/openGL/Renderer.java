@@ -752,7 +752,7 @@ public abstract class Renderer {
 	 * @param origin
 	 *            real-world coordinates
 	 */
-	abstract public void setLabelOrigin(Coords origin);
+	abstract public void setLabelOrigin(float[] origin);
 
 	/**
 	 * draw face-to screen parts (labels, ...)

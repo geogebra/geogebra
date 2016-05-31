@@ -359,8 +359,9 @@ public class DrawLabel3D {
 		return drawZ;
 	}
 
-	private Coords tmpCoords = new Coords(4);
 	private Coords v = new Coords(3);
+
+	private float[] labelOrigin = new float[3];
 
 	/**
 	 * update draw position
@@ -371,15 +372,13 @@ public class DrawLabel3D {
 			return;
 		}
 
-		if (view.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			tmpCoords.setX(origin.getX() * view.getXscale());
-			tmpCoords.setY(origin.getY() * view.getYscale());
-			tmpCoords.setZ(origin.getZ() * view.getZscale());
-			tmpCoords.setW(1);
+		v.setMul(view.getToScreenMatrix(), origin);
 
-			v.setMul(view.getToScreenMatrixForGL(), tmpCoords);
-		} else {
-			v.setMul(view.getToScreenMatrix(), origin);
+		origin.get3ForGL(labelOrigin);
+		if (view.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			labelOrigin[0] *= view.getXscale();
+			labelOrigin[1] *= view.getYscale();
+			labelOrigin[2] *= view.getZscale();
 		}
 
 		drawX = (int) (v.getX() + xOffset);
@@ -450,7 +449,7 @@ public class DrawLabel3D {
 		if (textureIndex == -1)
 			return;
 
-		renderer.setLabelOrigin(origin);
+		renderer.setLabelOrigin(labelOrigin);
 
 		if (forPicking) {
 			// renderer.getGeometryManager().rectangle(drawX + pickingX, drawY +

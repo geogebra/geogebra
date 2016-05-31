@@ -550,7 +550,7 @@ public abstract class RendererWithImpl extends Renderer implements
 	}
 
 	@Override
-	final public void setLabelOrigin(Coords origin) {
+	final public void setLabelOrigin(float[] origin) {
 		rendererImpl.setLabelOrigin(origin);
 	}
 

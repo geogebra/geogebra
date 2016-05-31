@@ -485,7 +485,7 @@ public abstract class RendererGL2 extends RendererD implements
 	}
 
 	@Override
-	public void setLabelOrigin(Coords origin) {
+	public void setLabelOrigin(float[] origin) {
 		// only used in shaders
 	}
 

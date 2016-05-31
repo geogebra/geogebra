@@ -860,12 +860,10 @@ public abstract class RendererImplShaders implements RendererImpl {
 		glUniform1i(labelRenderingLocation, 0);
 	}
 
-	private float[] labelOrigin = new float[3];
 
 	@Override
-	public void setLabelOrigin(Coords origin) {
-		origin.get3ForGL(labelOrigin);
-		glUniform3fv(labelOriginLocation, labelOrigin);
+	public void setLabelOrigin(float[] origin) {
+		glUniform3fv(labelOriginLocation, origin);
 	}
 
 	@Override

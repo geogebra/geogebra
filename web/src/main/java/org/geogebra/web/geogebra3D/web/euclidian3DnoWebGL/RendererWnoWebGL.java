@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererW;
 
@@ -138,7 +137,7 @@ public class RendererWnoWebGL extends RendererW {
 	}
 
 	@Override
-	protected void setLightPosition(float[] values) {
+	public void setLightPosition(float[] values) {
 		// no webGL context here...
 	}
 
@@ -276,7 +275,7 @@ public class RendererWnoWebGL extends RendererW {
 	}
 
 	@Override
-	public void setLabelOrigin(Coords origin) {
+	public void setLabelOrigin(float[] origin) {
 		// no webGL context here...
 	}
 

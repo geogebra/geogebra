@@ -1381,14 +1381,10 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 0);
 	}
 
-	private float[] labelOrigin = new float[3];
-
 	@Override
-	public void setLabelOrigin(Coords origin) {
-		origin.get3ForGL(labelOrigin);
-		jogl.getGL2ES2().glUniform3fv(labelOriginLocation, 1, labelOrigin, 0);
+	public void setLabelOrigin(float[] origin) {
+		jogl.getGL2ES2().glUniform3fv(labelOriginLocation, 1, origin, 0);
 	}
-
 
 	private Hitting hitting;
 

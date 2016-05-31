@@ -1,6 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
-import org.geogebra.common.kernel.Matrix.Coords;
 
 public interface RendererImpl extends RendererShadersInterface {
 
@@ -66,7 +65,7 @@ public interface RendererImpl extends RendererShadersInterface {
 
 	public abstract void setDashTexture(int index);
 
-	public abstract void setLabelOrigin(Coords origin);
+	public abstract void setLabelOrigin(float[] origin);
 
 	public abstract void enableLighting();
 
