@@ -2284,11 +2284,13 @@ public abstract class App implements UpdateSelection {
 		// put in to check possible bottleneck
 		// Application.debug("Update Selection");
 
-		if (getGuiManager() != null && showMenuBar)
+		if (getGuiManager() != null && showMenuBar) {
 			getGuiManager().updateMenubarSelection();
+		}
 
 		// if showMenuBar is false, we can still update the style bars
-		if (getActiveEuclidianView().getMode() == EuclidianConstants.MODE_MOVE) {
+		if (getActiveEuclidianView().getMode() == EuclidianConstants.MODE_MOVE
+				|| getActiveEuclidianView().getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
 			updateStyleBars();
 		}
 
