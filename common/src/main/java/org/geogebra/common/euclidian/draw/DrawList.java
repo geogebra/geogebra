@@ -621,7 +621,8 @@ public final class DrawList extends CanvasDrawable
 
 			int tableWidth = getColCount() * dimItem.getWidth();
 			int tableHeight = rowCount * dimItem.getHeight();
-			if (isScrollNeeded() && (top + tableHeight <= viewHeight))
+			if (isScrollNeeded()
+					&& (top + tableHeight + MARGIN <= viewHeight))
 			{
 				tableHeight += dimItem.getHeight();
 				// if (tableHeight + rectDown.getHeight() >= viewHeight) {
@@ -642,8 +643,13 @@ public final class DrawList extends CanvasDrawable
 				}
 
 				if (isScrollNeeded()) {
-
+					int h = viewOpt.getHeight();
 					tableHeight += 2 * (int) rectDown.getHeight();
+					if (tableHeight > h) {
+						tableHeight = h - 2 * MARGIN;
+					} else {
+						top = (h - tableHeight) / 2;
+					}
 				}
 			}
 
@@ -666,7 +672,16 @@ public final class DrawList extends CanvasDrawable
 								- (int) (rectDown.getHeight()),
 						(int) (rectDown.getWidth()),
 						(int) (rectDown.getHeight()));
+
+				Log.debug("top: " + top + " tableHeight: " + tableHeight
+						+ "viewHeight: " + viewOpt.getHeight());
+				Log.debug("bottom: "
+						+ (top + tableHeight + 2 * rectDown.getHeight())
+						+ "viewHeight: " + viewOpt.getHeight());
+				Log.debug("dimTable: " + dimTable.getHeight() + " down: "
+						+ (top + dimTable.getHeight() + rectDown.getHeight()));
 			}
+
 		}
 
 		private void drawControls() {
