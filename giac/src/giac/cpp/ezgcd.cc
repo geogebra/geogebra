@@ -812,6 +812,36 @@ namespace giac {
     return true;
   }
 
+  // find u,v,d s.t. u*p+v*q=d by Hensel lift
+  bool try_hensel_egcd(const polynome & p,const polynome & q,polynome &u,polynome &v,polynome & d){
+    // check # of variables
+    //if (p.dim<=1 || p.dim!=q.dim)
+      return false;
+    // check that 0 is a good evaluation point (same degree, gcd==1)
+    vecteur b(1,0);
+    polynome p0(1),q0(1);
+    find_good_eval(p,q,p0,q0,b,(debug_infolevel>=2));
+    if (!is_zero(b))
+      return false;
+    int pdeg=p.lexsorted_degree(),qdeg=q.lexsorted_degree();
+    if (p0.lexsorted_degree()!=pdeg || q0.lexsorted_degree()!=qdeg)
+      return false;
+    gen g=gcd(pdeg,qdeg);
+    if (g.type==_POLY && g._POLYptr->lexsorted_degree())
+      return false;
+    // Bezout at other variables==0
+    polynome u0(1),v0(1),d0(1);
+    egcd(p0,q0,u0,v0,d0); // d0 must be constant
+    // now p*u0+q*v0-d0=O(1) where O(k) means of order >= k wrt other variables
+    // p*uk+q*vk-d0=O(k) -> p*(uk+uk1)+q*(v+vk1)-d0=O(k+1)
+    // with uk1 and vk1=O(k+1)
+    // we have p0*uk1+q0*vk1=d0-p*uk-q*vk=yk
+    // hence uk1=yk*u0/d0 % q0, vk1=yk*v0/d0 % p0
+    // rational (Pade-like) reconstruction uk=fraction of polynomials 
+    // with max degree wrt other variables <=k/2
+    // once both fractions corresp. to uk and vk stabilizes, check identity
+  }
+
   // Hensel linear or quadratic lift
   // FIXME Quadratic lift currently works only if lcp is constant
   // Lift the equality p(b)=qb*rb [where b is a vecteur like for peval

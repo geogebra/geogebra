@@ -3608,8 +3608,183 @@ namespace giac {
       return _det(_sylvester(args,contextptr),contextptr); 
     if (v.back()==at_sylvester || v.back()==at_det)
       return _det(_sylvester(gen(vecteur(args._VECTptr->begin(),args._VECTptr->begin()+s-1),_SEQ__VECT),contextptr),contextptr);
-    if (v.back()==at_lagrange)
-      return _det(gen(makevecteur(_sylvester(gen(vecteur(args._VECTptr->begin(),args._VECTptr->begin()+s-1),_SEQ__VECT),contextptr),at_lagrange),_SEQ__VECT),contextptr);
+    if (v.back()==at_lagrange && s>=3){
+      if (debug_infolevel)
+	CERR << CLOCK()*1e-6 << " interp resultant begin " << endl;
+      gen p=v[0];
+      gen q=v[1];
+      gen x=vx_var;
+      if (s>3)
+	x=v[2];
+      gen dbg; // dbg=_resultant(makesequence(p,q,x),contextptr);
+      vecteur w(1,x);
+      lvar(p,w);
+      lvar(q,w);
+      int m=_degree(makesequence(p,x),contextptr).val;
+      int n=_degree(makesequence(q,x),contextptr).val;
+      if (w.size()==1 && m+n>GIAC_PADIC){
+	gen S=_sylvester(makesequence(p,q,x),contextptr);
+	return _det(S,contextptr);
+      }
+      if (w.size()>1){
+	gen y=w[1];
+	vecteur rargs(3,x);
+	if (s>4 && equalposcomp(w,v[3])){
+	  y=v[3];
+	  if (s>5){
+	    for (int i=4;i<s-1;++i)
+	      rargs.push_back(v[i]);
+	    rargs.push_back(at_lagrange);
+	  }
+	  else {
+	    if (m+n>=GIAC_PADIC)
+	      rargs.push_back(at_lagrange);
+	  }
+	}
+	else {
+	  if (m+n>=GIAC_PADIC)
+	    rargs.push_back(at_lagrange);
+	}
+	if (v[s-2]==at_det){
+	  gen S=_sylvester(makesequence(p,q,x),contextptr);
+	  return _det(gen(makevecteur(S,at_lagrange),_SEQ__VECT),contextptr);
+	}
+	// bound on degree of resultant with respect to y
+	int a=_total_degree(makesequence(p,makevecteur(x,y)),contextptr).val;
+	int b=_total_degree(makesequence(q,makevecteur(x,y)),contextptr).val;
+	// first estimate n*(a-m)+m*b 
+	int d1=n*(a-m)+m*b;
+	// second estimate 
+	a=_degree(makesequence(p,y),contextptr).val;
+	b=_degree(makesequence(q,y),contextptr).val;
+	// a*n+b*m
+	int d2=a*n+b*m;
+	int d=giacmin(d1,d2);
+	if (debug_infolevel)
+	  CERR << CLOCK()*1e-6 << " interp degree " << d << endl;
+	vecteur X(d+1),Y(d+1);
+	int j=-d/2;
+	gen pl=_lcoeff(makesequence(p,x),contextptr);
+	gen ql=_lcoeff(makesequence(q,x),contextptr);
+	if (rargs.back()!=at_lagrange || w.size()==2){
+	  // prepare p and q in polynomial format
+	  vecteur l;
+	  l.push_back(y);
+	  l.push_back(x);
+	  l=vecteur(1,l);
+	  alg_lvar(p,l);
+	  alg_lvar(q,l);
+	  gen f1,f1_num,f1_den,f2,f2_num,f2_den;
+	  f1=e2r(makevecteur(p,q),l,contextptr);
+	  f2=f1[1];
+	  f1=f1[0];
+	  fxnd(f1,f1_num,f1_den);
+	  fxnd(f2,f2_num,f2_den);
+	  if ( (f1_num.type==_POLY) && (f2_num.type==_POLY)){
+	    const polynome & pp=*f1_num._POLYptr;
+	    const polynome & qp=*f2_num._POLYptr;
+	    int dim=pp.dim;
+	    vecteur vp,vq,vp0,vq0;
+	    polynome2poly1(pp,1,vp);
+	    polynome2poly1(qp,1,vq);
+	    polynome pp0(pp);
+	    pp0.reorder(transposition(0,1,dim));
+	    pp0=firstcoeff(pp0).trunc1();
+	    polynome qp0(qp);
+	    qp0.reorder(transposition(0,1,dim));
+	    qp0=firstcoeff(qp0).trunc1();
+	    polynome2poly1(pp0,1,vp0);
+	    polynome2poly1(qp0,1,vq0);
+	    gen den=pow(r2sym(f1_den,l,contextptr),qp.lexsorted_degree(),contextptr)*pow(r2sym(f2_den,l,contextptr),pp.lexsorted_degree(),contextptr);
+	    vecteur tmpv1,tmpv2,S;
+	    for (int i=0;i<=d;++i,++j){
+	      if (debug_infolevel)
+		CERR << CLOCK()*1e-6 << " interp horner " << i << endl;
+	      for (;;++j){
+		// find evaluation preserving degree in x
+		if (0 && j==0)
+		  CERR << "j" << endl;
+		gen hp=horner(vp0,j);
+		gen hq=horner(vq0,j);
+		if (!is_zero(hp) && !is_zero(hq))
+		  break;
+	      }
+	      X[i]=j;
+	      gen gp=horner(vp,j);
+	      gen gq=horner(vq,j);
+	      if (debug_infolevel)
+		CERR << CLOCK()*1e-6 << " interp resultant " << i << endl;
+	      if (gp.type==_POLY && gq.type==_POLY){
+		if (0 &&
+		    m>=GIAC_PADIC/2 && n>=GIAC_PADIC/2
+		    )
+		  resultant_sylvester(*gp._POLYptr,*gq._POLYptr,tmpv1,tmpv2,S,Y[i]);
+		else
+		  Y[i]=resultant(*gp._POLYptr,*gq._POLYptr);
+		continue;
+	      }
+	      if (gp.type==_POLY){
+		Y[i]=pow(gq,gp._POLYptr->lexsorted_degree(),contextptr);
+		continue;
+	      }
+	      if (gq.type==_POLY){
+		Y[i]=pow(gp,gq._POLYptr->lexsorted_degree(),contextptr);
+		continue;		
+	      }
+	      Y[i]=1;
+	    }
+	    if (debug_infolevel)
+	      CERR << CLOCK()*1e-6 << " interp dd " << endl;
+	    vecteur R=divided_differences(X,Y);
+	    if (debug_infolevel)
+	      CERR << CLOCK()*1e-6 << " interp build " << endl;
+	    modpoly resp(1,R[d]),tmp; // cst in y
+	    for (int i=d-1;i>=0;--i){
+	      operator_times(resp,makevecteur(1,-X[i]),0,tmp);
+	      if (tmp.empty())
+		tmp=vecteur(1,R[i]);
+	      else
+		tmp.back() += R[i];
+	      tmp.swap(resp);
+	    }
+	    vecteur & lf=*l.front()._VECTptr;
+	    lf.erase(lf.begin()); // remove y
+	    if (debug_infolevel)
+	      CERR << CLOCK()*1e-6 << " interp convert " << endl;
+	    gen resg=r2sym(resp,l,contextptr);
+	    if (resg.type==_VECT)
+	      resg=symb_horner(*resg._VECTptr,y);
+	    return resg/den;	    
+	  }
+	}
+	for (int i=0;i<=d;++i,++j){
+	  if (debug_infolevel)
+	    CERR << CLOCK()*1e-6 << " interp resultant " << i << endl;
+	  for (;;++j){
+	    // find evaluation preserving degree in x
+	    if (!is_zero(subst(pl,y,j,false,contextptr))&& !is_zero(subst(ql,y,j,false,contextptr)))
+	      break;
+	  }
+	  gen py=subst(p,y,j,false,contextptr);
+	  gen qy=subst(q,y,j,false,contextptr);
+	  X[i]=j;
+	  rargs[0]=py;
+	  rargs[1]=qy;
+	  Y[i]=_resultant(gen(rargs,_SEQ__VECT),contextptr);
+	  if (0){
+	    gen dbgtst=subst(dbg,y,j,false,contextptr);
+	    if (!is_zero(ratnormal(dbgtst-Y[i])))
+	      CERR << "err" << endl;
+	  }
+	}
+	if (debug_infolevel)
+	  CERR << CLOCK()*1e-6 << " interp interpolation begin " << endl;
+	gen r=_lagrange(makesequence(X,Y,y),contextptr);
+	if (debug_infolevel)
+	  CERR << CLOCK()*1e-6 << " interp interpolation end " << endl;
+	return r;
+      }
+    }
     if (v.size()>3)
       return gentoomanyargs(_resultant_s);
     if (v.back().type==_MOD)

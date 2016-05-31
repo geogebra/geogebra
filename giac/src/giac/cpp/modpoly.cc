@@ -1418,6 +1418,25 @@ namespace giac {
     }
   }
 
+  void iquo(modpoly & th,const gen & fact){
+    modpoly::iterator it=th.begin(),itend=th.end();
+    for (;it!=itend;++it){
+#ifndef USE_GMP_REPLACEMENTS
+      if (it->type==_ZINT && it->ref_count()==1){
+	if (fact.type==_INT_ && fact.val>0){
+	  mpz_tdiv_q_ui(*it->_ZINTptr,*it->_ZINTptr,fact.val);
+	  continue;
+	}
+	if (fact.type==_ZINT){
+	  mpz_tdiv_q(*it->_ZINTptr,*it->_ZINTptr,*fact._ZINTptr);
+	  continue;
+	}
+      }
+#endif
+	*it=iquo(*it,fact); 
+    }
+  }
+
   void divmodpoly(const modpoly & th, const gen & fact, environment * env,modpoly & new_coord){
     if (is_one(fact)){
       if (&th!=&new_coord)
@@ -1701,12 +1720,32 @@ namespace giac {
       return;
     }
     quo.clear();
+    if (a==b+1){
+      rem.clear();
+      // frequent case in euclidean algorithms
+      longlong q0=(longlong(th[0])*invcoeff)%m;
+      longlong q1= (( (th[1]-other[1]*q0)%m )*invcoeff)%m;
+      quo.push_back(q0);
+      quo.push_back(q1);
+      // rem=th-other*q
+      vector<int>::const_iterator at=th.begin()+2,bt=other.begin()+1,btend=other.end();
+      for (;;++at){
+	longlong r=*at-q1*(*bt);
+	++bt;
+	if (bt==btend){
+	  rem.push_back(r%m);
+	  return;
+	}
+	r -= q0*(*bt);
+	rem.push_back(r % m);
+      }
+    }
     rem=th;
     if (a<b)
       return;
     quo.reserve(a-b+1);
-    // A=BQ+R -> A=(B*invcoeff)*Q+(R*invcoeff), 
-    // make division of A*coeff by B*coeff and multiply R by coeff at the end
+    // A=BQ+R -> A*invcoeff=(B*invcoeff)*Q+(R*invcoeff), 
+    // make division of A*invcoeff by B*invcoeff and multiply R by coeff at the end
     vector<int> B=other;
     mulmod(rem,invcoeff,m); // rem=th*invcoeff;
     mulmod(B,invcoeff,m); // B=other*invcoeff;
@@ -3921,6 +3960,206 @@ namespace giac {
     return rdiv(res,d,context0);
   }
 
+  // n=d-1-e, d=degree(Sd), e=degree(Sd1), Se=(lc(Sd1)^n*Sd1)/lc(Sd)^n
+  void ducos_e(const modpoly & Sd,const gen & sd,const modpoly & Sd1,modpoly &Se){
+    int n=Sd.size()-Sd1.size()-1;
+    if (!n){
+      Se=Sd1;
+      return;
+    }
+    if (n==1){
+      Se=Sd1.front()*Sd1/sd;
+      return;
+    }
+    // n>=2
+    gen sd1(Sd1.front()),s((sd1*sd1)/sd);
+    for (int j=2;j<n;++j){
+      s=(s*sd1)/sd;
+    }
+    Se=(s*Sd1)/sd;
+  }
+
+  // compute S_{e-1}
+  void ducos_e1(const modpoly & A,const modpoly & Sd1,const modpoly & Se,const gen & sd,modpoly & res){
+    int d=A.size()-1,e=Sd1.size()-1,dim=1;
+    if (debug_infolevel>3)
+      CERR << CLOCK()*1e-6 << " ducos_e1 begin d=" << d << endl;
+    gen cd1(Sd1.front()),se(Se.front());
+    index_t sh(dim);
+    vector< modpoly > Hv(e);
+    Hv.reserve(d);
+    modpoly tmp(e+1);
+    tmp[0]=se;
+    Hv.push_back(tmp-Se);
+    for (int j=e+1;j<d;++j){
+      modpoly XHj1(Hv.back());
+      XHj1.push_back(0); // X*H_{j-1}
+      gen piXHj1;
+      if (int(XHj1.size())-1-e>=0){
+	piXHj1=XHj1[XHj1.size()-1-e];
+	XHj1=XHj1-(piXHj1*Sd1)/cd1;
+      }
+      Hv.push_back(XHj1);
+    }
+    modpoly D,tmpv; // sum_{j<d} pi_j(A)*H_j/lc(A)
+    // split next loop in 2 parts, because Hv indexes lower than e are straightforward
+    if (debug_infolevel>3)
+      CERR << CLOCK()*1e-6 << " ducos_e1 D begin" << endl;
+    for (int j=e-1;j>=0;--j){
+      D.push_back(A[A.size()-1-j]*se);
+    }
+    if (debug_infolevel>3)
+      CERR << CLOCK()*1e-6 << " ducos_e1 D j=e " << e << "<" << d << endl;
+    for (int j=e;j<d;++j){
+      D = D + A[A.size()-1-j]*Hv[j];
+    }
+    if (debug_infolevel>3)
+      CERR << CLOCK()*1e-6 << " ducos_e1 D end, start division" << endl;
+    iquo(D,A.front()); // D = D/A.front();
+    if (debug_infolevel>3)
+      CERR << CLOCK()*1e-6 << " ducos_e1 D ready" << endl;
+    modpoly & Hd1=Hv.back();
+    Hd1.push_back(0); // X*Hd1
+#if 1
+    addmodpoly(Hd1,D,tmpv); 
+    mulmodpoly(tmpv,cd1,D);
+    mulmodpoly(Sd1,Hd1[Hd1.size()-1-e],tmpv);
+    submodpoly(D,tmpv,res);
+#else
+    res=cd1*(Hd1+D)-(Hd1[Hd1.size()-1-e]*Sd1);
+#endif
+    if (debug_infolevel>3)
+      CERR << CLOCK()*1e-6 << " ducos_e1 D final division" << endl;
+    iquo(res,sd); // res=res/sd;
+    if (debug_infolevel>3)
+      CERR << CLOCK()*1e-6 << " ducos_e1 end" << endl;
+    if ( (d-e+1)%2)
+      res=-res;
+  }
+
+  // resultant of P and Q modulo m, modifies P and Q, 
+  int resultant(vector<int> & P,vector<int> & Q,vector<int> & tmp1,vector<int> & tmp2,int m){
+    longlong res=1;
+    while (Q.size()>1){
+      DivRem(P,Q,m,tmp1,tmp2);
+      res = (res*powmod(Q[0],P.size()-tmp2.size(),m)) %m;
+      if (P.size()%2==0 && Q.size()%2==0)
+	res = -res;
+      P.swap(Q);
+      Q.swap(tmp2);
+    }
+    if (Q.empty())
+      return 0;
+    res = (res*powmod(Q[0],P.size()-1,m))%m;
+    return smod(res,m);
+  }
+  int sizeinbase2(const gen & g){
+    if (g.type==_INT_)
+      return sizeinbase2(absint(g.val));
+    if (g.type==_ZINT)
+      return mpz_sizeinbase(*g._ZINTptr,2);
+    if (g.type!=_VECT)
+      return -1;
+    return sizeinbase2(*g._VECTptr);
+  }
+  int sizeinbase2(const vecteur & v){
+    int m=0;
+    const_iterateur it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      int c=sizeinbase2(*it);
+      if (c>m)
+	m=c;
+    }
+    return m+(sizeinbase2(v.size())+1)/2;
+  }
+  gen mod_resultant(const modpoly & P,const modpoly & Q){
+    // gen h2=4*pow(l2norm2(P),Q.size()-1)*pow(l2norm2(Q),P.size()-1);
+    int h=sizeinbase2(P)*(Q.size()-1)+sizeinbase2(Q)*(P.size()-1)+1;
+    vector<int> p,q,tmp1,tmp2;
+    int m=2147483647;
+    gen pim=m;
+    vecteur2vector_int(P,m,p);
+    vecteur2vector_int(Q,m,q);
+    gen res=resultant(p,q,tmp1,tmp2,m);
+    mpz_t tmpz;
+    mpz_init(tmpz);
+    int proba=0;
+    while (h>sizeinbase2(pim) && proba<3){
+      m=prevprime(m-1).val;
+      vecteur2vector_int(P,m,p);
+      vecteur2vector_int(Q,m,q);
+      int r=resultant(p,q,tmp1,tmp2,m);
+#ifndef USE_GMP_REPLACEMENTS
+      if (pim.type==_ZINT && res.type==_ZINT){
+	gen u,v,d;
+	egcd(pim,m,u,v,d);
+	if (u.type==_ZINT)
+	  u=modulo(*u._ZINTptr,m);
+	if (d==-1){ u=-u; v=-v; d=1; }
+	int U=u.val;
+	int amodm=modulo(*res._ZINTptr,m);
+	if (amodm!=r){
+	  mpz_mul_si(tmpz,*pim._ZINTptr,(U*(r-longlong(amodm)))%m);
+	  mpz_add(*res._ZINTptr,*res._ZINTptr,tmpz);
+	  proba=0;
+	}
+	else ++proba;
+      }
+      else
+#endif
+	res=ichinrem(res,r,pim,m);
+      pim=m*pim;
+    }
+    mpz_clear(tmpz);
+    return smod(res,pim);
+  }
+
+  void subresultant(const modpoly & P,const modpoly & Q,gen & res){
+    if (0 && is_integer_vecteur(P) && is_integer_vecteur(Q)){
+      res=mod_resultant(P,Q); // according to my tests ducos is faster
+      return ;
+    }
+    int d=P.size()-1,e=Q.size()-1;
+    if (d<e){
+      subresultant(Q,P,res);
+      // adjust sign
+      if ((d*e)%2) res=-res;
+      return;
+    }
+    if (e<=0){
+      res=pow((e<0?0:Q[0]),d,context0);
+      return;
+    }
+    gen sd(pow(Q[0],d-e,context0)),tmp;
+    vecteur A(Q),a,B,C,quo;
+    PseudoDivRem(P,-Q,quo,B,tmp);
+    for (unsigned step=0;;++step){
+      d=A.size()-1,e=B.size()-1;
+      if (B.empty()){
+	res=0;
+	return ;
+      }
+      int delta=d-e;
+      if (delta>1){
+	gen sd(A[0]);
+	if (step==0)
+	  sd=pow(sd,P.size()-Q.size(),context0);
+	ducos_e(A,sd,B,C);
+      }
+      else
+	C=B;
+      if (e==0){
+	// adjust sign: already done by doing pseudodivrem(-Q,...)
+	//if ((P.lexsorted_degree()*Q.lexsorted_degree())%2) C=-C;
+	res=C[0];
+	return;
+      }
+      ducos_e1(A,B,C,sd,B);
+      A.swap(C); // A=C;
+      sd=A[0];
+    }
+  }  
+
   // P(x) -> P(-x)
   void Pminusx(vecteur & P){
     unsigned Ps=unsigned(P.size());
@@ -4442,8 +4681,8 @@ namespace giac {
     egcd(pmod,qmodval,u,v,d);
     if (u.type==_ZINT)
       u=modulo(*u._ZINTptr,qmodval);
-    int U=u.val;
     if (d==-1){ u=-u; v=-v; d=1; }
+    int U=u.val;
     if (d!=1)
       return false;
     if (pmod.type!=_ZINT)

@@ -13824,25 +13824,31 @@ namespace giac {
   static define_unary_function_eval (__basis,&giac::_basis,_basis_s);
   define_unary_function_ptr5( at_basis ,alias_at_basis,&__basis,0,true);
 
-  // Sylvester matrix, in lines line0=v1 0...0, line1=0 v1 0...0, etc.
-  matrice sylvester(const vecteur & v1,const vecteur & v2){
+  void sylvester(const vecteur & v1,const vecteur & v2,matrice & res){
     int m=int(v1.size())-1;
     int n=int(v2.size())-1;
-    if (m<0 || n<0)
-      return vecteur(0);
-    matrice res(m+n);
+    if (m<0 || n<0){
+      res.clear(); return;
+    }
+    res.resize(m+n);
     for (int i=0;i<n;++i){
-      vecteur w(m+n);
+      res[i]=new ref_vecteur(m+n);
+      vecteur & w=*res[i]._VECTptr;
       for (int j=0;j<=m;++j)
 	w[i+j]=v1[j];
-      res[i]=w;
     }
     for (int i=0;i<m;++i){
-      vecteur w(m+n);
+      res[n+i]=new ref_vecteur(m+n);
+      vecteur & w=*res[n+i]._VECTptr;
       for (int j=0;j<=n;++j)
 	w[i+j]=v2[j];
-      res[n+i]=w;
     }
+  }
+
+  // Sylvester matrix, in lines line0=v1 0...0, line1=0 v1 0...0, etc.
+  matrice sylvester(const vecteur & v1,const vecteur & v2){
+    matrice res;
+    sylvester(v1,v2,res);
     return res;
   }
 

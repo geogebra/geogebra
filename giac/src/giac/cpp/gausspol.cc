@@ -2420,7 +2420,7 @@ namespace giac {
   // compute S_{e-1}
   void ducos_e1(const polynome & A,const polynome & Sd1,const polynome & Se,const polynome & sd,polynome & res){
     int d=A.lexsorted_degree(),e=Sd1.lexsorted_degree(),dim=A.dim;
-    if (debug_infolevel)
+    if (debug_infolevel>1)
       CERR << CLOCK()*1e-6 << "cducos_e1 begin d=" << d << endl;
     polynome cd1(Tfirstcoeff(Sd1)),se(Tfirstcoeff(Se));
     index_t sh(dim);
@@ -2452,7 +2452,7 @@ namespace giac {
     vector<polynome> Av; A.Tcoeffs(Av);
 #endif
     // split next loop in 2 parts, because Hv indexes lower than e are straightforward
-    if (debug_infolevel)
+    if (debug_infolevel>1)
       CERR << CLOCK()*1e-6 << " ducos_e1 D begin" << endl;
     for (int j=e-1;j>=0;--j){
       sh[0]=j;
@@ -2462,12 +2462,12 @@ namespace giac {
       D.append(Av[Av.size()-1-j].untrunc1()*se.shift(sh));
 #endif
     }
-    if (debug_infolevel)
+    if (debug_infolevel>1)
       CERR << CLOCK()*1e-6 << " ducos_e1 D j=e " << e << "<" << d << endl;
     for (int j=e;j<d;++j){
       D = D + Av[Av.size()-1-j].untrunc1()*Hv[j];
     }
-    if (debug_infolevel)
+    if (debug_infolevel>1)
       CERR << CLOCK()*1e-6 << " ducos_e1 D end, start division" << endl;
 #if 1
     D = D/Av.front().untrunc1();
@@ -2478,7 +2478,7 @@ namespace giac {
       D.coord.swap(quo.coord);
     }
 #endif
-    if (debug_infolevel)
+    if (debug_infolevel>1)
       CERR << CLOCK()*1e-6 << " ducos_e1 D ready" << endl;
     polynome Hd1(Hv.back());
     sh[0]=1;
@@ -2488,7 +2488,7 @@ namespace giac {
 #else
     res=(cd1*(Hd1+D)-(Hd1.Tcoeffs()[Hv.size()-1-e]).untrunc1()*Sd1);
 #endif
-    if (debug_infolevel)
+    if (debug_infolevel>1)
       CERR << CLOCK()*1e-6 << " ducos_e1 D final division" << endl;
 #if 1
     res=res/sd;
@@ -2499,13 +2499,22 @@ namespace giac {
       res.coord.swap(quo.coord);
     }
 #endif
-    if (debug_infolevel)
+    if (debug_infolevel>1)
       CERR << CLOCK()*1e-6 << " ducos_e1 end" << endl;
     if ( (d-e+1)%2)
       res=-res;
   }
 
   void subresultant(const polynome & P,const polynome & Q,polynome & C){
+    if (P.dim==1){
+      gen c;
+      vecteur p,q;
+      polynome2poly1(P,1,p);
+      polynome2poly1(Q,1,q);
+      subresultant(p,q,c);
+      C=polynome(monomial<gen>(c,1));
+      return;
+    }
     int d=P.lexsorted_degree(),e=Q.lexsorted_degree();
     if (d<e){
       subresultant(Q,P,C);
@@ -2556,6 +2565,32 @@ namespace giac {
     c=pow(pz,q.lexsorted_degree())*pow(qz,p.lexsorted_degree());
   }
 
+  bool resultant_sylvester(const polynome &p,const polynome &q,vecteur &pv,vecteur &qv,matrice & S,gen & determinant){
+    polynome2poly1(p,1,pv);
+    polynome2poly1(q,1,qv);
+    sylvester(pv,qv,S);
+    vecteur pivots;
+    matrice mres;
+    int s=int(S.size());
+    if (!mrref(S,mres,pivots,determinant,0,s,0,s,
+	       /* fullreduction */0,0,false/* no conversion*/,1/* guess algorithm */,1/* determinant */,
+	       context0))
+      return false;
+    return true;
+  }
+
+  bool resultant_sylvester(const polynome &p,const polynome &q,matrice & S,polynome & res){
+    vecteur pv,qv;
+    gen determinant;
+    if (!resultant_sylvester(p,q,pv,qv,S,determinant))
+      return false;
+    if (determinant.type==_POLY)
+      res=determinant._POLYptr->untrunc1();
+    else
+      res=polynome(monomial<gen>(determinant,p.dim));
+    return true;
+  }
+
   polynome resultant(const polynome & p,const polynome & q){
     // polynomial subresultant does not work if p and q have approx coeff
     if (p.coord.empty())
@@ -2563,6 +2598,15 @@ namespace giac {
     if (q.coord.empty())
       return q;
     bool approx=has_num_coeff(p) || has_num_coeff(q);
+    if (p.dim==1){
+      if (approx  
+	  // || (p.lexsorted_degree()>=GIAC_PADIC/2 && q.lexsorted_degree()>=GIAC_PADIC/2)
+	  ){
+	matrice S; polynome res(p.dim);
+	if (resultant_sylvester(p,q,S,res))
+	  return res;
+      }
+    }
     if (approx){
       polynome P(p),Q(q);
       exact_inplace(P); exact_inplace(Q);
@@ -3657,13 +3701,13 @@ namespace giac {
 
   static bool gcdheu(const polynome &p_orig,const index_t & p_deg,const polynome &q_orig, const index_t & q_deg,polynome & p_simp, gen & np_simp, polynome & q_simp, gen & nq_simp, polynome & d, gen & d_content,bool skip_test,bool compute_cofactors){
     // COUT << "Entering gcdheu " << p.dim << endl;
-    if (debug_infolevel>=20-p_orig.dim)
+    if (debug_infolevel>=123456-p_orig.dim)
       CERR << "Gcdheu begin " << p_orig.dim << " " << CLOCK() << " " << p_deg << " " << p_orig.coord.size() << " " << q_deg << " " << q_orig.coord.size() << endl;
     if (&p_orig!=&p_simp)
       p_simp=p_orig;
     if (&q_orig!=&q_simp)
       q_simp=q_orig;
-    if (debug_infolevel>=20-p_simp.dim)
+    if (debug_infolevel>=123456-p_simp.dim)
       CERR << "Gcdheu end copy" << CLOCK() << endl;
     // check if one coeff is a _MOD or _USER
     gen coefft,coeffqt;
@@ -3720,7 +3764,7 @@ namespace giac {
     // nq_simp=(qt!=_EXT)?ppz(q_simp):1;
     np_simp=ppz(p_simp);
     nq_simp=ppz(q_simp);
-    if (debug_infolevel>=20-p_simp.dim)
+    if (debug_infolevel>=123456-p_simp.dim)
       CERR << "Gcdheu end ppz" << CLOCK() << " " << np_simp << " " << nq_simp << endl;
     d_content=gcd(np_simp,nq_simp,context0);
     // type may have changed by ppz simplification, recheck
@@ -3787,11 +3831,11 @@ namespace giac {
 	if (is_positive(-d.coord.front())){
 	  d=-d; p_simp=-p_simp; q_simp=-q_simp;
 	}
-	if ( debug_infolevel>=20-p_simp.dim )
+	if ( debug_infolevel>=123456-p_simp.dim )
 	  CERR << "// End exact " << p_simp.dim << " " << CLOCK() << " " <<d.coord.size() << endl;
 	return true;
       }
-      if ( debug_infolevel>=20-p_simp.dim )
+      if ( debug_infolevel>=123456-p_simp.dim )
 	CERR << "//Gcdheu exact division failed! " << CLOCK() << endl;
       if (p_simp.coord.size()==1){
 	index_t i=index_gcd(p_simp.coord.front().index.iref(),q_simp.gcddeg());
@@ -3816,11 +3860,11 @@ namespace giac {
 	if (is_positive(-d.coord.front())){
 	  d=-d; p_simp=-p_simp; q_simp=-q_simp;
 	}
-	if ( debug_infolevel>=20-p_simp.dim )
+	if ( debug_infolevel>=123456-p_simp.dim )
 	  CERR << "//End exact " << p_simp.dim << " " << CLOCK() << " " << d.coord.size() << endl;
 	return true;
       }
-      if ( debug_infolevel>=20-p_simp.dim )
+      if ( debug_infolevel>=123456-p_simp.dim )
 	CERR << "//Gcdheu exact division failed! " << CLOCK() << endl;
       if (q_simp.coord.size()==1){
 	index_t i=index_gcd(q_simp.coord.front().index.iref(),p_simp.gcddeg());
@@ -4541,6 +4585,8 @@ namespace giac {
   }
 
   void egcd(const polynome &p1, const polynome & p2, polynome & u,polynome & v,polynome & d){
+    if (try_hensel_egcd(p1,p2,u,v,d))
+      return;
     polynome g=gcd(p1,p2);
     if (g.lexsorted_degree()){
       egcd(p1/g,p2/g,u,v,d);

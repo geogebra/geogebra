@@ -134,6 +134,8 @@ namespace giac {
   // set i to i+(j-i)*B mod A, inplace operation
   void ichrem_smod_inplace(mpz_t * Az,mpz_t * Bz,mpz_t * iz,mpz_t * tmpz,gen & i,const gen & j);
   polynome resultant(const polynome & p,const polynome & q);
+  bool resultant_sylvester(const polynome &p,const polynome &q,matrice & S,polynome & res);
+  bool resultant_sylvester(const polynome &p,const polynome &q,vecteur &pv,vecteur &qv,matrice & S,gen & determinant);
   polynome lgcd(const polynome & p);
   gen ppz(polynome & p,bool divide=true);
   void lgcdmod(const polynome & p,const gen & modulo,polynome & pgcd);

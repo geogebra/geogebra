@@ -4440,7 +4440,7 @@ namespace giac {
     }
     gen prod(operator_times(a,b,contextptr));
     */
-    if (debug_infolevel>2)
+    if (debug_infolevel>3)
       CERR << CLOCK() << " begin _prod" << endl;
     for (;it!=itend;++it){
       if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_inv) && (it->_SYMBptr->feuille.type!=_VECT) )
@@ -4451,7 +4451,7 @@ namespace giac {
 	else
 	  prod = operator_times(prod,*it,contextptr);
       }
-      if (debug_infolevel>2)
+      if (debug_infolevel>3)
 	CERR << CLOCK() << " in _prod" << endl;
     }
     return prod;

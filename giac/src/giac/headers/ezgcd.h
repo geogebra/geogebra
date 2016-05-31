@@ -56,6 +56,9 @@ namespace giac {
 
   bool try_hensel_lift_factor(const polynome & pcur,const polynome & F0,const factorization & v0,int mult,factorization & f);
 
+  // find u,v,d s.t. u*p+v*q=d by Hensel lift
+  bool try_hensel_egcd(const polynome & p,const polynome & q,polynome &u,polynome &v,polynome & d);
+
   // max_gcddeg is used when ezgcd was not successfull to find
   // the gcd even with 2 evaluations leading to the same gcd degree
   // in this case ezgcd calls itself with a bound on the gcd degree
