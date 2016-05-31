@@ -621,20 +621,17 @@ public final class DrawList extends CanvasDrawable
 
 			int tableWidth = getColCount() * dimItem.getWidth();
 			int tableHeight = rowCount * dimItem.getHeight();
-			if (isScrollNeeded())
-			// && (top + tableHeight + 2 * rectDown.getHeight()
-			// + dimItem.getHeight()
-			// <= viewHeight - MARGIN))
+			if (isScrollNeeded() && (top + tableHeight <= viewHeight))
 			{
 				tableHeight += dimItem.getHeight();
-				if (tableHeight + rectDown.getHeight() >= viewHeight) {
-					tableHeight = (int) (viewHeight - top - MARGIN
-							- 2 * rectDown.getHeight());
-				}
+				// if (tableHeight + rectDown.getHeight() >= viewHeight) {
+				// tableHeight = (int) (viewHeight - top - MARGIN
+				// - 2 * rectDown.getHeight());
+				// }
 			}
 
 
-			if (top + tableHeight + 2 * MARGIN > viewOpt
+			if (top + tableHeight + MARGIN >= viewOpt
 					.getHeight()) {
 				top = (viewOpt.getHeight() - tableHeight - MARGIN);
 				if (top < MARGIN) {
@@ -753,7 +750,7 @@ public final class DrawList extends CanvasDrawable
 				visibleItems--;
 			}
 			if (startIdx + visibleItems < maxItems) {
-				endIdx = startIdx + visibleItems;
+				endIdx = startIdx + visibleItems + 1;
 			} else {
 				startIdx = maxItems - visibleItems;
 				endIdx = maxItems;
