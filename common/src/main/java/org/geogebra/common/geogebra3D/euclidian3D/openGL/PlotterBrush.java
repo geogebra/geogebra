@@ -757,7 +757,7 @@ public class PlotterBrush implements PathPlotter {
 
 			tmpCoords2.set(m);
 			m.setAdd(m.setMul(v1, a * u), tmpCoords.setMul(v2, b * v));
-			addCurvePos((float) tmpCoords2.setSub(m, tmpCoords2).norm());
+			addCurvePos(tmpCoords2.setSub(m, tmpCoords2));
 
 			vn1.setAdd(tmpCoords3.setSub(m, f1).normalize(),
 					tmpCoords4.setSub(m, f2).normalize()).normalize();
@@ -768,6 +768,22 @@ public class PlotterBrush implements PathPlotter {
 		}
 
 	}
+
+	private void addCurvePos(Coords coords) {
+		if (manager.getView3D().getApplication()
+				.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			addCurvePos(getNormInScreenCoords(coords));
+		} else {
+			addCurvePos((float) coords.norm());
+		}
+	}
+
+	private float getNormInScreenCoords(Coords coords) {
+		manager.scaleXYZ(coords);
+		coords.calcNorm();
+		return (float) coords.getNorm();
+	}
+
 
 	/**
 	 * draws quarter of an hyperbola
@@ -792,8 +808,8 @@ public class PlotterBrush implements PathPlotter {
 
 		// foci
 		double f = Math.sqrt(a * a + b * b);
-		Coords f1 = v1.mul(f);
-		Coords f2 = v1.mul(-f);
+		f1.setMul(v1, f);
+		f2.setMul(v1, -f);
 
 		// dash
 		length = 1;
@@ -804,8 +820,7 @@ public class PlotterBrush implements PathPlotter {
 
 		int longitude = manager.getLongitudeDefault();
 
-		Coords m, mold, vn1;
-		Coords vn2 = v1.crossProduct(v2);
+		vn2.setCrossProduct(v1, v2);
 
 		float dt = (float) (tMax - tMin) / longitude;
 
@@ -813,22 +828,27 @@ public class PlotterBrush implements PathPlotter {
 		u = (float) Math.cosh(tMin);
 		v = (float) Math.sinh(tMin);
 
-		m = v1.mul(a * u).add(v2.mul(b * v));
-		vn1 = (m.sub(f1).normalized()).sub((m.sub(f2).normalized()))
-				.normalized(); // bissector
-		down(center.add(m), vn1, vn2);
+		m.setAdd(m.setMul(v1, a * u), tmpCoords.setMul(v2, b * v));
+
+		vn1.setSub(tmpCoords3.setSub(m, f1).normalize(),
+				tmpCoords4.setSub(m, f2).normalize()).normalize();
+
+		tmpCoords.setAdd(center, m);
+		down(tmpCoords, vn1, vn2);
 
 		for (int i = 1; i <= longitude; i++) {
 			u = (float) Math.cosh(tMin + i * dt);
 			v = (float) Math.sinh(tMin + i * dt);
 
-			mold = m;
-			m = v1.mul(a * u).add(v2.mul(b * v));
-			addCurvePos((float) m.sub(mold).norm());
+			tmpCoords2.set(m);
+			m.setAdd(m.setMul(v1, a * u), tmpCoords.setMul(v2, b * v));
+			addCurvePos(tmpCoords2.setSub(m, tmpCoords2));
 
-			vn1 = (m.sub(f1).normalized()).sub((m.sub(f2).normalized()))
-					.normalized(); // bissector
-			moveTo(center.add(m), vn1, vn2);
+			vn1.setSub(tmpCoords3.setSub(m, f1).normalize(),
+					tmpCoords4.setSub(m, f2).normalize()).normalize();
+
+			tmpCoords.setAdd(center, m);
+			moveTo(tmpCoords, vn1, vn2);
 		}
 
 	}
@@ -857,9 +877,9 @@ public class PlotterBrush implements PathPlotter {
 			double tMin, double tMax, Coords p1, Coords p2) {
 
 		// focus
-		Coords f1 = v1.mul(p / 2);
+		f1.setMul(v1, p / 2);
 
-		Coords vn2 = v1.crossProduct(v2);
+		vn2.setCrossProduct(v1, v2);
 
 		int longitude = manager.getLongitudeDefault();
 
@@ -868,7 +888,6 @@ public class PlotterBrush implements PathPlotter {
 		setTextureType(PlotterBrush.TEXTURE_LINEAR);
 		setCurvePos(0.75f / (TEXTURE_AFFINE_FACTOR * scale));
 
-		Coords m, vn1, mold;
 
 		float dt = (float) (tMax - tMin) / longitude;
 
@@ -878,13 +897,15 @@ public class PlotterBrush implements PathPlotter {
 		u = (float) (p * t * t / 2);
 		v = (float) (p * t);
 
-		m = v1.mul(u).add(v2.mul(v));
-		vn1 = (m.sub(f1).normalized()).sub(v1).normalized(); // bissector
+		m.setAdd(m.setMul(v1, u), tmpCoords.setMul(v2, v));
+
+		vn1.setSub(tmpCoords3.setSub(m, f1).normalize(), v1).normalize();
+
+		tmpCoords.setAdd(center, m);
+		down(tmpCoords, vn1, vn2);
+
 		if (p1 != null) {
-			p1.set(center.add(m));
-			down(p1, vn1, vn2);
-		} else {
-			down(center.add(m), vn1, vn2);
+			p1.set(tmpCoords);
 		}
 
 		for (int i = 1; i <= longitude; i++) {
@@ -893,16 +914,19 @@ public class PlotterBrush implements PathPlotter {
 			u = (float) (p * t * t / 2);
 			v = (float) (p * t);
 
-			mold = m;
-			m = v1.mul(u).add(v2.mul(v));
-			addCurvePos((float) m.sub(mold).norm());
+			tmpCoords2.set(m);
+			m.setAdd(m.setMul(v1, u), tmpCoords.setMul(v2, v));
+			addCurvePos(tmpCoords2.setSub(m, tmpCoords2));
 
-			vn1 = (m.sub(f1).normalized()).sub(v1).normalized(); // bissector
-			moveTo(center.add(m), vn1, vn2);
+			vn1.setSub(tmpCoords3.setSub(m, f1).normalize(), v1).normalize();
+
+			tmpCoords.setAdd(center, m);
+			moveTo(tmpCoords, vn1, vn2);
+
 		}
 
 		if (p2 != null) {
-			p2.set(center.add(m));
+			p2.set(tmpCoords);
 		}
 
 	}

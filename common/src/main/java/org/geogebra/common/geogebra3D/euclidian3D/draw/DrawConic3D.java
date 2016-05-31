@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.main.Feature;
 
 /**
  * @author ggb3D
@@ -162,7 +163,12 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 				brush.setAffineTexture(0f, 0f);
 				switch (conic.getType()) {
 				case GeoConicNDConstants.CONIC_CIRCLE:
-					updateCircle(brush);
+					if (getView3D().getApplication().has(
+							Feature.DIFFERENT_AXIS_RATIO_3D)) {
+						updateEllipse(brush);
+					} else {
+						updateCircle(brush);
+					}
 					break;
 				case GeoConicNDConstants.CONIC_ELLIPSE:
 					updateEllipse(brush);
