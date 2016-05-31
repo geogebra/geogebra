@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.main.Feature;
 
 /**
  * draws a quadric part
@@ -46,13 +47,26 @@ public class DrawQuadric3DPart extends DrawQuadric3D {
 				updateForItSelf();
 			}
 			break;
-		// case GeoQuadricNDConstants.QUADRIC_CONE:
+		case GeoQuadricNDConstants.QUADRIC_CONE:
+			if (getView3D().getApplication().has(
+					Feature.DIFFERENT_AXIS_RATIO_3D)) {
+				updateForItSelf();
+			}
+			break;
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
 			if (getView3D().viewChangedByZoom()) {
-				int l = getView3D().getRenderer().getGeometryManager()
-						.getLongitude(quadric.getHalfAxis(0), getView3D().getScale());
-				if (longitude != l){
+				if (getView3D().getApplication().has(
+						Feature.DIFFERENT_AXIS_RATIO_3D)) {
 					updateForItSelf();
+				} else {
+					int l = getView3D()
+							.getRenderer()
+							.getGeometryManager()
+							.getLongitude(quadric.getHalfAxis(0),
+									getView3D().getScale());
+					if (longitude != l) {
+						updateForItSelf();
+					}
 				}
 			}
 			break;
