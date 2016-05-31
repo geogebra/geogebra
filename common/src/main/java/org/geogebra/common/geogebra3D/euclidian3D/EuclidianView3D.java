@@ -3442,10 +3442,20 @@ GRectangle selectionRectangle) {
 				axisDrawable[i].setWaitForUpdate();
 
 			}
-		} else if (viewChangedByRotate()) {
+		}
+
+		if (viewChangedByRotate()) {
 			// we need to update renderer clip planes, since they are in screen
 			// coordinates
 			clippingCubeDrawable.updateRendererClipPlanes();
+
+			// nearest corner to avoid drawing front part
+			if (app.has(Feature.NO_CLIPPING_BOX_ON_FRONT)) {
+				if (clippingCubeDrawable.updateNearestCorner()) {
+					clippingCubeDrawable.setWaitForUpdate();
+				}
+			}
+
 			// we need to update axis numbers locations
 			for (int i = 0; i < 3; i++) {
 				axisDrawable[i].updateDecorations();

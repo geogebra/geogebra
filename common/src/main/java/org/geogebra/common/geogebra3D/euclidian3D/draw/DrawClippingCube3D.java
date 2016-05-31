@@ -195,6 +195,42 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return minMax;
 	}
 
+	private int nearestCornerX = -1, nearestCornerY = -1, nearestCornerZ = -1;
+
+	/**
+	 * update corner nearest to the eye
+	 * 
+	 * @return true if nearest corner has changed
+	 */
+	public boolean updateNearestCorner() {
+		Coords eye = getView3D().getEyePosition();
+		int x, y, z;
+		if (getView3D().getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC
+				|| getView3D().getProjection() == EuclidianView3D.PROJECTION_OBLIQUE) {
+			x = eye.getX() > 0 ? 0 : 1;
+			y = eye.getY() > 0 ? 0 : 1;
+			z = eye.getZ() > 0 ? 0 : 1;
+		} else {
+			x = eye.getX() > 0 ? 1 : 0;
+			y = eye.getY() > 0 ? 1 : 0;
+			z = eye.getZ() > 0 ? 1 : 0;
+		}
+		boolean changed = false;
+		if (x != nearestCornerX) {
+			nearestCornerX = x;
+			changed = true;
+		}
+		if (y != nearestCornerY) {
+			nearestCornerY = y;
+			changed = true;
+		}
+		if (z != nearestCornerZ) {
+			nearestCornerZ = z;
+			changed = true;
+		}
+		return changed;
+	}
+
 	private void setVertices() {
 		for (int x = 0; x < 2; x++)
 			for (int y = 0; y < 2; y++)
@@ -256,6 +292,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 */
 
 	private Coords tmpCoords1 = new Coords(3), tmpCoords2 = new Coords(3);
+	private double border;
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -270,55 +307,62 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 		brush.start(getReusableGeometryIndex());
 		// use 1.5 factor for border to avoid self clipping
-		double border = 1.5 * brush.setThickness(getGeoElement()
+		border = 1.5 * brush.setThickness(getGeoElement()
 				.getLineThickness(),
 				(float) getView3D().getScale());
 		brush.setAffineTexture(0.5f, 0.25f);
 
-		setVertexWithBorder(0, 0, 0, border, tmpCoords1);
-		setVertexWithBorder(1, 0, 0, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
-		setVertexWithBorder(0, 0, 0, border, tmpCoords1);
-		setVertexWithBorder(0, 1, 0, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
-		setVertexWithBorder(0, 0, 0, border, tmpCoords1);
-		setVertexWithBorder(0, 0, 1, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
+		drawSegment(brush, 0, 0, 0, 1, 0, 0);
+		drawSegment(brush, 0, 0, 0, 0, 1, 0);
+		drawSegment(brush, 0, 0, 0, 0, 0, 1);
 
-		setVertexWithBorder(1, 1, 0, border, tmpCoords1);
-		setVertexWithBorder(0, 1, 0, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
-		setVertexWithBorder(1, 1, 0, border, tmpCoords1);
-		setVertexWithBorder(1, 0, 0, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
-		setVertexWithBorder(1, 1, 0, border, tmpCoords1);
-		setVertexWithBorder(1, 1, 1, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
+		drawSegment(brush, 1, 1, 0, 0, 1, 0);
+		drawSegment(brush, 1, 1, 0, 1, 0, 0);
+		drawSegment(brush, 1, 1, 0, 1, 1, 1);
 
-		setVertexWithBorder(1, 0, 1, border, tmpCoords1);
-		setVertexWithBorder(0, 0, 1, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
-		setVertexWithBorder(1, 0, 1, border, tmpCoords1);
-		setVertexWithBorder(1, 1, 1, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
-		setVertexWithBorder(1, 0, 1, border, tmpCoords1);
-		setVertexWithBorder(1, 0, 0, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
+		drawSegment(brush, 1, 0, 1, 0, 0, 1);
+		drawSegment(brush, 1, 0, 1, 1, 1, 1);
+		drawSegment(brush, 1, 0, 1, 1, 0, 0);
 
-		setVertexWithBorder(0, 1, 1, border, tmpCoords1);
-		setVertexWithBorder(1, 1, 1, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
-		setVertexWithBorder(0, 1, 1, border, tmpCoords1);
-		setVertexWithBorder(0, 0, 1, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
-		setVertexWithBorder(0, 1, 1, border, tmpCoords1);
-		setVertexWithBorder(0, 1, 0, border, tmpCoords2);
-		brush.segment(tmpCoords1, tmpCoords2);
+		drawSegment(brush, 0, 1, 1, 1, 1, 1);
+		drawSegment(brush, 0, 1, 1, 0, 0, 1);
+		drawSegment(brush, 0, 1, 1, 0, 1, 0);
 
 		setGeometryIndex(brush.end());
 		
 		updateRendererClipPlanes();
 
+		return true;
+	}
+
+	private void drawSegment(PlotterBrush brush, int x1, int y1, int z1,
+			int x2, int y2, int z2) {
+		if (isNearestCorner(x1, y1, z1)) {
+			return;
+		}
+		if (isNearestCorner(x2, y2, z2)) {
+			return;
+		}
+		setVertexWithBorder(x1, y1, z1, border, tmpCoords1);
+		setVertexWithBorder(x2, y2, z2, border, tmpCoords2);
+		brush.segment(tmpCoords1, tmpCoords2);
+	}
+
+	private boolean isNearestCorner(int x, int y, int z) {
+
+		if (!getView3D().getApplication().has(Feature.NO_CLIPPING_BOX_ON_FRONT)) {
+			return false;
+		}
+
+		if (x != nearestCornerX) {
+			return false;
+		}
+		if (y != nearestCornerY) {
+			return false;
+		}
+		if (z != nearestCornerZ) {
+			return false;
+		}
 		return true;
 	}
 
