@@ -329,9 +329,9 @@ public class AlgebraProcessor {
 					redefineIndependent, storeUndoInfo, callback,
 					handler);
 		} catch (MyError e) {
-			app.showError(e);
+			ErrorHelper.handleError(e, newValue, loc, handler);
 		} catch (Exception e) {
-			app.showError(e.getMessage());
+			handler.showError(e.getMessage());
 		}
 	}
 
@@ -2505,10 +2505,6 @@ public class AlgebraProcessor {
 	}
 
 
-	public final GeoElement[] processExpressionNode(ExpressionNode node) {
-		return processExpressionNode(node, new EvalInfo(true));
-	}
-	
 	/**
 	 * @param node
 	 *            expression

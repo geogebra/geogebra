@@ -14,7 +14,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -517,15 +516,14 @@ public class InputTreeItem extends RadioTreeItem implements
 				tim.schedule(500);
 			}
 		}
-		this.errorLabel = new Label();
-		errorLabel.getElement().getStyle().setColor("#FF0000");
-		main.add(errorLabel);
+		createErrorLabel();
 	}
 
 	/**
 	 * @param show
 	 *            true to show input help
 	 */
+	@Override
 	public void setShowInputHelpPanel(boolean show) {
 
 		if (show) {
@@ -739,7 +737,6 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	@Override
 	public void setFocus(boolean focus, boolean scheduledVersion) {
-		Log.printStacktrace("" + focus + "," + scheduledVersion);
 		if (focus) {
 			app.getSelectionManager().clearSelectedGeos();
 			getAV().updateSelection();

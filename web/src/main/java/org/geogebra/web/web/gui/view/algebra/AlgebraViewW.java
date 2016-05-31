@@ -1343,6 +1343,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		return inputPanelLatex;
 	}
 
+	public RadioTreeItem getActiveTreeItem() {
+		if (activeItem == null) {
+			return this.inputPanelLatex;
+		} else {
+			return this.activeItem;
+		}
+	}
+
 	/**
 	 * Create new input panel and add it
 	 */
@@ -1643,6 +1651,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			cancelEditing();
 			// FIXMEWEB select and show node
 			editing = true;
+
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
 				if (!RadioTreeItem.as(node).enterEditMode(false)) {

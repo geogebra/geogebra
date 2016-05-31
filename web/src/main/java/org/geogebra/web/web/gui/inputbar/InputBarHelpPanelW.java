@@ -478,7 +478,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		if (indexTree == null || currentCommand == null) {
 			return;
 		}
-		for (int i = 0; i < indexTree.getItemCount(); i++) {
+		for (int i = 2; i < indexTree.getItemCount(); i++) {
 			TreeItem group = indexTree.getItem(i);
 			if (group == null) {
 				continue;

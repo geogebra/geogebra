@@ -105,14 +105,28 @@ public abstract class CommandProcessor {
 		return process(c);
 	}
 
-	protected final GeoElement[] resArgs(Command c) throws MyError {
-		return resArgs(c, new EvalInfo(false));
-	}
 	/**
 	 * Resolves arguments. When argument produces mor geos, only first is taken.
 	 * 
 	 * @param c
 	 *            command
+	 * @return array of arguments
+	 * @throws MyError
+	 *             if processing of some argument causes error (i.e. wrong
+	 *             syntax of subcommand)
+	 */
+	protected final GeoElement[] resArgs(Command c) throws MyError {
+		return resArgs(c, new EvalInfo(false));
+	}
+	
+	/**
+	 * Resolves arguments. When argument produces mor geos, only first is taken.
+	 * 
+	 * @param c
+	 *            command
+	 * @param info
+	 *            context for evaluation -- labelling is overridden to false in
+	 *            this method
 	 * @return array of arguments
 	 * @throws MyError
 	 *             if processing of some argument causes error (i.e. wrong
@@ -239,6 +253,8 @@ public abstract class CommandProcessor {
 	 * 
 	 * @param arg
 	 *            argument
+	 * @param info
+	 *            context for evaluation, labelling is overridden here
 	 * @return array of arguments
 	 * @throws MyError
 	 *             if processing argument causes error (i.e. wrong syntax of

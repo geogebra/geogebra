@@ -105,7 +105,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
-		return ((AlgebraViewW) app.getAlgebraView()).getInputTreeItem();
+		return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
 	}
 
 }

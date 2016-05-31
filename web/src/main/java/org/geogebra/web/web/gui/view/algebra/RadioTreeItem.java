@@ -38,7 +38,6 @@ import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
@@ -63,6 +62,7 @@ import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
@@ -1587,7 +1587,9 @@ public class RadioTreeItem extends AVTreeItem
 		if (text == null) {
 			return false;
 		}
-
+		if (errorLabel != null) {
+			errorLabel.setText("");
+		}
 		if (isDefinitionAndValue()) {
 			Widget old = latex ? (c != null ? c : latexItem)
 					: getPlainTextItem();
@@ -1657,7 +1659,7 @@ public class RadioTreeItem extends AVTreeItem
 			if (geo != null) {
 				boolean redefine = !isMoveablePoint(geo);
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
-						redefine, true, app.getDefaultErrorHandler(),
+						redefine, true, getErrorHandler(true),
 						new AsyncOperation<GeoElement>() {
 
 							@Override
@@ -1877,6 +1879,11 @@ public class RadioTreeItem extends AVTreeItem
 		return true;
 	}
 
+	protected void createErrorLabel() {
+		this.errorLabel = new Label();
+		errorLabel.setStyleName("algebraError");
+		main.add(errorLabel);
+	}
 	/**
 	 * @param valid
 	 *            whether this is for valid string (false = last valid substring
@@ -1886,6 +1893,8 @@ public class RadioTreeItem extends AVTreeItem
 	protected ErrorHandler getErrorHandler(final boolean valid) {
 		if (errorLabel != null) {
 			errorLabel.setText("");
+		} else {
+			createErrorLabel();
 		}
 		return new ErrorHandler(){
 
@@ -1905,14 +1914,18 @@ public class RadioTreeItem extends AVTreeItem
 							callback);
 				} else if (app.getLocalization()
 						.getReverseCommand(getCurrentCommand()) != null) {
-					ErrorHelper.handleCommandError(app.getLocalization(),
-							getCurrentCommand(), app.getDefaultErrorHandler());
+					setShowInputHelpPanel(true);
+					((InputBarHelpPanelW) app.getGuiManager()
+							.getInputHelpPanel()).focusCommand(
+									getEquationEditor().getCurrentCommand());
 
 					return false;
 				}
 				callback.callback(new String[] { "7" });
 				return false;
 			}
+
+
 
 			public void showCommandError(String command, String message) {
 				if (errorLabel != null) {
@@ -1931,6 +1944,14 @@ public class RadioTreeItem extends AVTreeItem
 		};
 	}
 
+	/**
+	 * @param show
+	 *            whether to show input help
+	 */
+	protected void setShowInputHelpPanel(boolean show) {
+		// TODO Auto-generated method stub
+
+	}
 	protected EquationEditor getEquationEditor() {
 		return null;
 
