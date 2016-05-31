@@ -3815,11 +3815,6 @@ public abstract class App implements UpdateSelection {
 		case LOG_AXES:
 			return prerelease;
 
-		// GGB-568
-		case SURFACE_WIREFRAME:
-			return true;
-
-
 		case ALL_PLANES_GRID:
 			return true;
 

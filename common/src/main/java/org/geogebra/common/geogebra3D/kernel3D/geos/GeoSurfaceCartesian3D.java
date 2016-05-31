@@ -335,10 +335,8 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
 
-		if (kernel.getApplication().has(Feature.SURFACE_WIREFRAME)) {
-			// line style
-			getLineStyleXML(sb);
-		}
+		// line style
+		getLineStyleXML(sb);
 
 		// level of detail
 		if (getLevelOfDetail() == LevelOfDetail.QUALITY){
@@ -1324,7 +1322,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	@Override
 	public boolean showLineProperties() {
-		return kernel.getApplication().has(Feature.SURFACE_WIREFRAME);
+		return true;
 	}
 
 	@Override

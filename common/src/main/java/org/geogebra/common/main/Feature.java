@@ -47,10 +47,7 @@ public enum Feature {
 
 	SHADERS_WITH_IMPL_IN_WEB,
 
-
-
 	EXAM_TABLET,
-
 
 	WEB_PRINT_ALGEBRA_VIEW,
 
@@ -60,8 +57,6 @@ public enum Feature {
 	EXPAND_AV_FOR_LONG_EQUATIONS,
 
 	SHINY_3D,
-
-	SURFACE_WIREFRAME,
 
 	ALL_PLANES_GRID,
 
@@ -109,7 +104,6 @@ public enum Feature {
 
 	AV_DEFINITION_AND_VALUE,
 
-	
 	FIX_CP_HEADER,
 
 	FRACTIONS,

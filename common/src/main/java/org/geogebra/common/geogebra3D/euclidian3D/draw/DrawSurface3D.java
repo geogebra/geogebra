@@ -202,7 +202,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	@Override
 	public void drawGeometryHidden(Renderer renderer) {
 
-		if (appFeaturesWireframe()) {
+		if (wireframeNeeded()) {
 			if (!isVisible()) {
 				return;
 			}
@@ -225,7 +225,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	public void drawOutline(Renderer renderer) {
-		if (appFeaturesWireframe()) {
+		if (wireframeNeeded()) {
 			if (!isVisible()) {
 				return;
 			}
@@ -451,7 +451,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			drawFromScratch = false;
 		}
 
-		if (appFeaturesWireframe()) {
+		if (wireframeNeeded()) {
 			if (drawUpToDate) {
 				// update is called for visual style, i.e. line thickness
 				drawWireframe(getView3D().getRenderer());
@@ -629,7 +629,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private void drawWireframe(Renderer renderer) {
 
-		if (!appFeaturesWireframe()) {
+		if (!wireframeNeeded()) {
 			return;
 		}
 
@@ -734,14 +734,14 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return DRAW_PICK_ORDER_SURFACE;
 	}
 
-	private boolean appFeaturesWireframe() {
-		return getView3D().getApplication().has(Feature.SURFACE_WIREFRAME);
+	private boolean wireframeNeeded() {
+		return true;
 	}
 
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		addToDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
-		if (appFeaturesWireframe()) {
+		if (wireframeNeeded()) {
 			addToDrawable3DLists(lists, DRAW_TYPE_CLIPPED_CURVES);
 		}
 	}
@@ -749,7 +749,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	@Override
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
-		if (appFeaturesWireframe()) {
+		if (wireframeNeeded()) {
 			removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_CURVES);
 		}
 	}
@@ -833,7 +833,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			double uBorderMax, int uN, double vBorderMin,
 			double vMax, double vBorderMax, int vN) {
 
-		if (appFeaturesWireframe()) {
+		if (wireframeNeeded()) {
 			wireframeBottomCorners = new Corner[(uN - 1) / wireFrameStepU + 2
 					* wireframeBorderU];
 			wireframeRightCorners = new Corner[(vN - 1) / wireFrameStepV + 2
@@ -844,7 +844,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		Corner first = bottomRight;
 
 		int wireframeIndexU = 0, wireframeIndexV = 0, wireFrameSetU = wireFrameStepU, wireFrameSetV = wireFrameStepV;
-		if (appFeaturesWireframe()) {
+		if (wireframeNeeded()) {
 			if (wireframeBorderU == 1) { // draw edges
 				wireframeBottomCorners[0] = first;
 				wireframeIndexU = 1;
@@ -861,7 +861,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		Corner right = bottomRight;
 		for (int i = 0; i < uN - 1; i++) {
 			right = addLeftToMesh(right, uMax - (uDelta * i) / uN, vBorderMax);
-			if (appFeaturesWireframe()) {
+			if (wireframeNeeded()) {
 				if (wireFrameSetU == wireFrameStepU) { // set wireframe
 					wireframeBottomCorners[wireframeIndexU] = right;
 					wireframeIndexU++;
@@ -872,7 +872,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			}
 		}
 		right = addLeftToMesh(right, uBorderMin, vBorderMax);
-		if (appFeaturesWireframe()) {
+		if (wireframeNeeded()) {
 			if (wireframeBorderU == 1) {
 				wireframeBottomCorners[wireframeIndexU] = right;
 			}
@@ -882,7 +882,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		for (int j = 0; j < vN - 1; j++) {
 			bottomRight = addRowAboveToMesh(bottomRight, vMax - (vDelta * j)
 					/ vN, uBorderMin, uBorderMax, uMax, uN);
-			if (appFeaturesWireframe()) {
+			if (wireframeNeeded()) {
 				if (wireFrameSetV == wireFrameStepV) { // set wireframe
 					wireframeRightCorners[wireframeIndexV] = bottomRight;
 					wireframeIndexV++;
@@ -896,7 +896,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// last row
 		bottomRight = addRowAboveToMesh(bottomRight, vBorderMin, uBorderMin,
 				uBorderMax, uMax, uN);
-		if (appFeaturesWireframe()) {
+		if (wireframeNeeded()) {
 			if (wireframeBorderV == 1) {
 				wireframeRightCorners[wireframeIndexV] = bottomRight;
 			}

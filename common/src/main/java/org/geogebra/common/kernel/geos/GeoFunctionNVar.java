@@ -1400,11 +1400,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 			return true;
 		}
 
-		if (kernel.getApplication().has(Feature.SURFACE_WIREFRAME)) {
-			return isInequalityOrFun2Var();
-		}		
-		// remove this if we don't app always has Feature.SURFACE_WIREFRAME
-		return isInequality();
+		return isInequalityOrFun2Var();
 		
 	}
 
