@@ -74,6 +74,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
 
+	private static final int HORIZONTAL_BORDER_HEIGHT = 4;
 	// create special formula button (matrix, piecewise function, parametric
 	// curve)
 	/** + button */
@@ -1000,7 +1001,9 @@ public class InputTreeItem extends RadioTreeItem implements
 	protected void updateLineHeight() {
 		if (helpButtonPanel != null) {
 			this.helpButtonPanel.getElement().getStyle()
-					.setLineHeight(ihtml.getOffsetHeight(), Unit.PX);
+					.setLineHeight(
+							ihtml.getOffsetHeight() - HORIZONTAL_BORDER_HEIGHT,
+							Unit.PX);
 		}
 
 	}
@@ -1113,6 +1116,7 @@ public class InputTreeItem extends RadioTreeItem implements
 				CancelEventTimer.keyboardSetVisible();
 			}
 		});
+		updateLineHeight();
 		return true;
 	}
 

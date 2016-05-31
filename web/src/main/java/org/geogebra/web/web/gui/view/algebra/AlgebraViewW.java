@@ -1455,7 +1455,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			}
 
 		}
-
+		updateFonts();
 	}
 
 	private void doShowKeyboard() {
@@ -1734,7 +1734,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 			}
 			mqSize.removeFromParent();
-			mqSize.setInnerText(".hasCursorPermanent span {font-size:"
+			mqSize.setInnerText(
+					".GeoGebraFrame .hasCursorPermanent span {font-size:"
 					+ app.getFontSizeWeb() + "px}");
 
 			Document.get().getElementsByTagName("head").getItem(0)
