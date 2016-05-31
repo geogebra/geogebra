@@ -2369,6 +2369,7 @@ GRectangle selectionRectangle) {
 		// if (cursorOnXOYPlaneVisible)
 		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 			cursorOnXOYPlane.getDrawingMatrix().setDiag(1);
+			scaleXYZ(cursorOnXOYPlane.getDrawingMatrix().getOrigin());
 		} else {
 			cursorOnXOYPlane.getDrawingMatrix().setDiag(1 / getScale());
 		}
