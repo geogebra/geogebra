@@ -1256,6 +1256,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return getSettings().getXscale();
 	}
 
+	public double getScaledDistance(Coords p1, Coords p2) {
+		tmpCoordsLength3.setSub(p1, p2);
+		scaleXYZ(tmpCoordsLength3);
+		tmpCoordsLength3.calcNorm();
+		return tmpCoordsLength3.getNorm();
+	}
+
 	/**
 	 * set the all-axis scale
 	 *

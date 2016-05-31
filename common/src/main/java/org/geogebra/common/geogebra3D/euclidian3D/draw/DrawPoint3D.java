@@ -276,9 +276,9 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 			boolean checkRealPointSize) {
 
 		if (hitting.isSphere()) {
-			double d = p.distance(hitting.origin);
-			double scale = drawable.getView3D().getScale();
-			if (d * scale <= pointSize + hitting.getThreshold()) {
+			double d = drawable.getView3D()
+					.getScaledDistance(p, hitting.origin);
+			if (d <= pointSize + hitting.getThreshold()) {
 				// double z = -parameters[0];
 				// double dz = pointSize/scale;
 				drawable.setZPick(-d, -d);
@@ -292,18 +292,17 @@ public class DrawPoint3D extends Drawable3DCurves implements Previewable,
 				return false;
 			}
 
-			double d = p.distance(project);
-			double scale = drawable.getView3D().getScale();
+			double d = drawable.getView3D().getScaledDistance(p, project);
 			boolean hitted;
 			if (checkRealPointSize) {
-				hitted = d * scale <= pointSize + 2;
+				hitted = d <= pointSize + 2;
 			} else {
-				hitted = d * scale <= DrawPoint.getSelectionThreshold(hitting
+				hitted = d <= DrawPoint.getSelectionThreshold(hitting
 						.getThreshold());
 			}
 			if (hitted) {
 				double z = -parameters[0];
-				double dz = pointSize / scale;
+				double dz = pointSize / drawable.getView3D().getScale();
 				drawable.setZPick(z + dz, z - dz);
 				return true;
 			}

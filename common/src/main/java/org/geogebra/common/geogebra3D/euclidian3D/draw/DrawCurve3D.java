@@ -155,8 +155,8 @@ public class DrawCurve3D extends Drawable3DCurves {
 			return false;
 		}
 
-		double d = project.distance(closestPoint);
-		if (d * getView3D().getScale() <= getGeoElement().getLineThickness() + 2) {
+		double d = getView3D().getScaledDistance(project, closestPoint);
+		if (d <= getGeoElement().getLineThickness() + 2) {
 			double z = -lineCoords[0];
 			double dz = getGeoElement().getLineThickness()
 					/ getView3D().getScale();

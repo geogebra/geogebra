@@ -543,7 +543,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		GeoPolygon poly = (GeoPolygon) getGeoElement();
 
 		if (poly.getCoordSys() == null) {
-			Log.debug("" + poly);
 			return false;
 		}
 
@@ -572,9 +571,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				project = Coords.createInhomCoorsInD3();
 			}
 
-			double d = p3d.distance(hitting.origin);
-			double scale = getView3D().getScale();
-			if (d * scale <= poly.getLineThickness() + hitting.getThreshold()) {
+			double d = getView3D().getScaledDistance(p3d, hitting.origin);
+			if (d <= poly.getLineThickness() + hitting.getThreshold()) {
 				setZPick(-d, -d);
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
@@ -585,8 +583,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			hittingPointForOutline.setRegion(poly);
 			poly.pointChangedForRegion(hittingPointForOutline);
 			p3d = hittingPointForOutline.getInhomCoordsInD3();
-			d = p3d.distance(hitting.origin);
-			if (d * scale <= hitting.getThreshold()) {
+			d = getView3D().getScaledDistance(p3d, hitting.origin);
+			if (d <= hitting.getThreshold()) {
 				setZPick(-d, -d);
 				setPickingType(PickingType.SURFACE);
 				return true;
@@ -633,12 +631,12 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 					}
 					p3d.projectLine(hitting.origin, hitting.direction, project,
 							parameters); // check distance to hitting line
-					double d = p3d.distance(project);
-					double scale = getView3D().getScale();
-					if (d * scale <= poly.getLineThickness()
+					double d = getView3D().getScaledDistance(p3d, project);
+					if (d <= poly.getLineThickness()
 							+ hitting.getThreshold()) {
 						double z = -parameters[0];
-						double dz = poly.getLineThickness() / scale;
+						double dz = poly.getLineThickness()
+								/ getView3D().getScale();
 						setZPick(z + dz, z - dz);
 						setPickingType(PickingType.POINT_OR_CURVE);
 						return true;

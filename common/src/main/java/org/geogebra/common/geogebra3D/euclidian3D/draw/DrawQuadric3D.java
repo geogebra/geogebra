@@ -1318,8 +1318,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			// check distance to hitting line
 			p1.projectLine(hitting.origin, hitting.direction, project, parameters); 
 
-			double d = p1.distance(project);
-			if (d * getView3D().getScale() <= hitting.getThreshold()) {
+			double d = getView3D().getScaledDistance(p1, project);
+			if (d <= hitting.getThreshold()) {
 				z1 = -parameters[0];
 			}
 		}
@@ -1330,8 +1330,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			// check distance to hitting line
 			p2.projectLine(hitting.origin, hitting.direction, project, parameters); 
 
-			double d = p2.distance(project);
-			if (d * getView3D().getScale() <= hitting.getThreshold()) {
+			double d = getView3D().getScaledDistance(p2, project);
+			if (d <= hitting.getThreshold()) {
 				z2 = -parameters[0];
 			}
 		}

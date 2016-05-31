@@ -932,12 +932,12 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 				}
 				p3d.projectLine(hitting.origin, hitting.direction, project,
 						parameters); // check distance to hitting line
-				double d = p3d.distance(project);
-				double scale = getView3D().getScale();
-				if (d * scale <= conic.getLineThickness()
+				double d = getView3D().getScaledDistance(p3d, project);
+				if (d <= conic.getLineThickness()
 						+ hitting.getThreshold()) {
 					double z = -parameters[0];
-					double dz = conic.getLineThickness() / scale;
+					double dz = conic.getLineThickness()
+							/ getView3D().getScale();
 					setZPick(z + dz, z - dz);
 					setPickingType(PickingType.POINT_OR_CURVE);
 					return true;

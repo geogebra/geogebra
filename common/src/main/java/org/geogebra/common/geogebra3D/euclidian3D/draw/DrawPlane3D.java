@@ -531,9 +531,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		}
 
 		if (hitting.isSphere()) {
-			double d = tmpCoords1.distance(hitting.origin);
-			double scale = getView3D().getScale();
-			if (d * scale <= hitting.getThreshold()) {
+			double d = getView3D()
+					.getScaledDistance(tmpCoords1, hitting.origin);
+			if (d <= hitting.getThreshold()) {
 				setZPick(-d, -d);
 				return true;
 			}

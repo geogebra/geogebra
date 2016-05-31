@@ -292,21 +292,22 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements
 			double parameterOnCS = lineCoords[0];
 			if (parameterOnCS < 0 || parameterOnCS > 1) {
 				// check start and end points
-				double d = startPoint.distance(hitting.origin);
-				if (d * getView3D().getScale() <= hitting.getThreshold()) {
+				double d = getView3D().getScaledDistance(startPoint,
+						hitting.origin);
+				if (d <= hitting.getThreshold()) {
 					setZPick(-d, -d);
 					return true;
 				}
 				d = endPoint.distance(hitting.origin);
-				if (d * getView3D().getScale() <= hitting.getThreshold()) {
+				if (d <= hitting.getThreshold()) {
 					setZPick(-d, -d);
 					return true;
 				}
 				return false;
 			}
 
-			double d = project1.distance(hitting.origin);
-			if (d * getView3D().getScale() <= getGeoElement()
+			double d = getView3D().getScaledDistance(project1, hitting.origin);
+			if (d <= getGeoElement()
 					.getLineThickness() + hitting.getThreshold()) {
 				setZPick(d, d);
 				return true;
@@ -345,8 +346,8 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements
 				return false;
 			}
 
-			double d = project1.distance(project2);
-			if (d * getView3D().getScale() <= getGeoElement()
+			double d = getView3D().getScaledDistance(project1, project2);
+			if (d <= getGeoElement()
 					.getLineThickness() + 2) {
 				double z = -parameterOnHitting;
 				double dz = getGeoElement().getLineThickness()
