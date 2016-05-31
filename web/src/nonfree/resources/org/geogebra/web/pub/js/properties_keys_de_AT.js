@@ -3030,7 +3030,7 @@ __GGB__keysVar.de_AT.plain = {
     "stylebar.Bold": "Schriftart fett",
     "stylebar.Border": "Rahmen",
     "stylebar.Bracket": "Klammerndarstellung",
-    "stylebar.Caption": "Beschriftung",
+    "stylebar.Caption": "Beschriftungsstil",
     "stylebar.Capture": "Punktfang",
     "stylebar.Clipping": "Clipping Box ein-/ausblenden",
     "stylebar.Color": "Farbe",
