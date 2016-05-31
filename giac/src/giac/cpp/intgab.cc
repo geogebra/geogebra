@@ -1045,7 +1045,7 @@ namespace giac {
       gen A=limit(g,*x._IDNTptr,a,1,contextptr);
       if (!is_zero(A) && b!=plus_inf){
 	res=-a*A;
-	return true;
+	return !is_undef(res); // true;
       }
       if (b==plus_inf){
 	vecteur singu=find_singularities(g,*x._IDNTptr,0 /* real singularities*/,contextptr);
