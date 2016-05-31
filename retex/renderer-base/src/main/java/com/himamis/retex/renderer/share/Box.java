@@ -380,4 +380,23 @@ public abstract class Box {
 		}
 		return false;
 	}
+
+	@Override
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		append(sb, 0);
+		return sb.toString();
+	}
+
+	private void append(StringBuilder sb, int offset) {
+		for (int i = 0; i < offset; i++) {
+			sb.append("  ");
+		}
+		sb.append(getClass().getSimpleName().replace("Box", ""));
+		sb.append("\n");
+		for (int i = 0; i < children.size(); i++) {
+			children.get(i).append(sb, offset + 1);
+		}
+
+	}
 }
