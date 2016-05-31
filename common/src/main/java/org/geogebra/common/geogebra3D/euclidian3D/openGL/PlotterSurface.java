@@ -1048,19 +1048,20 @@ public class PlotterSurface {
 		manager.startGeometry(Manager.Type.TRIANGLES);
 
 		manager.setDummyTexture();
-		manager.normal(v1.crossProduct(v2));
+		tmpCoords.setCrossProduct(v1, v2);
+		manager.normal(tmpCoords);
 
 		tmpCoords.setAdd(center, tmpCoords.setMul(v1, l1));
 		tmpCoords2.setAdd(tmpCoords, tmpCoords2.setMul(v2, l2));
 		tmpCoords3.setAdd(center, tmpCoords3.setMul(v2, l2));
 
-		manager.vertex(center);
-		manager.vertex(tmpCoords);
-		manager.vertex(tmpCoords2);
+		manager.vertexToScale(center);
+		manager.vertexToScale(tmpCoords);
+		manager.vertexToScale(tmpCoords2);
 
-		manager.vertex(center);
-		manager.vertex(tmpCoords2);
-		manager.vertex(tmpCoords3);
+		manager.vertexToScale(center);
+		manager.vertexToScale(tmpCoords2);
+		manager.vertexToScale(tmpCoords3);
 
 		manager.endGeometry();
 	}
@@ -1241,14 +1242,14 @@ public class PlotterSurface {
 				manager.texture(0, fading);
 			}
 			manager.normal(n);
-			manager.vertex(center);
+			manager.vertexToScale(center);
 
 			// point on circle
 			if (fading < 1) {
 				manager.texture(0, 1);
 			}
 			manager.normal(n);
-			manager.vertex(tmpCoords2.setAdd(center2, m));
+			manager.vertexToScale(tmpCoords2.setAdd(center2, m));
 		}
 
 		manager.endGeometry();
@@ -1328,7 +1329,8 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertex(tmpCoords2.setAdd(center2, tmpCoords3.setMul(m, rmax)));
+			manager.vertexToScale(tmpCoords2.setAdd(center2,
+					tmpCoords3.setMul(m, rmax)));
 
 			// point on bottom circle
 			if (fading) {
@@ -1339,7 +1341,8 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertex(tmpCoords2.setAdd(center1, tmpCoords3.setMul(m, rmin)));
+			manager.vertexToScale(tmpCoords2.setAdd(center1,
+					tmpCoords3.setMul(m, rmin)));
 
 		}
 
@@ -1401,7 +1404,7 @@ public class PlotterSurface {
 					tmpCoords2.setMul(vy, r2 * s));
 
 			manager.normal(n);
-			manager.vertex(tmpCoords.setAdd(center2, tmpCoords3));
+			manager.vertexToScale(tmpCoords.setAdd(center2, tmpCoords3));
 			// point on bottom circle
 			if (fading) {
 				if (minFading) {
@@ -1411,7 +1414,7 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertex(tmpCoords.setAdd(center1, tmpCoords3));
+			manager.vertexToScale(tmpCoords.setAdd(center1, tmpCoords3));
 
 		}
 
