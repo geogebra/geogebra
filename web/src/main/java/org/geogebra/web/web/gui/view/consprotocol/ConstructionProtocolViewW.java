@@ -63,7 +63,6 @@ import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Web implementation of ConstructionProtocol
@@ -161,10 +160,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		cpPanel.addStyleName("cpPanel");
 		
 		addDragDropHandlers();
-		if (app.has(Feature.CP_POPUP)) {
-			this.addHeaderClickHandler();
-		}
 		
+		addHeaderClickHandler();
+
 		ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
 		settingsChanged(cps);
 		cps.addListener(this);
@@ -181,21 +179,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		}
 
 		clearTable(table);
-
-		if (!app.has(Feature.CP_POPUP)) { // old source inserted back here
-			for (int i = 0; i < data.getColumnCount(); i++) {
-				if (data.columns[i].isVisible()) {
-					String title = data.columns[i].getTitle();
-					Column<RowData, ?> col = getColumn(title);
-					if (col != null) {
-						table.addColumn(col, app.getPlain(title));
-					}
-				}
-			}
-			tableInit();
-			rowCountChanged();
-			return;
-		}
 
 		initPopupMenu();
 		addColumnsForTable(table);
@@ -422,15 +405,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			// some
 			// column on stylebar too
 			final boolean breakpoint = "Breakpoint".equals(colData.getTitle());
-			if (!"No.".equals(colData.getTitle())
-					&& (!"ToolbarIcon".equals(colData.getTitle()) || app
-							.has(Feature.CP_NEW_COLUMNS))
-					&& (!"Command".equals(colData.getTitle()) || app
-							.has(Feature.CP_NEW_COLUMNS))
-					&& (!"Caption".equals(colData.getTitle()) || app
-							.has(Feature.CP_NEW_COLUMNS))
-					&& (!breakpoint || app
-							.has(Feature.CP_NEW_COLUMNS))) {
+			if (!"No.".equals(colData.getTitle())) {
 				final int j = k;
 				com = new ScheduledCommand() {
 					public void execute() {
@@ -505,25 +480,25 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		} else if ("Name".equals(title)) {
 			col = getColumnName();
 		} else if ("ToolbarIcon".equals(title)) {
-			if (app.has(Feature.CP_NEW_COLUMNS)) {
+
 				col = getColumnToolbarIcon();
-			}
+
 		} else if ("Description".equals(title)) {
 			col = getColumnDescription();
 		} else if ("Definition".equals(title)) {
-			if (app.has(Feature.CP_NEW_COLUMNS)) {
+
 				col = getColumnDefinition();
-			}
+
 		} else if ("Value".equals(title)) {
 			col = getColumnValue();
 		} else if ("Caption".equals(title)) {
-			if (app.has(Feature.CP_NEW_COLUMNS)) {
+
 				col = getColumnCaptionSimple();
-			}
+
 		} else { // if ("Breakpoint".equals(title)) {
-			if (app.has(Feature.CP_NEW_COLUMNS)) {
+
 				col = getColumnBreakpoint();
-			}
+
 		}
 		
 		return col;

@@ -25,7 +25,7 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 			App.VIEW_CONSTRUCTION_PROTOCOL, 	// view id
 			"ConstructionProtocol", 					// view title phrase 
 			null,	// toolbar string
-				!app.has(Feature.CP_POPUP), // style bar?
+				false, // style bar?
 			7,						// menu order
 			'L' // ctrl-shift-L
 		);

@@ -3953,18 +3953,6 @@ public abstract class App implements UpdateSelection {
 		case UNDO_WHEN_CHANGE_TOOL:
 			return true;
 
-			// in web
-		case PRINT_MENU:
-			return true;
-		case CP_POPUP:
-			return true;
-		case CP_NEW_COLUMNS:
-			return true;
-
-			// GGB-503
-		case ZOOM_MENU_3D:
-			return true;
-
 			// GGB-501
 		case EXPAND_AV_FOR_LONG_EQUATIONS:
 			return true;

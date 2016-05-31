@@ -1,7 +1,6 @@
 package org.geogebra.web.geogebra3D.web.gui;
 
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.html5.main.AppW;
@@ -41,9 +40,8 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 		addNavigationBar();
 
-		if (app.has(Feature.ZOOM_MENU_3D)) {
-			addZoomMenu();
-		}
+
+		addZoomMenu();
 
 		MenuItem miStandardView = new MenuItem(app.getPlain("StandardView"),
 		        new Command() {

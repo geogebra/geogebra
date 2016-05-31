@@ -17,7 +17,6 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.export.PrintPreviewW;
 import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
-import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.ShareDialogW;
 import org.geogebra.web.web.main.AppWFull;
 
@@ -52,14 +51,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		};
 	    addStyleName("GeoGebraMenuBar");
 	    initActions();
-		update();
 	}
 
-	void update() {
-	    // TODO Auto-generated method stub
-	    
-    }
 	
+	/**
+	 * @return whether native JS function for sharing is present
+	 */
 	public native static boolean nativeShareSupported()/*-{
 		if ($wnd.android && $wnd.android.share) {
 			return true;
@@ -90,7 +87,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	
 
 	private void initActions() {
-		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
 		if (app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(),app.getMenu("exam_menu_exit"), true),true,new MenuCommand(app) { //Close
 
@@ -161,18 +157,20 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					.menu_icon_file_share().getSafeUri().asString(),
 					app.getMenu("Share"), true), true, new MenuCommand(app) {
 
-				@Override
-				public void doExecute() {
-					if (app.getActiveMaterial() == null) {
-						app.getGuiManager().save();
-					} else if (!app.getLoginOperation().isLoggedIn()) {
-						((SignInButton) app.getLAF().getSignInButton(app))
-								.login();
-					} else {
-						new ShareDialogW(app);
-					}
+						@Override
+						public void doExecute() {
+							if (app.getActiveMaterial() == null) {
+								app.getGuiManager().save();
+							} else if (!app.getLoginOperation().isLoggedIn()) {
+								((SignInButton) app.getLAF()
+										.getSignInButton(app)).login();
+							} else {
+								ShareDialogW sd = new ShareDialogW(app);
+								sd.setVisible(true);
+								sd.center();
+							}
 
-				}
+					}
 			});
 
 		} else {
@@ -204,7 +202,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
 
 
-		if (app.has(Feature.PRINT_MENU) && app.getLAF().printSupported()) {
+		if (app.getLAF().printSupported()) {
 			Log.debug("new printItem");
 			printItem = new MenuItem(MainMenu.getMenuBarHtml(
 					GuiResources.INSTANCE
@@ -257,6 +255,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 	private boolean printItemAdded = false;
 
+	/**
+	 * Show or hide print TODO not implemented
+	 */
 	public void updatePrintMenu() {
 		// Log.debug("print item added: " + printItemAdded);
 		// if (printItem == null)
@@ -285,6 +286,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		// }
 	}
 
+	/**
+	 * 
+	 * @param app
+	 *            application
+	 * @return handler for native sharing
+	 */
 	public static StringHandler getShareStringHandler(final AppW app) {
 		return new StringHandler(){
 			@Override
@@ -296,6 +303,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		};
 	}
 
+	/**
+	 * @return callback that shows the exam welcom message and prepares Exam
+	 *         (goes fullscreen)
+	 */
 	Runnable getExamCallback() {
 
 		return new Runnable() {
@@ -303,14 +314,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			public void run() {
 				ExamUtil.toggleFullscreen(true);
 				app.setExam(new ExamEnvironment());
-				/*Layout.initializeDefaultPerspectives(app, 0.2);
-				app.fileNew();
-				app.fireViewsChangedEvent();
-				app.getGuiManager().setGeneralToolBarDefinition(
-						ToolBar.getAllToolsNoMacros(true, true));
-				app.getGgbApi().setPerspective("1");
-				app.getGuiManager().resetMenu();
-				 */
 				((AppWFull) app).examWelcome();
 
 			}
