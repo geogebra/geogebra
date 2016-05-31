@@ -422,7 +422,8 @@ public class AlgebraInputW extends FlowPanel
 					if (valid) {
 						return app.getGuiManager()
 								.checkAutoCreateSliders(string, callback);
-					} else if (getCurrentCommand() != null) {
+					} else if (app.getLocalization()
+							.getReverseCommand(getCurrentCommand()) != null) {
 						ErrorHelper.handleCommandError(app.getLocalization(),
 								getCurrentCommand(),
 								app.getDefaultErrorHandler());

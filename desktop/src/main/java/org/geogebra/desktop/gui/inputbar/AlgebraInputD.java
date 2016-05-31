@@ -468,7 +468,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 						return app.getGuiManager()
 								.checkAutoCreateSliders(string, callback);
 					}
-					else if (getCurrentCommand() != null) {
+					else if (loc
+							.getReverseCommand(getCurrentCommand()) != null) {
 						ErrorHelper.handleCommandError(loc, getCurrentCommand(),
 								app.getDefaultErrorHandler());
 

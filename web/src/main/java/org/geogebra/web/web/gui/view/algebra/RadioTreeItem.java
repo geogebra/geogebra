@@ -1816,11 +1816,9 @@ public class RadioTreeItem extends AVTreeItem
 
 					// actually this (and only this) means return true!
 					cb.callback(null);
-
-					// inputField.setText(null); // that comes after boolean
-					// return true
-					// inputField.setIsSuggestionJustHappened(false); // that is
-					// not relevant here
+					if (!keepFocus) {
+						setText("");
+					}
 				}
 
 			};
@@ -1872,7 +1870,6 @@ public class RadioTreeItem extends AVTreeItem
 		} else {
 
 			DrawEquationW.focusEquationMathQuillGGB(latexItem, false);
-			this.setText("");
 
 
 
@@ -1906,7 +1903,8 @@ public class RadioTreeItem extends AVTreeItem
 				if (valid) {
 					return app.getGuiManager().checkAutoCreateSliders(string,
 							callback);
-				} else if (getCurrentCommand() != null) {
+				} else if (app.getLocalization()
+						.getReverseCommand(getCurrentCommand()) != null) {
 					ErrorHelper.handleCommandError(app.getLocalization(),
 							getCurrentCommand(), app.getDefaultErrorHandler());
 
