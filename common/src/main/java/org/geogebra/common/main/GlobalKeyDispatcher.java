@@ -85,6 +85,7 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private Coords tempVec;
+	private boolean newWindowAllowed = true;
 
 	protected boolean renameStarted(char ch) {
 		GeoElement geo;
@@ -221,6 +222,10 @@ public abstract class GlobalKeyDispatcher {
 			app.getKernel().notifyRepaint();
 
 		return moved;
+	}
+
+	public void setNewWindowAllowed(boolean rel) {
+		newWindowAllowed = rel;
 	}
 
 	/**
@@ -554,10 +559,11 @@ public abstract class GlobalKeyDispatcher {
 			case N:
 				if (isShiftDown) {
 					handleCtrlShiftN(isAltDown);
-				} else {
+				} else if (newWindowAllowed) {
 					app.setWaitCursor();
 					createNewWindow();
 					app.setDefaultCursor();
+					newWindowAllowed = false;
 				}
 				break;
 

@@ -69,6 +69,10 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		case KeyEvent.KEY_TYPED:
 			consumed = handleKeyTyped(event);
 			break;
+
+		case KeyEvent.KEY_RELEASED:
+			setNewWindowAllowed(true);
+			break;
 		}
 
 		if (consumed) {
