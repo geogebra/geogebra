@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.MyZoomer;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
@@ -733,17 +732,14 @@ public class RendererW extends Renderer implements RendererShadersInterface,
 
 	}
 
+
+	private float[] eyeOrDirection = new float[4];
+
 	@Override
-	protected void setLightPosition(float[] values) {
+	public void setLightPosition(float[] values) {
 		glContext.uniform3fv(lightPositionLocation, values);
-		if (view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE
-		        || view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE) {
-			glContext.uniform4fv(eyePositionLocation, view3D.getViewDirection()
-			        .get4ForGL());
-		} else {
-			glContext.uniform4fv(eyePositionLocation, view3D.getEyePosition()
-			        .get4ForGL());
-		}
+		view3D.getEyePosition().get4ForGL(eyeOrDirection);
+		glContext.uniform4fv(eyePositionLocation, eyeOrDirection);
 	}
 
 	private float[][] ambiantDiffuse;
@@ -1813,9 +1809,12 @@ public class RendererW extends Renderer implements RendererShadersInterface,
 		glContext.uniform1i(labelRenderingLocation, 0);
 	}
 
+	private float[] labelOrigin = new float[3];
+
 	@Override
 	public void setLabelOrigin(Coords origin) {
-		glContext.uniform3fv(labelOriginLocation, origin.get3ForGL());
+		origin.get3ForGL(labelOrigin);
+		glContext.uniform3fv(labelOriginLocation, labelOrigin);
 	}
 
 	private Hitting hitting;
@@ -1851,13 +1850,15 @@ public class RendererW extends Renderer implements RendererShadersInterface,
 		return hitting;
 	}
 
-	@Override
-	public void setCenter(Coords center) {
-		float[] c = center.get4ForGL();
-		// set radius info
-		c[3] *= DrawPoint3D.DRAW_POINT_FACTOR / view3D.getScale();
-		glContext.uniform4fv(centerLocation, c);
+	private float[] pointCenter = new float[4];
 
+	@Override
+	final public void setCenter(Coords center) {
+		center.get4ForGL(pointCenter);
+		// set radius info
+		pointCenter[3] = view3D.unscale(pointCenter[3]
+				* DrawPoint3D.DRAW_POINT_FACTOR);
+		glContext.uniform4fv(centerLocation, pointCenter);
 	}
 
 	private float[] resetCenter = { 0f, 0f, 0f, 0f };

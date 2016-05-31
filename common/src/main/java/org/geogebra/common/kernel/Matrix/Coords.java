@@ -2194,32 +2194,22 @@ public class Coords {
 	
 	/**
 	 * 
-	 * @return 3 floats array
+	 * set 3 floats array
 	 */
-	public float[] get3ForGL(){
-		float[] ret = new float[3];
-		
+	public void get3ForGL(float[] ret) {
 		for (int i = 0 ; i < 3 ; i++){
 			ret[i] = (float) val[i];
 		}
-		
-		return ret;
-		
 	}
 	
 	/**
 	 * 
-	 * @return 3 floats array
+	 * set 4 floats array
 	 */
-	public float[] get4ForGL(){
-		float[] ret = new float[4];
-		
+	public void get4ForGL(float[] ret) {
 		for (int i = 0 ; i < 4 ; i++){
 			ret[i] = (float) val[i];
 		}
-		
-		return ret;
-		
 	}
 	
 	/**

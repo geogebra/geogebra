@@ -1009,17 +1009,15 @@ public class RendererShaders extends RendererD implements
 
 	}
 
+
+	private float[] eyeOrDirection = new float[4];
+
 	@Override
-	protected void setLightPosition(float[] values) {
+	public void setLightPosition(float[] values) {
 		jogl.getGL2ES2().glUniform3fv(lightPositionLocation, 1, values, 0);
-		if (view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE
-				|| view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE) {
-			jogl.getGL2ES2().glUniform4fv(eyePositionLocation, 1,
-					view3D.getViewDirection().get4ForGL(), 0);
-		} else {
-			jogl.getGL2ES2().glUniform4fv(eyePositionLocation, 1,
-					view3D.getEyePosition().get4ForGL(), 0);
-		}
+		view3D.getEyePosition().get4ForGL(eyeOrDirection);
+		jogl.getGL2ES2()
+				.glUniform4fv(eyePositionLocation, 1, eyeOrDirection, 0);
 	}
 
 	private float[][] ambiantDiffuse;
@@ -1383,11 +1381,14 @@ public class RendererShaders extends RendererD implements
 		jogl.getGL2ES2().glUniform1i(labelRenderingLocation, 0);
 	}
 
+	private float[] labelOrigin = new float[3];
+
 	@Override
 	public void setLabelOrigin(Coords origin) {
-		jogl.getGL2ES2().glUniform3fv(labelOriginLocation, 1,
-				origin.get3ForGL(), 0);
+		origin.get3ForGL(labelOrigin);
+		jogl.getGL2ES2().glUniform3fv(labelOriginLocation, 1, labelOrigin, 0);
 	}
+
 
 	private Hitting hitting;
 
@@ -1445,12 +1446,15 @@ public class RendererShaders extends RendererD implements
 		return hitting;
 	}
 
+	private float[] pointCenter = new float[4];
+
 	@Override
-	public void setCenter(Coords center) {
-		float[] c = center.get4ForGL();
+	final public void setCenter(Coords center) {
+		center.get4ForGL(pointCenter);
 		// set radius info
-		c[3] *= DrawPoint3D.DRAW_POINT_FACTOR / view3D.getScale();
-		jogl.getGL2ES2().glUniform4fv(centerLocation, 1, c, 0);
+		pointCenter[3] = view3D.unscale(pointCenter[3]
+				* DrawPoint3D.DRAW_POINT_FACTOR);
+		jogl.getGL2ES2().glUniform4fv(centerLocation, 1, pointCenter, 0);
 	}
 
 	private float[] resetCenter = { 0f, 0f, 0f, 0f };

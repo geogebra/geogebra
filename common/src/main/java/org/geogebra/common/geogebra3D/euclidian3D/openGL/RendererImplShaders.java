@@ -617,17 +617,13 @@ public abstract class RendererImplShaders implements RendererImpl {
 
 	}
 
+	private float[] eyeOrDirection = new float[4];
+
 	@Override
 	public void setLightPosition(float[] values) {
 		glUniform3fv(lightPositionLocation, values);
-		if (view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE
-				|| view3D.getMode() == EuclidianView3D.PROJECTION_PERSPECTIVE) {
-			glUniform4fv(eyePositionLocation, view3D.getViewDirection()
-					.get4ForGL());
-		} else {
-			glUniform4fv(eyePositionLocation, view3D.getEyePosition()
-					.get4ForGL());
-		}
+		view3D.getEyePosition().get4ForGL(eyeOrDirection);
+		glUniform4fv(eyePositionLocation, eyeOrDirection);
 	}
 
 	abstract protected void glUniform4fv(Object location, float[] values);
@@ -864,9 +860,12 @@ public abstract class RendererImplShaders implements RendererImpl {
 		glUniform1i(labelRenderingLocation, 0);
 	}
 
+	private float[] labelOrigin = new float[3];
+
 	@Override
 	public void setLabelOrigin(Coords origin) {
-		glUniform3fv(labelOriginLocation, origin.get3ForGL());
+		origin.get3ForGL(labelOrigin);
+		glUniform3fv(labelOriginLocation, labelOrigin);
 	}
 
 	@Override
@@ -913,12 +912,15 @@ public abstract class RendererImplShaders implements RendererImpl {
 		}
 	}
 
+	private float[] pointCenter = new float[4];
+
 	@Override
 	final public void setCenter(Coords center) {
-		float[] c = center.get4ForGL();
+		center.get4ForGL(pointCenter);
 		// set radius info
-		c[3] = view3D.unscale(c[3] * DrawPoint3D.DRAW_POINT_FACTOR);
-		glUniform4fv(centerLocation, c);
+		pointCenter[3] = view3D.unscale(pointCenter[3]
+				* DrawPoint3D.DRAW_POINT_FACTOR);
+		glUniform4fv(centerLocation, pointCenter);
 	}
 
 	private float[] resetCenter = { 0f, 0f, 0f, 0f };
