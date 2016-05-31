@@ -21,9 +21,11 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
+import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -393,4 +395,17 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	boolean isParametric();
 
 	void setLabelSimple(String labelSimple);
+
+	GeoBoolean getShowObjectCondition();
+
+	GeoList getColorFunction();
+
+	int getColorSpace();
+
+	boolean isSetEuclidianVisible();
+
+	void setAdvancedVisualStyleCopy(GeoElementND macroGeo);
+
+	void setDrawAlgorithm(DrawInformationAlgo copy);
+
 }

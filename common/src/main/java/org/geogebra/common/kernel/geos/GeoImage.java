@@ -260,7 +260,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	// }
 
 	public void setStartPoint(GeoPointND p) throws CircularDefinitionException {
-		setCorner((GeoPoint) p, 0);
+		setCorner(p, 0);
 	}
 
 	public void removeStartPoint(GeoPointND p) {
@@ -272,7 +272,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	public void setStartPoint(GeoPointND p, int number)
 			throws CircularDefinitionException {
-		setCorner((GeoPoint) p, number);
+		setCorner(p, number);
 	}
 
 	/**
@@ -291,7 +291,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * @param number
 	 *            0, 1 or 2 (first, second and fourth corner)
 	 */
-	public void setCorner(GeoPoint p, int number) {
+	public void setCorner(GeoPointND p, int number) {
 		// macro output uses initStartPoint() only
 		if (isAlgoMacroOutput())
 			return;
@@ -305,7 +305,7 @@ public class GeoImage extends GeoElement implements Locateable,
 			return;
 
 		// set new location
-		if (p == null) {
+		if (!(p instanceof GeoPoint)) {
 			// remove old dependencies
 			if (corners[number] != null)
 				corners[number].getLocateableList().unregisterLocateable(this);
@@ -328,7 +328,7 @@ public class GeoImage extends GeoElement implements Locateable,
 			if (corners[number] != null)
 				corners[number].getLocateableList().unregisterLocateable(this);
 
-			corners[number] = p;
+			corners[number] = (GeoPoint) p;
 			// add new dependencies
 			corners[number].getLocateableList().registerLocateable(this);
 		}

@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
 
@@ -44,7 +45,6 @@ import org.geogebra.common.util.debug.Log;
  * Algorithm to invoke a specific macro.
  * 
  * @author Markus
- * @version
  */
 public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 		FixedPathRegionAlgo {
@@ -55,11 +55,11 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	private GeoElement[] macroInput, macroOutput;
 
 	// maps macro geos to algo geos
-	private HashMap<GeoElement, GeoElement> macroToAlgoMap;
+	private HashMap<GeoElementND, GeoElement> macroToAlgoMap;
 
 	// all keys of macroToAlgoMap that are not part of macroInput
-	private ArrayList<GeoElement> macroOutputAndReferencedGeos;
-	private ArrayList<GeoElement> algoOutputAndReferencedGeos; // for
+	private ArrayList<GeoElementND> macroOutputAndReferencedGeos;
+	private ArrayList<GeoElementND> algoOutputAndReferencedGeos; // for
 																// efficiency,
 																// see
 																// getMacroConstructionState()
@@ -71,9 +71,13 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	 * Creates a new algorithm that applies a macro to the given input objects.
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param macro
+	 *            macro
 	 * @param input
+	 *            input objects
 	 */
 	public AlgoMacro(Construction cons, String[] labels, Macro macro,
 			GeoElement[] input) {
@@ -167,10 +171,11 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 				GeoElement geoPoint = macroOutput[i];
 
 				if (geoPoint.isPointOnPath()) {
-					GeoPoint P = (GeoPoint) getOutput(i);
+					GeoPointND P = (GeoPointND) getOutput(i);
 					double t = P.getPathParameter().getT();
-					Path path = ((GeoPoint) geoPoint).getPath();
-					PathParameter pp = ((GeoPoint) geoPoint).getPathParameter();
+					Path path = ((GeoPointND) geoPoint).getPath();
+					PathParameter pp = ((GeoPointND) geoPoint)
+							.getPathParameter();
 					// Application.debug(param.getDouble()+" "+path.getMinParameter()+" "+path.getMaxParameter());
 					pp.setT(t);
 					// Application.debug(pp.t);
@@ -199,7 +204,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	/**
 	 * Returns true when macroGeo is part of macroInput.
 	 */
-	private boolean isMacroInputObject(GeoElement macroGeo) {
+	private boolean isMacroInputObject(GeoElementND macroGeo) {
 		for (int i = 0; i < macroInput.length; i++) {
 			if (macroGeo == macroInput[i])
 				return true;
@@ -237,8 +242,8 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 		// macro and algo geos
 		int size = macroOutputAndReferencedGeos.size();
 		for (int i = 0; i < size; i++) {
-			GeoElement macroGeo = macroOutputAndReferencedGeos.get(i);
-			GeoElement algoGeo = algoOutputAndReferencedGeos.get(i);
+			GeoElementND macroGeo = macroOutputAndReferencedGeos.get(i);
+			GeoElementND algoGeo = algoOutputAndReferencedGeos.get(i);
 			if (macroGeo.isDefined()) {
 				algoGeo.set(macroGeo);
 				AlgoElement drawAlgo = macroGeo.getParentAlgorithm();
@@ -299,9 +304,9 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	 * construction.
 	 */
 	private void initMap() {
-		macroToAlgoMap = new HashMap<GeoElement, GeoElement>();
-		macroOutputAndReferencedGeos = new ArrayList<GeoElement>();
-		algoOutputAndReferencedGeos = new ArrayList<GeoElement>();
+		macroToAlgoMap = new HashMap<GeoElementND, GeoElement>();
+		macroOutputAndReferencedGeos = new ArrayList<GeoElementND>();
+		algoOutputAndReferencedGeos = new ArrayList<GeoElementND>();
 
 		// INPUT initing
 		// map macro input to algo input
@@ -327,7 +332,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	/**
 	 * Adds a (macroGeo, algoGeo) pair to the map.
 	 */
-	private void map(GeoElement macroGeo, GeoElement algoGeo) {
+	private void map(GeoElementND macroGeo, GeoElement algoGeo) {
 		if (macroToAlgoMap.get(macroGeo) == null) {
 			// map macroGeo to algoGeo
 			macroToAlgoMap.put(macroGeo, algoGeo);
@@ -346,7 +351,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	 * mapped to an algo-geo, a new algo-geo is created and added to the map
 	 * automatically.
 	 */
-	private GeoElement getAlgoGeo(GeoElement macroGeo) {
+	private GeoElement getAlgoGeo(GeoElementND macroGeo) {
 		if (macroGeo == null)
 			return null;
 		GeoElement algoGeo = macroToAlgoMap.get(macroGeo);
@@ -365,7 +370,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	 * Creates a new algo-geo in this construction that is copy of macroGeo from
 	 * the macro construction.
 	 */
-	private GeoElement createAlgoCopy(GeoElement macroGeo) {
+	private GeoElement createAlgoCopy(GeoElementND macroGeo) {
 		GeoElement algoGeo = macroGeo.copyInternal(cons);
 		return algoGeo;
 	}
@@ -442,7 +447,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 		int size = macroPoints.size();
 		ArrayList<GeoPointND> points = new ArrayList<GeoPointND>(size);
 		for (int i = 0; i < size; i++) {
-			points.add((GeoPointND) getAlgoGeo((GeoElement) macroPoints.get(i)));
+			points.add((GeoPointND) getAlgoGeo(macroPoints.get(i)));
 		}
 		conic.setPointsOnConic(points);
 	}
@@ -458,7 +463,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 
 		try {
 			for (int i = 0; i < macroStartPoints.length; i++) {
-				GeoPointND point = (GeoPointND) getAlgoGeo((GeoElement) macroStartPoints[i]);
+				GeoPointND point = (GeoPointND) getAlgoGeo(macroStartPoints[i]);
 				locateable.initStartPoint(point, i);
 
 				// Application.debug("set start point: " + locateable + " => " +
@@ -479,7 +484,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 		GeoPointND[] macroPolyPoints = macroPoly.getPoints();
 		GeoPoint[] polyPoints = new GeoPoint[macroPolyPoints.length];
 		for (int i = 0; i < macroPolyPoints.length; i++) {
-			polyPoints[i] = (GeoPoint) getAlgoGeo((GeoElement) macroPolyPoints[i]);
+			polyPoints[i] = (GeoPoint) getAlgoGeo(macroPolyPoints[i]);
 		}
 		poly.setPoints(polyPoints);
 
@@ -520,6 +525,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 	 * construction.
 	 * 
 	 * @param fun
+	 *            function
 	 */
 	final public void initFunction(FunctionNVar fun) {
 		// geoFun was created as a copy of macroFun,
@@ -583,6 +589,16 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 		return false;
 	}
 
+	/**
+	 * @param geoPoint
+	 *            parent construction point to be moved
+	 * @param x
+	 *            desired homogeneous x-coord
+	 * @param y
+	 *            desired homogeneous y-coord
+	 * @param z
+	 *            desired homogeneous z-coord
+	 */
 	public void setCoords(GeoPoint geoPoint, double x, double y, double z) {
 		if (!isChangeable(geoPoint)) {
 			return;
@@ -599,7 +615,7 @@ public class AlgoMacro extends AlgoElement implements AlgoMacroInterface,
 
 		// set algo geos to macro geos state
 		//
-		for (GeoElement me : macroToAlgoMap.keySet()) {
+		for (GeoElementND me : macroToAlgoMap.keySet()) {
 			if (macroToAlgoMap.get(me) == geoPoint) {
 				GeoPoint mp = ((GeoPoint) me);
 				mp.setCoords(x, y, z);

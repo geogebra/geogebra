@@ -1647,7 +1647,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Used in macros where we can't reference the objects directly
 	 * @param geo style source
 	 */
-	public void setAdvancedVisualStyleCopy(final GeoElement geo) {
+	public final void setAdvancedVisualStyleCopy(final GeoElementND geo) {
 		// copy color function
 		if(geo.getColorFunction() != null){
 			setColorFunction(geo.getColorFunction().deepCopyGeo());
