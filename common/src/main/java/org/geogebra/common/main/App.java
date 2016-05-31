@@ -3976,7 +3976,7 @@ public abstract class App implements UpdateSelection {
 			return !isApplet();
 
 		case SHADERS_WITH_IMPL_IN_WEB:
-			return prerelease;
+			return true; // 5.0.244
 
 		case SAVE_SETTINGS_TO_FILE:
 			// not enabled for linux
