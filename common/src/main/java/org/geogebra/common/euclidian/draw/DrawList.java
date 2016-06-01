@@ -302,7 +302,7 @@ public final class DrawList extends CanvasDrawable
 						|| item.rect.intersects(rectDown)));
 
 				if (clip) {
-				
+					Log.debug("CLIPPING");
 						g2.setClip(rectLeft, ctrlUpY, (int) item.rect.getWidth(),
 						(int) (rectDown.getY() - ctrlUpY));
 				}
@@ -410,6 +410,8 @@ public final class DrawList extends CanvasDrawable
 
 			if (startIdx + diff >= 0 && endIdx + diff < items.size() + 1) {
 				startIdx += diff;
+				selectedIndex += diff;
+
 				update();
 				// Log.error("repaint 1");
 				getView().repaintView();
@@ -771,7 +773,7 @@ public final class DrawList extends CanvasDrawable
 				endIdx = maxItems;
 			}
 			rowCount = getVisibleItemCount();
-			scrollNeeded = getVisibleItemCount() != maxItems;
+			scrollNeeded = endIdx != maxItems;
 			if (!scrollNeeded) {
 				startIdx = 0;
 				endIdx = maxItems;
