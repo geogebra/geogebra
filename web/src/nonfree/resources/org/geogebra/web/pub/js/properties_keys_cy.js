@@ -1588,7 +1588,7 @@ __GGB__keysVar.cy.menu = {
     "Labeling.on": "Pob gwrthrych newydd",
     "Labeling.pointsOnly": "Pwyntiau newydd yn unig",
     "Labeling.propertiesDefault": "Defnyddio'r nodweddion rhagosodedig",
-    "Labels": "Dangos neu guddio'r labeli",
+    "Labels": "Labels",
     "Landscape": "Tirlun",
     "Language": "Iaith",
     "Layout": "Cysodiad",

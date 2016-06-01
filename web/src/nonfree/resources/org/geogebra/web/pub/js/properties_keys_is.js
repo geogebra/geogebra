@@ -1588,7 +1588,7 @@ __GGB__keysVar.is.menu = {
     "Labeling.on": "Allir n\xfdir hlutir",
     "Labeling.pointsOnly": "N\xfdir punktar eing\xf6ngu",
     "Labeling.propertiesDefault": "Nota sj\xe1lfgefna eiginleika",
-    "Labels": "S\xfdna e\xf0a fela merkingar",
+    "Labels": "Labels",
     "Landscape": "Langsni\xf0",
     "Language": "Tungum\xe1l",
     "Layout": "Sni\xf0",

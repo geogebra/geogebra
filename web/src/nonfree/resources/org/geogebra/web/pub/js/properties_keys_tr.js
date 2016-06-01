@@ -1588,7 +1588,7 @@ __GGB__keysVar.tr.menu = {
     "Labeling.on": "B\xfct\xfcn yeni nesneler",
     "Labeling.pointsOnly": "Sadece yeni noktalar",
     "Labeling.propertiesDefault": "\u0130lk \xf6zellikleri kullan",
-    "Labels": "Etiketleri g\xf6ster veya sakla",
+    "Labels": "Labels",
     "Landscape": "Manzara",
     "Language": "Dil",
     "Layout": "Yerle\u015fim",

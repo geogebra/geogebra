@@ -1588,7 +1588,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Labeling.on": "Etiqueta els objectes nous",
     "Labeling.pointsOnly": "Etiqueta nom\xe9s els punts nous",
     "Labeling.propertiesDefault": "Utilitza les propietats per defecte",
-    "Labels": "Mostra o amaga les etiquetes",
+    "Labels": "Labels",
     "Landscape": "Apa\xefsat",
     "Language": "Idioma",
     "Layout": "Disposici\xf3",

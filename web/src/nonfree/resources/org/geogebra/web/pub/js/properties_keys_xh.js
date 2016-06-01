@@ -1588,7 +1588,7 @@ __GGB__keysVar.xh.menu = {
     "Labeling.on": "Zonke Izinto Ezintsha",
     "Labeling.pointsOnly": "Amachaphaza Amatsha Kuphela",
     "Labeling.propertiesDefault": "Sebenzisa iDefault yeeProperties",
-    "Labels": "Bonisa okanye uFihle iiLeyibheli",
+    "Labels": "Labels",
     "Landscape": "iLandscape",
     "Language": "uLwimi",
     "Layout": "uYilo",

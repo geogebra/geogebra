@@ -1588,7 +1588,7 @@ __GGB__keysVar.fi.menu = {
     "Labeling.on": "Nime\xe4minen k\xe4ytt\xf6\xf6n",
     "Labeling.pointsOnly": "Nime\xe4 vain pisteet",
     "Labeling.propertiesDefault": "K\xe4yt\xe4 oletusominaisuuksia",
-    "Labels": "N\xe4yt\xe4 tai piilota nimet",
+    "Labels": "Labels",
     "Landscape": "Vaakakuva",
     "Language": "Kieli",
     "Layout": "N\xe4kym\xe4n asetukset",

@@ -1588,7 +1588,7 @@ __GGB__keysVar.fr.menu = {
     "Labeling.on": "Tous les nouveaux objets",
     "Labeling.pointsOnly": "Seulement les nouveaux points",
     "Labeling.propertiesDefault": "Utiliser les propri\xe9t\xe9s par d\xe9faut",
-    "Labels": "Afficher ou cacher les \xe9tiquettes",
+    "Labels": "Etiquettes",
     "Landscape": "Paysage",
     "Language": "Langue",
     "Layout": "Aspect",

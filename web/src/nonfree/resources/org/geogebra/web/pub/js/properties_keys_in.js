@@ -1588,7 +1588,7 @@ __GGB__keysVar.in.menu = {
     "Labeling.on": "Semua Objek Baru",
     "Labeling.pointsOnly": "Titik-titik Baru Saja",
     "Labeling.propertiesDefault": "Gunakan Properti Awal",
-    "Labels": "Tampilkan atau Sembunyikan Label",
+    "Labels": "Labels",
     "Landscape": "Lanskap",
     "Language": "Bahasa",
     "Layout": "Layout",

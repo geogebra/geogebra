@@ -1588,7 +1588,7 @@ __GGB__keysVar.lt.menu = {
     "Labeling.on": "Visi nauji objektai",
     "Labeling.pointsOnly": "Tik nauji ta\u0161kai",
     "Labeling.propertiesDefault": "Naudoti \u012fprastinius nustatymus",
-    "Labels": "Rodyti / sl\u0117pti etiketes",
+    "Labels": "Labels",
     "Landscape": "Vaizdas",
     "Language": "Kalba",
     "Layout": "I\u0161d\u0117stymas",

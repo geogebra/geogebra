@@ -1588,7 +1588,7 @@ __GGB__keysVar.hr.menu = {
     "Labeling.on": "svih novih objekata",
     "Labeling.pointsOnly": "samo novih to\u010daka",
     "Labeling.propertiesDefault": "koristi izvorno",
-    "Labels": "Poka\u017ei / sakrij oznake",
+    "Labels": "Labels",
     "Landscape": "Pejza\u017e",
     "Language": "Jezik",
     "Layout": "Raspored",

@@ -1588,7 +1588,7 @@ __GGB__keysVar.nl_NL.menu = {
     "Labeling.on": "Alle nieuwe objecten",
     "Labeling.pointsOnly": "Enkel nieuwe punten",
     "Labeling.propertiesDefault": "Gebruik standaardinstelling",
-    "Labels": "Toon of verberg labels",
+    "Labels": "Labels",
     "Landscape": "Liggend",
     "Language": "Taal",
     "Layout": "Lay-out",

@@ -1588,7 +1588,7 @@ __GGB__keysVar.sr.menu = {
     "Labeling.on": "Za sve nove objekte",
     "Labeling.pointsOnly": "Samo za nove ta\u010dke",
     "Labeling.propertiesDefault": "Koristi podrazumevane vrednosti",
-    "Labels": "Prika\u017ei/sakrij oznake",
+    "Labels": "Labels",
     "Landscape": "Pejza\u017e",
     "Language": "Jezik",
     "Layout": "Raspored",

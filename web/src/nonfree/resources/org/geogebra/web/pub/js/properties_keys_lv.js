@@ -1588,7 +1588,7 @@ __GGB__keysVar.lv.menu = {
     "Labeling.on": "Visi jaunie objekti",
     "Labeling.pointsOnly": "Tikai jaunie punkti",
     "Labeling.propertiesDefault": "Izmantojot noklus\u0113juma iesp\u0113jas",
-    "Labels": "par\u0101d\u012bt vai pasl\u0113pt atsl\u0113gas v\u0101rdu",
+    "Labels": "Labels",
     "Landscape": "Ainava",
     "Language": "Valoda",
     "Layout": "Izk\u0101rtojums",

@@ -1588,7 +1588,7 @@ __GGB__keysVar.vi.menu = {
     "Labeling.on": "Hi\u1ec3n th\u1ecb t\xean t\u1ea5t c\u1ea3 c\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng",
     "Labeling.pointsOnly": "Ch\u1ec9 hi\u1ec3n th\u1ecb t\xean c\xe1c \u0111i\u1ec3m m\u1edbi",
     "Labeling.propertiesDefault": "S\u1eed d\u1ee5ng c\xe1c thu\u1ed9c t\xednh m\u1eb7c \u0111\u1ecbnh",
-    "Labels": "Hi\u1ec3n th\u1ecb ho\u1eb7c \u1ea9n t\xean",
+    "Labels": "Labels",
     "Landscape": "Kh\u1ed5 gi\u1ea5y ngang",
     "Language": "Ng\xf4n ng\u1eef",
     "Layout": "Thi\u1ebft k\u1ebf",

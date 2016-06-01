@@ -1588,7 +1588,7 @@ __GGB__keysVar.ms.menu = {
     "Labeling.on": "Semua Objek Baru",
     "Labeling.pointsOnly": "Titik-titik Baru Sahaja",
     "Labeling.propertiesDefault": "Menggunakan Sifat-sifat Lalai",
-    "Labels": "Tunjuk atau Sembunyi Label",
+    "Labels": "Labels",
     "Landscape": "Lanskap",
     "Language": "Bahasa",
     "Layout": "Tataletak",

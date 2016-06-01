@@ -1588,7 +1588,7 @@ __GGB__keysVar.sk.menu = {
     "Labeling.on": "V\u0161etky nov\xe9 objekty",
     "Labeling.pointsOnly": "Len nov\xe9 body",
     "Labeling.propertiesDefault": "Pou\u017eit prednastaven\xe9",
-    "Labels": "Uk\xe1\u017e/Skry pomenovania",
+    "Labels": "Labels",
     "Landscape": "Na \u0161\xedrku",
     "Language": "Jazyk",
     "Layout": "Rozmiestnenie",

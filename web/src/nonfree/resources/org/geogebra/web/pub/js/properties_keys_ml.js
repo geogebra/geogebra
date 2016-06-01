@@ -1588,7 +1588,7 @@ __GGB__keysVar.ml.menu = {
     "Labeling.on": "All New Objects",
     "Labeling.pointsOnly": "New Points Only",
     "Labeling.propertiesDefault": "Use Properties Default",
-    "Labels": "Label \u0d26\u0d43\u0d36\u0d4d\u0d2f\u0d24",
+    "Labels": "Labels",
     "Landscape": "Landscape",
     "Language": "Language",
     "Layout": "Layout",

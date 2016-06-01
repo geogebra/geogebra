@@ -1588,7 +1588,7 @@ __GGB__keysVar.ro.menu = {
     "Labeling.on": "Toate obiectele noi",
     "Labeling.pointsOnly": "Doar punctele noi",
     "Labeling.propertiesDefault": "Utilizare propriet\u0103\u0163i implicite",
-    "Labels": "Vizualizare / Ascundere etichete",
+    "Labels": "Labels",
     "Landscape": "Vedere",
     "Language": "Limb\u0103",
     "Layout": "Aspect",

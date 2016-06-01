@@ -1588,7 +1588,7 @@ __GGB__keysVar.da.menu = {
     "Labeling.on": "Alle nye objekter",
     "Labeling.pointsOnly": "Kun nye punkter",
     "Labeling.propertiesDefault": "Brug standard egenskaber",
-    "Labels": "Vis eller skjul m\xe6rkat",
+    "Labels": "Labels",
     "Landscape": "Horisontalt",
     "Language": "Sprog",
     "Layout": "Layout",

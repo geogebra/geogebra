@@ -1588,7 +1588,7 @@ __GGB__keysVar.ko.menu = {
     "Labeling.on": "\ubaa8\ub4e0 \uc0c8\ub85c\uc6b4 \ub300\uc0c1\uc5d0 \uc774\ub984\uc744 \ubcf4\uc784",
     "Labeling.pointsOnly": "\uc0c8\ub85c\uc6b4 \uc810\ub9cc \uc774\ub984\uc744 \ubcf4\uc784",
     "Labeling.propertiesDefault": "\uae30\ubcf8\uc124\uc815\uc0ac\ud56d\uc744 \uc0ac\uc6a9",
-    "Labels": "\uc774\ub984\uc744 \ubcf4\uc774\uac70\ub098 \uac10\ucda4",
+    "Labels": "Labels",
     "Landscape": "\ub113\uac8c",
     "Language": "\uc5b8\uc5b4",
     "Layout": "\ud654\uba74\ubc30\uce58",

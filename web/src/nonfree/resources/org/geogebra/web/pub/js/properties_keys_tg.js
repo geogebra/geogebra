@@ -1588,7 +1588,7 @@ __GGB__keysVar.tg.menu = {
     "Labeling.on": "All New Objects",
     "Labeling.pointsOnly": "New Points Only",
     "Labeling.propertiesDefault": "Use Properties Default",
-    "Labels": "Show or Hide Labels",
+    "Labels": "Labels",
     "Landscape": "Landscape",
     "Language": "Language",
     "Layout": "Layout",

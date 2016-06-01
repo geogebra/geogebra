@@ -1588,7 +1588,7 @@ __GGB__keysVar.eu.menu = {
     "Labeling.on": "Objektu Berri Guztiak",
     "Labeling.pointsOnly": "Puntu Berriak Besterik Ez",
     "Labeling.propertiesDefault": "Erabili Propietate Lehenetsiak",
-    "Labels": "Erakutsi edo Ezkutatu Etiketak",
+    "Labels": "Labels",
     "Landscape": "Horizontala",
     "Language": "Hizkuntza",
     "Layout": "Antolamendua",

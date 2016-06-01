@@ -1588,7 +1588,7 @@ __GGB__keysVar.gl.menu = {
     "Labeling.on": "T\xf3dolos novos obxectos",
     "Labeling.pointsOnly": "S\xf3 novos puntos",
     "Labeling.propertiesDefault": "Empregar propiedades predefinidas",
-    "Labels": "Amosar ou agochar r\xf3tulos",
+    "Labels": "Labels",
     "Landscape": "Apaisado",
     "Language": "Lingua",
     "Layout": "Disposici\xf3n",

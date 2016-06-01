@@ -1588,7 +1588,7 @@ __GGB__keysVar.bs.menu = {
     "Labeling.on": "Svih novih figura",
     "Labeling.pointsOnly": "Samo novih ta\u010daka",
     "Labeling.propertiesDefault": "Koristi osnovne postavke",
-    "Labels": "Poka\u017ei/Sakrij oznake",
+    "Labels": "Labels",
     "Landscape": "Horizontalni A4",
     "Language": "Jezik",
     "Layout": "Raspored",

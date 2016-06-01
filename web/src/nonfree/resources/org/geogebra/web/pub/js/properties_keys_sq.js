@@ -1588,7 +1588,7 @@ __GGB__keysVar.sq.menu = {
     "Labeling.on": "Gjithe objektet e reja",
     "Labeling.pointsOnly": "Vetem Pika te reja",
     "Labeling.propertiesDefault": "Perdor vetite e Paracaktuara",
-    "Labels": "Etiketa",
+    "Labels": "Labels",
     "Landscape": "PamjeVendi",
     "Language": "Gjuhe",
     "Layout": "Paraqitja Finale",

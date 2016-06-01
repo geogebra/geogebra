@@ -1588,7 +1588,7 @@ __GGB__keysVar.sv.menu = {
     "Labeling.on": "Alla objekt",
     "Labeling.pointsOnly": "Endast nya punkter",
     "Labeling.propertiesDefault": "Anv\xe4nd standardinst\xe4llningar",
-    "Labels": "Visa eller d\xf6lj etiketter",
+    "Labels": "Etiketter",
     "Landscape": "Landskap",
     "Language": "Spr\xe5k",
     "Layout": "Layout",

@@ -1588,7 +1588,7 @@ __GGB__keysVar.de.menu = {
     "Labeling.on": "Alle neuen Objekte",
     "Labeling.pointsOnly": "Nur neue Punkte",
     "Labeling.propertiesDefault": "Standardeinstellungen verwenden",
-    "Labels": "Beschriftung ein- oder ausblenden",
+    "Labels": "Beschriftung",
     "Landscape": "Querformat",
     "Language": "Sprache",
     "Layout": "Layout",

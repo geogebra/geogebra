@@ -1588,7 +1588,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Labeling.on": "\u958b\u59cb\u986f\u793a",
     "Labeling.pointsOnly": "\u53ea\u986f\u793a\u65b0\u9ede\u6a19\u7c64",
     "Labeling.propertiesDefault": "\u4f7f\u7528\u9810\u8a2d\u503c",
-    "Labels": "\u986f\u793a\u2571\u96b1\u85cf\u6a19\u7c64",
+    "Labels": "Labels",
     "Landscape": "\u6a6b\u5370",
     "Language": "\u8a9e\u8a00",
     "Layout": "\u7248\u9762",

@@ -1588,7 +1588,7 @@ __GGB__keysVar.fa.menu = {
     "Labeling.on": "\u0647\u0645\u0647 \u0627\u0634\u06cc\u0627\u0621 \u062c\u062f\u06cc\u062f",
     "Labeling.pointsOnly": "\u062a\u0646\u0647\u0627 \u0628\u0631\u0627\u06cc \u0646\u0642\u0627\u0637 \u062c\u062f\u06cc\u062f",
     "Labeling.propertiesDefault": "\u0628\u0647 \u0635\u0648\u0631\u062a \u067e\u06cc\u0634 \u0641\u0631\u0636",
-    "Labels": "\u0646\u0634\u0627\u0646 \u062f\u0627\u062f\u0646 \u0646\u0627\u0645",
+    "Labels": "Labels",
     "Landscape": "\u0627\u0641\u0642\u064a",
     "Language": "\u0632\u0628\u0627\u0646",
     "Layout": "\u0686\u064a\u062f\u0645\u0627\u0646",

@@ -1588,7 +1588,7 @@ __GGB__keysVar.eo.menu = {
     "Labeling.on": "\u0108iujn novajn objektojn",
     "Labeling.pointsOnly": "Nur novanj punktonj",
     "Labeling.propertiesDefault": "Use Properties Default",
-    "Labels": "Montri a\u016d ka\u015di etikedojn",
+    "Labels": "Labels",
     "Landscape": "Horizontala",
     "Language": "Lingvo",
     "Layout": "Enpa\u011digo",

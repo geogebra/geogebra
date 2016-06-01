@@ -1588,7 +1588,7 @@ __GGB__keysVar.cs.menu = {
     "Labeling.on": "V\u0161echny nov\xe9 objekty",
     "Labeling.pointsOnly": "Pouze nov\xe9 body",
     "Labeling.propertiesDefault": "Pou\u017e\xedt p\u0159edvolen\xe9 vlastnosti",
-    "Labels": "Uk\xe1zat/Skr\xfdt popisy",
+    "Labels": "Labels",
     "Landscape": "Na \u0161\xed\u0159ku",
     "Language": "Jazyk",
     "Layout": "Rozvr\u017een\xed",

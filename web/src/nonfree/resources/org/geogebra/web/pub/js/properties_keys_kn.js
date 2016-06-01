@@ -1588,7 +1588,7 @@ __GGB__keysVar.kn.menu = {
     "Labeling.on": "\u0c8e\u0cb2\u0ccd\u0cb2 \u0cb9\u0cca\u0cb8 \u0cb5\u0cb8\u0ccd\u0ca4\u0cc1\u0c97\u0cb3\u0cc1",
     "Labeling.pointsOnly": "\u0c95\u0cc7\u0cb5\u0cb2 \u0cb9\u0cca\u0cb8 \u0cac\u0cbf\u0c82\u0ca6\u0cc1\u0c97\u0cb3\u0cc1 \u0cae\u0cbe\u0ca4\u0ccd\u0cb0",
     "Labeling.propertiesDefault": "Use Properties Default",
-    "Labels": "Show or Hide Labels",
+    "Labels": "Labels",
     "Landscape": "Landscape",
     "Language": "\u0cad\u0cbe\u0cb7\u0cc6",
     "Layout": "\u0cb5\u0cbf\u0ca8\u0ccd\u0caf\u0cbe\u0cb8",

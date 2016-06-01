@@ -1588,7 +1588,7 @@ __GGB__keysVar.pl.menu = {
     "Labeling.on": "Wszystkie nowe obiekty",
     "Labeling.pointsOnly": "Tylko nowe punkty",
     "Labeling.propertiesDefault": "U\u017cyj ustawie\u0144 domy\u015blnych",
-    "Labels": "Poka\u017c lub ukryj etykiety",
+    "Labels": "Labels",
     "Landscape": "Poziomo",
     "Language": "J\u0119zyk",
     "Layout": "Uk\u0142ad",

@@ -1588,7 +1588,7 @@ __GGB__keysVar.et.menu = {
     "Labeling.on": "K\xf5ik uued objektid",
     "Labeling.pointsOnly": "Ainult uued punktid",
     "Labeling.propertiesDefault": "Kasuta vaikes\xe4tteid",
-    "Labels": "N\xe4ita v\xf5i peida t\xe4hised",
+    "Labels": "Labels",
     "Landscape": "Horisontaalpaigutus",
     "Language": "Keel",
     "Layout": "Vorming",
