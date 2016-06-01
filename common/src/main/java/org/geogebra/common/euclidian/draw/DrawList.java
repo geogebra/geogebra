@@ -390,6 +390,9 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		private void updateItemHovered() {
+			if (selectedIndex >= items.size()) {
+				selectedIndex = items.size() - 1;
+			}
 			itemHovered = items.get(selectedIndex);
 		}
 
