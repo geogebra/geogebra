@@ -134,28 +134,6 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		iconPanel.add(facebooklink);
 
 		// Twitter
-		// Element head =
-		// Document.get().getElementsByTagName("head").getItem(0);
-		// ScriptElement scriptE = Document.get().createScriptElement();
-		//
-		// String scripttext =
-		// "  $('.popup').click(function(event) {var width  = 575,height = 400,"
-		// + "left   = ($(window).width()  - width)  / 2,"
-		// + "top    = ($(window).height() - height) / 2,"
-		// + "url    = this.href,"
-		// + "opts   = 'status=1' +"
-		// + "         ',width='  + width  +"
-		// + "         ',height=' + height +"
-		// + "         ',top='    + top    +"
-		// + "         ',left='   + left; " +
-		//
-		// "    window.open(url, 'twitter', opts); " +
-		//
-		// "    return false;});";
-		//
-		// scriptE.setInnerText(scripttext);
-		// head.appendChild(scriptE);
-
 		Anchor twitterlink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_twitter().getSafeUri().asString()).toString(), true,
 				"https://twitter.com/share?url=" + TUBEURL
@@ -234,15 +212,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 			}
 		});
 
-		// Element body =
-		// Document.get().getElementsByTagName("body").getItem(0);
-		// body.insertFirst(scriptE3);
-		// head.insertFirst(scriptE3);
-
 		iconPanel.add(classroomPanel);
-
-		// iconPanel.add(new
-		// NoDragImage(AppResources.INSTANCE.social_google_classroom().getSafeUri().asString()));
 
 		return iconPanel;
 	}
