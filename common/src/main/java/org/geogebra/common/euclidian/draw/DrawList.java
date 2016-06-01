@@ -767,7 +767,7 @@ public final class DrawList extends CanvasDrawable
 			if (startIdx + visibleItems < maxItems) {
 				endIdx = startIdx + visibleItems + 1;
 			} else {
-				startIdx = maxItems - visibleItems;
+				startIdx = maxItems - visibleItems - 1;
 				endIdx = maxItems;
 			}
 			rowCount = getVisibleItemCount();
