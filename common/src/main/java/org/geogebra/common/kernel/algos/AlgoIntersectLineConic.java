@@ -856,9 +856,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 					botanaPolynomialsThis = new Polynomial[2 + excludePoint];
 				}
 
-				Variable[] vg = g.getBotanaVars(geo); // 4 variables from the
+				Variable[] vg = g.getBotanaVars(g); // 4 variables from the
 														// line
-				Variable[] vc = c.getBotanaVars(geo); // 4 variables from the
+				Variable[] vc = c.getBotanaVars(c); // 4 variables from the
 														// circle
 				botanaPolynomialsThis[0] = Polynomial.collinear(vg[0], vg[1],
 						vg[2], vg[3], botanaVarsThis[0], botanaVarsThis[1]);

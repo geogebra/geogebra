@@ -43,7 +43,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -1387,9 +1386,9 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				botanaPolynomialsThis = new Polynomial[2 + excludePoint];
 			}
 
-			Variable[] vA = A.getBotanaVars(geo); // 4 variables from the first
+			Variable[] vA = A.getBotanaVars(A); // 4 variables from the first
 													// circle
-			Variable[] vB = B.getBotanaVars(geo); // 4 variables from the first
+			Variable[] vB = B.getBotanaVars(B); // 4 variables from the first
 													// circle
 
 			botanaPolynomialsThis[0] = Polynomial.equidistant(vA[2], vA[3],
