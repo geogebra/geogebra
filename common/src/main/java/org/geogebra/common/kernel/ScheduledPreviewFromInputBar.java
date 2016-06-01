@@ -122,15 +122,26 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				GeoElement existingGeo = this.kernel.lookupLabel(ve.getLabel());
 				if (existingGeo == null) {
 
-					previewGeos = this.kernel.getAlgebraProcessor()
+					GeoElement[] inputGeos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(ve, false,
 									validation, false, null, info);
-					if (previewGeos != null) {
+					previewGeos = null;
+					if (inputGeos != null) {
 						InputHelper.centerText(previewGeos, kernel
 								.getApplication().getActiveEuclidianView());
-						for (GeoElement geo : previewGeos) {
-							geo.setSelectionAllowed(false);
-
+						int unlabeled = 0;
+						for (GeoElement geo : inputGeos) {
+							if (!geo.isLabelSet()) {
+								geo.setSelectionAllowed(false);
+								unlabeled++;
+							}
+						}
+						previewGeos = new GeoElement[unlabeled];
+						int i = 0;
+						for (GeoElement geo : inputGeos) {
+							if (!geo.isLabelSet()) {
+								previewGeos[i++] = geo;
+							}
 						}
 					}
 
@@ -230,7 +241,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		if (validInput == null && input != null) {
 			setInput(input, validation);
 		}
-		Log.debug(input + "," + validInput);
 		return input != null && input.equals(validInput);
 	}
 
