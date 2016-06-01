@@ -21,17 +21,25 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  * Semicircle defined by two points A and B (start and end point).
  */
-public class AlgoSemicircle extends AlgoElement {
+public class AlgoSemicircle extends AlgoElement
+		implements SymbolicParametersBotanaAlgo {
 
 	private GeoPoint A, B; // input
 	private GeoConicPart conicPart; // output
 
 	private GeoPoint M; // midpoint of AB
 	private GeoConic conic;
+
+	private Polynomial[] botanaPolynomials;
+	private Variable[] botanaVars;
 
 	/**
 	 * Creates new semicircle algoritm
@@ -190,7 +198,40 @@ public class AlgoSemicircle extends AlgoElement {
 	public String toString(StringTemplate tpl) {
 		return getLoc().getPlain("SemicircleThroughAandB", A.getLabel(tpl),
 				B.getLabel(tpl));
-
 	}
 
+	public Variable[] getBotanaVars(GeoElementND geo) {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+			throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+
+		if (botanaVars == null) {
+			Variable[] circle1vars = new Variable[2];
+			Variable[] centerVars = new Variable[2];
+
+			circle1vars = ((SymbolicParametersBotanaAlgo) A).getBotanaVars(A);
+			centerVars[0] = new Variable();
+			centerVars[1] = new Variable();
+
+			botanaVars = new Variable[4];
+			// Center:
+			botanaVars[0] = centerVars[0];
+			botanaVars[1] = centerVars[1];
+			// Point on the circle:
+			botanaVars[2] = circle1vars[0];
+			botanaVars[3] = circle1vars[1];
+
+			botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(A,
+					B, centerVars);
+			return botanaPolynomials;
+		}
+
+		// this should not happen:
+		throw new NoSymbolicParametersException();
+	}
 }

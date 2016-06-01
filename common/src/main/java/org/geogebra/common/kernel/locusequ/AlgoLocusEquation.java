@@ -357,8 +357,13 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		ProverBotanasMethod pbm = new ProverBotanasMethod();
 		AlgebraicStatement as = pbm.new AlgebraicStatement(
 				implicit ? implicitLocus : locusPoint, p);
-		if (as.getResult() == ProofResult.PROCESSING) {
-			// Don't do further computations until CAS is ready:
+		ProofResult proofresult = as.getResult();
+		if (proofresult == ProofResult.PROCESSING
+				|| proofresult == ProofResult.UNKNOWN) {
+			/*
+			 * Don't do further computations until CAS is ready or there were
+			 * unimplemented algos or some other issues:
+			 */
 			throw new Exception();
 		}
 		Set<Set<Polynomial>> eliminationIdeal;
