@@ -4026,6 +4026,10 @@ public abstract class App implements UpdateSelection {
 		case ADJUST_SLIDERS:
 			return prerelease;
 
+			// GGB-886
+		case MULTI_TAB_PROPERTIES:
+			return false;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

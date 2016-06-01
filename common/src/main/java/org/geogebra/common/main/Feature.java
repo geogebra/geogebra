@@ -160,6 +160,9 @@ public enum Feature {
 	// GGB-334
 	ADJUST_SLIDERS,
 
+	// GGB-886
+	MULTI_TAB_PROPERTIES,
+
 	// GGB-940
 	NO_CLIPPING_BOX_ON_FRONT
 }
