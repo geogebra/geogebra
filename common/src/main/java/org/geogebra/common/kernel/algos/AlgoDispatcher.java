@@ -1481,7 +1481,7 @@ public class AlgoDispatcher {
 		AlgoIntersectPolynomialConic algo = new AlgoIntersectPolynomialConic(
 				cons, f, c);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1494,7 +1494,7 @@ public class AlgoDispatcher {
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectLineConic algo = new AlgoIntersectLineConic(cons, g, c);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1509,7 +1509,7 @@ public class AlgoDispatcher {
 		AlgoIntersectPolyLineConic algo = new AlgoIntersectPolyLineConic(cons,
 				c, g, false);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1524,7 +1524,7 @@ public class AlgoDispatcher {
 		AlgoIntersectPolyLineConic algo = new AlgoIntersectPolyLineConic(cons,
 				c, g, true);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1537,7 +1537,7 @@ public class AlgoDispatcher {
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectConics algo = new AlgoIntersectConics(cons, a, b);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1551,7 +1551,7 @@ public class AlgoDispatcher {
 		// we didn't find a matching algorithm, so create a new one
 		AlgoIntersectPolynomials algo = new AlgoIntersectPolynomials(cons, a, b);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1566,7 +1566,7 @@ public class AlgoDispatcher {
 		AlgoIntersectPolynomialLine algo = new AlgoIntersectPolynomialLine(
 				cons, a, l);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1581,7 +1581,7 @@ public class AlgoDispatcher {
 		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
 				cons, p, l);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1596,7 +1596,7 @@ public class AlgoDispatcher {
 		AlgoIntersectImplicitpolyPolyLine algo = new AlgoIntersectImplicitpolyPolyLine(
 				cons, p, l, false);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1611,7 +1611,7 @@ public class AlgoDispatcher {
 		AlgoIntersectImplicitpolyPolyLine algo = new AlgoIntersectImplicitpolyPolyLine(
 				cons, p, l, true);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1626,7 +1626,7 @@ public class AlgoDispatcher {
 		AlgoIntersectImplicitpolyParametric algo = new AlgoIntersectImplicitpolyParametric(
 				cons, p, f);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1642,7 +1642,7 @@ GeoImplicit p1,
 		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(cons,
 				p1, p2);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
@@ -1657,7 +1657,7 @@ GeoImplicit p1,
 		AlgoIntersectImplicitpolys algo = new AlgoIntersectImplicitpolys(cons,
 				p1, c1);
 		algo.setPrintedInXML(false);
-		intersectionAlgos.add(algo); // remember this algorithm
+		addIntersectionAlgorithm(algo); // remember this algorithm
 		return algo;
 	}
 
