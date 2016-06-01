@@ -3,7 +3,6 @@
 
   <source path='common'/>
   <super-source path='common-super' />
-  <inherits name="com.vividsolutions.JTS" />
   <inherits name="edu.uci.ics.JUNG" />
   <inherits name="org.apache.commons.Math" />
   <inherits name="org.apache.commons.Collections" />
