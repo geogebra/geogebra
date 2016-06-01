@@ -2626,6 +2626,10 @@ GRectangle selectionRectangle) {
 
 	}
 
+	public Coords getCursorNormal() {
+		return cursorNormal;
+	}
+
 	// ///////////////////////////////////////////////////
 	//
 	// EUCLIDIANVIEW DRAWABLES (AXIS AND PLANE)

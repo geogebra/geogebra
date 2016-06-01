@@ -1259,8 +1259,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			Coords vn = geo.getMainDirection();
 			if (vn != null) {
 				if (view3D.hasMouse())
-					view3D.setRotAnimation(view3D.getCursor3D()
-							.getDrawingMatrix().getVz());
+					view3D.setRotAnimation(view3D.getCursorNormal());
 				else {// doesn't come from 3D view
 					view3D.setClosestRotAnimation(vn);
 				}
