@@ -2410,6 +2410,7 @@ GRectangle selectionRectangle) {
 	}
 
 	private CoordMatrix4x4 cursorMatrix = new CoordMatrix4x4();
+	private Coords cursorNormal = new Coords(3);
 
 	/**
 	 * update cursor3D matrix
@@ -2424,11 +2425,17 @@ GRectangle selectionRectangle) {
 
 			case PREVIEW_POINT_REGION:
 				// use region drawing directions for the cross
-				v = getCursor3D().getMoveNormalDirection();
-				if (v.dotproduct(getViewDirection()) > 0)
-					v = v.mul(-1);
+				cursorNormal.set3(getCursor3D().getMoveNormalDirection());
+				if (cursorNormal.dotproduct(getViewDirection()) > 0) {
+					cursorNormal.mulInside(-1);
+				}
+				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+					scaleNormalXYZ(cursorNormal);
+					cursorNormal.normalize();
+				}
 				CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-						.getDrawingMatrix().getOrigin(), v, CoordMatrix4x4.VZ,
+								.getDrawingMatrix().getOrigin(), cursorNormal,
+								CoordMatrix4x4.VZ,
 						tmpCoords1, tmpCoords2, cursorMatrix);
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 					scaleXYZ(cursorMatrix.getOrigin());
@@ -2442,22 +2449,32 @@ GRectangle selectionRectangle) {
 			case PREVIEW_POINT_PATH:
 				// use path drawing directions for the arrow
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-					v = ((GeoElement) getCursor3D().getPath())
-							.getMainDirection().normalized();
+					cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix()
+							.getOrigin());
+					scaleXYZ(cursorMatrix.getOrigin());
+					cursorNormal.set3(((GeoElement) getCursor3D().getPath())
+							.getMainDirection());
+					if (cursorNormal.dotproduct(getViewDirection()) > 0) {
+						cursorNormal.mulInside(-1);
+					}
+					scaleXYZ(cursorNormal);
+					cursorNormal.normalize();
 					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-							.getDrawingMatrix().getOrigin(), v,
+							.getDrawingMatrix().getOrigin(), cursorNormal,
 							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
 							cursorMatrix);
 					scaleXYZ(cursorMatrix.getOrigin());
 				} else {
 					t = 1 / getScale();
-					v = ((GeoElement) getCursor3D().getPath())
-							.getMainDirection().normalized();
-					if (v.dotproduct(getViewDirection()) > 0)
-						v = v.mul(-1);
+					cursorNormal.set3(((GeoElement) getCursor3D().getPath())
+							.getMainDirection());
+					if (cursorNormal.dotproduct(getViewDirection()) > 0) {
+						cursorNormal.mulInside(-1);
+					}
+					cursorNormal.normalize();
 
 					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-							.getDrawingMatrix().getOrigin(), v,
+							.getDrawingMatrix().getOrigin(), cursorNormal,
 							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
 							cursorMatrix);
 					cursorMatrix.mulAllButOrigin(t);
@@ -2486,16 +2503,24 @@ GRectangle selectionRectangle) {
 				break;
 			case PREVIEW_POINT_REGION:
 				// use region drawing directions for the cross
-				v = getCursor3D().getMoveNormalDirection();
-				if (v.dotproduct(getViewDirection()) > 0)
-					v = v.mul(-1);
-				CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-						.getDrawingMatrix().getOrigin(), v, CoordMatrix4x4.VZ,
-						tmpCoords1, tmpCoords2, cursorMatrix);
+				cursorNormal.set3(getCursor3D().getMoveNormalDirection());
+				if (cursorNormal.dotproduct(getViewDirection()) > 0) {
+					cursorNormal.mulInside(-1);
+				}
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+					scaleNormalXYZ(cursorNormal);
+					cursorNormal.normalize();
+					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
+							.getDrawingMatrix().getOrigin(), cursorNormal,
+							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
+							cursorMatrix);
 					scaleXYZ(cursorMatrix.getOrigin());
 				} else {
 					// use region drawing directions for the arrow
+					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
+							.getDrawingMatrix().getOrigin(), cursorNormal,
+							CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
+							cursorMatrix);
 					t = 1 / getScale();
 					cursorMatrix.mulAllButOrigin(t);
 				}
@@ -2508,10 +2533,12 @@ GRectangle selectionRectangle) {
 							.getOrigin());
 					scaleXYZ(cursorMatrix.getOrigin());
 					GeoElement path = getCursorPath();
-					v = path.getMainDirection();
-					CoordMatrix4x4.completeOrtho(v, tmpCoords1, tmpCoords2,
+					cursorNormal.set3(path.getMainDirection());
+					scaleXYZ(cursorNormal);
+					cursorNormal.normalize();
+					CoordMatrix4x4.completeOrtho(cursorNormal, tmpCoords1,
+							tmpCoords2,
 							cursorMatrix);
-					cursorMatrix.getVx().normalize();
 					t = 10 + path.getLineThickness();
 					cursorMatrix.getVy().mulInside3(t);
 					cursorMatrix.getVz().mulInside3(t);
@@ -2549,10 +2576,15 @@ GRectangle selectionRectangle) {
 			case PREVIEW_POINT_ALREADY:
 
 				if (getCursor3D().hasPath()) {
-					v = ((GeoElement) getCursor3D().getPath())
-							.getMainDirection();
+					cursorNormal.set3(((GeoElement) getCursor3D().getPath())
+							.getMainDirection());
+					if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+						scaleXYZ(cursorNormal);
+						cursorNormal.normalize();
+					}
 
-					CoordMatrix4x4.completeOrtho(v, tmpCoords1, tmpCoords2,
+					CoordMatrix4x4.completeOrtho(cursorNormal, tmpCoords1,
+							tmpCoords2,
 							tmpMatrix4x4);
 
 					cursorMatrix.setVx(tmpMatrix4x4.getVy());
@@ -2561,11 +2593,14 @@ GRectangle selectionRectangle) {
 					cursorMatrix.setOrigin(tmpMatrix4x4.getOrigin());
 
 				} else if (getCursor3D().hasRegion()) {
-
-					v = getCursor3D().getMoveNormalDirection();
-
+					cursorNormal.set3(getCursor3D().getMoveNormalDirection());
+					if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+						scaleNormalXYZ(cursorNormal);
+						cursorNormal.normalize();
+					}
 					CoordMatrix4x4.createOrthoToDirection(getCursor3D()
-							.getCoordsInD3(), v, CoordMatrix4x4.VZ, tmpCoords1,
+							.getCoordsInD3(), cursorNormal, CoordMatrix4x4.VZ,
+							tmpCoords1,
 							tmpCoords2, cursorMatrix);
 				} else {
 					CoordMatrix4x4.Identity(cursorMatrix);
@@ -4522,6 +4557,21 @@ GRectangle selectionRectangle) {
 
 	public void scaleXYZ(Coords coords) {
 		coords.mulInside(getXscale(), getYscale(), getZscale());
+	}
+
+	/**
+	 * scale coords as normal vector
+	 * 
+	 * @param coords
+	 *            normal vector
+	 */
+	public void scaleNormalXYZ(Coords coords) {
+		EuclidianSettings3D settings = getSettings();
+		if (settings.hasSameScales()) {
+			return;
+		}
+		coords.mulInside(settings.getYZscale(), settings.getZXscale(),
+				settings.getXYscale());
 	}
 
 	/**

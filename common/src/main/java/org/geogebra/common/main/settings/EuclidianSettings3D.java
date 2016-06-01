@@ -2,6 +2,7 @@ package org.geogebra.common.main.settings;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.kernel.Kernel;
 
 /**
  * Settings for 3D view
@@ -47,12 +48,74 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	public void setZscale(double scale) {
 		if (this.zscale != scale) {
 			this.zscale = scale;
+			updateScaleHelpers();
 			settingChanged();
 		}
 	}
 
 	public double getZscale() {
 		return zscale;
+	}
+
+	@Override
+	protected void setXscaleValue(double scale) {
+		super.setXscaleValue(scale);
+		updateScaleHelpers();
+	}
+
+	@Override
+	protected void setYscaleValue(double scale) {
+		super.setYscaleValue(scale);
+		updateScaleHelpers();
+	}
+
+	private boolean hasSameScales = false;
+	private double xyScale, yzScale, zxScale;
+
+	private void updateScaleHelpers() {
+		hasSameScales = true;
+		if (!Kernel.isEqual(xscale, yscale)) {
+			hasSameScales = false;
+		} else if (!Kernel.isEqual(xscale, zscale)) {
+			hasSameScales = false;
+		}
+
+		xyScale = xscale * yscale;
+		yzScale = yscale * zscale;
+		zxScale = zscale * xscale;
+	}
+
+
+	/**
+	 * 
+	 * @return x scale * y scale
+	 */
+	public double getXYscale() {
+		return xyScale;
+	}
+
+	/**
+	 * 
+	 * @return y scale * z scale
+	 */
+	public double getYZscale() {
+		return yzScale;
+	}
+
+	/**
+	 * 
+	 * @return z scale * x scale
+	 */
+	public double getZXscale() {
+		return zxScale;
+	}
+
+	/**
+	 * 
+	 * @return true if scales are equals on x,y,z
+	 */
+	public boolean hasSameScales() {
+		return hasSameScales;
 	}
 
 	public void setRotXYinDegrees(double a2, double b2) {

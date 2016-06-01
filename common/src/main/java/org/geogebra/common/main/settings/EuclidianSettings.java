@@ -946,19 +946,27 @@ public class EuclidianSettings extends AbstractSettings {
 		return axesLabels[i];
 	}
 
-	public void setXscale(double scale) {
+	final public void setXscale(double scale) {
 		if (this.xscale != scale) {
-			this.xscale = scale;
+			setXscaleValue(scale);
 			settingChanged();
 		}
 	}
 
-	public void setYscale(double scale) {
+	protected void setXscaleValue(double scale) {
+		this.xscale = scale;
+	}
+
+	final public void setYscale(double scale) {
 		if (this.yscale != scale) {
-			this.yscale = scale;
+			setYscaleValue(scale);
 			settingChanged();
 		}
 
+	}
+
+	protected void setYscaleValue(double scale) {
+		this.yscale = scale;
 	}
 
 	/**
