@@ -347,10 +347,18 @@ public class AlgebraTree extends JTree {
 			 * at geogebra.kernel.AnimationManager.actionPerformed(AnimationManager.java:179)
 
 			 */
+			if (!geo.showInAlgebraView()) {
+				// node.removeFromParent();
+				if (node.getParent() != null) {
+				((DefaultTreeModel) getModel()).removeNodeFromParent(node);
+				}
+				nodeTable.remove(geo);
+			} else {
 			try {
 				((DefaultTreeModel)getModel()).nodeChanged(node);
 			} catch (Exception e) {
 				e.printStackTrace();
+			}
 			}
 			/*
 			 * Cancel editing if the updated geo element has been edited, but
@@ -362,6 +370,9 @@ public class AlgebraTree extends JTree {
 					cancelEditing();
 				}
 			}
+		}
+		else if (geo.showInAlgebraView()) {
+			add(geo);
 		}
 	}
 
