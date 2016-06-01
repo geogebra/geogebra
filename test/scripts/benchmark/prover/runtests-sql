@@ -4,7 +4,7 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Setting defaults.
-MY_VERSION=2.1
+MY_VERSION=2.2
 
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 DBDEBUG=0
@@ -287,13 +287,16 @@ for i in `find -name '*.ggb' | sort`; do
    grep --silent "STATEMENT IS UNKNOWN" $MYDIR/tmp/.test.stdout && echo "Prove or ProveDetails == null = undefined" > $REGRESSIONFILE
    grep --silent ^SEVERE: $MYDIR/tmp/.test.stdout && echo "Prove or ProveDetails == null = undefined" > $REGRESSIONFILE
    # List k = ProveDetails[j] == null = true "AreCollinear[D,E,A]" "AreEqual[f,k_1]" "AreEqual[f,l]" "AreParallel[d,e]" "AreParallel[f,g]" "AreParallel[h,i]"
+   RESULT=`cat $REGRESSIONFILE | grep Prove | sed s/" null ="//g | sed s/'"'//g | sed 's/\(.*\) == \(.*\)/\2/' | sed 's/\(.*\) = \(.*\)/\2/'`
   else
    timeout $TIMEOUT $BINBASE \
     --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --singularws=remoteurl:${SINGULARWSREMOTEURL}${SWSOPTS} \
     --logFile=$LOGFILE \
     --regressionFile=$REGRESSIONFILE --language=en $EXTRAOPTS $MYDIR/$i \
     >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
+   # --regressionFile is broken since 5.0.244.0, so we don't use its output
    RETVAL=$?
+   RESULT=""
    fi
 
   # Being optimistic
@@ -307,8 +310,8 @@ for i in `find -name '*.ggb' | sort`; do
    errortype=1
    accepted=0
   else
-   RESULT=`cat $REGRESSIONFILE | grep Prove | sed s/" null ="//g | sed s/'"'//g | sed 's/\(.*\) == \(.*\)/\2/' | sed 's/\(.*\) = \(.*\)/\2/'`
-   # In some cases the $REGRESSIONFILE does not contain the output of the Prove* command. So, a workaround (mostly copied from "Web"):
+   # --regressionFile is broken since 5.0.244.0, so we don't use its output:
+   # in desktop $REGRESSIONFILE does not properly contain the output of the Prove* command. So, a workaround (mostly copied from "Web"):
    if [ "$RESULT" = "" -o "$RESULT" = "?" ]; then
     grep --silent "OUTPUT for Prove:" $LOGFILE && \
      RESULT=`tac $LOGFILE | grep "OUTPUT for Prove:" | head -1 | sed 's/\(.*\) = \(.*\)/\2/'`
