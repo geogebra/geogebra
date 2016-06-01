@@ -340,30 +340,22 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		TreeItem node = nodeTable.get(geo);
 
 		if (node != null) {
-			if (!geo.showInAlgebraView()) {
-				node.remove();
-				nodeTable.remove(geo);
-			} else {
-				RadioTreeItem item = RadioTreeItem.as(node);
 
-				item.updateOnNextRepaint();
-				repaintView();
-				/*
-				 * Cancel editing if the updated geo element has been edited,
-				 * but not otherwise because editing geos while animation is
-				 * running won't work then (ticket #151).
-				 */
-				if (isEditing()) {
-					if (item.isEditing()) {
-						item.cancelEditing();
-					}
+			RadioTreeItem item = RadioTreeItem.as(node);
+
+			item.updateOnNextRepaint();
+			repaintView();
+			/*
+			 * Cancel editing if the updated geo element has been edited, but
+			 * not otherwise because editing geos while animation is running
+			 * won't work then (ticket #151).
+			 */
+			if (isEditing()) {
+				if (item.isEditing()) {
+					item.cancelEditing();
 				}
 			}
 
-		} else {
-			if (geo.showInAlgebraView()) {
-				add(geo);
-			}
 		}
 		GeoGebraProfiler.addAlgebra(System.currentTimeMillis()-start);
 	}
@@ -1354,8 +1346,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	public RadioTreeItem getActiveTreeItem() {
 		if (activeItem == null) {
 			return this.inputPanelLatex;
+		} else {
+			return this.activeItem;
 		}
-		return this.activeItem;
 	}
 
 	/**
