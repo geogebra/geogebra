@@ -758,7 +758,7 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 		// take nearest point above all
 		coords = nearestPoint.get();
 
-		pi.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
+		pi.setCoords2D(coords.getX(), coords.getY(), 1);
 		pi.updateCoordsFrom2D(false, getCoordSys());
 		pi.updateCoords();
 	}

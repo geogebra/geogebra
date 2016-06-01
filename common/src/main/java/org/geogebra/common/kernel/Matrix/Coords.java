@@ -282,6 +282,17 @@ public class Coords {
 		val[2] = v.val[2];
 	}
 
+	/**
+	 * set 2 first values from v
+	 * 
+	 * @param v
+	 *            coords
+	 */
+	public void set2(Coords v) {
+		val[0] = v.val[0];
+		val[1] = v.val[1];
+	}
+
 	public void set(double val0) {
 		for (int i = 0; i < rows; i++) {
 			val[i] = val0;

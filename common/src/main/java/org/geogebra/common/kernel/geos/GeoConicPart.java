@@ -757,21 +757,15 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		// check project points on segments edges
 		if (getConicPartType() == CONIC_PART_SECTOR) {
 			coords.projectLine(midPoint, firstPoint.sub(midPoint), tmpCoords, tmpParameters);
-			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) // check if
-																	// the
-																	// projected
-																	// point is
-																	// on the
-																	// segment
+			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) {
+				// check if the projected point is on the segment
 				nearestPoint.check(tmpCoords);
+			}
 			coords.projectLine(midPoint, secondPoint.sub(midPoint), tmpCoords, tmpParameters);
-			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) // check if
-																	// the
-																	// projected
-																	// point is
-																	// on the
-																	// segment
+			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) {
+				// check if the projected point is on the segment
 				nearestPoint.check(tmpCoords);
+			}
 		} else {
 			coords.projectLine(firstPoint,
 					secondPoint.sub(firstPoint), tmpCoords, tmpParameters);
@@ -795,7 +789,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		// take nearest point above all
 		coords = nearestPoint.get();
 
-		pi.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
+		pi.setCoords2D(coords.getX(), coords.getY(), 1);
 		pi.updateCoordsFrom2D(false, getCoordSys());
 		pi.updateCoords();
 	}

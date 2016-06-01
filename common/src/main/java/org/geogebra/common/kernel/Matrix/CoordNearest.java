@@ -16,10 +16,10 @@ public class CoordNearest {
 	 * 
 	 * @param point
 	 */
-	public CoordNearest(Coords point){
+	public CoordNearest(Coords point) {
 		this.point = point;
 		currentDistance = Double.POSITIVE_INFINITY;
-		currentNearest = null;
+		currentNearest = new Coords(2);
 	}
 	
 	/**
@@ -31,7 +31,7 @@ public class CoordNearest {
 		double distance = p.distance(point);
 		if (distance<currentDistance){
 			currentDistance = distance;
-			currentNearest = p;
+			currentNearest.set2(p);
 			return true;
 		}
 		
