@@ -758,6 +758,7 @@ public final class DrawList extends CanvasDrawable
 			if (visibleItems > maxItems) {
 				// can't display more than this
 				visibleItems = maxItems;
+				scrollNeeded = false;
 			} else if (visibleItems < maxItems - 1) {
 				// visibleItems = (viewOpt.getHeight() - (2 * MARGIN +
 				// arrowsHeight))
@@ -765,6 +766,7 @@ public final class DrawList extends CanvasDrawable
 
 				// The two additional arrows take an item by height.
 				visibleItems--;
+				scrollNeeded = true;
 			}
 			if (startIdx + visibleItems < maxItems) {
 				endIdx = startIdx + visibleItems + 1;
@@ -773,7 +775,6 @@ public final class DrawList extends CanvasDrawable
 				endIdx = maxItems;
 			}
 			rowCount = getVisibleItemCount();
-			scrollNeeded = endIdx != maxItems;
 			if (!scrollNeeded) {
 				startIdx = 0;
 				endIdx = maxItems;
