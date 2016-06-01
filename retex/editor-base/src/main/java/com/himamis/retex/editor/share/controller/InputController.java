@@ -665,10 +665,10 @@ public class InputController {
         } else if (ch == '_') {
             newScript(editorState, "_");
             handled = true;
-        } else if (ch == '\\') {
+        } else if (mCreateFrac && ch == '\\') {
             newFunction(editorState, "frac", 1);
             handled = true;
-        } else if (ch == 47) { // simple / char
+        } else if (mCreateFrac && ch == 47) { // simple / char
             newFunction(editorState, "frac", 1);
             handled = true;
         } else if (ch == 8730) { // square root char
@@ -702,4 +702,13 @@ public class InputController {
         return false;
     }
 
+    private boolean mCreateFrac = true;
+
+    public void setCreateFrac(boolean createFrac) {
+        this.mCreateFrac = createFrac;
+    }
+
+    public boolean getCreateFrac() {
+        return mCreateFrac;
+    }
 }
