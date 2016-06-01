@@ -176,7 +176,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return zZero;
 	}
 
-	private boolean useClippingCube = true;
+	private boolean useClippingCube = false;
 
 	public void setUseClippingCube(boolean flag) {
 
@@ -190,7 +190,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return useClippingCube;
 	}
 
-	private boolean showClippingCube = true;
+	private boolean showClippingCube = false;
 
 	public void setShowClippingCube(boolean flag) {
 		if (showClippingCube != flag) {
