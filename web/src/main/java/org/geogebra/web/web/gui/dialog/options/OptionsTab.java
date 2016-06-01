@@ -53,6 +53,7 @@ import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.ComboBoxPanel;
 import org.geogebra.web.web.gui.properties.IOptionPanel;
@@ -78,7 +79,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabBar;
-import com.google.gwt.user.client.ui.TabPanel;
 
 class OptionsTab extends FlowPanel {
 	/**
@@ -88,12 +88,12 @@ class OptionsTab extends FlowPanel {
 	private String titleId;
 	private int index;
 	private List<OptionsModel> models;
-	private TabPanel tabPanel;
+	private TabPanelInterface tabPanel;
 	Localization loc;
 	private boolean inited = false;
 	private boolean focused = false, updated = true;
 	
-	public OptionsTab(Localization loc, TabPanel tabPanel,
+	public OptionsTab(Localization loc, TabPanelInterface tabPanel,
 			final String title) {
 		super();
 		// this.optionsObjectW = optionsObjectW;

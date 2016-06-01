@@ -71,6 +71,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.tabpanel.MyTabPanel;
+import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 import org.geogebra.web.web.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.web.gui.properties.ListBoxPanel;
 import org.geogebra.web.web.gui.properties.OptionPanel;
@@ -88,14 +90,13 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 @SuppressWarnings("javadoc")
 public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	Localization loc;
 
-	TabPanel tabPanel;
+	TabPanelInterface tabPanel;
 
 	private FlowPanel wrappedPanel;
 	private OptionsTab basicTab;
@@ -1267,7 +1268,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private void initGUI(final Runnable onTabSelection) {
 		wrappedPanel = new FlowPanel();
 		wrappedPanel.setStyleName("propertiesPanel");
-		tabPanel = new TabPanel();
+		tabPanel = new MyTabPanel();
 
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 
 				{			
@@ -1281,7 +1282,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				onTabSelection.run();
 			}
 				});
-		tabPanel.setStyleName("propertiesTabPanel");
+		((Widget) tabPanel).setStyleName("propertiesTabPanel");
 		beforeTabs = System.currentTimeMillis();
 		createBasicTab();
 		if (!(app.isExam())) {
@@ -1305,7 +1306,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			tab.addToTabPanel();
 		}
 
-		wrappedPanel.add(tabPanel);
+		wrappedPanel.add((Widget) tabPanel);
 		wrappedPanel.addAttachHandler(new AttachEvent.Handler() {
 
 			@Override
