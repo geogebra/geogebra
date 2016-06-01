@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 
@@ -1751,9 +1750,21 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
+	private boolean showUndefinedInAlgebraView = false;
+
+	/**
+	 * Set whether this line should be visible in AV when undefined
+	 * 
+	 * @param flag
+	 *            true to show undefined
+	 */
+	public void showUndefinedInAlgebraView(boolean flag) {
+		showUndefinedInAlgebraView = flag;
+	}
+
 	@Override
 	public boolean showInAlgebraView() {
-		return true;
+		return isDefined() || showUndefinedInAlgebraView;
 	}
 
 	@Override

@@ -38,6 +38,7 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
 		this.point = point;
 		this.inputParallel = inputParallel;
 		line = createLine(cons);
+		line.showUndefinedInAlgebraView(true);
 
 		setInputOutput(new GeoElement[] { (GeoElement) point, inputParallel },
 				new GeoElement[] { line });

@@ -110,6 +110,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 						&& coefZ[0].isConstant() && coefX[1].isConstant()
 						&& coefY[1].isConstant() && coefZ[1].isConstant()) {
 					line = new GeoLine3D(cons);
+					line.showUndefinedInAlgebraView(true);
 					Coords start = new Coords(new double[] {
 							coefX[0].evaluateDouble(),
 							coefY[0].evaluateDouble(),

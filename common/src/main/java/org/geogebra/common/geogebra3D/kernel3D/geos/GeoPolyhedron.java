@@ -1428,7 +1428,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 
 	@Override
 	public boolean showInAlgebraView() {
-		return isDefined();
+		return true;
 	}
 
 	@Override

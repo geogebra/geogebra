@@ -392,9 +392,21 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	}
 
+	private boolean showUndefinedInAlgebraView = false;
+
+	/**
+	 * Set whether this line should be visible in AV when undefined
+	 * 
+	 * @param flag
+	 *            true to show undefined
+	 */
+	public void showUndefinedInAlgebraView(boolean flag) {
+		showUndefinedInAlgebraView = flag;
+	}
+
 	@Override
 	public boolean showInAlgebraView() {
-		return true;
+		return isDefined() || showUndefinedInAlgebraView;
 	}
 
 	@Override
