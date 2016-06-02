@@ -455,10 +455,12 @@ inPoly1.getPoint(i).getX(),
 				for (int i = 0; i < path.size(); i++) {
 					GeoSegment segment = outputSegments
 							.getElement(segmentIndex);
-
-					segment.setStartPoint(points[pointIndex + i]);
-					segment.setEndPoint(points[pointIndex + (i + 1)
-							% path.size()]);
+					GeoPoint A = points[pointIndex + i];
+					GeoPoint B = points[pointIndex + (i + 1) % path.size()];
+					segment.setStartPoint(A);
+					segment.setEndPoint(B);
+					((AlgoJoinPointsSegmentInterface) segment
+							.getParentAlgorithm()).modifyInputPoints(A, B);
 					segment.update();
 					segment.calcLength();
 					polyPoints[i] = points[pointIndex + i];
@@ -483,7 +485,6 @@ inPoly1.getPoint(i).getX(),
 		}
 		for(int i=0;i<outputPolygons.size();i++){
 			outputPolygons.getElement(i).updateRegionCS();
-			outputPolygons.getElement(i).updateSegments();
 		}
 			
 
