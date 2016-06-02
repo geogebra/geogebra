@@ -95,10 +95,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 		super.onResize();
     }
 
-	public void add(Widget w, int x, int y) {
-	    euclidianpanel.add(w,x,y);
-    }
-
 	public void remove(Widget w) {
 		euclidianpanel.remove(w);
     }

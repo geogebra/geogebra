@@ -241,7 +241,6 @@ public class EquationEditor {
 	}
 
 	public boolean hideSuggestions() {
-		Log.printStacktrace("request");
 		if (sug.isSuggestionListShowing()) {
 			sug.hideSuggestions();
 		}

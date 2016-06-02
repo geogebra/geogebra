@@ -21,18 +21,25 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		implements GetViewId {
-	/** */
-	private static final long serialVersionUID = 1L;
 	private ConstructionProtocolNavigationW consProtNav;
 	private boolean hasEuclidianFocus;
 
 	/**
 	 * default constructor
+	 * 
 	 * @param id
+	 *            id
 	 * @param title
+	 *            title
 	 * @param toolbar
+	 *            toolbar string
 	 * @param hasStyleBar
+	 *            whether to show stylebar
 	 * @param menuOrder
+	 *            The location of this view in the view menu, -1 if the view
+	 *            should not appear at all
+	 * @param shortcut
+	 *            letter for Ctrl+Shift+letter shortcut
 	 */
 	public EuclidianDockPanelWAbstract(int id, String title, String toolbar,
 			boolean hasStyleBar, int menuOrder, char shortcut) {
@@ -41,7 +48,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	/**
 	 * sets this euclidian panel to have the "euclidian focus"
+	 * 
 	 * @param hasFocus
+	 *            whether to focus
 	 */
 	public final void setEuclidianFocus(boolean hasFocus) {
 		hasEuclidianFocus = hasFocus;
@@ -74,6 +83,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		// }
 	}
 
+	/**
+	 * Adds navigation bar
+	 */
 	public final void addNavigationBar() {
 		consProtNav = (ConstructionProtocolNavigationW) (app.getGuiManager()
 				.getConstructionProtocolNavigation(id));
@@ -109,6 +121,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 	}
 
+	@Override
 	public int navHeight() {
 		if (this.consProtNav != null
 				&& this.consProtNav.getImpl().getOffsetHeight() != 0) {
@@ -119,10 +132,13 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	public class EuclidianPanel extends FlowPanel implements RequiresResize {
 
+		/** dock panel */
 		EuclidianDockPanelWAbstract dockPanel;
+		/** panel for positioning furniture */
 		AbsolutePanel absoluteEuclidianPanel;
-
+		/** current height */
 		int oldHeight = 0;
+		/** current width */
 		int oldWidth = 0;
 
 		public EuclidianPanel(EuclidianDockPanelWAbstract dockPanel) {
@@ -171,7 +187,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		private native void checkFocus() /*-{
 			var that = this;
 			var forceResize = function() {
-				$wnd.console.log("forcing resize");
 				that.@org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract.EuclidianPanel::forceResize()()
 			};
 
@@ -185,12 +200,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 				view.repaintView();
 				view.suggestRepaint();
 			}
-		}
-
-
-
-		public void add(Widget w, int x, int y) {
-			absoluteEuclidianPanel.add(w, x, y);
 		}
 
 		@Override
