@@ -54,6 +54,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
+import org.geogebra.web.html5.util.tabpanel.MyTabBar;
 import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.ComboBoxPanel;
@@ -80,6 +81,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabBar;
+import com.google.gwt.user.client.ui.TabPanel;
 
 class OptionsTab extends FlowPanel {
 	/**
@@ -123,18 +125,26 @@ class OptionsTab extends FlowPanel {
 
 	public boolean update(Object[] geos) {
 
-		//if (app.has(Feature.MULTI_TAB_PROPERTIES)) {
-		if (tabPanel instanceof MultiRowsTabPanel) {
-			return true;
-		}
-
 		boolean enabled = updateGUI(geos);
 
-		TabBar tabBar = this.tabPanel.getTabBar();
-		tabBar.setTabText(index, getTabText());
-		tabBar.setTabEnabled(index, enabled);	
-		if (!enabled && tabBar.getSelectedTab() == index) {
-			tabBar.selectTab(0);
+		// if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
+		if (tabPanel instanceof MultiRowsTabPanel) { // new code for multirow
+														// tab
+														// prop. view.
+
+			MyTabBar tabBar = ((MultiRowsTabPanel) this.tabPanel).getTabBar();
+			tabBar.setTabText(index, getTabText());
+			// TODO tabBar.setTabEnabled(index, enabled);
+			if (!enabled && tabBar.getSelectedTab() == index) {
+				tabBar.selectTab(0);
+			}
+		} else { // old code - all tabs in one row
+			TabBar tabBar = ((TabPanel) this.tabPanel).getTabBar();
+			tabBar.setTabText(index, getTabText());
+			tabBar.setTabEnabled(index, enabled);
+			if (!enabled && tabBar.getSelectedTab() == index) {
+				tabBar.selectTab(0);
+			}
 		}
 		return enabled;
 	}

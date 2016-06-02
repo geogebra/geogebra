@@ -1270,7 +1270,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private void initGUI(final Runnable onTabSelection) {
 		wrappedPanel = new FlowPanel();
 		wrappedPanel.setStyleName("propertiesPanel");
-		tabPanel = app.has(Feature.MULTI_TAB_PROPERTIES) ? new MultiRowsTabPanel()
+		tabPanel = app.has(Feature.MULTIROW_TAB_PROPERTIES) ? new MultiRowsTabPanel()
 				: new MyTabPanel();
 
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 

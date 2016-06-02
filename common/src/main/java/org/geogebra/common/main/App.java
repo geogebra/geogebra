@@ -4032,7 +4032,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 			// GGB-886
-		case MULTI_TAB_PROPERTIES:
+		case MULTIROW_TAB_PROPERTIES:
 			return false;
 
 		default:

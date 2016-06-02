@@ -1,47 +1,53 @@
 package org.geogebra.web.html5.util.tabpanel;
 
+import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.TabBar;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
 public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
 
-	FlowPanel tabBar;
+	MyTabBar tabBar = new MyTabBar();
+	DeckPanel deck = new DeckPanel();
 
 	public MultiRowsTabPanel() {
-		Label temp = new Label("tabpanel will be here");
-		initWidget(temp);
+		VerticalPanel panel = new VerticalPanel();
+		panel.add(tabBar);
+		panel.add(deck);
+		panel.setCellHeight(deck, "100%");
+		tabBar.setWidth("100%");
+		initWidget(panel);
 	}
 
 	public HandlerRegistration addSelectionHandler(
 			SelectionHandler<Integer> selectionHandler) {
-		// TODO Auto-generated method stub
-		return null;
+		return addHandler(selectionHandler, SelectionEvent.getType());
 	}
 
-	public void selectTab(int i) {
-		// TODO Auto-generated method stub
-
+	public void selectTab(int index) {
+		tabBar.selectTab(index);
 	}
 
-	public TabBar getTabBar() {
-		// TODO Auto-generated method stub
-		return null;
+	private int getTabCount() {
+		return tabBar.getWidgetCount();
+	}
+
+	public MyTabBar getTabBar() {
+		return tabBar;
 	}
 
 	public void add(Widget w, String tabText) {
-		// TODO Auto-generated method stub
-
+		tabBar.add(new Label(tabText));
+		deck.add(w);
 	}
 
 	public int getWidgetIndex(Widget widget) {
-		// TODO Auto-generated method stub
-		return 0;
+		return deck.getWidgetIndex(widget);
 	}
 
 }
