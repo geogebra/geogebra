@@ -17,8 +17,6 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
-import org.geogebra.common.export.epsgraphics.ColorMode;
-import org.geogebra.common.export.epsgraphics.EpsGraphics;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GFontRenderContextD;

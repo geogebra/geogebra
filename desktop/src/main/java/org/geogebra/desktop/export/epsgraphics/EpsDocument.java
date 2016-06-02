@@ -25,7 +25,7 @@
  * 
  * based on original code by Paul Mutton, http://www.jibble.org/
  */
-package org.geogebra.common.export.epsgraphics;
+package org.geogebra.desktop.export.epsgraphics;
 
 import java.util.Date;
 
