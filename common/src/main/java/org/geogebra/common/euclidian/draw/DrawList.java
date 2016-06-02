@@ -127,6 +127,19 @@ public final class DrawList extends CanvasDrawable
 				return rect;
 			}
 
+			/**
+			 * Two OptionItems are equal iff they indexes are the same.
+			 * 
+			 * @param item
+			 *            to compare.
+			 * @return if equal.
+			 */
+			public boolean isEqual(OptionItem item) {
+				if (item == null) {
+					return false;
+				}
+				return index == item.index;
+			}
 			public boolean isHit(int x, int y) {
 				return rect != null && rect.contains(x, y);
 			}
@@ -164,7 +177,7 @@ public final class DrawList extends CanvasDrawable
 		GFont itemFont;
 
 		private List<OptionItem> items;
-		private OptionItem itemHovered;
+		private OptionItem hovered;
 		private GColor hoverColor;
 		private GGraphics2D g2;
 		private boolean visible;
@@ -194,7 +207,7 @@ public final class DrawList extends CanvasDrawable
 		public DrawOptions(EuclidianView view) {
 			this.viewOpt = view;
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
-			itemHovered = null;
+			hovered = null;
 			hoverColor = GColor.LIGHT_GRAY;
 			scrollSupport = view.getApplication().has(Feature.COMBOSCROLLING);
 		}
@@ -250,6 +263,7 @@ public final class DrawList extends CanvasDrawable
 					idx++;
 				}
 			}
+
 		}
 
 		private void drawItem(int col, int row, OptionItem item) {
@@ -272,7 +286,7 @@ public final class DrawList extends CanvasDrawable
 			}
 
 
-			drawItem(item, item.index == selectedIndex);
+			drawItem(item, item.isEqual(hovered));
 		}
 
 		private void drawItem(OptionItem item, boolean hover) {
@@ -389,11 +403,26 @@ public final class DrawList extends CanvasDrawable
 					&& (rectUp.contains(x, y) || rectDown.contains(x, y));
 		}
 
-		private void updateItemHovered() {
-			if (selectedIndex >= items.size()) {
-				selectedIndex = items.size() - 1;
+		private void setHovered(OptionItem item) {
+
+			if (item == null) {
+				return;
 			}
-			itemHovered = items.get(selectedIndex);
+
+			if (item.isEqual(hovered)) {
+				return;
+			}
+
+			drawHovered(false);
+			hovered = item;
+			drawHovered(true);
+			viewOpt.repaintView();
+		}
+
+		private void drawHovered(boolean on) {
+			if (hovered != null) {
+				drawItem(hovered, on);
+			}
 		}
 
 		void scrollUp() {
@@ -512,6 +541,7 @@ public final class DrawList extends CanvasDrawable
 
 					}
 					dragged = di;
+
 				} else {
 
 					if (getStartIdx() > 0 && getEndIdx() < geoList.size()) {
@@ -558,31 +588,14 @@ public final class DrawList extends CanvasDrawable
 				return;
 			}
 			OptionItem item = getItemAt(x, y);
-			if (item == null) {
-				return;
-			}
 
-			updateItemHovered();
-			drawItem(item, true);
-			itemHovered = item;
+			setHovered(item);
 
-			if (selectedIndex != item.index) {
-
-			selectedIndex = item.index;
-				// Log.error("repaint 3");
-
-			viewOpt.repaintView();
-			}
-			// if (!(itemHovered == null || selectedIndex == item.index)) {
-			// if (!hoverIntersectControls()) {
-			// drawItem(itemHovered, false);
-			// }
-			// itemHovered = item;
-			// drawItem(item, true);
+			// if (selectedIndex != item.index) {
 			// selectedIndex = item.index;
 			// viewOpt.repaintView();
-			// }
 			//
+			// }
 		}
 
 		OptionItem getItemAt(int x, int y) {
@@ -595,11 +608,11 @@ public final class DrawList extends CanvasDrawable
 			return null;
 		}
 
-		private boolean hoverIntersectControls() {
-			return isScrollNeeded() && itemHovered.rect != null
-					&& (itemHovered.rect.intersects(rectUp)
-					|| itemHovered.rect.intersects(rectDown));
-		}
+		// private boolean hoverIntersectControls() {
+		// return isScrollNeeded() && itemHovered.rect != null
+		// && (itemHovered.rect.intersects(rectUp)
+		// || itemHovered.rect.intersects(rectDown));
+		// }
 
 		private boolean prepareTable() {
 			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
@@ -752,8 +765,6 @@ public final class DrawList extends CanvasDrawable
 
 
 			int maxItems = geoList.size();
-			int arrowsHeight = (int) (rectUp.getHeight()
-					+ rectDown.getHeight());
 
 			int visibleItems = ((viewOpt.getHeight() - (2 * MARGIN))
 					/ dimItem.getHeight()) - 1;
@@ -904,9 +915,9 @@ public final class DrawList extends CanvasDrawable
 
 				selectedIndex = startIdx;
 				if (selectedIndex < items.size()) {
-					itemHovered = items.get(selectedIndex);
+					hovered = items.get(selectedIndex);
 				} else {
-					itemHovered = null;
+					hovered = null;
 				}
 			}
 			viewOpt.repaintView();
@@ -926,7 +937,7 @@ public final class DrawList extends CanvasDrawable
 			if (dW != 0 || dH != 0) {
 				viewHeight = h;
 				viewWidth = w;
-				itemHovered = null;
+				hovered = null;
 			}
 
 		}
@@ -938,8 +949,8 @@ public final class DrawList extends CanvasDrawable
 
 		public void moveSelectorBy(int diff, boolean forward) {
 			boolean update = false;
-			boolean hasHovered = itemHovered != null;
-			int idx = hasHovered ? itemHovered.index : 0;
+			boolean hasHovered = hovered != null;
+			int idx = hasHovered ? hovered.index : 0;
 			if (forward) {
 				if (idx < items.size() - diff) {
 					idx += diff;
@@ -959,7 +970,7 @@ public final class DrawList extends CanvasDrawable
 			}
 
 			if (update) {
-				itemHovered = items.get(idx);
+				hovered = items.get(idx);
 				selectedIndex = idx;
 				update();
 				// Log.error("repaint 6");
