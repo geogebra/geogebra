@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -123,6 +124,9 @@ public class NDGDetector {
 					TreeMap<Variable, Integer> tm2 = t1.getTerm();
 					ExpressionNode en = new ExpressionNode(kernel, 1);
 					/* e.g. v1->3, v2->1 */
+
+					TreeSet<GeoElement> geoSet = new TreeSet<GeoElement>();
+					HashMap<GeoElement, ExpressionNode> bases = new HashMap<GeoElement, ExpressionNode>();
 					for (Variable t2 : tm2.keySet()) { // e.g. v1
 						if (!geos.containsKey(t2)) {
 							qFormula = false;
@@ -135,8 +139,21 @@ public class NDGDetector {
 						if (exponent > 1) {
 							base = base.power(exponent);
 						}
-						en = en.multiply(base);
+						geoSet.add(g);
+						bases.put(g, base);
 					}
+					/*
+					 * This will sort the terms in order of creation of the
+					 * GeoElements, but this is mostly the same as alphabetical
+					 * order. Actually, most users want sorting in order of
+					 * creation.
+					 */
+					Iterator<GeoElement> it = geoSet.descendingIterator();
+					while (it.hasNext()) {
+						GeoElement g = it.next();
+						en = en.multiply(bases.get(g));
+					}
+
 					if (coeff > 0) {
 						lhs = lhs.plus(c.multiply(en));
 						lt = true;
