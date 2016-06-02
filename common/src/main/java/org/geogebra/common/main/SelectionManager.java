@@ -29,6 +29,10 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * Keeps lists of selected geos (global, per type)
+ *
+ */
 public class SelectionManager {
 	/** list of selected geos */
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
@@ -61,9 +65,15 @@ public class SelectionManager {
 
 	private boolean geoToggled = false;
 
-	public SelectionManager(Kernel kernel, UpdateSelection app) {
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param listener
+	 *            listener to be notified on selection updates
+	 */
+	public SelectionManager(Kernel kernel, UpdateSelection listener) {
 		this.kernel = kernel;
-		this.listener = app;
+		this.listener = listener;
 
 		selectionListeners = new ArrayList<GeoElementSelectionListener>();
 	}
@@ -221,10 +231,17 @@ public class SelectionManager {
 		geoToggled = flag;
 	}
 
+	/**
+	 * Resets the flag for selection change, see {@link #isGeoToggled()}
+	 */
 	public void resetGeoToggled() {
 		geoToggled = false;
 	}
 
+	/**
+	 * @return the flag for selection change since last object creation (using
+	 *         tool)
+	 */
 	public boolean isGeoToggled() {
 		return geoToggled;
 	}
@@ -237,14 +254,13 @@ public class SelectionManager {
 	 *         layer are selected
 	 */
 	public int getSelectedLayer() {
-		Object[] geos = getSelectedGeos().toArray();
-		if (geos.length == 0)
+		if (getSelectedGeos().size() == 0)
 			return -1; // return -1 if nothing selected
 
-		int layer = ((GeoElement) geos[0]).getLayer();
+		int layer = getSelectedGeos().get(0).getLayer();
 
-		for (int i = 1; i < geos.length; i++) {
-			GeoElement geo = (GeoElement) geos[i];
+		for (int i = 1; i < getSelectedGeos().size(); i++) {
+			GeoElement geo = getSelectedGeos().get(i);
 			if (geo.getLayer() != layer)
 				return -2; // return -2 if more than one layer selected
 		}
@@ -312,6 +328,9 @@ public class SelectionManager {
 		updateSelection();
 	}
 
+	/**
+	 * @return whether one or more of selected geos have predecessors
+	 */
 	final public boolean hasPredecessors() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
@@ -348,6 +367,9 @@ public class SelectionManager {
 		updateSelection();
 	}
 
+	/**
+	 * @return whether one or more of selected geos have descendants
+	 */
 	final public boolean hasDescendants() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
@@ -555,6 +577,8 @@ public class SelectionManager {
 	 * @param ev
 	 *            view that should get focus after (if we did not selct
 	 *            textfield)
+	 * @param cycle
+	 *            whether to jump back to 0 from the last one
 	 * 
 	 * @return whether the operation is successful (e.g. in case of no cycle)
 	 */
