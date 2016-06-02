@@ -4558,6 +4558,8 @@ public abstract class EuclidianController {
 	 *            current hits
 	 * @param count
 	 *            previous count
+	 * @param selPreview
+	 *            whether this is in preview mode
 	 * @return new count
 	 */
 	protected int addSelectedPlanesForAngle(Hits hits, int count,
@@ -9655,7 +9657,7 @@ public abstract class EuclidianController {
 		transformCoords();
 		Hits hits = null;
 
-		if (specialRelease(y, y, event, right, alt, control, type)) {
+		if (specialRelease(x, y, event, right, alt, control, type)) {
 			draggingOccured = false;
 			return;
 		}
