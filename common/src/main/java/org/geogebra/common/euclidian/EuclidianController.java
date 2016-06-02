@@ -1399,6 +1399,11 @@ public abstract class EuclidianController {
 				ret = 1;
 			}
 		}
+
+		if (ret != 0) {
+			kernel.setGeoToggled(true);
+		}
+
 		return ret;
 	}
 
