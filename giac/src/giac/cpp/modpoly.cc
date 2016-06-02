@@ -1761,15 +1761,22 @@ namespace giac {
       quo.push_back(q1);
       // rem=th-other*q
       vector<int>::const_iterator at=th.begin()+2,bt=other.begin()+1,btend=other.end();
+      bool push=false;
       for (;;++at){
 	longlong r=*at-q1*(*bt);
 	++bt;
 	if (bt==btend){
-	  rem.push_back(r%m);
+	  r %= m;
+	  push=push | r;
+	  if (push)
+	    rem.push_back(r);
 	  return;
 	}
 	r -= q0*(*bt);
-	rem.push_back(r % m);
+	r %= m;
+	push=push | r;
+	if (push)
+	  rem.push_back(r);
       }
     }
     rem=th;
@@ -4060,7 +4067,12 @@ namespace giac {
     mulmodpoly(Sd1,hd,D);
     submodpoly(tmpv,D,res);
 #else
-    res=cd1*(Hd1+D)-(hd*Sd1);
+    addmodpoly(D,Hd1,D); 
+    mulmodpoly(D,cd1,D);
+    mulmodpoly(Sd1,hd,tmpv);
+    submodpoly(D,tmpv,D);
+    D.swap(res);
+    //res=cd1*(Hd1+D)-(hd*Sd1);
 #endif
     if (debug_infolevel>3)
       CERR << CLOCK()*1e-6 << " ducos_e1 D final division" << endl;
