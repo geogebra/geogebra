@@ -1889,4 +1889,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public ValidExpression toValidExpression() {
 		return getVector();
 	}
+
+	public void removePath() {
+		path = null;
+		pp = null;
+	}
 }

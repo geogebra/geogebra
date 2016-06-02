@@ -1375,37 +1375,7 @@ public abstract class EuclidianController {
 		selGeos.addAll(tempArrayList);
 	}
 
-	protected final <T> int addToSelectionList(ArrayList<T> selectionList,
-											   T geo, int max) {
-		if (geo == null) {
-			return 0;
-		}
 
-		int ret = 0;
-		if (selectionList.contains(geo)) { // remove from selection
-			selectionList.remove(geo);
-			if (!selectionList.equals(getSelectedGeoList())) {
-				getSelectedGeoList().remove(geo);
-			}
-			selection.removeSelectedGeo((GeoElement) geo, true, true);
-			ret = -1;
-		} else { // new element: add to selection
-			if (selectionList.size() < max) {
-				selectionList.add(geo);
-				if (!selectionList.equals(getSelectedGeoList())) {
-					getSelectedGeoList().add((GeoElement) geo);
-				}
-				selection.addSelectedGeo((GeoElement) geo, true, true);
-				ret = 1;
-			}
-		}
-
-		if (ret != 0) {
-			kernel.setGeoToggled(true);
-		}
-
-		return ret;
-	}
 
 	protected final int addToHighlightedList(ArrayList<?> selectionList,
 											 ArrayList<GeoElement> geos, int max) {
@@ -1700,7 +1670,8 @@ public abstract class EuclidianController {
 		// ONLY ONE ELEMENT IN THE EFFECTIVE HITS
 		if (tryDeselect && (geos.size() == 1)) {
 			// select or deselect it
-			return addToSelectionList(selectionList, (T) geos.get(0), max);
+			return selection.addToSelectionList(selectionList, (T) geos.get(0),
+					max);
 		}
 
 		// SEVERAL ELEMENTS
@@ -1712,7 +1683,7 @@ public abstract class EuclidianController {
 		if (!addMoreThanOneAllowed
 				|| ((geos.size() + selectionList.size()) > max)) {
 			// Application.printStacktrace(geos.toString());
-			return addToSelectionList(selectionList,
+			return selection.addToSelectionList(selectionList,
 					(T) chooseGeo(geos, true, true), max);
 		}
 
@@ -1724,14 +1695,15 @@ public abstract class EuclidianController {
 			}
 		}
 		if (contained) {
-			return addToSelectionList(selectionList,
+			return selection.addToSelectionList(selectionList,
 					(T) chooseGeo(geos, true, true), max);
 		}
 
 		// add all objects to list
 		int count = 0;
 		for (int i = 0; i < geos.size(); i++) {
-			count += addToSelectionList(selectionList, (T) geos.get(i), max);
+			count += selection.addToSelectionList(selectionList,
+					(T) geos.get(i), max);
 		}
 		return count;
 	}
@@ -10889,8 +10861,9 @@ public abstract class EuclidianController {
 			if (detachFrom == null) {
 				detachFrom = movedGeoPoint.getPath();
 			}
-			this.addToSelectionList(getSelectedPathList(), movedGeoPoint.getPath(), 1);
-			((GeoPoint) movedGeoPoint).removePath();
+			selection.addToSelectionList(getSelectedPathList(),
+					movedGeoPoint.getPath(), 1);
+			movedGeoPoint.removePath();
 			movedGeoPoint.setCoords(view.toRealWorldCoordX(event.getX()),
 					view.toRealWorldCoordY(event.getY()), 1);
 		} else if (movedGeoPoint.isPointInRegion()
@@ -10903,9 +10876,10 @@ public abstract class EuclidianController {
 			if (detachFrom == null) {
 				detachFrom = movedGeoPoint.getRegion();
 			}
-			this.addToSelectionList(getSelectedRegionList(), movedGeoPoint.getRegion(),
+			selection.addToSelectionList(getSelectedRegionList(),
+					movedGeoPoint.getRegion(),
 					1);
-			((GeoPoint) movedGeoPoint).setRegion(null);
+			movedGeoPoint.setRegion(null);
 			movedGeoPoint.setCoords(view.toRealWorldCoordX(event.getX()),
 					view.toRealWorldCoordY(event.getY()), 1);
 		} else {
@@ -10929,7 +10903,7 @@ public abstract class EuclidianController {
 				return;
 			}
 		}
-		((GeoElement) movedGeoPoint).updateCascade();
+		movedGeoPoint.updateCascade();
 	}
 
 	public void setDialogOccurred() {

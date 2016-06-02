@@ -852,4 +852,36 @@ public class SelectionManager {
 	public ArrayList<GeoList> getSelectedListList() {
 		return selectedLists;
 	}
+
+	public <T> int addToSelectionList(ArrayList<T> selectionList,
+			T geo, int max) {
+		if (geo == null) {
+			return 0;
+		}
+
+		int ret = 0;
+		if (selectionList.contains(geo)) { // remove from selection
+			selectionList.remove(geo);
+			if (!selectionList.equals(getSelectedGeoList())) {
+				getSelectedGeoList().remove(geo);
+			}
+			removeSelectedGeo((GeoElement) geo, true, true);
+			ret = -1;
+		} else { // new element: add to selection
+			if (selectionList.size() < max) {
+				selectionList.add(geo);
+				if (!selectionList.equals(getSelectedGeoList())) {
+					getSelectedGeoList().add((GeoElement) geo);
+				}
+				addSelectedGeo((GeoElement) geo, true, true);
+				ret = 1;
+			}
+		}
+
+		if (ret != 0) {
+			kernel.setGeoToggled(true);
+		}
+
+		return ret;
+	}
 }

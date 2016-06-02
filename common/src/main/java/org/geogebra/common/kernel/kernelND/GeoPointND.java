@@ -364,4 +364,6 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public void set(GeoElementND pointND, boolean macroFeedback);
 
 	public long getID();
+
+	public void removePath();
 }
