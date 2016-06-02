@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.util.clipper.Clipper;
 import org.geogebra.common.util.clipper.Clipper.ClipType;
 import org.geogebra.common.util.clipper.Clipper.PolyFillType;
@@ -325,10 +324,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 			public GeoSegment newElement() {
 				GeoSegment segment = (GeoSegment) outputPolygons.getElement(0)
 						.createSegment(
-										outputPoints.getElement(0),
-										outputPoints.getElement(0),
-										true);
-						segment.remove();
+								outputPoints.getElement(0),
+								outputPoints.getElement(0), true);
 				segment.setAuxiliaryObject(true);
 				segment.setViewFlags(inPoly0.getViewSet());
 				return segment;
@@ -458,11 +455,7 @@ inPoly1.getPoint(i).getX(),
 				for (int i = 0; i < path.size(); i++) {
 					GeoSegment segment = outputSegments
 							.getElement(segmentIndex);
-					points[pointIndex + i].updateCoords();
-					points[pointIndex + (i + 1) % path.size()].updateCoords();
-					GeoVec3D.lineThroughPoints(points[pointIndex + i],
-							points[pointIndex + (i + 1) % path.size()],
-							segment);
+
 					segment.setStartPoint(points[pointIndex + i]);
 					segment.setEndPoint(points[pointIndex + (i + 1)
 							% path.size()]);
@@ -490,6 +483,7 @@ inPoly1.getPoint(i).getX(),
 		}
 		for(int i=0;i<outputPolygons.size();i++){
 			outputPolygons.getElement(i).updateRegionCS();
+			outputPolygons.getElement(i).updateSegments();
 		}
 			
 
