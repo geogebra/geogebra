@@ -668,7 +668,14 @@ public abstract class Prover {
 		this.returnExtraNDGs = returnExtraNDGs;
 	}
 
-	/* formulate draw in readable format, TODO: create translation keys */
+	/**
+	 * Formulate figure in readable format: create a mathematically readable
+	 * statement. TODO: create translation keys.
+	 * 
+	 * @param statement
+	 *            the input statement
+	 * @return a localized statement in readable format
+	 */
 	public static String getTextFormat(GeoElement statement) {
 		Localization loc = statement.getKernel().getLocalization();
 		ArrayList<String> freePoints = new ArrayList<String>();
@@ -693,9 +700,12 @@ public abstract class Prover {
 			freePointsText.append(str);
 			freePointsText.append(",");
 		}
-		freePointsText.deleteCharAt(freePointsText.length() - 1);
-		theoremText.append(loc.getPlain("LetABeArbitraryPoints",
+		int l = freePointsText.length();
+		if (l > 0) {
+			freePointsText.deleteCharAt(freePointsText.length() - 1);
+			theoremText.append(loc.getPlain("LetABeArbitraryPoints",
 				freePointsText.toString())).append(".\n");
+		}
 
 		theoremText.append(hypotheses);
 
