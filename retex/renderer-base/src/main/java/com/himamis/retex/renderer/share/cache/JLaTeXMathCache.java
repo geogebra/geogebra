@@ -45,12 +45,12 @@
 
 package com.himamis.retex.renderer.share.cache;
 
-import java.lang.ref.ReferenceQueue;
 import java.lang.ref.Reference;
+import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 import java.util.Iterator;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
@@ -191,15 +191,18 @@ public final class JLaTeXMathCache {
 	 * @param inset the inset to add on the top, bottom, left and right
 	 * @return the key in the map
 	 */
-	public static Object paintCachedTeXFormula(String f, int style, int type, int size, int inset,
-			Color fgcolor, Graphics2DInterface g) throws ParseException {
-		return paintCachedTeXFormula(new CachedTeXFormula(f, style, type, size, inset, fgcolor), g);
-	}
+	// public static Object paintCachedTeXFormula(String f, int style, int type,
+	// int size, int inset,
+	// Color fgcolor, Graphics2DInterface g) throws ParseException {
+	// return paintCachedTeXFormula(new CachedTeXFormula(f, style, type, size,
+	// inset, fgcolor), g);
+	// }
 
-	public static Object paintCachedTeXFormula(String f, int style, int size, int inset, Graphics2DInterface g)
-			throws ParseException {
-		return paintCachedTeXFormula(f, style, 0, size, inset, null, g);
-	}
+	// public static Object paintCachedTeXFormula(String f, int style, int size,
+	// int inset, Graphics2DInterface g)
+	// throws ParseException {
+	// return paintCachedTeXFormula(f, style, 0, size, inset, null, g);
+	// }
 
 	/**
 	 * Paint a cached formula
@@ -208,19 +211,20 @@ public final class JLaTeXMathCache {
 	 * @param g the graphics where to paint the image
 	 * @return the key in the map
 	 */
-	public static Object paintCachedTeXFormula(Object o, Graphics2DInterface g) throws ParseException {
-		if (o == null || !(o instanceof CachedTeXFormula)) {
-			return null;
-		}
-		CachedTeXFormula cached = (CachedTeXFormula) o;
-		SoftReference<CachedImage> img = cache.get(cached);
-		if (img == null || img.get() == null) {
-			img = makeImage(cached);
-		}
-		g.drawImage(img.get().image, identity);
-
-		return cached;
-	}
+	// public static Object paintCachedTeXFormula(Object o, Graphics2DInterface
+	// g) throws ParseException {
+	// if (o == null || !(o instanceof CachedTeXFormula)) {
+	// return null;
+	// }
+	// CachedTeXFormula cached = (CachedTeXFormula) o;
+	// SoftReference<CachedImage> img = cache.get(cached);
+	// if (img == null || img.get() == null) {
+	// img = makeImage(cached);
+	// }
+	// g.drawImage(img.get().image, identity);
+	//
+	// return cached;
+	// }
 
 	/**
 	 * Get a cached formula

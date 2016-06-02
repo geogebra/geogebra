@@ -135,12 +135,12 @@ final class PredefinedCommands {
 				return PredefMacros.mathclrlap_macro(tp, args);
 			}
 		},
-		includegraphics(1, 1) {
-			@Override
-			public Object executeMacro(final TeXParser tp, final String[] args) {
-				return PredefMacros.includegraphics_macro(tp, args);
-			}
-		},
+		// includegraphics(1, 1) {
+		// @Override
+		// public Object executeMacro(final TeXParser tp, final String[] args) {
+		// return PredefMacros.includegraphics_macro(tp, args);
+		// }
+		// },
 		cfrac(2, 1) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {

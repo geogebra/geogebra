@@ -48,7 +48,6 @@ package com.himamis.retex.renderer.share;
 import java.util.Map;
 
 import com.himamis.retex.renderer.share.character.Character;
-import com.himamis.retex.renderer.share.dynamic.DynamicAtom;
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.Graphics;
 import com.himamis.retex.renderer.share.platform.font.Font;
@@ -210,10 +209,11 @@ public class PredefMacros {
 		return new LapedAtom(new TeXFormula(tp, args[1]).root, args[0].charAt(4));
 	}
 
-	public static final Atom includegraphics_macro(final TeXParser tp, final String[] args)
-			throws ParseException {
-		return new GraphicsAtom(args[1], args[2]);
-	}
+	// public static final Atom includegraphics_macro(final TeXParser tp, final
+	// String[] args)
+	// throws ParseException {
+	// return new GraphicsAtom(args[1], args[2]);
+	// }
 
 	public static final Atom rule_macro(final TeXParser tp, final String[] args) throws ParseException {
 		float[] winfo = SpaceAtom.getLength(args[1]);
