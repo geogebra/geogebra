@@ -3713,7 +3713,7 @@ namespace giac {
 	      gen gp=horner(vp,j);
 	      gen gq=horner(vq,j);
 	      if (debug_infolevel)
-		CERR << CLOCK()*1e-6 << " interp resultant " << i << endl;
+		CERR << CLOCK()*1e-6 << " interp resultant " << j << ", " << 100*double(i)/(d+1) << "% done" << endl;
 	      if (gp.type==_POLY && gq.type==_POLY){
 		if (0 &&
 		    m>=GIAC_PADIC/2 && n>=GIAC_PADIC/2

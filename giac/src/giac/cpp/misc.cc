@@ -2548,6 +2548,8 @@ namespace giac {
     m = apply(m,s,contextptr,rdiv);
     if (withstddev){
       m2=m2-apply(s,apply(m,m,prod),prod);
+      if (s.type!=_VECT && is_greater(1,s,contextptr) && withstddev==2)
+	*logptr(contextptr) << "stddevp called with N<=1, perhaps you are misusing this command with frequencies" << endl;
       m2=apply(m2,s-(withstddev==2),contextptr,rdiv);
       if (withstddev==3)
 	return m2;

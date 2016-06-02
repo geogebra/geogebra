@@ -80,6 +80,7 @@ namespace giac {
     int valuation(int n) const ;
     index_t degree() const ;
     int total_degree() const ;
+    int partial_degree(int nvars) const ; // total degree wrt to vars 0..nvars-1
     void reverse() ; // reverse variable ordering
     void append(const tensor<T> &);
     void Tcoeffs(std::vector< tensor<T> > & v) const;
@@ -300,6 +301,23 @@ namespace giac {
     int res=0;
     for (;it!=it_end;++it){
       int temp=sum_degree(it->index);
+      if (res<temp)
+	res=temp;
+    }
+    return res;
+  }
+
+  template <class T>
+  int tensor<T>::partial_degree(int vars) const {
+    typename std::vector< monomial<T> >::const_iterator it=this->coord.begin();
+    typename std::vector< monomial<T> >::const_iterator it_end=this->coord.end();
+    int res=0;
+    for (;it!=it_end;++it){
+      int temp=0;
+      index_t::const_iterator jt=it->index.begin(),jtend=jt+vars;
+      for (;jt!=jtend;++jt){
+	temp += *jt;
+      }
       if (res<temp)
 	res=temp;
     }

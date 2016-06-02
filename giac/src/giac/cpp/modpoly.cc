@@ -689,6 +689,26 @@ namespace giac {
       if (is_one(fact))
 	return;
       modpoly::iterator it=new_coord.begin(),itend=new_coord.end();
+#ifndef USE_GMP_REPLACEMENTS
+      if (fact.type==_INT_){
+	for (;it!=itend;++it){
+	  if (it->type==_ZINT && it->ref_count()==1)
+	    mpz_mul_si(*it->_ZINTptr,*it->_ZINTptr,fact.val);
+	  else
+	    *it= (*it)*fact;
+	}
+	return;
+      }
+      if (fact.type==_ZINT){
+	for (;it!=itend;++it){
+	  if (it->type==_ZINT && it->ref_count()==1)
+	    mpz_mul(*it->_ZINTptr,*it->_ZINTptr,*fact._ZINTptr);
+	  else
+	    *it= (*it)*fact;
+	}
+	return;
+      }
+#endif
       for (;it!=itend;++it)
 	*it= (*it)*fact;
     }
@@ -1420,21 +1440,33 @@ namespace giac {
 
   void iquo(modpoly & th,const gen & fact){
     modpoly::iterator it=th.begin(),itend=th.end();
-    for (;it!=itend;++it){
 #ifndef USE_GMP_REPLACEMENTS
-      if (it->type==_ZINT && it->ref_count()==1){
-	if (fact.type==_INT_ && fact.val>0){
-	  mpz_tdiv_q_ui(*it->_ZINTptr,*it->_ZINTptr,fact.val);
-	  continue;
-	}
-	if (fact.type==_ZINT){
-	  mpz_tdiv_q(*it->_ZINTptr,*it->_ZINTptr,*fact._ZINTptr);
-	  continue;
-	}
-      }
-#endif
-	*it=iquo(*it,fact); 
+    if (fact.type==_INT_ && fact.val<0){
+      iquo(th,-fact);
+      negmodpoly(th,th);
+      return;
     }
+    if (fact.type==_INT_ ){
+      for (;it!=itend;++it){
+	if (it->type==_ZINT && it->ref_count()==1)
+	  mpz_tdiv_q_ui(*it->_ZINTptr,*it->_ZINTptr,fact.val);
+	else
+	  *it=iquo(*it,fact); 
+      }
+      return;
+    }
+    if (fact.type==_ZINT){
+      for (;it!=itend;++it){
+	if (it->type==_ZINT && it->ref_count()==1)
+	  mpz_tdiv_q(*it->_ZINTptr,*it->_ZINTptr,*fact._ZINTptr);
+	else
+	  *it=iquo(*it,fact); 
+      }
+      return;
+    }
+#endif
+    for (;it!=itend;++it)
+      *it=iquo(*it,fact); 
   }
 
   void divmodpoly(const modpoly & th, const gen & fact, environment * env,modpoly & new_coord){
@@ -3985,12 +4017,11 @@ namespace giac {
     if (debug_infolevel>3)
       CERR << CLOCK()*1e-6 << " ducos_e1 begin d=" << d << endl;
     gen cd1(Sd1.front()),se(Se.front());
-    index_t sh(dim);
     vector< modpoly > Hv(e);
     Hv.reserve(d);
     modpoly tmp(e+1);
     tmp[0]=se;
-    Hv.push_back(tmp-Se);
+    Hv.push_back(tmp-Se); // in fact it's -Se without first element
     for (int j=e+1;j<d;++j){
       modpoly XHj1(Hv.back());
       XHj1.push_back(0); // X*H_{j-1}
@@ -4002,6 +4033,7 @@ namespace giac {
       Hv.push_back(XHj1);
     }
     modpoly D,tmpv; // sum_{j<d} pi_j(A)*H_j/lc(A)
+    D.reserve(d);
     // split next loop in 2 parts, because Hv indexes lower than e are straightforward
     if (debug_infolevel>3)
       CERR << CLOCK()*1e-6 << " ducos_e1 D begin" << endl;
@@ -4020,17 +4052,22 @@ namespace giac {
       CERR << CLOCK()*1e-6 << " ducos_e1 D ready" << endl;
     modpoly & Hd1=Hv.back();
     Hd1.push_back(0); // X*Hd1
+    int hd1=Hd1.size()-1-e;
+    gen hd=hd1<0?0:Hd1[hd1];
 #if 1
     addmodpoly(Hd1,D,tmpv); 
-    mulmodpoly(tmpv,cd1,D);
-    mulmodpoly(Sd1,Hd1[Hd1.size()-1-e],tmpv);
-    submodpoly(D,tmpv,res);
+    mulmodpoly(tmpv,cd1,tmpv);
+    mulmodpoly(Sd1,hd,D);
+    submodpoly(tmpv,D,res);
 #else
-    res=cd1*(Hd1+D)-(Hd1[Hd1.size()-1-e]*Sd1);
+    res=cd1*(Hd1+D)-(hd*Sd1);
 #endif
     if (debug_infolevel>3)
       CERR << CLOCK()*1e-6 << " ducos_e1 D final division" << endl;
+    res=trim(res,0);
     iquo(res,sd); // res=res/sd;
+    if (!res.empty() && res.front()==0)
+      CERR << "err" << endl;
     if (debug_infolevel>3)
       CERR << CLOCK()*1e-6 << " ducos_e1 end" << endl;
     if ( (d-e+1)%2)

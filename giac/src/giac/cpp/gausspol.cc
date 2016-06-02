@@ -2486,7 +2486,7 @@ namespace giac {
 #if 1
     res=(cd1*(Hd1+D)-(Hd1.coeff(e).untrunc1()*Sd1));
 #else
-    res=(cd1*(Hd1+D)-(Hd1.Tcoeffs()[Hv.size()-1-e]).untrunc1()*Sd1);
+    res=(cd1*(Hd1+D)-(Hd1.Tcoeffs()[Hd1.lexsorted_degree()-1-e]).untrunc1()*Sd1);
 #endif
     if (debug_infolevel>1)
       CERR << CLOCK()*1e-6 << " ducos_e1 D final division" << endl;
@@ -2505,8 +2505,9 @@ namespace giac {
       res=-res;
   }
 
-  void subresultant(const polynome & P,const polynome & Q,polynome & C){
-    if (P.dim==1){
+  void subresultant(const polynome & P,const polynome & Q,polynome & C,bool ducos){
+    int dim=P.dim;
+    if (dim==1){
       gen c;
       vecteur p,q;
       polynome2poly1(P,1,p);
@@ -2515,9 +2516,85 @@ namespace giac {
       C=polynome(monomial<gen>(c,1));
       return;
     }
+    int a=P.partial_degree(2);
+    int b=Q.partial_degree(2);
+    int m=P.lexsorted_degree();
+    int n=Q.lexsorted_degree();
+    // first estimate n*(a-m)+m*b 
+    int d1=n*(a-m)+m*b;
+    if (//1 ||
+	!ducos && P.coord.size()>=m && Q.coord.size()>=n){ 
+      // for dense inputs, interpolate
+      polynome pp0(P);
+      pp0.reorder(transposition(0,1,dim));
+      polynome qp0(Q);
+      qp0.reorder(transposition(0,1,dim));
+      // second estimate 
+      a=pp0.lexsorted_degree();
+      b=qp0.lexsorted_degree();
+      // a*n+b*m
+      int d2=a*n+b*m;
+      int d=giacmin(d1,d2);
+      // interpolation
+      vecteur vp,vq,vp0,vq0,X(d+1),Y(d+1);
+      polynome2poly1(pp0,1,vp);
+      pp0=firstcoeff(P).trunc1();
+      polynome2poly1(pp0,1,vp0);
+      polynome2poly1(qp0,1,vq);
+      qp0=firstcoeff(Q).trunc1();
+      polynome2poly1(qp0,1,vq0);
+      int j=-d/2;
+      for (int i=0;i<=d;++i,++j){
+	if (debug_infolevel)
+	  CERR << CLOCK()*1e-6 << " interp horner " << i << endl;
+	for (;;++j){
+	  // find evaluation preserving degree in x
+	  if (0 && j==0)
+	    CERR << "j" << endl;
+	  gen hp=horner(vp0,j);
+	  gen hq=horner(vq0,j);
+	  if (!is_zero(hp) && !is_zero(hq))
+	    break;
+	}
+	X[i]=j;
+	gen gp=horner(vp,j);
+	gen gq=horner(vq,j);
+	if (debug_infolevel)
+	  CERR << CLOCK()*1e-6 << " interp resultant " << j << ", " << 100*double(i)/(d+1) << "% done" << endl;
+	if (gp.type==_POLY && gq.type==_POLY){
+	  Y[i]=resultant(*gp._POLYptr,*gq._POLYptr);
+	  continue;
+	}
+	if (gp.type==_POLY){
+	  Y[i]=pow(gq,gp._POLYptr->lexsorted_degree(),context0);
+	  continue;
+	}
+	if (gq.type==_POLY){
+	  Y[i]=pow(gp,gq._POLYptr->lexsorted_degree(),context0);
+	  continue;		
+	}
+	Y[i]=1;
+      }
+      if (debug_infolevel)
+	CERR << CLOCK()*1e-6 << " interp dd " << endl;
+      vecteur R=divided_differences(X,Y);
+      if (debug_infolevel)
+	CERR << CLOCK()*1e-6 << " interp build " << endl;
+      modpoly resp(1,R[d]),tmp; // cst in y
+      for (int i=d-1;i>=0;--i){
+	operator_times(resp,makevecteur(1,-X[i]),0,tmp);
+	if (tmp.empty())
+	  tmp=vecteur(1,R[i]);
+	else
+	  tmp.back() += R[i];
+	tmp.swap(resp);
+      }
+      poly12polynome(resp,2,C,dim);
+      return;
+    }
     int d=P.lexsorted_degree(),e=Q.lexsorted_degree();
     if (d<e){
-      subresultant(Q,P,C);
+      subresultant(Q,P,C,true);
       // adjust sign
       if ((d*e)%2) C=-C;
       return;
@@ -2530,7 +2607,7 @@ namespace giac {
       C=pow(Q,d);
       return;
     }
-    polynome sd(pow(Tfirstcoeff(Q),d-e)), A(Q),a(P.dim),B(P.dim),quo(P.dim),tmp(P.dim);
+    polynome sd(pow(Tfirstcoeff(Q),d-e)), A(Q),B(P.dim),quo(P.dim),tmp(P.dim);
     P.TPseudoDivRem(-Q,quo,B,tmp);
     for (unsigned step=0;;++step){
       d=A.lexsorted_degree(),e=B.lexsorted_degree();
@@ -2558,11 +2635,25 @@ namespace giac {
     }
   }
 
-  void subresultant(const polynome & P,const polynome & Q,gen & c,polynome & C){
+  void subresultant(const polynome & P,const polynome & Q,gen & c,polynome & C,bool ducos){
     polynome p(P),q(Q);
     gen pz=ppz(p),qz=ppz(q);
-    subresultant(p,q,C);
+    polynome g(gcd(p,q));
+    if (g.lexsorted_degree()){
+      C.coord.clear();
+      return;
+    }
+    if (!is_one(g)){
+      p=p/g;
+      q=q/g;
+    }
+    subresultant(p,q,C,ducos);
     c=pow(pz,q.lexsorted_degree())*pow(qz,p.lexsorted_degree());
+    if (!is_one(g)){
+      int expo=p.lexsorted_degree()+q.lexsorted_degree();
+      for (int i=0;i<expo;++i)
+	C=g*C;
+    }
   }
 
   bool resultant_sylvester(const polynome &p,const polynome &q,vecteur &pv,vecteur &qv,matrice & S,gen & determinant){
@@ -2632,7 +2723,7 @@ namespace giac {
 	  res=sym2r(res,lv,context0);
 	  if (res.type==_POLY){
 #if 0
-	    polynome res1; subresultant(p,q,res1);
+	    polynome res1; subresultant(p,q,res1,true);
 	    if (res!=res1){
 	      cerr << res._POLYptr->coord.size() << endl;
 	      return res1;
@@ -2645,7 +2736,7 @@ namespace giac {
     }
 #endif // HAVE_LIBPARI
     polynome R(p.dim); gen r;
-    subresultant(p,q,r,R);
+    subresultant(p,q,r,R,false);
     return r*R;
 #if 0
     polynome R1(Tresultant<gen>(p,q));
