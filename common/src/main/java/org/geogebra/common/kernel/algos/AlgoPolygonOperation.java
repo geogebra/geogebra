@@ -481,6 +481,12 @@ inPoly1.getPoint(i).getX(),
 			}
 
 		}
+		for(int i=0;i<outputPolygons.size();i++){
+			outputPolygons.getElement(i).updateRegionCS();
+			outputPolygons.getElement(i).updateSegments();
+		}
+			
+
 
 	}
 

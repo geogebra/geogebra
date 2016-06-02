@@ -426,7 +426,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * point array may be changed: this method makes sure that segments are
 	 * reused if possible.
 	 */
-	protected void updateSegments() {
+	public void updateSegments() {
 		if (points == null)
 			return;
 		
