@@ -25,22 +25,19 @@ function isHidden() {
 }
 
 // use the property name to generate the prefixed event name
-function visibilityEventMain(startCheating, stopCheating) {
+function visibilityEventMain(onHidden, onVisible) {
 	var visProp = getHiddenProp();
-	window.console.log("1");
 
 	if (visProp) {
 		var evtname = visProp.replace(/[H|h]idden/,'') + 'visibilitychange';
 		document.addEventListener(evtname, function(){ 
-			if(window.innerHeight >= screen.height){
-				if(document[visProp]){
-					window.console.log("2");
-					startCheating();
-				}else {
-					window.console.log("3");
-					stopCheating();
-				}
+			window.console && window.console.log("Visibility changed: "+document[visProp]);
+			if(document[visProp]){
+				onHidden();
+			}else {
+				onVisible();
 			}
+			
 		});
 		
 	}
