@@ -885,11 +885,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param hits
 	 * @return true if sphere created
 	 */
-	final protected boolean spherePointRadius(Hits hits) {
+	final protected boolean spherePointRadius(Hits hits, boolean selPreview) {
 		if (hits.isEmpty())
 			return false;
 
-		addSelectedPoint(hits, 1, false);
+		addSelectedPoint(hits, 1, false, selPreview);
 
 		// we got the center point
 		if (selPoints() == 1) {
@@ -907,11 +907,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param hits
 	 * @return true if cone created
 	 */
-	final protected boolean coneTwoPointsRadius(Hits hits) {
+	final protected boolean coneTwoPointsRadius(Hits hits, boolean selPreview) {
 		if (hits.isEmpty())
 			return false;
 
-		addSelectedPoint(hits, 2, false);
+		addSelectedPoint(hits, 2, false, selPreview);
 
 		// we got the center point
 		if (selPoints() == 2) {
@@ -931,11 +931,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param hits
 	 * @return true if cylinder created
 	 */
-	final protected boolean cylinderTwoPointsRadius(Hits hits) {
+	final protected boolean cylinderTwoPointsRadius(Hits hits,
+			boolean selPreview) {
 		if (hits.isEmpty())
 			return false;
 
-		addSelectedPoint(hits, 2, false);
+		addSelectedPoint(hits, 2, false, selPreview);
 
 		// we got the center point
 		if (selPoints() == 2) {
@@ -963,7 +964,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (hits.isEmpty())
 			return null;
 
-		if (addSelectedPoint(hits, 2, false) == 0 && selPoints() == 0
+		if (addSelectedPoint(hits, 2, false, selPreview) == 0
+				&& selPoints() == 0
 				&& selDirections() == 0) {
 			// select a plane only if no point is selected
 			addSelectedCS2D(hits, 1, false, selPreview);
@@ -1006,11 +1008,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            geos hitted
 	 * @return net of a polyhedron
 	 */
-	final protected GeoElement[] polyhedronNet(Hits hits) {
+	final protected GeoElement[] polyhedronNet(Hits hits, boolean selPreview) {
 		if (hits.isEmpty())
 			return null;
 
-		addSelectedGeo(hits.getPolyhedronsIncludingMetaHits(), 1, false);
+		addSelectedGeo(hits.getPolyhedronsIncludingMetaHits(), 1, false,
+				selPreview);
 
 		if (selGeos() == 1) {
 			GeoElement polyhedron = getSelectedGeos()[0];
@@ -1046,13 +1049,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (hits.isEmpty())
 			return null;
 
-		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
+		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
 		if (!hitPoint) {
 			if (selLines() == 0) {
 				addSelectedVector(hits, 1, false, selPreview);
 			}
 			if (selVectors() == 0) {
-				addSelectedLine(hits, 1, false);
+				addSelectedLine(hits, 1, false, selPreview);
 			}
 		}
 
@@ -1088,14 +1091,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return circle created
 	 * 
 	 */
-	final protected GeoElement[] circleAxisPoint(Hits hits) {
+	final protected GeoElement[] circleAxisPoint(Hits hits,
+			boolean selPreview) {
 		if (hits.isEmpty())
 			return null;
 
-		if (addSelectedPoint(hits, 1, false) == 0) { // add line only if no
+		if (addSelectedPoint(hits, 1, false, selPreview) == 0) { // add line
+																	// only if
+																	// no
 														// point to avoid dummy
 														// circle
-			addSelectedLine(hits, 1, false);
+			addSelectedLine(hits, 1, false, selPreview);
 		}
 
 		if (selPoints() == 1 && selLines() == 1) {
@@ -1121,7 +1127,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (hits.isEmpty())
 			return false;
 
-		if (addSelectedPoint(hits, 1, false) == 0)
+		if (addSelectedPoint(hits, 1, false, selPreview) == 0)
 			addSelectedDirection(hits, 1, false, selPreview);
 
 		if (selPoints() == 1 && selDirections() == 1) {
@@ -1155,11 +1161,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            geos hitted
 	 * @return volume of a geo (from hits) that has a volume
 	 */
-	final protected boolean volume(Hits hits) {
+	final protected boolean volume(Hits hits, boolean selPreview) {
 		if (hits.isEmpty())
 			return false;
 
-		addSelectedGeo(hits.getFiniteVolumeIncludingMetaHits(), 1, false);
+		addSelectedGeo(hits.getFiniteVolumeIncludingMetaHits(), 1, false,
+				selPreview);
 
 		if (selGeos() == 1) {
 			GeoElement hasVolume = getSelectedGeos()[0];
@@ -1205,7 +1212,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		// then try with points
-		addSelectedPoint(hits, 3, false);
+		addSelectedPoint(hits, 3, false, selPreview);
 
 		if (selPoints() == 3) { // 3 points
 			GeoPointND[] points = getSelectedPointsND();
@@ -1215,7 +1222,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		} else if (selPoints() == 1) { // try point & line
 			// only one line allowed
-			addSelectedLine(hits, 1, false);
+			addSelectedLine(hits, 1, false, selPreview);
 			if (selLines() == 1) {
 				// fetch selected point and line
 				GeoPointND[] points = getSelectedPointsND();
@@ -1227,7 +1234,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			}
 
 		} else if (selPoints() == 0) { // maybe two lines
-			addSelectedLine(hits, 2, false);
+			addSelectedLine(hits, 2, false, selPreview);
 			if (selLines() == 2) {
 				// plane containing two lines
 				GeoLineND[] lines = getSelectedLinesND();
@@ -1247,13 +1254,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param hits
 	 * @return false (kernel won't change)
 	 */
-	final protected boolean viewInFrontOf(Hits hits) {
+	final protected boolean viewInFrontOf(Hits hits, boolean selPreview) {
 		if (hits.isEmpty())
 			return false;
 
 		// Application.debug(hits);
 
-		addSelectedGeo(hits.getTopHits(), 1, false);// TODO hits.getTopHits() ?
+		addSelectedGeo(hits.getTopHits(), 1, false, selPreview);// TODO
+																// hits.getTopHits()
+																// ?
 
 		if (selGeos() == 1) { // clear selection
 			GeoElement geo = getSelectedGeos()[0];
@@ -1286,7 +1295,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (hits.isEmpty())
 			return null;
 
-		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
+		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
 		if (!hitPoint) {
 			addSelectedCS2D(hits, 1, false, selPreview);
 		}
@@ -1429,7 +1438,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 					}
 				}
 
-				if (addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false) != 0
+				if (addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false,
+						selPreview) != 0
 						|| (!selPreview && !getSelectedPointList().isEmpty()
 								&& hits
 								.contains(getSelectedPointList().get(0)))) {
@@ -1449,7 +1459,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			// there is 1 polygon, look for top point
 			if (!selectionOccured) {
-				addSelectedPoint(hits, 1, false);
+				addSelectedPoint(hits, 1, false, selPreview);
 			}
 
 			if (selPoints() == 1 && selPolygons() == 1) {
@@ -1470,7 +1480,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		} else { // there are points for basis
 
-			addSelectedPoint(hits, 1, false);
+			addSelectedPoint(hits, 1, false, selPreview);
 
 			if (selPoints() == 1) {
 				// fetch selected point and vector
@@ -1760,10 +1770,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	// not only moveable hits are selected in move mode
 	@Override
-	protected boolean getSelectables(Hits hits) {
+	protected boolean getSelectables(Hits hits, boolean selPreview) {
 		Hits top = hits.getTopHits(1);
 
-		super.getSelectables(top);
+		super.getSelectables(top, selPreview);
 
 		// display correctly oriented 3D cursor
 		GeoPointND point = (GeoPointND) top.getFirstHit(Test.GEOPOINTND);
@@ -1893,7 +1903,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected boolean switchModeForProcessMode(Hits hits,
-			boolean isControlDown, AsyncOperation<Boolean> callback) {
+			boolean isControlDown, AsyncOperation<Boolean> callback,
+			boolean selectionPreview) {
 
 		boolean changedKernel = false;
 
@@ -1908,7 +1919,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			}
 			break;
 		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
-			ret = threePoints(hits, mode);
+			ret = threePoints(hits, mode, selectionPreview);
 			break;
 		case EuclidianConstants.MODE_PLANE:
 			ret = planeContaining(hits, selectionPreview);
@@ -1947,30 +1958,30 @@ public abstract class EuclidianController3D extends EuclidianController {
 			break;
 
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-			ret = circleOrSphere2(hits, mode);
+			ret = circleOrSphere2(hits, mode, selectionPreview);
 			break;
 		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
-			changedKernel = spherePointRadius(hits);
+			changedKernel = spherePointRadius(hits, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
-			changedKernel = coneTwoPointsRadius(hits);
+			changedKernel = coneTwoPointsRadius(hits, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-			changedKernel = cylinderTwoPointsRadius(hits);
+			changedKernel = cylinderTwoPointsRadius(hits, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_NET:
-			ret = polyhedronNet(hits);
+			ret = polyhedronNet(hits, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
-			changedKernel = viewInFrontOf(hits);
+			changedKernel = viewInFrontOf(hits, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:
-			ret = circleAxisPoint(hits);
+			ret = circleAxisPoint(hits, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:
@@ -1986,12 +1997,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 			break;
 
 		case EuclidianConstants.MODE_VOLUME:
-			changedKernel = volume(hits);
+			changedKernel = volume(hits, selectionPreview);
 			break;
 
 		default:
 			return super
-					.switchModeForProcessMode(hits, isControlDown, callback);
+			.switchModeForProcessMode(hits, isControlDown, callback,
+					selectionPreview);
 		}
 
 		return endOfSwitchModeForProcessMode(ret, changedKernel
@@ -2121,7 +2133,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			hits.removeAllPlanes();
 			switchModeForRemovePolygons(hits);
 			// Application.debug(hits.toString());
-			extrusionOrConify(hits, selectionPreview);
+			extrusionOrConify(hits, false);
 			view3D.updatePreviewable();
 			break;
 
@@ -2376,7 +2388,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		}
 
-		addSelectedLine(hits, 10, true);
+		addSelectedLine(hits, 10, true, selPreview);
 		addSelectedConic(hits, 10, true, selPreview);
 		addSelectedPlane(hits, 1, true, selPreview);
 		addSelectedPolygon(hits, 1, true, selPreview);
@@ -3768,11 +3780,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (hits.isEmpty())
 			return null;
 
-		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
+		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
 
 		if (!hitPoint) {
 			if (selCS2D() == 0)
-				addSelectedLine(hits, 1, false);
+				addSelectedLine(hits, 1, false, selPreview);
 			if (selLines() == 0)
 				addSelectedCS2D(hits, 1, false, selPreview);
 		}
@@ -3809,7 +3821,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		int count = 0;
 		if (selGeos() == 0) {
 			Hits rotAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
-			count = addSelectedGeo(rotAbles, 1, false);
+			count = addSelectedGeo(rotAbles, 1, false, selPreview);
 		}
 
 		// polygon
@@ -3819,7 +3831,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// rotation axis
 		if (count == 0) {
-			addSelectedLine(hits, 1, false);
+			addSelectedLine(hits, 1, false, selPreview);
 		}
 
 		// we got the rotation center point
@@ -3869,7 +3881,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		int count = 0;
 		if (selGeos() == 0) {
 			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
-			count = addSelectedGeo(mirAbles, 1, false);
+			count = addSelectedGeo(mirAbles, 1, false, selPreview);
 		}
 
 		// plane = mirror

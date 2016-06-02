@@ -237,7 +237,6 @@ public abstract class EuclidianController {
 	protected Hits tempArrayList3 = new Hits();
 	protected Hits highlightedGeos = new Hits();
 	protected ArrayList<GeoElement> justCreatedGeos = new ArrayList<GeoElement>();
-	protected boolean selectionPreview = false;
 	protected boolean temporaryMode = false;
 	protected boolean dontClearSelection = false;
 	protected boolean draggingOccured = false;
@@ -1805,15 +1804,15 @@ public abstract class EuclidianController {
 	}
 
 	public final int addSelectedGeo(Hits hits, int max,
-									boolean addMoreThanOneAllowed) {
+			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				getSelectedGeoList(), Test.GEOELEMENT, selectionPreview);
+				getSelectedGeoList(), Test.GEOELEMENT, selPreview);
 	}
 
 	protected final int addSelectedPoint(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				getSelectedPointList(), Test.GEOPOINTND, selectionPreview);
+				getSelectedPointList(), Test.GEOPOINTND, selPreview);
 	}
 
 	public final int addSelectedNumeric(Hits hits, int max,
@@ -1830,9 +1829,9 @@ public abstract class EuclidianController {
 	}
 
 	protected final int addSelectedLine(Hits hits, int max,
-										boolean addMoreThanOneAllowed) {
+			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				getSelectedLineList(), Test.GEOLINEND, selectionPreview);
+				getSelectedLineList(), Test.GEOLINEND, selPreview);
 	}
 
 	protected final int addSelectedSegment(Hits hits, int max,
@@ -1955,7 +1954,7 @@ public abstract class EuclidianController {
 		// 3D
 	}
 
-	protected final GeoElement[] join(Hits hits) {
+	protected final GeoElement[] join(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -1965,7 +1964,7 @@ public abstract class EuclidianController {
 		}
 
 		// points needed
-		addSelectedPoint(hits, 2, false);
+		addSelectedPoint(hits, 2, false, selPreview);
 		if (selPoints() == 2) {
 			// fetch the two selected points
 			return join();
@@ -2014,13 +2013,13 @@ public abstract class EuclidianController {
 		return ret;
 	}
 
-	protected final GeoElement[] segment(Hits hits) {
+	protected final GeoElement[] segment(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
 
 		// points needed
-		addSelectedPoint(hits, 2, false);
+		addSelectedPoint(hits, 2, false, selPreview);
 		if (selPoints() == 2) {
 			// fetch the two selected points
 			return segment();
@@ -2040,13 +2039,13 @@ public abstract class EuclidianController {
 		return ret;
 	}
 
-	protected final GeoElement[] vector(Hits hits) {
+	protected final GeoElement[] vector(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
 
 		// points needed
-		addSelectedPoint(hits, 2, false);
+		addSelectedPoint(hits, 2, false, selPreview);
 		if (selPoints() == 2) {
 			// fetch the two selected points
 
@@ -2066,13 +2065,13 @@ public abstract class EuclidianController {
 		return getAlgoDispatcher().Vector(null, (GeoPoint) a, (GeoPoint) b);
 	}
 
-	protected final GeoElement[] ray(Hits hits) {
+	protected final GeoElement[] ray(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
 
 		// points needed
-		addSelectedPoint(hits, 2, false);
+		addSelectedPoint(hits, 2, false, selPreview);
 		if (selPoints() == 2) {
 			// fetch the two selected points
 			/*
@@ -2174,7 +2173,8 @@ public abstract class EuclidianController {
 				return null;
 			}
 		}
-		addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false);
+		addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false,
+				selPreview);
 		return null;
 	}
 
@@ -2197,7 +2197,8 @@ public abstract class EuclidianController {
 		}
 
 		// points needed
-		addSelectedPoint(hits, GeoPolyLine.POLYLINE_MAX_POINTS, false);
+		addSelectedPoint(hits, GeoPolyLine.POLYLINE_MAX_POINTS, false,
+				selPreview);
 		return null;
 	}
 
@@ -2286,7 +2287,7 @@ public abstract class EuclidianController {
 		// now there's no popup chooser, when we use the intersect Tool where
 		// multiple objects intersect
 		// just choose any 2
-		addSelectedLine(hits, 10, true);
+		addSelectedLine(hits, 10, true, selPreview);
 		addSelectedConic(hits, 10, true, selPreview);
 		addSelectedFunction(hits, 10, true, selPreview);
 		addSelectedImplicitpoly(hits, 10, true, selPreview);
@@ -2594,13 +2595,13 @@ public abstract class EuclidianController {
 			return null;
 		}
 
-		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
+		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
 		if (!hitPoint) {
 			if (selLines() == 0) {
 				addSelectedVector(hits, 1, false, selPreview);
 			}
 			if (selVectors() == 0) {
-				addSelectedLine(hits, 1, false);
+				addSelectedLine(hits, 1, false, selPreview);
 			}
 		}
 
@@ -2641,14 +2642,14 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	protected final GeoElement[] parabola(Hits hits) {
+	protected final GeoElement[] parabola(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
 
-		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
+		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
 		if (!hitPoint) {
-			addSelectedLine(hits, 1, false);
+			addSelectedLine(hits, 1, false, selPreview);
 		}
 
 		if (selPoints() == 1) {
@@ -2672,7 +2673,7 @@ public abstract class EuclidianController {
 			return null;
 		}
 
-		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
+		boolean hitPoint = (addSelectedPoint(hits, 1, false, selPreview) != 0);
 
 		return orthogonal(hits, hitPoint, selPreview);
 
@@ -2686,7 +2687,7 @@ public abstract class EuclidianController {
 				addSelectedVector(hits, 1, false, Test.GEOVECTOR, selPreview);
 			}
 			if (selVectors() == 0) {
-				addSelectedLine(hits, 1, false);
+				addSelectedLine(hits, 1, false, selPreview);
 			}
 		}
 
@@ -2724,7 +2725,7 @@ public abstract class EuclidianController {
 			return null;
 		}
 
-		boolean hitPoint = (addSelectedPoint(hits, 2, false) != 0);
+		boolean hitPoint = (addSelectedPoint(hits, 2, false, selPreview) != 0);
 
 		if (!hitPoint && (selPoints() == 0)) {
 			addSelectedSegment(hits, 1, false, selPreview); // segment needed
@@ -2782,7 +2783,7 @@ public abstract class EuclidianController {
 		boolean hitPoint = false;
 
 		if (selSegments() == 0) {
-			hitPoint = (addSelectedPoint(hits, 2, false) != 0);
+			hitPoint = (addSelectedPoint(hits, 2, false, selPreview) != 0);
 		}
 
 		if (!hitPoint && (selPoints() == 0)) {
@@ -2808,17 +2809,18 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	protected final GeoElement[] angularBisector(Hits hits) {
+	protected final GeoElement[] angularBisector(Hits hits,
+			boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
 		boolean hitPoint = false;
 
 		if (selLines() == 0) {
-			hitPoint = (addSelectedPoint(hits, 3, false) != 0);
+			hitPoint = (addSelectedPoint(hits, 3, false, selPreview) != 0);
 		}
 		if (!hitPoint && (selPoints() == 0)) {
-			addSelectedLine(hits, 2, false);
+			addSelectedLine(hits, 2, false, selPreview);
 		}
 
 		if (selPoints() == 3) {
@@ -2839,14 +2841,15 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	protected final GeoElement[] threePoints(Hits hits, int threePointsMode) {
+	protected final GeoElement[] threePoints(Hits hits, int threePointsMode,
+			boolean selPreview) {
 
 		if (hits.isEmpty()) {
 			return null;
 		}
 
 		// points needed
-		addSelectedPoint(hits, 3, false);
+		addSelectedPoint(hits, 3, false, selPreview);
 		if (selPoints() == 3) {
 			return switchModeForThreePoints(threePointsMode);
 		}
@@ -2920,12 +2923,12 @@ public abstract class EuclidianController {
 		return ret;
 	}
 
-	protected final boolean relation(Hits hits) {
+	protected final boolean relation(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return false;
 		}
 
-		addSelectedGeo(hits, 2, false);
+		addSelectedGeo(hits, 2, false, selPreview);
 		if (selGeos() == 2) {
 			// fetch the three selected points
 			GeoElement[] geos = getSelectedGeos();
@@ -2941,7 +2944,7 @@ public abstract class EuclidianController {
 		}
 
 		// points needed
-		addSelectedPoint(hits, 2, false);
+		addSelectedPoint(hits, 2, false, selPreview);
 		addSelectedNumeric(hits, 1, false, selPreview);
 
 		if (selPoints() == 2) {
@@ -2971,13 +2974,13 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	protected final GeoElement[] conic5(Hits hits) {
+	protected final GeoElement[] conic5(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
 
 		// points needed
-		addSelectedPoint(hits, 5, false);
+		addSelectedPoint(hits, 5, false, selPreview);
 		if (selPoints() == 5) {
 			// fetch the three selected points
 			GeoPointND[] points = getSelectedPointsND();
@@ -2995,7 +2998,7 @@ public abstract class EuclidianController {
 			return null;
 		}
 
-		addSelectedLine(hits, 1, false);
+		addSelectedLine(hits, 1, false, selPreview);
 
 
 		if (selLines() == 1) {
@@ -3034,10 +3037,10 @@ public abstract class EuclidianController {
 
 		if (!found) {
 			if (selLines() == 0) {
-				addSelectedPoint(hits, 1, false);
+				addSelectedPoint(hits, 1, false, selPreview);
 			}
 			if (selPoints() == 0) {
-				addSelectedLine(hits, 1, false);
+				addSelectedLine(hits, 1, false, selPreview);
 			}
 		}
 		if (selConics() == 1) {
@@ -3133,10 +3136,10 @@ public abstract class EuclidianController {
 				addSelectedVector(hits, 1, false, selPreview);
 			}
 			if (selLines() == 0) {
-				addSelectedPoint(hits, 1, false);
+				addSelectedPoint(hits, 1, false, selPreview);
 			}
 			if (selPoints() == 0) {
-				addSelectedLine(hits, 1, false);
+				addSelectedLine(hits, 1, false, selPreview);
 			}
 		}
 
@@ -3178,7 +3181,7 @@ public abstract class EuclidianController {
 		}
 
 		if (selPreview) {
-			addSelectedGeo(hits, 1000, false);
+			addSelectedGeo(hits, 1000, false, selPreview);
 			return false;
 		}
 
@@ -3198,7 +3201,7 @@ public abstract class EuclidianController {
 		}
 
 		if (selPreview) {
-			addSelectedGeo(hits, 1000, false);
+			addSelectedGeo(hits, 1000, false, selPreview);
 			return false;
 		}
 
@@ -3289,29 +3292,31 @@ public abstract class EuclidianController {
 		view.mouseEntered();
 	}
 
-	protected boolean getSelectables(Hits hits) {
+	protected boolean getSelectables(Hits hits, boolean selPreview) {
 
-		addSelectedGeo(hits.getSelectableHits(), 1, false);
+		addSelectedGeo(hits.getSelectableHits(), 1, false, selPreview);
 		return false;
 	}
 
-	protected final boolean moveRotate(Hits hits) {
+	protected final boolean moveRotate(Hits hits, boolean selPreview) {
 		addSelectedGeo(hits.getPointRotateableHits(view, rotationCenter), 1,
-				false);
+				false, selPreview);
 		return false;
 	}
 
-	protected final boolean point(Hits hits) {
-		addSelectedGeo(hits.getHits(Test.PATH, tempArrayList), 1, false);
+	protected final boolean point(Hits hits, boolean selPreview) {
+		addSelectedGeo(hits.getHits(Test.PATH, tempArrayList), 1, false,
+				selPreview);
 		return false;
 	}
 
-	protected final boolean geoElementSelected(Hits hits, boolean addToSelection) {
+	protected final boolean geoElementSelected(Hits hits,
+			boolean addToSelection, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return false;
 		}
 
-		addSelectedGeo(hits, 1, false);
+		addSelectedGeo(hits, 1, false, selPreview);
 		if (selGeos() == 1) {
 			GeoElement[] geos = getSelectedGeos();
 			app.geoElementSelected(geos[0], addToSelection);
@@ -3319,13 +3324,13 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	protected final boolean segmentFixed(Hits hits) {
+	protected final boolean segmentFixed(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return false;
 		}
 
 		// dilation center
-		addSelectedPoint(hits, 1, false);
+		addSelectedPoint(hits, 1, false, selPreview);
 
 		// we got the point
 		if (selPoints() == 1) {
@@ -3345,7 +3350,7 @@ public abstract class EuclidianController {
 		}
 
 		// dilation center
-		int count = addSelectedPoint(hits, 2, false);
+		int count = addSelectedPoint(hits, 2, false, selPreview);
 
 		if (count == 0) {
 			addSelectedSegment(hits, 1, false, selPreview);
@@ -3379,13 +3384,14 @@ public abstract class EuclidianController {
 
 	}
 
-	protected final GeoElement[] circleOrSphere2(Hits hits, int sphereMode) {
+	protected final GeoElement[] circleOrSphere2(Hits hits, int sphereMode,
+			boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
 
 		// points needed
-		addSelectedPoint(hits, 2, false);
+		addSelectedPoint(hits, 2, false, selPreview);
 		if (selPoints() == 2) {
 			// fetch the three selected points
 			return switchModeForCircleOrSphere2(sphereMode);
@@ -3399,7 +3405,7 @@ public abstract class EuclidianController {
 		}
 
 		if (selPreview) {
-			addSelectedGeo(hits, 1000, false);
+			addSelectedGeo(hits, 1000, false, selPreview);
 			return false;
 		}
 
@@ -3445,7 +3451,7 @@ public abstract class EuclidianController {
 		} else {
 
 			// points needed
-			addSelectedPoint(hits, 1, false);
+			addSelectedPoint(hits, 1, false, selPreview);
 			if (selPoints() >= 1) {
 				// fetch the selected point
 				GeoPointND[] points = getSelectedPointsND();
@@ -3499,7 +3505,7 @@ public abstract class EuclidianController {
 			}
 		} else {
 			// points needed
-			addSelectedPoint(hits, 1, false);
+			addSelectedPoint(hits, 1, false, selPreview);
 			if (selPoints() >= 1) {
 				// fetch the selected point
 				GeoPoint[] points = getSelectedPoints();
@@ -3532,7 +3538,7 @@ public abstract class EuclidianController {
 		int count = 0;
 		if (selGeos() == 0) {
 			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
-			count = addSelectedGeo(mirAbles, 1, false);
+			count = addSelectedGeo(mirAbles, 1, false, selPreview);
 		}
 
 		// polygon
@@ -3542,7 +3548,7 @@ public abstract class EuclidianController {
 
 		// point = mirror
 		if (count == 0) {
-			count = addSelectedPoint(hits, 1, false);
+			count = addSelectedPoint(hits, 1, false, selPreview);
 		}
 
 		// we got the mirror point
@@ -3587,7 +3593,7 @@ public abstract class EuclidianController {
 
 		// Transformable
 		Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
-		int count = addSelectedGeo(mirAbles, max, false);
+		int count = addSelectedGeo(mirAbles, max, false, selPreview);
 
 		// first selected GeoElement is GeoLine
 		if (count == 1 && selGeos() >= 1) {
@@ -3605,7 +3611,7 @@ public abstract class EuclidianController {
 
 		// line = mirror
 		if (count <= 0) {
-			addSelectedLine(hits, max, false);
+			addSelectedLine(hits, max, false, selPreview);
 		}
 
 		// we got the mirror point
@@ -3651,7 +3657,7 @@ public abstract class EuclidianController {
 		if (selGeos() == 0) {
 			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
 			mirAbles.removeImages();
-			count = addSelectedGeo(mirAbles, 1, false);
+			count = addSelectedGeo(mirAbles, 1, false, selPreview);
 		}
 
 		// polygon
@@ -3719,8 +3725,7 @@ public abstract class EuclidianController {
 		// clear old highlighting
 		boolean repaintNeeded = clearHighlightedGeos();
 
-		selectionPreview = true; // only preview selection, see also
-		// mouseReleased()
+
 
 		// TODO - this can trigger a tool on mouse-move
 		// https://www.geogebra.org/forum/viewtopic.php?f=8&t=33719
@@ -3735,7 +3740,7 @@ public abstract class EuclidianController {
 			// created geos
 		}
 
-		selectionPreview = false; // reactivate selection in mouseReleased()
+
 
 		// set highlighted objects
 		if (highlightedGeos.size() > 0) {
@@ -3893,7 +3898,7 @@ public abstract class EuclidianController {
 
 		addSelectedPath(hits, 1, false, selPreview);
 
-		addSelectedPoint(hits, 1, false);
+		addSelectedPoint(hits, 1, false, selPreview);
 
 		if (getSelectedPointList().size() == 1) {
 
@@ -4011,7 +4016,7 @@ public abstract class EuclidianController {
 		int count = 0;
 		if (selGeos() == 0) {
 			Hits transAbles = hits.getHits(Test.TRANSLATEABLE, tempArrayList);
-			count = addSelectedGeo(transAbles, 1, false);
+			count = addSelectedGeo(transAbles, 1, false, selPreview);
 		}
 
 		// polygon
@@ -4031,7 +4036,7 @@ public abstract class EuclidianController {
 
 		// create translation vector
 		if (count == 0) {
-			count = addSelectedPoint(hits, 2, false);
+			count = addSelectedPoint(hits, 2, false, selPreview);
 			getSelectedGeoList().removeAll(getSelectedPointList());
 			allowSelectionRectangleForTranslateByVector = false;
 		}
@@ -4091,7 +4096,7 @@ public abstract class EuclidianController {
 			// if the first geo to be selected is a point and the second is not,
 			// the point will be used as rotation center
 			Hits rotAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
-			count = addSelectedGeo(rotAbles, 2, false);
+			count = addSelectedGeo(rotAbles, 2, false, selPreview);
 		}
 
 		// polygon
@@ -4101,7 +4106,7 @@ public abstract class EuclidianController {
 
 		// rotation center
 		if (count == 0) {
-			addSelectedPoint(hits, 1, false);
+			addSelectedPoint(hits, 1, false, selPreview);
 		}
 
 		if (selGeos() > 1 && selPoints() == 0
@@ -4142,7 +4147,7 @@ public abstract class EuclidianController {
 		int count = 0;
 		if (selGeos() == 0) {
 			Hits dilAbles = hits.getHits(Test.DILATEABLE, tempArrayList);
-			count = addSelectedGeo(dilAbles, 1, false);
+			count = addSelectedGeo(dilAbles, 1, false, selPreview);
 		}
 
 		// polygon
@@ -4152,7 +4157,7 @@ public abstract class EuclidianController {
 
 		// dilation center
 		if (count == 0) {
-			addSelectedPoint(hits, 1, false);
+			addSelectedPoint(hits, 1, false, selPreview);
 		}
 
 		// we got the mirror point
@@ -4206,7 +4211,7 @@ public abstract class EuclidianController {
 				return ret;
 			}
 		} else {
-			addSelectedPoint(hits, 999, true);
+			addSelectedPoint(hits, 999, true, selPreview);
 
 			if (selPoints() > 1) {
 				GeoPoint[] points = getSelectedPoints();
@@ -4528,13 +4533,13 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	protected boolean regularPolygon(Hits hits) {
+	protected boolean regularPolygon(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return false;
 		}
 
 		// need two points
-		addSelectedPoint(hits, 2, false);
+		addSelectedPoint(hits, 2, false, selPreview);
 
 		if (selPoints() == 2) {
 			GeoPointND[] points = getSelectedPointsND();
@@ -4577,21 +4582,22 @@ public abstract class EuclidianController {
 		int count = 0;
 		if (selPoints() == 0) {
 			if (selVectors() == 0) {
-				count = addSelectedLine(hits, 2, false);
+				count = addSelectedLine(hits, 2, false, selPreview);
 			}
 			if (selLines() == 0) {
 				count = addSelectedVector(hits, 2, false, selPreview);
 			}
 		}
 		if (count == 0) {
-			count = addSelectedPoint(hits, 3, false);
+			count = addSelectedPoint(hits, 3, false, selPreview);
 		}
 
 		// try polygon too
 		boolean polyFound = false;
 		if (count == 0) {
 			polyFound = 1 == addSelectedGeo(
-					hits.getHits(Test.GEOPOLYGON, tempArrayList), 1, false);
+					hits.getHits(Test.GEOPOLYGON, tempArrayList), 1, false,
+					selPreview);
 		}
 
 		// try planes (for 3D)
@@ -4643,9 +4649,9 @@ public abstract class EuclidianController {
 			return null;
 		}
 
-		int count = addSelectedPoint(hits, 2, false);
+		int count = addSelectedPoint(hits, 2, false, selPreview);
 		if (count == 0) {
-			addSelectedLine(hits, 2, false);
+			addSelectedLine(hits, 2, false, selPreview);
 		}
 		if (count == 0) {
 			addSelectedConic(hits, 2, false, selPreview);
@@ -4829,7 +4835,7 @@ public abstract class EuclidianController {
 		}
 
 		// don't have radius yet: need two points or segment
-		boolean hitPoint = (addSelectedPoint(hits, 2, false) != 0);
+		boolean hitPoint = (addSelectedPoint(hits, 2, false, selPreview) != 0);
 		if (!hitPoint && (selPoints() != 2)) {
 			addSelectedSegment(hits, 1, false, selPreview);
 			addSelectedConic(hits, 1, false, selPreview);
@@ -4893,7 +4899,7 @@ public abstract class EuclidianController {
 		}
 
 		// point
-		int count = addSelectedPoint(hits, 1, false);
+		int count = addSelectedPoint(hits, 1, false, selPreview);
 
 		// vector
 		if (count == 0) {
@@ -4912,12 +4918,12 @@ public abstract class EuclidianController {
 		return null;
 	}
 
-	protected final boolean circlePointRadius(Hits hits) {
+	protected final boolean circlePointRadius(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return false;
 		}
 
-		addSelectedPoint(hits, 1, false);
+		addSelectedPoint(hits, 1, false, selPreview);
 
 		// we got the center point
 		if (selPoints() == 1) {
@@ -5349,7 +5355,8 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean switchModeForProcessMode(Hits hits,
-			boolean isControlDown, final AsyncOperation<Boolean> callback) {
+			boolean isControlDown, final AsyncOperation<Boolean> callback,
+			boolean selectionPreview) {
 
 		Boolean changedKernel = false;
 		GeoElement[] ret = null;
@@ -5359,7 +5366,7 @@ public abstract class EuclidianController {
 			case EuclidianConstants.MODE_MOVE:
 				// highlight and select hits
 				if (selectionPreview) {
-					getSelectables(hits.getTopHits());
+				getSelectables(hits.getTopHits(), selectionPreview);
 				} else {
 					if (draggingOccured && (selection.selectedGeosSize() == 1)) {
 						selection.clearSelectedGeos();
@@ -5371,7 +5378,7 @@ public abstract class EuclidianController {
 			case EuclidianConstants.MODE_MOVE_ROTATE:
 				// moveRotate() is a dummy function for highlighting only
 				if (selectionPreview) {
-					moveRotate(hits.getTopHits());
+				moveRotate(hits.getTopHits(), selectionPreview);
 				}
 				break;
 
@@ -5385,7 +5392,7 @@ public abstract class EuclidianController {
 						hits.keepOnlyHitsForNewPointMode();
 					}
 
-					point(hits);
+				point(hits, selectionPreview);
 				} else {
 					GeoElement[] ret0 = {null};
 					ret0[0] = hits.getFirstHit(Test.GEOPOINTND);
@@ -5397,22 +5404,23 @@ public abstract class EuclidianController {
 			// copy geo to algebra input
 			case EuclidianConstants.MODE_SELECTION_LISTENER:
 				boolean addToSelection = isControlDown;
-				geoElementSelected(hits.getTopHits(), addToSelection);
+			geoElementSelected(hits.getTopHits(), addToSelection,
+					selectionPreview);
 				break;
 
 			// new line through two points
 			case EuclidianConstants.MODE_JOIN:
-				ret = join(hits);
+			ret = join(hits, selectionPreview);
 				break;
 
 			// new segment through two points
 			case EuclidianConstants.MODE_SEGMENT:
-				ret = segment(hits);
+			ret = segment(hits, selectionPreview);
 				break;
 
 			// segment for point and number
 			case EuclidianConstants.MODE_SEGMENT_FIXED:
-				changedKernel = segmentFixed(hits);
+			changedKernel = segmentFixed(hits, selectionPreview);
 				break;
 
 			// angle for two points and number
@@ -5426,7 +5434,7 @@ public abstract class EuclidianController {
 
 			// new ray through two points or point and vector
 			case EuclidianConstants.MODE_RAY:
-				ret = ray(hits);
+			ret = ray(hits, selectionPreview);
 				break;
 
 			case EuclidianConstants.MODE_POLYLINE:
@@ -5451,7 +5459,7 @@ public abstract class EuclidianController {
 
 			// new vector between two points
 			case EuclidianConstants.MODE_VECTOR:
-				ret = vector(hits);
+			ret = vector(hits, selectionPreview);
 				break;
 
 			// intersect two objects
@@ -5466,7 +5474,7 @@ public abstract class EuclidianController {
 
 			// Michael Borcherds 2008-04-08
 			case EuclidianConstants.MODE_PARABOLA:
-				ret = parabola(hits);
+			ret = parabola(hits, selectionPreview);
 				break;
 
 			// new line through point orthogonal to vector or line
@@ -5482,14 +5490,14 @@ public abstract class EuclidianController {
 
 			// new angular bisector
 			case EuclidianConstants.MODE_ANGULAR_BISECTOR:
-				ret = angularBisector(hits);
+			ret = angularBisector(hits, selectionPreview);
 				break;
 
 			// new circle (2 points)
 			case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
 				// new semicircle (2 points)
 			case EuclidianConstants.MODE_SEMICIRCLE:
-				ret = circleOrSphere2(hits, mode);
+			ret = circleOrSphere2(hits, mode, selectionPreview);
 				break;
 
 			case EuclidianConstants.MODE_LOCUS:
@@ -5504,17 +5512,17 @@ public abstract class EuclidianController {
 			case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
 			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
 			case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-				ret = threePoints(hits, mode);
+			ret = threePoints(hits, mode, selectionPreview);
 				break;
 
 			// new conic (5 points)
 			case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-				ret = conic5(hits);
+			ret = conic5(hits, selectionPreview);
 				break;
 
 			// relation query
 			case EuclidianConstants.MODE_RELATION:
-				relation(hits.getTopHits());
+			relation(hits.getTopHits(), selectionPreview);
 				break;
 
 			// new tangents
@@ -5529,7 +5537,7 @@ public abstract class EuclidianController {
 			// delete selected object
 			case EuclidianConstants.MODE_DELETE:
 				changedKernel = getDeleteMode().process(hits.getTopHits(),
-						isControlDown);
+					isControlDown, selectionPreview);
 				break;
 
 			case EuclidianConstants.MODE_SHOW_HIDE_OBJECT:
@@ -5609,7 +5617,7 @@ public abstract class EuclidianController {
 				break;
 
 			case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
-				changedKernel = circlePointRadius(hits);
+			changedKernel = circlePointRadius(hits, selectionPreview);
 				break;
 
 			case EuclidianConstants.MODE_ANGLE:
@@ -5652,7 +5660,7 @@ public abstract class EuclidianController {
 				break;
 
 			case EuclidianConstants.MODE_REGULAR_POLYGON:
-				changedKernel = regularPolygon(hits);
+			changedKernel = regularPolygon(hits, selectionPreview);
 				break;
 
 			case EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX:
@@ -5792,7 +5800,8 @@ public abstract class EuclidianController {
 			};
 		}
 
-		changedKernel = switchModeForProcessMode(hits, isControlDown, callback2);
+		changedKernel = switchModeForProcessMode(hits, isControlDown, callback2,
+				false);
 
 		if (changedKernel) {
 			toolCompleted();
@@ -5811,7 +5820,7 @@ public abstract class EuclidianController {
 			hits = new Hits();
 		}
 
-		switchModeForProcessMode(hits, isControlDown, null);
+		switchModeForProcessMode(hits, isControlDown, null, true);
 		updatePreview();
 	}
 
@@ -9512,7 +9521,7 @@ public abstract class EuclidianController {
 						event.getType());
 				hits = view.getHits();
 				boolean kernelChange = switchModeForProcessMode(hits,
-						event.isControlDown(), null);
+						event.isControlDown(), null, false);
 				if (kernelChange) {
 					storeUndoInfo();
 				}
@@ -11216,7 +11225,7 @@ public abstract class EuclidianController {
 
 			}
 			// if no function was found, test for lines
-			addSelectedLine(hits, 1, false);
+			addSelectedLine(hits, 1, false, selPreview);
 			if (selLines() > 0) {
 				// get the line and clear the selection
 				function = getSelectedLines()[0].getGeoFunction();

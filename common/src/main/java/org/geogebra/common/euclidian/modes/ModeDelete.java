@@ -158,12 +158,13 @@ public class ModeDelete {
 
 	}
 
-	public final boolean process(Hits hits, boolean control) {
+	public final boolean process(Hits hits, boolean control,
+			boolean selPreview) {
 		if (hits.isEmpty() || this.penDeleteMode) {
 			return false;
 		}
 
-		ec.addSelectedGeo(hits, 1, false);
+		ec.addSelectedGeo(hits, 1, false, selPreview);
 		if (ec.selGeos() == 1) {
 			// delete this object
 			GeoElement[] geos = ec.getSelectedGeos();
