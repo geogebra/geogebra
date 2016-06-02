@@ -958,14 +958,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            name of the solid
 	 * @return true if solid created
 	 */
-	final protected GeoElement[] archimedeanSolid(Hits hits, Commands name) {
+	final protected GeoElement[] archimedeanSolid(Hits hits, Commands name,
+			boolean selPreview) {
 		if (hits.isEmpty())
 			return null;
 
 		if (addSelectedPoint(hits, 2, false) == 0 && selPoints() == 0
 				&& selDirections() == 0) {
 			// select a plane only if no point is selected
-			addSelectedCS2D(hits, 1, false);
+			addSelectedCS2D(hits, 1, false, selPreview);
 		}
 
 		// we got the center point
@@ -1040,14 +1041,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param hits
 	 * @return orthogonal plane
 	 */
-	final protected GeoElement[] orthogonalPlane(Hits hits) {
+	final protected GeoElement[] orthogonalPlane(Hits hits,
+			boolean selPreview) {
 		if (hits.isEmpty())
 			return null;
 
 		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
 		if (!hitPoint) {
 			if (selLines() == 0) {
-				addSelectedVector(hits, 1, false);
+				addSelectedVector(hits, 1, false, selPreview);
 			}
 			if (selVectors() == 0) {
 				addSelectedLine(hits, 1, false);
@@ -1114,12 +1116,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return true if circle created
 	 * 
 	 */
-	final protected boolean circlePointRadiusDirection(Hits hits) {
+	final protected boolean circlePointRadiusDirection(Hits hits,
+			boolean selPreview) {
 		if (hits.isEmpty())
 			return false;
 
 		if (addSelectedPoint(hits, 1, false) == 0)
-			addSelectedDirection(hits, 1, false);
+			addSelectedDirection(hits, 1, false, selPreview);
 
 		if (selPoints() == 1 && selDirections() == 1) {
 			app.getDialogManager()
@@ -1177,7 +1180,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            hits
 	 * @return true if a plane has been created
 	 */
-	final protected GeoElement[] planeContaining(Hits hits0) {
+	final protected GeoElement[] planeContaining(Hits hits0,
+			boolean selPreview) {
 
 		// keep only one type between points/lines/2D coord sys
 		Hits hits = hits0.keepFirsts(Test.GEOPOINTND, Test.GEOLINEND,
@@ -1190,7 +1194,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// first try with polygon, conic, etc.
 		if (selPoints() == 0 && selLines() == 0) {
-			addSelectedCS2D(hits, 1, false);
+			addSelectedCS2D(hits, 1, false, selPreview);
 		}
 
 		if (selCS2D() == 1) {
@@ -1275,7 +1279,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param hits
 	 * @return plane created
 	 */
-	final protected GeoElement[] parallelPlane(Hits hits) {
+	final protected GeoElement[] parallelPlane(Hits hits, boolean selPreview) {
 
 		// Application.debug(hits.toString());
 
@@ -1284,7 +1288,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		boolean hitPoint = (addSelectedPoint(hits, 1, false) != 0);
 		if (!hitPoint) {
-			addSelectedCS2D(hits, 1, false);
+			addSelectedCS2D(hits, 1, false, selPreview);
 		}
 
 		if (selPoints() == 1) {
@@ -1314,7 +1318,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param hits
 	 * @return prism created
 	 */
-	final protected GeoElement[] extrusionOrConify(Hits hits) {
+	final protected GeoElement[] extrusionOrConify(Hits hits,
+			boolean selPreview) {
 
 		if (dialogOccurred) {
 			dialogOccurred = false;
@@ -1328,13 +1333,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 			int basisAdded = selPolygons() + selConics();
 
 			if (basisAdded == 0) { // if no basis for now, try to add polygon
-				basisAdded += addSelectedPolygon(hits, 1, false);
+				basisAdded += addSelectedPolygon(hits, 1, false, selPreview);
 				if (basisAdded == 0) { // try to add conic
-					basisAdded += addSelectedConic(hits, 1, false);
+					basisAdded += addSelectedConic(hits, 1, false, selPreview);
 					if (basisAdded == 0) { // if polygon/conic has been added,
 											// the height
 						// will be entered through dialog manager
-						addSelectedNumberValue(hits, 1, false);
+						addSelectedNumberValue(hits, 1, false, selPreview);
 					}
 				}
 			}
@@ -1436,7 +1441,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			if (selPoints() < 2) { // already two points : not a polygon for
 									// basis
-				if (addSelectedPolygon(hits, 1, false) == 1) {
+				if (addSelectedPolygon(hits, 1, false, selPreview) == 1) {
 					polygonForPyramidBasis = true;
 					selectionOccured = true;
 				}
@@ -1896,7 +1901,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		switch (mode) {
 		case EuclidianConstants.MODE_INTERSECTION_CURVE:
-			ret = intersectionCurve(hits);
+			ret = intersectionCurve(hits, selectionPreview);
 			if (ret != null) { // remove current intersection curve
 				intersectionCurveList.remove(resultedIntersectionCurve);
 				view3D.setPreview(null);
@@ -1906,20 +1911,20 @@ public abstract class EuclidianController3D extends EuclidianController {
 			ret = threePoints(hits, mode);
 			break;
 		case EuclidianConstants.MODE_PLANE:
-			ret = planeContaining(hits);
+			ret = planeContaining(hits, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
-			ret = orthogonalPlane(hits);
+			ret = orthogonalPlane(hits, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
-			ret = parallelPlane(hits);
+			ret = parallelPlane(hits, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_EXTRUSION:
 		case EuclidianConstants.MODE_CONIFY:
-			ret = extrusionOrConify(hits);
+			ret = extrusionOrConify(hits, selectionPreview);
 			if (!view3D.getRenderer().useLogicalPicking() && ret != null) {
 				// we need to init hits since if users immediately clicks,
 				// it will still use the old basis
@@ -1928,11 +1933,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 			break;
 
 		case EuclidianConstants.MODE_TETRAHEDRON:
-			ret = archimedeanSolid(hits, Commands.Tetrahedron);
+			ret = archimedeanSolid(hits, Commands.Tetrahedron,
+					selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_CUBE:
-			ret = archimedeanSolid(hits, Commands.Cube);
+			ret = archimedeanSolid(hits, Commands.Cube, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_PYRAMID:
@@ -1968,15 +1974,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 			break;
 
 		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:
-			changedKernel = circlePointRadiusDirection(hits);
+			changedKernel = circlePointRadiusDirection(hits, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_MIRROR_AT_PLANE:
-			ret = mirrorAtPlane(hits.getTopHits());
+			ret = mirrorAtPlane(hits.getTopHits(), selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
-			ret = rotateAroundLine(hits.getTopHits());
+			ret = rotateAroundLine(hits.getTopHits(), selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_VOLUME:
@@ -2115,7 +2121,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			hits.removeAllPlanes();
 			switchModeForRemovePolygons(hits);
 			// Application.debug(hits.toString());
-			extrusionOrConify(hits);
+			extrusionOrConify(hits, selectionPreview);
 			view3D.updatePreviewable();
 			break;
 
@@ -2371,11 +2377,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		addSelectedLine(hits, 10, true);
-		addSelectedConic(hits, 10, true);
-		addSelectedPlane(hits, 1, true);
-		addSelectedPolygon(hits, 1, true);
-		addSelectedQuadric(hits, 1, true);
-		addSelectedImplicitSurface(hits, 1, true);
+		addSelectedConic(hits, 10, true, selPreview);
+		addSelectedPlane(hits, 1, true, selPreview);
+		addSelectedPolygon(hits, 1, true, selPreview);
+		addSelectedQuadric(hits, 1, true, selPreview);
+		addSelectedImplicitSurface(hits, 1, true, selPreview);
 
 		if (selLines() >= 2) {// two lines
 			GeoLineND[] lines = getSelectedLinesND();
@@ -2482,7 +2488,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param hits
 	 * @return true if a curve is created
 	 */
-	private GeoElement[] intersectionCurve(Hits hits) {
+	private GeoElement[] intersectionCurve(Hits hits, boolean selPreview) {
 
 		if (hits == null) {
 			resultedGeo = null;
@@ -2535,20 +2541,20 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		if (goodHits != null) {
-			addSelectedPolygon(goodHits, 1, false);
-			addSelectedPlane(goodHits, 2, true);
-			addSelectedQuadric(goodHits, 2, true);
-			addSelectedPolyhedron(goodHits, 1, false);
-			addSelectedQuadricLimited(goodHits, 1, false);
+			addSelectedPolygon(goodHits, 1, false, selPreview);
+			addSelectedPlane(goodHits, 2, true, selPreview);
+			addSelectedQuadric(goodHits, 2, true, selPreview);
+			addSelectedPolyhedron(goodHits, 1, false, selPreview);
+			addSelectedQuadricLimited(goodHits, 1, false, selPreview);
 
 		} else {
 			Hits firstSurface = hits.getFirstSurfaceBefore(getSelectedGeoList());
-			addSelectedPolygon(firstSurface, 1, false);
-			addSelectedPlane(firstSurface, 2, false);
-			addSelectedQuadric(firstSurface, 2, false);
-			addSelectedPolyhedron(firstSurface, 1, false);
-			addSelectedQuadricLimited(firstSurface, 1, false);
-			addSelectedFunction2Var(firstSurface, 1, false);
+			addSelectedPolygon(firstSurface, 1, false, selPreview);
+			addSelectedPlane(firstSurface, 2, false, selPreview);
+			addSelectedQuadric(firstSurface, 2, false, selPreview);
+			addSelectedPolyhedron(firstSurface, 1, false, selPreview);
+			addSelectedQuadricLimited(firstSurface, 1, false, selPreview);
+			addSelectedFunction2Var(firstSurface, 1, false, selPreview);
 		}
 
 		if (selPlanes() == 1) {
@@ -3016,24 +3022,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected ArrayList<GeoCoordSys1D> selectedCS1D = new ArrayList<GeoCoordSys1D>();
 
 	/**
-	 * add hits to selectedCS1D
-	 * 
-	 * @param hits
-	 *            hits
-	 * @param max
-	 *            max number of hits to add
-	 * @param addMoreThanOneAllowed
-	 *            if adding more than one is allowed
-	 * @return TODO
-	 */
-	final protected int addSelectedCS1D(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		// Application.debug(hits.toString());
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedCS1D, Test.GEOCOORDSYS1D);
-	}
-
-	/**
 	 * return number of selected 1D coord sys
 	 * 
 	 * @return number of selected 1D coord sys
@@ -3070,9 +3058,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return TODO
 	 */
 	final protected int addSelectedCS2D(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedCS2D, Test.GEOCOORDSYS2D);
+				selectedCS2D, Test.GEOCOORDSYS2D, selPreview);
 	}
 
 	/**
@@ -3113,9 +3101,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return TODO
 	 */
 	final protected int addSelectedPlane(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPlane, Test.GEOPLANEND);
+				selectedPlane, Test.GEOPLANEND, selPreview);
 	}
 
 	/**
@@ -3156,9 +3144,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	final protected int addSelectedQuadric(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedQuadric, Test.GEOQUADRIC3D);
+				selectedQuadric, Test.GEOQUADRIC3D, selPreview);
 	}
 
 	final protected GeoQuadric3D[] getSelectedQuadric() {
@@ -3181,9 +3169,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	final protected int addSelectedQuadricLimited(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedQuadricLimited, Test.GEOQUADRIC3DLIMITED);
+				selectedQuadricLimited, Test.GEOQUADRIC3DLIMITED,
+				selPreview);
 	}
 
 	final protected GeoQuadric3DLimited[] getSelectedQuadricLimited() {
@@ -3207,9 +3196,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	final protected int addSelectedPolyhedron(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
+			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPolyhedron, Test.GEOPOLYHEDRON);
+				selectedPolyhedron, Test.GEOPOLYHEDRON, selPreview);
 	}
 
 	final protected GeoPolyhedron[] getSelectedPolyhedron() {
@@ -3773,27 +3762,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		companion.movePoint(repaint, null);
 	}
 
-	final protected int addSelectedPolygon3D(Hits hits, int max,
-			boolean addMoreThanOneAllowed) {
-		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPolygons3D, Test.GEOPOLYGON3D);
-	}
-
-	final protected GeoPolygon[] getSelectedPolygons3D() {
-		GeoPolygon[] ret = new GeoPolygon[selectedPolygons3D.size()];
-		for (int i = 0; i < selectedPolygons3D.size(); i++) {
-			ret[i] = selectedPolygons3D.get(i);
-		}
-		clearSelection(selectedPolygons3D);
-		return ret;
-	}
-
-	protected final int selPolygons3D() {
-		return selectedPolygons3D.size();
-	}
-
 	@Override
-	final protected GeoElement[] orthogonal(Hits hits) {
+	final protected GeoElement[] orthogonal(Hits hits, boolean selPreview) {
 
 		if (hits.isEmpty())
 			return null;
@@ -3804,7 +3774,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (selCS2D() == 0)
 				addSelectedLine(hits, 1, false);
 			if (selLines() == 0)
-				addSelectedCS2D(hits, 1, false);
+				addSelectedCS2D(hits, 1, false, selPreview);
 		}
 
 		if (selPoints() == 1) {
@@ -3830,7 +3800,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return null;
 	}
 
-	private final GeoElement[] rotateAroundLine(Hits hits) {
+	private final GeoElement[] rotateAroundLine(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -3844,7 +3814,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// polygon
 		if (count == 0) {
-			count = addSelectedPolygon(hits, 1, false);
+			count = addSelectedPolygon(hits, 1, false, selPreview);
 		}
 
 		// rotation axis
@@ -3890,7 +3860,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return clockwise;
 	}
 
-	private final GeoElement[] mirrorAtPlane(Hits hits) {
+	private final GeoElement[] mirrorAtPlane(Hits hits, boolean selPreview) {
 		if (hits.isEmpty()) {
 			return null;
 		}
@@ -3904,7 +3874,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// plane = mirror
 		if (count == 0) {
-			addSelectedCS2D(hits, 1, false);
+			addSelectedCS2D(hits, 1, false, selPreview);
 		}
 
 		// we got the mirror plane
@@ -4006,13 +3976,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected int addSelectedPlanesForAngle(Hits hits, int count) {
+	protected int addSelectedPlanesForAngle(Hits hits, int count,
+			boolean selPreview) {
 
 		if (selVectors() == 0) {
 			if (selLines() == 0) { // angle between two planes
-				return addSelectedPlane(hits, 2, false);
+				return addSelectedPlane(hits, 2, false, selPreview);
 			} else if (selLines() == 1) { // angle between line and plane
-				return addSelectedPlane(hits, 1, false);
+				return addSelectedPlane(hits, 1, false, selPreview);
 			}
 		}
 
