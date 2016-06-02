@@ -171,7 +171,6 @@ public class SelectionManager {
 		}
 
 		if (selectedGeos.remove(geo)) {
-			setGeoToggled(true);
 			// update only if selectedGeos contained geo
 			geo.setSelected(false);
 			if (updateSelection)
@@ -210,7 +209,6 @@ public class SelectionManager {
 		selectedGeos.add(geo);
 		geo.setSelected(true);
 
-		setGeoToggled(true);
 		if (repaint) {
 			kernel.notifyRepaint();
 		}
@@ -235,7 +233,7 @@ public class SelectionManager {
 	 * Resets the flag for selection change, see {@link #isGeoToggled()}
 	 */
 	public void resetGeoToggled() {
-		geoToggled = false;
+		setGeoToggled(false);
 	}
 
 	/**
@@ -917,6 +915,10 @@ public class SelectionManager {
 				addSelectedGeo((GeoElement) geo, true, true);
 				ret = 1;
 			}
+		}
+
+		if (ret != 0) {
+			setGeoToggled(true);
 		}
 
 		return ret;
