@@ -702,7 +702,7 @@ public abstract class Prover {
 		}
 		int l = freePointsText.length();
 		if (l > 0) {
-			freePointsText.deleteCharAt(freePointsText.length() - 1);
+			freePointsText.deleteCharAt(l - 1);
 			theoremText.append(loc.getPlain("LetABeArbitraryPoints",
 				freePointsText.toString())).append(".\n");
 		}
