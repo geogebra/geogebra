@@ -9,8 +9,13 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Term;
@@ -100,24 +105,23 @@ public class NDGDetector {
 
 				/* contains only geometric quantities (now segments)? */
 				boolean qFormula = true;
-				String lhs = "", rhs = "";
+				Kernel kernel = statement.getKernel();
+
 				TreeMap<Term, Long> tm1 = p.getTerms();
+				ExpressionNode lhs = new ExpressionNode(kernel, 0);
+				ExpressionNode rhs = new ExpressionNode(kernel, 0);
+				/* are there any expressions on boths sides? */
+				boolean lt = false;
+				boolean rt = false;
 
 				outerloop: for (Term t1 : tm1.keySet()) { // e.g. 5*v1^3*v2
 					Long coeff = tm1.get(t1); // e.g. 5
-					if (coeff > 0 && !lhs.isEmpty()) { // bridging + on lhs
-						lhs += "+";
-					}
-					if (coeff > 1) { // writing out coeff on lhs
-						lhs += coeff;
-					}
-					if (coeff < 0 && !rhs.isEmpty()) { // bridging + on rhs
-						rhs += "+";
-					}
-					if (coeff < -1) { // writing out -coeff on rhs
-						rhs += (-coeff);
-					}
+					/* always use the absolute value */
+					ExpressionNode c = new ExpressionNode(kernel,
+							coeff > 0 ? coeff : -coeff);
+
 					TreeMap<Variable, Integer> tm2 = t1.getTerm();
+					ExpressionNode en = new ExpressionNode(kernel, 1);
 					/* e.g. v1->3, v2->1 */
 					for (Variable t2 : tm2.keySet()) { // e.g. v1
 						if (!geos.containsKey(t2)) {
@@ -125,34 +129,39 @@ public class NDGDetector {
 							break outerloop;
 						}
 						GeoElement g = geos.get(t2);
-						String label = g.getLabelSimple();
-						if (coeff > 0) {
-							lhs += label;
-						} else {
-							rhs += label;
-						}
+						ExpressionValue t = g.toValidExpression();
 						int exponent = tm2.get(t2);
+						ExpressionNode base = new ExpressionNode(kernel, t);
 						if (exponent > 1) {
-							String expString = "^" + exponent;
-							if (coeff > 0) {
-								lhs += expString;
-							} else {
-								rhs += expString;
-							}
+							base = base.power(exponent);
 						}
+						en = en.multiply(base);
+					}
+					if (coeff > 0) {
+						lhs = lhs.plus(c.multiply(en));
+						lt = true;
+					} else {
+						rhs = rhs.plus(c.multiply(en));
+						rt = true;
 					}
 				}
+				Equation eq = new Equation(kernel, lhs, rhs);
+
 				if (qFormula) {
-					if (lhs.isEmpty() || rhs.isEmpty()) {
+					if (!lt || !rt) {
 						// This must be an uninteresting case, e.g. a+b+c=0
-						Log.debug(p + " means " + (lhs.isEmpty() ? rhs : lhs)
-								+ "=0, uninteresting");
+						Log.debug(p + " means " + eq + ", uninteresting");
 						return null;
 					}
 					ndgc = new NDGCondition();
-					ndgc.setCondition(lhs + "=" + rhs);
+					/*
+					 * TODO: Later eventually we want to use the equation, not
+					 * just an exported string.
+					 */
+					ndgc.setCondition(
+							eq.toString(StringTemplate.defaultTemplate));
 					ndgc.setReadability(2);
-					Log.debug(p + " means " + lhs + "=" + rhs);
+					Log.debug(p + " means " + eq);
 					return ndgc;
 				}
 				Log.debug(p + " cannot be described by quantities only");

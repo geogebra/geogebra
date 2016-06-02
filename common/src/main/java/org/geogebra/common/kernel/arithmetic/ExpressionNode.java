@@ -3856,8 +3856,9 @@ kernel, left,
 	}
 
 	/**
-	 * Returns true iff ev1 and ev2 are
-	 * equalhttp://tube.geogebra.org/m/1199093?cb=jenkins4310
+	 * Returns true iff ev1 and ev2 are equal.
+	 * 
+	 * http://tube.geogebra.org/m/1199093?cb=jenkins4310
 	 * 
 	 * @param ev1
 	 *            first value to compare
