@@ -3938,6 +3938,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_SWITCH_KEYBOARD:
 			return prerelease;
 
+		// MOB-660
+			case MOBILE_UNDO_REDO_LEFT_ALIGN:
+				return prerelease;
+
 		// GGB-856
 		case SELECT_MOVE_WHEN_FURNITURE_CLICKED:
 			return true;
