@@ -421,7 +421,8 @@ public final class DrawList extends CanvasDrawable
 
 		private void drawHovered(boolean on) {
 			if (hovered != null) {
-				drawItem(hovered, on);
+				OptionItem item = items.get(hovered.index);
+				drawItem(item, on);
 			}
 		}
 
