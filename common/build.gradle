@@ -29,6 +29,7 @@ targetCompatibility = 1.6
 
 dependencies {
 	compile project(':editor-base')
+	compile project(':renderer-base')
 }
 
 sourceSets {
