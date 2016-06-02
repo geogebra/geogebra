@@ -1391,7 +1391,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 *            hits
 	 * @return pyramid/prism created
 	 */
-	final protected GeoElement[] pyramidOrPrism(Hits hits) {
+	final protected GeoElement[] pyramidOrPrism(Hits hits, boolean selPreview) {
 
 		// if (pyramidBasis!=null) Application.debug(pyramidBasis.length);
 		polygonForPyramidBasis = false;
@@ -1411,7 +1411,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				// if the first point is clicked again, we create a polygon
 				if (selPoints() > 2) {
 					// check if first point was clicked again
-					boolean finished = !selectionPreview
+					boolean finished = !selPreview
 							&& hits.contains(getSelectedPointList().get(0));
 					if (finished) {
 						// store basis
@@ -1425,7 +1425,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 				}
 
 				if (addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false) != 0
-						|| (!selectionPreview && !getSelectedPointList().isEmpty() && hits
+						|| (!selPreview && !getSelectedPointList().isEmpty()
+								&& hits
 								.contains(getSelectedPointList().get(0)))) {
 					return null; // add/remove point : don't check polygon
 				}
@@ -1936,7 +1937,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
-			ret = pyramidOrPrism(hits);
+			ret = pyramidOrPrism(hits, selectionPreview);
 			break;
 
 		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
@@ -1988,7 +1989,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		return endOfSwitchModeForProcessMode(ret, changedKernel
-				|| (ret != null), callback);
+				|| (ret != null), callback, selectionPreview);
 
 	}
 
@@ -2247,7 +2248,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * get two objects (lines or conics) and create intersection point
 	 */
 	@Override
-	protected GeoElement[] intersect(Hits hits0) {
+	protected GeoElement[] intersect(Hits hits0, boolean selPreview) {
 		Hits hits = hits0;
 		// AppD.debug(hits);
 		if (hits.isEmpty())
