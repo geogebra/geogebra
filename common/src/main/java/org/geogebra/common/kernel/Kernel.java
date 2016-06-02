@@ -74,6 +74,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -3883,7 +3884,7 @@ public class Kernel {
 	public void restoreStateForInitNewMode() {
 		if (app.has(Feature.UNDO_FOR_TOOLS)
 				&& app.has(Feature.UNDO_WHEN_CHANGE_TOOL)) {
-			if (undoActive && geoToggled) {
+			if (undoActive && getSelectionManager().isGeoToggled()) {
 				restoreStateForModeStarting();
 			}
 		}
@@ -3892,14 +3893,14 @@ public class Kernel {
 	public void storeStateForModeStarting() {
 		if (app.has(Feature.UNDO_FOR_TOOLS)) {
 			stateForModeStarting = cons.getCurrentUndoXML(true);
-			geoToggled = false;
+			getSelectionManager().resetGeoToggled();
 		}
 	}
 
-	private boolean geoToggled = false;
 
-	public void setGeoToggled(boolean flag) {
-		geoToggled = flag;
+
+	private SelectionManager getSelectionManager() {
+		return app.getSelectionManager();
 	}
 
 	private void restoreStateForModeStarting() {
@@ -3917,12 +3918,12 @@ public class Kernel {
 			if (app.has(Feature.UNDO_FOR_TOOLS)) {
 				if (getApplication().getActiveEuclidianView()
 						.getEuclidianController().isUndoableMode()) {
-					if (geoToggled
-							&& !getApplication().getSelectionManager()
+					if (getSelectionManager().isGeoToggled()
+							&& !getSelectionManager()
 									.getSelectedGeos().isEmpty()) {
 
 						restoreStateForModeStarting();
-						geoToggled = false;
+						getSelectionManager().resetGeoToggled();
 						return;
 					}
 				}

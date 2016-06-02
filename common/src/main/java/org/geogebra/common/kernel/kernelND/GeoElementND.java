@@ -408,4 +408,6 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 
 	void setDrawAlgorithm(DrawInformationAlgo copy);
 
+	public boolean isMoveable();
+
 }

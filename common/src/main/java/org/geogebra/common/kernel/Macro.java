@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -446,7 +445,7 @@ public class Macro {
 	 * 
 	 * @param macroXML
 	 */
-	private Construction createMacroConstruction(String macroConsXML)
+	private Construction createMacroConstruction(String macroConstructionXML)
 			throws Exception {
 		// build macro construction
 		MacroKernel mk = kernel.newMacroKernel();
@@ -457,7 +456,7 @@ public class Macro {
 		mk.setGlobalVariableLookup(false);
 
 		try {
-			mk.loadXML(macroConsXML);
+			mk.loadXML(macroConstructionXML);
 		} catch (MyError e) {
 			String msg = e.getLocalizedMessage();
 			Log.debug(msg);

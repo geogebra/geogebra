@@ -8931,11 +8931,12 @@ public abstract class EuclidianController {
 				break;
 
 			case EuclidianConstants.MODE_ATTACH_DETACH:
-				GeoPoint p = (GeoPoint) this.view.getHits().getFirstHit(
-						Test.GEOPOINT);
+			GeoPointND p = (GeoPointND) this.view.getHits()
+					.getFirstHit(Test.GEOPOINTND);
 				if (p != null && p.isMoveable()) {
 					// set movedGeoPoint etc.
-					handleMovedElement(p, false, PointerEventType.MOUSE);
+				handleMovedElement(p.toGeoElement(), false,
+						PointerEventType.MOUSE);
 					this.moveMode = MOVE_ATTACH_DETACH;
 				}
 				break;

@@ -291,10 +291,6 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public boolean getTrace();
 	//private boolean movePointMode = MOVE_POINT_MODE_XY;
-	/**
-	 * @return 2 for 2D points, 3 for 3D points
-	 */
-	public int getDimension();
 	
     /**
      * Changes coord style to CARTESIAN
@@ -330,21 +326,14 @@ public interface GeoPointND extends PointProperties, Translateable,
 
 	public void setLocateableList(LocateableList locateableList);
 
-	
 	public void setCoordsFromPoint(GeoPointND point);
-	
 	
 	public void removeIncidence(GeoElement geo);
 	
 	public ArrayList<GeoElement> getIncidenceList();
 
-	public boolean isEqual(GeoElement geo);
-	
 	public boolean isEqualPointND(GeoPointND geo);
 
-	public boolean isGeoPoint();
-	
-	
 	public void set(double param1, double param2, MyPoint leftPoint, MyPoint rightPoint);
 
 	public void rotate(NumberValue phi, Coords center);
@@ -356,8 +345,6 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public void setAnimationValue(double val);
 
 	public void setAnimating(boolean start);
-
-	public void setMode(int mode);
 
 	public boolean movePoint(Coords rwTransVec, Coords endPosition);
 

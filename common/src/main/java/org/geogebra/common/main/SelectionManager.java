@@ -59,6 +59,8 @@ public class SelectionManager {
 	private final ArrayList<GeoElement> selectedGeosEuclidian = new ArrayList<GeoElement>();
 	private final ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
 
+	private boolean geoToggled = false;
+
 	public SelectionManager(Kernel kernel, UpdateSelection app) {
 		this.kernel = kernel;
 		this.listener = app;
@@ -159,6 +161,7 @@ public class SelectionManager {
 		}
 
 		if (selectedGeos.remove(geo)) {
+			setGeoToggled(true);
 			// update only if selectedGeos contained geo
 			geo.setSelected(false);
 			if (updateSelection)
@@ -196,6 +199,8 @@ public class SelectionManager {
 
 		selectedGeos.add(geo);
 		geo.setSelected(true);
+
+		setGeoToggled(true);
 		if (repaint) {
 			kernel.notifyRepaint();
 		}
@@ -210,6 +215,18 @@ public class SelectionManager {
 			}
 		}
 
+	}
+
+	private void setGeoToggled(boolean flag) {
+		geoToggled = flag;
+	}
+
+	public void resetGeoToggled() {
+		geoToggled = false;
+	}
+
+	public boolean isGeoToggled() {
+		return geoToggled;
 	}
 
 	/**
@@ -504,7 +521,7 @@ public class SelectionManager {
 			return;
 		}
 
-		kernel.setGeoToggled(true);
+		setGeoToggled(true);
 
 		boolean contains = selectedGeos.contains(geo);
 		if (contains) {
@@ -876,10 +893,6 @@ public class SelectionManager {
 				addSelectedGeo((GeoElement) geo, true, true);
 				ret = 1;
 			}
-		}
-
-		if (ret != 0) {
-			kernel.setGeoToggled(true);
 		}
 
 		return ret;
