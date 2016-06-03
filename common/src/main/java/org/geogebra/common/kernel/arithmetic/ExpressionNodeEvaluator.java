@@ -1039,6 +1039,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				// divide through greatest common divisor of a
 				// and b
 				long gcd = Kernel.gcd(al, bl);
+				// fix for java.lang.ArithmeticException: divide by zero
+				// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.ArithmeticException&tf=SourceFile&tc=org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator&tm=negPower&nid&an&c&s=new_status_desc&ed=0
+				if (gcd == 0) {
+					return Double.NaN;
+				}
+				
 				al = al / gcd;
 				bl = bl / gcd;
 
