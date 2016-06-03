@@ -640,6 +640,8 @@ public final class DrawList extends CanvasDrawable
 
 			int tableWidth = getColCount() * dimItem.getWidth();
 			int tableHeight = rowCount * dimItem.getHeight();
+			Log.debug("[!!] 1 tableHeight: " + tableHeight + " rowCount: "
+					+ rowCount);
 			if (isScrollNeeded()
 					&& (top + tableHeight + MARGIN <= viewHeight))
 			{
@@ -812,7 +814,8 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		private int getVisibleItemCount() {
-			int result = getEndIdx() - getStartIdx();
+			int result = isScrollNeeded() ? getEndIdx() - getStartIdx()
+					: items.size();
 			// There will be always one row at least.
 			return result > 0 ? result : 1;
 		}
