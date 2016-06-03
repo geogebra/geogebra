@@ -3947,6 +3947,11 @@ public abstract class App implements UpdateSelection {
 		case SELECT_MOVE_WHEN_FURNITURE_CLICKED:
 			return true;
 
+		// MOB-668
+		case MOBILE_SET_MODE_IN_TOOLBAR_FROM_APP:
+			return prerelease;
+
+
 		case DATA_COLLECTION:
 		case ADD_NEW_OBJECT_BUTTON:
 		case CAS_EDITOR:
