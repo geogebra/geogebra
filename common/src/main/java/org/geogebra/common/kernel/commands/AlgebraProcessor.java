@@ -2901,16 +2901,20 @@ public class AlgebraProcessor {
 
 	private GeoElement[] processEquationIntersect(ExpressionValue x,
 			ExpressionValue y) {
-		if (y.unwrap() instanceof Equation && x.unwrap() instanceof Equation
-				&& (((Equation) y.unwrap()).containsFreeFunctionVariable("z")
-						&& !(((Equation) x.unwrap())
-								.containsFreeFunctionVariable("z")))) {
-
-			ExpressionNode lhs = ((Equation) x.unwrap()).getLHS()
-					.plus(new ExpressionNode(kernel, new MyDouble(kernel, 0),
-							Operation.MULTIPLY,
-							new FunctionVariable(kernel, "z")));
-			((Equation) x.unwrap()).setLHS(lhs);
+		if (y.unwrap() instanceof Equation && x.unwrap() instanceof Equation){
+			boolean yHasZ = ((Equation) y.unwrap())
+					.containsFreeFunctionVariable("z");
+			boolean xHasZ = ((Equation) x.unwrap())
+					.containsFreeFunctionVariable("z");
+			if (xHasZ != yHasZ) {
+				Equation needsFix = (Equation) (xHasZ ? y.unwrap()
+						: x.unwrap());
+				ExpressionNode lhs = needsFix.getLHS()
+						.plus(new ExpressionNode(kernel,
+								new MyDouble(kernel, 0), Operation.MULTIPLY,
+								new FunctionVariable(kernel, "z")));
+				needsFix.setLHS(lhs);
+			}
 		}
 		Command inter = new Command(kernel, "Intersect", false);
 		inter.addArgument(x.wrap());
