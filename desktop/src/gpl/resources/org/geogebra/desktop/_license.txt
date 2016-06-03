@@ -45,6 +45,7 @@ CONTRIBUTORS
   * Alexander Hartl (Austria 2011-)
   * Guy Hed (Israel 2008-11)
   * Ralf Hemmecke (Germany 2011)
+  * Henrietta Hoszu (Romania 2016)
   * Rana Issa (Austria 2011-12)
   * Ted Kosan (USA 2008-9)
   * Yi-Chun (Jacky) Kuo (GSoC 2015)

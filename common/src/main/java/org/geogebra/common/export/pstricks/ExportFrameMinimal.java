@@ -1,5 +1,7 @@
 package org.geogebra.common.export.pstricks;
 
+import org.geogebra.common.kernel.geos.GeoNumeric;
+
 public class ExportFrameMinimal implements ExportSettings {
 
 	private StringBuilder code;
@@ -18,6 +20,7 @@ public class ExportFrameMinimal implements ExportSettings {
 	private int format = 0;
 	private int yMax;
 	private int yMin;
+	private GeoNumeric cbitem;
 
 	public double getLatexHeight() {
 		return latexHeight;
@@ -95,4 +98,7 @@ public class ExportFrameMinimal implements ExportSettings {
 		return gnuPlot;
 	}
 
+	public GeoNumeric getcbSlidersItem() {
+		return cbitem;
+	}
 }

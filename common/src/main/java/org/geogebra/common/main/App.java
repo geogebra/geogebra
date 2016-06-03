@@ -4032,6 +4032,10 @@ public abstract class App implements UpdateSelection {
 		case MULTIROW_TAB_PROPERTIES:
 			return prerelease;
 
+			// GGB-944
+		case EXPORT_ANIMATED_PDF:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

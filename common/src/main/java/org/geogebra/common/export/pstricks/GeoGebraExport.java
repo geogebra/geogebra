@@ -1218,6 +1218,27 @@ public abstract class GeoGebraExport {
 
 	}
 
+	// added by Hoszu Henrietta
+	protected void drawAllInDependentElements() {
+		boolean increment = (euclidianView.getShowGrid()
+				|| euclidianView.getShowXaxis()
+				|| euclidianView.getShowYaxis());
+		for (int step = 0; step < construction.steps(); step++) {
+			if (increment)
+				beamerSlideNumber = step + 2;
+			else
+				beamerSlideNumber = step + 1;
+			GeoElement[] geos = construction.getConstructionElement(step)
+					.getGeoElements();
+			for (int j = 0; j < geos.length; j++) {
+				GeoElement g = geos[j];
+				if (g.isIndependent())
+					drawGeoElement(g, false, false);
+			}
+		}
+
+	}
+
 	protected void startBeamer(StringBuilder sb) {
 		if (isBeamer)
 			sb.append("\\onslide<" + beamerSlideNumber + "->{\n  ");

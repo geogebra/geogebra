@@ -11,7 +11,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
+import java.util.TreeSet;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -23,6 +26,8 @@ import javax.swing.JTextArea;
 
 import org.geogebra.common.export.pstricks.ExportSettings;
 import org.geogebra.common.export.pstricks.GeoGebraExport;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.main.AppD;
@@ -43,10 +48,11 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	protected TextValue textXmin, textXmax, textYmin, textYmax;
 	protected JLabel labelXmin, labelXmax, labelYmin, labelYmax;
 	final String[] msg = { "10 pt", "11 pt", "12 pt" };
-	protected JComboBox comboFontSize, comboFormat
-	// Andy Zhu TODO
-			, comboFill;
+	protected JComboBox comboFontSize, comboFormat, comboFill, cbSliders;
 	protected JLabel labelFill;
+
+	// added by Hosszu Henrietta, for Animated PDF
+	protected DefaultComboBoxModel comboModel;
 
 	// end changes
 	protected JPanel panel;
@@ -155,6 +161,19 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		comboFontSize = new JComboBox(msg);
 		jcbPointSymbol.setSelected(true);
 		jcbGrayscale.setSelected(false);
+		// combo box with all sliders, added by Hoszu Henrietta
+		comboModel = new DefaultComboBoxModel();
+		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
+				.getGeoSetNameDescriptionOrder();
+		Iterator<GeoElement> it = sortedSet.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			if (geo.isGeoNumeric() && ((GeoNumeric) geo).isIntervalMinActive()
+					&& ((GeoNumeric) geo).isIntervalMaxActive()) {
+				comboModel.addElement(geo);
+			}
+		}
+		cbSliders = new JComboBox(comboModel);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ggb.setBeamer(isBeamer());
@@ -212,6 +231,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		});
 	}
 
+
 	protected void centerOnScreen() {
 		// center on screen
 		pack();
@@ -234,6 +254,10 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 			d = 1;
 		}
 		return d;
+	}
+
+	public GeoNumeric getcbSlidersItem() {
+		return (GeoNumeric) cbSliders.getSelectedItem();
 	}
 
 	public double getYUnit() throws NumberFormatException {
@@ -309,6 +333,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	public int textYminValue() {
 		return (int) this.textYmin.getValue();
 	}
+
 
 	protected abstract boolean isLaTeX();
 
