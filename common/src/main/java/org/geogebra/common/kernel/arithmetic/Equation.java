@@ -790,6 +790,12 @@ public class Equation extends ValidExpression implements EquationValue {
 		return this;
 	}
 
+	/**
+	 * @param name
+	 *            var name
+	 * @return whether such variable is free in this equation (eg for x(x=y)*x=1
+	 *         we have free x and y is bound inside nested equation)
+	 */
 	public boolean containsFreeFunctionVariable(String name) {
 		return lhs.containsFreeFunctionVariable(name)
 				|| rhs.containsFreeFunctionVariable(name);

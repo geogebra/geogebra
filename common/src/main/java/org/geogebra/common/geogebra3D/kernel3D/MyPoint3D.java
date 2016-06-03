@@ -45,6 +45,9 @@ public class MyPoint3D extends MyPoint {
 		this.z = z;
 	}
 
+	/**
+	 * Simple constructor
+	 */
 	public MyPoint3D() {
 		super();
 	}
@@ -109,10 +112,23 @@ public class MyPoint3D extends MyPoint {
 		return z;
 	}
 
+	/**
+	 * @param x1
+	 *            x
+	 * @param y1
+	 *            y
+	 * @param z1
+	 *            z
+	 * @return distance from (x1,y1,z1)
+	 */
 	public double distance(double x1, double y1, double z1) {
 		return distSqr(x1, y1, z1);
 	}
 
+	/**
+	 * @param z
+	 *            z-coord
+	 */
 	public void setZ(double z) {
 		this.z = z;
 	}
