@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.util.tabpanel;
 
+import org.geogebra.common.util.debug.Log;
+
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -13,6 +15,11 @@ public class MyTabBar extends FlowPanel implements
 		HasSelectionHandlers<Integer> {
 
 	private int selectedTab;
+	private MultiRowsTabPanel tabPanel;
+
+	public MyTabBar(MultiRowsTabPanel tabPanel2) {
+		tabPanel = tabPanel2;
+	}
 
 	public HandlerRegistration addSelectionHandler(
 			SelectionHandler<Integer> handler) {
@@ -42,7 +49,9 @@ public class MyTabBar extends FlowPanel implements
 		selectedTab = index;
 		setSelectionStyle(this.getWidget(selectedTab), true);
 
-		SelectionEvent.fire(this, index);
+		//SelectionEvent.fire(this, index);
+		SelectionEvent.fire(tabPanel,
+				index);
 
 	}
 

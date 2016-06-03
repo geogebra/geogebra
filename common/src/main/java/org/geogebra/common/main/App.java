@@ -4030,7 +4030,7 @@ public abstract class App implements UpdateSelection {
 
 			// GGB-886
 		case MULTIROW_TAB_PROPERTIES:
-			return false;
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
