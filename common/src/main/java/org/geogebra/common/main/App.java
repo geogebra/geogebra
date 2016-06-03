@@ -3881,14 +3881,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_WEB_VIEW:
 			return true;
 
-		// MOB-331
-		case MOBILE_INPUT_BAR_HELP_PANEL:
-			return true;
-
-		// MOB-526
-		case MOBILE_INPUT_BAR_HELP_MATH_FUNC:
-			return true;
-
 		// MOB-524
 		case MOBILE_CLEAR_INPUT_BUTTON:
 			return true;

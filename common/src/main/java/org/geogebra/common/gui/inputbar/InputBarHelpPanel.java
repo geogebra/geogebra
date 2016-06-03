@@ -2,11 +2,8 @@ package org.geogebra.common.gui.inputbar;
 
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.LowerCaseDictionary;
-import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -113,14 +110,10 @@ public class InputBarHelpPanel {
 		}
 		mMathFunc = mMathFuncDict.getAllCommands();
 
-		// all commands dictionary (with math functions)
-		if (mApp.has(Feature.MOBILE_INPUT_BAR_HELP_MATH_FUNC)) {
-			mDict = (LowerCaseDictionary) mApp.getCommandDictionary().clone();
-			for (String function : mMathFunc) {
-				mDict.addEntry(function);
-			}
-		}else{
-			mDict = mApp.getCommandDictionary();
+		// all commands dictionary (with math functions){
+		mDict = (LowerCaseDictionary) mApp.getCommandDictionary().clone();
+		for (String function : mMathFunc) {
+			mDict.addEntry(function);
 		}
 		mAllCommands = mDict.getAllCommands();
 
