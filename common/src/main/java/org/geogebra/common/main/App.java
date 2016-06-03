@@ -3891,7 +3891,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-520
 		case MOBILE_COPY_PASTE:
-			return prerelease;
+			return true; // 5.0.244
 
 		case MOBILE_CIRCLE_FREEHAND_TOOL:
 			return false;
