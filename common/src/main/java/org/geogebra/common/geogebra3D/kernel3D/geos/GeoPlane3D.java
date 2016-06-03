@@ -53,8 +53,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	/** coord sys */
 	protected CoordSys coordsys;
 
-	// string
-	protected static final String[] VAR_STRING = { "x", "y", "z" };
+	/** string repre of coordinates */
+	public static final String[] VAR_STRING = { "x", "y", "z" };
 
 	/**
 	 * creates an empty plane

@@ -1,17 +1,23 @@
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 
 public class GTemplate {
-	private Localization loc;
 	private StringTemplate tpl;
+	private Kernel kernel;
 
-	public GTemplate(Localization loc, StringTemplate tpl) {
-		this.loc = loc;
+	public GTemplate(StringTemplate tpl, Kernel kernel) {
 		this.tpl = tpl;
+		this.kernel = kernel;
 	}
 
 	public StringTemplate getTemplate() {
 		return tpl;
+	}
+
+	public StringBuilder buildImplicitEquation(CoordSys coordSys, String[] var,
+			boolean keep, boolean needsZ) {
+		return kernel.buildImplicitEquation(coordSys.getEquationVector().get(),
+				var, keep, true, needsZ, '=', tpl);
 	}
 }

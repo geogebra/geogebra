@@ -790,4 +790,9 @@ public class Equation extends ValidExpression implements EquationValue {
 		return this;
 	}
 
+	public boolean containsFreeFunctionVariable(String name) {
+		return lhs.containsFreeFunctionVariable(name)
+				|| rhs.containsFreeFunctionVariable(name);
+	}
+
 } // end of class Equation

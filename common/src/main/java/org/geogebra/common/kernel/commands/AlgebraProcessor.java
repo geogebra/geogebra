@@ -2841,13 +2841,10 @@ public class AlgebraProcessor {
 			ExpressionValue evaluate) {
 		String label = n.getLabel();
 		if(evaluate instanceof MyVecNode){
-			if (app.has(Feature.IMPLICIT_SURFACES)
-					&& isEquation(((MyVecNode) evaluate).getX())
-					&& isEquation(((MyVecNode) evaluate).getY())) {
-				Command inter = new Command(kernel, "Intersect", false);
-				inter.addArgument(((MyVecNode) evaluate).getX().wrap());
-				inter.addArgument(((MyVecNode) evaluate).getY().wrap());
-				return processCommand(inter, new EvalInfo(true));
+			ExpressionValue x = ((MyVecNode) evaluate).getX();
+			ExpressionValue y = ((MyVecNode) evaluate).getY();
+			if ( isEquation(x)			&& isEquation(y)) {
+				return processEquationIntersect(x, y);
 			}
 		}
 		GeoVec2D p = ((VectorValue) evaluate).getVector();
@@ -2900,6 +2897,25 @@ public class AlgebraProcessor {
 			ret[0].updateRepaint();
 		}
 		return ret;
+	}
+
+	private GeoElement[] processEquationIntersect(ExpressionValue x,
+			ExpressionValue y) {
+		if (y.unwrap() instanceof Equation && x.unwrap() instanceof Equation
+				&& (((Equation) y.unwrap()).containsFreeFunctionVariable("z")
+						&& !(((Equation) x.unwrap())
+								.containsFreeFunctionVariable("z")))) {
+
+			ExpressionNode lhs = ((Equation) x.unwrap()).getLHS()
+					.plus(new ExpressionNode(kernel, new MyDouble(kernel, 0),
+							Operation.MULTIPLY,
+							new FunctionVariable(kernel, "z")));
+			((Equation) x.unwrap()).setLHS(lhs);
+		}
+		Command inter = new Command(kernel, "Intersect", false);
+		inter.addArgument(x.wrap());
+		inter.addArgument(y.wrap());
+		return processCommand(inter, new EvalInfo(true));
 	}
 
 	/**
