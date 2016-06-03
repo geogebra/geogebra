@@ -129,17 +129,17 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 	// direction vector of g
 	@Override
 	public final void compute() {
-		if(g != null){
+		if (g != null) {
 			if (g.isDefined() && !Kernel.isZero(g.y)) {
 				slope.setValue(-g.x / g.y);
 			} else {
 				slope.setUndefined();
 			}
-		}else{
-			if(f.isDefined()){
+		} else {
+			if (f.isDefined()) {
 				slope.setValue(f.getFunction().getDerivativeNoCAS(1)
 						.evaluate(0));
-			}else{
+			} else {
 				slope.setUndefined();
 			}
 		}
