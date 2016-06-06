@@ -731,6 +731,7 @@ public abstract class Prover {
 		private static String csv_header = "", csv_data = "";
 
 		private static HashMap<GeoElement, Integer> nodeLongestPath = new HashMap<GeoElement, Integer>();
+		private static HashMap<GeoElement, Integer> nodeComplexity = new HashMap<GeoElement, Integer>();
 		private static int longestPath = 0;
 
 		private static HashSet<ArrayList<GeoElement>> deps = new HashSet<ArrayList<GeoElement>>();
@@ -750,6 +751,24 @@ public abstract class Prover {
 					computeNodeLongestPath(dependency, set + 1);
 				}
 			}
+		}
+
+		private static int computeNodeComplexity(GeoElement node) {
+			Integer complexity = nodeComplexity.get(node);
+			if (complexity != null) {
+				return complexity;
+			}
+			AlgoElement ae = node.getParentAlgorithm();
+			if (ae == null) {
+				nodeComplexity.put(node, 0);
+				return 0;
+			}
+			int parentsComplexity = 1;
+			for (GeoElement dependency : ae.getInput()) {
+				parentsComplexity += computeNodeComplexity(dependency);
+			}
+			nodeComplexity.put(node, parentsComplexity);
+			return parentsComplexity;
 		}
 
 		void generateStatistics(String description, List<Object> nodes,
@@ -950,6 +969,7 @@ public abstract class Prover {
 
 			computeNodeLongestPath(statement, 0);
 			longestPath--;
+			computeNodeComplexity(statement);
 
 			// CSV output
 			csvAdd("number of nodes", number_of_nodes);
@@ -965,6 +985,7 @@ public abstract class Prover {
 					/ longestPath);
 			csvAdd("max path length/num of edges", (double) longestPath / edges);
 			csvAdd("num of edges/max path length", (double) edges / longestPath);
+			csvAdd("statement complexity", nodeComplexity.get(statement));
 			generateStatistics("node in-degree", nodes_in_deg, null);
 			generateStatistics("node out-degree", nodes_out_deg, null);
 			generateStatistics("node degree", nodes_deg, null);
@@ -986,8 +1007,10 @@ public abstract class Prover {
 				ArrayList<GeoElement> al = it2.next();
 				/* remove this if you need the statement also */
 				if (!al.get(1).equals(statement)) {
-					digraph += al.get(0).getLabelSimple() + " -> "
-						+ al.get(1).getLabelSimple() + "; ";
+					digraph += al.get(0).getLabelSimple() + "_"
+							+ nodeComplexity.get(al.get(0)) + " -> "
+							+ al.get(1).getLabelSimple() + "_"
+							+ nodeComplexity.get(al.get(1)) + "; ";
 				}
 			}
 			digraph += "}";
