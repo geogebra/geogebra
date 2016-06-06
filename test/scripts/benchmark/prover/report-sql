@@ -8,6 +8,7 @@ MY_VERSION=2.1
 IMGHEIGHT=25
 HTML=html/all.html
 TEX=html/all.tex
+CSV=none
 # Don't use this, it is just an example:
 # COLUMNS="Recio PureSymbolic Botana,D BotanaGiac,D,p2 OpenGeoProver_Wu,p2 OpenGeoProver_Area Auto Web"
 COLUMNS="Recio Botana Botana,D BotanaGiac BotanaGiac,D OpenGeoProver_Wu OpenGeoProver_Wu,D OpenGeoProver_Area Auto Auto,D Web Web,D"
@@ -55,6 +56,7 @@ usage() {
  echo "   -d <length>  use dots in test names in LaTeX output if the name is longer than length ($DOTS)"
  echo "   -N           do not use nice HTML output (similarly to LaTeX)"
  echo "   -G           run R to create a density graph also"
+ echo "   -P <file>    set portfolio database .csv file ($CSV)"
  echo "   -h           show this help"
  echo "   -v           print script version"
  echo
@@ -71,7 +73,7 @@ version() {
  exit 0
  }
 
-while getopts "t:H:o:T:c:d:b:S:NeDGhv" OPT; do
+while getopts "t:H:o:P:T:c:d:b:S:NeDGhv" OPT; do
  case $OPT in
   H)
    IMGHEIGHT="$OPTARG"
@@ -87,6 +89,9 @@ while getopts "t:H:o:T:c:d:b:S:NeDGhv" OPT; do
    ;;
   T)
    TEX="$OPTARG"
+   ;;
+  P)
+   CSV="$OPTARG"
    ;;
   c)
    COLUMNS="$OPTARG"
@@ -181,6 +186,16 @@ echo "\begin{longtable}{|l|*{$COLUMNSNO}{${RESULTCOLUMN}r|}}
 \hline
 {\multirow{2}{*}{\bf Test}}" >> $MYDIR/$TEX
 
+if [ "$CSV" != none ]; then
+ TEST1=`ls -1 $MYDIR/tmp/.test.log-*-Recio-0 | head -1` # this should be newly generated, FIXME
+ if [ "$TEST1" = "" ]; then
+  echo "FATAL: $TEST1 does not exists, use portfolio-first-columns.sh first"
+  exit 1
+  fi
+ CSV_HEADER=`cat $TEST1 | grep csv_header | cut -f5- -d" " | sed s/^csv_header:/test,/`
+ echo -n $CSV_HEADER > $MYDIR/$CSV
+ fi
+
 for c in $COLUMNS; do
  j=`echo $c | cut -f1 -d,`
  r=`echo $c | cut -s -f2- -d,`
@@ -256,7 +271,13 @@ for c in $COLUMNS; do
  COL_J[$cn]=$j
  COL_NDG[$cn]=$ndg
  COL_BUILD_NUMBER[$cn]=$build_number
+ if [ "$CSV" != none ]; then
+  echo -n ",$j $ndg,$j $ndg time" >> $MYDIR/$CSV
+  fi
  done
+if [ "$CSV" != none ]; then
+ echo >> $MYDIR/$CSV
+ fi
 
 echo "</tr>" >> $MYDIR/$HTML
 echo "\\\\ \hline" >> $MYDIR/$TEX
@@ -279,6 +300,14 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  # TODO: change "latest" to current revision:
  echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"${GEOGEBRAWEB_URL1}/latest/${GEOGEBRAWEB_URL2}/$i#\"><img src=\"$TEST.png\" height=${IMGHEIGHT}></a></td>" >> $MYDIR/$HTML
  TEST=`echo $TEST | sed s/".ggb"//`
+
+ if [ "$CSV" != none ]; then
+  POPULATION_DATA=`cat $MYDIR/portfolio-first-columns.txt | grep "^$TEST " | cut -f2 -d" "`
+  if [ "$POPULATION_DATA" != "" ]; then
+   echo -n "$TEST,$POPULATION_DATA" >> $MYDIR/$CSV
+   fi
+  fi
+
  if [ `expr ${#TEST} '>' $DOTS` = 1 ]; then
   TEST=${TEST:0:10}\$\\ldots\$${TEST:(-2)}
   fi
@@ -318,6 +347,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   RESULT=`sqlite3 sqlite3db "select result $FWCLAUSE"`
 
   RESULTCLASS=" class=\"o7\""
+  CSVRESULT=0
   CELLCOLOR="green!10"
   DIRNAMELENGTH=${#DIRNAME}
   if [ "$ACCEPTED" = "" ]; then
@@ -325,6 +355,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    if [ "$RESULT" = "" ]; then
     if [ "$ERRORTYPE" = 1 ]; then
     RESULTCLASS=" class=\"timeout\""
+    CSVRESULT=-1
     CELLCOLOR="yellow!40"
     TIME="t/o"
     elif [ "$ERRORTYPE" = 0 ]; then
@@ -332,6 +363,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
      CELLCOLOR="yellow!25"
     else
      RESULTCLASS=" class=\"untested\""
+     CSVRESULT=""
      CELLCOLOR="white!25"
      fi
    else
@@ -341,6 +373,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    fi
   if [ "$ACCEPTED" = "0" ]; then
    RESULTCLASS=" class=\"error\""
+   CSVRESULT=""
    CELLCOLOR="red!25"
    ALLGOOD=0
    SCORE[$cn]="-1000000000000000" # -infty
@@ -353,6 +386,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    SCORE[$cn]=$((SCORE+20))
    if [ $TIME -lt 5000 ]; then
     RESULTCLASS=" class=\"o6\""
+    CSVRESULT=1
     CELLCOLOR="green!15"
     SCORE[$cn]=$((SCORE+70))
     fi
@@ -389,6 +423,11 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   CELLCOLORDATA[$cn]="$CELLCOLOR"
   RESULTDATA[$cn]="$RESULT"
   TIMEDATA[$cn]=$TIME
+  CSVTIME=`echo $TIME | awk '{printf "%f", $1/1000}'`
+
+  if [ "$CSV" != none -a "$POPULATION_DATA" != "" ]; then
+   echo -n ",$CSVRESULT,$CSVTIME" >> $MYDIR/$CSV
+   fi
 
   # Storing best and worst results
   if [ "$TIME" != "" -a "$RESULT" = "$DIRNAME" -a $j != Auto ]; then
@@ -418,6 +457,10 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    fi # end of >=1 (all cases)
   # echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS>$TIME</td>" >> $MYDIR/$HTML
   done # All provers done for this tests
+
+ if [ "$CSV" != none -a "$POPULATION_DATA" != "" ]; then
+  echo >> $MYDIR/$CSV
+  fi
 
  # Second run: summarizing data in a row and generating HTML/LaTeX/R output
  cn=0

@@ -1,0 +1,33 @@
+#!/bin/sh
+
+if [ "$BUILD_NUMBER" = "" ]; then
+ BUILD_NUMBER="$1"
+ fi
+
+if [ "$BUILD_NUMBER" = "" ]; then
+ echo "This script creates portfolio databases in .csv format."
+ echo "Usage: $0 <build_number>"
+ exit 1
+ fi
+
+echo "$0: Obtaining first columns by running Recio's prover..."
+xvfb-run ./runtests-sql -d -r -p Recio
+
+echo "$0: Creating CSV input for ./report-sql..."
+(
+ cd tmp
+ for i in .test.log*Recio-0; do
+ echo $i | awk '{
+  rstart=index($0,"Recio")
+  test=substr($0,11,rstart-12)
+  if (test!="true") { printf("%s ",test) }
+ }'
+ cat $i | grep "csv_data" | cut -f6 -d:
+ done
+) > portfolio-first-columns.txt
+
+echo "$0: Creating portfolio .csv for the Prove command..."
+./report-sql -b $BUILD_NUMBER -c "Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area" -P Prove.csv
+
+echo "$0: Creating portfolio .csv for the ProveDetails command..."
+./report-sql -b $BUILD_NUMBER -c "Botana,D BotanaGiac,D OpenGeoProver_Wu,D" -P ProveDetails.csv
