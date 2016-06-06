@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -35,8 +34,13 @@ public class CmdHull extends CommandProcessor {
 
 			if ((ok[0]=arg[0].isGeoList()) && (ok[1]=arg[1].isGeoNumeric())) {
 				
-				AlgoHull algo = new AlgoHull(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoNumeric) arg[1]);
+				// command removed
+				// AlgoHull algo = new AlgoHull(cons, c.getLabel(),
+				// (GeoList) arg[0], (GeoNumeric) arg[1]);
+
+				// fall-back to ConvxHull[]
+				AlgoConvexHull algo = new AlgoConvexHull(cons, c.getLabel(),
+						(GeoList) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

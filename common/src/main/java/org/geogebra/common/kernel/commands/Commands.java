@@ -859,7 +859,9 @@ public enum Commands implements CommandsConstants,
 	// =============================================================
 	Voronoi(TABLE_DISCRETE),
 
-	Hull(TABLE_DISCRETE),
+	// command removed, now falls back to ConvexHull
+	// don't want in autocomplete
+	Hull(TABLE_ENGLISH),
 
 	ConvexHull(TABLE_DISCRETE),
 
