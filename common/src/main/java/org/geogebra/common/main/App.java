@@ -4029,6 +4029,10 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 			// GGB-886
+			// After removing this feature flag, MyTabPanel and
+			// TabPanelInterface classes can be removed too with cleaning the
+			// code, and remove the old code from OptionsTab.update(Object[]
+			// geos)
 		case MULTIROW_TAB_PROPERTIES:
 			return prerelease;
 

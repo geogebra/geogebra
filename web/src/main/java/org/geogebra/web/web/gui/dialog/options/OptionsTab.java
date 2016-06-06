@@ -54,7 +54,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
-import org.geogebra.web.html5.util.tabpanel.MyTabBar;
+import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.ComboBoxPanel;
@@ -132,7 +132,7 @@ class OptionsTab extends FlowPanel {
 														// tab
 														// prop. view.
 
-			MyTabBar tabBar = ((MultiRowsTabPanel) this.tabPanel).getTabBar();
+			MultiRowsTabBar tabBar = ((MultiRowsTabPanel) this.tabPanel).getTabBar();
 			tabBar.setTabText(index, getTabText());
 			tabBar.setTabEnabled(index, enabled);
 			if (!enabled && tabBar.getSelectedTab() == index) {

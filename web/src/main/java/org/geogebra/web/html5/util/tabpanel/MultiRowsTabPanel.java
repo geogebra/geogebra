@@ -11,11 +11,11 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
 
-	MyTabBar tabBar;
+	MultiRowsTabBar tabBar;
 	DeckPanel deck = new DeckPanel();
 
 	public MultiRowsTabPanel() {
-		tabBar = new MyTabBar(this);
+		tabBar = new MultiRowsTabBar(this);
 		tabBar.addStyleName("gwt-TabBar");
 		tabBar.addStyleName("ggb-MultiRowsTabPanel");
 		VerticalPanel panel = new VerticalPanel();
@@ -39,7 +39,7 @@ public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
 		return tabBar.getWidgetCount();
 	}
 
-	public MyTabBar getTabBar() {
+	public MultiRowsTabBar getTabBar() {
 		return tabBar;
 	}
 
