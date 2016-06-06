@@ -134,7 +134,7 @@ class OptionsTab extends FlowPanel {
 
 			MyTabBar tabBar = ((MultiRowsTabPanel) this.tabPanel).getTabBar();
 			tabBar.setTabText(index, getTabText());
-			// TODO tabBar.setTabEnabled(index, enabled);
+			tabBar.setTabEnabled(index, enabled);
 			if (!enabled && tabBar.getSelectedTab() == index) {
 				tabBar.selectTab(0);
 			}

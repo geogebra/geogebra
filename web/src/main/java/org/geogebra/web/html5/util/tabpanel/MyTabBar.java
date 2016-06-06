@@ -93,8 +93,6 @@ public class MyTabBar extends FlowPanel implements
 
 		@Override
 		public void onBrowserEvent(Event event) {
-			Log.debug("onBrowserEvent: " + event.getType());
-
 			if (DOM.eventGetType(event) == Event.ONCLICK) {
 				selectTabByTabWidget(this);
 			}
@@ -112,6 +110,14 @@ public class MyTabBar extends FlowPanel implements
 				return;
 			}
 		}
+	}
+
+	public void setTabEnabled(int index, boolean enabled) {
+		assert (index >= 0) && (index < getTabCount()) : "Tab index out of bounds";
+		setStyleName(getWidget(index).getElement(), "gwt-TabBarItem-disabled",
+				!enabled);
+		setStyleName(getWidget(index).getElement().getParentElement(),
+				"gwt-TabBarItem-wrapper-disabled", !enabled);
 	}
 
 }
