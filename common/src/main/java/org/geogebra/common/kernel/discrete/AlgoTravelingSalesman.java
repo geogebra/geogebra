@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.discrete.tsp.TSPSolver;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.util.debug.Log;
 
 public class AlgoTravelingSalesman extends AlgoDiscrete {
 
@@ -44,7 +43,7 @@ public class AlgoTravelingSalesman extends AlgoDiscrete {
 				GeoPointND p = (GeoPointND) geo;
 				p.getInhomCoords(inhom);
 				nodes[i] = new MyPoint(inhom[0], inhom[1]);
-				Log.error(i + " " + nodes[i].toString());
+				// Log.error(i + " " + nodes[i].toString());
 			}
 		}
 
@@ -59,7 +58,7 @@ public class AlgoTravelingSalesman extends AlgoDiscrete {
 		}
 
 		for (int i = 0; i < size; i++) {
-			Log.error(i + " " + nodes[i].toString());
+			// Log.error(i + " " + nodes[i].toString());
 			nodes[i].setLineTo(i != 0);
 			al.add(nodes[i]);
 		}
