@@ -397,8 +397,6 @@ __GGB__keysVar.cs.command = {
     "Histogram.Syntax": "[ <Seznam hranic t\u0159\xedd>, <Seznam v\xfd\u0161ek> ]\n[ <Seznam hranic t\u0159\xedd>, <Seznam nezpracovan\xfdch dat>, <U\u017eit\xed hustoty>, <M\u011b\u0159\xedtko hustoty (voliteln\xe9)> ]\n[ <Kumulativn\xed (logick\xe1 hodnota)>, <Seznam hranic t\u0159\xedd>, <Seznam nezpracovan\xfdch dat>, <U\u017eit\xed hustoty>, <M\u011b\u0159\xedtko hustoty (voliteln\xe9)> ]",
     "HistogramRight": "HistogramVpravo",
     "HistogramRight.Syntax": "[ <Seznam hranic t\u0159\xedd>, <Seznam v\xfd\u0161ek> ]\n[ <Seznam hranic t\u0159\xedd>, <Seznam nezpracovan\xfdch dat>, <U\u017eit\xed hustoty>, <M\u011b\u0159\xedtko hustoty (voliteln\xe9)> ]\n[ <Kumulativn\xed (logick\xe1 hodnota)>, <Seznam hranic t\u0159\xedd>, <Seznam nezpracovan\xfdch dat>, <U\u017eit\xed hustoty>, <M\u011b\u0159\xedtko hustoty (voliteln\xe9)> ]",
-    "Hull": "Obal",
-    "Hull.Syntax": "[ <Seznam bod\u016f>, <Procento> ]",
     "HyperGeometric": "HyperGeometricke",
     "HyperGeometric.Syntax": "[ <Velikost populace>, <Po\u010det \xfasp\u011bch\u016f>, <Velikost vzorku> ]\n[ <Velikost populace>, <Po\u010det \xfasp\u011bch\u016f>, <Velikost vzorku>, <Kumulativn\xed (logick\xe1 hodnota)> ]\n[ <Velikost populace>, <Po\u010det \xfasp\u011bch\u016f>, <Velikost vzorku>, <Hodnota prom\u011bnn\xe9>, <Kumulativn\xed (logick\xe1 hodnota)> ]",
     "HyperGeometric.SyntaxCAS": "[ <Velikost populace>, <Po\u010det \xfasp\u011bch\u016f>, <Velikost vzorku>, <Hodnota prom\u011bnn\xe9>, <Kumulativn\xed (logick\xe1 hodnota)> ]",

@@ -397,8 +397,6 @@ __GGB__keysVar.sk.command = {
     "Histogram.Syntax": "[ <Zoznam tried hran\xedc>, <Zoznam v\xfd\u0161ok> ]\n[ <Zoznam tried hran\xedc>, <Zoznam nespracova\xfdch d\xe1t>, <Pou\u017e hustotu>, <Faktor hustoty (opcion\xe1lne)> ]\n[ <Logicky kumulat\xedvne>, <Zoznam hran\xedc tried>, <Zoznam surov\xfdch \xfadajov>, <Pou\u017e hustotu>, <Faktor hustoty (opcion\xe1lne)> ]",
     "HistogramRight": "HistogramPrav\xe1",
     "HistogramRight.Syntax": "[ <Zoznam tried hran\xedc>, <Zoznam v\xfd\u0161ok> ]\n[ <Zoznam tried hran\xedc>, <Zoznam nespracova\xfdch d\xe1t>, <Pou\u017e hustotu>, <Faktor hustoty (opcion\xe1lne)>  ]\n[ <Logicky kumulat\xedvne>, <Zoznam hran\xedc tried>, <Zoznam surov\xfdch \xfadajov>, <Pou\u017e hustotu>, <Faktor hustoty (opcion\xe1lne) > ]",
-    "Hull": "Obal",
-    "Hull.Syntax": "[ <Zoznam bodov>, <Percento> ]",
     "HyperGeometric": "Hipergeometrick\xe9Rozdelenie",
     "HyperGeometric.Syntax": "[ <Ve\u013ekos\u0165 popul\xe1cie>, <Po\u010det \xfaspechov>, <Ve\u013ekos\u0165 vzorky> ]\n[ <Ve\u013ekos\u0165 popul\xe1cie>, <Po\u010det \xfaspechov>, <Ve\u013ekos\u0165 vzorky>, <Logicky kumulat\xedvne> ]\n[ <Ve\u013ekos\u0165 popul\xe1cie>, <Po\u010det \xfaspechov>, <Ve\u013ekos\u0165 vzorky>, <Hodnota premennej>, <Logicky kumulat\xedvne> ]",
     "HyperGeometric.SyntaxCAS": "[ <Ve\u013ekos\u0165 popul\xe1cie>, <Po\u010det \xfaspechov>, <Ve\u013ekos\u0165 vzorky>, x, <Logicky kumulat\xedvne> ]",

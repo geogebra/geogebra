@@ -397,8 +397,6 @@ __GGB__keysVar.ca.command = {
     "Histogram.Syntax": "[ <Llista dels l\xedmits de les classes>, <Llista d'altures> ]\n[ <Llista dels l\xedmits de les classes>, <Llista de totes les dades>, <Densitat true/false>, <Factor d'escala de densitat (opcional)> ]\n[ <Acumulatiu true/false>, <Llista dels l\xedmits de les classes>, <Llista de totes les dades>, <Densitat true/false>, <Factor d'escala de densitat (opcional)> ]",
     "HistogramRight": "HistogramaDreta",
     "HistogramRight.Syntax": "[ <Llista dels l\xedmits de les classes>, <Llista d'altures> ]\n[ <Llista dels l\xedmits de les classes>, <Llista de totes les dades>, <Densitat true/false>, <Factor d'escala de densitat (opcional)> ]\n[ <Acumulatiu true/false>, <Llista dels l\xedmits de les classes>, <Llista de totes les dades>, <Densitat true/false>, <Factor d'escala de densitat (opcional)> ]",
-    "Hull": "Embolcall",
-    "Hull.Syntax": "[ <Llista de punts>, <Percentatge> ]",
     "HyperGeometric": "HiperGeom\xe8trica",
     "HyperGeometric.Syntax": "[ <Mida de la poblaci\xf3>, <Casos favorables>, <Mida de la mostra> ]\n[ <Mida de la poblaci\xf3>, <Casos favorables>, <Mida de la mostra>, <Acumulada true/false> ]\n[ <Mida de la poblaci\xf3>, <Casos favorables>, <Mida de la mostra>, <Valor variable>, <Acumulada true/false> ]",
     "HyperGeometric.SyntaxCAS": "[ <Mida de la poblaci\xf3>, <Nombre de repeticions>, <Mida de la mostra>, x, <Boole\xe0 acumulat> ]",

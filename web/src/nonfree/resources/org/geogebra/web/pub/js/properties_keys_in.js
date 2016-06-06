@@ -397,8 +397,6 @@ __GGB__keysVar.in.command = {
     "Histogram.Syntax": "[ <Daftar Batas Kelas>, <Daftar Tinggi> ]\n[ <Daftar Batas Kelas>, <Daftar Data Mentah> ]",
     "HistogramRight": "HistogramKanan",
     "HistogramRight.Syntax": "[ <Daftar Batas Kelas>, <Daftar Ketinggian> ]\n[ <Daftar Batas Kelas>, <Daftar Data Mentah>, <Gunakan Densitas>, <Faktor Skala Densitas> ]\n[ <Boolean Kumulatif>, <Daftar Batas Kelas>, <Daftar Data Mentah>, <Gunakan Densitas>, <Faktor Skala Densitas> ]",
-    "Hull": "Hull",
-    "Hull.Syntax": "[ <Daftar Titik>, <Prosentase> ]",
     "HyperGeometric": "HiperGeometris",
     "HyperGeometric.Syntax": "[ <Ukuran Populasi>, <Banyaknya Keberhasilan>, <Ukuran Sampel> ]\n[ <Ukuran Populasi>, <Banyaknya Keberhasilan>, <Ukuran Sampel>, <Boolean Kumulatif> ]\n[ <Ukuran Populasi>, <Banyaknya Keberhasilan>, <Ukuran Sampel>, <Nilai Variabel>, <Boolean Kumulatif> ]",
     "HyperGeometric.SyntaxCAS": "[ <Ukuran Populasi>, <Banyaknya Keberhasilan>, <Ukuran Sampel>, <Nilai Variabel>, <Boolean Kumulatif> ]",

@@ -397,8 +397,6 @@ __GGB__keysVar.es.command = {
     "Histogram.Syntax": "[ <Lista de l\xedmites de clases>, <Lista de alturas> ]\n[ <Lista de l\xedmites de clases>, <Lista de datos brutos>, <Uso de Densidad (true/false)>, <Factor de escala de densidad (opcional)> ]\n[ <Acumulada o no (true/false)>, <Lista de l\xedmites de clases>, <Lista de datos brutos>, <Uso de Densidad (true/false)>, <Factor de escala de densidad (opcional)> ]",
     "HistogramRight": "HistogramaDerecha",
     "HistogramRight.Syntax": "[ <Lista de l\xedmites de clases>, <Lista de alturas> ]\n[ <Lista de l\xedmites de clases>, <Lista de datos brutos>, <Uso de Densidad (true/false)>, <Factor de escala de densidad (opcional)> ]\n[ <Acumulada o no (true/false)>, <Lista de l\xedmites de clases>, <Lista de datos brutos>, <Uso de Densidad (true/false)>, <Factor de escala de densidad (opcional)> ]",
-    "Hull": "Cierre",
-    "Hull.Syntax": "[ <Lista de puntos>, <Porcentaje> ]",
     "HyperGeometric": "Hipergeom\xe9trica",
     "HyperGeometric.Syntax": "[ <Tama\xf1o de poblaci\xf3n>, <N\xfamero de \xe9xitos>, <Tama\xf1o de muestra> ]\n[ <Tama\xf1o de poblaci\xf3n>, <N\xfamero de \xe9xitos>, <Tama\xf1o de muestra>, <Acumulada o no (true/false)> ]\n[ <Tama\xf1o de poblaci\xf3n>, <N\xfamero de \xe9xitos>, <Tama\xf1o de muestra>, <Valor>, <Acumulada o no (true/false)> ]",
     "HyperGeometric.SyntaxCAS": "[ <Tama\xf1o de poblaci\xf3n>, <N\xfamero de \xe9xitos>, <Tama\xf1o de muestra>, <Valor>, <Acumulada o no (true/false)> ]",

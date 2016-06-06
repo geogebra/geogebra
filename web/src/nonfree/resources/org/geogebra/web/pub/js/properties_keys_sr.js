@@ -397,8 +397,6 @@ __GGB__keysVar.sr.command = {
     "Histogram.Syntax": "[ <lista granica klasa>, <lista visina> ]\n[ <lista granica klasa>, <lista neobra\u0111enih podataka> ]",
     "HistogramRight": "HistogramDesni",
     "HistogramRight.Syntax": "[ <lista granica klasa>, <lista visina> ]\n[ <lista granica klasa>, <lista neobra\u0111enih podataka>, <koristi gustinu>, <skala gustine (opciono)> ]\n[ <logi\u010dki kumulativno>, <lista granica klasa>, <lista neobra\u0111enih podataka>, <koristi gustinu>, <skala gustine (opciono)> ]",
-    "Hull": "Omota\u010d",
-    "Hull.Syntax": "[ <lista ta\u010daka>, <procenat> ]",
     "HyperGeometric": "HipergeometrijskaRaspodela",
     "HyperGeometric.Syntax": "[ <veli\u010dina populacije>, <broj doga\u0111aja>, <veli\u010dina uzorka> ]\n[ <veli\u010dina populacije>, <broj doga\u0111aja>, <veli\u010dina uzorka>, <logi\u010dki kumulativno> ]\n[ <veli\u010dina populacije>, <broj doga\u0111aja>, <veli\u010dina uzorka>, <vrednost promenljive>, <logi\u010dki kumulativno> ]",
     "HyperGeometric.SyntaxCAS": "[ <veli\u010dina populacije>, <broj doga\u0111aja>, <veli\u010dina uzorka>, <vrednost promenljive>, <logi\u010dki kumulativno> ]",

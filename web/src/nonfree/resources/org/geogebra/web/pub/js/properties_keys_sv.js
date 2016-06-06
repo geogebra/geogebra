@@ -397,8 +397,6 @@ __GGB__keysVar.sv.command = {
     "Histogram.Syntax": "[ <Lista med klassgr\xe4nser>, <Lista med h\xf6jder> ]\n[ <Lista med klassgr\xe4nser>, <Lista med r\xe5data>, <true | false (anv\xe4nd densitet)>, <Densitetsskalfaktor (optional)> ]\n[ <true | false (kumulativt eller ej)>, <Lista med klassgr\xe4nser>, <Lista med r\xe5data>, <true | false (anv\xe4nd densitet)>, <Densitetsskalfaktor (optional)> ]",
     "HistogramRight": "HistogramH\xf6ger",
     "HistogramRight.Syntax": "[ <Lista med klassgr\xe4nser>, <Lista med h\xf6jder> ]\n[ <Lista med klassgr\xe4nser>, <Lista med r\xe5data>, <true | false (anv\xe4nd densitet eller ej)>, <Densitetsskalfaktor (optional)> ]\n[ <true | false (kumulativt eller ej)>, <Lista med klassgr\xe4nser>, <Lista med r\xe5data>, <true | false (anv\xe4nd densitet eller ej)>, <Densitetsskalfaktor (optional)> ]",
-    "Hull": "H\xf6lje",
-    "Hull.Syntax": "[ <Lista med punkter>, <Procentuell andel> ]",
     "HyperGeometric": "HyperGeometriskF\xf6rdelning",
     "HyperGeometric.Syntax": "[ <Polulationsstorlek>, <Antal lyckade utfall>, <Urvalsstorlek> ]\n[ <Polulationsstorlek>, <Antal lyckade utfall>, <Urvalsstorlek>, <true | false (kumulativt eller ej)> ]\n[ <Polulationsstorlek>, <Antal lyckade utfall>, <Urvalsstorlek>, <Variabelv\xe4rde>, <true | false (kumulativt eller ej)> ]",
     "HyperGeometric.SyntaxCAS": "[ <Populationsstorlek>, <Antal lyckade utfall>, <Urvalsstorlek>, <Variabelv\xe4rde>, <true | false (kumulativ eller ej)> ]",

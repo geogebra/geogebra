@@ -397,8 +397,6 @@ __GGB__keysVar.hr.command = {
     "Histogram.Syntax": "[ <lista granica razreda>, <lista visina> ]\n[ <lista granica razreda>, <lista neobra\u0111enih podataka>, <koristi gusto\u0107u - logi\u010dka vrijednost>, <skala gusto\u0107e> (opcionalno) ]\n[ <kumulacija - logi\u010dka vrijednost>, <lista granica razreda>, <lista neobra\u0111enih podataka>, <koristi gusto\u0107u - logi\u010dka vrijednost>, <skala gusto\u0107e> (opcionalno) ]",
     "HistogramRight": "HistogramDesni",
     "HistogramRight.Syntax": "[ <lista granica razreda>, <lista visina> ]\n[ <lista granica razreda>, <lista neobra\u0111enih podataka>, <koristi gusto\u0107u - logi\u010dka vrijednost>, <skala gusto\u0107e (opcionalno)>  ]\n[ <kumulacija - logi\u010dka vrijednost>, <lista granica razreda>, <lista neobra\u0111enih podataka>, <koristi gusto\u0107u - logi\u010dka vrijednost>, <skala gusto\u0107e (opcionalno)> ]",
-    "Hull": "Ljuska",
-    "Hull.Syntax": "[ <lista to\u010daka>, <postotak> ]",
     "HyperGeometric": "HipergeometrijskaRazdioba",
     "HyperGeometric.Syntax": "[ <veli\u010dina populacije>, <broj doga\u0111aja>, <veli\u010dina uzorka> ]\n[ <veli\u010dina populacije>, <broj doga\u0111aja>, <veli\u010dina uzorka>, <kumulacija - logi\u010dka vrijednost> ]\n[ <veli\u010dina populacije>, <broj doga\u0111aja>, <veli\u010dina uzorka>, <vrijednost varijable>, <kumulacija - logi\u010dka vrijednost> ]",
     "HyperGeometric.SyntaxCAS": "[ <veli\u010dina populacije>, <broj doga\u0111aja>, <veli\u010dina uzorka>, <vrijednost varijable>, <kumulacija - logi\u010dka vrijednost> ]",

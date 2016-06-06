@@ -397,8 +397,6 @@ __GGB__keysVar.nl_NL.command = {
     "Histogram.Syntax": "[ <Lijst met klassegrenzen>, <Lijst met hoogtes> ]\n[ <Lijst met klassegrenzen>, <Lijst met ruwe data>, <Gebruiksdichtheid>, <Dichtheidsschaalfactor (optioneel)> ]\n[ <Boolean Cumulative>, <Lijst met klassegrenzen>, <Lijst met ruwe data>, <Gebruiksdichtheid>, <Dichtheidsschaalfactor (optioneel)> ]",
     "HistogramRight": "HistogramRechts",
     "HistogramRight.Syntax": "[ <Lijst met klassengrenzen>, <Lijst met hoogten> ]\n[ <Lijst met klassengrenzen>, <Lijst met ruwe data>, <Gebruiksdichtheid>, <Dichtheidsschaalfactor (optioneel)> ]\n[ <Boolean Cumulative>, <Lijst met klassengrenzen>, <Lijst met ruwe data>, <Gebruiksdichtheid>, <Dichtheidsschaalfactor (optioneel)> ]",
-    "Hull": "Omhullende",
-    "Hull.Syntax": "[ <lijst met Punten>, <Percentage> ]",
     "HyperGeometric": "HyperGeometrisch",
     "HyperGeometric.Syntax": "[ <Populatie Grootte>, <Aantal Successen>, <Steekproef Grootte> ]\n[ <Populatie Grootte>, <Aantal Successen>, <Steekproef Grootte>, <Cumulatief> ]\n[ <Populatie Grootte>, <Aantal Successen>, <Steekproef Grootte>, <Waarde Variabele>, <Cumulatief> ]",
     "HyperGeometric.SyntaxCAS": "[ <Populatieomvang>, <Aantal successen>, <Steekproefgrootte>, <Toevalsveranderlijke>, <Cumulatieve distributie> ]",

@@ -397,8 +397,6 @@ __GGB__keysVar.fr.command = {
     "Histogram.Syntax": "[ <Liste Bornes Classes>, <Liste Hauteurs> ]\n[ <Liste Bornes Classes>, <Liste Donn\xe9es>, <Densit\xe9 True|False>, <Echelle (optionnel)> ]\n[ <Bool\xe9en Cumul>, <Liste Bornes Classes>, <Liste Donn\xe9es>, <Densit\xe9 True|False>, <Echelle (optionnel)> ]",
     "HistogramRight": "HistogramDroite",
     "HistogramRight.Syntax": "[ <Liste Bornes Classes>, <Liste Hauteurs> ]\n[ <Liste Bornes Classes>, <Liste Donn\xe9es>, <Densit\xe9 True|False>, <Echelle (optionnel)> ]\n[ <Bool\xe9en Cumul>, <Liste Bornes Classes>, <Liste Donn\xe9es>, <Densit\xe9 True|False>, <Echelle (optionnel)> ]",
-    "Hull": "EnveloppePoints",
-    "Hull.Syntax": "[ <Liste Points>, <Pourcentage> ]",
     "HyperGeometric": "HyperG\xe9om\xe9trique",
     "HyperGeometric.Syntax": "[ <Taille Population>, <Nombre Succ\xe8s>, <Taille Echantillon> ]\n[ <Taille Population>, <Nombre Succ\xe8s>, <Taille Echantillon>, <Bool\xe9en Cumul> ]\n[ <Taille Population>, <Nombre Succ\xe8s>, <Taille Echantillon>, <Valeur Variable>, <Bool\xe9en Cumul> ]",
     "HyperGeometric.SyntaxCAS": "[ <Taille Population>, <Nombre Succ\xe8s>, <Taille \xc9chantillon>, x, <Bool\xe9en Cumul> ]",

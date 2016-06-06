@@ -397,8 +397,6 @@ __GGB__keysVar.tr.command = {
     "Histogram.Syntax": "[ <S\u0131n\u0131f S\u0131n\u0131rlar\u0131 Listesi>, <Y\xfckseklikler Listesi> ]\n[ <S\u0131n\u0131f S\u0131n\u0131rlar\u0131 Listesi>, <Ham Veri Listesi> ]",
     "HistogramRight": "HistogramSa\u011fda",
     "HistogramRight.Syntax": "[ <Aral\u0131k S\u0131n\u0131rlar\u0131 Listesi>, <Y\xfckseklikler Listesi> ]\n[ <Aral\u0131k S\u0131n\u0131rlar\u0131 Listesi>, <Ham Veri Listesi>, <Yo\u011funluk Kullan>, <Yo\u011funluk \xd6l\xe7ek Fakt\xf6r\xfc (opsiyonel)> ]\n[ <Mant\u0131ksal- Y\u0131\u011f\u0131lma>, <Aral\u0131k S\u0131n\u0131rlar\u0131 Listesi>, <Ham Veri Listesi>, <Yo\u011funluk Kullan>, <Yo\u011funluk \xd6l\xe7ek Fakt\xf6r\xfc (opsiyonel)> ]",
-    "Hull": "\xc7anak",
-    "Hull.Syntax": "[ <Noktalar Listesi>, <Y\xfczdesi> ]",
     "HyperGeometric": "HiperGeometri",
     "HyperGeometric.Syntax": "[ <N\xfcfus B\xfcy\xfckl\xfc\u011f\xfc>, <Ba\u015far\u0131lar\u0131n Say\u0131s\u0131>, <\xd6rneklem B\xfcy\xfckl\xfc\u011f\xfc> ]\n[ <N\xfcfus B\xfcy\xfckl\xfc\u011f\xfc>, <Ba\u015far\u0131lar\u0131n Say\u0131s\u0131>, <\xd6rneklem B\xfcy\xfckl\xfc\u011f\xfc>, <Mant\u0131ksal-Y\u0131\u011f\u0131lma> ]\n[ <N\xfcfus B\xfcy\xfckl\xfc\u011f\xfc>, <Ba\u015far\u0131lar\u0131n Say\u0131s\u0131>, <\xd6rneklem B\xfcy\xfckl\xfc\u011f\xfc>, <De\u011fi\u015fken De\u011feri>, <Mant\u0131ksal-Y\u0131\u011f\u0131lma> ]",
     "HyperGeometric.SyntaxCAS": "[ <N\xfcfus B\xfcy\xfckl\xfc\u011f\xfc>, <Ba\u015far\u0131lar\u0131n Say\u0131s\u0131>, <\xd6rneklem B\xfcy\xfckl\xfc\u011f\xfc>, <De\u011fi\u015fken De\u011feri>, <Mant\u0131ksal-Y\u0131\u011f\u0131lma> ]",

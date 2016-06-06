@@ -397,8 +397,6 @@ __GGB__keysVar.fi.command = {
     "Histogram.Syntax": "[ <Luokkarajalista>, <Korkeuslista> ]\n[ <Luokkarajalista>, <Datalista>, <K\xe4yt\xe4 tiheytt\xe4>, <Tiheyden skaalaustekij\xe4 (valinnainen)> ]\n[ <Totuusarvo: kertym\xe4/ei>, <Luokkarajalista>, <Datalista>, <K\xe4yt\xe4 tiheytt\xe4>, <Tiheyden skaalaustekij\xe4 (valinnainen)> ]",
     "HistogramRight": "HistogrammiOikea",
     "HistogramRight.Syntax": "[ <Luokkarajalista>, <Korkeuslista> ]\n[ <Luokkarajalista>, <Datalista>, <K\xe4yt\xe4 tiheytt\xe4>, <Tiheyden skaalaustekij\xe4 (valinnainen)> ]\n[ <Totuusarvo: kertym\xe4/ei>, <Luokkarajalista>, <Datalista>, <K\xe4yt\xe4 tiheytt\xe4>, <Tiheyden skaalaustekij\xe4 (valinnainen)> ]",
-    "Hull": "Verho",
-    "Hull.Syntax": "[ <Pistelista>, <Prosenttiosuus> ]",
     "HyperGeometric": "HyperGeometrinen",
     "HyperGeometric.Syntax": "[ <Populaation koko>, <Onnistumisia>, <Otoksen koko> ]\n[ <Populaation koko>, <Onnistumisia>, <Otoksen koko>, <Totuusarvo: kertym\xe4/ei> ]\n[ <Populaation koko>, <Onnistumisia>, <Otoksen koko>, <Muuttuja>, <Totuusarvo: kertym\xe4/ei> ]",
     "HyperGeometric.SyntaxCAS": "[ <Populaation koko>, <Onnistumisia>, <Otoksen koko>, <Totuusarvo: kertym\xe4/ei> ]",

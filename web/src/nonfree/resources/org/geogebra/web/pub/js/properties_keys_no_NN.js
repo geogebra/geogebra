@@ -397,8 +397,6 @@ __GGB__keysVar.no_NN.command = {
     "Histogram.Syntax": "[ <Liste med klassegrenser>, <Liste med h\xf8gder> ]\n[ <Liste med klassegrenser>, <Liste med r\xe5data>, <Bruk tettleik>, <Tettleiksfaktor (valfri)> ]\n[ <Boolsk kumulativ>, <Liste med klassegrenser>, <Liste med r\xe5data>, <Bruk tettleik>, <Tettleiksfaktor (valfri)> ]",
     "HistogramRight": "HistogramH\xf8gre",
     "HistogramRight.Syntax": "[ <Liste med klassegrenser>, <Liste med h\xf8gder> ]\n[ <Liste med klassegrenser>, <Liste med r\xe5data>, <Bruk tettleik>, <Tettleiksfaktor (valfri)> ]\n[ <Boolsk kumulativ>, <Liste med klassegrenser>, <Liste med r\xe5data>, <Bruk tettleik>, <Tettleiksfaktor (valfri)> ]",
-    "Hull": "Innhylling",
-    "Hull.Syntax": "[ <Liste med punkt>, <Prosent> ]",
     "HyperGeometric": "FordelingHypergeometrisk",
     "HyperGeometric.Syntax": "[ <Populasjonsstorleik>, <Tal p\xe5 treff>, <Utvalsstorleik> ]\n[ <Populasjonsstorleik>, <Tal p\xe5 treff>, <Utvalsstorleik>, <Boolsk kumulativ> ]\n[ <Populasjonsstorleik>, <Tal p\xe5 treff>, <Utvalsstorleik>, <Variabelverdi>, <Boolsk kumulativ> ]",
     "HyperGeometric.SyntaxCAS": "[ <Populasjonsstorleik>, <Tal p\xe5 treff>, <Utvalsstorleik>, <Variabelverdi>, <Boolsk kumulativ> ]",

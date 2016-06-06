@@ -397,8 +397,6 @@ __GGB__keysVar.ji.command = {
     "Histogram.Syntax": "[ <List of Class Boundaries>, <List of Heights> ]\n[ <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]",
     "HistogramRight": "HistogramRight",
     "HistogramRight.Syntax": "[ <List of Class Boundaries>, <List of Heights> ]\n[ <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]",
-    "Hull": "Hull",
-    "Hull.Syntax": "[ <List of Points>, <Percentage> ]",
     "HyperGeometric": "HyperGeometric",
     "HyperGeometric.Syntax": "[ <Population Size>, <Number of Successes>, <Sample Size> ]\n[ <Population Size>, <Number of Successes>, <Sample Size>, <Boolean Cumulative> ]\n[ <Population Size>, <Number of Successes>, <Sample Size>, <Variable Value>, <Boolean Cumulative> ]",
     "HyperGeometric.SyntaxCAS": "[ <Population Size>, <Number of Successes>, <Sample Size>, <Variable Value>, <Boolean Cumulative> ]",

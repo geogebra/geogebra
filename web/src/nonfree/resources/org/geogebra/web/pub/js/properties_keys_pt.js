@@ -397,8 +397,6 @@ __GGB__keysVar.pt.command = {
     "Histogram.Syntax": "[ <Lista dos Limites das Classes>, <Lista das Alturas> ]\n[ <Lista dos Limites das Classes>, <Lista dos Dados Brutos> ]\n[ <Acumulada (true | false)>, <Lista dos Limites das Classes>, <Lista dos Dados Brutos>, <Usar Densidade (true | false)>, <Fator de Escala da Densidade (opcional)> ]",
     "HistogramRight": "HistogramaDireita",
     "HistogramRight.Syntax": "[ <Lista dos Limites das Classes>, <Lista das Alturas> ]\n[ <Lista dos Limites das Classes>, <Lista dos Dados Brutos>, <Usar Densidade (true | false)>, <Fator de Escala da Densidade (opcional)> ]\n[ <Acumulada (true | false)>, <Lista dos Limites das Classes>, <Lista dos Dados Brutos>, <Usar Densidade (true | false)>, <Fator de Escala da Densidade (opcional)> ]",
-    "Hull": "Fecho",
-    "Hull.Syntax": "[ <Lista de Pontos>, <Porcentagem> ]",
     "HyperGeometric": "Distribui\xe7\xe3oHipergeom\xe9trica",
     "HyperGeometric.Syntax": "[ <Tamanho da Popula\xe7\xe3o>, <N\xfamero de Sucessos>, <Tamanho da Amostra> ]\n[ <Tamanho da Popula\xe7\xe3o>, <N\xfamero de Sucessos>, <Tamanho da Amostra>, <Acumulada (true | false)> ]\n[ <Tamanho da Popula\xe7\xe3o>, <N\xfamero de Sucessos>, <Tamanho da Amostra>, <Valor da Vari\xe1vel>, <Acumulada (true | false)> ]",
     "HyperGeometric.SyntaxCAS": "[ <Tamanho da Popula\xe7\xe3o>, <N\xfamero de Sucessos>, <Tamanho da Amostra>, x, <Acumulada (true | false)> ]",

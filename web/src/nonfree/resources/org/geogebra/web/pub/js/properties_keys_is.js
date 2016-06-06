@@ -397,8 +397,6 @@ __GGB__keysVar.is.command = {
     "Histogram.Syntax": "[ <Listi af flokkam\xf6rkum>, <Listi af h\xe6\xf0at\xf6lum> ]\n[ <Listi af flokkam\xf6rkum>, <Listi af g\xf6gnum>, <\xde\xe9ttleiki>, <\xde\xe9ttleikakvar\xf0i> (valkv\xe6tt) ]\n[ <Dreififall>, <Listi af flokkam\xf6rkum>, <Listi af g\xf6gnum>, <\xde\xe9ttleiki>, <\xde\xe9ttleikakvar\xf0i> (valkv\xe6tt) ]",
     "HistogramRight": "Stu\xf0laritH\xe6gri",
     "HistogramRight.Syntax": "[ <Listi af flokkam\xf6rkum>, <Listi af h\xe6\xf0at\xf6lum> ]\n[ <Listi af flokkam\xf6rkum>, <Listi af g\xf6gnum>, <\xde\xe9ttleiki>, <\xde\xe9ttleikakvar\xf0i (valkv\xe6tt)> ]\n[ <Dreififall>, <Listi af flokkam\xf6rkum>, <Listi af g\xf6gnum>, <\xde\xe9ttleiki>, <\xde\xe9ttleikakvar\xf0i (valkv\xe6tt)>  ]",
-    "Hull": "Hj\xfapur",
-    "Hull.Syntax": "[ <Listi af punktum>, <Pr\xf3sent> ]",
     "HyperGeometric": "HyperGeometric",
     "HyperGeometric.Syntax": "[ <St\xe6r\xf0 \xfe\xfd\xf0is>, <Fj\xf6ldi happa>, <St\xe6r\xf0 \xfartaks> ]\n[ <St\xe6r\xf0 \xfe\xfd\xf0is>, <Fj\xf6ldi happa>, <St\xe6r\xf0 \xfartaks>, <Dreififall> ]\n[ <St\xe6r\xf0 \xfe\xfd\xf0is>, <Fj\xf6ldi happa>, <St\xe6r\xf0 \xfartaks>, <Gildi breytu>, <Dreififall> ]",
     "HyperGeometric.SyntaxCAS": "[ <St\xe6r\xf0 \xfe\xfd\xf0is>, <Fj\xf6ldi happa>, <St\xe6r\xf0 \xfartaks>, x, <Dreififall> ]",

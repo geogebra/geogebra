@@ -397,8 +397,6 @@ __GGB__keysVar.pl.command = {
     "Histogram.Syntax": "[ <Lista Granic Klas>, <Lista Wysoko\u015bci> ]\n[ <Lista Granic Klas>, <Lista Danych>, <U\u017cyj G\u0119sto\u015bci>, <Czynnik Skaluj\u0105cy G\u0119sto\u015bci> (opcjonalne) ]\n[ <Czy Skumulowany> <Lista Granic Klas>, <Lista Danych>, <U\u017cyj G\u0119sto\u015bci>, <Czynnik Skaluj\u0105cy G\u0119sto\u015bci> (opcjonalne) ]",
     "HistogramRight": "HistogramPrawy",
     "HistogramRight.Syntax": "[ <Lista Granic Klas>, <Lista Wysoko\u015bci> ]\n[ <Lista Granic Klas>, <Lista Danych>, <U\u017cyj G\u0119sto\u015bci>, <Czynnik Skaluj\u0105cy G\u0119sto\u015bci (opcjonalne)>  ]\n[ <Czy Skumulowany> <Lista Granic Klas>, <Lista Danych>, <U\u017cyj G\u0119sto\u015bci>, <Czynnik Skaluj\u0105cy G\u0119sto\u015bci (opcjonalne)> ]",
-    "Hull": "Pow\u0142oka",
-    "Hull.Syntax": "[ <Lista Punkt\xf3w>, <Procent> ]",
     "HyperGeometric": "Rozk\u0142adHiperGeometryczny",
     "HyperGeometric.Syntax": "[ <Liczno\u015b\u0107 Populacji>, <Liczba Sukces\xf3w>, <Liczno\u015b\u0107 Pr\xf3bki> ]\n[ <Liczno\u015b\u0107 Populacji>, <Liczba Sukces\xf3w>, <Liczno\u015b\u0107 Pr\xf3bki>, <Czy Skumulowany> ]\n[ <Liczno\u015b\u0107 Populacji>, <Liczba Sukces\xf3w>, <Liczno\u015b\u0107 Pr\xf3bki>, <Warto\u015b\u0107 Zmiennej>, <Czy Skumulowany> ]",
     "HyperGeometric.SyntaxCAS": "[ <Liczno\u015b\u0107 Populacji>, <Liczba Sukces\xf3w>, <Liczno\u015b\u0107 Pr\xf3bki>, x, <Czy Skumulowany> ]",

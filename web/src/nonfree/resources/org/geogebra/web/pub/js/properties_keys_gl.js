@@ -397,8 +397,6 @@ __GGB__keysVar.gl.command = {
     "Histogram.Syntax": "[ <Lista de l\xedmites de clases>, <Lista de alturas> ]\n[ <Lista de l\xedmites de clases>, <Lista de datos>, <Usa densidade (booleana)>, <Factor de escala de densidade (opcional)> ]\n[ <Acumula (booleana)>,  <Lista de l\xedmites de clase>, <Lista de datos>, <Usa densidade (booleana)>, <Factor de escala de densidade> (opcional)> ]",
     "HistogramRight": "HistogramaDereita",
     "HistogramRight.Syntax": "[ <Lista de l\xedmites de clases>, <Lista de alturas> ]\n[ <Lista de l\xedmites de clases>, <Lista de datos>, <Usa densidade (booleana)>, <Factor de escala de densidade (opcional)> ]\n[ <Acumula (booleana)>,  <Lista de l\xedmites de clase>, <Lista de datos>, <Usa densidade (booleana)>, <Factor de escala de densidade (opcional)> ]",
-    "Hull": "Peche",
-    "Hull.Syntax": "[ <Lista de puntos>, <Tanto por un> ]",
     "HyperGeometric": "Distribuci\xf3nHiperXeom\xe9trica",
     "HyperGeometric.Syntax": "[ <Tama\xf1o da poboaci\xf3n>, <N\xfamero de \xe9xitos>, <Tama\xf1o da mostra> ]\n[ <Tama\xf1o da poboaci\xf3n>, <N\xfamero de \xe9xitos>, <Tama\xf1o da mostra>, <Acumula (booleana)> ]\n[ <Tama\xf1o da poboaci\xf3n>, <N\xfamero de \xe9xitos>, <Tama\xf1o da mostra>, <Valor da variable>, <Acumula (booleana)> ]",
     "HyperGeometric.SyntaxCAS": "[ <Tama\xf1o da poboaci\xf3n>, <N\xfamero de \xe9xitos>, <Tama\xf1o da mostra>, <Valor da variable>, <Acumula (booleana)> ]",

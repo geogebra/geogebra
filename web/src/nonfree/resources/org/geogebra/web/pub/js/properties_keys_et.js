@@ -397,8 +397,6 @@ __GGB__keysVar.et.command = {
     "Histogram.Syntax": "[ <Klassipiiride loend>, <K\xf5rguste loend> ]\n[ <Klassipiiride loend>, <Algandmete loend>, <Tiheduse t\xf5ev\xe4\xe4rtus>, <Tiheduse tegur (mittekohustuslik)> ]\n[ <Kumulatiivsuse t\xf5ev\xe4\xe4rtus>, <Klassipiiride loend>, <Algandmete loend>, <Tiheduse t\xf5ev\xe4\xe4rtus>, <Tiheduse tegur (mittekohustuslik)> ]",
     "HistogramRight": "HistogrammParem",
     "HistogramRight.Syntax": "[ <Klassipiiride loend>, <K\xf5rguste loend> ]\n[ <Klassipiiride loend>, <Algandmete loend>, <Tiheduse t\xf5ev\xe4\xe4rtus>, <Tiheduse tegur (mittekohustuslik)> ]\n[ <Kumulatiivsuse t\xf5ev\xe4\xe4rtus>, <Klassipiiride loend>, <Algandmete loend>, <Tiheduse t\xf5ev\xe4\xe4rtus>, <Tiheduse tegur (mittekohustuslik)> ]",
-    "Hull": "\xdcmbritsevHulknurk",
-    "Hull.Syntax": "[ <Punktide loend>, <Protsent> ]",
     "HyperGeometric": "H\xfcpergeomeetriline",
     "HyperGeometric.Syntax": "[ <Hulga suurus>, <Edukate katsete erv>, <Valimi maht> ]\n[ <Hulga suurus>, <Edukate katsete erv>, <Valimi maht>, <Kumulatiivsuse t\xf5ev\xe4\xe4rtus> ]\n[ <Hulga suurus>, <Edukate katsete erv>, <Valimi maht>, <Muutuja v\xe4\xe4rtus>, <Kumulatiivsuse t\xf5ev\xe4\xe4rtus> ]",
     "HyperGeometric.SyntaxCAS": "[ <Hulga suurus>, <Edukate katsete erv>, <Valimi maht>, <Muutuja v\xe4\xe4rtus>, <Kumulatiivsuse t\xf5ev\xe4\xe4rtus> ]",

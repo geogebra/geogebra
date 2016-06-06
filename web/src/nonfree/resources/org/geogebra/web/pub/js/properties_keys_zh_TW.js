@@ -397,8 +397,6 @@ __GGB__keysVar.zh_TW.command = {
     "Histogram.Syntax": "[ <List of Class Boundaries>, <List of Heights> ]\n[ <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]",
     "HistogramRight": "HistogramRight",
     "HistogramRight.Syntax": "[ <List of Class Boundaries>, <List of Heights> ]\n[ <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <List of Class Boundaries>, <List of Raw Data>, <Use Density>, <Density Scale Factor (optional)> ]",
-    "Hull": "Hull",
-    "Hull.Syntax": "[ <\u9ede\u96c6>, <\u6bd4\u7387> ]",
     "HyperGeometric": "HyperGeometric",
     "HyperGeometric.Syntax": "[ <Population Size>, <Number of Successes>, <Sample Size> ]\n[ <Population Size>, <Number of Successes>, <Sample Size>, <Boolean Cumulative> ]\n[ <Population Size>, <Number of Successes>, <Sample Size>, <Variable Value>, <Boolean Cumulative> ]",
     "HyperGeometric.SyntaxCAS": "[ <Population Size>, <Number of Successes>, <Sample Size>, <Variable Value>, <Boolean Cumulative> ]",

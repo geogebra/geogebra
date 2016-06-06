@@ -397,8 +397,6 @@ __GGB__keysVar.sl.command = {
     "Histogram.Syntax": "[ <seznam frekven\u010dnih razredov>, <seznam vi\u0161in> ]\n[ <seznam frekven\u010dnih razredov>, <seznam vrstic s podatki>, <gostota>, <faktor gostote (neobvezno)> ]\n[ <logi\u010dna vrednost>, <seznam frekven\u010dnih razredov>, <seznam vrstic s podatki>, <gostota>, <faktor gostote (neobvezno)> ]",
     "HistogramRight": "HistogramDesni",
     "HistogramRight.Syntax": "[ <seznam mej frekven\u010dnih razredov>, <seznam velikosti> ]\n[ <seznam mej frekven\u010dnih razredov>, <seznam vrstic s podatki>, <logi\u010dna vrednost uporaba gostote>, <faktor gostote (neobvezno)> ]\n[ <logi\u010dna vrednost zbirno>, <seznam mej frekven\u010dnih razredov>, <seznam vrstic s podatki>, <logi\u010dna vrednost uporaba gostote>, <faktor gosotot (neobvezno)> ]",
-    "Hull": "Ogrinja\u010da",
-    "Hull.Syntax": "[ <seznam to\u010dk>, <odstotek> ]",
     "HyperGeometric": "HiperGeometri\u010dna",
     "HyperGeometric.Syntax": "[ <velikost populacije>, <\u0161tevilo ugodnih>, <velikost vzorca> ]\n[ <velikost populacije>, <\u0161tevilo ugodnih>, <velikost vzorca>, <logi\u010dna vrednost zbirno> ]\n[ <velikost populacije>, <\u0161tevilo ugodnih>, <velikost vzorca>, <vrednost spremenljivke>, <logi\u010dna vrednost zbirno> ]",
     "HyperGeometric.SyntaxCAS": "[ <velikost populacije>, <\u0161tevilo ugodnih>, <velikost vzorca>, <vrednost spremenljivke>, <logi\u010dna vrednost zbirno> ]",

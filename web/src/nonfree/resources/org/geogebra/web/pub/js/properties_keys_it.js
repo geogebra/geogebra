@@ -397,8 +397,6 @@ __GGB__keysVar.it.command = {
     "Histogram.Syntax": "[ <Lista degli estremi delle classi>, <Lista altezze> ]\n[ <Lista degli estremi delle classi>, <Lista dati grezzi>, <Usa densit\xe0>, <Fattore di scala densit\xe0> (facoltativo) ]\n[ <Booleano Cumulativa>, <Lista degli estremi delle classi>, <Lista dati grezzi>, <Usa densit\xe0>, <Fattore di scala densit\xe0> (facoltativo) ]",
     "HistogramRight": "IstogrammaDestra",
     "HistogramRight.Syntax": "[ <Lista degli estremi delle classi>, <Lista altezze> ]\n[ <Lista degli estremi delle classi>, <Lista dati grezzi>, <Usa densit\xe0>, <Fattore di scala densit\xe0 (facoltativo)> ]\n[ <Booleano Cumulativa>, <Lista degli estremi delle classi>, <Lista dati grezzi>, <Usa densit\xe0>, <Fattore di scala densit\xe0 (facoltativo)>  ]",
-    "Hull": "InviluppoPunti",
-    "Hull.Syntax": "[ <Lista di punti>, <Percentuale> ]",
     "HyperGeometric": "IperGeometrica",
     "HyperGeometric.Syntax": "[ <Dimensione popolazione>, <Numero successi>, <Dimensione campione> ]\n[ <Dimensione popolazione>, <Numero successi>, <Dimensione campione>, <Booleano Cumulativa> ]\n[ <Dimensione popolazione>, <Numero successi>, <Dimensione campione>, <Valore variabile>, <Booleano Cumulativa> ]",
     "HyperGeometric.SyntaxCAS": "[ <Dimensione popolazione>, <Numero successi>, <Dimensione campione>, <Valore variabile>, <Booleano Cumulativa> ]",

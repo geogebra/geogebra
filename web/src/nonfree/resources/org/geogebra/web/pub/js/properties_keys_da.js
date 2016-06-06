@@ -397,8 +397,6 @@ __GGB__keysVar.da.command = {
     "Histogram.Syntax": "[ <Liste med gr\xe6nser>, <Liste med h\xf8jder> ]\n[ <Liste med gr\xe6nser>, <Liste med r\xe5 Data>, <t\xe6thed>, <skalering af t\xe6thed (valgfri)> ]\n[ <boolesk akkumulerende>, <Liste med gr\xe6nser>, <Liste med r\xe5 Data>, <t\xe6thed>, <skalering af t\xe6thed (valgfri)> ]",
     "HistogramRight": "Histogram",
     "HistogramRight.Syntax": "[ <Liste med Intervalgr\xe6nser>, <Liste med h\xf8jder> ]\n[ <Liste med Intervalgr\xe6nser>, <Liste med r\xe5 Data>, <Brug T\xe6thed? True/False>, <skalering af t\xe6thed (valgfri)> ]\n[ <Akkumuleret? True/False>, <Liste med Intervalgr\xe6nser>, <Liste med r\xe5 Data>, <Brug T\xe6thed? True/False>, <skalering af t\xe6thed (valgfri)> ]",
-    "Hull": "Hull",
-    "Hull.Syntax": "[ <Liste med punkter>, <Procent> ]",
     "HyperGeometric": "Hypergeometrisk",
     "HyperGeometric.Syntax": "[ <Populations St\xf8rrelse>, <Antal Sucesser>, <Pr\xf8vest\xf8rrelse> ]\n[ <Populations St\xf8rrelse>, <Antal Sucesser>, <Pr\xf8vest\xf8rrelse>, <Akkumuleret? True/False> ]\n[ <Populations St\xf8rrelse>, <Antal Sucesser>, <Pr\xf8vest\xf8rrelse>, <Variabel V\xe6rdi>, <Akkumuleret? True/False> ]",
     "HyperGeometric.SyntaxCAS": "[ <Populations St\xf8rrelse>, <Antal Succeser>, <Udtr\xe6ksst\xf8rrelse>, <Variabel V\xe6rdi>, <Akkumulerede? True/False> ]",

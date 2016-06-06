@@ -397,8 +397,6 @@ __GGB__keysVar.eu.command = {
     "Histogram.Syntax": "[ <Klase-Muturren Zerrenda>, <Altueren Zerrenda> ]\n[ <Klase-Muturren Zerrenda>, <Datu Gordinen Zerrenda>, <Erabili Dentsitatea>, <Dentsitatearen Eskalarako Faktorea> (aukerakoa) ]\n[ <Metatu Boolearra>, <Klase-Muturren Zerrenda>, <Datu Gordinen Zerrenda>, <Erabili Dentsitatea>, <Dentsitatearen Eskalarako Faktorea> (aukerakoa) ]",
     "HistogramRight": "HistogramaEskuina",
     "HistogramRight.Syntax": "[ <Klase-Muturren Zerrenda>, <Altueren Zerrenda> ]\n[ <Klase-Muturren Zerrenda>, <Datu Gordinen Zerrenda>, <Erabili Dentsitatea>, <Dentsitatearen Eskalarako Faktorea (aukerakoa)>  ]\n[ <Metatu Boolearra>, <Klase-Muturren Zerrenda>, <Datu Gordinen Zerrenda>, <Erabili Dentsitatea>, <Dentsitatearen Eskalarako Faktorea (aukerakoa)> ]",
-    "Hull": "Inguratzailea",
-    "Hull.Syntax": "[ <Puntuen Zerrenda>, <Ehunekoa> ]",
     "HyperGeometric": "HiperGeometrikoa",
     "HyperGeometric.Syntax": "[ <Populazioaren Tamaina>, <Aldeko Zenbat Kasu>, <Laginaren Tamaina> ]\n[ <Populazioaren Tamaina>, <Aldeko Zenbat Kasu>, <Laginaren Tamaina>, <Metatu Boolearra> ]\n[ <Populazioaren Tamaina>, <Aldeko Zenbat Kasu>, <Laginaren Tamaina>, <Balio Aldakorra>, <Metatu Boolearra> ]",
     "HyperGeometric.SyntaxCAS": "[ <Populazioaren Tamaina>, <Aldeko Zenbat Kasu>, <Laginaren Tamaina>, <Balio Aldakorra>, <Metatu Boolearra> ]",

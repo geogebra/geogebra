@@ -397,8 +397,6 @@ __GGB__keysVar.lv.command = {
     "Histogram.Syntax": "[ <Kla\u0161u Robe\u017eu Saraksts>, <Augstumu Saraksts> ]\n[ <Kla\u0161u Robe\u017eu Saraksts>, <Datu Saraksts>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <Kla\u0161u Robe\u017eu Saraksts>, <Datu saraksts>, <Use Density>, <Density Scale Factor (optional)> ]",
     "HistogramRight": "HistogrammaPaLabi",
     "HistogramRight.Syntax": "[ <Kla\u0161u Robe\u017eu Saraksts>, <Augstumu Saraksts> ]\n[ <Kla\u0161u Robe\u017eu Saraksts>, <Datu saraksts>, <Use Density>, <Density Scale Factor (optional)> ]\n[ <Boolean Cumulative>, <Kla\u0161u Robe\u017eu Saraksts>, <Datu saraksts>, <Use Density>, <Density Scale Factor (optional)> ]",
-    "Hull": "Hull",
-    "Hull.Syntax": "[ <Punktu saraksts>, <Procenti> ]",
     "HyperGeometric": "HyperGeometric",
     "HyperGeometric.Syntax": "[ <Population Size>, <Labv\u0113l\u012bgo gad\u012bjumu skaits>, <Sample Size> ]\n[ <Population Size>, <Labv\u0113l\u012bgo gad\u012bjumu skaits>, <Sample Size>, <Boolean Cumulative> ]\n[ <Population Size>, <Labv\u0113l\u012bgo gad\u012bjumu skaits>, <Sample Size>, <Main\u012bg\u0101 V\u0113rt\u012bba>, <Boolean Cumulative> ]",
     "HyperGeometric.SyntaxCAS": "[ <Population Size>, <Number of Successes>, <Sample Size>, <Variable Value>, <Boolean Cumulative> ]",

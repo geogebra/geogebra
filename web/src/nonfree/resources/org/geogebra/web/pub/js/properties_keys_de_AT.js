@@ -397,8 +397,6 @@ __GGB__keysVar.de_AT.command = {
     "Histogram.Syntax": "[ <Liste von Klassenbereichen>, <Liste von Balkenh\xf6hen> ]\n[ <Liste von Klassenbereichen>, <Liste von Rohdaten>, <Wahrheitswert Dichte>, <Skalierungsfaktor> (optional) ]\n[ <Wahrheitswert kumulativ>, <Liste von Klassenbereichen>, <Liste von Rohdaten>, <Wahrheitswert Dichte>, <Skalierungsfaktor> (optional) ]",
     "HistogramRight": "HistogrammRechts",
     "HistogramRight.Syntax": "[ <Liste von Klassenbereichen>, <Liste von Balkenh\xf6hen> ]\n[ <Liste von Klassenbereichen>, <Liste von Rohdaten>, <Wahrheitswert Dichte>, <Skalierungsfaktor (optional)> ]\n[ <Wahrheitswert kumulativ>, <Liste von Klassenbereichen>, <Liste von Rohdaten>, <Wahrheitswert Dichte>, <Skalierungsfaktor (optional)> ]",
-    "Hull": "H\xfclle",
-    "Hull.Syntax": "[ <Liste von Punkten>, <Prozentsatz> ]",
     "HyperGeometric": "Hypergeometrisch",
     "HyperGeometric.Syntax": "[ <Gr\xf6\xdfe der Grundgesamtheit>, <Anzahl m\xf6glicher Erfolge>, <Stichprobenumfang> ]\n[ <Gr\xf6\xdfe der Grundgesamtheit>, <Anzahl m\xf6glicher Erfolge>, <Stichprobenumfang>, <Wert der Variablen>, <Wahrheitswert Verteilungsfunktion> ]",
     "HyperGeometric.SyntaxCAS": "[ <Gr\xf6\xdfe der Grundgesamtheit>, <Anzahl m\xf6glicher Erfolge>, <Stichprobenumfang>, <Wert der Variablen>, <Wahrheitswert Verteilungsfunktion> ]",

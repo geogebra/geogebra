@@ -397,8 +397,6 @@ __GGB__keysVar.no_NB.command = {
     "Histogram.Syntax": "[ <Liste med klassegrenser>, <Liste med h\xf8yder> ]\n[ <Liste med klassegrenser>, <Liste med r\xe5data>, <Bruk tetthet>, <Tetthetsfaktor (valgfri)> ]\n[ <Boolsk kumulativ>, <Liste med klassegrenser>, <Liste med r\xe5data>, <Bruk tetthet>, <Tetthetsfaktor (valgfri)> ]",
     "HistogramRight": "HistogramH\xf8yre",
     "HistogramRight.Syntax": "[ <Liste med klassegrenser>, <Liste med h\xf8yder> ]\n[ <Liste med klassegrenser>, <Liste med r\xe5data>, <Bruk tetthet>, <Tetthetsfaktor (valgfri)> ]\n[ <Boolsk kumulativ>, <Liste med klassegrenser>, <Liste med r\xe5data>, <Bruk tetthet>, <Tetthetsfaktor (valgfri)> ]",
-    "Hull": "Innhylling",
-    "Hull.Syntax": "[ <Liste med punkt>, <Prosent> ]",
     "HyperGeometric": "FordelingHypergeometrisk",
     "HyperGeometric.Syntax": "[ <Populasjonsst\xf8rrelse>, <Antall treff>, <Utvalgsst\xf8rrelse> ]\n[ <Populasjonsst\xf8rrelse>, <Antall treff>, <Utvalgsst\xf8rrelse>, <Boolsk kumulativ> ]\n[ <Populasjonsst\xf8rrelse>, <Antall treff>, <Utvalgsst\xf8rrelse>, <Variabelverdi>, <Boolsk kumulativ> ]",
     "HyperGeometric.SyntaxCAS": "[ <Populasjonsst\xf8rrelse>, <Antall treff>, <Utvalgsst\xf8rrelse>, <Variabelverdi>, <Boolsk kumulativ> ]",
