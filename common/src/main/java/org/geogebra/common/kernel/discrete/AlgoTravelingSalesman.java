@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoTravelingSalesman extends AlgoHull {
+public class AlgoTravelingSalesman extends AlgoDiscrete {
 
 	public AlgoTravelingSalesman(Construction cons, String label, GeoList inputList) {
 		super(cons, label, inputList, null);

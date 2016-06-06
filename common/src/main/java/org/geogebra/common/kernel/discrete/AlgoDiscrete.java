@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * @version
  */
 
-public abstract class AlgoHull extends AlgoElement implements GraphAlgo {
+public abstract class AlgoDiscrete extends AlgoElement implements GraphAlgo {
 
 	
 	protected GeoList inputList; // input
@@ -38,7 +38,7 @@ public abstract class AlgoHull extends AlgoElement implements GraphAlgo {
 	protected ArrayList<MyPoint> al;
 	protected int size;
 
-	public AlgoHull(Construction cons, String label, GeoList inputList,
+	public AlgoDiscrete(Construction cons, String label, GeoList inputList,
 			GeoNumeric percentage) {
 		super(cons);
 		this.inputList = inputList;

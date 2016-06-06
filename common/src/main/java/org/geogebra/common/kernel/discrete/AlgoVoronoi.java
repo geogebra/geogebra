@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoVoronoi extends AlgoHull{
+public class AlgoVoronoi extends AlgoDiscrete{
 
 	public AlgoVoronoi(Construction cons, String label, GeoList inputList) {
 		super(cons, label, inputList, null);

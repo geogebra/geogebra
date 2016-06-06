@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
 
-public class AlgoDelauneyTriangulation extends AlgoHull{
+public class AlgoDelauneyTriangulation extends AlgoDiscrete{
 
 	public AlgoDelauneyTriangulation(Construction cons, String label, GeoList inputList) {
 		super(cons, label, inputList, null);

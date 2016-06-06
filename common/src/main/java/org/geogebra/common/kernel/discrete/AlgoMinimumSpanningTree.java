@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.discrete.alds.ds.graphs.Graph.Type;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-public class AlgoMinimumSpanningTree extends AlgoHull {
+public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 
 	public AlgoMinimumSpanningTree(Construction cons, String label, GeoList inputList) {
 		super(cons, label, inputList, null);
