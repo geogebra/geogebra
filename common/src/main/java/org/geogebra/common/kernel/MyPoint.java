@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel;
 
 import org.geogebra.common.awt.GPoint2D;
+import org.geogebra.common.kernel.discrete.tsp.impl.Point;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.util.MyMath;
 
@@ -20,13 +21,13 @@ import org.geogebra.common.util.MyMath;
  * Lightweight point with lineTo flag that can be easily transformed into
  * GeoPoint
  */
-public class MyPoint extends GPoint2D {
+public class MyPoint extends GPoint2D implements Point {
 	/** x-coord */
 	public double x;
 	/** y-coord */
 	public double y;
 	/** lineto flag */
-	public boolean lineTo;
+	public boolean lineTo = true;
 
 	/**
 	 * Creates new MyPoint
@@ -45,7 +46,12 @@ public class MyPoint extends GPoint2D {
 	}
 
 	public MyPoint() {
-		// TODO Auto-generated constructor stub
+		//
+	}
+
+	public MyPoint(double x, double y) {
+		this.x = x;
+		this.y = y;
 	}
 
 	/**
@@ -83,8 +89,8 @@ public class MyPoint extends GPoint2D {
 	 *            other point
 	 * @return euclidian distance from p
 	 */
-	public double distance(MyPoint p) {
-		return MyMath.length(p.x - x, p.y - y);
+	public double distance(Point p) {
+		return MyMath.length(p.getX() - x, p.getY() - y);
 	}
 
 	/**
@@ -179,5 +185,25 @@ public class MyPoint extends GPoint2D {
 	public MyPoint barycenter(double t, MyPoint point2) {
 		return new MyPoint((1 - t) * x + t * point2.x, (1 - t) * y + t
 				* point2.y, false);
+	}
+
+	public void setLineTo(boolean b) {
+		this.lineTo = b;
+
+	}
+
+	public double distanceSqr(Point to) {
+		return distSqr(to.getX(), to.getY());
+	}
+
+	public boolean isActive() {
+		// reuse field "lineTo"
+		return lineTo;
+	}
+
+	public void setActive(boolean active) {
+		// re-use field "lineTo"
+		this.lineTo = active;
+
 	}
 }

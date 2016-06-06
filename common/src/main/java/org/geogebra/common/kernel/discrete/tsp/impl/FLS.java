@@ -59,10 +59,10 @@ public final class FLS {
                             final Point c, final Point d) {
 
 	// original edges (ab) (cd)
-	final double _ab = a._distance(b), _cd = c._distance(d);
+	final double _ab = a.distanceSqr(b), _cd = c.distanceSqr(d);
 
 	// candidate edges (ac) (bd)
-	final double _ac = a._distance(c), _bd = b._distance(d);
+	final double _ac = a.distanceSqr(c), _bd = b.distanceSqr(d);
 
 	// triangle of inequality: at least 1 edge will be shorter.
 	// if both will be longer, there will be no improvement.
@@ -151,7 +151,7 @@ public final class FLS {
     public double optimise(final Point[] points) {
 
 	// total tour distance
-        double best = Point.distance(points);
+		double best = distance(points);
 
 		// System.out.printf("tour length = %.4f\n", best);
 
@@ -191,5 +191,16 @@ public final class FLS {
         }
         return best;
     }
+
+	/**
+	 * Euclidean distance. tour wraps around N-1 to 0.
+	 */
+	private static double distance(final Point[] points) {
+		final int len = points.length;
+		double d = points[len - 1].distance(points[0]);
+		for (int i = 1; i < len; i++)
+			d += points[i - 1].distance(points[i]);
+		return d;
+	}
 
 }
