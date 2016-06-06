@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -77,6 +78,7 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * View containing graphic representation of construction elements
@@ -306,6 +308,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	// the curve is sampled at least at this many positions to plot it
 	private static final int MIN_SAMPLE_POINTS = 80;
+	private static final int ADJUDT_SLIDER_MARGIN_X = 15;
+	private static final int ADJUDT_SLIDER_MARGIN_Y = 15;
 
 	protected EuclidianViewCompanion companion;
 
@@ -5355,4 +5359,67 @@ sb.toString(), getFontAxes(),
 	public float getPixelRatio() {
 		return 1;
 	}
+
+	public void adjustSliderToNearestCorner(GeoNumeric number) {
+		if (!app.has(Feature.ADJUST_SLIDERS) || !number.isSlider()) {
+			return;
+		}
+
+		int w = getExportWidth();
+		int h = getExportHeight();
+		double cx1 = 0;
+		double cy1 = 0;
+		
+		double cx2 = 0;
+		double cy2 = h;
+		
+		double cx3 = w;
+		double cy3 = h;
+		
+		double cx4 = w;
+		double cy4 = h;
+
+		Log.debug("[ADJUST] Corner 1: (" + cx1 + ", " + cy1 + ")");
+		Log.debug("[ADJUST] Corner 2: (" + cx2 + ", " + cy2 + ")");
+		Log.debug("[ADJUST] Corner 3: (" + cx3 + ", " + cy3 + ")");
+		Log.debug("[ADJUST] Corner 4: (" + cx4 + ", " + cy4 + ")");
+
+		double sliderX = number.getSliderX();
+		double sliderY = number.getSliderY();
+		double sW = number.getSliderWidth();
+
+		if (number.isSliderHorizontal()) {
+			if (sW > getViewWidth()) {
+				// Reducing width
+				number.setSliderWidth(
+						getViewWidth() - 2 * ADJUDT_SLIDER_MARGIN_X);
+				sliderX = ADJUDT_SLIDER_MARGIN_X;
+
+			} else {
+				sliderX = sliderX < w / 2 ? ADJUDT_SLIDER_MARGIN_X
+						: w - (sW + ADJUDT_SLIDER_MARGIN_X);
+			}
+
+			if (sliderY > getViewHeight() - ADJUDT_SLIDER_MARGIN_Y) {
+				sliderY = getViewHeight() - ADJUDT_SLIDER_MARGIN_Y;
+			}
+		} else {
+			// Vertical slider
+			if (sW > getViewHeight()) {
+				number.setSliderWidth(
+						getViewHeight() - 2 * ADJUDT_SLIDER_MARGIN_Y);
+				sliderY = h - ADJUDT_SLIDER_MARGIN_Y;
+
+			} else if (sliderY > h) {
+				sliderY = h - ADJUDT_SLIDER_MARGIN_Y;
+			}
+
+			if (sliderX > w - ADJUDT_SLIDER_MARGIN_X) {
+				sliderX = w - ADJUDT_SLIDER_MARGIN_X;
+			}
+
+		}
+		number.setSliderLocation(sliderX, sliderY, true);
+	}
+
 }

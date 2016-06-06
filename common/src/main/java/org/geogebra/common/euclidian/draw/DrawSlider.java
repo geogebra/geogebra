@@ -28,6 +28,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -49,6 +52,8 @@ public class DrawSlider extends Drawable {
 	// used by getSelectionDiamaterMin()
 	private static final int SELECTION_RADIUS_MIN = 12;
 
+	private static final String ADJUST = "[ADJUST] ";
+
 	// private GeoPointND P;
 
 	private int diameter, hightlightDiameter, pointSize;
@@ -69,6 +74,8 @@ public class DrawSlider extends Drawable {
 
 	private double initX, initY;
 
+	private boolean adjustChecked = false;
+
 	/**
 	 * Creates new drawable for slider
 	 * 
@@ -83,6 +90,7 @@ public class DrawSlider extends Drawable {
 		geo = number;
 		initX = number.getSliderX();
 		initY = number.getSliderY();
+
 		update();
 	}
 
@@ -160,7 +168,9 @@ public class DrawSlider extends Drawable {
 
 			updateStrokes(number, 2);
 		}
-
+		if (needsAndjusted()) {
+			Log.debug(ADJUST + " needed for " + geo.getNameDescription());
+		}
 	}
 
 	@Override
@@ -332,5 +342,32 @@ public class DrawSlider extends Drawable {
 		this.initX = -1;
 		this.initY = -1;
 	}
+
+	private boolean needsAndjusted() {
+		App app = view.getApplication();
+		int fileWidth = app.getSettings()
+				.getEuclidian(view.getEuclidianViewNo()).getFileWidth();
+		int fileHeight = app.getSettings()
+				.getEuclidian(view.getEuclidianViewNo()).getFileHeight();
+
+		if (!app.has(Feature.ADJUST_SLIDERS) || adjustChecked || fileWidth == 0
+				|| fileHeight == 0) {
+			return false;
+		}
+
+		// adjustChecked = true;
+
+		if ((view.getViewWidth() >= fileWidth && number.isSliderHorizontal())
+				|| (view.getViewHeight() >= fileHeight
+						&& !number.isSliderHorizontal())) {
+			Log.debug(ADJUST + " NOT need to be adjusted.");
+			return false;
+		}
+
+		view.adjustSliderToNearestCorner(number);
+
+		return true;
+	}
+
 
 }
