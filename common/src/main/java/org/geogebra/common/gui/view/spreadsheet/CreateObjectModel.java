@@ -113,7 +113,9 @@ public class CreateObjectModel {
 
 
 	public void cancel() {
-		keepNewGeo = true;
+		if (newGeo != null) {
+			newGeo.remove();
+		}
 		listener.setVisible(false);
 	}
 
@@ -122,10 +124,9 @@ public class CreateObjectModel {
 	} 
 
 	public void ok() {
-		if (newGeo != null) {
-			newGeo.remove();
-		}
+		keepNewGeo = true;
 		listener.setVisible(false);
+
 
 	} 
 

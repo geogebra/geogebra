@@ -261,9 +261,9 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		// TODO: using buttons incorrectly for now
 		// btnOK = cancel, cancel = create
-		btOK.setText(app.getPlain("Cancel"));
+		btOK.setText(app.getPlain("Create"));
 		btApply.setText(app.getPlain("Apply"));
-		btCancel.setText(app.getMenu("Create"));
+		btCancel.setText(app.getMenu("Cancel"));
 
 		// object/value checkboxes
 		btnObject.setText(app.getPlain("DependentObjects"));

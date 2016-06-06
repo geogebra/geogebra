@@ -479,7 +479,7 @@ public class CellRangeProcessor {
 		PointDimension pd = new PointDimension();
 		getPointListDimensions(rangeList, pd);
 
-		Kernel kernel = cons.getKernel();
+
 
 		// build the string
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
@@ -493,53 +493,8 @@ public class CellRangeProcessor {
 					xCoord = RelativeCopy.getValue(app, pd.c1, i);
 					yCoord = RelativeCopy.getValue(app, pd.c2, i);
 
-					// don't process the point if either coordinate is null or
-					// non-numeric,
-					if (xCoord == null || yCoord == null
-							|| !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric())
-						continue;
-
-					GeoPoint geoPoint;
-					AlgoDependentPoint pointAlgo = null;
-
-					if (byValue) {
-						if (leftToRight)
-							geoPoint = new GeoPoint(cons,
-									((GeoNumeric) xCoord).getDouble(),
-									((GeoNumeric) yCoord).getDouble(), 1.0);
-						else
-							geoPoint = new GeoPoint(cons,
-									((GeoNumeric) yCoord).getDouble(),
-									((GeoNumeric) xCoord).getDouble(), 1.0);
-
-					} else {
-
-						MyVecNode vec = new MyVecNode(kernel,
-								leftToRight ? xCoord : yCoord,
-								leftToRight ? yCoord : xCoord);
-						ExpressionNode point = new ExpressionNode(kernel, vec,
-								Operation.NO_OPERATION, null);
-						point.setForcePoint();
-
-						pointAlgo = new AlgoDependentPoint(cons, point, false);
-
-						geoPoint = (GeoPoint) pointAlgo.getGeoElements()[0];
-
-					}
-
-					if (doCreateFreePoints) {
-						// make sure points are independent of list (and so
-						// draggable)
-						geoPoint.setLabel(null);
-					} else {
-						if (pointAlgo != null)
-							cons.removeFromConstructionList(pointAlgo);
-					}
-
-					list.add(geoPoint);
-
-					if (yCoord.isAngle() || xCoord.isAngle())
-						geoPoint.setPolar();
+					createPoint(xCoord, yCoord, byValue, leftToRight,
+							doCreateFreePoints, list);
 
 				}
 
@@ -548,47 +503,8 @@ public class CellRangeProcessor {
 					xCoord = RelativeCopy.getValue(app, i, pd.r1);
 					yCoord = RelativeCopy.getValue(app, i, pd.r2);
 
-					// don't process the point if either coordinate is null or
-					// non-numeric,
-					if (xCoord == null || yCoord == null
-							|| !xCoord.isGeoNumeric() || !yCoord.isGeoNumeric())
-						continue;
-
-					GeoPoint geoPoint;
-					AlgoDependentPoint pointAlgo = null;
-
-					if (byValue) {
-						geoPoint = new GeoPoint(cons,
-								((GeoNumeric) xCoord).getDouble(),
-								((GeoNumeric) yCoord).getDouble(), 1.0);
-					} else {
-
-						MyVecNode vec = new MyVecNode(kernel,
-								leftToRight ? xCoord : yCoord,
-								leftToRight ? yCoord : xCoord);
-						ExpressionNode point = new ExpressionNode(kernel, vec,
-								Operation.NO_OPERATION, null);
-						point.setForcePoint();
-
-						pointAlgo = new AlgoDependentPoint(cons, point, false);
-
-						geoPoint = (GeoPoint) pointAlgo.getGeoElements()[0];
-
-					}
-
-					if (doCreateFreePoints) {
-						// make sure points are independent of list (and so
-						// draggable)
-						geoPoint.setLabel(null);
-					} else {
-						if (pointAlgo != null)
-							cons.removeFromConstructionList(pointAlgo);
-					}
-
-					list.add(geoPoint);
-
-					if (yCoord.isAngle() || xCoord.isAngle())
-						geoPoint.setPolar();
+					createPoint(xCoord, yCoord, byValue, leftToRight,
+							doCreateFreePoints, list);
 				}
 			}
 
@@ -604,6 +520,53 @@ public class CellRangeProcessor {
 		AlgoDependentList dl = new AlgoDependentList(cons, list, false);
 		cons.removeFromConstructionList(dl);
 		return (GeoList) dl.getGeoElements()[0];
+
+	}
+
+	private void createPoint(GeoElement xCoord, GeoElement yCoord,
+			boolean byValue, boolean leftToRight, boolean doCreateFreePoints,
+			ArrayList<GeoElement> list) {
+		Kernel kernel = cons.getKernel();
+		// don't process the point if either coordinate is null or
+		// non-numeric,
+		if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric()
+				|| !yCoord.isGeoNumeric())
+			return;
+
+		GeoPoint geoPoint;
+		AlgoDependentPoint pointAlgo = null;
+
+		if (byValue) {
+			geoPoint = new GeoPoint(cons, ((GeoNumeric) xCoord).getDouble(),
+					((GeoNumeric) yCoord).getDouble(), 1.0);
+		} else {
+
+			MyVecNode vec = new MyVecNode(kernel,
+					leftToRight ? xCoord : yCoord, leftToRight ? yCoord
+							: xCoord);
+			ExpressionNode point = new ExpressionNode(kernel, vec,
+					Operation.NO_OPERATION, null);
+			point.setForcePoint();
+
+			pointAlgo = new AlgoDependentPoint(cons, point, false);
+
+			geoPoint = (GeoPoint) pointAlgo.getGeoElements()[0];
+
+		}
+
+		if (doCreateFreePoints) {
+			// make sure points are independent of list (and so
+			// draggable)
+			geoPoint.setLabel(null);
+		} else {
+			if (pointAlgo != null)
+				cons.removeFromConstructionList(pointAlgo);
+		}
+
+		list.add(geoPoint);
+
+		if (yCoord.isAngle() || xCoord.isAngle())
+			geoPoint.setPolar();
 
 	}
 
