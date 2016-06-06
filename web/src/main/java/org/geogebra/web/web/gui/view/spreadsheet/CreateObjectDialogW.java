@@ -72,7 +72,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		super(false, app);
 		this.table = (MyTableW) view.getSpreadsheetTable();
-		coModel = new CreateObjectModel(app, view, objectType, this);
+		coModel = new CreateObjectModel(app, objectType, this);
 		coModel.setCellRangeProcessor(table.getCellRangeProcessor());
 		coModel.setSelectedCellRanges(table.selectedCellRanges);
 		// cp = table.getCellRangeProcessor();

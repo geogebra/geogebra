@@ -20,7 +20,7 @@ import org.geogebra.common.util.debug.Log;
  * @author G. Sturr
  * 
  */
-@SuppressWarnings({ "javadoc", "rawtypes" })
+@SuppressWarnings({ "javadoc" })
 public class CreateObjectModel {
 	public interface  ICreateObjectListener {
 		void setName(String name);
@@ -45,16 +45,14 @@ public class CreateObjectModel {
 
 	private GeoElement newGeo;
 	private boolean keepNewGeo = false;
-	private MyTable table;
 	private App app;
 	private ICreateObjectListener listener;
 
-	public CreateObjectModel(App app, SpreadsheetViewInterface view, int objectType,
+	public CreateObjectModel(App app, int objectType,
 			ICreateObjectListener listener) {
 		this.app = app;
 		this.objectType = objectType;
 		this.listener = listener;
-		this.table = (MyTable )view.getSpreadsheetTable();
 
 
 
@@ -115,6 +113,12 @@ public class CreateObjectModel {
 	public void cancel() {
 		if (newGeo != null) {
 			newGeo.remove();
+			if (newGeo instanceof GeoList
+					&& getObjectType() == TYPE_LISTOFPOINTS) {
+				for (int i = 0; i < ((GeoList) newGeo).size(); i++) {
+					((GeoList)newGeo).get(i).remove();
+				}
+			}
 		}
 		listener.setVisible(false);
 	}
@@ -256,10 +260,6 @@ public class CreateObjectModel {
 
 			listener.updatePreview(newGeo.getFormulaString(
 					StringTemplate.latexTemplate, true), newGeo.isLaTeXDrawableGeo());
-					;
-
-			// System.out.println(latexStr);
-
 
 			if (!nullGeo) {
 				newGeo.setLabel(name);
