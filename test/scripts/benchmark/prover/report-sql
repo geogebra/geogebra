@@ -454,7 +454,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    if [ $ndg = 1 ]; then
     TRUE=""
     fi
-   HTMLRESULT=`echo $HTMLRESULT | sed s/true/$TRUE/g | sed s/false/f/g`
+   HTMLRESULT=`echo $HTMLRESULT | sed s/true/$TRUE/g | sed s/"^, "// | sed s/false/f/g`
    HTMLRESULT=`echo $HTMLRESULT | sed s/"AreEqual\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\\1=\\2"/g |\
     sed s/"AreParallel\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\\1\&#8741;\\2"/g |\
     sed s/"ArePerpendicular\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\\1\&#10178;\\2"/g |\
@@ -468,7 +468,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   if [ $ndg = 1 ]; then
    TRUE=""
    fi
-  RESULT=`echo $RESULT | sed s/true/$TRUE/g | sed s/false/f/g`
+  RESULT=`echo $RESULT | sed s/true/$TRUE/g | sed s/"^, "// | sed s/false/f/g`
   RESULT=`echo $RESULT | sed s/"AreEqual\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1=\\2\$"/g |\
    sed s/"AreParallel\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\\\\\parallel \\2\$"/g |\
    sed s/"ArePerpendicular\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\\\\\perp \\2\$"/g |\

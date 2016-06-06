@@ -282,12 +282,12 @@ for i in `find -name '*.ggb' | sort`; do
    grep --silent "OUTPUT for Prove:" $MYDIR/tmp/.test.stdout && \
     tac $MYDIR/tmp/.test.stdout | grep "OUTPUT for Prove:" | head -1 | sed 's/\(.*\) = \(.*\)/OUTPUT for Prove or ProveDetails == null = \2/' > $REGRESSIONFILE
    grep --silent "OUTPUT for ProveDetails:" $MYDIR/tmp/.test.stdout && \
-    tac $MYDIR/tmp/.test.stdout | grep "OUTPUT for ProveDetails:" | head -1 | sed 's/\(.*\) = \(.*\)/\2/' |\
-    sed s/{//g | sed s/}//g | sed s/", "/" "/g | awk '{printf "ProveDetails == null = %s", $0}' > $REGRESSIONFILE
+    tac $MYDIR/tmp/.test.stdout | grep "OUTPUT for ProveDetails:" | head -1 | perl -pe 's/(.*?) = (.*)/\2/' |\
+    sed s/{//g | sed s/}//g | awk '{printf "ProveDetails == null = %s", $0}' > $REGRESSIONFILE
    grep --silent "STATEMENT IS UNKNOWN" $MYDIR/tmp/.test.stdout && echo "Prove or ProveDetails == null = undefined" > $REGRESSIONFILE
    grep --silent ^SEVERE: $MYDIR/tmp/.test.stdout && echo "Prove or ProveDetails == null = undefined" > $REGRESSIONFILE
-   # List k = ProveDetails[j] == null = true "AreCollinear[D,E,A]" "AreEqual[f,k_1]" "AreEqual[f,l]" "AreParallel[d,e]" "AreParallel[f,g]" "AreParallel[h,i]"
-   RESULT=`cat $REGRESSIONFILE | grep Prove | sed s/" null ="//g | sed s/'"'//g | sed 's/\(.*\) == \(.*\)/\2/' | sed 's/\(.*\) = \(.*\)/\2/'`
+   # List k = ProveDetails[j] == null = true "AreCollinear[D,E,A]", "AreEqual[f,k_1]", "AreEqual[f,l]", "AreParallel[d,e]", "AreParallel[f,g]", "AreParallel[h,i]"
+   RESULT=`cat $REGRESSIONFILE | grep Prove | sed s/" null ="//g | sed s/'"'//g | sed 's/\(.*\) == \(.*\)/\2/'`
   else
    timeout $TIMEOUT $BINBASE \
     --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --singularws=remoteurl:${SINGULARWSREMOTEURL}${SWSOPTS} \
@@ -316,8 +316,8 @@ for i in `find -name '*.ggb' | sort`; do
     grep --silent "OUTPUT for Prove:" $LOGFILE && \
      RESULT=`tac $LOGFILE | grep "OUTPUT for Prove:" | head -1 | sed 's/\(.*\) = \(.*\)/\2/'`
     grep --silent "OUTPUT for ProveDetails:" $LOGFILE && \
-     RESULT=`tac $LOGFILE | grep "OUTPUT for ProveDetails:" | head -1 | sed 's/\(.*\) = \(.*\)/\2/' |\
-     sed s/{//g | sed s/}//g | sed s/", "/" "/g`
+     RESULT=`tac $LOGFILE | grep "OUTPUT for ProveDetails:" | head -1 | perl -pe 's/(.*?) = (.*)/\2/' |\
+     sed s/{//g | sed s/}//g`
     RESULT=`echo $RESULT | sed s/\"//g`
     # FIXME in GeoGebra.
     fi
