@@ -20,6 +20,8 @@ public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
 
 	public MultiRowsTabPanel() {
 		tabBar = new MyTabBar(this);
+		tabBar.addStyleName("gwt-TabBar");
+		tabBar.addStyleName("ggb-MultiRowsTabPanel");
 		VerticalPanel panel = new VerticalPanel();
 		panel.add(tabBar);
 		panel.add(deck);

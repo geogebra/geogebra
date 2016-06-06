@@ -4322,6 +4322,10 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	height: 24px !important;
 }
 
+.ggb-MultiRowsTabPanel>*{
+	float:left;
+}
+
 /* EUCLIDIAN PROPERTIES */
 .axisPanel>*>*:first-child {
 	min-width: 110px;

@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.util.tabpanel;
 
-import org.geogebra.common.util.debug.Log;
-
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
@@ -67,6 +65,11 @@ public class MyTabBar extends FlowPanel implements
 						"gwt-TabBarItem-wrapper-selected", false);
 			}
 		}
+	}
+
+	public void add(Widget w) {
+		super.add(w);
+		w.addStyleName("gwt-TabBarItem");
 	}
 
 }
