@@ -103,7 +103,7 @@ public class MyTabBar extends FlowPanel implements
 	void selectTabByTabWidget(Widget tabWidget) {
 		int numTabs = getWidgetCount();
 
-		for (int i = 1; i < numTabs; ++i) {
+		for (int i = 0; i < numTabs; ++i) {
 			Log.debug(i + ": " + getWidget(i).getElement().toString());
 			if (getWidget(i) == tabWidget) {
 				selectTab(i);
