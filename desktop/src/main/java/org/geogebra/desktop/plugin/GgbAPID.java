@@ -31,6 +31,7 @@ import javax.swing.JOptionPane;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.plugin.GgbAPI;
@@ -42,7 +43,6 @@ import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.Base64;
 
 /**
  * <h3>GgbAPI - API for PlugLets</h3>
@@ -112,7 +112,7 @@ public class GgbAPID extends GgbAPI {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			((AppD) app).getXMLio().writeGeoGebraFile(baos, includeThumbnail);
-			return Base64.encode(baos.toByteArray(), 0);
+			return Base64.encodeToString(baos.toByteArray(), false);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
@@ -127,7 +127,7 @@ public class GgbAPID extends GgbAPI {
 		byte[] zipFile;
 		try {
 			zipFile = Base64.decode(base64);
-		} catch (IOException e) {
+		} catch (Exception e) {
 
 			e.printStackTrace();
 			return;
@@ -296,7 +296,7 @@ public class GgbAPID extends GgbAPI {
 
 			MyImageIO.writeImage(writer, img, DPI);
 
-			String ret = Base64.encode(baos.toByteArray(), 0);
+			String ret = Base64.encodeToString(baos.toByteArray(), false);
 
 			baos.close();
 

@@ -23,12 +23,11 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import org.geogebra.common.export.GeoGebraTubeExport;
-import org.geogebra.common.export.GeoGebraTubeExport.UploadResults;
+import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.Base64;
 
 /**
  * Export GeoGebra worksheet to GeoGebraTube.
@@ -337,7 +336,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 	protected String getBase64Tools(ArrayList<Macro> macros) throws IOException {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		((AppD) app).getXMLio().writeMacroStream(baos, macros);
-		return Base64.encode(baos.toByteArray(), 0);
+		return Base64.encodeToString(baos.toByteArray(), false);
 	}
 
 }

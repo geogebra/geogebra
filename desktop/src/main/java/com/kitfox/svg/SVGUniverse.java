@@ -62,7 +62,7 @@ import java.util.zip.GZIPInputStream;
 
 import javax.imageio.ImageIO;
 
-import org.geogebra.desktop.util.Base64;
+import org.geogebra.common.jre.util.Base64;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

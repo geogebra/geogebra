@@ -65,6 +65,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.javax.swing.table.GAbstractTableModel;
+import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.ConstructionElement;
@@ -88,7 +89,6 @@ import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.javax.swing.table.GAbstractTableModelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.plugin.GgbAPID;
-import org.geogebra.desktop.util.Base64;
 
 public class ConstructionProtocolViewD extends ConstructionProtocolView
 		implements Printable, SettingListener, SetLabels {
@@ -1510,7 +1510,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			app.getXMLio().writeGeoGebraFile(baos, false);
-			sb.append(Base64.encode(baos.toByteArray(), 0));
+			sb.append(Base64.encodeToString(baos.toByteArray(), false));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;

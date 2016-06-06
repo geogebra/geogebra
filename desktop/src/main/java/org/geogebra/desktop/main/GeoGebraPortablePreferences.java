@@ -20,8 +20,8 @@ import java.io.FileOutputStream;
 import java.util.Locale;
 import java.util.Properties;
 
+import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.util.Base64;
 
 /**
  * Class GeoGebraPortablePreferences
@@ -251,7 +251,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 		}
 
 		byte[] macrofile = app.getMacroFileAsByteArray();
-		String macrostring = Base64.encode(macrofile, 0);
+		String macrostring = Base64.encodeToString(macrofile, false);
 
 		set(TOOLS_FILE_GGT, macrostring);
 
@@ -346,7 +346,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 			b64 = new StringBuffer();
 			java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
 			app.getXMLio().writeGeoGebraFile(baos, false);
-			b64.append(Base64.encode(baos.toByteArray(), 0));
+			b64.append(Base64.encodeToString(baos.toByteArray(), false));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

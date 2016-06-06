@@ -43,7 +43,7 @@ import java.net.URLStreamHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.geogebra.desktop.util.Base64;
+import org.geogebra.common.jre.util.Base64;
 
 import com.kitfox.svg.SVGConst;
 
@@ -74,7 +74,7 @@ public class Handler extends URLStreamHandler
                 {
 					buf = Base64.decode(content);
                 }
-                catch (IOException e)
+				catch (Exception e)
                 {
                     Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING, null, e);
                 }

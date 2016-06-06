@@ -23,7 +23,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedAction;
@@ -37,8 +36,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -47,7 +46,6 @@ import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.plugin.GgbAPID;
-import org.geogebra.desktop.util.Base64;
 
 import geogebra.GeoGebraAppletPreloader;
 import netscape.javascript.JSObject;
@@ -755,7 +753,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 			byte[] zipFile;
 			try {
 				zipFile = Base64.decode(fileStr.substring(9));
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				return;
 			}

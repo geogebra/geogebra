@@ -71,6 +71,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
+import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
@@ -145,7 +146,6 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.GuiManagerInterfaceD;
 import org.geogebra.desktop.main.LocalizationD;
-import org.geogebra.desktop.util.Base64;
 import org.geogebra.desktop.util.UtilD;
 /**
  * Handles all geogebra.gui package related objects and methods for Application.
