@@ -1,13 +1,10 @@
 package org.geogebra.web.html5.util.tabpanel;
 
-import org.geogebra.common.util.debug.Log;
-
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SourcesTabEvents;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,10 +25,10 @@ public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
 		panel.setCellHeight(deck, "100%");
 		tabBar.setWidth("100%");
 		final MultiRowsTabPanel that = this;
-		tabBar.addSelectionHandler(new SelectionHandler() {
+		tabBar.addSelectionHandler(new SelectionHandler<Integer>() {
 
-			public void onSelection(SelectionEvent event) {
-				that.selectTab((Widget) event.getSelectedItem());
+			public void onSelection(SelectionEvent<Integer> event) {
+				that.selectTab(event.getSelectedItem());
 			}
 
 		});
@@ -44,7 +41,6 @@ public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
 	}
 
 	public void selectTab(int index) {
-		Log.debug("selecttab: " + index);
 		tabBar.selectTab(index);
 		deck.showWidget(index);
 
@@ -68,8 +64,7 @@ public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
 	}
 
 	public void add(Widget w, String tabText) {
-		Log.debug("add tab: " + w);
-		tabBar.add(new Label(tabText));
+		tabBar.addTab(tabText);
 		deck.add(w);
 	}
 
@@ -80,11 +75,6 @@ public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
 	public boolean onBeforeTabSelected(SourcesTabEvents sender, int tabIndex) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	public void onTabSelected(int tabIndex) {
-		deck.showWidget(tabIndex);
-		SelectionEvent.fire(this, tabIndex);
 	}
 
 }

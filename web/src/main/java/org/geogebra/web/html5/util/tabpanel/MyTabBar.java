@@ -1,10 +1,13 @@
 package org.geogebra.web.html5.util.tabpanel;
 
+import org.geogebra.common.util.debug.Log;
+
 import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -47,9 +50,8 @@ public class MyTabBar extends FlowPanel implements
 		selectedTab = index;
 		setSelectionStyle(this.getWidget(selectedTab), true);
 
-		//SelectionEvent.fire(this, index);
-		SelectionEvent.fire(tabPanel,
-				index);
+		tabPanel.deck.showWidget(selectedTab);
+		SelectionEvent.fire(tabPanel, index);
 
 	}
 
@@ -67,9 +69,49 @@ public class MyTabBar extends FlowPanel implements
 		}
 	}
 
+
+	/*
+	 * @deprecated Use {@link #addTab(String)} instead
+	 */
+	@Deprecated
 	public void add(Widget w) {
-		super.add(w);
-		w.addStyleName("gwt-TabBarItem");
+		// do nothing
+	}
+
+	public void addTab(String label) {
+		Tab tab = new Tab(label);
+		tab.addStyleName("gwt-TabBarItem");
+		super.add(tab);
+	}
+
+	private class Tab extends Label {
+		Tab(String label) {
+			super(label);
+			sinkEvents(Event.ONCLICK);
+		}
+
+
+		@Override
+		public void onBrowserEvent(Event event) {
+			Log.debug("onBrowserEvent: " + event.getType());
+
+			if (DOM.eventGetType(event) == Event.ONCLICK) {
+				selectTabByTabWidget(this);
+			}
+			super.onBrowserEvent(event);
+		}
+	}
+
+	void selectTabByTabWidget(Widget tabWidget) {
+		int numTabs = getWidgetCount();
+
+		for (int i = 1; i < numTabs; ++i) {
+			Log.debug(i + ": " + getWidget(i).getElement().toString());
+			if (getWidget(i) == tabWidget) {
+				selectTab(i);
+				return;
+			}
+		}
 	}
 
 }
