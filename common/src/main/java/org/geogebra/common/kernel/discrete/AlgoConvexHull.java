@@ -15,13 +15,15 @@ package org.geogebra.common.kernel.discrete;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GraphAlgo;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.discrete.geom.Point2D;
+import org.geogebra.common.kernel.discrete.geom.algorithms.ConvexHull;
+import org.geogebra.common.kernel.discrete.geom.algorithms.logging.LogEvent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
@@ -40,7 +42,7 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 	private GeoList inputList; // input
 	private GeoLocus locus; // output
 	private ArrayList<MyPoint> al;
-	private ArrayList<GPoint2D.Double> vl;
+	private ArrayList<Point2D> vl;
 	private int size;
 
 	/**
@@ -90,7 +92,7 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 		}
 
 		if (vl == null)
-			vl = new ArrayList<GPoint2D.Double>();
+			vl = new ArrayList<Point2D>();
 		else
 			vl.clear();
 
@@ -109,7 +111,7 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 						locus.setUndefined();
 						return;
 					}
-					vl.add(new GPoint2D.Double(inhom[0], inhom[1]));
+					vl.add(new Point2D(inhom[0], inhom[1]));
 
 				}
 			}
@@ -122,9 +124,9 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 		}
 
 		if (vl.size() == 1) {
-			GPoint2D.Double p = vl.get(0);
-			al.add(new MyPoint(p.x, p.y, false));
-			al.add(new MyPoint(p.x, p.y, true));
+			Point2D p = vl.get(0);
+			al.add(new MyPoint(p.getX(), p.getY(), false));
+			al.add(new MyPoint(p.getX(), p.getY(), true));
 			locus.setPoints(al);
 			locus.setDefined(true);
 			return;
@@ -135,18 +137,19 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 			return;
 		}
 
-		List<GPoint2D.Double> edge = JarvisMarch2D.convexHull(vl);
-		 
+		List<Point2D> jarvisResult = ConvexHull.jarvisMarch(vl,
+				new ArrayList<LogEvent>());
+
 		
-		for (int i = 0; i < edge.size(); i++) {
-			GPoint2D.Double p = edge.get(i);
-			al.add(new MyPoint(p.x, p.y, i != 0));
+		for (int i = 0; i < jarvisResult.size(); i++) {
+			Point2D p = jarvisResult.get(i);
+			al.add(new MyPoint(p.getX(), p.getY(), i != 0));
 
 		}
 		
 		// close the polygon
-		GPoint2D.Double p = edge.get(0);
-		al.add(new MyPoint(p.x, p.y, true));
+		Point2D p = jarvisResult.get(0);
+		al.add(new MyPoint(p.getX(), p.getY(), true));
 
 
 		locus.setPoints(al);
@@ -154,11 +157,11 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 
 	}
 
-	private static boolean contains(ArrayList<GPoint2D.Double> vl2, double x,
+	private static boolean contains(ArrayList<Point2D> vl2, double x,
 			double y) {
 		for (int i = 0 ; i < vl2.size() ; i++) {
-			GPoint2D.Double p = vl2.get(i);
-			if (Kernel.isEqual(p.x, x) && Kernel.isEqual(p.y, y)) {
+			Point2D p = vl2.get(i);
+			if (Kernel.isEqual(p.getX(), x) && Kernel.isEqual(p.getY(), y)) {
 				return true;
 			}
 		}
