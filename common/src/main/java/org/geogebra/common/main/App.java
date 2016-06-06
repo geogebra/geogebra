@@ -4030,7 +4030,7 @@ public abstract class App implements UpdateSelection {
 
 			// GGB-886
 		case MULTIROW_TAB_PROPERTIES:
-			return false;
+			return prerelease;
 
 			// GGB-944
 		case EXPORT_ANIMATED_PDF:
