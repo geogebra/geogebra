@@ -43,7 +43,7 @@ import java.net.URLStreamHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.geogebra.common.util.Base64;
+import org.geogebra.desktop.util.Base64;
 
 import com.kitfox.svg.SVGConst;
 

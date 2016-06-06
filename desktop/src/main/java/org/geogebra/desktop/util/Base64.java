@@ -83,10 +83,11 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE, EVEN IF IBM IS APPRISED OF THE POSSIBILITY OF SUCH
 DAMAGES.  */
 
-package org.geogebra.common.util;
+package org.geogebra.desktop.util;
 
 import java.io.IOException;
 
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**

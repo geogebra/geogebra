@@ -86,7 +86,6 @@ import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -146,6 +145,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.GuiManagerInterfaceD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.Base64;
 import org.geogebra.desktop.util.UtilD;
 /**
  * Handles all geogebra.gui package related objects and methods for Application.

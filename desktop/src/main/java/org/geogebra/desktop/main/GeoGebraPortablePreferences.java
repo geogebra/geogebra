@@ -20,8 +20,8 @@ import java.io.FileOutputStream;
 import java.util.Locale;
 import java.util.Properties;
 
-import org.geogebra.common.util.Base64;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.util.Base64;
 
 /**
  * Class GeoGebraPortablePreferences
