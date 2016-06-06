@@ -1,23 +1,36 @@
 package org.geogebra.common.kernel.discrete;
 
-//import edu.uci.ics.jung.algorithms.shortestpath.PrimMinimumSpanningTree;
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.HashMap;
+import java.util.Iterator;
 
+import org.apache.commons.collections15.Transformer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.discrete.alds.al.graphs.PrimMinimumSpanningTree;
-import org.geogebra.common.kernel.discrete.alds.ds.graphs.Vertex;
-import org.geogebra.common.kernel.discrete.alds.ds.graphs.WeightedGraph;
-import org.geogebra.common.kernel.discrete.alds.ds.graphs.Graph.Type;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+import edu.uci.ics.jung.algorithms.shortestpath.MinimumSpanningForest2;
+import edu.uci.ics.jung.graph.DelegateForest;
+import edu.uci.ics.jung.graph.DelegateTree;
+import edu.uci.ics.jung.graph.Forest;
+import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
+import edu.uci.ics.jung.graph.util.EdgeType;
+
 public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 
-	public AlgoMinimumSpanningTree(Construction cons, String label, GeoList inputList) {
+	protected int edgeCount;
+
+	private Transformer<MyLink, Double> wtTransformer = new Transformer<MyLink, Double>() {
+		public Double transform(MyLink link) {
+			return link.weight;
+		}
+	};
+
+	public AlgoMinimumSpanningTree(Construction cons, String label,
+			GeoList inputList) {
 		super(cons, label, inputList, null);
 	}
 
@@ -28,71 +41,85 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 	public final void compute() {
 
 		size = inputList.size();
-		if (!inputList.isDefined() ||  size == 0) {
+		if (!inputList.isDefined() || size == 0) {
 			locus.setUndefined();
 			return;
-		} 
-
-		WeightedGraph weightedGraph = new WeightedGraph(Type.UNDIRECTED);
-
-		Vertex[] vertices = new Vertex[size];
-
-		for (int i = 0 ; i < size ; i++) {
-			// name each vertex with arbitrary number
-			vertices[i] = new Vertex(i+"", (GeoPointND) inputList.get(i));
-			//weightedGraph.addVertex(vertices[i]);
 		}
-		
-		double maxDistance = 0;
 
-		// find maximum distance between points
-		for (int i = 0 ; i < size - 1; i++) {
+		edgeCount = 0;
+
+		HashMap<GeoPointND, MyNode> nodes = new HashMap<GeoPointND, MyNode>();
+		MyNode node1, node2;
+		UndirectedSparseMultigraph<MyNode, MyLink> g = new UndirectedSparseMultigraph<MyNode, MyLink>();
+
+		for (int i = 0; i < size - 1; i++) {
 			GeoPointND p1 = (GeoPointND) inputList.get(i);
-			for (int j = i + 1 ; j < size ; j++) {
+			for (int j = i + 1; j < size; j++) {
 				GeoPointND p2 = (GeoPointND) inputList.get(j);
-				maxDistance = Math.max(maxDistance, p1.distance(p2));
+
+				node1 = nodes.get(p1);
+				node2 = nodes.get(p2);
+				if (node1 == null) {
+					node1 = new MyNode(p1);
+					nodes.put(p1, node1);
+				}
+				if (node2 == null) {
+					node2 = new MyNode(p2);
+					nodes.put(p2, node2);
+				}
+
+				g.addEdge(new MyLink(p1.distance(p2), 1, node1, node2), node1,
+						node2, EdgeType.UNDIRECTED);
+
 			}
 
-		}
-		
-		// algorithm uses int, so we need to multiply up by a large factor to distinguish small differences, eg 2.567, 2.568
-		double max = Integer.MAX_VALUE;
-		double FACTOR = max / maxDistance;
+			MinimumSpanningForest2<MyNode, MyLink> prim = new MinimumSpanningForest2<MyNode, MyLink>(
+					g, new DelegateForest<MyNode, MyLink>(),
+					DelegateTree.<MyNode, MyLink> getFactory(), wtTransformer);
 
-		for (int i = 0 ; i < size - 1; i++) {
-			GeoPointND p1 = (GeoPointND) inputList.get(i);
-			for (int j = i + 1 ; j < size ; j++) {
-				GeoPointND p2 = (GeoPointND) inputList.get(j);
-				weightedGraph.addEdge(vertices[i], vertices[j], (int) (FACTOR * p1.distance(p2)));
+			Forest<MyNode, MyLink> tree = prim.getForest();
+
+			Iterator<MyLink> it = tree.getEdges().iterator();
+
+			if (al == null) {
+				al = new ArrayList<MyPoint>();
+			} else {
+				al.clear();
 			}
 
-		}
+			while (it.hasNext()) {
+				MyLink edge = it.next();
 
+				Coords coords = edge.n1.id.getInhomCoordsInD2();
+				al.add(new MyPoint(coords.get(1), coords.get(2), false));
+				coords = edge.n2.id.getInhomCoordsInD2();
+				al.add(new MyPoint(coords.get(1), coords.get(2), true));
 
-		PrimMinimumSpanningTree minimumSpanningTree = new PrimMinimumSpanningTree(weightedGraph, vertices[0]);
-		Map<Vertex, Vertex> predecessor = minimumSpanningTree.compute().getPredecessorMap();
-		Coords coords;
-
-		if (al == null) al = new ArrayList<MyPoint>();
-		else al.clear();
-
-		for (int i = 0 ; i < size ; i++) {
-			Vertex connectedVertex = predecessor.get(vertices[i]);
-			if (connectedVertex != null) {
-				GeoPointND point1 = vertices[i].getPoint();
-				GeoPointND point2 = connectedVertex.getPoint();
-				coords = point1.getInhomCoordsInD2();
-				al.add(new MyPoint(coords.get(1) , coords.get(2), false));
-				coords = point2.getInhomCoordsInD2();
-				al.add(new MyPoint(coords.get(1) , coords.get(2), true));
 			}
 
-		}
+			locus.setPoints(al);
+			locus.setDefined(true);
 
-		locus.setPoints(al);
-		locus.setDefined(true);
+		}
 
 	}
 
+	class MyLink {
+		protected MyNode n1, n2;
+		double capacity;
+		double weight;
+		int id;
 
+		public MyLink(double weight, double capacity, MyNode n1, MyNode n2) {
+			this.id = edgeCount++; // This is defined in the outer class.
+			this.weight = weight;
+			this.capacity = capacity;
+			this.n1 = n1;
+			this.n2 = n2;
+		}
+
+		public String toString() { // Always good for debugging
+			return "Edge" + id;
+		}
+	}
 }

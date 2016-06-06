@@ -147,6 +147,11 @@ public class AlgoConvexHull extends AlgoElement  implements GraphAlgo {
 
 		}
 		
+		if (jarvisResult.size() == 0) {
+			locus.setDefined(false);
+			return;
+		}
+
 		// close the polygon
 		Point2D p = jarvisResult.get(0);
 		al.add(new MyPoint(p.getX(), p.getY(), true));
