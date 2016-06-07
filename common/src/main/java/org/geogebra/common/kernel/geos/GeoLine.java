@@ -218,13 +218,26 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		Coords P = Pnd.getCoordsIn2DView();
 
+		return isOnFullLine2D(P, eps);
+	}
+
+	/**
+	 * @param P
+	 *            2D coords of the point
+	 * @param eps
+	 *            precision
+	 * @return whether point lies on this line within given precision
+	 */
+	public final boolean isOnFullLine2D(Coords P, double eps) {
+
 		double simplelength = Math.abs(x) + Math.abs(y);
 		if (Kernel.isZero(P.getZ())) { // infinite point
 			return Math.abs(x * P.getX() + y * P.getY()) < eps * simplelength;
 		}
 		// STANDARD CASE: finite point
-		return Math.abs(x * P.getX() / P.getZ() + y * P.getY() / P.getZ() + z) < eps
-				* simplelength;
+		return Math.abs(
+				x * P.getX() / P.getZ() + y * P.getY() / P.getZ() + z) < eps
+						* simplelength;
 	}
 
 	/**
@@ -291,7 +304,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	public boolean isOnPath(Coords Pnd, double eps) {
 		Coords P2d = Pnd.getCoordsIn2DView();
-		return isOnFullLine(P2d, eps);
+		return isOnFullLine2D(P2d, eps);
 	}
 
 	public boolean respectLimitedPath(Coords coords, double eps) {

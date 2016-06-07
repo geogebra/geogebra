@@ -592,25 +592,29 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		return super.distance(x0, y0);
 	}
 
-
-
-
+	private Coords pnt2D;
 
 	@Override
 	public boolean isOnPath(Coords Pnd, double eps) {    
-		Coords P2d = Pnd.getCoordsIn2DView();
-		if  (!super.isOnPath(P2d, eps))
+		if (pnt2D == null) {
+			pnt2D = new Coords(3);
+		}
+		pnt2D.setCoordsIn2DView(Pnd);
+		if (!super.isOnFullLine2D(pnt2D, eps))
 			return false;
 
-		return respectLimitedPath(P2d, eps);
+		return respectLimitedPath(pnt2D, eps);
 
 	}
 
 	@Override
 	public boolean respectLimitedPath(Coords Pnd, double eps) {    	
-		Coords P2d = Pnd.getCoordsIn2DView();	
+		if (pnt2D == null) {
+			pnt2D = new Coords(3);
+		}
+		pnt2D.setCoordsIn2DView(Pnd);
 		PathParameter pp = getTempPathParameter();
-		doPointChanged(P2d,pp);
+		doPointChanged(pnt2D, pp);
 		double t = pp.getT();
 
 		return  t >= -eps &&  t <= 1 + eps;   	
