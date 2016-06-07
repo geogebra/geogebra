@@ -311,6 +311,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private static final int ADJUDT_SLIDER_MARGIN_X = 15;
 	private static final int ADJUDT_SLIDER_MARGIN_Y = 15;
 
+	// Counts of sliders that need to be adjusted, to omit overlaps.
+	// See GGB-334, Feature.ADJUST.
+	private int adjustedHSliderCount = 0;
+	private int adjustedVSliderCount = 0;
+
 	protected EuclidianViewCompanion companion;
 
 	/**
@@ -2022,6 +2027,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void repaintView() {
 		repaint();
+		if (app.has(Feature.ADJUST_SLIDERS)) {
+			adjustedHSliderCount = 0;
+			adjustedVSliderCount = 0;
+		}
+
 	}
 
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
@@ -5389,6 +5399,7 @@ sb.toString(), getFontAxes(),
 		double sW = number.getSliderWidth();
 
 		if (number.isSliderHorizontal()) {
+			adjustedHSliderCount++;
 			if (sW > getViewWidth()) {
 				// Reducing width
 				number.setSliderWidth(
@@ -5405,6 +5416,7 @@ sb.toString(), getFontAxes(),
 			}
 		} else {
 			// Vertical slider
+			adjustedVSliderCount++;
 			if (sW > getViewHeight()) {
 				number.setSliderWidth(
 						getViewHeight() - 2 * ADJUDT_SLIDER_MARGIN_Y);
@@ -5414,8 +5426,8 @@ sb.toString(), getFontAxes(),
 				sliderY = h - ADJUDT_SLIDER_MARGIN_Y;
 			}
 
-			if (sliderX > w - ADJUDT_SLIDER_MARGIN_X) {
-				sliderX = w - ADJUDT_SLIDER_MARGIN_X;
+			if (sliderX > w - adjustedVSliderCount * ADJUDT_SLIDER_MARGIN_X) {
+				sliderX = w - adjustedVSliderCount * ADJUDT_SLIDER_MARGIN_X;
 			}
 
 		}
