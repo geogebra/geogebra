@@ -95,14 +95,12 @@ public class GAreaD implements GArea, GShapeD {
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		// TODO Auto-generated method stub
 		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD
 						.getAwtAffineTransform(affineTransform)));
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform at, double flatness) {
-		// TODO Auto-generated method stub
 		return new GPathIteratorD(impl.getPathIterator(
 				GAffineTransformD.getAwtAffineTransform(at),
 				flatness));
@@ -119,4 +117,5 @@ public class GAreaD implements GArea, GShapeD {
 	public boolean isEmpty() {
 		return impl.isEmpty();
 	}
+
 }

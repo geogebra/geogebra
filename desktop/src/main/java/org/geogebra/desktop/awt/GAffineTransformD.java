@@ -118,6 +118,12 @@ public class GAffineTransformD implements GAffineTransform {
 
 	}
 
+	public void transform(double[] doubleCoords, int pointIdx, float[] coords,
+			int j, int k) {
+		at.transform(doubleCoords, pointIdx, coords, j, k);
+
+	}
+
 	@Override
 	public void rotate(double theta) {
 		at.rotate(theta);
@@ -146,4 +152,5 @@ public class GAffineTransformD implements GAffineTransform {
 	public void setToRotation(double theta, double x, double y) {
 		at.setToRotation(theta, x, y);
 	}
+
 }

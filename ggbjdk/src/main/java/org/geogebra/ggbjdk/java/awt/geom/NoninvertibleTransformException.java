@@ -1,7 +1,5 @@
 /*
- * @(#)NoninvertibleTransformException.java	1.18 03/12/19
- *
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 1999, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -28,29 +26,21 @@
 package org.geogebra.ggbjdk.java.awt.geom;
 
 /**
- * The <code>NoninvertibleTransformException</code> class represents an
- * exception that is thrown if an operation is performed requiring the inverse
- * of an {@link AffineTransform} object but the <code>AffineTransform</code> is
- * in a non-invertible state.
- * 
- * @version 1.18, 12/19/03
+ * The <code>NoninvertibleTransformException</code> class represents
+ * an exception that is thrown if an operation is performed requiring
+ * the inverse of an {@link AffineTransform} object but the
+ * <code>AffineTransform</code> is in a non-invertible state.
  */
 
 public class NoninvertibleTransformException extends java.lang.Exception {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 2229141768024256336L;
-
-	/**
-	 * Constructs an instance of <code>NoninvertibleTransformException</code>
-	 * with the specified detail message.
-	 * 
-	 * @param s
-	 *            the detail message
-	 * @since 1.2
-	 */
-	public NoninvertibleTransformException(String s) {
-		super(s);
-	}
+    /**
+     * Constructs an instance of
+     * <code>NoninvertibleTransformException</code>
+     * with the specified detail message.
+     * @param   s     the detail message
+     * @since   1.2
+     */
+    public NoninvertibleTransformException(String s) {
+        super (s);
+    }
 }

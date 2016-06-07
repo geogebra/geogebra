@@ -52,4 +52,7 @@ public interface GAffineTransform {
 	public void setToRotation(double theta);
 
 	public void setToRotation(double theta, double x, double y);
+
+	public void transform(double[] doubleCoords, int pointIdx, float[] coords,
+			int j, int k);
 }

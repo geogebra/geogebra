@@ -11,6 +11,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
+import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.GeneralPathClipped;
@@ -152,7 +153,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	protected void doDrawShape(Shape shape, boolean enableDashEmulation) {
 		context.beginPath();
-		PathIterator it = shape.getPathIterator(null);
+		GPathIterator it = shape.getPathIterator(null);
 
 		// see #1718
 		// boolean enableDashEmulation = true;//nativeDashUsed ||
