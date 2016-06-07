@@ -101,7 +101,7 @@ int my_sprintf(char * s, const char * format, ...){
     int z;
     va_list ap;
     va_start(ap,format);
-#if defined(FIR)
+#if defined(FIR) && !defined(FIR_LINUX)
     z = firvsprintf(s, format, ap);
 #else
     z = vsprintf(s, format, ap);
@@ -3821,7 +3821,11 @@ _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_ma
     return isnan(d);
 #endif
 #else
+#ifdef FIR_LINUX
+    return ::isnan(d);
+#else
     return isnan(d);
+#endif
 #endif
   }
 
@@ -3830,7 +3834,11 @@ _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_ma
     double x=0.0;
     return d==1.0/x || d==-1.0/x;
 #else
+#ifdef FIR_LINUX
+    return ::isinf(d);
+#else
     return isinf(d);
+#endif
 #endif
   }
 

@@ -1888,32 +1888,49 @@ namespace giac {
     mdims(*v[0]._VECTptr,lignefin,colonnefin);
     int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     if (v.size()>2 && v[1].is_symb_of_sommet(at_interval)){
-      gen & f = v[1]._SYMBptr->feuille;
-      if (f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->front().type==_INT_ && f._VECTptr->back().type==_INT_){
-	lignedeb=giacmax(1,f._VECTptr->front().val+!shift);
-	lignefin=giacmax(1,f._VECTptr->back().val+!shift);
+      gen f = v[1]._SYMBptr->feuille;
+      if (f.type==_VECT && f._VECTptr->size()==2){
+	gen f1=f._VECTptr->front();
+	gen f2=f._VECTptr->back();
+	if (is_integral(f1) && is_integral(f2) && f1.type==_INT_ && f2.type==_INT_){
+	  lignedeb=giacmax(1,f1.val+!shift);
+	  lignefin=giacmax(1,f2.val+!shift);
+	}
+	else gensizeerr(contextptr);
       }
       if (v[2].is_symb_of_sommet(at_interval)){
-	gen & f = v[2]._SYMBptr->feuille;
-	if (f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->front().type==_INT_ && f._VECTptr->back().type==_INT_){
-	  colonnedeb=giacmax(1,f._VECTptr->front().val+!shift);
-	  colonnefin=giacmax(1,f._VECTptr->back().val+!shift);
+	gen f = v[2]._SYMBptr->feuille;
+	if (f.type==_VECT && f._VECTptr->size()==2){
+	  gen f1=f._VECTptr->front();
+	  gen f2=f._VECTptr->back();
+	  if (is_integral(f1) && is_integral(f2) && f1.type==_INT_ && f2.type==_INT_){
+	    colonnedeb=giacmax(1,f1.val+!shift);
+	    colonnefin=giacmax(1,f2.val+!shift);
+	  }
+	  else gensizeerr(contextptr);
 	}
       }
     }
     if (v.size()>2 && v[1].type==_VECT && v[1]._VECTptr->size()==2 && v[2].type==_VECT && v[2].type==_VECT){
-      lignedeb=giacmax(1,v[1]._VECTptr->front().val+!shift);
-      colonnedeb=giacmax(1,v[1]._VECTptr->back().val+!shift);
-      lignefin=giacmax(1,v[2]._VECTptr->front().val+!shift);
-      colonnefin=giacmax(1,v[2]._VECTptr->back().val+!shift);
+      gen f1=v[1]._VECTptr->front();
+      gen f2=v[1]._VECTptr->back();
+      gen f3=v[2]._VECTptr->front();
+      gen f4=v[2]._VECTptr->back();
+      if (is_integral(f1) && is_integral(f2) && f1.type==_INT_ && f2.type==_INT_ && is_integral(f3) && is_integral(f4) && f3.type==_INT_ && f4.type==_INT_){
+	lignedeb=giacmax(1,f1.val+!shift);
+	colonnedeb=giacmax(1,f2.val+!shift);
+	lignefin=giacmax(1,f3.val+!shift);
+	colonnefin=giacmax(1,f4.val+!shift);
+      }
+      else gensizeerr(contextptr);
     }
-    if (v.size()>1 && v[1].type==_INT_)
+    if (v.size()>1 && is_integral(v[1]) && v[1].type==_INT_)
       lignedeb=giacmax(1,v[1].val+!shift);
-    if (v.size()>2 && v[2].type==_INT_)
+    if (v.size()>2 && is_integral(v[2]) && v[2].type==_INT_)
       colonnedeb=giacmax(1,v[2].val+!shift);
-    if (v.size()>3 && v[3].type==_INT_)
+    if (v.size()>3 && is_integral(v[3]) && v[3].type==_INT_)
       lignefin=giacmax(giacmin(lignefin,v[3].val+!shift),lignedeb);
-    if (v.size()>4 && v[4].type==_INT_)
+    if (v.size()>4 && is_integral(v[4]) && v[4].type==_INT_)
       colonnefin=giacmax(colonnedeb,giacmin(colonnefin,v[4].val+!shift));
     return matrice_extract(*v[0]._VECTptr,lignedeb-1,colonnedeb-1,lignefin-lignedeb+1,colonnefin-colonnedeb+1);
   }

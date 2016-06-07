@@ -4328,7 +4328,7 @@ namespace giac {
 	    vptr->v.front()=operator_plus(vptr->v.front(),*it,contextptr);
 	    continue;
 	  }
-	  if ( it->type==_DOUBLE_ || (it->type<=_POLY && vptr->v.back().type<=_POLY) )
+	  if ( it->type==_DOUBLE_ || (it->type<=_POLY && vptr->v.back().type<=_POLY) ) // N.B. _DOUBLE_ special case bad for f(x):= 6. + 3.*x + 2.*x^2;g(x) := 12. ; expand(f(x)+g(x));
 	    vptr->v.back()=operator_plus(vptr->v.back(),*it,contextptr);
 	  else {
 	    if (is_inf(*it) || is_undef(*it) || (it->type==_SYMB && it->_SYMBptr->sommet==at_plus))

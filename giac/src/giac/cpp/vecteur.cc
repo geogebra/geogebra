@@ -5767,7 +5767,7 @@ namespace giac {
 	it1end=v1.begin()+cend;
       it1_=it1end-4;
       vector<int>::const_iterator it2=v2.begin()+cstart;
-#if defined(PSEUDO_MOD) && !(defined(VISUALC) || defined (BESTA_OS) || defined(OSX))
+#if defined(PSEUDO_MOD) && !(defined(VISUALC) || defined (BESTA_OS) || defined(OSX)  || defined(OSXIOS) || defined(FIR_LINUX) || defined(ANDROID))
       c2 %= modulo;
       if (pseudo && (modulo<(1<<29) 
 		     // && modulo>=(1<<16)
