@@ -170,6 +170,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/dialog-warning.png")
 	ImageResource dialog_warning();
 
+	@Source("org/geogebra/common/icons/png/web/icon-dialog-warning.png")
+	ImageResource icon_dialog_warning();
+
 	@Source("org/geogebra/common/icons/png/web/question-mark.png")
 	ImageResource questionMark();
 

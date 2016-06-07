@@ -1146,16 +1146,16 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 		btnHelpToggle.getUpFace()
 				.setImage(new NoDragImage(
-						(warning ? GuiResourcesSimple.INSTANCE.dialog_warning()
-								: GuiResources.INSTANCE.menu_icon_help())
+				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
+ : GuiResources.INSTANCE.icon_help())
 										.getSafeUri().asString(),
 				24));
 		// new
 		// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
 		btnHelpToggle.getDownFace()
 				.setImage(new NoDragImage(
-						(warning ? GuiResourcesSimple.INSTANCE.dialog_warning()
-								: GuiResources.INSTANCE.menu_icon_help())
+				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
+ : GuiResources.INSTANCE.icon_help())
 										.getSafeUri().asString(),
 				24));
 

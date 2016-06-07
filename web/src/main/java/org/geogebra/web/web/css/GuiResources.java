@@ -136,6 +136,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/menu_icons/p20/menu-help.png")
 	ImageResource menu_icon_help();
 
+	@Source("org/geogebra/common/icons/png/web/menu-help.png")
+	ImageResource icon_help();
+
 	@Source("org/geogebra/common/menu_icons/p20/menu-help-about.png")
 	ImageResource menu_icon_help_about();
 
