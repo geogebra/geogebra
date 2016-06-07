@@ -1,5 +1,7 @@
 package com.himamis.retex.editor.share.controller;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -8,8 +10,6 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
-
-import java.util.ArrayList;
 
 public class MathFieldController {
 
@@ -95,7 +95,6 @@ public class MathFieldController {
 		String serializedFormula = texSerializer.serialize(mathFormula,
 				currentField, currentOffset);
 
-		System.out.println(serializedFormula);
 		TeXFormula texFormula = new TeXFormula(serializedFormula);
 		TeXIcon renderer = texFormula.new TeXIconBuilder()
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)

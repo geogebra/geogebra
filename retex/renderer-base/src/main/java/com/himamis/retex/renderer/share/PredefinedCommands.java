@@ -1179,6 +1179,13 @@ final class PredefinedCommands {
 				return PredefMacros.bgcolor_macro(tp, args);
 			}
 		},
+		jlmselection(2) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.selection_macro(tp, args);
+			}
+		},
 		colorbox(2) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {
