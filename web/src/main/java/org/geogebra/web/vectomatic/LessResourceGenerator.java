@@ -1,6 +1,5 @@
 /**********************************************
- * Copyright (C) 2010 Lukas Laag
- * This file is part of lib-gwt-svg.
+ * Based on SVG resource generator by Lukas Laag
  * 
  * libgwtsvg is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -54,13 +53,6 @@ public class LessResourceGenerator extends AbstractResourceGenerator {
 		}
 		URL resource = resources[0];
 
-		// The SVGResource is implemented as an anonymous inner class
-		// xxx = new SVGResource() {
-		// public OMSVGSVGElement getSvg() {
-		// return OMSVGParser.parse("...");
-		// }
-		// };
-
 		String css = Util.readURLAsString(resource);
 
 		LessEngine leg = new LessEngine();
@@ -78,10 +70,6 @@ public class LessResourceGenerator extends AbstractResourceGenerator {
 		logger.log(Type.INFO,
 				method.getName() + ": " + css.length() + " bytes", null);
 
-		/*
-		 * if (getValidated(method)) { SVGValidator.validate(toWrite,
-		 * resource.toExternalForm(), logger, null); }
-		 */
 
 		SourceWriter sw = new StringSourceWriter();
 		sw.println("new " + LessResource.class.getName() + "() {");
