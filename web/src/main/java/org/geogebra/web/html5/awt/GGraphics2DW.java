@@ -465,7 +465,7 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	public void updateCanvasColor() {
-		if (color == null) {
+		if (color == null || context == null) {
 			return;
 		}
 		String colorStr = "rgba(" + color.getRed() + "," + color.getGreen()
