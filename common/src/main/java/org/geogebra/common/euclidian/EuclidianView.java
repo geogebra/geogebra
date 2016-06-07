@@ -5380,6 +5380,9 @@ sb.toString(), getFontAxes(),
 
 		int w = getExportWidth();
 		int h = getExportHeight();
+		if (w == 0 || h == 0) {
+			return;
+		}
 		double cx1 = 0;
 		double cy1 = 0;
 		
