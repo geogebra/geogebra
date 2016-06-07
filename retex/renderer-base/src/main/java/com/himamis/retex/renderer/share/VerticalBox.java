@@ -141,12 +141,12 @@ class VerticalBox extends Box {
 	public void getPath(float x, float y, ArrayList<Integer> list) {
 		float yPos = 0;
 		for (Box box : children) {
-			if (yPos + box.getHeight() > y) {
+			if (yPos + box.getHeight() + box.getDepth() > y) {
 				list.add(children.indexOf(box));
 				box.getPath(x, y - yPos, list);
 				return;
 			}
-			yPos += box.getHeight();
+			yPos += box.getHeight() + box.getDepth();
 		}
 		if (y > yPos) {
 			list.add(children.size() - 1);

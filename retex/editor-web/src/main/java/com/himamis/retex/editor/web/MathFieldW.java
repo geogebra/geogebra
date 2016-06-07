@@ -68,6 +68,7 @@ public class MathFieldW implements MathField {
 		el.setTabIndex(1);
 		this.ctx = context;
 		mathFieldInternal = new MathFieldInternal(this);
+		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 	}
 

@@ -66,6 +66,7 @@ public class MathFieldD extends JLabel implements MathField {
 		setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
+		mathFieldInternal.setSelectionMode(true);
 		this.setVerticalAlignment(SwingConstants.TOP);
 	}
 	
