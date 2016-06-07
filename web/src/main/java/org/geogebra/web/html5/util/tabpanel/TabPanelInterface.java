@@ -16,4 +16,7 @@ public interface TabPanelInterface extends HasSelectionHandlers<Integer> {
 	
 	int getWidgetIndex(Widget widget);
 
+	int getWidgetCount();
+
+	Widget getWidget(int i);
 }

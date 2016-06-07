@@ -4032,11 +4032,7 @@ public abstract class App implements UpdateSelection {
 			// After removing this feature flag, MyTabPanel and
 			// TabPanelInterface classes can be removed too with cleaning the
 			// code, and remove the old code from OptionsTab.update(Object[]
-			// geos). contentsPanel2 classname in css will be used until we have
-			// the old code for prop. view (old code = where all tabs are in one
-			// row), currently contentsPanel2 overwrites some/a style in
-			// contentPanel, but later we can change the styles in contentPanel
-			// class in css, if there is no old code more.
+			// geos).
 		case MULTIROW_TAB_PROPERTIES:
 			return prerelease;
 

@@ -7,11 +7,15 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
+import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
+import org.geogebra.web.html5.util.tabpanel.MyTabPanel;
 import org.geogebra.web.web.gui.dialog.options.OptionsEuclidianW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 
@@ -655,15 +659,27 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 	@Override
 	public void setLabels() {
+		if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
+			MultiRowsTabBar tabBar = ((MultiRowsTabPanel) tabPanel).getTabBar();
 
-		TabBar tabBar = tabPanel.getTabBar();
+			super.setLabels(tabBar, 4);
 
-		super.setLabels(tabBar, 4);
+			tabBar.setTabText(3, app.getPlain("zAxis"));
+			zAxisTab.setLabels();
 
-		tabBar.setTabText(3, app.getPlain("zAxis"));
-		zAxisTab.setLabels();
+			tabBar.setTabText(5, app.getPlain("Projection"));
 
-		tabBar.setTabText(5, app.getPlain("Projection"));
+		} else { // old code
+			TabBar tabBar = ((MyTabPanel) tabPanel).getTabBar();
+
+			super.setLabels(tabBar, 4);
+
+			tabBar.setTabText(3, app.getPlain("zAxis"));
+			zAxisTab.setLabels();
+
+			tabBar.setTabText(5, app.getPlain("Projection"));
+
+		}
 		projectionTab.setLabels();
 
 	}
