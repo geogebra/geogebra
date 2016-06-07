@@ -168,7 +168,7 @@ public class DrawSlider extends Drawable {
 
 			updateStrokes(number, 2);
 		}
-		if (needsAndjusted()) {
+		if (needsAdjusted()) {
 			Log.debug(ADJUST + " needed for " + geo.getNameDescription());
 		}
 	}
@@ -343,7 +343,7 @@ public class DrawSlider extends Drawable {
 		this.initY = -1;
 	}
 
-	private boolean needsAndjusted() {
+	private boolean needsAdjusted() {
 		App app = view.getApplication();
 		int fileWidth = app.getSettings()
 				.getEuclidian(view.getEuclidianViewNo()).getFileWidth();
@@ -357,9 +357,8 @@ public class DrawSlider extends Drawable {
 
 		// adjustChecked = true;
 
-		if ((view.getViewWidth() >= fileWidth && number.isSliderHorizontal())
-				|| (view.getViewHeight() >= fileHeight
-						&& !number.isSliderHorizontal())) {
+		if (view.getViewWidth() >= fileWidth
+				&& view.getViewHeight() >= fileHeight) {
 			Log.debug(ADJUST + " NOT need to be adjusted.");
 			return false;
 		}

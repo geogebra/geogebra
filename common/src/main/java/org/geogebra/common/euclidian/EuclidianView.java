@@ -2861,7 +2861,10 @@ GRectangle selectionRectangle) {
 	public void updateSize() {
 		updateSizeKeepDrawables();
 		updateAllDrawablesForView(true);
-
+		if (app.has(Feature.ADJUST_SLIDERS)) {
+			adjustedHSliderCount = 0;
+			adjustedVSliderCount = 0;
+		}
 	}
 
 	/**
@@ -5411,8 +5414,10 @@ sb.toString(), getFontAxes(),
 						: w - (sW + ADJUDT_SLIDER_MARGIN_X);
 			}
 
-			if (sliderY > getViewHeight() - ADJUDT_SLIDER_MARGIN_Y) {
-				sliderY = getViewHeight() - ADJUDT_SLIDER_MARGIN_Y;
+			if (sliderY > getViewHeight()
+					- adjustedHSliderCount * ADJUDT_SLIDER_MARGIN_Y) {
+				sliderY = getViewHeight()
+						- adjustedHSliderCount * ADJUDT_SLIDER_MARGIN_Y;
 			}
 		} else {
 			// Vertical slider
