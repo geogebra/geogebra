@@ -1062,7 +1062,7 @@ namespace giac {
 	    res=b*B;
 	  else
 	    res=b*B-a*A;
-	  return true;
+	  return !is_undef(res); // true;
 	}
 	int ieo=is_even_odd(g,x,contextptr);
 	if (ieo==2){

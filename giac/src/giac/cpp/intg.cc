@@ -305,7 +305,18 @@ namespace giac {
   }
 
   // eval N at X=e with e=x*exp(i*dephasage*pi/n)/(X-e)+conj and integrate
-  static gen substconj_(const gen & N,const gen & X,const gen & x,const gen & dephasage,bool residue_only,GIAC_CONTEXT){
+  static gen substconj_(const gen & N,const gen & X,const gen & x,const gen & dephasage_,bool residue_only,GIAC_CONTEXT){
+    int mode=angle_mode(contextptr);
+    gen pi=cst_pi;
+    gen dephasage(dephasage_);
+    if (mode==1){
+      dephasage=ratnormal(gen(180)/cst_pi*dephasage);
+      pi=180;
+    }
+    if (mode==2){
+      dephasage=ratnormal(gen(200)/cst_pi*dephasage);
+      pi=200;
+    }
     gen c=cos(dephasage,contextptr);
     gen s=sin(dephasage,contextptr);
     gen e=x*(c+cst_i*s);
@@ -315,9 +326,9 @@ namespace giac {
     if (residue_only)
       return N2*sign(s*x,contextptr);
     gen res=normal(rb,contextptr)*symbolic(at_ln,pow(X,2)+ratnormal(-2*c*x)*X+x.squarenorm(contextptr)); 
-    gen atanterm=symbolic(at_atan,(X-c*x)/(s*x));
+    gen atanterm=pi/cst_pi*symbolic(at_atan,(X-c*x)/(s*x));
     if (X.is_symb_of_sommet(at_tan))
-      atanterm += cst_pi*sign(s*x,contextptr)*symbolic(at_floor,X._SYMBptr->feuille/cst_pi+plus_one_half);
+      atanterm += pi*sign(s*x,contextptr)*symbolic(at_floor,X._SYMBptr->feuille/pi+plus_one_half);
     res=res+N2*atanterm;
     return res;
   }

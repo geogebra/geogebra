@@ -4164,8 +4164,9 @@ namespace giac {
   }
 
   void subresultant(const modpoly & P,const modpoly & Q,gen & res){
-    if (0 && is_integer_vecteur(P) && is_integer_vecteur(Q)){
-      res=mod_resultant(P,Q); // according to my tests ducos is faster
+    if (0 && is_integer_vecteur(P,true) && is_integer_vecteur(Q,true)){
+      res=mod_resultant(P,Q); 
+      // according to my tests ducos is faster except for very small coefficients
       return ;
     }
     int d=P.size()-1,e=Q.size()-1;
