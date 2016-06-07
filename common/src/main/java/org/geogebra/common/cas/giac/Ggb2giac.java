@@ -1067,6 +1067,11 @@ public class Ggb2giac {
 				")"+
 				""+
 				"[0])");
+		p("SolveODEPoint.2", "" + "normal(y=" +
+		// list of 2 points
+
+				// one point
+				"desolve(y'=%0,x,y,%1)[0])");
 				
 		p("SolveODE.3",
 				"when((%0)[0]=='=',"

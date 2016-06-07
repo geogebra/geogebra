@@ -103,11 +103,15 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo implements UsesCAS {
 		// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
 		StringBuilder sb = new StringBuilder();
 		sb.setLength(0);
-		sb.append("SolveODE(");
-		sb.append(funExp);
+
 		if (pt != null) {
+			sb.append("SolveODEPoint(");
+			sb.append(funExp);
 			sb.append(",");
 			sb.append(pt.toValueString(StringTemplate.prefixedDefault));
+		} else {
+			sb.append("SolveODE(");
+			sb.append(funExp);
 		}
 		sb.append(")");
 
