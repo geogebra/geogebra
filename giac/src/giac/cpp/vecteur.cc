@@ -6544,6 +6544,8 @@ namespace giac {
 	  return 0;
 	res=res1;
 	det=detnum*det/detden;
+	if (convert_internal)
+	  det=r2sym(det,lv,contextptr);
 	if (rref_or_det_or_lu==2 || rref_or_det_or_lu == 3){
 	  vecteur P;
 	  vector_int2vecteur(permutation,P);
