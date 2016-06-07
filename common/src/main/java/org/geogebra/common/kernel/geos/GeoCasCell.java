@@ -594,6 +594,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			suppressOutput = inNotNull.endsWith(";");
 			setInputVE(parseGeoGebraCASInputAndResolveDummyVars(inNotNull));
 		}
+		latexInput = null;
 		input = inNotNull; // remember exact user input
 		prefix = "";
 		evalVE = getInputVE();
