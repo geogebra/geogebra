@@ -1,12 +1,11 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
-import org.geogebra.common.geogebra3D.archimedean.support.ArchimedeanSolidFactory;
-import org.geogebra.common.geogebra3D.archimedean.support.IArchimedeanSolid;
-import org.geogebra.common.geogebra3D.archimedean.support.IFace;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
+import org.geogebra.common.geogebra3D.kernel3D.solid.PlatonicSolid;
+import org.geogebra.common.geogebra3D.kernel3D.solid.PlatonicSolidsFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -36,6 +35,8 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 
 	private Commands name;
 
+	private PlatonicSolid solidDescription;
+
 	/**
 	 * creates an archimedean solid
 	 * 
@@ -52,6 +53,30 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		super(c);
 
 		this.name = name;
+
+		// set polyhedron type
+		switch (name) {
+		case Tetrahedron:
+			polyhedron.setType(GeoPolyhedron.TYPE_TETRAHEDRON);
+			solidDescription = PlatonicSolidsFactory.getTetrahedron();
+			break;
+		case Cube:
+			polyhedron.setType(GeoPolyhedron.TYPE_CUBE);
+			solidDescription = PlatonicSolidsFactory.getCube();
+			break;
+		case Octahedron:
+			polyhedron.setType(GeoPolyhedron.TYPE_OCTAHEDRON);
+			solidDescription = PlatonicSolidsFactory.getOctahedron();
+			break;
+		case Dodecahedron:
+			polyhedron.setType(GeoPolyhedron.TYPE_DODECAHEDRON);
+			solidDescription = PlatonicSolidsFactory.getDodecahedron();
+			break;
+		case Icosahedron:
+			polyhedron.setType(GeoPolyhedron.TYPE_ICOSAHEDRON);
+			solidDescription = PlatonicSolidsFactory.getIcosahedron();
+			break;
+		}
 
 		setVolumeAreaAndHeightFactors();
 
@@ -75,24 +100,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		polyhedron.setReverseNormals();
 		setOutput();
 
-		// set polyhedron type
-		switch (name) {
-		case Tetrahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_TETRAHEDRON);
-			break;
-		case Cube:
-			polyhedron.setType(GeoPolyhedron.TYPE_CUBE);
-			break;
-		case Octahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_OCTAHEDRON);
-			break;
-		case Dodecahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_DODECAHEDRON);
-			break;
-		case Icosahedron:
-			polyhedron.setType(GeoPolyhedron.TYPE_ICOSAHEDRON);
-			break;
-		}
+
 
 		setLabels(labels);
 
@@ -165,8 +173,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	 */
 	protected void createPolyhedron() {
 
-		IArchimedeanSolid solid = ArchimedeanSolidFactory.create(name);
-		int vertexCount = solid.getVertexCount();
+		int vertexCount = solidDescription.getVertexCount();
 
 		outputPoints.augmentOutputSize(vertexCount - 2, false);
 		if (getPolyhedron().allLabelsAreSet()) {
@@ -174,7 +181,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		}
 
 		// coords
-		coords = solid.getVerticesInABv();
+		coords = solidDescription.getVertices();
 
 		// points
 		GeoPointND[] points = new GeoPointND[vertexCount];
@@ -188,12 +195,11 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		}
 
 		// faces
-		IFace[] faces = solid.getFaces();
-		for (int i = 0; i < solid.getFaceCount(); i++) {
+		int[][] faces = solidDescription.getFaces();
+		for (int i = 0; i < faces.length; i++) {
 			polyhedron.startNewFace();
-			for (int j = 0; j < faces[i].getVertexCount(); j++)
-				polyhedron.addPointToCurrentFace(points[faces[i]
-						.getVertexIndices()[j]]);
+			for (int j = 0; j < faces[i].length; j++)
+				polyhedron.addPointToCurrentFace(points[faces[i][j]]);
 			polyhedron.endCurrentFace();
 		}
 
