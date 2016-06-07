@@ -1036,6 +1036,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		getInputVE().setLabel(newLabel);
 		if (oldLabel != null) {
 			input = input.replaceFirst(oldLabel, newLabel);
+			if (latexInput != null && latexInput.indexOf(oldLabel) >= 0) {
+				latexInput = latexInput.replaceFirst(oldLabel, newLabel);
+			} else {
+				latexInput = null;
+			}
 			localizedInput = localizedInput.replaceFirst(oldLabel, newLabel);
 		}
 		assignmentVar = newLabel;
