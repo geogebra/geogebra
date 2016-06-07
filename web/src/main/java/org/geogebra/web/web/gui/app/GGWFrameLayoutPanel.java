@@ -5,6 +5,7 @@ import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -274,8 +275,16 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	public void updateKeyboardHeight() {
 		VirtualKeyboard keyboard = app.getGuiManager().getOnScreenKeyboard(
 				null, this);
+		if (spaceForKeyboard != null
+				&& spaceForKeyboard.getParent() == this.mainPanel) {
 		this.mainPanel.setWidgetSize(spaceForKeyboard,
 				keyboard.getOffsetHeight());
+		} else if (spaceForKeyboard != null) {
+			Log.debug("Unexpected keyboard parent: "
+					+ spaceForKeyboard.getParent());
+		} else {
+			Log.debug("Keyboard is null.");
+		}
 
 		// necessary to prevent lag when resizing panels/widgets
 		this.mainPanel.forceLayout();
