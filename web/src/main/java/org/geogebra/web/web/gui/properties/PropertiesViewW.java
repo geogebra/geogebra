@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -86,6 +87,9 @@ public class PropertiesViewW extends PropertiesView
 		
 		contentsPanel = new FlowPanel();
 		contentsPanel.addStyleName("contentsPanel");
+		if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
+			contentsPanel.addStyleName("contentsPanel2");
+		}
 		//wrappedPanel.addStyleName("propertiesView");
 		//mainPanel.add(contentsPanel);
 		wrappedPanel.add(contentsPanel);

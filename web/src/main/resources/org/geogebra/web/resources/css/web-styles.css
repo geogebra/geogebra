@@ -4269,6 +4269,10 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	height: 100%;
 }
 
+.contentsPanel2 {
+	overflow-x: hidden;
+}
+
 .contentsPanel > table.gwt-TabPanel {
 	width: 100%;
 }
