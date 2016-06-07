@@ -91,8 +91,11 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		} else {
 			if (isVector)
 				ret[0] = kernel.getManager3D().DependentVector3D(label, n);
-			else
-				ret[0] = kernel.getManager3D().DependentPoint3D(label, n);
+			else {
+				ret[0] = kernel.getManager3D().DependentPoint3D(n, true)
+						.toGeoElement();
+				ret[0].setLabel(label);
+			}
 		}
 
 		if (mode == Kernel.COORD_SPHERICAL) {

@@ -50,8 +50,9 @@ public class AlgoDependentPoint3D extends AlgoElement3D implements
 	 * @param root
 	 *            point expression
 	 */
-	public AlgoDependentPoint3D(Construction cons, ExpressionNode root) {
-		super(cons);
+	public AlgoDependentPoint3D(Construction cons, ExpressionNode root,
+			boolean addToConsList) {
+		super(cons, addToConsList);
 
 		P = new GeoPoint3D(cons);
 		P.setDefinition(root);

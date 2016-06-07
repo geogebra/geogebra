@@ -50,13 +50,13 @@ public interface Manager3DInterface {
 	public GeoElement Point3D(String label, double x, double y, double z,
 			boolean coords2D);
 
-	public GeoElement Point3D(double x, double y, double z, boolean coords2D);
+	public GeoPointND Point3D(double x, double y, double z, boolean coords2D);
 
 	/**
 	 * Point dependent on arithmetic expression with variables, represented by a
 	 * tree. e.g. P = (4t, 2s)
 	 */
-	public GeoElement DependentPoint3D(String label, ExpressionNode root);
+	public GeoPointND DependentPoint3D(ExpressionNode root, boolean addToCons);
 
 	public GeoElement DependentVector3D(String label, ExpressionNode root);
 

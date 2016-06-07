@@ -175,19 +175,29 @@ public class CellRange {
 	// TODO -- refactor this name, should mean has either exactly 2 rows or
 	// exactly 2 columns
 	/**
-	 * Returns true if cell range is 2xn or nx2
+	 * @return true if cell range is 2xn or nx2
 	 */
 	public boolean is2D() {
 		return (maxColumn - minColumn == 1) || (maxRow - minRow == 1);
 	}
 
 	/**
-	 * Returns true if cell range is 1xn, nx1, a row or a column
+	 * @return true if cell range is 3xn or nx3
+	 */
+	public boolean is3D() {
+		return (maxColumn - minColumn == 2) || (maxRow - minRow == 2);
+	}
+
+	/**
+	 * @return true if cell range is 1xn, nx1, a row or a column
 	 */
 	public boolean is1D() {
 		return ((maxColumn - minColumn == 0) || (maxRow - minRow == 0));
 	}
 
+	/**
+	 * @return true if cell range is part of a row, but bigger than one cell
+	 */
 	public boolean isPartialRow() {
 		return !isSingleCell() && !isRow() && (maxRow - minRow == 0);
 	}

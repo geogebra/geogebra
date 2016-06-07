@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoSort;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -20,6 +21,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SpreadsheetTableModel;
@@ -36,6 +39,7 @@ import org.geogebra.common.util.debug.Log;
  * @author G. Sturr
  * 
  */
+@SuppressWarnings("javadoc")
 public class CellRangeProcessor {
 
 	private MyTable table;
@@ -52,11 +56,6 @@ public class CellRangeProcessor {
 		tableModel = app.getSpreadsheetTableModel();
 		cons = table.getKernel().getConstruction();
 
-	}
-
-	private SpreadsheetViewInterface getView() {
-		return (SpreadsheetViewInterface) app.getGuiManager()
-				.getSpreadsheetView();
 	}
 
 	/**
@@ -85,7 +84,8 @@ public class CellRangeProcessor {
 	public boolean isCreatePointListPossible(ArrayList<CellRange> rangeList) {
 
 		// two adjacent rows or columns?
-		if (rangeList.size() == 1 && rangeList.get(0).is2D())
+		if (rangeList.size() == 1
+				&& (rangeList.get(0).is2D() || rangeList.get(0).is3D()))
 			return true;
 
 		// two non-adjacent rows or columns?
@@ -99,9 +99,13 @@ public class CellRangeProcessor {
 		return false;
 	}
 
-	/*
+	/**
 	 * top-left must be a function of 2 variables eg A4(x,y)=x y^2 top row and
 	 * left column must be numbers other cells can be anything (will be erased)
+	 * 
+	 * @param rangeList
+	 *            ranges
+	 * @return whether operation table is possible
 	 */
 	public boolean isCreateOperationTablePossible(ArrayList<CellRange> rangeList) {
 
@@ -387,12 +391,14 @@ public class CellRangeProcessor {
 		return ret;
 	}
 
-	private class PointDimension {
+	class PointDimension {
 		boolean doHorizontalPairs;
 		int c1;
 		int c2;
 		int r1;
 		int r2;
+		int r3 = -1;
+		int c3 = -1;
 	}
 
 	/**
@@ -411,9 +417,18 @@ public class CellRangeProcessor {
 		// CASE 1: selection is contiguous and 2D
 		if (rangeList.size() == 1) {
 
-			pd.doHorizontalPairs = rangeList.get(0).getWidth() == 2;
+			pd.doHorizontalPairs = rangeList.get(0).getWidth() == 2
+					|| (rangeList.get(0).getWidth() == 3
+							&& rangeList.get(0).getHeight() != 2);
 			pd.c1 = rangeList.get(0).getMinColumn();
-			pd.c2 = rangeList.get(0).getMaxColumn();
+			pd.c2 = pd.c1 + 1;
+			if (rangeList.get(0).getWidth() == 3
+					&& rangeList.get(0).getHeight() != 2) {
+				pd.c3 = pd.c1 + 2;
+			} else if (rangeList.get(0).getHeight() == 3
+					&& rangeList.get(0).getWidth() != 2) {
+				pd.c3 = pd.c1 + 2;
+			}
 			pd.r1 = rangeList.get(0).getMinRow();
 			pd.r2 = rangeList.get(0).getMaxRow();
 
@@ -482,19 +497,24 @@ public class CellRangeProcessor {
 
 
 		// build the string
-		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		ArrayList<GeoElementND> list = new ArrayList<GeoElementND>();
 
 		try {
-			GeoElement xCoord, yCoord;
+			GeoElement xCoord, yCoord, zCoord;
 
 			if (pd.doHorizontalPairs) {
 				for (int i = pd.r1; i <= pd.r2; ++i) {
 
 					xCoord = RelativeCopy.getValue(app, pd.c1, i);
 					yCoord = RelativeCopy.getValue(app, pd.c2, i);
-
-					createPoint(xCoord, yCoord, byValue, leftToRight,
+					if (pd.c3 < 0) {
+						createPoint(xCoord, yCoord, byValue, leftToRight,
 							doCreateFreePoints, list);
+					} else {
+						zCoord = RelativeCopy.getValue(app, pd.c3, i);
+						createPoint3D(xCoord, yCoord, zCoord, byValue,
+								leftToRight, doCreateFreePoints, list);
+					}
 
 				}
 
@@ -502,9 +522,14 @@ public class CellRangeProcessor {
 				for (int i = pd.c1; i <= pd.c2; ++i) {
 					xCoord = RelativeCopy.getValue(app, i, pd.r1);
 					yCoord = RelativeCopy.getValue(app, i, pd.r2);
-
+					if (pd.r3 < 0) {
 					createPoint(xCoord, yCoord, byValue, leftToRight,
 							doCreateFreePoints, list);
+					} else {
+						zCoord = RelativeCopy.getValue(app, pd.r3, i);
+						createPoint3D(xCoord, yCoord, zCoord, byValue,
+								leftToRight, doCreateFreePoints, list);
+					}
 				}
 			}
 
@@ -523,10 +548,12 @@ public class CellRangeProcessor {
 
 	}
 
-	private void createPoint(GeoElement xCoord, GeoElement yCoord,
+	private void createPoint(GeoElement x, GeoElement y,
 			boolean byValue, boolean leftToRight, boolean doCreateFreePoints,
-			ArrayList<GeoElement> list) {
+			ArrayList<GeoElementND> list) {
 		Kernel kernel = cons.getKernel();
+		GeoElement xCoord = leftToRight ? x : y;
+		GeoElement yCoord = leftToRight ? y : x;
 		// don't process the point if either coordinate is null or
 		// non-numeric,
 		if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric()
@@ -541,9 +568,7 @@ public class CellRangeProcessor {
 					((GeoNumeric) yCoord).getDouble(), 1.0);
 		} else {
 
-			MyVecNode vec = new MyVecNode(kernel,
-					leftToRight ? xCoord : yCoord, leftToRight ? yCoord
-							: xCoord);
+			MyVecNode vec = new MyVecNode(kernel, xCoord, yCoord);
 			ExpressionNode point = new ExpressionNode(kernel, vec,
 					Operation.NO_OPERATION, null);
 			point.setForcePoint();
@@ -567,6 +592,54 @@ public class CellRangeProcessor {
 
 		if (yCoord.isAngle() || xCoord.isAngle())
 			geoPoint.setPolar();
+
+	}
+
+	private void createPoint3D(GeoElement x, GeoElement y,
+			GeoElement zCoord, boolean byValue, boolean leftToRight,
+			boolean doCreateFreePoints, ArrayList<GeoElementND> list) {
+		Kernel kernel = cons.getKernel();
+		GeoElement xCoord = leftToRight ? x : y;
+		GeoElement yCoord = leftToRight ? y : x;
+		// don't process the point if either coordinate is null or
+		// non-numeric,
+		if (xCoord == null || yCoord == null || !xCoord.isGeoNumeric()
+				|| !yCoord.isGeoNumeric() || zCoord == null
+				|| !zCoord.isGeoNumeric())
+			return;
+
+		GeoPointND geoPoint;
+
+		if (byValue) {
+			geoPoint = kernel.getManager3D().Point3D(
+					((GeoNumeric) xCoord).getDouble(),
+					((GeoNumeric) yCoord).getDouble(),
+					((GeoNumeric) zCoord).getDouble(), false);
+		} else {
+
+			MyVec3DNode vec = new MyVec3DNode(kernel,
+					leftToRight ? xCoord : yCoord,
+					leftToRight ? yCoord : xCoord, zCoord);
+			ExpressionNode point = new ExpressionNode(kernel, vec,
+					Operation.NO_OPERATION, null);
+			point.setForcePoint();
+
+			geoPoint = kernel.getManager3D().DependentPoint3D(point,
+					!doCreateFreePoints);
+
+
+		}
+
+		if (doCreateFreePoints) {
+			// make sure points are independent of list (and so
+			// draggable)
+			geoPoint.setLabel(null);
+		}
+
+		list.add(geoPoint);
+
+		// if (yCoord.isAngle() || xCoord.isAngle())
+		// geoPoint.setPolar();
 
 	}
 
@@ -703,11 +776,11 @@ public class CellRangeProcessor {
 			boolean doStoreUndo, GeoClass geoTypeFilter, boolean setLabel) {
 
 		GeoList geoList = null;
-		ArrayList<GeoElement> list = null;
+		ArrayList<GeoElementND> list = null;
 		if (copyByValue)
 			geoList = new GeoList(cons);
 		else
-			list = new ArrayList<GeoElement>();
+			list = new ArrayList<GeoElementND>();
 
 		ArrayList<GPoint> cellList = new ArrayList<GPoint>();
 
@@ -990,9 +1063,15 @@ public class CellRangeProcessor {
 	// Insert Rows/Columns
 	// ===================================================
 
-	@SuppressWarnings("javadoc")
 	public enum Direction {
-		Left, Right, Up, Down
+		/** left */
+		Left,
+		/** right */
+		Right,
+		/** up */
+		Up,
+		/** down */
+		Down
 	}
 
 	/**
@@ -1169,13 +1248,14 @@ public class CellRangeProcessor {
 	/**
 	 * Creates an operation table.
 	 */
-	public void createOperationTable(CellRange cr, GeoFunctionNVar fcn) {
+	public void createOperationTable(CellRange cr) {
 
 		int r1 = cr.getMinRow();
 		int c1 = cr.getMinColumn();
 		String text = "";
 		GeoElement[] geos;
-		fcn = (GeoFunctionNVar) RelativeCopy.getValue(app, c1, r1);
+		GeoFunctionNVar fcn = (GeoFunctionNVar) RelativeCopy.getValue(app, c1,
+				r1);
 
 		for (int r = r1 + 1; r <= cr.getMaxRow(); ++r) {
 			for (int c = c1 + 1; c <= cr.getMaxColumn(); ++c) {
@@ -1201,45 +1281,46 @@ public class CellRangeProcessor {
 
 	// Experimental ---- merging ctrl-selected cells
 
-	private static void consolidateRangeList(ArrayList<CellRange> rangeList) {
-
-		ArrayList<ArrayList<GPoint>> matrix = new ArrayList<ArrayList<GPoint>>();
-		int minRow = rangeList.get(0).getMinRow();
-		int maxRow = rangeList.get(0).getMaxRow();
-		int minColumn = rangeList.get(0).getMinColumn();
-		int maxColumn = rangeList.get(0).getMaxColumn();
-
-		for (CellRange cr : rangeList) {
-
-			minColumn = Math.min(cr.getMinColumn(), minColumn);
-			maxColumn = Math.max(cr.getMaxColumn(), maxColumn);
-			minRow = Math.min(cr.getMinRow(), minRow);
-			maxRow = Math.max(cr.getMaxRow(), maxRow);
-
-			// create matrix of cells from all ranges in the list
-			for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
-
-				// add columns from this cell range to the matrix
-				if (matrix.get(col) == null) {
-					matrix.add(col, new ArrayList<GPoint>());
-					matrix.get(col).add(
-							new GPoint(cr.getMinColumn(), cr.getMaxColumn()));
-				} else {
-					// Point p = matrix.get(col).get(1);
-					// if(cr.getMinColumn()>)
-					// insertPoint(matrix, new Point(new
-					// Point(cr.getMinColumn(),cr.getMaxColumn())));
-				}
-			}
-
-			// convert our matrix to a CellRange list
-			for (int col = minColumn; col <= maxColumn; col++) {
-				if (matrix.contains(col)) {
-					// TODO ?
-				}
-			}
-		}
-	}
+	// private static void consolidateRangeList(ArrayList<CellRange> rangeList)
+	// {
+	//
+	// ArrayList<ArrayList<GPoint>> matrix = new ArrayList<ArrayList<GPoint>>();
+	// int minRow = rangeList.get(0).getMinRow();
+	// int maxRow = rangeList.get(0).getMaxRow();
+	// int minColumn = rangeList.get(0).getMinColumn();
+	// int maxColumn = rangeList.get(0).getMaxColumn();
+	//
+	// for (CellRange cr : rangeList) {
+	//
+	// minColumn = Math.min(cr.getMinColumn(), minColumn);
+	// maxColumn = Math.max(cr.getMaxColumn(), maxColumn);
+	// minRow = Math.min(cr.getMinRow(), minRow);
+	// maxRow = Math.max(cr.getMaxRow(), maxRow);
+	//
+	// // create matrix of cells from all ranges in the list
+	// for (int col = cr.getMinColumn(); col <= cr.getMaxColumn(); col++) {
+	//
+	// // add columns from this cell range to the matrix
+	// if (matrix.get(col) == null) {
+	// matrix.add(col, new ArrayList<GPoint>());
+	// matrix.get(col).add(
+	// new GPoint(cr.getMinColumn(), cr.getMaxColumn()));
+	// } else {
+	// // Point p = matrix.get(col).get(1);
+	// // if(cr.getMinColumn()>)
+	// // insertPoint(matrix, new Point(new
+	// // Point(cr.getMinColumn(),cr.getMaxColumn())));
+	// }
+	// }
+	//
+	// // convert our matrix to a CellRange list
+	// for (int col = minColumn; col <= maxColumn; col++) {
+	// if (matrix.contains(col)) {
+	// // ????
+	// }
+	// }
+	// }
+	// }
 
 	public String getCellRangeString(CellRange range) {
 		return getCellRangeString(range, true);

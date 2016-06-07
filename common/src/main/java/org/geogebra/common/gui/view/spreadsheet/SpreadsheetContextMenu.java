@@ -474,7 +474,7 @@ public class SpreadsheetContextMenu {
 			break;
 
 		case OperationTable:
-			cp.createOperationTable(selectedCellRanges.get(0), null);
+			cp.createOperationTable(selectedCellRanges.get(0));
 			break;
 
 		case ImportDataFile:

@@ -132,11 +132,12 @@ public class Manager3D implements Manager3DInterface {
 	 * Point dependent on arithmetic expression with variables, represented by a
 	 * tree. e.g. P = (4t, 2s, 7)
 	 */
-	final public GeoPoint3D DependentPoint3D(String label, ExpressionNode root) {
-		AlgoDependentPoint3D algo = new AlgoDependentPoint3D(cons, root);
+	final public GeoPoint3D DependentPoint3D(ExpressionNode root,
+			boolean addToCons) {
+		AlgoDependentPoint3D algo = new AlgoDependentPoint3D(cons, root,
+				addToCons);
 		GeoPoint3D P = algo.getPoint3D();
 		P.setCartesian3D();
-		P.setLabel(label);
 		return P;
 	}
 
@@ -1710,8 +1711,7 @@ public class Manager3D implements Manager3DInterface {
 
 			if (A.isGeoElement3D() || B.isGeoElement3D()) {
 				AlgoDependentPoint3D exprAlgoPoint = new AlgoDependentPoint3D(
-						cons, expr);
-				cons.removeFromConstructionList(exprAlgoPoint);
+						cons, expr, false);
 				center = exprAlgoPoint.getPoint3D();
 			} else {
 				AlgoDependentPoint exprAlgoPoint = new AlgoDependentPoint(cons,
@@ -1986,8 +1986,8 @@ public class Manager3D implements Manager3DInterface {
 		MyVec3DNode start = new MyVec3DNode(kernel, coefX[0], coefY[0],
 				coefZ[0]);
 		MyVec3DNode v = new MyVec3DNode(kernel, coefX[1], coefY[1], coefZ[1]);
-		AlgoDependentPoint3D pt = new AlgoDependentPoint3D(cons, start.wrap());
-		cons.removeFromConstructionList(pt);
+		AlgoDependentPoint3D pt = new AlgoDependentPoint3D(cons, start.wrap(),
+				false);
 		AlgoDependentVector3D vec = new AlgoDependentVector3D(cons, v.wrap());
 		cons.removeFromConstructionList(vec);
 		AlgoLinePointVector3D algo = new AlgoLinePointVector3D(cons, label,

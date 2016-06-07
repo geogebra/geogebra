@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Algorithm that takes a list of GeoElement objects to build a Geolist with
@@ -30,7 +31,7 @@ import org.geogebra.common.kernel.geos.GeoList;
  */
 public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 
-	private ArrayList<GeoElement> listItems; // input GeoElements
+	private ArrayList<? extends GeoElementND> listItems; // input GeoElements
 	private GeoList geoList; // output
 
 	private boolean isCellRange;
@@ -48,7 +49,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	 *            list of GeoElement objects
 	 */
 	public AlgoDependentList(Construction cons, String label,
-			ArrayList<GeoElement> listItems) {
+			ArrayList<? extends GeoElementND> listItems) {
 		this(cons, listItems, false);
 		geoList.setLabel(label);
 	}
@@ -63,7 +64,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	 * @param isCellRange
 	 */
 	public AlgoDependentList(Construction cons,
-			ArrayList<GeoElement> listItems, boolean isCellRange) {
+			ArrayList<? extends GeoElementND> listItems, boolean isCellRange) {
 		super(cons);
 		this.listItems = listItems;
 		this.isCellRange = isCellRange;
@@ -95,7 +96,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 		int size = listItems.size();
 		input = new GeoElement[size];
 		for (int i = 0; i < size; i++) {
-			input[i] = listItems.get(i);
+			input[i] = listItems.get(i).toGeoElement();
 
 			if (!input[i].isLabelSet()) {
 				input[i].setLabelWanted(false);
