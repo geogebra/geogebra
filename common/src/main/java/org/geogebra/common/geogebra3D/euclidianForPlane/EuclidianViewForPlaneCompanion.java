@@ -20,6 +20,7 @@ import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -609,5 +610,11 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		return new DrawParametricCurve(view, new CurveEvaluableForPlane(geo,
 				this));
 	}
+
+	 @Override
+	 public boolean isInPlane(CoordSys sys) {
+		return sys == null || sys.getEquationVector()
+				.isEqual(plane.getCoordSys().getEquationVector());
+	 }
 
 }
