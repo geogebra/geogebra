@@ -165,8 +165,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     @Override
     public boolean onKeyTyped(KeyEvent keyEvent) {
-		char ch = keyEvent.getUnicodeKeyChar();
-		boolean handled = inputController.handleChar(editorState, ch);
+		boolean handled = keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar());
         if (handled) {
             update();
         }

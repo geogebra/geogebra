@@ -68,4 +68,8 @@ public class KeyListenerImpl {
         }
     }
 
+	public boolean onKeyTyped(char ch) {
+		return inputController.handleChar(editorState, ch);
+	}
+
 }
