@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
@@ -48,6 +49,7 @@ import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
+import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
@@ -66,12 +68,14 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public abstract class AppWFull extends AppW {
@@ -701,6 +705,31 @@ public abstract class AppWFull extends AppW {
 	public DockGlassPaneW getGlassPane() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void addMenuItem(MenuInterface parentMenu, String key,
+			boolean asHtml, MenuInterface subMenu) {
+		addMenuItem((MenuBar) parentMenu, key, asHtml, subMenu);
+	}
+
+	private void addMenuItem(MenuBar parentMenu, String key, boolean asHtml,
+			MenuInterface subMenu) {
+
+		if (subMenu instanceof MenuBar) {
+			((MenuBar) subMenu).addStyleName("GeoGebraMenuBar");
+		}
+		ImageResource imgRes = AppResources.INSTANCE.empty();
+
+		if ("Labeling".equals(key)) {
+			imgRes = AppResources.INSTANCE.mode_showhidelabel_16();
+		}
+		if ("FontSize".equals(key)) {
+			imgRes = AppResources.INSTANCE.font();
+		}
+		parentMenu.addItem(
+				getGuiManager().getMenuBarHtml(imgRes, getMenu(key), true),
+				true, (MenuBar) subMenu);
 	}
 
 }
