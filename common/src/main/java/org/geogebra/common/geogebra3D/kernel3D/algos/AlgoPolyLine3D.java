@@ -29,13 +29,13 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class AlgoPolyLine3D extends AlgoPolyLine {
 
-	public AlgoPolyLine3D(Construction cons, String[] labels, GeoList geoList) {
-		this(cons, labels, null, geoList);
+	public AlgoPolyLine3D(Construction cons, String label, GeoList geoList) {
+		this(cons, label, null, geoList);
 	}
 
-	public AlgoPolyLine3D(Construction cons, String[] labels,
+	public AlgoPolyLine3D(Construction cons, String label,
 			GeoPointND[] points) {
-		this(cons, labels, points, null);
+		this(cons, label, points, null);
 	}
 
 	/**
@@ -50,9 +50,9 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 	 * @param createSegments
 	 *            says if the polygon has to creates its edges (3D only)
 	 */
-	protected AlgoPolyLine3D(Construction cons, String[] labels,
+	protected AlgoPolyLine3D(Construction cons, String label,
 			GeoPointND[] points, GeoList geoList) {
-		super(cons, labels, points, geoList);
+		super(cons, label, points, geoList);
 
 		// poly = new GeoPolygon(cons, points);
 		// createPolyLine(createSegments);

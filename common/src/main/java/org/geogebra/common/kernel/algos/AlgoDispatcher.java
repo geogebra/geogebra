@@ -847,9 +847,9 @@ public class AlgoDispatcher {
 	 * polygon P[0], ..., P[n-1] The labels name the polygon itself and its
 	 * segments
 	 */
-	final public GeoElement[] PolyLine(String[] labels, GeoPointND[] P,
+	final public GeoElement[] PolyLine(String label, GeoPointND[] P,
 			boolean penStroke) {
-		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, P, penStroke);
+		AlgoPolyLine algo = new AlgoPolyLine(cons, label, P, penStroke);
 		return algo.getOutput();
 	}
 

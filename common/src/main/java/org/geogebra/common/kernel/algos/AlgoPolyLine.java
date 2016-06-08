@@ -38,22 +38,22 @@ public class AlgoPolyLine extends AlgoElement implements GetPointsAlgo {
 	protected GeoPolyLine poly; // output
 	private boolean penStroke;
 
-	public AlgoPolyLine(Construction cons, String[] labels, GeoList geoList) {
-		this(cons, labels, null, geoList);
+	public AlgoPolyLine(Construction cons, String label, GeoList geoList) {
+		this(cons, label, null, geoList);
 	}
 
-	public AlgoPolyLine(Construction cons, String[] labels, GeoList geoList,
+	public AlgoPolyLine(Construction cons, String label, GeoList geoList,
 			boolean penStroke) {
-		this(cons, labels, null, geoList, penStroke);
+		this(cons, label, null, geoList, penStroke);
 	}
 
 	public AlgoPolyLine(Construction cons, GeoList geoList) {
 		this(cons, (GeoPointND[]) null, geoList, false);
 	}
 
-	public AlgoPolyLine(Construction cons, String[] labels,
+	public AlgoPolyLine(Construction cons, String label,
 			GeoPointND[] points, boolean penStroke) {
-		this(cons, labels, points, null, penStroke);
+		this(cons, label, points, null, penStroke);
 	}
 
 	public AlgoPolyLine(Construction cons, GeoPointND[] points,
@@ -71,27 +71,21 @@ public class AlgoPolyLine extends AlgoElement implements GetPointsAlgo {
 	 * @param geoList
 	 *            list of vertices of the polygon (alternative to points)
 	 */
-	public AlgoPolyLine(Construction cons, String[] labels,
+	public AlgoPolyLine(Construction cons, String label,
 			GeoPointND[] points, GeoList geoList) {
 
 		this(cons, points, geoList, false);
 
-		if (labels != null)
-			poly.setLabel(labels[0]);
-		else
-			poly.setLabel(null);
+		poly.setLabel(label);
 
 	}
 
-	public AlgoPolyLine(Construction cons, String[] labels,
+	public AlgoPolyLine(Construction cons, String label,
 			GeoPointND[] points, GeoList geoList, boolean penStroke) {
 
 		this(cons, points, geoList, penStroke);
 
-		if (labels != null)
-			poly.setLabel(labels[0]);
-		else
-			poly.setLabel(null);
+		poly.setLabel(label);
 
 	}
 

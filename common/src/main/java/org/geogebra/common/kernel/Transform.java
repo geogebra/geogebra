@@ -135,15 +135,13 @@ public abstract class Transform {
 	private GeoElement[] transformPoly(String label, GeoPoly oldPoly,
 			GeoPointND[] transformedPoints) {
 		// get label for polygon
-		String[] polyLabel = null;
+		String polyLabel = null;
 		if (label == null) {
 			if (((GeoElement) oldPoly).isLabelSet()) {
-				polyLabel = new String[1];
-				polyLabel[0] = transformedGeoLabel((GeoElement) oldPoly);
+				polyLabel = transformedGeoLabel((GeoElement) oldPoly);
 			}
 		} else {
-			polyLabel = new String[1];
-			polyLabel[0] = label;
+			polyLabel = label;
 		}
 
 		// use visibility of points for transformed points
@@ -158,7 +156,8 @@ public abstract class Transform {
 
 		// build the polygon from the transformed points
 		if (oldPoly instanceof GeoPolygon)
-			ret = cons.getKernel().PolygonND(polyLabel, transformedPoints);
+			ret = cons.getKernel().PolygonND(wrapLabel(polyLabel),
+					transformedPoints);
 		else
 			ret = cons.getKernel().PolyLineND(polyLabel, transformedPoints);
 
@@ -167,6 +166,10 @@ public abstract class Transform {
 		}
 
 		return ret;
+	}
+
+	private static String[] wrapLabel(String polyLabel) {
+		return polyLabel == null ? null : new String[] { polyLabel };
 	}
 
 	/**

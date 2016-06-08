@@ -790,7 +790,7 @@ public class StatGeo {
 
 	public GeoElement createScatterPlotLine(GeoList points) {
 
-		AlgoPolyLine polyLine = new AlgoPolyLine(cons, (String[]) null, points);
+		AlgoPolyLine polyLine = new AlgoPolyLine(cons, (String) null, points);
 		removeFromConstructionList(polyLine);
 		GeoElement geo = polyLine.getGeoElements()[0];
 

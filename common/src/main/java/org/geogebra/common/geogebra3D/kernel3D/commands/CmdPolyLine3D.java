@@ -17,14 +17,14 @@ public class CmdPolyLine3D extends CmdPolyLine {
 	}
 
 	@Override
-	protected GeoElement[] PolyLine(String[] labels, GeoList pointList) {
+	protected GeoElement[] PolyLine(String label, GeoList pointList) {
 		for (int i = 0; i < pointList.size(); i++) {
 			if (pointList.get(i).isGeoElement3D()) {
-				return kernelA.getManager3D().PolyLine3D(labels, pointList);
+				return kernelA.getManager3D().PolyLine3D(label, pointList);
 			}
 		}
 
-		return super.PolyLine(labels, pointList);
+		return super.PolyLine(label, pointList);
 	}
 
 	@Override
@@ -37,14 +37,14 @@ public class CmdPolyLine3D extends CmdPolyLine {
 	}
 
 	@Override
-	protected GeoElement[] PolyLine(String[] labels, GeoPointND[] points,
+	protected GeoElement[] PolyLine(String label, GeoPointND[] points,
 			boolean penStroke, boolean is3D) {
 
 		if (is3D) {
-			return kernelA.getManager3D().PolyLine3D(labels, points);
+			return kernelA.getManager3D().PolyLine3D(label, points);
 		}
 
-		return kernelA.PolyLine(labels, points, penStroke);
+		return kernelA.PolyLine(label, points, penStroke);
 	}
 
 }

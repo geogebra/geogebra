@@ -201,9 +201,9 @@ public interface Manager3DInterface {
 	public GeoElement[] RegularPolygon(String[] labels, GeoPointND A,
 			GeoPointND B, NumberValue n, GeoDirectionND direction);
 
-	public GeoElement[] PolyLine3D(String[] labels, GeoPointND[] P);
+	public GeoElement[] PolyLine3D(String label, GeoPointND[] P);
 
-	public GeoElement[] PolyLine3D(String[] labels, GeoList pointList);
+	public GeoElement[] PolyLine3D(String label, GeoList pointList);
 
 	/**
 	 * Prism with vertices (last one is first vertex of second parallel face)

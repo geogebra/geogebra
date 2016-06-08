@@ -448,13 +448,13 @@ public class Manager3D implements Manager3DInterface {
 
 	}
 
-	final public GeoElement[] PolyLine3D(String[] labels, GeoPointND[] P) {
-		AlgoPolyLine3D algo = new AlgoPolyLine3D(cons, labels, P);
+	final public GeoElement[] PolyLine3D(String label, GeoPointND[] P) {
+		AlgoPolyLine3D algo = new AlgoPolyLine3D(cons, label, P);
 		return algo.getOutput();
 	}
 
-	final public GeoElement[] PolyLine3D(String[] labels, GeoList pointList) {
-		AlgoPolyLine3D algo = new AlgoPolyLine3D(cons, labels, pointList);
+	final public GeoElement[] PolyLine3D(String label, GeoList pointList) {
+		AlgoPolyLine3D algo = new AlgoPolyLine3D(cons, label, pointList);
 		return algo.getOutput();
 	}
 

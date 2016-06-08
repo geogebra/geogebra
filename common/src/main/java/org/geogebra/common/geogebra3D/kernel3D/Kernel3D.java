@@ -316,7 +316,7 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	public GeoElement[] PolyLineND(String[] labels, GeoPointND[] P) {
+	public GeoElement[] PolyLineND(String label, GeoPointND[] P) {
 
 		boolean is3D = false;
 		for (int i = 0; i < P.length && !is3D; i++)
@@ -324,8 +324,8 @@ public class Kernel3D extends Kernel {
 				is3D = true;
 
 		if (is3D)
-			return getManager3D().PolyLine3D(labels, P);
-		return super.PolyLine(labels, P, false);
+			return getManager3D().PolyLine3D(label, P);
+		return super.PolyLine(label, P, false);
 
 	}
 

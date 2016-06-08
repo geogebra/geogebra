@@ -34,7 +34,7 @@ public class CmdPolyLine extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		case 1:
 			if (arg[0].isGeoList())
-				return PolyLine(c.getLabels(), (GeoList) arg[0]);
+				return PolyLine(c.getLabel(), (GeoList) arg[0]);
 			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
@@ -45,7 +45,7 @@ public class CmdPolyLine extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[1]);
 			}
 
-			return PolyLine(c.getLabels(), (GeoList) arg[0]);
+			return PolyLine(c.getLabel(), (GeoList) arg[0]);
 
 		default:
 
@@ -70,20 +70,20 @@ public class CmdPolyLine extends CommandProcessor {
 				is3D = checkIs3D(is3D, arg[i]);
 			}
 			// everything ok
-			return PolyLine(c.getLabels(), points, penStroke, is3D);
+			return PolyLine(c.getLabel(), points, penStroke, is3D);
 
 		}
 	}
 
 	/**
-	 * @param labels
-	 *            labels
+	 * @param label
+	 *            label
 	 * @param pointList
 	 *            input points
 	 * @return polyline
 	 */
-	protected GeoElement[] PolyLine(String[] labels, GeoList pointList) {
-		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, pointList);
+	protected GeoElement[] PolyLine(String label, GeoList pointList) {
+		AlgoPolyLine algo = new AlgoPolyLine(cons, label, pointList);
 		return algo.getOutput();
 	}
 
@@ -110,9 +110,9 @@ public class CmdPolyLine extends CommandProcessor {
 	 *            whether it's a 3D object
 	 * @return polyline
 	 */
-	protected GeoElement[] PolyLine(String[] labels, GeoPointND[] points,
+	protected GeoElement[] PolyLine(String label, GeoPointND[] points,
 			boolean penStroke, boolean is3D) {
-		return kernelA.PolyLine(labels, points, penStroke);
+		return kernelA.PolyLine(label, points, penStroke);
 	}
 
 }

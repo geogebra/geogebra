@@ -4808,8 +4808,8 @@ public class Kernel {
 		return getAlgoDispatcher().Polygon(labels, P);
 	}
 
-	public GeoElement[] PolyLineND(String[] labels, GeoPointND[] P) {
-		return getAlgoDispatcher().PolyLine(labels, P, false);
+	public GeoElement[] PolyLineND(String label, GeoPointND[] P) {
+		return getAlgoDispatcher().PolyLine(label, P, false);
 	}
 
 	/**
@@ -4869,8 +4869,8 @@ public class Kernel {
 		return getAlgoDispatcher().Polygon(labels, p);
 	}
 
-	public GeoElement[] PolyLine(String[] labels, GeoPointND[] p, boolean b) {
-		return getAlgoDispatcher().PolyLine(labels, p, b);
+	public GeoElement[] PolyLine(String label, GeoPointND[] p, boolean b) {
+		return getAlgoDispatcher().PolyLine(label, p, b);
 	}
 
 	public boolean hasAlgebraProcessor() {
