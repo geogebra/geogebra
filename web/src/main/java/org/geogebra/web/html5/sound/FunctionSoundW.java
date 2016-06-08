@@ -83,14 +83,16 @@ public final class FunctionSoundW extends FunctionSound implements
 	 * 
 	 * @param doPause
 	 */
-	public void pause(boolean doPause) {
+	public void pause(boolean resume) {
 
-		if (doPause) {
-			setMin(getT());
-			stopSound();
-		} else {
+		if (resume) {
+			Log.debug("Resume");
 			playFunction(getF(), getMin(), getMax(), getSampleRate(),
 					getBitDepth());
+		} else {
+			Log.debug("Pause");
+			setMin(getT());
+			stopSound();
 		}
 	}
 
@@ -108,6 +110,7 @@ public final class FunctionSoundW extends FunctionSound implements
 	 * Stops function sound
 	 */
 	public void stopSound() {
+
 		stopped = true;
 		waw.stop();
 	}

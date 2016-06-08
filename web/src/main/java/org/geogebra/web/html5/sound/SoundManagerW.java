@@ -24,8 +24,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	}
 
 	public void pauseResumeSound(boolean b) {
-		Log.debug("unimplemented 1");
-
+		FunctionSoundW.INSTANCE.pause(b);
 	}
 
 	public void playSequenceNote(int note, double duration, int instrument,

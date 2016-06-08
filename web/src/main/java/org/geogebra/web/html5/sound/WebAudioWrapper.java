@@ -45,6 +45,7 @@ public class WebAudioWrapper {
 		$wnd.time = min;
 		$wnd.stopTime = max;
 		$wnd.processor.connect($wnd.context.destination);
+		$wnd.processorConnected = true;
 	}-*/;
 
 	public double eval(double t) {
@@ -69,9 +70,7 @@ public class WebAudioWrapper {
 		if (!this.@org.geogebra.web.html5.sound.WebAudioWrapper::isSupported()()) {
 			return;
 		}
-
-		$wnd.processor.disconnect($wnd.context.destination);
-
+		$wnd.processor.disconnect();
 	}-*/;
 
 	public FunctionAudioListener getListener() {
