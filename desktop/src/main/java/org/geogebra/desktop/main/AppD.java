@@ -4863,11 +4863,17 @@ ToolbarD.getAllTools(this));
 	}
 
 	@Override
-	public void addMenuItem(MenuInterface parentMenu, String filename,
-			String name, boolean asHtml, MenuInterface subMenu) {
-
+	public void addMenuItem(MenuInterface parentMenu, String key,
+			boolean asHtml, MenuInterface subMenu) {
+		String filename = null;
+		if ("Labeling".equals(key)) {
+			filename = "mode_showhidelabel_16.gif";
+		}
+		if ("FontSize".equals(key)) {
+			filename = "font.png";
+		}
 		((JMenuItem) subMenu).setIcon(getMenuIcon(filename));
-		((JMenuItem) subMenu).setText(name);
+		((JMenuItem) subMenu).setText(getMenu(key));
 		((JMenu) parentMenu).add((JMenuItem) subMenu);
 
 	}

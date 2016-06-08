@@ -176,8 +176,7 @@ public class OptionsMenu {
 		menuDecimalPlaces.addRadioButtonMenuItems((MyActionListener) menu,
 				strDecimalSpaces, App.strDecimalSpacesAC, 0, false);
 
-		app.addMenuItem(menu, app.getEmptyIconFileName(),
-				app.getMenu("Rounding"), true, menuDecimalPlaces);
+		app.addMenuItem(menu, "Rounding", true, menuDecimalPlaces);
 
 		updateMenuDecimalPlaces();
 	}
@@ -192,8 +191,7 @@ public class OptionsMenu {
 		menuLabeling.addRadioButtonMenuItems((MyActionListener) menu, lstr,
 				lastr, 0, true);
 
-		app.addMenuItem(menu, "mode_showhidelabel_16.gif",
-				app.getMenu("Labeling"), true, menuLabeling);
+		app.addMenuItem(menu, "Labeling", true, menuLabeling);
 
 		updateMenuLabeling();
 	}
@@ -232,8 +230,7 @@ public class OptionsMenu {
 
 		submenu.addRadioButtonMenuItems((MyActionListener) menu, fsfi,
 				fontActionCommands, pos, false);
-		app.addMenuItem(menu, "font.png", app.getMenu("FontSize"), true,
-				submenu);
+		app.addMenuItem(menu, "FontSize", true, submenu);
 	}
 
 	public void update() {

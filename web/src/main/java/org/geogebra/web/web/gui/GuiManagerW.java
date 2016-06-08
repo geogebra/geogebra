@@ -64,7 +64,6 @@ import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
-import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
@@ -1882,12 +1881,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	public String getMenuBarHtml(final String filename, final String name,
+	public String getMenuBarHtml(final ImageResource imgRes, String name,
 	        final boolean b) {
-		final String funcName = filename
-		        .substring(0, filename.lastIndexOf('.'));
-		final ImageResource imgRes = (ImageResource) (AppResources.INSTANCE
-		        .getResource(funcName));
+
 		final String iconString = imgRes.getSafeUri().asString();
 		return MainMenu.getMenuBarHtml(iconString, name, true);
 	}

@@ -128,6 +128,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.gui.images.AppResources;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -141,6 +142,7 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.storage.client.StorageMap;
 import com.google.gwt.user.client.Cookies;
@@ -2458,21 +2460,28 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	public void addMenuItem(MenuInterface parentMenu, String filename,
-	        String name, boolean asHtml, MenuInterface subMenu) {
-		addMenuItem((MenuBar) parentMenu, filename, name, asHtml, subMenu);
+	public void addMenuItem(MenuInterface parentMenu, String key,
+			boolean asHtml, MenuInterface subMenu) {
+		addMenuItem((MenuBar) parentMenu, key, asHtml, subMenu);
 	}
 
-	private void addMenuItem(MenuBar parentMenu, String filename, String name,
+	private void addMenuItem(MenuBar parentMenu, String key,
 	        boolean asHtml, MenuInterface subMenu) {
 
-		if (subMenu instanceof MenuBar)
+		if (subMenu instanceof MenuBar) {
 			((MenuBar) subMenu).addStyleName("GeoGebraMenuBar");
+		}
+		ImageResource imgRes = AppResources.INSTANCE.empty();
 
-		// ideally, GMenuBar's addItem will execute,
-		// as this method is called from nowhere else
+		if ("Labeling".equals(key)) {
+			imgRes = AppResources.INSTANCE.mode_showhidelabel_16();
+		}
+		if ("FontSize".equals(key)) {
+			imgRes = AppResources.INSTANCE.font();
+		}
 		parentMenu.addItem(
-		        getGuiManager().getMenuBarHtml(filename, name, true), true,
+				getGuiManager().getMenuBarHtml(imgRes, getMenu(key), true),
+				true,
 		        (MenuBar) subMenu);
 	}
 

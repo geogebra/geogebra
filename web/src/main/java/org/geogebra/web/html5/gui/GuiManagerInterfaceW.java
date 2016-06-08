@@ -19,6 +19,7 @@ import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -96,7 +97,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public EuclidianStyleBar newEuclidianStylebar(EuclidianView ev, int viewID);
 
-	public String getMenuBarHtml(String iconString, String name, boolean b);
+	public String getMenuBarHtml(ImageResource imgRes, String name, boolean b);
 
 	public void recalculateEnvironments();
 

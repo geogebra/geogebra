@@ -3050,8 +3050,8 @@ public abstract class App implements UpdateSelection {
 
 	// protected abstract Object getMainComponent();
 
-	public abstract void addMenuItem(MenuInterface parentMenu, String filename,
-									 String name, boolean asHtml, MenuInterface subMenu);
+	public abstract void addMenuItem(MenuInterface parentMenu, String key,
+			boolean asHtml, MenuInterface subMenu);
 
 	public String getVersionString() {
 		return GeoGebraConstants.VERSION_STRING + getVersionSuffix();

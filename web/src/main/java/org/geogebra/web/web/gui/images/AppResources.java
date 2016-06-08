@@ -1,10 +1,10 @@
 package org.geogebra.web.web.gui.images;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.resources.client.ClientBundleWithLookup;
+import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
-public interface AppResources extends ClientBundleWithLookup {
+public interface AppResources extends ClientBundle {
 	
 	AppResources INSTANCE = GWT.create(AppResources.class);
 //	public static String iconString = "empty.gif";
