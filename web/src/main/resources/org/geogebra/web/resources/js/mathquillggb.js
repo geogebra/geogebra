@@ -5796,8 +5796,8 @@ LatexCmds.mp = LatexCmds.mnplus = LatexCmds.minusplus =
 CharCmds['*'] = LatexCmds.sdot = LatexCmds.cdot =
   bind(BinaryOperator, '\\cdot ', '&middot;', ' ');
 
-CharCmds['\u00d7'] = 
-	  bind(BinaryOperatorDot, '\\cdot ', '&middot;', ' ');
+LatexCmds['pcdot'] = CharCmds['\u00d7'] = 
+	  bind(BinaryOperatorDot, '\\pcdot ', '&middot;', ' ');
 //semantically should be &sdot;, but &middot; looks better
 
 LatexCmds['='] = bind(BinaryOperator, '=', '=');
