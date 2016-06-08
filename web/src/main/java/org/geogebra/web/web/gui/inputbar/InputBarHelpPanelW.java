@@ -76,19 +76,22 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		// create syntax panel
 		syntaxPanel = new VerticalPanel();
 
-		// create help button
-		btnOnlineHelp = new Button(app.getPlain("ShowOnlineHelp"));
-		btnOnlineHelp.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				openOnlineHelp();
-			}
-		});
-		render(app.getNetworkOperation().isOnline());
-		app.getNetworkOperation().getView().add(this);
-		btnOnlineHelp.addStyleName("inputHelp-OnlineHelpBtn");
-
+		// button panel
 		FlowPanel pnlButton = new FlowPanel();
-		pnlButton.add(btnOnlineHelp);
+		// create help button if not in exam mode
+
+			btnOnlineHelp = new Button(app.getPlain("ShowOnlineHelp"));
+			btnOnlineHelp.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					openOnlineHelp();
+				}
+			});
+			render(app.getNetworkOperation().isOnline());
+			app.getNetworkOperation().getView().add(this);
+			btnOnlineHelp.addStyleName("inputHelp-OnlineHelpBtn");
+			pnlButton.add(btnOnlineHelp);
+
+
 		pnlButton.getElement().getStyle().setFloat(Style.Float.RIGHT);
 
 		// create close button
@@ -154,8 +157,11 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 	public void render(boolean online) {
 		btnOnlineHelp.setEnabled(online);
-	    
     }
+
+	private void hideOnlineHelpButton(boolean hide) {
+		btnOnlineHelp.setVisible(!hide);
+	}
 
 	// =================================================================
 	// Getters/Setters & Event Handlers
@@ -209,6 +215,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 */
 	public void updateGUI(int maxOffsetHeight) {
 
+		hideOnlineHelpButton(app.isExam());
 		int h = (int) (maxOffsetHeight * app.getArticleElement().getScaleX()
 				- 60);
 		int w = (int) Math.min(700, AppW.getRootComponent(app).getOffsetWidth()*app.getArticleElement().getScaleX() - 60);
