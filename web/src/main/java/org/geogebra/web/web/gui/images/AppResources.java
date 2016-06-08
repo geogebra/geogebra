@@ -142,9 +142,6 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/web/web/gui/images/social-google.png")
 	ImageResource social_google();
 
-	@Source("org/geogebra/web/web/gui/images/social-openid.png")
-	ImageResource social_openid();
-
 	@Source("org/geogebra/web/web/gui/images/social-twitter.png")
 	ImageResource social_twitter();
 
