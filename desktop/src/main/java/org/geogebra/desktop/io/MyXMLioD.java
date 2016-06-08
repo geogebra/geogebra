@@ -43,7 +43,13 @@ import org.geogebra.desktop.util.UtilD;
  * @author Markus Hohenwarter
  */
 public class MyXMLioD extends MyXMLioJre {
-
+	/**
+	 * 
+	 * @param kernel
+	 *            Kernel
+	 * @param cons
+	 *            Construction
+	 */
 	public MyXMLioD(Kernel kernel, Construction cons) {
 		super(kernel, cons);
 	}
@@ -64,11 +70,15 @@ public class MyXMLioD extends MyXMLioJre {
 		boolean xmlFound = false;
 		boolean macroXMLfound = false;
 		boolean javaScriptFound = false;
-		boolean ggbHandler = false;
 
 		// get all entries from the zip archive
 		while (true) {
-			ZipEntry entry = zip.getNextEntry();
+			ZipEntry entry = null;
+			try {
+				entry = zip.getNextEntry();
+			} catch (Exception e) {
+				Log.error(e.getMessage());
+			}
 			if (entry == null)
 				break;
 
@@ -77,23 +87,19 @@ public class MyXMLioD extends MyXMLioJre {
 				// load xml file into memory first
 				xmlFileBuffer = UtilD.loadIntoMemory(zip);
 				xmlFound = true;
-				ggbHandler = true;
 				handler = getGGBHandler();
 			} else if (name.equals(XML_FILE_DEFAULTS_2D)) {
 				// load defaults xml file into memory first
 				defaults2dXmlFileBuffer = UtilD.loadIntoMemory(zip);
-				ggbHandler = true;
 				handler = getGGBHandler();
 			} else if (app.is3D() && name.equals(XML_FILE_DEFAULTS_3D)) {
 				// load defaults xml file into memory first
 				defaults3dXmlFileBuffer = UtilD.loadIntoMemory(zip);
-				ggbHandler = true;
 				handler = getGGBHandler();
 			} else if (name.equals(XML_FILE_MACRO)) {
 				// load macro xml file into memory first
 				macroXmlFileBuffer = UtilD.loadIntoMemory(zip);
 				macroXMLfound = true;
-				ggbHandler = true;
 				handler = getGGBHandler();
 			} else if (name.equals(JAVASCRIPT_FILE)) {
 				// load JavaScript
@@ -123,7 +129,11 @@ public class MyXMLioD extends MyXMLioJre {
 			}
 
 			// get next entry
-			zip.closeEntry();
+			try{
+				zip.closeEntry();
+			} catch (Exception e) {
+				Log.error(e.getMessage());
+			}
 		}
 		zip.close();
 
@@ -191,8 +201,10 @@ public class MyXMLioD extends MyXMLioJre {
 	 * Get the preview image of a ggb file.
 	 * 
 	 * @param file
+	 *            file
 	 * @throws IOException
-	 * @return
+	 *             when file is not valid ggb
+	 * @return preview image
 	 */
 	public final static BufferedImage getPreviewImage(File file)
 			throws IOException {
