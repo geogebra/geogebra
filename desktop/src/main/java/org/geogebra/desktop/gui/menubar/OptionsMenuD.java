@@ -11,6 +11,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.SwingConstants;
 
@@ -455,6 +456,21 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 			@Override
 			public RadioButtonMenuBar newSubmenu() {
 				return new RadioButtonMenuBarD(app);
+			}
+
+			public void addMenuItem(MenuInterface parentMenu, String key,
+					boolean asHtml, MenuInterface subMenu) {
+				String filename = null;
+				if ("Labeling".equals(key)) {
+					filename = "mode_showhidelabel_16.gif";
+				}
+				if ("FontSize".equals(key)) {
+					filename = "font.png";
+				}
+				((JMenuItem) subMenu).setIcon(app.getMenuIcon(filename));
+				((JMenuItem) subMenu).setText(app.getMenu(key));
+				((JMenu) parentMenu).add((JMenuItem) subMenu);
+
 			}
 		});
 	}

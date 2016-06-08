@@ -95,7 +95,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
@@ -125,7 +124,6 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.factories.UtilFactory;
-import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLHandler;
@@ -4861,23 +4859,6 @@ ToolbarD.getAllTools(this));
 		getEuclidianView2(1).dispatchEvent(event);
 
 	}
-
-	@Override
-	public void addMenuItem(MenuInterface parentMenu, String key,
-			boolean asHtml, MenuInterface subMenu) {
-		String filename = null;
-		if ("Labeling".equals(key)) {
-			filename = "mode_showhidelabel_16.gif";
-		}
-		if ("FontSize".equals(key)) {
-			filename = "font.png";
-		}
-		((JMenuItem) subMenu).setIcon(getMenuIcon(filename));
-		((JMenuItem) subMenu).setText(getMenu(key));
-		((JMenu) parentMenu).add((JMenuItem) subMenu);
-
-	}
-
 	/**
 	 * 
 	 * @return eg Java 1.7.0_03-64bit

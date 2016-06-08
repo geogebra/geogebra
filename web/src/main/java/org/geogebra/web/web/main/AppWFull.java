@@ -756,11 +756,6 @@ public abstract class AppWFull extends AppW {
 		return null;
 	}
 
-	@Override
-	public void addMenuItem(MenuInterface parentMenu, String key,
-			boolean asHtml, MenuInterface subMenu) {
-		addMenuItem((MenuBar) parentMenu, key, subMenu);
-	}
 
 	private void addMenuItem(MenuBar parentMenu, String key,
 			MenuInterface subMenu) {

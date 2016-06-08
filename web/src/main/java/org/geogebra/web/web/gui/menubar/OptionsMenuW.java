@@ -10,6 +10,9 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.main.GeoGebraPreferencesW;
 
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.MenuBar;
+
 /**
  * The "Options" menu.
  */
@@ -157,6 +160,32 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 			@Override
 			public RadioButtonMenuBar newSubmenu() {
 				return new RadioButtonMenuBarW(getApp(), true);
+			}
+
+			public void addMenuItem(MenuInterface parentMenu, String key,
+					boolean asHtml, MenuInterface subMenu) {
+				addMenuItem((MenuBar) parentMenu, key, subMenu);
+			}
+
+			private void addMenuItem(MenuBar parentMenu, String key,
+					MenuInterface subMenu) {
+
+				if (subMenu instanceof MenuBar) {
+					((MenuBar) subMenu).addStyleName("GeoGebraMenuBar");
+				}
+				ImageResource imgRes = AppResources.INSTANCE.empty();
+
+				if ("Labeling".equals(key)) {
+					imgRes = AppResources.INSTANCE.mode_showhidelabel_16();
+				}
+				if ("FontSize".equals(key)) {
+					imgRes = GuiResources.INSTANCE
+							.menu_icon_options_font_size();
+				}
+				parentMenu.addItem(
+						getApp().getGuiManager().getMenuBarHtml(imgRes,
+								getApp().getLocalization().getMenu(key), true),
+						true, (MenuBar) subMenu);
 			}
 		});
 	}

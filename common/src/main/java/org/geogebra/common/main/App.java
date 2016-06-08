@@ -30,7 +30,6 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.menubar.MenuFactory;
-import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
@@ -3049,9 +3048,6 @@ public abstract class App implements UpdateSelection {
 	public abstract void exitAll();
 
 	// protected abstract Object getMainComponent();
-
-	public abstract void addMenuItem(MenuInterface parentMenu, String key,
-			boolean asHtml, MenuInterface subMenu);
 
 	public String getVersionString() {
 		return GeoGebraConstants.VERSION_STRING + getVersionSuffix();

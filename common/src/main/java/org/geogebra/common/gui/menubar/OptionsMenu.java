@@ -176,7 +176,7 @@ public class OptionsMenu {
 		menuDecimalPlaces.addRadioButtonMenuItems((MyActionListener) menu,
 				strDecimalSpaces, App.strDecimalSpacesAC, 0, false);
 
-		app.addMenuItem(menu, "Rounding", true, menuDecimalPlaces);
+		menuFactory.addMenuItem(menu, "Rounding", true, menuDecimalPlaces);
 
 		updateMenuDecimalPlaces();
 	}
@@ -191,7 +191,7 @@ public class OptionsMenu {
 		menuLabeling.addRadioButtonMenuItems((MyActionListener) menu, lstr,
 				lastr, 0, true);
 
-		app.addMenuItem(menu, "Labeling", true, menuLabeling);
+		menuFactory.addMenuItem(menu, "Labeling", true, menuLabeling);
 
 		updateMenuLabeling();
 	}
@@ -230,7 +230,7 @@ public class OptionsMenu {
 
 		submenu.addRadioButtonMenuItems((MyActionListener) menu, fsfi,
 				fontActionCommands, pos, false);
-		app.addMenuItem(menu, "FontSize", true, submenu);
+		menuFactory.addMenuItem(menu, "FontSize", true, submenu);
 	}
 
 	public void update() {

@@ -2456,12 +2456,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		Log.debug("unimplemented");
 	}
 
-	@Override
-	public void addMenuItem(MenuInterface parentMenu, String key,
-			boolean asHtml, MenuInterface subMenu) {
-
-	}
-
 	/**
 	 * This is used for LaTeXes in GeoGebraWeb (DrawText, DrawEquationWeb)
 	 */
