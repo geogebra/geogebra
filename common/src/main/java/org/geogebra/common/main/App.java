@@ -3932,8 +3932,12 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		// MOB-660
-			case MOBILE_UNDO_REDO_LEFT_ALIGN:
-				return prerelease;
+		case MOBILE_UNDO_REDO_LEFT_ALIGN:
+			return prerelease;
+
+		//MOB-339
+		case MOBILE_ANALYTICS:
+			return false;
 
 		// GGB-856
 		case SELECT_MOVE_WHEN_FURNITURE_CLICKED:

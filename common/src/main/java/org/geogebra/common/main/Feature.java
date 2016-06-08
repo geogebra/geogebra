@@ -154,6 +154,9 @@ public enum Feature {
 	// MOB-660
 	MOBILE_UNDO_REDO_LEFT_ALIGN,
 
+	// MOB-339
+	MOBILE_ANALYTICS,
+
 	CONVEX_HULL_3D,
 
 	// MOB-637
