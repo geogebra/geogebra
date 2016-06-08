@@ -2522,8 +2522,13 @@ namespace giac {
     int n=Q.lexsorted_degree();
     // first estimate n*(a-m)+m*b 
     int d1=n*(a-m)+m*b;
+    //gen Pg=a*gen(m)*comb(m+dim-2,dim-2);
+    //gen Qg=b*gen(n)*comb(n+dim-2,dim-2);
     if (//1 ||
-	!ducos && P.coord.size()>=m && Q.coord.size()>=n){ 
+	!ducos && giacmin(m,n)>2 && dim<4 && P.coord.size()>=m && Q.coord.size() >= n
+	// && Pg.type==_INT_ && P.coord.size()>=Pg.val/2 && Qg.type==_INT_ && Q.coord.size()>=Qg.val/2
+	){ 
+      double iclock=CLOCK()*1e-6;
       // for dense inputs, interpolate
       polynome pp0(P);
       pp0.reorder(transposition(0,1,dim));
@@ -2545,8 +2550,13 @@ namespace giac {
       polynome2poly1(qp0,1,vq0);
       int j=-d/2;
       for (int i=0;i<=d;++i,++j){
+	if (!debug_infolevel){
+	  double cclock=CLOCK()*1e-6;
+	  if (cclock-iclock>15)
+	    debug_infolevel=1;
+	}
 	if (debug_infolevel)
-	  CERR << CLOCK()*1e-6 << " interp horner " << i << endl;
+	  CERR << CLOCK()*1e-6 << " interp horner, loop index " << i << endl;
 	for (;;++j){
 	  // find evaluation preserving degree in x
 	  if (0 && j==0)
@@ -2560,7 +2570,7 @@ namespace giac {
 	gen gp=horner(vp,j);
 	gen gq=horner(vq,j);
 	if (debug_infolevel)
-	  CERR << CLOCK()*1e-6 << " interp resultant " << j << ", " << 100*double(i)/(d+1) << "% done" << endl;
+	  CERR << CLOCK()*1e-6 << " interp resultant evaled at " << j << ", " << 100*double(i)/(d+1) << "% done" << endl;
 	if (gp.type==_POLY && gq.type==_POLY){
 	  Y[i]=resultant(*gp._POLYptr,*gq._POLYptr);
 	  continue;
