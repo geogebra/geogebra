@@ -4,7 +4,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.app.GGWToolBar;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
@@ -47,7 +47,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		PerspectiveResources pr = ((ImageFactory) GWT
 		        .create(ImageFactory.class)).getPerspectiveResources();
 		final MyToggleButton2 btnGeneral = new MyToggleButton2(new NoDragImage(
-		        GGWToolBar.safeURI(pr.menu_icon_graphics()), 24));
+				ImgResourceHelper.safeURI(pr.menu_icon_graphics()), 24));
 		buttons.add(btnGeneral);
 		DockPanelW[] panels = ((GuiManagerW) app.getGuiManager()).getLayout()
 		        .getDockManager().getPanels();
@@ -69,7 +69,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 				}
 
 				final MyToggleButton2 btn = new MyToggleButton2(
-				        new NoDragImage(GGWToolBar.safeURI(res), 24));
+						new NoDragImage(ImgResourceHelper.safeURI(res), 24));
 				btn.addClickHandler(new ClickHandler() {
 
 					public void onClick(ClickEvent event) {

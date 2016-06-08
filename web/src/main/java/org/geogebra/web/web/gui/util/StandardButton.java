@@ -2,7 +2,7 @@ package org.geogebra.web.web.gui.util;
 
 import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.NoDragImage;
-import org.geogebra.web.web.gui.app.GGWToolBar;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -37,14 +37,15 @@ public class StandardButton extends FastButton {
 		if (image != null && label != null) {
 			this.getElement().removeAllChildren();
 			this.getElement().appendChild(
-					new NoDragImage(GGWToolBar.safeURI(image), width)
+					new NoDragImage(ImgResourceHelper.safeURI(image), width)
 							.getElement());
 			this.getElement().appendChild(new Label(label).getElement());
 			return;
 		}
 
 		if (image != null) {
-			NoDragImage im = new NoDragImage(GGWToolBar.safeURI(image),width);
+			NoDragImage im = new NoDragImage(ImgResourceHelper.safeURI(image),
+					width);
 			getUpFace().setImage(im);
 		}
 

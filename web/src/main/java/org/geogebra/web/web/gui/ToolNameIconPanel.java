@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -106,7 +107,9 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		mainWidget.add(pToolHelp);
 
 		VerticalPanel iconPanel = new VerticalPanel();
-		icon = new NoDragImage(GGWToolBar.safeURI(GGWToolBar
+		icon = new NoDragImage(
+				ImgResourceHelper.safeURI(
+						GGWToolBar
 		        .getMyIconResourceBundle().mode_tool_32()), 32);
 		Button labelIcon = new Button(app.getMenu("Icon") + " ...");
 		labelIcon.addClickHandler(new ClickHandler() {
@@ -202,7 +205,8 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 			iconFileName = fileName;
 			icon.setUrl(app.getImageManager().getExternalImageSrc(iconFileName));
 		} else {
-			icon.setUrl(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle()
+			icon.setUrl(ImgResourceHelper.safeURI(
+					GGWToolBar.getMyIconResourceBundle()
 			        .mode_tool_32()));
 			iconFileName = null;
 		}

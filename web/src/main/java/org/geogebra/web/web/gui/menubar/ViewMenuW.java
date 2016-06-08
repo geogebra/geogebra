@@ -6,8 +6,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.view.Views;
 import org.geogebra.web.web.gui.view.Views.ViewType;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
@@ -174,7 +174,7 @@ public class ViewMenuW extends GMenuBar {
 	private void addToMenu(final ViewType e) {
 
 		final GCheckBoxMenuItem newItem = new GCheckBoxMenuItem(
-				MainMenu.getMenuBarHtml(GGWToolBar.safeURI(e.getIcon()),
+				MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(e.getIcon()),
 						app.getPlain(e.getKey()), true), true);
 		newItem.setCommand(new MenuCommand(app) {
 

@@ -22,9 +22,9 @@ import org.geogebra.web.web.cas.view.CASStylebarW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.ImageFactory;
-import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.StandardButton;
@@ -641,7 +641,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 		FlowPanel p = new FlowPanel();
 		String caption;
 		if (!this.isStyleBarEmpty()) {
-			Image img = new NoDragImage(GGWToolBar.safeURI(getIcon()),24);
+			Image img = new NoDragImage(ImgResourceHelper.safeURI(getIcon()),
+					24);
 			img.getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
 			img.getElement().getStyle().setMarginRight(4, Unit.PX);
 			p.add(img);

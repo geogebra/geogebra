@@ -16,11 +16,11 @@ import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.StandardButton;
-import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -34,7 +34,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -574,7 +573,7 @@ pr.menu_header_undo(), null, 32);
 	}
 
 	public NoDragImage getImage(ResourcePrototype uri, int width) {
-		return new NoDragImage(GGWToolBar.safeURI(uri), width);
+		return new NoDragImage(ImgResourceHelper.safeURI(uri), width);
 	}
 
 	/**
@@ -657,7 +656,8 @@ pr.menu_header_undo(), null, 32);
 				String iconName = macro.getIconFileName();
 				if (iconName == null || iconName.length()==0) {
 					// default icon
-					return safeURI(myIconResourceBundle.mode_tool_32());
+					return ImgResourceHelper
+							.safeURI(myIconResourceBundle.mode_tool_32());
 				}
 				// use image as icon
 				Image img = new NoDragImage(app.getImageManager().getExternalImageSrc(iconName),32);
@@ -668,19 +668,9 @@ pr.menu_header_undo(), null, 32);
 			}
 		}
 		
-		return safeURI(getImageURLNotMacro(mode));
+		return ImgResourceHelper.safeURI(getImageURLNotMacro(mode));
 		
 	}
-		
-	public static String safeURI(ResourcePrototype res) {
-	    if(res instanceof ImageResource){
-	    	return ((ImageResource)res).getSafeUri().asString();
-	    }
-	    if(res instanceof SVGResource){
-	    	return ((SVGResource)res).getSafeUri().asString();
-	    }
-	    return "";
-    }
 
 	protected static ResourcePrototype getImageURLNotMacro(int mode) {
 		switch (mode) {

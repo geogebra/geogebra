@@ -64,6 +64,7 @@ import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
@@ -1643,7 +1644,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		final String[] options = { app.getMenu("Cancel"),
 				loc.getPlain("CreateSliders") };
 
-		final Image icon = new NoDragImage(GGWToolBar.safeURI(GGWToolBar
+		final Image icon = new NoDragImage(
+				ImgResourceHelper.safeURI(
+						GGWToolBar
 		        .getMyIconResourceBundle().mode_slider_32()), 32);
 		icon.addStyleName("dialogToolIcon");
 		// icon.getElement().getStyle()

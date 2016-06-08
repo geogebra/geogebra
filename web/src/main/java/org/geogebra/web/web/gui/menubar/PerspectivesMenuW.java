@@ -7,7 +7,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ImageFactory;
-import org.geogebra.web.web.gui.app.GGWToolBar;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.main.AppWFull;
 
@@ -58,7 +58,8 @@ public class PerspectivesMenuW extends GMenuBar {
 			}
 			final int index = i;
 			final int defID = defaultPerspectives[i].getDefaultID();
-			addItem(MainMenu.getMenuBarHtml(GGWToolBar.safeURI(icons.get(i)),
+			addItem(MainMenu.getMenuBarHtml(
+					ImgResourceHelper.safeURI(icons.get(i)),
 					app.getMenu(defaultPerspectives[i].getId()), true),true,new MenuCommand(app) {
 						
 						@Override

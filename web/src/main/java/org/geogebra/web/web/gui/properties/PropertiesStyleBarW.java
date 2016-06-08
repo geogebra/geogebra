@@ -6,7 +6,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
-import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
@@ -212,15 +211,15 @@ public class PropertiesStyleBarW extends
 		case DEFAULTS:
 			return AppResources.INSTANCE.options_defaults224().getSafeUri().asString();
 		case SPREADSHEET:
-			return GGWToolBar.safeURI(pr.menu_icon_spreadsheet());
+			return ImgResourceHelper.safeURI(pr.menu_icon_spreadsheet());
 		case EUCLIDIAN:
-			return GGWToolBar.safeURI(pr.menu_icon_graphics());
+			return ImgResourceHelper.safeURI(pr.menu_icon_graphics());
 			//return GuiResources.INSTANCE.properties_graphics().getSafeUri().asString();
 		case EUCLIDIAN2:
-			return GGWToolBar.safeURI(pr.menu_icon_graphics2());
+			return ImgResourceHelper.safeURI(pr.menu_icon_graphics2());
 			//return GuiResources.INSTANCE.properties_graphics2().getSafeUri().asString();
 		case CAS:
-			return GGWToolBar.safeURI(pr.menu_icon_cas());
+			return ImgResourceHelper.safeURI(pr.menu_icon_cas());
 		case ADVANCED:
 			return AppResources.INSTANCE.options_advanced24().getSafeUri().asString();
 		case ALGEBRA:

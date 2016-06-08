@@ -7,8 +7,8 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.view.Views;
 import org.geogebra.web.web.gui.view.Views.ViewType;
@@ -121,7 +121,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			if (app.supportsView(view.getID())
 					&& !app.getGuiManager().showView(view.getID())) {
 				data[k] = new ImageOrText(app.getPlain(view.getKey()));
-				data[k].setUrl(GGWToolBar.safeURI(view.getIcon()));
+				data[k].setUrl(ImgResourceHelper.safeURI(view.getIcon()));
 				data[k].setBgSize(GLookAndFeel.VIEW_ICON_SIZE);
 				viewIDs[k] = view.getID();
 				k++;

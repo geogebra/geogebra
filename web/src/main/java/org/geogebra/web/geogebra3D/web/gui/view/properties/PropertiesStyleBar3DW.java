@@ -4,7 +4,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ImageFactory;
-import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.properties.PropertiesStyleBarW;
@@ -58,11 +57,11 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 		case EUCLIDIAN3D:
 			PerspectiveResources pr = ((ImageFactory) GWT
 			        .create(ImageFactory.class)).getPerspectiveResources();
-			return GGWToolBar.safeURI(pr.menu_icon_graphics3D());
+			return ImgResourceHelper.safeURI(pr.menu_icon_graphics3D());
 		case EUCLIDIAN_FOR_PLANE:
 			pr = ((ImageFactory) GWT.create(ImageFactory.class))
 					.getPerspectiveResources();
-			return GGWToolBar.safeURI(pr.menu_icon_graphics_extra());
+			return ImgResourceHelper.safeURI(pr.menu_icon_graphics_extra());
 		}
 		return super.getTypeIcon(type);
 	}
