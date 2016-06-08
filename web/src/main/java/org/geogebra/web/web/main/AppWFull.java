@@ -78,6 +78,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * App with all the GUI
+ *
+ */
 public abstract class AppWFull extends AppW {
 
 	private DataCollection dataCollection;
@@ -85,15 +89,26 @@ public abstract class AppWFull extends AppW {
 	private LanguageGUI lg;
 
 	private CustomizeToolbarGUI ct;
-	// maybe this is unnecessary, just I did not want to make error here
-	boolean infiniteLoopPreventer = false;
+	/** flag to prevent infinite recursion in focusGained */
+	boolean focusGainedRunning = false;
 	private ArrayList<Runnable> waitingForLocalization;
 	private boolean localizationLoaded;
+
+	/**
+	 * 
+	 * @param ae
+	 *            article element
+	 * @param dimension
+	 *            2 or 3 (for 2D or 3D app)
+	 * @param laf
+	 *            look and feel
+	 */
 	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super(ae, dimension, laf);
 		if (this.isExam()) {
 			afterLocalizationLoaded(new Runnable() {
 
+				@Override
 				public void run() {
 					examWelcome();
 				}
@@ -106,6 +121,9 @@ public abstract class AppWFull extends AppW {
 		showKeyboard(textField, false);
 	}
 
+	/**
+	 * @return data collection view
+	 */
 	public DataCollection getDataCollection() {
 		if (this.dataCollection == null) {
 			this.dataCollection = new DataCollection(this);
@@ -153,6 +171,9 @@ public abstract class AppWFull extends AppW {
 		return new GuiManagerW(AppWFull.this, getDevice());
 	}
 
+	/**
+	 * @return device (tablet / Win store device / browser)
+	 */
 	protected abstract GDevice getDevice();
 
 	@Override
@@ -173,6 +194,7 @@ public abstract class AppWFull extends AppW {
 		getGuiManager().focusScheduled(false, false, false);
 		getGuiManager().invokeLater(new Runnable() {
 
+			@Override
 			public void run() {
 				DockPanelW dp = ((DockManagerW) getGuiManager().getLayout().getDockManager()).getPanelForKeyboard();
 				if (dp != null && dp.getKeyboardListener() != null) {
@@ -194,6 +216,7 @@ public abstract class AppWFull extends AppW {
 
 	}
 
+	@Override
 	public void notifyLocalizationLoaded() {
 		if(waitingForLocalization == null){
 			return;
@@ -205,6 +228,11 @@ public abstract class AppWFull extends AppW {
 
 		waitingForLocalization.clear();
 	}
+
+	/**
+	 * @param run
+	 *            localization callback
+	 */
 	public void afterLocalizationLoaded(Runnable run) {
 		if (localizationLoaded) {
 			run.run();
@@ -220,12 +248,17 @@ public abstract class AppWFull extends AppW {
 	public void showStartTooltip(final int perspID) {
 		afterLocalizationLoaded(new Runnable() {
 
+			@Override
 			public void run() {
 				doShowStartTooltip(perspID);
 			}
 		});
 	}
 
+	/**
+	 * @param perspID
+	 *            perspective ID
+	 */
 	void doShowStartTooltip(int perspID) {
 		String[] tutorials = new String[] { "graphing", "graphing", "geometry",
 				"spreadsheet",
@@ -281,10 +314,10 @@ public abstract class AppWFull extends AppW {
 			// infinite loop... my code inspection did not find
 			// infinite loop, but it is good to try to exclude that
 			// anyway, e.g. for future changes in the code
-			if (!infiniteLoopPreventer) {
-				infiniteLoopPreventer = true;
+			if (!focusGainedRunning) {
+				focusGainedRunning = true;
 				getGuiManager().setActiveView(v.getViewID());
-				infiniteLoopPreventer = false;
+				focusGainedRunning = false;
 			}
 		}
 	}
@@ -420,6 +453,7 @@ public abstract class AppWFull extends AppW {
 				getExam().setCASAllowed(true);
 				cbxPanel.add(cas);
 				cas.addClickHandler(new ClickHandler() {
+					@Override
 					public void onClick(ClickEvent event) {
 						getExam().setCASAllowed(cas.getValue());
 						getGuiManager().updateToolbarActions();
@@ -439,6 +473,7 @@ public abstract class AppWFull extends AppW {
 
 				cbxPanel.add(allow3D);
 				allow3D.addClickHandler(new ClickHandler() {
+					@Override
 					public void onClick(ClickEvent event) {
 						getExam().set3DAllowed(allow3D.getValue());
 						getGuiManager().updateToolbarActions();
@@ -468,6 +503,7 @@ public abstract class AppWFull extends AppW {
 			// start exam button
 			btnOk.addStyleName("examStartButton");
 			btnOk.addClickHandler(new ClickHandler() {
+				@Override
 				public void onClick(ClickEvent event) {
 					ExamUtil.toggleFullscreen(true);
 					StyleInjector
@@ -480,7 +516,7 @@ public abstract class AppWFull extends AppW {
 					getGgbApi().setPerspective("1");
 					getGuiManager().setGeneralToolBarDefinition(
 							ToolBar.getAllToolsNoMacros(true, true));
-					kernel.getAlgebraProcessor().reinitCommands();
+					getKernel().getAlgebraProcessor().reinitCommands();
 					getExam().setStart(date.getTime());
 					fireViewsChangedEvent();
 					getGuiManager().updateToolbar();
@@ -502,6 +538,7 @@ public abstract class AppWFull extends AppW {
 			// Cancel button
 			btnCancel.addStyleName("cancelBtn");
 			btnCancel.addClickHandler(new ClickHandler(){
+				@Override
 				public void onClick(ClickEvent event) {
 					getExam().exit();
 					setExam(null);
@@ -518,6 +555,7 @@ public abstract class AppWFull extends AppW {
 			// Help button
 			btnHelp.addStyleName("cancelBtn");
 			btnHelp.addClickHandler(new ClickHandler(){
+				@Override
 				public void onClick(ClickEvent event) {
 					ToolTipManagerW.openWindow("https://www.geogebra.org/tutorial/exam");
 				}
@@ -530,6 +568,7 @@ public abstract class AppWFull extends AppW {
 		}
 	}
 
+	@Override
 	public abstract HeaderPanelDeck getAppletFrame();
 	@Override
 	public ToolBarInterface getToolbar() {
@@ -658,6 +697,7 @@ public abstract class AppWFull extends AppW {
 			toOpen = id;
 			getLoginOperation().getView().add(new EventRenderable() {
 
+				@Override
 			public void renderEvent(BaseEvent event) {
 				if (event instanceof LoginEvent
 							|| event instanceof StayLoggedOutEvent
@@ -673,6 +713,12 @@ public abstract class AppWFull extends AppW {
 
 	}
 
+	/**
+	 * @param id
+	 *            material ID
+	 * @param onError
+	 *            error callback
+	 */
 	public void doOpenMaterial(String id, final Runnable onError) {
 		((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI()).getItem(
 				id, new MaterialCallback() {
@@ -702,6 +748,9 @@ public abstract class AppWFull extends AppW {
 		return getDevice().isOffline(this);
 	}
 
+	/**
+	 * @return glass pane
+	 */
 	public DockGlassPaneW getGlassPane() {
 		// TODO Auto-generated method stub
 		return null;
@@ -710,10 +759,10 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public void addMenuItem(MenuInterface parentMenu, String key,
 			boolean asHtml, MenuInterface subMenu) {
-		addMenuItem((MenuBar) parentMenu, key, asHtml, subMenu);
+		addMenuItem((MenuBar) parentMenu, key, subMenu);
 	}
 
-	private void addMenuItem(MenuBar parentMenu, String key, boolean asHtml,
+	private void addMenuItem(MenuBar parentMenu, String key,
 			MenuInterface subMenu) {
 
 		if (subMenu instanceof MenuBar) {
@@ -728,7 +777,8 @@ public abstract class AppWFull extends AppW {
 			imgRes = AppResources.INSTANCE.font();
 		}
 		parentMenu.addItem(
-				getGuiManager().getMenuBarHtml(imgRes, getMenu(key), true),
+				getGuiManager().getMenuBarHtml(imgRes,
+						getLocalization().getMenu(key), true),
 				true, (MenuBar) subMenu);
 	}
 
