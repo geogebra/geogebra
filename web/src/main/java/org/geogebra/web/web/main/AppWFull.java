@@ -774,7 +774,7 @@ public abstract class AppWFull extends AppW {
 			imgRes = AppResources.INSTANCE.mode_showhidelabel_16();
 		}
 		if ("FontSize".equals(key)) {
-			imgRes = AppResources.INSTANCE.font();
+			imgRes = GuiResources.INSTANCE.menu_icon_options_font_size();
 		}
 		parentMenu.addItem(
 				getGuiManager().getMenuBarHtml(imgRes,

@@ -64,9 +64,6 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/web/web/gui/images/export.png")
 	ImageResource export();
 
-	@Source("org/geogebra/web/web/gui/images/font.png")
-	ImageResource font();
-
 	@Source("org/geogebra/web/web/gui/images/geogebra.png")
 	ImageResource geogebra();
 

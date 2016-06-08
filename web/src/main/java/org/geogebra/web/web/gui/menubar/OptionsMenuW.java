@@ -5,13 +5,10 @@ import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
-import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.main.GeoGebraPreferencesW;
-
-import com.google.gwt.user.client.ui.MenuBar;
 
 /**
  * The "Options" menu.
@@ -45,7 +42,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		addSeparator();
 		getOptionsMenu().addLabelingMenu(this);
 		addSeparator();
-		addFontSizeMenu();
+		getOptionsMenu().addFontSizeMenu(this);
 		//language menu
 		addLanguageMenu();
 		if (!getApp().isApplet() && getApp().enableFileFeatures()) {
@@ -59,36 +56,6 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		addZoomMenu();
 		addGlobalFontSizeMenu();
 		*/
-	}
-	
-	/**
-	 * @see OptionsMenu 
-	 */
-	private void addFontSizeMenu() {
-		RadioButtonMenuBar submenu = getOptionsMenu().newSubmenu();
-		((MenuBar)submenu).addStyleName("GeoGebraMenuBar");
-
-		String[] fsfi = new String[MyXMLHandler.menuFontSizes.length];
-		String[] fontActionCommands = new String[MyXMLHandler.menuFontSizes.length];
-
-		// find current pos
-		int fontSize = getApp().getFontSize();
-		int pos = 0;
-		for (int i = 0; i < MyXMLHandler.menuFontSizes.length; i++) {
-			if (fontSize == MyXMLHandler.menuFontSizes[i]) {
-				pos = i;
-			}
-			fsfi[i] = getApp().getLocalization().getPlain("Apt",
-					MyXMLHandler.menuFontSizes[i] + "");
-			fontActionCommands[i]=MyXMLHandler.menuFontSizes[i] + " pt";
-		}
-
-		submenu.addRadioButtonMenuItems(this, fsfi, fontActionCommands, pos, false);
-
-		// GMenuBar.addItem will execute instead of MenuBar.addItem
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-		        .menu_icon_options_font_size().getSafeUri().asString(),
-				getApp().getMenu("FontSize"), true), true, (MenuBar) submenu);
 	}
 
 	private void addLanguageMenu() {
@@ -124,6 +91,9 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 				});
 	}
 
+	/**
+	 * Reset defaults
+	 */
 	protected void resetDefault() {
 		GeoGebraPreferencesW.getPref().clearPreferences();
 		boolean oldAxisX = app.getSettings().getEuclidian(1)
