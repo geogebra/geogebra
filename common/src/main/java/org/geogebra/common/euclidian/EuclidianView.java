@@ -5408,17 +5408,27 @@ sb.toString(), getFontAxes(),
 			adjustedHSliderCount++;
 			if (sW > getViewWidth()) {
 				// Reducing width
+				Log.debug("[ADJUST] " + number + ": Reducing width to size");
 				number.setSliderWidth(
 						getViewWidth() - 2 * ADJUDT_SLIDER_MARGIN_X);
 				sliderX = ADJUDT_SLIDER_MARGIN_X;
 
 			} else {
-				sliderX = sliderX < w / 2 ? ADJUDT_SLIDER_MARGIN_X
-						: w - (sW + ADJUDT_SLIDER_MARGIN_X);
+				if (sliderX < w / 2) {
+					Log.debug("[ADJUST] " + number + ": to the left");
+					sliderX = ADJUDT_SLIDER_MARGIN_X;
+				} else {
+					Log.debug("[ADJUST] " + number + ": to the right");
+
+					sliderX = w - (sW + ADJUDT_SLIDER_MARGIN_X);
+				}
 			}
 
 			if (sliderY > getViewHeight()
 					- adjustedHSliderCount * ADJUDT_SLIDER_MARGIN_Y) {
+				Log.debug("[ADJUST] " + number
+						+ ": setting Y coord to prevent overlapping");
+
 				sliderY = getViewHeight()
 						- adjustedHSliderCount * ADJUDT_SLIDER_MARGIN_Y;
 			}
@@ -5426,17 +5436,24 @@ sb.toString(), getFontAxes(),
 			// Vertical slider
 			adjustedVSliderCount++;
 			if (sW > getViewHeight()) {
+				Log.debug("[ADJUST] " + number + ": Reducing width to size");
 				number.setSliderWidth(
 						getViewHeight() - 2 * ADJUDT_SLIDER_MARGIN_Y);
 				sliderY = h - ADJUDT_SLIDER_MARGIN_Y;
 
 			} else if (sliderY > h) {
+				Log.debug("[ADJUST] " + number + ": to the bottom");
 				sliderY = h - ADJUDT_SLIDER_MARGIN_Y;
 			}
 
 			if (sliderX > w - adjustedVSliderCount * ADJUDT_SLIDER_MARGIN_X) {
 				sliderX = w - adjustedVSliderCount * ADJUDT_SLIDER_MARGIN_X;
+
+				Log.debug("[ADJUST] " + number
+						+ ": setting X coord to prevent overlapping");
+
 			}
+
 
 		}
 		number.setSliderLocation(sliderX, sliderY, true);
