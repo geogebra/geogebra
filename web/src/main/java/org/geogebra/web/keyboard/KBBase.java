@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.NoDragImage;
-import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
@@ -187,7 +186,7 @@ public abstract class KBBase extends PopupPanel {
 	/**
 	 * application that is used
 	 */
-	protected App app;
+	protected HasKeyboard app;
 
 	protected boolean accentDown = false;
 	private KeyBoardButtonBase accentButton;
@@ -223,7 +222,7 @@ public abstract class KBBase extends PopupPanel {
 	protected String keyboardLocale = "";
 	private KeyBoardButtonFunctionalBase shiftButton;
 	private KeyBoardButtonBase backspaceButton;
-	protected LocalizationW loc;
+	protected KeyboardLocale loc;
 
 	/**
 	 * buttons that need to be updated when the language is changed and their

@@ -3,7 +3,7 @@ package org.geogebra.web.web.util.keyboard;
 import java.util.HashSet;
 
 import org.geogebra.common.main.GWTKeycodes;
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
@@ -60,7 +60,7 @@ public class TextFieldProcessing implements KeyboardListener {
 	 * 
 	 * @param loc
 	 */
-	public void updateForNewLanguage(Localization loc) {
+	public void updateForNewLanguage(KeyboardLocale loc) {
 		needsLeftParenthesis.clear();
 		initNeedsLeftParenthesis();
 

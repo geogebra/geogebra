@@ -9,7 +9,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
-public abstract class Localization {
+public abstract class Localization implements KeyboardLocale {
 
 	/** CAS syntax suffix for keys in command bundle */
 	public final static String syntaxCAS = ".SyntaxCAS";
@@ -406,7 +406,7 @@ public abstract class Localization {
 	 */
 	public abstract String getColor(String key);
 
-	StringBuilder sbPlain = new StringBuilder();
+	private StringBuilder sbPlain = new StringBuilder();
 
 	/**
 	 * Translates the key and replaces "%0" by args[0], "%1" by args[1], etc
@@ -419,7 +419,7 @@ public abstract class Localization {
 	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
-	final public String getPlain(String key, String[] args) {
+	final public String getPlainArray(String key, String[] args) {
 		String str = getPlain(key);
 
 		sbPlain.setLength(0);
@@ -489,44 +489,12 @@ public abstract class Localization {
 
 	}
 
-	// Michael Borcherds 2008-03-25
-	// replace "%0" by arg0
-	final public String getPlain(String key, String arg0) {
-		String[] ss = { arg0 };
-		return getPlain(key, ss);
+	/** replace "%0" by arg0 */
+	final public String getPlain(String key, String... arg0) {
+		return getPlainArray(key, arg0);
 	}
 
-	// Michael Borcherds 2008-03-25
-	// replace "%0" by arg0, "%1" by arg1
-	final public String getPlain(String key, String arg0, String arg1) {
-		String[] ss = { arg0, arg1 };
-		return getPlain(key, ss);
-	}
 
-	// Michael Borcherds 2008-03-30
-	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2
-	final public String getPlain(String key, String arg0, String arg1,
-			String arg2) {
-		String[] ss = { arg0, arg1, arg2 };
-		return getPlain(key, ss);
-	}
-
-	// Michael Borcherds 2008-03-30
-	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2, "%3" by arg3
-	final public String getPlain(String key, String arg0, String arg1,
-			String arg2, String arg3) {
-		String[] ss = { arg0, arg1, arg2, arg3 };
-		return getPlain(key, ss);
-	}
-
-	// Michael Borcherds 2008-03-30
-	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2, "%3" by arg3, "%4" by
-	// arg4
-	final public String getPlain(String key, String arg0, String arg1,
-			String arg2, String arg3, String arg4) {
-		String[] ss = { arg0, arg1, arg2, arg3, arg4 };
-		return getPlain(key, ss);
-	}
 
 	/**
 	 * 
@@ -712,6 +680,9 @@ public abstract class Localization {
 
 	}
 
+	/**
+	 * @return rounding menu items
+	 */
 	public String[] getRoundingMenu() {
 		String[] strDecimalSpaces = {
 				getPlain("ADecimalPlaces", "0"),
@@ -867,6 +838,11 @@ public abstract class Localization {
 		}
 	}
 
+	/**
+	 * @param language
+	 *            language string
+	 * @return whether to use LTR
+	 */
 	public static boolean rightToLeftReadingOrder(String language) {
 
 		String lang = language.substring(0, 2);
@@ -936,6 +912,8 @@ public abstract class Localization {
 	 * 
 	 * @param useLocalizedDigits
 	 *            whether localized digits should be used
+	 * @param app
+	 *            used for callback (update construction)
 	 */
 	public void setUseLocalizedDigits(boolean useLocalizedDigits, App app) {
 		if (this.useLocalizedDigits == useLocalizedDigits) {

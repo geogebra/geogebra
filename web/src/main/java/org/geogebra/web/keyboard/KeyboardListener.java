@@ -1,6 +1,6 @@
 package org.geogebra.web.keyboard;
 
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.KeyboardLocale;
 
 /**
  * interface for classes that can receive input from the
@@ -38,5 +38,5 @@ public interface KeyboardListener {
 
 	boolean resetAfterEnter();
 
-	void updateForNewLanguage(Localization localization);
+	void updateForNewLanguage(KeyboardLocale localization);
 }
