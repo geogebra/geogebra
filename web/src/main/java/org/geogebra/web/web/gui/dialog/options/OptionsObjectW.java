@@ -107,7 +107,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private NamePanel namePanel;
 	private ShowObjectPanel showObjectPanel;
 	private TracePanel tracePanel;
-	private LabelPanel labelPanel;
+	LabelPanel labelPanel;
 	private FixPanel fixPanel;
 	private CheckboxPanel auxPanel;
 	private AnimatingPanel animatingPanel;
@@ -254,6 +254,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			// locus in selection
 			labelMode.setVisible(model.isNameValueShown());
 
+		}
+
+		public void autoShowCaption() {
+			GeoElement geo0 = model.getGeoAt(0);
+			geo0.setLabelVisible(true);
+			geo0.setLabelMode(GeoElement.LABEL_CAPTION);
+			update(true, true);
 		}
 
 		@Override
@@ -451,7 +458,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			tfCaption.addFocusListener(new FocusListenerW(this){
 				@Override
 				protected void wrapFocusLost(){
-					model.applyCaptionChange(tfCaption.getText());
+					doCaptionChanged();
 				}	
 			});
 			tfCaption.addKeyHandler(new KeyHandler() {
@@ -459,7 +466,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
-						model.applyCaptionChange(tfCaption.getText());
+						doCaptionChanged();
 					}
 				}});
 
@@ -496,6 +503,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			captionPanel.setStyleName("optionsInput");
 			setWidget(mainWidget);
 			updateGUI(true, true);
+		}
+
+		void doCaptionChanged() {
+			model.applyCaptionChange(tfCaption.getText());
+			if (!"".equals(tfCaption.getText())) {
+				labelPanel.autoShowCaption();
+			}
 		}
 
 		public boolean onUndefinedVariables(String string,
