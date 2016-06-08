@@ -65,9 +65,15 @@ public abstract class MyXMLio {
 	protected Kernel kernel;
 	/** construction */
 	protected Construction cons;
-
+	/** handler for GGB files */
 	protected MyXMLHandler handler;
 
+	/**
+	 * @param kernel
+	 *            Kernel
+	 * @param cons
+	 *            Construction
+	 */
 	public MyXMLio(Kernel kernel, Construction cons) {
 		this.kernel = kernel;
 		this.cons = cons;
@@ -82,6 +88,9 @@ public abstract class MyXMLio {
 	 */
 	abstract protected void createXMLParser();
 
+	/**
+	 * @return handler for GGB files
+	 */
 	protected MyXMLHandler getGGBHandler() {
 		if (handler == null)
 			// ggb3D : to create also a MyXMLHandler3D
@@ -96,6 +105,8 @@ public abstract class MyXMLio {
 	 * 
 	 * @param c
 	 *            construction
+	 * @param getListenersToo
+	 *            whether listeners (js) should be included
 	 * @return construction XML for undo step
 	 */
 	public final static synchronized StringBuilder getUndoXML(Construction c,
@@ -288,12 +299,12 @@ public abstract class MyXMLio {
 	
 
 	/**
-	 * @param xml
+	 * @param str
 	 *            XML string
-	 * @param clearConstruction
+	 * @param clearAll
 	 *            true to clear construction before processing
-	 * @param isGgtFile
-	 *            true for macro files
+	 * @param isGGTOrDefaults
+	 *            true for macro files and defaults
 	 * @param settingsBatch
 	 *            true to process ettings changes as a batch
 	 * @throws Exception
@@ -305,6 +316,20 @@ public abstract class MyXMLio {
 				clearAll, settingsBatch);
 	}
 
+	/**
+	 * @param stream
+	 *            xml stream
+	 * @param clearConstruction
+	 *            true to clear construction before processing
+	 * @param isGGTOrDefaults
+	 *            true for macro files and defaults
+	 * @param mayZoom
+	 *            true if reading the string may change the zoom
+	 * @param settingsBatch
+	 *            true if we should use batch mode for settings
+	 * @throws Exception
+	 *             if a problem occurs
+	 */
 	final protected void doParseXML(XMLStream stream,
 			boolean clearConstruction,
 			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch)
@@ -386,6 +411,9 @@ public abstract class MyXMLio {
 	/**
 	 * parse XML string
 	 * 
+	 * @param xmlHandler
+	 *            handler
+	 * 
 	 * @param stream
 	 *            XML stream
 	 * @throws Exception
@@ -394,6 +422,10 @@ public abstract class MyXMLio {
 	abstract protected void parseXML(MyXMLHandler xmlHandler, XMLStream stream)
 			throws Exception;
 
+	/**
+	 * @param perspectiveXML
+	 *            string with &lt;perspective> tag
+	 */
 	public void parsePerspectiveXML(String perspectiveXML) {
 		try {
 			MyXMLHandler h = getGGBHandler();
@@ -410,7 +442,7 @@ public abstract class MyXMLio {
 	 *
 	 */
 	protected interface XMLStream {
-
+		// tagging interface
 	}
 
 	/**
@@ -424,6 +456,11 @@ public abstract class MyXMLio {
 	/**
 	 * Reads zipped file from String that includes the construction saved in xml
 	 * format and maybe image files.
+	 * 
+	 * @param zipFile
+	 *            zip bytes
+	 * @throws Exception
+	 *             when problem occurs
 	 */
 	abstract public void readZipFromString(byte[] zipFile)
 			throws Exception;

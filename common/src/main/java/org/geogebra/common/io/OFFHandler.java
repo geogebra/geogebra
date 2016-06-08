@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.common.util.opencsv.CSVParser;
@@ -25,13 +24,15 @@ import org.geogebra.common.util.opencsv.CSVParser;
  *
  */
 public class OFFHandler {
-	private final Kernel kernel;
 	private final Construction construction;
 	private int faceCount;
 	private int vertexCount;
 	private int edgeCount;
+	/** vertices */
 	public List<Coords> vertices;
+	/** faces */
 	public List<int[]> faces;
+	/** colors of faces */
 	public GColor[] facesColor;
 	private CSVParser parser;
 	private static final String OFF = "OFF";
@@ -46,23 +47,24 @@ public class OFFHandler {
 	public OFFHandler(Kernel kernel, Construction construction) {
 
 
-		this.kernel = kernel;
 		this.construction = construction;
 		this.parser = new CSVParser(' ');
 	}
 
 
-
+	/**
+	 * Generate GGB objects from parsed data
+	 */
 	public void updateAfterParsing() {
 
 		int vCount = getVertexCount();
 		GeoPointND[] vert = new GeoPointND[vCount];
 
-		List<Coords> vertices = getVertices();
+		List<Coords> allVertices = getVertices();
 
 		// Create vertices
 		for (int i = 0; i < vCount; i++) {
-			vert[i] = geoPoint(vertices.get(i));
+			vert[i] = geoPoint(allVertices.get(i));
 		}
 
 		// process all faces
@@ -280,7 +282,14 @@ public class OFFHandler {
 
 	}
 
-	private String[] nonempty(String[] parseLine) {
+	/**
+	 * Filter non-empty lines
+	 * 
+	 * @param parseLine
+	 *            original lines
+	 * @return non-empty lines
+	 */
+	private static String[] nonempty(String[] parseLine) {
 		String[] nonempty = new String[parseLine.length];
 		int j = 0;
 		for (int i = 0; i < parseLine.length; i++) {
@@ -291,6 +300,12 @@ public class OFFHandler {
 		return nonempty;
 	}
 
+	/**
+	 * @param line
+	 *            line to be parsed
+	 * @throws CSVException
+	 *             when line is invalid
+	 */
 	public void addLine(String line) throws CSVException {
 		if (OFFHandler.isCommentOrOffHeader(line)) {
 			return;
@@ -314,6 +329,9 @@ public class OFFHandler {
 
 	}
 
+	/**
+	 * Reeset internal state before parsing new file
+	 */
 	public void reset() {
 		this.vertexCount = 0;
 

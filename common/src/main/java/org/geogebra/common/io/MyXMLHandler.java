@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.MacroKernel;
 import org.geogebra.common.kernel.PathRegionHandling;
 import org.geogebra.common.kernel.StringTemplate;
@@ -3826,7 +3827,9 @@ new GPoint(row, column));
 
 			if ((EVs & 16) == 16) { // bit 4
 				geo.setVisibleInViewForPlane(true);
-				app.addToViewsForPlane(geo);
+				if (!(cons instanceof MacroConstruction)) {
+					app.addToViewsForPlane(geo);
+				}
 			}
 
 			if ((EVs & 32) == 32) { // bit 5
