@@ -30,7 +30,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GPolygon;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.ggbjdk.java.awt.geom.utils.CloningUtils;
+import org.geogebra.common.util.Cloner;
 import org.geogebra.ggbjdk.sun.awt.geom.Crossings;
 
 /**
@@ -161,8 +161,8 @@ public class Polygon implements Shape, GPolygon {
         // Fix 6343431: Applet compatibility problems if arrays are not
         // exactly npoints in length
         this.npoints = npoints;
-        this.xpoints = CloningUtils.copyOf(xpoints, npoints);
-        this.ypoints = CloningUtils.copyOf(ypoints, npoints);
+        this.xpoints = Cloner.clone(xpoints, npoints);
+        this.ypoints = Cloner.clone(ypoints, npoints);
     }
 
     /**
@@ -295,8 +295,8 @@ public class Polygon implements Shape, GPolygon {
                 newLength = Integer.highestOneBit(newLength);
             }
 
-            xpoints = CloningUtils.copyOf(xpoints, newLength);
-            ypoints = CloningUtils.copyOf(ypoints, newLength);
+            xpoints = Cloner.clone(xpoints, newLength);
+            ypoints = Cloner.clone(ypoints, newLength);
         }
         xpoints[npoints] = x;
         ypoints[npoints] = y;

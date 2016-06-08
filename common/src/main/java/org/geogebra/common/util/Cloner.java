@@ -10,10 +10,63 @@ public class Cloner {
 		return arrayClone;
 	}
 
+	public static double[] clone(double[] array, int newlength) {
+		double[] arrayClone = new double[newlength];
+
+		int copyLength = Math.min(newlength, array.length);
+
+		for (int i = 0; i < copyLength; i++) {
+			arrayClone[i] = array[i];
+		}
+		return arrayClone;
+	}
+
+	public static byte[] clone(byte[] array) {
+
+		byte[] arrayClone = new byte[array.length];
+		for (int i = 0; i < array.length; i++) {
+			arrayClone[i] = array[i];
+		}
+		return arrayClone;
+	}
+
+	public static byte[] clone(byte[] array, int newlength) {
+		byte[] arrayClone = new byte[newlength];
+
+		int copyLength = Math.min(newlength, array.length);
+
+		for (int i = 0; i < copyLength; i++) {
+			arrayClone[i] = array[i];
+		}
+		return arrayClone;
+	}
+
 	public static int[] clone(int[] array) {
 
 		int[] arrayClone = new int[array.length];
 		for (int i = 0; i < array.length; i++) {
+			arrayClone[i] = array[i];
+		}
+		return arrayClone;
+	}
+
+	public static int[] clone(int[] array, int newlength) {
+		int[] arrayClone = new int[newlength];
+
+		int copyLength = Math.min(newlength, array.length);
+
+		for (int i = 0; i < copyLength; i++) {
+			arrayClone[i] = array[i];
+		}
+		return arrayClone;
+	}
+
+	public static float[] clone(float[] array, int newlength) {
+		float[] arrayClone = new float[newlength];
+
+		int copyLength = Math.min(newlength, array.length);
+
+		for (int i = 0; i < copyLength; i++) {
 			arrayClone[i] = array[i];
 		}
 		return arrayClone;

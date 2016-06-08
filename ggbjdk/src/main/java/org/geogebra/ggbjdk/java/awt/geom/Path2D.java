@@ -35,7 +35,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.ggbjdk.java.awt.geom.utils.CloningUtils;
+import org.geogebra.common.util.Cloner;
 import org.geogebra.ggbjdk.sun.awt.geom.Curve;
 
 /**
@@ -230,8 +230,7 @@ public abstract class Path2D implements Shape, Cloneable {
                 Path2D p2d = (Path2D) s;
                 setWindingRule(p2d.windingRule);
                 this.numTypes = p2d.numTypes;
-                this.pointTypes = CloningUtils.copyOf(p2d.pointTypes,
-                                                p2d.pointTypes.length);
+                this.pointTypes = Cloner.clone(p2d.pointTypes);
                 this.numCoords = p2d.numCoords;
                 this.floatCoords = p2d.cloneCoordsFloat(at);
             } else {
@@ -246,7 +245,7 @@ public abstract class Path2D implements Shape, Cloneable {
         float[] cloneCoordsFloat(GAffineTransform at) {
             float ret[];
             if (at == null) {
-                ret = CloningUtils.copyOf(this.floatCoords, this.floatCoords.length);
+                ret = Cloner.clone(this.floatCoords, this.floatCoords.length);
             } else {
                 ret = new float[floatCoords.length];
                 at.transform(floatCoords, 0, ret, 0, numCoords / 2);
@@ -292,7 +291,7 @@ public abstract class Path2D implements Shape, Cloneable {
                 if (grow > EXPAND_MAX) {
                     grow = EXPAND_MAX;
                 }
-                pointTypes = CloningUtils.copyOf(pointTypes, size+grow);
+                pointTypes = Cloner.clone(pointTypes, size+grow);
             }
             size = floatCoords.length;
             if (numCoords + newCoords > size) {
@@ -303,7 +302,7 @@ public abstract class Path2D implements Shape, Cloneable {
                 if (grow < newCoords) {
                     grow = newCoords;
                 }
-                floatCoords = CloningUtils.copyOf(floatCoords, size+grow);
+                floatCoords = Cloner.clone(floatCoords, size+grow);
             }
         }
 
@@ -928,7 +927,7 @@ public abstract class Path2D implements Shape, Cloneable {
                 Path2D p2d = (Path2D) s;
                 setWindingRule(p2d.windingRule);
                 this.numTypes = p2d.numTypes;
-                this.pointTypes = CloningUtils.copyOf(p2d.pointTypes,
+                this.pointTypes = Cloner.clone(p2d.pointTypes,
                                                 p2d.pointTypes.length);
                 this.numCoords = p2d.numCoords;
                 this.doubleCoords = p2d.cloneCoordsDouble(at);
@@ -956,8 +955,7 @@ public abstract class Path2D implements Shape, Cloneable {
         double[] cloneCoordsDouble(GAffineTransform at) {
             double ret[];
             if (at == null) {
-                ret = CloningUtils.copyOf(this.doubleCoords,
-                                    this.doubleCoords.length);
+                ret = Cloner.clone(this.doubleCoords);
             } else {
                 ret = new double[doubleCoords.length];
                 at.transform(doubleCoords, 0, ret, 0, numCoords / 2);
@@ -991,7 +989,7 @@ public abstract class Path2D implements Shape, Cloneable {
                 if (grow > EXPAND_MAX) {
                     grow = EXPAND_MAX;
                 }
-                pointTypes = CloningUtils.copyOf(pointTypes, size+grow);
+                pointTypes = Cloner.clone(pointTypes, size+grow);
             }
             size = doubleCoords.length;
             if (numCoords + newCoords > size) {
@@ -1002,7 +1000,7 @@ public abstract class Path2D implements Shape, Cloneable {
                 if (grow < newCoords) {
                     grow = newCoords;
                 }
-                doubleCoords = CloningUtils.copyOf(doubleCoords, size+grow);
+                doubleCoords = Cloner.clone(doubleCoords, size+grow);
             }
         }
 
