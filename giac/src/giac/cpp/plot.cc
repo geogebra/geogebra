@@ -8325,6 +8325,8 @@ namespace giac {
       if (!is_undef(v_[i]))
 	v.push_back(v_[i]);
     }
+    if (g.type==_VECT && g._VECTptr->size()==2)
+      return remove_not_in_segment(g._VECTptr->front(),g._VECTptr->back(),g.subtype,v,contextptr);
     if (!g.is_symb_of_sommet(at_cercle))
       return v;
     gen &f=g._SYMBptr->feuille;
@@ -8512,7 +8514,13 @@ namespace giac {
     }
 #endif
   }
-
+ 
+  gen _innertln(const gen & g0,GIAC_CONTEXT){
+    return symbolic(at_innertln,g0);
+  }
+  static const char _innertln_s[]="innertln";
+  static define_unary_function_eval(__innertln,&_innertln,_innertln_s);
+  define_unary_function_ptr5( at_innertln ,alias_at_innertln,&__innertln,0,true);
   static vecteur equationintercurve(const gen & at_orig,const gen & t,const gen & b,const gen & bu_orig,const gen & u,GIAC_CONTEXT){
     gen bu=bu_orig,at=at_orig;
     gen m,tmin,tmax; double T=1e300;
@@ -8532,13 +8540,32 @@ namespace giac {
     if (is_undef(eq))
       return vecteur(1,eq);
     // replace bu inside and solve for u
-    eq=subst(eq,makevecteur(x,y),makevecteur(re(bu,contextptr),im(bu,contextptr)),false,contextptr);
-    vecteur v=lvar(eq);
-    fraction f=e2r(eq,v,contextptr);
-    fxnd(f,eq,tmp);
-    if (approx)
-      eq=evalf(eq,1,contextptr);
-    eq=r2e(eq,v,contextptr);
+    // insure ln are considered as reals
+    vecteur vln=lop(bu,at_ln),wln(vln);
+    for (int i=0;i<int(vln.size());++i){
+      if (vln[i].type==_SYMB)
+	wln[i]=symbolic(at_innertln,vln[i]._SYMBptr->feuille);
+    }
+    gen bu1=subst(bu,vln,wln,false,contextptr);
+    eq=subst(eq,makevecteur(x,y),makevecteur(re(bu1,contextptr),im(bu1,contextptr)),false,contextptr);
+    vln=lop(eq,at_innertln);wln=vln;
+    for (int i=0;i<int(vln.size());++i){
+      if (vln[i].type==_SYMB)
+	wln[i]=symbolic(at_ln,vln[i]._SYMBptr->feuille);
+    }
+    eq=subst(eq,vln,wln,false,contextptr);
+    gen eqx=evalf(eq,1,contextptr);
+    vecteur v=lvar(eqx);
+    if (v.size()>1)
+      eq=eqx;
+    else {
+      v=lvar(eq);
+      fraction f=e2r(eq,v,contextptr);
+      fxnd(f,eq,tmp);
+      if (approx)
+	eq=evalf(eq,1,contextptr);
+      eq=r2e(eq,v,contextptr);
+    }
     vecteur res;
 #ifndef NO_STDEXCEPT
     try {

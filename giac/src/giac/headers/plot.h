@@ -272,6 +272,7 @@ namespace giac {
   gen _plotfunc(const gen &,GIAC_CONTEXT);
   gen _funcplot(const gen & args,const context * contextptr);
   gen _plotdensity(const gen & args,const context * contextptr);
+  extern const unary_function_ptr * const  at_innertln;
   extern const unary_function_ptr * const  at_plotfunc;
   extern const unary_function_ptr * const  at_funcplot;
   // gen _plot(const gen &);
