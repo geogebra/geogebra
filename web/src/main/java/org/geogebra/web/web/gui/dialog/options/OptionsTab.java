@@ -53,8 +53,8 @@ import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
+import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.ComboBoxPanel;
@@ -180,7 +180,8 @@ class OptionsTab extends FlowPanel {
 	}
 
 	public void onResize(int height, int width) {
-         this.setHeight(height + "px");
+		this.setHeight(height + "px");
+		this.setWidth(width + "px");
     }
 
 	public void initGUI(App app, boolean isDefaults) {

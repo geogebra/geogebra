@@ -77,6 +77,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 		public void onResize(int height, int width) {
 			this.setHeight(height + "px");
+			this.setWidth(width + "px");
 		}
 	}
 	

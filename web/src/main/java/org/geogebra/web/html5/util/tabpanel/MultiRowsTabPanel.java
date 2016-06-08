@@ -54,8 +54,7 @@ public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
 	}
 
 	public int getWidgetCount() {
-		deck.getWidgetCount();
-		return 0;
+		return deck.getWidgetCount();
 	}
 
 	public Widget getWidget(int i) {
