@@ -5,7 +5,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.app.GGWToolBar;
-import org.geogebra.web.web.gui.images.AppResourcesConverter;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.properties.PropertiesStyleBarW;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
@@ -39,12 +39,12 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 		case EUCLIDIAN3D :
 			PerspectiveResources pr = ((ImageFactory) GWT
 			        .create(ImageFactory.class)).getPerspectiveResources();
-			AppResourcesConverter.setIcon(pr.menu_icon_graphics3D(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_graphics3D(), btn);
 			break;
 		case EUCLIDIAN_FOR_PLANE :
 			pr = ((ImageFactory) GWT
 			        .create(ImageFactory.class)).getPerspectiveResources();
-			AppResourcesConverter.setIcon(pr.menu_icon_graphics_extra(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_graphics_extra(), btn);
 			break;
 		default:
 			super.setIcon(type, btn);

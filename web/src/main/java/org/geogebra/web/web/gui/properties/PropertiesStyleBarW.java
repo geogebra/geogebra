@@ -8,7 +8,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.images.AppResourcesConverter;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.util.PopupMenuButton;
@@ -179,30 +179,30 @@ public class PropertiesStyleBarW extends
 		switch (type) {
 		
 		case DEFAULTS:
-			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_defaults224(), btn) ;
+			ImgResourceHelper.setIcon(AppResources.INSTANCE.options_defaults224(), btn) ;
 		case SPREADSHEET:
-			AppResourcesConverter.setIcon(pr.menu_icon_spreadsheet(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_spreadsheet(), btn);
 		case EUCLIDIAN:
-			AppResourcesConverter.setIcon(pr.menu_icon_graphics(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_graphics(), btn);
 		case EUCLIDIAN2:
-			AppResourcesConverter.setIcon(pr.menu_icon_graphics2(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_graphics2(), btn);
 		case EUCLIDIAN_FOR_PLANE:
-			AppResourcesConverter.setIcon(pr.menu_icon_graphics_extra(),
+			ImgResourceHelper.setIcon(pr.menu_icon_graphics_extra(),
 					btn);
 		case EUCLIDIAN3D:
-			AppResourcesConverter.setIcon(pr.menu_icon_graphics3D(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_graphics3D(), btn);
 		case CAS:
-			AppResourcesConverter.setIcon(pr.menu_icon_cas(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_cas(), btn);
 		case ADVANCED:
-			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_advanced24(), btn);
+			ImgResourceHelper.setIcon(AppResources.INSTANCE.options_advanced24(), btn);
 		case ALGEBRA:
-			AppResourcesConverter
+			ImgResourceHelper
 					.setIcon(AppResources.INSTANCE.options_algebra24(), btn);
 		case OBJECTS:
 			//AppResourcesConverter.setIcon(AppResources.INSTANCE.options_objects24(), btn);
-			AppResourcesConverter.setIcon(GuiResources.INSTANCE.properties_object(), btn);
+			ImgResourceHelper.setIcon(GuiResources.INSTANCE.properties_object(), btn);
 		case LAYOUT:
-			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_layout24(), btn);
+			ImgResourceHelper.setIcon(AppResources.INSTANCE.options_layout24(), btn);
 		}
 	}
 

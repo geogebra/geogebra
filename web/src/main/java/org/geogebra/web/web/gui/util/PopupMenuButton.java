@@ -7,7 +7,7 @@ import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
-import org.geogebra.web.web.gui.images.AppResourcesConverter;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -311,7 +311,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		if (icon != null) {
 			super.setIcon(icon);
 		} else {
-			AppResourcesConverter.setIcon(GuiResources.INSTANCE.toolbar_further_tools(), this);
+			ImgResourceHelper.setIcon(GuiResources.INSTANCE.toolbar_further_tools(), this);
 		}
 	}
 

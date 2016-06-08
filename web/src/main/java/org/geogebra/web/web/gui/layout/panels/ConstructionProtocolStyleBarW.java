@@ -6,7 +6,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.images.AppResourcesConverter;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.PopupMenuButton;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
@@ -56,7 +56,7 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 		        show);
 
 		ImageResource ic = AppResources.INSTANCE.header_column();
-		AppResourcesConverter.setIcon(ic, btnColumns);
+		ImgResourceHelper.setIcon(ic, btnColumns);
 		btnColumns.addPopupHandler(this);
 		btnColumns.setKeepVisible(false);
 		add(btnColumns);

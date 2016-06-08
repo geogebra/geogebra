@@ -30,7 +30,7 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.images.AppResourcesConverter;
+import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 import org.geogebra.web.web.gui.util.GeoGebraIcon;
@@ -662,7 +662,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// it is not needed, must be an Image preloaded like others.
 		ImageResource ptCaptureIcon = StyleBarResources.INSTANCE.magnet();
 		// must be done in callback btnPointCapture.setIcon(ptCaptureIcon);
-		AppResourcesConverter.setIcon(ptCaptureIcon, btnPointCapture);
+		ImgResourceHelper.setIcon(ptCaptureIcon, btnPointCapture);
 		btnPointCapture.addPopupHandler(this);
 		btnPointCapture.setKeepVisible(false);
 	}
@@ -700,7 +700,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 		ImageResource ic = AppResources.INSTANCE.mode_showhidelabel_16();
 		// must be done with callback btnLabelStyle.setIcon(ic);
-		AppResourcesConverter.setIcon(ic, btnLabelStyle);
+		ImgResourceHelper.setIcon(ic, btnLabelStyle);
 		btnLabelStyle.addPopupHandler(this);
 		btnLabelStyle.setKeepVisible(false);
     }
@@ -740,7 +740,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 		ImageResource ic = AppResources.INSTANCE.stylingbar_angle_interval();
 		// must be done with callback btnLabelStyle.setIcon(ic);
-		AppResourcesConverter.setIcon(ic, btnAngleInterval);
+		ImgResourceHelper.setIcon(ic, btnAngleInterval);
 		btnAngleInterval.addPopupHandler(this);
 		btnAngleInterval.setKeepVisible(false);
 	}
