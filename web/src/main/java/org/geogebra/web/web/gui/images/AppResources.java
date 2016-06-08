@@ -121,26 +121,15 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-delete.png")
 	ImageResource delete_small();
 	
-	/*@Source("org/geogebra/web/web/gui/images/document-new.png")
-	ImageResource document_new();*/
 	
-	/*@Source("org/geogebra/web/web/gui/images/document-open.png")
-	ImageResource document_open();*/
 	
-	@Source("org/geogebra/web/web/gui/images/document-print-preview.png")
-	ImageResource document_print_preview();
 	
-	@Source("org/geogebra/web/web/gui/images/document-print.png")
-	ImageResource document_print();
 	
-	@Source("org/geogebra/web/web/gui/images/document-properties.png")
-	ImageResource document_properties();
+
 	
-	/*@Source("org/geogebra/web/web/gui/images/document-save.png")
-	ImageResource document_save();*/
+
 	
-	@Source("org/geogebra/web/web/gui/images/edit-clear.png")
-	ImageResource edit_clear();
+
 	
 	//@Source("org/geogebra/web/web/gui/images/edit-copy.png")
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-copy.png")
@@ -160,51 +149,17 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/web/web/gui/images/edit-undo.png")
 	ImageResource edit_undo();*/
 	
-	//@Source("org/geogebra/web/web/gui/images/edit.png")
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit.png")
 	ImageResource edit();
 	
 	@Source("org/geogebra/web/web/gui/images/empty.gif")
 	ImageResource empty();
 	
-	@Source("org/geogebra/web/web/gui/images/euclidian.png")
-	ImageResource euclidian();
-	
-	@Source("org/geogebra/web/web/gui/images/exit.png")
-	ImageResource exit();
-	
-	/*@Source("org/geogebra/web/web/gui/images/export_small.png")
-	ImageResource export_small();*/
-	
-	@Source("org/geogebra/web/web/gui/images/export-html.png")
-	ImageResource export_html();
-	
 	@Source("org/geogebra/web/web/gui/images/export.png")
 	ImageResource export();
 	
-	@Source("org/geogebra/web/web/gui/images/folder.png")
-	ImageResource folder();
-	
 	@Source("org/geogebra/web/web/gui/images/font.png")
 	ImageResource font();
-	
-	@Source("org/geogebra/web/web/gui/images/format-justify-center.png")
-	ImageResource format_justify_center();
-	
-	@Source("org/geogebra/web/web/gui/images/format-justify-left.png")
-	ImageResource format_justify_left();
-	
-	@Source("org/geogebra/web/web/gui/images/format-justify-right.png")
-	ImageResource format_justify_right();
-	
-	@Source("org/geogebra/web/web/gui/images/format-text-bold.png")
-	ImageResource format_text_bold();
-	
-	@Source("org/geogebra/web/web/gui/images/format-text-italic.png")
-	ImageResource  format_text_italic();
-	
-	@Source("org/geogebra/web/web/gui/images/formula_bar.png")
-	ImageResource formula_bar();
 	
 	@Source("org/geogebra/web/web/gui/images/geogebra.png")
 	ImageResource geogebra();
@@ -215,8 +170,7 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/web/web/gui/images/geogebra64.png")
 	ImageResource geogebra64();
 	
-	@Source("org/geogebra/web/web/gui/images/globe.png")
-	ImageResource globe();
+
 	
 	@Source("org/geogebra/web/web/gui/images/go-down.png")
 	ImageResource go_down();
@@ -250,9 +204,6 @@ public interface AppResources extends ClientBundle {
 	
 	@Source("org/geogebra/web/web/gui/images/header_row.png")
 	ImageResource header_row();
-	
-	@Source("org/geogebra/web/web/gui/images/help.png")
-	ImageResource help();
 	
 	@Source("org/geogebra/web/web/gui/images/algebra_hidden.png")
 	ImageResource hidden();
@@ -460,17 +411,11 @@ public interface AppResources extends ClientBundle {
 	
 	
 	
-	@Source("org/geogebra/web/web/gui/images/view-maximize.png")
-	ImageResource view_maximize();
+
 	
 	@Source("org/geogebra/web/web/gui/images/view-move.png")
 	ImageResource view_move();
-	
-	@Source("org/geogebra/web/web/gui/images/view-refresh.png")
-	ImageResource view_refresh();
-	
 
-	
 	@Source("org/geogebra/web/web/gui/images/view-unmaximize.png")
 	ImageResource view_unmaximize();
 	
@@ -480,8 +425,7 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/web/web/gui/images/view-window.png")
 	ImageResource view_window();
 	
-	@Source("org/geogebra/web/web/gui/images/wiki.png")
-	ImageResource wiki();
+
 	
 	@Source("org/geogebra/web/web/gui/images/xy_segments.png")
 	ImageResource xy_segments();
@@ -596,13 +540,6 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_dots_active.png")
 	ImageResource dots_active();
 
-	/*@Source("org/geogebra/common/icons/png16x16/export16.png")
-	ImageResource export16();*/
-	
-	/*@Source("org/geogebra/common/icons/png16x16/normal-overlay.png")
-	ImageResource normal_overlay();*/
-	
-
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_data_analysis_show_statistics.png")
 	ImageResource dataview_showstatistics();
 
@@ -611,21 +548,6 @@ public interface AppResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_data_analysis_show_2nd_plot.png")
 	ImageResource dataview_showplot2();
-
-
-	/*
-	//@Source("org/geogebra/common/icons/png30x30/stylingbar_delete_small.png")
-	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_graphicsview_delete_small.png")
-	ImageResource eraser_small();
-
-	//@Source("org/geogebra/common/icons/png30x30/stylingbar_delete_medium.png")
-	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_graphicsview_delete_medium.png")
-	ImageResource eraser_medium();
-	
-	//@Source("org/geogebra/common/icons/png30x30/stylingbar_delete_big.png")
-	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_graphicsview_delete_large.png")
-	ImageResource eraser_big();
-	*/
 
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylebar_angle_interval.png")
 	ImageResource stylingbar_angle_interval();
