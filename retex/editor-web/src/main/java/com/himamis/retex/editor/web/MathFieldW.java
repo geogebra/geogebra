@@ -154,6 +154,11 @@ public class MathFieldW implements MathField {
 
 	}
 
+	public KeyListener getKeyListener() {
+		return mathFieldInternal;
+
+	}
+
 	public MetaModel getMetaModel() {
 		return metaModel;
 	}
@@ -183,11 +188,6 @@ public class MathFieldW implements MathField {
 	}
 
 	public void scroll(int dx, int dy) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void hideCopyButton() {
 		// TODO Auto-generated method stub
 
 	}

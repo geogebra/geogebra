@@ -35,6 +35,7 @@ public class Editor implements EntryPoint {
 		MathFieldW fld = new MathFieldW(el, canvas.getContext2d());
 		OnScreenKeyBoard kb = new OnScreenKeyBoard(new KeyboardContext(),
 				false);
+		kb.setProcessing(new MathFieldProcessing());
 		el.appendChild(kb.getElement());
 		fld.requestViewFocus();
 	}

@@ -1,9 +1,8 @@
 package com.himamis.retex.editor.share.controller;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.share.event.KeyListener;
 
-public class KeyListenerImpl implements KeyListener {
+public class KeyListenerImpl {
 
     private EditorState editorState;
     private CursorController cursorController;
@@ -18,7 +17,6 @@ public class KeyListenerImpl implements KeyListener {
         this.editorState = editorState;
     }
 
-    @Override
     public boolean onKeyPressed(KeyEvent keyEvent) {
 		switch (keyEvent.getKeyCode()) {
 		case KeyEvent.VK_ESCAPE:
@@ -69,16 +67,5 @@ public class KeyListenerImpl implements KeyListener {
 			return false;
         }
     }
-
-    @Override
-    public boolean onKeyReleased(KeyEvent keyEvent) {
-        return false;
-    }
-
-    @Override
-    public boolean onKeyTyped(KeyEvent keyEvent) {
-        char ch = keyEvent.getUnicodeKeyChar();
-		return inputController.handleChar(editorState, ch);
-	}
 
 }
