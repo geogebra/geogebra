@@ -18,6 +18,7 @@ public abstract class GColor implements GPaint, Comparable<GColor> {
 	public static GColor LIGHT_GRAY;
 	public static GColor GRAY;
 	public static GColor DARK_GRAY;
+	public static GColor PURPLE;
 
 	public static void initColors(AwtFactory f) {
 		WHITE = f.newColor(255, 255, 255);
@@ -34,6 +35,7 @@ public abstract class GColor implements GPaint, Comparable<GColor> {
 		LIGHT_GRAY = f.newColor(192, 192, 192);
 		GRAY = f.newColor(128, 128, 128);
 		DARK_GRAY = f.newColor(68, 68, 68);
+		PURPLE = f.newColor(102, 102, 255);
 	}
 
 	public abstract int getRed();

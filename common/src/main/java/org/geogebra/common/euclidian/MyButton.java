@@ -189,22 +189,24 @@ public class MyButton implements Observer {
 		g.setColor(view.getBackgroundCommon());
 		GPaint p;
 		GColor bg = geoButton.getBackgroundColor(), bg2;
-		if (bg == null)
-			bg = GColor.LIGHT_GRAY;
-		if (isSelected()) {
-			/*
-			 * bg2 = bg; bg = bg.darker();
-			 */
-			bg2 = bg;
+		if (bg == null) {
+			bg = GColor.WHITE;
+			bg2 = GColor.PURPLE;
 		} else {
-			bg2 = bg.brighter();
+			bg2 = bg;
 		}
 		if (!pressed) {
-			p = AwtFactory.prototype.newGradientPaint(x, y, bg2, x,
-					y + (getHeight() / 2), bg);
+			p = bg;
+			// p = AwtFactory.prototype.newGradientPaint(x, y, bg, x, y +
+			// (getHeight() / 2), bg2.brighter());
 		} else {
-			p = AwtFactory.prototype.newGradientPaint(x, y, bg.darker(), x,
-					y + getHeight(), bg);
+			if (geoButton.getBackgroundColor() == null) {
+				p = AwtFactory.prototype.newGradientPaint(x, y + getHeight() / 3, GColor.WHITE, x, y + 2 * getHeight(),
+						bg2);
+			} else {
+				p = AwtFactory.prototype.newGradientPaint(x, y + getHeight() / 4, GColor.WHITE, x, y + getHeight(),
+						bg2);
+			}
 		}
 
 		// =======================================
@@ -214,17 +216,24 @@ public class MyButton implements Observer {
 		// background color
 
 		g.setPaint(p);
-		g.fillRoundRect(x, y, geoButton.getWidth() + (int) add,
-				geoButton.getHeight(), arcSize, arcSize);
+		g.fillRoundRect(x, y, geoButton.getWidth() + (int) add - 1, geoButton.getHeight() - 1, arcSize, arcSize);
 
 		// draw border
-		g.setColor(GColor.DARK_GRAY);
+		if (bg == GColor.WHITE) {
+			g.setColor(bg2);
+		} else {
+			g.setColor(bg.darker());
+		}
 		g.setStroke(EuclidianStatic.getDefaultStroke());
 		g.drawRoundRect(x, y, getWidth() + (int) add - 1, getHeight() - 1,
 				arcSize, arcSize);
 
 		// prepare to draw text
-		g.setColor(geoButton.getObjectColor());
+		if (geoButton.getBackgroundColor() == null && geoButton.getObjectColor() == GColor.BLACK) {
+			g.setColor(GColor.PURPLE);
+		} else {
+			g.setColor(geoButton.getObjectColor());
+		}
 		this.setForeground(GColor.WHITE);
 
 		// draw image
