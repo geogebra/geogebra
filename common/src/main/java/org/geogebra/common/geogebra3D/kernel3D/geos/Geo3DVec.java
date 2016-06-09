@@ -42,7 +42,6 @@ import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 /**
  * 
  * @author Michael adapted from GeoVec2D
- * @version
  */
 final public class Geo3DVec extends ValidExpression
 		implements Vector3DValue, Geo3DVecInterface {
@@ -54,12 +53,28 @@ final public class Geo3DVec extends ValidExpression
 
 	private Kernel kernel;
 
-	/** Creates new GeoVec2D */
+	/**
+	 * Creates new GeoVec2D
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public Geo3DVec(Kernel kernel) {
 		this.kernel = kernel;
 	}
 
-	/** Creates new GeoVec3D with coordinates (x,y) */
+	/**
+	 * Creates new GeoVec3D with coordinates (x,y)
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param z
+	 *            z-coord
+	 */
 	public Geo3DVec(Kernel kernel, double x, double y, double z) {
 		this(kernel);
 		this.x = x;

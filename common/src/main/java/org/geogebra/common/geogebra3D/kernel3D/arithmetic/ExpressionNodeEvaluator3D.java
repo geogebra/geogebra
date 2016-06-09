@@ -27,6 +27,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 	/**
 	 * @param l10n
 	 *            localization for errors
+	 * @param kernel
+	 *            kernel
 	 */
 	public ExpressionNodeEvaluator3D(Localization l10n, Kernel kernel) {
 		super(l10n, kernel);
@@ -130,30 +132,30 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 
 	@Override
 	protected ExpressionValue innerProduct(VectorNDValue ev1,
-			VectorNDValue ev2, Kernel kernel) {
+			VectorNDValue ev2, Kernel kernel1) {
 
 		if (ev1 instanceof Vector3DValue || ev2 instanceof Vector3DValue) {
-			MyDouble num = new MyDouble(kernel);
+			MyDouble num = new MyDouble(kernel1);
 			Geo3DVec.inner(ev1.getVector(), ev2.getVector(), num);
 			return num;
 		}
 
 		// 2D vec * 2D vec
-		return super.innerProduct(ev1, ev2, kernel);
+		return super.innerProduct(ev1, ev2, kernel1);
 	}
 
 	@Override
 	protected ExpressionValue complexMult(VectorNDValue ev1, VectorNDValue ev2,
-			Kernel kernel) {
+			Kernel kernel1) {
 
 		if (ev1 instanceof Vector3DValue || ev2 instanceof Vector3DValue) {
-			GeoVec2D vec = new GeoVec2D(kernel);
+			GeoVec2D vec = new GeoVec2D(kernel1);
 			Geo3DVec.complexMultiply(ev1.getVector(), ev2.getVector(), vec);
 			return vec;
 		}
 
 		// 2D vec * 2D vec
-		return super.complexMult(ev1, ev2, kernel);
+		return super.complexMult(ev1, ev2, kernel1);
 	}
 
 	@Override

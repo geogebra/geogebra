@@ -19,7 +19,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectFunctionNVarPlane;
-import org.geogebra.common.geogebra3D.kernel3D.transform.Transform3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.TransformDilate3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.TransformMirror3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.TransformRotate3D;
@@ -1780,7 +1779,7 @@ public class Manager3D implements Manager3DInterface {
 
 	final public GeoElement[] Translate3D(String label, GeoElement geoTrans,
 			GeoVectorND v) {
-		Transform3D t = new TransformTranslate3D(cons, v);
+		Transform t = new TransformTranslate3D(cons, v);
 		return t.transform(geoTrans, label);
 	}
 

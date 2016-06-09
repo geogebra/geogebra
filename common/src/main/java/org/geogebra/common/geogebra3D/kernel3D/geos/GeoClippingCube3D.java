@@ -11,13 +11,14 @@ import org.geogebra.common.plugin.GeoClass;
 /**
  * Simple geo class for clipping cube
  * 
- * @author matthieu
+ * @author mathieu
  *
  */
 public class GeoClippingCube3D extends GeoElement3D {
 
 	/**
 	 * @param c
+	 *            construction
 	 */
 	public GeoClippingCube3D(Construction c) {
 		super(c);
@@ -52,6 +53,7 @@ public class GeoClippingCube3D extends GeoElement3D {
 
 	@Override
 	public void setUndefined() {
+		// always defined
 	}
 
 	@Override
@@ -75,11 +77,15 @@ public class GeoClippingCube3D extends GeoElement3D {
 		return geo == this;
 	}
 
-	// cube reduction
+	/** cube reduction: small */
 	final static public int REDUCTION_SMALL = 0;
+	/** cube reduction: medium */
 	final static public int REDUCTION_MEDIUM = 1;
+	/** cube reduction: large */
 	final static public int REDUCTION_LARGE = 2;
+	/** cube reduction: min */
 	final static public int REDUCTION_MIN = 0;
+	/** cube reduction: max */
 	final static public int REDUCTION_MAX = 2;
 
 	private int reduction = REDUCTION_MEDIUM;
