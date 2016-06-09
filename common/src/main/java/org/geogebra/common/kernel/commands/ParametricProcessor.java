@@ -70,6 +70,8 @@ public class ParametricProcessor {
 	 *            whether to create sliders
 	 * @param callback
 	 *            call this after sliders are created
+	 * @param info
+	 *            processing information
 	 * @return resulting elements
 	 */
 	final GeoElement[] checkParametricEquation(ValidExpression ve0,
@@ -202,6 +204,8 @@ public class ParametricProcessor {
 	 *            function variable
 	 * @param label
 	 *            label for output
+	 * @param info
+	 *            processing information
 	 * @return paramteric curve (or line, conic)
 	 */
 	protected GeoElement[] processParametricFunction(ExpressionNode exp,
@@ -452,6 +456,7 @@ public class ParametricProcessor {
 	 */
 	protected GeoNumeric getLocalVar(ExpressionNode exp, FunctionVariable fv) {
 		GeoNumeric locVar = new GeoNumeric(kernel.getConstruction());
+		locVar.setSendValueToCas(false);
 		locVar.setLocalVariableLabel(fv.getSetVarString());
 		exp.replace(fv, locVar);
 		return locVar;
@@ -464,6 +469,8 @@ public class ParametricProcessor {
 	 *            what to return if ve is not parametric equation
 	 * @param cons
 	 *            construction
+	 * @param info
+	 *            processing information
 	 * @return parametric curve (or line, conic) or fallback
 	 */
 	public ValidExpression checkParametricEquationF(ValidExpression ve,
@@ -501,6 +508,8 @@ public class ParametricProcessor {
 	/**
 	 * @param equ
 	 *            aquation with X on LHS
+	 * @param info
+	 *            processing information
 	 * @return parametric curve if possible
 	 */
 	public GeoElement[] processXEquation(Equation equ, EvalInfo info) {
@@ -520,8 +529,7 @@ public class ParametricProcessor {
 		GeoElement[] ret = processParametricFunction(exp,
 				exp.evaluate(StringTemplate.defaultTemplate),
 				new FunctionVariable[] { fv },
- equ.getLabel(), new EvalInfo(
-						true));
+				equ.getLabel(), info);
 		return ret;
 	}
 }
