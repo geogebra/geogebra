@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -253,6 +254,7 @@ public class ConstructionDefaults {
 	protected String strFree = " (free)";
 	/** suffix for default dependent point name */
 	protected String strDependent = " (dependent)";
+
 
 	/**
 	 * Fills the list of default geos
@@ -470,6 +472,9 @@ public class ConstructionDefaults {
 		// text.setLocalVariableLabel(app.getPlain("Text"));
 		text.setLocalVariableLabel("Text");
 		text.setDefaultGeoType(DEFAULT_TEXT);
+		if (cons.getApplication().has(Feature.ABSOLUTE_TEXTS)) {
+			text.setAbsoluteScreenLocActive(true);
+		}
 		defaultGeoElements.put(DEFAULT_TEXT, text);
 
 		// image

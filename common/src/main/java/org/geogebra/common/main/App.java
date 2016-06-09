@@ -3804,6 +3804,10 @@ public abstract class App implements UpdateSelection {
 		case TOOL_EDITOR:
 			return prerelease;
 
+		// GGB-776
+		case ABSOLUTE_TEXTS:
+			return prerelease;
+
 		// GGB-777
 		case IMAGE_DIALOG_IMMEDIATELY:
 			return true;

@@ -174,6 +174,9 @@ public enum Feature {
 	// GGB-944
 	EXPORT_ANIMATED_PDF,
 
+	// GGB-776
+	ABSOLUTE_TEXTS,
+
 	// GGB-751
 	GEOBUTTON_DESIGN
 }

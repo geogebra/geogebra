@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -62,7 +63,15 @@ public class InputHelper {
 				cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
 
 				try {
-					text.setStartPoint(p);
+					if (cons.getApplication().has(Feature.ABSOLUTE_TEXTS)) {
+						text.setAbsoluteScreenLoc(
+ev.toScreenCoordX(p.getX()),
+								ev.toScreenCoordY(p.getY()));
+						text.setAbsoluteScreenLocActive(true);
+					} else {
+						text.setStartPoint(p);
+
+					}
 					text.update();
 				} catch (CircularDefinitionException e1) {
 					e1.printStackTrace();
