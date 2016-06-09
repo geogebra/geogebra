@@ -62,6 +62,8 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 
 	private AppW app;
 
+	private boolean mayDetectLaTeX = true;
+
 	public TextOptionsPanel(TextOptionsModel model, AppW app) {
 		createGUI(model, app);
 	}
@@ -162,6 +164,9 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 			@Override
 			public void onClick(ClickEvent event) {
 				model.setLaTeX(isLatex(), true);
+				// manual override -> ignore autodetect
+				mayDetectLaTeX = isLatex();
+
 				updatePreview();
 			}
 		});
@@ -404,9 +409,17 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 			return;
 		}
 		previewer.updateFonts();
-		previewer
+		boolean wasLaTeX = isLatex();
+		boolean isLaTeX = previewer
 				.updatePreviewText(model.getEditGeo(), model.getGeoGebraString(
-						editor.getDynamicTextList(), isLatex()), isLatex());
+						editor.getDynamicTextList(), isLatex()), isLatex(),
+						mayDetectLaTeX);
+		if (!wasLaTeX && isLaTeX) {
+			btnLatex.setValue(true);
+			if (model.getEditGeo() != null) {
+				model.getEditGeo().setLaTeX(true, false);
+			}
+		}
 	}
 
 	@Override

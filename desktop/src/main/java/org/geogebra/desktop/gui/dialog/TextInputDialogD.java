@@ -129,6 +129,7 @@ public class TextInputDialogD extends InputDialogD
 
 	// map to hold LatexButton menu titles
 	private HashMap<String, JMenuItem> laTexButtonTitleMap;
+	private boolean mayDetectLaTeX = true;
 
 	/**
 	 * Input Dialog for a GeoText object
@@ -166,8 +167,7 @@ public class TextInputDialogD extends InputDialogD
 
 		// init editor with GeoText text
 		setGeoText(editGeo);
-		textPreviewer.updatePreviewText(editGeo,
-				editor.buildGeoGebraString(isLaTeX), isLaTeX);
+		updatePreviewText();
 		editor.getDocument().addDocumentListener(this);
 
 		// add key listener to the editor
@@ -230,13 +230,11 @@ public class TextInputDialogD extends InputDialogD
 	 */
 
 	public void reInitEditor(GeoText text, GeoPointND startPoint, boolean rw) {
-
 		this.startPoint = startPoint;
 		this.rw = rw;
 		setGeoText(text);
 		isTextMode = app.getMode() == EuclidianConstants.MODE_TEXT;
-		textPreviewer.updatePreviewText(text,
-				editor.buildGeoGebraString(isLaTeX), isLaTeX);
+		updatePreviewText();
 		editor.requestFocus();
 	}
 
@@ -806,9 +804,9 @@ public class TextInputDialogD extends InputDialogD
 				setLabels();
 
 				isLaTeX = cbLaTeX.isSelected();
-				textPreviewer.updatePreviewText(editGeo,
-						editor.buildGeoGebraString(isLaTeX), isLaTeX);
+				this.mayDetectLaTeX = isLaTeX;
 
+				updatePreviewText();
 				// use of $ deprecated (doesn't work in HTML5)
 				// if (isLaTeX && inputPanel.getText().length() == 0) {
 				// insertString("$  $");
@@ -1004,8 +1002,15 @@ public class TextInputDialogD extends InputDialogD
 	}
 
 	private void updatePreviewText() {
-		textPreviewer.updatePreviewText(editGeo,
-				editor.buildGeoGebraString(isLaTeX), isLaTeX);
+		boolean wasLaTeX = isLaTeX;
+		isLaTeX = textPreviewer.updatePreviewText(editGeo,
+				editor.buildGeoGebraString(isLaTeX), isLaTeX, mayDetectLaTeX);
+		if (isLaTeX && !wasLaTeX) {
+			if (editGeo != null) {
+				editGeo.setLaTeX(true, false);
+			}
+			cbLaTeX.setSelected(true);
+		}
 
 	}
 

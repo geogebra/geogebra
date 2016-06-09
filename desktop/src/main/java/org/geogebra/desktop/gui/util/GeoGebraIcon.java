@@ -944,7 +944,7 @@ new GFontD(font)),
 				.getAWTRectangle(draw.getBounds());
 
 		// Now use this size and draw again to get the final image
-		if (d.width == -1 || d.height == -1)
+		if (d == null || d.width == -1 || d.height == -1)
 			return;
 		BufferedImage image = new BufferedImage(d.width, d.height,
 				BufferedImage.TYPE_INT_ARGB);

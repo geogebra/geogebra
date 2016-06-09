@@ -60,6 +60,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	private DisclosurePanel disclosurePanel;
 	private Localization loc;
 	private TextEditAdvancedPanel advancedPanel;
+	private boolean mayDetectLaTeX = true;
 
 	/*****************************************************
 	 * @param app
@@ -134,9 +135,17 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		if (previewer == null) {
 			return;
 		}
-
-		previewer.updatePreviewText(editGeo, dTProcessor.buildGeoGebraString(
-		        editor.getDynamicTextList(), isLatex()), isLatex());
+		boolean wasLaTeX = isLatex();
+		boolean isLaTeX = previewer.updatePreviewText(editGeo, dTProcessor
+				.buildGeoGebraString(
+				editor.getDynamicTextList(), isLatex()), isLatex(),
+				mayDetectLaTeX);
+		if (!wasLaTeX && isLaTeX) {
+			btnLatex.setValue(true);
+			if (editGeo != null) {
+				editGeo.setLaTeX(true, false);
+			}
+		}
 	}
 
 	public void onClick(ClickEvent event) {
@@ -150,10 +159,11 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 				style += 2;
 			editGeo.setFontStyle(style);
 			updatePreviewPanel();
-			Log.debug("BollldVagyItallic");
 
 		} else if (source == btnLatex) {
 			editGeo.setLaTeX(btnLatex.getValue(), false);
+			// latex detection override
+			mayDetectLaTeX = btnLatex.getValue();
 			updatePreviewPanel();
 
 		} else if (source == btnSerif) {

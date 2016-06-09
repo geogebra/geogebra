@@ -44,6 +44,7 @@ public abstract class TextPreviewer {
 
 	/**
 	 * @param kernel
+	 *            Kernel
 	 */
 	public TextPreviewer(Kernel kernel) {
 
@@ -107,12 +108,21 @@ public abstract class TextPreviewer {
 	 * targetGeo.
 	 * 
 	 * @param targetGeo
+	 *            geo being edited
 	 * @param inputValue
-	 * @param isLaTeX
+	 *            input text
+	 * @param isLaTeXset
+	 *            whether user set it to LaTeX
+	 * @param mayDetectLaTeX
+	 *            whether we may change the LaTeX property
+	 * @return whether this is latex
 	 */
-	public void updatePreviewText(GeoText targetGeo, String inputValue,
-			boolean isLaTeX) {
-
+	public boolean updatePreviewText(GeoText targetGeo, String inputValue,
+			boolean isLaTeXset, boolean mayDetectLaTeX) {
+		boolean isLaTeX = isLaTeXset;
+		if (mayDetectLaTeX && !isLaTeXset) {
+			isLaTeX = isLaTeX || guessLaTeX(inputValue);
+		}
 		// Application.printStacktrace("inputValue: " + inputValue);
 		// initialize variables
 		ValidExpression exp = null;
@@ -220,7 +230,7 @@ public abstract class TextPreviewer {
 			// cons.removeFromConstructionList(textAlgo); doesn't get called
 			if (((ExpressionNode) exp).getGeoElementVariables() == null) {
 				// can't make an AlgoDependentText
-				return;
+				return isLaTeX;
 			}
 
 			// create new previewGeoDependent
@@ -258,7 +268,12 @@ public abstract class TextPreviewer {
 		}
 
 		ev.repaintView();
+		return isLaTeX;
+	}
 
+	private static boolean guessLaTeX(String textString) {
+		return textString != null
+				&& (textString.contains("\\") || textString.contains("^"));
 	}
 
 	/**
