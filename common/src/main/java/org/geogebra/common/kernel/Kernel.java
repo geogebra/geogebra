@@ -4004,11 +4004,12 @@ public class Kernel {
 		}
 
 		// sin^(-1)(x) -> ArcSin(x)
-		if (image.indexOf(Unicode.Superscript_Minus) > -1) {
-			// String check = ""+Unicode.Superscript_Minus +
-			// Unicode.Superscript_1 + '(';
-			if (image.substring(3, 6)
-					.equals(Unicode.superscriptMinusOneBracket)) {
+		int index = image.indexOf(Unicode.Superscript_Minus);
+		if (index > -1) {
+
+			// sin-1 -> 3
+			// sinh-1 -> 4
+			if (index == 3 || index == 4) {
 				return inverseTrig(type, en);
 			}
 			// eg sin^-2(x)
