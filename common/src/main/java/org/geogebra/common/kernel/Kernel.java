@@ -4004,17 +4004,22 @@ public class Kernel {
 		}
 
 		// sin^(-1)(x) -> ArcSin(x)
-		int index = image.indexOf(Unicode.Superscript_Minus);
-		if (index > -1) {
+		// sin^(-1)(x) -> ArcSin(x)
+		if (image.indexOf(Unicode.Superscript_Minus) > -1) {
+			// String check = ""+Unicode.Superscript_Minus +
+			// Unicode.Superscript_1 + '(';
 
-			// sin-1 -> 3
-			// sinh-1 -> 4
+			int index = image.indexOf(Unicode.superscriptMinusOneBracket);
+
+			// sin^-1 -> index = 3
+			// sinh^-1 -> index =4
 			if (index == 3 || index == 4) {
 				return inverseTrig(type, en);
 			}
 			// eg sin^-2(x)
 			return new MyDouble(this, Double.NaN).wrap();
 		}
+
 
 		return new ExpressionNode(this,
 				new ExpressionNode(this, en, type, null), Operation.POWER,
