@@ -114,6 +114,9 @@ public class OptionsObjectD extends OptionsObject
 
 	}
 
+	public PropertiesPanelD getPropPanel() {
+		return propPanel;
+	}
 
 	/**
 	 * show slider tab

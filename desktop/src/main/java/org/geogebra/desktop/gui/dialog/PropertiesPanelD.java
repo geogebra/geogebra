@@ -150,6 +150,7 @@ import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -158,6 +159,8 @@ import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
+import org.geogebra.desktop.gui.dialog.options.OptionPanelD;
+import org.geogebra.desktop.gui.dialog.options.OptionsObjectD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.GeoGebraComboBoxEditor;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -171,6 +174,7 @@ import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.gui.util.SpringUtilities;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
+import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.gui.view.spreadsheet.MyTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -360,6 +364,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		setLayout(new BorderLayout());
 		add(tabs, BorderLayout.CENTER);
+	}
+
+	public LabelPanel getLabelPanel() {
+		return labelPanel;
 	}
 
 	/**
@@ -1181,7 +1189,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	/**
 	 * panel with label properties
 	 */
-	private class LabelPanel extends JPanel implements ItemListener,
+	public class LabelPanel extends JPanel implements ItemListener,
 			ActionListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
 			IShowLabelListener {
 		/**
@@ -5541,6 +5549,25 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		} else if (source == tfCaption) {
 			model.applyCaptionChange(tfCaption.getText());
+			if (!"".equals(tfCaption.getText())) {
+				GeoElement geo0 = model.getGeoAt(0);
+				geo0.setLabelVisible(true);
+				geo0.setLabelMode(GeoElement.LABEL_CAPTION);
+
+				OptionPanelD op = ((PropertiesViewD) app.getGuiManager()
+						.getPropertiesView())
+						.getOptionPanel(OptionType.OBJECTS);
+
+				if (op != null && op instanceof OptionsObjectD) {
+					PropertiesPanelD propPanel = ((OptionsObjectD) op)
+							.getPropPanel();
+					if (propPanel != null) {
+						propPanel.getLabelPanel().update(true, true);
+					}
+				}
+
+
+			}
 		}
 
 		SwingUtilities.invokeLater(doActionStopped);
