@@ -1,6 +1,6 @@
 package org.geogebra.web.editor;
 
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 
 public class KeyboardContext implements HasKeyboard {
@@ -20,9 +20,19 @@ public class KeyboardContext implements HasKeyboard {
 		return 800;
 	}
 
-	public Localization getLocalization() {
-		// TODO Auto-generated method stub
-		return null;
+	public KeyboardLocale getLocalization() {
+		return new KeyboardLocale() {
+
+			public String getPlain(String string) {
+				// TODO Auto-generated method stub
+				return string.replace("Function.", "");
+			}
+
+			public String getLocaleStr() {
+				// TODO Auto-generated method stub
+				return "en";
+			}
+		};
 	}
 
 }

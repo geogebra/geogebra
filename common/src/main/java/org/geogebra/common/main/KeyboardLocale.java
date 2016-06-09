@@ -4,4 +4,6 @@ public interface KeyboardLocale {
 
 	String getPlain(String string);
 
+	String getLocaleStr();
+
 }

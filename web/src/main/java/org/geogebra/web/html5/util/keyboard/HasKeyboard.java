@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.util.keyboard;
 
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.KeyboardLocale;
 
 public interface HasKeyboard {
 	
@@ -10,6 +10,6 @@ public interface HasKeyboard {
 
 	double getWidth();
 
-	Localization getLocalization();
+	KeyboardLocale getLocalization();
 
 }

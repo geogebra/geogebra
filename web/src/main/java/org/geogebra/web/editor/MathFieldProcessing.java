@@ -34,7 +34,7 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	public void insertString(String text) {
 		for (int i = 0; i < text.length(); i++) {
-			mf.getKeyListener().onKeyTyped(new KeyEvent(text.charAt(i)));
+			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
 		}
 
 	}

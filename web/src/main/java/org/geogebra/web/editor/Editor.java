@@ -1,10 +1,13 @@
 package org.geogebra.web.editor;
 
+import org.geogebra.web.html5.css.StyleInjector;
+import org.geogebra.web.keyboard.KeyboardResources;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.DOM;
 import com.himamis.retex.editor.web.JlmEditorLib;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.editor.web.xml.XmlResourcesEditor;
@@ -26,17 +29,20 @@ public class Editor implements EntryPoint {
 		opentype = Opentype.INSTANCE;
 		CreateLibrary.exportLibrary(library, opentype);
 		addEditorFunction(this);
+		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 
 	}
 
-	public void edit(Element el) {
+	public void edit(Element parent) {
 		Canvas canvas = Canvas.createIfSupported();
+		Element el = DOM.createDiv();
 		el.appendChild(canvas.getCanvasElement());
 		MathFieldW fld = new MathFieldW(el, canvas.getContext2d());
 		OnScreenKeyBoard kb = new OnScreenKeyBoard(new KeyboardContext(),
 				false);
 		kb.setProcessing(new MathFieldProcessing());
-		el.appendChild(kb.getElement());
+		parent.appendChild(el);
+		parent.appendChild(kb.getElement());
 		fld.requestViewFocus();
 	}
 	private native void addEditorFunction(Editor library) /*-{
