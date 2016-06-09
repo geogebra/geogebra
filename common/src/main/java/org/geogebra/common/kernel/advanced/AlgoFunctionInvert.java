@@ -108,49 +108,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 	}
 
-	private static Operation inverse(Operation op) {
-		switch (op) {
-		case PLUS:
-			return Operation.MINUS;
-		case MINUS:
-			return Operation.PLUS;
-		case MULTIPLY:
-			return Operation.DIVIDE;
-		case DIVIDE:
-			return Operation.MULTIPLY;
-		case SIN:
-			return Operation.ARCSIN;
-		case COS:
-			return Operation.ARCCOS;
-		case TAN:
-			return Operation.ARCTAN;
-		case ARCSIN:
-			return Operation.SIN;
-		case ARCCOS:
-			return Operation.COS;
-		case ARCTAN:
-			return Operation.TAN;
-		case SINH:
-			return Operation.ASINH;
-		case COSH:
-			return Operation.ACOSH;
-		case TANH:
-			return Operation.ATANH;
-		case ASINH:
-			return Operation.SINH;
-		case ACOSH:
-			return Operation.COSH;
-		case ATANH:
-			return Operation.TANH;
-		case EXP:
-			return Operation.LOG;
-		case LOG:
-			return Operation.EXP;
-		default:
-			return null;
-		}
-
-	}
 
 	public static ExpressionNode invert(ExpressionValue root0,
 			FunctionVariable oldFV,
@@ -179,7 +136,8 @@ public class AlgoFunctionInvert extends AlgoElement {
 			case EXP:
 			case LOG:
 
-				newRoot = new ExpressionNode(kernel, newRoot, inverse(op), null);
+				newRoot = new ExpressionNode(kernel, newRoot,
+						Operation.inverse(op), null);
 				root = left;
 				break;
 
@@ -363,11 +321,13 @@ public class AlgoFunctionInvert extends AlgoElement {
 				// root).getRight().isConstant());
 
 				if (!fvLeft) {
-					newRoot = new ExpressionNode(kernel, newRoot, inverse(op),
+					newRoot = new ExpressionNode(kernel, newRoot,
+							Operation.inverse(op),
 							left);
 					root = right;
 				} else {
-					newRoot = new ExpressionNode(kernel, newRoot, inverse(op),
+					newRoot = new ExpressionNode(kernel, newRoot,
+							Operation.inverse(op),
 							right);
 					root = left;
 				}
@@ -392,11 +352,11 @@ public class AlgoFunctionInvert extends AlgoElement {
 					if (op.equals(Operation.DIVIDE)) {
 						// inverse of x/3 is 3*x (not x*3)
 						newRoot = new ExpressionNode(kernel, right,
-								inverse(op), newRoot);
+								Operation.inverse(op), newRoot);
 					} else {
 						// inverse of x-3 is x+3
 						newRoot = new ExpressionNode(kernel, newRoot,
-								inverse(op), right);
+								Operation.inverse(op), right);
 					}
 					root = left;
 				}

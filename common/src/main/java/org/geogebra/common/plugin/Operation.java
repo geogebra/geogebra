@@ -1744,6 +1744,56 @@ public enum Operation {
 	}
 
 	/**
+	 * 
+	 * @param op
+	 *            operation eg Operation.SIN
+	 * @return inverse of op eg Operation.ARCSIN
+	 */
+	public static Operation inverse(Operation op) {
+		switch (op) {
+		case PLUS:
+			return Operation.MINUS;
+		case MINUS:
+			return Operation.PLUS;
+		case MULTIPLY:
+			return Operation.DIVIDE;
+		case DIVIDE:
+			return Operation.MULTIPLY;
+		case SIN:
+			return Operation.ARCSIN;
+		case COS:
+			return Operation.ARCCOS;
+		case TAN:
+			return Operation.ARCTAN;
+		case ARCSIN:
+			return Operation.SIN;
+		case ARCCOS:
+			return Operation.COS;
+		case ARCTAN:
+			return Operation.TAN;
+		case SINH:
+			return Operation.ASINH;
+		case COSH:
+			return Operation.ACOSH;
+		case TANH:
+			return Operation.ATANH;
+		case ASINH:
+			return Operation.SINH;
+		case ACOSH:
+			return Operation.COSH;
+		case ATANH:
+			return Operation.TANH;
+		case EXP:
+			return Operation.LOG;
+		case LOG:
+			return Operation.EXP;
+		default:
+			return null;
+		}
+
+	}
+
+	/**
 	 * @return negation of this expression (optimizes negation of >,<,=>,<=)
 	 */
 	public Operation negate() {
