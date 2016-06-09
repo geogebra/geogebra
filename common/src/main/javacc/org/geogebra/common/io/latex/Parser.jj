@@ -101,6 +101,7 @@ PARSER_END(Parser)
     | < NROOT : "nroot" >
     | < COMMA : "," >
     | < SPACE : " " >
+    | < OPERATOR : ["*","+","-","/"] >
     | < ELSE : ~[] >
 }
 
@@ -137,6 +138,34 @@ void mathContainer(MathContainer currentField) : {}
     )*
 }
 
+void mathAtom(MathContainer currentField) : {}
+{
+
+    (<SPACE>)* (
+        power(currentField)
+    |
+        superscript(currentField)
+    |
+        subscript(currentField)
+    |
+        fraction(currentField)
+    |
+        sqrt(currentField)
+    |
+        nroot(currentField)
+    |
+        arrayParantheses(currentField)
+    |
+        arraySquare(currentField)
+    |
+        arrayCurly(currentField)
+    |
+        quotes(currentField)
+    |
+        (mathAtomCharacter(currentField))+
+    )
+}
+
 void superscript(MathContainer currentField) :
 {
     Token t = null;
@@ -162,7 +191,7 @@ void power(MathContainer currentField) : { }
     <POWER> {
         MathFunction power = new MathFunction(metaModel.getGeneral("^"));
         MathSequence mathSequence = new MathSequence();
-        mathContainer(mathSequence);
+        mathAtom(mathSequence);
         power.setArgument(0, mathSequence);
         currentField.addArgument(power);
      }
@@ -333,11 +362,11 @@ void mathCharacter(MathContainer currentField) :
     Token t = null;
 }
 {
-    (t = <ELSE>) {
+    (t = <ELSE>| t= < OPERATOR >) {
         currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
     }
     |
-    ((space = <SPACE>)  ( LOOKAHEAD(2147483647) t = <ELSE>)?) {
+    ((space = <SPACE>)  ( LOOKAHEAD(2147483647) t = <ELSE>| t= < OPERATOR >)?) {
         if (t != null) {
             MetaCharacter metaCharacter = createMetaCharacter(t.image, metaModel);
             if ((metaCharacter.getType() == MetaCharacter.CHARACTER ||
@@ -358,6 +387,16 @@ void mathCharacter(MathContainer currentField) :
     }
 }
 
+void mathAtomCharacter(MathContainer currentField) :
+{
+    Token space = null;
+    Token t = null;
+}
+{
+    (t = <ELSE>) {
+        currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
+    }     
+}
 
 
 /*void space() :
