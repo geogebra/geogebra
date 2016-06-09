@@ -249,7 +249,7 @@ public class MidiSoundD implements MetaEventListener {
 				String urlStr;
 
 				// if (app.has(Feature.TUBE_BETA)) {
-				urlStr = GeoGebraConstants.GEOGEBRATUBE_WEBSITE_BETA;
+				urlStr = GeoGebraConstants.GEOGEBRA_WEBSITE_BETA;
 				// } else {
 				// urlStr = GeoGebraConstants.GEOGEBRATUBE_WEBSITE;
 				// }
