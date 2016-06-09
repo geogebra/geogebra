@@ -4023,17 +4023,12 @@ public class Kernel {
 	public ExpressionNode inverseTrig(Operation type, ExpressionValue en) {
 		switch (type) {
 		case SIN:
-			return new ExpressionNode(this, en, Operation.ARCSIN, null);
 		case COS:
-			return new ExpressionNode(this, en, Operation.ARCCOS, null);
 		case TAN:
-			return new ExpressionNode(this, en, Operation.ARCTAN, null);
 		case SINH:
-			return new ExpressionNode(this, en, Operation.ASINH, null);
 		case COSH:
-			return new ExpressionNode(this, en, Operation.ACOSH, null);
 		case TANH:
-			return new ExpressionNode(this, en, Operation.ATANH, null);
+			return new ExpressionNode(this, en, Operation.inverse(type), null);
 
 		// asec(x) = acos(1/x)
 		case SEC:
@@ -4057,6 +4052,7 @@ public class Kernel {
 					(new MyDouble(this, 1)).wrap(), Operation.DIVIDE, en),
 					Operation.ATANH, null);
 
+		// acot(x) = pi/2 - atan(x)
 		case COT:
 
 			ExpressionNode halfPi = new ExpressionNode(this,
