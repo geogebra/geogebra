@@ -102,12 +102,12 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public GeoAxisND getXAxis3D() {
-		return ((Construction3D) cons).getXAxis3D();
+		return cons.getXAxis();
 	}
 
 	@Override
 	public GeoAxisND getYAxis3D() {
-		return ((Construction3D) cons).getYAxis3D();
+		return cons.getYAxis();
 	}
 
 	@Override

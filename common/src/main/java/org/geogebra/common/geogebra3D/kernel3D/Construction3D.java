@@ -18,8 +18,7 @@ import org.geogebra.common.main.App;
 public class Construction3D extends Construction {
 
 	// axis objects
-	private GeoAxis3D // xAxis3D, yAxis3D,
-	zAxis3D;
+	private GeoAxis3D zAxis3D;
 	private GeoPlane3DConstant xOyPlane;
 	private GeoSpace space;
 	private GeoClippingCube3D clippingCube;
@@ -57,14 +56,6 @@ public class Construction3D extends Construction {
 
 		clippingCube = new GeoClippingCube3D(this);
 
-	}
-
-	public GeoAxisND getXAxis3D() {
-		return super.getXAxis();
-	}
-
-	public GeoAxisND getYAxis3D() {
-		return super.getYAxis();
 	}
 
 	public GeoAxis3D getZAxis3D() {
