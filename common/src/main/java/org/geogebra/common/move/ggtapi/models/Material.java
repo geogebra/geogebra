@@ -190,7 +190,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public String getEditUrl() {
-		return GeoGebraConstants.GEOGEBRATUBE_WEBSITE + "/material/edit/id/"
+		return GeoGebraConstants.GEOGEBRA_WEBSITE + "/material/edit/id/"
 				+ this.id;
 	}
 

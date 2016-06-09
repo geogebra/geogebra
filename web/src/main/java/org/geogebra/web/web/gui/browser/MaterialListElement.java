@@ -7,6 +7,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -561,7 +562,9 @@ public class MaterialListElement extends FlowPanel implements
 					        @Override
 					        public void onLoaded(final List<Material> response,
 					                ArrayList<Chapter> meta) {
-						        if (response.size() != 1) {
+								if (response.size() != 1
+										|| StringUtil.empty(material
+												.getBase64())) {
 											// guiManager.getBrowseView().clearMaterials();
 											// guiManager.getBrowseView().onSearchResults(
 											// response, null);

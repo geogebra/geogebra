@@ -4351,9 +4351,9 @@ public abstract class App implements UpdateSelection {
 	public String getURLforID(String id) {
 		String url;
 		if (has(Feature.TUBE_BETA)) {
-			url = GeoGebraConstants.GEOGEBRATUBE_WEBSITE_BETA;
+			url = GeoGebraConstants.GEOGEBRA_WEBSITE_BETA;
 		} else {
-			url = GeoGebraConstants.GEOGEBRATUBE_WEBSITE;
+			url = GeoGebraConstants.GEOGEBRA_WEBSITE;
 		}
 
 		// something like

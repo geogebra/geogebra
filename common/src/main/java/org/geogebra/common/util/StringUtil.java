@@ -1546,4 +1546,13 @@ public class StringUtil {
 		return removeFileExtension(fileName) + "." + extension.ext;
 	}
 
+	/**
+	 * @param str
+	 *            input
+	 * @return true if null or empty
+	 */
+	public static boolean empty(String str) {
+		return str == null || str.isEmpty();
+	}
+
 }

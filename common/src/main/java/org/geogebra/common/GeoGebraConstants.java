@@ -73,10 +73,8 @@ public interface GeoGebraConstants {
 	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "https://www.geogebra.org/bugs/?v=5.0";
 	/** web bug reports */
 	public final static String GEOGEBRA_REPORT_BUG_WEB = "https://www.geogebra.org/bugs/?v=web";
-	/** GeoGebraTube URL */
-	public final static String GEOGEBRATUBE_WEBSITE = "https://tube.geogebra.org/";
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
-	public final static String GEOGEBRATUBE_WEBSITE_BETA = "https://tube-beta.geogebra.org/";
+	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 	/** max possible heap space for applets in MB */
 	public final static int MAX_HEAP_SPACE = 1024;
 
