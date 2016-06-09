@@ -4022,7 +4022,6 @@ public class Kernel {
 	}
 
 	public ExpressionNode inverseTrig(Operation type, ExpressionValue en) {
-		Log.printStacktrace("");
 		switch (type) {
 		case SIN:
 		case COS:
