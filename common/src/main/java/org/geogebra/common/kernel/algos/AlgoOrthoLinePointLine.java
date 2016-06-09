@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.util.debug.Log;
 
 /**
  *
@@ -218,6 +219,10 @@ public class AlgoOrthoLinePointLine extends AlgoElement implements
 				botanaVars[1] = new Variable();
 				botanaVars[2] = vP[0];
 				botanaVars[3] = vP[1];
+				Log.trace("Orthogonal line at " + P.getLabelSimple() + " to "
+						+ l.getLabelSimple()
+						+ " implicitly introduces feet point (" + botanaVars[0]
+						+ "," + botanaVars[1] + ")");
 			}
 
 			botanaPolynomials = new Polynomial[2];

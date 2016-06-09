@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
+import org.geogebra.common.util.debug.Log;
 
 /**
  *
@@ -109,6 +110,11 @@ public class AlgoParabolaPointLine extends AlgoParabolaPointLineND implements
 				// F
 				botanaVars[8] = vF[0];
 				botanaVars[9] = vF[1];
+				Log.trace("Parabola " + geo.getLabelSimple() + "("
+						+ botanaVars[0] + ","
+						+ botanaVars[1] + ") implicitly introduces feet point ("
+						+ botanaVars[2] + "," + botanaVars[3]
+						+ ") on directrix " + l.getLabelSimple());
 			}
 
 			botanaPolynomials = new Polynomial[3];

@@ -1304,7 +1304,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	}
 
 	/*
-	 * This code is very similar to AlgoIntersetLineConics. TODO: Maybe
+	 * This code is very similar to AlgoIntersectLineConics. TODO: Maybe
 	 * commonize.
 	 */
 	public Variable[] getBotanaVars(GeoElementND geo) {
@@ -1319,8 +1319,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				return ret;
 		}
 
-		// We cannot decide a statement properly if the "line" is a segment or
-		// the conic is not a circle:
+		// We can handle only specific cases (TODO: add more cases):
 		if (A != null && B != null && A.isCircle() && B.isCircle()) {
 			Variable[] botanaVarsThis = new Variable[2];
 			if (botanaVars == null) {
@@ -1421,10 +1420,44 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			 * here from at most three parts. It would be nicer to do it in a
 			 * more sophisticated way.
 			 */
-
 			return botanaPolynomialsThis;
-
 		}
+		/* Intersection of two parabolas. */
+		if (A != null && B != null && A.isParabola() && B.isParabola()) {
+			Variable[] botanaVarsThis = new Variable[2];
+			if (botanaVars == null) {
+				botanaVars = new HashMap<GeoElementND, Variable[]>();
+			}
+			if (botanaVars.containsKey(geo)) {
+				botanaVarsThis = botanaVars.get(geo);
+			} else {
+				// Intersection point (we create only one):
+				botanaVarsThis = new Variable[2];
+				botanaVarsThis[0] = new Variable();
+				botanaVarsThis[1] = new Variable();
+				botanaVars.put(geo, botanaVarsThis);
+			}
+			if (botanaPolynomials == null) {
+				botanaPolynomials = new HashMap<GeoElementND, Polynomial[]>();
+				Variable[] botanaVarsParabola1 = new Variable[10];
+				Variable[] botanaVarsParabola2 = new Variable[10];
+				botanaVarsParabola1 = A.getBotanaVars(A);
+				botanaVarsParabola2 = B.getBotanaVars(B);
+				/* Equality of coordinates. */
+				Polynomial[] botanaPolynomialsThis = new Polynomial[4];
+				botanaPolynomialsThis[0] = new Polynomial(botanaVarsThis[0])
+						.subtract(new Polynomial(botanaVarsParabola1[0]));
+				botanaPolynomialsThis[1] = new Polynomial(botanaVarsThis[0])
+						.subtract(new Polynomial(botanaVarsParabola2[0]));
+				botanaPolynomialsThis[2] = new Polynomial(botanaVarsThis[1])
+						.subtract(new Polynomial(botanaVarsParabola1[1]));
+				botanaPolynomialsThis[3] = new Polynomial(botanaVarsThis[1])
+						.subtract(new Polynomial(botanaVarsParabola2[1]));
+				botanaPolynomials.put(geo, botanaPolynomialsThis);
+				return botanaPolynomialsThis;
+			}
+		}
+
 		throw new NoSymbolicParametersException();
 	}
 
