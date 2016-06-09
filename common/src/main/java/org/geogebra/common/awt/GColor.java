@@ -15,6 +15,7 @@ public abstract class GColor implements GPaint, Comparable<GColor> {
 	public static GColor DARK_CYAN;
 	public static GColor DARK_GREEN;
 	public static GColor MAGENTA;
+	public static GColor LIGHTEST_GRAY;
 	public static GColor LIGHT_GRAY;
 	public static GColor GRAY;
 	public static GColor DARK_GRAY;
@@ -32,6 +33,7 @@ public abstract class GColor implements GPaint, Comparable<GColor> {
 		DARK_CYAN = f.newColor(99, 219, 219);
 		DARK_GREEN = f.newColor(0, 127, 0);
 		MAGENTA = f.newColor(255, 0, 255);
+		LIGHTEST_GRAY = f.newColor(230, 230, 230);
 		LIGHT_GRAY = f.newColor(192, 192, 192);
 		GRAY = f.newColor(128, 128, 128);
 		DARK_GRAY = f.newColor(68, 68, 68);

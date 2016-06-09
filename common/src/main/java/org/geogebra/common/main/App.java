@@ -4040,6 +4040,10 @@ public abstract class App implements UpdateSelection {
 		case EXPORT_ANIMATED_PDF:
 			return prerelease;
 
+		// GGB-751
+		case GEOBUTTON_DESIGN:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

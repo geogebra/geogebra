@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 //import java.awt.Color;
 
@@ -184,56 +185,109 @@ public class MyButton implements Observer {
 					- (marginTopMultiplier + marginBottomMultiplier) * margin
 					- textHeight - imgGap) / 2;
 		}
+		// ----------------------------------------------------------------------------
+
+		if (view.getApplication().has(Feature.GEOBUTTON_DESIGN)) {
 
 		// prepare colors and paint
-		g.setColor(view.getBackgroundCommon());
-		GPaint p;
-		GColor bg = geoButton.getBackgroundColor(), bg2;
-		if (bg == null) {
-			bg = GColor.WHITE;
-			bg2 = GColor.PURPLE;
-		} else {
-			bg2 = bg;
-		}
-		if (!pressed) {
-			p = bg;
-			// p = AwtFactory.prototype.newGradientPaint(x, y, bg, x, y +
-			// (getHeight() / 2), bg2.brighter());
-		} else {
-			if (geoButton.getBackgroundColor() == null) {
-				p = AwtFactory.prototype.newGradientPaint(x, y + getHeight() / 3, GColor.WHITE, x, y + 2 * getHeight(),
-						bg2);
-			} else {
-				p = AwtFactory.prototype.newGradientPaint(x, y + getHeight() / 4, GColor.WHITE, x, y + getHeight(),
-						bg2);
+			g.setColor(view.getBackgroundCommon());
+			GColor bg = geoButton.getBackgroundColor();
+			// background not set by user
+			if (bg == null) {
+				bg = GColor.WHITE;
 			}
-		}
 
-		// =======================================
-		// Drawing
-		// =======================================
+			// change background color on mouse click
+			if (pressed) {
+				if (bg.compareTo(GColor.WHITE) == 0) {
+					g.setPaint(GColor.LIGHTEST_GRAY);
+				} else {
+					g.setPaint(bg.darker());
+				}
+			} else {
+				g.setPaint(bg);
+			}
+			// fill background
+			g.fillRoundRect(x, y, geoButton.getWidth() + (int) add - 1, geoButton.getHeight() - 1, arcSize, arcSize);
 
-		// background color
+			// change border on moseover
+			if (isSelected()) {
+				// default button design
+				if (bg.compareTo(GColor.WHITE) == 0) {
+					// color for inner border
+					g.setColor(GColor.GRAY);
+					// inner border
+					g.drawRoundRect(x + 1, y + 1, getWidth() + (int) add - 3, getHeight() - 3, arcSize - 3,
+							arcSize - 3);
+					// color for outer border
+					g.setColor(GColor.BLACK);
 
-		g.setPaint(p);
-		g.fillRoundRect(x, y, geoButton.getWidth() + (int) add - 1, geoButton.getHeight() - 1, arcSize, arcSize);
+					// user adjusted design
+				} else {
+					// color for inner border
+					g.setColor(bg.darker());
+					// inner border
+					g.drawRoundRect(x + 1, y + 1, getWidth() + (int) add - 3, getHeight() - 3, arcSize - 3,
+							arcSize - 3);
+					// color for outer border
+					g.setColor(bg.darker().darker());
+				}
+
+				// border color
+			} else {
+				// default button design
+				if (bg.compareTo(GColor.WHITE) == 0) {
+					g.setColor(GColor.BLACK);
+
+					// user adjusted design
+				} else {
+					g.setColor(bg.darker());
+				}
+			}
+		} else { /* end of Feature.GEOBUTTON_DESIGN */
+
+			// prepare colors and paint
+			g.setColor(view.getBackgroundCommon());
+			GPaint p;
+			GColor bg = geoButton.getBackgroundColor(), bg2;
+			if (bg == null)
+				bg = GColor.LIGHT_GRAY;
+			if (isSelected()) {
+				/*
+				 * bg2 = bg; bg = bg.darker();
+				 */
+				bg2 = bg;
+			} else {
+				bg2 = bg.brighter();
+			}
+			if (!pressed) {
+				p = AwtFactory.prototype.newGradientPaint(x, y, bg2, x, y + (getHeight() / 2), bg);
+			} else {
+				p = AwtFactory.prototype.newGradientPaint(x, y, bg.darker(), x, y + getHeight(), bg);
+			}
+
+			// =======================================
+			// Drawing
+			// =======================================
+
+			// background color
+
+			g.setPaint(p);
+			g.fillRoundRect(x, y, geoButton.getWidth() + (int) add, geoButton.getHeight(), arcSize, arcSize);
+
+			// set border color
+			g.setColor(GColor.DARK_GRAY);
+
+		} // end of feature.GEOBUTTON_DESIGN decision
+		// ----------------------------------------------------------------------------
 
 		// draw border
-		if (bg == GColor.WHITE) {
-			g.setColor(bg2);
-		} else {
-			g.setColor(bg.darker());
-		}
 		g.setStroke(EuclidianStatic.getDefaultStroke());
 		g.drawRoundRect(x, y, getWidth() + (int) add - 1, getHeight() - 1,
 				arcSize, arcSize);
 
 		// prepare to draw text
-		if (geoButton.getBackgroundColor() == null && geoButton.getObjectColor() == GColor.BLACK) {
-			g.setColor(GColor.PURPLE);
-		} else {
-			g.setColor(geoButton.getObjectColor());
-		}
+		g.setColor(geoButton.getObjectColor());
 		this.setForeground(GColor.WHITE);
 
 		// draw image
