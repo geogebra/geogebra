@@ -468,16 +468,16 @@ public interface GuiResources extends ClientBundle {
 	ImageResource icons_fillings_cancel();
 
 	// DATA COLLECTION
-	@Source("org/geogebra/web/web/gui/images/datacollection_on.png")
+	@Source("org/geogebra/common/icons/png/web/general/datacollection_on.png")
 	ImageResource datacollection_on();
 	
-	@Source("org/geogebra/web/web/gui/images/datacollection_off.png")
+	@Source("org/geogebra/common/icons/png/web/general/datacollection_off.png")
 	ImageResource datacollection_off();
 
-	@Source("org/geogebra/web/web/gui/images/collapse24.png")
+	@Source("org/geogebra/common/icons/png/web/general/collapse24.png")
 	ImageResource collapse();
 
-	@Source("org/geogebra/web/web/gui/images/expand24.png")
+	@Source("org/geogebra/common/icons/png/web/general/expand24.png")
 	ImageResource expand();
 
 	// New less resources for GEOGEBRA EXAM
