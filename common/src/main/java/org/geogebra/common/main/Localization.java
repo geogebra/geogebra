@@ -1079,4 +1079,7 @@ public abstract class Localization implements KeyboardLocale {
 		return translateCommandTable;
 	}
 
+	public String getKeyboardRow(int row) {
+		return getPlain("Keyboard.row" + row);
+	}
 }

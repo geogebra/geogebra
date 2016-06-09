@@ -64,12 +64,12 @@ public class TextFieldProcessing implements KeyboardListener {
 		needsLeftParenthesis.clear();
 		initNeedsLeftParenthesis();
 
-		needsLeftParenthesis.add(loc.getPlain("Function.sin"));
-		needsLeftParenthesis.add(loc.getPlain("Function.cos"));
-		needsLeftParenthesis.add(loc.getPlain("Function.tan"));
-		needsLeftParenthesis.add(loc.getPlain("Function.sinh"));
-		needsLeftParenthesis.add(loc.getPlain("Function.cosh"));
-		needsLeftParenthesis.add(loc.getPlain("Function.tanh"));
+		needsLeftParenthesis.add(loc.getFunction("sin"));
+		needsLeftParenthesis.add(loc.getFunction("cos"));
+		needsLeftParenthesis.add(loc.getFunction("tan"));
+		needsLeftParenthesis.add(loc.getFunction("sinh"));
+		needsLeftParenthesis.add(loc.getFunction("cosh"));
+		needsLeftParenthesis.add(loc.getFunction("tanh"));
 	}
 
 	/**

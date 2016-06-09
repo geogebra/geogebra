@@ -36,6 +36,8 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
@@ -49,7 +51,7 @@ import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.Resource;
 import com.himamis.retex.renderer.web.JlmLib;
 
-public class MathFieldW implements MathField {
+public class MathFieldW implements MathField, IsWidget {
 
 	private static final MetaModel metaModel;
 
@@ -195,5 +197,9 @@ public class MathFieldW implements MathField {
 	public void fireInputChangedEvent() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public Widget asWidget() {
+		return html;
 	}
 }

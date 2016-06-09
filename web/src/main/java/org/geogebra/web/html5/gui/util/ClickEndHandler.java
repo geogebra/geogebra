@@ -10,6 +10,9 @@ import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Handler for mouse up / touch end events
+ */
 public abstract class ClickEndHandler {
 
 
@@ -21,6 +24,8 @@ public abstract class ClickEndHandler {
 	 *            Widget that the handlers are attached to
 	 * @param handler
 	 *            EventHandler (instance of this class)
+	 * @return registration that makes it possible to remove both mouse and
+	 *         touch handler
 	 */
 	public static HandlerRegistration init(Widget w,
 			final ClickEndHandler handler) {
@@ -66,7 +71,9 @@ public abstract class ClickEndHandler {
 		};
 	}
 
+	/** whether default browser behavior needs preventing */
 	boolean preventDefault = false;
+	/** whether to stop propagation */
 	boolean stopPropagation = false;
 
 	/**

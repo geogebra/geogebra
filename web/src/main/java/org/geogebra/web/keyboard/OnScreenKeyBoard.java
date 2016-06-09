@@ -200,10 +200,9 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 		// "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
 		// "Keyboard.row3": "zZxXcCvVbBnNmM",
 
-		String[] keys = { loc.getPlain("Keyboard.row1"),
-				loc.getPlain("Keyboard.row2"),
+		String[] keys = { loc.getKeyboardRow(1), loc.getKeyboardRow(2),
 				// first key is shift, so need " " otherwise 'z' is hidden
-				"  " + loc.getPlain("Keyboard.row3") };
+				"  " + loc.getKeyboardRow(3) };
 
 		if (Language.Greek.localeGWT.equals(language)) {
 			keys = keysGreek;
@@ -249,10 +248,10 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 				captionPlain = captionPlain.substring(0,
 						captionPlain.lastIndexOf("^-1"));
 				// always use the English output (e.g. "arcsin")
-				b.setCaption(loc.getPlain(captionPlain) + "^-1", false);
+				b.setCaption(loc.getFunction(captionPlain) + "^-1", false);
 			} else {
 				// use language specific output
-				b.setCaption(loc.getPlain(captionPlain), true);
+				b.setCaption(loc.getFunction(captionPlain), true);
 			}
 		}
 		if (processField != null) {

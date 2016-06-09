@@ -592,46 +592,49 @@ public abstract class KBBase extends PopupPanel {
 		// fill first row
 		int index = 0;
 		updateButton.put(
-				addButton(loc.getPlain("Function.sin"), index, functions),
-				"Function.sin");
+				addButton(loc.getFunction("sin"), index, functions),
+				"sin");
 		updateButton.put(
-				addButton(loc.getPlain("Function.cos"), index, functions),
-				"Function.cos");
+				addButton(loc.getFunction("cos"), index, functions),
+				"cos");
 		updateButton.put(
-				addButton(loc.getPlain("Function.tan"), index, functions),
-				"Function.tan");
+				addButton(loc.getFunction("tan"), index, functions),
+				"tan");
 		addButton("e^x", Unicode.EULER_STRING + "^", index, functions)
 				.addStyleName("supScript");
 
 		// fill second row
 		index++;
-		KeyBoardButtonBase button = addButton(loc.getPlain("Function.sin")
+		KeyBoardButtonBase button = addButton(loc.getFunction("sin")
 				+ "^-1", "arcsin", index, functions);
 		button.addStyleName("supScript");
-		updateButton.put(button, "Function.sin" + "^-1");
+		updateButton.put(button, "sin" + "^-1");
 
-		button = addButton(loc.getPlain("Function.cos") + "^-1", "arccos",
+		button = addButton(loc.getFunction("cos") + "^-1", "arccos",
 				index, functions);
 		button.addStyleName("supScript");
-		updateButton.put(button, "Function.cos" + "^-1");
+		updateButton.put(button, "cos" + "^-1");
 
-		button = addButton(loc.getPlain("Function.tan") + "^-1", "arctan",
+		button = addButton(loc.getFunction("tan") + "^-1", "arctan",
 				index, functions);
 		button.addStyleName("supScript");
-		updateButton.put(button, "Function.tan" + "^-1");
+		updateButton.put(button, "tan" + "^-1");
 		addButton("ln", index, functions);
 
 		// fill third row
 		index++;
 		updateButton.put(
-				addButton(loc.getPlain("Function.sinh"), "sinh", index,
-						functions), "Function.sinh");
+				addButton(loc.getFunction("sinh"), "sinh", index,
+						functions),
+				"sinh");
 		updateButton.put(
-				addButton(loc.getPlain("Function.cosh"), "cosh", index,
-						functions), "Function.cosh");
+				addButton(loc.getFunction("cosh"), "cosh", index,
+						functions),
+				"cosh");
 		updateButton.put(
-				addButton(loc.getPlain("Function.tanh"), "tanh", index,
-						functions), "Function.tanh");
+				addButton(loc.getFunction("tanh"), "tanh", index,
+						functions),
+				"tanh");
 		addButton("log_10", "log", index, functions);
 
 		// fill forth row

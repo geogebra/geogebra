@@ -1,6 +1,8 @@
 package org.geogebra.web.editor;
 
 import org.geogebra.common.main.KeyboardLocale;
+import org.geogebra.common.util.Unicode;
+import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
@@ -9,6 +11,11 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class MathFieldProcessing implements KeyboardListener {
 
 	private MathFieldW mf;
+
+	public MathFieldProcessing(MathFieldW mf) {
+		this.mf = mf;
+	}
+
 	public void setFocus(boolean focus) {
 		// TODO Auto-generated method stub
 
@@ -20,7 +27,7 @@ public class MathFieldProcessing implements KeyboardListener {
 	}
 
 	public void onBackSpace() {
-		mf.getKeyListener().onKeyPressed(new KeyEvent(127));
+		mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_BACK_SPACE));
 
 	}
 
@@ -33,8 +40,16 @@ public class MathFieldProcessing implements KeyboardListener {
 	}
 
 	public void insertString(String text) {
-		for (int i = 0; i < text.length(); i++) {
-			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
+		if (text.equals(KeyboardConstants.A_POWER_X)) {
+			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, '^'));
+		}
+		else if (text.equals(Unicode.DIVIDE)) {
+			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, '/'));
+		} else {
+			for (int i = 0; i < text.length(); i++) {
+				mf.getKeyListener()
+						.onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
+			}
 		}
 
 	}

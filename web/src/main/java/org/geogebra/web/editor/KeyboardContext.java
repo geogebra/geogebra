@@ -23,14 +23,20 @@ public class KeyboardContext implements HasKeyboard {
 	public KeyboardLocale getLocalization() {
 		return new KeyboardLocale() {
 
-			public String getPlain(String string) {
+			public String getFunction(String string) {
 				// TODO Auto-generated method stub
-				return string.replace("Function.", "");
+				return string;
 			}
 
 			public String getLocaleStr() {
 				// TODO Auto-generated method stub
 				return "en";
+			}
+
+			public String getKeyboardRow(int i) {
+				// TODO Auto-generated method stub
+				return i == 1 ? "qQwWeErRtTyYuUiIoOpP"
+						: (i == 2 ? "aAsSdDfFgGhHjJkKlL''" : "zZxXcCvVbBnNmM");
 			}
 		};
 	}
