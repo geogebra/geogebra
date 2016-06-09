@@ -10,12 +10,22 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Net[polyhedron, number]
+ * 
+ * Net[polyhedron, number, side]
+ *
+ */
 public class CmdPolyhedronNet extends CommandProcessor {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdPolyhedronNet(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

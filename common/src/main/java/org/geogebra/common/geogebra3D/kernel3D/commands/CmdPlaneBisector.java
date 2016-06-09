@@ -8,15 +8,19 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
 
-/*
- * Orthogonal[ <GeoPoint3D>, <GeoCoordSys> ]
+/**
+ * PlaneBisector[ <GeoPoint3D>, <GeoCoordSys> ]
  */
 public class CmdPlaneBisector extends CommandProcessor {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdPlaneBisector(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -25,15 +29,12 @@ public class CmdPlaneBisector extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0] instanceof GeoSegmentND))
-
-			) {
+			if (arg[0] instanceof GeoSegmentND) {
 				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
 						.PlaneBisector(c.getLabel(), (GeoSegmentND) arg[0]) };
 				return ret;
-			} else {
-				throw argErr(app, c.getName(), arg[0]);
 			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
 			arg = resArgs(c);
@@ -43,12 +44,12 @@ public class CmdPlaneBisector extends CommandProcessor {
 						.PlaneBisector(c.getLabel(), (GeoPointND) arg[0],
 								(GeoPointND) arg[1]) };
 				return ret;
-			} else {
-				if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
 			}
+			if (!ok[0]) {
+				throw argErr(app, c.getName(), arg[0]);
+			}
+
+			throw argErr(app, c.getName(), arg[1]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

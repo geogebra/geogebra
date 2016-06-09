@@ -5,11 +5,14 @@ import org.geogebra.common.kernel.commands.CmdSegment;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-/*
+/**
  * Segment[ <GeoPoint3D>, <GeoPoint3D> ] or CmdSegment
  */
 public class CmdSegment3D extends CmdSegment {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdSegment3D(Kernel kernel) {
 		super(kernel);
 

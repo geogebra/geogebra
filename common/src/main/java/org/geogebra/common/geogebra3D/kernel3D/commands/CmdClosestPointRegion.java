@@ -9,15 +9,19 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * 
+ * ClosestPointRegion command
  */
 public class CmdClosestPointRegion extends CommandProcessor {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdClosestPointRegion(Kernel kernel) {
 		super(kernel);
 
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

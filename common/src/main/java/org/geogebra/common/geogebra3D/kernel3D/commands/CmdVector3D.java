@@ -5,11 +5,14 @@ import org.geogebra.common.kernel.commands.CmdVector;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-/*
+/**
  * Vector[ <GeoPoint3D>, <GeoPoint3D> ] or CmdVector
  */
 public class CmdVector3D extends CmdVector {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdVector3D(Kernel kernel) {
 		super(kernel);
 

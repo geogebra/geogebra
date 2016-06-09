@@ -6,8 +6,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Locus command
+ *
+ */
 public class CmdLocus3D extends CmdLocus {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdLocus3D(Kernel kernel) {
 		super(kernel);
 	}
@@ -22,6 +29,7 @@ public class CmdLocus3D extends CmdLocus {
 		return super.locus(label, p1, p2);
 	}
 
+	@Override
 	protected GeoElement locus(String label, GeoPointND p, GeoNumeric slider) {
 		if (p.isGeoElement3D()) {
 			return kernelA.getManager3D().Locus3D(label, p, slider);

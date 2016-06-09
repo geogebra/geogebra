@@ -5,8 +5,15 @@ import org.geogebra.common.kernel.commands.CmdCircumcircleSector;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Circumcircle sector
+ *
+ */
 public class CmdCircumcircleSector3D extends CmdCircumcircleSector {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdCircumcircleSector3D(Kernel kernel) {
 		super(kernel);
 

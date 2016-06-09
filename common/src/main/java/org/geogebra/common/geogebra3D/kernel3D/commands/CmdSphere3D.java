@@ -8,12 +8,22 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Sphere[point, point]
+ * 
+ * Sphere[point, number]
+ *
+ */
 public class CmdSphere3D extends CommandProcessor {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdSphere3D(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -34,10 +44,10 @@ public class CmdSphere3D extends CommandProcessor {
 						c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1]) };
 				return ret;
 			} else {
-				if (!ok[0])
+				if (!ok[0]) {
 					throw argErr(app, c.getName(), arg[0]);
-				else
-					throw argErr(app, c.getName(), arg[1]);
+				}
+				throw argErr(app, c.getName(), arg[1]);
 			}
 
 		default:

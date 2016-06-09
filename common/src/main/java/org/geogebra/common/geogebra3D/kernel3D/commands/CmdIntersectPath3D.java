@@ -119,6 +119,17 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 		}
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param arg
+	 *            arguments
+	 * @param ok
+	 *            feedback array for type check
+	 * @param label
+	 *            label for output
+	 * @return path
+	 */
 	public static GeoElement processPlaneSurface(Kernel kernel,
 			GeoElement[] arg, boolean[] ok,
 			String label) {

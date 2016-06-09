@@ -7,11 +7,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
-/*
+/**
  * Ray[ <GeoPoint3D>, <GeoPoint3D> ] or CmdRay
  */
 public class CmdRay3D extends CmdRay {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdRay3D(Kernel kernel) {
 		super(kernel);
 

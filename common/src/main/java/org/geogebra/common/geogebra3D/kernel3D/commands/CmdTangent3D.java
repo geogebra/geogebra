@@ -8,8 +8,15 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Tangent command
+ *
+ */
 public class CmdTangent3D extends CmdTangent {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdTangent3D(Kernel kernel) {
 		super(kernel);
 	}

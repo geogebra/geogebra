@@ -11,19 +11,33 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
- * Intersect[ <GeoPlane3D>, <GeoConicND> ] Intersect[ <GeoLineND>,
- * <GeoQuadric3D> ] Intersect[ <GeoConicND>, <GeoConicND> ] Intersect[
- * <GeoLineND>, <GeoPolygon> ] Intersect[ <GeoLineND>, <GeoCoordSys2D> ]
- * Intersect[ <GeoLineND>, <GeoLineND> ] Intersect[ <GeoLineND>, <GeoConicND>,
- * <GeoNumeric> ] Intersect[ <GeoLineND>, <GeoQuadric3D>, <GeoNumeric> ]
+ * Intersect[ <GeoPlane3D>, <GeoConicND> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoQuadric3D> ]
+ * 
+ * Intersect[ <GeoConicND>, <GeoConicND> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoPolygon> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoCoordSys2D> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoLineND> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoConicND>, <GeoNumeric> ]
+ * 
+ * Intersect[ <GeoLineND>, <GeoQuadric3D>, <GeoNumeric> ]
  */
 public class CmdClosestPoint3D extends CmdClosestPoint {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdClosestPoint3D(Kernel kernel) {
 		super(kernel);
 
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

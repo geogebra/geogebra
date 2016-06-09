@@ -26,8 +26,18 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Processor for 3D parametric curves
+ *
+ */
 public class ParametricProcessor3D extends ParametricProcessor {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param ap
+	 *            algebra processor
+	 */
 	public ParametricProcessor3D(Kernel kernel, AlgebraProcessor ap) {
 		super(kernel, ap);
 	}
@@ -175,6 +185,16 @@ public class ParametricProcessor3D extends ParametricProcessor {
 
 	}
 
+	/**
+	 * @param conic
+	 *            conic
+	 * @param coefX
+	 *            coefficients for (sin,cos,1) of x coord
+	 * @param coefY
+	 *            coefficients for (sin,cos,1) of y coord
+	 * @param coefZ
+	 *            coefficients for (sin,cos,1) of z coord
+	 */
 	public static void updateTrigConic(GeoConic3D conic,
 			ExpressionValue[] coefX,
 			ExpressionValue[] coefY, ExpressionValue[] coefZ) {
@@ -233,6 +253,16 @@ public class ParametricProcessor3D extends ParametricProcessor {
 
 	}
 
+	/**
+	 * @param conic
+	 *            conic
+	 * @param coefX
+	 *            coefficients of x as t-polynomial
+	 * @param coefY
+	 *            coefficients of y as t-polynomial
+	 * @param coefZ
+	 *            coefficients of z as t-polynomial
+	 */
 	public static void updateParabola(GeoConic3D conic,
 			ExpressionValue[] coefX,
 			ExpressionValue[] coefY, ExpressionValue[] coefZ) {

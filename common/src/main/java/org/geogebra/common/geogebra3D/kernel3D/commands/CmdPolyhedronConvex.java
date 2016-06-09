@@ -6,12 +6,20 @@ import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Convex polyhedron through points
+ *
+ */
 public class CmdPolyhedronConvex extends CommandProcessor {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdPolyhedronConvex(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 
 		int n = c.getArgumentNumber();

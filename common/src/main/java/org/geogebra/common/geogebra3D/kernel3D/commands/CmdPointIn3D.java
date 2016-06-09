@@ -5,11 +5,14 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.commands.CmdPointIn;
 import org.geogebra.common.kernel.geos.GeoElement;
 
-/*
- * PointIn[ <Region> ] 
+/**
+ * PointIn[ <Region> ]
  */
 public class CmdPointIn3D extends CmdPointIn {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdPointIn3D(Kernel kernel) {
 		super(kernel);
 

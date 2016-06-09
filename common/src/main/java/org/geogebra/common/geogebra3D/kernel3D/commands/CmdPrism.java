@@ -9,16 +9,20 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
-/*
- * Prism[ <GeoPoint3D>, <GeoPoint3D>, <GeoPoint3D>, ... ] 
+/**
+ * Prism[ <GeoPoint3D>, <GeoPoint3D>, <GeoPoint3D>, ... ]
  */
 public class CmdPrism extends CommandProcessor {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdPrism(Kernel kernel) {
 		super(kernel);
 
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 
 		int n = c.getArgumentNumber();

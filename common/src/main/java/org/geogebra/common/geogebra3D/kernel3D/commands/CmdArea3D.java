@@ -7,19 +7,26 @@ import org.geogebra.common.kernel.algos.AlgoAreaPoints;
 import org.geogebra.common.kernel.commands.CmdArea;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Area command
+ *
+ */
 public class CmdArea3D extends CmdArea {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdArea3D(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	protected AlgoAreaPoints getAlgoAreaPoints(Construction cons, String label,
+	protected AlgoAreaPoints getAlgoAreaPoints(Construction cons1, String label,
 			GeoPointND[] points, boolean is3D) {
 		if (is3D) {
-			return new AlgoAreaPoints3D(cons, label, points);
+			return new AlgoAreaPoints3D(cons1, label, points);
 		}
-		return new AlgoAreaPoints(cons, label, points);
+		return new AlgoAreaPoints(cons1, label, points);
 	}
 
 }

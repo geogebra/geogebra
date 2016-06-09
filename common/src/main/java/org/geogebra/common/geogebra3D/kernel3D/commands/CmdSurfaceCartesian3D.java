@@ -13,11 +13,15 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
-/*
- * Line[ <GeoPoint3D>, <GeoPoint3D> ] or CmdLine
+/**
+ * Surface[expression, expression, expression, u, umin, umax, v, vmin, vmax]
+ * Surface[ point expression, u, umin, umax, v, vmin, vmax]
  */
 public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdSurfaceCartesian3D(Kernel kernel) {
 		super(kernel);
 

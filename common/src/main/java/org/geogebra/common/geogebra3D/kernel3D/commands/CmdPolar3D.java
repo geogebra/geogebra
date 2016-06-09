@@ -9,8 +9,14 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Polar command
+ */
 public class CmdPolar3D extends CmdPolar {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdPolar3D(Kernel kernel) {
 		super(kernel);
 	}

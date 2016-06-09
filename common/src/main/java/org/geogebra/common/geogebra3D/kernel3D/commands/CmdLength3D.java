@@ -7,8 +7,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
+/**
+ * Length command
+ *
+ */
 public class CmdLength3D extends CmdLength {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdLength3D(Kernel kernel) {
 		super(kernel);
 	}

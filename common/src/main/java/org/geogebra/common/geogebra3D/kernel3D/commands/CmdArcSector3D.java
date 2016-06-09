@@ -9,8 +9,17 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Conic part commands
+ *
+ */
 public class CmdArcSector3D extends CmdArcSector {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 * @param type
+	 *            arc type
+	 */
 	public CmdArcSector3D(Kernel kernel, int type) {
 		super(kernel, type);
 	}

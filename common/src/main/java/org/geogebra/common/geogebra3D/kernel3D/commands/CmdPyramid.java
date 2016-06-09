@@ -1,6 +1,5 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -8,19 +7,22 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
-/*
- * Pyramid[ <GeoPoint3D>, <GeoPoint3D>, <GeoPoint3D>, ... ] 
+/**
+ * Pyramid[ <GeoPoint3D>, <GeoPoint3D>, <GeoPoint3D>, ... ]
  */
 public class CmdPyramid extends CommandProcessor {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdPyramid(Kernel kernel) {
 		super(kernel);
 
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 
 		int n = c.getArgumentNumber();

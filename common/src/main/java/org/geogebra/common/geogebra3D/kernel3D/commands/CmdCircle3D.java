@@ -10,8 +10,15 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Circle command
+ *
+ */
 public class CmdCircle3D extends CmdCircle {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdCircle3D(Kernel kernel) {
 		super(kernel);
 	}
@@ -70,17 +77,18 @@ public class CmdCircle3D extends CmdCircle {
 
 		if ((ok[0] = (arg[0].isGeoPoint()))
 				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
-			if (ok[1] = (arg[1] instanceof GeoNumberValue)) {
+			if (arg[1] instanceof GeoNumberValue) {
 				GeoElement[] ret = { kernelA.getManager3D().Circle3D(
 						c.getLabel(), (GeoPointND) arg[0],
 						(GeoNumberValue) arg[1], (GeoDirectionND) arg[2]) };
 				return ret;
-			} else if ((ok[1] = (arg[1].isGeoPoint()))) {
+			} else if (arg[1].isGeoPoint()) {
 				GeoElement[] ret = { kernelA.getManager3D().Circle3D(
 						c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 						(GeoDirectionND) arg[2]) };
 				return ret;
 			}
+			ok[1] = false;
 		}
 
 		return super.process3(c, arg, ok);

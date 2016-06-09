@@ -9,8 +9,15 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Line bisector
+ *
+ */
 public class CmdLineBisector3D extends CmdLineBisector {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdLineBisector3D(Kernel kernel) {
 		super(kernel);
 	}

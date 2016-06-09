@@ -11,7 +11,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  */
 public class CmdVertexForce3D extends CmdVertex3D {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdVertexForce3D(Kernel kernel) {
 		super(kernel);
 	}

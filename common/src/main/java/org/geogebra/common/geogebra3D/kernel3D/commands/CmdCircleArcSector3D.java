@@ -8,8 +8,17 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Conic arc commands
+ *
+ */
 public class CmdCircleArcSector3D extends CmdCircleArcSector {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 * @param type
+	 *            arc type
+	 */
 	public CmdCircleArcSector3D(Kernel kernel, int type) {
 		super(kernel, type);
 	}

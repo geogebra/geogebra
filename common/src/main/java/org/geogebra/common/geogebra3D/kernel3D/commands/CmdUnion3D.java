@@ -13,6 +13,7 @@ public class CmdUnion3D extends CmdUnion {
 
 	/**
 	 * @param kernel
+	 *            Kernel
 	 */
 	public CmdUnion3D(Kernel kernel) {
 		super(kernel);

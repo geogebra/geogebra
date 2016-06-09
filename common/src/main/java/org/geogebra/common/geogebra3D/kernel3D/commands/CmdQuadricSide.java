@@ -8,12 +8,20 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Side[quadric]
+ *
+ */
 public class CmdQuadricSide extends CommandProcessor {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdQuadricSide(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
@@ -34,11 +42,11 @@ public class CmdQuadricSide extends CommandProcessor {
 
 	}
 
-	protected MyError argErr(GeoElement geo) {
+	private MyError argErr(GeoElement geo) {
 		return argErr(app, "QuadricSide", geo);
 	}
 
-	protected MyError argNumErr(int n) {
+	private MyError argNumErr(int n) {
 		return argNumErr(app, "QuadricSide", n);
 	}
 

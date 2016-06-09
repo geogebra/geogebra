@@ -12,8 +12,15 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Midpoint command
+ *
+ */
 public class CmdMidpoint3D extends CmdMidpoint {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdMidpoint3D(Kernel kernel) {
 		super(kernel);
 

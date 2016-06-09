@@ -9,15 +9,19 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
-/*
+/**
  * Line[ <GeoPoint3D>, <GeoPoint3D> ] or CmdLine
  */
 public class CmdLine3D extends CmdLine {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdLine3D(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 
 		int n = c.getArgumentNumber();

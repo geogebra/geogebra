@@ -9,19 +9,28 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
-/*
- * Cube[ <GeoPoint3D>, <GeoPoint3D>, <GeoDirectionND> ] 
+/**
+ * Cube[ <GeoPoint3D>, <GeoPoint3D>, <GeoDirectionND> ]
+ * 
+ * or Icosahedron etc.
  */
 public class CmdArchimedeanSolid extends CommandProcessor {
 
 	private Commands name;
 
+	/**
+	 * @param kernel
+	 *            Kernel
+	 * @param name
+	 *            command name
+	 */
 	public CmdArchimedeanSolid(Kernel kernel, Commands name) {
 		super(kernel);
 		this.name = name;
 
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 
 		int n = c.getArgumentNumber();

@@ -9,11 +9,14 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
-/*
+/**
  * Orthogonal[ <GeoPoint3D>, <GeoCoordSys> ]
  */
 public class CmdOrthogonalPlane extends CommandProcessor {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdOrthogonalPlane(Kernel kernel) {
 		super(kernel);
 	}
@@ -21,7 +24,6 @@ public class CmdOrthogonalPlane extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
@@ -39,9 +41,8 @@ public class CmdOrthogonalPlane extends CommandProcessor {
 				} else {
 					throw argErr(app, c.getName(), arg[1]);
 				}
-			} else {
-				throw argErr(app, c.getName(), arg[0]);
 			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

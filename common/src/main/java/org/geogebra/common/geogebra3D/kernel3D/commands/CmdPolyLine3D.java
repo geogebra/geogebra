@@ -6,11 +6,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
-/*
+/**
  * Polygon[ <GeoPoint3D>, <GeoPoint3D>, ... ] or CmdPolygon
  */
 public class CmdPolyLine3D extends CmdPolyLine {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdPolyLine3D(Kernel kernel) {
 		super(kernel);
 

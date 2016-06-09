@@ -8,8 +8,17 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Semicircle[ point, point]
+ * 
+ * Semicircle[point, point, direction]
+ *
+ */
 public class CmdSemicircle3D extends CmdSemicircle {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdSemicircle3D(Kernel kernel) {
 		super(kernel);
 	}

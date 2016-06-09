@@ -6,8 +6,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Parabola command
+ *
+ */
 public class CmdParabola3D extends CmdParabola {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdParabola3D(Kernel kernel) {
 		super(kernel);
 	}

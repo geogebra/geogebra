@@ -14,11 +14,14 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
-/*
+/**
  * Point[ <Path (3D)> ] or Point[ <Region (3D)> ] or CmdPoint
  */
 public class CmdPoint3D extends CmdPoint {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdPoint3D(Kernel kernel) {
 		super(kernel);
 

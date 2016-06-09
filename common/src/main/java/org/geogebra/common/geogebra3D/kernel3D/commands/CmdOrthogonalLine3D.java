@@ -15,15 +15,19 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
-/*
+/**
  * Orthogonal[ <GeoPoint3D>, <GeoCoordSys> ]
  */
 public class CmdOrthogonalLine3D extends CmdOrthogonalLine {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdOrthogonalLine3D(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];

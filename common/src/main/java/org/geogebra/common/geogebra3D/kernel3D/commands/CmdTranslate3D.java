@@ -15,8 +15,15 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
+/**
+ * Translate command
+ *
+ */
 public class CmdTranslate3D extends CmdTranslate {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdTranslate3D(Kernel kernel) {
 		super(kernel);
 	}

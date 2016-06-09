@@ -11,21 +11,24 @@ import org.geogebra.common.main.MyError;
  * UnitOrthogonalVector[ <GeoPlane3D> ]
  */
 public class CmdUnitOrthogonalVector3D extends CmdUnitOrthogonalVector {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdUnitOrthogonalVector3D(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0] instanceof GeoCoordSys2D)) {
-				GeoElement[] ret = { (GeoElement) ((Kernel) kernelA)
+			if (arg[0] instanceof GeoCoordSys2D) {
+				GeoElement[] ret = { (GeoElement) kernelA
 						.getManager3D().UnitOrthogonalVector3D(c.getLabel(),
 								(GeoCoordSys2D) arg[0]) };
 				return ret;

@@ -5,8 +5,15 @@ import org.geogebra.common.kernel.commands.CmdCircumcircleArc;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Circumcircle arc
+ *
+ */
 public class CmdCircumcircleArc3D extends CmdCircumcircleArc {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdCircumcircleArc3D(Kernel kernel) {
 		super(kernel);
 

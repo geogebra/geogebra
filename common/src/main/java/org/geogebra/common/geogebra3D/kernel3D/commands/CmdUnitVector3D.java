@@ -15,7 +15,10 @@ import org.geogebra.common.main.MyError;
  * UnitOrthogonalVector[ <GeoPlane3D> ]
  */
 public class CmdUnitVector3D extends CmdUnitVector {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdUnitVector3D(Kernel kernel) {
 		super(kernel);
 	}

@@ -13,20 +13,23 @@ import org.geogebra.common.main.MyError;
  * OrthogonalVector[ <GeoPlane3D> ]
  */
 public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
-
+	/**
+	 * @param kernel
+	 *            Kernel
+	 */
 	public CmdOrthogonalVector3D(Kernel kernel) {
 		super(kernel);
 	}
 
+	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0] instanceof GeoCoordSys2D)) {
+			if (arg[0] instanceof GeoCoordSys2D) {
 				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
 						.OrthogonalVector3D(c.getLabel(),
 								(GeoCoordSys2D) arg[0]) };
@@ -36,8 +39,8 @@ public class CmdOrthogonalVector3D extends CmdOrthogonalVector {
 
 		case 2:
 			arg = resArgs(c);
-			if (ok[0] = (arg[0] instanceof GeoLineND)
-					&& (ok[1] = (arg[1] instanceof GeoDirectionND))) {
+			if (arg[0] instanceof GeoLineND
+					&& arg[1] instanceof GeoDirectionND) {
 				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
 						.OrthogonalVector3D(c.getLabel(), (GeoLineND) arg[0],
 								(GeoDirectionND) arg[1]) };
