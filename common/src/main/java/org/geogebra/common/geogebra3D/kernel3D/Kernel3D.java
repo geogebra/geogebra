@@ -37,6 +37,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.ConstructionCompanion;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -112,22 +113,22 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public GeoAxis3D getZAxis3D() {
-		return ((Construction3D) cons).getZAxis3D();
+		return (GeoAxis3D) cons.getZAxis();
 	}
 
 	@Override
 	public GeoPlane3DConstant getXOYPlane() {
-		return ((Construction3D) cons).getXOYPlane();
+		return (GeoPlane3DConstant) cons.getXOYPlane();
 	}
 
 	@Override
 	public GeoClippingCube3D getClippingCube() {
-		return ((Construction3D) cons).getClippingCube();
+		return (GeoClippingCube3D) cons.getClippingCube();
 	}
 
 	@Override
 	public GeoSpace getSpace() {
-		return ((Construction3D) cons).getSpace();
+		return (GeoSpace) cons.getSpace();
 	}
 
 	/* *******************************************
@@ -160,7 +161,7 @@ public class Kernel3D extends Kernel {
 	 */
 	@Override
 	protected void newConstruction() {
-		cons = new Construction3D(this);
+		cons = new Construction(this);
 	}
 
 	@Override
@@ -465,4 +466,8 @@ public class Kernel3D extends Kernel {
 		return algo.getQ();
 	}
 
+	@Override
+	public ConstructionCompanion createConstructionCompanion(Construction cons) {
+		return new ConstructionCompanion3D(cons);
+	}
 }

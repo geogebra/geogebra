@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
+import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
@@ -70,6 +71,8 @@ public class Construction {
 		this(k, null);
 	}
 
+	private ConstructionCompanion companion;
+
 	/**
 	 * Creates a new Construction.
 	 * 
@@ -80,6 +83,8 @@ public class Construction {
 	 */
 	protected Construction(Kernel k, Construction parentConstruction) {
 		kernel = k;
+
+		companion = kernel.createConstructionCompanion(this);
 
 		ceList = new ArrayList<ConstructionElement>();
 		algoList = new ArrayList<AlgoElement>();
@@ -122,8 +127,8 @@ public class Construction {
 	/**
 	 * creates the ConstructionDefaults consDefaults
 	 */
-	protected void newConstructionDefaults() {
-		consDefaults = new ConstructionDefaults(this);
+	final private void newConstructionDefaults() {
+		consDefaults = companion.newConstructionDefaults();
 	}
 
 	// list of Macro commands used in this construction
@@ -251,9 +256,11 @@ public class Construction {
 	/**
 	 * init the axis
 	 */
-	protected void initAxis() {
+	final private void initAxis() {
 		xAxis = new GeoAxis(this, GeoAxisND.X_AXIS);
 		yAxis = new GeoAxis(this, GeoAxisND.Y_AXIS);
+
+		companion.init();
 	}
 
 	/**
@@ -293,20 +300,20 @@ public class Construction {
 	 *            geo
 	 * @return which constant geo (xAxis, yAxis, ...)
 	 */
-	public Constants isConstantElement(GeoElement geo) {
+	final public Constants isConstantElement(GeoElement geo) {
 		if (geo == xAxis)
 			return Constants.X_AXIS;
 		if (geo == yAxis)
 			return Constants.Y_AXIS;
 
-		return Constants.NOT;
+		return companion.isConstantElement(geo);
 	}
 
 	/**
 	 * Renames xAxis and yAxis in the geoTable and sets *AxisLocalName-s
 	 * acordingly
 	 */
-	public void updateLocalAxesNames() {
+	final public void updateLocalAxesNames() {
 		geoTable.remove(xAxisLocalName);
 		geoTable.remove(yAxisLocalName);
 
@@ -315,6 +322,8 @@ public class Construction {
 		yAxisLocalName = app.getPlain("yAxis");
 		geoTable.put(xAxisLocalName, xAxis);
 		geoTable.put(yAxisLocalName, yAxis);
+
+		companion.updateLocalAxesNames();
 	}
 
 	/**
@@ -2643,7 +2652,7 @@ public class Construction {
 	/**
 	 * Make geoTable contain only xAxis and yAxis
 	 */
-	protected void initGeoTables() {
+	final private void initGeoTables() {
 		geoTable.clear();
 		geoCasCellTable = null;
 		localVariableTable = null;
@@ -2658,6 +2667,8 @@ public class Construction {
 			geoTable.put(xAxisLocalName, xAxis);
 			geoTable.put(yAxisLocalName, yAxis);
 		}
+
+		companion.initGeoTables();
 	}
 
 	public void setIgnoringNewTypes(boolean b) {
@@ -3301,6 +3312,30 @@ public class Construction {
 			}
 		}
 		return null;
+	}
+
+	final public GeoAxisND getZAxis() {
+		return companion.getZAxis();
+	}
+
+	final public GeoDirectionND getXOYPlane() {
+		return companion.getXOYPlane();
+	}
+
+	final public GeoDirectionND getSpace() {
+		return companion.getSpace();
+	}
+
+	final public GeoElement getClippingCube() {
+		return companion.getClippingCube();
+	}
+
+	public HashMap<String, GeoElement> getGeoTable() {
+		return geoTable;
+	}
+
+	public boolean is3D() {
+		return companion.is3D();
 	}
 
 }

@@ -12,7 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
-import org.geogebra.common.geogebra3D.kernel3D.Construction3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -38,7 +38,7 @@ public class AlgoOrthoLinePointLine3D extends AlgoOrtho {
 	@Override
 	protected void setSpecificInputOutput() {
 		setInputOutput(new GeoElement[] { (GeoElement) point, inputOrtho,
-				((Construction3D) cons).getSpace() }, new GeoElement[] { line });
+				(GeoSpace) cons.getSpace() }, new GeoElement[] { line });
 	}
 
 	@Override

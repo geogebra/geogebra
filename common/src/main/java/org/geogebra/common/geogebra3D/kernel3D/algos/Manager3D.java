@@ -1,6 +1,5 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
-import org.geogebra.common.geogebra3D.kernel3D.Construction3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.Geo3DVec;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicPart3D;
@@ -382,8 +381,7 @@ public class Manager3D implements Manager3DInterface {
 
 		// when using Locus (via macro) or xOy plane as direction, check if it's
 		// only 2D objects, then return 2D line
-		if ((!(cons instanceof Construction3D) || direction == ((Construction3D) cons)
-				.getXOYPlane())
+		if ((!(cons.is3D()) || direction == cons.getXOYPlane())
 				&& (point instanceof GeoPoint)
 				&& (line instanceof GeoLine)) {
 			AlgoOrthoLinePointLine algo = new AlgoOrthoLinePointLine(cons,

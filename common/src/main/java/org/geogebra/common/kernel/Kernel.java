@@ -5155,4 +5155,8 @@ public class Kernel {
 		}
 	}
 
+	public ConstructionCompanion createConstructionCompanion(Construction cons) {
+		return new ConstructionCompanion(cons);
+	}
+
 }

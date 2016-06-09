@@ -233,4 +233,9 @@ public class MacroKernel extends Kernel {
 		return parentKernel.getSpace();
 	}
 
+	@Override
+	public ConstructionCompanion createConstructionCompanion(Construction cons) {
+		return parentKernel.createConstructionCompanion(cons);
+	}
+
 }
