@@ -377,16 +377,19 @@ public class CellRangeProcessor {
 		boolean doCreateFreePoints = true;
 		GeoList list = createPointGeoList(rangeList, byValue, leftToRight,
 				isSorted, doStoreUndo, doCreateFreePoints);
-
-		AlgoPolyLine al = new AlgoPolyLine(cons, list);
+		GeoElement ret;
+		if (list != null && list.size() > 1 && list.get(0).isGeoElement3D()) {
+			ret = list.getKernel().getManager3D().PolyLine3D(null, list)[0];
+		} else {
+			AlgoPolyLine al = new AlgoPolyLine(cons, list);
+			ret = al.getGeoElements()[0];
+			ret.setLabel(null);
+		}
 
 		// need it in XML - used by Create Polyline tool, so don't want this
 		// line
 		// cons.removeFromConstructionList(al);
 
-		GeoElement ret = al.getGeoElements()[0];
-
-		ret.setLabel(null);
 
 		return ret;
 	}
