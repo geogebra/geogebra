@@ -100,8 +100,8 @@ public class CmdPolyLine extends CommandProcessor {
 	}
 
 	/**
-	 * @param labels
-	 *            output labels
+	 * @param label
+	 *            output label
 	 * @param points
 	 *            polyline
 	 * @param penStroke
