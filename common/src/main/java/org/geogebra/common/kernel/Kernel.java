@@ -4011,7 +4011,8 @@ public class Kernel {
 					.equals(Unicode.superscriptMinusOneBracket)) {
 				return inverseTrig(type, en);
 			}
-			throw new Error("Bad index for trig function"); // eg sin^-2(x)
+			// eg sin^-2(x)
+			return new MyDouble(this, Double.NaN).wrap();
 		}
 
 		return new ExpressionNode(this,
@@ -4021,6 +4022,7 @@ public class Kernel {
 	}
 
 	public ExpressionNode inverseTrig(Operation type, ExpressionValue en) {
+		Log.printStacktrace("");
 		switch (type) {
 		case SIN:
 		case COS:
