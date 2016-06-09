@@ -65,6 +65,8 @@ public class SerializeLaTeX {
 				+ Unicode.Superscript_3, "x^(-23)");
 		checkCannon("1 + x" + Unicode.Superscript_Minus + Unicode.Superscript_2
 				+ Unicode.Superscript_3, "1+x^(-23)");
+		checkCannon("e^(x)*sin(x)", "e^(x)*sin(x)");
+		checkCannonDiv("e^(-10/|x|)*sin(x)", "e^(-(10)/(x))*sin(x)");
 
 	}
 
