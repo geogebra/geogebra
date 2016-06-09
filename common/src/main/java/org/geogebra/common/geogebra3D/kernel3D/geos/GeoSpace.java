@@ -110,4 +110,10 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 	public ValueType getValueType() {
 		return ValueType.VOID;
 	}
+
+	@Override
+	public boolean isVisibleInputForMacro() {
+		return false;
+	}
+
 }

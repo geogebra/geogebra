@@ -8143,4 +8143,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		return !def.equals(val);
 	}
 
+	/**
+	 * 
+	 * @return true if this can be listed as input for a macro
+	 */
+	public boolean isVisibleInputForMacro() {
+		return isLabelSet();
+	}
+
 }

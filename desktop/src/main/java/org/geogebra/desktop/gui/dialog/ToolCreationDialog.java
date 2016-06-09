@@ -329,7 +329,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		Iterator<GeoElement> it = freeParents.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isLabelSet()) {
+			if (geo.isVisibleInputForMacro()) {
 				inputList.addElement(geo);
 			}
 		}

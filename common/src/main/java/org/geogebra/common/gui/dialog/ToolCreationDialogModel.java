@@ -151,7 +151,7 @@ public class ToolCreationDialogModel {
 		Iterator<GeoElement> it = freeParents.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isLabelSet()) {
+			if (geo.isVisibleInputForMacro()) {
 				inputList.add(geo);
 			}
 		}
