@@ -442,7 +442,7 @@ public class FormulaEditor extends View implements MathField {
         return true;
     }
 
-    protected void hideSoftKeyboard() {
+    public void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getWindowToken(), 0);
     }
