@@ -3120,4 +3120,5 @@ __GGB__keysVar.it.symbols = {
     "T.7": "Per ogni",
     "T.8": "Esiste",
     "T.9": "Non esiste",
+    "element_exercise_task_complete": "Well done! You solved the task.",
 }

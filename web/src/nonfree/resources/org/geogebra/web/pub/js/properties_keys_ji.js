@@ -3120,4 +3120,5 @@ __GGB__keysVar.ji.symbols = {
     "T.7": "\u05d7\u05d9\u05e8\u05d9\u05e7\u05be\u05d9\u05d5\u05d3",
     "T.8": "\u05e4\u05bc\u05ea\u05d7 \u05e6\u05d5\u05d5\u05d9\u05d9 \u05d9\u05d5\u05d3\u05df",
     "T.9": "\u05db\u05bc\u05e3",
+    "element_exercise_task_complete": "Well done! You solved the task.",
 }

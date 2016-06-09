@@ -3120,4 +3120,5 @@ __GGB__keysVar.es_UY.symbols = {
     "T.7": "e con tilde",
     "T.8": "U con di\xe9resis",
     "T.9": "u con di\xe9resis",
+    "element_exercise_task_complete": "Well done! You solved the task.",
 }

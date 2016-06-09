@@ -3120,4 +3120,5 @@ __GGB__keysVar.fr.symbols = {
     "T.7": "e accent aigu",
     "T.8": "e accent grave",
     "T.9": "e tr\xe9ma",
+    "element_exercise_task_complete": "Well done! You solved the task.",
 }

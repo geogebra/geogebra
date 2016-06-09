@@ -3120,4 +3120,5 @@ __GGB__keysVar.gl.symbols = {
     "T.7": "e con til",
     "T.8": "U con di\xe9rese",
     "T.9": "u con di\xe9rese",
+    "element_exercise_task_complete": "Well done! You solved the task.",
 }
