@@ -30,7 +30,7 @@ public class MyButton implements Observer {
 	private boolean selected;
 	private String text;
 
-	private final static int margin = 15;
+	private final static int margin = 10;
 	private final static int minSize = 24;
 	private final static int arcSize = 10;
 	private GFont font;
@@ -78,7 +78,7 @@ public class MyButton implements Observer {
 		g.setAntialiasing();
 
 		font = font.deriveFont(geoButton.getFontStyle(),
- (int) (multiplier * 10));
+				(int) (multiplier * 12));
 		g.setFont(font);
 
 		boolean hasText = getCaption().length() > 0;
