@@ -99,7 +99,6 @@ public class TextInputDialogD extends InputDialogD
 	// editor and preview panels
 	private DynamicTextInputPane editor;
 	private TextPreviewPanelD textPreviewer;
-	private TextInputDialogD textInputDialog;
 
 	// GUI
 	private JCheckBox cbLaTeX;
@@ -152,7 +151,6 @@ public class TextInputDialogD extends InputDialogD
 		this.rw = rw;
 		this.isTextMode = isTextMode;
 		this.editGeo = editGeo;
-		textInputDialog = this;
 		inputHandler = new TextInputHandler();
 		isIniting = true;
 
@@ -597,7 +595,7 @@ public class TextInputDialogD extends InputDialogD
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				insertString(recentSymbolList.get(recentSymbolTable
-						.getSelectedIndex()), textInputDialog.isLaTeX);
+						.getSelectedIndex()), TextInputDialogD.this.isLaTeX);
 			}
 		});
 
@@ -1055,7 +1053,7 @@ public class TextInputDialogD extends InputDialogD
 
 		private Kernel kernel;
 
-		private TextInputHandler() {
+		protected TextInputHandler() {
 			kernel = app.getKernel();
 		}
 
