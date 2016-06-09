@@ -4034,9 +4034,39 @@ public class Kernel {
 			return new ExpressionNode(this, en, Operation.ACOSH, null);
 		case TANH:
 			return new ExpressionNode(this, en, Operation.ATANH, null);
+
+		// asec(x) = acos(1/x)
+		case SEC:
+			return new ExpressionNode(this, new ExpressionNode(this,
+					(new MyDouble(this, 1)).wrap(), Operation.DIVIDE, en),
+					Operation.ARCCOS, null);
+		case CSC:
+			return new ExpressionNode(this, new ExpressionNode(this,
+					(new MyDouble(this, 1)).wrap(), Operation.DIVIDE, en),
+					Operation.ARCSIN, null);
+		case SECH:
+			return new ExpressionNode(this, new ExpressionNode(this,
+					(new MyDouble(this, 1)).wrap(), Operation.DIVIDE, en),
+					Operation.ACOSH, null);
+		case CSCH:
+			return new ExpressionNode(this, new ExpressionNode(this,
+					(new MyDouble(this, 1)).wrap(), Operation.DIVIDE, en),
+					Operation.ASINH, null);
+		case COTH:
+			return new ExpressionNode(this, new ExpressionNode(this,
+					(new MyDouble(this, 1)).wrap(), Operation.DIVIDE, en),
+					Operation.ATANH, null);
+
+		case COT:
+
+			ExpressionNode halfPi = new ExpressionNode(this,
+					(new MyDouble(this, Math.PI)).wrap(), Operation.DIVIDE,
+					(new MyDouble(this, 2)).wrap());
+			return new ExpressionNode(this, halfPi, Operation.MINUS,
+					new ExpressionNode(this, en, Operation.ARCTAN, null));
+
 		default:
-			// eg csc^-1(x)
-			throw new Error("Inverse not supported for trig function");
+			return new MyDouble(this, Double.NaN).wrap();
 
 		}
 	}
