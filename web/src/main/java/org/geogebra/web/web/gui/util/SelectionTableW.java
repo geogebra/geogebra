@@ -72,8 +72,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		addClickHandler(this);
 		addStyleName("SelectionTable");
 
-		if (this.mode.equals(SelectionTable.MODE_ICON)
-				|| this.mode.equals(SelectionTable.MODE_IMAGE)) {
+		if (this.mode.equals(SelectionTable.MODE_ICON)) {
 			setBorderStyleForCells();
 		}
     }
@@ -222,8 +221,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		}
 		switch (mode) {
 		case MODE_TEXT:
-		case MODE_ICON:
-		case MODE_IMAGE: //fall through
+		case MODE_ICON:// fall through
 			w = new Label();
 			object.applyToLabel((Label)w);
 			break;

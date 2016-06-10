@@ -340,11 +340,6 @@ public class SelectionTableD extends JTable {
 
 		switch (mode) {
 
-		case MODE_IMAGE:
-			icon = GeoGebraIcon.createFileImageIcon(app, (String) value, alpha,
-					iconSize);
-			break;
-
 		case MODE_ICON:
 		case MODE_LATEX:
 			icon = (ImageIcon) value;

@@ -2101,9 +2101,14 @@ ToolbarD.getAllTools(this));
 	}
 
 	public ImageIcon getToolIcon(Color border) {
-		return imageManager.getImageIcon(
-				new ImageResourceDImpl(getToolbarIconPath() + "mode_tool.png"),
-				border);
+		ImageResourceD res;
+		if (getMaxIconSize() <= 32) {
+			res = GuiResourcesD.TOOL_MODE32;
+		} else {
+			res = GuiResourcesD.TOOL_MODE64;
+		}
+
+		return imageManager.getImageIcon(res, border);
 	}
 
 	public ImageIcon getEmptyIcon() {
@@ -5336,6 +5341,7 @@ ToolbarD.getAllTools(this));
 		return true;
 	}
 
+	@Deprecated
 	public ImageIcon getMenuIcon(String name) {
 		if (isMacOS()) {
 			// fixed-size, 16x16 icons for mac menu
@@ -5343,8 +5349,19 @@ ToolbarD.getAllTools(this));
 					new ImageResourceDImpl(getMenuIconPath() + name), 16);
 		}
 
-		return getScaledIcon(name);
+		return getScaledIcon(new ImageResourceDImpl(getMenuIconPath() + name),
+				null);
 	}
+
+	public ImageIcon getMenuIcon(ImageResourceD res) {
+		if (isMacOS()) {
+			// fixed-size, 16x16 icons for mac menu
+			return getScaledIcon(res, 16);
+		}
+
+		return getScaledIcon(res, null);
+	}
+
 
 	public Image getMenuInternalImage(ImageResourceD name) {
 		if (isMacOS()) {

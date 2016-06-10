@@ -170,6 +170,8 @@ import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.gui.view.spreadsheet.MyTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageResourceD;
 
 /**
  * PropertiesPanel for displaying all gui elements for changing properties of
@@ -2664,7 +2666,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private JButton btnClearImage;
 		private JLabel lblFillInverse;
 		private JLabel lblSymbols;
-		private ArrayList<String> imgFileNameList;
+		private ArrayList<ImageResourceD> imgFileNameList;
 		private PopupMenuButton btInsertUnicode;
 
 		// For handle single bar
@@ -2858,22 +2860,21 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// create array of image files from toolbar icons
 			// for testing only ...
 
-			imgFileNameList = new ArrayList<String>();
-			String imagePath = "/geogebra/gui/images/";
+			imgFileNameList = new ArrayList<ImageResourceD>();
 
-			imgFileNameList.add(""); // for delete
-			imgFileNameList.add(imagePath + "go-down.png");
-			imgFileNameList.add(imagePath + "go-up.png");
-			imgFileNameList.add(imagePath + "go-previous.png");
-			imgFileNameList.add(imagePath + "go-next.png");
-			imgFileNameList.add(imagePath + "nav_fastforward.png");
-			imgFileNameList.add(imagePath + "nav_rewind.png");
-			imgFileNameList.add(imagePath + "nav_skipback.png");
-			imgFileNameList.add(imagePath + "nav_skipforward.png");
-			imgFileNameList.add("/geogebra/main/nav_play.png");
-			imgFileNameList.add("/geogebra/main/nav_pause.png");
+			imgFileNameList.add(null); // for delete
+			imgFileNameList.add(GuiResourcesD.GO_DOWN);
+			imgFileNameList.add(GuiResourcesD.GO_UP);
+			imgFileNameList.add(GuiResourcesD.GO_PREVIOUS);
+			imgFileNameList.add(GuiResourcesD.GO_NEXT);
+			imgFileNameList.add(GuiResourcesD.NAV_FASTFORWARD);
+			imgFileNameList.add(GuiResourcesD.NAV_REWIND);
+			imgFileNameList.add(GuiResourcesD.NAV_SKIPBACK);
+			imgFileNameList.add(GuiResourcesD.NAV_SKIPFORWARD);
+			imgFileNameList.add(GuiResourcesD.NAV_PLAY);
+			imgFileNameList.add(GuiResourcesD.NAV_PAUSE);
 
-			imgFileNameList.add(imagePath + "exit.png");
+			imgFileNameList.add(GuiResourcesD.EXIT);
 
 			ImageIcon[] iconArray = new ImageIcon[imgFileNameList.size()];
 			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
@@ -3110,7 +3111,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				if (btnImage.getSelectedIndex() == 0) {
 					fileName = "";
 				} else {
-					fileName = imgFileNameList.get(btnImage.getSelectedIndex());
+					fileName = imgFileNameList.get(btnImage.getSelectedIndex())
+							.getFilename();
 				}
 				model.applyImage(fileName);
 			} else if (source == this.btnClearImage) {
