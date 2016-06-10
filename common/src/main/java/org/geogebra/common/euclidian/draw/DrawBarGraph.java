@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.draw;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
@@ -149,24 +150,7 @@ public class DrawBarGraph extends Drawable {
 				Log.debug(e.getMessage());
 			}
 
-			// if (geo.isHatchingEnabled()) {
 
-				if (hatchingHandlers == null) {
-					hatchingHandlers = new ArrayList<HatchingHandler>();
-
-				}
-
-				if (hatchingHandlers.size() < gp.length) {
-
-				for (int i = hatchingHandlers.size() - 1; i < gp.length; i++) {
-
-					hatchingHandlers.add(null);
-
-					}
-
-				}
-
-			// }
 
 			try {
 				if (algo.getDrawType() != DrawType.STEP_GRAPH_CONTINUOUS) {
@@ -201,10 +185,13 @@ public class DrawBarGraph extends Drawable {
 						// }
 
 						GPaint gpaint = null;
+						GBufferedImage subImage = null;
 
 						if (algop.getBarFillType(k).isHatch()) {
 
-						HatchingHandler handler = hatchingHandlers.get(i);
+							initHatchingHandlerArray();
+
+							HatchingHandler handler = hatchingHandlers.get(i);
 
 							if (handler == null) {
 								handler = new HatchingHandler();
@@ -219,15 +206,22 @@ public class DrawBarGraph extends Drawable {
 
 							gpaint = handler.setHatching(g2, decoStroke,
 									barColor, geo.getBackgroundColor(),
-								algop.getBarAlpha(k),
-								algop.getBarHatchDistance(k),
-								algop.getBarHatchAngle(k), algop.getBarFillType(k),
-								algop.getBarSymbol(k),
-								geo.getKernel().getApplication());
+									algop.getBarAlpha(k),
+									algop.getBarHatchDistance(k),
+									algop.getBarHatchAngle(k),
+									algop.getBarFillType(k),
+									algop.getBarSymbol(k),
+									geo.getKernel().getApplication());
+
+							if (geo.getKernel().getApplication()
+									.isHTML5Applet()) {
+								// not needed in desktop
+								subImage = handler.getSubImage();
+							}
 
 						}
 
-						fill(g2, gp[i], false, gpaint);
+						fill(g2, gp[i], false, gpaint, subImage);
 
 						// appropriate
 						// Restore values
@@ -276,6 +270,25 @@ public class DrawBarGraph extends Drawable {
 					drawPoints.get(i).draw(g2);
 				}
 			}
+		}
+	}
+
+	private void initHatchingHandlerArray() {
+		if (hatchingHandlers == null) {
+			hatchingHandlers = new ArrayList<HatchingHandler>();
+
+		}
+
+		// fill array, we might not need hatching for all bars
+		// but probably will
+		if (hatchingHandlers.size() < gp.length) {
+
+			for (int i = hatchingHandlers.size() - 1; i < gp.length; i++) {
+
+				hatchingHandlers.add(null);
+
+			}
+
 		}
 	}
 

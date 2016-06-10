@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -575,11 +576,11 @@ public abstract class Drawable extends DrawableND {
 	 *            true to use pure stroke
 	 */
 	protected void fill(GGraphics2D g2, GShape shape, boolean usePureStroke) {
-		fill(g2, shape, usePureStroke, null);
+		fill(g2, shape, usePureStroke, null, null);
 	}
 
 	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke,
-			GPaint gpaint) {
+			GPaint gpaint, GBufferedImage subImage) {
 		if (isForceNoFill())
 			return;
 		if (geo.isHatchingEnabled() || gpaint != null) {
@@ -606,9 +607,14 @@ public abstract class Drawable extends DrawableND {
 				else
 					g2.fill(fillShape);
 			} else {
+
+				if (subImage == null) {
+					subImage = getHatchingHandler().getSubImage();
+				}
+
 				// take care of filling after the image is loaded
 				EuclidianStatic.fillAfterImageLoaded(fillShape, g2,
-						getHatchingHandler().getSubImage(), geo.getKernel()
+						subImage, geo.getKernel()
 								.getApplication());
 			}
 
