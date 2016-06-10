@@ -16,6 +16,7 @@ import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * @author G. Sturr
@@ -54,7 +55,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private void createGUI() {
 		this.removeAll();
 
-		btnPrint = new JButton(app.getMenuIcon("document-print.png"));
+		btnPrint = new JButton(app.getMenuIcon(GuiResourcesD.DOCUMENT_PRINT));
 		iconHeight = app.getScaledIconSize();
 
 		btnPrint.addActionListener(this);

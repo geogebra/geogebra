@@ -1948,9 +1948,14 @@ ToolbarD.getAllTools(this));
 				null);
 	}
 
+	@Deprecated
 	public ImageIcon getScaledIcon(String filename) {
 		return getScaledIcon(
 				new ImageResourceDImpl(getMenuIconPath() + filename), null);
+	}
+
+	public ImageIcon getScaledIcon(ImageResourceD res) {
+		return getScaledIcon(res, null);
 	}
 
 	/*

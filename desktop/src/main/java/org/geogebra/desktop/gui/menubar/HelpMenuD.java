@@ -13,6 +13,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * The "Help" menu.
@@ -74,7 +75,8 @@ class HelpMenuD extends BaseMenu {
 	@Override
 	protected void initActions() {
 		if (helpAction == null) {
-			helpAction = new HelpAction(app, app.getMenuIcon("help.png"),
+			helpAction = new HelpAction(app,
+					app.getMenuIcon(GuiResourcesD.HELP),
 					app.getMenu("Manual"), App.WIKI_MANUAL);
 
 			tutorialAction = new HelpAction(app, null,
@@ -107,7 +109,7 @@ class HelpMenuD extends BaseMenu {
 			};
 
 			forumAction = new AbstractAction(app.getMenu("GeoGebraForum"),
-					app.getMenuIcon("forum.gif")) {
+					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
@@ -117,7 +119,7 @@ class HelpMenuD extends BaseMenu {
 			};
 
 			infoAction = new AbstractAction(app.getMenu("AboutLicense"),
-					app.getMenuIcon("info.gif")) {
+					app.getMenuIcon(GuiResourcesD.INFO)) {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
@@ -134,11 +136,9 @@ class HelpMenuD extends BaseMenu {
 			return;
 		}
 		helpAction.putValue(AbstractAction.SMALL_ICON,
-				app.getMenuIcon("help.png"));
-		forumAction.putValue(AbstractAction.SMALL_ICON,
-				app.getMenuIcon("forum.png"));
+				app.getMenuIcon(GuiResourcesD.HELP));
 		infoAction.putValue(AbstractAction.SMALL_ICON,
-				app.getMenuIcon("info.gif"));
+				app.getMenuIcon(GuiResourcesD.INFO));
 
 	}
 

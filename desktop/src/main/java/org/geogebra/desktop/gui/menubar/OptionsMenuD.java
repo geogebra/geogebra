@@ -32,6 +32,8 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
+import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageResourceD;
 
 /**
  * The "Options" menu.
@@ -460,14 +462,16 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 
 			public void addMenuItem(MenuInterface parentMenu, String key,
 					boolean asHtml, MenuInterface subMenu) {
-				String filename = null;
+				ImageResourceD res = null;
 				if ("Labeling".equals(key)) {
-					filename = "mode_showhidelabel_16.gif";
+					res = GuiResourcesD.MODE_SHOWHIDELABEL_GIF;
 				}
 				if ("FontSize".equals(key)) {
-					filename = "font.png";
+					res = GuiResourcesD.FONT;
 				}
-				((JMenuItem) subMenu).setIcon(app.getMenuIcon(filename));
+				if (res != null) {
+					((JMenuItem) subMenu).setIcon(app.getMenuIcon(res));
+				}
 				((JMenuItem) subMenu).setText(app.getMenu(key));
 				((JMenu) parentMenu).add((JMenuItem) subMenu);
 

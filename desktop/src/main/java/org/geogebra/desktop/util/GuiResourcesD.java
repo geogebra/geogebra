@@ -67,12 +67,59 @@ public enum GuiResourcesD implements ImageResourceD {
 	GO_NEXT("/geogebra/gui/images/go-next.png"),
 
 	NAV_FASTFORWARD(
-			"/geogebra/gui/images/nav_fastforward.png"), NAV_REWIND(
-					"/geogebra/gui/images/nav_rewind.png"), NAV_SKIPBACK(
-							"/geogebra/gui/images/nav_skipback.png"),
+			"/geogebra/gui/images/nav_fastforward.png"),
 
-	NAV_SKIPFORWARD("/geogebra/gui/images/nav_skipforward.png"), EXIT(
-			"/geogebra/gui/images/exit.png");
+	NAV_REWIND("/geogebra/gui/images/nav_rewind.png"),
+
+	NAV_SKIPBACK("/geogebra/gui/images/nav_skipback.png"),
+
+	NAV_SKIPFORWARD("/geogebra/gui/images/nav_skipforward.png"),
+
+	EXIT("/geogebra/gui/images/exit.png"),
+
+	FONT("/gui/images/64px/font.png"),
+
+	MODE_SHOWHIDELABEL_GIF("/gui/images/64px/mode_showhidelabel_16.gif"),
+
+	DOCUMENT_PRINT("/gui/images/64px/document-print.png"),
+
+	MENU_VIEW_GRAPHICS3D(
+			"/gui/images/64px/menu_view_graphics3D.png"),
+
+	MENU_VIEW_CAS("/gui/images/64px/menu_view_cas.png"),
+
+	MENU_VIEW_SPREADSHEET("/gui/images/64px/menu_view_spreadsheet.png"),
+
+	MENU_VIEW_GRAPHICS("/gui/images/64px/menu_view_graphics.png"),
+
+	MENU_VIEW_ALGEBRA(
+			"/gui/images/64px/menu_view_algebra.png"),
+
+	DOCUMENT_NEW(
+					"/gui/images/64px/document-new.png"),
+
+	MENU_VIEW_CONSTRUCTION_PROTOCOL(
+							"/gui/images/64px/menu_view_construction_protocol.png"),
+
+	MENU_VIEW_GRAPHICS2(
+			"/gui/images/64px/menu_view_graphics2.png"), MENU_VIEW_PROBABILITY(
+					"/gui/images/64px/menu_view_probability.png"),
+
+	VIEW_PROPERTIES_22("/gui/images/64px/view-properties22.png"),
+
+	GEOGEBRA("/gui/images/64px/geogebra.png"),
+
+	HELP("/gui/images/64px/help.png"),
+
+	INFO("/gui/images/64px/info.gif"),
+
+	KEYBOARD("/gui/images/64px/keyboard.png"),
+
+	VIEW_PROPERTIES_16(
+			"/gui/images/64px/view-properties16.png"),
+
+	MENU_EDIT_COPY(
+					"/gui/images/64px/menu-edit-copy.png");
 	private String filename;
 
 	GuiResourcesD(String filename) {

@@ -8,6 +8,7 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.view.probcalculator.ProbabilityCalculatorViewD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Dock panel for the probability calculator.
@@ -47,7 +48,7 @@ public class ProbabilityCalculatorDockPanel extends DockPanelD {
 
 	@Override
 	public ImageIcon getIcon() {
-		return app.getMenuIcon("menu_view_probability.png");
+		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_PROBABILITY);
 	}
 
 }

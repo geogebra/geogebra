@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Dock panel for the primary euclidian view.
@@ -58,6 +59,6 @@ public class EuclidianDockPanel extends EuclidianDockPanelAbstract {
 	
 	@Override
 	public ImageIcon getIcon() { 
-		return app.getMenuIcon("menu_view_graphics.png");
+		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_GRAPHICS);
 	}
 }

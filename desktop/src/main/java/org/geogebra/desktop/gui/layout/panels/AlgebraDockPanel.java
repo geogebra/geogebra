@@ -12,6 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.view.algebra.AlgebraViewD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Dock panel for the algebra view.
@@ -63,7 +64,7 @@ public class AlgebraDockPanel extends NavigableDockPanel {
 	
 	@Override
 	public ImageIcon getIcon() { 
-		return app.getMenuIcon("menu_view_algebra.png");
+		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_ALGEBRA);
 	}
 	
 }

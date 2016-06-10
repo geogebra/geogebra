@@ -31,6 +31,7 @@ import org.geogebra.desktop.export.pstricks.PstricksFrame;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * The "File" menu.
@@ -117,7 +118,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				File file = AppD.getFromFileList(i);
 				if (file != null) {
 					mi = new JMenuItem(file.getName());
-					mi.setIcon(app.getMenuIcon("geogebra.png"));
+					mi.setIcon(app.getMenuIcon(GuiResourcesD.GEOGEBRA));
 					ActionListener al = new LoadFileListener(app, file);
 					mi.addActionListener(al);
 					submenuRecent.add(mi);

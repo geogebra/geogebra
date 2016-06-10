@@ -13,6 +13,7 @@ import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.panels.EuclidianDockPanelAbstract;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Dock panel for the primary euclidian view.
@@ -66,7 +67,7 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 
 	@Override
 	public ImageIcon getIcon() {
-		return app.getMenuIcon("menu_view_graphics3D.png");
+		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_GRAPHICS3D);
 	}
 
 	/**

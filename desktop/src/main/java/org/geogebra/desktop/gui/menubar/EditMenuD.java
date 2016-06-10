@@ -16,6 +16,7 @@ import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * The "Edit" menu.
@@ -150,7 +151,7 @@ public class EditMenuD extends BaseMenu {
 	@Override
 	protected void initActions() {
 		propertiesAction = new AbstractAction(app.getPlain("Properties")
-				+ " ...", app.getMenuIcon("view-properties16.png")) {
+				+ " ...", app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -247,7 +248,7 @@ public class EditMenuD extends BaseMenu {
 
 		copyToClipboardAction = new AbstractAction(
 				app.getMenu("DrawingPadToClipboard"),
-				app.getMenuIcon("menu-edit-copy.png")) {
+				app.getMenuIcon(GuiResourcesD.MENU_EDIT_COPY)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -280,7 +281,7 @@ public class EditMenuD extends BaseMenu {
 		};
 
 		deleteAction = new AbstractAction(app.getPlain("Delete"),
-				app.getMenuIcon("delete_small.gif")) {
+				app.getMenuIcon(GuiResourcesD.DELETE_SMALL)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

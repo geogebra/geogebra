@@ -16,6 +16,7 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.layout.panels.ConstructionProtocolDockPanel;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 public class ViewMenuApplicationD extends ViewMenuD {
 
@@ -56,7 +57,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		// show/hide keyboard
 		if (!app.isApplet()) {
 			cbShowKeyboard = new JCheckBoxMenuItem(showKeyboardAction);
-			cbShowKeyboard.setIcon(app.getMenuIcon("keyboard.png"));
+			cbShowKeyboard.setIcon(app.getMenuIcon(GuiResourcesD.KEYBOARD));
 			KeyboardSettings kbs = app.getSettings().getKeyboard();
 			if (kbs.isShowKeyboardOnStart()) {
 				cbShowKeyboard.setSelected(true);
@@ -90,7 +91,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 
 		// display the layout options dialog
 		showLayoutOptionsAction = new AbstractAction(app.getMenu("Layout")
-				+ " ...", app.getMenuIcon("view-properties16.png")) {
+				+ " ...", app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 

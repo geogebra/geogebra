@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 public class ConstructionProtocolDockPanel extends NavigableDockPanel {
 
@@ -40,6 +41,6 @@ public class ConstructionProtocolDockPanel extends NavigableDockPanel {
 	
 	@Override
 	public ImageIcon getIcon() { 
-		return app.getMenuIcon("menu_view_construction_protocol.png");
+		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL);
 	}
 }

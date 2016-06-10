@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * The "Windows" menu.
@@ -96,7 +97,7 @@ class WindowMenuD extends BaseMenu {
 	@Override
 	protected void initActions() {
 		newWindowAction = new AbstractAction(app.getMenu("NewWindow"),
-				app.getMenuIcon("document-new.png")) {
+				app.getMenuIcon(GuiResourcesD.DOCUMENT_NEW)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -118,7 +119,7 @@ class WindowMenuD extends BaseMenu {
 		UIManager.put("MenuItem.acceleratorFont", app.getPlainFont());
 		initItems();
 		if (newWindowAction != null) {
-			app.getMenuIcon("document-new.png");
+			app.getMenuIcon(GuiResourcesD.DOCUMENT_NEW);
 		}
 		GeoGebraMenuBar.setMenuFontRecursive(this, app.getPlainFont());
 	}

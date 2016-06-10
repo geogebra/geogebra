@@ -7,6 +7,7 @@ import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Dock panel for the CAS view.
@@ -58,6 +59,6 @@ public class CasDockPanel extends NavigableDockPanel {
 	
 	@Override
 	public ImageIcon getIcon() { 
-		return app.getMenuIcon("menu_view_cas.png");
+		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_CAS);
 	}
 }

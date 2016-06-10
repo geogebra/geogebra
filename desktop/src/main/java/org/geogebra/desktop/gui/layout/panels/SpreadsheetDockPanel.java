@@ -8,6 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Dock panel for the spreadsheet view.
@@ -92,7 +93,7 @@ public class SpreadsheetDockPanel extends NavigableDockPanel {
 
 	@Override
 	public ImageIcon getIcon() {
-		return app.getMenuIcon("menu_view_spreadsheet.png");
+		return app.getMenuIcon(GuiResourcesD.MENU_VIEW_SPREADSHEET);
 	}
 
 	@Override

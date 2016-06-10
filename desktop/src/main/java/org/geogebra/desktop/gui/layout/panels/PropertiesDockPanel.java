@@ -12,6 +12,7 @@ import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.view.properties.PropertiesStyleBarD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Dock panel for the algebra view.
@@ -93,7 +94,7 @@ public class PropertiesDockPanel extends DockPanelD implements
 
 	@Override
 	public ImageIcon getIcon() {
-		return app.getMenuIcon("view-properties22.png");
+		return app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_22);
 	}
 
 	@Override
