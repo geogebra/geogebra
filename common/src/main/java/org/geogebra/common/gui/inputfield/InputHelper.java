@@ -49,9 +49,13 @@ public class InputHelper {
 		if (geos != null && geos.length > 0 && geos[0] != null
 				&& geos[0].isGeoText()) {
 			GeoText text = (GeoText) geos[0];
-			if (!text.isTextCommand() && text.getStartPoint() == null) {
+			Construction cons = text.getConstruction();
 
-				Construction cons = text.getConstruction();
+			boolean absoluteTexts = cons.getApplication()
+					.has(Feature.ABSOLUTE_TEXTS);
+			if ((!text.isTextCommand() || absoluteTexts)
+					&& text.getStartPoint() == null) {
+
 
 				boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
@@ -63,7 +67,7 @@ public class InputHelper {
 				cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
 
 				try {
-					if (cons.getApplication().has(Feature.ABSOLUTE_TEXTS)) {
+					if (absoluteTexts) {
 						text.setAbsoluteScreenLoc(
 ev.toScreenCoordX(p.getX()),
 								ev.toScreenCoordY(p.getY()));
