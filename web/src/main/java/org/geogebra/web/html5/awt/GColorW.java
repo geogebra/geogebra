@@ -50,20 +50,27 @@ public class GColorW extends GColor {
 	}
 
 	public GColorW(float r, float g, float b, float alpha) {
-		if (r > 1)
+		if (r > 1) {
 			r = 1;
-		if (r < 0)
+		} else if (r < 0) {
 			r = 0;
+		}
 
-		if (g > 1)
+		if (g > 1) {
 			g = 1;
-		if (g < 0)
+		} else if (g < 0) {
 			g = 0;
+		}
 
-		if (b > 1)
+		if (b > 1) {
 			b = 1;
-		if (b < 0)
+		} else if (b < 0) {
 			b = 0;
+		}
+
+		if (alpha < 0 || alpha > 1) {
+			alpha = 1;
+		}
 
 		setRed((int) (r * 255));
 		setGreen((int) (g * 255));

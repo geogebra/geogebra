@@ -4,10 +4,12 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
+import org.geogebra.common.euclidian.HatchingHandler;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -112,6 +114,8 @@ public class DrawBarGraph extends Drawable {
 		return rect;
 	}
 
+	private ArrayList<HatchingHandler> hatchingHandlers = null;
+
 	@Override
 	public void draw(GGraphics2D g2) {
 		// Save fill, color and alfa of object
@@ -145,6 +149,25 @@ public class DrawBarGraph extends Drawable {
 				Log.debug(e.getMessage());
 			}
 
+			// if (geo.isHatchingEnabled()) {
+
+				if (hatchingHandlers == null) {
+					hatchingHandlers = new ArrayList<HatchingHandler>();
+
+				}
+
+				if (hatchingHandlers.size() < gp.length) {
+
+				for (int i = hatchingHandlers.size() - 1; i < gp.length; i++) {
+
+					hatchingHandlers.add(null);
+
+					}
+
+				}
+
+			// }
+
 			try {
 				if (algo.getDrawType() != DrawType.STEP_GRAPH_CONTINUOUS) {
 					/*
@@ -163,29 +186,56 @@ public class DrawBarGraph extends Drawable {
 
 						geo.setFillType(algop.getBarFillType(k));
 
-						if (algop.getBarSymbol(k) != null) {
-							geo.setFillSymbol(algop.getBarSymbol(k));
-						}
-						if (algop.getBarImage(k) != null) {
-							geo.setImageFileName(algop.getBarImage(k));
-						}
-						if (algop.getBarHatchDistance(k) != -1) {
-							geo.setHatchingDistance(algop
-									.getBarHatchDistance(k));
-						}
-						if (algop.getBarHatchAngle(k) != -1) {
-							geo.setHatchingAngle(algop.getBarHatchAngle(k));
+						// if (algop.getBarSymbol(k) != null) {
+						// geo.setFillSymbol(algop.getBarSymbol(k));
+						// }
+						// if (algop.getBarImage(k) != null) {
+						// geo.setImageFileName(algop.getBarImage(k));
+						// }
+						// if (algop.getBarHatchDistance(k) != -1) {
+						// geo.setHatchingDistance(algop
+						// .getBarHatchDistance(k));
+						// }
+						// if (algop.getBarHatchAngle(k) != -1) {
+						// geo.setHatchingAngle(algop.getBarHatchAngle(k));
+						// }
+
+						GPaint gpaint = null;
+
+						if (algop.getBarFillType(k).isHatch()) {
+
+						HatchingHandler handler = hatchingHandlers.get(i);
+
+							if (handler == null) {
+								handler = new HatchingHandler();
+								hatchingHandlers.set(i, handler);
+
+							}
+
+							GColor barColor = algop.getBarColor(k);
+							if (barColor == null) {
+								barColor = geo.getObjectColor();
+							}
+
+							gpaint = handler.setHatching(g2, decoStroke,
+									barColor, geo.getBackgroundColor(),
+								algop.getBarAlpha(k),
+								algop.getBarHatchDistance(k),
+								algop.getBarHatchAngle(k), algop.getBarFillType(k),
+								algop.getBarSymbol(k),
+								geo.getKernel().getApplication());
+
 						}
 
-						fill(g2, gp[i], false); // fill using
-												// default/hatching/image as
+						fill(g2, gp[i], false, gpaint);
+
 						// appropriate
 						// Restore values
 						geo.setObjColor(color);
 						geo.setFillType(fillType);
-						geo.setHatchingAngle((int) hatchingAngle);
-						geo.setHatchingDistance(hatchingDistance);
-						geo.setFillSymbol(symbol);
+						// geo.setHatchingAngle((int) hatchingAngle);
+						// geo.setHatchingDistance(hatchingDistance);
+						// geo.setFillSymbol(symbol);
 						geo.setImageFileName(fileName);
 						geo.setAlphaValue(alpha);
 					}

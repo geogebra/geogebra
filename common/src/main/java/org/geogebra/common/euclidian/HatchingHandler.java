@@ -61,7 +61,7 @@ public class HatchingHandler {
 	 * @param app
 	 *            needed to determine right font
 	 */
-	final protected GPaint setHatching(GGraphics2D g3,
+	public final GPaint setHatching(GGraphics2D g3,
 			GBasicStroke defObjStroke, GColor color, GColor bgColor,
 			float backgroundTransparency, double hatchDist,
 			double angleDegrees, FillType fillType, String symbol, App app) {

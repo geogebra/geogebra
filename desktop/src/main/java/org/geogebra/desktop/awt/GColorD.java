@@ -11,19 +11,57 @@ public class GColorD extends GColor {
 	private Color adaptedColor = new Color(0, 0, 0);
 
 	public GColorD(int r, int g, int b, int alpha) {
+		if (r > 255) {
+			r = 255;
+		} else if (r < 0) {
+			r = 0;
+		}
+
+		if (g > 255) {
+			g = 255;
+		} else if (g < 0) {
+			g = 0;
+		}
+
+		if (b > 255) {
+			b = 255;
+		} else if (b < 0) {
+			b = 0;
+		}
+		if (alpha < 0 || alpha > 255) {
+			alpha = 255;
+		}
 		adaptedColor = new Color(r, g, b, alpha);
 	}
 
 	public GColorD(float r, float g, float b, float alpha) {
+		if (r > 1) {
+			r = 1;
+		} else if (r < 0) {
+			r = 0;
+		}
+
+		if (g > 1) {
+			g = 1;
+		} else if (g < 0) {
+			g = 0;
+		}
+
+		if (b > 1) {
+			b = 1;
+		} else if (b < 0) {
+			b = 0;
+		}
+
+		if (alpha < 0 || alpha > 1) {
+			alpha = 1;
+		}
+
 		adaptedColor = new Color(r, g, b, alpha);
 	}
 
 	public GColorD(int r, int g, int b) {
-		adaptedColor = new Color(r, g, b);
-	}
-
-	public GColorD(int r, float g, int b) {
-		adaptedColor = new Color(r, g, b);
+		this(r, g, b, 255);
 	}
 
 	public GColorD(int rgb) {
@@ -32,11 +70,10 @@ public class GColorD extends GColor {
 
 	public GColorD(Color hsbColor) {
 		adaptedColor = hsbColor;
-		// TODO Auto-generated constructor stub
 	}
 
 	public GColorD(float f, float g, float h) {
-		adaptedColor = new Color(f, g, h);
+		this(f, g, h, 1);
 	}
 
 	@Override

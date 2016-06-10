@@ -1241,7 +1241,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 		if (hm != null && hm.get(1) != null) {
 			return ((Float) hm.get(1)).floatValue();
 		}
-		return -1;
+		return 1;
 	}
 
 	public void setBarFillType(FillType fillType, int numBar) {

@@ -574,20 +574,27 @@ public abstract class Drawable extends DrawableND {
 	 * @param usePureStroke
 	 *            true to use pure stroke
 	 */
-	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke) {
+	protected void fill(GGraphics2D g2, GShape shape, boolean usePureStroke) {
+		fill(g2, shape, usePureStroke, null);
+	}
+
+	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke,
+			GPaint gpaint) {
 		if (isForceNoFill())
 			return;
-		if (geo.isHatchingEnabled()) {
+		if (geo.isHatchingEnabled() || gpaint != null) {
 			// use decoStroke as it is always full (not dashed/dotted etc)
 			if (hatchPaint == null) {
 				hatchPaint = new ArrayList<GPaint>();
 			}
-			GPaint gpaint = getHatchingHandler().setHatching(g2, decoStroke,
-					geo.getObjectColor(), geo.getBackgroundColor(),
-					geo.getAlphaValue(), geo.getHatchingDistance(),
-					geo.getHatchingAngle(), geo.getFillType(),
-					geo.getFillSymbol(), geo.getKernel().getApplication());
 
+			if (gpaint == null) {
+				gpaint = getHatchingHandler().setHatching(g2, decoStroke,
+						geo.getObjectColor(), geo.getBackgroundColor(),
+						geo.getAlphaValue(), geo.getHatchingDistance(),
+						geo.getHatchingAngle(), geo.getFillType(),
+						geo.getFillSymbol(), geo.getKernel().getApplication());
+			}
 			if (!hatchPaint.contains(gpaint)) {
 				hatchPaint.add(gpaint);
 			}
