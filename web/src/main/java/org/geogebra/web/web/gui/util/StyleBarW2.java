@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.main.AppW;
@@ -67,7 +68,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 		if (source == btnColor) {
 			GColor color = btnColor.getSelectedColor();
-			if (color == null) {
+			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
 				((GuiManagerW) app.getGuiManager()).getPropertiesView(
 						OptionType.OBJECTS).setOptionPanel(
 						OptionType.OBJECTS,
