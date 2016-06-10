@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.main.Feature;
 
 /**
  * Class that creates geos for EuclidianController. Needed for special 3D stuff.
@@ -654,7 +655,7 @@ public class EuclidianControllerCompanion {
 	 */
 	public boolean setCoordsToMouseLoc(GeoPointND loc) {
 		loc.setCoords(ec.mouseLoc.x, ec.mouseLoc.y, 1.0);
-		return true;
+		return ec.getApplication().has(Feature.ABSOLUTE_TEXTS) == false;
 	}
 
 }
