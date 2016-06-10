@@ -1572,7 +1572,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				d.setNeedsUpdate(true);
 				return;
 			}
-			d.resetHatch();
 			d.update();
 		} else if (drawableNeeded(geo) && geosWaiting.contains(geo)) {
 			geosWaiting.remove(geo);

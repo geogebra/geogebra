@@ -1554,11 +1554,6 @@ public abstract class Drawable3D extends DrawableND {
 		return true;
 	}
 
-	@Override
-	public void resetHatch() {
-		// no hatching for 3D, maybe can be used for textures
-	}
-
 	/**
 	 * enlarge min and max values to enclose object
 	 * 

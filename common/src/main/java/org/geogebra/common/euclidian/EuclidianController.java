@@ -129,6 +129,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -7271,9 +7272,12 @@ public abstract class EuclidianController {
 
 	protected void handleMovedElementFree(PointerEventType type) {
 
+		Log.debug("movedGeoElement = " + movedGeoElement.getClass());
+		Log.printStacktrace("");
 		if (handleMovedElementFreePoint()) {
 			return;
 		}
+		
 
 		// free line
 		else if (movedGeoElement.isGeoLine()) {

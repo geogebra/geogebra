@@ -18,8 +18,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
@@ -103,8 +101,6 @@ public abstract class Drawable extends DrawableND {
 
 	/** tracing */
 	protected boolean isTracing = false;
-
-	private ArrayList<GPaint> hatchPaint = null;
 
 	// boolean createdByDrawList = false;
 
@@ -585,9 +581,6 @@ public abstract class Drawable extends DrawableND {
 			return;
 		if (geo.isHatchingEnabled() || gpaint != null) {
 			// use decoStroke as it is always full (not dashed/dotted etc)
-			if (hatchPaint == null) {
-				hatchPaint = new ArrayList<GPaint>();
-			}
 
 			if (gpaint == null) {
 				gpaint = getHatchingHandler().setHatching(g2, decoStroke,
@@ -596,10 +589,8 @@ public abstract class Drawable extends DrawableND {
 						geo.getHatchingAngle(), geo.getFillType(),
 						geo.getFillSymbol(), geo.getKernel().getApplication());
 			}
-			if (!hatchPaint.contains(gpaint)) {
-				hatchPaint.add(gpaint);
-			}
-			g2.setPaint(hatchPaint.get(hatchPaint.size() - 1));
+
+			g2.setPaint(gpaint);
 
 			if (!geo.getKernel().getApplication().isHTML5Applet()) {
 				if (usePureStroke)
@@ -697,10 +688,6 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public EuclidianView getView() {
 		return view;
-	}
-
-	public void resetHatch() {
-		this.hatchPaint = null;
 	}
 
 	public boolean isEuclidianVisible() {

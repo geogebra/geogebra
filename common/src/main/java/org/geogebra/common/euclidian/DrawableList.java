@@ -203,7 +203,6 @@ public class DrawableList {
 		Link cur = head;
 		while (cur != null) {
 			cur.d.update();
-			cur.d.resetHatch();
 			cur = cur.next;
 		}
 	}

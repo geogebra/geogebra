@@ -118,8 +118,6 @@ public abstract class DrawableND {
 		return 0;
 	}
 
-	public abstract void resetHatch();
-
 	public void setNeedsUpdate(boolean b) {
 		this.needsUpdate = b;
 	}
