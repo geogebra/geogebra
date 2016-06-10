@@ -434,38 +434,7 @@ public interface GuiResources extends ClientBundle {
 
 	// PLAY, PAUSE, REWIND, ARROWS, CANCEL
 	// USED FOR BUTTON FILLINGS
-	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_down.png")
-	ImageResource icons_fillings_arrow_big_down();
 
-	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_up.png")
-	ImageResource icons_fillings_arrow_big_up();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_left.png")
-	ImageResource icons_fillings_arrow_big_left();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_arrow_big_right.png")
-	ImageResource icons_fillings_arrow_big_right();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_fastforward.png")
-	ImageResource icons_fillings_fastforward();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_rewind.png")
-	ImageResource icons_fillings_rewind();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_skipback.png")
-	ImageResource icons_fillings_skipback();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_skipforward.png")
-	ImageResource icons_fillings_skipforward();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_play.png")
-	ImageResource icons_fillings_play();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_pause.png")
-	ImageResource icons_fillings_pause();
-
-	@Source("org/geogebra/common/icons_fillings/p18/filling_cancel.png")
-	ImageResource icons_fillings_cancel();
 
 	// DATA COLLECTION
 	@Source("org/geogebra/common/icons/png/web/general/datacollection_on.png")

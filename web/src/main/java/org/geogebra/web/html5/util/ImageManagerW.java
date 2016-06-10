@@ -190,7 +190,7 @@ getExternalImage(
 		return !externalImageTable.isEmpty();
 	}
 
-	public ImageElement getInternalImage(ImageResource resource) {
+	public static ImageElement getInternalImage(ImageResource resource) {
 		ImageElement img = Document.get().createImageElement();
 		img.setSrc(resource.getSafeUri().asString());
 		return img;

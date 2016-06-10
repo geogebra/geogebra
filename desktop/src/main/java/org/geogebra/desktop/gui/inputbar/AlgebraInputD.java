@@ -35,6 +35,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -164,7 +165,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		inputField.addFocusListener(this);
 
 		// enable a history popup and embedded button
-		inputField.addHistoryPopup(app.showInputTop());
+		inputField.addHistoryPopup(app.getInputPosition() == InputPositon.top);
 
 		// enable drops
 		inputField.setDragEnabled(true);

@@ -6,16 +6,29 @@ import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.main.MyImageW;
+import org.geogebra.web.html5.util.ImageManagerW;
 
+import com.google.gwt.resources.client.ImageResource;
+
+/**
+ * Connects geoelements to images in Web
+ */
 public class GeoElementGraphicsAdapterW extends
         org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter {
 
 	private App app;
 
+	/**
+	 * @param appl
+	 *            application
+	 */
 	public GeoElementGraphicsAdapterW(App appl) {
-		app = (App) appl;
+		app = appl;
 	}
 
+	@Override
 	public MyImage getFillImage() {
 		if (image != null)
 			return image;
@@ -25,15 +38,49 @@ public class GeoElementGraphicsAdapterW extends
 		}
 
 		if (imageFileName.startsWith("/geogebra")) {
-			return null;
+			String fn = imageFileName.replace("/geogebra/", "")
+					.replace("gui/images/", "");
+			ImageResource res = null;
+			if ("go-down.png".equals(fn)) {
+				res = GuiResourcesSimple.INSTANCE
+						.icons_fillings_arrow_big_down();
+			} else if ("go-up.png".equals(fn)) {
+				res = GuiResourcesSimple.INSTANCE
+						.icons_fillings_arrow_big_up();
+			} else if ("go-previous.png".equals(fn)) {
+				res = GuiResourcesSimple.INSTANCE
+						.icons_fillings_arrow_big_left();
+			} else if ("go-next.png".equals(fn)) {
+				res = GuiResourcesSimple.INSTANCE
+						.icons_fillings_arrow_big_right();
+			} else if ("nav_rewind.png".equals(fn)) {
+				res = GuiResourcesSimple.INSTANCE.icons_fillings_rewind();
+			} else if ("nav_fastforward.png".equals(fn)) {
+				res = GuiResourcesSimple.INSTANCE.icons_fillings_fastforward();
+			} else if ("nav_skipback.png".equals(fn)) {
+				res = GuiResourcesSimple.INSTANCE.icons_fillings_skipback();
+			} else if ("nav_skipforward.png".equals(fn)) {
+				res = GuiResourcesSimple.INSTANCE.icons_fillings_skipforward();
+			} else if ("exit.png".equals(fn)) {
+				res = GuiResourcesSimple.INSTANCE.icons_fillings_cancel();
+			} else if ("main/nav_play.png".equals(fn)) {
+				res = GuiResourcesSimple.INSTANCE.icons_fillings_play();
+			} else if ("main/nav_pause.png".equals(fn)) {
+				res = GuiResourcesSimple.INSTANCE.icons_fillings_pause();
+			}
+
+			return res == null ? null
+					: new MyImageW(ImageManagerW
+							.getInternalImage(res), false);
 		}
 		image = app.getExternalImageAdapter(imageFileName, 0, 0);
 
 		return image;
 	}
 
-	public void setImageFileName(String fileName) {
-
+	@Override
+	public void setImageFileName(String fileNameRaw) {
+		String fileName = fileNameRaw;
 		// for file names e.g. /geogebra/main/nav_play.png
 		if (fileName != null && fileName.length() != 0
 		        && fileName.charAt(0) == '/')

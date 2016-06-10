@@ -10,7 +10,6 @@ import java.util.Vector;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.euclidian.DrawEquation;
@@ -2665,27 +2664,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * Returns image with given filename
-	 *
-	 * @param filename
-	 *            filename
-	 * @return null unless overriden
-	 */
-	public GImage getInternalImageAdapter(String filename) {
-		return null;
-	}
-
-	/**
-	 * @deprecated use getInputPosition instead
-	 *
-	 * @return whether input bar should be on top; returns false if shown in
-	 *         AlgebraView
-	 */
-	public boolean showInputTop() {
-		return showInputTop == InputPositon.top;
-	}
-
-	/**
 	 * @return where to show the inputBar (respective inputBox)
 	 */
 	public InputPositon getInputPosition() {
@@ -2705,6 +2683,7 @@ public abstract class App implements UpdateSelection {
 	 * @param update
 	 *            whether layout update is needed afterwards
 	 */
+	@Deprecated
 	public void setShowInputTop(boolean flag, boolean update) {
 		if (flag && showInputTop == InputPositon.top || !flag
 				&& showInputTop == InputPositon.bottom) {

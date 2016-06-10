@@ -16,11 +16,11 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.FileInputDialog;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.OptionPanel;
@@ -372,7 +372,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnPanel = new FlowPanel();
 		iconList = new ArrayList<ImageResource>();
 		iconList.add(null); // for delete
-		GuiResources res = GuiResources.INSTANCE;
+		GuiResourcesSimple res = GuiResourcesSimple.INSTANCE;
 		iconList.add(res.icons_fillings_arrow_big_down());
 		iconList.add(res.icons_fillings_arrow_big_up());
 		iconList.add(res.icons_fillings_arrow_big_left());

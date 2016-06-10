@@ -109,7 +109,6 @@ import javax.swing.WindowConstants;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -174,7 +173,6 @@ import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.GeoGebra;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
-import org.geogebra.desktop.awt.GGenericImageD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianStaticD;
@@ -2164,14 +2162,6 @@ ToolbarD.getAllTools(this));
 		return im;
 	}
 
-	@Override
-	public GImage getInternalImageAdapter(String filename) {
-		MyImageD im = imageManager.getInternalImage(filename);
-		if (im == null || im.isSVG())
-			return null;
-		return new GGenericImageD(im.getImage());
-	}
-
 	public void addExternalImage(String filename, MyImageD image) {
 		imageManager.addExternalImage(filename, image);
 	}
@@ -2920,7 +2910,8 @@ ToolbarD.getAllTools(this));
 
 		// handle input bar
 		if (showAlgebraInput) {
-			initInputBar(this, super.showInputTop(), northPanel,
+			initInputBar(this, getInputPosition() == InputPositon.top,
+					northPanel,
 					southPanel);
 		}
 
