@@ -5565,6 +5565,7 @@ namespace giac {
       gen p=g._SYMBptr->feuille._VECTptr->front();
       gen x=g._SYMBptr->feuille._VECTptr->back();
       if (p.type==_VECT && x.type==_VECT){
+	bool reel=is_real(*x._VECTptr,contextptr);
 	// adjust (guess?) nbits
 	gen g_=accurate_evalf(evalf_double(g,1,contextptr),60); // low prec multiprec evalf 
 	vecteur P=*p._VECTptr;
@@ -5580,15 +5581,19 @@ namespace giac {
 	err=err/abs(val,contextptr)/rnd; // relative error/rounding error
 	if (is_strictly_greater(err,1,contextptr))
 	  err=log(err,contextptr);
+	else
+	  err=0;
 	double errd=evalf_double(err,1,contextptr)._DOUBLE_val;
 	int nbitsmore=std::ceil(errd/std::log(2));
-	gen r=complexroot(makesequence(symb_horner(*x._VECTptr,vx_var),pow(plus_two,-nbits-nbitsmore-2,contextptr)),true,contextptr);
+	if (nbits<56) 
+	  nbits=56; // otherwise we should adjust precision 1e-14 in in_select_root call below
+	gen r=complexroot(makesequence(symb_horner(*x._VECTptr,vx_var),pow(plus_two,-nbits-nbitsmore-4,contextptr)),true,contextptr);
 	if (r.type==_VECT){
 	  vecteur R=*r._VECTptr;
 	  for (unsigned i=0;i<R.size();++i){
 	    R[i]=R[i][0];
 	  }
-	  x=in_select_root(R,is_real(*x._VECTptr,contextptr),contextptr);
+	  x=in_select_root(R,reel,contextptr,1e-14);
 	  return horner(*p._VECTptr,x,contextptr);
 	}
       }

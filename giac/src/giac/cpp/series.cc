@@ -2374,6 +2374,17 @@ namespace giac {
       e_copy=subst(e_copy,tan_tab,tan2sincos_tab,true,contextptr);
       e_copy=subst(e_copy,exp_tab,exp2sincos_tab,true,contextptr);
     }
+    // Rewrite constants
+    vecteur rv=rlvar(e_copy,false),cv;
+    for (int i=0;i<rv.size();++i){
+      if (evalf(rv[i],1,contextptr).type<_CPLX)
+	cv.push_back(rv[i]);
+    }
+    if (!cv.empty()){
+      gen cvg=tsimplify(cv,contextptr);
+      if (cvg.type==_VECT && cvg._VECTptr->size()==cv.size())
+	e_copy=subst(e_copy,cv,*cvg._VECTptr,false,contextptr);
+    }
     if (!direction) { 
       if (!is_analytic(e_copy)){
 	gen g1=unidirectional_limit(e_copy,x,lim_point,1,contextptr);

@@ -3413,6 +3413,8 @@ namespace giac {
   }
 
   bool algnorme(const polynome & p_y,const polynome & pmini,polynome & n){
+    n=resultant(p_y,pmini).trunc1();
+    return true;
     matrice S=sylvester(polynome2poly1(pmini,1),polynome2poly1(p_y,1));
     S=mtran(S);
     gen g=det_minor(S,vecteur(0),false,context0);
@@ -4133,23 +4135,39 @@ namespace giac {
     }
     return m+(sizeinbase2(v.size())+1)/2;
   }
-  gen mod_resultant(const modpoly & P,const modpoly & Q){
+  gen mod_resultant(const modpoly & P,const modpoly & Q,double eps){
     // gen h2=4*pow(l2norm2(P),Q.size()-1)*pow(l2norm2(Q),P.size()-1);
     int h=sizeinbase2(P)*(Q.size()-1)+sizeinbase2(Q)*(P.size()-1)+1;
     vector<int> p,q,tmp1,tmp2;
+    gen D=1; // p-adic acceleration
+    if (0 && P.size()>GIAC_PADIC && Q.size()>GIAC_PADIC){
+      matrice S=sylvester(P,Q);
+      vecteur v=vranm(S.size(),0,context0);
+      vecteur u=linsolve(S,v,context0);
+      lcmdeno(u,D,context0);
+      h -= sizeinbase2(D);
+    }
+    // reconstruct resultant/D
     int m=2147483647;
     gen pim=m;
     vecteur2vector_int(P,m,p);
     vecteur2vector_int(Q,m,q);
     gen res=resultant(p,q,tmp1,tmp2,m);
+    if (D!=1)
+      res=int((res.val*longlong(invmod(smod(D,m).val,m)))%m);
     mpz_t tmpz;
     mpz_init(tmpz);
     int proba=0;
-    while (h>sizeinbase2(pim) && proba<3){
+    int probamax=RAND_MAX;
+    if (eps>0)
+      probamax=-std::log(eps)/30/std::log(2.0);
+    while (h>sizeinbase2(pim) && proba<probamax){
       m=prevprime(m-1).val;
       vecteur2vector_int(P,m,p);
       vecteur2vector_int(Q,m,q);
       int r=resultant(p,q,tmp1,tmp2,m);
+      if (D!=1)
+	r=(r*longlong(invmod(smod(D,m).val,m)))%m;
 #ifndef USE_GMP_REPLACEMENTS
       if (pim.type==_ZINT && res.type==_ZINT){
 	gen u,v,d;
@@ -4172,13 +4190,13 @@ namespace giac {
       pim=m*pim;
     }
     mpz_clear(tmpz);
-    return smod(res,pim);
+    return smod(res,pim)*D;
   }
 
   void subresultant(const modpoly & P,const modpoly & Q,gen & res){
-    if (0 && is_integer_vecteur(P,true) && is_integer_vecteur(Q,true)){
-      res=mod_resultant(P,Q); 
-      // according to my tests ducos is faster except for very small coefficients
+    if (0 && P.size()>GIAC_PADIC && Q.size()>GIAC_PADIC && is_integer_vecteur(P) && is_integer_vecteur(Q)){
+      res=mod_resultant(P,Q,0.0); 
+      // according to my tests ducos is faster (except for very small coefficients)
       return ;
     }
     int d=P.size()-1,e=Q.size()-1;

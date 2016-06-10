@@ -40,7 +40,7 @@ namespace giac {
   bool islesscomplex(const gen & a,const gen & b);
   bool is_sqrt(const gen & a,gen & arg);
   gen select_root(const vecteur & v,GIAC_CONTEXT);
-  gen in_select_root(const vecteur & a,bool reel,GIAC_CONTEXT);
+  gen in_select_root(const vecteur & a,bool reel,GIAC_CONTEXT,double eps=1e-14);
   bool is_known_rootof(const vecteur & v,gen & symroot,GIAC_CONTEXT);
   gen horner_rootof(const vecteur & p,const gen & g,GIAC_CONTEXT);
   bool has_rootof_value(const gen & Pmin,gen & value,GIAC_CONTEXT);

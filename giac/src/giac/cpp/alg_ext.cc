@@ -240,7 +240,7 @@ namespace giac {
     return res;
   }
 
-  gen in_select_root(const vecteur & a,bool reel,GIAC_CONTEXT){
+  gen in_select_root(const vecteur & a,bool reel,GIAC_CONTEXT,double eps){
     if (a.empty() || is_undef(a))
       return undef;
     gen current(a.front());
@@ -248,13 +248,13 @@ namespace giac {
     const_iterateur it=a.begin(),itend=a.end();
     for (;it!=itend;++it){
       double cur_re(re(*it,contextptr).evalf_double(1,contextptr)._DOUBLE_val),cur_im(im(*it,contextptr).evalf_double(1,contextptr)._DOUBLE_val);
-      if (cur_re > (1+1e-14)*max_re ){
+      if (cur_re > (1+eps)*max_re ){
 	current=*it;
 	max_re=cur_re;
 	max_im=cur_im;
       }
       else { // same argument
-	if ( std::abs(cur_re-max_re)<1e-14*max_re && (cur_im>max_im) ){
+	if ( std::abs(cur_re-max_re)<eps*max_re && (cur_im>max_im) ){
 	  current=*it;
 	  max_im=cur_im;
 	}

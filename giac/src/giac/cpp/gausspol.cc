@@ -5289,7 +5289,7 @@ namespace giac {
 	  norme=resultant(temp,p_mini).trunc1();
       }
       else {
-#if 1
+#if 0 // IMPROVE: find a good criterion to enable!
 	if (debug_infolevel)
 	  CERR << CLOCK()*1e-6 << " sylvester resultant begin" << endl;
 	vecteur Gv(polynome2poly1(G,1)),p_miniv(polynome2poly1(p_mini,1));
