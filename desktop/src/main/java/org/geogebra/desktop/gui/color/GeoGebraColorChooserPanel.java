@@ -32,6 +32,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * A color swatch chooser panel for GeoGebra.
@@ -189,7 +190,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		recentPanel.setMaximumSize(getPreferredSize());
 
 		// create a button to open a RGB color chooser for custom colors
-		btnCustomColor = new JButton(app.getImageIcon("list-add.png"));
+		btnCustomColor = new JButton(app.getImageIcon(GuiResourcesD.LIST_ADD));
 		btnCustomColor.addActionListener(new CustomButtonActionListener());
 		btnCustomColor.setPreferredSize(new Dimension(24, 18));
 		btnCustomColor.setFocusPainted(false);
@@ -455,7 +456,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 							if (app != null)
 								g2d.drawImage(
 										app.getImageIcon(
-												"color_chooser_check.png")
+												GuiResourcesD.COLOR_CHOOSER_CHECK)
 												.getImage(), x + 3, y + 3, null);
 						}
 

@@ -46,6 +46,7 @@ import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Container for one or multiple toolbars. Takes care of fundamental things such
@@ -333,7 +334,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		AbstractAction undoAction = ((GuiManagerD) app.getGuiManager())
 				.getUndoAction();
 		undoAction.putValue(Action.SMALL_ICON,
-				app.getScaledIcon("menu-edit-undo.png", iconSize));
+				app.getScaledIcon(GuiResourcesD.UNDO, iconSize));
 		undoAction.putValue("enabled", false);
 
 		JButton btnUndo = new JButton(undoAction);
@@ -346,7 +347,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		AbstractAction redoAction = ((GuiManagerD) app.getGuiManager())
 				.getRedoAction();
 		redoAction.putValue(Action.SMALL_ICON,
-				app.getScaledIcon("menu-edit-redo.png", iconSize));
+				app.getScaledIcon(GuiResourcesD.REDO, iconSize));
 		JButton btnRedo = new JButton(redoAction);
 		text = loc.getMenuTooltip("Redo");
 		btnRedo.setText(null);
@@ -355,11 +356,11 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		// properties button
 		ImageIcon ic = GeoGebraIcon.joinIcons(
-				app.getScaledIcon("menu-options.png", iconSize),
-				app.getScaledIcon("triangle-down.png", iconSize));
+				app.getScaledIcon(GuiResourcesD.MENU_OPTIONS, iconSize),
+				app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN, iconSize));
 		final JButton btnProperties = new JButton(
 app.getScaledIcon(
-				"menu-options.png", iconSize));
+						GuiResourcesD.MENU_OPTIONS, iconSize));
 		btnProperties.setFocusPainted(false);
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
@@ -384,7 +385,8 @@ app.getScaledIcon(
 		});
 
 		// help button
-		JButton btnHelp = new JButton(app.getScaledIcon("menu-help.png",
+		JButton btnHelp = new JButton(
+				app.getScaledIcon(GuiResourcesD.MENU_HELP,
 				iconSize));
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);

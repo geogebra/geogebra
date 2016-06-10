@@ -1942,8 +1942,10 @@ ToolbarD.getAllTools(this));
 		return maxIconSize;
 	}
 
-	public ImageIcon getImageIcon(String filename) {
-		return getImageIcon(filename, null);
+	public ImageIcon getImageIcon(ImageResourceD res) {
+		return imageManager.getImageIcon(
+				res,
+				null);
 	}
 
 	public ImageIcon getScaledIcon(String filename) {
@@ -1998,13 +2000,6 @@ ToolbarD.getAllTools(this));
 		return px;
 	}
 
-	public ImageIcon getImageIcon(String filename, Color borderColor) {
-		return imageManager
-				.getImageIcon(
-						new ImageResourceDImpl("/gui/images/64px/" + filename),
-						borderColor);
-	}
-
 	public int getScaledIconSize() {
 		return ptToPx(getFontSize());
 	}
@@ -2016,15 +2011,15 @@ ToolbarD.getAllTools(this));
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
-	public ImageIcon getScaledIconCommon(String filename) {
+	public ImageIcon getScaledIconCommon(ImageResourceD res) {
 		ImageIcon icon = imageManager
-				.getImageIcon(new ImageResourceDImpl(filename), null);
+				.getImageIcon(res, null);
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
-	public ImageIcon getScaledIcon(String filename, int iconSize) {
+	public ImageIcon getScaledIcon(ImageResourceD res, int iconSize) {
 		ImageIcon icon = imageManager.getImageIcon(
-				new ImageResourceDImpl(getMenuIconPath() + filename), null);
+				res, null);
 		return scaleIcon(icon, iconSize);
 	}
 
@@ -5344,7 +5339,8 @@ ToolbarD.getAllTools(this));
 	public ImageIcon getMenuIcon(String name) {
 		if (isMacOS()) {
 			// fixed-size, 16x16 icons for mac menu
-			return getScaledIcon(name, 16);
+			return getScaledIcon(
+					new ImageResourceDImpl(getMenuIconPath() + name), 16);
 		}
 
 		return getScaledIcon(name);

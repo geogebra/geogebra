@@ -81,7 +81,8 @@ import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.javax.swing.GBoxD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.ImageResourceDImpl;
+import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageResourceD;
 
 /**
  * 
@@ -261,7 +262,7 @@ public class EuclidianViewD extends EuclidianView implements
 	 */
 	public void setGrabbingCursor() {
 		// TODO gui/image/cursor..
-		setCursor(getCursorForImage("grabbing"));
+		setCursor(getCursorForImage(GuiResourcesD.CURSOR_GRABBING));
 	}
 
 	public void setHitCursor() {
@@ -286,25 +287,25 @@ public class EuclidianViewD extends EuclidianView implements
 
 		switch (getMode()) {
 		case EuclidianConstants.MODE_ZOOM_IN:
-			defaultCursor = getCursorForImage("zoomin");
+			defaultCursor = getCursorForImage(GuiResourcesD.CURSOR_ZOOMIN);
 			break;
 
 		case EuclidianConstants.MODE_ZOOM_OUT:
-			defaultCursor = getCursorForImage("zoomout");
+			defaultCursor = getCursorForImage(GuiResourcesD.CURSOR_ZOOMOUT);
 			break;
 
 		case EuclidianConstants.MODE_TRANSLATEVIEW:
-			defaultCursor = getCursorForImage("grab");
+			defaultCursor = getCursorForImage(GuiResourcesD.CURSOR_GRAB);
 			break;
 		}
 
 		setDefaultCursor();
 	}
 
-	protected Cursor getCursorForImage(String name) {
+	protected Cursor getCursorForImage(ImageResourceD name) {
+
 		return getCursorForImage(getApplication()
-				.getInternalImage(new ImageResourceDImpl(
-						"/gui/images/cursor_" + name + ".gif")));
+				.getInternalImage(name));
 		
 	}
 	/**

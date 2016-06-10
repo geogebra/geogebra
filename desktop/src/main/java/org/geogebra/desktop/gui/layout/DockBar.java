@@ -32,6 +32,7 @@ import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.DockBarInterface;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Toolbar to hold launching buttons for minimized views.
@@ -242,9 +243,11 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 	public void setSidebarTriangle(boolean popupIsVisible) {
 
 		if (popupIsVisible ^ !isEastOrientation()) {
-			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-right.png"));
+			lblIcon.setIcon(
+					app.getImageIcon(GuiResourcesD.DOCKBAR_TRIANGLE_RIGHT));
 		} else {
-			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-left.png"));
+			lblIcon.setIcon(
+					app.getImageIcon(GuiResourcesD.DOCKBAR_TRIANGLE_LEFT));
 		}
 
 		slimSidebarPanel.repaint();

@@ -47,6 +47,7 @@ import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Stylebar for the Euclidian Views
@@ -917,7 +918,7 @@ axesIcon, iconHeight);
 			 */
 		};
 		
-		ic = app.getScaledIconCommon("/org/geogebra/common/icons_toolbar/p64/mode_showhidelabel.png");
+		ic = app.getScaledIconCommon(GuiResourcesD.MODE_SHOWHIDELABEL);
 		btnLabelStyle.setIconSize(new Dimension(ic.getIconWidth(), iconHeight));
 		btnLabelStyle.setIcon(ic);
 		btnLabelStyle.setStandardButton(true);

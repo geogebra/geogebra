@@ -43,6 +43,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * panel color chooser and preview panel
@@ -113,7 +114,8 @@ class ColorPanel extends JPanel implements ActionListener,
 		rbtnForegroundColor.addActionListener(this);
 
 		btnClearBackground = new JButton(
-				this.propertiesPanelD.app.getImageIcon("delete_small.gif"));
+				this.propertiesPanelD.app
+						.getImageIcon(GuiResourcesD.DELETE_SMALL));
 		btnClearBackground.setFocusPainted(false);
 		btnClearBackground.addActionListener(this);
 

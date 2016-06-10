@@ -39,6 +39,7 @@ import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * 
@@ -102,8 +103,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		plotPanelEV = this;
 
 		// create cursors for DnD
-		grabCursor = getCursorForImage("grab");
-		grabbingCursor = getCursorForImage("grabbing");
+		grabCursor = getCursorForImage(GuiResourcesD.CURSOR_GRAB);
+		grabbingCursor = getCursorForImage(GuiResourcesD.CURSOR_GRABBING);
 
 		// enable/disable mouseListeners
 		setMouseEnabled(false, true);

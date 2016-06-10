@@ -47,6 +47,7 @@ import org.geogebra.desktop.gui.view.algebra.AlgebraInputDropTargetListener;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * @author Markus Hohenwarter
@@ -228,8 +229,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		}
 
 		btnHelpToggle.setIcon(app.getScaledIconCommon(
-				warning ? "/org/geogebra/common/icons/png/web/dialog-error.png"
-						: "/org/geogebra/common/menu_icons/p20/menu-help.png"));
+				warning ? GuiResourcesD.DIALOG_ERROR
+						: GuiResourcesD.MENU_HELP));
 		/*
 		 * btnHelpToggle.setSelectedIcon(app .getScaledIconCommon(
 		 * "/org/geogebra/common/menu_icons/p20/menu-help.png"));

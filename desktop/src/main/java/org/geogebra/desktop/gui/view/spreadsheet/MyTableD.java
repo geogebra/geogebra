@@ -56,6 +56,7 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 public class MyTableD extends JTable implements FocusListener, MyTable {
 	private static final long serialVersionUID = 1L;
@@ -195,9 +196,11 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		this.tableModel = tableModel;
 		this.view = view;
 
-		grabCursor = createCursor(app.getImageIcon("cursor_grab.gif")
+		grabCursor = createCursor(
+				app.getImageIcon(GuiResourcesD.CURSOR_GRAB)
 				.getImage(), true);
-		grabbingCursor = createCursor(app.getImageIcon("cursor_grabbing.gif")
+		grabbingCursor = createCursor(
+				app.getImageIcon(GuiResourcesD.CURSOR_GRABBING)
 				.getImage(), true);
 
 		// set row height

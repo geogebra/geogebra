@@ -178,11 +178,12 @@ public class ImageManagerD extends ImageManager {
 	public Image getImageResourceGeoGebra(ImageResourceD name) {
 		Image img = getImageResource(name);
 		if (img == null) {
-			img = getImageResource("/org/geogebra/desktop" + name);
+			img = getImageResource(
+					"/org/geogebra/desktop" + name.getFilename());
 		}
 
 		if (img == null) {
-			Log.error("Image " + name + " not found");
+			Log.error("Image " + name.getFilename() + " not found");
 		}
 
 		return img;
