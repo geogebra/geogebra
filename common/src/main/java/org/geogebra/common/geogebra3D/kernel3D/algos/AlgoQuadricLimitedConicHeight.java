@@ -66,6 +66,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 
 		algoSide = new AlgoQuadricSide(cons, quadric, true, bottom);
 		side = (GeoQuadric3DPart) algoSide.getQuadric();
+		side.setParentAlgorithm(this);
 		quadric.setSide(side);
 
 		createTop();
@@ -93,6 +94,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	final protected void createTop() {
 		algoTop = new AlgoQuadricEndTop(cons, getQuadric());
 		top = algoTop.getSection();
+		top.setParentAlgorithm(this);
 
 	}
 
