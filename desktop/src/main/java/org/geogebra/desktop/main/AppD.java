@@ -213,7 +213,10 @@ import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.sound.SoundManagerD;
 import org.geogebra.desktop.util.FrameCollector;
 import org.geogebra.desktop.util.GTimerD;
+import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
+import org.geogebra.desktop.util.ImageResourceD;
+import org.geogebra.desktop.util.ImageResourceDImpl;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.Normalizer;
 import org.geogebra.desktop.util.StringUtilD;
@@ -629,7 +632,7 @@ ToolbarD.getAllTools(this));
 
 		// Windows 7 uses this for the Toolbar icon too
 		// (needs to be larger)
-		frame.setIconImage(getInternalImage("/gui/images/geogebra64.png"));
+		frame.setIconImage(getInternalImage(GuiResourcesD.GEOGEBRA64));
 
 		frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -1944,7 +1947,8 @@ ToolbarD.getAllTools(this));
 	}
 
 	public ImageIcon getScaledIcon(String filename) {
-		return getScaledIcon(filename, null);
+		return getScaledIcon(
+				new ImageResourceDImpl(getMenuIconPath() + filename), null);
 	}
 
 	/*
@@ -1996,27 +2000,31 @@ ToolbarD.getAllTools(this));
 
 	public ImageIcon getImageIcon(String filename, Color borderColor) {
 		return imageManager
-				.getImageIcon("/gui/images/64px/" + filename, borderColor);
+				.getImageIcon(
+						new ImageResourceDImpl("/gui/images/64px/" + filename),
+						borderColor);
 	}
 
 	public int getScaledIconSize() {
 		return ptToPx(getFontSize());
 	}
-	public ImageIcon getScaledIcon(String filename, Color borderColor) {
+
+	public ImageIcon getScaledIcon(ImageResourceD res, Color borderColor) {
 		ImageIcon icon = imageManager.getImageIcon(
-				getMenuIconPath() + filename,
+				res,
 				borderColor);
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
 	public ImageIcon getScaledIconCommon(String filename) {
-		ImageIcon icon = imageManager.getImageIcon(filename, null);
+		ImageIcon icon = imageManager
+				.getImageIcon(new ImageResourceDImpl(filename), null);
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
 	public ImageIcon getScaledIcon(String filename, int iconSize) {
 		ImageIcon icon = imageManager.getImageIcon(
-				getMenuIconPath() + filename, null);
+				new ImageResourceDImpl(getMenuIconPath() + filename), null);
 		return scaleIcon(icon, iconSize);
 	}
 
@@ -2028,8 +2036,10 @@ ToolbarD.getAllTools(this));
 		return new ImageIcon(img);
 
 	}
-	public Image getScaledInternalImage(String fileName) {
-		MyImageD img = imageManager.getInternalImage(fileName);
+
+	public Image getScaledInternalImage(ImageResourceD fileName) {
+		MyImageD img = imageManager
+				.getInternalImage(fileName);
 		int iconSize = getScaledIconSize();
 		return img.getImage().getScaledInstance(iconSize, iconSize, 0);
 	}
@@ -2059,7 +2069,8 @@ ToolbarD.getAllTools(this));
 	}
 
 	public ImageIcon getFlagIcon(String filename) {
-		return imageManager.getImageIcon("/gui/menubar/images/" + filename,
+		return imageManager.getImageIcon(
+				new ImageResourceDImpl("/gui/menubar/images/" + filename),
 				null);
 	}
 
@@ -2072,7 +2083,8 @@ ToolbarD.getAllTools(this));
 	}
 	public ImageIcon getToolBarImage(String filename, Color borderColor) {
 		String path = getToolbarIconPath() + filename;
-		ImageIcon icon = imageManager.getImageIcon(path, borderColor);
+		ImageIcon icon = imageManager.getImageIcon(new ImageResourceDImpl(path),
+				borderColor);
 
 		/*
 		 * mathieu 2010-04-10 see ImageManager3D.getImageResourceGeoGebra() if
@@ -2095,60 +2107,61 @@ ToolbarD.getAllTools(this));
 
 	public ImageIcon getToolIcon(Color border) {
 		return imageManager.getImageIcon(
-				getToolbarIconPath() + "mode_tool.png", border);
+				new ImageResourceDImpl(getToolbarIconPath() + "mode_tool.png"),
+				border);
 	}
 
 	public ImageIcon getEmptyIcon() {
-		return imageManager.getImageIcon("/gui/images/empty.gif");
+		return imageManager.getImageIcon(GuiResourcesD.EMPTY);
 	}
 
-	public Image getInternalImage(String filename) {
+	public Image getInternalImage(ImageResourceD filename) {
 		return imageManager.getInternalImage(filename)
 				.getImage();
 	}
 
 	public Image getRefreshViewImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return getMenuInternalImage("/gui/images/menu-icons/40px/view-refresh.png");
+		return getMenuInternalImage(GuiResourcesD.VIEW_REFRESH);
 	}
 
 	public Image getPlayImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage(
-"/main/nav_play.png").getImage();
+		return imageManager.getInternalImage(GuiResourcesD.NAV_PLAY).getImage();
 	}
 
 	public Image getPlayImageCircle() {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(
-				"/org/geogebra/common/icons_play/p24/nav_play_circle.png")
+				GuiResourcesD.NAV_PLAY_CIRCLE)
 				.getImage();
 	}
 
 	public Image getPlayImageCircleHover() {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(
-						"/org/geogebra/common/icons_play/p24/nav_play_circle_hover.png")
+				GuiResourcesD.NAV_PLAY_HOVER)
 				.getImage();
 	}
 
 	public Image getPauseImageCircle() {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(
-				"/org/geogebra/common/icons_play/p24/nav_pause_circle.png")
+				GuiResourcesD.NAV_PAUSE_CIRCLE)
 				.getImage();
 	}
 
 	public Image getPauseImageCircleHover() {
 		// don't need to load gui jar as reset image is in main jar
 		return imageManager.getInternalImage(
-						"/org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png")
+				GuiResourcesD.NAV_PAUSE_CIRCLE_HOVER)
 				.getImage();
 	}
 
 	public Image getPauseImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage("/main/nav_pause.png").getImage();
+		return imageManager.getInternalImage(GuiResourcesD.NAV_PAUSE)
+				.getImage();
 	}
 
 	public MyImageD getExternalImage(String filename) {
@@ -5337,7 +5350,7 @@ ToolbarD.getAllTools(this));
 		return getScaledIcon(name);
 	}
 
-	public Image getMenuInternalImage(String name) {
+	public Image getMenuInternalImage(ImageResourceD name) {
 		if (isMacOS()) {
 			// no scaling for mac menu
 			return getInternalImage(name);

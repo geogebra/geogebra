@@ -74,12 +74,12 @@ public class ImageManagerD extends ImageManager {
 	 * 
 	 * @return icon for fileName or null
 	 */
-	public ImageIcon getImageIcon(String fileName) {
+	public ImageIcon getImageIcon(ImageResourceD fileName) {
 		return getImageIcon(fileName, null);
 	}
 
 	// if borderColor == null no border is added
-	public ImageIcon getImageIcon(String fileName, Color borderColor) {
+	public ImageIcon getImageIcon(ImageResourceD fileName, Color borderColor) {
 		ImageIcon icon = null;
 		Object ob = iconTable.get(fileName);
 		if (ob != null) {
@@ -90,7 +90,7 @@ public class ImageManagerD extends ImageManager {
 			Image im = getImageResourceGeoGebra(fileName);
 			if (im != null) {
 				icon = new ImageIcon(addBorder(im, borderColor));
-				iconTable.put(fileName, icon);
+				iconTable.put(fileName.getFilename(), icon);
 			}
 		}
 		return icon;
@@ -114,7 +114,7 @@ public class ImageManagerD extends ImageManager {
 	 * 
 	 * @return image for fileName or null
 	 */
-	public MyImageD getInternalImage(String fileName) {
+	public MyImageD getInternalImage(ImageResourceD fileName) {
 		MyImageD img = null;
 		MyImageD ob = internalImageTable.get(fileName);
 		if (ob != null) {
@@ -124,15 +124,9 @@ public class ImageManagerD extends ImageManager {
 			// load the image from disk
 			img = new MyImageD(getImageResourceGeoGebra(fileName));
 			if (img != null) {
-				internalImageTable.put(fileName, img);
+				internalImageTable.put(fileName.getFilename(), img);
 			}
 		}
-		return img;
-	}
-
-	public MyImageD getScaledInternalImage(String fileName) {
-		MyImageD img = getInternalImage(fileName);
-		
 		return img;
 	}
 
@@ -181,7 +175,7 @@ public class ImageManagerD extends ImageManager {
 	 *            name of the image (without "/org/geogebra/desktop" prefix)
 	 * @return the image
 	 */
-	public Image getImageResourceGeoGebra(String name) {
+	public Image getImageResourceGeoGebra(ImageResourceD name) {
 		Image img = getImageResource(name);
 		if (img == null) {
 			img = getImageResource("/org/geogebra/desktop" + name);
@@ -194,15 +188,18 @@ public class ImageManagerD extends ImageManager {
 		return img;
 	}
 
+	public Image getImageResource(ImageResourceD name) {
+		return getImageResource(name.getFilename());
+	}
 	/**
 	 * return image from the full path name
 	 * 
 	 * @param name
 	 * @return image from the full path name
 	 */
-	public Image getImageResource(String name) {
+	protected Image getImageResource(String name) {
 		String path = name;
-		if(name.startsWith("/geogebra")){
+		if (name.startsWith("/geogebra")) {
 			path = name.replace("/geogebra", "/org/geogebra/desktop");
 		}
 		Image img = null;

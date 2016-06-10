@@ -81,6 +81,7 @@ import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.javax.swing.GBoxD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.ImageResourceDImpl;
 
 /**
  * 
@@ -302,7 +303,8 @@ public class EuclidianViewD extends EuclidianView implements
 
 	protected Cursor getCursorForImage(String name) {
 		return getCursorForImage(getApplication()
-		.getInternalImage("/gui/images/cursor_"+name+".gif"));
+				.getInternalImage(new ImageResourceDImpl(
+						"/gui/images/cursor_" + name + ".gif")));
 		
 	}
 	/**

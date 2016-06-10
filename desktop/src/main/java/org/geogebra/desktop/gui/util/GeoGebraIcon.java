@@ -32,6 +32,7 @@ import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.euclidian.EuclidianStaticD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageManagerD;
+import org.geogebra.desktop.util.ImageResourceDImpl;
 
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
 import com.himamis.retex.renderer.share.TeXConstants;
@@ -87,7 +88,7 @@ public class GeoGebraIcon {
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
 		image = ImageManagerD.toBufferedImage(app.getImageManager()
-				.getImageResource(fileName));
+				.getImageResource(new ImageResourceDImpl(fileName)));
 
 		ImageIcon ic = new ImageIcon(image);
 		// ensureIconSize(ic, iconSize);

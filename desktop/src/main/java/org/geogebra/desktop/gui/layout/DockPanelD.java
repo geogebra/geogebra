@@ -49,6 +49,7 @@ import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Every object which should be dragged needs to be of type DockPanel. A
@@ -624,7 +625,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 			frame = new JFrame(getPlainTitle());
 			// needs the higher res as used by Windows 7 for the Toolbar
 			((JFrame) frame).setIconImage(app
-					.getInternalImage("geogebra64.png"));
+					.getInternalImage(GuiResourcesD.GEOGEBRA64));
 		}
 
 		frame.addWindowListener(this);

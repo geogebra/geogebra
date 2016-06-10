@@ -4,6 +4,7 @@ import java.awt.Component;
 import java.awt.Image;
 
 import org.geogebra.desktop.util.ImageManagerD;
+import org.geogebra.desktop.util.ImageResourceD;
 
 /**
  * Class extending ImageManager for 3D.
@@ -23,7 +24,7 @@ public class ImageManager3D extends ImageManagerD {
 	}
 
 	@Override
-	public Image getImageResourceGeoGebra(String name) {
+	public Image getImageResourceGeoGebra(ImageResourceD name) {
 		
 		Image img = getImageResource("/org/geogebra/desktop/geogebra3D" + name);
 		
