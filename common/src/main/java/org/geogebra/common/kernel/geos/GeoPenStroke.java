@@ -59,4 +59,10 @@ public class GeoPenStroke extends GeoPolyLine {
 	public boolean isLabelShowable() {
 		return false;
 	}
+
+	@Override
+	public boolean needToShowBothRowsInAV() {
+		return false;
+	}
+
 }
