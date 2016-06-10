@@ -3120,5 +3120,4 @@ __GGB__keysVar.de_AT.symbols = {
     "T.7": "",
     "T.8": "",
     "T.9": "",
-    "element_exercise_task_complete": "Well done! You solved the task.",
 }
