@@ -46,7 +46,9 @@ public abstract class RendererWithImpl extends Renderer implements
 
 	@Override
 	final public void setClipPlanes(double[][] minMax) {
-		rendererImpl.setClipPlanes(minMax);
+		if (rendererImpl != null) {
+			rendererImpl.setClipPlanes(minMax);
+		}
 	}
 
 	@Override
