@@ -215,7 +215,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 
 		newWindowAction = new AbstractAction(app.getMenu("NewWindow"),
-				app.getMenuIcon("document-new.png")) {
+				app.getMenuIcon(GuiResourcesD.DOCUMENT_NEW)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -232,7 +232,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 
 		saveAction = new AbstractAction(app.getMenu("Save"),
-				app.getMenuIcon("document-save.png")) {
+				app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -285,7 +285,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 
 		exitAction = new AbstractAction(app.getMenu("Close"),
-				app.getMenuIcon("exit.png")) {
+				app.getMenuIcon(GuiResourcesD.EXIT)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

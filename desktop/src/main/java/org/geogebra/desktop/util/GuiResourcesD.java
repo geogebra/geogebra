@@ -119,7 +119,9 @@ public enum GuiResourcesD implements ImageResourceD {
 			"/gui/images/64px/view-properties16.png"),
 
 	MENU_EDIT_COPY(
-					"/gui/images/64px/menu-edit-copy.png");
+			"/gui/images/64px/menu-edit-copy.png"), DOCUMENT_SAVE(
+					"/gui/images/64px/document-save.png"), DOCUMENT_OPEN(
+							"/gui/images/64px/document-open.png");
 	private String filename;
 
 	GuiResourcesD(String filename) {

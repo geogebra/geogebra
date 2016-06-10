@@ -267,7 +267,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 		// display the options dialog
 		showOptionsAction = new AbstractAction(
 				app.getMenu("Advanced") + " ...",
-				app.getMenuIcon("view-properties16.png")) {
+				app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
@@ -280,7 +280,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 		if (!app.isApplet()) {
 			// save settings
 			saveSettings = new AbstractAction(app.getMenu("Settings.Save"),
-					app.getMenuIcon("document-save.png")) {
+					app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
 				@SuppressWarnings("hiding")
 				public static final long serialVersionUID = 1L;
 
