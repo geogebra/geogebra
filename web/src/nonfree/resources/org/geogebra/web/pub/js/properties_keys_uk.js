@@ -2593,7 +2593,7 @@ __GGB__keysVar.uk.plain = {
     "Keyboard": "\u041a\u043b\u0430\u0432\u0456\u0430\u0442\u0443\u0440\u0430",
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
-    "Keyboard.row3": "\u0491\u0490\u044f\u042f\u0447\u0427\u0441\u0421\u043c\u041c\u0438\u0418\u0442\u0422\u044c\u042c\u0431\u0411\u044e\u042e",
+    "Keyboard.row3": "zZxXcCvVbBnNmM",
     "LaTeXFormula": "LaTeX",
     "LaTeXHelp": "\u0414\u043e\u0432\u0456\u0434\u043a\u0430 LaTeX",
     "LabelStyle": "\u0421\u0442\u0438\u043b\u044c \u043f\u043e\u0437\u043d\u0430\u0447\u043e\u043a",
