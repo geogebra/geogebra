@@ -569,14 +569,6 @@ public class Perspective {
 		return iconString;
 	}
 
-	/**
-	 * @param iconString
-	 *            name of the icon file used for the side bar
-	 */
-	public void setIconString(String iconString) {
-		this.iconString = iconString;
-	}
-
 	public boolean isKeyboardNeeded() {
 		if (!this.showInputPanel) {
 			return false;

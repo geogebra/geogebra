@@ -12,6 +12,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.euclidian.EuclidianStyleBarD;
+import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
@@ -225,13 +226,13 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// projection view button
 		ImageIcon[] projectionIcons = new ImageIcon[4];
 		projectionIcons[0] = app
-				.getScaledIcon("stylingbar_graphics3D_view_orthographic.png");
+				.getScaledIcon(GuiResources3D.PROJECTION_ORTOGRAPHIC);
 		projectionIcons[1] = app
-				.getScaledIcon("stylingbar_graphics3D_view_perspective.png");
+				.getScaledIcon(GuiResources3D.PROJECTION_PERSPECTIVE);
 		projectionIcons[2] = app
-				.getScaledIcon("stylingbar_graphics3D_view_glasses.png");
+				.getScaledIcon(GuiResources3D.PROJECTION_GLASSES);
 		projectionIcons[3] = app
-				.getScaledIcon("stylingbar_graphics3D_view_oblique.png");
+				.getScaledIcon(GuiResources3D.PROJECTION_OBLIQUE);
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
 		btnViewProjection.addActionListener(this);
 

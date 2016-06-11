@@ -79,7 +79,7 @@ public abstract class Layout {
 		defaultPerspectives[i] = new Perspective(
 1, spData, dpData, defToolbar,
 				true, false, true, true, true, InputPositon.algebraView);
-		defaultPerspectives[i].setIconString("menu_view_algebra.png");
+
 
 		// basic geometry - just the euclidian view
 		dpData = new DockPanelData[6];
@@ -116,7 +116,7 @@ public abstract class Layout {
 		defaultPerspectives[++i] = new Perspective(2,
 				spData, dpData, defToolbar, true, false, false, false, true,
 				InputPositon.algebraView);
-		defaultPerspectives[i].setIconString("perspectives_geometry.png");
+
 		defaultPerspectives[i].setUnitAxesRatio(true);
 
 		// Table & Graphics - spreadsheet and euclidian view
@@ -146,7 +146,7 @@ public abstract class Layout {
 		defaultPerspectives[++i] = new Perspective(3,
 				spData, dpData, defToolbar, true, false, true, false, true,
 				InputPositon.algebraView);
-		defaultPerspectives[i].setIconString("menu_view_spreadsheet.png");
+
 		Log.debug("CAS support: " + app.supportsView(App.VIEW_CAS));
 		if (app.supportsView(App.VIEW_CAS)) {
 			// CAS & Graphics - cas and euclidian view
@@ -175,7 +175,7 @@ public abstract class Layout {
 			defaultPerspectives[++i] = new Perspective(4,
 					spData, dpData, defToolbar, true, false, true, false, true,
 					InputPositon.algebraView);
-			defaultPerspectives[i].setIconString("menu_view_cas.png");
+
 		} else {
 			i++;
 		}
@@ -217,9 +217,9 @@ public abstract class Layout {
 			defaultPerspectives[++i] = new Perspective(
 5, spData, dpData,
 					defToolbar, true,
-					false, true, true, true, InputPositon.algebraView);
-			defaultPerspectives[i]
-					.setIconString("perspectives_algebra_3Dgraphics.png");
+ false, true, true, true,
+					InputPositon.algebraView);
+			;
 		} else {
 			i++;
 		}
@@ -258,7 +258,6 @@ public abstract class Layout {
 		defaultPerspectives[++i] = new Perspective(6,
 				spData, dpData, defToolbar, false, false, true, false, true,
 				InputPositon.algebraView);
-		defaultPerspectives[i].setIconString("menu_view_probability.png");
 
 		// // Python Scripting & Graphics ** Doesn't work **
 		// dpData = new DockPanelData[6];

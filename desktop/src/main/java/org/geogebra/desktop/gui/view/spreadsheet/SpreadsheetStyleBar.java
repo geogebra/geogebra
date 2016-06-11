@@ -20,6 +20,7 @@ import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * JToolBar with buttons to format spreadsheet cells.
@@ -95,7 +96,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		iconHeight = app.getScaledIconSize();
 		iconDimension = new Dimension(iconHeight, iconHeight);
 		btnFormulaBar = new MyToggleButton(
-				app.getScaledIcon("formula_bar.png"),
+				app.getScaledIcon(GuiResourcesD.FORMULA_BAR),
 				iconHeight);
 		// btnFormulaBar.setSelectedIcon(app.getScaledIcon("formula_bar_hide.png"));
 		btnFormulaBar.addActionListener(this);
@@ -114,15 +115,18 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		btnItalic.addActionListener(this);
 
 		btnLeftAlign = new MyToggleButton(
-				app.getScaledIcon("format-justify-left.png"), iconHeight);
+				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_LEFT),
+				iconHeight);
 		btnLeftAlign.addActionListener(this);
 
 		btnCenterAlign = new MyToggleButton(
-				app.getScaledIcon("format-justify-center.png"), iconHeight);
+				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_CENTER),
+				iconHeight);
 		btnCenterAlign.addActionListener(this);
 
 		btnRightAlign = new MyToggleButton(
-				app.getScaledIcon("format-justify-right.png"), iconHeight);
+				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_RIGHT),
+				iconHeight);
 		btnRightAlign.addActionListener(this);
 
 		final Dimension bgColorIconSize = new Dimension(iconHeight, iconHeight);
@@ -145,14 +149,15 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		btnBgColor.setSelectedIndex(7); // Light Purple
 		btnBgColor.addActionListener(this);
 
-		ImageIcon[] borderStyleIcon = { app.getScaledIcon("border_none.png"),
-				app.getScaledIcon("border_frame.png"),
-				app.getScaledIcon("border_inside.png"),
-				app.getScaledIcon("border_all.png"),
-				app.getScaledIcon("border_top.png"),
-				app.getScaledIcon("border_bottom.png"),
-				app.getScaledIcon("border_left.png"),
-				app.getScaledIcon("border_right.png") };
+		ImageIcon[] borderStyleIcon = {
+				app.getScaledIcon(GuiResourcesD.BORDER_NONE),
+				app.getScaledIcon(GuiResourcesD.BORDER_FRAME),
+				app.getScaledIcon(GuiResourcesD.BORDER_INSIDE),
+				app.getScaledIcon(GuiResourcesD.BORDER_ALL),
+				app.getScaledIcon(GuiResourcesD.BORDER_TOP),
+				app.getScaledIcon(GuiResourcesD.BORDER_BOTTOM),
+				app.getScaledIcon(GuiResourcesD.BORDER_LEFT),
+				app.getScaledIcon(GuiResourcesD.BORDER_RIGHT) };
 
 		btnBorderStyle = new PopupMenuButton(app, borderStyleIcon, 2, -1,
 				iconDimension, SelectionTable.MODE_ICON);

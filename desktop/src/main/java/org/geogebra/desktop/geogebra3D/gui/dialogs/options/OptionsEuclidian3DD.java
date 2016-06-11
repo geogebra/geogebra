@@ -21,6 +21,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.options.AxisPanel;
 import org.geogebra.desktop.gui.dialog.options.OptionsEuclidianD;
@@ -301,13 +302,13 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			buttons = new JButton[4];
 
 			buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new JButton(
-					app.getScaledIcon("stylingbar_graphics3D_view_orthographic.png"));
+					app.getScaledIcon(GuiResources3D.PROJECTION_ORTOGRAPHIC));
 			buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] = new JButton(
-					app.getScaledIcon("stylingbar_graphics3D_view_perspective.png"));
+					app.getScaledIcon(GuiResources3D.PROJECTION_PERSPECTIVE));
 			buttons[EuclidianView3D.PROJECTION_GLASSES] = new JButton(
-					app.getScaledIcon("stylingbar_graphics3D_view_glasses.png"));
+					app.getScaledIcon(GuiResources3D.PROJECTION_GLASSES));
 			buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new JButton(
-					app.getScaledIcon("stylingbar_graphics3D_view_oblique.png"));
+					app.getScaledIcon(GuiResources3D.PROJECTION_OBLIQUE));
 
 			for (int i = 0; i < 4; i++)
 				buttons[i].addActionListener(options);
@@ -333,14 +334,14 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			}
 			buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC]
 					.setIcon(app
-							.getScaledIcon("stylingbar_graphics3D_view_orthographic.png"));
+					.getScaledIcon(GuiResources3D.PROJECTION_ORTOGRAPHIC));
 			buttons[EuclidianView3D.PROJECTION_PERSPECTIVE]
 					.setIcon(app
-							.getScaledIcon("stylingbar_graphics3D_view_perspective.png"));
+					.getScaledIcon(GuiResources3D.PROJECTION_PERSPECTIVE));
 			buttons[EuclidianView3D.PROJECTION_GLASSES].setIcon(app
-					.getScaledIcon("stylingbar_graphics3D_view_glasses.png"));
+					.getScaledIcon(GuiResources3D.PROJECTION_GLASSES));
 			buttons[EuclidianView3D.PROJECTION_OBLIQUE].setIcon(app
-					.getScaledIcon("stylingbar_graphics3D_view_oblique.png"));
+					.getScaledIcon(GuiResources3D.PROJECTION_OBLIQUE));
 
 		}
 	}

@@ -107,7 +107,6 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 			LanguageActionListener langListener = new LanguageActionListener(
 					app);
 			final JMenu submenuLang = new JMenu(app.getMenu("Language"));
-			// submenu.setIcon(app.getImageIcon("globe.png"));
 			submenuLang.setIcon(flagIcon);
 			addLanguageMenuItems(app, submenuLang, langListener);
 			add(submenuLang);
@@ -120,7 +119,6 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 						String geoIPflagname = app.getFlagName();
 
 						// fake for testing
-						// geoIPflagname = "wales.png";
 
 						if (!geoIPflagname.equals(flagName)) {
 							Log.debug("updating flag to: " + geoIPflagname);

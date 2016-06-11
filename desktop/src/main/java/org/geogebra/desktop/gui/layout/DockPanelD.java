@@ -1214,16 +1214,13 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 			if (showStyleBar) {
 				toggleStyleBarButton.setIcon(app
 						.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));
-				// toggleStyleBarButton.setRolloverIcon(app.getScaledIcon("triangle-down-rollover.png"));
 			} else {
 				toggleStyleBarButton.setIcon(app
 						.getScaledIcon(GuiResourcesD.TRIANGLE_RIGHT));
-				// toggleStyleBarButton.setRolloverIcon(app.getScaledIcon("triangle-right-rollover.png"));
 			}
 		}
 		if (toggleStyleBarButton2 != null) {
 			toggleStyleBarButton2.setIcon(toggleStyleBarButton.getIcon());
-			// toggleStyleBarButton2.setRolloverIcon(toggleStyleBarButton.getRolloverIcon());
 		}
 	}
 

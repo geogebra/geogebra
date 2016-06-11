@@ -68,14 +68,17 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 		}
 		iconHeight = ((AppD) app).getScaledIconSize();
 		btnCumulative.setIcon(((AppD) app)
-				.getScaledIcon("cumulative_distribution.png"));
-		btnLineGraph.setIcon(((AppD) app).getScaledIcon("line_graph.png"));
-		btnStepGraph.setIcon(((AppD) app).getScaledIcon("step_graph.png"));
-		btnBarGraph.setIcon(((AppD) app).getScaledIcon("bar_graph.png"));
-		btnGrid.setIcon(((AppD) app).getScaledIcon("grid.gif"));
-		btnExport.setIcon(((AppD) app).getScaledIcon("export16.png"));
+				.getScaledIcon(GuiResourcesD.CUMULATIVE_DISTRIBUTION));
+		btnLineGraph.setIcon(((AppD) app)
+				.getScaledIcon(GuiResourcesD.LINE_GRAPH));
+		btnStepGraph.setIcon(((AppD) app)
+				.getScaledIcon(GuiResourcesD.STEP_GRAPH));
+		btnBarGraph
+				.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.BAR_GRAPH));
+		btnGrid.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.GRID));
+		btnExport.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.EXPORT16));
 		btnNormalOverlay.setIcon(((AppD) app)
-				.getScaledIcon("normal-overlay.png"));
+				.getScaledIcon(GuiResourcesD.NORMAL_OVERLAY));
 
 	}
 
@@ -86,7 +89,8 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 		buildOptionsButton();
 
 		btnCumulative = new MyToggleButton(
-				((AppD) app).getScaledIcon("cumulative_distribution.png"),
+				((AppD) app)
+						.getScaledIcon(GuiResourcesD.CUMULATIVE_DISTRIBUTION),
 				iconHeight);
 		btnCumulative.setSelected(probCalc.isCumulative());
 		btnCumulative.addActionListener(new ActionListener() {
@@ -96,17 +100,17 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 		});
 
 		btnLineGraph = new MyToggleButton(
-				((AppD) app).getScaledIcon("line_graph.png"),
+				((AppD) app).getScaledIcon(GuiResourcesD.LINE_GRAPH),
 				iconHeight);
 		btnLineGraph.addActionListener(this);
 
 		btnStepGraph = new MyToggleButton(
-				((AppD) app).getScaledIcon("step_graph.png"),
+				((AppD) app).getScaledIcon(GuiResourcesD.STEP_GRAPH),
 				iconHeight);
 		btnStepGraph.addActionListener(this);
 
 		btnBarGraph = new MyToggleButton(
-				((AppD) app).getScaledIcon("bar_graph.png"),
+				((AppD) app).getScaledIcon(GuiResourcesD.BAR_GRAPH),
 				iconHeight);
 		btnBarGraph.addActionListener(this);
 
@@ -115,7 +119,8 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 		gp.add(btnLineGraph);
 		gp.add(btnStepGraph);
 
-		btnGrid = new MyToggleButton(((AppD) app).getScaledIcon("grid.gif"),
+		btnGrid = new MyToggleButton(
+				((AppD) app).getScaledIcon(GuiResourcesD.GRID),
 				iconHeight);
 		btnGrid.setSelected(probCalc.getPlotSettings().showGrid);
 		btnGrid.addActionListener(new ActionListener() {
@@ -129,14 +134,15 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 
 		// create export button
 		btnExport = new MyToggleButton(
-				((AppD) app).getScaledIcon("export16.png"),
+				((AppD) app).getScaledIcon(GuiResourcesD.EXPORT16),
 				iconHeight);
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
 		// create normal overlay button
 		btnNormalOverlay = new MyToggleButton(
-				((AppD) app).getScaledIcon("normal-overlay.png"), iconHeight);
+				((AppD) app).getScaledIcon(GuiResourcesD.NORMAL_OVERLAY),
+				iconHeight);
 		btnNormalOverlay.setFocusable(false);
 		btnNormalOverlay.addActionListener(this);
 

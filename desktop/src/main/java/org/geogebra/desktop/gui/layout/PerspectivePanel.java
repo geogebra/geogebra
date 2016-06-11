@@ -18,6 +18,8 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.desktop.gui.dialog.LanguageDialog;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageResourceD;
 
 /**
  * JPopupMenu to offer Perspective choices
@@ -96,7 +98,13 @@ public class PerspectivePanel extends JPopupMenu {
 		add(Box.createVerticalStrut(5));
 
 		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
-
+		ImageResourceD[] icons = new ImageResourceD[] {
+				GuiResourcesD.MENU_VIEW_ALGEBRA,
+				GuiResourcesD.PERSPECTIVES_GEOMETRY,
+				GuiResourcesD.MENU_VIEW_SPREADSHEET,
+				GuiResourcesD.MENU_VIEW_CAS,
+				GuiResourcesD.PERSPECTIVES_GEOMETRY3D,
+				GuiResourcesD.MENU_VIEW_PROBABILITY };
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
 			if (defaultPerspectives[i] == null) {
 				continue;
@@ -106,8 +114,8 @@ public class PerspectivePanel extends JPopupMenu {
 			tmpItem.setActionCommand("d" + i);
 
 			Icon ic;
-			if (defaultPerspectives[i].getIconString() != null) {
-				ic = app.getScaledIcon(defaultPerspectives[i].getIconString());
+			if (icons[i] != null) {
+				ic = app.getScaledIcon(icons[i]);
 				// GeoGebraIcon.ensureIconSize((ImageIcon) ic, new
 				// Dimension(40,40));
 			} else {

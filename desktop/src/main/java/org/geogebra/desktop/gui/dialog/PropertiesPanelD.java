@@ -1802,9 +1802,20 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			model.setCornerIdx(cornerIdx);
 			setModel(model);
 			comboBox.setEditable(true);
-			getLabel().setIcon(
-					app.getScaledIcon("corner" + model.getCornerNumber()
-							+ ".png"));
+
+			getLabel().setIcon(app.getScaledIcon(cornerIcon(cornerIdx)));
+		}
+
+		ImageResourceD cornerIcon(int idx) {
+			switch (idx) {
+			case 1:
+				return GuiResourcesD.CORNER1;
+			case 2:
+				return GuiResourcesD.CORNER2;
+			case 4:
+				return GuiResourcesD.CORNER4;
+			}
+			return null;
 		}
 
 		@Override

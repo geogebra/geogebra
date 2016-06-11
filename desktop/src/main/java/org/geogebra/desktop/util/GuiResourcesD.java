@@ -208,7 +208,32 @@ public enum GuiResourcesD implements ImageResourceD {
 	VIEW_UNWINDOW("/gui/images/64px/view_unwindow.png"), VIEW_WINDOW(
 			"/gui/images/64px/view_window.png"), VIEW_CLOSE(
 			"/gui/images/64px/view_close.png"), STYLINGBAR_VARIABLE_ANALYSIS_2PLOT(
-			"/gui/images/64px/stylingbar_variable_analysis_2plot.png");
+			"/gui/images/64px/stylingbar_variable_analysis_2plot.png"),
+
+	LINE_GRAPH("/gui/images/64px/line_graph.png"), STEP_GRAPH(
+			"/gui/images/64px/step_graph.png"), BAR_GRAPH(
+			"/gui/images/64px/bar_graph.png"), NORMAL_OVERLAY(
+			"/gui/images/64px/normal-overlay.png"), PROPERTIES_DEFAULTS_3(
+			"/gui/images/64px/properties_defaults_3.png"), OPTIONS_OBJECTS_24(
+			"/gui/images/64px/options-objects24.png"), OPTIONS_LAYOUT_24(
+			"/gui/images/64px/options-layout24.png"), MENU_VIEW_GRAPHICS_EXTRA(
+			"/gui/images/64px/menu_view_graphics_extra.png"), PERSPECTIVES_GEOMETRY(
+			"/gui/images/64px/perspectives_geometry.png"), PERSPECTIVES_GEOMETRY3D(
+			"/gui/images/64px/perspectives_algebra_3Dgraphics.png"),
+
+	CORNER1("/gui/images/64px/corner1.png"), CORNER2(
+
+			"/gui/images/64px/corner2.png"), CORNER4(
+"/gui/images/64px/corner4.png"),
+ BORDER_LEFT(
+			"/gui/images/64px/border_left.png"), BORDER_RIGHT(
+			"/gui/images/64px/border_right.png"), BORDER_TOP(
+			"/gui/images/64px/border_top.png"), BORDER_BOTTOM(
+			"/gui/images/64px/border_bottom.png"), BORDER_NONE(
+			"/gui/images/64px/border_none.png"), BORDER_FRAME(
+			"/gui/images/64px/border_frame.png"), BORDER_INSIDE(
+			"/gui/images/64px/border_inside.png"), BORDER_ALL(
+			"/gui/images/64px/border_all.png");
 	private String filename;
 
 	GuiResourcesD(String filename) {

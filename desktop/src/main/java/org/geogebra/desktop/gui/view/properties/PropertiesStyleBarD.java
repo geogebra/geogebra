@@ -28,6 +28,7 @@ import org.geogebra.common.gui.view.properties.PropertiesStyleBar;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
 
@@ -85,7 +86,10 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 			if (btn != null) {
 				btn.setFont(app.getPlainFont());
 				btn.setToolTipText(propertiesView.getTypeString(type));
-				ImageIcon icon = getTypeIcon(type);
+				ImageIcon icon = PropertiesViewD.getTypeIcon(app, type);
+				if (icon == null) {
+					Log.error("No icon for" + type);
+				}
 				btn.setIcon(icon);
 				btn.setPreferredSize(new Dimension(icon.getIconWidth(), icon
 						.getIconHeight()));
@@ -149,7 +153,8 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 	public void updateGUI() {
 
 		OptionType seltype = propertiesView.getSelectedOptionType();
-		btnOption.setFixedIcon(getTypeIcon(propertiesView
+		btnOption.setFixedIcon(PropertiesViewD.getTypeIcon(app,
+				propertiesView
 				.getSelectedOptionType()));
 		btnOption.setText(propertiesView.getTypeString(propertiesView
 				.getSelectedOptionType()) + downTriangle);
@@ -203,7 +208,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 				mi.setFont(app.getPlainFont());
 				mi.setBackground(Color.white);
 				mi.setText(propertiesView.getTypeString(type));
-				mi.setIcon(getTypeIcon(type));
+				mi.setIcon(PropertiesViewD.getTypeIcon(app, type));
 				mi.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						propertiesView.setOptionPanel(type);
@@ -260,33 +265,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		objectButton.setEnabled(flag);
 	}
 
-	private ImageIcon getTypeIcon(OptionType type) {
-		switch (type) {
-		case DEFAULTS:
-			return app.getScaledIcon("properties_defaults_3.png");
-		case SPREADSHEET:
-			return app.getScaledIcon("menu_view_spreadsheet.png");
-		case EUCLIDIAN:
-			return app.getScaledIcon("menu_view_graphics.png");
-		case ALGEBRA:
-			return app.getScaledIcon("menu_view_algebra.png");
-		case EUCLIDIAN2:
-			return app.getScaledIcon("menu_view_graphics2.png");
-		case EUCLIDIAN_FOR_PLANE:
-			return app.getScaledIcon("menu_view_graphics_extra.png");
-		case EUCLIDIAN3D:
-			return app.getScaledIcon("menu_view_graphics3D.png");
-		case CAS:
-			return app.getScaledIcon("menu_view_cas.png");
-		case ADVANCED:
-			return app.getScaledIcon("options-advanced24.png");
-		case OBJECTS:
-			return app.getScaledIcon("options-objects24.png");
-		case LAYOUT:
-			return app.getScaledIcon("options-layout24.png");
-		}
-		return null;
-	}
+
 
 	protected class PropertiesButton extends JToggleButton {
 

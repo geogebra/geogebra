@@ -118,7 +118,7 @@ public class GuiManager3D extends GuiManagerD {
 		};
 
 		showPlaneAction = new AbstractAction(getApp().getMenu("Plane"),
-				(getApp()).getScaledIcon("plane.gif")) {
+				(getApp()).getScaledIcon(GuiResources3D.PLANE)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

@@ -3256,15 +3256,6 @@ ToolbarD.getAllTools(this));
 	// CURSORS
 	// **************************************************************************
 
-	/**
-	 * Downloads a bitmap from the URL and stores it in this application's
-	 * imageManager. Michael Borcherds
-	 * 
-	 * public String getImageFromURL(String url) { try{
-	 * 
-	 * BufferedImage img=javax.imageio.ImageIO.read(new URL(url)); return
-	 * createImage(img, "bitmap.png"); } catch (Exception e) {return null;} }
-	 */
 
 	@Override
 	public void setWaitCursor() {

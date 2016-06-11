@@ -176,7 +176,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 		// create options button
 		btnOptions = new JToggleButton();
-		// optionsButton.setIcon(app.getImageIcon("view-properties16.png"));
 		btnOptions.setBorderPainted(false);
 		btnOptions.setFocusPainted(false);
 		btnOptions.setContentAreaFilled(false);
@@ -187,7 +186,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 		// create export button
 		btnExport = new JToggleButton();
-		// optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
 		btnExport.setBorderPainted(false);
 		btnExport.setFocusPainted(false);
 		btnExport.setContentAreaFilled(false);

@@ -832,9 +832,11 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	public static ImageIcon getTypeIcon(AppD app, OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.getScaledIcon("properties_defaults_3.png");
+			return app.getScaledIcon(GuiResourcesD.PROPERTIES_DEFAULTS_3);
 		case SPREADSHEET:
 			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_SPREADSHEET);
+		case ALGEBRA:
+			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_ALGEBRA);
 		case EUCLIDIAN:
 			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS);
 		case EUCLIDIAN2:
@@ -844,13 +846,13 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		case ADVANCED:
 			return app.getScaledIcon(GuiResourcesD.OPTIONS_ADVANCED_24);
 		case OBJECTS:
-			return app.getScaledIcon("options-objects24.png");
+			return app.getScaledIcon(GuiResourcesD.OPTIONS_OBJECTS_24);
 		case LAYOUT:
-			return app.getScaledIcon("options-layout24.png");
+			return app.getScaledIcon(GuiResourcesD.OPTIONS_LAYOUT_24);
 		case EUCLIDIAN3D:
 			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS3D);
 		case EUCLIDIAN_FOR_PLANE:
-			return app.getScaledIcon("menu_view_graphics_extra.png");
+			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS_EXTRA);
 		}
 		return null;
 	}

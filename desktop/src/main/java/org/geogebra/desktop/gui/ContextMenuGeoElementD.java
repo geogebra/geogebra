@@ -579,29 +579,6 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			wrappedPopup.addSeparator();
 		}
 
-		/*
-		 * // EDIT: copy to input bar if (geos.size() == 1 &&
-		 * app.showAlgebraInput() && !geo.isGeoImage() && geo.isDefined()) {
-		 * addAction(new AbstractAction( app.getMenu("CopyToInputBar"),
-		 * app.getScaledIcon("edit.png")) {
-		 * 
-		 * private static final long serialVersionUID = 1L;
-		 * 
-		 * public void actionPerformed(ActionEvent e) { AlgebraInput ai =
-		 * (AlgebraInput) app.getGuiManager().getAlgebraInput(); if (ai != null)
-		 * { // copy into text field
-		 * ai.getTextField().setText(geo.getValueForInputBar());
-		 * ai.requestFocus(); } } }); addSeparator(); }
-		 */
-		/*
-		 * // EDIT in AlgebraView else if (app.showAlgebraView() &&
-		 * geo.isChangeable() && !geo.isGeoImage()) { addAction(new
-		 * AbstractAction( app.getPlain("Edit"), app.getScaledIcon("edit.png"))
-		 * { private static final long serialVersionUID = 1L;
-		 * 
-		 * public void actionPerformed(ActionEvent e) { app.startEditing(geo); }
-		 * }); }
-		 */
 
 		// Rename
 		if (geos.size() == 1 && app.letRename() && geo.isRenameable()) {
@@ -628,17 +605,6 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				}
 			});
 		}
-
-		/*
-		 * // REDEFINE else if (app.letRedefine() && geo.isRedefineable()) {
-		 * addAction(new AbstractAction( app.getPlain("Redefine"),
-		 * app.getScaledIcon("edit.png")) {
-		 * 
-		 * private static final long serialVersionUID = 1L;
-		 * 
-		 * public void actionPerformed(ActionEvent e) {
-		 * app.showRedefineDialog(geo); } }); }
-		 */
 
 		// DELETE
 		if (app.letDelete() && !geo.isFixed()) {
