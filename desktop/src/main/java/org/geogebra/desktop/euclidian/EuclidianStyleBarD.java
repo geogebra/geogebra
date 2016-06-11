@@ -113,7 +113,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			btnTableTextJustify, btnTableTextBracket, btnLabelStyle,
 			btnPointCapture, btnAngleInterval;
 
-	private MyToggleButton btnPen;
 
 	protected MyToggleButton btnShowGrid;
 
@@ -126,7 +125,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	MyToggleButton btnItalic;
 
-	private MyToggleButton btnDelete;
 
 	private MyToggleButton btnTableTextLinesV;
 
@@ -545,8 +543,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	}
 
 	protected MyToggleButton[] newToggleBtnList() {
-		return new MyToggleButton[] { btnPen, btnShowGrid, btnShowAxes,
-				btnStandardView, btnBold, btnItalic, btnDelete,
+		return new MyToggleButton[] { btnShowGrid, btnShowAxes,
+				btnStandardView, btnBold, btnItalic,
 				btnTableTextLinesV, btnTableTextLinesH, btnFixPosition, btnFixObject,
 				this.btnDeleteSize[0], this.btnDeleteSize[1],
 				this.btnDeleteSize[2] };
@@ -572,52 +570,6 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		updatePreferredSize();
 		// ========================================
 		// mode button
-
-		// ========================================
-		// pen button
-		btnPen = new MyToggleButton(
-				((AppD) ev.getApplication())
-						.getScaledIcon("applications-graphics.png"),
-				iconHeight) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void update(Object[] geos) {
-				this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE)
-						|| EuclidianView.isPenMode(mode));
-			}
-
-			/*
-			 * @Override public Point getToolTipLocation(MouseEvent e) { return
-			 * new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
-			 */
-		};
-		btnPen.addActionListener(this);
-		// add(btnPen);
-
-		// ========================================
-		// delete button
-		btnDelete = new MyToggleButton(
-				((AppD) ev.getApplication())
-						.getScaledIcon("stylingbar_delete_small.png"),
-				iconHeight) {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void update(Object[] geos) {
-				this.setVisible((geos.length == 0 && mode == EuclidianConstants.MODE_MOVE)
-						|| mode == EuclidianConstants.MODE_DELETE);
-			}
-
-			/*
-			 * @Override public Point getToolTipLocation(MouseEvent e) { return
-			 * new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
-			 */
-		};
-		btnDelete.addActionListener(this);
-		add(btnDelete);
 
 		// ========================================
 		// delete-drag square size
@@ -1555,14 +1507,6 @@ axesIcon, iconHeight);
 		updateButtonPointCapture(ev.getPointCapturingMode());
 		btnPointCapture.addActionListener(this);
 
-		btnPen.removeActionListener(this);
-		btnPen.setSelected(EuclidianView.isPenMode(mode));
-		btnPen.addActionListener(this);
-
-		btnDelete.removeActionListener(this);
-		btnDelete.setSelected(mode == EuclidianConstants.MODE_DELETE);
-		btnDelete.addActionListener(this);
-
 		btnShowAxes.removeActionListener(this);
 		btnShowAxes.setSelected(ev.getShowXaxis());
 		btnShowAxes.addActionListener(this);
@@ -1778,7 +1722,6 @@ axesIcon, iconHeight);
 		btnTableTextLinesH.setToolTipText(loc
 				.getPlainTooltip("stylebar.HorizontalLine"));
 
-		btnPen.setToolTipText(loc.getPlainTooltip("stylebar.Pen"));
 		btnFixPosition.setToolTipText(loc
 				.getPlainTooltip("AbsoluteScreenLocation"));
 		btnFixObject.setToolTipText(loc
