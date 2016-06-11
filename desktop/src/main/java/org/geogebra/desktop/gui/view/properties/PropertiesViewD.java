@@ -49,6 +49,7 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.layout.panels.PropertiesDockPanel;
 import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * View for properties
@@ -833,21 +834,21 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		case DEFAULTS:
 			return app.getScaledIcon("properties_defaults_3.png");
 		case SPREADSHEET:
-			return app.getScaledIcon("menu_view_spreadsheet.png");
+			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_SPREADSHEET);
 		case EUCLIDIAN:
-			return app.getScaledIcon("menu_view_graphics.png");
+			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS);
 		case EUCLIDIAN2:
-			return app.getScaledIcon("menu_view_graphics2.png");
+			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS2);
 		case CAS:
-			return app.getScaledIcon("menu_view_cas.png");
+			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_CAS);
 		case ADVANCED:
-			return app.getScaledIcon("options-advanced24.png");
+			return app.getScaledIcon(GuiResourcesD.OPTIONS_ADVANCED_24);
 		case OBJECTS:
 			return app.getScaledIcon("options-objects24.png");
 		case LAYOUT:
 			return app.getScaledIcon("options-layout24.png");
 		case EUCLIDIAN3D:
-			return app.getScaledIcon("menu_view_graphics3D.png");
+			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS3D);
 		case EUCLIDIAN_FOR_PLANE:
 			return app.getScaledIcon("menu_view_graphics_extra.png");
 		}

@@ -37,6 +37,7 @@ import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.GuiManagerInterfaceD;
+import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.UtilD;
 
 /**
@@ -104,7 +105,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		helpButton = new JButton(app.getMenu("Help"));
 		HelpAction helpAction = new HelpAction(app,
-				app.getScaledIcon("help.png"), app.getMenu("Help"),
+				app.getScaledIcon(GuiResourcesD.HELP), app.getMenu("Help"),
 				App.WIKI_EXPORT_WORKSHEET);
 		helpButton.setAction(helpAction);
 

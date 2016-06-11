@@ -519,7 +519,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				// show object
 				cbItem = new JCheckBoxMenuItem(app.getPlain("AuxiliaryObject"));
 				cbItem.setIcon(((AppD) app)
-						.getScaledIcon(GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS));
+						.getScaledIcon(GuiResourcesD.AUXILIARY));
 				cbItem.setSelected(geo.isAuxiliaryObject());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {

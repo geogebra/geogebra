@@ -1,5 +1,6 @@
 package org.geogebra.desktop.util;
 
+@SuppressWarnings("javadoc")
 public enum GuiResourcesD implements ImageResourceD {
 	EMPTY("/gui/images/empty.gif"),
 
@@ -39,7 +40,9 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	MENU_OPTIONS("/gui/images/64px/menu-options.png"),
 
-	TRIANGLE_DOWN("/gui/images/64px/triangle-down.png"),
+	TRIANGLE_DOWN("/gui/images/64px/triangle_down.png"),
+
+	TRIANGLE_RIGHT("/gui/images/64px/triangle_right.png"),
 
 	DELETE_SMALL("/gui/images/64px/delete_small.gif"),
 
@@ -49,6 +52,8 @@ public enum GuiResourcesD implements ImageResourceD {
 			"/gui/images/64px/dockbar-triangle-left.png"),
 
 	LIST_ADD("/gui/images/64px/list-add.png"),
+
+	LIST_REMOVE("/gui/images/64px/list-remove.png"),
 
 	COLOR_CHOOSER_CHECK(
 			"/gui/images/64px/color_chooser_check.png"),
@@ -133,7 +138,9 @@ public enum GuiResourcesD implements ImageResourceD {
 			"/gui/images/64px/text-html.png"), IMAGE_X_GENERIC(
 			"/gui/images/64px/image-x-generic.png"), TREE_CLOSE(
 			"/gui/images/64px/tree-close.png"), TREE_OPEN(
-			"/gui/images/64px/tree-open.png"), OBJECT_UNFIXED(
+			"/gui/images/64px/tree-open.png"), TREE_OPENED(
+			"/gui/images/64px/tree_open.png"), TREE_CLOSED(
+			"/gui/images/64px/tree_closed.png"), OBJECT_UNFIXED(
 			"/gui/images/64px/object_unfixed.png"), OBJECT_FIXED(
 			"/gui/images/64px/object_fixed.png"), APPLY(
 			"/gui/images/64px/apply.png"), TABLE("/gui/images/64px/table.gif"), AXES(
@@ -154,7 +161,54 @@ public enum GuiResourcesD implements ImageResourceD {
 			"/gui/images/64px/pin.png"), EDIT_CLEAR(
 			"/gui/images/64px/edit-clear.png"), STANDARD_VIEW(
 			"/gui/images/64px/standard_view.gif"), ARROW_CURSOR_GRABBING(
-			"/gui/images/64px/arrow_cursor_grabbing.png");
+			"/gui/images/64px/arrow_cursor_grabbing.png"), ARROW_CURSOR_GRABBING_ROLLOVER(
+			"/gui/images/64px/arrow_cursor_grabbing_rollover.png"), SPREADSHEETTRACE_PAUSE(
+			"/gui/images/64px/spreadsheettrace_pause.gif"), SPREADSHEETTRACE_RECORD(
+			"/gui/images/64px/spreadsheettrace_record.gif"), SPREADSHEETTRACE_BUTTON(
+			"/gui/images/64px/spreadsheettrace_button.gif"), INPUTHELP_RIGHT_18x18(
+			"/gui/images/64px/inputhelp_right_18x18.png"), INPUTHELP_LEFT_18x18(
+			"/gui/images/64px/inputhelp_left_18x18.png"), CAS_KEYBOARD(
+			"/gui/images/64px/cas-keyboard.png"), AUXILIARY(
+			"/gui/images/64px/auxiliary.png"), EXPORT16(
+			"/gui/images/64px/export16.png"), OPTIONS_ADVANCED_24(
+			"/gui/images/64px/options-advanced24.png"), LAYOUT_WEST(
+			"/gui/images/64px/layout_west.png"), LAYOUT_EAST(
+			"/gui/images/64px/layout_east.png"), LAYOUT_NORTH(
+			"/gui/images/64px/layout_north.png"), LAYOUT_SOUTH(
+			"/gui/images/64px/layout_south.png"), OSCULATING_CIRCLE(
+			"/gui/images/64px/osculating_circle.png"), TANGENT_LINE(
+			"/gui/images/64px/tangent_line.png"), XY_SEGMENTS(
+			"/gui/images/64px/xy_segments.png"),
+
+	XY_TABLE("/gui/images/64px/xy_table.png"),
+
+	VIEW_UNMAXIMIZE("/gui/images/64px/view-unmaximize.png"),
+
+	VIEW_MAXIMIZE("/gui/images/64px/view-maximize.png"),
+
+	STYLINGBAR_VARIABLE_ANALYSIS_STATISTICS(
+			"/gui/images/64px/stylingbar_variable_analysis_statistics.png"),
+
+	// STYLINGBAR_VARIABLE_ANALYSIS_PANEL2(
+	// "/gui/images/64px/stylingbar_variable_analysis_panel2.png"),
+
+	STYLINGBAR_VARIABLE_ANALYSIS_DATA(
+			"/gui/images/64px/stylingbar_variable_analysis_data.png"), FORMAT_JUSTIFY_LEFT(
+			"/gui/images/64px/format-justify-left.png"), FORMAT_JUSTIFY_CENTER(
+			"/gui/images/64px/format-justify-center.png"),
+
+	FORMAT_JUSTIFY_RIGHT("/gui/images/64px/format-justify-right.png"), STYLINGBAR_OBJECT_FIXED(
+			"/gui/images/64px/stylingbar_object_fixed.png"), STYLINGBAR_OBJECT_UNFIXED(
+			"/gui/images/64px/stylingbar_object_unfixed.png"), CUMULATIVE_DISTRIBUTION(
+			"/gui/images/64px/cumulative_distribution.png"), INTERVAL_LEFT(
+			"/gui/images/64px/interval-left.png"), INTERVAL_RIGHT(
+			"/gui/images/64px/interval-right.png"), INTERVAL_BETWEEN(
+			"/gui/images/64px/interval-between.png"),
+
+	VIEW_UNWINDOW("/gui/images/64px/view_unwindow.png"), VIEW_WINDOW(
+			"/gui/images/64px/view_window.png"), VIEW_CLOSE(
+			"/gui/images/64px/view_close.png"), STYLINGBAR_VARIABLE_ANALYSIS_2PLOT(
+			"/gui/images/64px/stylingbar_variable_analysis_2plot.png");
 	private String filename;
 
 	GuiResourcesD(String filename) {

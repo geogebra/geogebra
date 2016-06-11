@@ -48,6 +48,7 @@ import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.view.Gridable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.SpreadsheetTableModelD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		ComponentListener, FocusListener, Gridable, SettingListener {
@@ -211,7 +212,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 		// add trace dialog button
 		btnTraceDialog = new JButton(
-				app.getScaledIcon("spreadsheettrace_button.gif")) {
+				app.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE_BUTTON)) {
 		};
 		btnTraceDialog.setBorderPainted(false);
 		btnTraceDialog.setPreferredSize(new Dimension(18, 18));

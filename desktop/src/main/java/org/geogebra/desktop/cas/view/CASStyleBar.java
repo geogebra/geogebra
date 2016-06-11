@@ -25,6 +25,7 @@ import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GuiManagerInterfaceD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Stylebar for CAS
@@ -274,7 +275,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 		removeAll();
 
-		ImageIcon kbdIcon = app.getScaledIcon("cas-keyboard.png");
+		ImageIcon kbdIcon = app.getScaledIcon(GuiResourcesD.CAS_KEYBOARD);
 
 		iconHeight = kbdIcon.getIconHeight();
 		iconDimension = new Dimension(iconHeight, iconHeight);

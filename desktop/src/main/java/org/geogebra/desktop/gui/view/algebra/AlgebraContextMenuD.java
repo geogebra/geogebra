@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Context menu for the algebra view
@@ -23,9 +24,13 @@ import org.geogebra.desktop.main.AppD;
  */
 public class AlgebraContextMenuD extends JPopupMenu {
 	private static final long serialVersionUID = 1L;
-	
-	private AppD app;
-	
+	/** application */
+	AppD app;
+
+	/**
+	 * @param app
+	 *            application
+	 */
 	public AlgebraContextMenuD(AppD app){
 		this.app = app;
 		initItems();
@@ -38,7 +43,7 @@ public class AlgebraContextMenuD extends JPopupMenu {
 		// actions
 		AbstractAction showAuxiliaryAction = new AbstractAction(
 				app.getPlain("AuxiliaryObjects"),
-				app.getScaledIcon("auxiliary.png")) {
+				app.getScaledIcon(GuiResourcesD.AUXILIARY)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

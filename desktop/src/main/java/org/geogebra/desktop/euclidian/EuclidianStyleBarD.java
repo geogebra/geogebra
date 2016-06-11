@@ -1009,9 +1009,13 @@ axesIcon, iconHeight);
 					boolean selected = EuclidianStyleBarStatic.checkSelectedFixObject((GeoElement) geos[0]);
 					btnFixObject.setSelected(selected);
 					if (selected){
-						btnFixObject.setIcon(app.getScaledIcon("stylingbar_object_fixed.png"));
+						btnFixObject
+								.setIcon(app
+										.getScaledIcon(GuiResourcesD.STYLINGBAR_OBJECT_FIXED));
 					}else{
-						btnFixObject.setIcon(app.getScaledIcon("stylingbar_object_unfixed.png"));
+						btnFixObject
+								.setIcon(app
+										.getScaledIcon(GuiResourcesD.STYLINGBAR_OBJECT_UNFIXED));
 					}
 				}
 			}
@@ -1400,9 +1404,9 @@ axesIcon, iconHeight);
 		// ==============================
 		// justification popup
 		ImageIcon[] justifyIcons = new ImageIcon[] {
-				app.getScaledIcon("format-justify-left.png"),
-				app.getScaledIcon("format-justify-center.png"),
-				app.getScaledIcon("format-justify-right.png") };
+				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_LEFT),
+				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_CENTER),
+				app.getScaledIcon(GuiResourcesD.FORMAT_JUSTIFY_RIGHT) };
 		btnTableTextJustify = new PopupMenuButton((AppD) ev.getApplication(),
 				justifyIcons, 1, -1, new Dimension(getIconWidth(), iconHeight),
 				SelectionTable.MODE_ICON) {

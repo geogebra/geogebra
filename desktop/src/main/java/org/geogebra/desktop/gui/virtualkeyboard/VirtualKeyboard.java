@@ -52,6 +52,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.MyResourceBundle;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * @author Michael Borcherds (based loosely on
@@ -601,7 +602,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		if (NumericButton == null) {
 
 			NumericButton = new JToggleButton();
-			NumericButton.setIcon(app.getScaledIcon("cas-keyboard.png"));
+			NumericButton
+					.setIcon(app.getScaledIcon(GuiResourcesD.CAS_KEYBOARD));
 			NumericButton.setToolTipText(app.getMenu("Keyboard.Numeric"));
 			updateNumericButton();
 			NumericButton.setMargin(new Insets(0, 0, 0, 0));

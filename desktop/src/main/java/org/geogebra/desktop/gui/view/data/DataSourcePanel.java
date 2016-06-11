@@ -58,6 +58,7 @@ import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Panel to manage data sources for the DataAnalysisView
@@ -160,16 +161,17 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 		lblTitle = new JLabel();
 
-		btnAdd = new MyButton(app.getScaledIcon("list-add.png"));
+		btnAdd = new MyButton(app.getScaledIcon(GuiResourcesD.LIST_ADD));
 		btnAdd.addActionListener(this);
 
-		btnClear = new MyButton(app.getScaledIcon("edit-clear.png"));
+		btnClear = new MyButton(app.getScaledIcon(GuiResourcesD.EDIT_CLEAR));
 		btnClear.addActionListener(this);
 
-		btnDelete = new MyButton(app.getScaledIcon("list-remove.png"));
+		btnDelete = new MyButton(app.getScaledIcon(GuiResourcesD.LIST_REMOVE));
 		btnDelete.addActionListener(this);
 
-		btnOptions = new MyButton(app.getScaledIcon("view-properties16.png"));
+		btnOptions = new MyButton(
+				app.getScaledIcon(GuiResourcesD.VIEW_PROPERTIES_16));
 		btnOptions.addActionListener(this);
 
 		lblStart = new JLabel();
@@ -195,10 +197,10 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 	private void updateIcons() {
 		lblTitle.setIcon(app.getModeIcon(mode));
-		btnAdd.setIcon(app.getScaledIcon("list-add.png"));
-		btnClear.setIcon(app.getScaledIcon("edit-clear.png"));
-		btnDelete.setIcon(app.getScaledIcon("list-remove.png"));
-		btnOptions.setIcon(app.getScaledIcon("view-properties16.png"));
+		btnAdd.setIcon(app.getScaledIcon(GuiResourcesD.LIST_ADD));
+		btnClear.setIcon(app.getScaledIcon(GuiResourcesD.EDIT_CLEAR));
+		btnDelete.setIcon(app.getScaledIcon(GuiResourcesD.LIST_REMOVE));
+		btnOptions.setIcon(app.getScaledIcon(GuiResourcesD.VIEW_PROPERTIES_16));
 	}
 
 	private void buildMainPanel() {
@@ -738,9 +740,9 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			lblDataTitle.setForeground(Color.BLACK);
 			lblDataTitle.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
-			importIcon = app.getScaledIcon("arrow_cursor_grabbing.png");
+			importIcon = app.getScaledIcon(GuiResourcesD.ARROW_CURSOR_GRABBING);
 			importIconRollover = app
-					.getScaledIcon("arrow_cursor_grabbing_rollover.png");
+					.getScaledIcon(GuiResourcesD.ARROW_CURSOR_GRABBING_ROLLOVER);
 
 		}
 

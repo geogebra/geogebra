@@ -274,10 +274,12 @@ public class FunctionInspectorD extends FunctionInspector implements
 		fldHigh.setColumns(6);
 
 		btnOscCircle = new JToggleButton(
-				app.getScaledIcon("osculating_circle.png"));
-		btnTangent = new JToggleButton(app.getScaledIcon("tangent_line.png"));
-		btnXYSegments = new JToggleButton(app.getScaledIcon("xy_segments.png"));
-		btnTable = new JToggleButton(app.getScaledIcon("xy_table.png"));
+				app.getScaledIcon(GuiResourcesD.OSCULATING_CIRCLE));
+		btnTangent = new JToggleButton(
+				app.getScaledIcon(GuiResourcesD.TANGENT_LINE));
+		btnXYSegments = new JToggleButton(
+				app.getScaledIcon(GuiResourcesD.XY_SEGMENTS));
+		btnTable = new JToggleButton(app.getScaledIcon(GuiResourcesD.XY_TABLE));
 
 		btnOscCircle.addActionListener(this);
 		btnTangent.addActionListener(this);
@@ -294,7 +296,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 		btnRemoveColumn = new JButton();
 		btnRemoveColumn.addActionListener(this);
 
-		btnHelp = new JButton(app.getScaledIcon("help.png"));
+		btnHelp = new JButton(app.getScaledIcon(GuiResourcesD.HELP));
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
@@ -863,12 +865,13 @@ public class FunctionInspectorD extends FunctionInspector implements
 		if (app == null || btnOscCircle == null) {
 			return;
 		}
-		btnOscCircle.setIcon(app.getScaledIcon("osculating_circle.png"));
-		btnTangent.setIcon(app.getScaledIcon("tangent_line.png"));
-		btnXYSegments.setIcon(app.getScaledIcon("xy_segments.png"));
-		btnTable.setIcon(app.getScaledIcon("xy_table.png"));
-		btnHelp.setIcon(app.getScaledIcon("help.png"));
-		btnOptions.setFixedIcon(app.getScaledIcon("tool.png"));
+		btnOscCircle
+				.setIcon(app.getScaledIcon(GuiResourcesD.OSCULATING_CIRCLE));
+		btnTangent.setIcon(app.getScaledIcon(GuiResourcesD.TANGENT_LINE));
+		btnXYSegments.setIcon(app.getScaledIcon(GuiResourcesD.XY_SEGMENTS));
+		btnTable.setIcon(app.getScaledIcon(GuiResourcesD.XY_TABLE));
+		btnHelp.setIcon(app.getScaledIcon(GuiResourcesD.HELP));
+		btnOptions.setFixedIcon(app.getScaledIcon(GuiResourcesD.TOOL));
 
 	}
 }

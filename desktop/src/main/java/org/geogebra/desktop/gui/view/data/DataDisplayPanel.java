@@ -54,6 +54,7 @@ import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Class to dynamically display plots and statistics in coordination with the
@@ -154,16 +155,17 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		optionsPanel.setVisible(false);
 		btnOptions.setSelected(false);
 		btnOptions.setSelectedIcon(app
-				.getScaledIcon("inputhelp_right_18x18.png"));
+				.getScaledIcon(GuiResourcesD.INPUTHELP_RIGHT_18x18));
 
 	}
 
 	public void updateIcons() {
-		btnOptions.setIcon(app.getScaledIcon("inputhelp_left_18x18.png"));
+		btnOptions.setIcon(app
+				.getScaledIcon(GuiResourcesD.INPUTHELP_LEFT_18x18));
 		btnOptions.setSelectedIcon(app
-				.getScaledIcon("inputhelp_right_18x18.png"));
+				.getScaledIcon(GuiResourcesD.INPUTHELP_RIGHT_18x18));
 
-		btnExport.setIcon(app.getScaledIcon("export16.png"));
+		btnExport.setIcon(app.getScaledIcon(GuiResourcesD.EXPORT16));
 
 	}
 	// ==============================================

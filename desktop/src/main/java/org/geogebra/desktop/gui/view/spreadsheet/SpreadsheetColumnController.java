@@ -31,6 +31,7 @@ import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 public class SpreadsheetColumnController implements KeyListener, MouseListener,
 		MouseMotionListener {
@@ -444,9 +445,9 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 		private BorderLayout layout;
 
 		private ImageIcon pauseIcon = app
-				.getScaledIcon("spreadsheettrace_pause.gif");
+				.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE_PAUSE);
 		private ImageIcon recordIcon = app
-				.getScaledIcon("spreadsheettrace_record.gif");
+				.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE_RECORD);
 
 		public ColumnHeaderRenderer() {
 			super(new BorderLayout());

@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Algebra view cell renderer
@@ -50,11 +51,11 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	}
 
 	public void update() {
-		setIconShown(app.getScaledIcon("algebra_shown.png"));
-		setIconHidden(app.getScaledIcon("algebra_hidden.png"));
+		setIconShown(app.getScaledIcon(GuiResourcesD.ALGEBRA_SHOWN));
+		setIconHidden(app.getScaledIcon(GuiResourcesD.ALGEBRA_HIDDEN));
 
-		setOpenIcon(app.getScaledIcon("tree_open.png"));
-		setClosedIcon(app.getScaledIcon("tree_closed.png"));
+		setOpenIcon(app.getScaledIcon(GuiResourcesD.TREE_OPENED));
+		setClosedIcon(app.getScaledIcon(GuiResourcesD.TREE_CLOSED));
 
 		latexIcon = new ImageIcon();
 

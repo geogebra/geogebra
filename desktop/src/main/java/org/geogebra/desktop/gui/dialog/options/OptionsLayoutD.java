@@ -28,6 +28,7 @@ import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.gui.util.LayoutUtil.TitlePanel;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Layout options for the options dialog.
@@ -159,12 +160,12 @@ public class OptionsLayoutD extends OptionsLayout
 		inputbarPosGroup = new ButtonGroup();
 
 		rbInputBarNorth = new JToggleButton(
-				app.getScaledIcon("layout_north.png"));
+				app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
 		rbInputBarNorth.addActionListener(this);
 		inputbarPosGroup.add(rbInputBarNorth);
 
 		rbInputBarSouth = new JToggleButton(
-				app.getScaledIcon("layout_south.png"));
+				app.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
 		rbInputBarSouth.addActionListener(this);
 		inputbarPosGroup.add(rbInputBarSouth);
 
@@ -195,10 +196,12 @@ public class OptionsLayoutD extends OptionsLayout
 		int tab = 20;
 
 		ButtonGroup grp = new ButtonGroup();
-		rbSidebarWest = new JToggleButton(app.getScaledIcon("layout_west.png"));
+		rbSidebarWest = new JToggleButton(
+				app.getScaledIcon(GuiResourcesD.LAYOUT_WEST));
 		rbSidebarWest.addActionListener(this);
 		grp.add(rbSidebarWest);
-		rbSidebarEast = new JToggleButton(app.getScaledIcon("layout_east.png"));
+		rbSidebarEast = new JToggleButton(
+				app.getScaledIcon(GuiResourcesD.LAYOUT_EAST));
 		rbSidebarEast.setSelected(true);
 		rbSidebarEast.addActionListener(this);
 		grp.add(rbSidebarEast);
@@ -257,20 +260,22 @@ public class OptionsLayoutD extends OptionsLayout
 		toolBarPosGroup = new ButtonGroup();
 
 		rbToolbarNorth = new JToggleButton(
-				app.getScaledIcon("layout_north.png"));
+				app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
 		rbToolbarNorth.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarNorth);
 
 		rbToolbarSouth = new JToggleButton(
-				app.getScaledIcon("layout_south.png"));
+				app.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
 		rbToolbarSouth.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarSouth);
 
-		rbToolbarEast = new JToggleButton(app.getScaledIcon("layout_east.png"));
+		rbToolbarEast = new JToggleButton(
+				app.getScaledIcon(GuiResourcesD.LAYOUT_EAST));
 		rbToolbarEast.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarEast);
 
-		rbToolbarWest = new JToggleButton(app.getScaledIcon("layout_west.png"));
+		rbToolbarWest = new JToggleButton(
+				app.getScaledIcon(GuiResourcesD.LAYOUT_WEST));
 		rbToolbarWest.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarWest);
 
@@ -285,10 +290,16 @@ public class OptionsLayoutD extends OptionsLayout
 	}
 
 	private void updateIcons() {
-		rbToolbarNorth.setIcon(app.getScaledIcon("layout_north.png"));
-		rbToolbarSouth.setIcon(app.getScaledIcon("layout_south.png"));
-		rbToolbarEast.setIcon(app.getScaledIcon("layout_east.png"));
-		rbToolbarWest.setIcon(app.getScaledIcon("layout_west.png"));
+		rbToolbarNorth.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
+		rbToolbarSouth.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
+		rbToolbarEast.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_EAST));
+		rbToolbarWest.setIcon(app.getScaledIcon(GuiResourcesD.LAYOUT_WEST));
+		if (this.rbInputBarNorth != null) {
+			rbInputBarNorth.setIcon(app
+					.getScaledIcon(GuiResourcesD.LAYOUT_NORTH));
+			rbInputBarNorth.setIcon(app
+					.getScaledIcon(GuiResourcesD.LAYOUT_SOUTH));
+		}
 
 	}
 	/**

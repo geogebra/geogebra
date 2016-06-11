@@ -188,7 +188,7 @@ public class ConstructionProtocolNavigationD extends
 		
 				
 		btOpenWindow = new JButton();
-		btOpenWindow.setIcon(app.getScaledIcon("table.gif"));
+		btOpenWindow.setIcon(app.getScaledIcon(GuiResourcesD.TABLE));
 		btOpenWindow.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

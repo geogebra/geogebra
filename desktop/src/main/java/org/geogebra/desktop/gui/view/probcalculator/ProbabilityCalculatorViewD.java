@@ -47,6 +47,7 @@ import org.geogebra.desktop.gui.util.ListSeparatorRenderer;
 import org.geogebra.desktop.gui.view.data.PlotPanelEuclidianViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Dialog that displays the graphs of various probability density functions with
@@ -286,14 +287,15 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		lblDist = new JLabel();
 
 		btnCumulative = new MyToggleButton(
-				((AppD) app).getScaledIcon("cumulative_distribution.png"));
+				((AppD) app)
+						.getScaledIcon(GuiResourcesD.CUMULATIVE_DISTRIBUTION));
 
 		btnIntervalLeft = new MyToggleButton(
-				((AppD) app).getScaledIcon("interval-left.png"));
+				((AppD) app).getScaledIcon(GuiResourcesD.INTERVAL_LEFT));
 		btnIntervalBetween = new MyToggleButton(
-				((AppD) app).getScaledIcon("interval-between.png"));
+				((AppD) app).getScaledIcon(GuiResourcesD.INTERVAL_BETWEEN));
 		btnIntervalRight = new MyToggleButton(
-				((AppD) app).getScaledIcon("interval-right.png"));
+				((AppD) app).getScaledIcon(GuiResourcesD.INTERVAL_RIGHT));
 
 		btnCumulative.addActionListener(this);
 		btnIntervalLeft.addActionListener(this);
@@ -307,7 +309,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		// create export button
 		btnExport = new JToggleButton();
-		btnExport.setIcon(((AppD) app).getScaledIcon("export16.png"));
+		btnExport.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.EXPORT16));
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
@@ -406,16 +408,17 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		((ProbabilityTableD) table).updateFonts(font);
 		((StatisticsCalculatorD) statCalculator).updateFonts(font);
 		btnCumulative.setIcon(((AppD) app)
-				.getScaledIcon("cumulative_distribution.png"));
+				.getScaledIcon(GuiResourcesD.CUMULATIVE_DISTRIBUTION));
 
 		btnIntervalLeft
-				.setIcon(((AppD) app).getScaledIcon("interval-left.png"));
+.setIcon(((AppD) app)
+				.getScaledIcon(GuiResourcesD.INTERVAL_LEFT));
 		btnIntervalBetween.setIcon(((AppD) app)
-				.getScaledIcon("interval-between.png"));
+				.getScaledIcon(GuiResourcesD.INTERVAL_BETWEEN));
 		btnIntervalRight.setIcon(((AppD) app)
-				.getScaledIcon("interval-right.png"));
+				.getScaledIcon(GuiResourcesD.INTERVAL_RIGHT));
 
-		btnExport.setIcon(((AppD) app).getScaledIcon("export16.png"));
+		btnExport.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.EXPORT16));
 		if (styleBar != null) {
 			styleBar.updateIcons();
 		}

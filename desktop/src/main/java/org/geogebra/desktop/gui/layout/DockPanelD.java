@@ -555,7 +555,8 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		updateToggleStyleBarButtons();
 
 		// button to insert the view in the main window
-		unwindowButton = new JButton(app.getScaledIcon("view-unwindow.png"));
+		unwindowButton = new JButton(
+				app.getScaledIcon(GuiResourcesD.VIEW_UNWINDOW));
 		unwindowButton.addActionListener(this);
 		unwindowButton.setFocusPainted(false);
 		unwindowButton.setContentAreaFilled(false);
@@ -563,7 +564,8 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		unwindowButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to insert the view in the main window
-		unwindowButton2 = new JButton(app.getScaledIcon("view-unwindow.png"));
+		unwindowButton2 = new JButton(
+				app.getScaledIcon(GuiResourcesD.VIEW_UNWINDOW));
 		unwindowButton2.addActionListener(this);
 		unwindowButton2.setFocusPainted(false);
 		unwindowButton2.setContentAreaFilled(false);
@@ -571,7 +573,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		unwindowButton2.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to display the view in a separate window
-		windowButton = new JButton(app.getScaledIcon("view-window.png"));
+		windowButton = new JButton(app.getScaledIcon(GuiResourcesD.VIEW_WINDOW));
 		windowButton.addActionListener(this);
 		windowButton.setFocusPainted(false);
 		windowButton.setContentAreaFilled(false);
@@ -579,13 +581,14 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		windowButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to close the view
-		closeButton = new JButton(app.getScaledIcon("view-close.png"));
+		closeButton = new JButton(app.getScaledIcon(GuiResourcesD.VIEW_CLOSE));
 		closeButton.addActionListener(this);
 		closeButton.setFocusPainted(false);
 		closeButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to toggle maximize/normal state
-		maximizeButton = new JButton(app.getScaledIcon("view-maximize.png"));
+		maximizeButton = new JButton(
+				app.getScaledIcon(GuiResourcesD.VIEW_MAXIMIZE));
 		maximizeButton.addActionListener(this);
 		maximizeButton.setFocusPainted(false);
 		maximizeButton.setPreferredSize(new Dimension(iconSize, iconSize));
@@ -723,9 +726,11 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		}
 
 		if (isMaximized()) {
-			maximizeButton.setIcon(app.getScaledIcon("view-unmaximize.png"));
+			maximizeButton.setIcon(app
+					.getScaledIcon(GuiResourcesD.VIEW_UNMAXIMIZE));
 		} else {
-			maximizeButton.setIcon(app.getScaledIcon("view-maximize.png"));
+			maximizeButton.setIcon(app
+					.getScaledIcon(GuiResourcesD.VIEW_MAXIMIZE));
 		}
 
 		updateLabels();
@@ -1208,11 +1213,11 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		if (toggleStyleBarButton != null) {
 			if (showStyleBar) {
 				toggleStyleBarButton.setIcon(app
-						.getScaledIcon("triangle_down.png"));
+						.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));
 				// toggleStyleBarButton.setRolloverIcon(app.getScaledIcon("triangle-down-rollover.png"));
 			} else {
 				toggleStyleBarButton.setIcon(app
-						.getScaledIcon("triangle_right.png"));
+						.getScaledIcon(GuiResourcesD.TRIANGLE_RIGHT));
 				// toggleStyleBarButton.setRolloverIcon(app.getScaledIcon("triangle-right-rollover.png"));
 			}
 		}
@@ -1657,28 +1662,30 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 				toggleSize));
 
 		// button to insert the view in the main window
-		unwindowButton.setIcon(app.getScaledIcon("view_unwindow.png"));
+		unwindowButton.setIcon(app.getScaledIcon(GuiResourcesD.VIEW_UNWINDOW));
 		unwindowButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to insert the view in the main window
-		unwindowButton2.setIcon(app.getScaledIcon("view_unwindow.png"));
+		unwindowButton2.setIcon(app.getScaledIcon(GuiResourcesD.VIEW_UNWINDOW));
 		unwindowButton2.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to display the view in a separate window
-		windowButton.setIcon(app.getScaledIcon("view_window.png"));
+		windowButton.setIcon(app.getScaledIcon(GuiResourcesD.VIEW_WINDOW));
 		windowButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to close the view
-		closeButton.setIcon(app.getScaledIcon("view_close.png"));
+		closeButton.setIcon(app.getScaledIcon(GuiResourcesD.VIEW_CLOSE));
 		closeButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to toggle maximize/normal state
 		maximizeButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		if (isMaximized()) {
-			maximizeButton.setIcon(app.getScaledIcon("view_unmaximize.png"));
+			maximizeButton.setIcon(app
+					.getScaledIcon(GuiResourcesD.VIEW_UNMAXIMIZE));
 		} else {
-			maximizeButton.setIcon(app.getScaledIcon("view_maximize.png"));
+			maximizeButton.setIcon(app
+					.getScaledIcon(GuiResourcesD.VIEW_MAXIMIZE));
 		}
 		updateToggleStyleBarButtons();
 	}
