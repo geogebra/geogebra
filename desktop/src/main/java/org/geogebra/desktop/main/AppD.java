@@ -2203,7 +2203,7 @@ ToolbarD.getAllTools(this));
 				MyImageD img = getExternalImage(iconName);
 				if (img == null || img.isSVG()) {
 					// default icon
-					icon = getToolBarImage("mode_tool.png", border);
+					icon = getToolIcon(border);
 				} else {
 					// use image as icon
 					int size = getMaxIconSize();
@@ -5344,18 +5344,6 @@ ToolbarD.getAllTools(this));
 	@Override
 	public boolean isSelectionRectangleAllowed() {
 		return true;
-	}
-
-	@Deprecated
-	public ImageIcon getMenuIcon(String name) {
-		if (isMacOS()) {
-			// fixed-size, 16x16 icons for mac menu
-			return getScaledIcon(
-					new ImageResourceDImpl(getMenuIconPath() + name), 16);
-		}
-
-		return getScaledIcon(new ImageResourceDImpl(getMenuIconPath() + name),
-				null);
 	}
 
 	public ImageIcon getMenuIcon(ImageResourceD res) {

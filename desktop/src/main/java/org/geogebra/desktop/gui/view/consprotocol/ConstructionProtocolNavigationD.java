@@ -47,6 +47,7 @@ import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.javax.swing.GPanelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Navigation buttons for the construction protocol
@@ -146,10 +147,10 @@ public class ConstructionProtocolNavigationD extends
 
 		implPanel.removeAll();	
 					
-		btFirst = new JButton(app.getScaledIcon("nav_skipback.png"));
-		btLast = new JButton(app.getScaledIcon("nav_skipforward.png"));
-		btPrev = new JButton(app.getScaledIcon("nav_rewind.png"));
-		btNext = new JButton(app.getScaledIcon("nav_fastforward.png"));
+		btFirst = new JButton(app.getScaledIcon(GuiResourcesD.NAV_SKIPBACK));
+		btLast = new JButton(app.getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD));
+		btPrev = new JButton(app.getScaledIcon(GuiResourcesD.NAV_REWIND));
+		btNext = new JButton(app.getScaledIcon(GuiResourcesD.NAV_FASTFORWARD));
 				
 		btFirst.addActionListener(this);
 		btLast.addActionListener(this);		
@@ -379,11 +380,11 @@ public class ConstructionProtocolNavigationD extends
 		if (btFirst == null) {
 			return;
 		}
-		btFirst.setIcon(app.getScaledIcon("nav_skipback.png"));
-		btLast.setIcon(app.getScaledIcon("nav_skipforward.png"));
-		btPrev.setIcon(app.getScaledIcon("nav_rewind.png"));
-		btNext.setIcon(app.getScaledIcon("nav_fastforward.png"));
-		btOpenWindow.setIcon(app.getScaledIcon("table.gif"));
+		btFirst.setIcon(app.getScaledIcon(GuiResourcesD.NAV_SKIPBACK));
+		btLast.setIcon(app.getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD));
+		btPrev.setIcon(app.getScaledIcon(GuiResourcesD.NAV_REWIND));
+		btNext.setIcon(app.getScaledIcon(GuiResourcesD.NAV_FASTFORWARD));
+		btOpenWindow.setIcon(app.getScaledIcon(GuiResourcesD.TABLE));
 		lbSteps.setFont(app.getPlainFont());
 		update();
 

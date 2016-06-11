@@ -38,12 +38,12 @@ public class HelpDialog {
 					.getMacro(mode - EuclidianConstants.MACRO_MODE_ID_OFFSET);
 
 			String iconName = macro.getIconFileName();
-			MyImageD img = ((AppD) app).getExternalImage(iconName);
+			MyImageD img = app.getExternalImage(iconName);
 			Color border = Color.lightGray;
 
 			if (img == null || img.isSVG()) {
 				// default icon
-				icon = ((AppD) app).getToolBarImage("mode_tool.png", border);
+				icon = app.getToolIcon(border);
 			} else {
 				// use image as icon
 				icon = new ImageIcon(
@@ -53,13 +53,13 @@ public class HelpDialog {
 		} else {
 
 			modeTextInternal = EuclidianConstants.getModeText(mode);
-			icon = ((AppD) app).getToolBarImage(
+			icon = app.getToolBarImage(
 					"mode_" + modeTextInternal + ".png", Color.BLACK);
 		}
 
 		Object[] options = { app.getPlain("ShowOnlineHelp"),
 				app.getPlain("Cancel") };
-		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
+		int n = JOptionPane.showOptionDialog(app.getMainComponent(),
 				helpText, app.getMenu("ToolHelp") + " - " + toolName,
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon,
 				options, // the titles of buttons

@@ -57,10 +57,10 @@ public class EditMenuD extends BaseMenu {
 
 		if (app.isUndoActive()) {
 			mi = add(((GuiManagerD) app.getGuiManager()).getUndoAction());
-			mi.setIcon(app.getMenuIcon("menu-edit-undo.png"));
+			mi.setIcon(app.getMenuIcon(GuiResourcesD.MENU_EDIT_UNDO));
 			setMenuShortCutAccelerator(mi, 'Z');
 			mi = add(((GuiManagerD) app.getGuiManager()).getRedoAction());
-			mi.setIcon(app.getMenuIcon("menu-edit-redo.png"));
+			mi.setIcon(app.getMenuIcon(GuiResourcesD.MENU_EDIT_REDO));
 			if (AppD.MAC_OS)
 				// Command-Shift-Z
 				setMenuShortCutShiftAccelerator(mi, 'Z');

@@ -20,6 +20,7 @@ import javax.swing.event.ChangeListener;
 
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * JButton with popup component. A mouse click on the left side of the button
@@ -496,11 +497,12 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 		}
 
 		// add a down_triangle image to the left of the icon
-		if (icon != null)
+		if (icon != null) {
 			super.setIcon(GeoGebraIcon.joinIcons((ImageIcon) icon,
-					app.getScaledIcon("triangle_down.png")));
-		else
-			super.setIcon(app.getScaledIcon("triangle_down.png"));
+					app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN)));
+		} else {
+			super.setIcon(app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));
+		}
 	}
 
 	public void setFixedIcon(Icon icon) {

@@ -89,6 +89,7 @@ import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.javax.swing.table.GAbstractTableModelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.plugin.GgbAPID;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 public class ConstructionProtocolViewD extends ConstructionProtocolView
 		implements Printable, SettingListener, SetLabels {
@@ -376,7 +377,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		};
 
 		printPreviewAction = new AbstractAction(app.getMenu("Print") + "...",
-				((AppD) app).getScaledIcon("document-print-preview.png")) {
+				((AppD) app)
+						.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

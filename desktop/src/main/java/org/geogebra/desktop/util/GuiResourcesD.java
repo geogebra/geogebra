@@ -33,8 +33,8 @@ public enum GuiResourcesD implements ImageResourceD {
 					"/gui/images/cursor_zoomout.gif"),
 
 	CURSOR_ZOOMIN("/gui/images/cursor_zoomin.gif"), CURSOR_GRABBING(
-			"/gui/images/cursor_grabbing"), UNDO(
-					"/gui/images/64px/menu-edit-undo.png"), REDO(
+			"/gui/images/cursor_grabbing.gif"), MENU_EDIT_UNDO(
+			"/gui/images/64px/menu-edit-undo.png"), MENU_EDIT_REDO(
 							"/gui/images/64px/menu-edit-redo.png"),
 
 	MENU_OPTIONS("/gui/images/64px/menu-options.png"),
@@ -121,7 +121,18 @@ public enum GuiResourcesD implements ImageResourceD {
 	MENU_EDIT_COPY(
 			"/gui/images/64px/menu-edit-copy.png"), DOCUMENT_SAVE(
 					"/gui/images/64px/document-save.png"), DOCUMENT_OPEN(
-							"/gui/images/64px/document-open.png");
+			"/gui/images/64px/document-open.png"), EXPORT_SMALL(
+			"/gui/images/64px/export_small.png"), DOCUMENT_PRINT_PREVIEW(
+			"/gui/images/64px/document-print-preview.png"), DOCUMENT_PROPERTIES(
+			"/gui/images/64px/document-properties.png"), TOOL(
+			"/gui/images/64px/tool.png"), TEXT_HTML(
+			"/gui/images/64px/text-html.png"), IMAGE_X_GENERIC(
+			"/gui/images/64px/image-x-generic.png"), TREE_CLOSE(
+			"/gui/images/64px/tree-close.png"), TREE_OPEN(
+			"/gui/images/64px/tree-close.png"), OBJECT_UNFIXED(
+			"/gui/images/64px/object_unfixed.png"), OBJECT_FIXED(
+			"/gui/images/64px/object_fixed.png"), APPLY(
+			"/gui/images/64px/apply.png"), TABLE("/gui/images/64px/table.gif");
 	private String filename;
 
 	GuiResourcesD(String filename) {

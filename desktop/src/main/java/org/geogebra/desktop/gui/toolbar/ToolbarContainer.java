@@ -334,7 +334,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		AbstractAction undoAction = ((GuiManagerD) app.getGuiManager())
 				.getUndoAction();
 		undoAction.putValue(Action.SMALL_ICON,
-				app.getScaledIcon(GuiResourcesD.UNDO, iconSize));
+				app.getScaledIcon(GuiResourcesD.MENU_EDIT_UNDO, iconSize));
 		undoAction.putValue("enabled", false);
 
 		JButton btnUndo = new JButton(undoAction);
@@ -347,7 +347,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		AbstractAction redoAction = ((GuiManagerD) app.getGuiManager())
 				.getRedoAction();
 		redoAction.putValue(Action.SMALL_ICON,
-				app.getScaledIcon(GuiResourcesD.REDO, iconSize));
+				app.getScaledIcon(GuiResourcesD.MENU_EDIT_REDO, iconSize));
 		JButton btnRedo = new JButton(redoAction);
 		text = loc.getMenuTooltip("Redo");
 		btnRedo.setText(null);

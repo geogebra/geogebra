@@ -63,6 +63,7 @@ import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Panel with options for the euclidian view. TODO: optimization: updateGUI()
@@ -287,7 +288,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		tfAxesRatioY.addFocusListener(this);
 		cbLockRatio = new JToggleButton();
 		cbLockRatio.setSelected(view.isLockedAxesRatio());
-		cbLockRatio.setIcon(app.getScaledIcon("object_unfixed.png"));
+		cbLockRatio.setIcon(app.getScaledIcon(GuiResourcesD.OBJECT_UNFIXED));
 		cbLockRatio.setEnabled(view.isZoomable());
 		cbLockRatio.addActionListener(this);
 		axesRatioLabel = new JLabel("");
@@ -1108,8 +1109,9 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	public void enableAxesRatio(boolean value) {
 		tfAxesRatioX.setEnabled(value);
 		tfAxesRatioY.setEnabled(value);
-		cbLockRatio.setIcon(app.getScaledIcon(value ? "object_unfixed.png"
-				: "object_fixed.png"));
+		cbLockRatio.setIcon(app
+				.getScaledIcon(value ? GuiResourcesD.OBJECT_UNFIXED
+						: GuiResourcesD.OBJECT_FIXED));
 
 	}
 

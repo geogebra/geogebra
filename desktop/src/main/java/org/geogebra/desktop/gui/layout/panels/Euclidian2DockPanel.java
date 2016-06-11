@@ -30,10 +30,6 @@ public class Euclidian2DockPanel extends EuclidianDockPanelAbstract {
 		this.app = app;
 	}
 
-	// public ImageIcon getIcon() {
-	// return app.getImageIcon("document-properties.png");
-	// }
-	//
 	@Override
 	protected JComponent loadStyleBar() {
 		return (JComponent) app.getEuclidianView2(1).getStyleBar();

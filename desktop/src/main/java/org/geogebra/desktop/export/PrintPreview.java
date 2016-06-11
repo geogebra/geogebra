@@ -56,6 +56,7 @@ import org.geogebra.desktop.gui.view.Gridable;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 public class PrintPreview extends JDialog {
 
@@ -161,7 +162,7 @@ public class PrintPreview extends JDialog {
 
 		// print button
 		JButton btnPrint = new JButton(app.getMenu("Print"),
-				app.getScaledIcon("document-print.png"));
+				app.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT));
 		lst = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {

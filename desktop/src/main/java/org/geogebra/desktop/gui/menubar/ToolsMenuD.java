@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 import org.geogebra.desktop.gui.dialog.ToolCreationDialog;
 import org.geogebra.desktop.gui.dialog.ToolManagerDialog;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * The "Tools" menu.
@@ -67,7 +68,7 @@ class ToolsMenuD extends BaseMenu {
 
 		showCreateToolsAction = new AbstractAction(
 				app.getMenu("Tool.CreateNew") + " ...",
-				app.getMenuIcon("tool.png")) {
+				app.getMenuIcon(GuiResourcesD.TOOL)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -77,7 +78,7 @@ class ToolsMenuD extends BaseMenu {
 		};
 
 		showManageToolsAction = new AbstractAction(app.getMenu("Tool.Manage")
-				+ " ...", app.getMenuIcon("document-properties.png")) {
+				+ " ...", app.getMenuIcon(GuiResourcesD.DOCUMENT_PROPERTIES)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

@@ -133,7 +133,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		addSeparator();
 
 		mi = add(shareAction);
-		mi.setIcon(app.getMenuIcon("export_small.png"));
+		mi.setIcon(app.getMenuIcon(GuiResourcesD.EXPORT_SMALL));
 
 		// export
 		JMenu submenu = new JMenu(app.getMenu("Export"));
@@ -167,7 +167,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		mi = add(printEuclidianViewAction);
 		mi.setText(app.getMenu("PrintPreview"));
-		mi.setIcon(app.getMenuIcon("document-print-preview.png"));
+		mi.setIcon(app.getMenuIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW));
 		setMenuShortCutAccelerator(mi, 'P');
 
 
@@ -303,7 +303,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 
 		loadAction = new AbstractAction(app.getMenu("Load") + " ...",
-				app.getMenuIcon("document-open.png")) {
+				app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -312,7 +312,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 
 		loadURLAction = new AbstractAction(app.getMenu("OpenFromGeoGebraTube")
-				+ " ...", app.getMenuIcon("document-open.png")) {
+				+ " ...", app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -344,7 +344,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		drawingPadToClipboardAction = new AbstractAction(
 				app.getMenu("DrawingPadToClipboard"),
-				app.getMenuIcon("menu-edit-copy.png")) {
+				app.getMenuIcon(GuiResourcesD.MENU_EDIT_COPY)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -374,7 +374,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		exportGraphicAction = new AbstractAction(
 				app.getPlain("DrawingPadAsPicture") + " (" + FileExtensions.PNG
 						+ ", " + FileExtensions.EPS + ") ...",
-				app.getMenuIcon("image-x-generic.png")) {
+				app.getMenuIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -508,7 +508,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		exportWorksheet = new AbstractAction(
 				app.getPlain("DynamicWorksheetAsWebpage") + " ("
 						+ FileExtensions.HTML + ") ...",
-				app.getMenuIcon("text-html.png")) {
+				app.getMenuIcon(GuiResourcesD.TEXT_HTML)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

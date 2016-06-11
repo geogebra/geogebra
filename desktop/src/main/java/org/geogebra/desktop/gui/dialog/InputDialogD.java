@@ -51,6 +51,7 @@ import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 public class InputDialogD extends InputDialog
 		implements ActionListener, WindowFocusListener, VirtualKeyboardListener,
@@ -324,7 +325,8 @@ public class InputDialogD extends InputDialog
 	public void addHelpButton(String articleName) {
 		btHelp = new JButton();
 		HelpAction helpAction = new HelpAction(app,
-				app.getScaledIcon("help.png"), app.getMenu("Help"), articleName);
+				app.getScaledIcon(GuiResourcesD.HELP), app.getMenu("Help"),
+				articleName);
 		btHelp.setAction(helpAction);
 		btPanel2.add(btHelp);
 	}

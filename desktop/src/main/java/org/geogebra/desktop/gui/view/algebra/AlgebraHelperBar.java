@@ -111,8 +111,6 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	}
 
 	public void update() {
-		// toggleAuxiliary.setIcon(app.getScaledIcon("auxiliary.png"));
-		// toggleTypeTreeMode.setIcon(app.getScaledIcon("tree.png"));
 		removeAll();
 		addButtons();
 		updateLabels();

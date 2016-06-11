@@ -28,6 +28,7 @@ import javax.swing.table.TableColumn;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ColumnKeeper;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 /**
  * Context menu for construction protocol
  * 
@@ -129,7 +130,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		
 		//Help menu
 		JMenuItem mi = new JMenuItem(app.getMenu("FastHelp"),
-				app.getScaledIcon("help.png"));
+				app.getScaledIcon(GuiResourcesD.HELP));
 		ActionListener lstHelp = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				app.showHelp("ConstructionProtocolHelp");

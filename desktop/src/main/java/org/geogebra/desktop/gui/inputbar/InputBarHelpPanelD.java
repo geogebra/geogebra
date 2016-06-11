@@ -64,6 +64,7 @@ import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		ActionListener, FocusListener, SetLabels {
@@ -210,7 +211,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 	private JPanel createButtonPanel() {
 
-		btnRefresh = new JButton(app.getScaledIcon("view-refresh.png"));
+		btnRefresh = new JButton(app.getScaledIcon(GuiResourcesD.VIEW_REFRESH));
 		btnRefresh.setBorderPainted(false);
 		btnRefresh.setFocusable(false);
 		btnRefresh.setEnabled(false);
@@ -358,7 +359,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		scroller.getVerticalScrollBar().setUnitIncrement(3 * app.getFontSize());
 		btnOnlineHelp.setFont(app.getPlainFont());
 		btnPaste.setFont(app.getPlainFont());
-		btnRefresh.setIcon(app.getScaledIcon("view-refresh.png"));
+		btnRefresh.setIcon(app.getScaledIcon(GuiResourcesD.VIEW_REFRESH));
 	}
 
 	private void createCommandTree() {
@@ -543,7 +544,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 				// contextMenu.add(item);
 				contextMenu.addSeparator();
 				JMenuItem item = new JMenuItem(app.getPlain("ShowOnlineHelp"));
-				item.setIcon(app.getScaledIcon("help.png"));
+				item.setIcon(app.getScaledIcon(GuiResourcesD.HELP));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						((GuiManagerD) app.getGuiManager())
@@ -744,8 +745,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		}
 
 		public void update() {
-			setOpenIcon(app.getScaledIcon("tree-close.png"));
-			setClosedIcon(app.getScaledIcon("tree-open.png"));
+			setOpenIcon(app.getScaledIcon(GuiResourcesD.TREE_CLOSE));
+			setClosedIcon(app.getScaledIcon(GuiResourcesD.TREE_OPEN));
 			setLeafIcon(GeoGebraIcon.createEmptyIcon(5, 1));
 
 		}

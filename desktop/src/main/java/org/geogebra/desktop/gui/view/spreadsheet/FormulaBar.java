@@ -26,6 +26,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 public class FormulaBar extends JToolBar implements ActionListener, FocusListener{
 	private static final long serialVersionUID = 1L;
@@ -55,15 +56,15 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 		this.editor = table.editor;
 
 		// create GUI objects
-		//btnCancelFormula = new JButton(app.getImageIcon("no.png"));
 
-		btnCancelFormula = new JButton(app.getScaledIcon("delete_small.gif"));
+		btnCancelFormula = new JButton(
+				app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
 		btnCancelFormula.setFocusable(false);
 		btnCancelFormula.addActionListener(this);
 		btnCancelFormula.setBorder(BorderFactory.createEmptyBorder(0,4,0,4));
 		btnCancelFormula.addMouseListener(new BarButtonListener());
 
-		btnAcceptFormula = new JButton(app.getScaledIcon("apply.png"));
+		btnAcceptFormula = new JButton(app.getScaledIcon(GuiResourcesD.APPLY));
 		btnAcceptFormula.addMouseListener(new BarButtonListener());
 		btnAcceptFormula.setFocusable(false);
 		btnAcceptFormula.setBorder(BorderFactory.createEmptyBorder(0,4,0,4));	
@@ -251,8 +252,8 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 	}
 
 	public void updateIcons() {
-		btnCancelFormula.setIcon(app.getScaledIcon("delete_small.gif"));
-		btnAcceptFormula.setIcon(app.getScaledIcon("apply.png"));
+		btnCancelFormula.setIcon(app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
+		btnAcceptFormula.setIcon(app.getScaledIcon(GuiResourcesD.APPLY));
 	}
 
 	public void setLabels(){

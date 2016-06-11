@@ -186,13 +186,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			}
 		};
 
-		// btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_16x16.png"));
-		// btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_16x16.png"));
 
 		updateIcons(false);
-
-		// btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_20x20.png"));
-		// btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_20x20.png"));
 
 		btnHelpToggle.addActionListener(this);
 		btnHelpToggle.setFocusable(false);
@@ -231,10 +226,6 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		btnHelpToggle.setIcon(app.getScaledIconCommon(
 				warning ? GuiResourcesD.DIALOG_ERROR
 						: GuiResourcesD.MENU_HELP));
-		/*
-		 * btnHelpToggle.setSelectedIcon(app .getScaledIconCommon(
-		 * "/org/geogebra/common/menu_icons/p20/menu-help.png"));
-		 */
 	}
 
 	@Override
