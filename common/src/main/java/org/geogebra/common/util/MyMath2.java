@@ -7,6 +7,7 @@ import org.apache.commons.math.special.Erf;
 import org.apache.commons.math.special.Gamma;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.util.mathIT.Riemann;
 
 /*
  * moved functions from MyMath as they use org.apache

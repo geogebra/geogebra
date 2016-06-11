@@ -37,9 +37,9 @@ import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.Riemann;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.mathIT.Riemann;
 
 /**
  * 

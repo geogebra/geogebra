@@ -18,8 +18,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.Complex;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.mathIT.Complex;
 
 /**
  * Class for transfer function (see linear time-invariant system) not for all

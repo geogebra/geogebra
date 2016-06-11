@@ -17,8 +17,18 @@
  * along with this program; if not, see http://www.gnu.org/licenses
  * or write to the Free Software Foundation,Inc., 51 Franklin Street,
  * Fifth Floor, Boston, MA 02110-1301  USA
+ * 
+ * As a special exception, the copyright holders of this program give you permission 
+ * to link this program with independent modules to produce an executable, 
+ * regardless of the license terms of these independent modules, and to copy and 
+ * distribute the resulting executable under terms of your choice, provided that 
+ * you also meet, for each linked independent module, the terms and conditions of 
+ * the license of that module. An independent module is a module which is not derived 
+ * from or based on this program. If you modify this program, you may extend 
+ * this exception to your version of the program, but you are not obligated to do so. 
+ * If you do not wish to do so, delete this exception statement from your version.
  */
-package org.geogebra.common.util;
+package org.geogebra.common.util.mathIT;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.atan;
@@ -31,13 +41,13 @@ import static java.lang.Math.tan;
 /**
  * This class enables the creation of objects representing complex numbers, as
  * well the implementation of mathematical functions of complex numbers by
- * static methods. A complex number <i>z</i> &#8712; <span
- * style="font-size:large;">&#8450;</span> is uniquely determined by <i>z</i> =
- * <i>x</i> + i<i>y</i>, where <i>x</i> and <i>y</i> are real numbers and i =
- * &#8730;-1. In the class <code>Complex</code>, a complex number <i>z</i> is
- * internally represented by a <code>double</code>-array of length 2, where
- * <code>z[0]</code> = <i>x</i> = Re <i>z</i>, and <code>z[1]</code> = <i>y</i>
- * = Im <i>z</i>. In the sequel this representation is called <i>array
+ * static methods. A complex number <i>z</i> &#8712;
+ * <span style="font-size:large;">&#8450;</span> is uniquely determined by
+ * <i>z</i> = <i>x</i> + i<i>y</i>, where <i>x</i> and <i>y</i> are real numbers
+ * and i = &#8730;-1. In the class <code>Complex</code>, a complex number
+ * <i>z</i> is internally represented by a <code>double</code>-array of length
+ * 2, where <code>z[0]</code> = <i>x</i> = Re <i>z</i>, and <code>z[1]</code> =
+ * <i>y</i> = Im <i>z</i>. In the sequel this representation is called <i>array
  * representation</i> of complex numbers. It is the purpose of the static
  * methods to provide this fast representation directly without generating
  * complex number objects.
@@ -46,18 +56,10 @@ import static java.lang.Math.tan;
  * @version 1.1
  */
 public class Complex {
-	private static final long serialVersionUID = -1679819632;
-
-	/**
-	 * Euler-Mascheroni constant &#947; = 0.577215664901532860605.
-	 * 
-	 * @see BigNumbers#GAMMA
-	 */
-	public static final double GAMMA = 0.577215664901532860605;
-
+	// private static final long serialVersionUID = -1679819632;
 	/**
 	 * Accuracy up to which equality of double values are computed in methods of
-	 * this class. Its current value is {@value} . It is used, for instance, in
+	 * this class. Its current value is {@value}. It is used, for instance, in
 	 * the methods {@link #gamma(Complex)}, {@link #lnGamma(Complex)}, or
 	 * {@link #pow(Complex)}.
 	 */
@@ -77,7 +79,7 @@ public class Complex {
 	 * Constant 1 &#8712; <span style="font-size:large;">&#8450;</span> in the
 	 * array representation.
 	 */
-	static final double[] ONE_ = { 1., 0. };
+	public static final double[] ONE_ = { 1., 0. };
 	/**
 	 * Constant i &#8712; <span style="font-size:large;">&#8450;</span> in the
 	 * array representation.
@@ -112,9 +114,6 @@ public class Complex {
 	public Complex(double[] z) {
 		this.z = new double[z.length];
 		System.arraycopy(z, 0, this.z, 0, z.length);
-		/*
-		 * for (int i = 0; i < z.length; i++) { this.z[i] = z[i]; } //
-		 */
 	}
 
 	/**
@@ -141,8 +140,8 @@ public class Complex {
 	/**
 	 * Returns the absolute value, or complex modulus, |<i>z</i>| of <i>z</i>
 	 * &#8712; <span style="font-size:large;">&#8450;</span>. For <i>z</i> =
-	 * <i>x</i> + i<i>y</i> it is defined as |<i>z</i>| =
-	 * &#8730;(<i>x</i><sup>2</sup> + <i>y</i><sup>2</sup>).
+	 * <i>x</i> + i<i>y</i> it is defined as |<i>z</i>| = &#8730;(<i>x</i>
+	 * <sup>2</sup> + <i>y</i><sup>2</sup>).
 	 * 
 	 * @param z
 	 *            the complex number <i>z</i> in the array representation
@@ -167,8 +166,8 @@ public class Complex {
 	/**
 	 * Returns the absolute value, or complex modulus, |<i>z</i>| of <i>z</i>
 	 * &#8712; <span style="font-size:large;">&#8450;</span> of the complex
-	 * number <i>z</i>. For <i>z</i> = <i>x</i> + i<i>y</i> it is defined as
-	 * |<i>z</i>| = &#8730;(<i>x</i><sup>2</sup> + <i>y</i><sup>2</sup>).
+	 * number <i>z</i>. For <i>z</i> = <i>x</i> + i<i>y</i> it is defined as |
+	 * <i>z</i>| = &#8730;(<i>x</i><sup>2</sup> + <i>y</i><sup>2</sup>).
 	 * 
 	 * @param z
 	 *            a complex number
@@ -181,8 +180,8 @@ public class Complex {
 	/**
 	 * Returns the absolute value, or complex modulus, |<i>z</i>| of <i>z</i>
 	 * &#8712; <span style="font-size:large;">&#8450;</span> of this complex
-	 * number <i>z</i>. For <i>z</i> = <i>x</i> + i<i>y</i> it is defined as
-	 * |<i>z</i>| = &#8730;(<i>x</i><sup>2</sup> + <i>y</i><sup>2</sup>).
+	 * number <i>z</i>. For <i>z</i> = <i>x</i> + i<i>y</i> it is defined as |
+	 * <i>z</i>| = &#8730;(<i>x</i><sup>2</sup> + <i>y</i><sup>2</sup>).
 	 * 
 	 * @return |<code>this</code>|
 	 */
@@ -195,8 +194,8 @@ public class Complex {
 	 * <i>x</i> = <i>x</i><sub>0</sub> + i<i>x</i><sub>1</sub> and <i>y</i> =
 	 * <i>y</i><sub>0</sub> + i<i>y</i><sub>1</sub>, we have
 	 * <p style="text-align:center;">
-	 * <i>x + y</i> = <i>x</i><sub>0</sub> + <i>y</i><sub>0</sub> + i
-	 * (<i>x</i><sub>1</sub> + <i>y</i><sub>1</sub>)
+	 * <i>x + y</i> = <i>x</i><sub>0</sub> + <i>y</i><sub>0</sub> + i (<i>x</i>
+	 * <sub>1</sub> + <i>y</i><sub>1</sub>)
 	 * </p>
 	 * 
 	 * @param x
@@ -207,10 +206,7 @@ public class Complex {
 	 * @see #add(Complex)
 	 */
 	public static double[] add(double[] x, double[] y) {
-		double[] result = new double[2];
-		result[0] = x[0] + y[0];
-		result[1] = x[1] + y[1];
-		return result;
+		return new double[] { x[0] + y[0], x[1] + y[1] };
 	}
 
 	/**
@@ -218,8 +214,8 @@ public class Complex {
 	 * <i>x</i> = <i>x</i><sub>0</sub> + i<i>x</i><sub>1</sub> and <i>y</i> =
 	 * <i>y</i><sub>0</sub> + i<i>y</i><sub>1</sub>, we have
 	 * <p style="text-align:center;">
-	 * <i>x + y</i> = <i>x</i><sub>0</sub> + <i>y</i><sub>0</sub> + i
-	 * (<i>x</i><sub>1</sub> + <i>y</i><sub>1</sub>)
+	 * <i>x + y</i> = <i>x</i><sub>0</sub> + <i>y</i><sub>0</sub> + i (<i>x</i>
+	 * <sub>1</sub> + <i>y</i><sub>1</sub>)
 	 * </p>
 	 * 
 	 * @param z
@@ -313,7 +309,7 @@ public class Complex {
 		double[] w = new double[2];
 		double h;
 
-		if (Math.abs(y[0]) == 0 && Math.abs(y[1]) == 0) {
+		if (Math.abs(y[0]) <= ACCURACY && Math.abs(y[1]) <= ACCURACY) {
 			if (x > 0) {
 				w[0] = Double.POSITIVE_INFINITY;
 			} else if (x < 0) {
@@ -367,7 +363,7 @@ public class Complex {
 		double[] w = new double[2];
 		double h;
 
-		if (Math.abs(y[0]) == 0 && Math.abs(y[1]) == 0) {
+		if (Math.abs(y[0]) <= ACCURACY && Math.abs(y[1]) <= ACCURACY) {
 			if (x[0] > 0) {
 				w[0] = Double.POSITIVE_INFINITY;
 			} else if (x[0] < 0) {
@@ -455,20 +451,19 @@ public class Complex {
 	 * For Re <i>z</i> &gt; 0, it is computed according to the method of
 	 * Lanczos. Otherwise, the following formula of Weierstrass is applied,
 	 * which holds for any <i>z</i> but converges more slowly.
-	 * <table summary="" align="center" border="0">
+	 * <table style="margin:auto;" summary="">
 	 * <tr>
-	 * <td>
-	 * &#915;(<i>z</i>)</td>
-	 * <td align="center">
-	 * &nbsp; = &nbsp;</td>
+	 * <td>&#915;(<i>z</i>)</td>
+	 * <td align="center">&nbsp; = &nbsp;</td>
 	 * <td>
 	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">1</td>
 	 * </tr>
 	 * <tr>
-	 * <td height="1">
-	 * <hr/></td>
+	 * <td style="height:1px;">
+	 * <hr>
+	 * </td>
 	 * </tr>
 	 * <tr>
 	 * <td align="center"><i>z</i> e<sup><i>&#947;z</i></sup></td>
@@ -490,26 +485,25 @@ public class Complex {
 	 * </td>
 	 * <td align="center" style="font-size:xx-large;">[</td>
 	 * <td align="center" style="font-size:xx-large;">(</td>
-	 * <td>
-	 * 1 +</td>
+	 * <td>1 +</td>
 	 * <td>
 	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
 	 * <tr>
-	 * <td height="1">
-	 * <hr/></td>
+	 * <td style="height:1px;">
+	 * <hr>
+	 * </td>
 	 * </tr>
 	 * <tr>
 	 * <td align="center"><i>n</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center" style="font-size:xx-large;">)<sup><span
-	 * style="font-size:small;">-1</span></sup></td>
-	 * <td>
-	 * e<sup><i>z/n</i></sup></td>
+	 * <td align="center" style="font-size:xx-large;">)
+	 * <sup><span style="font-size:small;">-1</span></sup></td>
+	 * <td>e<sup><i>z/n</i></sup></td>
 	 * <td align="center" style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
@@ -527,7 +521,7 @@ public class Complex {
 	public static double[] gamma(double[] z) {
 		if (z[0] < 0) { // Weierstrass form:
 			double[] w = divide(ONE_,
-					multiply(z, power(Math.E, multiply(GAMMA, z))));
+					multiply(z, power(Math.E, multiply(Numbers.GAMMA, z))));
 			int nMax = (int) (1e-6 / ACCURACY);
 			double[] z_n;
 			for (int n = 1; n <= nMax; n++) {
@@ -583,20 +577,19 @@ public class Complex {
 	 * For Re <i>z</i> &gt; 0, it is computed according to the method of
 	 * Lanczos. Otherwise, the following formula of Weierstrass is applied,
 	 * which holds for any <i>z</i> but converges more slowly.
-	 * <table summary="" align="center" border="0">
+	 * <table style="margin:auto;" summary="">
 	 * <tr>
-	 * <td>
-	 * &#915;(<i>z</i>)</td>
-	 * <td align="center">
-	 * &nbsp; = &nbsp;</td>
+	 * <td>&#915;(<i>z</i>)</td>
+	 * <td align="center">&nbsp; = &nbsp;</td>
 	 * <td>
 	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center">1</td>
 	 * </tr>
 	 * <tr>
-	 * <td height="1">
-	 * <hr/></td>
+	 * <td style="height:1px;">
+	 * <hr>
+	 * </td>
 	 * </tr>
 	 * <tr>
 	 * <td align="center"><i>z</i> e<sup><i>&#947;z</i></sup></td>
@@ -618,26 +611,25 @@ public class Complex {
 	 * </td>
 	 * <td align="center" style="font-size:xx-large;">[</td>
 	 * <td align="center" style="font-size:xx-large;">(</td>
-	 * <td>
-	 * 1 +</td>
+	 * <td>1 +</td>
 	 * <td>
 	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
 	 * <tr>
-	 * <td height="1">
-	 * <hr/></td>
+	 * <td style="height:1px;">
+	 * <hr>
+	 * </td>
 	 * </tr>
 	 * <tr>
 	 * <td align="center"><i>n</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td align="center" style="font-size:xx-large;">)<sup><span
-	 * style="font-size:small;">-1</span></sup></td>
-	 * <td>
-	 * e<sup><i>z/n</i></sup></td>
+	 * <td align="center" style="font-size:xx-large;">)
+	 * <sup><span style="font-size:small;">-1</span></sup></td>
+	 * <td>e<sup><i>z/n</i></sup></td>
 	 * <td align="center" style="font-size:xx-large;">]</td>
 	 * </tr>
 	 * </table>
@@ -722,16 +714,12 @@ public class Complex {
 	 * Re <i>z</i> &gt; 0, it is computed according to the method of Lanczos.
 	 * Otherwise, the following formula is applied, which holds for any <i>z</i>
 	 * but converges more slowly.
-	 * <table summary="" align="center" border="0">
+	 * <table style="margin:auto;" summary="">
 	 * <tr>
-	 * <td>
-	 * ln &#915;(<i>z</i>)</td>
-	 * <td align="center">
-	 * &nbsp; = &nbsp;</td>
-	 * <td>
-	 * - ln <i>z</i> - <i>&#947;z</i></td>
-	 * <td>
-	 * +</td>
+	 * <td>ln &#915;(<i>z</i>)</td>
+	 * <td align="center">&nbsp; = &nbsp;</td>
+	 * <td>- ln <i>z</i> - <i>&#947;z</i></td>
+	 * <td>+</td>
 	 * <td>
 	 * <table summary="" border="0">
 	 * <tr>
@@ -752,27 +740,27 @@ public class Complex {
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
 	 * <tr>
-	 * <td height="1">
-	 * <hr/></td>
+	 * <td style="height:1px;">
+	 * <hr>
+	 * </td>
 	 * </tr>
 	 * <tr>
 	 * <td align="center"><i>n</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td>
-	 * - ln</td>
+	 * <td>- ln</td>
 	 * <td align="center" style="font-size:xx-large;">(</td>
-	 * <td>
-	 * 1 +</td>
+	 * <td>1 +</td>
 	 * <td>
 	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
 	 * <tr>
-	 * <td height="1">
-	 * <hr/></td>
+	 * <td style="height:1px;">
+	 * <hr>
+	 * </td>
 	 * </tr>
 	 * <tr>
 	 * <td align="center"><i>n</i></td>
@@ -793,7 +781,7 @@ public class Complex {
 	 */
 	public static double[] lnGamma(double[] z) {
 		if (z[0] < 0) {
-			double[] w = add(ln(z), multiply(GAMMA, z));
+			double[] w = add(ln(z), multiply(Numbers.GAMMA, z));
 			w = multiply(-1.0, w);
 			int nMax = (int) (Math.abs(z[0]) / ACCURACY);
 			if (nMax > 10000)
@@ -850,16 +838,12 @@ public class Complex {
 	 * Re <i>z</i> &gt; 0, it is computed according to the method of Lanczos.
 	 * Otherwise, the following formula is applied, which holds for any <i>z</i>
 	 * but converges more slowly.
-	 * <table summary="" align="center" border="0">
+	 * <table style="margin:auto;" summary="">
 	 * <tr>
-	 * <td>
-	 * ln &#915;(<i>z</i>)</td>
-	 * <td align="center">
-	 * &nbsp; = &nbsp;</td>
-	 * <td>
-	 * - ln <i>z</i> - <i>&#947;z</i></td>
-	 * <td>
-	 * +</td>
+	 * <td>ln &#915;(<i>z</i>)</td>
+	 * <td align="center">&nbsp; = &nbsp;</td>
+	 * <td>- ln <i>z</i> - <i>&#947;z</i></td>
+	 * <td>+</td>
 	 * <td>
 	 * <table summary="" border="0">
 	 * <tr>
@@ -880,27 +864,27 @@ public class Complex {
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
 	 * <tr>
-	 * <td height="1">
-	 * <hr/></td>
+	 * <td style="height:1px;">
+	 * <hr>
+	 * </td>
 	 * </tr>
 	 * <tr>
 	 * <td align="center"><i>n</i></td>
 	 * </tr>
 	 * </table>
 	 * </td>
-	 * <td>
-	 * - ln</td>
+	 * <td>- ln</td>
 	 * <td align="center" style="font-size:xx-large;">(</td>
-	 * <td>
-	 * 1 +</td>
+	 * <td>1 +</td>
 	 * <td>
 	 * <table summary="" border="0">
 	 * <tr>
 	 * <td align="center"><i>z</i></td>
 	 * </tr>
 	 * <tr>
-	 * <td height="1">
-	 * <hr/></td>
+	 * <td style="height:1px;">
+	 * <hr>
+	 * </td>
 	 * </tr>
 	 * <tr>
 	 * <td align="center"><i>n</i></td>
@@ -987,12 +971,7 @@ public class Complex {
 	 * @return the product <i>xz</i>
 	 */
 	public static double[] multiply(double x, double[] z) {
-		double[] w = new double[2];
-
-		w[0] = x * z[0];
-		w[1] = x * z[1];
-
-		return w;
+		return new double[] { x * z[0], x * z[1] };
 	}
 
 	/**
@@ -1008,13 +987,12 @@ public class Complex {
 
 	/**
 	 * The product of two complex numbers. For <i>x</i> = <i>x</i><sub>0</sub> +
-	 * i<i>x</i><sub>1</sub> and <i>y</i> = <i>y</i><sub>0</sub> +
-	 * i<i>y</i><sub>1</sub>, we have
+	 * i<i>x</i><sub>1</sub> and <i>y</i> = <i>y</i><sub>0</sub> + i<i>y</i>
+	 * <sub>1</sub>, we have
 	 * <p style="text-align:center">
-	 * <i>xy</i> = <i>x</i><sub>0</sub><i>y</i><sub>0</sub> -
-	 * <i>x</i><sub>1</sub><i>y</i><sub>1</sub> + i
-	 * (<i>x</i><sub>1</sub><i>y</i><sub>0</sub> +
-	 * <i>x</i><sub>0</sub><i>y</i><sub>1</sub>)
+	 * <i>xy</i> = <i>x</i><sub>0</sub><i>y</i><sub>0</sub> - <i>x</i>
+	 * <sub>1</sub><i>y</i><sub>1</sub> + i (<i>x</i><sub>1</sub><i>y</i>
+	 * <sub>0</sub> + <i>x</i><sub>0</sub><i>y</i><sub>1</sub>)
 	 * </p>
 	 * 
 	 * @param x
@@ -1024,19 +1002,18 @@ public class Complex {
 	 * @return the product <i>xy</i>
 	 */
 	public static Complex multiply(Complex x, Complex y) {
-		return new Complex(multiply(new double[] { x.z[0], x.z[1] },
-				new double[] { y.z[0], y.z[1] }));
+		return new Complex(x.z[0] * y.z[0] - x.z[1] * y.z[1],
+				x.z[1] * y.z[0] + x.z[0] * y.z[1]);
 	}
 
 	/**
 	 * The product of two complex numbers. For <i>x</i> = <i>x</i><sub>0</sub> +
-	 * i<i>x</i><sub>1</sub> and <i>y</i> = <i>y</i><sub>0</sub> +
-	 * i<i>y</i><sub>1</sub>, we have
+	 * i<i>x</i><sub>1</sub> and <i>y</i> = <i>y</i><sub>0</sub> + i<i>y</i>
+	 * <sub>1</sub>, we have
 	 * <p style="text-align:center">
-	 * <i>xy</i> = <i>x</i><sub>0</sub><i>y</i><sub>0</sub> -
-	 * <i>x</i><sub>1</sub><i>y</i><sub>1</sub> + i
-	 * (<i>x</i><sub>1</sub><i>y</i><sub>0</sub> +
-	 * <i>x</i><sub>0</sub><i>y</i><sub>1</sub>)
+	 * <i>xy</i> = <i>x</i><sub>0</sub><i>y</i><sub>0</sub> - <i>x</i>
+	 * <sub>1</sub><i>y</i><sub>1</sub> + i (<i>x</i><sub>1</sub><i>y</i>
+	 * <sub>0</sub> + <i>x</i><sub>0</sub><i>y</i><sub>1</sub>)
 	 * </p>
 	 * 
 	 * @param x
@@ -1046,12 +1023,8 @@ public class Complex {
 	 * @return the product <i>xy</i>
 	 */
 	public static double[] multiply(double[] x, double[] y) {
-		double[] w = new double[2];
-
-		w[0] = x[0] * y[0] - x[1] * y[1];
-		w[1] = x[1] * y[0] + x[0] * y[1];
-
-		return w;
+		return new double[] { x[0] * y[0] - x[1] * y[1],
+				x[1] * y[0] + x[0] * y[1] };
 	}
 
 	/**
@@ -1059,10 +1032,9 @@ public class Complex {
 	 * <i>z</i>. For <i>x</i> = <i>x</i><sub>0</sub> + i<i>x</i><sub>1</sub> and
 	 * <i>y</i> = <i>y</i><sub>0</sub> + i<i>y</i><sub>1</sub>, we have
 	 * <p style="text-align:center">
-	 * <i>xy</i> = <i>x</i><sub>0</sub><i>y</i><sub>0</sub> -
-	 * <i>x</i><sub>1</sub><i>y</i><sub>1</sub> + i
-	 * (<i>x</i><sub>1</sub><i>y</i><sub>0</sub> +
-	 * <i>x</i><sub>0</sub><i>y</i><sub>1</sub>)
+	 * <i>xy</i> = <i>x</i><sub>0</sub><i>y</i><sub>0</sub> - <i>x</i>
+	 * <sub>1</sub><i>y</i><sub>1</sub> + i (<i>x</i><sub>1</sub><i>y</i>
+	 * <sub>0</sub> + <i>x</i><sub>0</sub><i>y</i><sub>1</sub>)
 	 * </p>
 	 * 
 	 * @param z
@@ -1079,8 +1051,8 @@ public class Complex {
 	 * <i>x</i> = <i>x</i><sub>0</sub> + i<i>x</i><sub>1</sub> and <i>y</i> =
 	 * <i>y</i><sub>0</sub> + i<i>y</i><sub>1</sub>, we have
 	 * <p style="text-align:center">
-	 * <i>x + y</i> = <i>x</i><sub>0</sub> + <i>y</i><sub>0</sub> + i
-	 * (<i>x</i><sub>1</sub> + <i>y</i><sub>1</sub>)
+	 * <i>x + y</i> = <i>x</i><sub>0</sub> + <i>y</i><sub>0</sub> + i (<i>x</i>
+	 * <sub>1</sub> + <i>y</i><sub>1</sub>)
 	 * </p>
 	 * 
 	 * @param z
@@ -1094,8 +1066,8 @@ public class Complex {
 
 	/**
 	 * Returns <i>x<sup>s</sup></i> for a real number <i>x</i> and a complex
-	 * number <i>s</i>. For <i>s</i> = <i>s</i><sub>0</sub> +
-	 * i<i>s</i><sub>1</sub>, we have
+	 * number <i>s</i>. For <i>s</i> = <i>s</i><sub>0</sub> + i<i>s</i>
+	 * <sub>1</sub>, we have
 	 * <p style="text-align:center">
 	 * <i>x<sup>s</sup></i> = <i>x</i><sup><i>s</i><sub>0</sub></sup> [ cos(
 	 * <i>s</i><sub>1</sub> ln <i>x</i> ) + i sin( <i>s</i><sub>1</sub> ln
@@ -1124,8 +1096,8 @@ public class Complex {
 
 	/**
 	 * Returns <i>x<sup>s</sup></i> for a real number <i>x</i> and a complex
-	 * number <i>s</i>. For <i>s</i> = <i>s</i><sub>0</sub> +
-	 * i<i>s</i><sub>1</sub>, we have
+	 * number <i>s</i>. For <i>s</i> = <i>s</i><sub>0</sub> + i<i>s</i>
+	 * <sub>1</sub>, we have
 	 * <p style="text-align:center">
 	 * <i>x<sup>s</sup></i> = <i>x</i><sup><i>s</i><sub>0</sub></sup> [ cos(
 	 * <i>s</i><sub>1</sub> ln <i>x</i> ) + i sin( <i>s</i><sub>1</sub> ln
@@ -1174,14 +1146,13 @@ public class Complex {
 
 	/**
 	 * Returns <i>z<sup>s</sup></i> where <i>z</i> is this complex number, and
-	 * <i>s</i> is a complex number. For <i>z</i> = <i>r</i>
-	 * e<sup>i<i>&#966;</i></sup> (that is, <i>r</i> = |<i>z</i>| and
-	 * <i>&#966;</i> = arg <i>z</i>), and <i>s</i> = <i>x</i> + i<i>y</i>, we
-	 * have
+	 * <i>s</i> is a complex number. For <i>z</i> = <i>r</i> e<sup>i
+	 * <i>&#966;</i></sup> (that is, <i>r</i> = |<i>z</i>| and <i>&#966;</i> =
+	 * arg <i>z</i>), and <i>s</i> = <i>x</i> + i<i>y</i>, we have
 	 * <p style="text-align:center">
-	 * <i>z<sup>s</sup></i> &nbsp; = &nbsp; <i>r<sup>x</sup></i>
-	 * e<sup>-<i>y&#966;</i></sup> [ cos( <i>x&#966;</i> + <i>y</i> ln <i>r</i>
-	 * ) + i sin( <i>x&#966;</i> + <i>y</i> ln <i>r</i> ) ].
+	 * <i>z<sup>s</sup></i> &nbsp; = &nbsp; <i>r<sup>x</sup></i> e<sup>-
+	 * <i>y&#966;</i></sup> [ cos( <i>x&#966;</i> + <i>y</i> ln <i>r</i> ) + i
+	 * sin( <i>x&#966;</i> + <i>y</i> ln <i>r</i> ) ].
 	 * </p>
 	 * 
 	 * @param s
@@ -1212,13 +1183,13 @@ public class Complex {
 
 	/**
 	 * Returns <i>z<sup>s</sup></i> for two complex numbers <i>z</i>, <i>s</i>.
-	 * For <i>z</i> = <i>r</i> e<sup>i<i>&#966;</i></sup> (that is, <i>r</i> =
-	 * |<i>z</i>| and <i>&#966;</i> = arg <i>z</i>), and <i>s</i> = <i>x</i> +
-	 * i<i>y</i>, we have
+	 * For <i>z</i> = <i>r</i> e<sup>i<i>&#966;</i></sup> (that is, <i>r</i> = |
+	 * <i>z</i>| and <i>&#966;</i> = arg <i>z</i>), and <i>s</i> = <i>x</i> + i
+	 * <i>y</i>, we have
 	 * <p style="text-align:center">
-	 * <i>z<sup>s</sup></i> &nbsp; = &nbsp; <i>r<sup>x</sup></i>
-	 * e<sup>-<i>y&#966;</i></sup> [ cos( <i>x&#966;</i> + <i>y</i> ln <i>r</i>
-	 * ) + i sin( <i>x&#966;</i> + <i>y</i> ln <i>r</i> ) ].
+	 * <i>z<sup>s</sup></i> &nbsp; = &nbsp; <i>r<sup>x</sup></i> e<sup>-
+	 * <i>y&#966;</i></sup> [ cos( <i>x&#966;</i> + <i>y</i> ln <i>r</i> ) + i
+	 * sin( <i>x&#966;</i> + <i>y</i> ln <i>r</i> ) ].
 	 * </p>
 	 * 
 	 * @param z
@@ -1329,8 +1300,8 @@ public class Complex {
 	 * @return sin <i>z</i>
 	 */
 	public static Complex sin(Complex z) {
-		return new Complex(Math.sin(z.z[0]) * cosh(z.z[1]), Math.cos(z.z[0])
-				* sinh(z.z[1]));
+		return new Complex(Math.sin(z.z[0]) * cosh(z.z[1]),
+				Math.cos(z.z[0]) * sinh(z.z[1]));
 	}
 
 	/**
@@ -1339,8 +1310,8 @@ public class Complex {
 	 * @return sin <i>z</i>
 	 */
 	public Complex sin() {
-		return new Complex(Math.sin(z[0]) * cosh(z[1]), Math.cos(z[0])
-				* sinh(z[1]));
+		return new Complex(Math.sin(z[0]) * cosh(z[1]),
+				Math.cos(z[0]) * sinh(z[1]));
 	}
 
 	/**
@@ -1393,9 +1364,9 @@ public class Complex {
 	}
 
 	/**
-	 * subtracts two complex numbers <i>x</i> and <i>y</i>. We have
-	 * subtract(<i>x</i>, <i>y</i>) = <i>x</i> - <i>y</i> = Re (<i>x</i> -
-	 * <i>y</i>) + Im (<i>x</i> - <i>y</i>).
+	 * subtracts two complex numbers <i>x</i> and <i>y</i>. We have subtract(
+	 * <i>x</i>, <i>y</i>) = <i>x</i> - <i>y</i> = Re (<i>x</i> - <i>y</i>) + Im
+	 * (<i>x</i> - <i>y</i>).
 	 * 
 	 * @param x
 	 *            a complex number in the array representation
@@ -1511,28 +1482,33 @@ public class Complex {
 																				// 0
 			output += "0";
 		} else if (Math.abs(z[0]) >= ACCURACY && Math.abs(z[1]) < ACCURACY) {
-			formatCondition = (Math.abs(z[0]) < upLimit && Math.abs(z[0]) > lowLimit);
-			output += formatCondition ? digit.format(z[0]) : scientific
-					.format(z[0]);
+			formatCondition = (Math.abs(z[0]) < upLimit
+					&& Math.abs(z[0]) > lowLimit);
+			output += formatCondition ? digit.format(z[0])
+					: scientific.format(z[0]);
 		} else if (Math.abs(z[0]) >= ACCURACY && z[1] > 0) {
-			formatCondition = (Math.abs(z[0]) < upLimit && Math.abs(z[0]) > lowLimit);
-			output += formatCondition ? digit.format(z[0]) : scientific
-					.format(z[0]);
+			formatCondition = (Math.abs(z[0]) < upLimit
+					&& Math.abs(z[0]) > lowLimit);
+			output += formatCondition ? digit.format(z[0])
+					: scientific.format(z[0]);
 			output += " + ";
 			if (Math.abs(z[1] - 1) >= ACCURACY) {
-				formatCondition = (Math.abs(z[1]) < upLimit && Math.abs(z[1]) > lowLimit);
+				formatCondition = (Math.abs(z[1]) < upLimit
+						&& Math.abs(z[1]) > lowLimit);
 				output += formatCondition ? digit.format(Math.abs(z[1]))
 						: scientific.format(z[1]);
 				output += " ";
 			}
 			output += "i";
 		} else if (Math.abs(z[0]) >= ACCURACY && z[1] < 0) {
-			formatCondition = (Math.abs(z[0]) < upLimit && Math.abs(z[0]) > lowLimit);
-			output += formatCondition ? digit.format(z[0]) : scientific
-					.format(z[0]);
+			formatCondition = (Math.abs(z[0]) < upLimit
+					&& Math.abs(z[0]) > lowLimit);
+			output += formatCondition ? digit.format(z[0])
+					: scientific.format(z[0]);
 			output += " - ";
 			if (Math.abs(z[1] + 1) >= ACCURACY) { // z[1] != -1
-				formatCondition = (Math.abs(z[1]) < upLimit && Math.abs(z[1]) > lowLimit);
+				formatCondition = (Math.abs(z[1]) < upLimit
+						&& Math.abs(z[1]) > lowLimit);
 				output += formatCondition ? digit.format(Math.abs(z[1]))
 						: scientific.format(Math.abs(z[1]));
 				output += " ";
@@ -1542,9 +1518,10 @@ public class Complex {
 			if (Math.abs(z[1] + 1) < ACCURACY) {
 				output += "- ";
 			} else if (Math.abs(z[1] - 1) >= ACCURACY) {
-				formatCondition = (Math.abs(z[1]) < upLimit && Math.abs(z[1]) > lowLimit);
-				output += formatCondition ? digit.format(z[1]) : scientific
-						.format(z[1]);
+				formatCondition = (Math.abs(z[1]) < upLimit
+						&& Math.abs(z[1]) > lowLimit);
+				output += formatCondition ? digit.format(z[1])
+						: scientific.format(z[1]);
 				output += " ";
 			}
 			output += "i";
@@ -1611,8 +1588,6 @@ public class Complex {
 	 * " ms)";
 	 * 
 	 * // Ausgabe auf dem Bildschirm: javax.swing.JOptionPane.showMessageDialog(
-	 * null, ausgabe, "Ergebnis", javax.swing.JOptionPane.PLAIN_MESSAGE );
-	 * 
-	 * System.exit( 0 ); } //
+	 * null, ausgabe, "Ergebnis", javax.swing.JOptionPane.PLAIN_MESSAGE ); } //
 	 */
 }
