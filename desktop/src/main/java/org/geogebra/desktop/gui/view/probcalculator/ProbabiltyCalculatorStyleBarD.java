@@ -17,6 +17,7 @@ import org.geogebra.common.gui.view.probcalculator.ProbabiltyCalculatorStyleBar;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * StyleBar for the ProbabilityCalculator view
@@ -228,7 +229,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 	private void buildOptionsButton() {
 
 		btnRounding = new JButton(
-				((AppD) app).getScaledIcon("triangle-down.png"));
+				((AppD) app).getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));
 		btnRounding.setHorizontalTextPosition(SwingConstants.LEFT);
 		btnRounding.setHorizontalAlignment(SwingConstants.LEFT);
 		roundingPopup = createRoundingPopup();

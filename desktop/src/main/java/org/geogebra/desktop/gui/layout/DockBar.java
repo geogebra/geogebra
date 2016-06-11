@@ -7,29 +7,18 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JToolBar;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.view.properties.PropertiesView;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.gui.GuiManagerD;
-import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
-import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.DockBarInterface;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -40,7 +29,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author G. Sturr
  * 
  */
-public class DockBar extends JPanel implements SetLabels, ActionListener,
+public class DockBar extends JPanel implements SetLabels,
 		DockBarInterface {
 
 	private static final long serialVersionUID = 1L;
@@ -50,14 +39,12 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 
 	private PerspectivePanel popup;
 	private JPanel buttonPanel, slimSidebarPanel;
-	private ViewButtonBar viewButtonBar;
 	private JLabel lblIcon, lblIconRight;
 
 	private boolean isEastOrientation = true;
 	private boolean showButtonBar = false;
 
-	private DockButton btnFileOpen, btnFileSave, btnPrint, btnKeyboard,
-			btnPerspectives, btnProperties;
+
 
 	private AbstractAction showKeyboardAction;
 
@@ -71,7 +58,6 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 		this.app = app;
 		this.layout = (LayoutD) app.getGuiManager().getLayout();
 		setBorder(BorderFactory.createEmptyBorder());
-		initActions();
 		initGUI();
 
 	}
@@ -82,15 +68,14 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 
 	private void initGUI() {
 
-		JLabel lblArrow = new JLabel(
-				app.getScaledIcon("dockbar-triangle-right.png"));
 
-		buildButtonPanel();
+
+		// buildButtonPanel();
 		buildSlimSidebarPanel();
 		slimSidebarPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 0,
 				SystemColor.controlShadow));
-		buttonPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1,
-				SystemColor.controlShadow));
+		// buttonPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1,
+		// SystemColor.controlShadow));
 
 		registerListeners();
 		setLayout(new BorderLayout());
@@ -102,26 +87,6 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 		slimSidebarPanel.addMouseListener(l);
 	}
 
-	private void buildButtonPanel() {
-
-		viewButtonBar = new ViewButtonBar(app);
-		viewButtonBar.setOrientation(JToolBar.VERTICAL);
-
-		JPanel northButtonPanel = new JPanel();
-		northButtonPanel.setLayout(new BoxLayout(northButtonPanel,
-				BoxLayout.Y_AXIS));
-		northButtonPanel.add(Box.createVerticalStrut(50));
-		northButtonPanel.add(buildExtraButtonToolBar());
-		northButtonPanel.add(Box.createVerticalStrut(50));
-		northButtonPanel.setBackground(SystemColor.control);
-
-		buttonPanel = new JPanel(new BorderLayout());
-		buttonPanel.add(northButtonPanel, BorderLayout.NORTH);
-		buttonPanel.add(viewButtonBar, BorderLayout.CENTER);
-		buttonPanel.setBackground(SystemColor.control);
-		buttonPanel.setOpaque(true);
-
-	}
 
 	/**
 	 * 
@@ -131,86 +96,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 		return new PerspectivePanel(app, this);
 	}
 
-	private JToolBar buildExtraButtonToolBar() {
 
-		// perspectives button
-		btnPerspectives = new DockButton(app,
-				app.getScaledIcon("options-layout24.png"));
-		btnPerspectives.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				popup = newPerspectivePanel();
-				popup.show(btnPerspectives, -popup.getPreferredSize().width, 0);
-				btnPerspectives.setSelected(false);
-			}
-		});
-
-		// properties button
-		btnProperties = new DockButton(app,
-				app.getScaledIcon("view-properties22.png"));
-		btnProperties.addActionListener(this);
-
-		// keyboard button
-		btnKeyboard = new DockButton(app, app.getScaledIcon("keyboard.png"));
-		btnKeyboard.addActionListener(showKeyboardAction);
-
-		// file open button
-		btnFileOpen = new DockButton(app,
-				app.getScaledIcon("document-open22.png"));
-		btnFileOpen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				app.getGuiManager().openFile();
-			}
-		});
-
-		// save button
-		btnFileSave = new DockButton(app,
-				app.getScaledIcon("document-save22.png"));
-		btnFileSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				app.getGuiManager().save();
-			}
-		});
-
-		// print button
-		btnPrint = new DockButton(app,
-				app.getScaledIcon("document-print22.png"));
-		btnPrint.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				GeoGebraMenuBar.showPrintPreview(app);
-			}
-		});
-
-		// help button
-		DockButton btnHelp = new DockButton(app,
-				app.getScaledIcon("help22.png"));
-		btnHelp.setFocusPainted(false);
-		btnHelp.setBorderPainted(false);
-		btnHelp.setContentAreaFilled(false);
-		btnHelp.setToolTipText(app.getLocalization().getMenuTooltip("Help"));
-
-		// TODO: better help action ?
-		btnHelp.addActionListener(new HelpAction(app, app
-				.getScaledIcon("help.png"), app.getMenu("Help"),
-				App.WIKI_MANUAL));
-
-		JToolBar extraButtonPanel = new JToolBar();
-		extraButtonPanel.setFloatable(false);
-		extraButtonPanel.setOrientation(JToolBar.VERTICAL);
-		extraButtonPanel.setOpaque(true);
-		extraButtonPanel.setBackground(SystemColor.control);
-		extraButtonPanel.setBorder(BorderFactory.createEmptyBorder());
-
-		// buttonPanel.add(btnKeyboard);
-		extraButtonPanel.add(Box.createVerticalStrut(30));
-		// buttonPanel.add(btnPrint);
-		// buttonPanel.add(btnFileSave);
-		// buttonPanel.add(btnFileOpen);
-		// buttonPanel.add(btnProperties);
-
-		extraButtonPanel.add(btnPerspectives);
-
-		return extraButtonPanel;
-	}
 
 	/**
 	 * Creates sidebarButtonPanel, a slim vertical bar that acts a button to
@@ -222,7 +108,8 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 		if (slimSidebarPanel == null) {
 			slimSidebarPanel = new JPanel(new BorderLayout(0, 0));
 
-			lblIcon = new JLabel(app.getScaledIcon("dockbar-triangle-left.png"));
+			lblIcon = new JLabel(
+					app.getScaledIcon(GuiResourcesD.DOCKBAR_TRIANGLE_LEFT));
 			lblIcon.setPreferredSize(new Dimension(10, 0));
 
 			slimSidebarPanel.add(lblIcon, BorderLayout.CENTER);
@@ -307,28 +194,9 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 
 	}
 
-	public void update() {
-		updateViewButtons();
-		// btnKeyboard.setSelected(AppD.isVirtualKeyboardActive());
-		// btnProperties.removeActionListener(this);
-		// btnProperties.setSelected(app.getGuiManager().showView(
-		// App.VIEW_PROPERTIES));
-		// btnProperties.addActionListener(this);
-	}
 
-	public void updateViewButtons() {
-		viewButtonBar.updateViewButtons();
-	}
 
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnProperties) {
-			((PropertiesView) app.getGuiManager().getPropertiesView())
-					.setOptionPanel(OptionType.LAYOUT);
-			int viewId = App.VIEW_PROPERTIES;
-			app.getGuiManager().setShowView(
-					!app.getGuiManager().showView(viewId), viewId, false);
-		}
-	}
+
 
 	public void setLabels() {
 
@@ -339,7 +207,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 		// btnFileSave.setToolTipText(app.getMenu("Save"));
 		// btnFileOpen.setToolTipText(app.getMenu("Load"));
 
-		updateViewButtons();
+		// updateViewButtons();
 
 	}
 
@@ -436,36 +304,6 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 
 	}
 
-	/**
-	 * Initialize the actions.
-	 */
-	private void initActions() {
-		showKeyboardAction = new AbstractAction(app.getPlain("Keyboard")) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-
-				if (AppD.isVirtualKeyboardActive()
-						&& !((GuiManagerD) app.getGuiManager())
-								.showVirtualKeyboard()) {
-
-					// if keyboard is active but hidden, just show it
-					((GuiManagerD) app.getGuiManager()).toggleKeyboard(true);
-					update();
-
-				} else {
-
-					AppD.setVirtualKeyboardActive(!AppD
-							.isVirtualKeyboardActive());
-					((GuiManagerD) app.getGuiManager()).toggleKeyboard(AppD
-							.isVirtualKeyboardActive());
-					update();
-				}
-
-			}
-		};
-
-	}
 
 	// ==============================================================
 	// Full screen button

@@ -382,7 +382,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			final JCheckBoxMenuItem cbItem = new JCheckBoxMenuItem(
 					app.getPlain("AbsoluteScreenLocation"));
 			((AppD) app).setEmptyIcon(cbItem);
-			cbItem.setIcon(((AppD) app).getScaledIcon("pin.png"));
+			cbItem.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.PIN));
 			cbItem.setSelected(geo.isPinned());
 			cbItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -472,10 +472,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				addItem(cbItem);
 			}
 
-			// trace to spreadsheet
-
-			// G.Sturr 2010-5-12
-			// modified to use SpreadsheetTrace Dialog
+			// trace to spreadsheet: use SpreadsheetTrace Dialog
 
 			if (app.getGuiManager().showView(App.VIEW_SPREADSHEET)
 					&& geo.hasSpreadsheetTraceModeTraceable()) {
@@ -486,7 +483,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 					cbItem = new JCheckBoxMenuItem(
 							app.getMenu("RecordToSpreadsheet"));
 					cbItem.setIcon(((AppD) app)
-							.getScaledIcon("spreadsheettrace.gif"));
+							.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE));
 					cbItem.setSelected(geo.getSpreadsheetTrace());
 
 					cbItem.addActionListener(new ActionListener() {
@@ -498,20 +495,6 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 				}
 			}
-
-			/*
-			 * ------------ OLD CODE --------------------- if (geo.isGeoPoint()
-			 * && app.getGuiManager().showSpreadsheetView()) { cbItem = new
-			 * JCheckBoxMenuItem( app.getPlain("TraceToSpreadsheet"));
-			 * cbItem.setIcon(app.getScaledIcon("spreadsheettrace.gif"));
-			 * cbItem.setSelected(((GeoPoint) geo).getSpreadsheetTrace());
-			 * cbItem.addActionListener(new ActionListener() { public void
-			 * actionPerformed(ActionEvent e) { ((GeoPoint)
-			 * geo).setSpreadsheetTrace(!((GeoPoint)
-			 * geo).getSpreadsheetTrace()); geo.updateRepaint();
-			 * app.storeUndoInfo(); } }); addItem(cbItem); }
-			 */
-			// END G.Sturr
 
 			// animation
 			if (geo.isAnimatable()) {
@@ -535,7 +518,8 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 				// show object
 				cbItem = new JCheckBoxMenuItem(app.getPlain("AuxiliaryObject"));
-				cbItem.setIcon(((AppD) app).getScaledIcon("aux_folder.gif"));
+				cbItem.setIcon(((AppD) app)
+						.getScaledIcon(GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS));
 				cbItem.setSelected(geo.isAuxiliaryObject());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -622,7 +606,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		// Rename
 		if (geos.size() == 1 && app.letRename() && geo.isRenameable()) {
 			addAction(new AbstractAction(app.getPlain("Rename"),
-					((AppD) app).getScaledIcon("rename.png")) {
+					((AppD) app).getScaledIcon(GuiResourcesD.RENAME)) {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
@@ -636,7 +620,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		if (geos.size() == 1 && geo instanceof TextValue
 				&& !geo.isTextCommand() && !geo.isFixed()) {
 			addAction(new AbstractAction(app.getPlain("Edit"),
-					((AppD) app).getScaledIcon("edit.png")) {
+					((AppD) app).getScaledIcon(GuiResourcesD.EDIT)) {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
@@ -659,7 +643,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		// DELETE
 		if (app.letDelete() && !geo.isFixed()) {
 			addAction(new AbstractAction(app.getPlain("Delete"),
-					((AppD) app).getScaledIcon("delete_small.gif")) {
+					((AppD) app).getScaledIcon(GuiResourcesD.DELETE_SMALL)) {
 				/**
 				 * 
 				 */
@@ -676,7 +660,8 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 			// open properties dialog
 			addAction(new AbstractAction(app.getPlain("Properties") + " ...",
-					((AppD) app).getScaledIcon("view-properties16.png")) {
+					((AppD) app)
+							.getScaledIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {

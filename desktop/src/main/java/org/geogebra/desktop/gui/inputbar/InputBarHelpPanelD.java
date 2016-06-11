@@ -78,7 +78,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	// TODO remove?
 	private Color titleColor;
 
-	private MyJTree cmdTree, fcnTree;
+	private MyJTree cmdTree;
 	private DefaultMutableTreeNode functionTitleNode, rootSubCommands,
 			rootAllCommands;
 	private DefaultTreeModel cmdTreeModel;
@@ -505,11 +505,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			if (functionTable.getSelectedIndex() != -1)
 				functionTable.clearSelection();
 		}
-
-		else if (e.getSource().equals(fcnTree)) {
-
-			functionTable.setVisible(!functionTable.isVisible());
-		}
 	}
 
 	private class RollOverListener extends MouseInputAdapter {
@@ -624,12 +619,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 					}
 				}
 
-				if (tree.equals(fcnTree)) {
-					// clear the help text
-					rollOverCommand = null;
-					// helpTextArea.setText("");
-				}
-
 				tree.repaint();
 			}
 		}
@@ -644,11 +633,11 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			syntaxHelpPanel.add(tablePanel);
 			SwingUtilities.updateComponentTreeUI(syntaxHelpPanel);
 			return;
-		} else {
-			syntaxHelpPanel.remove(tablePanel);
-			syntaxHelpPanel.add(syntaxScroller);
-			SwingUtilities.updateComponentTreeUI(syntaxHelpPanel);
 		}
+
+		syntaxHelpPanel.remove(tablePanel);
+		syntaxHelpPanel.add(syntaxScroller);
+		SwingUtilities.updateComponentTreeUI(syntaxHelpPanel);
 		// String s = "Syntax:\n" + app.getCommandSyntax(cmd);
 		String description = app.getLocalization().getCommandSyntax(cmd);
 		String descriptionCAS = app.getLocalization().getCommandSyntaxCAS(cmd);
@@ -797,7 +786,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			cmdTreeModel.setRoot(rootSubCommands);
 			cmdTreeModel.reload();
 			cmdTree.setRootVisible(false);
-			fcnTree.collapseRow(0);
 			btnRefresh.setEnabled(false);
 			helpTextPane.setText("");
 			selectedCommand = null;

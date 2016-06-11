@@ -158,7 +158,8 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private JPanel createDataSourcePanel() {
 
 		btnDataSource = new MyToggleButton(
-				app.getScaledIcon("arrow_cursor_grabbing.png"), iconHeight); // app.getImageIcon("go-previous.png"));
+				app.getScaledIcon(GuiResourcesD.ARROW_CURSOR_GRABBING),
+				iconHeight);
 
 		btnDataSource.addActionListener(this);
 		fldDataSource = new MyTextFieldD(app);
@@ -177,7 +178,8 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	 */
 	private void buildRoundingButton() {
 
-		btnRounding = new JButton(app.getScaledIcon("triangle-down.png"));
+		btnRounding = new JButton(
+				app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN));
 		btnRounding.setHorizontalTextPosition(SwingConstants.LEFT);
 		btnRounding.setHorizontalAlignment(SwingConstants.LEFT);
 

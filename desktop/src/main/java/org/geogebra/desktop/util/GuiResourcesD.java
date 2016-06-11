@@ -121,8 +121,9 @@ public enum GuiResourcesD implements ImageResourceD {
 	VIEW_PROPERTIES_16(
 			"/gui/images/64px/view-properties16.png"),
 
-	MENU_EDIT_COPY(
-			"/gui/images/64px/menu-edit-copy.png"), DOCUMENT_SAVE(
+	MENU_EDIT_COPY("/gui/images/64px/menu-edit-copy.png"), MENU_EDIT_CUT(
+			"/gui/images/64px/menu-edit-cut.png"), MENU_EDIT_PASTE(
+			"/gui/images/64px/menu-edit-paste.png"), DOCUMENT_SAVE(
 					"/gui/images/64px/document-save.png"), DOCUMENT_OPEN(
 			"/gui/images/64px/document-open.png"), EXPORT_SMALL(
 			"/gui/images/64px/export_small.png"), DOCUMENT_PRINT_PREVIEW(
@@ -132,13 +133,28 @@ public enum GuiResourcesD implements ImageResourceD {
 			"/gui/images/64px/text-html.png"), IMAGE_X_GENERIC(
 			"/gui/images/64px/image-x-generic.png"), TREE_CLOSE(
 			"/gui/images/64px/tree-close.png"), TREE_OPEN(
-			"/gui/images/64px/tree-close.png"), OBJECT_UNFIXED(
+			"/gui/images/64px/tree-open.png"), OBJECT_UNFIXED(
 			"/gui/images/64px/object_unfixed.png"), OBJECT_FIXED(
 			"/gui/images/64px/object_fixed.png"), APPLY(
 			"/gui/images/64px/apply.png"), TABLE("/gui/images/64px/table.gif"), AXES(
 			"/gui/images/64px/axes.gif"), GRID("/gui/images/64px/grid.gif"), ZOOM16(
 			"/gui/images/64px/zoom16.gif"), TRACE_ON(
-			"/gui/images/64px/trace_on.gif");
+			"/gui/images/64px/trace_on.gif"), ALGEBRA_SHOWN(
+			"/gui/images/64px/algebra_shown.png"), ALGEBRA_HIDDEN(
+			"/gui/images/64px/algebra_hidden.png"),
+ STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS(
+			"/gui/images/64px/stylingbar_algebraview_auxiliary_objects.png"),
+
+	STYLINGBAR_ALGEBRAVIEW_SORT_OBJECTS_BY(
+			"/gui/images/64px/stylingbar_algebraview_sort_objects_by.png"), FORMULA_BAR(
+			"/gui/images/64px/formula_bar.png"), COLUMN_HEADER(
+			"/gui/images/64px/header_column.png"), SPREADSHEETTRACE(
+			"/gui/images/64px/spreadsheettrace.gif"), RENAME(
+			"/gui/images/64px/rename.png"), EDIT("/gui/images/64px/edit.png"), PIN(
+			"/gui/images/64px/pin.png"), EDIT_CLEAR(
+			"/gui/images/64px/edit-clear.png"), STANDARD_VIEW(
+			"/gui/images/64px/standard_view.gif"), ARROW_CURSOR_GRABBING(
+			"/gui/images/64px/arrow_cursor_grabbing.png");
 	private String filename;
 
 	GuiResourcesD(String filename) {

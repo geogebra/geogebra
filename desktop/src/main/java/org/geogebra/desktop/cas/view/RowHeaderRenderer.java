@@ -21,6 +21,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Renders row headers
@@ -70,8 +71,8 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 	}
 
 	public void updateIcons() {
-		iconShown = app.getScaledIcon("algebra_shown.png");
-		iconHidden = app.getScaledIcon("algebra_hidden.png");
+		iconShown = app.getScaledIcon(GuiResourcesD.ALGEBRA_SHOWN);
+		iconHidden = app.getScaledIcon(GuiResourcesD.ALGEBRA_HIDDEN);
 		setMarbleValue(marbleValue);
 	}
 

@@ -2253,7 +2253,7 @@ ToolbarD.getAllTools(this));
 			fn = Util.processFilename(fn);
 
 			// filename will be of form
-			// "a04c62e6a065b47476607ac815d022cc\liar.gif"
+			// "a04c62e6a065b47476607ac815d022cc\filename.ext"
 			fileName = zip_directory + File.separator + fn;
 
 			/*
@@ -2904,12 +2904,6 @@ ToolbarD.getAllTools(this));
 		}
 	}
 
-	public void updateDockBar() {
-		if (dockBar != null) {
-			dockBar.update();
-		}
-	}
-
 	/**
 	 * Updates the configuration of the panels surrounding the main panel
 	 * (toolbar, input bar etc.). This method should be called when the
@@ -3000,7 +2994,6 @@ ToolbarD.getAllTools(this));
 
 		getGuiManager().updateMenubar();
 		getGuiManager().updateActions();
-		updateDockBar();
 	}
 
 	@Override

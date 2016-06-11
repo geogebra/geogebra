@@ -183,7 +183,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 				+ " ...");
 		miProperties
 .setIcon(((AppD) app)
-				.getScaledIcon("view-properties16.png"));
+				.getScaledIcon(GuiResourcesD.VIEW_PROPERTIES_16));
 		miProperties.setActionCommand("properties");
 		miProperties.addActionListener(this);
 		miProperties.setBackground(bgColor);

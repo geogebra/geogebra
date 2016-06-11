@@ -60,6 +60,7 @@ import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 
 /**
@@ -410,11 +411,11 @@ implements
 		buttonPanel = new JPanel(new BorderLayout());
 		
 		//btRemove = new JButton("\u2718");
-		btRemove = new JButton(app.getScaledIcon("delete_small.gif"));
+		btRemove = new JButton(app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
 		btRemove.addActionListener(this);
 		btAdd = new JButton("\u271A");
 		btAdd.addActionListener(this);
-		btErase = new JButton(app.getScaledIcon("edit-clear.png"));
+		btErase = new JButton(app.getScaledIcon(GuiResourcesD.EDIT_CLEAR));
 		btErase.addActionListener(this);
 
 		

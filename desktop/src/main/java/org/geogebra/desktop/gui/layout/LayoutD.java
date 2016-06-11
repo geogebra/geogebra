@@ -494,7 +494,6 @@ public class LayoutD extends Layout implements SettingListener {
 
 					app.updateMenubar();
 					updateRemoveButton();
-					app.updateDockBar();
 				}
 			}
 		}

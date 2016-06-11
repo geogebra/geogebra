@@ -19,6 +19,8 @@ import javax.swing.JPopupMenu;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageResourceD;
 
 /**
  * Subclass of SpreadsheetContextMenu, implements the spreadsheet context menu
@@ -179,36 +181,36 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 			return ((AppD) app).getEmptyIcon();
 		}
 
-		String iconString = null;
+		ImageResourceD iconString = null;
 
 		switch (MenuCommand.valueOf(cmdString)) {
 		case Copy:
-			iconString = "menu-edit-copy.png";
+			iconString = GuiResourcesD.MENU_EDIT_COPY;
 			break;
 		case Cut:
-			iconString = "menu-edit-cut.png";
+			iconString = GuiResourcesD.MENU_EDIT_CUT;
 			break;
 		case Paste:
-			iconString = "menu-edit-paste.png";
+			iconString = GuiResourcesD.MENU_EDIT_PASTE;
 			break;
 		case Delete:
 		case DeleteObjects:
-			iconString = "delete_small.gif";
+			iconString = GuiResourcesD.DELETE_SMALL;
 			break;
 		case ShowObject:
-			iconString = "mode_showhideobject_16.gif";
+			iconString = GuiResourcesD.MODE_SHOWHIDEOBJECT_GIF;
 			break;
 		case ShowLabel:
-			iconString = "mode_showhidelabel_16.gif";
+			iconString = GuiResourcesD.MODE_SHOWHIDELABEL;
 			break;
 		case RecordToSpreadsheet:
-			iconString = "spreadsheettrace.gif";
+			iconString = GuiResourcesD.SPREADSHEETTRACE;
 			break;
 		case Properties:
-			iconString = "view-properties16.png";
+			iconString = GuiResourcesD.VIEW_PROPERTIES_16;
 			break;
 		case SpreadsheetOptions:
-			iconString = "view-properties16.png";
+			iconString = GuiResourcesD.VIEW_PROPERTIES_16;
 			break;
 		}
 

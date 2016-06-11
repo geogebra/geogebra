@@ -65,6 +65,7 @@ import org.geogebra.desktop.gui.util.SpecialNumberFormatInterface;
 import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * View for inspecting selected GeoFunc } else {tions
@@ -624,7 +625,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 			btnOptions = new PopupMenuButton(app);
 			btnOptions.setKeepVisible(true);
 			btnOptions.setStandardButton(true);
-			btnOptions.setFixedIcon(app.getScaledIcon("tool.png"));
+			btnOptions.setFixedIcon(app.getScaledIcon(GuiResourcesD.TOOL));
 			btnOptions.setDownwardPopup(true);
 		}
 

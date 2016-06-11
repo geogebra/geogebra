@@ -24,6 +24,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ColumnKeeper;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Stylebar for construction protocol view
@@ -100,7 +101,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		};
 		btnColumns.setKeepVisible(true);
 		btnColumns.setStandardButton(true);  // mouse clicks over total button region
-		btnColumns.setIcon(app.getScaledIcon("header_column.png"));
+		btnColumns.setIcon(app.getScaledIcon(GuiResourcesD.COLUMN_HEADER));
 		
 		add(btnColumns);
 		
@@ -123,7 +124,8 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		};
 		btnOptions.setKeepVisible(true);
 		btnOptions.setStandardButton(true);  // mouse clicks over total button region
-		btnOptions.setIcon(app.getScaledIcon("document-properties.png"));
+		btnOptions
+				.setIcon(app.getScaledIcon(GuiResourcesD.DOCUMENT_PROPERTIES));
 		
 		miShowOnlyBreakpoints = new JCheckBoxMenuItem(loc.getPlain("ShowOnlyBreakpoints"));
 		miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction().showOnlyBreakpoints());
@@ -148,7 +150,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		
 		//export button
 		
-		btnExport = new JButton(app.getScaledIcon("text-html.png"));
+		btnExport = new JButton(app.getScaledIcon(GuiResourcesD.TEXT_HTML));
 		btnExport.setToolTipText(loc.getPlainTooltip("ExportAsWebpage"));
 		btnExport.addActionListener(this);
 		add(btnExport);
@@ -156,7 +158,8 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		addSeparator();
 
 		//print button
-		btnPrint = new JButton(app.getScaledIcon("document-print-preview.png"));
+		btnPrint = new JButton(
+				app.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW));
 		btnPrint.setToolTipText(loc.getPlainTooltip("Print"));
 		btnPrint.addActionListener(this);
 		add(btnPrint);
@@ -164,7 +167,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		addSeparator();
 		
 		//Help button
-		btnHelp = new JButton(app.getScaledIcon("help.png"));
+		btnHelp = new JButton(app.getScaledIcon(GuiResourcesD.HELP));
 		//btnHelp.setToolTipText(loc.getPlainTooltip("FastHelp"));
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -196,6 +199,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		miColorfulConstructionProtocol.setText(loc.getPlain("ColorfulConstructionProtocol"));
 	}
 
+	/** reset actions and buttons */
 	public void reinit() {
 		removeAll();
 		addButtons();

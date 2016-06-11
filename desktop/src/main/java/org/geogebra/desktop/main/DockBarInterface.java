@@ -12,8 +12,6 @@ public interface DockBarInterface {
 
 	void setVisible(boolean b);
 
-	void update();
-
 	void setLabels();
 
 	void showPopup();

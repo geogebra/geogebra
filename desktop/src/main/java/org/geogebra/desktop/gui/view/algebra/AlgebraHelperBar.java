@@ -15,6 +15,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Helper tool bar for the algebra view which displays some useful buttons to
@@ -81,7 +82,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	protected void addButtons() {
 
 		toggleAuxiliary = new JButton(
-				app.getScaledIcon("stylingbar_algebraview_auxiliary_objects.png"));
+				app.getScaledIcon(GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_AUXILIARY_OBJECTS));
 		toggleAuxiliary.setFocusPainted(false);
 		toggleAuxiliary.addActionListener(this);
 		add(toggleAuxiliary);
@@ -95,7 +96,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		toggleTypeTreeMode.setStandardButton(true); // mouse clicks over total
 													// button region
 		toggleTypeTreeMode.setIcon(app
-				.getScaledIcon("stylingbar_algebraview_sort_objects_by.png"));
+						.getScaledIcon(GuiResourcesD.STYLINGBAR_ALGEBRAVIEW_SORT_OBJECTS_BY));
 		add(toggleTypeTreeMode);
 
 		toggleDescriptionMode = new PopupMenuButton(app);
@@ -105,7 +106,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		toggleDescriptionMode.setStandardButton(true); // mouse clicks over
 														// total
 														// button region
-		toggleDescriptionMode.setIcon(app.getScaledIcon("formula_bar.png"));
+		toggleDescriptionMode.setIcon(app
+				.getScaledIcon(GuiResourcesD.FORMULA_BAR));
 		add(toggleDescriptionMode);
 
 	}
