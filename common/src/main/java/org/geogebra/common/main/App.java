@@ -3034,10 +3034,6 @@ public abstract class App implements UpdateSelection {
 
 	public abstract NormalizerMinimal getNormalizer();
 
-	public String getEmptyIconFileName() {
-		return "empty.gif";
-	}
-
 	public final void zoom(double px, double py, double zoomFactor) {
 		getActiveEuclidianView().zoom(px, py, zoomFactor, 15, true);
 	}

@@ -146,6 +146,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.GuiManagerInterfaceD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.UtilD;
 /**
  * Handles all geogebra.gui package related objects and methods for Application.
@@ -2425,7 +2426,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 			return false;
 
 		showAxesAction = new AbstractAction(app.getMenu("Axes"),
-				((AppD) app).getScaledIcon("axes.gif")) {
+				((AppD) app).getScaledIcon(GuiResourcesD.AXES)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -2435,7 +2436,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		};
 
 		showGridAction = new AbstractAction(app.getMenu("Grid"),
-				((AppD) app).getScaledIcon("grid.gif")) {
+				((AppD) app).getScaledIcon(GuiResourcesD.GRID)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -2445,7 +2446,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		};
 
 		undoAction = new AbstractAction(app.getMenu("Undo"),
-				((AppD) app).getScaledIcon("menu-edit-undo.png")) {
+				((AppD) app).getScaledIcon(GuiResourcesD.MENU_EDIT_UNDO)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -2455,7 +2456,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		};
 
 		redoAction = new AbstractAction(app.getMenu("Redo"),
-				((AppD) app).getScaledIcon("menu-edit-redo.png")) {
+				((AppD) app).getScaledIcon(GuiResourcesD.MENU_EDIT_REDO)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

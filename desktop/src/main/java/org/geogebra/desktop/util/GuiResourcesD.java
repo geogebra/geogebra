@@ -79,7 +79,10 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	FONT("/gui/images/64px/font.png"),
 
-	MODE_SHOWHIDELABEL_GIF("/gui/images/64px/mode_showhidelabel_16.gif"),
+	// MODE_SHOWHIDELABEL_GIF("/gui/images/64px/mode_showhidelabel_16.gif"),
+
+ MODE_SHOWHIDEOBJECT_GIF(
+			"/gui/images/64px/mode_showhideobject_16.gif"),
 
 	DOCUMENT_PRINT("/gui/images/64px/document-print.png"),
 
@@ -132,7 +135,10 @@ public enum GuiResourcesD implements ImageResourceD {
 			"/gui/images/64px/tree-close.png"), OBJECT_UNFIXED(
 			"/gui/images/64px/object_unfixed.png"), OBJECT_FIXED(
 			"/gui/images/64px/object_fixed.png"), APPLY(
-			"/gui/images/64px/apply.png"), TABLE("/gui/images/64px/table.gif");
+			"/gui/images/64px/apply.png"), TABLE("/gui/images/64px/table.gif"), AXES(
+			"/gui/images/64px/axes.gif"), GRID("/gui/images/64px/grid.gif"), ZOOM16(
+			"/gui/images/64px/zoom16.gif"), TRACE_ON(
+			"/gui/images/64px/trace_on.gif");
 	private String filename;
 
 	GuiResourcesD(String filename) {

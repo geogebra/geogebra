@@ -2893,7 +2893,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			btnImage.setKeepVisible(false);
 			btnImage.addActionListener(this);
 
-			btnClearImage = new JButton(app.getScaledIcon("delete_small.gif"));
+			btnClearImage = new JButton(
+					app.getScaledIcon(GuiResourcesD.DELETE_SMALL));
 			btnClearImage.addActionListener(this);
 
 			btnOpenFile = new JButton();

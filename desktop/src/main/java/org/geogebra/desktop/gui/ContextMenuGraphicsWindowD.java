@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  *
@@ -60,7 +61,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	public ContextMenuGraphicsWindowD(AppD app, double px, double py) {
 		this(app);
 
-		iconZoom = app.getScaledIcon("zoom16.gif");
+		iconZoom = app.getScaledIcon(GuiResourcesD.ZOOM16);
 
 		// zoom point
 		this.px = px;

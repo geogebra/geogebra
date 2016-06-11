@@ -2032,7 +2032,8 @@ ToolbarD.getAllTools(this));
 		if (icon == null || iconSize == 0) {
 			return null;
 		}
-		Image img = icon.getImage().getScaledInstance(iconSize, iconSize, 0);
+		Image img = icon.getImage().getScaledInstance(iconSize, iconSize,
+				Image.SCALE_SMOOTH);
 		return new ImageIcon(img);
 
 	}

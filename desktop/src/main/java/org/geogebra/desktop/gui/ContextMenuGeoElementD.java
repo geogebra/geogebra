@@ -50,6 +50,7 @@ import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Context menu for GeoElement objects.
@@ -432,7 +433,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 					&& (!geo.isGeoBoolean() || geo.isIndependent())) {
 				cbItem = new JCheckBoxMenuItem(app.getPlain("ShowObject"));
 				cbItem.setIcon(((AppD) app)
-						.getScaledIcon("mode_showhideobject_16.gif"));
+						.getScaledIcon(GuiResourcesD.MODE_SHOWHIDEOBJECT_GIF));
 				cbItem.setSelected(geo.isSetEuclidianVisible());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -447,7 +448,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				cbItem = new JCheckBoxMenuItem(app.getPlain("ShowLabel"));
 				cbItem.setSelected(isLabelShown());
 				cbItem.setIcon(((AppD) app)
-						.getScaledIcon("mode_showhidelabel_16.gif"));
+						.getScaledIcon(GuiResourcesD.MODE_SHOWHIDELABEL));
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						showLabelCmd();
@@ -459,7 +460,8 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			// trace
 			if (geo.isTraceable()) {
 				cbItem = new JCheckBoxMenuItem(app.getPlain("TraceOn"));
-				cbItem.setIcon(((AppD) app).getScaledIcon("trace_on.gif"));
+				cbItem.setIcon(((AppD) app)
+						.getScaledIcon(GuiResourcesD.TRACE_ON));
 				cbItem.setSelected(((Traceable) geo).getTrace());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {

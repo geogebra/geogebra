@@ -31,6 +31,7 @@ import org.geogebra.desktop.gui.view.algebra.AlgebraControllerD;
 import org.geogebra.desktop.gui.view.algebra.AlgebraViewD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  * Extending DefaultGuiManager class for 3D
@@ -87,7 +88,7 @@ public class GuiManager3D extends GuiManagerD {
 		if (!super.initActions())
 			return false;
 		showAxes3DAction = new AbstractAction(getApp().getMenu("Axes"),
-				(getApp()).getScaledIcon("axes.gif")) {
+				(getApp()).getScaledIcon(GuiResourcesD.AXES)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -102,7 +103,7 @@ public class GuiManager3D extends GuiManagerD {
 		};
 
 		showGrid3DAction = new AbstractAction(getApp().getMenu("Grid"),
-				getApp().getScaledIcon("grid.gif")) {
+				getApp().getScaledIcon(GuiResourcesD.GRID)) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

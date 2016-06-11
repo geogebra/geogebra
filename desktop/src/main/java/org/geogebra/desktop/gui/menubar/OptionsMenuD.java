@@ -464,7 +464,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 					boolean asHtml, MenuInterface subMenu) {
 				ImageResourceD res = null;
 				if ("Labeling".equals(key)) {
-					res = GuiResourcesD.MODE_SHOWHIDELABEL_GIF;
+					res = GuiResourcesD.MODE_SHOWHIDELABEL;
 				}
 				if ("FontSize".equals(key)) {
 					res = GuiResourcesD.FONT;
