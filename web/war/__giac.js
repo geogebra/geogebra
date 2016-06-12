@@ -1920,7 +1920,7 @@ var __giac = [ {},
 { cat:"SolveODE", cmd:"SolveODE[sin(0.017*x)*y]", result:"y = c_0 \u212F^(-1000 cos(17x / 1000) / 17)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
 { cat:"SolveODE", cmd:"SolveODE[y'=0.1*sin(0.017*x-1.03)*y]", result:"y = c_0 \u212F^(-100 cos((17x - 1030) / 1000) / 17)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
 { cat:"SolveODE", cmd:"SolveODE[y' = 0.01sin(0.017x - 1.03) y,(0, 100)]", result:"y = 100\u212F^(-10 cos((17x - 1030) / 1000) / 17) / \u212F^(-10 cos(103 / 100) / 17)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
-{ cat:"Determinant", cmd:"Determinant[{{1,-1/2,1/2},{0,(sqrt(11))/2,-(sqrt(11))/2},{1/2,-3/2,5/2}}", result:"" },
+{ cat:"Determinant", cmd:"Determinant[{{1,-1/2,1/2},{0,(sqrt(11))/2,-(sqrt(11))/2},{1/2,-3/2,5/2}}]", result:"sqrt(11)/2" },
 { cat:"SolveODE", cmd:"SolveODE[y' sin(x)=y ln(y)]", result:"" },
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
