@@ -153,11 +153,9 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 					+ "pt]{article}\n"
 					+ "\\usepackage{animate}\n\\usepackage{graphicx}\n\\usepackage{pgf,tikz}\n\\usepackage{mathrsfs}\n\\usetikzlibrary{arrows}\n\\pagestyle{empty}\n");
 			codeBeginDoc.append("\\begin{filecontents}{timeline.txt}\n");
-			// if new frames would be >100, then we generate a new step, step
-			// can't be <0.25
-			if (step < 0.25) {
-				step = 0.25;
-			}
+			// if new frames would be >100, then we generate a new step
+			
+			// calculate frame number
 			i = min;
 			j = 0;
 			while (i != max) {
@@ -167,6 +165,16 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			if (j > 100) {
 				step = (max - min) / 100;
 			}
+			
+			// counting the new frame number
+			i = min;
+			j = 0;
+			while (i != max) {
+				i = i + step;
+				j++;
+			}
+			
+
 			for (it = 0; it < j + 2; it++) {
 				if (it == 0) {
 					codeBeginDoc.append("::0x0,1\n");
@@ -199,15 +207,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 					.append("controls,timeline=timeline.txt]{1}\n");
 		}
 
-		// Draw Grid
-		if (euclidianView.getShowGrid()) {
-			drawGrid();
-		}
-		// Draw axis
-		if (euclidianView.getShowXaxis() || euclidianView.getShowYaxis()) {
-			drawAxis();
-		}
-
 		// draw elements, and generate code
 		for (it = 0; it < j + 1; it++) {
 			// avoid values like 14.399999999999968
@@ -216,10 +215,11 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			num.setValue(val);
 			num.updateRepaint();
 
-			if (it != 0) { // draw all dependent elements
+			if (it != 0) { // draw all elements
 				code.append("\\newframe\n");
 				codePoint.setLength(0);
 				drawAllElements();
+				// fill
 				// add code for Points and Labels
 				if (codePoint.length() != 0
 						&& format == GeoGebraToPdf.FORMAT_LATEX) {
@@ -227,9 +227,17 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 					codePoint.append("\\end{scriptsize}\n");
 				}
 				code.append(codePoint);
-			} else { // draw independent elements in first frame, then in the
-						// second the dependent ones
-				drawAllInDependentElements();
+			} else { // draw axis and grid in the first frame
+				// Draw Grid
+				if (euclidianView.getShowGrid()) {
+					drawGrid();
+				}
+				// Draw axis
+				if (euclidianView.getShowXaxis()
+						|| euclidianView.getShowYaxis()) {
+					drawAxis();
+				}
+
 				code.append("\\newframe\n");
 				codePoint.setLength(0);
 				drawAllElements();
@@ -239,6 +247,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 					codePoint.append("\\end{scriptsize}\n");
 				}
 				code.append(codePoint);
+
 			}
 			val += step;
 
@@ -978,18 +987,19 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		endBeamer(code);
 	}
 
+	// modification (Hoszu Henrietta): code instead of codeFilledObject
 	@Override
 	protected void drawPolygon(GeoPolygon geo) {
 		// command: \pspolygon[par](x0,y0)....(xn,yn)
 		float alpha = geo.getAlphaValue();
 		if (alpha == 0.0f && geo.getFillType() == FillType.IMAGE)
 			return;
-		startBeamer(codeFilledObject);
-		codeFilledObject.append("\\fill");
+		startBeamer(code);
+		code.append("\\fill");
 		String s = LineOptionCode(geo, true);
 		if (s.length() != 0) {
 			s = "[" + s + "] ";
-			codeFilledObject.append(s);
+			code.append(s);
 		}
 		GeoPointND[] points = geo.getPoints();
 		for (int i = 0; i < points.length; i++) {
@@ -997,11 +1007,11 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			double x = coords.getX(), y = coords.getY(), z = coords.getZ();
 			x = x / z;
 			y = y / z;
-			writePoint(x, y, codeFilledObject);
-			codeFilledObject.append(" -- ");
+			writePoint(x, y, code);
+			code.append(" -- ");
 		}
-		codeFilledObject.append("cycle;\n");
-		endBeamer(codeFilledObject);
+		code.append("cycle;\n");
+		endBeamer(code);
 	}
 
 	@Override
