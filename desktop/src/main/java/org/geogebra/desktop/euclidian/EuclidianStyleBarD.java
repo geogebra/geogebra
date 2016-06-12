@@ -48,6 +48,7 @@ import org.geogebra.desktop.gui.util.PopupMenuButton;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageResourceD;
 
 /**
  * Stylebar for the Euclidian Views
@@ -565,7 +566,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	protected void createButtons() {
 
 		ImageIcon axesIcon = app
-				.getScaledIcon("stylingbar_graphicsview_show_or_hide_the_axes.png");
+				.getScaledIcon(GuiResourcesD.STYLINGBAR_GRAPHICS_SHOW_AXES);
 		iconHeight = axesIcon.getIconHeight();
 		updatePreferredSize();
 		// ========================================
@@ -574,8 +575,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// ========================================
 		// delete-drag square size
 		btnDeleteSize = new MyToggleButton[3];
-		String[] deleteIcons = new String[] { "stylingbar_delete_small.png",
-				"stylingbar_delete_medium.png", "stylingbar_delete_big.png" };
+		ImageResourceD[] deleteIcons = new ImageResourceD[] {
+				GuiResourcesD.STYLINGBAR_DELETE_SMALL,
+				GuiResourcesD.STYLINGBAR_DELETE_MEDIUM,
+				GuiResourcesD.STYLINGBAR_DELETE_BIG };
 		for (int i = 0; i < 3; i++) {
 			btnDeleteSize[i] = new MyToggleButton(
 					app.getScaledIcon(deleteIcons[i]), iconHeight) {
@@ -599,7 +602,7 @@ axesIcon, iconHeight);
 		// ========================================
 		// show grid button
 		btnShowGrid = new MyToggleButtonVisibleIfNoGeo(
-				app.getScaledIcon("stylingbar_graphicsview_show_or_hide_the_grid.png"),
+				app.getScaledIcon(GuiResourcesD.STYLINGBAR_GRAPHICS_SHOW_GRID),
 				iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addActionListener(this);
@@ -607,7 +610,7 @@ axesIcon, iconHeight);
 		// ========================================
 		// standard view button
 		btnStandardView = new MyToggleButtonVisibleIfNoGeo(
-				app.getScaledIcon("stylingbar_graphicsview_standardview.png"),
+				app.getScaledIcon(GuiResourcesD.STYLINGBAR_GRAPHICS_STANDARDVIEW),
 				iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnStandardView.setFocusPainted(false);
@@ -824,7 +827,7 @@ axesIcon, iconHeight);
 			}
 
 		};
-		ImageIcon ic = app.getScaledIcon("stylebar_angle_interval.png");
+		ImageIcon ic = app.getScaledIcon(GuiResourcesD.STYLEBAR_ANGLE_INTERVAL);
 		btnAngleInterval.setIconSize(new Dimension(ic.getIconWidth(), iconHeight));
 		btnAngleInterval.setIcon(ic);
 		btnAngleInterval.setStandardButton(true);
@@ -904,7 +907,7 @@ axesIcon, iconHeight);
 		};
 
 		ImageIcon ptCaptureIcon = app
-				.getScaledIcon("stylingbar_graphicsview_point_capturing.png");
+				.getScaledIcon(GuiResourcesD.STYLINGBAR_GRAPHICS_POINT_CAPTURING);
 		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getIconWidth(),
 				iconHeight));
 		btnPointCapture.setIcon(ptCaptureIcon);
@@ -914,7 +917,8 @@ axesIcon, iconHeight);
 
 		// ========================================
 		// fixed position button
-		btnFixPosition = new MyToggleButton(app.getScaledIcon("menu-pin.png"),
+		btnFixPosition = new MyToggleButton(
+				app.getScaledIcon(GuiResourcesD.MENU_PIN),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -946,7 +950,8 @@ axesIcon, iconHeight);
 
 		// ========================================
 		// fixed object button
-		btnFixObject = new MyToggleButton(app.getScaledIcon("stylingbar_object_unfixed.png"),
+		btnFixObject = new MyToggleButton(
+				app.getScaledIcon(GuiResourcesD.STYLINGBAR_OBJECT_UNFIXED),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;

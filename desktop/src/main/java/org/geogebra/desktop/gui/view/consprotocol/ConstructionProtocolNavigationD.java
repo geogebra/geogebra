@@ -147,10 +147,10 @@ public class ConstructionProtocolNavigationD extends
 
 		implPanel.removeAll();	
 					
-		btFirst = new JButton(app.getScaledIcon(GuiResourcesD.NAV_SKIPBACK));
-		btLast = new JButton(app.getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD));
-		btPrev = new JButton(app.getScaledIcon(GuiResourcesD.NAV_REWIND));
-		btNext = new JButton(app.getScaledIcon(GuiResourcesD.NAV_FASTFORWARD));
+		btFirst = new JButton(app.getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
+		btLast = new JButton(app.getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
+		btPrev = new JButton(app.getScaledIcon(GuiResourcesD.NAV_REWIND64));
+		btNext = new JButton(app.getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
 				
 		btFirst.addActionListener(this);
 		btLast.addActionListener(this);		
@@ -188,7 +188,8 @@ public class ConstructionProtocolNavigationD extends
 		
 				
 		btOpenWindow = new JButton();
-		btOpenWindow.setIcon(app.getScaledIcon(GuiResourcesD.TABLE));
+		btOpenWindow.setIcon(app
+				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
 		btOpenWindow.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -380,11 +381,12 @@ public class ConstructionProtocolNavigationD extends
 		if (btFirst == null) {
 			return;
 		}
-		btFirst.setIcon(app.getScaledIcon(GuiResourcesD.NAV_SKIPBACK));
-		btLast.setIcon(app.getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD));
-		btPrev.setIcon(app.getScaledIcon(GuiResourcesD.NAV_REWIND));
-		btNext.setIcon(app.getScaledIcon(GuiResourcesD.NAV_FASTFORWARD));
-		btOpenWindow.setIcon(app.getScaledIcon(GuiResourcesD.TABLE));
+		btFirst.setIcon(app.getScaledIcon(GuiResourcesD.NAV_SKIPBACK64));
+		btLast.setIcon(app.getScaledIcon(GuiResourcesD.NAV_SKIPFORWARD64));
+		btPrev.setIcon(app.getScaledIcon(GuiResourcesD.NAV_REWIND64));
+		btNext.setIcon(app.getScaledIcon(GuiResourcesD.NAV_FASTFORWARD64));
+		btOpenWindow.setIcon(app
+				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
 		lbSteps.setFont(app.getPlainFont());
 		update();
 

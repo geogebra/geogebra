@@ -98,7 +98,6 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		btnFormulaBar = new MyToggleButton(
 				app.getScaledIcon(GuiResourcesD.FORMULA_BAR),
 				iconHeight);
-		// btnFormulaBar.setSelectedIcon(app.getScaledIcon("formula_bar_hide.png"));
 		btnFormulaBar.addActionListener(this);
 
 		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(loc.getPlain("Bold")

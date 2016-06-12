@@ -14,6 +14,8 @@ import javax.swing.JList;
 
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageResourceD;
 
 /**
  * A simple list cell renderer derived from {@link DefaultListCellRenderer}.
@@ -24,10 +26,9 @@ import org.geogebra.common.util.debug.Log;
 public class FileChooserCompletionListCellRenderer extends
 		DefaultListCellRenderer {
 	private static final long serialVersionUID = 1L;
-	private static final String ICON_LOCATION = "/org/geogebra/desktop/gui/images/";
 
-	private static final Icon DIRECTORY_ICON = loadIcon("folder.png");
-	private static final Icon UNKNOWN_FILE_ICON = loadIcon("text-x-generic.png");
+	private static final Icon DIRECTORY_ICON = loadIcon(GuiResourcesD.FOLDER);
+	private static final Icon UNKNOWN_FILE_ICON = loadIcon(GuiResourcesD.TEXT_X_GENERIC);
 
 	// Most of these Icons are from the the tango! icon set:
 	// http://tango.freedesktop.org/
@@ -35,11 +36,11 @@ public class FileChooserCompletionListCellRenderer extends
 	static {
 		Icon icon;
 		// ggb, ggt
-		icon = loadIcon("geogebra.png");
+		icon = loadIcon(GuiResourcesD.GEOGEBRA);
 		FILE_EXT_ICONS.put("ggb", icon);
 		FILE_EXT_ICONS.put("ggt", icon);
 		// html, htm
-		icon = loadIcon("text-html.png");
+		icon = loadIcon(GuiResourcesD.TEXT_HTML);
 		FILE_EXT_ICONS.put("html", icon);
 		FILE_EXT_ICONS.put("htm", icon);
 	}
@@ -72,9 +73,9 @@ public class FileChooserCompletionListCellRenderer extends
 		return icon;
 	}
 
-	private static Icon loadIcon(String iconImage) {
+	private static Icon loadIcon(ImageResourceD iconImage) {
 		URL iconUrl = FileChooserCompletionListCellRenderer.class
-				.getResource(ICON_LOCATION + iconImage);
+				.getResource("/org/geogebra/desktop" + iconImage.getFilename());
 		if (iconUrl == null) {
 			Log.debug("Could not load icon: " + iconImage);
 			return new ImageIcon();

@@ -1943,15 +1943,7 @@ ToolbarD.getAllTools(this));
 	}
 
 	public ImageIcon getImageIcon(ImageResourceD res) {
-		return imageManager.getImageIcon(
-				res,
-				null);
-	}
-
-	@Deprecated
-	public ImageIcon getScaledIcon(String filename) {
-		return getScaledIcon(
-				new ImageResourceDImpl(getMenuIconPath() + filename), null);
+		return imageManager.getImageIcon(res, null);
 	}
 
 	public ImageIcon getScaledIcon(ImageResourceD res) {
@@ -2082,7 +2074,9 @@ ToolbarD.getAllTools(this));
 		}
 		return scaleIcon(icon, getScaledIconSize());
 	}
-	public ImageIcon getToolBarImage(String filename, Color borderColor) {
+
+	public ImageIcon getToolBarImage(String modeText, Color borderColor) {
+		String filename = "mode_" + StringUtil.toLowerCase(modeText) + ".png";
 		String path = getToolbarIconPath() + filename;
 		ImageIcon icon = imageManager.getImageIcon(new ImageResourceDImpl(path),
 				borderColor);
@@ -2220,9 +2214,7 @@ ToolbarD.getAllTools(this));
 			// standard case
 			String modeText = EuclidianConstants.getModeText(mode);
 			// bugfix for Turkish locale added Locale.US
-			String iconName = "mode_" + StringUtil.toLowerCase(modeText)
-					+ ".png";
-			icon = getToolBarImage(iconName, border);
+			icon = getToolBarImage(modeText, border);
 			if (icon == null) {
 				Log.debug("icon missing for mode " + modeText + " (" + mode
 						+ ")");

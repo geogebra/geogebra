@@ -53,8 +53,7 @@ public class HelpDialog {
 		} else {
 
 			modeTextInternal = EuclidianConstants.getModeText(mode);
-			icon = app.getToolBarImage(
-					"mode_" + modeTextInternal + ".png", Color.BLACK);
+			icon = app.getToolBarImage(modeTextInternal, Color.BLACK);
 		}
 
 		Object[] options = { app.getPlain("ShowOnlineHelp"),

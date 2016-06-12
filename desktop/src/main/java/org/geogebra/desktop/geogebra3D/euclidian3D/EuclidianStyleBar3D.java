@@ -172,7 +172,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// ========================================
 		// show grid button
 		btnShowPlane = new MyToggleButtonVisibleIfNoGeo(
-				app.getScaledIcon("stylingbar_graphics3D_plane.png"),
+				app.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_PLANE),
 				iconHeight);
 		btnShowPlane.addActionListener(this);
 
@@ -180,7 +180,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// rotate view button
 		btnRotateView = new PopupMenuButtonForView3D();
 		btnRotateView.setIcon(app
-				.getScaledIcon("stylingbar_graphics3D_rotateview_play.png"));
+						.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_ROTATEVIEW_PLAY));
 		btnRotateView.getMySlider().setMinimum(-10);
 		btnRotateView.getMySlider().setMaximum(10);
 		btnRotateView.getMySlider().setMajorTickSpacing(10);
@@ -196,7 +196,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// clipping button
 		btnClipping = new PopupMenuButtonForView3D();
 		btnClipping.setIcon(app
-				.getScaledIcon("stylingbar_graphics3D_clipping_medium.png"));
+						.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_CLIPPING_MEDIUM));
 		btnClipping.getMySlider().setMinimum(GeoClippingCube3D.REDUCTION_MIN);
 		btnClipping.getMySlider().setMaximum(GeoClippingCube3D.REDUCTION_MAX);
 		btnClipping.getMySlider().setMajorTickSpacing(1);
@@ -212,13 +212,13 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// view yz direction
 		ImageIcon[] directionIcons = new ImageIcon[4];
 		directionIcons[0] = app
-				.getScaledIcon("stylingbar_graphics3D_view_xy.png");
+				.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_VIEW_XY);
 		directionIcons[1] = app
-				.getScaledIcon("stylingbar_graphics3D_view_xz.png");
+				.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_VIEW_XZ);
 		directionIcons[2] = app
-				.getScaledIcon("stylingbar_graphics3D_view_yz.png");
+				.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_VIEW_YZ);
 		directionIcons[3] = app
-				.getScaledIcon("stylingbar_graphics3D_standardview_rotate.png");
+				.getScaledIcon(GuiResources3D.STYLINGBAR_GRAPHICS3D_STANDARDVIEW_ROTATE);
 		btnViewDirection = new ProjectionPopup(app, directionIcons);
 		btnViewDirection.addActionListener(this);
 
