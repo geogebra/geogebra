@@ -22,8 +22,9 @@ public class FontManagerW extends FontManager {
 	public GFont getFontCanDisplay(String testString, boolean serif,
 	        int fontStyle, int fontSize1) {
 		GFontW ret = new GFontW(
-				serif ? "geogebra-serif, serif"
-						: "geogebra-sans-serif, sans-serif", fontStyle,
+				serif ? GFontW.GEOGEBRA_FONT_SERIF
+						: GFontW.GEOGEBRA_FONT_SANSERIF,
+				fontStyle,
 				fontSize1);
 		return ret;
 	}

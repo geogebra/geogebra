@@ -8,12 +8,14 @@ public class GFontW extends GFont {
 	private static final String NORMAL_STR = "normal";
 	private static final String BOLD_STR = "bold";
 	private static final String ITALIC_STR = "italic";
+	public static final String GEOGEBRA_FONT_SERIF = "geogebra-serif, serif";
+	public static final String GEOGEBRA_FONT_SANSERIF = "geogebra-sans-serif, sans-serif";
 	private String fontStyle = NORMAL_STR;
 	private String fontVariant = NORMAL_STR;
 	private String fontWeight = NORMAL_STR;
 	private String fontSize = "12";
 	private String lineHeight = "12";
-	private String fontFamily = "geogebra-sans-serif, sans-serif";
+	private String fontFamily = GEOGEBRA_FONT_SANSERIF;
 
 	public GFontW(GFontW otherfont) {
 		fontStyle = otherfont.getFontStyle();
@@ -30,9 +32,9 @@ public class GFontW extends GFont {
 
 	public GFontW(String name, int style, int size) {
 		if ("Serif".equals(name)) {
-			fontFamily = "geogebra-serif, serif";
+			fontFamily = GEOGEBRA_FONT_SERIF;
 		} else if ("SansSerif".equals(name)) {
-			fontFamily = "geogebra-sans-serif, sans-serif";
+			fontFamily = GEOGEBRA_FONT_SANSERIF;
 		} else {
 			fontFamily = name;
 		}

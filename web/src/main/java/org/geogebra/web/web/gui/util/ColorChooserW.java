@@ -12,6 +12,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.awt.GDimensionW;
+import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.web.gui.dialog.CustomColorDialog;
 import org.geogebra.web.web.gui.dialog.CustomColorDialog.ICustomColor;
@@ -45,7 +46,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	public static final GColor NORMAL_TILE_COLOR = new GColorW(0);
 	public static final GColor EMPTY_TILE_COLOR = new GColorW(16, 16, 16);
 	public static final GColor SELECTED_TILE_COLOR = new GColorW(255, 0, 0);
-	public static final String TITLE_FONT = "14pt geogebra-sans-serif";
+	public static final String TITLE_FONT = "14pt "
+			+ GFontW.GEOGEBRA_FONT_SANSERIF;
 	public static final int TITLE_HEIGHT = 20;
 	public static final GColor FOCUS_COLOR = new GColorW(0, 0, 255);
 	public static final double BORDER_WIDTH = 2;

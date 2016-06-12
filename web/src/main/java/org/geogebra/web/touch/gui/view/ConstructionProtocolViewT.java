@@ -1,5 +1,6 @@
 package org.geogebra.web.touch.gui.view;
 
+import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolViewW;
 
@@ -92,7 +93,8 @@ public class ConstructionProtocolViewT extends ConstructionProtocolViewW {
 	            return color + "; width: " + width + 
 	            		"px; background-color: #CCCCFF; opacity: 0.5; z-index: 900; position: absolute; left: " + 
 	            		table.getElement().getAbsoluteLeft() + "px; top: " + (yMove - DUMMY_DRAG_ELEM_OFFSET_Y) + 
-	            		"px; overflow: hidden; display: -webkit-inline-box;font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;";
+						"px; overflow: hidden; display: -webkit-inline-box;font-family: "
+						+ GFontW.GEOGEBRA_FONT_SANSERIF + ";";
             }
 
 			/**
