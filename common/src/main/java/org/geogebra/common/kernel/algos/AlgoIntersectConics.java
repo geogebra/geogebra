@@ -105,12 +105,21 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 */
 	public AlgoIntersectConics(Construction cons) {
 		super(cons);
+		init(cons);
 
+	}
+
+	public AlgoIntersectConics(Construction cons, boolean addToConstructionList) {
+		super(cons, addToConstructionList);
+		init(cons);
+
+	}
+
+	private void init(Construction cons) {
 		eqnSolver = cons.getKernel().getEquationSolver();
 		sysSolver = cons.getKernel().getSystemOfEquationsSolver(eqnSolver);
 
 		degConic = new GeoConic(cons);
-
 	}
 
 	/**

@@ -24,6 +24,10 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 		super(c);
 	}
 
+	public AlgoIntersect(Construction c, boolean addToConstructionList) {
+		super(c, addToConstructionList);
+	}
+
 	/**
 	 * Avoids two intersection points at same position. This is only done as
 	 * long as the second intersection point doesn't have a label yet.

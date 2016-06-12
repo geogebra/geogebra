@@ -115,7 +115,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 		l2d = new GeoLine(cons);
 		A2d = new GeoConic(cons);
 		B2d = new GeoConic(cons);
-		algo2d = new AlgoIntersectConics(cons);
+		algo2d = new AlgoIntersectConics(cons, false);
 		points2d = new GeoPoint[4];
 	}
 
