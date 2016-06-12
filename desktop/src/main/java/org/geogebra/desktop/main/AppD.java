@@ -2245,8 +2245,8 @@ ToolbarD.getAllTools(this));
 			fn = Util.processFilename(fn);
 
 			// filename will be of form
-			// "a04c62e6a065b47476607ac815d022cc\filename.ext"
-			fileName = zip_directory + File.separator + fn;
+			// "a04c62e6a065b47476607ac815d022cc/filename.ext"
+			fileName = zip_directory + "/" + fn;
 
 			/*
 			 * 
