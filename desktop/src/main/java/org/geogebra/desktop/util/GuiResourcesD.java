@@ -6,7 +6,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	GEOGEBRA64("/gui/images/geogebra64.png"),
 
-	NAV_PLAY("/geogebra/main/nav_play.png"),
+	NAV_PLAY("/main/nav_play.png"),
 
 	NAV_PLAY_CIRCLE(
 			"/org/geogebra/common/icons_play/p24/nav_play_circle.png"),
@@ -22,7 +22,7 @@ public enum GuiResourcesD implements ImageResourceD {
 	NAV_PAUSE_CIRCLE_HOVER(
 			"/org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png"),
 
-	NAV_PAUSE("/geogebra/main/nav_pause.png"),
+	NAV_PAUSE("/main/nav_pause.png"),
 
 	MODE_SHOWHIDELABEL(
 			"/org/geogebra/common/icons_toolbar/p64/mode_showhidelabel.png"),
@@ -69,21 +69,21 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	TOOL_MODE64("/org/geogebra/common/icons_toolbar/p64/mode_tool.png"),
 
-	GO_DOWN("/geogebra/gui/images/go-down.png"),
+	GO_DOWN("/gui/images/go-down.png"),
 
-	GO_UP("/geogebra/gui/images/go-up.png"),
+	GO_UP("/gui/images/go-up.png"),
 
-	GO_PREVIOUS("/geogebra/gui/images/go-previous.png"),
+	GO_PREVIOUS("/gui/images/go-previous.png"),
 
-	GO_NEXT("/geogebra/gui/images/go-next.png"),
+	GO_NEXT("/gui/images/go-next.png"),
 
-	NAV_FASTFORWARD("/geogebra/gui/images/nav_fastforward.png"),
+	NAV_FASTFORWARD("/gui/images/nav_fastforward.png"),
 
-	NAV_REWIND("/geogebra/gui/images/nav_rewind.png"),
+	NAV_REWIND("/gui/images/nav_rewind.png"),
 
-	NAV_SKIPBACK("/geogebra/gui/images/nav_skipback.png"),
+	NAV_SKIPBACK("/gui/images/nav_skipback.png"),
 
-	NAV_SKIPFORWARD("/geogebra/gui/images/nav_skipforward.png"),
+	NAV_SKIPFORWARD("/gui/images/nav_skipforward.png"),
 
 	NAV_FASTFORWARD64("/gui/images/64px/nav_fastforward.png"),
 
@@ -93,7 +93,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	NAV_SKIPFORWARD64("/gui/images/64px/nav_skipforward.png"),
 
-	EXIT("/geogebra/gui/images/exit.png"),
+	EXIT("/gui/images/exit.png"),
 
 	FONT("/gui/images/64px/font.png"),
 
@@ -201,7 +201,7 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	PIN("/gui/images/64px/pin.png"),
 
-	EDIT_CLEAR("/gui/images/64px/edit-clear.png"),
+	EDIT_CLEAR("/org/geogebra/common/icons/png/edit_clear.png"),
 
 	STANDARD_VIEW("/gui/images/64px/standard_view.gif"),
 

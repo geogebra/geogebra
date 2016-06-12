@@ -1808,11 +1808,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		ImageResourceD cornerIcon(int idx) {
 			switch (idx) {
-			case 1:
+			case 0:
 				return GuiResourcesD.CORNER1;
-			case 2:
+			case 1:
 				return GuiResourcesD.CORNER2;
-			case 4:
+			case 2:
 				return GuiResourcesD.CORNER4;
 			}
 			return null;
