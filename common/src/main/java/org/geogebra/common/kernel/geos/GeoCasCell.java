@@ -154,8 +154,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	
 	private boolean nSolveCmdNeeded = false;
 
-	private ArrayList<String> consts;
-
 	/**
 	 * Creates new CAS cell
 	 * 
@@ -179,7 +177,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		twinGeo = null;
 		// setGeoText(commentText);
 		substList = new ArrayList<Vector<String>>();
-		consts = new ArrayList<String>();
 	}
 
 	/**
@@ -411,14 +408,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 */
 	public boolean getNSolveCmdNeeded() {
 		return this.nSolveCmdNeeded;
-	}
-
-	public ArrayList<String> getConsts() {
-		return consts;
-	}
-
-	public void setConsts(ArrayList<String> consts) {
-		this.consts = consts;
 	}
 
 	/**
@@ -1468,7 +1457,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					.traverse(Traversing.GgbVectRemover.getInstance());
 			// needed for GGB-810
 			// replace geoDummys with constants
-			if (arbconst != null && assignmentVar != null) {
+			if (arbconst != null) {
 				ArrayList<GeoNumeric> constList = arbconst.getConstList();
 				if (!constList.isEmpty()) {
 					for (GeoNumeric geoNum : constList) {
@@ -1481,7 +1470,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					}
 				}
 			}
-
+			
 			if(outputVE!=null){
 				CommandReplacer cr = CommandReplacer.getReplacer(kernel.getApplication());
 				outputVE.traverse(cr);
@@ -1751,8 +1740,49 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		twinGeo.setLabel(assignmentVar);
 		// set back CAS cell label
 		cons.putCasCellLabel(this, assignmentVar);
-
+		if (cons.isFileLoading()) {
+			updateConstructionDependencies();
+		}
 		return true;
+	}
+
+	// method to switch geoDummys with geoNumerics in outputVE and twinGeo
+	// needed for undo
+	private void updateConstructionDependencies() {
+		if (this.getInputVE() != null  && this.getInputVE() instanceof Function &&
+				((Function) this.getInputVE()).getFunctionExpression().getTopLevelCommand() != null
+				&& (((Function) this.getInputVE()).getFunctionExpression()
+				.getTopLevelCommand().getName().equals("Integral")
+				|| ((Function) this.getInputVE()).getFunctionExpression().getTopLevelCommand().getName()
+								.equals("SolveODE"))) {
+			MyArbitraryConstant myArbConst = cons.getArbitraryConsTable()
+					.get(this.getInput(StringTemplate.defaultTemplate));
+			if (this.arbconst.getConstList().isEmpty()
+					&& myArbConst != null) {
+				ArrayList<GeoNumeric> constList = myArbConst.getConstList();
+				if (!constList.isEmpty()) {
+					for (GeoNumeric geoNum : constList) {
+						cons.addToConstructionList(geoNum, false);
+						cons.putLabel(geoNum);
+						this.arbconst.getConstList().add(geoNum);
+						GeoDummyReplacer replacer = new GeoDummyReplacer();
+						replacer = GeoDummyReplacer.getReplacer(
+								geoNum.getLabelSimple(), geoNum, false);
+						if (outputVE != null) {
+							outputVE.traverse(replacer);
+						}
+						if (twinGeo instanceof GeoFunction
+								&& ((GeoFunction) twinGeo).getFunction() != null
+								&& ((GeoFunction) twinGeo)
+										.getFunctionExpression() != null) {
+							((GeoFunction) twinGeo).getFunctionExpression()
+									.traverse(replacer);
+						}
+
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -1803,9 +1833,31 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 									.getLabel(StringTemplate.defaultTemplate);
 						}
 					}
-					// if both geos are the same type we can use set safely
+					// switch twinGeo with new evaluation
+					// needed for undo->function wasn't draggable
 					else {
-						twinGeo.set(lastOutputEvaluationGeo);
+						if (lastOutputEvaluationGeo instanceof GeoFunction) {
+							GeoElement geo = cons
+									.lookupLabel(twinGeo.getLabelSimple());
+							if (geo != null) {
+								String geoLabel = twinGeo.getLabelSimple();
+								cons.removeCasCellLabel(geoLabel);
+								cons.removeFromConstructionList(geo);
+								cons.removeLabel(geo);
+								kernel.notifyRemove(geo);
+								twinGeo = null;
+								twinGeo = lastOutputEvaluationGeo;
+								twinGeo.setLabel(geoLabel);
+								cons.putCasCellLabel(this, geoLabel);
+								cons.addToConstructionList(twinGeo, true);
+							} else {
+								twinGeo = lastOutputEvaluationGeo;
+							}
+						} 
+						// if both geos are the same type we can use set safely
+						else {
+							twinGeo.set(lastOutputEvaluationGeo);
+						}
 					}
 				} else if (!lastOutputEvaluationGeo.isDefined()) {
 					// newly created GeoElement is undefined, we can set our twin geo undefined
@@ -2103,6 +2155,34 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					if (myArbconst != null && arbconst.getPosition() == 0) {
 						// replace it
 						arbconst = myArbconst;
+						// hack needed for web with file loading
+						if (cons.isFileLoading()) {
+							ArrayList<GeoNumeric> constList = arbconst
+									.getConstList();
+							// switch geoNumerics created by xml reading
+							// with geoNumerics created by cas evaluation
+							if (constList != null && !constList.isEmpty()) {
+								for (GeoNumeric geoNum : constList) {
+									GeoElement geo = cons.lookupLabel(
+											geoNum.getLabelSimple());
+									if (geo != null
+											&& geo instanceof GeoNumeric) {
+										((GeoNumeric) geo)
+												.setIsDependentConst(true);
+										cons.removeLabel(geo);
+										cons.addToConstructionList(geoNum,
+												true);
+										cons.putLabel(geoNum);
+									}
+								}
+							}
+						}
+					} else {
+						Set<String> arbConsKeySet = cons.getArbitraryConsTable()
+								.keySet();
+						if (!arbConsKeySet.isEmpty()) {
+
+						}
 					}
 				}
 

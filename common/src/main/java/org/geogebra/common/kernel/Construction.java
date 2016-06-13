@@ -2254,8 +2254,24 @@ public class Construction {
 						.isReserved(label))
 			return false;
 
-		if (fileLoading && !isCasCellUpdate() && geoTable.containsKey(label)
+		if (fileLoading
+				&& !isCasCellUpdate() && geoTable.containsKey(label)
 				&& label.startsWith("c_")) {
+			GeoElement geo = geoTable.get(label);
+			if (geo instanceof GeoNumeric
+					&& !((GeoNumeric) geo).isDependentConst()) {
+				return true;
+			}
+			return false;
+		}
+
+		if (!fileLoading && !casCellUpdate && label.startsWith("c_")
+				&& geoTable.containsKey(label)) {
+			GeoElement geo = geoTable.get(label);
+			if (geo instanceof GeoNumeric
+					&& ((GeoNumeric) geo).isDependentConst()) {
+				return false;
+			}
 			return true;
 		}
 		// check standard geoTable

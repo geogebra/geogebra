@@ -3001,6 +3001,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 	private void doSetLabel(final String newLabel) {
 		// needed for GGB-810
+		boolean addToConstr = true;
 		if (cons.isFileLoading() && this instanceof GeoNumeric
 				&& newLabel.startsWith("c_")) {
 			GeoElement geo = cons.lookupLabel(newLabel);
@@ -3010,22 +3011,51 @@ public abstract class GeoElement extends ConstructionElement implements
 				cons.removeLabel(geo);
 			}
 		}
+		// hack needed for web for file loading with algebra view
+		else {
+			GeoElement geo = cons.lookupLabel(newLabel);
+			// remove from construction duplicate of constant
+			if (geo != null) {
+				try {
+					cons.replace(geo, this);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				geo = this;
+				if (geo instanceof GeoNumeric
+						&& !((GeoNumeric) geo).isDependentConst()) {
+					((GeoNumeric) geo).setIsDependentConst(true);
+				}
+				if (this instanceof GeoNumeric
+						&& !((GeoNumeric) this).isDependentConst()) {
+					((GeoNumeric) this).setIsDependentConst(true);
+				}
+				addToConstr = false;
+			}
+		}
 		// UPDATE KERNEL
 		if (!labelSet && isIndependent()) {
 			// add independent object to list of all Construction Elements
 			// dependent objects are represented by their parent algorithm
-			cons.addToConstructionList(this, true);
+			if (addToConstr) {
+				cons.addToConstructionList(this, true);
+			}
 		}
 
 		this.label = newLabel; // set new label
 		labelSet = true;
 		labelWanted = false; // got a label, no longer wanted
 
-		cons.putLabel(this); // add new table entry
+		if (addToConstr) {
+			cons.putLabel(this); // add new table entry
+		}
 		algebraStringsNeedUpdate();
 		updateSpreadsheetCoordinates();
 
-		notifyAdd();
+		if (addToConstr) {
+			notifyAdd();
+		}
 		/*if(cons.getCASdummies().contains(newLabel)){
 			cons.moveInConstructionList(this, 0);
 			cons.getCASdummies().remove(newLabel);

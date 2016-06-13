@@ -123,6 +123,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	private boolean autoStep = false;
 	private boolean symbolicMode = false;
 
+	// is a constant depending on a function
+	private boolean isDependentConst = false;
+
 	/**
 	 * Creates new GeoNumeric
 	 * 
@@ -784,6 +787,21 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public boolean isFixable() {
 		// visible slider should not be fixable
 		return !isSetEuclidianVisible() && !isDefaultGeo();
+	}
+
+	/**
+	 * @param b
+	 *            - true, if is constant depending on function
+	 */
+	public void setIsDependentConst(boolean b) {
+		this.isDependentConst = b;
+	}
+
+	/**
+	 * @return true - if is constant depending on function
+	 */
+	public boolean isDependentConst() {
+		return this.isDependentConst;
 	}
 
 	/**

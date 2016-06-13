@@ -115,6 +115,7 @@ public class MyArbitraryConstant {
 			consts2.add(position, add);
 			position++;
 			map.put(indexInt, add);
+			add.setIsDependentConst(true);
 			return add;
 		}
 		GeoNumeric ret = consts2.get(position);
@@ -148,7 +149,10 @@ public class MyArbitraryConstant {
 	 * @return consts
 	 */
 	public ArrayList<GeoNumeric> getConstList() {
-		return consts;
+		if (consts != null) {
+			return consts;
+		}
+		return null;
 	}
 
 	/**
