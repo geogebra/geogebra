@@ -231,12 +231,14 @@ public class MyMath2 {
 			return Gamma.digamma(x);
 		case 1:
 			return Gamma.trigamma(x);
-		case 2:
-			return PolyGamma.tetragamma(x);
-		case 3:
-			return PolyGamma.pentagamma(x);
+		// case 2:
+		// return PolyGamma.tetragamma(x);
+		// case 3:
+		// return PolyGamma.pentagamma(x);
+		// default:
+		// return PolyGamma.psigamma(x, o);
 		default:
-			return PolyGamma.psigamma(x, o);
+			return Double.NaN;
 		}
 	}
 
