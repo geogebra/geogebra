@@ -366,7 +366,7 @@ void mathCharacter(MathContainer currentField) :
         currentField.addArgument(new MathCharacter(createMetaCharacter(t.image, metaModel)));
     }
     |
-    ((space = <SPACE>)  ( LOOKAHEAD(2147483647) t = <ELSE>| t= < OPERATOR >)?) {
+    ((space = <SPACE>)  ( LOOKAHEAD(2147483647) (t = <ELSE>| t= < OPERATOR >))?) {
         if (t != null) {
             MetaCharacter metaCharacter = createMetaCharacter(t.image, metaModel);
             if ((metaCharacter.getType() == MetaCharacter.CHARACTER ||
