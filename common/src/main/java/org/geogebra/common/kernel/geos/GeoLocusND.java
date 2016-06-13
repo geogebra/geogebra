@@ -191,7 +191,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		setChangingPoint(P);
 		MyPoint closestPoint = getClosestPoint();
 		if (closestPoint != null) {
-			return Math.sqrt(closestPointDist) < eps;
+			return closestPointDist < eps;
 		}
 		return false;
 	}
