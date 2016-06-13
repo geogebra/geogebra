@@ -648,6 +648,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	private ArrayList<GeoNumeric> minMaxListeners;
 	private boolean randomSlider = false;
 
+	private Double origSliderWidth = null;
+	private Double origSliderX = null;
+	private Double origSliderY = null;
+
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		
@@ -901,6 +905,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	 */
 	public final void setSliderWidth(double width) {
 		if (width > 0 && !Double.isInfinite(width))
+			if (getOrigSliderWidth() == null) {
+				setOrigSliderWidth(width);
+			}
 			sliderWidth = width;
 	}
 
@@ -1800,5 +1807,29 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public boolean needToShowBothRowsInAV() {
 		return super.needToShowBothRowsInAV()
 				|| (getDefinition() != null && getDefinition().isFraction());
+	}
+
+	public Double getOrigSliderWidth() {
+		return origSliderWidth;
+	}
+
+	public void setOrigSliderWidth(Double origSliderWidth) {
+		this.origSliderWidth = origSliderWidth;
+	}
+
+	public Double getOrigSliderX() {
+		return origSliderX;
+	}
+
+	public void setOrigSliderX(Double origSliderX) {
+		this.origSliderX = origSliderX;
+	}
+
+	public Double getOrigSliderY() {
+		return origSliderY;
+	}
+
+	public void setOrigSliderY(Double origSliderY) {
+		this.origSliderY = origSliderY;
 	}
 }

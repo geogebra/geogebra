@@ -5400,8 +5400,20 @@ sb.toString(), getFontAxes(),
 		Log.debug("[ADJUST] Corner 4: (" + cx4 + ", " + cy4 + ")");
 
 		double sliderX = number.getSliderX();
+		if (number.getOrigSliderX() == null) {
+			number.setOrigSliderX(sliderX);
+		}
+
 		double sliderY = number.getSliderY();
+		if (number.getOrigSliderY() == null) {
+			number.setOrigSliderY(sliderY);
+		}
+
 		double sW = number.getSliderWidth();
+		double osW = number.getOrigSliderWidth() == null ? 0
+				: number.getOrigSliderWidth().doubleValue();
+		double oX = number.getOrigSliderX().doubleValue();
+		double oY = number.getOrigSliderY().doubleValue();
 
 		if (number.isSliderHorizontal()) {
 			adjustedHSliderCount++;
@@ -5413,13 +5425,25 @@ sb.toString(), getFontAxes(),
 				sliderX = ADJUDT_SLIDER_MARGIN_X;
 
 			} else {
-				if (sliderX < w / 2) {
-					Log.debug("[ADJUST] " + number + ": to the left");
-					sliderX = ADJUDT_SLIDER_MARGIN_X;
-				} else {
-					Log.debug("[ADJUST] " + number + ": to the right");
+				if (sW < osW) {
+					number.setSliderWidth(osW);
+				}
 
-					sliderX = w - (sW + ADJUDT_SLIDER_MARGIN_X);
+				if (sliderX != oX) {
+					if (oX < getViewWidth()) {
+						sliderX = oX;
+					} else {
+						sliderX = getViewWidth() - sW - ADJUDT_SLIDER_MARGIN_X;
+					}
+				} else {
+					if (sliderX < w / 2) {
+						Log.debug("[ADJUST] " + number + ": to the left");
+						sliderX = ADJUDT_SLIDER_MARGIN_X;
+					} else {
+						Log.debug("[ADJUST] " + number + ": to the right");
+
+						sliderX = w - (sW + ADJUDT_SLIDER_MARGIN_X);
+					}
 				}
 			}
 
@@ -5434,6 +5458,9 @@ sb.toString(), getFontAxes(),
 		} else {
 			// Vertical slider
 			adjustedVSliderCount++;
+			if (sW < osW) {
+				number.setSliderWidth(osW);
+			}
 			if (sW > getViewHeight()) {
 				Log.debug("[ADJUST] " + number + ": Reducing width to size");
 				number.setSliderWidth(
