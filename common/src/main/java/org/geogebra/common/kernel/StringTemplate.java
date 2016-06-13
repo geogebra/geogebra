@@ -2324,6 +2324,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return "\\neq";
 		case LIBRE_OFFICE:
 			return "<>";
+		case GIAC:
+			return "!=";
 
 		default:
 			return strNOT_EQUAL;
