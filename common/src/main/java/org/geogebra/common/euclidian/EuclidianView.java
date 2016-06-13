@@ -1479,7 +1479,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (automaticAxesNumberingDistances[axis]) {
 			// force same unit if scales are same, see #1082
 			if ((axis == 1) && automaticAxesNumberingDistances[0]
-					&& Kernel.isEqual(xscale, yscale)) {
+					&& Kernel.isEqual(getXscale(), getYscale())) {
 
 				if (piAxisUnit[0] == piAxisUnit[1]) {
 					axesNumberingDistances[1] = axesNumberingDistances[0];
@@ -2569,7 +2569,7 @@ GRectangle selectionRectangle) {
 		return getYscale();
 	}
 
-	public void setAutomaticAxesNumberingDistance(boolean flag, int axis) {
+	final public void setAutomaticAxesNumberingDistance(boolean flag, int axis) {
 		automaticAxesNumberingDistances[axis] = flag;
 		setAxesIntervals(getScale(axis), axis);
 	}

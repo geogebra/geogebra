@@ -81,6 +81,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
@@ -4207,12 +4208,92 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 	}
 
+	private Coords scaleAxisVector = new Coords(2),
+			scaleOrigin = new Coords(2);
+	private double scaleOld, scaleDistanceInPixelsStart;
+
 	@Override
 	protected void setMoveModeIfAxis(Object hit) {
-		if (hit == kernel.getZAxis3D()) {
-			moveMode = MOVE_Z_AXIS;
-		} else {
-			super.setMoveModeIfAxis(hit);
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			int newMode = -1;
+			if (hit == kernel.getXAxis()) {
+				newMode = MOVE_X_AXIS;
+				scaleAxisVector.set2(view3D.getToScreenMatrix().getVx());
+				scaleOld = view3D.getXscale();
+			} else if (hit == kernel.getYAxis()) {
+				newMode = MOVE_Y_AXIS;
+				scaleAxisVector.set2(view3D.getToScreenMatrix().getVy());
+				scaleOld = view3D.getYscale();
+			} else if (hit == kernel.getZAxis3D()) {
+				newMode = MOVE_Z_AXIS;
+				scaleAxisVector.set2(view3D.getToScreenMatrix().getVz());
+				scaleOld = view3D.getZscale();
+			}
+
+			if (newMode != -1) {
+				// an axis was hit
+				// check if axis is not quite orthogonal to screen
+				scaleAxisVector.calcNorm();
+				double norm = scaleAxisVector.getNorm();
+				// Log.debug(norm / scaleOld);
+				if (norm / scaleOld > 0.1) {
+					scaleAxisVector.mulInside(1 / norm);
+					scaleOrigin.set2(view3D.getToScreenMatrix().getOrigin());
+					tmpCoords.setMul(view3D.getToScreenMatrix(), view3D
+							.getCursor3D().getInhomCoordsInD3());
+					scaleDistanceInPixelsStart = getDistanceForScale(
+							tmpCoords.getX(), tmpCoords.getY());
+					if (Math.abs(scaleDistanceInPixelsStart) > MIN_MOUSE_MOVE_FOR_AXIS_SCALE) {
+						moveMode = newMode;
+					}
+				}
+			}
+
+		}
+	}
+
+	private double getDistanceForScale(double x, double y) {
+		return (x - scaleOrigin.getX()) * scaleAxisVector.getX()
+				+ (y - scaleOrigin.getY()) * scaleAxisVector.getY();
+	}
+
+	@Override
+	protected void scaleXAxis(boolean repaint) {
+		scaleAxis(repaint);
+	}
+
+	@Override
+	protected void scaleYAxis(boolean repaint) {
+		scaleAxis(repaint);
+	}
+
+	@Override
+	protected void scaleZAxis(boolean repaint) {
+		scaleAxis(repaint);
+	}
+
+	final private void scaleAxis(boolean repaint) {
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			if (repaint) {
+				GPoint centeredMouse = new GPoint();
+				view3D.setCenteredPosition(mouseLoc, centeredMouse);
+				double distance = getDistanceForScale(centeredMouse.x,
+						centeredMouse.y);
+				
+				// when mouse is close to origin
+				if (scaleDistanceInPixelsStart > 0) {
+					if (distance < MIN_MOUSE_MOVE_FOR_AXIS_SCALE) {
+						distance = MIN_MOUSE_MOVE_FOR_AXIS_SCALE;
+					}
+				} else {
+					if (distance > -MIN_MOUSE_MOVE_FOR_AXIS_SCALE) {
+						distance = -MIN_MOUSE_MOVE_FOR_AXIS_SCALE;
+					}
+				}
+
+				view3D.setCoordSystemFromAxisScale(distance
+						/ scaleDistanceInPixelsStart, scaleOld, moveMode);
+			}
 		}
 	}
 

@@ -1075,6 +1075,45 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		}
 	}
 
+	private double axisScaleFactor, axisScaleOld;
+	private int axisScaleMode;
+
+	final public void setCoordSystemFromAxisScale(double factor,
+			double scaleOld, int mode) {
+		axisScaleFactor = factor;
+		axisScaleOld = scaleOld;
+		axisScaleMode = mode;
+		animationType = AnimationType.AXIS_SCALE;
+	}
+
+	final private void processSetCoordSystemFromAxisScale() {
+
+		switch (axisScaleMode) {
+		case EuclidianController.MOVE_X_AXIS:
+			setXZero(XZeroOld / axisScaleFactor);
+			getSettings().setXscaleValue(axisScaleFactor * axisScaleOld);
+			break;
+		case EuclidianController.MOVE_Y_AXIS:
+			setYZero(YZeroOld / axisScaleFactor);
+			getSettings().setYscaleValue(axisScaleFactor * axisScaleOld);
+			break;
+		case EuclidianController.MOVE_Z_AXIS:
+			setZZero(ZZeroOld / axisScaleFactor);
+			getSettings().setZscaleValue(axisScaleFactor * axisScaleOld);
+			break;
+
+		}
+
+		getSettings().updateOriginFromView(getXZero(), getYZero(), getZZero());
+
+
+		updateMatrix();
+		setViewChangedByTranslate();
+		setViewChangedByZoom();
+		setWaitForUpdate();
+
+	}
+
 	/*
 	 * TODO interaction - note : methods are called by
 	 * EuclidianRenderer3D.viewOrtho() to re-center the scene
@@ -2001,7 +2040,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	private enum AnimationType {
-		OFF, SCALE, CONTINUE_ROTATION, ROTATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE
+		OFF, SCALE, CONTINUE_ROTATION, ROTATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE, AXIS_SCALE
 	}
 
 	private AnimationType animationType = AnimationType.OFF;
@@ -2079,6 +2118,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		case MOUSE_MOVE:
 			processSetCoordSystemFromMouseMove();
+			stopAnimation();
+			break;
+
+		case AXIS_SCALE:
+			processSetCoordSystemFromAxisScale();
 			stopAnimation();
 			break;
 		}

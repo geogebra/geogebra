@@ -171,8 +171,8 @@ public abstract class EuclidianController {
 	protected static final int MOVE_ROTATE = 113;
 	protected static final int MOVE_DEPENDENT = 114;
 	protected static final int MOVE_MULTIPLE_OBJECTS = 115;
-	protected static final int MOVE_X_AXIS = 116;
-	protected static final int MOVE_Y_AXIS = 117;
+	public static final int MOVE_X_AXIS = 116;
+	public static final int MOVE_Y_AXIS = 117;
 	protected static final int MOVE_BOOLEAN = 118;
 	protected static final int MOVE_BUTTON = 119;
 	protected static final int MOVE_IMPLICITPOLY = 121;
@@ -181,7 +181,7 @@ public abstract class EuclidianController {
 	protected static final int MOVE_FREEHAND = 124;
 	protected static final int MOVE_ATTACH_DETACH = 125;
 	protected static final int MOVE_IMPLICIT_CURVE = 127;
-	protected static final int MOVE_Z_AXIS = 128;
+	public static final int MOVE_Z_AXIS = 128;
 	protected static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 	private static final float ZOOM_RECTANGLE_SNAP_RATIO = 1.2f;
 	private static final int ZOOM_RECT_THRESHOLD = 30;
@@ -7975,13 +7975,17 @@ public abstract class EuclidianController {
 				scaleYAxis(repaint);
 				break;
 
+			case MOVE_Z_AXIS:
+				scaleZAxis(repaint);
+				break;
+
 			default: // do nothing
 		}
 		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
 	}
 
-	private double newZero, newScale;
+	protected double newZero, newScale;
 
 	protected void scaleXAxis(boolean repaint) {
 		if (repaint) {
@@ -8013,7 +8017,13 @@ public abstract class EuclidianController {
 		}
 	}
 
-	final private void setScaleAxis(double viewZero, double viewMin,
+	protected void scaleZAxis(boolean repaint) {
+		// not needed in 2D
+	}
+
+	protected static final int MIN_MOUSE_MOVE_FOR_AXIS_SCALE = 2;
+
+	final protected void setScaleAxis(double viewZero, double viewMin,
 			double viewMax, int viewSize, int mouse, double tmp) {
 		// check if zero is on the screen
 		double zero = viewZero;
@@ -8029,9 +8039,10 @@ public abstract class EuclidianController {
 
 		// take care when we get close to the origin
 		int newMouse = mouse;
-		if (Math.abs(mouse - zero) < 2) {
-			newMouse = (int) Math.round(mouse > zero ? zero + 2
-					: zero - 2);
+		if (Math.abs(mouse - zero) < MIN_MOUSE_MOVE_FOR_AXIS_SCALE) {
+			newMouse = (int) Math.round(mouse > zero ? zero
+					+ MIN_MOUSE_MOVE_FOR_AXIS_SCALE : zero
+					- MIN_MOUSE_MOVE_FOR_AXIS_SCALE);
 		}
 		newScale = (newMouse - zero) / (tmp - zeroRW);
 

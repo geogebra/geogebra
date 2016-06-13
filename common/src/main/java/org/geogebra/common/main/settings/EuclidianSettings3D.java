@@ -47,8 +47,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	public void setZscale(double scale) {
 		if (this.zscale != scale) {
-			this.zscale = scale;
-			updateScaleHelpers();
+			setZscaleValue(scale);
 			settingChanged();
 		}
 	}
@@ -58,14 +57,19 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	@Override
-	protected void setXscaleValue(double scale) {
+	public void setXscaleValue(double scale) {
 		super.setXscaleValue(scale);
 		updateScaleHelpers();
 	}
 
 	@Override
-	protected void setYscaleValue(double scale) {
+	public void setYscaleValue(double scale) {
 		super.setYscaleValue(scale);
+		updateScaleHelpers();
+	}
+
+	public void setZscaleValue(double scale) {
+		this.zscale = scale;
 		updateScaleHelpers();
 	}
 
