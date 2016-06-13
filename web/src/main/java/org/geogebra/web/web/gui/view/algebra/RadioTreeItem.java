@@ -1821,6 +1821,7 @@ public class RadioTreeItem extends AVTreeItem
 					if (!keepFocus) {
 						setText("");
 					}
+					updateLineHeight();
 				}
 
 			};
@@ -1877,6 +1878,11 @@ public class RadioTreeItem extends AVTreeItem
 
 		}
 		return true;
+	}
+
+	protected void updateLineHeight() {
+		// TODO Auto-generated method stub
+
 	}
 
 	protected void createErrorLabel() {

@@ -73,7 +73,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
 
-	private static final int HORIZONTAL_BORDER_HEIGHT = 4;
+	private static final int HORIZONTAL_BORDER_HEIGHT = 2;
 	// create special formula button (matrix, piecewise function, parametric
 	// curve)
 	/** + button */
@@ -707,6 +707,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			dummyLabel.removeFromParent();
 		}
 		editor.setText(s, false);
+		updateLineHeight();
 		updatePreview();
 	}
 
@@ -995,6 +996,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	 * Make sure the line height of the help icon fits the line height of the
 	 * rest
 	 */
+	@Override
 	protected void updateLineHeight() {
 		if (helpButtonPanel != null) {
 			this.helpButtonPanel.getElement().getStyle()
