@@ -54,7 +54,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
@@ -123,12 +122,14 @@ public class App3D extends AppD {
 		@Override
 		public void run() {
 
-			boolean realsenseInited = false;
-			if (app.has(Feature.REALSENSE)) {
-				realsenseInited = initRealsense();
+			if (app.isApplet()) {
+				return;
 			}
 
-			if (!realsenseInited && app.has(Feature.ZSPACE)) {
+			boolean realsenseInited = initRealsense();
+
+
+			if (!realsenseInited) {
 				initZspace();
 			}
 
@@ -181,7 +182,6 @@ public class App3D extends AppD {
 
 	private void runThreadForCheckInput3D() {
 		if (!tubeLoginIsShowing && AppD.WINDOWS && !isApplet()
-				&& (has(Feature.REALSENSE) || has(Feature.ZSPACE))
 				&& getInput3DType().equals(Input3D.PREFS_NONE)) {
 			Log.debug("============ runThreadToCheckInput3D ");
 			Thread t = new ThreadForCheckInput3D(this);
@@ -377,8 +377,7 @@ public class App3D extends AppD {
 
 		Input3D input3D;
 
-		if (AppD.WINDOWS && !isApplet()
-				&& (has(Feature.REALSENSE) || has(Feature.ZSPACE))) {
+		if (AppD.WINDOWS && !isApplet()) {
 			// init the 3D euclidian view (with perhaps a specific 3D input)
 			try {
 				input3D = Input3DFactory.createInput3D(this, getInput3DType());

@@ -10,7 +10,6 @@ import javax.swing.KeyStroke;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -82,8 +81,7 @@ class HelpMenuD extends BaseMenu {
 			tutorialAction = new HelpAction(app, null,
 					app.getMenu("Tutorials"), App.WIKI_TUTORIAL);
 
-			if (app.has(Feature.REALSENSE)
-					&& app.getInput3DType().equals(Input3D.PREFS_REALSENSE)) {
+			if (app.getInput3DType().equals(Input3D.PREFS_REALSENSE)) {
 				input3DTutorialAction = new AbstractAction(
 						app.getMenu("RealSense.Tutorial"), app.getEmptyIcon()) {
 					private static final long serialVersionUID = 1L;

@@ -1,5 +1,12 @@
 package org.geogebra.common.main;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -73,13 +80,6 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.Vector;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -3871,11 +3871,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_CIRCLE_FREEHAND_TOOL:
 			return false;
 
-		// MOB-353 MOB-352
-		case MOBILE_EXTREMUM_TOOL:
-		case MOBILE_ROOTS_TOOL:
-			return true;
-
 		// MOB-311
 		case MOBILE_SEGMENT_FIXED_TOOL:
 			// add if you want to enable these tools for Android app:
@@ -3944,11 +3939,6 @@ public abstract class App implements UpdateSelection {
 		// enabled from 5.0.210.0
 		case COMBOSCROLLING:
 			return true;
-
-		// not supported in applets
-		case ZSPACE:
-		case REALSENSE:
-			return !isApplet();
 
 		// Java Applets are only used in IE8/9
 		// ie on old computers
