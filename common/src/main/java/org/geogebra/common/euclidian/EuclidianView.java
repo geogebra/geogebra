@@ -5516,10 +5516,10 @@ sb.toString(), getFontAxes(),
 				: number.getOrigSliderWidth().doubleValue();
 		double oY = number.getOrigSliderY().doubleValue();
 		if (number.getSliderY() != oY) {
-			if (oY < getViewHeight()) {
+			if (oY < getViewHeight() - adjustedVSliderCount * ADJUDT_SLIDER_MARGIN_X) {
 					return (int) oY;
 				} else {
-					return getViewHeight() - ADJUDT_SLIDER_MARGIN_Y;
+					return getViewHeight() - adjustedVSliderCount * ADJUDT_SLIDER_MARGIN_X;
 				}
 		}
 		return null;
