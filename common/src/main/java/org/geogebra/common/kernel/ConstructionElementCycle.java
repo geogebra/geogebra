@@ -137,7 +137,7 @@ public class ConstructionElementCycle extends ArrayList<ConstructionElement>
 	@Override
 	public String toString() {
 
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 
 		setCycleFirst();
 		for (int i = 0; i < size(); i++) {

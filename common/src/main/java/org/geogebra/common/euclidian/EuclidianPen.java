@@ -159,7 +159,7 @@ public class EuclidianPen {
 	/**
 	 * String representation of gesture.
 	 */
-	private StringBuffer gesture = new StringBuffer();
+	private StringBuilder gesture = new StringBuilder();
 	private int deltaX = 0;
 	private int deltaY = 0;
 	private int absDeltaX = 0;

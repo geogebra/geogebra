@@ -686,7 +686,7 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 			point.setLabel(null);
 	}
 
-	private StringBuffer sb = new StringBuffer();
+	private StringBuilder sb = new StringBuilder();
 
 	/**
 	 * 

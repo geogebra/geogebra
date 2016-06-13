@@ -1585,7 +1585,7 @@ FromMeta
 	 * @return some class-specific xml tags for getConstructionRegressionOut
 	 */
 	protected String getXMLtagsMinimal() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < 5; i++)
 			sb.append(regrFormat(matrix[i]) + " ");
 		sb.append(regrFormat(matrix[5]));

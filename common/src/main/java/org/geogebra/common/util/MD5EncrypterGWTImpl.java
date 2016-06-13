@@ -130,7 +130,7 @@ public class MD5EncrypterGWTImpl {
 
 	public String Utf8Encode(String string) {
 		string = string.replaceAll("\r\n", "\n");
-		StringBuffer utftext = new StringBuffer();
+		StringBuilder utftext = new StringBuilder();
 
 		for (int n = 0; n < string.length(); n++) {
 

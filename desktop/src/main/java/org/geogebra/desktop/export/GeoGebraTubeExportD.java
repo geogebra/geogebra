@@ -127,7 +127,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 			try {
 				printout = new DataOutputStream(urlConn.getOutputStream());
 
-				StringBuffer postData = getPostData();
+				StringBuilder postData = getPostData();
 
 				int requestLength = postData.length();
 				/*

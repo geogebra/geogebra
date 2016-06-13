@@ -221,7 +221,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V,E>, Serializable
     
     @Override
     public String toString() {
-    	StringBuffer sb = new StringBuffer("Vertices:");
+		StringBuilder sb = new StringBuilder("Vertices:");
     	for(V v : getVertices()) {
     		sb.append(v+",");
     	}

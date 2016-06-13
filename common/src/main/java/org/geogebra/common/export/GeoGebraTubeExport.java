@@ -128,35 +128,35 @@ public abstract class GeoGebraTubeExport {
 		}
 	}
 
-	protected StringBuffer getPostData() throws IOException {
+	protected StringBuilder getPostData() throws IOException {
 		Construction cons = app.getKernel().getConstruction();
 
 		boolean isConstruction = (macros == null);
 
 		// build post query
-		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append("data=");
-		stringBuffer.append(encode(isConstruction ? getBase64String()
+		StringBuilder sb = new StringBuilder();
+		sb.append("data=");
+		sb.append(encode(isConstruction ? getBase64String()
 				: getBase64Tools(macros)));
 
-		stringBuffer.append("&type=");
-		stringBuffer.append(isConstruction ? "ggb" : "ggt");
+		sb.append("&type=");
+		sb.append(isConstruction ? "ggb" : "ggt");
 
 		if (isConstruction) {
-			stringBuffer.append("&title=");
-			stringBuffer.append(encode(cons.getTitle()));
+			sb.append("&title=");
+			sb.append(encode(cons.getTitle()));
 
-			stringBuffer.append("&pretext=");
-			stringBuffer.append(encode(cons.getWorksheetText(0)));
+			sb.append("&pretext=");
+			sb.append(encode(cons.getWorksheetText(0)));
 
-			stringBuffer.append("&posttext=");
-			stringBuffer.append(encode(cons.getWorksheetText(1)));
+			sb.append("&posttext=");
+			sb.append(encode(cons.getWorksheetText(1)));
 		}
 
-		stringBuffer.append("&version=");
-		stringBuffer.append(encode(GeoGebraConstants.VERSION_STRING));
+		sb.append("&version=");
+		sb.append(encode(GeoGebraConstants.VERSION_STRING));
 
-		return stringBuffer;
+		return sb;
 	}
 
 	protected abstract String encode(String str);

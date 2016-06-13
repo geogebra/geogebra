@@ -300,7 +300,7 @@ public class Material implements Comparable<Material>, Serializable {
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append("ID: " + this.id + ": (" + this.type + ") ");
 		sb.append("Title: " + this.title + " ");
 		sb.append("by " + this.author + " (" + this.getAuthorURL() + "), ");

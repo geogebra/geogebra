@@ -880,7 +880,7 @@ public class Polynomial implements Comparable<Polynomial> {
 		String outputVariable = "o";
 		String dummyVar = "d";
 		
-		StringBuffer ret = new StringBuffer("ring ");
+		StringBuilder ret = new StringBuilder("ring ");
 		ret.append(ringVariable);
 		ret.append("=0,(");
 		String vars = "";

@@ -333,9 +333,9 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		}
 
 		// =============================================
-		// create LaTex for the stemplot body
+		// create LaTeX for the stemplot body
 
-		StringBuffer body = new StringBuffer();
+		StringBuilder body = new StringBuilder();
 		body.setLength(0);
 		body.append("\\begin{array}{");
 
@@ -426,7 +426,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		// =============================================
 		// create LaTex for the stemplot body
 
-		StringBuffer body = new StringBuffer();
+		StringBuilder body = new StringBuilder();
 		body.setLength(0);
 		body.append('{');
 		body.append(" \\ggbtable{ ");
@@ -466,7 +466,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 		// ==========================================
 		// create LaTeX for the key
-		StringBuffer key = new StringBuffer();
+		StringBuilder key = new StringBuilder();
 		key.setLength(0);
 		key.append(" \\ggbtable{ \\ggbtrl{ \\ggbtdl{ \\text{ ");
 
