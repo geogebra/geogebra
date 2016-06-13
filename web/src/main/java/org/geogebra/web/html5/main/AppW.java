@@ -23,7 +23,6 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
@@ -3473,7 +3472,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	public float getPixelRatio() {
 		return Browser.getPixelRatio()
-				* (float) articleElement.getScaleX();
+				* (float) articleElement.readScaleX();
 	}
 
 	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<MouseTouchGestureControllerW>();
