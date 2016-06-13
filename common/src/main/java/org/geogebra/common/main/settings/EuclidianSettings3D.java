@@ -74,7 +74,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	private boolean hasSameScales = false;
-	private double xyScale, yzScale, zxScale;
+	private double xyScale, yzScale, zxScale, maxScale;
 
 	private void updateScaleHelpers() {
 		hasSameScales = true;
@@ -84,9 +84,21 @@ public class EuclidianSettings3D extends EuclidianSettings {
 			hasSameScales = false;
 		}
 
+		maxScale = xscale;
+		if (yscale > maxScale) {
+			maxScale = yscale;
+		}
+		if (zscale > maxScale) {
+			maxScale = zscale;
+		}
+
 		xyScale = xscale * yscale;
 		yzScale = yscale * zscale;
 		zxScale = zscale * xscale;
+	}
+
+	public double getMaxScale() {
+		return maxScale;
 	}
 
 

@@ -321,7 +321,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			if (visible != Visible.TOTALLY_OUTSIDE) {
 				surface = renderer.getGeometryManager().getSurface();
 				surface.start(getReusableSurfaceIndex());
-				scale = getView3D().getScale();
+				scale = getView3D().getMaxScale();
 				longitude = surface.calcSphereLongitudesNeeded(radius, scale);
 				drawSphere(surface, center, radius);
 				setSurfaceIndex(surface.end());
@@ -336,7 +336,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			double r2 = quadric.getHalfAxis(2);
 			surface = renderer.getGeometryManager().getSurface();
 			surface.start(getReusableSurfaceIndex());
-			scale = getView3D().getScale();
+			scale = getView3D().getMaxScale();
 			radius = Math.max(r0, Math.max(r1, r2));
 			longitude = surface.calcSphereLongitudesNeeded(radius, scale);
 			Coords ev0 = quadric.getEigenvec3D(0);
@@ -363,7 +363,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			vMinMax[1] = Double.NEGATIVE_INFINITY;
 			getView3D().getMinIntervalOutsideClipping(vMinMax, center,
 					ev2.mul(r2));
-			scale = getView3D().getScale();
+			scale = getView3D().getMaxScale();
 			// get radius at max
 			radius = Math.max(r0, r1)
 					* Math.max(Math.abs(vMinMax[0]),
@@ -394,7 +394,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			vMinMax[1] = Double.NEGATIVE_INFINITY;
 			getView3D().getMinIntervalOutsideClipping(vMinMax, center,
 					ev2.mul(r2));
-			scale = getView3D().getScale();
+			scale = getView3D().getMaxScale();
 			// get radius at max
 			radius = Math.max(r0, r1)
 					* Math.max(Math.abs(vMinMax[0]), Math.abs(vMinMax[1])) / r2;
@@ -441,7 +441,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				// nothing to draw
 				setSurfaceIndex(surface.end());
 			} else {
-				scale = getView3D().getScale();
+				scale = getView3D().getMaxScale();
 				// get radius at max
 				if (vMinMax[0] <= 0) {
 					vMinMax[0] = 0;
@@ -531,7 +531,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 					// nothing to draw
 
 				} else {
-					scale = getView3D().getScale();
+					scale = getView3D().getMaxScale();
 					// get radius at max
 					if (vMinMax[0] <= 0) {
 						vMinMax[0] = 0;
@@ -584,7 +584,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				radius = quadric.getHalfAxis(0);
 				double radius2 = quadric.getHalfAxis(1);
 				longitude = renderer.getGeometryManager().getLongitude(radius,
-						getView3D().getScale());
+						getView3D().getMaxScale());
 				if (min < 0) {
 					surface.drawHyperbolicCylinder(center, ev0.mul(-1), ev1,
 							ev2, radius, radius2, -max, -min,
@@ -606,7 +606,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			} else {
 
 
-				scale = getView3D().getScale();
+				scale = getView3D().getMaxScale();
 
 				if (vMinMax == null) {
 					vMinMax = new double[2];
@@ -719,7 +719,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
 				radius = quadric.getHalfAxis(0);
 				double radius2 = quadric.getHalfAxis(1);
-				longitude = renderer.getGeometryManager().getLongitude(radius, getView3D().getScale());
+				longitude = renderer.getGeometryManager().getLongitude(radius,
+						getView3D().getMaxScale());
 				Coords bottomCenter = surface.cylinder(center, ev1, ev2, ev3,
 						radius, radius2, 0, 2 * Math.PI,
 						quadric.getMinParameter(1), quadric.getMaxParameter(1),
@@ -743,7 +744,8 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				r2 = quadric.getHalfAxis(1);
 				radius = Math.max(r1, r2);
 
-				longitude = renderer.getGeometryManager().getLongitude(radius, getView3D().getScale());
+				longitude = renderer.getGeometryManager().getLongitude(radius,
+						getView3D().getMaxScale());
 				if (getView3D().useClippingCube()) {
 					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
 							2 * Math.PI, min, max, false, false, longitude);
@@ -920,7 +922,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 						.getSurface();
 
 				double s = scale;
-				scale = getView3D().getScale();
+				scale = getView3D().getMaxScale();
 				// check if longitude length changes
 				double radius = quadric.getHalfAxis(0);
 				int l = surface.calcSphereLongitudesNeeded(radius, scale);
