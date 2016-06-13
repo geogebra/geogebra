@@ -84,6 +84,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 *            new value
 	 */
 	public void setValue(boolean val) {
+		setDefinition(null);
 		value = val;
 	}
 
