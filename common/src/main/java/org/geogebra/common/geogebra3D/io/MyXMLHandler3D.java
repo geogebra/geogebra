@@ -190,14 +190,22 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			double zZero = Double.parseDouble(attrs.get("zZero"));
 
 			double scale = Double.parseDouble(attrs.get("scale"));
-			// TODO yScale, zScale
+			double yscale = scale, zscale = scale;
+			String yScaleString = attrs.get("yscale");
+			if (yScaleString != null) {
+				yscale = Double.parseDouble(yScaleString);
+			}
+			String zScaleString = attrs.get("zscale");
+			if (zScaleString != null) {
+				zscale = Double.parseDouble(zScaleString);
+			}
 
 			double xAngle = Double.parseDouble(attrs.get("xAngle"));
 			double zAngle = Double.parseDouble(attrs.get("zAngle"));
 
 			evs.setXscale(scale);
-			evs.setYscale(scale);
-			evs.setZscale(scale);
+			evs.setYscale(yscale);
+			evs.setZscale(zscale);
 			evs.setRotXYinDegrees(zAngle, xAngle);
 			evs.updateOrigin(xZero, yZero, zZero);
 

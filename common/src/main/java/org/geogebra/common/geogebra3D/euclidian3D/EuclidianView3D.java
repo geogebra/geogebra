@@ -3072,6 +3072,17 @@ GRectangle selectionRectangle) {
 		sb.append(getXscale());
 		sb.append("\"");
 
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)
+				&& !getSettings().hasSameScales()) {
+			sb.append(" yscale=\"");
+			sb.append(getYscale());
+			sb.append("\"");
+
+			sb.append(" zscale=\"");
+			sb.append(getZscale());
+			sb.append("\"");
+		}
+
 		sb.append(" xAngle=\"");
 		sb.append(b);
 		sb.append("\"");
