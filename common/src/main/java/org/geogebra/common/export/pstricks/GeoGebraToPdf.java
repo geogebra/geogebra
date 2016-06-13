@@ -158,7 +158,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			// calculate frame number
 			i = min;
 			j = 0;
-			while (i != max) {
+			while (i < max) {
 				i = i + step;
 				j++;
 			}
@@ -169,7 +169,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			// counting the new frame number
 			i = min;
 			j = 0;
-			while (i != max) {
+			while (i < max) {
 				i = i + step;
 				j++;
 			}
