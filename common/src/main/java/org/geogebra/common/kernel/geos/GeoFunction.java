@@ -2921,4 +2921,13 @@ CasEvaluableFunction, ParametricCurve,
 		return fun.evaluate(x);
 	}
 
+	@Override
+	public boolean needToShowBothRowsInAV() {
+		if (Operation.includesFreehandOrData(
+				getFunctionExpression().getOperation())) {
+			return false;
+		}
+
+		return super.needToShowBothRowsInAV();
+	}
 }
