@@ -473,7 +473,13 @@ public class ConstructionDefaults {
 		text.setLocalVariableLabel("Text");
 		text.setDefaultGeoType(DEFAULT_TEXT);
 		if (cons.getApplication().has(Feature.ABSOLUTE_TEXTS)) {
-			text.setAbsoluteScreenLocActive(true);
+			try {
+				text.setAbsoluteScreenLocActive(true);
+				text.setStartPoint(null);
+			} catch (CircularDefinitionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		defaultGeoElements.put(DEFAULT_TEXT, text);
 

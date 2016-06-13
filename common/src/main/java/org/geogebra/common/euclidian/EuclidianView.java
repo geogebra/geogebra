@@ -5412,9 +5412,9 @@ sb.toString(), getFontAxes(),
 		double sW = number.getSliderWidth();
 		double osW = number.getOrigSliderWidth() == null ? 0
 				: number.getOrigSliderWidth().doubleValue();
-		double oX = number.getOrigSliderX().doubleValue();
-		double oY = number.getOrigSliderY().doubleValue();
 
+		Integer rX = restoreSliderX(number);
+		Integer rY = restoreSliderY(number);
 		if (number.isSliderHorizontal()) {
 			adjustedHSliderCount++;
 			if (sW > getViewWidth()) {
@@ -5429,12 +5429,8 @@ sb.toString(), getFontAxes(),
 					number.setSliderWidth(osW);
 				}
 
-				if (sliderX != oX) {
-					if (oX < getViewWidth()) {
-						sliderX = oX;
-					} else {
-						sliderX = getViewWidth() - sW - ADJUDT_SLIDER_MARGIN_X;
-					}
+				if (rX != null) {
+					sliderX = rX;
 				} else {
 					if (sliderX < w / 2) {
 						Log.debug("[ADJUST] " + number + ": to the left");
@@ -5447,6 +5443,9 @@ sb.toString(), getFontAxes(),
 				}
 			}
 
+			if (rY != null) {
+				sliderY = rY;
+			} else 
 			if (sliderY > getViewHeight()
 					- adjustedHSliderCount * ADJUDT_SLIDER_MARGIN_Y) {
 				Log.debug("[ADJUST] " + number
@@ -5461,28 +5460,69 @@ sb.toString(), getFontAxes(),
 			if (sW < osW) {
 				number.setSliderWidth(osW);
 			}
-			if (sW > getViewHeight()) {
-				Log.debug("[ADJUST] " + number + ": Reducing width to size");
-				number.setSliderWidth(
-						getViewHeight() - 2 * ADJUDT_SLIDER_MARGIN_Y);
-				sliderY = h - ADJUDT_SLIDER_MARGIN_Y;
 
-			} else if (sliderY > h) {
-				Log.debug("[ADJUST] " + number + ": to the bottom");
-				sliderY = h - ADJUDT_SLIDER_MARGIN_Y;
+			if (rY != null) {
+				sliderY = rY;
+			} else {
+				if (sW > getViewHeight()) {
+					Log.debug(
+							"[ADJUST] " + number + ": Reducing width to size");
+					number.setSliderWidth(
+							getViewHeight() - 2 * ADJUDT_SLIDER_MARGIN_Y);
+					sliderY = h - ADJUDT_SLIDER_MARGIN_Y;
+
+				} else if (sliderY > h) {
+					Log.debug("[ADJUST] " + number + ": to the bottom");
+					sliderY = h - ADJUDT_SLIDER_MARGIN_Y;
+				}
 			}
 
-			if (sliderX > w - adjustedVSliderCount * ADJUDT_SLIDER_MARGIN_X) {
+			if (rX != null) {
+				sliderX = rX;
+			} else {
+				if (sliderX > w
+						- adjustedVSliderCount * ADJUDT_SLIDER_MARGIN_X) {
 				sliderX = w - adjustedVSliderCount * ADJUDT_SLIDER_MARGIN_X;
 
 				Log.debug("[ADJUST] " + number
 						+ ": setting X coord to prevent overlapping");
-
+				}
 			}
 
 
 		}
 		number.setSliderLocation(sliderX, sliderY, true);
+	}
+
+	private Integer restoreSliderX(GeoNumeric number) {
+		double sW = number.getSliderWidth();
+		double oX = number.getOrigSliderX().doubleValue();
+		if (number.getSliderX() != oX) {
+			int maxSliderX = (int) (getViewWidth() - sW
+					- ADJUDT_SLIDER_MARGIN_X);
+			if (oX < maxSliderX) {
+				return (int) oX;
+			} else {
+				return maxSliderX;
+			}
+		}
+		return null;
+	}
+
+
+	private Integer restoreSliderY(GeoNumeric number) {
+		double sW = number.getSliderWidth();
+		double osW = number.getOrigSliderWidth() == null ? 0
+				: number.getOrigSliderWidth().doubleValue();
+		double oY = number.getOrigSliderY().doubleValue();
+		if (number.getSliderY() != oY) {
+			if (oY < getViewHeight()) {
+					return (int) oY;
+				} else {
+					return getViewHeight() - ADJUDT_SLIDER_MARGIN_Y;
+				}
+		}
+		return null;
 	}
 
 }
