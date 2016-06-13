@@ -159,8 +159,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		btnOnlineHelp.setEnabled(online);
     }
 
-	private void hideOnlineHelpButton(boolean hide) {
-		btnOnlineHelp.setVisible(!hide);
+	private void showOnlineHelpButton(boolean show) {
+		btnOnlineHelp.setVisible(show);
 	}
 
 	// =================================================================
@@ -215,7 +215,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 */
 	public void updateGUI(int maxOffsetHeight) {
 
-		hideOnlineHelpButton(app.isExam());
+		showOnlineHelpButton(true);
 		int h = (int) (maxOffsetHeight * app.getArticleElement().getScaleX()
 				- 60);
 		int w = (int) Math.min(700, AppW.getRootComponent(app).getOffsetWidth()*app.getArticleElement().getScaleX() - 60);
