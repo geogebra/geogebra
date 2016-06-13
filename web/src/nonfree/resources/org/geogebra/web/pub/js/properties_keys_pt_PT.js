@@ -2593,7 +2593,7 @@ __GGB__keysVar.pt_PT.plain = {
     "Keyboard": "Teclado Virtual",
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP\xe0\xc0\xb4\xb4",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\xe7\xc7\xe3\xc3\xf5\xd5",
-    "Keyboard.row3": "zZxXcCvVbBnNmM\xe2\xc2\xea\xca\xf4\xd4",
+    "Keyboard.row3": "zZxXcCvVbBnNmM",
     "LaTeXFormula": "F\xf3rmula LaTeX",
     "LaTeXHelp": "Ajuda LaTeX",
     "LabelStyle": "Estilo da Etiqueta",
