@@ -45,23 +45,23 @@ public interface ExpressionNodeConstants {
 
 	// public static final int NO_OPERATION = Integer.MIN_VALUE;
 	/** not */
-	public static final String strNOT = "\u00ac";
+	public static final String strNOT = Unicode.NOT;
 	/** and */
-	public static final String strAND = "\u2227";
+	public static final String strAND = Unicode.AND;
 	/** and */
-	public static final String strIMPLIES = "\u2192";
+	public static final String strIMPLIES = Unicode.IMPLIES;
 	/** or */
-	public static final String strOR = "\u2228";
+	public static final String strOR = Unicode.OR;
 	/** less equal */
-	public static final String strLESS_EQUAL = "\u2264";
+	public static final String strLESS_EQUAL = Unicode.LESS_EQUAL + "";
 	/** greater equal */
-	public static final String strGREATER_EQUAL = "\u2265";
+	public static final String strGREATER_EQUAL = Unicode.GREATER_EQUAL + "";
 	/** = with question mark */
 	public static final String strEQUAL_BOOLEAN = Unicode.QUESTEQ;
 	/** not equal */
-	public static final String strNOT_EQUAL = "\u2260";
+	public static final String strNOT_EQUAL = Unicode.NOTEQUAL;
 	/** parallel */
-	public static final String strPARALLEL = "\u2225";
+	public static final String strPARALLEL = Unicode.PARALLEL;
 	/** perpendicular */
 	public static final String strPERPENDICULAR = Unicode.PERPENDICULAR + "";
 	/** vector product */
