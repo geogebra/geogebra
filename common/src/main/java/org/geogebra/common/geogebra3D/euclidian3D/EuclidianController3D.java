@@ -242,12 +242,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 		Coords coords = movedGeoPoint.getInhomCoordsInD3();
 
 		// sets the min/max values
-		double size = movedGeoPoint.getPointSize()
-				* DrawPoint3D.DRAW_POINT_FACTOR / view3D.getScale();
+		double pointSize = movedGeoPoint.getPointSize()
+				* DrawPoint3D.DRAW_POINT_FACTOR;
+		double size;
+		size = pointSize / view3D.getXscale();
 		xMinMax = getMinMax(view3D.getXmin() + size, coords.getX(),
 				view3D.getXmax() - size);
+		size = pointSize / view3D.getYscale();
 		yMinMax = getMinMax(view3D.getYmin() + size, coords.getY(),
 				view3D.getYmax() - size);
+		size = pointSize / view3D.getZscale();
 		zMinMax = getMinMax(view3D.getZmin() + size, coords.getZ(),
 				view3D.getZmax() - size);
 
