@@ -181,6 +181,7 @@ public abstract class EuclidianController {
 	protected static final int MOVE_FREEHAND = 124;
 	protected static final int MOVE_ATTACH_DETACH = 125;
 	protected static final int MOVE_IMPLICIT_CURVE = 127;
+	protected static final int MOVE_Z_AXIS = 128;
 	protected static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 	private static final float ZOOM_RECTANGLE_SNAP_RATIO = 1.2f;
 	private static final int ZOOM_RECT_THRESHOLD = 30;
@@ -7967,82 +7968,79 @@ public abstract class EuclidianController {
 				break;
 
 			case MOVE_X_AXIS:
-				if (repaint) {
-					if (temporaryMode) {
-						view.setResizeXAxisCursor();
-					}
-
-					// check if zero is on the screen
-					double xzero = view.getXZero();
-					double xzeroRW = 0;
-					double newXZero = xzero;
-					if (xzero < 0) {
-						xzero = 0;
-						xzeroRW = view.getXmin();
-					} else if (xzero > view.getWidth()) {
-						xzero = view.getWidth();
-						xzeroRW = view.getXmax();
-					}
-
-					// take care when we get close to the origin
-					if (Math.abs(mouseLoc.x - xzero) < 2) {
-						mouseLoc.x = (int) Math
-								.round(mouseLoc.x > xzero ? xzero + 2 : xzero - 2);
-					}
-					double xscale = (mouseLoc.x - xzero) / (xTemp - xzeroRW);
-
-					// move zero if off screen
-					if (newXZero < 0) {
-						newXZero = -xzeroRW * xscale;
-					} else if (newXZero > view.getWidth()) {
-						newXZero = view.getWidth() - xzeroRW * xscale;
-					}
-
-					view.setCoordSystem(newXZero, view.getYZero(), xscale,
-							view.getYscale());
-				}
+				scaleXAxis(repaint);
 				break;
 
 			case MOVE_Y_AXIS:
-				if (repaint) {
-					if (temporaryMode) {
-						view.setResizeYAxisCursor();
-					}
-
-					// check if zero is on the screen
-					double yzero = view.getYZero();
-					double yzeroRW = 0;
-					double newYZero = yzero;
-					if (yzero < 0) {
-						yzero = 0;
-						yzeroRW = view.getYmax();
-					} else if (yzero > view.getHeight()) {
-						yzero = view.getHeight();
-						yzeroRW = view.getYmin();
-					}
-
-					// take care when we get close to the origin
-					if (Math.abs(mouseLoc.y - yzero) < 2) {
-						mouseLoc.y = (int) Math.round(mouseLoc.y > yzero ? view
-								.getYZero() + 2 : yzero - 2);
-					}
-					double yscale = (yzero - mouseLoc.y) / (yTemp - yzeroRW);
-
-					// move zero if off screen
-					if (newYZero < 0) {
-						newYZero = yzeroRW * yscale;
-					} else if (newYZero > view.getHeight()) {
-						newYZero = view.getHeight() + yzeroRW * yscale;
-					}
-					view.setCoordSystem(view.getXZero(), newYZero,
-							view.getXscale(), yscale);
-				}
+				scaleYAxis(repaint);
 				break;
 
 			default: // do nothing
 		}
 		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
+	}
+
+	private double newZero, newScale;
+
+	protected void scaleXAxis(boolean repaint) {
+		if (repaint) {
+			if (temporaryMode) {
+				view.setResizeXAxisCursor();
+			}
+
+			setScaleAxis(view.getXZero(), view.getXmin(), view.getXmax(),
+					view.getWidth(), mouseLoc.x, xTemp);
+
+			view.setCoordSystem(newZero, view.getYZero(), newScale,
+					view.getYscale());
+		}
+	}
+
+	protected void scaleYAxis(boolean repaint) {
+		if (repaint) {
+			if (temporaryMode) {
+				view.setResizeYAxisCursor();
+			}
+
+			// value have to be swapped due to y goes down on screen
+			setScaleAxis(view.getYZero(), view.getYmax(), view.getYmin(),
+					view.getHeight(), mouseLoc.y, yTemp);
+			newScale *= -1;
+
+			view.setCoordSystem(view.getXZero(), newZero, view.getXscale(),
+					newScale);
+		}
+	}
+
+	final private void setScaleAxis(double viewZero, double viewMin,
+			double viewMax, int viewSize, int mouse, double tmp) {
+		// check if zero is on the screen
+		double zero = viewZero;
+		double zeroRW = 0;
+		newZero = zero;
+		if (zero < 0) {
+			zero = 0;
+			zeroRW = viewMin;
+		} else if (zero > viewSize) {
+			zero = viewSize;
+			zeroRW = viewMax;
+		}
+
+		// take care when we get close to the origin
+		int newMouse = mouse;
+		if (Math.abs(mouse - zero) < 2) {
+			newMouse = (int) Math.round(mouse > zero ? zero + 2
+					: zero - 2);
+		}
+		newScale = (newMouse - zero) / (tmp - zeroRW);
+
+		// move zero if off screen
+		if (newZero < 0) {
+			newZero = -zeroRW * newScale;
+		} else if (newZero > viewSize) {
+			newZero = viewSize - zeroRW * newScale;
+		}
 	}
 
 	protected boolean viewHasHitsForMouseDragged() {
@@ -8745,6 +8743,15 @@ public abstract class EuclidianController {
 		}
 	}
 
+	protected void setMoveModeIfAxis(Object hit) {
+		if (hit == kernel.getXAxis()) {
+			moveMode = MOVE_X_AXIS;
+		}
+		if (hit == kernel.getYAxis()) {
+			moveMode = MOVE_Y_AXIS;
+		}
+	}
+
 	protected final void mousePressedTranslatedView(PointerEventType type) {
 
 		Hits hits;
@@ -8758,12 +8765,7 @@ public abstract class EuclidianController {
 		moveMode = MOVE_VIEW;
 		if (!hits.isEmpty() && moveAxesPossible()) {
 			for (Object hit : hits) {
-				if (hit == kernel.getXAxis()) {
-					moveMode = MOVE_X_AXIS;
-				}
-				if (hit == kernel.getYAxis()) {
-					moveMode = MOVE_Y_AXIS;
-				}
+				setMoveModeIfAxis(hit);
 			}
 		}
 

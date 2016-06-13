@@ -4207,4 +4207,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 	}
 
+	@Override
+	protected void setMoveModeIfAxis(Object hit) {
+		if (hit == kernel.getZAxis3D()) {
+			moveMode = MOVE_Z_AXIS;
+		} else {
+			super.setMoveModeIfAxis(hit);
+		}
+	}
+
 }
