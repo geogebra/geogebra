@@ -178,5 +178,9 @@ public enum Feature {
 	ABSOLUTE_TEXTS,
 
 	// GGB-751
-	GEOBUTTON_DESIGN
-}
+	GEOBUTTON_DESIGN,
+
+	// MOB-601
+	MOBILE_LOCAL_SAVE
+
+	}
