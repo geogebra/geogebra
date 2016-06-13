@@ -3810,7 +3810,7 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		case DIFFERENT_AXIS_RATIO_3D:
-			return false;
+			return prerelease;
 			
 		case NO_CLIPPING_BOX_ON_FRONT:
 			return false;
