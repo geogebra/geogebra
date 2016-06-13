@@ -35,7 +35,6 @@ import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.util.DropDownList;
 import org.geogebra.common.gui.util.DropDownList.DropDownListener;
-import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -899,7 +898,7 @@ public final class DrawList extends CanvasDrawable
 			return visible;
 		}
 
-		private boolean setVisible(boolean visible) {
+		boolean setVisible(boolean visible) {
 
 			boolean repaintNeeded = this.visible != visible;
 
@@ -946,7 +945,7 @@ public final class DrawList extends CanvasDrawable
 
 		}
 
-		private void toggle() {
+		void toggle() {
 			setVisible(!visible);
 		}
 
@@ -1045,28 +1044,15 @@ public final class DrawList extends CanvasDrawable
 		drawOptions = new DrawOptions(view);
 		dropDown = new DropDownList(view.getApplication(), this);
 
-		GBox ctrlBox = geo.getKernel().getApplication().getSwingFactory()
-				.createHorizontalBox(view.getEuclidianController());
-		ctrlRect = ctrlBox.getBounds();
+		ctrlRect = AwtFactory.prototype.newRectangle();
 		reset();
 
 		update();
 	}
 
-	private void resetComboBox() {
-
-		// if (box == null) {
-		// box = view.getApplication().getSwingFactory()
-		// .createHorizontalBox(view.getEuclidianController());
-		// }
-		// view.add(box);
-	}
-
 	private void reset() {
 
-		if (geoList.drawAsComboBox()) {
-			resetComboBox();
-		} else {
+		if (!geoList.drawAsComboBox()) {
 
 			if (drawables == null) {
 				drawables = new DrawListArray(view);
@@ -1646,6 +1632,8 @@ public final class DrawList extends CanvasDrawable
 
 	/**
 	 * Close dropdown
+	 * 
+	 * @return whether repaint is needed
 	 */
 	public boolean closeOptions() {
 		return setOptionsVisible(false);
