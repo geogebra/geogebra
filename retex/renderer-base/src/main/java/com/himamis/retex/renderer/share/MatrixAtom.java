@@ -93,7 +93,7 @@ public class MatrixAtom extends Atom {
 		this.matrix = array;
 		this.type = ARRAY;
 		this.spaceAround = spaceAround;
-		parsePositions(new StringBuffer(options));
+		parsePositions(new StringBuilder(options));
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class MatrixAtom extends Atom {
 		this(false, array, type);
 	}
 
-	private void parsePositions(StringBuffer opt) {
+	private void parsePositions(StringBuilder opt) {
 		int len = opt.length();
 		int pos = 0;
 		char ch;

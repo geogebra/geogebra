@@ -25,10 +25,9 @@
 
 package com.himamis.retex.renderer.share.character;
 
-import java.util.Arrays;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * The {@code Character} class wraps a value of the primitive type {@code char} in an object. An

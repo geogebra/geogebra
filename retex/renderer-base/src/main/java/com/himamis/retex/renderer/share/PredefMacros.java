@@ -1944,7 +1944,7 @@ public class PredefMacros {
 	public static final Atom jlmXML_macro(final TeXParser tp, final String[] args) throws ParseException {
 		Map<String, String> map = tp.formula.jlmXMLMap;
 		String str = args[1];
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		int start = 0;
 		int pos;
 		while ((pos = str.indexOf("$")) != -1) {

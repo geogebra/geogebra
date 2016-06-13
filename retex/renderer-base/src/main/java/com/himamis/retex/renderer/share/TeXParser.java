@@ -60,7 +60,7 @@ public class TeXParser {
 
 	TeXFormula formula;
 
-	private StringBuffer parseString;
+	private StringBuilder parseString;
 	private int pos;
 	private int spos;
 	private int line;
@@ -186,7 +186,7 @@ public class TeXParser {
 		this.formula = formula;
 		this.isPartial = isPartial;
 		if (parseString != null) {
-			this.parseString = new StringBuffer(parseString);
+			this.parseString = new StringBuilder(parseString);
 			this.len = parseString.length();
 			this.pos = 0;
 			if (firstpass) {
@@ -323,7 +323,7 @@ public class TeXParser {
 	 * Reset the parser with a new latex expression
 	 */
 	public void reset(String latex) {
-		parseString = new StringBuffer(latex);
+		parseString = new StringBuilder(latex);
 		len = parseString.length();
 		formula.root = null;
 		pos = 0;
@@ -1008,7 +1008,7 @@ public class TeXParser {
 		int oc = 0, cc = 0;
 		int startC = 0;
 		char prev = '\0';
-		StringBuffer buf = new StringBuffer();
+		StringBuilder buf = new StringBuilder();
 
 		while (pos < len && group != 0) {
 			char c = parseString.charAt(pos);
@@ -1464,7 +1464,7 @@ public class TeXParser {
 			}
 
 			String[] mac_args = getOptsArgs(mac.nbArgs, mac_opts);
-			StringBuffer mac_arg = new StringBuffer("\\");
+			StringBuilder mac_arg = new StringBuilder("\\");
 			mac_arg.append(command);
 			for (int j = 0; j < mac.posOpts; j++) {
 				String arg_t = mac_args[mac.nbArgs + j + 1];
