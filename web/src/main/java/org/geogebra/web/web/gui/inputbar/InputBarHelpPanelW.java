@@ -215,7 +215,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 */
 	public void updateGUI(int maxOffsetHeight) {
 
-		showOnlineHelpButton(true);
+		showOnlineHelpButton(!app.isExam());
 		int h = (int) (maxOffsetHeight * app.getArticleElement().getScaleX()
 				- 60);
 		int w = (int) Math.min(700, AppW.getRootComponent(app).getOffsetWidth()*app.getArticleElement().getScaleX() - 60);
