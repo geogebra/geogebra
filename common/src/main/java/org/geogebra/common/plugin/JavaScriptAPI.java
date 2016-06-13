@@ -377,6 +377,14 @@ public interface JavaScriptAPI {
 	public boolean isAnimationRunning();
 
 	/**
+	 * Current frame rate of the animation.
+	 * 
+	 * @return in seconds
+	 */
+
+	public double getFrameRate();
+
+	/**
 	 * Returns true if the object with the given name has a vaild value at the
 	 * moment.
 	 */

@@ -1486,4 +1486,8 @@ public class AppletImplementation implements AppletImplementationInterface {
 	public String getVersion() {
 		return ggbApi.getVersion();
 	}
+
+	public double getFrameRate() {
+		return ggbApi.getFrameRate();
+	}
 }

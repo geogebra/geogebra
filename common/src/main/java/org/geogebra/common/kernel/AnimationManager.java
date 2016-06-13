@@ -313,4 +313,13 @@ public class AnimationManager implements GTimerListener {
 		}
 	}
 
+	/**
+	 * current frame rate
+	 * 
+	 * @return in seconds
+	 */
+	public double getFrameRate() {
+		return frameRate;
+	}
+
 }

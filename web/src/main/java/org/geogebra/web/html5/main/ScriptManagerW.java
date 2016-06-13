@@ -373,6 +373,10 @@ public class ScriptManagerW extends ScriptManager {
 		api.isAnimationRunning = function() {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isAnimationRunning()();
 		};
+		
+		api.getFrameRate = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getFrameRate()();
+		}
 
 		api.renameObject = function(oldName, newName) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::renameObject(Ljava/lang/String;Ljava/lang/String;)(oldName,newName);

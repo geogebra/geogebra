@@ -775,4 +775,8 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public String getVersion() {
 		return getAppletImplementation().getVersion();
 	}
+
+	public double getFrameRate() {
+		return getAppletImplementation().getFrameRate();
+	}
 }

@@ -706,6 +706,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return kernel.getAnimatonManager().isRunning();
 	}
 
+	public double getFrameRate() {
+		return kernel.getFrameRate();
+	}
+
 	public synchronized void registerAddListener(String JSFunctionName) {
 		app.getScriptManager().registerAddListener(JSFunctionName);
 	}

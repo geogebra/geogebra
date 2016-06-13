@@ -531,6 +531,10 @@ public class Kernel {
 		return animationManager != null && animationManager.isPaused();
 	}
 
+	final public double getFrameRate() {
+		return animationManager.getFrameRate();
+	}
+
 	final public boolean needToShowAnimationButton() {
 		if (!showAnimationButton)
 			return false;
