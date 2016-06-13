@@ -441,6 +441,9 @@ public class PlotterBrush implements PathPlotter {
 					i = ticksOffset
 							- ((int) (ticksOffset / ticksDistanceNormed))
 							* ticksDistanceNormed;
+					if (i < 0) {
+						i += ticksDistanceNormed;
+					}
 					ticksDelta = thicknessOld;
 					if (manager.getView3D().getApplication()
 							.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
