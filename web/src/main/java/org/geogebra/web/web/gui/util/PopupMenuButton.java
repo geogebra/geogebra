@@ -9,6 +9,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -348,6 +349,11 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 
 	@Override
 	public void onChange(ChangeEvent event) {
+		Log.debug("onchange");
+		doOnChange();
+	}
+
+	private void doOnChange() {
 		if(mySlider != null) {
 			   setSliderValue(mySlider.getValue());
 			   
@@ -395,6 +401,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		mySlider.setMajorTickSpacing(25);
 		mySlider.setMinorTickSpacing(5);
 		mySlider.addChangeHandler(this);
+		Slider.addInputHandler(mySlider.getElement(), getInputHandler(this));
 
 		sliderLabel = new Label();
 		FlowPanel panel = new FlowPanel();
@@ -405,6 +412,12 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		myPopup.getPanel().add(panel);
 	}
 	
+	private native JavaScriptObject getInputHandler(PopupMenuButton pmb)/*-{
+		return function() {
+			pmb.@org.geogebra.web.web.gui.util.PopupMenuButton::doOnChange()();
+		};
+	}-*/;
+
 	/**
 	 * @param value
 	 *            {@code int}

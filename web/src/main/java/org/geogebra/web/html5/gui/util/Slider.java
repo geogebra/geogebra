@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.web.html5.awt.GDimensionW;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -42,6 +43,10 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 		addMouseUpHandler(this);
 
 	}
+
+	public static native void addInputHandler(Element el, JavaScriptObject func)/*-{
+		el.oninput = func;
+	}-*/;
 
 	private native void setRangeValue(Element range, String value) /*-{
 		range.value = value;
