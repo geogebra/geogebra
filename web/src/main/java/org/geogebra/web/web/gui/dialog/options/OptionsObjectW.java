@@ -434,8 +434,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 					// model.redefineCurrentGeo(currentGeoForFocusLost,
 					// tfDefinition.getText(), redefinitionForFocusLost,
 					// NamePanel.this);
-					model.applyDefinitionChange(tfDefinition.getText(),
-							NamePanel.this);
+					if (model.getCurrentGeo() == currentGeoForFocusLost) {
+						model.applyDefinitionChange(tfDefinition.getText(),
+								app.getErrorHandler());
+					} else {
+						model.redefineCurrentGeo(currentGeoForFocusLost,
+								tfDefinition.getText(),
+								redefinitionForFocusLost,
+								app.getErrorHandler());
+					}
 				}
 			});
 
