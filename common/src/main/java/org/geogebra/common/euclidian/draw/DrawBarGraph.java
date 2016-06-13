@@ -164,8 +164,10 @@ public class DrawBarGraph extends Drawable {
 							geo.setObjColor(col);
 							geo.setAlphaValue(col.getAlpha());
 						}
-						if (algop.getBarAlpha(k) != -1.0) {
-							geo.setAlphaValue(algop.getBarAlpha(k));
+
+						float barAlpha = algop.getBarAlpha(k);
+						if (barAlpha != -1.0) {
+							geo.setAlphaValue(barAlpha);
 						}
 
 						geo.setFillType(algop.getBarFillType(k));

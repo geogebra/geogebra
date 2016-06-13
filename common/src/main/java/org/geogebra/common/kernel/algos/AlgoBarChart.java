@@ -1236,6 +1236,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 		}
 	}
 
+	/**
+	 * 
+	 * @param numBar
+	 *            bar number
+	 * @return -1 if not set, otherwise alpha (between 0 and 1)
+	 */
 	public float getBarAlpha(int numBar) {
 		HashMap<Integer, Object> hm = tags.get(numBar);
 		if (hm != null && hm.get(1) != null) {
@@ -1370,9 +1376,11 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 						+ "\" value=\"" + GColor.getColorString(getBarColor(i))
 						+ "\" />\n");
 			}
-			if (getBarAlpha(i) != -1) {
+
+			float barAlpha = getBarAlpha(i);
+			if (barAlpha != -1) {
 				sb.append("\t\t<tag key=\"barAlpha\"" + " barNumber=\"" + i
-						+ "\" value=\"" + getBarAlpha(i) + "\" />\n");
+						+ "\" value=\"" + barAlpha + "\" />\n");
 			}
 			if (getBarHatchDistance(i) != -1) {
 				sb.append("\t\t<tag key=\"barHatchDistance\"" + " barNumber=\""

@@ -168,9 +168,10 @@ public class FillingModel extends MultipleOptionsModel {
 
 	private void setAlpha(AlgoBarChart algo, double alpha) {
 		int idx = getFillingListener().getSelectedBarIndex();
-		if (idx !=0 ){
-			if (algo.getBarAlpha(idx) !=-1){
-				alpha=algo.getBarAlpha(idx);
+		if (idx != 0) {
+			float barAlpha = algo.getBarAlpha(idx);
+			if (barAlpha != -1) {
+				alpha = barAlpha;
 			}
 		}
 		getFillingListener().setFillValue((int) Math.round(alpha * 100));
