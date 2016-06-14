@@ -146,7 +146,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private static final int SLIDER_EXT = 15;
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
-	private static final int EDIT_WIDTH = 350;
+	// private static final int EDIT_WIDTH = 350;
 	static final String CLEAR_COLOR_STR = GColor
 			.getColorString(new GColorW(255, 255, 255, 0));
 	static final String CLEAR_COLOR_STR_BORDER = GColor
@@ -2042,10 +2042,9 @@ marblePanel, evt))) {
 	protected int getWidthForEdit() {
 		int appWidth = (int) app.getWidth();
 		if (appWidth < 1) {// for case app is not part of DOM
-			appWidth = 1000;
+			appWidth = 600;
 		}
-		return Math.min(Math.min(EDIT_WIDTH, ihtml.getOffsetWidth()) + 70,
-				appWidth);
+		return Math.min(ihtml.getOffsetWidth() + 70, appWidth);
 	}
 
 	static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
