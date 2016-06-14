@@ -307,7 +307,7 @@ public class Riemann {
 	 * </table>
 	 * <p>
 	 * However, in this method the algorithm is used which is documented as
-	 * “Algorithm 1” in Borwein et al, <i>The Riemann Hypothesis</i>, Springer,
+	 * "Algorithm 1" in Borwein et al, <i>The Riemann Hypothesis</i>, Springer,
 	 * Berlin 2008, p 35 (
 	 * <a href="https://books.google.com/books?id=Qm1aZA-UwX4C&pg=PA35" target=
 	 * "_new">https://books.google.com/books?id=Qm1aZA-UwX4C&amp;pg=PA35</a>)
@@ -316,7 +316,7 @@ public class Riemann {
 	 * The functions &zeta;, <i>Z</i> and &theta; are related by the equality
 	 * <i>Z</i>(<i>t</i>) = e<sup>i &#952;(<i>t</i>)</sup> &#950;(&#189; + i
 	 * <i>t</i>). Cf. H.M. Edwards: <i>Riemann's Zeta Function.</i> Academic
-	 * Press, New York 1974, §6.5 (
+	 * Press, New York 1974, &#167;6.5 (
 	 * <a href="https://books.google.de/books?id=ruVmGFPwNhQC&pg=PA119" target=
 	 * "_new">https://books.google.de/books?id=ruVmGFPwNhQC&amp;pg=PA119</a>).
 	 * </p>
@@ -573,7 +573,7 @@ public class Riemann {
 	 * The functions &zeta;, <i>Z</i> and &theta; are related by the equality
 	 * <i>Z</i>(<i>t</i>) = e<sup>i &#952;(<i>t</i>)</sup> &#950;(&#189; + i
 	 * <i>t</i>). Cf. H.M. Edwards: <i>Riemann's Zeta Function.</i> Academic
-	 * Press, New York 1974, §6.5 (
+	 * Press, New York 1974, &#167;6.5 (
 	 * <a href="https://books.google.de/books?id=ruVmGFPwNhQC&pg=PA119" target=
 	 * "_new">https://books.google.de/books?id=ruVmGFPwNhQC&amp;pg=PA119</a>).
 	 * </p>
@@ -773,7 +773,7 @@ public class Riemann {
 	 * <i>Z</i> and &theta; are related by the equality <i>Z</i>(<i>t</i>) = e
 	 * <sup>i &#952;(<i>t</i>)</sup> &#950;(&#189; + i<i>t</i>). Cf. H.M.
 	 * Edwards: <i>Riemann's Zeta Function.</i> Academic Press, New York 1974,
-	 * §6.5 (
+	 * &#167;6.5 (
 	 * <a href="https://books.google.de/books?id=ruVmGFPwNhQC&pg=PA119" target=
 	 * "_new">https://books.google.de/books?id=ruVmGFPwNhQC&amp;pg=PA119</a>).
 	 * </p>
