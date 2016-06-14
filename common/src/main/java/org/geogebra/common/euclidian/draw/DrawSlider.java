@@ -363,7 +363,7 @@ public class DrawSlider extends Drawable {
 			return false;
 		}
 
-		view.adjustSliderToNearestCorner(number);
+		view.adjustSliderToNearestCorner(number, fileWidth, fileHeight);
 
 		return true;
 	}
