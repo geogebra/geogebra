@@ -3910,11 +3910,13 @@ public class Kernel {
 
 	private void restoreStateForModeStarting() {
 		app.getCompanion().storeViewCreators();
+		app.getScriptManager().disableListeners();
 		notifyReset();
 		getApplication().getActiveEuclidianView().getEuclidianController()
 				.clearSelections();
 		cons.processXML(stateForModeStarting);
 		notifyReset();
+		app.getScriptManager().enableListeners();
 		app.getCompanion().recallViewCreators();
 	}
 
