@@ -260,7 +260,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private int cursor3DType = PREVIEW_POINT_NONE;
 	private int cursor = CURSOR_DEFAULT;
 	/** starting and ending scales */
-	private double animatedScaleStart, animatedScaleEnd;
+	private double animatedXScaleStart, animatedXScaleEnd, animatedYScaleStart,
+			animatedYScaleEnd, animatedZScaleStart, animatedZScaleEnd;
 	/** velocity of animated scaling */
 	private double animatedScaleTimeFactor;
 	/** starting time for animated scale */
@@ -1308,11 +1309,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	/**
 	 * set the all-axis scale
-	 *
-	 * @param val
 	 */
-	public void setScale(double val) {
-		getSettings().setScaleNoCallToSettingsChanged(val);
+	final private void setScale(double xscale, double yscale, double zscale) {
+		getSettings().setXscaleValue(xscale);
+		getSettings().setYscaleValue(yscale);
+		getSettings().setZscaleValue(zscale);
 		setViewChangedByZoom();
 	}
 
@@ -1848,10 +1849,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		animatedScaleEndY = y;
 		animatedScaleEndZ = z;
 
-		animatedScaleStart = getScale();
+		animatedXScaleStart = getXscale();
+		animatedYScaleStart = getYscale();
+		animatedZScaleStart = getZscale();
 		animatedScaleTimeStart = app.getMillisecondTime();
-		animatedScaleEnd = newScale;
-		animationType = AnimationType.SCALE;
+		animatedXScaleEnd = newScale;
+		animatedYScaleEnd = newScale;
+		animatedZScaleEnd = newScale;
+		animationType = AnimationType.ANIMATED_SCALE;
 
 		animatedScaleTimeFactor = 0.0003 * steps;
 
@@ -1884,7 +1889,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		// Application.debug(v);
 
-		double factor = getScale() / newScale;
+		double factor = getXscale() / newScale;
 
 		animatedScaleEndX = -v.getX() + (animatedScaleStartX + v.getX())
 				* factor;
@@ -1895,10 +1900,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		// Application.debug("mouse = ("+ox+","+oy+")"+"\nscale end = ("+animatedScaleEndX+","+animatedScaleEndY+")"+"\nZero = ("+animatedScaleStartX+","+animatedScaleStartY+")");
 
-		animatedScaleStart = getScale();
+		animatedXScaleStart = getXscale();
+		animatedYScaleStart = getYscale();
+		animatedZScaleStart = getZscale();
 		animatedScaleTimeStart = app.getMillisecondTime();
-		animatedScaleEnd = newScale;
-		animationType = AnimationType.SCALE;
+		animatedXScaleEnd = animatedXScaleStart / factor;
+		animatedYScaleEnd = animatedYScaleStart / factor;
+		animatedZScaleEnd = animatedZScaleStart / factor;
+		animationType = AnimationType.ANIMATED_SCALE;
 
 		animatedScaleTimeFactor = 0.005; // it will take about 1/2s to achieve
 		// it
@@ -2044,7 +2053,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	private enum AnimationType {
-		OFF, SCALE, CONTINUE_ROTATION, ROTATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE, AXIS_SCALE
+		OFF, ANIMATED_SCALE, SCALE, CONTINUE_ROTATION, ROTATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE, AXIS_SCALE
 	}
 
 	private AnimationType animationType = AnimationType.OFF;
@@ -2056,6 +2065,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		switch (animationType) {
 		case SCALE:
+			setScale(animatedScaleEndX, animatedScaleEndY, animatedScaleEndZ);
+			updateMatrix();
+			break;
+		case ANIMATED_SCALE:
 			double t = (app.getMillisecondTime() - animatedScaleTimeStart)
 					* animatedScaleTimeFactor;
 			t += 0.2; // starting at 1/4
@@ -2067,7 +2080,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 			// Application.debug("t="+t+"\nscale="+(startScale*(1-t)+endScale*t));
 
-			setScale(animatedScaleStart * (1 - t) + animatedScaleEnd * t);
+			setScale(animatedXScaleStart * (1 - t) + animatedXScaleEnd * t,
+					animatedYScaleStart * (1 - t) + animatedYScaleEnd * t,
+					animatedZScaleStart * (1 - t) + animatedZScaleEnd * t);
 			setXZero(animatedScaleStartX * (1 - t) + animatedScaleEndX * t);
 			setYZero(animatedScaleStartY * (1 - t) + animatedScaleEndY * t);
 			setZZero(animatedScaleStartZ * (1 - t) + animatedScaleEndZ * t);
@@ -2111,7 +2126,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setZZero(ZZeroOld + screenTranslateAndScaleDZ);
 			getSettings().updateOriginFromView(getXZero(), getYZero(),
 					getZZero());
-			setScale(screenTranslateAndScaleNewScale);
+			setScale(screenTranslateAndScaleNewScale,
+					screenTranslateAndScaleNewScale,
+					screenTranslateAndScaleNewScale);
 			updateMatrix();
 			setViewChangedByZoom();
 			setViewChangedByTranslate();
@@ -2238,9 +2255,10 @@ GRectangle selectionRectangle) {
 	public void zoom(double px, double py, double zoomFactor, int steps,
 			boolean storeUndo) {
 
-		setScale(getXscale() * zoomFactor);
-		updateMatrix();
-		setWaitForUpdate();
+		animatedScaleEndX = getXscale() * zoomFactor;
+		animatedScaleEndY = getYscale() * zoomFactor;
+		animatedScaleEndZ = getZscale() * zoomFactor;
+		animationType = AnimationType.SCALE;
 
 	}
 

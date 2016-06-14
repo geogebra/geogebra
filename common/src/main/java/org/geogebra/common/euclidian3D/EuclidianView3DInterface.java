@@ -96,14 +96,6 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	public void setShowPlate(boolean flag);
 
 	/**
-	 * set the all-axis scale
-	 * 
-	 * @param val
-	 *            scale value
-	 */
-	public void setScale(double val);
-
-	/**
 	 * sets the rotation matrix
 	 * 
 	 * @param a
