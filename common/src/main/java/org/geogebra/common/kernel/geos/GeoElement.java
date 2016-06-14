@@ -1219,8 +1219,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return color for algebra view (same as label or black)
 	 */
 	public GColor getAlgebraColor() {
-		final GColor col = getLabelColor();
-		return GColor.WHITE.equals(col) ? GColor.BLACK : col;
+		return GColor.updateForWhiteBackground(objColor, AwtFactory.prototype);
 	}
 
 	/**

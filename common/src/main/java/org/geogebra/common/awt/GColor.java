@@ -141,10 +141,14 @@ public abstract class GColor implements GPaint, Comparable<GColor> {
 
 	/**
 	 * 
-	 * @return gray scale value corresponding to this color
+	 * @return gray scale value corresponding to this color (0 to 255)
 	 */
 	public double getGrayScale() {
-		return 0.2989 * getRed() + 0.5870 * getGreen() + 0.1140 * getBlue();
+		return getGrayScale(getRed(), getGreen(), getBlue());
+	}
+
+	private static double getGrayScale(int red2, int green2, int blue2) {
+		return 0.2989 * red2 + 0.5870 * green2 + 0.1140 * blue2;
 	}
 
 	/**
@@ -159,25 +163,27 @@ public abstract class GColor implements GPaint, Comparable<GColor> {
 	 */
 	public static GColor updateForWhiteBackground(GColor color, AwtFactory factory){
 
-		GColor fontColor = factory.newColor(color.getRed(), color.getGreen(), color.getBlue());
-
+		int fgRed = color.getRed();
+		int fgGreen = color.getGreen();
+		int fgBlue = color.getBlue();
 		// prevent endless loop
 		int loopCounter = 0;
 		int difference = 5;
-		while (!checkColorRatio(fontColor, GColor.WHITE) && loopCounter < 50) {
+		while (!checkColorRatioWhite(fgRed, fgGreen, fgBlue, GColor.WHITE)
+				&& loopCounter < 50) {
 			// create a slightly darker version of the color
-			fontColor = factory.newColor(Math.max(fontColor.getRed() - difference, 0),
-					Math.max(fontColor.getGreen() - difference, 0),
-					Math.max(fontColor.getBlue() - difference, 0));
+			fgRed = Math.max(fgRed - difference, 0);
+			fgGreen = Math.max(fgGreen - difference, 0);
+			fgBlue = Math.max(fgBlue - difference, 0);
 			loopCounter++;
 		}
 
-		if (!checkColorRatio(fontColor, GColor.WHITE)) {
+		if (!checkColorRatioWhite(fgRed, fgGreen, fgBlue, GColor.WHITE)) {
 			// If the color could not be set correctly, the font color is set to black.
-			fontColor = GColor.BLACK;
+			return GColor.BLACK;
 		}
 
-		return fontColor;
+		return factory.newColor(fgRed, fgGreen, fgBlue);
 	}
 
 	/**
@@ -189,12 +195,13 @@ public abstract class GColor implements GPaint, Comparable<GColor> {
 	 * @param background the background color
 	 * @return if the contrast ration sufficient (true) or not (false)
 	 */
-	private static boolean checkColorRatio(GColor foreground, GColor background) {
-		int diff_hue = Math.max((foreground.getRed() - background.getRed()), (background.getRed() - foreground.getRed()))
-				+ Math.max((foreground.getGreen() - background.getGreen()), (background.getGreen() - foreground.getGreen()))
-				+ Math.max((foreground.getBlue() - background.getBlue()), (background.getBlue() - foreground.getBlue()));
+	private static boolean checkColorRatioWhite(int fgRed, int fgGreen,
+			int fgBlue,
+			GColor background) {
+		int diff_hue = 3 * 255 - fgRed - fgBlue - fgGreen;
 
-		double diff_brightness = Math.abs(foreground.getGrayScale() - background.getGrayScale());
+		double diff_brightness = 255
+				- GColor.getGrayScale(fgGreen, fgRed, fgBlue);
 
 		return diff_brightness > 125 && diff_hue > 500;
 	}
