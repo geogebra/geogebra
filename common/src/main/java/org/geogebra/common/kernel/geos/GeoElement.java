@@ -1026,8 +1026,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void setObjColor(final GColor color) {
 		isColorSet = !this.isDefaultGeo() || !this.isGeoNumeric();
-		objColor = color;
-		fillColor = color;
+		objColor = color == null ? GColor.BLACK : color;
+		fillColor = objColor;
 		setAlphaValue(alphaValue);
 
 		// selColor = getInverseColor(objColor);
@@ -1220,7 +1220,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public GColor getAlgebraColor() {
 		final GColor col = getLabelColor();
-		return col.equals(GColor.WHITE) ? GColor.BLACK : col;
+		return GColor.WHITE.equals(col) ? GColor.BLACK : col;
 	}
 
 	/**
