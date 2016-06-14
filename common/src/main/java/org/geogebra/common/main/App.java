@@ -3907,7 +3907,7 @@ public abstract class App implements UpdateSelection {
 
 		//MOB-339
 		case MOBILE_ANALYTICS:
-			return false;
+			return prerelease;
 
 		// GGB-856 GGB-960
 		case SELECT_MOVE_WHEN_FURNITURE_CLICKED:
