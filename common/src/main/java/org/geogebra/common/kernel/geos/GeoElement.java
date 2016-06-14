@@ -3014,7 +3014,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		else {
 			GeoElement geo = cons.lookupLabel(newLabel);
 			// remove from construction duplicate of constant
-			if (geo != null) {
+			if (geo != null && geo instanceof GeoNumeric
+					&& this instanceof GeoNumeric) {
 				try {
 					cons.replace(geo, this);
 				} catch (Exception e) {

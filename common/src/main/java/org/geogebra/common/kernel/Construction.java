@@ -2268,11 +2268,12 @@ public class Construction {
 		if (!fileLoading && !casCellUpdate && label.startsWith("c_")
 				&& geoTable.containsKey(label)) {
 			GeoElement geo = geoTable.get(label);
-			if (geo instanceof GeoNumeric
-					&& ((GeoNumeric) geo).isDependentConst()) {
+			if (geo instanceof GeoNumeric) {
+				if (((GeoNumeric) geo).isDependentConst()) {
 				return false;
+				}
+				return true;
 			}
-			return true;
 		}
 		// check standard geoTable
 		if (geoTable.containsKey(label))
