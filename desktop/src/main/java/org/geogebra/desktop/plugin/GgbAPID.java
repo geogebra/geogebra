@@ -31,10 +31,11 @@ import javax.swing.JOptionPane;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -68,7 +69,7 @@ import org.geogebra.desktop.main.AppD;
  *          ones) from GeoGebraAppletBase
  */
 
-public class GgbAPID extends GgbAPI {
+public class GgbAPID extends GgbAPIJre {
 
 	/**
 	 * Constructor: Makes the api with a reference to the GeoGebra program.
@@ -92,6 +93,7 @@ public class GgbAPID extends GgbAPI {
 	 * 
 	 * @return null if something went wrong
 	 */
+	@Override
 	public synchronized byte[] getGGBfile() {
 		try {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -123,6 +125,7 @@ public class GgbAPID extends GgbAPI {
 	 * Opens construction given in XML format. May be used for loading
 	 * constructions.
 	 */
+	@Override
 	public synchronized void setBase64(String base64) {
 		byte[] zipFile;
 		try {
@@ -139,6 +142,7 @@ public class GgbAPID extends GgbAPI {
 	 * Turns showing of error dialogs on (true) or (off). Note: this is
 	 * especially useful together with evalCommand().
 	 */
+	@Override
 	public synchronized void setErrorDialogsActive(boolean flag) {
 		((AppD) app).setErrorDialogsActive(flag);
 	}
@@ -153,6 +157,7 @@ public class GgbAPID extends GgbAPI {
 	/**
 	 * Refreshs all views. Note: clears traces in geometry window.
 	 */
+	@Override
 	public synchronized void refreshViews() {
 		app.refreshViews();
 	}
@@ -161,6 +166,7 @@ public class GgbAPID extends GgbAPI {
 	 * Loads a construction from a file (given URL). Note that this method does
 	 * NOT refresh the user interface.
 	 */
+	@Override
 	public synchronized void openFile(String strURL) {
 		try {
 			String lowerCase = StringUtil.toLowerCase(strURL);
@@ -190,6 +196,7 @@ public class GgbAPID extends GgbAPI {
 	/*
 	 * saves a PNG file signed applets only
 	 */
+	@Override
 	public synchronized boolean writePNGtoFile(String filename,
 			final double exportScale, final boolean transparent,
 			final double DPI) {
@@ -205,6 +212,7 @@ public class GgbAPID extends GgbAPI {
 		final File file = file1;
 		return (Boolean) AccessController
 				.doPrivileged(new PrivilegedAction<Object>() {
+					@Override
 					public Boolean run() {
 
 						try {
@@ -230,48 +238,34 @@ public class GgbAPID extends GgbAPI {
 
 	}
 
-	public synchronized String getPNGBase64(double exportScale,
-			boolean transparent, double DPI) {
-		return getPNGBase64(exportScale, transparent, DPI, false);
+
+
+	@Override
+	protected void exportPNGClipboard(boolean transparent, int DPI,
+			double exportScale, App app, EuclidianView ev) {
+		// more control but doesn't paste into eg Paint, Google Docs
+		GraphicExportDialog.exportPNGClipboard(transparent, DPI,
+				exportScale, (AppD) app, (EuclidianViewInterfaceD) ev);
 	}
 
-	/*
-	 * returns a String (base-64 encoded PNG file of the Graphics View)
-	 */
-	public synchronized String getPNGBase64(double exportScale,
-			boolean transparent, double DPI, boolean copyToClipboard) {
+	@Override
+	protected void exportPNGClipboardDPIisNaN(boolean transparent,
+			double exportScale, EuclidianView ev) {
+		// pastes into more programs
+		BufferedImage img = ((EuclidianViewInterfaceD) ev).getExportImage(
+				exportScale, transparent);
 
-		EuclidianViewInterfaceD ev = (EuclidianViewInterfaceD) ((AppD) app)
-				.getActiveEuclidianView();
-		
-		if (copyToClipboard) {
+		ImageSelection imgSel = new ImageSelection(img);
+		Toolkit.getDefaultToolkit().getSystemClipboard()
+				.setContents(imgSel, null);
+	}
 
-			if (DPI == 0 || Double.isNaN(DPI)) {
-				// pastes into more programs
-				BufferedImage img = ev.getExportImage(exportScale, transparent);
-
-				ImageSelection imgSel = new ImageSelection(img);
-				Toolkit.getDefaultToolkit().getSystemClipboard()
-						.setContents(imgSel, null);
-			} else {
-
-				if (exportScale == 0 || Double.isNaN(exportScale)) {
-					// calculate so that we get 1:1 scale
-					exportScale = (ev.getPrintingScale() * DPI) / 2.54
-							/ ev.getXscale();
-
-				}
-
-				// more control but doesn't paste into eg Paint, Google Docs
-				GraphicExportDialog.exportPNGClipboard(transparent, (int) DPI,
-						exportScale, (AppD) app, (EuclidianViewInterfaceD) ev);
-			}
-			return "";
-
-		}
-
-		BufferedImage img = ev.getExportImage(exportScale, transparent);
-
+	@Override
+	protected String base64encodePNG(boolean transparent, double DPI,
+			double exportScale,
+			EuclidianView ev) {
+		BufferedImage img = ((EuclidianViewInterfaceD) ev).getExportImage(
+				exportScale, transparent);
 		return base64encode(img, DPI);
 	}
 
@@ -307,6 +301,7 @@ public class GgbAPID extends GgbAPI {
 		}
 	}
 
+	@Override
 	public void drawToImage(String label, double[] x, double[] y) {
 		GeoElement ge = kernel.lookupLabel(label);
 
@@ -327,6 +322,7 @@ public class GgbAPID extends GgbAPI {
 
 	}
 
+	@Override
 	public void clearImage(String label) {
 		GeoElement ge = kernel.lookupLabel(label);
 
