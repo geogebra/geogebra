@@ -60,6 +60,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -4806,16 +4807,9 @@ public class Kernel {
 				if (fun != null) {
 					fun.clearCasEvalMap("");
 				}
-			} else if (geo instanceof GeoCurveCartesian) {
-				GeoCurveCartesian curve = (GeoCurveCartesian) geo;
-				FunctionNVar fun1 = curve.getFunX();
-				FunctionNVar fun2 = curve.getFunY();
-				if (fun1 != null) {
-					fun1.clearCasEvalMap("");
-				}
-				if (fun2 != null) {
-					fun2.clearCasEvalMap("");
-				}
+			} else if (geo instanceof GeoCurveCartesianND) {
+				GeoCurveCartesianND curve = (GeoCurveCartesian) geo;
+				curve.clearCasEvalMap("");
 			}
 			AlgoElement algo = geo.getParentAlgorithm();
 

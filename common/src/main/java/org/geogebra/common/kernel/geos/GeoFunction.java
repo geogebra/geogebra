@@ -2418,7 +2418,9 @@ CasEvaluableFunction, ParametricCurve,
 	}
 
 	public void clearCasEvalMap(String key) {
-		fun.clearCasEvalMap(key);
+		if (fun != null) {
+			fun.clearCasEvalMap(key);
+		}
 
 	}
 

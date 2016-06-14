@@ -313,7 +313,9 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 
 	public void clearCasEvalMap(String key) {
 		for(int k = 0; k < getDimension(); k++){
-			getFun(k).clearCasEvalMap(key);
+			if (getFun(k) != null) {
+				getFun(k).clearCasEvalMap(key);
+			}
 		}		
 	}
 
