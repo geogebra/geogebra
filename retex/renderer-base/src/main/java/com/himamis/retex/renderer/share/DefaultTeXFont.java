@@ -414,14 +414,17 @@ public class DefaultTeXFont implements TeXFont {
 		if (left.fontId == right.fontId) {
 			FontInfo info = fontInfo[left.fontId];
 			return info.getLigature(left.c, right.c);
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	private Metrics getMetrics(CharFont cf, float size) {
 		FontInfo info = fontInfo[cf.fontId];
 		float[] m = info.getMetrics(cf.c);
+		if (m == null) {
+			return new Metrics(1, 1, 0, 0, size * TeXFormula.PIXELS_PER_POINT,
+					size);
+		}
 		return new Metrics(m[WIDTH], m[HEIGHT], m[DEPTH], m[IT], size * TeXFormula.PIXELS_PER_POINT, size);
 	}
 
