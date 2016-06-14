@@ -63,6 +63,7 @@ import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
+import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
@@ -193,8 +194,13 @@ public class RadioTreeItem extends AVTreeItem
 		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
 		int w = avDockPanel.asWidget().getOffsetWidth();
 		if (w < newWidth) {
+			DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
+			if (splitPane == null || splitPane
+					.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+				return;
+			}
 			getAV().setOriginalWidth(w);
-			avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel,
+			splitPane.setWidgetSize(avDockPanel,
 					newWidth);
 			avDockPanel.deferredOnResize();
 		} else {
@@ -2000,8 +2006,7 @@ marblePanel, evt))) {
 							new Scheduler.ScheduledCommand() {
 
 								public void execute() {
-									expandSize(Math.max(EDIT_WIDTH,
-											ihtml.getOffsetWidth()) + 70);
+									expandSize(getWidthForEdit());
 
 									if ((RadioTreeItem.this.getElement()
 											.getAbsoluteTop()
@@ -2032,6 +2037,15 @@ marblePanel, evt))) {
 			app.showKeyboard(this);
 			this.setFocus(true);
 		}
+	}
+
+	protected int getWidthForEdit() {
+		int appWidth = (int) app.getWidth();
+		if (appWidth < 1) {// for case app is not part of DOM
+			appWidth = 1000;
+		}
+		return Math.min(Math.min(EDIT_WIDTH, ihtml.getOffsetWidth()) + 70,
+				appWidth);
 	}
 
 	static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
