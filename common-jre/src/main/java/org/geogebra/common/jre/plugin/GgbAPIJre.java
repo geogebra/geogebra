@@ -1,7 +1,6 @@
 package org.geogebra.common.jre.plugin;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GgbAPI;
 
 public abstract class GgbAPIJre extends GgbAPI {
@@ -32,7 +31,7 @@ public abstract class GgbAPIJre extends GgbAPI {
 
 				}
 
-				exportPNGClipboard(transparent, (int) DPI, exportScale, app, ev);
+				exportPNGClipboard(transparent, (int) DPI, exportScale, ev);
 			}
 			return "";
 
@@ -42,7 +41,7 @@ public abstract class GgbAPIJre extends GgbAPI {
 	}
 
 	abstract protected void exportPNGClipboard(boolean transparent, int DPI,
-			double exportScale, App app, EuclidianView ev);
+			double exportScale, EuclidianView ev);
 
 	abstract protected void exportPNGClipboardDPIisNaN(boolean transparent,
 			double exportScale, EuclidianView ev);

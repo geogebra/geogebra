@@ -35,7 +35,6 @@ import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -242,7 +241,7 @@ public class GgbAPID extends GgbAPIJre {
 
 	@Override
 	protected void exportPNGClipboard(boolean transparent, int DPI,
-			double exportScale, App app, EuclidianView ev) {
+			double exportScale, EuclidianView ev) {
 		// more control but doesn't paste into eg Paint, Google Docs
 		GraphicExportDialog.exportPNGClipboard(transparent, DPI,
 				exportScale, (AppD) app, (EuclidianViewInterfaceD) ev);
