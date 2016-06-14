@@ -2100,6 +2100,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					FunctionExpander fex = FunctionExpander.getCollector();
 					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap().getCopy(kernel).traverse(fex);
 					expandedEvalVE = processSolveCommand(expandedEvalVE);
+					// needed for GGB-955
+					expandedEvalVE = processSolutionCommand(expandedEvalVE);
 				}
 
 				// hack needed for GGB-494
@@ -2176,12 +2178,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 									}
 								}
 							}
-						}
-					} else {
-						Set<String> arbConsKeySet = cons.getArbitraryConsTable()
-								.keySet();
-						if (!arbConsKeySet.isEmpty()) {
-
 						}
 					}
 				}
@@ -2276,6 +2272,46 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 		// set Output
 		finalizeComputation(success, result, ce, doTwinGeoUpdate,allowFunction);
+	}
+
+	// replace in Solutions[{h(s)=g(t)},{s,t}] vector nodes with equations
+	private ValidExpression processSolutionCommand(ValidExpression ve) {
+		if (ve instanceof ExpressionNode
+				&& ((ExpressionNode) ve).getLeft() instanceof Command
+				&& ((Command) ve.unwrap()).getName().equals("Solutions")) {
+			if (((Command) ve.unwrap()).getArgumentNumber() == 2) {
+				ExpressionNode arg1 = ((Command) ve.unwrap()).getArgument(0);
+				if (arg1.getLeft() instanceof MyList
+						&& ((MyList) arg1.getLeft()).getListDepth() == 1
+						&& ((MyList) arg1.getLeft())
+								.getListElement(0) instanceof Equation) {
+					ExpressionNode lhs = ((Equation) ((MyList) arg1.getLeft())
+							.getListElement(0)).getLHS();
+					ExpressionNode rhs = ((Equation) ((MyList) arg1.getLeft())
+							.getListElement(0)).getRHS();
+					if (lhs.getLeft() instanceof MyVecNode
+							&& rhs.getLeft() instanceof MyVecNode) {
+						ExpressionValue xLHS = ((MyVecNode) lhs.getLeft())
+								.getX();
+						ExpressionValue xRHS = ((MyVecNode) rhs.getLeft())
+								.getX();
+						Equation xEqu = new Equation(kernel, xLHS, xRHS);
+						ExpressionValue yLHS = ((MyVecNode) lhs.getLeft())
+								.getY();
+						ExpressionValue yRHS = ((MyVecNode) rhs.getLeft())
+								.getY();
+						Equation yEqu = new Equation(kernel, yLHS, yRHS);
+						MyList myList = new MyList(kernel, 2);
+						myList.addListElement(new ExpressionNode(kernel, xEqu));
+						myList.addListElement(new ExpressionNode(kernel, yEqu));
+						arg1 = new ExpressionNode(kernel, myList);
+						((Command) ve.unwrap()).setArgument(0, arg1);
+					}
+				}
+			}
+		}
+		return ve;
+
 	}
 
 	private static boolean isScriptingCommand(String name) {
