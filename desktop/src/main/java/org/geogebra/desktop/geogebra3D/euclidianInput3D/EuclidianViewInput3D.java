@@ -357,9 +357,9 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	 *            translation vector
 	 */
 	public void setCoordSystemFromMouse3DMove(Coords translation) {
-		setXZero(XZeroOld + translation.getX());
-		setYZero(YZeroOld + translation.getY());
-		setZZero(ZZeroOld + translation.getZ());
+		setXZero(xZeroOld + translation.getX());
+		setYZero(yZeroOld + translation.getY());
+		setZZero(zZeroOld + translation.getZ());
 
 		// update the view
 		updateTranslationMatrix();
