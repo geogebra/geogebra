@@ -293,8 +293,7 @@ public abstract class EuclidianController {
 	protected Coords tmpCoordsL3;
 	protected boolean penDragged;
 	protected boolean doubleClickStarted;
-	protected double twoTouchStartX, twoTouchStartY, twoTouchStartScaleX, twoTouchStartScaleY, twoTouchStartDistance,
-			twoTouchStartXZero, twoTouchStartYZero;
+	protected double twoTouchStartX, twoTouchStartY, twoTouchStartDistance;
 	/**
 	 * conic which's size is changed
 	 */
@@ -10537,10 +10536,10 @@ public abstract class EuclidianController {
 	 */
 	public void onPinchPhone(int x, int y, double scaleFactor) {
 
-		double newX = x + (twoTouchStartXZero - twoTouchStartX) * scaleFactor;
-		double newY = y + (twoTouchStartYZero - twoTouchStartY) * scaleFactor;
-		view.setCoordSystem(newX, newY, twoTouchStartScaleX * scaleFactor,
-				twoTouchStartScaleY * scaleFactor);
+		double newX = x + (view.getXZeroOld() - twoTouchStartX) * scaleFactor;
+		double newY = y + (view.getYZeroOld() - twoTouchStartY) * scaleFactor;
+		view.setCoordSystem(newX, newY, view.getXScaleStart() * scaleFactor,
+				view.getYScaleStart() * scaleFactor);
 
 	}
 
@@ -10655,10 +10654,6 @@ public abstract class EuclidianController {
 			twoTouchStartDistance = MyMath.length(x1 - x2, y1 - y2);
 
 			view.rememberOrigins();
-			twoTouchStartXZero = view.getXZero();
-			twoTouchStartYZero = view.getYZero();
-			twoTouchStartScaleX = view.getXscale();
-			twoTouchStartScaleY = view.getYscale();
 		}
 
 

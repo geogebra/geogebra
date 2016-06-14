@@ -192,9 +192,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	protected double XZero = XZERO_SCENE_STANDARD;
 	protected double YZero = YZERO_SCENE_STANDARD;
 	protected double ZZero = ZZERO_SCENE_STANDARD;
-	protected double XZeroOld = 0;
-	protected double YZeroOld = 0;
-	protected double ZZeroOld = 0;
+	protected double zZeroOld = 0;
 	protected double aOld, bOld;
 	// picking and hits
 	protected Hits3D hits = new Hits3D(); // objects picked from openGL
@@ -260,8 +258,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private int cursor3DType = PREVIEW_POINT_NONE;
 	private int cursor = CURSOR_DEFAULT;
 	/** starting and ending scales */
-	private double animatedXScaleStart, animatedXScaleEnd, animatedYScaleStart,
-			animatedYScaleEnd, animatedZScaleStart, animatedZScaleEnd;
+	private double xScaleEnd, yScaleEnd, zScaleStart, zScaleEnd;
 	/** velocity of animated scaling */
 	private double animatedScaleTimeFactor;
 	/** starting time for animated scale */
@@ -1017,9 +1014,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	final public void translateCoordSystemInPixels(int dx, int dy, int dz,
 												   int mode) {
-		setXZero(XZeroOld + dx / getSettings().getXscale());
-		setYZero(YZeroOld - dy / getSettings().getYscale());
-		setZZero(ZZeroOld + dz / getSettings().getZscale());
+		setXZero(xZeroOld + dx / getSettings().getXscale());
+		setYZero(yZeroOld - dy / getSettings().getYscale());
+		setZZero(zZeroOld + dz / getSettings().getZscale());
 
 		getSettings().updateOriginFromView(getXZero(), getYZero(), getZZero());
 		updateMatrix();
@@ -1061,11 +1058,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				if (cursorOnXOYPlane.getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
 					v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
 							getViewDirection(), tmpCoords1);
-					setXZero(XZeroOld + tmpCoords1.getX());
-					setYZero(YZeroOld + tmpCoords1.getY());
+					setXZero(xZeroOld + tmpCoords1.getX());
+					setYZero(yZeroOld + tmpCoords1.getY());
 				} else {
 					v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
-					setZZero(ZZeroOld + tmpCoords1.getZ());
+					setZZero(zZeroOld + tmpCoords1.getZ());
 				}
 				getSettings().updateOriginFromView(getXZero(), getYZero(),
 						getZZero());
@@ -1091,15 +1088,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		switch (axisScaleMode) {
 		case EuclidianController.MOVE_X_AXIS:
-			setXZero(XZeroOld / axisScaleFactor);
+			setXZero(xZeroOld / axisScaleFactor);
 			getSettings().setXscaleValue(axisScaleFactor * axisScaleOld);
 			break;
 		case EuclidianController.MOVE_Y_AXIS:
-			setYZero(YZeroOld / axisScaleFactor);
+			setYZero(yZeroOld / axisScaleFactor);
 			getSettings().setYscaleValue(axisScaleFactor * axisScaleOld);
 			break;
 		case EuclidianController.MOVE_Z_AXIS:
-			setZZero(ZZeroOld / axisScaleFactor);
+			setZZero(zZeroOld / axisScaleFactor);
 			getSettings().setZscaleValue(axisScaleFactor * axisScaleOld);
 			break;
 
@@ -1320,11 +1317,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	/** remembers the origins values (xzero, ...) */
 	@Override
 	public void rememberOrigins() {
+
+		super.rememberOrigins();
+
 		aOld = a;
 		bOld = b;
-		XZeroOld = XZero;
-		YZeroOld = YZero;
-		ZZeroOld = ZZero;
+		zZeroOld = getZZero();
+		zScaleStart = getZscale();
 	}
 
 	public void updateAnimation() {
@@ -1841,6 +1840,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private void setAnimatedCoordSystem(double x, double y, double z,
 										double newScale, int steps) {
 
+
+		rememberOrigins();
 		animatedScaleStartX = getXZero();
 		animatedScaleStartY = getYZero();
 		animatedScaleStartZ = getZZero();
@@ -1849,13 +1850,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		animatedScaleEndY = y;
 		animatedScaleEndZ = z;
 
-		animatedXScaleStart = getXscale();
-		animatedYScaleStart = getYscale();
-		animatedZScaleStart = getZscale();
 		animatedScaleTimeStart = app.getMillisecondTime();
-		animatedXScaleEnd = newScale;
-		animatedYScaleEnd = newScale;
-		animatedZScaleEnd = newScale;
+		xScaleEnd = newScale;
+		yScaleEnd = newScale;
+		zScaleEnd = newScale;
 		animationType = AnimationType.ANIMATED_SCALE;
 
 		animatedScaleTimeFactor = 0.0003 * steps;
@@ -1866,6 +1864,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public void setAnimatedCoordSystem(double ox, double oy, double f,
 									   double newScale, int steps, boolean storeUndo) {
 
+		rememberOrigins();
 		animatedScaleStartX = getXZero();
 		animatedScaleStartY = getYZero();
 		animatedScaleStartZ = getZZero();
@@ -1900,13 +1899,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		// Application.debug("mouse = ("+ox+","+oy+")"+"\nscale end = ("+animatedScaleEndX+","+animatedScaleEndY+")"+"\nZero = ("+animatedScaleStartX+","+animatedScaleStartY+")");
 
-		animatedXScaleStart = getXscale();
-		animatedYScaleStart = getYscale();
-		animatedZScaleStart = getZscale();
 		animatedScaleTimeStart = app.getMillisecondTime();
-		animatedXScaleEnd = animatedXScaleStart / factor;
-		animatedYScaleEnd = animatedYScaleStart / factor;
-		animatedZScaleEnd = animatedZScaleStart / factor;
+		xScaleEnd = xScaleStart / factor;
+		yScaleEnd = yScaleStart / factor;
+		zScaleEnd = zScaleStart / factor;
 		animationType = AnimationType.ANIMATED_SCALE;
 
 		animatedScaleTimeFactor = 0.005; // it will take about 1/2s to achieve
@@ -2080,9 +2076,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 			// Application.debug("t="+t+"\nscale="+(startScale*(1-t)+endScale*t));
 
-			setScale(animatedXScaleStart * (1 - t) + animatedXScaleEnd * t,
-					animatedYScaleStart * (1 - t) + animatedYScaleEnd * t,
-					animatedZScaleStart * (1 - t) + animatedZScaleEnd * t);
+			setScale(xScaleStart * (1 - t) + xScaleEnd * t,
+					yScaleStart * (1 - t) + yScaleEnd * t,
+					zScaleStart * (1 - t) + zScaleEnd * t);
 			setXZero(animatedScaleStartX * (1 - t) + animatedScaleEndX * t);
 			setYZero(animatedScaleStartY * (1 - t) + animatedScaleEndY * t);
 			setZZero(animatedScaleStartZ * (1 - t) + animatedScaleEndZ * t);
@@ -2121,14 +2117,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			break;
 
 		case SCREEN_TRANSLATE_AND_SCALE:
-			setXZero(XZeroOld + screenTranslateAndScaleDX);
-			setYZero(YZeroOld + screenTranslateAndScaleDY);
-			setZZero(ZZeroOld + screenTranslateAndScaleDZ);
+			setXZero(xZeroOld + screenTranslateAndScaleDX);
+			setYZero(yZeroOld + screenTranslateAndScaleDY);
+			setZZero(zZeroOld + screenTranslateAndScaleDZ);
 			getSettings().updateOriginFromView(getXZero(), getYZero(),
 					getZZero());
-			setScale(screenTranslateAndScaleNewScale,
-					screenTranslateAndScaleNewScale,
-					screenTranslateAndScaleNewScale);
+			setScale(xScaleEnd, yScaleEnd, zScaleEnd);
 			updateMatrix();
 			setViewChangedByZoom();
 			setViewChangedByTranslate();
@@ -4584,12 +4578,11 @@ GRectangle selectionRectangle) {
 		// not used in 3D
 	}
 
-	private double screenTranslateAndScaleNewScale;
 	private double screenTranslateAndScaleDX;
 	private double screenTranslateAndScaleDY;
 	private double screenTranslateAndScaleDZ;
 
-	public void screenTranslateAndScale(double dx, double dy, double newScale) {
+	public void screenTranslateAndScale(double dx, double dy, double scaleFactor) {
 
 		// dx and dy are translation in screen coords
 		// dx moves along "visible left-right" axis on xOy plane
@@ -4614,7 +4607,9 @@ GRectangle selectionRectangle) {
 			screenTranslateAndScaleDZ = 0;
 		}
 
-		this.screenTranslateAndScaleNewScale = newScale;
+		xScaleEnd = xScaleStart * scaleFactor;
+		yScaleEnd = yScaleStart * scaleFactor;
+		zScaleEnd = zScaleStart * scaleFactor;
 		animationType = AnimationType.SCREEN_TRANSLATE_AND_SCALE;
 	}
 

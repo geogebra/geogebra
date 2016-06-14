@@ -93,7 +93,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public static int EVNO_3D = -1;
 	/** euclidian view number */
 	protected int evNo = 1;
-	private double xZeroOld, yZeroOld;
+	protected double xZeroOld, yZeroOld;
+	protected double xScaleStart, yScaleStart;
 	private int mode = EuclidianConstants.MODE_MOVE;
 	/** minimal width */
 	protected static final int MIN_WIDTH = 50;
@@ -762,8 +763,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/** remembers the origins values (xzero, ...) */
 	public void rememberOrigins() {
-		xZeroOld = getxZero();
-		yZeroOld = getyZero();
+		xZeroOld = getXZero();
+		yZeroOld = getYZero();
+		xScaleStart = getXscale();
+		yScaleStart = getYscale();
 	}
 
 	/**
@@ -5516,6 +5519,22 @@ sb.toString(), getFontAxes(),
 				}
 		}
 		return null;
+	}
+
+	public double getXZeroOld(){
+		return xZeroOld;
+	}
+
+	public double getYZeroOld(){
+		return yZeroOld;
+	}
+
+	public double getXScaleStart(){
+		return xScaleStart;
+	}
+
+	public double getYScaleStart(){
+		return yScaleStart;
 	}
 
 }
