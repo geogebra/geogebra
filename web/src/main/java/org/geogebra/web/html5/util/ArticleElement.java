@@ -440,7 +440,6 @@ public final class ArticleElement extends Element {
 	 * @return the CSS scale attached to the article element
 	 */
 	public float getScaleX() {
-		debug("GET SCALE");
 		// no instance fields in subclasses of Element, so no way to asign it to
 		// a simple field
 		if ("".equals(this.getAttribute("data-scalex"))) {
@@ -545,11 +544,9 @@ public final class ArticleElement extends Element {
 	 * 
 	 */
 	public void adjustScale() {
-		debug("ADJUST");
 		if (getDataParamApp()
 		        || (getAttribute("data-scalex") != null && !""
 		                .equals(getAttribute("data-scalex")))) {
-			debug(getAttribute("data-scalex"));
 			return;
 		}
 		double externalScale = getDataParamScale();
@@ -558,17 +555,11 @@ public final class ArticleElement extends Element {
 		        && "applet_container".equals(parent.getParentElement().getId())) {
 			parent = parent.getParentElement();
 		}
-		debug("EXTERNAL" + externalScale);
 		Browser.scale(parent, externalScale, 0, 0);
 		setAttribute("data-scalex", "" + envScale("x"));
 		setAttribute("data-scaley", "" + envScale("y"));
 
 	}
-
-	private native void debug(String string) /*-{
-		$wnd.console.trace(string);
-
-	}-*/;
 
 	public String getDataParamPrerelease() {
 		return getAttribute("data-param-prerelease").trim().toLowerCase();
