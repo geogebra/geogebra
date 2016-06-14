@@ -2279,38 +2279,41 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (ve instanceof ExpressionNode
 				&& ((ExpressionNode) ve).getLeft() instanceof Command
 				&& ((Command) ve.unwrap()).getName().equals("Solutions")) {
-			if (((Command) ve.unwrap()).getArgumentNumber() == 2) {
-				ExpressionNode arg1 = ((Command) ve.unwrap()).getArgument(0);
+			Command cmd = (Command) ve.unwrap();
+			if (cmd.getArgumentNumber() == 2) {
+				ExpressionNode arg1 = cmd.getArgument(0);
 				if (arg1.getLeft() instanceof MyList
 						&& ((MyList) arg1.getLeft()).getListDepth() == 1
 						&& ((MyList) arg1.getLeft())
 								.getListElement(0) instanceof Equation) {
-					ExpressionNode lhs = ((Equation) ((MyList) arg1.getLeft())
-							.getListElement(0)).getLHS();
-					ExpressionNode rhs = ((Equation) ((MyList) arg1.getLeft())
-							.getListElement(0)).getRHS();
-					if (lhs.getLeft() instanceof MyVecNode
-							&& rhs.getLeft() instanceof MyVecNode) {
-						ExpressionValue xLHS = ((MyVecNode) lhs.getLeft())
-								.getX();
-						ExpressionValue xRHS = ((MyVecNode) rhs.getLeft())
-								.getX();
-						Equation xEqu = new Equation(kernel, xLHS, xRHS);
-						ExpressionValue yLHS = ((MyVecNode) lhs.getLeft())
-								.getY();
-						ExpressionValue yRHS = ((MyVecNode) rhs.getLeft())
-								.getY();
-						Equation yEqu = new Equation(kernel, yLHS, yRHS);
-						MyList myList = new MyList(kernel, 2);
-						myList.addListElement(new ExpressionNode(kernel, xEqu));
-						myList.addListElement(new ExpressionNode(kernel, yEqu));
-						arg1 = new ExpressionNode(kernel, myList);
-						((Command) ve.unwrap()).setArgument(0, arg1);
-					}
+					expandEquation(cmd, ((Equation) ((MyList) arg1.getLeft())
+							.getListElement(0)));
+				} else if (arg1.unwrap() instanceof Equation) {
+					expandEquation(cmd, (Equation) arg1.unwrap());
 				}
 			}
 		}
 		return ve;
+
+	}
+
+	private void expandEquation(Command cmd, Equation eqn) {
+		ExpressionNode lhs = eqn.getLHS();
+		ExpressionNode rhs = eqn.getRHS();
+		if (lhs.getLeft() instanceof MyVecNode
+				&& rhs.getLeft() instanceof MyVecNode) {
+			ExpressionValue xLHS = ((MyVecNode) lhs.getLeft()).getX();
+			ExpressionValue xRHS = ((MyVecNode) rhs.getLeft()).getX();
+			Equation xEqu = new Equation(kernel, xLHS, xRHS);
+			ExpressionValue yLHS = ((MyVecNode) lhs.getLeft()).getY();
+			ExpressionValue yRHS = ((MyVecNode) rhs.getLeft()).getY();
+			Equation yEqu = new Equation(kernel, yLHS, yRHS);
+			MyList myList = new MyList(kernel, 2);
+			myList.addListElement(new ExpressionNode(kernel, xEqu));
+			myList.addListElement(new ExpressionNode(kernel, yEqu));
+			ExpressionNode arg1 = new ExpressionNode(kernel, myList);
+			cmd.setArgument(0, arg1);
+		}
 
 	}
 
