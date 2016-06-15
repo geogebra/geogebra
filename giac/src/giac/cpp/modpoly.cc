@@ -219,7 +219,8 @@ namespace giac {
       ismod=false;
     gen n0(0);
     vecteur v;
-    if (p.dim!=1) return vecteur(1,gensizeerr(gettext("modpoly.cc/modularize")));
+    if (p.dim!=1) 
+      return vecteur(1,gensizeerr(gettext("modpoly.cc/modularize")));
     if (p.coord.empty())
       return v;
     int deg=p.lexsorted_degree();
@@ -3465,10 +3466,10 @@ namespace giac {
       if (p1t==_EXT && p2t==_EXT && p1g.type==_EXT && p2g.type==_EXT && *(p1g._EXTptr+1)==*(p2g._EXTptr+1) && (p1g._EXTptr+1)->type==_VECT){
 	polynome2poly1(gcd(pp1,pp2),1,d);
 	if (d.size()==1){
-	  polynome pmini(2),P1,P2;
-	  algext_vmin2pmin(*(p1g._EXTptr+1)->_VECTptr,pmini);
-	  polynome P1n(1),P2n(1);
+	  polynome P1,P2;
 	  if (algext_convert(pp1,p1g,P1) && algext_convert(pp2,p1g,P2)){
+	    polynome pmini(P1.dim),P1n(P1.dim-1),P2n(P1.dim-1);
+	    algext_vmin2pmin(*(p1g._EXTptr+1)->_VECTptr,pmini);
 	    if (algnorme(P1,pmini,P1n) && algnorme(P2,pmini,P2n)){
 	      // first solve norme(p1)*un+norme(p2)*vn=d
 	      // then norme(p1)/p1*un*p1+norme(p2)/p2*vn*p2=d
@@ -3510,10 +3511,10 @@ namespace giac {
       if (0 && p1t==_EXT && p2t==0 && p1g.type==_EXT && (p1g._EXTptr+1)->type==_VECT){
 	polynome2poly1(gcd(pp1,pp2),1,d);
 	if (d.size()==1){
-	  polynome pmini(2),P1;
-	  algext_vmin2pmin(*(p1g._EXTptr+1)->_VECTptr,pmini);
-	  polynome P1n(1);
+	  polynome P1;
 	  if (algext_convert(pp1,p1g,P1)){
+	    polynome pmini(P1.dim),P1n(P1.dim-1);
+	    algext_vmin2pmin(*(p1g._EXTptr+1)->_VECTptr,pmini);
 	    if (algnorme(P1,pmini,P1n)){
 	      // first solve norme(p1)*un+p2*v=d
 	      // then norme(p1)/p1*un*p1+v*p2=d
