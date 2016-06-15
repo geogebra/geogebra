@@ -41,17 +41,25 @@ public class AdjustSlider {
 					&& origWidth == width) {
 				return true;
 			}
-		} else {
-
 		}
-
 		return false;
 	}
 
-	private void restoreLocation() {
-		number.setSliderWidth(origWidth);
-		number.setSliderLocation(origX, origY, true);
+	private boolean isYOnScreen() {
+		if (horizontal) {
+			return false;
+		}
+
+		if (y == origY && origY < view.getHeight() && origWidth == width) {
+			return true;
+		}
+		return false;
 	}
+	// private void restoreLocation() {
+	//
+	// number.setSliderWidth(origWidth);
+	// number.setSliderLocation(origX, origY, true);
+	// }
 
 	/**
 	 * Just do the job.
@@ -71,10 +79,21 @@ public class AdjustSlider {
 				if (!restoreY() && origY > view.getViewHeight() - MARGIN_Y) {
 					y = view.getViewHeight() - MARGIN_Y;
 				}
+			} else {
+				// adjusting vertical slider
+				if (restoreY()) {
+					Log.debug("[ADJUST] sliderY is restored.");
+				} else if (isWidthOriginal() && !isYOnScreen()) {
+					y = view.getViewHeight() - MARGIN_Y;
+					Log.debug("[ADJUST] y to the bottom");
+				}
+
+				if (!restoreX() && isWidthOriginal()
+						&& origX + origWidth > view.getViewWidth() - MARGIN_X) {
+					x = view.getViewWidth() - MARGIN_X;
+				}
 			}
-			// else if (!horizontal && !restoreY()) {
-			// y = view.getViewHeight() - MARGIN_Y;
-			// }
+
 		}
 		number.setSliderLocation(x, y, true);
 	}
@@ -90,13 +109,11 @@ public class AdjustSlider {
 			x = MARGIN_X;
 				return true;
 
+		} else if (!horizontal && width > view.getHeight()) {
+			number.setSliderWidth(view.getViewHeight() - 2 * MARGIN_Y);
+			y = view.getViewHeight() - MARGIN_Y;
+			return true;
 		}
-		// else if (!horizontal && width > view.getHeight()) {
-		// number.setSliderWidth(
-		// view.getViewHeight() - 2 * MARGIN_Y);
-		// y = view.getViewHeight() - MARGIN_Y;
-		// return true;
-		// }
 		return false;
 	}
 
