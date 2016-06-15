@@ -41,6 +41,7 @@ import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.renderer.share.SelectionBox;
 
 /**
  * This class is a Math Field. Displays and allows to edit single formula.
@@ -61,6 +62,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
     private MathFormula mathFormula;
 
 	private int[] mouseDownPos;
+
+	private boolean selectionDrag;
 
 
     public MathFieldInternal(MathField mathField) {
@@ -176,7 +179,18 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public void onPointerDown(int x, int y) {
         if (selectionMode) {
             ArrayList<Integer> list = new ArrayList<Integer>();
-            mathFieldController.getPath(mathFormula, x, y, list);
+			System.out.println(SelectionBox.startX + "," + SelectionBox.endX
+					+ ";"
+					+ length(SelectionBox.startX - x, SelectionBox.startY - y));
+			if (length(SelectionBox.startX - x, SelectionBox.startY - y) < 10) {
+				selectionDrag = true;
+				return;
+			}
+			if (length(SelectionBox.endX - x, SelectionBox.endY - y) < 10) {
+				selectionDrag = true;
+				return;
+			}
+			mathFieldController.getPath(mathFormula, x, y, list);
             editorState.resetSelection();
             cursorController.firstField(editorState);
             this.mouseDownPos = new int[]{x, y};
@@ -190,6 +204,10 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         mathField.requestViewFocus();
 
     }
+
+	private double length(double d, double e) {
+		return Math.sqrt(d * d + e * e);
+	}
 
 	public void onPointerUp(int x, int y) {
 

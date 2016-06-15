@@ -8,6 +8,8 @@ import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 
 public class SelectionBox extends Box {
 	private static final int DIAMETER = 10;
+	public static double startX, startY;
+	public static double endX, endY;
 	private Box content;
 
 	public SelectionBox(Box content) {
@@ -23,7 +25,21 @@ public class SelectionBox extends Box {
 		Stroke old = g2.getStroke();
 
 		g2.setStroke(FactoryProvider.INSTANCE.getGraphicsFactory()
-				.createBasicStroke((float) 1, 0, 0, 1));
+				.createBasicStroke(1, 0, 0, 1));
+
+		SelectionBox.startX = g2.getTransform().getScaleX() * x
+				+ g2.getTransform().getShearX() * y
+				+ g2.getTransform().getTranslateX();
+		SelectionBox.startY = g2.getTransform().getScaleY() * y
+				+ g2.getTransform().getShearY() * x
+				+ g2.getTransform().getTranslateY();
+
+		SelectionBox.endX = g2.getTransform().getScaleX() * (x + content.width)
+				+ g2.getTransform().getShearX() * (y + content.depth)
+				+ g2.getTransform().getTranslateX();
+		SelectionBox.endY = g2.getTransform().getScaleY() * (y + content.depth)
+				+ g2.getTransform().getShearY() * (x + content.width)
+				+ g2.getTransform().getTranslateY();
 
 		g2.saveTransformation();
 

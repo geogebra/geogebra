@@ -52,4 +52,11 @@ public class ClickListenerAdapter extends MouseAdapter {
 	public void mouseReleased(MouseEvent e) {
 		clickListener.onPointerUp(e.getX(), e.getY());
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() > 1) {
+			clickListener.onLongPress(0, e.getX(), e.getY());
+		}
+	}
 }
