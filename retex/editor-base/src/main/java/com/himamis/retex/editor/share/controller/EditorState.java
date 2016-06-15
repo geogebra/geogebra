@@ -96,9 +96,9 @@ public class EditorState {
 	public void extendSelection(MathComponent cursorField) {
 
 		if (selectionAnchor == null) {
-			selectionAnchor = cursorField;
 			currentSelStart = cursorField;
 			currentSelEnd = cursorField;
+			anchor(true);
 			return;
 		}
 
@@ -143,7 +143,7 @@ public class EditorState {
 	public void selectAll() {
 		currentSelStart = getRootComponent();
 		currentSelEnd = currentSelStart;
-		selectionAnchor = currentSelStart;
+		anchor(true);
 	}
 
 	public MathComponent getCursorField(boolean left) {
@@ -164,7 +164,13 @@ public class EditorState {
 	}
 
 	public void resetSelection() {
+		if (selectionAnchor != null) {
+			System.out.println("free");
+			Throwable t = new Throwable();
+			t.printStackTrace();
+		}
 		selectionAnchor = null;
+
 		currentSelEnd = null;
 		currentSelStart = null;
 
@@ -176,4 +182,16 @@ public class EditorState {
 	public boolean hasSelection() {
 		return currentSelStart != null;
 	}
+
+	public void anchor(boolean start) {
+		this.selectionAnchor = start ? this.currentSelStart
+				: this.currentSelEnd;
+		System.out.println("anchor");
+
+	}
+
+	public MathComponent getSelectionAnchor() {
+		return selectionAnchor;
+	}
+
 }
