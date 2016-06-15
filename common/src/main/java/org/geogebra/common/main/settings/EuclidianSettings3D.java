@@ -408,6 +408,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		xscale = EuclidianView.SCALE_STANDARD;
 		yscale = EuclidianView.SCALE_STANDARD;
 		zscale = EuclidianView.SCALE_STANDARD;
+		maxScale = EuclidianView.SCALE_STANDARD;
 		
 		yAxisVertical = false;
 		useLight = true;	
