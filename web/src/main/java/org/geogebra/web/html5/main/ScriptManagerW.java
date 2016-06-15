@@ -85,8 +85,7 @@ public class ScriptManagerW extends ScriptManager {
 				&& jsFunction.charAt(0) <= '9') {
 			String singleArg = args != null && args.length > 0
 					? (String) args[0] : null;
-			callListenerNative(this.api, jsFunction,
- singleArg, null);
+			callListenerNative(this.api, jsFunction, singleArg, null);
 			return;
 		}
 		app.callAppletJavaScript(jsFunction, args);
@@ -817,13 +816,7 @@ public class ScriptManagerW extends ScriptManager {
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
-		// other methods from the Wiki (consider to implement here)
-		// http://wiki.geogebra.org/en/Reference:JavaScript
-		//
-		// 
-		// boolean writePNGtoFile(String filename, double exportScale, boolean transparent, double DPI)
-		// String getIPAddress()
-		// String getHostname()
+
 	}-*/;
 
 }
