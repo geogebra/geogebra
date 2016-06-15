@@ -1301,23 +1301,36 @@ public class AlgebraProcessor {
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			GeoElement[] temp = processValidExpression(ve);
-			num = (GeoNumberValue) temp[0];
+
+			if (temp[0] instanceof GeoNumberValue) {
+				num = (GeoNumberValue) temp[0];
+			} else {
+				num = new GeoNumeric(cons, Double.NaN);
+
+				if (!suppressErrors) {
+					app.showError("InvalidInput", str);
+				}
+			}
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
-			if (!suppressErrors)
+			if (!suppressErrors) {
 				app.showError("CircularDefinition");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			if (!suppressErrors)
+			if (!suppressErrors) {
 				app.showError("InvalidInput", str);
+			}
 		} catch (MyError e) {
 			e.printStackTrace();
-			if (!suppressErrors)
+			if (!suppressErrors) {
 				app.showError(e);
+			}
 		} catch (Error e) {
 			e.printStackTrace();
-			if (!suppressErrors)
+			if (!suppressErrors) {
 				app.showError("InvalidInput", str);
+			}
 		}
 
 		cons.setSuppressLabelCreation(oldMacroMode);
