@@ -43,8 +43,6 @@
  */
 package com.himamis.retex.renderer.web.graphics;
 
-import java.util.LinkedList;
-
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.shared.GWT;
@@ -62,10 +60,10 @@ import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
 import com.himamis.retex.renderer.web.DrawingFinishedCallback;
 import com.himamis.retex.renderer.web.font.AsyncLoadedFont;
+import com.himamis.retex.renderer.web.font.AsyncLoadedFont.FontLoadCallback;
 import com.himamis.retex.renderer.web.font.DefaultFont;
 import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.font.FontWrapper;
-import com.himamis.retex.renderer.web.font.AsyncLoadedFont.FontLoadCallback;
 
 public class Graphics2DW implements Graphics2DInterface {
 
@@ -368,7 +366,7 @@ public class Graphics2DW implements Graphics2DInterface {
 		context.beginPath();
 
 		context.translate2(x, y);
-		context.scale2(width, height);
+		context.scale2(width / 2.0, height / 2.0);
 		
 		context.arc(1, 1, 1, startAngle, arcAngle);
 		context.restoreTransform();
