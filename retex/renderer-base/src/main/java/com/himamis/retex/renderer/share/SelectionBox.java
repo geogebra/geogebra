@@ -1,10 +1,13 @@
 package com.himamis.retex.renderer.share;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 
 public class SelectionBox extends Box {
+	private static final int DIAMETER = 10;
 	private Box content;
 
 	public SelectionBox(Box content) {
@@ -20,11 +23,28 @@ public class SelectionBox extends Box {
 		Stroke old = g2.getStroke();
 
 		g2.setStroke(FactoryProvider.INSTANCE.getGraphicsFactory()
-				.createBasicStroke((float) (1 / 10.0), 0, 0, 1));
-		g2.draw(FactoryProvider.INSTANCE.getGeomFactory().createLine2D(x, y, x,
-				y + content.height));
+				.createBasicStroke((float) 1, 0, 0, 1));
+
+		g2.saveTransformation();
+
+		g2.scale(1.0 / DIAMETER, 1.0 / DIAMETER);
 		g2.draw(FactoryProvider.INSTANCE.getGeomFactory().createLine2D(
-				x + content.width, y, x + content.width, y + content.height));
+				DIAMETER * x, DIAMETER * y - DIAMETER * content.height,
+				DIAMETER * x, DIAMETER * y + DIAMETER * content.depth));
+		g2.draw(FactoryProvider.INSTANCE.getGeomFactory().createLine2D(
+				DIAMETER * (x + content.width),
+				DIAMETER * y - DIAMETER * content.height,
+				DIAMETER * (x + content.width),
+				DIAMETER * (y + content.depth)));
+		g2.drawArc((int) (DIAMETER * x - 5),
+				(int) (DIAMETER * y + DIAMETER * content.depth), DIAMETER,
+				DIAMETER,
+				0, 360);
+		g2.drawArc((int) (DIAMETER * x + DIAMETER * content.width - 5),
+				(int) (DIAMETER * y + DIAMETER * content.depth), DIAMETER,
+				DIAMETER, 0, 360);
+
+		g2.restoreTransformation();
 		g2.setStroke(old);
 
 	}
@@ -35,4 +55,9 @@ public class SelectionBox extends Box {
 		return content.getLastFontId();
 	}
 
+	@Override
+	public void getPath(float x, float y, ArrayList<Integer> list) {
+		super.getPath(x, y, list);
+
+	}
 }
