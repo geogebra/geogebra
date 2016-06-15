@@ -4011,7 +4011,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-751
 		case GEOBUTTON_DESIGN:
-			return prerelease;
+			return true;
 
 		//MOB-601
 		case MOBILE_LOCAL_SAVE:
