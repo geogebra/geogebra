@@ -354,4 +354,19 @@ public class CommandsTest extends Assert{
 		t("X=(s,2s)", "X = (0, 0) + s (1, 2)");
 		t("Intersect[X=(s,s),x+y=2]", "(1, 1)");
 	}
+
+	private void ti(String in, String out) {
+		testSyntax(in.replace("i", Unicode.IMAGINARY),
+				new String[] { out.replace("i", Unicode.IMAGINARY) }, app, ap,
+				StringTemplate.xmlTemplate);
+
+	}
+	@Test
+	public void complexArithmetic() {
+		ti("(0i)^2", "0 + 0i");
+		ti("(0i)^0", "NaN - NaNi");
+		ti("(0i)^-1", "NaN - NaNi");
+		ti("(2+0i)^0", "1 + 0i");
+		ti("(1/0+0i)^0", "NaN - NaNi");
+	}
 }

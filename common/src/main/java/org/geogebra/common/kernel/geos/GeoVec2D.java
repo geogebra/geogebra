@@ -683,7 +683,7 @@ final public class GeoVec2D extends ValidExpression implements
 	 *            result
 	 */
 	final public static void complexPower(GeoVec2D a, NumberValue b, GeoVec2D c) {
-		if (a.x == 0 && a.y == 0 && !Kernel.isZero(b.getDouble())) {
+		if (a.x == 0 && a.y == 0 && b.getDouble() > 0) {
 			c.x = 0;
 			c.y = 0;
 		} else {
