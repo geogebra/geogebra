@@ -497,8 +497,13 @@ public class PropertiesViewW extends PropertiesView
     	if(height > 0 && width > 0) {
     		contentsPanel.setWidth(width + "px");
     		
-    		//-30px for Tabs, -27px for padding, -26px for paddings
-        	optionPanel.onResize((height - 30 - 27), width - 26);
+			if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
+				// -30px for Tabs, -27px for padding, -16px for paddings
+				optionPanel.onResize((height - 30 - 27), width - 16);
+			} else { // old code
+				// -30px for Tabs, -27px for padding, -26px for paddings
+				optionPanel.onResize((height - 30 - 27), width - 26);
+			}
     	}
     }
     
