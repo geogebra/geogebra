@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian;
 
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.debug.Log;
 
 public class AdjustSlider {
 	private GeoNumeric number;
@@ -20,17 +21,9 @@ public class AdjustSlider {
 		this.view = view;
 
 		x = number.getSliderX();
-		if (number.getOrigSliderX() == null) {
-			number.setOrigSliderX(x);
-		}
-
 		origX = number.getOrigSliderX();
 
 		y = number.getSliderY();
-		if (number.getOrigSliderY() == null) {
-			number.setOrigSliderY(y);
-		}
-
 		origY = number.getOrigSliderY();
 
 		width = number.getSliderWidth();
@@ -41,35 +34,69 @@ public class AdjustSlider {
 
 	}
 
+	private boolean isXOnScreen() {
+		if (horizontal) {
+
+			if (x == origX && origX + origWidth < view.getWidth()
+					&& origWidth == width) {
+				return true;
+			}
+		} else {
+
+		}
+
+		return false;
+	}
+
+	private void restoreLocation() {
+		number.setSliderWidth(origWidth);
+		number.setSliderLocation(origX, origY, true);
+	}
+
 	/**
 	 * Just do the job.
 	 */
 	public void apply() {
 		if (!reduceWidth()) {
 			restoreWidth();
-			if (horizontal && !restoreX()) {
-				x = view.getViewWidth() - width - MARGIN_X;
-			} else if (!horizontal && !restoreY()) {
-				y = view.getViewHeight() - MARGIN_Y;
+			if (horizontal) {
+				Log.debug("[ADJUST] horizontal");
+				if (restoreX()) {
+					Log.debug("[ADJUST] sliderX is restored.");
+				} else if (isWidthOriginal() && !isXOnScreen()) {
+					x = view.getViewWidth() - width - MARGIN_X;
+					Log.debug("[ADJUST] x to the left");
+				}
+
+				if (!restoreY() && origY > view.getViewHeight() - MARGIN_Y) {
+					y = view.getViewHeight() - MARGIN_Y;
+				}
 			}
+			// else if (!horizontal && !restoreY()) {
+			// y = view.getViewHeight() - MARGIN_Y;
+			// }
 		}
 		number.setSliderLocation(x, y, true);
 	}
 
 
+	private boolean isWidthOriginal() {
+		return width == origWidth;
+	}
+
 	private boolean reduceWidth() {
 		if (horizontal && width > view.getWidth()) {
-				number.setSliderWidth(
-view.getViewWidth() - 2 * MARGIN_X);
+			number.setSliderWidth(view.getViewWidth() - 2 * MARGIN_X);
 			x = MARGIN_X;
 				return true;
 
-			} else if (width > view.getHeight()) {
-				number.setSliderWidth(
-view.getViewHeight() - 2 * MARGIN_Y);
-			y = view.getViewHeight() - MARGIN_Y;
-				return true;
-			}
+		}
+		// else if (!horizontal && width > view.getHeight()) {
+		// number.setSliderWidth(
+		// view.getViewHeight() - 2 * MARGIN_Y);
+		// y = view.getViewHeight() - MARGIN_Y;
+		// return true;
+		// }
 		return false;
 	}
 
@@ -81,17 +108,18 @@ view.getViewHeight() - 2 * MARGIN_Y);
 	}
 
 	private boolean restoreX() {
-		if (x != origX) {
-			x = Math.min(origX,
- view.getViewWidth() - width - MARGIN_X);
+		if (x != origX && origX + width + MARGIN_X < view.getWidth()) {
+			// x = Math.min(origX,
+			// view.getViewWidth() - width - MARGIN_X);
+			x = origX;
 			return true;
 		}
 		return false;
 	}
 
 	private boolean restoreY() {
-		if (y != origY) {
-			y = Math.min(origY, view.getViewHeight() - MARGIN_X);
+		if (y != origY && origY < view.getHeight()) {
+			y = origY;
 			return true;
 		}
 		return false;

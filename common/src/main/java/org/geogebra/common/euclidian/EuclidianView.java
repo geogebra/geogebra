@@ -78,7 +78,6 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * View containing graphic representation of construction elements
@@ -309,8 +308,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	// the curve is sampled at least at this many positions to plot it
 	private static final int MIN_SAMPLE_POINTS = 80;
-	private static final int ADJUDT_SLIDER_MARGIN_X = 15;
-	private static final int ADJUDT_SLIDER_MARGIN_Y = 15;
+
 
 	// Counts of sliders that need to be adjusted, to omit overlaps.
 	// See GGB-334, Feature.ADJUST.
@@ -5380,147 +5378,9 @@ sb.toString(), getFontAxes(),
 			return;
 		}
 
-		int w = getViewWidth();
-		int h = getViewHeight();
-		if (w == 0 || h == 0) {
-			return;
-		}
-		double cx1 = 0;
-		double cy1 = 0;
-		
-		double cx2 = 0;
-		double cy2 = h;
-		
-		double cx3 = w;
-		double cy3 = h;
-		
-		double cx4 = w;
-		double cy4 = h;
-
-		Log.debug("[ADJUST] Corner 1: (" + cx1 + ", " + cy1 + ")");
-		Log.debug("[ADJUST] Corner 2: (" + cx2 + ", " + cy2 + ")");
-		Log.debug("[ADJUST] Corner 3: (" + cx3 + ", " + cy3 + ")");
-		Log.debug("[ADJUST] Corner 4: (" + cx4 + ", " + cy4 + ")");
-
-		double sliderX = number.getSliderX();
-		if (number.getOrigSliderX() == null) {
-			number.setOrigSliderX(sliderX);
-		}
-
-		double sliderY = number.getSliderY();
-		if (number.getOrigSliderY() == null) {
-			number.setOrigSliderY(sliderY);
-		}
-
-		double sliderWidth = number.getSliderWidth();
-		double origSliderWidth = number.getOrigSliderWidth() == null ? 0
-				: number.getOrigSliderWidth().doubleValue();
-
-		Integer restoredX = restoreSliderX(number);
-		Integer restoredY = restoreSliderY(number);
-		if (number.isSliderHorizontal()) {
-			adjustedHSliderCount++;
-			if (sliderWidth > w) {
-				// Reducing width
-				Log.debug("[ADJUST] " + number + ": Reducing width to size");
-				number.setSliderWidth(
-						getViewWidth() - 2 * ADJUDT_SLIDER_MARGIN_X);
-				sliderX = ADJUDT_SLIDER_MARGIN_X;
-
-			} else {
-				if (sliderWidth < origSliderWidth) {
-					number.setSliderWidth(origSliderWidth);
-				}
-
-				if (restoredX != null) {
-					sliderX = restoredX;
-				} else {
-					if (sliderX < w / 2) {
-						Log.debug("[ADJUST] " + number + ": to the left");
-						sliderX = ADJUDT_SLIDER_MARGIN_X;
-					} else {
-						Log.debug("[ADJUST] " + number + ": to the right");
-
-						sliderX = w - (sliderWidth + ADJUDT_SLIDER_MARGIN_X);
-					}
-				}
-			}
-
-			if (restoredY != null) {
-				sliderY = restoredY;
-			} else 
-			if (sliderY > getViewHeight()
- - ADJUDT_SLIDER_MARGIN_Y) {
-				int diff = (int) ((fileHeight - number.getOrigSliderY()));
-				sliderY = getViewHeight()
-						- adjustedHSliderCount * ADJUDT_SLIDER_MARGIN_Y;
-			}
-		} else {
-			// Vertical slider
-			adjustedVSliderCount++;
-			if (sliderWidth < origSliderWidth) {
-				number.setSliderWidth(origSliderWidth);
-			}
-
-			if (restoredY != null) {
-				sliderY = restoredY;
-			} else {
-				if (sliderWidth > getViewHeight()) {
-					Log.debug(
-							"[ADJUST] " + number + ": Reducing width to size");
-					number.setSliderWidth(
-							getViewHeight() - 2 * ADJUDT_SLIDER_MARGIN_Y);
-					sliderY = h - ADJUDT_SLIDER_MARGIN_Y;
-
-				} else if (sliderY > h) {
-					sliderY = h - ADJUDT_SLIDER_MARGIN_Y;
-				}
-			}
-
-			if (restoredX != null) {
-				sliderX = restoredX;
-			} else {
-				if (sliderX > w - ADJUDT_SLIDER_MARGIN_X) {
-					sliderX = w - ADJUDT_SLIDER_MARGIN_X;
-			}
-			}
-
-
-		}
-		number.setSliderLocation(sliderX, sliderY, true);
+		AdjustSlider adjustSlider = new AdjustSlider(number, this);
+		adjustSlider.apply();
 	}
-
-	private Integer restoreSliderX(GeoNumeric number) {
-		double sW = number.getSliderWidth();
-		double oX = number.getOrigSliderX().doubleValue();
-		if (number.getSliderX() != oX) {
-			int maxSliderX = (int) (getViewWidth() - sW
-					- ADJUDT_SLIDER_MARGIN_X);
-			if (oX < maxSliderX) {
-				return (int) oX;
-			} else {
-				return maxSliderX;
-			}
-		}
-		return null;
-	}
-
-
-	private Integer restoreSliderY(GeoNumeric number) {
-		double sW = number.getSliderWidth();
-		double osW = number.getOrigSliderWidth() == null ? 0
-				: number.getOrigSliderWidth().doubleValue();
-		double oY = number.getOrigSliderY().doubleValue();
-		if (number.getSliderY() != oY) {
-			if (oY < getViewHeight() - adjustedVSliderCount * ADJUDT_SLIDER_MARGIN_X) {
-					return (int) oY;
-				} else {
-					return getViewHeight() - adjustedVSliderCount * ADJUDT_SLIDER_MARGIN_X;
-				}
-		}
-		return null;
-	}
-
 	public double getXZeroOld(){
 		return xZeroOld;
 	}

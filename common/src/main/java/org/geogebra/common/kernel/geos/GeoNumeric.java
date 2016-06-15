@@ -947,6 +947,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		}
 		sliderPos.x = x;
 		sliderPos.y = y;
+		if (origSliderX == null) {
+			origSliderX = x;
+			origSliderY = y;
+		}
 	}
 
 	/**
