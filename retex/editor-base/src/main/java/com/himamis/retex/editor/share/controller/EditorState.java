@@ -164,11 +164,7 @@ public class EditorState {
 	}
 
 	public void resetSelection() {
-		if (selectionAnchor != null) {
-			System.out.println("free");
-			Throwable t = new Throwable();
-			t.printStackTrace();
-		}
+
 		selectionAnchor = null;
 
 		currentSelEnd = null;
@@ -188,6 +184,16 @@ public class EditorState {
 				: this.currentSelEnd;
 		System.out.println("anchor");
 
+	}
+
+	public void cursorToSelectionStart() {
+		this.currentField = (MathSequence) this.currentSelStart.getParent();
+		this.currentOffset = currentField.indexOf(currentSelStart) + 1;
+	}
+
+	public void cursorToSelectionEnd() {
+		this.currentField = (MathSequence) this.currentSelEnd.getParent();
+		this.currentOffset = currentField.indexOf(currentSelEnd) + 1;
 	}
 
 	public MathComponent getSelectionAnchor() {

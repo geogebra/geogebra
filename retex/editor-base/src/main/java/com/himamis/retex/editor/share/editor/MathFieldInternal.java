@@ -183,15 +183,14 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 					+ ";"
 					+ length(SelectionBox.startX - x, SelectionBox.startY - y));
 			if (length(SelectionBox.startX - x, SelectionBox.startY - y) < 10) {
-				editorState.anchor(false);
+				editorState.cursorToSelectionEnd();
 				selectionDrag = true;
-				cursorController.lastField(editorState);
 				return;
 			}
 			if (length(SelectionBox.endX - x, SelectionBox.endY - y) < 10) {
-				editorState.anchor(true);
+				// editorState.anchor(true);
 				selectionDrag = true;
-				cursorController.firstField(editorState);
+				editorState.cursorToSelectionStart();
 				return;
 			}
 			mathFieldController.getPath(mathFormula, x, y, list);
@@ -220,6 +219,10 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         } else if (longPressOccured) {
             longPressOccured = false;
         } else {
+			if (this.selectionDrag) {
+				selectionDrag = false;
+				return;
+			}
             ArrayList<Integer> list = new ArrayList<Integer>();
             mathFieldController.getPath(mathFormula, x, y, list);
             MathComponent cursor = editorState.getCursorField(false);
