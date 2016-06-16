@@ -7,6 +7,7 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -48,6 +49,7 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 		eview1 = Canvas.createIfSupported();
 		eview1.getElement().getStyle().setPosition(Style.Position.RELATIVE);
 		eview1.getElement().getStyle().setZIndex(0);
+		getElement().getStyle().setOverflow(Overflow.VISIBLE);
 		add(eview1);
 
 		return this;
