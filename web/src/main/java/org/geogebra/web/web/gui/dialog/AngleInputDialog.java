@@ -16,16 +16,14 @@ import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class AngleInputDialog extends InputDialogW implements ClickHandler {
+public class AngleInputDialog extends InputDialogW {
 	
-	private static final long serialVersionUID = 1L;
 
 	public static final int DEFAULT_COLUMNS = 30;
 	public static final int DEFAULT_ROWS = 10;

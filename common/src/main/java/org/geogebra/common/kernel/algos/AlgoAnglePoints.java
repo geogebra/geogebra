@@ -28,10 +28,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * 
  * @author Markus
- * @version
  */
-public class AlgoAnglePoints extends AlgoAnglePointsND implements
-		DrawInformationAlgo {
+public class AlgoAnglePoints extends AlgoAnglePointsND {
 
 	public AlgoAnglePoints(Construction cons, String label, GeoPointND A,
 			GeoPointND B, GeoPointND C) {

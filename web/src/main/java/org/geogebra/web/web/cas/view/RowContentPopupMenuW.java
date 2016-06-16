@@ -6,14 +6,13 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW;
-import org.geogebra.web.web.html5.AttachedToDOM;
 //import org.geogebra.web.html5.gui.util.ImageSelection;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.MenuItem;
 
-public class RowContentPopupMenuW extends GPopupMenuW implements AttachedToDOM {
+public class RowContentPopupMenuW extends GPopupMenuW {
 
 	private static final long serialVersionUID = 1L;
 

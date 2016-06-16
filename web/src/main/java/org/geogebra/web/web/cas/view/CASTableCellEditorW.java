@@ -1,6 +1,5 @@
 package org.geogebra.web.web.cas.view;
 
-import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.web.html5.event.KeyListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -9,7 +8,7 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 
-public class CASTableCellEditorW implements CASTableCellEditor, CASEditorW {
+public class CASTableCellEditorW implements CASEditorW {
 
 	private AutoCompleteTextFieldW textField;
 	private CASTableW table;

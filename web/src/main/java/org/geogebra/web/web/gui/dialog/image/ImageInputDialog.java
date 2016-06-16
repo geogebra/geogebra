@@ -5,10 +5,9 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 
-public class ImageInputDialog extends UploadImageDialog implements ClickHandler {
+public class ImageInputDialog extends UploadImageDialog {
 	
 	private static final int PREVIEW_HEIGHT = 155;
 	private static final int PREVIEW_WIDTH = 213;

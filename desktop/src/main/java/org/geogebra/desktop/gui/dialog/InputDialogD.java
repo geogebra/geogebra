@@ -41,7 +41,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -55,7 +54,7 @@ import org.geogebra.desktop.util.GuiResourcesD;
 
 public class InputDialogD extends InputDialog
 		implements ActionListener, WindowFocusListener, VirtualKeyboardListener,
-		UpdateFonts, WindowListener, ErrorHandler {
+		UpdateFonts, WindowListener {
 
 	protected AppD app;
 	protected final LocalizationD loc;

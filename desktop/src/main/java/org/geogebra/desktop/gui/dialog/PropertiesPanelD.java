@@ -1157,8 +1157,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 	}
 
-	private class SymbolicPanel extends CheckboxPanel
-			implements IBooleanOptionListener {
+	private class SymbolicPanel extends CheckboxPanel {
 
 		private static final long serialVersionUID = 1L;
 
