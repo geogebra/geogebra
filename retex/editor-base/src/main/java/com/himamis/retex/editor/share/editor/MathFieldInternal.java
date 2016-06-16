@@ -301,6 +301,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			}
 
 			if (compare(list, list2)) {
+				cursorController.prevCharacter(editorState);
 				break;
 			}
 		}
