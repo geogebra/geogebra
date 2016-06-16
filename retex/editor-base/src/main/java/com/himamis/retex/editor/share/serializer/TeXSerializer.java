@@ -79,7 +79,9 @@ public class TeXSerializer extends SerializerAdapter {
 
         if (sequence.size() == 0) {
 			if (sequence == currentField) {
-                stringBuilder.append(cursor);
+				if (currentSelStart == null) {
+					stringBuilder.append(cursor);
+				}
             } else {
                 if (sequence.getParent() == null
                         || /* symbol.getParent() instanceof MathOperator || */
@@ -93,13 +95,18 @@ public class TeXSerializer extends SerializerAdapter {
             }
         } else {
             if (sequence == currentField) {
-                if (currentOffset > 0) {
-                    serialize(sequence, stringBuilder, 0, currentOffset);
-                }
-                stringBuilder.append(cursor);
-                if (currentOffset < sequence.size()) {
-                    serialize(sequence, stringBuilder, currentOffset, sequence.size());
-                }
+
+				if (currentOffset > 0) {
+					serialize(sequence, stringBuilder, 0, currentOffset);
+				}
+				if (currentSelStart == null) {
+					stringBuilder.append(cursor);
+					}
+				if (currentOffset < sequence.size()) {
+					serialize(sequence, stringBuilder, currentOffset,
+							sequence.size());
+				}
+
             } else {
                 serialize(sequence, stringBuilder, 0, sequence.size());
             }
