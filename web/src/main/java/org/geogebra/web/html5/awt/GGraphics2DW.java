@@ -921,7 +921,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	public void resetInterpolationHint(Object oldInterpolationHint) {
 		this.setImageInterpolation(true);
-
+		this.color = null;
 	}
 
 	public void drawImage(MyImage img, GBufferedImageOp op, int x, int y) {
