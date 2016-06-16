@@ -600,7 +600,8 @@ public class MaterialListElement extends FlowPanel implements
 	private void loadGGBfromTube() {
 		final long synced = material.getSyncStamp();
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-				.getItem(material.getId() + "", new MaterialCallback() {
+				.getItem(material.getSharingKeyOrId() + "",
+						new MaterialCallback() {
 
 					@Override
 					public void onLoaded(final List<Material> parseResponse,
