@@ -9137,9 +9137,16 @@ public abstract class EuclidianController {
 		Hits hits = view.getHits();
 		if (!hits.isEmpty()) {
 			GeoElement f = hits.get(0);
-			if (f.isGeoBoolean() || f.isGeoButton() || f.isGeoInputBox()
+			if (mode != EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX
+					&& f.isGeoBoolean()
+					|| mode != EuclidianConstants.MODE_BUTTON_ACTION
+							&& f.isGeoButton()
+					|| mode != EuclidianConstants.MODE_TEXTFIELD_ACTION
+							&& f.isGeoInputBox()
 					|| (f.isGeoList() && ((GeoList) f).drawAsComboBox())
-					|| (f.isGeoNumeric() && ((GeoNumeric) f).isSlider())) {
+					|| mode != EuclidianConstants.MODE_SLIDER
+							&& (f.isGeoNumeric()
+									&& ((GeoNumeric) f).isSlider())) {
 				app.setMoveMode();
 			}
 		}
