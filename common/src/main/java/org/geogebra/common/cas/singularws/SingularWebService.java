@@ -235,8 +235,8 @@ public class SingularWebService {
 			return;
 		}
 		Log.debug("Trying to enable SingularWS connection");
-		Boolean tc = testConnection();
-		if (tc != null && tc) {
+		boolean tc = testConnection();
+		if (tc) {
 			this.available = true;
 		} else
 			this.available = false;

@@ -25,8 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * locus line for Q dependent on P where P is a slider
  */
-public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> implements
-		AlgoLocusSliderInterface {
+public class AlgoLocusSlider extends AlgoLocusSliderND<MyPoint> {
 
 
 	public AlgoLocusSlider(Construction cons, String label, GeoPoint Q,

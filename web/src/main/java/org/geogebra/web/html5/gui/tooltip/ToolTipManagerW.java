@@ -222,7 +222,7 @@ public class ToolTipManagerW {
 	 */
 	public void showBottomInfoToolTip(String text, final String helpLinkURL,
 			ToolTipLinkType link, AppW app, boolean kb) {
-		if (blockToolTip) {
+		if (blockToolTip || app == null) {
 			return;
 		}
 		bottomInfoTipPanel.removeFromParent();
@@ -233,7 +233,7 @@ public class ToolTipManagerW {
 			bottomInfoTipPanel.remove(helpLabel);
 		}
 
-		boolean online = app == null || app.getNetworkOperation() == null
+		boolean online = app.getNetworkOperation() == null
 				|| app.getNetworkOperation().isOnline();
 		this.helpURL = helpLinkURL;
 		if (app.isExam() && app.getExam().getStart() >= 0) {
@@ -266,16 +266,16 @@ public class ToolTipManagerW {
 
 		bottomInfoTipPanel.setVisible(true);
 
-		if (app != null) {
+
 			// Helps to align the InfoTooltip in the center of the screen:
 
-			Style style = bottomInfoTipPanel.getElement().getStyle();
-			style.setLeft(
-					((app.getWidth() - bottomInfoTipPanel.getOffsetWidth()))
-					/ 2, Unit.PX);
+		Style style = bottomInfoTipPanel.getElement().getStyle();
+		style.setLeft(
+				((app.getWidth() - bottomInfoTipPanel.getOffsetWidth())) / 2,
+				Unit.PX);
 
-			style.setTop((app.getHeight() - (kb ? 250 : 70)), Unit.PX);
-		}
+		style.setTop((app.getHeight() - (kb ? 250 : 70)), Unit.PX);
+
 		if (link == ToolTipLinkType.Help && helpURL != null
 				&& helpURL.length() > 0) {
 			scheduleHideBottom();

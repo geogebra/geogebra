@@ -122,8 +122,9 @@ public class ImageManagerD extends ImageManager {
 			img = ob;
 		} else {
 			// load the image from disk
-			img = new MyImageD(getImageResourceGeoGebra(fileName));
-			if (img != null) {
+			Image imgNative = getImageResourceGeoGebra(fileName);
+			if (imgNative != null) {
+				img = new MyImageD(imgNative);
 				internalImageTable.put(fileName.getFilename(), img);
 			}
 		}

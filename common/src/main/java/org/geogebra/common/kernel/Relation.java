@@ -316,7 +316,7 @@ public class Relation {
 		}
 		if (list.size() != 0) {
 			Boolean ans = ((GeoBoolean) list.get(0)).getBoolean();
-			if (ans == null) {
+			if (!((GeoBoolean) list.get(0)).isDefined()) {
 				ret[0] = ""; // undefined (UNKNOWN)
 			} else if (ans) {
 				ret[0] = "1"; // TRUE

@@ -283,7 +283,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 					outputSegments.setLabels(null);
 					outputPoints.setLabels(null);
 				}
-			} else if (labels != null && labels.length == 1
+			} else if (labels.length == 1
 					&& labels[0] != null && !labels[0].equals("")) {
 				outputPolygons.setIndexLabels(labels[0]);
 				}
