@@ -2899,7 +2899,7 @@ GRectangle selectionRectangle) {
 		{
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).startGroup("layer "+layer);
-			drawLayers[layer].drawAll(g2);
+			drawLayers[layer].drawAll(g2, true);
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).endGroup("layer "+layer);
 		}
@@ -2946,7 +2946,7 @@ GRectangle selectionRectangle) {
 			clearBackground(g);
 		}
 
-		bgImageList.drawAll(g);
+		bgImageList.drawAll(g, false);
 		drawBackground(g, false);
 	}
 
