@@ -113,7 +113,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GBufferedImage createBufferedImage(int width, int height,
-			boolean transparency) throws OutOfMemoryError {
+			boolean transparency) {
 
 		return null; // TODO
 	}

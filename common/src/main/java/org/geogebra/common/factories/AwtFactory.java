@@ -53,7 +53,7 @@ public abstract class AwtFactory {
 			int pixelHeight, float pixelRatio);
 
 	public abstract GBufferedImage createBufferedImage(int width, int height,
-			boolean transparency) throws OutOfMemoryError;
+			boolean transparency);
 
 	public abstract MyImage newMyImage(int pixelWidth, int pixelHeight,
 			int typeIntArgb);
