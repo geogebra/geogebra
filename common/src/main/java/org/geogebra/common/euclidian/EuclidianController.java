@@ -9074,6 +9074,7 @@ public abstract class EuclidianController {
 					runScriptsIfNeeded(pressedButton.getButton());
 				}
 			} else {
+				app.getSelectionManager().clearSelectedGeos();
 				app.getSelectionManager()
 						.addSelectedGeo(pressedButton.getButton());
 			}
