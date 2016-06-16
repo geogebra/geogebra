@@ -46,12 +46,12 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStatic;
@@ -429,129 +429,32 @@ public class EuclidianViewD extends EuclidianView implements
 
 	}
 
+	@Override
+	protected void drawBackgroundImage(GGraphics2D g2d) {
+		GGraphics2DD.getAwtGraphics(g2d)
+				.drawImage(GBufferedImageD.getAwtBufferedImage(bgImage), 0, 0,
+						getJPanel());
+	}
+
+
 	/**
 	 * @param g2d
 	 *            graphics
 	 * @param scale
 	 *            ratio of desired size and current size of the graphics
 	 */
-	public void exportPaint(Graphics2D g2d, double scale,
-			ExportType exportType) {
+	public void exportPaint(Graphics2D g2d, double scale, ExportType exportType) {
 		exportPaint(new GGraphics2DD(g2d), scale, false, exportType);
 	}
 
-	@Override
-	public void exportPaintPre(GGraphics2D g2d,
-			double scale, boolean transparency) {
-		g2d.scale(scale, scale);
-
-		// clipping on selection rectangle
-		if (getSelectionRectangle() != null) {
-			GRectangle rect = getSelectionRectangle();
-			g2d.setClip(0, 0, (int) rect.getWidth(), (int) rect.getHeight());
-			g2d.translate(-rect.getX(), -rect.getY());
-			// Application.debug(rect.x+" "+rect.y+" "+rect.width+" "+rect.height);
-		} else {
-			// use points Export_1 and Export_2 to define corner
-			try {
-				// Construction cons = kernel.getConstruction();
-				GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
-				GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
-				double[] xy1 = new double[2];
-				double[] xy2 = new double[2];
-				export1.getInhomCoords(xy1);
-				export2.getInhomCoords(xy2);
-				double x1 = xy1[0];
-				double x2 = xy2[0];
-				double y1 = xy1[1];
-				double y2 = xy2[1];
-				x1 = (x1 / getInvXscale()) + getxZero();
-				y1 = getyZero() - (y1 / getInvYscale());
-				x2 = (x2 / getInvXscale()) + getxZero();
-				y2 = getyZero() - (y2 / getInvYscale());
-				int x = (int) Math.min(x1, x2);
-				int y = (int) Math.min(y1, y2);
-				int exportWidth = (int) Math.abs(x1 - x2) + 2;
-				int exportHeight = (int) Math.abs(y1 - y2) + 2;
-
-				g2d.setClip(0, 0, exportWidth, exportHeight);
-				g2d.translate(-x, -y);
-			} catch (Exception e) {
-				// or take full euclidian view
-				g2d.setClip(0, 0, getWidth(), getHeight());
-			}
-		}
-
-		// DRAWING
-		if (isTracing() || hasBackgroundImages()) {
-			// draw background image to get the traces
-			if (bgImage == null) {
-				drawBackgroundWithImages(g2d, transparency);
-			} else {
-
-				g2d.setRenderingHint(
-						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
-						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
-
-				g2d.setRenderingHint(
-						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
-						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
-				GGraphics2DD.getAwtGraphics(g2d).drawImage(
-						GBufferedImageD.getAwtBufferedImage(bgImage), 0, 0,
-						getJPanel());
-			}
-		} else {
-			// just clear the background if transparency is disabled (clear =
-			// draw background color)
-			drawBackground(g2d, !transparency);
-		}
-
-		g2d.setRenderingHint(
-				com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
-				com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
-
-		g2d.setAntialiasing();
-	}
-
-	/**
-	 * Returns image of drawing pad sized according to the given scale factor.
-	 * 
-	 * @param scale
-	 *            ratio of desired size and current size of the graphics
-	 * @return image of drawing pad sized according to the given scale factor.
-	 * @throws OutOfMemoryError
-	 *             if the requested image is too big
-	 */
-	public BufferedImage getExportImage(double scale) throws OutOfMemoryError {
-		return getExportImage(scale, false);
-	}
-
-	/**
-	 * @param scale
-	 *            ratio of desired size and current size of the graphics
-	 * @param transparency
-	 *            true for transparent image
-	 * @return image
-	 * @throws OutOfMemoryError
-	 *             if the requested image is too big
-	 */
-	public BufferedImage getExportImage(double scale, boolean transparency)
-			throws OutOfMemoryError {
-		int width = (int) Math.floor(getExportWidth() * scale);
-		int height = (int) Math.floor(getExportHeight() * scale);
-		BufferedImage img = createBufferedImage(width, height, transparency);
-		exportPaint(new GGraphics2DD(img.createGraphics()), scale, transparency,
-				ExportType.PNG);
-		img.flush();
-		return img;
-	}
 	
 	public void exportImagePNG(double scale, boolean transparency, int dpi,
 			File file, boolean exportToClipboard) {
 		
 		try {
-			BufferedImage img = getExportImage(scale, transparency);
-			MyImageIO.write(img, "png", dpi, file);
+			GBufferedImage img = getExportImage(scale, transparency);
+			MyImageIO.write(GBufferedImageD.getAwtBufferedImage(img), "png",
+					dpi, file);
 			if (exportToClipboard) {
 				GraphicExportDialog.sendToClipboard(file);
 			}
@@ -562,40 +465,6 @@ public class EuclidianViewD extends EuclidianView implements
 		
 	}
 
-	/**
-	 * @param width
-	 *            pixel width
-	 * @param height
-	 *            pixel height
-	 * @param transparency
-	 *            true for transparent
-	 * @return image
-	 * @throws OutOfMemoryError
-	 *             if the requested image is too big
-	 */
-	protected BufferedImage createBufferedImage(int width, int height,
-			boolean transparency) throws OutOfMemoryError {
-
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-
-		GraphicsDevice gs = ge.getDefaultScreenDevice();
-
-		GraphicsConfiguration gc = gs.getDefaultConfiguration();
-		BufferedImage bufImg = gc
-				.createCompatibleImage(width, height,
-						(transparency ? Transparency.TRANSLUCENT
-								: Transparency.BITMASK));
-
-		// Graphics2D g = (Graphics2D)bufImg.getGraphics();
-
-		// g.setBackground(new Color(0,0,0,0));
-
-		// g.clearRect(0,0,width,height);
-
-		return bufImg;
-
-	}
 
 	@Override
 	protected void drawResetIcon(GGraphics2D g) {

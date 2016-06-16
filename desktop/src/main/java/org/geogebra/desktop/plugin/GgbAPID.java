@@ -30,6 +30,7 @@ import javax.imageio.stream.ImageOutputStream;
 import javax.swing.JOptionPane;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.jre.util.Base64;
@@ -38,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.util.ImageSelection;
@@ -216,12 +218,14 @@ public class GgbAPID extends GgbAPIJre {
 
 						try {
 							// draw graphics view into image
-							BufferedImage img = ((AppD) getApplication())
+							GBufferedImage img = ((AppD) getApplication())
 									.getEuclidianView1().getExportImage(
 											exportScale, transparent);
 
 							// write image to file
-							MyImageIO.write(img, "png", (float) DPI, file);
+							MyImageIO.write(
+									GBufferedImageD.getAwtBufferedImage(img),
+									"png", (float) DPI, file);
 
 							return true;
 						} catch (Exception ex) {
@@ -251,10 +255,10 @@ public class GgbAPID extends GgbAPIJre {
 	protected void exportPNGClipboardDPIisNaN(boolean transparent,
 			double exportScale, EuclidianView ev) {
 		// pastes into more programs
-		BufferedImage img = ((EuclidianViewInterfaceD) ev).getExportImage(
-				exportScale, transparent);
+		GBufferedImage img = ev.getExportImage(exportScale, transparent);
 
-		ImageSelection imgSel = new ImageSelection(img);
+		ImageSelection imgSel = new ImageSelection(
+				GBufferedImageD.getAwtBufferedImage(img));
 		Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(imgSel, null);
 	}
@@ -263,9 +267,9 @@ public class GgbAPID extends GgbAPIJre {
 	protected String base64encodePNG(boolean transparent, double DPI,
 			double exportScale,
 			EuclidianView ev) {
-		BufferedImage img = ((EuclidianViewInterfaceD) ev).getExportImage(
+		GBufferedImage img = ((EuclidianViewInterfaceD) ev).getExportImage(
 				exportScale, transparent);
-		return base64encode(img, DPI);
+		return base64encode(GBufferedImageD.getAwtBufferedImage(img), DPI);
 	}
 
 	/**

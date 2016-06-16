@@ -1,12 +1,12 @@
 package org.geogebra.desktop.euclidianND;
 
 import java.awt.Cursor;
-import java.awt.image.BufferedImage;
 import java.io.File;
 
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianController;
 
 /**
@@ -46,7 +46,7 @@ public interface EuclidianViewInterfaceD {
 	 */
 	public EuclidianController getEuclidianController();
 
-	public BufferedImage getExportImage(double scale);
+	public GBufferedImage getExportImage(double scale);
 	
 	/**
 	 * @param scale
@@ -57,7 +57,7 @@ public interface EuclidianViewInterfaceD {
 	 * @throws OutOfMemoryError
 	 *             if the requested image is too big
 	 */
-	public BufferedImage getExportImage(double scale, boolean transparency)
+	public GBufferedImage getExportImage(double scale, boolean transparency)
 			throws OutOfMemoryError;
 	
 	/**

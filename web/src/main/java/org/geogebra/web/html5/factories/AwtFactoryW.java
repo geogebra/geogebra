@@ -112,6 +112,13 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
+	public GBufferedImage createBufferedImage(int width, int height,
+			boolean transparency) throws OutOfMemoryError {
+
+		return null; // TODO
+	}
+
+	@Override
 	public GDimension newDimension(int width, int height) {
 		return new GDimensionW(width, height);
 	}

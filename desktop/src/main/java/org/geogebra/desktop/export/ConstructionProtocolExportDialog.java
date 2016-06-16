@@ -37,6 +37,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD;
@@ -264,7 +265,8 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 
 			if (includePicture) {
 				// picture of drawing pad
-				img = app.getEuclidianView1().getExportImage(1d);
+				img = GBufferedImageD.getAwtBufferedImage(app
+						.getEuclidianView1().getExportImage(1d));
 			} else if (includeAlgebraPicture) {
 				// picture of drawing pad
 				img = getCenterPanelImage();

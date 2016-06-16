@@ -12,4 +12,6 @@ public interface GBufferedImage {
 
 	GBufferedImage getSubimage(int i, int j, int size, int size2);
 
+	void flush();
+
 }

@@ -5219,8 +5219,83 @@ sb.toString(), getFontAxes(),
 		return 2;
 	}
 
-	public abstract void exportPaintPre(GGraphics2D g2d, double scale,
-			boolean transparency);
+	/**
+	 * draw background image to graphics
+	 * 
+	 * @param g2d
+	 *            graphics
+	 */
+	protected abstract void drawBackgroundImage(GGraphics2D g2d);
+
+	public void exportPaintPre(GGraphics2D g2d, double scale,
+			boolean transparency) {
+		g2d.scale(scale, scale);
+
+		// clipping on selection rectangle
+		if (getSelectionRectangle() != null) {
+			GRectangle rect = getSelectionRectangle();
+			g2d.setClip(0, 0, (int) rect.getWidth(), (int) rect.getHeight());
+			g2d.translate(-rect.getX(), -rect.getY());
+			// Application.debug(rect.x+" "+rect.y+" "+rect.width+" "+rect.height);
+		} else {
+			// use points Export_1 and Export_2 to define corner
+			try {
+				// Construction cons = kernel.getConstruction();
+				GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
+				GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
+				double[] xy1 = new double[2];
+				double[] xy2 = new double[2];
+				export1.getInhomCoords(xy1);
+				export2.getInhomCoords(xy2);
+				double x1 = xy1[0];
+				double x2 = xy2[0];
+				double y1 = xy1[1];
+				double y2 = xy2[1];
+				x1 = (x1 / getInvXscale()) + getxZero();
+				y1 = getyZero() - (y1 / getInvYscale());
+				x2 = (x2 / getInvXscale()) + getxZero();
+				y2 = getyZero() - (y2 / getInvYscale());
+				int x = (int) Math.min(x1, x2);
+				int y = (int) Math.min(y1, y2);
+				int exportWidth = (int) Math.abs(x1 - x2) + 2;
+				int exportHeight = (int) Math.abs(y1 - y2) + 2;
+
+				g2d.setClip(0, 0, exportWidth, exportHeight);
+				g2d.translate(-x, -y);
+			} catch (Exception e) {
+				// or take full euclidian view
+				g2d.setClip(0, 0, getWidth(), getHeight());
+			}
+		}
+
+		// DRAWING
+		if (isTracing() || hasBackgroundImages()) {
+			// draw background image to get the traces
+			if (bgImage == null) {
+				drawBackgroundWithImages(g2d, transparency);
+			} else {
+
+				g2d.setRenderingHint(
+						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
+						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
+
+				g2d.setRenderingHint(
+						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
+						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
+				drawBackgroundImage(g2d);
+			}
+		} else {
+			// just clear the background if transparency is disabled (clear =
+			// draw background color)
+			drawBackground(g2d, !transparency);
+		}
+
+		g2d.setRenderingHint(
+				com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
+				com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
+
+		g2d.setAntialiasing();
+	}
 
 	/**
 	 * Scales construction and draws it to g2d.
@@ -5237,12 +5312,45 @@ sb.toString(), getFontAxes(),
 	 *            SVG, PNG etc
 	 * 
 	 */
-	public void exportPaint(GGraphics2D g2d,
-			double scale, boolean transparency, ExportType exportType) {
+	public void exportPaint(GGraphics2D g2d, double scale,
+			boolean transparency, ExportType exportType) {
 		getApplication().setExporting(exportType, scale);
 		exportPaintPre(g2d, scale, transparency);
 		drawObjects(g2d);
 		getApplication().setExporting(ExportType.NONE, 1);
+	}
+
+	/**
+	 * Returns image of drawing pad sized according to the given scale factor.
+	 * 
+	 * @param scale
+	 *            ratio of desired size and current size of the graphics
+	 * @return image of drawing pad sized according to the given scale factor.
+	 * @throws OutOfMemoryError
+	 *             if the requested image is too big
+	 */
+	public GBufferedImage getExportImage(double scale) throws OutOfMemoryError {
+		return getExportImage(scale, false);
+	}
+
+	/**
+	 * @param scale
+	 *            ratio of desired size and current size of the graphics
+	 * @param transparency
+	 *            true for transparent image
+	 * @return image
+	 * @throws OutOfMemoryError
+	 *             if the requested image is too big
+	 */
+	public GBufferedImage getExportImage(double scale, boolean transparency)
+			throws OutOfMemoryError {
+		int width = (int) Math.floor(getExportWidth() * scale);
+		int height = (int) Math.floor(getExportHeight() * scale);
+		GBufferedImage img = AwtFactory.prototype.createBufferedImage(width,
+				height, transparency);
+		exportPaint(img.createGraphics(), scale, transparency, ExportType.PNG);
+		img.flush();
+		return img;
 	}
 
 	/**

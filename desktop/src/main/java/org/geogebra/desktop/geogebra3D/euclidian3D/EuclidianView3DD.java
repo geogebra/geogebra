@@ -22,6 +22,7 @@ import java.io.IOException;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -504,15 +505,16 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		return (App3D) this.app;
 	}
 
-	public BufferedImage getExportImage(double scale) {
+	public GBufferedImage getExportImage(double scale) {
 		return getExportImage(scale, false);
 	}
 
-	public BufferedImage getExportImage(double scale, boolean transparency)
+	public GBufferedImage getExportImage(double scale, boolean transparency)
 			throws OutOfMemoryError {
 		getRenderer().needExportImage(scale);
 
-		return (BufferedImage) getRenderer().getExportImage();
+		return new GBufferedImageD((BufferedImage) getRenderer()
+				.getExportImage());
 	}
 
 	private boolean exportToClipboard;
@@ -578,4 +580,10 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	public void repaintView() {
 		// done by FPS animator
 	}
+
+	@Override
+	protected void drawBackgroundImage(GGraphics2D g2d) {
+		// nothing to do here
+	}
+
 }

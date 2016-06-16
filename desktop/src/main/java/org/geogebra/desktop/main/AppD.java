@@ -171,6 +171,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.Log.LogDestination;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.GeoGebra;
+import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
@@ -2414,7 +2415,8 @@ ToolbarD.getAllTools(this));
 		double scale = getMaxScaleForClipBoard(ev);
 
 		// copy drawing pad to the system clipboard
-		Image img = ((EuclidianViewD) ev).getExportImage(scale);
+		Image img = GBufferedImageD.getAwtBufferedImage(((EuclidianViewD) ev)
+				.getExportImage(scale));
 		ImageSelection imgSel = new ImageSelection(
 				img);
 		Toolkit.getDefaultToolkit().getSystemClipboard()
@@ -2444,7 +2446,8 @@ ToolbarD.getAllTools(this));
 		double scale = Math.min(maxX / getEuclidianView1().getSelectedWidth(),
 				maxY / getEuclidianView1().getSelectedHeight());
 
-		return getEuclidianView1().getExportImage(scale);
+		return GBufferedImageD.getAwtBufferedImage(getEuclidianView1()
+				.getExportImage(scale));
 	}
 
 	// **************************************************************************
@@ -5051,7 +5054,9 @@ ToolbarD.getAllTools(this));
 			num.setValue(val);
 			num.updateRepaint();
 
-			Image img = ((EuclidianViewD) ev).getExportImage(1);
+			Image img = GBufferedImageD
+					.getAwtBufferedImage(((EuclidianViewD) ev)
+							.getExportImage(1));
 			if (img == null) {
 				Log.error("image null");
 			} else {

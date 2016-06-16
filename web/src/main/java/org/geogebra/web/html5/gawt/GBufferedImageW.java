@@ -177,4 +177,9 @@ public class GBufferedImageW implements GBufferedImage {
 	public float getPixelRatio() {
 		return pixelRatio;
 	}
+
+	public void flush() {
+		// nothing to flush
+	}
+
 }

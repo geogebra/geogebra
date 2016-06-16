@@ -57,6 +57,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.UtilFactory;
@@ -72,6 +73,7 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.AppId;
 import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
@@ -1051,9 +1053,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 							try {
 
-								BufferedImage bufferedImage = ev
+								GBufferedImage bufferedImage = ev
 										.getExportImage(1);
-								ImageIO.write(bufferedImage, "png", new File(
+								ImageIO.write(GBufferedImageD
+										.getAwtBufferedImage(bufferedImage),
+										"png", new File(
 										filename));
 								Log.debug("3D view exported successfully");
 							} catch (IOException e) {

@@ -34,6 +34,7 @@ import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.export.GraphicExportDialog;
@@ -535,7 +536,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		// private final Action act;
 
 		public TransferablePlotPanel() {
-			image = plotPanelEV.getExportImage(1d);
+			image = GBufferedImageD.getAwtBufferedImage(plotPanelEV
+					.getExportImage(1d));
 			// act = sampleAction;
 		}
 

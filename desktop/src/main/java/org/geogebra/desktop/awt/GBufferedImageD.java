@@ -35,8 +35,7 @@ public class GBufferedImageD implements GBufferedImage {
 	}
 
 	public GGraphics2D createGraphics() {
-		return new GGraphics2DD(
-(Graphics2D) impl.getGraphics());
+		return new GGraphics2DD((Graphics2D) impl.getGraphics());
 	}
 
 	public GBufferedImage getSubimage(int i, int j, int size, int size2) {
@@ -50,6 +49,10 @@ public class GBufferedImageD implements GBufferedImage {
 	 */
 	public int[] getData() {
 		return ((DataBufferInt) impl.getRaster().getDataBuffer()).getData();
+	}
+
+	public void flush() {
+		impl.flush();
 	}
 
 }

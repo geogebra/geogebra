@@ -3,7 +3,11 @@ package org.geogebra.desktop.factories;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Font;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.TexturePaint;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 
 import org.geogebra.common.awt.GAffineTransform;
@@ -110,6 +114,31 @@ public class AwtFactoryD extends AwtFactory {
 			float pixelRatio) {
 		return new GBufferedImageD(pixelWidth,
 				pixelHeight, GBufferedImage.TYPE_INT_ARGB);
+	}
+
+	@Override
+	public GBufferedImage createBufferedImage(int width, int height,
+			boolean transparency) throws OutOfMemoryError {
+
+		GraphicsEnvironment ge = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
+
+		GraphicsDevice gs = ge.getDefaultScreenDevice();
+
+		GraphicsConfiguration gc = gs.getDefaultConfiguration();
+		BufferedImage bufImg = gc
+				.createCompatibleImage(width, height,
+						(transparency ? Transparency.TRANSLUCENT
+								: Transparency.BITMASK));
+
+		// Graphics2D g = (Graphics2D)bufImg.getGraphics();
+
+		// g.setBackground(new Color(0,0,0,0));
+
+		// g.clearRect(0,0,width,height);
+
+		return new GBufferedImageD(bufImg);
+
 	}
 
 	@Override

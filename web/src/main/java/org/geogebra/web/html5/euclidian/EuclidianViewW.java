@@ -1292,4 +1292,9 @@ final GGraphics2D g2) {
 		return app.getPixelRatio();
 	}
 
+	@Override
+	protected void drawBackgroundImage(GGraphics2D g2d) {
+		// TODO?
+	}
+
 }

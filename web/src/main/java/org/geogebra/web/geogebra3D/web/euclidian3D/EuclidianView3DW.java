@@ -756,4 +756,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	}
 
+	@Override
+	protected void drawBackgroundImage(GGraphics2D g2d) {
+		// nothing to do here
+	}
+
 }
