@@ -8,8 +8,8 @@ public class AdjustSlider {
 	private EuclidianView view;
 	private double x;
 	private double y;
-	private double origX;
-	private double origY;
+	private Double origX;
+	private Double origY;
 	private double width;
 	private double origWidth;
 	private boolean horizontal;
@@ -76,7 +76,8 @@ public class AdjustSlider {
 					Log.debug("[ADJUST] x to the left");
 				}
 
-				if (!restoreY() && origY > view.getViewHeight() - MARGIN_Y) {
+				if (!restoreY() && origY != null
+						&& origY > view.getViewHeight() - MARGIN_Y) {
 					y = view.getViewHeight() - MARGIN_Y;
 				}
 			} else {
@@ -125,7 +126,8 @@ public class AdjustSlider {
 	}
 
 	private boolean restoreX() {
-		if (x != origX && origX + width + MARGIN_X < view.getWidth()) {
+		if (origX != null && x != origX
+				&& origX + width + MARGIN_X < view.getWidth()) {
 			// x = Math.min(origX,
 			// view.getViewWidth() - width - MARGIN_X);
 			x = origX;
@@ -135,7 +137,7 @@ public class AdjustSlider {
 	}
 
 	private boolean restoreY() {
-		if (y != origY && origY < view.getHeight()) {
+		if (origY != null && y != origY && origY < view.getHeight()) {
 			y = origY;
 			return true;
 		}
