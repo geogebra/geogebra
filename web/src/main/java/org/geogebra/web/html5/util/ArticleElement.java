@@ -641,4 +641,12 @@ public final class ArticleElement extends Element {
 		return true;
 	}
 
+	public String getMaterialsAPIurl() {
+		return this.getAttribute("data-param-materialsApi");
+	}
+
+	public String getLoginAPIurl() {
+		return this.getAttribute("data-param-loginApi");
+	}
+
 }

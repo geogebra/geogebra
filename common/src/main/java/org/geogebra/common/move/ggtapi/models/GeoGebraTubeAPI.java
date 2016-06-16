@@ -31,16 +31,11 @@ public abstract class GeoGebraTubeAPI {
 	public static final int STANDARD_RESULT_QUANTITY = 30;
 
 	/**
-	 * Secure test url
-	 */
-	public static String test_url = "http://test-tube.geogebra.org/api/json.php";
-
-	/**
 	 * Public url (no SSL)
 	 * DO NOT CHANGE!
 	 */
-	public static String url = "https://tube.geogebra.org/api/json.php";
-	public static String urlBeta = "https://tube-beta.geogebra.org/api/json.php";
+	public static String url = "https://www.geogebra.org/api/json.php";
+	public static String urlBeta = "https://beta.geogebra.org/api/json.php";
 	public static String login_url = "https://accounts.geogebra.org/api/index.php";
 	public static String login_urlBeta = "https://login-beta.geogebra.org/api/index.php";
 	/**
@@ -55,15 +50,26 @@ public abstract class GeoGebraTubeAPI {
 	protected boolean available = true;
 	protected boolean availabilityCheckDone = false;
 	protected ClientInfo client;
-	private boolean beta;
+	private String materialsURL;
+
+	private String loginURL;
 
 	/**
 	 * @param beta
 	 */
 	public GeoGebraTubeAPI(boolean beta) {
-		this.beta = beta;
+		this.materialsURL = beta ? url : urlBeta;
+		this.loginURL = beta ? login_url : login_urlBeta;
 	}
 	
+	public void setURL(String url1) {
+		this.materialsURL = url1;
+	}
+
+	public void setLoginURL(String loginAPIurl) {
+		this.loginURL = loginAPIurl;
+
+	}
 	/**
 	 * Private method performing the request given by requestString
 	 * 
@@ -80,11 +86,11 @@ public abstract class GeoGebraTubeAPI {
 	}
 	
 	protected final String getLoginUrl() {
-		return beta ? login_urlBeta : login_url;
+		return loginURL;
 	}
 
 	protected final String getUrl() {
-		return beta ? urlBeta : url;
+		return materialsURL;
 	}
 
 	/**

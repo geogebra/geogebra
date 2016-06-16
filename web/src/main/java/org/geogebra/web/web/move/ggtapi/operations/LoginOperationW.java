@@ -5,6 +5,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.BaseEventView;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.URLEncoderW;
@@ -60,6 +61,13 @@ public class LoginOperationW extends LogInOperation {
 		if (this.api == null) {
 			this.api = new GeoGebraTubeAPIW(app.getClientInfo(),
 				app.has(Feature.TUBE_BETA));
+			if (!StringUtil
+					.empty(app.getArticleElement().getMaterialsAPIurl())) {
+				this.api.setURL(app.getArticleElement().getMaterialsAPIurl());
+			}
+			if (!StringUtil.empty(app.getArticleElement().getLoginAPIurl())) {
+				this.api.setLoginURL(app.getArticleElement().getLoginAPIurl());
+			}
 		} else {
 			api.setClient(app.getClientInfo());
 		}
