@@ -5326,10 +5326,8 @@ sb.toString(), getFontAxes(),
 	 * @param scale
 	 *            ratio of desired size and current size of the graphics
 	 * @return image of drawing pad sized according to the given scale factor.
-	 * @throws OutOfMemoryError
-	 *             if the requested image is too big
 	 */
-	public GBufferedImage getExportImage(double scale) throws OutOfMemoryError {
+	public GBufferedImage getExportImage(double scale) {
 		return getExportImage(scale, false);
 	}
 
@@ -5339,11 +5337,8 @@ sb.toString(), getFontAxes(),
 	 * @param transparency
 	 *            true for transparent image
 	 * @return image
-	 * @throws OutOfMemoryError
-	 *             if the requested image is too big
 	 */
-	public GBufferedImage getExportImage(double scale, boolean transparency)
-			throws OutOfMemoryError {
+	public GBufferedImage getExportImage(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 		GBufferedImage img = AwtFactory.prototype.createBufferedImage(width,
