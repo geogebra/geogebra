@@ -184,6 +184,7 @@ public class Graphics2DA implements Graphics2DInterface {
 	}
 
 	public void drawString(String text, int x, int y, Paint paint) {
+		paint.setTextSize(mScaleStack.scaleFontSize(paint.getTextSize()));
 		mCanvas.drawText(text, mScaleStack.scaleX(x), mScaleStack.scaleY(y), paint);
 	}
 
