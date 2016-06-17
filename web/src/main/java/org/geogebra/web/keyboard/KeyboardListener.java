@@ -24,19 +24,53 @@ public interface KeyboardListener {
 	public static final int BACKSPACE = 8;
 	public static final int ENTER = '\r'; // 13;
 
+	/**
+	 * Focus/Blur the text field
+	 * 
+	 * @param focus
+	 *            true: focus; false: blur
+	 */
 	void setFocus(boolean focus);
 
+	/**
+	 * simulates an enter key event
+	 */
 	void onEnter();
-	
+
+	/**
+	 * simulates a backspace key event
+	 */
 	void onBackSpace();
-	
+
+	/**
+	 * simulates arrow events
+	 * 
+	 * @param type
+	 *            {@link ArrowType}
+	 */
 	void onArrow(ArrowType type);
-	
+
+	/**
+	 * Inserts the given text at the caret position
+	 * 
+	 * @param text
+	 *            text to be inserted
+	 */
 	void insertString(String text);
-	
+
+	/**
+	 * Method just used for RadioButtonTreeItem for now
+	 */
 	void scrollCursorIntoView();
 
 	boolean resetAfterEnter();
 
+	/**
+	 * change language specific notations
+	 * 
+	 * @param loc
+	 */
 	void updateForNewLanguage(KeyboardLocale localization);
+
+	public void setKeyBoardModeText(boolean text);
 }

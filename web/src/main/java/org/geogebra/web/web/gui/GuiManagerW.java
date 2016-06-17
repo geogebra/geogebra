@@ -47,6 +47,8 @@ import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.NoDragImage;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
@@ -87,6 +89,7 @@ import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
@@ -100,7 +103,9 @@ import org.geogebra.web.web.html5.AttachedToDOM;
 import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.main.AppWapplet;
 import org.geogebra.web.web.main.GDevice;
-import org.geogebra.web.web.util.keyboard.TextFieldProcessing;
+import org.geogebra.web.web.util.keyboard.AutocompleteProcessing;
+import org.geogebra.web.web.util.keyboard.GTextBoxProcessing;
+import org.geogebra.web.web.util.keyboard.MathQuillProcessing;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -2038,8 +2043,18 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;
 		}
-		TextFieldProcessing processField = new TextFieldProcessing(textField);
-		return processField;
+		if (textField instanceof GTextBox) {
+			return new GTextBoxProcessing((GTextBox) textField);
+		}
+		if (textField instanceof AutoCompleteTextFieldW) {
+			return new AutocompleteProcessing(
+					(AutoCompleteTextFieldW) textField);
+		}
+		if (textField instanceof EquationEditorListener) {
+			return new MathQuillProcessing(
+					(EquationEditorListener) textField);
+		}
+		return null;
 
 	}
 

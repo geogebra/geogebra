@@ -69,4 +69,9 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	}
 
+	public void setKeyBoardModeText(boolean text) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
