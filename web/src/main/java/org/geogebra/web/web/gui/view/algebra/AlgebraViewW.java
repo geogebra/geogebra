@@ -1744,7 +1744,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			}
 			mqSize.removeFromParent();
 			mqSize.setInnerText(
-					".GeoGebraFrame .hasCursorPermanent span {font-size:"
+					".GeoGebraFrame span.mathquillggb-rendered-math.mathquillggb-editable {font-size:"
 					+ app.getFontSizeWeb() + "px}");
 
 			Document.get().getElementsByTagName("head").getItem(0)

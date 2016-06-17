@@ -263,7 +263,7 @@ public class RadioTreeItem extends AVTreeItem
 	Kernel kernel;
 	protected AppW app;
 	protected AlgebraView av;
-	private boolean latex = false;
+	protected boolean latex = false;
 	private boolean editing = false;
 
 	protected FlowPanel latexItem;
@@ -643,9 +643,9 @@ public class RadioTreeItem extends AVTreeItem
 					StringTemplate.latexTemplate);
 			definitionPanel.clear();
 
-			c = latexToCanvas(text);
-			c.addStyleName("canvasDef");
-			definitionPanel.add(c);
+			canvas = latexToCanvas(text);
+			canvas.addStyleName("canvasDef");
+			definitionPanel.add(canvas);
 		} else if (geo != null) {
 
 			IndexHTMLBuilder sb = getBuilder(definitionPanel);
@@ -734,13 +734,12 @@ public class RadioTreeItem extends AVTreeItem
 		geo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 		valuePanel.add(new HTML(sb.toString()));
 		if (latex) {
-			valC = DrawEquationW.paintOnCanvas(geo,
- text, valC,
+			valCanvas = DrawEquationW.paintOnCanvas(geo, text, valCanvas,
 					getFontSize());
-			valC.addStyleName("canvasVal");
-			if (valC != null) {
+			valCanvas.addStyleName("canvasVal");
+			if (valCanvas != null) {
 				valuePanel.clear();
-				valuePanel.add(valC);
+				valuePanel.add(valCanvas);
 			}
 		}
 
@@ -812,9 +811,10 @@ public class RadioTreeItem extends AVTreeItem
 						StringTemplate.latexTemplateMQ);
 				}
 
-				c = DrawEquationW.paintOnCanvas(geo, text, c, getFontSize());
+			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
+					getFontSize());
 				ihtml.clear();
-				ihtml.add(c);
+			ihtml.add(canvas);
 			}
 		// }
 
@@ -1363,11 +1363,11 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 
-	private Canvas c;
-	private Canvas valC;
+	protected Canvas canvas;
+	private Canvas valCanvas;
 
 
-	private void renderLatex(String text0, Widget w, boolean forceMQ) {
+	protected void renderLatex(String text0, Widget w, boolean forceMQ) {
 		if (definitionAndValue) {
 			renderLatexDV(text0, w, forceMQ);
 
@@ -1378,14 +1378,15 @@ public class RadioTreeItem extends AVTreeItem
 
 	private void renderLatex(String text0, Element old, boolean forceMQ) {
 		if (!forceMQ) {
-			c = DrawEquationW.paintOnCanvas(geo, text0, c, getFontSize());
+			canvas = DrawEquationW.paintOnCanvas(geo, text0, canvas,
+					getFontSize());
 
-			if (c != null && ihtml.getElement().isOrHasChild(old)) {
-				ihtml.getElement().replaceChild(c.getCanvasElement(), old);
+			if (canvas != null && ihtml.getElement().isOrHasChild(old)) {
+				ihtml.getElement().replaceChild(canvas.getCanvasElement(), old);
 			}
 
 		} 
- else {
+		else {
 			// // // Log.debug(REFX + "renderLatex 2");
 			if (latexItem == null) {
 				latexItem = new FlowPanel();
@@ -1395,9 +1396,6 @@ public class RadioTreeItem extends AVTreeItem
 			updateColor(latexItem);
 
 			ihtml.clear();
-
-
-
 
 
 			String text = text0;
@@ -1432,15 +1430,16 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private Canvas latexToCanvas(String text) {
-		return DrawEquationW.paintOnCanvas(geo, text, c, getFontSize());
+		return DrawEquationW.paintOnCanvas(geo, text, canvas, getFontSize());
 	}
 
 	private void updateLaTeX(String text) {
 		if (!isDefinitionAndValue()) {
 			ihtml.clear();
-			c = DrawEquationW.paintOnCanvas(geo, text, c, getFontSize());
+			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
+					getFontSize());
 
-			ihtml.add(c);
+			ihtml.add(canvas);
 			return;
 		}
 	}
@@ -1449,7 +1448,7 @@ public class RadioTreeItem extends AVTreeItem
 		// Log.debug(DV + "replace to canvas " + text);
 
 		updateLaTeX(text);
-		LayoutUtilW.replace(ihtml, c, old);
+		LayoutUtilW.replace(ihtml, canvas, old);
 	}
 
 	private void editLatexMQ(String text0) {
@@ -1506,7 +1505,7 @@ public class RadioTreeItem extends AVTreeItem
 	 * @return size for JLM texts. Due to different fonts we need a bit more
 	 *         than app.getFontSize(), but +3 looked a bit too big
 	 */
-	private int getFontSize() {
+	protected int getFontSize() {
 		return app.getFontSizeWeb() + 1;
 	}
 
@@ -1570,7 +1569,7 @@ public class RadioTreeItem extends AVTreeItem
 		return true;
 	}
 
-	private String getTextForEditing(boolean substituteNumbers,
+	protected String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
 		return geo.getLaTeXAlgebraDescriptionWithFallback(
 						substituteNumbers
@@ -1597,14 +1596,14 @@ public class RadioTreeItem extends AVTreeItem
 			errorLabel.setText("");
 		}
 		if (isDefinitionAndValue()) {
-			Widget old = latex ? (c != null ? c : latexItem)
+			Widget old = latex ? (canvas != null ? canvas : latexItem)
 					: getPlainTextItem();
 
 			renderLatex(text, old, true);
 
 		} else {
 			Element old = latex
-					? (c != null ? c.getCanvasElement()
+					? (canvas != null ? canvas.getCanvasElement()
 							: latexItem.getElement())
 					: getPlainTextItem().getElement();
 			renderLatex(text, old, true);
@@ -1695,9 +1694,9 @@ public class RadioTreeItem extends AVTreeItem
 	 *            whether redefinition was successful
 	 */
 	protected void updateAfterRedefine(boolean success) {
-		if (!this.isInputTreeItem() && c != null
+		if (!this.isInputTreeItem() && canvas != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
-			this.ihtml.getElement().replaceChild(c.getCanvasElement(),
+			this.ihtml.getElement().replaceChild(canvas.getCanvasElement(),
 					latexItem.getElement());
 		}
 		if (!latex && !this.isInputTreeItem() && getPlainTextItem() != null
