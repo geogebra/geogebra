@@ -2,7 +2,6 @@ package org.geogebra.web.editor;
 
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyboardResources;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
@@ -59,11 +58,6 @@ public class Editor implements EntryPoint {
 
 			public void doShowKeyBoard(boolean b,
 					MathKeyboardListener textField) {
-			}
-
-			public AppW getAppW() {
-				// TODO Auto-generated method stub
-				return null;
 			}
 		});
 		kb.setProcessing(new MathFieldProcessing(fld));

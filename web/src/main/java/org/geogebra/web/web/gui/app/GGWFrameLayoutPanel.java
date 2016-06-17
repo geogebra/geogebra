@@ -60,10 +60,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 
 	AppW app;
 
-	public AppW getAppW() {
-		return app;
-	}
-
 	public GGWFrameLayoutPanel() {
 		super();
 

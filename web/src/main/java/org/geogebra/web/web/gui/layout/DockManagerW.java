@@ -1855,5 +1855,8 @@ public class DockManagerW extends DockManager {
 		return num;
 	}
 	
+	public AppW getApp() {
+		return app;
+	}
 	
 }

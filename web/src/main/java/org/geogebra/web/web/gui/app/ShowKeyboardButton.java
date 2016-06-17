@@ -54,8 +54,8 @@ public class ShowKeyboardButton extends SimplePanel {
 						.getKeyboardListener();
 				listener.doShowKeyBoard(true, mathKeyboardListener);
 
-				if ((listener.getAppW() == null)
-						|| (listener.getAppW().getGuiManager() == null)) {
+				if ((dm.getApp() == null)
+						|| (dm.getApp().getGuiManager() == null)) {
 					// e.g. AppStub, Android device, do the old way
 					Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
 
@@ -73,7 +73,7 @@ public class ShowKeyboardButton extends SimplePanel {
 					// would not scheduleDeferred or something like that better?
 					// but it's probably Okay, as the method returns false
 
-					listener.getAppW().getGuiManager()
+					dm.getApp().getGuiManager()
 							.focusScheduled(false, false, false);
 
 					Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
