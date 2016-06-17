@@ -327,7 +327,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		if (!isModal()) {
 
 			if (flag) {
-				app.setMoveMode();
+				// app.setMoveMode();
 				app.getSelectionManager().addSelectionListener(this);
 			} else {
 				app.getSelectionManager().removeSelectionListener(this);

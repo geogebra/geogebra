@@ -8399,7 +8399,8 @@ public abstract class EuclidianController {
 						filter.run();
 					}
 
-					if (!(view.getHits().get(0) instanceof GeoBoolean)) {
+					if (!(view.getHits().size() > 0
+							&& view.getHits().get(0) instanceof GeoBoolean)) {
 						return;
 					}
 				} else if (mode == EuclidianConstants.MODE_TEXT) {
@@ -9140,7 +9141,7 @@ public abstract class EuclidianController {
 			if (mode != EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX
 					&& f.isGeoBoolean()
 					|| mode != EuclidianConstants.MODE_BUTTON_ACTION
-							&& f.isGeoButton()
+							&& (f.isGeoButton() && !f.isGeoInputBox())
 					|| mode != EuclidianConstants.MODE_TEXTFIELD_ACTION
 							&& f.isGeoInputBox()
 					|| (f.isGeoList() && ((GeoList) f).drawAsComboBox())
