@@ -85,7 +85,7 @@ public abstract class GeoGebraTubeAPI {
 				callback);
 	}
 	
-	protected final String getLoginUrl() {
+	public final String getLoginUrl() {
 		return loginURL;
 	}
 
