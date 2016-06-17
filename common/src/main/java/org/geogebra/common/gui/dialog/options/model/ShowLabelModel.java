@@ -67,6 +67,7 @@ public class ShowLabelModel extends OptionsModel{
 				geo.updateRepaint();
 			}
 			updateProperties();
+		storeUndoInfo();
 	}
 	
 	public void applyModeChanges(int mode, boolean visible) {
@@ -78,7 +79,7 @@ public class ShowLabelModel extends OptionsModel{
 			geo.updateVisualStyle(GProperty.LABEL_STYLE);
 			}
 			kernel.notifyRepaint();
-			app.storeUndoInfo();
+		storeUndoInfo();
 		}
 	
 	public boolean isNameValueShown() {

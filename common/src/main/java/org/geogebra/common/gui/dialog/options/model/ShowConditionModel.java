@@ -92,7 +92,7 @@ public class ShowConditionModel extends OptionsModel {
 			// put back faulty condition (for editing)
 			listener.setText(strCond);
 		}
-
+		storeUndoInfo();
 	}
 
 

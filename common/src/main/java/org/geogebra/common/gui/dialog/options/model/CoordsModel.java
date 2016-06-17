@@ -65,7 +65,6 @@ public class CoordsModel extends MultipleOptionsModel {
 	public boolean applyChanges(int value) {
 		if(super.applyChanges(value)){
 			// e.g. u*v can create number (dot product) or complex number (complex product)
-			getGeoAt(0).getConstruction().getUndoManager().storeUndoInfo(true);
 			return true;
 		}
 		

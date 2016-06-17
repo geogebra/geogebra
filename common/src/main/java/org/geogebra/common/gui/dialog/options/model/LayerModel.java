@@ -31,7 +31,6 @@ public class LayerModel extends MultipleOptionsModel {
 		GeoElement geo = getGeoAt(index); 
 		geo.setLayer(value);
 		geo.updateRepaint();
-	
 	}
 
 	@Override

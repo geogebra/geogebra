@@ -97,6 +97,7 @@ autostep ? "" : step.getLabel(highPrecision));
 			}
 			geo.updateRepaint();
 		}
+		storeUndoInfo();
 	}
 
 

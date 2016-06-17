@@ -164,7 +164,7 @@ public class SliderModel extends OptionsModel {
 			num.setSliderFixed(value);
 			num.updateRepaint();
 		}
-		
+		storeUndoInfo();
 	}
 	
 	public void applyRandom(boolean value) {
@@ -173,6 +173,7 @@ public class SliderModel extends OptionsModel {
 			num.setRandom(value);
 			num.updateRepaint();
 		}
+		storeUndoInfo();
 	}
 
 	public void applyDirection(int value) {
@@ -182,6 +183,7 @@ public class SliderModel extends OptionsModel {
 			num.setSliderHorizontal(isHorizontal);
 			num.updateRepaint();
 		}
+		storeUndoInfo();
 	}
 
 	
@@ -210,6 +212,7 @@ public class SliderModel extends OptionsModel {
 
 
 		}
+		storeUndoInfo();
 	}
 	
 	public void applyMin(NumberValue value) {
@@ -226,6 +229,7 @@ public class SliderModel extends OptionsModel {
 			num.setSliderWidth(value);
 			num.updateRepaint();
 		}
+		storeUndoInfo();
 	}
 
 	public boolean isIncludeRandom() {

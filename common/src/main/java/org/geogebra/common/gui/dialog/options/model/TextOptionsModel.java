@@ -313,6 +313,7 @@ public class TextOptionsModel extends OptionsModel {
 							}
 						});
 
+		storeUndoInfo();
 	}
 
 	public void cancelEditGeo() {
@@ -331,6 +332,7 @@ public class TextOptionsModel extends OptionsModel {
 
 		editGeo.setLaTeX(isLatex, updateAlgo);
 		listener.updatePreview();
+		storeUndoInfo();
 	}
 
 	@Override

@@ -57,6 +57,7 @@ public abstract class OptionsModel {
 		return geosOK;
 	}
 
+
 	// Used for displaying angle properties only, if elements of a list are angles
 	public static boolean isAngleList(GeoElement geo) {
 		if (geo.isGeoList()) {
@@ -75,6 +76,13 @@ public abstract class OptionsModel {
 			return this.checkGeos();
 		}
 		return getListener().updatePanel(geos2) != null;
+	}
+
+	public void storeUndoInfo() {
+		GeoElement geo = getGeoAt(0);
+		if (geo != null) {
+			geo.getConstruction().getUndoManager().storeUndoInfo(true);
+		}
 	}
 }
 	

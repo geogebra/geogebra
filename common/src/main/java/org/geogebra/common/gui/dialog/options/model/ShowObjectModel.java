@@ -66,7 +66,7 @@ public class ShowObjectModel extends BooleanOptionModel {
 		GeoElement geo = getGeoAt(index);
 		geo.setEuclidianVisible(value);
 		geo.updateRepaint();
-		
+		storeUndoInfo();
 	}
 
 }

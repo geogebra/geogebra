@@ -138,6 +138,7 @@ public class ColorObjectModel extends OptionsModel {
 			}
 			
 			geo.updateVisualStyle(GProperty.COLOR);
+
 		}
 		kernel.notifyRepaint();
 	}
@@ -168,7 +169,7 @@ public class ColorObjectModel extends OptionsModel {
 	public void applyChanges(GColor color, float alpha, boolean alphaOnly) {
 
 		updateColor(color, alpha, alphaOnly);
-
+		storeUndoInfo();
 	}
 
 	public boolean hasImageGeo() {

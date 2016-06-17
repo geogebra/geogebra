@@ -101,6 +101,7 @@ public class ImageCornerModel extends MultipleOptionsModel {
 			im.setCorner((GeoPoint) newLoc, cornerIdx);
 			im.updateRepaint();
 		}
+		storeUndoInfo();
 	}
 
 

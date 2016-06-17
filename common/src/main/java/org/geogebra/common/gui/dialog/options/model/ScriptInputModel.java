@@ -161,6 +161,7 @@ public class ScriptInputModel extends OptionsModel {
 			} else {
 				getGeo().setClickScript(script);
 			}
+			storeUndoInfo();
 			callback.callback(true);
 		}
 	}

@@ -143,6 +143,7 @@ public class LineStyleModel extends OptionsModel {
 			geo.setLineThickness(value);
 			geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		}
+		storeUndoInfo();
 	}
 
 	public void applyLineType(int type) {
@@ -151,6 +152,7 @@ public class LineStyleModel extends OptionsModel {
 			geo.setLineType(type);
 			geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		}
+		storeUndoInfo();
 	}
 
 	public void applyLineStyleHidden(int type) {
@@ -159,6 +161,7 @@ public class LineStyleModel extends OptionsModel {
 			geo.setLineTypeHidden(type);
 			geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		}
+		storeUndoInfo();
 	}
 
 
@@ -168,6 +171,7 @@ public class LineStyleModel extends OptionsModel {
 			geo.setLineOpacity(value);
 			geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		}
+		storeUndoInfo();
 	}
 
 	public void applyLineTypeFromIndex(int index) {

@@ -38,7 +38,6 @@ public class FixCheckboxModel extends BooleanOptionModel {
 		GeoBoolean bool = getBooleanAt(index);
 		bool.setCheckboxFixed(value);
 		bool.updateRepaint();
-		
 	}
 }
 

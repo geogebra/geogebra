@@ -55,6 +55,7 @@ public class TextFieldSizeModel extends OptionsModel {
 				geo.updateRepaint();
 			}
 		}	
+		storeUndoInfo();
 	}
 	
 	@Override

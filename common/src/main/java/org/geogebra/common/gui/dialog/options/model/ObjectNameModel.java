@@ -130,6 +130,7 @@ public class ObjectNameModel extends OptionsModel {
 			listener.setNameText(strName);
 		}
 		currentGeo.updateRepaint();
+		storeUndoInfo();
 	
 	}
 	
@@ -151,7 +152,7 @@ public class ObjectNameModel extends OptionsModel {
 							} else {
 								setRedefinitionFailed(true);
 							}
-
+							storeUndoInfo();
 						}
 					});
 
@@ -175,6 +176,7 @@ public class ObjectNameModel extends OptionsModel {
 			listener.setCaptionText(strCaption);
 		}
 		currentGeo.updateVisualStyleRepaint(GProperty.CAPTION);
+		storeUndoInfo();
 	}
 
 	public void redefineCurrentGeo(GeoElement geo, final String text,
@@ -198,6 +200,7 @@ public class ObjectNameModel extends OptionsModel {
 							public void callback(Boolean ok) {
 								if(ok){
 									setCurrentGeo(defInputHandler.getGeoElement());
+									storeUndoInfo();
 								}
 
 							}

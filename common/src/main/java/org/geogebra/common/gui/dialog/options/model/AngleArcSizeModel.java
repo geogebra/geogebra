@@ -37,6 +37,7 @@ public class AngleArcSizeModel extends OptionsModel {
 			}
 			angle.updateRepaint();
 		}
+		storeUndoInfo();
 	};
 
 	@Override

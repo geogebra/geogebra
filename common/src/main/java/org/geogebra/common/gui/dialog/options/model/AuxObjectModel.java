@@ -14,6 +14,7 @@ public class AuxObjectModel extends BooleanOptionModel {
 		GeoElement geo = getGeoAt(index);
 		geo.setAuxiliaryObject(value);
 		geo.updateRepaint();
+		storeUndoInfo();
 	}
 
 	@Override

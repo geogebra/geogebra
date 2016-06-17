@@ -19,6 +19,7 @@ public class AnimatingModel extends BooleanOptionModel {
 		if (value) {
 			kernel.getAnimatonManager().startAnimation();
 		}
+		storeUndoInfo();
 	}
 	
 	@Override

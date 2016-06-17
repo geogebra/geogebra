@@ -89,6 +89,7 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 
 	public void applyTypeChanges(int value) {
 		applyChanges(value);
+		storeUndoInfo();
 	}
 
 	public void applySpeedChanges(NumberValue value) {
@@ -100,6 +101,7 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 
 		kernel.udpateNeedToShowAnimationButton();
 		kernel.notifyRepaint();
+		storeUndoInfo();
 
 	}
 	@Override

@@ -347,7 +347,7 @@ public class FillingModel extends MultipleOptionsModel {
 				geo.updateRepaint();
 			}
 		}
-
+		storeUndoInfo();
 		updateFillType(fillType);
 	}
 
@@ -357,6 +357,7 @@ public class FillingModel extends MultipleOptionsModel {
 			geo.setInverseFill(value);
 			geo.updateRepaint();
 		}
+		storeUndoInfo();
 	}
 
 	public boolean updateBarsFillType(GeoElement geo, int type,
@@ -421,6 +422,7 @@ public class FillingModel extends MultipleOptionsModel {
 			}
 			break;
 		}
+		storeUndoInfo();
 		return true;
 	}
 

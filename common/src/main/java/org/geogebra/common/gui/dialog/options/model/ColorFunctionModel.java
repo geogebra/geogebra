@@ -160,6 +160,7 @@ public class ColorFunctionModel extends OptionsModel {
 
 			setListenerRGBA(strRed, strGreen, strBlue, strAlpha);
 		}
+		storeUndoInfo();
 
 	}
 	

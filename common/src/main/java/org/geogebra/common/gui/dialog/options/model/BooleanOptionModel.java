@@ -36,6 +36,7 @@ public abstract class BooleanOptionModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			apply(i, value);
 		}
+		storeUndoInfo();
 	}	
 	
 	

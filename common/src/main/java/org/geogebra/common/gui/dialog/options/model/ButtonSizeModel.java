@@ -70,6 +70,7 @@ public class ButtonSizeModel extends OptionsModel {
 				listener.updateSizes(geo.getWidth(), geo.getHeight(), isFixed);
 			}
 		}
+		storeUndoInfo();
 	}
 
 	@Override

@@ -27,6 +27,7 @@ public class BackgroundImageModel extends BooleanOptionModel {
 		GeoImage geo = getImageAt(index);
 		geo.setInBackground(value);
 		geo.updateRepaint();
+		storeUndoInfo();
 	}
 }
 

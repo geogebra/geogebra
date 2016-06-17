@@ -92,6 +92,7 @@ public class ViewLocationModel extends OptionsModel {
 			}
 
 		}
+		storeUndoInfo();
 	}
 	
 	public void applyToEuclidianView3D(boolean value) {
@@ -108,6 +109,7 @@ public class ViewLocationModel extends OptionsModel {
 			}
 
 		}
+		storeUndoInfo();
 	}
 
 	public void applyToEuclidianViewForPlane(boolean value) {
@@ -123,6 +125,7 @@ public class ViewLocationModel extends OptionsModel {
 			}
 
 		}
+		storeUndoInfo();
 	}
 
 	public void applyToAlgebraView(Boolean value) {
@@ -139,8 +142,8 @@ public class ViewLocationModel extends OptionsModel {
 			geo.updateRepaint();
 
 		}
-
-	};
+		storeUndoInfo();
+	}
 
 	@Override
 	public boolean checkGeos() {
