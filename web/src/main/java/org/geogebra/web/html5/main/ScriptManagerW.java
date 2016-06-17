@@ -123,6 +123,11 @@ public class ScriptManagerW extends ScriptManager {
 			if (typeof obj == 'string') {
 				return obj;
 			}
+			for(var i = 0;i<api.listeners.length;i++){
+				if(api.listeners[i]==obj){
+					return i+"";
+				}
+			}
 			api.listeners[api.listeners.length]=obj;
 			return (api.listeners.length-1)+"";
 		}

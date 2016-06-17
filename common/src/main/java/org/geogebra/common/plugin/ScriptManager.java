@@ -244,7 +244,7 @@ public abstract class ScriptManager implements EventListener {
 	 */
 	public synchronized void unregisterAddListener(String JSFunctionName) {
 		if (addListeners != null) {
-			addListeners.remove(JSFunctionName);
+			addListeners.remove(JsScript.fromName(app, JSFunctionName));
 			Log.debug("unregisterAddListener: " + JSFunctionName);
 		}
 	}
@@ -267,7 +267,7 @@ public abstract class ScriptManager implements EventListener {
 	 */
 	public synchronized void unregisterRemoveListener(String JSFunctionName) {
 		if (removeListeners != null) {
-			removeListeners.remove(JSFunctionName);
+			removeListeners.remove(JsScript.fromName(app, JSFunctionName));
 			Log.debug("unregisterRemoveListener: " + JSFunctionName);
 		}
 	}
@@ -290,7 +290,7 @@ public abstract class ScriptManager implements EventListener {
 	 */
 	public synchronized void unregisterClearListener(String JSFunctionName) {
 		if (clearListeners != null) {
-			clearListeners.remove(JSFunctionName);
+			clearListeners.remove(JsScript.fromName(app, JSFunctionName));
 			Log.debug("unregisterClearListener: " + JSFunctionName);
 		}
 	}
@@ -313,7 +313,7 @@ public abstract class ScriptManager implements EventListener {
 	 */
 	public synchronized void unregisterRenameListener(String JSFunctionName) {
 		if (renameListeners != null) {
-			renameListeners.remove(JSFunctionName);
+			renameListeners.remove(JsScript.fromName(app, JSFunctionName));
 			Log.debug("unregisterRenameListener: " + JSFunctionName);
 		}
 	}
@@ -336,7 +336,7 @@ public abstract class ScriptManager implements EventListener {
 	 */
 	public synchronized void unregisterUpdateListener(String JSFunctionName) {
 		if (updateListeners != null) {
-			updateListeners.remove(JSFunctionName);
+			updateListeners.remove(JsScript.fromName(app, JSFunctionName));
 		}
 	}
 
@@ -358,7 +358,7 @@ public abstract class ScriptManager implements EventListener {
 	 */
 	public synchronized void unregisterClickListener(String JSFunctionName) {
 		if (clickListeners != null) {
-			clickListeners.remove(JSFunctionName);
+			clickListeners.remove(JsScript.fromName(app, JSFunctionName));
 		}
 	}
 
@@ -372,7 +372,7 @@ public abstract class ScriptManager implements EventListener {
 
 	public synchronized void unregisterClientListener(String JSFunctionName) {
 		if (clientListeners != null) {
-			clientListeners.remove(JSFunctionName);
+			clientListeners.remove(JsScript.fromName(app, JSFunctionName));
 		}
 	}
 
