@@ -1,9 +1,9 @@
 package com.himamis.retex.renderer.android.font;
 
+import android.graphics.Typeface;
+
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.TextAttribute;
-
-import android.graphics.Typeface;
 
 import java.util.Map;
 
@@ -53,8 +53,8 @@ public class FontA implements Font {
     }
 
     public Font deriveFont(int type) {
-        // FIXME cannot infer Font from type
-        return this;
+        int typefaceStyle = getTypefaceStyle(type);
+        return new FontA(mName, Typeface.create(mTypeface, typefaceStyle), mSize);
     }
     
 	@Override

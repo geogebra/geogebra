@@ -1,5 +1,15 @@
 package com.himamis.retex.renderer.android.graphics;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Paint.Style;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import android.view.View;
+
 import com.himamis.retex.renderer.android.font.FontA;
 import com.himamis.retex.renderer.android.font.FontRenderContextA;
 import com.himamis.retex.renderer.android.geom.Line2DA;
@@ -18,17 +28,6 @@ import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
 
-import android.annotation.SuppressLint;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.Paint.Style;
-import android.graphics.PointF;
-import android.graphics.Rect;
-import android.graphics.RectF;
-import android.view.View;
-
 @SuppressLint("NewApi")
 public class Graphics2DA implements Graphics2DInterface {
 
@@ -44,6 +43,7 @@ public class Graphics2DA implements Graphics2DInterface {
 
 	private FontA mFont;
 	private ColorA mColor;
+	private Style mOldDrawPaintStyle;
 
 	public Graphics2DA() {
 		mDrawPaint = new Paint();
@@ -80,11 +80,6 @@ public class Graphics2DA implements Graphics2DInterface {
 		mView = view;
 	}
 
-	public void setStroke(Stroke stroke) {
-		BasicStrokeA basicStroke = (BasicStrokeA) stroke;
-		setBasicStroke(basicStroke);
-	}
-
 	private void setBasicStroke(BasicStrokeA basicStroke) {
 		mDrawPaint.setStrokeWidth(basicStroke.getWidth());
 		mDrawPaint.setStrokeMiter(basicStroke.getMiterLimit());
@@ -97,13 +92,18 @@ public class Graphics2DA implements Graphics2DInterface {
 				mDrawPaint.getStrokeCap(), mDrawPaint.getStrokeJoin());
 	}
 
-	public void setColor(Color color) {
-		mColor = (ColorA) color;
-		mDrawPaint.setColor(mColor.getColor());
+	public void setStroke(Stroke stroke) {
+		BasicStrokeA basicStroke = (BasicStrokeA) stroke;
+		setBasicStroke(basicStroke);
 	}
 
 	public Color getColor() {
 		return mColor;
+	}
+
+	public void setColor(Color color) {
+		mColor = (ColorA) color;
+		mDrawPaint.setColor(mColor.getColor());
 	}
 
 	@SuppressWarnings("deprecation")
@@ -185,6 +185,7 @@ public class Graphics2DA implements Graphics2DInterface {
 
 	public void drawString(String text, int x, int y, Paint paint) {
 		paint.setTextSize(mScaleStack.scaleFontSize(paint.getTextSize()));
+		paint.setColor(mDrawPaint.getColor());
 		mCanvas.drawText(text, mScaleStack.scaleX(x), mScaleStack.scaleY(y), paint);
 	}
 
@@ -260,8 +261,6 @@ public class Graphics2DA implements Graphics2DInterface {
 	public void dispose() {
 		// NO-OP
 	}
-
-	private Style mOldDrawPaintStyle;
 
 	private void saveDrawPaintStyle() {
 		mOldDrawPaintStyle = mDrawPaint.getStyle();
