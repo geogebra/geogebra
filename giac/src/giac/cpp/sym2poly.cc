@@ -2672,6 +2672,9 @@ namespace giac {
 	*logptr(contextptr) << gettext("Unable to build a single algebraic extension for simplifying.\nTrying rational simplification only. This might return a wrong answer if simplifying 0/0!") << endl;
 	l=lvar(ee);
 	tmp=e2r(ee,l,contextptr);	
+	gen tmpf=evalf_double(ee-tmp,1,contextptr);
+	if (tmpf.type==_DOUBLE_ && is_greater(tmpf,epsilon(contextptr),contextptr))
+	  return undef;
       }
 #ifndef NO_STDEXCEPT
     }
