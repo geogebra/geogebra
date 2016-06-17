@@ -28,8 +28,9 @@ public class TextFieldProcessing implements KeyboardListener {
 	protected State state = State.empty;
 	protected HashSet<String> needsLeftParenthesis = new HashSet<String>();
 
-	public TextFieldProcessing() {
+	public TextFieldProcessing(MathKeyboardListener field) {
 		initNeedsLeftParenthesis();
+		setField(field);
 	}
 
 	/**
@@ -77,7 +78,7 @@ public class TextFieldProcessing implements KeyboardListener {
 	 *            the field that should receive all actions
 	 */
 
-	public void setField(MathKeyboardListener field) {
+	private void setField(MathKeyboardListener field) {
 		this.field = field;
 		if (field == null) {
 			state = State.empty;

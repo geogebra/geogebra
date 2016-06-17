@@ -2023,14 +2023,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			boolean korean = appW.has(Feature.KOREAN_KEYBOARD);
 			onScreenKeyboard = new OnScreenKeyBoard(appW, korean);
 		}
-		if (app.has(Feature.CAS_EDITOR)) {
-			if (textField != null) {
+
+		if (textField != null) {
 				onScreenKeyboard.setProcessing(makeKeyboardListener(textField));
-			}
-		} else {
-			onScreenKeyboard
-					.setProcessing(makeKeyboardListener(textField == null
-							? getAlgebraView().getInputTreeItem() : textField));
 		}
 
 		onScreenKeyboard.setListener(listener);
@@ -2043,8 +2038,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;
 		}
-		TextFieldProcessing processField = new TextFieldProcessing();
-		processField.setField(textField);
+		TextFieldProcessing processField = new TextFieldProcessing(textField);
 		return processField;
 
 	}
