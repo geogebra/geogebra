@@ -335,8 +335,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		void doActionPerformed() {
 			processed = true;
-			model.applyChanges(tfCondition.getText(),
-					app.getDefaultErrorHandler());
+			errorPanel.clear();
+			model.applyChanges(tfCondition.getText(), this);
 		}
 
 		@Override
