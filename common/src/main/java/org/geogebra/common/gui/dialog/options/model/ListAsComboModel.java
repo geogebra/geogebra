@@ -8,7 +8,6 @@ public class ListAsComboModel extends BooleanOptionModel {
 		void drawListAsComboBox(GeoList geo, boolean value);
 	}
 	
-	private App app;
 	private IListAsComboListener listener;
 	
 	public ListAsComboModel(App app, IListAsComboListener listener) {

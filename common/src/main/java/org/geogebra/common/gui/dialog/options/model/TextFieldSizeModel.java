@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
@@ -12,10 +11,9 @@ public class TextFieldSizeModel extends OptionsModel {
 		this.listener = listener;
 	}
 
-	private Kernel kernel;
 
 	public TextFieldSizeModel(App app) {
-		kernel = app.getKernel();
+		this.app = app;
 	}
 
 	private GeoInputBox getTextFieldAt(int index) {
@@ -43,7 +41,8 @@ public class TextFieldSizeModel extends OptionsModel {
 
 	public void applyChanges(final String strValue) {
 
-		applyChanges(kernel.getAlgebraProcessor().evaluateToNumeric(
+		applyChanges(app.getKernel().getAlgebraProcessor()
+				.evaluateToNumeric(
 			strValue, true));
 	}
 	

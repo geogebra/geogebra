@@ -13,7 +13,6 @@ import org.geogebra.common.main.Localization;
 public class LodModel extends MultipleOptionsModel {
 
 	private boolean isDefaults;
-	private App app;
 
 	public LodModel(App app, boolean isDefaults) {
 		this.app = app;

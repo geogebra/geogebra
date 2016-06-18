@@ -19,7 +19,6 @@ public class ImageCornerModel extends MultipleOptionsModel {
 	private List<String> choices;
 	private Kernel kernel;
 	private int cornerIdx;
-	private App app;
 
 	public ImageCornerModel(App app) {
 		this.app = app;

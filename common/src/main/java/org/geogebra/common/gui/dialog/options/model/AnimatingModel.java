@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
 public class AnimatingModel extends BooleanOptionModel {
-	private App app;
 	private Kernel kernel;
 	
 	public AnimatingModel(App app, IBooleanOptionListener listener) {

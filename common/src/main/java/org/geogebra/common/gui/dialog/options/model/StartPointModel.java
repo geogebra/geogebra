@@ -18,7 +18,6 @@ import org.geogebra.common.main.Localization;
 public class StartPointModel extends MultipleOptionsModel {
 
 	private Kernel kernel;
-	private App app;
 	private List<String> choices;
 	
 	public StartPointModel(App app) {

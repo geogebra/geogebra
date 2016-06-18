@@ -15,7 +15,6 @@ public class SelectionAllowedModel extends BooleanOptionModel {
 
 	@Override
 	public boolean getValueAt(int index) {
-		// TODO Auto-generated method stub
 		return getGeoAt(index).isSelectionAllowed(null);
 	}
 

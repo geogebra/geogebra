@@ -2,11 +2,14 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 
 public abstract class OptionsModel {
 	private Object[] geos; // currently selected geos
 	
+	protected App app;
+
 	public Object[] getGeos() {
 		return geos;
 	}
@@ -79,9 +82,9 @@ public abstract class OptionsModel {
 	}
 
 	public void storeUndoInfo() {
-		GeoElement geo = getGeoAt(0);
-		if (geo != null) {
-			geo.getConstruction().getUndoManager().storeUndoInfo(false);
+		if (app != null) {
+			app.getKernel().getConstruction().getUndoManager()
+					.storeUndoInfo(false);
 		}
 	}
 }

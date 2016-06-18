@@ -13,14 +13,13 @@ import org.geogebra.common.main.App;
 
 public class AnimationStepModel extends OptionsModel {
 	private ITextFieldListener listener;
-	private Kernel kernel;
 	private boolean partOfSlider; 
 
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
 
 	public AnimationStepModel(ITextFieldListener listener, App app) {
 		this.listener = listener;
-		kernel = app.getKernel();
+		this.app = app;
 	}
 	@Override
 	public void updateProperties() {
@@ -48,7 +47,12 @@ public class AnimationStepModel extends OptionsModel {
 			GeoElement stepGeo = GeoElement.as(step);
 			if (onlyAngles && (stepGeo == null ||(!stepGeo.isLabelSet() && stepGeo.isIndependent()))) {
 				listener.setText(
-						kernel.formatAngle(geo0.getAnimationStep(), highPrecision, ((GeoAngle)geo0).getAngleStyle() == AngleStyle.UNBOUNDED).toString());
+						app.getKernel()
+								.formatAngle(geo0.getAnimationStep(),
+										highPrecision,
+										((GeoAngle) geo0)
+												.getAngleStyle() == AngleStyle.UNBOUNDED)
+								.toString());
 			} else {
 				boolean autostep = false;
 				if (geo0.isGeoNumeric()) {
@@ -80,8 +84,8 @@ autostep ? "" : step.getLabel(highPrecision));
 	}
 
 	public void applyChanges(String text) {
-		NumberValue value = text.length() == 0 ? null : kernel
-				.getAlgebraProcessor().evaluateToNumeric(
+		NumberValue value = text.length() == 0 ? null
+				: app.getKernel().getAlgebraProcessor().evaluateToNumeric(
 				text, true);
 		boolean isNaN = value == null || Double.isNaN(value.getDouble());
 

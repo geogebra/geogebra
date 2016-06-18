@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -16,11 +15,10 @@ public class ShowConditionModel extends OptionsModel {
 
 	}
 	
-	private Kernel kernel;
 	private IShowConditionListener listener;
 	
 	public ShowConditionModel(App app, IShowConditionListener listener) {
-		kernel = app.getKernel();
+		this.app = app;
 		this.listener = listener;
 	}
 
@@ -62,7 +60,7 @@ public class ShowConditionModel extends OptionsModel {
 
 			strCond = replaceEqualsSigns(strCond);
 
-			cond = kernel.getAlgebraProcessor()
+			cond = app.getKernel().getAlgebraProcessor()
 					.evaluateToBoolean(strCond, true);
 		}
 
@@ -80,7 +78,8 @@ public class ShowConditionModel extends OptionsModel {
 
 			} catch (CircularDefinitionException e) {
 				listener.setText("");
-				kernel.getApplication().showError("CircularDefinition");
+				app.getKernel().getApplication()
+						.showError("CircularDefinition");
 			}
 
 			if (cond != null)

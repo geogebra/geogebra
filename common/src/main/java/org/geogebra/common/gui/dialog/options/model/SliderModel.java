@@ -29,7 +29,6 @@ public class SliderModel extends OptionsModel {
 	
 	private ISliderOptionsListener listener;
 	private Kernel kernel;
-	private App app;
 	private boolean widthUnit;
 	private boolean includeRandom;
 	public SliderModel(App app, ISliderOptionsListener listener) {

@@ -13,7 +13,6 @@ public class ShowLabelModel extends OptionsModel{
 
 	}
 	
-	private App app;
 	private Kernel kernel;
 
 	private static final long serialVersionUID = 1L;

@@ -46,7 +46,6 @@ public class TextOptionsModel extends OptionsModel {
 
 	private boolean justDisplayFontSize;
 
-	private App app;
 	private Localization loc;
 	private DynamicTextProcessor dTProcessor; 
 	private GeoText editGeo;

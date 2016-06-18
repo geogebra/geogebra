@@ -18,7 +18,6 @@ public class ColorFunctionModel extends OptionsModel {
 		void updateSelection(Object[] geos);
 	};
 	private IColorFunctionListener listener;
-	private App app;
 	private Kernel kernel;
 	public ColorFunctionModel(App app, IColorFunctionListener listener) {
 		this.app = app;

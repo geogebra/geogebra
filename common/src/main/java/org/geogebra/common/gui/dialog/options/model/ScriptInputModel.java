@@ -25,7 +25,6 @@ public class ScriptInputModel extends OptionsModel {
 	// private boolean javaScript = false;
 	private ScriptType scriptType = ScriptType.GGBSCRIPT;
 	private boolean updateScript = false;
-	private App app;
 	private TextInputHandler inputHandler;
 	private IScriptInputListener listener;
 	/**

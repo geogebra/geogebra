@@ -34,7 +34,6 @@ public class ColorObjectModel extends OptionsModel {
 	private boolean hasImageGeo;
 	private IColorObjectListener listener;
 	private Kernel kernel;
-	private App app;
 
 	public ColorObjectModel(App app) {
 		this.app = app;

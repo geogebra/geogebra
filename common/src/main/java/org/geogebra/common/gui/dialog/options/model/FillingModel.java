@@ -45,7 +45,6 @@ public class FillingModel extends MultipleOptionsModel {
 
 	private boolean isBarChart;
 	private FillType fillType;
-	private App app;
 	private Kernel kernel;
 	private boolean hasGeoButton;
 	private boolean hasGeoTurtle;
