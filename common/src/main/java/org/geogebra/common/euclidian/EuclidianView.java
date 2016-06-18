@@ -5227,9 +5227,14 @@ sb.toString(), getFontAxes(),
 	 */
 	protected abstract void drawBackgroundImage(GGraphics2D g2d);
 
+	protected void exportPaintPreScale(GGraphics2D g2d, double scale){
+		g2d.scale(scale, scale);
+	}
+
 	public void exportPaintPre(GGraphics2D g2d, double scale,
 			boolean transparency) {
-		g2d.scale(scale, scale);
+
+		exportPaintPreScale(g2d, scale);
 
 		// clipping on selection rectangle
 		if (getSelectionRectangle() != null) {
