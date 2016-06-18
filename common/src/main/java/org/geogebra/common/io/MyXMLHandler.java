@@ -88,6 +88,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -5104,8 +5105,13 @@ new GPoint(row, column));
 			try {
 				GeoExpPair pair = it.next();
 				GeoBoolean condition = algProc.evaluateToBoolean(pair.exp,
-						false);
-				pair.getGeo().setShowObjectCondition(condition);
+						ErrorHelper.silent());
+				if (condition != null) {
+					pair.getGeo().setShowObjectCondition(condition);
+				} else {
+					errors.add("Invalid condition to show object: "
+ + pair.exp);
+				}
 
 			} catch (Exception e) {
 				showObjectConditionList.clear();

@@ -4460,7 +4460,8 @@ class ShowConditionPanel extends JPanel implements ActionListener,
 
 	private void doActionPerformed() {
 		processed = true;
-		model.applyChanges(tfCondition.getText());
+		model.applyChanges(tfCondition.getText(), kernel.getApplication()
+				.getDefaultErrorHandler());
 	}
 
 	public void focusGained(FocusEvent arg0) {

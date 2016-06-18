@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -598,17 +599,17 @@ public class RelativeCopy {
 		if ((boolText != null)){
 			// removed as doesn't work for eg "random()<0.5" #388
 			//&& !boolText.equals(oldBoolText)) {
-			try {
-				// Application.debug("new condition to show object: "+boolText);
-				GeoBoolean newConditionToShowObject = kernel
-						.getAlgebraProcessor().evaluateToBoolean(boolText,
-								false);
+
+			GeoBoolean newConditionToShowObject = kernel.getAlgebraProcessor()
+					.evaluateToBoolean(boolText, ErrorHelper.silent());
+			if (newConditionToShowObject != null) {
 				value2.setShowObjectCondition(newConditionToShowObject);
-				value2.update(); // needed to hide/show object as appropriate
-			} catch (Exception e) {
-				e.printStackTrace();
+				value2.update(); // needed to hide/show object as
+									// appropriate
+			} else {
 				return null;
 			}
+
 		}
 		
 		if (oldColorText != null) {

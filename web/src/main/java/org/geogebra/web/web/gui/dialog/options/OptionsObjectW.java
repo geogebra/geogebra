@@ -284,7 +284,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-	private class ShowConditionPanel extends OptionPanel implements	IShowConditionListener {
+	private class ShowConditionPanel extends OptionPanel implements
+			IShowConditionListener, ErrorHandler {
 
 
 
@@ -293,6 +294,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private AutoCompleteTextFieldW tfCondition;
 
 		boolean processed;
+		private FlowPanel errorPanel;
 
 		public ShowConditionPanel() {
 			//this.propPanel = propPanel;
@@ -337,14 +339,40 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			});
 			// put it all together
 			mainPanel.add(inputPanel);
+			errorPanel = new FlowPanel();
+			errorPanel.addStyleName("Dialog-errorPanel");
+			mainPanel.add(errorPanel);
 			setWidget(mainPanel);
+		}
+
+		@Override
+		public void showError(String msg) {
+			if (msg == null) {
+				return;
+			}
+			errorPanel.clear();
+			String[] lines = msg.split("\n");
+			for (String item : lines) {
+				errorPanel.add(new Label(item));
+			}
+
+		}
+
+		public void showCommandError(String command, String message) {
+			app.getDefaultErrorHandler().showCommandError(command, message);
+
+		}
+
+		public String getCurrentCommand() {
+			return tfCondition.getCommand();
 		}
 
 
 
 		void doActionPerformed() {
 			processed = true;
-			model.applyChanges(tfCondition.getText());
+			model.applyChanges(tfCondition.getText(),
+					app.getDefaultErrorHandler());
 		}
 
 		@Override
@@ -364,6 +392,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		public void updateSelection(Object[] geos) {
 			// TODO Auto-generated method stub
 
+		}
+
+		public boolean onUndefinedVariables(String string,
+				AsyncOperation<String[]> callback) {
+			return app.getGuiManager().checkAutoCreateSliders(string, callback);
 		}
 
 	}

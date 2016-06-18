@@ -1084,37 +1084,36 @@ public class AlgebraProcessor {
 	 * 
 	 * @param str
 	 *            string to process
-	 * @param showError
-	 *            whether to show error dialog
+	 * @param handler
+	 *            takes care of errors
 	 * @return resulting boolean
 	 */
-	public GeoBoolean evaluateToBoolean(String str, boolean showError) {
+	public GeoBoolean evaluateToBoolean(String str, ErrorHandler handler) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		GeoBoolean bool = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
+			// A=B as comparison, not assignment
+			if (ve.getLabel() != null) {
+				ve = new ExpressionNode(kernel, new Variable(kernel,
+						ve.getLabel()), Operation.EQUAL_BOOLEAN, ve);
+				// A+B=C as comparison, not equation
+			} else if (ve.unwrap() instanceof Equation) {
+				Equation eq = (Equation) ve.unwrap();
+				ve = new ExpressionNode(kernel, eq.getLHS(),
+						Operation.EQUAL_BOOLEAN, eq.getRHS());
+			}
 			GeoElement[] temp = processValidExpression(ve);
 			bool = (GeoBoolean) temp[0];
-		} catch (CircularDefinitionException e) {
-			Log.debug("CircularDefinition");
-			if (showError) {
-			app.showError("CircularDefinition");
-			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			if (showError) {
-			app.showError("InvalidInput", str);
-			}
+			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
-			e.printStackTrace();
-			if (showError) {
-			app.showError(e);
-			}
+			ErrorHelper.handleError(e, str, loc, handler);
 		} catch (Error e) {
 			e.printStackTrace();
-			app.showError("InvalidInput", str);
+			handler.showError(loc.getError("InvalidInput"));
 		}
 
 		cons.setSuppressLabelCreation(oldMacroMode);

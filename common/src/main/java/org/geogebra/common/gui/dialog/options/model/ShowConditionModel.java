@@ -2,10 +2,11 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 
 
 public class ShowConditionModel extends OptionsModel {
@@ -51,17 +52,22 @@ public class ShowConditionModel extends OptionsModel {
 		return getGeoAt(index).isEuclidianShowable();
 	}
 
-	public void applyChanges(String strCond) {
+	/**
+	 * @param strCond
+	 *            string value of the condition
+	 * @param handler
+	 *            takes care of errors
+	 */
+	public void applyChanges(String strCond, ErrorHandler handler) {
 		//processed = true;
 		GeoBoolean cond;
 		if (strCond == null || strCond.trim().length() == 0) {
 			cond = null;
 		} else {
 
-			strCond = replaceEqualsSigns(strCond);
 
 			cond = app.getKernel().getAlgebraProcessor()
-					.evaluateToBoolean(strCond, true);
+					.evaluateToBoolean(strCond, handler);
 		}
 
 		if (cond != null || strCond.trim().length() == 0) {
@@ -78,8 +84,7 @@ public class ShowConditionModel extends OptionsModel {
 
 			} catch (CircularDefinitionException e) {
 				listener.setText("");
-				app.getKernel().getApplication()
-						.showError("CircularDefinition");
+				ErrorHelper.handleException(e, app, handler);
 			}
 
 			if (cond != null)
@@ -92,32 +97,6 @@ public class ShowConditionModel extends OptionsModel {
 			listener.setText(strCond);
 		}
 		storeUndoInfo();
-	}
-
-
-	/**
-	 * allows using a single = in condition to show object and dynamic color
-	 * 
-	 * @param strCond
-	 *            Condition to be processed
-	 * @return processed condition
-	 */
-	public static String replaceEqualsSigns(String strCond) {
-		// needed to make next replace easier
-		strCond = strCond.replaceAll(">=",
-				ExpressionNodeConstants.strGREATER_EQUAL);
-		strCond = strCond.replaceAll("<=",
-				ExpressionNodeConstants.strLESS_EQUAL);
-		strCond = strCond.replaceAll("==",
-				ExpressionNodeConstants.strEQUAL_BOOLEAN);
-		strCond = strCond
-				.replaceAll("!=", ExpressionNodeConstants.strNOT_EQUAL);
-
-		// allow A=B as well as A==B
-		// also stops A=B doing an assignment of B to A :)
-		return strCond
-				.replaceAll("=", ExpressionNodeConstants.strEQUAL_BOOLEAN);
-
 	}
 
 	@Override
