@@ -3296,9 +3296,9 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	public String getToolImageURL(int mode, GeoImage gi) {
 		String modeStr = StringUtil.toLowerCase(EuclidianConstants
 				.getModeText(mode));
-		return app.getImageManager().createImage(
-				"/org/geogebra/common/icons_toolbar/p64/mode_" + modeStr
-						+ ".png", app);
+		return ((AppD) app).getImageManager().createImage(
+				((AppD) app).getToolImageResource(modeStr, true),
+				app);
 	}
 
 	public EuclidianViewInterfaceCommon getPlotPanelEuclidanView() {

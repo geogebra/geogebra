@@ -1893,7 +1893,7 @@ ToolbarD.getAllTools(this));
 		return imageManager;
 	}
 
-	public String getToolbarIconPath() {
+	public String getToolbarIconPath(boolean forse64) {
 		if (getMaxIconSize() <= 32) {
 			return "/org/geogebra/common/icons_toolbar/p32/";
 		}
@@ -2076,10 +2076,15 @@ ToolbarD.getAllTools(this));
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
-	public ImageIcon getToolBarImage(String modeText, Color borderColor) {
+	public ImageResourceD getToolImageResource(String modeText, boolean force64) {
 		String filename = "mode_" + StringUtil.toLowerCase(modeText) + ".png";
-		String path = getToolbarIconPath() + filename;
-		ImageIcon icon = imageManager.getImageIcon(new ImageResourceDImpl(path),
+		String path = getToolbarIconPath(force64) + filename;
+		return new ImageResourceDImpl(path);
+	}
+	public ImageIcon getToolBarImage(String modeText, Color borderColor) {
+
+		ImageIcon icon = imageManager.getImageIcon(
+				getToolImageResource(modeText, false),
 				borderColor);
 
 		/*

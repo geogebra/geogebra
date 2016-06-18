@@ -5,7 +5,6 @@ import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -32,12 +31,6 @@ public class ImageManagerW extends ImageManager {
 		defaults2d = null;
 		defaults3d = null;
 		myXMLio = null;
-	}
-
-	@Override
-	public String createImage(String filename, App app) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	protected int imagesLoaded = 0;

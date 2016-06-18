@@ -3122,7 +3122,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				if (btnImage.getSelectedIndex() == 0) {
 					fileName = "";
 				} else {
-					fileName = imgFileNameList.get(btnImage.getSelectedIndex())
+					fileName = "/geogebra"
+							+ imgFileNameList.get(btnImage.getSelectedIndex())
 							.getFilename();
 				}
 				model.applyImage(fileName);

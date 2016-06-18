@@ -201,8 +201,8 @@ public class ImageManagerD extends ImageManager {
 	 */
 	protected Image getImageResource(String name) {
 		String path = name;
-		if (name.startsWith("/geogebra")) {
-			path = name.replace("/geogebra", "/org/geogebra/desktop");
+		if (!name.startsWith("/org")) {
+			path = "/org/geogebra/desktop" + path;
 		}
 		Image img = null;
 
@@ -331,8 +331,8 @@ public class ImageManagerD extends ImageManager {
 		return scaledImage;
 	}
 
-	public String createImage(String path, App app) {
-		Image im = getImageResource(path);
+	public String createImage(ImageResourceD res, App app) {
+		Image im = getImageResource(res);
 		BufferedImage image = ImageManagerD.toBufferedImage(im);
 		String fileName = ((AppD) app).createImage(new MyImageD(image),
 				"tool.png");
