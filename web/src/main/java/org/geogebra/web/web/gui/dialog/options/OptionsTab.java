@@ -248,7 +248,8 @@ class OptionsTab extends FlowPanel {
 			return ret;
 		}
 		if(m instanceof InterpolateImageModel){
-			return new InterpolateImagePanel((InterpolateImageModel) m, app);
+			return new CheckboxPanel("Interpolate", app.getLocalization(),
+					(InterpolateImageModel) m);
 		}
 		if(m instanceof DecoAngleModel){
 			DecoAnglePanel dap =  new DecoAnglePanel((DecoAngleModel)m, app);
@@ -1178,15 +1179,7 @@ class OptionsTab extends FlowPanel {
 
 	}
 
-	private class InterpolateImagePanel extends CheckboxPanel {
 
-		public InterpolateImagePanel(InterpolateImageModel model, AppW app) {
-			super("Interpolate", app.getLocalization());
-			model.setListener(this);
-			setModel(model);
-		}
-
-	}
 
 	class LodPanel extends OptionPanel implements IComboListener {
 		LodModel model;

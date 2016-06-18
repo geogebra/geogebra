@@ -105,19 +105,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	//Basic
 	private NamePanel namePanel;
-	private ShowObjectPanel showObjectPanel;
-	private TracePanel tracePanel;
+	private CheckboxPanel showObjectPanel;
 	LabelPanel labelPanel;
-	private FixPanel fixPanel;
-	private CheckboxPanel auxPanel;
-	private AnimatingPanel animatingPanel;
-	private BackgroundImagePanel bgImagePanel;
-	private ReflexAnglePanel reflexAnglePanel;
-	private RightAnglePanel rightAnglePanel;
-	private ListAsComboPanel listAsComboPanel;
-	private ShowTrimmedIntersectionLinesPanel trimmedIntersectionLinesPanel;
-	private AllowOutlyingIntersectionsPanel allowOutlyingIntersectionsPanel;
-	private CheckboxPanel fixCheckboxPanel;
+
+
 	//Color picker
 
 	// Style
@@ -129,22 +120,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private ColorFunctionPanel colorFunctionPanel;
 	private LayerPanel layerPanel;
 	private TooltipPanel tooltipPanel;
-	private SelectionAllowedPanel selectionAllowedPanel;
 	private ViewLocationPanel graphicsViewLocationPanel;
 
-	//Decoration
-
-	//Algebra
-	// private CoordsPanel coordsPanel;
-	// private LineEqnPanel lineEqnPanel;
-	// private ConicEqnPanel conicEqnPanel;
-
-	private List<OptionsTab> tabs;
-
-
-
-
-
+	List<OptionsTab> tabs;
 
 
 	String localize(final String id) {
@@ -170,14 +148,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			getCheckbox().setValue(value);
 			getCheckbox().setEnabled(isEnabled);
 		}
-	}
-
-	private class TracePanel extends CheckboxPanel {
-		public TracePanel() {
-			super("ShowTrace", loc);
-			setModel(new TraceModel(this, app));
-		}
-
 	}
 
 	private class LabelPanel extends OptionPanel implements IShowLabelListener {
@@ -276,13 +246,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-	private class FixPanel extends CheckboxPanel {
 
-		public FixPanel() {
-			super("FixObject", loc);
-			setModel(new FixObjectModel(this, app));
-		}
-	}
 
 	private class ShowConditionPanel extends OptionPanel implements
 			IShowConditionListener, ErrorHandler {
@@ -709,14 +673,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-	private class BackgroundImagePanel extends CheckboxPanel {
 
-		public BackgroundImagePanel() {
-			super("BackgroundImage", loc);
-			setModel(new BackgroundImageModel(this, app));
-		}
-
-	}
 
 	class ListAsComboPanel extends CheckboxPanel implements IListAsComboListener {
 		public ListAsComboPanel() {
@@ -839,40 +796,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 
 
-	class RightAnglePanel extends CheckboxPanel {
-		public RightAnglePanel() {
-			super("EmphasizeRightAngle", loc);
-			setModel(new RightAngleModel(this, app));
-
-		}
-	}
-
-	private class ShowTrimmedIntersectionLinesPanel extends CheckboxPanel {
 
 
-		public ShowTrimmedIntersectionLinesPanel() {
-			super("ShowTrimmed", loc);
-			setModel(new TrimmedIntersectionLinesModel(this, app));
-		}
 
-	} // ShowTrimmedIntersectionLines
-
-	private class AnimatingPanel extends CheckboxPanel {
-		public AnimatingPanel() {
-			super("Animating", loc);
-			setModel(new AnimatingModel(app, this));
-		}
-
-	}
-
-	private class AllowOutlyingIntersectionsPanel extends CheckboxPanel {
-
-		public AllowOutlyingIntersectionsPanel() {
-			super("allowOutlyingIntersections", loc);
-			setModel(new OutlyingIntersectionsModel(this, app));
-		}
-
-	}
 
 
 
@@ -1123,15 +1049,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 
 	}
-	private class SelectionAllowedPanel extends CheckboxPanel {
 
-
-		public SelectionAllowedPanel() {
-			super("SelectionAllowed", loc);
-			setModel(new SelectionAllowedModel(this, app));
-		}
-
-	}
 
 	private class TooltipPanel extends ListBoxPanel {
 
@@ -1380,7 +1298,17 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private void createBasicTab() {
 		basicTab = makeOptionsTab("Properties.Basic");
-
+		CheckboxPanel rightAnglePanel;
+		CheckboxPanel listAsComboPanel;
+		CheckboxPanel trimmedIntersectionLinesPanel;
+		CheckboxPanel allowOutlyingIntersectionsPanel;
+		CheckboxPanel fixCheckboxPanel;
+		CheckboxPanel fixPanel;
+		CheckboxPanel auxPanel;
+		CheckboxPanel tracePanel;
+		CheckboxPanel animatingPanel = null;
+		CheckboxPanel bgImagePanel = null;
+		ReflexAnglePanel reflexAnglePanel = null;
 		namePanel = new NamePanel(); 
 		if (!isDefaults) {
 			basicTab.add(namePanel);
@@ -1400,16 +1328,19 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			checkboxPanel.add(labelPanel.getWidget());
 		}
 
-		tracePanel = new TracePanel(); 
+		tracePanel = new CheckboxPanel("ShowTrace", loc, new TraceModel(null,
+				app));
 		checkboxPanel.add(tracePanel.getWidget());
 		basicTab.add(checkboxPanel);
 
 		if (!isDefaults) {
-			animatingPanel = new AnimatingPanel();
+			animatingPanel = new CheckboxPanel("Animating", loc,
+					new AnimatingModel(app, null));
 			checkboxPanel.add(animatingPanel.getWidget());
 		}
 
-		fixPanel = new FixPanel();
+		fixPanel = new CheckboxPanel("FixObject", loc, new FixObjectModel(null,
+				app));
 		checkboxPanel.add(fixPanel.getWidget());
 
 		auxPanel = new CheckboxPanel("AuxiliaryObject", loc,
@@ -1417,7 +1348,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		checkboxPanel.add(auxPanel.getWidget());
 
 		if (!isDefaults) {
-			bgImagePanel = new BackgroundImagePanel();
+			bgImagePanel = new CheckboxPanel("BackgroundImage", loc,
+					new BackgroundImageModel(null, app));
 			checkboxPanel.add(bgImagePanel.getWidget());
 		}
 		basicTab.add(checkboxPanel);
@@ -1428,11 +1360,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 
 		listAsComboPanel = new ListAsComboPanel();
-		rightAnglePanel = new RightAnglePanel();
-		trimmedIntersectionLinesPanel = new ShowTrimmedIntersectionLinesPanel();
+		rightAnglePanel = new CheckboxPanel("EmphasizeRightAngle", loc,
+				new RightAngleModel(null, app));
+		trimmedIntersectionLinesPanel = new CheckboxPanel("ShowTrimmed", loc,
+				new TrimmedIntersectionLinesModel(null, app));
 
 		//		tabList.add(comboBoxPanel);
-		allowOutlyingIntersectionsPanel = new AllowOutlyingIntersectionsPanel();
+		allowOutlyingIntersectionsPanel = new CheckboxPanel(
+				"allowOutlyingIntersections", loc,
+				new OutlyingIntersectionsModel(null, app));
 		basicTab.add(allowOutlyingIntersectionsPanel.getWidget());
 
 		fixCheckboxPanel = new CheckboxPanel("FixCheckbox", loc,
@@ -1513,7 +1449,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		colorFunctionPanel = new ColorFunctionPanel();
 		layerPanel = new LayerPanel();
 		tooltipPanel = new TooltipPanel();
-		selectionAllowedPanel = new SelectionAllowedPanel();
+		CheckboxPanel selectionAllowedPanel = new CheckboxPanel(
+				"SelectionAllowed", loc,
+				new SelectionAllowedModel(null, app));
 		graphicsViewLocationPanel = new ViewLocationPanel();
 
 		tab.add(showConditionPanel);
