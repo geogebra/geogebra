@@ -162,7 +162,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private class ShowObjectPanel extends CheckboxPanel implements IShowObjectListener {
 		public ShowObjectPanel() {
 			super("ShowObject", loc);
-			setModel(new ShowObjectModel(this));
+			setModel(new ShowObjectModel(this, app));
 		}
 
 		@Override
@@ -175,7 +175,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private class TracePanel extends CheckboxPanel {
 		public TracePanel() {
 			super("ShowTrace", loc);
-			setModel(new TraceModel(this));
+			setModel(new TraceModel(this, app));
 		}
 
 	}
@@ -280,7 +280,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public FixPanel() {
 			super("FixObject", loc);
-			setModel(new FixObjectModel(this));
+			setModel(new FixObjectModel(this, app));
 		}
 	}
 
@@ -713,7 +713,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public BackgroundImagePanel() {
 			super("BackgroundImage", loc);
-			setModel(new BackgroundImageModel(this));
+			setModel(new BackgroundImageModel(this, app));
 		}
 
 	}
@@ -842,7 +842,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	class RightAnglePanel extends CheckboxPanel {
 		public RightAnglePanel() {
 			super("EmphasizeRightAngle", loc);
-			setModel(new RightAngleModel(this));
+			setModel(new RightAngleModel(this, app));
 
 		}
 	}
@@ -852,7 +852,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public ShowTrimmedIntersectionLinesPanel() {
 			super("ShowTrimmed", loc);
-			setModel(new TrimmedIntersectionLinesModel(this));
+			setModel(new TrimmedIntersectionLinesModel(this, app));
 		}
 
 	} // ShowTrimmedIntersectionLines
@@ -869,7 +869,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public AllowOutlyingIntersectionsPanel() {
 			super("allowOutlyingIntersections", loc);
-			setModel(new OutlyingIntersectionsModel(this));
+			setModel(new OutlyingIntersectionsModel(this, app));
 		}
 
 	}
@@ -1128,7 +1128,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public SelectionAllowedPanel() {
 			super("SelectionAllowed", loc);
-			setModel(new SelectionAllowedModel(this));
+			setModel(new SelectionAllowedModel(this, app));
 		}
 
 	}
@@ -1138,7 +1138,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public TooltipPanel() {
 			super(loc, "Tooltip");
-			TooltipModel model = new TooltipModel();
+			TooltipModel model = new TooltipModel(app);
 			model.setListener(this);
 			setModel(model);
 		}
@@ -1149,7 +1149,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		public LayerPanel() {
 			super(loc, "Layer");
-			LayerModel model = new LayerModel();
+			LayerModel model = new LayerModel(app);
 			model.setListener(this);
 			setModel(model);
 		}
@@ -1413,7 +1413,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		checkboxPanel.add(fixPanel.getWidget());
 
 		auxPanel = new CheckboxPanel("AuxiliaryObject", loc,
-				new AuxObjectModel(null));
+				new AuxObjectModel(null, app));
 		checkboxPanel.add(auxPanel.getWidget());
 
 		if (!isDefaults) {
@@ -1436,7 +1436,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		basicTab.add(allowOutlyingIntersectionsPanel.getWidget());
 
 		fixCheckboxPanel = new CheckboxPanel("FixCheckbox", loc,
-				new FixCheckboxModel(null));
+				new FixCheckboxModel(null, app));
 		basicTab.add(fixCheckboxPanel.getWidget());
 
 		basicTab.addPanelList(Arrays.asList(namePanel, showObjectPanel,
@@ -1469,19 +1469,19 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private OptionsTab addStyleTab() {
 		OptionsTab tab = makeOptionsTab("Properties.Style");
-		PointSizeModel ptSize = new PointSizeModel();
-		PointStyleModel ptStyle = new PointStyleModel();
-		LineStyleModel lineStyle = new LineStyleModel();
-		AngleArcSizeModel arcSize = new AngleArcSizeModel();
-		SlopeTriangleSizeModel slopeSize = new SlopeTriangleSizeModel();
-		IneqStyleModel ineqStyle = new IneqStyleModel();
+		PointSizeModel ptSize = new PointSizeModel(app);
+		PointStyleModel ptStyle = new PointStyleModel(app);
+		LineStyleModel lineStyle = new LineStyleModel(app);
+		AngleArcSizeModel arcSize = new AngleArcSizeModel(app);
+		SlopeTriangleSizeModel slopeSize = new SlopeTriangleSizeModel(app);
+		IneqStyleModel ineqStyle = new IneqStyleModel(app);
 		TextFieldSizeModel tfSize = new TextFieldSizeModel(app);
-		ButtonSizeModel buttonSize = new ButtonSizeModel();
+		ButtonSizeModel buttonSize = new ButtonSizeModel(app);
 		FillingModel filling = new FillingModel(app);
 		LodModel lod = new LodModel(app, isDefaults);
-		InterpolateImageModel interpol = new InterpolateImageModel();
-		DecoAngleModel decoAngle = new DecoAngleModel();
-		DecoSegmentModel decoSegment = new DecoSegmentModel();
+		InterpolateImageModel interpol = new InterpolateImageModel(app);
+		DecoAngleModel decoAngle = new DecoAngleModel(app);
+		DecoSegmentModel decoSegment = new DecoSegmentModel(app);
 		
 
 		tab.addModel(ptSize).addModel(ptStyle).addModel(lod)
@@ -1494,7 +1494,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private OptionsTab addScriptTab() {
 		OptionsTab tab = makeOptionsTab("Scripting");
-		final ScriptEditorModel model = new ScriptEditorModel();
+		final ScriptEditorModel model = new ScriptEditorModel(app);
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
@@ -1518,7 +1518,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		tab.add(showConditionPanel);
 		tab.add(colorFunctionPanel);
-		GroupModel group = new GroupModel();
+		GroupModel group = new GroupModel(app);
 		group.add(layerPanel.getModel());
 		group.add(tooltipPanel.getModel());
 		group.add(selectionAllowedPanel.getModel());
@@ -1536,10 +1536,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		OptionsTab tab;
 	
 		tab = makeOptionsTab("Properties.Algebra");
-		tab.addModel(new CoordsModel());
-		tab.addModel(new LineEqnModel());
-		tab.addModel(new SymbolicModel());
-		tab.addModel(new ConicEqnModel(loc));
+		tab.addModel(new CoordsModel(app));
+		tab.addModel(new LineEqnModel(app));
+		tab.addModel(new SymbolicModel(app));
+		tab.addModel(new ConicEqnModel(app));
 		tab.addModel(new AnimationSpeedModel(getAppW()));
 
 		// tab.addModel(new AnimationStepModel(null, app));
@@ -1551,7 +1551,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private OptionsTab addPositionTab() {
 		OptionsTab tab;
 		tab = makeOptionsTab("Properties.Position");
-		tab.addModel(new StartPointModel(app)).addModel(new CornerPointsModel())
+		tab.addModel(new StartPointModel(app))
+				.addModel(new CornerPointsModel(app))
 .addModel(
 				new AbsoluteScreenLocationModel(app));
 		return tab;

@@ -1,6 +1,11 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.main.App;
+
 public abstract class NumberOptionsModel extends OptionsModel {
+	public NumberOptionsModel(App app) {
+		super(app);
+	}
 	protected abstract void apply(int index, int value);
 	protected abstract int getValueAt(int index);
 

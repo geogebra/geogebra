@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 
 public class DecoAngleModel extends NumberOptionsModel {
 	public interface IDecoAngleListener extends IComboListener {
@@ -12,7 +13,8 @@ public class DecoAngleModel extends NumberOptionsModel {
 	}
 	private IDecoAngleListener listener;
 	
-	public DecoAngleModel() {
+	public DecoAngleModel(App app) {
+		super(app);
 	}
 	
 	private AngleProperties getAnglePropertiesAt(int index) {

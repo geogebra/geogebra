@@ -18,7 +18,7 @@ public class ViewLocationModel extends OptionsModel {
 	
 	private IGraphicsViewLocationListener listener;
 	public ViewLocationModel(App app, IGraphicsViewLocationListener listener) {
-		this.app = app;
+		super(app);
 		this.listener = listener;
 		
 	}

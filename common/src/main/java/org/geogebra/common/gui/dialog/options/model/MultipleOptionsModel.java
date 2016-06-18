@@ -2,6 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.List;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 
@@ -9,7 +10,8 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 	public static final int MAX_CHOICES = 200;
 	private IComboListener listener;
 
-	public MultipleOptionsModel() {
+	public MultipleOptionsModel(App app) {
+		super(app);
 	}
 	
 	public abstract List<String> getChoiches(Localization loc);

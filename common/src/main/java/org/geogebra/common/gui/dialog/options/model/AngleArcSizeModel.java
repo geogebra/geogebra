@@ -2,12 +2,14 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 
 public class AngleArcSizeModel extends OptionsModel {
 	public static final Integer MIN_VALUE = 20;
 	private ISliderListener listener;
 
-	public AngleArcSizeModel() {
+	public AngleArcSizeModel(App app) {
+		super(app);
 	}
 
 	public void setListener(ISliderListener listener) {

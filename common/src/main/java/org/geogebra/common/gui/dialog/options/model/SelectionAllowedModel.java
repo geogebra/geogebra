@@ -1,11 +1,12 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 
 public class SelectionAllowedModel extends BooleanOptionModel {
 
-	public SelectionAllowedModel(IBooleanOptionListener listener) {
-		super(listener);
+	public SelectionAllowedModel(IBooleanOptionListener listener, App app) {
+		super(listener, app);
 	}
 
 	@Override

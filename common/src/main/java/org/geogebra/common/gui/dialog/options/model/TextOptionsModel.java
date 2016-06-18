@@ -52,7 +52,7 @@ public class TextOptionsModel extends OptionsModel {
 	private GeoText lastGeo;
 
 	public TextOptionsModel(App app) {
-		this.app = app;
+		super(app);
 		loc = app.getLocalization();
 		dTProcessor = new DynamicTextProcessor(app);
 		editGeo = null;

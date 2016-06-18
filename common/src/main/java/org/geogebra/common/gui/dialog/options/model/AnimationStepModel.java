@@ -18,8 +18,8 @@ public class AnimationStepModel extends OptionsModel {
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
 
 	public AnimationStepModel(ITextFieldListener listener, App app) {
+		super(app);
 		this.listener = listener;
-		this.app = app;
 	}
 	@Override
 	public void updateProperties() {

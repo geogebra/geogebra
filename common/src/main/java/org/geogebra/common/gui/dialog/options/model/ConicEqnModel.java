@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 public class ConicEqnModel extends MultipleOptionsModel {
@@ -13,8 +14,9 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	int implicitIndex, explicitIndex, specificIndex, parametricIndex,
 			userIndex;
 
-	public ConicEqnModel(Localization loc) {
-		this.loc = loc;
+	public ConicEqnModel(App app) {
+		super(app);
+		this.loc = app.getLocalization();
 	}
 
 	@Override

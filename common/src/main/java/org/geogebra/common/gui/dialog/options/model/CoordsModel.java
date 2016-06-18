@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 public class CoordsModel extends MultipleOptionsModel {
@@ -13,7 +14,8 @@ public class CoordsModel extends MultipleOptionsModel {
 
 	private List<Integer> coordValues;
 
-	public CoordsModel() {
+	public CoordsModel(App app) {
+		super(app);
 		coordValues = Arrays.asList(Kernel.COORD_CARTESIAN,
 				Kernel.COORD_POLAR,
 				Kernel.COORD_COMPLEX,

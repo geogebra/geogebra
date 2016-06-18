@@ -8,8 +8,11 @@ import org.geogebra.common.plugin.GeoClass;
 public abstract class OptionsModel {
 	private Object[] geos; // currently selected geos
 	
-	protected App app;
+	protected final App app;
 
+	public OptionsModel(App app) {
+		this.app = app;
+	}
 	public Object[] getGeos() {
 		return geos;
 	}

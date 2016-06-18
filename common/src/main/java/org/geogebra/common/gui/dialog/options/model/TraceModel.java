@@ -1,12 +1,12 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.main.App;
 
 public class TraceModel extends BooleanOptionModel {
-	private static final long serialVersionUID = 1L;
 	
-	public TraceModel(IBooleanOptionListener listener) {
-		super(listener);
+	public TraceModel(IBooleanOptionListener listener, App app) {
+		super(listener, app);
 	}
 
 	protected Traceable getTraceableAt(int index) {

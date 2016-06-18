@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 
@@ -44,8 +45,8 @@ public class LineStyleModel extends OptionsModel {
 
 	}
 
-	public LineStyleModel() {
-
+	public LineStyleModel(App app) {
+		super(app);
 	}
 
 

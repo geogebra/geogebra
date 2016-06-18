@@ -1,11 +1,12 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.LimitedPath;
+import org.geogebra.common.main.App;
 
 public class OutlyingIntersectionsModel extends BooleanOptionModel {
 
-	public OutlyingIntersectionsModel(IBooleanOptionListener listener) {
-		super(listener);
+	public OutlyingIntersectionsModel(IBooleanOptionListener listener, App app) {
+		super(listener, app);
 	}
 
 	private LimitedPath getLimitedPathAt(int index) {

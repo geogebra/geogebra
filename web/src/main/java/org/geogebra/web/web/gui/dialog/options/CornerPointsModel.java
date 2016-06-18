@@ -4,9 +4,14 @@ import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.gui.dialog.options.model.PropertyListener;
 import org.geogebra.common.kernel.Locateable;
 import org.geogebra.common.kernel.algos.AlgoVector;
+import org.geogebra.common.main.App;
 import org.geogebra.web.web.gui.dialog.options.OptionsTab.CornerPointsPanel;
 
 public class CornerPointsModel extends OptionsModel {
+	public CornerPointsModel(App app) {
+		super(app);
+	}
+
 	private CornerPointsPanel listener;
 
 	@Override

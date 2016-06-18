@@ -11,8 +11,7 @@ public class ListAsComboModel extends BooleanOptionModel {
 	private IListAsComboListener listener;
 	
 	public ListAsComboModel(App app, IListAsComboListener listener) {
-		super(listener);
-		this.app = app;
+		super(listener, app);
 		this.listener = listener;
 	}
 

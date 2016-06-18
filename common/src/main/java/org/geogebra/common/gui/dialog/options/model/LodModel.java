@@ -15,7 +15,7 @@ public class LodModel extends MultipleOptionsModel {
 	private boolean isDefaults;
 
 	public LodModel(App app, boolean isDefaults) {
-		this.app = app;
+		super(app);
 		this.isDefaults = isDefaults;
 	}
 

@@ -1,13 +1,13 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 public class InterpolateImageModel extends BooleanOptionModel {
 
-	public InterpolateImageModel() {
-		super(null);
-		// TODO Auto-generated constructor stub
+	public InterpolateImageModel(App app) {
+		super(null, app);
 	}
 
 	private GeoImage getGeoImageAt(int index) {

@@ -3,11 +3,14 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.App;
+
 public class GroupModel extends OptionsModel {
 	private List<OptionsModel> models = new ArrayList<OptionsModel>();
 	private PropertyListener listener;
 
-	public GroupModel() {
+	public GroupModel(App app) {
+		super(app);
 		listener = new PropertyListener() {
 
 			@Override

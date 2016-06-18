@@ -82,7 +82,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		animationPanel = new FlowPanel();
 
 		avPanel = new CheckboxPanel("ShowSliderInAlgebraView",
-					app.getLocalization(), new ExtendedAVModel(null));
+				app.getLocalization(), new ExtendedAVModel(null, app));
 
 
 		cbSliderFixed = new CheckBox();

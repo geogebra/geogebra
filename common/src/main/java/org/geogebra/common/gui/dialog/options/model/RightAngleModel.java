@@ -2,11 +2,12 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 
 public class RightAngleModel extends BooleanOptionModel {
 
-	public RightAngleModel(IBooleanOptionListener listener) {
-		super(listener);
+	public RightAngleModel(IBooleanOptionListener listener, App app) {
+		super(listener, app);
 	}
 
 	@Override

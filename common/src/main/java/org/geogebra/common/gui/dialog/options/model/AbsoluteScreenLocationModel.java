@@ -13,8 +13,7 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 	private App app;
 
 	public AbsoluteScreenLocationModel(App app) {
-		super(null);
-		this.app = app;
+		super(null, app);
 		// TODO Auto-generated constructor stub
 	}
 

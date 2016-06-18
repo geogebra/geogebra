@@ -20,7 +20,7 @@ public class ShowLabelModel extends OptionsModel{
 	private IShowLabelListener listener;
 	
 	public ShowLabelModel(App app, IShowLabelListener listener) {
-		this.app = app;
+		super(app);
 		kernel = app.getKernel();
 		this.listener = listener;
 	}

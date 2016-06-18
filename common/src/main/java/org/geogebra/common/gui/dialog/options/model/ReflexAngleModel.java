@@ -20,7 +20,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 	private boolean isDefaults;
 
 	public ReflexAngleModel(App app, boolean isDefaults) {
-		this.app = app;
+		super(app);
 		this.isDefaults = isDefaults;
 	}
 

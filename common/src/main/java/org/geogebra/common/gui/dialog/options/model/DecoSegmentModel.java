@@ -1,12 +1,14 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.main.App;
 
 public class DecoSegmentModel extends NumberOptionsModel {
 
 	private IComboListener listener;
 	
-	public DecoSegmentModel() {
+	public DecoSegmentModel(App app) {
+		super(app);
 	}
 	
 	private GeoSegment getGeoSegmentAt(int index) {

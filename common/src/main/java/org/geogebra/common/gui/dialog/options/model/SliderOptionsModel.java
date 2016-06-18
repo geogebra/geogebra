@@ -1,10 +1,13 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.main.App;
+
 
 public abstract class SliderOptionsModel extends NumberOptionsModel {
 	private ISliderListener listener;
 
-	public SliderOptionsModel() {
+	public SliderOptionsModel(App app) {
+		super(app);
 	}
 	
 

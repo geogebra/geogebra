@@ -3,11 +3,12 @@ package org.geogebra.web.web.gui.dialog.options.model;
 import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
+import org.geogebra.common.main.App;
 
 public class ExtendedAVModel extends BooleanOptionModel {
 
-	public ExtendedAVModel(IBooleanOptionListener listener) {
-		super(listener);
+	public ExtendedAVModel(IBooleanOptionListener listener, App app) {
+		super(listener, app);
 	}
 
 	@Override

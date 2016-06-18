@@ -21,7 +21,7 @@ public class StartPointModel extends MultipleOptionsModel {
 	private List<String> choices;
 	
 	public StartPointModel(App app) {
-		this.app = app;
+		super(app);
 		this.kernel = app.getKernel();
 		choices = new ArrayList();
 	}

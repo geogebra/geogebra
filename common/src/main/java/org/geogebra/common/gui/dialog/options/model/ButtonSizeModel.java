@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoButton;
+import org.geogebra.common.main.App;
 
 
 
@@ -12,7 +13,8 @@ public class ButtonSizeModel extends OptionsModel {
 	
 	private IButtonSizeListener listener;
 	
-	public ButtonSizeModel() {
+	public ButtonSizeModel(App app) {
+		super(app);
 	}
 
 	public void setListener(IButtonSizeListener listener) {

@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.main.App;
+
 
 
 
@@ -11,7 +13,8 @@ public abstract class BooleanOptionModel extends OptionsModel {
 
 	private IBooleanOptionListener listener;
 	
-	public BooleanOptionModel(IBooleanOptionListener listener) {
+	public BooleanOptionModel(IBooleanOptionListener listener, App app) {
+		super(app);
 		this.setListener(listener);
 	}
 

@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.InequalityProperties;
+import org.geogebra.common.main.App;
 
 public class IneqStyleModel extends BooleanOptionModel {
 
@@ -11,8 +12,8 @@ public class IneqStyleModel extends BooleanOptionModel {
 		void enableFilling(boolean value);
 	}
 
-	public IneqStyleModel() {
-		super(null);
+	public IneqStyleModel(App app) {
+		super(null, app);
 	}
 	
 	private InequalityProperties getInequalityPropertiesAt(int index) {

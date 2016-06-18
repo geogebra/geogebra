@@ -21,7 +21,7 @@ public class ImageCornerModel extends MultipleOptionsModel {
 	private int cornerIdx;
 
 	public ImageCornerModel(App app) {
-		this.app = app;
+		super(app);
 		kernel = app.getKernel();
 		choices = new ArrayList<String>();	
 	}

@@ -2,10 +2,12 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.algos.AlgoIntersectAbstract;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 
 public class TrimmedIntersectionLinesModel extends BooleanOptionModel {
-	public TrimmedIntersectionLinesModel(IBooleanOptionListener listener) {
-		super(listener);
+	public TrimmedIntersectionLinesModel(IBooleanOptionListener listener,
+			App app) {
+		super(listener, app);
 	}
 
 

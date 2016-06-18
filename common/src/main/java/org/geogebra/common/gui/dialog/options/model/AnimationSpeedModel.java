@@ -25,6 +25,7 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 	}
 
 	public AnimationSpeedModel(App app) {
+		super(app);
 		kernel = app.getKernel();
 	}
 

@@ -19,7 +19,7 @@ public class ShowConditionModel extends OptionsModel {
 	private IShowConditionListener listener;
 	
 	public ShowConditionModel(App app, IShowConditionListener listener) {
-		this.app = app;
+		super(app);
 		this.listener = listener;
 	}
 

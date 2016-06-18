@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 public class LayerModel extends MultipleOptionsModel {
 
-	public LayerModel() {
+	public LayerModel(App app) {
+		super(app);
 	}
 
 	@Override

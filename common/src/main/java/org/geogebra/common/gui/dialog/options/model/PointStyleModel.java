@@ -3,12 +3,14 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.PointProperties;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 public class PointStyleModel extends NumberOptionsModel {
 	private IComboListener listener;
 	
-	public PointStyleModel() {
+	public PointStyleModel(App app) {
+		super(app);
 	}
 	
 	private PointProperties getPointPropertiesAt(int index) {

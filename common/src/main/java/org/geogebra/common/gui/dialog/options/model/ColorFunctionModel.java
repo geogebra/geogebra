@@ -20,7 +20,7 @@ public class ColorFunctionModel extends OptionsModel {
 	private IColorFunctionListener listener;
 	private Kernel kernel;
 	public ColorFunctionModel(App app, IColorFunctionListener listener) {
-		this.app = app;
+		super(app);
 		this.kernel = app.getKernel();
 		this.listener = listener;
 		

@@ -1,11 +1,12 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.main.App;
 
 public class FixCheckboxModel extends BooleanOptionModel {
 
-	public FixCheckboxModel(IBooleanOptionListener listener) {
-		super(listener);
+	public FixCheckboxModel(IBooleanOptionListener listener, App app) {
+		super(listener, app);
 	}
 	
 	private GeoBoolean getBooleanAt(int index) {

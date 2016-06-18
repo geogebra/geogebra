@@ -32,7 +32,7 @@ public class SliderModel extends OptionsModel {
 	private boolean widthUnit;
 	private boolean includeRandom;
 	public SliderModel(App app, ISliderOptionsListener listener) {
-		this.app = app;
+		super(app);
 		kernel = app.getKernel();
 		this.listener = listener;
 		includeRandom = false;

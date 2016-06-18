@@ -3,13 +3,14 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.geos.InequalityProperties;
+import org.geogebra.common.main.App;
 
 public class SymbolicModel extends BooleanOptionModel {
 
 
 
-	public SymbolicModel() {
-		super(null);
+	public SymbolicModel(App app) {
+		super(null, app);
 	}
 	
 	private InequalityProperties getInequalityPropertiesAt(int index) {

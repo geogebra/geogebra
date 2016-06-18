@@ -3,9 +3,14 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 public class TooltipModel extends MultipleOptionsModel {
+
+	public TooltipModel(App app) {
+		super(app);
+	}
 
 	@Override
 	public List<String> getChoiches(Localization loc) {

@@ -39,7 +39,7 @@ public class ScriptInputModel extends OptionsModel {
 
 
 	public ScriptInputModel(App app, IScriptInputListener listener, boolean updateScript, boolean forceJavaScript) {
-		this.app = app;
+		super(app);
 		this.listener = listener;
 		this.updateScript = updateScript;
 		inputHandler = new TextInputHandler();

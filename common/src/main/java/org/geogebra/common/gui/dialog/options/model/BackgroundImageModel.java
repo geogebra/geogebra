@@ -1,11 +1,12 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.main.App;
 
 public class BackgroundImageModel extends BooleanOptionModel {
 	
-	public BackgroundImageModel(IBooleanOptionListener listener) {
-		super(listener);
+	public BackgroundImageModel(IBooleanOptionListener listener, App app) {
+		super(listener, app);
 	}
 	
 	private GeoImage getImageAt(int index) {

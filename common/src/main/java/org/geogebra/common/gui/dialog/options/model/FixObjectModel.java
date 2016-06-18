@@ -1,13 +1,14 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 
 public class FixObjectModel extends BooleanOptionModel {
 
 	private static final long serialVersionUID = 1L;
 
-	public FixObjectModel(IBooleanOptionListener listener) {
-		super(listener);
+	public FixObjectModel(IBooleanOptionListener listener, App app) {
+		super(listener, app);
 	}
 
 	public void apply(int index, boolean value) {

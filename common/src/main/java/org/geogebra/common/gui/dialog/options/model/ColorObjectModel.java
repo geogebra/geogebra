@@ -36,7 +36,7 @@ public class ColorObjectModel extends OptionsModel {
 	private Kernel kernel;
 
 	public ColorObjectModel(App app) {
-		this.app = app;
+		super(app);
 		kernel = app.getKernel();
 	}
 

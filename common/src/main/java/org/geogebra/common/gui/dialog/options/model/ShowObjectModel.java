@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 
 public class ShowObjectModel extends BooleanOptionModel {
 	public interface IShowObjectListener extends IBooleanOptionListener {
@@ -8,8 +9,8 @@ public class ShowObjectModel extends BooleanOptionModel {
 
 	}
 	
-	public ShowObjectModel(IShowObjectListener listener) {
-		super(listener);
+	public ShowObjectModel(IShowObjectListener listener, App app) {
+		super(listener, app);
 	}
 	
 	

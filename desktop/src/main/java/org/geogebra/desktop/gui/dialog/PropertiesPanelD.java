@@ -1080,7 +1080,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public ShowObjectPanel() {
 			super("ShowObject");
-			setModel(new ShowObjectModel(this));
+			setModel(new ShowObjectModel(this, app));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
 
@@ -1097,7 +1097,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public SelectionAllowedPanel() {
 			super("SelectionAllowed");
-			setModel(new SelectionAllowedModel(this));
+			setModel(new SelectionAllowedModel(this, app));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
 
@@ -1112,7 +1112,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public ShowTrimmedIntersectionLines() {
 			super("ShowTrimmed");
-			setModel(new TrimmedIntersectionLinesModel(this));
+			setModel(new TrimmedIntersectionLinesModel(this, app));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
 
@@ -1127,7 +1127,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public CheckBoxFixPanel() {
 			super("FixCheckbox");
-			setModel(new FixCheckboxModel(this));
+			setModel(new FixCheckboxModel(this, app));
 			app.setFlowLayoutOrientation(this);
 		}
 
@@ -1139,7 +1139,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public IneqPanel() {
 			super("ShowOnXAxis");
-			IneqStyleModel model = new IneqStyleModel();
+			IneqStyleModel model = new IneqStyleModel(app);
 			model.setListener(this);
 			setModel(model);
 			app.setFlowLayoutOrientation(this);
@@ -1163,7 +1163,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public SymbolicPanel() {
 			super("Symbolic");
-			SymbolicModel model = new SymbolicModel();
+			SymbolicModel model = new SymbolicModel(app);
 			model.setListener(this);
 			setModel(model);
 			app.setFlowLayoutOrientation(this);
@@ -1334,7 +1334,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public TooltipPanel() {
 			super("Tooltip");
-			TooltipModel model = new TooltipModel();
+			TooltipModel model = new TooltipModel(app);
 			model.setListener(this);
 			setModel(model);
 		}
@@ -1345,7 +1345,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public LayerPanel() {
 			super("Layer");
-			LayerModel model = new LayerModel();
+			LayerModel model = new LayerModel(app);
 			model.setListener(this);
 			setModel(model);
 		}
@@ -1361,7 +1361,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public TracePanel() {
 			super("ShowTrace");
-			setModel(new TraceModel(this));
+			setModel(new TraceModel(this, app));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
 
@@ -1398,7 +1398,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public CheckBoxInterpolateImage() {
 			super("Interpolate");
-			InterpolateImageModel model = new InterpolateImageModel();
+			InterpolateImageModel model = new InterpolateImageModel(app);
 			model.setListener(this);
 			setModel(model);
 			setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -1419,7 +1419,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public FixPanel() {
 			super("FixObject");
-			setModel(new FixObjectModel(this));
+			setModel(new FixObjectModel(this, app));
 			app.setFlowLayoutOrientation(this);
 		}
 	}
@@ -1623,7 +1623,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public AllowOutlyingIntersectionsPanel() {
 			super("allowOutlyingIntersections");
-			setModel(new OutlyingIntersectionsModel(this));
+			setModel(new OutlyingIntersectionsModel(this, app));
 			app.setFlowLayoutOrientation(this);
 
 			// super(new FlowLayout(FlowLayout.LEFT));
@@ -1644,7 +1644,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public BackgroundImagePanel() {
 			super("BackgroundImage");
-			setModel(new BackgroundImageModel(this));
+			setModel(new BackgroundImageModel(this, app));
 			app.setFlowLayoutOrientation(this);
 		}
 	}
@@ -1662,7 +1662,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public AuxiliaryObjectPanel() {
 			super("AuxiliaryObject");
-			setModel(new AuxObjectModel(this));
+			setModel(new AuxObjectModel(this, app));
 			app.setFlowLayoutOrientation(this);
 		}
 
@@ -2124,7 +2124,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public CoordsPanel() {
 			super("Coordinates");
-			CoordsModel model = new CoordsModel();
+			CoordsModel model = new CoordsModel(app);
 			model.setListener(this);
 			setModel(model);
 		}
@@ -2135,7 +2135,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public LineEqnPanel() {
 			super("Equation");
-			LineEqnModel model = new LineEqnModel();
+			LineEqnModel model = new LineEqnModel(app);
 			model.setListener(this);
 			setModel(model);
 		}
@@ -2146,7 +2146,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public ConicEqnPanel() {
 			super("Equation");
-			ConicEqnModel model = new ConicEqnModel(loc);
+			ConicEqnModel model = new ConicEqnModel(app);
 			model.setListener(this);
 			setModel(model);
 		}
@@ -2188,7 +2188,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// setBorder(BorderFactory.createTitledBorder(app.getPlain("Size")));
 			// JLabel sizeLabel = new JLabel(app.getPlain("Size") + ":");
 
-			model = new PointSizeModel();
+			model = new PointSizeModel(app);
 			model.setListener(this);
 
 			slider = new JSlider(1, 9);
@@ -2293,7 +2293,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public PointStylePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 
-			model = new PointStyleModel();
+			model = new PointStyleModel(app);
 			model.setListener(this);
 			// G.STURR 2010-1-24
 			// Point styles were previously displayed with fonts,
@@ -2436,7 +2436,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public SlopeTriangleSizePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
 
-			model = new SlopeTriangleSizeModel();
+			model = new SlopeTriangleSizeModel(app);
 			model.setListener(this);
 
 			// JLabel sizeLabel = new JLabel(app.getPlain("Size") + ":");
@@ -2546,7 +2546,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public ArcSizePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-			model = new AngleArcSizeModel();
+			model = new AngleArcSizeModel(app);
 			model.setListener(this);
 			// JLabel sizeLabel = new JLabel(app.getPlain("Size") + ":");
 			slider = new JSlider(10, 100);
@@ -3436,7 +3436,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private JPanel dashPanel;
 
 		public LineStylePanel() {
-			model = new LineStyleModel();
+			model = new LineStyleModel(app);
 			model.setListener(this);
 			// thickness slider
 			thicknessSlider = new JSlider(1, GeoElement.MAX_LINE_WIDTH);
@@ -4093,7 +4093,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		DecoSegmentPanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-			model = new DecoSegmentModel();
+			model = new DecoSegmentModel(app);
 			model.setListener(this);
 			// deco combobox
 			DecorationListRenderer renderer = new DecorationListRenderer();
@@ -4180,7 +4180,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		DecoAnglePanel() {
 			super(new FlowLayout(FlowLayout.LEFT));
-			model = new DecoAngleModel();
+			model = new DecoAngleModel(app);
 			model.setListener(this);
 			// deco combobox
 			DecorationAngleListRenderer renderer = new DecorationAngleListRenderer();
@@ -4267,7 +4267,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		RightAnglePanel() {
 
 			super("EmphasizeRightAngle");
-			setModel(new RightAngleModel(this));
+			setModel(new RightAngleModel(this, app));
 			setLayout(new FlowLayout(FlowLayout.LEFT));
 		}
 	}
@@ -4939,7 +4939,7 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 
 	public ButtonSizePanel(AppD app, Localization loc) {
 		this.loc = loc;
-		model = new ButtonSizeModel();
+		model = new ButtonSizeModel(app);
 		model.setListener(this);
 
 		labelWidth = new JLabel(loc.getPlain("Width"));

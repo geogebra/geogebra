@@ -47,7 +47,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 	protected void createPointStyleBtn(int mode) {
 		btnPointStyle = PointStylePopup.create(app, ICON_HEIGHT, mode, true,
-				new PointStyleModel());
+				new PointStyleModel(app));
 
 		btnPointStyle.getMySlider().setMinimum(1);
 		btnPointStyle.getMySlider().setMaximum(9);

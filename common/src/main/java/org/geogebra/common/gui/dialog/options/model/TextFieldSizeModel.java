@@ -13,7 +13,7 @@ public class TextFieldSizeModel extends OptionsModel {
 
 
 	public TextFieldSizeModel(App app) {
-		this.app = app;
+		super(app);
 	}
 
 	private GeoInputBox getTextFieldAt(int index) {

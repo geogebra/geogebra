@@ -8,8 +8,7 @@ public class AnimatingModel extends BooleanOptionModel {
 	private Kernel kernel;
 	
 	public AnimatingModel(App app, IBooleanOptionListener listener) {
-		super(listener);
-		this.app = app;
+		super(listener, app);
 		kernel = app.getKernel();
 	}
 

@@ -50,7 +50,7 @@ public class FillingModel extends MultipleOptionsModel {
 	private boolean hasGeoTurtle;
 
 	public FillingModel(App app) {
-		this.app = app;
+		super(app);
 		kernel = app.getKernel();
 	}
 

@@ -32,6 +32,7 @@ public class ObjectNameModel extends OptionsModel {
 	private boolean busy;
 	
 	public ObjectNameModel(App app, IObjectNameListener listener) {
+		super(app);
 		this.listener = listener;
 		busy = false;
 		redefinitionFailed = false;
