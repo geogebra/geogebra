@@ -81,7 +81,7 @@ public abstract class OptionsModel {
 	public void storeUndoInfo() {
 		GeoElement geo = getGeoAt(0);
 		if (geo != null) {
-			geo.getConstruction().getUndoManager().storeUndoInfo(true);
+			geo.getConstruction().getUndoManager().storeUndoInfo(false);
 		}
 	}
 }
