@@ -6692,7 +6692,7 @@ public abstract class EuclidianController {
 		repaintNeeded = view.setAnimationButtonsHighlighted(hitAnimationButton);
 		if (hitAnimationButton) {
 			if (kernel.isAnimationPaused()) {
-				view.setToolTipText(l10n.getPlainTooltip("Play test"));
+				view.setToolTipText(l10n.getPlainTooltip("Play"));
 			} else {
 				view.setToolTipText(l10n.getPlainTooltip("Pause"));
 			}
