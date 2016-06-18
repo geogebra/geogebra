@@ -55,6 +55,8 @@ public class ImageManagerD extends ImageManager {
 	private Toolkit toolKit;
 	private MediaTracker tracker;
 
+	private int maxIconSize = 64;// DEFAULT_ICON_SIZE;
+
 	/**
 	 * Creates a new ImageManager for the given JFrame.
 	 */
@@ -337,5 +339,44 @@ public class ImageManagerD extends ImageManager {
 		String fileName = ((AppD) app).createImage(new MyImageD(image),
 				"tool.png");
 		return fileName;
+	}
+
+	public ImageResourceD getToolImageResource(String modeText, boolean force64) {
+		String filename = "mode_" + StringUtil.toLowerCase(modeText) + ".png";
+		String path = getToolbarIconPath(force64) + filename;
+		return new ImageResourceDImpl(path);
+	}
+
+	public ImageIcon getFlagIcon(String filename) {
+		return getImageIcon(new ImageResourceDImpl("/gui/menubar/images/"
+				+ filename), null);
+	}
+
+	public String getToolbarIconPath(boolean forse64) {
+		if (getMaxIconSize() <= 32) {
+			return "/org/geogebra/common/icons_toolbar/p32/";
+		}
+
+		return "/org/geogebra/common/icons_toolbar/p64/";
+
+	}
+
+	public void setMaxIconSizeAsPt(int points) {
+		setMaxIconSize(Math.max(32, points * 2));
+	}
+
+	/**
+	 * Sets the maximum pixel size (width and height) of all icons in the user
+	 * interface. Larger icons are scaled down.
+	 * 
+	 * @param pixel
+	 *            max icon size between 16 and 32 pixels
+	 */
+	public void setMaxIconSize(int pixel) {
+		maxIconSize = Math.min(64, Math.max(16, pixel));
+	}
+
+	public int getMaxIconSize() {
+		return maxIconSize;
 	}
 }

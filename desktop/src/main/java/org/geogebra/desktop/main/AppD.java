@@ -217,7 +217,6 @@ import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.ImageResourceD;
-import org.geogebra.desktop.util.ImageResourceDImpl;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.Normalizer;
 import org.geogebra.desktop.util.StringUtilD;
@@ -314,7 +313,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	/** Default icon size */
 	public static final int DEFAULT_ICON_SIZE = 32;
-	private int maxIconSize = 64;// DEFAULT_ICON_SIZE;
+
 
 	/**
 	 * made a little darker in ggb40 (problem showing on some projectors)
@@ -537,7 +536,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			if (!fileLoaded && !ggtloading) {
 				GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
-				setMaxIconSizeAsPt(getFontSize());
+				imageManager.setMaxIconSizeAsPt(getFontSize());
 			}
 
 			if (MAC_OS) {
@@ -1893,14 +1892,7 @@ ToolbarD.getAllTools(this));
 		return imageManager;
 	}
 
-	public String getToolbarIconPath(boolean forse64) {
-		if (getMaxIconSize() <= 32) {
-			return "/org/geogebra/common/icons_toolbar/p32/";
-		}
 
-		return "/org/geogebra/common/icons_toolbar/p64/";
-
-	}
 
 	@Override
 	public void setGUIFontSize(int size) {
@@ -1908,7 +1900,7 @@ ToolbarD.getAllTools(this));
 		// TRAC-4770
 		if (size != -1) {
 			// set tool icon size between 32 and 64
-			setMaxIconSize(Math.max(32, size * 2));
+			imageManager.setMaxIconSize(Math.max(32, size * 2));
 		}
 
 		super.setGUIFontSize(size);
@@ -1919,29 +1911,13 @@ ToolbarD.getAllTools(this));
 
 		if (guiFontSize == -1) {
 			// set tool icon size between 32 and 64
-			setMaxIconSizeAsPt(points);
+			imageManager.setMaxIconSizeAsPt(points);
 		}
 
 		super.setFontSize(points, update);
 	}
 
-	public void setMaxIconSizeAsPt(int points) {
-		setMaxIconSize(Math.max(32, points * 2));
-	}
-	/**
-	 * Sets the maximum pixel size (width and height) of all icons in the user
-	 * interface. Larger icons are scaled down.
-	 * 
-	 * @param pixel
-	 *            max icon size between 16 and 32 pixels
-	 */
-	public void setMaxIconSize(int pixel) {
-		maxIconSize = Math.min(64, Math.max(16, pixel));
-	}
-
-	public int getMaxIconSize() {
-		return maxIconSize;
-	}
+	
 
 	public ImageIcon getImageIcon(ImageResourceD res) {
 		return imageManager.getImageIcon(res, null);
@@ -2062,29 +2038,21 @@ ToolbarD.getAllTools(this));
 		return flag;
 	}
 
-	public ImageIcon getFlagIcon(String filename) {
-		return imageManager.getImageIcon(
-				new ImageResourceDImpl("/gui/menubar/images/" + filename),
-				null);
-	}
+
 
 	public ImageIcon getScaledFlagIcon(String filename) {
-		ImageIcon icon = getFlagIcon(filename);
+		ImageIcon icon = imageManager.getFlagIcon(filename);
 		if (isMacOS()) {
 			return icon;
 		}
 		return scaleIcon(icon, getScaledIconSize());
 	}
 
-	public ImageResourceD getToolImageResource(String modeText, boolean force64) {
-		String filename = "mode_" + StringUtil.toLowerCase(modeText) + ".png";
-		String path = getToolbarIconPath(force64) + filename;
-		return new ImageResourceDImpl(path);
-	}
+
 	public ImageIcon getToolBarImage(String modeText, Color borderColor) {
 
 		ImageIcon icon = imageManager.getImageIcon(
-				getToolImageResource(modeText, false),
+						imageManager.getToolImageResource(modeText, false),
 				borderColor);
 
 		/*
@@ -2100,15 +2068,15 @@ ToolbarD.getAllTools(this));
 
 		// scale icon if necessary
 		icon = ImageManagerD.getScaledIcon(icon,
-				Math.min(icon.getIconWidth(), getMaxIconSize()),
-				Math.min(icon.getIconHeight(), getMaxIconSize()));
+				Math.min(icon.getIconWidth(), imageManager.getMaxIconSize()),
+				Math.min(icon.getIconHeight(), imageManager.getMaxIconSize()));
 
 		return icon;
 	}
 
 	public ImageIcon getToolIcon(Color border) {
 		ImageResourceD res;
-		if (getMaxIconSize() <= 32) {
+		if (imageManager.getMaxIconSize() <= 32) {
 			res = GuiResourcesD.TOOL_MODE32;
 		} else {
 			res = GuiResourcesD.TOOL_MODE64;
@@ -2207,7 +2175,7 @@ ToolbarD.getAllTools(this));
 					icon = getToolIcon(border);
 				} else {
 					// use image as icon
-					int size = getMaxIconSize();
+					int size = imageManager.getMaxIconSize();
 					icon = new ImageIcon(ImageManagerD.addBorder(img.getImage()
 							.getScaledInstance(size, -1, Image.SCALE_SMOOTH),
 							border));

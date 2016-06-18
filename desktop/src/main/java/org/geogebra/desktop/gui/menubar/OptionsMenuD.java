@@ -64,8 +64,6 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 	 * @param flag
 	 */
 	void initItems(ImageIcon flag) {
-		final JMenu submenu;
-		int pos;
 
 		// G.Sturr 2009-10-18
 		// Algebra description: show value or definition of objects
@@ -125,7 +123,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 
 							// rebuild menu with new flag
 							removeAll();
-							initItems(app.getFlagIcon(geoIPflagname));
+							initItems(app.getScaledFlagIcon(geoIPflagname));
 						}
 					}
 				}).start();

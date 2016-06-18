@@ -370,7 +370,7 @@ public class App3D extends AppD {
 
 	@Override
 	protected void initImageManager(Component component) {
-		imageManager = new ImageManager3D(component);
+		imageManager = new ImageManager3D(component, this);
 	}
 
 
@@ -801,13 +801,7 @@ public class App3D extends AppD {
 		return super.getToolbarPosition();
 	}
 
-	@Override
-	public int getMaxIconSize() {
-		if (useHugeGuiForInput3D()) {
-			return 64;
-		}
-		return super.getMaxIconSize();
-	}
+
 
 	@Override
 	public int getGUIFontSize() {

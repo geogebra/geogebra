@@ -232,8 +232,6 @@ public final class EuclidianConstants {
 	/** Freehand */
 	public static final int MODE_FREEHAND_SHAPE = 73;
 
-	/** Freehand circle */
-	public static final int MODE_FREEHAND_CIRCLE = 74;
 
 	/** Extremum */
 	public static final int MODE_EXTREMUM = 75;
@@ -675,8 +673,6 @@ public final class EuclidianConstants {
 			// case EuclidianConstants.MODE_VISUAL_STYLE:
 			// return "VisualStyle";
 
-		case EuclidianConstants.MODE_FREEHAND_CIRCLE:
-			return "FreehandCircle";
 
 		case EuclidianConstants.MODE_FITLINE:
 			return "FitLine";

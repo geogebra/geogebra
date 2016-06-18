@@ -957,7 +957,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			}
 
 			String flag = StringUtil.toLowerCase(country) + ".png";
-			JMenuItem jj = new JMenuItem(((AppD) app).getFlagIcon(flag));
+			JMenuItem jj = new JMenuItem(((AppD) app).getScaledFlagIcon(flag));
 			jj.setAlignmentX(100);
 			menuBar2.add(jj, ((AppD) app).getLocalization().borderEast());
 
@@ -3297,7 +3297,8 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		String modeStr = StringUtil.toLowerCase(EuclidianConstants
 				.getModeText(mode));
 		return ((AppD) app).getImageManager().createImage(
-				((AppD) app).getToolImageResource(modeStr, true),
+				((AppD) app).getImageManager().getToolImageResource(modeStr,
+						true),
 				app);
 	}
 

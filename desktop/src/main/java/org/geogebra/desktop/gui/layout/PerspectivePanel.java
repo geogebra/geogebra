@@ -171,7 +171,8 @@ public class PerspectivePanel extends JPopupMenu {
 
 		final String flagName = app.getFlagName();
 
-		setLanguageAction = new AbstractAction(null, app.getFlagIcon(flagName)) {
+		setLanguageAction = new AbstractAction(null,
+				app.getScaledFlagIcon(flagName)) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

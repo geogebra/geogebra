@@ -119,10 +119,11 @@ public class GeoGebraPanel extends JPanel {
 	 * Sets the maximum pixel size of all icons in the GeoGebra user interface
 	 * including the toolbar.
 	 * 
-	 * @pixel: a value between 16 and 64
+	 * @param pixel
+	 *            a value between 16 and 64
 	 */
 	public synchronized void setMaxIconSize(int pixel) {
-		app.setMaxIconSize(pixel);
+		app.getImageManager().setMaxIconSize(pixel);
 	}
 
 	/**

@@ -790,7 +790,6 @@ public abstract class EuclidianController {
 			case EuclidianConstants.MODE_PEN:
 			case EuclidianConstants.MODE_PROBABILITY_CALCULATOR:
 			case EuclidianConstants.MODE_FREEHAND_SHAPE:
-			case EuclidianConstants.MODE_FREEHAND_CIRCLE:
 			case EuclidianConstants.MODE_VIEW_IN_FRONT_OF:
 				return false;
 		}
@@ -11044,11 +11043,6 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_VECTOR_POLYGON:
 			this.pen = new EuclidianPenFreehand(app, view);
 			((EuclidianPenFreehand) pen).setExpected(ShapeType.vectorPolygon);
-			break;
-		case EuclidianConstants.MODE_FREEHAND_CIRCLE:
-			this.pen = new EuclidianPenFreehand(app, view);
-			((EuclidianPenFreehand) pen).setExpected(ShapeType.circle);
-			point = null;
 			break;
 		default:
 			return;
