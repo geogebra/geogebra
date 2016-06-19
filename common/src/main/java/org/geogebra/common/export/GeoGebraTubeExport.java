@@ -22,7 +22,7 @@ public abstract class GeoGebraTubeExport {
 	 * e.g.: "http://140.78.116.131:8082/upload"
 	 */
 	private static final String uploadURL = "https://www.geogebra.org/upload";
-	private static final String uploadURLBeta = "https://www-beta.geogebra.org/upload";
+	private static final String uploadURLBeta = "https://beta.geogebra.org/upload";
 
 	/**
 	 * Application instance.
