@@ -16,13 +16,6 @@ import org.geogebra.common.main.Localization;
  * @author Florian Sonner
  */
 public abstract class GeoGebraTubeExport {
-	/**
-	 * URL of the webpage to call if a file should be uploaded. If you want to
-	 * test GeoGebraTube uploads on a test server, use a test IP URL instead,
-	 * e.g.: "http://140.78.116.131:8082/upload"
-	 */
-	private static final String uploadURL = "https://www.geogebra.org/upload";
-	private static final String uploadURLBeta = "https://beta.geogebra.org/upload";
 
 	/**
 	 * Application instance.
@@ -178,9 +171,9 @@ public abstract class GeoGebraTubeExport {
 	 */
 	protected String getUploadURL(App app) {
 		if (app.has(Feature.TUBE_BETA)) {
-			return uploadURLBeta;
+			return GeoGebraConstants.uploadURLBeta;
 		}
 
-		return uploadURL;
+		return GeoGebraConstants.uploadURL;
 	}
 }

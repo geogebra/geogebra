@@ -89,6 +89,14 @@ public interface GeoGebraConstants {
 	/** license URL */
 	public static final String GGW_ABOUT_LICENSE_URL = "https://www.geogebra.org/info/?action=AboutLicense";
 
+	/**
+	 * URL of the webpage to call if a file should be uploaded. If you want to
+	 * test GeoGebra Materials uploads on a test server, use a test IP URL
+	 * instead, e.g.: "http://140.78.116.131:8082/upload"
+	 */
+	public static final String uploadURL = "https://www.geogebra.org/upload";
+	public static final String uploadURLBeta = "https://beta.geogebra.org/upload";
+
 	// //////////////////////////////////////////////////////////////////////////
 	// AUTHENTICATING WITH GOOGLE
 	// ///////////////////////////////////////////////
