@@ -2948,7 +2948,6 @@ GRectangle selectionRectangle) {
 
 		// GGB-977
 		setBackgroundUpdating(true);
-		// bgImageList.updateAllIfNeeded();
 		bgImageList.drawAll(g);
 		setBackgroundUpdating(false);
 		
