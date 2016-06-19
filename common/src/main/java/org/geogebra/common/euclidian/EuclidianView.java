@@ -2946,8 +2946,23 @@ GRectangle selectionRectangle) {
 			clearBackground(g);
 		}
 
-		bgImageList.drawAll(g, false);
+		// GGB-977
+		setBackgroundUpdating(true);
+		// bgImageList.updateAllIfNeeded();
+		bgImageList.drawAll(g, true);
+		setBackgroundUpdating(false);
+		
 		drawBackground(g, false);
+	}
+
+	private boolean backgroundIsUpdating = false;
+
+	private void setBackgroundUpdating(boolean b) {
+		backgroundIsUpdating = b;
+	}
+
+	public boolean isBackgroundUpdating() {
+		return backgroundIsUpdating;
 	}
 
 	/**

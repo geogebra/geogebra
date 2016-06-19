@@ -88,8 +88,8 @@ public final class DrawImage extends Drawable {
 
 		if (geo.getAlphaValue() != alpha) {
 			alpha = geo.getAlphaValue();
-			alphaComp = AwtFactory.prototype.newAlphaComposite(
-GAlphaComposite.SRC_OVER, alpha);
+			alphaComp = AwtFactory.prototype
+					.newAlphaComposite(GAlphaComposite.SRC_OVER, alpha);
 		}
 
 		image = geoImage.getFillImage();
@@ -220,8 +220,9 @@ GAlphaComposite.SRC_OVER, alpha);
 			}
 		}
 
-		if (isInBackground)
+		if (!view.isBackgroundUpdating() && isInBackground) {
 			view.updateBackgroundImage();
+		}
 	}
 
 	private static boolean isTranslation(GAffineTransform at2) {
