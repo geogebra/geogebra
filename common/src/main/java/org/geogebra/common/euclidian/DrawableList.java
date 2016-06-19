@@ -177,7 +177,7 @@ public class DrawableList {
 	 * @param g2
 	 *            Graphic to be used
 	 */
-	public final void drawAll(GGraphics2D g2, boolean updateAllowed) {
+	public final void drawAll(GGraphics2D g2) {
 		Link cur = head;
 		while (cur != null) {
 			// defined check needed in case the GeoList changed its size
@@ -186,7 +186,7 @@ public class DrawableList {
 			if (geo.isDefined()
 					&& !(geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
 					&& !(geo.isGeoInputBox())) {
-				if (updateAllowed && cur.d.needsUpdate()) {
+				if (cur.d.needsUpdate()) {
 					cur.d.setNeedsUpdate(false);
 					cur.d.update();
 				}
