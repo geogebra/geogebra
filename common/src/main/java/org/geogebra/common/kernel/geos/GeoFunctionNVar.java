@@ -1093,9 +1093,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	}
 
 	public void dilate(NumberValue r, Coords S) {
-		fun.translate(-S.getX(), -S.getY());
-		fun.matrixTransform(1 / r.getDouble(), 0, 0, 1 / r.getDouble());
-		fun.translate(S.getX(), S.getY());
+		fun.dilate(r, S);
 	}
 
 	/**
@@ -1109,21 +1107,17 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	}
 
 	public void rotate(NumberValue phi) {
-		double cosPhi = Math.cos(phi.getDouble());
-		double sinPhi = Math.sin(phi.getDouble());
-		matrixTransform(cosPhi, -sinPhi, sinPhi, cosPhi);
+		fun.rotate(phi);
 	}
 
 	public void rotate(NumberValue phi, GeoPointND point) {
 		Coords P = point.getInhomCoords();
-		fun.translate(-P.getX(), -P.getY());
-		rotate(phi);
-		fun.translate(P.getX(), P.getY());
+		fun.rotate(phi, P);
 
 	}
 
 	public void mirror(Coords Q) {
-		dilate(new MyDouble(kernel, -1.0), Q);
+		fun.mirror(Q);
 	}
 
 	/**
@@ -1152,34 +1146,11 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	}
 
 	public void mirror(GeoLineND g1) {
-
-		GeoLine g = (GeoLine) g1;
-
-		double qx, qy;
-		if (Math.abs(g.getX()) > Math.abs(g.getY())) {
-			qx = g.getZ() / g.getX();
-			qy = 0.0d;
-		} else {
-			qx = 0.0d;
-			qy = g.getZ() / g.getY();
-		}
-
-		// translate -Q
-		fun.translate(qx, qy);
-
-		// S(phi)
-		mirror(new MyDouble(kernel, 2.0 * Math.atan2(-g.getX(), g.getY())));
-
-		// translate back +Q
-		fun.translate(-qx, -qy);
+		fun.mirror((GeoLine) g1);
 
 	}
 
-	private void mirror(NumberValue phi) {
-		double cosPhi = Math.cos(phi.getDouble());
-		double sinPhi = Math.sin(phi.getDouble());
-		matrixTransform(cosPhi, sinPhi, sinPhi, -cosPhi);
-	}
+
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {

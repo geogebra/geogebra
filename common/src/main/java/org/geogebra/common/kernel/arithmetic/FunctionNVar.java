@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
@@ -98,6 +98,20 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	public FunctionNVar(Kernel kernel) {
 		this.kernel = kernel;
 
+	}
+
+	/**
+	 * Copy expression and variables from template (shallow)
+	 * 
+	 * @param fn
+	 *            template function
+	 */
+	public void set(FunctionNVar fn) {
+		this.expression = fn.getExpression();
+		this.fVars = fn.fVars;
+		this.isBooleanFunction = fn.isBooleanFunction;
+		this.isConstantFunction = fn.isConstantFunction;
+		this.ineqs = fn.ineqs;
 	}
 
 	/**
@@ -1175,12 +1189,95 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		}
 
 		for(Entry<String,String> entry: map.entrySet()){
-			GeoFunctionNVar gfun = kernel.getAlgebraProcessor()
+			FunctionalNVar gfun = kernel.getAlgebraProcessor()
 					.evaluateToFunctionNVar(entry.getValue(), true);
 			if (gfun != null) {
 				getCasEvalMap().put(entry.getKey(), gfun.getFunction());
 			}
 		}
+	}
+
+	/**
+	 * @param r
+	 *            dilation factor
+	 * @param S
+	 *            dilation center
+	 */
+	public void dilate(NumberValue r, Coords S) {
+		translate(-S.getX(), -S.getY());
+		matrixTransform(1 / r.getDouble(), 0, 0, 1 / r.getDouble());
+		translate(S.getX(), S.getY());
+	}
+
+	/**
+	 * @param q
+	 *            mirror at
+	 */
+	public void mirror(Coords q) {
+		dilate(new MyDouble(kernel, -1.0), q);
+	}
+
+	/**
+	 * @param phi
+	 *            angle (in rad)
+	 */
+	public void rotate(NumberValue phi) {
+		double cosPhi = Math.cos(phi.getDouble());
+		double sinPhi = Math.sin(phi.getDouble());
+		matrixTransform(cosPhi, -sinPhi, sinPhi, cosPhi);
+	}
+
+	/**
+	 * @param v
+	 *            translation coordinates
+	 */
+	public void translate(Coords v) {
+		translate(v.getX(), v.getY());
+	}
+
+	private void mirror(double phi) {
+		double cosPhi = Math.cos(phi);
+		double sinPhi = Math.sin(phi);
+		matrixTransform(cosPhi, sinPhi, sinPhi, -cosPhi);
+	}
+
+	/**
+	 * @param g
+	 *            line
+	 */
+	public void mirror(GeoLine g) {
+
+		double qx, qy;
+		if (Math.abs(g.getX()) > Math.abs(g.getY())) {
+			qx = g.getZ() / g.getX();
+			qy = 0.0d;
+		} else {
+			qx = 0.0d;
+			qy = g.getZ() / g.getY();
+		}
+
+		// translate -Q
+		translate(qx, qy);
+
+		// S(phi)
+		mirror(2.0 * Math.atan2(-g.getX(), g.getY()));
+
+		// translate back +Q
+		translate(-qx, -qy);
+
+	}
+
+	/**
+	 * @param phi
+	 *            angle
+	 * @param p
+	 *            center
+	 */
+	public void rotate(NumberValue phi, Coords p) {
+		translate(-p.getX(), -p.getY());
+		rotate(phi);
+		translate(p.getX(), p.getY());
+
 	}
 
 }
