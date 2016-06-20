@@ -6,11 +6,8 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.GuiManager.Help;
-import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
-import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -30,27 +27,15 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void setFocusedPanel(int evID, boolean updatePropertiesView);
 
-	public boolean hasCasView();
-
-	public SpreadsheetViewInterface getSpreadsheetView();
-
 	public void resize(int width, int height);
-
-	public String getToolbarDefinition();
 
 	public String getToolbarDefinition(Integer viewId);
 
 	public void removeFromToolbarDefinition(int mode);
 
-	public void addToToolbarDefinition(int mode);
-
 	public String getCustomToolbarDefinition();
 
-	public Layout getLayout();
-
 	public SetLabels getInputHelpPanel();
-
-	public AlgebraView getAlgebraView();
 
 	public void addAlgebraInput(AlgebraInput ai);
 
@@ -60,16 +45,11 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public Command getShowGridAction();
 
-	public boolean hasProbabilityCalculator();
-
 	public void setActiveToolbarId(int toolbarID);
 
 	public void removePopup();
 
 	public void setToolBarDefinition(String toolBarDefinition);
-
-	public ConstructionProtocolNavigation getConstructionProtocolNavigation(
-			int id);
 
 	public void setActiveView(int evID);
 
