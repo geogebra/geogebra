@@ -380,7 +380,12 @@ class OptionsTab extends FlowPanel {
 		public void applyChanges(boolean alphaOnly) {
 			float alpha = colorChooserW.getAlphaValue();
 			GColor color = colorChooserW.getSelectedColor();
-			model.applyChanges(color, alpha, alphaOnly);
+			if (model.isBarChart()) {
+				model.applyBar(colorChooserW.getSelectedBar(),
+						alphaOnly ? null : color, alpha);
+			} else {
+				model.applyChanges(color, alpha, alphaOnly);
+			}
 		}
 
 		@Override
@@ -430,6 +435,12 @@ class OptionsTab extends FlowPanel {
 			}
 
 			colorChooserW.enableBackgroundColorPanel(hasBackground);
+			if (model.isBarChart()) {
+				colorChooserW.setBarChart(true);
+				colorChooserW.setBarCount(model.getBarChartIntervals());
+			} else {
+				colorChooserW.setBarChart(false);
+			}
 			updatePreview(selectedColor, alpha);
 		}
 

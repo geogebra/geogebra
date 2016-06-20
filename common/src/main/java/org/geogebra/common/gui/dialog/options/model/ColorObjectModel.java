@@ -2,6 +2,8 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -29,6 +31,7 @@ public class ColorObjectModel extends OptionsModel {
 	}
 
 	private static final long serialVersionUID = 1L;
+	private static final int ALL_BARS = 0;
 	private boolean allFillable;
 	private boolean hasBackground;
 	private boolean hasImageGeo;
@@ -238,4 +241,49 @@ public class ColorObjectModel extends OptionsModel {
 	public PropertyListener getListener() {
 		return listener;
 	};
+
+	protected AlgoElement getAlgorithm() {
+		return getGeoAt(0).getParentAlgorithm();
+	}
+
+	public AlgoBarChart getAlgoBarChart() {
+		AlgoElement algo = getAlgorithm();
+		return (algo instanceof AlgoBarChart ? (AlgoBarChart) algo : null);
+
+	}
+
+	public boolean isBarChart() {
+		return (getAlgoBarChart() != null);
+	}
+
+	public int getBarChartIntervals() {
+		return getAlgoBarChart().getIntervals();
+	}
+
+	public void applyBar(int idx, GColor color, float alpha) {
+		AlgoBarChart algo = getAlgoBarChart();
+		boolean updateAlphaOnly = color == null;
+		if (idx == ALL_BARS) {
+			GeoElement geo = getGeoAt(0);
+			for (int i = 0; i < getBarChartIntervals(); i++) {
+				algo.setBarColor(null, i);
+				algo.setBarAlpha(-1, i);
+			}
+			geo.setObjColor(color);
+			geo.setAlphaValue(alpha);
+			if (!updateAlphaOnly) {
+				geo.setObjColor(color);
+			}
+			algo.setBarAlpha(alpha, idx);
+			kernel.notifyRepaint();
+			return;
+
+		}
+
+		if (!updateAlphaOnly) {
+			algo.setBarColor(color, idx);
+		}
+		algo.setBarAlpha(alpha, idx);
+		kernel.notifyRepaint();
+	}
 }

@@ -37,7 +37,6 @@ import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.awt.GColorD;
@@ -356,9 +355,9 @@ class ColorPanel extends JPanel implements ActionListener,
 		if (barsPanel != null) {
 			remove(barsPanel);
 		}
-		AlgoElement algo = model.getGeoAt(0).getParentAlgorithm();
-		if (algo instanceof AlgoBarChart) {
-			int numBar = ((AlgoBarChart) algo).getIntervals();
+		// AlgoElement algo = model.getGeoAt(0).getParentAlgorithm();
+		if (model.isBarChart()) {
+			int numBar = model.getBarChartIntervals();
 			isBarChart = true;
 			selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
@@ -576,5 +575,6 @@ class ColorPanel extends JPanel implements ActionListener,
 		automatic.setSelected(geo.isAutoColor());
 
 	}
+
 
 } // ColorPanel
