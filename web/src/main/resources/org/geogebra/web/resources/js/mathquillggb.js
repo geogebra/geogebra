@@ -4,9 +4,7 @@
  * 
  * 
  * Information on the original license of MathQuill:
- * Copyleft 2010-2011 Jay and Han (laughinghan@gmail.com)
- *   under the GNU Lesser General Public License
- *     http://www.gnu.org/licenses/lgpl.html
+ * Mozilla Public License, v. 2.0: http://mozilla.org/MPL/2.0/
  * Project Website: http://mathquill.com
  *
  *
