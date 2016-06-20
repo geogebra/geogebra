@@ -10,7 +10,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -116,18 +115,6 @@ public class Drawable3DLists {
 	 */
 	public Drawable3DList getList(int type) {
 		return lists[type];
-	}
-
-	/**
-	 * return the size of the cummulated lists
-	 * 
-	 * @return the size of the cummulated lists
-	 */
-	public int size() {
-		int size = 0;
-		for (int i = 0; i < Drawable3D.DRAW_TYPE_MAX; i++)
-			size += lists[i].size();
-		return size;
 	}
 
 	/**
