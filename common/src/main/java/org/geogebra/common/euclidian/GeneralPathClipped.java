@@ -30,6 +30,7 @@ public class GeneralPathClipped implements GShape {
 
 	private ArrayList<MyPoint> pathPoints;
 	private GGeneralPath gp;
+	/** view */
 	protected EuclidianViewInterfaceSlim view;
 	private double largestCoord;
 	private boolean needClosePath;
@@ -125,7 +126,9 @@ public class GeneralPathClipped implements GShape {
 		MyPoint curP = null, prevP;
 
 		int size = pathPoints.size();
-		for (int i = 0; i < size; i++) {
+		// GGB-953: under unknown conditions pathPoints may shrink so we need
+		// double comparison
+		for (int i = 0; i < size && i < pathPoints.size(); i++) {
 			prevP = curP;
 			curP = pathPoints.get(i);
 			if (!curP.getLineTo() || prevP == null) {
@@ -369,6 +372,11 @@ public class GeneralPathClipped implements GShape {
 		return getGeneralPath().contains(x, y);
 	}
 
+	/**
+	 * @param rectangle
+	 *            rectangle to be checked
+	 * @return whether rectangle is contained in this path
+	 */
 	public boolean contains(GRectangle rectangle) {
 		// TODO Auto-generated method stub
 		return getGeneralPath().contains(rectangle);
@@ -406,8 +414,19 @@ public class GeneralPathClipped implements GShape {
 		return getGeneralPath().intersects(i, j, k, l);
 	}
 
-	public boolean intersects(int i, int j, int w) {
-		return getGeneralPath().intersects(i - w, j - w, 2 * w, 2 * w);
+	/**
+	 * @param x
+	 *            center x-coord
+	 * @param y
+	 *            center y-coord
+	 * @param radius
+	 *            inradius of the square
+	 * @return whether this intersects square with center (x,y) and inradius
+	 *         radius
+	 */
+	public boolean intersects(int x, int y, int radius) {
+		return getGeneralPath().intersects(x - radius, y - radius, 2 * radius,
+				2 * radius);
 	}
 
 	/*
