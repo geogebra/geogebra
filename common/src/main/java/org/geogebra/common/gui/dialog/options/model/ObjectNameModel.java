@@ -23,7 +23,6 @@ public class ObjectNameModel extends OptionsModel {
 	}
 	
 	private IObjectNameListener listener;
-	private App app;
 	private RenameInputHandler nameInputHandler;
 	private RedefineInputHandler defInputHandler;
 	private GeoElement currentGeo;
