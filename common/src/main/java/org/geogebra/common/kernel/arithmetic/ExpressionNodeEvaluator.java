@@ -1176,17 +1176,18 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (list.size() == 1) {
 				ExpressionValue ev = list.getMyList().getListElement(0)
 						.evaluate(StringTemplate.defaultTemplate);
-				if ((funN.getVarNumber() == 2) && (ev instanceof GeoPoint)) {
-					GeoPoint pt = (GeoPoint) ev;
+				if ((funN.getVarNumber() == 2)
+						&& (ev instanceof VectorValue)) {
+					VectorValue pt = (VectorValue) ev;
+					double[] vals = pt.getPointAsDouble();
 					if (funN.isBooleanFunction()) {
-						return new MyBoolean(kernel, funN.evaluateBoolean(pt));
+						return new MyBoolean(kernel, funN.evaluateBoolean(vals));
 					}
-					return new MyDouble(kernel, funN.evaluate(pt));
-				} else if ((funN.getVarNumber() == 2)
-						&& (ev instanceof MyVecNode)) {
-					MyVecNode pt = (MyVecNode) ev;
-					double[] vals = new double[] { pt.getX().evaluateDouble(),
-							pt.getY().evaluateDouble() };
+					return new MyDouble(kernel, funN.evaluate(vals));
+				} else if ((funN.getVarNumber() == 3)
+						&& (ev instanceof Vector3DValue)) {
+					Vector3DValue pt = (Vector3DValue) ev;
+					double[] vals = pt.getPointAsDouble();
 					if (funN.isBooleanFunction()) {
 						return new MyBoolean(kernel, funN.evaluateBoolean(vals));
 					}
