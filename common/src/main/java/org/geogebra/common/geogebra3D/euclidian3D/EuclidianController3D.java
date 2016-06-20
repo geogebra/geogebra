@@ -1865,6 +1865,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return true;
 	}
 
+	@Override
+	protected boolean allowSelectionRectangle() {
+		return false;
+	}
+
 	/**
 	 * right-release the mouse makes stop 3D rotation
 	 * 
