@@ -3559,6 +3559,7 @@ ToolbarD.getAllTools(this));
 	 * @return true if successful
 	 */
 	final public boolean loadXML(URL url, boolean isMacroFile) {
+
 		try {
 			boolean success = loadXML(url.openStream(), isMacroFile);
 
@@ -3578,6 +3579,7 @@ ToolbarD.getAllTools(this));
 
 			return success;
 		} catch (Exception e) {
+			showError("LoadFileFailed", e.getMessage());
 			setCurrentFile(null);
 			return false;
 		}
