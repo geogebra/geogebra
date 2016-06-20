@@ -1688,7 +1688,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	protected GOptionPaneW getOptionPane() {
 		// TODO Auto-generated method stub
-		return getGuiManager() == null ? getGuiManager().getOptionPane()
+		return getGuiManager() != null ? getGuiManager().getOptionPane()
 				: new GOptionPaneW(getPanel());
 	}
 
