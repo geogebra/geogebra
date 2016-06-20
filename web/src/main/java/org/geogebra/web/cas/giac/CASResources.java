@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.cas.giac;
+package org.geogebra.web.cas.giac;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;

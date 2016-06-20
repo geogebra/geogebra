@@ -93,7 +93,6 @@ import org.geogebra.web.html5.euclidian.EuclidianStaticW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.factories.AwtFactoryW;
-import org.geogebra.web.html5.factories.CASFactoryW;
 import org.geogebra.web.html5.factories.FactoryW;
 import org.geogebra.web.html5.factories.FormatFactoryW;
 import org.geogebra.web.html5.factories.SwingFactoryW;
@@ -327,7 +326,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		EuclidianStatic.prototype = new EuclidianStaticW();
 		SwingFactory.setPrototype(new SwingFactoryW());
 		StringUtil.prototype = new StringUtil();
-		CASFactory.setPrototype(new CASFactoryW());
+		CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
 		if (!is3D()) {
 			CopyPaste.INSTANCE = new CopyPaste();
 		}
