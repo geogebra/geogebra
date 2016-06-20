@@ -387,5 +387,12 @@ public class MouseTouchGestureController {
 				&& Math.abs(oldEndX - newEndX) < capThreshold
 				&& Math.abs(oldEndY - newEndY) < capThreshold;
 	}
+
+	protected boolean mAllowPropertiesView = true;
+
+	public void allowPropertiesView(boolean allowProperties) {
+		// used in Android
+		mAllowPropertiesView = allowProperties;
+	}
 }
 

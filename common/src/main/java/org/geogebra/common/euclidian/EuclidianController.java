@@ -22,6 +22,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianPenFreehand.ShapeType;
+import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawList;
@@ -11431,6 +11432,10 @@ public abstract class EuclidianController {
 
 		public abstract boolean isValid(GeoElement geo);
 
+	}
+
+	public MouseTouchGestureController getEuclidianTouchGestureListener() {
+		return null;
 	}
 
 	// public abstract void closePopups(int x, int y, PointerEventType type);
