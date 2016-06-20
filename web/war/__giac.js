@@ -1922,6 +1922,8 @@ var __giac = [ {},
 { cat:"SolveODE", cmd:"SolveODE[y' = 0.01sin(0.017x - 1.03) y,(0, 100)]", result:"y = 100\u212F^(-10 cos((17x - 1030) / 1000) / 17) / \u212F^(-10 cos(103 / 100) / 17)", notes:"https://www.geogebra.org/help/topic/cas-cannot-solve-differential-equation" },
 { cat:"Determinant", cmd:"Determinant[{{1,-1/2,1/2},{0,(sqrt(11))/2,-(sqrt(11))/2},{1/2,-3/2,5/2}}]", result:"sqrt(11)/2" },
 { cat:"SolveODE", cmd:"SolveODE[y' sin(x)=y ln(y)]", result:"y = \u212F^(sqrt(-cos(x)\u00B2 + 1) / (cos(x) + 1) / c_0)" },
+{ cat:"Solve", cmd:"Solve[(sin(x) * exp(x)) + (cos(x) * exp(x))]", result:"{x = 2n_0 \u03C0 - 1 / 4 \u03C0, x = 2n_1 \u03C0 + 3 / 4 \u03C0}" },
+{ cat:"Solve", cmd:"Solve[Factor[(sin(x) * exp(x)) + (cos(x) * exp(x))]]", result:"{x = n_0 \u03C0 - 1 / 4 \u03C0}" },
 // JSONEND
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 //{ cat: "Integral", cmd:"Integral[sqrt(sin(x))]", result:"?", notes:"" },
