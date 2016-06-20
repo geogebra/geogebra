@@ -152,7 +152,11 @@ public abstract class GuiManager implements GuiManagerInterface {
 				// special case: urlString is from GeoGebraTube
 				// eg http://www.geogebratube.org/student/105 changed to
 				// http://www.geogebratube.org/files/material-105.ggb
-			} else if (processedUrlString.indexOf(ggbTube) > -1
+			} else if (processedUrlString
+					.indexOf(GeoGebraConstants.GEOGEBRA_WEBSITE) > -1
+					|| processedUrlString.indexOf(
+							GeoGebraConstants.GEOGEBRA_WEBSITE_BETA) > -1
+					|| processedUrlString.indexOf(ggbTube) > -1
 					|| processedUrlString.indexOf(ggbTubeShort) > -1
 					|| processedUrlString.indexOf(ggbTubeTest) > -1
 					|| processedUrlString.indexOf(ggbTubeBeta) > -1
@@ -210,7 +214,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 				if (urlString.indexOf(ggbTubeTest) > -1) {
 					processedUrlString = "http://tube-test.geogebra.org:8080/files/material-";
 				} else {
-					processedUrlString = "http://tube.geogebra.org/files/material-";
+					processedUrlString = "https://www.geogebra.org/files/material-";
 				}
 
 				// Add the login token to assure that private files of the
