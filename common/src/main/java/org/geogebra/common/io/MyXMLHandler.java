@@ -5415,6 +5415,11 @@ new GPoint(row, column));
 				if (value != null) {
 					ValidExpression ve = parser.parseGeoGebraExpression(value);
 					geo.setDefinition(ve.wrap());
+					if (ve.unwrap() instanceof Equation) {
+						((GeoImplicit) geo).fromEquation((Equation) ve.unwrap(),
+								null);
+					}
+
 				}
 			}
 			if (attrs.get("show") != null && attrs.get("show").equals("true")) {
