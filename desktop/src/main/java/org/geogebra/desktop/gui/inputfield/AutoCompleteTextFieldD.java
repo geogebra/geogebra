@@ -26,7 +26,6 @@ import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -45,7 +44,6 @@ import org.geogebra.desktop.euclidian.event.KeyListenerD;
 import org.geogebra.desktop.gui.autocompletion.CommandCompletionListCellRenderer;
 import org.geogebra.desktop.gui.autocompletion.CompletionsPopup;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
-import org.geogebra.desktop.javax.swing.GLabelD;
 import org.geogebra.desktop.main.AppD;
 
 public class AutoCompleteTextFieldD extends MathTextField
@@ -955,9 +953,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	}
 
-	public void setLabel(GLabel label) {
-		((GLabelD) label).getImpl().setLabelFor(this);
-	}
 
 	public void addFocusListener(FocusListener focusListener) {
 		super.addFocusListener((FocusListenerD) focusListener);

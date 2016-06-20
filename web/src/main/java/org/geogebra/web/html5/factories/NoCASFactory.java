@@ -14,6 +14,7 @@ public class NoCASFactory extends CASFactory {
 		return null;
 	}
 
+	@Override
 	public boolean isEnabled() {
 		return false;
 	}

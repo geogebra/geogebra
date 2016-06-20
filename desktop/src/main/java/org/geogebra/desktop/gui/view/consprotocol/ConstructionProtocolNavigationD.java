@@ -44,7 +44,6 @@ import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
-import org.geogebra.desktop.javax.swing.GPanelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -73,6 +72,7 @@ public class ConstructionProtocolNavigationD extends
 	private JPanel implPanel;
 	private LocalizationD loc;
 	
+	private JPanel playPanel;
 
 	/**
 	 * Creates a new navigation bar to step through the construction protocol.
@@ -164,9 +164,9 @@ public class ConstructionProtocolNavigationD extends
 		leftPanel.add(btNext);
 		leftPanel.add(btLast);
 		
-		playPanel = new GPanelD();
+		playPanel = new JPanel();
 		playPanel.setVisible(showPlayButton);
-		((GPanelD) playPanel).getImpl().add(Box.createRigidArea(new Dimension(20,10)));
+		playPanel.add(Box.createRigidArea(new Dimension(20, 10)));
 		btPlay = new JButton();
 		btPlay.setIcon(new ImageIcon(app.getPlayImage()));
 		btPlay.addActionListener(this); 	
@@ -182,9 +182,9 @@ public class ConstructionProtocolNavigationD extends
 			}			
 		});
 					
-		((GPanelD)playPanel).getImpl().add(btPlay);
-		((GPanelD)playPanel).getImpl().add(spDelay);	
-		((GPanelD)playPanel).getImpl().add(new JLabel("s"));		
+		playPanel.add(btPlay);
+		playPanel.add(spDelay);
+		playPanel.add(new JLabel("s"));
 		
 				
 		btOpenWindow = new JButton();
@@ -206,7 +206,7 @@ public class ConstructionProtocolNavigationD extends
 		// add panels together to center
 		implPanel.setLayout(new BoxLayout(this.implPanel, BoxLayout.LINE_AXIS));		
 		implPanel.add(leftPanel);
-		implPanel.add(((GPanelD)playPanel).getImpl());
+		implPanel.add(playPanel);
 		implPanel.add(btOpenWindow);
 		implPanel.add(Box.createRigidArea(new Dimension(20,10)));
 								
@@ -389,6 +389,14 @@ public class ConstructionProtocolNavigationD extends
 				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
 		lbSteps.setFont(app.getPlainFont());
 		update();
+
+	}
+
+	@Override
+	protected void setPlayPanelVisible(boolean flag) {
+		if (playPanel != null) {
+			this.playPanel.setVisible(flag);
+		}
 
 	}	
 }

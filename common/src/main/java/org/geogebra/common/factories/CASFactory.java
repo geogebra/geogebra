@@ -5,6 +5,9 @@ import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 
+/**
+ * Factory for CAS engine(s)
+ */
 public abstract class CASFactory {
 	private static CASFactory prototype;
 
@@ -15,13 +18,30 @@ public abstract class CASFactory {
 		return prototype;
 	}
 
+	/**
+	 * @param factory
+	 *            prototype; needs to be set before we first call CAS
+	 */
 	public static void setPrototype(CASFactory factory) {
 		prototype = factory;
 	}
 
-	public abstract CASGenericInterface newGiac(CASparser p, CasParserTools t,
-			Kernel k);
+	/**
+	 * @param parser
+	 *            CAS parser
+	 * @param tools
+	 *            helper for output processing
+	 * @param kernel
+	 *            kernel
+	 * @return GIAC instance
+	 */
+	public abstract CASGenericInterface newGiac(CASparser parser,
+			CasParserTools tools,
+			Kernel kernel);
 
+	/**
+	 * @return whether this will produce a working CAS
+	 */
 	public boolean isEnabled() {
 		return true;
 	}

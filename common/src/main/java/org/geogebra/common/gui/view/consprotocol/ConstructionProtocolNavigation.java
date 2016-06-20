@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.consprotocol;
 
-import org.geogebra.common.javax.swing.GPanel;
 import org.geogebra.common.main.App;
 
 /**
@@ -25,7 +24,6 @@ public abstract class ConstructionProtocolNavigation{
 	/** Indicates whether animation is on or off */
 	public boolean isPlaying;
 
-	protected GPanel playPanel;
 	protected int viewID;
 
 	/**
@@ -84,10 +82,10 @@ public abstract class ConstructionProtocolNavigation{
 	 */
 	public void setPlayButtonVisible(boolean flag) {
 		showPlayButton = flag;
-		if (playPanel != null) {
-			playPanel.setVisible(flag);
-		}
+		setPlayPanelVisible(flag);
 	}
+
+	protected abstract void setPlayPanelVisible(boolean flag);
 
 	/**
 	 * Registers this navigation bar at its protocol to be informed about

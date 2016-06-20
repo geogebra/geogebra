@@ -4,9 +4,6 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.common.javax.swing.GComboBox;
-import org.geogebra.common.javax.swing.GLabel;
-import org.geogebra.common.javax.swing.GPanel;
 import org.geogebra.common.main.App;
 
 public abstract class SwingFactory {
@@ -16,13 +13,7 @@ public abstract class SwingFactory {
 	public abstract AutoCompleteTextField newAutoCompleteTextField(int length,
 			App application, Drawable drawTextField);
 
-	public abstract GLabel newJLabel(String string, boolean bool);
-
-	public abstract GComboBox newJComboBox(App app, int ev);
-
 	public abstract GBox createHorizontalBox(EuclidianController style);
-
-	public abstract GPanel newGPanel();
 
 	/**
 	 * @return might return null. Use App.getSwingFactory()

@@ -6,8 +6,6 @@ import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 
 public abstract class GBox {
 
-	public abstract void add(GLabel label);
-
 	public abstract void add(AutoCompleteTextField textField);
 
 	public abstract void setVisible(boolean isVisible);
@@ -21,8 +19,6 @@ public abstract class GBox {
 	public abstract void validate();
 
 	public abstract void revalidate();
-
-	public abstract void add(GComboBox comboBox);
 
 	public void doLayout() {
 		// TODO Auto-generated method stub

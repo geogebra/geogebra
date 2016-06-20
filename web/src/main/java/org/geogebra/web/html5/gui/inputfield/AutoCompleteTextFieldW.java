@@ -18,7 +18,6 @@ import org.geogebra.common.gui.inputfield.AutoComplete;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -570,11 +569,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	@Override
 	public void setEditable(boolean b) {
 		textField.setEnabled(b);
-	}
-
-	@Override
-	public void setLabel(GLabel label) {
-		//
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.AutoCompleteDictionary;
@@ -44,8 +43,6 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener,
 
 	// javax.swing.JComponent
 	void requestFocus();
-
-	void setLabel(GLabel label);
 
 	void setVisible(boolean b);
 

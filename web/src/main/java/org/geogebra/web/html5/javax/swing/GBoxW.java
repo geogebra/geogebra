@@ -5,8 +5,6 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.common.javax.swing.GComboBox;
-import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -32,12 +30,6 @@ public class GBoxW extends GBox {
 			return null;
 		}
 		return ((GBoxW) box).impl;
-	}
-
-	@Override
-	public void add(GLabel label) {
-		impl.add(GLabelW.getImpl((GLabelW) label));
-
 	}
 
 	@Override
@@ -93,10 +85,6 @@ public class GBoxW extends GBox {
 	public void validate() {
 	}
 
-	@Override
-	public void add(GComboBox comboBox) {
-		impl.add(GComboBoxW.getImpl(comboBox));
-	}
 
 	@Override
 	public void revalidate() {

@@ -5,9 +5,7 @@ import javax.swing.Box;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
-import org.geogebra.common.javax.swing.GComboBox;
 import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.common.javax.swing.GLabel;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
@@ -38,11 +36,6 @@ public class GBoxD extends GBox {
 	 */
 	public Box getImpl() {
 		return this.impl;
-	}
-
-	@Override
-	public void add(GLabel label) {
-		impl.add(((GLabelD) label).getImpl());
 	}
 
 	@Override
@@ -81,11 +74,6 @@ public class GBoxD extends GBox {
 		impl.revalidate();
 	}
 
-	@Override
-	public void add(GComboBox comboBox) {
-		impl.add(GComboBoxD.getJComboBox(comboBox));
-
-	}
 
 	// @Override
 	// public geogebra.common.javax.swing.Box createHorizontalBox() {

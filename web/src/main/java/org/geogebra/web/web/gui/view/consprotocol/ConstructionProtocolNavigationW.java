@@ -4,7 +4,6 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.javax.swing.GPanelW;
 import org.geogebra.web.html5.javax.swing.GSpinnerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -38,6 +37,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	GSpinnerW spDelay;
 	private AutomaticPlayer player;
 	private MyCJButton btOpenWindow;
+	private FlowPanel playPanel;
 	
 	final private Image playIcon = new Image(
 			GuiResourcesSimple.INSTANCE.icons_play_circle());
@@ -102,7 +102,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		leftPanel.add(btNext);
 		leftPanel.add(btLast);
 		
-		playPanel = new GPanelW();
+		playPanel = new FlowPanel();
 		playPanel.setVisible(showPlayButton);
 		btPlay = new PushButton(); // will be initialized in setLabels()
 		btPlay.addClickHandler(this);
@@ -119,15 +119,15 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			
 		});
 		
-		((GPanelW)playPanel).getImpl().add(btPlay);
-		((GPanelW)playPanel).getImpl().add(spDelay);
-		((GPanelW)playPanel).getImpl().add(new Label("s"));
+		playPanel.add(btPlay);
+		playPanel.add(spDelay);
+		playPanel.add(new Label("s"));
 		
 		leftPanel.addStyleName("navbar_leftPanel");
-		((GPanelW)playPanel).getImpl().addStyleName("navbar_playPanel");
+		playPanel.addStyleName("navbar_playPanel");
 		
 		implPanel.add(leftPanel);
-		implPanel.add(((GPanelW)playPanel).getImpl());
+		implPanel.add(playPanel);
 		
 		btOpenWindow = new MyCJButton();
 		btOpenWindow.setIcon(new ImageOrText(GuiResources.INSTANCE
@@ -233,9 +233,9 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	
 	private void addPaddingPlayPanel(boolean addPadding) {
 		if (addPadding) {
-			((GPanelW)playPanel).getImpl().addStyleName("navbar_playPanel_padding");
+			playPanel.addStyleName("navbar_playPanel_padding");
 		} else {
-			((GPanelW)playPanel).getImpl().removeStyleName("navbar_playPanel_padding");
+			playPanel.removeStyleName("navbar_playPanel_padding");
 		}
 	}
 	
@@ -355,5 +355,13 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			app.setNavBarButtonPlay();
 			setComponentsEnabled(true);
         }
+	}
+
+	@Override
+	protected void setPlayPanelVisible(boolean flag) {
+		if (playPanel != null) {
+			playPanel.setVisible(flag);
+		}
+
 	}
 }
