@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.GuiManager.Help;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -106,4 +107,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void updateToolbarActions();
 
 	public void resetMenu();
+
+	public AlgebraView getAlgebraView();
+
+	public SpreadsheetViewInterface getSpreadsheetView();
 }

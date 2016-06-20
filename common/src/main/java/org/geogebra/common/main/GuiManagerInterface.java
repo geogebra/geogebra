@@ -366,7 +366,7 @@ public interface GuiManagerInterface {
 
 	public void addToToolbarDefinition(int mode);
 
-	public Object getToolbarDefinition();
+	public String getToolbarDefinition();
 
 	public void registerConstructionProtocolView(ConstructionProtocolView view);
 
