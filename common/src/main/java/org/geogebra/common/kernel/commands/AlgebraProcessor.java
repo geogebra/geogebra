@@ -1234,14 +1234,15 @@ public class AlgebraProcessor {
 				if (((GeoFunction) temp[0]).isFunctionOfY()) {
 
 					funVars = new FunctionVariable[] {
+							new FunctionVariable(kernel, "x"),
+							((GeoFunction) temp[0]).getFunction()
+									.getFunctionVariable() };
+				} else {
+					funVars = new FunctionVariable[] {
+
 							((GeoFunction) temp[0]).getFunction()
 									.getFunctionVariable(),
 							new FunctionVariable(kernel, "y") };
-				} else {
-					funVars = new FunctionVariable[] {
-							new FunctionVariable(kernel, "y"),
-							((GeoFunction) temp[0]).getFunction()
-									.getFunctionVariable() };
 				}
 
 				FunctionNVar fn = new FunctionNVar(
