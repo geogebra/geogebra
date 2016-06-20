@@ -1142,7 +1142,7 @@ __GGB__keysVar.es_UY.error = {
     "InvalidEquation": "Ecuaci\xf3n no v\xe1lida:\ndebe ingresarse una ecuaci\xf3n polin\xf3mica en x e y",
     "InvalidFunction": "Funci\xf3n no v\xe1lida:\ndebe ingresarse una expl\xedcita en x",
     "InvalidInequality": "Inecuaci\xf3n no v\xe1lida:\ndebe ingresarse una inecuaci\xf3n lineal en x e y",
-    "InvalidInput": "Entrada no v\xe1lida.",
+    "InvalidInput": "Algo est\xe1 fallando.  Se sugiere revisar la entrada.",
     "LengthMustBeConstant": "Cada longitud debe ser constante.",
     "LoadFileFailed": "Error al abrir el archivo",
     "NameUsed": "Esta etiqueta ya est\xe1 en uso",

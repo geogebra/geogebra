@@ -1142,7 +1142,7 @@ __GGB__keysVar.et.error = {
     "InvalidEquation": "Sobimatu v\xf5rrand:\nPalun sisestage pol\xfcnoom x ja y kaudu.",
     "InvalidFunction": "Sobimatu funktsioon:\nPalun sisestage x-i suhtes ilmutatud funktsioon.",
     "InvalidInequality": "Sobimatu v\xf5rratus:\nPalun sisestage lineaarv\xf5rratus x ja y kaudu.",
-    "InvalidInput": "Sobimatu sisend",
+    "InvalidInput": "Kahjuks l\xe4ks midagi valesti! Kontrollige sisendit!",
     "LengthMustBeConstant": "Iga pikkus peab olema konstant.",
     "LoadFileFailed": "Faili avamine eba\xf5nnestus.",
     "NameUsed": "See t\xe4his on juba kasutusel.",

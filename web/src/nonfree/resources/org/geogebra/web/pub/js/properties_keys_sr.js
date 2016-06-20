@@ -1142,7 +1142,7 @@ __GGB__keysVar.sr.error = {
     "InvalidEquation": "Neispravna jedna\u010dina:\nUnesite linearnu ili kvadratnu jedna\u010dinu po x i y",
     "InvalidFunction": "Neispravna funkcija:\nUnesite eksplicitnu funkciju po x",
     "InvalidInequality": "Neispravna nejedna\u010dina:\nMolim unesite linearnu nejedna\u010dinu po x i y.",
-    "InvalidInput": "Neispravan unos",
+    "InvalidInput": "Na\u017ealost, unos nije prihvatljiv",
     "LengthMustBeConstant": "Svaka du\u017eina mora biti konstanta",
     "LoadFileFailed": "Otvaranje datoteke nije uspelo",
     "NameUsed": "Oznaka je ve\u0107 upotrebljena",

@@ -1142,7 +1142,7 @@ __GGB__keysVar.ro.error = {
     "InvalidEquation": "Ecua\u0163ie invalid\u0103:\nIntroduce\u0163i o ecua\u0163ie polinom \xeen x \u015fi y.",
     "InvalidFunction": "Func\u0163ie invalid\u0103:\nIntroduce\u0163i o func\u0163ie explicit\u0103 \xeen x.",
     "InvalidInequality": "Inegalitate invalid\u0103:\nIntroduce\u0163i o inegalitate liniar\u0103 \xeen x \u015fi y",
-    "InvalidInput": "Intrare invalid\u0103",
+    "InvalidInput": "Ceva nu func\u0163ioneaz\u0103 corect. Verifica\u0163i intrarea.",
     "LengthMustBeConstant": "Toate lungimile trebuie s\u0103 fie constante",
     "LoadFileFailed": "Deschiderea fi\u015fierului a e\u015fuat",
     "NameUsed": "Aceast\u0103 etichet\u0103 este deja \xeen uz",

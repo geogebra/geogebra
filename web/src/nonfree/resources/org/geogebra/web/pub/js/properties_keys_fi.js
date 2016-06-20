@@ -1142,7 +1142,7 @@ __GGB__keysVar.fi.error = {
     "InvalidEquation": "Kelvoton yht\xe4l\xf6:\nSy\xf6t\xe4 polynomiyht\xe4l\xf6 x:n ja y:n avulla.",
     "InvalidFunction": "Kelvoton funktio:\nSy\xf6t\xe4 x:n funktio ratkaistuna y:n suhteen.",
     "InvalidInequality": "Kelvoton ep\xe4yht\xe4l\xf6:\nSy\xf6t\xe4 1. asteen ep\xe4yht\xe4l\xf6 x:n ja y:n avulla.",
-    "InvalidInput": "Kelvoton sy\xf6te",
+    "InvalidInput": "Tarkista sy\xf6te.",
     "LengthMustBeConstant": "Pituuden on oltava vakio",
     "LoadFileFailed": "Tiedoston avaaminen ep\xe4onnistui",
     "NameUsed": "T\xe4m\xe4 nimi on jo k\xe4yt\xf6ss\xe4",

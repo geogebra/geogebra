@@ -1142,7 +1142,7 @@ __GGB__keysVar.tl.error = {
     "InvalidEquation": "Maling equation:\nPaki-enter ang polynomial equation sa x at y",
     "InvalidFunction": "Maling function:\nPaki-enter ang explicit function sa x",
     "InvalidInequality": "Maling inequality:\nPaki-enter ang linear inequality sa x and y",
-    "InvalidInput": "Maling input",
+    "InvalidInput": "Paumanhin, may nangyaring mali. Mangyaring suriin ang iyong input",
     "LengthMustBeConstant": "Ang bawat length ay dapat constant",
     "LoadFileFailed": "Hindi mabuksan ang file",
     "NameUsed": "Ang label na ito ay ginagamit na",

@@ -1142,7 +1142,7 @@ __GGB__keysVar.ca_XV.error = {
     "InvalidEquation": "L'equaci\xf3 \xe9s incorrecta:\nIntrodu\xefu una equaci\xf3 lineal o quadr\xe0tica",
     "InvalidFunction": "L'equaci\xf3 \xe9s incorrecta:\nIntrodu\xefu una funci\xf3 expl\xedcita en x",
     "InvalidInequality": "La desigualtat no \xe9s v\xe0lida:\nIntrodu\xefu una desigualtat lineal en x i y",
-    "InvalidInput": "L'entrada no \xe9s v\xe0lida",
+    "InvalidInput": "L'entrada no \xe9s correcta",
     "LengthMustBeConstant": "Les longituds han de ser constants.",
     "LoadFileFailed": "S'ha produ\xeft un error en obrir el fitxer",
     "NameUsed": "Esta etiqueta est\xe0 en \xfas",

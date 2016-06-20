@@ -1142,7 +1142,7 @@ __GGB__keysVar.it.error = {
     "InvalidEquation": "Equazione non valida:\nInserire un'equazione polinomiale in x e y.",
     "InvalidFunction": "Funzione non valida:\ninserire una funzione esplicita in x.",
     "InvalidInequality": "Disequazione non valida:\nInserire una disequazione lineare in x e y.",
-    "InvalidInput": "Inserimento non valido",
+    "InvalidInput": "Verificare i dati immessi.",
     "LengthMustBeConstant": "Le lunghezze devono essere costanti.",
     "LoadFileFailed": "Impossibile aprire il file.",
     "NameUsed": "Questa etichetta \xe8 gi\xe0 in uso.",

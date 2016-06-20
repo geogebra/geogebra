@@ -1142,7 +1142,7 @@ __GGB__keysVar.pt.error = {
     "InvalidEquation": "Equa\xe7\xe3o inv\xe1lida:\npor favor, especifique uma fun\xe7\xe3o polinomial em x e y.",
     "InvalidFunction": "Fun\xe7\xe3o inv\xe1lida:\npor favor, especifique uma fun\xe7\xe3o expl\xedcita em x.",
     "InvalidInequality": "Desigualdade inv\xe1lida:\npor favor, especifique uma desigualdade afim em x e y.",
-    "InvalidInput": "Entrada inv\xe1lida",
+    "InvalidInput": "Por favor, verifique a estrutura do seu comando!",
     "LengthMustBeConstant": "Todo comprimento deve ser constante.",
     "LoadFileFailed": "N\xe3o foi poss\xedvel abrir o arquivo.",
     "NameUsed": "Este r\xf3tulo j\xe1 est\xe1 sendo usado.",

@@ -1142,7 +1142,7 @@ __GGB__keysVar.de.error = {
     "InvalidEquation": "Ung\xfcltige Gleichung: \nBitte geben Sie eine lineare oder quadratische Gleichungen in x und y ein.",
     "InvalidFunction": "Ung\xfcltige Funktion:\nBitte geben Sie eine explizite Funktion in x ein.",
     "InvalidInequality": "Ung\xfcltige Ungleichung:\nBitte geben Sie eine lineare Ungleichung in x und y ein.",
-    "InvalidInput": "Ung\xfcltige Eingabe",
+    "InvalidInput": "\xdcberpr\xfcfen Sie bitte Ihre Eingabe",
     "LengthMustBeConstant": "Jede L\xe4nge muss konstant sein.",
     "LoadFileFailed": "\xd6ffnen der Datei fehlgeschlagen",
     "NameUsed": "Dieser Name ist bereits vergeben.",

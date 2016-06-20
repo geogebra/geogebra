@@ -1142,7 +1142,7 @@ __GGB__keysVar.fr.error = {
     "InvalidEquation": "\xc9quation invalide :\nEntrer svp une \xe9quation lin\xe9aire ou quadratique en x et y.",
     "InvalidFunction": "Fonction invalide :\nEntrer svp une fonction explicite en x",
     "InvalidInequality": "In\xe9galit\xe9 non valide :\nEntrer svp une in\xe9galit\xe9 lin\xe9aire en x et y.",
-    "InvalidInput": "Saisie invalide",
+    "InvalidInput": "D\xe9sol\xe9, la saisie n'est pas valide.",
     "LengthMustBeConstant": "Chaque longueur doit \xeatre une constante.",
     "LoadFileFailed": "Impossible d'ouvrir le fichier.",
     "NameUsed": "Cette \xe9tiquette est d\xe9j\xe0 utilis\xe9e.",

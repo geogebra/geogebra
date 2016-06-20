@@ -1142,7 +1142,7 @@ __GGB__keysVar.pl.error = {
     "InvalidEquation": "R\xf3wnanie b\u0142\u0119dne:\nWprowad\u017a r\xf3wnanie liniowe lub kwadratowe z u\u017cyciem x i y",
     "InvalidFunction": "Nieprawid\u0142owa funkcja:\nWprowad\u017a fukcj\u0119 zmiennej x.",
     "InvalidInequality": "Nieprawid\u0142owa nier\xf3wno\u015b\u0107: \nWprowad\u017a nier\xf3wno\u015b\u0107 liniow\u0105 z u\u017cyciem x i y.",
-    "InvalidInput": "Nieprawid\u0142owe dane wej\u015bciowe",
+    "InvalidInput": "Przepraszam, wej\u015bcie jest niedopuszczalne",
     "LengthMustBeConstant": "D\u0142ugo\u015b\u0107 musi by\u0107 sta\u0142a",
     "LoadFileFailed": "B\u0142\u0105d otwarcia pliku",
     "NameUsed": "Ta nazwa jest aktualnie w u\u017cyciu",

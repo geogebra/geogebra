@@ -1142,7 +1142,7 @@ __GGB__keysVar.sk.error = {
     "InvalidEquation": "Neplatn\xe1 rovnica:\nZadajte, pros\xedm, racion\xe1lnu rovnicu pomocou x a y",
     "InvalidFunction": "Neplatn\xe1 funkcia:\nZadajte, pros\xedm, explicitn\xfa funkciu premennej x",
     "InvalidInequality": "Neplatn\xe1 nerovnica: \nZadajte line\xe1rnu nerovnicu premenn\xfdch x a y.",
-    "InvalidInput": "Neplatn\xfd vstup",
+    "InvalidInput": "Prep\xe1\u010dte, vstupn\xe9 \xfadaje nie s\xfa akceptovate\u013en\xe9!",
     "LengthMustBeConstant": "Ka\u017ed\xe1 d\u013a\u017eka mus\xed by\u0165 kon\u0161tantou",
     "LoadFileFailed": "Otvorenie s\xfaboru zlyhalo",
     "NameUsed": "Toto ozna\u010denie sa u\u017e pou\u017e\xedva",

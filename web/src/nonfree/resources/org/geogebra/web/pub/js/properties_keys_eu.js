@@ -1142,7 +1142,7 @@ __GGB__keysVar.eu.error = {
     "InvalidEquation": "Ekuazio baliogabea:\nSartu x eta y-dun ekuazio polinomikoa.",
     "InvalidFunction": "Funtzio baliogabea:\nSartu x-dun funtzio esplizitua.",
     "InvalidInequality": "Inekuazio baliogabea:\nSartu x eta y-dun inekuazio lineala.",
-    "InvalidInput": "Sarrera baliogabea",
+    "InvalidInput": "Zoritxarrez, sarrera ezin da onartu.",
     "LengthMustBeConstant": "Luzerak konstante izan behar du.",
     "LoadFileFailed": "Errorea fitxategia irekitzean",
     "NameUsed": "Izena edo etiketa erabilita jadanik",

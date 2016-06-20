@@ -1142,7 +1142,7 @@ __GGB__keysVar.sv.error = {
     "InvalidEquation": "Ogiltig ekvation:\nVar god och ange en linj\xe4r eller kvadratisk ekvation i x och y",
     "InvalidFunction": "Ogiltig funktion:\nVar god och ange en explicit funktion av x",
     "InvalidInequality": "Otill\xe5ten olikhet:\nMata in en linj\xe4r olikhet uttryckt i x och y",
-    "InvalidInput": "Ogiltiga indata",
+    "InvalidInput": "Beklagar, men inmatningen \xe4r inte godk\xe4nd",
     "LengthMustBeConstant": "Varje l\xe4ngd m\xe5ste vara konstant",
     "LoadFileFailed": "Kunde inte \xf6ppna filen",
     "NameUsed": "Denna etikett anv\xe4nds redan",

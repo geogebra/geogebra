@@ -1142,7 +1142,7 @@ __GGB__keysVar.ca.error = {
     "InvalidEquation": "Equaci\xf3 il\xb7legal:\nEntreu una equaci\xf3 lineal o quadr\xe0tica",
     "InvalidFunction": "Equaci\xf3 il\xb7legal:\nEntreu una funci\xf3 expl\xedcita en x",
     "InvalidInequality": "Desigualtat no v\xe0lida:\nsi us plau, entreu una desigualtat lineal en x i y",
-    "InvalidInput": "Entrada no v\xe0lida",
+    "InvalidInput": "Ho sento, l'entrada no \xe9s correcta",
     "LengthMustBeConstant": "Les longituds han de ser constants",
     "LoadFileFailed": "Error en obrir el fitxer",
     "NameUsed": "Aquesta etiqueta est\xe0 en \xfas",

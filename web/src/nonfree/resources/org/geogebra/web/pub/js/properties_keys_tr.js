@@ -1142,7 +1142,7 @@ __GGB__keysVar.tr.error = {
     "InvalidEquation": "Ge\xe7ersiz denklem:\nL\xfctfen x ve y cinsinden bir polinom denklem giriniz",
     "InvalidFunction": "Ge\xe7ersiz i\u015flev:\nL\xfctfen x cinsinden a\xe7\u0131k bir i\u015flev giriniz",
     "InvalidInequality": "Ge\xe7ersiz e\u015fitsizlik:\nL\xfctfen x ve y cinsinden bir do\u011frusal e\u015fitsizlik giriniz",
-    "InvalidInput": "Ge\xe7ersiz girdi",
+    "InvalidInput": "Maalesef girdi ge\xe7erli de\u011fil.",
     "LengthMustBeConstant": "B\xfct\xfcn uzunluklar sabit olmal\u0131d\u0131r",
     "LoadFileFailed": "Dosyay\u0131 a\xe7mak ba\u015far\u0131s\u0131z oldu",
     "NameUsed": "Bu etiket hali haz\u0131rda kullan\u0131lmaktad\u0131r",

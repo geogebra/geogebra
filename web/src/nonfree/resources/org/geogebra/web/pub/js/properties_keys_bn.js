@@ -1142,7 +1142,7 @@ __GGB__keysVar.bn.error = {
     "InvalidEquation": "Invalid equation:\nPlease enter a polynomial equation in x and y",
     "InvalidFunction": "Invalid function:\nPlease enter an explicit function in x",
     "InvalidInequality": "Invalid inequality:\nPlease enter a linear inequality in x and y",
-    "InvalidInput": "\u0985\u09ac\u09c8\u09a7 \u0987\u09a8\u09aa\u09c1\u099f",
+    "InvalidInput": "Please check your input.",
     "LengthMustBeConstant": "Every length has to be constant",
     "LoadFileFailed": "Opening file failed",
     "NameUsed": "This label is already in use",

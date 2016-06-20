@@ -1142,7 +1142,7 @@ __GGB__keysVar.da.error = {
     "InvalidEquation": "Ufuldst\xe6ndig ligning:\nSkriv en line\xe6r eller kvadratisk ligning i x og y",
     "InvalidFunction": "Ugyldig funktion:\nSkriv en funktion i x",
     "InvalidInequality": "Ugyldig ulighed\nV\xe6lg en line\xe6r ulighed i x og y.",
-    "InvalidInput": "Ugyldigt input",
+    "InvalidInput": "Trist, men dette input kan ikke bruges",
     "LengthMustBeConstant": "Hver l\xe6ngde skal v\xe6re konstant",
     "LoadFileFailed": "Filen kunne ikke \xe5bnes",
     "NameUsed": "Dette navn er allerede brugt",

@@ -1142,7 +1142,7 @@ __GGB__keysVar.in.error = {
     "InvalidEquation": "Persamaan tidak valid:\nSilahkan masukan suatu persamaan linier atau kuadrat dalam x dan y.",
     "InvalidFunction": "Fungsi yang tidak valid:\nSilahkan masukan suatu fungsi eksplisit dalam x.",
     "InvalidInequality": "Invalid inequality:\nPlease enter a linear inequality in x and y",
-    "InvalidInput": "Masukan tidak valid",
+    "InvalidInput": "Maaf, masukannya tidak dapat diterima.",
     "LengthMustBeConstant": "Setiap panjang harus konstan.",
     "LoadFileFailed": "Pembukaan berkas gagal.",
     "NameUsed": "Label ini telah digunakan",

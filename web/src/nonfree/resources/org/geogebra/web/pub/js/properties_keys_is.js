@@ -1142,7 +1142,7 @@ __GGB__keysVar.is.error = {
     "InvalidEquation": "\xd3gild jafna:\nSetji\xf0 inn l\xednulega e\xf0a annars stigs j\xf6fnu \xed x og y",
     "InvalidFunction": "\xd3gilt fallt:\nSetji\xf0 inn fall af x",
     "InvalidInequality": "\xd3gild \xf3jafna\nSetji\xf0 inn l\xednulega \xf3j\xf6fnu \xed x og y",
-    "InvalidInput": "\xd3gilt inntak",
+    "InvalidInput": "\xdev\xed mi\xf0ur gengur \xfeetta inntak ekki.",
     "LengthMustBeConstant": "S\xe9rhver lengd ver\xf0ur a\xf0 vera fasti",
     "LoadFileFailed": "T\xf3kst ekki a\xf0 opna skr\xe1",
     "NameUsed": "\xdeetta merki er \xfeegar \xed notkun",

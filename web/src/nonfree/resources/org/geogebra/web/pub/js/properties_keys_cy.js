@@ -1142,7 +1142,7 @@ __GGB__keysVar.cy.error = {
     "InvalidEquation": "Hafaliad annilys:\nRhowch hafaliad llinol neu hafaliad cwadratig yn x ac y.",
     "InvalidFunction": "Ffwythiant annilys:\nRhowch ffwythiant echblyg yn x.",
     "InvalidInequality": "Anhafaledd annilys:\nMewnbynnwch mynegiad yn nhermau x ac y",
-    "InvalidInput": "Mewnbwn annilys",
+    "InvalidInput": "Mae'r mewnbwn yn annerbyniol.",
     "LengthMustBeConstant": "Mae'n rhaid i bob hyd fod yn gyson.",
     "LoadFileFailed": "Wedi methu agor y ffeil.",
     "NameUsed": "Defnyddir y label hon eisoes.",

@@ -1142,7 +1142,7 @@ __GGB__keysVar.gl.error = {
     "InvalidEquation": "Ecuaci\xf3n non v\xe1lida:\nPor favor, introduza unha ecuaci\xf3n polinomial en x e y.",
     "InvalidFunction": "Funci\xf3n non v\xe1lida:\nPor favor, introduza unha funci\xf3n expl\xedcita en x",
     "InvalidInequality": "Desigualdade non v\xe1lida:\nPor favor, introduza unha desigualdade lineal en x e y",
-    "InvalidInput": "Entrada non v\xe1lida",
+    "InvalidInput": "S\xedntoo, a entrada non \xe9 v\xe1lida",
     "LengthMustBeConstant": "As lonxitudes deben ser constantes",
     "LoadFileFailed": "Erro ao abrir o ficheiro",
     "NameUsed": "A etiqueta xa est\xe1 a ser usada",

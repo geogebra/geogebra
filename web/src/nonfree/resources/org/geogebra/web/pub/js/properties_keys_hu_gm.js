@@ -1142,7 +1142,7 @@ __GGB__keysVar.hu_gm.error = {
     "InvalidEquation": "\xc9rv\xe9nytelen egyenlet:\nAdj meg egy polinomegyenletet x-re \xe9s y-ra",
     "InvalidFunction": "\xc9rv\xe9nytelen f\xfcggv\xe9ny:\nAdj meg egy explicit f\xfcggv\xe9nyt x-re",
     "InvalidInequality": "\xc9rv\xe9nytelen egyenl\u0151tlens\xe9g:\nAdj meg egy line\xe1ris egyenl\u0151tlens\xe9get x-re \xe9s y-ra",
-    "InvalidInput": "\xc9rv\xe9nytelen bemenet",
+    "InvalidInput": "Ellen\u0151rizd a bemeneti adatokat",
     "LengthMustBeConstant": "Minden hossz\xfas\xe1gnak konstansnak kell lennie",
     "LoadFileFailed": "F\xe1jl megnyit\xe1sa sikertelen",
     "NameUsed": "Ez a c\xedmke m\xe1r haszn\xe1latban van",

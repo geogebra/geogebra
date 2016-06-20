@@ -1142,7 +1142,7 @@ __GGB__keysVar.pt_PT.error = {
     "InvalidEquation": "Equa\xe7\xe3o inv\xe1lida:\nPor favor, especifique uma fun\xe7\xe3o afim ou quadr\xe1tica em x e y",
     "InvalidFunction": "Fun\xe7\xe3o inv\xe1lida:\nPor favor, especifique uma fun\xe7\xe3o expl\xedcita em x.",
     "InvalidInequality": "Inequa\xe7\xe3o inv\xe1lida:\nPor favor, especifique uma inequa\xe7\xe3o linear em x e y",
-    "InvalidInput": "Entrada inv\xe1lida.",
+    "InvalidInput": "Lamentamos, a express\xe3o que digitou n\xe3o \xe9 aceit\xe1vel",
     "LengthMustBeConstant": "Todo comprimento deve ser constante",
     "LoadFileFailed": "N\xe3o foi poss\xedvel abrir o ficheiro",
     "NameUsed": "Este r\xf3tulo j\xe1 est\xe1 a ser utilizado",

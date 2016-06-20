@@ -1142,7 +1142,7 @@ __GGB__keysVar.tg.error = {
     "InvalidEquation": "\u041c\u0443\u043e\u0434\u0438\u043b\u0430\u0438 \u0431\u0435\u044d\u044a\u0442\u0438\u0431\u043e\u0440:\n\u041b\u0443\u0442\u0444\u0430\u043d \u043c\u0443\u043e\u0434\u0438\u043b\u0430\u0438 \u0431\u0438\u0441\u0451\u0440\u0430\u044a\u0437\u043e\u0434\u043e\u0440  \u0434\u0430\u0440 X \u0432\u0430 Y \u0434\u043e\u0445\u0438\u043b \u043d\u0430\u043c\u043e\u0435\u0434",
     "InvalidFunction": "Invalid function:\nPlease enter an explicit function in x",
     "InvalidInequality": "Invalid inequality:\nPlease enter a linear inequality in x and y",
-    "InvalidInput": "Invalid input",
+    "InvalidInput": "Please check your input.",
     "LengthMustBeConstant": "Every length has to be constant",
     "LoadFileFailed": "Opening file failed",
     "NameUsed": "This label is already in use",

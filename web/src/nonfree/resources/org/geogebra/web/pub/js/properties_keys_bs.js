@@ -1142,7 +1142,7 @@ __GGB__keysVar.bs.error = {
     "InvalidEquation": "Pogre\u0161an unos:\nMolimo upi\u0161ite polinomnu jedna\u010dinu/jednad\u017ebu s x i y .",
     "InvalidFunction": "Pogre\u0161an unos:\n\nMolimo upi\u0161ite eksplicitno zadanu funkciju po x.",
     "InvalidInequality": "Nedozvoljena nejednakost:\n\nMolimo upi\u0161ite linearne nejedna\u010dine/nejednad\u017ebe s x i y.",
-    "InvalidInput": "Pogre\u0161an unos",
+    "InvalidInput": "Molimo provjerite Va\u0161 unos.",
     "LengthMustBeConstant": "Vrijednost svake du\u017eine mora biti konstanta.",
     "LoadFileFailed": "Otvaranje datoteke nije uspjelo.",
     "NameUsed": "Ova oznaka se ve\u0107 koristi .",

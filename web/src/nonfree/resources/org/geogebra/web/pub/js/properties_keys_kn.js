@@ -1142,7 +1142,7 @@ __GGB__keysVar.kn.error = {
     "InvalidEquation": "Invalid equation:\nPlease enter a polynomial equation in x and y",
     "InvalidFunction": "Invalid function:\nPlease enter an explicit function in x",
     "InvalidInequality": "Invalid inequality:\nPlease enter a linear inequality in x and y",
-    "InvalidInput": "Invalid input",
+    "InvalidInput": "Please check your input.",
     "LengthMustBeConstant": "Every length has to be constant",
     "LoadFileFailed": "\u0c95\u0ca1\u0ca4\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0ca4\u0cc6\u0cb0\u0cc6\u0caf\u0cc1\u0cb5\u0cb2\u0ccd\u0cb2\u0cbf \u0cb5\u0cbf\u0cab\u0cb2\u0cb5\u0cbe\u0c97\u0cbf\u0ca6\u0cc6",
     "NameUsed": "\u0c88 \u0c97\u0cc1\u0cb0\u0cc1\u0ca4\u0cc1 \u0caa\u0c9f\u0ccd\u0c9f\u0cbf\u0caf\u0cc1 \u0c88\u0c97\u0cbe\u0c97\u0cb2\u0cc7 \u0cac\u0cb3\u0c95\u0cc6\u0caf\u0cb2\u0ccd\u0cb2\u0cbf\u0ca6\u0cc6",

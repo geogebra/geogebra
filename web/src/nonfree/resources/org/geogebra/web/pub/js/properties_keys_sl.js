@@ -1142,7 +1142,7 @@ __GGB__keysVar.sl.error = {
     "InvalidEquation": "Neustrezna ena\u010dba: \nvnesti je treba ena\u010dbo s spremenljivkama x in y",
     "InvalidFunction": "Neveljavna funkcija:\nvnesite eksplicitno funkcijo z x-om",
     "InvalidInequality": "Neveljavna neenakost:\nvnesite linearno neenakost s premenljivkama x in y.",
-    "InvalidInput": "Neveljaven vnos",
+    "InvalidInput": "\u017dal ne morem obdelati tega vnosa",
     "LengthMustBeConstant": "Dol\u017eina mora biti konstantna",
     "LoadFileFailed": "Odpiranje ni uspelo",
     "NameUsed": "Ta oznaka je \u017ee uporabljena",

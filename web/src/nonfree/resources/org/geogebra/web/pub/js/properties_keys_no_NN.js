@@ -1142,7 +1142,7 @@ __GGB__keysVar.no_NN.error = {
     "InvalidEquation": "Ufullstendig likning:\nSkriv ei polynomlikning med x og y.",
     "InvalidFunction": "Ugyldig funksjon:\nSkriv ein eksplisitt funksjon med x.",
     "InvalidInequality": "Ugyldig ulikskap:\nSkriv inn ein line\xe6r ulikskap med x og y.",
-    "InvalidInput": "Du sette inn noko ugyldig.",
+    "InvalidInput": "Det du sette inn blei ikkje akseptert.",
     "LengthMustBeConstant": "Lengda m\xe5 vere ein konstant.",
     "LoadFileFailed": "Fila kunne ikkje opnast.",
     "NameUsed": "Dette namnet er alt brukt.",
