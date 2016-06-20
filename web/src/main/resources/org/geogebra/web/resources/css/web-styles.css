@@ -6327,3 +6327,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	position: absolute;
 	z-index: 10;
 }
+
+.GeoGebraFrame .gwt-SplitLayoutPanel > div{
+	overflow: visible !important;
+}
