@@ -21,4 +21,8 @@ public abstract class CASFactory {
 
 	public abstract CASGenericInterface newGiac(CASparser p, CasParserTools t,
 			Kernel k);
+
+	public boolean isEnabled() {
+		return true;
+	}
 }

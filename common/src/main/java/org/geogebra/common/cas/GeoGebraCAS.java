@@ -106,7 +106,8 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public String evaluateGeoGebraCAS(ValidExpression casInput,
 			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell, Kernel kernel)
 			throws CASException {
-		if (app.isExam() && !app.getExam().isCASAllowed()) {
+		if (app.isExam() && !app.getExam().isCASAllowed()
+				&& getCurrentCAS() != null) {
 			return "?";
 		}
 		String result = null;

@@ -14,9 +14,14 @@
   <source path="web"/>
   <source path="plugin"/>
   <public path="pub" />
+  <source path='cas'/>
 
   <replace-with class="org.geogebra.web.web.gui.PNGImageFactory">
     <when-type-is class="org.geogebra.web.web.gui.ImageFactory" />    
+  </replace-with>
+  
+     <replace-with class="org.geogebra.web.cas.giac.CASFactoryW">
+    <when-type-is class="org.geogebra.common.factories.CASFactory" />    
   </replace-with>
 
   <replace-with class="org.geogebra.web.web.gui.applet.AppletFactory2D">

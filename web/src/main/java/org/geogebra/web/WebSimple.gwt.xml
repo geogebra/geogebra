@@ -10,6 +10,11 @@
 
   <source path='plugin'/>
   <public path='pub' />
+  <source path='cas'/>
+  
+     <replace-with class="org.geogebra.web.cas.giac.CASFactoryW">
+    <when-type-is class="org.geogebra.common.factories.CASFactory" />    
+  </replace-with>
 
   <!-- Compile only one permutation -->
   <collapse-all-properties />

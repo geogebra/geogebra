@@ -12,15 +12,12 @@
   
   <!-- Specify the paths for translatable code                    -->
   <source path='html5'/>
-  <source path='cas'/>
   <resource path='resources'/>
   <resource path='pub/js'/>
   <resource path='exam'/>
   <super-source path='html5-super' />
   
-   <replace-with class="org.geogebra.web.cas.giac.CASFactoryW">
-    <when-type-is class="org.geogebra.common.factories.CASFactory" />    
-  </replace-with>
+
   
   <!-- #3511 -->
   <set-property name="compiler.stackMode" value="strip"/>
