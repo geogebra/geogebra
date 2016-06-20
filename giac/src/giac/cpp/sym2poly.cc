@@ -2667,6 +2667,9 @@ namespace giac {
 	purgenoassume(Lk,contextptr);
       }
       if (is_undef(tmp)){
+#ifdef GIAC_GGB
+	return undef;
+#endif
 	if (calc_mode(contextptr)==1)
 	  return undef;
 	*logptr(contextptr) << gettext("Unable to build a single algebraic extension for simplifying.\nTrying rational simplification only. This might return a wrong answer if simplifying 0/0!") << endl;
