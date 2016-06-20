@@ -49,14 +49,12 @@ public class TextOptionsModel extends OptionsModel {
 	private Localization loc;
 	private DynamicTextProcessor dTProcessor; 
 	private GeoText editGeo;
-	private GeoText lastGeo;
 
 	public TextOptionsModel(App app) {
 		super(app);
 		loc = app.getLocalization();
 		dTProcessor = new DynamicTextProcessor(app);
 		editGeo = null;
-		lastGeo = null;
 	}
 
 	@Override
@@ -280,7 +278,6 @@ public class TextOptionsModel extends OptionsModel {
 
 	public void setEditGeo(GeoText editGeo) {
 		this.editGeo = editGeo;
-		lastGeo = editGeo;
 	}
 
 	public void setEditGeoText(String text) {

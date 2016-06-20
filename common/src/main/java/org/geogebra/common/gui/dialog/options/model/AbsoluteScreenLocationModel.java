@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
 public class AbsoluteScreenLocationModel extends BooleanOptionModel {
-	private App app;
 
 	public AbsoluteScreenLocationModel(App app) {
 		super(null, app);

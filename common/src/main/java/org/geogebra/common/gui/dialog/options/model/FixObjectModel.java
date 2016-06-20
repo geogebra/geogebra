@@ -5,8 +5,6 @@ import org.geogebra.common.main.App;
 
 public class FixObjectModel extends BooleanOptionModel {
 
-	private static final long serialVersionUID = 1L;
-
 	public FixObjectModel(IBooleanOptionListener listener, App app) {
 		super(listener, app);
 	}
