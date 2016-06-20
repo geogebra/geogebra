@@ -1811,10 +1811,12 @@ namespace giac {
 	    expr=tmp;
 	  else {
 	    tmp=_lncollect((tmps<s?tmp:expr),contextptr);
-	    if (int(lvarx(tmp,x).size())<s){
+	    int s1=int(lvarx(tmp,x).size());
+	    if (s1<s){
 	      // Note: we are checking solutions numerically later
 	      *logptr(contextptr) << gettext("Warning: solving in ") << x << gettext(" equation ") << tmp << "=0" << endl;
 	      expr=tmp;
+	      s=s1;
 	    }
 	    // code added 11 october 2015 for solve(2^(3*x-1)+2^(6*x-2)-2^(3*x+3)-(4^(3*x-2))=0);
 	    tmp=_tsimplify(tmps<s?tmp:expr,contextptr);
