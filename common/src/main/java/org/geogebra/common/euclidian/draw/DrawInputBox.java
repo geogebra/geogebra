@@ -49,8 +49,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	private static final double TF_HEIGHT_FACTOR = 1.22;
 	private static final double TF_WIDTH_FACTOR = 0.81;
 
-	private static final int TF_PADDING = 5;
-
 	private static final int TF_MARGIN = 10;
 
 	/** textfield */
@@ -178,13 +176,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			if (!textField.getText().equals(initialText)) {
 				geoInputBox.textObjectUpdated(textField);
 				geoInputBox.textSubmitted();
-				draw(view.getGraphicsForPen());
+				draw(getView().getGraphicsForPen());
 			}
 		}
-	}
-
-	private void updateCanvas() {
-
 	}
 
 	/**
@@ -213,7 +207,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				textField.setFocus(false);
 				getView().requestFocusInWindow();
 				textField.setVisible(false);
-				draw(view.getGraphicsForPen());
+				draw(getView().getGraphicsForPen());
 				geoInputBox.setText(textField.getText());
 			} else {
 				GeoElement linkedGeo = ((GeoInputBox) getGeo()).getLinkedGeo();
@@ -284,8 +278,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		setLabelFontSize((int) (view.getFontSize()
- * geoInputBox
-				.getFontSizeMultiplier()));
+				* geoInputBox.getFontSizeMultiplier()));
 		App app = view.getApplication();
 
 		GFont vFont = view.getFont();
@@ -323,7 +316,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 			@Override
 			public int getWidth() {
-				return (int) Math.round(((view.getApplication().getFontSize()
+				return (int) Math
+						.round(((getView().getApplication().getFontSize()
  * geoInputBox
 								.getFontSizeMultiplier()))
 								* geoInputBox.getLength() * TF_WIDTH_FACTOR);
@@ -331,7 +325,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 			@Override
 			public int getHeight() {
-				return (int) Math.round(((view.getApplication().getFontSize()
+				return (int) Math
+						.round(((getView().getApplication().getFontSize()
  * geoInputBox
 								.getFontSizeMultiplier()))
 						* TF_HEIGHT_FACTOR) + TF_MARGIN;

@@ -9,6 +9,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 
+/** Html5 factory for euclidian view components */
 public class SwingFactoryW extends SwingFactory {
 
 	@Override

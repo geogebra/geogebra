@@ -1,6 +1,5 @@
 package org.geogebra.common.javax.swing;
 
-import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 
@@ -12,24 +11,8 @@ public abstract class GBox {
 
 	public abstract void setBounds(GRectangle labelRectangle);
 
-	public abstract GDimension getPreferredSize();
-
 	public abstract GRectangle getBounds();
 
-	public abstract void validate();
 
 	public abstract void revalidate();
-
-	public void doLayout() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void remove(GComboBox comboBox) {
-		// TODO Auto-generated method stub
-
-	}
-
-	// public abstract Box createHorizontalBox();
-
 }

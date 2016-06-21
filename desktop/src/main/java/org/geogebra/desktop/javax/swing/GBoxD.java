@@ -2,11 +2,9 @@ package org.geogebra.desktop.javax.swing;
 
 import javax.swing.Box;
 
-import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 
@@ -55,18 +53,8 @@ public class GBoxD extends GBox {
 	}
 
 	@Override
-	public GDimension getPreferredSize() {
-		return new GDimensionD(impl.getPreferredSize());
-	}
-
-	@Override
 	public GRectangle getBounds() {
 		return new GRectangleD(impl.getBounds());
-	}
-
-	@Override
-	public void validate() {
-		impl.validate();
 	}
 
 	@Override

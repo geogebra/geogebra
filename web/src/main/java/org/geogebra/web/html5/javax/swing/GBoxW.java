@@ -1,13 +1,11 @@
 package org.geogebra.web.html5.javax.swing;
 
-import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -56,11 +54,6 @@ public class GBoxW extends GBox {
 	}
 
 	@Override
-	public GDimension getPreferredSize() {
-		return new GDimensionW(impl.getOffsetWidth(), impl.getOffsetHeight());
-	}
-
-	@Override
 	public GRectangle getBounds() {
 		int left = impl.getAbsoluteLeft();
 		int top = impl.getAbsoluteTop();
@@ -79,10 +72,6 @@ public class GBoxW extends GBox {
 
 		return new Rectangle(left, top, impl.getOffsetWidth(),
 		        impl.getOffsetHeight());
-	}
-
-	@Override
-	public void validate() {
 	}
 
 
