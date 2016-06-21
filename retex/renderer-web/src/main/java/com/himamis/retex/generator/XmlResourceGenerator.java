@@ -44,12 +44,10 @@ public class XmlResourceGenerator extends AbstractResourceGenerator
 				}
 			}
 		} while (commentStart >= 0);
-		logger.log(TreeLogger.INFO, xml, null);
 
 		SourceWriter sw = new StringSourceWriter();
 		sw.println("new " + XmlResource.class.getName() + "() {");
 		sw.indent();
-		sw.println("private String css=\"" + Generator.escape(xml) + "\";");
 
 		// Convenience when examining the generated code.
 		sw.println("// " + resource.toExternalForm());
@@ -64,7 +62,7 @@ public class XmlResourceGenerator extends AbstractResourceGenerator
 		sw.println("@Override");
 		sw.println("public String getText() {");
 		sw.indent();
-		sw.println("return css;");
+		sw.println("return \"" + Generator.escape(xml) + "\";");
 		sw.outdent();
 		sw.println("}");
 
