@@ -8015,7 +8015,10 @@ public abstract class EuclidianController {
 					newScale);
 		}
 	}
-
+	/**
+	 * Scales the z-axis
+	 * @param repaint whether to repaint afterwards
+	 */
 	protected void scaleZAxis(boolean repaint) {
 		// not needed in 2D
 	}
@@ -9066,7 +9069,7 @@ public abstract class EuclidianController {
 		}
 		this.pressedButton = view.getHitButton(mouseLoc, event.getType());
 		if (pressedButton != null) {
-			if (app.showView(App.VIEW_PROPERTIES) == false) {
+			if (!app.showView(App.VIEW_PROPERTIES)) {
 				pressedButton.setPressed(true);
 				pressedButton.setDraggedOrContext(
 						event.isMetaDown() || event.isPopupTrigger());

@@ -384,7 +384,7 @@ public final class EuclidianConstants {
 	/** min length of input box that allows display of symbol button */
 	public static final int SHOW_SYMBOLBUTTON_MINLENGTH = 8;
 
-	// 13 in older files
+	/** 13 in older files */
 	public static final int DEFAULT_CHECKBOX_SIZE = 26;
 
 	/**
