@@ -43,6 +43,7 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -703,13 +704,15 @@ public class RadioTreeItem extends AVTreeItem
 		outputPanel.clear();
 		if (app.has(Feature.FRACTIONS)) {
 			if (isSymbolicDiffers()) {
-			final MyToggleButton2 btnSymbolic = new MyToggleButton2(
-					getOutputPrefix());
-			btnSymbolic.addStyleName("symbolicButton");
+				final MyToggleButton2 btnSymbolic = new MyToggleButton2(
+						GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),
+						GuiResourcesSimple.INSTANCE.modeToggleNumeric());
+				btnSymbolic.addStyleName("symbolicButton");
 				if (getOutputPrefix() == Unicode.CAS_OUTPUT_NUMERIC) {
-					btnSymbolic.addStyleName("btn-numeric");
+					btnSymbolic.setSelected(true);
 				}
 				if (getOutputPrefix() == Unicode.CAS_OUTPUT_PREFIX) {
+					btnSymbolic.setSelected(false);
 					btnSymbolic.addStyleName("btn-prefix");
 				}
 			btnSymbolic.addClickHandler(new ClickHandler() {
@@ -855,8 +858,12 @@ public class RadioTreeItem extends AVTreeItem
 			((HasSymbolicMode) geo)
 					.setSymbolicMode(!((HasSymbolicMode) geo).isSymboicMode());
 
+			if (getOutputPrefix() == Unicode.CAS_OUTPUT_NUMERIC) {
+				button.setSelected(true);
+			} else {
+				button.setSelected(false);
+			}
 			geo.updateRepaint();
-			button.setText(getOutputPrefix());
 		}
 
 	}

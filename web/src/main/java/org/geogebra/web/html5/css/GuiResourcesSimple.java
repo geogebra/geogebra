@@ -176,6 +176,12 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/question-mark.png")
 	ImageResource questionMark();
 
+	@Source("org/geogebra/common/icons/png/web/mode_toggle_numeric.png")
+	ImageResource modeToggleNumeric();
+
+	@Source("org/geogebra/common/icons/png/web/mode_toggle_symbolic.png")
+	ImageResource modeToggleSymbolic();
+
 	// TODO we need another picture
 	@Source("org/geogebra/common/icons/png/android/document_viewer.png")
 	ImageResource viewSaved();
