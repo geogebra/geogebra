@@ -1928,7 +1928,6 @@ var __giac = [ {},
 //{ cat: "Evaluate", cmd:"", result:"", notes:"" },
 //{ cat: "Integral", cmd:"Integral[sqrt(sin(x))]", result:"?", notes:"" },
 //{ cat:"Integral", cmd:"Integral[1/(x\u2075 - 3x\u2074 + x\u00B3 + x\u00B2 + x + 1)]", result:"?" },
-
 ];
 
 // giac/ggb bugs
