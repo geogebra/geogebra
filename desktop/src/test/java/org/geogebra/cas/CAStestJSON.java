@@ -1225,6 +1225,10 @@ public class CAStestJSON {
 		testCat("Zip");
 	}
 
+	@Test
+	public void testTranslate() {
+		testCat("Translate");
+	}
 
 	
 }
