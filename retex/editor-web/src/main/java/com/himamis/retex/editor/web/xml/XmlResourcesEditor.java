@@ -2,7 +2,7 @@ package com.himamis.retex.editor.web.xml;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
+import com.himamis.retex.renderer.web.resources.xml.XmlResource;
 
 public interface XmlResourcesEditor extends ClientBundle {
 	
@@ -15,6 +15,6 @@ public interface XmlResourcesEditor extends ClientBundle {
 	 * time. Please regenerate this if you add/delete/rename xmls.
 	 */
 	@Source("com/himamis/retex/editor/web/meta/Octave.xml")
-	public TextResource octave();
+	public XmlResource octave();
 
 }
