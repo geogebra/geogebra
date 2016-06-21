@@ -1185,8 +1185,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					}
 					return new MyDouble(kernel, funN.evaluate(vals));
 				} else if ((funN.getVarNumber() == 3)
-						&& (ev instanceof Vector3DValue)) {
-					Vector3DValue pt = (Vector3DValue) ev;
+						&& (ev instanceof VectorNDValue)) {
+					VectorNDValue pt = (VectorNDValue) ev;
 					double[] vals = pt.getPointAsDouble();
 					if (funN.isBooleanFunction()) {
 						return new MyBoolean(kernel, funN.evaluateBoolean(vals));

@@ -2656,7 +2656,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	public double[] getPointAsDouble() {
-		return new double[] { inhomX, inhomY };
+		return new double[] { inhomX, inhomY, 0 };
 	}
 
 	/**

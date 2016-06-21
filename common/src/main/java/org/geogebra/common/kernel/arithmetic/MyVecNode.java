@@ -351,7 +351,7 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 	}
 
 	public double[] getPointAsDouble() {
-		return new double[] { x.evaluateDouble(), y.evaluateDouble() };
+		return new double[] { x.evaluateDouble(), y.evaluateDouble(), 0 };
 	}
 
 }

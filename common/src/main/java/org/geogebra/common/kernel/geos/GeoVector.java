@@ -514,7 +514,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 	}        
 
 	public double[] getPointAsDouble() {
-		return new double[] { x, y };
+		return new double[] { x, y, 0 };
 	}
 	/** POLAR or CARTESIAN */
 
