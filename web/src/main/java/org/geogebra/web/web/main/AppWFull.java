@@ -732,6 +732,8 @@ public abstract class AppWFull extends AppW {
 									.getModified());
 							getGgbApi().setBase64(material.getBase64());
 							setActiveMaterial(material);
+							AppWFull.this.updateMaterialURL(material.getId(),
+									material.getSharingKey());
 						} else {
 							onError.run();
 						}
