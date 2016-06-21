@@ -54,7 +54,6 @@ public abstract class TextPreviewer {
 
 		// set EV display properties
 		removeEVMouseListeners();
-		ev.setAntialiasing(true);
 		ev.setAllowShowMouseCoords(false);
 		ev.setAxesCornerCoordsVisible(false);
 		ev.updateFonts();

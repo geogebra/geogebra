@@ -1457,7 +1457,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			final EuclidianViewW ev = newEuclidianView(showAxis, showGrid, 2);
 			euclidianView2.set(idx, ev);
 			// euclidianView2.setEuclidianViewNo(2);
-			ev.setAntialiasing(true);
 			ev.updateFonts();
 		}
 		return euclidianView2.get(idx);

@@ -1979,7 +1979,6 @@ public abstract class App implements UpdateSelection {
 
 		euclidianController = newEuclidianController(kernel);
 		euclidianView = newEuclidianView(showAxes, showGrid);
-		euclidianView.setAntialiasing(antialiasing);
 	}
 
 	abstract protected EuclidianView newEuclidianView(boolean[] showAxes1,

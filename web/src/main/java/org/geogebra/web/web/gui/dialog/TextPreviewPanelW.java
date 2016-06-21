@@ -148,7 +148,6 @@ public class TextPreviewPanelW extends TextPreviewer {
 			this.setShowAxes(false, false);
 			this.showGrid(false);
 			
-			this.setAntialiasing(true);
 		}
 
 		/**

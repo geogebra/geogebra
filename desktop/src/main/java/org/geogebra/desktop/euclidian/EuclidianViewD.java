@@ -925,9 +925,7 @@ public class EuclidianViewD extends EuclidianView implements
 			bgImage = new GBufferedImageD(
 					gc.createCompatibleImage(getWidth(), getHeight()));
 			bgGraphics = bgImage.createGraphics();
-			if (antiAliasing) {
-				bgGraphics.setAntialiasing();
-			}
+			bgGraphics.setAntialiasing();
 		}
 	}
 

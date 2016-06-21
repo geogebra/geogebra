@@ -739,7 +739,6 @@ ToolbarD.getAllTools(this));
 							+ "  --showGrid=BOOLEAN\tshow/hide grid\n"
 							+ "  --settingsFile=PATH|FILENAME\tload/save settings from/in a local file\n"
 							+ "  --resetSettings\treset current settings\n"
-							+ "  --antiAliasing=BOOLEAN\tturn anti-aliasing on/off\n"
 							+ "  --regressionFile=FILENAME\texport textual representations of dependent objects, then exit\n"
 							+ "  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)\n"
 							+ "  --logLevel=LEVEL\tset logging level (EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
@@ -1073,13 +1072,6 @@ ToolbarD.getAllTools(this));
 
 			System.exit(0);
 
-		}
-
-		boolean antiAliasing = args.getBooleanValue("antiAliasing", true);
-		if (!antiAliasing) {
-			this.antialiasing = false;
-			this.getEuclidianView1().setAntialiasing(antiAliasing);
-			this.getEuclidianView2(1).setAntialiasing(antiAliasing);
 		}
 
 		boolean macSandbox = args.getBooleanValue("macSandbox", false);

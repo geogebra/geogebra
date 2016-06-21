@@ -443,9 +443,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 			bgImage = new GBufferedImageD(
 					gc.createCompatibleImage(getWidth(), getHeight()));
 			bgGraphics = bgImage.createGraphics();
-			if (antiAliasing) {
-				setAntialiasing(bgGraphics);
-			}
+			setAntialiasing(bgGraphics);
 		}
 	}
 

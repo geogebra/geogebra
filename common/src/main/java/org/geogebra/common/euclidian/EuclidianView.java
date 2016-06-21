@@ -1105,25 +1105,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected boolean batchUpdate;
 
 	/**
-	 * @param flag
-	 *            true to turn antialiasing on
-	 */
-	public void setAntialiasing(boolean flag) {
-		if (flag == antiAliasing) {
-			return;
-		}
-		antiAliasing = flag;
-		repaint();
-	}
-
-	/**
-	 * @return true if antialising is on
-	 */
-	public boolean getAntialiasing() {
-		return antiAliasing;
-	}
-
-	/**
 	 * This is only needed for second or above euclidian views
 	 * 
 	 * @param evNo

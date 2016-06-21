@@ -560,7 +560,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			Log.debug("Creating 2nd Euclidian View");
 			EuclidianViewD ev = newEuclidianView(showAxis, showGrid, 2);
 			// euclidianView2.setEuclidianViewNo(2);
-			ev.setAntialiasing(true);
 			ev.updateFonts();
 			euclidianView2.set(idx, ev);
 		}

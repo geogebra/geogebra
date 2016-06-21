@@ -116,7 +116,6 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		// set some default EV features
 		setAllowShowMouseCoords(false);
 		setAxesCornerCoordsVisible(false);
-		setAntialiasing(true);
 		updateFonts();
 
 		// set preferred size so that updateSize will work and this EV can be
