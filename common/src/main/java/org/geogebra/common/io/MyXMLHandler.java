@@ -2898,7 +2898,9 @@ new GPoint(row, column));
 		macro.initMacro(cons, macroInputLabels, macroOutputLabels);
 		// ad the newly built macro to the kernel
 		origKernel.addMacro(macro);
-
+		// update construction resets the nearto relations in macro, so "outer
+		// world" won't affect it
+		cons.updateConstruction();
 		// set kernel and construction back to the original values
 		initKernelVars();
 	}
