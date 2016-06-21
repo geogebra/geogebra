@@ -1967,7 +1967,6 @@ var bugs = [
 { cat:"Evaluate", cmd:"Evaluate[z(x=4)]", result:"-4" },
 { cat: "SolveIneq", cmd:"Solve[{t^2<=p^2},{p}]", result:"", notes:"#5521, TRAC-4161" },
 { cat: "Solve", cmd:"Solve[{X=(t,t),X=(2s-1,3s+3)}]", result:"{{s = -4, t = -9}}", notes:"#5332 OK in GUI" },
-
 ];
 
 // these tests are very slow in giac.js
