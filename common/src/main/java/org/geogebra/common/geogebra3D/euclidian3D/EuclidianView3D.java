@@ -2063,6 +2063,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		case SCALE:
 			setScale(animatedScaleEndX, animatedScaleEndY, animatedScaleEndZ);
 			updateMatrix();
+			stopAnimation();
 			break;
 		case ANIMATED_SCALE:
 			double t = (app.getMillisecondTime() - animatedScaleTimeStart)
