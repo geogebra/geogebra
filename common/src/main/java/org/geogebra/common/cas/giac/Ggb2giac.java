@@ -1572,9 +1572,9 @@ public class Ggb2giac {
 						+ "point((ggbangarg0[2][2][2])[2][0],(ggbangarg0[2][2][2])[2][1],(ggbangarg0[2][2][2])[2][2]),"
 						+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))), "
 						// case line or plane defined by linear equation
-						// or points
-						+ "when( ( type(xcoord(ggbangarg0)) == DOM_INT || (ggbangarg0)[0] == 'pnt')  && ( type(xcoord(ggbangarg1)) == DOM_INT || (ggbangarg1)[0] == 'pnt' ),"
-						+ "normal(regroup(angle(point(0,0,0),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))) ,"
+						// or points or vectors (GGB-988)
+						+ "when( ( type(xcoord(ggbangarg0)) == DOM_INT || (ggbangarg0)[0] == 'pnt' || subtype(ggbangarg0) == 27)  && ( type(xcoord(ggbangarg1)) == DOM_INT || (ggbangarg1)[0] == 'pnt' || subtype(ggbangarg1) == 27),"
+						+ "normal(regroup(angle(point(0,0,0),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1))))),"
 						// case 3D lines defined in this command
 						+ "when ( xcoord(ggbangarg0) == string(X) && xcoord(ggbangarg1) == string(X) ,"
 						+ "normal(regroup(angle(point(0,0,0),"
