@@ -1476,7 +1476,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		@Override
 		public void updatePath() {
 			for (int factor = 0; factor < factorExpression.length; ++factor) {
-
 				this.sw = Math.min(MAX_SPLIT, (int) (w * scaleX / RES_COARSE));
 				this.sh = Math.min(MAX_SPLIT, (int) (h * scaleY / RES_COARSE));
 				if (sw == 0 || sh == 0) {
@@ -1530,21 +1529,21 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 						cur = evaluateImplicitCurve(xcoords[j], ycoords[i],
 								factor);
 						Rect rect = this.grid[i - 1][j - 1];
-						rect.set(j - 1, i - 1, frx, fry, false);
+						rect.set(j - 1, i - 1, frx, fry, 0);
 						rect.coords.val[0] = xcoords[j - 1];
 						rect.coords.val[1] = ycoords[i - 1];
 						rect.evals[0] = vertices[j - 1];
 						rect.evals[1] = vertices[j];
 						rect.evals[2] = cur;
 						rect.evals[3] = prev;
-						rect.status = edgeConfig(rect);
-						rect.shares = 0xff;
+						rect.buildStatus();
+						rect.shares = 0x0f;
 						fx = xcoords[j] - 0.5 * frx;
 						dx = derivativeX(fx, fy);
 						dy = derivativeY(fx, fy);
 						dx = Math.abs(dx) + Math.abs(dy);
 						if (Kernel.isZero(dx, 0.001)) {
-							rect.singular = true;
+							rect.status |= Consts.SINGULAR;
 						}
 						this.grid[i - 1][j - 1] = rect;
 						vertices[j - 1] = prev;
@@ -1569,11 +1568,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 				for (i = 0; i < sh; i++) {
 					for (j = 0; j < sw; j++) {
-						if (!grid[i][j].singular
-								&& grid[i][j].status != EMPTY) {
+						if (!grid[i][j].is(Consts.SINGULAR)
+								&& !grid[i][j].is(Consts.EMPTY)) {
 							temp.set(grid[i][j]);
 							plot(temp, 0, factor);
-							grid[i][j].status = FINISHED;
+							grid[i][j].status |= Consts.FINISHED;
 						}
 					}
 				}
@@ -1593,13 +1592,17 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				for (int k = 0; k < 4; k++) {
 					for (i = 0; i < sh; i++) {
 						for (j = 0; j < sw; j++) {
-							if (grid[i][j].singular
-									&& grid[i][j].status != FINISHED) {
+							if (!grid[i][j].is(Consts.FINISHED)
+									&& grid[i][j].is(Consts.NEIGHBOR)) {
 								temp.set(grid[i][j]);
 								plot(temp, 0, factor);
-								grid[i][j].status = FINISHED;
+								grid[i][j].status |= Consts.FINISHED;
 							}
 						}
+					}
+					timer.record();
+					if (timer.elapse >= 300) {
+						break;
 					}
 				}
 			}
@@ -1618,32 +1621,26 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				createTree(r, depth + 1, factor);
 				return;
 			}
-			int e = edgeConfig(r);
-			if (grid[r.y][r.x].singular || e != EMPTY) {
+			r.buildStatus();
+			if (grid[r.y][r.x].is(Consts.SINGULAR) || !r.is(Consts.EMPTY)) {
 				if (depth >= plotDepth) {
-					if (addSegment(r, factor) == T0101) {
+					if (addSegment(r) == Consts.AMBIGUOUS) {
+						if (depth >= 4)
+							return;
 						createTree(r, depth + 1, factor);
 						return;
 					}
-					if (r.x != 0 && (e & r.shares & 0x1) != 0) {
-						if (grid[r.y][r.x - 1].status == EMPTY) {
-							grid[r.y][r.x - 1].status = 1;
-						}
+					if (r.x != 0 && (r.shares & 0x88) == 0x88) {
+						grid[r.y][r.x - 1].status |= Consts.NEIGHBOR;
 					}
-					if (r.x + 1 != sw && (e & r.shares & 0x4) != 0) {
-						if (grid[r.y][r.x + 1].status == EMPTY) {
-							grid[r.y][r.x + 1].status = 1;
-						}
+					if (r.x + 1 != sw && (r.shares & 0x22) == 0x22) {
+						grid[r.y][r.x + 1].status |= Consts.NEIGHBOR;
 					}
-					if (r.y != 0 && (e & r.shares & 0x8) != 0) {
-						if (grid[r.y - 1][r.x].status == EMPTY) {
-							grid[r.y - 1][r.x].status = 1;
-						}
+					if (r.y != 0 && (r.shares & 0x11) == 0x11) {
+						grid[r.y - 1][r.x].status |= Consts.NEIGHBOR;
 					}
-					if (r.y + 1 != sh && (e & r.shares & 0x2) != 0) {
-						if (grid[r.y + 1][r.x].status == EMPTY) {
-							grid[r.y + 1][r.x].status = 1;
-						}
+					if (r.y + 1 != sh && (r.shares & 0x44) == 0x44) {
+						grid[r.y + 1][r.x].status |= Consts.NEIGHBOR;
 					}
 				} else {
 					createTree(r, depth + 1, factor);

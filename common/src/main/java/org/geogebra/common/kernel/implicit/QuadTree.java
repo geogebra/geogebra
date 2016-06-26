@@ -11,131 +11,121 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
- * Base class for quadtree algorithms
+ * Base class for quad-tree algorithms
+ * 
  */
 abstract class QuadTree {
-	/**
-	 * 
-	 */
 	private final GeoImplicitCurve geoImplicitCurve;
 
-	/**
-	 * All corners are inside / outside
-	 */
-	@SuppressWarnings("unused")
-	public static final int T0000 = 0;
-
-	/**
-	 * only bottom left corner is inside / outside
-	 */
-	public static final int T0001 = 1;
-
-	/**
-	 * bottom right corner is inside / outside
-	 */
-	public static final int T0010 = 2;
-
-	/**
-	 * both corners at the bottom are inside / outside
-	 */
-	public static final int T0011 = 3;
-
-	/**
-	 * top left corner is inside / outside
-	 */
-	public static final int T0100 = 4;
-
-	/**
-	 * opposite corners are inside / outside. NOTE: This configuration is
-	 * regarded as invalid
-	 */
-	public static final int T0101 = 5;
-
-	/**
-	 * both the corners at the left are inside / outside
-	 */
-	public static final int T0110 = 6;
-
-	/**
-	 * only top left corner is inside / outside
-	 */
-	public static final int T0111 = 7;
-
-	/**
-	 * invalid configuration. expression value is undefined / infinity for
-	 * at least one of the corner
-	 */
-	public static final int T_INV = -1;
-	public static final int EMPTY = 0;
-	public static final int FINISHED = Integer.MAX_VALUE;
-	public static final int VALID = 1;
 	/**
 	 * it would be better to adjust LIST_THRESHOLD based on platform
 	 */
 	public int LIST_THRESHOLD = 48;
+	/**
+	 * Leftmost x coordinate
+	 */
 	protected double x;
+	/**
+	 * Topmost y coordinate
+	 */
 	protected double y;
+	/**
+	 * Width of the display
+	 */
 	protected double w;
+	/**
+	 * Height of the display
+	 */
 	protected double h;
+	/**
+	 * pixel per unit in x-axis direction
+	 */
 	protected double scaleX;
+	/**
+	 * pixel per unit in y-axis direction
+	 */
 	protected double scaleY;
+	/**
+	 * Array of locus point
+	 */
 	protected ArrayList<MyPoint> locusPoints;
+	/**
+	 * List of the open segments
+	 */
 	private LinkedList<PointList> openList = new LinkedList<PointList>();
+	/**
+	 * Temporary point array
+	 */
 	private MyPoint[] pts = new MyPoint[2];
 	private PointList p1, p2;
 	private MyPoint temp;
 	private ListIterator<PointList> itr1, itr2;
 
+	/**
+	 * Create a QuadTree instance
+	 * 
+	 * @param geoImplicitCurve
+	 *            the curve equation
+	 */
 	public QuadTree(GeoImplicitCurve geoImplicitCurve) {
 		this.geoImplicitCurve = geoImplicitCurve;
 
 	}
 
-	public int config(Rect r) {
-		int config = 0;
-		for (int i = 0; i < 4; i++) {
-			config = (config << 1) | sign(r.evals[i]);
-		}
-		return config >= 8 ? (~config) & 0xf : config;
+	/**
+	 * 
+	 * @param x
+	 *            first number
+	 * @param y
+	 *            second number
+	 * @return true of x and y have opposite sign or one of them is zero
+	 */
+	private static boolean hasOppositeSignOrZero(double x, double y) {
+		return x * y <= 0;
 	}
 
 	/**
 	 * 
-	 * @param val
-	 *            value to check
-	 * @return the sign depending on the value. if value is infinity or NaN
-	 *         it returns T_INV, otherwise it returns 1 for +ve value 0
-	 *         otherwise
+	 * @param x
+	 * @param y
+	 * @return
 	 */
-	public int sign(double val) {
-		if (Double.isInfinite(val) || Double.isNaN(val)) {
-			return T_INV;
-		} else if (val > 0.0) {
-			return 1;
-		} else {
-			return 0;
-		}
+	private static boolean hasOppositeSign(double x, double y) {
+		return x * y < Kernel.STANDARD_PRECISION;
 	}
 
+	/**
+	 * clear old list and start new list of segments
+	 */
 	public void abortList() {
 		itr1 = openList.listIterator();
 		while (itr1.hasNext()) {
 			p1 = itr1.next();
 			locusPoints.add(p1.start);
-			locusPoints.addAll(p1.pts);
+			locusPoints.addAll(p1.points);
 			locusPoints.add(p1.end);
 		}
 		openList.clear();
 	}
 
-	private boolean equal(MyPoint q1, MyPoint q2) {
+	private static boolean equal(MyPoint q1, MyPoint q2) {
 		return Kernel.isEqual(q1.x, q2.x, 1e-10)
 				&& Kernel.isEqual(q1.y, q2.y, 1e-10);
 	}
 
-	public int addSegment(Rect r, int factor) {
-		int status = createSegment(r, factor);
-		if (status == VALID) {
+	/**
+	 * build a segment and add it to GeoLine
+	 * 
+	 * @param r
+	 *            rectangle
+	 * @return status
+	 */
+	public int addSegment(Rect r) {
+		int status = createSegment(r);
+		if (status == Consts.VALID) {
+			if (pts == null || pts[0] == null || pts[1] == null) {
+				return Consts.VALID;
+			}
 			if (pts[0].x > pts[1].x) {
 				temp = pts[0];
 				pts[0] = pts[1];
@@ -177,72 +167,200 @@ abstract class QuadTree {
 		return status;
 	}
 
-	public int createSegment(Rect r, int factor) {
-		int gridType = config(r);
-		if (gridType == T0101 || gridType == T_INV) {
-			return gridType;
-		}
+	/**
+	 * Create line from (x1, y1) to (x2, y2)
+	 * 
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 * @return status
+	 */
+	private int createLine(double x1, double y1, double x2, double y2) {
+		this.pts[0] = new MyPoint(x1, y1, false);
+		this.pts[1] = new MyPoint(x2, y2, true);
+		return Consts.VALID;
+	}
 
+	private boolean createPoint(Rect r, int e, int k) {
+		double xi, yi, v;
+		switch (e) {
+		case 0:
+			xi = interpolate(r.evals[0], r.evals[1], r.x1(), r.x2());
+			v = geoImplicitCurve.derivativeX(r.x1(), r.y1());
+			if (!hasOppositeSign(v, r.evals[0])) {
+				return false;
+			}
+			this.pts[k] = new MyPoint(xi, r.y1(), k != 0);
+			return true;
+		case 2:
+			xi = interpolate(r.evals[3], r.evals[2], r.x1(), r.x2());
+			v = geoImplicitCurve.derivativeX(r.x1(), r.y2());
+			if (!hasOppositeSign(v, r.evals[3])) {
+				return false;
+			}
+			this.pts[k] = new MyPoint(xi, r.y2(), k != 0);
+			return true;
+		case 1:
+			yi = interpolate(r.evals[1], r.evals[2], r.y1(), r.y2());
+			v = geoImplicitCurve.derivativeY(r.x2(), r.y1());
+			if (!hasOppositeSign(v, r.evals[1])) {
+				return false;
+			}
+			this.pts[k] = new MyPoint(r.x2(), yi, k != 0);
+			return true;
+		case 3:
+			yi = interpolate(r.evals[0], r.evals[3], r.y1(), r.y2());
+			v = geoImplicitCurve.derivativeY(r.x1(), r.y1());
+			if (!hasOppositeSign(v, r.evals[0])) {
+				return false;
+			}
+			this.pts[k] = new MyPoint(r.x1(), yi, k != 0);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Create line by interpolating two edges
+	 * 
+	 * @return status
+	 */
+	private int createLine(Rect r, int e1, int e2) {
+		if (createPoint(r, e1, 0) && createPoint(r, e2, 1)) {
+			r.shares |= (1 << (0x4 | e1)) | (1 << (0x4 | e2));
+			return Consts.VALID;
+		}
+		return Consts.EMPTY;
+	}
+
+	/**
+	 * Create line by from (x, y) to interpolating edge e
+	 * 
+	 * @return status
+	 */
+	private int createLine(Rect r, int e, double x1, double y1) {
+		if (createPoint(r, e, 0)) {
+			this.pts[1] = new MyPoint(x1, y1, true);
+			r.shares |= (1 << (0x4 | e));
+			return Consts.VALID;
+		}
+		return Consts.EMPTY;
+	}
+
+	private int createSegment(Rect r) {
+		if (r.is(Consts.EMPTY)) {
+			return Consts.EMPTY;
+		}
 		double x1 = r.x1(), x2 = r.x2(), y1 = r.y1(), y2 = r.y2();
-		double tl = r.evals[0], tr = r.evals[1], br = r.evals[2], bl = r.evals[3];
-		double q1 = 0.0, q2 = 0.0;
+		double tl = r.evals[0], tr = r.evals[1], br = r.evals[2],
+				bl = r.evals[3];
 
-		switch (gridType) {
-		// one or three corners are inside / outside
-		case T0001:
-			pts[0] = new MyPoint(x1, GeoImplicitCurve.interpolate(bl, tl, y2, y1), false);
-			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(bl, br, x1, x2), y2, true);
-			q1 = Math.min(Math.abs(bl), Math.abs(tl));
-			q2 = Math.min(Math.abs(bl), Math.abs(br));
-			break;
-
-		case T0010:
-			pts[0] = new MyPoint(x2, GeoImplicitCurve.interpolate(br, tr, y2, y1), false);
-			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(br, bl, x2, x1), y2, true);
-			q1 = Math.min(Math.abs(br), Math.abs(tr));
-			q2 = Math.min(Math.abs(br), Math.abs(bl));
-			break;
-
-		case T0100:
-			pts[0] = new MyPoint(x2, GeoImplicitCurve.interpolate(tr, br, y1, y2), false);
-			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(tr, tl, x2, x1), y1, true);
-			q1 = Math.min(Math.abs(tr), Math.abs(br));
-			q2 = Math.min(Math.abs(tr), Math.abs(tl));
-			break;
-
-		case T0111:
-			pts[0] = new MyPoint(x1, GeoImplicitCurve.interpolate(tl, bl, y1, y2), false);
-			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(tl, tr, x1, x2), y1, true);
-			q1 = Math.min(Math.abs(bl), Math.abs(tl));
-			q2 = Math.min(Math.abs(tl), Math.abs(tr));
-			break;
-
-		// two consecutive corners are inside / outside
-		case T0011:
-			pts[0] = new MyPoint(x1, GeoImplicitCurve.interpolate(tl, bl, y1, y2), false);
-			pts[1] = new MyPoint(x2, GeoImplicitCurve.interpolate(tr, br, y1, y2), true);
-			q1 = Math.min(Math.abs(tl), Math.abs(bl));
-			q2 = Math.min(Math.abs(tr), Math.abs(br));
-			break;
-
-		case T0110:
-			pts[0] = new MyPoint(GeoImplicitCurve.interpolate(tl, tr, x1, x2), y1, false);
-			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(bl, br, x1, x2), y2, true);
-			q1 = Math.min(Math.abs(tl), Math.abs(tr));
-			q2 = Math.min(Math.abs(bl), Math.abs(br));
-			break;
-		default:
-			return EMPTY;
+		switch (r.zero) {
+		case 0:
+			if (r.neg == r.pos && !hasOppositeSignOrZero(tl, br)) {
+				return Consts.AMBIGUOUS;
+			}
+			int k = 0;
+			int[] e = { 0, 0 };
+			for (int i = 0; i < 4; i++) {
+				if (hasOppositeSignOrZero(r.evals[i], r.evals[(i + 1) & 0x3])) {
+					e[k++] = i;
+				}
+			}
+			return createLine(r, e[0], e[1]);
+		case 1:
+			if (r.neg == 3 || r.pos == 3) {
+				if (tl == 0.0) {
+					return createLine(x1, y1, x1, y1);
+				}
+				if (tr == 0.0) {
+					return createLine(x2, y1, x2, y1);
+				}
+				if (bl == 0.0) {
+					return createLine(x1, y2, x1, y2);
+				}
+				if (br == 0.0) {
+					return createLine(x2, y2, x2, y2);
+				}
+			}
+			if (tl == 0.0) {
+				if (hasOppositeSignOrZero(bl, br)) {
+					if (hasOppositeSignOrZero(tr, br)) {
+						return createLine(r, Consts.RIGHT, Consts.BOTTOM);
+					}
+					return createLine(r, Consts.BOTTOM, x1, y1);
+				}
+				if (hasOppositeSignOrZero(tr, br)) {
+					return createLine(x1, y1, x2, Consts.RIGHT);
+				}
+				return Consts.EMPTY;
+			}
+			if (tr == 0.0) {
+				if (hasOppositeSignOrZero(bl, br)) {
+					if (hasOppositeSignOrZero(tl, bl)) {
+						return createLine(r, Consts.BOTTOM, Consts.LEFT);
+					}
+					return createLine(r, Consts.BOTTOM, x2, y1);
+				}
+				if (hasOppositeSignOrZero(tl, bl)) {
+					return createLine(r, Consts.LEFT, x2, y1);
+				}
+				return Consts.EMPTY;
+			}
+			if (br == 0.0) {
+				if (hasOppositeSignOrZero(tl, bl)) {
+					if (hasOppositeSignOrZero(tl, tr)) {
+						return createLine(r, Consts.TOP, Consts.LEFT);
+					}
+					return createLine(r, Consts.LEFT, x2, y2);
+				}
+				if (hasOppositeSignOrZero(tl, tr)) {
+					return createLine(r, Consts.TOP, x2, y2);
+				}
+				return Consts.EMPTY;
+			}
+			if (bl == 0.0) {
+				if (hasOppositeSignOrZero(tl, tr)) {
+					if (hasOppositeSignOrZero(tr, br)) {
+						return createLine(r, Consts.TOP, Consts.RIGHT);
+					}
+					return createLine(r, Consts.TOP, x1, y2);
+				}
+				if (hasOppositeSignOrZero(tr, br)) {
+					return createLine(r, Consts.RIGHT, x1, y2);
+				}
+			}
+			return Consts.EMPTY;
+		case 2:
+			if (r.pos == 2 || r.neg == 2) {
+				if (tl == 0.0) {
+					if (tr == 0.0) {
+						return createLine(x1, y1, x2, y1);
+					}
+					if (bl == 0.0) {
+						return createLine(x1, y1, x1, y2);
+					}
+				}
+				if (br == 0.0) {
+					if (tr == 0.0) {
+						return createLine(x2, y1, x2, y2);
+					}
+					if (bl == 0.0) {
+						return createLine(x1, y2, x2, y2);
+					}
+				}
+			} else {
+				if (tl == 0.0 && br == 0.0) {
+					return createLine(x1, y1, x2, y2);
+				}
+				if (bl == 0.0 && tr == 0.0) {
+					return createLine(x1, y2, x2, y1);
+				}
+			}
+			return Consts.EMPTY;
 		}
-		// check continuity of the function between P1 and P2
-		double p = Math.abs(this.geoImplicitCurve
-				.evaluateImplicitCurve(pts[0].x, pts[0].y, factor));
-		double q = Math.abs(this.geoImplicitCurve
-				.evaluateImplicitCurve(pts[1].x, pts[1].y, factor));
-		if ((p <= q1 && q <= q2)) {
-			return VALID;
-		}
-		return EMPTY;
+		return Consts.EMPTY;
 	}
 
 	/**
@@ -275,10 +393,25 @@ abstract class QuadTree {
 		this.abortList();
 	}
 
+	/**
+	 * Polish a point on path
+	 * 
+	 * @param pt
+	 *            point
+	 */
 	public void polishPointOnPath(GeoPointND pt) {
-		// pt.setUndefined();
+		pt.setUndefined();
 	}
 
+	/**
+	 * List of the probable points which might lie on the path
+	 * 
+	 * @param other
+	 *            Implicit Curve
+	 * @param n
+	 *            Number of output point
+	 * @return List of points
+	 */
 	public List<Coords> probablePoints(GeoImplicitCurve other, int n) {
 		double xMin = Math.max(x, other.quadTree.x);
 		double yMin = Math.max(y, other.quadTree.y);
@@ -288,39 +421,15 @@ abstract class QuadTree {
 				xMin, yMin, xMax, yMax, n);
 	}
 
-	public int edgeConfig(Rect r) {
-		int config = (intersect(r.evals[0], r.evals[1]) << 3)
-				| (intersect(r.evals[1], r.evals[2]) << 2)
-				| (intersect(r.evals[2], r.evals[3]) << 1)
-				| (intersect(r.evals[3], r.evals[0]));
-		if (config == 15 || config == 0) {
-			return EMPTY;
-		}
-		return config;
-	}
-
 	/**
-	 * 
-	 * @param c1
-	 *            the value of curve at one of the square vertices
-	 * @param c2
-	 *            the value of curve at the other vertex
-	 * @return true if the edge connecting two vertices intersect with curve
-	 *         segment
+	 * Update the current path (Force redraw)
 	 */
-	private int intersect(double c1, double c2) {
-		if (c1 * c2 <= 0.0) {
-			return 1;
-		}
-		return 0;
-	}
-
 	public abstract void updatePath();
 
-	class PointList {
+	private class PointList {
 		MyPoint start;
 		MyPoint end;
-		LinkedList<MyPoint> pts = new LinkedList<MyPoint>();
+		LinkedList<MyPoint> points = new LinkedList<MyPoint>();
 
 		public PointList(MyPoint start, MyPoint end) {
 			this.start = start;
@@ -330,32 +439,32 @@ abstract class QuadTree {
 		}
 
 		public void mergeTo(PointList pl) {
-			this.pts.addLast(this.end);
+			this.points.addLast(this.end);
 			if (pl == this) {
 				MyPoint startCopy = new MyPoint(this.start.x, this.start.y,
 						true);
-				this.pts.addLast(startCopy);
+				this.points.addLast(startCopy);
 				return;
 			}
 			pl.start.lineTo = true;
-			this.pts.addLast(pl.start);
+			this.points.addLast(pl.start);
 			this.end = pl.end;
-			int s1 = this.pts.size(), s2 = pl.pts.size();
+			int s1 = this.points.size(), s2 = pl.points.size();
 
 			if (s2 == 0) {
 				return;
 			}
 
 			if (s1 < s2) {
-				ListIterator<MyPoint> itr = this.pts.listIterator(s1 - 1);
+				ListIterator<MyPoint> itr = this.points.listIterator(s1 - 1);
 				while (itr.hasPrevious()) {
-					pl.pts.addFirst(itr.previous());
+					pl.points.addFirst(itr.previous());
 				}
-				this.pts = pl.pts;
+				this.points = pl.points;
 			} else {
-				ListIterator<MyPoint> itr = pl.pts.listIterator();
+				ListIterator<MyPoint> itr = pl.points.listIterator();
 				while (itr.hasNext()) {
-					this.pts.addLast(itr.next());
+					this.points.addLast(itr.next());
 				}
 			}
 		}
@@ -363,14 +472,23 @@ abstract class QuadTree {
 		public void extendBack(MyPoint p) {
 			p.lineTo = false;
 			this.start.lineTo = true;
-			this.pts.addFirst(start);
+			this.points.addFirst(start);
 			this.start = p;
 		}
 
 		public void extendFront(MyPoint p) {
 			p.lineTo = true;
-			this.pts.addLast(this.end);
+			this.points.addLast(this.end);
 			this.end = p;
 		}
+	}
+
+	private static double interpolate(double fa, double fb, double p1,
+			double p2) {
+		double r = -fb / (fa - fb);
+		if (r >= 0 && r <= 1) {
+			return r * (p1 - p2) + p2;
+		}
+		return (p1 + p2) * 0.5;
 	}
 }
