@@ -1698,7 +1698,7 @@ __GGB__keysVar.ca.menu = {
     "OnlyOpaqueFills": "Nom\xe9s ombrejats s\xf2lids",
     "Opacity": "Opacitat",
     "OpenFileFolder": "Obre la carpeta del fitxer",
-    "OpenFromGeoGebraTube": "Obre des del GeoGebra",
+    "OpenFromGeoGebraTube": "Obre applet de GeoGebra compartit",
     "OpenFromGoogleDrive": "Obrir del Google Drive",
     "OpenFromSkyDrive": "Obris des de SkyDrive",
     "OpenFromWebpage": "Obre des d\u2019una p\xe0gina web",
