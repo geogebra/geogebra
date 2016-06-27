@@ -257,7 +257,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.getVisible = function(objName, view) {
-			if (typeof view === 'undefined') {
+			if (typeof view !== 'undefined') {
 				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getVisible(Ljava/lang/String;I)(objName,view);
 			}
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getVisible(Ljava/lang/String;)(objName);
