@@ -3838,14 +3838,14 @@ public abstract class App implements UpdateSelection {
 			if (isAndroid()) {
 				return false;
 			}
-			return prerelease;
+			return true;
 
 		// GGB-639
 		case FRACTIONS:
-			return prerelease;
+			return true;
 
 		case INPUTHELP_SHOWN_IN_AV:
-			return prerelease;
+			return true;
 
 		// MOB-356 and MOB-503
 		case MOBILE_PROPERTIES_VIEW:
