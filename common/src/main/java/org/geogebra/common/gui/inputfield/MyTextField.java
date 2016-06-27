@@ -16,6 +16,12 @@ public abstract class MyTextField {
 
 	/**
 	 * Locates bracket positions in a given string with given caret position.
+	 * 
+	 * @param inputText
+	 *            input
+	 * @param caret
+	 *            caret position
+	 * @return array of bracket positions
 	 */
 	public static int[] getBracketPositions(String inputText, int caret) {
 		String text = inputText;
@@ -113,6 +119,11 @@ public abstract class MyTextField {
 
 	}
 
+	/**
+	 * @param c
+	 *            character
+	 * @return whether it's close bracket or whitespace
+	 */
 	public static boolean isCloseBracketOrWhitespace(char c) {
 		// Character.isWhiteSpace not supported in GWT
 		return StringUtil.isWhitespace(c) || c == ')' || c == ']' || c == '}';
@@ -448,13 +459,5 @@ public abstract class MyTextField {
 		ret.carPos = carPos;
 		ret.sb = sb.toString();
 		return ret;
-	}
-
-	/**
-	 * Sets a flag to show the symbol table icon when the field is focused
-	 * 
-	 * @param showSymbolTableIcon
-	 */
-	public void setShowSymbolTableIcon(boolean showSymbolTableIcon) {
 	}
 }

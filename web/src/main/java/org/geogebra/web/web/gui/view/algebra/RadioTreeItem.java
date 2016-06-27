@@ -786,15 +786,12 @@ public class RadioTreeItem extends AVTreeItem
 		if (updateDefinitionPanel()) {
 			plainTextItem.clear();
 			plainTextItem.add(definitionPanel);
-			// Log.debug("[AVR] Definition panel is updated");
 		}
 
 		if (updateValuePanel(geo.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate))) {
 			outputPanel.add(valuePanel);
 			plainTextItem.add(outputPanel);
-
-			// Log.debug("[AVR] Value panel is updated");
 		}
 
 		ihtml.add(plainTextItem);
@@ -806,22 +803,20 @@ public class RadioTreeItem extends AVTreeItem
 		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
 		latex = text != null;
 
-		// if (av.isRenderLaTeX()) {
 
-			if (latex) {
-				if (isInputTreeItem()) {
+		if (latex) {
+			if (isInputTreeItem()) {
 				text = geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplateMQ);
-				}
+			}
 
 			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
 					getFontSize());
-				ihtml.clear();
+			ihtml.clear();
 			ihtml.add(canvas);
-			}
-		// }
+		}
 
-		if (!latex) {
+		else {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
 						getBuilder(getPlainTextItem()));
 			updateItemColor();
