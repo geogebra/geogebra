@@ -137,12 +137,9 @@ public class InputTreeItem extends RadioTreeItem implements
 
 		setPlainTextItem(item);
 
-		if (av.isRenderLaTeX()) {
-			setNeedsUpdate(true);
+		setNeedsUpdate(true);
 
-			// here it complains that geo is undefined
-			doUpdate();
-		}
+		doUpdate();
 
 		editor = new EquationEditor(app, this);
 

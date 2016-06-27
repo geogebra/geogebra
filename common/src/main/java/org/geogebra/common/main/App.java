@@ -4016,7 +4016,8 @@ public abstract class App implements UpdateSelection {
 		//MOB-601
 		case MOBILE_LOCAL_SAVE:
 			return false;
-
+		case RETEX_EDITOR:
+			return canary;
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

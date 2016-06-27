@@ -40,6 +40,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -91,6 +92,7 @@ import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
+import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
@@ -2052,6 +2054,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (textField instanceof EquationEditorListener) {
 			return new MathQuillProcessing(
 					(EquationEditorListener) textField);
+		}
+		if(textField instanceof RetexKeyboardListener){
+			return new MathFieldProcessing(
+					((RetexKeyboardListener) textField).getMathField());
 		}
 		return null;
 

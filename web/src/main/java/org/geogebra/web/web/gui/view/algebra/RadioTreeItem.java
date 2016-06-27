@@ -524,8 +524,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 	private String getLatexString(boolean mathquill, Integer limit) {
-		if (!av.isRenderLaTeX()
-				|| (kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
+		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
 						&& !isDefinitionAndValue())
 				|| !geo.isDefined() || !geo.isLaTeXDrawableGeo()) {
 			return null;
@@ -1261,9 +1260,8 @@ public class RadioTreeItem extends AVTreeItem
 			ihtml.remove(outputPanel);
 
 		}
-		if (av.isRenderLaTeX()
-				&& (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
-						|| isDefinitionAndValue())) {
+		if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
+				|| isDefinitionAndValue()) {
 			String text = "";
 			if (geo != null) {
 				text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);

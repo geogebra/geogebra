@@ -69,14 +69,12 @@ import com.google.gwt.user.client.ui.Widget;
  * HTML5 version of AV
  *
  */
-@SuppressWarnings("javadoc")
 public class AlgebraViewW extends Tree implements LayerView,
  AlgebraView,
 OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * Flag for LaTeX rendering
 	 */
-	final private static boolean renderLaTeX = true;
 	/** app */
 	protected final AppW app; // parent appame
 	/** Localization */
@@ -947,12 +945,18 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * @param ob
 	 *            geo element
+	 * @param forceRetex
+	 *            whether ReTeX editor should be used
 	 * @return AV item
 	 */
-	public final static AVTreeItem createAVItem(final GeoElement ob) {
+	public final static AVTreeItem createAVItem(final GeoElement ob,
+			boolean forceRetex) {
 		AVTreeItem ti = null;
-
-		ti = RadioTreeItem.create(ob);
+		if (forceRetex) {
+			ti = new LatexTreeItem(ob);
+		} else {
+			ti = RadioTreeItem.create(ob);
+		}
 		ti.setUserObject(ob);
 		ti.addStyleName("avItem");
 
@@ -1032,7 +1036,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			}
 
 			TreeItem parent = getParentNode(geo, forceLayer);
-			AVTreeItem node = createAVItem(geo);
+			AVTreeItem node = createAVItem(geo, app.has(Feature.RETEX_EDITOR));
 
 			// add node to model (alphabetically ordered)
 			int pos = getInsertPosition(parent, geo, treeMode);
@@ -1343,12 +1347,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		return inputPanelLatex;
 	}
 
+	/**
+	 * @return currently edited tree item
+	 */
 	public RadioTreeItem getActiveTreeItem() {
 		if (activeItem == null) {
 			return this.inputPanelLatex;
-		} else {
-			return this.activeItem;
 		}
+		return this.activeItem;
 	}
 
 	/**
@@ -1500,16 +1506,23 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	/**
-	 * @return true if {@link #nodeTable} is empty
+	 * @return true if nodeTable is empty
 	 */
 	public boolean isNodeTableEmpty() {
 		return this.nodeTable.isEmpty();
 	}
 
+	/**
+	 * @return number of elements in the view
+	 */
 	public int getNodeTableSize() {
 		return this.nodeTable.size();
 	}
 
+	/**
+	 * @param item
+	 *            new active item
+	 */
 	public void setActiveTreeItem(RadioTreeItem item) {
 
 		if (item == null) {
@@ -1535,12 +1548,22 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
+	/**
+	 * Remove close button from active item
+	 */
 	public void removeCloseButton() {
 		if (activeItem != null) {
 			activeItem.removeCloseButton();
 			activeItem = null;
 		}
 	}
+
+	/**
+	 * @param geo
+	 *            geo to be (un)selected
+	 * @param select
+	 *            whether to select or unselect
+	 */
 	public void selectRow(GeoElement geo, boolean select) {
 		TreeItem node = nodeTable.get(geo);
 		if (node == null) {
@@ -1552,6 +1575,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	/**
+	 * @param mayCreate
+	 *            true if this may call constructor (otherwise it may return
+	 *            null)
 	 * @return {@link AlgebraStyleBarW}
 	 */
 	public AlgebraStyleBarW getStyleBar(boolean mayCreate) {
@@ -1663,6 +1689,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	}
 
+	/**
+	 * Clear selection
+	 */
 	public void clearSelection() {
 
 		// deselecting this causes a bug; it maybe fixed
@@ -1686,17 +1715,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		getSelectionCtrl().setSelectedGeo(null);
 	}
 
+	/**
+	 * @return selected geo
+	 */
 	public GeoElement getSelectedGeoElement() {
 		return getSelectionCtrl().getSelectedGeo();
-	}
-
-	/**
-	 * Returns true if rendering is done with LaTeX
-	 * 
-	 * @return
-	 */
-	public boolean isRenderLaTeX() {
-		return renderLaTeX;
 	}
 
 	/**

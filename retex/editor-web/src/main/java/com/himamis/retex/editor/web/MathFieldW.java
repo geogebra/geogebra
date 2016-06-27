@@ -202,4 +202,8 @@ public class MathFieldW implements MathField, IsWidget {
 	public Widget asWidget() {
 		return html;
 	}
+
+	public void setFormula(MathFormula formula) {
+		this.mathFieldInternal.setFormula(formula);
+	}
 }
