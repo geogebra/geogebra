@@ -58,8 +58,8 @@ public abstract class GeoGebraTubeAPI {
 	 * @param beta
 	 */
 	public GeoGebraTubeAPI(boolean beta) {
-		this.materialsURL = beta ? url : urlBeta;
-		this.loginURL = beta ? login_url : login_urlBeta;
+		this.materialsURL = beta ? urlBeta : url;
+		this.loginURL = beta ? login_urlBeta : login_url;
 	}
 	
 	public void setURL(String url1) {
