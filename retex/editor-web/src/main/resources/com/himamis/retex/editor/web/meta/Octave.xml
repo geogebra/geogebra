@@ -423,7 +423,7 @@
 			<Parameter name="m" type="integer" order="1" />
 		</Function>
 
-		<Function name="floor" cas="floor" tex="floor" key="f" desc="round down to whole number">
+		<Function name="floor" cas="floor" tex="floor" desc="round down to whole number">
 			<Parameter name="x" type="number" order="0" />
 		</Function>
 
@@ -431,7 +431,7 @@
 			<Parameter name="x" type="number" order="0" />
 		</Function>
 
-		<Function name="abs" cas="abs" tex="abs" key="a" desc="absolute value">
+		<Function name="abs" cas="abs" tex="abs" desc="absolute value">
 			<Parameter name="x" type="number" order="0" />
 		</Function>
 
