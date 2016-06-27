@@ -30,6 +30,8 @@ public class InputHelper {
 			if (Korean.flattenKorean(curWord.toString()).length() < 2) {
 				return false;
 			}
+		}else if("zh".equals(kernel.getLocalization().getLanguage()) && curWord.length() < 2){
+			return false;
 		} else if (curWord.length() < 3) {
 			return false;
 		}
