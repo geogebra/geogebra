@@ -3830,6 +3830,10 @@ public abstract class App implements UpdateSelection {
 		case HANDWRITING:
 			return prerelease;
 
+		// MOB-321
+		case INPUT_BAR_PREVIEW:
+			return true;
+
 		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
 			if (isDesktop()) {
@@ -3968,9 +3972,6 @@ public abstract class App implements UpdateSelection {
 
 		case MORE_ACCURATE_ELLIPSE_CIRCUMFERENCE:
 			return true;
-
-		case INPUT_BAR_PREVIEW:
-			return prerelease;
 
 		case WEB_SHARE_DIALOG:
 			return prerelease;
