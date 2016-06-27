@@ -195,14 +195,17 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 		boolean upperCase = updateSection.equals("shiftDown");
 		int offset = upperCase ? 1 : 0;
 
-		// eg
-		// "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
-		// "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
-		// "Keyboard.row3": "zZxXcCvVbBnNmM",
 
-		String[] keys = { loc.getKeyboardRow(1), loc.getKeyboardRow(2),
-				// first key is shift, so need " " otherwise 'z' is hidden
-				"  " + loc.getKeyboardRow(3) };
+		String[] keys;
+		if (supportedLocales
+				.containsKey("ko") || !loc.getLocaleStr().startsWith("ko")) {
+			keys = new String[] { loc.getKeyboardRow(1), loc.getKeyboardRow(2),
+					// first key is shift, so need " " otherwise 'z' is hidden
+					"  " + loc.getKeyboardRow(3) };
+		} else {
+			keys = new String[] { "qQwWeErRtTyYuUiIoOpP",
+					"aAsSdDfFgGhHjJkKlL''", "zZxXcCvVbBnNmM" };
+		}
 
 		if (Language.Greek.localeGWT.equals(language)) {
 			keys = keysGreek;
