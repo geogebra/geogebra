@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 /**
  * 
  * @author Markus added TYPE_SEGMENT Michael Borcherds 2008-03-14
- * @version
  */
 public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		AlgoCirclePointRadiusInterface {

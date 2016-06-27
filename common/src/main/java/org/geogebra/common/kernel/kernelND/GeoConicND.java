@@ -2272,7 +2272,8 @@ FromMeta
 		translateMatrix(matrix, vx, vy);
 		
 		// avoid classification and set changes by hand:   
-		setMidpoint(getMidpoint().add(new Coords(new double[] {vx,vy,0})).get());
+		setMidpoint(new Coords(new double[] { vx, vy, 0 })
+				.addInside(getMidpoint()).get());
 		/*
 		b.x += vx;
 		b.y += vy;
@@ -4196,8 +4197,8 @@ FromMeta
 			center = getMidpoint3D();
 			Coords d1 = getDirection3D(0);
 			Coords d2 = getDirection3D(1);
-			Coords e1 = d1.add(d2).mul(0.5);
-			Coords e2 = d2.sub(d1).mul(0.5);
+			Coords e1 = d1.add(d2).mulInside(0.5);
+			Coords e2 = d2.sub(d1).mulInside(0.5);
 			e2.checkReverseForFirstValuePositive();
 			sbBuildValueString.append("X = (");
 			sbBuildValueString.append(kernel.format(center.getX(), tpl));
@@ -4223,8 +4224,8 @@ FromMeta
 			Coords c1 = getOrigin3D(0);
 			Coords c2 = getOrigin3D(1);
 			Coords d = getDirection3D(0);
-			e1 = c1.add(c2).mul(0.5);
-			e2 = c2.sub(c1).mul(0.5);
+			e1 = c1.add(c2).mulInside(0.5);
+			e2 = c2.sub(c1).mulInside(0.5);
 			e2.checkReverseForFirstValuePositive();
 			sbBuildValueString.append("X = (");
 			kernel.appendTwoCoeffs(e1.getX(), e2.getX(), tpl,

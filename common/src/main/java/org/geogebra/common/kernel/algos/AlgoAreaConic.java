@@ -30,13 +30,21 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
  * Computes the area of a conic section
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class AlgoAreaConic extends AlgoElement {
 
 	private GeoConicND conic; // input
 	private GeoNumeric area; // output
 
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param c
+	 *            conic
+	 */
 	public AlgoAreaConic(Construction cons, String label, GeoConicND c) {
 		super(cons);
 		this.conic = c;
@@ -70,6 +78,9 @@ public class AlgoAreaConic extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return area of the conic
+	 */
 	public GeoNumeric getArea() {
 		return area;
 	}
@@ -102,6 +113,7 @@ public class AlgoAreaConic extends AlgoElement {
 		// standard case: area of conic
 		int type = conic.getType();
 		switch (type) {
+		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 		case GeoConicNDConstants.CONIC_CIRCLE:
 			// r is length of one of the half axes
 			double r = conic.getHalfAxis(0);
