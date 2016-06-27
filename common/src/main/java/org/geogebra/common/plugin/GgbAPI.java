@@ -325,6 +325,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null)
 			return false;
+		if (geo.isGeoCasCell()) {
+			return ((GeoCasCell) geo).getTwinGeo() != null
+					&& ((GeoCasCell) geo).getTwinGeo().isEuclidianVisible();
+		}
 		return (geo.isEuclidianVisible());
 	}
 
@@ -1548,10 +1552,18 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (geo == null) {
 			return false;
 		}
+		if (geo.isGeoCasCell()) {
+			return ((GeoCasCell) geo).getTwinGeo() != null
+					&& isVisibleInView(((GeoCasCell) geo).getTwinGeo(), view);
+		}
 
+		return isVisibleInView(geo, view);
+
+	}
+
+	private static boolean isVisibleInView(GeoElement geo, int view) {
 		return geo.isVisibleInView(view == -1 ? App.VIEW_EUCLIDIAN3D
 				: (view == 1 ? App.VIEW_EUCLIDIAN : App.VIEW_EUCLIDIAN2));
-
 	}
 
 	public boolean getGridVisible() {
