@@ -336,4 +336,14 @@ public class Browser {
 		}
 	}-*/;
 
+	/**
+	 * Opens GeoGebraTube material in a new window
+	 * 
+	 * @param url
+	 *            GeoGebraTube url
+	 */
+	public native static void openTubeWindow(String url)/*-{
+		$wnd.open(url);
+	}-*/;
+
 }

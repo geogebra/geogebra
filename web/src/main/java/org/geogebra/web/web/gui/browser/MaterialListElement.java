@@ -568,7 +568,7 @@ public class MaterialListElement extends FlowPanel implements
 											// guiManager.getBrowseView().clearMaterials();
 											// guiManager.getBrowseView().onSearchResults(
 											// response, null);
-											openTubeWindow(
+											Browser.openTubeWindow(
 													material.getEditUrl());
 						        } else {
 							        material = response.get(0);
@@ -768,18 +768,10 @@ public class MaterialListElement extends FlowPanel implements
 	 */
 	protected void onView() {
 		this.guiManager.getBrowseView().setMaterialsDefaultStyle();
-		openTubeWindow(material.getURL());
+		Browser.openTubeWindow(material.getURL());
 	}
 
-	/**
-	 * Opens GeoGebraTube material in a new window
-	 * 
-	 * @param url
-	 *            GeoGebraTube url
-	 */
-	native void openTubeWindow(String url)/*-{
-		$wnd.open(url);
-	}-*/;
+
 
 	public void setMaterial(Material mat) {
 		this.material = mat;
