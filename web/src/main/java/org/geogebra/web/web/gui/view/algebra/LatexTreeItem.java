@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -23,8 +22,7 @@ public class LatexTreeItem extends RadioTreeItem {
 	}
 
 	protected boolean startEditing(boolean substituteNumbers) {
-		String text = getTextForEditing(substituteNumbers,
-				StringTemplate.editorTemplate);
+		String text = geo.getDefinitionForEditor();
 		Log.debug("EDITING" + text);
 		if (text == null) {
 			return false;

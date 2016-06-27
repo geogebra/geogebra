@@ -151,11 +151,11 @@
 			<Parameter name="y" type="number" order="1" up="0" />
 		</Function>
 
-		<Function name="sqrt" cas="sqrt" tex="\sqrt" key="q" img="sqrt.png" desc="square root" >
+		<Function name="sqrt" cas="sqrt" tex="\sqrt" img="sqrt.png" desc="square root" >
 			<Parameter name="x" type="number" order="0" />
 		</Function>
 
-		<Function name="nthroot" cas="nthroot" tex="\sqrt" key="r" img="nroot.png" insert="1" desc="nth root" >
+		<Function name="nthroot" cas="nthroot" tex="\sqrt" img="nroot.png" insert="1" desc="nth root" >
 			<Parameter name="x" type="number" order="0" up="1" />
 			<Parameter name="n" type="number" order="1" down="0" />
 		</Function>
@@ -167,14 +167,14 @@
 			<Parameter name="x" type="number" order="2" />
 		</Function> -->
 
-		<Function name="sum" cas="sum" tex="\sum" key="s" img="sum.png" insert="3" desc="sum" >
+		<Function name="sum" cas="sum" tex="\sum" img="sum.png" insert="3" desc="sum" >
 			<Parameter name="v" type="string" order="0" up="2" />
 			<Parameter name="fm" type="number" order="1" up="2" />
 			<Parameter name="to" type="number" order="2" down="0" />
 			<Parameter name="x" type="number" order="3" />
 		</Function> 
 
-		<Function name="prod" cas="prod" tex="\prod" key="p" img="prod.png" insert="3" desc="product" >
+		<Function name="prod" cas="prod" tex="\prod" img="prod.png" insert="3" desc="product" >
 			<Parameter name="v" type="string" order="0" up="2" />
 			<Parameter name="fm" type="number" order="1" up="2"/>
 			<Parameter name="to" type="number" order="2" down="0" />
@@ -203,13 +203,13 @@
 			<Parameter name="v" type="string" order="3" />
 		</Function>
 
-		<Function name="lim" cas="NaN" tex="lim" key="l" img="_lim.png" insert="2" desc="limit" >
+		<Function name="lim" cas="NaN" tex="lim" img="_lim.png" insert="2" desc="limit" >
 			<Parameter name="v" type="string" order="0" />
 			<Parameter name="to" type="number" order="1" />
 			<Parameter name="x" type="number" order="2" />
 		</Function>
 
-		<Function name="function" cas="function" key="f" img="function.png" insert="2" desc="user defined function" >
+		<Function name="function" cas="function" img="function.png" insert="2" desc="user defined function" >
 			<Parameter name="name" type="string" order="0" />
 			<Parameter name="v" type="string" order="1" />
 			<Parameter name="x" type="number" order="2" />

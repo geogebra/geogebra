@@ -29,6 +29,7 @@ package com.himamis.retex.editor.web;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -77,6 +78,14 @@ public class MathFieldW implements MathField, IsWidget {
 	@Override
 	public void setTeXIcon(TeXIcon icon) {
 		ctx.setFillStyle("rgb(255,255,255)");
+		if (icon.getIconHeight() > ctx.getCanvas().getHeight()) {
+			ctx.getCanvas().setHeight(icon.getIconHeight());
+			ctx.getCanvas().getStyle().setHeight(icon.getIconHeight(), Unit.PX);
+		}
+		if (icon.getIconWidth() > ctx.getCanvas().getWidth()) {
+			ctx.getCanvas().setWidth(icon.getIconWidth());
+			ctx.getCanvas().getStyle().setWidth(icon.getIconWidth(), Unit.PX);
+		}
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(),
 				ctx.getCanvas().getHeight());
 		JlmLib.draw(icon, ctx, 0, 0, "#000000", "#FFFFFF", null);
