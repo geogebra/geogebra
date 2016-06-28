@@ -704,7 +704,10 @@ public class ProverBotanasMethod {
 							statements[0][0] = new Polynomial(0);
 						}
 					} catch (Throwable e) {
-						e.printStackTrace();
+						Log.debug(
+								"Unsuccessful run on evaluating the expression, statement is UNKNOWN at the moment");
+						result = ProofResult.UNKNOWN;
+						return;
 					}
 				}
 

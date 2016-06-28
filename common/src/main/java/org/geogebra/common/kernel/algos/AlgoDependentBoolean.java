@@ -455,12 +455,16 @@ public class AlgoDependentBoolean extends AlgoElement implements
 					polyNode.getRight());
 			} else {
 				if (expNode.getRight() instanceof GeoDummyVariable) {
+					try {
 					polyNode.getRight().setPoly(
 									new Polynomial(
 											getBotanaVar(expNode
 													.getRight()
 													.toString(
 															StringTemplate.defaultTemplate))));
+					} catch (Exception e) {
+						throw new NoSymbolicParametersException();
+					}
 				}
 				if (expNode.getRight() instanceof MySpecialDouble) {
 					Double d = expNode.getRight().evaluateDouble();

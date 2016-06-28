@@ -730,11 +730,10 @@ public abstract class Prover {
 
 		private static String csv_header = "", csv_data = "";
 
-		private static HashMap<GeoElement, Integer> nodeLongestPath = new HashMap<GeoElement, Integer>();
-		private static HashMap<GeoElement, Integer> nodeComplexity = new HashMap<GeoElement, Integer>();
-		private static int longestPath = 0;
-
-		private static HashSet<ArrayList<GeoElement>> deps = new HashSet<ArrayList<GeoElement>>();
+		private static HashMap<GeoElement, Integer> nodeLongestPath;
+		private static HashMap<GeoElement, Integer> nodeComplexity;
+		private static int longestPath;
+		private static HashSet<ArrayList<GeoElement>> deps;
 
 		private static void computeNodeLongestPath(GeoElement node, int set) {
 			nodeLongestPath.put(node, set);
@@ -902,6 +901,11 @@ public abstract class Prover {
 
 		StatementFeatures(GeoElement statement) {
 
+			nodeLongestPath = new HashMap<GeoElement, Integer>();
+			nodeComplexity = new HashMap<GeoElement, Integer>();
+			longestPath = 0;
+			deps = new HashSet<ArrayList<GeoElement>>();
+
 			TreeSet<GeoElement> geos = statement.getAllPredecessors();
 			geos.add(statement);
 			Iterator<GeoElement> it = geos.iterator();
@@ -1003,15 +1007,18 @@ public abstract class Prover {
 			
 			String digraph = "digraph dependencies { ";
 			Iterator<ArrayList<GeoElement>> it2 = deps.iterator();
+			digraph += statement.getLabelSimple() + "_"
+					+ nodeComplexity.get(statement) + " [style=filled]; ";
 			while (it2.hasNext()) {
 				ArrayList<GeoElement> al = it2.next();
-				/* remove this if you need the statement also */
-				if (!al.get(1).equals(statement)) {
-					digraph += al.get(0).getLabelSimple() + "_"
-							+ nodeComplexity.get(al.get(0)) + " -> "
-							+ al.get(1).getLabelSimple() + "_"
-							+ nodeComplexity.get(al.get(1)) + "; ";
+				digraph += al.get(0).getLabelSimple() + "_"
+						+ nodeComplexity.get(al.get(0)) + " -> "
+						+ al.get(1).getLabelSimple() + "_"
+						+ nodeComplexity.get(al.get(1));
+				if (al.get(1).equals(statement)) {
+					digraph += " [style=dashed]";
 				}
+				digraph += "; ";
 			}
 			digraph += "}";
 			Log.debug(digraph);
