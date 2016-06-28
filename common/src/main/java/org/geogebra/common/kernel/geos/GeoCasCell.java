@@ -2115,33 +2115,30 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 						&& ((Command) ((ExpressionNode) expandedEvalVE)
 								.getLeft()).getArgumentNumber() == 2) {
 					// get list of equations
-					ExpressionNode equList = ((Command) ((ExpressionNode) expandedEvalVE)
-							.getLeft()).getArgument(0);
-					if (equList.getLeft() instanceof MyList) {
+					ExpressionValue equListV = ((Command) ((ExpressionNode) expandedEvalVE)
+							.getLeft()).getArgument(0).unwrap();
+					if (equListV instanceof MyList) {
+						MyList equList = (MyList) equListV;
 						// "x" geoDummy instead of functionVariable
 						GeoDummyVariable x = new GeoDummyVariable(cons, "x");
 						// "y" geoDummy instead of functionVariable
 						GeoDummyVariable y = new GeoDummyVariable(cons, "y");
-						for (int i = 0; i < ((MyList) equList.getLeft()).size(); i++) {
-							if (((MyList) equList.getLeft()).getListElement(i) instanceof ExpressionNode
-									&& ((ExpressionNode) ((MyList) equList
-											.getLeft()).getListElement(i))
-											.getLeft() instanceof Equation) {
+						for (int i = 0; i < equList.size(); i++) {
+							if (equList.getListElement(i) instanceof ExpressionNode
+									&& equList.getListElement(i).unwrap() instanceof Equation) {
 								// set Equation in list of equs instead of
 								// ExpressionNode that contains Equation
-								((MyList) equList.getLeft()).setListElement(i,
-										((ExpressionNode) ((MyList) equList
-												.getLeft()).getListElement(i))
-												.getLeft());
+								equList.setListElement(i, equList
+										.getListElement(i).unwrap());
 								// Equation contains "x" functionVariable
 								// replace with simple GeoDummyVariable
-								((MyList) equList.getLeft()).getListElement(i)
+								equList.getListElement(i)
 										.traverse(
 												GeoDummyReplacer.getReplacer(
 														"x", x, true));
 								// Equation contains "y" functionVariable
 								// replace with simple GeoDummyVariable
-								((MyList) equList.getLeft()).getListElement(i)
+								equList.getListElement(i)
 										.traverse(
 												GeoDummyReplacer.getReplacer(
 														"y", y, true));
