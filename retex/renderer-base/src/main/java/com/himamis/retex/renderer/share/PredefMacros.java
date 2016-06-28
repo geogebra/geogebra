@@ -297,12 +297,12 @@ public class PredefMacros {
 	public static final Atom genfrac_macro(final TeXParser tp, final String[] args) throws ParseException {
 		TeXFormula left = new TeXFormula(tp, args[1], false);
 		SymbolAtom L = null, R = null;
-		if (left != null && left.root instanceof SymbolAtom) {
+		if (left.root instanceof SymbolAtom) {
 			L = (SymbolAtom) left.root;
 		}
 
 		TeXFormula right = new TeXFormula(tp, args[2], false);
-		if (right != null && right.root instanceof SymbolAtom) {
+		if (right.root instanceof SymbolAtom) {
 			R = (SymbolAtom) right.root;
 		}
 
