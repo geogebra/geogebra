@@ -45,6 +45,8 @@ import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
+import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -62,7 +64,9 @@ import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
+import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
@@ -116,6 +120,8 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
@@ -139,7 +145,7 @@ public class RadioTreeItem extends AVTreeItem
 		ClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
 		MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
 		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
-		EquationEditorListener, RequiresResize {
+		EquationEditorListener, RequiresResize, HasHelpButton {
 
 	private static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
@@ -152,7 +158,10 @@ public class RadioTreeItem extends AVTreeItem
 	static final String CLEAR_COLOR_STR_BORDER = GColor
 			.getColorString(new GColorW(220, 220, 220));
 	Boolean stylebarShown;
-
+	/** Help button */
+	ToggleButton btnHelpToggle;
+	/** Help popup */
+	InputBarHelpPopup helpPopup;
 	interface CancelListener {
 		void cancel();
 	}
@@ -1881,8 +1890,18 @@ public class RadioTreeItem extends AVTreeItem
 		return true;
 	}
 
+	private static final int HORIZONTAL_BORDER_HEIGHT = 2;
+
+	/**
+	 * Make sure the line height of the help icon fits the line height of the
+	 * rest
+	 */
 	protected void updateLineHeight() {
-		// TODO Auto-generated method stub
+		if (helpButtonPanel != null) {
+			this.helpButtonPanel.getElement().getStyle().setLineHeight(
+					ihtml.getOffsetHeight() - HORIZONTAL_BORDER_HEIGHT,
+					Unit.PX);
+		}
 
 	}
 
@@ -2887,8 +2906,8 @@ marblePanel, evt))) {
 		main.removeFromParent();
 	}
 
-	public boolean hasHelpPopup() {
-		return false;
+	public final boolean hasHelpPopup() {
+		return this.helpPopup != null;
 	}
 
 	public void replaceXButtonDOM() {
@@ -2921,6 +2940,115 @@ marblePanel, evt))) {
 					false);
 			ensureEditing();
 			break;
+		}
+
+	}
+
+	@Override
+	public ToggleButton getHelpToggle() {
+		return this.btnHelpToggle;
+	}
+
+	@Override
+	public String getCommand() {
+		return getEquationEditor().getCurrentCommand();
+	}
+
+	@Override
+	public void updateIcons(boolean warning) {
+		if (btnHelpToggle == null) {
+			btnHelpToggle = new ToggleButton();
+		}
+		if (!warning && errorLabel != null) {
+			errorLabel.setText("");
+		}
+		btnHelpToggle.getUpFace().setImage(new NoDragImage(
+				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
+						: GuiResources.INSTANCE.icon_help()).getSafeUri()
+								.asString(),
+				24));
+		// new
+		// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
+		btnHelpToggle.getDownFace().setImage(new NoDragImage(
+				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
+						: GuiResources.INSTANCE.icon_help()).getSafeUri()
+								.asString(),
+				24));
+
+	}
+
+	protected void updateHelpPosition(final InputBarHelpPanelW helpPanel) {
+		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
+			@Override
+			public void setPosition(int offsetWidth, int offsetHeight) {
+				helpPopup.getElement().getStyle()
+						.setProperty("left",
+								(btnHelpToggle.getAbsoluteLeft()
+										+ btnHelpToggle.getOffsetWidth())
+										+ "px");
+				int maxOffsetHeight;
+				int totalHeight = Window.getClientHeight();
+				if (btnHelpToggle.getAbsoluteTop() < totalHeight / 2) {
+					int top = (btnHelpToggle.getParent().getAbsoluteTop()
+							+ btnHelpToggle.getParent().getOffsetHeight());
+					maxOffsetHeight = totalHeight - top;
+					helpPopup.getElement().getStyle().setProperty("top",
+							top + "px");
+					helpPopup.getElement().getStyle().setProperty("bottom",
+							"auto");
+				} else {
+					int bottom = (totalHeight
+							- btnHelpToggle.getParent().getAbsoluteTop());
+					maxOffsetHeight = bottom > 0 ? totalHeight - bottom
+							: totalHeight - 10;
+					helpPopup.getElement().getStyle().setProperty("bottom",
+							(bottom > 0 ? bottom : 10) + "px");
+					helpPopup.getElement().getStyle().setProperty("top",
+							"auto");
+				}
+				helpPanel.updateGUI(maxOffsetHeight);
+				helpPopup.show();
+			}
+		});
+
+	}
+
+	private SimplePanel helpButtonPanel;
+	protected final void insertHelpToggle() {
+		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
+			helpButtonPanel = new SimplePanel();
+			updateIcons(false);
+
+			btnHelpToggle.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					if (btnHelpToggle.isDown()) {
+						app.hideKeyboard();
+						Scheduler.get().scheduleDeferred(
+								new Scheduler.ScheduledCommand() {
+									@Override
+									public void execute() {
+										setShowInputHelpPanel(true);
+										((InputBarHelpPanelW) app
+												.getGuiManager()
+												.getInputHelpPanel())
+														.focusCommand(
+																getEquationEditor()
+																		.getCurrentCommand());
+									}
+								});
+					} else {
+						setShowInputHelpPanel(false);
+					}
+
+				}
+
+			});
+			helpButtonPanel.setStyleName("avHelpButtonParent");
+			helpButtonPanel.setWidget(btnHelpToggle);
+			btnHelpToggle.addStyleName("algebraHelpButton");
+			main.insert(helpButtonPanel, 0);
 		}
 
 	}

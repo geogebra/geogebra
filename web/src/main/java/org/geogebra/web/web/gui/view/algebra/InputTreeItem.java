@@ -12,9 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -26,13 +24,11 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
-import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
@@ -52,13 +48,10 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
  * NewRadioButtonTreeItem for creating new formulas in the algebra view
@@ -66,12 +59,12 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * File created by Arpad Fekete
  */
 public class InputTreeItem extends RadioTreeItem implements
-		HasSymbolPopup, FocusHandler, BlurHandler, HasHelpButton {
+		HasSymbolPopup, FocusHandler, BlurHandler {
 
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
 
-	private static final int HORIZONTAL_BORDER_HEIGHT = 2;
+
 	// create special formula button (matrix, piecewise function, parametric
 	// curve)
 	/** + button */
@@ -86,11 +79,9 @@ public class InputTreeItem extends RadioTreeItem implements
 	Label dummyLabel;
 
 	private Label piecewiseLabel, matrixLabel, curveLabel;
-	/** Help popup */
-	InputBarHelpPopup helpPopup;
-	/** Help button */
-	ToggleButton btnHelpToggle;
-	private SimplePanel helpButtonPanel;
+
+
+
 
 
 	/**
@@ -147,41 +138,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		//should depend on number of previoous elements?
 		addHistoryPopup(true);
 
-		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
-			helpButtonPanel = new SimplePanel();
-			updateIcons(false);
-
-			btnHelpToggle.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					if (btnHelpToggle.isDown()) {
-						app.hideKeyboard();
-						Scheduler.get().scheduleDeferred(
-								new Scheduler.ScheduledCommand() {
-									@Override
-									public void execute() {
-										setShowInputHelpPanel(true);
-										((InputBarHelpPanelW) app
-												.getGuiManager()
-												.getInputHelpPanel())
-														.focusCommand(
-																getEquationEditor()
-																		.getCurrentCommand());
-									}
-								});
-					} else {
-						setShowInputHelpPanel(false);
-					}
-
-				}
-
-			});
-			helpButtonPanel.setStyleName("avHelpButtonParent");
-			helpButtonPanel.setWidget(btnHelpToggle);
-			btnHelpToggle.addStyleName("algebraHelpButton");
-			main.insert(helpButtonPanel, 0);
-		}
+		insertHelpToggle();
 
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
@@ -516,6 +473,8 @@ public class InputTreeItem extends RadioTreeItem implements
 		createErrorLabel();
 	}
 
+
+
 	/**
 	 * @param show
 	 *            true to show input help
@@ -563,46 +522,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 	}
 
-	private void updateHelpPosition(final InputBarHelpPanelW helpPanel) {
-		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-			@Override
-			public void setPosition(int offsetWidth, int offsetHeight) {
-				helpPopup.getElement().getStyle()
-						.setProperty("left",
-								(btnHelpToggle.getAbsoluteLeft()
-										+ btnHelpToggle.getOffsetWidth())
-										+ "px");
-				int maxOffsetHeight;
-				int totalHeight = Window.getClientHeight();
-				if (btnHelpToggle.getAbsoluteTop() < totalHeight 
-						/ 2) {
-					int top = (btnHelpToggle.getParent().getAbsoluteTop()
-							+ btnHelpToggle.getParent().getOffsetHeight());
-					maxOffsetHeight = totalHeight - top;
-					helpPopup.getElement().getStyle().setProperty("top",
-							top
-									+ "px");
-					helpPopup.getElement().getStyle().setProperty("bottom",
-							"auto");
-				} else {
-					int bottom = (totalHeight
-							- btnHelpToggle.getParent().getAbsoluteTop());
-					maxOffsetHeight = bottom > 0 ? totalHeight - bottom
-							: totalHeight - 10;
-					helpPopup
-							.getElement()
-							.getStyle()
-							.setProperty("bottom",
-									(bottom > 0 ? bottom : 10) + "px");
-					helpPopup.getElement().getStyle().setProperty("top",
-							"auto");
-				}
-				helpPanel.updateGUI(maxOffsetHeight);
-				helpPopup.show();
-			}
-		});
 
-	}
 
 	/**
 	 * Adds + and delete buttons to the button panel
@@ -990,21 +910,6 @@ public class InputTreeItem extends RadioTreeItem implements
 		updatePreview();
 	}
 
-	/**
-	 * Make sure the line height of the help icon fits the line height of the
-	 * rest
-	 */
-	@Override
-	protected void updateLineHeight() {
-		if (helpButtonPanel != null) {
-			this.helpButtonPanel.getElement().getStyle()
-					.setLineHeight(
-							ihtml.getOffsetHeight() - HORIZONTAL_BORDER_HEIGHT,
-							Unit.PX);
-		}
-
-	}
-
 	private void updatePreview() {
 		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
 			String text = getText();
@@ -1104,46 +1009,6 @@ public class InputTreeItem extends RadioTreeItem implements
 			}
 
 		}
-	}
-
-	@Override
-	public void updateIcons(boolean warning) {
-		if (btnHelpToggle == null) {
-			btnHelpToggle = new ToggleButton();
-		}
-		if (!warning && errorLabel != null) {
-			errorLabel.setText("");
-		}
-		btnHelpToggle.getUpFace()
-				.setImage(new NoDragImage(
-				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
- : GuiResources.INSTANCE.icon_help())
-										.getSafeUri().asString(),
-				24));
-		// new
-		// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
-		btnHelpToggle.getDownFace()
-				.setImage(new NoDragImage(
-				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
- : GuiResources.INSTANCE.icon_help())
-										.getSafeUri().asString(),
-				24));
-
-	}
-
-	@Override
-	public String getCommand() {
-		return getEquationEditor().getCurrentCommand();
-	}
-
-	@Override
-	public ToggleButton getHelpToggle() {
-		return this.btnHelpToggle;
-	}
-
-	@Override
-	public boolean hasHelpPopup() {
-		return this.helpPopup != null;
 	}
 
 }

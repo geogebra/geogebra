@@ -35,7 +35,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.MathField;
@@ -65,6 +64,7 @@ public class MathFieldW implements MathField, IsWidget {
 	private MathFieldInternal mathFieldInternal;
 	private Widget html;
 	private Context2d ctx;
+	private boolean focused = false;
 
 	/**
 	 * 
@@ -170,7 +170,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	@Override
 	public void requestViewFocus() {
-		html.getElement().focus();
+		setFocus(true);
 	}
 
 	@Override
@@ -193,7 +193,7 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	public boolean hasFocus() {
-		return true;
+		return focused;
 	}
 
 	public void hideCopyPasteButtons() {
@@ -234,8 +234,9 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	public void setFocus(boolean focus) {
-		if (html instanceof FocusWidget) {
-			((FocusWidget) html).setFocus(true);
+		if (focus) {
+			html.getElement().focus();
 		}
+		this.focused = focus;
 	}
 }
