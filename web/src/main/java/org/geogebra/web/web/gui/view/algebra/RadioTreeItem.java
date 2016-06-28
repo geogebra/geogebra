@@ -2877,5 +2877,55 @@ marblePanel, evt))) {
 		}
 		return Unicode.CAS_OUTPUT_PREFIX;
 	}
+
+	public void setLabels() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * Remove the main panel from parent
+	 */
+	public void removeFromParent() {
+		main.removeFromParent();
+	}
+
+	public boolean hasHelpPopup() {
+		return false;
+	}
+
+	public void replaceXButtonDOM() {
+		// TODO Auto-generated method stub
+
+	}
+
+	/**
+	 * @param fkey
+	 *            2 for F2, 3 for F3 etc
+	 * @param geo2
+	 *            selected element
+	 */
+	public void handleFKey(int fkey, GeoElement geo2) {
+		switch (fkey) {
+		case 3: // F3 key: copy definition to input field
+			getEquationEditor().setText(geo2.getDefinitionForInputBar(), true);
+			ensureEditing();
+			break;
+
+		case 4: // F4 key: copy value to input field
+			getEquationEditor().autocomplete(
+					" " + geo2.getValueForInputBar() + " ", false);
+			ensureEditing();
+			break;
+
+		case 5: // F5 key: copy name to input field
+			getEquationEditor().autocomplete(
+					" " + geo2.getLabel(StringTemplate.defaultTemplate) + " ",
+					false);
+			ensureEditing();
+			break;
+		}
+
+	}
 }
 

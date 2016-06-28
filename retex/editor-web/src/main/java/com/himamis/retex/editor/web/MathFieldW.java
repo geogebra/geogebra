@@ -27,7 +27,6 @@ package com.himamis.retex.editor.web;
 
 
 import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -36,7 +35,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.MathField;
@@ -63,13 +61,26 @@ public class MathFieldW implements MathField, IsWidget {
 
 
 	private MathFieldInternal mathFieldInternal;
-	private HTML html;
+	private Widget html;
 	private Context2d ctx;
+	/** Listens to Enter */
+	MathFieldListener listener;
 
-	public MathFieldW(Element el, Context2d context) {
-		html = HTML.wrap(el);
-		el.setTabIndex(1);
+	/**
+	 * 
+	 * @param el
+	 *            parent element
+	 * @param context
+	 *            drawing context
+	 * @param listener
+	 *            listener for special events
+	 */
+	public MathFieldW(Widget el, Context2d context,
+			MathFieldListener listener) {
+		html = el;
+		el.getElement().setTabIndex(1);
 		this.ctx = context;
+		this.listener = listener;
 		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
@@ -129,6 +140,10 @@ public class MathFieldW implements MathField, IsWidget {
 
 			public void onKeyDown(KeyDownEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
+				if (code == 13 || code == 10) {
+					listener.onEnter();
+					return;
+				}
 				keyListener.onKeyReleased(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
@@ -213,5 +228,9 @@ public class MathFieldW implements MathField, IsWidget {
 
 	public void setFormula(MathFormula formula) {
 		this.mathFieldInternal.setFormula(formula);
+	}
+
+	public MathFormula getFormula() {
+		return this.mathFieldInternal.getFormula();
 	}
 }

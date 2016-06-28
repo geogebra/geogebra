@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
@@ -609,6 +607,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	/**
 	 * Adds + and delete buttons to the button panel
 	 */
+	@Override
 	public void replaceXButtonDOM() {
 		getWidget().getElement().getParentElement()
 				.appendChild(buttonPanel.getElement());
@@ -680,12 +679,12 @@ public class InputTreeItem extends RadioTreeItem implements
 	}
 
 	@Override
-	public boolean stopNewFormulaCreation(String newValue0, String latex,
+	public boolean stopNewFormulaCreation(String newValue0, String latexValue,
 	        AsyncOperation callback) {
 		if (editor.needsEnterForSuggestion()) {
 			return false;
 		}
-		return super.stopNewFormulaCreation(newValue0, latex, callback);
+		return super.stopNewFormulaCreation(newValue0, latexValue, callback);
 	}
 
 	@Override
@@ -946,8 +945,8 @@ public class InputTreeItem extends RadioTreeItem implements
 
 
 	@Override
-	public void addToHistory(String str, String latex) {
-		editor.addToHistory(str, latex);
+	public void addToHistory(String str, String latexValue) {
+		editor.addToHistory(str, latexValue);
 	}
 
 	@Override
@@ -1036,6 +1035,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	/**
 	 * Update localization
 	 */
+	@Override
 	public void setLabels() {
 		editor.resetLanguage();
 		if (dummyLabel != null) {
@@ -1048,12 +1048,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 	}
 
-	/**
-	 * Remove the main panel from parent
-	 */
-	public void removeFromParent() {
-		main.removeFromParent();
-	}
+
 
 	@Override
 	public void autocomplete(String s) {
@@ -1065,33 +1060,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		return true;
 	}
 
-	/**
-	 * @param fkey
-	 *            2 for F2, 3 for F3 etc
-	 * @param geo2
-	 *            selected element
-	 */
-	public void handleFKey(int fkey, GeoElement geo2) {
-		switch (fkey) {
-		case 3: // F3 key: copy definition to input field
-			editor.setText(geo2.getDefinitionForInputBar(), true);
-			ensureEditing();
-			break;
 
-		case 4: // F4 key: copy value to input field
-			editor.autocomplete(" " + geo2.getValueForInputBar() + " ", false);
-			ensureEditing();
-			break;
-
-		case 5: // F5 key: copy name to input field
-			editor.autocomplete(
-					" " + geo2.getLabel(StringTemplate.defaultTemplate) + " ",
-					false);
-			ensureEditing();
-			break;
-		}
-
-	}
 
 	/**
 	 * Starts editing of the input.
@@ -1170,6 +1139,11 @@ public class InputTreeItem extends RadioTreeItem implements
 	@Override
 	public ToggleButton getHelpToggle() {
 		return this.btnHelpToggle;
+	}
+
+	@Override
+	public boolean hasHelpPopup() {
+		return this.helpPopup != null;
 	}
 
 }

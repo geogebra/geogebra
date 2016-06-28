@@ -1112,6 +1112,9 @@ public class DrawEquationW extends DrawEquation {
 	public static native void writeLatexInPlaceOfCurrentWord(GeoContainer rbti,
 	        Element parentElement, String latex, String currentWord,
 	        boolean command) /*-{
+		if (!parentElement) {
+			return;
+		}
 		var elSecond = parentElement.firstChild.firstChild.nextSibling;
 		var elSecondInside = elSecond.lastChild;
 

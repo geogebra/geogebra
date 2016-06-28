@@ -84,7 +84,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	// protected AlgebraInputW inputPanel;
 	/** Input item */
-	InputTreeItem inputPanelLatex;
+	RadioTreeItem inputPanelLatex;
 	private AlgebraStyleBarW styleBar;
 	private boolean editing = false;
 	private GeoElement draggedGeo;
@@ -1313,7 +1313,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 
 		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV) && inputPanelLatex != null
-				&& inputPanelLatex.helpPopup != null) {
+				&& inputPanelLatex.hasHelpPopup()) {
 			app.getGuiManager().getInputHelpPanel().setLabels();
 		}
 	}
@@ -1343,7 +1343,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * @return the RadioButtonTreeItem containing the input-box
 	 */
-	public InputTreeItem getInputTreeItem() {
+	public RadioTreeItem getInputTreeItem() {
 		return inputPanelLatex;
 	}
 

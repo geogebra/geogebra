@@ -153,7 +153,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
     }
 
     @Override
-    public boolean onKeyPressed(KeyEvent keyEvent) {
+	public boolean onKeyPressed(KeyEvent keyEvent) {
         boolean handled = keyListener.onKeyPressed(keyEvent);
         if (handled) {
             update();

@@ -13,8 +13,10 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.web.JlmEditorLib;
+import com.himamis.retex.editor.web.MathFieldListener;
 import com.himamis.retex.editor.web.MathFieldW;
 import com.himamis.retex.editor.web.xml.XmlResourcesEditor;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -23,7 +25,7 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 import com.himamis.retex.renderer.web.resources.ResourceLoaderW;
 
-public class Editor implements EntryPoint {
+public class Editor implements EntryPoint, MathFieldListener {
 	private JlmEditorLib library;
 	private Opentype opentype;
 	public void onModuleLoad() {
@@ -46,7 +48,8 @@ public class Editor implements EntryPoint {
 		RootPanel parentWidget = RootPanel.get(id);
 		Element el = DOM.createDiv();
 		el.appendChild(canvas.getCanvasElement());
-		MathFieldW fld = new MathFieldW(el, canvas.getContext2d());
+		MathFieldW fld = new MathFieldW(HTML.wrap(el), canvas.getContext2d(),
+				this);
 		final OnScreenKeyBoard kb = new OnScreenKeyBoard(new KeyboardContext(),
 				false);
 		kb.setListener(new UpdateKeyBoardListener() {
@@ -87,5 +90,10 @@ public class Editor implements EntryPoint {
 		}
 
 	}-*/;
+
+	public void onEnter() {
+		// TODO Auto-generated method stub
+
+	}
 
 }

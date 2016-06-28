@@ -2040,7 +2040,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	public static KeyboardListener makeKeyboardListener(
 			MathKeyboardListener textField) {
-
+		if (textField instanceof RetexKeyboardListener) {
+			return new MathFieldProcessing(
+					((RetexKeyboardListener) textField).getMathField());
+		}
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;
 		}
@@ -2055,10 +2058,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return new MathQuillProcessing(
 					(EquationEditorListener) textField);
 		}
-		if(textField instanceof RetexKeyboardListener){
-			return new MathFieldProcessing(
-					((RetexKeyboardListener) textField).getMathField());
-		}
+
 		return null;
 
 	}
