@@ -59,6 +59,7 @@ public class FillingModel extends MultipleOptionsModel {
 	}
 	@Override
 	public List<String> getChoiches(Localization loc) {
+		if (app.isExam()) {
 		return Arrays.asList(loc.getMenu("Filling.Standard"), // index 0
 				loc.getMenu("Filling.Hatch"), // index 1
 				loc.getMenu("Filling.Crosshatch"), // index 2
@@ -67,9 +68,22 @@ public class FillingModel extends MultipleOptionsModel {
 				loc.getMenu("Filling.Honeycomb"),// index 5
 				loc.getMenu("Filling.Brick"),// index 6
 				loc.getMenu("Filling.Weaving"),// index 6
-				loc.getMenu("Filling.Symbol"),// index 7
-				loc.getMenu("Filling.Image") // index 8
+					loc.getMenu("Filling.Symbol")// index 7
 				);
+		} else {
+			return Arrays.asList(loc.getMenu("Filling.Standard"), // index 0
+					loc.getMenu("Filling.Hatch"), // index 1
+					loc.getMenu("Filling.Crosshatch"), // index 2
+					loc.getMenu("Filling.Chessboard"), // index 3
+					loc.getMenu("Filling.Dotted"), // index 4
+					loc.getMenu("Filling.Honeycomb"), // index 5
+					loc.getMenu("Filling.Brick"), // index 6
+					loc.getMenu("Filling.Weaving"), // index 6
+					loc.getMenu("Filling.Symbol"), // index 7
+					loc.getMenu("Filling.Image") // index 8
+			);
+		}
+
 	}
 
 	public void updateFillType(FillType fillType) {
