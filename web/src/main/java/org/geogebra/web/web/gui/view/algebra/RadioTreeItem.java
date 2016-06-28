@@ -792,6 +792,7 @@ public class RadioTreeItem extends AVTreeItem
 			outputPanel.add(valuePanel);
 			plainTextItem.add(outputPanel);
 		}
+		updateFont(plainTextItem);
 
 		ihtml.add(plainTextItem);
 	}
