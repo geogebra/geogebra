@@ -35,6 +35,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.MathField;
@@ -43,6 +44,7 @@ import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
+import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -63,8 +65,6 @@ public class MathFieldW implements MathField, IsWidget {
 	private MathFieldInternal mathFieldInternal;
 	private Widget html;
 	private Context2d ctx;
-	/** Listens to Enter */
-	MathFieldListener listener;
 
 	/**
 	 * 
@@ -80,9 +80,9 @@ public class MathFieldW implements MathField, IsWidget {
 		html = el;
 		el.getElement().setTabIndex(1);
 		this.ctx = context;
-		this.listener = listener;
 		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.setSelectionMode(true);
+		mathFieldInternal.setFieldListener(listener);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 	}
 
@@ -120,6 +120,7 @@ public class MathFieldW implements MathField, IsWidget {
 				keyListener.onKeyTyped(
 						new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
 								event.getCharCode()));
+				event.stopPropagation();
 
 			}
 		}, KeyPressEvent.getType());
@@ -133,6 +134,7 @@ public class MathFieldW implements MathField, IsWidget {
 				if (code == 8 || code == 27) {
 					event.preventDefault();
 				}
+				event.stopPropagation();
 
 			}
 		}, KeyUpEvent.getType());
@@ -140,16 +142,13 @@ public class MathFieldW implements MathField, IsWidget {
 
 			public void onKeyDown(KeyDownEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
-				if (code == 13 || code == 10) {
-					listener.onEnter();
-					return;
-				}
 				keyListener.onKeyReleased(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
 				if (code == 8 || code == 27) {
 					event.preventDefault();
 				}
+				event.stopPropagation();
 
 			}
 		}, KeyDownEvent.getType());
@@ -232,5 +231,11 @@ public class MathFieldW implements MathField, IsWidget {
 
 	public MathFormula getFormula() {
 		return this.mathFieldInternal.getFormula();
+	}
+
+	public void setFocus(boolean focus) {
+		if (html instanceof FocusWidget) {
+			((FocusWidget) html).setFocus(true);
+		}
 	}
 }

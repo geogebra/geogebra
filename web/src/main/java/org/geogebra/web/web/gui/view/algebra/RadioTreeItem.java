@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.main.App;
@@ -1566,8 +1565,9 @@ public class RadioTreeItem extends AVTreeItem
 		if (startEditing(substituteNumbers) == false) {
 			return false;
 		}
-
-		buttonPanel.setVisible(true);
+		if (buttonPanel != null) {
+			buttonPanel.setVisible(true);
+		}
 		maybeSetPButtonVisibility(true);
 		return true;
 	}
@@ -1834,18 +1834,11 @@ public class RadioTreeItem extends AVTreeItem
 
 			};
 
-			GeoElement[] newGeo = app
-					.getKernel()
-					.getAlgebraProcessor()
+			app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
 							getErrorHandler(valid), true, callback);
 
-			if (newGeo != null && newGeo.length == 1
-					&& newGeo[0] instanceof GeoText) {
-				// texts created via the input field should be displayed in the
-				// AV
-				newGeo[0].setAuxiliaryObject(false);
-			}
+
 
 		} catch (Exception ee) {
 			// TODO: better exception handling
@@ -2544,7 +2537,9 @@ marblePanel, evt))) {
 
 	public void removeCloseButton() {
 		this.maybeSetPButtonVisibility(true);
-		buttonPanel.setVisible(false);
+		if (buttonPanel != null) {
+			buttonPanel.setVisible(false);
+		}
 	}
 
 

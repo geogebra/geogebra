@@ -51,6 +51,7 @@ public class InputHelper {
 		if (geos != null && geos.length > 0 && geos[0] != null
 				&& geos[0].isGeoText()) {
 			GeoText text = (GeoText) geos[0];
+			text.setAuxiliaryObject(false);
 			Construction cons = text.getConstruction();
 
 			boolean absoluteTexts = cons.getApplication()

@@ -883,6 +883,9 @@ public class DrawEquationW extends DrawEquation {
 	public static native void triggerKeydown(GeoContainer rbti,
 			Element parentElement,
 	        int keycode, boolean altk, boolean ctrlk, boolean shiftk) /*-{
+		if (!parentElement || !parentElement.firstChild) {
+			return;
+		}
 		var elfirst = parentElement.firstChild.firstChild;
 		var elSecond = parentElement.firstChild.firstChild.nextSibling;
 		var elSecondInside = elSecond.lastChild;
@@ -1112,7 +1115,7 @@ public class DrawEquationW extends DrawEquation {
 	public static native void writeLatexInPlaceOfCurrentWord(GeoContainer rbti,
 	        Element parentElement, String latex, String currentWord,
 	        boolean command) /*-{
-		if (!parentElement) {
+		if (!parentElement || !parentElement.firstChild) {
 			return;
 		}
 		var elSecond = parentElement.firstChild.firstChild.nextSibling;

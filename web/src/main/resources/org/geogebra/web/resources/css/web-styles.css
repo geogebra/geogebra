@@ -365,80 +365,6 @@ input[type="text"]::-ms-clear {
 	color: #CCCCCC;
 }
 
-/*.gwt-DecoratorPanel {
-	
-}
-
-.gwt-DecoratorPanel .topCenter {
-	border-top: 1px solid #bbb;
-	line-height: 0px;
-}
-
-.gwt-DecoratorPanel .bottomCenter {
-	border-bottom: 1px solid #bbb;
-	line-height: 0px;
-}
-
-.gwt-DecoratorPanel .topCenterInner,.gwt-DecoratorPanel .bottomCenterInner
-	{
-	height: 1px;
-	line-height: 0px;
-	font-size: 1px;
-}
-
-.gwt-DecoratorPanel .middleLeft {
-	border-left: 1px solid #bbb;
-}
-
-.gwt-DecoratorPanel .middleRight {
-	border-right: 1px solid #bbb;
-}
-
-.gwt-DecoratorPanel .middleLeftInner,.gwt-DecoratorPanel .middleRightInner
-	{
-	width: 1px;
-	line-height: 1px;
-}
-
-.gwt-DecoratorPanel .topLeftInner,.gwt-DecoratorPanel .topRightInner,.gwt-DecoratorPanel .bottomLeftInner,.gwt-DecoratorPanel .bottomRightInner
-	{
-	width: 5px;
-	height: 5px;
-	zoom: 1;
-	font-size: 1px;
-	overflow: hidden;
-}
-
-.gwt-DecoratorPanel .topLeft {
-	line-height: 0px;
-	background: url(images/circles.png) no-repeat 0px -6px;
-	-background: url(images/circles_ie6.png) no-repeat 0px -6px;
-}
-
-.gwt-DecoratorPanel .topRight {
-	line-height: 0px;
-	background: url(images/circles.png) no-repeat -5px -6px;
-	-background: url(images/circles_ie6.png) no-repeat -5px -6px;
-}
-
-.gwt-DecoratorPanel .bottomLeft {
-	line-height: 0px;
-	background: url(images/circles.png) no-repeat 0px -11px;
-	-background: url(images/circles_ie6.png) no-repeat 0px -11px;
-}
-
-.gwt-DecoratorPanel .bottomRight {
-	line-height: 0px;
-	background: url(images/circles.png) no-repeat -5px -11px;
-	-background: url(images/circles_ie6.png) no-repeat -5px -11px;
-}
-
-* html .gwt-DecoratorPanel .topLeftInner,* html .gwt-DecoratorPanel .topRightInner,* html .gwt-DecoratorPanel .bottomLeftInner,* html .gwt-DecoratorPanel .bottomRightInner
-	{
-	width: 5px;
-	height: 5px;
-	overflow: hidden;
-}*/
 .gwt-DisclosurePanel {
 	margin-top: 5px;
 }
@@ -517,31 +443,6 @@ body.application[dir=rtl] .gwt-Label {
 	color: #6161FF;
 }
 
-.gwt-ListBox {
-	
-}
-
-/* .gwt-MenuBar {
-	cursor: default;
-}
-
-.gwt-MenuBar .gwt-MenuItem {
-	cursor: default;
-	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-}
-
-.gwt-MenuBar .gwt-MenuItem-selected {
-	background: #CCCCFF;
-} */
-
-/*.gwt-MenuBar-horizontal {
-  background: #e3e8f3 url(images/hborder.png) repeat-x 0px -2003px;
-  border: 1px solid #e0e0e0;
-}*/
-.gwt-MenuBar-horizontal .gwt-MenuItem { /*padding: 5px 10px;*/
-	/*vertical-align: bottom;*/ /*color: #000;*/ /*font-weight: bold;*/
-	
-}
 
 .gwt-MenuBar .gwt-MenuItem-disabled,
 .gwt-MenuBar-horizontal .gwt-MenuItem-disabled
@@ -564,133 +465,11 @@ body.application[dir=rtl] .gwt-Label {
 	background: white;
 }
 
-/*.gwt-MenuBar-vertical {
-	margin-top: 0px;
-}
-
-body[dir=ltr] .gwt-MenuBar-vertical {
-	margin-left: 0px;
-}
-
-body[dir=rtl] .gwt-MenuBar-vertical {
-	margin-right: 0px;
-}*/
-/* .gwt-MenuBar-vertical table {
-	border-collapse: collapse;
-}
-
-.gwt-MenuBar-vertical .gwt-MenuItem {
-	padding: 2px 40px 2px 1px;
-}
-
-body[dir=rtl] .gwt-MenuBar-vertical .gwt-MenuItem {
-	padding: 2px 1px 2px 40px;
-	
-}
-
-.gwt-MenuBar-vertical .gwt-MenuItemSeparator {
-	padding: 2px 0px;
-}
-
-.gwt-MenuBar-vertical .gwt-MenuItemSeparator .menuSeparatorInner {
-	height: 1px;
-	padding: 0px;
-	border: 0px;
-	border-top: 1px solid #E0E0E0;
-	overflow: hidden;
-}
-
-.gwt-MenuBar-vertical .subMenuIcon {
-	padding-right: 4px;
-}
-
-body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
-	padding-left: 4px;
-	
-}
-
-.gwt-MenuBar-vertical .subMenuIcon-selected {
-	background: #CCCCFF;
-} */
-
 .gwt-MenuBarPopup {
 	margin: 0px 0px 0px 3px;
 	z-index: 100;
 }
-/*body[dir=rtl] .gwt-MenuBarPopup {
-  margin: 0px 3px 0px 0px;
-}
-.gwt-MenuBarPopup .menuPopupTopCenter {
-  background: url(images/hborder.png) 0px -12px repeat-x;
-}
-.gwt-MenuBarPopup .menuPopupBottomCenter {
-  background: url(images/hborder.png) 0px -13px repeat-x;
-  -background: url(images/hborder_ie6.png) 0px -13px repeat-x;
-}
-.gwt-MenuBarPopup .menuPopupMiddleLeft {
-  background: url(images/vborder.png) -12px 0px repeat-y;
-  -background: url(images/vborder_ie6.png) -12px 0px repeat-y;
-}
-.gwt-MenuBarPopup .menuPopupMiddleRight {
-  background: url(images/vborder.png) -13px 0px repeat-y;
-  -background: url(images/vborder_ie6.png) -13px 0px repeat-y;
-}
-.gwt-MenuBarPopup .menuPopupTopLeftInner {
-  width: 5px;
-  height: 5px;
-  zoom: 1;
-}
-.gwt-MenuBarPopup .menuPopupTopRightInner {
-  width: 8px;
-  height: 5px;
-  zoom: 1;
-}
-.gwt-MenuBarPopup .menuPopupBottomLeftInner {
-  width: 5px;
-  height: 8px;
-  zoom: 1;
-}
-.gwt-MenuBarPopup .menuPopupBottomRightInner {
-  width: 8px;
-  height: 8px;
-  zoom: 1;
-}
-.gwt-MenuBarPopup .menuPopupTopLeft {
-  background: url(images/corner.png) no-repeat 0px -36px;
-  -background: url(images/corner_ie6.png) no-repeat 0px -36px;
-}
-.gwt-MenuBarPopup .menuPopupTopRight {
-  background: url(images/corner.png) no-repeat -5px -36px;
-  -background: url(images/corner_ie6.png) no-repeat -5px -36px;
-}
-.gwt-MenuBarPopup .menuPopupBottomLeft {
-  background: url(images/corner.png) no-repeat 0px -41px;
-  -background: url(images/corner_ie6.png) no-repeat 0px -41px;
-}
-.gwt-MenuBarPopup .menuPopupBottomRight {
-  background: url(images/corner.png) no-repeat -5px -41px;
-  -background: url(images/corner_ie6.png) no-repeat -5px -41px;
-}
-* html .gwt-MenuBarPopup .menuPopupTopLeftInner {
-  width: 5px;
-  height: 5px;
-  overflow: hidden;
-}
-* html .gwt-MenuBarPopup .menuPopupTopRightInner {
-  width: 8px;
-  height: 5px;
-  overflow: hidden;
-}
-* html .gwt-MenuBarPopup .menuPopupBottomLeftInner {
-  width: 5px;
-  height: 8px;
-  overflow: hidden;
-}
-* html .gwt-MenuBarPopup .menuPopupBottomRightInner {
-  width: 8px;
-  height: 8px;
-  overflow: hidden;
-}*/
+
 .gwt-PasswordTextBox {
 	padding: 5px 4px;
 	border: 1px solid #ccc;
@@ -1159,12 +938,6 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: hand;
 	cursor: pointer;
 }
-
-.gwt-Tree .gwt-TreeItem-selected {
-	background: #CCCCFF;
-}
-
-
 
 .gwt-TreeItem .gwt-RadioButton input,.gwt-TreeItem .gwt-CheckBox input {
 	margin-left: 0px;

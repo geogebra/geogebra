@@ -38,6 +38,7 @@ import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
+import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -65,6 +66,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	private boolean selectionDrag;
 
+	private MathFieldListener listener;
 
     public MathFieldInternal(MathField mathField) {
         this.mathField = mathField;
@@ -154,6 +156,12 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     @Override
 	public boolean onKeyPressed(KeyEvent keyEvent) {
+		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
+			if (listener != null) {
+				listener.onEnter();
+				return true;
+			}
+		}
         boolean handled = keyListener.onKeyPressed(keyEvent);
         if (handled) {
             update();
@@ -347,5 +355,14 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
     public boolean isEmpty() {
         return mathFormula.isEmpty();
     }
+
+	/**
+	 * @param listener
+	 *            listener
+	 */
+	public void setFieldListener(MathFieldListener listener) {
+		this.listener = listener;
+
+	}
 
 }

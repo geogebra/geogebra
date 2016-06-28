@@ -17,12 +17,12 @@ public class MathFieldProcessing implements KeyboardListener {
 	}
 
 	public void setFocus(boolean focus) {
-		// TODO Auto-generated method stub
+		mf.setFocus(focus);
 
 	}
 
 	public void onEnter() {
-		// TODO Auto-generated method stub
+		mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_ENTER));
 
 	}
 

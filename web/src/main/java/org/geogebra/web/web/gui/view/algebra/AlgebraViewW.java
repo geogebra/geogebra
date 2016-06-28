@@ -1366,7 +1366,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		boolean forceKeyboard = false;
 		boolean appletHack = false;
 		if (inputPanelLatex == null) {
-			inputPanelLatex = new InputTreeItem(kernel);
+			inputPanelLatex = createInputPanel();
 			forceKeyboard = GuiManagerW.mayForceKeyboard(app);
 
 			appletHack = !App.isFullAppGui();
@@ -1395,6 +1395,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 
 		showAlgebraInput(forceKeyboard);
+	}
+
+	private RadioTreeItem createInputPanel() {
+		return app.has(Feature.RETEX_EDITOR) ? new LatexTreeItem(kernel)
+				: new InputTreeItem(kernel);
 	}
 
 	public void setShowAlgebraInput(boolean show) {
@@ -1433,7 +1438,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		if (inputPanelLatex == null) {
 			suggestKeyboard = true;
 			forceKeyboard = forceKeyboard0 || GuiManagerW.mayForceKeyboard(app);
-			inputPanelLatex = new InputTreeItem(kernel);
+			inputPanelLatex = createInputPanel();
 
 			// open the keyboard (or show the keyboard-open-button) at
 			// when the application is started
@@ -1616,8 +1621,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * Open Editor textfield for geo.
 	 */
 	public void startEditing(GeoElement geo) {
-		if (geo == null)
+		if (geo == null) {
+			if (app.has(Feature.RETEX_EDITOR)) {
+				editing = true;
+			}
 			return;
+		}
 
 		// open Object Properties for eg GeoImages
 		if (!geo.isAlgebraViewEditable()) {
@@ -1737,7 +1746,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		return draggedGeo;
 	}
 
-	public void setDraggedGeo(GeoElement draggedGeo) {
+	private void setDraggedGeo(GeoElement draggedGeo) {
 		this.draggedGeo = draggedGeo;
 	}
 
