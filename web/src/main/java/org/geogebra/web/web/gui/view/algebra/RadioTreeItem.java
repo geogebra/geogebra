@@ -792,7 +792,7 @@ public class RadioTreeItem extends AVTreeItem
 			outputPanel.add(valuePanel);
 			plainTextItem.add(outputPanel);
 		}
-		updateFont(plainTextItem);
+		// updateFont(plainTextItem);
 
 		ihtml.add(plainTextItem);
 	}
@@ -820,7 +820,7 @@ public class RadioTreeItem extends AVTreeItem
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
 						getBuilder(getPlainTextItem()));
 			updateItemColor();
-			updateFont(getPlainTextItem());
+			// updateFont(getPlainTextItem());
 			ihtml.clear();
 			ihtml.add(getPlainTextItem());
 		}
@@ -1210,7 +1210,7 @@ public class RadioTreeItem extends AVTreeItem
 			// reset the label text
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
 					getBuilder(getPlainTextItem()));
-			updateFont(getPlainTextItem());
+			// updateFont(getPlainTextItem());
 			updateColor(getPlainTextItem());
 		} else {
 			main.remove(checkBox);
@@ -1247,6 +1247,9 @@ public class RadioTreeItem extends AVTreeItem
 
 		}
 
+		if (plainTextItem != null) {
+			updateFont(plainTextItem);
+		}
 
 
 
@@ -1296,7 +1299,6 @@ public class RadioTreeItem extends AVTreeItem
 				// original text was plain
 
 				updateItemColor();
-				updateFont(getPlainTextItem());
 			} else {
 				// original text was latex.
 
