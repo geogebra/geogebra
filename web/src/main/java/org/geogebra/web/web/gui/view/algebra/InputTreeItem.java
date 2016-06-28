@@ -118,12 +118,6 @@ public class InputTreeItem extends RadioTreeItem implements
 		ihtml.getElement().appendChild(item.getElement());
 		ihtml.getElement().addClassName("hasCursorPermanent");
 
-		SimplePanel temp = new SimplePanel();
-		temp.setStyleName("temp");
-		temp.setWidth("40px");
-		ihtml.add(temp);
-		ihtml.add(new Label("valami"));
-
 
 		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
 			ihtml.getElement().addClassName("tempHasCursorPermanent");
