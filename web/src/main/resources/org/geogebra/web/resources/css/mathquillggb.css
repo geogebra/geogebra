@@ -427,6 +427,7 @@
 .mathquillggb-rendered-math .mathquillggb-editable {
   cursor: text;
   font-family: geogebra-serif, "Times New Roman", serif;
+  padding-left: 4px;
 }
 .mathquillggb-rendered-math table {
   border-collapse: collapse;

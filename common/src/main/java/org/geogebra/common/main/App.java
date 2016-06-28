@@ -4143,7 +4143,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public int getFontSizeWeb() {
-		return Math.max(getFontSize(), 14);
+		return Math.max(getFontSize(), 16);
 	}
 
 

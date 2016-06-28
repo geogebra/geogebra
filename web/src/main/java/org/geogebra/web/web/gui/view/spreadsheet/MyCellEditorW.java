@@ -114,7 +114,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		}
 
 		autoCompleteTextField.setText(text);
-		autoCompleteTextField.setFont(app.getFontCanDisplay(text));
+		// autoCompleteTextField.setFont(app.getFontCanDisplay(text));
 		autoCompleteTextField.requestFocus();
 
 		editing = true;
