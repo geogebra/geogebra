@@ -225,6 +225,9 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				// could be DERIVATIVE node
 				if (leftValue.isExpressionNode()) {
 					leftValue = expandFunctionDerivativeNodes(leftValue, fast);
+					if (leftValue == null) {
+						return null;
+					}
 					node.setLeft(leftValue);
 					if (leftValue.isExpressionNode())
 						return node;
@@ -263,9 +266,9 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 								|| ((ExpressionNode) leftValue).getOperation() == Operation.$VAR_ROW || ((ExpressionNode) leftValue)
 								.getOperation() == Operation.$VAR_ROW_COL))
 					leftValue = ((ExpressionNode) leftValue).getLeft();
-				if(leftValue instanceof GeoCasCell){
-					return ((Functional) ((GeoCasCell) leftValue).getTwinGeo())
-							.getGeoDerivative(order, fast);
+				if (leftValue instanceof GeoCasCell) {
+					return ((GeoCasCell) leftValue).getGeoDerivative(order,
+							fast);
 				}
 				return ((Functional) leftValue).getGeoDerivative(order, fast);
 			case ELEMENT_OF:

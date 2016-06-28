@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
@@ -3466,6 +3467,18 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 */
 	public void setSubstList(ArrayList<Vector<String>> list) {
 		this.substList = list;
+	}
+
+	/**
+	 * @param order
+	 *            derivative order
+	 * @param fast
+	 *            true to avoid CAS computation
+	 * @return derivative
+	 */
+	public ExpressionValue getGeoDerivative(int order, boolean fast) {
+		return getTwinGeo() == null ? null
+				: ((Functional) getTwinGeo()).getGeoDerivative(order, fast);
 	}
 
 }
