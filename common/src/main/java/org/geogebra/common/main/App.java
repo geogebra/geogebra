@@ -3906,6 +3906,10 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-393 / MOB-646
 		case MOBILE_SWITCH_KEYBOARD:
+			return false;
+
+		// MOB-646
+		case MOBILE_NATIVE_KEYBOARD_FIRST:
 			return prerelease;
 
 		// MOB-660
