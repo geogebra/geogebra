@@ -3820,6 +3820,10 @@ public abstract class App implements UpdateSelection {
 		case WEB_PRINT_CP_VIEW:
 			return prerelease;
 
+		// GGB-335
+		case TOOLBAR_ON_SMALL_SCREENS:
+			return false;
+
 		// MOB-270
 		case ACRA:
 			return prerelease;

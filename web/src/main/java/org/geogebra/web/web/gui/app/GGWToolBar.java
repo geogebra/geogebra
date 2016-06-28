@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -70,6 +71,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	FlowPanel toolBarPanel;
 	//panel for toolbar (without undo-redo buttons)
 	FlowPanel toolBPanel;
+	// panel for mobile submenu view
+	FlowPanel submenuPanel;
 	boolean inited = false;
 	private Integer activeToolbar = -1;
 	private boolean menuBarShowing = false;
@@ -117,14 +120,27 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	 */
 	public void init(AppW app1) {
 
+		Log.debug("init toolbar");
 		this.inited = true;
 		this.app = app1;
 		toolbars = new ArrayList<ToolBarW>();
-		toolBar = new ToolBarW(this);
+
+		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+			submenuPanel = new FlowPanel();
+			toolBarPanel.add(submenuPanel);
+			// Log.debug("submenuPanel added");
+			toolBar = new ToolBarW(this, submenuPanel);
+		} else {
+			toolBar = new ToolBarW(this);
+		}
 		toolBPanel = new FlowPanel();
 		toolBarPanel.add(toolBar);
 		toolBarPanel.add(toolBPanel);
+
+
+
 		toolBarPanel.addStyleName("toolbarPanel");
+
 		if (app.isExam()) {
 			toolBarPanel.addStyleName("toolbarPanelExam");
 		}
@@ -1147,6 +1163,17 @@ pr.menu_header_undo(), null, 32);
 		if (maxButtons > 0) {
 			toolbars.get(0).setMaxButtons(maxButtons);
 		}
+		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+			toolBPanel.setWidth(maxButtons * 45 - 20 + "px");
+			submenuPanel.setWidth(maxButtons * 45 + "px");
+			// Log.debug("maxButtons: " + maxButtons + " toolbarvecsize: " +
+			// toolBar.getToolbarVecSize());
+			if (maxButtons < toolBar.getToolbarVecSize()) {
+				toolBPanel.addStyleName("toolBPanelMobile");
+			} else {
+				toolBPanel.removeStyleName("toolBPanelMobile");
+			}
+		}
 
 
 	}
@@ -1190,7 +1217,16 @@ getFirstMode(),
     }
 
 	public void closeAllSubmenu() {
+		// Log.debug("close all submenu");
 		toolBar.closeAllSubmenu();
+		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS) /*
+														 * && toolBar.
+														 * isMobileToolbar()
+														 */) {
+			submenuPanel.clear();
+		}
 	}
+
+
 
 }

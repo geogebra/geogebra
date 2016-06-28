@@ -49,17 +49,17 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	private FlowPanel tbutton;
 	protected ToolbarSubmenuW submenu;
 
-	private AppW app;
+	protected AppW app;
 
 	protected ToolBarW toolbar;
 
-	private final Vector<Integer> menu;
+	protected final Vector<Integer> menu;
 	
 	private String toolTipText;
 	
 	private boolean wasMenuShownOnMouseDown;
 
-	private int order;
+	protected int order;
 
 	public ModeToggleMenu(AppW appl, Vector<Integer> menu1, ToolBarW tb, int order) {
 		super();
@@ -146,7 +146,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		app.getGgbApi().insertImage(str);
 	}
 
-	private void buildGui(){
+	protected void buildGui() {
 		submenu = createToolbarSubmenu(app, order);
 		add(submenu);
 
@@ -212,6 +212,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		if (submenu != null) {
 			app.unregisterPopup(submenu);
 			submenu.setVisible(false);
+			Log.printStacktrace("hidemenu");
 		}
 	}
 	

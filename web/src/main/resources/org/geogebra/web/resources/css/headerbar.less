@@ -15,7 +15,10 @@
 	.ggbdockpanelhack > div {
 		overflow: visible !important;
 	}
-	
+	position: relative;
+	.GGWToolbar {
+		width: 650px;
+	}
 	.toolbarPanel {
 		background-color: @color-lightgrey;
 		border-bottom: 1px solid @color-bordergrey;
@@ -24,10 +27,14 @@
 		.box-sizing(border-box);
 		z-index: 100;
 		
+		.toolBPanelMobile {
+			overflow-x: auto;
+			}	
+			
 		.toolBPanel {
 			.float(left);
 			padding-top: 1px;
-			
+						
 			ul {
 				margin: 0px;
 				padding: 0px;
@@ -121,7 +128,46 @@
 				}
 			}
 		}
+				
+	
+		.submenuPanel {
+			/*height: 53px;*/
+			/*width: 500px;*/ //TODO set dynamic value
+			float: left;
+			position: absolute;
+			top: 50px;
+			left: -35px;
+			overflow-x: scroll;
 		
+			.submenu_button {
+					.border-radius(5px);
+					border: 1px solid @color-bordergrey;
+					background-color: @color-white;
+					padding: 3px;
+					width: 32px;
+					height: 32px;
+					
+					&[isSelected=false] {
+						border-color: @color-bordergrey;
+					}				
+					&:hover,
+					&:focus {
+						border-color: @color-highlight;
+					}
+				}
+				li {
+					.margin(0px, 5px, 0px, 0px);
+					text-align: center;
+					position: relative;
+					width: 40px;
+					height: 40px;
+					display: block;
+					.float(left);
+					list-style-type: none;
+					cursor: pointer;
+				}
+		
+		}
 		.rightButtonPanel {
 			.float(right);
 			margin: 6px;

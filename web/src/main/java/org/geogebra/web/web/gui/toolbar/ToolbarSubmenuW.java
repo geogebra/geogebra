@@ -53,7 +53,7 @@ public class ToolbarSubmenuW extends FlowPanel {
 	    initGui();
     }
 	
-	private void initGui() {
+	protected void initGui() {
 		submenuArrow = new FlowPanel();
 		submenuArrow.add(new Image(GuiResources.INSTANCE.arrow_submenu_up()));
 		submenuArrow.setStyleName("submenuArrow");
@@ -113,7 +113,6 @@ public class ToolbarSubmenuW extends FlowPanel {
 		Image image = createImage(mode);
 		Label label = createLabel(mode);
 		listItem.add(image);
-		// listItem.setStyleName("submenu_button");
 		listItem.add(label);
 		return listItem;
 	}
