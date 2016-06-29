@@ -81,7 +81,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.plugin.Event;
@@ -3033,8 +3032,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		} else {
 			// create GeoImage object(s) for this fileName
 			GeoImage geoImage = null;
-			if (app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
-					&& fileName.length == 1) {
+			if (fileName.length == 1) {
 				geoImage = new GeoImage(app.getKernel().getConstruction());
 				geoImage.setImageFileName(fileName[0]);
 				setImageCornersFromSelection(geoImage);

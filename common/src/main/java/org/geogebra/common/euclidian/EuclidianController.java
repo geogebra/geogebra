@@ -734,8 +734,7 @@ public abstract class EuclidianController {
 			return;
 		}
 
-		if (app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
-				&& ms == ModeSetter.TOOLBAR) {
+		if (ms == ModeSetter.TOOLBAR) {
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(Test.GEOIMAGE,
 						tempArrayList), false);
@@ -3490,10 +3489,6 @@ public abstract class EuclidianController {
 			// create new Point
 			checkZooming();
 
-			if (!app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)) {
-				loc = new GeoPoint(kernel.getConstruction());
-				loc.setCoords(xRW, yRW, 1.0);
-			}
 		} else {
 			// points needed
 			addSelectedPoint(hits, 1, false, selPreview);
@@ -5548,11 +5543,6 @@ public abstract class EuclidianController {
 
 			// new image
 		case EuclidianConstants.MODE_IMAGE:
-			if (!app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)) {
-				changedKernel = image(
-						hits.getOtherHits(Test.GEOIMAGE, tempArrayList),
-						selectionPreview);
-			}
 			break;
 
 			// new slider

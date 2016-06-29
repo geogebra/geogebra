@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -232,8 +231,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	
 	public boolean selectMode(int mode, ModeSetter m) {
 		String modeText = mode + "";
-		boolean imageDialog = app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
-				&& mode == EuclidianConstants.MODE_IMAGE;
+		boolean imageDialog = mode == EuclidianConstants.MODE_IMAGE;
 		//If there is only one menuitem, there is no submenu -> set the button selected, if the mode is the same.
 		if (menu.size() == 1 && !imageDialog) {
 			if (menu.get(0) == mode) {

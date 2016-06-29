@@ -194,16 +194,10 @@ public class ModeToggleMenu extends JPanel {
 
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem) e.getSource();
-			if (!(app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
-					&& Integer.toString(EuclidianConstants.MODE_IMAGE)
-							.equals(item.getActionCommand()))) {
-				selectItem(item);
-			} else {
-				tbutton.setActionCommand(item.getActionCommand());
-				tbutton.setSelected(false);
-				tbutton.getModel().setRollover(false);
-				tbutton.repaint();
-			}
+			tbutton.setActionCommand(item.getActionCommand());
+			tbutton.setSelected(false);
+			tbutton.getModel().setRollover(false);
+			tbutton.repaint();
 			tbutton.doClick();
 
 		}
