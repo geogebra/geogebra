@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Arbitrary constant comming from native CAS
@@ -215,8 +216,14 @@ public class MyArbitraryConstant {
 			if (outCE instanceof AlgoElement
 					&& ((AlgoElement) outCE).getOutputLength() == 1)
 				((AlgoElement) outCE).getOutput(0).updateCascade();
-			else if (outCE != null)
+			else if (outCE instanceof GeoCasCell) {
 				outCE.update();
+				if (((GeoCasCell) outCE).getTwinGeo() != null) {
+					((GeoCasCell) outCE).getTwinGeo().update();
+				}
+			} else if (outCE != null) {
+				outCE.update();
+			}
 		}
 
 		@Override
@@ -224,7 +231,16 @@ public class MyArbitraryConstant {
 			return Algos.Expression;
 		}
 
+		public void replaceOutCE() {
+			if (outCE instanceof GeoCasCell) {
+				Log.debug(((GeoCasCell) outCE).getRowNumber());
+				this.outCE = cons.getCasCell(((GeoCasCell) outCE)
+						.getRowNumber());
+			}
+		}
+
 	}
+
 
 	/**
 	 * @return whether this handler is bound with CAS cell

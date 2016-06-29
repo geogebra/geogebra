@@ -1837,28 +1837,15 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					// switch twinGeo with new evaluation
 					// needed for undo->function wasn't draggable
 					else {
-						if (lastOutputEvaluationGeo instanceof GeoFunction) {
-							GeoElement geo = cons
-									.lookupLabel(twinGeo.getLabelSimple());
-							if (geo != null) {
-								String geoLabel = twinGeo.getLabelSimple();
-								cons.removeCasCellLabel(geoLabel);
-								cons.removeFromConstructionList(geo);
-								cons.removeLabel(geo);
-								kernel.notifyRemove(geo);
-								twinGeo = null;
-								twinGeo = lastOutputEvaluationGeo;
-								twinGeo.setLabel(geoLabel);
-								cons.putCasCellLabel(this, geoLabel);
-								cons.addToConstructionList(twinGeo, true);
-							} else {
-								twinGeo = lastOutputEvaluationGeo;
-							}
-						} 
 						// if both geos are the same type we can use set safely
-						else {
-							twinGeo.set(lastOutputEvaluationGeo);
-						}
+						twinGeo.set(lastOutputEvaluationGeo);
+						// update constants references
+						if (lastOutputEvaluationGeo instanceof GeoFunction) {
+							ExpressionNode expr = ((FunctionalNVar) lastOutputEvaluationGeo)
+									.getFunctionExpression();
+							expr.inspect(new ArbconstAlgoFixer());
+
+						} 
 					}
 				} else if (!lastOutputEvaluationGeo.isDefined()) {
 					// newly created GeoElement is undefined, we can set our twin geo undefined

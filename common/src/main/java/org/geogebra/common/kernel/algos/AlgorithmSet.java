@@ -288,7 +288,7 @@ public class AlgorithmSet {
 		this.head = head;
 	}
 
-	private class AlgorithmSetIterator implements Iterator<AlgoElement> {
+	public class AlgorithmSetIterator implements Iterator<AlgoElement> {
 		private Link cur = getHead();
 
 		public AlgorithmSetIterator() {
