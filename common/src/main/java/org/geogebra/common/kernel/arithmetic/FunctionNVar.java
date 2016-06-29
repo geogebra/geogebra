@@ -1232,7 +1232,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	public void rotate(NumberValue phi) {
 		double cosPhi = Math.cos(phi.getDouble());
 		double sinPhi = Math.sin(phi.getDouble());
-		matrixTransform(cosPhi, -sinPhi, sinPhi, cosPhi);
+		matrixTransform(cosPhi, sinPhi, -sinPhi, cosPhi);
 	}
 
 	/**
