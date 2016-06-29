@@ -1065,8 +1065,12 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 				Operation.MULTIPLY, fVars[0]).plus(
 				new ExpressionNode(kernel, mbTrans[1][1], Operation.MULTIPLY,
 						fVars[1])).plus(mbTrans[1][2]);
-		expression = expression.replace(fVars[1], newY.divide(newZ)).wrap();
-		expression = expression.replace(dummy, newX.divide(newZ)).wrap();
+		expression = expression.traverse(
+				CopyReplacer.getReplacer(fVars[1], newY.divide(newZ), kernel))
+				.wrap();
+		expression = expression.traverse(
+				CopyReplacer.getReplacer(dummy, newX.divide(newZ), kernel))
+				.wrap();
 		this.initIneqs(expression, this);
 	}
 
