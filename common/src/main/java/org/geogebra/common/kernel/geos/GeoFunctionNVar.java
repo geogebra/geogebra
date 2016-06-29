@@ -44,7 +44,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -880,8 +879,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 
 	@Override
 	public boolean isRegion3D() {
-		return getVarNumber() == 2 && !isBooleanFunction()
-				&& kernel.getApplication().has(Feature.SURFACE_IS_REGION);
+		return getVarNumber() == 2 && !isBooleanFunction();
 	}
 
 	private boolean hasLastHitParameters = false;

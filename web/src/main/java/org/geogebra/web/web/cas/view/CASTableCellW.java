@@ -5,7 +5,6 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.cas.view.InputPanel.InputPanelCanvas;
@@ -42,8 +41,8 @@ public class CASTableCellW extends VerticalPanel {
 	 */
 	public CASTableCellW(GeoCasCell casCell, App app) {
 		this.casCell = casCell;
-		inputPanel = app.has(Feature.CAS_EDITOR)
-				&& (casCell == null || !casCell.isUseAsText()) ? new InputPanelCanvas(
+		inputPanel = (casCell == null || !casCell.isUseAsText())
+				? new InputPanelCanvas(
 				app)
 				: new InputPanelLabel();
 		inputPanel.addStyleName("CAS_inputPanel");

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -292,19 +291,16 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			return;
 		}
 		if (showKeyboardButton == null) {
-			if (app.has(Feature.CAS_EDITOR)) {
-				DockManagerW dm = (DockManagerW) app.getGuiManager()
-						.getLayout().getDockManager();
-				DockPanelW dockPanelKB = dm.getPanelForKeyboard();
+			DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
+					.getDockManager();
+			DockPanelW dockPanelKB = dm.getPanelForKeyboard();
 
-				if (dockPanelKB != null) {
-					showKeyboardButton = new ShowKeyboardButton(this, dm,
-							dockPanelKB);
-					dockPanelKB.setKeyBoardButton(showKeyboardButton);
-				}
-			} else {
-				showInAlgebra();
+			if (dockPanelKB != null) {
+				showKeyboardButton = new ShowKeyboardButton(this, dm,
+						dockPanelKB);
+				dockPanelKB.setKeyBoardButton(showKeyboardButton);
 			}
+
 
 		}
 		showKeyboardButton.show(app.isKeyboardNeeded(), textField);
@@ -312,7 +308,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	private boolean appNeedsKeyboard() {
 		return (app.showAlgebraInput() && app.getInputPosition() == InputPositon.algebraView)
-				|| (app.has(Feature.CAS_EDITOR) && app.showView(App.VIEW_CAS));
+				|| (app.showView(App.VIEW_CAS));
 	}
 
 	private void showInAlgebra() {

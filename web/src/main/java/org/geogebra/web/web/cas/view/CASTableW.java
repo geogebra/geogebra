@@ -7,7 +7,6 @@ import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -161,10 +160,7 @@ public class CASTableW extends Grid implements CASTable {
 
 	public CASTableCellEditor getEditor() {
 		if (editor == null) {
-			// TODO allow new editor in prerelease
-			editor = app.has(Feature.CAS_EDITOR) ? new NewCASTableCellEditorW(
-					this, app,
-			        ml) : new CASTableCellEditorW(this, app, ml);
+			editor = new NewCASTableCellEditorW(this, app, ml);
 		}
 		return editor;
 	}

@@ -3786,12 +3786,6 @@ public abstract class App implements UpdateSelection {
 		case LOG_AXES:
 			return prerelease;
 
-		case ALL_PLANES_GRID:
-			return true;
-
-		case SURFACE_IS_REGION:
-			return true;
-
 		case HIT_PARAMETRIC_SURFACE:
 			return false;
 
@@ -3921,8 +3915,6 @@ public abstract class App implements UpdateSelection {
 		case DATA_COLLECTION:
 			return true;
 		case ADD_NEW_OBJECT_BUTTON:
-			return true;
-		case CAS_EDITOR:
 			return true;
 
 			// in web (not tablet apps yet)

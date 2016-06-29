@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 
 public class GeoPlane3D extends GeoElement3D implements Functional2Var,
@@ -269,8 +268,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	/** returns if there is a grid to plot or not */
 	public boolean isGridVisible() {
-		return kernel.getApplication().has(Feature.ALL_PLANES_GRID)
-				&& getLineThickness() > 0
+		return getLineThickness() > 0
 				&& isEuclidianVisible();
 	}
 
@@ -537,10 +535,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		sb.append(getFading());
 		sb.append("\"/>\n");
 
-		if (kernel.getApplication().has(Feature.ALL_PLANES_GRID)) {
-			// grid line style
-			getLineStyleXML(sb);
-		}
+		// grid line style
+		getLineStyleXML(sb);
 
 	}
 
@@ -848,7 +844,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	@Override
 	public boolean showLineProperties() {
-		return kernel.getApplication().has(Feature.ALL_PLANES_GRID);
+		return true;
 	}
 
 	@Override

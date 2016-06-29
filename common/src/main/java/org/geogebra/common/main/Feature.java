@@ -7,8 +7,6 @@ public enum Feature {
 
 	TUBE_BETA,
 
-	CAS_EDITOR,
-
 	EXERCISES,
 
 	TOOL_EDITOR,
@@ -33,8 +31,6 @@ public enum Feature {
 
 	LOG_AXES,
 
-	SURFACE_IS_REGION,
-	
 	HIT_PARAMETRIC_SURFACE,
 
 	PARAMETRIC_SURFACE_IS_REGION,
@@ -52,8 +48,6 @@ public enum Feature {
 	TOOLBAR_ON_SMALL_SCREENS,
 
 	SHINY_3D,
-
-	ALL_PLANES_GRID,
 
 	ACRA,
 

@@ -3,7 +3,6 @@ package org.geogebra.web.web.cas.view;
 import org.geogebra.common.cas.view.CASInputHandler;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -156,10 +155,7 @@ public class CASViewW extends CASView implements PrintableW {
 	 * @return CAS input editor
 	 */
 	public MathKeyboardListener getEditor() {
-		if (app.has(Feature.CAS_EDITOR)) {
-			return (MathKeyboardListener) consoleTable.getEditor();
-		}
-		return null;
+		return (MathKeyboardListener) consoleTable.getEditor();
 	}
 
 	/**
@@ -167,7 +163,7 @@ public class CASViewW extends CASView implements PrintableW {
 	 *            make keyboard immediately visible
 	 */
 	public void maybeOpenKeyboard(final boolean force) {
-		if (!app.has(Feature.CAS_EDITOR) || app.isStartedWithFile()
+		if (app.isStartedWithFile()
 				|| app.showView(App.VIEW_ALGEBRA)) {
 			return;
 		}

@@ -234,20 +234,17 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			return;
 		}
 		if (showKeyboardButton == null) {
-			if (app.has(Feature.CAS_EDITOR)) {
-				DockManagerW dm = (DockManagerW) guiManagerW.getLayout()
-						.getDockManager();
-				DockPanelW dockPanelKB = dm.getPanelForKeyboard();
+			DockManagerW dm = (DockManagerW) guiManagerW.getLayout()
+					.getDockManager();
+			DockPanelW dockPanelKB = dm.getPanelForKeyboard();
 
-				if (dockPanelKB != null) {
-					showKeyboardButton = new ShowKeyboardButton(this, dm,
-							dockPanelKB);
-					dockPanelKB.setKeyBoardButton(showKeyboardButton);
-				}
-
-			} else {
-				showInAlgebra(textField);
+			if (dockPanelKB != null) {
+				showKeyboardButton = new ShowKeyboardButton(this, dm,
+						dockPanelKB);
+				dockPanelKB.setKeyBoardButton(showKeyboardButton);
 			}
+
+
 
 		}
 		showKeyboardButton.show(show || app.isKeyboardNeeded(), textField);
@@ -329,15 +326,12 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				showKeyboardButton.hide();
 			}
 		} else {
-			if (app.has(Feature.CAS_EDITOR)) {
-				if (app.getGuiManager().getLayout().getDockManager() != null) {
-					this.mainPanel.setWidgetSize(spaceForKeyboard, 0);
-					spaceForKeyboard.remove(keyBoard);
-					showKeyboardButton(true, textField);
-				}
-			} else {
-				showKBButtonInAlgebra(textField, keyBoard);
+			if (app.getGuiManager().getLayout().getDockManager() != null) {
+				this.mainPanel.setWidgetSize(spaceForKeyboard, 0);
+				spaceForKeyboard.remove(keyBoard);
+				showKeyboardButton(true, textField);
 			}
+
 			keyBoard.resetKeyboardState();
 		}
 
