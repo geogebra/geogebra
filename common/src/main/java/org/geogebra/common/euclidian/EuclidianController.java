@@ -3816,7 +3816,7 @@ public abstract class EuclidianController {
 		stopCollectingMinorRepaints();
 	}
 
-	public void clearSelected() {
+	public final void clearSelected() {
 		clearSelection(getSelectedNumberList(), false);
 		clearSelection(getSelectedNumberValueList(), false);
 		clearSelection(getSelectedPointList(), false);
@@ -3831,6 +3831,11 @@ public abstract class EuclidianController {
 		clearSelection(getSelectedListList(), false);
 		clearSelection(getSelectedPathList(), false);
 		clearSelection(getSelectedRegionList(), false);
+		clearSelection(selection.getSelectedCS2DList(), false);
+		clearSelection(selection.getSelectedPlaneList(), false);
+		clearSelection(selection.getSelectedPolyhedronList(), false);
+		clearSelection(selection.getSelectedQuadricList(), false);
+		clearSelection(selection.getSelectedQuadricLimitedList(), false);
 		view.repaintView();
 	}
 

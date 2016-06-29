@@ -21,10 +21,15 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoCoordSys;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
+import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
@@ -62,6 +67,14 @@ public class SelectionManager {
 	private final ArrayList<GeoPolyLine> selectedPolyLines = new ArrayList<GeoPolyLine>();
 	private final ArrayList<GeoElement> selectedGeosEuclidian = new ArrayList<GeoElement>();
 	private final ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
+	private final ArrayList<GeoCoordSys> selectedCS2D = new ArrayList<GeoCoordSys>();
+	private final ArrayList<GeoQuadricND> selectedQuadric = new ArrayList<GeoQuadricND>();
+	private final ArrayList<GeoQuadric3DLimitedInterface> selectedQuadricLimited = new ArrayList<GeoQuadric3DLimitedInterface>();
+	private final ArrayList<GeoPolyhedronInterface> selectedPolyhedron = new ArrayList<GeoPolyhedronInterface>();
+
+
+
+	private ArrayList<GeoPlaneND> selectedPlane = new ArrayList<GeoPlaneND>();
 
 	private boolean geoToggled = false;
 
@@ -922,5 +935,25 @@ public class SelectionManager {
 		}
 
 		return ret;
+	}
+
+	public ArrayList<GeoCoordSys> getSelectedCS2DList() {
+		return selectedCS2D;
+	}
+
+	public ArrayList<GeoPlaneND> getSelectedPlaneList() {
+		return selectedPlane;
+	}
+
+	public ArrayList<GeoQuadricND> getSelectedQuadricList() {
+		return selectedQuadric;
+	}
+
+	public ArrayList<GeoQuadric3DLimitedInterface> getSelectedQuadricLimitedList() {
+		return selectedQuadricLimited;
+	}
+
+	public ArrayList<GeoPolyhedronInterface> getSelectedPolyhedronList() {
+		return selectedPolyhedron;
 	}
 }

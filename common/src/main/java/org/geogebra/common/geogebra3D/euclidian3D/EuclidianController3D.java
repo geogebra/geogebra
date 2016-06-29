@@ -182,9 +182,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	// SELECTED GEOS
 	/** 2D coord sys (plane, polygon, ...) */
-	protected ArrayList<GeoCoordSys> selectedCS2D = new ArrayList<GeoCoordSys>();
 
-	private ArrayList<GeoPlaneND> selectedPlane = new ArrayList<GeoPlaneND>();
 
 	/**
 	 * common constructor
@@ -3056,7 +3054,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	final protected int addSelectedCS2D(Hits hits, int max,
 			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedCS2D, Test.GEOCOORDSYS2D, selPreview);
+				selection.getSelectedCS2DList(), Test.GEOCOORDSYS2D, selPreview);
 	}
 
 	/**
@@ -3065,7 +3063,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return number of selected 2D coord sys
 	 */
 	final int selCS2D() {
-		return selectedCS2D.size();
+		return selection.getSelectedCS2DList().size();
 	}
 
 	/**
@@ -3074,14 +3072,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return selected 2D coord sys
 	 */
 	final protected GeoCoordSys[] getSelectedCS2D() {
-		GeoCoordSys[] planes = new GeoCoordSys[selectedCS2D.size()];
+		GeoCoordSys[] planes = new GeoCoordSys[selection.getSelectedCS2DList()
+				.size()];
 		int i = 0;
-		Iterator<GeoCoordSys> it = selectedCS2D.iterator();
+		Iterator<GeoCoordSys> it = selection.getSelectedCS2DList().iterator();
 		while (it.hasNext()) {
 			planes[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedCS2D);
+		clearSelection(selection.getSelectedCS2DList());
 		return planes;
 	}
 
@@ -3099,7 +3098,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	final protected int addSelectedPlane(Hits hits, int max,
 			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPlane, Test.GEOPLANEND, selPreview);
+				selection.getSelectedPlaneList(), Test.GEOPLANEND, selPreview);
 	}
 
 	/**
@@ -3108,7 +3107,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return number of selected planes
 	 */
 	final int selPlanes() {
-		return selectedPlane.size();
+		return selection.getSelectedPlaneList().size();
 	}
 
 	final int selImplicitSurfaces() {
@@ -3121,94 +3120,99 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return selected planes
 	 */
 	final protected GeoPlaneND[] getSelectedPlanes() {
-		GeoPlaneND[] planes = new GeoPlane3D[selectedPlane.size()];
+		GeoPlaneND[] planes = new GeoPlane3D[selection.getSelectedPlaneList()
+				.size()];
 		int i = 0;
-		Iterator<GeoPlaneND> it = selectedPlane.iterator();
+		Iterator<GeoPlaneND> it = selection.getSelectedPlaneList().iterator();
 		while (it.hasNext()) {
 			planes[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedPlane);
+		clearSelection(selection.getSelectedPlaneList());
 		return planes;
 	}
 
 	// /for quadric
-	private ArrayList<GeoQuadricND> selectedQuadric = new ArrayList<GeoQuadricND>();
+
 
 	final int selQuadric() {
-		return selectedQuadric.size();
+		return selection.getSelectedQuadricList().size();
 	}
 
 	final protected int addSelectedQuadric(Hits hits, int max,
 			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedQuadric, Test.GEOQUADRIC3D, selPreview);
+				selection.getSelectedQuadricList(), Test.GEOQUADRIC3D, selPreview);
 	}
 
 	final protected GeoQuadricND[] getSelectedQuadric() {
-		GeoQuadricND[] quads = new GeoQuadricND[selectedQuadric
+		GeoQuadricND[] quads = new GeoQuadricND[selection.getSelectedQuadricList()
 				.size()];
 		int i = 0;
-		Iterator<GeoQuadricND> it = selectedQuadric.iterator();
+		Iterator<GeoQuadricND> it = selection.getSelectedQuadricList().iterator();
 		while (it.hasNext()) {
 			quads[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedQuadric);
+		clearSelection(selection.getSelectedQuadricList());
 		return quads;
 	}
 
 	// /for quadric
-	private ArrayList<GeoQuadric3DLimitedInterface> selectedQuadricLimited = new ArrayList<GeoQuadric3DLimitedInterface>();
 
 	final int selQuadricLimited() {
-		return selectedQuadricLimited.size();
+		return selection.getSelectedQuadricLimitedList().size();
 	}
 
 	final protected int addSelectedQuadricLimited(Hits hits, int max,
 			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedQuadricLimited, Test.GEOQUADRIC3DLIMITED,
+				selection.getSelectedQuadricLimitedList(),
+				Test.GEOQUADRIC3DLIMITED,
 				selPreview);
 	}
 
 	final protected GeoQuadric3DLimitedInterface[] getSelectedQuadricLimited() {
-		GeoQuadric3DLimitedInterface[] quads = new GeoQuadric3DLimitedInterface[selectedQuadricLimited
+		GeoQuadric3DLimitedInterface[] quads = new GeoQuadric3DLimitedInterface[selection
+				.getSelectedQuadricLimitedList()
 				.size()];
 		int i = 0;
-		Iterator<GeoQuadric3DLimitedInterface> it = selectedQuadricLimited
+		Iterator<GeoQuadric3DLimitedInterface> it = selection
+				.getSelectedQuadricLimitedList()
 				.iterator();
 		while (it.hasNext()) {
 			quads[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedQuadricLimited);
+		clearSelection(selection.getSelectedQuadricLimitedList());
 		return quads;
 	}
 
 	// /for polyhedrons
-	private ArrayList<GeoPolyhedronInterface> selectedPolyhedron = new ArrayList<GeoPolyhedronInterface>();
 
 	final int selPolyhedron() {
-		return selectedPolyhedron.size();
+		return selection.getSelectedPolyhedronList().size();
 	}
 
 	final protected int addSelectedPolyhedron(Hits hits, int max,
 			boolean addMoreThanOneAllowed, boolean selPreview) {
 		return handleAddSelected(hits, max, addMoreThanOneAllowed,
-				selectedPolyhedron, Test.GEOPOLYHEDRON, selPreview);
+				selection.getSelectedPolyhedronList(), Test.GEOPOLYHEDRON,
+				selPreview);
 	}
 
 	final protected GeoPolyhedronInterface[] getSelectedPolyhedron() {
-		GeoPolyhedronInterface[] polyh = new GeoPolyhedron[selectedPolyhedron
+		GeoPolyhedronInterface[] polyh = new GeoPolyhedron[selection
+				.getSelectedPolyhedronList()
 				.size()];
 		int i = 0;
-		Iterator<GeoPolyhedronInterface> it = selectedPolyhedron.iterator();
+		Iterator<GeoPolyhedronInterface> it = selection
+				.getSelectedPolyhedronList().iterator();
 		while (it.hasNext()) {
 			polyh[i] = it.next();
 			i++;
 		}
-		clearSelection(selectedPolyhedron);
+		clearSelection(selection.getSelectedPolyhedronList());
 		return polyh;
 	}
 
@@ -3773,7 +3777,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (selCS2D() == 0)
 				addSelectedLine(hits, 1, false, selPreview);
 			if (selLines() == 0)
-				addSelectedCS2D(hits, 1, false, selPreview);
+				addSelectedPlane(hits, 1, false, selPreview);
 		}
 
 		if (selPoints() == 1) {
@@ -4093,18 +4097,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		}
 		return defaultRotateAngle;
-	}
-
-	@Override
-	public void clearSelected() {
-
-		super.clearSelected();
-		clearSelection(selectedCS2D, false);
-		clearSelection(selectedPlane, false);
-		clearSelection(selectedPolyhedron, false);
-		clearSelection(selectedQuadric, false);
-		clearSelection(selectedQuadricLimited, false);
-		view.repaintView();
 	}
 
 	@Override
