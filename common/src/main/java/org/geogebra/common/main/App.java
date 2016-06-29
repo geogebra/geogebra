@@ -3832,7 +3832,7 @@ public abstract class App implements UpdateSelection {
 
 			return prerelease;
 		case HANDWRITING:
-			return prerelease;
+			return false;
 
 		// MOB-321
 		case INPUT_BAR_PREVIEW:
@@ -3874,9 +3874,6 @@ public abstract class App implements UpdateSelection {
 		// MOB-520
 		case MOBILE_COPY_PASTE:
 			return true; // 5.0.244
-
-		case MOBILE_CIRCLE_FREEHAND_TOOL:
-			return false;
 
 		// MOB-311
 		case MOBILE_SEGMENT_FIXED_TOOL:
@@ -3920,10 +3917,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_ANALYTICS:
 			return prerelease;
 
-		// GGB-856 GGB-960
-		case SELECT_MOVE_WHEN_FURNITURE_CLICKED:
-			return true;
-
 		// MOB-668
 		case MOBILE_SET_MODE_IN_TOOLBAR_FROM_APP:
 			return true;
@@ -3936,10 +3929,6 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case UNDO_WHEN_CHANGE_TOOL:
-			return true;
-
-			// GGB-501
-		case EXPAND_AV_FOR_LONG_EQUATIONS:
 			return true;
 
 			// in web (not tablet apps yet)

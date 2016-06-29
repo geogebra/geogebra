@@ -885,26 +885,10 @@ public class InputTreeItem extends RadioTreeItem implements
 		if (heuristic) {
 			updateLineHeight();
 		}
-		if (app.has(Feature.EXPAND_AV_FOR_LONG_EQUATIONS)) {
-			if (isEmpty() && plusButton != null) {
-				plusButton.setVisible(true);
-			} else {
-				plusButton.setVisible(false);
-			}
+		if (isEmpty() && plusButton != null) {
+			plusButton.setVisible(true);
 		} else {
-			if (btnDelete != null) {
-				if (heuristic || !isEmpty()) {
-					if (plusButton == null) {
-						buttonPanel.setVisible(true);
-					}
-					setButtonVisible(btnDelete, true);
-				} else {
-					setButtonVisible(btnDelete, false);
-					if (plusButton == null) {
-						buttonPanel.setVisible(false);
-					}
-				}
-			}
+			plusButton.setVisible(false);
 		}
 
 		updatePreview();

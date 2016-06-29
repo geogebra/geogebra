@@ -1654,12 +1654,10 @@ public class RadioTreeItem extends AVTreeItem
 	public void stopEditing(String newValue0,
 			final AsyncOperation<GeoElement> callback) {
 
-		if (app.has(Feature.EXPAND_AV_FOR_LONG_EQUATIONS)) {
-			restoreSize();
-			if (stylebarShown != null) {
-				getAlgebraDockPanel().showStyleBarPanel(stylebarShown);
-				stylebarShown = null;
-			}
+		restoreSize();
+		if (stylebarShown != null) {
+			getAlgebraDockPanel().showStyleBarPanel(stylebarShown);
+			stylebarShown = null;
 		}
 
 		removeCloseButton();
@@ -2015,38 +2013,36 @@ marblePanel, evt))) {
 			if (!isEditing()) {
 				geo.setAnimating(false);
 				av.startEditing(geo);
-				if (app.has(Feature.EXPAND_AV_FOR_LONG_EQUATIONS)) {
-					Scheduler.get().scheduleDeferred(
-							new Scheduler.ScheduledCommand() {
+				Scheduler.get()
+						.scheduleDeferred(new Scheduler.ScheduledCommand() {
 
-								public void execute() {
-									expandSize(getWidthForEdit());
+							public void execute() {
+								expandSize(getWidthForEdit());
 
-									if ((RadioTreeItem.this.getElement()
-											.getAbsoluteTop()
-											- getAlgebraDockPanel()
-													.getAbsoluteTop() < 45)
-											&& (!getAlgebraDockPanel()
-													.isStyleBarVisible())) {
-										stylebarShown = getAlgebraDockPanel()
-												.isStyleBarPanelShown();
-										getAlgebraDockPanel()
-												.showStyleBarPanel(false);
-										if (buttonPanel != null) {
-											buttonPanel
-													.removeStyleName("positionedObjectStyleBar");
-										}
-									}
-
-									if (animPanel != null
-											&& buttonPanel != null) {
-										buttonPanel.remove(animPanel);
+								if ((RadioTreeItem.this.getElement()
+										.getAbsoluteTop()
+										- getAlgebraDockPanel()
+												.getAbsoluteTop() < 45)
+										&& (!getAlgebraDockPanel()
+												.isStyleBarVisible())) {
+									stylebarShown = getAlgebraDockPanel()
+											.isStyleBarPanelShown();
+									getAlgebraDockPanel()
+											.showStyleBarPanel(false);
+									if (buttonPanel != null) {
+										buttonPanel.removeStyleName(
+												"positionedObjectStyleBar");
 									}
 								}
 
-							});
+								if (animPanel != null && buttonPanel != null) {
+									buttonPanel.remove(animPanel);
+								}
+							}
 
-				}
+						});
+
+
 			}
 			app.showKeyboard(this);
 			this.setFocus(true);

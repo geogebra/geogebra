@@ -9113,9 +9113,6 @@ public abstract class EuclidianController {
 	}
 
 	private void setMoveModeForFurnitures() {
-		if (!app.has(Feature.SELECT_MOVE_WHEN_FURNITURE_CLICKED)) {
-			return;
-		}
 
 		Hits hits = view.getHits();
 		if (!hits.isEmpty()) {
