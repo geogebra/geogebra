@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -56,9 +55,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 		try {
 			PolynomialUtils.checkNumericCoeff(coeff, simplify);
 		} catch (RuntimeException e) {
-			if (!c.getKernel().getApplication().has(Feature.IMPLICIT_CURVES)) {
-				throw e;
-			}
+			Log.error("RuntimeException " + e.getMessage());
 		}
 		c.addToConstructionList(this, false);
 
@@ -136,11 +133,6 @@ public class AlgoDependentImplicitPoly extends AlgoElement
 			} else if (equation.hasVariableDegree()) {
 				equation.initEquation();
 				coeff = equation.getNormalForm().getCoeff();
-			}
-			if (!equation.isPolynomial()
-					&& !kernel.getApplication().has(Feature.IMPLICIT_CURVES)) {
-				geoElement.setUndefined();
-				return;
 			}
 		}
 		if (equation.getNormalForm() == null) {

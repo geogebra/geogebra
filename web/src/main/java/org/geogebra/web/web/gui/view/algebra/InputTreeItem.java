@@ -165,7 +165,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
 				DrawEquationW.stornoFormulaMathQuillGGB(
-				        InputTreeItem.this, latexItem);
+						InputTreeItem.this, latexItem);
 				InputTreeItem.this.setFocus(true);
 				event.stopPropagation();
 				// event.preventDefault();
@@ -184,178 +184,176 @@ public class InputTreeItem extends RadioTreeItem implements
 			}
 		});
 
-		if (app.has(Feature.ADD_NEW_OBJECT_BUTTON)) {
-			// from now on, we'll check this Feature
-			// by (pButton != null) but that influences
-			// buttonPanel as well, because if both
-			// pButton and xButton are invisible, then
-			// buttonPanel should show either, e.g.
-			// by adding an additional CSS class to it
-			plusButton = new PushButton(new Image(
-					GuiResources.INSTANCE.algebra_new()));
-			plusButton.getUpHoveringFace().setImage(
-					new Image(GuiResources.INSTANCE.algebra_new_hover()));
-			plusButton.getElement().setAttribute("data-visible", "false");
-			plusButton.addStyleName("XButtonNeighbour");
-			plusButton.addMouseDownHandler(new MouseDownHandler() {
-				// ClickHandler changed to MouseDownHandler,
-				// but maybe it's not that important here
-				@Override
-				public void onMouseDown(MouseDownEvent event) {
-					event.stopPropagation();
+		// from now on, we'll check this Feature
+		// by (pButton != null) but that influences
+		// buttonPanel as well, because if both
+		// pButton and xButton are invisible, then
+		// buttonPanel should show either, e.g.
+		// by adding an additional CSS class to it
+		plusButton = new PushButton(
+				new Image(GuiResources.INSTANCE.algebra_new()));
+		plusButton.getUpHoveringFace()
+				.setImage(new Image(GuiResources.INSTANCE.algebra_new_hover()));
+		plusButton.getElement().setAttribute("data-visible", "false");
+		plusButton.addStyleName("XButtonNeighbour");
+		plusButton.addMouseDownHandler(new MouseDownHandler() {
+			// ClickHandler changed to MouseDownHandler,
+			// but maybe it's not that important here
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				event.stopPropagation();
 
-					// although this does not seem to help in itself,
-					// why not prevent default action? maybe the same
-					// bug has two distint causes, both needs to be fixed
-					// but r41773 is undone for problems on emulated tablet
-					// event.preventDefault();
+				// although this does not seem to help in itself,
+				// why not prevent default action? maybe the same
+				// bug has two distint causes, both needs to be fixed
+				// but r41773 is undone for problems on emulated tablet
+				// event.preventDefault();
 
-					if (specialPopup != null) {
-						if (EuclidianStyleBarW.CURRENT_POP_UP != specialPopup
-								|| !app.wasPopupJustClosed()) {
-							if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
-								EuclidianStyleBarW.CURRENT_POP_UP.hide();
-							}
-							EuclidianStyleBarW.CURRENT_POP_UP = specialPopup;
-
-							app.registerPopup(specialPopup);
-							specialPopup.showRelativeTo(plusButton);
-							specialPopup.getFocusPanel().getElement().focus();
-						} else {
-							specialPopup.setVisible(false);
-							EuclidianStyleBarW.CURRENT_POP_UP = null;
+				if (specialPopup != null) {
+					if (EuclidianStyleBarW.CURRENT_POP_UP != specialPopup
+							|| !app.wasPopupJustClosed()) {
+						if (EuclidianStyleBarW.CURRENT_POP_UP != null) {
+							EuclidianStyleBarW.CURRENT_POP_UP.hide();
 						}
-					}
-				}
-			});
-			// pButton.addClickHandler(CancelEvents.instance);
-			// pButton.addMouseUpHandler(CancelEvents.instance);
+						EuclidianStyleBarW.CURRENT_POP_UP = specialPopup;
 
-			specialPopup = new ButtonPopupMenu(app.getPanel()) {
-				@Override
-				public void setVisible(boolean visible) {
-					super.setVisible(visible);
-
-					// if another button is pressed only the visibility is
-					// changed,
-					// by firing the event we can react as if it was closed
-					CloseEvent.fire(this, this, false);
-				}
-
-				@Override
-				public void hide() {
-					super.hide();
-					if (EuclidianStyleBarW.CURRENT_POP_UP.equals(this)) {
+						app.registerPopup(specialPopup);
+						specialPopup.showRelativeTo(plusButton);
+						specialPopup.getFocusPanel().getElement().focus();
+					} else {
+						specialPopup.setVisible(false);
 						EuclidianStyleBarW.CURRENT_POP_UP = null;
 					}
 				}
-			};
-			specialPopup.setAutoHideEnabled(true);
-			specialPopup.getPanel().addStyleName("AVmenuListContainer");
-			// specialPopup.addStyleName("MouseDownDoesntExitEditingFeature");
-			specialPopup.addStyleName("BlurDoesntUpdateGUIFeature");
+			}
+		});
+		// pButton.addClickHandler(CancelEvents.instance);
+		// pButton.addMouseUpHandler(CancelEvents.instance);
 
-			UnorderedList itemList = new UnorderedList();
-			itemList.setStyleName("AVmenuListContent");
-			specialPopup.getPanel().add(itemList);
+		specialPopup = new ButtonPopupMenu(app.getPanel()) {
+			@Override
+			public void setVisible(boolean visible) {
+				super.setVisible(visible);
 
-			ListItem actual = new ListItem();
-			actual.add(new Image(GuiResources.INSTANCE.algebra_new_piecewise()));
-			actual.add(piecewiseLabel = new Label(app
-					.getPlain("PiecewiseFunction")));
-			// ClickHandler is Okay here, but maybe MouseDownHandler is better?
-			actual.addDomHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent ce) {
-					ce.stopPropagation();
-					specialPopup.setVisible(false);
+				// if another button is pressed only the visibility is
+				// changed,
+				// by firing the event we can react as if it was closed
+				CloseEvent.fire(this, this, false);
+			}
+
+			@Override
+			public void hide() {
+				super.hide();
+				if (EuclidianStyleBarW.CURRENT_POP_UP.equals(this)) {
 					EuclidianStyleBarW.CURRENT_POP_UP = null;
-
-					// TODO: only create it in the input bar!!!
-					final GeoFunction fun = CondFunctionTreeItem
-							.createBasic(app.getKernel());
-					if (fun != null) {
-						// in theory, fun is never null, but what if?
-						// same code as for matrices, see comments there
-						Timer tim = new Timer() {
-							@Override
-							public void run() {
-								app.getAlgebraView().startEditing(fun);
-							}
-						};
-						tim.schedule(500);
-					}
-					updateGUIfocus(InputTreeItem.this, false);
 				}
-			}, ClickEvent.getType());
-			itemList.add(actual);
+			}
+		};
+		specialPopup.setAutoHideEnabled(true);
+		specialPopup.getPanel().addStyleName("AVmenuListContainer");
+		// specialPopup.addStyleName("MouseDownDoesntExitEditingFeature");
+		specialPopup.addStyleName("BlurDoesntUpdateGUIFeature");
 
-			actual = new ListItem();
-			actual.add(new Image(GuiResources.INSTANCE.algebra_new_matrix()));
-			actual.add(matrixLabel = new Label(app.getMenu("Matrix")));
-			actual.addDomHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent ce) {
-					ce.stopPropagation();
-					specialPopup.setVisible(false);
-					EuclidianStyleBarW.CURRENT_POP_UP = null;
+		UnorderedList itemList = new UnorderedList();
+		itemList.setStyleName("AVmenuListContent");
+		specialPopup.getPanel().add(itemList);
 
-					// TODO: only create it in the input bar!!!
-					final GeoList mat = MatrixTreeItem
-							.create2x2IdentityMatrix(app.getKernel());
-					// scheduleDeferred alone does not work well!
-					Timer tim2 = new Timer() {
+		ListItem actual = new ListItem();
+		actual.add(new Image(GuiResources.INSTANCE.algebra_new_piecewise()));
+		actual.add(
+				piecewiseLabel = new Label(app.getPlain("PiecewiseFunction")));
+		// ClickHandler is Okay here, but maybe MouseDownHandler is better?
+		actual.addDomHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent ce) {
+				ce.stopPropagation();
+				specialPopup.setVisible(false);
+				EuclidianStyleBarW.CURRENT_POP_UP = null;
+
+				// TODO: only create it in the input bar!!!
+				final GeoFunction fun = CondFunctionTreeItem
+						.createBasic(app.getKernel());
+				if (fun != null) {
+					// in theory, fun is never null, but what if?
+					// same code as for matrices, see comments there
+					Timer tim = new Timer() {
 						@Override
 						public void run() {
-							app.getAlgebraView().startEditing(mat);
+							app.getAlgebraView().startEditing(fun);
 						}
 					};
-					// on a good machine, 500ms was usually not enough,
-					// but 1000ms was usually enough... however, it turned
-					// out this is due to a setTimeout in
-					// DrawEquationWeb.drawEquationMathQuillGGB...
-					// so we could spare at least 500ms by clearing that timer,
-					tim2.schedule(500);
-
-					// but now I'm experimenting with even less timeout, i.e.
-					// tim.schedule(200);
-					// 200ms is not enough, and as this is a good machine
-					// let us say that 500ms is just right, or maybe too little
-					// on slow machines -> shall we use scheduleDeferred too?
-					updateGUIfocus(InputTreeItem.this, false);
+					tim.schedule(500);
 				}
-			}, ClickEvent.getType());
-			itemList.add(actual);
+				updateGUIfocus(InputTreeItem.this, false);
+			}
+		}, ClickEvent.getType());
+		itemList.add(actual);
 
-			actual = new ListItem();
-			actual.add(new Image(GuiResources.INSTANCE.algebra_new_parametric()));
-			actual.add(curveLabel = new Label(app.getPlain("CurveCartesian")));
-			actual.addDomHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent ce) {
-					ce.stopPropagation();
-					specialPopup.setVisible(false);
-					EuclidianStyleBarW.CURRENT_POP_UP = null;
+		actual = new ListItem();
+		actual.add(new Image(GuiResources.INSTANCE.algebra_new_matrix()));
+		actual.add(matrixLabel = new Label(app.getMenu("Matrix")));
+		actual.addDomHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent ce) {
+				ce.stopPropagation();
+				specialPopup.setVisible(false);
+				EuclidianStyleBarW.CURRENT_POP_UP = null;
 
-					// TODO: only create it in the input bar!!!
-					final GeoCurveCartesianND curve = ParCurveTreeItem
-							.createBasic(app.getKernel());
-					if (curve != null) {
-						// in theory, fun is never null, but what if?
-						// same code as for matrices, see comments there
-						Timer tim = new Timer() {
-							@Override
-							public void run() {
-								app.getAlgebraView().startEditing(curve);
-							}
-						};
-						tim.schedule(500);
+				// TODO: only create it in the input bar!!!
+				final GeoList mat = MatrixTreeItem
+						.create2x2IdentityMatrix(app.getKernel());
+				// scheduleDeferred alone does not work well!
+				Timer tim2 = new Timer() {
+					@Override
+					public void run() {
+						app.getAlgebraView().startEditing(mat);
 					}
-					updateGUIfocus(InputTreeItem.this, false);
+				};
+				// on a good machine, 500ms was usually not enough,
+				// but 1000ms was usually enough... however, it turned
+				// out this is due to a setTimeout in
+				// DrawEquationWeb.drawEquationMathQuillGGB...
+				// so we could spare at least 500ms by clearing that timer,
+				tim2.schedule(500);
+
+				// but now I'm experimenting with even less timeout, i.e.
+				// tim.schedule(200);
+				// 200ms is not enough, and as this is a good machine
+				// let us say that 500ms is just right, or maybe too little
+				// on slow machines -> shall we use scheduleDeferred too?
+				updateGUIfocus(InputTreeItem.this, false);
+			}
+		}, ClickEvent.getType());
+		itemList.add(actual);
+
+		actual = new ListItem();
+		actual.add(new Image(GuiResources.INSTANCE.algebra_new_parametric()));
+		actual.add(curveLabel = new Label(app.getPlain("CurveCartesian")));
+		actual.addDomHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent ce) {
+				ce.stopPropagation();
+				specialPopup.setVisible(false);
+				EuclidianStyleBarW.CURRENT_POP_UP = null;
+
+				// TODO: only create it in the input bar!!!
+				final GeoCurveCartesianND curve = ParCurveTreeItem
+						.createBasic(app.getKernel());
+				if (curve != null) {
+					// in theory, fun is never null, but what if?
+					// same code as for matrices, see comments there
+					Timer tim = new Timer() {
+						@Override
+						public void run() {
+							app.getAlgebraView().startEditing(curve);
+						}
+					};
+					tim.schedule(500);
 				}
-			}, ClickEvent.getType());
-			itemList.add(actual);
-		}
+				updateGUIfocus(InputTreeItem.this, false);
+			}
+		}, ClickEvent.getType());
+		itemList.add(actual);
 
 		ClickStartHandler.init(btnDelete, new ClickStartHandler(false, true) {
 			@Override
@@ -503,7 +501,7 @@ public class InputTreeItem extends RadioTreeItem implements
 						ihtml.getElement().getElementsByTagName("textarea")
 								.getItem(0).focus();
 					}
-					
+
 				});
 
 				if (btnHelpToggle != null) {
@@ -600,7 +598,7 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	@Override
 	public boolean stopNewFormulaCreation(String newValue0, String latexValue,
-	        AsyncOperation callback) {
+			AsyncOperation callback) {
 		if (editor.needsEnterForSuggestion()) {
 			return false;
 		}
@@ -708,7 +706,8 @@ public class InputTreeItem extends RadioTreeItem implements
 		Element showSymbolElement = button.getElement();
 		if (showSymbolElement != null
 				&& "true"
-						.equals(showSymbolElement.getAttribute("data-visible"))) {
+						.equals(showSymbolElement
+								.getAttribute("data-visible"))) {
 			if (show) {
 				showSymbolElement.addClassName("shown");
 			} else {
@@ -833,11 +832,11 @@ public class InputTreeItem extends RadioTreeItem implements
 			dummyLabel.addStyleName("avDummyLabel");
 		}
 		//if (dummyLabel.getElement() != null) {
-			//if (dummyLabel.getElement().hasParentElement()) {
-				// in theory, this is done in insertFirst,
-				// just making sure here as well
-				//dummyLabel.getElement().removeFromParent();
-			//}
+		// if (dummyLabel.getElement().hasParentElement()) {
+		// in theory, this is done in insertFirst,
+		// just making sure here as well
+		// dummyLabel.getElement().removeFromParent();
+		// }
 		ihtml.insert(dummyLabel, 0);
 		//}
 	}
@@ -899,8 +898,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			String text = getText();
 			app.getKernel()
 					.getInputPreviewHelper()
-					.updatePreviewFromInputBar(
-							EquationEditor.stopCommon(text),
+					.updatePreviewFromInputBar(EquationEditor.stopCommon(text),
 							AlgebraInputW.getWarningHandler(this, app));
 			if (text != null) {
 				this.getEquationEditor().setLaTeX(text, getEditorValue(true));

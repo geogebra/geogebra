@@ -89,14 +89,12 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
-import org.geogebra.common.kernel.implicit.GeoImplicitPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -2350,12 +2348,7 @@ public class AlgebraProcessor {
 				return processFunction(fun,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
 			}
-			if (app.has(Feature.IMPLICIT_CURVES) || equ.mayBePolynomial()) {
-				return processImplicitPoly(equ, def);
-			}
-
-			String[] errors = { "InvalidEquation" };
-			throw new MyError(loc, errors);
+			return processImplicitPoly(equ, def);
 		}
 
 	}
@@ -2496,8 +2489,7 @@ public class AlgebraProcessor {
 		GeoImplicit poly;
 		GeoElement geo = null;
 		if (isIndependent || equ.isForcedSurface()) {
-			poly = kernel.getApplication().has(Feature.IMPLICIT_CURVES) ? new GeoImplicitCurve(
-					cons, equ) : new GeoImplicitPoly(cons, lhs);
+			poly = new GeoImplicitCurve(cons, equ);
 			poly.setDefinition(equ.wrap());
 			geo = poly.toGeoElement();
 			if (equ.isForcedSurface()) {

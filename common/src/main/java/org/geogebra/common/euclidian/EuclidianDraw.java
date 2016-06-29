@@ -10,7 +10,6 @@ import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawConicSection;
 import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawImplicitCurve;
-import org.geogebra.common.euclidian.draw.DrawImplicitPoly;
 import org.geogebra.common.euclidian.draw.DrawInequality;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawIntegral;
@@ -73,7 +72,6 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -267,11 +265,7 @@ public class EuclidianDraw {
 			break;
 
 		case IMPLICIT_POLY:
-			if (ev.getApplication().has(Feature.IMPLICIT_CURVES)) {
-				d = new DrawImplicitCurve(ev, (GeoImplicit) geo);
-			} else {// Derivative[atan2(f(x),g(x)),x]
-				d = new DrawImplicitPoly(ev, (GeoImplicit) geo);
-			}
+			d = new DrawImplicitCurve(ev, (GeoImplicit) geo);
 			break;
 		case FUNCTION:
 			if (((GeoFunction) geo).isBooleanFunction()) {
