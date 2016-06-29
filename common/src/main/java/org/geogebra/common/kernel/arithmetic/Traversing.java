@@ -70,6 +70,39 @@ public interface Traversing {
 		}
 	}
 
+	public class CopyReplacer implements Traversing {
+		private ExpressionValue oldObj;
+		private ExpressionValue newObj;
+		private Kernel kernel;
+
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev == oldObj) {
+				newObj = newObj.deepCopy(kernel);
+				return newObj;
+			}
+			return ev;
+		}
+
+		private static CopyReplacer replacer = new CopyReplacer();
+
+		/**
+		 * Creates a replacer
+		 * 
+		 * @param original
+		 *            object to be replaced
+		 * @param replacement
+		 *            replacement
+		 * @return replacer
+		 */
+		public static CopyReplacer getReplacer(ExpressionValue original,
+				ExpressionValue replacement, Kernel kernel) {
+			replacer.oldObj = original;
+			replacer.newObj = replacement;
+			replacer.kernel = kernel;
+			return replacer;
+		}
+	}
+
 	/**
 	 * Replaces dummy variable with given name
 	 *

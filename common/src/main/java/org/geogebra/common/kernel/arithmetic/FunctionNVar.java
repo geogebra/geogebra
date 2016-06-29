@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
+import org.geogebra.common.kernel.arithmetic.Traversing.CopyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -1008,12 +1009,16 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		MyDouble ma11 = new MyDouble(kernel, a11);
 
 		ExpressionNode newX = fVars[0].wrap().multiply(ma00)
-				.plus(fVars[0].wrap().multiply(ma01));
+				.plus(fVars[1].wrap().multiply(ma01));
 		ExpressionNode newY = fVars[0].wrap().multiply(ma10)
 				.plus(fVars[1].wrap().multiply(ma11));
 
-		expression = expression.replace(fVars[1], newY).wrap();
-		expression = expression.replace(dummy, newX).wrap();
+		expression = expression
+				.traverse(CopyReplacer.getReplacer(fVars[1], newY, kernel))
+				.wrap();
+		expression = expression
+				.traverse(CopyReplacer.getReplacer(dummy, newX, kernel))
+				.wrap();
 		this.initIneqs(expression, this);
 	}
 
