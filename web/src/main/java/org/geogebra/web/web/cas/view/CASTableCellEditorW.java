@@ -29,7 +29,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public class NewCASTableCellEditorW extends Label implements
+public class CASTableCellEditorW extends Label implements
  CASEditorW,
 		EquationEditorListener, GeoContainer,
 		MathKeyboardListener {
@@ -44,7 +44,7 @@ public class NewCASTableCellEditorW extends Label implements
 	private boolean thisIsEdited;
 
 
-	public NewCASTableCellEditorW(CASTableW table, final AppW app,
+	public CASTableCellEditorW(CASTableW table, final AppW app,
 	        final CASTableControllerW ml) {
 		this.app = app;
 		this.table = table;
@@ -69,7 +69,7 @@ public class NewCASTableCellEditorW extends Label implements
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				app.showKeyboard(NewCASTableCellEditorW.this);
+				app.showKeyboard(CASTableCellEditorW.this);
 				ensureEditing();
 				editor.setFocus(true);
 			}
@@ -418,7 +418,7 @@ public class NewCASTableCellEditorW extends Label implements
 					@Override
 					public void callback(Object obj) {
 						DrawEquationW.stornoFormulaMathQuillGGB(
-								NewCASTableCellEditorW.this,
+								CASTableCellEditorW.this,
 								seMayLaTeX);
 
 					}

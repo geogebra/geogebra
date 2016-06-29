@@ -160,7 +160,7 @@ public class CASTableW extends Grid implements CASTable {
 
 	public CASTableCellEditor getEditor() {
 		if (editor == null) {
-			editor = new NewCASTableCellEditorW(this, app, ml);
+			editor = new CASTableCellEditorW(this, app, ml);
 		}
 		return editor;
 	}
