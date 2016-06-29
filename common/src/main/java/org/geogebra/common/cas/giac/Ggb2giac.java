@@ -117,6 +117,14 @@ public class Ggb2giac {
 
 		p("CommonDenominator.2", "lcm(denom(%0),denom(%1))");
 
+		// TODO not working properly with == because of global evaluation
+		// CountIf[t>3,t,{1,2,3,4,5}]
+		p("CountIf.3",
+				"[[ggbcount(%1):=begin when(%0,1,0);end],map(%2,loc->ggbcount(loc))][1]");
+		p("CountIf.3",
+				"[[ggbcount(x):=begin when(%0,1,0);end],map(%1,loc->ggbcount(loc))][1]");
+		// p("CountIf.2", "sum(map(%1,loc->when(subst(%0,x=loc),1,0))");
+
 		p("Covariance.2", "covariance(%0,%1)");
 		p("Covariance.1", "normal(covariance(%0))");
 
