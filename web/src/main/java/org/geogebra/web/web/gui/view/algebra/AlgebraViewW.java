@@ -1043,12 +1043,25 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			if (pos == 0 && parent == rootOrder) {
 				node.setFirst(true);
 			}
+		
 
 			if (pos >= parent.getChildCount()) {
-				parent.addItem(node);
-				if (parent.equals(rootOrder))
-					addItem(node);
-			} else
+				if (treeMode == SortMode.LAYER) {
+					if (isAlgebraInputVisible()) {
+						removeItem(inputPanelTreeItem);
+					}
+					parent.addItem(node);
+					if (isAlgebraInputVisible()) {
+						super.addItem(inputPanelTreeItem);
+					}
+
+				} else {
+					parent.addItem(node);
+					if (parent.equals(rootOrder))
+						addItem(node);
+				}
+
+			} else {
 				try {
 					parent.insertItem(pos, node);
 					if (parent.equals(rootOrder))
@@ -1058,6 +1071,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 					if (parent.equals(rootOrder))
 						addItem(node);
 				}
+			}
 
 			// setUserObject(node, geo);
 
