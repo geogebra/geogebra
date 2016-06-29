@@ -3887,19 +3887,14 @@ public class Kernel {
 	private StringBuilder stateForModeStarting;
 
 	public void restoreStateForInitNewMode() {
-		if (app.has(Feature.UNDO_FOR_TOOLS)
-				&& app.has(Feature.UNDO_WHEN_CHANGE_TOOL)) {
-			if (undoActive && getSelectionManager().isGeoToggled()) {
-				restoreStateForModeStarting();
-			}
+		if (undoActive && getSelectionManager().isGeoToggled()) {
+			restoreStateForModeStarting();
 		}
 	}
 
 	public void storeStateForModeStarting() {
-		if (app.has(Feature.UNDO_FOR_TOOLS)) {
-			stateForModeStarting = cons.getCurrentUndoXML(true);
-			getSelectionManager().resetGeoToggled();
-		}
+		stateForModeStarting = cons.getCurrentUndoXML(true);
+		getSelectionManager().resetGeoToggled();
 	}
 
 
@@ -3922,17 +3917,14 @@ public class Kernel {
 
 	public void undo() {
 		if (undoActive) {
-			if (app.has(Feature.UNDO_FOR_TOOLS)) {
-				if (getApplication().getActiveEuclidianView()
-						.getEuclidianController().isUndoableMode()) {
-					if (getSelectionManager().isGeoToggled()
-							&& !getSelectionManager()
-									.getSelectedGeos().isEmpty()) {
+			if (getApplication().getActiveEuclidianView()
+					.getEuclidianController().isUndoableMode()) {
+				if (getSelectionManager().isGeoToggled()
+						&& !getSelectionManager().getSelectedGeos().isEmpty()) {
 
-						restoreStateForModeStarting();
-						getSelectionManager().resetGeoToggled();
-						return;
-					}
+					restoreStateForModeStarting();
+					getSelectionManager().resetGeoToggled();
+					return;
 				}
 			}
 

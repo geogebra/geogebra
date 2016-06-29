@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
@@ -185,8 +184,6 @@ public final class DrawList extends CanvasDrawable
 
 		private int itemFontSize;
 
-		private boolean scrollSupport;
-
 		// startIdx and endIdx defines the range of items that are visible.
 		private int startIdx = -1;
 		private int endIdx;
@@ -208,7 +205,6 @@ public final class DrawList extends CanvasDrawable
 			items = new ArrayList<DrawList.DrawOptions.OptionItem>();
 			hovered = null;
 			hoverColor = GColor.LIGHT_GRAY;
-			scrollSupport = view.getApplication().has(Feature.COMBOSCROLLING);
 		}
 
 		private int getStartIdx() {
@@ -220,7 +216,7 @@ public final class DrawList extends CanvasDrawable
 		}
 
 		private boolean isScrollNeeded() {
-			return scrollSupport && scrollNeeded;
+			return scrollNeeded;
 		}
 
 		public void draw(GGraphics2D graphics2, int leftPos, int topPos) {
@@ -753,9 +749,6 @@ public final class DrawList extends CanvasDrawable
 		 * @return if scroll really makes sense or multi-column would be better.
 		 */
 		private boolean getScrollSettings() {
-			if (!scrollSupport) {
-				return false;
-			}
 
 			itemFont = getLabelFont().deriveFont(GFont.PLAIN, itemFontSize);
 			createItems();

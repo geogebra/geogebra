@@ -3923,22 +3923,16 @@ public abstract class App implements UpdateSelection {
 
 
 		case DATA_COLLECTION:
-		case ADD_NEW_OBJECT_BUTTON:
-		case CAS_EDITOR:
-		case UNDO_FOR_TOOLS:
 			return true;
-
-		case UNDO_WHEN_CHANGE_TOOL:
+		case ADD_NEW_OBJECT_BUTTON:
+			return true;
+		case CAS_EDITOR:
 			return true;
 
 			// in web (not tablet apps yet)
 			// File -> Enter Exam Mode
 		case EXAM_TABLET:
 			return prerelease;
-
-		// enabled from 5.0.210.0
-		case COMBOSCROLLING:
-			return true;
 
 		// Java Applets are only used in IE8/9
 		// ie on old computers
