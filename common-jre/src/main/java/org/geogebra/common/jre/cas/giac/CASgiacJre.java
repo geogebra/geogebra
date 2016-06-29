@@ -3,10 +3,6 @@ package org.geogebra.common.jre.cas.giac;
 import java.util.LinkedList;
 import java.util.List;
 
-import javagiac.context;
-import javagiac.gen;
-import javagiac.giac;
-
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.cas.CasParserTools;
 import org.geogebra.common.cas.error.TimeoutException;
@@ -19,8 +15,12 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+
+import javagiac.context;
+import javagiac.gen;
+import javagiac.giac;
 
 public abstract class CASgiacJre extends CASgiac {
 
@@ -71,7 +71,7 @@ public abstract class CASgiacJre extends CASgiac {
 		String exp = wrapInevalfa(exp0);
 
 		gen g = new gen("caseval(" + exp + ")", C);
-		Log.debug("giac evalRaw input: " + exp);
+		Log.debug("giac evalRaw input: " + StringUtil.toJavaString(exp));
 		g = g.eval(1, C);
 		String ret = g.print(C);
 		Log.debug("giac evalRaw output: " + ret);
@@ -87,42 +87,29 @@ public abstract class CASgiacJre extends CASgiac {
 		gen g = new gen(initString, C);
 		g.eval(1, C);
 
-		// GGB-850
-		if (!app.has(Feature.GIAC_SELECTIVE_INIT)) {
-			// fix for problem with eg SolveODE[y''=0,{(0,1), (1,3)}]
-			// sending all at once doesn't work from
-			// http://dev.geogebra.org/trac/changeset/42719
-			String[] sf = specialFunctions.split(";;");
-			for (int i = 0; i < sf.length; i++) {
-				g = new gen(sf[i], C);
+		InitFunctions[] init = InitFunctions.values();
+
+		// Log.debug("exp = " + exp);
+
+		for (int i = 0; i < init.length; i++) {
+			InitFunctions function = init[i];
+
+			// send only necessary init commands
+			if (function.functionName == null
+					|| exp.indexOf(function.functionName) > -1) {
+				g = new gen(function.definitionString, C);
 				giac._eval(g, C);
+				// Log.debug("sending " + function);
+			} else {
+				// Log.error("not sending " + function + " "
+				// + function.functionName);
 			}
 
-		} else {
-
-			InitFunctions[] init = InitFunctions.values();
-
-			// Log.debug("exp = " + exp);
-
-			for (int i = 0; i < init.length; i++) {
-				InitFunctions function = init[i];
-
-				// send only necessary init commands
-				if (function.functionName == null
-						|| exp.indexOf(function.functionName) > -1) {
-					g = new gen(function.definitionString, C);
-					giac._eval(g, C);
-					// Log.debug("sending " + function);
-				} else {
-					// Log.error("not sending " + function + " "
-					// + function.functionName);
-				}
-
-				// Log.error(function.functionName + " " +
-				// function.definitionString);
-			}
-
+			// Log.error(function.functionName + " " +
+			// function.definitionString);
 		}
+
+
 
 		g = new gen("\"timeout " + (timeoutMilliseconds / 1000) + "\"", C);
 		giac._eval(g, C);

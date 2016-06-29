@@ -112,9 +112,6 @@ public enum Feature {
 	// MOB-413
 	MOBILE_ANGLE_FIXED_SIZE, 
 	
-	// GGB-850
-	GIAC_SELECTIVE_INIT,
-
 	// GGB-777
 	IMAGE_DIALOG_IMMEDIATELY,
 
@@ -155,9 +152,6 @@ public enum Feature {
 
 	// GGB-776
 	ABSOLUTE_TEXTS,
-
-	// GGB-751
-	GEOBUTTON_DESIGN,
 
 	// MOB-601
 	MOBILE_LOCAL_SAVE,

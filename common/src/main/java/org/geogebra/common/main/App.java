@@ -3972,10 +3972,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_ANGLE_FIXED_SIZE:
 			return true;
 
-		// GGB-850
-		case GIAC_SELECTIVE_INIT:
-			return true;
-
 		// GGB-334
 		case ADJUST_SLIDERS:
 			return prerelease;
@@ -3991,10 +3987,6 @@ public abstract class App implements UpdateSelection {
 			// GGB-944
 		case EXPORT_ANIMATED_PDF:
 			return prerelease;
-
-		// GGB-751
-		case GEOBUTTON_DESIGN:
-			return true;
 
 		//MOB-601
 		case MOBILE_LOCAL_SAVE:

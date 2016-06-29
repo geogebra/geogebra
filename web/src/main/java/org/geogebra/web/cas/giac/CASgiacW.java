@@ -95,49 +95,27 @@ public class CASgiacW extends CASgiac {
 		}
 		
 		// GGB-850
-		if (!kernel.getApplication().has(Feature.GIAC_SELECTIVE_INIT)) {
-			// fix for problem with eg SolveODE[y''=0,{(0,1), (1,3)}]
-			// sending all at once doesn't work from
-			// http://dev.geogebra.org/trac/changeset/42719
-			if (Browser.externalCAS()) {
-				// native Giac so need same fix as desktop
+		InitFunctions[] init = InitFunctions.values();
 
-				// fix for problem with eg SolveODE[y''=0,{(0,1), (1,3)}]
-				// sending all at once doesn't work from
-				// http://dev.geogebra.org/trac/changeset/42719
-				String[] sf = specialFunctions.split(";;");
-				for (int i = 0; i < sf.length; i++) {
-					nativeEvaluateRaw(sf[i], false);
-				}
+		// Log.debug("exp = " + exp);
+
+		for (int i = 0; i < init.length; i++) {
+			InitFunctions function = init[i];
+
+			// send only necessary init commands
+			if (function.functionName == null
+					|| exp.indexOf(function.functionName) > -1) {
+				nativeEvaluateRaw(function.definitionString, false);
+				// Log.debug("sending " + function);
 			} else {
-
-				nativeEvaluateRaw(specialFunctions, false);
+				// Log.error("not sending " + function + " "
+				// + function.functionName);
 			}
 
-		} else {
-
-			InitFunctions[] init = InitFunctions.values();
-
-			// Log.debug("exp = " + exp);
-
-			for (int i = 0; i < init.length; i++) {
-				InitFunctions function = init[i];
-
-				// send only necessary init commands
-				if (function.functionName == null
-						|| exp.indexOf(function.functionName) > -1) {
-					nativeEvaluateRaw(function.definitionString, false);
-					// Log.debug("sending " + function);
-				} else {
-					// Log.error("not sending " + function + " "
-					// + function.functionName);
-				}
-
-				// Log.error(function.functionName + " " +
-				// function.definitionString);
-			}
-
+			// Log.error(function.functionName + " " +
+			// function.definitionString);
 		}
+
 
 		nativeEvaluateRaw("timeout " + (timeoutMilliseconds / 1000), false);
 
