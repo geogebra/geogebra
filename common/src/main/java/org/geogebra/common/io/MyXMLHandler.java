@@ -5412,19 +5412,21 @@ new GPoint(row, column));
 			return false;
 		}
 		try {
-			if (geo.isIndependent()) {
+			boolean valid = !"false".equals(attrs.get("valid"));
+			if (geo.isIndependent() && valid) {
 				String value = attrs.get("value");
 				if (value != null) {
 					ValidExpression ve = parser.parseGeoGebraExpression(value);
 					geo.setDefinition(ve.wrap());
 					if (ve.unwrap() instanceof Equation) {
-						((GeoImplicit) geo).fromEquation((Equation) ve.unwrap(),
-								null);
+						((GeoImplicit) geo).fromEquation(
+								(Equation) ve.unwrap(), null);
 					}
 
 				}
 			}
-			if (attrs.get("show") != null && attrs.get("show").equals("true")) {
+			if (attrs.get("show") != null && attrs.get("show").equals("true")
+					&& valid) {
 				((GeoImplicit) geo).setInputForm();
 			} else {
 				((GeoImplicit) geo).setExtendedForm();
