@@ -304,12 +304,11 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 					editorState.getCurrentOffset());
 			for (int i = 0; i < list2.size() / 2; i++) {
 				int tmp = list2.get(i);
+
 				list2.set(i, list2.get(list2.size() - 1 - i));
 				list2.set(list2.size() - 1 - i, tmp);
 			}
-
 			if (compare(list, list2)) {
-				cursorController.prevCharacter(editorState);
 				break;
 			}
 		}

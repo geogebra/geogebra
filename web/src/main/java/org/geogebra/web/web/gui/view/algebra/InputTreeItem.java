@@ -12,7 +12,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -25,7 +24,6 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
-import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 
@@ -45,7 +43,6 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -75,8 +72,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	ButtonPopupMenu specialPopup;
 	/** Editor */
 	EquationEditor editor;
-	/** label "Input..." */
-	Label dummyLabel;
+
 
 	private Label piecewiseLabel, matrixLabel, curveLabel;
 
@@ -473,52 +469,7 @@ public class InputTreeItem extends RadioTreeItem implements
 
 
 
-	/**
-	 * @param show
-	 *            true to show input help
-	 */
-	@Override
-	public void setShowInputHelpPanel(boolean show) {
 
-		if (show) {
-			if (dummyLabel != null) {
-				dummyLabel.addStyleName("hiddenInputLabel");
-			}
-			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
-					.getGuiManager().getInputHelpPanel();
-
-
-			if (helpPopup == null && app != null) {
-				helpPopup = new InputBarHelpPopup(this.app, this);
-				helpPopup.addAutoHidePartner(this.getElement());
-				helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
-
-					@Override
-					public void onClose(CloseEvent<GPopupPanel> event) {
-						if (dummyLabel != null) {
-							dummyLabel.removeStyleName("hiddenInputLabel");
-						}
-						ihtml.getElement().getElementsByTagName("textarea")
-								.getItem(0).focus();
-					}
-
-				});
-
-				if (btnHelpToggle != null) {
-					helpPopup.setBtnHelpToggle(btnHelpToggle);
-				}
-			} else if (app != null && helpPopup.getWidget() == null) {
-				helpPanel = (InputBarHelpPanelW) app.getGuiManager()
-						.getInputHelpPanel();
-				helpPopup.add(helpPanel);
-			}
-
-			updateHelpPosition(helpPanel);
-
-		} else if (helpPopup != null) {
-			helpPopup.hide();
-		}
-	}
 
 
 

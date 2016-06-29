@@ -187,7 +187,11 @@ public class EditorState {
 	}
 
 	public void cursorToSelectionStart() {
-		this.currentField = (MathSequence) this.currentSelStart.getParent();
+		if (this.currentSelStart.getParent() != null) {
+			currentField = (MathSequence) this.currentSelStart.getParent();
+		} else {
+			this.currentField = (MathSequence) this.currentSelStart;
+		}
 		this.currentOffset = currentField.indexOf(currentSelStart) + 1;
 	}
 

@@ -13,6 +13,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.web.gui.GuiManagerW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -273,6 +274,16 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 	public String getCommand() {
 		// TODO get it from JLM
 		return null;
+	}
+
+	@Override
+	public void autocomplete(String text) {
+		GuiManagerW.makeKeyboardListener(retexListener).insertString(text);
+
+	}
+
+	protected void focusAfterHelpClosed() {
+		setFocus(true);
 	}
 
 }

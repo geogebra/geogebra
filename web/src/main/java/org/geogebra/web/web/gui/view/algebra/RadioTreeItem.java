@@ -109,6 +109,8 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Timer;
@@ -162,6 +164,8 @@ public class RadioTreeItem extends AVTreeItem
 	ToggleButton btnHelpToggle;
 	/** Help popup */
 	InputBarHelpPopup helpPopup;
+	/** label "Input..." */
+	Label dummyLabel;
 	interface CancelListener {
 		void cancel();
 	}
@@ -1972,10 +1976,54 @@ public class RadioTreeItem extends AVTreeItem
 	 * @param show
 	 *            whether to show input help
 	 */
-	protected void setShowInputHelpPanel(boolean show) {
-		// TODO Auto-generated method stub
+	/**
+	 * @param show
+	 *            true to show input help
+	 */
+	public void setShowInputHelpPanel(boolean show) {
 
+		if (show) {
+			if (dummyLabel != null) {
+				dummyLabel.addStyleName("hiddenInputLabel");
+			}
+			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
+					.getGuiManager().getInputHelpPanel();
+
+			if (helpPopup == null && app != null) {
+				helpPopup = new InputBarHelpPopup(this.app, this);
+				helpPopup.addAutoHidePartner(this.getElement());
+				helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
+
+					@Override
+					public void onClose(CloseEvent<GPopupPanel> event) {
+						if (dummyLabel != null) {
+							dummyLabel.removeStyleName("hiddenInputLabel");
+						}
+						focusAfterHelpClosed();
+					}
+
+				});
+
+				if (btnHelpToggle != null) {
+					helpPopup.setBtnHelpToggle(btnHelpToggle);
+				}
+			} else if (app != null && helpPopup.getWidget() == null) {
+				helpPanel = (InputBarHelpPanelW) app.getGuiManager()
+						.getInputHelpPanel();
+				helpPopup.add(helpPanel);
+			}
+
+			updateHelpPosition(helpPanel);
+
+		} else if (helpPopup != null) {
+			helpPopup.hide();
+		}
 	}
+
+	protected void focusAfterHelpClosed() {
+		ihtml.getElement().getElementsByTagName("textarea").getItem(0).focus();
+	}
+
 	protected EquationEditor getEquationEditor() {
 		return null;
 
