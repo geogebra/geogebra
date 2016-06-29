@@ -45,9 +45,9 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	private static final String ggbTubeOld = "geogebratube.org/";
 	private static final String ggbTube = "tube.geogebra.org/";
-	private static final String ggbTubeBeta = "tube-beta.geogebra.org/";
+	private static final String ggbTubeBeta = "beta.geogebra.org/";
 	private static final String ggbTubeShort = "ggbtu.be/";
-	private static final String ggbTubeTest = "tube-test.geogebratube.org";
+	private static final String ggbMatShort = "ggbm.at/";
 	private static final String material = "/material/show/id/";
 	public static final int DESKTOP = 0;
 	public static final int WEB = 1;
@@ -158,7 +158,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 							GeoGebraConstants.GEOGEBRA_WEBSITE_BETA) > -1
 					|| processedUrlString.indexOf(ggbTube) > -1
 					|| processedUrlString.indexOf(ggbTubeShort) > -1
-					|| processedUrlString.indexOf(ggbTubeTest) > -1
+					|| processedUrlString.indexOf(ggbMatShort) > -1
 					|| processedUrlString.indexOf(ggbTubeBeta) > -1
 					|| processedUrlString.indexOf(ggbTubeOld) > -1) {
 
@@ -172,13 +172,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 				processedUrlString = processedUrlString.substring(
 						processedUrlString.indexOf('/'),
 						processedUrlString.length());
-
-				// remove ?mobile=true or ?mobile=false on end
-				if (processedUrlString.endsWith("?mobile=true")
-						|| processedUrlString.endsWith("?mobile=false")) {
-					int i = processedUrlString.lastIndexOf('?');
-					processedUrlString = processedUrlString.substring(0, i);
-				}
 
 				String id;
 
@@ -211,14 +204,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 				// fetch ID
 				id = processedUrlString.substring(start, end);
 
-				if (urlString.indexOf(ggbTubeTest) > -1) {
-					processedUrlString = "http://tube-test.geogebra.org:8080/files/material-";
-				} else {
-					processedUrlString = "https://www.geogebra.org/files/material-";
-				}
+				processedUrlString = "https://www.geogebra.org/files/material-";
 
 				// Add the login token to assure that private files of the
-				// loggen in user can be accessed
+				// logged in user can be accessed
 				processedUrlString += id + ".ggb";
 				if (app.getLoginOperation().isLoggedIn()) {
 					String token = app.getLoginOperation().getModel()
