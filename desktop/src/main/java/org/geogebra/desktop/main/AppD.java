@@ -707,6 +707,11 @@ ToolbarD.getAllTools(this));
 	}
 
 	private static void handleHelpVersionArgs(CommandLineArguments args) {
+
+		System.out.println("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
+				+ GeoGebraConstants.BUILD_DATE + " Java " + getJavaVersion()
+				+ "\n");
+
 		if (args.containsArg("help")) {
 			// help message
 			System.out
@@ -812,9 +817,6 @@ ToolbarD.getAllTools(this));
 							+ "  Example: singularWS=timeout:3\n");
 			System.exit(0);
 		}
-		// help debug applets
-		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
-				+ GeoGebraConstants.BUILD_DATE + " Java " + getJavaVersion());
 		if (args.containsArg("v")) {
 			System.exit(0);
 		}
