@@ -130,6 +130,8 @@ public class MathFieldW implements MathField, IsWidget {
 
 			public void onKeyUp(KeyUpEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
+				code = fixCode(code);
+				debug(code + "");
 				keyListener.onKeyPressed(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
@@ -144,6 +146,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 			public void onKeyDown(KeyDownEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
+				code = fixCode(code);
 				keyListener.onKeyReleased(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
@@ -157,6 +160,19 @@ public class MathFieldW implements MathField, IsWidget {
 		}, KeyDownEvent.getType());
 
 	}
+
+	protected int fixCode(int code) {
+		switch (code) {
+		case 46:
+			return KeyEvent.VK_DELETE;
+		}
+		return code;
+	}
+
+	protected native void debug(String string) /*-{
+		$wnd.console.log(string);
+
+	}-*/;
 
 	protected int getModifiers(com.google.gwt.event.dom.client.KeyEvent event) {
 		return event.isShiftKeyDown() ? 1 : 0;
