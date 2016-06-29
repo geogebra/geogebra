@@ -3953,10 +3953,6 @@ public abstract class App implements UpdateSelection {
 			// not enabled for linux
 			return isWindows() || isMacOS() || prerelease;
 
-			// GGB-541
-		case IMPLICIT_LOCUS:
-			return true;
-
 			// GGB-641
 		case EXPLICIT_LOCUS_VIA_BOTANA:
 			return prerelease;
@@ -3964,18 +3960,8 @@ public abstract class App implements UpdateSelection {
 		case FIX_CP_HEADER:
 			return prerelease;
 
-		case MOBILE_KEYBOARD_IN_GGBTRANS:
-			return false;
-
-		case MORE_ACCURATE_ELLIPSE_CIRCUMFERENCE:
-			return true;
-
 		case WEB_SHARE_DIALOG:
 			return prerelease;
-
-		// GGB-766
-		case DESKTOP_EXPORT_BRAILLE:
-			return true;
 
 		// GGB-737
 		case CAS_INTERSECT_3D:

@@ -20,7 +20,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
-import org.geogebra.common.main.Feature;
 
 /**
  * Algorithm to compute the circumference of a
@@ -135,15 +134,9 @@ public class AlgoCircumferenceConic extends AlgoElement {
 
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 
-			if (kernel.getApplication()
-					.has(Feature.MORE_ACCURATE_ELLIPSE_CIRCUMFERENCE)) {
-				circum.setValue(conic.getEllipseCircumference());
-
-			} else {
-				if (ellipticArcLength == null)
-					ellipticArcLength = new EllipticArcLength(conic);
-				circum.setValue(ellipticArcLength.compute(0, 2 * Math.PI));
-			}
+			// new, more accurate method
+			// https://jira.geogebra.org/browse/GGB-692
+			circum.setValue(conic.getEllipseCircumference());
 
 			break;
 

@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -56,8 +55,7 @@ public class CmdLocusEquation extends CommandProcessor {
 				locusPoint = (GeoPoint) arg[0];
 				movingPoint = (GeoPoint) arg[1];
 			} else {
-				if (app.has(Feature.IMPLICIT_LOCUS)
-						&& (ok[0] = (arg[0] instanceof BooleanValue))
+				if ((ok[0] = (arg[0] instanceof BooleanValue))
 						// second parameter should be a free point
 						&& (ok[1] = (arg[1].isGeoPoint() && arg[1]
 								.getParentAlgorithm() == null))) {

@@ -51,7 +51,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -273,8 +272,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (selectedFormat() == Format.PNG) {
 			dpiPanel.add(resolutionInDPILabel);
 			dpiPanel.add(cbDPI);
-			if (app.has(Feature.DESKTOP_EXPORT_BRAILLE)
-					&& brailleFont != null) {
+			if (brailleFont != null) {
+				// GGB-766
 				dpiPanel.add(cbBraille);
 			}
 
@@ -358,7 +357,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					dpiPanel.add(cbDPI);
 					dpiPanel.remove(cbEMFPlus);
 					dpiPanel.add(cbTransparent);
-					if (app.has(Feature.DESKTOP_EXPORT_BRAILLE) && braille) {
+					if (braille) {
+						// GGB-766
 						dpiPanel.add(cbBraille);
 					}
 					dpiPanel.remove(textAsShapesCB);
@@ -462,7 +462,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			File pngDestination = toClipboard ? getTmpPNG()
 					: getPNGdestination(app);
 			if (pngDestination != null) {
-				if (app.has(Feature.DESKTOP_EXPORT_BRAILLE) && braille) {
+				if (braille) {
+					// GGB-766
 					fm.updateDefaultFonts(fontSize, brailleFont.getFontName(),
 							brailleFont.getFontName());
 
@@ -472,7 +473,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 				exportPNGSilent(pngDestination, toClipboard, transparent,
 						getDPI(), exportScale, app, getEuclidianView());
 
-				if (app.has(Feature.DESKTOP_EXPORT_BRAILLE) && braille) {
+				if (braille) {
+					// GGB-766
 					fm.updateDefaultFonts(fontSize, "SansSerif", "Serif");
 
 					getEuclidianView().updateFonts();
