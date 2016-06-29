@@ -835,20 +835,10 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected final void clearSelection(ArrayList<?> selectionList,
-										boolean doUpdateSelection) {
 
-		// unselect
-		selectionList.clear();
-		selection.getSelectedGeoList().clear();
-		if (doUpdateSelection) {
-			selection.clearSelectedGeos();
-		}
-
-	}
 
 	protected final void clearSelection(ArrayList<?> selectionList) {
-		clearSelection(selectionList, true);
+		selection.clearSelection(selectionList, true);
 		view.repaintView();
 	}
 
@@ -3802,8 +3792,8 @@ public abstract class EuclidianController {
 	public void clearSelections(boolean repaint, boolean updateSelection) {
 		startCollectingMinorRepaints();
 
-		clearSelected();
-
+		selection.clearLists();
+		view.repaint();
 		selection.clearSelectedGeos(repaint, updateSelection);
 
 		// if we clear selection and highlighting,
@@ -3817,25 +3807,7 @@ public abstract class EuclidianController {
 	}
 
 	public final void clearSelected() {
-		clearSelection(getSelectedNumberList(), false);
-		clearSelection(getSelectedNumberValueList(), false);
-		clearSelection(getSelectedPointList(), false);
-		clearSelection(getSelectedLineList(), false);
-		clearSelection(getSelectedSegmentList(), false);
-		clearSelection(getSelectedConicNDList(), false);
-		clearSelection(getSelectedVectorList(), false);
-		clearSelection(getSelectedPolygonList(), false);
-		clearSelection(getSelectedGeoList(), false);
-		clearSelection(getSelectedFunctionList(), false);
-		clearSelection(getSelectedCurveList(), false);
-		clearSelection(getSelectedListList(), false);
-		clearSelection(getSelectedPathList(), false);
-		clearSelection(getSelectedRegionList(), false);
-		clearSelection(selection.getSelectedCS2DList(), false);
-		clearSelection(selection.getSelectedPlaneList(), false);
-		clearSelection(selection.getSelectedPolyhedronList(), false);
-		clearSelection(selection.getSelectedQuadricList(), false);
-		clearSelection(selection.getSelectedQuadricLimitedList(), false);
+		selection.clearLists();
 		view.repaintView();
 	}
 

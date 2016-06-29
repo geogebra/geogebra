@@ -956,4 +956,39 @@ public class SelectionManager {
 	public ArrayList<GeoPolyhedronInterface> getSelectedPolyhedronList() {
 		return selectedPolyhedron;
 	}
+
+	public final void clearSelection(ArrayList<?> selectionList,
+			boolean doUpdateSelection) {
+
+		// unselect
+		selectionList.clear();
+		getSelectedGeoList().clear();
+		if (doUpdateSelection) {
+			clearSelectedGeos();
+		}
+
+	}
+
+	public void clearLists() {
+		clearSelection(getSelectedNumberList(), false);
+		clearSelection(getSelectedNumberValueList(), false);
+		clearSelection(getSelectedPointList(), false);
+		clearSelection(getSelectedLineList(), false);
+		clearSelection(getSelectedSegmentList(), false);
+		clearSelection(getSelectedConicNDList(), false);
+		clearSelection(getSelectedVectorList(), false);
+		clearSelection(getSelectedPolygonList(), false);
+		clearSelection(getSelectedGeoList(), false);
+		clearSelection(getSelectedFunctionList(), false);
+		clearSelection(getSelectedCurveList(), false);
+		clearSelection(getSelectedListList(), false);
+		clearSelection(getSelectedPathList(), false);
+		clearSelection(getSelectedRegionList(), false);
+		clearSelection(getSelectedCS2DList(), false);
+		clearSelection(getSelectedPlaneList(), false);
+		clearSelection(getSelectedPolyhedronList(), false);
+		clearSelection(getSelectedQuadricList(), false);
+		clearSelection(getSelectedQuadricLimitedList(), false);
+
+	}
 }

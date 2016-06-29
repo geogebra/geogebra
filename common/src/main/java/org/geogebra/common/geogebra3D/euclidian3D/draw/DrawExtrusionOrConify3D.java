@@ -310,7 +310,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 			}
 
 			view.getEuclidianController().setDialogOccurred();
-			view.getEuclidianController().clearSelected();
+			view.getApplication().getSelectionManager().clearLists();
 			view.getApplication().getSelectionManager()
 					.clearSelectedGeos(false, false);
 			view.getApplication().getSelectionManager()
