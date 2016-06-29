@@ -3030,8 +3030,7 @@ marblePanel, evt))) {
 												.getGuiManager()
 												.getInputHelpPanel())
 														.focusCommand(
-																getEquationEditor()
-																		.getCurrentCommand());
+																getCommand());
 									}
 								});
 					} else {

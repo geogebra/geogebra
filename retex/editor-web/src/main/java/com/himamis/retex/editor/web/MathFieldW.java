@@ -35,6 +35,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.editor.MathField;
@@ -88,16 +89,17 @@ public class MathFieldW implements MathField, IsWidget {
 
 	@Override
 	public void setTeXIcon(TeXIcon icon) {
+
+
+		ctx.getCanvas().setHeight(icon.getIconHeight() + 15);
+		ctx.getCanvas().getStyle().setHeight(icon.getIconHeight() + 15,
+				Unit.PX);
+
+		ctx.getCanvas().setWidth(icon.getIconWidth() + 30);
+		ctx.getCanvas().getStyle().setWidth(icon.getIconWidth() + 30, Unit.PX);
 		ctx.setFillStyle("rgb(255,255,255)");
-
-			ctx.getCanvas().setHeight(icon.getIconHeight());
-			ctx.getCanvas().getStyle().setHeight(icon.getIconHeight(), Unit.PX);
-
-			ctx.getCanvas().setWidth(icon.getIconWidth());
-			ctx.getCanvas().getStyle().setWidth(icon.getIconWidth(), Unit.PX);
-
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(),
-				ctx.getCanvas().getHeight());
+				icon.getIconHeight() + 15);
 		JlmLib.draw(icon, ctx, 0, 0, "#000000", "#FFFFFF", null);
 	}
 
@@ -145,6 +147,7 @@ public class MathFieldW implements MathField, IsWidget {
 				keyListener.onKeyReleased(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
+				MathFieldW.this.setFocus(true);
 				if (code == 8 || code == 27) {
 					event.preventDefault();
 				}
@@ -235,7 +238,21 @@ public class MathFieldW implements MathField, IsWidget {
 
 	public void setFocus(boolean focus) {
 		if (focus) {
+			Timer t = new Timer() {
+
+				@Override
+				public void run() {
+					html.getElement().focus();
+
+				}
+			};
+			t.schedule(200);
+			if (mathFieldInternal.getEditorState().getCurrentField() == null) {
+				mathFieldInternal.getCursorController()
+						.lastField(mathFieldInternal.getEditorState());
+			}
 			html.getElement().focus();
+
 		}
 		this.focused = focus;
 	}

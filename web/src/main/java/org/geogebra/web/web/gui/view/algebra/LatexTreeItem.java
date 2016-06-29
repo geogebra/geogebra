@@ -17,6 +17,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -48,11 +49,15 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 	 */
 	public LatexTreeItem(Kernel kernel) {
 		super(kernel);
+		this.insertHelpToggle();
+		if (canvas != null) {
+			canvas.getElement().getStyle().setMarginLeft(40, Unit.PX);
+		}
 	}
 
 	@Override
 	protected boolean startEditing(boolean substituteNumbers) {
-		String text = geo == null ? "" : geo.getDefinitionForEditor();
+		String text = geo == null ? "Input" : geo.getDefinitionForEditor();
 		Log.debug("EDITING" + text);
 		if (text == null) {
 			return false;
@@ -65,7 +70,7 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 					: getPlainTextItem();
 
 		renderLatex(text, old.getElement());
-
+		mf.setFocus(true);
 
 
 		// DrawEquationW.editEquationMathQuillGGB(this, latexItem, false);
@@ -147,6 +152,10 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 	public void setFocus(boolean b, boolean sv) {
 		if (ensureCanvas()) {
 			main.clear();
+			if (geo == null) {
+				insertHelpToggle();
+				canvas.getElement().getStyle().setMarginLeft(40, Unit.PX);
+			}
 			ihtml.add(canvas);
 			main.add(ihtml);
 		}
@@ -155,6 +164,9 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 
 	@Override
 	public String getText() {
+		if (mf == null) {
+			return "";
+		}
 		GeoGebraSerializer s = new GeoGebraSerializer();
 		return s.serialize(mf.getFormula());
 	}
@@ -247,6 +259,20 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public void scrollCursorIntoView() {
+		// if (latexItem != null) {
+		// DrawEquationW.scrollCursorIntoView(this, latexItem.getElement(),
+		// isInputTreeItem());
+		// }
+	}
+
+	@Override
+	public String getCommand() {
+		// TODO get it from JLM
+		return null;
 	}
 
 }
