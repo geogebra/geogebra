@@ -122,7 +122,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case MinorAxis:
 			return new CmdSecondAxis(kernel);
 		case ContourPlot:
-			return new CmdContourPlot(kernel);
+			return !kernel.getApplication().has(Feature.CONTOUR_PLOT_COMMAND)
+					? null : new CmdContourPlot(kernel);
 		case SemiMinorAxisLength:
 		case SecondAxisLength:
 			return new CmdSecondAxisLength(kernel);
@@ -156,7 +157,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case ImplicitCurve:
 			return new CmdImplicitPoly(kernel);
 		case ImplicitSurface:
-			return new CmdImplicitSurface(kernel);
+			return !kernel.getApplication().has(Feature.IMPLICIT_SURFACES)
+					? null : new CmdImplicitSurface(kernel);
 		case Roots:
 			return new CmdRoots(kernel);
 		case AffineRatio:

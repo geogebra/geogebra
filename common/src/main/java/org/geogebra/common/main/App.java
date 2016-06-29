@@ -3758,6 +3758,9 @@ public abstract class App implements UpdateSelection {
 		case IMPLICIT_SURFACES:
 			return prerelease;
 
+		case CONTOUR_PLOT_COMMAND:
+			return prerelease;
+
 		case KOREAN_KEYBOARD:
 			return prerelease;
 		case LOCALSTORAGE_FILES:

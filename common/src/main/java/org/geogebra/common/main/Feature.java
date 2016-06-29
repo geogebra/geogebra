@@ -21,6 +21,8 @@ public enum Feature {
 
 	IMPLICIT_SURFACES,
 
+	CONTOUR_PLOT_COMMAND,
+
 	POLYGON_OPS,
 
 	INTERSECT,
