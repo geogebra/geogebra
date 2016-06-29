@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
  * @author matthieu
  *
  */
-public interface GeoCoordSys {
+public interface GeoCoordSys extends GeoElementND, GeoDirectionND {
 	
 	/** set the coordinate system
 	 * @param cs the coordinate system

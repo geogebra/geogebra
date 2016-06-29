@@ -840,15 +840,16 @@ public abstract class EuclidianController {
 
 		// unselect
 		selectionList.clear();
-		getSelectedGeoList().clear();
+		selection.getSelectedGeoList().clear();
 		if (doUpdateSelection) {
 			selection.clearSelectedGeos();
 		}
-		view.repaintView();
+
 	}
 
 	protected final void clearSelection(ArrayList<?> selectionList) {
 		clearSelection(selectionList, true);
+		view.repaintView();
 	}
 
 	protected Hits getRegionHits(Hits hits) {
@@ -3830,6 +3831,7 @@ public abstract class EuclidianController {
 		clearSelection(getSelectedListList(), false);
 		clearSelection(getSelectedPathList(), false);
 		clearSelection(getSelectedRegionList(), false);
+		view.repaintView();
 	}
 
 	final protected boolean attachDetach(Hits hits, boolean selPreview) {

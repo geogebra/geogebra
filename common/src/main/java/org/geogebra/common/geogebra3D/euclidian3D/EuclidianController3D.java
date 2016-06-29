@@ -72,11 +72,14 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoCoordSys;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
+import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -179,11 +182,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	// SELECTED GEOS
 	/** 2D coord sys (plane, polygon, ...) */
-	protected ArrayList<GeoCoordSys2D> selectedCS2D = new ArrayList<GeoCoordSys2D>();
+	protected ArrayList<GeoCoordSys> selectedCS2D = new ArrayList<GeoCoordSys>();
 
-	private ArrayList<GeoPolygon3D> selectedPolygons3D = new ArrayList<GeoPolygon3D>();
-
-	private ArrayList<GeoPlane3D> selectedPlane = new ArrayList<GeoPlane3D>();
+	private ArrayList<GeoPlaneND> selectedPlane = new ArrayList<GeoPlaneND>();
 
 	/**
 	 * common constructor
@@ -1210,9 +1211,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		if (selCS2D() == 1) {
-			GeoCoordSys2D[] cs = getSelectedCS2D();
+			GeoCoordSys[] cs = getSelectedCS2D();
 			GeoElement[] ret = new GeoElement[] { (GeoElement) getKernel()
-					.getManager3D().Plane3D(null, cs[0]) };
+					.getManager3D().Plane3D(null, (GeoCoordSys2D) cs[0]) };
 			return ret;
 		}
 
@@ -1309,10 +1310,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (selCS2D() == 1) {
 				// fetch selected point and vector
 				GeoPointND[] points = getSelectedPointsND();
-				GeoCoordSys2D[] cs = getSelectedCS2D();// TODO
+				GeoCoordSys[] cs = getSelectedCS2D();// TODO
 				// create new plane
 				return new GeoElement[] { (GeoElement) getKernel()
-						.getManager3D().Plane3D(null, points[0], cs[0]) };
+						.getManager3D().Plane3D(null, points[0],
+								(GeoCoordSys2D) cs[0]) };
 			}
 		}
 
@@ -2426,7 +2428,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				return ret;
 			} else if (selQuadric() == 1) { // line-quadric3D
 				GeoLineND line = getSelectedLinesND()[0];
-				GeoQuadric3D quadric = getSelectedQuadric()[0];
+				GeoQuadricND quadric = getSelectedQuadric()[0];
 				GeoElement[] ret = new GeoElement[2];
 
 				GeoPointND[] points = getKernel().getManager3D()
@@ -2443,7 +2445,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoElement[] ret = new GeoElement[1];
 				ret[0] = getKernel().getManager3D().Intersect(null,
 						(GeoElement) getSelectedLinesND()[0],
-						getSelectedPlanes()[0]);
+						getSelectedPlanes()[0].toGeoElement());
 				return ret;
 			} else if (selImplicitSurfaces() == 1) {// line-plane
 
@@ -2465,7 +2467,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return ret;
 		} else if (selConics() >= 1 && selPlanes() == 1) {
 
-			GeoPlane3D plane = getSelectedPlanes()[0];
+			GeoPlaneND plane = getSelectedPlanes()[0];
 			GeoConicND conic = getSelectedConicsND()[0];
 
 			GeoElement[] ret = new GeoElement[2];
@@ -2583,7 +2585,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			if (selQuadric() >= 1) { // plane-quadric
 				GeoPlaneND plane = getSelectedPlanes()[0];
-				GeoQuadric3D quad = getSelectedQuadric()[0];
+				GeoQuadricND quad = getSelectedQuadric()[0];
 				GeoElement[] ret = { kernel.getManager3D().Intersect(null,
 						plane, quad) };
 				if (ret[0].isDefined()) {
@@ -2594,7 +2596,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			} else if (selPolyhedron() == 1) { // plane-polyhedron
 				GeoElement[] ret = getKernel().getManager3D().IntersectRegion(
 						new String[] { null }, getSelectedPlanes()[0],
-						getSelectedPolyhedron()[0], null);
+						getSelectedPolyhedron()[0].toGeoElement(), null);
 				if (ret[0].isDefined()) {
 					return ret;
 				}
@@ -2603,7 +2605,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			} else if (selQuadricLimited() == 1) { // plane-limited quadric
 				GeoElement[] ret = new GeoElement[1];
 				ret[0] = kernel.getManager3D().IntersectQuadricLimited(null,
-						getSelectedPlanes()[0], getSelectedQuadricLimited()[0]);
+						getSelectedPlanes()[0],
+						(GeoQuadricND) getSelectedQuadricLimited()[0]);
 				if (!ret[0].isDefined()) {
 					return null;
 				}
@@ -2634,7 +2637,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		} else if (selQuadric() >= 2) { // quadric-quadric : intersection
 										// circles
-			GeoQuadric3D[] quads = getSelectedQuadric();
+			GeoQuadricND[] quads = getSelectedQuadric();
 			GeoElement[] ret = kernel.getManager3D().IntersectAsCircle(null,
 					quads[0], quads[1]);
 			if (ret[0].isDefined()) {
@@ -2643,7 +2646,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return null;
 
 		} else if (selPlanes() >= 2) { // plane-plane
-			GeoPlane3D[] planes = getSelectedPlanes();
+			GeoPlaneND[] planes = getSelectedPlanes();
 			return new GeoElement[] { kernel.getManager3D().IntersectPlanes(
 					null, planes[0], planes[1]) };
 		}
@@ -3040,35 +3043,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// /////////////////////////////////////////
 	// SELECTIONS
 
-	/** selected 1D coord sys */
-	protected ArrayList<GeoCoordSys1D> selectedCS1D = new ArrayList<GeoCoordSys1D>();
-
-	/**
-	 * return number of selected 1D coord sys
-	 * 
-	 * @return number of selected 1D coord sys
-	 */
-	final int selCS1D() {
-		return selectedCS1D.size();
-	}
-
-	/**
-	 * return selected 1D coord sys
-	 * 
-	 * @return selected 1D coord sys
-	 */
-	final protected GeoCoordSys1D[] getSelectedCS1D() {
-		GeoCoordSys1D[] lines = new GeoCoordSys1D[selectedCS1D.size()];
-		int i = 0;
-		Iterator<GeoCoordSys1D> it = selectedCS1D.iterator();
-		while (it.hasNext()) {
-			lines[i] = it.next();
-			i++;
-		}
-		clearSelection(selectedCS1D);
-		return lines;
-	}
-
 	// /////////////////////////////////////////
 	// selectedCS2D list, similar to selectedCS1D
 
@@ -3099,10 +3073,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * 
 	 * @return selected 2D coord sys
 	 */
-	final protected GeoCoordSys2D[] getSelectedCS2D() {
-		GeoCoordSys2D[] planes = new GeoCoordSys2D[selectedCS2D.size()];
+	final protected GeoCoordSys[] getSelectedCS2D() {
+		GeoCoordSys[] planes = new GeoCoordSys[selectedCS2D.size()];
 		int i = 0;
-		Iterator<GeoCoordSys2D> it = selectedCS2D.iterator();
+		Iterator<GeoCoordSys> it = selectedCS2D.iterator();
 		while (it.hasNext()) {
 			planes[i] = it.next();
 			i++;
@@ -3146,10 +3120,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * 
 	 * @return selected planes
 	 */
-	final protected GeoPlane3D[] getSelectedPlanes() {
-		GeoPlane3D[] planes = new GeoPlane3D[selectedPlane.size()];
+	final protected GeoPlaneND[] getSelectedPlanes() {
+		GeoPlaneND[] planes = new GeoPlane3D[selectedPlane.size()];
 		int i = 0;
-		Iterator<GeoPlane3D> it = selectedPlane.iterator();
+		Iterator<GeoPlaneND> it = selectedPlane.iterator();
 		while (it.hasNext()) {
 			planes[i] = it.next();
 			i++;
@@ -3159,7 +3133,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	// /for quadric
-	protected ArrayList<GeoQuadric3D> selectedQuadric = new ArrayList<GeoQuadric3D>();
+	private ArrayList<GeoQuadricND> selectedQuadric = new ArrayList<GeoQuadricND>();
 
 	final int selQuadric() {
 		return selectedQuadric.size();
@@ -3171,10 +3145,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 				selectedQuadric, Test.GEOQUADRIC3D, selPreview);
 	}
 
-	final protected GeoQuadric3D[] getSelectedQuadric() {
-		GeoQuadric3D[] quads = new GeoQuadric3D[selectedQuadric.size()];
+	final protected GeoQuadricND[] getSelectedQuadric() {
+		GeoQuadricND[] quads = new GeoQuadricND[selectedQuadric
+				.size()];
 		int i = 0;
-		Iterator<GeoQuadric3D> it = selectedQuadric.iterator();
+		Iterator<GeoQuadricND> it = selectedQuadric.iterator();
 		while (it.hasNext()) {
 			quads[i] = it.next();
 			i++;
@@ -3184,7 +3159,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	// /for quadric
-	protected ArrayList<GeoQuadric3DLimited> selectedQuadricLimited = new ArrayList<GeoQuadric3DLimited>();
+	private ArrayList<GeoQuadric3DLimitedInterface> selectedQuadricLimited = new ArrayList<GeoQuadric3DLimitedInterface>();
 
 	final int selQuadricLimited() {
 		return selectedQuadricLimited.size();
@@ -3197,11 +3172,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 				selPreview);
 	}
 
-	final protected GeoQuadric3DLimited[] getSelectedQuadricLimited() {
-		GeoQuadric3DLimited[] quads = new GeoQuadric3DLimited[selectedQuadricLimited
+	final protected GeoQuadric3DLimitedInterface[] getSelectedQuadricLimited() {
+		GeoQuadric3DLimitedInterface[] quads = new GeoQuadric3DLimitedInterface[selectedQuadricLimited
 				.size()];
 		int i = 0;
-		Iterator<GeoQuadric3DLimited> it = selectedQuadricLimited.iterator();
+		Iterator<GeoQuadric3DLimitedInterface> it = selectedQuadricLimited
+				.iterator();
 		while (it.hasNext()) {
 			quads[i] = it.next();
 			i++;
@@ -3211,7 +3187,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	// /for polyhedrons
-	protected ArrayList<GeoPolyhedron> selectedPolyhedron = new ArrayList<GeoPolyhedron>();
+	private ArrayList<GeoPolyhedronInterface> selectedPolyhedron = new ArrayList<GeoPolyhedronInterface>();
 
 	final int selPolyhedron() {
 		return selectedPolyhedron.size();
@@ -3223,10 +3199,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 				selectedPolyhedron, Test.GEOPOLYHEDRON, selPreview);
 	}
 
-	final protected GeoPolyhedron[] getSelectedPolyhedron() {
-		GeoPolyhedron[] polyh = new GeoPolyhedron[selectedPolyhedron.size()];
+	final protected GeoPolyhedronInterface[] getSelectedPolyhedron() {
+		GeoPolyhedronInterface[] polyh = new GeoPolyhedron[selectedPolyhedron
+				.size()];
 		int i = 0;
-		Iterator<GeoPolyhedron> it = selectedPolyhedron.iterator();
+		Iterator<GeoPolyhedronInterface> it = selectedPolyhedron.iterator();
 		while (it.hasNext()) {
 			polyh[i] = it.next();
 			i++;
@@ -3803,11 +3780,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (selCS2D() == 1) {
 				// fetch selected point and plane
 				GeoPointND[] points = getSelectedPointsND();
-				GeoCoordSys2D[] cs = getSelectedCS2D();
+				GeoCoordSys[] cs = getSelectedCS2D();
 				// create new line
 				return new GeoElement[] { (GeoElement) getKernel()
 						.getManager3D()
-						.OrthogonalLine3D(null, points[0], cs[0]) };
+.OrthogonalLine3D(null, points[0],
+								(GeoCoordSys2D) cs[0]) };
 			} else if (selLines() == 1) {
 				// fetch selected point and line
 				GeoPointND[] points = getSelectedPointsND();
@@ -3904,7 +3882,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
-				GeoCoordSys2D plane = getSelectedCS2D()[0];
+				GeoCoordSys2D plane = (GeoCoordSys2D) getSelectedCS2D()[0];
 				GeoCoordSys2D mirror = plane;
 
 				if (((GeoElement) plane).isGeoConic()) { // no override for
@@ -4016,13 +3994,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected GeoAngle createAngle3D() {
 
 		if (selPlanes() == 2) {
-			GeoPlane3D[] planes = getSelectedPlanes();
+			GeoPlaneND[] planes = getSelectedPlanes();
 			return kernel.getManager3D().Angle3D(null, planes[0], planes[1]);
 		}
 
 		if (selPlanes() == 1 && selLines() == 1) {
 			GeoLineND[] lines = getSelectedLinesND();
-			GeoPlane3D[] planes = getSelectedPlanes();
+			GeoPlaneND[] planes = getSelectedPlanes();
 			kernel.getManager3D().Angle3D(null, lines[0], planes[0]);
 		}
 
@@ -4121,13 +4099,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void clearSelected() {
 
 		super.clearSelected();
-		clearSelection(selectedCS1D, false);
 		clearSelection(selectedCS2D, false);
 		clearSelection(selectedPlane, false);
-		clearSelection(selectedPolygons3D, false);
 		clearSelection(selectedPolyhedron, false);
 		clearSelection(selectedQuadric, false);
 		clearSelection(selectedQuadricLimited, false);
+		view.repaintView();
 	}
 
 	@Override
