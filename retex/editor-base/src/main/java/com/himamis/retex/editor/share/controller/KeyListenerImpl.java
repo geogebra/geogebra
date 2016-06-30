@@ -19,6 +19,12 @@ public class KeyListenerImpl {
 
     public boolean onKeyPressed(KeyEvent keyEvent) {
 		switch (keyEvent.getKeyCode()) {
+		case KeyEvent.VK_A:
+			if ((keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) > 0) {
+				editorState.selectAll();
+				return true;
+			}
+			return false;
 		case KeyEvent.VK_ESCAPE:
 			inputController.escSymbol(editorState);
 			return true;
@@ -30,7 +36,7 @@ public class KeyListenerImpl {
 			return true;
 		case KeyEvent.VK_LEFT:
 			cursorController.prevCharacter(editorState);
-			if ((keyEvent.getKeyModifiers() & 1) > 0) {
+			if ((keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0) {
 				editorState.extendSelection(true);
 			} else {
 				editorState.resetSelection();
@@ -38,7 +44,7 @@ public class KeyListenerImpl {
 			return true;
 		case KeyEvent.VK_RIGHT:
 			cursorController.nextCharacter(editorState);
-			if ((keyEvent.getKeyModifiers() & 1) > 0) {
+			if ((keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0) {
 				editorState.extendSelection(false);
 			} else {
 				editorState.resetSelection();

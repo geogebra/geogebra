@@ -32,14 +32,14 @@ public class KeyEvent {
 	 * 
 	 * @since 1.4
 	 */
-	public static final int SHIFT_DOWN_MASK = 1 << 6;
+	public static final int SHIFT_MASK = 1;
 
 	/**
 	 * The Control key extended modifier constant.
 	 * 
 	 * @since 1.4
 	 */
-	public static final int CTRL_DOWN_MASK = 1 << 7;
+	public static final int CTRL_MASK = 2;
 
 	/**
 	 * The Meta key extended modifier constant.
