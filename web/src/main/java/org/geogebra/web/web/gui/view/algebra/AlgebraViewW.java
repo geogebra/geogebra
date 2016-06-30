@@ -1,9 +1,7 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import org.geogebra.common.gui.view.algebra.AlgebraController;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -58,11 +56,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasTreeItems;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ProvidesResize;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.Widget;
 
 
 /**
@@ -1564,6 +1560,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		//
 		if (activeItem != null) {
 			selectRow(activeItem.getGeo(), true);
+			// new item inserted => confirm the old input first
+			if (activeItem.getGeo() != null && inputPanelLatex != null) {
+				inputPanelLatex.onEnter(false);
+			}
 		}
 	}
 
@@ -1829,7 +1829,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		this.repaintView();
 	}
 
-
+	/**
+	 * Update items for new window size / pixel ratio
+	 */
 	public void resize() {
 
 		if (this.getInputTreeItem() != null) {
@@ -1852,6 +1854,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
+	/**
+	 * Update highlighting of rows
+	 */
 	public void updateSelection() {
 		if (selectionCtrl.isMultiSelect()) {
 			return;
@@ -1901,16 +1906,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		updateSelection();
 	}
 
-
-	public AVSelectionController getSelectionCtrl() {
+	/**
+	 * @return selection controller
+	 */
+	protected AVSelectionController getSelectionCtrl() {
 		return selectionCtrl;
 	}
 
-
-
-	public void setSelectionCtrl(AVSelectionController selectionCtrl) {
-		this.selectionCtrl = selectionCtrl;
-	}
 
 	/**
 	 * Gets the original width before AV expansion to restore original width
@@ -1928,15 +1930,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 */
 	public void setOriginalWidth(Integer oldWidth) {
 		this.originalWidth = oldWidth;
-	}
-
-
-
-	public List<Widget> getPrintable() {
-		Widget[] printableList = {};
-
-		printableList[0] = new Label("Algebra View");
-		return Arrays.asList(printableList);
 	}
 
 	public boolean isAttachedToKernel() {
