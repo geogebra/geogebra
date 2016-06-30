@@ -231,9 +231,8 @@ public abstract class DrawEquation {
 
 			} catch (Exception e2) {
 
-
 				final TeXFormula formula = TeXFormula
-						.getPartialTeXFormula("\textcolor{red}{?}");
+						.getPartialTeXFormula("\\textcolor{red}{?}");
 				im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
 						font.getSize() + 3, convertColor(GColor.BLACK),
 						convertColor(GColor.WHITE));
