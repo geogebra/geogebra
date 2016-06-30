@@ -56,6 +56,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.ComboBoxPanel;
 import org.geogebra.web.web.gui.properties.IOptionPanel;
@@ -83,7 +84,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
 
-class OptionsTab extends FlowPanel {
+public class OptionsTab extends FlowPanel {
 	/**
 	 * 
 	 */
@@ -207,7 +208,10 @@ class OptionsTab extends FlowPanel {
 
 	private IOptionPanel buildPanel(OptionsModel m, AppW app, boolean isDefaults) {
 		if (m instanceof ColorObjectModel) {
-			return new ColorPanel((ColorObjectModel) m, app, isDefaults);
+			ColorPanel ret = new ColorPanel((ColorObjectModel) m, app,
+					isDefaults);
+			((GuiManagerW) app.getGuiManager()).setColorTab(ret);
+			return ret;
 		}
 
 		if (m instanceof PointSizeModel) {
@@ -476,6 +480,11 @@ class OptionsTab extends FlowPanel {
 			colorChooserW.setBgFgTitles(localize("BackgroundColor"),
 					localize("ForegroundColor"));
 			colorChooserW.setOpacityTitle(localize("Opacity"));
+		}
+
+		public void setBackground(boolean background) {
+			colorChooserW.setBackground(background);
+
 		}
 
 	}

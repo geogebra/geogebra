@@ -68,6 +68,7 @@ import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
+import org.geogebra.web.web.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
@@ -165,6 +166,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private boolean inputBarSetFocusAllowed = true;
 
 	private GOptionPaneW optionPane;
+
+	private ColorPanel colorPanel;
 
 	public GuiManagerW(final AppW app, GDevice device) {
 		this.app = app;
@@ -2212,6 +2215,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			getAlgebraInput().getTextField().setFocus(true);
 		}
 
+	}
+
+	public void setColorTab(ColorPanel colorPanel) {
+		this.colorPanel = colorPanel;
+
+	}
+
+	public ColorPanel getColorPanel() {
+		return colorPanel;
 	}
 
 }

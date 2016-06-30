@@ -15,6 +15,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
+import org.geogebra.web.web.gui.dialog.options.OptionsTab.ColorPanel;
 
 /**
  * a version of StyleBarW that also includes the buttons for color, line style
@@ -71,7 +72,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 			GColor color = btnColor.getSelectedColor();
 			Log.debug("" + color);
 			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
-				openPropertiesForColor();
+				openPropertiesForColor(false);
 			} else {
 				float alpha = btnColor.getSliderValue() / 100.0f;
 				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos,
@@ -108,12 +109,16 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		return true;
 	}
 
-	protected void openPropertiesForColor() {
+	protected void openPropertiesForColor(boolean background) {
 		((GuiManagerW) app.getGuiManager())
 				.getPropertiesView(OptionType.OBJECTS)
 				.setOptionPanel(OptionType.OBJECTS, 3);
 		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
-
+		ColorPanel colorPanel = ((GuiManagerW) app.getGuiManager())
+				.getColorPanel();
+		if (colorPanel != null) {
+			colorPanel.setBackground(background);
+		}
 	}
 
 	/**

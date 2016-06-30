@@ -504,7 +504,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 					.delete_small()));
 			btnClearBackground.setStyleName("ClearBackgroundButton");
 			
-			selectForeground();
+			updateBackgroundButtons(false);
 			
 			add(foregroundButton);
 			add(backgroundButton);
@@ -513,15 +513,13 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			foregroundButton.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
-					btnClearBackground.setVisible(false);
-					changeHandler.onForegroundSelected();
+					setBackground(false);
                 }});		
 			
 			backgroundButton.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
-					btnClearBackground.setVisible(true);
-					changeHandler.onBackgroundSelected();
+					setBackground(true);
 				}});		
 			
 			
@@ -533,10 +531,23 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
                 }});
 			
 		}
-		public void selectForeground() {
-			foregroundButton.setValue(true);
-			backgroundButton.setValue(false);
+
+		protected void setBackground(boolean background) {
+			if (background) {
+				changeHandler.onBackgroundSelected();
+			} else {
+				changeHandler.onForegroundSelected();
+			}
+			btnClearBackground.setVisible(background);
+			updateBackgroundButtons(background);
 		}
+
+		private void updateBackgroundButtons(boolean background) {
+			foregroundButton.setValue(!background);
+			backgroundButton.setValue(background);
+
+		}
+
 		public void setLabels(String bgLabel, String fgLabel) {
 			backgroundButton.setText(bgLabel);
 			foregroundButton.setText(fgLabel);
@@ -703,6 +714,11 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		previewPanel.update();
 	}
 
+	public void setBackground(boolean b) {
+		if (this.backgroundColorPanel != null) {
+			backgroundColorPanel.setBackground(b);
+		}
+	}
 
 	public GColor getSelectedColor() {
 		return selectedColor;
