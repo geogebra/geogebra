@@ -4505,6 +4505,8 @@ namespace giac {
     if (a.is_symb_of_sommet(at_unit)){
       if (is_zero(b))
 	return a;
+      if (equalposcomp(lidnt(b),cst_pi)!=0)
+	return sym_add(a,evalf(b,1,contextptr),contextptr);
       if (b.is_symb_of_sommet(at_unit)){
 	vecteur & va=*a._SYMBptr->feuille._VECTptr;
 	vecteur & vb=*b._SYMBptr->feuille._VECTptr;
@@ -4525,6 +4527,8 @@ namespace giac {
     if (b.is_symb_of_sommet(at_unit)){
       if (is_zero(a))
 	return b;
+      if (equalposcomp(lidnt(a),cst_pi)!=0)
+	return sym_add(evalf(a,1,contextptr),b,contextptr);
       if (lidnt(a).empty()){
 	gen g=mksa_reduce(b,contextptr);
 	gen tmp=chk_not_unit(g);
@@ -5344,8 +5348,10 @@ namespace giac {
 	return plus_inf;
       if (a._SYMBptr->sommet==at_neg)
 	return a._SYMBptr->feuille;
-      if (a._SYMBptr->sommet==at_unit)
+      if (a._SYMBptr->sommet==at_unit){
+	// if (equalposcomp(lidnt(a),cst_pi)!=0) return -evalf(b,1,context0);
 	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(-a._SYMBptr->feuille._VECTptr->front(),a._SYMBptr->feuille._VECTptr->back())));
+      }
       if (a._SYMBptr->sommet==at_plus)
 	return new_ref_symbolic(symbolic(at_plus,gen(negvecteur(*a._SYMBptr->feuille._VECTptr),_SEQ__VECT)));
       if (a._SYMBptr->sommet==at_interval && a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2){
@@ -6460,6 +6466,8 @@ namespace giac {
     if (is_undef(b))
       return b;
     if (a.is_symb_of_sommet(at_unit)){
+      if (equalposcomp(lidnt(b),cst_pi)!=0)
+	return sym_mult(a,evalf(b,1,contextptr),contextptr);
       vecteur & va=*a._SYMBptr->feuille._VECTptr;
       if (b.is_symb_of_sommet(at_unit)){
 	vecteur & v=*b._SYMBptr->feuille._VECTptr;
@@ -6474,9 +6482,13 @@ namespace giac {
 	  return new_ref_symbolic(symbolic(at_unit,makenewvecteur(operator_times(va[0],b,contextptr),va[1])));
       }
     }
-    if (b.is_symb_of_sommet(at_unit) && lidnt(a).empty()){
-      vecteur & v=*b._SYMBptr->feuille._VECTptr;
-      return new_ref_symbolic(symbolic(at_unit,makenewvecteur(operator_times(a,v[0],contextptr),v[1])));
+    if (b.is_symb_of_sommet(at_unit)){ 
+      if (equalposcomp(lidnt(a),cst_pi)!=0)
+	return sym_mult(evalf(a,1,contextptr),b,contextptr);
+      if (lidnt(a).empty()){
+	vecteur & v=*b._SYMBptr->feuille._VECTptr;
+	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(operator_times(a,v[0],contextptr),v[1])));
+      }
     }
     gen var1,var2,res1,res2;
     if (is_algebraic_program(a,var1,res1)){
@@ -6837,8 +6849,11 @@ namespace giac {
     case _SYMB:
       if ((a==plus_inf) || (a==minus_inf))
 	return 0;
-      if (a.is_symb_of_sommet(at_unit))
+      if (a.is_symb_of_sommet(at_unit)){
+	if (equalposcomp(lidnt(a),cst_pi)!=0)
+	  return inv(evalf(a,1,contextptr),contextptr);
 	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(inv(a._SYMBptr->feuille._VECTptr->front(),contextptr),inv_distrib(a._SYMBptr->feuille._VECTptr->back(),contextptr))));
+      }
       if (equalposcomp(plot_sommets,a._SYMBptr->sommet))
 	return symbolic_plot_makevecteur( a._SYMBptr->sommet,inv(a._SYMBptr->feuille,contextptr),false,contextptr);
       if (a._SYMBptr->sommet==at_inv)
@@ -7966,6 +7981,27 @@ namespace giac {
   gen sign(const gen & a,GIAC_CONTEXT){
     if (is_equal(a))
       return apply_to_equal(a,sign,contextptr);
+    if (complex_mode(contextptr)==0 && !has_i(a)){
+      if (a.is_symb_of_sommet(at_exp))
+	return 1;
+      if (a.is_symb_of_sommet(at_pow)){
+	gen f=a._SYMBptr->feuille[1];
+	if (f.type==_FRAC && f._FRACptr->den.type==_INT_ && f._FRACptr->den.val %2==0)
+	  return 1;
+      }
+    }
+    if (a.is_symb_of_sommet(at_neg))
+      return -sign(a._SYMBptr->feuille,contextptr);
+    if (a.is_symb_of_sommet(at_inv))
+      return sign(a._SYMBptr->feuille,contextptr);
+    if (a.is_symb_of_sommet(at_prod)){
+      vecteur v=gen2vecteur(a._SYMBptr->feuille);
+      gen res=1;
+      for (int i=0;i<int(v.size());++i){
+	res=res*sign(v[i],contextptr);
+      }
+      return res;
+    }
     if (is_exactly_zero(a)){
       if (a.type==_DOUBLE_ || a.type==_FLOAT_)
 	return 0.0;

@@ -46,13 +46,18 @@ namespace giac {
   gen integrate_without_lnabs(const gen & e,const gen & x,GIAC_CONTEXT){
     // workaround for desolve(diff(y)*sin(x)=y*ln(y),x,y);
     // otherwise it returns ln(-1-cos(x))
+    bool save_cv=complex_variables(contextptr);
+    complex_variables(false,contextptr);
     gen res=integrate_gen(e,x,contextptr);
-    if (lop(res,at_abs).empty())
+    if (lop(res,at_abs).empty()){
+      complex_variables(save_cv,contextptr);
       return res;
+    }
     bool save_do_lnabs=do_lnabs(contextptr);
     do_lnabs(false,contextptr);
     res=integrate_gen(e,x,contextptr);
     do_lnabs(save_do_lnabs,contextptr);
+    complex_variables(save_cv,contextptr);
     return res;
   }
 

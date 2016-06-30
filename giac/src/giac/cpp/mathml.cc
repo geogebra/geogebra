@@ -723,14 +723,18 @@ namespace giac {
     switch (attr.color) {
     case 0:
       return "black";
-    case 1:
+    case _RED:
       return "red";
-    case 2:
+    case _GREEN:
       return "green";
-    case 3:
+    case _YELLOW:
       return "yellow";
-    case 4:
+    case _BLUE:
       return "blue";
+    case _MAGENTA:
+      return "magenta";
+    case _CYAN:
+      return "cyan";
     }
     return "black";
   }

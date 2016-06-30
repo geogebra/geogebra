@@ -700,6 +700,8 @@ suite_symbol : affectable_symbol { $$=gen(vecteur(1,$1),_SEQ__VECT); }
 
 affectable_symbol : symbol { $$=$1; }
 	     | T_SYMBOL T_AFFECT exp { $$=symb_sto($3,$1,$2==at_array_sto); }
+	     | T_SYMBOL T_EQUAL exp { $$=symb_equal($1,$3); }
+	     | T_SYMBOL T_DEUXPOINTS exp { $$=symbolic(at_deuxpoints,makesequence($1,$3));  }
 	     | T_BEGIN_PAR affectable_symbol T_END_PAR { $$=$2; }
 	     | T_UNARY_OP { $$=$1; *logptr(giac_yyget_extra(scanner)) << "Error: reserved word "<< $1 <<endl;}
 	     | T_UNARY_OP T_DOUBLE_DEUX_POINTS exp { $$=symb_double_deux_points(makevecteur($1,$3)); *logptr(giac_yyget_extra(scanner)) << "Error: reserved word "<< $1 <<endl; }

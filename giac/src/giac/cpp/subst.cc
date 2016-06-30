@@ -2204,6 +2204,20 @@ namespace giac {
     gen e=simplifier(e_orig,contextptr);
     if (e.type==_FRAC)
       return _evalc(e_orig,contextptr);
+    vecteur vsign=lop(e,at_sign);
+    vecteur vabs=lop(e,at_abs),vs1,vs2;
+    for (int i=0;i<int(vabs.size());++i){
+      vabs[i]=vabs[i]._SYMBptr->feuille;
+    }
+    for (int i=0;i<int(vsign.size());++i){
+      gen arg=vsign[i]._SYMBptr->feuille;
+      if (equalposcomp(vabs,arg)){
+	vs1.push_back(symbolic(at_sign,arg));
+	vs2.push_back(symbolic(at_abs,arg)/arg);
+      }
+    }
+    if (!vs1.empty())
+      e=subst(e,vs1,vs2,false,contextptr);
     // ratnormal added for E:=2*exp(t/25)/(19+exp(t/25)); F:=simplifier(int(E,t)); 
     // M:=(1/50)*int(E,t,50,100); simplify(M)
     vecteur lnv=lop(e,at_ln);
@@ -2236,7 +2250,7 @@ namespace giac {
       if (e._SYMBptr->sommet!=at_inv && e._SYMBptr->sommet!=at_neg)
 	return e._SYMBptr->sommet(simplify(e._SYMBptr->feuille,contextptr),contextptr); 
     }
-    vecteur vabs(lop(e,at_abs));
+    vabs=lop(e,at_abs);
     vecteur vabs2(vabs);
     iterateur it=vabs2.begin(),itend=vabs2.end();
     for (;it!=itend;++it){

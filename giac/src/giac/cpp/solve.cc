@@ -4131,7 +4131,7 @@ namespace giac {
 	    d=linsolve(evalf(d,1,contextptr),-fa,contextptr);
 	  else
 	    d=-evalf(d*fa,1,contextptr);
-	  if (is_undef(d) || (d.type==_VECT &&d._VECTptr->empty())){
+	  if (is_undef(d) || (d.type==_VECT &&d._VECTptr->empty()) || !lidnt(d).empty()){
 	    a=newton_rand(j,real,rand_xmin,rand_xmax,f,contextptr);
 	    fa=evalf(eval(subst(f,x,a,false,contextptr),eval_level(contextptr),contextptr),1,contextptr); 
 	    continue;

@@ -4795,6 +4795,7 @@ unsigned int ConvertUTF8toUTF16 (
     "series",
     "simplifier",
     "simplify",
+    "tabvar",
     "taylor",
     "texpand",
     "trace",

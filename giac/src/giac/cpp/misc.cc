@@ -6280,6 +6280,309 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   }
 #endif
 
+  // step by step utilities
+
+  bool is_periodic(const gen & f,const gen & x,gen & periode,GIAC_CONTEXT){
+    periode=0;
+    vecteur vx=lvarx(f,x);
+    for (unsigned i=0;i<vx.size();++i){
+      if (vx[i].type!=_SYMB || (vx[i]._SYMBptr->sommet!=at_exp && vx[i]._SYMBptr->sommet!=at_sin && vx[i]._SYMBptr->sommet!=at_cos && vx[i]._SYMBptr->sommet!=at_tan))
+	return false;
+    }
+    gen g=_lin(trig2exp(f,contextptr),contextptr);
+    vecteur v;
+    rlvarx(g,x,v);
+    islesscomplexthanf_sort(v.begin(),v.end());
+    int i,s=int(v.size());
+    if (s<2)
+      return false;
+    gen a,b,v0,alpha,beta,alphacur,betacur,gof,periodecur;
+    for (i=1;i<s;++i){
+      if (!v[i].is_symb_of_sommet(at_exp))
+	return false;
+      v0=v[i];
+      gen v0arg=v0._SYMBptr->feuille;
+      if (is_linear_wrt(v0arg,x,alphacur,betacur,contextptr)){ 
+	periodecur=normal(alphacur/cst_i,contextptr);
+	periode=gcd(periode,periodecur,contextptr);
+      }
+      else
+	return false;
+    }
+    periode=cst_two_pi*periode;
+    return !is_zero(periode);
+  }
+
+  bool in_domain(const gen & df,const gen &x,const gen & x0,GIAC_CONTEXT){
+    if (df==x)
+      return true;
+    if (df.type==_VECT){
+      const vecteur v=*df._VECTptr;
+      for (int i=0;i<int(v.size());++i){
+	if (!in_domain(v[i],x,x0,contextptr))
+	  return false;
+      }
+      return true;
+    }
+    gen g=subst(df,x,x0,false,contextptr);
+    return is_one(g);
+  }
+  
+  // x->f in xmin..xmax
+  // pass -inf and inf by default.
+  // poi will contain point of interest: asymptotes and extremas
+  // xmin and xmax will be set to values containing all points in poi
+  bool step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,bool printtvi,GIAC_CONTEXT){
+    if (x.type!=_IDNT)
+      return false;
+    gen periode;
+    if (is_periodic(f,x,periode,contextptr)){
+      gprintf("Periodic function T=%gen",vecteur(1,periode),contextptr);
+      xmin=normal(-periode/2,contextptr);
+      xmax=normal(periode/2,contextptr);
+    }
+    gen xmin0=xmin,xmax0=xmax;
+    vecteur lv=lidnt(evalf(f,1,contextptr));
+    if (lv.empty())
+      return true;
+    if (lv.size()!=1 || lv.front()!=x)
+      return false;
+    gen df=domain(f,x,0,contextptr);
+    gprintf("Domain %gen",vecteur(1,df),contextptr);
+    gen df1=domain(f,x,1,contextptr); // singular values only
+    if (df1.type!=_VECT){
+      gensizeerr("Unable to find singular points");
+      return false;
+    }
+    // Asymptotes
+    vecteur sing,crit;
+    identificateur xid=*x._IDNTptr;
+    const_iterateur it=df1._VECTptr->begin(),itend=df1._VECTptr->end();
+    for (;it!=itend;++it){
+      if (is_greater(*it,xmin,contextptr) && is_greater(xmax,*it,contextptr)){
+	sing.push_back(*it);
+      }
+    }
+    // Extremas
+    gen f1=derive(f,x,contextptr);
+#if 1
+    gen c=solve(f1,x,0,contextptr);
+    // if (c.type==_VECT && c._VECTptr->empty()) c=_fsolve(makesequence(f,x),contextptr);
+#else
+    gen c=critical(makesequence(f,x),false,contextptr);
+#endif
+    if (c.type!=_VECT){
+      gensizeerr("Unable to find critical points");
+      return false;
+    }
+    it=c._VECTptr->begin();itend=c._VECTptr->end();
+    for (;it!=itend;++it){
+      if (is_greater(*it,xmin,contextptr) && is_greater(xmax,*it,contextptr)){
+	crit.push_back(*it);
+	gen fx=limit(f,xid,*it,0,contextptr);
+	if (!is_undef(fx) && !is_inf(x))
+	  poi.push_back(_point(makesequence(*it,fx,symb_equal(at_legende,makevecteur(*it,fx)),symb_equal(at_couleur,_MAGENTA)),contextptr));
+      }
+    }
+    if (xmin==minus_inf && !equalposcomp(sing,minus_inf)){
+      if (in_domain(df,x,xmin,contextptr))
+	sing.push_back(xmin);
+      xmin=plus_inf;
+    }
+    if (xmax==plus_inf && !equalposcomp(sing,plus_inf)){
+      if (in_domain(df,x,xmin,contextptr))
+	sing.push_back(xmax);
+      xmax=minus_inf;
+    }
+    it=crit.begin();itend=crit.end();
+    for (;it!=itend;++it){
+      if (!is_inf(*it)){ 
+	if (is_greater(xmin,*it,contextptr))
+	  xmin=*it;
+	if (is_greater(*it,xmax,contextptr))
+	  xmax=*it;
+      }
+    }
+    it=sing.begin();itend=sing.end();
+    for (;it!=itend;++it){
+      gen equ;
+      if (!is_inf(*it)){ // vertical
+	if (is_greater(xmin,*it,contextptr))
+	  xmin=*it;
+	if (is_greater(*it,xmax,contextptr))
+	  xmax=*it;
+	equ=symb_equal(x__IDNT_e,*it);
+	gprintf("Vertical asymptote %gen",vecteur(1,equ),contextptr);
+	poi.push_back(_droite(makesequence(*it,*it+cst_i,symb_equal(at_legende,equ),symb_equal(at_couleur,_BLUE)),contextptr));
+	continue;
+      }
+      gen l=limit(f,xid,*it,0,contextptr);
+      if (is_undef(l)) continue;
+      if (!is_inf(l)){
+	equ=symb_equal(y__IDNT_e,l);
+	gprintf("Horizontal asymptote %gen",vecteur(1,equ),contextptr);
+	poi.push_back(_droite(makesequence(l*cst_i,l*cst_i+1,symb_equal(at_legende,equ),symb_equal(at_couleur,_BLUE)),contextptr));
+	continue;
+      }
+      gen a=limit(f/x,xid,*it,0,contextptr);
+      if (is_undef(a)) continue;
+      if (is_inf(a)){
+	gprintf("Vertical parabolic branch at %gen",vecteur(1,a),contextptr);
+	continue;
+      }
+      if (is_zero(a)){
+	gprintf("Horizontal parabolic branch at %gen",vecteur(1,a),contextptr);
+	continue;
+      }
+      gen b=limit(f-a*x,xid,*it,0,contextptr);
+      if (is_undef(a)) continue;
+      if (is_inf(a)){
+	gprintf("Parabolic branch direction %gen at infinity",vecteur(1,symb_equal(y__IDNT_e,a*x__IDNT_e)),contextptr);
+	continue;
+      }
+      equ=symb_equal(y__IDNT_e,a*x__IDNT_e+b);
+      gprintf("Asymptote %gen",vecteur(1,equ),contextptr);
+      gen dr=_droite(makesequence(b*cst_i,1+(a+b)*cst_i,symb_equal(at_legende,equ),symb_equal(at_couleur,_BLUE)),contextptr);
+      if (!equalposcomp(poi,dr))
+	poi.push_back(dr);
+    }
+    // merge sing and crit, add xmin0, xmax0, build variation matrix
+    vecteur tvx=mergevecteur(sing,crit);
+    if (in_domain(df,x,xmin0,contextptr))
+      tvx.insert(tvx.begin(),xmin0);
+    if (in_domain(df,x,xmax0,contextptr))
+      tvx.push_back(xmax0);
+    comprim(tvx);
+    gen tmp=_sort(tvx,contextptr);
+    if (tmp.type!=_VECT)
+      return false;
+    tvx=*tmp._VECTptr;
+    int pos=equalposcomp(tvx,minus_inf);
+    if (pos){
+      tvx.erase(tvx.begin()+pos-1);
+      tvx.insert(tvx.begin(),minus_inf);
+    }
+    pos=equalposcomp(tvx,plus_inf);
+    if (pos){
+      tvx.erase(tvx.begin()+pos-1);
+      tvx.push_back(plus_inf);
+    }
+    gen nextx=tvx.front();
+    vecteur tvix=makevecteur(x,nextx);
+    vecteur tvif=makevecteur(f,limit(f,xid,nextx,1,contextptr));
+    gen nothing=string2gen(" ",false);
+    vecteur tvidf=makevecteur(symb_equal(symb_derive(f,x),f1),limit(f1,xid,nextx,1,contextptr));
+    int tvs=int(tvx.size());
+    for (int i=1;i<tvs;++i){
+      gen curx=nextx,dfx;
+      nextx=tvx[i];
+      tvix.push_back(nothing);
+      if (is_inf(nextx) && is_inf(curx)){
+	dfx=limit(f1,xid,0,0,contextptr);
+      }
+      else
+	dfx=limit(f1,xid,(curx+nextx)/2,0,contextptr);
+      if (is_zero(dfx))
+	return false;
+      if (is_strictly_positive(dfx,contextptr)){
+	tvif.push_back(string2gen("↑",false));
+	tvidf.push_back(string2gen("+",false));
+      }
+      else {
+	tvif.push_back(string2gen("↓",false));
+	tvidf.push_back(string2gen("-",false));
+      }
+      if (i<tvs-1 && equalposcomp(sing,nextx)){
+	gen fx=limit(f,xid,nextx,-1,contextptr);
+	tvix.push_back(nextx);
+	tvif.push_back(fx);
+	tvidf.push_back(string2gen("||",false));
+	fx=limit(f,xid,nextx,1,contextptr);
+	tvix.push_back(nothing);
+	tvif.push_back(fx);
+	tvidf.push_back(string2gen("||",false));
+      }
+      else {
+	gen fx=limit(f,xid,nextx,-1,contextptr);
+	tvix.push_back(nextx);
+	tvif.push_back(fx);
+	tvidf.push_back(limit(f1,xid,nextx,-1,contextptr));
+      }
+    }
+    tvi=makevecteur(tvix,tvif,tvidf);
+    if (step_infolevel(contextptr)) gprintf("Variations %gen\n%gen",makevecteur(f,tvi),contextptr);
+    if (printtvi)
+      *logptr(contextptr) << tvi << endl;
+    // finished!
+    return true;
+  }
+
+  gen _tabvar(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    vecteur v(plotpreprocess(g,contextptr));
+    int s=int(v.size());
+    if (s<2)
+      return gensizeerr(contextptr);
+    gen f=v[0];
+    gen x=v[1];
+    int s0=2;
+    gen xmin(minus_inf),xmax(plus_inf);
+    if (x.is_symb_of_sommet(at_equal)){
+      gen g=x._SYMBptr->feuille;
+      if (g.type!=_VECT || g._VECTptr->size()!=2)
+	return gensizeerr(contextptr);
+      x=g._VECTptr->front();
+      g=g._VECTptr->back();
+      if (g.is_symb_of_sommet(at_interval)){
+	xmin=g._SYMBptr->feuille[0];
+	xmax=g._SYMBptr->feuille[1];
+      }
+    }
+    else {
+      if (s>=4){
+	xmin=v[2];
+	xmax=v[3];
+	s0=4;
+      }
+    }
+    vecteur tvi,poi;
+    int st=step_infolevel(contextptr);
+    if (!st) step_infolevel(1,contextptr);
+    step_func(f,x,xmin,xmax,poi,tvi,false,contextptr);
+    step_infolevel(st,contextptr);
+    if (v[s-1]==at_tabvar)
+      return tvi;
+    gen scale=(gnuplot_xmax-gnuplot_xmin)/5.0;
+    gen m=xmin,M=xmax;
+    if (is_inf(m))
+      m=gnuplot_xmin;
+    if (is_inf(M))
+      M=gnuplot_xmax;
+    if (m!=M)
+      scale=(M-m)/3.0;
+    if (xmin!=xmax){
+      m=m-0.009*scale; M=M+0.01*scale;
+    }
+    else {
+      m=m-0.973456*scale; M=M+1.018546*scale;
+    }
+    x=symb_equal(x,symb_interval(m,M));
+    vecteur w=makevecteur(f,x);
+    for (;s0<s;++s0){
+      w.push_back(v[s0]);
+    }
+    gen p=funcplotfunc(gen(w,_SEQ__VECT),false,contextptr);
+#ifdef EMCC
+    poi=mergevecteur(poi,gen2vecteur(p));
+    return gen(poi,_SEQ__VECT);
+#else
+    return tvi;
+#endif
+  }
+  static const char _tabvar_s []="tabvar";
+  static define_unary_function_eval (__tabvar,&_tabvar,_tabvar_s);
+  define_unary_function_ptr5( at_tabvar ,alias_at_tabvar,&__tabvar,0,true);
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

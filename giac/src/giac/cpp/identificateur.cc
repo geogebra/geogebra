@@ -1172,11 +1172,11 @@ namespace giac {
     // index != sqrt(-1) wich has different notations
     if (xcas_mode(contextptr)==0){
       if (strcmp(id_name,"i")==0)
-	return "i_i";
+	return "i_i_";
     }
     else {
       if (strcmp(id_name,"I")==0)
-	return "i_i";
+	return "i_i_";
     }
     /*
     if (!localvalue->empty())

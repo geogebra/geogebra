@@ -101,7 +101,12 @@ namespace giac {
   gen _octprint(const gen & g,GIAC_CONTEXT);
   gen _binprint(const gen & g,GIAC_CONTEXT);
 
-  std::string cprint(const gen & args,GIAC_CONTEXT);
+  std::string cprint(const gen & args,const gen & name,GIAC_CONTEXT);
+  gen cpp_convert_0(const gen &g,GIAC_CONTEXT);
+  longlong cpp_convert_2(const gen & g,GIAC_CONTEXT);
+  double cpp_convert_1(const gen & g,GIAC_CONTEXT);
+  vecteur cpp_convert_7(const gen & g,GIAC_CONTEXT);
+  std::string cpp_convert_12(const gen & g,GIAC_CONTEXT);
 
   extern const unary_function_ptr * const  at_accumulate_head_tail ;
   extern const unary_function_ptr * const  at_gcdex ;

@@ -38,6 +38,8 @@ namespace giac {
   gen _function_diff(const gen & g,GIAC_CONTEXT);
   bool depend(const gen & g,const identificateur & i);
   gen _grad(const gen & args,GIAC_CONTEXT);
+  gen domain(const gen & f,const gen & x,int mode,GIAC_CONTEXT);
+  gen critical(const gen & g,bool extrema_only,GIAC_CONTEXT);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
