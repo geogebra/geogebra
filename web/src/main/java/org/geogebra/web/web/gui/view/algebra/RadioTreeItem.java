@@ -2067,10 +2067,7 @@ marblePanel, evt))) {
 							public void execute() {
 								expandSize(getWidthForEdit());
 
-								if ((RadioTreeItem.this.getElement()
-										.getAbsoluteTop()
-										- getAlgebraDockPanel()
-												.getAbsoluteTop() < 45)
+								if (styleBarCanHide()
 										&& (!getAlgebraDockPanel()
 												.isStyleBarVisible())) {
 									stylebarShown = getAlgebraDockPanel()
@@ -2095,6 +2092,11 @@ marblePanel, evt))) {
 			app.showKeyboard(this);
 			this.setFocus(true);
 		}
+	}
+
+	boolean styleBarCanHide() {
+		return (RadioTreeItem.this.getElement().getAbsoluteTop()
+				- getAlgebraDockPanel().getAbsoluteTop() < 45);
 	}
 
 	protected int getWidthForEdit() {

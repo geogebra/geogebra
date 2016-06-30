@@ -12,6 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -489,6 +490,18 @@ public class InputTreeItem extends RadioTreeItem implements
 			buttonPanel.getElement().appendChild(plusButton.getElement());
 		}
 		buttonPanel.getElement().appendChild(getDeleteButton().getElement());
+	}
+
+	private void updateButtonPanelPosition() {
+		if (buttonPanel == null)
+			return;
+		
+		if (styleBarCanHide()
+				&& getAlgebraDockPanel().isStyleBarPanelShown()) {
+			buttonPanel.addStyleName("positionedObjectStyleBar");
+		} else {
+			buttonPanel.removeStyleName("positionedObjectStyleBar");
+		}
 	}
 
 	/**
