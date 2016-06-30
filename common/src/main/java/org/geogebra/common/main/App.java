@@ -3975,6 +3975,10 @@ public abstract class App implements UpdateSelection {
 			// GGB-790
 		case AV_INPUT_BUTTON_COVER:
 			return prerelease;
+
+		case MOBILE_DIALOG_WITH_NEW_KEYBOARD:
+			return false;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

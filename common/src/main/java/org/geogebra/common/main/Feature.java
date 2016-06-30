@@ -98,7 +98,7 @@ public enum Feature {
 
 	// MOB-413
 	MOBILE_ANGLE_FIXED_SIZE, 
-	
+
 	// MOB-455
 	MOBILE_SAVE_BEFORE_NEW,
 
@@ -140,6 +140,9 @@ public enum Feature {
 	// MOB-601
 	MOBILE_LOCAL_SAVE,
 
-	RETEX_EDITOR
+	RETEX_EDITOR,
+
+	// MOB-232, MOB-154
+	MOBILE_DIALOG_WITH_NEW_KEYBOARD
 
 	}
