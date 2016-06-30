@@ -6552,6 +6552,16 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     step_infolevel(st,contextptr);
     if (v[s-1]==at_tabvar)
       return tvi;
+#ifdef EMCC
+    bool plot=true;
+#else
+    bool plot=false;
+#endif
+    if (v[s-1]==at_plot){
+      plot=true;
+      v.pop_back();
+      --s;
+    }
     gen scale=(gnuplot_xmax-gnuplot_xmin)/5.0;
     gen m=xmin,M=xmax;
     if (is_inf(m))
@@ -6572,12 +6582,14 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       w.push_back(v[s0]);
     }
     gen p=funcplotfunc(gen(w,_SEQ__VECT),false,contextptr);
-#ifdef EMCC
-    poi=mergevecteur(poi,gen2vecteur(p));
-    return gen(poi,_SEQ__VECT);
-#else
-    return tvi;
-#endif
+    if (plot){
+      poi=mergevecteur(poi,gen2vecteur(p));
+      return gen(poi,_SEQ__VECT);
+    }
+    else {
+      *logptr(contextptr) << "You can see the function with DispG or plotfunc(" << gen(w,_SEQ__VECT) << endl;
+      return tvi;
+    }
   }
   static const char _tabvar_s []="tabvar";
   static define_unary_function_eval (__tabvar,&_tabvar,_tabvar_s);

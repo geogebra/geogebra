@@ -3207,6 +3207,10 @@ namespace giac {
     return cprint(g,0,contextptr);
   }
 
+  std::string cprint(const gen & args,GIAC_CONTEXT){
+    return cprint(args,0,contextptr);
+  }
+
   // name is the program name if args==program(..) or 1 for vectors of instructions or 0 otherwise or -1 for vector to put in a makesequence
   std::string cprint(const gen & args,const gen & name,GIAC_CONTEXT){
     if (args.type==_VECT){

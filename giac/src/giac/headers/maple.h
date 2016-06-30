@@ -102,6 +102,7 @@ namespace giac {
   gen _binprint(const gen & g,GIAC_CONTEXT);
 
   std::string cprint(const gen & args,const gen & name,GIAC_CONTEXT);
+  std::string cprint(const gen & args,GIAC_CONTEXT);
   gen cpp_convert_0(const gen &g,GIAC_CONTEXT);
   longlong cpp_convert_2(const gen & g,GIAC_CONTEXT);
   double cpp_convert_1(const gen & g,GIAC_CONTEXT);
