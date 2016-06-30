@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.EuclidianLineStylePopup;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -68,12 +69,9 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 		if (source == btnColor) {
 			GColor color = btnColor.getSelectedColor();
+			Log.debug("" + color);
 			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
-				((GuiManagerW) app.getGuiManager()).getPropertiesView(
-						OptionType.OBJECTS).setOptionPanel(
-						OptionType.OBJECTS,
-						3);
-				app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+				openPropertiesForColor();
 			} else {
 				float alpha = btnColor.getSliderValue() / 100.0f;
 				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos,
@@ -108,6 +106,14 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 			return false;
 		}
 		return true;
+	}
+
+	protected void openPropertiesForColor() {
+		((GuiManagerW) app.getGuiManager())
+				.getPropertiesView(OptionType.OBJECTS)
+				.setOptionPanel(OptionType.OBJECTS, 3);
+		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+
 	}
 
 	/**

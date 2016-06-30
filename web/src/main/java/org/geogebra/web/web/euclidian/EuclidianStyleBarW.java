@@ -1181,6 +1181,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		} else if (source == btnBgColor) {
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
+				if (color == null) {
+					openPropertiesForColor();
+					return false;
+				}
 				float alpha = btnBgColor.getSliderValue() / 100.0f;
 				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos,
 				        color, alpha);
