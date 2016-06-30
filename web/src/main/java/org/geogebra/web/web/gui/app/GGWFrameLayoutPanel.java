@@ -1,8 +1,6 @@
 package org.geogebra.web.web.gui.app;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.layout.DockPanel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
@@ -19,7 +17,6 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
-import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.main.AppWFull;
@@ -34,8 +31,10 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Frame for app
+ */
 public class GGWFrameLayoutPanel extends LayoutPanel implements
         UpdateKeyBoardListener {
 
@@ -44,22 +43,28 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	private FlowPanel menuContainer;
 	private GuiManagerInterfaceW guiManagerW;
 
-	GGWToolBar ggwToolBar;
-	GGWCommandLine ggwCommandLine;
-	GGWMenuBar ggwMenuBar;
-	EuclidianDockPanelW ggwGraphicView;
+	private GGWToolBar ggwToolBar;
+	private GGWCommandLine ggwCommandLine;
+	private GGWMenuBar ggwMenuBar;
+	private EuclidianDockPanelW ggwGraphicView;
+	/** dock panel */
 	MyDockPanelLayout dockPanel;
-	MyDockPanelLayout mainPanel;
-	SimplePanel spaceForKeyboard;
+	private MyDockPanelLayout mainPanel;
+	private SimplePanel spaceForKeyboard;
+	/** Whether keyboard is visible */
 	boolean keyboardShowing = false;
+	/** KB button */
 	ShowKeyboardButton showKeyboardButton;
 	
 	private DockGlassPaneW glassPane;
 
 	private boolean algebraBottom = false;
-
+	/** application */
 	AppW app;
 
+	/**
+	 * Create new frame
+	 */
 	public GGWFrameLayoutPanel() {
 		super();
 
@@ -104,6 +109,13 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		add(mainPanel);
 	}
 
+	/**
+	 * 
+	 * @param x
+	 *            click x-coordinate
+	 * @param y
+	 *            click y-coordinate
+	 */
 	protected void confirmAVInput(int x, int y) {
 		boolean focusLost = true;
 		if (app.getGuiManager() != null && app.has(Feature.INPUT_BAR_PREVIEW)
@@ -131,6 +143,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		}
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public void setLayout(final AppW app) {
 		this.guiManagerW = app.getGuiManager();
 		this.app = app;
@@ -250,21 +266,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		showKeyboardButton.show(show || app.isKeyboardNeeded(), textField);
 	}
 
-	private void showInAlgebra(final MathKeyboardListener textField) {
-		DockPanel algebraDockPanel = guiManagerW.getLayout().getDockManager()
-				.getPanel(App.VIEW_ALGEBRA);
-
-		if (algebraDockPanel != null) {
-			showKeyboardButton = new ShowKeyboardButton(this,
-					(DockManagerW) guiManagerW.getLayout().getDockManager(),
-					((Widget) algebraDockPanel));
-			if (algebraDockPanel instanceof AlgebraDockPanelW) {
-				((AlgebraDockPanelW) algebraDockPanel)
-						.setKeyBoardButton(showKeyboardButton);
-			}
-		}
-	}
-
+	/**
+	 * Resize dockpanel when keyboard shown/hidden
+	 */
 	public void updateKeyboardHeight() {
 		VirtualKeyboard keyboard = app.getGuiManager().getOnScreenKeyboard(
 				null, this);
@@ -372,45 +376,15 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		timer.schedule(500);
 	}
 
-	private void showKBButtonInAlgebra(MathKeyboardListener textField,
-			VirtualKeyboard keyBoard) {
-		if (app.getAlgebraView() != null) {
-			this.mainPanel.setWidgetSize(spaceForKeyboard, 0);
-			spaceForKeyboard.remove(keyBoard);
-			MathKeyboardListener tf = textField != null ? textField
-					: ((AlgebraViewW) app.getAlgebraView())
-							.getInputTreeItem();
-			showKeyboardButton(true, tf);
-		}
-
-	}
-
-	// @Override
-	// public void showInputField() {
-	// Timer timer = new Timer() {
-	// @Override
-	// public void run() {
-	// scrollToInputField();
-	// }
-	// };
-	// timer.schedule(0);
-	// }
-
-	// /**
-	// * Scroll to the input-field, if the input-field is in the algebraView.
-	// */
-	// void scrollToInputField() { // TODO
-	// if (app.showAlgebraInput()
-	// && app.getInputPosition() == InputPositon.algebraView) {
-	// ((AlgebraDockPanelW) (app.getGuiManager().getLayout()
-	// .getDockManager()
-	// .getPanel(App.VIEW_ALGEBRA)))
-	// .scrollToBottom();
-	// }
-	// }
-
-	//this should be extedns MyDockLayoutPanel to get out somehow the overflow:hidden to show the toolbar.
+	/**
+	 * this should be extedns MyDockLayoutPanel to get out somehow the
+	 * overflow:hidden to show the toolbar.
+	 */
 	class MyDockPanelLayout extends DockLayoutPanel {
+		/**
+		 * @param unit
+		 *            CSS unit
+		 */
 		public MyDockPanelLayout(Unit unit) {
 			super(unit);
 			addStyleName("ggbdockpanelhack");
@@ -430,14 +404,23 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		}
 	}
 
+	/**
+	 * @return dock panel width
+	 */
 	public double getCenterWidth() {
 		return dockPanel.getCenterWidth();
 	}
 
+	/**
+	 * @return dock panel height
+	 */
 	public double getCenterHeight() {
 		return dockPanel.getCenterHeight();
 	}
 
+	/**
+	 * @return toolbar
+	 */
 	public GGWToolBar getToolBar() {
 		if (ggwToolBar == null) {
 			ggwToolBar = newGGWToolBar();
@@ -453,6 +436,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		return new GGWToolBar();
 	}
 
+	/**
+	 * @return inputbar
+	 */
 	public GGWCommandLine getCommandLine() {
 		if (ggwCommandLine == null) {
 			ggwCommandLine = new GGWCommandLine();
@@ -460,6 +446,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		return ggwCommandLine;
 	}
 
+	/**
+	 * @return menubar
+	 */
 	public GGWMenuBar getMenuBar() {
 		if (ggwMenuBar == null) {
 			ggwMenuBar = new GGWMenuBar();
@@ -467,14 +456,23 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		return ggwMenuBar;
 	}
 	
+	/**
+	 * @return EV dock panel
+	 */
 	public EuclidianDockPanelW getGGWGraphicsView() {
 		return ggwGraphicView;
 	}
 
+	/**
+	 * @return glass pane for view moving
+	 */
 	public DockGlassPaneW getGlassPane() {
 		return glassPane;
 	}
 	
+	/**
+	 * @return switch menu on / off
+	 */
 	public boolean toggleMenu() {
 		boolean needsUpdate = menuContainer != null;
 		if(menuContainer == null){
@@ -496,6 +494,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		return !menuClosed;
 	}
 
+	/**
+	 * Hide the menu
+	 */
 	public void hideMenu() {
 		if (menuContainer == null || menuClosed) {
 			return;
@@ -553,6 +554,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	    }
 	}
 
+	/**
+	 * @return 0 when keyboard hidden, keyboard height otherwise
+	 */
 	public double getKeyboardHeight() {
 		if (!keyboardShowing || spaceForKeyboard == null) {
 			return 0;
