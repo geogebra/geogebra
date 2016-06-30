@@ -12,8 +12,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -637,12 +635,12 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	@Override
 	public void showPopup(boolean show) {
-		if (this.buttonPanel == null) {
-			return;
-		}
-		buttonPanel.setVisible(show);
-		setButtonVisible(getDeleteButton(), show);
 		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			if (this.buttonPanel == null) {
+				return;
+			}
+			buttonPanel.setVisible(show);
+			setButtonVisible(getDeleteButton(), show);
 			setButtonVisible(plusButton, show);
 		}
 	}
