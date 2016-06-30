@@ -75,6 +75,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -88,6 +89,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Controller for the 3D view
@@ -2577,8 +2579,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			addSelectedPolyhedron(firstSurface, 1, false, selPreview);
 			addSelectedQuadricLimited(firstSurface, 1, false, selPreview);
 			addSelectedFunction2Var(firstSurface, 1, false, selPreview);
+			addSelectedImplicitSurface(firstSurface, 1, false, selPreview);
 		}
-
 		if (selPlanes() == 1) {
 
 			if (selQuadric() >= 1) { // plane-quadric
@@ -2631,6 +2633,15 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoFunctionNVar funNVar = getSelectedFunctionsNVar()[0];
 				return getKernel().getManager3D().IntersectPlaneFunctionNVar(
 						null, plane, funNVar);
+			} else if (selImplicitSurfaces() == 1) { // plane-function NVar
+				Log.debug(selImplicitSurfaces() + "," + selPlanes());
+
+				GeoPlaneND plane = getSelectedPlanes()[0];
+				GeoImplicitSurfaceND surface = getSelectedImplicitSurface()[0];
+				GeoElement[] ret = getKernel().getManager3D()
+						.IntersectPlaneImplicitSurface(plane, surface);
+				ret[0].setLabel(null);
+				return ret;
 			}
 
 		} else if (selQuadric() >= 2) { // quadric-quadric : intersection

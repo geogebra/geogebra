@@ -309,11 +309,11 @@ public class PlotterSurface {
 	public void triangle(Coords3 p1, Coords3 p2, Coords3 p3, Coords3 n1,
 			Coords3 n2, Coords3 n3) {
 		manager.normal(n1.getXd(), n1.getYd(), n1.getZd());
-		manager.vertex(p1.getXd(), p1.getYd(), p1.getZd());
+		manager.vertexToScale(p1.getXd(), p1.getYd(), p1.getZd());
 		manager.normal(n2.getXd(), n2.getYd(), n2.getZd());
-		manager.vertex(p2.getXd(), p2.getYd(), p2.getZd());
+		manager.vertexToScale(p2.getXd(), p2.getYd(), p2.getZd());
 		manager.normal(n3.getXd(), n3.getYd(), n3.getZd());
-		manager.vertex(p3.getXd(), p3.getYd(), p3.getZd());
+		manager.vertexToScale(p3.getXd(), p3.getYd(), p3.getZd());
 	}
 
 	/**

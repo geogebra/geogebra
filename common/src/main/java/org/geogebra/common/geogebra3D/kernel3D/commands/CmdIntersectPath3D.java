@@ -5,7 +5,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectFunctionNVarPlane;
-import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectImplicitSurfacePlane;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -137,15 +136,13 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 		GeoElement result = null;
 		if ((ok[0] = (arg[0].isGeoPlane()))
 				&& (ok[1] = (arg[1].isGeoImplicitSurface()))) {
-			result =  new AlgoIntersectImplicitSurfacePlane(
-					cons, (GeoImplicitSurface) arg[1], (GeoPlaneND) arg[0])
-					.getOutput()[0];
+			result = kernel.getManager3D().IntersectPlaneImplicitSurface(
+					(GeoPlaneND) arg[0], (GeoImplicitSurface) arg[1])[0];
 		}
 		else if ((ok[1] = (arg[1].isGeoPlane()))
 				&& (ok[0] = (arg[0].isGeoImplicitSurface()))) {
-			result = new AlgoIntersectImplicitSurfacePlane(
-					cons, (GeoImplicitSurface) arg[0], (GeoPlaneND) arg[1])
-					.getOutput()[0] ;
+			result = kernel.getManager3D().IntersectPlaneImplicitSurface(
+					(GeoPlaneND) arg[1], (GeoImplicitSurface) arg[0])[0];
 		}
 
 		else if ((ok[0] = (arg[0].isGeoPlane()))

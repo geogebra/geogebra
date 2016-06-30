@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -447,6 +448,9 @@ public interface Manager3DInterface {
 
 	public GeoElement[] IntersectPlaneFunctionNVar(GeoPlaneND plane,
 			GeoFunctionNVar fun);
+
+	public GeoElement[] IntersectPlaneImplicitSurface(GeoPlaneND plane,
+			GeoImplicitSurfaceND fun);
 
 	public GeoElement[] IntersectPath(GeoPlaneND plane, GeoPolygon p);
 

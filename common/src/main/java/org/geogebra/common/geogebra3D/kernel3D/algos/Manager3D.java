@@ -18,6 +18,8 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSpace;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectFunctionNVarPlane;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectImplicitSurfacePlane;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitSurface;
 import org.geogebra.common.geogebra3D.kernel3D.transform.TransformDilate3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.TransformMirror3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.TransformRotate3D;
@@ -69,6 +71,7 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -2260,5 +2263,11 @@ public class Manager3D implements Manager3DInterface {
 		AlgoDistancePlanes algo = new AlgoDistancePlanes(cons, label, a, b);
 
 		return algo.getDistance();
+	}
+
+	public GeoElement[] IntersectPlaneImplicitSurface(GeoPlaneND plane,
+			GeoImplicitSurfaceND surface) {
+		return new AlgoIntersectImplicitSurfacePlane(cons,
+				(GeoImplicitSurface) surface, plane).getOutput();
 	}
 }

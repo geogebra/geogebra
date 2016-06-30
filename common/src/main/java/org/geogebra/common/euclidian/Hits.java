@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
@@ -999,7 +1000,8 @@ public class Hits extends ArrayList<GeoElement> {
 					|| geo instanceof GeoQuadric3DInterface
 					|| geo instanceof GeoQuadric3DLimitedInterface
 					|| geo instanceof GeoPolyhedronInterface
-					|| geo instanceof GeoFunctionNVar) {
+					|| geo instanceof GeoFunctionNVar
+					|| geo instanceof GeoImplicitSurfaceND) {
 				if (!ignoredGeos.contains(geo)) {
 					if (geo instanceof GeoQuadric3DPartInterface) { // temporary
 																	// fix (TODO
