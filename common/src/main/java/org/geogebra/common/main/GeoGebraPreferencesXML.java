@@ -12,7 +12,7 @@ public class GeoGebraPreferencesXML {
 	 * these can get changed by --screenDPI (and maybe by --screenResX,
 	 * --screenResY)
 	 */
-	public static int defaultFontSize = 12;
+	public static int defaultFontSize = 16;
 	public static int defaultWindowX = 800;
 	public static int defaultWindowY = 600;
 
