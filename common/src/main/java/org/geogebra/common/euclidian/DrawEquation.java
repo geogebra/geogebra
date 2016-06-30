@@ -219,10 +219,28 @@ public abstract class DrawEquation {
 			// "+e.getMessage()+"\n"+text);
 			// Write error message to Graphics View
 			checkFirstCall(app);
-			final TeXFormula formula = TeXFormula.getPartialTeXFormula(text);
-			im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
-					font.getSize() + 3, convertColor(GColor.BLACK),
-					convertColor(GColor.WHITE));
+
+			try {
+				final TeXFormula formula = TeXFormula
+						.getPartialTeXFormula(text);
+				im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, convertColor(GColor.BLACK),
+						convertColor(GColor.WHITE));
+
+				Log.warn("latex syntax error " + text + " " + e.getMessage());
+
+			} catch (Exception e2) {
+
+
+				final TeXFormula formula = TeXFormula
+						.getPartialTeXFormula("\textcolor{red}{?}");
+				im = formula.createBufferedImage(TeXConstants.STYLE_DISPLAY,
+						font.getSize() + 3, convertColor(GColor.BLACK),
+						convertColor(GColor.WHITE));
+
+				Log.error("serious latex error " + text + " " + e.getMessage());
+
+			}
 		}
 
 		g2.drawImage(im, x, y);
