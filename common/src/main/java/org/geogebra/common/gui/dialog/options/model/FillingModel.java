@@ -15,7 +15,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
-
 public class FillingModel extends MultipleOptionsModel {
 
 	public interface IFillingListener extends IComboListener {
@@ -70,25 +69,24 @@ public class FillingModel extends MultipleOptionsModel {
 				loc.getMenu("Filling.Weaving"),// index 6
 					loc.getMenu("Filling.Symbol")// index 7
 				);
-		} else {
-			return Arrays.asList(loc.getMenu("Filling.Standard"), // index 0
-					loc.getMenu("Filling.Hatch"), // index 1
-					loc.getMenu("Filling.Crosshatch"), // index 2
-					loc.getMenu("Filling.Chessboard"), // index 3
-					loc.getMenu("Filling.Dotted"), // index 4
-					loc.getMenu("Filling.Honeycomb"), // index 5
-					loc.getMenu("Filling.Brick"), // index 6
-					loc.getMenu("Filling.Weaving"), // index 6
-					loc.getMenu("Filling.Symbol"), // index 7
-					loc.getMenu("Filling.Image") // index 8
-			);
 		}
+		return Arrays.asList(loc.getMenu("Filling.Standard"), // index 0
+				loc.getMenu("Filling.Hatch"), // index 1
+				loc.getMenu("Filling.Crosshatch"), // index 2
+				loc.getMenu("Filling.Chessboard"), // index 3
+				loc.getMenu("Filling.Dotted"), // index 4
+				loc.getMenu("Filling.Honeycomb"), // index 5
+				loc.getMenu("Filling.Brick"), // index 6
+				loc.getMenu("Filling.Weaving"), // index 6
+				loc.getMenu("Filling.Symbol"), // index 7
+				loc.getMenu("Filling.Image") // index 8
+		);
 
 	}
 
-	public void updateFillType(FillType fillType) {
+	public void updateFillType(FillType newFillType) {
 
-		switch (fillType) {
+		switch (newFillType) {
 
 		case STANDARD:
 			getFillingListener().setStandardFillType();
@@ -179,7 +177,8 @@ public class FillingModel extends MultipleOptionsModel {
 	// Methods that set value for single bar if single bar is selected
 	// and bar has tag for value
 
-	private void setAlpha(AlgoBarChart algo, double alpha) {
+	private void setAlpha(AlgoBarChart algo, double alpha0) {
+		double alpha = alpha0;
 		int idx = getFillingListener().getSelectedBarIndex();
 		if (idx != 0) {
 			float barAlpha = algo.getBarAlpha(idx);
@@ -212,7 +211,8 @@ public class FillingModel extends MultipleOptionsModel {
 		updateFillType(type);
 	}
 
-	private void setDistance(AlgoBarChart algo, int distance) {
+	private void setDistance(AlgoBarChart algo, int distance0) {
+		int distance = distance0;
 		int idx = getFillingListener().getSelectedBarIndex();
 		if (idx!=0){
 			if (algo.getBarHatchDistance(idx)!=-1){
@@ -222,11 +222,12 @@ public class FillingModel extends MultipleOptionsModel {
 		getFillingListener().setDistanceValue(distance);
 	}
 
-	private void setAngle(AlgoBarChart algo, double angle) {
+	private void setAngle(AlgoBarChart algo, double angle0) {
+		double angle = angle0;
 		int idx = getFillingListener().getSelectedBarIndex();
 		if (idx!=0){
 			if (algo.getBarHatchAngle(idx)!=-1){
-				angle=algo.getBarHatchAngle(idx);
+				angle = algo.getBarHatchAngle(idx);
 			}
 		}
 		getFillingListener().setAngleValue((int) angle);
@@ -343,7 +344,7 @@ public class FillingModel extends MultipleOptionsModel {
 
 		}
 
-		if (fillType == fillType.SYMBOLS) {
+		if (fillType == FillType.SYMBOLS) {
 			getFillingListener().setSymbolsVisible(true);
 		} else {
 			getFillingListener().setSymbolsVisible(false);
