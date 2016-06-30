@@ -1787,26 +1787,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 
 	}
 
-	public void fixPositionHorizontal(double wish, int fileWidth, int width) {
-		if (width < fileWidth
-				&& wish + (sliderHorizontal ? sliderWidth : 0) > width) {
-			sliderPos.x = wish + width - fileWidth;
-		} else {
-			sliderPos.x = wish;
-		}
-
-	}
-
-	public void fixPositionVertical(double wish, int fileHeight, int height) {
-		if (height < fileHeight
-				&& wish + (sliderHorizontal ? 0 : sliderWidth) > height) {
-			sliderPos.y = wish + height - fileHeight;
-		} else {
-			sliderPos.y = wish;
-		}
-
-	}
-
 	@Override
 	public ExpressionValue getUndefinedCopy(Kernel kernel) {
 		return new MyDouble(kernel, Double.NaN);
