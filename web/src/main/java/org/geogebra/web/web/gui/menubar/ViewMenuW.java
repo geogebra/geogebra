@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPositon;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
@@ -95,29 +96,46 @@ public class ViewMenuW extends GMenuBar {
 				AppResources.INSTANCE.empty().getSafeUri().asString(),
 				app.getMenu("InputField"), true), new MenuCommand(app) {
 
-			@Override
-			public void doExecute() {
-				app.persistWidthAndHeight();
-				app.getArticleElement().setAttribute(
-						"data-param-showAlgebraInput", "true");
-				app.setShowAlgebraInput(true, false);
-				app.setInputPositon(
-						app.getInputPosition() == InputPositon.algebraView ? InputPositon.bottom
-								: InputPositon.algebraView, true);
-				app.updateCenterPanel(true);
-				app.updateViewSizes();
-				inputBarItem.setSelected(app.getInputPosition() != InputPositon.algebraView);
-
-				Timer timer = new Timer() {
 					@Override
-					public void run() {
-						// false, because we have just closed the menu
-						app.getGuiManager().updateStyleBarPositions(false);
+					public void doExecute() {
+						app.persistWidthAndHeight();
+						app.getArticleElement().setAttribute(
+								"data-param-showAlgebraInput", "true");
+						boolean visibleBelow = app
+								.getInputPosition() == InputPositon.algebraView
+								|| !app.showAlgebraInput();
+						app.addToHeight(
+								visibleBelow ? -GLookAndFeelI.COMMAND_LINE_HEIGHT
+										: GLookAndFeelI.COMMAND_LINE_HEIGHT);
+						app.setShowAlgebraInput(true, false);
+						app.setInputPositon(
+								app.getInputPosition() == InputPositon.algebraView
+										? InputPositon.bottom
+										: InputPositon.algebraView,
+								true);
+						app.updateCenterPanel(true);
+
+						app.updateViewSizes();
+						if (app.getGuiManager() != null
+								&& app.getGuiManager().getLayout() != null) {
+							app.getGuiManager().getLayout().getDockManager()
+									.resizePanels();
+						}
+						inputBarItem.setSelected(app
+								.getInputPosition() != InputPositon.algebraView);
+
+						Timer timer = new Timer() {
+							@Override
+							public void run() {
+								// false, because we have just closed the menu
+								app.getGuiManager()
+										.updateStyleBarPositions(false);
+								app.updateCenterPanel(true);
+							}
+						};
+						timer.schedule(0);
 					}
-				};
-				timer.schedule(0);
-			}
-		}, true);
+				}, true);
 		addItem(inputBarItem.getMenuItem());
 
 		consProtNav = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -175,6 +176,9 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 	@Override
 	public void onEnter(final boolean keepFocus) {
 		if (geo == null) {
+			if (StringUtil.empty(getText())) {
+				return;
+			}
 			createGeoFromInput(false);
 			return;
 		}
