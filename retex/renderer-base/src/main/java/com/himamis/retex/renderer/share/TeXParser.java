@@ -779,8 +779,14 @@ public class TeXParser {
 							doubleDollar = true;
 							pos++;
 						}
+						TeXFormula dollarFormula = new TeXFormula(this,
+								getDollarGroup(DOLLAR), false);
+						if (dollarFormula.root == null) {
+							dollarFormula = new TeXFormula(this,
+									"\\textcolor{red}{?}", false);
+						}
+						formula.add(new MathAtom(dollarFormula.root, style));
 
-						formula.add(new MathAtom(new TeXFormula(this, getDollarGroup(DOLLAR), false).root, style));
 						if (doubleDollar) {
 							if (parseString.charAt(pos) == DOLLAR) {
 								pos++;
