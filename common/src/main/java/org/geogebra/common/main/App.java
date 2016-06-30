@@ -3971,6 +3971,10 @@ public abstract class App implements UpdateSelection {
 			return false;
 		case RETEX_EDITOR:
 			return canary;
+
+			// GGB-790
+		case AV_INPUT_BUTTON_COVER:
+			return prerelease;
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

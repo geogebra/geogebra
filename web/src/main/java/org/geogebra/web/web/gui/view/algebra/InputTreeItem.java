@@ -12,6 +12,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -190,7 +192,11 @@ public class InputTreeItem extends RadioTreeItem implements
 				new Image(GuiResources.INSTANCE.algebra_new()));
 		plusButton.getUpHoveringFace()
 				.setImage(new Image(GuiResources.INSTANCE.algebra_new_hover()));
-		plusButton.getElement().setAttribute("data-visible", "false");
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			plusButton.setVisible(true);
+		} else {
+			plusButton.getElement().setAttribute("data-visible", "false");
+		}
 		plusButton.addStyleName("XButtonNeighbour");
 		plusButton.addMouseDownHandler(new MouseDownHandler() {
 			// ClickHandler changed to MouseDownHandler,
@@ -636,7 +642,9 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 		buttonPanel.setVisible(show);
 		setButtonVisible(getDeleteButton(), show);
-		setButtonVisible(plusButton, show);
+		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			setButtonVisible(plusButton, show);
+		}
 	}
 
 	/**
@@ -682,6 +690,10 @@ public class InputTreeItem extends RadioTreeItem implements
 
 		getAV().getSelectionCtrl().clear();
 		RadioTreeItem.closeMinMaxPanel();
+
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER) && plusButton != null) {
+			plusButton.setVisible(false);
+		}
 
 		// earlier this method was mainly called from setFocus,
 		// and now it is also called from there, but in an
@@ -769,6 +781,10 @@ public class InputTreeItem extends RadioTreeItem implements
 				addDummyLabel();
 			}
 
+			if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+				this.plusButton.setVisible(true);
+			}
+
 			if (((AlgebraViewW) av).isNodeTableEmpty()) {
 				// #5245#comment:8, cases B and C excluded
 				updateGUIfocus(event == null ? this : event.getSource(), true);
@@ -835,10 +851,12 @@ public class InputTreeItem extends RadioTreeItem implements
 		if (heuristic) {
 			updateLineHeight();
 		}
-		if (isEmpty() && plusButton != null) {
-			plusButton.setVisible(true);
-		} else {
-			plusButton.setVisible(false);
+		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			if (isEmpty() && plusButton != null) {
+				plusButton.setVisible(true);
+			} else {
+				plusButton.setVisible(false);
+			}
 		}
 
 		updatePreview();
