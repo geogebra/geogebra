@@ -2931,8 +2931,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public static String[] printLimitedWidth(double decimal, Kernel kernel,
 			String[] parts) {
-		if (Math.abs(decimal) < 1E3
-				&& (Math.abs(decimal) > 1E-3 || Kernel.isZero(decimal))) {
+		if (Math.abs(decimal) < 1E4
+				&& (Math.abs(decimal) > 1E-4 || Kernel.isZero(decimal))) {
 			parts[0] = kernel.format(decimal, defaultTemplate);
 			parts[1] = null;
 			return parts;
