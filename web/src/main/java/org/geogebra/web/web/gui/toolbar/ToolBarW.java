@@ -66,10 +66,17 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		 */
 	}
 
+	/**
+	 * Constructor for responsive toolbar
+	 * 
+	 * @param tb
+	 * @param submenuPanel
+	 */
 	public ToolBarW(GGWToolBar tb, FlowPanel submenuPanel) {
 		this.tb = tb;
 		this.submenuPanel = submenuPanel;
 		this.addStyleName("GGWToolbar");
+		this.addStyleName("GGWToolbarResponsive");
 		this.addDomHandler(this, ClickEvent.getType());
 	}
 
