@@ -3504,11 +3504,6 @@ public abstract class EuclidianController {
 			}
 		}
 
-		if (!app.has(Feature.IMAGE_DIALOG_IMMEDIATELY) && loc == null) {
-			return false;
-		}
-
-
 		if (app.getGuiManager() != null) {// FIXME: fix this better
 			app.getGuiManager().loadImage(loc, null, altDown, view);
 		}

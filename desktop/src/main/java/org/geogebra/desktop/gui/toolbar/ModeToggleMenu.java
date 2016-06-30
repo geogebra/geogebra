@@ -44,7 +44,6 @@ import javax.swing.ToolTipManager;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.javax.swing.GPopupMenuD;
 import org.geogebra.desktop.main.AppD;
 
@@ -117,8 +116,8 @@ public class ModeToggleMenu extends JPanel {
 
 	private void selectItem(JMenuItem mi) {
 		// check if the menu item is already selected
-		boolean imageDialog = app.has(Feature.IMAGE_DIALOG_IMMEDIATELY)
-				&& mi.getActionCommand().equals(
+		boolean imageDialog = mi.getActionCommand()
+				.equals(
 						Integer.toString(EuclidianConstants.MODE_IMAGE));
 		if (tbutton.isSelected()
 				&& tbutton.getActionCommand() == mi.getActionCommand()
