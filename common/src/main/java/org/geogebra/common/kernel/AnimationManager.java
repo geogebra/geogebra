@@ -205,6 +205,8 @@ public class AnimationManager implements GTimerListener {
 		if (kernel.isSaving())
 			return;
 
+		kernel.notifyBatchUpdate();
+
 		long startTime = System.currentTimeMillis();
 		// clear list of geos that need to be updated
 		changedGeos.clear();
@@ -243,6 +245,8 @@ public class AnimationManager implements GTimerListener {
 			//collect some potential garbage
 			kernel.notifyRemoveGroup();
 		}
+
+		kernel.notifyEndBatchUpdate();
 	}
 
 	/**
