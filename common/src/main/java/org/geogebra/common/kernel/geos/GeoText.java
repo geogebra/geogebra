@@ -1301,6 +1301,12 @@ public class GeoText extends GeoElement implements Locateable,
 
 	public ValueType getValueType() {
 		return ValueType.TEXT;
+
+	}
+
+	@Override
+	public boolean needToShowBothRowsInAV() {
+		return false;
 	}
 
 }
