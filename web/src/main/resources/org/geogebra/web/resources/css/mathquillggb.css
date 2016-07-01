@@ -159,8 +159,8 @@
   /*font-family: geogebra-serif, "Times New Roman", serif;*/
   /*line-height: .9;*/
 }
-.mathquillggb-rendered-math * {
-  font-size: inherit !important;
+.GeoGebraFrame .mathquillggb-rendered-math * {
+  font-size: inherit;
   line-height: inherit;
   margin: 0;
   padding: 0;
