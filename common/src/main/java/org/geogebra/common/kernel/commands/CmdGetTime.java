@@ -81,9 +81,9 @@ public class CmdGetTime extends CommandProcessor {
 					c.getArgument(0).toValueString(
 							StringTemplate.defaultTemplate), new Date(), loc);
 
-			GeoText rettext = new GeoText(cons, c.getLabel(), date);
-
-			GeoElement[] ret1 = { rettext };
+			GeoText retText = new GeoText(cons, date);
+			retText.setLabel(c.getLabel());
+			GeoElement[] ret1 = { retText };
 			return ret1;
 		default:
 			throw argNumErr(app, c.getName(), n);

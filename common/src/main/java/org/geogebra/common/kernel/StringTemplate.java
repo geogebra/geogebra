@@ -929,6 +929,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private boolean allowPiHack = true;
 
+	private boolean supportsFractions = true;
+
 	/**
 	 * Least positive number with given precision
 	 * 
@@ -973,7 +975,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.localizeCmds = localizeCmds;
 		result.forceNF = forceNF;
 		result.forceSF = forceSF;
-
+		result.supportsFractions = supportsFractions;
 		return result;
 	}
 
@@ -2984,6 +2986,22 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	public boolean isNumeric() {
 		return numeric;
+	}
+
+	public boolean supportsFractions() {
+		return supportsFractions;
+	}
+
+	public StringTemplate deriveWithFractions(boolean fractions) {
+		if (supportsFractions == fractions) {
+			return this;
+		}
+
+		StringTemplate ret = this.copy();
+
+		ret.supportsFractions = fractions;
+
+		return ret;
 	}
 
 }

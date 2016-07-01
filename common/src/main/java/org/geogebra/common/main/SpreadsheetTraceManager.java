@@ -838,18 +838,20 @@ public class SpreadsheetTraceManager {
 			switch (geoClassType) {
 
 			case NUMERIC:
-				cell = new GeoNumeric(cons, cellName, (Double) value);
+				cell = new GeoNumeric(cons, (Double) value);
 				break;
 
 			case ANGLE:
-				cell = new GeoAngle(cons, cellName, (Double) value);
+				cell = new GeoAngle(cons, (Double) value);
 				break;
 
 			case TEXT:
-				cell = new GeoText(cons, cellName, (String) value);
+				cell = new GeoText(cons, (String) value);
+
 				break;
 
 			}
+			cell.setLabel(cellName);
 			cell.setEuclidianVisible(false);
 		}
 

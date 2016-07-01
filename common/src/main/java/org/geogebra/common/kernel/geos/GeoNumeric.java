@@ -695,7 +695,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			}
 			return StringUtil.wrapInExact(kernel.format(value, tpl), tpl);
 		}
-		if (symbolicMode && getDefinition() != null) {
+		if (symbolicMode && getDefinition() != null
+				&& tpl.supportsFractions()) {
 			return getDefinition().toFractionString(tpl);
 		}
 		return kernel.format(value, tpl);

@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -48,7 +49,8 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class GeoText extends GeoElement implements Locateable,
-		AbsoluteScreenLocateable, TextValue, TextProperties, SpreadsheetTraceable {
+		AbsoluteScreenLocateable, TextValue, TextProperties,
+		SpreadsheetTraceable, HasSymbolicMode {
 
 	private String str;
 	private GeoPointND startPoint; // location of Text on screen
@@ -105,21 +107,9 @@ public class GeoText extends GeoElement implements Locateable,
 
 		// don't show in algebra view
 		// setAlgebraVisible(false);
-	}
-	
-	/**
-	 * Creates new geo text
-	 * 
-	 * @param c
-	 *            construction
-	 * @param label
-	 *            label
-	 * @param value
-	 *            value of this formula
-	 */
-	public GeoText(Construction c, String label, String value) {
-		this(c, value);
-		setLabel(label);
+		if (c.getApplication().has(Feature.FRACTIONS)) {
+			symbolicMode = true;
+		}
 	}
 
 	/**
@@ -1067,6 +1057,7 @@ public class GeoText extends GeoElement implements Locateable,
 		} else {
 			tpl = StringTemplate.get(type);
 		}
+		tpl = tpl.deriveWithFractions(this.symbolicMode);
 	}
 
 	public boolean isAlwaysFixed() {
@@ -1195,6 +1186,7 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 	
 	private TraceModesEnum traceModes;
+	private boolean symbolicMode;
 
 	@Override
 	public TraceModesEnum getTraceModes(){
@@ -1307,6 +1299,18 @@ public class GeoText extends GeoElement implements Locateable,
 	@Override
 	public boolean needToShowBothRowsInAV() {
 		return false;
+	}
+
+	public void setSymbolicMode(boolean mode) {
+		if (mode != this.symbolicMode) {
+			this.symbolicMode = mode;
+			updateTemplate();
+		}
+
+	}
+
+	public boolean isSymboicMode() {
+		return this.symbolicMode;
 	}
 
 }

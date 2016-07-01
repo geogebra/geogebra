@@ -378,7 +378,8 @@ public class MyXMLHandler implements DocHandler {
 		sliderTagProcessed = false;
 		fontTagProcessed = false;
 		lineStyleTagProcessed = false;
-
+		symbolicTagProcessed = false;
+		
 		initKernelVars();
 
 		xmin.clear();
@@ -3235,6 +3236,7 @@ new GPoint(row, column));
 				geo = getGeoElement(attrs);
 				sliderTagProcessed = false;
 				fontTagProcessed = false;
+				symbolicTagProcessed = false;
 				lineStyleTagProcessed = false;
 				if (geo instanceof VectorNDValue) {
 					((VectorNDValue) geo)
@@ -3325,6 +3327,9 @@ new GPoint(row, column));
 						&& ((geo.isGeoFunctionNVar() && ((GeoFunctionNVar) geo)
 								.isFun2Var()) || geo.isGeoSurfaceCartesian())) {
 					geo.setLineThickness(0);
+				}
+				if (!symbolicTagProcessed && geo.isGeoText()) {
+					((GeoText) geo).setSymbolicMode(false);
 				}
 				constMode = MODE_CONSTRUCTION;
 			}
@@ -3992,6 +3997,7 @@ new GPoint(row, column));
 	}
 
 	private boolean lineStyleTagProcessed;
+	private boolean symbolicTagProcessed;
 
 	private TreeMap<String, String> casMap;
 
@@ -4897,7 +4903,7 @@ new GPoint(row, column));
 					+ geo.getClass());
 			return false;
 		}
-
+		symbolicTagProcessed = true;
 		try {
 			HasSymbolicMode num = (HasSymbolicMode) geo;
 			num.setSymbolicMode(parseBoolean(attrs.get("val")));
