@@ -15,6 +15,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -60,7 +61,6 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 	@Override
 	protected boolean startEditing(boolean substituteNumbers) {
 		String text = geo == null ? "Input" : geo.getDefinitionForEditor();
-		Log.debug("EDITING" + text);
 		if (text == null) {
 			return false;
 		}
@@ -288,6 +288,20 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 
 	protected void focusAfterHelpClosed() {
 		setFocus(true);
+	}
+
+	public void onKeyTyped() {
+		updatePreview();
+
+	}
+
+	private void updatePreview() {
+		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
+			String text = getText();
+			app.getKernel().getInputPreviewHelper().updatePreviewFromInputBar(
+					text, AlgebraInputW.getWarningHandler(this, app));
+		}
+
 	}
 
 }

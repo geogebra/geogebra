@@ -181,6 +181,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		boolean handled = ((keyEvent.getKeyModifiers() & 2) > 0)
 				|| keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar());
         if (handled) {
+			if (listener != null) {
+				listener.onKeyTyped();
+			}
             update();
         }
         return handled;
