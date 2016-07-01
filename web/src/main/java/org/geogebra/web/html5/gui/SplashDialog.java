@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -41,13 +40,7 @@ public class SplashDialog extends SimplePanel {
 			style.setPosition(Position.ABSOLUTE);
 			style.setZIndex(1000000);
 			style.setBackgroundColor("white");
-			if (showLogo) {
-				HTML logo = new HTML(GuiResourcesSimple.INSTANCE
-				        .ggbSplashHtml().getText());
-				panel.add(logo);
-			}
-			HTML spinner = new HTML(GuiResourcesSimple.INSTANCE
-			        .ggbSpinnerHtml().getText());
+			HTML spinner = new HTML("");
 			panel.add(spinner);
 			addNativeLoadHandler(panel.getElement());
 			add(panel);
