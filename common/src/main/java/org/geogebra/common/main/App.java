@@ -2934,7 +2934,7 @@ public abstract class App implements UpdateSelection {
 		sb.append("<html>\n");
 		sb.append("<head>\n");
 		sb.append(
-				"<script src=\"https://tube.geogebra.org/scripts/deployggb.js\"></script>\n\n");
+				"<script src=\"https://www.geogebra.org/scripts/deployggb.js\"></script>\n\n");
 		sb.append("</head>\n");
 		sb.append("<body>\n");
 
@@ -2966,6 +2966,8 @@ public abstract class App implements UpdateSelection {
 		sb.append("\"errorDialogsActive\":false,\n");
 		sb.append("\"useBrowserForJS\":false,\n");
 		sb.append("\"preventFocus\":false,\n");
+		sb.append("\"scale\":1,\n");
+		sb.append("\"disableAutoScale\":false,\n");
 
 		sb.append("\"language\":\"" + getLocalization().getLanguage() + "\",\n");
 
