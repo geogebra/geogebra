@@ -2971,8 +2971,12 @@ public abstract class App implements UpdateSelection {
 
 		sb.append("\"language\":\"" + getLocalization().getLanguage() + "\",\n");
 
-		sb.append("// use this instead of ggbBase64 to load a material from GeoGebraTube\n");
+		sb.append(
+				"// use this instead of ggbBase64 to load a material from geogebra.org\n");
 		sb.append("// \"material_id\":12345,\n");
+
+		sb.append("// use this instead of ggbBase64 to load a .ggb file\n");
+		sb.append("// \"filename\":\"myfile.ggb\",\n");
 
 		sb.append("\"ggbBase64\":\"");
 		// don't include preview bitmap
