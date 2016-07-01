@@ -160,7 +160,7 @@
   /*line-height: .9;*/
 }
 .mathquillggb-rendered-math * {
-  font-size: inherit;
+  font-size: inherit !important;
   line-height: inherit;
   margin: 0;
   padding: 0;
