@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 
 
@@ -285,19 +286,22 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 			cons.setSuppressLabelCreation(true);
 			AlgoDirection ad = new AlgoDirection( cons,this);
 			cons.removeFromAlgorithmList(ad);
-			GeoVector direction = ad.getVector();
+			GeoVectorND direction = ad.getVector();
 			if(t.isAffine()) {
 				
 				direction = (GeoVector)t.doTransform(direction);
 				cons.setSuppressLabelCreation(oldSuppressLabelCreation);
 				
 				// ray through transformed point with direction of transformed line
-				GeoElement ray = kernel.getAlgoDispatcher().Ray(transformedLabel, (GeoPoint) points[0], direction);
+				GeoElement ray = kernel.getAlgoDispatcher().Ray(
+						transformedLabel, (GeoPoint) points[0],
+						(GeoVector) direction);
 				ray.setVisualStyleForTransformations(this);
 				GeoElement [] geos = new GeoElement[] {ray, (GeoElement) points[0]};
 				return geos;
 			}
-				AlgoTranslate at = new AlgoTranslate( cons,getStartPoint(),direction);
+			AlgoTranslate at = new AlgoTranslate(cons, getStartPoint(),
+					(GeoVector) direction);
 				cons.removeFromAlgorithmList(at);
 				GeoPoint thirdPoint = (GeoPoint) at.getResult();
 				GeoPoint inf = new GeoPoint(cons);

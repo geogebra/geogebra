@@ -5,8 +5,8 @@ import org.geogebra.common.kernel.algos.AlgoDirection;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -33,7 +33,9 @@ public class CmdDirection extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoLine()) {
-				GeoElement[] ret = { Direction(c.getLabel(), (GeoLine) arg[0]) };
+				GeoElement[] ret = {
+						Direction(c.getLabel(), (GeoLineND) arg[0])
+								.toGeoElement() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -46,9 +48,9 @@ public class CmdDirection extends CommandProcessor {
 	/**
 	 * Direction vector of line g
 	 */
-	final private GeoVector Direction(String label, GeoLine g) {
+	final private GeoVectorND Direction(String label, GeoLineND g) {
 		AlgoDirection algo = new AlgoDirection(cons, label, g);
-		GeoVector v = algo.getVector();
+		GeoVectorND v = algo.getVector();
 		return v;
 	}
 }

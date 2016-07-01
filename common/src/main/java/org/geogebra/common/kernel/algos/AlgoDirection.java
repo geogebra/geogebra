@@ -24,8 +24,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 /**
  *
@@ -34,20 +36,21 @@ import org.geogebra.common.kernel.geos.GeoVector;
  */
 public class AlgoDirection extends AlgoElement {
 
-	private GeoLine g; // input
-	private GeoVector v; // output
+	private GeoLineND g; // input
+	private GeoVectorND v; // output
 
 	/** Creates new AlgoDirection */
-	public AlgoDirection(Construction cons, GeoLine g) {
-		this(cons, null, g);
+	public AlgoDirection(Construction cons, String label, GeoLineND g) {
+		this(cons, g);
+		v.setLabel(label);
 	}
 
-	public AlgoDirection(Construction cons, String label, GeoLine g) {
+	public AlgoDirection(Construction cons, GeoLineND g) {
 		super(cons);
 		this.g = g;
 		v = new GeoVector(cons);
 
-		GeoPoint possStartPoint = g.getStartPoint();
+		GeoPointND possStartPoint = g.getStartPoint();
 		if (possStartPoint != null && possStartPoint.isLabelSet()) {
 			try {
 				v.setStartPoint(possStartPoint);
@@ -58,9 +61,9 @@ public class AlgoDirection extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		// compute line through P, Q
-		v.z = 0.0d;
+		((GeoVector) v).z = 0.0d;
 		compute();
-		v.setLabel(label);
+
 	}
 
 	@Override
@@ -72,26 +75,26 @@ public class AlgoDirection extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
-		input[0] = g;
+		input[0] = g.toGeoElement();
 
 		super.setOutputLength(1);
-		super.setOutput(0, v);
+		super.setOutput(0, v.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoVector getVector() {
+	public GeoVectorND getVector() {
 		return v;
 	}
 
-	GeoLine getg() {
+	GeoLineND getg() {
 		return g;
 	}
 
 	// direction vector of g
 	@Override
 	public final void compute() {
-		v.x = g.y;
-		v.y = -g.x;
+		((GeoVector) v).x = ((GeoLine) g).y;
+		((GeoVector) v).y = -((GeoLine) g).x;
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.kernelND.AlgoTransformable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -51,8 +52,8 @@ public abstract class Transform {
 	 * @return transformed geo
 	 */
 
-	public GeoElement doTransform(GeoElement geo) {
-		return getTransformAlgo(geo).getResult();
+	public GeoElement doTransform(GeoElementND geo) {
+		return getTransformAlgo(geo.toGeoElement()).getResult();
 	}
 
 	/** construction */
