@@ -84,7 +84,10 @@ public class SplashDialog extends SimplePanel {
 		}
 		if (thisArticle.parentElement
 				&& thisArticle.parentElement.querySelector(".ggb_preview") !== null) {
-			return true;
+			$wnd.console
+					&& $wnd.console.log(thisArticle.parentElement
+							.querySelector(".ggb_preview"));
+			return false;
 		}
 		return false;
 	}-*/;
