@@ -40,7 +40,6 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -1025,7 +1024,6 @@ public class RadioTreeItem extends AVTreeItem
 	// methods for AV Slider
 
 	private void createAnimPanel() {
-		Log.debug("CREATE:" + geo.isAnimatable());
 		animPanel = geo.isAnimatable() ? new AnimPanel(this) : null;
 
 	}
@@ -1402,7 +1400,6 @@ public class RadioTreeItem extends AVTreeItem
 
 		} 
 		else {
-			// // // Log.debug(REFX + "renderLatex 2");
 			if (latexItem == null) {
 				latexItem = new FlowPanel();
 			}
@@ -1460,14 +1457,12 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void replaceToCanvas(String text, Widget old) {
-		// Log.debug(DV + "replace to canvas " + text);
 
 		updateLaTeX(text);
 		LayoutUtilW.replace(ihtml, canvas, old);
 	}
 
 	private void editLatexMQ(String text0) {
-		// Log.debug(DV + "editLatexMQ: " + text0);
 		if (latexItem == null) {
 			latexItem = new FlowPanel();
 		}
@@ -1733,7 +1728,6 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void cancelDV() {
-		Log.debug("CANCEL DV");
 		// LayoutUtilW.replace(ihtml, definitionPanel, latexItem);
 		doUpdate();
 	}
