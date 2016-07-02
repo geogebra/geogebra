@@ -1772,7 +1772,7 @@ namespace giac {
 	  M=gnuplot_xmax;
 	if (m!=M)
 	  scale=(M-m)/3.0;
-	m=m-scale*0.999; M=M+scale*1.001;
+	m=m-0.973456*scale; M=M+1.018546*scale;
 	vargs[1]=symb_equal(vargs[1],symb_interval(m,M));
 	gen p=funcplotfunc(gen(vargs,_SEQ__VECT),false,contextptr);
 	poi=mergevecteur(poi,gen2vecteur(p));
@@ -7233,6 +7233,19 @@ namespace giac {
       gen c1=remove_at_pnt(b._VECTptr->front());
       gen c2=remove_at_pnt(b._VECTptr->back());      
       return est_aligne(c1,c2,a,contextptr);
+    }
+    if (b.type==_VECT && b.subtype==_GROUP__VECT && b._VECTptr->size()>2){
+      vecteur v=*b._VECTptr;
+      int s=v.size();
+      for (int i=1;i<s;++i){
+	gen c1=remove_at_pnt(v[i-1]);
+	gen c2=remove_at_pnt(v[i]);   
+	if (est_aligne(c1,c2,a,contextptr)){
+	  gen m=(a-c1)/(c2-c1);
+	  if (is_greater(m,0,contextptr) && is_greater(1,m,contextptr))
+	    return i;
+	}
+      }
     }
     return 0; // FIXME implement est_element of a polygon 
   }

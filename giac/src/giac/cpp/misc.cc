@@ -6442,7 +6442,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
       equ=symb_equal(y__IDNT_e,a*x__IDNT_e+b);
       gprintf("Asymptote %gen",vecteur(1,equ),contextptr);
-      gen dr=_droite(makesequence(b*cst_i,1+(a+b)*cst_i,symb_equal(at_legende,equ),symb_equal(at_couleur,_BLUE)),contextptr);
+      gen n=sqrt(1+b*b,contextptr);
+      gen dr=_droite(makesequence(b*cst_i,plus_one/n+(a/n+b)*cst_i,symb_equal(at_legende,equ),symb_equal(at_couleur,_BLUE)),contextptr);
       if (!equalposcomp(poi,dr))
 	poi.push_back(dr);
     }
@@ -6480,8 +6481,16 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       if (is_inf(nextx) && is_inf(curx)){
 	dfx=limit(f1,xid,0,0,contextptr);
       }
-      else
-	dfx=limit(f1,xid,(curx+nextx)/2,0,contextptr);
+      else {
+	if (curx==minus_inf)
+	  dfx=limit(f1,xid,nextx-1,0,contextptr);
+	else {
+	  if (nextx==plus_inf)
+	    dfx=limit(f1,xid,curx+1,0,contextptr);
+	  else
+	    dfx=limit(f1,xid,(curx+nextx)/2,0,contextptr);
+	}
+      }
       if (is_zero(dfx))
 	return false;
       if (is_strictly_positive(dfx,contextptr)){

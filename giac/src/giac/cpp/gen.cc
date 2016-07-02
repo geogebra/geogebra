@@ -14908,7 +14908,7 @@ namespace giac {
       double xscale=window_xmax-window_xmin,yscale=window_ymax-window_ymin;
       double ratio=yscale/xscale;
       double gratio=0.6,gwidth=9;
-      if (ratio<gratio/2 || ratio>2*gratio) ortho=false;
+      if (ratio<gratio/3 || ratio>3*gratio) ortho=false; else ortho=true;
       if (ortho){
 	if (ratio>gratio){ // yscale>gratio*xscale, use yscale for x
 	  double xc=(window_xmax+window_xmin)/2;

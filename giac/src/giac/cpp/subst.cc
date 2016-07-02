@@ -2683,7 +2683,7 @@ namespace giac {
     for (;it!=itend;++it,++jt){
       if (is_zero(*it))
 	continue;
-      if (it->type==_INT_)
+      if (it->type==_INT_ && absint(it->val)<MAX_ALG_EXT_ORDER_SIZE)
 	lnint=lnint*pow(*jt,it->val);
       else {
 	res.push_back(*it/d);

@@ -1435,6 +1435,8 @@ namespace giac {
 	  break;
       }
     }
+    if (mode==1)
+      return unlocalize(s+'"');
     return res;
   }
 
