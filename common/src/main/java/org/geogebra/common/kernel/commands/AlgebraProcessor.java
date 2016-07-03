@@ -2758,7 +2758,8 @@ public class AlgebraProcessor {
 		// operations and variables are present
 		// e.g. {3, 2, 1} + {a, b, 2}
 		else {
-			ret[0] = ListExpression(label, n);
+			ret[0] = ListExpression(n);
+			ret[0].setLabel(label);
 		}
 
 		return ret;
@@ -2768,15 +2769,13 @@ public class AlgebraProcessor {
 	 * Creates a dependent list object with the given label, e.g. {3, 2, 1} +
 	 * {a, b, 2}
 	 * 
-	 * @param label
-	 *            label for output
 	 * @param root
 	 *            expression defining the dependent list
 	 * @return resulting list
 	 */
-	final public GeoList ListExpression(String label, ExpressionNode root) {
+	final public GeoList ListExpression(ExpressionNode root) {
 		AlgoDependentListExpression algo = new AlgoDependentListExpression(
-				cons, label, root);
+				cons, root);
 		return algo.getList();
 	}
 
