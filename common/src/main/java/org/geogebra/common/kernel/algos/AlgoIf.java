@@ -101,28 +101,34 @@ public class AlgoIf extends AlgoElement {
 		try {
 			for (int i = 0; i < conditions.size(); i++) {
 				if (conditions.get(i).getBoolean()) {
-					result.set(alternatives.get(i));
-					if (alternatives.get(i).getDrawAlgorithm() instanceof DrawInformationAlgo) {
-						result.setDrawAlgorithm(((DrawInformationAlgo) alternatives
-								.get(i).getDrawAlgorithm()).copy());
-					}
+					setResult(alternatives.get(i));
+
 					return;
 				}
 				GeoElement last = alternatives.get(alternatives.size() - 1);
 				if (conditions.size() == alternatives.size())
 					result.setUndefined();
 				else
-					result.set(last);
-				if (last.getDrawAlgorithm() instanceof DrawInformationAlgo) {
-					result.setDrawAlgorithm(((DrawInformationAlgo) last
-							.getDrawAlgorithm()).copy());
-				}
+					setResult(last);
 
 			}
 		} catch (Exception e) {
 			// e.printStackTrace();
 			result.setUndefined();
 		}
+	}
+
+	private void setResult(GeoElement newResult) {
+		result.set(newResult);
+		if (!newResult.isIndependent()) {
+		result.setDefinition(newResult.getDefinition() == null ? null
+				: newResult.getDefinition().deepCopy(kernel));
+		}
+		if (newResult.getDrawAlgorithm() instanceof DrawInformationAlgo) {
+			result.setDrawAlgorithm(((DrawInformationAlgo) newResult
+					.getDrawAlgorithm()).copy());
+		}
+
 	}
 
 	// Curve[If[t>0,t^2,-t^2],t,t,-5,5]
