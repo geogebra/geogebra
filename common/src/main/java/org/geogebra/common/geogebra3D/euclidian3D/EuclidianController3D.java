@@ -989,7 +989,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 					MyDouble a = new MyDouble(kernel);
 					a.set(-1);
 					GeoVector3D orientation = (GeoVector3D) (new AlgoUnitVector3D(
-							kernel.getConstruction(), direction)).getVector();
+							kernel.getConstruction(), direction, true))
+							.getVector();
 					ExpressionNode en = new ExpressionNode(kernel, a,
 							Operation.MULTIPLY, orientation);
 					direction = new AlgoDependentVector3D(

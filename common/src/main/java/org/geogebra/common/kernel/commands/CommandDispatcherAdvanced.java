@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.advanced.CmdCurvature;
 import org.geogebra.common.kernel.advanced.CmdCurvatureVector;
 import org.geogebra.common.kernel.advanced.CmdDeterminant;
 import org.geogebra.common.kernel.advanced.CmdDimension;
-import org.geogebra.common.kernel.advanced.CmdDirection;
 import org.geogebra.common.kernel.advanced.CmdDirectrix;
 import org.geogebra.common.kernel.advanced.CmdDivision;
 import org.geogebra.common.kernel.advanced.CmdDivisorsList;
@@ -91,6 +90,7 @@ import org.geogebra.common.kernel.advanced.CmdUnion;
 import org.geogebra.common.kernel.advanced.CmdUnique;
 import org.geogebra.common.kernel.advanced.CmdVerticalText;
 import org.geogebra.common.kernel.advanced.CmdZip;
+import org.geogebra.common.kernel.algos.CmdUnitVector;
 import org.geogebra.common.main.Feature;
 
 /**
@@ -109,7 +109,7 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case IntersectRegion: // deprecated
 			return new CmdIntersectPath(kernel);
 		case Direction:
-			return new CmdDirection(kernel);
+			return new CmdUnitVector(kernel, false);
 
 		case Difference:
 			return !kernel.getApplication().has(Feature.POLYGON_OPS) ? null

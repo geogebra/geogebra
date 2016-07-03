@@ -32,8 +32,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoUnitVectorLine extends AlgoUnitVector2D {
 
 	/** Creates new AlgoOrthoVectorLine */
-	public AlgoUnitVectorLine(Construction cons, String label, GeoLineND g) {
-		super(cons, label, (GeoElement) g);
+	public AlgoUnitVectorLine(Construction cons, GeoLineND g,
+			boolean normalize) {
+		super(cons, (GeoElement) g, normalize);
 	}
 
 	@Override

@@ -13,12 +13,10 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 public class AlgoUnitVector3D extends AlgoUnitVector {
 
-	public AlgoUnitVector3D(Construction cons, String label, GeoDirectionND line) {
-		super(cons, label, (GeoElement) line);
-	}
 
-	public AlgoUnitVector3D(Construction cons, GeoDirectionND line) {
-		super(cons, (GeoElement) line);
+	public AlgoUnitVector3D(Construction cons, GeoDirectionND line,
+			boolean normalize) {
+		super(cons, (GeoElement) line, normalize);
 	}
 
 	@Override
@@ -32,7 +30,9 @@ public class AlgoUnitVector3D extends AlgoUnitVector {
 
 		Coords coords = ((GeoDirectionND) inputGeo).getDirectionInD3();
 		length = coords.norm();
-		if (Kernel.isZero(length)) {
+		if (!normalize) {
+			((GeoVector3D) u).setCoords(coords);
+		} else if (Kernel.isZero(length)) {
 			u.setUndefined();
 		} else {
 			((GeoVector3D) u).setCoords(coords.mul(1 / length));

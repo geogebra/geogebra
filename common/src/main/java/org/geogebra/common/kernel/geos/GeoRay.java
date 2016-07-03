@@ -21,11 +21,11 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
-import org.geogebra.common.kernel.algos.AlgoDirection;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsRay;
 import org.geogebra.common.kernel.algos.AlgoRayPointVector;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
+import org.geogebra.common.kernel.algos.AlgoUnitVectorLine;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -284,7 +284,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 						
 			boolean oldSuppressLabelCreation = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			AlgoDirection ad = new AlgoDirection( cons,this);
+			AlgoUnitVectorLine ad = new AlgoUnitVectorLine(cons, this, false);
 			cons.removeFromAlgorithmList(ad);
 			GeoVectorND direction = ad.getVector();
 			if(t.isAffine()) {

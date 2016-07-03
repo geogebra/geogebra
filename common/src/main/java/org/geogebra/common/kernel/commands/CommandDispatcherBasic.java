@@ -45,7 +45,7 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case CountIf:
 			return new CmdCountIf(kernel);
 		case UnitVector:
-			return new CmdUnitVector(kernel);
+			return new CmdUnitVector(kernel, true);
 
 		case UnitPerpendicularVector:
 		case UnitOrthogonalVector:

@@ -13,14 +13,17 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdUnitVector extends CommandProcessor {
 
+	protected boolean normalize;
+
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdUnitVector(Kernel kernel) {
+	public CmdUnitVector(Kernel kernel, boolean normalize) {
 		super(kernel);
+		this.normalize = normalize;
 	}
 
 	@Override
@@ -34,14 +37,14 @@ public class CmdUnitVector extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoLine()) {
 
-				AlgoUnitVector algo = algo(c.getLabel(), (GeoLineND) arg[0]);
-
+				AlgoUnitVector algo = algo((GeoLineND) arg[0]);
+				algo.getVector().setLabel(c.getLabel());
 				GeoElement[] ret = { (GeoElement) algo.getVector() };
 				return ret;
 			} else if (arg[0].isGeoVector()) {
 
-				AlgoUnitVector algo = algo(c.getLabel(), (GeoVectorND) arg[0]);
-
+				AlgoUnitVector algo = algo((GeoVectorND) arg[0]);
+				algo.getVector().setLabel(c.getLabel());
 				GeoElement[] ret = { (GeoElement) algo.getVector() };
 				return ret;
 			} else {
@@ -74,8 +77,8 @@ public class CmdUnitVector extends CommandProcessor {
 	 *            line
 	 * @return algo for this line
 	 */
-	protected AlgoUnitVector algo(String label, GeoLineND line) {
-		return new AlgoUnitVectorLine(cons, label, line);
+	protected AlgoUnitVector algo(GeoLineND line) {
+		return new AlgoUnitVectorLine(cons, line, normalize);
 	}
 
 	/**
@@ -86,7 +89,7 @@ public class CmdUnitVector extends CommandProcessor {
 	 *            vector
 	 * @return algo for this vector
 	 */
-	protected AlgoUnitVector algo(String label, GeoVectorND v) {
-		return new AlgoUnitVectorVector(cons, label, v);
+	protected AlgoUnitVector algo(GeoVectorND v) {
+		return new AlgoUnitVectorVector(cons, v, normalize);
 	}
 }

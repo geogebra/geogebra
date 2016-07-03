@@ -27,13 +27,13 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoUnitVectorVector extends AlgoUnitVector2D {
 
 	/** Creates new AlgoOrthoVectorVector */
-	public AlgoUnitVectorVector(Construction cons, String label, GeoVectorND v) {
-		super(cons, label, (GeoElement) v);
+	public AlgoUnitVectorVector(Construction cons, GeoVectorND v,
+			boolean normalize) {
+		super(cons, (GeoElement) v, normalize);
 	}
 
 	@Override

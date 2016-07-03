@@ -35,13 +35,14 @@ public abstract class AlgoUnitVector extends AlgoElement {
 
 	protected GeoElement inputGeo; // input
 	protected GeoVectorND u; // output
-
+	protected boolean normalize;
 	protected double length;
 
 	/** Creates new AlgoOrthoVectorVector */
-	public AlgoUnitVector(Construction cons, GeoElement inputGeo) {
+	public AlgoUnitVector(Construction cons, GeoElement inputGeo,
+			boolean normalize) {
 		super(cons);
-
+		this.normalize = normalize;
 		this.inputGeo = inputGeo;
 		u = createVector(cons);
 
@@ -58,9 +59,10 @@ public abstract class AlgoUnitVector extends AlgoElement {
 		compute();
 	}
 
-	public AlgoUnitVector(Construction cons, String label, GeoElement inputGeo) {
+	public AlgoUnitVector(Construction cons, String label, GeoElement inputGeo,
+			boolean normalize) {
 
-		this(cons, inputGeo);
+		this(cons, inputGeo, normalize);
 		u.setLabel(label);
 	}
 
@@ -86,7 +88,7 @@ public abstract class AlgoUnitVector extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.UnitVector;
+		return normalize ? Commands.UnitVector : Commands.Direction;
 	}
 
 	public GeoVectorND getVector() {
@@ -95,8 +97,9 @@ public abstract class AlgoUnitVector extends AlgoElement {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		// Michael Borcherds 2008-03-31
-		// simplified to allow better translation
+		if (!normalize) {
+			return getLoc().getPlain("DirectionOfA", inputGeo.getLabel(tpl));
+		}
 		return getLoc().getPlain("UnitVectorOfA", inputGeo.getLabel(tpl));
 	}
 

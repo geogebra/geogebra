@@ -15,12 +15,13 @@ import org.geogebra.common.main.MyError;
  * UnitOrthogonalVector[ <GeoPlane3D> ]
  */
 public class CmdUnitVector3D extends CmdUnitVector {
+
 	/**
 	 * @param kernel
 	 *            Kernel
 	 */
-	public CmdUnitVector3D(Kernel kernel) {
-		super(kernel);
+	public CmdUnitVector3D(Kernel kernel, boolean normalize) {
+		super(kernel, normalize);
 	}
 
 	@Override
@@ -28,8 +29,9 @@ public class CmdUnitVector3D extends CmdUnitVector {
 			throws MyError {
 
 		if (arg instanceof GeoDirectionND) {
-			AlgoUnitVector3D algo = new AlgoUnitVector3D(cons, c.getLabel(),
-					(GeoDirectionND) arg);
+			AlgoUnitVector3D algo = new AlgoUnitVector3D(cons,
+					(GeoDirectionND) arg, normalize);
+			algo.getVector().setLabel(c.getLabel());
 			GeoElement[] ret = { (GeoElement) algo.getVector() };
 			return ret;
 		}
@@ -38,23 +40,23 @@ public class CmdUnitVector3D extends CmdUnitVector {
 	}
 
 	@Override
-	protected AlgoUnitVector algo(String label, GeoLineND line) {
+	protected AlgoUnitVector algo(GeoLineND line) {
 
 		if (line.isGeoElement3D()) {
-			return new AlgoUnitVector3D(cons, label, line);
+			return new AlgoUnitVector3D(cons, line, normalize);
 		}
 
-		return super.algo(label, line);
+		return super.algo(line);
 	}
 
 	@Override
-	protected AlgoUnitVector algo(String label, GeoVectorND v) {
+	protected AlgoUnitVector algo(GeoVectorND v) {
 
 		if (v.isGeoElement3D()) {
-			return new AlgoUnitVector3D(cons, label, v);
+			return new AlgoUnitVector3D(cons, v, normalize);
 		}
 
-		return super.algo(label, v);
+		return super.algo(v);
 	}
 
 }

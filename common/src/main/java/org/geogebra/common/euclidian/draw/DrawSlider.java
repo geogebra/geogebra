@@ -359,7 +359,7 @@ public class DrawSlider extends Drawable {
 
 		if (view.getViewWidth() == fileWidth
 				&& view.getViewHeight() == fileHeight) {
-			Log.debug(ADJUST + " NOT need to be adjusted.");
+			// Log.debug(ADJUST + " NOT need to be adjusted.");
 			return false;
 		}
 

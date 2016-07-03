@@ -34,8 +34,9 @@ public abstract class AlgoUnitVector2D extends AlgoUnitVector {
 	protected double x, y;
 
 	/** Creates new AlgoOrthoVectorVector */
-	public AlgoUnitVector2D(Construction cons, String label, GeoElement inputGeo) {
-		super(cons, label, inputGeo);
+	public AlgoUnitVector2D(Construction cons,
+			GeoElement inputGeo, boolean normalize) {
+		super(cons, inputGeo, normalize);
 	}
 
 	@Override
@@ -49,7 +50,7 @@ public abstract class AlgoUnitVector2D extends AlgoUnitVector {
 	@Override
 	final public void compute() {
 		setXY();
-		length = MyMath.length(x, y);
+		length = normalize ? MyMath.length(x, y) : 1;
 		((GeoVector) u).x = x / length;
 		((GeoVector) u).y = y / length;
 	}
