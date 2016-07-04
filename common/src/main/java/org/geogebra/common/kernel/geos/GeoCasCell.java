@@ -1372,7 +1372,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if ("Substitute".equals(cmd)) {
 			updateInputVariables(evalVE);
 		}
-		evalCmd = cmd;
+		evalCmd = cmd == null ? "" : cmd;
 
 		// includesNumericCommand = includesNumericCommand || evalCmd != null
 		// && evalCmd.equals("Numeric");
