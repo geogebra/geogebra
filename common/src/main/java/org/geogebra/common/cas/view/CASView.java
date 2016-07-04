@@ -2,11 +2,11 @@ package org.geogebra.common.cas.view;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -18,7 +18,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Platform independent abstract CAS view
  */
-public abstract class CASView implements View, SetLabels {
+public abstract class CASView implements Editing, SetLabels {
 	/** Default CAS toolbar */
 	public static final String TOOLBAR_DEFINITION_D = "1001 | 1002 | 1003  || 1005 | 1004 || 1006 | 1007 | 1010 || 1008 1009 || 66 68 || 6";
 	/**
@@ -520,6 +520,12 @@ public abstract class CASView implements View, SetLabels {
 			return casCell.getInput(StringTemplate.xmlTemplate);
 		}
 		return null;
+	}
+
+	public void cancelEditing() {
+		CASTable table = getConsoleTable();
+		table.stopEditing();
+
 	}
 
 }

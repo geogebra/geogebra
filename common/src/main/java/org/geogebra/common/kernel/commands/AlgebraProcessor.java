@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.geogebra.common.gui.Editing;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -864,6 +865,10 @@ public class AlgebraProcessor {
 			}
 			if (row < 0) {
 				return null;
+			}
+			if (app.getGuiManager() != null) {
+				((Editing) app.getGuiManager().getCasView())
+						.cancelEditing();
 			}
 			GeoCasCell cell = cons.getCasCell(row);
 			if (cell == null) {
