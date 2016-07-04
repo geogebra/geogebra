@@ -7,8 +7,8 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
+import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
@@ -33,7 +33,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -72,10 +71,9 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private Button btnCustomColor;
 	App app;
 	private CustomColorDialog dialog;
-	private boolean barChart;
-	private int barCount;
-	private ListBox lbBars;
+	private BarList lbBars;
 	private int selectedBar;
+	private AlgoBarChart algoBarChart;
 
 
 	private class ColorTable {
@@ -554,8 +552,12 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		}
 	}
 	
-	public ColorChooserW(App app, int width, int height, GDimensionW colorIconSize, int padding) {
+	public ColorChooserW(final App app, int width, int height,
+			GDimensionW colorIconSize, int padding) {
 		this.app = app;
+		lbBars = new BarList(app);
+		lbBars.setVisible(false);
+
 		canvas = Canvas.createIfSupported();
 		canvas.setSize(width + "px", height + "px");
 		canvas.setCoordinateSpaceHeight(height);
@@ -630,8 +632,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			});
 		SimplePanel sp = new SimplePanel(btnCustomColor);
 		sp.addStyleName("CustomColorButtonParent");
-		lbBars = new ListBox();
-		lbBars.setVisible(false);
 
 		add(canvas);
 		add(sp);
@@ -665,7 +665,20 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		lbBars.addChangeHandler(new ChangeHandler() {
 
 			public void onChange(ChangeEvent event) {
-				setSelectedBar(lbBars.getSelectedIndex());
+				int idx = lbBars.getSelectedIndex();
+				setSelectedBar(idx);
+
+				if (idx > 0) {
+					setSelectedColor(algoBarChart.getBarColor(idx));
+					setAlphaValue(algoBarChart.getBarAlpha(idx));
+					updateTables();
+					previewPanel.update();
+					app.refreshViews();
+				}
+				if (changeHandler != null) {
+					changeHandler.onColorChange(getSelectedColor());
+				}
+
 			}
 		});
 	}
@@ -706,11 +719,16 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 				color1.getBlue() == color2.getBlue());
 	}
 
-	public void update() {
+	private void updateTables() {
 		for (ColorTable table: tables) {
 			table.draw();
 		}
-		fillBarList();
+	}
+
+	public void update() {
+		updateTables();
+		lbBars.update(isBarChart());
+		setSelectedBar(lbBars.getSelectedIndex());
 		previewPanel.update();
 	}
 
@@ -819,36 +837,19 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		});
 	}
 
-	private void fillBarList() {
-		if (!isBarChart()) {
-			return;
-		}
-
-		lbBars.clear();
-		Localization loc = app.getLocalization();
-		lbBars.addItem(loc.getPlain("AllBars"));
-		for (int i = 1; i < getBarCount() + 1; i++) {
-			lbBars.addItem(app.getLocalization().getPlain("BarA", i + ""));
-		}
-
-	}
-
 	public boolean isBarChart() {
-		return barChart;
+		return algoBarChart != null;
 	}
 
-	public void setBarChart(boolean barChart) {
-		this.barChart = barChart;
-		lbBars.setVisible(barChart);
+	public void setAlgoBarChart(AlgoBarChart algo) {
+		algoBarChart = algo;
+		lbBars.setBarCount(algo.getIntervals());
 	}
 
 	public int getBarCount() {
-		return barCount;
+		return lbBars.getBarCount();
 	}
 
-	public void setBarCount(int barCount) {
-		this.barCount = barCount;
-	}
 
 	public int getSelectedBar() {
 		return selectedBar;

@@ -265,16 +265,18 @@ public class ColorObjectModel extends OptionsModel {
 		boolean updateAlphaOnly = color == null;
 		if (idx == ALL_BARS) {
 			GeoElement geo = getGeoAt(0);
-			for (int i = 0; i < getBarChartIntervals(); i++) {
-				algo.setBarColor(null, i);
-				algo.setBarAlpha(-1, i);
+			for (int numBar = 1; numBar < getBarChartIntervals() + 1; numBar++) {
+				algo.setBarColor(null, numBar);
+				algo.setBarAlpha(-1, numBar);
 			}
-			geo.setObjColor(color);
+
 			geo.setAlphaValue(alpha);
+
 			if (!updateAlphaOnly) {
 				geo.setObjColor(color);
 			}
-			algo.setBarAlpha(alpha, idx);
+
+			// algo.setBarAlpha(alpha, idx);
 			kernel.notifyRepaint();
 			return;
 

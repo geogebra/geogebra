@@ -44,10 +44,12 @@ import org.geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -387,6 +389,8 @@ public class OptionsTab extends FlowPanel {
 			if (model.isBarChart()) {
 				model.applyBar(colorChooserW.getSelectedBar(),
 						alphaOnly ? null : color, alpha);
+				Log.debug("BAR: applyChanges");
+
 			} else {
 				model.applyChanges(color, alpha, alphaOnly);
 			}
@@ -396,6 +400,7 @@ public class OptionsTab extends FlowPanel {
 		public void updateChooser(boolean equalObjColor,
 				boolean equalObjColorBackground, boolean allFillable,
 				boolean hasBackground, boolean hasOpacity) {
+			Log.debug("AAA updateChooser");
 			GColor selectedBGColor = null;
 			float alpha = 1;
 			GeoElement geo0 = model.getGeoAt(0);
@@ -410,11 +415,15 @@ public class OptionsTab extends FlowPanel {
 				selectedBGColor = geo0.getBackgroundColor();
 			}
 
+			AlgoBarChart algo = model.getAlgoBarChart();
+			int barIdx = colorChooserW.getSelectedBar();
+
 			if (isBackgroundColorSelected()) {
 				selectedColor = selectedBGColor;
 			} else {
 				// set selectedColor if all selected geos have the same color
 				if (equalObjColor) {
+
 					if (allFillable) {
 						selectedColor = geo0.getFillColor();
 						alpha = geo0.getAlphaValue();
@@ -430,6 +439,7 @@ public class OptionsTab extends FlowPanel {
 
 				colorChooserW.enableOpacity(true);
 				alpha = geo0.getAlphaValue();
+
 				colorChooserW.setAlphaValue(Math.round(alpha * 100));
 
 			} else { // hide opacity slider and set alpha = 1
@@ -438,13 +448,17 @@ public class OptionsTab extends FlowPanel {
 				colorChooserW.setAlphaValue(Math.round(alpha * 100));
 			}
 
-			colorChooserW.enableBackgroundColorPanel(hasBackground);
-			if (model.isBarChart()) {
-				colorChooserW.setBarChart(true);
-				colorChooserW.setBarCount(model.getBarChartIntervals());
-			} else {
-				colorChooserW.setBarChart(false);
+			if (algo != null && barIdx > 0) {
+
+				Log.debug("AAA updateBarColor");
+				selectedColor = algo.getBarColor(barIdx);
+				alpha = algo.getBarAlpha(barIdx);
+
 			}
+			colorChooserW.enableBackgroundColorPanel(hasBackground);
+
+			colorChooserW.setAlgoBarChart(model.getAlgoBarChart());
+
 			updatePreview(selectedColor, alpha);
 		}
 
