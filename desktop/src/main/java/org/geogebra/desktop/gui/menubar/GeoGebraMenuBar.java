@@ -29,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.MenuElement;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
@@ -261,8 +262,17 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	/**
 	 * Display the result of login events
 	 */
-	public void renderEvent(BaseEvent event) {
+	public void renderEvent(final BaseEvent event) {
+		SwingUtilities.invokeLater(new Runnable() {
 
+			public void run() {
+				doRenderEvent(event);
+			}
+		});
+
+	}
+
+	protected void doRenderEvent(BaseEvent event) {
 		if (event instanceof LoginAttemptEvent) {
 			signInButton.setAction(signInInProgressAction);
 			signInButton.setVisible(true);
@@ -278,6 +288,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			TubeAvailabilityCheckEvent checkEvent = (TubeAvailabilityCheckEvent) event;
 			onTubeAvailable(checkEvent.isAvailable());
 		}
+
+		
 	}
 
 	private void onTubeAvailable(boolean available) {

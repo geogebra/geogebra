@@ -3,7 +3,6 @@ package org.geogebra.common.kernel;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
-import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -116,9 +115,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			this.kernel.setSilentMode(true);
 			ValidExpression ve = this.kernel.getAlgebraProcessor()
 					.getValidExpressionNoExceptionHandling(validInput);
-			GeoCasCell casEval = this.kernel.getAlgebraProcessor()
-					.checkCasEval(ve.getLabel(), input, null);
-			if (casEval == null) {
+
+			if (!isCASeval(ve)) {
 				GeoElement existingGeo = this.kernel.lookupLabel(ve.getLabel());
 				if (existingGeo == null) {
 
@@ -170,6 +168,20 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			maxLength = validInput.length();
 			validInput = null;
 		}
+	}
+
+	private static boolean isCASeval(ValidExpression ve) {
+		String label = ve.getLabel();
+		if (label != null && label.startsWith("$")) {
+			Integer row = -1;
+			try {
+				row = Integer.parseInt(label.substring(1)) - 1;
+			} catch (Exception e) {
+				// spreadsheet reference
+			}
+			return row > 0;
+		}
+		return false;
 	}
 
 	private void cleanOldSliders() {
@@ -231,12 +243,19 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 	}
 
+	/**
+	 * @param string
+	 *            slider names
+	 */
 	public void addSliders(String string) {
 		cleanOldSliders();
 		sliders = string.split(",");
 
 	}
 
+	/**
+	 * @return whether last input parses OK
+	 */
 	public boolean isValid() {
 		if (validInput == null && input != null) {
 			setInput(input, validation);
