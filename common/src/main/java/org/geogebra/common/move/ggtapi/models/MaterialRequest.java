@@ -24,7 +24,7 @@ public class MaterialRequest implements Request {
 		url_direct, language, thumbnail, featured, likes, width, height,
 		instructions_pre, instructions_post, ggbBase64, toolbar, menubar,
 		inputbar, modified, visibility, favorite, is3d, spreadsheet, cas,
-		graphics2, constprot, propcalc, dataanalysis, funcinsp, python, macro, sharing_key;
+		graphics2, constprot, propcalc, dataanalysis, funcinsp, macro, sharing_key;
 	}
 
 	public enum Filters {
