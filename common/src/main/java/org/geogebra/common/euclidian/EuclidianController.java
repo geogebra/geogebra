@@ -335,6 +335,7 @@ public abstract class EuclidianController {
 	protected int MIN_MOVE;
 	protected Object detachFrom;
 	protected boolean freehandModePrepared = false;
+	protected long lastMousePressedTime;
 	double xRWold = Double.NEGATIVE_INFINITY;
 	double yRWold = xRWold;
 	// ==============================================
@@ -360,7 +361,6 @@ public abstract class EuclidianController {
 	private boolean scriptsHaveRun = false;
 	private GPoint lastMouseUpLoc;
 	private boolean checkboxChangeOccured = false;
-	private long lastMousePressedTime;
 	private PointerEventType defaultEventType = PointerEventType.MOUSE;
 	private boolean detachFromPath, detachFromRegion;
 	private boolean needsAttach = false;
