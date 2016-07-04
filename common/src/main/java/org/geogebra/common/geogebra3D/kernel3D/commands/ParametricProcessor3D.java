@@ -131,7 +131,9 @@ public class ParametricProcessor3D extends ParametricProcessor {
 							coefZ[1].evaluateDouble() });
 					line.setCoord(start, v);
 					line.setToParametric(fv[0].getSetVarString());
-					line.setLabel(label);
+					if (info.isLabelOutput()) {
+						line.setLabel(label);
+					}
 				} else {
 					line = (GeoLine3D) kernel.getManager3D().Line3D(label,
 							coefX, coefY, coefZ);

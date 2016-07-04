@@ -1536,26 +1536,7 @@ public class AlgebraProcessor {
 
 		// check for existing labels
 		String[] labels = ve.getLabels();
-		GeoElement replaceable = null;
-		if (labels != null && labels.length > 0) {
-			boolean firstTime = true;
-			for (int i = 0; i < labels.length; i++) {
-				GeoElement geo = kernel.lookupLabel(labels[i]);
-				if (geo != null) {
-					if (geo.isFixed()) {
-						String[] strs = { "IllegalAssignment",
-								"AssignmentToFixed", ":\n",
-								geo.getLongDescription() };
-						throw new MyError(loc, strs);
-					}
-					// replace (overwrite or redefine) geo
-					if (firstTime) { // only one geo can be replaced
-						replaceable = geo;
-						firstTime = false;
-					}
-				}
-			}
-		}
+		GeoElement replaceable = getReplaceable(labels);
 
 		GeoElement[] ret;
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
@@ -1576,6 +1557,38 @@ public class AlgebraProcessor {
 			cons.setSuppressLabelCreation(oldMacroMode);
 		}
 
+		processReplace(replaceable, ret, ve, info);
+
+		return ret;
+	}
+
+	GeoElement getReplaceable(String[] labels) {
+		GeoElement replaceable = null;
+		if (labels != null && labels.length > 0) {
+			boolean firstTime = true;
+			for (int i = 0; i < labels.length; i++) {
+				GeoElement geo = kernel.lookupLabel(labels[i]);
+				if (geo != null) {
+					if (geo.isFixed()) {
+						String[] strs = { "IllegalAssignment",
+								"AssignmentToFixed", ":\n",
+								geo.getLongDescription() };
+						throw new MyError(loc, strs);
+					}
+					// replace (overwrite or redefine) geo
+					if (firstTime) { // only one geo can be replaced
+						replaceable = geo;
+						firstTime = false;
+					}
+				}
+			}
+		}
+		return replaceable;
+	}
+
+	void processReplace(GeoElement replaceable, GeoElement[] ret,
+			ValidExpression ve, EvalInfo info)
+			throws CircularDefinitionException {
 		// try to replace replaceable geo by ret[0]
 		if (replaceable != null && ret.length > 0) {
 			// a changeable replaceable is not redefined:
@@ -1592,13 +1605,13 @@ public class AlgebraProcessor {
 							+ replaceable.getLongDescription() + "     =     "
 							+ ret[0].getLongDescription();
 					throw new MyError(loc, errStr);
-				}
-			}
+						}
+					}
 			// redefine
 			else {
 				try {
-					if (!ret[0].isLabelSet()
-							&& ret[0].getParentAlgorithm() instanceof AlgoDependentGeoCopy) {
+					if (!ret[0].isLabelSet() && ret[0]
+							.getParentAlgorithm() instanceof AlgoDependentGeoCopy) {
 						ret[0] = ((AlgoDependentGeoCopy) ret[0]
 								.getParentAlgorithm()).getOrigGeo();
 					}
@@ -1606,8 +1619,7 @@ public class AlgebraProcessor {
 					// new and old object are both independent and have same
 					// type:
 					// simply assign value and don't redefine
-					if (replaceable.isIndependent()
-							&& ret[0].isIndependent()
+					if (replaceable.isIndependent() && ret[0].isIndependent()
 							&& compatibleTypes(replaceable.getGeoClassType(),
 									ret[0].getGeoClassType())) {
 						if (replaceable instanceof GeoNumeric) {
@@ -1615,7 +1627,8 @@ public class AlgebraProcessor {
 						}
 						replaceable.set(ret[0]);
 						if (replaceable instanceof GeoFunction
-								&& !((GeoFunction) replaceable).validate(true)) {
+								&& !((GeoFunction) replaceable)
+										.validate(true)) {
 							replaceable.setUndefined();
 						} else {
 							replaceable.setDefinition(ret[0].getDefinition());
@@ -1634,17 +1647,18 @@ public class AlgebraProcessor {
 							ValidExpression vexp = (ValidExpression) ve
 									.unwrap();
 							cell.setAssignmentType(AssignmentType.DEFAULT);
-							cell.setInput(vexp
-									.toAssignmentString(StringTemplate.defaultTemplate, cell.getAssignmentType()));
+							cell.setInput(vexp.toAssignmentString(
+									StringTemplate.defaultTemplate,
+									cell.getAssignmentType()));
 							processCasCell(cell, false);
 						} else {
 							cons.replace(replaceable, newGeo);
 						}
 						// now all objects have changed
 						// get the new object with same label as our result
-						String newLabel = newGeo.isLabelSet() ? newGeo
-								.getLabelSimple() : replaceable
-								.getLabelSimple();
+						String newLabel = newGeo.isLabelSet()
+								? newGeo.getLabelSimple()
+								: replaceable.getLabelSimple();
 						ret[0] = kernel.lookupLabel(newLabel);
 					}
 				} catch (CircularDefinitionException e) {
@@ -1655,11 +1669,10 @@ public class AlgebraProcessor {
 				} catch (MyError e) {
 					e.printStackTrace();
 					throw new MyError(loc, "ReplaceFailed");
+						}
+					}
 				}
-			}
-		}
 
-		return ret;
 	}
 
 	private static boolean compatibleTypes(GeoClass type, GeoClass type2) {

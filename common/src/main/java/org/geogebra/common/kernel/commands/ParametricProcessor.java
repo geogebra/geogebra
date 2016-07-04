@@ -89,6 +89,12 @@ public class ParametricProcessor {
 		if (!parametricEquation && !parametricExpression) {
 			return null;
 		}
+		GeoElement replaceable = ap.getReplaceable(ve0.getLabels());
+		Construction cons = kernel.getConstruction();
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		if (replaceable != null) {
+			cons.setSuppressLabelCreation(true);
+		}
 		String varName = getPreferredName(undefinedVariables);
 
 		ValidExpression ve = ve0;
@@ -115,6 +121,8 @@ public class ParametricProcessor {
 						new FunctionVariable[] { fv },
 						"X".equals(ve.getLabel()) ? null : ve.getLabel(), info);
 				if (ret != null && (num.isEmpty() || autocreateSliders)) {
+					cons.setSuppressLabelCreation(oldMacroMode);
+					ap.processReplace(replaceable, ret, null, info);
 					return ret;
 				}
 			} catch (Throwable tt) {
@@ -140,6 +148,8 @@ public class ParametricProcessor {
 						new FunctionVariable[] { fv },
  ve.getLabel(), info);
 				if (ret != null && (num.isEmpty() || autocreateSliders)) {
+					cons.setSuppressLabelCreation(oldMacroMode);
+					ap.processReplace(replaceable, ret, null, info);
 					return ret;
 				}
 			} catch (Throwable tt) {
@@ -149,6 +159,7 @@ public class ParametricProcessor {
 			removeSliders(num, undefinedVariables);
 		}
 		removeSliders(num, undefinedVariables);
+		cons.setSuppressLabelCreation(oldMacroMode);
 		return null;
 	}
 	
