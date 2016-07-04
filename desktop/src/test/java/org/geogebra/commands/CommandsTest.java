@@ -369,4 +369,14 @@ public class CommandsTest extends Assert{
 		ti("(2+0i)^0", "1 + 0i");
 		ti("(1/0+0i)^0", "NaN - NaNi");
 	}
+
+	@Test
+	public void redefine() {
+		t("la={1}", "{1}");
+		t("lb={2}", "{2}");
+		t("lc=la", "{1}");
+		t("lc=lb", "{2}");
+		t("1*lb", "{2}");
+
+	}
 }
