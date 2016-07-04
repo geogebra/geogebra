@@ -151,7 +151,7 @@ Traceable{
 		GeoQuadricND quadric = (GeoQuadricND) geo;
 		if (quadric.hasChangeableCoordParentNumbers())
 			setChangeableCoordParent(quadric.changeableCoordParent.getNumber(),quadric.changeableCoordParent.getDirector());
-		setDefinition(!geo.isIndependent() ? null : geo.getDefinition());
+		reuseDefinition(geo);
 	}
 	
 	////////////////////////////////

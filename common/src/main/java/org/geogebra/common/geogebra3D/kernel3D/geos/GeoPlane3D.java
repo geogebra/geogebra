@@ -362,7 +362,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		if (geo instanceof GeoPlane3D) {
 			GeoPlane3D plane = (GeoPlane3D) geo;
 			getCoordSys().set(plane.getCoordSys());
-			setDefinition(geo.isIndependent() ? null : geo.getDefinition());
+			reuseDefinition(geo);
 			return;
 		}
 		setDefinition(null);

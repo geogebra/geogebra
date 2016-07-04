@@ -8105,6 +8105,14 @@ public abstract class GeoElement extends ConstructionElement implements
 		this.definition = root;
 	}
 
+	/**
+	 * @param geo
+	 *            template element
+	 */
+	protected void reuseDefinition(GeoElementND geo) {
+		this.definition = !geo.isIndependent() ? null : geo.getDefinition();
+	}
+
 	public ExpressionNode getDefinition() {
 		return definition;
 	}

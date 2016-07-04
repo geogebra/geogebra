@@ -1219,7 +1219,7 @@ FromMeta
 		if(geo instanceof GeoLine){
 			GeoLine line = (GeoLine) geo;
 			this.setCoeffs(0,0,0,line.getX(),line.getY(),line.getZ());
-			setDefinition(!geo.isIndependent() ? null : geo.getDefinition());
+			reuseDefinition(geo);
 			return;
 		}
 		GeoConicND co =(GeoConicND) geo;

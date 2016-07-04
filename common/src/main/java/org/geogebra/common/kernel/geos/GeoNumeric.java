@@ -437,7 +437,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public void set(GeoElementND geo) {
 		NumberValue num = (NumberValue) geo;
 		setValue(num.getDouble());
-		setDefinition(!geo.isIndependent() ? null : geo.getDefinition());
+		reuseDefinition(geo);
 	}
 
 	@Override
@@ -1789,8 +1789,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public ExpressionValue getUndefinedCopy(Kernel kernel) {
-		return new MyDouble(kernel, Double.NaN);
+	public ExpressionValue getUndefinedCopy(Kernel kernel1) {
+		return new MyDouble(kernel1, Double.NaN);
 	}
 
 	@Override
@@ -1812,26 +1812,47 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 				|| (getDefinition() != null && getDefinition().isFraction());
 	}
 
+	/**
+	 * @return original slider width from XML
+	 */
 	public Double getOrigSliderWidth() {
 		return origSliderWidth;
 	}
 
+	/**
+	 * @param origSliderWidth
+	 *            original slider width from XML
+	 */
 	public void setOrigSliderWidth(Double origSliderWidth) {
 		this.origSliderWidth = origSliderWidth;
 	}
 
+	/**
+	 * @return original slider x-coord from XML
+	 */
 	public Double getOrigSliderX() {
 		return origSliderX;
 	}
 
+	/**
+	 * @param origSliderX
+	 *            original slider x-coord from XML
+	 */
 	public void setOrigSliderX(Double origSliderX) {
 		this.origSliderX = origSliderX;
 	}
 
+	/**
+	 * @return original slider y-coord from XML
+	 */
 	public Double getOrigSliderY() {
 		return origSliderY;
 	}
 
+	/**
+	 * @param origSliderY
+	 *            original slider y-coord from XML
+	 */
 	public void setOrigSliderY(Double origSliderY) {
 		this.origSliderY = origSliderY;
 	}

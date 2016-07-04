@@ -322,7 +322,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			Log.error(geo.getGeoClassType() + " invalid as point");
 			throw new IllegalArgumentException();
 		}
-		setDefinition(!geo.isIndependent() ? null : geo.getDefinition());
+		reuseDefinition(geo);
 	}
 
 	@Override
