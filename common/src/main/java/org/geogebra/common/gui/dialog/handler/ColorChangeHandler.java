@@ -9,4 +9,6 @@ public interface ColorChangeHandler {
 	void onClearBackground();
 	void onForegroundSelected();
 	void onBackgroundSelected();
+
+	void onBarSelected();
 }

@@ -74,6 +74,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private BarList lbBars;
 	private int selectedBar;
 	private AlgoBarChart algoBarChart;
+	private GColor allBarsColor;
 
 
 	private class ColorTable {
@@ -668,17 +669,17 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 				int idx = lbBars.getSelectedIndex();
 				setSelectedBar(idx);
 
-				if (idx > 0) {
-					setSelectedColor(algoBarChart.getBarColor(idx));
-					setAlphaValue(algoBarChart.getBarAlpha(idx));
-					updateTables();
-				}
-
 				if (changeHandler != null) {
-					changeHandler.onColorChange(getSelectedColor());
+					changeHandler.onBarSelected();
 				}
 
-				previewPanel.update();
+				// if (idx > 0) {
+				// setSelectedColor(algoBarChart.getBarColor(idx));
+				// setAlphaValue(algoBarChart.getBarAlpha(idx));
+				// updateTables();
+				//
+				// }
+
 
 			}
 		});
@@ -860,5 +861,13 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 	public void setSelectedBar(int selectedBar) {
 		this.selectedBar = selectedBar;
+	}
+
+	public GColor getAllBarsColor() {
+		return allBarsColor;
+	}
+
+	public void setAllBarsColor(GColor allBarsColor) {
+		this.allBarsColor = allBarsColor;
 	}
 }

@@ -337,6 +337,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 						// TODO Auto-generated method stub
 						
 					}
+
+						public void onBarSelected() {
+							// TODO Auto-generated method stub
+
+						}
 				});
                 }});
 			
@@ -567,6 +572,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 								// TODO Auto-generated method stub
 								
 							}
+
+						public void onBarSelected() {
+							// TODO Auto-generated method stub
+
+						}
 						});
 		                
 //	                model.applyBackgroundColor();
@@ -953,6 +963,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 						public void onAlphaChange() {
 							// TODO Auto-generated method stub
 							
+						}
+
+						public void onBarSelected() {
+							// TODO Auto-generated method stub
+
 						}
 					});
 				// Just for dummy.

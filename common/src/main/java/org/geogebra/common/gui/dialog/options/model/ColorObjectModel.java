@@ -31,7 +31,7 @@ public class ColorObjectModel extends OptionsModel {
 	}
 
 	private static final long serialVersionUID = 1L;
-	private static final int ALL_BARS = 0;
+	public static final int ALL_BARS = 0;
 	private boolean allFillable;
 	private boolean hasBackground;
 	private boolean hasImageGeo;
@@ -253,7 +253,7 @@ public class ColorObjectModel extends OptionsModel {
 	}
 
 	public boolean isBarChart() {
-		return (getAlgoBarChart() != null);
+		return (getAlgorithm() instanceof AlgoBarChart);
 	}
 
 	public int getBarChartIntervals() {
@@ -276,7 +276,7 @@ public class ColorObjectModel extends OptionsModel {
 				geo.setObjColor(color);
 			}
 
-			// algo.setBarAlpha(alpha, idx);
+			algo.setBarAlpha(alpha, idx);
 			kernel.notifyRepaint();
 			return;
 

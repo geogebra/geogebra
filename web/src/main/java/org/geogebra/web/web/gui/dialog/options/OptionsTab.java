@@ -360,6 +360,10 @@ public class OptionsTab extends FlowPanel {
 
 					updatePreview(color, alpha);
 				}
+
+				public void onBarSelected() {
+					updateChooserFromBarChart(model.getGeoAt(0));
+				}
 			});
 			colorChooserW.setColorPreviewClickable();
 
@@ -389,34 +393,38 @@ public class OptionsTab extends FlowPanel {
 			if (model.isBarChart()) {
 				model.applyBar(colorChooserW.getSelectedBar(),
 						alphaOnly ? null : color, alpha);
-				Log.debug("BAR: applyChanges");
-
 			} else {
 				model.applyChanges(color, alpha, alphaOnly);
 			}
+
 		}
 
 		@Override
 		public void updateChooser(boolean equalObjColor,
 				boolean equalObjColorBackground, boolean allFillable,
 				boolean hasBackground, boolean hasOpacity) {
-			Log.debug("AAA updateChooser");
+
+			GeoElement geo0 = model.getGeoAt(0);
+			colorChooserW.setAlgoBarChart(model.getAlgoBarChart());
+
+			if (updateChooserFromBarChart(geo0)) {
+				return;
+			}
+
 			GColor selectedBGColor = null;
 			float alpha = 1;
-			GeoElement geo0 = model.getGeoAt(0);
 			if (geo0.isGeoImage()) {
 				colorChooserW.enableColorPanel(false);
 			} else {
 				colorChooserW.enableColorPanel(true);
 
 			}
+
 			selectedColor = null;
 			if (equalObjColorBackground) {
 				selectedBGColor = geo0.getBackgroundColor();
 			}
 
-			AlgoBarChart algo = model.getAlgoBarChart();
-			int barIdx = colorChooserW.getSelectedBar();
 
 			if (isBackgroundColorSelected()) {
 				selectedColor = selectedBGColor;
@@ -448,18 +456,45 @@ public class OptionsTab extends FlowPanel {
 				colorChooserW.setAlphaValue(Math.round(alpha * 100));
 			}
 
-			if (algo != null && barIdx > 0) {
-
-				Log.debug("AAA updateBarColor");
-				selectedColor = algo.getBarColor(barIdx);
-				alpha = algo.getBarAlpha(barIdx);
-
-			}
 			colorChooserW.enableBackgroundColorPanel(hasBackground);
 
-			colorChooserW.setAlgoBarChart(model.getAlgoBarChart());
+			updatePreview(selectedColor, alpha);
+		}
+
+		private boolean updateChooserFromBarChart(GeoElement geo0) {
+			AlgoBarChart algo = model.getAlgoBarChart();
+
+			if (algo == null) {
+				Log.debug("[BARS] NO BARCHART!");
+				return false;
+			}
+
+			float alpha = geo0.getAlphaValue();
+
+			int barIdx = colorChooserW.getSelectedBar();
+
+			if (barIdx == ColorObjectModel.ALL_BARS
+					|| algo.getBarColor(barIdx) == null) {
+				selectedColor = geo0.getObjectColor();
+
+			} else {
+				selectedColor = algo.getBarColor(barIdx);
+				alpha = algo.getBarAlpha(barIdx);
+				if (selectedColor == null) {
+					selectedColor = geo0.getObjectColor();
+
+				}
+
+				if (alpha == -1) {
+					alpha = geo0.getAlphaValue() * 100;
+				}
+			}
+
+			colorChooserW.enableBackgroundColorPanel(false);
 
 			updatePreview(selectedColor, alpha);
+
+			return true;
 		}
 
 		@Override

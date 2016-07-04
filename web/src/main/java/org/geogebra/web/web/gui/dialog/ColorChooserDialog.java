@@ -98,6 +98,11 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 				// TODO Auto-generated method stub
 				
 			}
+
+			public void onBarSelected() {
+				// TODO Auto-generated method stub
+
+			}
 		});
 	}
 	
