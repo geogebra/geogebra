@@ -2670,7 +2670,7 @@ __GGB__keysVar.zh_CN.plain = {
     "NewExpression": "\u65b0\u8868\u8fbe\u5f0f",
     "NewNameForA": "%0 \u7684\u65b0\u540d\u79f0",
     "NewToGeoGebra": "\u521d\u8bc6 GeoGebra?",
-    "NewerVersionA": "GeoGebra \u76ee\u524d\u6709\u65b0\u7684\u7248\u672c, \u662f\u5426\u66f4\u65b0\u4e3a GeoGebra %0?",
+    "NewerVersionA": "GeoGebra \u76ee\u524d\u6709\u65b0\u7248\u672c, \u662f\u5426\u66f4\u65b0\u4e3a GeoGebra %0?",
     "Next": "\u4e0b\u4e00\u6b65",
     "NextCell": "\u4e0b\u4e00\u4e2a\u5355\u5143\u683c",
     "No.": "\u5e8f\u53f7",
