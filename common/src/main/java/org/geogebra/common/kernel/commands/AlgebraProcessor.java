@@ -602,7 +602,7 @@ public class AlgebraProcessor {
 			GeoCasCell casEval = checkCasEval(ve.getLabel(), cmd, null);
 			if (casEval != null) {
 				if (callback0 != null) {
-					callback0.callback(new GeoElement[] { casEval });
+					callback0.callback(array(casEval));
 				}
 				return new GeoElement[0];
 			}
@@ -972,7 +972,7 @@ public class AlgebraProcessor {
 		String latex = mathmlParserLaTeX.parse(cmd, false, false);
 		GeoText arg = new GeoText(cons, latex);
 		AlgoLaTeX texAlgo = new AlgoLaTeX(cons, null, arg);
-		return new GeoElement[] { texAlgo.getOutput(0) };
+		return array(texAlgo.getOutput(0));
 	}
 
 	/**
@@ -1562,6 +1562,11 @@ public class AlgebraProcessor {
 		return ret;
 	}
 
+	/**
+	 * @param labels
+	 *            output labels of a command/expr
+	 * @return geo with same label as one of the outputs
+	 */
 	GeoElement getReplaceable(String[] labels) {
 		GeoElement replaceable = null;
 		if (labels != null && labels.length > 0) {
@@ -1586,6 +1591,19 @@ public class AlgebraProcessor {
 		return replaceable;
 	}
 
+	/**
+	 * 
+	 * @param replaceable
+	 *            old geo with same label
+	 * @param ret
+	 *            result of processing
+	 * @param ve
+	 *            original expression
+	 * @param info
+	 *            evaluation flags
+	 * @throws CircularDefinitionException
+	 *             when circular definition occurs
+	 */
 	void processReplace(GeoElement replaceable, GeoElement[] ret,
 			ValidExpression ve, EvalInfo info)
 			throws CircularDefinitionException {
@@ -1610,11 +1628,6 @@ public class AlgebraProcessor {
 			// redefine
 			else {
 				try {
-					if (!ret[0].isLabelSet() && ret[0]
-							.getParentAlgorithm() instanceof AlgoDependentGeoCopy) {
-						ret[0] = ((AlgoDependentGeoCopy) ret[0]
-								.getParentAlgorithm()).getOrigGeo();
-					}
 					// SPECIAL CASE: set value
 					// new and old object are both independent and have same
 					// type:
@@ -1804,7 +1817,6 @@ public class AlgebraProcessor {
 
 		String label = fun.getLabel();
 		GeoFunction f;
-		GeoElement[] ret = new GeoElement[1];
 
 		GeoElement[] vars = fun.getGeoElementVariables();
 		boolean isIndependent = true;
@@ -1838,8 +1850,7 @@ public class AlgebraProcessor {
 						f = DependentInterval(fun);
 					}
 					f.setLabel(label);
-					ret[0] = f;
-					return ret;
+					return array(f);
 
 				}
 
@@ -1859,10 +1870,10 @@ public class AlgebraProcessor {
 			if (left.isLeaf() && left.isGeoElement() && right.isLeaf()
 					&& right.isNumberValue() && !right.isConstant()
 					&& !isIndependent) {
-				f = (GeoFunction) DependentGeoCopy(label,
+				f = (GeoFunction) DependentGeoCopy(
 						((GeoFunctionable) left).getGeoFunction());
-				ret[0] = f;
-				return ret;
+				f.setLabel(label);
+				return array(f);
 			}
 		}
 
@@ -1879,8 +1890,7 @@ public class AlgebraProcessor {
 
 		if (f.validate(label == null)) {
 			f.setLabel(label);
-			ret[0] = f;
-			return ret;
+			return array(f);
 		}
 		f.remove();
 		throw new MyError(loc, "InvalidFunction");
@@ -2166,9 +2176,9 @@ public class AlgebraProcessor {
 		return f;
 	}
 
-	final private GeoElement DependentGeoCopy(String label,
+	final private GeoElement DependentGeoCopy(
 			GeoElement origGeoNode) {
-		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, label,
+		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, 
 				origGeoNode);
 		return algo.getGeo();
 	}
@@ -2209,7 +2219,7 @@ public class AlgebraProcessor {
 			gf.remove();
 			throw new MyError(loc, "InvalidInput");
 		}
-		return new GeoElement[] { gf };
+		return array(gf);
 	}
 
 	/**
@@ -2397,7 +2407,6 @@ public class AlgebraProcessor {
 	protected GeoElement[] processLine(Equation equ, ExpressionNode def) {
 		double a = 0, b = 0, c = 0;
 		GeoLine line;
-		GeoElement[] ret = new GeoElement[1];
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 		boolean isExplicit = equ.isExplicit("y");
@@ -2418,8 +2427,7 @@ public class AlgebraProcessor {
 		line.showUndefinedInAlgebraView(true);
 		line.setLabel(label);
 
-		ret[0] = line;
-		return ret;
+		return array(line);
 	}
 
 	/**
@@ -2441,7 +2449,6 @@ public class AlgebraProcessor {
 	 */
 	public GeoElement[] processConic(Equation equ, ExpressionNode def) {
 		double a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
-		GeoElement[] ret = new GeoElement[1];
 		GeoConic conic;
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
@@ -2474,8 +2481,8 @@ public class AlgebraProcessor {
 		}
 		conic.setDefinition(def);
 		conic.setLabel(label);
-		ret[0] = conic;
-		return ret;
+
+		return array(conic);
 	}
 
 	/**
@@ -2497,7 +2504,6 @@ public class AlgebraProcessor {
 	 */
 	protected GeoElement[] processImplicitPoly(Equation equ,
 			ExpressionNode definition) {
-		GeoElement[] ret = new GeoElement[1];
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 		boolean isIndependent = !equ.isFunctionDependent() && lhs.isConstant()
@@ -2519,10 +2525,9 @@ public class AlgebraProcessor {
 			// Line or Conic
 			geo.setDefinition(definition);
 		}
-		ret[0] = geo;
 		// AbstractApplication.debug("User Input: "+equ);
-		ret[0].setLabel(label);
-		return ret;
+		geo.setLabel(label);
+		return array(geo);
 	}
 
 
@@ -2651,7 +2656,7 @@ public class AlgebraProcessor {
 			// e.g. B1 = A1 where A1 is a GeoElement and B1 does not exist yet
 			// create a copy of A1
 			if (n.getLabel() != null || dollarLabelFound) {
-				return processGeoCopy(n.getLabel(), n);
+				return array(DependentGeoCopy(n.getLabel(), n));
 			}
 		}
 
@@ -2682,11 +2687,9 @@ public class AlgebraProcessor {
 	 *            whether to call setLabel
 	 * @return value
 	 */
-	GeoElement[] processNumber(ExpressionNode n,
- ExpressionValue evaluate,
+	GeoElement[] processNumber(ExpressionNode n, ExpressionValue evaluate,
 			boolean needsLabel) {
-		GeoElement[] ret = new GeoElement[1];
-
+		GeoElement ret;
 		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 		MyDouble val = ((NumberValue) evaluate).getNumber();
 		boolean isAngle = val.isAngle();
@@ -2694,26 +2697,26 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			if (isAngle) {
-				ret[0] = new GeoAngle(cons, value, AngleStyle.UNBOUNDED);
+				ret = new GeoAngle(cons, value, AngleStyle.UNBOUNDED);
 			} else {
-				ret[0] = new GeoNumeric(cons, value);
+				ret = new GeoNumeric(cons, value);
 			}
-			ret[0].setDefinition(n);
+			ret.setDefinition(n);
 
 		} else {
-			ret[0] = DependentNumber(n, isAngle, evaluate).toGeoElement();
+			ret = DependentNumber(n, isAngle, evaluate).toGeoElement();
 		}
 
 		if (n.isForcedFunction()) {
-			ret[0] = ((GeoFunctionable) (ret[0])).getGeoFunction();
+			ret = ((GeoFunctionable) ret).getGeoFunction();
 		}
 		if (needsLabel) {
 			String label = n.getLabel();
-			ret[0].setLabel(label);
+			ret.setLabel(label);
 		} else {
-			cons.removeFromConstructionList(ret[0]);
+			cons.removeFromConstructionList(ret);
 		}
-		return ret;
+		return array(ret);
 	}
 
 	/**
@@ -2732,7 +2735,7 @@ public class AlgebraProcessor {
 	private GeoElement[] processList(ExpressionNode n, MyList evalList) {
 		String label = n.getLabel();
 
-		GeoElement[] ret = new GeoElement[1];
+		GeoElement ret;
 
 		// no operations or no variables are present, e.g.
 		// { a, b, 7 } or { 2, 3, 5 } + {1, 2, 4}
@@ -2762,23 +2765,23 @@ public class AlgebraProcessor {
 			cons.setSuppressLabelCreation(oldMacroMode);
 
 			// Create GeoList object
-			ret[0] = kernel.getAlgoDispatcher().List(label, geoElements,
+			ret = kernel.getAlgoDispatcher().List(label, geoElements,
 					isIndependent);
 			if (!evalList.isDefined()) {
-				ret[0].setUndefined();
-				ret[0].updateRepaint();
+				ret.setUndefined();
+				ret.updateRepaint();
 			}
-			ret[0].setDefinition(n);
+			ret.setDefinition(n);
 		}
 
 		// operations and variables are present
 		// e.g. {3, 2, 1} + {a, b, 2}
 		else {
-			ret[0] = ListExpression(n);
-			ret[0].setLabel(label);
+			ret = ListExpression(n);
+			ret.setLabel(label);
 		}
 
-		return ret;
+		return array(ret);
 	}
 
 	/**
@@ -2796,19 +2799,19 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElement[] processText(ExpressionNode n, ExpressionValue evaluate) {
-		GeoElement[] ret = new GeoElement[1];
+		GeoElement ret;
 		String label = n.getLabel();
 
 		boolean isIndependent = n.isConstant();
 
 		if (isIndependent) {
 			MyStringBuffer val = ((TextValue) evaluate).getText();
-			ret[0] = Text(val.toValueString(StringTemplate.defaultTemplate));
+			ret = Text(val.toValueString(StringTemplate.defaultTemplate));
 		} else {
-			ret[0] = DependentText(n);
+			ret = DependentText(n);
 		}
-		ret[0].setLabel(label);
-		return ret;
+		ret.setLabel(label);
+		return array(ret);
 	}
 
 	/**
@@ -2834,23 +2837,23 @@ public class AlgebraProcessor {
 
 	private GeoElement[] processBoolean(ExpressionNode n,
 			ExpressionValue evaluate) {
-		GeoElement[] ret = new GeoElement[1];
+		GeoBoolean ret;
 		String label = n.getLabel();
 
 		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 
 		if (isIndependent) {
 
-			ret[0] = new GeoBoolean(cons);
-			((GeoBoolean) ret[0]).setValue(((BooleanValue) evaluate)
+			ret = new GeoBoolean(cons);
+			ret.setValue(((BooleanValue) evaluate)
 					.getBoolean());
-			ret[0].setDefinition(n);
+			ret.setDefinition(n);
 
 		} else {
-			ret[0] = (new AlgoDependentBoolean(cons, n)).getGeoBoolean();
+			ret = (new AlgoDependentBoolean(cons, n)).getGeoBoolean();
 		}
-		ret[0].setLabel(label);
-		return ret;
+		ret.setLabel(label);
+		return array(ret);
 	}
 
 	private static boolean isEquation(ExpressionValue ev) {
@@ -2982,20 +2985,11 @@ public class AlgebraProcessor {
 	/**
 	 * Creates a dependent copy of origGeo with label
 	 */
-	private GeoElement[] processGeoCopy(String copyLabel,
-			ExpressionNode origGeoNode) {
-		GeoElement[] ret = new GeoElement[1];
-		ret[0] = DependentGeoCopy(copyLabel, origGeoNode);
-		return ret;
-	}
-
-	/**
-	 * Creates a dependent copy of origGeo with label
-	 */
 	final private GeoElement DependentGeoCopy(String label,
 			ExpressionNode origGeoNode) {
-		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons, label,
+		AlgoDependentGeoCopy algo = new AlgoDependentGeoCopy(cons,
 				origGeoNode);
+		algo.getGeo().setLabel(label);
 		return algo.getGeo();
 	}
 
@@ -3008,42 +3002,6 @@ public class AlgebraProcessor {
 	public void showError(String key) {
 		app.showError(loc.getError(key));
 	}
-
-	// /**
-	// * Processes assignments, i.e. input of the form leftVar = geoRight where
-	// geoRight is an existing GeoElement.
-	// */
-	// private GeoElement[] processAssignment(String leftVar, GeoElement
-	// geoRight) throws MyError {
-	// GeoElement[] ret = new GeoElement[1];
-	//
-	// // don't allow copying of dependent functions
-	//
-	// /*
-	// if (
-	// geoRight instanceof GeoFunction && !geoRight.isIndependent()) {
-	// String[] str = { "IllegalAssignment", rightVar };
-	// throw new MyError(loc, str);
-	// }
-	// */
-	//
-	//
-	// GeoElement geoLeft = cons.lookupLabel(leftVar, false);
-	// if (geoLeft == null) { // create kernel object and copy values
-	// geoLeft = geoRight.copy();
-	// geoLeft.setLabel(leftVar);
-	// ret[0] = geoLeft;
-	// } else { // overwrite
-	// ret[0] = geoRight;
-	// }
-	//
-	//
-	// if (ret[0] != null && !ret[0].isLabelSet()) {
-	// ret[0].setLabel(null);
-	// }
-	//
-	// return ret;
-	// }
 
 	private MyStringBuffer xBracket = null, yBracket = null, zBracket = null,
 			closeBracket = null;
@@ -3107,5 +3065,9 @@ public class AlgebraProcessor {
 	 */
 	public Kernel getKernel() {
 		return kernel;
+	}
+
+	private static GeoElement[] array(GeoElement geo) {
+		return new GeoElement[] { geo };
 	}
 }

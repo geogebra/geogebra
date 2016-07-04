@@ -30,14 +30,11 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for output
 	 * @param origGeo
 	 *            original element
 	 */
-	public AlgoDependentGeoCopy(Construction cons, String label,
-			GeoElement origGeo) {
-		this(cons, label, origGeo, origGeo.wrap());
+	public AlgoDependentGeoCopy(Construction cons, GeoElement origGeo) {
+		this(cons, origGeo, origGeo.wrap());
 	}
 
 	/**
@@ -48,13 +45,13 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 	 * @param origGeoNode
 	 *            original expression
 	 */
-	public AlgoDependentGeoCopy(Construction cons, String label,
+	public AlgoDependentGeoCopy(Construction cons,
 			ExpressionNode origGeoNode) {
-		this(cons, label, (GeoElement) origGeoNode
+		this(cons, (GeoElement) origGeoNode
 				.evaluate(StringTemplate.defaultTemplate), origGeoNode);
 	}
 
-	private AlgoDependentGeoCopy(Construction cons, String label,
+	private AlgoDependentGeoCopy(Construction cons,
 			GeoElement origGeo, ExpressionNode origGeoNode) {
 		super(cons);
 		this.origGeo = origGeo;
@@ -66,7 +63,7 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 		setInputOutput(); // for AlgoElement
 
 		compute();
-		copyGeo.setLabel(label);
+
 	}
 
 	@Override
