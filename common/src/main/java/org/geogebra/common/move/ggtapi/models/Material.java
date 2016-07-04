@@ -260,6 +260,16 @@ public class Material implements Comparable<Material>, Serializable {
 		this.url_direct = url_direct;
 	}
 
+	private String preview_url;
+
+	public void setPreviewURL(String preview_url){
+		this.preview_url = preview_url;
+	}
+
+	public String getPreviewURL(){
+		return preview_url;
+	}
+
 	public void setLanguage(String language) {
 		this.language = language;
 	}
@@ -309,6 +319,7 @@ public class Material implements Comparable<Material>, Serializable {
 		sb.append("Language: " + this.language + "\n");
 		sb.append("URL: " + this.url + "\n");
 		sb.append("URL_DIRECT: " + this.url_direct + "\n");
+		sb.append("preview URL: " + this.preview_url + "\n");
 		sb.append("Thumbnail: " + this.thumbnail + "\n");
 		sb.append("Featured: " + this.isFeatured() + " ");
 		sb.append("Likes: " + this.likes);
