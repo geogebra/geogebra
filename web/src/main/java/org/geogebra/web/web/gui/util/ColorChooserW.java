@@ -672,12 +672,13 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 					setSelectedColor(algoBarChart.getBarColor(idx));
 					setAlphaValue(algoBarChart.getBarAlpha(idx));
 					updateTables();
-					previewPanel.update();
-					app.refreshViews();
 				}
+
 				if (changeHandler != null) {
 					changeHandler.onColorChange(getSelectedColor());
 				}
+
+				previewPanel.update();
 
 			}
 		});
@@ -843,7 +844,9 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 	public void setAlgoBarChart(AlgoBarChart algo) {
 		algoBarChart = algo;
-		lbBars.setBarCount(algo.getIntervals());
+		if (algo != null) {
+			lbBars.setBarCount(algo.getIntervals());
+		}
 	}
 
 	public int getBarCount() {
