@@ -3024,12 +3024,15 @@ marblePanel, evt))) {
 				helpPopup.getElement().getStyle()
 						.setProperty("left",
 								(btnHelpToggle.getAbsoluteLeft()
+										- app.getAbsLeft()
 										+ btnHelpToggle.getOffsetWidth())
 										+ "px");
 				int maxOffsetHeight;
-				int totalHeight = Window.getClientHeight();
-				if (btnHelpToggle.getAbsoluteTop() < totalHeight / 2) {
-					int top = (btnHelpToggle.getParent().getAbsoluteTop()
+				int totalHeight = (int) app.getHeight();
+				int toggleButtonTop = btnHelpToggle.getParent().getAbsoluteTop()
+						- (int) app.getAbsTop();
+				if (toggleButtonTop < totalHeight / 2) {
+					int top = (toggleButtonTop
 							+ btnHelpToggle.getParent().getOffsetHeight());
 					maxOffsetHeight = totalHeight - top;
 					helpPopup.getElement().getStyle().setProperty("top",
@@ -3037,12 +3040,13 @@ marblePanel, evt))) {
 					helpPopup.getElement().getStyle().setProperty("bottom",
 							"auto");
 				} else {
+					int minBottom = app.isApplet() ? 0 : 10;
 					int bottom = (totalHeight
-							- btnHelpToggle.getParent().getAbsoluteTop());
+							- toggleButtonTop);
 					maxOffsetHeight = bottom > 0 ? totalHeight - bottom
-							: totalHeight - 10;
+							: totalHeight - minBottom;
 					helpPopup.getElement().getStyle().setProperty("bottom",
-							(bottom > 0 ? bottom : 10) + "px");
+							(bottom > 0 ? bottom : minBottom) + "px");
 					helpPopup.getElement().getStyle().setProperty("top",
 							"auto");
 				}
