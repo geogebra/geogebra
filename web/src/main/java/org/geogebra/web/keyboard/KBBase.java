@@ -491,7 +491,7 @@ public abstract class KBBase extends PopupPanel {
 		// addButton(Unicode.MULTIPLY + "", "*", index, numbers);
 
 		// better for MathQuill to know this syntax as well:
-		addButton(Unicode.MULTIPLY + "", Unicode.MULTIPLY + "", index, numbers);
+		addButton(Unicode.MULTIPLY + "", "*", index, numbers);
 
 		// fill next row
 		index++;
