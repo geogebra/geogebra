@@ -2020,6 +2020,9 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	border-bottom: 0px;
 }
 
+.geogebraweb-table-spreadsheet.upperCorner {
+	border-collapse:collapse;
+}
 .geogebraweb-table-spreadsheet.upperCorner td {
 	background-color: #F8F8F8;
 	color: #F8F8F8 !important;
