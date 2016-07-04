@@ -46,7 +46,7 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 	}
 	@Override
     public void setLabels() {
-		getLabel().setText(loc.getPlain(getTitle()) + ":");
+		getLabel().setText(getTitle() + ":");
 
 		int idx = getListBox().getSelectedIndex();
 		getListBox().clear();
@@ -63,6 +63,11 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
     }
 
 	public String getTitle() {
+		String ret = loc.getPlain(title);
+		if (ret.equals(title)) {
+			// needed for eg Tooltip
+			ret = loc.getMenu(title);
+		}
         return title;
     }
 	
