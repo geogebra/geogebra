@@ -52,18 +52,19 @@ public class SplashDialog extends SimplePanel {
 			addNativeLoadHandler(panel.getElement());
 			add(panel);
 		} else {
-			this.triggerImageLoaded();
+			Timer afterConstructor = new Timer() {
+
+				@Override
+				public void run() {
+					triggerImageLoaded();
+
+				}
+			};
+			afterConstructor.schedule(0);
 		}
 
 		t.schedule(GeoGebraConstants.SPLASH_DIALOG_DELAY);
 	}
-
-	private native String grabPreviewHtml() /*-{
-		var ggbPreView = $doc.querySelector('.ggb_preview');
-		ggbPreView.style.display = 'block';
-		ggbPreView.parentNode.removeChild(ggbPreView);
-		return ggbPreView.outerHTML;
-	}-*/;
 
 	protected native void addNativeLoadHandler(Element el) /*-{
 		var img = el.querySelector(".spinner"), t = this;
@@ -84,7 +85,7 @@ public class SplashDialog extends SimplePanel {
 		}
 		if (thisArticle.parentElement
 				&& thisArticle.parentElement.querySelector(".ggb_preview") !== null) {
-			return false;
+			return true;
 		}
 		return false;
 	}-*/;

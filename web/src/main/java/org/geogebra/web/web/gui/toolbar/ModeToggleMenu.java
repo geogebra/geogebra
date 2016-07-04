@@ -211,7 +211,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		if (submenu != null) {
 			app.unregisterPopup(submenu);
 			submenu.setVisible(false);
-			Log.printStacktrace("hidemenu");
 		}
 	}
 	
