@@ -177,7 +177,7 @@ namespace giac {
     if (g.type==_VECT)
       return dotvecteur(*g._VECTptr,*g._VECTptr);
     else
-      return ratnormal(_lin(g*conj(g,contextptr),contextptr));
+      return ratnormal(_lin(g*conj(g,contextptr),contextptr),contextptr);
   }
 
   gen dotvecteur(const gen & a,const gen & b,GIAC_CONTEXT){
@@ -2200,7 +2200,7 @@ namespace giac {
       }
       else
 	A=gen(makevecteur(0,0,-cte/eqz),_POINT__VECT);
-      A=ratnormal(A);
+      A=ratnormal(A,contextptr);
       return pnt_attrib(symbolic(at_hyperplan,gen(makevecteur(B,A),_SEQ__VECT)),attributs,contextptr);
     }
     // 2-d line
@@ -2210,9 +2210,9 @@ namespace giac {
     }
     else
       A=cst_i*rdiv(-cte,eqy,contextptr);
-    A=ratnormal(A);
+    A=ratnormal(A,contextptr);
     B=A + eqy - eqx*cst_i;
-    B=ratnormal(B);
+    B=ratnormal(B,contextptr);
     gen e=pnt_attrib(gen(makevecteur(A,B),_LINE__VECT),attributs,contextptr);
     return e;
   }
@@ -2408,8 +2408,8 @@ namespace giac {
     return _droite_segment(seg,_VECTOR__VECT,attributs,contextptr);
   }
   static const char _vector_s []="vector";
-  static define_unary_function_eval (__vector,(const gen_op_context &)&giac::_vector,_vector_s);
-  define_unary_function_ptr5( at_vector ,alias_at_vector,&__vector,0,true);
+  static define_unary_function_eval (_pb_vector,(const gen_op_context &)&giac::_vector,_vector_s);
+  define_unary_function_ptr5( at_vector ,alias_at_vector,&_pb_vector,0,true);
 
   gen _segment(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -2796,8 +2796,8 @@ namespace giac {
 	if (f0.type!=_SYMB || !equalposcomp(plot_sommets,f0._SYMBptr->sommet)){
 	  gen r,i;
 	  reim(f0,r,i,contextptr);
-	  r=ratnormal(r); // _evalfa(recursive_normal(r,contextptr),contextptr);
-	  i=ratnormal(i); // _evalfa(recursive_normal(i,contextptr),contextptr);
+	  r=ratnormal(r,contextptr); // _evalfa(recursive_normal(r,contextptr),contextptr);
+	  i=ratnormal(i,contextptr); // _evalfa(recursive_normal(i,contextptr),contextptr);
 	  return '('+r.print(contextptr)+','+i.print(contextptr)+')';
 	}
       }
@@ -3916,7 +3916,7 @@ namespace giac {
       g=remove_at_pnt(v[2]);
       gen eg=g-e;
       nd=cross(cross(ef,eg,contextptr),ef,contextptr);
-      nd=sqrt(ratnormal(dotvecteur(ef,ef)/dotvecteur(nd,nd)),contextptr)*nd;
+      nd=sqrt(ratnormal(dotvecteur(ef,ef)/dotvecteur(nd,nd),contextptr),contextptr)*nd;
     }
     else
       nd=cst_i*ef;
@@ -3938,7 +3938,7 @@ namespace giac {
       if (s>3){
 	gen eg=g-e;
 	nd=cross(cross(ef,eg,contextptr),ef,contextptr);
-	nd=sqrt(ratnormal(dotvecteur(ef,ef)/dotvecteur(nd,nd)),contextptr)*nd;
+	nd=sqrt(ratnormal(dotvecteur(ef,ef)/dotvecteur(nd,nd),contextptr),contextptr)*nd;
       }
       else
 	nd=cst_i*ef;
@@ -4269,7 +4269,7 @@ namespace giac {
     gen M,N;
     vecteur n;
     if (perpendiculaire_commune(makevecteur(a1,a2),makevecteur(b1,b2),M,N,n,contextptr)){
-      if (is_zero(ratnormal(M-N),contextptr))
+      if (is_zero(ratnormal(M-N,contextptr),contextptr))
 	return remove_not_in_segment(b1,b2,bsub,remove_not_in_segment(a1,a2,asub,makevecteur(symb_pnt(M,default_color(contextptr),contextptr)),contextptr),contextptr);
     }
     return vecteur(0);
@@ -4796,7 +4796,7 @@ namespace giac {
       tmin=zero;
       tmax=plus_one;
     }
-    return symb_curve(gen(makevecteur(ratnormal(t*B+(1-t)*A),t,tmin,tmax),_PNT__VECT),f);
+    return symb_curve(gen(makevecteur(ratnormal(t*B+(1-t)*A,context0),t,tmin,tmax),_PNT__VECT),f);
   }
 
   // square distance curve/curve
@@ -5906,9 +5906,9 @@ namespace giac {
       return false;
     if (is_zero(derive(fxx,x,contextptr),contextptr) && is_zero(derive(fxy,x,contextptr),contextptr) && is_zero(derive(fyy,x,contextptr),contextptr) && is_zero(derive(fxx,y,contextptr),contextptr) && is_zero(derive(fxy,y,contextptr),contextptr) && is_zero(derive(fyy,y,contextptr),contextptr) ){
       vecteur vxy(makevecteur(x,y)),v0(2,0);
-      gen c=ratnormal(subst(f,vxy,v0,false,contextptr));
-      fxx=ratnormal(fxx); fyy=ratnormal(fyy);
-      fxy=ratnormal(fxy);
+      gen c=ratnormal(subst(f,vxy,v0,false,contextptr),contextptr);
+      fxx=ratnormal(fxx,contextptr); fyy=ratnormal(fyy,contextptr);
+      fxy=ratnormal(fxy,contextptr);
       if (is_zero(fxy,contextptr)){
 	if (is_zero(fxx,contextptr) && is_zero(fyy,contextptr)){
 	  gen d=gcd(fx,fy);
@@ -5918,27 +5918,27 @@ namespace giac {
 #endif
 	  // line
 	  if (fy0){
-	    gen tmp=ratnormal(-c/fx);
+	    gen tmp=ratnormal(-c/fx,contextptr);
 	    g=gen(makevecteur(tmp,tmp+cst_i),_LINE__VECT);
 	  }
 	  else {
-	    gen tmp=ratnormal(-c/fy);
+	    gen tmp=ratnormal(-c/fy,contextptr);
 	    g=gen(makevecteur(tmp*cst_i,tmp*cst_i+fy-fx*cst_i),_LINE__VECT);
 	  }
 	  return true;
 	} // fxx==0 && fyy==0
 	if (allowed<=1) return false;
 	if (is_zero(fxx-fyy,contextptr)){
-	  fx=ratnormal(subst(fx,vxy,v0,false,contextptr));
-	  fy=ratnormal(subst(fy,vxy,v0,false,contextptr));
+	  fx=ratnormal(subst(fx,vxy,v0,false,contextptr),contextptr);
+	  fy=ratnormal(subst(fy,vxy,v0,false,contextptr),contextptr);
 	  if (is_positive(-fxx,contextptr)){
 	    fxx=-fxx; fx=-fx; fy=-fy; c=-c;
 	  }
 	  // f=fxx/2 (x^2 + y^2) + fx*x + fy*y + c=0
 	  // x^2 + y^2 + 2fx/fxx*x + 2fy/fxx*y + 2c/fxx
 	  // (x+fx/fxx)^2 + (y+fy/fxx)^2 = (fx^2+fy^2- 2c fxx)/fxx^2
-	  gen centre=ratnormal(-(fx+cst_i*fy)/fxx);
-	  gen rayon2( ratnormal((fx*fx+fy*fy-2*c*fxx)/(fxx*fxx)) );
+	  gen centre=ratnormal(-(fx+cst_i*fy)/fxx,contextptr);
+	  gen rayon2( ratnormal((fx*fx+fy*fy-2*c*fxx)/(fxx*fxx),contextptr) );
 	  if (is_strictly_positive(-rayon2,contextptr)){
 	    g=vecteur(0);
 	    return true;
@@ -6257,7 +6257,7 @@ namespace giac {
 	}
       }
       if (!is_zero(N,contextptr)){
-	N=ratnormal(exact(remove_at_pnt(N),contextptr));
+	N=ratnormal(exact(remove_at_pnt(N),contextptr),contextptr);
 	gen Nx,Ny,Nz;
 	if (N.type==_VECT && N._VECTptr->size()==2){
 	  // enveloppe, find equation of N as
@@ -6282,8 +6282,8 @@ namespace giac {
 	  if (is_undef(ap) || is_undef(bp) || is_undef(cp))
 	    return ap+bp+cp;
 	  gen d=a*bp-ap*b;
-	  Nx=ratnormal((b*cp-bp*c)/d);
-	  Ny=ratnormal((ap*c-a*cp)/d);
+	  Nx=ratnormal((b*cp-bp*c)/d,contextptr);
+	  Ny=ratnormal((ap*c-a*cp)/d,contextptr);
 	  N=Nx+cst_i*Ny;
 	}
 	else {
@@ -8507,7 +8507,7 @@ namespace giac {
     gen d_perp(sqrt(4*ab2*rayon_a2-pow(delta,2),contextptr)/2/ab2);
     if (a2d){ // circle inter circle = 2 points (or 1)
       gen ab_perp(im(ab,contextptr)-cst_i*re(ab,contextptr));
-      return makevecteur(symb_pnt(ratnormal(ab4+d_perp*ab_perp),default_color(contextptr),contextptr),symb_pnt(ratnormal(ab4-d_perp*ab_perp),default_color(contextptr),contextptr));
+      return makevecteur(symb_pnt(ratnormal(ab4+d_perp*ab_perp,contextptr),default_color(contextptr),contextptr),symb_pnt(ratnormal(ab4-d_perp*ab_perp,contextptr),default_color(contextptr),contextptr));
     }
     else { // 3-d sphere inter sphere = 2-d circle
       // we will draw a parametric curve in the plan perpendicular to ab
@@ -8585,7 +8585,7 @@ namespace giac {
 	do_lnabs(b,contextptr);
 	eq=(reA-ref)*(imA-imB)-(imA-imf)*(reA-reB);
       }
-      eq=ratnormal(eq);
+      eq=ratnormal(eq,contextptr);
       vecteur num,den;
       prod2frac(eq,num,den);
       eq=vecteur2prod(num);
@@ -8963,7 +8963,7 @@ namespace giac {
 	gen centre,rayon;
 	if (!centre_rayon(curve,centre,rayon,false,contextptr))
 	  continue;
-	rayon=ratnormal(rayon);
+	rayon=ratnormal(rayon,contextptr);
 	if ( t.type==_VECT || t.is_symb_of_sommet(at_pnt) || !is_zero(im(t,contextptr),contextptr) ){
 	  // tangent to cercle via point
 	  t=remove_at_pnt(t);
@@ -9018,8 +9018,8 @@ namespace giac {
 	  gen fprime=derive(f,vars,contextptr);
 	  if (is_undef(fprime))
 	    return fprime;
-	  fprime=ratnormal(subst(fprime,vars,t,false,contextptr));
-	  t=ratnormal(subst(f,vars,t,false,contextptr));
+	  fprime=ratnormal(subst(fprime,vars,t,false,contextptr),contextptr);
+	  t=ratnormal(subst(f,vars,t,false,contextptr),contextptr);
 	  // make hyperplan by t with normal orthogonal to fprime
 	  if (!ckmatrix(fprime) || fprime._VECTptr->size()!=2)
 	    return gensizeerr(contextptr);
@@ -9037,7 +9037,7 @@ namespace giac {
 	gen fprime(derive(eq,vars,contextptr));
 	if (is_undef(fprime))
 	  return fprime;
-	fprime=ratnormal(subst(fprime,vars,t,false,contextptr));
+	fprime=ratnormal(subst(fprime,vars,t,false,contextptr),contextptr);
 	fprime=fprime/abs_norm(fprime,contextptr);
 	result.push_back(symbolic(at_hyperplan,makesequence(fprime,t)));
 	continue;
@@ -13930,7 +13930,7 @@ namespace giac {
       gen c,R;
       if (!centre_rayon(C,c,R,false,contextptr))
 	return gensizeerr(contextptr);
-      gen res =ratnormal(abs_norm2(c-a,contextptr)-abs_norm2(R,contextptr));
+      gen res =ratnormal(abs_norm2(c-a,contextptr)-abs_norm2(R,contextptr),contextptr);
       return normal(res,contextptr);
     }
     return symbolic(at_puissance,args);
@@ -13967,9 +13967,9 @@ namespace giac {
 	return gensizeerr(contextptr);
       if (is_zero(c1-c2,contextptr))
 	return gensizeerr(gettext("Circle centers are identical"));
-      gen k =ratnormal((abs_norm2(R1,contextptr)-abs_norm2(R2,contextptr))/abs_norm2(c1-c2,contextptr));
-      gen H=ratnormal((c1+c2+k*(c2-c1))/2);
-      gen K=ratnormal(H+cst_i*(c2-c1)); // FIXME 3-d
+      gen k =ratnormal((abs_norm2(R1,contextptr)-abs_norm2(R2,contextptr))/abs_norm2(c1-c2,contextptr),contextptr);
+      gen H=ratnormal((c1+c2+k*(c2-c1))/2,contextptr);
+      gen K=ratnormal(H+cst_i*(c2-c1),contextptr); // FIXME 3-d
       return _droite(makesequence(normal(H,contextptr),normal(K,contextptr)),contextptr);
     }
     return symbolic(at_axe_radical,args);
@@ -14123,7 +14123,7 @@ namespace giac {
       a1=im(A1-A2,contextptr);
       a2=re(A2-A1,contextptr);
       k=im(A1*conj(A2,contextptr),contextptr);
-      gen res =ratnormal(c+R*conj(R,contextptr)*(a1+cst_i*a2)/k);
+      gen res =ratnormal(c+R*conj(R,contextptr)*(a1+cst_i*a2)/k,contextptr);
       return symb_pnt(res,contextptr);
     }
     return  symbolic(at_pole,args);

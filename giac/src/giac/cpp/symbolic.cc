@@ -346,6 +346,15 @@ namespace giac {
     }
 #endif
     bool argpar = ( (arg.type>_CPLX && arg.type!=_FLOAT_) || !is_positive(arg,contextptr)) && arg.type!=_IDNT ;
+#ifdef EMCC
+    bool need=need_parenthesis(arg) || arg.type==_SYMB;
+    if (pui==plus_one_half){
+      s += (need?"√(":"√");
+      add_print(s,arg,contextptr);
+      s += (need?")":"");
+      return s;
+    }
+#endif
     if (abs_calc_mode(contextptr)==38){
       bool need=need_parenthesis(arg) || arg.type==_SYMB;
       if (pui==plus_one_half){
@@ -490,7 +499,11 @@ namespace giac {
       return add_print_neg(s,g.feuille,contextptr);
     if (g.sommet==at_inv)
       return add_print_inv(s,g.feuille,contextptr);
-    if (g.sommet==at_exp && (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38)){
+    if (g.sommet==at_exp 
+#ifndef EMCC
+	&& (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38)
+#endif
+	){
       s += printasexp(g.feuille,0,contextptr);
       return s;
     }

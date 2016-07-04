@@ -45,7 +45,7 @@ namespace giac {
   bool guess_program(gen & g,GIAC_CONTEXT);
 
   // high-level fonctions on gen
-  gen ratnormal(const gen & e);
+  gen ratnormal(const gen & e,GIAC_CONTEXT0);
   gen recursive_ratnormal(const gen & e,GIAC_CONTEXT);
   // gen normal(const gen & e); // rational simplifications
   gen normal(const gen & e,GIAC_CONTEXT); // rational simplifications

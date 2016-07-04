@@ -123,7 +123,7 @@ namespace giac {
     purgenoassume(t,contextptr);
     if (s==x)
       res=subst(res,t,x,false,contextptr);
-    return ratnormal(res);
+    return ratnormal(res,contextptr);
     /*
     gen remains,res=integrate(f*exp(-t*x,contextptr),*x._IDNTptr,remains,contextptr);
     res=subst(-res,x,zero,false,contextptr);
@@ -304,16 +304,16 @@ namespace giac {
 	  simplify(d,lnpartden);
 	  if (uselog){
 	    sqrtdelta=normal(sqrt(r2e(delta,lprime,contextptr),contextptr),contextptr);
-	    gen racine=ratnormal(sqrtdelta/gen(2)/r2e(a,lprime,contextptr));
+	    gen racine=ratnormal(sqrtdelta/gen(2)/r2e(a,lprime,contextptr),contextptr);
 	    lnpart=lnpart+rdiv(r2e(d,lprime,contextptr),r2e(lnpartden,lprime,contextptr),contextptr)*cosh(racine*laplace_var,contextptr)*exppart;
-	    gen aa=ratnormal(r2e(atannum,lprime,contextptr)/r2e(alpha,lprime,contextptr)/sqrtdelta);
+	    gen aa=ratnormal(r2e(atannum,lprime,contextptr)/r2e(alpha,lprime,contextptr)/sqrtdelta,contextptr);
 	    lnpart=lnpart+aa*sinh(racine*laplace_var,contextptr)*exppart;
 	  }
 	  else {
 	    sqrtdelta=normal(sqrt(r2e(-delta,lprime,contextptr),contextptr),contextptr);
-	    gen racine=ratnormal(sqrtdelta/gen(2)/r2e(a,lprime,contextptr));
+	    gen racine=ratnormal(sqrtdelta/gen(2)/r2e(a,lprime,contextptr),contextptr);
 	    lnpart=lnpart+rdiv(r2e(d,lprime,contextptr),r2e(lnpartden,lprime,contextptr),contextptr)*cos(racine*laplace_var,contextptr)*exppart;
-	    gen aa=ratnormal(r2e(atannum,lprime,contextptr)/r2e(alpha,lprime,contextptr)/sqrtdelta);
+	    gen aa=ratnormal(r2e(atannum,lprime,contextptr)/r2e(alpha,lprime,contextptr)/sqrtdelta,contextptr);
 	    lnpart=lnpart+aa*sin(racine*laplace_var,contextptr)*exppart;
 	  }
 	  break; 
@@ -499,7 +499,7 @@ namespace giac {
       vecteur res;
       for (unsigned i=0;i<s._VECTptr->size();++i){
 	gen tmp=subst(solution_generale,parameters,s[i],false,contextptr);
-	tmp=ratnormal(tmp);
+	tmp=ratnormal(tmp,contextptr);
 	res.push_back(tmp);
       }
       return res;
@@ -712,7 +712,7 @@ namespace giac {
       }
       cl=inv(bsura+x,contextptr)*cl;
       cl=ilaplace(cl,x,x,contextptr);
-      return vecteur(1,ratnormal(cl));
+      return vecteur(1,ratnormal(cl,contextptr));
     }
     gen i=integrate_without_lnabs(rdiv(b,a,contextptr),x,contextptr);
     i=normal(lnexpand(i,contextptr),contextptr);
@@ -721,9 +721,9 @@ namespace giac {
     i=simplify(i,contextptr);
     // cleanup general solution: remove cst factors and absolute values
     i=desolve_cleanup(i,x,contextptr);
-    gen C=integrate_without_lnabs(ratnormal(rdiv(-c,a,contextptr)*i),x,contextptr);
+    gen C=integrate_without_lnabs(ratnormal(rdiv(-c,a,contextptr)*i,contextptr),x,contextptr);
     parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
-    return ratnormal(_lin((C+parameters.back())/i,contextptr));
+    return ratnormal(_lin((C+parameters.back())/i,contextptr),contextptr);
   }
 
   bool desolve_linn(const gen & x,const gen & y,const gen & t,int n,vecteur & v,vecteur & parameters,gen & result,GIAC_CONTEXT){
@@ -767,7 +767,7 @@ namespace giac {
 	if (int(rac.size())==n){
 	  gen sol; bool reel=true;
 	  for (int j=0;j<n;){
-	    if (j<n-1 && is_zero(ratnormal(rac[j]-conj(rac[j+1],contextptr)),contextptr)){
+	    if (j<n-1 && is_zero(ratnormal(rac[j]-conj(rac[j+1],contextptr),contextptr),contextptr)){
 	      gen racr,raci;
 	      reim(rac[j],racr,raci,contextptr);
 	      if (is_strictly_positive(-raci,contextptr))
@@ -853,7 +853,7 @@ namespace giac {
 	 endif
       */
       bool cst=is_zero(derive(k,x,contextptr));
-      bool x2=is_zero(derive(ratnormal(u*x),x,contextptr)) && is_zero(derive(ratnormal(v*x*x),x,contextptr));
+      bool x2=is_zero(derive(ratnormal(u*x,contextptr),x,contextptr)) && is_zero(derive(ratnormal(v*x*x,contextptr),x,contextptr));
       if (cst || x2){
 	gen s,t;
 	if (cst){
@@ -1102,9 +1102,9 @@ namespace giac {
 	if (is_linear_wrt(fa,t,faa,fab,contextptr) && is_zero(fab) && derive(faa,makevecteur(x,y,t),contextptr)==vecteur(3,0) && derive(fc,makevecteur(x,y,t),contextptr)==vecteur(3,0) && derive(fb,makevecteur(x,y),contextptr)==vecteur(2,0)){
 	  // 0=f=fc*y+fd = fc*y+fa*x+fb = fc*y+faa*x*y'+fb
 	  // -> y=-faa/fc*x*y' -fb/fc
-	  if (is_one(ratnormal(-faa/fc))){
+	  if (is_one(ratnormal(-faa/fc,contextptr))){
 	    // y=x*y'-fb/fc
-	    gen fm=ratnormal(-fb/fc);
+	    gen fm=ratnormal(-fb/fc,contextptr);
 	    gen fmp=derive(fm,t,contextptr);
 	    sol.push_back(parameters.back()*x+subst(fm,t,parameters.back(),false,contextptr));
 	    sol.push_back(makevecteur(-fmp,-t*fmp+fm));
@@ -1316,13 +1316,13 @@ namespace giac {
 	  if (desolve_linn(x,y,t,2,v,parameters,result,contextptr)){
 	    result=lnexpand(ln(result,contextptr),contextptr);
 	    result=-derive(result,x,contextptr)/R;
-	    result=ratnormal(result);
+	    result=ratnormal(result,contextptr);
 	    gen lastp=parameters.back();
 	    parameters.pop_back();
 	    gen partic=subst(result,lastp,0,false,contextptr);
-	    partic=ratnormal(partic);
+	    partic=ratnormal(partic,contextptr);
 	    result=subst(result,lastp,1,false,contextptr);
-	    result=ratnormal(result);
+	    result=ratnormal(result,contextptr);
 	    //result=-derive(result,x,contextptr)/(R*result);
 	    return makevecteur(partic,result);
 	  }
@@ -1486,7 +1486,7 @@ namespace giac {
     purgenoassume(t,contextptr);
     if (s==x)
       res=subst(res,t,x,false,contextptr);
-    return ratnormal(res);
+    return ratnormal(res,contextptr);
   }
 
   gen desolve(const gen & f_orig,const gen & x_orig,const gen & y_orig,int & ordre,vecteur & parameters,GIAC_CONTEXT){
@@ -1623,7 +1623,7 @@ namespace giac {
     }
     if (s==x)
       res=subst(res,t,x,false,contextptr);
-    res=ratnormal(res);
+    res=ratnormal(res,contextptr);
     // replace discrete Kronecker by Heaviside in some very simple situations
     vecteur vD=lop(res,at_Kronecker);
     gen A,B,a,b;
@@ -1631,7 +1631,7 @@ namespace giac {
       // res==A*Kronecker(a*x+b)+B
       if (is_one(a) && is_zero(b)){
 	gen B0=subst(B,s,0,false,contextptr);
-	if (is_zero(ratnormal(B0+A)))
+	if (is_zero(ratnormal(B0+A,contextptr)))
 	  res=B*symbolic(at_Heaviside,s-1);
       }
     }

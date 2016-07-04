@@ -1152,7 +1152,7 @@ namespace giac {
     if (v.size()!=3)
       return gendimerr(gettext("hypersphere_equation"));
     vecteur xyzc(subvecteur(xyz,v));
-    gen eq=ratnormal(dotvecteur(xyzc,xyzc)-pow(rayon,2));
+    gen eq=ratnormal(dotvecteur(xyzc,xyzc)-pow(rayon,2),context0);
     return eq;
   }
   vecteur hypersphere_parameq(const gen & g,const vecteur & st){
@@ -1241,7 +1241,7 @@ namespace giac {
     vecteur attributs(1,default_color(contextptr));
     if (!hyperplan_normal_point(a,n,p))
       return vecteur(1,gensizeerr(contextptr));
-    gen n2=dotvecteur(n,n),r2=ratnormal(r*r);
+    gen n2=dotvecteur(n,n),r2=ratnormal(r*r,contextptr);
     // find x such that c+x*n must belong to a,
     // hence (c-p+x*n).n=0 -> x=(p-c).n/n.n
     gen x=dotvecteur(subvecteur(p,c),n)/n2;
@@ -1249,7 +1249,7 @@ namespace giac {
     // if ||x*n||>r, empty
     // if ||x*n||<r, circle of radius sqrt(xn2-r2), 
     // centered at c+x*n inside the plan b
-    gen xn2=ratnormal(x*x*n2);
+    gen xn2=ratnormal(x*x*n2,contextptr);
     gen center=c+x*n;
     identificateur id(" plansphere");
     gen T__IDNT_e(id);
@@ -1317,7 +1317,7 @@ namespace giac {
 	int nsol=int(sol._VECTptr->size());
 	for (int i=0;i<nsol;i++){
 	  if (sol[i].type==_VECT && sol[i]._VECTptr->size()==3){
-	    gen As=ratnormal(subst(A,t,sol[i]._VECTptr->front(),false,contextptr));
+	    gen As=ratnormal(subst(A,t,sol[i]._VECTptr->front(),false,contextptr),contextptr);
 	    // now make the parametric curves [A,s]
 	    res.push_back(paramplotparam(gen(makevecteur(As,s),_SEQ__VECT),false,contextptr));
 	  }
@@ -1344,7 +1344,7 @@ namespace giac {
 	// for each element of sol, get the first component t, subst in A
 	int nsol=int(sol._VECTptr->size());
 	for (int i=0;i<nsol;i++){
-	  gen As=ratnormal(subst(A,t,sol[i],false,contextptr));
+	  gen As=ratnormal(subst(A,t,sol[i],false,contextptr),contextptr);
 	  gen smin=gnuplot_tmin,smax=gnuplot_tmax;
 	  if (av.size()>=4 && av[2].type==_VECT && av[3].type==_VECT){
 	    smin=av[2][swapped?1:0];
@@ -1577,9 +1577,9 @@ namespace giac {
 	 is_zero(derive(fxx,z,contextptr)) && is_zero(derive(fxy,z,contextptr)) && is_zero(derive(fyy,z,contextptr)) && is_zero(derive(fxz,z,contextptr)) && is_zero(derive(fyz,z,contextptr)) && is_zero(derive(fzz,z,contextptr)) 
 	 ){
       vecteur vxyz(makevecteur(x,y,z)),v0(3,0);
-      gen c=ratnormal(subst(f,vxyz,v0,false,contextptr));
-      fxx=ratnormal(fxx); fyy=ratnormal(fyy); fxy=ratnormal(fxy);
-      fxz=ratnormal(fxz); fyz=ratnormal(fyz); fzz=ratnormal(fzz);
+      gen c=ratnormal(subst(f,vxyz,v0,false,contextptr),contextptr);
+      fxx=ratnormal(fxx,contextptr); fyy=ratnormal(fyy,contextptr); fxy=ratnormal(fxy,contextptr);
+      fxz=ratnormal(fxz,contextptr); fyz=ratnormal(fyz,contextptr); fzz=ratnormal(fzz,contextptr);
       if (is_zero(fxy) && is_zero(fxz) && is_zero(fyz)){
 	if (is_zero(fxx) && is_zero(fyy) && is_zero(fzz)){
 	  gen d=gcd(gcd(fx,fy),fz);
@@ -1587,16 +1587,16 @@ namespace giac {
 	  vecteur n(makevecteur(fx,fy,fz));
 	  // plan
 	  if (!fx0){
-	    gen tmp=makevecteur(ratnormal(-c/fx),0,0);
+	    gen tmp=makevecteur(ratnormal(-c/fx,contextptr),0,0);
 	    g=symbolic(at_hyperplan,makesequence(n,tmp));
 	  }
 	  else {
 	    if (!fy0){
-	      gen tmp=makevecteur(0,ratnormal(-c/fy),0);
+	      gen tmp=makevecteur(0,ratnormal(-c/fy,contextptr),0);
 	      g=symbolic(at_hyperplan,makesequence(n,tmp));
 	    }
 	    else {
-	      gen tmp=makevecteur(0,0,ratnormal(-c/fz));
+	      gen tmp=makevecteur(0,0,ratnormal(-c/fz,contextptr));
 	      g=symbolic(at_hyperplan,makesequence(n,tmp));
 	    }
 	  }

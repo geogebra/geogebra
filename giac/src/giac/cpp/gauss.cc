@@ -572,8 +572,8 @@ namespace giac {
 	gen delta;
 	delta=(a-c)*(a-c)+4*b*b;
 	delta=normalize_sqrt(sqrt(delta,contextptr),contextptr);
-	vp0=ratnormal((a+c+delta)/2);
-	vp1=ratnormal((a+c-delta)/2);
+	vp0=ratnormal((a+c+delta)/2,contextptr);
+	vp1=ratnormal((a+c-delta)/2,contextptr);
 	gen normv1(normalize_sqrt(sqrt(b*b+(vp0-a)*(vp0-a),contextptr),contextptr));
 	V0[0]=normal(b/normv1,contextptr); 
 	V0[1]=normal((vp0-a)/normv1,contextptr);

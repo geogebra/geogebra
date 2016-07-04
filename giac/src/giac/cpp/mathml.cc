@@ -758,8 +758,8 @@ namespace giac {
   static string svg_text(gen A, string legende, svg_attribut attr,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     double x_scale=(xmax-xmin)/10;
     double y_scale=(ymax-ymin)/10;
-    double fontscale=0.5*x_scale;
-    double ratio=y_scale/x_scale;
+    double fontscale=0.4*x_scale;
+    double ratio=y_scale/x_scale/0.6;
     if (legende=="")
       return legende;
     // remove " from legende
@@ -768,13 +768,19 @@ namespace giac {
       legende=legende.substr(1,end-1);
     gen x=re(A,contextptr); // should take care of legend position
     gen y(ymax+ymin-im(A,contextptr));
-    if (x==xmax){
-      // A traiter, la legende sort du cadre
-    }
-    return "<text  fill=\"" +color_string(attr)+"\"  x=\""+(x/fontscale).print(contextptr)+"\" y=\""+(y/ratio/fontscale).print(contextptr)
+    if (is_greater(x,xmax,contextptr))
+      x=xmax-x_scale;
+    if (is_greater(xmin,x,contextptr))
+      x=xmin+x_scale;    
+    if (is_greater(y,ymax,contextptr))
+      y=ymax-y_scale;
+    if (is_greater(ymin,y,contextptr))
+      y=ymin+y_scale;    
+    string res= "<text  fill=\"" +color_string(attr)+"\"  x=\""+(x/fontscale).print(contextptr)+"\" y=\""+(y/ratio/fontscale).print(contextptr)
       +"\" transform=\"translate(0,"+print_DOUBLE_(ymin+ymax,contextptr)+") scale("+print_DOUBLE_(fontscale,contextptr)+","+print_DOUBLE_(-ratio*fontscale,contextptr)+")\" style=\"font-size:1.0pt; text-anchor:end;\">"
       +legende
-      +"</text>\n";                                      
+      +"</text>\n";
+    return res;
   }
   
   static double geo_thickness(double xmin,double xmax,double ymin,double ymax){

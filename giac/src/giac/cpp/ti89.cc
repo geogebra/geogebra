@@ -443,7 +443,7 @@ namespace giac {
   gen _comDenom(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->size()<2 )
-      return ratnormal(g);
+      return ratnormal(g,contextptr);
     vecteur & v(*g._VECTptr);
     return _reorder(makesequence(v.front(),vecteur(v.begin()+1,v.end())),contextptr);
   }
@@ -1500,7 +1500,7 @@ namespace giac {
       return a.islesscomplexthan(b);
     return g.val==1;
   }
-  static gen sortad(const vecteur & v,bool ascend,GIAC_CONTEXT){
+  gen sortad(const vecteur & v,bool ascend,GIAC_CONTEXT){
     if (v.empty()) return v;
     vecteur valeur=*eval(v,eval_level(contextptr),contextptr)._VECTptr;
     bool ismat=ckmatrix(valeur);

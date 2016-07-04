@@ -1058,9 +1058,9 @@ namespace giac {
     const_iterateur it=p.begin(),itend=p.end();
     gen res;
     for (;it!=itend;++it){
-      res=ratnormal(res*g+*it);
+      res=ratnormal(res*g+*it,contextptr);
     }
-    return ratnormal(res);
+    return ratnormal(res,contextptr);
   }
 
   bool has_rootof_value(const gen & Pmin,gen & value,GIAC_CONTEXT){
@@ -1523,11 +1523,11 @@ namespace giac {
 	}
 	if (is_zero(a))
 	  continue;
-	a=ratnormal(cst_two_pi/im(a,contextptr)); // current period
+	a=ratnormal(cst_two_pi/im(a,contextptr),contextptr); // current period
 	if (is_zero(period))
 	  period=a;
 	else { // find common period (if it exists)
-	  b=ratnormal(period/a);
+	  b=ratnormal(period/a,contextptr);
 	  if (b.type!=_INT_ && b.type!=_FRAC){
 	    period=0;
 	    break;

@@ -74,6 +74,7 @@ namespace giac {
   gen _polyEval(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_product;
   gen _product(const gen & g,GIAC_CONTEXT);
+  gen sortad(const vecteur & v,bool ascend,GIAC_CONTEXT);
   gen _SortA(const gen & g,GIAC_CONTEXT);
   gen _sorta(const gen & g,GIAC_CONTEXT);
   gen _SortD(const gen & g,GIAC_CONTEXT);

@@ -173,7 +173,7 @@ namespace giac {
 
   gen _ratnormal(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return ratnormal(g);
+    return ratnormal(g,contextptr);
   }
   static const char _ratnormal_s []="ratnormal";
   static define_unary_function_eval (__ratnormal,&_ratnormal,_ratnormal_s);
@@ -831,7 +831,7 @@ namespace giac {
     tmp=recursive_normal(tmp,contextptr);
     vecteur vtmp(lvar(tmp));
     if (vtmp.size()==1 && vtmp[0].is_symb_of_sommet(at_exp)){
-      tmp=ratnormal(_halftan(_exp2trig(tmp,contextptr),contextptr));
+      tmp=ratnormal(_halftan(_exp2trig(tmp,contextptr),contextptr),contextptr);
     }
     gen r,i;
     reim(tmp,r,i,contextptr);
@@ -839,7 +839,7 @@ namespace giac {
     gen re2,im2;
     reim(tmp2,re2,im2,contextptr);
     if (lvar(makevecteur(re2,im2)).size()<lvar(makevecteur(r,i)).size())
-      reim(inv(ratnormal(re2)+cst_i*ratnormal(im2),contextptr),r,i,contextptr);
+      reim(inv(ratnormal(re2,contextptr)+cst_i*ratnormal(im2,contextptr),contextptr),r,i,contextptr);
     // tmp=simplify(i,contextptr);
     if (is_zero(i))
       return r;
@@ -2452,7 +2452,7 @@ namespace giac {
     if (!is_zero(derive(m,x,contextptr))){
       if (f._VECTptr->size()==1 && x._VECTptr->size()==1 && is_zero(derive(f,n,contextptr))){
 	// homographic?
-	gen tmp=ratnormal(f._VECTptr->front()),var(x._VECTptr->front());
+	gen tmp=ratnormal(f._VECTptr->front(),contextptr),var(x._VECTptr->front());
 	gen tmpn=_getNum(tmp,contextptr),tmpd=_getDenom(tmp,contextptr),a,b,c,d;
 	if (is_linear_wrt(tmpn,var,a,b,contextptr) && is_linear_wrt(tmpd,var,c,d,contextptr)&& !is_zero(c)){
 	  // u_{n+1}=(a*u_n+b)/(c*u_n+d)
@@ -2593,9 +2593,9 @@ namespace giac {
     res=multmatvecteur(P,res);
     if (fs==1)
       //return normal(subst(res[0],n,n-add,false,contextptr),contextptr);// normal(res[0]); 
-      return ratnormal(res[0]);
+      return ratnormal(res[0],contextptr);
     else
-      return ratnormal(res);
+      return ratnormal(res,contextptr);
   }
   static const char _seqsolve_s []="seqsolve";
   static define_unary_function_eval_quoted (__seqsolve,&_seqsolve,_seqsolve_s);

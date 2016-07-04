@@ -683,7 +683,7 @@ namespace giac {
 	  return false;
 	// psi function has poles at 0,-1,-2,...
 	// all have Laurent series -1/(x-pole)
-	xfactint=ratnormal(subst(xfactint,x,x/T,false,contextptr));
+	xfactint=ratnormal(subst(xfactint,x,x/T,false,contextptr),contextptr);
 	// now int()==contour_integral of xfactint*Xfact over rectangle
 	// -inf .. + inf -> inf+T ..-inf+T ->
 	// just compute all residues at poles where im is in [0,im(T)]
@@ -1090,7 +1090,7 @@ namespace giac {
 	if ( (rational && intgab_ratfrac(gb,x,res,contextptr)) ||
 	     intgab(gb,x,a,plus_inf,res,contextptr) ){
 	  if (!is_inf(res))
-	    res=ratnormal(res/2);
+	    res=ratnormal(res/2,contextptr);
 	  return true;
 	}
       }
@@ -1124,7 +1124,7 @@ namespace giac {
 	    // gad must be a power of expo-exp(expo_b), starting with linear
 	    if (rlvarx(gan,x).size()==1 && is_linear_wrt(gad,expo,gad_a,gad_b,contextptr)){
 	      // gad=gad_a*(expo+gad_b/gad_a)
-	      gen test=ratnormal(gad_a*exp(expo_b,contextptr)+gad_b);
+	      gen test=ratnormal(gad_a*exp(expo_b,contextptr)+gad_b,contextptr);
 	      if (is_zero(test)){
 		// -1/gad_b*int(gan/(exp(expo_a*t)-1),t,0,inf)
 		gen ganv=_coeff(makesequence(gan,x),contextptr);
@@ -1138,7 +1138,7 @@ namespace giac {
 		      res += coeff*facti*Zeta(i+1,contextptr);
 		    facti=facti*gen(i+1)/expo_a;
 		  }
-		  res=ratnormal(-res/gad_b);
+		  res=ratnormal(-res/gad_b,contextptr);
 		  return true;
 		}
 	      } // end if is_zero(test)
@@ -1156,7 +1156,7 @@ namespace giac {
 	    if (expofact.type==_VECT && expofact._VECTptr->size()==2){
 	      gen exponum=expofact._VECTptr->front(),expoden=expofact._VECTptr->back();
 	      int n=_degree(makesequence(expoden,y),contextptr).val;
-	      gen coeffden=ratnormal(expoden/pow(y-y0,n,contextptr));
+	      gen coeffden=ratnormal(expoden/pow(y-y0,n,contextptr),contextptr);
 	      if (n>1 && is_zero(derive(coeffden,y,contextptr))){
 		// 1/expoden*xfact*exponum(y)/(y-1)^n, y'=expo_a*y
 		gen additional=_quorem(makesequence(exponum,pow(y-1,n-1),y),contextptr);
@@ -1198,7 +1198,7 @@ namespace giac {
 	  if ( (rational && intgab_ratfrac(ga,x,res,contextptr)) ||
 	       intgab(ga,x,minus_inf,plus_inf,res,contextptr) ){
 	    if (!is_inf(res)) 
-	      res=ratnormal(res/2);
+	      res=ratnormal(res/2,contextptr);
 	    return !is_undef(res);
 	  }
 	}
@@ -1365,7 +1365,7 @@ namespace giac {
 		    return false;
 		}
 	      }
-	      res = ratnormal(normal(periode*cst_two_pi/alpha*cst_i,contextptr)*somme_residues); 
+	      res = ratnormal(normal(periode*cst_two_pi/alpha*cst_i,contextptr)*somme_residues,contextptr); 
 	      if (changesign)
 		res=-res;
 	      return true;
@@ -1433,8 +1433,8 @@ namespace giac {
 	tmp1=integrate_id_rem(tmp1,gx,remains,contextptr,0);
 	if (is_undef(tmp1)) return false;
 	tmp1=tmp1-limit(tmp1,*gx._IDNTptr,0,1,contextptr);
-	tmp1=ratnormal(tmp1*pow(gx,n,contextptr));
-	tmp1=ratnormal(subst(tmp1,gx,pow(gx,inv(d,contextptr),contextptr),false,contextptr));
+	tmp1=ratnormal(tmp1*pow(gx,n,contextptr),contextptr);
+	tmp1=ratnormal(subst(tmp1,gx,pow(gx,inv(d,contextptr),contextptr),false,contextptr),contextptr);
       }
       else {
 	tmp1=tmp1*pow(gx,-1-decals[i],contextptr);
@@ -1513,7 +1513,7 @@ namespace giac {
 	  vecteur vx(d+1),vy(d+1);
 	  for (int i=0;i<=d;++i){
 	    vx[i]=i;
-	    vy[i]=ratnormal(subst(Pg,x,R0+i,false,contextptr));
+	    vy[i]=ratnormal(subst(Pg,x,R0+i,false,contextptr),contextptr);
 	  }
 	  vecteur w=divided_differences(vx,vy);
 	  // p(n+R0)=w[0]+w[1]*n+w[2]*n*(n-1)+...
@@ -1531,7 +1531,7 @@ namespace giac {
 	    res=limit(coeffa*tmp1,*gx._IDNTptr,Qg,1,contextptr)/pow(Qg,a-R0,contextptr);
 	    if (est_reel)
 	      res=re(res,contextptr);
-	    res=ratnormal(res);
+	    res=ratnormal(res,contextptr);
 	    purgenoassume(gx,contextptr);
 	    return true;
 	  }
@@ -1577,7 +1577,7 @@ namespace giac {
 	  vecteur vx(d+1),vy(d+1);
 	  for (int i=0;i<=d;++i){
 	    vx[i]=i;
-	    vy[i]=ratnormal(subst(Pg,x,(i+R0)/r,false,contextptr));
+	    vy[i]=ratnormal(subst(Pg,x,(i+R0)/r,false,contextptr),contextptr);
 	  }
 	  vecteur w=divided_differences(vx,vy);
 	  reverse(w.begin(),w.end());
@@ -1604,7 +1604,7 @@ namespace giac {
 	    res=limit(coeffa*tmp1,*gx._IDNTptr,Qg,1,contextptr);
 	    if (est_reel)
 	      res=re(res,contextptr);
-	    res=ratnormal(res);
+	    res=ratnormal(res,contextptr);
 	    purgenoassume(gx,contextptr);
 	    return true;
 	  }
@@ -1629,7 +1629,7 @@ namespace giac {
 	    res=limit(coeffa*tmp1,*gx._IDNTptr,Qg,1,contextptr)/pow(Qg,a,contextptr);
 	    if (est_reel)
 	      res=re(res,contextptr);
-	    res=ratnormal(res);
+	    res=ratnormal(res,contextptr);
 	    purgenoassume(gx,contextptr);
 	    return true;
 	  }
@@ -1786,7 +1786,7 @@ namespace giac {
 	  }
 	  // recompute the sum by repeted division, first divide g by P
 	  // then divide P by R, by R-1, by R-2, etc.
-	  gen gsurP=ratnormal(g/P),prod=1;
+	  gen gsurP=ratnormal(g/P,contextptr),prod=1;
 	  while (!is_zero(P)){
 	    gen tmp=_quorem(gen(makevecteur(P,R,x),_SEQ__VECT),contextptr),tmpres;
 	    if (tmp.type!=_VECT || tmp._VECTptr->size()!=2)
@@ -1808,7 +1808,7 @@ namespace giac {
       polynome s,Q,R;
       // limit of q/r at infinity must be 0
       gen test=r2e(q,v,contextptr)/r2e(r,v,contextptr);
-      test=ratnormal(test*test-1);
+      test=ratnormal(test*test-1,contextptr);
       if (is_zero(test)){
 	res=_limit(gen(makevecteur(g,x,plus_inf),_SEQ__VECT),contextptr);
 	if (!is_zero(res)){

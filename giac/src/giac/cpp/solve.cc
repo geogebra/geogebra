@@ -1234,13 +1234,13 @@ namespace giac {
       e=a1-a2;
     if (is_inequation(e))
       return vecteur(1,gensizeerr(gettext("Inequation inside inequation not implemented ")+e.print()));
-    if (is_zero(ratnormal(derive(e,x,contextptr)),contextptr))
+    if (is_zero(ratnormal(derive(e,x,contextptr),contextptr),contextptr))
       *logptr(contextptr) <<gettext("Inequation is constant with respect to ")+string(x.print(contextptr)) << endl;
     vecteur veq_not_singu,veq,singu;
     singu=find_singularities(e,x,2,contextptr);
     veq_not_singu=solve(e,x,2,contextptr);
     for (unsigned i=0;i<singu.size();++i){	
-      singu[i]=ratnormal(singu[i]);
+      singu[i]=ratnormal(singu[i],contextptr);
       if (equalposcomp(veq_not_singu,singu[i])){
 	gen tmp=subst(e0,x,singu[i],false,contextptr);
 	if (eval(tmp,1,contextptr)==1)
@@ -1248,7 +1248,7 @@ namespace giac {
       }
     }
     for (unsigned i=0;i<veq_not_singu.size();++i)
-      veq_not_singu[i]=ratnormal(veq_not_singu[i]);
+      veq_not_singu[i]=ratnormal(veq_not_singu[i],contextptr);
     // Check if trig equations have introduced infinitely many solutions depending on add. param.
     vecteur eid=lidnt(e),eids=eid;
     lidnt(evalf(veq_not_singu,1,contextptr),eids,false);
@@ -2851,7 +2851,7 @@ namespace giac {
     }
     gen a,b;
     if (is_linear_wrt(eq0,variable,a,b,contextptr)){
-      a=ratnormal(a);
+      a=ratnormal(a,contextptr);
       if (is_zero(a,contextptr)){
 	type=-1;
 	return 0;
@@ -2898,7 +2898,7 @@ namespace giac {
     }
 #endif
     // ofstream of("log"); of << eq << " " << diffeq << endl; of.close();
-    if (is_zero(ratnormal(eq),contextptr)){
+    if (is_zero(ratnormal(eq,contextptr),contextptr)){
       type=-1;
       return res;
     }
@@ -6193,7 +6193,7 @@ namespace giac {
 	  else {
 	    // additional cases if det(M)==0
 	    M=_det(M,contextptr);
-	    M=ratnormal(M/gcd(M,derive(M,*vart._IDNTptr,contextptr)));
+	    M=ratnormal(M/gcd(M,derive(M,*vart._IDNTptr,contextptr)),contextptr);
 	    if (_degree(makesequence(M,vart),contextptr)>2)
 	      H.clear();
 	    else {
@@ -6311,7 +6311,7 @@ namespace giac {
       for (;st!=stend;++st){
 	int foundvars=int(st->_VECTptr->size());
 	vecteur current=*st->_VECTptr;
-	gen curg=ratnormal(ratnormal(subst(g,vecteur(var.end()-foundvars,var.end()),*st,false,contextptr)));
+	gen curg=ratnormal(ratnormal(subst(g,vecteur(var.end()-foundvars,var.end()),*st,false,contextptr),contextptr),contextptr);
 	gen x;
 	int xpos=0;
 	// First search in current an identifier curg depends on

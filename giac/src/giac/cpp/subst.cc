@@ -152,12 +152,12 @@ namespace giac {
   }
 
   gen tantosincos2(const gen & e,GIAC_CONTEXT){
-    gen e2=ratnormal(2*e);
+    gen e2=ratnormal(2*e,contextptr);
     return rdiv(symb_sin(e2),(1+symb_cos(e2)),contextptr);
   }
 
   gen tantocossin2(const gen & e,GIAC_CONTEXT){
-    gen e2=ratnormal(2*e);
+    gen e2=ratnormal(2*e,contextptr);
     return rdiv((1-symb_cos(e2)),symb_sin(e2),contextptr);
   }
 
@@ -962,15 +962,15 @@ namespace giac {
 
   // sin(x)=-cos(x+pi/2)
   static gen shift_sin(const gen & x,GIAC_CONTEXT){
-    return -symb_cos(ratnormal(x+cst_pi_over_2));
+    return -symb_cos(ratnormal(x+cst_pi_over_2,contextptr));
   }
   // cos(x)=sin(x+pi/2)
   static gen shift_cos(const gen & x,GIAC_CONTEXT){
-    return symb_sin(ratnormal(x+cst_pi_over_2));
+    return symb_sin(ratnormal(x+cst_pi_over_2,contextptr));
   }
   // tan(x+pi/2)=-1/tan(x)
   static gen shift_tan(const gen & x,GIAC_CONTEXT){
-    return minus_one/symb_tan(ratnormal(x+cst_pi_over_2));
+    return minus_one/symb_tan(ratnormal(x+cst_pi_over_2,contextptr));
   }
   const gen_op_context shift_phase_v_tab[]={shift_sin,shift_cos,shift_tan};
   gen shift_phase(const gen & e,GIAC_CONTEXT){
@@ -1496,7 +1496,7 @@ namespace giac {
 	  if (l==minus_inf && m==plus_inf)
 	    point=0;
 	  else
-	    point=ratnormal((l+m)/2);
+	    point=ratnormal((l+m)/2,contextptr);
 	  if (!is_inf(point) && !is_undef(point)){
 	    *logptr(contextptr) << gettext("Simplification assuming ") << v[i] << " near " << point << endl;
 	    point=subst(gg,*v[i]._IDNTptr,point,false,contextptr);
@@ -1994,7 +1994,7 @@ namespace giac {
     }
     g=subst(g,l,newl,false,contextptr);
     g=normal(g,contextptr); 
-    return g;// ratnormal(g);
+    return g;// ratnormal(g,contextptr);
   }
   gen tsimplify(const gen & e,GIAC_CONTEXT){
     // replace trig/inv trig expressions with exp/ln
@@ -2163,7 +2163,7 @@ namespace giac {
       if (l[i].is_symb_of_sommet(at_exp)){
 	gen li=l[i]._SYMBptr->feuille;
 	if (contains(li,cst_pi)){
-	  li=ratnormal(li/cst_pi/cst_i);
+	  li=ratnormal(li/cst_pi/cst_i,contextptr);
 	  if (li.type==_FRAC && li._FRACptr->num.type==_INT_ && li._FRACptr->den.type==_INT_){
 	    n=li._FRACptr->num.val;
 	    d=li._FRACptr->den.val;
@@ -2222,18 +2222,18 @@ namespace giac {
     // M:=(1/50)*int(E,t,50,100); simplify(M)
     vecteur lnv=lop(e,at_ln);
     if (!lnv.empty()){
-      gen trye=lncollect(ratnormal(e_orig),contextptr);
+      gen trye=lncollect(ratnormal(e_orig,contextptr),contextptr);
       if (lop(trye,at_ln).size()<lnv.size())
 	e=trye;
     }
     if (!lop(e,at_exp).empty()){
 #ifdef NO_STDEXCEPT
-      gen et=ratnormal(_texpand(e,contextptr));
+      gen et=ratnormal(_texpand(e,contextptr),contextptr);
       if (!is_undef(et) && lvar(et).size()<lvar(e).size())
 	e=et;
 #else
       try {
-	gen et=ratnormal(_texpand(e,contextptr));
+	gen et=ratnormal(_texpand(e,contextptr),contextptr);
 	if (lvar(et).size()<lvar(e).size())
 	  e=et;
       } catch (std::runtime_error & err){}
@@ -2358,7 +2358,7 @@ namespace giac {
     g=_exp2pow(g,contextptr);
     g=quotesubst(g,vabs2,vabs,contextptr);
     if (s1<=1 && s2<= 1)
-      return ratnormal(g);
+      return ratnormal(g,contextptr);
     int te=taille(e,RAND_MAX);
     int tg=taille(g,10*te);
     if (tg>=10*te)
@@ -2440,7 +2440,7 @@ namespace giac {
       res=subst(res,sub2,sub1,false,contextptr);
     calc_mode(c,contextptr);
     if ( (c==1 || c==-38 || c==38) && !lop(res,at_rootof).empty())
-      res=ratnormal(args);
+      res=ratnormal(args,contextptr);
     return res;
   }
   static const char _simplify_s []="simplify";
@@ -2457,7 +2457,7 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_trigcos(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_trigcos,contextptr);
-    gen g=ratnormal(_tan2sincos(args,contextptr));
+    gen g=ratnormal(_tan2sincos(args,contextptr),contextptr);
     return normal(trigcos(g,contextptr),contextptr);
   }
   static const char _trigcos_s []="trigcos";
@@ -2474,7 +2474,7 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_trigsin(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_trigsin,contextptr);
-    gen g=ratnormal(_tan2sincos(args,contextptr));
+    gen g=ratnormal(_tan2sincos(args,contextptr),contextptr);
     return normal(trigsin(g,contextptr),contextptr);
   }
   static const char _trigsin_s []="trigsin";
@@ -2492,7 +2492,7 @@ namespace giac {
       return symbolic(at_program,makesequence(var,0,_trigtan(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_trigtan,contextptr);
-    gen g=ratnormal(_sin2costan(args,contextptr));
+    gen g=ratnormal(_sin2costan(args,contextptr),contextptr);
     return normal(trigtan(g,contextptr),contextptr);
   }
   static const char _trigtan_s []="trigtan";

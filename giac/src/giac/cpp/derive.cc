@@ -580,7 +580,7 @@ namespace giac {
       gen ecopie(e),eprime(e);
       int j=1;
       for (;j<=n;++j){
-	eprime=ratnormal(derive(ecopie,vars,contextptr));
+	eprime=ratnormal(derive(ecopie,vars,contextptr),contextptr);
 	if (is_undef(eprime))
 	  return eprime;
 	if ( (eprime.type==_SYMB) && (eprime._SYMBptr->sommet==at_derive))
@@ -651,7 +651,7 @@ namespace giac {
 	int ss=int(w.size());
 	gen res=v[0];
 	for (int i=0;i<ss;++i)
-	  res=ratnormal(derive(res,w[i],contextptr));
+	  res=ratnormal(derive(res,w[i],contextptr),contextptr);
 	return res;
       }
       if (args.type!=_VECT && v[0].type==_VECT && v[0].subtype==_POLY1__VECT)
@@ -670,7 +670,7 @@ namespace giac {
     const_iterateur it=v.begin()+1,itend=v.end();
     res=v[0];
     for (;it!=itend;++it)
-      res=ratnormal(_derive(gen(makevecteur(res,*it),_SEQ__VECT),contextptr));
+      res=ratnormal(_derive(gen(makevecteur(res,*it),_SEQ__VECT),contextptr),contextptr);
     return res;
   }
   // "unary" version
@@ -825,7 +825,7 @@ namespace giac {
 	gen curd=d2;
 	if (is_zero(g)){
 	  for (++d;d< NEWTON_DEFAULT_ITERATION;++d){
-	    curd=ratnormal(_derive(makesequence(curd,var),contextptr));
+	    curd=ratnormal(_derive(makesequence(curd,var),contextptr),contextptr);
 	    g=simplify(subst(curd,var,v[i],false,contextptr),contextptr);
 	    if (!is_zero(g))
 	      break;

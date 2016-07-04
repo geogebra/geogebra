@@ -9473,7 +9473,7 @@ namespace giac {
     }
     if (res.front().type==_VECT && res.front()._VECTptr->front().type==_MOD)
       return res;
-    return ratnormal(res);
+    return ratnormal(res,contextptr);
   }
   static const char _rref_s []="rref";
   static define_unary_function_eval (__rref,&giac::_rref,_rref_s);
@@ -14225,7 +14225,7 @@ namespace giac {
 	  //if (is_strictly_positive(-C[k][k])) setsizeerr(gettext("Not a positive define matrice"));
 	  s=s+C[l][k]*conj(C[j][k],contextptr)/C[k][k];
 	}
-	C[l][j]=ratnormal(A[l][j]-s);
+	C[l][j]=ratnormal(A[l][j]-s,contextptr);
       }
     }
     for (k=0;k<n;k++) {

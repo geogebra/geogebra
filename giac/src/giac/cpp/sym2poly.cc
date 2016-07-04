@@ -2150,7 +2150,7 @@ namespace giac {
 	res=rdiv(r2sym(p._FRACptr->num*conj(p._FRACptr->den,contextptr),lt,ltend,contextptr),r2sym(p._FRACptr->den*conj(p._FRACptr->den,contextptr),lt,ltend,contextptr),contextptr);
       else
 	res=rdiv(r2sym(p._FRACptr->num,lt,ltend,contextptr),r2sym(p._FRACptr->den,lt,ltend,contextptr),contextptr);
-      return (p._FRACptr->num.type==_EXT)?ratnormal(res):res;
+      return (p._FRACptr->num.type==_EXT)?ratnormal(res,contextptr):res;
     }
     if (p.type==_MOD)
       return makemodquoted(r2sym(*p._MODptr,lt,ltend,contextptr),r2sym(*(p._MODptr+1),lt,ltend,contextptr));
@@ -2594,7 +2594,7 @@ namespace giac {
 
   gen normal(const gen & e,bool distribute_div,GIAC_CONTEXT){
     if (has_num_coeff(e))
-      return ratnormal(e);
+      return ratnormal(e,contextptr);
     // COUT << e << endl;
     if (e.type==_VECT){
       vecteur res;
@@ -2721,10 +2721,10 @@ namespace giac {
     }
     ee=r2sym(f,l,contextptr);
     if (!is_one(f.den) && is_integer(f.den)){
-      ee=ratnormal(ratnormal(ee)); // first ratnormal will expand sqrt()^
+      ee=ratnormal(ratnormal(ee,contextptr),contextptr); // first ratnormal will expand sqrt()^
       // second will remove them
     }
-    return ee; // ratnormal(ee); // for sqrt(1-a^2)/sqrt(1-a)
+    return ee; // ratnormal(ee,contextptr); // for sqrt(1-a^2)/sqrt(1-a)
   }
 
   gen normal(const gen & e,GIAC_CONTEXT){
@@ -2917,7 +2917,7 @@ namespace giac {
     calc_mode(ca,context0);
     calc_mode(ca,contextptr);
     if ( b && !lop(res,at_rootof).empty())
-      res=simplifier(ratnormal(normalize_sqrt(e_copy,contextptr)),contextptr);
+      res=simplifier(ratnormal(normalize_sqrt(e_copy,contextptr),contextptr),contextptr);
     return res;
     // removed eval since it eats neg(x-y)
     // eval(normal(e_copy,distribute_div),contextptr);
@@ -2938,10 +2938,10 @@ namespace giac {
     return res;
   }
 
-  gen ratnormal(const gen & e){
+  gen ratnormal(const gen & e,GIAC_CONTEXT){
     // COUT << e << endl;
     if (e.type==_VECT)
-      return apply(e,ratnormal);
+      return apply(e,ratnormal,contextptr);
     if (e.type==_FRAC){
       gen n=e._FRACptr->num;
       gen d=e._FRACptr->den;
@@ -2966,18 +2966,18 @@ namespace giac {
       return e;
     matrice l; lvar(e,l);
     if (l.size()>1) l=sort1(l);
-    gen fg=e2r(e,l,context0); // ok
+    gen fg=e2r(e,l,contextptr); // ok
     if (fg.type==_FRAC && fg._FRACptr->num.type==_FRAC){
       fraction f(fg._FRACptr->num._FRACptr->num,fg._FRACptr->den*fg._FRACptr->num._FRACptr->den);
       f.normal();
-      return r2sym(f,l,context0); // ok
+      return r2sym(f,l,contextptr); // ok
     }
     if (fg.type==_FRAC && fg._FRACptr->den.type==_CPLX){
-      gen tmp=conj(fg._FRACptr->den,context0);
+      gen tmp=conj(fg._FRACptr->den,contextptr);
       fg._FRACptr->num = fg._FRACptr->num * tmp;
       fg._FRACptr->den = fg._FRACptr->den * tmp;
     }
-    return r2sym(fg,l,context0);
+    return r2sym(fg,l,contextptr);
   }
   gen recursive_ratnormal(const gen & e,GIAC_CONTEXT){
     // COUT << e << endl;
@@ -3779,7 +3779,7 @@ namespace giac {
 	  Y[i]=_resultant(gen(rargs,_SEQ__VECT),contextptr);
 	  if (0){
 	    gen dbgtst=subst(dbg,y,j,false,contextptr);
-	    if (!is_zero(ratnormal(dbgtst-Y[i])))
+	    if (!is_zero(ratnormal(dbgtst-Y[i],contextptr)))
 	      CERR << "err" << endl;
 	  }
 	}

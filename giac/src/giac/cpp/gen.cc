@@ -6472,7 +6472,7 @@ namespace giac {
       if (b.is_symb_of_sommet(at_unit)){
 	vecteur & v=*b._SYMBptr->feuille._VECTptr;
 	gen res=va[1]*v[1];
-	res=ratnormal(res);
+	res=ratnormal(res,contextptr);
 	if (is_one(res))
 	  return va[0]*v[0];
 	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(operator_times(va[0],v[0],contextptr),res)));
@@ -14883,8 +14883,13 @@ namespace giac {
 #ifdef EMCC
     // compile with -s LEGACY_GL_EMULATION=1
     gen last=g;
-    while (last.type==_VECT && !last._VECTptr->empty())
-      last=last._VECTptr->back();
+    while (last.type==_VECT && !last._VECTptr->empty()){
+      gen tmp=last._VECTptr->back();
+      if (tmp.is_symb_of_sommet(at_equal))
+	last=vecteur(last._VECTptr->begin(),last._VECTptr->end()-1);
+      else
+	last=tmp;
+    }
     if (calc_mode(&C)!=1 && last.is_symb_of_sommet(at_pnt)){
 #ifndef GIAC_GGB
       if (is3d(last)){

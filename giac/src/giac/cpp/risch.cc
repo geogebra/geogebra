@@ -614,7 +614,7 @@ namespace giac {
     vecteur v1(v.begin()+1,v.end());
     gen X=v.front();
     if (X.is_symb_of_sommet(at_ln)){
-      gen dX=ratnormal(derive(X,x,contextptr));
+      gen dX=ratnormal(derive(X,x,contextptr),contextptr);
       if (is_undef(dX))
 	return false;
       // log extension
@@ -823,7 +823,7 @@ namespace giac {
     for (int i=0;i<int(vatan.size());++i){
       gen ga=vatan[i];
       gen g=ga._SYMBptr->feuille;
-      vln.push_back(ln(ratnormal(rdiv(cst_i+g,cst_i-g)),contextptr));
+      vln.push_back(ln(ratnormal(rdiv(cst_i+g,cst_i-g),contextptr),contextptr));
       vatan[i]=-2*ga*cst_i;
     }
     if (!risch_tower(x,e,v,contextptr)){
@@ -844,7 +844,7 @@ namespace giac {
       }
     }
     if (!vatan.empty())
-      prim=ratnormal(subst(recursive_ratnormal(prim,contextptr),vln,vatan,false,contextptr));
+      prim=ratnormal(subst(recursive_ratnormal(prim,contextptr),vln,vatan,false,contextptr),contextptr);
     if (is_zero(prim))
       remains_to_integrate=e_orig;
     return prim;
@@ -876,8 +876,8 @@ namespace giac {
 	// ?fails for x/(2*i)/(exp(i*x)+exp(-i*x))*2*exp(i*x)+(-i)*x/(exp((-i)*x)^2+1)
 	gen tmp=_exp2trig(remains_to_integrate,contextptr),r,i;
 	reim(tmp,r,i,contextptr);
-	if (is_zero(ratnormal(i)))
-	  remains_to_integrate=ratnormal(r);
+	if (is_zero(ratnormal(i,contextptr)))
+	  remains_to_integrate=ratnormal(r,contextptr);
       }
     }
     vector<const unary_function_ptr *> SiCiexp(1,at_Si);

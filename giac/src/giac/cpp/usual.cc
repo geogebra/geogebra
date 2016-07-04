@@ -147,11 +147,11 @@ namespace giac {
       if (!contains(a,cst_pi))
 	return false;
       k=derive(a,cst_pi,contextptr);
-      if (is_undef(k) || !is_constant_wrt(k,cst_pi,contextptr) || !is_zero(ratnormal(a-k*cst_pi)))
+      if (is_undef(k) || !is_constant_wrt(k,cst_pi,contextptr) || !is_zero(ratnormal(a-k*cst_pi,contextptr)))
 	return false;
       k=(trig_deno/2)*k;
       if (k.type==_SYMB)
-	k=ratnormal(k);
+	k=ratnormal(k,contextptr);
       /*
       gen k1=normal(rdiv(a*gen(trig_deno/2),cst_pi),contextptr);
       if (k!=k1)
@@ -697,7 +697,7 @@ namespace giac {
       return apply_to_equal(e,atan,contextptr);
     vecteur v1(loptab(e,sincostan_tab));
     if ((series_flags(contextptr)&8)==0 && v1.size()>1){
-      gen e1=ratnormal(_trigtan(e,contextptr));
+      gen e1=ratnormal(_trigtan(e,contextptr),contextptr);
       if (loptab(e1,sincostan_tab).size()<=1)
 	return atan(e1,contextptr);
     }
@@ -728,13 +728,13 @@ namespace giac {
       // atan((1+t)/(1-t))=atan((tan(pi/4)+t)/(1-tan(pi/4+t)))=atan(tan(pi/4+atan(t)))
       gen t=ve.front();
       gen test=(1+t)/(1-t);
-      test=ratnormal(e/test);
+      test=ratnormal(e/test,contextptr);
       if (is_one(test))
 	return atan(symbolic(at_tan,cst_pi/4+atan(t,contextptr)),contextptr);
       if (is_minus_one(test))
 	return -atan(symbolic(at_tan,cst_pi/4+atan(t,contextptr)),contextptr);
       test=(-1+t)/(1+t);
-      test=ratnormal(e/test);
+      test=ratnormal(e/test,contextptr);
       if (is_one(test))
 	return atan(symbolic(at_tan,-cst_pi/4+atan(t,contextptr)),contextptr);
       if (is_minus_one(test))
@@ -1234,13 +1234,13 @@ namespace giac {
       // sqrt of an exact complex number
       if (!lop(e,at_exp).empty())
 	return pow(e,plus_one_half,contextptr);
-      a=re(e,contextptr);b=ratnormal(im(e,contextptr));
+      a=re(e,contextptr);b=ratnormal(im(e,contextptr),contextptr);
       if (a!=e && is_zero(b,contextptr))
 	return sqrt(a,contextptr);
       if ( has_i(a) || has_i(b) )
 	return pow(e,plus_one_half,contextptr);
       gen rho=pow(a,2,contextptr)+pow(b,2,contextptr);
-      rho=ratnormal(rho);
+      rho=ratnormal(rho,contextptr);
       if (abs_calc_mode(contextptr)==38 && !lvarfracpow(rho).empty())
 	return pow(e,plus_one_half,contextptr);
       rho=sqrt(rho,contextptr);
@@ -1255,7 +1255,7 @@ namespace giac {
 	rho=evalf(rho,1,contextptr);
 #endif
       gen realpart=normalize_sqrt(sqrt(2*(a+rho),contextptr),contextptr);
-      return ratnormal(realpart/2)*(1+cst_i*b/(a+rho));
+      return ratnormal(realpart/2,contextptr)*(1+cst_i*b/(a+rho));
     }
     if (e.type==_VECT){
       if (is_squarematrix(e))
@@ -5933,9 +5933,9 @@ namespace giac {
 	    Bf=_floor(B,contextptr);
 	    if (Af==Bf)
 	      return Af;
-	    if (Af==Bf+1 && is_zero(ratnormal(A-Af)) && v[2].type==_VECT && equalposcomp(*v[2]._VECTptr,v1[0]))
+	    if (Af==Bf+1 && is_zero(ratnormal(A-Af,contextptr)) && v[2].type==_VECT && equalposcomp(*v[2]._VECTptr,v1[0]))
 	      return Bf;
-	    if (Bf==Af+1 && is_zero(ratnormal(B-Bf)) && v[2].type==_VECT){
+	    if (Bf==Af+1 && is_zero(ratnormal(B-Bf,contextptr)) && v[2].type==_VECT){
 	      if (equalposcomp(*v[2]._VECTptr,v1[1]))
 		return Af;
 	    }
@@ -6126,7 +6126,7 @@ namespace giac {
       return 0; // no symbolic preprocessing
     shift_coeff=0;
     gen l=_round(lim_point,contextptr);
-    if (is_zero(ratnormal(l-lim_point-plus_one_half),contextptr)){
+    if (is_zero(ratnormal(l-lim_point-plus_one_half,contextptr),contextptr)){
       if (direction==0)
 	return gensizeerr(gettext("Taylor of round with unsigned limit"));
       if (direction==-1)
@@ -7595,7 +7595,7 @@ namespace giac {
     if (is_positive(-x,contextptr)){
       if (is_integer(x))
 	return unsigned_inf;
-      return Psi(ratnormal(1-x),contextptr)-cst_pi/tan(cst_pi*x,contextptr);
+      return Psi(ratnormal(1-x,contextptr),contextptr)-cst_pi/tan(cst_pi*x,contextptr);
     }
     if (x==plus_inf)
       return x;
@@ -7732,7 +7732,7 @@ namespace giac {
     if (cot_cache.empty())
       cot_cache.push_back(_cot(cst_pi*vx_var,contextptr));
     while (cot_cache.size()<=n)
-      cot_cache.push_back(ratnormal(derive(cot_cache.back(),vx_var,contextptr)));
+      cot_cache.push_back(ratnormal(derive(cot_cache.back(),vx_var,contextptr),contextptr));
     return cot_cache[n];
   }
   double bernoulli_tab[]={1.000000000000000,-0.50000000000000000,0.1666666666666667,0.0000000000000000,-0.3333333333333333e-1,0.0000000000000000,0.2380952380952381e-1,0.0000000000000000,-0.3333333333333333e-1,0.0000000000000000,0.7575757575757576e-1,0.0000000000000000,-0.2531135531135531,0.0000000000000000,1.166666666666667,0.0000000000000000,-7.092156862745098,0.0000000000000000,0.5497117794486216e2,0.0000000000000000,-0.5291242424242424e3,0.0000000000000000,0.6192123188405797e4,0.0000000000000000,-0.8658025311355311e5,0.0000000000000000,0.1425517166666667e7,0.0000000000000000,-0.2729823106781609e8,0.0000000000000000,0.6015808739006424e9};
@@ -8038,7 +8038,7 @@ namespace giac {
       if (n%2)
 	return symbolic(at_Zeta,x);
       else
-	return pow(cst_pi,n)*ratnormal(abs(bernoulli(x),contextptr)*rdiv(pow(plus_two,n-1),factorial(n),contextptr));
+	return pow(cst_pi,n)*ratnormal(abs(bernoulli(x),contextptr)*rdiv(pow(plus_two,n-1),factorial(n),contextptr),contextptr);
     }
 #ifdef HAVE_LIBGSL
     if (x.type==_DOUBLE_)
@@ -8165,7 +8165,7 @@ namespace giac {
   define_unary_function_ptr5( at_erfs ,alias_at_erfs,&__erfs,0,true);
   static gen erf_replace(const gen & g,GIAC_CONTEXT){
     if (has_i(g))
-      return 1-symbolic(at_exp,-ratnormal(g*g))*_erfs(g,contextptr);
+      return 1-symbolic(at_exp,-ratnormal(g*g,contextptr))*_erfs(g,contextptr);
     return symbolic(at_sign,g)*(1-symbolic(at_exp,-g*g)*_erfs(symbolic(at_abs,g),contextptr));
   }
   static gen taylor_erf (const gen & lim_point,const int ordre,const unary_function_ptr & f, int direction,gen & shift_coeff,GIAC_CONTEXT){

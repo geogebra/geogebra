@@ -48,13 +48,13 @@ namespace giac {
       value=subst(current_derf,x,lim_point,false,contextptr);
       if (is_undef(value))
 	return false;
-      v.push_back(ratnormal(rdiv(value,factorielle,contextptr)));
+      v.push_back(ratnormal(rdiv(value,factorielle,contextptr),contextptr));
       if (i==ordre){
 	v.push_back(undef);
 	return true;
       }
       factorielle = factorielle * gen(i+1);
-      current_derf=ratnormal(derive(current_derf,x,contextptr));
+      current_derf=ratnormal(derive(current_derf,x,contextptr),contextptr);
       if (is_undef(current_derf))
 	return false;
     }
@@ -302,14 +302,14 @@ namespace giac {
     if (&a==&res){
       sparse_poly1::iterator it=res.begin(),itend=res.end();
       for (;it!=itend;++it)
-	it->coeff = ratnormal(it->coeff * b) ;
+	it->coeff = ratnormal(it->coeff * b,contextptr) ;
       return true;
     }
     sparse_poly1::const_iterator it=a.begin(),itend=a.end();
     res.clear();
     res.reserve(itend-it);
     for (;it!=itend;++it)
-      res.push_back(monome(ratnormal(it->coeff * b), it->exponent));
+      res.push_back(monome(ratnormal(it->coeff * b,contextptr), it->exponent));
     return true;
   }
 
@@ -1472,7 +1472,7 @@ namespace giac {
 	    add=add*bernoulli(2*i)/factorial(2*i);
 	    eff += add; // fdiff flimdiff 2 fois
 	    fdiff=derive(fdiff,k,contextptr);
-	    fdiff=ratnormal(derive(fdiff,k,contextptr));
+	    fdiff=ratnormal(derive(fdiff,k,contextptr),contextptr);
 	    if (is_undef(fdiff))
 	      return false;
 	  }
@@ -2322,13 +2322,13 @@ namespace giac {
       if (lim_point==unsigned_inf){
 	*logptr(contextptr) << gettext("Warning, infinity is unsigned, perhaps you meant +infinity")<< endl;
 	first_try = subst(partfrac(e,false,contextptr),x,lim_point,false,contextptr);
-	// first_try = subst(ratnormal(e),x,lim_point,false,contextptr);
+	// first_try = subst(ratnormal(e,contextptr),x,lim_point,false,contextptr);
       }
       else {
 	//bool b=assume_t_in_ab(x,direction==1?lim_point:lim_point-1,direction==-1?lim_point:lim_point+1,true,true,contextptr);
 	first_try = quotesubst(partfrac(e,false,contextptr),x,lim_point,contextptr);
 	// if (b) purgenoassume(x,contextptr);
-	// first_try = quotesubst(ratnormal(e),x,lim_point,contextptr);
+	// first_try = quotesubst(ratnormal(e,contextptr),x,lim_point,contextptr);
       }
       bool absb=eval_abs(contextptr);
       eval_abs(false,contextptr);
@@ -2393,7 +2393,7 @@ namespace giac {
 	gen g2=unidirectional_limit(e_copy,x,lim_point,-1,contextptr);
 	if (is_undef(g2))
 	  return g2;
-	if (is_zero(ratnormal(g1-g2)))
+	if (is_zero(ratnormal(g1-g2,contextptr)))
 	  return g1;
 	return gensizeerr("Unidirectional limits are distinct "+g2.print(contextptr)+","+g1.print(contextptr));
       }
@@ -2417,7 +2417,7 @@ namespace giac {
 	gen g2=unidirectional_limit(e_copy,x,lim_point,-1,contextptr);
 	if (is_undef(g2))
 	  return g2;
-	if (is_zero(ratnormal(g1-g2)))
+	if (is_zero(ratnormal(g1-g2,contextptr)))
 	  return g1;
 	return gensizeerr("Unidirectional limits are distincts "+g2.print(contextptr)+","+g1.print(contextptr));
       }
@@ -2621,7 +2621,7 @@ namespace giac {
   // find asymptotic equivalent of e in terms of the mrv var of e
   static bool mrv_lead_term(const gen & e,const identificateur & x,gen & coeff, gen & mrv_var, gen & exponent,sparse_poly1 & q,int begin_ordre,GIAC_CONTEXT,bool series){
     if (!contains(e,x)){
-      coeff=ratnormal(e);
+      coeff=ratnormal(e,contextptr);
       mrv_var=x;
       exponent=0;
       q.clear();
@@ -2652,7 +2652,7 @@ namespace giac {
       }
     }
     if (faster_var.empty()){
-      coeff=ratnormal(ecopy);
+      coeff=ratnormal(ecopy,contextptr);
       mrv_var=x;
       exponent=0;
       q.clear();
@@ -2712,7 +2712,7 @@ namespace giac {
 	   (p.size()>=1) && is_undef(p.front().coeff) ;++count,ordre=ordre*1.5+1){
       bool inv=false;
       p=series__SPOL1(f,w,0,int(ordre),1,contextptr);
-      // if (count==2 && p.size()==1 && is_undef(p.front().coeff)){ f=ratnormal(f); p=series__SPOL1(f,w,0,int(ordre),1,contextptr); }
+      // if (count==2 && p.size()==1 && is_undef(p.front().coeff)){ f=ratnormal(f,contextptr); p=series__SPOL1(f,w,0,int(ordre),1,contextptr); }
 #ifdef TIMEOUT
       control_c();
 #endif
@@ -2720,7 +2720,7 @@ namespace giac {
 	return false;
       if (!p.empty() && !is_undef(p.front().coeff) ){
 	// substitution of ln(w) by +-g should not be useful anymore
-	gen tmp=ratnormal(subst(p.front().coeff,ln(w,contextptr),(dont_invert?g:-g),false,contextptr));
+	gen tmp=ratnormal(subst(p.front().coeff,ln(w,contextptr),(dont_invert?g:-g),false,contextptr),contextptr);
 	if (is_undef(tmp) ){
 	  inv=true;
 	  p=spdiv(sparse_poly1(1,monome(1,0)),p,contextptr);
