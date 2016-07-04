@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
@@ -1123,13 +1122,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else {
 				Log.debug(lt);
 			}
-		} else if (rt instanceof GeoPoint) {
+		} else if (rt instanceof VectorNDValue) {
 			if (lt instanceof Evaluatable) {
-				GeoPoint pt = (GeoPoint) rt;
+				VectorNDValue pt = (VectorNDValue) rt;
 				if (lt instanceof GeoFunction) {
 					FunctionNVar fun = ((GeoFunction) lt).getFunction();
 					if (fun.isBooleanFunction()) {
-						return new MyBoolean(kernel, fun.evaluateBoolean(pt));
+						return new MyBoolean(kernel, fun.evaluate(pt) > 0);
 					}
 					return new MyDouble(kernel, fun.evaluate(pt));
 				} else if (lt instanceof GeoFunctionable) {
@@ -1176,22 +1175,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			} else if (list.size() == 1) {
 				ExpressionValue ev = list.getMyList().getListElement(0)
 						.evaluate(StringTemplate.defaultTemplate);
-				if ((funN.getVarNumber() == 2)
-						&& (ev instanceof VectorValue)) {
-					VectorValue pt = (VectorValue) ev;
-					double[] vals = pt.getPointAsDouble();
-					if (funN.isBooleanFunction()) {
-						return new MyBoolean(kernel, funN.evaluateBoolean(vals));
-					}
-					return new MyDouble(kernel, funN.evaluate(vals));
-				} else if ((funN.getVarNumber() == 3)
+				if ((funN.getVarNumber() == 2 || funN.getVarNumber() == 3)
 						&& (ev instanceof VectorNDValue)) {
 					VectorNDValue pt = (VectorNDValue) ev;
-					double[] vals = pt.getPointAsDouble();
 					if (funN.isBooleanFunction()) {
-						return new MyBoolean(kernel, funN.evaluateBoolean(vals));
+						return new MyBoolean(kernel, funN.evaluate(pt) > 0);
 					}
-					return new MyDouble(kernel, funN.evaluate(vals));
+					return new MyDouble(kernel, funN.evaluate(pt));
 				} else if ((ev instanceof ListValue)
 						&& ((ListValue) ev).getMyList().getListElement(0)
 								.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue) {

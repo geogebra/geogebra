@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
@@ -809,25 +808,11 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	 *            point for evaluation
 	 * @return function value
 	 */
-	public double evaluate(GeoPoint pt) {
+	public double evaluate(VectorNDValue pt) {
 		if (fVars.length == 1
 				&& "y".equals(fVars[0].toString(StringTemplate.defaultTemplate)))
-			return evaluate(new double[] { pt.y / pt.z });
-		return evaluate(new double[] { pt.x / pt.z, pt.y / pt.z });
-	}
-
-	/**
-	 * Evaluates function at given point as boolean
-	 * 
-	 * @param pt
-	 *            point for evaluation
-	 * @return function value
-	 */
-	public boolean evaluateBoolean(GeoPoint pt) {
-		if (fVars.length == 1
-				&& "y".equals(fVars[0].toString(StringTemplate.defaultTemplate)))
-			return evaluateBoolean(new double[] { pt.y / pt.z });
-		return evaluateBoolean(new double[] { pt.x / pt.z, pt.y / pt.z });
+			return evaluate(new double[] { pt.getPointAsDouble()[1] });
+		return evaluate(pt.getPointAsDouble());
 	}
 
 	/**
