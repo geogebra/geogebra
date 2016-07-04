@@ -52,7 +52,16 @@ public class GroupOptionsPanel implements IOptionPanel {
 	}
 
 	protected void setTitleLabel() {
-	    titleLabel.setText(loc.getMenu(titleId));
+		titleLabel.setText(getTitle());
+	}
+
+	private String getTitle() {
+		String ret = loc.getMenu(titleId);
+		if (ret.equals(titleId)) {
+			// needed for eg Miscellaneous
+			ret = loc.getPlain(titleId);
+		}
+		return ret;
     }
 
 	public Object updatePanel(Object[] geos) {
