@@ -3882,6 +3882,44 @@ body.application[dir=rtl] .imageCorner {
 	border-color: #DCDCDC;
 }
 
+
+/*
+.hasCursorPermanent{
+	width: 100%;
+}
+
+
+.hasCursorPermanent > div{
+	width: calc(100% - 40px);
+	overflow-x: hidden;
+}
+
+
+.hasCursorPermanent div::-webkit-scrollbar{
+	display: none;
+}
+
+*/
+
+/* .elemText, .hasCursorPermanent{ */
+	
+.scrollableTextBox{	
+	width: 100%;
+}
+
+
+.scrollableTextBox > div{
+	width: calc(100% - 40px);
+	overflow-x: hidden;
+}
+
+
+.scrollableTextBox > div::-webkit-scrollbar{
+	display: none;
+}
+
+
+
 .NoHorizontalScroll .InputTreeItem .hasCursorPermanent {
 	border-color: #6161FF;
 }

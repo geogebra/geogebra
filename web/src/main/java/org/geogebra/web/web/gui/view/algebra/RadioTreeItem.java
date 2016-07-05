@@ -483,6 +483,7 @@ public class RadioTreeItem extends AVTreeItem
 		updateFont(getPlainTextItem());
 
 		ihtml.addStyleName("elemText");
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) ihtml.addStyleName("scrollableTextBox");
 
 		addDomHandlers(main);
 
