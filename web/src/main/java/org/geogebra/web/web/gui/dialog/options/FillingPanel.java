@@ -298,7 +298,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		lbBars.setVisible(false);
 
-		mainWidget.add(lbBars);
+		fillTypePanel.add(lbBars);
 
 		lbBars.addChangeHandler(new ChangeHandler() {
 
