@@ -3270,7 +3270,9 @@ public class Kernel {
 	}
 
 	public void updateLocalAxesNames() {
-		cons.updateLocalAxesNames();
+		if (cons != null) {
+			cons.updateLocalAxesNames();
+		}
 	}
 
 	private boolean notifyRepaint = true;
@@ -3460,6 +3462,9 @@ public class Kernel {
 	}
 
 	final public void notifyAddAll(View view) {
+		if (cons == null) {
+			return;
+		}
 		int consStep = cons.getStep();
 		notifyAddAll(view, consStep);
 	}
@@ -3825,7 +3830,7 @@ public class Kernel {
 	}
 
 	public void storeUndoInfo() {
-		if (undoActive) {
+		if (undoActive && cons != null) {
 			cons.storeUndoInfo();
 		}
 	}
@@ -3837,7 +3842,7 @@ public class Kernel {
 	}
 
 	public void initUndoInfo() {
-		if (undoActive) {
+		if (undoActive && cons != null) {
 			cons.initUndoInfo();
 		}
 	}
@@ -3952,11 +3957,11 @@ public class Kernel {
 	}
 
 	public boolean undoPossible() {
-		return undoActive && cons.undoPossible();
+		return undoActive && cons != null && cons.undoPossible();
 	}
 
 	public boolean redoPossible() {
-		return undoActive && cons.redoPossible();
+		return undoActive && cons != null && cons.redoPossible();
 	}
 
 	/**

@@ -344,11 +344,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		app = kernel.getApplication();
 		this.settings = settings;
 		// no repaint
-		xminObject = new GeoNumeric(kernel.getConstruction());
-		xmaxObject = new GeoNumeric(kernel.getConstruction());
-		yminObject = new GeoNumeric(kernel.getConstruction());
-		ymaxObject = new GeoNumeric(kernel.getConstruction());
-
+		if (kernel.getConstruction() != null) {
+			xminObject = new GeoNumeric(kernel.getConstruction());
+			xmaxObject = new GeoNumeric(kernel.getConstruction());
+			yminObject = new GeoNumeric(kernel.getConstruction());
+			ymaxObject = new GeoNumeric(kernel.getConstruction());
+		}
 		// ggb3D 2009-02-05
 		hits = new Hits();
 
@@ -497,7 +498,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	public void updateBoundObjects() {
-		if (isZoomable()) {
+		if (isZoomable() && xminObject != null) {
 			((GeoNumeric) xminObject).setValue(getXmin());
 			((GeoNumeric) xmaxObject).setValue(getXmax());
 			((GeoNumeric) yminObject).setValue(getYmin());
@@ -538,7 +539,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return;
 
 		updatingBounds = true;
-
+		if (xminObject == null) {
+			return;
+		}
 		double xmin2 = xminObject.getDouble();
 		double xmax2 = xmaxObject.getDouble();
 		double ymin2 = yminObject.getDouble();
@@ -627,7 +630,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (xminObject != null) {
 			((GeoNumeric) xminObject).removeEVSizeListener(this);
 		}
-		if (xminObjectNew == null) {
+		if (xminObjectNew == null && kernel.getConstruction() != null) {
 			this.xminObject = new GeoNumeric(kernel.getConstruction());
 			updateBoundObjects();
 		} else {
@@ -651,7 +654,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (xmaxObject != null) {
 			((GeoNumeric) xmaxObject).removeEVSizeListener(this);
 		}
-		if (xmaxObjectNew == null) {
+		if (xmaxObjectNew == null && kernel.getConstruction() != null) {
 			this.xmaxObject = new GeoNumeric(kernel.getConstruction());
 			updateBoundObjects();
 		} else {
@@ -675,7 +678,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (yminObject != null) {
 			((GeoNumeric) yminObject).removeEVSizeListener(this);
 		}
-		if (yminObjectNew == null) {
+		if (yminObjectNew == null && kernel.getConstruction() != null) {
 			this.yminObject = new GeoNumeric(kernel.getConstruction());
 			updateBoundObjects();
 		} else {
@@ -685,10 +688,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	private void setSizeListeners() {
-		((GeoNumeric) xminObject).addEVSizeListener(this);
-		((GeoNumeric) yminObject).addEVSizeListener(this);
-		((GeoNumeric) xmaxObject).addEVSizeListener(this);
-		((GeoNumeric) ymaxObject).addEVSizeListener(this);
+		if (xminObject != null) {
+			((GeoNumeric) xminObject).addEVSizeListener(this);
+			((GeoNumeric) yminObject).addEVSizeListener(this);
+			((GeoNumeric) xmaxObject).addEVSizeListener(this);
+			((GeoNumeric) ymaxObject).addEVSizeListener(this);
+		}
 	}
 
 	/**
@@ -1128,7 +1133,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (ymaxObject != null) {
 			((GeoNumeric) ymaxObject).removeEVSizeListener(this);
 		}
-		if (ymaxObjectNew == null) {
+		if (ymaxObjectNew == null && kernel.getConstruction() != null) {
 			this.ymaxObject = new GeoNumeric(kernel.getConstruction());
 			updateBoundObjects();
 		} else {

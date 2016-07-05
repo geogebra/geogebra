@@ -897,8 +897,10 @@ public class EuclidianViewD extends EuclidianView implements
 
 		// real world values
 		companion.setXYMinMaxForUpdateSize();
-		app.getKernel().getConstruction()
-				.notifyEuclidianViewCE(EVProperty.SIZE);
+		if (app.getKernel().getConstruction() != null) {
+			app.getKernel().getConstruction()
+					.notifyEuclidianViewCE(EVProperty.SIZE);
+		}
 		setRealWorldBounds();
 
 		// ================================================

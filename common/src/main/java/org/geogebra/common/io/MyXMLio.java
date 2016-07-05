@@ -166,9 +166,13 @@ public abstract class MyXMLio {
 	 */
 	public void processXMLString(String xml, boolean clearConstruction,
 			boolean isGgtFile) throws Exception {
-		cons.setFileLoading(true);
+		if (cons != null) {
+			cons.setFileLoading(true);
+		}
 		processXMLString(xml, clearConstruction, isGgtFile, true);
-		cons.setFileLoading(false);
+		if (cons != null) {
+			cons.setFileLoading(false);
+		}
 	}
 
 
@@ -376,7 +380,8 @@ public abstract class MyXMLio {
 			}
 
 			// #2153
-			if (!isGGTOrDefaults && cons.hasSpreadsheetTracingGeos()) {
+			if (!isGGTOrDefaults && cons != null
+					&& cons.hasSpreadsheetTracingGeos()) {
 				// needs to be done after call to updateConstruction() to avoid
 				// spurious traces
 				app.getTraceManager().loadTraceGeoCollection();
