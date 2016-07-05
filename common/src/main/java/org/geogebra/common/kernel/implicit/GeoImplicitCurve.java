@@ -734,6 +734,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (locus.getPoints().size() > 0) {
 			locus.pointChanged(PI);
 			polishPointOnPath(PI);
+			setPointOnCoordsys(PI);
 		}
 	}
 
@@ -750,7 +751,17 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (locus.getPoints().size() > 0) {
 			locus.pathChanged(PI);
 			polishPointOnPath(PI);
+			setPointOnCoordsys(PI);
 		}
+	}
+
+	/**
+	 * set point on coord sys
+	 * 
+	 * @param PI
+	 */
+	protected void setPointOnCoordsys(GeoPointND PI) {
+		// only for 3D
 	}
 
 	/**

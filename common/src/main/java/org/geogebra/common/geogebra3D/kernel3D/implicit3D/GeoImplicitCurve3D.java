@@ -5,9 +5,11 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * 3D extension of implicit curves
@@ -62,6 +64,19 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	@Override
 	public boolean isGeoElement3D() {
 		return true;
+	}
+
+	private Coords tmpCoords;
+
+	@Override
+	protected void setPointOnCoordsys(GeoPointND PI) {
+		Coords coords = PI.getInhomCoordsInD2();
+		if (tmpCoords == null) {
+			tmpCoords = new Coords(4);
+		}
+		coordSys.getPoint(coords.getX(), coords.getY(), tmpCoords);
+		PI.setCoords(tmpCoords, false);
+		PI.updateCoords();
 	}
 
 }
