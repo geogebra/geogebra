@@ -1180,6 +1180,11 @@ public class AlgebraProcessor {
 		GeoFunction func = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
+			String[] varName = kernel.getConstruction()
+					.getRegisteredFunctionVariables();
+			FunctionVariable[] fv = new FunctionVariable[varName.length];
+
+			replaceVariables(ve.wrap(), varName, fv);
 			GeoElement[] temp = processValidExpression(ve);
 
 			if (temp[0].isGeoFunctionable()) {
@@ -1208,6 +1213,27 @@ public class AlgebraProcessor {
 
 		cons.setSuppressLabelCreation(oldMacroMode);
 		return func;
+	}
+
+	/**
+	 * @param argument
+	 *            expression
+	 * @param varName
+	 *            variable names to be replaced
+	 * @param fv
+	 *            function variables
+	 * @return number of replacements
+	 */
+	public int replaceVariables(ExpressionNode argument, String[] varName,
+			FunctionVariable[] fv) {
+		int rep = 0;
+		for (int i = 0; i < varName.length; i++) {
+			if (fv[i] == null) {
+				fv[i] = new FunctionVariable(kernel, varName[i]);
+			}
+			rep += argument.replaceVariables(varName[i], fv[i]);
+		}
+		return rep;
 	}
 
 	/**

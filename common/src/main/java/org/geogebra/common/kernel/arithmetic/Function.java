@@ -1230,7 +1230,8 @@ public class Function extends FunctionNVar implements
 				|| !kernel.getApplication().has(Feature.XML_CAS_CACHE)) {
 			return;
 		}
-
+		kernel.getConstruction().registerFunctionVariable(
+				this.fVars[0].getSetVarString());
 		for (Entry<String, String> entry : map.entrySet()) {
 			GeoFunction gfun = kernel.getAlgebraProcessor()
 					.evaluateToFunction(entry.getValue(), true);
@@ -1238,6 +1239,7 @@ public class Function extends FunctionNVar implements
 				getCasEvalMap().put(entry.getKey(), gfun.getFunction());
 			}
 		}
+		kernel.getConstruction().registerFunctionVariable(null);
 	}
 
 }
