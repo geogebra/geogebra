@@ -300,6 +300,13 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		mainWidget.add(lbBars);
 
+		lbBars.addChangeHandler(new ChangeHandler() {
+
+			public void onChange(ChangeEvent event) {
+				model.updateProperties();
+			}
+		});
+
 		setWidget(mainWidget);
 
 		opacitySlider.addChangeHandler(new ChangeHandler() {
@@ -573,22 +580,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 
 	}
-
-	private void addSelectionBar() {
-
-	}
-
-	// @Override
-	// public boolean update(Object[] geos) {
-	// getModel().setGeos(geos);
-	//
-	// if (!getModel().checkGeos()) {
-	// return false;
-	// }
-	// model.updateProperties();
-	//
-	// return true;
-	// }
 
 	@Override
 	public void setSelectedIndex(int index) {

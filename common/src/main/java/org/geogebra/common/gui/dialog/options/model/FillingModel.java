@@ -43,7 +43,6 @@ public class FillingModel extends MultipleOptionsModel {
 		int getAngleValue();
 	}
 
-	private boolean isBarChart;
 	private FillType fillType;
 	private Kernel kernel;
 	private boolean hasGeoButton;
@@ -123,21 +122,22 @@ public class FillingModel extends MultipleOptionsModel {
 		GeoElement geo0 = getGeoAt(0);
 		IFillingListener fillListener = getFillingListener();
 		// set selected fill type to first geo's fill type
+
 		if (isBarChart()){
-			setFillType(geo0);
+			setBarFillType(geo0);
 		} else {
-			fillListener.setSelectedIndex(geo0.getFillType()
-					.ordinal());
+			fillListener.setSelectedIndex(geo0.getFillType().ordinal());
 		}
+
+
 		// set selected fill type to first geo's fill type
 		fillListener.setFillInverseSelected(geo0.isInverseFill());
 		AlgoBarChart algo = null;
-		if (geo0.getParentAlgorithm() instanceof AlgoBarChart){
+
+		if (isBarChart()) {
 			algo = (AlgoBarChart) geo0.getParentAlgorithm();
-			setBarChart(true);
-			updateBarFillTypePanel((AlgoBarChart) geo0.getParentAlgorithm());
+			updateBarFillTypePanel(algo);
 		} else {
-			setBarChart(false);
 			updateFillType(geo0.getFillType());
 		}
 
@@ -152,13 +152,14 @@ public class FillingModel extends MultipleOptionsModel {
 		}
 		double angle = geo0.getHatchingAngle();
 		if (isBarChart()){
-			setAngle(algo, angle);
+			setBarAngle(algo, angle);
 		} else {
 			fillListener.setAngleValue((int) angle);
 		}
+
 		int distance = geo0.getHatchingDistance();
 		if (isBarChart()){
-			setDistance(algo, distance);
+			setBarDistance(algo, distance);
 		} else {
 			fillListener.setDistanceValue(distance);
 		}
@@ -217,7 +218,7 @@ public class FillingModel extends MultipleOptionsModel {
 		updateFillType(type);
 	}
 
-	private void setDistance(AlgoBarChart algo, int distance0) {
+	private void setBarDistance(AlgoBarChart algo, int distance0) {
 		int distance = distance0;
 		int idx = getFillingListener().getSelectedBarIndex();
 		if (idx!=0){
@@ -228,7 +229,7 @@ public class FillingModel extends MultipleOptionsModel {
 		getFillingListener().setDistanceValue(distance);
 	}
 
-	private void setAngle(AlgoBarChart algo, double angle0) {
+	private void setBarAngle(AlgoBarChart algo, double angle0) {
 		double angle = angle0;
 		int idx = getFillingListener().getSelectedBarIndex();
 		if (idx!=0){
@@ -239,7 +240,7 @@ public class FillingModel extends MultipleOptionsModel {
 		getFillingListener().setAngleValue((int) angle);
 	}
 
-	private void setFillType(GeoElement geo) {
+	private void setBarFillType(GeoElement geo) {
 		int idx = getFillingListener().getSelectedBarIndex();
 		if (idx==0){
 			getFillingListener().setSelectedIndex(geo.getFillType().ordinal());
@@ -505,11 +506,7 @@ public class FillingModel extends MultipleOptionsModel {
 	}
 
 	public boolean isBarChart() {
-		return isBarChart;
-	}
-
-	public void setBarChart(boolean isBarChart) {
-		this.isBarChart = isBarChart;
+		return getGeoAt(0).getParentAlgorithm() instanceof AlgoBarChart;
 	}
 
 	public boolean hasGeoButton() {
