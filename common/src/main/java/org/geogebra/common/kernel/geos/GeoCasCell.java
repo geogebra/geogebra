@@ -1819,8 +1819,12 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesian3D) {
 						// when we replace twinGeo, dependent geos are also
 						// deleted from cons
-						cons.replace(twinGeo, lastOutputEvaluationGeo);
+						twinGeo.doRemove();
+						notifyRemove();
 						twinGeo = lastOutputEvaluationGeo;
+						cons.addToConstructionList(twinGeo, true);
+						cons.putLabel(twinGeo);
+						twinGeo.notifyAdd();
 						twinGeo.setCorrespondingCasCell(this);
 						// add to construction casCell and parentAlgo
 						if (this.getParentAlgorithm() != null) {
@@ -1854,8 +1858,12 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					// needed for GGB-362
 					if (twinGeo instanceof GeoSurfaceCartesian3D
 							&& lastOutputEvaluationGeo instanceof GeoSurfaceCartesian3D) {
-						cons.replace(twinGeo, lastOutputEvaluationGeo);
+						twinGeo.doRemove();
+						notifyRemove();
 						twinGeo = lastOutputEvaluationGeo;
+						cons.addToConstructionList(twinGeo, true);
+						cons.putLabel(twinGeo);
+						twinGeo.notifyAdd();
 						if (assignmentVar == null) {
 							assignmentVar = twinGeo
 									.getLabel(StringTemplate.defaultTemplate);
