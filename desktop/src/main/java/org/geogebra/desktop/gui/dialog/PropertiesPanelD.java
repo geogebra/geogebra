@@ -3412,6 +3412,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// TODO Auto-generated method stub
 
 		}
+
+		public void setBarChart(AlgoBarChart algo) {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	/**

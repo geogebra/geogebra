@@ -9,6 +9,7 @@ import org.geogebra.common.gui.dialog.options.model.FillingModel;
 import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListener;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -24,6 +25,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.FileInputDialog;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.OptionPanel;
+import org.geogebra.web.web.gui.util.BarList;
 import org.geogebra.web.web.gui.util.GeoGebraIcon;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.PopupMenuButton;
@@ -77,6 +79,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	AutoCompleteTextFieldW tfInsertUnicode;
 	private InputPanelW unicodePanel;
 	private AppW app;
+	private BarList lbBars;
 
 	private class MyImageFileInputDialog extends FileInputDialog {
 
@@ -290,6 +293,13 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		mainWidget.add(imagePanel);
 
 		mainWidget.add(symbolPanel);
+
+		lbBars = new BarList(app);
+
+		lbBars.setVisible(false);
+
+		mainWidget.add(lbBars);
+
 		setWidget(mainWidget);
 
 		opacitySlider.addChangeHandler(new ChangeHandler() {
@@ -561,11 +571,10 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			}
 		}
 
-		addSelectionBar();
+
 	}
 
 	private void addSelectionBar() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -619,7 +628,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		angleSliderTitle.setText(loc.getMenu("Angle"));
 		distanceSliderTitle.setText(loc.getMenu("Spacing"));
 		btnOpenFile.setText(loc.getMenu("ChooseFromFile") + "...");
-
 	}
 
 	@Override
@@ -679,7 +687,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	@Override
 	public int getSelectedBarIndex() {
-		return 0;
+		return lbBars.getSelectedIndex();
 	}
 
 	@Override
@@ -720,5 +728,13 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	public void clearItems() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setBarChart(AlgoBarChart algo) {
+		if (algo != null) {
+			lbBars.setBarCount(algo.getIntervals());
+		}
+
+		lbBars.update(algo != null);
 	}
 }

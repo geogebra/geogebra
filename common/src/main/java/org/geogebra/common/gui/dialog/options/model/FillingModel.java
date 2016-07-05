@@ -26,6 +26,7 @@ public class FillingModel extends MultipleOptionsModel {
 		void setFillValue(int value);
 		void setAngleValue(int value);
 		void setDistanceValue(int value);
+		void setBarChart(AlgoBarChart algo);
 		void setImageFillType();
 		void setDottedFillType();
 		void setSymbolFillType();
@@ -130,7 +131,9 @@ public class FillingModel extends MultipleOptionsModel {
 		}
 		// set selected fill type to first geo's fill type
 		fillListener.setFillInverseSelected(geo0.isInverseFill());
+		AlgoBarChart algo = null;
 		if (geo0.getParentAlgorithm() instanceof AlgoBarChart){
+			algo = (AlgoBarChart) geo0.getParentAlgorithm();
 			setBarChart(true);
 			updateBarFillTypePanel((AlgoBarChart) geo0.getParentAlgorithm());
 		} else {
@@ -138,28 +141,31 @@ public class FillingModel extends MultipleOptionsModel {
 			updateFillType(geo0.getFillType());
 		}
 
+		fillListener.setBarChart(algo);
+
 		// set value to first geo's alpha value
 		double alpha = geo0.getAlphaValue();
 		if (isBarChart()){
-			setAlpha((AlgoBarChart) geo0.getParentAlgorithm(),alpha);
+			setAlpha(algo, alpha);
 		} else {
 			fillListener.setFillValue((int) Math.round(alpha * 100));
 		}
 		double angle = geo0.getHatchingAngle();
 		if (isBarChart()){
-			setAngle((AlgoBarChart) geo0.getParentAlgorithm(),angle);
+			setAngle(algo, angle);
 		} else {
 			fillListener.setAngleValue((int) angle);
 		}
 		int distance = geo0.getHatchingDistance();
 		if (isBarChart()){
-			setDistance((AlgoBarChart) geo0.getParentAlgorithm(),distance);
+			setDistance(algo, distance);
 		} else {
 			fillListener.setDistanceValue(distance);
 		}
 
 		if (isBarChart()){
-			fillListener.selectSymbol(((AlgoBarChart) geo0.getParentAlgorithm()).getBarSymbol(
+			fillListener.selectSymbol(
+					algo.getBarSymbol(
 					fillListener.getSelectedBarIndex()));
 			//setSymbol((AlgoBarChart) geo0.getParentAlgorithm());
 		} else {
