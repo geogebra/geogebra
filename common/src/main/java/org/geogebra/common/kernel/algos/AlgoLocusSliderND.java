@@ -467,8 +467,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 						if (Qcopy.isDefined() && !Qcopy.isInfinite()) {
 							// draw point
-							insertPoint(Qcopy,
-									distanceSmall(Qcopy, true));
+							insertPoint(Qcopy, distanceSmall(Qcopy, false));
 							prevQcopyDefined = true;
 						}
 					}
@@ -476,8 +475,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 					// PARAMETER jump: !lineTo
 					else {
 						// draw point
-						insertPoint(Qcopy,
-								distanceSmall(Qcopy, true));
+						insertPoint(Qcopy, false);
 						prevQcopyDefined = true;
 					}
 				}
@@ -506,7 +504,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 				// end of run: the next step would pass the start position
 				if (!sliderMover.hasNext()) {
-					if (distanceSmall(QstartPos, true)) {
+					if (distanceSmall(QstartPos, false)) {
 						// draw line back to first point when it's close enough
 						insertPoint(QstartPos, true);
 						finishedRun = true;
@@ -535,8 +533,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			Pcopy.set(PstartPos);
 			pcopyUpdateCascade();
 			if (differentFromLast(Qcopy))
-				insertPoint(Qcopy,
-						distanceSmall(Qcopy, true));
+				insertPoint(Qcopy, distanceSmall(Qcopy, false));
 
 			// Application.debug("run: " + runs);
 			// Application.debug("pointCount: " + pointCount);
