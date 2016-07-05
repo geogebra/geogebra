@@ -3171,7 +3171,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			AlgoElement algo = geo0.getParentAlgorithm();
 			if (algo instanceof AlgoBarChart) {
 				int numBar = ((AlgoBarChart) algo).getIntervals();
-				model.setBarChart(true);
 				selectionBarButtons = new JToggleButton[numBar + 1];
 				ButtonGroup group = new ButtonGroup();
 				barsPanel = new JPanel(new GridLayout(0, 5, 5, 5));
