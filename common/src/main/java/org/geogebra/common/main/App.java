@@ -714,7 +714,7 @@ public abstract class App implements UpdateSelection {
 			}
 
 		}
-		getParserFunctions().updateLocale(this);
+		getParserFunctions().updateLocale(getLocalization());
 		// get CAS Commands
 		if (kernel.isGeoGebraCASready()) {
 			fillCasCommandDict();
@@ -2810,18 +2810,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public String getToolHelp(int mode) {
 		return getToolNameOrHelp(mode, false);
-	}
-
-	/**
-	 * Translates function name for which plain bundle contains corresponding
-	 * Function.* key
-	 *
-	 * @param string
-	 *            english function name
-	 * @return localized function name
-	 */
-	public String getFunction(String string) {
-		return getPlain("Function." + string);
 	}
 
 	/**

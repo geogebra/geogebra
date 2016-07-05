@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Unicode;
 
@@ -301,17 +301,17 @@ public class ParserFunctions {
 	 * @param app
 	 *            application
 	 */
-	public void updateLocale(App app) {
+	public void updateLocale(Localization loc) {
 		//reset is expensive, do not do that if we only have intl. function names so far
 		if(this.localeLoaded){
 			reset();
 		}
 		this.localeLoaded = true;
 		for (String fn : translateable1var) {
-			put(1, app.getFunction(fn), get(fn, 1));
+			put(1, loc.getFunction(fn), get(fn, 1));
 		}
 
-		put(2, app.getFunction("nroot"), Operation.NROOT, "( <x>, <n> )");
+		put(2, loc.getFunction("nroot"), Operation.NROOT, "( <x>, <n> )");
 	}
 
 	/**
@@ -382,13 +382,13 @@ public class ParserFunctions {
 	 *            translated function
 	 * @return English function name
 	 */
-	public String getInternal(App app, String string) {
+	public String getInternal(Localization loc, String string) {
 		for (int i = 0; i < translateable1var.length; i++) {
-			if (app.getFunction(translateable1var[i]).equals(string)) {
+			if (loc.getFunction(translateable1var[i]).equals(string)) {
 				return translateable1var[i];
 			}
 		}
-		if (app.getFunction("nroot").equals(string)) {
+		if (loc.getFunction("nroot").equals(string)) {
 			return "nroot";
 		}
 		return null;

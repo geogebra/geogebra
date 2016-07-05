@@ -78,7 +78,7 @@ public class GgbScript extends Script {
 				retone.append(starr[i]);
 				// app.getFunction("nroot")
 			} else if (app.getParserFunctions().isFunction(starr[i])) {
-				retone.append(app.getFunction(starr[i]));
+				retone.append(app.getLocalization().getFunction(starr[i]));
 			} else {
 				// Log.debug("NOT FUNCTION" + starr[i]);
 				// do not translate name of function
@@ -138,8 +138,10 @@ public class GgbScript extends Script {
 					} else {
 						retone.append(app.getInternalCommand(starr[i]));
 					}
-				} else if (app.getParserFunctions().getInternal(app, starr[i]) != null) {
-					retone.append(app.getParserFunctions().getInternal(app,
+				} else if (app.getParserFunctions()
+						.getInternal(app.getLocalization(), starr[i]) != null) {
+					retone.append(app.getParserFunctions()
+							.getInternal(app.getLocalization(),
 							starr[i]));
 				} else {
 					// fallback for wrong call in English already
