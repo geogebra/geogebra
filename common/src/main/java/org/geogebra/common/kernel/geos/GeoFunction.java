@@ -1831,7 +1831,7 @@ CasEvaluableFunction, ParametricCurve,
 			double grad;
 			try {
 				grad = kernel.getAlgebraProcessor().evaluateToDouble(
-						gradientStrMinus, true);
+						gradientStrMinus, true, null);
 			} catch (Exception e) {
 				grad = 0;
 			}

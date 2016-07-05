@@ -1040,7 +1040,7 @@ public class AlgebraProcessor {
 	 * @return result as double
 	 */
 	public double evaluateToDouble(String str) {
-		return evaluateToDouble(str, false);
+		return evaluateToDouble(str, false, null);
 	}
 
 	/**
@@ -1051,15 +1051,22 @@ public class AlgebraProcessor {
 	 *            string to process
 	 * @param suppressErrors
 	 *            false to show error messages (only stacktrace otherwise)
+	 * @param forGeo
+	 *            geo that can receive the value and definition
 	 * @return result as double
 	 */
-	public double evaluateToDouble(String str, boolean suppressErrors) {
+	public double evaluateToDouble(String str, boolean suppressErrors,
+			GeoNumeric forGeo) {
 		try {
 			ValidExpression ve = parser.parseExpression(str);
 			ExpressionNode en = (ExpressionNode) ve;
 			en.resolveVariables();
 			NumberValue nv = (NumberValue) en
 					.evaluate(StringTemplate.defaultTemplate);
+			if (forGeo != null) {
+				forGeo.setValue(nv.getDouble());
+				forGeo.setDefinition(en);
+			}
 			return nv.getDouble();
 		} catch (Exception e) {
 			e.printStackTrace();

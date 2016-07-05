@@ -361,9 +361,9 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 
 					if (s1.startsWith(fv1 + "=") && s2.startsWith(fv2 + "=")) {
 						double p1 = ap.evaluateToDouble(
-								s1.substring(fv1.length() + 1), true);
+								s1.substring(fv1.length() + 1), true, null);
 						double p2 = ap.evaluateToDouble(
-								s2.substring(fv2.length() + 1), true);
+								s2.substring(fv2.length() + 1), true, null);
 
 						// Log.debug(p1+" "+
 						// curve.getMinParameter()+" "+curve.getMaxParameter());
@@ -375,9 +375,9 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve implements
 					} else if (s1.startsWith(fv2 + "=")
 							&& s2.startsWith(fv1 + "=")) {
 						double p2 = ap.evaluateToDouble(
-								s1.substring(fv2.length() + 1), true);
+								s1.substring(fv2.length() + 1), true, null);
 						double p1 = ap.evaluateToDouble(
-								s2.substring(fv1.length() + 1), true);
+								s2.substring(fv1.length() + 1), true, null);
 
 						// Log.debug(t1+" "+
 						// curve1.getMinParameter()+" "+curve1.getMaxParameter());

@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootFunction;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Integral of a function (GeoFunction)
@@ -395,8 +396,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 				n.setUndefined();
 				return;
 			}
-			n.setValue(kernel.getAlgebraProcessor().evaluateToDouble(result,
-					true));
+			Log.debug(result + " SPECIAL");
+			kernel.getAlgebraProcessor().evaluateToDouble(result, true, n);
 
 		} catch (Throwable e) {
 			e.printStackTrace();

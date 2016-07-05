@@ -230,7 +230,7 @@ public class GeoInputBox extends GeoButton {
 				// can be a calculation eg 1/2+3
 				// so use full GeoGebra parser
 				num = kernel.getAlgebraProcessor().evaluateToDouble(inputText,
-						false);
+						false, null);
 				defineText = kernel.format(num,  tpl);
 				
 			} catch (Exception e) {
@@ -244,11 +244,11 @@ public class GeoInputBox extends GeoButton {
 			if (linkedGeo instanceof GeoNumeric && linkedGeo.isIndependent()) {
 				// can be a calculation eg 1/2+3
 				// so use full GeoGebra parser
-				num = kernel.getAlgebraProcessor().evaluateToDouble(defineText,
-						false);
+				kernel.getAlgebraProcessor().evaluateToDouble(defineText, false,
+						(GeoNumeric) linkedGeo);
 
 				// setValue -> avoid slider range changing
-				((GeoNumeric) linkedGeo).setValue(num);
+
 				linkedGeo.updateRepaint();
 
 			} else {
