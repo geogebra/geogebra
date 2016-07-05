@@ -6,7 +6,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.ArticleElement;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 
@@ -55,27 +54,21 @@ public class LoggerW extends Log {
 		log(WARN,
 		        "FILE logging is not supported in web, falling back to use CONSOLES instead",
 		        1);
-		setLogDestination(LogDestination.CONSOLES);
 	}
 
 	@Override
 	protected void print(String logEntry, Level level) {
-		if (getLogDestination() == LogDestination.WEB_CONSOLE
-		        || getLogDestination() == LogDestination.CONSOLES) {
-			printWebConsole(logEntry);
-		}
 		if (getLogDestination() == LogDestination.FILE) {
-			setLogDestination(LogDestination.CONSOLES);
+			setLogDestination(LogDestination.CONSOLE);
 			log(WARN,
 			        "FILE logging is not supported in desktop, falling back to use CONSOLES instead",
 			        1);
 			print(logEntry, level);
 			return;
 		}
-		if (getLogDestination() == LogDestination.CONSOLE
-				|| getLogDestination() == LogDestination.CONSOLES) {
+		if (getLogDestination() == LogDestination.CONSOLE) {
 			// don't change this to Application.debug!!
-			GWT.log(logEntry);
+			printWebConsole(logEntry);
 			return;
 		}
 	}
@@ -105,7 +98,7 @@ public class LoggerW extends Log {
 	public static void startLogger(ArticleElement article) {
 		if (article.getDataParamShowLogging()) {
 			Log.logger = new LoggerW();
-			Log.logger.setLogDestination(LogDestination.CONSOLES);
+			Log.logger.setLogDestination(LogDestination.CONSOLE);
 			Log.logger.setLogLevel(Window.Location.getParameter("logLevel"));
 		} else {
 			// make sure $wnd.console works in IE9

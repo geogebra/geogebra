@@ -55,17 +55,25 @@ public abstract class Log {
 	}
 
 	private static Set<String> reportedImplementationNeeded = new TreeSet<String>();
-
+	/** emergency */
 	public final Level EMERGENCY = new Level(0, "EMERGENCY");
+	/** alert */
 	public final Level ALERT = new Level(1, "ALERT");
+	/** critical */
 	public final Level CRITICAL = new Level(2, "CRITICAL");
+	/** error */
 	public final Level ERROR = new Level(3, "ERROR");
+	/** warning */
 	public final Level WARN = new Level(4, "WARN");
+	/** notice */
 	public final Level NOTICE = new Level(5, "NOTICE");
+	/** information */
 	public final Level INFO = new Level(7, "INFO");
+	/** debugging (default) */
 	public final Level DEBUG = new Level(8, "DEBUG");
+	/** trace */
 	public final Level TRACE = new Level(9, "TRACE");
-
+	/** in case keepLog = true, this sets max length of in-memory log */
 	public static final int LOGFILE_MAXLENGTH = 10000;
 
 	private final StringBuilder memoryLog = new StringBuilder();
@@ -92,22 +100,15 @@ public abstract class Log {
 		 * STDERR, others to STDOUT in desktop mode; sends log messages via
 		 * GWT.log to the Eclipse console in web development mode.
 		 */
-		CONSOLE, /**
-		 * Sends logging to the web console (available by pressing
-		 * CTRL-SHIFT-J in Google Chrome, or CTRL-SHIFT-K in Firefox) in web
-		 * development or production mode. Not available in desktop mode.
-		 */
-		WEB_CONSOLE, /**
-		 * Sends logging to CONSOLE and WEB_CONSOLE as well (if
-		 * available).
-		 */
-		CONSOLES
+		CONSOLE
 	}
 
 	private Level logLevel = DEBUG; // default
-	private LogDestination logDestination = LogDestination.CONSOLES; // default;
+	private LogDestination logDestination = LogDestination.CONSOLE; // default;
 	private boolean timeShown = true; // default
 	private boolean callerShown = true; // default
+	/** whether to keep log in memory */
+	protected boolean keepLog = false;
 
 	/**
 	 * Sets the current logging level
@@ -224,19 +225,21 @@ public abstract class Log {
 	 *            logging level
 	 * @param message
 	 *            the log message
+	 * @param depth
+	 *            depth in stacktrace
 	 */
 	public void log(Level level, String message, int depth) {
-
+		String logEntry = message;
 		if (message == null) {
-			message = "*null*";
+			logEntry = "*null*";
 		}
 
 		if (logLevel.getPriority() >= level.getPriority()) {
 			String caller = "";
 			if (callerShown) {
 				caller = getCaller(depth);
-				if (message.length() >= 21) {
-					if (message.toLowerCase().substring(0, 21)
+				if (logEntry.length() >= 21) {
+					if (logEntry.toLowerCase().substring(0, 21)
 							.equals("implementation needed")) {
 						if (!reportedImplementationNeeded.contains(caller))
 							reportedImplementationNeeded.add(caller);
@@ -251,10 +254,10 @@ public abstract class Log {
 					timeInfo += " ";
 				}
 			}
-			String logEntry = timeInfo + level.text + ": " + caller + message;
+			logEntry = timeInfo + level.text + ": " + caller + logEntry;
 			print(logEntry, level);
 			// In desktop logging, preserve the entire log in memory as well:
-			if (logDestination != LogDestination.WEB_CONSOLE) {
+			if (keepLog) {
 				if (memoryLog.length() > LOGFILE_MAXLENGTH)
 					memoryLog.setLength(0);
 				memoryLog.append(logEntry + "\n");
@@ -305,6 +308,9 @@ public abstract class Log {
 
 	/**
 	 * Returns the caller class and method names
+	 * 
+	 * @param depth
+	 *            depth in stacktrace
 	 * 
 	 * @return the full Java class and method name
 	 */
@@ -448,6 +454,10 @@ public abstract class Log {
 		}
 	}
 
+	/**
+	 * @param s
+	 *            exception
+	 */
 	protected void doPrintStacktrace(Throwable s) {
 		s.printStackTrace();
 
@@ -541,12 +551,22 @@ public abstract class Log {
 		}
 	}
 
-	public static void printStacktrace(String message) {
+	/**
+	 * 
+	 * @param message
+	 *            content to be printed on top of the trace
+	 */
+	public static void printStacktrace(Object message) {
 		if (logger != null) {
-			logger.doPrintStacktrace(message);
+			logger.doPrintStacktrace(
+					message == null ? "*null*" : message.toString());
 		}
 	}
 
+	/**
+	 * @param message
+	 *            message at the top of the trace
+	 */
 	public abstract void doPrintStacktrace(String message);
 
 }

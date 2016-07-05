@@ -21,6 +21,7 @@ public class LoggerD extends Log {
 	 * Constructor
 	 */
 	public LoggerD() {
+		keepLog = true;
 	}
 
 	@Override
@@ -68,15 +69,6 @@ public class LoggerD extends Log {
 
 	@Override
 	protected void print(String logEntry, Level level) {
-		if (getLogDestination() == LogDestination.WEB_CONSOLE
-				|| getLogDestination() == LogDestination.CONSOLES) {
-			// This is not supported in desktop.
-			// Falling back to use CONSOLE instead:
-			setLogDestination(LogDestination.CONSOLE);
-			log(WARN,
-					"WEB_CONSOLE logging is not supported in desktop, falling back to use CONSOLE instead",
-					1);
-		}
 		if (getLogDestination() == LogDestination.FILE) {
 			if (logFileWriter != null) {
 				try {
