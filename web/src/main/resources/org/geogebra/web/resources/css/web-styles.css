@@ -3881,27 +3881,6 @@ body.application[dir=rtl] .imageCorner {
 .InputTreeItem .hasCursorPermanent {
 	border-color: #DCDCDC;
 }
-
-
-/*
-.hasCursorPermanent{
-	width: 100%;
-}
-
-
-.hasCursorPermanent > div{
-	width: calc(100% - 40px);
-	overflow-x: hidden;
-}
-
-
-.hasCursorPermanent div::-webkit-scrollbar{
-	display: none;
-}
-
-*/
-
-/* .elemText, .hasCursorPermanent{ */
 	
 .scrollableTextBox{	
 	width: 100%;
