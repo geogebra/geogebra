@@ -470,6 +470,14 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			break;
 		}
 	   
+		if (selectedProcedure == Procedure.ZMEAN2_TEST
+				|| selectedProcedure == Procedure.TMEAN2_TEST) {
+			fldNullHyp.setText("0");
+			fldNullHyp.setEditable(false);
+		} else {
+			fldNullHyp.setEditable(true);
+		}
+
 	   panelBasicProcedures.add(panelTestAndCI);
 
 		
