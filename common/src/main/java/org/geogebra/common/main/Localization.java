@@ -1038,7 +1038,15 @@ public abstract class Localization implements KeyboardLocale {
 	protected abstract boolean isCommandNull();
 
 	public String getFunction(String key) {
-		return getPlain("Function." + key);
+		String ret = getPlain("Function." + key);
+
+		// make sure we don't get strange function names if the properties
+		// aren't loaded
+		if (ret.startsWith("Function.")) {
+			return ret.replace("Function.", "");
+		}
+
+		return ret;
 	}
 
 	public abstract String getLocaleStr();
