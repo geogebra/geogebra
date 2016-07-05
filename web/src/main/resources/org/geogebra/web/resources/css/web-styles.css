@@ -3909,7 +3909,7 @@ body.application[dir=rtl] .imageCorner {
 
 
 .scrollableTextBox > div{
-	width: calc(100% - 40px);
+	width: ~"calc(100% - 40px)";
 	overflow-x: hidden;
 }
 
