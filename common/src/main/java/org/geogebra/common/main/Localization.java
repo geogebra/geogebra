@@ -419,7 +419,7 @@ public abstract class Localization implements KeyboardLocale {
 	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
-	final public String getPlainArray(String key, String[] args) {
+	final public synchronized String getPlainArray(String key, String[] args) {
 		String str = getPlain(key);
 
 		sbPlain.setLength(0);
