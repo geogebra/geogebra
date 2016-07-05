@@ -6117,9 +6117,9 @@ LatexCmds.not = //bind(Symbol,'\\not ','<span class="not">/</span>');
 LatexCmds['\u00ac'] = LatexCmds.neg = bind(VanillaSymbol, '\\neg ', '&not;', '\u00ac');
 
 // removed so that double-click on 1..2 works
-//LatexCmds['\u2026'] = LatexCmds.dots = LatexCmds.ellip = LatexCmds.hellip =
-//LatexCmds.ellipsis = LatexCmds.hellipsis =
-//  bind(VanillaSymbol,'\\dots ','&hellip;');
+LatexCmds['\u2026'] = LatexCmds.dots = LatexCmds.ellip = LatexCmds.hellip =
+	LatexCmds.ellipsis = LatexCmds.hellipsis =
+	  bind(VanillaSymbol,'\\dots ','&hellip;','...');
 
 LatexCmds.converges =
 LatexCmds.darr = LatexCmds.dnarr = LatexCmds.dnarrow = LatexCmds.downarrow =
