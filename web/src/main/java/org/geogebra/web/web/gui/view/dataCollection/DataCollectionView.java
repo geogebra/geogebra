@@ -481,9 +481,11 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 													// GeoListBox
 			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_NUMBER
 					.getText()) {
-				newSelection = new GeoNumeric(this.app.getKernel()
-						.getConstruction(), null, 0, false);
-				((GeoNumeric) newSelection).setDrawable(false);
+				GeoNumeric num = new GeoNumeric(
+						this.app.getKernel().getConstruction(), 0);
+				num.setShowExtendedAV(false);
+				num.setDrawable(false);
+				num.setLabel(null);
 				listBox.addItem(newSelection);
 				setGeoUsed(newSelection, listBox);
 			} else if (listBox.getValue(selectedIndex) == DefaultEntries.CREATE_DATA_FUNCTION

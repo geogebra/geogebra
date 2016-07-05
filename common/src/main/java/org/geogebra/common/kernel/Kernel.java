@@ -4449,8 +4449,10 @@ public class Kernel {
 			double xC = points[i].getInhomX();
 			double yC = points[i].getInhomY();
 
-			GeoNumeric nx = new GeoNumeric(cons, null, xC - xA);
-			GeoNumeric ny = new GeoNumeric(cons, null, yC - yA);
+			GeoNumeric nx = new GeoNumeric(cons, xC - xA);
+			GeoNumeric ny = new GeoNumeric(cons, yC - yA);
+			nx.setLabel(null);
+			ny.setLabel(null);
 			StringTemplate tpl = StringTemplate.maxPrecision;
 			// make string like this
 			// (a+x(A),b+y(A))

@@ -683,8 +683,9 @@ public interface Traversing {
 					boolean old = kernel.getConstruction()
 							.isSuppressLabelsActive();
 					kernel.getConstruction().setSuppressLabelCreation(false);
-					GeoNumeric slider = new GeoNumeric(
-							kernel.getConstruction(), name, 1);
+					GeoNumeric slider = new GeoNumeric(kernel.getConstruction(),
+							1);
+					slider.setLabel(name);
 					kernel.getConstruction().setSuppressLabelCreation(old);
 					undefined.add(slider);
 					boolean visible = !kernel.getApplication().showView(

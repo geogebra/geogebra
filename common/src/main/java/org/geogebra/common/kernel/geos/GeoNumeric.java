@@ -168,36 +168,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return GeoClass.NUMERIC;
 	}
 
-	/**
-	 * Creates new labeled number
-	 * 
-	 * @param c
-	 *            Cons
-	 * @param label
-	 *            Label for new number
-	 * @param x
-	 *            Number value
-	 */
-	public GeoNumeric(Construction c, String label, double x) {
-		this(c, x);
-		setLabel(label);
-	}
-
-	/**
-	 * @param c
-	 *            construction
-	 * @param label
-	 *            label
-	 * @param x
-	 *            value
-	 * @param extendedAV
-	 *            whether to show slider in AV
-	 */
-	public GeoNumeric(Construction c, String label, double x, boolean extendedAV) {
-		this(c, x);
-		setShowExtendedAV(extendedAV);
-		setLabel(label);
-	}
 
 	/**
 	 * Creates new number
