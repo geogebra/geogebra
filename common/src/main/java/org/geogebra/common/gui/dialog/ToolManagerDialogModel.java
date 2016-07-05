@@ -72,10 +72,7 @@ public class ToolManagerDialogModel {
 		kernel.removeAllMacros();
 
 		for (Object obj : macros) {
-			Macro m = (Macro) obj;
-			if (m.isShowInToolBar()) {
-				kernel.addMacro(m);
-			}
+			kernel.addMacro((Macro) obj);
 		}
 
 		for (Assignment assignment : assignments) {
