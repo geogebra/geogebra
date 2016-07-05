@@ -36,18 +36,18 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint,
 		DependentAlgo {
 
-	protected Equation equation;
-	protected GeoLine line1;
-	protected GeoLine line2;
-	protected ExpressionValue[] ev = new ExpressionValue[3]; // input
-	protected ExpressionNode root;
-	protected GeoLine g; // output
+	private Equation equation;
+	private ExpressionValue[] ev = new ExpressionValue[3]; // input
+	private ExpressionNode root;
+	private GeoLine g; // output
 
 	/**
 	 * Creates new AlgoDependentLine
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param equ
+	 *            equation
 	 */
 	public AlgoDependentLine(Construction cons, Equation equ) {
 		super(cons, false); // don't add to construction list yet
@@ -102,6 +102,9 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint,
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting line
+	 */
 	public GeoLine getLine() {
 		return g;
 	}

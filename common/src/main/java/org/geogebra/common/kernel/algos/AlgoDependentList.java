@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  * them.
  *
  * @author Markus Hohenwarter
- * @version
  */
 public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 
@@ -59,9 +58,11 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	 * a Geolist with them.
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param listItems
 	 *            list of GeoElement objects
 	 * @param isCellRange
+	 *            true for A1:A10
 	 */
 	public AlgoDependentList(Construction cons,
 			ArrayList<? extends GeoElementND> listItems, boolean isCellRange) {
@@ -80,12 +81,6 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	@Override
 	public Algos getClassName() {
 		return Algos.Expression;
-	}
-
-	public void updateList(ArrayList<GeoElement> listItems) {
-		this.listItems = listItems;
-		setInputOutput();
-		compute();
 	}
 
 	// for AlgoElement
@@ -169,10 +164,6 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 				geoList.add(input[i]);
 			}
 		}
-	}
-
-	public void setCellRangeString(String cellRangeString) {
-		this.cellRangeString = cellRangeString;
 	}
 
 	private StringBuilder sb;

@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * Algorithm for dependent numbers, e.g. c = a + b.
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 
@@ -121,6 +120,9 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting number
+	 */
 	public GeoNumberValue getNumber() {
 		return number;
 	}

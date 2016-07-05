@@ -40,8 +40,6 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for output
 	 * @param origGeoNode
 	 *            original expression
 	 */

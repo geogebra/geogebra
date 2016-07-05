@@ -157,7 +157,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				// here ...
 				ev = expandFunctionDerivativeNodes(expression.deepCopy(kernel),
 						this.fast);
-
+				Log.debug(ev);
 				// Kernel.internationalizeDigits = internationalizeDigits;
 
 			} catch (Exception e) {
@@ -329,6 +329,10 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 			((MyNumberPair) ev)
 					.setY(expandFunctionDerivativeNodes(((MyNumberPair) ev)
 							.getY(), fast));
+			// for f,g,h functions make sure f(g,h) expands to f(g(x),h(x))
+		} else if (ev.unwrap() instanceof FunctionalNVar) {
+			return ((FunctionalNVar) ev.unwrap()).getFunctionExpression()
+					.deepCopy(((FunctionalNVar) ev.unwrap()).getKernel());
 		}
 		return ev;
 	}
