@@ -156,8 +156,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				// TODO: seems that we never read internationalize digits flag
 				// here ...
 				ev = expandFunctionDerivativeNodes(expression.deepCopy(kernel),
-						this.fast);
-				Log.debug(ev);
+						this.fast, f.getFunctionVariables());
 				// Kernel.internationalizeDigits = internationalizeDigits;
 
 			} catch (Exception e) {
@@ -205,7 +204,29 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	}
 
 	/**
-	 * Expandes all FUNCTION and DERIVATIVE nodes in the given expression.
+	 * Expands all FUNCTION and DERIVATIVE nodes in the given expression.
+	 * 
+	 * @param in
+	 *            expression to expand (only ExpressionNodes are affected)
+	 * @param fast
+	 *            use fast derivatives
+	 * @param vars
+	 *            function variables
+	 * 
+	 * @return new ExpressionNode as result
+	 */
+	public static ExpressionValue expandFunctionDerivativeNodes(
+			ExpressionValue in, boolean fast, FunctionVariable[] vars) {
+		ExpressionValue ev = expandFunctionDerivativeNodes(in, fast);
+		ExpressionNode en = ev.wrap();
+		for (int i = 0; i < vars.length; i++) {
+			en.replaceVariables(vars[i].getSetVarString(), vars[i]);
+		}
+		return ev;
+	}
+
+	/**
+	 * Expands all FUNCTION and DERIVATIVE nodes in the given expression.
 	 * 
 	 * @param ev
 	 *            expression to expand (only ExpressionNodes are affected)
@@ -272,7 +293,6 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				}
 				return ((Functional) leftValue).getGeoDerivative(order, fast);
 			case ELEMENT_OF:
-				Log.debug("expand");
 				  //list(x,x) cannot be expanded	
 				ExpressionValue rt = node.getRight().unwrap();
 				if (rt instanceof ListValue) {
