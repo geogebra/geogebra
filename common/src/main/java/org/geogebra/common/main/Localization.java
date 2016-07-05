@@ -1037,6 +1037,13 @@ public abstract class Localization implements KeyboardLocale {
 	 */
 	protected abstract boolean isCommandNull();
 
+	/**
+	 * turns eg Function.sin into "sin" or (in Spanish) "sen"
+	 * 
+	 * guaranteed to remove the "Function." from the start even if a key doesn't
+	 * exist (or isn't loaded)
+	 * 
+	 */
 	public String getFunction(String key) {
 		String ret = getPlain("Function." + key);
 
