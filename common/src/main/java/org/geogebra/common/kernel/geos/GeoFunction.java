@@ -143,8 +143,10 @@ CasEvaluableFunction, ParametricCurve,
 		// functions
 		if (!cons.isSuppressLabelsActive()
 				&& !isBooleanFunction()
-				&& (this.isFunctionOfY() || (autoLabel && this
-						.isFunctionOfZ()))) {
+				&& (this.isFunctionOfY()
+						// needed for GGB-1028
+						&& this.getCorrespondingCasCell() == null)
+				|| (autoLabel && this.isFunctionOfZ())) {
 			return false;
 		}
 		return true;
