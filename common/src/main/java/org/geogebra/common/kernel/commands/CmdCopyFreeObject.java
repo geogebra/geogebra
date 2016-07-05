@@ -77,10 +77,14 @@ public class CmdCopyFreeObject extends CommandProcessor {
 		// eg f(x,y)=
 		if (label != null) {
 			command.append(label);
+		} else {
+			// add label explicitly to make sure this works for f(t) or f(a,b)
+			command.append(geoElement.getFreeLabel(null));
+		}
 			command.append('(');
 			command.append(f.getVarString(StringTemplate.defaultTemplate));
 			command.append(")=");
-		}
+
 		StringTemplate highPrecision = StringTemplate.maxPrecision;
 		if (f.getFunctionExpression().isSecret()) {
 			command.append(geoElement.getParentAlgorithm().getClassName());
