@@ -183,12 +183,13 @@ public class Browser {
 	}-*/;
 
 	/**
-	 * @return whether we are running this from our own website
+	 * @return whether we are running this from another website (local install
+	 *         of app bundle)
 	 */
 	public static boolean runningLocal() {
 		return Location.getProtocol().startsWith("http")
-		        && !Location.getHost().contains("geogebra.org")
-		        && !Location.getHost().contains("geogebratube.org");
+				&& Location.getHost() != null
+				&& !Location.getHost().contains("geogebra.org");
 	}
 
 	public native static String navigatorLanguage() /*-{
