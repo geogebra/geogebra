@@ -48,6 +48,7 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.Resource;
 import com.himamis.retex.renderer.web.JlmLib;
@@ -84,6 +85,7 @@ public class MathFieldW implements MathField, IsWidget {
 		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setFieldListener(listener);
+		mathFieldInternal.setType(TeXFormula.SANSSERIF);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 	}
 
