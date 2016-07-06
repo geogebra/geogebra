@@ -6237,9 +6237,13 @@ kernel, left,
 				double rt = fraction[1].evaluateDouble();
 				if (Kernel.isInteger(rt) && Kernel.isInteger(lt)
 						&& !Kernel.isZero(rt)) {
-					double g = Math.abs(Kernel.gcd((long) lt, (long) rt))
-							* Math.signum(rt);
-					resolve = new ExpressionNode(kernel, lt / g).divide(rt / g);
+					if (Math.abs(lt) < 1E15 && Math.abs(rt) < 1E15) {
+						double g = Math.abs(Kernel.gcd((long) lt, (long) rt))
+								* Math.signum(rt);
+						lt = lt / g;
+						rt = rt / g;
+					}
+					resolve = new ExpressionNode(kernel, lt).divide(rt);
 				} else {
 					resolve = new ExpressionNode(kernel, lt / rt);
 				}
