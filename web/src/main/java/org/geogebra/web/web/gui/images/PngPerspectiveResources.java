@@ -42,6 +42,9 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu_view_probability.png")
 	ImageResource menu_icon_probability();
 	
+	@Source("org/geogebra/common/icons/png/web/menu_icons/menu_view_exam.png")
+	ImageResource menu_icon_exam();
+
 	// StyleBar
 		@Source("org/geogebra/common/icons/png24x24/stylebar_icon_algebra.png")
 		ImageResource styleBar_algebraView();

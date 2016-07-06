@@ -6124,3 +6124,32 @@ body.application[dir=rtl] .deleteAlgebra {
 .GeoGebraFrame .gwt-SplitLayoutPanel > div{
 	overflow: visible !important;
 }
+
+/*
+   ########################################
+   ###       New Start Screen           ###
+   ######################################## */
+
+.perspectivesBox{
+	width: 300px;
+}
+.perspectivesMainPanel{
+	width: 100%;
+}
+.perspectivesRow{
+	float: left;
+	padding: 10px;
+	width: 80%;
+	text-align: left;
+	cursor: pointer;
+}
+.perspectivesMargin{
+	margin-bottom: 20px;
+}
+.perspectivesRow:hover{
+	background-color: #CCCCFF;
+}
+.perspectivesHelp{
+	float: right;
+	cursor: pointer;
+}

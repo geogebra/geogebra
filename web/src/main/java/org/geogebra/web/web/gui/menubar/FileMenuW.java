@@ -125,7 +125,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 			@Override
 			public void doExecute() {
-				((DialogManagerW) app.getDialogManager()).getSaveDialog().showIfNeeded(newConstruction);
+						((DialogManagerW) app.getDialogManager()).getSaveDialog().showIfNeeded(newConstruction);
+						if (app.has(Feature.NEW_START_SCREEN)) {
+							app.showPerspectivesPopup();
+						}
 			}
 		});
 

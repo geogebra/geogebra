@@ -125,6 +125,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.gui.menubar.MainMenu;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -3525,4 +3526,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			}
 		}
 	}
+
+	/*
+	 * public Runnable showPerspectivesPopupRunnable() { MainMenu menu =
+	 * (MainMenu) laf.getMenuBar(this); return new Runnable() { public void
+	 * run() { menu.getPerspectivesMenuW().showPerspectivesPopup(); } }; }
+	 */
+
+	public void showPerspectivesPopup() {
+		((MainMenu) laf.getMenuBar(this)).getPerspectivesMenuW().showPerspectivesPopup();
+	}
+
 }

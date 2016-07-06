@@ -289,6 +289,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	    return editMenu;
     }
 
+	public PerspectivesMenuW getPerspectivesMenuW() {
+		return perspectivesMenu;
+	}
+
 	public void updateMenubar() {
 		if(app.hasOptionsMenu()){
 			app.getOptionsMenu(null).update();

@@ -28,6 +28,8 @@ public interface PerspectiveResources {
 	
 	ResourcePrototype menu_icon_probability();
 	
+	ResourcePrototype menu_icon_exam();
+
 	// StyleBar
 	ResourcePrototype styleBar_algebraView();
 
