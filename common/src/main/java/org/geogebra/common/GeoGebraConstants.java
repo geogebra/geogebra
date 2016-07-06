@@ -75,6 +75,9 @@ public interface GeoGebraConstants {
 	public final static String GEOGEBRA_REPORT_BUG_WEB = "https://www.geogebra.org/bugs/?v=web";
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
 	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
+
+	public final static String TUBE_URL_SHORT = "https://ggbm.at/";
+
 	/** max possible heap space for applets in MB */
 	public final static int MAX_HEAP_SPACE = 1024;
 
