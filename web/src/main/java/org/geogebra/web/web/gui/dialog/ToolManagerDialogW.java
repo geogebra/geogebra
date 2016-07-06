@@ -30,6 +30,7 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.ToolNameIconPanel;
 import org.geogebra.web.web.gui.ToolNameIconPanel.MacroChangeListener;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
@@ -498,11 +499,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			app.getGuiManager().removeFromToolbarDefinition(macroID);
 		}
-		app.updateToolBar();
-		app.updateMenubar();
-
-		// refreshCustomToolsInToolBar();
-
+		GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
+		gm.setGeneralToolBarDefinition(gm.getCustomToolbarDefinition());
+		updateToolBar();
 	}
 
 }
