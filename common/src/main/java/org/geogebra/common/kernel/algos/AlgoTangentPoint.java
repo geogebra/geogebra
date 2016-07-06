@@ -42,7 +42,9 @@ public class AlgoTangentPoint extends AlgoTangentPointND implements SymbolicPara
 
 	@Override
 	protected boolean isIntersectionPointIncident() {
-		return c.isIntersectionPointIncident((GeoPoint) P, Kernel.MIN_PRECISION)
+		// Too low precision causes tangent not touching the conic GGB-1018
+		return c.isIntersectionPointIncident((GeoPoint) P,
+				Kernel.STANDARD_PRECISION)
 				|| P.getIncidenceList().contains(c);
 	}
 

@@ -110,7 +110,9 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 
 	@Override
 	protected boolean isIntersectionPointIncident() {
-		return c.isIntersectionPointIncident(coords2D, Kernel.MIN_PRECISION); // ||
+		// Too low precision causes tangent not touching the conic GGB-1018
+		return c.isIntersectionPointIncident(coords2D,
+				Kernel.STANDARD_PRECISION); // ||
 																				// P.getIncidenceList().contains(c);
 	}
 
