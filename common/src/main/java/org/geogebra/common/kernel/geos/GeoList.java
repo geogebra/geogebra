@@ -658,6 +658,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		isDrawable = isDrawable
 				&& geo.isDrawable()
 				&& !geo.isGeoButton()
+				&& !(geo instanceof GeoBoolean)
 				&& !(geo instanceof GeoNumeric && ((GeoNumeric)geo).isSlider());
 
 		// set visual style of this list
@@ -2240,6 +2241,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	/**
 	 * Performs all GeoScriptActions contained in this list
+	 * 
+	 * @param info
+	 *            evaluation flags
 	 * @return number of actions that were performed
 	 */
 	public int performScriptActions(EvalInfo info) {
@@ -2998,6 +3002,12 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		return super.needToShowBothRowsInAV();
 	}
 
+	/**
+	 * Check for matrices for matrices defined per element like {{1,0},{0,1}}
+	 * (also dependent like {{a+1,1}})
+	 * 
+	 * @return whether this can be eited as a matrix
+	 */
 	public boolean isEditableMatrix() {
 		if (!isMatrix()) {
 			return false;
@@ -3010,7 +3020,6 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			AlgoElement algo = getParentAlgorithm();
 			for (int i = 0; i < algo.getInputLength(); i++) {
 				GeoElement element = algo.getInput(i);
-				Log.debug("" + element);
 				if (!element.isIndependent() && !(element
 						.getParentAlgorithm() instanceof AlgoDependentList)) {
 					return false;
