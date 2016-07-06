@@ -187,12 +187,14 @@ public class EditorState {
 	}
 
 	public void cursorToSelectionStart() {
-		if (this.currentSelStart.getParent() != null) {
-			currentField = (MathSequence) this.currentSelStart.getParent();
-		} else {
-			this.currentField = (MathSequence) this.currentSelStart;
+		if (this.currentSelStart != null) {
+			if (this.currentSelStart.getParent() != null) {
+				currentField = (MathSequence) this.currentSelStart.getParent();
+			} else {
+				this.currentField = (MathSequence) this.currentSelStart;
+			}
+			this.currentOffset = currentField.indexOf(currentSelStart) + 1;
 		}
-		this.currentOffset = currentField.indexOf(currentSelStart) + 1;
 	}
 
 	public void cursorToSelectionEnd() {
