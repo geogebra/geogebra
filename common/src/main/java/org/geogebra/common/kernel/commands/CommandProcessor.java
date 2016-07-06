@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandFunctionReplacer;
+import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import org.geogebra.common.kernel.arithmetic.Variable;
@@ -422,7 +423,11 @@ kernelA.getEulerNumber(), localVar));
 			// remove local variable name from kernel again
 
 		}
-		GeoElement[] arg = resArg(c.getArgument(0), argInfo);
+		GeoElement[] arg = resArg(
+				c.getArgument(0)
+						.traverse(CommandReplacer.getReplacer(app, false))
+						.wrap(),
+				argInfo);
 
 		return arg[0];
 	}

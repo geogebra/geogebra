@@ -109,6 +109,7 @@ public interface Traversing {
 	 */
 	public class CommandReplacer implements Traversing {
 		private App app;
+		private boolean cas;
 
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command) {
@@ -121,8 +122,10 @@ public interface Traversing {
 				for (int i = 0; i < c.getArgumentNumber(); i++) {
 					argList.addListElement(c.getItem(i).traverse(this));
 				}
-				return new ExpressionNode(c.getKernel(), new GeoDummyVariable(c
-						.getKernel().getConstruction(), c.getName()),
+				ExpressionValue var = cas ? new GeoDummyVariable(c.getKernel()
+						.getConstruction(), c.getName()) : new Variable(
+						c.getKernel(), c.getName());
+				return new ExpressionNode(c.getKernel(), var,
 						Operation.FUNCTION_NVAR, argList);
 			}
 			return ev;
@@ -135,8 +138,9 @@ public interface Traversing {
 		 *            application (needed to check which commands are valid)
 		 * @return replacer
 		 */
-		public static CommandReplacer getReplacer(App app) {
+		public static CommandReplacer getReplacer(App app, boolean cas) {
 			replacer.app = app;
+			replacer.cas = cas;
 			return replacer;
 		}
 	}
