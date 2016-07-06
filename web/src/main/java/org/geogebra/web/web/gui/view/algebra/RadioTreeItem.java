@@ -335,6 +335,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private FlowPanel outputPanel;
 
+	protected PushButton btnClearInput;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -483,7 +484,9 @@ public class RadioTreeItem extends AVTreeItem
 		updateFont(getPlainTextItem());
 
 		ihtml.addStyleName("elemText");
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) ihtml.addStyleName("scrollableTextBox");
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			ihtml.addStyleName("scrollableTextBox");
+		}
 
 		addDomHandlers(main);
 
@@ -581,6 +584,14 @@ public class RadioTreeItem extends AVTreeItem
 		}
 		return btnDelete;
 
+	}
+
+	protected PushButton getClearInputButton() {
+		if (btnClearInput == null) {
+			btnClearInput = new PushButton(new Image(
+					GuiResources.INSTANCE.algebra_delete()));
+		}
+		return btnClearInput;
 	}
 
 	private void buildPlainTextItem() {
@@ -1637,6 +1648,8 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		});
 
+		ihtml.add(this.getClearInputButton());
+
 		return true;
 	}
 
@@ -1664,6 +1677,9 @@ public class RadioTreeItem extends AVTreeItem
 
 		editing = false;
 		av.cancelEditing();
+		if(btnClearInput != null){
+			ihtml.remove(btnClearInput);
+		}
 
 		if (newValue0 != null) {
 			String newValue = EquationEditor.stopCommon(newValue0);

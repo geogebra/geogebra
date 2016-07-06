@@ -102,7 +102,10 @@ public class InputTreeItem extends RadioTreeItem implements
 
 		ihtml.getElement().appendChild(item.getElement());
 		ihtml.getElement().addClassName("hasCursorPermanent");
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) ihtml.getElement().addClassName("scrollableTextBox");
+
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			ihtml.getElement().addClassName("scrollableTextBox");
+		}
 
 
 		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
@@ -862,7 +865,9 @@ public class InputTreeItem extends RadioTreeItem implements
 		if (heuristic) {
 			updateLineHeight();
 		}
-		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+				ihtml.add(getClearInputButton());
+		} else {
 			if (isEmpty() && plusButton != null) {
 				plusButton.setVisible(true);
 			} else {

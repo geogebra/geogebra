@@ -3881,17 +3881,21 @@ body.application[dir=rtl] .imageCorner {
 .InputTreeItem .hasCursorPermanent {
 	border-color: #DCDCDC;
 }
-	
+
 .scrollableTextBox{	
 	width: 100%;
+	display: inline-block;
 }
 
+.scrollableTextBox > .avTextItem{
+	max-height: 30px;	
+}
 
 .scrollableTextBox > div{
 	width: ~"calc(100% - 40px)";
 	overflow-x: hidden;
+	display: inline;
 }
-
 
 .scrollableTextBox > div::-webkit-scrollbar{
 	display: none;
