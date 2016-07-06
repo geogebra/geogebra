@@ -77,7 +77,7 @@ public interface GeoGebraConstants {
 	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 
 	public final static String TUBE_URL_SHORT = "https://ggbm.at/";
-	public final static String ONENOTE_SHARE_URL = "https://www.tube.geogebra.org/material/onenote/id/";
+	public final static String ONENOTE_SHARE_URL = "https://www.geogebra.org/material/onenote/id/";
 
 	/** max possible heap space for applets in MB */
 	public final static int MAX_HEAP_SPACE = 1024;
