@@ -342,7 +342,7 @@ public abstract class App implements UpdateSelection {
 	 */
 	// public static final int VIEW_PYTHON = 16384;
 	private boolean showResetIcon = false;
-	private ParserFunctions pf = new ParserFunctions();
+	private ParserFunctions pf;
 	private SpreadsheetTraceManager traceManager;
 	private ExamEnvironment exam;
 	// currently used application fonts
@@ -2816,6 +2816,9 @@ public abstract class App implements UpdateSelection {
 	 * @return parser extension for functions
 	 */
 	public ParserFunctions getParserFunctions() {
+		if (pf == null) {
+			pf = new ParserFunctions();
+		}
 		return pf;
 	}
 
@@ -3811,7 +3814,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-993
 		case NEW_START_SCREEN:
-			return false;
+			return prerelease;
 
 		// MOB-270
 		case ACRA:

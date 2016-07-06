@@ -5,6 +5,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -210,10 +211,16 @@ public class LoadFilePresenter {
 		// }
 		app.updateToolBar();
 		app.focusLost(null, null);
+
 		if (p != null) {
 			app.showStartTooltip(p.getDefaultID());
+		} else {
+			if (app.has(Feature.NEW_START_SCREEN)) {
+				app.showPerspectivesPopup();
+			}
 		}
 		app.updateRounding();
+
 	}
 
 	private static void readObjectDefaults(App app, Storage stockStore) {
