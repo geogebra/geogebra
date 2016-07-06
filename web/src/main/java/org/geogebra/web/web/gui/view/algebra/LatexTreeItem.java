@@ -48,6 +48,7 @@ public class LatexTreeItem extends RadioTreeItem
 	 */
 	public LatexTreeItem(GeoElement geo0) {
 		super(geo0);
+		getWidget().addStyleName("latexEditor");
 	}
 
 	/**
@@ -62,6 +63,7 @@ public class LatexTreeItem extends RadioTreeItem
 			canvas.getElement().getStyle().setMarginLeft(40, Unit.PX);
 			canvas.getElement().getStyle().setMarginTop(5, Unit.PX);
 		}
+		getWidget().addStyleName("latexEditor");
 	}
 
 	@Override
