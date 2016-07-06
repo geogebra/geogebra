@@ -335,9 +335,11 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 
 	void showToolChanged() {
 		Macro m = getMacro();
+		m.setShowInToolBar(showTool.getValue());
 		if (listener != null) {
 			listener.onShowToolChange(m);
 		}
+
 	}
 
 }

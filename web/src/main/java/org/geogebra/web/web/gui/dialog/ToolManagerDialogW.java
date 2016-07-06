@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.dialog.ToolManagerDialogModel;
 import org.geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogListener;
 import org.geogebra.common.javax.swing.GOptionPane;
@@ -474,7 +475,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	}
 	public void onMacroChange(Macro macro) {
-		Log.debug("[MACROLIST] onMacroChange " + macro.getCommandName());
 		Macro m = toolList.getSelectedMacro();
 		m.setCommandName(macro.getCommandName());
 		m.setToolName(macro.getToolName());
@@ -488,7 +488,21 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	@Override
 	public void onShowToolChange(Macro macro) {
 		onMacroChange(macro);
-		applyChanges();
+		boolean active = macro.isShowInToolBar();
+		Macro m = toolList.getSelectedMacro();
+
+		if (active) {
+			app.getGuiManager().refreshCustomToolsInToolBar();
+		} else {
+			int macroID = m.getKernel().getMacroID(m)
+					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
+			app.getGuiManager().removeFromToolbarDefinition(macroID);
+		}
+		app.updateToolBar();
+		app.updateMenubar();
+
+		// refreshCustomToolsInToolBar();
+
 	}
 
 }
