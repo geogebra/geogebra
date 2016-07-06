@@ -56,7 +56,7 @@ dependencies {
 	    'com.asual.lesscss:lesscss-engine:1.3.0'
 }
 
-def devModule = 'org.geogebra.web.Web3D'
+def devModule = 'org.geogebra.web.SuperWeb'
 
 gwt {
 	gwtVersion = '2.7.0'

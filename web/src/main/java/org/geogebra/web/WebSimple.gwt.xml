@@ -16,6 +16,7 @@
     <when-type-is class="org.geogebra.common.factories.CASFactory" />    
   </replace-with>
 
+ <set-configuration-property name="devModeRedirectEnabled" value="false"/>
   <!-- Compile only one permutation -->
   <collapse-all-properties />
 </module>

@@ -28,6 +28,7 @@
   <replace-with class="org.geogebra.web.web.gui.applet.AppletFactory2D">
     <when-type-is class="org.geogebra.web.web.gui.applet.AppletFactory" />    
   </replace-with>
+  <set-configuration-property name="devModeRedirectEnabled" value="false"/>
   <!-- Compile only one permutation -->
   <collapse-all-properties />
 </module>
