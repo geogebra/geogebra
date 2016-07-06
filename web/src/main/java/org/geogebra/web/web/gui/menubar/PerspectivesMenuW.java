@@ -86,8 +86,11 @@ public class PerspectivesMenuW extends GMenuBar {
 		// this is enabled always
 	}
 
-	final String[] tutorials = new String[] { "graphing", "graphing", "geometry", "spreadsheet", "cas", "3d",
-			"probability", "exam" };
+	/**
+	 * Apps Picker Dialog for new Start screen (GGB-992)
+	 */
+	final String[] tutorials = new String[] { "graphing/", "graphing/", "geometry/", "spreadsheet/", "cas/", "3d/",
+			"probability/", "exam/", "" };
 	private DialogBoxW box;
 
 	public void showPerspectivesPopup() {
@@ -101,6 +104,7 @@ public class PerspectivesMenuW extends GMenuBar {
 		icons.add(pr.menu_icon_graphics3D());
 		icons.add(pr.menu_icon_probability());
 		icons.add(pr.menu_icon_exam());
+		icons.add(GuiResources.INSTANCE.icon_help());
 
 		box = new DialogBoxW(true, true, null, app.getPanel());
 		box.setGlassEnabled(false);
@@ -129,9 +133,13 @@ public class PerspectivesMenuW extends GMenuBar {
 		}
 		// add exam mode
 		HorizontalPanel examRow = addPerspectiveRow(icons.get(6), "exam_menu_enter", -1, 7);
+		examRow.addStyleName("perspectivesMargin");
 		contentPanel.add(examRow);
 
 		// add link to tutorials
+		HorizontalPanel tutorialsRow = addPerspectiveRow(icons.get(7), "Tutorials", -2, 8);
+		tutorialsRow.addStyleName("upperBoarder");
+		contentPanel.add(tutorialsRow);
 
 	}
 
@@ -143,14 +151,26 @@ public class PerspectivesMenuW extends GMenuBar {
 		perspective.add(new Image(ImgResourceHelper.safeURI(icon)));
 		// perspective label
 		perspective.add(new Label(app.getMenu(menuID)));
-		// help button
-		Image helpBtn = new Image(GuiResources.INSTANCE.icon_help());
-
 		rowPanel.setStyleName("perspectivesRow");
-		helpBtn.addStyleName("perspectivesHelp");
-
 		rowPanel.add(perspective);
-		rowPanel.add(helpBtn);
+
+		// help button
+		if (index != -2) {
+			Image helpBtn = new Image(GuiResources.INSTANCE.icon_help());
+			helpBtn.addStyleName("perspectivesHelp");
+			helpBtn.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					String URL = GeoGebraConstants.QUICKSTART_URL + tutorials[defID]
+							+ app.getLocalization().getLocaleStr() + "/";
+					// TODO check if online
+					ToolTipManagerW.openWindow(URL);
+					event.stopPropagation();
+				}
+			});
+			rowPanel.add(helpBtn);
+		}
 
 		rowPanel.addDomHandler(new ClickHandler() {
 
@@ -165,22 +185,17 @@ public class PerspectivesMenuW extends GMenuBar {
 					ExamUtil.toggleFullscreen(true);
 					app.setExam(new ExamEnvironment());
 					((AppWFull) app).examWelcome();
+				} else if (index == -2) {
+					String URL = GeoGebraConstants.QUICKSTART_URL + tutorials[defID]
+							+ app.getLocalization().getLocaleStr() + "/";
+					// TODO check if online
+					ToolTipManagerW.openWindow(URL);
 				}
 				box.hide();
 			}
 		}, ClickEvent.getType());
 
-		helpBtn.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				String URL = GeoGebraConstants.QUICKSTART_URL + tutorials[defID] + "/"
-						+ app.getLocalization().getLocaleStr() + "/";
-				// TODO check if online
-				ToolTipManagerW.openWindow(URL);
-				event.stopPropagation();
-			}
-		});
 
 		return rowPanel;
 	}

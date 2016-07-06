@@ -6135,25 +6135,37 @@ body.application[dir=rtl] .deleteAlgebra {
    ######################################## */
 
 .perspectivesBox{
-	width: 300px;
+	width: 250px;
+/*	position: absolute;
+	right: 10px;*/
 }
 .perspectivesMainPanel{
 	width: 100%;
 }
 .perspectivesRow{
 	float: left;
-	padding: 10px;
+	padding: 5px;
 	width: 80%;
 	text-align: left;
 	cursor: pointer;
+	display: block;
+}
+.perspectivesRow img{
+	padding-right: 10px;
 }
 .perspectivesMargin{
-	margin-bottom: 20px;
+	margin-bottom: 15px;
 }
 .perspectivesRow:hover{
 	background-color: #CCCCFF;
 }
 .perspectivesHelp{
-	float: right;
+	position: absolute;
+    right: 20px;
 	cursor: pointer;
+}
+.upperBoarder{
+    padding-top: 10px;
+    padding-bottom: 0px;
+    border-top: 1px solid #DCDCDC;
 }
