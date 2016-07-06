@@ -131,6 +131,12 @@ public interface GeoGebraConstants {
 
 	public static final String QUICKSTART_URL = "https://www.geogebra.org/tutorial/";
 
+	public static final String WIDGET_URL = "https://www.geogebra.org/widgetprovider/index/widgettype/";
+
+	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
+
+	public static final String PROFILE_URL_BASE = "https://www.geogebra.org/user/profile/id/";
+
 	public static int[] VALID_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28, 32, 48 };
 
 }

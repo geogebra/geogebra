@@ -76,7 +76,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		}
 	}
 
-	private final static String GGT_EDIT_URL = "http://tube.geogebra.org/material/edit/id/";
 	private static final int MAX_TITLE_LENGTH = 60;
 	protected AppW app;
 	FlowPanel contentPanel;

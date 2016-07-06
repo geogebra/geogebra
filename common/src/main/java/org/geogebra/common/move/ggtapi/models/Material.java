@@ -179,7 +179,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public String getAuthorURL() {
-		return "//tube.geogebra.org/user/profile/id/" + this.author_id;
+		return GeoGebraConstants.PROFILE_URL_BASE + this.author_id;
 	}
 
 	/**
@@ -190,8 +190,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public String getEditUrl() {
-		return GeoGebraConstants.GEOGEBRA_WEBSITE + "/material/edit/id/"
-				+ this.id;
+		return GeoGebraConstants.EDIT_URL_BASE + this.id;
 	}
 
 	/**
