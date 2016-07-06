@@ -1651,6 +1651,10 @@ public class RadioTreeItem extends AVTreeItem
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			ihtml.add(this.getClearInputButton());
 		}
+		
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			buttonPanel.setVisible(false);
+		}
 
 		return true;
 	}
@@ -1679,8 +1683,11 @@ public class RadioTreeItem extends AVTreeItem
 
 		editing = false;
 		av.cancelEditing();
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER) && btnClearInput != null) {
-			ihtml.remove(btnClearInput);
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			if (btnClearInput != null){
+				ihtml.remove(btnClearInput);
+			}
+			buttonPanel.setVisible(true);	
 		}
 
 		if (newValue0 != null) {
@@ -2074,6 +2081,10 @@ marblePanel, evt))) {
 			if (!isEditing()) {
 				geo.setAnimating(false);
 				av.startEditing(geo);
+				if (app.has(Feature.AV_INPUT_BUTTON_COVER) && buttonPanel != null) {
+					buttonPanel.setVisible(false);
+				}
+
 				Scheduler.get()
 						.scheduleDeferred(new Scheduler.ScheduledCommand() {
 
