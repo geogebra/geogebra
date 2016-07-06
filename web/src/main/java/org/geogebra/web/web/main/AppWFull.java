@@ -56,6 +56,7 @@ import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
+import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
@@ -777,6 +778,12 @@ public abstract class AppWFull extends AppW {
 				getGuiManager().getMenuBarHtml(imgRes,
 						getLocalization().getMenu(key), true),
 				true, (MenuBar) subMenu);
+	}
+
+	@Override
+	public void showPerspectivesPopup() {
+		((MainMenu) getLAF().getMenuBar(this)).getPerspectivesMenuW()
+				.showPerspectivesPopup();
 	}
 
 }
