@@ -1648,7 +1648,9 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		});
 
-		ihtml.add(this.getClearInputButton());
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			ihtml.add(this.getClearInputButton());
+		}
 
 		return true;
 	}
@@ -1677,7 +1679,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		editing = false;
 		av.cancelEditing();
-		if(btnClearInput != null){
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER) && btnClearInput != null) {
 			ihtml.remove(btnClearInput);
 		}
 
