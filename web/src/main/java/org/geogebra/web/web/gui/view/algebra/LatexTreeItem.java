@@ -216,7 +216,7 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 					geos[0].setLabel(geos[0].getDefaultLabel());
 				}
 
-				InputHelper.centerText(geos, app.getActiveEuclidianView());
+				InputHelper.updateProperties(geos, app.getActiveEuclidianView());
 				app.setScrollToShow(false);
 				/**
 				 * if (!valid) { addToHistory(input, null);

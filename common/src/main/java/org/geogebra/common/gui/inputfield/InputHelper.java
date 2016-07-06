@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
@@ -44,48 +45,59 @@ public class InputHelper {
 	 * @param ev
 	 *            view
 	 */
-	public static void centerText(GeoElement[] geos,
+	public static void updateProperties(GeoElement[] geos,
 			EuclidianViewInterfaceCommon ev) {
 		// create texts in the middle of the visible view
 		// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
-		if (geos != null && geos.length > 0 && geos[0] != null
-				&& geos[0].isGeoText()) {
-			GeoText text = (GeoText) geos[0];
-			text.setAuxiliaryObject(false);
-			Construction cons = text.getConstruction();
-
-			boolean absoluteTexts = cons.getApplication()
-					.has(Feature.ABSOLUTE_TEXTS);
-			if ((!text.isTextCommand() || absoluteTexts)
-					&& text.getStartPoint() == null) {
-
-
-				boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
-				cons.setSuppressLabelCreation(true);
-
-				GeoPoint p = new GeoPoint(text.getConstruction(), null,
-						(ev.getXmin() + ev.getXmax()) / 2,
-						(ev.getYmin() + ev.getYmax()) / 2, 1.0);
-
-				cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
-
-				try {
-					if (absoluteTexts) {
-						text.setAbsoluteScreenLoc(
-ev.toScreenCoordX(p.getX()),
-								ev.toScreenCoordY(p.getY()));
-						text.setAbsoluteScreenLocActive(true);
-					} else {
-						text.setStartPoint(p);
-
-					}
-					text.update();
-				} catch (CircularDefinitionException e1) {
-					e1.printStackTrace();
-				}
+		if (geos == null) {
+			return;
+		}
+		for (int i = 0; i < geos.length; i++) {
+			if (geos[i] instanceof HasSymbolicMode) {
+				((HasSymbolicMode) geos[i]).setSymbolicMode(true);
+				((HasSymbolicMode) geos[i]).updateRepaint();
+			}
+			if (geos[i] instanceof GeoText) {
+			GeoText text = (GeoText) geos[i];
+				centerText(text, ev);
 			}
 		}
 
+	}
+
+	private static void centerText(GeoText text,
+			EuclidianViewInterfaceCommon ev) {
+		text.setAuxiliaryObject(false);
+		Construction cons = text.getConstruction();
+
+		boolean absoluteTexts = cons.getApplication()
+				.has(Feature.ABSOLUTE_TEXTS);
+		if ((!text.isTextCommand() || absoluteTexts)
+				&& text.getStartPoint() == null) {
+
+			boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
+
+			GeoPoint p = new GeoPoint(text.getConstruction(), null,
+					(ev.getXmin() + ev.getXmax()) / 2,
+					(ev.getYmin() + ev.getYmax()) / 2, 1.0);
+
+			cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
+
+			try {
+				if (absoluteTexts) {
+					text.setAbsoluteScreenLoc(ev.toScreenCoordX(p.getX()),
+							ev.toScreenCoordY(p.getY()));
+					text.setAbsoluteScreenLocActive(true);
+				} else {
+					text.setStartPoint(p);
+
+				}
+				text.update();
+			} catch (CircularDefinitionException e1) {
+				e1.printStackTrace();
+			}
+		}
 	}
 
 	private static boolean isOpenBracket(char c, boolean onlySquare) {

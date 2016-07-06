@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.NormalizerMinimal;
@@ -107,9 +106,6 @@ public class GeoText extends GeoElement implements Locateable,
 
 		// don't show in algebra view
 		// setAlgebraVisible(false);
-		if (c.getApplication().has(Feature.FRACTIONS)) {
-			symbolicMode = true;
-		}
 	}
 
 	/**

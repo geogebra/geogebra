@@ -48,7 +48,6 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
@@ -152,10 +151,6 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		setEuclidianVisible(false);
 		// setAlphaValue(ConstructionDefaults.DEFAULT_POLYGON_ALPHA);
 		// setAnimationStep(DEFAULT_SLIDER_INCREMENT);
-
-		if (c.getApplication().has(Feature.FRACTIONS)) {
-			symbolicMode = true;
-		}
 	}
 
 	@Override

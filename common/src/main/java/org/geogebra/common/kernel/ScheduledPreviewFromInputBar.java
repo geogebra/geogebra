@@ -125,7 +125,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 									validation, false, null, info);
 					previewGeos = null;
 					if (inputGeos != null) {
-						InputHelper.centerText(previewGeos, kernel
+						InputHelper.updateProperties(previewGeos, kernel
 								.getApplication().getActiveEuclidianView());
 						int unlabeled = 0;
 						for (GeoElement geo : inputGeos) {

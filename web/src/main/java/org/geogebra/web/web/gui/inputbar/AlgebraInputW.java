@@ -319,7 +319,7 @@ public class AlgebraInputW extends FlowPanel
 						geos[0].setLabel(geos[0].getDefaultLabel());
 					}
 
-					InputHelper.centerText(geos, app.getActiveEuclidianView());
+					InputHelper.updateProperties(geos, app.getActiveEuclidianView());
 
 					app.setScrollToShow(false);
 

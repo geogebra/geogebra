@@ -5945,6 +5945,17 @@ kernel, left,
 				parts[1] = multiplyCheck(denR,denL);
 				return;
 			}
+		case FUNCTION:
+			if (expandPlus && left instanceof Functional) {
+				ExpressionNode expCopy = ((Functional) left)
+						.getFunction().getExpression().deepCopy(kernel);
+				expCopy.replace(
+						((Functional) left).getFunction()
+								.getFunctionVariables()[0],
+						denR == null ? numR : numR.wrap().divide(denR));
+				expCopy.getFraction(parts, expandPlus);
+				return;
+			}
 		default:
 			parts[0] = this;
 			parts[1] = null;
@@ -6240,13 +6251,14 @@ kernel, left,
 				double lt = fraction[0].evaluateDouble();
 				double rt = fraction[1].evaluateDouble();
 				if (Kernel.isInteger(rt) && Kernel.isInteger(lt)
-						&& !Kernel.isZero(rt)) {
-					if (Math.abs(lt) < 1E15 && Math.abs(rt) < 1E15) {
-						double g = Math.abs(Kernel.gcd((long) lt, (long) rt))
-								* Math.signum(rt);
-						lt = lt / g;
-						rt = rt / g;
-					}
+						&& !Kernel.isZero(rt) && Math.abs(lt) < 1E15
+						&& Math.abs(rt) < 1E15) {
+
+					double g = Math.abs(Kernel.gcd((long) lt, (long) rt))
+							* Math.signum(rt);
+					lt = lt / g;
+					rt = rt / g;
+
 					resolve = new ExpressionNode(kernel, lt).divide(rt);
 				} else {
 					resolve = new ExpressionNode(kernel, lt / rt);
