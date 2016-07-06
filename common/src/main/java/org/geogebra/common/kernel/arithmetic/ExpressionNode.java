@@ -5902,6 +5902,10 @@ kernel, left,
 	 *            whether to expand a/b+c/d to (ad+bc)/bd
 	 */
 	public void getFraction(ExpressionValue[] parts, boolean expandPlus){
+		if(this.resolve != null && this.resolve.isExpressionNode()){
+			this.resolve.wrap().getFraction(parts, expandPlus);
+			return;
+		}
 		ExpressionValue numL, numR, denL = null, denR = null;
 		if (checkFraction(parts, left, expandPlus)) {
 
