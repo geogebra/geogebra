@@ -590,9 +590,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	 */
 	@Override
 	public void setText(String s) {
-		if (this.dummyLabel != null) {
-			dummyLabel.removeFromParent();
-		}
+		removeDummy();
 		editor.setText(s, false);
 		updateLineHeight();
 		updatePreview();
@@ -713,13 +711,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		// and now it is also called from there, but in an
 		// indirect way: first MathQuillGGB textarea gets focus,
 		// then its onfocus handler gets called, which calls this
-		if (dummyLabel != null) {
-			// it can only be non-null when
-			// app.has(Feature.INPUT_SHOWN_IN_INPUTBAR)
-			// if (dummyLabel.getElement().hasParentElement()) {
-			dummyLabel.removeFromParent();
-
-		}
+		removeDummy();
 
 		if (((AlgebraViewW) av).isNodeTableEmpty()) {
 			// #5245#comment:8, cases B and C excluded
@@ -737,6 +729,7 @@ public class InputTreeItem extends RadioTreeItem implements
 
 		// this.focused = true; // hasFocus is not needed, AFAIK
 	}
+
 
 	/**
 	 * This method does update the buttonPanel, xButton, pButton visibility
@@ -807,21 +800,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		}
 	}
 
-	private void addDummyLabel() {
-		if (dummyLabel == null) {
-			dummyLabel = new Label(app.getPlain("InputLabel")
-					+ Unicode.ellipsis);
-			dummyLabel.addStyleName("avDummyLabel");
-		}
-		//if (dummyLabel.getElement() != null) {
-		// if (dummyLabel.getElement().hasParentElement()) {
-		// in theory, this is done in insertFirst,
-		// just making sure here as well
-		// dummyLabel.getElement().removeFromParent();
-		// }
-		ihtml.insert(dummyLabel, 0);
-		//}
-	}
+
 
 	@Override
 	public ArrayList<String> getHistory() {
@@ -894,12 +873,7 @@ public class InputTreeItem extends RadioTreeItem implements
 
 	}
 
-	/**
-	 * @return whether input text is empty
-	 */
-	protected boolean isEmpty() {
-		return "".equals(getText().trim());
-	}
+
 
 	@Override
 	public void updatePosition(ScrollableSuggestionDisplay sug) {

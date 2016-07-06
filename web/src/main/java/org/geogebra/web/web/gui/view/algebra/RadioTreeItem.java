@@ -2370,7 +2370,6 @@ marblePanel, evt))) {
 	}
 
 	private void onPointerDown(AbstractEvent event) {
-
 		if (event.isRightClick()) {
 			onRightClick(event.getX(), event.getY());
 			return;
@@ -3125,5 +3124,42 @@ marblePanel, evt))) {
 		}
 
 	}
+
+	/**
+	 * @return whether input text is empty
+	 */
+	protected boolean isEmpty() {
+		return "".equals(getText().trim());
+	}
+
+	protected void addDummyLabel() {
+		if (dummyLabel == null) {
+			dummyLabel = new Label(
+					app.getPlain("InputLabel") + Unicode.ellipsis);
+			dummyLabel.addStyleName("avDummyLabel");
+		}
+		if (canvas != null) {
+			canvas.setVisible(false);
+		}
+		// if (dummyLabel.getElement() != null) {
+		// if (dummyLabel.getElement().hasParentElement()) {
+		// in theory, this is done in insertFirst,
+		// just making sure here as well
+		// dummyLabel.getElement().removeFromParent();
+		// }
+		ihtml.insert(dummyLabel, 0);
+		// }
+	}
+
+	protected void removeDummy() {
+		if (this.dummyLabel != null) {
+			dummyLabel.removeFromParent();
+		}
+		if (canvas != null) {
+			canvas.setVisible(true);
+		}
+
+	}
+
 }
 

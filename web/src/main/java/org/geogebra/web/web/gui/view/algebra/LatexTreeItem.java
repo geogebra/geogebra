@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -21,6 +22,8 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -32,7 +35,8 @@ import com.himamis.retex.editor.web.MathFieldW;
  * @author Zbynek
  *
  */
-public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
+public class LatexTreeItem extends RadioTreeItem
+		implements MathFieldListener, BlurHandler {
 
 	private MathFieldW mf;
 	/** Listener for enter */
@@ -53,14 +57,16 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 	public LatexTreeItem(Kernel kernel) {
 		super(kernel);
 		this.insertHelpToggle();
+		addDomHandlers(main);
 		if (canvas != null) {
 			canvas.getElement().getStyle().setMarginLeft(40, Unit.PX);
+			canvas.getElement().getStyle().setMarginTop(5, Unit.PX);
 		}
 	}
 
 	@Override
 	protected boolean startEditing(boolean substituteNumbers) {
-		String text = geo == null ? "Input" : geo.getDefinitionForEditor();
+		String text = geo == null ? "" : geo.getDefinitionForEditor();
 		if (text == null) {
 			return false;
 		}
@@ -74,10 +80,10 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 		renderLatex(text, old.getElement());
 		mf.setFocus(true);
 
-
+		canvas.addBlurHandler(this);
 		// DrawEquationW.editEquationMathQuillGGB(this, latexItem, false);
 
-		app.getGuiManager().setOnScreenKeyboardTextField(this);
+		app.getGuiManager().setOnScreenKeyboardTextField(this.retexListener);
 		CancelEventTimer.keyboardSetVisible();
 		ClickStartHandler.init(main, new ClickStartHandler(false, false) {
 			@Override
@@ -146,22 +152,32 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 	@Override
 	public void onEnter() {
 
-		onEnter(false);
+		onEnter(geo == null);
 		
 	}
 
 	@Override
 	public void setFocus(boolean b, boolean sv) {
+		if (b) {
+			removeDummy();
+		}
 		if (ensureCanvas()) {
 			main.clear();
 			if (geo == null) {
 				insertHelpToggle();
 				canvas.getElement().getStyle().setMarginLeft(40, Unit.PX);
+				canvas.getElement().getStyle().setMarginTop(5, Unit.PX);
 			}
 			ihtml.add(canvas);
 			main.add(ihtml);
 		}
-		canvas.setFocus(b);
+		if (b) {
+			canvas.setVisible(true);
+		} else {
+			addDummyLabel();
+		}
+		mf.setFocus(b);
+		//canvas.setFocus(b);
 	}
 
 	@Override
@@ -180,6 +196,9 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 				return;
 			}
 			createGeoFromInput(false);
+			if (!keepFocus) {
+				setFocus(false, false);
+			}
 			return;
 		}
 		stopEditing(getText(), new AsyncOperation<GeoElement>() {
@@ -253,6 +272,7 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 	
 	@Override
 	public void setText(String text0) {
+		removeDummy();
 		if(mf!=null){
 			Parser parser = new Parser(mf.getMetaModel());
 			MathFormula formula;
@@ -260,9 +280,15 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 				formula = parser.parse(text0);
 				mf.setFormula(formula);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
+				Log.warn("Problem parsing: " + text0);
 				e.printStackTrace();
 			}
+		}
+	}
+	@Override
+	public void setLabels() {
+		if (dummyLabel != null) {
+			dummyLabel.setText(app.getPlain("InputLabel") + Unicode.ellipsis);
 		}
 	}
 
@@ -286,6 +312,7 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 
 	}
 
+	@Override
 	protected void focusAfterHelpClosed() {
 		setFocus(true);
 	}
@@ -301,6 +328,21 @@ public class LatexTreeItem extends RadioTreeItem implements MathFieldListener {
 			app.getKernel().getInputPreviewHelper().updatePreviewFromInputBar(
 					text, AlgebraInputW.getWarningHandler(this, app));
 		}
+
+	}
+
+	@Override
+	public void onBlur(BlurEvent event) {
+
+
+			if (isEmpty()) {
+				addDummyLabel();
+			}
+
+			if (((AlgebraViewW) av).isNodeTableEmpty()) {
+				// #5245#comment:8, cases B and C excluded
+				updateGUIfocus(event == null ? this : event.getSource(), true);
+			}
 
 	}
 
