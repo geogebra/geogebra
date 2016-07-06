@@ -160,7 +160,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		// OneNote
 		Anchor onenote = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_onenote().getSafeUri().asString()).toString(), true,
-				"http://tube.geogebra.org/material/onenote/id/" + sharingKey,
+				GeoGebraConstants.ONENOTE_SHARE_URL + sharingKey,
 				"_blank");
 		onenote.addClickHandler(closePopupHandler);
 		iconPanel.add(onenote);
@@ -287,7 +287,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		emailPanel.add(lblMessage);
 		emailPanel.add(message);
 
-		btSendMail = new Button(app.getPlain("SendMail"));
+		btSendMail = new Button(app.getPlain("Send"));
 		// btSendMail.getElement().setAttribute("action", "OK");
 		btSendMail.addClickHandler(this);
 
