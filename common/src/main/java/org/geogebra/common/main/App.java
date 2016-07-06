@@ -3807,7 +3807,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-335
 		case TOOLBAR_ON_SMALL_SCREENS:
-			return prerelease;
+			return false;
 
 		// GGB-993
 		case NEW_START_SCREEN:
