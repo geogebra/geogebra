@@ -131,7 +131,9 @@ public class PerspectivesPopup {
 						((AppWFull) app).showStartTooltip(defID);
 					}
 				} else if (index == -1) {
-					ExamUtil.toggleFullscreen(true);
+					if (app.getLAF().supportsFullscreen()) {
+						ExamUtil.toggleFullscreen(true);
+					}
 					app.setExam(new ExamEnvironment());
 					((AppWFull) app).examWelcome();
 				} else if (index == -2) {

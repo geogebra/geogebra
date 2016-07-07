@@ -155,4 +155,8 @@ public class GLookAndFeel implements GLookAndFeelI{
 		return "w";
 	}
 
+	public boolean supportsFullscreen() {
+		return true;
+	}
+
 }

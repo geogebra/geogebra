@@ -4,7 +4,7 @@ package org.geogebra.web.tablet;
  * LAF for Windows Store app
  *
  */
-public class TabletWinLookAndFeel extends TabletLookAndFeel implements TabletLookAndFeelI {
+public class TabletWinLookAndFeel extends TabletLookAndFeel {
 	/**
 	 * Creates new LAF for Windows Store app
 	 */

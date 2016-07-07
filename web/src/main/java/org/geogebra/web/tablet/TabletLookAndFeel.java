@@ -93,4 +93,8 @@ public class TabletLookAndFeel extends GLookAndFeel {
 		return "t";
 	}
 
+	public boolean supportsFullscreen() {
+		return true;
+	}
+
 }

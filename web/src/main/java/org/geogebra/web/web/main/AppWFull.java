@@ -506,7 +506,9 @@ public abstract class AppWFull extends AppW {
 			btnOk.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					ExamUtil.toggleFullscreen(true);
+					if (getLAF().supportsFullscreen()) {
+						ExamUtil.toggleFullscreen(true);
+					}
 					StyleInjector
 					.inject(GuiResources.INSTANCE.examStyleLTR().getText());
 					Date date = new Date();	

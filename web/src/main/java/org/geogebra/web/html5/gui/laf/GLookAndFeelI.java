@@ -52,4 +52,6 @@ public interface GLookAndFeelI {
 
 	String getVersionSuffix();
 
+	boolean supportsFullscreen();
+
 }

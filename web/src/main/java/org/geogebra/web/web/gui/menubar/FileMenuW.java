@@ -316,7 +316,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		return new Runnable() {
 
 			public void run() {
-				ExamUtil.toggleFullscreen(true);
+				if (app.getLAF().supportsFullscreen()) {
+					ExamUtil.toggleFullscreen(true);
+				}
 				app.setExam(new ExamEnvironment());
 				((AppWFull) app).examWelcome();
 
