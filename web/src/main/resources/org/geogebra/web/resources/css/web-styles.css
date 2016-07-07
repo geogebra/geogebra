@@ -6135,18 +6135,27 @@ body.application[dir=rtl] .deleteAlgebra {
    ######################################## */
 
 .perspectivesBox{
-	width: 250px;
-/*	position: absolute;
-	right: 10px;*/
+	width: 230px;
+	position: absolute !important;
+    right: 0px !important;
+    left: auto !important;
+    /* float: right; */
+    top: 50% !important;
+    margin-top: -200px;
+}
+.perspectivesCaption{
+	font-color: #6161FF;
 }
 .perspectivesMainPanel{
-	width: 100%;
+	width: 225px;
+    padding-right: 5px;
 }
 .perspectivesRow{
 	float: left;
-	padding: 5px;
-	width: 80%;
-	text-align: left;
+	padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    text-align: left;
 	cursor: pointer;
 	display: block;
 }
@@ -6161,11 +6170,16 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 .perspectivesHelp{
 	position: absolute;
-    right: 20px;
+    right: 10px;
 	cursor: pointer;
+	width: 20px;
+    height: 20px;
 }
 .upperBoarder{
     padding-top: 10px;
     padding-bottom: 0px;
     border-top: 1px solid #DCDCDC;
+}
+.upperBoarder div{
+	padding-top: 3px;
 }

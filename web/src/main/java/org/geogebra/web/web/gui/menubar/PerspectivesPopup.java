@@ -59,7 +59,7 @@ public class PerspectivesPopup {
 		box.setWidget(contentPanel);
 		box.addStyleName("perspectivesBox");
 		box.getCaption().setText(app.getMenu("CreateYourOwn"));
-		box.center();
+		box.getCaption().asWidget().addStyleName("perspectivesCaption");
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
 			if (defaultPerspectives[i] == null) {
@@ -87,6 +87,7 @@ public class PerspectivesPopup {
 		tutorialsRow.addStyleName("upperBoarder");
 		contentPanel.add(tutorialsRow);
 
+		box.show();
 	}
 
 	private HorizontalPanel addPerspectiveRow(ResourcePrototype icon,
