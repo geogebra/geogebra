@@ -1545,7 +1545,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 
 		boolean sameItem = activeItem == item;
-		
+		if (!sameItem && getActiveTreeItem() != null) {
+			// new item inserted => confirm the old input first
+			getActiveTreeItem().onEnter(false);
+		}
 		if ((this.activeItem != null) && !sameItem
 				&& (!this.activeItem.commonEditingCheck())) {
 			removeCloseButton();
@@ -1560,10 +1563,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		//
 		if (activeItem != null) {
 			selectRow(activeItem.getGeo(), true);
-			// new item inserted => confirm the old input first
-			if (activeItem.getGeo() != null && inputPanelLatex != null) {
-				inputPanelLatex.onEnter(false);
-			}
+
 		}
 	}
 

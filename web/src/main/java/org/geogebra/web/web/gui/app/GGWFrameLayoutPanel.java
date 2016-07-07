@@ -124,18 +124,22 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 					.getDockManager()).getPanelForKeyboard();
 			MathKeyboardListener kl = panel
 					.getKeyboardListener();
-			String text = kl.getText();
-			if (text != null && !text.isEmpty()) {
-				focusLost = !((x > panel.getAbsoluteLeft() - app.getAbsLeft())
-						&& (x < panel.getAbsoluteLeft() - app.getAbsLeft()
-								+ panel.getWidth())
-						&& (y > panel.getAbsoluteTop() - app.getAbsTop())
-						&& (y < panel.getAbsoluteTop() - app.getAbsTop()
-								+ panel.getHeight()));
-				kl.onEnter(!focusLost);
+			if (kl != null) {
+				String text = kl.getText();
+				if (text != null && !text.isEmpty()) {
+					focusLost = !((x > panel.getAbsoluteLeft()
+							- app.getAbsLeft())
+							&& (x < panel.getAbsoluteLeft() - app.getAbsLeft()
+									+ panel.getWidth())
+							&& (y > panel.getAbsoluteTop() - app.getAbsTop())
+							&& (y < panel.getAbsoluteTop() - app.getAbsTop()
+									+ panel.getHeight()));
+					kl.onEnter(!focusLost);
 
+				} else {
+					kl.setFocus(false, false);
+				}
 			}
-
 
 		}
 		if (focusLost) {

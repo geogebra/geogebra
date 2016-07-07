@@ -2381,6 +2381,7 @@ marblePanel, evt))) {
 				ensureEditing();
 			}
 			app.showKeyboard(this);
+			removeDummy();
 			PointerEvent pointerEvent = (PointerEvent) event;
 			pointerEvent.getWrappedEvent().stopPropagation();
 			if (isInputTreeItem()) {

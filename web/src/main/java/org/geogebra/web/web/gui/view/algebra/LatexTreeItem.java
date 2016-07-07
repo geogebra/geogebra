@@ -75,7 +75,7 @@ public class LatexTreeItem extends RadioTreeItem
 		if (errorLabel != null) {
 			errorLabel.setText("");
 		}
-
+		removeDummy();
 		Widget old = latex ? (canvas != null ? canvas : latexItem)
 					: getPlainTextItem();
 
@@ -176,7 +176,9 @@ public class LatexTreeItem extends RadioTreeItem
 		if (b) {
 			canvas.setVisible(true);
 		} else {
-			addDummyLabel();
+			if (geo == null) {
+				addDummyLabel();
+			}
 		}
 		mf.setFocus(b);
 		//canvas.setFocus(b);
@@ -197,7 +199,7 @@ public class LatexTreeItem extends RadioTreeItem
 			if (StringUtil.empty(getText())) {
 				return;
 			}
-			createGeoFromInput(false);
+			createGeoFromInput(keepFocus);
 			if (!keepFocus) {
 				setFocus(false, false);
 			}
@@ -250,17 +252,15 @@ public class LatexTreeItem extends RadioTreeItem
 							@Override
 							public void execute() {
 								scrollIntoView();
-								if (isInputTreeItem() && keepFocus) {
+								if (keepFocus) {
 									setFocus(true);
 								}
+
 							}
 						});
 
-				// actually this (and only this) means return true!
-				// cb.callback(null);
-				if (!keepFocus) {
-					setText("");
-				}
+				setText("");
+
 				updateLineHeight();
 			}
 

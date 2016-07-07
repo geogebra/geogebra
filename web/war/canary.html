@@ -345,11 +345,7 @@ var app = document.createElement("script");
 		app.setAttribute("src","web3d/web3d.nocache.js");
 		document.head.appendChild(app);
 		
-		if(getCookie("SSID")){
-			checkCookie(getCookie("SSID"), lang);
-		}else{
-			displayUser("", null, lang);
-		}
+		perspective(false);
 		
 
 		
