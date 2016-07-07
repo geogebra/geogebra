@@ -2,6 +2,7 @@ project.setDescription('Parts of GeoGebra related to desktop platforms')
 
 apply plugin: 'application'
 apply plugin: 'jacoco'
+apply plugin: 'findbugs'
 
 repositories {
     maven {
