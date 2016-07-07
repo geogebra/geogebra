@@ -1262,14 +1262,17 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	}
 
 	public FillType getBarFillType(int numBar) {
+		return getBarFillType(numBar, FillType.STANDARD);
+	}
+	public FillType getBarFillType(int numBar, FillType fallback) {
 		HashMap<Integer, Object> hm = tags.get(numBar);
 		if (hm != null) {
 			if (hm.get(2) == null) {
-				return FillType.STANDARD;
+				return fallback;
 			}
 			return (FillType) hm.get(2);
 		}
-		return FillType.STANDARD;
+		return fallback;
 	}
 
 	public void setBarSymbol(String symbol, int numBar) {

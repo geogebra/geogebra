@@ -128,19 +128,20 @@ public class DrawBarGraph extends Drawable {
 		String fileName = geo.getImageFileName();
 		float alpha = geo.getAlphaValue();
 		AlgoBarChart algop = (AlgoBarChart) geo.getParentAlgorithm();
-		int k;
 		if (isVisible) {
 			try {
 				if (geo.doHighlighting()) {
 					g2.setPaint(sum.getSelColor());
 					g2.setStroke(selStroke);
 					for (int i = 0; i < gp.length; i++) {
-						k = i + 1;
+						int k = i + 1;
 						if (algop.getBarColor(k) != null) {
 							GColor col = algop.getBarColor(k);
 							g2.setPaint(AwtFactory.prototype.newColor(
 									col.getRed(), col.getGreen(),
 									col.getBlue(), col.getAlpha()));
+						} else {
+							g2.setPaint(color);
 						}
 						g2.draw(gp[i]);
 					}
@@ -158,7 +159,7 @@ public class DrawBarGraph extends Drawable {
 					 * Use tags for draw if there are
 					 */
 					for (int i = 0; i < gp.length; i++) {
-						k = i + 1;
+						int k = i + 1;
 						if (algop.getBarColor(k) != null) {
 							GColor col = algop.getBarColor(k);
 							geo.setObjColor(col);
@@ -170,7 +171,8 @@ public class DrawBarGraph extends Drawable {
 							geo.setAlphaValue(barAlpha);
 						}
 
-						geo.setFillType(algop.getBarFillType(k));
+						geo.setFillType(
+								algop.getBarFillType(k, geo.getFillType()));
 
 						// if (algop.getBarSymbol(k) != null) {
 						// geo.setFillSymbol(algop.getBarSymbol(k));
@@ -246,12 +248,14 @@ public class DrawBarGraph extends Drawable {
 					g2.setPaint(getObjectColor());
 					g2.setStroke(objStroke);
 					for (int i = 0; i < gp.length; i++) {
-						k = i + 1;
+						int k = i + 1;
 						if (algop.getBarColor(k) != null) {
 							GColor col = algop.getBarColor(k);
 							g2.setPaint(AwtFactory.prototype.newColor(
 									col.getRed(), col.getGreen(),
 									col.getBlue(), geo.getLineOpacity()));
+						} else {
+							g2.setPaint(color);
 						}
 						g2.draw(gp[i]);
 					}
