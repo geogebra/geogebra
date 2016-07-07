@@ -1251,12 +1251,11 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	}
 
 	public void setBarFillType(FillType fillType, int numBar) {
-		FillType fill = fillType == null ? FillType.STANDARD : fillType;
 		if (tags.containsKey(numBar)) {
-			tags.get(numBar).put(2, fill);
+			tags.get(numBar).put(2, fillType);
 		} else {
 			HashMap<Integer, Object> hm = new HashMap<Integer, Object>();
-			hm.put(2, fill);
+			hm.put(2, fillType);
 			tags.put(numBar, hm);
 		}
 	}

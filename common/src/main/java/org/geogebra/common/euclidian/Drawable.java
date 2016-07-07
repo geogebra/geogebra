@@ -576,9 +576,10 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke,
-			GPaint gpaint, GBufferedImage subImage) {
+			GPaint gpaint0, GBufferedImage subImage) {
 		if (isForceNoFill())
 			return;
+		GPaint gpaint = gpaint0;
 		if (geo.isHatchingEnabled() || gpaint != null) {
 			// use decoStroke as it is always full (not dashed/dotted etc)
 

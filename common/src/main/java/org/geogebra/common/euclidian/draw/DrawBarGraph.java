@@ -120,11 +120,9 @@ public class DrawBarGraph extends Drawable {
 	@Override
 	public void draw(GGraphics2D g2) {
 		// Save fill, color and alfa of object
-		GColor color = geo.getSelColor();
+		GColor color = geo.getObjectColor();
+		GColor selColor = geo.getSelColor();
 		FillType fillType = geo.getFillType();
-		int hatchingDistance = geo.getHatchingDistance();
-		String symbol = geo.getFillSymbol();
-		double hatchingAngle = geo.getHatchingAngle();
 		String fileName = geo.getImageFileName();
 		float alpha = geo.getAlphaValue();
 		AlgoBarChart algop = (AlgoBarChart) geo.getParentAlgorithm();
@@ -141,11 +139,11 @@ public class DrawBarGraph extends Drawable {
 									col.getRed(), col.getGreen(),
 									col.getBlue(), col.getAlpha()));
 						} else {
-							g2.setPaint(color);
+							g2.setPaint(selColor);
 						}
 						g2.draw(gp[i]);
 					}
-					g2.setPaint(color);
+					g2.setPaint(selColor);
 				}
 			} catch (Exception e) {
 				Log.debug(e.getMessage());

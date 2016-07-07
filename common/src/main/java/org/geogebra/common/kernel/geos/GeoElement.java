@@ -1585,7 +1585,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			} else {
 				fillColor = geo.fillColor;
 			}
-			fillType = geo.fillType;
+			setFillType(geo.fillType);
 			hatchingAngle = geo.hatchingAngle;
 			hatchingDistance = geo.hatchingDistance;
 			graphicsadapter.setImageFileName(geo.getGraphicsAdapter()
