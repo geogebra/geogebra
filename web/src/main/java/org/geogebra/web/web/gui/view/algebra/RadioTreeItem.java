@@ -1772,6 +1772,9 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public void onEnter(final boolean keepFocus) {
+		if (!editing) {
+			return;
+		}
 		stopEditing(getText(), new AsyncOperation<GeoElement>() {
 
 					@Override
@@ -3052,6 +3055,7 @@ marblePanel, evt))) {
 		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
+				double scale = app.getArticleElement().getScaleX();
 				helpPopup.getElement().getStyle()
 						.setProperty("left",
 								(btnHelpToggle.getAbsoluteLeft()
@@ -3060,8 +3064,8 @@ marblePanel, evt))) {
 										+ "px");
 				int maxOffsetHeight;
 				int totalHeight = (int) app.getHeight();
-				int toggleButtonTop = btnHelpToggle.getParent().getAbsoluteTop()
-						- (int) app.getAbsTop();
+				int toggleButtonTop = (int) ((btnHelpToggle.getParent()
+						.getAbsoluteTop() - (int) app.getAbsTop()) / scale);
 				if (toggleButtonTop < totalHeight / 2) {
 					int top = (toggleButtonTop
 							+ btnHelpToggle.getParent().getOffsetHeight());
@@ -3081,7 +3085,7 @@ marblePanel, evt))) {
 					helpPopup.getElement().getStyle().setProperty("top",
 							"auto");
 				}
-				helpPanel.updateGUI(maxOffsetHeight);
+				helpPanel.updateGUI(maxOffsetHeight, 1);
 				helpPopup.show();
 			}
 		});

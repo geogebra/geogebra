@@ -490,7 +490,8 @@ public class AlgebraInputW extends FlowPanel
 		if (show) {
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app.getGuiManager()
 			        .getInputHelpPanel();
-			helpPanel.updateGUI(AppW.getRootComponent(app).getOffsetHeight());
+			helpPanel.updateGUI(AppW.getRootComponent(app).getOffsetHeight(),
+					1);
 			setHelpPopup();
 		
 			helpPopup

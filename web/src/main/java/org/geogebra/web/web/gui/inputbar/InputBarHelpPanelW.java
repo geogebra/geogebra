@@ -213,12 +213,13 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	/**
 	 * Adjusts the panel size relative to the current application panel size
 	 */
-	public void updateGUI(int maxOffsetHeight) {
+	public void updateGUI(int maxOffsetHeight, double scale) {
 
 		showOnlineHelpButton(!app.isExam());
-		int h = (int) (maxOffsetHeight * app.getArticleElement().getScaleX()
+		int h = (int) (maxOffsetHeight * scale
 				- 60);
-		int w = (int) Math.min(700, AppW.getRootComponent(app).getOffsetWidth()*app.getArticleElement().getScaleX() - 60);
+		int w = (int) Math.min(700,
+				AppW.getRootComponent(app).getOffsetWidth() * scale - 60);
 		sp.setPixelSize(w, h);
 	}
 
