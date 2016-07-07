@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Ellipse for given foci and first semi-axis length
  * 
  * @author Markus
- * @version
  */
 public class AlgoHyperbolaFociLength3D extends AlgoConicFociLength3D {
 

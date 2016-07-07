@@ -27,7 +27,6 @@ import org.geogebra.common.plugin.Operation;
 /**
  * 
  * @author Markus
- * @version
  */
 public class AlgoIf extends AlgoElement {
 

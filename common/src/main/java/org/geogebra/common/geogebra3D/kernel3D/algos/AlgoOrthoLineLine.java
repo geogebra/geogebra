@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
  * Compute a line orthogonal to two lines
  *
  * @author matthieu
- * @version
  */
 public abstract class AlgoOrthoLineLine extends AlgoElement3D {
 

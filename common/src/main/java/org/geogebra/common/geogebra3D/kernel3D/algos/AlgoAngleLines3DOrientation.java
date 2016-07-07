@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 /**
  *
  * @author mathieu
- * @version
  */
 public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D {
 

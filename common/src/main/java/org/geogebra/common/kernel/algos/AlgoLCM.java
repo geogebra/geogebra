@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.commands.Commands;
  * Computes LCM[a, b]
  * 
  * @author Michael Borcherds
- * @version
  */
 public class AlgoLCM extends AlgoTwoNumFunction {
 

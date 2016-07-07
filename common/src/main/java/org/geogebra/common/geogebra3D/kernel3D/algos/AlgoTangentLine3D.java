@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 /**
  *
  * @author mathieu
- * @version
  */
 public class AlgoTangentLine3D extends AlgoTangentLineND {
 

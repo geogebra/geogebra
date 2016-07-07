@@ -30,7 +30,6 @@ import org.geogebra.common.util.MyMath;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoUnitOrthoVectorVector extends AlgoElement {
 

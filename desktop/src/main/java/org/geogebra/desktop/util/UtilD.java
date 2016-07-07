@@ -52,7 +52,6 @@ import org.geogebra.common.util.debug.Log;
 /**
  *
  * @author Markus Hohenwarter
- * @version
  */
 public class UtilD extends Util {
 

@@ -26,7 +26,6 @@ import org.geogebra.common.util.MyMath2;
  * Computes RandomNormal[a, b]
  * 
  * @author Michael Borcherds
- * @version
  */
 public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 

@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoAsymptote extends AlgoElement {
 

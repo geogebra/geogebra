@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Compute a plane through a point and orthogonal to a line (or segment, ...)
  *
  * @author matthieu
- * @version
  */
 public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 

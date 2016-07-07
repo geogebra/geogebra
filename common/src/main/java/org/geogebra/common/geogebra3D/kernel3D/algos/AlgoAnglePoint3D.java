@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 /**
  *
  * @author mathieu
- * @version
  */
 public class AlgoAnglePoint3D extends AlgoAngleElement3D {
 

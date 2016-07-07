@@ -54,7 +54,6 @@ import org.geogebra.common.util.MyMath;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoMirror extends AlgoTransformation implements
 		RestrictionAlgoForLocusEquation, SymbolicParametersBotanaAlgo {

@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoDistanceLineLine extends AlgoElement {
 

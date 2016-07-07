@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoList;
  * Sample from a list. Adapted from AlgoMode
  * 
  * @author Michael Borcherds
- * @version
  */
 
 public class AlgoSample extends AlgoElement {

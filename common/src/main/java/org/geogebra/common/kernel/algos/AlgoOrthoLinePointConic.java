@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoOrthoLinePointConic extends AlgoElement {
 

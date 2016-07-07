@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 /**
  *
  * @author Markus
- * @version
  */
 public abstract class AlgoAxesQuadricND extends AlgoElement {
 

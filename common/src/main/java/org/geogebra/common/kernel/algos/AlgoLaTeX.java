@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.geos.GeoText;
  * Returns a description of a GeoElement as a GeoText in LaTeX format.
  * 
  * @author Markus
- * @version
  */
 public class AlgoLaTeX extends AlgoElement {
 

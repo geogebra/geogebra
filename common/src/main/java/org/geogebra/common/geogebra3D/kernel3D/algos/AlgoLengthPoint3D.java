@@ -31,7 +31,6 @@ import org.geogebra.common.util.MyMath;
  * Distance origin to point
  * 
  * @author mathieu
- * @version
  */
 public class AlgoLengthPoint3D extends AlgoElement {
 

@@ -37,7 +37,6 @@ import org.geogebra.common.util.MyMath;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoAngularBisectorPoints extends AlgoElement implements
 		SymbolicParametersBotanaAlgo {

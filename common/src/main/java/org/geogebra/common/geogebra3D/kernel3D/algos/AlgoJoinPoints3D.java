@@ -33,7 +33,6 @@ import org.geogebra.common.plugin.GeoClass;
 /**
  *
  * @author ggb3D
- * @version
  * 
  *          Joins two GeoPoint3Ds in a GeoSegment3D, GeoLine3D, ... regarding to
  *          geoClassType

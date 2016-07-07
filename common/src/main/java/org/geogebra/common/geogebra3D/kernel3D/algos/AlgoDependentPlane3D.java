@@ -34,7 +34,6 @@ import org.geogebra.common.plugin.Operation;
 /**
  *
  * @author mathieu
- * @version
  */
 public class AlgoDependentPlane3D extends AlgoElement3D {
 

@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Compute a line orthogonal to a line, through a point, and parallel to a plane
  *
  * @author matthieu
- * @version
  */
 public class AlgoOrthoLinePointDirectionDirection extends AlgoElement3D {
 

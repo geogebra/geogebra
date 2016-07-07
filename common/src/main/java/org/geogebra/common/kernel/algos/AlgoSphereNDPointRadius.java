@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  * 
  * @author Markus + Mathieu
  * 
- * @version
  * 
  *          Generalization of algo for circle/sphere
  */

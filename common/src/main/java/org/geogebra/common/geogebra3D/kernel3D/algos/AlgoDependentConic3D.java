@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoDependentConic3D extends AlgoElement3D {
 

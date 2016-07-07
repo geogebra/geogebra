@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  * 
  * @author Michael Borcherds
- * @version
  */
 
 public abstract class AlgoDiscrete extends AlgoElement implements GraphAlgo {

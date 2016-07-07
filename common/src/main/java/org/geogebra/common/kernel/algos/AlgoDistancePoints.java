@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoDistancePoints extends AlgoElement implements DistanceAlgo,
 		SymbolicParametersBotanaAlgo {

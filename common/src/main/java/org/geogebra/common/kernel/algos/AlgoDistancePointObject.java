@@ -41,7 +41,6 @@ import org.geogebra.common.util.MyMath;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoDistancePointObject extends AlgoElement implements
 		DistanceAlgo {

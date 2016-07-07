@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  *
  * @author Michael
- * @version
  */
 public class AlgoCountIf extends AlgoElement {
 

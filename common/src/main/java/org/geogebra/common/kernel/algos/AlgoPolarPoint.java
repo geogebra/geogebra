@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  *
  * @author Michael
- * @version
  */
 public class AlgoPolarPoint extends AlgoPolarPointND {
 

@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
 /**
  *
  * @author mathieu
- * @version
  */
 public class AlgoDependentQuadric3D extends AlgoElement3D {
 

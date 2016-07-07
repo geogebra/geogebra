@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
  * Computes the area of a polygon
  * 
  * @author mathieu
- * @version
  */
 public class AlgoAreaPolygon extends AlgoElement implements SymbolicParametersBotanaAlgo {
 

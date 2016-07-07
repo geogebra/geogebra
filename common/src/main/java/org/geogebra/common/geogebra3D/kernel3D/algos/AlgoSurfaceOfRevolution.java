@@ -36,7 +36,6 @@ import org.geogebra.common.plugin.Operation;
  * to]
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class AlgoSurfaceOfRevolution extends AlgoElement {
 

@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 /**
  *
  * @author ggb3D
- * @version
  * 
  *          Calculate the GeoPoint3D intersection of two coord sys (eg line and
  *          plane).

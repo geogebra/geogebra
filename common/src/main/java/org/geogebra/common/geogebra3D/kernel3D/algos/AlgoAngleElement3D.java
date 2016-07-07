@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  *
  * @author mathieu
- * @version
  */
 public abstract class AlgoAngleElement3D extends AlgoAngleVectorND {
 

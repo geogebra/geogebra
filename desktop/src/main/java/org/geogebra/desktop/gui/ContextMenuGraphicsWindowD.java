@@ -32,7 +32,6 @@ import org.geogebra.desktop.util.GuiResourcesD;
 /**
  *
  * @author markus
- * @version
  */
 public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		implements ActionListener {

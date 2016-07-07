@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 /**
  *
- * @version
  */
 public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 

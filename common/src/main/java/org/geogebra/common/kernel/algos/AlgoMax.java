@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.commands.Commands;
  * Computes Max[a, b]
  * 
  * @author Markus Hohenwarterarea of conic c
- * @version
  */
 public class AlgoMax extends AlgoTwoNumFunction {
 

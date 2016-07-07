@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
  * Length of a vector
  * 
  * @author mathieu
- * @version
  */
 public class AlgoLengthVector3D extends AlgoElement {
 

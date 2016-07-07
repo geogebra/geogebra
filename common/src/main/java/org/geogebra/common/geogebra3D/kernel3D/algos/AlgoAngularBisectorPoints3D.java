@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 

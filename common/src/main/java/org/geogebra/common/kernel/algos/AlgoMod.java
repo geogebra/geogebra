@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.commands.Commands;
  * Computes Mod[a, b]
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class AlgoMod extends AlgoTwoNumFunction {
 

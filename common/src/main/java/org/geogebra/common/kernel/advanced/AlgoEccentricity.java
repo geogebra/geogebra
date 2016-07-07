@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 /**
  *
  * @author Michael
- * @version
  */
 public class AlgoEccentricity extends AlgoElement {
 

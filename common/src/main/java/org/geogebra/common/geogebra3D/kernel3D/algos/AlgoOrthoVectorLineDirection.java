@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 /**
  *
  * @author ggb3D
- * @version
  * 
  *          Calculate the ortho vector of a plane (or polygon, ...)
  * 

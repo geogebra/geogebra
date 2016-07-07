@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoIntersectConics3D extends AlgoIntersect3D {
 

@@ -31,7 +31,6 @@ import org.geogebra.common.util.MyMath;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoUnitOrthoVectorLine extends AlgoElement {
 

@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoVertexSegment extends AlgoElement {
 

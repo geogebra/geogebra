@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Compute a circle with axis and through a point
  *
  * @author matthieu
- * @version
  */
 public class AlgoCircle3DAxisPoint extends AlgoElement3D {
 

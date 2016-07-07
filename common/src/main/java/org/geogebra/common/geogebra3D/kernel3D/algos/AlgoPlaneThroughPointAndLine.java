@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Compute a plane through a point and a line (or segment, ...)
  *
  * @author matthieu
- * @version
  */
 public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
 

@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoAxes extends AlgoAxesQuadricND {
 

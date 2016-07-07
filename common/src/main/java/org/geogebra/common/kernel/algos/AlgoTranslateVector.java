@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
  * Vector w = v starting at A
  * 
  * @author Markus
- * @version
  */
 public class AlgoTranslateVector extends AlgoElement {
 

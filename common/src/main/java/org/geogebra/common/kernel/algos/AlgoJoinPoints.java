@@ -40,7 +40,6 @@ import org.geogebra.common.util.debug.Log;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoJoinPoints extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {

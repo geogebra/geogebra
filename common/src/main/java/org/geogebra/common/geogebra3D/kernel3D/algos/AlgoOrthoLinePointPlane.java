@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Compute a line through a point and orthogonal to a plane (or polygon, ...)
  *
  * @author matthieu
- * @version
  */
 public class AlgoOrthoLinePointPlane extends AlgoOrtho {
 

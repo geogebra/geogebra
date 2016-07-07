@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.Construction;
 /**
  * 
  * @author Markus + ggb3D
- * @version
  */
 public abstract class GeoVec4D extends GeoVec implements GeoCoords4D {
 

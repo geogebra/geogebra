@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 /**
  *
  * @author Matthieu
- * @version
  */
 public class AlgoSphereTwoPoints extends AlgoSphereNDTwoPoints {
 

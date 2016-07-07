@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Hyperbola for given foci and first semi-axis length
  * 
  * @author Markus
- * @version
  */
 public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 

@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
  * Compute a plane through a point and orthogonal to a line (or segment, ...)
  *
  * @author matthieu
- * @version
  */
 public abstract class AlgoOrthoPlane extends AlgoElement3D {
 

@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoAngleConic extends AlgoAngle {
 

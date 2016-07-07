@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 /**
  * 
  * @author Markus
- * @version
  */
 public class AlgoApplyMatrix extends AlgoTransformation {
 

@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * Returns the Column of a GeoElement.
  * 
  * @author Michael
- * @version
  */
 public class AlgoRow extends AlgoElement {
 

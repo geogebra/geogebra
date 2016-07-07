@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  *
  * @author Markus
- * @version
  */
 public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 

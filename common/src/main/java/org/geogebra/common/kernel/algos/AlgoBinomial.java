@@ -27,7 +27,6 @@ import org.geogebra.common.util.MyMath;
  * Computes Binomial[a, b]
  * 
  * @author Michael Borcherds 2007-10-09
- * @version
  */
 public class AlgoBinomial extends AlgoTwoNumFunction {
 

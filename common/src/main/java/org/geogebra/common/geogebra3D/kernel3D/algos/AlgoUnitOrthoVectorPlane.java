@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 /**
  *
  * @author ggb3D
- * @version
  * 
  *          Calculate the unit ortho vector of a plane (or polygon, ...)
  * 

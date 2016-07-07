@@ -33,7 +33,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * 
  * @author Markus
- * @version
  */
 public class AlgoDilate extends AlgoTransformation {
 

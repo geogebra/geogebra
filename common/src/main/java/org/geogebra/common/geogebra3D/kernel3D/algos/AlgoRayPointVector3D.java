@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
  * Compute a line through a point and parallel to a vector
  *
  * @author matthieu
- * @version
  */
 public class AlgoRayPointVector3D extends AlgoLinePointVector3D {
 

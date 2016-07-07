@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoUnitVectorLine extends AlgoUnitVector2D {
 

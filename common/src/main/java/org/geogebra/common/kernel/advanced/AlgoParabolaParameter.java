@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoParabolaParameter extends AlgoElement {
 

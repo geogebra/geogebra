@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoConicFivePoints extends AlgoElement {
 

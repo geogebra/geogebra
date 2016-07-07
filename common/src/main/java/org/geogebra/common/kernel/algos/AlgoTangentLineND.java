@@ -32,7 +32,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  *
  * @author Markus
- * @version
  */
 public abstract class AlgoTangentLineND extends AlgoElement implements
 		TangentAlgo {

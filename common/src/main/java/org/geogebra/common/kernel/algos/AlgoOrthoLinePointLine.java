@@ -42,7 +42,6 @@ import org.geogebra.common.util.debug.Log;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoOrthoLinePointLine extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {

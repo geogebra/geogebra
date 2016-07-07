@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoDependentPoint3D extends AlgoElement3D implements
 		DependentAlgo {

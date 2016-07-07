@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 /**
  *
  * @author mathieu
- * @version
  */
 public class AlgoMidpointSegment3D extends AlgoMidpoint3D {
 

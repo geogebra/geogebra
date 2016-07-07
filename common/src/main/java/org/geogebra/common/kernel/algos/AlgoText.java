@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Returns the name of a GeoElement as a GeoText.
  * 
  * @author Markus
- * @version
  */
 public class AlgoText extends AlgoElement {
 

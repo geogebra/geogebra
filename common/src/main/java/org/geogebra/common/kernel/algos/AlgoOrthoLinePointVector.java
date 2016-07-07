@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.geos.GeoVector;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoOrthoLinePointVector extends AlgoElement {
 

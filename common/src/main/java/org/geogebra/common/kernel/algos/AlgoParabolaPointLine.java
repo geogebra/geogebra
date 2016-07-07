@@ -36,7 +36,6 @@ import org.geogebra.common.util.debug.Log;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoParabolaPointLine extends AlgoParabolaPointLineND implements
 		SymbolicParametersBotanaAlgo {

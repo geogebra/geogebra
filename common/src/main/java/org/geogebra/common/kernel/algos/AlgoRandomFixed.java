@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * Random number on file load, but fixed after that
  * 
  * @author Michael
- * @version
  */
 public class AlgoRandomFixed extends AlgoElement {
 

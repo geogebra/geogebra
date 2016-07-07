@@ -31,7 +31,6 @@ import org.geogebra.common.plugin.GeoClass;
  * Creates a Polygon from a given list of points or point array.
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 

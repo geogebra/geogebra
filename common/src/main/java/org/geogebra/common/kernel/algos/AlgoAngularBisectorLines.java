@@ -38,7 +38,6 @@ import org.geogebra.common.util.MyMath;
  * Angle bisectors between two lines
  * 
  * @author Markus
- * @version
  */
 public class AlgoAngularBisectorLines extends AlgoElement implements
 		SymbolicParametersBotanaAlgo {

@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * Parent algorithm for commands that are functions of R^2 -> R
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public abstract class AlgoTwoNumFunction extends AlgoElement {
 

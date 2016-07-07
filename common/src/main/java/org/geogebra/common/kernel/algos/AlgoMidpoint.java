@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoMidpoint extends AlgoMidpointND implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,

@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 

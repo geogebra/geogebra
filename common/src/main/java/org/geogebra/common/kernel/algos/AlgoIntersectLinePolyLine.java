@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Algo for intersection of a line with a polyLine
  * 
  * @author Tam
- * @version
  */
 public class AlgoIntersectLinePolyLine extends AlgoElement {
 

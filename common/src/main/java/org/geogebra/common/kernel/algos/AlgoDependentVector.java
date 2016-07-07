@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoVector;
 /**
  * 
  * @author Markus
- * @version
  */
 public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 

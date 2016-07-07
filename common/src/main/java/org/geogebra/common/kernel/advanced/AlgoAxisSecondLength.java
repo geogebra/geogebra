@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 /**
  * 
  * @author Markus
- * @version
  */
 public class AlgoAxisSecondLength extends AlgoElement {
 

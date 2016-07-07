@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  *
  * @author Markus
- * @version
  */
 public abstract class AlgoAngleLinesND extends AlgoAngle implements
 		DrawInformationAlgo {

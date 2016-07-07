@@ -30,7 +30,6 @@ import org.geogebra.common.util.MyMath;
  * Length of a vector or point.
  * 
  * @author Markus
- * @version
  */
 public class AlgoLengthVector extends AlgoElement {
 

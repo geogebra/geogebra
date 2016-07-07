@@ -36,7 +36,6 @@ import org.geogebra.common.util.debug.Log;
  * to]
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class AlgoCurveCartesian extends AlgoElement {
 

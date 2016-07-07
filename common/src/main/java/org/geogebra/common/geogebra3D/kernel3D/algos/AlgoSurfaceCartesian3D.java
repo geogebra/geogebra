@@ -38,7 +38,6 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
  * to]
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class AlgoSurfaceCartesian3D extends AlgoElement {
 

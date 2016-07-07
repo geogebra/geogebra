@@ -25,7 +25,6 @@ import org.geogebra.common.plugin.GeoClass;
  * Creates a PolyLine from a given list of points or point array.
  * 
  * @author Michael Borcherds
- * @version
  */
 public class AlgoPolyLine3D extends AlgoPolyLine {
 

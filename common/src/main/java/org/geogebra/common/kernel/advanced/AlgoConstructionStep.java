@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * Returns the name of a GeoElement as a GeoText.
  * 
  * @author Markus
- * @version
  */
 public class AlgoConstructionStep extends AlgoElement {
 

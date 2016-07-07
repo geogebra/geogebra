@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.commands.Commands;
  * Computes Div[a, b]
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class AlgoDiv extends AlgoTwoNumFunction {
 

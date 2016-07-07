@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.commands.Commands;
  * Computes Min[a, b]
  * 
  * @author Markus Hohenwarter
- * @version
  */
 public class AlgoMin extends AlgoTwoNumFunction {
 

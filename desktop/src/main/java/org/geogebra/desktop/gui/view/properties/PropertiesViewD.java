@@ -55,7 +55,6 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * View for properties
  * 
  * @author mathieu
- * @version
  */
 public class PropertiesViewD extends PropertiesView implements SetLabels {
 

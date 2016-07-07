@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.geos.Rotateable;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoRotate extends AlgoTransformation {
 

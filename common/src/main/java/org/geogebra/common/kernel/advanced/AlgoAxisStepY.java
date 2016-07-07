@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 /**
  * 
  * @author
- * @version
  */
 public class AlgoAxisStepY extends AlgoElement {
 

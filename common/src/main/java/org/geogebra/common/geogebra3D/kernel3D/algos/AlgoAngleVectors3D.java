@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 /**
  *
  * @author mathieu
- * @version
  */
 public class AlgoAngleVectors3D extends AlgoAngleVectorsND {
 

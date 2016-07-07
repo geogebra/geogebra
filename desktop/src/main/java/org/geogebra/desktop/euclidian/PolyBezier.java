@@ -29,7 +29,6 @@ import org.geogebra.common.euclidian.draw.DrawConic;
  * adapted from polyline
  * 
  * @author Michael Borcherds
- * @version
  */
 
 public class PolyBezier {

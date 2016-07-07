@@ -27,7 +27,6 @@ import org.geogebra.common.util.MyMath;
 /**
  *
  * @author Markus
- * @version
  */
 public abstract class AlgoUnitVector2D extends AlgoUnitVector {
 

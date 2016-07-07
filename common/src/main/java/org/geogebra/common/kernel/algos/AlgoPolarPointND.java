@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  *
  * @author Michael
- * @version
  */
 public abstract class AlgoPolarPointND extends AlgoElement {
 

@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Compute a circle with point and radius (missing direction)
  *
  * @author matthieu
- * @version
  */
 public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
 

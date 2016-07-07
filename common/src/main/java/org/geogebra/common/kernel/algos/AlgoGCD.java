@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.commands.Commands;
  * Computes GCD[a, b]
  * 
  * @author Michael Borcherds
- * @version
  */
 public class AlgoGCD extends AlgoTwoNumFunction {
 

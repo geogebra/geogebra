@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * </ul>
  *
  * @author matthieu
- * @version
  */
 public abstract class AlgoPlaneThroughPoint extends AlgoElement3D {
 

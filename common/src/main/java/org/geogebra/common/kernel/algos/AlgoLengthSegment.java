@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  * Length of a segment.
  * 
  * @author mathieu
- * @version
  */
 public class AlgoLengthSegment extends AlgoElement {
 

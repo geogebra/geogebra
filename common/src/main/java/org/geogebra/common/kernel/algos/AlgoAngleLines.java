@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoAngleLines extends AlgoAngleLinesND {
 

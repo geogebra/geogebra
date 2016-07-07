@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 /**
  *
  * @author Markus
- * @version
  */
 public abstract class AlgoUnitVector extends AlgoElement {
 

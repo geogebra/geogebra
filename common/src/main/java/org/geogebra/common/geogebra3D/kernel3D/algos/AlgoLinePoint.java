@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Compute a line through a point and ...
  *
  * @author matthieu
- * @version
  */
 public abstract class AlgoLinePoint extends AlgoElement3D {
 

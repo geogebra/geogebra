@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Compute a line through a point and orthogonal to ...
  *
  * @author matthieu
- * @version
  */
 public abstract class AlgoOrtho extends AlgoElement3D {
 

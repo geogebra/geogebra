@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 /**
  *
  * @author ggb3D
- * @version
  * 
  *          Calculate the ortho vector of a plane (or polygon, ...)
  * 

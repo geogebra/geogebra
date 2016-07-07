@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.commands.Commands;
  * Computes RandomNormal[a, b]
  * 
  * @author Michael Borcherds
- * @version
  */
 public class AlgoRandomNormal extends AlgoTwoNumFunction implements
 		SetRandomValue {

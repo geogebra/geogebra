@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Compute the segment bisector, and parallel to a plane
  *
  * @author mathieu
- * @version
  */
 public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 

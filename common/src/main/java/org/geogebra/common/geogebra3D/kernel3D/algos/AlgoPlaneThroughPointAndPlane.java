@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * 
  *
  * @author matthieu
- * @version
  */
 public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 

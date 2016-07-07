@@ -41,7 +41,6 @@ import org.geogebra.common.kernel.prover.polynomial.Variable;
 /**
  * 
  * @author Markus
- * @version
  */
 public class AlgoTranslate extends AlgoTransformation implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {

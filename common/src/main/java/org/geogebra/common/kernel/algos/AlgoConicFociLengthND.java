@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * 
  * @author Markus
- * @version
  */
 public abstract class AlgoConicFociLengthND extends AlgoElement {
 

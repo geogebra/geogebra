@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 /**
  *
  * @author Markus
- * @version
  */
 public class AlgoRadius extends AlgoElement {
 
