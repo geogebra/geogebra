@@ -784,6 +784,7 @@ public class RadioTreeItem extends AVTreeItem
 
 			if (geo.needToShowBothRowsInAV() && !isLatexTrivial()) {
 				buildItemWithTwoRows();
+				updateItemColor();
 			} else {
 				buildItemWithSingleRow();
 			}
