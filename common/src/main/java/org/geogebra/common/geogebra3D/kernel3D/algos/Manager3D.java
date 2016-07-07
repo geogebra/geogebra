@@ -54,7 +54,6 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -64,6 +63,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoSurfaceFinite;
+import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
@@ -1070,7 +1070,8 @@ public class Manager3D implements Manager3DInterface {
 
 	}
 
-	public GeoElement SurfaceOfRevolution(String label, GeoFunction function,
+	public GeoElement SurfaceOfRevolution(String label,
+			ParametricCurve function,
 			NumberValue angle) {
 		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons, label,
 				function, angle);

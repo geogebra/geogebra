@@ -2934,4 +2934,8 @@ CasEvaluableFunction, ParametricCurve,
 
 		return super.needToShowBothRowsInAV();
 	}
+
+	public Function getFun(int i) {
+		return i == 0 ? fun : null;
+	}
 }

@@ -10,9 +10,10 @@ import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.browser.TabletSignInButton;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 
+/**
+ * Look and feel for tablet apps
+ */
 public class TabletLookAndFeel extends GLookAndFeel {
-
-	public static final int PROVIDER_PANEL_WIDTH = 0;
 
 	/**
 	 * Creates tablet LAF
@@ -93,8 +94,9 @@ public class TabletLookAndFeel extends GLookAndFeel {
 		return "t";
 	}
 
+	@Override
 	public boolean supportsFullscreen() {
-		return true;
+		return false;
 	}
 
 }

@@ -8,7 +8,7 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 	/**
 	 * Creates new LAF for Windows Store app
 	 */
-	public TabletWinLookAndFeel(){
+	public TabletWinLookAndFeel() {
 		//
 	}
 	@Override

@@ -7,10 +7,12 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.CmdCurveCartesian;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -38,12 +40,13 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0] instanceof GeoFunction)
+			if ((ok[0] = (arg[0] instanceof GeoFunction
+					|| arg[0] instanceof GeoCurveCartesian))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
 
 				ret[0] = kernelA.getManager3D().SurfaceOfRevolution(
-						c.getLabel(), (GeoFunction) arg[0],
+						c.getLabel(), (ParametricCurve) arg[0],
 						(GeoNumberValue) arg[1]);
 
 				return ret;

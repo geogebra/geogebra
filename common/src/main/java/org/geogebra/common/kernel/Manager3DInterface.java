@@ -12,13 +12,13 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSurfaceFinite;
+import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
@@ -551,7 +551,8 @@ public interface Manager3DInterface {
 	 *            angle
 	 * @return surface of revolution
 	 */
-	public GeoElement SurfaceOfRevolution(String label, GeoFunction function,
+	public GeoElement SurfaceOfRevolution(String label,
+			ParametricCurve function,
 			NumberValue angle);
 
 	// //////////////////////////////////////////////

@@ -12,7 +12,10 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+
+
 import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 
@@ -54,4 +57,6 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
 	 */
 	boolean isFunctionInX();
 	
+	Function getFun(int i);
+
 }

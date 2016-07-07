@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.plugin.Operation;
 
@@ -39,7 +39,7 @@ import org.geogebra.common.plugin.Operation;
  */
 public class AlgoSurfaceOfRevolution extends AlgoElement {
 
-	private GeoFunction function; // input
+	private ParametricCurve function; // input
 	private NumberValue angle; // input
 
 	private GeoSurfaceCartesian3D surface; // output
@@ -53,7 +53,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	 * @param angle
 	 */
 	public AlgoSurfaceOfRevolution(Construction cons, String label,
-			GeoFunction function, NumberValue angle) {
+			ParametricCurve function, NumberValue angle) {
 
 		super(cons);
 
@@ -67,10 +67,19 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		funVar[1] = new FunctionVariable(kernel);
 		funVar[1].setVarString("v");
 
-		ExpressionNode expU = new ExpressionNode(kernel, funVar[0]);
-		ExpressionNode expF = new ExpressionNode(kernel, function,
+		ExpressionNode expU, expF, expV;
+		if (function.isFunctionInX()) {
+			expU = new ExpressionNode(kernel, funVar[0]);
+			expF = new ExpressionNode(kernel, function,
 				Operation.FUNCTION, funVar[0]);
-		ExpressionNode expV = new ExpressionNode(kernel, funVar[1]);
+		} else {
+			expF = function.getFun(1).getExpression().deepCopy(kernel).replace(
+					function.getFun(1).getFunctionVariable(), funVar[0]).wrap();
+			expU = function.getFun(0).getExpression().deepCopy(kernel).replace(
+					function.getFun(0).getFunctionVariable(), funVar[0]).wrap();
+
+		}
+		expV = new ExpressionNode(kernel, funVar[1]);
 		ExpressionNode expCos = expV.cos();
 		ExpressionNode expSin = expV.sin();
 
@@ -119,7 +128,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[2];
-		input[0] = function;
+		input[0] = function.toGeoElement();
 		input[1] = (GeoElement) angle;
 		setOnlyOutput(surface);
 		setDependencies(); // done by AlgoElement
