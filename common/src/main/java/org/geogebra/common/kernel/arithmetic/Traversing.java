@@ -23,9 +23,22 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * Traversing objects are allowed to traverse through Equation, MyList,
+ * Traversing objects are allowed to traverse through an Equation, MyList,
  * ExpressionNode and MyVecNode(3D) structure to perform some action, e.g.
- * replace one type of objects by another.
+ * replace one type of objects by another or just count some occurences of
+ * certain types of objects.
+ * 
+ * Each public class in this file which implements Traversing solves a usual
+ * task. To support transparency and good coding style, such tasks should be
+ * called by the same convention.
+ * 
+ * Example code which collects GeoElements in an ExpressionNode with
+ * multiplicities: {@code
+ * ExpressionNode root = ...; 
+ * HashMap<GeoElement, Integer> gSet = new HashMap<GeoElement, Integer>();
+ * GeoCollector gc = GeoCollector.getCollector(gSet);
+ * root.traverse(gc);
+ * } Now the GeoElements are collected in {@code gSet}.
  * 
  * @author Zbynek Konecny
  */
@@ -359,7 +372,7 @@ public interface Traversing {
 	/**
 	 * Replaces Variables with given name by given object
 	 * 
-	 * @author zbynek
+	 * @author Zbynek Konecny
 	 *
 	 */
 	public class VariableReplacer implements Traversing {
@@ -935,7 +948,7 @@ public interface Traversing {
 	/**
 	 * Replaces diff function comming from GIAC
 	 * 
-	 * @author Zbynek
+	 * @author Zbynek Konecny
 	 *
 	 */
 	public class DiffReplacer implements Traversing {
@@ -1069,7 +1082,7 @@ public interface Traversing {
 	/**
 	 * Collects all function variables
 	 * 
-	 * @author zbynek
+	 * @author Zbynek Konecny
 	 */
 	public class FVarCollector implements Traversing {
 		private Set<String> commands;
@@ -1101,7 +1114,7 @@ public interface Traversing {
 	/**
 	 * Collects all geos with multiplicities
 	 * 
-	 * @author zoltan
+	 * @author Zoltan Kovacs
 	 */
 	public class GeoCollector implements Traversing {
 		private HashMap<GeoElement, Integer> commands;
@@ -1139,7 +1152,7 @@ public interface Traversing {
 	/**
 	 * Collects all function variables
 	 * 
-	 * @author zbynek
+	 * @author Zbynek Konecny
 	 */
 	public class NonFunctionCollector implements Traversing {
 		private Set<String> commands;
@@ -1186,10 +1199,10 @@ public interface Traversing {
 	}
 
 	/**
-	 * Collects all dummy variables and function fariables except those that are
+	 * Collects all dummy variables and function variables except those that are
 	 * in the role of a function eg. for f(x) we will collect x, but not f
 	 * 
-	 * @author bencze
+	 * @author Balazs Bencze
 	 */
 	public class DummyVariableCollector implements Traversing {
 		private Set<String> commands;
@@ -1280,7 +1293,7 @@ public interface Traversing {
 	 * Replaces function calls by multiplications in cases where left argument
 	 * is clearly not a function (see NonFunctionCollector)
 	 * 
-	 * @author zbynek
+	 * @author Zbynek Konecny
 	 */
 	public class NonFunctionReplacer implements Traversing {
 		private Set<String> commands;
@@ -1342,7 +1355,7 @@ public interface Traversing {
 	/**
 	 * Expands f as f(x) or f(x,y) in CAS
 	 * 
-	 * @author zbynek
+	 * @author Zbynek Konecny
 	 */
 	public class FunctionExpander implements Traversing {
 
@@ -1378,12 +1391,12 @@ public interface Traversing {
 						|| en.getOperation() == Operation.VEC_FUNCTION) {
 					ExpressionValue geo = en.getLeft().unwrap();
 					ExpressionValue deriv = null;
-					if (geo instanceof ExpressionNode
-							&& ((ExpressionNode) geo).getOperation() == Operation.DERIVATIVE) {
+					if (geo instanceof ExpressionNode && ((ExpressionNode) geo)
+							.getOperation() == Operation.DERIVATIVE) {
 						// template not important, right it is a constant
 						// MyDouble anyway
-						deriv = ((ExpressionNode) geo).getRight().evaluate(
-								StringTemplate.defaultTemplate);
+						deriv = ((ExpressionNode) geo).getRight()
+								.evaluate(StringTemplate.defaultTemplate);
 						geo = ((ExpressionNode) geo).getLeft().unwrap();
 					}
 					if (geo instanceof GeoDummyVariable) {
@@ -1420,15 +1433,15 @@ public interface Traversing {
 						if (((GeoCasCell) geo).isKeepInputUsed()) {
 							ve = expand((GeoCasCell) geo).wrap();
 						}
-						en2 = ve.unwrap() instanceof FunctionNVar ? ((FunctionNVar) ve
-								.unwrap()).getExpression() : ve.wrap();
+						en2 = ve.unwrap() instanceof FunctionNVar
+								? ((FunctionNVar) ve.unwrap()).getExpression()
+								: ve.wrap();
 
 						en2 = en2.traverse(this).wrap();
-						if (en2 != null
-								&& en2.getLeft() instanceof GeoSurfaceCartesian3D) {
+						if (en2 != null && en2
+								.getLeft() instanceof GeoSurfaceCartesian3D) {
 							FunctionNVar[] fun = ((GeoSurfaceCartesian3D) en2
-									.getLeft())
-									.getFunctions();
+									.getLeft()).getFunctions();
 							MyVec3DNode vect = new MyVec3DNode(
 									((ExpressionNode) ev).getKernel(),
 									fun[0].getExpression(),
@@ -1436,14 +1449,14 @@ public interface Traversing {
 									fun[2].getExpression());
 							en2 = new ExpressionNode(en.getKernel(), vect);
 							if (en.getRight() instanceof MyList
-									&& ((MyList) en.getRight())
-											.getListElement(0) instanceof ExpressionNode
+									&& ((MyList) en.getRight()).getListElement(
+											0) instanceof ExpressionNode
 									&& ((ExpressionNode) ((MyList) en
 											.getRight()).getListElement(0))
-											.getLeft() instanceof MyList) {
+													.getLeft() instanceof MyList) {
 								en.setRight(((ExpressionNode) ((MyList) en
 										.getRight()).getListElement(0))
-										.getLeft());
+												.getLeft());
 							}
 						} else {
 							en2 = en2.getCopy(((GeoCasCell) geo).getKernel());
@@ -1453,10 +1466,14 @@ public interface Traversing {
 					if (geo instanceof GeoSurfaceCartesian3D) {
 						en.setOperation(Operation.FUNCTION_NVAR);
 						if (en.getRight() instanceof MyList
-								&& ((MyList) en.getRight()).getListElement(0) instanceof ExpressionNode
-								&& ((ExpressionNode) ((MyList) en.getRight()).getListElement(0)).getLeft() instanceof MyList) {
-							en.setRight(((ExpressionNode) ((MyList) en
-									.getRight()).getListElement(0)).getLeft());
+								&& ((MyList) en.getRight()).getListElement(
+										0) instanceof ExpressionNode
+								&& ((ExpressionNode) ((MyList) en.getRight())
+										.getListElement(0))
+												.getLeft() instanceof MyList) {
+							en.setRight(
+									((ExpressionNode) ((MyList) en.getRight())
+											.getListElement(0)).getLeft());
 						}
 						FunctionNVar[] fun = ((GeoSurfaceCartesian3D) geo)
 								.getFunctions();
@@ -1484,8 +1501,8 @@ public interface Traversing {
 								.getCopy(en.getKernel()).traverse(this)
 								.unwrap();
 						ExpressionValue ithArg = argument;
-						VariableReplacer vr = VariableReplacer.getReplacer(en
-								.getKernel());
+						VariableReplacer vr = VariableReplacer
+								.getReplacer(en.getKernel());
 
 						// variables have to be replaced with one traversing
 						// or else replacing f(x,y) with f(y,x)
@@ -1500,8 +1517,7 @@ public interface Traversing {
 						en2 = en2.traverse(vr).wrap();
 						return en2;
 					}
-				}
- else if (en.getOperation() == Operation.DERIVATIVE) {
+				} else if (en.getOperation() == Operation.DERIVATIVE) {
 					// should not get there
 
 				} else {
@@ -1515,12 +1531,10 @@ public interface Traversing {
 						}
 					}
 					if (en.getLeft() instanceof Variable) {
-						geo = ((Variable) en.getLeft())
-								.getKernel()
+						geo = ((Variable) en.getLeft()).getKernel()
 								.getConstruction()
-								.lookupLabel(
-										en.getLeft().toString(
-												StringTemplate.defaultTemplate));
+								.lookupLabel(en.getLeft().toString(
+										StringTemplate.defaultTemplate));
 						if (geo != null) {
 							ExpressionNode en2 = (ExpressionNode) ((FunctionalNVar) geo)
 									.getFunctionExpression()
@@ -1577,10 +1591,9 @@ public interface Traversing {
 	}
 
 	/**
-	 * Returns the RHS side of an equation if LHS is y Eg y=x! returns x!
+	 * Returns the RHS side of an equation if LHS is y. E.g. y=x! returns x!.
 	 * 
-	 * @author bencze
-	 *
+	 * @author Balazs Bencze
 	 */
 	public class FunctionCreator implements Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1643,8 +1656,10 @@ public interface Traversing {
 	}
 
 	/**
-	 * @author bencze Replaces some of the unknown commands from CAS to known
-	 *         commands/expression node values to GeoGebra
+	 * Replaces some of the unknown commands from CAS to known
+	 * commands/expression node values to GeoGebra
+	 * 
+	 * @author Balazs Bencze
 	 */
 	public class CASCommandReplacer implements Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
