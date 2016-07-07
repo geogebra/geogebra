@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -1092,6 +1093,44 @@ public interface Traversing {
 		 * @return derivative collector
 		 */
 		public static FVarCollector getCollector(Set<String> commands) {
+			collector.commands = commands;
+			return collector;
+		}
+	}
+
+	/**
+	 * Collects all geos with multiplicities
+	 * 
+	 * @author zoltan
+	 */
+	public class GeoCollector implements Traversing {
+		private HashMap<GeoElement, Integer> commands;
+
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof Equation) {
+				return ev.wrap();
+			}
+			if (ev instanceof GeoElement) {
+				int occurrence = 0;
+				if (commands.containsKey(ev)) {
+					occurrence = commands.get(ev);
+				}
+				commands.put((GeoElement) ev, occurrence + 1);
+			}
+			return ev;
+		}
+
+		private static GeoCollector collector = new GeoCollector();
+
+		/**
+		 * Resets and returns the collector
+		 * 
+		 * @param commands
+		 *            set into which we want to collect the commands
+		 * @return derivative collector
+		 */
+		public static GeoCollector getCollector(
+				HashMap<GeoElement, Integer> commands) {
 			collector.commands = commands;
 			return collector;
 		}

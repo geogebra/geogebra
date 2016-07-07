@@ -11,10 +11,13 @@ import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPoints;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.Traversing.GeoCollector;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -763,8 +766,28 @@ public abstract class Prover {
 				return 0;
 			}
 			int parentsComplexity = 1;
-			for (GeoElement dependency : ae.getInput()) {
-				parentsComplexity += computeNodeComplexity(dependency);
+
+			/*
+			 * Compute node complexity by counting multiplicites in occurrences
+			 * of GeoElement objects, if an expression is found.
+			 */
+			if (ae instanceof AlgoDependentBoolean) {
+				ExpressionNode root = ((AlgoDependentBoolean) ae)
+						.getExpression();
+				HashMap<GeoElement, Integer> gSet = new HashMap<GeoElement, Integer>();
+				GeoCollector gc = GeoCollector.getCollector(gSet);
+				root.traverse(gc);
+				Iterator<GeoElement> it = gSet.keySet().iterator();
+				while (it.hasNext()) {
+					GeoElement dependency = it.next();
+					parentsComplexity += computeNodeComplexity(dependency)
+							* gSet.get(dependency);
+				}
+			} else {
+				/* Otherwise just count each GeoElement once. */
+				for (GeoElement dependency : ae.getInput()) {
+					parentsComplexity += computeNodeComplexity(dependency);
+				}
 			}
 			nodeComplexity.put(node, parentsComplexity);
 			return parentsComplexity;
