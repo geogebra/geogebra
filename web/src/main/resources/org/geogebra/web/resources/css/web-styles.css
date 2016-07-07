@@ -6144,7 +6144,7 @@ body.application[dir=rtl] .deleteAlgebra {
     margin-top: -200px;
 }
 .perspectivesCaption{
-	font-color: #6161FF;
+	color: #6161FF !important;
 }
 .perspectivesMainPanel{
 	width: 225px;
