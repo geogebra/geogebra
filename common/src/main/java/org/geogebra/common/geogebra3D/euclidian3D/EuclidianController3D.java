@@ -3789,7 +3789,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (selCS2D() == 0)
 				addSelectedLine(hits, 1, false, selPreview);
 			if (selLines() == 0)
-				addSelectedPlane(hits, 1, false, selPreview);
+				addSelectedCS2D(hits, 1, false, selPreview);
 		}
 
 		if (selPoints() == 1) {
