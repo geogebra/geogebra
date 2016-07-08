@@ -88,15 +88,15 @@ public class CmdSetColor extends CmdScripting {
 			double greenD = enG.evaluateDouble();
 			double blueD = enB.evaluateDouble();
 
-			if (Double.isNaN(redD) || !Double.isFinite(redD)) {
+			if (Double.isNaN(redD) || Double.isInfinite(redD)) {
 				throw argErr(app, c.getName(),
 						enR.evaluate(StringTemplate.defaultTemplate));
 			}
-			if (Double.isNaN(greenD) || !Double.isFinite(greenD)) {
+			if (Double.isNaN(greenD) || Double.isInfinite(greenD)) {
 				throw argErr(app, c.getName(),
 						enG.evaluate(StringTemplate.defaultTemplate));
 			}
-			if (Double.isNaN(blueD) || !Double.isFinite(blueD)) {
+			if (Double.isNaN(blueD) || Double.isInfinite(blueD)) {
 				throw argErr(app, c.getName(),
 						enB.evaluate(StringTemplate.defaultTemplate));
 			}
