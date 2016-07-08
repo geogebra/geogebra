@@ -1661,6 +1661,7 @@ Paddings for menuitems.
 	z-index: 11;
 	left: auto !important;
 	bottom: auto !important;
+	overflow:hidden;
 }
 body.application[dir=rtl] .TitleBarPanel {
 	left: 0px !important;
