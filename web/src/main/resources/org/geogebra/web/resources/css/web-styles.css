@@ -13,21 +13,6 @@
  */
  
  
- 
-/* .GeoGebraFrame * {
-	box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-}
-
-.GeoGebraFrame img {
-	vertical-align: baseline;
-}
-.GeoGebraFrame {
-	background-color: white;
-} */
-
-
-
 /**
  * The reference theme can be used to determine when this style sheet has
  * loaded.  Create a hidden div element with absolute position, assign the style
@@ -603,41 +588,6 @@ body.application[dir=rtl] .gwt-Label {
 	z-index: 100;
 }
 
-/*.gwt-PushButton-up,
-.gwt-PushButton-up-hovering,
-.gwt-PushButton-up-disabled,
-.gwt-PushButton-down,
-.gwt-PushButton-down-hovering,
-.gwt-PushButton-down-disabled {
-  margin: 0;
-  text-decoration: none;
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-}*/
-/*.gwt-PushButton-up,.gwt-PushButton-up-hovering,.gwt-PushButton-up-disabled
-	{ 
-	cursor: pointer;
-	
-}*/
-/*.gwt-PushButton-up {
-  border:1px solid #bbb;
-  border-bottom: 1px solid #a0a0a0;
-  cursor: pointer;
-  cursor: hand;
-}
-.gwt-PushButton-up-hovering {
-  border: 1px solid;
-  border-color: #939393;
-  cursor: pointer;
-  cursor: hand;
-}
-.gwt-PushButton-up-disabled {
-  border: 1px solid #bbb;
-  cursor: default;
-  opacity: .5;
-  filter: alpha(opacity=45);
-  zoom: 1;
-}*/
 .gwt-PushButton-down,.gwt-PushButton-down-hovering,.gwt-PushButton-down-disabled
 	{ /*padding: 4px 4px 2px 6px;*/ /*outline:none;*/
 	
@@ -647,19 +597,7 @@ body.application[dir=rtl] .gwt-Label {
   cursor: hand;*/
 	
 }
-/*.gwt-PushButton-down-hovering {
-  border: 1px solid #939393;
-  border-top: 1px solid #333333;
-  cursor: pointer;
-  cursor: hand;
-}
-.gwt-PushButton-down-disabled {
-  border: 1px outset #ccc;
-  cursor: default;
-  opacity: 0.5;
-  filter: alpha(opacity=45);
-  zoom: 1;
-}*/
+
 .gwt-RadioButton {
 	
 }
@@ -1348,16 +1286,6 @@ body.application[dir=rtl] .gwt-Label {
 	outline: none; /* Fixing Chrome's default outline on focus */
 }
 
-.GeoGebraFrame select,.GeoGebraPopup select,.DialogBox select
-	{ /*border: 1px solid gray;*/
-	/* Undo fixed styling of Safari dropdowns  */ /*font-size: smaller;*/
-	/*color: #666666;*/
-	
-}
-
-/*.GeoGebraPopup {
-	padding: 0px;
-}*/
 .geogebraweb {
 	display: inline-block;
 	-ms-touch-action: none;
@@ -1437,157 +1365,7 @@ body.application[dir=rtl] .gwt-Label {
 	cursor:none;
 }
 
-/*#####################################################################################
-###       GEOGEBRA MENUBAR
-#####################################################################################*/
-/*.linktoggbtube {
-	position:absolute;
-	right:20px;
-	top:7px;
-}
 
-body[dir=rtl] .linktoggbtube {
-    right : auto;
-    left : 20px;
-}
-
-.signIn {
-	position:absolute;
-	right: 50px;
-}
-
-body[dir=rtl] .signIn {
-	position:absolute;
-	right: auto;
-	left: 50px;
-}*/
-
-/* .menuContainer {
-	left: auto !important;
-	top: 53px !important; should be equal to GLookAndFeelI.TOOLBAR_HEIGHT
-	z-index: 100;
-} */
-
-/* .ggbmenubarwrapper {
-	width: 100%;
-	height: 100%;
-}
-
-.menubarSMART {
-	margin-left: 2px;
-	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
-	overflow-y: auto;
-	background-color: #F8F8F8;
-	border-left: 1px solid #DCDCDC;
-	height: 100%;
-}
-
-.menubarSMART .menuPanel {
-	width: 100%;
-	border-collapse: collapse;
-} */
-
-/* .menubarSMART .gwt-MenuBar .gwt-MenuItem-selected {
-	background: none;
-}
-.menubarSMART .gwt-MenuBar .gwt-MenuItem:hover,
-.menubarSMART .gwt-MenuBar .gwt-MenuItem:active {
-	background: #CCCCFF;
-}
-
-
-.GeoGebraMenuBar>table {
-	margin-top: 5px;
-	margin-bottom: 8px;
-	width: 100%;
-} */
-
-/* .GeoGebraMenuBar .gwt-MenuItem {
-	padding: 4px 5px 4px 35px;
-	position: relative;
-	display: block;
-	cursor: pointer;
-}
-
-.GeoGebraMenuBar .gwt-RadioButton {
-	cursor: pointer;
-}
-
-.GeoGebraMenuBar .gwt-MenuItem .GeoGebraMenuImage {
-	width: 20px;
-	height: 20px;
-	position: absolute;
-	top: 4px;
-	left: 5px;
-} */
-
-/* Submenus just for SMART */
-/* .GeoGebraMenuBar.subMenuLeftSide {
-	right: 280px;
-	white-space: nowrap;
-	top: -5px;
-	position: absolute;
-	z-index: 600;
-	-webkit-border-radius: 10px;
-	-khtml-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	padding: 5px;
-	background-color: rgba(255, 255, 255, 0.9);
-	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-} */
-
-/* Workaround due to GWT's bug, see ticket #4819 */
-/* .GeoGebraMenuBar.subMenuLeftSide.subMenuLeftSide2 {
-	right: 10px;
-} */
-
-/* .gwt-PopupPanel.subMenuLeftSidePopup {
-	box-shadow: none;
-	padding: 0px;
-	border-radius: 0px;
-} */
-
-/* .GeoGebraMenuBar.subMenuLeftSide .gwt-MenuItem {
-	padding: 3px 10px;
-}
-
-.GeoGebraMenuBar.subMenuLeftSide .arrowSubmenu {
-	position: absolute;
-	top: 3px;
-	right: -15px;
-} */
-/*.gwt-PopupPanel .popupContent .subMenuLeftSide .arrowSubmenu {
-	display: none;
-}*/
-/* .GeoGebraMenuBar.subMenuLeftSide>table {
-	margin: 0px;
-}
-
-.GeoGebraMenuBar.subMenuLeftSide input[type="radio"] {
-	margin: 0px 5px 0px 0px;
-} */
-
-/* .GeoGebraMenuBar.subMenuLeftSide .RadioButtonMenuItem label {
-	color: #666666;
-	font-size: 100%;
-	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-} */
-
-/* for Tablets */
-/* .Tablet .menubarSMART {
-	font-size: 115%;
-	line-height: 153%;
-}
-
-.Tablet .menubarSMART .gwt-StackPanel .gwt-StackPanelItem img {
-	margin-top: 5px;
-}
-
-.Tablet .menubarSMART .GeoGebraMenuBar .gwt-MenuItem .GeoGebraMenuImage
-	{
-	top: 8px;
-} */
 
 /*#####################################################################################
 ###       CONTEXT MENU
@@ -1632,31 +1410,6 @@ Paddings for menuitems.
 	border: 1px solid transparent;
 }
 
-/*.SelectionTable a {
-	text-decoration:none;
-	color:black;
-	border-radius:none;
-    display:block;
-    padding:1px;
-}
-
-.SelectionTable .gwt-Label:hover,
-.SelectionTable .gwt-Label:focus,
-.SelectionTable canvas:hover,
-.SelectionTable canvas:focus  {
-	background: #CCCCFF;
-}
-
-.SelectionTable .gwt-Label.selected {
-	color: #6161FF;
-}*/
-/*.SelectionTable canvas {
-	border:1px solid transparent;
-}
-
-.SelectionTable canvas.selected {
-	border: 1px solid black;
-}*/
 .TitleBarPanel {
 	z-index: 11;
 	left: auto !important;
@@ -2247,86 +2000,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 /*#####################################################################################
 ###       TOOLBAR
 #####################################################################################*/
-/* .toolbarPanel {
-	background-color: #F8F8F8;
-	border-bottom: 1px solid #DCDCDC;
-	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
-	padding: 5px;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	z-index: 100;
-} */
 
-.toolbarPanelExam {
-	background-color: #CCCCFF;
-}
-
-/* .GeoGebraFrame .toolbarPanel ul {
-	margin: 0px;
-	padding: 0px;
-} */
-
-/* .toolbar_mainItem {
-	margin-right: 50px;
-}
-body.application[dir=rtl] .toolbar_mainItem {
-	margin-right: 0px;
-	margin-left: 50px;
-} */
-
-/* .GeoGebraFrame li.toolbar_item {
-	margin: 0px 5px 0px 0px;
-	text-align: center;
-	position: relative;
-	width: 40px;
-	height: 40px;
-	display: block;
-	float: left;
-	list-style-type: none;
-	cursor: pointer;
-}
-body.application[dir=rtl] .toolbar_item {
-	float: right;
-	margin: 0px 0px 0px 5px;
-} */
-
-/* .toolbar_button {
-	-webkit-border-radius: 5px;
-	-khtml-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	border: #DCDCDC solid 1px;
-	background-color: #FFFFFF;
-	padding: 3px;
-	width: 32px;
-	height: 32px;
-} */
-
-/* .toolbar_button:hover[isSelected=false] {
-	border-color: #9999FF;
-}
-
-.toolbar_button[isSelected=true] {
-	border: 2px solid #6666FF;
-	padding: 2px;
-}
-
-.toolbar_button[isSelected=false] {
-	border-color: #DCDCDC;
-} */
-
-/*.red_triangle {
-	position: relative;
-	width: 8px;
-	height: 5px;
-	top: -19px;
-}*/
-
-/* .furtherToolsTriangle {
-	position: absolute;
-	bottom: -2px;
-	right: -2px;
-} */
 
 table.AVmenuListContainer {
 	z-index: 501;
@@ -2382,80 +2056,6 @@ body.application[dir=rtl] .AVmenuListContainer .AVmenuListContent .gwt-Label {
 }
 
 
-/* .toolbar_submenu {
-	position: absolute;
-	z-index: 501;
-	display: none;
-}
-
-.toolbar_submenu.visible {
-	display: block;
-}
-
-.toolbar_submenu .submenuArrow {
-	position: absolute;
-	z-index: 300;
-	left: 4px;
-}
-body.application[dir=rtl] .toolbar_submenu .submenuArrow {
-	left: auto;
-	right: 4px;
-} */
-
-/* .toolbar_submenu .submenuContent {
-	position: absolute;
-	top: 15px;	
-	z-index: 250;
-	-webkit-border-radius: 10px;
-	-khtml-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	padding: 5px;
-	padding-top: 3px !important;
-	background-color: rgba(255, 255, 255, 0.9);
-	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-	overflow-y:auto;
-	overflow-x:hidden;
-} */
-
-/* .toolbar_submenu .submenuContent li {
-	white-space: nowrap;
-	list-style-type: none;
-	height: 32px;
-	padding: 5px 0px;
-	text-align: left;
-	cursor: pointer;
-}
-body.application[dir=rtl] .toolbar_submenu .submenuContent li {
-	text-align: right;
-} */
-
-/* .toolbar_submenu .submenuContent li:hover,
-.toolbar_submenu .submenuContent li:focus {
-	color: #333333;
-	background-color: #CCCCFF;
-} */
-
-/* .toolbar_button:focus {
-	border: 1px solid #6666FF;
-} */
-
-/* .toolbar_submenu .submenuContent img {
-	float: left;
-	padding-left: 5px;
-	padding-right: 5px;
-}
-body.application[dir=rtl] .toolbar_submenu .submenuContent img {
-	float: right;
-} */
-
-/* .toolbar_submenu .submenuContent .gwt-Label {
-	padding: 7px 10px 0 40px;
-}
-body.application[dir=rtl] .toolbar_submenu .submenuContent .gwt-Label {
-	padding: 7px 40px 0 10px;
-} */
-
 .gwt-MenuBar-horizontal .toolbarItemSeparator {
 	width: 5px;
 	padding: 0px;
@@ -2484,45 +2084,7 @@ body.application[dir=rtl] .toolbar_submenu .submenuContent .gwt-Label {
 	margin: auto;
 }
 
-/* .toolBPanel {
-	float: left;
-	padding-top: 1px;
-}
-body.application[dir=rtl] .toolBPanel {
-	float: right;
-}
 
-.smartButtonPanel {
-	float: right;
-	margin: 5px 0px;
-}
-body.application[dir=rtl] .smartButtonPanel {
-	float: left;
-} */
-
-/* .smartButtonPanel .button {
-	margin: 0px 5px 0px 10px;
-	cursor: pointer;
-	float: left;
-	width: 30px;	height: 30px;
-	padding: 2px;
-}
-body.application[dir=rtl] .smartButtonPanel .button {
-	float: right;
-	margin: 0px 10px 0px 5px;
-} */
-
-/* .button.redoButton {
-	margin-left: 0px;
-}
-body.application[dir=rtl] .button.redoButton {
-	margin-left: 5px;
-	margin-right: 0px;
-} */
-
-/* .rightButtonPanel .selectedButton {
-	padding: 0px;
-} */
 
 /*#####################################################################################
 ###       DIALOGS
@@ -2550,31 +2112,13 @@ body.application[dir=rtl] .button.redoButton {
 	color: #333333;
 	border-bottom: 1px solid #DCDCDC;
 	margin-bottom: 15px;
-	/*background-image: linear-gradient(top, rgb(237, 237, 237) 0%,
-		rgb(247, 247, 247) 100% );
-	background-image: -o-linear-gradient(top, rgb(237, 237, 237) 0%,
-		rgb(247, 247, 247) 100% );
-	background-image: -moz-linear-gradient(top, rgb(237, 237, 237) 0%,
-		rgb(247, 247, 247) 100% );
-	background-image: -webkit-linear-gradient(top, rgb(237, 237, 237) 0%,
-		rgb(247, 247, 247) 100% );
-	background-image: -ms-linear-gradient(top, rgb(237, 237, 237) 0%,
-		rgb(247, 247, 247) 100% );*/
-	/*background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(140,
-		150, 170) ), color-stop(1, rgb(247, 247, 247) ) );*/
+
 		
 }
 
 .dialogContent {
 	color: #666666;
-	/*background-color: #F8F8F8;*/
-	/*padding: 0px;
-	background-image: none;
-	border: none;
-	-webkit-border-radius: 0px;
-	-khtml-border-radius: 0px;
-	-moz-border-radius: 0px;
-	border-radius: 0px;*/
+
 }
 
 .dialogContent table {
