@@ -1214,4 +1214,16 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
 	}
+
+	public static int normalize0to255(double col) {
+		int ret = (int) (col * 255);
+		if (ret < 0) {
+			return 0;
+		} else if (ret > 255) {
+			return 255;
+		}
+
+		return ret;
+
+	}
 }

@@ -1,11 +1,14 @@
 package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -39,6 +42,77 @@ public class CmdSetColor extends CmdScripting {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		GeoElement[] arg;
+
+		// SetBackgroundColor["red"]
+		if (background && n == 1) {
+
+			ExpressionNode en = c.getArguments()[0];
+			ExpressionValue ev = en.evaluate(StringTemplate.defaultTemplate);
+
+			String color = ev.toString(StringTemplate.defaultTemplate);
+
+			try {
+
+				color = StringUtil.removeSpaces(color.replace("\"", ""));
+				// lookup Color
+				GColor col = GeoGebraColorConstants.getGeogebraColor(app,
+						color);
+
+				// SetBackgroundColor("none") is NOT OK
+				if (col == null) {
+					throw argErr(app, c.getName(), ev);
+				}
+
+				EuclidianViewInterfaceCommon view = app
+						.getActiveEuclidianView();
+				view.setBackground(col);
+				view.updateBackground();
+
+				return null;
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw argErr(app, c.getName(), ev);
+			}
+
+		}
+
+		// SetBackgroundColor[0,1,0]
+		if (background && n == 3) {
+
+			ExpressionNode[] args = c.getArguments();
+			ExpressionNode enR = args[0];
+			ExpressionNode enG = args[1];
+			ExpressionNode enB = args[2];
+			double redD = enR.evaluateDouble();
+			double greenD = enG.evaluateDouble();
+			double blueD = enB.evaluateDouble();
+
+			if (Double.isNaN(redD) || !Double.isFinite(redD)) {
+				throw argErr(app, c.getName(),
+						enR.evaluate(StringTemplate.defaultTemplate));
+			}
+			if (Double.isNaN(greenD) || !Double.isFinite(greenD)) {
+				throw argErr(app, c.getName(),
+						enG.evaluate(StringTemplate.defaultTemplate));
+			}
+			if (Double.isNaN(blueD) || !Double.isFinite(blueD)) {
+				throw argErr(app, c.getName(),
+						enB.evaluate(StringTemplate.defaultTemplate));
+			}
+
+			int red = MyDouble.normalize0to255(redD);
+			int green = MyDouble.normalize0to255(greenD);
+			int blue = MyDouble.normalize0to255(blueD);
+
+			EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
+			view.setBackground(AwtFactory.prototype.newColor(red, green, blue));
+			view.updateBackground();
+
+			return null;
+
+		}
+
 		if (n == 2) {
 			// adapted from resArgs()
 
