@@ -2243,7 +2243,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
-			return true;
+			return changedKernel;
 
 		case EuclidianConstants.MODE_MIRROR_AT_PLANE:
 		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
