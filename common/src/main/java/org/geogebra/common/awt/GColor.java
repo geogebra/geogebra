@@ -1,6 +1,7 @@
 package org.geogebra.common.awt;
 
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 
 public abstract class GColor implements GPaint, Comparable<GColor> {
 
@@ -116,26 +117,10 @@ public abstract class GColor implements GPaint, Comparable<GColor> {
 	 */
 	public int getRGB() {
 		// must use longs to avoid negative overflow
-		int red = getRed();
-		if (red > 255)
-			red = 255;
-		if (red < 0)
-			red = 0;
-		int green = getGreen();
-		if (green > 255)
-			green = 255;
-		if (green < 0)
-			green = 0;
-		int blue = getBlue();
-		if (blue > 255)
-			blue = 255;
-		if (blue < 0)
-			blue = 0;
-		int alpha = getAlpha();
-		if (alpha > 255)
-			alpha = 255;
-		if (alpha < 0)
-			alpha = 0;
+		int red = MyDouble.truncate0to255(getRed());
+		int green = MyDouble.truncate0to255(getGreen());
+		int blue = MyDouble.truncate0to255(getBlue());
+		int alpha = MyDouble.truncate0to255(getAlpha());
 		return ((alpha * 256 + red) * 256 + green) * 256 + blue;
 	}
 

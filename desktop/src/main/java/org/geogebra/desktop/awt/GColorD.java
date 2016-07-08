@@ -3,6 +3,7 @@ package org.geogebra.desktop.awt;
 import java.awt.Color;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 
 public class GColorD extends GColor {
 
@@ -11,27 +12,10 @@ public class GColorD extends GColor {
 	private Color adaptedColor = new Color(0, 0, 0);
 
 	public GColorD(int r, int g, int b, int alpha) {
-		if (r > 255) {
-			r = 255;
-		} else if (r < 0) {
-			r = 0;
-		}
 
-		if (g > 255) {
-			g = 255;
-		} else if (g < 0) {
-			g = 0;
-		}
-
-		if (b > 255) {
-			b = 255;
-		} else if (b < 0) {
-			b = 0;
-		}
-		if (alpha < 0 || alpha > 255) {
-			alpha = 255;
-		}
-		adaptedColor = new Color(r, g, b, alpha);
+		adaptedColor = new Color(MyDouble.truncate0to255(r),
+				MyDouble.truncate0to255(g), MyDouble.truncate0to255(b),
+				MyDouble.truncate0to255(alpha));
 	}
 
 	public GColorD(float r, float g, float b, float alpha) {

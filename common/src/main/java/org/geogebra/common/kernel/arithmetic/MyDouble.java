@@ -1215,15 +1215,29 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return ValueType.NUMBER;
 	}
 
+	/**
+	 * 
+	 * @param col
+	 * @return col transformed from double[0,1] to int[0,255] but truncated if
+	 *         outside this range
+	 */
 	public static int normalize0to255(double col) {
-		int ret = (int) (col * 255);
-		if (ret < 0) {
+		return truncate0to255((int) (col * 255));
+	}
+
+	/**
+	 * 
+	 * @param col
+	 * @return col truncated to the range int[0,255]
+	 */
+	public static int truncate0to255(int col) {
+		if (col < 0) {
 			return 0;
-		} else if (ret > 255) {
+		} else if (col > 255) {
 			return 255;
 		}
 
-		return ret;
+		return col;
 
 	}
 }

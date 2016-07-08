@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCanvasImage;
@@ -250,15 +251,6 @@ public class AlgoDensityPlot extends AlgoElement {
 	 * see Teaching Math. and Comp. Sci. *2*, pp. 321-331.
 	 */
 
-	private static int col(double x1) {
-		int code;
-		code = (int) (x1 * 256);
-		if (code > 255) {
-			return 255;
-		}
-		return (code);
-	}
-
 	private static int[] hlsToRgb(double h, double l, double s) {
 		int[] rgb = new int[2];
 		double m2;
@@ -268,11 +260,11 @@ public class AlgoDensityPlot extends AlgoElement {
 			m2 = l + s - l * s;
 		}
 		if (h == 180) {
-			rgb[1] = col(m2);
-			rgb[0] = col(2.0 * l - m2);
+			rgb[1] = MyDouble.normalize0to255(m2);
+			rgb[0] = MyDouble.normalize0to255(2.0 * l - m2);
 		} else {
-			rgb[1] = col(2.0 * l - m2);
-			rgb[0] = col(m2);
+			rgb[1] = MyDouble.normalize0to255(2.0 * l - m2);
+			rgb[0] = MyDouble.normalize0to255(m2);
 		}
 		return rgb;
 	}
