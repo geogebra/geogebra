@@ -1784,6 +1784,8 @@ new String[] { "--silent" }),
 
 	@Test
 	public void cmdSetBackgroundColor() {
+		t("SetBackgroundColor[ \"red\" ]");
+		t("SetBackgroundColor[ red, green, blue ]");
 		t("SetBackgroundColor[ obj, \"lime\" ]");
 		t("SetBackgroundColor[ obj, red, green, blue ]");
 	}
