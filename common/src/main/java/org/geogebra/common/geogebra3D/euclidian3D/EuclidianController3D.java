@@ -1856,7 +1856,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		double time = app.getMillisecondTime();
 		int x = mouseLoc.x;
-		animatedRotSpeed = (x - xOld) / (time - timeOld);
+		double dx = scaleRotateDelta(x-xOld);
+		animatedRotSpeed = dx / (time - timeOld);
 		timeOld = time;
 		// Log.debug("animatedRotSpeed=" + animatedRotSpeed + "\nxOld = " + xOld
 		// + "\nx=" + x);
@@ -1866,6 +1867,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 		viewRotationOccured = true;
 		view.repaintView();
 		return true;
+	}
+
+	protected float scaleRotateDelta(float delta){
+		return delta;
 	}
 
 	@Override
