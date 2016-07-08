@@ -794,8 +794,8 @@ public class ToolBar {
 		// conics
 		sb.append(EuclidianConstants.MODE_CIRCLE_AXIS_POINT);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION); // needs dialog: MOB-556
-		sb.append(" ");
+//		sb.append(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION); // needs dialog: MOB-556
+//		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
 		sb.append(" , ");
 		// sb.append(EuclidianView.MODE_SEMICIRCLE);
@@ -847,10 +847,10 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_EXTRUSION); // OK on drag, dialog missing on click: MOB-557
 
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS); // needs dialog: MOB-558
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS); // needs dialog: MOB-558
+//		sb.append(" , ");
+//		sb.append(EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS); // needs dialog: MOB-558
+//		sb.append(" ");
+//		sb.append(EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS); // needs dialog: MOB-558
 
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_TETRAHEDRON);
@@ -863,8 +863,8 @@ public class ToolBar {
 
 		// spheres
 		sb.append(EuclidianConstants.MODE_SPHERE_TWO_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SPHERE_POINT_RADIUS); // needs dialog: MOB-559
+//		sb.append(" ");
+//		sb.append(EuclidianConstants.MODE_SPHERE_POINT_RADIUS); // needs dialog: MOB-559
 		sb.append(" | ");
 
 		// measures
@@ -884,8 +884,8 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_MIRROR_AT_POINT);
 		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ROTATE_AROUND_LINE); // needs dialog: MOB-560
-		sb.append(" ");
+//		sb.append(EuclidianConstants.MODE_ROTATE_AROUND_LINE); // needs dialog: MOB-560
+//		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_DILATE_FROM_POINT); // OK -- check output visual style: MOB-550
