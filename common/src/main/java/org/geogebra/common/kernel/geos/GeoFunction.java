@@ -124,13 +124,23 @@ CasEvaluableFunction, ParametricCurve,
 
 	}
 
-
 	/**
 	 * @param autoLabel
 	 *            whether label was set by
 	 * @return whether function contains only valid variables
 	 */
 	public boolean validate(boolean autoLabel) {
+		return validate(autoLabel, cons.isSuppressLabelsActive());
+	}
+	
+	/**
+	 * @param autoLabel
+	 *            whether label was set by
+	 * @param suppressLabel
+	 *            whether labels are suppressed (parsing command argument)
+	 * @return whether function contains only valid variables
+	 */
+	public boolean validate(boolean autoLabel, boolean suppressLabel) {
 
 		if (!cons.isFileLoading()) {
 			if (getFunctionExpression().containsFreeFunctionVariableOtherThan(
@@ -141,7 +151,7 @@ CasEvaluableFunction, ParametricCurve,
 		// If labels are suppressed (processing command arguments) accept y and
 		// z as
 		// functions
-		if (!cons.isSuppressLabelsActive()
+		if (!suppressLabel
 				&& !isBooleanFunction()
 				&& (this.isFunctionOfY()
 						// needed for GGB-1028

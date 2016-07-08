@@ -4,6 +4,7 @@ import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -76,6 +77,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	 * @return last valid value of input
 	 */
 	public String getInput(String fallback) {
+		if (fallback == null || fallback.length() == 0) {
+			return "";
+		}
 		String ret = validInput;
 		validInput = null;
 		if (ret == null || ret.length() == 0) {
@@ -129,6 +133,13 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 								.getApplication().getActiveEuclidianView());
 						int unlabeled = 0;
 						for (GeoElement geo : inputGeos) {
+							if (geo instanceof GeoFunction) {
+								boolean b = ((GeoFunction) geo)
+										.validate(ve.getLabel() == null, false);
+								if (!b) {
+									geo.setUndefined();
+								}
+							}
 							if (!geo.isLabelSet()) {
 								geo.setSelectionAllowed(false);
 								unlabeled++;
