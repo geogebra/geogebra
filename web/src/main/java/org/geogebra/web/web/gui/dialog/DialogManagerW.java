@@ -212,7 +212,9 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 			return;
 		geo.setLabelVisible(true);
 		geo.updateRepaint();
-
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().clearInputbar();
+		}
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
 		InputDialogW id = new InputDialogW((AppW) app, app.getLocalization().getPlain("NewNameForA", geo.getNameDescription()),

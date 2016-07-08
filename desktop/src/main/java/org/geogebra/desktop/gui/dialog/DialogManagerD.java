@@ -197,7 +197,9 @@ public class DialogManagerD extends DialogManager {
 
 		geo.setLabelVisible(true);
 		geo.updateVisualStyleRepaint(GProperty.LABEL_STYLE);
-
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().clearInputbar();
+		}
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
 		// Michael Borcherds 2008-03-25
