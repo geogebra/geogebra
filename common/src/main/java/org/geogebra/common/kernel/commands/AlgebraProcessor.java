@@ -1114,7 +1114,13 @@ public class AlgebraProcessor {
 						Operation.EQUAL_BOOLEAN, eq.getRHS());
 			}
 			GeoElement[] temp = processValidExpression(ve);
-			bool = (GeoBoolean) temp[0];
+
+			// GGB-1043 GWT: can't rely on ClassCast Exception
+			if (temp[0] instanceof GeoBoolean) {
+				bool = (GeoBoolean) temp[0];
+			} else {
+				handler.showError(loc.getError("InvalidInput"));
+			}
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
