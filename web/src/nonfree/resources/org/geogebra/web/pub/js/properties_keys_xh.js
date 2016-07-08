@@ -822,7 +822,7 @@ __GGB__keysVar.xh.command = {
     "SetAxesRatio.Syntax": "[ <Inani>, <Inani> ]",
     "SetAxesRatio.Syntax3D": "[ <Inani>, <Inani> ]\n[ <Inani>, <Inani>, <Inani> ]",
     "SetBackgroundColor": "LungisaUmbalaWangasemva",
-    "SetBackgroundColor.Syntax": "[ <Object>, \"<Color>\" ]\n[ <Object>, <Red>, <Green>, <Blue> ]",
+    "SetBackgroundColor.Syntax": "[ \"<Color>\" ]\n[ <Object>, \"<Color>\" ]\n[ <Red>, <Green>, <Blue> ]\n[ <Object>, <Red>, <Green>, <Blue> ]",
     "SetCaption": "SetCaption",
     "SetCaption.Syntax": "[ <Into>, <Amamgama> ]",
     "SetColor": "KhethaIbala",

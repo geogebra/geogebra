@@ -822,7 +822,7 @@ __GGB__keysVar.fr.command = {
     "SetAxesRatio.Syntax": "[ <Nombre>, <Nombre> ]",
     "SetAxesRatio.Syntax3D": "[ <Nombre>, <Nombre> ]\n[ <Nombre>, <Nombre>, <Nombre> ]",
     "SetBackgroundColor": "SoitCouleurAPlan",
-    "SetBackgroundColor.Syntax": "[ <Objet>, \"<couleur>\" ]\n[ <Objet>, <Rouge>, <Vert>, <Bleu> ]",
+    "SetBackgroundColor.Syntax": "[ \"<couleur>\" ]\n[ <Objet>, \"<couleur>\" ]\n[ <Rouge>, <Vert>, <Bleu> ]\n[ <Objet>, <Rouge>, <Vert>, <Bleu> ]",
     "SetCaption": "SoitL\xe9gende",
     "SetCaption.Syntax": "[ <Objet>, <Texte> ]",
     "SetColor": "SoitCouleur",

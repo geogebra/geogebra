@@ -822,7 +822,7 @@ __GGB__keysVar.none.command = {
     "SetAxesRatio.Syntax": "[ <Number>, <Number> ]",
     "SetAxesRatio.Syntax3D": "[ <Number>, <Number> ]\n[ <Number>, <Number>, <Number> ]",
     "SetBackgroundColor": "SetBackgroundColor",
-    "SetBackgroundColor.Syntax": "[ <Object>, \"<Color>\" ]\n[ <Object>, <Red>, <Green>, <Blue> ]",
+    "SetBackgroundColor.Syntax": "[ \"<Color>\" ]\n[ <Object>, \"<Color>\" ]\n[ <Red>, <Green>, <Blue> ]\n[ <Object>, <Red>, <Green>, <Blue> ]",
     "SetCaption": "SetCaption",
     "SetCaption.Syntax": "[ <Object>, <Text> ]",
     "SetColor": "SetColor",

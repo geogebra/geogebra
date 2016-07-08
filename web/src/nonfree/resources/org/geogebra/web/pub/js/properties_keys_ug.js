@@ -822,7 +822,7 @@ __GGB__keysVar.ug.command = {
     "SetAxesRatio.Syntax": "[ <Number>, <Number> ]",
     "SetAxesRatio.Syntax3D": "[ <\u0633\u0627\u0646\u0644\u0649\u0642 \u0642\u0649\u0645\u0645\u06d5\u062a>, <\u0633\u0627\u0646\u0644\u0649\u0642 \u0642\u0649\u0645\u0645\u06d5\u062a> ]\n[ <\u0633\u0627\u0646\u0644\u0649\u0642 \u0642\u0649\u0645\u0645\u06d5\u062a>, <\u0633\u0627\u0646\u0644\u0649\u0642 \u0642\u0649\u0645\u0645\u06d5\u062a>, <\u0633\u0627\u0646\u0644\u0649\u0642 \u0642\u0649\u0645\u0645\u06d5\u062a> ]",
     "SetBackgroundColor": "SetBackgroundColor",
-    "SetBackgroundColor.Syntax": "[ <Object>, \"<Color>\" ]\n[ <Object>, <Red>, <Green>, <Blue> ]",
+    "SetBackgroundColor.Syntax": "[ \"<Color>\" ]\n[ <Object>, \"<Color>\" ]\n[ <Red>, <Green>, <Blue> ]\n[ <Object>, <Red>, <Green>, <Blue> ]",
     "SetCaption": "SetCaption",
     "SetCaption.Syntax": "[ <Object>, <Text> ]",
     "SetColor": "SetColor",
