@@ -190,21 +190,13 @@ public class CmdSetColor extends CmdScripting {
 			if ((ok[1] = arg[1] instanceof NumberValue)
 					&& (ok[2] = arg[2] instanceof NumberValue)
 					&& (ok[3] = arg[3] instanceof NumberValue)) {
-				int red = (int) (((NumberValue) arg[1]).getDouble() * 255);
-				if (red < 0)
-					red = 0;
-				else if (red > 255)
-					red = 255;
-				int green = (int) (((NumberValue) arg[2]).getDouble() * 255);
-				if (green < 0)
-					green = 0;
-				else if (green > 255)
-					green = 255;
-				int blue = (int) (((NumberValue) arg[3]).getDouble() * 255);
-				if (blue < 0)
-					blue = 0;
-				else if (blue > 255)
-					blue = 255;
+
+				int red = MyDouble
+						.normalize0to255(((NumberValue) arg[1]).getDouble());
+				int green = MyDouble
+						.normalize0to255(((NumberValue) arg[2]).getDouble());
+				int blue = MyDouble
+						.normalize0to255(((NumberValue) arg[3]).getDouble());
 
 				if (background)
 					arg[0].setBackgroundColor(AwtFactory.prototype.newColor(
