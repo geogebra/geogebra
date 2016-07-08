@@ -5117,8 +5117,7 @@ new GPoint(row, column));
 				if (condition != null) {
 					pair.getGeo().setShowObjectCondition(condition);
 				} else {
-					errors.add("Invalid condition to show object: "
- + pair.exp);
+					errors.add("Invalid condition to show object: " + pair.exp);
 				}
 
 			} catch (Exception e) {
