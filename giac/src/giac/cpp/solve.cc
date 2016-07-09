@@ -877,8 +877,12 @@ namespace giac {
 	      gen q0=q._VECTptr->front();
 	      gen e1=subst(e,x,x/q0,false,contextptr);
 	      vecteur newv;
+	      int is=isolate_mode;
+	      isolate_mode |= 16;
 	      in_solve(e1,x,newv,isolate_mode,contextptr);
+	      isolate_mode = is;
 	      multvecteur(inv(q0,contextptr),newv,newv);
+	      solve_ckrange(x,newv,isolate_mode,contextptr);
 	      v=mergevecteur(v,newv);
 	      return;
 	    }
@@ -914,7 +918,8 @@ namespace giac {
 #endif
 	  withsqrt(b,contextptr);
 	  complex_mode(bc,contextptr);
-	  solve_ckrange(x,newv,isolate_mode,contextptr);
+	  if (isolate_mode & 16==0)
+	    solve_ckrange(x,newv,isolate_mode,contextptr);
 	  v=mergevecteur(v,newv);
 	  return ;
 	}

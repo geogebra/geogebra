@@ -6416,7 +6416,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     // Singularities
     vecteur sing,crit;
     identificateur xid=*t._IDNTptr;
-    const_iterateur it=df1._VECTptr->begin(),itend=df1._VECTptr->end();
+    iterateur it=df1._VECTptr->begin(),itend=df1._VECTptr->end();
     for (;it!=itend;++it){
       if (is_greater(*it,tmin,contextptr) && is_greater(tmax,*it,contextptr)){
 	sing.push_back(*it);
@@ -6441,6 +6441,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     comprim(c);
     it=c.begin();itend=c.end();
     for (;it!=itend;++it){
+      if (!lop(*it,at_rootof).empty())
+	*it=re(evalf(*it,1,contextptr),contextptr);
       if (in_domain(df1,t,*it,contextptr) && is_greater(*it,tmin,contextptr) && is_greater(tmax,*it,contextptr)){
 	crit.push_back(*it);
 	gen fx=limit(f,xid,*it,0,contextptr);
@@ -6772,14 +6774,16 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   }
 
   int step_param(const gen & f,const gen & g,const gen & t,gen & tmin,gen&tmax,vecteur & poi,vecteur & tvi,bool printtvi,GIAC_CONTEXT){
+    int c=complex_mode(contextptr),s=0;
 #ifdef NO_STDEXCEPT
-    return step_param_(f,g,t,tmin,tmax,poi,tvi,printtvi,contextptr);
+    s=step_param_(f,g,t,tmin,tmax,poi,tvi,printtvi,contextptr);
 #else
     try {
-      return step_param_(f,g,t,tmin,tmax,poi,tvi,printtvi,contextptr);
-    } catch(std::runtime_error & e){}
-    return 0;
+      s=step_param_(f,g,t,tmin,tmax,poi,tvi,printtvi,contextptr);
+    } catch(std::runtime_error & e){ s=0;}
 #endif
+    complex_mode(c,contextptr);
+    return s;
   }
 
   // x->f in xmin..xmax
@@ -6819,7 +6823,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     // Asymptotes
     vecteur sing,crit;
     identificateur xid=*x._IDNTptr;
-    const_iterateur it=df1._VECTptr->begin(),itend=df1._VECTptr->end();
+    iterateur it=df1._VECTptr->begin(),itend=df1._VECTptr->end();
     for (;it!=itend;++it){
       if (is_greater(*it,xmin,contextptr) && is_greater(xmax,*it,contextptr)){
 	sing.push_back(*it);
@@ -6846,6 +6850,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     }
     it=c._VECTptr->begin();itend=c._VECTptr->end();
     for (;it!=itend;++it){
+      if (!lop(*it,at_rootof).empty())
+	*it=re(evalf(*it,1,contextptr),contextptr);
       if (in_domain(df,x,*it,contextptr) && is_greater(*it,xmin,contextptr) && is_greater(xmax,*it,contextptr)){
 	crit.push_back(*it);
 	gen fx=limit(f,xid,*it,0,contextptr);
@@ -7038,14 +7044,16 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   }
 
   int step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,bool printtvi,GIAC_CONTEXT){
+    int c=complex_mode(contextptr),s=0;
 #ifdef NO_STDEXCEPT
-    return step_func_(f,x,xmin,xmax,poi,tvi,printtvi,contextptr);
+    s=step_func_(f,x,xmin,xmax,poi,tvi,printtvi,contextptr);
 #else
     try {
-     return step_func_(f,x,xmin,xmax,poi,tvi,printtvi,contextptr);
-    } catch (std::runtime_error & e){}
-    return 0;
+     s=step_func_(f,x,xmin,xmax,poi,tvi,printtvi,contextptr);
+    } catch (std::runtime_error & e){s=0;}
 #endif
+    complex_mode(c,contextptr);
+    return s;
   }
 
   gen _tabvar(const gen & g,GIAC_CONTEXT){

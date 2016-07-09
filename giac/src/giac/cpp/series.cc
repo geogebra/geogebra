@@ -2822,7 +2822,11 @@ namespace giac {
     int save_series_flags=series_flags(contextptr);
     series_flags(save_series_flags | 8,contextptr);
     // sincosinf.clear();
-    gen l=in_limit(exact(e,contextptr),x,exact(lim_point,contextptr),direction,contextptr);
+    gen e_exact=exact(e,contextptr);
+    gen lim_point_exact=exact(lim_point,contextptr);
+    gen l=in_limit(e_exact,x,lim_point_exact,direction,contextptr);
+    if (e.is_approx() || lim_point.is_approx())
+      l=evalf(l,1,contextptr);
     series_flags(save_series_flags,contextptr);
     // vecteur sincosinfsub(sincosinf.size(),undef);
     // l=eval(subst(l,sincosinf,sincosinfsub));
