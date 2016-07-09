@@ -3470,13 +3470,14 @@ namespace giac {
 	  if (algext_convert(pp1,p1g,P1) && algext_convert(pp2,p1g,P2)){
 	    polynome pmini(P1.dim),P1n(P1.dim-1),P2n(P1.dim-1);
 	    algext_vmin2pmin(*(p1g._EXTptr+1)->_VECTptr,pmini);
-	    if (algnorme(P1,pmini,P1n) && algnorme(P2,pmini,P2n)){
+	    if (algnorme(P1,pmini,P1n) && algnorme(P2,pmini,P2n) ){
 	      // first solve norme(p1)*un+norme(p2)*vn=d
 	      // then norme(p1)/p1*un*p1+norme(p2)/p2*vn*p2=d
 	      // hence u=norme(p1)/p1*un and v=norme(p2)/p2*vn
 	      int p1t=coefftype(P1n,p1g);
 	      int p2t=coefftype(P2n,p2g);
-	      if (p1t==0 && p2t==0){
+	      polynome P12g=gcd(P1n,P2n);
+	      if (p1t==0 && p2t==0 && P12g.lexsorted_degree()==0){
 		//CERR << P1n % pp1 << endl;
 		//CERR << P2n % pp2 << endl;
 		P1=P1n/pp1;

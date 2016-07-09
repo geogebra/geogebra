@@ -210,7 +210,7 @@ namespace giac {
     f2=normal(_texpand(f2,contextptr),contextptr);
     if (f1==f2)
       return 1;
-    if (is_zero(f1+f2))
+    if (is_zero(ratnormal(f1+f2,contextptr)))
       return 2;
     return 0;
   }
@@ -1740,12 +1740,23 @@ namespace giac {
       // sum_{x=a}^{b} comb(b-a,j*x-j*a)*p^x
       // 
       gen Q=r2sym(q,v,contextptr),R=r2sym(r,v,contextptr),Qa,Qb,Ra,Rb;
-      if (a.type==_INT_ && b==plus_inf && p.lexsorted_degree()==0 && r.coord.size()==1 && q+r==0){
+      if (a.type==_INT_ && b==plus_inf && p.lexsorted_degree()==0 && r.coord.size()==1 && q+r==0 ){
 	// gen coeff=inv(r.coord.front().value,contextptr);
 	int pui=r.lexsorted_degree();
 	// coeff*sum((-1)^k/k^pui,k,a,inf)
 	// if a is even set res=0, if a is odd set res=-1/a^pui and a++
 	res=0; R=inv(R,contextptr);
+	if (pui==1){
+	  if (a.val<=0){
+	    res=R*plus_inf;
+	    return true;
+	  }
+	  res=symbolic(at_ln,2);
+	  if (a.val>1)
+	    res = res-_sum(makesequence(R,x,1,a.val-1),contextptr);
+	  res=res*subst(g/R,x,1,false,contextptr);
+	  return true;
+	}
 	// add sum(1/k^pui,k,a,inf)
 	// -> 2*sum(1/(2*k)^pui,k,a/2,inf)=2^(1-pui)*sum(1/k^pui,k,a/2,inf)
 	res = - _sum(makesequence(R,x,a,plus_inf),contextptr) + pow(2,1-pui,contextptr)*_sum(makesequence(R,x,(a.val+1)/2,plus_inf),contextptr);

@@ -7241,7 +7241,7 @@ namespace giac {
 	gen c1=remove_at_pnt(v[i-1]);
 	gen c2=remove_at_pnt(v[i]);   
 	if (est_aligne(c1,c2,a,contextptr)){
-	  gen m=(a-c1)/(c2-c1);
+	  gen m=re((a-c1)/(c2-c1),contextptr);
 	  if (is_greater(m,0,contextptr) && is_greater(1,m,contextptr))
 	    return i;
 	}
@@ -7708,8 +7708,36 @@ namespace giac {
   gen paramplotparam(const gen & args,bool densityplot,const context * contextptr){
     // args= [x(t)+i*y(t),t] should add a t interval
     bool f_autoscale=autoscale;
-    if (args.type!=_VECT)
-      return paramplotparam(gen(makevecteur(args,t__IDNT_e),_SEQ__VECT),densityplot,contextptr);
+    if (args.type!=_VECT || args.subtype!=_SEQ__VECT){
+      gen m=minus_inf,M=plus_inf;
+      vecteur poi,tvi;
+      gen t=ggb_var(args);
+      gen fg=eval(args,1,contextptr),r,i;
+      if (fg.type==_VECT && fg._VECTptr->size()!=2)
+	return paramplotparam(makesequence(args,t),false,contextptr);
+      if (fg.type==_VECT && fg._VECTptr->size()==2){
+	r=fg._VECTptr->front();
+	i=fg._VECTptr->back();
+	fg=r+cst_i*i;
+      }
+      else 
+	reim(fg,r,i,contextptr);
+      if (step_param(r,i,t,m,M,poi,tvi,true,contextptr)){
+	gen scale=(gnuplot_tmax-gnuplot_tmin)/5.0;
+	if (is_inf(m))
+	  m=gnuplot_tmin;
+	if (is_inf(M))
+	  M=gnuplot_tmax;
+	if (m!=M)
+	  scale=(M-m)/3.0;
+	m=m-0.973456*scale; M=M+1.018546*scale;
+	gen p=paramplotparam(makesequence(fg,symb_equal(t,symb_interval(m,M))),false,contextptr);
+	poi=mergevecteur(poi,gen2vecteur(p));
+	return gen(poi,_SEQ__VECT);
+      }
+      else
+	return paramplotparam(makesequence(args,t),false,contextptr);
+    }
     vecteur vargs(plotpreprocess(args,contextptr));
     if (is_undef(vargs))
       return vargs;

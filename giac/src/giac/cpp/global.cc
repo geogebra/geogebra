@@ -546,6 +546,21 @@ extern "C" void Sleep(unsigned int miliSecond);
       _complex_mode_=b;
   }
 
+  static bool _escape_real_=true; 
+  bool & escape_real(GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      return contextptr->globalptr->_escape_real_;
+    else
+      return _escape_real_;
+  }
+
+  void escape_real(bool b,GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      contextptr->globalptr->_escape_real_=b;
+    else
+      _escape_real_=b;
+  }
+
   static bool _do_lnabs_=true;
   bool & do_lnabs(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -3277,6 +3292,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_eval_abs_=_eval_abs_;
      ptr->globalptr->_eval_equaltosto_=_eval_equaltosto_;
      ptr->globalptr->_complex_mode_=_complex_mode_;
+     ptr->globalptr->_escape_real_=_escape_real_;
      ptr->globalptr->_try_parse_i_=_try_parse_i_;
      ptr->globalptr->_specialtexprint_double_=_specialtexprint_double_;
      ptr->globalptr->_atan_tan_no_floor_=_atan_tan_no_floor_;
@@ -3688,7 +3704,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #ifdef BCD
 		     _bcd_decpoint_('.'|('E'<<16)|(' '<<24)),_bcd_mantissa_(12+(15<<8)), _bcd_flags_(0),_bcd_printdouble_(false),
 #endif
-		     _expand_re_im_(true), _do_lnabs_(true), _eval_abs_(true),_eval_equaltosto_(true),_integer_mode_(true),_complex_mode_(false), _complex_variables_(false), _increasing_power_(false), _approx_mode_(false), _variables_are_files_(false), _local_eval_(true), 
+		     _expand_re_im_(true), _do_lnabs_(true), _eval_abs_(true),_eval_equaltosto_(true),_integer_mode_(true),_complex_mode_(false), _escape_real_(true),_complex_variables_(false), _increasing_power_(false), _approx_mode_(false), _variables_are_files_(false), _local_eval_(true), 
 		     _withsqrt_(true), 
 		     _show_point_(true),  _io_graph_(true),
 		     _all_trig_sol_(false),
@@ -3745,6 +3761,7 @@ _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_ma
      _eval_abs_=g._eval_abs_;
      _eval_equaltosto_=g._eval_equaltosto_;
      _complex_mode_=g._complex_mode_;
+     _escape_real_=g._escape_real_;
      _complex_variables_=g._complex_variables_;
      _increasing_power_=g._increasing_power_;
      _approx_mode_=g._approx_mode_;
@@ -4856,6 +4873,7 @@ unsigned int ConvertUTF8toUTF16 (
   }
 
   void (*my_gprintf)(unsigned special,const string & format,const vecteur & v,GIAC_CONTEXT)=0;
+
 
 #ifdef EMCC
   static void newlinestobr(string &s,const string & add){

@@ -512,6 +512,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     bool _eval_equaltosto_;
     bool _integer_mode_;
     bool _complex_mode_;
+    bool _escape_real_;
     bool _complex_variables_;
     bool _increasing_power_;
     bool _approx_mode_;
@@ -669,6 +670,9 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
 
   bool & complex_mode(GIAC_CONTEXT);
   void complex_mode(bool b,GIAC_CONTEXT);
+
+  bool & escape_real(GIAC_CONTEXT); // default=true, if false sqrt(-1) errors
+  void escape_real(bool b,GIAC_CONTEXT);
 
   bool & try_parse_i(GIAC_CONTEXT);
   void try_parse_i(bool b,GIAC_CONTEXT);

@@ -491,6 +491,8 @@ namespace giac {
     unary_function_ptr u =mys.sommet;
     if (u==at_equal || u==at_equal2)
       return mathml_printsommetasoperator(mys.feuille,"<mo>=</mo>",contextptr);  
+    if (u==at_different)
+      return mathml_printsommetasoperator(mys.feuille,"<mo>≠</mo>",contextptr);
     if (u==at_inferieur_egal)
       return mathml_printsommetasoperator(mys.feuille,"<mo>&le;</mo>",contextptr);
     if (u==at_superieur_egal)
@@ -976,6 +978,8 @@ namespace giac {
     }
     if (v.subtype==_GROUP__VECT || v._VECTptr->size()>2)
       return svg_polyline(v, attr, name,xmin,xmax,ymin,ymax,contextptr);
+    if (v.subtype==_VECTOR__VECT)
+      return svg_segment(v[0],v[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
     if (v.subtype==_LINE__VECT)
       return svg_line(v[0],v[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
     if (v.subtype==_HALFLINE__VECT)
@@ -1043,7 +1047,7 @@ namespace giac {
 	}
 	if (figure.sommet == at_pnt)
 	  return symbolic2svg(figure,xmin,xmax,ymin,ymax,contextptr);
-	if (figure.sommet==at_segment){
+	if (figure.sommet==at_segment || figure.sommet==at_vector){
 	  gen segment=figure.feuille;
 	  return svg_segment(segment[0],segment[1], attr, name,xmin,xmax,ymin,ymax,contextptr); 
 	}   
@@ -1117,7 +1121,7 @@ namespace giac {
   static string symbolic2mathml(const symbolic & mys, string &svg,GIAC_CONTEXT){
 
     string opstring(mys.sommet.ptr()->print(contextptr));
-    if (opstring!="/" && mys.sommet.ptr()->texprint)  
+    if (opstring!="/" && (mys.sommet.ptr()->texprint || mys.sommet==at_different))  
       return mathml_print(mys,contextptr);
     if (mys.sommet==at_pnt) { 
       svg=svg+symbolic2svg(mys,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,contextptr);

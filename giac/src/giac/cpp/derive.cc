@@ -343,7 +343,7 @@ namespace giac {
     // now look at other operators, first onearg operator
     if (s.sommet.ptr()->D){
       if (s.feuille.type!=_VECT)
-	return (*s.sommet.ptr()->D)(1)(s.feuille,contextptr)*derive(s.feuille,i,contextptr);
+	return derive(s.feuille,i,contextptr)*(*s.sommet.ptr()->D)(1)(s.feuille,contextptr);
       // multiargs operators
       int taille=int(s.feuille._VECTptr->size());
       vecteur v;

@@ -3197,6 +3197,17 @@ namespace giac {
 	}
 	return;
       }
+      if (is_zero(im(expo,contextptr),contextptr)){
+	reim(e,r,i,contextptr);
+	gen abse=normal(pow(r,2,contextptr)+pow(i,2,contextptr),contextptr);
+	gen arge=arg(e,contextptr);
+	arge=expo*arge;
+	abse=sqrt(abse,contextptr);
+	abse=pow(abse,expo,contextptr);
+	r=abse*cos(arge,contextptr);
+	i=abse*sin(arge,contextptr);
+	return;
+      }
     }
     if (u==at_rootof && f.type==_VECT && f._VECTptr->size()==2){
       vecteur tmp=*f._VECTptr;

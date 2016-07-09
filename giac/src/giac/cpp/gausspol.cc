@@ -4753,7 +4753,8 @@ namespace giac {
 	  // hence u=norme(p1)/p1*un and v=norme(p2)/p2*vn
 	  int p1t=coefftype(P1n,p1g);
 	  int p2t=coefftype(P2n,p2g);
-	  if (p1t==0 && p2t==0){
+	  polynome P12g=gcd(P1n,P2n);
+	  if (p1t==0 && p2t==0 && P12g.lexsorted_degree()==0){
 	    //CERR << P1n % pp1 << endl;
 	    //CERR << P2n % pp2 << endl;
 	    P1=P1n/p1;

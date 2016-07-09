@@ -3448,7 +3448,7 @@ namespace giac {
       res = '_'+res;
     if (u.ptr()->printsommet==printsommetasoperator || (idf && (u==at_inferieur_strict || u==at_inferieur_egal || u==at_superieur_strict || u==at_superieur_egal))){
       int rs=int(res.size());
-      if (idf || (rs==2 && res[1]=='+' || res[1]=='*')){
+      if (idf || (rs==2 && (res[1]=='+' || res[1]=='*'))){
 	res=u.ptr()->print(contextptr);
 	string sres;
 	vecteur v=gen2vecteur(f);

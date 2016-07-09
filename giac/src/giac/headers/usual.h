@@ -908,6 +908,7 @@ namespace giac {
   extern const unary_function_eval __sto;
 #endif
 
+  extern const unary_function_ptr * const  at_step_infolevel;
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
