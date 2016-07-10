@@ -407,7 +407,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	public static boolean penMode(int mode2) {
+	public boolean penMode(int mode2) {
 		switch (mode2) {
 			case EuclidianConstants.MODE_PEN:
 				// case EuclidianConstants.MODE_PENCIL:

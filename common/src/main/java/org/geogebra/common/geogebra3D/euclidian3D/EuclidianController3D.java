@@ -4297,4 +4297,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 	}
 
+	@Override
+	public boolean penMode(int mode2) {
+		// no pen mode in 3D for now
+		return false;
+	}
+
 }
