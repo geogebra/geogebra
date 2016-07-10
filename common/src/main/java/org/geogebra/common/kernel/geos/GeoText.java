@@ -571,6 +571,11 @@ public class GeoText extends GeoElement implements Locateable,
 			sb.append(getDefaultGeoType());
 		}
 		sb.append("\">\n");
+
+		if (isSymboicMode()) {
+			sb.append("\t<symbolic val=\"true\" />\n");
+		}
+
 		getXMLtags(sb);
 		if (getListenersToo) getListenerTagsXML(sb);
 		sb.append("</element>\n");

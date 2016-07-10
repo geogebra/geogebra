@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.HasSymbolicMode;
 
 /**
  * Returns a description of a GeoElement as a GeoText in LaTeX format.
@@ -50,6 +51,12 @@ public class AlgoLaTeX extends AlgoElement {
 
 		text.setLaTeX(true, false);
 
+		if (geo instanceof HasSymbolicMode) {
+			if (((HasSymbolicMode) geo).isSymboicMode()) {
+				text.setSymbolicMode(true);
+			}
+		}
+
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
@@ -68,6 +75,12 @@ public class AlgoLaTeX extends AlgoElement {
 		text = new GeoText(cons);
 
 		text.setLaTeX(true, false);
+
+		if (geo instanceof HasSymbolicMode) {
+			if (((HasSymbolicMode) geo).isSymboicMode()) {
+				text.setSymbolicMode(true);
+			}
+		}
 
 		text.setIsTextCommand(true); // stop editing as text
 		setInputOutput(); // for AlgoElement
