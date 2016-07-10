@@ -4128,6 +4128,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (polygonMode == POLYGON_NORMAL) {
 			// cancel last switch
 			cancelSwitchPointMoveModeIfNeeded();
+			view3D.disposePreview();
 		}
 
 		return super.polygon();
