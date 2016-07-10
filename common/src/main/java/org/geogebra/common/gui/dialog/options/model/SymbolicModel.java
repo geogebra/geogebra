@@ -31,7 +31,7 @@ public class SymbolicModel extends BooleanOptionModel {
 	public boolean getValueAt(int index) {
 		// not used as updateProperties is overridden.
 		return getObjectAt(index) instanceof HasSymbolicMode
-				&& ((HasSymbolicMode) getObjectAt(index)).isSymboicMode();
+				&& ((HasSymbolicMode) getObjectAt(index)).isSymbolicMode();
 	}
 
 	@Override

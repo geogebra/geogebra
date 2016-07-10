@@ -52,7 +52,7 @@ public class AlgoLaTeX extends AlgoElement {
 		text.setLaTeX(true, false);
 
 		if (geo instanceof HasSymbolicMode) {
-			if (((HasSymbolicMode) geo).isSymboicMode()) {
+			if (((HasSymbolicMode) geo).isSymbolicMode()) {
 				text.setSymbolicMode(true);
 			}
 		}
@@ -77,7 +77,7 @@ public class AlgoLaTeX extends AlgoElement {
 		text.setLaTeX(true, false);
 
 		if (geo instanceof HasSymbolicMode) {
-			if (((HasSymbolicMode) geo).isSymboicMode()) {
+			if (((HasSymbolicMode) geo).isSymbolicMode()) {
 				text.setSymbolicMode(true);
 			}
 		}

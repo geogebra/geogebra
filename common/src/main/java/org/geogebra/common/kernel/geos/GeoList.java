@@ -967,7 +967,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			sb.append(emphasizeRightAngle);
 			sb.append("\"/>\n");		
 		}
-		if (isSymboicMode()) {
+		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
 		}
 		// AngleProperties end
@@ -2989,9 +2989,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	}
 
-	public boolean isSymboicMode() {
+	public boolean isSymbolicMode() {
 		return size() > 0 && get(0) instanceof HasSymbolicMode
-				&& ((HasSymbolicMode) get(0)).isSymboicMode();
+				&& ((HasSymbolicMode) get(0)).isSymbolicMode();
 	}
 
 	@Override

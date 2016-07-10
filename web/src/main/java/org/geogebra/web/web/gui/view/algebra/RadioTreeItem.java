@@ -685,7 +685,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		HasSymbolicMode sm = (HasSymbolicMode) geo;
-		boolean orig = sm.isSymboicMode();
+		boolean orig = sm.isSymbolicMode();
 		String text1 = geo.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate);
 		sm.setSymbolicMode(!orig);
@@ -773,7 +773,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private boolean isSymbolicGeo() {
 		return (geo instanceof HasSymbolicMode
-				&& ((HasSymbolicMode) geo).isSymboicMode());
+				&& ((HasSymbolicMode) geo).isSymbolicMode());
 	}
 
 	private void buildItemContent() {
@@ -875,7 +875,7 @@ public class RadioTreeItem extends AVTreeItem
 	void toggleSymbolic(MyToggleButton2 button) {
 		if (geo instanceof HasSymbolicMode) {
 			((HasSymbolicMode) geo)
-					.setSymbolicMode(!((HasSymbolicMode) geo).isSymboicMode());
+					.setSymbolicMode(!((HasSymbolicMode) geo).isSymbolicMode());
 
 			if (getOutputPrefix() == Unicode.CAS_OUTPUT_NUMERIC) {
 				button.setSelected(true);
@@ -2959,7 +2959,7 @@ marblePanel, evt))) {
 
 	private String getOutputPrefix() {
 		if (geo instanceof HasSymbolicMode
-				&& !((HasSymbolicMode) geo).isSymboicMode()) {
+				&& !((HasSymbolicMode) geo).isSymbolicMode()) {
 			return Unicode.CAS_OUTPUT_NUMERIC;
 		}
 		if (kernel.getLocalization().rightToLeftReadingOrder) {

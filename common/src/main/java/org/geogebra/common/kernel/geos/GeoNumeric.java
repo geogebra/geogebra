@@ -1767,7 +1767,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		this.symbolicMode = mode;
 	}
 
-	public boolean isSymboicMode() {
+	public boolean isSymbolicMode() {
 		return symbolicMode;
 	}
 

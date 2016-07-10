@@ -572,7 +572,7 @@ public class GeoText extends GeoElement implements Locateable,
 		}
 		sb.append("\">\n");
 
-		if (isSymboicMode()) {
+		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
 		}
 
@@ -1310,7 +1310,7 @@ public class GeoText extends GeoElement implements Locateable,
 
 	}
 
-	public boolean isSymboicMode() {
+	public boolean isSymbolicMode() {
 		return this.symbolicMode;
 	}
 
