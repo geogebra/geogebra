@@ -4677,5 +4677,12 @@ GRectangle selectionRectangle) {
 		return (float) (value / getScale());
 	}
 
+	/**
+	 * 
+	 * @return true if we want to show a preview for MODE_PYRAMID and MODE_PRISM
+	 */
+	public boolean showPyramidAndPrismPreviews() {
+		return true;
+	}
 
 }
