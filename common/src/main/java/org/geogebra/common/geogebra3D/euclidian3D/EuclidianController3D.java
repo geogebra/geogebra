@@ -1715,8 +1715,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		if (mouseMoved && view3D.hasMouse()) {
 
+			// make sure new GeoPoint3Ds aren't counted as 3D objects for uses3D
+			// flag in XML
+			kernel.getConstruction().setIgnoringNewTypes(true);
+
 			((EuclidianView3D) view).updateCursor3D();
 			super.processMouseMoved(mouseEvent);
+
+			kernel.getConstruction().setIgnoringNewTypes(false);
 
 			mouseMoved = false;
 		}
