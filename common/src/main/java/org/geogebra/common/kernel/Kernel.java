@@ -4545,33 +4545,33 @@ public class Kernel {
 
 			sb.setLength(0);
 			sb.append("Rotate[");
-			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
+			sb.append(p[i - 1].getLabel(StringTemplate.noLocalDefault));
 			sb.append("+ (");
 
 			// #5445
 			sb.append("Segment[");
-			sb.append(pts[i - 1].getLabel(StringTemplate.defaultTemplate));
+			sb.append(pts[i - 1].getLabel(StringTemplate.noLocalDefault));
 			sb.append(",");
-			sb.append(pts[i % n].getLabel(StringTemplate.defaultTemplate));
+			sb.append(pts[i % n].getLabel(StringTemplate.noLocalDefault));
 			sb.append("]");
 
 			sb.append(", 0), Angle[");
-			sb.append(pts[i].getLabel(StringTemplate.defaultTemplate)); // C
+			sb.append(pts[i].getLabel(StringTemplate.noLocalDefault)); // C
 			sb.append("-");
-			sb.append(pts[i - 1].getLabel(StringTemplate.defaultTemplate)); // B
+			sb.append(pts[i - 1].getLabel(StringTemplate.noLocalDefault)); // B
 			sb.append("] + Angle[");
-			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
+			sb.append(p[i - 1].getLabel(StringTemplate.noLocalDefault));
 			sb.append("-");
-			sb.append(p[i - 2].getLabel(StringTemplate.defaultTemplate));
+			sb.append(p[i - 2].getLabel(StringTemplate.noLocalDefault));
 			sb.append("] - Angle[");
-			sb.append(pts[i - 1].getLabel(StringTemplate.defaultTemplate)); // B
+			sb.append(pts[i - 1].getLabel(StringTemplate.noLocalDefault)); // B
 			sb.append("-");
-			sb.append(pts[i - 2].getLabel(StringTemplate.defaultTemplate)); // A
+			sb.append(pts[i - 2].getLabel(StringTemplate.noLocalDefault)); // A
 			sb.append("],");
-			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
+			sb.append(p[i - 1].getLabel(StringTemplate.noLocalDefault));
 			sb.append("]");
 
-			// Log.debug(sb.toString());
+			Log.error(sb.toString());
 
 			p[i] = getAlgebraProcessor().evaluateToPoint(sb.toString(), true,
 					false);
