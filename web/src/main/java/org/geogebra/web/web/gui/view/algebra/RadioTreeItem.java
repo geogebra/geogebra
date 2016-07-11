@@ -590,9 +590,8 @@ public class RadioTreeItem extends AVTreeItem
 		if (btnClearInput == null) {
 			btnClearInput = new PushButton(new Image(
 					GuiResources.INSTANCE.algebra_delete()));
-			btnClearInput.addClickHandler(new ClickHandler() {
-
-				public void onClick(ClickEvent event) {
+			btnClearInput.addMouseDownHandler(new MouseDownHandler() {
+				public void onMouseDown(MouseDownEvent event) {
 					if (latexItem != null) {
 						DrawEquationW.stornoFormulaMathQuillGGB(
 								RadioTreeItem.this, latexItem);
@@ -600,7 +599,6 @@ public class RadioTreeItem extends AVTreeItem
 						event.stopPropagation();
 					}
 				}
-
 			});
 		}
 		return btnClearInput;
