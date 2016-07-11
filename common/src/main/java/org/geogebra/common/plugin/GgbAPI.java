@@ -1627,19 +1627,32 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
+	 * @param rounding
+	 *            eg "10" for 10dp or "10s" for 10 significant figures
+	 */
+	public void setRounding(String rounding) {
+		app.setRounding(rounding);
+		kernel.updateConstruction();
+		app.refreshViews();
+		kernel.updateConstruction();
+	}
+
+	/**
 	 * If there are Macros or an Exercise present in the current file this can
 	 * be used to check if parts of the construction are equivalent to the
 	 * Macros in the file. <br />
 	 * If you don't want that a Standard Exercise (using all the Macros in the
 	 * Construction and setting each fraction to 100) will be created, check if
 	 * this is a Exercise with {@link #isExercise()} first. <br>
-	 * Hint will be empty unless specified otherwise with the ExerciseBuilder. <br />
+	 * Hint will be empty unless specified otherwise with the ExerciseBuilder.
+	 * <br />
 	 * Fraction will be 0 or 1 unless specified otherwise with the
 	 * ExerciseBuilder. <br />
 	 * Result will be in {@link Result},i.e: <br />
 	 * CORRECT, The assignment is CORRECT <br />
 	 * WRONG, if the assignment is WRONG and we can't tell why <br />
-	 * NOT_ENOUGH_INPUTS if there are not enough input geos, so we cannot check <br />
+	 * NOT_ENOUGH_INPUTS if there are not enough input geos, so we cannot check
+	 * <br />
 	 * WRONG_INPUT_TYPES, if there are enough input geos, but one or more are of
 	 * the wrong type <br />
 	 * WRONG_OUTPUT_TYPE, if there is no output geo matching our macro <br />

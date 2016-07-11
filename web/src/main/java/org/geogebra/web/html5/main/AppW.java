@@ -29,7 +29,6 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -42,7 +41,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.AlgoCubicSwitchInterface;
 import org.geogebra.common.main.AlgoCubicSwitchParams;
@@ -3500,31 +3498,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public void updateRounding(){
-		String rounding = getArticleElement().getDataParamRounding();
-		if (rounding.length() > 0) {
-			StringBuilder roundingNum = new StringBuilder("0");
-			for (int i = 0; i < rounding.length(); i++) {
-				if (rounding.charAt(i) <= '9' && rounding.charAt(i) >= '0') {
-					roundingNum.append(rounding.charAt(i));
-				}
-			}
-			int roundInt = Integer.parseInt(roundingNum.toString());
-			if(rounding.contains("s")){
-				getKernel().setPrintFigures(roundInt);
-			}
-			else{
-				getKernel().setPrintDecimals(roundInt);
-			}
-			if (rounding.contains("r")) {
-				GeoElement defNumber = getKernel().getConstruction()
-						.getConstructionDefaults()
-						.getDefaultGeo(ConstructionDefaults.DEFAULT_NUMBER);
-				if (defNumber != null) {
-					((GeoNumeric) defNumber).setSymbolicMode(true);
-				}
-			}
-		}
+		setRounding(getArticleElement().getDataParamRounding());
 	}
+
 
 	/*
 	 * public Runnable showPerspectivesPopupRunnable() { MainMenu menu =

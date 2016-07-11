@@ -53,6 +53,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -4317,6 +4318,31 @@ public abstract class App implements UpdateSelection {
 	 */
 	protected boolean isAndroid() {
 		return false;
+	}
+
+	public void setRounding(String rounding) {
+		if (rounding.length() > 0) {
+			StringBuilder roundingNum = new StringBuilder("0");
+			for (int i = 0; i < rounding.length(); i++) {
+				if (rounding.charAt(i) <= '9' && rounding.charAt(i) >= '0') {
+					roundingNum.append(rounding.charAt(i));
+				}
+			}
+			int roundInt = Integer.parseInt(roundingNum.toString());
+			if (rounding.contains("s")) {
+				getKernel().setPrintFigures(roundInt);
+			} else {
+				getKernel().setPrintDecimals(roundInt);
+			}
+			if (rounding.contains("r")) {
+				GeoElement defNumber = getKernel().getConstruction()
+						.getConstructionDefaults()
+						.getDefaultGeo(ConstructionDefaults.DEFAULT_NUMBER);
+				if (defNumber != null) {
+					((GeoNumeric) defNumber).setSymbolicMode(true);
+				}
+			}
+		}
 	}
 
 }
