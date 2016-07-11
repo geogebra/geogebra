@@ -24,7 +24,7 @@ public class SymbolicModel extends BooleanOptionModel {
 		GeoElement geo = getGeoAt(index).getGeoElementForPropertiesDialog();
 
 
-		return geo.isGeoNumeric();
+		return geo.isGeoNumeric() || geo.isGeoText();
 	}
 
 	@Override
