@@ -513,6 +513,8 @@ namespace giac {
   }
 
   gen subst(const gen & e,const gen & i,const gen & newi,bool quotesubst,GIAC_CONTEXT){
+    if (is_inequation(newi) || newi.is_symb_of_sommet(at_and) || newi.is_symb_of_sommet(at_ou))
+      return gensizeerr(contextptr);
     if (i.type==_VECT){
       if (newi.type!=_VECT || i._VECTptr->size()!=newi._VECTptr->size()){
 #ifndef NO_STDEXCEPT

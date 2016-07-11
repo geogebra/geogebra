@@ -2510,6 +2510,10 @@ namespace giac {
     const_iterateur it=_res.begin(),itend=_res.end();
     vecteur res;
     for (;it!=itend;++it){
+      if (is_inequation(*it) || it->is_symb_of_sommet(at_ou) || it->is_symb_of_sommet(at_and)){
+	res.push_back(*it);
+	continue;
+      }
       if (!check(v.back(),*it,contextptr))
 	continue;
       gen tmp=subst(arg1,v.back(),*it,false,contextptr);
