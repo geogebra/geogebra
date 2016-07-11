@@ -2117,6 +2117,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected void switchModeForMousePressed(AbstractEvent e) {
 
+		// needed to stop animated rotation
+		processPressForRotate3D();
+
 		Hits hits;
 		PointerEventType type = e.getType();
 		switch (mode) {
@@ -2199,7 +2202,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 			break;
 
 		case EuclidianConstants.MODE_ROTATEVIEW:
-			processPressForRotate3D();
 			moveMode = MOVE_ROTATE_VIEW;
 			break;
 
