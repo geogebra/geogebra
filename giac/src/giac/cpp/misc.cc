@@ -6546,8 +6546,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
       gen fx=limit(f,xid,*it,0,contextptr);
       fx=recursive_normal(fx,contextptr);
+      if (!is_inf(fx) && !lidnt(evalf(fx,1,contextptr)).empty()) continue;
       gen fy=limit(g,xid,*it,0,contextptr);
       fy=recursive_normal(fy,contextptr);
+      if (!is_inf(fy) && !lidnt(evalf(fy,1,contextptr)).empty()) continue;
       if (is_inf(fx)){
 	if (!is_inf(fy)){
 	  gen equ=symb_equal(y__IDNT_e,fy);
@@ -6568,6 +6570,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  gprintf("Vertical parabolic branch at %gen",vecteur(1,*it),contextptr);
 	  continue;
 	}
+	else
+	  if (!lidnt(evalf(a,1,contextptr)).empty()) continue;
 	if (is_zero(a)){
 	  gprintf("Horizontal parabolic branch at %gen",vecteur(1,*it),contextptr);
 	  continue;
@@ -6579,6 +6583,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  gprintf("Parabolic branch direction at %gen: %gen",makevecteur(*it,symb_equal(y__IDNT_e,a*x__IDNT_e)),contextptr);
 	  continue;
 	}
+	else
+	  if (!lidnt(evalf(b,1,contextptr)).empty()) continue;
 	gen equ=symb_equal(y__IDNT_e,a*x__IDNT_e+b);
 	gprintf("Asymptote at %gen: %gen",makevecteur(*it,equ),contextptr);
 	gen dr=_droite(makesequence(equ,symb_equal(at_legende,equ),symb_equal(at_couleur,_RED)),contextptr);
@@ -6896,6 +6902,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       l=recursive_normal(l,contextptr);
       if (is_undef(l)) continue;
       if (!is_inf(l)){
+	if (!lidnt(evalf(l,1,contextptr)).empty()) continue;
 	equ=symb_equal(y__IDNT_e,l);
 	gprintf("Horizontal asymptote %gen",vecteur(1,equ),contextptr);
 	gen dr=_droite(makesequence(l*cst_i,l*cst_i+1,symb_equal(at_legende,equ),symb_equal(at_couleur,_RED)),contextptr);
@@ -6910,6 +6917,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	gprintf("Vertical parabolic branch at %gen",vecteur(1,a),contextptr);
 	continue;
       }
+      else
+	if (!lidnt(evalf(a,1,contextptr)).empty()) continue;
       if (is_zero(a)){
 	gprintf("Horizontal parabolic branch at %gen",vecteur(1,a),contextptr);
 	continue;
@@ -6917,10 +6926,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       gen b=limit(f-a*x,xid,*it,0,contextptr);
       b=recursive_normal(b,contextptr);
       if (is_undef(b)) continue;
+      // avoid bounded_function
       if (is_inf(b)){
 	gprintf("Parabolic branch direction %gen at infinity",vecteur(1,symb_equal(y__IDNT_e,a*x__IDNT_e)),contextptr);
 	continue;
       }
+      else
+	if (!lidnt(evalf(b,1,contextptr)).empty()) continue;
       equ=symb_equal(y__IDNT_e,a*x__IDNT_e+b);
       gprintf("Asymptote %gen",vecteur(1,equ),contextptr);
       gen dr=_droite(makesequence(equ,symb_equal(at_legende,equ),symb_equal(at_couleur,_RED)),contextptr);

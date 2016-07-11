@@ -641,11 +641,21 @@ namespace giac {
 	  }
 	}
       }
+#if 1
+      *logptr(contextptr) << gettext("Unable to isolate ")+string(x.print(contextptr))+" in "+e.print(contextptr) << gettext(", switching to approx. solutions") << endl;
+      gen a=_fsolve(makesequence(e,x),contextptr);
+      if (a.type==_VECT)
+	v=mergevecteur(v,*a._VECTptr);
+      else 
+	if (!is_undef(a)) v.push_back(a);
+      return;
+#else
 #ifndef NO_STDEXCEPT
       throw(std::runtime_error("Unable to isolate "+string(x.print(contextptr))+" in "+e.print(contextptr)));
 #endif
       v=vecteur(1,undeferr(gettext("Unable to isolate ")+string(x.print(contextptr))+" in "+e.print(contextptr)));
       return;
+#endif
     }
     gen xvar(lv.front());
     if (xvar!=x){ // xvar must be a unary function of x, except for a few special cases

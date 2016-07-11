@@ -2152,6 +2152,8 @@ namespace giac {
 	  }
 	  g=derive(g,x,contextptr);
 	}
+	if (direction==0 && j!=0)
+	  continue;
 	if (j!=5){
 	  // sign( x^j*tmp)
 	  tmp=sign(tmp,contextptr);
