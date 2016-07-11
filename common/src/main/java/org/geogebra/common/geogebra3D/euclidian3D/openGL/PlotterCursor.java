@@ -11,17 +11,17 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public class PlotterCursor {
 
-	static public int TYPE_CROSS2D = 0;
-	static public int TYPE_DIAMOND = 1;
-	static public int TYPE_CYLINDER = 2;
-	static public int TYPE_CROSS3D = 3;
-	static public int TYPE_ALREADY_XY = 4;
-	static public int TYPE_ALREADY_Z = 5;
-	static public int TYPE_ALREADY_XYZ = 6;
-	static public int TYPE_CUBE = 7;
-	static public int TYPE_SPHERE = 8;
-	static public int TYPE_SPHERE_HIGHLIGHTED = 9;
-	static public int TYPE_ROTATION = 10;
+	public static final int TYPE_CROSS2D = 0;
+	public static final int TYPE_DIAMOND = 1;
+	public static final int TYPE_CYLINDER = 2;
+	public static final int TYPE_CROSS3D = 3;
+	public static final int TYPE_ALREADY_XY = 4;
+	public static final int TYPE_ALREADY_Z = 5;
+	public static final int TYPE_ALREADY_XYZ = 6;
+	public static final int TYPE_CUBE = 7;
+	public static final int TYPE_SPHERE = 8;
+	public static final int TYPE_SPHERE_HIGHLIGHTED = 9;
+	public static final int TYPE_ROTATION = 10;
 
 	static private int TYPE_LENGTH = 11;
 
@@ -229,7 +229,7 @@ public class PlotterCursor {
 	 * @param type
 	 * @return true it type is of "already" (xy or z)
 	 */
-	static public boolean isTypeAlready(int type) {
+	public static final boolean isTypeAlready(int type) {
 		return type == TYPE_ALREADY_XY || type == TYPE_ALREADY_Z
 				|| type == TYPE_ALREADY_XYZ || type == TYPE_CUBE
 				|| type == TYPE_ROTATION;

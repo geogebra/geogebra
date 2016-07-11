@@ -10,13 +10,13 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public class PlotterCompletingCursor {
 
-	static public float START_DRAW = 0.5f;
-	static public float END_DRAW = 2f;
+	public static final float START_DRAW = 0.5f;
+	public static final float END_DRAW = 2f;
 
 	static private float coeff = 30f, coeffCircle = 1.25f,
 			coeffCompleting = 1.25f, coeffCircleOut = 0.75f;
 
-	static public double WIDTH = 10;
+	public static final double WIDTH = 10;
 
 	private int index, indexCircle, indexCircleOut;
 

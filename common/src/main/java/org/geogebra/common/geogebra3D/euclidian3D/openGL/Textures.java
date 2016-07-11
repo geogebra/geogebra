@@ -20,28 +20,28 @@ public class Textures {
 	/** opengl organization of the dash textures */
 	private int[] texturesIndex;
 	/** no dash. */
-	static public int DASH_INIT = -1;
+	public static final int DASH_INIT = -1;
 	/** no dash. */
-	static public int DASH_NONE = 0;
+	public static final int DASH_NONE = 0;
 	/** simple dash: 1-(1), ... */
 
-	static public int DASH_SHORT = 1;
+	public static final int DASH_SHORT = 1;
 	/** long dash: 2-(2), ... */
-	static public int DASH_LONG = 7;
+	public static final int DASH_LONG = 7;
 	/** dotted dash: 1-(1)-1-(1)-1-(1)-1-(1), ... */
-	static public int DASH_DOTTED = 3;
+	public static final int DASH_DOTTED = 3;
 	/** dotted/dashed dash: 7-(4)-1-(4), ... */
-	static public int DASH_DOTTED_DASHED = 8;
+	public static final int DASH_DOTTED_DASHED = 8;
 	/** (hidden) no dash. */
-	static public int DASH_NONE_HIDDEN = 5;
+	public static final int DASH_NONE_HIDDEN = 5;
 	/** (hidden) simple dash: 1-(1), ... */
-	static public int DASH_SHORT_HIDDEN = 6;
+	public static final int DASH_SHORT_HIDDEN = 6;
 	/** (hidden) long dash: 2-(2), ... */
-	static public int DASH_LONG_HIDDEN = 2;
+	public static final int DASH_LONG_HIDDEN = 2;
 	/** (hidden) dotted dash: 1-(3), ... */
-	static public int DASH_DOTTED_HIDDEN = 4;
+	public static final int DASH_DOTTED_HIDDEN = 4;
 	/** (hidden) dotted/dashed dash: 7-(4)-1-(4), ... */
-	static public int DASH_DOTTED_DASHED_HIDDEN = 9;
+	public static final int DASH_DOTTED_DASHED_HIDDEN = 9;
 	//
 
 	/** number of dash styles */
@@ -66,7 +66,7 @@ public class Textures {
 	/**
 	 * dash values for shaders
 	 */
-	static public float[][] DASH_SHADERS_VALUES = {
+	public static final float[][] DASH_SHADERS_VALUES = {
 			// coeff, a, b, c
 			// in shaders : x = mod(dashValues[0] * coordTexture.x, 1.0)
 			// if (x > a || (x > b && x <= c)) then discard
@@ -102,7 +102,7 @@ public class Textures {
 	// /////////////////
 	// fading
 	/** fading texture for surfaces */
-	static public int FADING = DASH_NUMBER;
+	public static final int FADING = DASH_NUMBER;
 
 	static private int TEXTURES_NUMBER = FADING + 1;
 
