@@ -590,6 +590,18 @@ public class RadioTreeItem extends AVTreeItem
 		if (btnClearInput == null) {
 			btnClearInput = new PushButton(new Image(
 					GuiResources.INSTANCE.algebra_delete()));
+			btnClearInput.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					if (latexItem != null) {
+						DrawEquationW.stornoFormulaMathQuillGGB(
+								RadioTreeItem.this, latexItem);
+						RadioTreeItem.this.setFocus(true);
+						event.stopPropagation();
+					}
+				}
+
+			});
 		}
 		return btnClearInput;
 	}
