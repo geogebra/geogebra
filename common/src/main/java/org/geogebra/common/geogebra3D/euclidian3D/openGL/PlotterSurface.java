@@ -67,11 +67,12 @@ public class PlotterSurface {
 	/**
 	 * start new surface
 	 * 
-	 * @param function
+	 * @param fun
+	 *            function
 	 */
-	public void start(Functional2Var function, int old) {
+	public void start(Functional2Var fun, int old) {
 		index = manager.startNewList(old);
-		this.functional2Var = function;
+		this.functional2Var = fun;
 		uMinFade = 0;
 		vMinFade = 0;
 		uMaxFade = 0;
@@ -82,11 +83,12 @@ public class PlotterSurface {
 	/**
 	 * start new surface
 	 * 
-	 * @param function
+	 * @param fun
+	 *            function
 	 */
-	public void start(GeoFunctionNVar function, int old) {
+	public void start(GeoFunctionNVar fun, int old) {
 		index = manager.startNewList(old);
-		this.function = function;
+		this.function = fun;
 		uMinFade = 0;
 		vMinFade = 0;
 		uMaxFade = 0;
@@ -299,20 +301,20 @@ public class PlotterSurface {
 	 *            second vertex
 	 * @param p3
 	 *            last vertex
-	 * @param n1
+	 * @param norm1
 	 *            first normal
-	 * @param n2
+	 * @param norm2
 	 *            second normal
-	 * @param n3
+	 * @param norm3
 	 *            third normal
 	 */
-	public void triangle(Coords3 p1, Coords3 p2, Coords3 p3, Coords3 n1,
-			Coords3 n2, Coords3 n3) {
-		manager.normal(n1.getXd(), n1.getYd(), n1.getZd());
+	public void triangle(Coords3 p1, Coords3 p2, Coords3 p3, Coords3 norm1,
+			Coords3 norm2, Coords3 norm3) {
+		manager.normal(norm1.getXd(), norm1.getYd(), norm1.getZd());
 		manager.vertexToScale(p1.getXd(), p1.getYd(), p1.getZd());
-		manager.normal(n2.getXd(), n2.getYd(), n2.getZd());
+		manager.normal(norm2.getXd(), norm2.getYd(), norm2.getZd());
 		manager.vertexToScale(p2.getXd(), p2.getYd(), p2.getZd());
-		manager.normal(n3.getXd(), n3.getYd(), n3.getZd());
+		manager.normal(norm3.getXd(), norm3.getYd(), norm3.getZd());
 		manager.vertexToScale(p3.getXd(), p3.getYd(), p3.getZd());
 	}
 
@@ -332,8 +334,8 @@ public class PlotterSurface {
 		manager.vertexDirect(p);
 	}
 
-	public void normalDirect(Coords3 n) {
-		manager.normalDirect(n);
+	public void normalDirect(Coords3 n0) {
+		manager.normalDirect(n0);
 	}
 
 	public void endGeometryDirect() {
@@ -741,7 +743,7 @@ public class PlotterSurface {
 			}
 		}
 
-		Coords n1 = new Coords(4), n2 = new Coords(4), n1b = new Coords(4), n2b = new Coords(
+		Coords norm1 = new Coords(4), norm2 = new Coords(4), n1b = new Coords(4), n2b = new Coords(
 				4);
 
 		double[] cosSinV = new double[2];
@@ -774,7 +776,7 @@ public class PlotterSurface {
 			}
 
 			// first values
-			n2.set(coordsArray[0]);
+			norm2.set(coordsArray[0]);
 			sphericalCoords(0, longitude, longitudeStart, cosSinV, n2b);
 
 			// first : no jump
@@ -783,8 +785,8 @@ public class PlotterSurface {
 			for (int ui = shift; ui <= longitudeLength; ui += shift) {
 
 				// last latitude values
-				n1.set(n2);
-				n2.set(coordsArray[ui]);
+				norm1.set(norm2);
+				norm2.set(coordsArray[ui]);
 
 				// new latitude values and draw triangles
 				n1b.set(n2b);
@@ -795,23 +797,23 @@ public class PlotterSurface {
 								cosSinV, n2b);
 
 						if (vi < latitudeMaxTop) {// top triangles
-							drawNCr(n1, center, radius);
-							drawNCr(n2, center, radius);
+							drawNCr(norm1, center, radius);
+							drawNCr(norm2, center, radius);
 							drawNCr(n1b, center, radius);
 
 							drawNCr(n1b, center, radius);
-							drawNCr(n2, center, radius);
+							drawNCr(norm2, center, radius);
 							drawNCr(n2b, center, radius);
 						}
 
 						if (vi < latitudeMaxBottom) {// bottom triangles
-							drawNCrm(n1, center, radius);
+							drawNCrm(norm1, center, radius);
 							drawNCrm(n1b, center, radius);
-							drawNCrm(n2, center, radius);
+							drawNCrm(norm2, center, radius);
 
 							drawNCrm(n1b, center, radius);
 							drawNCrm(n2b, center, radius);
-							drawNCrm(n2, center, radius);
+							drawNCrm(norm2, center, radius);
 						}
 
 					} else { // draw edge triangle
@@ -820,15 +822,15 @@ public class PlotterSurface {
 								n2b);
 
 						if (vi < latitudeMaxTop) {// top triangles
-							drawNCr(n1, center, radius);
-							drawNCr(n2, center, radius);
+							drawNCr(norm1, center, radius);
+							drawNCr(norm2, center, radius);
 							drawNCr(n1b, center, radius);
 						}
 
 						if (vi < latitudeMaxBottom) {// bottom triangles
-							drawNCrm(n1, center, radius);
+							drawNCrm(norm1, center, radius);
 							drawNCrm(n1b, center, radius);
-							drawNCrm(n2, center, radius);
+							drawNCrm(norm2, center, radius);
 						}
 
 					}
@@ -837,21 +839,21 @@ public class PlotterSurface {
 					sphericalCoords(ui, longitude, longitudeStart, cosSinV, n2b);
 
 					if (vi < latitudeMaxTop) {// top triangles
-						drawNCr(n1, center, radius);
-						drawNCr(n2, center, radius);
+						drawNCr(norm1, center, radius);
+						drawNCr(norm2, center, radius);
 						drawNCr(n1b, center, radius);
 
-						drawNCr(n2, center, radius);
+						drawNCr(norm2, center, radius);
 						drawNCr(n2b, center, radius);
 						drawNCr(n1b, center, radius);
 					}
 
 					if (vi < latitudeMaxBottom) {// bottom triangles
-						drawNCrm(n1, center, radius);
+						drawNCrm(norm1, center, radius);
 						drawNCrm(n1b, center, radius);
-						drawNCrm(n2, center, radius);
+						drawNCrm(norm2, center, radius);
 
-						drawNCrm(n2, center, radius);
+						drawNCrm(norm2, center, radius);
 						drawNCrm(n1b, center, radius);
 						drawNCrm(n2b, center, radius);
 					}
@@ -878,21 +880,21 @@ public class PlotterSurface {
 
 		if (latitudeMax == latitude) {
 			// pole
-			n2.set(coordsArray[0]);
+			norm2.set(coordsArray[0]);
 			for (int ui = shift; ui <= longitudeLength; ui += shift) {
-				n1.set(n2);
-				n2.set(coordsArray[ui]);
+				norm1.set(norm2);
+				norm2.set(coordsArray[ui]);
 
 				if (latitudeMaxTop == latitude) {// top triangles
-					drawNCr(n1, center, radius);
-					drawNCr(n2, center, radius);
+					drawNCr(norm1, center, radius);
+					drawNCr(norm2, center, radius);
 					drawNCr(Coords.VZ, center, radius);
 				}
 
 				if (latitudeMaxBottom == latitude) {// bottom triangles
-					drawNCrm(n1, center, radius);
+					drawNCrm(norm1, center, radius);
 					drawNCrm(Coords.VZ, center, radius);
-					drawNCrm(n2, center, radius);
+					drawNCrm(norm2, center, radius);
 				}
 
 			}
@@ -936,7 +938,7 @@ public class PlotterSurface {
 		manager.endGeometry();
 	}
 
-	private Coords n1, n2, n3, n4, v1, v2, v3, v4;
+	// private Coords n1, n2, n3, n4, v1, v2, v3, v4;
 
 	public void drawSphere(int size, Coords center, double radius) {
 
@@ -1532,7 +1534,6 @@ public class PlotterSurface {
 	}
 
 	private Coords calcNormal(float x, float y, float z) {
-		double[] n = new double[3];
 		Coords v0 = new Coords(x, y, z, 0);
 		Coords v1 = function.evaluatePoint(x + 1e-9, y);
 		Coords v2 = function.evaluatePoint(x, y + 1e-9);
