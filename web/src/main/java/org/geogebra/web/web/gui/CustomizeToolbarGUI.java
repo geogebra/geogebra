@@ -614,7 +614,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	private Button btApply;
 	private String oldToolbarString;
 	private DockPanelW dockPanel;
-	private int toolBarId;
+	private int toolbarId;
 
 	/**
 	 * @param app
@@ -625,7 +625,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		addHeader();
 		addContent();
 		addFooter();
-		toolBarId = -1;
+		setToolbarId(-1);
 		update();
 	}
 
@@ -827,17 +827,25 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	 * updates the the tools
 	 */
 	public void update() {
-		update(toolBarId);
+		update(getToolbarId());
 	}
 
 	/**
 	 * updates the tools
 	 */
-	public void update(int id) {
-		toolBarId = id;
-		updateUsedTools(id);
-		updateAllTools();
-		setLabels();
+	public void update(int toolbarId) {
+		this.toolbarId = toolbarId;
+		updateTools();
+
+	}
+
+	private void buildOldToolbarString() {
+		oldToolbarString = dockPanel.getDefaultToolbarString();
+		if (oldToolbarString == null) {
+			oldToolbarString = ((GuiManagerW) app.getGuiManager())
+					.getToolbarDefinition();
+
+		}
 	}
 
 	private void updateUsedTools(int id) {
@@ -850,7 +858,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		} else {
 			dockPanel = ((GuiManagerW) app.getGuiManager()).getLayout()
 			        .getDockManager().getPanel(id);
-			oldToolbarString = dockPanel.getDefaultToolbarString();
+			buildOldToolbarString();
 		}
 
 		buildUsedTools(oldToolbarString);
@@ -954,6 +962,9 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		if (dockPanel != null) {
 			dockPanel.setToolbarString(current);
 			dockPanel.updatePanel(true);
+			GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
+			gm.setToolBarDefinition(current);
+			gm.updateToolbar();
 		} else {
 			setGeneralToolbar(current);
 		}
@@ -1007,5 +1018,21 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	@Override
 	public AppW getApp() {
 		return app;
+	}
+
+	public int getToolbarId() {
+		return toolbarId;
+	}
+
+	public void setToolbarId(int toolbarId) {
+		this.toolbarId = toolbarId;
+		header.setSelectedViewId(toolbarId);
+		updateTools();
+	}
+
+	public void updateTools() {
+		updateUsedTools(toolbarId);
+		updateAllTools();
+		setLabels();
 	}
 }

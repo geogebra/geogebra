@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
@@ -28,6 +29,16 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	private int selectedViewId;
 	private CustomizeToolbarListener listener;
 
+	private class ViewButton extends MyToggleButton2 {
+
+		private int id;
+
+		public ViewButton(Image img, int viewId) {
+			super(img);
+			this.id = viewId;
+		}
+
+	}
 	CustomizeToolbarHeaderPanel(AppW app, MyHeaderPanel gui) {
 		super(app.getLocalization(), gui);
 		this.app = app;
@@ -68,8 +79,10 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 					}
 				}
 
-				final MyToggleButton2 btn = new MyToggleButton2(
-						new NoDragImage(ImgResourceHelper.safeURI(res), 24));
+				final ViewButton btn = new ViewButton(
+						new NoDragImage(ImgResourceHelper.safeURI(res), 24),
+						viewId);
+
 				btn.addClickHandler(new ClickHandler() {
 
 					public void onClick(ClickEvent event) {
@@ -78,6 +91,8 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 						listener.update(selectedViewId);
 					}
 				});
+
+
 				buttons.add(btn);
 			}
 		}
@@ -106,8 +121,22 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		}
 	}
 
+	private void checkViewButton(int viewId) {
+		for (int i = 0; i < buttons.getWidgetCount(); i++) {
+			Widget w = buttons.getWidget(i);
+			if (w instanceof ViewButton) {
+				ViewButton btn = (ViewButton) w;
+				btn.setValue(btn.id == viewId);
+			}
+		}
+	}
+
 	public int getSelectedViewId() {
 		return selectedViewId;
 	}
 
+	public void setSelectedViewId(int viewId) {
+		selectedViewId = viewId;
+		checkViewButton(viewId);
+	}
 }

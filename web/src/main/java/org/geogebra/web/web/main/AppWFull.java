@@ -25,6 +25,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -583,6 +584,9 @@ public abstract class AppWFull extends AppW {
 		if (this.ct == null) {
 			this.ct = new CustomizeToolbarGUI(this);
 		}
+		int toolbarId = getGuiManager().getActiveToolbarId();
+		Log.debug("[CT] toolbarId: " + toolbarId);
+		ct.setToolbarId(toolbarId);
 		return this.ct;
 	}
 
