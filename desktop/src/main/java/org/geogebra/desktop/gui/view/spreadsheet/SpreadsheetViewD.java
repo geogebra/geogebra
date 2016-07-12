@@ -368,8 +368,9 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	public void clearView() {
 
-		// restore defaults;
-		app.getSettings().restoreDefaultSpreadsheetSettings();
+		// moved to restart to fix GGB-1038
+		// // restore defaults;
+		// app.getSettings().restoreDefaultSpreadsheetSettings();
 		setDefaultSelection();
 		table.oneClickEditMap.clear();
 		tableModel.clearView();
@@ -396,6 +397,9 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	 * or when new window is called
 	 */
 	public void restart() {
+
+		// moved here because of GGB-1038
+		app.getSettings().restoreDefaultSpreadsheetSettings();
 
 		clearView();
 		tableModel.clearView();
@@ -623,8 +627,9 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	public void setRowHeightsFromSettings() {
 		HashMap<Integer, Integer> heightMap = app.getSettings()
 				.getSpreadsheet().getHeightMap();
-		table.setRowHeight(app.getSettings().getSpreadsheet()
-				.preferredRowHeight());
+
+		table.setRowHeight(
+				app.getSettings().getSpreadsheet().preferredRowHeight());
 		if (!heightMap.isEmpty()) {
 			for (Integer r : heightMap.keySet()) {
 				table.setRowHeight(r, heightMap.get(r));
