@@ -3029,6 +3029,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		boolean ret;
 		if (fileName.length == 0 || fileName[0] == null) {
 			ret = false;
+			app.setMoveMode();
 		} else {
 			// create GeoImage object(s) for this fileName
 			GeoImage geoImage = null;
