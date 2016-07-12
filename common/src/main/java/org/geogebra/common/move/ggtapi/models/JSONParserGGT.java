@@ -1,13 +1,13 @@
 package org.geogebra.common.move.ggtapi.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JSONParserGGT {
 	public static final JSONParserGGT prototype = new JSONParserGGT();
@@ -61,6 +61,7 @@ public class JSONParserGGT {
 		material.setDeleted(getBoolean(obj, "deleted", false));
 		material.setFromAnotherDevice(
 				getBoolean(obj, "from_another_device", false));
+		material.setIs3d(getStringBoolean(obj, "is3d", false));
 		return material;
 	}
 
@@ -126,6 +127,22 @@ public class JSONParserGGT {
 			return def;
 		}
 		return Long.parseLong(str.toString());
+	}
+
+	private boolean getStringBoolean(JSONObject obj, String name, boolean def) {
+		if (!obj.has(name)) {
+			return def;
+		}
+		String value = null;
+		try {
+			value = obj.getString(name);
+			if ("".equals(value)) {
+				return def;
+			}
+		} catch (Exception e) {
+
+		}
+		return "0".equals(value) ? false : true;
 	}
 
 	public void addEvent(JSONObject object, ArrayList<SyncEvent> events) {

@@ -1,11 +1,11 @@
 package org.geogebra.common.move.ggtapi.models;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Material POJO
@@ -355,6 +355,7 @@ public class Material implements Comparable<Material>, Serializable {
 		putBoolean(ret, "menubar", this.showMenu);
 		putBoolean(ret, "inputbar", this.showInputbar);
 		putBoolean(ret, "from_another_device", this.fromAnotherDevice);
+		putString(ret, "is3d", this.is3d ? "1" : "0");
 		return ret;
 	}
 
