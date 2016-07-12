@@ -359,4 +359,8 @@ public class CreateObjectModel {
 	}
 
 
+	public GeoElement getGeo() {
+		return newGeo;
+	}
+
 }
