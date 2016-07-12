@@ -302,7 +302,7 @@ public class MathQuillHelper {
 								// but still better to put this in keypress later,
 								// just it should be assigned in the bubbling phase of keypress
 								// after MathQuillGGB has executed its own code, just it is not easy...
-								@org.geogebra.web.html5.main.DrawEquationW::scrollCursorIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
+								@org.geogebra.web.html5.main.MathQuillHelper::scrollCursorIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 
 								if (newCreationMode) {
 									// the same method can be called from the on-screen keyboard!
@@ -328,7 +328,7 @@ public class MathQuillHelper {
 				})
 				.select(
 						function(event7) {
-							@org.geogebra.web.html5.main.DrawEquationW::scrollSelectionIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
+							@org.geogebra.web.html5.main.MathQuillHelper::scrollSelectionIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 						});
 
 		if (!newCreationMode) {
@@ -1228,5 +1228,60 @@ public class MathQuillHelper {
 		// otherwise, Line[A,B] and {1,2,3,4} are working, so probably Okay
 
 		return eqstring;
+	}
+
+	/**
+	 * This is an autoScroll to the edited formula in theory, so it could be
+	 * just a _scrollToBottom_ in practice, but there is a case when the
+	 * construction is long and a formula on its top is edited...
+	 * 
+	 * It's lucky that GWT's Element.scrollIntoView exists, so we can call that
+	 * method...
+	 * 
+	 * Moreover, we also need to scroll to the cursor, which can be done in one
+	 * operation in cases we need that...
+	 */
+	public static void scrollCursorIntoView(GeoContainer rbti,
+			Element parentElement, boolean newCreationMode) {
+		JavaScriptObject jo = grabCursorForScrollIntoView(parentElement);
+		if (jo != null) {
+			DrawEquationW.scrollJSOIntoView(jo, rbti, parentElement,
+					newCreationMode);
+		} else {
+			rbti.scrollIntoView();
+		}
+	}
+
+	public static native JavaScriptObject grabCursorForScrollIntoView(
+			Element parentElement) /*-{
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var elSecondInside = elSecond.lastChild;
+
+		var jQueryObject = $wnd.$ggbQuery(elSecondInside).find('.cursor');
+		if ((jQueryObject !== undefined) && (jQueryObject.length > 0)) {
+			return jQueryObject[0];
+		}
+		return null;
+	}-*/;
+
+	public static native JavaScriptObject grabSelectionFocusForScrollIntoView(
+			Element parentElement) /*-{
+
+		var jqel = $wnd.$ggbQuery(parentElement).find('.selection');
+
+		if ((jqel !== undefined) && (jqel.length !== undefined)
+				&& (jqel.length > 0)) {
+			return jqel[0];
+		} else {
+			return null;
+		}
+	}-*/;
+
+	public static void scrollSelectionIntoView(GeoContainer rbti,
+			Element parentElement, boolean newCreationMode) {
+		JavaScriptObject jo = grabSelectionFocusForScrollIntoView(
+				parentElement);
+		if (jo != null)
+			DrawEquationW.scrollJSOIntoView(jo, rbti, parentElement, false);
 	}
 }

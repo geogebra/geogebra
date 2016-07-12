@@ -169,97 +169,13 @@ public class DrawEquationW extends DrawEquation {
 		rbti.shuffleSuggestions(down);
 	}
 
-	public static native JavaScriptObject grabCursorForScrollIntoView(
-	        Element parentElement) /*-{
-		var elSecond = parentElement.firstChild.firstChild.nextSibling;
-		var elSecondInside = elSecond.lastChild;
 
-		var jQueryObject = $wnd.$ggbQuery(elSecondInside).find('.cursor');
-		if ((jQueryObject !== undefined) && (jQueryObject.length > 0)) {
-			return jQueryObject[0];
-		}
-		return null;
-	}-*/;
 
-	public static native JavaScriptObject grabSelectionFocusForScrollIntoView(
-	        Element parentElement) /*-{
 
-		var jqel = $wnd.$ggbQuery(parentElement).find('.selection');
 
-		if ((jqel !== undefined) && (jqel.length !== undefined)
-				&& (jqel.length > 0)) {
-			return jqel[0];
-		} else {
-			return null;
-		}
-	}-*/;/*
 
-		// The following code (based on $wnd.getSelection) does not work!
-		var selectionRang = $wnd.getSelection();
-		var resultNode = null;
-		if (selectionRang.rangeCount > 1) {
-			// select the range that is not the textarea!
-			for (var ii = 0; ii < selectionRang.rangeCount; ii++) {
-				resultNode = selectionRang.getRangeAt(ii).endContainer;
-				// it is probably a textNode, so let's get its parent node!
-				while (resultNode.nodeType === 3) {
-					resultNode = resultNode.parentNode;
-				}
-				// now if it is the textarea, then continue,
-				// otherwise break!
-				if (resultNode.nodeName.toLowerCase() === 'textarea') {
-					continue;
-				} else {
-					break;
-				}
-			}
-		} else if (selectionRang.rangeCount == 1) {
-			resultNode = selectionRang.focusNode;
-			// selectionRang is probably a textNode, so let's get its parent node!
-			while (resultNode.nodeType === 3) {
-				resultNode = resultNode.parentNode;
-			}
-		} else {
-			return null;
-		}
-		if (resultNode.nodeName.toLowerCase() === 'textarea') {
-			// now what? return null...
-			return null;
-		}
-		//resultNode.style.backgroundColor = 'red';
-		//resultNode.className += ' redimportant';
-		return resultNode;
-	}-*//*;*/
 
-	public static void scrollSelectionIntoView(GeoContainer rbti,
-	        Element parentElement, boolean newCreationMode) {
-		JavaScriptObject jo = grabSelectionFocusForScrollIntoView(parentElement);
-		if (jo != null)
-			scrollJSOIntoView(jo, rbti, parentElement, false);
-	}
-
-	/**
-	 * This is an autoScroll to the edited formula in theory, so it could be
-	 * just a _scrollToBottom_ in practice, but there is a case when the
-	 * construction is long and a formula on its top is edited...
-	 * 
-	 * It's lucky that GWT's Element.scrollIntoView exists, so we can call that
-	 * method...
-	 * 
-	 * Moreover, we also need to scroll to the cursor, which can be done in one
-	 * operation in cases we need that...
-	 */
-	public static void scrollCursorIntoView(GeoContainer rbti,
-	        Element parentElement, boolean newCreationMode) {
-		JavaScriptObject jo = grabCursorForScrollIntoView(parentElement);
-		if (jo != null) {
-			scrollJSOIntoView(jo, rbti, parentElement, newCreationMode);
-		} else {
-			rbti.scrollIntoView();
-		}
-	}
-
-	private static void scrollJSOIntoView(JavaScriptObject jo,
+	static void scrollJSOIntoView(JavaScriptObject jo,
 	        GeoContainer rbti, Element parentElement,
 	        boolean newCreationMode) {
 

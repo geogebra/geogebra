@@ -2624,7 +2624,7 @@ marblePanel, evt))) {
 	@Override
 	public void scrollCursorIntoView() {
 		if (latexItem != null) {
-			DrawEquationW.scrollCursorIntoView(this, latexItem.getElement(),
+			MathQuillHelper.scrollCursorIntoView(this, latexItem.getElement(),
 					isInputTreeItem());
 		}
 	}
