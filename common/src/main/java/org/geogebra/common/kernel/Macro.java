@@ -185,7 +185,6 @@ public class Macro {
 			throws Exception {
 		// check that every output object depends on an input object
 		// and that all input objects are really needed
-
 		for (int i = 0; i < output.length; i++) {
 			boolean dependsOnInput = false;
 
@@ -310,7 +309,9 @@ public class Macro {
 		}
 
 		// 5) create XML representation for macro-construction
-		macroConsXML = buildMacroXML(input[0].kernel, macroConsOrigElements);
+		macroConsXML = buildMacroXML(
+				input.length == 0 ? kernel : input[0].kernel,
+				macroConsOrigElements);
 
 		// if we used temp labels in step (4) remove them again
 		for (int i = 0; i < input.length; i++) {
