@@ -63,18 +63,25 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		DockPanelD[] panels = ((LayoutD) ((GuiManagerD) app.getGuiManager())
 				.getLayout()).getDockManager().getPanels();
 
+		int toolbarId = app.getGuiManager().getActiveToolbarId();
+		int selIdx = 0;
 		for (DockPanelD panel : panels) {
 			if (panel.canCustomizeToolbar()) {
-				switcher.addItem(new KeyValue(panel.getViewId(), app
+				int viewId = panel.getViewId();
+				switcher.addItem(new KeyValue(viewId,
+						app
 						.getPlain(panel.getViewTitle())));
+				if (viewId == toolbarId) {
+					selIdx = switcher.getItemCount() - 1;
+				}
 			}
 		}
+
 
 		switcher.addActionListener(this); // add at the end to not be notified
 											// about items being added
 
 		JPanel switcherPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		switcherPanel.add(switcher);
 
 		getContentPane().setLayout(new BorderLayout(5, 5));
 		getContentPane().add(switcherPanel, BorderLayout.NORTH);
@@ -84,6 +91,10 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 
 		pack();
 		setLocationRelativeTo(app.getFrame());
+
+		switcherPanel.add(switcher);
+		switcher.setSelectedIndex(selIdx);
+
 	}
 
 	/**

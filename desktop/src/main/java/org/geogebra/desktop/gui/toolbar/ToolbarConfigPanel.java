@@ -400,7 +400,11 @@ public class ToolbarConfigPanel extends JPanel
 
 	public void apply() {
 		if (dockPanel != null) {
-			dockPanel.setToolbarString(getToolBarString());
+			String current = getToolBarString();
+			dockPanel.setToolbarString(current);
+			// GuiManagerD gm = ((GuiManagerD) app.getGuiManager());
+			// gm.setToolBarDefinition(current);
+			// gm.updateToolbar();
 		} else {
 			((GuiManagerD) app.getGuiManager())
 					.setToolBarDefinition(getToolBarString());
