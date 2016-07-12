@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ImageFactory;
@@ -47,12 +48,22 @@ public class PerspectivesMenuW extends GMenuBar {
 		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
 	    ArrayList<ResourcePrototype> icons = new ArrayList<ResourcePrototype>();
 	    PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
-	    icons.add(pr.menu_icon_algebra());
-	    icons.add(pr.menu_icon_geometry());
-	    icons.add(pr.menu_icon_spreadsheet());
-	    icons.add(pr.menu_icon_cas());
-	    icons.add(pr.menu_icon_graphics3D());
-	    icons.add(pr.menu_icon_probability());
+		if (app.has(Feature.NEW_START_SCREEN)) {
+			icons.add(pr.menu_icon_algebra());
+			icons.add(pr.menu_icon_cas());
+			icons.add(pr.menu_icon_geometry());
+			icons.add(pr.menu_icon_graphics3D());
+			icons.add(pr.menu_icon_spreadsheet());
+			icons.add(pr.menu_icon_probability());
+			icons.add(pr.menu_icon_exam());
+		} else {
+			icons.add(pr.menu_icon_algebra());
+			icons.add(pr.menu_icon_geometry());
+			icons.add(pr.menu_icon_spreadsheet());
+			icons.add(pr.menu_icon_cas());
+			icons.add(pr.menu_icon_graphics3D());
+			icons.add(pr.menu_icon_probability());
+		}
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
 			if(defaultPerspectives[i] == null){
 				continue;
@@ -73,6 +84,7 @@ public class PerspectivesMenuW extends GMenuBar {
 			});			
 		}
 		// this is enabled always
+
 	}
 
 	/**

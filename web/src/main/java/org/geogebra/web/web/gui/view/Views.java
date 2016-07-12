@@ -94,11 +94,11 @@ public class Views {
 	private static ArrayList<ViewType> extensions = new ArrayList<ViewType>();
 	static {
 		views.add(ViewType.ALGEBRA);
+		views.add(ViewType.CAS);
 		views.add(ViewType.GRAPHICS);
 		views.add(ViewType.GRAPHICS_2);
 		views.add(ViewType.GRAPHICS_3D);
 		views.add(ViewType.SPREADSHEET);
-		views.add(ViewType.CAS);
 		views.add(ViewType.PROBABILITY);
 		extensions.add(ViewType.CONSTRUCTION_PROTOCOL);
 	}

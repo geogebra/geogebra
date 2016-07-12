@@ -41,10 +41,10 @@ public class PerspectivesPopup {
 		PerspectiveResources pr = ((ImageFactory) GWT
 				.create(ImageFactory.class)).getPerspectiveResources();
 		icons.add(pr.menu_icon_algebra());
-		icons.add(pr.menu_icon_geometry());
-		icons.add(pr.menu_icon_spreadsheet());
 		icons.add(pr.menu_icon_cas());
+		icons.add(pr.menu_icon_geometry());
 		icons.add(pr.menu_icon_graphics3D());
+		icons.add(pr.menu_icon_spreadsheet());
 		icons.add(pr.menu_icon_probability());
 		icons.add(pr.menu_icon_exam());
 		icons.add(GuiResources.INSTANCE.icon_help());
