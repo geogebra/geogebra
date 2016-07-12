@@ -1044,6 +1044,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			return Coords3.UNDEFINED;
 		}
 
+		updateBounds(p);
+
 		if (inCullingBox(p)) {
 			return p;
 		}
