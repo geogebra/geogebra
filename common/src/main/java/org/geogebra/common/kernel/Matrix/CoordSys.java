@@ -1059,13 +1059,13 @@ public class CoordSys {
 		setOrigin(matrixOrthonormal.getOrigin());
 		
 		double p = -2*getVx().dotproduct(vn);
-		setVx(tmpCoords2.setAdd(tmpCoords3.setMul(getVx(), -1),tmpCoords2.setMul(vn,p)));
+		setVx(tmpCoords2.setAdd(getVx(), tmpCoords2.setMul(vn, p)));
 
 		if (dimension==2){
 			p = -2*getVy().dotproduct(vn);
-			setVy(tmpCoords2.setAdd(tmpCoords3.setMul(getVy(), -1),tmpCoords2.setMul(vn,p)));
+			setVy(tmpCoords2.setAdd(getVy(), tmpCoords2.setMul(vn, p)));
 			p = -2*getVz().dotproduct(vn);
-			setVz(tmpCoords2.setAdd(tmpCoords3.setMul(getVz(), -1),tmpCoords2.setMul(vn,p)));
+			setVz(tmpCoords2.setAdd(getVz(), tmpCoords2.setMul(vn, p)));
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
 	}
