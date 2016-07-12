@@ -2459,7 +2459,9 @@ new GPoint(row, column));
 				} else {
 					tmp_perspective.setShowToolBar(showToolBar.equals("true"));
 				}
-				tmp_perspective.setToolbarDefinition(attrs.get("items"));
+				String items = attrs.get("items");
+				tmp_perspective.setToolbarDefinition(
+						"null".equals(items) ? null : items);
 
 				// GeoGebra 4.2 (supports toolbar position and toggling help)
 				if (attrs.get("position") != null) {
