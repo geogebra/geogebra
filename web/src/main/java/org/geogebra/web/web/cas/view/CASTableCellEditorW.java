@@ -14,6 +14,7 @@ import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.main.MathQuillHelper;
 import org.geogebra.web.web.gui.view.algebra.EquationEditor;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.ScrollableSuggestionDisplay;
@@ -51,9 +52,9 @@ public class CASTableCellEditorW extends Label implements
 		this.ml = ml;
 		this.editor = new EquationEditor(app, this);
 		this.seMayLaTeX = DOM.createSpan().cast();
-		DrawEquationW.drawEquationAlgebraView(seMayLaTeX, "", true);
+		MathQuillHelper.drawEquationAlgebraView(seMayLaTeX, "", true);
 		EquationEditor.updateNewStatic(seMayLaTeX);
-		DrawEquationW.editEquationMathQuillGGB(this, seMayLaTeX, true);
+		MathQuillHelper.editEquationMathQuillGGB(this, seMayLaTeX, true);
 		this.getElement().appendChild(seMayLaTeX);
 		this.getElement().addClassName("hasCursorPermanent");
 		this.addDomHandler(new MouseUpHandler() {
@@ -120,7 +121,7 @@ public class CASTableCellEditorW extends Label implements
 	}
 
 	public String getInput() {
-		return DrawEquationW.getActualEditedValue(seMayLaTeX, false);
+		return MathQuillHelper.getActualEditedValue(seMayLaTeX, false);
 	}
 
 	public void setInputSelectionStart(int selStart) {
@@ -177,9 +178,8 @@ public class CASTableCellEditorW extends Label implements
 	public void insertString(String text) {
 		// "this" can be null, it only calls the typing method
 		// which is empty now...
-		DrawEquationW.writeLatexInPlaceOfCurrentWord(this, seMayLaTeX, text,
-				"",
-				false);
+		MathQuillHelper.writeLatexInPlaceOfCurrentWord(this, seMayLaTeX, text,
+				"", false);
 	}
 
 	@Override
@@ -307,19 +307,19 @@ public class CASTableCellEditorW extends Label implements
 
 	public void keypress(char character, boolean alt, boolean ctrl,
 			boolean shift, boolean more) {
-		DrawEquationW.triggerKeypress(this, this.seMayLaTeX, character, alt,
+		MathQuillHelper.triggerKeypress(this, this.seMayLaTeX, character, alt,
 				ctrl,
 				shift, more);
 
 	}
 
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		DrawEquationW.triggerKeydown(this, seMayLaTeX, key, alt, ctrl, shift);
+		MathQuillHelper.triggerKeydown(this, seMayLaTeX, key, alt, ctrl, shift);
 
 	}
 
 	public void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
-		DrawEquationW.triggerKeyUp(seMayLaTeX, key, alt, ctrl, shift);
+		MathQuillHelper.triggerKeyUp(seMayLaTeX, key, alt, ctrl, shift);
 
 	}
 
@@ -331,7 +331,7 @@ public class CASTableCellEditorW extends Label implements
 	public void ensureEditing() {
 		if (!thisIsEdited) {
 			thisIsEdited = true;
-			DrawEquationW.editEquationMathQuillGGB(this, seMayLaTeX, true);
+			MathQuillHelper.editEquationMathQuillGGB(this, seMayLaTeX, true);
 		}
 		// TODO Auto-generated method stub
 
@@ -356,7 +356,8 @@ public class CASTableCellEditorW extends Label implements
 	}
 
 	public String getLaTeX() {
-		return dollarFix(DrawEquationW.getActualEditedValue(seMayLaTeX, true));
+		return dollarFix(
+				MathQuillHelper.getActualEditedValue(seMayLaTeX, true));
 	}
 
 	private String dollarFix(String actualEditedValue) {
@@ -396,7 +397,8 @@ public class CASTableCellEditorW extends Label implements
 						.handleFirstLetter(s.charAt(0), editingRow, this);
 			}
 			if (needsFocus) {
-				DrawEquationW.editEquationMathQuillGGB(this, seMayLaTeX, true);
+				MathQuillHelper.editEquationMathQuillGGB(this, seMayLaTeX,
+						true);
 			}
 		}
 
@@ -417,7 +419,7 @@ public class CASTableCellEditorW extends Label implements
 
 					@Override
 					public void callback(Object obj) {
-						DrawEquationW.stornoFormulaMathQuillGGB(
+						MathQuillHelper.stornoFormulaMathQuillGGB(
 								CASTableCellEditorW.this,
 								seMayLaTeX);
 

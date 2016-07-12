@@ -58,6 +58,7 @@ import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.main.MathQuillHelper;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
@@ -1143,7 +1144,7 @@ public class RadioTreeItem extends AVTreeItem
 			return;
 		}
 		if (commonEditingCheck()) {
-			DrawEquationW.triggerKeydown(this, latexItem.getElement(), key,
+			MathQuillHelper.triggerKeydown(this, latexItem.getElement(), key,
 					alt, ctrl,
 					shift);
 		}
@@ -1175,7 +1176,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (commonEditingCheck()) {
-			DrawEquationW.triggerKeypress(this, latexItem.getElement(),
+			MathQuillHelper.triggerKeypress(this, latexItem.getElement(),
 					character, alt,
 					ctrl, shift, more);
 		}
@@ -1202,7 +1203,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (commonEditingCheck()) {
-			DrawEquationW.triggerKeyUp(latexItem.getElement(), key, alt, ctrl,
+			MathQuillHelper.triggerKeyUp(latexItem.getElement(), key, alt, ctrl,
 					shift);
 		}
 	}
@@ -1437,7 +1438,7 @@ public class RadioTreeItem extends AVTreeItem
 			if (text0 == null) {
 				text = "";
 			}
-			text = DrawEquationW.inputLatexCosmetics(text);
+			text = MathQuillHelper.inputLatexCosmetics(text);
 
 			String latexString = "";
 			if (!isInputTreeItem()) {
@@ -1447,7 +1448,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 			ihtml.add(latexItem);
-			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
+			MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
 
 
@@ -1499,7 +1500,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (text0 == null) {
 			text = "";
 		}
-		text = DrawEquationW.inputLatexCosmetics(text);
+		text = MathQuillHelper.inputLatexCosmetics(text);
 
 		String latexString = "";
 		if (!isInputTreeItem()) {
@@ -1521,13 +1522,13 @@ public class RadioTreeItem extends AVTreeItem
 
 			latexItem.addStyleName("avDefinition");
 
-			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
+			MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
 
 		} else {
 			latexItem.removeStyleName("avDefinition");
 			ihtml.add(latexItem);
-			DrawEquationW.drawEquationAlgebraView(latexItem, latexString,
+			MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
 		}
 	}
@@ -1561,7 +1562,7 @@ public class RadioTreeItem extends AVTreeItem
 			return;
 		}
 			// if (LaTeX) {
-		DrawEquationW.endEditingEquationMathQuillGGB(this, latexItem);
+		MathQuillHelper.endEditingEquationMathQuillGGB(this, latexItem);
 		// if (c != null) {
 		// LayoutUtil.replace(ihtml, c, latexItem);
 		// // ihtml.getElement().replaceChild(c.getCanvasElement(),
@@ -1643,7 +1644,7 @@ public class RadioTreeItem extends AVTreeItem
 			renderLatex(text, old, true);
 		}
 
-		DrawEquationW.editEquationMathQuillGGB(this, latexItem, false);
+		MathQuillHelper.editEquationMathQuillGGB(this, latexItem, false);
 
 		app.getGuiManager().setOnScreenKeyboardTextField(this);
 		CancelEventTimer.keyboardSetVisible();
@@ -1790,7 +1791,7 @@ public class RadioTreeItem extends AVTreeItem
 					@Override
 			public void callback(GeoElement obj) {
 						if (keepFocus) {
-							DrawEquationW.stornoFormulaMathQuillGGB(
+					MathQuillHelper.stornoFormulaMathQuillGGB(
 								RadioTreeItem.this, latexItem.getElement());
 						}
 
@@ -1918,7 +1919,7 @@ public class RadioTreeItem extends AVTreeItem
 			tim.schedule(500);
 		} else {
 
-			DrawEquationW.focusEquationMathQuillGGB(latexItem, false);
+			MathQuillHelper.focusEquationMathQuillGGB(latexItem, false);
 
 
 
@@ -2581,7 +2582,7 @@ marblePanel, evt))) {
 
 	@Override
 	public void setFocus(boolean b, boolean sv) {
-		DrawEquationW.focusEquationMathQuillGGB(latexItem, b);
+		MathQuillHelper.focusEquationMathQuillGGB(latexItem, b);
 	}
 
 	@Override
@@ -2591,7 +2592,7 @@ marblePanel, evt))) {
 		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
 		// seMayLatex, "" + text.charAt(i), "", false);
 
-		DrawEquationW.writeLatexInPlaceOfCurrentWord(this,
+		MathQuillHelper.writeLatexInPlaceOfCurrentWord(this,
 				latexItem.getElement(), text,
 				"", false);
 	}
@@ -2610,7 +2611,8 @@ marblePanel, evt))) {
 		if (latexItem == null)
 			return "";
 
-		String ret = DrawEquationW.getActualEditedValue(latexItem.getElement(),
+		String ret = MathQuillHelper
+				.getActualEditedValue(latexItem.getElement(),
 				latexValue);
 
 		if (ret == null)

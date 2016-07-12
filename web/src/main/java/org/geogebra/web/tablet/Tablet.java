@@ -7,7 +7,7 @@ import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
-import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.main.MathQuillHelper;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CustomElements;
 import org.geogebra.web.tablet.main.TabletDevice;
@@ -99,13 +99,13 @@ public class Tablet implements EntryPoint {
 				// mouse event or touch event, but not both, I think)
 				case Event.ONTOUCHSTART:
 					if (event.getNativeEvent() != null) {
-						DrawEquationW.escEditingHoverTapWhenElsewhere(
+						MathQuillHelper.escEditingHoverTapWhenElsewhere(
 								event.getNativeEvent(), true);
 					}
 					break;
 				case Event.ONMOUSEDOWN:
 					if (event.getNativeEvent() != null) {
-						DrawEquationW.escEditingHoverTapWhenElsewhere(
+						MathQuillHelper.escEditingHoverTapWhenElsewhere(
 								event.getNativeEvent(), false);
 					}
 					break;

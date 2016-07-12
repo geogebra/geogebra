@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
-import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.main.MathQuillHelper;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
@@ -274,25 +274,25 @@ public class MatrixTreeItem extends RadioTreeItem {
 
 		switch (op) {
 		case APPEND_COLUMN:
-			DrawEquationW.appendColToMatrix(latexItem);
+			MathQuillHelper.appendColToMatrix(latexItem);
 
 			break;
 		case APPEND_ROW:
-			DrawEquationW.appendRowToMatrix(latexItem);
+			MathQuillHelper.appendRowToMatrix(latexItem);
 
 			break;
 		case REMOVE_LAST_COLUMN:
-			DrawEquationW.removeLastColFromMatrix(latexItem);
+			MathQuillHelper.removeLastColFromMatrix(latexItem);
 			break;
 		case REMOVE_LAST_ROW:
-			DrawEquationW.removeLastRowFromMatrix(latexItem);
+			MathQuillHelper.removeLastRowFromMatrix(latexItem);
 			break;
 		default:
 			break;
 
 		}
 
-		DrawEquationW.endEditingEquationMathQuillGGB(MatrixTreeItem.this,
+		MathQuillHelper.endEditingEquationMathQuillGGB(MatrixTreeItem.this,
 				latexItem);
 
 		if (edit) {

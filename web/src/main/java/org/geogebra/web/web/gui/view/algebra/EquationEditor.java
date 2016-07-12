@@ -15,7 +15,7 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.main.MathQuillHelper;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -89,7 +89,7 @@ public class EquationEditor {
 		String currentWord = curWord.toString();
 
 		// So we also provide currentWord as a heuristic or helper:
-		DrawEquationW.writeLatexInPlaceOfCurrentWord(null,
+		MathQuillHelper.writeLatexInPlaceOfCurrentWord(null,
 				component.getLaTeXElement(),
 						sugg, replace ? currentWord : "", true);
 
@@ -112,7 +112,7 @@ public class EquationEditor {
 	}
 
 	public int getCaretPosition() {
-		return DrawEquationW
+		return MathQuillHelper
 				.getCaretPosInEditedValue(component.getLaTeXElement());
 	}
 
@@ -260,7 +260,7 @@ public class EquationEditor {
 					.replace("\\left\\left(", "\\left(")
 					.replace("\\right\\right)", "\\right)");
 		}
-		DrawEquationW.updateEditingMathQuillGGB(
+		MathQuillHelper.updateEditingMathQuillGGB(
 				component.getLaTeXElement(), slatex, shallfocus);
 	}
 
@@ -332,7 +332,7 @@ public class EquationEditor {
 	 *            focus (false: blur)
 	 */
 	public void setFocus(boolean b) {
-		DrawEquationW.focusEquationMathQuillGGB(
+		MathQuillHelper.focusEquationMathQuillGGB(
 		        component.getLaTeXElement(), b);
 
 		// as the focus operation sometimes also scrolls

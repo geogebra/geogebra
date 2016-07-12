@@ -20,6 +20,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.main.MathQuillHelper;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
@@ -164,7 +165,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			// but maybe it's not that important here
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-				DrawEquationW.stornoFormulaMathQuillGGB(
+				MathQuillHelper.stornoFormulaMathQuillGGB(
 						InputTreeItem.this, latexItem);
 				InputTreeItem.this.setFocus(true);
 				event.stopPropagation();
@@ -176,7 +177,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			// but maybe it's not that important here
 			@Override
 			public void onTouchStart(TouchStartEvent event) {
-				DrawEquationW.stornoFormulaMathQuillGGB(
+				MathQuillHelper.stornoFormulaMathQuillGGB(
 						InputTreeItem.this, latexItem);
 				InputTreeItem.this.setFocus(true);
 				event.stopPropagation();
@@ -609,7 +610,7 @@ public class InputTreeItem extends RadioTreeItem implements
 					@Override
 					public void callback(Object obj) {
 						if (keepFocus) {
-							DrawEquationW.stornoFormulaMathQuillGGB(
+							MathQuillHelper.stornoFormulaMathQuillGGB(
 									InputTreeItem.this, latexItem.getElement());
 						}
 
@@ -638,12 +639,12 @@ public class InputTreeItem extends RadioTreeItem implements
 					false, true, false);
 
 			if (setFocusAllowed || !setFocusScheduled) {
-				DrawEquationW.focusEquationMathQuillGGB(latexItem, focus);
+				MathQuillHelper.focusEquationMathQuillGGB(latexItem, focus);
 			}
 
 			app.getGuiManager().focusScheduled(true, false, true);
 		} else {
-			DrawEquationW.focusEquationMathQuillGGB(latexItem, focus);
+			MathQuillHelper.focusEquationMathQuillGGB(latexItem, focus);
 		}
 	}
 
@@ -781,7 +782,7 @@ public class InputTreeItem extends RadioTreeItem implements
 			app.getGuiManager().focusScheduled(true, true, false);
 		}
 
-		if (!DrawEquationW.targetHasFeature(getElement(),
+		if (!MathQuillHelper.targetHasFeature(getElement(),
 				"BlurDoesntUpdateGUIFeature", true)) {
 
 			if (isEmpty()) {
@@ -916,7 +917,7 @@ public class InputTreeItem extends RadioTreeItem implements
 	@Override
 	protected boolean startEditing(boolean b) {
 		// argument is not used.
-		DrawEquationW.editEquationMathQuillGGB(this, latexItem, true);
+		MathQuillHelper.editEquationMathQuillGGB(this, latexItem, true);
 
 		app.getGuiManager().setOnScreenKeyboardTextField(this);
 		CancelEventTimer.keyboardSetVisible();
