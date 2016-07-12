@@ -37,10 +37,10 @@ public abstract class EuclidianStatic {
 	 */
 	public static EuclidianStatic prototype;
 	/** standardstroke */
-	protected static GBasicStroke standardStroke = AwtFactory.prototype
+	protected static final GBasicStroke standardStroke = AwtFactory.prototype
 			.newMyBasicStroke(1.0f);
 	/** stroke for selected geos */
-	protected static GBasicStroke selStroke = AwtFactory.prototype
+	protected static final GBasicStroke selStroke = AwtFactory.prototype
 			.newMyBasicStroke(1.0f + EuclidianStyleConstants.SELECTION_ADD);
 
 	/**

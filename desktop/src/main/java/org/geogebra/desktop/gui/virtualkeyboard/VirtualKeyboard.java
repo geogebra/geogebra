@@ -109,7 +109,6 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	JButton[][] Buttons = new JButton[buttonRows + 1][buttonCols];
 
 	private int windowWidth, windowHeight;
-	private float opacity;
 
 	private Font currentFont;
 
@@ -140,7 +139,6 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 		this.windowWidth = windowWidth;
 		this.windowHeight = windowHeight;
-		this.opacity = opacity;
 
 		this.app = app;
 		this.setFocusableWindowState(false);
@@ -208,7 +206,6 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		// http://java.sun.com/developer/technicalArticles/GUI/translucent_shaped_windows/#Setting-the-Opacity-Level-of-a-Window
 		// AWTUtilities.setWindowOpacity
 
-		updateOpacity();
 
 		// TODO: fix
 		// force resizing of contentPane
@@ -236,34 +233,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		}
 	}
 
-	/**
-	 * Updates the opacity.
-	 */
-	private void updateOpacity() {
 
-		// this works in Java 7 but loses the ability to move/resize the
-		// keyboard
-		// this.dispose();
-		// this.setUndecorated(true);
-		// this.setOpacity(opacity);
-
-		// problem on OSX. GeoGebra is packages with Java7/8 now anyway so this
-		// is redundant
-		// try { // Java 6u10+ only, not Java 7
-		// Class<?> awtUtilitiesClass = Class
-		// .forName("com.sun.awt.AWTUtilities");
-		// Method mSetWindowOpacity = awtUtilitiesClass.getMethod(
-		// "setWindowOpacity", Window.class, float.class);
-		// mSetWindowOpacity.invoke(null, this, Float.valueOf(opacity));
-		// } catch (Exception ex) {
-		//
-		// // fallback for OSX Leopard pre-6u10
-		// this.getRootPane().putClientProperty("Window.alpha",
-		// Float.valueOf(opacity));
-		//
-		// ex.printStackTrace();
-		// }
-	}
 
 	final void windowResized() {
 		windowWidth = getWidth();
@@ -705,24 +675,24 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 	}
 
-	public static char KEYBOARD_NORMAL = ' ';
-	public static char KEYBOARD_MATH = 'M';
-	public static char KEYBOARD_NUMERIC = 'N';
-	// public static char KEYBOARD_ALTGR = 'Q';
-	public static char KEYBOARD_ACUTE = 'A';
-	public static char KEYBOARD_GRAVE = 'G';
-	public static char KEYBOARD_UMLAUT = 'U';
-	public static char KEYBOARD_CEDILLA = 'c';
-	public static char KEYBOARD_CARON = 'v';
-	public static char KEYBOARD_CIRCUMFLEX = 'C';
-	public static char KEYBOARD_BREVE = 'B';
-	public static char KEYBOARD_TILDE = 'T';
-	public static char KEYBOARD_OGONEK = 'O';
-	public static char KEYBOARD_DOT_ABOVE = 'D';
-	public static char KEYBOARD_RING_ABOVE = 'R';
-	public static char KEYBOARD_DIALYTIKA_TONOS = 'd';
-	public static char KEYBOARD_DOUBLE_ACUTE = 'a';
-	public static char KEYBOARD_SOLIDUS = '/';
+	public static final char KEYBOARD_NORMAL = ' ';
+	public static final char KEYBOARD_MATH = 'M';
+	public static final char KEYBOARD_NUMERIC = 'N';
+	// public static final char KEYBOARD_ALTGR = 'Q';
+	public static final char KEYBOARD_ACUTE = 'A';
+	public static final char KEYBOARD_GRAVE = 'G';
+	public static final char KEYBOARD_UMLAUT = 'U';
+	public static final char KEYBOARD_CEDILLA = 'c';
+	public static final char KEYBOARD_CARON = 'v';
+	public static final char KEYBOARD_CIRCUMFLEX = 'C';
+	public static final char KEYBOARD_BREVE = 'B';
+	public static final char KEYBOARD_TILDE = 'T';
+	public static final char KEYBOARD_OGONEK = 'O';
+	public static final char KEYBOARD_DOT_ABOVE = 'D';
+	public static final char KEYBOARD_RING_ABOVE = 'R';
+	public static final char KEYBOARD_DIALYTIKA_TONOS = 'd';
+	public static final char KEYBOARD_DOUBLE_ACUTE = 'a';
+	public static final char KEYBOARD_SOLIDUS = '/';
 
 	private char KEYBOARD_MODE = KEYBOARD_NORMAL;
 
@@ -1384,14 +1354,9 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		setSize(windowWidth, windowHeight);
 	}
 
-	public void setKeyboardOpacity(float opacity) {
-		this.opacity = opacity;
-		updateOpacity();
-	}
 
 	public void settingsChanged(AbstractSettings settings) {
 		KeyboardSettings kbs = (KeyboardSettings) settings;
-		setKeyboardOpacity(kbs.getKeyboardOpacity());
 		setWindowHeight(kbs.getKeyboardHeight());
 		setWindowWidth(kbs.getKeyboardWidth());
 		Locale newLocale = kbs.getKeyboardLocale() == null ? app.getLocale()

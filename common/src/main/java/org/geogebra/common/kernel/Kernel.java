@@ -106,9 +106,9 @@ public class Kernel {
 	public static int MAX_SPREADSHEET_ROWS_DESKTOP = 9999;
 
 	/** string for +- */
-	public static String STRING_PLUS_MINUS = "\u00B1 ";
+	final public static String STRING_PLUS_MINUS = "\u00B1 ";
 	/** string for -+ */
-	public static String STRING_MINUS_PLUS = "\u2213 ";
+	final public static String STRING_MINUS_PLUS = "\u2213 ";
 
 	// G.Sturr 2009-10-18
 	// algebra style
@@ -209,7 +209,7 @@ public class Kernel {
 	public final static double INV_MAX_DOUBLE_PRECISION = 1E15;
 
 	/** maximum CAS results cached */
-	public static int GEOGEBRA_CAS_CACHE_SIZE = 500;
+	final public static int GEOGEBRA_CAS_CACHE_SIZE = 500;
 	private MySpecialDouble eulerConstant;
 
 	// print precision
