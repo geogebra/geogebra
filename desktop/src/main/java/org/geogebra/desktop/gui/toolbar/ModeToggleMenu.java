@@ -43,6 +43,7 @@ import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.javax.swing.GPopupMenuD;
 import org.geogebra.desktop.main.AppD;
@@ -94,12 +95,11 @@ public class ModeToggleMenu extends JPanel {
 
 	public boolean selectMode(int mode) {
 		String modeText = mode + "";
-
 		for (int i = 0; i < size; i++) {
 			JMenuItem mi = menuItemList.get(i);
 			// found item for mode?
 			if (mi.getActionCommand().equals(modeText)) {
-				selectItem(mi);
+				selectItem(mi, ModeSetter.DOCK_PANEL);
 				return true;
 			}
 		}
@@ -114,7 +114,7 @@ public class ModeToggleMenu extends JPanel {
 		return Integer.parseInt(mi.getActionCommand());
 	}
 
-	private void selectItem(JMenuItem mi) {
+	private void selectItem(JMenuItem mi, ModeSetter ms) {
 		// check if the menu item is already selected
 		boolean imageDialog = mi.getActionCommand().equals(
 						Integer.toString(EuclidianConstants.MODE_IMAGE));
@@ -129,7 +129,7 @@ public class ModeToggleMenu extends JPanel {
 				.getActionCommand())));
 		tbutton.setActionCommand(mi.getActionCommand());
 		tbutton.setSelected(true);
-		if (imageDialog) {
+		if (imageDialog && ms == ModeSetter.TOOLBAR) {
 			tbutton.doClick();
 		}
 		// tbutton.requestFocus();
@@ -194,7 +194,7 @@ public class ModeToggleMenu extends JPanel {
 			JMenuItem item = (JMenuItem) e.getSource();
 			if (!(Integer.toString(EuclidianConstants.MODE_IMAGE)
 							.equals(item.getActionCommand()))) {
-				selectItem(item);
+				selectItem(item, ModeSetter.TOOLBAR);
 				tbutton.doClick();
 			} else {
 				tbutton.setSelected(false);
