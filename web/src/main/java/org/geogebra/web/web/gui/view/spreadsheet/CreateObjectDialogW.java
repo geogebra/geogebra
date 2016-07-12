@@ -3,15 +3,15 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CardPanel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.MathQuillHelper;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.gui.dialog.InputDialogW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -43,31 +43,40 @@ public class CreateObjectDialogW extends InputDialogW implements
 	private Label lblObject, lblName;
 
 	private CheckBox ckSort;
+	/** transpose checkbox */
 	CheckBox ckTranspose;
 	private RadioButton btnValue, btnObject;
+	/** switch scan between rows and columns */
 	ListBox cbScanOrder;
 
 	private boolean isIniting = true;
 	private FlowPanel optionsPanel;
 	private FlowPanel typePanel;
-
+	/** name input */
 	AutoCompleteTextFieldW fldName;
 
 	private ScrollPanel previewPanel;
 
+	/** box for coord order */
 	ListBox cbLeftRightOrder;
 	private CardPanel cards;
 	private Label lblPreview;
-	private Label lblPreviewTitle;
 	private FlowPanel namePanel;
 	private FlowPanel optionPane;
 	//private DefaultListModel model;
 	private ListBox typeList;
-	boolean showApply = false;
 	private Label lblPreviewHeader;
 	private Label lblOptions;
 	private FlowPanel centerPanel;
 	
+	/**
+	 * @param app
+	 *            app
+	 * @param view
+	 *            spreadsheet
+	 * @param objectType
+	 *            resulting object type
+	 */
 	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType) {
 
 		super(false, app);
@@ -78,7 +87,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		// cp = table.getCellRangeProcessor();
 		// selectedCellRanges = table.selectedCellRanges;
 		//
-		// boolean showApply = false;
+		boolean showApply = false;
 		//
 		createGUI(coModel.getTitle(), coModel.getTitle(), false, 16, 1, false, false, false,
 				showApply, DialogType.GeoGebraEditor);
@@ -102,6 +111,9 @@ public class CreateObjectDialogW extends InputDialogW implements
 		
 	}
 
+	/**
+	 * Change object type in model
+	 */
 	void objectTypeChanged() {
 		coModel.setObjectType(typeList.getSelectedIndex());
 		coModel.createNewGeo(fldName.getText());
@@ -231,7 +243,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 		FlowPanel xySwitchPanel = new FlowPanel();
 		xySwitchPanel.add(cbLeftRightOrder);
 
-		FlowPanel pointListPanel = new FlowPanel();
 		//pointListPanel.add(Box.createRigidArea(lblName.getSize()));
 
 		// TODO: this is not a good way to manage visibility of option panels
@@ -312,35 +323,34 @@ public class CreateObjectDialogW extends InputDialogW implements
 		
 		int idx = coModel.getOptionType();
 
-		Log.debug("[CO] object type: " + idx);
 		cards.setSelectedIndex(idx);
-		/*
-		 * cbOrder.removeAllItems(); if(objectType == TYPE_LIST){
-		 * cbOrder.addItem(app.getMenu("Row"));
-		 * cbOrder.addItem(app.getMenu("Column")); }else{
-		 * cbOrder.addItem(app.getMenu("X to Y"));
-		 * cbOrder.addItem(app.getMenu("Y to X")); }
-		 * 
-		 * if(objectType == TYPE_MATRIX){ cbOrder.setVisible(false);
-		 * ckTranspose.setVisible(true); }else{ cbOrder.setVisible(true);
-		 * ckTranspose.setVisible(false); }
-		 */
+
 
 	}
 
 	public void updatePreview(String latexStr, boolean isLatexDrawable) {
 		if (latexStr != null && isLatexDrawable) {
-			lblPreview.setText("");
-			MathQuillHelper.drawEquationAlgebraView(lblPreview.getElement(),
-					"\\mathrm {" + latexStr + "}", true);
+
+			Canvas c = Canvas.createIfSupported();
+			previewPanel.setWidget(c);
+			DrawEquationW.paintOnCanvas(coModel.getGeo(),
+					"\\mathrm {" + latexStr + "}", c,
+					app.getFontSizeWeb());
 		} else {
+			previewPanel.setWidget(lblPreview);
+			lblPreview.getElement().removeAllChildren();
 			lblPreview.setText(coModel.getNonLatexText());
 		}
 
 		
 	}
 
-	
+	/**
+	 * Process confirmation event (blur, change, click)
+	 * 
+	 * @param source
+	 *            event source
+	 */
 	void apply(Widget source) {
 		if (source == fldName) {
 			doTextFieldActionPerformed();

@@ -101,11 +101,13 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			public void execute() {
-				inputPanel.getTextComponent().setFocus(true);
-				// Firefox: correct cursor position #5419
-				if (!selectInitText) {
-				inputPanel.getTextComponent().setCaretPosition(
-						inputPanel.getText().length());
+				if (inputPanel != null) {
+					inputPanel.getTextComponent().setFocus(true);
+					// Firefox: correct cursor position #5419
+					if (!selectInitText) {
+						inputPanel.getTextComponent().setCaretPosition(
+								inputPanel.getText().length());
+					}
 				}
 
 			}
