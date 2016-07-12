@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.LimitedPath;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -211,7 +212,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 		setKeepTypeOnGeometricTransform(ray.keepsTypeOnGeometricTransform());
 
-		startPoint = GeoLine3D.updatePoint(cons, startPoint,
+		startPoint = GeoLine.updatePoint(cons, startPoint,
 				ray.getStartPoint());
 	}
 

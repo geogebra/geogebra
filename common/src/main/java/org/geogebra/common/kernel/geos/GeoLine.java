@@ -1775,4 +1775,33 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 				new ExpressionNode(kernel, this.z)
 						.multiply(-1));
 	}
+
+	/**
+	 * used by GeoSegment/Ray/3D to set start/end points
+	 * 
+	 * @param cons
+	 *            cons
+	 * @param my
+	 *            my point
+	 * @param other
+	 *            point from other geo
+	 * @return what my start/end point should be
+	 */
+	public static GeoPointND updatePoint(Construction cons, GeoPointND my,
+			GeoPointND other) {
+		if (my == null) {
+			if (other == null) {
+				return null;
+			}
+			return (GeoPointND) other.copyInternal(cons);
+		}
+		if (other != null) {
+			ExpressionNode oldDef = my.getDefinition();
+			my.set(other);
+			if (!my.isIndependent()) {
+				my.setDefinition(oldDef);
+			}
+		}
+		return my;
+	}
 }

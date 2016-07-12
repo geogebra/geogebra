@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathMover;
@@ -99,7 +98,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		GeoRay ray = (GeoRay) geo;		
 		keepTypeOnGeometricTransform = ray.keepTypeOnGeometricTransform; 
 										
-		startPoint = (GeoPoint) GeoLine3D.updatePoint(cons, startPoint,
+		startPoint = (GeoPoint) GeoLine.updatePoint(cons, startPoint,
 				ray.startPoint);
 		
 		//Need to adjust the second defining object too, see #3770

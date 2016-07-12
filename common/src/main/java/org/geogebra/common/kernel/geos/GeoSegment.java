@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
@@ -163,10 +162,10 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		defined = seg.defined;      
 		keepTypeOnGeometricTransform = seg.keepTypeOnGeometricTransform; 	
 
-		startPoint = (GeoPoint) GeoLine3D.updatePoint(cons, startPoint,
+		startPoint = (GeoPoint) GeoLine.updatePoint(cons, startPoint,
 				seg.startPoint);
 
-		endPoint = (GeoPoint) GeoLine3D.updatePoint(cons, endPoint,
+		endPoint = (GeoPoint) GeoLine.updatePoint(cons, endPoint,
 				seg.endPoint);
 
 	}   
