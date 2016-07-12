@@ -594,7 +594,7 @@ public class RadioTreeItem extends AVTreeItem
 			btnClearInput.addMouseDownHandler(new MouseDownHandler() {
 				public void onMouseDown(MouseDownEvent event) {
 					if (latexItem != null) {
-						DrawEquationW.stornoFormulaMathQuillGGB(
+						MathQuillHelper.stornoFormulaMathQuillGGB(
 								RadioTreeItem.this, latexItem);
 						RadioTreeItem.this.setFocus(true);
 						event.stopPropagation();
