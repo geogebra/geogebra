@@ -665,6 +665,9 @@ public class InputController {
         } else if (ch == '_') {
             newScript(editorState, "_");
             handled = true;
+        } else if (mCreateFrac && ch == '\\') { // backslash used in android ggb keyboard
+            newFunction(editorState, "frac", 1);
+            handled = true;
         } else if (mCreateFrac && ch == 47) { // simple / char
             newFunction(editorState, "frac", 1);
             handled = true;
