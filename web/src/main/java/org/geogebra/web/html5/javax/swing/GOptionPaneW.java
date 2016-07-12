@@ -377,6 +377,7 @@ public class GOptionPaneW extends GDialogBox implements
 		this.returnHandler = null;
 		requiresReturnValue = false;
 
+		this.addStyleName("centerDialog");
 		showDialog(true);
 		showDialog(true);
 
