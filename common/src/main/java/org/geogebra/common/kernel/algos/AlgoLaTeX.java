@@ -56,7 +56,9 @@ public class AlgoLaTeX extends AlgoElement {
 				text.setSymbolicMode(true);
 			}
 		}
-
+		if (substituteVars == null) {
+			text.setIsTextCommand(true);
+		}
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
@@ -68,29 +70,7 @@ public class AlgoLaTeX extends AlgoElement {
 	}
 
 	public AlgoLaTeX(Construction cons, String label, GeoElement geo) {
-		super(cons);
-		this.geo = geo;
-		this.substituteVars = null;
-		this.showName = null;
-		text = new GeoText(cons);
-
-		text.setLaTeX(true, false);
-
-		if (geo instanceof HasSymbolicMode) {
-			if (((HasSymbolicMode) geo).isSymbolicMode()) {
-				text.setSymbolicMode(true);
-			}
-		}
-
-		text.setIsTextCommand(true); // stop editing as text
-		setInputOutput(); // for AlgoElement
-
-		// compute value of dependent number
-		compute();
-		text.setLabel(label);
-
-		// set sans-serif LaTeX default
-		text.setSerifFont(false);
+		this(cons, label, geo, null, null);
 	}
 
 	@Override
