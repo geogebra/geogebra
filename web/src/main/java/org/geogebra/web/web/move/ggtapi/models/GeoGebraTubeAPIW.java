@@ -79,7 +79,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 				user.setUserId((int) (((JSONNumber) userinfo.get("user_id"))
 				        .doubleValue()));
 			} else {
-				user.setUserId(Integer.valueOf(((JSONString) userinfo
+				user.setUserId(Integer.parseInt(((JSONString) userinfo
 				        .get("user_id")).stringValue()));
 			}
 			user.setUserName(((JSONString) userinfo.get("username"))

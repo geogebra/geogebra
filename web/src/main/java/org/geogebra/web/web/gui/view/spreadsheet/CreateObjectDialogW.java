@@ -428,7 +428,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 	}
 
 	public boolean isVisible() {
-		return isVisible();
+		return wrappedPopup != null && wrappedPopup.isVisible();
 	}
 
 	public boolean isCopiedByValue() {

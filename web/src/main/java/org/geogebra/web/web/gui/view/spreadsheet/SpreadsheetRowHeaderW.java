@@ -125,7 +125,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		grid.getElement().addClassName("geogebraweb-table-spreadsheet");
 
 		grid.getColumnFormatter().getElement(0).getStyle()
-		        .setWidth(view.ROW_HEADER_WIDTH, Style.Unit.PX);
+				.setWidth(SpreadsheetViewW.ROW_HEADER_WIDTH, Style.Unit.PX);
 
 		for (int row = 0; row < grid.getRowCount(); row++) {
 			initializeCell(row);
@@ -625,9 +625,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 				EventUtil.getTouchOrClickClientX(event),
 				EventUtil.getTouchOrClickClientY(event));
 		int r = this.getResizingRow(p, getBoundary(e.getType()));
-		if (r >= 0 && !getCursor().equals(Style.Cursor.ROW_RESIZE)) {
+		if (r >= 0 && !getCursor().equals(Style.Cursor.ROW_RESIZE.getCssName())) {
 			setRowResizeCursor();
-		} else if (!getCursor().equals(Style.Cursor.DEFAULT)) {
+		} else if (!getCursor().equals(Style.Cursor.DEFAULT.getCssName())) {
 			setDefaultCursor();
 		}
 

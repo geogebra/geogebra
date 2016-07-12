@@ -1908,7 +1908,7 @@ GeoImplicit p1,
 
 	}
 
-	protected static int DETACH_OFFSET = 20;
+	protected final static int DETACH_OFFSET = 20;
 
 	protected GeoPointND copyFreePoint(GeoPointND point,
 			EuclidianViewInterfaceCommon view) {

@@ -514,9 +514,9 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 				EventUtil.getTouchOrClickClientX(event),
 				EventUtil.getTouchOrClickClientY(event));
 		int r = this.getResizingColumn(p, getBoundary(e.getType()));
-		if (r >= 0 && !getCursor().equals(Style.Cursor.COL_RESIZE)) {
+		if (r >= 0 && !getCursor().equals(Style.Cursor.COL_RESIZE.getCssName())) {
 			setColumnResizeCursor();
-		} else if (!getCursor().equals(Style.Cursor.DEFAULT)) {
+		} else if (!getCursor().equals(Style.Cursor.DEFAULT.getCssName())) {
 			setDefaultCursor();
 		}
 		// DRAG
