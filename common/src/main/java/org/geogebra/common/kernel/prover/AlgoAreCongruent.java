@@ -389,7 +389,7 @@ public class AlgoAreCongruent extends AlgoElement implements
 			Polynomial p1 = a1.subtract(c1).multiply(b1.subtract(a1));
 			Polynomial p2 = a2.subtract(c2).multiply(b2.subtract(a2));
 			// (CA*AB)^2
-			Polynomial nominator1 = Polynomial.sqr(p1.add(p2));
+			Polynomial numerator1 = Polynomial.sqr(p1.add(p2));
 			Polynomial p3 = Polynomial.sqr(a1.subtract(c1)).add(
 					Polynomial.sqr(a2.subtract(c2)));
 			Polynomial p4 = Polynomial.sqr(b1.subtract(a1)).add(
@@ -400,7 +400,7 @@ public class AlgoAreCongruent extends AlgoElement implements
 			Polynomial p5 = d1.subtract(f1).multiply(e1.subtract(d1));
 			Polynomial p6 = d2.subtract(f2).multiply(e2.subtract(d2));
 			// (FD*DE)^2
-			Polynomial nominator2 = Polynomial.sqr(p5.add(p6));
+			Polynomial numerator2 = Polynomial.sqr(p5.add(p6));
 			Polynomial p7 = Polynomial.sqr(d1.subtract(f1)).add(
 					Polynomial.sqr(d2.subtract(f2)));
 			Polynomial p8 = Polynomial.sqr(e1.subtract(d1)).add(
@@ -411,8 +411,8 @@ public class AlgoAreCongruent extends AlgoElement implements
 			// We want to prove: (CA*AB)^2 / (||CA||^2 * ||AB||^2) = (FD*DE)^2 /
 			// (||FD||^2 * ||DE||^2)
 			botanaPolynomials = new Polynomial[1][1];
-			botanaPolynomials[0][0] = nominator1.multiply(denominator2)
-					.subtract(denominator1.multiply(nominator2));
+			botanaPolynomials[0][0] = numerator1.multiply(denominator2)
+					.subtract(denominator1.multiply(numerator2));
 
 			return botanaPolynomials;
 
