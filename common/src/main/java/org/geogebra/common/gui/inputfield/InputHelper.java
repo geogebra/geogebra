@@ -54,7 +54,8 @@ public class InputHelper {
 		}
 		for (int i = 0; i < geos.length; i++) {
 			if (geos[i] instanceof HasSymbolicMode) {
-				((HasSymbolicMode) geos[i]).setSymbolicMode(true);
+				((HasSymbolicMode) geos[i]).setSymbolicMode(true,
+						geos[i] instanceof GeoText);
 				((HasSymbolicMode) geos[i]).updateRepaint();
 			}
 			if (geos[i] instanceof GeoText) {

@@ -1763,7 +1763,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		return getNumber();
 	}
 
-	public void setSymbolicMode(boolean mode) {
+	public void setSymbolicMode(boolean mode, boolean update) {
 		this.symbolicMode = mode;
 	}
 

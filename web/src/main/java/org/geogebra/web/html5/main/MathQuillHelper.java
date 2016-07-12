@@ -846,7 +846,9 @@ public class MathQuillHelper {
 	}
 
 	public static void focusEquationMathQuillGGB(Widget w, boolean focus) {
+		if (w != null) {
 		focusEquationMathQuillGGB(w.getElement(), focus);
+		}
 	}
 
 	public static native void focusEquationMathQuillGGB(Element parentElement,

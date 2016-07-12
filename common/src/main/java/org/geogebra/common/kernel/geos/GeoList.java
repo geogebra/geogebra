@@ -2980,10 +2980,10 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		return getMyList();
 	}
 
-	public void setSymbolicMode(boolean mode) {
+	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		for (int i = 0; i < this.size(); i++) {
 			if (get(i) instanceof HasSymbolicMode) {
-				((HasSymbolicMode) get(i)).setSymbolicMode(mode);
+				((HasSymbolicMode) get(i)).setSymbolicMode(mode, updateParent);
 			}
 		}
 

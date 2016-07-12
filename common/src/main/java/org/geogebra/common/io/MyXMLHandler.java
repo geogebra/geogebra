@@ -3331,7 +3331,7 @@ new GPoint(row, column));
 					geo.setLineThickness(0);
 				}
 				if (!symbolicTagProcessed && geo.isGeoText()) {
-					((GeoText) geo).setSymbolicMode(false);
+					((GeoText) geo).setSymbolicMode(false, false);
 				}
 				constMode = MODE_CONSTRUCTION;
 			}
@@ -4908,7 +4908,7 @@ new GPoint(row, column));
 		symbolicTagProcessed = true;
 		try {
 			HasSymbolicMode num = (HasSymbolicMode) geo;
-			num.setSymbolicMode(parseBoolean(attrs.get("val")));
+			num.setSymbolicMode(parseBoolean(attrs.get("val")), false);
 			return true;
 		} catch (Exception e) {
 			return false;

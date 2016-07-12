@@ -711,11 +711,16 @@ public class GeoText extends GeoElement implements Locateable,
 		updateTemplate();
 		// update parent algorithm if it's not a sequence
 		if (updateParentAlgo) {
-			AlgoElement parent = getParentAlgorithm();
-			if (parent != null && !(parent instanceof AlgoSequence)) {
-				parent.update();
-			}
+			updateParent();
 		}
+	}
+
+	private void updateParent() {
+		AlgoElement parent = getParentAlgorithm();
+		if (parent != null && !(parent instanceof AlgoSequence)) {
+			parent.update();
+		}
+
 	}
 
 	public void setAbsoluteScreenLoc(int x, int y) {
@@ -1302,10 +1307,13 @@ public class GeoText extends GeoElement implements Locateable,
 		return false;
 	}
 
-	public void setSymbolicMode(boolean mode) {
+	public void setSymbolicMode(boolean mode, boolean updateParent) {
 		if (mode != this.symbolicMode) {
 			this.symbolicMode = mode;
 			updateTemplate();
+			if (updateParent) {
+				updateParent();
+			}
 		}
 
 	}

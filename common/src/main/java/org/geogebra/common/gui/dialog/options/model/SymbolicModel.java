@@ -37,7 +37,7 @@ public class SymbolicModel extends BooleanOptionModel {
 	@Override
 	public void apply(int index, boolean value) {
 		HasSymbolicMode geo = (HasSymbolicMode) getObjectAt(index);
-		geo.setSymbolicMode(value);
+		geo.setSymbolicMode(value, true);
 		geo.updateRepaint();
 
 	}

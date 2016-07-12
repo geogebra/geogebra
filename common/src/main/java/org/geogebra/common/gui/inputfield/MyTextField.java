@@ -129,6 +129,17 @@ public abstract class MyTextField {
 		return StringUtil.isWhitespace(c) || c == ')' || c == ']' || c == '}';
 	}
 
+	/**
+	 * @param index
+	 *            completion index
+	 * @param completions
+	 *            list of completions
+	 * @param text
+	 *            original text
+	 * @param curWordStart
+	 *            pffset of current word
+	 * @return current word and position
+	 */
 	public static ValidateAutocompletionResult commonValidateAutocompletion(
 			int index, List<String> completions, String text, int curWordStart) {
 

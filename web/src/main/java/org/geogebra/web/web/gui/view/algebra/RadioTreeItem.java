@@ -699,11 +699,11 @@ public class RadioTreeItem extends AVTreeItem
 		boolean orig = sm.isSymbolicMode();
 		String text1 = geo.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate);
-		sm.setSymbolicMode(!orig);
+		sm.setSymbolicMode(!orig, false);
 		String text2 = geo.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate);
 
-		sm.setSymbolicMode(orig);
+		sm.setSymbolicMode(orig, false);
 		if (text1 == null) {
 			return true;
 		}
@@ -886,7 +886,8 @@ public class RadioTreeItem extends AVTreeItem
 	void toggleSymbolic(MyToggleButton2 button) {
 		if (geo instanceof HasSymbolicMode) {
 			((HasSymbolicMode) geo)
-					.setSymbolicMode(!((HasSymbolicMode) geo).isSymbolicMode());
+					.setSymbolicMode(!((HasSymbolicMode) geo).isSymbolicMode(),
+							true);
 
 			if (getOutputPrefix() == Unicode.CAS_OUTPUT_NUMERIC) {
 				button.setSelected(true);

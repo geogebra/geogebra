@@ -53,7 +53,7 @@ public class AlgoLaTeX extends AlgoElement {
 
 		if (geo instanceof HasSymbolicMode) {
 			if (((HasSymbolicMode) geo).isSymbolicMode()) {
-				text.setSymbolicMode(true);
+				text.setSymbolicMode(true, false);
 			}
 		}
 		if (substituteVars == null) {
