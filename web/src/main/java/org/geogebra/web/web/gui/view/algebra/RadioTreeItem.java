@@ -2828,8 +2828,11 @@ marblePanel, evt))) {
 	public void onResize() {
 
 		deferredResizeSlider();
-		if (first && isSelected()) {
-			updateButtonPanel(true);
+		
+		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			if (first && isSelected()) {
+				updateButtonPanel(true);
+			}
 		}
 
 	}
