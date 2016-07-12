@@ -846,10 +846,7 @@ public class InputTreeItem extends RadioTreeItem implements
 		if (heuristic) {
 			updateLineHeight();
 		}
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-				ihtml.add(getClearInputButton());
-				buttonPanel.setVisible(false);
-		} else {
+		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)){
 			if (isEmpty() && plusButton != null) {
 				plusButton.setVisible(true);
 			} else {

@@ -1699,6 +1699,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			if (btnClearInput != null){
 				ihtml.remove(btnClearInput);
+				btnClearInput = null;
 			}
 			buttonPanel.setVisible(true);	
 		}
@@ -2182,6 +2183,9 @@ marblePanel, evt))) {
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		if (btnClearInput != null) {
+			return;
+		}
 		handleAVItem(event);
 		event.stopPropagation();
 		if (commonEditingCheck()) {
@@ -3168,6 +3172,14 @@ marblePanel, evt))) {
 		// }
 		ihtml.insert(dummyLabel, 0);
 		// }
+
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			if (btnClearInput != null) {
+				btnClearInput.removeFromParent();
+				btnClearInput = null;
+			}
+			buttonPanel.setVisible(true);
+		}
 	}
 
 	protected void removeDummy() {
@@ -3176,6 +3188,11 @@ marblePanel, evt))) {
 		}
 		if (canvas != null) {
 			canvas.setVisible(true);
+		}
+
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			ihtml.add(getClearInputButton());
+			buttonPanel.setVisible(false);
 		}
 
 	}
