@@ -1422,7 +1422,6 @@ Paddings for menuitems.
 	z-index: 11;
 	left: auto !important;
 	bottom: auto !important;
-	overflow:hidden;
 }
 body.application[dir=rtl] .TitleBarPanel {
 	left: 0px !important;
@@ -1440,6 +1439,7 @@ body.application[dir=rtl] .TitleBarPanel {
 	background-color: rgba(255, 255, 255, 0.9);
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	padding-right: 40px;
+	overflow: hidden;
 }
 body.application[dir=rtl] .TitleBarPanelContent {
 	border-bottom-left-radius: 0px;
