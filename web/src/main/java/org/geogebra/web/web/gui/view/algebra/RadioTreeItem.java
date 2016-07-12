@@ -1662,10 +1662,7 @@ public class RadioTreeItem extends AVTreeItem
 		});
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			ihtml.add(this.getClearInputButton());
-		}
-		
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			ihtml.insert(getClearInputButton(), 1);
 			buttonPanel.setVisible(false);
 		}
 
