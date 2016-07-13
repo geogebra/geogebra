@@ -20,6 +20,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 	 * Create new transformation algo
 	 * 
 	 * @param c
+	 *            construction
 	 */
 	public AlgoTransformation(Construction c) {
 		super(c);
@@ -32,8 +33,21 @@ public abstract class AlgoTransformation extends AlgoElement {
 	 */
 	public abstract GeoElement getResult();
 
-	abstract protected void setTransformedObject(GeoElement g, GeoElement g2);
+	/**
+	 * @param source
+	 *            source
+	 * @param target
+	 *            target
+	 */
+	abstract protected void setTransformedObject(GeoElement source,
+			GeoElement target);
 
+	/**
+	 * @param ageo2
+	 *            source list
+	 * @param bgeo2
+	 *            target list
+	 */
 	protected void transformList(GeoList ageo2, GeoList bgeo2) {
 		for (int i = bgeo2.size() - 1; i >= ageo2.size(); i--)
 			bgeo2.remove(i);
@@ -50,10 +64,17 @@ public abstract class AlgoTransformation extends AlgoElement {
 				compute();
 				bgeo2.add(trans);
 			}
+			// reset this to make transforms work for list of arcs GGB-1051
+			pt = null;
 		}
 		setTransformedObject(ageo2, bgeo2);
 	}
 
+	/**
+	 * @param geo
+	 *            source element
+	 * @return template element that can be used for result
+	 */
 	protected GeoElement getResultTemplate(GeoElement geo) {
 		if (geo instanceof GeoPoly || geo.isLimitedPath())
 			return copyInternal(cons, geo);
@@ -62,14 +83,32 @@ public abstract class AlgoTransformation extends AlgoElement {
 		return copy(geo);
 	}
 
+	/**
+	 * @param geo
+	 *            template
+	 * @return copy
+	 */
 	protected GeoElement copy(GeoElement geo) {
 		return geo.copy();
 	}
 
-	protected GeoElement copyInternal(Construction cons, GeoElement geo) {
-		return geo.copyInternal(cons);
+	/**
+	 * @param cons1
+	 *            construction
+	 * @param geo
+	 *            source geo
+	 * @return copy
+	 */
+	protected GeoElement copyInternal(Construction cons1, GeoElement geo) {
+		return geo.copyInternal(cons1);
 	}
 
+	/**
+	 * @param a
+	 *            source
+	 * @param b
+	 *            target
+	 */
 	protected void transformLimitedPath(GeoElement a, GeoElement b) {
 
 		if (a instanceof GeoRay) {
@@ -95,14 +134,25 @@ public abstract class AlgoTransformation extends AlgoElement {
 		}
 	}
 
-	public boolean swapOrientation(GeoConicPartND p) {
+	/**
+	 * @param arc
+	 *            arc
+	 * @return what orientation should the result have
+	 */
+	public boolean swapOrientation(GeoConicPartND arc) {
 		// Application.debug(positiveOrientation);
-		return p == null || p.positiveOrientation();
+		return arc == null || arc.positiveOrientation();
 	}
 
 	private AlgoClosestPoint pt;
 	private GeoPoint transformedPoint;
 
+	/**
+	 * @param a
+	 *            source
+	 * @param b
+	 *            target
+	 */
 	protected void transformLimitedConic(GeoElement a, GeoElement b) {
 
 		GeoConicPart arc = (GeoConicPart) b;
