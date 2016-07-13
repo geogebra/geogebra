@@ -959,12 +959,16 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	 */
 	void apply() {
 		String current = toolTree.getToolbarString();
+
 		if (dockPanel != null) {
 			dockPanel.setToolbarString(current);
 			dockPanel.updatePanel(true);
-			GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
-			gm.setToolBarDefinition(current);
-			gm.updateToolbar();
+
+			if (current == null) {
+				GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
+				gm.setToolBarDefinition(current);
+				gm.updateToolbar();
+			}
 		} else {
 			setGeneralToolbar(current);
 		}
