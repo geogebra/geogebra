@@ -187,8 +187,8 @@ public class Construction {
 	// set with all labeled GeoElements in alphabetical order
 	private TreeSet<GeoElement> geoSetLabelOrder;
 	private TreeSet<GeoElement> geoSetWithCasCells;
-	// table of arbitraryConstants with assignmentVar key
-	private HashMap<String, MyArbitraryConstant> arbitraryConsTable = new HashMap<String, MyArbitraryConstant>();
+	// table of arbitraryConstants with casTable row key
+	private HashMap<Integer, MyArbitraryConstant> arbitraryConsTable = new HashMap<Integer, MyArbitraryConstant>();
 
 	// list of random numbers or lists
 	private TreeSet<GeoElement> randomElements;
@@ -338,7 +338,7 @@ public class Construction {
 	/**
 	 * @return table of arbitraryConstants from CAS with assigmentVar key
 	 */
-	public HashMap<String, MyArbitraryConstant> getArbitraryConsTable() {
+	public HashMap<Integer, MyArbitraryConstant> getArbitraryConsTable() {
 		return arbitraryConsTable;
 	}
 
@@ -347,7 +347,7 @@ public class Construction {
 	 *            - table of arbitraryConstants from CAS with assigmentVar key
 	 */
 	public void setArbitraryConsTable(
-			HashMap<String, MyArbitraryConstant> arbitraryConsTable) {
+			HashMap<Integer, MyArbitraryConstant> arbitraryConsTable) {
 		this.arbitraryConsTable = arbitraryConsTable;
 	}
 
@@ -2254,6 +2254,13 @@ public class Construction {
 						.isReserved(label))
 			return false;
 
+		if (fileLoading && casCellUpdate) {
+			GeoNumeric geoNum = lookupConstantLabel(label);
+			if (geoNum != null) {
+				return false;
+			}
+		}
+
 		if (fileLoading
 				&& !isCasCellUpdate() && geoTable.containsKey(label)
 				&& label.startsWith("c_")) {
@@ -2263,6 +2270,13 @@ public class Construction {
 				return true;
 			}
 			return false;
+		}
+
+		if (fileLoading && !casCellUpdate && isNotXmlLoading()) {
+			GeoNumeric geoNum = lookupConstantLabel(label);
+			if (geoNum != null) {
+				return false;
+			}
 		}
 
 		if (!fileLoading && !casCellUpdate && label.startsWith("c_")
@@ -2275,6 +2289,7 @@ public class Construction {
 				return true;
 			}
 		}
+
 		// check standard geoTable
 		if (geoTable.containsKey(label))
 			return false;
@@ -3030,6 +3045,7 @@ public class Construction {
 
 	private boolean fileLoading;
 	private boolean casCellUpdate = false;
+	private boolean notXmlLoading = false;
 	private boolean updateConstructionRunning;
 
 	/**
@@ -3063,6 +3079,25 @@ public class Construction {
 	 */
 	public boolean isCasCellUpdate() {
 		return casCellUpdate;
+	}
+
+	/**
+	 * @return whether we need to create a new arbitrary constant and it's not
+	 *         read from xml
+	 */
+	public boolean isNotXmlLoading() {
+		return notXmlLoading;
+	}
+
+	/**
+	 * it is called0 in MyArbitraryConstant
+	 * 
+	 * @param b
+	 *            - false if constant is created by xml reading, true if
+	 *            constant is created by MyArbitraryConstant
+	 */
+	public void setNotXmlLoading(boolean b) {
+		this.notXmlLoading = b;
 	}
 
 	// update all indices >= pos

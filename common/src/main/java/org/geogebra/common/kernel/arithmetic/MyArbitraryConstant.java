@@ -109,7 +109,11 @@ public class MyArbitraryConstant {
 			// add.setAuxiliaryObject(true);
 			boolean oldLabeling = c.isSuppressLabelsActive();
 			c.setSuppressLabelCreation(false);
+			// let construction know that we need new constant
+			// after geoCasCell update
+			c.setNotXmlLoading(true);
 			add.setLabel(c.getIndexLabel(prefix));
+			c.setNotXmlLoading(false);
 			c.setSuppressLabelCreation(oldLabeling);
 			AlgoDependentArbconst algo = new AlgoDependentArbconst(c, add, ce);
 			c.removeFromConstructionList(algo);
@@ -121,6 +125,14 @@ public class MyArbitraryConstant {
 		}
 		GeoNumeric ret = consts2.get(position);
 		map.put(indexInt, ret);
+		// put existent constant into construction
+		// after geoCasCell update
+		if (c.isFileLoading()) {
+			c.addToConstructionList(ret, false);
+			c.putLabel(ret);
+		} else {
+			c.putLabel(ret);
+		}
 		position++;
 		return ret;
 	}
@@ -164,6 +176,16 @@ public class MyArbitraryConstant {
 			return (GeoCasCell) ce;
 		}
 		return null;
+	}
+
+	/**
+	 * @param ce
+	 *            - geoCasCell
+	 */
+	public void setCasCell(GeoCasCell ce) {
+		if (isCAS()) {
+			this.ce = ce;
+		}
 	}
 
 	/**

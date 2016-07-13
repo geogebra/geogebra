@@ -1758,7 +1758,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				|| ((Function) this.getInputVE()).getFunctionExpression().getTopLevelCommand().getName()
 								.equals("SolveODE"))) {
 			MyArbitraryConstant myArbConst = cons.getArbitraryConsTable()
-					.get(this.getInput(StringTemplate.defaultTemplate));
+					.get(this.row);
 			if (this.arbconst.getConstList().isEmpty()
 					&& myArbConst != null) {
 				ArrayList<GeoNumeric> constList = myArbConst.getConstList();
@@ -2143,14 +2143,22 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					}
 				}
 
+				// we need the row number of this row 
+				// to store the arbitrary constant in construction
+				cons.updateCasCellRows();
+
 				if (!cons.getArbitraryConsTable().isEmpty()) {
 					// get abritraryConstant for this cell from construction
 					MyArbitraryConstant myArbconst = cons
-							.getArbitraryConsTable().get(this.input);
+							.getArbitraryConsTable().get(this.row);
 					// case we found an arbconst
 					if (myArbconst != null && arbconst.getPosition() == 0) {
 						// replace it
 						arbconst = myArbconst;
+						// replace geoCasCell for arbitrary constant
+						if (arbconst.getCasCell() != this) {
+							arbconst.setCasCell(this);
+						}
 						// hack needed for web with file loading
 						if (cons.isFileLoading()) {
 							ArrayList<GeoNumeric> constList = arbconst
@@ -2183,7 +2191,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				// if we had constants in expression
 				// store arbconst in construction
 				if (arbconst.getPosition() != 0) {
-					cons.getArbitraryConsTable().put(this.input,
+					cons.getArbitraryConsTable().put(this.row,
 							arbconst);
 				}
 

@@ -2799,7 +2799,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (labelSet) { // label was set before -> rename
 			doRenameLabel(label);
 		} else { // no label set so far -> set new label
+			if (label.startsWith("c_") && this instanceof GeoNumeric) {
+				cons.setCasCellUpdate(false);
+			}
 			doSetLabel(getFreeLabel(label));
+			cons.setCasCellUpdate(false);
 		}
 	}
 
@@ -3047,6 +3051,13 @@ public abstract class GeoElement extends ConstructionElement implements
 		labelSet = true;
 		labelWanted = false; // got a label, no longer wanted
 
+		if (this instanceof GeoNumeric && newLabel.startsWith("c_")) {
+			GeoNumeric geoNum = cons.lookupConstantLabel(newLabel);
+			if (geoNum != null) {
+				((GeoNumeric) this).setIsDependentConst(true);
+			}
+		}
+		
 		if (addToConstr) {
 			cons.putLabel(this); // add new table entry
 		}
