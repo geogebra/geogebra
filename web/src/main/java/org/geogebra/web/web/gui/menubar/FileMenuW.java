@@ -90,6 +90,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	
 
 	private void initActions() {
+		// if (!app.has(Feature.NEW_START_SCREEN)) {
 		if (app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(),app.getMenu("exam_menu_exit"), true),true,new MenuCommand(app) { //Close
 
@@ -121,8 +122,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 			return;
 		}
+		/*
+		 * } else { if (app.isExam()) { return; } }
+		 */
 		
 		
+
 		// this is enabled always
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_new().getSafeUri().asString(),app.getMenu("New"), true),true,new MenuCommand(app) {
 
@@ -231,7 +236,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			addItem(printItem);
 
 		}
-
+		if (!app.has(Feature.NEW_START_SCREEN)) {
 		addSeparator();
 
 		if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
@@ -249,7 +254,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						}
 					});
 		}
-
+		}
 	    app.getNetworkOperation().getView().add(this);
 	    
 	    if (!app.getNetworkOperation().isOnline()) {

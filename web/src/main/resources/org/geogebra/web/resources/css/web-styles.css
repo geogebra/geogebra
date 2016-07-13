@@ -5683,7 +5683,7 @@ body.application[dir=rtl] .deleteAlgebra {
    ######################################## */
 
 .perspectivesBox{
-	width: 230px;
+	width: 250px;
 	position: absolute !important;
     right: 0px !important;
     left: auto !important;
@@ -5695,7 +5695,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	color: #6161FF !important;
 }
 .perspectivesMainPanel{
-	width: 225px;
+	width: 245px;
     padding-right: 5px;
 }
 .perspectivesRow{

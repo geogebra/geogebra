@@ -25,6 +25,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * Apps Picker Dialog for new Start screen (GGB-992)
+ */
 public class PerspectivesPopup {
 	/** dialog */
 	private DialogBoxW box;
@@ -77,7 +80,7 @@ public class PerspectivesPopup {
 		}
 		// add exam mode
 		HorizontalPanel examRow = addPerspectiveRow(icons.get(6),
-				"exam_menu_enter", -1, 7);
+ "exam_menu_entry", -1, 7);
 		examRow.addStyleName("perspectivesMargin");
 		contentPanel.add(examRow);
 
@@ -89,6 +92,9 @@ public class PerspectivesPopup {
 
 		box.show();
 	}
+
+	final static String[] tutorials = new String[] { "graphing/", "graphing/", "geometry/", "spreadsheet/", "cas/",
+			"3d/", "probability/", "exam/", "" };
 
 	private HorizontalPanel addPerspectiveRow(ResourcePrototype icon,
 			String menuID, final int index, final int defID) {
@@ -110,8 +116,7 @@ public class PerspectivesPopup {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					String URL = GeoGebraConstants.QUICKSTART_URL
-							+ PerspectivesMenuW.tutorials[defID]
+					String URL = GeoGebraConstants.QUICKSTART_URL + tutorials[defID]
 							+ app.getLocalization().getLocaleStr() + "/";
 					// TODO check if online
 					ToolTipManagerW.openWindow(URL);
@@ -137,8 +142,7 @@ public class PerspectivesPopup {
 					app.setExam(new ExamEnvironment());
 					((AppWFull) app).examWelcome();
 				} else if (index == -2) {
-					String URL = GeoGebraConstants.QUICKSTART_URL
-							+ PerspectivesMenuW.tutorials[defID]
+					String URL = GeoGebraConstants.QUICKSTART_URL + tutorials[defID]
 							+ app.getLocalization().getLocaleStr() + "/";
 					// TODO check if online
 					ToolTipManagerW.openWindow(URL);
