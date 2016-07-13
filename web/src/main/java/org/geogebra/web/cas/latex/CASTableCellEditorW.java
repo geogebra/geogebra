@@ -14,11 +14,11 @@ import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.web.cas.view.CASEditorW;
 import org.geogebra.web.web.cas.view.CASTableControllerW;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
-import org.geogebra.web.web.gui.view.algebra.ScrollableSuggestionDisplay;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
@@ -426,5 +426,9 @@ public class CASTableCellEditorW extends Label implements
 
 					}
 				});
+	}
+
+	public KeyboardListener getKeyboardListener() {
+		return new MathQuillProcessing(this);
 	}
 }

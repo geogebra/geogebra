@@ -25,6 +25,7 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.cas.latex.InputTreeItem;
 import org.geogebra.web.cas.latex.MathQuillTreeItem;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.StyleInjector;
@@ -1074,7 +1075,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 			// item is already added
 			if (node instanceof RadioTreeItem
-					&& !(node instanceof InputTreeItem)) {
+					&& !(((RadioTreeItem) node).isInputTreeItem())) {
 				// RadioTreeItem.as(node)
 				// .addDeleteButton(node);
 			}
@@ -1914,7 +1915,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * @return selection controller
 	 */
-	protected AVSelectionController getSelectionCtrl() {
+	public AVSelectionController getSelectionCtrl() {
 		return selectionCtrl;
 	}
 

@@ -379,4 +379,10 @@ public class LatexTreeItem extends RadioTreeItem
 
 	}
 
+	@Override
+	public void handleFKey(int key, GeoElement geoElement) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

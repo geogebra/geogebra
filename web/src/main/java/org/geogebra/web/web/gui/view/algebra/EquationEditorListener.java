@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import org.geogebra.web.cas.latex.ScrollableSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
+import org.geogebra.web.keyboard.KeyboardListener;
 
 import com.google.gwt.dom.client.Element;
 
@@ -27,5 +29,7 @@ public interface EquationEditorListener extends AutoCompleteW {
 	String getLaTeX();
 
 	boolean isForCAS();
+
+	KeyboardListener getKeyboardListener();
 
 }

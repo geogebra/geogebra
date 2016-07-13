@@ -110,7 +110,6 @@ import org.geogebra.web.web.main.AppWapplet;
 import org.geogebra.web.web.main.GDevice;
 import org.geogebra.web.web.util.keyboard.AutocompleteProcessing;
 import org.geogebra.web.web.util.keyboard.GTextBoxProcessing;
-import org.geogebra.web.web.util.keyboard.MathQuillProcessing;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -2059,8 +2058,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 					(AutoCompleteTextFieldW) textField);
 		}
 		if (textField instanceof EquationEditorListener) {
-			return new MathQuillProcessing(
-					(EquationEditorListener) textField);
+			return ((EquationEditorListener) textField).getKeyboardListener();
 		}
 
 		return null;

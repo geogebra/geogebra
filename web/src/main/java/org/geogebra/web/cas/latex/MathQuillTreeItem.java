@@ -8,9 +8,9 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
-import org.geogebra.web.web.gui.view.algebra.ScrollableSuggestionDisplay;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -395,5 +395,47 @@ public class MathQuillTreeItem extends RadioTreeItem
 
 	}
 
+	public KeyboardListener getKeyboardListener() {
+		return new MathQuillProcessing(this);
+	}
+
+	@Override
+	public String getCommand() {
+		return getEquationEditor().getCurrentCommand();
+	}
+
+	protected EquationEditor getEquationEditor() {
+		return null;
+
+	}
+
+	/**
+	 * @param fkey
+	 *            2 for F2, 3 for F3 etc
+	 * @param geo2
+	 *            selected element
+	 */
+	public void handleFKey(int fkey, GeoElement geo2) {
+		switch (fkey) {
+		case 3: // F3 key: copy definition to input field
+			getEquationEditor().setText(geo2.getDefinitionForInputBar(), true);
+			ensureEditing();
+			break;
+
+		case 4: // F4 key: copy value to input field
+			getEquationEditor().autocomplete(
+					" " + geo2.getValueForInputBar() + " ", false);
+			ensureEditing();
+			break;
+
+		case 5: // F5 key: copy name to input field
+			getEquationEditor().autocomplete(
+					" " + geo2.getLabel(StringTemplate.defaultTemplate) + " ",
+					false);
+			ensureEditing();
+			break;
+		}
+
+	}
 
 }

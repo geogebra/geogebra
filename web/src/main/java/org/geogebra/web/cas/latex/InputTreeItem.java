@@ -1,4 +1,4 @@
-package org.geogebra.web.web.gui.view.algebra;
+package org.geogebra.web.cas.latex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +12,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.web.cas.latex.CondFunctionTreeItem;
-import org.geogebra.web.cas.latex.EquationEditor;
-import org.geogebra.web.cas.latex.MathQuillHelper;
-import org.geogebra.web.cas.latex.MathQuillTreeItem;
-import org.geogebra.web.cas.latex.MatrixTreeItem;
-import org.geogebra.web.cas.latex.ParCurveTreeItem;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -32,6 +26,8 @@ import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

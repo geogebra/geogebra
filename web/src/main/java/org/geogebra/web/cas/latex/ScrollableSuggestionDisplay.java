@@ -1,6 +1,6 @@
-package org.geogebra.web.web.gui.view.algebra;
+package org.geogebra.web.cas.latex;
 
-import org.geogebra.web.cas.latex.EquationEditor;
+//import org.geogebra.web.cas.latex.EquationEditor;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 
 import com.google.gwt.user.client.ui.PopupPanel;

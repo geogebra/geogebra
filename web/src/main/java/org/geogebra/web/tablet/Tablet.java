@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
-import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
@@ -12,6 +11,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CustomElements;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
+import org.geogebra.web.web.LaTeXHelper;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.applet.AppletFactory;
@@ -24,9 +24,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
-import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedEvent;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
@@ -82,38 +79,7 @@ public class Tablet implements EntryPoint {
 	}
 
 	private void run() {
-		// native preview handlers independent from app/applet
-		// THIS IS THE SAME CODE AS IN Web.java!!!
-		// maybe better than putting into both GeoGebraFrame / GeoGebraAppFrame
-		// it it would even be better to find a common class and put there
-		// although I'm not sure it's good to use AppW or something like that
-		// for preloading, code block separation GWT cache JavaScript files...
-		// edit: maybe put this at the end of this method in production builds?
-		Event.addNativePreviewHandler(new NativePreviewHandler() {
-			public void onPreviewNativeEvent(NativePreviewEvent event) {
-				switch (event.getTypeInt()) {
-				// AFAIK, mouse events do not fire on touch devices,
-				// and touch events do not fire on mouse devices,
-				// so this will be okay (except laptops with touch
-				// screens, but then also, the event will either be
-				// mouse event or touch event, but not both, I think)
-				case Event.ONTOUCHSTART:
-					if (event.getNativeEvent() != null) {
-						MathQuillHelper.escEditingHoverTapWhenElsewhere(
-								event.getNativeEvent(), true);
-					}
-					break;
-				case Event.ONMOUSEDOWN:
-					if (event.getNativeEvent() != null) {
-						MathQuillHelper.escEditingHoverTapWhenElsewhere(
-								event.getNativeEvent(), false);
-					}
-					break;
-				default:
-					break;
-				}
-			}
-		});
+		((LaTeXHelper) GWT.create(LaTeXHelper.class)).initialize();
 
 		if (!ArticleElement.checkAppNeeded()) {
 			// we dont want to parse out of the box sometimes...

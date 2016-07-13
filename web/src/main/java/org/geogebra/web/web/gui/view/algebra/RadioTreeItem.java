@@ -40,6 +40,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.cas.latex.EquationEditor;
+//import org.geogebra.web.cas.latex.EquationEditor;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -1708,7 +1709,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 					setShowInputHelpPanel(true);
 					((InputBarHelpPanelW) app.getGuiManager()
 							.getInputHelpPanel()).focusCommand(
-									getEquationEditor().getCurrentCommand());
+									getCommand());
 
 					return false;
 				}
@@ -1728,8 +1729,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 
 			public String getCurrentCommand() {
-				return getEquationEditor() == null ? null
-						: getEquationEditor().getCurrentCommand();
+				return RadioTreeItem.this.getCommand();
 			}
 			
 		};
@@ -1787,10 +1787,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		ihtml.getElement().getElementsByTagName("textarea").getItem(0).focus();
 	}
 
-	protected EquationEditor getEquationEditor() {
-		return null;
 
-	}
 
 	@Override
 	public void onDoubleClick(DoubleClickEvent evt) {
@@ -1862,7 +1859,8 @@ marblePanel, evt))) {
 	}
 
 	boolean styleBarCanHide() {
-		int itemTop = this instanceof InputTreeItem ? main.getElement()
+		int itemTop = this.isInputTreeItem()
+				? main.getElement()
 				.getAbsoluteTop() : getElement()
 				.getAbsoluteTop();
 		return (itemTop - getAlgebraDockPanel().getAbsoluteTop() < 35);
@@ -2686,44 +2684,14 @@ marblePanel, evt))) {
 
 	}
 
-	/**
-	 * @param fkey
-	 *            2 for F2, 3 for F3 etc
-	 * @param geo2
-	 *            selected element
-	 */
-	public void handleFKey(int fkey, GeoElement geo2) {
-		switch (fkey) {
-		case 3: // F3 key: copy definition to input field
-			getEquationEditor().setText(geo2.getDefinitionForInputBar(), true);
-			ensureEditing();
-			break;
-
-		case 4: // F4 key: copy value to input field
-			getEquationEditor().autocomplete(
-					" " + geo2.getValueForInputBar() + " ", false);
-			ensureEditing();
-			break;
-
-		case 5: // F5 key: copy name to input field
-			getEquationEditor().autocomplete(
-					" " + geo2.getLabel(StringTemplate.defaultTemplate) + " ",
-					false);
-			ensureEditing();
-			break;
-		}
-
-	}
+	public abstract void handleFKey(int key, GeoElement geo);
 
 	@Override
 	public ToggleButton getHelpToggle() {
 		return this.btnHelpToggle;
 	}
 
-	@Override
-	public String getCommand() {
-		return getEquationEditor().getCurrentCommand();
-	}
+
 
 	@Override
 	public void updateIcons(boolean warning) {

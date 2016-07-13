@@ -16,7 +16,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
-import org.geogebra.web.web.gui.view.algebra.ScrollableSuggestionDisplay;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;

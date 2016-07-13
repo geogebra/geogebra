@@ -1,4 +1,4 @@
-package org.geogebra.web.web.util.keyboard;
+package org.geogebra.web.cas.latex;
 
 import java.util.HashSet;
 
@@ -8,7 +8,6 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
-import org.geogebra.web.web.gui.view.algebra.InputTreeItem;
 
 public class MathQuillProcessing implements KeyboardListener {
 	private EquationEditorListener field;
