@@ -34,6 +34,7 @@ import javax.swing.table.TableCellRenderer;
 
 import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -424,7 +425,8 @@ public class CASTableD extends JTable implements CASTable {
 				}
 			}
 		}
-
+		// update keys (rows) in arbitrary constant table
+		updateAfterInsertArbConstTable(selectedRow);
 		tableModel.insertRow(selectedRow, new Object[] { toInsert });
 		// make sure the row is shown when at the bottom of the viewport
 		getTable().scrollRectToVisible(
@@ -433,6 +435,27 @@ public class CASTableD extends JTable implements CASTable {
 		// update height of new row
 		if (startEditing)
 			startEditingRow(selectedRow);
+	}
+
+	/**
+	 * Updates arbitraryConstantTable in construction.
+	 * 
+	 * @param selectedRow
+	 *            row index (starting from 0) where cell insertion is done
+	 */
+	private void updateAfterInsertArbConstTable(int selectedRow) {
+		for (int key = kernel.getConstruction().getArbitraryConsTable()
+				.size(); key >= selectedRow; key--) {
+			MyArbitraryConstant myArbConst = kernel.getConstruction()
+					.getArbitraryConsTable().get(key);
+			if (myArbConst != null
+					&& !kernel.getConstruction().isCasCellUpdate()
+					&& !kernel.getConstruction().isFileLoading()) {
+				kernel.getConstruction().getArbitraryConsTable().remove(key);
+				kernel.getConstruction().getArbitraryConsTable().put(key + 1,
+					myArbConst);
+			}
+		}
 	}
 
 	/**
