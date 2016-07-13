@@ -619,6 +619,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
+		if (isCumulative.getBoolean()) {
+			yval[yval.length - 1] = 0.0;
+		}
 		sum.setDrawable(true);
 	}
 
@@ -1737,6 +1740,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				for (int i = 1; i < N; i++) {
 					yval[i] += yval[i - 1];
 				}
+
+				yval[N - 1] = 0.0;
 			}
 
 			// turn frequencies into frequency densities
