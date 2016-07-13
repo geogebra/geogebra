@@ -3515,14 +3515,6 @@ body.application[dir=rtl] .GeoGebraFrame .AlgebraViewObjectStylebar {
 	vertical-align: middle;
 }
 
-.GeoGebraFrame .positionedObjectStyleBar{
-	right: 46px;
-}
-
-.GeoGebraFrame .positionedObjectStyleBar_scrollbarVisible{
-	right: 31px;
-}
-
 .GeoGebraFrame .elemRow > * {
 	display: inline-block;
 	padding-left: 4px;

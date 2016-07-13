@@ -40,7 +40,6 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -2229,20 +2228,12 @@ marblePanel, evt))) {
 			ScrollPanel algebraPanel = ((AlgebraDockPanelW) app.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
 					.getAbsolutePanel();
-			if (algebraPanel.getOffsetWidth() > algebraPanel.getElement()
-					.getClientWidth()) {
-				buttonPanel
-						.addStyleName("positionedObjectStyleBar_scrollbarVisible");
-				buttonPanel.removeStyleName("positionedObjectStyleBar");
-			} else {
-				buttonPanel.addStyleName("positionedObjectStyleBar");
-				buttonPanel
-						.removeStyleName("positionedObjectStyleBar_scrollbarVisible");
-			}
+			int scrollbarWidth = algebraPanel.getOffsetWidth()
+					- algebraPanel.getElement().getClientWidth();
+			buttonPanel.getElement().getStyle()
+					.setRight(46 - scrollbarWidth, Unit.PX);
 		} else {
-			buttonPanel.removeStyleName("positionedObjectStyleBar");
-			buttonPanel
-					.removeStyleName("positionedObjectStyleBar_scrollbarVisible");
+			buttonPanel.getElement().getStyle().setRight(0, Unit.PX);
 		}
 	}
 
