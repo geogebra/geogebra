@@ -2136,7 +2136,7 @@ marblePanel, evt))) {
 
 	boolean styleBarCanHide() {
 		return (RadioTreeItem.this.getElement().getAbsoluteTop()
-				- getAlgebraDockPanel().getAbsoluteTop() < 45);
+				- getAlgebraDockPanel().getAbsoluteTop() < 35);
 	}
 
 	protected int getWidthForEdit() {
@@ -2225,8 +2225,7 @@ marblePanel, evt))) {
 	protected void updateButtonPanelPosition() {
 		if (buttonPanel == null)
 			return;
-
-		if (styleBarCanHide() && getAlgebraDockPanel().isStyleBarPanelShown()) {
+		if (styleBarCanHide()) {
 			ScrollPanel algebraPanel = ((AlgebraDockPanelW) app.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
 					.getAbsolutePanel();
@@ -2858,6 +2857,7 @@ marblePanel, evt))) {
 				updateButtonPanel(true);
 			}
 		}
+		updateButtonPanelPosition();
 
 	}
 
