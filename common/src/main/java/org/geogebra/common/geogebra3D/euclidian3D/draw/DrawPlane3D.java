@@ -223,6 +223,9 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		float ymin1 = (float) geo.getYmin(), ymax1 = (float) geo.getYmax(), ydelta1 = ymax1
 				- ymin1;
 
+		// update bounds
+		updateBounds(xmin1, xmax1, ymin1, ymax1);
+
 		// plane
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 
@@ -318,6 +321,51 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		}
 
 		return true;
+	}
+
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+
+	protected void updateBounds(double xmin, double xmax, double ymin,
+			double ymax) {
+
+		GeoPlane3D geo = getPlane();
+		CoordSys coordsys = geo.getCoordSys();
+
+		// update z min/max
+		boundsMin.setZ(Double.POSITIVE_INFINITY);
+		boundsMax.setZ(Double.NEGATIVE_INFINITY);
+		
+		updateZMinMax(coordsys, xmin, ymin);
+		updateZMinMax(coordsys, xmin, ymax);
+		updateZMinMax(coordsys, xmax, ymax);
+		updateZMinMax(coordsys, xmax, ymin);
+
+		// update x min/max
+		boundsMin.setX(xmin);
+		boundsMax.setX(xmax);
+
+		// update y min/max
+		boundsMin.setY(ymin);
+		boundsMax.setY(ymax);
+
+	}
+
+	private void updateZMinMax(CoordSys coordsys, double x, double y) {
+		coordsys.getPointForDrawing(x, y, tmpCoords1);
+		double z = tmpCoords1.getZ();
+		if (z < boundsMin.getZ()) {
+			boundsMin.setZ(z);
+		}
+		if (z > boundsMax.getZ()) {
+			boundsMax.setZ(z);
+		}
+	}
+
+	@Override
+	public void enlargeBounds(Coords min, Coords max) {
+		if (!Double.isNaN(boundsMin.getX())) {
+			enlargeBounds(min, max, boundsMin, boundsMax);
+		}
 	}
 
 	@Override

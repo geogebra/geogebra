@@ -4,6 +4,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
  * Class for drawing 3D constant planes.
@@ -91,6 +92,17 @@ public class DrawPlaneConstant3D extends DrawPlane3D {
 	@Override
 	public void drawOutline(Renderer renderer) {
 		// no outline
+	}
+
+	@Override
+	protected void updateBounds(double xmin, double xmax, double ymin,
+			double ymax) {
+		// no bounds update
+	}
+
+	@Override
+	public void enlargeBounds(Coords min, Coords max) {
+		// no bounds update
 	}
 
 }
