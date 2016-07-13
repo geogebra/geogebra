@@ -40,6 +40,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -2134,8 +2135,10 @@ marblePanel, evt))) {
 	}
 
 	boolean styleBarCanHide() {
-		return (RadioTreeItem.this.getElement().getAbsoluteTop()
-				- getAlgebraDockPanel().getAbsoluteTop() < 35);
+		int itemTop = this instanceof InputTreeItem ? main.getElement()
+				.getAbsoluteTop() : getElement()
+				.getAbsoluteTop();
+		return (itemTop - getAlgebraDockPanel().getAbsoluteTop() < 35);
 	}
 
 	protected int getWidthForEdit() {
