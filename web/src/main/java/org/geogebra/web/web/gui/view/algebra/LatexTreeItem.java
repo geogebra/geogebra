@@ -356,4 +356,27 @@ public class LatexTreeItem extends RadioTreeItem
 
 	}
 
+	@Override
+	protected void blurEditor() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	protected void renderLatex(String text0, Widget w, boolean forceMQ) {
+		if (forceMQ) {
+			// TODO
+			// editLatexMQ(text0);
+		} else {
+			replaceToCanvas(text0, w);
+		}
+
+	}
+
+	@Override
+	protected void clearInput() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

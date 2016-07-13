@@ -40,7 +40,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.cas.latex.EquationEditor;
-import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -329,13 +328,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	};
 	private MinMaxPanel minMaxPanel;
-	private boolean definitionAndValue;
+	protected boolean definitionAndValue;
 
-	private FlowPanel valuePanel;
+	protected FlowPanel valuePanel;
 
-	private FlowPanel definitionPanel;
+	protected FlowPanel definitionPanel;
 
-	private FlowPanel outputPanel;
+	protected FlowPanel outputPanel;
 
 	protected PushButton btnClearInput;
 
@@ -577,8 +576,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			btnClearInput.addMouseDownHandler(new MouseDownHandler() {
 				public void onMouseDown(MouseDownEvent event) {
 					if (latexItem != null) {
-						MathQuillHelper.stornoFormulaMathQuillGGB(
-								RadioTreeItem.this, latexItem);
+						clearInput();
 						RadioTreeItem.this.setFocus(true);
 						event.stopPropagation();
 					}
@@ -587,6 +585,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		return btnClearInput;
 	}
+
+	protected abstract void clearInput();
 
 	private void buildPlainTextItem() {
 		if (geo.isIndependent() && geo.getDefinition() == null) {
@@ -617,7 +617,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	private void createDVPanels() {
+	protected void createDVPanels() {
 		if (definitionPanel == null) {
 			definitionPanel = new FlowPanel();
 		}
@@ -694,7 +694,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return !text1.equals(text2);
 
 	}
-	private boolean updateValuePanel() {
+
+	protected boolean updateValuePanel() {
 		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
 		boolean fraction = isGeoFraction() && isSymbolicGeo();
 		latex = text != null || fraction;
@@ -1306,24 +1307,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private Canvas valCanvas;
 
 
-	protected void renderLatex(String text0, Widget w, boolean forceMQ) {
-		if (definitionAndValue) {
-			if (forceMQ) {
-				editLatexMQ(text0);
-			} else {
-				replaceToCanvas(text0, w);
-			}
+	protected abstract void renderLatex(String text0, Widget w,
+			boolean forceMQ);
 
-		} else {
-			if (forceMQ) {
-				renderLatexEdit(text0);
-			} else {
-				renderLatexCanvas(text0, w.getElement());
-			}
-		}
-	}
-
-	private void renderLatexCanvas(String text0, Element old) {
+	protected void renderLatexCanvas(String text0, Element old) {
 
 			canvas = DrawEquationW.paintOnCanvas(geo, text0, canvas,
 					getFontSize());
@@ -1334,34 +1321,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	protected void renderLatexEdit(String text0) {
-			if (latexItem == null) {
-				latexItem = new FlowPanel();
-			}
-			latexItem.clear();
-			latexItem.addStyleName("avTextItem");
-			updateColor(latexItem);
 
-			ihtml.clear();
-
-
-			String text = text0;
-			if (text0 == null) {
-				text = "";
-			}
-			text = MathQuillHelper.inputLatexCosmetics(text);
-
-			String latexString = "";
-			if (!isInputTreeItem()) {
-				latexString = isDefinitionAndValue() ? "\\mathrm {"
-						: " \\mathbf {" + text + "}";
-			}
-
-
-			ihtml.add(latexItem);
-			MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
-					isInputTreeItem());
-	}
 
 	private Canvas latexToCanvas(String text) {
 		return DrawEquationW.paintOnCanvas(geo, text, canvas, getFontSize());
@@ -1378,58 +1338,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	private void replaceToCanvas(String text, Widget old) {
+	protected void replaceToCanvas(String text, Widget old) {
 
 		updateLaTeX(text);
 		LayoutUtilW.replace(ihtml, canvas, old);
 	}
 
-	protected void editLatexMQ(String text0) {
-		if (latexItem == null) {
-			latexItem = new FlowPanel();
-		}
-		latexItem.clear();
-		latexItem.addStyleName("avTextItem");
-		updateColor(latexItem);
 
-		ihtml.clear();
-
-		String text = text0;
-		if (text0 == null) {
-			text = "";
-		}
-		text = MathQuillHelper.inputLatexCosmetics(text);
-
-		String latexString = "";
-		if (!isInputTreeItem()) {
-			latexString = (isDefinitionAndValue() ? "\\mathrm {"
-					: " \\mathbf {") + text + "}";
-		}
-
-		if (!isInputTreeItem() && geo.needToShowBothRowsInAV()) {
-			createDVPanels();
-			if (latex) {
-				definitionPanel.addStyleName("avDefinition");
-			} else {
-				definitionPanel.addStyleName("avDefinitionPlain");
-			}
-			updateValuePanel();
-			outputPanel.add(valuePanel);
-			ihtml.add(latexItem);
-			ihtml.add(outputPanel);
-
-			latexItem.addStyleName("avDefinition");
-
-			MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
-					isInputTreeItem());
-
-		} else {
-			latexItem.removeStyleName("avDefinition");
-			ihtml.add(latexItem);
-			MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
-					isInputTreeItem());
-		}
-	}
 
 
 
@@ -1444,7 +1359,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 
-	private void updateColor(Widget w) {
+	protected void updateColor(Widget w) {
 		if (geo != null) {
 			w.getElement().getStyle()
 					.setColor(GColor.getColorString(geo.getAlgebraColor()));
@@ -1733,10 +1648,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 			};
 			tim.schedule(500);
 		} else {
-			MathQuillHelper.focusEquationMathQuillGGB(latexItem, false);
+			blurEditor();
 		}
 		return true;
 	}
+
+	protected abstract void blurEditor();
 
 	private static final int HORIZONTAL_BORDER_HEIGHT = 2;
 

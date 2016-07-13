@@ -13,6 +13,8 @@ import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.gui.view.algebra.ScrollableSuggestionDisplay;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class MathQuillTreeItem extends RadioTreeItem
 		implements EquationEditorListener {
@@ -289,5 +291,109 @@ public class MathQuillTreeItem extends RadioTreeItem
 
 		return ret;
 	}
+
+	@Override
+	protected void blurEditor() {
+		MathQuillHelper.focusEquationMathQuillGGB(latexItem, false);
+	}
+
+	private void editLatexMQ(String text0) {
+		if (latexItem == null) {
+			latexItem = new FlowPanel();
+		}
+		latexItem.clear();
+		latexItem.addStyleName("avTextItem");
+		updateColor(latexItem);
+
+		ihtml.clear();
+
+		String text = text0;
+		if (text0 == null) {
+			text = "";
+		}
+		text = MathQuillHelper.inputLatexCosmetics(text);
+
+		String latexString = "";
+		if (!isInputTreeItem()) {
+			latexString = (isDefinitionAndValue() ? "\\mathrm {"
+					: " \\mathbf {") + text + "}";
+		}
+
+		if (!isInputTreeItem() && geo.needToShowBothRowsInAV()) {
+			createDVPanels();
+			if (latex) {
+				definitionPanel.addStyleName("avDefinition");
+			} else {
+				definitionPanel.addStyleName("avDefinitionPlain");
+			}
+			updateValuePanel();
+			outputPanel.add(valuePanel);
+			ihtml.add(latexItem);
+			ihtml.add(outputPanel);
+
+			latexItem.addStyleName("avDefinition");
+
+			MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
+					isInputTreeItem());
+
+		} else {
+			latexItem.removeStyleName("avDefinition");
+			ihtml.add(latexItem);
+			MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
+					isInputTreeItem());
+		}
+	}
+
+	@Override
+	protected void renderLatex(String text0, Widget w, boolean forceMQ) {
+		if (definitionAndValue) {
+			if (forceMQ) {
+				editLatexMQ(text0);
+			} else {
+				replaceToCanvas(text0, w);
+			}
+
+		} else {
+			if (forceMQ) {
+				renderLatexEdit(text0);
+			} else {
+				renderLatexCanvas(text0, w.getElement());
+			}
+		}
+	}
+
+	private void renderLatexEdit(String text0) {
+		if (latexItem == null) {
+			latexItem = new FlowPanel();
+		}
+		latexItem.clear();
+		latexItem.addStyleName("avTextItem");
+		updateColor(latexItem);
+
+		ihtml.clear();
+
+		String text = text0;
+		if (text0 == null) {
+			text = "";
+		}
+		text = MathQuillHelper.inputLatexCosmetics(text);
+
+		String latexString = "";
+		if (!isInputTreeItem()) {
+			latexString = isDefinitionAndValue() ? "\\mathrm {"
+					: " \\mathbf {" + text + "}";
+		}
+
+		ihtml.add(latexItem);
+		MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
+				isInputTreeItem());
+	}
+
+	protected void clearInput() {
+		MathQuillHelper.stornoFormulaMathQuillGGB(MathQuillTreeItem.this,
+				latexItem);
+
+	}
+
 
 }
