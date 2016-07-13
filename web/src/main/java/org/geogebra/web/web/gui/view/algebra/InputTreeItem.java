@@ -12,6 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -789,14 +790,15 @@ public class InputTreeItem extends RadioTreeItem implements
 				addDummyLabel();
 			}
 
-			if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-				buttonPanel.setVisible(true);
-				this.plusButton.setVisible(true);
-			}
-
 			if (((AlgebraViewW) av).isNodeTableEmpty()) {
 				// #5245#comment:8, cases B and C excluded
 				updateGUIfocus(event == null ? this : event.getSource(), true);
+			}
+
+			if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+				buttonPanel.setVisible(true);
+				this.plusButton.setVisible(true);
+				updateButtonPanelPosition();
 			}
 		}
 	}
