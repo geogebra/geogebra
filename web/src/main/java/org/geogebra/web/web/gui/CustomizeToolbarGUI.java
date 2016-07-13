@@ -964,7 +964,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			dockPanel.setToolbarString(current);
 			dockPanel.updatePanel(true);
 
-			if (current == null) {
+			if (current != null) {
 				GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
 				gm.setToolBarDefinition(current);
 				gm.updateToolbar();
