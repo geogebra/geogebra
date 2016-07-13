@@ -64,8 +64,6 @@ public abstract class AlgoTransformation extends AlgoElement {
 				compute();
 				bgeo2.add(trans);
 			}
-			// reset this to make transforms work for list of arcs GGB-1051
-			pt = null;
 		}
 		setTransformedObject(ageo2, bgeo2);
 	}
@@ -144,7 +142,6 @@ public abstract class AlgoTransformation extends AlgoElement {
 		return arc == null || arc.positiveOrientation();
 	}
 
-	private AlgoClosestPoint pt;
 	private GeoPoint transformedPoint;
 
 	/**
@@ -159,23 +156,23 @@ public abstract class AlgoTransformation extends AlgoElement {
 		if (a instanceof GeoConicPart) {
 			GeoConicPart source = (GeoConicPart) a;
 			arc.setParameters(0, Kernel.PI_2, true);
-			if (pt == null) {
+			if (transformedPoint == null) {
 				transformedPoint = new GeoPoint(cons);
-				pt = new AlgoClosestPoint(cons, arc, transformedPoint);
-				cons.removeFromConstructionList(pt);
 			}
 			transformedPoint.removePath();
 			setTransformedObject(source.getPointParam(0), transformedPoint);
 			compute();
-			transformedPoint.updateCascade();
+			arc.pointChanged(transformedPoint);
+			transformedPoint.updateCoords();
 			// Application.debug("start"+transformedPoint);
-			double d = pt.getP().getPathParameter().getT();
+			double d = transformedPoint.getPathParameter().getT();
 			transformedPoint.removePath();
 			setTransformedObject(source.getPointParam(1), transformedPoint);
 			compute();
-			transformedPoint.updateCascade();
+			arc.pointChanged(transformedPoint);
+			transformedPoint.updateCoords();
 			// Application.debug("end"+transformedPoint);
-			double e = pt.getP().getPathParameter().getT();
+			double e = transformedPoint.getPathParameter().getT();
 			// Application.debug(d+","+e);
 			arc.setParameters(d * Kernel.PI_2, e * Kernel.PI_2,
 					swapOrientation(source));
