@@ -2842,7 +2842,9 @@ marblePanel, evt))) {
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			ihtml.add(getClearInputButton());
-			buttonPanel.setVisible(false);
+			if (buttonPanel != null) {
+				buttonPanel.setVisible(false);
+			}
 		}
 
 	}

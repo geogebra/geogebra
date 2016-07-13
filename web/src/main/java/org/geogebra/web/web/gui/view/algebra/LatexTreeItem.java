@@ -63,6 +63,9 @@ public class LatexTreeItem extends RadioTreeItem
 			canvas.getElement().getStyle().setMarginLeft(40, Unit.PX);
 			canvas.getElement().getStyle().setMarginTop(5, Unit.PX);
 		}
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			ihtml.addStyleName("scrollableTextBox");
+		}
 		getWidget().addStyleName("latexEditor");
 	}
 
@@ -375,7 +378,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	protected void clearInput() {
-		// TODO Auto-generated method stub
+		setText("");
 
 	}
 
