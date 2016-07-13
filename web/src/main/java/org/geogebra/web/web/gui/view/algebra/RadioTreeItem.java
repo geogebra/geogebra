@@ -40,6 +40,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -2219,6 +2220,16 @@ marblePanel, evt))) {
 	}
 
 
+	protected void updateButtonPanelPosition() {
+		if (buttonPanel == null)
+			return;
+
+		if (styleBarCanHide() && getAlgebraDockPanel().isStyleBarPanelShown()) {
+			buttonPanel.addStyleName("positionedObjectStyleBar");
+		} else {
+			buttonPanel.removeStyleName("positionedObjectStyleBar");
+		}
+	}
 
 	@Override
 	public void onClick(ClickEvent evt) {
@@ -2229,6 +2240,7 @@ marblePanel, evt))) {
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
 				ZeroOffset.instance);
 		onPointerUp(wrappedEvent);
+		this.updateButtonPanelPosition();
 	}
 
 	private void handleAVItem(MouseEvent<?> evt) {

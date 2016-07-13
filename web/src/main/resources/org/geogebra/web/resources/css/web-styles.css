@@ -3439,13 +3439,19 @@ body.application[dir=rtl] .imageCorner {
 	display: inline-block;
 }
 
-.scrollableTextBox > div{
+.scrollableTextBox > .avTextItem{
 	width: ~"calc(100% - 18px)";
 	overflow-x: hidden;
 	display: inline;
 }
 
-.scrollableTextBox > div::-webkit-scrollbar{
+.scrollableTextBox > .gwt-PushButton{
+	display: inline;
+	position: relative;
+	right: 10px;
+}
+
+.scrollableTextBox > .avTextItem::-webkit-scrollbar{
 	display: none;
 }
 
