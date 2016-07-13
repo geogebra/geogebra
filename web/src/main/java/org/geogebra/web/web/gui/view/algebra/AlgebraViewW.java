@@ -1096,6 +1096,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			// ensure that the leaf with the new object is visible
 			parent.setState(true);
 		}
+
+		inputPanelLatex.updateButtonPanelPosition();
 	}
 
 
@@ -1124,6 +1126,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		if (node != null) {
 			removeFromModel(node);
 		}
+
+		inputPanelLatex.updateButtonPanelPosition();
 	}
 
 
