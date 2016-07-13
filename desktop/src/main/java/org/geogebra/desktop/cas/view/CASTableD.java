@@ -36,6 +36,7 @@ import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.awt.GColorD;
@@ -580,6 +581,8 @@ public class CASTableD extends JTable implements CASTable {
 	 */
 	public void deleteAllRows() {
 		tableModel.setRowCount(0);
+		// kernel.getConstruction().setArbitraryConsTable(
+		// new HashMap<Integer, MyArbitraryConstant>());
 	}
 
 	/**
@@ -592,7 +595,37 @@ public class CASTableD extends JTable implements CASTable {
 
 		if (row > -1 && row < tableModel.getRowCount())
 			tableModel.removeRow(row);
+		// update keys (rows) in arbitrary constant table
+		updateAfterDeleteArbConstTable(row);
 
+	}
+
+	/**
+	 * Updates arbitraryConstantTable in construction.
+	 * 
+	 * @param row
+	 *            row index (starting from 0) where cell is deleted
+	 */
+	private void updateAfterDeleteArbConstTable(int row) {
+		MyArbitraryConstant arbConst = kernel.getConstruction()
+				.getArbitraryConsTable().remove(row);
+		if (arbConst != null) {
+			for (GeoNumeric geoNum : arbConst.getConstList()) {
+				kernel.getConstruction().removeFromConstructionList(geoNum);
+				kernel.getConstruction().removeLabel(geoNum);
+				kernel.notifyRemove(geoNum);
+			}
+		}
+		for (int key = row + 1; key <= kernel.getConstruction()
+				.getArbitraryConsTable().size(); key++) {
+			MyArbitraryConstant myArbConst = kernel.getConstruction()
+					.getArbitraryConsTable().get(key);
+			if (myArbConst != null) {
+				kernel.getConstruction().getArbitraryConsTable().remove(key);
+				kernel.getConstruction().getArbitraryConsTable().put(key - 1,
+						myArbConst);
+			}
+		}
 	}
 
 	/**
