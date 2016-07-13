@@ -756,19 +756,23 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public abstract void setToolBarDefinition(String toolBarDefinition);
 
 	public void refreshCustomToolsInToolBar() {
+		String oldToolbar = getToolbarDefinition() == null ? ToolBar
+				.getAllTools(app) : getToolbarDefinition();
+		setToolBarDefinition(refreshCustomToolsInToolBar(oldToolbar));
+	}
+
+	public String refreshCustomToolsInToolBar(String initial) {
 		int macroCount = kernel.getMacroNumber();
 
 		// add the ones that have (showInToolbar == true) into the toolbar if
 		// they are not already there.
 		StringBuilder customToolBar = new StringBuilder("");
-		String oldToolbar = getToolbarDefinition() == null ? ToolBar
-				.getAllTools(app) : getToolbarDefinition();
+		String oldToolbar = initial;
 		for (int i = 0; i < macroCount; i++) {
 			Macro macro = kernel.getMacro(i);
 			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET + i;
 			if (macro.isShowInToolBar()
-					&& !(oldToolbar.contains(String
-							.valueOf(macroMode)))) {
+					&& !(oldToolbar.contains(String.valueOf(macroMode)))) {
 				customToolBar.append(" " + macroMode);
 			}
 		}
@@ -782,20 +786,16 @@ public abstract class GuiManager implements GuiManagerInterface {
 			int lastToolId = Integer.parseInt(last);
 
 			if (lastToolId >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-				setToolBarDefinition(toolbarDef + customToolBar.toString());
-			} else {
-				setToolBarDefinition(toolbarDef + " ||"
-						+ customToolBar.toString());
+				return toolbarDef + customToolBar.toString();
 			}
+			return toolbarDef + " ||" + customToolBar.toString();
 		} catch (NumberFormatException e) {
 			// could not identify the last tool so just add the custom tools
 			// onto the end
 			if (last.contains("|")) {
-				setToolBarDefinition(toolbarDef + customToolBar.toString());
-			} else {
-				setToolBarDefinition(toolbarDef + " ||"
-						+ customToolBar.toString());
+				return toolbarDef + customToolBar.toString();
 			}
+			return toolbarDef + " ||" + customToolBar.toString();
 		}
 	}
 
