@@ -66,8 +66,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public BrowseViewI getBrowseView();
 
-	public void refreshCustomToolsInToolBar();
-
 	public Widget getRootComponent();
 
 	public void showToolBar(boolean show);

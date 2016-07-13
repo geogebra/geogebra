@@ -365,4 +365,6 @@ public interface GuiManagerInterface {
 	public void setInputText(String definitionForInputBar);
 
 	public void setImageCornersFromSelection(GeoImage geoImage);
+
+	public void refreshCustomToolsInToolBar();
 }

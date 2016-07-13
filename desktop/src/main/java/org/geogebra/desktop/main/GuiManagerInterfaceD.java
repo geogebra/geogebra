@@ -36,8 +36,6 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 
 	boolean belongsToToolCreator(ListCellRenderer renderer);
 
-	void refreshCustomToolsInToolBar();
-
 	/** Opens a dialog for searching and opening materials from GeoGebraTube */
 	public void openFromGGT();
 
