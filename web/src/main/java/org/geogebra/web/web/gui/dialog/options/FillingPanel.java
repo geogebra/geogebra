@@ -210,6 +210,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		unicodePanel = new InputPanelW(null, app, 1, -1, true);
 		tfInsertUnicode = unicodePanel.getTextComponent();
+		tfInsertUnicode.showPopupSymbolButton(true);
 		// buildInsertUnicodeButton();
 		unicodePanel.setVisible(false);
 		tfInsertUnicode.setStyleName("fillSymbol");
@@ -337,6 +338,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 				if (symbolText.isEmpty()) {
 					return;
 				}
+				selectSymbol(symbolText);
 				model.applyUnicode(symbolText);
 			}
 		});
@@ -347,7 +349,9 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
 					String symbolText = tfInsertUnicode.getText();
+					selectSymbol(symbolText);
 					model.applyUnicode(symbolText);
+
 				}
 			}
 		});
