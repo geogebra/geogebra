@@ -20,7 +20,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
@@ -53,7 +52,6 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
@@ -280,7 +278,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected AppW app;
 	protected AlgebraView av;
 	protected boolean latex = false;
-	private boolean editing = false;
+	protected boolean editing = false;
 
 	protected FlowPanel latexItem;
 	private FlowPanel plainTextItem;
@@ -524,7 +522,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 
-	private String getLatexString(boolean mathquill, Integer limit) {
+	private String getLatexString(boolean MathQuill, Integer limit) {
 		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
 						&& !isDefinitionAndValue())
 				|| !geo.isDefined() || !geo.isLaTeXDrawableGeo()) {
@@ -532,7 +530,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		String text = geo.getLaTeXAlgebraDescription(true,
-				mathquill ? StringTemplate.latexTemplateMQ
+				MathQuill ? StringTemplate.latexTemplateMQ
 						: StringTemplate.latexTemplate);
 
 		if ((text != null) && (limit == null || (text.length() < limit))) {
@@ -1310,15 +1308,23 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected void renderLatex(String text0, Widget w, boolean forceMQ) {
 		if (definitionAndValue) {
-			renderLatexDV(text0, w, forceMQ);
+			if (forceMQ) {
+				editLatexMQ(text0);
+			} else {
+				replaceToCanvas(text0, w);
+			}
 
 		} else {
-			renderLatex(text0, w.getElement(), forceMQ);
+			if (forceMQ) {
+				renderLatexEdit(text0);
+			} else {
+				renderLatexCanvas(text0, w.getElement());
+			}
 		}
 	}
 
-	private void renderLatex(String text0, Element old, boolean forceMQ) {
-		if (!forceMQ) {
+	private void renderLatexCanvas(String text0, Element old) {
+
 			canvas = DrawEquationW.paintOnCanvas(geo, text0, canvas,
 					getFontSize());
 
@@ -1326,8 +1332,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 				ihtml.getElement().replaceChild(canvas.getCanvasElement(), old);
 			}
 
-		} 
-		else {
+	}
+
+	protected void renderLatexEdit(String text0) {
 			if (latexItem == null) {
 				latexItem = new FlowPanel();
 			}
@@ -1354,19 +1361,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 			ihtml.add(latexItem);
 			MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
-
-
-		}
-
-	}
-
-	private void renderLatexDV(String text0, Widget old, boolean forceMQ) {
-		if (forceMQ) {
-			editLatexMQ(text0);
-		} else {
-			replaceToCanvas(text0, old);
-		}
-
 	}
 
 	private Canvas latexToCanvas(String text) {
@@ -1390,7 +1384,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		LayoutUtilW.replace(ihtml, canvas, old);
 	}
 
-	private void editLatexMQ(String text0) {
+	protected void editLatexMQ(String text0) {
 		if (latexItem == null) {
 			latexItem = new FlowPanel();
 		}
@@ -1461,27 +1455,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return editing;
 	}
 
-	public void cancelEditing() {
-		if (isInputTreeItem()) {
-			return;
-		}
-			// if (LaTeX) {
-		MathQuillHelper.endEditingEquationMathQuillGGB(this, latexItem);
-		// if (c != null) {
-		// LayoutUtil.replace(ihtml, c, latexItem);
-		// // ihtml.getElement().replaceChild(c.getCanvasElement(),
-		// // latexItem.getElement());
-		// }
-		//
-		// if (!latex && getPlainTextItem() != null) {
-		// LayoutUtil.replace(ihtml, getPlainTextItem(), latexItem);
-		// //
-		// this.ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
-		// // latexItem.getElement());
-		// }
-		//
-		doUpdate();
-	}
+	public abstract void cancelEditing();
 
 	/**
 	 * Switches to edit mode
@@ -1525,54 +1499,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 *            Sets that variables must be substituted or not
 	 * @return
 	 */
-	protected boolean startEditing(boolean substituteNumbers) {
-		String text = getTextForEditing(substituteNumbers,
-				StringTemplate.latexTemplateMQedit);
-		if (text == null) {
-			return false;
-		}
-		if (errorLabel != null) {
-			errorLabel.setText("");
-		}
-		if (isDefinitionAndValue()) {
-			Widget old = latex ? (canvas != null ? canvas : latexItem)
-					: getPlainTextItem();
-
-			renderLatex(text, old, true);
-
-		} else {
-			Element old = latex
-					? (canvas != null ? canvas.getCanvasElement()
-							: latexItem.getElement())
-					: getPlainTextItem().getElement();
-			renderLatex(text, old, true);
-		}
-
-		MathQuillHelper.editEquationMathQuillGGB(this, latexItem, false);
-
-		app.getGuiManager().setOnScreenKeyboardTextField(this);
-		CancelEventTimer.keyboardSetVisible();
-		ClickStartHandler.init(main, new ClickStartHandler(false, false) {
-			@Override
-			public void onClickStart(int x, int y,
-					final PointerEventType type) {
-				app.getGuiManager()
-						.setOnScreenKeyboardTextField(RadioTreeItem.this);
-				// prevent that keyboard is closed on clicks (changing
-				// cursor position)
-				CancelEventTimer.keyboardSetVisible();
-			}
-		});
-
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			ihtml.insert(getClearInputButton(), 1);
-			buttonPanel.setVisible(false);
-		}
-
-		return true;
-	}
-
-	private boolean isDefinitionAndValue() {
+	protected abstract boolean startEditing(boolean substituteNumbers);
+	protected boolean isDefinitionAndValue() {
 		return definitionAndValue && kernel
 				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
 	}
@@ -1684,22 +1612,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return stopNewFormulaCreation(newValue0, latexx, cb, true);
 	}
 
-	public void onEnter(final boolean keepFocus) {
-		if (!editing) {
-			return;
-		}
-		stopEditing(getText(), new AsyncOperation<GeoElement>() {
 
-					@Override
-			public void callback(GeoElement obj) {
-						if (keepFocus) {
-					MathQuillHelper.stornoFormulaMathQuillGGB(
-								RadioTreeItem.this, latexItem.getElement());
-						}
-
-					}
-		});
-	}
 	/**
 	 * Stop new formula creation Much of this code is copied from
 	 * AlgebraInputW.onKeyUp
@@ -2499,46 +2412,9 @@ marblePanel, evt))) {
 		setFocus(b, false);
 	}
 
-	@Override
-	public void setFocus(boolean b, boolean sv) {
-		MathQuillHelper.focusEquationMathQuillGGB(latexItem, b);
-	}
 
-	@Override
-	public void insertString(String text) {
-		// even worse
-		// for (int i = 0; i < text.length(); i++)
-		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
-		// seMayLatex, "" + text.charAt(i), "", false);
 
-		MathQuillHelper.writeLatexInPlaceOfCurrentWord(this,
-				latexItem.getElement(), text,
-				"", false);
-	}
 
-	@Override
-	public String getText() {
-		return getEditorValue(false);
-	}
-
-	/**
-	 * @param latexValue
-	 *            true for latex output, false for plain text
-	 * @return editor content
-	 */
-	protected String getEditorValue(boolean latexValue) {
-		if (latexItem == null)
-			return "";
-
-		String ret = MathQuillHelper
-				.getActualEditedValue(latexItem.getElement(),
-				latexValue);
-
-		if (ret == null)
-			return "";
-
-		return ret;
-	}
 
 	@Override
 	public void scrollIntoView() {

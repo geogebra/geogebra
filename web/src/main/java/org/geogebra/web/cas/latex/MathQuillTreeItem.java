@@ -1,7 +1,13 @@
 package org.geogebra.web.cas.latex;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.gui.view.algebra.ScrollableSuggestionDisplay;
@@ -156,6 +162,132 @@ public class MathQuillTreeItem extends RadioTreeItem
 			MathQuillHelper.scrollCursorIntoView(this, latexItem.getElement(),
 					isInputTreeItem());
 		}
+	}
+
+	@Override
+	public void setFocus(boolean b, boolean sv) {
+		MathQuillHelper.focusEquationMathQuillGGB(latexItem, b);
+	}
+
+	@Override
+	public void insertString(String text) {
+		// even worse
+		// for (int i = 0; i < text.length(); i++)
+		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
+		// seMayLatex, "" + text.charAt(i), "", false);
+
+		MathQuillHelper.writeLatexInPlaceOfCurrentWord(this,
+				latexItem.getElement(), text, "", false);
+	}
+
+	@Override
+	public void cancelEditing() {
+		if (isInputTreeItem()) {
+			return;
+		}
+		// if (LaTeX) {
+		MathQuillHelper.endEditingEquationMathQuillGGB(this, latexItem);
+		// if (c != null) {
+		// LayoutUtil.replace(ihtml, c, latexItem);
+		// // ihtml.getElement().replaceChild(c.getCanvasElement(),
+		// // latexItem.getElement());
+		// }
+		//
+		// if (!latex && getPlainTextItem() != null) {
+		// LayoutUtil.replace(ihtml, getPlainTextItem(), latexItem);
+		// //
+		// this.ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
+		// // latexItem.getElement());
+		// }
+		//
+		doUpdate();
+	}
+
+	/**
+	 * Starts the equation editor for the item.
+	 * 
+	 * @param substituteNumbers
+	 *            Sets that variables must be substituted or not
+	 * @return
+	 */
+	@Override
+	protected boolean startEditing(boolean substituteNumbers) {
+		String text = getTextForEditing(substituteNumbers,
+				StringTemplate.latexTemplateMQedit);
+		if (text == null) {
+			return false;
+		}
+		if (errorLabel != null) {
+			errorLabel.setText("");
+		}
+		if (isDefinitionAndValue()) {
+			editLatexMQ(text);
+		} else {
+			renderLatexEdit(text);
+		}
+
+		MathQuillHelper.editEquationMathQuillGGB(this, latexItem, false);
+
+		app.getGuiManager().setOnScreenKeyboardTextField(this);
+		CancelEventTimer.keyboardSetVisible();
+		ClickStartHandler.init(main, new ClickStartHandler(false, false) {
+			@Override
+			public void onClickStart(int x, int y,
+					final PointerEventType type) {
+				app.getGuiManager()
+						.setOnScreenKeyboardTextField(MathQuillTreeItem.this);
+				// prevent that keyboard is closed on clicks (changing
+				// cursor position)
+				CancelEventTimer.keyboardSetVisible();
+			}
+		});
+
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			ihtml.insert(getClearInputButton(), 1);
+			buttonPanel.setVisible(false);
+		}
+
+		return true;
+	}
+
+	public void onEnter(final boolean keepFocus) {
+		if (!editing) {
+			return;
+		}
+		stopEditing(getText(), new AsyncOperation<GeoElement>() {
+
+			@Override
+			public void callback(GeoElement obj) {
+				if (keepFocus) {
+					MathQuillHelper.stornoFormulaMathQuillGGB(
+							MathQuillTreeItem.this, latexItem.getElement());
+				}
+
+			}
+		});
+	}
+
+	@Override
+	public String getText() {
+		return getEditorValue(false);
+	}
+
+	/**
+	 * @param latexValue
+	 *            true for latex output, false for plain text
+	 * @return editor content
+	 */
+	protected String getEditorValue(boolean latexValue) {
+		if (latexItem == null)
+			return "";
+
+		String ret = MathQuillHelper
+				.getActualEditedValue(latexItem.getElement(), latexValue);
+
+		if (ret == null)
+			return "";
+
+		return ret;
 	}
 
 }

@@ -345,4 +345,15 @@ public class LatexTreeItem extends RadioTreeItem
 		return new LatexTreeItem(geo);
 	}
 
+	public void insertString(String text) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void cancelEditing() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
