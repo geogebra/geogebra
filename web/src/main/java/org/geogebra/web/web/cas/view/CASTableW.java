@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.web.cas.latex.CASTableCellEditorW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;

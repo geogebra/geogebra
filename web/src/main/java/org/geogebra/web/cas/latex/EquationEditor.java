@@ -1,4 +1,4 @@
-package org.geogebra.web.web.gui.view.algebra;
+package org.geogebra.web.cas.latex;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,9 +13,10 @@ import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
+import org.geogebra.web.web.gui.view.algebra.ScrollableSuggestionDisplay;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -271,7 +272,7 @@ public class EquationEditor {
 	/**
 	 * @return next input from input textfield's history
 	 */
-	protected String getNextInput() {
+	public String getNextInput() {
 		if (historyIndex < history.size())
 			++historyIndex;
 		if (historyIndex == history.size())
@@ -300,7 +301,7 @@ public class EquationEditor {
 	/**
 	 * @return previous input from input textfield's history
 	 */
-	protected String getPreviousInput() {
+	public String getPreviousInput() {
 		if (history.size() == 0)
 			return null;
 		if (historyIndex > 0)

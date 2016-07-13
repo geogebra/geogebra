@@ -25,6 +25,7 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.cas.latex.MathQuillTreeItem;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -1942,11 +1943,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 
 	private static void addLeaf(HasTreeItems printItem, RadioTreeItem leaf) {
-		GeoElement geo = leaf.getGeo();
-		RadioTreeItem printLeaf = new MathQuillTreeItem(geo);
+		RadioTreeItem printLeaf = leaf.copy();
 		printItem.addItem(printLeaf);
 
-		RadioTreeItem.as(printLeaf).repaint();
+		printLeaf.repaint();
 	}
 
 	public void getPrintable(FlowPanel pPanel, final Button btPrint) {

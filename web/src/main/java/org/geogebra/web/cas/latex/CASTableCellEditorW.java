@@ -1,4 +1,4 @@
-package org.geogebra.web.web.cas.view;
+package org.geogebra.web.cas.latex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,14 +8,15 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.web.gui.view.algebra.EquationEditor;
+import org.geogebra.web.web.cas.view.CASEditorW;
+import org.geogebra.web.web.cas.view.CASTableControllerW;
+import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.ScrollableSuggestionDisplay;
 

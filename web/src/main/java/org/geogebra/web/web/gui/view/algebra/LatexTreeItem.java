@@ -295,14 +295,6 @@ public class LatexTreeItem extends RadioTreeItem
 	}
 
 	@Override
-	public void scrollCursorIntoView() {
-		// if (latexItem != null) {
-		// DrawEquationW.scrollCursorIntoView(this, latexItem.getElement(),
-		// isInputTreeItem());
-		// }
-	}
-
-	@Override
 	public String getCommand() {
 		// TODO get it from JLM
 		return null;
@@ -346,6 +338,11 @@ public class LatexTreeItem extends RadioTreeItem
 				updateGUIfocus(event == null ? this : event.getSource(), true);
 			}
 
+	}
+
+	@Override
+	public RadioTreeItem copy() {
+		return new LatexTreeItem(geo);
 	}
 
 }

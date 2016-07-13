@@ -40,6 +40,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.cas.latex.EquationEditor;
 import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -48,6 +49,7 @@ import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -143,12 +145,12 @@ import com.google.gwt.user.client.ui.Widget;
  * definitionPanel -> c | STRING
  */
 @SuppressWarnings("javadoc")
-public class RadioTreeItem extends AVTreeItem
+public abstract class RadioTreeItem extends AVTreeItem
  implements DoubleClickHandler,
 		ClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
 		MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
 		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
-		EquationEditorListener, RequiresResize, HasHelpButton {
+		AutoCompleteW, RequiresResize, HasHelpButton {
 
 	private static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
@@ -164,9 +166,9 @@ public class RadioTreeItem extends AVTreeItem
 	/** Help button */
 	ToggleButton btnHelpToggle;
 	/** Help popup */
-	InputBarHelpPopup helpPopup;
+	protected InputBarHelpPopup helpPopup;
 	/** label "Input..." */
-	Label dummyLabel;
+	protected Label dummyLabel;
 	interface CancelListener {
 		void cancel();
 	}
@@ -273,7 +275,7 @@ public class RadioTreeItem extends AVTreeItem
 	protected FlowPanel buttonPanel;
 	protected PushButton btnDelete;
 
-	GeoElement geo;
+	protected GeoElement geo;
 	Kernel kernel;
 	protected AppW app;
 	protected AlgebraView av;
@@ -283,7 +285,7 @@ public class RadioTreeItem extends AVTreeItem
 	protected FlowPanel latexItem;
 	private FlowPanel plainTextItem;
 
-	FlowPanel ihtml;
+	protected FlowPanel ihtml;
 	GTextBox tb;
 	private boolean needsUpdate;
 	protected Label errorLabel;
@@ -397,24 +399,6 @@ public class RadioTreeItem extends AVTreeItem
 				append(str);
 			}
 		};
-	}
-
-	/**
-	 * Creates the specific tree item due to the type of the geo element.
-	 * 
-	 * @param geo0
-	 *            the geo element which is the item for.
-	 * @return The appropriate RadioTreeItem descendant.
-	 */
-	public static RadioTreeItem create(GeoElement geo0) {
-		if (geo0.isMatrix()) {
-			return new MatrixTreeItem(geo0);
-		} else if (geo0.isGeoCurveCartesian()) {
-			return new ParCurveTreeItem(geo0);
-		} else if (geo0.isGeoFunctionConditional()) {
-			return new CondFunctionTreeItem(geo0);
-		}
-		return new RadioTreeItem(geo0);
 	}
 
 	protected void addDomHandlers(FlowPanel panel) {
@@ -1059,7 +1043,7 @@ public class RadioTreeItem extends AVTreeItem
 		minMaxPanel.setVisible(false);
 	}
 
-	private boolean isMinMaxPanelVisible() {
+	protected boolean isMinMaxPanelVisible() {
 		return (minMaxPanel != null && minMaxPanel.isVisible());
 	}
 
@@ -1126,89 +1110,7 @@ public class RadioTreeItem extends AVTreeItem
 		// override
 	}
 
-	/**
-	 * This method can be used to invoke a keydown event on MathQuillGGB, e.g.
-	 * key=8,alt=false,ctrl=false,shift=false will trigger a Backspace event
-	 * 
-	 * @param key
-	 *            keyCode of the event, which is the same as "event.which", used
-	 *            at keydown
-	 * @param alt
-	 *            boolean
-	 * @param ctrl
-	 *            boolean
-	 * @param shift
-	 *            boolean
-	 */
-	@Override
-	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		if (isMinMaxPanelVisible()) {
-			return;
-		}
-		if (commonEditingCheck()) {
-			MathQuillHelper.triggerKeydown(this, latexItem.getElement(), key,
-					alt, ctrl,
-					shift);
-		}
-	}
 
-
-	/**
-	 * This method should be used to invoke a keypress on MathQuillGGB, e.g.
-	 * keypress(47, false, false, false); will trigger a '/' press event... This
-	 * method should be used instead of "keydown" in case we are interested in
-	 * the Character meaning of the key (to be entered in a textarea) instead of
-	 * the Controller meaning of the key.
-	 * 
-	 * @param character
-	 *            charCode of the event, which is the same as "event.which",
-	 *            used at keypress
-	 * @param alt
-	 *            boolean maybe not useful
-	 * @param ctrl
-	 *            boolean maybe not useful
-	 * @param shift
-	 *            boolean maybe not useful
-	 */
-	@Override
-	public void keypress(char character, boolean alt, boolean ctrl,
-			boolean shift, boolean more) {
-		if (isMinMaxPanelVisible()) {
-			return;
-		}
-
-		if (commonEditingCheck()) {
-			MathQuillHelper.triggerKeypress(this, latexItem.getElement(),
-					character, alt,
-					ctrl, shift, more);
-		}
-	}
-
-	/**
-	 * This method can be used to invoke a keyup event on MathQuillGGB, e.g.
-	 * key=13,alt=false,ctrl=false,shift=false will trigger a Enter event
-	 * 
-	 * @param key
-	 *            keyCode of the event, which is the same as "event.which", used
-	 *            at keyup
-	 * @param alt
-	 *            boolean
-	 * @param ctrl
-	 *            boolean
-	 * @param shift
-	 *            boolean
-	 */
-	@Override
-	public final void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
-		if (isMinMaxPanelVisible()) {
-			return;
-		}
-
-		if (commonEditingCheck()) {
-			MathQuillHelper.triggerKeyUp(latexItem.getElement(), key, alt, ctrl,
-					shift);
-		}
-	}
 
 	@Override
 	public void handleLongTouch(int x, int y) {
@@ -2639,14 +2541,6 @@ marblePanel, evt))) {
 	}
 
 	@Override
-	public void scrollCursorIntoView() {
-		if (latexItem != null) {
-			MathQuillHelper.scrollCursorIntoView(this, latexItem.getElement(),
-					isInputTreeItem());
-		}
-	}
-
-	@Override
 	public void scrollIntoView() {
 		this.getElement().scrollIntoView();
 	}
@@ -2798,21 +2692,7 @@ marblePanel, evt))) {
 		return main;
 	}
 
-	@Override
-	public final Element getLaTeXElement() {
-		return latexItem.getElement();
-	}
 
-	@Override
-	public void updatePosition(ScrollableSuggestionDisplay sug) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean resetAfterEnter() {
-		return true;
-	}
 
 	@Override
 	public void onBlur(BlurEvent be) {
@@ -2825,16 +2705,7 @@ marblePanel, evt))) {
 		// AppW.anyAppHasFocus = true;
 	}
 
-	@Override
-	public String getLaTeX() {
-		// TODO atm needed for CAS only
-		return null;
-	}
 
-	@Override
-	public boolean isForCAS() {
-		return false;
-	}
 
 	@Override
 	public void onResize() {
@@ -3212,6 +3083,8 @@ marblePanel, evt))) {
 		}
 
 	}
+
+	public abstract RadioTreeItem copy();
 
 }
 

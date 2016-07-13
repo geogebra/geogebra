@@ -1,9 +1,8 @@
-package org.geogebra.web.web.gui.view.algebra;
+package org.geogebra.web.cas.latex;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.web.css.GuiResources;
 

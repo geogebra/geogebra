@@ -1,4 +1,4 @@
-package org.geogebra.web.web.gui.view.algebra;
+package org.geogebra.web.cas.latex;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
  * 
  * File created by Arpad Fekete
  */
-public class ParCurveTreeItem extends RadioTreeItem {
+public class ParCurveTreeItem extends MathQuillTreeItem {
 
 	/**
 	 * Creating a SpecialRadioButtonTreeItem from existing construction as we
