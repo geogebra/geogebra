@@ -77,6 +77,37 @@ public class DrawRay3D extends DrawCoordSys1D {
 		}
 	}
 
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+
+	@Override
+	protected void setStartEndPoints(Coords p1, Coords p2) {
+		super.setStartEndPoints(p1, p2);
+		double[] minmax = getDrawMinMax();
+
+		if (minmax[0] > minmax[1]) {
+			// line is not visible
+			boundsMin.setX(Double.NaN);
+			return;
+		}
+
+		for (int i = 1; i <= 3; i++) {
+			if (p1.get(i) < p2.get(i)) {
+				boundsMin.set(i, p1.get(i));
+				boundsMax.set(i, p2.get(i));
+			} else {
+				boundsMin.set(i, p2.get(i));
+				boundsMax.set(i, p1.get(i));
+			}
+		}
+	}
+
+	@Override
+	public void enlargeBounds(Coords min, Coords max) {
+		if (!Double.isNaN(boundsMin.getX())) {
+			enlargeBounds(min, max, boundsMin, boundsMax);
+		}
+	}
+
 	// //////////////////////////////
 	// Previewable interface
 
