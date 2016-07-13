@@ -7,6 +7,7 @@ import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
 
@@ -193,6 +194,39 @@ public class CASTableW extends Grid implements CASTable {
 	public void deleteRow(int rowNumber) {
 		removeRow(rowNumber);
 		resetRowNumbers(rowNumber);
+		// update keys (rows) in arbitrary constant table
+		updateAfterDeleteArbConstTable(rowNumber);
+	}
+
+	/**
+	 * Updates arbitraryConstantTable in construction.
+	 * 
+	 * @param row
+	 *            row index (starting from 0) where cell is deleted
+	 */
+	private void updateAfterDeleteArbConstTable(int row) {
+		MyArbitraryConstant arbConst = app.getKernel().getConstruction()
+				.getArbitraryConsTable().remove(row);
+		if (arbConst != null) {
+			for (GeoNumeric geoNum : arbConst.getConstList()) {
+				app.getKernel().getConstruction()
+						.removeFromConstructionList(geoNum);
+				app.getKernel().getConstruction().removeLabel(geoNum);
+				app.getKernel().notifyRemove(geoNum);
+			}
+		}
+		for (int key = row + 1; key <= app.getKernel().getConstruction()
+				.getArbitraryConsTable().size(); key++) {
+			MyArbitraryConstant myArbConst = app.getKernel().getConstruction()
+					.getArbitraryConsTable().get(key);
+			if (myArbConst != null) {
+				app.getKernel().getConstruction().getArbitraryConsTable()
+						.remove(key);
+				app.getKernel().getConstruction().getArbitraryConsTable()
+						.put(key - 1,
+						myArbConst);
+			}
+		}
 	}
 
 	public void setRow(int rowNumber, GeoCasCell casCell) {
