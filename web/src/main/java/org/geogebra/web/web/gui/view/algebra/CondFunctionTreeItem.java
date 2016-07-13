@@ -3,8 +3,8 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.gui.util.CancelEvents;
-import org.geogebra.web.html5.main.MathQuillHelper;
 import org.geogebra.web.web.css.GuiResources;
 
 import com.google.gwt.core.client.Scheduler;
@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.PushButton;
  * 
  * File created by Arpad Fekete
  */
-public class CondFunctionTreeItem extends RadioTreeItem {
+public class CondFunctionTreeItem extends MathQuillTreeItem {
 
 	PushButton pButton;
 

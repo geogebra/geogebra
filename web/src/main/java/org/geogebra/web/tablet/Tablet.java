@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
+import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
-import org.geogebra.web.html5.main.MathQuillHelper;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CustomElements;
 import org.geogebra.web.tablet.main.TabletDevice;

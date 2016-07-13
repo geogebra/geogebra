@@ -951,7 +951,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		if (forceRetex) {
 			ti = new LatexTreeItem(ob);
 		} else {
-			ti = RadioTreeItem.create(ob);
+			ti = MathQuillTreeItem.create(ob);
 		}
 		ti.setUserObject(ob);
 		ti.addStyleName("avItem");
@@ -1943,7 +1943,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	private static void addLeaf(HasTreeItems printItem, RadioTreeItem leaf) {
 		GeoElement geo = leaf.getGeo();
-		RadioTreeItem printLeaf = new RadioTreeItem(geo);
+		RadioTreeItem printLeaf = new MathQuillTreeItem(geo);
 		printItem.addItem(printLeaf);
 
 		RadioTreeItem.as(printLeaf).repaint();

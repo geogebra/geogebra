@@ -40,7 +40,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -59,7 +59,6 @@ import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.html5.main.MathQuillHelper;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
@@ -1919,11 +1918,7 @@ public class RadioTreeItem extends AVTreeItem
 			};
 			tim.schedule(500);
 		} else {
-
 			MathQuillHelper.focusEquationMathQuillGGB(latexItem, false);
-
-
-
 		}
 		return true;
 	}

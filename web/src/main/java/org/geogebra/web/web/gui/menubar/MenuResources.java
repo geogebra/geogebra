@@ -8,11 +8,11 @@ import com.google.gwt.user.client.ui.MenuBar.Resources;
 
 public class MenuResources implements Resources {
 
-			@Override
-            @ImageOptions(flipRtl = true)
-            public ImageResource menuBarSubMenuIcon() {
-	            return GuiResources.INSTANCE.menuBarSubMenuIconLTR();
-            }
+	@Override
+	@ImageOptions(flipRtl = true)
+	public ImageResource menuBarSubMenuIcon() {
+		return GuiResources.INSTANCE.menuBarSubMenuIconLTR();
+	}
 	
 
 }

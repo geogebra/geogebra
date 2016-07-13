@@ -5,10 +5,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
-import org.geogebra.web.html5.main.MathQuillHelper;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.PushButton;
  * 
  * File created by Arpad Fekete
  */
-public class MatrixTreeItem extends RadioTreeItem {
+public class MatrixTreeItem extends MathQuillTreeItem {
 
 	enum MatrixOps {
 		APPEND_ROW, APPEND_COLUMN, REMOVE_LAST_ROW, REMOVE_LAST_COLUMN

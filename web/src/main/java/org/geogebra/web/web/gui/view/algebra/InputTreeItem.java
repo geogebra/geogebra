@@ -12,6 +12,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
@@ -20,7 +21,6 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.html5.main.MathQuillHelper;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
@@ -56,7 +56,8 @@ import com.google.gwt.user.client.ui.PushButton;
  * 
  * File created by Arpad Fekete
  */
-public class InputTreeItem extends RadioTreeItem implements
+public class InputTreeItem extends MathQuillTreeItem
+		implements
 		HasSymbolPopup, FocusHandler, BlurHandler {
 
 	// How large this number should be (e.g. place on the screen, or

@@ -13,9 +13,9 @@ import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.cas.latex.MathQuillHelper;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.MathQuillHelper;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;

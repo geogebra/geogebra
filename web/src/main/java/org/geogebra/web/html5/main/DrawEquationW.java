@@ -175,7 +175,7 @@ public class DrawEquationW extends DrawEquation {
 
 
 
-	static void scrollJSOIntoView(JavaScriptObject jo,
+	public static void scrollJSOIntoView(JavaScriptObject jo,
 	        GeoContainer rbti, Element parentElement,
 	        boolean newCreationMode) {
 

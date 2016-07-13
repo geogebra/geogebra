@@ -9,7 +9,7 @@ public class TreeImages implements Tree.Resources{
 
  public ImageResource treeClosed() {
         // TODO Auto-generated method stub
-        return GuiResources.INSTANCE.spacer();
+		return GuiResources.INSTANCE.spacer();
  }
 
 

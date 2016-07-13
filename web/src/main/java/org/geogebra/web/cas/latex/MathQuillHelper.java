@@ -1,8 +1,11 @@
-package org.geogebra.web.html5.main;
+package org.geogebra.web.cas.latex;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
+import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.geogebra.web.html5.main.ScriptManagerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
@@ -249,7 +252,7 @@ public class MathQuillHelper {
 				return;
 			}
 		} else {
-			@org.geogebra.web.html5.main.MathQuillHelper::setCurrentWidget(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+			@org.geogebra.web.cas.latex.MathQuillHelper::setCurrentWidget(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 		}
 
 		$wnd
@@ -279,15 +282,15 @@ public class MathQuillHelper {
 							}
 							if (code == 13) {//enter
 								if (newCreationMode) {
-									@org.geogebra.web.html5.main.MathQuillHelper::newFormulaCreatedMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@org.geogebra.web.cas.latex.MathQuillHelper::newFormulaCreatedMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								} else {
-									@org.geogebra.web.html5.main.MathQuillHelper::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@org.geogebra.web.cas.latex.MathQuillHelper::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							} else if (code == 27) {//esc
 								if (newCreationMode) {
-									@org.geogebra.web.html5.main.MathQuillHelper::stornoFormulaMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@org.geogebra.web.cas.latex.MathQuillHelper::stornoFormulaMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								} else {
-									@org.geogebra.web.html5.main.MathQuillHelper::escEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@org.geogebra.web.cas.latex.MathQuillHelper::escEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							} else {
 								if ((code == 8) || (code == 32) || (code == 9)) { // backspace
@@ -302,7 +305,7 @@ public class MathQuillHelper {
 								// but still better to put this in keypress later,
 								// just it should be assigned in the bubbling phase of keypress
 								// after MathQuillGGB has executed its own code, just it is not easy...
-								@org.geogebra.web.html5.main.MathQuillHelper::scrollCursorIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
+								@org.geogebra.web.cas.latex.MathQuillHelper::scrollCursorIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 
 								if (newCreationMode) {
 									// the same method can be called from the on-screen keyboard!
@@ -328,7 +331,7 @@ public class MathQuillHelper {
 				})
 				.select(
 						function(event7) {
-							@org.geogebra.web.html5.main.MathQuillHelper::scrollSelectionIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
+							@org.geogebra.web.cas.latex.MathQuillHelper::scrollSelectionIntoView(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 						});
 
 		if (!newCreationMode) {
@@ -372,7 +375,7 @@ public class MathQuillHelper {
 					event.preventDefault();
 					return false;
 				}
-				var captureSuccess = @org.geogebra.web.html5.main.MathQuillHelper::specKeyDown(IZZZLcom/google/gwt/dom/client/Element;)(code, event.altKey, event.ctrlKey, event.shiftKey, parentElement);
+				var captureSuccess = @org.geogebra.web.cas.latex.MathQuillHelper::specKeyDown(IZZZLcom/google/gwt/dom/client/Element;)(code, event.altKey, event.ctrlKey, event.shiftKey, parentElement);
 				if (captureSuccess) {
 					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
 					// so let's change it: (it should not be true for pi, o and i!)
@@ -818,7 +821,7 @@ public class MathQuillHelper {
 
 		//elSecond.previousSibling.style.display = "block"; // this does not apply here!!
 
-		@org.geogebra.web.html5.main.MathQuillHelper::newFormulaCreatedMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Ljava/lang/String;Ljava/lang/String;)(rbti,parentElement,latexq,latexx);
+		@org.geogebra.web.cas.latex.MathQuillHelper::newFormulaCreatedMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;Ljava/lang/String;Ljava/lang/String;)(rbti,parentElement,latexq,latexx);
 
 		// this method also takes care of calling more JSNI code in a callback,
 		// that originally belonged here: newFormulaCreatedMathQuillGGBCallback
@@ -1091,7 +1094,7 @@ public class MathQuillHelper {
 
 		var latexq = null;
 		elSecond.previousSibling.style.display = "block";
-		@org.geogebra.web.html5.main.MathQuillHelper::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rbti,latexq,function(){});
+		@org.geogebra.web.cas.latex.MathQuillHelper::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rbti,latexq,function(){});
 		thisjq.mathquillggb('revert').mathquillggb();
 	}-*/;
 
@@ -1111,7 +1114,7 @@ public class MathQuillHelper {
 		var onError = function() {
 			thisjq.mathquillggb('revert').mathquillggb();
 		};
-		var rett = @org.geogebra.web.html5.main.MathQuillHelper::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rbti,latexq,onError);
+		var rett = @org.geogebra.web.cas.latex.MathQuillHelper::endEditingEquationMathQuillGGB(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Ljava/lang/String;Lcom/google/gwt/core/client/JavaScriptObject;)(rbti,latexq,onError);
 
 	}-*/;
 
