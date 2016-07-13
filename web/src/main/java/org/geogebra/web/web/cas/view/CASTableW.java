@@ -5,6 +5,7 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.cas.view.CASTableCellEditor;
+import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
@@ -70,6 +71,8 @@ public class CASTableW extends Grid implements CASTable {
 			resize(n + 1, 2);
 		else
 			this.insertRow(n);
+		// update keys (rows) in arbitrary constant table
+		updateAfterInsertArbConstTable(rows);
 		CASTableCellW cellWidget = new CASTableCellW(casCell, app);
 		Widget rowHeader = new RowHeaderWidget(this, n + 1, casCell,
 		        (AppW) getApplication());
@@ -89,6 +92,28 @@ public class CASTableW extends Grid implements CASTable {
 			// tell construction about new GeoCasCell if it is not at the
 			// end
 			app.getKernel().getConstruction().setCasCellRow(casCell, rows);
+		}
+	}
+
+	/**
+	 * Updates arbitraryConstantTable in construction.
+	 * 
+	 * @param row
+	 *            row index (starting from 0) where cell insertion is done
+	 */
+	private void updateAfterInsertArbConstTable(int row) {
+		for (int key = app.getKernel().getConstruction().getArbitraryConsTable()
+				.size(); key >= row; key--) {
+			MyArbitraryConstant myArbConst = app.getKernel().getConstruction()
+					.getArbitraryConsTable().get(key);
+			if (myArbConst != null
+					&& !app.getKernel().getConstruction().isCasCellUpdate()
+					&& !app.getKernel().getConstruction().isFileLoading()) {
+				app.getKernel().getConstruction().getArbitraryConsTable()
+						.remove(key);
+				app.getKernel().getConstruction().getArbitraryConsTable()
+						.put(key + 1, myArbConst);
+			}
 		}
 	}
 
