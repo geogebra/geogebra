@@ -10,7 +10,7 @@
 
   <source path='plugin'/>
   <public path='pub' />
-  <source path='cas'/>
+  <source path='cas/giac'/>
   
      <replace-with class="org.geogebra.web.cas.giac.CASFactoryW">
     <when-type-is class="org.geogebra.common.factories.CASFactory" />    
