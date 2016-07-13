@@ -725,8 +725,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * @param PI
 	 *            point
 	 */
-	protected void polishPointOnPath(GeoPointND PI) {
+	private void polishPointOnPath(GeoPointND PI) {
 		quadTree.polishPointOnPath(PI);
+		setPointOnCoordsys(PI);
 	}
 
 	@Override
@@ -734,7 +735,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (locus.getPoints().size() > 0) {
 			locus.pointChanged(PI);
 			polishPointOnPath(PI);
-			setPointOnCoordsys(PI);
 		}
 	}
 
@@ -751,7 +751,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (locus.getPoints().size() > 0) {
 			locus.pathChanged(PI);
 			polishPointOnPath(PI);
-			setPointOnCoordsys(PI);
 		}
 	}
 
@@ -759,6 +758,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * set point on coord sys
 	 * 
 	 * @param PI
+	 *            point
 	 */
 	protected void setPointOnCoordsys(GeoPointND PI) {
 		// only for 3D

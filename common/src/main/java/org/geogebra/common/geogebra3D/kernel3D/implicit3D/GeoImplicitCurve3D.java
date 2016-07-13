@@ -66,16 +66,15 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		return true;
 	}
 
-	private Coords tmpCoords;
 
 	@Override
 	protected void setPointOnCoordsys(GeoPointND PI) {
-		Coords coords = PI.getInhomCoordsInD2();
-		if (tmpCoords == null) {
-			tmpCoords = new Coords(4);
-		}
-		coordSys.getPoint(coords.getX(), coords.getY(), tmpCoords);
-		PI.setCoords(tmpCoords, false);
+		Coords coords = PI.getInhomCoordsInD3();
+		Coords vec = coordSys.getEquationVector();
+		coords.setZ(-vec.getX() * coords.getX() / vec.getZ()
+				- vec.getY() * coords.getY() / vec.getZ()
+				- vec.getW());
+		PI.setCoords(coords, false);
 		PI.updateCoords();
 	}
 
