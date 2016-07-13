@@ -14,6 +14,7 @@ import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MathQuillTreeItem extends RadioTreeItem
@@ -137,7 +138,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 	}
 
 	@Override
-	public void updatePosition(ScrollableSuggestionDisplay sug) {
+	public void updatePosition(DefaultSuggestionDisplay sug) {
 		// TODO Auto-generated method stub
 
 	}
@@ -436,6 +437,10 @@ public class MathQuillTreeItem extends RadioTreeItem
 			break;
 		}
 
+	}
+
+	protected String stopCommon(String newValue) {
+		return EquationEditor.stopCommon(newValue);
 	}
 
 }

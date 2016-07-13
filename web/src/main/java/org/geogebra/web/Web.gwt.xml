@@ -28,6 +28,10 @@
   <replace-with class="org.geogebra.web.web.gui.applet.AppletFactory2D">
     <when-type-is class="org.geogebra.web.web.gui.applet.AppletFactory" />    
   </replace-with>
+  <replace-with class="org.geogebra.web.cas.latex.MathQuillHelper">
+    <when-type-is class="org.geogebra.web.web.util.LaTeXHelper" />    
+  </replace-with>
+  
   <set-configuration-property name="devModeRedirectEnabled" value="false"/>
   <!-- Compile only one permutation -->
   <collapse-all-properties />

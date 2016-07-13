@@ -9,9 +9,10 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.web.cas.latex.CASTableCellEditorW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.util.LaTeXHelper;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.TableRowElement;
@@ -187,7 +188,8 @@ public class CASTableW extends Grid implements CASTable {
 
 	public CASTableCellEditor getEditor() {
 		if (editor == null) {
-			editor = new CASTableCellEditorW(this, app, ml);
+			editor = ((LaTeXHelper) GWT.create(LaTeXHelper.class))
+					.getCASEditor(this, app, ml);
 		}
 		return editor;
 	}

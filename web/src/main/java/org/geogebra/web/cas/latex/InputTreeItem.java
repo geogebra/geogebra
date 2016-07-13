@@ -51,6 +51,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 
 /**
  * NewRadioButtonTreeItem for creating new formulas in the algebra view
@@ -865,7 +866,7 @@ public class InputTreeItem extends MathQuillTreeItem
 
 
 	@Override
-	public void updatePosition(ScrollableSuggestionDisplay sug) {
+	public void updatePosition(DefaultSuggestionDisplay sug) {
 		sug.setPositionRelativeTo(ihtml);
 	}
 

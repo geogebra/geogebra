@@ -33,6 +33,9 @@
    <replace-with class="org.geogebra.web.html5.factories.NoCASFactory">
     <when-type-is class="org.geogebra.common.factories.CASFactory" />    
   </replace-with>
+  <replace-with class="org.geogebra.web.web.util.ReTeXHelper">
+    <when-type-is class="org.geogebra.web.web.util.LaTeXHelper" />    
+  </replace-with>
   
   <!-- Compile only one permutation -->
   <collapse-all-properties />

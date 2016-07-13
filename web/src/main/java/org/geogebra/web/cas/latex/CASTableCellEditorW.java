@@ -29,6 +29,7 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CASTableCellEditorW extends Label implements
@@ -226,7 +227,7 @@ public class CASTableCellEditorW extends Label implements
 	}
 
 	@Override
-	public void updatePosition(ScrollableSuggestionDisplay sug) {
+	public void updatePosition(DefaultSuggestionDisplay sug) {
 		sug.setPositionRelativeTo(this);
 
 	}

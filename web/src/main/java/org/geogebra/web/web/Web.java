@@ -19,6 +19,7 @@ import org.geogebra.web.web.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.web.gui.laf.SmartLookAndFeel;
 import org.geogebra.web.web.main.BrowserDevice;
 import org.geogebra.web.web.main.GDevice;
+import org.geogebra.web.web.util.LaTeXHelper;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;

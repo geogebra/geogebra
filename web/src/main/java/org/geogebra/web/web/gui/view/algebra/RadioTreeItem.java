@@ -39,8 +39,6 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.web.cas.latex.EquationEditor;
-//import org.geogebra.web.cas.latex.EquationEditor;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -1449,7 +1447,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		if (newValue0 != null) {
-			String newValue = EquationEditor.stopCommon(newValue0);
+			String newValue = stopCommon(newValue0);
 			// // not sure why it is needed... TODO: is this needed?
 			newValue.replace(" ", "");
 
@@ -1544,7 +1542,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		String newValue = newValue0;
 		if (newValue0 != null) {
-			newValue = EquationEditor.stopCommon(newValue);
+			newValue = stopCommon(newValue);
 		}
 
 		app.getKernel().clearJustCreatedGeosInViews();
@@ -1652,6 +1650,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 			blurEditor();
 		}
 		return true;
+	}
+
+	protected String stopCommon(String newValue) {
+		return newValue;
 	}
 
 	protected abstract void blurEditor();
@@ -2684,7 +2686,7 @@ marblePanel, evt))) {
 
 	}
 
-	public abstract void handleFKey(int key, GeoElement geo);
+	public abstract void handleFKey(int key, GeoElement geo1);
 
 	@Override
 	public ToggleButton getHelpToggle() {

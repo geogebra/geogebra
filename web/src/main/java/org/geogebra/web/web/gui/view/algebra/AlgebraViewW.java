@@ -25,8 +25,6 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.cas.latex.InputTreeItem;
-import org.geogebra.web.cas.latex.MathQuillTreeItem;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -37,9 +35,11 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
+import org.geogebra.web.web.util.LaTeXHelper;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
@@ -953,7 +953,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		if (forceRetex) {
 			ti = new LatexTreeItem(ob);
 		} else {
-			ti = MathQuillTreeItem.create(ob);
+			ti = ((LaTeXHelper) GWT.create(LaTeXHelper.class)).getAVItem(ob);
 		}
 		ti.setUserObject(ob);
 		ti.addStyleName("avItem");
@@ -1415,7 +1415,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	private RadioTreeItem createInputPanel() {
 		return app.has(Feature.RETEX_EDITOR) ? new LatexTreeItem(kernel)
-				: new InputTreeItem(kernel);
+				: ((LaTeXHelper) GWT.create(LaTeXHelper.class))
+						.getAVInput(kernel);
 	}
 
 	public void setShowAlgebraInput(boolean show) {

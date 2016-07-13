@@ -15,6 +15,9 @@
      <replace-with class="org.geogebra.web.cas.giac.CASFactoryW">
     <when-type-is class="org.geogebra.common.factories.CASFactory" />    
   </replace-with>
+  <replace-with class="org.geogebra.web.cas.latex.MathQuillHelper">
+    <when-type-is class="org.geogebra.web.web.util.LaTeXHelper" />    
+  </replace-with>
 
  <set-configuration-property name="devModeRedirectEnabled" value="false"/>
   <!-- Compile only one permutation -->
