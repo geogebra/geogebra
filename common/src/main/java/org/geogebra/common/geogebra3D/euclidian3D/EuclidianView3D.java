@@ -1,11 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -112,6 +106,12 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -3616,6 +3616,10 @@ GRectangle selectionRectangle) {
 		drawable3DLists.updateAll();
 	}
 
+	public void updateOtherDrawables() {
+		updateDrawables(drawable3DLists);
+	}
+
 	/**
 	 * @param i index
 	 * @return i-th label
@@ -4441,13 +4445,24 @@ GRectangle selectionRectangle) {
 				scale = v;
 			}
 		}
-		scale *= getScale();
-		if (Double.isNaN(scale) || Kernel.isZero(scale)) {
-			scale = SCALE_STANDARD;
-		} else {
-			// let the view a bit greater than the scene
-			scale *= 0.94;
+
+		if (Double.isInfinite(scale)) {
+			return;
 		}
+
+		if (Double.isNaN(scale)) {
+			return;
+		}
+
+		if (Kernel.isZero(scale)) {
+			return;
+		}
+
+		scale *= getScale();
+
+		// let the view a bit greater than the scene
+		scale *= 0.94;
+
 
 		double x = -(boundsMin2.getX() + boundsMax2.getX()) / 2;
 		double y = -(boundsMin2.getY() + boundsMax2.getY()) / 2;
