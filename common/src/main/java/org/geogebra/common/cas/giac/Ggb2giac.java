@@ -943,6 +943,9 @@ public class Ggb2giac {
 		p("PartialFractions.2", "partfrac(%0,%1)");
 		p("Pascal.4",
 				"[[[ggbpasarg0:=%0],[ggbpasarg1:=%1],[ggbpasarg2:=%2]],if %3==true then Beta(ggbpasarg0,1+floor(ggbpasarg2),ggbpasarg1,1) else (1-(%1))^(ggbpasarg2)*(ggbpasarg1)^(ggbpasarg0)*binomial(ggbpasarg0+ggbpasarg2-1,ggbpasarg0-1) fi][1]");
+
+		p("Plane.1", "plane(%0)");
+
 		p("Poisson.3", "if %2==true then "
 				+ "exp(-(%0))*sum ((%0)^k/k!,k,0,floor(%1)) "
 				+ "else normal((%0)^(%1)/factorial(floor(%1))*exp(-%0)) fi");
