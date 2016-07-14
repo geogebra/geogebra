@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -870,8 +871,21 @@ public class Construction {
 		updateConstructionIndex(pos);
 
 		// update cas row references
-		if (ce instanceof GeoCasCell || (ce instanceof AlgoCasCellInterface))
+		if (ce instanceof GeoCasCell || (ce instanceof AlgoCasCellInterface)) {
+			// needed for GGB-808
+			// remove geoCasCell from CasView table before update of cell rows
+			for (View view : kernel.views) {
+				if (view.getViewID() == App.VIEW_CAS) {
+					if (ce instanceof GeoCasCell) {
+						view.remove((GeoCasCell) ce);
+					}
+					if (ce instanceof AlgoDependentCasCell) {
+						view.remove(((AlgoDependentCasCell) ce).getCasCell());
+					}
+				}
+			}
 			updateCasCellRows();
+		}
 
 		updateAllConstructionProtocolAlgorithms(); // Michael Borcherds
 													// 2008-05-15

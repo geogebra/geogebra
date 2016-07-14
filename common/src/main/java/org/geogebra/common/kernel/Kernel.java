@@ -3617,7 +3617,12 @@ public class Kernel {
 			for (View view : views) {
 				if ((view.getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
 						|| isNotifyConstructionProtocolViewAboutAddRemoveActive()) {
-					view.remove(geo);
+					// needed for GGB-808
+					// geoCasCell is already removed from cas view
+					if (!(view.getViewID() == App.VIEW_CAS
+							&& geo instanceof GeoCasCell)) {
+						view.remove(geo);
+					}
 				}
 			}
 
