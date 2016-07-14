@@ -1,7 +1,5 @@
 package org.geogebra.web.web.gui.menubar;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.ExamEnvironment;
@@ -48,45 +46,23 @@ public class PerspectivesMenuW extends GMenuBar {
 
 	private void initActions() {
 
-		
-		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
-	    ArrayList<ResourcePrototype> icons = new ArrayList<ResourcePrototype>();
 	    PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		if (app.has(Feature.NEW_START_SCREEN)) {
-			icons.add(pr.menu_icon_algebra());
-			icons.add(pr.menu_icon_cas());
-			icons.add(pr.menu_icon_geometry());
-			icons.add(pr.menu_icon_graphics3D());
-			icons.add(pr.menu_icon_spreadsheet());
-			icons.add(pr.menu_icon_probability());
-			icons.add(pr.menu_icon_exam());
+			addPerspective(0, pr.menu_icon_algebra());
+			addPerspective(3, pr.menu_icon_cas());
+			addPerspective(1, pr.menu_icon_geometry());
+			addPerspective(4, pr.menu_icon_graphics3D());
+			addPerspective(2, pr.menu_icon_spreadsheet());
+			addPerspective(5, pr.menu_icon_probability());
 		} else {
-			icons.add(pr.menu_icon_algebra());
-			icons.add(pr.menu_icon_geometry());
-			icons.add(pr.menu_icon_spreadsheet());
-			icons.add(pr.menu_icon_cas());
-			icons.add(pr.menu_icon_graphics3D());
-			icons.add(pr.menu_icon_probability());
+			addPerspective(0, pr.menu_icon_algebra());
+			addPerspective(1, pr.menu_icon_geometry());
+			addPerspective(2, pr.menu_icon_spreadsheet());
+			addPerspective(3, pr.menu_icon_cas());
+			addPerspective(4, pr.menu_icon_graphics3D());
+			addPerspective(5, pr.menu_icon_probability());
 		}
-		for (int i = 0; i < defaultPerspectives.length; ++i) {
-			if(defaultPerspectives[i] == null){
-				continue;
-			}
-			final int index = i;
-			final int defID = defaultPerspectives[i].getDefaultID();
-			addItem(MainMenu.getMenuBarHtml(
-					ImgResourceHelper.safeURI(icons.get(i)),
-					app.getMenu(defaultPerspectives[i].getId()), true),true,new MenuCommand(app) {
-						
-						@Override
-						public void doExecute() {
-							setPerspective(app, index);
-							if (!(app.isExam() && app.getExam().getStart() >= 0)) {
-								((AppWFull) app).showStartTooltip(defID);
-							}
-						}
-			});			
-		}
+
 
 		if (app.has(Feature.NEW_START_SCREEN) && !app.isExam()) {
 
@@ -105,6 +81,28 @@ public class PerspectivesMenuW extends GMenuBar {
 		}
 	}
 
+
+	private void addPerspective(int i, ResourcePrototype icon) {
+		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
+		if (defaultPerspectives[i] == null) {
+			return;
+		}
+		final int index = i;
+		final int defID = defaultPerspectives[i].getDefaultID();
+		addItem(MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(icon),
+				app.getMenu(defaultPerspectives[i].getId()), true), true,
+				new MenuCommand(app) {
+
+					@Override
+					public void doExecute() {
+						setPerspective(app, index);
+						if (!(app.isExam() && app.getExam().getStart() >= 0)) {
+							((AppWFull) app).showStartTooltip(defID);
+						}
+					}
+				});
+
+	}
 
 	/**
 	 * @return callback that shows the exam welcome message and prepares Exam
@@ -125,8 +123,6 @@ public class PerspectivesMenuW extends GMenuBar {
 		};
 	}
 
-	final public static String[] perspectiveSlugs = new String[] { "graphing", "cas", "geometry", "3d", "spreadsheet",
-			"probability" };
 	/**
 	 * @param index
 	 *            perspective index
@@ -141,14 +137,9 @@ public class PerspectivesMenuW extends GMenuBar {
 		PerspectivesPopup.setActivePerspective(index);
 		// app.getToolbar().closeAllSubmenu();
 		if (app.getTubeId() < 1 && app.getArticleElement().getDataParamApp()) {
-			if (!app.has(Feature.NEW_START_SCREEN)) {
-				Browser.changeUrl(Perspective.perspectiveSlugs[index]);
-			} else {
-				Browser.changeUrl(perspectiveSlugs[index]); // new order of
-															// perspectives need
-															// new order of url
-															// extensions
-			}
+
+			Browser.changeUrl(Perspective.perspectiveSlugs[index]);
+
 		}
 		if (changed) {
 			app.storeUndoInfo();

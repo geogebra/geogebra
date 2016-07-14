@@ -97,38 +97,13 @@ public class PerspectivePanel extends JPopupMenu {
 		add(title);
 		add(Box.createVerticalStrut(5));
 
-		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
-		ImageResourceD[] icons = new ImageResourceD[] {
-				GuiResourcesD.MENU_VIEW_ALGEBRA,
-				GuiResourcesD.PERSPECTIVES_GEOMETRY,
-				GuiResourcesD.MENU_VIEW_SPREADSHEET,
-				GuiResourcesD.MENU_VIEW_CAS,
-				GuiResourcesD.PERSPECTIVES_GEOMETRY3D,
-				GuiResourcesD.MENU_VIEW_PROBABILITY };
-		for (int i = 0; i < defaultPerspectives.length; ++i) {
-			if (defaultPerspectives[i] == null) {
-				continue;
-			}
-			JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
-			tmpItem.setText(app.getMenu(defaultPerspectives[i].getId()));
-			tmpItem.setActionCommand("d" + i);
+		addPerspective(0, GuiResourcesD.MENU_VIEW_ALGEBRA);
+		addPerspective(3, GuiResourcesD.MENU_VIEW_CAS);
+		addPerspective(1, GuiResourcesD.PERSPECTIVES_GEOMETRY);
+		addPerspective(4, GuiResourcesD.PERSPECTIVES_GEOMETRY3D);
+		addPerspective(2, GuiResourcesD.MENU_VIEW_SPREADSHEET);
+		addPerspective(5, GuiResourcesD.MENU_VIEW_PROBABILITY);
 
-			Icon ic;
-			if (icons[i] != null) {
-				ic = app.getScaledIcon(icons[i]);
-				// GeoGebraIcon.ensureIconSize((ImageIcon) ic, new
-				// Dimension(40,40));
-			} else {
-				ic = app.getEmptyIcon();
-			}
-			tmpItem.setIcon(ic);
-
-			Dimension d = tmpItem.getMaximumSize();
-			d.height = tmpItem.getPreferredSize().height;
-			tmpItem.setMaximumSize(d);
-
-			add(tmpItem);
-		}
 
 		// user perspectives
 		Perspective[] perspectives = layout.getPerspectives();
@@ -161,6 +136,33 @@ public class PerspectivePanel extends JPopupMenu {
 		add(Box.createVerticalStrut(20));
 		// add(OptionsUtil.flowPanelRight(0, 0, 0, btnLanguage,
 		// Box.createHorizontalStrut(20)));
+
+	}
+
+	private void addPerspective(int i, ImageResourceD icon) {
+		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
+		if (defaultPerspectives[i] == null) {
+			return;
+		}
+		JMenuItem tmpItem = new JMenuItem(changePerspectiveAction);
+		tmpItem.setText(app.getMenu(defaultPerspectives[i].getId()));
+		tmpItem.setActionCommand("d" + i);
+
+		Icon ic;
+		if (icon != null) {
+			ic = app.getScaledIcon(icon);
+			// GeoGebraIcon.ensureIconSize((ImageIcon) ic, new
+			// Dimension(40,40));
+		} else {
+			ic = app.getEmptyIcon();
+		}
+		tmpItem.setIcon(ic);
+
+		Dimension d = tmpItem.getMaximumSize();
+		d.height = tmpItem.getPreferredSize().height;
+		tmpItem.setMaximumSize(d);
+
+		add(tmpItem);
 
 	}
 

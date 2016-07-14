@@ -34,6 +34,7 @@ public class PerspectivesPopup {
 	private DialogBoxW box;
 	/** application */
 	AppW app;
+	private FlowPanel contentPanel;
 
 	private static int activePerspective;
 
@@ -42,23 +43,16 @@ public class PerspectivesPopup {
 	}
 
 	public void showPerspectivesPopup() {
-		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
+
 		ArrayList<ResourcePrototype> icons = new ArrayList<ResourcePrototype>();
 		PerspectiveResources pr = ((ImageFactory) GWT
 				.create(ImageFactory.class)).getPerspectiveResources();
-		icons.add(pr.menu_icon_algebra());
-		icons.add(pr.menu_icon_cas());
-		icons.add(pr.menu_icon_geometry());
-		icons.add(pr.menu_icon_graphics3D());
-		icons.add(pr.menu_icon_spreadsheet());
-		icons.add(pr.menu_icon_probability());
-		icons.add(pr.menu_icon_exam());
-		icons.add(GuiResources.INSTANCE.icon_help());
+
 
 		box = new DialogBoxW(true, true, null, app.getPanel());
 		box.setGlassEnabled(false);
 
-		FlowPanel contentPanel = new FlowPanel();
+		this.contentPanel = new FlowPanel();
 		contentPanel.removeStyleName("dialogContent");
 		contentPanel.addStyleName("perspectivesMainPanel");
 
@@ -67,34 +61,45 @@ public class PerspectivesPopup {
 		box.getCaption().setText(app.getMenu("CreateYourOwn"));
 		box.getCaption().asWidget().addStyleName("perspectivesCaption");
 
-		for (int i = 0; i < defaultPerspectives.length; ++i) {
-			if (defaultPerspectives[i] == null) {
-				continue;
-			}
-			final int index = i;
-			final int defID = defaultPerspectives[i].getDefaultID();
-			HorizontalPanel rowPanel = addPerspectiveRow(icons.get(i),
-					defaultPerspectives[i].getId(), index, defID);
-			if (activePerspective == index) {
-				Log.debug("activePerspective: " + activePerspective);
-				rowPanel.addStyleName("perspectiveHighlighted");
-			} else {
-				rowPanel.removeStyleName("perspectiveHighlighted");
-			}
-			contentPanel.add(rowPanel);
-		}
+		addPerspective(0, pr.menu_icon_algebra());
+		addPerspective(3, pr.menu_icon_cas());
+		addPerspective(1, pr.menu_icon_geometry());
+		addPerspective(4, pr.menu_icon_graphics3D());
+		addPerspective(2, pr.menu_icon_spreadsheet());
+		addPerspective(5, pr.menu_icon_probability());
 
 		// add exam mode
-		HorizontalPanel examRow = addPerspectiveRow(icons.get(6), "exam_menu_entry", -1, 7);
+		HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam(),
+				"exam_menu_entry", -1, 7);
 		contentPanel.add(examRow);
 
 		// add link to tutorials
-		HorizontalPanel tutorialsRow = addPerspectiveRow(icons.get(7),
+		HorizontalPanel tutorialsRow = addPerspectiveRow(
+				GuiResources.INSTANCE.icon_help(),
 				"Tutorials", -2, 8);
 		tutorialsRow.addStyleName("upperBoarder");
 		contentPanel.add(tutorialsRow);
 
 		box.show();
+	}
+
+	private void addPerspective(int i, ResourcePrototype icon) {
+		Perspective[] defaultPerspectives = Layout.defaultPerspectives;
+		if (defaultPerspectives[i] == null) {
+			return;
+		}
+		final int index = i;
+		final int defID = defaultPerspectives[i].getDefaultID();
+		HorizontalPanel rowPanel = addPerspectiveRow(icon,
+				defaultPerspectives[i].getId(), index, defID);
+		if (activePerspective == index) {
+			Log.debug("activePerspective: " + activePerspective);
+			rowPanel.addStyleName("perspectiveHighlighted");
+		} else {
+			rowPanel.removeStyleName("perspectiveHighlighted");
+		}
+		contentPanel.add(rowPanel);
+
 	}
 
 	final static String[] tutorials = new String[] { "graphing/", "graphing/", "geometry/", "spreadsheet/", "cas/",
