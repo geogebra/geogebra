@@ -3943,7 +3943,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-737
 		case CAS_INTERSECT_3D:
-			return prerelease;
+			return true;
 
 		// MOB-413
 			// from 5.0.243.0
