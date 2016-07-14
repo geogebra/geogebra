@@ -6,6 +6,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.ExamEnvironment;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExamUtil;
@@ -33,6 +34,8 @@ public class PerspectivesPopup {
 	private DialogBoxW box;
 	/** application */
 	AppW app;
+
+	private static int activePerspective;
 
 	public PerspectivesPopup(AppW app) {
 		this.app = app;
@@ -72,16 +75,17 @@ public class PerspectivesPopup {
 			final int defID = defaultPerspectives[i].getDefaultID();
 			HorizontalPanel rowPanel = addPerspectiveRow(icons.get(i),
 					defaultPerspectives[i].getId(), index, defID);
-			contentPanel.add(rowPanel);
-
-			if (i % 2 == 1) {
-				rowPanel.addStyleName("perspectivesMargin");
+			if (activePerspective == index) {
+				Log.debug("activePerspective: " + activePerspective);
+				rowPanel.addStyleName("perspectiveHighlighted");
+			} else {
+				rowPanel.removeStyleName("perspectiveHighlighted");
 			}
+			contentPanel.add(rowPanel);
 		}
+
 		// add exam mode
-		HorizontalPanel examRow = addPerspectiveRow(icons.get(6),
- "exam_menu_entry", -1, 7);
-		examRow.addStyleName("perspectivesMargin");
+		HorizontalPanel examRow = addPerspectiveRow(icons.get(6), "exam_menu_entry", -1, 7);
 		contentPanel.add(examRow);
 
 		// add link to tutorials
@@ -141,6 +145,7 @@ public class PerspectivesPopup {
 					}
 					app.setExam(new ExamEnvironment());
 					((AppWFull) app).examWelcome();
+					// activePerspective = -1;
 				} else if (index == -2) {
 					String URL = GeoGebraConstants.QUICKSTART_URL + tutorials[defID]
 							+ app.getLocalization().getLocaleStr() + "/";
@@ -152,5 +157,13 @@ public class PerspectivesPopup {
 		}, ClickEvent.getType());
 
 		return rowPanel;
+	}
+
+	public int getActivePerspective() {
+		return activePerspective;
+	}
+
+	public static void setActivePerspective(int index) {
+		activePerspective = index;
 	}
 }

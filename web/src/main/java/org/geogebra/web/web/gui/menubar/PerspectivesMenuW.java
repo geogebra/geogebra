@@ -29,6 +29,7 @@ public class PerspectivesMenuW extends GMenuBar {
 	AppW app;
 	private Layout layout;
 	
+
 	/**
 	 * @param app application
 	 */
@@ -174,6 +175,8 @@ public class PerspectivesMenuW extends GMenuBar {
 				.applyPerspective(Layout.defaultPerspectives[index]);
 		app.updateViewSizes();
 		app.getGuiManager().updateMenubar();
+		// set active perspective for highlighting
+		PerspectivesPopup.setActivePerspective(index);
 		// app.getToolbar().closeAllSubmenu();
 		if (app.getTubeId() < 1 && app.getArticleElement().getDataParamApp()) {
 			Browser.changeUrl(Perspective.perspectiveSlugs[index]);
@@ -183,5 +186,6 @@ public class PerspectivesMenuW extends GMenuBar {
 		}
 	}
 	
+
 
 }
