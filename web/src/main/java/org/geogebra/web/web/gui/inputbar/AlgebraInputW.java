@@ -469,7 +469,8 @@ public class AlgebraInputW extends FlowPanel
 
 	private void setHelpPopup(){
 		if (helpPopup == null && app != null) {
-			helpPopup = new InputBarHelpPopup(this.app, this.inputField);
+			helpPopup = new InputBarHelpPopup(this.app, this.inputField,
+					"helpPopup");
 			helpPopup.addAutoHidePartner(this.getElement());
 			if (btnHelpToggle != null) {
 				helpPopup.setBtnHelpToggle(this.btnHelpToggle);

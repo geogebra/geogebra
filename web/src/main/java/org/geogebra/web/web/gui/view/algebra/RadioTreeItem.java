@@ -1755,7 +1755,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 					.getGuiManager().getInputHelpPanel();
 
 			if (helpPopup == null && app != null) {
-				helpPopup = new InputBarHelpPopup(this.app, this);
+				helpPopup = new InputBarHelpPopup(this.app, this,
+						"helpPopupAV");
 				helpPopup.addAutoHidePartner(this.getElement());
 				helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
@@ -1955,7 +1956,8 @@ marblePanel, evt))) {
 			ScrollPanel algebraPanel = ((AlgebraDockPanelW) app.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
 					.getAbsolutePanel();
-			int scrollbarWidth = algebraPanel.getOffsetWidth()
+			int scrollbarWidth = algebraPanel == null ? 0
+					: algebraPanel.getOffsetWidth()
 					- algebraPanel.getElement().getClientWidth();
 			buttonPanel.getElement().getStyle()
 					.setRight(46 - scrollbarWidth, Unit.PX);
