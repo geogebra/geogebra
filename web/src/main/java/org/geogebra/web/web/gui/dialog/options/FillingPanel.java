@@ -209,11 +209,12 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		panel.add(fillTypePanel);
 
 		unicodePanel = new InputPanelW(null, app, 1, -1, true);
-		tfInsertUnicode = unicodePanel.getTextComponent();
-		tfInsertUnicode.showPopupSymbolButton(true);
 		// buildInsertUnicodeButton();
 		unicodePanel.setVisible(false);
-		tfInsertUnicode.setStyleName("fillSymbol");
+		tfInsertUnicode = unicodePanel.getTextComponent();
+		tfInsertUnicode.setAutoComplete(false);
+
+		tfInsertUnicode.addStyleName("fillSymbol");
 		lblMsgSelected = new Label(app.getLocalization().getMenu(
 				"Filling.CurrentSymbol")
 				+ ":");
@@ -476,9 +477,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		opacityPanel.setVisible(false);
 		hatchFillPanel.setVisible(false);
 		imagePanel.setVisible(false);
-		lblSymbols.setVisible(false);
-		lblSelectedSymbol.setVisible(false);
-		unicodePanel.setVisible(false);
+		setSymbolsVisible(false);
 	}
 
 	@Override
@@ -491,9 +490,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		anglePanel.setVisible(true);
 		angleSlider.setMaximum(180);
 		angleSlider.setMinorTickSpacing(5);
-		lblSymbols.setVisible(false);
-		lblSelectedSymbol.setVisible(false);
-		unicodePanel.setVisible(false);
+		setSymbolsVisible(false);
 	}
 
 	@Override
@@ -507,9 +504,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		// Only at 0, 45 and 90 degrees texturepaint not have mismatches
 		angleSlider.setMaximum(45);
 		angleSlider.setMinorTickSpacing(45);
-		lblSymbols.setVisible(false);
-		lblSelectedSymbol.setVisible(false);
-		unicodePanel.setVisible(false);
+		setSymbolsVisible(false);
 
 	}
 
@@ -523,9 +518,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		anglePanel.setVisible(true);
 		angleSlider.setMaximum(180);
 		angleSlider.setMinorTickSpacing(45);
-		lblSymbols.setVisible(false);
-		lblSelectedSymbol.setVisible(false);
-		unicodePanel.setVisible(false);
+		setSymbolsVisible(false);
 	}
 
 	@Override
@@ -537,10 +530,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		imagePanel.setVisible(false);
 		// for dotted angle is useless
 		anglePanel.setVisible(false);
-		lblSymbols.setVisible(true);
-		lblSelectedSymbol.setVisible(true);
-		unicodePanel.setVisible(true);
-		tfInsertUnicode.showPopupSymbolButton(true);
+		setSymbolsVisible(true);
 	}
 
 	@Override
@@ -551,9 +541,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		imagePanel.setVisible(false);
 		// for dotted angle is useless
 		anglePanel.setVisible(false);
-		lblSymbols.setVisible(false);
-		lblSelectedSymbol.setVisible(false);
-		unicodePanel.setVisible(false);
+		setSymbolsVisible(false);
 	}
 
 	@Override
@@ -562,9 +550,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		opacityPanel.setVisible(true);
 		hatchFillPanel.setVisible(false);
 		imagePanel.setVisible(true);
-		lblSymbols.setVisible(false);
-		lblSelectedSymbol.setVisible(false);
-		unicodePanel.setVisible(false);
 		this.btnImage.setVisible(true);
 		this.btnClearImage.setVisible(true);
 
@@ -581,6 +566,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 				this.btnClearImage.setVisible(true);
 			}
 		}
+		setSymbolsVisible(false);
 
 
 	}
