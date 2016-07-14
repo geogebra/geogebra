@@ -2146,10 +2146,18 @@ namespace giac {
 	if (is_linear_wrt(val._SYMBptr->feuille,gen_x,a,b,contextptr) && has_evalf(a,r,1,contextptr) && has_evalf(b,r,1,contextptr)){
 	  r=-b/a;
 	  vecteur l5(l4);
+#if 1
 	  l5[j]=1;
 	  gen limsup=subst(res,l3,l5,false,contextptr);
 	  l5[j]=-1;
 	  gen liminf=subst(res,l3,l5,false,contextptr);
+#else
+	  l5[j]=1;
+	  bool dolim=l3.size()==1 && l5.size()==1 && l3.front().type==_IDNT;
+	  gen limsup=dolim?limit(res,*l3.front()._IDNTptr,l5.front(),0,contextptr):subst(res,l3,l5,false,contextptr);
+	  l5[j]=-1;
+	  gen liminf=dolim?limit(res,*l3.front()._IDNTptr,l5.front(),0,contextptr):subst(res,l3,l5,false,contextptr);
+#endif
 	  gen tmp=ratnormal((limit(liminf,id_x,r,-1,contextptr)-limit(limsup,id_x,r,1,contextptr))/2,contextptr)*val;
 	  if (is_undef(tmp) || is_inf(tmp))
 	    *logptr(contextptr) << gettext("Unable to cancel step at ")+r.print(contextptr) + " of " << limsup << "-" << liminf << endl;
@@ -3397,7 +3405,9 @@ namespace giac {
 	giac_assume(symb_and(symb_superieur_egal(x,borne_inf),symb_inferieur_egal(x,borne_sup)),contextptr);
 	primitive=eval(primitive,1,contextptr);
 	sto(xval,x,contextptr);
-	res=limit(primitive,*x._IDNTptr,borne_sup,-1,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,1,contextptr);
+	gen rs=limit(primitive,*x._IDNTptr,borne_sup,-1,contextptr);
+	gen ri=limit(primitive,*x._IDNTptr,borne_inf,1,contextptr);
+	res=rs-ri;
       }
       else {
 	if ( (desordonne=is_greater(borne_inf,borne_sup,contextptr) )){

@@ -2272,6 +2272,7 @@ namespace giac {
       }
     }
     // try to rewrite powers with less indep. vars
+    vecteur bases,bases2;
     if (vabs2.size()>1){
 #ifdef NO_STDEXCEPT
       vecteur vabs2tmp=*tsimplify_common(vabs2,contextptr)._VECTptr;
@@ -2284,10 +2285,65 @@ namespace giac {
 #else
       vabs2=*tsimplify_common(vabs2,contextptr)._VECTptr;
 #endif
+      if (1){
+	int S=int(vabs2.size());
+	vector<int> base(S),expo(S);
+	for (int i=0;i<int(S);++i){
+	  gen g=vabs2[i];
+	  if (!g.is_symb_of_sommet(at_pow)){
+	    bases.push_back(g);
+	    base[i]=bases.size()-1;
+	    expo[i]=1;
+	    continue;
+	  }
+	  gen b=g[1],e=g[2];
+	  if (!lop(b,at_pow).empty()){
+	    bases.push_back(g);
+	    base[i]=bases.size()-1;
+	    expo[i]=1;
+	    continue;
+	  }
+	  if (e.type!=_FRAC || e._FRACptr->num!=1 || e._FRACptr->den.type!=_INT_){
+	    bases.push_back(g);
+	    base[i]=bases.size()-1;
+	    expo[i]=1;
+	    continue;
+	  }
+	  int p=equalposcomp(bases,b);
+	  if (p==0){
+	    bases.push_back(b);
+	    base[i]=bases.size()-1;
+	    expo[i]=e._FRACptr->den.val;
+	    continue;
+	  }
+	  base[i]=p-1;
+	  expo[i]=e._FRACptr->den.val;
+	}
+	// find lcm of exponent of indices i having the same base
+	vector<int> lcms(bases.size(),1);
+	for (int i=0;i<S;++i){
+	  int p=base[i];
+	  lcms[p]=(lcms[p]*long(expo[i]))/gcd(lcms[p],expo[i]);
+	}
+	for (int p=0;p<int(bases.size());++p){
+	  bases[p]=symb_pow(bases[p],fraction(1,lcms[p]));
+	  bases2.push_back(identificateur(" simplify_pow"+print_INT_(p)));
+	}
+	// rewrite vabs2
+	for (int i=0;i<S;++i){
+	  int p=base[i];
+	if (lcms[p]==1)
+	  continue;
+	// bases[p]^expo[i] is rewritten as (bases[p]^1/lcms[p])^(1/(lcms[p]/expo[i]))
+	vabs2[i]=symb_pow(bases2[p],lcms[p]/expo[i]);
+	}
+      }
     }
     e=quotesubst(e,vabs,vabs2,contextptr);
     e=recursive_normal(e,contextptr); 
     if (is_undef(e)) return e;
+    if (!bases.empty())
+      e=quotesubst(e,bases2,bases,contextptr);
     // Don't touch fractional powers and absolute value anymore
     vabs2=lvar(e);
     vabs.clear();
@@ -2358,9 +2414,8 @@ namespace giac {
 #endif	
     gen g=tsimplify_noexpln(e,s1,s2,contextptr); 
     g=_exp2pow(g,contextptr);
-    g=quotesubst(g,vabs2,vabs,contextptr);
     if (s1<=1 && s2<= 1)
-      return ratnormal(g,contextptr);
+      return ratnormal(quotesubst(g,vabs2,vabs,contextptr),contextptr);
     int te=taille(e,RAND_MAX);
     int tg=taille(g,10*te);
     if (tg>=10*te)
@@ -2369,16 +2424,23 @@ namespace giac {
     g=expln2trig(g,contextptr); 
     if (!complex_mode(contextptr) && !has_i(g)){ 
       if (s1){
-	if (v1.front().is_symb_of_sommet(at_sin))
-	  return recursive_normal(trigsin(g,contextptr),contextptr); 
+	if (v1.front().is_symb_of_sommet(at_sin)){
+	  g=trigsin(g,contextptr);
+	  g=recursive_normal(g,contextptr); 
+	  return quotesubst(g,vabs2,vabs,contextptr);
+	}
       }
       return recursive_normal(trigcos(g,contextptr),contextptr); 
     }
-    gen reg=recursive_normal(re(g,contextptr),contextptr),
-      img=recursive_normal(im(g,contextptr),contextptr);
+    gen reg,img;
+    reim(g,reg,img,contextptr);
+    reg=recursive_normal(re(g,contextptr),contextptr);
+    img=recursive_normal(im(g,contextptr),contextptr);
     if (s1){
       gen g1=normal(trigcos(reg,contextptr),contextptr)+cst_i*normal(trigcos(img,contextptr),contextptr);
       gen g2=normal(trigsin(reg,contextptr),contextptr)+cst_i*normal(trigsin(img,contextptr),contextptr);
+      g1=quotesubst(g1,vabs2,vabs,contextptr);
+      g2=quotesubst(g2,vabs2,vabs,contextptr);
       int g1s=int(lvar(g1).size()), g2s=int(lvar(g2).size());
       if (g1s!=g2s)
 	return g1s<g2s?g1:g2;
@@ -2390,6 +2452,7 @@ namespace giac {
       return g1;
     }
     g=normal(trigcos(reg,contextptr),contextptr)+cst_i*normal(trigcos(img,contextptr),contextptr);
+    g=quotesubst(g,vabs2,vabs,contextptr);
     return g;
   }
   static const char _expln2trig_s []="expln2trig";

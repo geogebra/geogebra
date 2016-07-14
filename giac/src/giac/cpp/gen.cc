@@ -7531,6 +7531,8 @@ namespace giac {
     case _SYMB:
       if (a._SYMBptr->sommet==at_neg)
 	return -fastsign(a._SYMBptr->feuille,contextptr);
+      if (a._SYMBptr->sommet==at_inv)
+	return fastsign(a._SYMBptr->feuille,contextptr);
       if (a._SYMBptr->sommet==at_abs || (a._SYMBptr->sommet==at_exp && is_real(a._SYMBptr->feuille,contextptr)))
 	return 1;
     }

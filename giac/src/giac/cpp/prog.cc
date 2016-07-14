@@ -2303,7 +2303,7 @@ namespace giac {
 	else {
 	  switch (xcas_mode(contextptr)){
 	  case 0:
-	    res += indent(contextptr)+"}";
+	    if (!locals._VECTptr->empty()) res += indent(contextptr)+"}";
 	    break;
 	  case 1: case 1+_DECALAGE:
 	    res+=indent(contextptr)+"end;";
@@ -6476,6 +6476,10 @@ namespace giac {
     }
     else
       f=args;
+    if (f.is_symb_of_sommet(at_program)){
+      f=f[3];
+      x=f[1];
+    }
     vecteur l0(makevecteur(x,f));
     gen graphe=symbolic(at_plotfunc,
 			gen(makevecteur(_cell(makevecteur(vecteur(1,minus_one),vecteur(1,zero)),contextptr),
@@ -6534,6 +6538,10 @@ namespace giac {
     }
     else
       f=args;
+    if (f.is_symb_of_sommet(at_program)){
+      f=f[3];
+      x=f[1];
+    }
     vecteur res;
     res.push_back(f);
     if (x.type!=_VECT){

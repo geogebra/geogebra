@@ -10843,6 +10843,7 @@ namespace giac {
     }
   }
 
+#if 1 // #if 0 for old versions of gcc
   template<>
   bool dicho(std::vector<tdeg_t64>::const_iterator & jt,std::vector<tdeg_t64>::const_iterator jtend,const tdeg_t64 & u,order_t order){
     if (*jt==u) return true;
@@ -10894,6 +10895,7 @@ namespace giac {
 	jtend=j;
     }
   }
+#endif
 
   template<class tdeg_t>
   void zmakelinesplit(const zpolymod<tdeg_t> & p,const tdeg_t * shiftptr,const vector<tdeg_t> & R,void * Rhashptr,const vector<int> & Rdegpos,vector<shifttype> & v,vector<shifttype> * prevline,int start=0){

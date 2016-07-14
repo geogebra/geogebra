@@ -1635,7 +1635,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int FFTMUL_SIZE=100; 
   int FFTMUL_INT_MAXBITS=1024;
   int MAX_ALG_EXT_ORDER_SIZE = 6;
-#ifdef EMCC
+#if defined EMCC || defined NO_TEMPLATE_MULTGCD
   int MAX_COMMON_ALG_EXT_ORDER_SIZE = 16;
 #else
   int MAX_COMMON_ALG_EXT_ORDER_SIZE = 64;

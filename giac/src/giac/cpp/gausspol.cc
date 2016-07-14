@@ -5490,7 +5490,7 @@ namespace giac {
       algext_vmin2pmin(v_mini,p_mini);
       if (!algext_convert(pcur,e,p_y))
 	return false;
-#ifdef HAVE_LIBPARI
+#if defined HAVE_LIBPARI && !defined(WIN32) // otherwise factor(x^4-4,sqrt(2)) segfault on cygwin32
       gen coefft;
       if (p_y.dim==2 && p_y.degree(1)>=4 && !complexmode && coefftype(p_y,coefft)<_POLY && coefftype(p_mini,coefft)<_POLY){
 	int dim=p_y.dim;

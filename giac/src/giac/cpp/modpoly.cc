@@ -6676,6 +6676,7 @@ namespace giac {
   }
 
   // valid values for nbits=24 or 16, zsize>=2
+#ifndef USE_GMP_REPLACEMENTS
   static void zsplit(const vecteur & p, int zsize,int nbits,vector<int> & pz){
     size_t s=p.size();
     int * target=&pz[0];
@@ -6730,6 +6731,7 @@ namespace giac {
       }
     }
   }
+#endif
 
   // pz is not const because we modify it in place for sign/carries handling
   static void zbuild(vector<longlong> & pz,int zsize,int nbits,vecteur & p){
@@ -7056,6 +7058,7 @@ namespace giac {
     if (modulo==0){
       gen Bound=2*(mindeg+1)*P*Q;
       int nbits=256;
+      int nthreads=threads_allowed?threads:1;
 #ifndef USE_GMP_REPLACEMENTS
       if (Bound.type==_ZINT)
 	nbits=(mpz_sizeinbase(*Bound._ZINTptr,2)/64+1)*64;
@@ -7064,7 +7067,6 @@ namespace giac {
 	nbytes=2;
       //int pzbound = 1 << (8*nbytes);
       int zsize=1+nbits/(8*nbytes);
-      int nthreads=threads_allowed?threads:1;
       // time required by int->poly fft about 2*zsize*fft(rs) where zsize=nbits/24 or nbits/16
       // time required by ichinrem fft: 4+3*(nbits/32-4)*fft(rs)+C/2*(nbits/32)^2
       // where C*(nbits/32) is about fft(rs) for rs=2^19 and nbits around 200

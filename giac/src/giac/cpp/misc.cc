@@ -2026,6 +2026,8 @@ namespace giac {
     }
     else
       v=gen2vecteur(g);
+    if (!v.empty() && v[0].type==_POLY)
+      v.insert(v.begin()+1,vecteur(0));
     int s=int(v.size());
     if (s==2 && v[1].is_symb_of_sommet(at_pow)){
       gen & f = v[1]._SYMBptr->feuille;
@@ -2039,7 +2041,11 @@ namespace giac {
       int outerdim=int(l.size());
       lvar(v[0],l);
       int innerdim=int(l.size())-outerdim;
-      fraction f(sym2r(v[0],l,contextptr));
+      fraction f(1);
+      if (v[0].type==_POLY)
+	f.num=v[0];
+      else
+	f=sym2r(v[0],l,contextptr);
       vecteur ll(l.begin()+outerdim,l.end());
       if (f.num.type!=_POLY){
 	if (service==-1){
@@ -6423,22 +6429,26 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
     }
     // Extremas
-    int st=step_infolevel(contextptr);
+    int st=step_infolevel(contextptr); 
     step_infolevel(0,contextptr);
     gen f1=derive(f,t,contextptr),g1=derive(g,t,contextptr);
     gen f2=derive(f1,t,contextptr),g2=derive(g1,t,contextptr);
     gen tval=eval(t,1,contextptr);
     giac_assume(symb_and(symb_superieur_egal(t,tmin),symb_inferieur_egal(t,tmax)),contextptr);
-    gen cx=recursive_normal(solve(f1,t,0,contextptr),contextptr),cy=recursive_normal(solve(g1,t,0,contextptr),contextptr);
+    gen cx=recursive_normal(solve(f1,t,periode==0?2:0,contextptr),contextptr),cy=recursive_normal(solve(g1,t,periode==0?2:0,contextptr),contextptr);
     if (t!=tval)
       sto(tval,t,contextptr);
     step_infolevel(st,contextptr);
     if (cx.type!=_VECT || cy.type!=_VECT){
-      gensizeerr("Unable to find critical points");
+      *logptr(contextptr) << "Unable to find critical points" << endl;
       return 0;
     }
     vecteur c=mergevecteur(*cx._VECTptr,*cy._VECTptr);
     comprim(c);
+    if (!lidnt(evalf(c,1,contextptr)).empty()){
+      *logptr(contextptr) << "Infinite number of critical points. Try with optional argument " << t << "=tmin..tmax" << endl;
+      return 0;
+    }
     it=c.begin();itend=c.end();
     for (;it!=itend;++it){
       if (!lop(*it,at_rootof).empty())
@@ -6687,11 +6697,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
       if (i<tvs-1 && equalposcomp(sing,nextt)){
 	x=limit(f,xid,nextt,-1,contextptr);
+	x=recursive_normal(x,contextptr);
 	if (!is_inf(x) && is_greater(xmin,x,contextptr))
 	  xmin=x;
 	if (!is_inf(x) && is_greater(x,xmax,contextptr))
 	  xmax=x;
 	y=limit(g,xid,nextt,-1,contextptr);
+	y=recursive_normal(y,contextptr);
 	if (!is_inf(y) && is_greater(ymin,y,contextptr))
 	  ymin=y;
 	if (!is_inf(y) && is_greater(y,ymax,contextptr))
@@ -6702,11 +6714,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	tvidf.push_back(nothing);
 	tvidg.push_back(nothing);
 	gen x=limit(f,xid,nextt,1,contextptr);
+	x=recursive_normal(x,contextptr);
 	if (!is_inf(x) && is_greater(xmin,x,contextptr))
 	  xmin=x;
 	if (!is_inf(x) && is_greater(x,xmax,contextptr))
 	  xmax=x;
 	y=limit(g,xid,nextt,1,contextptr);
+	y=recursive_normal(y,contextptr);
 	if (!is_inf(y) && is_greater(ymin,y,contextptr))
 	  ymin=y;
 	if (!is_inf(y) && is_greater(y,ymax,contextptr))
@@ -6719,11 +6733,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
       else {
 	gen x=limit(f,xid,nextt,-1,contextptr);
+	x=recursive_normal(x,contextptr);
 	if (!is_inf(x) && is_greater(xmin,x,contextptr))
 	  xmin=x;
 	if (!is_inf(x) && is_greater(x,xmax,contextptr))
 	  xmax=x;
 	y=limit(g,xid,nextt,-1,contextptr);
+	y=recursive_normal(y,contextptr);
 	if (!is_inf(y) && is_greater(ymin,y,contextptr))
 	  ymin=y;
 	if (!is_inf(y) && is_greater(y,ymax,contextptr))
@@ -6731,8 +6747,12 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	tvit.push_back(nextt);
 	tvif.push_back(x);
 	tvig.push_back(y);
-	tvidf.push_back(limit(f1,xid,nextt,-1,contextptr));
-	tvidg.push_back(limit(g1,xid,nextt,-1,contextptr));
+	y=limit(f1,xid,nextt,-1,contextptr);
+	y=recursive_normal(y,contextptr);
+	tvidf.push_back(y);
+	y=limit(g1,xid,nextt,-1,contextptr);
+	y=recursive_normal(y,contextptr);
+	tvidg.push_back(y);
       }
     }
     tvi=makevecteur(tvit,tvif,tvidf,tvig,tvidg);
@@ -6842,7 +6862,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 #if 1
     gen xval=eval(x,1,contextptr);
     giac_assume(symb_and(symb_superieur_egal(x,xmin),symb_inferieur_egal(x,xmax)),contextptr);
-    gen c=solve(f1,x,0,contextptr);
+    gen c=solve(f1,x,periode==0?2:0,contextptr);
     if (x!=xval)
       sto(xval,x,contextptr);
     // if (c.type==_VECT && c._VECTptr->empty()) c=_fsolve(makesequence(f,x),contextptr);
@@ -6851,7 +6871,11 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 #endif
     step_infolevel(st,contextptr);
     if (c.type!=_VECT){
-      gensizeerr("Unable to find critical points");
+      *logptr(contextptr) << "Unable to find critical points" << endl;
+      return 0;
+    }
+    if (!lidnt(evalf(c,1,contextptr)).empty()){
+      *logptr(contextptr) << "Infinite number of critical points. Try with optional argument " << x << "=xmin..xmax" << endl;
       return 0;
     }
     it=c._VECTptr->begin();itend=c._VECTptr->end();
@@ -7000,6 +7024,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
       if (i<tvs-1 && equalposcomp(sing,nextx)){
 	y=limit(f,xid,nextx,-1,contextptr);
+	y=recursive_normal(y,contextptr);
 	if (!is_inf(y) && is_greater(ymin,y,contextptr))
 	  ymin=y;
 	if (!is_inf(y) && is_greater(y,ymax,contextptr))
@@ -7008,6 +7033,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	tvif.push_back(y);
 	tvidf.push_back(string2gen("||",false));
 	y=limit(f,xid,nextx,1,contextptr);
+	y=recursive_normal(y,contextptr);
 	if (!is_inf(y) && is_greater(ymin,y,contextptr))
 	  ymin=y;
 	if (!is_inf(y) && is_greater(y,ymax,contextptr))
@@ -7018,13 +7044,16 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
       else {
 	y=limit(f,xid,nextx,-1,contextptr);
+	y=recursive_normal(y,contextptr);
 	if (!is_inf(y) && is_greater(ymin,y,contextptr))
 	  ymin=y;
 	if (!is_inf(y) && is_greater(y,ymax,contextptr))
 	  ymax=y;
 	tvix.push_back(nextx);
 	tvif.push_back(y);
-	tvidf.push_back(limit(f1,xid,nextx,-1,contextptr));
+	y=limit(f1,xid,nextx,-1,contextptr);
+	y=recursive_normal(y,contextptr);
+	tvidf.push_back(y);
       }
     }
     tvi=makevecteur(tvix,tvif,tvidf);
