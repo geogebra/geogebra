@@ -1911,9 +1911,6 @@ marblePanel, evt))) {
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		if (btnClearInput != null) {
-			return;
-		}
 		handleAVItem(event);
 		event.stopPropagation();
 		if (commonEditingCheck()) {
