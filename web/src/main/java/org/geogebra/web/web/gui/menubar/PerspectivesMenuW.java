@@ -125,6 +125,8 @@ public class PerspectivesMenuW extends GMenuBar {
 		};
 	}
 
+	final public static String[] perspectiveSlugs = new String[] { "graphing", "cas", "geometry", "3d", "spreadsheet",
+			"probability" };
 	/**
 	 * @param index
 	 *            perspective index
@@ -139,7 +141,14 @@ public class PerspectivesMenuW extends GMenuBar {
 		PerspectivesPopup.setActivePerspective(index);
 		// app.getToolbar().closeAllSubmenu();
 		if (app.getTubeId() < 1 && app.getArticleElement().getDataParamApp()) {
-			Browser.changeUrl(Perspective.perspectiveSlugs[index]);
+			if (!app.has(Feature.NEW_START_SCREEN)) {
+				Browser.changeUrl(Perspective.perspectiveSlugs[index]);
+			} else {
+				Browser.changeUrl(perspectiveSlugs[index]); // new order of
+															// perspectives need
+															// new order of url
+															// extensions
+			}
 		}
 		if (changed) {
 			app.storeUndoInfo();

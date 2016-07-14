@@ -94,6 +94,16 @@ public class Perspective {
 	final public static String[] perspectiveSlugs = new String[] {
 			"graphing", "geometry", "spreadsheet", "cas", "3d", "probability"
  };
+	/**
+	 * 14.7.2016 when the feature flag "NEW_START_SCREEN" is removed, the
+	 * perspectivesSlugs should be changed to the list below. because of the new
+	 * order of the perspectives also the url strings need to be in the right
+	 * order
+	 * 
+	 * if(app.has(Feature.NEW_START_SCREEN)){ final public static String[]
+	 * perspectiveSlugs = new String[] { "graphing", "cas", "geometry", "3d",
+	 * "spreadsheet", "probability" }; }
+	 */
 
 	/**
 	 * Create a perspective with default layout.
