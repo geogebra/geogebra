@@ -200,6 +200,8 @@ namespace giac {
 
   gen Heavisidetosign(const gen & args,GIAC_CONTEXT);
   gen _Heavisidetosign(const gen & args,GIAC_CONTEXT);
+  gen Heavisidetopiecewise(const gen & args,GIAC_CONTEXT);
+  gen _Heavisidetopiecewise(const gen & args,GIAC_CONTEXT);
   gen expln2trig(const gen & g,GIAC_CONTEXT);
   gen _mult_conjugate(const gen & g0,GIAC_CONTEXT);
   gen _mult_c_conjugate(const gen & g0,GIAC_CONTEXT);

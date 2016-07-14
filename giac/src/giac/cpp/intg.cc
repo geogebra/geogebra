@@ -1229,12 +1229,14 @@ namespace giac {
     bool addremains=false;
     for (int i=0;i<nargs/2;++i){
       remainsv[2*i+1]=0;
-      piecev[2*i+1]=integrate_id_rem(piecev[2*i+1],gen_x,remainsv[2*i+1],contextptr,intmode);
+      gen tmp=subst(e,piece,piecev[2*i+1],false,contextptr);
+      piecev[2*i+1]=integrate_id_rem(tmp,gen_x,remainsv[2*i+1],contextptr,intmode);
       addremains = addremains || !is_zero(remainsv[2*i+1]);
     }
     if (nargs%2){
       remainsv[nargs-1]=0;
-      piecev[nargs-1]=integrate_id_rem(piecev[nargs-1],gen_x,remainsv[nargs-1],contextptr,intmode);
+      gen tmp=subst(e,piece,piecev[nargs-1],false,contextptr);
+      piecev[nargs-1]=integrate_id_rem(tmp,gen_x,remainsv[nargs-1],contextptr,intmode);
       addremains = addremains || !is_zero(remainsv[nargs-1]);
 	}
     if (addremains)
@@ -2298,7 +2300,7 @@ namespace giac {
     gen e(e_orig);
     // Step -3: replace when by piecewise
     e=when2piecewise(e,contextptr);
-    e=Heavisidetosign(e,contextptr);
+    e=Heavisidetopiecewise(e,contextptr); // e=Heavisidetosign(e,contextptr);
     if (is_constant_wrt(e,gen_x,contextptr) && lop(e,at_sign).empty())
       return e*gen_x;
     if (e.type!=_SYMB) {

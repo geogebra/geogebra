@@ -3171,6 +3171,22 @@ namespace giac {
     return apply(args,Heavisidetosign,contextptr);
   }
 
+  static gen heavisidetopiecewise(const gen & args,GIAC_CONTEXT){
+    return symbolic(at_piecewise,makesequence(symb_superieur_strict(args,0),1,0));
+  }
+  const gen_op_context heaviside2piecewise_tab[]={heavisidetopiecewise,0};
+  
+  gen Heavisidetopiecewise(const gen & args,GIAC_CONTEXT){
+    return subst(args,Heaviside_tab,heaviside2piecewise_tab,false,contextptr);
+    // return subst(args,vector<const unary_function_ptr *>(1,at_Heaviside), vector< gen_op_context >(1,heavisidetopiecewise),false,contextptr);
+  }
+  gen _Heavisidetopiecewise(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (is_equal(args))
+      return apply_to_equal(args,Heavisidetopiecewise,contextptr);
+    return apply(args,Heavisidetopiecewise,contextptr);
+  }
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
