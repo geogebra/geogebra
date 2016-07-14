@@ -312,9 +312,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		buttonImage.addStyleName("toolbar_icon");
 		tbutton.add(buttonImage);
 
-		tbutton.getElement()
-				.setInnerHTML(new Image(((GGWToolBar) app.getToolbar())
-						.getImageURL(Integer.parseInt(miMode))) + "");
 		toolbar.update();
 		setCssToSelected();
 

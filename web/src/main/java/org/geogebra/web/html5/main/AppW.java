@@ -2639,10 +2639,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		Log.debug("updateApplicationLayout: Implementation needed...");
 	}
 
-	public void setShowInputHelpPanel(boolean b) {
-		Log.debug("setShowInputHelpPanel: Implementation needed...");
-	}
-
 	@Override
 	public void setShowToolBar(boolean toolbar, boolean help) {
 		if (toolbar) {
