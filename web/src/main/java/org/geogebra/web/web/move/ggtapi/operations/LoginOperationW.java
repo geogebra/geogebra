@@ -48,9 +48,13 @@ public class LoginOperationW extends LogInOperation {
 							var data;
 							//later if event.origin....
 							if (event.data) {
-								data = $wnd.JSON.parse(event.data);
-								if (data.action === "logintoken") {
-									t.@org.geogebra.web.web.move.ggtapi.operations.LoginOperationW::processToken(Ljava/lang/String;)(data.msg);
+								try {
+									data = $wnd.JSON.parse(event.data);
+									if (data.action === "logintoken") {
+										t.@org.geogebra.web.web.move.ggtapi.operations.LoginOperationW::processToken(Ljava/lang/String;)(data.msg);
+									}
+								} catch (err) {
+									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while logging: \n"+err.message);
 								}
 							}
 						}, false);
