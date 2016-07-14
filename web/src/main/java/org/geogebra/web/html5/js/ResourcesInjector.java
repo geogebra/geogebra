@@ -24,7 +24,7 @@ public class ResourcesInjector {
 	 */
 	public static String CLASSNAME = "ggw_resource";
 	private static boolean resourcesInjected = false;
-	private static boolean isRTL = false;
+	private static ResourcesInjector INSTANCE;
 
 	/**
 	 */
@@ -37,27 +37,24 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE
 		        .propertiesKeysJS());
 
-		String myModuleBase = GWT.getModuleBaseForStaticFiles();
-		String mathquillggbcss = GuiResourcesSimple.INSTANCE
-		        .mathquillggbCss()
-		        .getText()
-		        .replace("url(web/font/Symbola",
-		                "url(" + myModuleBase + "font/Symbola");
-		StyleInjector.inject(mathquillggbcss);
+
 
 		// insert zip.js
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.zipJs());
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jQueryJs());
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.mathquillggbJs());
+
+		if (INSTANCE == null) {
+			INSTANCE = GWT.create(ResourcesInjector.class);
+		}
+		INSTANCE.injectResourcesGUI();
+
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jqueryUI());
+
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle()
 				.getText());
 		injectLTRstyles();
 
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.jqueryStyle()
-				.getText());
+
 
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 
@@ -78,6 +75,11 @@ public class ResourcesInjector {
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.base64Js());
+
+	}
+
+	protected void injectResourcesGUI() {
+		// TODO Auto-generated method stub
 
 	}
 

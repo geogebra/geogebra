@@ -39,7 +39,6 @@
   next character when sqrt sign is used! This
   selection comes from web-styles.css, so it is
   probably compatible with the current styles
-  ... the same is there in mathquillggb.css
   */
   font-family: Arial Unicode MS, Arial, monospace !important;
 }
@@ -88,7 +87,7 @@
 	overflow-y: hidden;
 	direction: ltr;
 
-	/* so that it shall have the same cursor as MathQuillGGB editing */
+	/* force editing cursor */
 	cursor: text;
 	/* push the scrollbar down so that ::after can kill it*/
 	padding-bottom:18px;
@@ -111,7 +110,6 @@
 	z-index: -32000;
 
 	/* almost good, but caret is still visible in IE */
-	/* so we shall use things from MathQuillGGB */
 	clip: rect(1em 1em 1em 1em);
 	padding: 0px;
     font-size: 0px;
@@ -123,31 +121,6 @@
     user-select: text;
 }
 
-/*hack for toolbar submenu, that is isn't hidden by 
- dockpanel standard div styling (overflow:hidden) */
-/* .ggbdockpanelhack>div {
-	overflow: visible !important;
-} */
-
-/* body.application,
-.GeoGebraFrame,
-.GeoGebraFrame span,
-.GeoGebraFrame td,
-.GeoGebraFrame th {
-	color: #666666;
-	font-size: 16px;
-} */
-
-
-/* .mathquillggb-editable span,
-.mathquillggb-editable td{
-	color:black;
-} */
-
-/* scroll overflow for minWidth*/
-/*.GeoGebraFrame .ggbdockpanelhack.wholePanel {
-	min-width: 760px;
-}*/*
 .GeoGebraFrame.minWidth > div {
 	overflow-x: auto !important;	
 }
@@ -190,7 +163,7 @@ input[type="text"]::-ms-clear {
 	display: none;
 }
 
-.GeoGebraFrame input[type="range"] { /*margin: 0px;*/
+.GeoGebraFrame input[type="range"] { 
 	padding: 5px 0px;
 	margin: 0px 10px;
 }
@@ -250,7 +223,6 @@ input[type="text"]::-ms-clear {
 .boxsize {
 	width: 340px;
 	max-width: 100%;
-	/*height: 200px;*/
 	}
 	
 .examContent{
@@ -449,7 +421,6 @@ body.application[dir=rtl] .gwt-Label {
 	margin: 0px;
 	border: 0px;
 	background: white;
-	/*border-left: 1px solid #ccc;*/
 }
 
 .gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
@@ -590,24 +561,7 @@ body.application[dir=rtl] .gwt-Label {
 	background-color: #FFF;
 	opacity: 0.7;
 	filter: ~'alpha(opacity = 70)';
-	/* background-color: #000;
-	opacity: 0.3;
-	filter: ~'alpha(opacity = 30)'; */
 	z-index: 100;
-}
-
-.gwt-PushButton-down,.gwt-PushButton-down-hovering,.gwt-PushButton-down-disabled
-	{ /*padding: 4px 4px 2px 6px;*/ /*outline:none;*/
-	
-}
-
-.gwt-PushButton-down { /*border: 1px inset #666;*/ /*cursor: pointer;
-  cursor: hand;*/
-	
-}
-
-.gwt-RadioButton {
-	
 }
 
 .gwt-RadioButton-disabled {
@@ -799,9 +753,6 @@ body.application[dir=rtl] .gwt-Label {
 
 .gwt-SuggestBox {
 	padding: 2px;
-	/*border: 1px solid #ccc;
-  border-top: 1px solid #999;*/ /*font-size: 100%;
-  font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;*/
 	/*width: 96%;*/
 	/* temporary fix for the CAS input field --- if it is too wide, this percentage is too small */
 	width: 100%; /* I think 100% works also fine */
@@ -820,22 +771,17 @@ body.application[dir=rtl] .gwt-Label {
 .gwt-SuggestBoxPopup .item {
 	padding: 5px 5px;
 	cursor: default;
-	/*font-size: 110%;*/
 }
 
-.gwt-SuggestBoxPopup .item-selected { /*background: #D5E2FF;*/
+.gwt-SuggestBoxPopup .item-selected {
 	color: #6666FF;
 }
 
-.gwt-ToggleButton-up,.gwt-ToggleButton-up-hovering,.gwt-ToggleButton-up-disabled,.gwt-ToggleButton-down,.gwt-ToggleButton-down-hovering,.gwt-ToggleButton-down-disabled
-	{ /*margin: 0;
-	text-decoration: none;*/
-	
-}
+
 
 .TextToggleButton.gwt-ToggleButton-down,.TextToggleButton.gwt-ToggleButton-down-hovering,
 .MyToggleButton.gwt-ToggleButton-down,.MyToggleButton.gwt-ToggleButton-down-hovering
-	{ /*color: #6666FF;*/
+	{ 
 	border-color: #6666FF;
 	cursor: pointer;
 	cursor: hand;

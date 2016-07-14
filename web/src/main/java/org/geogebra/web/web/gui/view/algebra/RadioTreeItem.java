@@ -2828,7 +2828,9 @@ marblePanel, evt))) {
 				btnClearInput.removeFromParent();
 				btnClearInput = null;
 			}
-			buttonPanel.setVisible(true);
+			if (buttonPanel != null) {
+				buttonPanel.setVisible(true);
+			}
 		}
 	}
 
