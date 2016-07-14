@@ -4610,6 +4610,14 @@ body.zoomedBody .gwt-PopupPanel.helpPopupAV {
 	-moz-transform: scale(0.6, 0.6);
 }
 
+body.zoomedBody .gwt-PopupPanel.helpPopupAVBottom {
+	-webkit-transform-origin: 0% 100%;
+	-moz-transform-origin: 0% 100%;
+	transform-origin: 0% 100%;
+	-webkit-transform: scale(0.6, 0.6);
+	-moz-transform: scale(0.6, 0.6);
+}
+
 body.zoomedBody .gwt-PopupPanel.PropertiesViewW {
 	-webkit-transform: scale(1, 1);
 	-moz-transform: scale(1, 1);
@@ -5616,12 +5624,6 @@ body.application[dir=rtl] .deleteAlgebra {
 	}
 }
 
-
-.hiddenInputLabel{
-	visibility: hidden;
-	position: absolute;
-	z-index: 10;
-}
 
 .GeoGebraFrame .gwt-SplitLayoutPanel > div{
 	overflow: visible !important;

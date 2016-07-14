@@ -1748,8 +1748,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void setShowInputHelpPanel(boolean show) {
 
 		if (show) {
-			if (dummyLabel != null) {
-				dummyLabel.addStyleName("hiddenInputLabel");
+			if (!av.isEditing()) {
+				ensureEditing();
+			}
+
+			removeDummy();
+
+			if (isInputTreeItem()) {
+				setFocus(true);
 			}
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
 					.getGuiManager().getInputHelpPanel();
@@ -1762,9 +1768,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 					@Override
 					public void onClose(CloseEvent<GPopupPanel> event) {
-						if (dummyLabel != null) {
-							dummyLabel.removeStyleName("hiddenInputLabel");
-						}
 						focusAfterHelpClosed();
 					}
 
@@ -2144,8 +2147,7 @@ marblePanel, evt))) {
 			}
 			app.showKeyboard(this);
 			removeDummy();
-			PointerEvent pointerEvent = (PointerEvent) event;
-			pointerEvent.getWrappedEvent().stopPropagation();
+			((PointerEvent) event).getWrappedEvent().stopPropagation();
 			if (isInputTreeItem()) {
 				// put earlier, maybe it freezes afterwards?
 				setFocus(true);
@@ -2161,6 +2163,24 @@ marblePanel, evt))) {
 
 	}
 
+
+	private void mainPointerDown(PointerEvent event) {
+		if (!av.isEditing()) {
+			// e.g. Web.html might not be in editing mode
+			// initially (temporary fix)
+			ensureEditing();
+		}
+		app.showKeyboard(this);
+		removeDummy();
+		if (event != null) {
+			event.getWrappedEvent().stopPropagation();
+		}
+		if (isInputTreeItem()) {
+			// put earlier, maybe it freezes afterwards?
+			setFocus(true);
+		}
+
+	}
 
 	private void onPointerUp(AbstractEvent event) {
 		selectionCtrl.setSelectHandled(false);
@@ -2722,11 +2742,14 @@ marblePanel, evt))) {
 			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
 				double scale = app.getArticleElement().getScaleX();
+				double renderScale = app.getArticleElement().getDataParamApp()
+						? scale : 1;
 				helpPopup.getElement().getStyle()
 						.setProperty("left",
 								(btnHelpToggle.getAbsoluteLeft()
 										- app.getAbsLeft()
 										+ btnHelpToggle.getOffsetWidth())
+										* renderScale
 										+ "px");
 				int maxOffsetHeight;
 				int totalHeight = (int) app.getHeight();
@@ -2737,9 +2760,11 @@ marblePanel, evt))) {
 							+ btnHelpToggle.getParent().getOffsetHeight());
 					maxOffsetHeight = totalHeight - top;
 					helpPopup.getElement().getStyle().setProperty("top",
-							top + "px");
+							top * renderScale + "px");
 					helpPopup.getElement().getStyle().setProperty("bottom",
 							"auto");
+					helpPopup.removeStyleName("helpPopupAVBottom");
+					helpPopup.addStyleName("helpPopupAV");
 				} else {
 					int minBottom = app.isApplet() ? 0 : 10;
 					int bottom = (totalHeight
@@ -2747,9 +2772,12 @@ marblePanel, evt))) {
 					maxOffsetHeight = bottom > 0 ? totalHeight - bottom
 							: totalHeight - minBottom;
 					helpPopup.getElement().getStyle().setProperty("bottom",
-							(bottom > 0 ? bottom : minBottom) + "px");
+							(bottom > 0 ? bottom : minBottom) * renderScale
+									+ "px");
 					helpPopup.getElement().getStyle().setProperty("top",
 							"auto");
+					helpPopup.removeStyleName("helpPopupAV");
+					helpPopup.addStyleName("helpPopupAVBottom");
 				}
 				helpPanel.updateGUI(maxOffsetHeight, 1);
 				helpPopup.show();
@@ -2763,7 +2791,6 @@ marblePanel, evt))) {
 		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
 			helpButtonPanel = new SimplePanel();
 			updateIcons(false);
-
 			btnHelpToggle.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -2830,6 +2857,9 @@ marblePanel, evt))) {
 			if (buttonPanel != null) {
 				buttonPanel.setVisible(true);
 			}
+			if (this.latexItem != null) {
+				this.latexItem.setVisible(false);
+			}
 		}
 	}
 
@@ -2845,6 +2875,9 @@ marblePanel, evt))) {
 			ihtml.add(getClearInputButton());
 			if (buttonPanel != null) {
 				buttonPanel.setVisible(false);
+			}
+			if (this.latexItem != null) {
+				this.latexItem.setVisible(true);
 			}
 		}
 
