@@ -194,7 +194,8 @@ public class HorizontalBox extends Box {
 		float xPos = 0;
 		for (Box box : children) {
 			if (xPos + box.getWidth() > x) {
-				list.add(Math.max(0, children.indexOf(box) - 1));
+				int idx = children.indexOf(box);
+				list.add(box instanceof CharBox ? idx - 1 : idx);
 				box.getPath(x - xPos, y, list);
 				return;
 			}

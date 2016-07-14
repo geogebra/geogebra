@@ -199,7 +199,12 @@ public class EditorState {
 
 	public void cursorToSelectionEnd() {
 		if (currentSelEnd != null) {
-			this.currentField = (MathSequence) this.currentSelEnd.getParent();
+			if (this.currentSelEnd.getParent() != null) {
+				this.currentField = (MathSequence) this.currentSelEnd
+						.getParent();
+			} else {
+				this.currentField = (MathSequence) this.currentSelEnd;
+			}
 			this.currentOffset = currentField.indexOf(currentSelEnd) + 1;
 		}
 	}
