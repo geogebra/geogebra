@@ -2709,19 +2709,20 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	private static native boolean nativeGiveFocusBack() /*-{
 		var active = $doc.activeElement;
 		if (active && (active !== $doc.body)) {
-			if ($wnd.$ggbQuery) {
-				// have jQuery, do the other checks
-				var act = $wnd.$ggbQuery(active);
-				if (act.is(".geogebraweb-dummy-invisible")) {
-					// actually, ESC focuses this, does not blur!
-					return true;
-				}
-				// this shall execute the default ENTER action on
-				// that element, to be independent (e.g. click on links!)
-				// OR if it is part of GeoGebra, then we shall also not
-				// support selecting GeoGebra again by ENTER
-				//return false; // behold the other return false;
+
+			// have jQuery, do the other checks
+
+			if (active.className
+					&& active.className.match(/geogebraweb-dummy-invisible/)) {
+				// actually, ESC focuses this, does not blur!
+				return true;
 			}
+			// this shall execute the default ENTER action on
+			// that element, to be independent (e.g. click on links!)
+			// OR if it is part of GeoGebra, then we shall also not
+			// support selecting GeoGebra again by ENTER
+			//return false; // behold the other return false;
+
 			// not doing more checks, don't do any action, which is safe
 			return false;
 		}
