@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.menubar;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.Layout;
-import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
@@ -90,29 +89,7 @@ public class PerspectivesMenuW extends GMenuBar {
 		}
 
 		if (app.has(Feature.NEW_START_SCREEN) && !app.isExam()) {
-			/*
-			 * if (app.isExam()) {
-			 * addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.
-			 * menu_icon_sign_out().getSafeUri().asString(),
-			 * app.getMenu("exam_menu_exit"), true), true, new MenuCommand(app)
-			 * { // Close
-			 * 
-			 * @Override public void doExecute() { // set Firefox //
-			 * dom.allow_scripts_to_close_windows in // about:config to true to
-			 * make this work String[] optionNames = { app.getMenu("Cancel"),
-			 * app.getMenu("Exit") };
-			 * 
-			 * app.getGuiManager().getOptionPane().showOptionDialog(app,
-			 * app.getMenu("exam_exit_confirmation"), // ExitExamConfirm
-			 * app.getMenu("exam_exit_header"), // ExitExamConfirmTitle 1,
-			 * GOptionPane.WARNING_MESSAGE, null, optionNames, new
-			 * AsyncOperation<String[]>() {
-			 * 
-			 * @Override public void callback(String[] obj) { if
-			 * ("1".equals(obj[0])) { exitAndResetExam(); } } }); } });
-			 * 
-			 * return; }
-			 */
+
 			if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
 				addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_exam().getSafeUri().asString(),
 						app.getMenu("exam_menu_entry"), true), // "Exam Mode"
@@ -122,32 +99,15 @@ public class PerspectivesMenuW extends GMenuBar {
 							public void doExecute() {
 								((DialogManagerW) app.getDialogManager()).getSaveDialog()
 										.showIfNeeded(getExamCallback());
-
 							}
 						});
 			}
 		}
 	}
 
-	/**
-	 * Exit exam and restore normal mode
-	 */
-	protected void exitAndResetExam() {
-		if (!ExamUtil.toggleFullscreen(false)) {
-			app.getExam().exit();
-			app.showMessage(true, app.getExam().getLog(app.getLocalization()), app.getMenu("exam_log_header"));
-			app.setExam(null);
-			Layout.initializeDefaultPerspectives(app, 0.2);
-			app.getLAF().addWindowClosingHandler(app);
-			app.fireViewsChangedEvent();
-			app.getGuiManager().updateToolbarActions();
-			app.getGuiManager().setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false));
-			app.getGuiManager().resetMenu();
-		}
-	}
 
 	/**
-	 * @return callback that shows the exam welcom message and prepares Exam
+	 * @return callback that shows the exam welcome message and prepares Exam
 	 *         (goes fullscreen)
 	 */
 	Runnable getExamCallback() {
