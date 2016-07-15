@@ -3970,7 +3970,7 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_LOCAL_SAVE:
 			return prerelease;
 		case RETEX_EDITOR:
-			return canary;
+			return prerelease;
 
 			// GGB-790
 		case AV_INPUT_BUTTON_COVER:
