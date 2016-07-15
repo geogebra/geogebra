@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.util.Cloner;
 
 /**
@@ -170,14 +171,20 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	}
 
 	public boolean copyCoords(MyPoint point, double[] ret, CoordSys sys) {
+		if(((EuclidianView) view).isViewForPlane()){
+			Coords coords = new Coords(point.x, point.y, point.getZ(), 1);
+			Coords.xyToCoordSystem(coords, sys.getEquationVector());
+			Coords projection = ((EuclidianView) view).getCoordsForView(coords);
 
+			ret[0] = projection.getX();
+			ret[1] = projection.getY();
+			return true;
+		}
 		if (!Kernel.isZero(point.getZ())) {
 			return false;
 		}
-
 		ret[0] = point.x;
 		ret[1] = point.y;
-
 		return true;
 	}
 

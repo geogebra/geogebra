@@ -373,6 +373,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		case ANGLE3D:
 		case TEXT:
 		case LOCUS:
+		case IMPLICIT_POLY:
 		case CURVE_CARTESIAN3D:
 		case LIST:
 			return geo.isVisibleInViewForPlane();

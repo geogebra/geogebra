@@ -2410,5 +2410,26 @@ public class Coords {
 		return false;
 	}
 
+	public static void xyToCoordSystem(Coords coords, Coords vec) {
+		if (!Kernel.isZero(vec.getZ())) {
+			coords.setZ(-vec.getX() * coords.getX() / vec.getZ() - vec.getY()
+					* coords.getY() / vec.getZ() - vec.getW() / vec.getZ());
+		} else {
+			if (!Kernel.isZero(vec.getY())) {
+				double oldY = coords.getY();
+				coords.setY(-vec.getX() * coords.getX() / vec.getY()
+
+				- vec.getW() / vec.getY());
+				coords.setZ(oldY);
+			} else {
+				double oldX = coords.getX();
+				coords.setX(-vec.getW() / vec.getX());
+				coords.setZ(coords.getY());
+				coords.setY(oldX);
+
+			}
+		}
+
+	}
 	
 }

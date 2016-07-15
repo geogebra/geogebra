@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GTemplate;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -70,26 +69,9 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
 	@Override
 	protected void setPointOnCoordsys(GeoPointND PI) {
-		Coords coords = PI.getInhomCoordsInD3();
+		Coords coords = PI.getInhomCoordsInD3().copyVector();
 		Coords vec = coordSys.getEquationVector();
-		if (!Kernel.isZero(vec.getZ())) {
-			coords.setZ(-vec.getX() * coords.getX() / vec.getZ() - vec.getY()
-					* coords.getY() / vec.getZ() - vec.getW() / vec.getZ());
-		} else {
-			if (!Kernel.isZero(vec.getY())) {
-				double oldY = coords.getY();
-				coords.setY(-vec.getX() * coords.getX() / vec.getY()
-
-				- vec.getW() / vec.getY());
-				coords.setZ(oldY);
-			} else {
-				double oldX = coords.getX();
-				coords.setX(-vec.getW() / vec.getX());
-				coords.setZ(coords.getY());
-				coords.setY(oldX);
-
-			}
-		}
+		Coords.xyToCoordSystem(coords, vec);
 		PI.setCoords(coords, false);
 		PI.updateCoords();
 	}
