@@ -1099,7 +1099,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			parent.setState(true);
 		}
 
-		inputPanelLatex.updateButtonPanelPosition();
+		if (inputPanelLatex != null) {
+			inputPanelLatex.updateButtonPanelPosition();
+		}
 	}
 
 
@@ -1129,7 +1131,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			removeFromModel(node);
 		}
 
-		inputPanelLatex.updateButtonPanelPosition();
+		if (inputPanelLatex != null) {
+			inputPanelLatex.updateButtonPanelPosition();
+		}
 	}
 
 
