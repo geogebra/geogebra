@@ -39,6 +39,7 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -499,7 +500,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		main.add(buttonPanel);
 
 		deferredResizeSlider();
-
 	}
 
 	private void createCheckbox() {
@@ -1010,7 +1010,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		addStyleName("XButtonPanelParent");
 		main.add(buttonPanel);
 
-
 	}
 
 	@Override
@@ -1391,6 +1390,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		if (buttonPanel != null) {
 			buttonPanel.setVisible(true);
+			updateButtonPanelPosition();
 		}
 		maybeSetPButtonVisibility(true);
 		return true;
@@ -1845,8 +1845,8 @@ marblePanel, evt))) {
 									getAlgebraDockPanel()
 											.showStyleBarPanel(false);
 									if (buttonPanel != null) {
-										buttonPanel.removeStyleName(
-												"positionedObjectStyleBar");
+										buttonPanel
+												.removeStyleName("positionedObjectStyleBar");
 									}
 								}
 
@@ -1869,6 +1869,8 @@ marblePanel, evt))) {
 				? main.getElement()
 				.getAbsoluteTop() : getElement()
 				.getAbsoluteTop();
+		Log.debug("itemTop: " + itemTop);
+		Log.debug("dockpaneltop: " + getAlgebraDockPanel().getAbsoluteTop());
 		return (itemTop - getAlgebraDockPanel().getAbsoluteTop() < 35);
 	}
 
@@ -1956,14 +1958,24 @@ marblePanel, evt))) {
 		if (buttonPanel == null)
 			return;
 		if (styleBarCanHide()) {
+//			Log.debug("canhide");
 			ScrollPanel algebraPanel = ((AlgebraDockPanelW) app.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
 					.getAbsolutePanel();
-			int scrollbarWidth = algebraPanel == null ? 0
-					: algebraPanel.getOffsetWidth()
-					- algebraPanel.getElement().getClientWidth();
-			buttonPanel.getElement().getStyle()
-					.setRight(46 - scrollbarWidth, Unit.PX);
+//			Log.debug("algebra panel null: " + (algebraPanel == null));
+//			int scrollbarWidth = algebraPanel == null ? 0
+//					: algebraPanel.getOffsetWidth()
+//					- algebraPanel.getElement().getClientWidth();
+//			buttonPanel.getElement().getStyle()
+//					.setRight(46 - scrollbarWidth, Unit.PX);
+			
+			if (algebraPanel.getOffsetWidth() > algebraPanel.getElement().getClientWidth()) { 
+					buttonPanel.addStyleName("positionedObjectStyleBar_scrollbarVisible"); 
+					buttonPanel.removeStyleName("positionedObjectStyleBar"); 
+			} else { 
+				buttonPanel.addStyleName("positionedObjectStyleBar"); buttonPanel 
+				.removeStyleName("positionedObjectStyleBar_scrollbarVisible"); 
+			}
 		} else {
 			buttonPanel.getElement().getStyle().setRight(0, Unit.PX);
 		}

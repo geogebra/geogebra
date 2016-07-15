@@ -82,6 +82,14 @@
 	background-color: white;
 }
 
+.GeoGebraFrame .positionedObjectStyleBar{
+	right: 46px;
+}
+
+.GeoGebraFrame .positionedObjectStyleBar_scrollbarVisible{ 
+	right: 31px;
+}
+
 .InputTreeItem {
 	overflow-x: scroll;
 	overflow-y: hidden;
