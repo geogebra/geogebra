@@ -451,7 +451,8 @@ public class CASTableD extends JTable implements CASTable {
 					.getArbitraryConsTable().get(key);
 			if (myArbConst != null
 					&& !kernel.getConstruction().isCasCellUpdate()
-					&& !kernel.getConstruction().isFileLoading()) {
+					&& !kernel.getConstruction().isFileLoading()
+					&& kernel.getConstruction().isNotXmlLoading()) {
 				kernel.getConstruction().getArbitraryConsTable().remove(key);
 				kernel.getConstruction().getArbitraryConsTable().put(key + 1,
 					myArbConst);

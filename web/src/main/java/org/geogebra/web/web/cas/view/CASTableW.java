@@ -111,7 +111,8 @@ public class CASTableW extends Grid implements CASTable {
 					.getArbitraryConsTable().get(key);
 			if (myArbConst != null
 					&& !app.getKernel().getConstruction().isCasCellUpdate()
-					&& !app.getKernel().getConstruction().isFileLoading()) {
+					&& !app.getKernel().getConstruction().isFileLoading()
+					&& app.getKernel().getConstruction().isNotXmlLoading()) {
 				app.getKernel().getConstruction().getArbitraryConsTable()
 						.remove(key);
 				app.getKernel().getConstruction().getArbitraryConsTable()

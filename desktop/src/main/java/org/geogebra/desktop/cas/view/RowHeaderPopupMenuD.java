@@ -104,10 +104,14 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 
 		String ac = e.getActionCommand();
 		if (ac.equals("insertAbove")) {
+			app.getKernel().getConstruction().setNotXmlLoading(true);
 			table.insertRow(selRows[0], null, true);
+			app.getKernel().getConstruction().setNotXmlLoading(false);
 			undoNeeded = true;
 		} else if (ac.equals("insertBelow")) {
+			app.getKernel().getConstruction().setNotXmlLoading(true);
 			table.insertRow(selRows[selRows.length - 1] + 1, null, true);
+			app.getKernel().getConstruction().setNotXmlLoading(false);
 			undoNeeded = true;
 		} else if (ac.equals("delete")) {
 			undoNeeded = table.getCASView().deleteCasCells(selRows);
