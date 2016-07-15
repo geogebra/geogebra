@@ -174,6 +174,8 @@ public class LatexTreeItem extends RadioTreeItem
 			if (geo == null) {
 				insertHelpToggle();
 
+			} else {
+				main.add(this.marblePanel);
 			}
 			appendCanvas();
 			main.add(ihtml);

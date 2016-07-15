@@ -3407,6 +3407,11 @@ body.application[dir=rtl] .imageCorner {
 	display: none;
 }
 
+/* Slider top row: no extra padding*/
+.latexEditor .avItemContent .scrollableTextBox{
+	padding-left:0px;
+}
+
 .latexEditor .scrollableTextBox{
 	padding-left:40px;
 	padding-top:5px;

@@ -307,7 +307,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	/**
 	 * this panel contains the marble (radio) button
 	 */
-	private MarblePanel marblePanel;
+	protected MarblePanel marblePanel;
 
 	FlowPanel contentPanel;
 
