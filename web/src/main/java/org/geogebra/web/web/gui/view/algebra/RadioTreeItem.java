@@ -1955,8 +1955,9 @@ marblePanel, evt))) {
 
 
 	protected void updateButtonPanelPosition() {
-		if (buttonPanel == null)
+		if (buttonPanel == null) {
 			return;
+		}
 		if (styleBarCanHide()) {
 //			Log.debug("canhide");
 			ScrollPanel algebraPanel = ((AlgebraDockPanelW) app.getGuiManager()
@@ -1969,7 +1970,9 @@ marblePanel, evt))) {
 //			buttonPanel.getElement().getStyle()
 //					.setRight(46 - scrollbarWidth, Unit.PX);
 			
-			if (algebraPanel.getOffsetWidth() > algebraPanel.getElement().getClientWidth()) { 
+			if (algebraPanel != null
+					&& algebraPanel.getOffsetWidth() > algebraPanel.getElement()
+							.getClientWidth()) {
 					buttonPanel.addStyleName("positionedObjectStyleBar_scrollbarVisible"); 
 					buttonPanel.removeStyleName("positionedObjectStyleBar"); 
 			} else { 
