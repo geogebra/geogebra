@@ -12,7 +12,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.inputfield.HistoryPopupW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -734,33 +733,11 @@ public class InputTreeItem extends MathQuillTreeItem
 	 */
 	@Override
 	protected void updateGUIfocus(Object source, boolean blurtrue) {
-		// deselects current selection
-		((AlgebraViewW) av).setActiveTreeItem(null);
-
-		boolean emptyCase = ((AlgebraViewW) av).isNodeTableEmpty()
-				&& !this.getAlgebraDockPanel().hasLongStyleBar();
-
-		// update style bar icon look
-		if (emptyCase) {
-			getAlgebraDockPanel().showStyleBarPanel(blurtrue);
-		} else {
-			getAlgebraDockPanel().showStyleBarPanel(true);
-		}
-
-		// always show popup, except (blurtrue && emptyCase) == true
-
-		// this basically calls the showPopup method, like:
-		// showPopup(!blurtrue || !emptyCase);
-		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, !blurtrue
-				|| !emptyCase);
-
-		// afterwards, if the popup shall be showing,
-		// then all of our three icons are visible in theory
-		// except pButton, if it is null...
-		if (!blurtrue || !emptyCase) {
-			typing(false);
-		}
+		updateEditorFocus(source, blurtrue);
 	}
+
+
+
 
 	/**
 	 * This is looking like a GWT BlurHandler method, and really it is, but it

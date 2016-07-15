@@ -166,6 +166,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected InputBarHelpPopup helpPopup;
 	/** label "Input..." */
 	protected Label dummyLabel;
+
 	interface CancelListener {
 		void cancel();
 	}
@@ -574,11 +575,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 					GuiResources.INSTANCE.algebra_delete()));
 			btnClearInput.addMouseDownHandler(new MouseDownHandler() {
 				public void onMouseDown(MouseDownEvent event) {
-					if (latexItem != null) {
 						clearInput();
 						RadioTreeItem.this.setFocus(true);
 						event.stopPropagation();
-					}
 				}
 			});
 		}
@@ -1492,8 +1491,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		if (!latex && !this.isInputTreeItem() && getPlainTextItem() != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
-			this.ihtml.getElement().replaceChild(getPlainTextItem().getElement(),
-					latexItem.getElement());
+			this.ihtml.getElement().replaceChild(
+					getPlainTextItem().getElement(), latexItem.getElement());
 		}
 		// maybe it's possible to enter something which is non-LaTeX
 		if (success) {
@@ -2179,24 +2178,6 @@ marblePanel, evt))) {
 	}
 
 
-	private void mainPointerDown(PointerEvent event) {
-		if (!av.isEditing()) {
-			// e.g. Web.html might not be in editing mode
-			// initially (temporary fix)
-			ensureEditing();
-		}
-		app.showKeyboard(this);
-		removeDummy();
-		if (event != null) {
-			event.getWrappedEvent().stopPropagation();
-		}
-		if (isInputTreeItem()) {
-			// put earlier, maybe it freezes afterwards?
-			setFocus(true);
-		}
-
-	}
-
 	private void onPointerUp(AbstractEvent event) {
 		selectionCtrl.setSelectHandled(false);
 		if (isMinMaxPanelVisible()) {
@@ -2872,10 +2853,15 @@ marblePanel, evt))) {
 			if (buttonPanel != null) {
 				buttonPanel.setVisible(true);
 			}
-			if (this.latexItem != null) {
-				this.latexItem.setVisible(false);
-			}
+			setLatexItemVisible(false);
 		}
+	}
+
+	private void setLatexItemVisible(boolean b) {
+		if (this.latexItem != null) {
+			this.latexItem.setVisible(b);
+		}
+
 	}
 
 	protected void removeDummy() {
@@ -2891,9 +2877,37 @@ marblePanel, evt))) {
 			if (buttonPanel != null) {
 				buttonPanel.setVisible(false);
 			}
-			if (this.latexItem != null) {
-				this.latexItem.setVisible(true);
-			}
+			setLatexItemVisible(true);
+		}
+
+	}
+
+	protected void updateEditorFocus(Object source, boolean blurtrue) {
+		// deselects current selection
+		((AlgebraViewW) av).setActiveTreeItem(null);
+
+		boolean emptyCase = ((AlgebraViewW) av).isNodeTableEmpty()
+				&& !this.getAlgebraDockPanel().hasLongStyleBar();
+
+		// update style bar icon look
+		if (emptyCase) {
+			getAlgebraDockPanel().showStyleBarPanel(blurtrue);
+		} else {
+			getAlgebraDockPanel().showStyleBarPanel(true);
+		}
+
+		// always show popup, except (blurtrue && emptyCase) == true
+
+		// this basically calls the showPopup method, like:
+		// showPopup(!blurtrue || !emptyCase);
+		AutoCompleteTextFieldW.showSymbolButtonIfExists(source,
+				!blurtrue || !emptyCase);
+
+		// afterwards, if the popup shall be showing,
+		// then all of our three icons are visible in theory
+		// except pButton, if it is null...
+		if (!blurtrue || !emptyCase) {
+			typing(false);
 		}
 
 	}

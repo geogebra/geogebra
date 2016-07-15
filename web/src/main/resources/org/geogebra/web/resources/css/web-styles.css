@@ -3396,11 +3396,23 @@ body.application[dir=rtl] .imageCorner {
 .scrollableTextBox > div{
 	width: ~"calc(100% - 18px)";
 	overflow-x: hidden;
-	display: inline;
+	display: inline-block;
+}
+
+.scrollableTextBox > div.gwt-PushButton{
+	width: auto;
 }
 
 .scrollableTextBox > div::-webkit-scrollbar{
 	display: none;
+}
+
+.latexEditor .scrollableTextBox{
+	padding-left:40px;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-right:10px;
+	box-sizing: border-box;
 }
 
 

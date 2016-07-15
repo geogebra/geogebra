@@ -21,7 +21,6 @@ import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -59,10 +58,7 @@ public class LatexTreeItem extends RadioTreeItem
 		super(kernel);
 		this.insertHelpToggle();
 		addDomHandlers(main);
-		if (canvas != null) {
-			canvas.getElement().getStyle().setMarginLeft(40, Unit.PX);
-			canvas.getElement().getStyle().setMarginTop(5, Unit.PX);
-		}
+
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			ihtml.addStyleName("scrollableTextBox");
 		}
@@ -121,23 +117,30 @@ public class LatexTreeItem extends RadioTreeItem
 		// }
 		Log.debug("RENDERING LATEX");
 		// // // Log.debug(REFX + "renderLatex 2");
-		if (latexItem == null) {
-			latexItem = new FlowPanel();
-		}
-		latexItem.clear();
-		latexItem.addStyleName("avTextItem");
+
+		// latexItem.addStyleName("avTextItem");
 		// TODO updateColor(latexItem);
 
 		ihtml.clear();
 
 
 		ensureCanvas();
-		ihtml.add(canvas);
+		appendCanvas();
 
 		setText(text0);
 		retexListener = new RetexKeyboardListener(canvas, mf);
 		app.getAppletFrame().showKeyBoard(true, retexListener, false);
 
+
+	}
+
+	private void appendCanvas() {
+		if (latexItem == null) {
+			latexItem = new FlowPanel();
+		}
+		latexItem.clear();
+		latexItem.add(canvas);
+		ihtml.add(latexItem);
 
 	}
 
@@ -170,10 +173,9 @@ public class LatexTreeItem extends RadioTreeItem
 			main.clear();
 			if (geo == null) {
 				insertHelpToggle();
-				canvas.getElement().getStyle().setMarginLeft(40, Unit.PX);
-				canvas.getElement().getStyle().setMarginTop(5, Unit.PX);
+
 			}
-			ihtml.add(canvas);
+			appendCanvas();
 			main.add(ihtml);
 		}
 		if (b) {
@@ -206,6 +208,9 @@ public class LatexTreeItem extends RadioTreeItem
 			if (!keepFocus) {
 				setFocus(false, false);
 			}
+			return;
+		}
+		if (!isEditing()) {
 			return;
 		}
 		stopEditing(getText(), new AsyncOperation<GeoElement>() {
@@ -314,6 +319,7 @@ public class LatexTreeItem extends RadioTreeItem
 		setFocus(true);
 	}
 
+	@Override
 	public void onKeyTyped() {
 		updatePreview();
 
@@ -348,6 +354,7 @@ public class LatexTreeItem extends RadioTreeItem
 		return new LatexTreeItem(geo);
 	}
 
+	@Override
 	public void insertString(String text) {
 		// TODO Auto-generated method stub
 
@@ -386,6 +393,13 @@ public class LatexTreeItem extends RadioTreeItem
 	public void handleFKey(int key, GeoElement geoElement) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected void updateGUIfocus(Object source, boolean blurtrue) {
+		if (geo == null) {
+			updateEditorFocus(source, blurtrue);
+		}
 	}
 
 }
