@@ -280,6 +280,7 @@ public class PropertiesViewW extends PropertiesView
 			updatePropertiesGUI();
 		}
 		Log.debug("update(geo)");
+		geo.updateVisualStyle(GProperty.POINT_STYLE);
 	}
 
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
