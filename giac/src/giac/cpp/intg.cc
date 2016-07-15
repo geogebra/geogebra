@@ -1238,7 +1238,7 @@ namespace giac {
       gen tmp=subst(e,piece,piecev[nargs-1],false,contextptr);
       piecev[nargs-1]=integrate_id_rem(tmp,gen_x,remainsv[nargs-1],contextptr,intmode);
       addremains = addremains || !is_zero(remainsv[nargs-1]);
-	}
+    }
     if (addremains)
       remains_to_integrate=symbolic(at_piecewise,gen(remainsv,_SEQ__VECT));
     return symbolic(at_piecewise,gen(piecev,_SEQ__VECT));
@@ -3150,6 +3150,7 @@ namespace giac {
     if (contextptr && contextptr->quoted_global_vars){
       contextptr->quoted_global_vars->push_back(x);
       gen tmp=eval(v[0],eval_level(contextptr),contextptr); 
+      tmp=Heavisidetopiecewise(tmp,contextptr);
       if (!is_undef(tmp)) v[0]=tmp;
       contextptr->quoted_global_vars->pop_back();
     }
@@ -3162,6 +3163,7 @@ namespace giac {
       if (contextptr && contextptr->quoted_global_vars){
 	contextptr->quoted_global_vars->push_back(x);
 	gen tmp=eval(v[0],eval_level(contextptr),contextptr); 
+	tmp=Heavisidetopiecewise(tmp,contextptr);
 	if (!is_undef(tmp)) v[0]=tmp;
 	contextptr->quoted_global_vars->pop_back();
       }
