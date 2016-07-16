@@ -19,6 +19,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collections;
 
 import javax.swing.CellEditor;
 import javax.swing.JTable;
@@ -617,14 +618,19 @@ public class CASTableD extends JTable implements CASTable {
 				kernel.notifyRemove(geoNum);
 			}
 		}
-		for (int key = row + 1; key <= kernel.getConstruction()
-				.getArbitraryConsTable().size(); key++) {
-			MyArbitraryConstant myArbConst = kernel.getConstruction()
+		if (kernel.getConstruction().getArbitraryConsTable().size() > 0) {
+			// find last row number
+			Integer max = Collections
+				.max(kernel.getConstruction().getArbitraryConsTable().keySet());
+			for (int key = row + 1; key <= max; key++) {
+				MyArbitraryConstant myArbConst = kernel.getConstruction()
 					.getArbitraryConsTable().get(key);
-			if (myArbConst != null) {
-				kernel.getConstruction().getArbitraryConsTable().remove(key);
-				kernel.getConstruction().getArbitraryConsTable().put(key - 1,
-						myArbConst);
+				if (myArbConst != null) {
+					kernel.getConstruction().getArbitraryConsTable()
+						.remove(key);
+					kernel.getConstruction().getArbitraryConsTable()
+						.put(key - 1, myArbConst);
+				}
 			}
 		}
 	}

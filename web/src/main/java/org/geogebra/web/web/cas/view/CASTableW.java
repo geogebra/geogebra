@@ -1,5 +1,6 @@
 package org.geogebra.web.web.cas.view;
 
+import java.util.Collections;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint;
@@ -219,16 +220,22 @@ public class CASTableW extends Grid implements CASTable {
 				app.getKernel().notifyRemove(geoNum);
 			}
 		}
-		for (int key = row + 1; key <= app.getKernel().getConstruction()
-				.getArbitraryConsTable().size(); key++) {
-			MyArbitraryConstant myArbConst = app.getKernel().getConstruction()
+		if (app.getKernel().getConstruction().getArbitraryConsTable()
+				.size() > 0) {
+			// find last row number
+			Integer max = Collections.max(app.getKernel().getConstruction()
+				.getArbitraryConsTable().keySet());
+			for (int key = row + 1; key <= max; key++) {
+				MyArbitraryConstant myArbConst = app.getKernel()
+						.getConstruction()
 					.getArbitraryConsTable().get(key);
-			if (myArbConst != null) {
-				app.getKernel().getConstruction().getArbitraryConsTable()
+				if (myArbConst != null) {
+					app.getKernel().getConstruction().getArbitraryConsTable()
 						.remove(key);
-				app.getKernel().getConstruction().getArbitraryConsTable()
+					app.getKernel().getConstruction().getArbitraryConsTable()
 						.put(key - 1,
 						myArbConst);
+				}
 			}
 		}
 	}
