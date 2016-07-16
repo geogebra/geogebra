@@ -2332,14 +2332,17 @@ namespace giac {
 	// rewrite vabs2
 	for (int i=0;i<S;++i){
 	  int p=base[i];
-	if (lcms[p]==1)
-	  continue;
-	// bases[p]^expo[i] is rewritten as (bases[p]^1/lcms[p])^(1/(lcms[p]/expo[i]))
-	vabs2[i]=symb_pow(bases2[p],lcms[p]/expo[i]);
+	  if (lcms[p]==1)
+	    continue;
+	  // bases[p]^expo[i] is rewritten as (bases[p]^1/lcms[p])^(1/(lcms[p]/expo[i]))
+	  vabs2[i]=symb_pow(bases2[p],lcms[p]/expo[i]);
+	  vabs.push_back(bases[p][1]);
+	  vabs2.push_back(symb_pow(bases2[p],lcms[p]));
 	}
       }
     }
     e=quotesubst(e,vabs,vabs2,contextptr);
+    e=quotesubst(e,vabs,vabs2,contextptr); // second replacement because vabs2 might contain expression in vabs
     e=recursive_normal(e,contextptr); 
     if (is_undef(e)) return e;
     if (!bases.empty())

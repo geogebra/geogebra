@@ -671,7 +671,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   bool & complex_mode(GIAC_CONTEXT);
   void complex_mode(bool b,GIAC_CONTEXT);
 
-  bool & escape_real(GIAC_CONTEXT); // default=true, if false sqrt(-1) errors
+  bool & escape_real(GIAC_CONTEXT); // default=true, if false sqrt(-1) errorsglo
   void escape_real(bool b,GIAC_CONTEXT);
 
   bool & try_parse_i(GIAC_CONTEXT);
@@ -965,7 +965,9 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
 
   extern void (*my_gprintf)(unsigned special,const std::string & format,const vecteur & v,GIAC_CONTEXT);
   void gprintf(const std::string & format,const vecteur & v,GIAC_CONTEXT);
+  void gprintf(const std::string & format,const vecteur & v,int step_info,GIAC_CONTEXT);
   void gprintf(unsigned special,const std::string & format,const vecteur & v,GIAC_CONTEXT);
+  void gprintf(unsigned special,const std::string & format,const vecteur & v,int step_info,GIAC_CONTEXT);
   gen make_symbolic(const gen & op,const gen & args);
   
 #ifndef NO_NAMESPACE_GIAC

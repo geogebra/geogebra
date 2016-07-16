@@ -4892,7 +4892,11 @@ unsigned int ConvertUTF8toUTF16 (
 #endif
 
   void gprintf(unsigned special,const string & format,const vecteur & v,GIAC_CONTEXT){
-    if (step_infolevel(contextptr)==0)
+    return gprintf(special,format,v,step_infolevel(contextptr),contextptr);
+  }
+
+  void gprintf(unsigned special,const string & format,const vecteur & v,int step_info,GIAC_CONTEXT){
+    if (step_info==0)
       return;
     if (my_gprintf){
       my_gprintf(special,format,v,contextptr);
@@ -4930,6 +4934,10 @@ unsigned int ConvertUTF8toUTF16 (
 
   void gprintf(const string & format,const vecteur & v,GIAC_CONTEXT){
     gprintf(step_nothing_special,format,v,contextptr);
+  }
+
+  void gprintf(const string & format,const vecteur & v,int step_info,GIAC_CONTEXT){
+    gprintf(step_nothing_special,format,v,step_info,contextptr);
   }
 
   // moved from input_lexer.ll for easier debug

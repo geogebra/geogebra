@@ -6917,9 +6917,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  xmin=*it;
 	if (is_greater(*it,xmax,contextptr))
 	  xmax=*it;
-	equ=symb_equal(x__IDNT_e,*it);
-	gprintf("Vertical asymptote %gen",vecteur(1,equ),contextptr);
-	poi.push_back(_droite(makesequence(*it,*it+cst_i,symb_equal(at_legende,equ),symb_equal(at_couleur,_RED)),contextptr));
+	gen l=limit(f,xid,*it,1,contextptr);
+	l=recursive_normal(l,contextptr);
+	if (is_inf(l)){
+	  equ=symb_equal(x__IDNT_e,*it);
+	  gprintf("Vertical asymptote %gen",vecteur(1,equ),contextptr);
+	  poi.push_back(_droite(makesequence(*it,*it+cst_i,symb_equal(at_legende,equ),symb_equal(at_couleur,_RED)),contextptr));
+	}
 	continue;
       }
       gen l=limit(f,xid,*it,0,contextptr);

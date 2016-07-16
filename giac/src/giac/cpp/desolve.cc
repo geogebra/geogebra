@@ -595,7 +595,10 @@ namespace giac {
       return gensizeerr(contextptr);
     int ordre;
     vecteur parameters;
-    gen solution_generale(desolve_f(v.front(),x,y,ordre,parameters,f,contextptr));
+    int st=step_infolevel(contextptr);
+    step_infolevel(0,contextptr);
+    gen solution_generale(desolve_f(v.front(),x,y,ordre,parameters,f,st,contextptr));
+    step_infolevel(st,contextptr);
     if (solution_generale.type!=_VECT) 
       return in_desolve_with_conditions(v,x,y,solution_generale,parameters,f,contextptr);
     solution_generale.subtype=0; // otherwise desolve([y'=[[1,2],[2,1]]*y+[x,x+1],y(0)=[1,2]]) fails on the Prime (?)
@@ -983,7 +986,7 @@ namespace giac {
     return false;
   }
 
-  gen desolve_f(const gen & f_orig,const gen & x_orig,const gen & y_orig,int & ordre,vecteur & parameters,gen & fres,GIAC_CONTEXT){
+  gen desolve_f(const gen & f_orig,const gen & x_orig,const gen & y_orig,int & ordre,vecteur & parameters,gen & fres,int step_info,GIAC_CONTEXT){
     gen x(x_orig);
     if ( (x_orig.type==_VECT) && (x_orig._VECTptr->size()==1) )
       x=x_orig._VECTptr->front();
@@ -1496,7 +1499,11 @@ namespace giac {
       x=eval(x,1,contextptr);
     if (y.is_symb_of_sommet(at_unquote))
       y=eval(y,1,contextptr);
-    return desolve_f(f_orig,x,y,ordre,parameters,f,contextptr);
+    int st=step_infolevel(contextptr);
+    step_infolevel(0,contextptr);
+    gen res=desolve_f(f_orig,x,y,ordre,parameters,f,st,contextptr);
+    step_infolevel(st,contextptr);
+    return res;
   }
 
   // "unary" version
