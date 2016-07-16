@@ -12,6 +12,7 @@ import java.util.TreeSet;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
+import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
@@ -306,6 +307,8 @@ public class ProverBotanasMethod {
 		 */
 		boolean interpretTrueAsUndefined = false;
 		
+		boolean disallowFixSecondPoint = false;
+
 		/**
 		 * @return the polynomials
 		 */
@@ -447,6 +450,10 @@ public class ProverBotanasMethod {
 							Log.info("Due to "
 									+ algo
 									+ " is not 1-1 algebraic mapping, FALSE will be interpreted as UNKNOWN");
+						}
+
+						if (algo instanceof AlgoCirclePointRadius) {
+							disallowFixSecondPoint = true;
 						}
 
 						/*
@@ -709,6 +716,9 @@ public class ProverBotanasMethod {
 						result = ProofResult.UNKNOWN;
 						return;
 					}
+				}
+				if (disallowFixSecondPoint) {
+					maxFixcoords = 2;
 				}
 
 				AlgoElement algo = geoStatement.getParentAlgorithm();

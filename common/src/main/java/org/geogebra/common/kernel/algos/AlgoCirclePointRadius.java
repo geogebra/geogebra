@@ -28,14 +28,21 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.polynomial.Polynomial;
+import org.geogebra.common.kernel.prover.polynomial.Variable;
 
 /**
  * 
  * @author Markus added TYPE_SEGMENT Michael Borcherds 2008-03-14
  */
 public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
-		AlgoCirclePointRadiusInterface {
+		AlgoCirclePointRadiusInterface, SymbolicParametersBotanaAlgo {
+
+	private Variable[] botanaVars;
+	private Polynomial[] botanaPolynomials;
 
 	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
 			NumberValue r) {
@@ -100,5 +107,45 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
 			EquationScopeInterface scope) {
 		return LocusEquation.eqnCirclePointRadius(geo, this, scope);
+	}
+
+	public Variable[] getBotanaVars(GeoElementND geo) {
+		return botanaVars;
+	}
+
+	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
+			throws NoSymbolicParametersException {
+		if (botanaPolynomials != null) {
+			return botanaPolynomials;
+		}
+		
+		GeoPoint P = (GeoPoint) this.getInput(0);
+
+		if (P == null) {
+			throw new NoSymbolicParametersException();
+		}
+		
+		if (botanaVars == null) {
+				Variable[] centerBotanaVars = P.getBotanaVars(P);
+				botanaVars = new Variable[5];
+				// center
+				botanaVars[0] = centerBotanaVars[0];
+				botanaVars[1] = centerBotanaVars[1];
+				// point on circle
+				botanaVars[2] = new Variable();
+				botanaVars[3] = new Variable();				
+				// radius
+			botanaVars[4] = new Variable();
+		}
+		
+		botanaPolynomials = new Polynomial[1];
+		// r^2
+		Polynomial sqrR = Polynomial.sqr(new Polynomial(botanaVars[4]));
+		botanaPolynomials[0] = Polynomial.sqrDistance(botanaVars[0],
+				botanaVars[1], botanaVars[2], botanaVars[3]).subtract(sqrR);
+		
+		return botanaPolynomials;
+
+		
 	}
 }
