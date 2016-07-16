@@ -103,7 +103,7 @@ public class AlgoIntersectPlaneCurve extends AlgoIntersectCoordSysCurve {
 	}
 
 	@Override
-	protected OutputHandler getOutputPoints() {
+	protected OutputHandler<GeoElement> getOutputPoints() {
 		return outputPoints;
 	}
 
