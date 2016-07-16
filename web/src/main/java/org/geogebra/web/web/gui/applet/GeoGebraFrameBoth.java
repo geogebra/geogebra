@@ -11,6 +11,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboard;
@@ -28,6 +29,9 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -60,7 +64,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		this.add(glass);
 		return application;
 	}
-
 
 
 	/**
@@ -442,5 +445,27 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 					ggwMenuBar);
 		}
 		return ggwMenuBar;
+	}
+
+	public void closePopupsAndMaybeMenu(NativeEvent event) {
+		app.closePopups();
+		if (app.isMenuShowing()
+				&& !Dom.eventTargetsElement(event, ggwMenuBar.getElement())
+				&& !Dom.eventTargetsElement(event,
+						getToolbar().getOpenMenuButtonElement())
+				&& !getGlassPane().isDragInProgress()) {
+			app.toggleMenu();
+		}
+	}
+
+	@Override
+	public void onBrowserEvent(Event event) {
+		if (app == null || !app.getUseFullGui()) {
+			return;
+		}
+		final int eventType = DOM.eventGetType(event);
+		if (eventType == Event.ONMOUSEDOWN) {
+			closePopupsAndMaybeMenu(event);
+		}
 	}
 }
