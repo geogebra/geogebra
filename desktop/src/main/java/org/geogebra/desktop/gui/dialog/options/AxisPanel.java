@@ -233,7 +233,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 		cbManualTicks
 				.setSelected(!view.isAutomaticAxesNumberingDistance()[axis]);
-		ncbTickDist.setValue(view.getAxesNumberingDistances()[axis]);
+		ncbTickDist.setSelectedItem(model.getAxisDistance());
 		ncbTickDist.setEnabled(cbManualTicks.isSelected());
 
 		cbManualTicks.addActionListener(this);

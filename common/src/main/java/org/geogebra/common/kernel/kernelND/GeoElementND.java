@@ -410,4 +410,8 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 
 	public boolean isMoveable();
 
+	String getDefinitionForInputBar();
+
+	String getDefinition(StringTemplate tpl);
+
 }

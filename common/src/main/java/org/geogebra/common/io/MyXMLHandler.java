@@ -68,6 +68,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -1747,10 +1748,19 @@ new GPoint(row, column));
 			 */
 
 			// check if tickDistance is given
+			String tickExpr = attrs.get("tickExpression");
+			if(tickExpr!=null){
+				GeoNumberValue num = kernel.getAlgebraProcessor()
+						.evaluateToNumeric(tickExpr, true);
+				ev.setAxesNumberingDistance(num,
+						axis);
+			}else{
 			String strTickDist = attrs.get("tickDistance");
 			if (strTickDist != null) {
 				double tickDist = StringUtil.parseDouble(strTickDist);
-				ev.setAxesNumberingDistance(tickDist, axis);
+				ev.setAxesNumberingDistance(new GeoNumeric(cons, tickDist),
+						axis);
+			}
 			}
 
 			// tick style

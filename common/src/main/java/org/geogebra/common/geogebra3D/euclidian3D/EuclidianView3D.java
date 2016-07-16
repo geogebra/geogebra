@@ -1,5 +1,11 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -82,6 +88,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocusND;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -106,12 +113,6 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -386,6 +387,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR};
 		automaticAxesNumberingDistances = new boolean[]{true, true, true};
 		axesNumberingDistances = new double[]{2, 2, 2};
+		axesDistanceObjects = new GeoNumberValue[] { null, null, null };
 		drawBorderAxes = new boolean[]{false, false, false};
 		axisCross = new double[]{0, 0, 0};
 		positiveAxes = new boolean[]{false, false, false};

@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -251,7 +252,7 @@ public class EuclidianViewCompanion {
 		// might be Double.NaN, handled in setAxesNumberingDistance()
 		for (int i = 0; i < viewDim; i++) {
 			if (!evs.getAutomaticAxesNumberingDistance(i)
-					&& Double.isNaN(evs.getAxisNumberingDistance(i))) {
+					&& isNaN(evs.getAxisNumberingDistance(i))) {
 				view.setAutomaticAxesNumberingDistance(false, i);
 			} else {
 				view.setAxesNumberingDistance(evs.getAxisNumberingDistance(i),
@@ -306,6 +307,11 @@ public class EuclidianViewCompanion {
 		// let's do this after other updates because this might override e.g.
 		// xmin
 		view.setLockedAxesRatio(evs.getLockedAxesRatio());
+	}
+
+	private boolean isNaN(GeoNumberValue axisNumberingDistance) {
+		return axisNumberingDistance == null
+				|| Double.isNaN(axisNumberingDistance.getDouble());
 	}
 
 	/**

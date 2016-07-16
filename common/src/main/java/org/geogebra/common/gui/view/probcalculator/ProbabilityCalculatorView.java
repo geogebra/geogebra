@@ -1308,10 +1308,12 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			ev.setAutomaticAxesNumberingDistance(
 					plotSettings.yAxesIntervalAuto, 1);
 			if (!plotSettings.xAxesIntervalAuto) {
-				ev.setAxesNumberingDistance(plotSettings.xAxesInterval, 0);
+				ev.setAxesNumberingDistance(new GeoNumeric(cons,
+						plotSettings.xAxesInterval), 0);
 			}
 			if (!plotSettings.yAxesIntervalAuto) {
-				ev.setAxesNumberingDistance(plotSettings.yAxesInterval, 1);
+				ev.setAxesNumberingDistance(new GeoNumeric(cons,
+						plotSettings.yAxesInterval), 1);
 			}
 			ev.updateBackground();
 

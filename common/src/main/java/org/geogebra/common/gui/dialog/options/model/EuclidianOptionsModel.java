@@ -624,7 +624,13 @@ public class EuclidianOptionsModel {
 		};
 	}
 
-	public void applyGridTicks(double value, int idx) {
+	public void applyGridTicks(String str, int idx) {
+		double value = Double.NaN;
+		final String text = str.trim();
+		if (!text.equals("")) {
+			value = app.getKernel().getAlgebraProcessor()
+					.evaluateToDouble(text);
+		}
 		if (value > 0) {
 			double[] ticks = view.getGridDistances();
 			ticks[idx] = value;

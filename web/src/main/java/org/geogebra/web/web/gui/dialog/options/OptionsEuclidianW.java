@@ -840,7 +840,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				@Override
                 protected void onValueChange(String value) {
-					model.applyGridTicks(ncbGridTickX.getDoubleValue(), 0);
+					model.applyGridTicks(ncbGridTickX.getValue(), 0);
 					updateView();
 	                
                 }};
@@ -849,7 +849,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				@Override
                 protected void onValueChange(String value) {
-					model.applyGridTicks(ncbGridTickY.getDoubleValue(), 1);
+					model.applyGridTicks(ncbGridTickY.getValue(), 1);
 					updateView();	                
                 }};
                 

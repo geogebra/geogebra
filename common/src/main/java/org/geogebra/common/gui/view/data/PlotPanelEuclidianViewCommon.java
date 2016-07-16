@@ -1,6 +1,8 @@
 package org.geogebra.common.gui.view.data;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 
@@ -121,13 +123,17 @@ public class PlotPanelEuclidianViewCommon {
 				0);
 		plotPanelEuclidianViewD.setAutomaticAxesNumberingDistance(getPlotSettings().yAxesIntervalAuto,
 				1);
+		Construction cons = plotPanelEuclidianViewD.getApplication()
+				.getKernel().getConstruction();
 		if (!getPlotSettings().xAxesIntervalAuto) {
-			plotPanelEuclidianViewD.setAxesNumberingDistance(getPlotSettings().xAxesInterval, 0);
+			plotPanelEuclidianViewD.setAxesNumberingDistance(new GeoNumeric(
+					cons, getPlotSettings().xAxesInterval), 0);
 		} else {
 			getPlotSettings().xAxesInterval = plotPanelEuclidianViewD.getAxesNumberingDistances()[0];
 		}
 		if (!getPlotSettings().yAxesIntervalAuto) {
-			plotPanelEuclidianViewD.setAxesNumberingDistance(getPlotSettings().yAxesInterval, 1);
+			plotPanelEuclidianViewD.setAxesNumberingDistance(new GeoNumeric(
+					cons, getPlotSettings().yAxesInterval), 1);
 		} else {
 			getPlotSettings().yAxesInterval = plotPanelEuclidianViewD.getAxesNumberingDistances()[1];
 		}

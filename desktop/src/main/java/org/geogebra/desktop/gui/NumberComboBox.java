@@ -54,15 +54,13 @@ public class NumberComboBox extends JComboBox {
 				StringTemplate.defaultTemplate));
 	}
 
-	public double getValue() {
+	public String getValue() {
 		final Object ob = getSelectedItem();
-		if (ob == null)
-			return Double.NaN;
+		if (ob == null) {
+			return "";
+		}
 
-		final String text = ob.toString().trim();
-		if (text.equals(""))
-			return Double.NaN;
-		return kernel.getAlgebraProcessor().evaluateToDouble(text);
+		return ob.toString().trim();
 	}
 
 }

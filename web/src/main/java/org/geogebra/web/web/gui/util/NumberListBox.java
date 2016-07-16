@@ -17,12 +17,6 @@ public abstract class NumberListBox extends ComboBoxW {
 		model.add(Unicode.PI_STRING, Unicode.PI_STRING); // pi
 		model.add(Unicode.PI_STRING + "/2", Unicode.PI_STRING + "/2"); // pi/2
 	}
-
-	public double getDoubleValue() {
-		final String text = getValue().trim();
-		if (text.equals("")) return Double.NaN;
-		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);			
-	}
 	
 	public void setDoubleValue(Double value) {
 		String valStr = value.toString();

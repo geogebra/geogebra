@@ -1,6 +1,8 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Unicode;
@@ -52,8 +54,14 @@ public class AxisModel {
 		}
 	}
 
-	public void applyTickDistance(double value) {
-		if (value > 0) {
+	public void applyTickDistance(String str) {
+		GeoNumberValue value = null;
+		final String text = str.trim();
+		if (!text.equals("")) {
+			value = app.getKernel().getAlgebraProcessor()
+					.evaluateToNumeric(text, true);
+		}
+		if (value != null) {
 			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1)
 				.setAxesNumberingDistance(value, axis);
@@ -385,5 +393,11 @@ public class AxisModel {
 		void addUnitLabelItem(String item);
 
 		void setCrossText(String text);
+	}
+
+	public String getAxisDistance() {
+		return view.getAxesDistanceObjects()[axis] == null ? "" : view
+				.getAxesDistanceObjects()[axis]
+				.getDefinition(StringTemplate.editorTemplate);
 	}
 }

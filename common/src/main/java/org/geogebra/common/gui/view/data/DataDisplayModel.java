@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -585,11 +586,14 @@ public class DataDisplayModel {
 					settings.xAxesIntervalAuto, 0);
 			targetEV.setAutomaticAxesNumberingDistance(
 					settings.yAxesIntervalAuto, 1);
+			Construction cons = app.getKernel().getConstruction();
 			if (!settings.xAxesIntervalAuto) {
-				targetEV.setAxesNumberingDistance(settings.xAxesInterval, 0);
+				targetEV.setAxesNumberingDistance(new GeoNumeric(cons,
+						settings.xAxesInterval), 0);
 			}
 			if (!settings.yAxesIntervalAuto) {
-				targetEV.setAxesNumberingDistance(settings.yAxesInterval, 1);
+				targetEV.setAxesNumberingDistance(new GeoNumeric(cons,
+						settings.yAxesInterval), 1);
 			}
 			targetEV.updateBackground();
 

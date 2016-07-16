@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -439,7 +440,7 @@ public interface EuclidianViewInterfaceCommon extends
 	 * @param axis
 	 *            axis index
 	 */
-	public void setAxesNumberingDistance(double tickDist, int axis);
+	public void setAxesNumberingDistance(GeoNumberValue tickDist, int axis);
 
 	/**
 	 * @param axisCross

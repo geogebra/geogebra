@@ -7,7 +7,9 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
@@ -87,7 +89,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 		// length might be 2 or 3
 		for (int i = 0; i < axisNumberingDistances.length; i++) {
-			axisNumberingDistances[i] = Double.NaN;
+			axisNumberingDistances[i] = null;
 		}
 
 		xminObject = null;
@@ -332,8 +334,10 @@ public class EuclidianSettings extends AbstractSettings {
 	// for axes labeling with numbers
 	protected boolean[] automaticAxesNumberingDistances = { true, true, true };
 
-	protected double axisNumberingDistances[] = new double[] { Double.NaN,
-			Double.NaN, Double.NaN };
+	protected GeoNumberValue axisNumberingDistances[] = new GeoNumeric[] {
+			null,
+			null,
+			null };
 
 	// distances between grid lines
 	protected boolean automaticGridDistance = true;
@@ -476,15 +480,15 @@ public class EuclidianSettings extends AbstractSettings {
 		return showAxesNumbers;
 	}
 
-	public double getAxisNumberingDistanceX() {
+	public GeoNumberValue getAxisNumberingDistanceX() {
 		return axisNumberingDistances[0];
 	}
 
-	public double getAxisNumberingDistanceY() {
+	public GeoNumberValue getAxisNumberingDistanceY() {
 		return axisNumberingDistances[1];
 	}
 
-	public double getAxisNumberingDistance(int i) {
+	public GeoNumberValue getAxisNumberingDistance(int i) {
 		return axisNumberingDistances[i];
 	}
 
@@ -492,7 +496,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * 
 	 * @param dist
 	 */
-	public void setAxisNumberingDistanceX(double dist) {
+	public void setAxisNumberingDistanceX(GeoNumberValue dist) {
 
 		axisNumberingDistances[0] = dist;
 
@@ -505,7 +509,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * 
 	 * @param dist
 	 */
-	public void setAxisNumberingDistanceY(double dist) {
+	public void setAxisNumberingDistanceY(GeoNumberValue dist) {
 
 		axisNumberingDistances[1] = dist;
 
@@ -514,7 +518,7 @@ public class EuclidianSettings extends AbstractSettings {
 		settingChanged();
 	}
 
-	public void setAxisNumberingDistance(int i, double dist) {
+	public void setAxisNumberingDistance(int i, GeoNumberValue dist) {
 
 		axisNumberingDistances[i] = dist;
 
@@ -530,9 +534,9 @@ public class EuclidianSettings extends AbstractSettings {
 			automaticAxesNumberingDistances[axis] = flag;
 
 			if (flag) {
-				axisNumberingDistances[0] = Double.NaN;
-				axisNumberingDistances[1] = Double.NaN;
-				axisNumberingDistances[2] = Double.NaN;
+				axisNumberingDistances[0] = null;
+				axisNumberingDistances[1] = null;
+				axisNumberingDistances[2] = null;
 				if (callsc) {
 					settingChanged();
 				}
@@ -718,7 +722,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	}
 
-	public void setAxesNumberingDistance(double tickDist, int axis) {
+	public void setAxesNumberingDistance(GeoNumberValue tickDist, int axis) {
 
 		setAxisNumberingDistance(axis, tickDist);
 
@@ -906,9 +910,13 @@ public class EuclidianSettings extends AbstractSettings {
 
 		// the tick distance should only be saved if
 		// it isn't calculated automatically
-		if (!automaticAxesNumberingDistances[i]) {
+		if (!automaticAxesNumberingDistances[i]
+				&& axisNumberingDistances[i] != null) {
 			sbxml.append("\" tickDistance=\"");
-			sbxml.append(axisNumberingDistances[i]);
+			sbxml.append(axisNumberingDistances[i].getDouble());
+			sbxml.append("\" tickExpression=\"");
+			sbxml.append(axisNumberingDistances[i]
+					.getDefinition(StringTemplate.xmlTemplate));
 		}
 
 		// axis crossing values

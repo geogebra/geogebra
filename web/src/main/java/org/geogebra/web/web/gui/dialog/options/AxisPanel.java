@@ -128,7 +128,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 				model.applyTickDistance(isTickDistanceOn);
 				ncbTickDist.setEnabled(isTickDistanceOn);
 				if (isTickDistanceOn) {
-					model.applyTickDistance(ncbTickDist.getDoubleValue());
+					model.applyTickDistance(ncbTickDist.getValue());
 				}
 
 			}});
@@ -138,7 +138,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 			@Override
             protected void onValueChange(String value) {
-				model.applyTickDistance(ncbTickDist.getDoubleValue());
+				model.applyTickDistance(ncbTickDist.getValue());
            
             }};
 
@@ -250,7 +250,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 		cbManualTicks
 		.setValue(!view.isAutomaticAxesNumberingDistance()[axis]);
-		ncbTickDist.setSelectedId(view.getAxesNumberingDistances()[axis]+"");
+		ncbTickDist.setSelectedId(model.getAxisDistance());
 		ncbTickDist.setEnabled(cbManualTicks.getValue());
 
 

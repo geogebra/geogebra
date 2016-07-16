@@ -57,6 +57,7 @@ import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -387,6 +388,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
 		automaticAxesNumberingDistances = new boolean[] { true, true };
 		axesNumberingDistances = new double[] { 2, 2 };
+		axesDistanceObjects = new GeoNumberValue[] { null, null };
 		drawBorderAxes = new boolean[] { false, false };
 		axisCross = new double[] { 0, 0 };
 		positiveAxes = new boolean[] { false, false };
@@ -1106,6 +1108,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected boolean[] automaticAxesNumberingDistances = { true, true };
 
 	protected double[] axesNumberingDistances;
+	protected GeoNumberValue[] axesDistanceObjects;
 	private boolean needsAllDrawablesUpdate;
 	protected boolean batchUpdate;
 
@@ -2569,6 +2572,10 @@ GRectangle selectionRectangle) {
 		return axesNumberingDistances;
 	}
 
+	public GeoNumberValue[] getAxesDistanceObjects() {
+		return axesDistanceObjects;
+	}
+
 	/**
 	 * 
 	 * @param dist
@@ -2576,9 +2583,10 @@ GRectangle selectionRectangle) {
 	 * @param axis
 	 *            0 for xAxis, 1 for yAxis
 	 */
-	public void setAxesNumberingDistance(double dist, int axis) {
-		if (!Double.isNaN(dist)) {
-			axesNumberingDistances[axis] = dist;
+	public void setAxesNumberingDistance(GeoNumberValue dist, int axis) {
+		if (dist != null && !Double.isNaN(dist.getDouble())) {
+			axesNumberingDistances[axis] = dist.getDouble();
+			axesDistanceObjects[axis] = dist;
 			setAutomaticAxesNumberingDistance(false, axis);
 		} else {
 			setAutomaticAxesNumberingDistance(true, axis);
