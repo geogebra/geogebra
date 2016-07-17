@@ -764,10 +764,21 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			GeoElement geo1 = geoLists[c].get(r);
 
 			GColor col = geo1.getObjectColor();
+			GColor bgCol = geo1.getBackgroundColor();
 
 			// check isLabelSet() so that eg TableText[{{1, 2, 3}}] isn't green
 			if (GColor.BLACK.equals(col) || !geo1.isLabelSet()) {
 				col = null;
+			}
+
+			if (bgCol == null || !geo1.isLabelSet() || bgCol.getAlpha() == 0) {
+				bgCol = null;
+			}
+
+			if (bgCol != null) {
+				sb.append("\\bgcolor{#");
+				sb.append(StringUtil.toHexString(bgCol));
+				sb.append("}{");
 			}
 
 			if (col != null) {
@@ -812,6 +823,10 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			if (col != null) {
 				sb.append('}');
 			}
+			if (bgCol != null) {
+				sb.append('}');
+			}
+
 		}
 		if (!finalCell)
 			sb.append("&"); // separate columns
