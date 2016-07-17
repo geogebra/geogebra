@@ -6250,6 +6250,11 @@ kernel, left,
 			if (fraction[0] != null && fraction[1] != null) {
 				double lt = fraction[0].evaluateDouble();
 				double rt = fraction[1].evaluateDouble();
+				boolean pi = false;
+				if (Kernel.isInteger(lt / Math.PI)) {
+					lt = lt / Math.PI;
+					pi = true;
+				}
 				if (Kernel.isInteger(rt) && Kernel.isInteger(lt)
 						&& !Kernel.isZero(rt) && Math.abs(lt) < 1E15
 						&& Math.abs(rt) < 1E15) {
@@ -6259,9 +6264,12 @@ kernel, left,
 					lt = lt / g;
 					rt = rt / g;
 
-					resolve = new ExpressionNode(kernel, lt).divide(rt);
+					resolve = (pi ? new ExpressionNode(kernel, Math.PI)
+							.multiplyR(lt) : new ExpressionNode(kernel, lt))
+							.divide(rt);
 				} else {
-					resolve = new ExpressionNode(kernel, lt / rt);
+					resolve = new ExpressionNode(kernel, pi ? Math.PI * lt / rt
+							: lt / rt);
 				}
 			} else {
 				resolve = evaluate(StringTemplate.defaultTemplate).wrap();

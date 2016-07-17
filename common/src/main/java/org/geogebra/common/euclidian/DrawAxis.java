@@ -6,6 +6,7 @@ import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.MyMath;
@@ -321,25 +322,18 @@ public class DrawAxis {
 			view.axesNumberingDistances[0] = Kernel
 					.checkDecimalFraction(view.axesNumberingDistances[0]);
 
-			int count = 0;
-			double rwBase = Kernel.checkDecimalFraction(rw);
 
 			// for (; pix < view.getWidth(); rw +=
 			// view.axesNumberingDistances[0], pix +=
 			// axesStep) {
-			for (; pix < view.getWidth(); count++, pix += axesStep) {
+			for (; pix < view.getWidth(); pix += axesStep) {
 
 				// 285, 285.1, 285.2 -> rounding problems
-				rw = rwBase
-						+ Kernel
-								.checkDecimalFraction(view.axesNumberingDistances[0]
-								* count);
+
 
 				if (pix >= xAxisStart && pix <= maxX) {
 					if (view.showAxesNumbers[0]) {
-						String strNum = view.kernel.formatPiE(rw,
-								view.axesNumberFormat[0],
-								StringTemplate.defaultTemplate);
+						String strNum = tickDescription(labelno, 0);
 
 						if ((labelno % unitsPerLabelX) == 0) {
 
@@ -492,9 +486,7 @@ public class DrawAxis {
 			for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
 				if (pix >= maxY && pix < yAxisEnd + 1) {
 					if (view.showAxesNumbers[1]) {
-						String strNum = view.kernel.formatPiE(rw,
-								view.axesNumberFormat[1],
-								StringTemplate.defaultTemplate);
+						String strNum = tickDescription(labelno, 1);
 
 						if ((labelno % unitsPerLabelY) == 0) {
 
@@ -583,5 +575,23 @@ public class DrawAxis {
 		}
 
 
+	}
+
+	private String tickDescription(int labelno, int axis) {
+		if (view.getAxesDistanceObjects()[axis] != null
+				&& view.getAxesDistanceObjects()[axis].getDefinition() != null) {
+			return multiple(
+					view.getAxesDistanceObjects()[axis].getDefinition(),
+					labelno);
+		}
+		return view.kernel.formatPiE(
+				Kernel.checkDecimalFraction(labelno
+						* view.axesNumberingDistances[axis]),
+				view.axesNumberFormat[axis], StringTemplate.defaultTemplate);
+	}
+
+	private static String multiple(ExpressionNode definition, int labelno) {
+		return definition.multiply(labelno).toFractionString(
+				StringTemplate.defaultTemplate);
 	}
 }
