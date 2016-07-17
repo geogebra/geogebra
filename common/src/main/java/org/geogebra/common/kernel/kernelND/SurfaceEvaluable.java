@@ -83,4 +83,6 @@ public interface SurfaceEvaluable {
 	 * @param lod level of detail
 	 */
 	public void setLevelOfDetail(LevelOfDetail lod);
+
+	public boolean isDefined();
 }

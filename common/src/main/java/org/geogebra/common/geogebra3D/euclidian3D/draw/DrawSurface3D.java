@@ -252,7 +252,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	protected boolean updateForItSelf() {
-		
+		if (!surfaceGeo.isDefined()) {
+			return false;
+		}
 		boolean drawOccured = false;
 
 		if (drawFromScratch){

@@ -45,7 +45,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 		// must be called from the subclass, see
 		//http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
-
 	}
 	
 	/**
@@ -53,6 +52,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 	 * 
 	 * @param c
 	 *            construction
+	 * @param point
+	 *            point expression
 	 * @param fun
 	 *            functions
 	 */
@@ -68,7 +69,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 	 */
 	public void setDerivatives(){
 		
-		if (fun1 != null){
+		if (fun1 != null || fun == null) {
 			return;
 		}
 		
@@ -214,7 +215,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 
 	@Override
 	final public boolean isDefined() {
-		return isDefined;
+		return isDefined && fun != null;
 	}
 
 	/**
@@ -238,11 +239,15 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 		sbToString.setLength(0);
 		if (isLabelSet()) {
 			sbToString.append(label);
-			sbToString.append('(');
-			sbToString.append(fun[0].getFunctionVariables()[0].toString(tpl));
-			sbToString.append(',');
-			sbToString.append(fun[0].getFunctionVariables()[1].toString(tpl));
-			sbToString.append(") = ");					
+			if (fun != null) {
+				sbToString.append('(');
+				sbToString.append(fun[0].getFunctionVariables()[0]
+						.toString(tpl));
+				sbToString.append(',');
+				sbToString.append(fun[0].getFunctionVariables()[1]
+						.toString(tpl));
+				sbToString.append(") = ");
+			}
 		}		
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
@@ -253,7 +258,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 
 	@Override
 	public String toValueString(StringTemplate tpl) {		
-		if (isDefined) {
+		if (isDefined()) {
 			StringBuilder sbTemp = new StringBuilder(80);
 			
 			sbTemp.setLength(0);
@@ -276,7 +281,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 	 * @return symbolic string representation
 	 */
 	public String toSymbolicString(StringTemplate tpl) {	
-		if (isDefined) {
+		if (isDefined()) {
 			StringBuilder
 				sbTemp = new StringBuilder(80);
 			sbTemp.setLength(0);
@@ -296,7 +301,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 	
 	@Override
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
-		if (isDefined) {
+		if (isDefined()) {
 			StringBuilder	sbTemp = new StringBuilder(80);
 			
 			if (point == null) {
@@ -327,12 +332,21 @@ public abstract class GeoSurfaceCartesianND extends GeoElement implements
 		return true;
 	}
 
+	/**
+	 * @return point expression if defined as (f(u,v),g(u,v),h(u,v))
+	 */
 	public ExpressionNode getPointExpression() {
 		return point;
 	}
 
-	public ExpressionValue evaluateSurface(double evaluateDouble,
-			double evaluateDouble2) {
+	/**
+	 * @param u
+	 *            value of first parameter
+	 * @param v
+	 *            value of second parameter
+	 * @return 3D point
+	 */
+	public ExpressionValue evaluateSurface(double u, double v) {
 		// override this in the 3D version
 		return null;
 	}
