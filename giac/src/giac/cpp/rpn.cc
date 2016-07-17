@@ -853,7 +853,10 @@ namespace giac {
     gen res=it->second;
     if (it->second.type==_POINTER_ && it->second.subtype==_THREAD_POINTER)
       return gentypeerr(args.print(contextptr)+" is locked by thread "+it->second.print(contextptr));
-    contextptr->tabptr->erase(it);
+    if (contextptr->previous)
+      it->second=identificateur(it->first);
+    else
+      contextptr->tabptr->erase(it);
     if (res.is_symb_of_sommet(at_rootof))
       _purge(res,contextptr);
     return res;
