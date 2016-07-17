@@ -387,6 +387,8 @@ public class MyXMLHandler implements DocHandler {
 		xmax.clear();
 		ymin.clear();
 		ymax.clear();
+		xtick.clear();
+		ytick.clear();
 	}
 
 	private void initKernelVars() {
@@ -1246,6 +1248,8 @@ public class MyXMLHandler implements DocHandler {
 	private HashMap<EuclidianSettings, String> xmin = new HashMap<EuclidianSettings, String>(),
 			xmax = new HashMap<EuclidianSettings, String>(),
 			ymin = new HashMap<EuclidianSettings, String>(),
+			xtick = new HashMap<EuclidianSettings, String>(),
+			ytick = new HashMap<EuclidianSettings, String>(),
 			ymax = new HashMap<EuclidianSettings, String>();
 
 	private boolean sliderTagProcessed, fontTagProcessed;
@@ -1750,18 +1754,19 @@ new GPoint(row, column));
 			// check if tickDistance is given
 			String tickExpr = attrs.get("tickExpression");
 			if(tickExpr!=null){
-				GeoNumberValue num = kernel.getAlgebraProcessor()
-						.evaluateToNumeric(tickExpr, true);
-				ev.setAxesNumberingDistance(num,
-						axis);
-			}else{
+				if (axis == 0) {
+					xtick.put(evSet, tickExpr);
+				} else {
+					ytick.put(evSet, tickExpr);
+				}
+			}
 			String strTickDist = attrs.get("tickDistance");
 			if (strTickDist != null) {
 				double tickDist = StringUtil.parseDouble(strTickDist);
 				ev.setAxesNumberingDistance(new GeoNumeric(cons, tickDist),
 						axis);
 			}
-			}
+
 
 			// tick style
 			String strTickStyle = attrs.get("tickStyle");
@@ -3435,6 +3440,24 @@ new GPoint(row, column));
 				NumberValue n = kernel.getAlgebraProcessor()
 						.evaluateToNumeric(ymax.get(ev), true);
 				ev.setYmaxObject(n, true);
+			}
+			// ev.updateBounds();
+		}
+		for (EuclidianSettings ev : eSet) {
+			if (xtick.get(ev) != null) {
+
+				GeoNumberValue n = kernel.getAlgebraProcessor()
+						.evaluateToNumeric(xtick.get(ev), true);
+				ev.setAxisNumberingDistance(0, n);
+			}
+			// ev.updateBounds();
+		}
+		for (EuclidianSettings ev : eSet) {
+			if (ytick.get(ev) != null) {
+
+				GeoNumberValue n = kernel.getAlgebraProcessor()
+						.evaluateToNumeric(ytick.get(ev), true);
+				ev.setAxisNumberingDistance(1, n);
 			}
 			// ev.updateBounds();
 		}

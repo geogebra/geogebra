@@ -541,6 +541,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return;
 
 		updatingBounds = true;
+		for (int i = 0; i < axesDistanceObjects.length; i++) {
+			if (axesDistanceObjects[i] != null
+					&& axesDistanceObjects[i].getDouble() > 0) {
+				axesNumberingDistances[i] = axesDistanceObjects[i].getDouble();
+			}
+		}
 		if (xminObject == null) {
 			return;
 		}
@@ -2257,6 +2263,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (yminObject == num) {
 			yminObject = num2;
 		}
+		for (int i = 0; i < axesDistanceObjects.length; i++) {
+			if (axesDistanceObjects[i] == num) {
+				axesDistanceObjects[i] = num2;
+			}
+		}
 		updateBounds(true, true);
 	}
 
@@ -2584,10 +2595,14 @@ GRectangle selectionRectangle) {
 	 *            0 for xAxis, 1 for yAxis
 	 */
 	public void setAxesNumberingDistance(GeoNumberValue dist, int axis) {
+		if (axesDistanceObjects[axis] != null) {
+			((GeoNumeric) axesDistanceObjects[axis]).removeEVSizeListener(this);
+		}
 		if (dist != null && !Double.isNaN(dist.getDouble())) {
 			axesNumberingDistances[axis] = dist.getDouble();
 			axesDistanceObjects[axis] = dist;
 			setAutomaticAxesNumberingDistance(false, axis);
+			((GeoNumeric) dist).addEVSizeListener(this);
 		} else {
 			setAutomaticAxesNumberingDistance(true, axis);
 		}
