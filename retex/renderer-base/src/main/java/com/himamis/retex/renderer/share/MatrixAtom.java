@@ -372,7 +372,7 @@ public class MatrixAtom extends Atom {
 
 	}
 
-	public Box createBox(TeXEnvironment env) {
+	public TableBox createBox(TeXEnvironment env) {
 		int row = matrix.row;
 		int col = matrix.col;
 		Box[][] boxarr = new Box[row][col];
@@ -540,7 +540,7 @@ public class MatrixAtom extends Atom {
 		vb.setHeight(totalHeight / 2 + axis);
 		vb.setDepth(totalHeight / 2 - axis);
 
-		return vb;
+		return new TableBox(vb);
 	}
 
 	private Box generateMulticolumn(TeXEnvironment env, Box[] Hsep, float[] rowWidth, int i, int j) {
