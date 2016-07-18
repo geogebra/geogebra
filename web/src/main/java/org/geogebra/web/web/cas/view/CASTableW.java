@@ -106,18 +106,24 @@ public class CASTableW extends Grid implements CASTable {
 	 *            row index (starting from 0) where cell insertion is done
 	 */
 	private void updateAfterInsertArbConstTable(int row) {
-		for (int key = app.getKernel().getConstruction().getArbitraryConsTable()
-				.size(); key >= row; key--) {
-			MyArbitraryConstant myArbConst = app.getKernel().getConstruction()
+		if (app.getKernel().getConstruction().getArbitraryConsTable()
+				.size() > 0) {
+			// find last row number
+			Integer max = Collections.max(app.getKernel().getConstruction()
+					.getArbitraryConsTable().keySet());
+			for (int key = max; key >= row; key--) {
+				MyArbitraryConstant myArbConst = app.getKernel()
+						.getConstruction()
 					.getArbitraryConsTable().get(key);
-			if (myArbConst != null
+				if (myArbConst != null
 					&& !app.getKernel().getConstruction().isCasCellUpdate()
 					&& !app.getKernel().getConstruction().isFileLoading()
 					&& app.getKernel().getConstruction().isNotXmlLoading()) {
-				app.getKernel().getConstruction().getArbitraryConsTable()
+					app.getKernel().getConstruction().getArbitraryConsTable()
 						.remove(key);
-				app.getKernel().getConstruction().getArbitraryConsTable()
+					app.getKernel().getConstruction().getArbitraryConsTable()
 						.put(key + 1, myArbConst);
+				}
 			}
 		}
 	}

@@ -446,17 +446,22 @@ public class CASTableD extends JTable implements CASTable {
 	 *            row index (starting from 0) where cell insertion is done
 	 */
 	private void updateAfterInsertArbConstTable(int selectedRow) {
-		for (int key = kernel.getConstruction().getArbitraryConsTable()
-				.size(); key >= selectedRow; key--) {
-			MyArbitraryConstant myArbConst = kernel.getConstruction()
+		if (kernel.getConstruction().getArbitraryConsTable().size() > 0) {
+			// find last row number
+			Integer max = Collections
+				.max(kernel.getConstruction().getArbitraryConsTable().keySet());
+			for (int key = max; key >= selectedRow; key--) {
+				MyArbitraryConstant myArbConst = kernel.getConstruction()
 					.getArbitraryConsTable().get(key);
-			if (myArbConst != null
+				if (myArbConst != null
 					&& !kernel.getConstruction().isCasCellUpdate()
 					&& !kernel.getConstruction().isFileLoading()
 					&& kernel.getConstruction().isNotXmlLoading()) {
-				kernel.getConstruction().getArbitraryConsTable().remove(key);
-				kernel.getConstruction().getArbitraryConsTable().put(key + 1,
-					myArbConst);
+					kernel.getConstruction().getArbitraryConsTable()
+							.remove(key);
+					kernel.getConstruction().getArbitraryConsTable()
+							.put(key + 1, myArbConst);
+				}
 			}
 		}
 	}
