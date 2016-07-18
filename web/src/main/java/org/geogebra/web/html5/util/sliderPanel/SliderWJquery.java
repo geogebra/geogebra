@@ -45,8 +45,8 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 
 	private native void setup(Element range1, double min, double max, double val)/*-{
 		var that = this;
-		var $ = $wnd.ggbQuery || $wnd.jQuery;
-		$(range1)
+		var j = $wnd.$ggbQuery || $wnd.jQuery;
+		j(range1)
 				.slider(
 						{
 							"min" : min,
@@ -65,12 +65,12 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	}
 
 	private native void setScale(Element range1, float zoom) /*-{
-		var $ = $wnd.ggbQuery || $wnd.jQuery;
+		var $ = $wnd.$ggbQuery || $wnd.jQuery;
 		$(range1).slider("setzoom", zoom);
 	}-*/;
 	
 	private native void setRangeValue(Element range1, double val) /*-{
-		var $ = $wnd.ggbQuery || $wnd.jQuery;
+		var $ = $wnd.$ggbQuery || $wnd.jQuery;
 		$(range1).slider("values", [ val ]);
 	}-*/;
 
@@ -83,18 +83,18 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	}
 
 	private native void stopNative(Element range1) /*-{
-		var $ = $wnd.ggbQuery || $wnd.jQuery;
+		var $ = $wnd.$ggbQuery || $wnd.jQuery;
 		$(range1).slider("doCancel");
 	}-*/;
 
 	private native double getRangeValue(Element range1) /*-{
-		var $ = $wnd.ggbQuery || $wnd.jQuery;
+		var $ = $wnd.$ggbQuery || $wnd.jQuery;
 		return $(range1).slider("values")[0];
 	}-*/;
 
 	private native void setProperty(Element range1, String prop,
 			double val) /*-{
-		var $ = $wnd.ggbQuery || $wnd.jQuery;
+		var $ = $wnd.$ggbQuery || $wnd.jQuery;
 		$(range1).slider("option", prop, val);
 	}-*/;
 
