@@ -3420,7 +3420,10 @@ body.application[dir=rtl] .imageCorner {
 	box-sizing: border-box;
 }
 
-
+.NewRadioButtonTreeItemParent .scrollableTextBox{
+	border-top: #6161FF solid 1px;
+	border-bottom:	#6161FF solid 1px;
+}
 
 .NoHorizontalScroll .InputTreeItem .hasCursorPermanent {
 	border-color: #6161FF;
