@@ -63,6 +63,7 @@ public class LatexTreeItem extends RadioTreeItem
 			ihtml.addStyleName("scrollableTextBox");
 		}
 		getWidget().addStyleName("latexEditor");
+		renderLatex("", null);
 	}
 
 	@Override
@@ -125,6 +126,9 @@ public class LatexTreeItem extends RadioTreeItem
 
 		ensureCanvas();
 		appendCanvas();
+		if (!ihtml.isAttached()) {
+			main.add(ihtml);
+		}
 
 		setText(text0);
 		retexListener = new RetexKeyboardListener(canvas, mf);
