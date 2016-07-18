@@ -1237,7 +1237,7 @@ __GGB__keysVar.nl.menu = {
     "Cancel": "Annuleren",
     "Cartesian": "Cartesisch",
     "CasCellUseAsText": "Tekst",
-    "CheckBoxTitle": "Checkbox om objecten te tonen of te verbergen",
+    "CheckBoxTitle": "Aanvinkvakje om objecten te tonen of te verbergen",
     "CheckboxSize": "Grootte aanvinkvakje",
     "CheckboxSize.Large": "Groot",
     "CheckboxSize.Regular": "Gewoon",
