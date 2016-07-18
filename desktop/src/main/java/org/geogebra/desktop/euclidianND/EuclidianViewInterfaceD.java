@@ -77,4 +77,8 @@ public interface EuclidianViewInterfaceD {
 
 	public void updateFonts();
 
+	public int getExportWidth();
+
+	public int getExportHeight();
+
 }

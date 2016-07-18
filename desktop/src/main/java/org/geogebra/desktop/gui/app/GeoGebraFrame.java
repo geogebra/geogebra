@@ -40,7 +40,6 @@ import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -50,14 +49,12 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.UtilFactory;
@@ -73,10 +70,8 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.AppId;
 import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
@@ -1034,6 +1029,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 
+					EuclidianViewInterfaceD ev = (EuclidianViewInterfaceD) app
+							.getActiveEuclidianView();
 					try {
 
 						// if 3D view exists, assume that we should export
@@ -1042,35 +1039,13 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						if (app.isEuclidianView3Dinited()
 								&& app.hasEuclidianView3D()) {
 
-							if (!"png".equals(extension)) {
-								Log.error("only PNG export supported for the 3D View");
-								System.exit(0);
+							if ("png".equals(extension)) {
+								Log.debug("exporting 3D View");
+								ev = (EuclidianView3DD) app
+										.getEuclidianView3D();
 							}
-
-							final EuclidianView3DD ev = (EuclidianView3DD) app
-									.getEuclidianView3D();
-
-
-							try {
-
-								GBufferedImage bufferedImage = ev
-										.getExportImage(1);
-								ImageIO.write(GBufferedImageD
-										.getAwtBufferedImage(bufferedImage),
-										"png", new File(
-										filename));
-								Log.debug("3D view exported successfully");
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-
-							System.exit(0);
-
-
-							return;
 						}
 
-						EuclidianViewD ev = (EuclidianViewD) app.getActiveEuclidianView();
 						double printingScale = ev.getPrintingScale();
 						double exportScale = (printingScale * dpi) / 2.54
 								/ ev.getXscale();
@@ -1117,7 +1092,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 								transparent, dpi2, exportScale, textAsShapes,
 								useEMFplus, pixelWidth, pixelHeight, app);
 
-						Log.debug("2D view exported successfully");
+						Log.debug("Graphics View exported successfully");
 
 					} catch (Throwable t) {
 						t.printStackTrace();
