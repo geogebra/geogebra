@@ -7546,8 +7546,8 @@ public abstract class EuclidianController {
 					oldMode == EuclidianConstants.MODE_BUTTON_ACTION;
 			boolean moveSelected = oldMode == EuclidianConstants.MODE_MOVE;
 
-			if ((!app.isApplet() || temporaryMode)
-					&& (textFieldSelected || buttonSelected ||
+			if ((temporaryMode || textFieldSelected || buttonSelected
+					||
 					(moveSelected && app.isRightClickEnabled())
 			)
 					) {
@@ -7679,7 +7679,7 @@ public abstract class EuclidianController {
 		if (!geo.isGeoInputBox()) {
 			return false;
 		}
-		GeoButton textField = (GeoInputBox) geo;
+		GeoInputBox textField = (GeoInputBox) geo;
 		return (textField.isTextField() && ((temporaryMode
 				&& app
 .isRightClickEnabled() || !textField.isFixed() || app
