@@ -2479,6 +2479,12 @@ namespace giac {
 	  vecteur wpow=lop(lvar(lop(lv,at_pow)),at_pow);
 	  vecteur w=mergevecteur(wpow,lop(lv,at_exp));
 	  if (!wpow.empty() || w.size()>1){
+	    gen a12=gcd(a1,a2,contextptr);
+	    if (!lvarx(a12,v.back()).empty()){
+	      gen res1=_solve(makesequence(symb_equal(a12,0),v.back()),contextptr);
+	      gen res2=_solve(makesequence(symb_equal(ratnormal(a1/a12,contextptr),ratnormal(a2/a12,contextptr)),v.back()),contextptr);
+	      return gen(mergevecteur(gen2vecteur(res1),gen2vecteur(res2)),res1.subtype);
+	    }
 	    arg1=ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr);
 	    if (lvarx(arg1,v.back()).size()>1){
 	      arg1=lnexpand(arg1,contextptr);
