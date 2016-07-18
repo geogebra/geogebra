@@ -34,30 +34,33 @@ public class CmdCellRange extends CommandProcessor {
 			ExpressionNode[] args = c.getArguments();
 
 			// check if we really have two leafs
-			if (args[0].getOperation() == Operation.NO_OPERATION
-					&& args[0].getLeft().isVariable()
-					&& args[0].getOperation() == Operation.NO_OPERATION
-					&& args[0].getLeft().isVariable()) {
 
-				String start = ((Variable) args[0].getLeft()).getName();
-				String end = ((Variable) args[1].getLeft()).getName();
+			String start = spreadsheetLabel(args[0], c);
+			String end = spreadsheetLabel(args[1], c);
 
-				// both start and end need to have valid spreadsheet coordinates
-				if (GeoElementSpreadsheet.isSpreadsheetLabel(start)
-						&& GeoElementSpreadsheet.isSpreadsheetLabel(end)) {
-					AlgoCellRange algo = app.getSpreadsheetTableModel()
-							.getCellRangeManager()
-							.getAlgoCellRange(cons, c.getLabel(), start, end);
-					GeoElement[] ret = { algo.getList() };
-					return ret;
+			// both start and end need to have valid spreadsheet coordinates
 
-				}
-
-			}
+			AlgoCellRange algo = app.getSpreadsheetTableModel()
+					.getCellRangeManager()
+					.getAlgoCellRange(cons, c.getLabel(), start, end);
+			GeoElement[] ret = { algo.getList() };
+			return ret;
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	private String spreadsheetLabel(ExpressionNode expressionNode, Command c) {
+		if (expressionNode.getOperation() != Operation.NO_OPERATION
+				|| !expressionNode.getLeft().isVariable()) {
+			throw argErr(loc, c.getName(), expressionNode);
+		}
+		String cell = ((Variable) expressionNode.getLeft()).getName();
+		if (GeoElementSpreadsheet.isSpreadsheetLabel(cell)) {
+			return cell;
+		}
+		throw argErr(loc, c.getName(), expressionNode);
 	}
 
 }
