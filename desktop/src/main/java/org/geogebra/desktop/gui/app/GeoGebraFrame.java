@@ -1082,10 +1082,39 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						int pixelHeight = (int) Math.floor(ev.getExportHeight()
 								* exportScale);
 
+						int dpi2 = dpi;
+
+						String maxSizeStr = args.getStringValue("maxSize");
+
+						if (maxSizeStr != null && !"".equals(maxSizeStr)) {
+
+							// ************************
+							double maxSize = Integer.parseInt(maxSizeStr);
+							Log.debug("desiredSize = " + maxSize);
+							double size = Math.max(ev.getExportWidth(),
+									ev.getExportHeight());
+							Log.debug("size = " + size);
+
+							exportScale = Math.min(
+									maxSize / Math.floor(ev.getExportWidth()),
+									maxSize / Math.floor(ev.getExportHeight()));
+							Log.debug("exportScale = " + exportScale);
+							pixelWidth = (int) Math
+									.floor(ev.getExportWidth() * exportScale);
+							Log.debug("pixelWidth = " + pixelWidth);
+							pixelHeight = (int) Math
+									.floor(ev.getExportHeight() * exportScale);
+							Log.debug("pixelHeight = " + pixelHeight);
+
+							dpi2 = (int) (exportScale * ev.getXscale() * 2.54
+									/ printingScale);
+							Log.debug("dpi2 = " + dpi2);
+						}
+
 						File file = new File(filename);
 
 						GraphicExportDialog.export(extension, ev, file,
-								transparent, dpi, exportScale, textAsShapes,
+								transparent, dpi2, exportScale, textAsShapes,
 								useEMFplus, pixelWidth, pixelHeight, app);
 
 						Log.debug("2D view exported successfully");
