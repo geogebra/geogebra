@@ -52,13 +52,6 @@ public class AdvancedFocusPanel extends SimplePanel implements AdvancedFocusPane
 		// but it turned out that it's Okay (testing)
 		DOM.appendChild(getContainerElement(), focusTextarea);
 
-		// moreover, it's not trivial that focus features will
-		// work well, what about browser natural click-focus feature?
-		// so maybe we will also need to make getElement() focusable,
-		// and redirect its focus to the textarea, just like
-		// MathQuillGGB does it... but it turned out we don't need this!
-
-		// about methods like FocusHandler, etc... use addDomHandler!
 	}
 
 	public AdvancedFocusPanel(Widget w) {

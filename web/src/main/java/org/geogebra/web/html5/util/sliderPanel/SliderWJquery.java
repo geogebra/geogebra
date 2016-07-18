@@ -45,8 +45,8 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 
 	private native void setup(Element range1, double min, double max, double val)/*-{
 		var that = this;
-		$wnd
-				.$ggbQuery(range1)
+		var $ = $wnd.ggbQuery || $wnd.jQuery;
+		$(range1)
 				.slider(
 						{
 							"min" : min,

@@ -1919,17 +1919,7 @@ marblePanel, evt))) {
 		handleAVItem(event);
 		event.stopPropagation();
 		if (commonEditingCheck()) {
-			// in newCreationMode, this is necessary after the
-			// MathQuillGGB gets its focusMathQuillGGB method...
-			// and setFocus will be called in onPointerDown anyway.
-			// about other default actions of this event,
-			// I don't care (MathQuillGGB formula is over this,
-			// and accepts its events before this, e.g. the
-			// selection highlighting event, which looks good)
-
-			// as for an Internet Explorer bug in editing mode
-			// (not newCreationMode) the condition is extended
-			// to all cases of editing
+			// keep focus in editor
 			event.preventDefault();
 		}
 		if (CancelEventTimer.cancelMouseEvent()) {

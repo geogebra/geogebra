@@ -27,8 +27,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png")
 	ImageResource icons_play_pause_circle_hover();
 
-	@Source("org/geogebra/web/resources/js/mathquillggb.js")
-	TextResource mathquillggbJs();
+
 
 	@Source("org/geogebra/web/pub/js/properties_keys_en.js")
 	TextResource propertiesKeysJS();
@@ -67,8 +66,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 //	@Source("org/geogebra/web/resources/js/midi/jasmid.js")
 //	TextResource jasmidJs();
 
-	@Source("org/geogebra/web/resources/css/mathquillggb.css")
-	TextResource mathquillggbCss();
 
 	@Source("org/geogebra/web/resources/css/web-styles.css")
 	LessResource modernStyle();

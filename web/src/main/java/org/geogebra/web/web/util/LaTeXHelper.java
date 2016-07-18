@@ -18,4 +18,9 @@ public abstract class LaTeXHelper {
 	public abstract AVTreeItem getAVItem(GeoElement ob);
 
 	public abstract RadioTreeItem getAVInput(Kernel kernel);
+
+	public void setFontSize(int fontSize) {
+		// TODO Auto-generated method stub
+
+	}
 }

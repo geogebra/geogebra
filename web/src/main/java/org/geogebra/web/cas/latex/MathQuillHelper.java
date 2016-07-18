@@ -4,6 +4,7 @@ import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -17,6 +18,7 @@ import org.geogebra.web.web.util.LaTeXHelper;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.DivElement;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
@@ -1302,6 +1304,9 @@ public class MathQuillHelper extends LaTeXHelper {
 			DrawEquationW.scrollJSOIntoView(jo, rbti, parentElement, false);
 	}
 
+	private static Element mqSize;
+
+	@Override
 	public void initialize() {
 		// native preview handlers independent from app/applet
 		// THIS IS THE SAME CODE AS IN Tablet.java!!!
@@ -1311,6 +1316,7 @@ public class MathQuillHelper extends LaTeXHelper {
 		// for preloading, code block separation GWT cache JavaScript files...
 		// edit: maybe put this at the end of this method in production builds?
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
+			@Override
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 				switch (event.getTypeInt()) {
 				// AFAIK, mouse events do not fire on touch devices,
@@ -1349,16 +1355,34 @@ public class MathQuillHelper extends LaTeXHelper {
 		});
 	}
 
+	@Override
 	public CASTableCellEditor getCASEditor(CASTableW table, AppW app,
 			CASTableControllerW ml) {
 		return new CASTableCellEditorW(table, app, ml);
 	}
 
+	@Override
 	public AVTreeItem getAVItem(GeoElement ob) {
 		return MathQuillTreeItem.create(ob);
 	}
 
+	@Override
 	public RadioTreeItem getAVInput(Kernel kernel) {
 		return new InputTreeItem(kernel);
+	}
+
+	@Override
+	public void setFontSize(int size) {
+		if (mqSize == null) {
+			mqSize = StyleInjector.createElementGGB();
+
+		}
+		mqSize.removeFromParent();
+		mqSize.setInnerText(
+				".GeoGebraFrame span.mathquillggb-rendered-math.mathquillggb-editable {font-size:"
+						+ size + "px}");
+
+		Document.get().getElementsByTagName("head").getItem(0)
+				.appendChild(mqSize);
 	}
 }

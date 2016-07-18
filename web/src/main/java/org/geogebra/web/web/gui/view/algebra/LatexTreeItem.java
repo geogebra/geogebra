@@ -82,7 +82,6 @@ public class LatexTreeItem extends RadioTreeItem
 		mf.setFocus(true);
 
 		canvas.addBlurHandler(this);
-		// DrawEquationW.editEquationMathQuillGGB(this, latexItem, false);
 
 		app.getGuiManager().setOnScreenKeyboardTextField(this.retexListener);
 		CancelEventTimer.keyboardSetVisible();

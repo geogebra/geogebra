@@ -12,8 +12,8 @@ public class ResourcesInjectorMathQuill extends ResourcesInjector {
 	protected void injectResourcesGUI() {
 		String myModuleBase = GWT.getModuleBaseForStaticFiles();
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jQueryJs());
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.mathquillggbJs());
-		String mathquillggbcss = GuiResourcesSimple.INSTANCE.mathquillggbCss()
+		JavaScriptInjector.inject(MathQuillResources.INSTANCE.mathquillggbJs());
+		String mathquillggbcss = MathQuillResources.INSTANCE.mathquillggbCss()
 				.getText().replace("url(web/font/Symbola",
 						"url(" + myModuleBase + "font/Symbola");
 		StyleInjector.inject(mathquillggbcss);

@@ -26,7 +26,6 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
-import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
@@ -40,7 +39,6 @@ import org.geogebra.web.web.util.LaTeXHelper;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
@@ -1795,17 +1793,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	private void updateFonts() {
 		if (mqFontSize != app.getFontSizeWeb()) {
 			mqFontSize = app.getFontSizeWeb();
-			if (mqSize == null) {
-				mqSize = StyleInjector.createElementGGB();
-
-			}
-			mqSize.removeFromParent();
-			mqSize.setInnerText(
-					".GeoGebraFrame span.mathquillggb-rendered-math.mathquillggb-editable {font-size:"
-					+ app.getFontSizeWeb() + "px}");
-
-			Document.get().getElementsByTagName("head").getItem(0)
-					.appendChild(mqSize);
+			((LaTeXHelper) GWT.create(LaTeXHelper.class))
+					.setFontSize(mqFontSize);
 			if (getInputTreeItem() != null) {
 				getInputTreeItem().updateLineHeight();
 			}
