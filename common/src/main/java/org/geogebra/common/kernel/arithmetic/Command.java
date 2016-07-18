@@ -26,6 +26,7 @@ import java.util.Set;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -213,7 +214,7 @@ public class Command extends ValidExpression implements
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return toString(true, false, tpl);
+		return toString(true, tpl.hasType(StringType.LATEX), tpl);
 	}
 
 	@Override
