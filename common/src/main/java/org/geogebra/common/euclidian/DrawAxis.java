@@ -211,7 +211,7 @@ public class DrawAxis {
 
 			double rw = view.getXmin()
 					- (view.getXmin() % view.axesNumberingDistances[0]);
-			int labelno = (int) Math.round(rw / view.axesNumberingDistances[0]);
+			long labelno = Math.round(rw / view.axesNumberingDistances[0]);
 			// by default we start with minor tick to the left of first major
 			// tick, exception is for positive only
 			double smallTickOffset = 0;
@@ -226,7 +226,7 @@ public class DrawAxis {
 				rw = MyMath.nextMultiple(view.axisCross[1],
 						view.axesNumberingDistances[0]);
 				smallTickOffset = axesStep;
-				labelno = 0;
+				labelno = Math.round(rw / view.axesNumberingDistances[0]);
 			}
 
 			double pix = view.getxZero() + (rw * view.getXscale());
@@ -432,7 +432,8 @@ public class DrawAxis {
 			// numbers
 			double rw = view.getYmin()
 					- (view.getYmin() % view.axesNumberingDistances[1]);
-			int labelno = (int) Math.round(rw / view.axesNumberingDistances[1]);
+			long labelno = Math
+					.round(rw / view.axesNumberingDistances[1]);
 			// by default we start with minor tick to the left of first major
 			// tick, exception is for positive only
 			double smallTickOffset = 0;
@@ -447,7 +448,7 @@ public class DrawAxis {
 				rw = MyMath.nextMultiple(view.axisCross[0],
 						view.axesNumberingDistances[1]);
 				smallTickOffset = axesStep;
-				labelno = 0;
+				labelno = Math.round(rw / view.axesNumberingDistances[1]);
 			}
 
 			double pix = view.getyZero() - (rw * view.getYscale());
@@ -577,7 +578,7 @@ public class DrawAxis {
 
 	}
 
-	private String tickDescription(int labelno, int axis) {
+	private String tickDescription(long labelno, int axis) {
 		if (view.getAxesDistanceObjects()[axis] != null
 				&& view.getAxesDistanceObjects()[axis].getDefinition() != null
 				&& view.getAxesDistanceObjects()[axis].getDouble() > 0) {
@@ -591,7 +592,7 @@ public class DrawAxis {
 				view.axesNumberFormat[axis], StringTemplate.defaultTemplate);
 	}
 
-	private static String multiple(ExpressionNode definition, int labelno) {
+	private static String multiple(ExpressionNode definition, long labelno) {
 		return definition.multiply(labelno).toFractionString(
 				StringTemplate.defaultTemplate);
 	}
