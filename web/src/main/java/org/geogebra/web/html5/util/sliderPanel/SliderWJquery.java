@@ -65,11 +65,13 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	}
 
 	private native void setScale(Element range1, float zoom) /*-{
-		$wnd.$ggbQuery(range1).slider("setzoom", zoom);
+		var $ = $wnd.ggbQuery || $wnd.jQuery;
+		$(range1).slider("setzoom", zoom);
 	}-*/;
 	
 	private native void setRangeValue(Element range1, double val) /*-{
-		$wnd.$ggbQuery(range1).slider("values", [ val ]);
+		var $ = $wnd.ggbQuery || $wnd.jQuery;
+		$(range1).slider("values", [ val ]);
 	}-*/;
 
 	public Double getValue() {
@@ -81,16 +83,19 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 	}
 
 	private native void stopNative(Element range1) /*-{
-		$wnd.$ggbQuery(range1).slider("doCancel");
+		var $ = $wnd.ggbQuery || $wnd.jQuery;
+		$(range1).slider("doCancel");
 	}-*/;
 
 	private native double getRangeValue(Element range1) /*-{
-		return $wnd.$ggbQuery(range1).slider("values")[0];
+		var $ = $wnd.ggbQuery || $wnd.jQuery;
+		return $(range1).slider("values")[0];
 	}-*/;
 
 	private native void setProperty(Element range1, String prop,
 			double val) /*-{
-		$wnd.$ggbQuery(range1).slider("option", prop, val);
+		var $ = $wnd.ggbQuery || $wnd.jQuery;
+		$(range1).slider("option", prop, val);
 	}-*/;
 
 	public void setMaximum(double max) {
@@ -162,10 +167,6 @@ public class SliderWJquery extends FocusWidget implements SliderWI {
 		if (curValue != null) {
 			slide(value);
 		}
-	}
-
-	public static SliderWJquery as(SliderWI obj) {
-		return (SliderWJquery) obj;
 	}
 
 	/**
