@@ -660,6 +660,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 			canvas = latexToCanvas(text);
 			canvas.addStyleName("canvasDef");
+
 			definitionPanel.add(canvas);
 		} else if (geo != null) {
 
@@ -1486,13 +1487,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void updateAfterRedefine(boolean success) {
 		if (!this.isInputTreeItem() && canvas != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
-			this.ihtml.getElement().replaceChild(canvas.getCanvasElement(),
-					latexItem.getElement());
+			LayoutUtilW.replace(ihtml, canvas, latexItem);
+
 		}
 		if (!latex && !this.isInputTreeItem() && getPlainTextItem() != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
-			this.ihtml.getElement().replaceChild(
-					getPlainTextItem().getElement(), latexItem.getElement());
+			LayoutUtilW.replace(ihtml, getPlainTextItem(), latexItem);
+
 		}
 		// maybe it's possible to enter something which is non-LaTeX
 		if (success) {

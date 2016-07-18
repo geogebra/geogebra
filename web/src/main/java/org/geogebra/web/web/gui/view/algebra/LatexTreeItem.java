@@ -20,7 +20,6 @@ import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -63,10 +62,7 @@ public class LatexTreeItem extends RadioTreeItem
 			ihtml.addStyleName("scrollableTextBox");
 		}
 		getWidget().addStyleName("latexEditor");
-		ihtml.clear();
-
-		ensureCanvas();
-		appendCanvas();
+		renderLatex("", false);
 	}
 
 	@Override
@@ -79,10 +75,8 @@ public class LatexTreeItem extends RadioTreeItem
 			errorLabel.setText("");
 		}
 		removeDummy();
-		Widget old = latex ? (canvas != null ? canvas : latexItem)
-					: getPlainTextItem();
 
-		renderLatex(text, old.getElement());
+		renderLatex(text, true);
 		mf.setFocus(true);
 
 		canvas.addBlurHandler(this);
@@ -108,7 +102,7 @@ public class LatexTreeItem extends RadioTreeItem
 	 * @param old
 	 *            what to replace
 	 */
-	private void renderLatex(String text0, Element old) {
+	private void renderLatex(String text0, boolean showKeyboard) {
 		// if (!forceMQ) {
 		// canvas = DrawEquationW.paintOnCanvas(geo, text0, canvas,
 		// getFontSize());
@@ -135,7 +129,9 @@ public class LatexTreeItem extends RadioTreeItem
 
 		setText(text0);
 		retexListener = new RetexKeyboardListener(canvas, mf);
+		if (showKeyboard) {
 		app.getAppletFrame().showKeyBoard(true, retexListener, false);
+		}
 
 
 	}
