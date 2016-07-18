@@ -312,6 +312,7 @@ public abstract class Drawable extends DrawableND {
 			if (roughEstimate) {
 				drawLabel(view.getTempGraphics2D(font));
 				widthEstimate = (int) labelRectangle.getHeight();
+				heightEstimate = (int) labelRectangle.getHeight();
 				roughEstimate = false;
 			}
 			xLabel = Math.min(xLabel, view.getWidth() - widthEstimate - 3);

@@ -91,6 +91,7 @@ public class DrawEquationW extends DrawEquation {
 		TeXIcon icon = createIcon(eqstring, convertColor(fgColor), font,
 				font.getLaTeXStyle(serif),
 				null, null, app1);
+
 			Graphics2DW g3 = new Graphics2DW(((GGraphics2DW) g2).getContext());
 			g3.setDrawingFinishedCallback(new DrawingFinishedCallback() {
 
@@ -252,11 +253,14 @@ public class DrawEquationW extends DrawEquation {
 				font, font.getLaTeXStyle(false),
 				null, null, app);
 		Graphics2DInterface g3 = new Graphics2DW(ctx);
+
 		double ratio = app.getPixelRatio() * printScale;
-		c.setCoordinateSpaceWidth((int) (icon.getIconWidth() * ratio));
+		int width = Math.min(icon.getIconWidth(), 20000);
+		c.setCoordinateSpaceWidth((int) (width * ratio));
 		c.setCoordinateSpaceHeight((int) (icon.getIconHeight() * ratio));
-		c.getElement().getStyle().setWidth(icon.getIconWidth(), Unit.PX);
+		c.getElement().getStyle().setWidth(width, Unit.PX);
 		c.getElement().getStyle().setHeight(icon.getIconHeight(), Unit.PX);
+
 		// c.getElement().getStyle().setMargin(4, Unit.PX);
 		ctx.scale2(ratio, ratio);
 
