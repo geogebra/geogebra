@@ -771,7 +771,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 				col = null;
 			}
 
-			if (bgCol == null || !geo1.isLabelSet() || bgCol.getAlpha() == 0) {
+			if (bgCol != null
+					&& (!geo1.isLabelSet() || bgCol.getAlpha() == 0)) {
 				bgCol = null;
 			}
 
