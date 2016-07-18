@@ -182,7 +182,10 @@ public class LatexTreeItem extends RadioTreeItem
 			}
 			appendCanvas();
 			main.add(ihtml);
-			main.add(buttonPanel);
+			if (buttonPanel != null) {
+				main.add(buttonPanel);
+			}
+
 		}
 		if (b) {
 			canvas.setVisible(true);
