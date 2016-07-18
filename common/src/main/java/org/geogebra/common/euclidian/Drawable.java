@@ -285,7 +285,7 @@ public abstract class Drawable extends DrawableND {
 		// draw label and
 		int widthEstimate = (int) labelRectangle.getWidth();
 		int heightEstimate = (int) labelRectangle.getHeight();
-
+		boolean roughEstimate = false;
 
 		if (oldLabelDesc != labelDesc || lastFontSize != font.getSize()) {
 			if (labelDesc.startsWith("$")) {
@@ -299,17 +299,32 @@ public abstract class Drawable extends DrawableND {
 				// Hence use heuristic here instead of measurement
 				heightEstimate = (int) (StringUtil.prototype.estimateHeight(labelDesc,
 						font) * Ymultiplier);
+
 				widthEstimate = (int) (StringUtil.prototype.estimateLengthHTML(labelDesc,
 						font) * Xmultiplier);
+				roughEstimate = true;
 			}
 		}
 		// make sure labelRectangle fits on screen horizontally
-		if (xLabel < 3)
+		if (xLabel < 3) {
 			xLabel = 3;
-		else
+		} else if (xLabel > view.getWidth() - widthEstimate - 3) {
+			if (roughEstimate) {
+				drawLabel(view.getTempGraphics2D(font));
+				widthEstimate = (int) labelRectangle.getHeight();
+				roughEstimate = false;
+			}
 			xLabel = Math.min(xLabel, view.getWidth() - widthEstimate - 3);
-		if (yLabel < heightEstimate)
-			yLabel = heightEstimate;
+		}
+
+		if (yLabel < heightEstimate) {
+			if (roughEstimate) {
+				drawLabel(view.getTempGraphics2D(font));
+				heightEstimate = (int) labelRectangle.getHeight();
+			}
+			yLabel = Math.max(yLabel, heightEstimate);
+
+		}
 		else
 			yLabel = Math.min(yLabel, view.getHeight() - 3);
 
