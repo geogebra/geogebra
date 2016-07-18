@@ -1965,11 +1965,15 @@ marblePanel, evt))) {
 					buttonPanel.addStyleName("positionedObjectStyleBar_scrollbarVisible"); 
 					buttonPanel.removeStyleName("positionedObjectStyleBar"); 
 			} else { 
-				buttonPanel.addStyleName("positionedObjectStyleBar"); buttonPanel 
+				buttonPanel.addStyleName("positionedObjectStyleBar");
+				buttonPanel
 				.removeStyleName("positionedObjectStyleBar_scrollbarVisible"); 
 			}
 		} else {
-			buttonPanel.getElement().getStyle().setRight(0, Unit.PX);
+			// buttonPanel.getElement().getStyle().setRight(0, Unit.PX);
+			buttonPanel.removeStyleName("positionedObjectStyleBar");
+			buttonPanel
+					.removeStyleName("positionedObjectStyleBar_scrollbarVisible");
 		}
 	}
 
