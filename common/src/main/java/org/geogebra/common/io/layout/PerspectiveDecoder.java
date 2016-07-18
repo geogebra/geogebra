@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -130,7 +130,7 @@ public class PerspectiveDecoder {
 		panelList.toArray(dpData);
 
 		return new Perspective(0, spData, dpData, defToolbar, true,
-				false, true, true, true, InputPositon.algebraView);
+				false, true, true, true, InputPosition.algebraView);
 	}
 
 	private static void buildPerspective(ExpressionValue expr,

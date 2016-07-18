@@ -317,7 +317,7 @@ public class AppWapplication extends AppWFull {
 			}
 		}
 		getAppletFrame().setMenuHeight(
-				getInputPosition() == InputPositon.bottom);
+				getInputPosition() == InputPosition.bottom);
 	}
 
 	@Override

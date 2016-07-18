@@ -215,7 +215,7 @@ public class AppWapplet extends AppWFull {
 		if (articleElement.getDataParamShowToolBar(showToolBar)) {
 			frame.attachToolbar(this);
 		}
-		if (this.getInputPosition() == InputPositon.top
+		if (this.getInputPosition() == InputPosition.top
 				&& articleElement
 						.getDataParamShowAlgebraInput(showAlgebraInput)) {
 			attachAlgebraInput();
@@ -225,7 +225,7 @@ public class AppWapplet extends AppWFull {
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
-		if (this.getInputPosition() == InputPositon.bottom
+		if (this.getInputPosition() == InputPosition.bottom
 				&& articleElement
 						.getDataParamShowAlgebraInput(showAlgebraInput)) {
 			attachAlgebraInput();

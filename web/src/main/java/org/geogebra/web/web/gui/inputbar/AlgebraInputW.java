@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.inputbar;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
@@ -94,7 +94,7 @@ public class AlgebraInputW extends FlowPanel
 		inputField.getTextBox().addFocusHandler(this);
 		inputField.getTextBox().addBlurHandler(this);
 
-		inputField.addHistoryPopup(app.getInputPosition() == InputPositon.top);
+		inputField.addHistoryPopup(app.getInputPosition() == InputPosition.top);
 
 		//AG updateFonts()
 

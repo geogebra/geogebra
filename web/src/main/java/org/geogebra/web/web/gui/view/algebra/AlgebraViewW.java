@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
@@ -1438,7 +1438,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	private void showAlgebraInput(boolean forceKeyboard0) {
-		if (!app.showAlgebraInput() || app.getInputPosition() != InputPositon.algebraView) {
+		if (!app.showAlgebraInput() || app.getInputPosition() != InputPosition.algebraView) {
 			hideAlgebraInput();
 			return;
 		}

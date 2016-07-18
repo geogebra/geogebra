@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
@@ -344,7 +344,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 					// so the options defaults dialog should be reset later
 					app.getKernel().getConstruction().getConstructionDefaults()
 							.createDefaultGeoElements();
-					app.setInputPositon(InputPositon.algebraView, false);
+					app.setInputPositon(InputPosition.algebraView, false);
 					// reset the stylebar defaultGeo
 					if (app.getEuclidianView1().hasStyleBar())
 						app.getEuclidianView1().getStyleBar()

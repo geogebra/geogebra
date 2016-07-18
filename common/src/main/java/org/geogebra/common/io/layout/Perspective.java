@@ -2,7 +2,7 @@ package org.geogebra.common.io.layout;
 
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -71,7 +71,7 @@ public class Perspective {
 	 * If the input panel should be displayed on top or at the bottom of the
 	 * screen.
 	 */
-	private InputPositon showInputPanelOnTop = InputPositon.algebraView;
+	private InputPosition showInputPanelOnTop = InputPosition.algebraView;
 
 	// needs to be initialized so that files from ggb32 show the toolbar #2993
 	private int toolBarPosition = SwingConstants.NORTH;
@@ -133,7 +133,7 @@ public class Perspective {
 			DockPanelData[] dockPanelInfo, String toolbarDefinition,
 			boolean showToolBar, boolean showGrid, boolean showAxes,
 			boolean showInputPanel, boolean showInputPanelCommands,
-			InputPositon inputPosition) {
+			InputPosition inputPosition) {
 		this.defaultID = defaultID;
 		this.id = perspectiveNames[defaultID];
 		this.splitPaneData = splitPaneInfo;
@@ -190,7 +190,7 @@ public class Perspective {
 			DockPanelData[] dockPanelInfo, String toolbarDefinition,
 			boolean showToolBar, boolean showGrid, boolean showAxes,
 			boolean showInputPanel, boolean showInputPanelCommands,
-			InputPositon inputPosition, int toolBarPosition,
+			InputPosition inputPosition, int toolBarPosition,
 			boolean showToolBarHelp, boolean showDockBar, boolean isDockBarEast) {
 		this.id = id;
 		this.splitPaneData = splitPaneInfo;
@@ -252,7 +252,7 @@ public class Perspective {
 			boolean showToolBarHelp, boolean showDockBar, boolean isDockBarEast) {
 		this(id, splitPaneInfo, dockPanelInfo, toolbarDefinition, showToolBar,
 				showGrid, showAxes, showInputPanel, showInputPanelCommands,
-				showInputPanelOnTop ? InputPositon.top : InputPositon.bottom,
+				showInputPanelOnTop ? InputPosition.top : InputPosition.bottom,
 				toolBarPosition, showToolBarHelp, showDockBar, isDockBarEast);
 	}
 
@@ -397,7 +397,7 @@ public class Perspective {
 	 * @param inputPosition
 	 *            new position of inputPanel (respective inputBox)
 	 */
-	public void setInputPosition(InputPositon inputPosition) {
+	public void setInputPosition(InputPosition inputPosition) {
 		this.showInputPanelOnTop = inputPosition;
 	}
 
@@ -408,14 +408,14 @@ public class Perspective {
 	 *         instead of the bottom; false if displayed in the AlgebraView
 	 */
 	public boolean getShowInputPanelOnTop() {
-		return showInputPanelOnTop == InputPositon.top;
+		return showInputPanelOnTop == InputPosition.top;
 	}
 
 	/**
 	 * @return If the input panel should be displayed at the top of the screen
 	 *         instead of the bottom.
 	 */
-	public InputPositon getInputPosition() {
+	public InputPosition getInputPosition() {
 		return showInputPanelOnTop;
 	}
 
@@ -540,8 +540,8 @@ public class Perspective {
 		sb.append("\" cmd=\"");
 		sb.append(getShowInputPanelCommands());
 		sb.append("\" top=\"");
-		sb.append(getInputPosition() == InputPositon.top ? "true"
-				: (getInputPosition() == InputPositon.bottom ? "false"
+		sb.append(getInputPosition() == InputPosition.top ? "true"
+				: (getInputPosition() == InputPosition.bottom ? "false"
 						: "algebra"));
 		sb.append("\" />\n");
 

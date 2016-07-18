@@ -370,12 +370,14 @@ public class AlgebraProcessor {
 			changeGeoElementNoExceptionHandling(geo, ve,
 					redefineIndependent, storeUndoInfo, callback, handler);
 		} catch (Exception e) {
+			Log.debug("EXCEPTION" + e.getMessage() + ":" + newValue);
 			e.printStackTrace();
 			throw new Exception(loc.getError("InvalidInput") + ":\n" + newValue);
 		} catch (MyError e) {
 			e.printStackTrace();
 			throw e;
 		} catch (Error e) {
+			Log.debug("ERROR" + e.getMessage() + ":" + newValue);
 			e.printStackTrace();
 			throw new Exception(loc.getError("InvalidInput") + ":\n" + newValue);
 		}

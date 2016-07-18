@@ -11,7 +11,7 @@ import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GSplitPane;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.settings.LayoutSettings;
 import org.geogebra.common.util.debug.Log;
 
@@ -78,7 +78,7 @@ public abstract class Layout {
 
 		defaultPerspectives[i] = new Perspective(
 1, spData, dpData, defToolbar,
-				true, false, true, true, true, InputPositon.algebraView);
+				true, false, true, true, true, InputPosition.algebraView);
 
 
 		// basic geometry - just the euclidian view
@@ -115,7 +115,7 @@ public abstract class Layout {
 		// geometry - like basic geometry but with less toolbar entries
 		defaultPerspectives[++i] = new Perspective(2,
 				spData, dpData, defToolbar, true, false, false, false, true,
-				InputPositon.algebraView);
+				InputPosition.algebraView);
 
 		defaultPerspectives[i].setUnitAxesRatio(true);
 
@@ -145,7 +145,7 @@ public abstract class Layout {
 
 		defaultPerspectives[++i] = new Perspective(3,
 				spData, dpData, defToolbar, true, false, true, false, true,
-				InputPositon.algebraView);
+				InputPosition.algebraView);
 
 		Log.debug("CAS support: " + app.supportsView(App.VIEW_CAS));
 		if (app.supportsView(App.VIEW_CAS)) {
@@ -174,7 +174,7 @@ public abstract class Layout {
 
 			defaultPerspectives[++i] = new Perspective(4,
 					spData, dpData, defToolbar, true, false, true, false, true,
-					InputPositon.algebraView);
+					InputPosition.algebraView);
 
 		} else {
 			i++;
@@ -218,7 +218,7 @@ public abstract class Layout {
 5, spData, dpData,
 					defToolbar, true,
  false, true, true, true,
-					InputPositon.algebraView);
+					InputPosition.algebraView);
 			;
 		} else {
 			i++;
@@ -257,7 +257,7 @@ public abstract class Layout {
 
 		defaultPerspectives[++i] = new Perspective(6,
 				spData, dpData, defToolbar, false, false, true, false, true,
-				InputPositon.algebraView);
+				InputPosition.algebraView);
 
 		// // Python Scripting & Graphics ** Doesn't work **
 		// dpData = new DockPanelData[6];

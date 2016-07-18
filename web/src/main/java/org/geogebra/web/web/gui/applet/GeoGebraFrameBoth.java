@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.applet;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -257,7 +257,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 */
 	void scrollToInputField() {
 		if (app.showAlgebraInput()
-				&& app.getInputPosition() == InputPositon.algebraView) {
+				&& app.getInputPosition() == InputPosition.algebraView) {
 			((AlgebraDockPanelW) (app.getGuiManager().getLayout()
 					.getDockManager()
 .getPanel(App.VIEW_ALGEBRA)))
@@ -310,7 +310,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	private boolean appNeedsKeyboard() {
-		return (app.showAlgebraInput() && app.getInputPosition() == InputPositon.algebraView)
+		return (app.showAlgebraInput() && app.getInputPosition() == InputPosition.algebraView)
 				|| (app.showView(App.VIEW_CAS));
 	}
 

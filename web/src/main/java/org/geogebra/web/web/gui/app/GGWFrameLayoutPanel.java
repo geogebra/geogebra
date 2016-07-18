@@ -1,7 +1,7 @@
 package org.geogebra.web.web.gui.app;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -175,7 +175,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		if (app.getGuiManager().hasAlgebraView()) {
 			((AlgebraViewW) app.getAlgebraView()).setShowAlgebraInput(app
 				.showAlgebraInput()
-				&& app.getInputPosition() == InputPositon.algebraView);
+				&& app.getInputPosition() == InputPosition.algebraView);
 		}
 		if (app.getGuiManager().getRootComponent() != null) {
 			dockPanel.add(app.getGuiManager().getRootComponent());
@@ -184,7 +184,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 
 		// keyboard is visible and material with input bar is opened -> hide
 		// keyboard
-		if (app.getInputPosition() != InputPositon.algebraView
+		if (app.getInputPosition() != InputPosition.algebraView
 				&& keyboardShowing) {
 			keyboardShowing = false;
 			this.mainPanel.clear();
@@ -200,7 +200,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				if (app.getGuiManager() != null
 						&& app.getGuiManager().hasAlgebraView()
 						&& !keyboardShowing
-						&& app.getInputPosition() == InputPositon.algebraView) {
+						&& app.getInputPosition() == InputPosition.algebraView) {
 					showKeyboardButton(true,
 							((AlgebraViewW) app.getAlgebraView())
 									.getInputTreeItem());
@@ -250,7 +250,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 */
 	public void showKeyboardButton(boolean show,
 			final MathKeyboardListener textField) {
-		if (!(app.showAlgebraInput() && app.getInputPosition() == InputPositon.algebraView)) {
+		if (!(app.showAlgebraInput() && app.getInputPosition() == InputPosition.algebraView)) {
 			return;
 		}
 		if (showKeyboardButton == null) {

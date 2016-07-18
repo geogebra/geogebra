@@ -3398,7 +3398,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return "\\text{" + this.commentText.getTextString() + "}";
 		}
 
-		return latexInput == null ? (inputVE == null ? input : inputVE
+		return latexInput == null
+				? (inputVE == null ? input
+						: inputVE
 				.toAssignmentString(tpl,
 						getAssignmentType())) : latexInput;
 	}

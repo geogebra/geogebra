@@ -248,7 +248,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * where to show the inputBar (respective inputBox)
 	 */
-	protected InputPositon showInputTop = InputPositon.algebraView;
+	protected InputPosition showInputTop = InputPosition.algebraView;
 	/**
 	 * Whether input bar should be visible
 	 */
@@ -2668,7 +2668,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * @return where to show the inputBar (respective inputBox)
 	 */
-	public InputPositon getInputPosition() {
+	public InputPosition getInputPosition() {
 		return showInputTop;
 	}
 
@@ -2687,12 +2687,12 @@ public abstract class App implements UpdateSelection {
 	 */
 	@Deprecated
 	public void setShowInputTop(boolean flag, boolean update) {
-		if (flag && showInputTop == InputPositon.top || !flag
-				&& showInputTop == InputPositon.bottom) {
+		if (flag && showInputTop == InputPosition.top || !flag
+				&& showInputTop == InputPosition.bottom) {
 			return;
 		}
 
-		showInputTop = flag ? InputPositon.top : InputPositon.bottom;
+		showInputTop = flag ? InputPosition.top : InputPosition.bottom;
 
 		if (update && !isIniting()) {
 			updateApplicationLayout();
@@ -2707,7 +2707,7 @@ public abstract class App implements UpdateSelection {
 	 * @param update
 	 *            whether layout update is needed afterwards
 	 */
-	public void setInputPositon(InputPositon flag, boolean update) {
+	public void setInputPositon(InputPosition flag, boolean update) {
 		if (flag == showInputTop) {
 			return;
 		}
@@ -4204,7 +4204,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * possible positions for the inputBar (respective inputBox)
 	 */
-	public enum InputPositon {
+	public enum InputPosition {
 		/**
 		 * inputBox in the AV
 		 */

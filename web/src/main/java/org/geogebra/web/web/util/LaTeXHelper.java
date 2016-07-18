@@ -23,4 +23,8 @@ public abstract class LaTeXHelper {
 		// TODO Auto-generated method stub
 
 	}
+
+	public boolean supportsAV() {
+		return true;
+	}
 }

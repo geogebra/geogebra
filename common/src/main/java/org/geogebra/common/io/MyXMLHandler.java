@@ -86,7 +86,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -2717,9 +2717,9 @@ new GPoint(row, column));
 					.setShowInputPanel(!attrs.get("show").equals("false"));
 			tmp_perspective.setShowInputPanelCommands(
 					!attrs.get("cmd").equals("false"));
-			InputPositon ip = attrs.get("top").equals("true") ? InputPositon.top
-					: ("false".equals(attrs.get("top")) ? InputPositon.bottom
-							: InputPositon.algebraView);
+			InputPosition ip = attrs.get("top").equals("true") ? InputPosition.top
+					: ("false".equals(attrs.get("top")) ? InputPosition.bottom
+							: InputPosition.algebraView);
 			tmp_perspective.setInputPosition(ip);
 
 			return true;

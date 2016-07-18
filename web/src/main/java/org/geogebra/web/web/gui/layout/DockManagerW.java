@@ -15,7 +15,7 @@ import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -393,7 +393,7 @@ public class DockManagerW extends DockManager {
 				windowHeight = app.getOHeight();
 				windowHeight -= GLookAndFeel.TOOLBAR_HEIGHT;
 				if (app.showAlgebraInput()
-				        && app.getInputPosition() != InputPositon.algebraView) {
+				        && app.getInputPosition() != InputPosition.algebraView) {
 					windowHeight -= GLookAndFeel.COMMAND_LINE_HEIGHT;
 				}
 

@@ -896,7 +896,7 @@ ToolbarD.getAllTools(this));
 			boolean showAlgebraInputTop = args.getBooleanValue(
 					"showAlgebraInputTop", true);
 			if (showAlgebraInputTop) {
-				setInputPositon(InputPositon.top, false);
+				setInputPositon(InputPosition.top, false);
 			}
 		}
 
@@ -2885,7 +2885,7 @@ ToolbarD.getAllTools(this));
 
 		// handle input bar
 		if (showAlgebraInput) {
-			initInputBar(this, getInputPosition() == InputPositon.top,
+			initInputBar(this, getInputPosition() == InputPosition.top,
 					northPanel,
 					southPanel);
 		}

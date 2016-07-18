@@ -22,7 +22,7 @@ import javax.swing.border.Border;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsLayout;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -321,7 +321,7 @@ public class OptionsLayoutD extends OptionsLayout
 				.setSelected(app.getToolbarPosition() == SwingConstants.WEST);
 		rbToolbarEast
 				.setSelected(app.getToolbarPosition() == SwingConstants.EAST);
-		boolean inputOnTop = app.getInputPosition() == InputPositon.top;
+		boolean inputOnTop = app.getInputPosition() == InputPosition.top;
 		rbInputBarNorth.setSelected(inputOnTop);
 		rbInputBarSouth.setSelected(!inputOnTop);
 		ckShowToolbar.setSelected(app.showToolBar());

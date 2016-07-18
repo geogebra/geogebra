@@ -35,4 +35,8 @@ public class ReTeXHelper extends LaTeXHelper {
 		return new LatexTreeItem(kernel);
 	}
 
+	public boolean supportsAV() {
+		return false;
+	}
+
 }

@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
@@ -190,16 +190,16 @@ public final class ArticleElement extends Element {
 		return getBoolParam("data-param-showAlgebraInput", def);
 	}
 	
-	public InputPositon getAlgebraPosition(InputPositon def) {
+	public InputPosition getAlgebraPosition(InputPosition def) {
 		String pos = this.getAttribute("data-param-algebraInputPosition").toLowerCase().trim();
 		if("top".equals(pos)){
-			return InputPositon.top;
+			return InputPosition.top;
 		}
 		if("bottom".equals(pos)){
-			return InputPositon.bottom;
+			return InputPosition.bottom;
 		}
 		if(pos.length() > 0){
-			return InputPositon.algebraView;
+			return InputPosition.algebraView;
 		}
 		return def;
 	}

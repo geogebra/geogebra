@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.menubar;
 import java.util.HashMap;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
@@ -102,16 +102,16 @@ public class ViewMenuW extends GMenuBar {
 						app.getArticleElement().setAttribute(
 								"data-param-showAlgebraInput", "true");
 						boolean visibleBelow = app
-								.getInputPosition() == InputPositon.algebraView
+								.getInputPosition() == InputPosition.algebraView
 								|| !app.showAlgebraInput();
 						app.addToHeight(
 								visibleBelow ? -GLookAndFeelI.COMMAND_LINE_HEIGHT
 										: GLookAndFeelI.COMMAND_LINE_HEIGHT);
 						app.setShowAlgebraInput(true, false);
 						app.setInputPositon(
-								app.getInputPosition() == InputPositon.algebraView
-										? InputPositon.bottom
-										: InputPositon.algebraView,
+								app.getInputPosition() == InputPosition.algebraView
+										? InputPosition.bottom
+										: InputPosition.algebraView,
 								true);
 						app.updateCenterPanel(true);
 
@@ -122,7 +122,7 @@ public class ViewMenuW extends GMenuBar {
 									.resizePanels();
 						}
 						inputBarItem.setSelected(app
-								.getInputPosition() != InputPositon.algebraView);
+								.getInputPosition() != InputPosition.algebraView);
 
 						Timer timer = new Timer() {
 							@Override
@@ -201,7 +201,7 @@ public class ViewMenuW extends GMenuBar {
 				boolean shown = app.getGuiManager().showView(e.getID());
 
 				if (e.getID() == App.VIEW_ALGEBRA && shown == false) {
-					app.setInputPositon(InputPositon.algebraView, true);
+					app.setInputPositon(InputPosition.algebraView, true);
 				}
 				app.getGuiManager().setShowView(!shown, e.getID());
 				newItem.setSelected(app.getGuiManager().showView(e.getID()));
@@ -232,7 +232,7 @@ public class ViewMenuW extends GMenuBar {
 					app.getGuiManager().showView(viewID));
 		}
 		boolean linearInput = app.showAlgebraInput()
-				&& app.getInputPosition() != InputPositon.algebraView;
+				&& app.getInputPosition() != InputPosition.algebraView;
 		inputBarItem.setSelected(linearInput);
 		consProtNav.setSelected(app.showConsProtNavigation());
 		if (app.has(Feature.DATA_COLLECTION)) {

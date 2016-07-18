@@ -9,7 +9,7 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPositon;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Event;
@@ -17,7 +17,9 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.util.LaTeXHelper;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 public class LayoutW extends Layout implements SettingListener {
@@ -105,7 +107,13 @@ public class LayoutW extends Layout implements SettingListener {
 		}
 
 		// app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
-		app.setInputPositon(app.getArticleElement().getAlgebraPosition(perspective.getInputPosition()), false);
+		if (((LaTeXHelper) GWT.create(LaTeXHelper.class)).supportsAV()) {
+			app.setInputPositon(app.getArticleElement()
+					.getAlgebraPosition(perspective.getInputPosition()), false);
+		} else {
+			app.setInputPositon(InputPosition.bottom, false);
+		}
+		
 
 		// change the dock panel layout
 		app.setKeyboardNeeded(false);
@@ -122,7 +130,7 @@ public class LayoutW extends Layout implements SettingListener {
 			app.updateMenubar();
 			app.updateContentPane();
 		} else if (app.showAlgebraInput()
-		        && app.getInputPosition() != InputPositon.algebraView) {
+		        && app.getInputPosition() != InputPosition.algebraView) {
 			app.updateContentPane();
 		}
 		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));

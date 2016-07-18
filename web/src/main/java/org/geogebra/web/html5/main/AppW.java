@@ -224,7 +224,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		this.laf = laf;
 
 		getTimerSystem();
-		this.showInputTop = InputPositon.algebraView;
+		this.showInputTop = InputPosition.algebraView;
 		Window.addResizeHandler(new ResizeHandler() {
 
 			@Override
@@ -2557,7 +2557,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// toolbar, menubar, and input bar;
 		// heuristics come from GeoGebraAppFrame
 		if (showAlgebraInput()
-		        && getInputPosition() != InputPositon.algebraView) {
+		        && getInputPosition() != InputPosition.algebraView) {
 			windowHeight -= GLookAndFeelI.COMMAND_LINE_HEIGHT;
 		}
 		if (showToolBar()) {
