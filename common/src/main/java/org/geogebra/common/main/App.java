@@ -3906,7 +3906,7 @@ public abstract class App implements UpdateSelection {
 
 		//MOB-339
 		case MOBILE_ANALYTICS:
-			return prerelease;
+			return true;
 
 		// MOB-668
 		case MOBILE_SET_MODE_IN_TOOLBAR_FROM_APP:
