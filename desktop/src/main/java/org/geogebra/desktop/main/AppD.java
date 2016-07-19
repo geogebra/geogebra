@@ -148,6 +148,7 @@ import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.main.SingularWSSettings;
@@ -1241,6 +1242,8 @@ ToolbarD.getAllTools(this));
 			String showCASs = args.getStringValue("showCAS");
 			if (showCASs.equalsIgnoreCase("disable")) {
 				disableCASView();
+				setExam(new ExamEnvironment());
+				getExam().setCASAllowed(false);
 			}
 		}
 
