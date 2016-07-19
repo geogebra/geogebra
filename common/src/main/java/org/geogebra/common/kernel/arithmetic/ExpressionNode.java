@@ -4692,10 +4692,6 @@ kernel, left,
 	public ExpressionNode derivative(FunctionVariable fv,
 			Kernel kernel0) {
 		// symbolic derivatives disabled in exam mode
-		if (kernel0.getApplication().isExam()
-				&& !kernel.getApplication().getExam().isCASAllowed()) {
-			return wrap(Double.NaN);
-		}
 
 		switch (operation) {
 
