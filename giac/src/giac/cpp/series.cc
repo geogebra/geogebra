@@ -2214,8 +2214,10 @@ namespace giac {
     }
     gen coeff,mrv_var,exponent;
     sparse_poly1 p;
-    if (!mrv_lead_term(e_copy,x,coeff,mrv_var,exponent,p,mrv_begin_order,contextptr,false) || is_undef(coeff))
-      return gensizeerr("Limit: Max order reached or unable to make series expansion");
+    if (!mrv_lead_term(e_copy,x,coeff,mrv_var,exponent,p,mrv_begin_order,contextptr,false) || is_undef(coeff)){
+      gensizeerr("Limit: Max order reached or unable to make series expansion");
+      return undef;
+    }
     // check added for limit((tan(x)-x)/x^3,x=inf)
     for (unsigned i=0;i<p.size();++i){
       if (check_bounded(p[i].coeff,contextptr)==-1)
@@ -2719,7 +2721,7 @@ namespace giac {
 #ifdef TIMEOUT
       control_c();
 #endif
-      if (ctrl_c || interrupted) 
+      if (ctrl_c || interrupted || is_undef(p.front().exponent)) 
 	return false;
       if (!p.empty() && !is_undef(p.front().coeff) ){
 	// substitution of ln(w) by +-g should not be useful anymore

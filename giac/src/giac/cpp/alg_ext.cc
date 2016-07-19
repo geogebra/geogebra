@@ -1497,8 +1497,9 @@ namespace giac {
 	}
       }
     }
+    // gensizeerr replaced by undef because otherwise abs(sin(exp(x))) fails on emcc
     if (var.type!=_IDNT)
-      return gensizeerr(contextptr);
+      return undef; // gensizeerr(contextptr); 
     if (do_find_range){
       find_range(var,range,contextptr);
       if (range.size()!=1 || range.front().type!=_VECT)
