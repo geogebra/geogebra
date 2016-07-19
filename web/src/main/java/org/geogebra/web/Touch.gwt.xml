@@ -30,7 +30,7 @@
   <replace-with class="org.geogebra.web.tablet.DummyService">
     <when-type-is class="com.googlecode.gwtphonegap.client.log.shared.PhoneGapLogService" />    
   </replace-with>
-
+  <set-configuration-property name="devModeRedirectEnabled" value="true"/>
 
   <!-- Compile only one permutation -->
   <collapse-all-properties />
