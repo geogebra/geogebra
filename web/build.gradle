@@ -1,5 +1,9 @@
 project.setDescription('Parts of GeoGebra related to web platforms')
 
+evaluationDependsOn(':common')
+evaluationDependsOn(':ggbjdk')
+evaluationDependsOn(':editor-web')
+
 buildscript {
 	repositories {
 		jcenter()
