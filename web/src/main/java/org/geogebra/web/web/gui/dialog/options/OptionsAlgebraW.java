@@ -12,6 +12,7 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -142,5 +143,9 @@ public class OptionsAlgebraW extends OptionsAdvanced
 	public void settingsChanged(AbstractSettings settings) {
 		updateGUI();
 
+	}
+
+	public TabPanelInterface getTabPanel() {
+		return null;
 	}
 }

@@ -1567,4 +1567,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		update(geos);
 
 	}
+
+	public TabPanelInterface getTabPanel() {
+		return tabPanel;
+	}
 }

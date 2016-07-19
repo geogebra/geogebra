@@ -1370,5 +1370,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		basicTab.cbAxisLabelItalic.setValue(isItalic);
 
 	}
+
+	public TabPanelInterface getTabPanel() {
+		return tabPanel;
+	}
 }
 

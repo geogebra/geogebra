@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.dialog.options;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -96,6 +97,11 @@ public class OptionsCASW extends OptionsCAS implements OptionPanelW,
 
 		updateGUI();
 
+	}
+
+	public TabPanelInterface getTabPanel() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

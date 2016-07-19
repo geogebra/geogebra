@@ -5,7 +5,7 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DeckPanel;
-import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -18,12 +18,17 @@ public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
 		tabBar = new MultiRowsTabBar(this);
 		tabBar.addStyleName("gwt-TabBar");
 		tabBar.addStyleName("ggb-MultiRowsTabPanel");
-		FlowPanel panel = new FlowPanel();
+		VerticalPanel panel = new VerticalPanel();
 		panel.add(tabBar);
 		panel.add(deck);
 		// panel.setCellHeight(deck, "100%");
 		// tabBar.setWidth("100%");
 		initWidget(panel);
+	}
+
+	public int getTabBarHeight(){
+		return (((VerticalPanel) this.getWidget()).getElement()
+				.getElementsByTagName("tr").getItem(0).getOffsetHeight());
 	}
 
 	public HandlerRegistration addSelectionHandler(
