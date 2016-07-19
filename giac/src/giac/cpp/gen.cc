@@ -6476,6 +6476,20 @@ namespace giac {
       return a;
     if (is_undef(b))
       return b;
+    if (is_inequality(a)){
+      int bs=fastsign(b,contextptr);
+      if (bs==-1)
+	return new_ref_symbolic(symbolic(a._SYMBptr->sommet,makesequence(a._SYMBptr->feuille._VECTptr->back()*b,a._SYMBptr->feuille._VECTptr->front()*b)));
+      if (bs==1)
+	return new_ref_symbolic(symbolic(a._SYMBptr->sommet,makesequence(a._SYMBptr->feuille._VECTptr->front()*b,a._SYMBptr->feuille._VECTptr->back()*b)));
+    }
+    if (is_inequality(b)){
+      int bs=fastsign(a,contextptr);
+      if (bs==-1)
+	return new_ref_symbolic(symbolic(b._SYMBptr->sommet,makesequence(a*b._SYMBptr->feuille._VECTptr->back(),a*b._SYMBptr->feuille._VECTptr->front())));
+      if (bs==1)
+	return new_ref_symbolic(symbolic(b._SYMBptr->sommet,makesequence(a*b._SYMBptr->feuille._VECTptr->front(),a*b._SYMBptr->feuille._VECTptr->back())));
+    }
     if (a.is_symb_of_sommet(at_unit)){
       if (equalposcomp(lidnt(b),cst_pi)!=0)
 	return sym_mult(a,evalf(b,1,contextptr),contextptr);
