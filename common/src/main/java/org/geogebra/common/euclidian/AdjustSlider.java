@@ -90,16 +90,33 @@ public class AdjustSlider {
 			return;
 		}
 
-		x = Math.round(origX * ratio);
-		y = Math.round(origY * ratio);
-		if (x + width > view.getViewWidth()) {
-			x = view.getViewWidth() - width;
-		} else if (width > view.getViewWidth()) {
+		x = Math.round(origX * ratioX);
+		y = Math.round(origY * ratioY);
+		if (horizontal) {
+			adjustToRight();
+		} else {
+			adjustToBottom();
+		}
+
+		if (width > view.getViewWidth() || width != origWidth) {
 			width = Math.round(origWidth * ratio);
 			number.setSliderWidth(width);
 		}
 		number.setSliderLocation(x, y, true);
 	}
+
+	private void adjustToRight() {
+		if (x + width > view.getViewWidth()) {
+			x = view.getViewWidth() - width;
+		}
+	}
+
+	private void adjustToBottom() {
+		if (y + width > view.getViewHeight()) {
+			y = view.getViewHeight() - width;
+		}
+	}
+
 	// public void apply() {
 	// if (!reduceWidth()) {
 	// restoreWidth();
