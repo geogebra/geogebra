@@ -5113,10 +5113,6 @@ kernel, left,
 	public ExpressionNode integral(FunctionVariable fv, Kernel kernel0) {
 
 		// symbolic integrals disabled in exam mode
-		if (kernel0.getApplication().isExam()
-				&& !kernel.getApplication().getExam().isCASAllowed()) {
-			return wrap(Double.NaN);
-		}
 
 		switch (operation) {
 

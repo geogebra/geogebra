@@ -50,6 +50,8 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.cas.AlgoDerivative;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -632,7 +634,11 @@ CasEvaluableFunction, ParametricCurve,
 		// derivGeoFun.setUndefined();
 		// else
 		derivGeoFun.setDerivative(this, order, fast);
-
+		if (cons.getApplication().isExam()
+				&& !cons.getApplication().getExam().isCASAllowed()) {
+			derivGeoFun.setSecret(new AlgoDerivative(cons, this, true,
+					new EvalInfo(false)));
+		}
 		return derivGeoFun;
 	}
 

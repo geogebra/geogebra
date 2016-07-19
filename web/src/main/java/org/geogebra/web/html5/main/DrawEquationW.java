@@ -9,7 +9,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
@@ -233,7 +232,6 @@ public class DrawEquationW extends DrawEquation {
 
 	public static Canvas paintOnCanvas(GeoElement geo, String text0, Canvas c,
 			int fontSize) {
-		Log.debug(text0);
 		if (geo == null) {
 			return c == null ? Canvas.createIfSupported() : c;
 		}

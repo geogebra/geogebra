@@ -87,7 +87,9 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 		if (addToConsList) {
 			cons.addToConstructionList(this, false);
 		}
-		this.fast = fast;
+		this.fast = fast
+				|| (cons.getApplication().isExam() && !cons.getApplication()
+						.getExam().isCASAllowed());
 		this.fun = fun;
 		f = new GeoFunction(cons, false);
 		f.setFunction(fun);
@@ -163,7 +165,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				e.printStackTrace();
 				Log.debug("derivative failed");
 			}
-
+			Log.debug(ev);
 			if (ev == null) {
 				f.setUndefined();
 				return;
@@ -176,6 +178,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				node = new ExpressionNode(kernel, ev);
 
 			expandedFun.setExpression(node);
+
 			f.setFunction(expandedFun);
 			// If the label is not set (first run of compute)
 			// isFillable will take care of updating ineqs
@@ -448,7 +451,6 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 */
 	public static String getDerivativeLabel(Function fun) {
 		ExpressionNode expr = fun.getExpression().unwrap().wrap();
-		Log.debug("DERIVATIVE");
 		// f'(x+3) should use default label
 		if (expr.getRight() != null
 				&& !(expr.getRight().unwrap() instanceof FunctionVariable)) {
