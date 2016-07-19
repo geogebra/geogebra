@@ -595,16 +595,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 		int polyLength = poly.getPoints().length;
 
-		setPointsLength(polyLength, null);
-
 		// set values
-		for (int i = 0; i < getPoints().length; i++) {
-			ExpressionNode oldDef = getPoint(i).getDefinition();
-			getPoint(i).set(poly.getPoint(i).toGeoElement(), false);
-			if (!getPoint(i).isIndependent()) {
-				getPoint(i).setDefinition(oldDef);
-			}
-		}
+		updatePoints(poly.getPoints());
 		
 
 		setCoordSysAndPoints3D(poly);
@@ -621,17 +613,24 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * @param geos input points
 	 */
 	public void setPointsAndSegments(GeoPointND[] geos){
-		setPointsLength(geos.length, geos);
+		updatePoints(geos);
 
-		// set values
-		for (int i = 0; i < getPoints().length; i++) {
-			getPoint(i).set(geos[i]);
-		}
-		
 		updateSegments();
 
 	}
-	
+
+	private void updatePoints(GeoPointND[] geos) {
+		setPointsLength(geos.length, null);
+		for (int i = 0; i < getPoints().length; i++) {
+			ExpressionNode oldDef = getPoint(i).getDefinition();
+			getPoint(i).set(geos[i].toGeoElement(), false);
+			if (!getPoint(i).isIndependent()) {
+				getPoint(i).setDefinition(oldDef);
+			}
+		}
+		
+	}
+
 	/**
 	 * set points and segments length to arbitrary value (create new points and segments)
 	 * @param polyLength length

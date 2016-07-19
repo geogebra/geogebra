@@ -123,7 +123,8 @@ public class AlgoDependentPoint extends AlgoElement implements DependentAlgo,
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return P.getDefinition().toString(tpl);
+		return P.getDefinition() == null ? "?"
+				: P.getDefinition().toString(tpl);
 	}
 
 	public Variable[] getBotanaVars(GeoElementND geo) {
