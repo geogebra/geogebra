@@ -1383,4 +1383,13 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		fun.updateCASEvalMap(map);
 	}
 
+	@Override
+	public boolean needToShowBothRowsInAV() {
+		if (GeoFunction.hideDefinitionInAlgebra(getFunctionExpression())) {
+			return false;
+		}
+
+		return super.needToShowBothRowsInAV();
+	}
+
 }

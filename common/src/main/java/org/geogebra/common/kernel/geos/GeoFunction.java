@@ -2937,8 +2937,7 @@ CasEvaluableFunction, ParametricCurve,
 
 	@Override
 	public boolean needToShowBothRowsInAV() {
-		if (Operation.includesFreehandOrData(
-				getFunctionExpression().getOperation())) {
+		if (hideDefinitionInAlgebra(getFunctionExpression())) {
 			return false;
 		}
 
@@ -2947,5 +2946,15 @@ CasEvaluableFunction, ParametricCurve,
 
 	public Function getFun(int i) {
 		return i == 0 ? fun : null;
+	}
+
+	/**
+	 * @param ex
+	 *            expression
+	 * @return whether to hide first row in AV
+	 */
+	static boolean hideDefinitionInAlgebra(ExpressionNode ex) {
+		return ex == null || Operation.includesFreehandOrData(ex.getOperation())
+				|| ex.isSecret();
 	}
 }
