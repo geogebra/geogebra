@@ -28,6 +28,7 @@ gwt {
 	}*/
 }
 
+evaluationDependsOn ':renderer-base'
 
 dependencies {
 	compile project(':renderer-base')
