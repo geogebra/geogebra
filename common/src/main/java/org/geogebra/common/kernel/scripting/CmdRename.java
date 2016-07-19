@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -51,21 +52,32 @@ public class CmdRename extends CmdScripting {
 				// if there's a problem with the second argument, just wrap in
 				// quotes in case it's a color
 				// eg SetColor[A,blue] rather than SetColor[A,"blue"]
+				String val = args[1].toString(StringTemplate.defaultTemplate);
+				if (args[1].unwrap() instanceof Command) {
+					val = ((Command) args[1].unwrap()).getName();
+				}
 				arg[1] = new GeoText(cons,
-						args[1].toString(StringTemplate.defaultTemplate));
+						val);
 			}
 			cons.setSuppressLabelCreation(oldMacroMode);
 
 			if (arg[1].isGeoText()) {
 
 				GeoElement geo = arg[0];
+				String checked;
+				try {
+					checked = kernelA.getAlgebraProcessor()
+							.parseLabel(((GeoText) arg[1]).getTextString());
 
-				if (LabelManager.checkName(geo,
-						((GeoText) arg[1]).getTextString())) {
-					geo.rename(((GeoText) arg[1]).getTextString());
-					geo.updateRepaint();
+					if (LabelManager.checkName(geo, checked)) {
+						geo.rename(((GeoText) arg[1]).getTextString());
+						geo.updateRepaint();
 
-					return arg;
+						return arg;
+					}
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 				throw argErr(app, c.getName(), arg[1]);
 			}

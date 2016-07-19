@@ -57,6 +57,7 @@ import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectFunctionVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
+import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
@@ -601,7 +602,7 @@ public class AlgebraProcessor {
 		ValidExpression ve;
 		try {
 			ve = parser.parseGeoGebraExpression(cmd);
-			GeoCasCell casEval = checkCasEval(ve.getLabel(), cmd, null);
+			GeoCasCell casEval = checkCasEval(ve.getLabel(), cmd, ve);
 			if (casEval != null) {
 				if (callback0 != null) {
 					callback0.callback(array(casEval));
@@ -876,6 +877,20 @@ public class AlgebraProcessor {
 			}
 			String cmd = input == null ? parsed
 					.toString(StringTemplate.defaultTemplate) : input;
+			Log.debug(parsed);
+			Log.debug(input + " MAY BE CAS");
+			if (parsed != null && parsed.unwrap() instanceof Command) {
+				Command c = (Command) parsed.unwrap();
+				if ("Rename".equals(c.getName())) {
+					cmd = "="
+							+ c.getArgument(1)
+									.traverse(CommandReplacer.getReplacer(app,
+											true))
+							.toString(StringTemplate.defaultTemplate) + ":="
+							+ c.getArgument(0)
+									.toString(StringTemplate.defaultTemplate);
+				}
+			}
 			int colonPos = cmd.indexOf(':') + 1;
 			int eqPos = cmd.indexOf('=') + 1;
 			int prefixLength = eqPos > 0 ? (colonPos > 0 ? Math.min(colonPos,
