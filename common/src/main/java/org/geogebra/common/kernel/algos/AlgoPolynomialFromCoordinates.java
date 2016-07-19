@@ -78,6 +78,11 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			return;
 		}
 
+		setFromPoints(g, inputList);
+
+	}
+
+	public static void setFromPoints(GeoFunction g, GeoList inputList) {
 		int n = inputList.size();
 
 		if (n < 2) { // can't draw a unique polynomial through 0 or 1 points!
@@ -155,7 +160,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		}
 
 		// build polynomial
-		Function polyFun = buildPolyFunctionExpression(kernel, cof);
+		Function polyFun = buildPolyFunctionExpression(g.getKernel(), cof);
 
 		if (polyFun == null) {
 			g.setUndefined();

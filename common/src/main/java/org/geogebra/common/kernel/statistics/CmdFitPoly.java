@@ -48,8 +48,9 @@ public class CmdFitPoly extends CommandProcessor {
 		case 2:
 			if (arg[1] instanceof GeoNumberValue) {
 				if (arg[0].isGeoList()) {
-					GeoElement[] ret = { FitPoly(c.getLabel(),
+					GeoElement[] ret = { FitPoly(
 							(GeoList) arg[0], (GeoNumberValue) arg[1]) };
+					ret[0].setLabel(c.getLabel());
 					return ret;
 				} else if (arg[0].isGeoFunction()) {
 
@@ -63,8 +64,9 @@ public class CmdFitPoly extends CommandProcessor {
 								(AlgoFunctionFreehand) fun.getParentAlgorithm());
 
 						if (list != null) {
-							GeoElement[] ret = { FitPoly(c.getLabel(), list,
+							GeoElement[] ret = { FitPoly(list,
 									(NumberValue) arg[1]) };
+							ret[0].setLabel(c.getLabel());
 							return ret;
 						}
 
@@ -80,8 +82,9 @@ public class CmdFitPoly extends CommandProcessor {
 			GeoList list = wrapInList(kernelA, arg, arg.length - 1,
 					GeoClass.POINT);
 			if (list != null) {
-				GeoElement[] ret = { FitPoly(c.getLabel(), list,
+				GeoElement[] ret = { FitPoly(list,
 						(NumberValue) arg[arg.length - 1]) };
+				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
 			throw argNumErr(app, c.getName(), n);
@@ -91,9 +94,9 @@ public class CmdFitPoly extends CommandProcessor {
 	/**
 	 * FitPoly[list of coords,degree] Hans-Petter Ulven
 	 */
-	final private GeoFunction FitPoly(String label, GeoList list,
+	final private GeoFunction FitPoly(GeoList list,
 			NumberValue degree) {
-		AlgoFitPoly algo = new AlgoFitPoly(cons, label, list, degree);
+		AlgoFitPoly algo = new AlgoFitPoly(cons, list, degree);
 		GeoFunction function = algo.getFitPoly();
 		return function;
 	}

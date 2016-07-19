@@ -39,12 +39,16 @@ public class AlgoFitPoly extends AlgoElement {
 	private GeoElement geodegree;
 	private final RegressionMath regMath;
 
-	public AlgoFitPoly(Construction cons, String label, GeoList geolist,
-			NumberValue degree) {
-		this(cons, geolist, degree);
-		geofunction.setLabel(label);
-	}// Constructor
 
+
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geolist
+	 *            points
+	 * @param degree
+	 *            degree
+	 */
 	public AlgoFitPoly(Construction cons, GeoList geolist, NumberValue degree) {
 		super(cons);
 		regMath = new RegressionMath();
@@ -54,7 +58,7 @@ public class AlgoFitPoly extends AlgoElement {
 		geofunction = new GeoFunction(cons);
 		setInputOutput();
 		compute();
-	}// Constructor
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -68,8 +72,11 @@ public class AlgoFitPoly extends AlgoElement {
 		input[1] = geodegree;
 		setOnlyOutput(geofunction);
 		setDependencies();
-	}// setInputOutput()
+	}
 
+	/**
+	 * @return fit polynomial
+	 */
 	public GeoFunction getFitPoly() {
 		return geofunction;
 	}
@@ -79,18 +86,19 @@ public class AlgoFitPoly extends AlgoElement {
 		int size = geolist.size();
 		int par;
 		boolean regok = true;
-		double[] cof = null; // long ms=System.currentTimeMillis();
+		double[] cof = null;
 		par = (int) Math.round(degree.getDouble());
-		if (!geolist.isDefined() || (size < 2) || (par >= size)) { // 24.04.08:
-																	// size<2 or
-																	// par>=size
+		if (!geolist.isDefined() || (size < 2) || (par >= size)) {
 			geofunction.setUndefined();
+			return;
+		}
+		if (par == size - 1) {
+			AlgoPolynomialFromCoordinates.setFromPoints(geofunction, geolist);
 			return;
 		}
 		// if error in parameters :
 		switch (par) {
-		case RegressionMath.LINEAR: // 24.04.08: moved up linear case from
-									// default
+		case RegressionMath.LINEAR: // moved up linear case from default
 			regok = regMath.doLinear(geolist);
 			if (regok) {
 				cof = new double[2];
