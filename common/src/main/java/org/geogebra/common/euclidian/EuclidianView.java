@@ -5504,7 +5504,7 @@ sb.toString(), getFontAxes(),
 		return 1;
 	}
 
-	public void adjustSliderToNearestCorner(GeoNumeric number, int fileWidth, int fileHeight) {
+	public void adjustSliderToNearestCorner(GeoNumeric number) {
 		if (!app.has(Feature.ADJUST_SLIDERS) || !number.isSlider()) {
 			return;
 		}
@@ -5512,6 +5512,7 @@ sb.toString(), getFontAxes(),
 		AdjustSlider adjustSlider = new AdjustSlider(number, this);
 		adjustSlider.apply();
 	}
+
 	public double getXZeroOld(){
 		return xZeroOld;
 	}

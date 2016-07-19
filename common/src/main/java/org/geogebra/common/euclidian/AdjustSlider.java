@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian;
 
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 public class AdjustSlider {
@@ -13,13 +14,27 @@ public class AdjustSlider {
 	private double width;
 	private double origWidth;
 	private boolean horizontal;
+	private double ratioX;
+	private double ratioY;
 
 	private static final int MARGIN_X = 15;
 	private static final int MARGIN_Y = 15;
+
 	public AdjustSlider(GeoNumeric num, EuclidianView view) {
 		this.number = num;
 		this.view = view;
 
+		App app = view.getApplication();
+		int fileWidth = app.getSettings()
+				.getEuclidian(view.getEuclidianViewNo()).getFileWidth();
+		int fileHeight = app.getSettings()
+				.getEuclidian(view.getEuclidianViewNo()).getFileHeight();
+
+		ratioX = fileWidth == 0 ? 1 : (double) view.getViewWidth() / fileWidth;
+		ratioY = fileHeight == 0 ? 1
+				: (double) view.getViewHeight() / fileHeight;
+
+		Log.debug("[ADJUST] ratioX: " + ratioX + " ratioY: " + ratioY);
 		x = number.getSliderX();
 		origX = number.getOrigSliderX();
 
@@ -65,39 +80,56 @@ public class AdjustSlider {
 	 * Just do the job.
 	 */
 	public void apply() {
-		if (!reduceWidth()) {
-			restoreWidth();
-			if (horizontal) {
-				Log.debug("[ADJUST] horizontal");
-				if (restoreX()) {
-					Log.debug("[ADJUST] sliderX is restored.");
-				} else if (isWidthOriginal() && !isXOnScreen()) {
-					x = view.getViewWidth() - width - MARGIN_X;
-					Log.debug("[ADJUST] x to the left");
-				}
-
-				if (!restoreY() && origY != null
-						&& origY > view.getViewHeight() - MARGIN_Y) {
-					y = view.getViewHeight() - MARGIN_Y;
-				}
-			} else {
-				// adjusting vertical slider
-				if (restoreY()) {
-					Log.debug("[ADJUST] sliderY is restored.");
-				} else if (isWidthOriginal() && !isYOnScreen()) {
-					y = view.getViewHeight() - MARGIN_Y;
-					Log.debug("[ADJUST] y to the bottom");
-				}
-
-				if (!restoreX() && isWidthOriginal()
-						&& origX + origWidth > view.getViewWidth() - MARGIN_X) {
-					x = view.getViewWidth() - MARGIN_X;
-				}
-			}
-
+		if (isXOnScreen() || isYOnScreen()) {
+			return;
 		}
+
+		double ratio = horizontal ? ratioX : ratioY;
+
+		if (ratio > 1) {
+			return;
+		}
+
+		x = Math.round(origX * ratio);
+		y = Math.round(origY * ratio);
+		// width = Math.round(origWidth * ratio);
+		// number.setSliderWidth(width);
 		number.setSliderLocation(x, y, true);
 	}
+	// public void apply() {
+	// if (!reduceWidth()) {
+	// restoreWidth();
+	// if (horizontal) {
+	// Log.debug("[ADJUST] horizontal");
+	// if (restoreX()) {
+	// Log.debug("[ADJUST] sliderX is restored.");
+	// } else if (isWidthOriginal() && !isXOnScreen()) {
+	// x = view.getViewWidth() - width - MARGIN_X;
+	// Log.debug("[ADJUST] x to the left");
+	// }
+	//
+	// if (!restoreY() && origY != null
+	// && origY > view.getViewHeight() - MARGIN_Y) {
+	// y = view.getViewHeight() - MARGIN_Y;
+	// }
+	// } else {
+	// // adjusting vertical slider
+	// if (restoreY()) {
+	// Log.debug("[ADJUST] sliderY is restored.");
+	// } else if (isWidthOriginal() && !isYOnScreen()) {
+	// y = view.getViewHeight() - MARGIN_Y;
+	// Log.debug("[ADJUST] y to the bottom");
+	// }
+	//
+	// if (!restoreX() && isWidthOriginal()
+	// && origX + origWidth > view.getViewWidth() - MARGIN_X) {
+	// x = view.getViewWidth() - MARGIN_X;
+	// }
+	// }
+	//
+	// }
+	// number.setSliderLocation(x, y, true);
+	// }
 
 
 	private boolean isWidthOriginal() {
