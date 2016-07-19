@@ -92,8 +92,12 @@ public class AdjustSlider {
 
 		x = Math.round(origX * ratio);
 		y = Math.round(origY * ratio);
-		// width = Math.round(origWidth * ratio);
-		// number.setSliderWidth(width);
+		if (x + width > view.getViewWidth()) {
+			x = view.getViewWidth() - width;
+		} else if (width > view.getViewWidth()) {
+			width = Math.round(origWidth * ratio);
+			number.setSliderWidth(width);
+		}
 		number.setSliderLocation(x, y, true);
 	}
 	// public void apply() {
