@@ -214,7 +214,7 @@ public class Command extends ValidExpression implements
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return toString(true, tpl.hasType(StringType.LATEX), tpl);
+		return toString(true, false, tpl);
 	}
 
 	@Override
@@ -227,7 +227,8 @@ public class Command extends ValidExpression implements
 		return toString(symbolic, true, tpl);
 	}
 
-	private String toString(boolean symbolic, boolean LaTeX, StringTemplate tpl) {
+	private String toString(boolean symbolic, boolean LaTeX,
+			StringTemplate tpl) {
 		switch (tpl.getStringType()) {
 		case GIAC:
 			return (kernel.getGeoGebraCAS()).getCASCommand(name, args,
@@ -363,7 +364,7 @@ public class Command extends ValidExpression implements
 			} else {
 				sbToString.append(name);
 			}
-			if (LaTeX) {
+			if (LaTeX || tpl.hasType(StringType.LATEX)) {
 				sbToString.append(" \\left");
 			}
 			sbToString.append('[');
@@ -387,7 +388,7 @@ public class Command extends ValidExpression implements
 			}
 			if (size > 0)
 				sbToString.deleteCharAt(sbToString.length() - 1);
-			if (LaTeX) {
+			if (LaTeX || tpl.hasType(StringType.LATEX)) {
 				sbToString.append(" \\right");
 			}
 			sbToString.append(']');
