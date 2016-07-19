@@ -660,14 +660,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (this.toolbarPanel != null) {
 			toolbarPanel.setToolbarWidth(width);
 		}
-		// EuclidianPanelWAbstract epanel = ((AppW)
-		// app).getEuclidianViewpanel();
-		// epanel.setPixelSize(epanel.getOffsetWidth() + widthChanged,
-		// epanel.getOffsetHeight() + heightChanged );
-
-		// maybe onResize is good here too, but call deferredOnResize for
-		// security
-		((AppW) app).getEuclidianViewpanel().deferredOnResize();
+		// update view sizes
+		((AppW) app).updateViewSizes();
 		((AppW) app).recalculateEnvironments();
 	}
 

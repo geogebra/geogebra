@@ -448,7 +448,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	public void closePopupsAndMaybeMenu(NativeEvent event) {
-		app.closePopups();
+		// app.closePopups(); TODO
 		if (app.isMenuShowing()
 				&& !Dom.eventTargetsElement(event, ggwMenuBar.getElement())
 				&& !Dom.eventTargetsElement(event,
@@ -464,7 +464,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			return;
 		}
 		final int eventType = DOM.eventGetType(event);
-		if (eventType == Event.ONMOUSEDOWN) {
+		if (eventType == Event.ONMOUSEDOWN || eventType == Event.ONTOUCHSTART) {
 			closePopupsAndMaybeMenu(event);
 		}
 	}
