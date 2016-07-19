@@ -1945,12 +1945,10 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public void setShowToolBar(boolean toolbar) {
-		Log.printStacktrace(toolbar + " TOOLBAR");
 		showToolBar = toolbar;
 	}
 
 	public void setShowToolBar(boolean toolbar, boolean help) {
-		Log.printStacktrace(toolbar + " TOOLBAR");
 		showToolBar = toolbar;
 		showToolBarHelp = help;
 		if (showToolBar && getGuiManager() != null) {
