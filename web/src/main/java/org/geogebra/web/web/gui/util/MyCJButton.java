@@ -1,22 +1,14 @@
 package org.geogebra.web.web.gui.util;
 
-import org.geogebra.common.main.App;
-import org.geogebra.web.web.gui.images.AppResources;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.LoadEvent;
-import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * @author gabor
@@ -28,17 +20,15 @@ public class MyCJButton extends Composite implements MouseDownHandler,
         MouseUpHandler, HasSetIcon {
 	
 	private Label button;
-	private boolean isEnabled;
-	private boolean loadHandlerAllowed = false;
+	/** whether this is enabled */
+	boolean isEnabled;
 	private ImageOrText icon;
 	private Label buttonContent;
 	private boolean imageMode = false;
 	
 	/**
-	 * 
 	 * Creates a new button
 	 * 
-	 * @param image
 	 */
 	
 	public MyCJButton() {
@@ -49,8 +39,6 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		button.addMouseDownHandler(this);
 		button.addMouseUpHandler(this);
 		
-		loadHandlerAllowed = true;
-
 		initWidget(button);
 		setStyleName("MyCanvasButton");
 		isEnabled = true;
@@ -108,7 +96,6 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 			this.imageMode = true;
 		}		
 		this.icon = icon;
-		loadHandlerAllowed = false;
 		icon.applyToLabel(buttonContent);
 		setDownState(false);
 	}

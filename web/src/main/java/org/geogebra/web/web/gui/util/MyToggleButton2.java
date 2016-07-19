@@ -14,8 +14,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * Extends GWT ToggleButton to support tooltips and Icon image data.
  * 
  */
-public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
-        HasSetIcon {
+public class MyToggleButton2 extends ToggleButton implements MouseDownHandler {
 
 	private HandlerRegistration actionListener;
 
@@ -175,9 +174,4 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	public void onMouseDown(MouseDownEvent event) {
 		this.setFocus(false);
 	}
-
-	public void setIcon(ImageOrText data) {
-	    // TODO Auto-generated method stub
-	    
-    }
 }

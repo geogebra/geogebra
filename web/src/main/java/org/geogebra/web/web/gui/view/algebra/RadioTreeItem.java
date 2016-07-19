@@ -288,10 +288,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private boolean needsUpdate;
 	protected Label errorLabel;
 
-
-
-	static final String GTE_SIGN = "\u2264";
-
 	private LongTouchManager longTouchManager;
 
 	/**

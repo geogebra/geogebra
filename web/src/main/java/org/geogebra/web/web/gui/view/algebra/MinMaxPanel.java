@@ -6,9 +6,9 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem.AVField;
-import org.geogebra.web.web.gui.view.algebra.RadioTreeItem.CancelListener;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -45,9 +45,9 @@ class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		tfMin = this.radioTreeItem.new AVField(4, this.radioTreeItem.app, this);
 		tfMax = this.radioTreeItem.new AVField(4, this.radioTreeItem.app, this);
 		tfStep = this.radioTreeItem.new AVField(4, this.radioTreeItem.app, this);
-		lblValue = new Label(RadioTreeItem.GTE_SIGN + " "
+		lblValue = new Label(Unicode.LESS_EQUAL + " "
 				+ this.radioTreeItem.geo.getCaption(StringTemplate.defaultTemplate) + " "
-				+ RadioTreeItem.GTE_SIGN);
+				+ Unicode.LESS_EQUAL);
 		lblStep = new Label(this.radioTreeItem.app.getPlain("Step"));
 		addStyleName("minMaxPanel");
 		add(tfMin);
