@@ -40,29 +40,16 @@ public class AlgoIntegral extends AlgoCasBase {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for output
-	 * @param f
-	 *            function
-	 * @param var
-	 *            variable
-	 */
-	public AlgoIntegral(Construction cons, String label,
-			CasEvaluableFunction f, GeoNumeric var, EvalInfo info,
-			boolean numeric) {
-		this(cons, f, var, true, info, numeric);
-		g.toGeoElement().setLabel(label);
-	}
-
-	/**
-	 * @param cons
-	 *            construction
 	 * @param f
 	 *            function
 	 * @param var
 	 *            variable
 	 * @param allowConstant
 	 *            whether arbitrary constants are allowed
+	 * @param info
+	 *            evaluation info
+	 * @param numeric
+	 *            whether NIntegral command was used
 	 */
 	public AlgoIntegral(Construction cons, CasEvaluableFunction f,
 			GeoNumeric var, boolean allowConstant, EvalInfo info,
@@ -70,7 +57,7 @@ public class AlgoIntegral extends AlgoCasBase {
 		super(cons, f, numeric ? Commands.NIntegral : Commands.Integral, info);
 		this.var = var;
 		this.allowConstant = allowConstant;
-		this.numeric = numeric;
+		this.numeric = numeric || !info.isUsingCAS();
 		setInputOutput(); // for AlgoElement
 		compute();
 	}
