@@ -2978,8 +2978,13 @@ namespace giac {
     if (lim_point==plus_inf){
       gen coeff,mrv_var,exponent,remains;
       sparse_poly1 s;
-      if (!mrv_lead_term(e,x,coeff,mrv_var,exponent,s,ordre,contextptr,true))
+      if (!mrv_lead_term(e,x,coeff,mrv_var,exponent,s,ordre,contextptr,true)){
+#ifdef EMCC
+	return undef;
+#else
 	return gensizeerr(contextptr);
+#endif
+      }
       return sparse_poly12gen_expand(s,x,mrv_var,ordre,remains,true,contextptr);
     }
     if (lim_point==minus_inf){
