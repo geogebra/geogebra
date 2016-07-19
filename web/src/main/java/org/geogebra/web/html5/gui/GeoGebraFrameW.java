@@ -569,6 +569,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public void setWidth(int width) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(width, getOffsetHeight());
+			setWidth(width - BORDER_WIDTH + "px");
 		} else {
 			setWidth(width - BORDER_WIDTH + "px");
 			app.getEuclidianViewpanel().setPixelSize(width, getOffsetHeight());
@@ -586,6 +587,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public void setHeight(int height) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(getOffsetWidth(), height);
+			setHeight(height - BORDER_HEIGHT + "px");
 		} else {
 			setHeight(height - BORDER_HEIGHT + "px");
 			app.getEuclidianViewpanel().setPixelSize(getOffsetWidth(), height);
