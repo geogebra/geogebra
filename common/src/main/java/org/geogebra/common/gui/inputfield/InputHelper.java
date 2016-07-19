@@ -31,12 +31,17 @@ public class InputHelper {
 			if (Korean.flattenKorean(curWord.toString()).length() < 2) {
 				return false;
 			}
-		}else if("zh".equals(kernel.getLocalization().getLanguage()) && curWord.length() < 2){
+		} else if (needsThreeLetters(kernel) && curWord.length() < 3) {
 			return false;
-		} else if (curWord.length() < 3) {
+		} else if (curWord.length() < 2) {
 			return false;
 		}
 		return kernel.lookupLabel(curWord.toString()) == null;
+	}
+
+	private static boolean needsThreeLetters(Kernel kernel) {
+		// only Simplified chinese; Traditional is using english commands
+		return !"zh_CN".equals(kernel.getLocalization().getLocaleStr());
 	}
 
 	/**
