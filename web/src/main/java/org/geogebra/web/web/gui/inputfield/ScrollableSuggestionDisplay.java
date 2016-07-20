@@ -1,4 +1,4 @@
-package org.geogebra.web.cas.latex;
+package org.geogebra.web.web.gui.inputfield;
 
 //import org.geogebra.web.cas.latex.EquationEditor;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
@@ -19,9 +19,9 @@ public final class ScrollableSuggestionDisplay extends
 	// maybe em-size is 19px, 120% of 16px font size... but smaller is OK
 	// TODO: improve it, if we can... this still seems smaller (but OK)
 	public static int lineWidth = 29;
-	private EquationEditor editor;
+	private HasSuggestions editor;
 
-	public ScrollableSuggestionDisplay(EquationEditor ed) {
+	public ScrollableSuggestionDisplay(HasSuggestions ed) {
 		super();
 		this.editor = ed;
 	}

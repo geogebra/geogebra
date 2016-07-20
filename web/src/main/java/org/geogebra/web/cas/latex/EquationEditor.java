@@ -15,6 +15,8 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.inputfield.HasSuggestions;
+import org.geogebra.web.web.gui.inputfield.ScrollableSuggestionDisplay;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 
 import com.google.gwt.dom.client.Element;
@@ -24,7 +26,7 @@ import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Response;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
-public class EquationEditor {
+public class EquationEditor implements HasSuggestions {
 	protected SuggestBox.SuggestionCallback sugCallback = new SuggestBox.SuggestionCallback() {
 		public void onSuggestionSelected(Suggestion s) {
 
