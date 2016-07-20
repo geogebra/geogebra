@@ -44,6 +44,7 @@ public class JSONParserGGT {
 		material.setURL(getString(obj, "url"));
 		material.setURLdirect(getString(obj, "url_direct"));
 		material.setThumbnail(getString(obj, "thumbnail"));
+		material.setPreviewURL(getString(obj, "previewUrl"));
 		material.setLanguage(getString(obj, "language"));
 		material.setFeatured(Boolean.parseBoolean(getString(obj, "featured")));
 		material.setLikes(getInt(obj, "likes", -1));
