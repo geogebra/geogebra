@@ -31,15 +31,13 @@ public abstract class Transform {
 	public static String transformedGeoLabel(GeoElement geo) {
 		if (geo.isGeoFunction()) {
 			if (geo.isLabelSet() && !geo.hasIndexLabel())
-				return geo.getFreeLabel(geo
-						.getLabel(StringTemplate.defaultTemplateLocal));
+				return geo.getFreeLabel(geo.getLabelSimple());
 			return null;
 		}
 
 		if (geo.isLabelSet() && !geo.hasIndexLabel()
 				&& !geo.getLabelSimple().endsWith("'''")) {
-			return geo.getFreeLabel(geo
-					.getLabel(StringTemplate.defaultTemplateLocal) + "'");
+			return geo.getFreeLabel(geo.getLabelSimple() + "'");
 		}
 		return null;
 	}

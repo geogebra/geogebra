@@ -968,7 +968,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public synchronized String getCommandString(String objName, boolean localize) {
 
 		GeoElement geo = kernel.lookupLabel(objName);
-		Log.debug(geo);
 		if (geo == null)
 			return "";
 		if (geo instanceof GeoCasCell) {
