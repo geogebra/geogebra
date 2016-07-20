@@ -22,4 +22,7 @@ public interface AppletImplementationInterface {
 	public void openFile(String strURL);
 
 	public void reset();
+
+	public boolean writePNGtoFile(String filename, double exportScale,
+			boolean transparent, double dPI);
 }

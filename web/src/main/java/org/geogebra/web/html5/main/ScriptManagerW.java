@@ -402,8 +402,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getListValue(Ljava/lang/String;I)(objName, index);
 		};
 
-		api.getDefinitionString = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getDefinitionString(Ljava/lang/String;)(objName);
+		api.getDefinitionString = function(objName, localize) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getDefinitionString(Ljava/lang/String;Z)(objName,  typeof localize === 'undefined' ? true : localize);
 		};
 
 		api.getLaTeXString = function(objName) {

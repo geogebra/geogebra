@@ -347,7 +347,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 		kernel = app.getKernel();
 
-		/* Ulven 29.05.08 */
 		this.ggbApi = app.getGgbApi();
 	}
 
@@ -844,7 +843,4 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return ggbApi;
 	}
 
-	private void setGgbApi(GgbAPID ggbApi) {
-		this.ggbApi = ggbApi;
-	}
 }

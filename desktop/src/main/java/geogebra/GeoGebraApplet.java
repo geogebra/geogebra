@@ -360,7 +360,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 
 	public synchronized boolean writePNGtoFile(String filename,
 			double exportScale, boolean transparent, double DPI) {
-		return getGgbApi().writePNGtoFile(filename, exportScale,
+		return getAppletImplementation().writePNGtoFile(filename, exportScale,
 				transparent, DPI);
 	}
 
