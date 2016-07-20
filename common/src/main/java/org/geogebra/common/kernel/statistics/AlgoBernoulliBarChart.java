@@ -44,9 +44,10 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 	}
 
 	private AlgoBernoulliBarChart(NumberValue p, GeoBoolean isCumulative,
-			NumberValue a, NumberValue b, double[] vals, double[] borders, int N) {
+			NumberValue a, NumberValue b, double[] vals, double[] borders,
+			int N, Construction cons) {
 		super(p, null, null, isCumulative, SumType.BARCHART_BERNOULLI, a, b,
-				vals, borders, N);
+				vals, borders, N, cons);
 	}
 
 	@Override
@@ -63,6 +64,6 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 				kernel), b, (NumberValue) this.getA().deepCopy(kernel),
 				(NumberValue) this.getB().deepCopy(kernel),
 				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
-				getIntervals());
+				getIntervals(), kernel.getConstruction());
 	}
 }

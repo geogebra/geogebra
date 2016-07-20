@@ -619,7 +619,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		if (isCumulative.getBoolean()) {
+		if (isCumulative != null && isCumulative.getBoolean()) {
 			yval[yval.length - 1] = 0.0;
 		}
 		sum.setDrawable(true);
@@ -681,9 +681,10 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 	protected AlgoFunctionAreaSums(NumberValue p1, NumberValue p2,
 			NumberValue p3, GeoBoolean isCumulative, SumType type,
-			NumberValue a, NumberValue b, double[] vals, double[] borders, int N) {
+			NumberValue a, NumberValue b, double[] vals, double[] borders,
+			int N, Construction cons) {
 
-		super(isCumulative.getConstruction(), false);
+		super(cons, false);
 
 		this.type = type;
 		this.p1 = p1;
@@ -1426,7 +1427,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			leftBorder = new double[3];
 			yval = new double[3];
 
-			boolean cumulative = ((GeoBoolean) isCumulative).getBoolean();
+			boolean cumulative = (isCumulative != null
+					&& ((GeoBoolean) isCumulative).getBoolean());
 			yval[0] = 1 - p;
 			yval[1] = cumulative ? 1 : p;
 			leftBorder[0] = -0.5;
@@ -1437,8 +1439,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			a = (NumberValue) ageo;
 			b = (NumberValue) bgeo;
 
-			if (isCumulative != null
-					&& ((GeoBoolean) isCumulative).getBoolean()) {
+			if (cumulative) {
 				sum.setValue(Double.POSITIVE_INFINITY);
 			} else {
 				sum.setValue(1);
