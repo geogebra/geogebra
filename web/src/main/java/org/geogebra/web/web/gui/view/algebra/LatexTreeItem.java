@@ -183,6 +183,7 @@ public class LatexTreeItem extends RadioTreeItem
 			main.add(ihtml);
 			if (buttonPanel != null) {
 				main.add(buttonPanel);
+				updateButtonPanelPosition();
 			}
 
 		}
