@@ -643,7 +643,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * curWordEnd are set to this word's start and end position
 	 */
 	public void updateCurrentWord(boolean searchRight) {
-		int next = InputHelper.updateCurrentWord(searchRight, this.curWord,
+		int next = InputHelper.updateCurrentWord(searchRight,
+				this.curWord,
 				getText(), getCaretPosition(), true);
 		if (next > -1) {
 			this.curWordStart = next;
@@ -813,6 +814,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		if (completions == null || index < 0 || index >= completions.size()) {
 			return false;
 		}
+		int start = curWordStart;
 		String command = completions.get(index);
 		String text = getText();
 
@@ -833,10 +835,11 @@ public class AutoCompleteTextFieldD extends MathTextField
 		sb.append(command);
 		sb.append(after);
 		setText(sb.toString());
+
 		// Special case if the completion is a built-in function
 		if (bracketIndex == -1) {
 			bracketIndex = command.indexOf('(');
-			setCaretPosition(curWordStart + bracketIndex + 1);
+			setCaretPosition(start + bracketIndex + 1);
 			return true;
 		}
 		if (command.indexOf("[]") > -1) {
@@ -847,7 +850,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 			bracketIndex += 3;
 		}
 
-		setCaretPosition(curWordStart + bracketIndex);
+		setCaretPosition(start + bracketIndex);
 		moveToNextArgument(false);
 
 		return true;
