@@ -1,6 +1,5 @@
 package org.geogebra.web.web.main;
 
-import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
@@ -300,24 +299,6 @@ public class AppWapplication extends AppWFull {
 		((GGWToolBar) this.getToolbar()).updateToolbarPanel();
 		onOpenFile();
 		setAltText();
-	}
-
-	@Override
-	public void updateViewSizes() {
-		getEuclidianViewpanel().deferredOnResize();
-		if (hasEuclidianView2(1)) {
-			((GuiManagerW) getGuiManager()).getEuclidianView2DockPanel(1)
-			        .deferredOnResize();
-		}
-		if (getGuiManager().hasSpreadsheetView()) {
-			DockPanel sp = getGuiManager().getLayout().getDockManager()
-			        .getPanel(App.VIEW_SPREADSHEET);
-			if (sp != null) {
-				sp.deferredOnResize();
-			}
-		}
-		getAppletFrame().setMenuHeight(
-				getInputPosition() == InputPosition.bottom);
 	}
 
 	@Override

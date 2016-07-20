@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
@@ -789,6 +790,24 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public void showPerspectivesPopup() {
 		new PerspectivesPopup(this).showPerspectivesPopup();
+	}
+
+	@Override
+	public void updateViewSizes() {
+		getEuclidianViewpanel().deferredOnResize();
+		if (hasEuclidianView2(1)) {
+			((GuiManagerW) getGuiManager()).getEuclidianView2DockPanel(1)
+					.deferredOnResize();
+		}
+		if (getGuiManager().hasSpreadsheetView()) {
+			DockPanel sp = getGuiManager().getLayout().getDockManager()
+					.getPanel(App.VIEW_SPREADSHEET);
+			if (sp != null) {
+				sp.deferredOnResize();
+			}
+		}
+		getAppletFrame().setMenuHeight(
+				getInputPosition() == InputPosition.bottom);
 	}
 
 }
