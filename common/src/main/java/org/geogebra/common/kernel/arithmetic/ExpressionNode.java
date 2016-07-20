@@ -4685,7 +4685,8 @@ kernel, left,
 		if (isLeaf()) {
 			return left != null && left.hasCoords();
 		}
-		return getLeft().hasCoords() || getRight().hasCoords();
+		return getLeft().hasCoords() || getRight().hasCoords()
+				|| operation == Operation.VEC_FUNCTION;
 	}
 
 	@Override

@@ -14,11 +14,11 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
 
@@ -1404,19 +1404,27 @@ public interface Traversing {
 					}
 					ExpressionNode en2 = null;
 					FunctionVariable[] fv = null;
-					if (geo instanceof GeoCurveCartesian) {
-						ExpressionValue en2x = ((GeoCurveCartesian) geo)
-								.getFunX().getFunctionExpression()
-								.getCopy(((GeoCurveCartesian) geo).getKernel())
+					if (geo instanceof GeoCurveCartesianND) {
+						Kernel kernel = ((GeoCurveCartesianND) geo).getKernel();
+						ExpressionValue en2x = ((GeoCurveCartesianND) geo)
+								.getFun(0).getFunctionExpression().getCopy(
+										kernel)
 								.traverse(this);
-						ExpressionValue en2y = ((GeoCurveCartesian) geo)
-								.getFunY().getFunctionExpression()
-								.getCopy(((GeoCurveCartesian) geo).getKernel())
+						ExpressionValue en2y = ((GeoCurveCartesianND) geo)
+								.getFun(1).getFunctionExpression()
+								.getCopy(kernel)
 								.traverse(this);
-						en2 = new MyVecNode(
-								((GeoCurveCartesian) geo).getKernel(), en2x,
-								en2y).wrap();
-						fv = ((GeoCurveCartesian) geo).getFunctionVariables();
+						if (((GeoCurveCartesianND) geo).getDimension() > 2) {
+							ExpressionValue en2z = ((GeoCurveCartesianND) geo)
+									.getFun(2).getFunctionExpression()
+									.getCopy(kernel).traverse(this);
+							en2 = new MyVec3DNode(kernel, en2x, en2y, en2z)
+									.wrap();
+						} else {
+							en2 = new MyVecNode(kernel, en2x, en2y).wrap();
+						}
+
+						fv = ((GeoCurveCartesianND) geo).getFunctionVariables();
 					}
 					if (geo instanceof FunctionalNVar) {
 						en2 = (ExpressionNode) ((FunctionalNVar) geo)

@@ -506,10 +506,12 @@ public class PropertiesViewW extends PropertiesView
 				
 				// -30px for Tabs, -27px for padding, -16px for paddings
 				optionPanel.onResize(
-						(height - tabPanelHeight - 27), width - 16);
+						(height - tabPanelHeight - 27),
+						Math.max(0, width - 16));
 			} else { // old code
 				// -30px for Tabs, -27px for padding, -26px for paddings
-				optionPanel.onResize((height - 30 - 27), width - 26);
+				optionPanel.onResize((height - 30 - 27),
+						Math.max(0, width - 26));
 			}
     	}
     }

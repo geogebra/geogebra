@@ -1376,6 +1376,7 @@ Paddings for menuitems.
 	z-index: 11;
 	left: auto !important;
 	bottom: auto !important;
+	max-width:100%;
 }
 body.application[dir=rtl] .TitleBarPanel {
 	left: 0px !important;
@@ -3597,6 +3598,8 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	position: absolute;
 	right: 0px;
 	top: 30px;
+	max-width:100%;
+	overflow:hidden;
 }
 
 .menuProperties {
