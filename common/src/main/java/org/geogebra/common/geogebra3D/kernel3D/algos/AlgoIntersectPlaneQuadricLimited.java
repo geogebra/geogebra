@@ -304,8 +304,27 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 			min = max;
 			max = m;
 		}
-		return Kernel.isGreater(min, parameter)
-				|| Kernel.isGreater(parameter, max);
+
+		// check if min > parameter
+		if (Kernel.isGreater(min, parameter)) {
+			// check if parameter is close to min in comparison to max - min
+			if (Kernel.isEpsilonToX(min - parameter, max - min)) {
+				return false;
+			}
+			return true;
+		}
+
+		// check if max < parameter
+		if (Kernel.isGreater(parameter, max)) {
+			// check if parameter is close to max in comparison to max - min
+			if (Kernel.isEpsilonToX(parameter - max, max - min)) {
+				return false;
+			}
+			return true;
+		}
+
+		// min < parameter < max
+		return false;
 
 	}
 

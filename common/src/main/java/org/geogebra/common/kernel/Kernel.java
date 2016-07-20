@@ -1951,7 +1951,7 @@ public class Kernel {
 
 	/**
 	 * 
-	 * check if e is zero in comparison to x
+	 * check if e is zero in comparison to STANDARD_PRECISION and x
 	 * 
 	 * @param e
 	 * @param x
@@ -1969,8 +1969,20 @@ public class Kernel {
 			return false;
 		}
 
-
 		return true;
+	}
+
+	/**
+	 * 
+	 * check if e is zero in comparison to x
+	 * 
+	 * @param e
+	 * @param x
+	 * @return
+	 */
+	final public static boolean isEpsilonToX(double e, double x) {
+
+		return Math.abs(e) < Math.abs(x) * STANDARD_PRECISION;
 	}
 
 	/**
