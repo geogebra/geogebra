@@ -2566,11 +2566,13 @@ public class AlgebraProcessor {
 				&& !equ.hasVariableDegree();
 		GeoImplicit poly;
 		GeoElement geo = null;
-		if (isIndependent || equ.isForcedSurface()) {
+		boolean is3d = equ.isForcedSurface() || equ.isForcedQuadric()
+				|| equ.isForcedPlane();
+		if (isIndependent || is3d) {
 			poly = new GeoImplicitCurve(cons, equ);
 			poly.setDefinition(equ.wrap());
 			geo = poly.toGeoElement();
-			if (equ.isForcedSurface()) {
+			if (is3d) {
 				geo.setUndefined();
 			}
 		} else {
