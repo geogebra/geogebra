@@ -84,6 +84,10 @@ public interface Traversing {
 		}
 	}
 
+	/**
+	 * Like replacer, but creates deep copies
+	 *
+	 */
 	public class CopyReplacer implements Traversing {
 		private ExpressionValue oldObj;
 		private ExpressionValue newObj;
@@ -106,6 +110,8 @@ public interface Traversing {
 		 *            object to be replaced
 		 * @param replacement
 		 *            replacement
+		 * @param kernel
+		 *            kernel for copies
 		 * @return replacer
 		 */
 		public static CopyReplacer getReplacer(ExpressionValue original,
@@ -150,6 +156,8 @@ public interface Traversing {
 		/**
 		 * @param app
 		 *            application (needed to check which commands are valid)
+		 * @param cas
+		 *            whether this is for CAS
 		 * @return replacer
 		 */
 		public static CommandReplacer getReplacer(App app, boolean cas) {

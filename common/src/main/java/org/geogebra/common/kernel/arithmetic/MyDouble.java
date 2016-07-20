@@ -1218,6 +1218,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	/**
 	 * 
 	 * @param col
+	 *            color component
 	 * @return col transformed from double[0,1] to int[0,255] but truncated if
 	 *         outside this range
 	 */
@@ -1228,6 +1229,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	/**
 	 * 
 	 * @param col
+	 *            color component
 	 * @return col truncated to the range int[0,255]
 	 */
 	public static int truncate0to255(int col) {

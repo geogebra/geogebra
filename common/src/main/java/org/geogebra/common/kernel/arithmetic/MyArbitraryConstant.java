@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Arbitrary constant comming from native CAS
@@ -253,9 +252,11 @@ public class MyArbitraryConstant {
 			return Algos.Expression;
 		}
 
+		/**
+		 * For cas cells replace CAS cell with the right cell on given row
+		 */
 		public void replaceOutCE() {
 			if (outCE instanceof GeoCasCell) {
-				Log.debug(((GeoCasCell) outCE).getRowNumber());
 				this.outCE = cons.getCasCell(((GeoCasCell) outCE)
 						.getRowNumber());
 			}
