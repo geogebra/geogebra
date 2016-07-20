@@ -1465,7 +1465,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public Euclidian2DockPanelW getEuclidianView2DockPanel(final int idx) {
 		if (euclidianView2DockPanel == null) {
 			euclidianView2DockPanel = new Euclidian2DockPanelW(
-			        app.isFullAppGui(), idx);
+					((AppW) app).allowStylebar(), idx);
 		}
 		return euclidianView2DockPanel;
 	}
