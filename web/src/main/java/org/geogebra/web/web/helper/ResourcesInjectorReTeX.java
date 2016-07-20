@@ -13,6 +13,11 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jqueryUI());
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.jqueryStyle().getText());
-
+		jQueryNoConflict();
 	}
+
+	private native void jQueryNoConflict() /*-{
+		$wnd.$ggbQuery = $wnd.jQuery;
+		$wnd.jQuery.noConflict();
+	}-*/;
 }
