@@ -59,6 +59,7 @@ public class GeoGebra {
 	}
 
 	protected void doMain(String[] cmdArgs) {
+
 		CommandLineArguments args = new CommandLineArguments(cmdArgs);
 
 		if (args.containsArg("screenDPI") && args.containsArg("screenX")

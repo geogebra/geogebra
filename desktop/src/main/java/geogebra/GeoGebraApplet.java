@@ -77,7 +77,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 			public void run() {
 				Log.debug("initAppletInBackground");
 				// init applet
-				getAppletImplementation();
+				getGgbApi();
 
 				// init CAS, GUI dialogs, and download jar files in background
 				SwingUtilities.invokeLater(new Runnable() {
@@ -105,7 +105,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public void start() {
 		// restart animation if necessary
 		if (animationRunningAtLastStop) {
-			appletImplementation.startAnimation();
+			getGgbApi().startAnimation();
 		}
 
 		// request focus
@@ -122,10 +122,10 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public void stop() {
 		// stop animation and remember that it needs to be restarted later
 		if (appletImplementation != null) {
-			animationRunningAtLastStop = appletImplementation
+			animationRunningAtLastStop = getGgbApi()
 					.isAnimationRunning();
 			if (animationRunningAtLastStop) {
-				appletImplementation.stopAnimation();
+				getGgbApi().stopAnimation();
 			}
 		}
 
@@ -136,7 +136,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public void destroy() {
 		// stop animation
 		if (appletImplementation != null) {
-			appletImplementation.stopAnimation();
+			getGgbApi().stopAnimation();
 			appletImplementation.dispose();
 			appletImplementation = null;
 		}
@@ -250,7 +250,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	 */
 
 	public synchronized void deleteObject(String objName) {
-		getAppletImplementation().deleteObject(objName);
+		getGgbApi().deleteObject(objName);
 	}
 
 	public synchronized boolean evalCommand(final String cmdString) {
@@ -258,7 +258,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	}
 
 	public synchronized String evalCommandCAS(final String cmdString) {
-		return getAppletImplementation().evalCommandCAS(cmdString);
+		return getGgbApi().evalCommandCAS(cmdString);
 	}
 
 	public synchronized String evalGeoGebraCAS(final String cmdString) {
@@ -269,7 +269,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 			boolean waitForResult) {
 
 		if (waitForResult) {
-			return getAppletImplementation().evalCommand(cmdString);
+			return getGgbApi().evalCommand(cmdString);
 		}
 
 		// see #106
@@ -277,7 +277,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		try {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					getAppletImplementation().evalCommand(cmdString);
+					getGgbApi().evalCommand(cmdString);
 				}
 			});
 		} catch (Exception e) {
@@ -293,63 +293,63 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	}
 
 	public synchronized void debug(String string) {
-		getAppletImplementation().debug(string);
+		getGgbApi().debug(string);
 	}
 
 	public synchronized boolean exists(String objName) {
-		return getAppletImplementation().exists(objName);
+		return getGgbApi().exists(objName);
 	}
 
 	public synchronized String[] getAllObjectNames() {
-		return getAppletImplementation().getAllObjectNames();
+		return getGgbApi().getAllObjectNames();
 	}
 
 	public synchronized String getColor(String objName) {
-		return getAppletImplementation().getColor(objName);
+		return getGgbApi().getColor(objName);
 	}
 
 	public synchronized double getFilling(String objName) {
-		return getAppletImplementation().getFilling(objName);
+		return getGgbApi().getFilling(objName);
 	}
 
 	public synchronized int getPointStyle(String objName) {
-		return getAppletImplementation().getPointStyle(objName);
+		return getGgbApi().getPointStyle(objName);
 	}
 
 	public synchronized int getPointSize(String objName) {
-		return getAppletImplementation().getPointSize(objName);
+		return getGgbApi().getPointSize(objName);
 	}
 
 	public synchronized int getLineStyle(String objName) {
-		return getAppletImplementation().getLineStyle(objName);
+		return getGgbApi().getLineStyle(objName);
 	}
 
 	public synchronized int getLineThickness(String objName) {
-		return getAppletImplementation().getLineThickness(objName);
+		return getGgbApi().getLineThickness(objName);
 	}
 
 	public synchronized String getCommandString(String objName) {
-		return getAppletImplementation().getCommandString(objName);
+		return getGgbApi().getCommandString(objName);
 	}
 
 	public synchronized String getDefinitionString(String objName) {
-		return getAppletImplementation().getDefinitionString(objName);
+		return getGgbApi().getDefinitionString(objName);
 	}
 
 	public synchronized String getLaTeXString(String objName) {
-		return getAppletImplementation().getLaTeXString(objName);
+		return getGgbApi().getLaTeXString(objName);
 	}
 
 	public synchronized byte[] getGGBfile() {
-		return getAppletImplementation().getGGBfile();
+		return getGgbApi().getGGBfile();
 	}
 
 	public synchronized int getLayer(String objName) {
-		return getAppletImplementation().getLayer(objName);
+		return getGgbApi().getLayer(objName);
 	}
 
 	public synchronized String getObjectName(int i) {
-		return getAppletImplementation().getObjectName(i);
+		return getGgbApi().getObjectName(i);
 	}
 
 	public synchronized String getPNGBase64(double exportScale,
@@ -360,64 +360,64 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 
 	public synchronized boolean writePNGtoFile(String filename,
 			double exportScale, boolean transparent, double DPI) {
-		return getAppletImplementation().writePNGtoFile(filename, exportScale,
+		return getGgbApi().writePNGtoFile(filename, exportScale,
 				transparent, DPI);
 	}
 
 	public synchronized int getObjectNumber() {
-		return getAppletImplementation().getObjectNumber();
+		return getGgbApi().getObjectNumber();
 	}
 
 	public synchronized String getObjectType(String objName) {
-		return getAppletImplementation().getObjectType(objName);
+		return getGgbApi().getObjectType(objName);
 	}
 
 	public synchronized double getValue(String objName) {
-		return getAppletImplementation().getValue(objName);
+		return getGgbApi().getValue(objName);
 	}
 
 	public synchronized String getValueString(String objName) {
-		return getAppletImplementation().getValueString(objName);
+		return getGgbApi().getValueString(objName);
 	}
 
 	public synchronized String getXML() {
-		return getAppletImplementation().getXML();
+		return getGgbApi().getXML();
 	}
 
 	public synchronized String getBase64() {
-		return getAppletImplementation().getBase64(false);
+		return getGgbApi().getBase64(false);
 	}
 
 	public synchronized String getBase64(boolean includeThumbnail) {
-		return getAppletImplementation().getBase64(includeThumbnail);
+		return getGgbApi().getBase64(includeThumbnail);
 	}
 
 	public synchronized String getXML(String objName) {
-		return getAppletImplementation().getXML(objName);
+		return getGgbApi().getXML(objName);
 	}
 
 	public synchronized String getAlgorithmXML(String objName) {
-		return getAppletImplementation().getAlgorithmXML(objName);
+		return getGgbApi().getAlgorithmXML(objName);
 	}
 
 	public synchronized double getXcoord(String objName) {
-		return getAppletImplementation().getXcoord(objName);
+		return getGgbApi().getXcoord(objName);
 	}
 
 	public synchronized double getYcoord(String objName) {
-		return getAppletImplementation().getYcoord(objName);
+		return getGgbApi().getYcoord(objName);
 	}
 
 	public synchronized double getZcoord(String objName) {
-		return getAppletImplementation().getYcoord(objName);
+		return getGgbApi().getYcoord(objName);
 	}
 
 	public synchronized boolean isDefined(String objName) {
-		return getAppletImplementation().isDefined(objName);
+		return getGgbApi().isDefined(objName);
 	}
 
 	public synchronized boolean isIndependent(String objName) {
-		return getAppletImplementation().isIndependent(objName);
+		return getGgbApi().isIndependent(objName);
 	}
 
 	public synchronized void openFile(String strURL) {
@@ -425,73 +425,73 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	}
 
 	public synchronized void refreshViews() {
-		getAppletImplementation().refreshViews();
+		getGgbApi().refreshViews();
 	}
 
 	public synchronized void registerAddListener(String JSFunctionName) {
-		getAppletImplementation().registerAddListener(JSFunctionName);
+		getGgbApi().registerAddListener(JSFunctionName);
 	}
 
 	public synchronized void registerClearListener(String JSFunctionName) {
-		getAppletImplementation().registerClearListener(JSFunctionName);
+		getGgbApi().registerClearListener(JSFunctionName);
 	}
 
 	public synchronized void registerObjectUpdateListener(String objName,
 			String JSFunctionName) {
-		getAppletImplementation().registerObjectUpdateListener(objName,
+		getGgbApi().registerObjectUpdateListener(objName,
 				JSFunctionName);
 	}
 
 	public synchronized void registerObjectClickListener(String objName,
 			String JSFunctionName) {
-		getAppletImplementation().registerObjectClickListener(objName,
+		getGgbApi().registerObjectClickListener(objName,
 				JSFunctionName);
 	}
 
 	public synchronized void registerRemoveListener(String JSFunctionName) {
-		getAppletImplementation().registerRemoveListener(JSFunctionName);
+		getGgbApi().registerRemoveListener(JSFunctionName);
 	}
 
 	public synchronized void registerRenameListener(String JSFunctionName) {
-		getAppletImplementation().registerRenameListener(JSFunctionName);
+		getGgbApi().registerRenameListener(JSFunctionName);
 	}
 
 	public synchronized void registerUpdateListener(String JSFunctionName) {
-		getAppletImplementation().registerUpdateListener(JSFunctionName);
+		getGgbApi().registerUpdateListener(JSFunctionName);
 	}
 
 	public synchronized void registerClickListener(String JSFunctionName) {
-		getAppletImplementation().registerClickListener(JSFunctionName);
+		getGgbApi().registerClickListener(JSFunctionName);
 	}
 
 	public synchronized boolean renameObject(String oldObjName,
 			String newObjName) {
-		return getAppletImplementation().renameObject(oldObjName, newObjName);
+		return getGgbApi().renameObject(oldObjName, newObjName);
 	}
 
 	public synchronized void setAnimating(String objName, boolean animate) {
-		getAppletImplementation().setAnimating(objName, animate);
+		getGgbApi().setAnimating(objName, animate);
 	}
 
 	public synchronized void setAnimationSpeed(String objName, double speed) {
-		getAppletImplementation().setAnimationSpeed(objName, speed);
+		getGgbApi().setAnimationSpeed(objName, speed);
 	}
 
 	public synchronized void startAnimation() {
-		getAppletImplementation().startAnimation();
+		getGgbApi().startAnimation();
 	}
 
 	public synchronized void stopAnimation() {
-		getAppletImplementation().stopAnimation();
+		getGgbApi().stopAnimation();
 	}
 
 	public void hideCursorWhenDragging(boolean hideCursorWhenDragging) {
-		getAppletImplementation()
+		getGgbApi()
 				.hideCursorWhenDragging(hideCursorWhenDragging);
 	}
 
 	public synchronized boolean isAnimationRunning() {
-		return getAppletImplementation().isAnimationRunning();
+		return getGgbApi().isAnimationRunning();
 	}
 
 	public synchronized void reset() {
@@ -499,137 +499,137 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	}
 
 	public synchronized void setAxesVisible(boolean xVisible, boolean yVisible) {
-		getAppletImplementation().setAxesVisible(xVisible, yVisible);
+		getGgbApi().setAxesVisible(xVisible, yVisible);
 	}
 
 	public synchronized void setAxesVisible(int view, boolean xVisible,
 			boolean yVisible, boolean zVisible) {
-		getAppletImplementation().setAxesVisible(view, xVisible, yVisible,
+		getGgbApi().setAxesVisible(view, xVisible, yVisible,
 				zVisible);
 	}
 
 	public synchronized void setColor(String objName, int red, int green,
 			int blue) {
-		getAppletImplementation().setColor(objName, red, green, blue);
+		getGgbApi().setColor(objName, red, green, blue);
 	}
 
 	public synchronized void setCorner(String objName, double x, double y,
 			int index) {
-		getAppletImplementation().setCorner(objName, x, y, index);
+		getGgbApi().setCorner(objName, x, y, index);
 	}
 
 	public synchronized void setCorner(String objName, double x, double y) {
-		getAppletImplementation().setCorner(objName, x, y);
+		getGgbApi().setCorner(objName, x, y);
 	}
 
 	public synchronized void setLineThickness(String objName, int thickness) {
-		getAppletImplementation().setLineThickness(objName, thickness);
+		getGgbApi().setLineThickness(objName, thickness);
 	}
 
 	public synchronized void setLineStyle(String objName, int style) {
-		getAppletImplementation().setLineStyle(objName, style);
+		getGgbApi().setLineStyle(objName, style);
 	}
 
 	public synchronized void setFilling(String objName, double filling) {
-		getAppletImplementation().setFilling(objName, filling);
+		getGgbApi().setFilling(objName, filling);
 	}
 
 	public synchronized void setPointStyle(String objName, int style) {
-		getAppletImplementation().setPointStyle(objName, style);
+		getGgbApi().setPointStyle(objName, style);
 	}
 
 	public void setOnTheFlyPointCreationActive(boolean flag) {
-		getAppletImplementation().setOnTheFlyPointCreationActive(flag);
+		getGgbApi().setOnTheFlyPointCreationActive(flag);
 	}
 
 	public void setUndoPoint() {
-		getAppletImplementation().setUndoPoint();
+		getGgbApi().setUndoPoint();
 	}
 
 	public synchronized void setPointSize(String objName, int style) {
-		getAppletImplementation().setPointSize(objName, style);
+		getGgbApi().setPointSize(objName, style);
 	}
 
 	public synchronized void setCoordSystem(double xmin, double xmax,
 			double ymin, double ymax) {
-		getAppletImplementation().setCoordSystem(xmin, xmax, ymin, ymax);
+		getGgbApi().setCoordSystem(xmin, xmax, ymin, ymax);
 	}
 
 	public synchronized void setCoords(String objName, double x, double y) {
-		getAppletImplementation().setCoords(objName, x, y);
+		getGgbApi().setCoords(objName, x, y);
 	}
 
 	public synchronized void setCoords(String objName, double x, double y,
 			double z) {
-		getAppletImplementation().setCoords(objName, x, y, z);
+		getGgbApi().setCoords(objName, x, y, z);
 	}
 
 	public synchronized void setErrorDialogsActive(boolean flag) {
-		getAppletImplementation().setErrorDialogsActive(flag);
+		getGgbApi().setErrorDialogsActive(flag);
 	}
 
 	public synchronized void setFixed(String objName, boolean flag) {
-		getAppletImplementation().setFixed(objName, flag);
+		getGgbApi().setFixed(objName, flag);
 	}
 
 	public synchronized void setGridVisible(boolean flag) {
-		getAppletImplementation().setGridVisible(flag);
+		getGgbApi().setGridVisible(flag);
 	}
 
 	public synchronized void setGridVisible(int view, boolean flag) {
-		getAppletImplementation().setGridVisible(flag);
+		getGgbApi().setGridVisible(flag);
 	}
 
 	public synchronized void setLabelStyle(String objName, int style) {
-		getAppletImplementation().setLabelStyle(objName, style);
+		getGgbApi().setLabelStyle(objName, style);
 	}
 
 	public synchronized void setLabelVisible(String objName, boolean visible) {
-		getAppletImplementation().setLabelVisible(objName, visible);
+		getGgbApi().setLabelVisible(objName, visible);
 	}
 
 	public synchronized boolean getLabelVisible(String objName) {
-		return getAppletImplementation().getLabelVisible(objName);
+		return getGgbApi().getLabelVisible(objName);
 	}
 
 	public synchronized void setLayer(String objName, int layer) {
-		getAppletImplementation().setLayer(objName, layer);
+		getGgbApi().setLayer(objName, layer);
 	}
 
 	public synchronized void setLayerVisible(int layer, boolean visible) {
-		getAppletImplementation().setLayerVisible(layer, visible);
+		getGgbApi().setLayerVisible(layer, visible);
 	}
 
 	public synchronized void setMode(int mode) {
-		getAppletImplementation().setMode(mode);
+		getGgbApi().setMode(mode);
 	}
 
 	public synchronized void setRepaintingActive(boolean flag) {
-		getAppletImplementation().setRepaintingActive(flag);
+		getGgbApi().setRepaintingActive(flag);
 	}
 
 	public synchronized void setTrace(String objName, boolean flag) {
-		getAppletImplementation().setTrace(objName, flag);
+		getGgbApi().setTrace(objName, flag);
 	}
 
 	public synchronized void setValue(String objName, double x) {
-		getAppletImplementation().setValue(objName, x);
+		getGgbApi().setValue(objName, x);
 	}
 
 	public synchronized void setTextValue(String objName, String x) {
-		getAppletImplementation().setTextValue(objName, x);
+		getGgbApi().setTextValue(objName, x);
 	}
 
 	public synchronized void setListValue(String objName, double x, double y) {
-		getAppletImplementation().setListValue(objName, x, y);
+		getGgbApi().setListValue(objName, x, y);
 	}
 
 	public synchronized void setVisible(String objName, boolean visible) {
-		getAppletImplementation().setVisible(objName, visible);
+		getGgbApi().setVisible(objName, visible);
 	}
 
 	public synchronized boolean getVisible(String objName) {
-		return getAppletImplementation().getVisible(objName);
+		return getGgbApi().getVisible(objName);
 	}
 
 	public synchronized void setXML(String xml) {
@@ -637,146 +637,154 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	}
 
 	public synchronized void setBase64(String base64) {
-		getAppletImplementation().setBase64(base64);
+		getGgbApi().setBase64(base64);
 	}
 
 	public synchronized void unregisterAddListener(String JSFunctionName) {
-		getAppletImplementation().unregisterAddListener(JSFunctionName);
+		getGgbApi().unregisterAddListener(JSFunctionName);
 	}
 
 	public synchronized void unregisterClearListener(String JSFunctionName) {
-		getAppletImplementation().unregisterClearListener(JSFunctionName);
+		getGgbApi().unregisterClearListener(JSFunctionName);
 	}
 
 	public synchronized void unregisterObjectUpdateListener(String objName) {
-		getAppletImplementation().unregisterObjectUpdateListener(objName);
+		getGgbApi().unregisterObjectUpdateListener(objName);
 	}
 
 	public synchronized void unregisterObjectClickListener(String objName) {
-		getAppletImplementation().unregisterObjectClickListener(objName);
+		getGgbApi().unregisterObjectClickListener(objName);
 	}
 
 	public synchronized void registerStoreUndoListener(String objName) {
-		getAppletImplementation().registerStoreUndoListener(objName);
+		getGgbApi().registerStoreUndoListener(objName);
 	}
 
 	public synchronized void unregisterRemoveListener(String JSFunctionName) {
-		getAppletImplementation().unregisterRemoveListener(JSFunctionName);
+		getGgbApi().unregisterRemoveListener(JSFunctionName);
 	}
 
 	public synchronized void unregisterRenameListener(String JSFunctionName) {
-		getAppletImplementation().unregisterRenameListener(JSFunctionName);
+		getGgbApi().unregisterRenameListener(JSFunctionName);
 	}
 
 	public synchronized void unregisterUpdateListener(String JSFunctionName) {
-		getAppletImplementation().unregisterUpdateListener(JSFunctionName);
+		getGgbApi().unregisterUpdateListener(JSFunctionName);
 	}
 
 	public synchronized void unregisterClickListener(String JSFunctionName) {
-		getAppletImplementation().unregisterClickListener(JSFunctionName);
+		getGgbApi().unregisterClickListener(JSFunctionName);
 	}
 
 	public boolean isMoveable(String objName) {
-		return getAppletImplementation().isMoveable(objName);
+		return getGgbApi().isMoveable(objName);
 	}
 
 	public void drawToImage(String label, double[] x, double[] y) {
-		getAppletImplementation().drawToImage(label, x, y);
+		getGgbApi().drawToImage(label, x, y);
 	}
 
 	public void clearImage(String label) {
-		getAppletImplementation().clearImage(label);
+		getGgbApi().clearImage(label);
 	}
 
 	public void uploadToGeoGebraTube() {
-		getAppletImplementation().uploadToGeoGebraTube();
+		getGgbApi().uploadToGeoGebraTube();
 
 	}
 
 	public void setPenColor(int red, int green, int blue) {
-		getAppletImplementation().setPenColor(red, green, blue);
+		getGgbApi().setPenColor(red, green, blue);
 
 	}
 
 	public void setPenSize(int size) {
-		getAppletImplementation().setPenSize(size);
+		getGgbApi().setPenSize(size);
 	}
 
 	public int getPenSize() {
-		return getAppletImplementation().getPenSize();
+		return getGgbApi().getPenSize();
 	}
 
 	public String getPenColor() {
-		return getAppletImplementation().getPenColor();
+		return getGgbApi().getPenColor();
 	}
 
 	public double getListValue(String objName, int index) {
-		return getAppletImplementation().getListValue(objName, index);
+		return getGgbApi().getListValue(objName, index);
 	}
 
 	public void registerClientListener(String JSFunctionName) {
-		getAppletImplementation().registerClientListener(JSFunctionName);
+		getGgbApi().registerClientListener(JSFunctionName);
 	}
 
 	public void unregisterClientListener(String JSFunctionName) {
-		getAppletImplementation().unregisterClientListener(JSFunctionName);
+		getGgbApi().unregisterClientListener(JSFunctionName);
 	}
 
 	@Override
 	public void setPerspective(String code) {
-		getAppletImplementation().setPerspective(code);
+		getGgbApi().setPerspective(code);
 	}
 
 	@Override
 	public boolean getVisible(String objName, int view) {
-		return getAppletImplementation().getVisible(objName, view);
+		return getGgbApi().getVisible(objName, view);
 	}
 
 	public int getCASObjectNumber() {
-		return getAppletImplementation().getCASObjectNumber();
+		return getGgbApi().getCASObjectNumber();
 	}
 	
 	public int getMode(){
-		return getAppletImplementation().getMode();
+		return getGgbApi().getMode();
 	}
 
 	public float getExerciseFraction() {
-		return getAppletImplementation().getExerciseFraction();
+		return getGgbApi().getExerciseFraction();
 	}
 
 	public String getCommandString(String objName, boolean localize) {
-		return getAppletImplementation().getCommandString(objName, localize);
+		return getGgbApi().getCommandString(objName, localize);
 	}
 
 	public boolean getGridVisible(int view) {
-		return getAppletImplementation().getGridVisible(view);
+		return getGgbApi().getGridVisible(view);
 	}
 
 	public boolean getGridVisible() {
-		return getAppletImplementation().getGridVisible();
+		return getGgbApi().getGridVisible();
 	}
 
 	public int getLabelStyle(String objName) {
-		return getAppletImplementation().getLabelStyle(objName);
+		return getGgbApi().getLabelStyle(objName);
 	}
 
 	public String getCaption(String objName, boolean subst) {
-		return getAppletImplementation().getCaption(objName, subst);
+		return getGgbApi().getCaption(objName, subst);
 	}
 
 	public void setCaption(String objName, String caption) {
-		getAppletImplementation().setCaption(objName, caption);
+		getGgbApi().setCaption(objName, caption);
 	}
 
 	public String getPerspectiveXML() {
-		return getAppletImplementation().getPerspectiveXML();
+		return getGgbApi().getPerspectiveXML();
 	}
 
 	public String getVersion() {
-		return getAppletImplementation().getVersion();
+		return getGgbApi().getVersion();
 	}
 
 	public double getFrameRate() {
-		return getAppletImplementation().getFrameRate();
+		return getGgbApi().getFrameRate();
+	}
+
+	public String getDefinitionString(String objName, boolean localize) {
+		return getGgbApi().getDefinitionString(objName, localize);
+	}
+
+	private JavaScriptAPI getGgbApi() {
+		return getAppletImplementation().getGgbApi();
 	}
 }

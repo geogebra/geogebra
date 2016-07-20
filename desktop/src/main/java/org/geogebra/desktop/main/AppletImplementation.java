@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.main;
 
-import geogebra.GeoGebraAppletPreloader;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -37,8 +35,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import netscape.javascript.JSObject;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Kernel;
@@ -50,6 +46,9 @@ import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.plugin.GgbAPID;
+
+import geogebra.GeoGebraAppletPreloader;
+import netscape.javascript.JSObject;
 
 /**
  * GeoGebra applet implementation operating on a given JApplet object.
@@ -349,16 +348,12 @@ public class AppletImplementation implements AppletImplementationInterface {
 		kernel = app.getKernel();
 
 		/* Ulven 29.05.08 */
-		ggbApi = app.getGgbApi();
+		this.ggbApi = app.getGgbApi();
 	}
 
 	protected AppD buildApplication(CommandLineArguments args,
 			boolean undoActive) {
 		return new AppD(args, this, undoActive);
-	}
-
-	public AppD getApplication() {
-		return app;
 	}
 
 	/**
@@ -582,52 +577,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 * redirections to GgbApi. (Oneliners left as they are, nothing to gain...)
 	 */
 
-	/**
-	 * Returns current construction as a ggb file in form of a byte array.
-	 * 
-	 * @return null if something went wrong
-	 */
-	public synchronized byte[] getGGBfile() {
-		return ggbApi.getGGBfile(); // Ulven 29.05.08
-	}
 
-	/**
-	 * Returns current construction in XML format. May be used for saving.
-	 */
-	public synchronized String getXML() {
-		return ggbApi.getXML();
-	}
-
-	/**
-	 * Returns current construction in XML format. May be used for saving.
-	 */
-	public synchronized String getBase64() {
-		return getBase64(false);
-	}
-
-	/**
-	 * Returns current construction in XML format. May be used for saving.
-	 */
-	public synchronized String getBase64(boolean includeThumbnail) {
-		return ggbApi.getBase64(includeThumbnail);
-	}
-
-	/**
-	 * Returns the GeoGebra XML string for the given GeoElement object, i.e.
-	 * only the <element> tag is returned.
-	 */
-	public String getXML(String objName) {
-		return ggbApi.getXML(objName);
-	}
-
-	/**
-	 * For a dependent GeoElement objName the XML string of the parent algorithm
-	 * and all its output objects is returned. For a free GeoElement objName ""
-	 * is returned.
-	 */
-	public String getAlgorithmXML(String objName) {
-		return ggbApi.getAlgorithmXML(objName);
-	}
 
 	/**
 	 * Opens construction given in XML format. May be used for loading
@@ -647,7 +597,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		AccessController.doPrivileged(new PrivilegedAction<Object>() {
 			public Object run() {
 				// perform the security-sensitive operation here
-				ggbApi.setBase64(base64);
+				getGgbApi().setBase64(base64);
 				return null;
 			}
 		});
@@ -672,13 +622,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		app.setXML(sb.toString(), false);
 	}
 
-	public synchronized boolean evalCommand(final String cmdString) {
-		return app.getGgbApi().evalCommand(cmdString);
-	}
-
-	public synchronized String evalCommandCAS(final String cmdString) {
-		return ggbApi.evalCommandCAS(cmdString);
-	}
 
 	/**
 	 * Evaluates the given string as if it was entered into GeoGebra CAS's input
@@ -699,46 +642,19 @@ public class AppletImplementation implements AppletImplementationInterface {
 	 *            console
 	 * @return evaluation result in GeoGebraCAS syntax
 	 */
-	public synchronized String evalGeoGebraCAS(final String cmdString,
+	private synchronized String evalGeoGebraCAS(final String cmdString,
 			final boolean debugOutput) {
 		// avoid security problems calling from JavaScript
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 			public String run() {
-				return ggbApi.evalGeoGebraCAS(cmdString, debugOutput);
+				return getGgbApi().evalGeoGebraCAS(cmdString, debugOutput);
 			}
 		});
 	}
 
 
-	/**
-	 * prints a string to the Java Console
-	 */
-	public synchronized void debug(String string) {
-		Log.debug(string);
-	}
+	
 
-	/**
-	 * Turns on the fly creation of points in graphics view on (true) or off
-	 * (false). Note: this is useful if you don't want tools to have the side
-	 * effect of creating points. For example, when this flag is set to false,
-	 * the tool "line through two points" will not create points on the fly when
-	 * you click on the background of the graphics view.
-	 */
-	public synchronized void setOnTheFlyPointCreationActive(boolean flag) {
-		app.setOnTheFlyPointCreationActive(flag);
-	}
-
-	public synchronized void setUndoPoint() {
-		kernel.getConstruction().storeUndoInfo();
-	}
-
-	/**
-	 * Turns showing of error dialogs on (true) or (off). Note: this is
-	 * especially useful together with evalCommand().
-	 */
-	public synchronized void setErrorDialogsActive(boolean flag) {
-		app.setErrorDialogsActive(flag);
-	}
 
 	/**
 	 * Resets the initial construction (given in filename parameter) of this
@@ -794,12 +710,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 
 	}
 
-	/**
-	 * Refreshs all views. Note: clears traces in geometry window.
-	 */
-	public synchronized void refreshViews() {
-		app.refreshViews();
-	}
 
 	/**
 	 * Loads a construction from a file (given URL).
@@ -840,366 +750,14 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return borderColor;
 	}
 
-	/*
-	 * public synchronized void setLanguage(String isoLanguageString) {
-	 * app.setLanguage(new Locale(isoLanguageString)); }
-	 * 
-	 * public synchronized void setLanguage(String isoLanguageString, String
-	 * isoCountryString) { app.setLanguage(new Locale(isoLanguageString,
-	 * isoCountryString)); }
-	 */
-
-	/**
-	 * Shows or hides the object with the given name in the geometry window.
-	 */
-	public synchronized void setVisible(String objName, boolean visible) {
-		ggbApi.setVisible(objName, visible);
-	}
-
-	public synchronized boolean getVisible(String objName) {
-		return ggbApi.getVisible(objName);
-	}
-
-	/**
-	 * Sets the layer of the object with the given name in the geometry window.
-	 * Michael Borcherds 2008-02-27
-	 */
-	public synchronized void setLayer(String objName, int layer) {
-		ggbApi.setLayer(objName, layer);
-
-	}
-
-	/**
-	 * Returns the layer of the object with the given name in the geometry
-	 * window. returns layer, or -1 if object doesn't exist Michael Borcherds
-	 * 2008-02-27
-	 */
-	public synchronized int getLayer(String objName) {
-		return ggbApi.getLayer(objName);
-	}
-
-	/**
-	 * Shows or hides a complete layer Michael Borcherds 2008-02-27
-	 */
-	public synchronized void setLayerVisible(int layer, boolean visible) {
-		ggbApi.setLayerVisible(layer, visible);
-	}
-
-	/**
-	 * Sets the fixed state of the object with the given name.
-	 */
-	public synchronized void setFixed(String objName, boolean flag) {
-		ggbApi.setFixed(objName, flag);
-	}
-
-	/**
-	 * Turns the trace of the object with the given name on or off.
-	 */
-	public synchronized void setTrace(String objName, boolean flag) {
-		ggbApi.setTrace(objName, flag);
-	}
-
-	/**
-	 * Shows or hides the label of the object with the given name in the
-	 * geometry window.
-	 */
-	public synchronized void setLabelVisible(String objName, boolean visible) {
-		ggbApi.setLabelVisible(objName, visible);
-	}
-
-	public synchronized boolean getLabelVisible(String objName) {
-		return ggbApi.getLabelVisible(objName);
-	}
-	/**
-	 * Sets the label style of the object with the given name in the geometry
-	 * window. Possible label styles are NAME = 0, NAME_VALUE = 1 and VALUE = 2.
-	 */
-	public synchronized void setLabelStyle(String objName, int style) {
-		ggbApi.setLabelStyle(objName, style);
-	}
-
-	/**
-	 * Sets the color of the object with the given name.
-	 */
-	public synchronized void setColor(String objName, int red, int green,
-			int blue) {
-		ggbApi.setColor(objName, red, green, blue);
-	}
-
-	public synchronized void setCorner(String objName, double x, double y,
-			int index) {
-		ggbApi.setCorner(objName, x, y, index);
-	}
-
-	public synchronized void setCorner(String objName, double x, double y) {
-		ggbApi.setCorner(objName, x, y);
-	}
-
-	public synchronized void setLineStyle(String objName, int style) {
-		ggbApi.setLineStyle(objName, style);
-	}
-
-	public synchronized void setLineThickness(String objName, int thickness) {
-		ggbApi.setLineThickness(objName, thickness);
-	}
-
-	public synchronized void setPointStyle(String objName, int style) {
-		ggbApi.setPointStyle(objName, style);
-	}
-
-	public synchronized void setPointSize(String objName, int style) {
-		ggbApi.setPointSize(objName, style);
-	}
-
-	public synchronized void setFilling(String objName, double filling) {
-		ggbApi.setFilling(objName, filling);
-	}
-
-	/**
-	 * Returns the color of the object as an hex string. Note that the
-	 * hex-string starts with # and uses upper case letters, e.g. "#FF0000" for
-	 * red.
-	 */
-	public synchronized String getColor(String objName) {
-		return ggbApi.getColor(objName);
-	}
-
-	public synchronized double getFilling(String objName) {
-		return ggbApi.getFilling(objName);
-	}
-
-	public synchronized int getLineStyle(String objName) {
-		return ggbApi.getLineStyle(objName);
-	}
-
-	public synchronized int getLineThickness(String objName) {
-		return ggbApi.getLineThickness(objName);
-	}
-
-	public synchronized int getPointStyle(String objName) {
-		return ggbApi.getPointStyle(objName);
-	}
-
-	public synchronized int getPointSize(String objName) {
-		return ggbApi.getPointSize(objName);
-	}
-
-	/**
-	 * Deletes the object with the given name.
-	 */
-	public synchronized void deleteObject(String objName) {
-		ggbApi.deleteObject(objName);
-	}
-
-	public synchronized void setAnimating(String objName, boolean animate) {
-		ggbApi.setAnimating(objName, animate);
-	}
-
-	public synchronized void setAnimationSpeed(String objName, double speed) {
-		ggbApi.setAnimationSpeed(objName, speed);
-	}
-
-	public synchronized void startAnimation() {
-		kernel.getAnimatonManager().startAnimation();
-	}
-
-	public synchronized void stopAnimation() {
-		kernel.getAnimatonManager().stopAnimation();
-	}
-
-	public void hideCursorWhenDragging(boolean hideCursorWhenDragging) {
-		((AppD) kernel.getApplication())
-				.setUseTransparentCursorWhenDragging(hideCursorWhenDragging);
-	}
-
-	public synchronized boolean isAnimationRunning() {
-		return kernel.getAnimatonManager().isRunning();
-	}
-
-	/**
-	 * Renames an object from oldName to newName.
-	 * 
-	 * @return whether renaming worked
-	 */
-	public synchronized boolean renameObject(String oldName, String newName) {
-		return ggbApi.renameObject(oldName, newName);
-	}
-
-	/**
-	 * Returns true if the object with the given name exists.
-	 */
-	public synchronized boolean exists(String objName) {
-		return ggbApi.exists(objName);
-	}
-
-	/**
-	 * Returns true if the object with the given name has a vaild value at the
-	 * moment.
-	 */
-	public synchronized boolean isDefined(String objName) {
-		return ggbApi.isDefined(objName);
-	}
-
-	/**
-	 * Returns true if the object with the given name is independent.
-	 */
-	public synchronized boolean isIndependent(String objName) {
-		return ggbApi.isIndependent(objName);
-	}
-
-	/**
-	 * Returns the value of the object with the given name as a string.
-	 */
-	public synchronized String getValueString(String objName) {
-		return ggbApi.getValueString(objName);
-	}
-
-	/**
-	 * Returns the definition of the object with the given name as a string.
-	 */
-	public synchronized String getDefinitionString(String objName) {
-		return ggbApi.getDefinitionString(objName);
-	}
-
-	/**
-	 * Returns the definition of the object with the given name as a string.
-	 */
-	public synchronized String getLaTeXString(String objName) {
-		return ggbApi.getLaTeXString(objName);
-	}
-
-	/**
-	 * Returns the command of the object with the given name as a string.
-	 */
-	public synchronized String getCommandString(String objName) {
-		return ggbApi.getCommandString(objName);
-	}
-
-
-	public synchronized double getXcoord(String objName) {
-		return ggbApi.getXcoord(objName);
-	}
-
-	public synchronized double getYcoord(String objName) {
-		return ggbApi.getXcoord(objName);
-	}
-
-	public synchronized double getZcoord(String objName) {
-		return ggbApi.getZcoord(objName);
-	}
-
-	/**
-	 * Sets the coordinates of the object with the given name. Note: if the
-	 * specified object is not a point or a vector, nothing happens.
-	 */
-	public synchronized void setCoords(String objName, double x, double y) {
-		ggbApi.setCoords(objName, x, y);
-	}
-
-	public synchronized void setCoords(String objName, double x, double y,
-			double z) {
-		ggbApi.setCoords(objName, x, y, z);
-	}
-
-	/**
-	 * Returns the double value of the object with the given name. Note: returns
-	 * 0 if the object does not have a value.
-	 */
-	public synchronized double getValue(String objName) {
-		return ggbApi.getValue(objName);
-	}
-
-	/**
-	 * Sets the double value of the object with the given name. Note: if the
-	 * specified object is not a number, nothing happens.
-	 */
-	public synchronized void setValue(String objName, double x) {
-		ggbApi.setValue(objName, x);
-	}
-
-	public synchronized void setTextValue(String objName, String x) {
-		ggbApi.setTextValue(objName, x);
-	}
-
-	public synchronized void setListValue(String objName, double x, double y) {
-		ggbApi.setListValue(objName, x, y);
-	}
-
-	/**
-	 * Turns the repainting of all views on or off.
-	 */
-	public synchronized void setRepaintingActive(boolean flag) {
-		// Application.debug("set repainting: " + flag);
-		ggbApi.setRepaintingActive(flag);
-	}
 
 	/*
 	 * Methods to change the geometry window's properties
 	 */
 
-	/**
-	 * Sets the Cartesian coordinate system in the graphics window.
-	 */
-	public synchronized void setCoordSystem(double xmin, double xmax,
-			double ymin, double ymax) {
-		app.getEuclidianView1().setRealWorldCoordSystem(xmin, xmax, ymin, ymax);
-	}
 
-	/**
-	 * Shows or hides the x- and y-axis of the coordinate system in the graphics
-	 * window.
-	 */
-	public synchronized void setAxesVisible(boolean xVisible, boolean yVisible) {
-		ggbApi.setAxesVisible(xVisible, yVisible);
-	}
 
-	public synchronized void setAxesVisible(int view, boolean xVisible,
-			boolean yVisible, boolean zVisible) {
-		ggbApi.setAxesVisible(view, xVisible, yVisible, zVisible);
-	}
 
-	/**
-	 * Shows or hides the coordinate grid in the graphics window.
-	 */
-	public synchronized void setGridVisible(boolean flag) {
-		ggbApi.setGridVisible(flag);
-	}
-
-	/**
-	 * Shows or hides the coordinate grid in the graphics window.
-	 */
-	public synchronized void setGridVisible(int view, boolean flag) {
-		ggbApi.setGridVisible(view, flag);
-	}
-
-	/**
-	 * Returns an array with all object names.
-	 */
-	public synchronized String[] getAllObjectNames() {
-		return ggbApi.getObjNames();
-	}
-
-	/**
-	 * Returns the number of objects in the construction.
-	 */
-	public synchronized int getObjectNumber() {
-		return ggbApi.getObjNames().length;
-	}
-
-	/**
-	 * Returns the name of the n-th object of this construction.
-	 */
-	public synchronized String getObjectName(int i) {
-		return ggbApi.getObjectName(i);
-	}
-
-	/**
-	 * Returns the type of the object with the given name as a string (e.g.
-	 * point, line, circle, ...)
-	 */
-	public synchronized String getObjectType(String objName) {
-		return ggbApi.getObjectType(objName);
-	}
 
 	/**
 	 * returns a String (base-64 encoded PNG file of the Graphics View)
@@ -1211,7 +769,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 			public String run() {
 				// perform the security-sensitive operation here
-				return ggbApi.getPNGBase64(exportScale, transparent, DPI,
+				return getGgbApi().getPNGBase64(exportScale, transparent, DPI,
 						copyToClipboard);
 			}
 		});
@@ -1228,7 +786,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 				.doPrivileged(new PrivilegedAction<Boolean>() {
 					public Boolean run() {
 						// perform the security-sensitive operation here
-						return ggbApi.writePNGtoFile(filename, exportScale,
+						return getGgbApi().writePNGtoFile(filename, exportScale,
 								transparent, DPI);
 					}
 				});
@@ -1236,12 +794,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return b.booleanValue();
 	}
 
-	/**
-	 * Sets the mode of the geometry window (EuclidianView).
-	 */
-	public synchronized void setMode(int mode) {
-		app.setMode(mode);
-	}
+
 
 	public synchronized void initJavaScript() {
 
@@ -1287,208 +840,11 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return applet;
 	}
 
-	public synchronized void registerAddListener(String JSFunctionName) {
-		app.getScriptManager().registerAddListener(JSFunctionName);
+	public GgbAPID getGgbApi() {
+		return ggbApi;
 	}
 
-	public synchronized void unregisterAddListener(String JSFunctionName) {
-		app.getScriptManager().unregisterAddListener(JSFunctionName);
-	}
-
-	public synchronized void registerRemoveListener(String JSFunctionName) {
-		app.getScriptManager().registerRemoveListener(JSFunctionName);
-	}
-
-	public synchronized void unregisterRemoveListener(String JSFunctionName) {
-		app.getScriptManager().unregisterRemoveListener(JSFunctionName);
-	}
-
-	public synchronized void registerClearListener(String JSFunctionName) {
-		app.getScriptManager().registerClearListener(JSFunctionName);
-	}
-
-	public synchronized void unregisterClearListener(String JSFunctionName) {
-		app.getScriptManager().unregisterClearListener(JSFunctionName);
-	}
-
-	public synchronized void registerRenameListener(String JSFunctionName) {
-		app.getScriptManager().registerRenameListener(JSFunctionName);
-	}
-
-	public synchronized void unregisterRenameListener(String JSFunctionName) {
-		app.getScriptManager().unregisterRenameListener(JSFunctionName);
-	}
-
-	public synchronized void registerUpdateListener(String JSFunctionName) {
-		app.getScriptManager().registerUpdateListener(JSFunctionName);
-	}
-
-	public synchronized void unregisterUpdateListener(String JSFunctionName) {
-		app.getScriptManager().unregisterUpdateListener(JSFunctionName);
-	}
-
-	public synchronized void registerObjectUpdateListener(String objName,
-			String JSFunctionName) {
-		app.getScriptManager().registerObjectUpdateListener(objName,
-				JSFunctionName);
-	}
-
-	public synchronized void unregisterObjectUpdateListener(String objName) {
-		app.getScriptManager().unregisterObjectUpdateListener(objName);
-	}
-
-	public synchronized void registerClickListener(String JSFunctionName) {
-		app.getScriptManager().registerClickListener(JSFunctionName);
-	}
-
-	public synchronized void unregisterClickListener(String JSFunctionName) {
-		app.getScriptManager().unregisterClickListener(JSFunctionName);
-	}
-
-	public synchronized void registerObjectClickListener(String objName,
-			String JSFunctionName) {
-		app.getScriptManager().registerObjectClickListener(objName,
-				JSFunctionName);
-	}
-
-	public synchronized void unregisterObjectClickListener(String objName) {
-		app.getScriptManager().unregisterObjectClickListener(objName);
-	}
-
-	public boolean isMoveable(String objName) {
-		return ggbApi.isMoveable(objName);
-	}
-
-	public void drawToImage(String label, double[] x, double[] y) {
-		ggbApi.drawToImage(label, x, y);
-
-	}
-
-	public void clearImage(String label) {
-		ggbApi.clearImage(label);
-	}
-
-	public void uploadToGeoGebraTube() {
-		app.uploadToGeoGebraTube();
-
-	}
-
-	public void setPenColor(int red, int green, int blue) {
-		ggbApi.setPenColor(red, green, blue);
-
-	}
-
-	public void setPenSize(int size) {
-		ggbApi.setPenSize(size);
-	}
-
-	public int getPenSize() {
-		return ggbApi.getPenSize();
-	}
-
-	public String getPenColor() {
-		return ggbApi.getPenColor();
-	}
-
-	public double getListValue(String objName, int index) {
-		return ggbApi.getListValue(objName, index);
-	}
-
-	/**
-	 * evaluates a JavaScript command which should return an array eg ["hello"]
-	 * the String is then returned by this method
-	 * 
-	 * @param exp
-	 *            JavaScript expression
-	 * @return result from JavaScript call as String
-	 */
-	public String evalJS(String exp) {
-
-		/*
-		 * JSObject window = JSObject.getWindow(applet);
-		 * 
-		 * // get an object from JavaScript and retrieve its contents Object ob
-		 * = window.eval(exp);
-		 * 
-		 * if (ob == null) { return null; }
-		 * 
-		 * if (ob instanceof JSObject) { return ((JSObject)
-		 * ob).getSlot(0).toString(); }
-		 * 
-		 * return ob.toString();
-		 */
-		return null;
-	}
-
-	public void registerStoreUndoListener(String objName) {
-		ggbApi.registerStoreUndoListener(objName);
-
-	}
-
-	public void registerClientListener(String JSFunctionName) {
-		ggbApi.registerClientListener(JSFunctionName);
-	}
-
-	public void unregisterClientListener(String JSFunctionName) {
-		ggbApi.unregisterClientListener(JSFunctionName);
-	}
-
-	@Override
-	public void setPerspective(String s) {
-		ggbApi.setPerspective(s);
-	}
-
-	@Override
-	public boolean getVisible(String objName, int view) {
-		return ggbApi.getVisible(objName, view);
-	}
-
-	@Override
-	public int getCASObjectNumber() {
-		return ggbApi.getCASObjectNumber();
-	}
-
-	public int getMode() {
-		return ggbApi.getMode();
-	}
-
-	public float getExerciseFraction() {
-		return ggbApi.getExerciseFraction();
-	}
-
-	public String getCommandString(String objName, boolean localize) {
-		return ggbApi.getCommandString(objName, localize);
-	}
-
-	public boolean getGridVisible(int view) {
-		return ggbApi.getGridVisible(view);
-	}
-
-	public boolean getGridVisible() {
-		return ggbApi.getGridVisible();
-	}
-
-	public int getLabelStyle(String objName) {
-		return ggbApi.getLabelStyle(objName);
-	}
-
-	public String getCaption(String objName, boolean subst) {
-		return ggbApi.getCaption(objName, subst);
-	}
-
-	public void setCaption(String objName, String caption) {
-		ggbApi.setCaption(objName, caption);
-	}
-
-	public String getPerspectiveXML() {
-		return ggbApi.getPerspectiveXML();
-	}
-
-	public String getVersion() {
-		return ggbApi.getVersion();
-	}
-
-	public double getFrameRate() {
-		return ggbApi.getFrameRate();
+	private void setGgbApi(GgbAPID ggbApi) {
+		this.ggbApi = ggbApi;
 	}
 }

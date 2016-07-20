@@ -933,11 +933,18 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * Returns the definition of the object with the given name as a string.
 	 */
 	public synchronized String getDefinitionString(String objName) {
+		return getDefinitionString(objName, true);
+	}
+
+	public synchronized String getDefinitionString(String objName,
+			boolean localize) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) {
 			return "";
 		}
-		return geo.getDefinitionDescription(StringTemplate.defaultTemplate);
+		return geo.getDefinitionDescription(
+				localize ? StringTemplate.defaultTemplate
+						: StringTemplate.noLocalDefault);
 	}
 
 	/**
@@ -955,16 +962,20 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * Returns the command of the object with the given name as a string.
 	 */
 	public synchronized String getCommandString(String objName) {
-		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null)
-			return "";
-		return geo.getDefinition(StringTemplate.defaultTemplate);
+		return getCommandString(objName, true);
 	}
 
 	public synchronized String getCommandString(String objName, boolean localize) {
+
 		GeoElement geo = kernel.lookupLabel(objName);
+		Log.debug(geo);
 		if (geo == null)
 			return "";
+		if (geo instanceof GeoCasCell) {
+			return geo.getDefinitionDescription(
+					localize ? StringTemplate.defaultTemplate
+							: StringTemplate.noLocalDefault);
+		}
 		return geo
 				.getDefinition(localize ? StringTemplate.defaultTemplate
 						: StringTemplate.noLocalDefault);

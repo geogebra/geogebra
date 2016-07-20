@@ -408,6 +408,11 @@ public interface JavaScriptAPI {
 	public String getDefinitionString(String objName);
 
 	/**
+	 * Returns the definition of the object with the given name as a string.
+	 */
+	public String getDefinitionString(String objName, boolean localize);
+
+	/**
 	 * Returns the object with the given name as a LaTeX string.
 	 */
 	public String getLaTeXString(String objName);
