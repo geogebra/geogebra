@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.font.GTextLayout;
@@ -191,19 +192,22 @@ public class DrawAxis {
 
 			// label of x axis
 			if (view.axesLabels[0] != null) {
+				GFont font = view.getFontLine()
+						.deriveFont(view.axesLabelsStyle[0]);
 				GTextLayout layout = AwtFactory.prototype.newTextLayout(
-						view.axesLabels[0],
-						view.getFontLine().deriveFont(view.axesLabelsStyle[0]),
-						frc);
+						view.axesLabels[0], font, frc);
 				if (!view.axesLabels[0].contains("_")) {
 					layout.draw(g2,
 							(int) (view.getWidth() - 10 - layout.getAdvance()),
 							(int) (yCrossPix - 4));
 				} else {
+					GFont old = g2.getFont();
+					g2.setFont(font);
 					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 							view.axesLabels[0],
 							view.getWidth() - 10 - layout.getAdvance(),
 							(int) (yCrossPix - 4), false, false);
+					g2.setFont(old);
 				}
 			}
 
@@ -414,18 +418,23 @@ public class DrawAxis {
 
 			// label of y axis
 			if (view.axesLabels[1] != null) {
+				GFont font = view.getFontLine()
+						.deriveFont(view.axesLabelsStyle[1]);
 				GTextLayout layout = AwtFactory.prototype.newTextLayout(
 						view.axesLabels[1],
-						view.getFontLine().deriveFont(view.axesLabelsStyle[1]),
+						font,
 						frc);
 				if (!view.axesLabels[1].contains("_")) {
 				layout.draw(g2, (int) (xCrossPix + 5),
 						(int) (5 + layout.getAscent()));
 				}else{
+					GFont old = g2.getFont();
+					g2.setFont(font);
 					EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 							view.axesLabels[1],
 							(int) (xCrossPix + 5),
 							(int) (5 + layout.getAscent()), false, false);
+					g2.setFont(old);
 				}
 			}
 
