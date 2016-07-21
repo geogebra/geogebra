@@ -16,6 +16,7 @@ import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
@@ -62,6 +63,7 @@ public class SpreadsheetMouseListener implements MouseListener,
 
 		GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
 		if (point != null) {
+
 
 			if (doubleClick) {
 
@@ -178,8 +180,19 @@ public class SpreadsheetMouseListener implements MouseListener,
 	public void mouseExited(MouseEvent e) {
 	}
 
+	public boolean isButtonClicked(MouseEvent e) {
+		int row = table.rowAtPoint(e.getPoint());
+		int col = table.columnAtPoint(e.getPoint());
+		GeoElement geo = (GeoElement) model.getValueAt(row, col);
+		return (editor != null && geo instanceof GeoButton);
+
+	}
+
 	public void mousePressed(MouseEvent e) {
 
+		if (isButtonClicked(e)) {
+			return;
+		}
 		if (!view.hasViewFocus())
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
