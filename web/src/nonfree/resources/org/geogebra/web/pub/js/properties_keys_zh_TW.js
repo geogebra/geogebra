@@ -1391,6 +1391,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Dilate.Factor": "\u7e2e\u653e\u500d\u7387",
     "DilateFromPoint": "\u4f38\u7e2e",
     "DilateFromPoint.Help": "\u8acb\u9078\u8981\u7e2e\u653e\u7684\u7269\u4ef6\u3001\u7e2e\u653e\u4e2d\u5fc3\u3001\u518d\u6307\u5b9a\u7e2e\u653e\u6bd4\u4f8b",
+    "Discard": "Discard",
     "Discrete": "\u96e2\u6563",
     "Distance": "\u6e2c\u91cf\u8ddd\u96e2",
     "Distance.Help": "\u6e2c\u91cf\u4e0b\u5217\u7684\u8ddd\u96e2\uff1a(1)\u5169\u9ede (2)\u5169\u7dda (3)\u9ede\u5230\u7dda (4)\u7dda\u6bb5 (5) \u5713\u5468\u9577",

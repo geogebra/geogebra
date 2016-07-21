@@ -1391,6 +1391,7 @@ __GGB__keysVar.et.menu = {
     "Dilate.Factor": "Tegur",
     "DilateFromPoint": "Objekti homoteetsusteisendus punktist",
     "DilateFromPoint.Help": "Valige objekt, mida soovite teisendada, siis keskpunkt ja sisestage tegur",
+    "Discard": "Discard",
     "Discrete": "Diskreetne",
     "Distance": "Kaugus v\xf5i pikkus",
     "Distance.Help": "Valige kaks punkti, l\xf5ik, hulknurk v\xf5i ring",

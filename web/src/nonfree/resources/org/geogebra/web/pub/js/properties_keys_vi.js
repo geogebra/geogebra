@@ -1391,6 +1391,7 @@ __GGB__keysVar.vi.menu = {
     "Dilate.Factor": "Y\u1ebfu t\u1ed1",
     "DilateFromPoint": "Ph\xe9p v\u1ecb t\u1ef1",
     "DilateFromPoint.Help": "Ch\u1ecdn \u0111\u1ed1i t\u01b0\u1ee3ng, t\xe2m v\u1ecb t\u1ef1 v\xe0 nh\u1eadp v\xe0o t\u1ec9 s\u1ed1 v\u1ecb t\u1ef1",
+    "Discard": "Discard",
     "Discrete": "Kh\xf4ng li\xean t\u1ee5c",
     "Distance": "Kho\u1ea3ng c\xe1ch",
     "Distance.Help": "Ch\u1ecdn 2 \u0111i\u1ec3m ho\u1eb7c 1 \u0111i\u1ec3m v\xe0 1 \u0111\u01b0\u1eddng th\u1eb3ng",

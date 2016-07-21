@@ -1391,6 +1391,7 @@ __GGB__keysVar.ca.menu = {
     "Dilate.Factor": "Factor",
     "DilateFromPoint": "Homot\xe8cia",
     "DilateFromPoint.Help": "Seleccioneu l'objecte original i el centre d'homot\xe8cia i entreu la ra\xf3",
+    "Discard": "Discard",
     "Discrete": "Discreta",
     "Distance": "Longitud, per\xedmetre o dist\xe0ncia",
     "Distance.Help": "Seleccioneu un objecte o dos objectes adequats",

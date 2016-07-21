@@ -1391,6 +1391,7 @@ __GGB__keysVar.sv.menu = {
     "Dilate.Factor": "Skalfaktor",
     "DilateFromPoint": "Utvidga objekt fr\xe5n punkt med faktor",
     "DilateFromPoint.Help": "Objekt att utvidga, d\xe4refter punkt och faktor",
+    "Discard": "Discard",
     "Discrete": "Diskret",
     "Distance": "Avst\xe5nd eller l\xe4ngd",
     "Distance.Help": "Tv\xe5 punkter, str\xe4cka, polygon eller cirkel",

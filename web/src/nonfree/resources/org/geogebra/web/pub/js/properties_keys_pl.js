@@ -1391,6 +1391,7 @@ __GGB__keysVar.pl.menu = {
     "Dilate.Factor": "Czynnik",
     "DilateFromPoint": "Jednok\u0142adno\u015b\u0107",
     "DilateFromPoint.Help": "Wybierz obiekt do jednok\u0142adno\u015bci, punkt - \u015brodek jednok\u0142adno\u015bci i wprowad\u017a skal\u0119",
+    "Discard": "Discard",
     "Discrete": "Dyskretny",
     "Distance": "Odleg\u0142o\u015b\u0107 lub d\u0142ugo\u015b\u0107",
     "Distance.Help": "Wybierz dwa punkty, odcinek, wielok\u0105t lub okr\u0105g",

@@ -1391,6 +1391,7 @@ __GGB__keysVar.tr.menu = {
     "Dilate.Factor": "\xd6l\xe7ek",
     "DilateFromPoint": "Nesneyi noktadan geni\u015flet",
     "DilateFromPoint.Help": "Geni\u015fletilecek nesne, sonra merkez nokta ve oran",
+    "Discard": "Discard",
     "Discrete": "S\xfcreksiz",
     "Distance": "Uzakl\u0131k veya uzunluk",
     "Distance.Help": "2 nokta, do\u011fru par\xe7as\u0131, \xe7okgen veya \xe7ember",

@@ -1391,6 +1391,7 @@ __GGB__keysVar.hu.menu = {
     "Dilate.Factor": "T\xe9nyez\u0151",
     "DilateFromPoint": "Centr\xe1lis ny\xfajt\xe1s",
     "DilateFromPoint.Help": "A ny\xfajtand\xf3 alakzat, majd a k\xf6z\xe9ppont, v\xe9g\xfcl az ar\xe1ny megad\xe1sa",
+    "Discard": "Discard",
     "Discrete": "Diszkr\xe9t",
     "Distance": "T\xe1vols\xe1g",
     "Distance.Help": "K\xe9t pont, szakasz, soksz\xf6g vagy k\xf6r kijel\xf6l\xe9se",

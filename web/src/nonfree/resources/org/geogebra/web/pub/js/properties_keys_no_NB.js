@@ -1391,6 +1391,7 @@ __GGB__keysVar.no_NB.menu = {
     "Dilate.Factor": "Faktor",
     "DilateFromPoint": "Forst\xf8rr objekt fra punkt",
     "DilateFromPoint.Help": "Velg objekt, utgangspunkt og deretter faktor",
+    "Discard": "Discard",
     "Discrete": "Separerte",
     "Distance": "Avstand eller lengde",
     "Distance.Help": "Velg to punkt, et linjestykke, en mangekant eller en sirkel",

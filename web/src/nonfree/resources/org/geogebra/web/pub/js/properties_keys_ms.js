@@ -1391,6 +1391,7 @@ __GGB__keysVar.ms.menu = {
     "Dilate.Factor": "Faktor",
     "DilateFromPoint": "Pembesaran Objek dari Titik",
     "DilateFromPoint.Help": "Pilih objek untuk pembesaran, kemudian pusat, dan masukkan faktor",
+    "Discard": "Discard",
     "Discrete": "Diskret",
     "Distance": "Jarak atau Panjang",
     "Distance.Help": "Pilih dua titik, segmen, poligon, atau bulatan",

@@ -1391,6 +1391,7 @@ __GGB__keysVar.fi.menu = {
     "Dilate.Factor": "Kerroin",
     "DilateFromPoint": "Venyt\xe4 pisteen suhteen annetulla kertoimella",
     "DilateFromPoint.Help": "Valitse venytett\xe4v\xe4 objekti, sitten keskipiste, ja sy\xf6t\xe4 venytyskerroin",
+    "Discard": "Discard",
     "Discrete": "Diskreetti",
     "Distance": "Et\xe4isyys tai pituus",
     "Distance.Help": "Valitse kaksi pistett\xe4, jana, monikulmio tai ympyr\xe4",

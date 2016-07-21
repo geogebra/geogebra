@@ -1391,6 +1391,7 @@ __GGB__keysVar.sr.menu = {
     "Dilate.Factor": "Faktor",
     "DilateFromPoint": "Homotetija sa centrom i koeficijentom",
     "DilateFromPoint.Help": "Izaberite objekat za homotetiju, zatim centar i koeficijent",
+    "Discard": "Discard",
     "Discrete": "Diskretno",
     "Distance": "Rastojanje",
     "Distance.Help": "Izaberite dve ta\u010dke, du\u017e, mnogougao ili krug",

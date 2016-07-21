@@ -1391,6 +1391,7 @@ __GGB__keysVar.en_GB.menu = {
     "Dilate.Factor": "Scale Factor",
     "DilateFromPoint": "Enlarge from Point",
     "DilateFromPoint.Help": "Select object to enlarge, then centre point and enter factor",
+    "Discard": "Discard",
     "Discrete": "Discrete",
     "Distance": "Distance or Length",
     "Distance.Help": "Select two points, segment, polygon, or circle",

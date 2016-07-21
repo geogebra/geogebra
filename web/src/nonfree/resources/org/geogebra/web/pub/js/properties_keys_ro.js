@@ -1391,6 +1391,7 @@ __GGB__keysVar.ro.menu = {
     "Dilate.Factor": "Factor",
     "DilateFromPoint": "Dilata\u0163i obiectul fa\u0163\u0103 de un punct, cu factorul de dilatare",
     "DilateFromPoint.Help": "Selecta\u0163i obiectul de dilatat, punctul central \u015fi introduce\u0163i factorul de dilatare",
+    "Discard": "Discard",
     "Discrete": "Discret",
     "Distance": "Distan\u0163\u0103 sau lungime",
     "Distance.Help": "Selecta\u0163i dou\u0103 puncte, un segment, un poligon sau un cerc",

@@ -1391,6 +1391,7 @@ __GGB__keysVar.tg.menu = {
     "Dilate.Factor": "Factor",
     "DilateFromPoint": "Dilate from Point",
     "DilateFromPoint.Help": "Select object to dilate, then center point, and enter factor",
+    "Discard": "Discard",
     "Discrete": "Discrete",
     "Distance": "Distance or Length",
     "Distance.Help": "Select two points, segment, polygon, or circle",

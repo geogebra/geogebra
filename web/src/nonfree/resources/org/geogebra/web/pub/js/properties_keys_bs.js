@@ -1391,6 +1391,7 @@ __GGB__keysVar.bs.menu = {
     "Dilate.Factor": "Faktor",
     "DilateFromPoint": "Homotetija figure iz ta\u010dke",
     "DilateFromPoint.Help": "Ozna\u010dite figuru koju \u017eelite homoteti\u010dno da preslikate, zatim ta\u010dku-centar homotetije i unesite vrijednost koeficijenta homotetije",
+    "Discard": "Discard",
     "Discrete": "Diskretno",
     "Distance": "Udaljenost ili Du\u017eina",
     "Distance.Help": "Ozna\u010dite dvije ta\u010dke, du\u017e, mnogougao ili kru\u017enicu",

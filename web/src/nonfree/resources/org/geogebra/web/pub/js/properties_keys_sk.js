@@ -1391,6 +1391,7 @@ __GGB__keysVar.sk.menu = {
     "Dilate.Factor": "Koeficient rovnolah\u013eosti",
     "DilateFromPoint": "Rovnoha\u013ehos\u0165",
     "DilateFromPoint.Help": "Vyzna\u010d objekt, potom stred a koeficient rovno\u013eahlosti!",
+    "Discard": "Discard",
     "Discrete": "diskr\xe9tna",
     "Distance": "Vzdialenos\u0165 alebo d\u013a\u017eka",
     "Distance.Help": "Vyzna\u010d dva body, \xfase\u010dku, mnohouholn\xedk alebo kru\u017enicu!",

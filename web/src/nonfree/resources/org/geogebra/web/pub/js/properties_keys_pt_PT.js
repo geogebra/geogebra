@@ -1391,6 +1391,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Dilate.Factor": "Raz\xe3o",
     "DilateFromPoint": "Homotetia (Centro, Raz\xe3o)",
     "DilateFromPoint.Help": "Selecione objeto depois o centro e em seguida digite a raz\xe3o da homotetia",
+    "Discard": "Discard",
     "Discrete": "Discreta",
     "Distance": "Dist\xe2ncia ou Comprimento",
     "Distance.Help": "Selecione dois pontos, segmento de reta, pol\xedgono ou circunfer\xeancia",

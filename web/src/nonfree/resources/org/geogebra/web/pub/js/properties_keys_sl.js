@@ -1391,6 +1391,7 @@ __GGB__keysVar.sl.menu = {
     "Dilate.Factor": "Faktor",
     "DilateFromPoint": "Razteg od to\u010dke",
     "DilateFromPoint.Help": "Objekt za razteg, nato sredi\u0161\u010dna to\u010dka in faktor raztega",
+    "Discard": "Discard",
     "Discrete": "Diskretno",
     "Distance": "Razdalja ali dol\u017eina",
     "Distance.Help": "Dve to\u010dki, daljica, mnogokotnik ali kro\u017enica",

@@ -1391,6 +1391,7 @@ __GGB__keysVar.sq.menu = {
     "Dilate.Factor": "Faktor",
     "DilateFromPoint": "Zmadhoj objekt nga Pika me nje faktor",
     "DilateFromPoint.Help": "Zgjidh objekt per ta zmadhuar, pastaj qendren dhe fut faktorin",
+    "Discard": "Discard",
     "Discrete": "Diskrete",
     "Distance": "Distance",
     "Distance.Help": "Zgjidh dy pika, segment, poligon, ose rreth",

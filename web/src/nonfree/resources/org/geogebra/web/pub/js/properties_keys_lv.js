@@ -1391,6 +1391,7 @@ __GGB__keysVar.lv.menu = {
     "Dilate.Factor": "Faktors",
     "DilateFromPoint": "Izplest no Punkta",
     "DilateFromPoint.Help": "Izv\u0113l\u0113ties objektu izple\u0161anai, tad centra punktu, un ievad\u012bt faktoru",
+    "Discard": "Discard",
     "Discrete": "Diskr\u0113ts",
     "Distance": "Att\u0101lums vai garums",
     "Distance.Help": "Izv\u0113lies divus punktus, nogriezni, daudzst\u016bri vai ri\u0146\u0137a l\u012bniju",

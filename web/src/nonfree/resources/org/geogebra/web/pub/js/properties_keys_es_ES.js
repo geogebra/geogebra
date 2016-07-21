@@ -1391,6 +1391,7 @@ __GGB__keysVar.es_ES.menu = {
     "Dilate.Factor": "Factor de escala",
     "DilateFromPoint": "Homotecia",
     "DilateFromPoint.Help": "Elige en este orden: objeto a escalar, centro de homotecia y factor de escala",
+    "Discard": "Discard",
     "Discrete": "Discreta",
     "Distance": "Distancia o Longitud",
     "Distance.Help": "Elige dos puntos, o un segmento o un pol\xedgono o una c\xf3nica",

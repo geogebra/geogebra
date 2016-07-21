@@ -1391,6 +1391,7 @@ __GGB__keysVar.gl.menu = {
     "Dilate.Factor": "Factor de escala",
     "DilateFromPoint": "Homotecia dun obxecto dende un punto por un factor",
     "DilateFromPoint.Help": "Escoller o obxecto a dilatar, despois o centro, e inserir o factor",
+    "Discard": "Discard",
     "Discrete": "Discreta",
     "Distance": "Distancia ou lonxitude",
     "Distance.Help": "Escoller dous puntos, segmento, pol\xedgono ou circunferencia",

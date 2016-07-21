@@ -1391,6 +1391,7 @@ __GGB__keysVar.de.menu = {
     "Dilate.Factor": "Faktor",
     "DilateFromPoint": "Strecke zentrisch von Punkt aus",
     "DilateFromPoint.Help": "W\xe4hlen Sie das zu streckende Objekt und dann einen Punkt. Geben Sie anschlie\xdfend den Streckungsfaktor ein.",
+    "Discard": "Discard",
     "Discrete": "Diskret",
     "Distance": "Abstand oder L\xe4nge",
     "Distance.Help": "W\xe4hlen Sie zwei Punkte, eine Strecke, ein Vieleck oder einen Kreis.",

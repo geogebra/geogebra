@@ -1391,6 +1391,7 @@ __GGB__keysVar.pt.menu = {
     "Dilate.Factor": "Fator",
     "DilateFromPoint": "Homotetia",
     "DilateFromPoint.Help": "Selecione o objeto, depois o centro e, ent\xe3o, a raz\xe3o da homotetia",
+    "Discard": "Discard",
     "Discrete": "Discreta",
     "Distance": "Dist\xe2ncia, Comprimento ou Per\xedmetro",
     "Distance.Help": "Selecione dois pontos, um segmento, um pol\xedgono ou um c\xedrculo",

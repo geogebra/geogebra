@@ -1391,6 +1391,7 @@ __GGB__keysVar.eo.menu = {
     "Dilate.Factor": "Rilato",
     "DilateFromPoint": "Homotetio",
     "DilateFromPoint.Help": "Elektu objekton kaj homotetian centron, kaj enigu rilaton",
+    "Discard": "Discard",
     "Discrete": "Diskreta",
     "Distance": "Distanco a\u016d longo",
     "Distance.Help": "Elektu du punktojn, strekon, plurlateron a\u016d cirklon",

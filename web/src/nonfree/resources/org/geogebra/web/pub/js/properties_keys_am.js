@@ -1391,6 +1391,7 @@ __GGB__keysVar.am.menu = {
     "Dilate.Factor": "Factor",
     "DilateFromPoint": "\u12ad\u134d\u1270\u1275",
     "DilateFromPoint.Help": "Select object to dilate, then center point, and enter factor",
+    "Discard": "Discard",
     "Discrete": "Discrete",
     "Distance": "\u12e8\u122d\u1240\u1275 \u12c8\u12ed\u121d \u122d\u12dd\u1218\u1275",
     "Distance.Help": "Select two points, segment, polygon, or circle",

@@ -1391,6 +1391,7 @@ __GGB__keysVar.lt.menu = {
     "Dilate.Factor": "Koeficientas",
     "DilateFromPoint": "I\u0161pl\u0117sti objekt\u0105",
     "DilateFromPoint.Help": "Pasirinkite objekt\u0105 kur\u012f norite i\u0161pl\u0117sti, tuomet centro ta\u0161k\u0105 ir \u012fveskite faktori\u0173",
+    "Discard": "Discard",
     "Discrete": "Diskretus",
     "Distance": "Atstumas arba ilgis",
     "Distance.Help": "Pasirinkite du ta\u0161kus, atkarp\u0105, daugiakamp\u012f ar apskritim\u0105",

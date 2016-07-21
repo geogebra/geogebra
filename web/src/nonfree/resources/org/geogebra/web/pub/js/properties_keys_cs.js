@@ -1391,6 +1391,7 @@ __GGB__keysVar.cs.menu = {
     "Dilate.Factor": "Koeficient zkreslen\xed",
     "DilateFromPoint": "Stejnolehlost",
     "DilateFromPoint.Help": "Objekt-vzor, st\u0159ed stejnolehlosti a koeficient",
+    "Discard": "Discard",
     "Discrete": "Diskr\xe9tn\xed",
     "Distance": "Vzd\xe1lenost",
     "Distance.Help": "Dva body, \xfase\u010dka nebo kru\u017enice",

@@ -1391,6 +1391,7 @@ __GGB__keysVar.da.menu = {
     "Dilate.Factor": "Faktor",
     "DilateFromPoint": "Zoom objekt om punkt",
     "DilateFromPoint.Help": "Klik p\xe5 det obejkt som skal forst\xf8rres, og klik s\xe5 p\xe5 punktet det skal forst\xf8rres ud fra og angiv forst\xf8rrelsesfaktoren",
+    "Discard": "Discard",
     "Discrete": "Diskret",
     "Distance": "L\xe6ngde",
     "Distance.Help": "Klik p\xe5 to punkter eller punkt og linje",

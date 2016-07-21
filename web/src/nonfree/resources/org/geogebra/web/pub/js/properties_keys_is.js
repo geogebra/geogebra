@@ -1391,6 +1391,7 @@ __GGB__keysVar.is.menu = {
     "Dilate.Factor": "\xde\xe1ttur",
     "DilateFromPoint": "Str\xedkka hlut fr\xe1 punkti me\xf0 \xfe\xe6tti",
     "DilateFromPoint.Help": "Velji\xf0 hlut a\xf0 str\xedkka, svo mi\xf0ju og sl\xe1i\xf0 inn str\xedkkunar\xfe\xe1tt",
+    "Discard": "Discard",
     "Discrete": "Strj\xe1lt",
     "Distance": "Fjarl\xe6g\xf0 e\xf0a lengd",
     "Distance.Help": "Velji\xf0 tvo punkta, l\xednustrik, marghyrning e\xf0a hring",

@@ -1391,6 +1391,7 @@ __GGB__keysVar.hr.menu = {
     "Dilate.Factor": "Faktor",
     "DilateFromPoint": "Rastezanje objekta iz to\u010dke",
     "DilateFromPoint.Help": "Odaberite objekt, zatim sredi\u0161te i faktor rastezanja",
+    "Discard": "Discard",
     "Discrete": "Diskretan",
     "Distance": "Udaljenost ili duljina",
     "Distance.Help": "Odaberite dvije to\u010dke, du\u017einu, mnogokut ili kru\u017enicu",

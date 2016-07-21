@@ -1391,6 +1391,7 @@ __GGB__keysVar.es_UY.menu = {
     "Dilate.Factor": "Raz\xf3n",
     "DilateFromPoint": "Homotecia",
     "DilateFromPoint.Help": "Objeto, centro y raz\xf3n de homotecia",
+    "Discard": "Discard",
     "Discrete": "Discreta",
     "Distance": "Distancia o longitud",
     "Distance.Help": "Dos puntos, segmento, pol\xedgono o c\xf3nica",

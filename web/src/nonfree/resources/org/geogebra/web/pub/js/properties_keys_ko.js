@@ -1391,6 +1391,7 @@ __GGB__keysVar.ko.menu = {
     "Dilate.Factor": "\ud655\ub300\ube44\uc728",
     "DilateFromPoint": "\uc810\uc73c\ub85c\ubd80\ud130 \ub300\uc0c1\uc744 \ud655\ub300",
     "DilateFromPoint.Help": "\ud655\ub300\ud560 \ub300\uc0c1\uc744 \uc120\ud0dd\ud558\uace0, \uc911\uc2ec \uc810\uc744 \uc120\ud0dd \ud6c4, \ube44\uc728\uc744 \uc785\ub825\ud558\uc138\uc694",
+    "Discard": "Discard",
     "Discrete": "\uc774\uc0b0",
     "Distance": "\uac70\ub9ac \ub610\ub294 \uae38\uc774",
     "Distance.Help": "\ub450 \uc810, \uc120\ubd84, \ub2e4\uac01\ud615 \ub610\ub294 \uc6d0\uc744 \uc120\ud0dd\ud558\uc138\uc694",

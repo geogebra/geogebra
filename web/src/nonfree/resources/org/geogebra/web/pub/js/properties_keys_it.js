@@ -1391,6 +1391,7 @@ __GGB__keysVar.it.menu = {
     "Dilate.Factor": "Rapporto",
     "DilateFromPoint": "Omotetia",
     "DilateFromPoint.Help": "Selezionare l'oggetto da dilatare, quindi il centro e digitare il rapporto di omotetia",
+    "Discard": "Discard",
     "Discrete": "Discreto",
     "Distance": "Distanza o lunghezza",
     "Distance.Help": "Selezionare due punti, un segmento, un poligono o una circonferenza",

@@ -1391,6 +1391,7 @@ __GGB__keysVar.tl.menu = {
     "Dilate.Factor": "Factor",
     "DilateFromPoint": "Dilate Object from Point by Factor",
     "DilateFromPoint.Help": "Pumili ng object na ida-dilate, pagkatapos center point, at i-enter ang factor",
+    "Discard": "Discard",
     "Discrete": "Discrete",
     "Distance": "Distance or Length",
     "Distance.Help": "Pumili ng 2 points, segment, polygon, or circle",

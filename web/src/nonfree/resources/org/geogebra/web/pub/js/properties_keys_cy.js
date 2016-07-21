@@ -1391,6 +1391,7 @@ __GGB__keysVar.cy.menu = {
     "Dilate.Factor": "Ffactor",
     "DilateFromPoint": "Helaethu gwrthrych o bwynt yn \xf4l ffactor",
     "DilateFromPoint.Help": "Dewis y gwrthrych i'w helaethu ac yna nodi'r ffactor",
+    "Discard": "Discard",
     "Discrete": "Arwahanol",
     "Distance": "Pellter neu hyd",
     "Distance.Help": "Dewis dau bwynt, segment, polygon neu gylch",

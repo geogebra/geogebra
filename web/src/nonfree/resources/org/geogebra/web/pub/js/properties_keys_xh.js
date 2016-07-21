@@ -1391,6 +1391,7 @@ __GGB__keysVar.xh.menu = {
     "Dilate.Factor": "uMahluli",
     "DilateFromPoint": "Khulisa ukusuka kwichaphaza",
     "DilateFromPoint.Help": "Khetha into ozakuyikhulisa, ulandelise ngeChaphaziElisembindini, uze ufake umahluli",
+    "Discard": "Discard",
     "Discrete": "Emeyodwa",
     "Distance": "Ubude",
     "Distance.Help": "Khetha amachaphaza amabini, inxalenye, uMadoloManinzi, okanye isangqa",

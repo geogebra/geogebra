@@ -1391,6 +1391,7 @@ __GGB__keysVar.eu.menu = {
     "Dilate.Factor": "Faktorea",
     "DilateFromPoint": "Homotezia puntu batetik eskala-faktore bat emanda",
     "DilateFromPoint.Help": "Zabaldu nahi den objektua, homotezia-zentroa eta ondoren, sartu faktorea",
+    "Discard": "Discard",
     "Discrete": "Diskretua",
     "Distance": "Distantzia edo Luzera",
     "Distance.Help": "Bi puntu, zuzenkia, poligonoa edo konika",
