@@ -154,10 +154,6 @@ public class MathQuillTreeItem extends RadioTreeItem
 		return null;
 	}
 
-	@Override
-	public boolean isForCAS() {
-		return false;
-	}
 
 	@Override
 	public void scrollCursorIntoView() {

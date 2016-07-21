@@ -123,6 +123,7 @@ import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
@@ -2929,6 +2930,16 @@ marblePanel, evt))) {
 	}
 
 	public abstract RadioTreeItem copy();
+
+	@Override
+	public void updatePosition(DefaultSuggestionDisplay sug) {
+		sug.setPositionRelativeTo(ihtml);
+	}
+
+	@Override
+	public boolean isForCAS() {
+		return false;
+	}
 
 }
 

@@ -70,6 +70,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -1661,5 +1662,14 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	public void onEnter(boolean b) {
 		// TODO Auto-generated method stub
+	}
+
+	public void updatePosition(DefaultSuggestionDisplay sug) {
+		sug.setPositionRelativeTo(textField);
+
+	}
+
+	public boolean isForCAS() {
+		return false;
 	}
 }

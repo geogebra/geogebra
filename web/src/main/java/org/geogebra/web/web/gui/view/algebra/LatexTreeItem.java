@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
@@ -17,6 +19,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
+import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -39,6 +42,7 @@ public class LatexTreeItem extends RadioTreeItem
 	private MathFieldW mf;
 	/** Listener for enter */
 	RetexKeyboardListener retexListener;
+	private InputSuggestions sug;
 
 	/**
 	 * @param geo0
@@ -331,7 +335,19 @@ public class LatexTreeItem extends RadioTreeItem
 	@Override
 	public void onKeyTyped() {
 		updatePreview();
+		popupSuggestions();
+	}
 
+	@Override
+	public boolean popupSuggestions() {
+		return getInputSuggestions().popupSuggestions();
+	}
+
+	private InputSuggestions getInputSuggestions() {
+		if (sug == null) {
+			sug = new InputSuggestions(app, this);
+		}
+		return sug;
 	}
 
 	private void updatePreview() {
@@ -364,6 +380,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	public void insertString(String text) {
+		GuiManagerW.makeKeyboardListener(retexListener).insertString(text);
 		// TODO Auto-generated method stub
 
 	}
@@ -408,6 +425,21 @@ public class LatexTreeItem extends RadioTreeItem
 		if (geo == null) {
 			updateEditorFocus(source, blurtrue);
 		}
+	}
+
+	@Override
+	public List<String> getCompletions() {
+		return getInputSuggestions().getCompletions();
+	}
+
+	@Override
+	public List<String> resetCompletions() {
+		return getInputSuggestions().resetCompletions();
+	}
+
+	@Override
+	public boolean getAutoComplete() {
+		return true;
 	}
 
 }

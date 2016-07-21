@@ -45,7 +45,6 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 		textField.resetCompletions();
 		String query = request.getQuery();
 		List<String> completions = textField.getCompletions();
-
 		if (completions == null || completions.size() == 0) {
 			callback.onSuggestionsReady(request, new Response(Collections.EMPTY_LIST));
 			return;
