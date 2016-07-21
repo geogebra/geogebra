@@ -2134,15 +2134,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			// left wing
 			// put parentheses around +, -, *
-			Operation priority = Operation.DIVIDE;
-			if (left.isExpressionNode()
+			if (left.isExpressionNode() && ((ExpressionNode) left).getOperation() == Operation.MULTIPLY
 					&& !((ExpressionNode) left).hasBrackets()
 					&& ExpressionNode.isConstantDouble(
 							((ExpressionNode) left).getRight(),
 					Math.PI)) {
-				priority = Operation.MULTIPLY;
+				sb.append(leftStr);
+			} else {
+				append(sb, leftStr, left, Operation.DIVIDE);
 			}
-			append(sb, leftStr, left, priority);
 			sb.append(" / ");
 			if (this == StringTemplate.editorTemplate) {
 				sb.append(Unicode.ZERO_WIDTH_SPACE);
