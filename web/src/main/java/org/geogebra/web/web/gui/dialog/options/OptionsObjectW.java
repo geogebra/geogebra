@@ -1242,6 +1242,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private void initGUI(final Runnable onTabSelection) {
 		wrappedPanel = new FlowPanel();
 		wrappedPanel.setStyleName("propertiesPanel");
+
+		// TODO after release MULTIROW_TAB_PROPERTIES feature: propertiesPanel
+		// and propertiesPanel2 classes should be merged
+		if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
+			wrappedPanel.addStyleName("propertiesPanel2");
+		}
 		tabPanel = app.has(Feature.MULTIROW_TAB_PROPERTIES) ? new MultiRowsTabPanel()
 				: new MyTabPanel();
 
@@ -1258,6 +1264,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			}
 				});
 		((Widget) tabPanel).setStyleName("propertiesTabPanel");
+
+		// TODO after release MULTIROW_TAB_PROPERTIES feature:
+		// propertiesTabPanel
+		// and propertiesTabPanel2 classes should be merged
+		if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
+			((Widget) tabPanel).addStyleName("propertiesTabPanel2");
+		}
+
 		beforeTabs = System.currentTimeMillis();
 		createBasicTab();
 		if (!(app.isExam())) {

@@ -3648,6 +3648,10 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	float:left;
 }
 
+.propertiesPanel2{
+	height: 100%;
+}
+
 /* EUCLIDIAN PROPERTIES */
 .axisPanel>*>*:first-child {
 	min-width: 110px;
@@ -3665,6 +3669,18 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 
 .propertiesTabPanel {
 	width: 100%;
+	flex-flow: column;
+}
+
+.propertiesTabPanel2{
+	height: 100%;
+	display: flex;
+	flex: column;
+}
+
+.propView_deckPanel{
+	flex: 1;
+	overflow-x: hidden;
 }
 
 .propertiesTab>*,
