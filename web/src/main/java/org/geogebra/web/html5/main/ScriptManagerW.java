@@ -824,4 +824,12 @@ public class ScriptManagerW extends ScriptManager {
 
 	}-*/;
 
+	public void setEnabled(boolean enable) {
+		enable(enable ? api : null, ggbApplet);
+	}
+
+	private native void enable(JavaScriptObject apiN, String ggbAppletN)/*-{
+		$doc[ggbAppletN] = $wnd[ggbAppletN] = apiN;
+	}-*/;
+
 }
