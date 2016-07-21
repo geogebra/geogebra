@@ -1439,7 +1439,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 				ihtml.remove(btnClearInput);
 				btnClearInput = null;
 			}
-			buttonPanel.setVisible(true);	
+			if (buttonPanel != null) {
+				buttonPanel.setVisible(true);
+			}
 		}
 
 		if (newValue0 != null) {
