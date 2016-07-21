@@ -142,7 +142,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * @return output from CAS
 	 */
 	public synchronized String evalCommandCAS(String cmdString) {
-
+		if (app.isExam() && !app.getExam().isCASAllowed()) {
+			return "?";
+		}
 		// default (undefined)
 		String ret = "?";
 
@@ -1464,6 +1466,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public synchronized String evalGeoGebraCAS(String cmdString,
 			boolean debugOutput) {
+		if (app.isExam() && !app.getExam().isCASAllowed()) {
+			return "?";
+		}
 		String ret = "";
 		GeoGebraCasInterface ggbcas = kernel.getGeoGebraCAS();
 		try {
