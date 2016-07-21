@@ -346,15 +346,14 @@ public class LatexTreeItem extends RadioTreeItem
 	@Override
 	public void onBlur(BlurEvent event) {
 
+		if (isEmpty() && isInputTreeItem()) {
+			addDummyLabel();
+		}
 
-			if (isEmpty()) {
-				addDummyLabel();
-			}
-
-			if (((AlgebraViewW) av).isNodeTableEmpty()) {
-				// #5245#comment:8, cases B and C excluded
-				updateGUIfocus(event == null ? this : event.getSource(), true);
-			}
+		if (((AlgebraViewW) av).isNodeTableEmpty()) {
+			// #5245#comment:8, cases B and C excluded
+			updateGUIfocus(event == null ? this : event.getSource(), true);
+		}
 
 	}
 
