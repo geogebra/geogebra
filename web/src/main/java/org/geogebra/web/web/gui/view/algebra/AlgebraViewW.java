@@ -1556,7 +1556,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		boolean sameItem = activeItem == item;
 		if (!sameItem && getActiveTreeItem() != null) {
 			// new item inserted => confirm the old input first
-			getActiveTreeItem().onEnter(false);
+			if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+				getActiveTreeItem().stopEditing(null, null);
+			} else {
+				getActiveTreeItem().onEnter(false);
+			}
 		}
 		if ((this.activeItem != null) && !sameItem
 				&& (!this.activeItem.commonEditingCheck())) {
