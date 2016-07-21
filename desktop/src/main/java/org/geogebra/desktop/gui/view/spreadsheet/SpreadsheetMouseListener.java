@@ -190,9 +190,9 @@ public class SpreadsheetMouseListener implements MouseListener,
 	public void mousePressed(MouseEvent e) {
 
 		boolean rightClick = AppD.isRightClick(e);
-		if (!rightClick && isButtonClicked(e)) {
-			return;
-		}
+		// if (!rightClick && isButtonClicked(e)) {
+		// return;
+		// }
 		if (!view.hasViewFocus())
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
