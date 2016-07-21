@@ -190,14 +190,14 @@ public class SpreadsheetMouseListener implements MouseListener,
 
 	public void mousePressed(MouseEvent e) {
 
-		if (isButtonClicked(e)) {
+		boolean rightClick = AppD.isRightClick(e);
+		if (!rightClick && isButtonClicked(e)) {
 			return;
 		}
 		if (!view.hasViewFocus())
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
 
-		boolean rightClick = AppD.isRightClick(e);
 
 		// tell selection listener about click on GeoElement
 		if (!rightClick
