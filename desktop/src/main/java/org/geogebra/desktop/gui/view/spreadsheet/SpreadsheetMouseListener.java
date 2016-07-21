@@ -16,7 +16,6 @@ import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
@@ -184,7 +183,7 @@ public class SpreadsheetMouseListener implements MouseListener,
 		int row = table.rowAtPoint(e.getPoint());
 		int col = table.columnAtPoint(e.getPoint());
 		GeoElement geo = (GeoElement) model.getValueAt(row, col);
-		return (editor != null && geo instanceof GeoButton);
+		return (editor != null && geo.isGeoButton());
 
 	}
 
