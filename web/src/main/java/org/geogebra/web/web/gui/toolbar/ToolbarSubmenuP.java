@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.toolbar;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
@@ -31,9 +32,10 @@ public class ToolbarSubmenuP extends ToolbarSubmenuW {
 	protected void initGui() {
 
 		itemList = new UnorderedList();
-		itemList.setStyleName("submenuPanel");
+		itemList.setStyleName("submenuItems");
 		setMaxHeight((int) app.getHeight() - GLookAndFeel.TOOLBAR_OFFSET);
 		add(itemList);
+
 		// catch the events to make sure scrollbar is usable when present
 		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
 			@Override
@@ -49,4 +51,11 @@ public class ToolbarSubmenuP extends ToolbarSubmenuW {
 		setStyleName("visible", visible);
 
 	}
+
+	public int getButtonCount() {
+		int count = this.getItemList().getWidgetCount();
+		Log.debug("buttoncount: " + count);
+		return count;
+	}
+
 }

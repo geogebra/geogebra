@@ -8,6 +8,7 @@
 
 @import "definitions.less";
 
+
 .GeoGebraFrame {
 	
 	/*hack for toolbar submenu, that is isn't hidden by 
@@ -129,15 +130,26 @@
 			}
 		}
 				
-	
 		.submenuPanel {
+			float: left;
+			/*position: absolute;
+			top: 63px;
+			left: -35px;*/
+			margin-top: 0px;
+			margin-left: -40px;
+			
+		}
+		.submenuScrollPanel{
+			overflow-x: auto;
+			position: absolute;
+			top: 60px;
+		}
+		.submenuItems {
 			/*height: 53px;*/
 			/*width: 500px;*/ //TODO set dynamic value
-			float: left;
-			position: absolute;
-			top: 50px;
-			left: -35px;
-			overflow-x: scroll;
+			
+			/*overflow-x: scroll;*/
+			margin-bottom: 0px;
 		
 			.submenu_button {
 					.border-radius(5px);

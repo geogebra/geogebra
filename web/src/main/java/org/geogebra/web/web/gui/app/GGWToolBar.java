@@ -20,6 +20,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
+import org.geogebra.web.web.gui.toolbar.ToolbarSubmenuP;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.StandardButton;
 
@@ -73,6 +74,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	FlowPanel toolBPanel;
 	// panel for mobile submenu view
 	FlowPanel submenuPanel;
+	FlowPanel submenuScrollPanel;
 	boolean inited = false;
 	private Integer activeToolbar = -1;
 	private boolean menuBarShowing = false;
@@ -110,6 +112,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		activeToolbar = viewID;
 		for(ToolBarW bar:toolbars){
 			bar.setActiveView(viewID);
+			if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+				bar.closeAllSubmenu();
+			}
 		}
 	}
 
@@ -126,8 +131,13 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		toolbars = new ArrayList<ToolBarW>();
 
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+			submenuScrollPanel = new FlowPanel();
 			submenuPanel = new FlowPanel();
-			toolBarPanel.add(submenuPanel);
+			submenuPanel.addStyleName("submenuPanel");
+			submenuScrollPanel.addStyleName("submenuScrollPanel");
+			submenuScrollPanel.add(submenuPanel);
+			// submenuScrollPanel.addMouseWheelHandler();
+			toolBarPanel.add(submenuScrollPanel);
 			// Log.debug("submenuPanel added");
 			toolBar = new ToolBarW(this, submenuPanel);
 		} else {
@@ -1150,6 +1160,7 @@ pr.menu_header_undo(), null, 32);
 		setToolbarWidth(app.getWidth());
 	}
 
+
 	/**
 	 * @param width
 	 *            pixel width
@@ -1165,9 +1176,11 @@ pr.menu_header_undo(), null, 32);
 		}
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
 			toolBPanel.setWidth(maxButtons * 45 - 20 + "px");
-			submenuPanel.setWidth(maxButtons * 45 + "px");
-			// Log.debug("maxButtons: " + maxButtons + " toolbarvecsize: " +
-			// toolBar.getToolbarVecSize());
+
+			if (toolBar.isMobileToolbar() && toolBar.hasPopupOpen()) {
+				setSubmenuWith();
+			}
+
 			if (maxButtons < toolBar.getToolbarVecSize()) {
 				toolBPanel.addStyleName("toolBPanelMobile");
 			} else {
@@ -1178,7 +1191,7 @@ pr.menu_header_undo(), null, 32);
 
 	}
 
-	private int getMaxButtons(int appWidth) {
+	public int getMaxButtons(int appWidth) {
 		int extraButtons = 0;
 		if (app.isUndoRedoEnabled()) {
 			extraButtons = 90;
@@ -1196,6 +1209,16 @@ pr.menu_header_undo(), null, 32);
 			}
 		}
 		return (appWidth - extraButtons - 20) / 45;
+	}
+
+	public void setSubmenuWith() {
+		int maxButtons = getMaxButtons((int) app.getWidth());
+		int submenuButtonCount = ((ToolbarSubmenuP) submenuPanel.getWidget(0)).getButtonCount();
+
+		submenuScrollPanel.setWidth(maxButtons * 45 - 20 + "px");
+		submenuPanel.setWidth((submenuButtonCount + 1) * 45 - 5 + "px");
+
+		Log.debug("submenuButtonCount: " + submenuButtonCount);
 	}
 
 	/**
@@ -1223,7 +1246,8 @@ getFirstMode(),
 														 * && toolBar.
 														 * isMobileToolbar()
 														 */) {
-			submenuPanel.clear();
+			submenuScrollPanel.clear();
+			Log.debug("submenuPanel cleared");
 		}
 	}
 

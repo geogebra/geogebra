@@ -39,7 +39,8 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	 * ToolbarContainer logic will not work properly.
 	 */
 	private DockPanel dockPanel;
-	// panel for mobile submenu view
+
+	// panels for mobile submenu view
 	private FlowPanel submenuPanel;
 
 	protected ArrayList<ModeToggleMenu> modeToggleMenus;
@@ -130,6 +131,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		this.add(menuList);
 
 		setMode(app.getMode(), ModeSetter.TOOLBAR);
+		tb.onResize();
 		// update();
 	}
 
@@ -252,7 +254,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 			if (app.isModeValid(menu.get(0).intValue())) {
 				ModeToggleMenu mtm = createModeToggleMenu(app, menu, i);
 				mtm.setButtonTabIndex(-1);
-
 				modeToggleMenus.add(mtm);
 				mainUl.add(mtm);
 			}
@@ -294,11 +295,9 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
 			// toolbarVecSize is i.e. 12 for AV, 14 for 3D
 			if (maxButtons < getToolbarVecSize()) {
-				// Log.debug("modetogglemenuP");
 				isMobileToolbar = true;
 				return new ModeToggleMenuP(app, menu, this, order, submenuPanel);
 			} else {
-				// Log.debug("modetogglemenu");
 				isMobileToolbar = false;
 				return new ModeToggleMenu(app, menu, this, order);
 			}
@@ -365,23 +364,16 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 
 	@Override
 	public void closeAllSubmenu() {
-		/*
-		 * if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) { if (isMobileToolbar)
-		 * { submenuPanel.clear(); } else { for (int i = 0; i <
-		 * modeToggleMenus.size(); i++) { modeToggleMenus.get(i).hideMenu(); } }
-		 * } else {
-		 */
 			for (int i = 0; i < modeToggleMenus.size(); i++) {
 				modeToggleMenus.get(i).hideMenu();
 			}
-		// }
 	}
 
 	
 
 	/**
 	 * 
-	 * @return true iff any of the submenus are opened
+	 * @return true if any of the submenus are opened
 	 */
 	public boolean isAnyOtherSubmenuOpen(ModeToggleMenu exceptMenu) {
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
@@ -459,5 +451,13 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 
 	public boolean isMobileToolbar() {
 		return isMobileToolbar;
+	}
+
+	public int getMaxButtons() {
+		return maxButtons;
+	}
+
+	public GGWToolBar getGGWToolBar() {
+		return tb;
 	}
 }

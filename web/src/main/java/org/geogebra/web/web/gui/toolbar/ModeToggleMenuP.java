@@ -27,20 +27,6 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 		return new ToolbarSubmenuP(app, order);
 	}
 
-	// @Override
-	/*
-	 * protected void buildGui() { submenu = createToolbarSubmenu(app, order);
-	 * submenuPanel.add(submenu);
-	 * 
-	 * for (int k = 0; k < menu.size(); k++) { final int addMode =
-	 * menu.get(k).intValue(); if (addMode < 0) { // TODO // // separator within
-	 * menu: // tm.addSeparator(); } else { // standard case: add mode // check
-	 * mode if (!"".equals(app.getToolName(addMode))) { ListItem subLi =
-	 * submenu.addItem(addMode); addDomHandlers(subLi); } } }
-	 * 
-	 * // hideMenu(); }
-	 */
-
 
 	@Override
 	public void showMenu() {
@@ -57,7 +43,7 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 			submenu.setVisible(true);
 
 		}
-
+		toolbar.getGGWToolBar().setSubmenuWith();
 	}
 
 	@Override
@@ -71,4 +57,9 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 		}
 	}
 
+	public int getButtonCount() {
+		int count = submenu.getItemList().getWidgetCount();
+		Log.debug("buttoncount: " + count);
+		return count;
+	}
 }
