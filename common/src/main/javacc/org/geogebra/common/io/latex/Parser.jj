@@ -375,7 +375,7 @@ void mathCharacter(MathContainer currentField) :
                 MathComponent comp = currentField.getArgument(s - 1);
                 if (comp instanceof MathCharacter) {
                     MathCharacter mc = (MathCharacter) comp;
-                    if ((mc.isCharacter() || mc.isSymbol()) && !";".equals(mc.toString()) && !":".equals(mc.toString())) {
+                    if ((mc.isCharacter() || mc.isSymbol()) && !mc.isSeparator()) {
                         MetaCharacter times = metaModel.getOperator("*");
                         MathCharacter timesChar = new MathCharacter(times);
                         currentField.addArgument(timesChar);

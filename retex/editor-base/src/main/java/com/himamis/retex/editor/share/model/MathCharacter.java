@@ -110,4 +110,9 @@ public class MathCharacter extends MathComponent {
 	public String toString() {
 		return meta.getUnicode() + "";
 	}
+
+	public boolean isSeparator() {
+		return meta.getUnicode() == ',' || meta.getUnicode() == ';'
+				|| meta.getUnicode() == ':';
+	}
 }

@@ -64,7 +64,7 @@ public class ArgumentHelper {
         while (currentOffset > 0 && currentField.getArgument(currentOffset - 1) instanceof MathCharacter) {
 
             MathCharacter character = (MathCharacter) currentField.getArgument(currentOffset - 1);
-            if (character.isOperator()) {
+			if (character.isOperator() || character.isSeparator()) {
                 break;
             }
             currentField.delArgument(currentOffset - 1);
