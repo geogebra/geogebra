@@ -11,6 +11,8 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
@@ -173,11 +175,13 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		if (!editEnabled) {
 			return;
 		}
-		pointerIsDown = true;
 		GPoint point = getIndexFromEvent(event);
 		if (point == null) {
 			return;
 		}
+
+
+		pointerIsDown = true;
 
 		if (editor.isEditing()) {
 			if (editor.textStartsWithEquals()
@@ -242,7 +246,10 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	private boolean copyIntoEditorFromCellAt(GPoint pointOnMouseDown) {
 		int column = pointOnMouseDown.getX();
 		int row = pointOnMouseDown.getY();
-		if (column == editor.column && row == editor.row) {
+		GeoClass cellType = table.getCellEditorType(row, column);
+		Log.debug("CELLTYPE: " + cellType);
+		if (column == editor.column && row == editor.row
+				|| cellType == GeoClass.BUTTON) {
 			return false;
 		}
 		GeoElement geo = RelativeCopy.getValue(app, column, row);
@@ -311,9 +318,10 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		if (!editEnabled) {
 			return;
 		}
-		event.preventDefault();
+
 		pointerIsDown = false;
 
+		event.preventDefault();
 		GPoint point = getIndexFromEvent(event);
 
 		if (table.getTableMode() == MyTable.TABLE_MODE_AUTOFUNCTION) {

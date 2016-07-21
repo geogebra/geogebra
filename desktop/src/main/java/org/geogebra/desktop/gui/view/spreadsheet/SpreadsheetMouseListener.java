@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
@@ -179,20 +180,10 @@ public class SpreadsheetMouseListener implements MouseListener,
 	public void mouseExited(MouseEvent e) {
 	}
 
-	public boolean isButtonClicked(MouseEvent e) {
-		int row = table.rowAtPoint(e.getPoint());
-		int col = table.columnAtPoint(e.getPoint());
-		GeoElement geo = (GeoElement) model.getValueAt(row, col);
-		return (editor != null && geo.isGeoButton());
-
-	}
-
 	public void mousePressed(MouseEvent e) {
 
 		boolean rightClick = AppD.isRightClick(e);
-		// if (!rightClick && isButtonClicked(e)) {
-		// return;
-		// }
+
 		if (!view.hasViewFocus())
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
@@ -248,17 +239,22 @@ public class SpreadsheetMouseListener implements MouseListener,
 			// Handle click in another cell while editing a cell:
 			// if the edit string begins with "=" then the clicked cell name
 			// is inserted into the edit text
+
 			if (editor.isEditing()) {
 				String text = editor.getEditingValue();
 				if (text.startsWith("=")) {
+
 					GPoint point = table.getIndexFromPixel(e.getX(), e.getY());
 					if (point != null) {
 						int column = point.getX();
 						int row = point.getY();
+
 						GeoElement geo = RelativeCopy
 								.getValue(app, column, row);
 						if (geo != null) {
-
+							if (geo.getGeoClassType() == GeoClass.BUTTON) {
+								return;
+							}
 							// get cell name
 							String name = GeoElementSpreadsheet
 									.getSpreadsheetCellName(column, row);
