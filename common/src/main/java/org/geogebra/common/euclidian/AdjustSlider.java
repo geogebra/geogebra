@@ -4,9 +4,12 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Adjusts slider position on file load
+ */
 public class AdjustSlider {
 	private GeoNumeric number;
-	private EuclidianView view;
+	private final EuclidianView view;
 	private double x;
 	private double y;
 	private Double origX;
@@ -20,6 +23,12 @@ public class AdjustSlider {
 	private static final int MARGIN_X = 15;
 	private static final int MARGIN_Y = 15;
 
+	/**
+	 * @param num
+	 *            slider
+	 * @param view
+	 *            view
+	 */
 	public AdjustSlider(GeoNumeric num, EuclidianView view) {
 		this.number = num;
 		this.view = view;
@@ -50,8 +59,8 @@ public class AdjustSlider {
 	}
 
 	private boolean isXOnScreen() {
-		if (view == null || origX == null) {
-			return false;
+		if (origX == null) {
+			return true;
 		}
 
 		if (horizontal) {
@@ -65,8 +74,8 @@ public class AdjustSlider {
 	}
 
 	private boolean isYOnScreen() {
-		if (view == null || origY == null) {
-			return false;
+		if (origY == null) {
+			return true;
 		}
 
 		if (horizontal) {
