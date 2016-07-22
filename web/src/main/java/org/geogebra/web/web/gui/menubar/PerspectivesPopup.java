@@ -1,10 +1,9 @@
 package org.geogebra.web.web.gui.menubar;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -36,20 +35,11 @@ public class PerspectivesPopup {
 	AppW app;
 	private FlowPanel contentPanel;
 
-	private static int activePerspective;
+	private int activePerspective;
 
 	public PerspectivesPopup(AppW app) {
 		this.app = app;
-	}
-
-	public void showPerspectivesPopup() {
-
-		ArrayList<ResourcePrototype> icons = new ArrayList<ResourcePrototype>();
-		PerspectiveResources pr = ((ImageFactory) GWT
-				.create(ImageFactory.class)).getPerspectiveResources();
-
-
-		box = new DialogBoxW(true, true, null, app.getPanel());
+		box = new DialogBoxW(true, false, null, app.getPanel());
 		box.setGlassEnabled(false);
 
 		this.contentPanel = new FlowPanel();
@@ -58,13 +48,28 @@ public class PerspectivesPopup {
 
 		box.setWidget(contentPanel);
 		box.addStyleName("perspectivesBox");
-		box.getCaption().setText(app.getMenu("CreateYourOwn"));
+
 		box.getCaption().asWidget().addStyleName("perspectivesCaption");
 
+	}
+
+	public void showPerspectivesPopup() {
+		setLabels();
+		box.show();
+	}
+
+	private void setLabels() {
+		PerspectiveResources pr = ((ImageFactory) GWT
+				.create(ImageFactory.class)).getPerspectiveResources();
+		contentPanel.clear();
 		addPerspective(0, pr.menu_icon_algebra());
-		addPerspective(3, pr.menu_icon_cas());
+		if (app.supportsView(App.VIEW_CAS)) {
+			addPerspective(3, pr.menu_icon_cas());
+		}
 		addPerspective(1, pr.menu_icon_geometry());
-		addPerspective(4, pr.menu_icon_graphics3D());
+		if (app.supportsView(App.VIEW_EUCLIDIAN3D)) {
+			addPerspective(4, pr.menu_icon_graphics3D());
+		}
 		addPerspective(2, pr.menu_icon_spreadsheet());
 		addPerspective(5, pr.menu_icon_probability());
 
@@ -80,7 +85,8 @@ public class PerspectivesPopup {
 		tutorialsRow.addStyleName("upperBoarder");
 		contentPanel.add(tutorialsRow);
 
-		box.show();
+		box.getCaption().setText(app.getMenu("CreateYourOwn"));
+
 	}
 
 	private void addPerspective(int i, ResourcePrototype icon) {
@@ -168,7 +174,11 @@ public class PerspectivesPopup {
 		return activePerspective;
 	}
 
-	public static void setActivePerspective(int index) {
+	public void setActivePerspective(int index) {
 		activePerspective = index;
+	}
+
+	public void closePerspectivesPopup() {
+		box.hide();
 	}
 }

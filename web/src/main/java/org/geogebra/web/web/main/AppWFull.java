@@ -696,6 +696,7 @@ public abstract class AppWFull extends AppW {
 
 	/** material ID waiting for login */
 	String toOpen = "";
+	private PerspectivesPopup perspectivesPopup;
 	@Override
 	public final void openMaterial(final String id, final Runnable onError) {
 		if (((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI())
@@ -789,7 +790,26 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void showPerspectivesPopup() {
-		new PerspectivesPopup(this).showPerspectivesPopup();
+
+		getPerspectivesPopup().showPerspectivesPopup();
+	}
+
+	@Override
+	public void closePerspectivesPopup() {
+
+		getPerspectivesPopup().closePerspectivesPopup();
+	}
+
+	@Override
+	public void setActivePerspective(int index) {
+		getPerspectivesPopup().setActivePerspective(index);
+	}
+
+	private PerspectivesPopup getPerspectivesPopup() {
+		if (this.perspectivesPopup == null) {
+			this.perspectivesPopup = new PerspectivesPopup(this);
+		}
+		return perspectivesPopup;
 	}
 
 	@Override

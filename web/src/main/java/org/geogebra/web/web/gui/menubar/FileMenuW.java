@@ -87,7 +87,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			app.getGuiManager().resetMenu();
 
 			if (app.has(Feature.NEW_START_SCREEN)) {
-				PerspectivesPopup.setActivePerspective(0);
+				app.setActivePerspective(0);
 			}
 		}
 	}

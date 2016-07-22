@@ -134,7 +134,7 @@ public class PerspectivesMenuW extends GMenuBar {
 		app.updateViewSizes();
 		app.getGuiManager().updateMenubar();
 		// set active perspective for highlighting
-		PerspectivesPopup.setActivePerspective(index);
+		app.setActivePerspective(index);
 		// app.getToolbar().closeAllSubmenu();
 		if (app.getTubeId() < 1 && app.getArticleElement().getDataParamApp()) {
 

@@ -334,6 +334,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	public void onKeyTyped() {
+		app.closePerspectivesPopup();
 		updatePreview();
 		popupSuggestions();
 	}

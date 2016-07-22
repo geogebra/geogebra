@@ -3509,4 +3509,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// overridden in AppWFull
 	}
 
+	public void closePerspectivesPopup() {
+		// only for GUI
+
+	}
+
+	public void setActivePerspective(int index) {
+		// only for GUI
+
+	}
+
 }

@@ -207,7 +207,7 @@ public class ViewMenuW extends GMenuBar {
 				newItem.setSelected(app.getGuiManager().showView(e.getID()));
 				// reset activePerspective so that no perspective is
 				// highlighted in apps picker when view is customized
-				PerspectivesPopup.setActivePerspective(-1);
+				app.setActivePerspective(-1);
 
 				Timer timer = new Timer() {
 					@Override
