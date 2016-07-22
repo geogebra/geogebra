@@ -316,6 +316,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private int adjustedHSliderCount = 0;
 	private int adjustedVSliderCount = 0;
 
+	// keep same center after layout resize
+	private boolean keepCenter = false;
+
+	// x, y coordinates of the center of the ev
+	private double mCenterX;
+	private double mCenterY;
+
+	private boolean mViewCentered = false;
+
 	protected EuclidianViewCompanion companion;
 
 	/**
@@ -2864,10 +2873,60 @@ GRectangle selectionRectangle) {
 		updateBackground();
 	}
 
+	protected void setKeepCenter(boolean center) {
+		keepCenter = center;
+	}
+
 	/**
 	 * Size changed, make sure our settings reflect that
 	 */
 	public void updateSize() {
+		if (keepCenter) {
+			updateSizeKeepCenter();
+		} else {
+			updateSizeChange();
+		}
+	}
+
+	private void updateSizeKeepCenter() {
+		if (!mViewCentered) {
+			mCenterX = 0;
+			mCenterY = 0;
+			mViewCentered = true;
+		} else {
+			mCenterX = getCenterX();
+			mCenterY = getCenterY();
+		}
+
+		updateSizeChange();
+
+		centerView(mCenterX, mCenterY);
+		if (!app.getKernel().isUndoActive()) {
+			app.setUndoActive(true);
+		}
+	}
+
+	private double getCenterX() {
+		return (getXmax() + getXmin()) / 2;
+	}
+
+	private double getCenterY() {
+		return (getYmax() + getYmin()) / 2;
+	}
+
+	/**
+	 * center point (x, y) in EV
+	 * @param x coord
+	 * @param y coord
+     */
+	private void centerView(double x, double y) {
+		double px = (toRealWorldCoordX(getWidth()) - toRealWorldCoordX(0)) / 2;
+		double py = (-toRealWorldCoordY(getHeight()) + toRealWorldCoordY(0)) / 2;
+
+		setRealWorldCoordSystem(x - px, x + px, y - py, y + py);
+	}
+
+	private void updateSizeChange() {
 		updateSizeKeepDrawables();
 		updateAllDrawablesForView(true);
 		if (app.has(Feature.ADJUST_SLIDERS)) {
