@@ -6252,11 +6252,11 @@ kernel, left,
 						&& !Kernel.isZero(rt) && Math.abs(lt) < 1E15
 						&& Math.abs(rt) < 1E15) {
 
-					double g = Math.abs(Kernel.gcd((long) lt, (long) rt))
+					double g = Math.abs(Kernel.gcd(Math.round(lt),
+							Math.round(rt)))
 							* Math.signum(rt);
 					lt = lt / g;
 					rt = rt / g;
-
 					resolve = (pi ? new ExpressionNode(kernel, Math.PI)
 							.multiplyR(lt) : new ExpressionNode(kernel, lt))
 							.divide(rt);
