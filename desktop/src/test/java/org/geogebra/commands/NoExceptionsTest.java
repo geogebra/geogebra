@@ -1809,6 +1809,7 @@ new String[] { "--silent" }),
 	@Test
 	public void cmdSetCoords() {
 		t("SetCoords[ Pt1, n1, n2 ]");
+		t("SetCoords[ Pt1, n1, n2, n3 ]");
 	}
 
 	@Test
