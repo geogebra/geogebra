@@ -82,7 +82,7 @@ public class PerspectivesPopup {
 		HorizontalPanel tutorialsRow = addPerspectiveRow(
 				GuiResources.INSTANCE.icon_help(),
 				"Tutorials", -2, 8);
-		tutorialsRow.addStyleName("upperBoarder");
+		tutorialsRow.addStyleName("upperBorder");
 		contentPanel.add(tutorialsRow);
 
 		box.getCaption().setText(app.getMenu("CreateYourOwn"));
@@ -114,14 +114,13 @@ public class PerspectivesPopup {
 	private HorizontalPanel addPerspectiveRow(ResourcePrototype icon,
 			String menuID, final int index, final int defID) {
 		HorizontalPanel rowPanel = new HorizontalPanel();
-		HorizontalPanel perspective = new HorizontalPanel();
+		// HorizontalPanel perspective = new HorizontalPanel();
 
 		// icon
-		perspective.add(new Image(ImgResourceHelper.safeURI(icon)));
+		rowPanel.add(new Image(ImgResourceHelper.safeURI(icon)));
 		// perspective label
-		perspective.add(new Label(app.getMenu(menuID)));
+		rowPanel.add(new Label(app.getMenu(menuID)));
 		rowPanel.setStyleName("perspectivesRow");
-		rowPanel.add(perspective);
 
 		// help button
 		if (index != -2) {

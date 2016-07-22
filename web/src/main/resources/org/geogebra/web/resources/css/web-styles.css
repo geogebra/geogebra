@@ -5726,11 +5726,11 @@ body.application[dir=rtl] .deleteAlgebra {
 	width: 20px;
     height: 20px;
 }
-.upperBoarder{
+.upperBorder{
     padding-top: 10px;
     padding-bottom: 0px;
     border-top: 1px solid #DCDCDC;
 }
-.upperBoarder div{
+.upperBorder div{
 	padding-top: 3px;
 }
