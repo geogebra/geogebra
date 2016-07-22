@@ -233,6 +233,10 @@ public class Construction {
 		return origin;
 	}
 
+	/**
+	 * @param selfGeo
+	 *            new value of "self" variable
+	 */
 	public void setSelfGeo(GeoElement selfGeo) {
 		this.selfGeo = selfGeo;
 	}
@@ -1203,6 +1207,8 @@ public class Construction {
 	 * 
 	 * @param sb
 	 *            StringBuilder to which the XML is appended
+	 * @param getListenersToo
+	 *            whether to include JS listener names
 	 */
 	public void getConstructionXML(StringBuilder sb, boolean getListenersToo) {
 
@@ -1239,6 +1245,8 @@ public class Construction {
 	 * 
 	 * @param sb
 	 *            String builder
+	 * @param getListenersToo
+	 *            whether to includ JS listener names
 	 */
 	public void getConstructionElementsXML(StringBuilder sb,
 			boolean getListenersToo) {
@@ -1581,7 +1589,7 @@ public class Construction {
 		isGettingXMLForReplace = false;
 
 		// 3) replace oldGeo by newGeo in XML
-		consXML = doReplaceInXML(consXML, oldGeo, newGeo);
+		doReplaceInXML(consXML, oldGeo, newGeo);
 		// moveDependencies(oldGeo,newGeo);
 
 		// 4) build new construction
@@ -1643,7 +1651,7 @@ public class Construction {
 			GeoElement newGeo = redefineMap.get(oldGeo);
 
 			// 3) replace oldGeo by newGeo in XML
-			consXML = doReplaceInXML(consXML, oldGeo, newGeo);
+			doReplaceInXML(consXML, oldGeo, newGeo);
 		}
 
 		try {
@@ -1693,7 +1701,7 @@ public class Construction {
 	 * @param newGeo
 	 *            replacement
 	 */
-	protected StringBuilder doReplaceInXML(StringBuilder consXML,
+	protected void doReplaceInXML(StringBuilder consXML,
 			GeoElement oldGeo, GeoElement newGeo) {
 		String oldXML, newXML; // a = old string, b = new string
 
@@ -1713,7 +1721,8 @@ public class Construction {
 				// reload consXML to get the new name in the description of
 				// dependent elements
 				isGettingXMLForReplace = true;
-				consXML = getCurrentUndoXML(false);
+				consXML.setLength(0);
+				consXML.append(getCurrentUndoXML(false));
 				isGettingXMLForReplace = false;
 			}
 
@@ -1725,6 +1734,7 @@ public class Construction {
 			newGeo.setLabelSimple(oldGeo.getLabelSimple());
 			newGeo.labelSet = true; // to get right XML output
 			newGeo.setAllVisualProperties(oldGeo, false);
+			newGeo.setViewFlags(oldGeo.getViewSet());
 			newGeo.setScripting(oldGeo);
 
 			// NEAR-TO-RELATION for dependent new geo:
@@ -1802,8 +1812,6 @@ public class Construction {
 			consXML.insert(inputEndPos, newXML);
 			consXML.replace(pos, pos + oldXML.length(), "");
 		}
-
-		return consXML;
 	}
 
 	/**
@@ -2717,9 +2725,19 @@ public class Construction {
 		companion.initGeoTables();
 	}
 
+	/**
+	 * @param b
+	 *            flag to ignore new types (for creating default geos)
+	 */
 	public void setIgnoringNewTypes(boolean b) {
 		this.ignoringNewTypes = b;
 	}
+
+	/**
+	 * @param c
+	 *            used class of element (needed to decide about 2D
+	 *            compatibility)
+	 */
 	public void addUsedType(GeoClass c) {
 		if (this.ignoringNewTypes) {
 			return;
@@ -2727,6 +2745,9 @@ public class Construction {
 		this.usedGeos.add(c);
 	}
 
+	/**
+	 * @return whether there are some objects incompatible with the 2D version
+	 */
 	public boolean has3DObjects() {
 
 		Iterator<GeoClass> it = usedGeos.iterator();
@@ -2914,6 +2935,9 @@ public class Construction {
 	/**
 	 * Returns undo xml string of this construction.
 	 * 
+	 * @param getListenersToo
+	 *            whether to include JS listeners
+	 * 
 	 * @return StringBuilder with xml of this construction.
 	 */
 	public StringBuilder getCurrentUndoXML(boolean getListenersToo) {
@@ -2967,6 +2991,9 @@ public class Construction {
 
 	/**
 	 * process xml to create construction
+	 * 
+	 * @param xml
+	 *            XML builder
 	 */
 	public void processXML(StringBuilder xml) {
 		try {
@@ -3223,8 +3250,12 @@ public class Construction {
 		spreadsheetTraces = true;
 	}
 
-	public void setAllowUnboundedAngles(boolean b) {
-		this.allowUnboundedAngles = b;
+	/**
+	 * @param allow
+	 *            whether unbounded angles are allowed
+	 */
+	public void setAllowUnboundedAngles(boolean allow) {
+		this.allowUnboundedAngles = allow;
 	}
 
 	/**
@@ -3236,10 +3267,19 @@ public class Construction {
 
 	private ArrayList<AlgoElement> casAlgos = new ArrayList<AlgoElement>();
 
-	public void addCASAlgo(AlgoElement algoCasBase) {
-		casAlgos.add(algoCasBase);
+	/**
+	 * Add algo to a list of algos that need update after CAS load
+	 * 
+	 * @param casAlgo
+	 *            algo using CAS
+	 */
+	public void addCASAlgo(AlgoElement casAlgo) {
+		casAlgos.add(casAlgo);
 	}
 
+	/**
+	 * Recompute all algos using CASS and dependent CAS cells
+	 */
 	public void recomputeCASalgos() {
 		for (AlgoElement algo : casAlgos) {
 			if (!algo.getOutput(0).isLabelSet()) {
@@ -3261,6 +3301,10 @@ public class Construction {
 		casAlgos.clear();
 	}
 
+	/**
+	 * Update construction after language change (affects Name[] and similar
+	 * algos)
+	 */
 	public void updateConstructionLanguage() {
 		// collect notifyUpdate calls using xAxis as dummy geo
 		updateConstructionRunning = true;
@@ -3290,6 +3334,7 @@ public class Construction {
 		}
 	}
 
+	/** TODO can we kill this now that we don't use MQ? */
 	public void updateConstructionLaTeX() {
 		boolean oldFlag = this.kernel.getApplication().isBlockUpdateScripts();
 		this.kernel.getApplication().setBlockUpdateScripts(true);
@@ -3306,6 +3351,7 @@ public class Construction {
 	/**
 	 * 
 	 * @param algo
+	 *            algo dependent on view pixel size
 	 */
 	public void registerCorner5(EuclidianViewCE algo) {
 		if (this.corner5Algos == null) {
@@ -3317,6 +3363,7 @@ public class Construction {
 	/**
 	 * 
 	 * @param algo
+	 *            algo dependent on rotation of 3D view
 	 */
 	public void registerCorner11(EuclidianViewCE algo) {
 		if (this.corner11Algos == null) {
@@ -3325,6 +3372,9 @@ public class Construction {
 		this.corner11Algos.add(algo);
 	}
 
+	/**
+	 * @return all function variables registered for parsing
+	 */
 	public String[] getRegisteredFunctionVariables() {
 		String[] varNames = new String[this.registredFV.size()];
 		Iterator<String> it = this.registredFV.iterator();
@@ -3335,6 +3385,10 @@ public class Construction {
 		return varNames;
 	}
 
+	/**
+	 * @param geo
+	 *            element using LaTeX
+	 */
 	public void addLaTeXGeo(GeoElement geo) {
 		if (latexGeos == null) {
 			latexGeos = new ArrayList<GeoElement>();
@@ -3343,6 +3397,9 @@ public class Construction {
 
 	}
 
+	/**
+	 * @return number of CAS cells
+	 */
 	public int getCASObjectNumber() {
 		int counter = 0;
 		for (ConstructionElement ce : ceList) {
@@ -3380,26 +3437,44 @@ public class Construction {
 		return null;
 	}
 
+	/**
+	 * @return z-axis
+	 */
 	final public GeoAxisND getZAxis() {
 		return companion.getZAxis();
 	}
 
+	/**
+	 * @return plane z=0
+	 */
 	final public GeoDirectionND getXOYPlane() {
 		return companion.getXOYPlane();
 	}
 
+	/**
+	 * @return space placeholder
+	 */
 	final public GeoDirectionND getSpace() {
 		return companion.getSpace();
 	}
 
+	/**
+	 * @return clipping cube
+	 */
 	final public GeoElement getClippingCube() {
 		return companion.getClippingCube();
 	}
 
+	/**
+	 * @return map label => geo
+	 */
 	public HashMap<String, GeoElement> getGeoTable() {
 		return geoTable;
 	}
 
+	/**
+	 * @return whether this is a 3D instance
+	 */
 	public boolean is3D() {
 		return companion.is3D();
 	}
