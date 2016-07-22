@@ -12,7 +12,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle2D;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
@@ -247,9 +246,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		int column = pointOnMouseDown.getX();
 		int row = pointOnMouseDown.getY();
 		GeoClass cellType = table.getCellEditorType(row, column);
-		Log.debug("CELLTYPE: " + cellType);
 		if (column == editor.column && row == editor.row
-				|| cellType == GeoClass.BUTTON) {
+				|| cellType == GeoClass.BUTTON
+				|| cellType == GeoClass.BOOLEAN) {
 			return false;
 		}
 		GeoElement geo = RelativeCopy.getValue(app, column, row);

@@ -252,7 +252,9 @@ public class SpreadsheetMouseListener implements MouseListener,
 						GeoElement geo = RelativeCopy
 								.getValue(app, column, row);
 						if (geo != null) {
-							if (geo.getGeoClassType() == GeoClass.BUTTON) {
+							GeoClass geoType = geo.getGeoClassType();
+							if (geoType == GeoClass.BUTTON
+									|| geoType == GeoClass.BOOLEAN) {
 								return;
 							}
 							// get cell name
