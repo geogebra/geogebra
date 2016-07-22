@@ -1391,7 +1391,7 @@ __GGB__keysVar.fr.menu = {
     "Dilate.Factor": "Facteur",
     "DilateFromPoint": "Homoth\xe9tie",
     "DilateFromPoint.Help": "Objet \xe0 transformer, puis centre d'homoth\xe9tie[cr\xe9\xe9s] puis rapport",
-    "Discard": "Discard",
+    "Discard": "Jeter",
     "Discrete": "Discr\xe8te",
     "Distance": "Distance ou Longueur",
     "Distance.Help": "Deux points, un segment, un polygone, un arc ou un secteur ou un cercle[cr\xe9\xe9s]",
