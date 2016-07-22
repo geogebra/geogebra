@@ -65,6 +65,6 @@ test {
      ignoreFailures = true
 }
 
-findbugsTask{
+findbugs{
      ignoreFailures = true
 }
