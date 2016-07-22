@@ -1140,6 +1140,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return propertiesView != null;
 	}
 
+	public PropertiesView getCurrentPropertiesView() {
+		return propertiesView;
+	}
+
 	@Override
 	public void attachPropertiesView() {
 		getPropertiesView();

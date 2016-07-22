@@ -394,6 +394,10 @@ public class PropertiesViewW extends PropertiesView
 		this.styleBar.selectButton(type);
 	}
 
+	public OptionType getOptionType() {
+		return optionType;
+	}
+
 	@Override
 	public void mousePressedForPropertiesView() {
 		if (objectPanel == null) {

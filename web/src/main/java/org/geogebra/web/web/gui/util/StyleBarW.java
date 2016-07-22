@@ -7,9 +7,11 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
+import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.view.Views;
 import org.geogebra.web.web.gui.view.Views.ViewType;
 
@@ -73,10 +75,19 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	
 			menuButton.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
-					if(app.getGuiManager().showView(App.VIEW_PROPERTIES)){
-						app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
-					} else if ((!app.getSelectionManager().getSelectedGeos()
-							.isEmpty() && optionType != OptionType.ALGEBRA)
+					if (app.getGuiManager().showView(App.VIEW_PROPERTIES)) {
+						PropertiesViewW pW = (PropertiesViewW) ((GuiManagerW) app
+								.getGuiManager())
+								.getCurrentPropertiesView();
+
+						if (optionType == pW.getOptionType()) {
+							app.getGuiManager().setShowView(false,
+									App.VIEW_PROPERTIES);
+							return;
+						}
+					}
+					if ((!app.getSelectionManager().getSelectedGeos()
+						.isEmpty() && optionType == OptionType.OBJECTS)
 							|| optionType == null
 							) {
 						app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
