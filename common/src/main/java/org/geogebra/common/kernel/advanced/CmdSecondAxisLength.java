@@ -3,8 +3,8 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -35,7 +35,7 @@ public class CmdSecondAxisLength extends CommandProcessor {
 			if (arg[0].isGeoConic()) {
 
 				AlgoAxisSecondLength algo = new AlgoAxisSecondLength(cons,
-						c.getLabel(), (GeoConic) arg[0]);
+						c.getLabel(), (GeoConicND) arg[0]);
 
 				GeoElement[] ret = { algo.getLength() };
 				return ret;

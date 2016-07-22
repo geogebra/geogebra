@@ -22,9 +22,9 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 /**
@@ -34,12 +34,12 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
  */
 public class AlgoExcentricity extends AlgoElement {
 
-	private GeoConic c; // input
+	private GeoConicND c; // input
 	private GeoNumeric num; // output
 
-	public AlgoExcentricity(Construction cons, String label, GeoConic c) {
+	public AlgoExcentricity(Construction cons, String label, GeoConicND arg) {
 		super(cons);
-		this.c = c;
+		this.c = arg;
 		num = new GeoNumeric(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -66,7 +66,7 @@ public class AlgoExcentricity extends AlgoElement {
 		return num;
 	}
 
-	GeoConic getConic() {
+	GeoConicND getConic() {
 		return c;
 	}
 
