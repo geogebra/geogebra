@@ -50,6 +50,10 @@ public class AdjustSlider {
 	}
 
 	private boolean isXOnScreen() {
+		if (view == null || origX == null) {
+			return false;
+		}
+
 		if (horizontal) {
 
 			if (x == origX && origX + origWidth < view.getWidth()
@@ -61,6 +65,10 @@ public class AdjustSlider {
 	}
 
 	private boolean isYOnScreen() {
+		if (view == null || origY == null) {
+			return false;
+		}
+
 		if (horizontal) {
 			return false;
 		}
