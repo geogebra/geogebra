@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html manifest="/apps/appcache.nocache.manifest">
 <head>
     <meta charset="utf-8" />
     <title>GeoGebra</title>
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-	<link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" type="text/css" href="https://static.geogebra.org/static/css/structure.ltr.css" />
-    <link rel="stylesheet" type="text/css" href="https://static.geogebra.org/static/css/screen.ltr.css" media="screen and (min-width: 769px)" />
-    <link rel="stylesheet" type="text/css" href="https://tube.geogebra.org/css/general.ltr.css?v=1441962425" />
-    <link rel="stylesheet" type="text/css" href="https://tube.geogebra.org/css/worksheet/ws.view.ltr.css?v=1441962425" />
-<script type="text/javascript">
-var web3dpath = "web3d";
+	<link rel="shortcut icon" href="//app.geogebra.org/static/img/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="//app.geogebra.org/static/img/favicon.ico" type="image/x-icon">
 
+<script type="text/javascript">
 // for IE9
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
+
+function ggbOnInit(){
+var page = e("appPicker");
+if(page){
+page.style.display = "none";
+}
+}
 
         WebFontConfig = {
             loading: function() {},
@@ -25,7 +27,7 @@ fontactive: function(familyName, fvd) {},
             fontinactive: function(familyName, fvd) {},
             custom: {
                 families: ["geogebra-serif", "geogebra-sans-serif" ],
-                urls: [ web3dpath+"/css/fonts.css?v=1.15" ]
+                urls: [ "https://app.geogebra.org/5.0/web3d/css/fonts.css" ]
             }
         };
 			
@@ -34,27 +36,30 @@ fontactive: function(familyName, fvd) {},
 	}
 	var loginAPI = "https://login.geogebra.org/api/";
 	var finalLang = null;
-	function perspective(id){
+	function perspective(id, name){		
 		if(e("ggw")){
 			e("ggw").className="geogebraweb";
 			if(id){
 				e("ggw").setAttribute("data-param-perspective",id);
 			}
-			var page = e("ggbPage");
-			// this verily matters, should hide every harmful "a button"
-			page.className ="verilyhidden";
+			if(name != "picker"){
+				var page = e("appPicker");
+				page.style.display = "none";
+			}
 			if(window.ggbRerun){
-				window.ggbRerun();
+				ggbRerun();
 			}
 		}else{
-		    // app.html does not run into this branch, in theory
-			var page = e("ggbPage");
-			page.className = "verilyhidden";
+			var page = e("appPicker");
+			page.style.display = "none";
 			var container = e("appletContainer");
 			container.style.visibility = "visible";
 			if(id){
 				ggbApplet.setPerspective(id+"");
 			}
+		}
+		if(name && window.history && window.history.pushState && name != "picker" && window.host.indexOf("geogebra") >= 0){
+			history.pushState({}, "GeoGebra", "/"+name);
 		}
 		return false;
 	}
@@ -119,7 +124,9 @@ fontactive: function(familyName, fvd) {},
 			</div>
 			<div class="profileOptionsContent">
 			<div tabindex="0" class="button logoutButton gwt-Button button-up" role="button" aria-pressed="false">
-			<div class="gwt-Label">SignOut</div>
+			
+
+<div class="gwt-Label">SignOut</div>
 			<div></div></div></div></div>
 				*/
 			userInfo = re.responses.response[0].userinfo;
@@ -161,7 +168,7 @@ fontactive: function(familyName, fvd) {},
 					"api" : "1.0.0"
 				}
 			};
-		xhr = new XMLHttpRequest();
+		var xhr = new XMLHttpRequest();
 		xhr.open("POST", loginAPI);
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && xhr.response) {
@@ -197,24 +204,26 @@ fontactive: function(familyName, fvd) {},
 		}
 		return false;
 	}
+	function button(id,perspectiveId){
+		var ret = e(id);
+		ret.addEventListener("click",function(){perspective(perspectiveId,id.replace("perspective",""));});
+		return ret;
+	}
 	function showInLang(lang){
 		document.body.parentNode.style.overflow = "auto";
-		// cancels out "verilyhidden" class
-		e("ggbPage").className="antihidden";
-        // cancels out initial page setup
-        //e("ggbPage").style.display="";
+		e("ggbPage").style.display="";
 		if(finalLang && finalLang != lang){
 			console.log("wrong lang");
 			return;
 		}
 		var props = __GGB__keysVar[lang];
-			e("algebraAndGraphics").innerHTML=props.menu["Perspective.AlgebraAndGraphics"];			
-			e("geometry").innerHTML=props.menu["Perspective.Geometry"];
-			e("cas").innerHTML=props.menu["Perspective.CAS"];
-			e("spreadsheet").innerHTML=props.menu["Perspective.Spreadsheet"];
-			e("perspective3d").innerHTML=props.menu["Perspective.3DGraphics"];
-			e("probCalc").innerHTML=props.menu["Perspective.Probability"];
-			e("search").innerHTML=props.menu["search_geogebra_materials"];
+			button("graphing",1).innerHTML=props.menu["Perspective.AlgebraAndGraphics"];			
+			button("geometry",2).innerHTML=props.menu["Perspective.Geometry"];
+			button("cas",4).innerHTML=props.menu["Perspective.CAS"];
+			button("spreadsheet",3).innerHTML=props.menu["Perspective.Spreadsheet"];
+			button("perspective3d",5).innerHTML=props.menu["Perspective.3DGraphics"];
+			button("probability",6).innerHTML=props.menu["Perspective.Probability"];
+			//e("search").innerHTML=props.menu["search_geogebra_materials"];
 			e("create").innerHTML=props.menu["CreateYourOwn"];
 			if(e("signIn")){
 				e("signIn").innerHTML=props.menu["SignIn"];
@@ -228,28 +237,26 @@ fontactive: function(familyName, fvd) {},
 	function showInEnglish(){
 			if(!window.__GGB__keysVar){
 
-				e("algebraAndGraphics").innerHTML="Algebra and Graphics";
+				e("graphing").innerHTML="Algebra and Graphics";
 				e("geometry").innerHTML="Geometry";
 				e("cas").innerHTML="CAS";
 				e("spreadsheet").innerHTML="Spreadsheet";
 				e("perspective3d").innerHTML="3D Graphics";
-				e("probCalc").innerHTML="Probability";
-				e("search").innerHTML="Search GeoGebra materials";
-				e("create").innerHTML="Create your own";
+				e("probability").innerHTML="Probability";
+				//e("search").innerHTML="Search GeoGebra materials";
+				e("create").innerHTML="GeoGebra Math Apps";
 				if(e("signIn")){
 					e("signIn").innerHTML="Sign in";
 				}
-				// cancels out verilyhidden class
-				e("ggbPage").className="antihidden";
-				// cancels out initial page setup
-				//e("ggbPage").style.display="";
+				e("ggbPage").style.display="";
 			}
+			
 		}
 	var langs = ["af",  "ar",  "ar_MA",  "ar_TN",  "bg",  "bs",  "ca",  "ca_XV",  "cs",  "cy",  "da", 
 	"de_AT",  "de",  "el",  "en_AU",  "en_GB",  "en",  "eo",  "es_ES",  "es",  "es_UY",  "et",  "eu", 
 	"fa",  "fi",  "fr",  "gl",  "hi",  "hr",  "hu",  "hy",  "in",  "is",  "it",  "iw",
 	"ja",  "ji",  "ka",  "kk",  "km",  "kn",  "ko",  "lt",  "lv",  "mk",  "ml",  "mn",  "mr",  "ms", 
-	"ne",  "nl_BE",  "nl",  "no",  "no_NB",  "no_NN",  "pl",  "pt",  "pt_PT",  "ro",  "ru",  "si", 
+	"ne",  "nl_NL",  "nl",  "no",  "no_NB",  "no_NN",  "pl",  "pt",  "pt_PT",  "ro",  "ru",  "si",
 	"sk",  "sl",  "sq",  "sr",  "sv",  "ta",  "tg",  "th",  "tl",  "tr",  "ty",  "ug",  "uk", 
 	"ur",  "vi",  "xh",  "zh_CN",  "zh",  "zh_TW"];
 	
@@ -306,56 +313,101 @@ fontactive: function(familyName, fvd) {},
 				}
 				
 			}
-			l10n.setAttribute("src",web3dpath+"/js/properties_keys_"+lang+".js");
+			l10n.setAttribute("src","https://app.geogebra.org/5.0/web3d/js/properties_keys_"+lang+".js");
 		}
 		
 		
 	}
-function insertScript(){
-        var app = document.createElement("script");
-		app.setAttribute("src",web3dpath+"/web3d.nocache.js");
+function insertScript(codebase){
+codebase = codebase || "https://app.geogebra.org/5.0/";
+var app = document.createElement("script");
+		app.setAttribute("src",codebase+"web3d/web3d.nocache.js");
 		document.head.appendChild(app);
 }
 	function checkLogin(){
-		if(getURLparam("id")){
+		var tubeid = getURLparam("id");
+		var codebase = "https://app.geogebra.org/5.0/";
+		if(location.pathname.substring(0,3)==="/o/"){
+			tubeid = location.pathname.substring(3);
+		}
+		if(e("ggw")){
+			if(location.host.indexOf("beta") == 0){
+				e("ggw").setAttribute("data-param-prerelease",true);
+			}
+			if(location.host.indexOf("alpha") == 0){
+				e("ggw").setAttribute("data-param-prerelease","canary");
+				e("ggw").setAttribute("data-param-materialsApi",location.protocol+"//"+location.host+"/api/json.php");
+				e("ggw").setAttribute("data-param-loginApi","https://"+location.host+"/api/login.php");
+				codebase = "https://autotest.geogebra.org/job/GeoGebra-autotest/lastSuccessfulBuild/artifact/web/war/";
+			}
+		}
+		if(tubeid){
 			if(e("ggw")){
-				e("ggw").setAttribute("data-param-tubeid",getURLparam("id"));
+				e("ggw").setAttribute("data-param-tubeid",tubeid);
 				var previewDiv = document.createElement("div");
 				previewDiv.id= "ggbsplash";
-				previewDiv.style.zIndex = 1000;
+				previewDiv.style.zIndex=1000;
 				var preview = document.createElement("img");
 				preview.style.margin="auto";
-				preview.src = "https://tube.geogebra.org/files/material-"+getURLparam("id")+".png";
+				preview.style.position="absolute";
+				
+				var xhr = new XMLHttpRequest();
+				xhr.open("GET", "/api/material_preview.php?u="+tubeid);
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState == 4 && xhr.response) {
+					preview.addEventListener && preview.addEventListener("load",function(){
+						preview.style.top=(window.innerHeight/2-preview.height/2)+"px";
+						preview.style.left=(window.innerWidth/2-preview.width/2)+"px";
+					});
+						preview.src = xhr.response.replace("http:","https:");
+					}
+				};
+				xhr.send();
+				
 				previewDiv.appendChild(preview);
 				document.body.appendChild(previewDiv);
 				perspective(false);
-				insertScript();
+				insertScript(codebase);
 				return;
 			}
 		}
 		else if(getURLparam("perspective")){
 			perspective(getURLparam("perspective"));
-			insertScript();
+			insertScript(codebase);
+			return;
+		}if(location.hash.length || (location.pathname != '/apps' && location.pathname != '/chromeapp/'
+		&& location.pathname != '/apps/')){
+			var names = {'algebra':1,'geometry':2,'spreadsheet':3,'cas':4,'3d':5,'probability':6};
+			var pName = location.hash.length ? location.hash.replace('#','') : location.pathname.replace(/\//g,'');
+			if( pName.substring(0,6)=="search" || pName == "exam"){
+				perspective(pName);
+			}
+			else{
+				perspective(names[pName],pName);
+			}
+			insertScript(codebase);
 			return;
 		}
-		else if(getURLparam("command") || getURLparam("state") || getURLparam("filename")){
+		else if(getURLparam("command") || getURLparam("state") || getURLparam("filename") ){
 			perspective(false);
-			insertScript();
+			insertScript(codebase);
 			return;
 		}
-		/*else if(!getCookie("SSID") && !getCookie("loginAttempt") && navigator.onLine){
-			var d = new Date();
-			d.setTime(d.getTime() + (365*24*60*60*1000));
-			document.cookie="loginAttempt=true; expires="+d.toUTCString();
-			location.replace("https://login.geogebra.org/user/login/caller/web/?clientinfo=startup&url="+encodeURIComponent(location.href));
-		}*/
+		
 		var lang = getURLparam("ggbLang") || getCookie("GeoGebraLangUI") || navigator.language || "en";
 		window.setTimeout(showInEnglish, 1000);
 		switchLang(validLang(lang));
 		
-		insertScript();
 		
-		perspective(false);
+		insertScript(codebase);
+		if(location.host.indexOf("alpha") == 0){
+			perspective(false, "picker"); //TODO
+		}
+		else if(getCookie("SSID")){
+			checkCookie(getCookie("SSID"), lang);
+		}else{
+			displayUser("", null, lang);
+		}
 		
 
 		
@@ -373,6 +425,7 @@ document.isChromeWebapp = function isChromeWebapp() {
 		return false;
 	};
 </script>
+<script src="https://app.geogebra.org/5.0/web3d/js/webfont.js?v=1.15"></script>
 
 
     <!-- Google Analytics (Start) -->
@@ -389,14 +442,6 @@ document.isChromeWebapp = function isChromeWebapp() {
 			var ga = document.createElement('script'); ga.type = 'text/javascript';
 			ga.async = true;
 			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0];
-			s.parentNode.insertBefore(ga, s);
-		})();
-		
-		(function() {
-			var ga = document.createElement('script'); ga.type = 'text/javascript';
-			ga.async = true;
-			ga.src = web3dpath+'/js/webfont.js';
 			var s = document.getElementsByTagName('script')[0];
 			s.parentNode.insertBefore(ga, s);
 		})();
@@ -420,94 +465,104 @@ document.isChromeWebapp = function isChromeWebapp() {
 
 body {
 	color: #666666;
-	font-size: 15px;
-	font-family: 'Arial', 'Helvetica', sans-serif;
+	font-size: 16px;
+	font-family:  geogebra-sans-serif, Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
 	margin: 0px;
 	padding: 0px;
 }
-
-h1 {
-	font-size: 2.2em;
-	font-weight: normal;
-	color: #6161FF;
+.application #appPicker{
+ display:none;
 }
-
-a.button {
-  border: #6161ff 1px solid;
-  color: #6161FF;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px rgba(204, 204, 204, 0.5);
-  
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  padding: 5px 20px 3px 20px;
-  cursor: pointer;
-  cursor: hand;
-  font-size: 1.1em;
-  display: inline-block;
-  text-decoration: none;
-  min-height: 30px;
-  background: none;
-  margin: 0px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  position: relative;
+/** from LESS */
+.perspectivesBox{
+	width: 250px;
+	position: absolute !important;
+    right: 0px !important;
+    left: auto !important;
+    /* float: right; */
+    top: 50% !important;
+    margin-top: -250px;
 }
-a.button img {
-	vertical-align: middle;
-	margin-right: 15px;
-	margin-top: -3px;
-	margin-left: -5px;
-	border:0px;
+.perspectivesCaption{
+	color: #6161FF !important;
 }
-a.button.big {
-	font-size: 1.5em;
-	padding: 15px 30px 12px 30px;
+.perspectivesMainPanel{
+	width: 245px;
+    padding-right: 5px;
 }
-a.button.perspective {
-	font-size: 1.3em;
-	margin-right: 15px;
-	margin-bottom: 15px;
-	padding: 0px;
-}
-a.button .buttonContent {
-	display: table-cell;
-	vertical-align: middle;
-	padding: 15px;
-	text-align: center;
-	height: 130px;
-	width: 150px;
-	max-width: 150px;
-}
-a.button.perspective img {
-	margin: 0px auto;
-	margin-bottom: 10px;
-	width: 40px;
-	height: 40px;
+.perspectivesRow{
+	float: left;
+	padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 5px;
+    text-align: left;
+	cursor: pointer;
 	display: block;
 }
-a.button:hover {
-  background: rgba(102, 102, 255, 0.15);
-  background: linear-gradient(rgba(255, 255, 255, 0.15), rgba(102, 102, 255, 0.15));
-}
-a.button:active {
-  background: rgba(102, 102, 255, 0.15);
-}
-a.button:focus {
-  box-shadow: 0px 0px 0px 2px rgba(217, 217, 255, 0.5);
-}
-.clearfix:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0;
+.perspectivesRow img{
+	padding-right: 10px;
 }
 
+.perspectiveHighlighted{
+	background-color: #F0F0FF;
+}
+.perspectivesMargin{
+	margin-bottom: 15px;
+}
+.perspectivesRow:hover{
+	background-color: #CCCCFF;
+}
+.perspectivesHelp{
+	position: absolute;
+    right: 10px;
+	cursor: pointer;
+	width: 20px;
+    height: 20px;
+}
+
+.dialogContent table {
+    width: 100%;
+}
+
+.upperBorder{
+    padding-top: 10px;
+    padding-bottom: 0px;
+    border-top: 1px solid #DCDCDC;
+}
+.upperBorder div{
+	padding-top: 3px;
+}
+
+.DialogBox, .gwt-DialogBox {
+    z-index: 501;
+    /* box-shadow: 1px 1px 6px 1px #666666; */
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+    padding: 15px;
+}
+
+.gwt-DialogBox .Caption {
+    cursor: default;
+    font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+    font-size: 110%;
+    /* padding: 10px; */
+    padding-bottom: 5px;
+    color: #333333;
+    border-bottom: 1px solid #DCDCDC;
+    margin-bottom: 15px;
+}
+
+/** OLD STUFF */
+
 #ggbHeader {
-  min-height: 60px;
+  min-height: 53px;
   background: #f8f8f8;
   box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
   border-bottom: 1px solid #dcdcdc;
@@ -530,16 +585,6 @@ a.button:focus {
 #ggbPage {
   background-color: #ffffff;
 }
-#ggbPage.verilyhidden {
-  display: none !important;
-  position: static !important;
-  visibility: hidden !important;
-}
-#ggbPage.verilyhidden * {
-  display: none !important;
-  position: static !important;
-  visibility: hidden !important;
-}
 .ggbPageContent {
   padding: 50px 30px;
   text-align: center;
@@ -561,14 +606,14 @@ a.button:focus {
 	z-index: 200;
 }
 
-#ggbLoginContainer .profileOptionsPanel .arrow {
+.profileOptionsPanel .arrow {
 	position: absolute;
 	z-index: 300;
 	left: 4px;
 	top:-3px;
 }
 
-#ggbLoginContainer .profileOptionsPanel .profileOptionsContent {
+.profileOptionsPanel .profileOptionsContent {
 	position: absolute;
 	top: 15px;
 	left: -75px;
@@ -582,7 +627,7 @@ a.button:focus {
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 }
 
-#ggbLoginContainer .profileOptionsContent .logoutButton {
+.profileOptionsContent .logoutButton {
 	margin: 20px 10px 10px;
 	min-width: 75px;
 	border-radius: 5px;
@@ -613,7 +658,7 @@ z-index:501;
     </style>
 </head>
 <body dir="ltr" tabindex="-1" onload="checkLogin()">
-	<div id="ggbPage" class="verilyhidden">
+	<div id="ggbPage" style="display:none">
 
     <div id="ggbHeader">
         <div id="ggbHeaderContent" class="clearfix">
@@ -627,61 +672,26 @@ z-index:501;
         </div>
     </div>
     
-    <div class="ggbPageContent">
-    	<div class="searchBtnPanel">
-        	<a class="button big" href="#" onclick="perspective('search:');"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAWFJREFUeNqklN1xgzAMx20uAzAC3YBOkDBCJ2jyxCPpBLlMkPDIU+gEuBPABs0IbFBGiNT7k9P5sHFAdzpjkH8S+rBWllRVtaelIE2tT4a0zPO8UwGiBZBBDWmCVwPpnTS2nLCDAzkYZsGAtoAw7EwHjXDK7/lPTsIm88E3WBscqMn4YBsBcCUHBrYpnHw5IybjI60XjoIA73O5w9/9YvtGZ/opu4j0E8/nkKIQiNNQY7t32UVjYWROA+Qb69YHZunUa3KfMxjB8YvgOBScoqVCJRW97gSbuUJMSIH1xwcu8XyiqJOAduMAdojWWfAIs2+QtwZ96oPesC19k6fFyLYidzVaSt4VBSJVIr8Z+tp7CcUY06MnEwNSV8DhGHFv3x164ncTFHJrAblQhg9bl5bs7Sdcq4VC8L+Jfn7CI7Vcekd/t5zWNeDMMdr/8MVg5NIJXxOxD96tAjvgPHAfDwEGAKUOhDJG2pluAAAAAElFTkSuQmCC" alt="Search Materials" /><span id="search"/></a>
-        </div>
-        
-        <div class="createOwnPanel">
-        	<h1><span id="create"/></h1>
-            
-            <a class="button perspective" href="#" onclick="perspective(1);">
-            	<div class="buttonContent">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAbpJREFUeNrsWdFtg0AMhar/vW4QNkg3KBtkhPATPlsmIf0kP9AN2CDZIGwQNigbtL7qnUoQUIQNFylYsoi4p+Tp+ew7O67DtN3uW9HjnfyNXOF1Rf5Bvj8c3Irz/a4AuSP5ugNSkPsckg9MAeMecg7WYisKQr2vgfDnsSpyFFxPhBUN8eTGIVhOhJUhSHtK/+hpAPQErJUQR6h5XVYBYyXEWsXfOtcRwhI1sLBWqBtlR2fqK06TnEtssbsxsT2YJMmKHiuTIGEYljdBEMRSJMhV/SMPuERdAXJnZK4m8kn+RL6BmroOvnBIPjIFTEEuIxJBvYATeb22BcafXUGod8F+8zowFyjpjVWRc5KYhMh7MHkDu1y3mv2Gtg2FUrWEVyFZ6tj5CNKe0hmaIXxxnSQ+x1jLgLVSZhQSxZQZs+fqZcazRrCh1raxpNWNOOSkjzpVa44KLrHFlusW48pvOrniJgiCWNoyPdAEA6tNE8gdnb+xW1vbyersJKZbqmfd1Mj5FST1zHVriHljpwsS1y1p7P1dt6SxMgQxMc0GQDObM+roH3UKx/J0q0LHtneux3AV3vncvyF+BBgABK2buM1QjKUAAAAASUVORK5CYII=" alt="Algebra" />
-                    <span id="algebraAndGraphics"/>
-                </div>
-            </a>
-                       
-            <a class="button perspective" href="#" onclick="perspective(2);">
-            	<div class="buttonContent">
-            		<img src="data:image/png;base64,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" alt="Geometry" />
-                	<span id="geometry"/>
-                </div>
-            </a>
-            
-            <a class="button perspective" href="#" onclick="perspective(3);">
-            	<div class="buttonContent">
-            		<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAqJJREFUeNrsWC9v20AUP0dewVRroKQJKnJRkFGZR1qSjBQlqMj+APsAS3n7AVxW0qAOLOPzVKkls1QpzCjIJqkUySEJ6fJ73lWJc13uErc2yJNOl5zPdz+//+9pnvf8zCTJstJxdcWUyHEYC4J0qJLOcqIw/MmSJJp9gCO1PwgWv3Jnx2AHBzYzjGr+AJMkZr7fod+GUWOm2ZACiL0c0HAY0lq7/YPA5gowDHs07+2ZrN+/kQIIwj7O8aenkN3etmmuVq2XPZW8xGuaTVavpxdgqNJg4NO8u1vLV8Rc92z7G3EQ4un3u/RfRszzulivt5Z0sJKHeKFLXEy1mkVr02kiIeImazY9GjAQfFgcB/lxEICiKD2w13MXnuGyVRYNbnF9w9ztfqHz5nVwI4AAAZGenf1aWPf9cxK9rMvhZ0FV5i14I4AQIRT78HDZYrEGMafG05DWQehw9ryNOHhyckGHZgkigl5lLXKe8Fz03lIksSx5QPv7bDSbHrnnFx0ouiyOY3sy+Thg7NPgf2CEoU4FIMBpmvZZndce4v2167od5VisGvjfmyqvuY+sPyqKdFFk4IHfcf6Ui4PgGsDxyFA6EcMttFo96Wzk3UWcDdSlNZItwC3AIv0gCEnnzAuWFyACuWwwf2vSoki+cB+NhqO7u++Pa9xjoy76N9Q4GEXymyeTD0i3fm8AUPldTaX1gWzeddXTLc+jdOt8rXTrtTKSV11FRxddVCMgjZ9Ox1TIZFsRhfpBcA/16enpDWs0PCqM1ukSvBkH0Q3ghc54HJXCzeiiQgecu7+/pLxQVLUVHupQeEO0x8cXheqfECDAoSC37U7h3FsC+PBwSR0BgCtLVq2Lei1p2yJtSh4dfS2UkwsARc2eonVwJcBtwrqC/gowAJb4F4l9eT7ZAAAAAElFTkSuQmCC" alt="Spreadsheet" />
-                	<span id="spreadsheet"/>
-                </div>
-            </a>
-            
-            <a class="button perspective" href="#" onclick="perspective(4);">
-            	<div class="buttonContent">
-            		<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAWJJREFUeNrsmNFtwjAURZ2KATJCRkg3KBPUnYD2J/wmEyRMQH7JD3SDbEA2KN2gI3QDei1dqifXAoqIqapnyXLy7OCD77sviGS12u/N+W2Yz5OpidjuzB9vCqiACqiACqiA/xxwcumDRVGUGB5FaNd1XXVizSvWbGKdoNsoR39gLwFkBVyGoRbz7r6PJjFO4hPDkxdeAyzltYNLxdwLn4mXg9hwwNCKUEpId2LPIt5ybbwcFG2Bbimh4XV+Ije3lH18QCcbNnRSv4lwJqUNPLY79/OTa/3kB+TSGcULt/7p3aQO0hg2MGWFacytcvDg2CwQz3iqjfeFcs/h4wHSsaVXH60AqLGmh9Qy75ZRTEL51iL0ge5y7p0Q3/UR/f4Sk0yuLG3FYtwCfibKTY77BnMNnV+NbpKAtAM27o+Ul5q5N76LA9L+AGLOLfxX4W/3SvSvDwVUQAVUQAVUQAU81r4EGAAXyXJDB+0CPwAAAABJRU5ErkJggg==" alt="CAS" />
-                	<span id="cas"/>
-                </div>
-            </a>
-            
-            <a class="button perspective" href="#" onclick="perspective(5);">
-            	<div class="buttonContent">
-            		<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAABKJJREFUeNrcmO9PU1cYx7/ntrSlRLizkEGk21yiZM7JNXFzzUiG8RVkZvhCndmM3MTtBYuJe6sv9P2W+CfQbH8Accbsh9EmvtAse1HRVUTAbsEKxiEM0f6A3rPnnMuFS9fKvW3FZg85tJfce/n0c87z3KcH+P8G76YRB/JqrQLGaHCwfJKxRa0W7fFlQM6U3CxTslrt2aMRCuV5+I0cQWa44kn314y9UIjz/ftNg99+l+PtYQlI49m5av43pYxrzopfBw4A4bD5hwcPgJMngfc/oAOGs4r36eArAhT20L19OxCJAOJVEI2NAfX1wNGjBLlHntjvqfsn5qmbUzfa4Io9EaEQjc3A+NjqCUc+Aw4flm/FUoh5fDNvbRDgqj3TnBnhMBkcX3vmHrJ47BgQCEBkdtzje6xthME19qywpnm8AHLHDuDECZr6AFTGEPP6H/W9RMDi9lYAuSLXYWG0tQEDA0BrK1QwPuQNTPW/LINF7ZlTTHxkMJUqfqH6GmXMcYJ8XR4O1tWnzlcZsLS9FYvb/jvF9qC1iC+/Ajp3ycNTdfWTg77gX2q1DJa0Z0VHB5BOl7ZoxSd0j64uswzRiPmCSbVCwPXt2dfhxPj6n1YA9vbKtxqtjJivYUKrxOC69kS0t4t1qLxwmu2xcyfVyiOA3y/LUMzfMKaVAejMnohgkJKlnQxOOF/8IrkOHZKQlOGI+zeN9rs16MiefZrTzxkeppxDtrQAug40N5sZ7t80csohoHN7a8uNO4siyCAOHgS2bpWH5wONfww6MejKnj1RUg/dPy0EZE+PWQ1Ehgcabw0FmobVEoDu7VmNw+aQe4P22LcP+DAin5x9otEINMVVpRr2Vqa5nWH2iRjlQ4oM37tXMEJjjCeVYvY0zZ09+zRzUQ/vlw+Yy9rbN/aNUszecj9XFiDgwf0ypzlLcJcuATNP5PNdT8/tjnoL7YlOWaynckJmcgUGr18nuBlpTs/M74oWJknZa29t46BgdhZyuImrV4HRUQvuvWhBmancnr1x4Jym2YXFK1eAu3fl22hm/t1osTpYFXur9dCDqSln51++DIyMmHDZp+/oRZ4kvK9a9lYaB+51ZPDXX4A7dyy4Dr3Us1h2uPfumaonJysDtBoHYTCTKX3ezz8BCQtuYZte6jwPcE58LQyk02hNJIBr14AbN8xsamwEmprcQ05PA8k/lyirDTS3cDJKQ/zIzRJOpYQjkaADxqO5Z2/rL7oXs5UZASqm+7hsJm2PMFG4xRKwdhLWC/EBv/8hi4+60ujpNWDkDeR5HobBcfGigdu3DTBmRHPP39TXuxcr0c1YsB8vv7qCFfbPnFnClvACBr5eBfzxAsctggOM6GI6rDv5sMzBlyZ1GfLTYrAia7Ui/fDp08Dc/ByBGvD5DAxdyGN4mEtzi+ktutPlwtytLgnbbYNVrcTo7DRBLdgoVbPffl/A51/kqIwYuDmcF9ffXMq07d7IrTjRFlGDyWet/cJgkPNIhHNN43I7rqFxhnv9j2lMx+mL+6vcLpb7hlSyeNKCZWyRe3wSMO71P6qlvWyumbBGkgDjHt/ftbrRXnn8K8AAk4vInwPmmC4AAAAASUVORK5CYII=" alt="3D Graphics" />
-                	<span id="perspective3d"/>
-                </div>
-            </a>
-			
-			 <a class="button perspective" href="#" onclick="perspective(6);">
-                <div class="buttonContent">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAYRJREFUeNrslq9ywkAQxi+Zqip0FY+QyLriK1qDLbxBXwFbQ2trktqaVOAjkckbUFVVgcIeu3dfZpJMG/IXGGa/mQ2Bye3+2N3bi1IikUgkEl20nP5c6Qe6ePiSkuuvM/mPDKY3ZLpkG0CfDGxEFgDmF/fPsAC/adyPjlxiEzBGSddkn2S70kPXZFOyW1tyNaFw2yMAFuBCAFaJAWdtId0W6YsawCk8E2JN1DRYQ0DuJ3VH9lITLg/5btcaH0MAcvObUnE23lpkfoG1M/jqE9CMiyXm27zD2J2jF5d1R1ANQD2mC5fl2zZ5Z03gK4DvLoBmx3Jj8+djmzHxRxa31peC7+oZ6R7IXDZOqDRO2uMJm1qfxndclUm3oueSHFw4wGtAmINM/uvJEqDmMRCjrFwKfxi4AqSPWJGNzQwFQO3h/ExyJV0ALlWDy8TwETMreQImz7EHuhHvrA+y18ObQd/Q5b4hyYr8/tTYlDwjn8jG2Vmsz/mF9QqpFYlEIpFIdBrtBRgAu5eF1CVUIv4AAAAASUVORK5CYII=" alt="Probability Calculator" />
-                    <span id="probCalc"/>
-                </div>
-            </a>
-        </div>
+    <div class="ggbPageContent GeoGebraFrame" id="appPicker">
+	<div class="gwt-DialogBox DialogBox GeoGebraFrame perspectivesBox" style="right: 0px; top: 101px; position: absolute; overflow: visible;">
+    	<div class=""><table cellspacing="0" cellpadding="0" class=""><tbody><tr class="dialogTop"><td class="dialogTopLeft"><div class="dialogTopLeftInner"></div></td><td class="dialogTopCenter"><div class="dialogTopCenterInner">
+		<div class="Caption perspectivesCaption" id="create">GeoGebra Math Apps</div></div></td><td class="dialogTopRight"><div class="dialogTopRightInner"></div></td></tr>
+		<tr class="dialogMiddle"><td class="dialogMiddleLeft"><div class="dialogMiddleLeftInner"></div></td><td class="dialogMiddleCenter"><div class="dialogMiddleCenterInner dialogContent"><div class="perspectivesMainPanel"><table cellspacing="0" cellpadding="0" class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAn0lEQVR42mNgwAMSEv4LpKb+35+W9v8/CIPYIDEGcgHQkAaYYUi4gWwDkV2H7EpKXNiPxYX9ZBsICi+gAeeRDDtPURjCQEbGfwcQZhiUYObMmQFAvB6KA6hh2HsgLoDi9xQZCnVVARIfZOh6Sg1sQOI3UGTg9OnTHaDebIDi9yAxisIRaig4Uig2jGaAagmb6lmP6oUDLYov6haw5FQBAMuA4oEYnZWrAAAAAElFTkSuQmCC" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="graphing">Algebra</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table cellspacing="0" cellpadding="0" class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAl0lEQVR42mOYOfP/f2yYgVwwauAQMzAtLa0AiBtSU1MNQPyMjAwFEB8kTpaBQAMcgJr/A/H9hIQEASC9HsoPINvLQM39IEOArtwPotPT0+cjWdaAjgkaCHXZfWSXUmQgNNzeQw38jxyeIEPRMUEDYV6FRhCIPg8NigaYJciYmFj+D/YKhL8emU92skEKNwV4WI1mvRFsIADb3ff2E8Pv8AAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="cas">CAS</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table cellspacing="0" cellpadding="0" class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACUElEQVR42q2UT2gTQRTGv0tBPNR46B8o0qgR6S0i5NKDkYqhCMVDwVpBctApBgp7qeKpK+2hlUKghTTby55UcvIQ8dKFQIk5iYMKklWhsmAVCXpJ8bi+tztpJm2apuDAx9vdzPzyzZv3Buh6+JFVzG5zxP8ZvmnC9Ck+7zwNsEnRo9yRdp5hukLRI13vBIyTSgocOcwdqfga40WKCwzfv/UGR/+QJL0kma1gv18BDAUUDCdl1boIKavWqp1uIA4LBkcFlk2wv6IAQgMapBodkqHm3mwasGCSPORRpOgStIR1RGlSmreQDjIRAPaAMXwxHFxzLYg/85jfl38LO4G7PEQgC7ngG7uGbz/EsvyFPi+PGZuBS3iU4/c5PGXnTmPrOtDdgzW0gQUsnue87bI7dlQYHK8IIfxXA1ckv+tbJyU6A1nnyhIjjssLX2Cq8A3DbmE4JdllFRelcihUjqUO9A7A7t9+gp6/9cTVu96b3pjHQD2HY3Aev8OlCv8JP4dALq0QKFtyyOr7+nH5ROb3h5NDP8/eSNeUE/2UhQ4uY1RGsc2HF2dgliB2AzabGsqVqHLu9azV0f/5PUY26zj1gzukmMMDV5VQi0ZRlryGweASIWgttghj6wKc6gDkmclbK5icC3VnxkZmgreUfIvLNsfDRL+H9TiRgawOwltKUcm0OyALu6orzKPvEGqZ772wT2dRO5DLJtBVXdQVMKl1jGwL5C5aD1rSPN6Vx4djodLGoSRg4vhAmy6DENosJY7cit3msO0IIZ+C3IV9ne4W+A/HGXFQTiTWqQAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="geometry">Geometry</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table cellspacing="0" cellpadding="0" class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAByklEQVR42q2Uy0sCURhHJ2wsmsiBbFX2oteuCYJsE72INkVQFO0uPYg2ZViBoKRUUhEJtWrVnzQtXEgYzmIgFwM3SMpI+3VvMYSmTpkXzmYWhzP38QlCyQXCkIXKLLQzIFRl1QpJceNyAe7hDKT6NBXElPKvusZGIBxmQncGp2dptLanqM1O58quIwS4vgYUJYPLqzSOwyl09z7CJhqkrDou40xMZnEQTOMiksLZ+SMGhwxU1yQjZdVxCHnH2vq38PjEwPhUEmKdfiPICflPdRy+j6NjucLQURJzCzrsdZpqIc2tM+nvf/0hDIR0rG5ocDjvVVG6U35VZzIw8PZ5KPlCX0ADWY+jqTlGRSmq/KqOs7iUxcpqYeGuL47N7RhaOqO0VlaJZR3H7wdGRosLPfsxzC9HUeO4pZZ1Js2u55KFjqYolWRVsawz6e17Rejwp3DLG2e/m7OH1nWcmdkMNjZzhTv7GlwdcZp3yqA9PWzjF7/uXDGh1wtMTX8L93w6k2lMlih4ZdhHsOeEBJ8wheSRCNDV/fQp9PmTTKYXkxWVq/ny1rYXBIIGWtrY05N0pdwh6zHlTucbpAYDYu0DqdAEz3psdqPkTPwA6mddcOZ/mFsAAAAASUVORK5CYII=" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="perspective3d">3D Graphics</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table cellspacing="0" cellpadding="0" class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABF0lEQVR42s2ULRKDMBCFcydUXRQOhcKhUIjOoHAoFA4BwdT1AhwAh+ICvUAP0Auk80KzbWlSZpqIMvMGkk2+7A8bJoSUW42jlMvyHFfVQt+Yh13PQ3V9ITvbA2JDEASyKMYPIOeRzDIhwzAh6C4wSSraZAMeDly27W0f2DRX5V0UZeoNb1+BOARzsOu0fAXi9Dw/q7mynJS3Ng8pZBi3mucViEU6FAhjU1EQCRUFC0xilkcIUXVdx5l9wUpO04YqqU5yASKUOC5UPrwAdT7+G4iwveTQVmVsNGkYhqnv+5PNbvwPIXhh0gN2tNmpymgfVJp60iWHyB1aC0DqSR9VRrN78RAho9HfLkrXkJFDiG4N15C3+hV4B+Us1vcjQ/fkAAAAAElFTkSuQmCC" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="spreadsheet">Spreadsheet</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table cellspacing="0" cellpadding="0" class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAmklEQVR42mNgGAVDFfx3gGDKDTIA4vtAfAyK70PEyDfsGRA3A3EaFDdDxQzINawSyTAYriTR0P8CUK95YjEMhkFy5yFqCRsIUhgAxFJ4DJSCqtlPyGVABf8ToHwCBoLVJED1CKCHVz/CZXBxIgwEqwuA6u2HhmvDfwaG3PsgBiqW6GFg8NyMHYPk0NWDzACZxcDgQGU8CgYbAACsFYcpwHkoogAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="probability">Probability</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table cellspacing="0" cellpadding="0" class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAt0lEQVR42u3VzQmEMBAF4JSwpViibXiyASEl5OZJEDxbghCwgbc+sqvGxJifqwPvkkw+hExQCKugtiAxStwXVF0jutj7gg4oqwrQ+hljD3t5JgR+toxsnGdgGPzh3g8bzZlgHaiUQNPY4VoCFkYzMT9aiNkgL+B0CWVfd77xTNSPZaJ+bF1NMlB3sKcJaFsTzmDqYO9Pb1mArnPnkGvcS3rLfe9C17AnGnzC/okG797wNVFg6S/gC6LR7OvaAdxwAAAAAElFTkSuQmCC" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="exam">Exam Mode</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table cellspacing="0" cellpadding="0" class="perspectivesRow upperBorder"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="tutorials">Tutorials</div></td></tr></tbody></table></div></div></td><td class="dialogMiddleRight"><div class="dialogMiddleRightInner"></div></td></tr><tr class="dialogBottom"><td class="dialogBottomLeft"><div class="dialogBottomLeftInner"></div></td><td class="dialogBottomCenter"><div class="dialogBottomCenterInner"></div></td><td class="dialogBottomRight"><div class="dialogBottomRightInner"></div></td></tr></tbody></table></div>
     </div>
+	</div>
 
 </div>
     <article id="ggw" data-param-showLogging="true" 
     data-param-useBrowserForJS="false"
-    data-param-app="true" data-param-prerelease="true"></article>
+    data-param-app="true" data-param-laf="modern"></article>
 </body>
 </html>
+
