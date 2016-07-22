@@ -19,6 +19,13 @@ public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
 		tabBar.addStyleName("gwt-TabBar");
 		tabBar.addStyleName("ggb-MultiRowsTabPanel");
 		FlowPanel panel = new FlowPanel();
+
+		// TODO after release MULTIROW_TAB_PROPERTIES feature:
+		// propertiesTabPanel
+		// and propertiesTabPanel2 classes should be merged
+		panel.addStyleName("propertiesTabPanel");
+		panel.addStyleName("propertiesTabPanel2");
+
 		panel.add(tabBar);
 		deck.addStyleName("propView_deckPanel");
 		panel.add(deck);
