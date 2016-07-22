@@ -95,6 +95,14 @@ run {
 	}
 
 }
+test {
+     ignoreFailures = true
+}
+
+findbugsTask{
+     ignoreFailures = true
+}
+
 
 // http://stackoverflow.com/questions/20638039/gradle-and-jacoco-instrument-classes-from-a-separate-subproject
 gradle.projectsEvaluated {
