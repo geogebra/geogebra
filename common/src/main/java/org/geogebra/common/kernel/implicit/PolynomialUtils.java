@@ -293,6 +293,12 @@ public class PolynomialUtils {
 					// exception
 					ExpressionValue eval = coeff[i][j]
 							.evaluate(StringTemplate.defaultTemplate);
+
+					// needed for GWT (ClassCastException not thrown)
+					if (!(eval instanceof NumberValue)) {
+						throw new RuntimeException("not a NumberValue");
+					}
+
 					((NumberValue) eval).getDouble();
 				}
 			}
