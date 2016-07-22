@@ -11,7 +11,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAdvancedW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAlgebraW;
@@ -64,7 +63,6 @@ public class PropertiesViewW extends PropertiesView
 	private boolean auxWasVisible;
 
 	private boolean isObjectOptionsVisible;
-
 
 	public PropertiesViewW(AppW app, OptionType ot) {
 		super(app);
@@ -497,8 +495,6 @@ public class PropertiesViewW extends PropertiesView
     	if(height > 0 && width > 0) {
     		contentsPanel.setWidth(width + "px");
     		
-			TabPanelInterface tabPanel = optionPanel.getTabPanel();
-
 			if (!app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
 				// -30px for Tabs, -27px for padding, -26px for paddings
 				optionPanel.onResize((height - 30 - 27),
