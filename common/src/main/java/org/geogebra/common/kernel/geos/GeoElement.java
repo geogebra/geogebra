@@ -7045,7 +7045,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param arg argument that replaces all %0 in the script
 	 */
 	public void runClickScripts(final String arg) {
-		kernel.getApplication().dispatchEvent(new Event(EventType.CLICK, this, arg));
+		// "%0" is replaced in the script by "arg"
+		kernel.getApplication().dispatchEvent(
+				new Event(EventType.CLICK, this, arg == null ? label : arg));
 	}
 
 	private boolean showTrimmedIntersectionLines = false;

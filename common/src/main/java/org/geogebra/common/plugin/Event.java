@@ -12,7 +12,7 @@ public class Event {
 	private boolean alwaysDispatched;
 
 	public Event(EventType type, GeoElement target) {
-		this(type, target, null);
+		this(type, target, target == null ? null : target.getLabelSimple());
 	}
 
 	public Event(EventType type, GeoElement target, String argument) {
