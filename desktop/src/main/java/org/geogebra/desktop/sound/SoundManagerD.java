@@ -89,7 +89,7 @@ public class SoundManagerD implements SoundManager {
 			try {
 				functionSound = new FunctionSoundD(app);
 			} catch (Exception e) {
-				e.printStackTrace();
+				Log.error("Problem in getFunctionSound(): " + e.getMessage());
 			}
 		return functionSound;
 	}
@@ -304,7 +304,7 @@ public class SoundManagerD implements SoundManager {
 			currentSoundType = SOUNDTYPE_FUNCTION;
 			getFunctionSound().playFunction(f, min, max);
 		} catch (Exception e) {
-			e.printStackTrace();
+			Log.error("Problem in playFunction(): " + e.getMessage());
 		}
 	}
 
