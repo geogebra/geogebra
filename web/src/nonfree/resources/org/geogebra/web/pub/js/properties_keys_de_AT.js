@@ -822,7 +822,7 @@ __GGB__keysVar.de_AT.command = {
     "SetAxesRatio.Syntax": "[ <Zahl>, <Zahl> ]",
     "SetAxesRatio.Syntax3D": "[ <Zahl>, <Zahl> ]\n[ <Zahl>, <Zahl>, <Zahl> ]",
     "SetBackgroundColor": "SetzeHintergrundfarbe",
-    "SetBackgroundColor.Syntax": "[ <Objekt>, \"<Farbe>\" ]\n[ <Objekt>, <Rot>, <Gr\xfcn>, <Blau> ]",
+    "SetBackgroundColor.Syntax": "[ \"<Farbe>\" ]\n[ <Objekt>, \"<Farbe>\" ]\n[ <Rot>, <Gr\xfcn>, <Blau> ]\n[ <Objekt>, <Rot>, <Gr\xfcn>, <Blau> ]",
     "SetCaption": "SetzeBeschriftung",
     "SetCaption.Syntax": "[ <Objekt>, <Text> ]",
     "SetColor": "SetzeFarbe",

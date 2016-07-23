@@ -832,7 +832,7 @@ __GGB__keysVar.km.command = {
     "SetConstructionStep": "SetConstructionStep",
     "SetConstructionStep.Syntax": "[ <Number> ]",
     "SetCoords": "SetCoords",
-    "SetCoords.Syntax": "[ <Object>, <x>, <y> ]",
+    "SetCoords.Syntax": "[ <Object>, <x>, <y> ]\n[ <Object>, <x>, <y>, <z> ]",
     "SetDynamicColor": "SetDynamicColor",
     "SetDynamicColor.Syntax": "[ <Object>, <Red>, <Green>, <Blue> ]\n[ <Object>, <Red>, <Green>, <Blue>, <Opacity> ]",
     "SetFilling": "SetFilling",

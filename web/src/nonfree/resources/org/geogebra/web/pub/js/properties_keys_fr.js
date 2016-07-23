@@ -832,7 +832,7 @@ __GGB__keysVar.fr.command = {
     "SetConstructionStep": "Soit\xc9tapeConstruction",
     "SetConstructionStep.Syntax": "[ <Nombre> ]",
     "SetCoords": "SoitCoordonn\xe9es",
-    "SetCoords.Syntax": "[ <Objet>, <x>, <y> ]",
+    "SetCoords.Syntax": "[ <Objet>, <x>, <y> ]\n[ <Objet>, <x>, <y>, <z> ]",
     "SetDynamicColor": "SoitCouleurDynamique",
     "SetDynamicColor.Syntax": "[ <Objet>, <Rouge>, <Vert>, <Bleu> ]\n[ <Objet>, <Rouge>, <Vert>, <Bleu>, <Opacit\xe9> ]",
     "SetFilling": "SoitRemplissage",
