@@ -15,7 +15,9 @@ package org.geogebra.common.kernel.geos;
 
 
 import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 
@@ -45,7 +47,7 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
 	 * @param t parameter value
 	 * @return result as GeoVec2D
 	 */
-	GeoVec2D evaluateCurve(double t);	
+	ExpressionValue evaluateCurve(double t);
 
 	/**
 	 * @param t parameter value
@@ -58,5 +60,7 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
 	boolean isFunctionInX();
 	
 	Function getFun(int i);
+
+	FunctionVariable[] getFunctionVariables();
 
 }

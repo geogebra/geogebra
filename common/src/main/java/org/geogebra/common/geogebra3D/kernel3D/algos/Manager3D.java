@@ -1072,9 +1072,16 @@ public class Manager3D implements Manager3DInterface {
 
 	public GeoElement SurfaceOfRevolution(String label,
 			ParametricCurve function,
-			NumberValue angle) {
+ GeoNumberValue angle) {
 		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons, label,
 				function, angle);
+		return algo.getSurface();
+	}
+
+	public GeoElement SurfaceOfRevolution(String label,
+			ParametricCurve function, GeoNumberValue angle, GeoLineND line) {
+		AlgoSurfaceOfRevolution algo = new AlgoSurfaceOfRevolution(cons, label,
+				function, angle, line);
 		return algo.getSurface();
 	}
 

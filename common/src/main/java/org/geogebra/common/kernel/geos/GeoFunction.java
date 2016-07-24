@@ -2951,7 +2951,12 @@ CasEvaluableFunction, ParametricCurve,
 	}
 
 	public Function getFun(int i) {
-		return i == 0 ? fun : null;
+		if (i > 1) {
+			return new Function(new ExpressionNode(kernel, 0),
+					fun.getFunctionVariable());
+		}
+		return i == 1 ? fun : new Function(fun.getFunctionVariable().wrap(),
+				fun.getFunctionVariable());
 	}
 
 	/**

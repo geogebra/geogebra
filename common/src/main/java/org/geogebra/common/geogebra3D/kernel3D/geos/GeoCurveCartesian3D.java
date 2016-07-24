@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3D;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -292,7 +293,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		// current expressions
 		ExpressionNode[] expr = new ExpressionNode[3];
 		for (int i = 0; i < 3; i++) {
-			expr[i] = ((Function) fun[i].deepCopy(kernel)).getExpression();
+			expr[i] = fun[i].deepCopy(kernel).getExpression();
 		}
 
 		for (int row = 0; row < 3; row++) {
@@ -311,6 +312,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	}
 
+
+
 	private CoordMatrix4x4 tmpMatrix4x4;
 
 	@Override
@@ -323,6 +326,13 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(),
 				r.getDouble(), line.getStartInhomCoords(), tmpMatrix4x4);
 		transform(tmpMatrix4x4);
+
+	}
+
+	public void rotate(GeoLineND line, ExpressionValue r,
+			GeoSurfaceCartesian3D surface) {
+
+
 
 	}
 
@@ -646,7 +656,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		// current expressions
 		for (int i = 0; i < 3; i++) {
-			ExpressionNode expr = ((Function) fun[i].deepCopy(kernel))
+			ExpressionNode expr = fun[i].deepCopy(kernel)
 					.getExpression();
 			ExpressionNode trans = expr.plus(v.get(i + 1));
 			fun[i].setExpression(trans);
@@ -692,7 +702,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public void dilate(NumberValue ratio, Coords P) {
 		translate(P.mul(-1));
 		for (int i = 0; i < 3; i++) {
-			ExpressionNode expr = ((Function) fun[i].deepCopy(kernel))
+			ExpressionNode expr = fun[i].deepCopy(kernel)
 					.getExpression();
 			fun[i].setExpression(new ExpressionNode(kernel, ratio,
 					Operation.MULTIPLY, expr));
@@ -752,6 +762,16 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	@Override
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC3D;
+	}
+
+	public RealRootFunction getRealRootFunctionX() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public RealRootFunction getRealRootFunctionY() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

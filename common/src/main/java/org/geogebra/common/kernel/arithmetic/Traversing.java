@@ -801,7 +801,7 @@ public interface Traversing {
 							StringTemplate.defaultTemplate));
 				} else if ("Surface".equals(com.getName())) {
 					int len = com.getArgumentNumber();
-					if (len > 2) {
+					if (len > 6) {
 						localTree.add(com.getArgument(len - 3).toString(
 								StringTemplate.defaultTemplate));
 						localTree.add(com.getArgument(len - 6).toString(

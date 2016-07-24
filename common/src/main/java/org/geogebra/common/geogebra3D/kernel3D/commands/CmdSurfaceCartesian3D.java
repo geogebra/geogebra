@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.ParametricCurve;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -48,6 +49,20 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 				ret[0] = kernelA.getManager3D().SurfaceOfRevolution(
 						c.getLabel(), (ParametricCurve) arg[0],
 						(GeoNumberValue) arg[1]);
+
+				return ret;
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+		case 3:
+			arg = resArgs(c);
+			if ((ok[0] = (arg[0] instanceof ParametricCurve))
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoLineND)) {
+				GeoElement[] ret = new GeoElement[1];
+
+				ret[0] = kernelA.getManager3D().SurfaceOfRevolution(
+						c.getLabel(), (ParametricCurve) arg[0],
+						(GeoNumberValue) arg[1], (GeoLineND) arg[2]);
 
 				return ret;
 			}

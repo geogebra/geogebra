@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.util.debug.Log;
 
@@ -24,7 +25,8 @@ import org.geogebra.common.util.debug.Log;
  * @author matthieu
  *
  */
-public abstract class GeoCurveCartesianND extends GeoElement implements Traceable, Path, VarString, CasEvaluableFunction {
+public abstract class GeoCurveCartesianND extends GeoElement implements
+		ParametricCurve, Traceable, Path, VarString, CasEvaluableFunction {
 
 	/** samples to find interval with closest parameter position to given point */
 	protected static final int CLOSEST_PARAMETER_SAMPLES = 100;
@@ -268,6 +270,10 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	 * @return i-th function
 	 */
 	public Function getFun(int i){
+		if (i >= fun.length) {
+			return new Function(new ExpressionNode(kernel, 0),
+					fun[0].getFunctionVariable());
+		}
 		return fun[i];
 	}
 
