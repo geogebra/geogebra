@@ -102,7 +102,8 @@ public class GeneralPathClipped implements GShape {
 
 	private void addSimpleSegments() {
 		int size = pathPoints.size();
-		for (int i = 0; i < size; i++) {
+		// double comparison for GGB-975
+		for (int i = 0; i < size && i < pathPoints.size(); i++) {
 			MyPoint curP = pathPoints.get(i);
 			/// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.euclidian.GeneralPathClipped&tm=addSimpleSegments&nid&an&c&s=new_status_desc
 			if (curP != null) {
@@ -126,7 +127,7 @@ public class GeneralPathClipped implements GShape {
 		MyPoint curP = null, prevP;
 
 		int size = pathPoints.size();
-		// GGB-953: under unknown conditions pathPoints may shrink so we need
+		// GGB-975: under unknown conditions pathPoints may shrink so we need
 		// double comparison
 		for (int i = 0; i < size && i < pathPoints.size(); i++) {
 			prevP = curP;
