@@ -33,10 +33,6 @@ import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 public class AlgoDependentPoint3D extends AlgoElement3D implements
 		DependentAlgo {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GeoPoint3D P; // output
 
 	private double[] temp;

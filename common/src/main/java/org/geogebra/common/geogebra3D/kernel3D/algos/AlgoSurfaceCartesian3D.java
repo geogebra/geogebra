@@ -41,7 +41,6 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
  */
 public class AlgoSurfaceCartesian3D extends AlgoElement {
 
-	private static final long serialVersionUID = 1L;
 	private NumberValue[] coords; // input
 	private NumberValue[] from, to; // input
 	private GeoNumeric[] localVar; // input

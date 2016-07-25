@@ -38,10 +38,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
  */
 public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	protected GeoElement firstGeo; // input
 	protected GeoConicND c; // input
 	protected GeoPoint3D[] P; // output

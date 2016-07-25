@@ -27,10 +27,6 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 
 public abstract class AlgoAnglePolygonND extends AlgoAngle {
 
-	/**
-	 * 
-	 */
-	public static final long serialVersionUID = 1L;
 	protected GeoPolygon poly; // input
 	protected OutputHandler<GeoElement> outputAngles;
 	protected AlgoAnglePointsND algoAngle;

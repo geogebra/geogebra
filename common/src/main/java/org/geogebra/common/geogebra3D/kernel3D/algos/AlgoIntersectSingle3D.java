@@ -12,10 +12,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoIntersectSingle3D extends AlgoIntersect3D {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	// input
 	private AlgoIntersect3D algo;
 	private int index; // index of point in algo

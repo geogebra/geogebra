@@ -18,8 +18,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
-import java.io.Serializable;
-
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -29,9 +27,7 @@ import org.geogebra.common.plugin.Operation;
  * A term is a pair of coefficient and variables in a Polynomial, e.g. {4, "x"},
  * {a, "xy"}
  */
-public class Term implements Comparable<Object>, Serializable {
-
-	private static final long serialVersionUID = 1L;
+public class Term implements Comparable<Object> {
 
 	/** coefficient */
 	ExpressionValue coefficient; // has to evaluate() to NumberValue

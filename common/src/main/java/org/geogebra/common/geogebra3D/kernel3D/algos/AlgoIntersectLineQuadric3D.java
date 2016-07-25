@@ -10,12 +10,6 @@ the Free Software Foundation.
 
  */
 
-/*
- * AlgoTangentLine.java
- *
- * Created on 30. August 2001, 21:37
- */
-
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -24,7 +18,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -36,10 +29,6 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
  */
 public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GeoLineND g; // input
 	private GeoQuadricND q; // input
 	private GeoPoint3D[] D; // D: old points; Q: new points, not yet permuted
@@ -166,8 +155,6 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	@Override
 	public void compute() {
 
-		Coords o = g.getStartInhomCoords();
-		Coords d = g.getDirectionInD3();
 
 		// g: X' = p + tv (X' is inhom coords)
 		// q: XAX = 0 (the second X is transposed; X = (X',1) is hom coords)
@@ -201,7 +188,6 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 				* (m[5] * p1 + m[6] * p2 + m[2] * p3 + m[9]) + m[7] * p1 + m[8]
 				* p2 + m[9] * p3 + m[3];
 
-		Kernel kernel = q.getKernel();
 		if (Kernel.isZero(u)) {// no quadratic term
 			if (Kernel.isZero(b)) {// no linear term: 0 t = -w
 				if (Kernel.isZero(w)) { // whole line is contained in q
@@ -277,6 +263,10 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		for (int i = 0; i < 2; i++)
 			Q[i].setUndefined(); // TODO change to Q
 
+	}
+
+	public int getIntersectionType() {
+		return intersectionType;
 	}
 
 	/**

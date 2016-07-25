@@ -33,10 +33,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
  */
 public class AlgoLengthVector3D extends AlgoElement {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GeoVectorND v; // input
 	private GeoNumeric num; // output
 

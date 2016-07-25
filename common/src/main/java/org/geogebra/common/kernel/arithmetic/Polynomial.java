@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -26,9 +25,8 @@ import org.geogebra.common.plugin.Operation;
  * An Polynomial is a list of Terms
  */
 
-public class Polynomial implements Serializable {
+public class Polynomial {
 
-	private static final long serialVersionUID = 1L;
 
 	private ArrayList<Term> terms = new ArrayList<Term>();
 	private Kernel kernel;

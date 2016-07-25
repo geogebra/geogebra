@@ -32,10 +32,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public abstract class AlgoMidpointND extends AlgoElement {
 
-    /**
-	 * 
-	 */
-	public static final long serialVersionUID = 1L;
 	private GeoPointND P, Q; // input
     private GeoPointND M; // output        
 

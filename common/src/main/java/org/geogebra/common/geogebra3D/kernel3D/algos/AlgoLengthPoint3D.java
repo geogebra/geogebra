@@ -34,10 +34,6 @@ import org.geogebra.common.util.MyMath;
  */
 public class AlgoLengthPoint3D extends AlgoElement {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private GeoPointND p; // input
 	private GeoNumeric num; // output
 
