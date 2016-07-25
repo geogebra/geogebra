@@ -147,14 +147,13 @@ public class Kernel {
 	// Views may register to be informed about
 	// changes to the Kernel
 	// (add, remove, update)
-	// TODO why exactly 20 views?
 	/** List of attached views */
 	protected ArrayList<View> views = new ArrayList<View>();
-	protected boolean addingPolygon = false;
-	protected GeoElement newPolygon;
-	protected ArrayList<GeoElement> deleteList;
+	private boolean addingPolygon = false;
+	private GeoElement newPolygon;
+	private ArrayList<GeoElement> deleteList;
 	// TODO merge with clientListeners
-	protected ArrayList<UserAwarenessListener> userAwarenessListeners;
+	private ArrayList<UserAwarenessListener> userAwarenessListeners;
 	/** Construction */
 	protected Construction cons;
 	/** Algebra processor */
@@ -315,6 +314,9 @@ public class Kernel {
 
 	/**
 	 * Creates kernel and initializes number formats and CAS prefix
+	 * 
+	 * @param factory
+	 *            factory for new elements
 	 */
 	protected Kernel(GeoFactory factory) {
 		nf = FormatFactory.prototype.getNumberFormat(2);
@@ -349,9 +351,9 @@ public class Kernel {
 	/**
 	 * @param kernel
 	 *            kernel
-	 * @return a new 3D manager TODO: reduce visibility after refactoring
+	 * @return a new 3D manager
 	 */
-	public Manager3DInterface newManager3D(Kernel kernel) {
+	protected Manager3DInterface newManager3D(Kernel kernel) {
 		return null;
 	}
 
@@ -433,12 +435,20 @@ public class Kernel {
 		return app;
 	}
 
+	/**
+	 * @return (polynomial) equation solver
+	 */
 	final public EquationSolver getEquationSolver() {
 		if (eqnSolver == null)
 			eqnSolver = new EquationSolver(this);
 		return eqnSolver;
 	}
 
+	/**
+	 * @param eSolver
+	 *            single equation solver
+	 * @return system solver
+	 */
 	final public SystemOfEquationsSolver getSystemOfEquationsSolver(
 			EquationSolverInterface eSolver) {
 		if (sysEqSolv == null)
@@ -446,12 +456,18 @@ public class Kernel {
 		return sysEqSolv;
 	}
 
+	/**
+	 * @return extremum finding utility
+	 */
 	final public ExtremumFinder getExtremumFinder() {
 		if (extrFinder == null)
 			extrFinder = new ExtremumFinder();
 		return extrFinder;
 	}
 
+	/**
+	 * @return parser for GGB and CAS expressions
+	 */
 	final public Parser getParser() {
 		if (parser == null)
 			parser = new GParser(this, cons);
@@ -460,6 +476,9 @@ public class Kernel {
 
 	/**
 	 * creates the Evaluator for ExpressionNode
+	 * 
+	 * @param kernel
+	 *            kernel to be used for new expression
 	 * 
 	 * @return the Evaluator for ExpressionNode
 	 */
@@ -482,6 +501,7 @@ public class Kernel {
 	/**
 	 * 
 	 * @param precision
+	 *            max absolute value of difference
 	 * @return a double comparator which says doubles are equal if their diff is
 	 *         less than precision
 	 */
@@ -582,6 +602,10 @@ public class Kernel {
 	 * Returns the ConstructionElement for the given GeoElement. If geo is
 	 * independent geo itself is returned. If geo is dependent it's parent
 	 * algorithm is returned.
+	 * 
+	 * @param geo
+	 *            geo
+	 * @return geo or parent algo
 	 */
 	public static ConstructionElement getConstructionElement(GeoElement geo) {
 		AlgoElement algo = geo.getParentAlgorithm();
@@ -593,6 +617,8 @@ public class Kernel {
 
 	/**
 	 * Returns the Construction object of this kernel.
+	 * 
+	 * @return construction
 	 */
 	public Construction getConstruction() {
 		return cons;
@@ -1282,8 +1308,14 @@ public class Kernel {
 		return ret;
 	}
 
-	/*
+	/**
 	 * swaps the digits in num to the current locale's
+	 * 
+	 * @param num
+	 *            english number
+	 * @param tpl
+	 *            template
+	 * @return localized number
 	 */
 	public String internationalizeDigits(String num, StringTemplate tpl) {
 
@@ -1515,6 +1547,8 @@ public class Kernel {
 	 *            true to keep leading sign
 	 * @param CANCEL_DOWN
 	 *            true to allow canceling 2x+4y -> x+2y
+	 * @param needsZ
+	 *            whether "+0z" is needed when z is not present
 	 * @param tpl
 	 *            string template
 	 * @return string representing LHS
@@ -1831,6 +1865,18 @@ public class Kernel {
 
 	}
 
+	/**
+	 * Appends one of "0", "x", "y", "x + y"
+	 * 
+	 * @param x
+	 *            first coefficient
+	 * @param y
+	 *            second coefficient
+	 * @param tpl
+	 *            template
+	 * @param sbBuildValueString
+	 *            string builder
+	 */
 	public final void appendTwoCoeffs(double x, double y, StringTemplate tpl,
 			StringBuilder sbBuildValueString) {
 
@@ -4780,6 +4826,9 @@ public class Kernel {
 	 * @return lower bound for function -> curve transform
 	 */
 	public double getXmaxForFunctions() {
+		if (getXmin() == getXmax()) {
+			return 10;
+		}
 		return (((2 * getXmax()) - getXmin()) + getYmax()) - getYmin();
 	}
 
@@ -4788,6 +4837,9 @@ public class Kernel {
 	 * @return upper bound for function -> curve transform
 	 */
 	public double getXminForFunctions() {
+		if (getXmin() == getXmax()) {
+			return -10;
+		}
 		return (((2 * getXmin()) - getXmax()) + getYmin()) - getYmax();
 	}
 
