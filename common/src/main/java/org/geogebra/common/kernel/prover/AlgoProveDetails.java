@@ -55,11 +55,16 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	 *            The construction
 	 * @param root
 	 *            Input statement
+	 * @param relationTool
+	 *            true if output should be given for Relation Tool (which is
+	 *            more readable)
 	 */
-	public AlgoProveDetails(Construction cons, GeoElement root) {
+	public AlgoProveDetails(Construction cons, GeoElement root,
+			boolean relationTool) {
 		super(cons);
 		cons.addCASAlgo(this);
 		this.root = root;
+		this.relTool = relationTool;
 
 		list = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
@@ -92,14 +97,9 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 	 *            The construction
 	 * @param root
 	 *            Input statement
-	 * @param relationTool
-	 *            true if output should be given for Relation Tool (which is
-	 *            more readable)
 	 */
-	public AlgoProveDetails(Construction cons, GeoElement root,
-			boolean relationTool) {
-		this(cons, root);
-		this.relTool = relationTool;
+	public AlgoProveDetails(Construction cons, GeoElement root) {
+		this(cons, root, false);
 	}
 
 	@Override
