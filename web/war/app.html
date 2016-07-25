@@ -340,6 +340,9 @@ var app = document.createElement("script");
 				e("ggw").setAttribute("data-param-loginApi","https://"+location.host+"/api/login.php");
 				codebase = "https://autotest.geogebra.org/job/GeoGebra-autotest/lastSuccessfulBuild/artifact/web/war/";
 			}
+			if(location.host.indexOf("127") == 0 || location.host.indexOf("localhost") == 0|| location.host.indexOf("autotest") == 0){
+				codebase = "./";
+			}
 		}
 		if(tubeid){
 			if(e("ggw")){
