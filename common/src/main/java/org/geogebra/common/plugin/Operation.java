@@ -758,6 +758,9 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt.isGeoElement() && lt instanceof GeoCurveCartesianND) {
+				return ((GeoCurveCartesianND) lt).getFun(0);
+			}
 			return new MyDouble(ev.getKernel(), ev.handleXcoord(lt, this));
 
 		}
@@ -767,6 +770,9 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt.isGeoElement() && lt instanceof GeoCurveCartesianND) {
+				return ((GeoCurveCartesianND) lt).getFun(1);
+			}
 			return new MyDouble(ev.getKernel(), ev.handleYcoord(lt, this));
 
 		}
@@ -776,6 +782,9 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt.isGeoElement() && lt instanceof GeoCurveCartesianND) {
+				return ((GeoCurveCartesianND) lt).getFun(2);
+			}
 			return new MyDouble(ev.getKernel(), ev.handleZcoord(lt));
 
 		}
