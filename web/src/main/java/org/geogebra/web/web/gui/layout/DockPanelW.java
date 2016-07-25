@@ -1387,7 +1387,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	
 	public boolean isStyleBarPanelShown() {
 		if (titleBarPanel != null) {
-			return this.titleBarPanel.isVisible();
+			return this.titleBarPanel.isVisible()
+					&& titleBarPanel.getParent() != null;
 		}
 		return false;
 	}
