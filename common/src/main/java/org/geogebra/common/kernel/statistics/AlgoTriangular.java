@@ -13,8 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * 
@@ -39,8 +39,8 @@ public class AlgoTriangular extends AlgoDistribution {
 	 * @param x
 	 *            x
 	 */
-	public AlgoTriangular(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue mode, NumberValue x) {
+	public AlgoTriangular(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue mode, GeoNumberValue x) {
 		super(cons, label, a, b, mode, x, null);
 	}
 

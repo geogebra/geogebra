@@ -21,6 +21,7 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -33,14 +34,14 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public abstract class AlgoConicFociLengthND extends AlgoElement {
 
 	protected GeoPointND A, B; // input
-	protected NumberValue a; // input
+	protected GeoNumberValue a; // input
 	protected GeoElement ageo;
 	protected GeoConicND conic; // output
 
 	public AlgoConicFociLengthND(
 			// package private
 			Construction cons, String label, GeoPointND A, GeoPointND B,
-			NumberValue a, GeoDirectionND orientation) {
+			GeoNumberValue a, GeoDirectionND orientation) {
 		super(cons);
 		this.A = A;
 		this.B = B;

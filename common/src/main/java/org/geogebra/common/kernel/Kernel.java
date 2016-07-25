@@ -4671,7 +4671,7 @@ public class Kernel {
 
 		cons.setSuppressLabelCreation(true);
 		GeoConicND circle = getAlgoDispatcher().Circle(null, points[0],
-				new MyDouble(this, points[0].distance(points[1])));
+				new GeoNumeric(cons, points[0].distance(points[1])));
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		GeoPointND p = RigidPolygonPointOnCircle(circle, points[1]);

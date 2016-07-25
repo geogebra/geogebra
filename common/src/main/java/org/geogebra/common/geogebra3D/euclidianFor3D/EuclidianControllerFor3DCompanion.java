@@ -398,7 +398,7 @@ public class EuclidianControllerFor3DCompanion extends
 
 	@Override
 	protected GeoConicND circle(Construction cons, GeoPointND center,
-			NumberValue radius) {
+			GeoNumberValue radius) {
 		if (center.isGeoElement3D()) {
 			return circleFor3D(cons, center, radius);
 		}
@@ -417,7 +417,7 @@ public class EuclidianControllerFor3DCompanion extends
 	 * @return circle in the current plane
 	 */
 	protected GeoConicND circleFor3D(Construction cons, GeoPointND center,
-			NumberValue radius) {
+			GeoNumberValue radius) {
 		return ec.kernel.getManager3D().Circle3D(null, center, radius,
 				ec.view.getDirection());
 	}

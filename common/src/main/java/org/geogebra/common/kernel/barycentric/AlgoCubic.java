@@ -4,11 +4,11 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.parser.ParseException;
@@ -27,7 +27,7 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoCubic extends AlgoElement {
 
 	private GeoPoint A, B, C; // input
-	private NumberValue n; // number of curve
+	private GeoNumberValue n; // number of curve
 	private GeoImplicit poly; // output
 
 	/**
@@ -47,7 +47,7 @@ public class AlgoCubic extends AlgoElement {
 	 *            index in CTC
 	 */
 	public AlgoCubic(Construction cons, String label, GeoPoint A, GeoPoint B,
-			GeoPoint C, NumberValue e) {
+			GeoPoint C, GeoNumberValue e) {
 		super(cons);
 		kernel.getApplication().getAlgoCubicSwitch();
 		this.A = A;

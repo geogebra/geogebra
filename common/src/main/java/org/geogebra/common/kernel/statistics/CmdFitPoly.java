@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -65,7 +64,7 @@ public class CmdFitPoly extends CommandProcessor {
 
 						if (list != null) {
 							GeoElement[] ret = { FitPoly(list,
-									(NumberValue) arg[1]) };
+									(GeoNumberValue) arg[1]) };
 							ret[0].setLabel(c.getLabel());
 							return ret;
 						}
@@ -83,7 +82,7 @@ public class CmdFitPoly extends CommandProcessor {
 					GeoClass.POINT);
 			if (list != null) {
 				GeoElement[] ret = { FitPoly(list,
-						(NumberValue) arg[arg.length - 1]) };
+						(GeoNumberValue) arg[arg.length - 1]) };
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
@@ -95,7 +94,7 @@ public class CmdFitPoly extends CommandProcessor {
 	 * FitPoly[list of coords,degree] Hans-Petter Ulven
 	 */
 	final private GeoFunction FitPoly(GeoList list,
-			NumberValue degree) {
+			GeoNumberValue degree) {
 		AlgoFitPoly algo = new AlgoFitPoly(cons, list, degree);
 		GeoFunction function = algo.getFitPoly();
 		return function;

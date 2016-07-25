@@ -2,8 +2,8 @@ package org.geogebra.desktop.geogebra3D.gui.dialogs;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.desktop.gui.dialog.InputDialogRadiusD;
@@ -44,7 +44,7 @@ public class InputDialogCirclePointDirectionRadius extends InputDialogRadiusD {
 	}
 
 	@Override
-	protected GeoElement createOutput(NumberValue num) {
+	protected GeoElement createOutput(GeoNumberValue num) {
 
 		return kernel.getManager3D().Circle3D(null, geoPoint, num, forAxis);
 	}

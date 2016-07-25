@@ -2,8 +2,8 @@ package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.web.html5.main.AppW;
 
@@ -18,7 +18,7 @@ public class InputDialogSpherePointW extends InputDialogRadiusW {
     }
 
 	@Override
-    protected GeoElement createOutput(NumberValue num) {
+	protected GeoElement createOutput(GeoNumberValue num) {
 		return kernel.getManager3D().Sphere(null, geoPoint, num);
     }
 

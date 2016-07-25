@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -398,11 +399,11 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			} else {
 				AlgoBarChart algoBarChart;
 				if (graphType == GRAPH_LINE) {
-					NumberValue zeroWidth = new GeoNumeric(cons, 0);
+					GeoNumberValue zeroWidth = new GeoNumeric(cons, 0);
 					algoBarChart = new AlgoBarChart(cons, discreteValueList,
 							discreteProbList, zeroWidth);
 				} else {
-					NumberValue oneWidth = new GeoNumeric(cons, 1);
+					GeoNumberValue oneWidth = new GeoNumeric(cons, 1);
 					algoBarChart = new AlgoBarChart(cons, discreteValueList,
 							discreteProbList, oneWidth);
 				}
@@ -490,11 +491,11 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			} else {
 				AlgoBarChart barChart;
 				if (graphType == GRAPH_LINE) {
-					NumberValue zeroWidth2 = new GeoNumeric(cons, 0d);
+					GeoNumberValue zeroWidth2 = new GeoNumeric(cons, 0d);
 					barChart = new AlgoBarChart(cons, intervalValueList,
 							intervalProbList, zeroWidth2);
 				} else {
-					NumberValue oneWidth2 = new GeoNumeric(cons, 1);
+					GeoNumberValue oneWidth2 = new GeoNumeric(cons, 1);
 					barChart = new AlgoBarChart(cons, intervalValueList,
 							intervalProbList, oneWidth2);
 				}
@@ -965,8 +966,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			cons.removeFromConstructionList(algo);
 
 			AlgoBinomialDist algo2 = new AlgoBinomialDist(cons,
-					(NumberValue) nGeo, pGeo,
-					(NumberValue) algo.getGeoElements()[0], new GeoBoolean(
+					nGeo, pGeo, (GeoNumberValue) algo.getGeoElements()[0],
+					new GeoBoolean(
 							cons, isCumulative));
 			cons.removeFromConstructionList(algo2);
 
@@ -987,7 +988,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			k2 = new GeoNumeric(cons);
 
 			AlgoInversePascal n2 = new AlgoInversePascal(cons, nGeo, pGeo,
-					new MyDouble(kernel, nearlyOne));
+					new GeoNumeric(cons, nearlyOne));
 			cons.removeFromConstructionList(n2);
 			GeoElement n2Geo = n2.getGeoElements()[0];
 
@@ -1000,7 +1001,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			cons.removeFromConstructionList(algo);
 
 			AlgoPascal algoPascal = new AlgoPascal(cons, nGeo, pGeo,
-					(NumberValue) algo.getGeoElements()[0], new GeoBoolean(
+					(GeoNumberValue) algo.getGeoElements()[0],
+					new GeoBoolean(
 							cons, isCumulative));
 			cons.removeFromConstructionList(algoPascal);
 
@@ -1026,7 +1028,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			k2 = new GeoNumeric(cons);
 
 			AlgoInversePoisson maxSequenceValue = new AlgoInversePoisson(cons,
-					meanGeo, new MyDouble(kernel, nearlyOne));
+					meanGeo, new GeoNumeric(cons, nearlyOne));
 			cons.removeFromConstructionList(maxSequenceValue);
 			GeoElement maxDiscreteGeo = maxSequenceValue.getGeoElements()[0];
 
@@ -1039,7 +1041,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			cons.removeFromConstructionList(algo);
 
 			AlgoPoisson poisson = new AlgoPoisson(cons, meanGeo,
-					(NumberValue) algo.getGeoElements()[0], new GeoBoolean(
+					(GeoNumberValue) algo.getGeoElements()[0],
+					new GeoBoolean(
 							cons, isCumulative));
 			cons.removeFromConstructionList(poisson);
 
@@ -1105,7 +1108,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			cons.removeFromConstructionList(algo);
 
 			AlgoHyperGeometric hyperGeometric = new AlgoHyperGeometric(cons,
-					pGeo, nGeo, sGeo, (NumberValue) algo.getGeoElements()[0],
+					pGeo, nGeo, sGeo, (GeoNumberValue) algo.getGeoElements()[0],
 					new GeoBoolean(cons, isCumulative));
 			cons.removeFromConstructionList(hyperGeometric);
 

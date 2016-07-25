@@ -14,8 +14,8 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.TDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * 
@@ -34,12 +34,13 @@ public class AlgoTDistribution extends AlgoDistribution {
 	 * @param b
 	 *            variable value
 	 */
-	public AlgoTDistribution(Construction cons, String label, NumberValue a,
-			NumberValue b) {
+	public AlgoTDistribution(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons, label, a, b, null, null);
 	}
 
-	public AlgoTDistribution(Construction cons, NumberValue a, NumberValue b) {
+	public AlgoTDistribution(Construction cons, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons, a, b, null, null);
 	}
 

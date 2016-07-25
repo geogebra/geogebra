@@ -4,8 +4,8 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
 
@@ -73,10 +73,6 @@ public abstract class InputDialogRadiusW extends InputDialogW{
 					}
 				});
 
-		
-
-		
-
 	}
 
 	/**
@@ -84,6 +80,6 @@ public abstract class InputDialogRadiusW extends InputDialogW{
 	 * @param num
 	 * @return the circle
 	 */
-	abstract protected GeoElement createOutput(NumberValue num);
+	abstract protected GeoElement createOutput(GeoNumberValue num);
 
 }

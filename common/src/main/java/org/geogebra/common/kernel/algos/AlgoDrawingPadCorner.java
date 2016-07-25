@@ -17,7 +17,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -28,8 +27,8 @@ import org.geogebra.common.main.App;
 public class AlgoDrawingPadCorner extends AlgoElement {
 
 	protected GeoPointND corner; // output
-	protected NumberValue number;
-	protected NumberValue evNum;
+	protected GeoNumberValue number;
+	protected GeoNumberValue evNum;
 
 	protected AlgoDrawingPadCorner(Construction cons, String label,
 			GeoNumberValue number, GeoNumberValue evNum, double absCorner) {
@@ -59,8 +58,8 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 
 	}
 
-	public AlgoDrawingPadCorner(Construction cons, NumberValue number,
-			NumberValue evNum, double absCorner) {
+	public AlgoDrawingPadCorner(Construction cons, GeoNumberValue number,
+			GeoNumberValue evNum, double absCorner) {
 		super(cons);
 		this.number = number;
 		this.evNum = evNum; // can be null

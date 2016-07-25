@@ -14,9 +14,9 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.PoissonDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -26,12 +26,12 @@ import org.geogebra.common.util.debug.Log;
 
 public class AlgoPoisson extends AlgoDistribution {
 
-	public AlgoPoisson(Construction cons, String label, NumberValue a,
-			NumberValue b, GeoBoolean isCumulative) {
+	public AlgoPoisson(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoBoolean isCumulative) {
 		super(cons, label, a, b, null, isCumulative);
 	}
 
-	public AlgoPoisson(Construction cons, NumberValue a, NumberValue b,
+	public AlgoPoisson(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			GeoBoolean isCumulative) {
 		super(cons, a, b, null, isCumulative);
 	}

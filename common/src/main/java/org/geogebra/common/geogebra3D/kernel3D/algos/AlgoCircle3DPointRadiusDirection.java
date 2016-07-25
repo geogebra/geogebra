@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -37,7 +38,7 @@ public class AlgoCircle3DPointRadiusDirection extends
 	 * @param radius
 	 */
 	public AlgoCircle3DPointRadiusDirection(Construction cons, String label,
-			GeoPointND point, NumberValue radius, GeoDirectionND forAxis) {
+			GeoPointND point, GeoNumberValue radius, GeoDirectionND forAxis) {
 		super(cons, label, point, radius.toGeoElement(), forAxis);
 
 	}
@@ -51,7 +52,7 @@ public class AlgoCircle3DPointRadiusDirection extends
 	 * @param radius
 	 */
 	public AlgoCircle3DPointRadiusDirection(Construction cons,
-			GeoPointND point, NumberValue radius, GeoDirectionND forAxis) {
+			GeoPointND point, GeoNumberValue radius, GeoDirectionND forAxis) {
 		super(cons, point, radius.toGeoElement(), (GeoElement) forAxis);
 
 	}

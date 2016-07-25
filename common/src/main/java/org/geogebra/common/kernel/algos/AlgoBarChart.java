@@ -28,13 +28,13 @@ import org.geogebra.common.euclidian.draw.DrawBarGraph.DrawType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.AlgoUsingUniqueAndFrequency;
@@ -85,7 +85,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	private GeoNumeric sum;
 
 	// input
-	private NumberValue a, b, p1, p2, p3;
+	private GeoNumberValue a, b, p1, p2, p3;
 	private GeoList list1, list2;
 
 	// local fields
@@ -114,8 +114,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	 * @param b
 	 * @param list1
 	 */
-	public AlgoBarChart(Construction cons, String label, NumberValue a,
-			NumberValue b, GeoList list1) {
+	public AlgoBarChart(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoList list1) {
 		super(cons);
 
 		type = TYPE_BARCHART_EXPRESSION;
@@ -214,7 +214,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	 * @param width
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
-			GeoList list2, NumberValue width) {
+			GeoList list2, GeoNumberValue width) {
 
 		this(cons, list1, list2, width, null, null, null,
 				TYPE_BARCHART_FREQUENCY_TABLE_WIDTH);
@@ -231,7 +231,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	 * @param width
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
-			NumberValue width) {
+			GeoNumberValue width) {
 
 		this(cons, list1, list2, width, null, null, null,
 				TYPE_BARCHART_FREQUENCY_TABLE_WIDTH);
@@ -252,7 +252,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	 * 
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
-			GeoList list2, NumberValue width, GeoBoolean isHorizontal,
+			GeoList list2, GeoNumberValue width, GeoBoolean isHorizontal,
 			GeoBoolean join, GeoNumeric pointType, int type) {
 
 		this(cons, list1, list2, width, isHorizontal, join, pointType, type);
@@ -277,7 +277,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	 * @param type
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
-			NumberValue width, GeoBoolean isHorizontal, GeoBoolean join,
+			GeoNumberValue width, GeoBoolean isHorizontal, GeoBoolean join,
 			GeoNumeric pointType, int type) {
 
 		this(cons, list1, list2, width, isHorizontal, join, pointType, null,
@@ -301,7 +301,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	 * @param type
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
-			NumberValue width, GeoBoolean isHorizontal, GeoBoolean join,
+			GeoNumberValue width, GeoBoolean isHorizontal, GeoBoolean join,
 			GeoNumeric pointType, GeoNumeric scale, int type) {
 		super(cons);
 
@@ -342,8 +342,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	 * @param isCumulative
 	 * @param type
 	 */
-	public AlgoBarChart(Construction cons, String label, NumberValue p1,
-			NumberValue p2, NumberValue p3, GeoBoolean isCumulative, int type) {
+	public AlgoBarChart(Construction cons, String label, GeoNumberValue p1,
+			GeoNumberValue p2, GeoNumberValue p3, GeoBoolean isCumulative,
+			int type) {
 
 		super(cons);
 
@@ -389,8 +390,10 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	 * @param borders
 	 * @param N
 	 */
-	protected AlgoBarChart(NumberValue p1, NumberValue p2, NumberValue p3,
-			GeoBoolean isCumulative, int type, NumberValue a, NumberValue b,
+	protected AlgoBarChart(GeoNumberValue p1, GeoNumberValue p2,
+			GeoNumberValue p3,
+			GeoBoolean isCumulative, int type, GeoNumberValue a,
+			GeoNumberValue b,
 			double[] vals, double[] borders, int N) {
 
 		super(isCumulative.getConstruction(), false);
@@ -417,7 +420,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	// Copy constructors
 	// ==================================================
 
-	private AlgoBarChart(Construction cons, NumberValue a, NumberValue b,
+	private AlgoBarChart(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			double[] vals, double[] borders, int N) {
 		super(cons, false);
 
@@ -452,7 +455,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 		this.N = N;
 	}
 
-	private AlgoBarChart(Construction cons, NumberValue width, double[] vals,
+	private AlgoBarChart(Construction cons, GeoNumberValue width, double[] vals,
 			double[] borders, int N) {
 		super(cons, false);
 		type = TYPE_BARCHART_FREQUENCY_TABLE_WIDTH;
@@ -632,15 +635,15 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	/**
 	 * @return lower bound for sums
 	 */
-	public NumberValue getA() {
-		return a == null ? new MyDouble(kernel, Double.NaN) : a;
+	public GeoNumberValue getA() {
+		return a == null ? new GeoNumeric(cons, Double.NaN) : a;
 	}
 
 	/**
 	 * @return upper bound for sums
 	 */
-	public NumberValue getB() {
-		return b == null ? new MyDouble(kernel, Double.NaN) : b;
+	public GeoNumberValue getB() {
+		return b == null ? new GeoNumeric(cons, Double.NaN) : b;
 	}
 
 	/**
@@ -683,14 +686,14 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	/**
 	 * @return discrete graph parameter p2
 	 */
-	public NumberValue getP2() {
+	public GeoNumberValue getP2() {
 		return p2;
 	}
 
 	/**
 	 * @return discrete graph parameter p3
 	 */
-	public NumberValue getP3() {
+	public GeoNumberValue getP3() {
 		return p3;
 	}
 
@@ -1170,7 +1173,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 		switch (this.getType()) {
 		case TYPE_BARCHART_EXPRESSION:
 			return new AlgoBarChart(cons,
-					(NumberValue) getA().deepCopy(kernel), (NumberValue) getB()
+					(GeoNumberValue) getA().deepCopy(kernel),
+					(GeoNumberValue) getB()
 							.deepCopy(kernel), Cloner.clone(getValues()),
 					Cloner.clone(getLeftBorder()), N);
 		case TYPE_BARCHART_FREQUENCY_TABLE:
@@ -1178,7 +1182,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
 		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
 			return new AlgoBarChart(cons,
-					(NumberValue) getA().deepCopy(kernel),
+					(GeoNumberValue) getA().deepCopy(kernel),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
 		default: // TYPE_BARCHART_RAWDATA
 			return new AlgoBarChart(cons, (GeoNumeric) getN().copy(),

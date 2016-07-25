@@ -25,8 +25,8 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicFociLengthND;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -43,7 +43,7 @@ public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 	public AlgoConicFociLength3D(
 			// package private
 			Construction cons, String label, GeoPointND A, GeoPointND B,
-			NumberValue a, GeoDirectionND orientation) {
+			GeoNumberValue a, GeoDirectionND orientation) {
 		super(cons, label, A, B, a, orientation);
 	}
 

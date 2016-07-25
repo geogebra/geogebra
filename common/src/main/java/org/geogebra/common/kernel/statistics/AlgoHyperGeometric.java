@@ -14,9 +14,9 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.HypergeometricDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * 
@@ -40,8 +40,9 @@ public class AlgoHyperGeometric extends AlgoDistribution {
 	 * @param isCumulative
 	 *            flag for cumulative function
 	 */
-	public AlgoHyperGeometric(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue c, NumberValue d, GeoBoolean isCumulative) {
+	public AlgoHyperGeometric(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d,
+			GeoBoolean isCumulative) {
 		super(cons, label, a, b, c, d, isCumulative);
 	}
 
@@ -59,8 +60,9 @@ public class AlgoHyperGeometric extends AlgoDistribution {
 	 * @param isCumulative
 	 *            flag for cumulative function
 	 */
-	public AlgoHyperGeometric(Construction cons, NumberValue a, NumberValue b,
-			NumberValue c, NumberValue d, GeoBoolean isCumulative) {
+	public AlgoHyperGeometric(Construction cons, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d,
+			GeoBoolean isCumulative) {
 		super(cons, a, b, c, d, isCumulative);
 	}
 

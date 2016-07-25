@@ -13,8 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.MyMath2;
 
 /**
@@ -26,14 +26,15 @@ import org.geogebra.common.util.MyMath2;
 public class AlgoInverseLogNormal extends AlgoDistribution {
 
 	@SuppressWarnings("javadoc")
-	public AlgoInverseLogNormal(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue c) {
+	public AlgoInverseLogNormal(Construction cons, String label,
+			GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, label, a, b, c, null);
 	}
 
 	@SuppressWarnings("javadoc")
-	public AlgoInverseLogNormal(Construction cons, NumberValue a,
-			NumberValue b, NumberValue c) {
+	public AlgoInverseLogNormal(Construction cons, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, a, b, c, null);
 	}
 

@@ -13,8 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Cumulative Logistic[mean, s, val]
@@ -25,13 +25,13 @@ import org.geogebra.common.kernel.commands.Commands;
 public class AlgoLogistic extends AlgoDistribution {
 
 	@SuppressWarnings("javadoc")
-	public AlgoLogistic(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue c) {
+	public AlgoLogistic(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, label, a, b, c, null);
 	}
 
-	public AlgoLogistic(Construction cons, NumberValue a, NumberValue b,
-			NumberValue c) {
+	public AlgoLogistic(Construction cons, GeoNumberValue a, GeoNumberValue b,
+			GeoNumberValue c) {
 		super(cons, a, b, c, null);
 	}
 

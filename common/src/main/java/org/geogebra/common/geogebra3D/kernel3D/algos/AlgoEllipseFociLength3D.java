@@ -21,8 +21,8 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -35,7 +35,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoEllipseFociLength3D extends AlgoConicFociLength3D {
 
 	public AlgoEllipseFociLength3D(Construction cons, String label,
-			GeoPointND A, GeoPointND B, NumberValue a,
+			GeoPointND A, GeoPointND B, GeoNumberValue a,
 			GeoDirectionND orientation) {
 		super(cons, label, A, B, a, orientation);
 	}

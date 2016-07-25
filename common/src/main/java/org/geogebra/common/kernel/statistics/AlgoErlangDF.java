@@ -22,10 +22,10 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for FDistribution[0,1,x]
@@ -34,19 +34,19 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoErlangDF extends AlgoElement {
 
-	private NumberValue k, l; // input
+	private GeoNumberValue k, l; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
 	@SuppressWarnings("javadoc")
-	public AlgoErlangDF(Construction cons, String label, NumberValue mean,
-			NumberValue sd, BooleanValue cumulative) {
+	public AlgoErlangDF(Construction cons, String label, GeoNumberValue mean,
+			GeoNumberValue sd, BooleanValue cumulative) {
 		this(cons, mean, sd, cumulative);
 		ret.setLabel(label);
 	}
 
 	@SuppressWarnings("javadoc")
-	public AlgoErlangDF(Construction cons, NumberValue a, NumberValue b,
+	public AlgoErlangDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			BooleanValue cumulative) {
 		super(cons);
 		this.k = a;

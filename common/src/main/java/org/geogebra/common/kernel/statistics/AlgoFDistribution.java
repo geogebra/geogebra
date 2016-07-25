@@ -16,6 +16,7 @@ import org.apache.commons.math.distribution.FDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * 
@@ -24,13 +25,13 @@ import org.geogebra.common.kernel.commands.Commands;
 
 public class AlgoFDistribution extends AlgoDistribution {
 
-	public AlgoFDistribution(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue c) {
+	public AlgoFDistribution(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, label, a, b, c, null);
 	}
 
-	public AlgoFDistribution(Construction cons, NumberValue a, NumberValue b,
-			NumberValue c) {
+	public AlgoFDistribution(Construction cons, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, a, b, c, null);
 	}
 

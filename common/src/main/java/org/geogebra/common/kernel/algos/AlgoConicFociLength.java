@@ -19,9 +19,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -36,7 +36,7 @@ public abstract class AlgoConicFociLength extends AlgoConicFociLengthND {
 	public AlgoConicFociLength(
 			// package private
 			Construction cons, String label, GeoPointND A, GeoPointND B,
-			NumberValue a) {
+			GeoNumberValue a) {
 		super(cons, label, A, B, a, null);
 	}
 

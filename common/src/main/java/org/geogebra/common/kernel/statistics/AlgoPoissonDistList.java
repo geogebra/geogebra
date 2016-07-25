@@ -14,10 +14,10 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.PoissonDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -41,7 +41,8 @@ public class AlgoPoissonDistList extends AlgoDistribution {
 	 * @param isCumulative
 	 *            cumulative
 	 */
-	public AlgoPoissonDistList(Construction cons, String label, NumberValue a,
+	public AlgoPoissonDistList(Construction cons, String label,
+			GeoNumberValue a,
 			GeoList b) {
 		super(cons, label, a, b);
 	}

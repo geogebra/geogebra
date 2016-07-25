@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoVertexPolygon;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -129,7 +130,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 
 	@Override
 	protected GeoElement[] SegmentFixed(String pointLabel, String segmentLabel,
-			GeoPointND A, NumberValue n) {
+			GeoPointND A, GeoNumberValue n) {
 
 		Kernel kernel = cons.getKernel();
 		GeoDirectionND orientation = CommandProcessor3D
@@ -218,7 +219,8 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	}
 
 	@Override
-	final public GeoConicND Circle(String label, GeoPointND M, NumberValue r) {
+	final public GeoConicND Circle(String label, GeoPointND M,
+			GeoNumberValue r) {
 		if (M.isGeoElement3D()) {
 			return getManager3D().Circle3D(label, M, r);
 		}

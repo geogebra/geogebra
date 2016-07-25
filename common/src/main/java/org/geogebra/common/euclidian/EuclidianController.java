@@ -4857,7 +4857,7 @@ public abstract class EuclidianController {
 		cons.removeFromConstructionList(algoSegment);
 
 		GeoConicND circle = companion.circle(cons, A,
-				(NumberValue) algoSegment.getOutput(0));
+				(GeoNumberValue) algoSegment.getOutput(0));
 		circle.setToSpecific();
 		circle.update();
 		// notifyUpdate(circle);
@@ -9466,7 +9466,7 @@ public abstract class EuclidianController {
 						(firstSelectedPoint.getInhomX() - x), 2)
 						+ Math.pow((firstSelectedPoint.getInhomY() - y), 2));
 				kernel.getAlgoDispatcher().Circle(null, firstSelectedPoint,
-						new MyDouble(kernel, distance));
+						new GeoNumeric(kernel.getConstruction(), distance));
 				firstSelectedPoint = null;
 				storeUndoInfo();
 				return;

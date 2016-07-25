@@ -13,8 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.MyMath2;
 
 /**
@@ -24,8 +24,8 @@ import org.geogebra.common.util.MyMath2;
 
 public class AlgoErlang extends AlgoDistribution {
 
-	public AlgoErlang(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue c) {
+	public AlgoErlang(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, label, a, b, c, null);
 	}
 

@@ -16,10 +16,10 @@ import java.util.Iterator;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Returns the GeoElement from an object's coordinates in the spreadsheet.
@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 public class AlgoCell extends AlgoElement {
 
 	private GeoElement geo; // output
-	private NumberValue a, b; // input
+	private GeoNumberValue a, b; // input
 
 	private String currentLabel;
 	private GeoElement refObject; // referenced object
@@ -45,8 +45,8 @@ public class AlgoCell extends AlgoElement {
 	 * @param b
 	 *            row
 	 */
-	public AlgoCell(Construction cons, String label, NumberValue a,
-			NumberValue b) {
+	public AlgoCell(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons);
 		this.a = a;
 		this.b = b;

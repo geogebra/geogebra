@@ -409,7 +409,7 @@ public abstract class DialogManager {
 	}
 
 	public static void doSegmentFixed(Kernel kernel, GeoPointND geoPoint1,
-			NumberValue num) {
+			GeoNumberValue num) {
 
 
 		GeoElement[] segment = kernel.getAlgoDispatcher().Segment(null,

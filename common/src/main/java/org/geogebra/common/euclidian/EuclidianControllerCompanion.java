@@ -311,7 +311,7 @@ public class EuclidianControllerCompanion {
 	}
 
 	protected GeoConicND circle(Construction cons, GeoPointND center,
-			NumberValue radius) {
+			GeoNumberValue radius) {
 		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, null,
 				(GeoPoint) center, radius);
 		return algo.getCircle();

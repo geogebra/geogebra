@@ -380,13 +380,15 @@ public interface Manager3DInterface {
 	/**
 	 * circle with point, radius, axis
 	 */
-	public GeoConicND Circle3D(String label, GeoPointND A, NumberValue radius,
+	public GeoConicND Circle3D(String label, GeoPointND A,
+			GeoNumberValue radius,
 			GeoDirectionND axis);
 
 	/**
 	 * circle with point, radius, axis orthogonal to xOy plane
 	 */
-	public GeoConicND Circle3D(String label, GeoPointND A, NumberValue radius);
+	public GeoConicND Circle3D(String label, GeoPointND A,
+			GeoNumberValue radius);
 
 	public GeoConicND Circle3D(String label, GeoPointND A, GeoPointND B,
 			GeoDirectionND axis);

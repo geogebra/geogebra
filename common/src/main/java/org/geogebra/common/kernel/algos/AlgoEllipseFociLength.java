@@ -22,9 +22,9 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -35,7 +35,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoEllipseFociLength extends AlgoConicFociLength {
 
 	public AlgoEllipseFociLength(Construction cons, String label, GeoPointND A,
-			GeoPointND B, NumberValue a) {
+			GeoPointND B, GeoNumberValue a) {
 		super(cons, label, A, B, a);
 	}
 

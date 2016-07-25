@@ -14,8 +14,8 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.HypergeometricDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * 
@@ -39,7 +39,8 @@ public class AlgoInverseHyperGeometric extends AlgoDistribution {
 	 *            variable value
 	 */
 	public AlgoInverseHyperGeometric(Construction cons, String label,
-			NumberValue a, NumberValue b, NumberValue c, NumberValue d) {
+			GeoNumberValue a, GeoNumberValue b, GeoNumberValue c,
+			GeoNumberValue d) {
 		super(cons, label, a, b, c, d);
 	}
 

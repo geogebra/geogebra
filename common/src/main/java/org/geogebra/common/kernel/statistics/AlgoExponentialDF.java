@@ -22,10 +22,10 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Exponential[a,x, boolean] (PDF / CDF)
@@ -35,19 +35,20 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 public class AlgoExponentialDF extends AlgoElement implements
 		AlgoDistributionDF {
 
-	private NumberValue lambda; // input
+	private GeoNumberValue lambda; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
 	@SuppressWarnings("javadoc")
-	public AlgoExponentialDF(Construction cons, String label, NumberValue mean,
+	public AlgoExponentialDF(Construction cons, String label,
+			GeoNumberValue mean,
 			BooleanValue cumulative) {
 		this(cons, mean, cumulative);
 		ret.setLabel(label);
 	}
 
 	@SuppressWarnings("javadoc")
-	public AlgoExponentialDF(Construction cons, NumberValue lambda,
+	public AlgoExponentialDF(Construction cons, GeoNumberValue lambda,
 			BooleanValue cumulative) {
 		super(cons);
 		this.lambda = lambda;

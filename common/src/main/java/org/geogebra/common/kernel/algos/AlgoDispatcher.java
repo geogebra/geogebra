@@ -372,7 +372,7 @@ public class AlgoDispatcher {
 	 * labels[0] is for the segment, labels[1] for the new point
 	 */
 	final public GeoElement[] Segment(String[] labels, GeoPointND A,
-			NumberValue n) {
+			GeoNumberValue n) {
 		// this is actually a macro
 		String pointLabel = null, segmentLabel = null;
 		if (labels != null) {
@@ -391,7 +391,7 @@ public class AlgoDispatcher {
 	}
 
 	protected GeoElement[] SegmentFixed(String pointLabel, String segmentLabel,
-			GeoPointND a, NumberValue n) {
+			GeoPointND a, GeoNumberValue n) {
 
 		GeoPoint A = (GeoPoint) a;
 
@@ -563,7 +563,7 @@ public class AlgoDispatcher {
 	/**
 	 * circle with midpoint M and radius r
 	 */
-	public GeoConicND Circle(String label, GeoPointND M, NumberValue r) {
+	public GeoConicND Circle(String label, GeoPointND M, GeoNumberValue r) {
 		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons, label,
 				(GeoPoint) M, r);
 		GeoConic circle = algo.getCircle();
@@ -620,7 +620,7 @@ public class AlgoDispatcher {
 	 * ellipse with foci A, B and length of first half axis a
 	 */
 	final public GeoConicND Ellipse(String label, GeoPointND A, GeoPointND B,
-			NumberValue a) {
+			GeoNumberValue a) {
 		AlgoEllipseFociLength algo = new AlgoEllipseFociLength(cons, label, A,
 				B, a);
 		return algo.getConic();
@@ -641,7 +641,7 @@ public class AlgoDispatcher {
 	 * hyperbola with foci A, B and length of first half axis a
 	 */
 	final public GeoConicND Hyperbola(String label, GeoPointND A, GeoPointND B,
-			NumberValue a) {
+			GeoNumberValue a) {
 		AlgoHyperbolaFociLength algo = new AlgoHyperbolaFociLength(cons, label,
 				A, B, a);
 		return algo.getConic();

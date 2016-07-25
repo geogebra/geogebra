@@ -14,8 +14,8 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.GammaDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * 
@@ -24,13 +24,13 @@ import org.geogebra.common.kernel.commands.Commands;
 
 public class AlgoGamma extends AlgoDistribution {
 
-	public AlgoGamma(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue c) {
+	public AlgoGamma(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, label, a, b, c, null);
 	}
 
-	public AlgoGamma(Construction cons, NumberValue a, NumberValue b,
-			NumberValue c) {
+	public AlgoGamma(Construction cons, GeoNumberValue a, GeoNumberValue b,
+			GeoNumberValue c) {
 		super(cons, a, b, c, null);
 	}
 

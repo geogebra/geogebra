@@ -21,13 +21,13 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.TangentAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.AlgoFitPoly;
@@ -114,8 +114,8 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements
 
 			// order 5, 10 steps, 100 slices seems to work nicely
 			// mockup http://tube.geogebra.org/student/m683647
-			algoFitPoly = new AlgoFitPoly(cons, geoList, new MyDouble(
-					cons.getKernel(), 5));
+			algoFitPoly = new AlgoFitPoly(cons, geoList,
+					new GeoNumeric(cons, 5));
 			cons.removeFromConstructionList(algoFitPoly);
 
 		} else {

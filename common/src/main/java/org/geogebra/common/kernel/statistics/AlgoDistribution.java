@@ -42,10 +42,10 @@ import org.apache.commons.math.distribution.ZipfDistribution;
 import org.apache.commons.math.distribution.ZipfDistributionImpl;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -56,13 +56,13 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public abstract class AlgoDistribution extends AlgoElement {
 	/** input: dist. parameter */
-	protected NumberValue a;
+	protected GeoNumberValue a;
 	/** input: dist. parameter or variable value */
-	protected NumberValue b;
+	protected GeoNumberValue b;
 	/** input: dist. parameter or variable value */
-	protected NumberValue c;
+	protected GeoNumberValue c;
 	/** input: variable value */
-	protected NumberValue d;
+	protected GeoNumberValue d;
 	/** input: flag for cumulative function */
 	protected GeoBoolean isCumulative;
 	/** output number */
@@ -96,8 +96,8 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param d
 	 *            fourth input element
 	 */
-	public AlgoDistribution(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue c, NumberValue d) {
+	public AlgoDistribution(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -125,8 +125,8 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param isCumulative
 	 *            flag for cumulative
 	 */
-	public AlgoDistribution(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue c, GeoBoolean isCumulative) {
+	public AlgoDistribution(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c, GeoBoolean isCumulative) {
 		this(cons, a, b, c, isCumulative);
 		num.setLabel(label);
 	}
@@ -143,8 +143,8 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param isCumulative
 	 *            flag for cumulative
 	 */
-	public AlgoDistribution(Construction cons, NumberValue a, NumberValue b,
-			NumberValue c, GeoBoolean isCumulative) {
+	public AlgoDistribution(Construction cons, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c, GeoBoolean isCumulative) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -173,8 +173,9 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param isCumulative
 	 *            flag for cumulative
 	 */
-	public AlgoDistribution(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue c, NumberValue d, GeoBoolean isCumulative) {
+	public AlgoDistribution(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d,
+			GeoBoolean isCumulative) {
 		this(cons, a, b, c, d, isCumulative);
 		num.setLabel(label);
 	}
@@ -193,8 +194,9 @@ public abstract class AlgoDistribution extends AlgoElement {
 	 * @param isCumulative
 	 *            flag for cumulative
 	 */
-	public AlgoDistribution(Construction cons, NumberValue a, NumberValue b,
-			NumberValue c, NumberValue d, GeoBoolean isCumulative) {
+	public AlgoDistribution(Construction cons, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d,
+			GeoBoolean isCumulative) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -208,8 +210,8 @@ public abstract class AlgoDistribution extends AlgoElement {
 		compute();
 	}
 
-	public AlgoDistribution(Construction cons, String label, NumberValue a,
-			NumberValue b, GeoList list) {
+	public AlgoDistribution(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoList list) {
 		super(cons);
 		this.a = a;
 		this.b = b;
@@ -222,7 +224,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 		num.setLabel(label);
 	}
 
-	public AlgoDistribution(Construction cons, String label, NumberValue a,
+	public AlgoDistribution(Construction cons, String label, GeoNumberValue a,
 			GeoList list) {
 		super(cons);
 		this.a = a;

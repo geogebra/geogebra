@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
@@ -38,7 +39,7 @@ public class CmdAttachCopyToView extends CommandProcessor {
 		case 2:
 			arg = resArgs(c);
 
-			if (arg[1] instanceof NumberValue) {
+			if (arg[1] instanceof GeoNumberValue) {
 				GeoPointND corner1, corner3, screenCorner1, screenCorner3;
 				int viewID = (int) ((NumberValue) arg[1]).getDouble();
 				EuclidianView ev = null;
@@ -87,7 +88,7 @@ public class CmdAttachCopyToView extends CommandProcessor {
 
 					AlgoAttachCopyToView algo = new AlgoAttachCopyToView(cons,
 							c.getLabel(),
-							arg[0], (NumberValue) arg[1], corner1, corner3,
+							arg[0], (GeoNumberValue) arg[1], corner1, corner3,
 							screenCorner1, screenCorner3);
 
 					ret = new GeoElement[] { algo.getResult() };

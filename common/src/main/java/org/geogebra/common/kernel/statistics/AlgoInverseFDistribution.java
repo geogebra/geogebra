@@ -14,8 +14,8 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.FDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * 
@@ -37,7 +37,7 @@ public class AlgoInverseFDistribution extends AlgoDistribution {
 	 *            variable value
 	 */
 	public AlgoInverseFDistribution(Construction cons, String label,
-			NumberValue a, NumberValue b, NumberValue c) {
+			GeoNumberValue a, GeoNumberValue b, GeoNumberValue c) {
 		super(cons, label, a, b, c, null);
 	}
 
@@ -51,8 +51,8 @@ public class AlgoInverseFDistribution extends AlgoDistribution {
 	 * @param c
 	 *            variable value
 	 */
-	public AlgoInverseFDistribution(Construction cons, NumberValue a,
-			NumberValue b, NumberValue c) {
+	public AlgoInverseFDistribution(Construction cons, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, a, b, c, null);
 	}
 

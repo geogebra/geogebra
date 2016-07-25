@@ -22,10 +22,10 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for ChiSquared[a,x]
@@ -34,19 +34,20 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoChiSquaredDF extends AlgoElement implements AlgoDistributionDF {
 
-	private NumberValue k; // input
+	private GeoNumberValue k; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
 	@SuppressWarnings("javadoc")
-	public AlgoChiSquaredDF(Construction cons, String label, NumberValue mean,
+	public AlgoChiSquaredDF(Construction cons, String label,
+			GeoNumberValue mean,
 			BooleanValue cumulative) {
 		this(cons, mean, cumulative);
 		ret.setLabel(label);
 	}
 
 	@SuppressWarnings("javadoc")
-	public AlgoChiSquaredDF(Construction cons, NumberValue a,
+	public AlgoChiSquaredDF(Construction cons, GeoNumberValue a,
 			BooleanValue cumulative) {
 		super(cons);
 		this.k = a;

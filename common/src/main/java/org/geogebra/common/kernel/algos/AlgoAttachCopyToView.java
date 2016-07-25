@@ -23,13 +23,13 @@ import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -44,7 +44,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 
 	private MatrixTransformable out;
 	private GeoElement inGeo, outGeo;
-	private NumberValue viewID;
+	private GeoNumberValue viewID;
 	private GeoPointND corner1, corner3, screenCorner1, screenCorner3;
 
 	/**
@@ -68,7 +68,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	 *            screen point corresponding to corner3
 	 */
 	public AlgoAttachCopyToView(Construction cons, String label, GeoElement in,
-			NumberValue viewID, GeoPointND corner1, GeoPointND corner3,
+			GeoNumberValue viewID, GeoPointND corner1, GeoPointND corner3,
 			GeoPointND screenCorner1, GeoPointND screenCorner3) {
 		this(cons, in, viewID, corner1, corner3, screenCorner1, screenCorner3);
 		outGeo.setLabel(label);
@@ -93,7 +93,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	 *            screen point corresponding to corner3
 	 */
 	public AlgoAttachCopyToView(Construction cons, GeoElement in,
-			NumberValue viewID, GeoPointND corner1, GeoPointND corner3,
+			GeoNumberValue viewID, GeoPointND corner1, GeoPointND corner3,
 			GeoPointND screenCorner1, GeoPointND screenCorner3) {
 		super(cons);
 

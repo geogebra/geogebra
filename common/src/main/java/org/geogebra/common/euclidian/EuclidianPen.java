@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -800,7 +799,8 @@ public class EuclidianPen {
 				screenCorner3.setCoords(ev.getWidth(), 0, 1);
 			}
 
-			MyDouble evNo = new MyDouble(kernelA, ev.getEuclidianViewNo());
+			GeoNumeric evNo = new GeoNumeric(kernelA.getConstruction(),
+					ev.getEuclidianViewNo());
 
 			cons.removeFromConstructionList(newPolyLine);
 

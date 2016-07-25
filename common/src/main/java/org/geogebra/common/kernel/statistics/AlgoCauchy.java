@@ -14,8 +14,8 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.CauchyDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * 
@@ -36,8 +36,8 @@ public class AlgoCauchy extends AlgoDistribution {
 	 * @param c
 	 *            variable value
 	 */
-	public AlgoCauchy(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue c) {
+	public AlgoCauchy(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c) {
 		super(cons, label, a, b, c, null);
 	}
 
@@ -51,8 +51,8 @@ public class AlgoCauchy extends AlgoDistribution {
 	 * @param c
 	 *            variable value
 	 */
-	public AlgoCauchy(Construction cons, NumberValue a, NumberValue b,
-			NumberValue c) {
+	public AlgoCauchy(Construction cons, GeoNumberValue a, GeoNumberValue b,
+			GeoNumberValue c) {
 		super(cons, a, b, c, null);
 	}
 

@@ -15,11 +15,11 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPolynomialFromCoordinates;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Fits a polynomial with given degree to list of points. Adapted from
@@ -34,9 +34,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 public class AlgoFitPoly extends AlgoElement {
 
 	private GeoList geolist; // input
-	private NumberValue degree; // input
+	private GeoNumberValue degree; // input
 	private GeoFunction geofunction; // output
-	private GeoElement geodegree;
 	private final RegressionMath regMath;
 
 
@@ -49,12 +48,12 @@ public class AlgoFitPoly extends AlgoElement {
 	 * @param degree
 	 *            degree
 	 */
-	public AlgoFitPoly(Construction cons, GeoList geolist, NumberValue degree) {
+	public AlgoFitPoly(Construction cons, GeoList geolist,
+			GeoNumberValue degree) {
 		super(cons);
 		regMath = new RegressionMath();
 		this.geolist = geolist;
 		this.degree = degree;
-		geodegree = degree.toGeoElement();
 		geofunction = new GeoFunction(cons);
 		setInputOutput();
 		compute();
@@ -69,7 +68,7 @@ public class AlgoFitPoly extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = geolist;
-		input[1] = geodegree;
+		input[1] = degree.toGeoElement();
 		setOnlyOutput(geofunction);
 		setDependencies();
 	}

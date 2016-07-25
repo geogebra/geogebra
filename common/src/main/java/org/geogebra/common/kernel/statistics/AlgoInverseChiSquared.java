@@ -14,8 +14,8 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.ChiSquaredDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class AlgoInverseChiSquared extends AlgoDistribution {
 	 *            variable value
 	 */
 	public AlgoInverseChiSquared(Construction cons, String label,
-			NumberValue a, NumberValue b) {
+			GeoNumberValue a, GeoNumberValue b) {
 		super(cons, label, a, b, null, null);
 	}
 
@@ -47,7 +47,8 @@ public class AlgoInverseChiSquared extends AlgoDistribution {
 	 * @param b
 	 *            variable value
 	 */
-	public AlgoInverseChiSquared(Construction cons, NumberValue a, NumberValue b) {
+	public AlgoInverseChiSquared(Construction cons, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons, a, b, null, null);
 	}
 

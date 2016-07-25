@@ -15,9 +15,9 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.Cloner;
 
 /**
@@ -27,21 +27,21 @@ import org.geogebra.common.util.Cloner;
 
 public class AlgoPascalBarChart extends AlgoBarChart {
 
-	public AlgoPascalBarChart(Construction cons, String label, NumberValue n,
-			NumberValue p) {
+	public AlgoPascalBarChart(Construction cons, String label, GeoNumberValue n,
+			GeoNumberValue p) {
 		super(cons, label, n, p, null, null, AlgoBarChart.TYPE_BARCHART_PASCAL);
 		cons.registerEuclidianViewCE(this);
 	}
 
-	public AlgoPascalBarChart(Construction cons, String label, NumberValue n,
-			NumberValue p, GeoBoolean isCumulative) {
+	public AlgoPascalBarChart(Construction cons, String label, GeoNumberValue n,
+			GeoNumberValue p, GeoBoolean isCumulative) {
 		super(cons, label, n, p, null, isCumulative,
 				AlgoBarChart.TYPE_BARCHART_PASCAL);
 		cons.registerEuclidianViewCE(this);
 	}
 
-	private AlgoPascalBarChart(NumberValue n, NumberValue p,
-			GeoBoolean isCumulative, NumberValue a, NumberValue b,
+	private AlgoPascalBarChart(GeoNumberValue n, GeoNumberValue p,
+			GeoBoolean isCumulative, GeoNumberValue a, GeoNumberValue b,
 			double[] vals, double[] borders, int N) {
 		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_PASCAL, a,
 				b, vals, borders, N);
@@ -57,9 +57,11 @@ public class AlgoPascalBarChart extends AlgoBarChart {
 		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
 		if (b != null)
 			b = (GeoBoolean) b.copy();
-		return new AlgoPascalBarChart((NumberValue) this.getP1().deepCopy(
-				kernel), (NumberValue) this.getP2().deepCopy(kernel), b,
-				(NumberValue) this.getA().deepCopy(kernel), (NumberValue) this
+		return new AlgoPascalBarChart(
+				(GeoNumberValue) this.getP1().deepCopy(kernel),
+				(GeoNumberValue) this.getP2().deepCopy(kernel), b,
+				(GeoNumberValue) this.getA().deepCopy(kernel),
+				(GeoNumberValue) this
 						.getB().deepCopy(kernel), Cloner.clone(getValues()),
 				Cloner.clone(getLeftBorder()), getIntervals());
 

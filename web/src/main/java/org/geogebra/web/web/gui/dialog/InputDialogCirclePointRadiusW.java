@@ -2,8 +2,8 @@ package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.web.html5.main.AppW;
 
@@ -26,7 +26,7 @@ public class InputDialogCirclePointRadiusW extends InputDialogRadiusW{
 	}
 
 	@Override
-	protected GeoElement createOutput(NumberValue num) {
+	protected GeoElement createOutput(GeoNumberValue num) {
 		return kernel.getAlgoDispatcher().Circle(null, geoPoint1, num);
 	}
 

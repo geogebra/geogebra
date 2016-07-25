@@ -14,10 +14,10 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.BinomialDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -41,8 +41,8 @@ public class AlgoBinomialDistList extends AlgoDistribution {
 	 * @param isCumulative
 	 *            cumulative
 	 */
-	public AlgoBinomialDistList(Construction cons, String label, NumberValue a,
-			NumberValue b, GeoList c) {
+	public AlgoBinomialDistList(Construction cons, String label,
+			GeoNumberValue a, GeoNumberValue b, GeoList c) {
 		super(cons, label, a, b, c);
 	}
 

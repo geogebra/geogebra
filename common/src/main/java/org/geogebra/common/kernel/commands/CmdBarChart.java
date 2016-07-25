@@ -133,9 +133,9 @@ public class CmdBarChart extends CommandProcessor {
 	/**
 	 * BarChart
 	 */
-	final private GeoNumeric BarChart(String label, NumberValue a,
-			NumberValue b, GeoElement expression, GeoNumeric localVar,
-			NumberValue from, NumberValue to, NumberValue step) {
+	final private GeoNumeric BarChart(String label, GeoNumberValue a,
+			GeoNumberValue b, GeoElement expression, GeoNumeric localVar,
+			GeoNumberValue from, GeoNumberValue to, NumberValue step) {
 
 		AlgoSequence seq = new AlgoSequence(cons, expression, localVar, from,
 				to, step);

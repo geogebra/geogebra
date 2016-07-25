@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -40,7 +39,7 @@ public class EuclidianControllerForPlaneCompanion extends
 
 	@Override
 	protected GeoConicND circle(Construction cons, GeoPointND center,
-			NumberValue radius) {
+			GeoNumberValue radius) {
 		return circleFor3D(cons, center, radius);
 	}
 

@@ -14,8 +14,8 @@ package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.distribution.PoissonDistribution;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * 
@@ -34,8 +34,8 @@ public class AlgoInversePoisson extends AlgoDistribution {
 	 * @param b
 	 *            variable value
 	 */
-	public AlgoInversePoisson(Construction cons, String label, NumberValue a,
-			NumberValue b) {
+	public AlgoInversePoisson(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons, label, a, b, null, null);
 	}
 
@@ -47,7 +47,8 @@ public class AlgoInversePoisson extends AlgoDistribution {
 	 * @param b
 	 *            variable value
 	 */
-	public AlgoInversePoisson(Construction cons, NumberValue a, NumberValue b) {
+	public AlgoInversePoisson(Construction cons, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons, a, b, null, null);
 	}
 

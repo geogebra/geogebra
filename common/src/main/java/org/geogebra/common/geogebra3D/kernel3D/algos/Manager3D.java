@@ -729,7 +729,8 @@ public class Manager3D implements Manager3DInterface {
 		return circle;
 	}
 
-	public GeoConicND Circle3D(String label, GeoPointND A, NumberValue radius,
+	public GeoConicND Circle3D(String label, GeoPointND A,
+			GeoNumberValue radius,
 			GeoDirectionND axis) {
 
 		if (!A.isGeoElement3D() && axis == kernel.getXOYPlane()) {
@@ -747,7 +748,8 @@ public class Manager3D implements Manager3DInterface {
 
 	}
 
-	public GeoConicND Circle3D(String label, GeoPointND A, NumberValue radius) {
+	public GeoConicND Circle3D(String label, GeoPointND A,
+			GeoNumberValue radius) {
 		return Circle3D(label, A, radius, kernel.getXOYPlane());
 	}
 

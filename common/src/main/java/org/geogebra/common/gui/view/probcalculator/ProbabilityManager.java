@@ -4,11 +4,11 @@ import java.util.HashMap;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.statistics.AlgoBinomialDist;
 import org.geogebra.common.kernel.statistics.AlgoCauchy;
 import org.geogebra.common.kernel.statistics.AlgoChiSquared;
@@ -210,8 +210,8 @@ public class ProbabilityManager {
 	 * @return AlgoDistribution
 	 */
 	protected static AlgoDistribution getInverseCommand(DIST d,
-			Construction cons, NumberValue param1, NumberValue param2,
-			NumberValue param3, NumberValue x) {
+			Construction cons, GeoNumberValue param1, GeoNumberValue param2,
+			GeoNumberValue param3, GeoNumberValue x) {
 
 		AlgoDistribution ret = null;
 
@@ -277,8 +277,8 @@ public class ProbabilityManager {
 	 * @return AlgoDistribution
 	 */
 	protected static AlgoDistribution getCommand(DIST d, Construction cons,
-			NumberValue param1, NumberValue param2, NumberValue param3,
-			NumberValue x, boolean isCumulative) {
+			GeoNumberValue param1, GeoNumberValue param2, GeoNumberValue param3,
+			GeoNumberValue x, boolean isCumulative) {
 
 		AlgoDistribution ret = null;
 
@@ -837,23 +837,23 @@ public class ProbabilityManager {
 	public double probability(double value, double[] parms, DIST distType,
 			boolean isCumulative) {
 
-		MyDouble param1 = null, param2 = null, param3 = null;
+		GeoNumeric param1 = null, param2 = null, param3 = null;
 
 		Construction cons = app.getKernel().getConstruction();
 		Kernel kernel = app.getKernel();
 
 		if (parms.length > 0) {
-			param1 = new MyDouble(kernel, parms[0]);
+			param1 = new GeoNumeric(cons, parms[0]);
 		}
 		if (parms.length > 1) {
-			param2 = new MyDouble(kernel, parms[1]);
+			param2 = new GeoNumeric(cons, parms[1]);
 		}
 		if (parms.length > 2) {
-			param3 = new MyDouble(kernel, parms[2]);
+			param3 = new GeoNumeric(cons, parms[2]);
 		}
 
 		AlgoDistribution algo = getCommand(distType, cons, param1, param2,
-				param3, new MyDouble(kernel, value), isCumulative);
+				param3, new GeoNumeric(cons, value), isCumulative);
 
 		return algo.getResult().getDouble();
 
@@ -904,23 +904,22 @@ public class ProbabilityManager {
 	public double inverseProbability(DIST distType, double prob,
 			double[] parms) {
 
-		MyDouble param1 = null, param2 = null, param3 = null;
+		GeoNumberValue param1 = null, param2 = null, param3 = null;
 
 		Construction cons = app.getKernel().getConstruction();
-		Kernel kernel = app.getKernel();
 
 		if (parms.length > 0) {
-			param1 = new MyDouble(kernel, parms[0]);
+			param1 = new GeoNumeric(cons, parms[0]);
 		}
 		if (parms.length > 1) {
-			param2 = new MyDouble(kernel, parms[1]);
+			param2 = new GeoNumeric(cons, parms[1]);
 		}
 		if (parms.length > 2) {
-			param3 = new MyDouble(kernel, parms[2]);
+			param3 = new GeoNumeric(cons, parms[2]);
 		}
 
 		AlgoDistribution algo = getInverseCommand(distType, cons, param1,
-				param2, param3, new MyDouble(kernel, prob));
+				param2, param3, new GeoNumeric(cons, prob));
 
 		return algo.getResult().getDouble();
 	}

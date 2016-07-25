@@ -7,8 +7,8 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
@@ -96,7 +96,7 @@ public abstract class InputDialogRadiusD extends InputDialogD {
 	 * @param num
 	 * @return the circle
 	 */
-	abstract protected GeoElement createOutput(NumberValue num);
+	abstract protected GeoElement createOutput(GeoNumberValue num);
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {

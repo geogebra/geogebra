@@ -860,7 +860,7 @@ public class StatGeo {
 			algo = new AlgoFitLog(cons, dataList);
 			break;
 		case POLY:
-			algo = new AlgoFitPoly(cons, dataList, new MyDouble(kernel, order));
+			algo = new AlgoFitPoly(cons, dataList, new GeoNumeric(cons, order));
 			break;
 		case POW:
 			algo = new AlgoFitPow(cons, dataList);
@@ -882,7 +882,7 @@ public class StatGeo {
 			// fall through to linear
 		case LINEAR:
 		default:
-			algo = new AlgoFitPoly(cons, dataList, new MyDouble(kernel, 1));
+			algo = new AlgoFitPoly(cons, dataList, new GeoNumeric(cons, 1));
 			break;
 
 		}
