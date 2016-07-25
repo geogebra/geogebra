@@ -331,7 +331,7 @@ var app = document.createElement("script");
 			tubeid = location.pathname.substring(3);
 		}
 		if(e("ggw")){
-			if(location.host.indexOf("beta") == 0){
+			if(location.host.indexOf("beta") == 0 || location.host.indexOf("127") == 0 || location.host.indexOf("localhost") == 0|| location.host.indexOf("autotest") == 0){
 				e("ggw").setAttribute("data-param-prerelease",true);
 			}
 			if(location.host.indexOf("alpha") == 0){
@@ -376,7 +376,7 @@ var app = document.createElement("script");
 			insertScript(codebase);
 			return;
 		}if(location.hash.length || (location.pathname != '/apps' && location.pathname != '/chromeapp/'
-		&& location.pathname != '/apps/')){
+		&& location.pathname != '/apps/' && !location.pathname.match(/app.html/))){
 			var names = {'algebra':1,'geometry':2,'spreadsheet':3,'cas':4,'3d':5,'probability':6};
 			var pName = location.hash.length ? location.hash.replace('#','') : location.pathname.replace(/\//g,'');
 			if( pName.substring(0,6)=="search" || pName == "exam"){
@@ -400,7 +400,7 @@ var app = document.createElement("script");
 		
 		
 		insertScript(codebase);
-		if(location.host.indexOf("alpha") == 0){
+		if(location.host.indexOf("alpha") == 0 || location.host.indexOf("127") == 0 || location.host.indexOf("localhost") == 0|| location.host.indexOf("autotest") == 0 ){
 			perspective(false, "picker"); //TODO
 		}
 		else if(getCookie("SSID")){
