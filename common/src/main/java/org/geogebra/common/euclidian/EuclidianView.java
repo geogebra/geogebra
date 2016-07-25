@@ -2888,7 +2888,7 @@ GRectangle selectionRectangle) {
 		}
 	}
 
-	private void updateSizeKeepCenter() {
+	protected void updateSizeKeepCenter() {
 		if (!mViewCentered) {
 			mCenterX = 0;
 			mCenterY = 0;
@@ -2897,13 +2897,8 @@ GRectangle selectionRectangle) {
 			mCenterX = getCenterX();
 			mCenterY = getCenterY();
 		}
-
 		updateSizeChange();
-
 		centerView(mCenterX, mCenterY);
-		if (!app.getKernel().isUndoActive()) {
-			app.setUndoActive(true);
-		}
 	}
 
 	private double getCenterX() {
