@@ -3975,7 +3975,10 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case MOBILE_DIALOG_WITH_NEW_KEYBOARD:
-			return false;
+			return prerelease;
+
+		case MOBILE_DIALOG_FORMULA_INPUT:
+				return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
