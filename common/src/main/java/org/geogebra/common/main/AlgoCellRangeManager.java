@@ -119,6 +119,9 @@ public class AlgoCellRangeManager {
 			if (label != null && label.length() > 0) {
 				algo.getList().setLabel(label);
 			}
+			if (!algo.isInConstructionList()) {
+				cons.addToConstructionList(algo, false);
+			}
 		}
 
 		return algo;
