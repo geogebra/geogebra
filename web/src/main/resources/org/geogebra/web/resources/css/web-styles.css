@@ -3419,6 +3419,7 @@ body.application[dir=rtl] .imageCorner {
 	padding-bottom:5px;
 	padding-right:10px;
 	box-sizing: border-box;
+	min-height:58px;
 }
 
 .NewRadioButtonTreeItemParent .scrollableTextBox{

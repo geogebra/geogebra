@@ -1662,13 +1662,13 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	 */
 	private GeoFunction buildDensityCurveExpression(DIST type, boolean cumulative) {
 
-		MyDouble param1 = null, param2 = null;
+		GeoNumeric param1 = null, param2 = null;
 
 		if (parameters.length > 0) {
-			param1 = new MyDouble(kernel, parameters[0]);
+			param1 = new GeoNumeric(cons, parameters[0]);
 		}
 		if (parameters.length > 1) {
-			param2 = new MyDouble(kernel, parameters[1]);
+			param2 = new GeoNumeric(cons, parameters[1]);
 		}
 
 		AlgoDistributionDF ret = null;

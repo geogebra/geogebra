@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -31,7 +32,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 	protected NumberValue evNum;
 
 	protected AlgoDrawingPadCorner(Construction cons, String label,
-			NumberValue number, NumberValue evNum, double absCorner) {
+			GeoNumberValue number, GeoNumberValue evNum, double absCorner) {
 		super(cons);
 		this.number = number;
 		this.evNum = evNum; // can be null
@@ -74,7 +75,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 	}
 
 	public AlgoDrawingPadCorner(Construction cons, String label,
-			NumberValue number, NumberValue evNum) {
+			GeoNumberValue number, GeoNumberValue evNum) {
 		this(cons, label, number, evNum, 5);
 
 	}

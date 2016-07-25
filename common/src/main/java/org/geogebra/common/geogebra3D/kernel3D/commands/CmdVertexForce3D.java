@@ -1,7 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -20,8 +20,8 @@ public class CmdVertexForce3D extends CmdVertex3D {
 	}
 
 	@Override
-	protected GeoPointND cornerOfDrawingPad(String label, NumberValue number,
-			NumberValue ev) {
+	protected GeoPointND cornerOfDrawingPad(String label, GeoNumberValue number,
+			GeoNumberValue ev) {
 
 		return cornerOfDrawingPad3D(label, number, ev);
 

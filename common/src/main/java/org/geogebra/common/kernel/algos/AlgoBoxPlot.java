@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.Cloner;
 
@@ -35,8 +36,8 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	private static final int TYPE_RAW = 1;
 	private static final int TYPE_FREQUENCY = 2;
 	private int type;
-	private NumberValue a;
-	private NumberValue b;
+	private GeoNumberValue a;
+	private GeoNumberValue b;
 	private GeoElement ageo;
 	private GeoElement bgeo;
 	private GeoElement minGeo;
@@ -70,9 +71,9 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	 * @param Q3
 	 * @param max
 	 */
-	public AlgoBoxPlot(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue min, NumberValue Q1, NumberValue median,
-			NumberValue Q3, NumberValue max) {
+	public AlgoBoxPlot(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue min, GeoNumberValue Q1,
+			GeoNumberValue median, GeoNumberValue Q3, GeoNumberValue max) {
 
 		super(cons);
 
@@ -112,16 +113,16 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	 * @param useOutliers
 	 *            whether to plot outliers separately
 	 */
-	public AlgoBoxPlot(Construction cons, String label, NumberValue a,
-			NumberValue b, GeoList list1, GeoBoolean useOutliers) {
+	public AlgoBoxPlot(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoList list1, GeoBoolean useOutliers) {
 
 		this(cons, a, b, list1, useOutliers);
 
 		sum.setLabel(label);
 	}
 
-	public AlgoBoxPlot(Construction cons, String label, NumberValue a,
-			NumberValue b, GeoList list1, GeoList freqList,
+	public AlgoBoxPlot(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoList list1, GeoList freqList,
 			GeoBoolean useOutliers) {
 
 		this(cons, a, b, list1, freqList, useOutliers);
@@ -142,7 +143,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	 * @param useOutliers
 	 *            whether to plot outliers separately
 	 */
-	public AlgoBoxPlot(Construction cons, NumberValue a, NumberValue b,
+	public AlgoBoxPlot(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			GeoList list1, GeoList freqList, GeoBoolean useOutliers) {
 
 		super(cons);
@@ -164,7 +165,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		sum.setDrawable(true);
 	}
 
-	public AlgoBoxPlot(Construction cons, NumberValue a, NumberValue b,
+	public AlgoBoxPlot(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			GeoList list1, GeoBoolean useOutliers) {
 
 		super(cons);
@@ -185,8 +186,8 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		sum.setDrawable(true);
 	}
 
-	private AlgoBoxPlot(Construction cons, double[] list1, NumberValue a,
-			NumberValue b) {
+	private AlgoBoxPlot(Construction cons, double[] list1, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons, false);
 		type = TYPE_RAW;
 
@@ -214,8 +215,8 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 	public AlgoBoxPlot copy() {
 		return new AlgoBoxPlot(cons, Cloner.clone(leftBorder),
-				(NumberValue) a.deepCopy(kernel),
-				(NumberValue) b.deepCopy(kernel));
+				(GeoNumberValue) a.deepCopy(kernel),
+				(GeoNumberValue) b.deepCopy(kernel));
 	}
 
 	@Override

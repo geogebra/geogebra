@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
-import org.geogebra.common.kernel.geos.ToGeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.locusequ.EquationScope;
 import org.geogebra.common.plugin.GeoClass;
@@ -114,7 +114,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 *            only output
 	 * 
 	 */
-	protected void setOnlyOutput(ToGeoElement g) {
+	protected void setOnlyOutput(GeoElementND g) {
 		output = new GeoElement[1];
 		output[0] = g.toGeoElement();
 	}

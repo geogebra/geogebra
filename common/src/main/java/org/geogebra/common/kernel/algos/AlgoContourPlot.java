@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
@@ -118,7 +119,7 @@ public class AlgoContourPlot extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		list.setTypeStringForXML("implicitpoly");
-		contourStep = new MyDouble(kernel, step).toGeoElement();
+		contourStep = new GeoNumeric(cons, step);
 		if (this.fixed) {
 			input = new GeoElement[2];
 			input[1] = contourStep;

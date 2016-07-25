@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -63,7 +62,7 @@ public class CmdSample extends CommandProcessor {
 	/**
 	 * Sample[list,n, withReplacement] Michael Borcherds
 	 */
-	final public GeoElement Sample(String label, GeoList list, NumberValue n,
+	final public GeoElement Sample(String label, GeoList list, GeoNumberValue n,
 			GeoBoolean withReplacement) {
 		AlgoSample algo = new AlgoSample(cons, label, list, n, withReplacement);
 		GeoElement ret = algo.getResult();

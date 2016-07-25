@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDrawingPadCorner;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 
@@ -31,7 +32,7 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 	 *            euclidian view id
 	 */
 	public AlgoDrawingPadCorner3D(Construction cons, String label,
-			NumberValue number, NumberValue evNum) {
+			GeoNumberValue number, GeoNumberValue evNum) {
 		super(cons, label, number, evNum, 9);
 	}
 

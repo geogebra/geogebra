@@ -597,15 +597,15 @@ public class StatGeo {
 		AlgoBoxPlot algoBoxPlot = null;
 
 		if (settings.groupType() == GroupType.RAWDATA) {
-			algoBoxPlot = new AlgoBoxPlot(cons, new MyDouble(kernel, 1d),
-					new MyDouble(kernel, 0.5), dataList, new GeoBoolean(cons,
+			algoBoxPlot = new AlgoBoxPlot(cons, new GeoNumeric(cons, 1d),
+					new GeoNumeric(cons, 0.5), dataList, new GeoBoolean(cons,
 							settings.isShowOutliers()));
 			removeFromConstructionList(algoBoxPlot);
 			geo = algoBoxPlot.getGeoElements()[0];
 
 		} else if (settings.groupType() == GroupType.FREQUENCY) {
-			algoBoxPlot = new AlgoBoxPlot(cons, new MyDouble(kernel, 1d),
-					new MyDouble(kernel, 0.5), (GeoList) dataList.get(0),
+			algoBoxPlot = new AlgoBoxPlot(cons, new GeoNumeric(cons, 1d),
+					new GeoNumeric(cons, 0.5), (GeoList) dataList.get(0),
 					(GeoList) dataList.get(1), new GeoBoolean(cons,
 							settings.isShowOutliers()));
 			removeFromConstructionList(algoBoxPlot);

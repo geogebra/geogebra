@@ -25,10 +25,10 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for PDF / CDF of T Distribution TDistribution[a,x]
@@ -38,19 +38,19 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 public class AlgoTDistributionDF extends AlgoElement implements
 		AlgoDistributionDF {
 
-	private NumberValue v; // input
+	private GeoNumberValue v; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
 	@SuppressWarnings("javadoc")
 	public AlgoTDistributionDF(Construction cons, String label,
-			NumberValue mean, BooleanValue cumulative) {
+			GeoNumberValue mean, BooleanValue cumulative) {
 		this(cons, mean, cumulative);
 		ret.setLabel(label);
 	}
 
 	@SuppressWarnings("javadoc")
-	public AlgoTDistributionDF(Construction cons, NumberValue a,
+	public AlgoTDistributionDF(Construction cons, GeoNumberValue a,
 			BooleanValue cumulative) {
 		super(cons);
 		this.v = a;

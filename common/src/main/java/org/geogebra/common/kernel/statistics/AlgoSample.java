@@ -16,11 +16,11 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Sample from a list. Adapted from AlgoMode
@@ -35,11 +35,11 @@ public class AlgoSample extends AlgoElement {
 
 	private GeoList inputList; // input
 	private GeoBoolean replacement;
-	private NumberValue num;
+	private GeoNumberValue num;
 	private GeoList outputList; // output
 
 	public AlgoSample(Construction cons, String label, GeoList inputList,
-			NumberValue num, GeoBoolean replacement) {
+			GeoNumberValue num, GeoBoolean replacement) {
 		super(cons);
 		this.inputList = inputList;
 		this.replacement = replacement;

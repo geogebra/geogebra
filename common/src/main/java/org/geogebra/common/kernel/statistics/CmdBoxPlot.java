@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoBoxPlot;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -40,7 +39,7 @@ public class CmdBoxPlot extends CommandProcessor {
 					&& (ok[2] = (arg[2].isGeoList()))) {
 
 				AlgoBoxPlot algo = new AlgoBoxPlot(cons, c.getLabel(),
-						(NumberValue) arg[0], (NumberValue) arg[1],
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoList) arg[2], null);
 
 				GeoElement[] ret = { algo.getSum() };

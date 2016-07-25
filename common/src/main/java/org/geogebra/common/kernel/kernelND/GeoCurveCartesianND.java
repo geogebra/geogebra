@@ -114,6 +114,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	 * expression by copies of their values.
 	 * @param geo Element to be replaced
 	 */
+	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 
 		for (int i=0; i<fun.length; i++)
@@ -142,6 +143,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	 * path (may be Double.NEGATIVE_INFINITY)
 	 * @return start parameter
 	 */
+	@Override
 	public double getMinParameter() {
 		return startParam;
 	}
@@ -151,6 +153,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	 * path (may be Double.POSITIVE_INFINITY)
 	 * @return end parameter
 	 */
+	@Override
 	public double getMaxParameter() {
 		return endParam;
 	}
@@ -245,6 +248,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	 * @param tpl string template
 	 * @return symbolic string representation
 	 */
+	@Override
 	public String toSymbolicString(StringTemplate tpl) {
 		StringBuilder sbTemp = null;
 		if (isDefined) {
@@ -277,6 +281,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		return fun[i];
 	}
 
+	@Override
 	public final void update(){
 		super.update();
 		for(int i=0; i< this.funExpanded.length; i++){
@@ -284,10 +289,12 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		}
 	}
 
+	@Override
 	public FunctionVariable[] getFunctionVariables() {
 		return getFun(0).getFunctionVariables();
 	}
 
+	@Override
 	public String getVarString(StringTemplate tpl) {
 		return getFun(0).getVarString(tpl);
 	}
@@ -295,6 +302,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	/**
 	 * Set this curve by applying CAS command to f.
 	 */
+	@Override
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
 			boolean symbolic,MyArbitraryConstant arbconst) {
 		GeoCurveCartesianND c = (GeoCurveCartesianND) f;
@@ -317,6 +325,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		this.distFun = null;
 	}
 
+	@Override
 	public void clearCasEvalMap(String key) {
 		for(int k = 0; k < getDimension(); k++){
 			if (getFun(k) != null) {
@@ -325,12 +334,14 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		}		
 	}
 
+	@Override
 	public void printCASEvalMapXML(StringBuilder sb) {
 		for (int k = 0; k < getDimension(); k++) {
 			// getFun(k).printCasEvalMap(sb);
 		}
 	}
 
+	@Override
 	public void updateCASEvalMap(TreeMap<String, String> map) {
 		// TODO
 	}
@@ -428,10 +439,12 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 		this.hideRangeInFormula = b;
 	}
 
+	@Override
 	public boolean isLaTeXDrawableGeo() {
 		return true;
 	}
 
+	@Override
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		if (this.isDefined) {
 			StringBuilder sbTemp =
@@ -537,6 +550,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 
 	public abstract ExpressionValue evaluateCurve(double double1);
 
+	@Override
 	public boolean isParametric() {
 		return true;
 	}

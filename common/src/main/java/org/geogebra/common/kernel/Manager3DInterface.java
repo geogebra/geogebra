@@ -85,7 +85,7 @@ public interface Manager3DInterface {
 	public GeoPointND Point3D(String label, Path path, boolean coords2D);
 
 	/** Point3D on a 1D path with path parameter */
-	public GeoPointND Point3D(String label, Path path, NumberValue param);
+	public GeoPointND Point3D(String label, Path path, GeoNumberValue param);
 
 	/**
 	 * Midpoint M = (P + Q)/2
@@ -200,7 +200,7 @@ public interface Manager3DInterface {
 	 * name the polygon itself, its segments and points
 	 */
 	public GeoElement[] RegularPolygon(String[] labels, GeoPointND A,
-			GeoPointND B, NumberValue n, GeoDirectionND direction);
+			GeoPointND B, GeoNumberValue n, GeoDirectionND direction);
 
 	public GeoElement[] PolyLine3D(String label, GeoPointND[] P);
 
@@ -237,7 +237,7 @@ public interface Manager3DInterface {
 	 * @return the polyhedron
 	 */
 	public GeoElement[] Prism(String[] labels, GeoPolygon polygon,
-			NumberValue height);
+			GeoNumberValue height);
 
 	/**
 	 * Pyramid with vertices (last one as apex)
@@ -272,7 +272,7 @@ public interface Manager3DInterface {
 	 * @param height
 	 */
 	public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
-			NumberValue height);
+			GeoNumberValue height);
 
 	/** Plane a x + b y + c z + d = 0 */
 	public GeoPlaneND Plane3D(double a, double b, double c,
@@ -524,7 +524,7 @@ public interface Manager3DInterface {
 	 */
 	public GeoElement CurveCartesian3D(NumberValue xcoord,
 			NumberValue ycoord, NumberValue zcoord, GeoNumeric localVar,
-			NumberValue from, NumberValue to);
+			GeoNumberValue from, GeoNumberValue to);
 
 	// //////////////////////////////////////////////
 	// 3D SURFACE (2 VARS)

@@ -6,8 +6,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoPolygonRegularND;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -34,7 +34,7 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 	 * @param direction
 	 */
 	public AlgoPolygonRegular3D(Construction c, String[] labels, GeoPointND A1,
-			GeoPointND B1, NumberValue num, GeoDirectionND direction) {
+			GeoPointND B1, GeoNumberValue num, GeoDirectionND direction) {
 		super(c, labels, A1, B1, num, direction);
 	}
 

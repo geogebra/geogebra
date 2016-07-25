@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.algos.AlgoVertexIneq;
 import org.geogebra.common.kernel.algos.AlgoVertexPolygon;
 import org.geogebra.common.kernel.algos.AlgoVertexSegment;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -152,8 +151,8 @@ public class CmdVertex extends CommandProcessor {
 	 *            view index
 	 * @return view corner
 	 */
-	protected GeoPointND cornerOfDrawingPad(String label, NumberValue number,
-			NumberValue ev) {
+	protected GeoPointND cornerOfDrawingPad(String label, GeoNumberValue number,
+			GeoNumberValue ev) {
 		AlgoDrawingPadCorner algo = new AlgoDrawingPadCorner(cons, label,
 				number, ev);
 		return algo.getCorner();

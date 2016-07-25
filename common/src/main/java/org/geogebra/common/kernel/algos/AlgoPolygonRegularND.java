@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -76,7 +77,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements
 	 *            number of vertices
 	 */
 	public AlgoPolygonRegularND(Construction c, String[] labels, GeoPointND A1,
-			GeoPointND B1, NumberValue num, GeoDirectionND direction) {
+			GeoPointND B1, GeoNumberValue num, GeoDirectionND direction) {
 		super(c);
 
 		labelsNeedIniting = true;

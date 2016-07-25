@@ -911,8 +911,9 @@ public abstract class EuclidianController {
 		return ret;
 	}
 
-	protected final NumberValue[] getSelectedNumberValues() {
-		NumberValue[] ret = new NumberValue[getSelectedNumberValueList().size()];
+	protected final GeoNumberValue[] getSelectedNumberValues() {
+		GeoNumberValue[] ret = new GeoNumberValue[getSelectedNumberValueList()
+				.size()];
 		for (int i = 0; i < getSelectedNumberValueList().size(); i++) {
 			ret[i] = getSelectedNumberValueList().get(i);
 		}

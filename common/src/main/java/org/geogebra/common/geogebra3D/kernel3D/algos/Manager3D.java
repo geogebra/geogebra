@@ -255,7 +255,7 @@ public class Manager3D implements Manager3DInterface {
 		return p;
 	}
 
-	public GeoPointND Point3D(String label, Path path, NumberValue param) {
+	public GeoPointND Point3D(String label, Path path, GeoNumberValue param) {
 
 		// try (0,0,0)
 		AlgoPoint3DOnPath algo = null;
@@ -487,7 +487,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	final public GeoElement[] Prism(String[] labels, GeoPolygon polygon,
-			NumberValue height) {
+			GeoNumberValue height) {
 
 		AlgoPolyhedronPointsPrism algo = new AlgoPolyhedronPointsPrism(cons,
 				labels, polygon, height);
@@ -524,7 +524,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	final public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
-			NumberValue height) {
+			GeoNumberValue height) {
 		AlgoPolyhedronPointsPyramid algo = new AlgoPolyhedronPointsPyramid(
 				cons, labels, polygon, height);
 
@@ -733,7 +733,7 @@ public class Manager3D implements Manager3DInterface {
 			GeoDirectionND axis) {
 
 		if (!A.isGeoElement3D() && axis == kernel.getXOYPlane()) {
-			return kernel.getAlgoDispatcher().Circle(label, (GeoPoint) A,
+			return kernel.getAlgoDispatcher().Circle(label, A,
 					radius);
 		}
 
@@ -1045,7 +1045,7 @@ public class Manager3D implements Manager3DInterface {
 	 */
 	final public GeoCurveCartesian3D CurveCartesian3D(NumberValue xcoord,
 			NumberValue ycoord, NumberValue zcoord,
-			GeoNumeric localVar, NumberValue from, NumberValue to) {
+			GeoNumeric localVar, GeoNumberValue from, GeoNumberValue to) {
 		AlgoCurveCartesian3D algo = new AlgoCurveCartesian3D(cons, null,
 				new NumberValue[] { xcoord, ycoord, zcoord }, localVar, from,
 				to);
@@ -1095,7 +1095,7 @@ public class Manager3D implements Manager3DInterface {
 	private AlgoIntersectLineConic3D getIntersectionAlgorithm(GeoLineND g,
 			GeoConicND c) {
 		AlgoElement existingAlgo = kernel.getAlgoDispatcher()
-				.findExistingIntersectionAlgorithm((GeoElement) g, c);
+				.findExistingIntersectionAlgorithm(g, c);
 		if (existingAlgo != null)
 			return (AlgoIntersectLineConic3D) existingAlgo;
 
@@ -1261,7 +1261,7 @@ public class Manager3D implements Manager3DInterface {
 	private AlgoIntersectLineQuadric3D getIntersectionAlgorithm(GeoLineND A,
 			GeoQuadricND B) {
 		AlgoElement existingAlgo = kernel.getAlgoDispatcher()
-				.findExistingIntersectionAlgorithm((GeoElement) A, B);
+				.findExistingIntersectionAlgorithm(A, B);
 		if (existingAlgo != null)
 			return (AlgoIntersectLineQuadric3D) existingAlgo;
 
@@ -1352,7 +1352,7 @@ public class Manager3D implements Manager3DInterface {
 	private AlgoIntersectPlaneConic getIntersectionAlgorithm(GeoCoordSys2D A,
 			GeoConicND B) {
 		AlgoElement existingAlgo = kernel.getAlgoDispatcher()
-				.findExistingIntersectionAlgorithm((GeoElement) A, B);
+				.findExistingIntersectionAlgorithm(A, B);
 		if (existingAlgo != null)
 			return (AlgoIntersectPlaneConic) existingAlgo;
 
@@ -1368,7 +1368,7 @@ public class Manager3D implements Manager3DInterface {
 	private AlgoIntersectPlaneCurve getIntersectionAlgorithmCurve(
 			GeoCoordSys2D A, GeoCurveCartesianND B, String[] labels) {
 		AlgoElement existingAlgo = kernel.getAlgoDispatcher()
-				.findExistingIntersectionAlgorithm((GeoElement) A, B);
+				.findExistingIntersectionAlgorithm(A, B);
 		if (existingAlgo != null)
 			return (AlgoIntersectPlaneCurve) existingAlgo;
 
@@ -1610,7 +1610,9 @@ public class Manager3D implements Manager3DInterface {
 	 * Length named label of vector v
 	 * 
 	 * @param label
+	 *            label
 	 * @param v
+	 *            vector
 	 * @return length of the vector
 	 */
 	final public GeoNumeric Length(String label, GeoVectorND v) {
@@ -1851,7 +1853,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	final public GeoElement[] RegularPolygon(String[] labels, GeoPointND A,
-			GeoPointND B, NumberValue n, GeoDirectionND direction) {
+			GeoPointND B, GeoNumberValue n, GeoDirectionND direction) {
 		AlgoPolygonRegular3D algo = new AlgoPolygonRegular3D(cons, labels, A,
 				B, n, direction);
 		return algo.getOutput();

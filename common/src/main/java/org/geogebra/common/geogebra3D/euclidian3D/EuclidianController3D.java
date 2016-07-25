@@ -1366,7 +1366,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (selNumberValues() == 1) {
 			if (selPolygons() == 1) {
 				GeoPolygon[] basis = getSelectedPolygons();
-				NumberValue[] height = getSelectedNumberValues();
+				GeoNumberValue[] height = getSelectedNumberValues();
 				if (mode == EuclidianConstants.MODE_EXTRUSION) {
 					return new GeoElement[] { // return only the prism
 					getKernel().getManager3D().Prism(null, basis[0], height[0])[0] };
@@ -1377,7 +1377,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			} else if (selConics() == 1) {
 				GeoConicND[] basis = getSelectedConicsND();
-				NumberValue[] height = getSelectedNumberValues();
+				GeoNumberValue[] height = getSelectedNumberValues();
 				if (mode == EuclidianConstants.MODE_EXTRUSION) {
 					return new GeoElement[] { // return only the cylinder
 					getKernel().getManager3D().CylinderLimited(null, basis[0],

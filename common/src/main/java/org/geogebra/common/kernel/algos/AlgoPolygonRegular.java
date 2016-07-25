@@ -14,8 +14,8 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -46,7 +46,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 	 *            number of vertices
 	 */
 	public AlgoPolygonRegular(Construction c, String[] labels, GeoPointND A1,
-			GeoPointND B1, NumberValue num) {
+			GeoPointND B1, GeoNumberValue num) {
 		super(c, labels, A1, B1, num, null);
 	}
 

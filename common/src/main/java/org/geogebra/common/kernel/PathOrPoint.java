@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.kernel.geos.ToGeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * paths eg {(2,3), (4,5), Segment[(6,7),(8,9)] } see GeoList.pointChanged()
  */
 
-public interface PathOrPoint extends ToGeoElement {
+public interface PathOrPoint extends GeoElementND {
 
 	/*
 	 * static final int PATH_LINE = 0; static final int PATH_SEGMENT = 1; static

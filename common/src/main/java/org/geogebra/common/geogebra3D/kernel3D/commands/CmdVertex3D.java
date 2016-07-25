@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoVertexConic;
 import org.geogebra.common.kernel.algos.AlgoVertexPolygon;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdVertex;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoly;
@@ -27,8 +26,8 @@ public class CmdVertex3D extends CmdVertex {
 	}
 
 	@Override
-	protected GeoPointND cornerOfDrawingPad(String label, NumberValue number,
-			NumberValue ev) {
+	protected GeoPointND cornerOfDrawingPad(String label, GeoNumberValue number,
+			GeoNumberValue ev) {
 
 		// Corner[ev, n] : if ev==3, check if loading - then do as <5.0 version
 		// (with 2D points)
@@ -49,8 +48,8 @@ public class CmdVertex3D extends CmdVertex {
 	 *            view
 	 * @return corner
 	 */
-	protected GeoPointND cornerOfDrawingPad3D(String label, NumberValue number,
-			NumberValue ev) {
+	protected GeoPointND cornerOfDrawingPad3D(String label,
+			GeoNumberValue number, GeoNumberValue ev) {
 
 		AlgoDrawingPadCorner3D algo = new AlgoDrawingPadCorner3D(cons, label,
 				number, ev);

@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.ToGeoElement;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.LaTeXCache;
 /**
@@ -37,7 +36,7 @@ import org.geogebra.common.util.LaTeXCache;
  * @author Zbynek
  *
  */
-public interface GeoElementND extends ExpressionValue, ToGeoElement{
+public interface GeoElementND extends ExpressionValue {
 	/**
 	 * @param string new label
 	 */
@@ -413,5 +412,7 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	String getDefinitionForInputBar();
 
 	String getDefinition(StringTemplate tpl);
+
+	GeoElement toGeoElement();
 
 }

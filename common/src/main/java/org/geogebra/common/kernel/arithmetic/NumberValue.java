@@ -19,7 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.ToGeoElement;
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Interface for elements with numeric value (numerics, segments, polygons, ...)
@@ -27,7 +27,7 @@ import org.geogebra.common.kernel.geos.ToGeoElement;
  * 
  * @author Markus
  */
-public interface NumberValue extends ExpressionValue, ToGeoElement {
+public interface NumberValue extends ExpressionValue {
 	/**
 	 * @return MyDouble whose value equals #getDouble()
 	 */
@@ -56,4 +56,10 @@ public interface NumberValue extends ExpressionValue, ToGeoElement {
 	 * @return label for GeoElements, value for MyDouble
 	 */
 	public String getLabel(StringTemplate tpl);
+
+	/**
+	 * 
+	 * @return GeoNumeric for MyDoubles, self otherwise
+	 */
+	public GeoElement toGeoElement();
 }
