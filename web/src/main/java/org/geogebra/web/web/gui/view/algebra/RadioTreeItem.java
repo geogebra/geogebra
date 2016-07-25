@@ -1012,15 +1012,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	@Override
 	public void setFirst(boolean first) {
 		super.setFirst(first);
-		if (buttonPanel != null) {
-			if (first && app.allowStylebar()
-					&& getAlgebraDockPanel().isStyleBarPanelShown()
-					&& !getAlgebraDockPanel().hasLongStyleBar()) {
-				buttonPanel.addStyleName("positionedObjectStyleBar");
-			} else {
-				buttonPanel.removeStyleName("positionedObjectStyleBar");
-			}
-		}
+		updateButtonPanelPosition();
 	}
 
 	// AV EXTENSIONS
