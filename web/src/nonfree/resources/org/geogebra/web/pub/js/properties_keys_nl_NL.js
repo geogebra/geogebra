@@ -1391,7 +1391,7 @@ __GGB__keysVar.nl_NL.menu = {
     "Dilate.Factor": "Factor",
     "DilateFromPoint": "Homothetie",
     "DilateFromPoint.Help": "Object, vervolgens middelpunt en factor",
-    "Discard": "Discard",
+    "Discard": "Verwerpen",
     "Discrete": "Discreet",
     "Distance": "Afstand of lengte",
     "Distance.Help": "Punten, lijnstuk of cirkel",
