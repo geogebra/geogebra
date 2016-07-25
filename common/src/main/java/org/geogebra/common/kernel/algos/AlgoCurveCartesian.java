@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -40,7 +39,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoCurveCartesian extends AlgoElement {
 
-	private NumberValue[] coords; // input
+	private GeoNumberValue[] coords; // input
 	private GeoNumberValue from, to; // input
 	private GeoNumeric localVar; // input
 	private GeoCurveCartesianND curve; // output
@@ -49,7 +48,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 
 	/** Creates new AlgoJoinPoints */
 	public AlgoCurveCartesian(Construction cons, ExpressionNode point,
-			NumberValue[] coords, GeoNumeric localVar, GeoNumberValue from,
+			GeoNumberValue[] coords, GeoNumeric localVar, GeoNumberValue from,
 			GeoNumberValue to) {
 		super(cons);
 

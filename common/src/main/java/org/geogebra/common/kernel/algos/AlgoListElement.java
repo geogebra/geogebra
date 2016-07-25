@@ -14,10 +14,10 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.plugin.GeoClass;
@@ -37,8 +37,8 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoListElement extends AlgoElement {
 
 	private GeoList geoList; // input
-	private NumberValue num;
-	private NumberValue[] num2 = null; // input
+	private GeoNumberValue num;
+	private GeoNumberValue[] num2 = null; // input
 	private GeoElement numGeo;
 	private GeoElement element; // output
 
@@ -51,12 +51,13 @@ public class AlgoListElement extends AlgoElement {
 	 * @param num
 	 */
 	public AlgoListElement(Construction cons, String label, GeoList geoList,
-			NumberValue num) {
+			GeoNumberValue num) {
 		this(cons, geoList, num);
 		element.setLabel(label);
 	}
 
-	public AlgoListElement(Construction cons, GeoList geoList, NumberValue num) {
+	public AlgoListElement(Construction cons, GeoList geoList,
+			GeoNumberValue num) {
 		super(cons);
 		this.geoList = geoList;
 		this.num = num;
@@ -123,13 +124,13 @@ public class AlgoListElement extends AlgoElement {
 	 * Creates new unlabeled element algo
 	 */
 	public AlgoListElement(Construction cons, String label, GeoList geoList,
-			NumberValue[] num2) {
+			GeoNumberValue[] num2) {
 		this(cons, geoList, num2);
 		element.setLabel(label);
 	}
 
 	public AlgoListElement(Construction cons, GeoList geoList,
-			NumberValue[] num2) {
+			GeoNumberValue[] num2) {
 		super(cons);
 		this.geoList = geoList;
 		this.num2 = num2;

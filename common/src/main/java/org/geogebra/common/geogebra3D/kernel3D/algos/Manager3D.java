@@ -1045,11 +1045,11 @@ public class Manager3D implements Manager3DInterface {
 	 * 3D Cartesian curve command: Curve[ <expression x-coord>, <expression
 	 * y-coord>, <expression z-coord>, <number-var>, <from>, <to> ]
 	 */
-	final public GeoCurveCartesian3D CurveCartesian3D(NumberValue xcoord,
-			NumberValue ycoord, NumberValue zcoord,
+	final public GeoCurveCartesian3D CurveCartesian3D(GeoNumberValue xcoord,
+			GeoNumberValue ycoord, GeoNumberValue zcoord,
 			GeoNumeric localVar, GeoNumberValue from, GeoNumberValue to) {
 		AlgoCurveCartesian3D algo = new AlgoCurveCartesian3D(cons, null,
-				new NumberValue[] { xcoord, ycoord, zcoord }, localVar, from,
+				new GeoNumberValue[] { xcoord, ycoord, zcoord }, localVar, from,
 				to);
 		return (GeoCurveCartesian3D) algo.getCurve();
 	}
@@ -1058,16 +1058,16 @@ public class Manager3D implements Manager3DInterface {
 	// 3D SURFACE (2 VARS)
 
 	public GeoElement SurfaceCartesian3D(String label, ExpressionNode point,
-			NumberValue xcoord,
-			NumberValue ycoord, NumberValue zcoord, GeoNumeric uVar,
-			NumberValue uFrom, NumberValue uTo, GeoNumeric vVar,
-			NumberValue vFrom, NumberValue vTo) {
+			GeoNumberValue xcoord, GeoNumberValue ycoord, GeoNumberValue zcoord,
+			GeoNumeric uVar, GeoNumberValue uFrom, GeoNumberValue uTo,
+			GeoNumeric vVar, GeoNumberValue vFrom, GeoNumberValue vTo) {
 
 		AlgoSurfaceCartesian3D algo = new AlgoSurfaceCartesian3D(cons, label,
 				point,
-				new NumberValue[] { xcoord, ycoord, zcoord }, new GeoNumeric[] {
-						uVar, vVar }, new NumberValue[] { uFrom, vFrom },
-				new NumberValue[] { uTo, vTo });
+				new GeoNumberValue[] { xcoord, ycoord, zcoord },
+				new GeoNumeric[] { uVar, vVar },
+				new GeoNumberValue[] { uFrom, vFrom },
+				new GeoNumberValue[] { uTo, vTo });
 		return algo.getSurface();
 
 	}
@@ -1831,7 +1831,7 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	final public GeoElement[] Dilate3D(String label, GeoElement geoDil,
-			NumberValue r, GeoPointND S) {
+			GeoNumberValue r, GeoPointND S) {
 
 		Transform t = new TransformDilate3D(cons, r, S);
 		return t.transform(geoDil, label);

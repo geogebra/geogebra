@@ -2,17 +2,17 @@ package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.MyMath;
 
 public class AlgoIsPrime extends AlgoElement {
 	private GeoBoolean result;
-	private NumberValue number;
+	private GeoNumberValue number;
 
-	public AlgoIsPrime(Construction cons, String label, NumberValue number) {
+	public AlgoIsPrime(Construction cons, String label, GeoNumberValue number) {
 		super(cons);
 		result = new GeoBoolean(cons);
 		this.number = number;

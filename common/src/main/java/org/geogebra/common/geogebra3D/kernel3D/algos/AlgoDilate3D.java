@@ -4,10 +4,10 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDilate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -30,7 +30,7 @@ public class AlgoDilate3D extends AlgoDilate {
 	 * @param S
 	 *            reference point
 	 */
-	public AlgoDilate3D(Construction cons, GeoElement A, NumberValue r,
+	public AlgoDilate3D(Construction cons, GeoElement A, GeoNumberValue r,
 			GeoPointND S) {
 		super(cons, A, r, S);
 	}

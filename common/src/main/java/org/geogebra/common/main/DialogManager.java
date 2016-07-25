@@ -383,7 +383,7 @@ public abstract class DialogManager {
 
 	public abstract void showLogOutDialog();
 
-	public static boolean doDilate(Kernel kernel, NumberValue num,
+	public static boolean doDilate(Kernel kernel, GeoNumberValue num,
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {
 
 		if (selGeos.length > 0) {

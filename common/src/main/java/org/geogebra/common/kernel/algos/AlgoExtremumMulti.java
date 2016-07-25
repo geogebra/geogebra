@@ -16,10 +16,10 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.roots.RealRootFunction;
@@ -70,15 +70,13 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	/** Computes "all" Extremums of f in <l,r> */
 	public AlgoExtremumMulti(Construction cons, String[] labels,
-			GeoFunction function, NumberValue left, NumberValue right) {
+			GeoFunction function, GeoNumberValue left, GeoNumberValue right) {
 		super(cons, labels, !cons.isSuppressLabelsActive(), function); // set
 																		// f,g,l
 																		// null
 		this.f1 = function;
 		this.left = left;
-		this.geoleft = left.toGeoElement();
 		this.right = right;
-		this.georight = right.toGeoElement();
 
 		setInputOutput();
 
@@ -118,8 +116,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	protected void setInputOutput() {
 		input = new GeoElement[3];
 		input[0] = f1.toGeoElement();
-		input[1] = geoleft;
-		input[2] = georight;
+		input[1] = left.toGeoElement();
+		input[2] = right.toGeoElement();
 
 		// setOutputLength(1);
 		// setOutput(0, E);
@@ -144,8 +142,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		double l = left.getDouble();
 		double r = right.getDouble();
 
-		if (!f1.toGeoElement().isDefined() || !geoleft.isDefined()
-				|| !georight.isDefined() // ||
+		if (!f1.toGeoElement().isDefined() || !left.isDefined()
+				|| !right.isDefined() // ||
 											// (right.getDouble()<=left.getDouble()
 											// )
 		) {

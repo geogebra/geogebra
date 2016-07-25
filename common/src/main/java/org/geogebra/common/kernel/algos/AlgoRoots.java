@@ -21,10 +21,10 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootUtil;
@@ -71,7 +71,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 * Computes "all" Roots of f in <l,r> TYPE_ROOTS
 	 */
 	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
-			NumberValue left, NumberValue right) {
+			GeoNumberValue left, GeoNumberValue right) {
 		super(cons, labels, !cons.isSuppressLabelsActive(), function); // Ancestor
 																		// gets
 																		// first
@@ -80,9 +80,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 																		// points!
 		this.f0 = function;
 		this.left = left;
-		this.geoleft = left.toGeoElement();
 		this.right = right;
-		this.georight = right.toGeoElement();
 
 		type = TYPE_ROOTS;
 
@@ -103,14 +101,12 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		intervalDefinedByEV = true;
 	}
 
-	public AlgoRoots(Construction cons, GeoFunction function, NumberValue left,
-			NumberValue right) {
+	public AlgoRoots(Construction cons, GeoFunction function,
+			GeoNumberValue left, GeoNumberValue right) {
 		super(cons, function); // Ancestor gets first function for points!
 		this.f0 = function;
 		this.left = left;
-		this.geoleft = left.toGeoElement();
 		this.right = right;
-		this.georight = right.toGeoElement();
 
 		type = TYPE_ROOTS;
 
@@ -123,7 +119,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 * Computes "all" Roots of f in <l,r> TYPE_INTERSECTIONS
 	 */
 	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
-			GeoFunction function2, NumberValue left, NumberValue right) {
+			GeoFunction function2, GeoNumberValue left, GeoNumberValue right) {
 		super(cons, labels, !cons.isSuppressLabelsActive(), function); // Ancestor
 																		// gets
 																		// first
@@ -133,9 +129,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		this.f1 = function;
 		this.f2 = function2;
 		this.left = left;
-		this.geoleft = left.toGeoElement();
 		this.right = right;
-		this.georight = right.toGeoElement();
 
 		type = TYPE_INTERSECTIONS;
 
@@ -163,15 +157,15 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		case TYPE_ROOTS:
 			input = new GeoElement[3];
 			input[0] = f0.toGeoElement();
-			input[1] = geoleft;
-			input[2] = georight;
+			input[1] = left.toGeoElement();
+			input[2] = right.toGeoElement();
 			break;
 		case TYPE_INTERSECTIONS:
 			input = new GeoElement[4];
 			input[0] = f1.toGeoElement();
 			input[1] = f2.toGeoElement();
-			input[2] = geoleft;
-			input[3] = georight;
+			input[2] = left.toGeoElement();
+			input[3] = right.toGeoElement();
 		}// switch
 
 		super.setOutput(getPoints()); // Points in ancestor
@@ -190,12 +184,12 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		boolean ok = false;
 		switch (type) {
 		case TYPE_ROOTS:
-			ok = f0.toGeoElement().isDefined() && geoleft.isDefined()
-					&& georight.isDefined();
+			ok = f0.toGeoElement().isDefined() && left.isDefined()
+					&& right.isDefined();
 			break;
 		case TYPE_INTERSECTIONS:
 			ok = f1.toGeoElement().isDefined() && f2.toGeoElement().isDefined()
-					&& geoleft.isDefined() && georight.isDefined();
+					&& left.isDefined() && right.isDefined();
 			break;
 		}// switch
 		if (!ok) {

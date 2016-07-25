@@ -14,16 +14,18 @@ import org.geogebra.common.kernel.cas.AlgoPrimeFactorization;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoDivisorsList extends AlgoElement {
 
 	GeoList result;
-	private NumberValue number;
+	private GeoNumberValue number;
 	private AlgoPrimeFactorization factors;
 	private GeoList factorList;
 	List<Long> factList = new ArrayList<Long>();
 
-	public AlgoDivisorsList(Construction cons, String label, NumberValue number) {
+	public AlgoDivisorsList(Construction cons, String label,
+			GeoNumberValue number) {
 		super(cons);
 		this.number = number;
 		factors = new AlgoPrimeFactorization(cons, number);

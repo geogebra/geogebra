@@ -14,10 +14,10 @@ package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.MyMath;
 
@@ -29,7 +29,7 @@ import org.geogebra.common.util.MyMath;
 
 public class AlgoPrimeFactorization extends AlgoElement {
 
-	private NumberValue num; // input
+	private GeoNumberValue num; // input
 	private GeoList outputList; // output
 
 
@@ -41,7 +41,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 	 * @param num
 	 *            Number to factorize
 	 */
-	public AlgoPrimeFactorization(Construction cons, NumberValue num) {
+	public AlgoPrimeFactorization(Construction cons, GeoNumberValue num) {
 		super(cons);
 		this.num = num;
 
@@ -62,7 +62,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 	 *            Number to factorize
 	 */
 	public AlgoPrimeFactorization(Construction cons, String label,
-			NumberValue num) {
+			GeoNumberValue num) {
 		this(cons, num);
 		outputList.setLabel(label);
 	}

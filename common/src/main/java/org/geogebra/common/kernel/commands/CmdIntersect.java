@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolynomials;
 import org.geogebra.common.kernel.algos.AlgoIntersectSingle;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -889,7 +888,7 @@ public class CmdIntersect extends CommandProcessor {
 	 * Intersects f and g in interfal [left,right] numerically
 	 */
 	final private GeoPoint[] IntersectFunctions(String[] labels, GeoFunction f,
-			GeoFunction g, NumberValue left, NumberValue right) {
+			GeoFunction g, GeoNumberValue left, GeoNumberValue right) {
 		AlgoIntersectFunctions algo = new AlgoIntersectFunctions(cons, labels,
 				f, g, left, right);
 		GeoPoint[] S = algo.getIntersectionPoints();

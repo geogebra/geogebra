@@ -21,7 +21,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -29,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
@@ -46,7 +46,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 	private MatrixTransformable out;
 	private GeoElement inGeo, outGeo;
 	private GeoVec3D line;
-	private NumberValue num;
+	private GeoNumberValue num;
 	private boolean shear;
 	private double n;
 
@@ -61,7 +61,7 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 	 *            shear if true, stretch otherwise
 	 */
 	public AlgoShearOrStretch(Construction cons, GeoElement in, GeoVec3D l,
-			NumberValue num, boolean shear) {
+			GeoNumberValue num, boolean shear) {
 		super(cons);
 		this.shear = shear;
 		this.line = l;

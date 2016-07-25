@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -32,7 +33,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand,
 	/** function whose limit we are finding */
 	protected GeoFunction f;
 	/** input number */
-	protected NumberValue num;
+	protected GeoNumberValue num;
 	/** result */
 	protected GeoNumeric outNum;
 	private String limitString;
@@ -48,7 +49,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand,
 	 *            number
 	 */
 	public AlgoLimit(Construction cons, String label, GeoFunction f,
-			NumberValue num) {
+			GeoNumberValue num) {
 		super(cons);
 		cons.addCASAlgo(this);
 		this.f = f;

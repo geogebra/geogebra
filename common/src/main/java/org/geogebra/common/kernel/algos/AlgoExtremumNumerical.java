@@ -13,11 +13,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
@@ -59,22 +59,19 @@ public class AlgoExtremumNumerical extends AlgoElement {
 
 	private GeoFunctionable function; // input
 	private GeoFunction f;
-	private NumberValue left; // input
-	private GeoElement geoleft;
-	private NumberValue right; // input
-	private GeoElement georight;
+	private GeoNumberValue left; // input
+	private GeoNumberValue right; // input
 	private GeoPoint E; // output
 	private static double xres; // static x for test interface
 
 	public AlgoExtremumNumerical(Construction cons, String label,
-			GeoFunctionable function, NumberValue left, NumberValue right) {
+			GeoFunctionable function, GeoNumberValue left,
+			GeoNumberValue right) {
 		super(cons);
 		this.function = function;
 		this.f = function.getGeoFunction();
 		this.left = left;
-		this.geoleft = left.toGeoElement();
 		this.right = right;
-		this.georight = right.toGeoElement();
 
 		E = new GeoPoint(cons); // Put an extremum point in the user interface
 								// from the very start
@@ -97,8 +94,8 @@ public class AlgoExtremumNumerical extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[3];
 		input[0] = function.toGeoElement();
-		input[1] = geoleft;
-		input[2] = georight;
+		input[1] = left.toGeoElement();
+		input[2] = right.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, E);
@@ -125,8 +122,8 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		double newleft, newright;
 		int iterations = 0; // Count iterations
 
-		if (!function.toGeoElement().isDefined() || !geoleft.isDefined()
-				|| !georight.isDefined()
+		if (!function.toGeoElement().isDefined() || !left.isDefined()
+				|| !right.isDefined()
 				|| (right.getDouble() <= left.getDouble())) {
 			E.setUndefined();
 			return;

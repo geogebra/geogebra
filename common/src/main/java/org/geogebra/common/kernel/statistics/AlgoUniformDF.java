@@ -23,10 +23,10 @@ import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Uniform[a, b, x, boolean]
@@ -35,19 +35,19 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoUniformDF extends AlgoElement {
 
-	private NumberValue a, b; // input
+	private GeoNumberValue a, b; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
 	@SuppressWarnings("javadoc")
-	public AlgoUniformDF(Construction cons, String label, NumberValue a,
-			NumberValue b, BooleanValue cumulative) {
+	public AlgoUniformDF(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, BooleanValue cumulative) {
 		this(cons, a, b, cumulative);
 		ret.setLabel(label);
 	}
 
 	@SuppressWarnings("javadoc")
-	public AlgoUniformDF(Construction cons, NumberValue a, NumberValue b,
+	public AlgoUniformDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			BooleanValue cumulative) {
 		super(cons);
 		this.a = a;

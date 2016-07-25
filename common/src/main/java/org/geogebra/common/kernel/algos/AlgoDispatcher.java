@@ -713,7 +713,7 @@ public class AlgoDispatcher {
 	 * dilate geoRot by r from S
 	 */
 	final public GeoElement[] Dilate(String label, GeoElement geoDil,
-			NumberValue r, GeoPoint S) {
+			GeoNumberValue r, GeoPoint S) {
 		Transform t = new TransformDilate(cons, r, S);
 		return t.transform(geoDil, label);
 	}

@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.TransformDilate;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -43,7 +42,7 @@ public class CmdDilate extends CommandProcessor {
 			if ((ok[0] = (arg[0] instanceof Dilateable || arg[0].isGeoPolygon() || arg[0]
 					.isGeoList()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				NumberValue phi = (GeoNumberValue) arg[1];
+				GeoNumberValue phi = (GeoNumberValue) arg[1];
 				return Dilate(label, arg[0], phi);
 			}
 			if (!ok[0])
@@ -57,7 +56,7 @@ public class CmdDilate extends CommandProcessor {
 			if ((ok[0] = (arg[0] instanceof Dilateable || arg[0].isGeoList()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				NumberValue phi = (GeoNumberValue) arg[1];
+				GeoNumberValue phi = (GeoNumberValue) arg[1];
 				return Dilate(label, arg[0], phi, arg[2]);
 			}
 			if (!ok[0])
@@ -73,7 +72,7 @@ public class CmdDilate extends CommandProcessor {
 	 * dilate geoRot by r from origin
 	 */
 	final private GeoElement[] Dilate(String label, GeoElement geoDil,
-			NumberValue r) {
+			GeoNumberValue r) {
 		Transform t = new TransformDilate(cons, r);
 		return t.transform(geoDil, label);
 	}
@@ -91,7 +90,7 @@ public class CmdDilate extends CommandProcessor {
 	 * @return result of dilate of geoDil about r, point
 	 */
 	protected GeoElement[] Dilate(String label, GeoElement geoDil,
-			NumberValue r, GeoElement point) {
+			GeoNumberValue r, GeoElement point) {
 
 		return getAlgoDispatcher().Dilate(label, geoDil, r, (GeoPoint) point);
 	}

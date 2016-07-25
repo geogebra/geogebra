@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -220,7 +219,7 @@ public class CmdDerivative extends CommandProcessor {
 	 * @return derivaive
 	 */
 	public GeoElement Derivative(String label, CasEvaluableFunction f,
-			GeoNumeric var, NumberValue n, EvalInfo info) {
+			GeoNumeric var, GeoNumberValue n, EvalInfo info) {
 		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n,
 				info);
 		return algo.getResult();

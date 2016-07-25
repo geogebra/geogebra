@@ -4,8 +4,8 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoVertexPolygon;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -26,7 +26,7 @@ public class AlgoVertexPolygon3D extends AlgoVertexPolygon {
 	}
 
 	public AlgoVertexPolygon3D(Construction cons, String label, GeoPoly p,
-			NumberValue v) {
+			GeoNumberValue v) {
 		super(cons, label, p, v);
 	}
 

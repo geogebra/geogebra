@@ -3,9 +3,9 @@ package org.geogebra.common.kernel.barycentric;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
@@ -25,7 +25,7 @@ public class AlgoKimberling extends AlgoElement {
 
 	private GeoPointND A, B, C; // input
 	private GeoPointND M; // output
-	private NumberValue n;
+	private GeoNumberValue n;
 
 	/**
 	 * Creates new algo for triangle center
@@ -44,7 +44,7 @@ public class AlgoKimberling extends AlgoElement {
 	 *            index in ETC
 	 */
 	public AlgoKimberling(Construction cons, String label, GeoPointND A,
-			GeoPointND B, GeoPointND C, NumberValue n) {
+			GeoPointND B, GeoPointND C, GeoNumberValue n) {
 		super(cons);
 		kernel.getApplication().getAlgoKimberlingWeights();
 		this.A = A;

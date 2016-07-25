@@ -14,10 +14,10 @@ package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Prime factors of a number. Adapted from AlgoMode
@@ -27,12 +27,13 @@ import org.geogebra.common.kernel.geos.GeoList;
 
 public class AlgoPrimeFactors extends AlgoElement {
 
-	private NumberValue num; // input
+	private GeoNumberValue num; // input
 	private GeoList outputList; // output
 
 	private static double LARGEST_INTEGER = 9007199254740992d;
 
-	public AlgoPrimeFactors(Construction cons, String label, NumberValue num) {
+	public AlgoPrimeFactors(Construction cons, String label,
+			GeoNumberValue num) {
 		super(cons);
 		this.num = num;
 

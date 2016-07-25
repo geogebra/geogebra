@@ -27,9 +27,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 
@@ -41,16 +41,16 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
  */
 public class AlgoSurfaceCartesian3D extends AlgoElement {
 
-	private NumberValue[] coords; // input
-	private NumberValue[] from, to; // input
+	private GeoNumberValue[] coords; // input
+	private GeoNumberValue[] from, to; // input
 	private GeoNumeric[] localVar; // input
 	private GeoSurfaceCartesianND surface; // output
 
 	/** Creates new AlgoJoinPoints */
 	public AlgoSurfaceCartesian3D(Construction cons, String label,
 			ExpressionNode point,
-			NumberValue[] coords, GeoNumeric[] localVar, NumberValue[] from,
-			NumberValue[] to) {
+			GeoNumberValue[] coords, GeoNumeric[] localVar,
+			GeoNumberValue[] from, GeoNumberValue[] to) {
 		super(cons);
 
 		this.coords = coords;

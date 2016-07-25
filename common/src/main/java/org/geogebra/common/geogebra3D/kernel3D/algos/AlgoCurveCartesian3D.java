@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
@@ -13,7 +12,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 public class AlgoCurveCartesian3D extends AlgoCurveCartesian {
 
 	public AlgoCurveCartesian3D(Construction cons, ExpressionNode point,
-			NumberValue[] coords, GeoNumeric localVar, GeoNumberValue from,
+			GeoNumberValue[] coords, GeoNumeric localVar, GeoNumberValue from,
 			GeoNumberValue to) {
 		super(cons, point, coords, localVar, from, to);
 	}

@@ -4,8 +4,8 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDilate3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.TransformDilate;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -27,7 +27,7 @@ public class TransformDilate3D extends TransformDilate {
 	 *            center for dilate
 	 * 
 	 */
-	public TransformDilate3D(Construction cons, NumberValue ratio,
+	public TransformDilate3D(Construction cons, GeoNumberValue ratio,
 			GeoPointND center) {
 		super(cons, ratio, center);
 

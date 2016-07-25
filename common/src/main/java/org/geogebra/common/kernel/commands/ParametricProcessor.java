@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
@@ -384,7 +383,8 @@ public class ParametricProcessor {
 			to = trig ? piTimes(2, cons) : new GeoNumeric(cons, 10);
 		}
 		AlgoCurveCartesian ac = new AlgoCurveCartesian(cons, exp.deepCopy(
-				kernel).wrap(), new NumberValue[] { nx.getNumber(),
+				kernel).wrap(),
+				new GeoNumberValue[] { nx.getNumber(),
 				ny.getNumber() }, locVar, from, to);
 		ac.getCurve().setLabel(label);
 		return ac.getOutput();

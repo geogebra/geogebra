@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootDerivAdapter;
@@ -45,7 +46,7 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 	private BrentSolver rootFinderBrent;
 
 	public AlgoRootNewton(Construction cons, String label, GeoFunction f,
-			NumberValue start) {
+			GeoNumberValue start) {
 		super(cons);
 		this.f = f;
 		this.start = start;

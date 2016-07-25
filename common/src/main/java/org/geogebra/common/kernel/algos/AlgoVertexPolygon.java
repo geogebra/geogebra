@@ -20,9 +20,9 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoVertexPolygon extends AlgoElement {
 
 	protected GeoPoly p; // input
-	private NumberValue index;
+	private GeoNumberValue index;
 	private GeoPointND oneVertex;
 	private OutputHandler<GeoElement> outputPoints;
 
@@ -87,7 +87,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 *            vertex index
 	 */
 	public AlgoVertexPolygon(Construction cons, String label, GeoPoly p,
-			NumberValue v) {
+			GeoNumberValue v) {
 
 		this(cons, p, v);
 		oneVertex.setLabel(label);
@@ -121,7 +121,7 @@ public class AlgoVertexPolygon extends AlgoElement {
 	 * @param v
 	 *            vertrex index
 	 */
-	AlgoVertexPolygon(Construction cons, GeoPoly p, NumberValue v) {
+	AlgoVertexPolygon(Construction cons, GeoPoly p, GeoNumberValue v) {
 		super(cons);
 		this.p = p;
 		this.index = v;

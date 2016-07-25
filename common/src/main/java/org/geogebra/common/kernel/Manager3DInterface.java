@@ -524,8 +524,8 @@ public interface Manager3DInterface {
 	 * 3D Cartesian curve command: Curve[ <expression x-coord>, <expression
 	 * y-coord>, <expression z-coord>, <number-var>, <from>, <to> ]
 	 */
-	public GeoElement CurveCartesian3D(NumberValue xcoord,
-			NumberValue ycoord, NumberValue zcoord, GeoNumeric localVar,
+	public GeoElement CurveCartesian3D(GeoNumberValue xcoord,
+			GeoNumberValue ycoord, GeoNumberValue zcoord, GeoNumeric localVar,
 			GeoNumberValue from, GeoNumberValue to);
 
 	// //////////////////////////////////////////////
@@ -537,10 +537,9 @@ public interface Manager3DInterface {
 	 * <v-from>, <v-to> ]
 	 */
 	public GeoElement SurfaceCartesian3D(String label, ExpressionNode point,
-			NumberValue xcoord,
-			NumberValue ycoord, NumberValue zcoord, GeoNumeric uVar,
-			NumberValue uFrom, NumberValue uTo, GeoNumeric vVar,
-			NumberValue vFrom, NumberValue vTo);
+			GeoNumberValue xcoord, GeoNumberValue ycoord, GeoNumberValue zcoord,
+			GeoNumeric uVar, GeoNumberValue uFrom, GeoNumberValue uTo,
+			GeoNumeric vVar, GeoNumberValue vFrom, GeoNumberValue vTo);
 
 	/**
 	 * surface of revolution, rotating function around x-axis, from 0 to angle
@@ -871,7 +870,7 @@ public interface Manager3DInterface {
 			GeoCoordSys2D plane);
 
 	public GeoElement[] Dilate3D(String label, GeoElement geoDil,
-			NumberValue r, GeoPointND S);
+			GeoNumberValue r, GeoPointND S);
 
 	/**
 	 * 

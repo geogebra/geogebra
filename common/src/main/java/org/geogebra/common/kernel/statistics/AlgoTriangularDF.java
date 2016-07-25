@@ -23,10 +23,10 @@ import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Triangular[a, b, mode,x, boolean]
@@ -35,20 +35,20 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoTriangularDF extends AlgoElement {
 
-	private NumberValue a, b, mode; // input
+	private GeoNumberValue a, b, mode; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
 	@SuppressWarnings("javadoc")
-	public AlgoTriangularDF(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue mode, BooleanValue cumulative) {
+	public AlgoTriangularDF(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue mode, BooleanValue cumulative) {
 		this(cons, a, b, mode, cumulative);
 		ret.setLabel(label);
 	}
 
 	@SuppressWarnings("javadoc")
-	public AlgoTriangularDF(Construction cons, NumberValue a, NumberValue b,
-			NumberValue mode, BooleanValue cumulative) {
+	public AlgoTriangularDF(Construction cons, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue mode, BooleanValue cumulative) {
 		super(cons);
 		this.a = a;
 		this.b = b;

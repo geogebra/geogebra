@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -46,7 +45,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 				ExpressionNode exp = kernelA
 						.convertNumberValueToExpressionNode(arg[0]);
 				int dim = ((VectorNDValue)arg[0]).getDimension();
-				NumberValue[] coords = new NumberValue[dim];
+				GeoNumberValue[] coords = new GeoNumberValue[dim];
 				for (int i = 0; i < dim; i++) {
 					ExpressionNode cx = kernelA.getAlgebraProcessor()
 							.computeCoord(exp, i);
@@ -77,7 +76,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 				checkDependency(arg, c.getName(), 4, 2);
 
 				AlgoCurveCartesian algo = new AlgoCurveCartesian(cons, null,
-						new NumberValue[] {
+						new GeoNumberValue[] {
 								(GeoNumberValue) arg[0],
 								(GeoNumberValue) arg[1] }, (GeoNumeric) arg[2],
 						(GeoNumberValue) arg[3], (GeoNumberValue) arg[4]);
@@ -106,7 +105,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 	 * @return curve algo
 	 */
 	protected AlgoCurveCartesian getCurveAlgo(ExpressionNode point,
-			NumberValue[] coords,
+			GeoNumberValue[] coords,
 			GeoElement[] arg) {
 		return new AlgoCurveCartesian(cons, point, coords, (GeoNumeric) arg[1],
 				(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);

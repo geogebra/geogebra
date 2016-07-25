@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -79,7 +78,7 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		GeoNumeric v = new GeoNumeric(cons);
 		v.setLocalVariableLabel(vars[1].getSetVarString());
 
-		MyDouble one = new MyDouble(kernel, 1);
+		GeoNumeric one = new GeoNumeric(cons, 1);
 		EvalInfo info = new EvalInfo(false);
 		algoCASeu = new AlgoDerivative(cons, e, u, one, false, info);
 		cons.removeFromConstructionList(algoCASeu);

@@ -5,18 +5,18 @@ import java.math.BigInteger;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.MyMath2;
 
 public class AlgoNpR extends AlgoElement {
 	private GeoNumeric result;
-	private NumberValue num1, num2;
+	private GeoNumberValue num1, num2;
 
-	public AlgoNpR(Construction cons, String label, NumberValue num1,
-			NumberValue num2) {
+	public AlgoNpR(Construction cons, String label, GeoNumberValue num1,
+			GeoNumberValue num2) {
 		super(cons);
 		this.num1 = num1;
 		this.num2 = num2;

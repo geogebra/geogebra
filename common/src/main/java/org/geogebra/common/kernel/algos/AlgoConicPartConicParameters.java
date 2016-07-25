@@ -13,9 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 
 /**
@@ -28,8 +28,8 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
 	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
 	 */
 	public AlgoConicPartConicParameters(Construction cons, String label,
-			GeoConicND circle, NumberValue startParameter,
-			NumberValue endParameter, int type) {
+			GeoConicND circle, GeoNumberValue startParameter,
+			GeoNumberValue endParameter, int type) {
 		super(cons, type);
 		conic = circle;
 		startParam = startParameter;

@@ -2,8 +2,8 @@ package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.algos.AlgoShearOrStretch;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 
@@ -17,7 +17,7 @@ public class TransformShearOrStretch extends Transform {
 
 	private boolean shear;
 	private GeoVec3D line;
-	private NumberValue num;
+	private GeoNumberValue num;
 
 	/**
 	 * @param cons

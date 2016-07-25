@@ -15,13 +15,13 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -178,7 +178,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			GeoNumeric from = new GeoNumeric(cons, -10);
 			GeoNumeric to = new GeoNumeric(cons, 10);
 			AlgoCurveCartesian ac = new AlgoCurveCartesian3D(cons, exp,
-					new NumberValue[] { nx.getNumber(), ny.getNumber(),
+					new GeoNumberValue[] { nx.getNumber(), ny.getNumber(),
 							nz.getNumber() }, loc, from, to);
 			ac.getCurve().setLabel(label);
 			return ac.getOutput();
@@ -337,15 +337,16 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		AlgoDependentNumber nz = new AlgoDependentNumber(cons, cz, false);
 		cons.removeFromConstructionList(nz);
 		AlgoSurfaceCartesian3D algo = new AlgoSurfaceCartesian3D(cons, label,
-				exp, new NumberValue[] { nx.getNumber(), ny.getNumber(),
+				exp, new GeoNumberValue[] { nx.getNumber(), ny.getNumber(),
 						nz.getNumber() }, new GeoNumeric[] { loc0,
-						loc1 }, new NumberValue[] {
-						num(-10), num(-10) }, new NumberValue[] { num(10),
+						loc1 },
+				new GeoNumberValue[] { num(-10), num(-10) },
+				new GeoNumberValue[] { num(10),
 						num(10) });
 		return algo.getOutput();
 	}
 
-	private NumberValue num(double d) {
+	private GeoNumberValue num(double d) {
 		return new GeoNumeric(kernel.getConstruction(), d);
 	}
 

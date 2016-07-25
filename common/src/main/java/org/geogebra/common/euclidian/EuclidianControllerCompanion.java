@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoMidpoint;
 import org.geogebra.common.kernel.algos.AlgoPolarLine;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -88,7 +87,7 @@ public class EuclidianControllerCompanion {
 		return ec.getAlgoDispatcher().Mirror(null, geo, (GeoLine) line);
 	}
 
-	public GeoElement[] dilateFromPoint(GeoElement geo, NumberValue num,
+	public GeoElement[] dilateFromPoint(GeoElement geo, GeoNumberValue num,
 			GeoPointND point) {
 		return ec.kernel.getAlgoDispatcher().Dilate(null, geo, num,
 				(GeoPoint) point);

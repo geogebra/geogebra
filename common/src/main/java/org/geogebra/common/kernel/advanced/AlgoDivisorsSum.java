@@ -8,18 +8,19 @@ import org.geogebra.common.kernel.cas.AlgoPrimeFactorization;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.debug.Log;
 
 public class AlgoDivisorsSum extends AlgoElement {
 
 	GeoNumeric result;
-	private NumberValue number;
+	private GeoNumberValue number;
 	private AlgoPrimeFactorization factors;
 	private GeoList factorList;
 	private boolean sum;
 
-	public AlgoDivisorsSum(Construction c, String label, NumberValue number,
+	public AlgoDivisorsSum(Construction c, String label, GeoNumberValue number,
 			boolean sum) {
 		super(c);
 		this.number = number;

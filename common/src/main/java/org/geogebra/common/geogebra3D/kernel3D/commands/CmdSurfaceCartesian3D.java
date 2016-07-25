@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.CmdCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -79,7 +78,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					&& (ok[4] = arg[4] instanceof GeoNumeric)
 					&& (ok[5] = arg[5] instanceof GeoNumberValue)
 					&& (ok[6] = arg[6] instanceof GeoNumberValue)) {
-				NumberValue[] coords = new NumberValue[3];
+				GeoNumberValue[] coords = new GeoNumberValue[3];
 				ExpressionNode exp = c.getArgument(0);
 				for (int i = 0; i < 3; i++) {
 					ExpressionNode cx = kernelA.getAlgebraProcessor()

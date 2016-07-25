@@ -17,9 +17,9 @@ import java.util.Arrays;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
@@ -45,10 +45,8 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	// remove? double[] curXValues = new double[30]; // current x-values
 	int numberOfXValues;
 
-	protected NumberValue left; // input
-	protected GeoElement geoleft;
-	protected NumberValue right; // input
-	protected GeoElement georight;
+	protected GeoNumberValue left; // input
+	protected GeoNumberValue right; // input
 
 	protected boolean intervalDefinedByEV = false;
 
@@ -252,9 +250,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 	protected void updateInterval(){
 		EuclidianViewInterfaceCommon ev = this.kernel.getApplication().getActiveEuclidianView();
-
-		geoleft = ev.getXminObject();
-		georight = ev.getXmaxObject();
 
 		left = ev.getXminObject();
 		right = ev.getXmaxObject();

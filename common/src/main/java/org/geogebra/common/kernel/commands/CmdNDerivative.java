@@ -2,10 +2,10 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 
@@ -63,7 +63,7 @@ public class CmdNDerivative extends CommandProcessor {
 	 * @return derivaive
 	 */
 	public GeoElement NDerivative(String label, CasEvaluableFunction f,
-			GeoNumeric var, NumberValue n) {
+			GeoNumeric var, GeoNumberValue n) {
 		AlgoDerivative algo = new AlgoDerivative(cons, label, f, var, n, true,
 				new EvalInfo(false));
 		return algo.getResult();

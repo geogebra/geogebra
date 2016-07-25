@@ -22,10 +22,10 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Weibull[0,1,x]
@@ -34,19 +34,19 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoWeibullDF extends AlgoElement implements AlgoDistributionDF {
 
-	private NumberValue k, l; // input
+	private GeoNumberValue k, l; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
 	@SuppressWarnings("javadoc")
-	public AlgoWeibullDF(Construction cons, String label, NumberValue mean,
-			NumberValue sd, BooleanValue cumulative) {
+	public AlgoWeibullDF(Construction cons, String label, GeoNumberValue mean,
+			GeoNumberValue sd, BooleanValue cumulative) {
 		this(cons, mean, sd, cumulative);
 		ret.setLabel(label);
 	}
 
 	@SuppressWarnings("javadoc")
-	public AlgoWeibullDF(Construction cons, NumberValue k, NumberValue l,
+	public AlgoWeibullDF(Construction cons, GeoNumberValue k, GeoNumberValue l,
 			BooleanValue cumulative) {
 		super(cons);
 		this.k = k;

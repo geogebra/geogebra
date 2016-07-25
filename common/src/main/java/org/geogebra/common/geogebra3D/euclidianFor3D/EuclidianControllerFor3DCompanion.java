@@ -9,7 +9,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -196,7 +195,7 @@ public class EuclidianControllerFor3DCompanion extends
 	}
 
 	@Override
-	public GeoElement[] dilateFromPoint(GeoElement geo, NumberValue num,
+	public GeoElement[] dilateFromPoint(GeoElement geo, GeoNumberValue num,
 			GeoPointND point) {
 
 		if (geo.isGeoElement3D() || ((GeoElement) point).isGeoElement3D()) {

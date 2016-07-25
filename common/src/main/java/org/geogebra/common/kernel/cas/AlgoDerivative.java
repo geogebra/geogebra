@@ -19,13 +19,13 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 
@@ -37,7 +37,7 @@ import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 public class AlgoDerivative extends AlgoCasBase {
 
 	private GeoNumeric var;
-	private NumberValue order;
+	private GeoNumberValue order;
 
 	// true -> non-CAS version (faster, used by eg AlgoTangentXXX)
 	private boolean fast = false;
@@ -55,7 +55,7 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            derivative order (may be null)
 	 */
 	public AlgoDerivative(Construction cons, String label,
-			CasEvaluableFunction f, GeoNumeric var, NumberValue order,
+			CasEvaluableFunction f, GeoNumeric var, GeoNumberValue order,
 			EvalInfo info) {
 		this(cons, f, var, order, false, info);
 		g.toGeoElement().setLabel(label);
@@ -76,7 +76,7 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            whether to use CAS
 	 */
 	public AlgoDerivative(Construction cons, String label,
-			CasEvaluableFunction f, GeoNumeric var, NumberValue order,
+			CasEvaluableFunction f, GeoNumeric var, GeoNumberValue order,
 			boolean fast, EvalInfo info) {
 		this(cons, f, var, order, fast, info);
 		g.toGeoElement().setLabel(label);
@@ -106,7 +106,7 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            true to avoid CAS
 	 */
 	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
-			GeoNumeric var, NumberValue order, boolean fast, EvalInfo info) {
+			GeoNumeric var, GeoNumberValue order, boolean fast, EvalInfo info) {
 		super(cons, f, fast ? Commands.NDerivative : Commands.Derivative, info);
 		this.var = var;
 		this.order = order;

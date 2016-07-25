@@ -13,9 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Find a limit
@@ -34,7 +34,7 @@ public class AlgoLimitBelow extends AlgoLimit {
 	 *            number
 	 */
 	public AlgoLimitBelow(Construction cons, String label, GeoFunction f,
-			NumberValue num) {
+			GeoNumberValue num) {
 		super(cons, label, f, num);
 	}
 

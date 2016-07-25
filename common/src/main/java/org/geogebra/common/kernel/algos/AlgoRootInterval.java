@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootDerivAdapter;
@@ -42,7 +43,7 @@ public class AlgoRootInterval extends AlgoElement {
 	UnivariateRealSolver rootPolisher;
 
 	public AlgoRootInterval(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue b) {
+			GeoNumberValue a, GeoNumberValue b) {
 		super(cons);
 		this.f = f;
 		this.a = a;

@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -240,8 +241,8 @@ public class RelationNumerical {
 		else if (a instanceof GeoLine && b instanceof GeoConic)
 			return relation((GeoLine) a, (GeoConic) b);
 
-		else if (a instanceof NumberValue && b instanceof NumberValue)
-			return relation((NumberValue) a, (NumberValue) b);
+		else if (a instanceof GeoNumberValue && b instanceof GeoNumberValue)
+			return relation((GeoNumberValue) a, (GeoNumberValue) b);
 		else if (a instanceof GeoList && b instanceof GeoList)
 			return relation((GeoList) a, (GeoList) b);
 		else {
@@ -264,7 +265,7 @@ public class RelationNumerical {
 	/**
 	 * description of the relation between two numbers a, b (equal, unequal)
 	 */
-	final private Set<Report> relation(NumberValue a, NumberValue b) {
+	final private Set<Report> relation(GeoNumberValue a, GeoNumberValue b) {
 		Boolean bool = Kernel.isEqual(a.getDouble(), b.getDouble());
 		String str = equalityString(a.toGeoElement(), b.toGeoElement(), bool);
 		register(bool, RelationCommand.AreEqual, str);

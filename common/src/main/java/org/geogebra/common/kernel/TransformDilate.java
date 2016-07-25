@@ -2,8 +2,8 @@ package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.algos.AlgoDilate;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class TransformDilate extends Transform {
 
 	/** dilation coefficient */
-	protected NumberValue ratio;
+	protected GeoNumberValue ratio;
 	/** dilation center */
 	protected GeoPointND center;
 
@@ -25,7 +25,7 @@ public class TransformDilate extends Transform {
 	 * @param ratio
 	 *            dilation ratio
 	 */
-	public TransformDilate(Construction cons, NumberValue ratio) {
+	public TransformDilate(Construction cons, GeoNumberValue ratio) {
 		this.ratio = ratio;
 		this.cons = cons;
 	}
@@ -38,7 +38,7 @@ public class TransformDilate extends Transform {
 	 * @param center
 	 *            dilation center
 	 */
-	public TransformDilate(Construction cons, NumberValue ratio,
+	public TransformDilate(Construction cons, GeoNumberValue ratio,
 			GeoPointND center) {
 		this.ratio = ratio;
 		this.center = center;

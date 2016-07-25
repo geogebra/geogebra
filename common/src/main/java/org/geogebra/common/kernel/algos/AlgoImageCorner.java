@@ -13,20 +13,20 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class AlgoImageCorner extends AlgoElement {
 
 	private GeoImage img; // input
 	private GeoPoint corner; // output
-	private NumberValue number;
+	private GeoNumberValue number;
 
 	public AlgoImageCorner(Construction cons, String label, GeoImage img,
-			NumberValue number) {
+			GeoNumberValue number) {
 		super(cons);
 		this.img = img;
 		this.number = number;
