@@ -40,4 +40,6 @@ public interface AutoCompleteW {
 	public void updatePosition(DefaultSuggestionDisplay sug);
 
 	public boolean isForCAS();
+
+	public String getCommand();
 }

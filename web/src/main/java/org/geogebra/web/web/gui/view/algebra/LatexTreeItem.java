@@ -318,7 +318,8 @@ public class LatexTreeItem extends RadioTreeItem
 	@Override
 	public String getCommand() {
 		// TODO get it from JLM
-		return null;
+		Log.debug("WORD" + mf.getCurrentWord());
+		return mf.getCurrentWord();
 	}
 
 	@Override
@@ -381,6 +382,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	public void insertString(String text) {
+		this.mf.deleteCurrentWord();
 		GuiManagerW.makeKeyboardListener(retexListener).insertString(text);
 		// TODO Auto-generated method stub
 

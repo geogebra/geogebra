@@ -39,6 +39,7 @@ import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
@@ -368,6 +369,47 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public void setFieldListener(MathFieldListener listener) {
 		this.listener = listener;
 
+	}
+
+	public String deleteCurrentWord() {
+		StringBuilder str = new StringBuilder(" ");
+		MathSequence sel = editorState.getCurrentField();
+		if (sel != null) {
+			for (int i = Math.min(editorState.getCurrentOffset() - 1,
+					sel.size() - 1); i >= 0; i--) {
+				if (sel.getArgument(i) instanceof MathCharacter) {
+					if (!((MathCharacter) sel.getArgument(i)).isCharacter()) {
+						return str.reverse().toString().trim() + ";"
+								+ (sel.getArgument(i));
+					}
+					str.append(
+							((MathCharacter) sel.getArgument(i)).getUnicode());
+					sel.removeArgument(i);
+					editorState.decCurrentOffset();
+
+				}
+			}
+		}
+		return str.reverse().toString().trim();
+	}
+
+	public String getCurrentWord() {
+		// TODO Auto-generated method stub
+		StringBuilder str = new StringBuilder(" ");
+		MathSequence sel = editorState.getCurrentField();
+		if (sel != null) {
+			for (int i = Math.min(editorState.getCurrentOffset() - 1,
+					sel.size() - 1); i >= 0; i--) {
+				if (sel.getArgument(i) instanceof MathCharacter) {
+					if (!((MathCharacter) sel.getArgument(i)).isCharacter()) {
+						break;
+					}
+					str.append(
+							((MathCharacter) sel.getArgument(i)).getUnicode());
+				}
+			}
+		}
+		return str.reverse().toString().trim();
 	}
 
 }

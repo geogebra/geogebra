@@ -57,7 +57,7 @@ public class InputSuggestions implements HasSuggestions {
 
 	public void updateCurrentWord(boolean searchRight) {
 		// TODO
-		curWord = new StringBuilder(component.getText());
+		curWord = new StringBuilder(component.getCommand());
 		// int next = InputHelper.updateCurrentWord(searchRight, this.curWord,
 		// component.getText(), getCaretPosition(), false);
 		// if (next > -1) {
@@ -88,6 +88,7 @@ public class InputSuggestions implements HasSuggestions {
 				// hide the suggestions instead!
 				hideSuggestions();
 			} else {
+				Log.debug("requestingSug" + curWord);
 				popup.requestSuggestions(
 						new SuggestOracle.Request(this.curWord.toString(),
 								querylimit), popupCallback);
@@ -144,13 +145,14 @@ public class InputSuggestions implements HasSuggestions {
 		}
 
 		String cmdPrefix = curWord.toString();
-		Log.debug(cmdPrefix);
+
 		if (korean) {
 			completions = getDictionary().getCompletionsKorean(cmdPrefix);
 		} else {
 			completions = getDictionary().getCompletions(cmdPrefix);
 		}
-
+		Log.debug(cmdPrefix + ":"
+				+ (completions == null ? "-1" : completions.size()));
 		List<String> commandCompletions = getSyntaxes(completions);
 
 		// Start with the built-in function completions

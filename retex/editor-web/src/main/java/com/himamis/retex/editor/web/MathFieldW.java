@@ -276,4 +276,12 @@ public class MathFieldW implements MathField, IsWidget {
 		}
 		this.focused = focus;
 	}
+
+	public String deleteCurrentWord() {
+		return this.mathFieldInternal.deleteCurrentWord();
+	}
+
+	public String getCurrentWord() {
+		return this.mathFieldInternal.getCurrentWord();
+	}
 }

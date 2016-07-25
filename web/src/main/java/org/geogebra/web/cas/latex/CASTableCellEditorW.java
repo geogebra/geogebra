@@ -432,4 +432,8 @@ public class CASTableCellEditorW extends Label implements
 	public KeyboardListener getKeyboardListener() {
 		return new MathQuillProcessing(this);
 	}
+
+	public String getCommand() {
+		return editor.getCurrentCommand();
+	}
 }
