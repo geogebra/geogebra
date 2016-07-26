@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -32,7 +33,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class GeoImplicitSurface extends GeoElement3D implements
-		GeoImplicitSurfaceND {
+		GeoImplicitSurfaceND, EquationValue {
 	private static final boolean DEBUG = false;
 	private static final Coords3 DUMMY_NORMAL = new CoordsDouble3(0, 0, 1.0);
 	private boolean defined;
@@ -1136,5 +1137,9 @@ public class GeoImplicitSurface extends GeoElement3D implements
 
 	public ValueType getValueType() {
 		return ValueType.PARAMETRIC3D;
+	}
+
+	public Equation getEquation() {
+		return kernel.getAlgebraProcessor().parseEquation(this);
 	}
 }

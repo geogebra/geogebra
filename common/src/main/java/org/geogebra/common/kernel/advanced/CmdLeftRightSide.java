@@ -3,10 +3,9 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -36,9 +35,10 @@ public class CmdLeftRightSide extends CommandProcessor {
 		GeoElement[] args = resArgs(c);
 		if (args.length != 1)
 			throw argNumErr(app, c.getName(), args.length);
-		if (!args[0].isGeoImplicitPoly() && !(args[0] instanceof GeoConic)
-				&& !(args[0] instanceof GeoLine))
+		if (!(args[0] instanceof EquationValue)
+				|| (args[0].isGeoImplicitCurve() && args[0].isGeoElement3D())) {
 			throw argErr(app, c.getName(), args[0]);
+		}
 
 		AlgoLeftRightSide algo = new AlgoLeftRightSide(cons, c.getLabel(),
 				args[0], left);

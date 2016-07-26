@@ -91,6 +91,7 @@ import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
@@ -3127,5 +3128,19 @@ public class AlgebraProcessor {
 
 	private static GeoElement[] array(GeoElement geo) {
 		return new GeoElement[] { geo };
+	}
+
+	public Equation parseEquation(GeoElementND geoConic) {
+		try {
+			return (Equation) kernel.getParser().parseGeoGebraExpression(
+					geoConic.toValueString(StringTemplate.maxPrecision));
+		} catch (Exception e) {
+			// could be ParseException or Classcast Exception
+			// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.StringIndexOutOfBoundsException&tf=String.java&tc=java.lang.String&tm=startEndAndLength&nid&an&c&s=new_status_desc&ed=0
+			e.printStackTrace();
+		}
+		return new Equation(kernel, new ExpressionNode(kernel, Double.NaN),
+				new ExpressionNode(kernel, Double.NaN));
+
 	}
 }

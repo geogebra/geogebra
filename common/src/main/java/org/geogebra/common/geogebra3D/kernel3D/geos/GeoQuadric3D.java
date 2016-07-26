@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -46,7 +48,8 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		Region3D, Translateable, RotateableND, MirrorableAtPlane,
-		Transformable, Dilateable, HasVolume, GeoQuadric3DInterface {
+		Transformable, Dilateable, HasVolume, GeoQuadric3DInterface,
+		EquationValue {
 
 	private static String[] vars3D = { "x\u00b2", "y\u00b2", "z\u00b2", "x y",
 			"x z", "y z", "x", "y", "z" };
@@ -3260,6 +3263,10 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	@Override
 	protected void getXMLanimationTags(final StringBuilder sb) {
 		// no need for quadrics
+	}
+
+	public Equation getEquation() {
+		return kernel.getAlgebraProcessor().parseEquation(this);
 	}
 
 }

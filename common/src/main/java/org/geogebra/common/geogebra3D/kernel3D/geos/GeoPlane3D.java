@@ -11,6 +11,8 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -32,7 +34,8 @@ import org.geogebra.common.plugin.GeoClass;
 
 public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		ViewCreator, GeoCoords4D, GeoPlaneND, Translateable, Traceable,
-		RotateableND, MirrorableAtPlane, Transformable, Dilateable {
+		RotateableND, MirrorableAtPlane, Transformable, Dilateable,
+		EquationValue {
 
 	/** default labels */
 	private static final char[] Labels = { 'p', 'q', 'r' };
@@ -850,6 +853,10 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	@Override
 	public int getMinimumLineThickness() {
 		return 0;
+	}
+
+	public Equation getEquation() {
+		return kernel.getAlgebraProcessor().parseEquation(this);
 	}
 
 

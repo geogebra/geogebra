@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.locusequ.EquationScope;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * AlgoElement is the superclass of all algorithms.
@@ -1315,6 +1316,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 		// this is needed for helper commands like
 		// intersect for single intersection points
 		if (!isPrintedInXML) {
+			Log.printStacktrace("NOPRINT"
+					+ getExpXML(StringTemplate.xmlTemplate));
 			return;
 		}
 
@@ -1327,6 +1330,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			String cmdname = getDefinitionName(tpl);
 			if (cmdname.equals("Expression")) {
 				sb.append(getExpXML(tpl));
+
 			} else {
 				sb.append(getCmdXML(cmdname, tpl));
 			}

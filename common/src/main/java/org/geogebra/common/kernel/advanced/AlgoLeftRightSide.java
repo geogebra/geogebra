@@ -22,9 +22,14 @@ public class AlgoLeftRightSide extends AlgoElement {
 		super(cons);
 		this.equation = equation;
 		this.left = left;
-
-		fv = new FunctionVariable[] { new FunctionVariable(kernel, "x"),
+		if (equation.isGeoElement3D()) {
+			fv = new FunctionVariable[] { new FunctionVariable(kernel, "x"),
+					new FunctionVariable(kernel, "y"),
+					new FunctionVariable(kernel, "z") };
+		} else {
+			fv = new FunctionVariable[] { new FunctionVariable(kernel, "x"),
 				new FunctionVariable(kernel, "y") };
+		}
 		FunctionNVar f = new FunctionNVar(new ExpressionNode(kernel, fv[0]), fv);
 		side = new GeoFunctionNVar(cons, f);
 
