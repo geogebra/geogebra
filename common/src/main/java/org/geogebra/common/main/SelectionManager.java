@@ -112,6 +112,12 @@ public class SelectionManager {
 	 */
 	final public void setSelectedGeos(ArrayList<GeoElement> geos,
 			boolean updateSelection) {
+		// special case -- happens when we set the same selection on mouse down
+		// and mouse up; we don't want too many events
+		if (geos != null && geos.size() == 1 && selectedGeos.size() == 1
+				&& geos.get(0) == selectedGeos.get(0)) {
+			return;
+		}
 		clearSelectedGeos(false);
 		if (geos != null) {
 			for (int i = 0; i < geos.size(); i++) {
@@ -151,21 +157,23 @@ public class SelectionManager {
 	 *            call (or not) updateSelection()
 	 */
 	public void clearSelectedGeos(boolean repaint, boolean updateSelection) {
+
 		int size = selectedGeos.size();
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = selectedGeos.get(i);
 				geo.setSelected(false);
-				kernel.getApplication().getEventDispatcher()
-						.dispatchEvent(EventType.DESELECT, null);
+
 			}
 			selectedGeos.clear();
 			if (repaint)
 				kernel.notifyRepaint();
 
-			if (updateSelection)
+			if (updateSelection) {
 				updateSelection();
-
+			}
+			kernel.getApplication().getEventDispatcher()
+					.dispatchEvent(EventType.DESELECT, null);
 		}
 
 	}
