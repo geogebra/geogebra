@@ -45,8 +45,8 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
@@ -1584,7 +1584,7 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		private void doActionPerformed() {
-			NumberValue animSpeed = app.getKernel().getAlgebraProcessor()
+			GeoNumberValue animSpeed = app.getKernel().getAlgebraProcessor()
 					.evaluateToNumeric(tfAnimSpeed.getText(), false);
 			if (animSpeed != null) {
 				((AnimationSpeedModel) getModel()).applySpeedChanges(animSpeed);

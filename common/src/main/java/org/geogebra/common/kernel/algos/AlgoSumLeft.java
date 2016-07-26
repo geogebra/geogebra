@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -41,19 +40,20 @@ public class AlgoSumLeft extends AlgoFunctionAreaSums {
 	 *            number of columns
 	 */
 	public AlgoSumLeft(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue b, NumberValue n) {
+			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n) {
 		super(cons, label, f, a, b, n, SumType.LEFTSUM);
 		cons.registerEuclidianViewCE(this);
 	}
 
-	private AlgoSumLeft(GeoNumberValue a, NumberValue b, NumberValue n,
+	private AlgoSumLeft(GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
 			double[] vals, double[] borders, Construction cons1) {
 		super(a, b, n, SumType.LEFTSUM, vals, borders, cons1);
 	}
 
 	public AlgoSumLeft copy() {
 		return new AlgoSumLeft((GeoNumberValue) this.getA().deepCopy(kernel),
-				(NumberValue) this.getB().deepCopy(kernel), this.getN().copy(),
+				(GeoNumberValue) this.getB().deepCopy(kernel),
+				this.getN().copy(),
 				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), cons);
 	}
 

@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -41,12 +40,12 @@ public class AlgoSumUpper extends AlgoFunctionAreaSums {
 	 *            number of columns
 	 */
 	public AlgoSumUpper(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue b, NumberValue n) {
+			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n) {
 		super(cons, label, f, a, b, n, SumType.UPPERSUM);
 		cons.registerEuclidianViewCE(this);
 	}
 
-	private AlgoSumUpper(GeoNumberValue a, GeoNumberValue b, NumberValue n,
+	private AlgoSumUpper(GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
 			double[] vals, double[] borders, Construction cons1) {
 		super(a, b, n, SumType.UPPERSUM, vals, borders, cons1);
 	}

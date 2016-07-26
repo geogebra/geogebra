@@ -21,6 +21,7 @@ package org.geogebra.common.kernel.arithmetic;
 import java.math.BigDecimal;
 import java.util.HashSet;
 
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -912,8 +913,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return val;
 	}
 
-	final public GeoElement toGeoElement() {
-		GeoNumeric num = new GeoNumeric(kernel.getConstruction(), val);
+	final public GeoElement toGeoElement(Construction cons) {
+		GeoNumeric num = new GeoNumeric(cons, val);
 		return num;
 	}
 

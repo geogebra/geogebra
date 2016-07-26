@@ -595,7 +595,8 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	/** Sphere label linking with center o and radius r */
-	final public GeoQuadric3D Sphere(String label, GeoPointND M, NumberValue r) {
+	final public GeoQuadric3D Sphere(String label, GeoPointND M,
+			GeoNumberValue r) {
 		AlgoSpherePointRadius algo = new AlgoSpherePointRadius(cons, label, M,
 				r);
 		return algo.getSphere();
@@ -1013,25 +1014,27 @@ public class Manager3D implements Manager3DInterface {
 	// //////////////////////////////////////////////
 	// FUNCTIONS (2 VARS)
 
-	final public GeoFunctionNVar Function2Var(String label, NumberValue zcoord,
-			GeoNumeric localVarU, NumberValue Ufrom, NumberValue Uto,
-			GeoNumeric localVarV, NumberValue Vfrom, NumberValue Vto) {
+	final public GeoFunctionNVar Function2Var(String label, GeoNumberValue zcoord,
+			GeoNumeric localVarU, GeoNumberValue Ufrom, GeoNumberValue Uto,
+			GeoNumeric localVarV, GeoNumberValue Vfrom, GeoNumberValue Vto) {
 
 		AlgoFunctionNVarND algo = new AlgoFunctionNVarND(cons, label,
-				new NumberValue[] { zcoord }, new GeoNumeric[] { localVarU,
-						localVarV }, new NumberValue[] { Ufrom, Vfrom },
-				new NumberValue[] { Uto, Vto });
+				new GeoNumberValue[] { zcoord },
+				new GeoNumeric[] { localVarU, localVarV },
+				new GeoNumberValue[] { Ufrom, Vfrom },
+				new GeoNumberValue[] { Uto, Vto });
 
 		return algo.getFunction();
 
 	}
 
 	final public GeoFunctionNVar Function2Var(String label, GeoFunctionNVar f,
-			NumberValue xFrom, NumberValue xTo, NumberValue yFrom,
-			NumberValue yTo) {
+			GeoNumberValue xFrom, GeoNumberValue xTo, GeoNumberValue yFrom,
+			GeoNumberValue yTo) {
 
 		AlgoFunctionNVarND algo = new AlgoFunctionNVarND(cons, label, f,
-				new NumberValue[] { xFrom, yFrom }, new NumberValue[] { xTo,
+				new GeoNumberValue[] { xFrom, yFrom },
+				new GeoNumberValue[] { xTo,
 						yTo });
 
 		return algo.getFunction();

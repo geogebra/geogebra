@@ -13,17 +13,18 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 
 public class AlgoUnicodeToLetter extends AlgoElement {
 
-	protected NumberValue a; // input
+	protected GeoNumberValue a; // input
 	protected GeoText text; // output
 
-	public AlgoUnicodeToLetter(Construction cons, String label, NumberValue a) {
+	public AlgoUnicodeToLetter(Construction cons, String label,
+			GeoNumberValue a) {
 		super(cons);
 		this.a = a;
 

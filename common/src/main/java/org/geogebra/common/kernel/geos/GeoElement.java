@@ -228,7 +228,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	protected GColor fillColor = objColor;
 	private int layer = 0; 
 	private NumberValue animationIncrement;
-	private NumberValue animationSpeedObj;
+	private GeoNumberValue animationSpeedObj;
 	private GeoCasCell correspondingCasCell; // used by GeoCasCell
 	private boolean animating = false;
 	/** maximal animation speed */
@@ -2493,7 +2493,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @param speed new speed
 	 */
-	public void setAnimationSpeedObject(final NumberValue speed) {
+	public void setAnimationSpeedObject(final GeoNumberValue speed) {
 		animationSpeedObj = speed;
 	}
 
@@ -8089,7 +8089,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return val as geoelement or null for MyDouble / MyBoolean
 	 */
 	public static GeoElement as(NumberValue val) {
-		return val instanceof GeoElement ? val.toGeoElement() : null;
+		return val instanceof GeoElement ? (GeoElement) val : null;
 	}
 
 	@Override
@@ -8200,6 +8200,10 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public boolean isVisibleInputForMacro() {
 		return isLabelSet();
+	}
+
+	public GeoElement toGeoElement(Construction cons) {
+		return this;
 	}
 
 }

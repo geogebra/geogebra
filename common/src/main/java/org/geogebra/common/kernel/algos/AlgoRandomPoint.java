@@ -13,9 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
@@ -26,11 +26,11 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 
 public class AlgoRandomPoint extends AlgoElement {
 
-	private NumberValue a, b, c, d; // input
+	private GeoNumberValue a, b, c, d; // input
 	private GeoPoint M; // output
 
-	public AlgoRandomPoint(Construction cons, String label, NumberValue a,
-			NumberValue b, NumberValue c, NumberValue d) {
+	public AlgoRandomPoint(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
 		super(cons);
 		this.a = a;
 		this.b = b;

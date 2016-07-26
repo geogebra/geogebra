@@ -21,7 +21,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -38,7 +37,7 @@ import org.geogebra.common.kernel.geos.Rotateable;
 public class AlgoRotate extends AlgoTransformation {
 
 	private Rotateable out;
-	private NumberValue angle;
+	private GeoNumberValue angle;
 	private GeoElement inGeo, outGeo, angleGeo;
 
 	/**

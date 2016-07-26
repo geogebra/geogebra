@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.algos.AlgoRandom;
 import org.geogebra.common.kernel.algos.AlgoRandomFixed;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
@@ -40,8 +39,8 @@ public class CmdRandom extends CommandProcessor {
 					// true)
 
 					AlgoRandomFixed algo = new AlgoRandomFixed(cons,
-							c.getLabel(), (NumberValue) arg[0],
-							(NumberValue) arg[1]);
+							c.getLabel(), (GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[1]);
 					GeoElement[] ret = { algo.getResult() };
 
 					return ret;

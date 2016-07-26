@@ -141,7 +141,7 @@ public class AlgoDependentNumber extends AlgoElement implements DependentAlgo {
 			if (number instanceof GeoNumeric) {
 				((GeoNumeric) number).setValue(nv.getDouble());
 			} else {
-				number.set(nv.toGeoElement());
+				number.set(nv.toGeoElement(cons));
 			}
 			number.setDefinition(def);
 		} catch (Throwable e) {

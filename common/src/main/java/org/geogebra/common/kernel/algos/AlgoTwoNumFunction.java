@@ -18,8 +18,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -29,16 +29,17 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 public abstract class AlgoTwoNumFunction extends AlgoElement {
 
-	protected NumberValue a, b; // input
+	protected GeoNumberValue a, b; // input
 	protected GeoNumeric num; // output
 
 	protected AlgoTwoNumFunction(Construction cons, String label,
-			NumberValue a, NumberValue b) {
+			GeoNumberValue a, GeoNumberValue b) {
 		this(cons, a, b);
 		num.setLabel(label);
 	}
 
-	protected AlgoTwoNumFunction(Construction cons, NumberValue a, NumberValue b) {
+	protected AlgoTwoNumFunction(Construction cons, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons);
 		this.a = a;
 		this.b = b;

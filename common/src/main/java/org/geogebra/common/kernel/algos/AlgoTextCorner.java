@@ -15,9 +15,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 
@@ -25,10 +25,10 @@ public class AlgoTextCorner extends AlgoElement {
 
 	private GeoText txt; // input
 	private GeoPoint corner; // output
-	private NumberValue number;
+	private GeoNumberValue number;
 
 	public AlgoTextCorner(Construction cons, String label, GeoText txt,
-			NumberValue number) {
+			GeoNumberValue number) {
 		super(cons);
 		this.txt = txt;
 		this.number = number;

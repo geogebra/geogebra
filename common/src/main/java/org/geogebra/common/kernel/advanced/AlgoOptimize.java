@@ -14,8 +14,8 @@ package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 
@@ -70,7 +70,7 @@ public abstract class AlgoOptimize extends AlgoElement {
 	 * @param type
 	 *            maximize or minimize
 	 * */
-	public AlgoOptimize(Construction cons, String label, NumberValue dep,
+	public AlgoOptimize(Construction cons, String label, GeoNumberValue dep,
 			Optimizer indep, OptimizationType type) {
 		super(cons);
 		this.optCons = cons;

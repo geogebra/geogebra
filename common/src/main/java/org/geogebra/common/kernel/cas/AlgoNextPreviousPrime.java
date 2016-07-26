@@ -4,9 +4,9 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.MyMath;
 
@@ -15,7 +15,7 @@ import org.geogebra.common.util.MyMath;
  */
 public class AlgoNextPreviousPrime extends AlgoElement implements UsesCAS {
 
-	private NumberValue init;
+	private GeoNumberValue init;
 	private GeoNumeric result;
 	private boolean next;
 
@@ -30,7 +30,7 @@ public class AlgoNextPreviousPrime extends AlgoElement implements UsesCAS {
 	 *            true for NextPrime, false for PreviousPrime
 	 */
 	public AlgoNextPreviousPrime(Construction cons, String label,
-			NumberValue init, boolean next) {
+			GeoNumberValue init, boolean next) {
 		super(cons);
 		this.init = init;
 		this.next = next;

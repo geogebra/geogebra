@@ -315,7 +315,7 @@ public interface Manager3DInterface {
 	public GeoPlaneND PlaneBisector(String label, GeoSegmentND segment);
 
 	/** Sphere label linking with center o and radius r */
-	public GeoElement Sphere(String label, GeoPointND M, NumberValue r);
+	public GeoElement Sphere(String label, GeoPointND M, GeoNumberValue r);
 
 	/**
 	 * Sphere with midpoint M through point P
@@ -509,13 +509,13 @@ public interface Manager3DInterface {
 	// //////////////////////////////////////////////
 	// FUNCTIONS (2 VARS)
 
-	public GeoFunctionNVar Function2Var(String label, NumberValue zcoord,
-			GeoNumeric localVarU, NumberValue Ufrom, NumberValue Uto,
-			GeoNumeric localVarV, NumberValue Vfrom, NumberValue Vto);
+	public GeoFunctionNVar Function2Var(String label, GeoNumberValue zcoord,
+			GeoNumeric localVarU, GeoNumberValue Ufrom, GeoNumberValue Uto,
+			GeoNumeric localVarV, GeoNumberValue Vfrom, GeoNumberValue Vto);
 
 	public GeoFunctionNVar Function2Var(String label, GeoFunctionNVar f,
-			NumberValue xFrom, NumberValue xTo, NumberValue yFrom,
-			NumberValue yTo);
+			GeoNumberValue xFrom, GeoNumberValue xTo, GeoNumberValue yFrom,
+			GeoNumberValue yTo);
 
 	// //////////////////////////////////////////////
 	// 3D CURVE (1 VAR)

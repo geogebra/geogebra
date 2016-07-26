@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdTwoNumFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * RandomNormal[ <Number>, <Number> ]
@@ -21,7 +21,8 @@ public class CmdRandomNormal extends CmdTwoNumFunction {
 	}
 
 	@Override
-	protected GeoElement doCommand(String a, NumberValue b, NumberValue c) {
+	protected GeoElement doCommand(String a, GeoNumberValue b,
+			GeoNumberValue c) {
 		AlgoRandomNormal algo = new AlgoRandomNormal(cons, a, b, c);
 		return algo.getResult();
 	}

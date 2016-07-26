@@ -13,8 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -44,14 +44,14 @@ public class AlgoMaximize extends AlgoOptimize {
 	 * @param indep
 	 *            independent number
 	 */
-	public AlgoMaximize(Construction cons, String label, NumberValue dep,
+	public AlgoMaximize(Construction cons, String label, GeoNumberValue dep,
 			GeoNumeric indep) {
 		super(cons, label, dep, new OptimizerNumeric(dep, indep),
 				OptimizationType.MAXIMIZE);
 		// cons.registerEuclididanViewAlgo(this);
 	}// Constructor for Maximize
 
-	public AlgoMaximize(Construction cons, String label, NumberValue dep,
+	public AlgoMaximize(Construction cons, String label, GeoNumberValue dep,
 			GeoPointND indep) {
 		super(cons, label, dep, new OptimizerPoint(dep, indep),
 				OptimizationType.MAXIMIZE);

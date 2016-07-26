@@ -23,10 +23,10 @@ import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Normal[0,1,x]
@@ -35,19 +35,19 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoNormalDF extends AlgoElement implements AlgoDistributionDF {
 
-	private NumberValue mean, sd; // input
+	private GeoNumberValue mean, sd; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
 	@SuppressWarnings("javadoc")
-	public AlgoNormalDF(Construction cons, String label, NumberValue mean,
-			NumberValue sd, BooleanValue cumulative) {
+	public AlgoNormalDF(Construction cons, String label, GeoNumberValue mean,
+			GeoNumberValue sd, BooleanValue cumulative) {
 		this(cons, mean, sd, cumulative);
 		ret.setLabel(label);
 	}
 
 	@SuppressWarnings("javadoc")
-	public AlgoNormalDF(Construction cons, NumberValue a, NumberValue b,
+	public AlgoNormalDF(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			BooleanValue cumulative) {
 		super(cons);
 		this.mean = a;

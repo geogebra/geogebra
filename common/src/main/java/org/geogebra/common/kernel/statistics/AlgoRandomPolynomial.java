@@ -6,10 +6,10 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Algorithm for random polynomials with given degree and coefficient range
@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoRandomPolynomial extends AlgoElement {
 
-	private NumberValue degree, min, max;
+	private GeoNumberValue degree, min, max;
 	private GeoFunction polynomial;
 	private Function f;
 	private FunctionVariable fv;
@@ -38,7 +38,7 @@ public class AlgoRandomPolynomial extends AlgoElement {
 	 *            maximal coefficient value
 	 */
 	public AlgoRandomPolynomial(Construction cons, String label,
-			NumberValue degree, NumberValue min, NumberValue max) {
+			GeoNumberValue degree, GeoNumberValue min, GeoNumberValue max) {
 		super(cons);
 		this.degree = degree;
 		this.min = min;

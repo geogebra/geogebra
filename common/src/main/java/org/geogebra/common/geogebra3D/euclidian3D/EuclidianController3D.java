@@ -57,7 +57,6 @@ import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -879,7 +878,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * kernel.Polygon(null, getSelectedPointsND()); }
 	 */
 
-	protected void circleOrSphere(NumberValue num) {
+	protected void circleOrSphere(GeoNumberValue num) {
 		GeoPointND[] points = getSelectedPointsND();
 
 		getKernel().getManager3D().Sphere(null, points[0], num);

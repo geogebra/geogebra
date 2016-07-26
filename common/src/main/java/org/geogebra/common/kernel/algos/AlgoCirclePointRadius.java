@@ -22,10 +22,10 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -45,7 +45,7 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 	private Polynomial[] botanaPolynomials;
 
 	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
-			NumberValue r) {
+			GeoNumberValue r) {
 
 		super(cons, label, M, r);
 	}
@@ -56,7 +56,8 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		super(cons, label, M, segment, dummy);
 	}
 
-	public AlgoCirclePointRadius(Construction cons, GeoPoint M, NumberValue r) {
+	public AlgoCirclePointRadius(Construction cons, GeoPoint M,
+			GeoNumberValue r) {
 
 		super(cons, M, r);
 

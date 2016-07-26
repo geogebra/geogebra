@@ -18,6 +18,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -61,5 +62,5 @@ public interface NumberValue extends ExpressionValue {
 	 * 
 	 * @return GeoNumeric for MyDoubles, self otherwise
 	 */
-	public GeoElement toGeoElement();
+	public GeoElement toGeoElement(Construction cons);
 }

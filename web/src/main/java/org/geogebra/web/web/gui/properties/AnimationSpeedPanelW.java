@@ -4,7 +4,7 @@ import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel.IAnimationSpeedListener;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -74,7 +74,7 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	}
 	
 	private void doActionPerformed() {
-		NumberValue animSpeed = 
+		GeoNumberValue animSpeed = 
 			app.getKernel().getAlgebraProcessor().evaluateToNumeric(tfAnimSpeed.getText(), false);
 		if (animSpeed != null) {
 			model.applySpeedChanges(animSpeed);

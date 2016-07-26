@@ -16,7 +16,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoPoint3DOnPath extends AlgoPointOnPath {
 
@@ -28,7 +28,7 @@ public class AlgoPoint3DOnPath extends AlgoPointOnPath {
 	}
 
 	public AlgoPoint3DOnPath(Construction cons, String label, Path path,
-			double x, double y, double z, NumberValue param) {
+			double x, double y, double z, GeoNumberValue param) {
 
 		super(cons, label, path, x, y, param);
 	}

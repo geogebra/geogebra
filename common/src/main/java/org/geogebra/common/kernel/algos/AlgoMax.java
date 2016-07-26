@@ -18,8 +18,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Computes Max[a, b]
@@ -31,7 +31,8 @@ public class AlgoMax extends AlgoTwoNumFunction {
 	/**
 	 * Creates new max algo
 	 */
-	public AlgoMax(Construction cons, String label, NumberValue a, NumberValue b) {
+	public AlgoMax(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons, label, a, b);
 	}
 

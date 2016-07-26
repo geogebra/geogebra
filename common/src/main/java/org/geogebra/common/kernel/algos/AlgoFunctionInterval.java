@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Function limited to interval [a, b]
@@ -32,13 +33,13 @@ public class AlgoFunctionInterval extends AlgoElement {
 
 	/** Creates new AlgoDependentFunction */
 	public AlgoFunctionInterval(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue b) {
+			GeoNumberValue a, GeoNumberValue b) {
 		this(cons, f, a, b);
 		g.setLabel(label);
 	}
 
 	public AlgoFunctionInterval(Construction cons, GeoFunction f,
-			NumberValue a, NumberValue b) {
+			GeoNumberValue a, GeoNumberValue b) {
 		super(cons);
 		this.f = f;
 		this.a = a;

@@ -23,12 +23,12 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.TangentAlgo;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
@@ -38,7 +38,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 public class AlgoTangentFunctionNumber extends AlgoElement implements
 		TangentAlgo {
 
-	private NumberValue n; // input
+	private GeoNumberValue n; // input
 	private GeoElement ngeo;
 	private GeoFunction f; // input
 	private GeoLine tangent; // output
@@ -58,7 +58,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement implements
 	 *            function
 	 */
 	public AlgoTangentFunctionNumber(Construction cons, String label,
-			NumberValue n, GeoFunction f) {
+			GeoNumberValue n, GeoFunction f) {
 		super(cons);
 		this.n = n;
 		ngeo = n.toGeoElement();

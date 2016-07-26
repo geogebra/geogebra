@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.HashSet;
 
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -140,8 +141,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 		return kernel;
 	}
 
-	public GeoElement toGeoElement() {
-		return new GeoBoolean(kernel.getConstruction(), value);
+	public GeoElement toGeoElement(Construction cons) {
+		return new GeoBoolean(cons, value);
 	}
 
 	public MyDouble getNumber() {

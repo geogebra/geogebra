@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoDerivative;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.cas.AlgoLengthFunction;
@@ -46,6 +45,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -877,8 +877,8 @@ public class FunctionInspectorModel {
 		intervalTabGeoList.add(functionInterval);
 
 		AlgoIntegralDefinite inte = new AlgoIntegralDefinite(cons, selectedGeo,
-				(NumberValue) xLow.getGeoElements()[0],
-				(NumberValue) xHigh.getGeoElements()[0], null, false);
+				(GeoNumberValue) xLow.getGeoElements()[0],
+				(GeoNumberValue) xHigh.getGeoElements()[0], null, false);
 		cons.removeFromConstructionList(inte);
 		integralGeo = inte.getGeoElements()[0];
 		integralGeo.setSelectionAllowed(false);
@@ -896,8 +896,8 @@ public class FunctionInspectorModel {
 		// definite integral is calculated numerically.
 		AlgoIntegralDefinite area = new AlgoIntegralDefinite(cons,
 				(GeoFunction) funAlgo.getGeoElements()[0],
-				(NumberValue) xLow.getGeoElements()[0],
-				(NumberValue) xHigh.getGeoElements()[0], null, true);
+				(GeoNumberValue) xLow.getGeoElements()[0],
+				(GeoNumberValue) xHigh.getGeoElements()[0], null, true);
 		cons.removeFromConstructionList(area);
 		areaGeo = area.getGeoElements()[0];
 		areaGeo.setSelectionAllowed(false);

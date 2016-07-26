@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoSequence;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -135,7 +134,7 @@ public class CmdBarChart extends CommandProcessor {
 	 */
 	final private GeoNumeric BarChart(String label, GeoNumberValue a,
 			GeoNumberValue b, GeoElement expression, GeoNumeric localVar,
-			GeoNumberValue from, GeoNumberValue to, NumberValue step) {
+			GeoNumberValue from, GeoNumberValue to, GeoNumberValue step) {
 
 		AlgoSequence seq = new AlgoSequence(cons, expression, localVar, from,
 				to, step);

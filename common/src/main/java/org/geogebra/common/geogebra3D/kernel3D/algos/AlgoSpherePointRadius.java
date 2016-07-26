@@ -22,8 +22,8 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoSphereNDPointRadius;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
@@ -34,12 +34,13 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 
 	public AlgoSpherePointRadius(Construction cons, String label, GeoPointND M,
-			NumberValue r) {
+			GeoNumberValue r) {
 
 		super(cons, label, M, r);
 	}
 
-	public AlgoSpherePointRadius(Construction cons, GeoPointND M, NumberValue r) {
+	public AlgoSpherePointRadius(Construction cons, GeoPointND M,
+			GeoNumberValue r) {
 
 		super(cons, M, r);
 	}

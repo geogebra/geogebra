@@ -20,10 +20,10 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -38,8 +38,8 @@ public class AlgoTaylorSeries extends AlgoElement {
 	private static final int MAX_ORDER = 80;
 
 	private GeoFunction f; // input
-	private NumberValue a; // series for f about the point x = a
-	private NumberValue n; // order of series
+	private GeoNumberValue a; // series for f about the point x = a
+	private GeoNumberValue n; // order of series
 	private GeoFunction g; // output g = f'
 
 	private GeoElement ageo, ngeo;
@@ -48,7 +48,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 	 * Creates new Taylor series for function f about the point x=a of order n.
 	 */
 	public AlgoTaylorSeries(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue n) {
+			GeoNumberValue a, GeoNumberValue n) {
 		super(cons);
 		this.f = f;
 		this.a = a;

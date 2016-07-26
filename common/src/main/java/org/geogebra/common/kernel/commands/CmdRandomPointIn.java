@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.algos.AlgoRandomPointInPoints;
 import org.geogebra.common.kernel.algos.AlgoRandomPointInPolygon;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -53,9 +53,9 @@ public class CmdRandomPointIn extends CommandProcessor {
 		} else if (n == 4 && arg[0].isNumberValue() && arg[1].isNumberValue()
 				&& arg[2].isNumberValue() && arg[3].isNumberValue()) {
 
-			return randomPoint(c.getLabel(), (GeoNumeric) arg[0],
-					(GeoNumeric) arg[1], (GeoNumeric) arg[2],
-					(GeoNumeric) arg[3]);
+			return randomPoint(c.getLabel(), (GeoNumberValue) arg[0],
+					(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
+					(GeoNumberValue) arg[3]);
 
 		} else if (n > 2) {
 			arg = resArgs(c);
@@ -93,8 +93,8 @@ public class CmdRandomPointIn extends CommandProcessor {
 	 * @return random point (p,q) where p is between a & b and q is between c &
 	 *         d
 	 */
-	protected GeoElement[] randomPoint(String label, GeoNumeric a,
-			GeoNumeric b, GeoNumeric c, GeoNumeric d) {
+	protected GeoElement[] randomPoint(String label, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue c, GeoNumberValue d) {
 		AlgoRandomPoint arp = new AlgoRandomPoint(cons, label, a, b, c, d);
 		return new GeoElement[] { arp.getOutput(0) };
 	}

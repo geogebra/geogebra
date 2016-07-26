@@ -25,11 +25,11 @@ import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.RestrictionAlgoForLocusEquation;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -44,7 +44,7 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 
 	private Path path; // input
 	protected GeoPointND P; // output
-	private NumberValue param;
+	private GeoNumberValue param;
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
 	private Variable variable;
@@ -76,28 +76,28 @@ public class AlgoPointOnPath extends AlgoElement implements FixedPathRegionAlgo,
 	}
 
 	public AlgoPointOnPath(Construction cons, String label, Path path,
-			double x, double y, NumberValue param) {
+			double x, double y, GeoNumberValue param) {
 
 		this(cons, label, path, x, y, 0, param);
 
 	}
 
 	public AlgoPointOnPath(Construction cons, String label, Path path,
-			double x, double y, double z, NumberValue param) {
+			double x, double y, double z, GeoNumberValue param) {
 
 		this(cons, path, x, y, z, param);
 		P.setLabel(label);
 	}
 
 	public AlgoPointOnPath(Construction cons, Path path, double x, double y,
-			NumberValue param) {
+			GeoNumberValue param) {
 
 		this(cons, path, x, y, 0, param);
 
 	}
 
 	public AlgoPointOnPath(Construction cons, Path path, double x, double y,
-			double z, NumberValue param) {
+			double z, GeoNumberValue param) {
 		super(cons);
 		this.path = path;
 

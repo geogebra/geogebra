@@ -20,7 +20,6 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -45,7 +44,7 @@ public class AlgoSequence extends AlgoElement {
 
 	private GeoElement expression; // input expression dependent on var
 	private GeoNumeric var; // input: local variable
-	private NumberValue var_from, var_to, var_step;
+	private GeoNumberValue var_from, var_to, var_step;
 	private GeoElement var_from_geo, var_to_geo, var_step_geo;
 	private GeoList list; // output
 
@@ -79,8 +78,8 @@ public class AlgoSequence extends AlgoElement {
 	 *            step
 	 */
 	public AlgoSequence(Construction cons, String label, GeoElement expression,
-			GeoNumeric var, NumberValue var_from, NumberValue var_to,
-			NumberValue var_step) {
+			GeoNumeric var, GeoNumberValue var_from, GeoNumberValue var_to,
+			GeoNumberValue var_step) {
 
 		this(cons, expression, var, var_from, var_to, var_step);
 		list.setLabel(label);
@@ -103,8 +102,8 @@ public class AlgoSequence extends AlgoElement {
 	 *            step
 	 */
 	public AlgoSequence(Construction cons, GeoElement expression,
-			GeoNumeric var, NumberValue var_from, NumberValue var_to,
-			NumberValue var_step) {
+			GeoNumeric var, GeoNumberValue var_from, GeoNumberValue var_to,
+			GeoNumberValue var_step) {
 		super(cons);
 
 		this.expression = expression;

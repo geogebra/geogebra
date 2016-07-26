@@ -19,8 +19,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -36,7 +36,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 
 	private GeoPointND M; // input
-	private NumberValue r; // input
+	private GeoNumberValue r; // input
 	private GeoElement rgeo;
 	private GeoQuadricND sphereND; // output
 
@@ -45,7 +45,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	final static int TYPE_SEGMENT = 1;
 
 	protected AlgoSphereNDPointRadius(Construction cons, String label,
-			GeoPointND M, NumberValue r) {
+			GeoPointND M, GeoNumberValue r) {
 
 		this(cons, M, r);
 		sphereND.setLabel(label);
@@ -59,7 +59,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	}
 
 	public AlgoSphereNDPointRadius(Construction cons, GeoPointND M,
-			NumberValue r) {
+			GeoNumberValue r) {
 
 		super(cons);
 
@@ -165,7 +165,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	 * @param newRadius
 	 *            the new radius
 	 */
-	public void setRadius(NumberValue newRadius) {
+	public void setRadius(GeoNumberValue newRadius) {
 		if (type == TYPE_RADIUS) {
 			this.r = newRadius;
 			this.rgeo = newRadius.toGeoElement();

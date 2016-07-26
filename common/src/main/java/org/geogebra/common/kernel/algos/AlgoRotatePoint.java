@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -55,7 +56,7 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 	 * Creates new point rotation algo
 	 */
 	AlgoRotatePoint(Construction cons, String label, GeoElement A,
-			NumberValue angle, GeoPointND Q) {
+			GeoNumberValue angle, GeoPointND Q) {
 		this(cons, A, angle, Q);
 		outGeo.setLabel(label);
 	}
@@ -63,7 +64,8 @@ public class AlgoRotatePoint extends AlgoTransformation implements
 	/**
 	 * Creates new unlabeled point rotation algo
 	 */
-	public AlgoRotatePoint(Construction cons, GeoElement A, NumberValue angle,
+	public AlgoRotatePoint(Construction cons, GeoElement A,
+			GeoNumberValue angle,
 			GeoPointND Q) {
 		super(cons);
 		this.angle = angle;

@@ -5,9 +5,9 @@ import java.math.BigInteger;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
 
@@ -19,8 +19,8 @@ import org.geogebra.common.util.StringUtil;
  */
 public class AlgoToBase extends AlgoElement {
 
-	private NumberValue base;
-	private NumberValue number;
+	private GeoNumberValue base;
+	private GeoNumberValue number;
 	private GeoText result;
 
 	/**
@@ -33,8 +33,8 @@ public class AlgoToBase extends AlgoElement {
 	 * @param number
 	 *            number
 	 */
-	public AlgoToBase(Construction c, String label, NumberValue number,
-			NumberValue base) {
+	public AlgoToBase(Construction c, String label, GeoNumberValue number,
+			GeoNumberValue base) {
 		super(c);
 		this.base = base;
 		this.number = number;

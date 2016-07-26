@@ -5171,7 +5171,7 @@ new GPoint(row, column));
 
 			while (it.hasNext()) {
 				GeoExpPair pair = it.next();
-				NumberValue num = algProc.evaluateToNumeric(pair.exp, false);
+				GeoNumberValue num = algProc.evaluateToNumeric(pair.exp, false);
 				pair.getGeo().setAnimationSpeedObject(num);
 			}
 		} catch (Exception e) {

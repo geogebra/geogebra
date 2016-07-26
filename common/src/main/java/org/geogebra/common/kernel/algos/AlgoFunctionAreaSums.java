@@ -22,7 +22,6 @@ import org.apache.commons.math.distribution.PoissonDistributionImpl;
 import org.apache.commons.math.distribution.ZipfDistributionImpl;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -99,26 +98,26 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	private static final double TOLERANCE = 1E-7;
 
 	private GeoFunction f; // input
-	private NumberValue a, b, n, width, density, p1, p2, p3; // input
+	private GeoNumberValue a, b, n, width, density, p1, p2, p3; // input
 
 	/**
 	 * @return the p1
 	 */
-	public NumberValue getP1() {
+	public GeoNumberValue getP1() {
 		return p1;
 	}
 
 	/**
 	 * @return the p2
 	 */
-	public NumberValue getP2() {
+	public GeoNumberValue getP2() {
 		return p2;
 	}
 
 	/**
 	 * @return the p3
 	 */
-	public NumberValue getP3() {
+	public GeoNumberValue getP3() {
 		return p3;
 	}
 
@@ -209,7 +208,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param type
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue b, NumberValue n, NumberValue d,
+			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
+			GeoNumberValue d,
 			SumType type) {
 
 		super(cons);
@@ -233,8 +233,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum.setLabel(label);
 	}
 
-	public AlgoFunctionAreaSums(GeoFunction f, NumberValue a, NumberValue b,
-			NumberValue n, NumberValue d) {
+	public AlgoFunctionAreaSums(GeoFunction f, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue n, GeoNumberValue d) {
 		super(f.cons, false);
 		this.f = f;
 		this.a = a;
@@ -261,7 +261,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param type
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue b, NumberValue n, SumType type) {
+			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
+			SumType type) {
 
 		super(cons);
 
@@ -285,7 +286,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 	}
 
-	public AlgoFunctionAreaSums(GeoNumberValue a, NumberValue b, NumberValue n,
+	public AlgoFunctionAreaSums(GeoNumberValue a, GeoNumberValue b,
+			GeoNumberValue n,
 			SumType type, double[] vals, double[] borders, Construction cons1) {
 		super(cons1, false);
 		this.type = type;
@@ -308,8 +310,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param b
 	 * @param list1
 	 */
-	public AlgoFunctionAreaSums(Construction cons, String label, NumberValue a,
-			NumberValue b, GeoList list1) {
+	public AlgoFunctionAreaSums(Construction cons, String label,
+			GeoNumberValue a, GeoNumberValue b, GeoList list1) {
 
 		super(cons);
 
@@ -411,13 +413,13 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 */
 
 	public AlgoFunctionAreaSums(Construction cons, String label, GeoList list1,
-			GeoList list2, NumberValue width) {
+			GeoList list2, GeoNumberValue width) {
 		this(cons, list1, list2, width);
 		sum.setLabel(label);
 	}
 
 	public AlgoFunctionAreaSums(Construction cons, GeoList list1,
-			GeoList list2, NumberValue width) {
+			GeoList list2, GeoNumberValue width) {
 
 		super(cons);
 
@@ -652,7 +654,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param type
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label,
-			NumberValue p1, NumberValue p2, NumberValue p3,
+			GeoNumberValue p1, GeoNumberValue p2, GeoNumberValue p3,
 			GeoBoolean isCumulative, SumType type) {
 
 		super(cons);
@@ -679,9 +681,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		}
 	}
 
-	protected AlgoFunctionAreaSums(NumberValue p1, NumberValue p2,
-			NumberValue p3, GeoBoolean isCumulative, SumType type,
-			NumberValue a, NumberValue b, double[] vals, double[] borders,
+	protected AlgoFunctionAreaSums(GeoNumberValue p1, GeoNumberValue p2,
+			GeoNumberValue p3, GeoBoolean isCumulative, SumType type,
+			GeoNumberValue a, GeoNumberValue b, double[] vals, double[] borders,
 			int N, Construction cons) {
 
 		super(cons, false);
@@ -858,8 +860,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * 
 	 * @return lower bound for sums
 	 */
-	public NumberValue getA() {
-		return a == null ? new MyDouble(kernel, Double.NaN) : a;
+	public GeoNumberValue getA() {
+		return a == null ? new GeoNumeric(cons, Double.NaN) : a;
 	}
 
 	/**
@@ -867,8 +869,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * 
 	 * @return upper bound for sums
 	 */
-	public NumberValue getB() {
-		return b == null ? new MyDouble(kernel, Double.NaN) : b;
+	public GeoNumberValue getB() {
+		return b == null ? new GeoNumeric(cons, Double.NaN) : b;
 	}
 
 	/**
@@ -1348,8 +1350,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				leftBorder[1] = leftBorder[0] + 1;
 				ageo = new GeoNumeric(cons, leftBorder[0]);
 				bgeo = new GeoNumeric(cons, leftBorder[1]);
-				a = (NumberValue) ageo;
-				b = (NumberValue) bgeo;
+				a = (GeoNumberValue) ageo;
+				b = (GeoNumberValue) bgeo;
 
 				sum.setValue(yval[0]);
 
@@ -1378,8 +1380,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 			ageo = new GeoNumeric(cons, start - step / 2);
 			bgeo = new GeoNumeric(cons, end + step / 2);
-			a = (NumberValue) ageo;
-			b = (NumberValue) bgeo;
+			a = (GeoNumberValue) ageo;
+			b = (GeoNumberValue) bgeo;
 
 			// fill in class boundaries
 
@@ -1436,8 +1438,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			leftBorder[2] = 1.5;
 			ageo = new GeoNumeric(cons, leftBorder[0]);
 			bgeo = new GeoNumeric(cons, leftBorder[1]);
-			a = (NumberValue) ageo;
-			b = (NumberValue) bgeo;
+			a = (GeoNumberValue) ageo;
+			b = (GeoNumberValue) bgeo;
 
 			if (cumulative) {
 				sum.setValue(Double.POSITIVE_INFINITY);
@@ -1487,8 +1489,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 			ageo = new GeoNumeric(cons, start - colWidth / 2);
 			bgeo = new GeoNumeric(cons, end + colWidth / 2);
-			a = (NumberValue) ageo;
-			b = (NumberValue) bgeo;
+			a = (GeoNumberValue) ageo;
+			b = (GeoNumberValue) bgeo;
 
 			if (yval == null || yval.length < NN - 1) {
 				yval = new double[NN - 1];
@@ -1586,8 +1588,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 					geo = list1.get(i);
 					if (i == 0) {
-						if (geo instanceof NumberValue)
-							a = (NumberValue) geo;
+						if (geo instanceof GeoNumberValue)
+							a = (GeoNumberValue) geo;
 						else {
 							sum.setUndefined();
 							return;
@@ -1603,8 +1605,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				}
 
 				geo = list1.get(N - 1);
-				if (geo instanceof NumberValue) {
-					b = (NumberValue) geo;
+				if (geo instanceof GeoNumberValue) {
+					b = (GeoNumberValue) geo;
 				} else {
 					sum.setUndefined();
 					return;
@@ -1698,8 +1700,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 					geo = list1.get(i);
 					if (i == 0) {
-						if (geo instanceof NumberValue)
-							a = (NumberValue) geo;
+						if (geo instanceof GeoNumberValue)
+							a = (GeoNumberValue) geo;
 						else {
 							sum.setUndefined();
 							return;
@@ -1725,8 +1727,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				// yval[N - 1] = yval[N - 2];
 
 				geo = list1.get(N - 1);
-				if (geo instanceof NumberValue) {
-					b = (NumberValue) geo;
+				if (geo instanceof GeoNumberValue) {
+					b = (GeoNumberValue) geo;
 				} else {
 					sum.setUndefined();
 					return;

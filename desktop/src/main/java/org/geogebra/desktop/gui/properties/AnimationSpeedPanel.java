@@ -19,8 +19,8 @@ import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel.IAnimationSpeedListener;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -117,7 +117,8 @@ public class AnimationSpeedPanel extends JPanel implements ActionListener,
 	}
 
 	private void doActionPerformed() {
-		NumberValue animSpeed = kernel.getAlgebraProcessor().evaluateToNumeric(
+		GeoNumberValue animSpeed = kernel.getAlgebraProcessor()
+				.evaluateToNumeric(
 				tfAnimSpeed.getText(), false);
 		if (animSpeed != null) {
 			model.applySpeedChanges(animSpeed);

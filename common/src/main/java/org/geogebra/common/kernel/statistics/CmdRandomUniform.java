@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdTwoNumFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * RandomUniform[ <Number>, <Number> ]
@@ -22,14 +23,15 @@ public class CmdRandomUniform extends CmdTwoNumFunction {
 	}
 
 	@Override
-	protected GeoElement doCommand(String a, NumberValue b, NumberValue c) {
+	protected GeoElement doCommand(String a, GeoNumberValue b,
+			GeoNumberValue c) {
 		AlgoRandomUniform algo = new AlgoRandomUniform(cons, a, b, c);
 		return algo.getResult();
 	}
 
 	@Override
-	protected GeoElement doCommand2(Command a, NumberValue b, NumberValue c,
-			NumberValue d) {
+	protected GeoElement doCommand2(Command a, GeoNumberValue b,
+			GeoNumberValue c, GeoNumberValue d) {
 		AlgoRandomUniformList algo = new AlgoRandomUniformList(cons,
 				a.getLabel(), b, c, d);
 		return algo.getResult();

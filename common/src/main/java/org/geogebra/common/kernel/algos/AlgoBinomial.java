@@ -13,8 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.MyMath;
 
 //import org.apache.commons.math.special.Gamma;
@@ -61,8 +61,8 @@ public class AlgoBinomial extends AlgoTwoNumFunction {
 	 * binom.multiply(BigInteger.valueOf(prime).pow(exp)); } } return binom; }
 	 */
 
-	public AlgoBinomial(Construction cons, String label, NumberValue a,
-			NumberValue b) {
+	public AlgoBinomial(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons, label, a, b);
 	}
 

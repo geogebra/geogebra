@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -60,8 +61,8 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 	 * 
 	 */
 	public AlgoFunctionNVarND(Construction cons, String label,
-			NumberValue[] coords, GeoNumeric[] localVar, NumberValue[] from,
-			NumberValue[] to) {
+			GeoNumberValue[] coords, GeoNumeric[] localVar,
+			GeoNumberValue[] from, GeoNumberValue[] to) {
 
 		this(cons, from, to);
 
@@ -112,7 +113,7 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 	 * 
 	 */
 	public AlgoFunctionNVarND(Construction cons, String label,
-			GeoFunctionNVar f, NumberValue[] from, NumberValue[] to) {
+			GeoFunctionNVar f, GeoNumberValue[] from, GeoNumberValue[] to) {
 
 		this(cons, from, to);
 
@@ -123,14 +124,15 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 		function = (GeoFunctionNVar) inputFunction.copy();
 
 		// end of construction
-		setInputOutput((NumberValue[]) null, (GeoNumeric[]) null);
+		setInputOutput((GeoNumberValue[]) null, (GeoNumeric[]) null);
 
 		compute();
 		function.setLabel(label);
 
 	}
 
-	private void setInputOutput(NumberValue[] coords, GeoNumeric[] localVar) {
+	private void setInputOutput(GeoNumberValue[] coords,
+			GeoNumeric[] localVar) {
 
 		int inputLength = from.length + to.length;
 		if (coords != null)

@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.LocusEquation;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -41,7 +40,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements
 	protected final GeoPointND A; // input
 	/** second input point */
 	protected final GeoPointND B;
-	protected NumberValue num; // input
+	protected GeoNumberValue num; // input
 
 	protected int numOld = 2;
 	/** output handler */

@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -570,8 +569,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 				AlgoIntegralDefinite algoIntegral = new AlgoIntegralDefinite(
 						cons, (GeoFunction) densityCurve,
-						(NumberValue) xLow.getGeoElements()[0],
-						(NumberValue) xHigh.getGeoElements()[0], f);
+						(GeoNumberValue) xLow.getGeoElements()[0],
+						(GeoNumberValue) xHigh.getGeoElements()[0], f);
 				cons.removeFromConstructionList(algoIntegral);
 
 				integral = algoIntegral.getGeoElements()[0];
@@ -957,8 +956,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			GeoNumeric nPlusOneGeo = new GeoNumeric(cons, parameters[0] + 1);
 			GeoNumeric pGeo = new GeoNumeric(cons, parameters[1]);
 
-			AlgoSequence algoSeq = new AlgoSequence(cons, k2, k2, new MyDouble(
-					kernel, 0.0), nGeo, null);
+			AlgoSequence algoSeq = new AlgoSequence(cons, k2, k2,
+					new GeoNumeric(cons, 0.0), nGeo, null);
 			discreteValueList = (GeoList) algoSeq.getGeoElements()[0];
 
 			AlgoListElement algo = new AlgoListElement(cons, discreteValueList,
@@ -972,7 +971,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			cons.removeFromConstructionList(algo2);
 
 			AlgoSequence algoSeq2 = new AlgoSequence(cons,
-					algo2.getGeoElements()[0], k, new MyDouble(kernel, 1.0),
+					algo2.getGeoElements()[0], k, new GeoNumeric(cons, 1.0),
 					nPlusOneGeo, null);
 			cons.removeFromConstructionList(algoSeq2);
 
@@ -992,8 +991,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			cons.removeFromConstructionList(n2);
 			GeoElement n2Geo = n2.getGeoElements()[0];
 
-			algoSeq = new AlgoSequence(cons, k, k, new MyDouble(kernel, 0.0),
-					(NumberValue) n2Geo, null);
+			algoSeq = new AlgoSequence(cons, k, k, new GeoNumeric(cons, 0.0),
+					(GeoNumberValue) n2Geo, null);
 			removeFromAlgorithmList(algoSeq);
 			discreteValueList = (GeoList) algoSeq.getGeoElements()[0];
 
@@ -1013,8 +1012,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 			algoSeq2 = new AlgoSequence(cons, algoPascal.getGeoElements()[0],
 					k2,
-					new MyDouble(kernel, 1.0),
-					(NumberValue) plusOneAlgo.getGeoElements()[0], null);
+					new GeoNumeric(cons, 1.0),
+					(GeoNumberValue) plusOneAlgo.getGeoElements()[0], null);
 			cons.removeFromConstructionList(algoSeq2);
 
 			discreteProbList = (GeoList) algoSeq2.getGeoElements()[0];
@@ -1032,8 +1031,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			cons.removeFromConstructionList(maxSequenceValue);
 			GeoElement maxDiscreteGeo = maxSequenceValue.getGeoElements()[0];
 
-			algoSeq = new AlgoSequence(cons, k, k, new MyDouble(kernel, 0.0),
-					(NumberValue) maxDiscreteGeo, null);
+			algoSeq = new AlgoSequence(cons, k, k, new GeoNumeric(cons, 0.0),
+					(GeoNumberValue) maxDiscreteGeo, null);
 			removeFromAlgorithmList(algoSeq);
 			discreteValueList = (GeoList) algoSeq.getGeoElements()[0];
 
@@ -1052,8 +1051,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			cons.removeFromConstructionList(plusOneAlgo);
 
 			algoSeq2 = new AlgoSequence(cons, poisson.getGeoElements()[0], k2,
-					new MyDouble(kernel, 1.0),
-					(NumberValue) plusOneAlgo.getGeoElements()[0], null);
+					new GeoNumeric(cons, 1.0),
+					(GeoNumberValue) plusOneAlgo.getGeoElements()[0], null);
 			cons.removeFromConstructionList(algoSeq2);
 
 			discreteProbList = (GeoList) algoSeq2.getGeoElements()[0];
@@ -1113,8 +1112,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			cons.removeFromConstructionList(hyperGeometric);
 
 			algoSeq2 = new AlgoSequence(cons,
-					hyperGeometric.getGeoElements()[0], k2, new MyDouble(
-							kernel, 1.0), lengthGeo, null);
+					hyperGeometric.getGeoElements()[0], k2,
+					new GeoNumeric(cons, 1.0), lengthGeo, null);
 			cons.removeFromConstructionList(algoSeq2);
 			discreteProbList = (GeoList) algoSeq2.getGeoElements()[0];
 

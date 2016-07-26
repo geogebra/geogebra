@@ -190,7 +190,7 @@ public class SliderModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
 			boolean dependsOnListener = false;
-			GeoElement geoValue = value.toGeoElement();
+			GeoElement geoValue = value.toGeoElement(num.getConstruction());
 			if (num.getMinMaxListeners() != null)
 				for (GeoNumeric numListener : num.getMinMaxListeners()) {
 					if (geoValue.isChildOrEqual(numListener)) {

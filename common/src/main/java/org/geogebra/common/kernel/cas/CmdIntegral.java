@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.cas;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -104,7 +103,7 @@ public class CmdIntegral extends CommandProcessor {
 						c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						((GeoFunctionable) arg[1]).getGeoFunction(),
-						(GeoNumberValue) arg[2], (NumberValue) arg[3]);
+						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
 
 				GeoElement[] ret = { algo.getIntegral() };
 				return ret;

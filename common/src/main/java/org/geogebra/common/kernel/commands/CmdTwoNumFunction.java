@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
@@ -68,8 +67,8 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 	 *            label
 	 * @return resulting element
 	 */
-	abstract protected GeoElement doCommand(String a, NumberValue b,
-			NumberValue c);
+	abstract protected GeoElement doCommand(String a, GeoNumberValue b,
+			GeoNumberValue c);
 
 	/**
 	 * Perform the actual command
@@ -84,8 +83,8 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 	 *            third arg
 	 * @return resulting element
 	 */
-	protected GeoElement doCommand2(Command c, NumberValue a, NumberValue b,
-			NumberValue d) {
+	protected GeoElement doCommand2(Command c, GeoNumberValue a,
+			GeoNumberValue b, GeoNumberValue d) {
 		throw argNumErr(app, c.getName(), 3);
 	}
 }

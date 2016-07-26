@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -56,7 +57,7 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 	 *            right bound
 	 */
 	public AlgoIntegralFunctions(Construction cons, String label,
-			GeoFunction f, GeoFunction g, NumberValue a, NumberValue b) {
+			GeoFunction f, GeoFunction g, GeoNumberValue a, GeoNumberValue b) {
 		this(cons, label, f, g, a, b, null);
 		n.setLabel(label);
 	}
@@ -78,7 +79,7 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 	 *            true to evaluate, false = just shade
 	 */
 	public AlgoIntegralFunctions(Construction cons, String label,
-			GeoFunction f, GeoFunction g, NumberValue a, NumberValue b,
+			GeoFunction f, GeoFunction g, GeoNumberValue a, GeoNumberValue b,
 			GeoBoolean evaluate) {
 		super(cons);
 		this.f = f;

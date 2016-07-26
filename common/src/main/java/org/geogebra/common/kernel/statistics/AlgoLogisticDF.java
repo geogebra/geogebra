@@ -23,10 +23,10 @@ import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * algorithm for Logistic[0,1,x]
@@ -35,20 +35,20 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoLogisticDF extends AlgoElement implements AlgoDistributionDF {
 
-	private NumberValue mean, scale; // input
+	private GeoNumberValue mean, scale; // input
 	private BooleanValue cumulative; // optional input
 	private GeoFunction ret; // output
 
 	@SuppressWarnings("javadoc")
-	public AlgoLogisticDF(Construction cons, String label, NumberValue mean,
-			NumberValue scale, BooleanValue cumulative) {
+	public AlgoLogisticDF(Construction cons, String label, GeoNumberValue mean,
+			GeoNumberValue scale, BooleanValue cumulative) {
 		this(cons, mean, scale, cumulative);
 		ret.setLabel(label);
 	}
 
 	@SuppressWarnings("javadoc")
-	public AlgoLogisticDF(Construction cons, NumberValue mean,
-			NumberValue scale, BooleanValue cumulative) {
+	public AlgoLogisticDF(Construction cons, GeoNumberValue mean,
+			GeoNumberValue scale, BooleanValue cumulative) {
 		super(cons);
 		this.mean = mean;
 		this.scale = scale;

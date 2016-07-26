@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoClosestPoint;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoVertexPolygon;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -180,7 +179,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	private Coords tmpCoords;
 
 	private GeoElement[] SegmentFixedSphere(String pointLabel,
-			String segmentLabel, GeoPointND A, NumberValue n) {
+			String segmentLabel, GeoPointND A, GeoNumberValue n) {
 		// create a sphere around A with radius n
 		AlgoSpherePointRadius algoSphere = new AlgoSpherePointRadius(cons, A, n);
 

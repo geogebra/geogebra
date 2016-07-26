@@ -5258,7 +5258,8 @@ public abstract class EuclidianController {
 					}
 					// great, we got our number
 					if (((NumberValue) num).isGeoElement()) {
-						getSelectedGeoList().add(((NumberValue) num).toGeoElement());
+						getSelectedGeoList()
+								.add(num.toGeoElement());
 					}
 
 					readNumberOrAngleIfNeeded(this);

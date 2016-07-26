@@ -15,8 +15,8 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoTwoNumFunction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Computes RandomNormal[a, b]
@@ -26,8 +26,8 @@ import org.geogebra.common.kernel.commands.Commands;
 public class AlgoRandomUniform extends AlgoTwoNumFunction implements
 		SetRandomValue {
 
-	public AlgoRandomUniform(Construction cons, String label, NumberValue a,
-			NumberValue b) {
+	public AlgoRandomUniform(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons, label, a, b);
 
 		// output is random number

@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.TransformRotate;
 import org.geogebra.common.kernel.TransformTranslate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
@@ -144,7 +143,7 @@ public class AlgoDispatcher {
 	}
 
 	/** Point anywhere on path with */
-	final public GeoPoint Point(String label, Path path, NumberValue param) {
+	final public GeoPoint Point(String label, Path path, GeoNumberValue param) {
 		// try (0,0)
 		AlgoPointOnPath algo = null;
 		if (param == null) {

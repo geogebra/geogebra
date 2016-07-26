@@ -14,9 +14,9 @@ package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 
 /**
@@ -33,12 +33,12 @@ import org.geogebra.common.kernel.geos.GeoText;
 public class AlgoTextElement extends AlgoElement {
 
 	private GeoText text; // input
-	private NumberValue num = null; // input
+	private GeoNumberValue num = null; // input
 	private GeoElement numGeo;
 	private GeoText textOut; // output
 
 	public AlgoTextElement(Construction cons, String label, GeoText text,
-			NumberValue num) {
+			GeoNumberValue num) {
 		super(cons);
 		this.text = text;
 		this.num = num;

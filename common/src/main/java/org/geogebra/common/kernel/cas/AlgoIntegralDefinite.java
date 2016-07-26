@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootFunction;
@@ -81,7 +82,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	 *            true to use numeric method
 	 */
 	public AlgoIntegralDefinite(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue b, boolean numeric) {
+			GeoNumberValue a, GeoNumberValue b, boolean numeric) {
 		this(cons, f, a, b, null, numeric);
 		this.numeric = numeric;
 		n.setLabel(label);
@@ -102,7 +103,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	 *            true to evaluate, false to shade only
 	 */
 	public AlgoIntegralDefinite(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue b, GeoBoolean evaluate) {
+			GeoNumberValue a, GeoNumberValue b, GeoBoolean evaluate) {
 		this(cons, f, a, b, evaluate);
 		n.setLabel(label);
 	}
@@ -120,7 +121,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	 *            true to evaluate, false to shade only
 	 */
 	public AlgoIntegralDefinite(Construction cons, GeoFunction f,
-			NumberValue a, NumberValue b, GeoBoolean evaluate) {
+			GeoNumberValue a, GeoNumberValue b, GeoBoolean evaluate) {
 		this(cons, f, a, b, evaluate, false);
 
 	}
@@ -140,7 +141,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	 *            true to evaluate, false to shade only
 	 */
 	public AlgoIntegralDefinite(Construction cons, GeoFunction f,
-			NumberValue a, NumberValue b, GeoBoolean evaluate, boolean num) {
+			GeoNumberValue a, GeoNumberValue b, GeoBoolean evaluate,
+			boolean num) {
 		super(cons);
 		evaluateNumerically = num;
 		this.f = f;

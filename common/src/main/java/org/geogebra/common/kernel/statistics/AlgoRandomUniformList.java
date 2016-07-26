@@ -4,10 +4,10 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.RandomUtil;
 
@@ -20,11 +20,11 @@ import org.geogebra.common.main.RandomUtil;
 public class AlgoRandomUniformList extends AlgoElement implements
 		SetRandomValue {
 
-	protected NumberValue a, b, length; // input
+	protected GeoNumberValue a, b, length; // input
 	protected GeoList list; // output
 
 	public AlgoRandomUniformList(Construction cons, String label,
-			NumberValue a, NumberValue b, NumberValue length) {
+			GeoNumberValue a, GeoNumberValue b, GeoNumberValue length) {
 		super(cons);
 		this.a = a;
 		this.b = b;

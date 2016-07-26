@@ -21,11 +21,11 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 
 /**
@@ -36,12 +36,13 @@ public abstract class AlgoRotate3D extends AlgoTransformation {
 
 	protected GeoElement inGeo, outGeo;
 	protected RotateableND out;
-	protected NumberValue angle;
+	protected GeoNumberValue angle;
 
 	/**
 	 * Creates new unlabeled point rotation algo
 	 */
-	public AlgoRotate3D(Construction cons, GeoElement in, NumberValue angle) {
+	public AlgoRotate3D(Construction cons, GeoElement in,
+			GeoNumberValue angle) {
 
 		super(cons);
 		this.inGeo = in;

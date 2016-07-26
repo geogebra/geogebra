@@ -186,7 +186,7 @@ public class CmdFunction extends CommandProcessor {
 
 					kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
 					return new GeoElement[] { Function(c.getLabel(), condFun,
-							(NumberValue) low, (NumberValue) high) };
+							(GeoNumberValue) low, (GeoNumberValue) high) };
 				}
 			}
 			arg = resArgs(c);
@@ -218,7 +218,7 @@ public class CmdFunction extends CommandProcessor {
 	 * function limited to interval [a, b]
 	 */
 	final private GeoFunction Function(String label, GeoFunction f,
-			NumberValue a, NumberValue b) {
+			GeoNumberValue a, GeoNumberValue b) {
 		AlgoFunctionInterval algo = new AlgoFunctionInterval(cons, label, f, a,
 				b);
 		GeoFunction g = algo.getFunction();

@@ -47,10 +47,10 @@ import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.algos.AlgoConicFivePoints;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.algos.AlgoParabolaPointLine;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
@@ -1704,7 +1704,7 @@ public class DrawConic extends Drawable implements Previewable {
 					.getInhomCoordsInD3());
 			previewTempPoints[0].setCoords(p.projectInfDim(), false);
 
-			MyDouble distance = new MyDouble(cons.getKernel(),
+			GeoNumberValue distance = new GeoNumeric(cons,
 					previewTempPoints[1].distance(previewTempPoints[0]));
 			AlgoCirclePointRadius algoCircleRadius = new AlgoCirclePointRadius(
 					cons,
@@ -1825,7 +1825,7 @@ public class DrawConic extends Drawable implements Previewable {
 				previewTempPoints[0].setCoords(p.projectInfDim(), false);
 
 				Construction cons = previewTempPoints[0].getConstruction();
-				MyDouble distance = new MyDouble(cons.getKernel(),
+				GeoNumberValue distance = new GeoNumeric(cons,
 						previewTempPoints[1].distance(previewTempPoints[0]));
 				AlgoCirclePointRadius algoCircleRadius = new AlgoCirclePointRadius(
 						cons, previewTempPoints[0], distance);

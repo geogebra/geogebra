@@ -25,7 +25,7 @@ public class AlgoContourPlot extends AlgoElement {
 	private GeoFunctionNVar func; // input expression
 	private double xmin, xmax, ymin, ymax; // the definition domain where the
 											// contour plot is defined
-	private GeoElement contourStep;
+	private GeoNumeric contourStep;
 	private GeoList list; // output
 	private Equation equ;
 	private Polynomial poly;
@@ -287,7 +287,7 @@ public class AlgoContourPlot extends AlgoElement {
 			if (step == 0 && !fixed) {
 				freeTerm = implicitPoly.evaluateImplicitCurve(0, 0);
 				step = Math.abs((max - min) / 10.0);
-				contourStep.set(new MyDouble(kernel, step).toGeoElement());
+				contourStep.setValue(step);
 			}
 
 			if ((min <= freeTerm) && (max >= freeTerm)) {
@@ -343,13 +343,13 @@ public class AlgoContourPlot extends AlgoElement {
 		}
 		if (visible < minContours && !fixed) {
 			step = step / 2;
-			contourStep.set(new MyDouble(kernel, step).toGeoElement());
+			contourStep.setValue(step);
 			list.clear();
 			compute();
 		}
 		if (visible > maxContours && !fixed) {
 			step = step * 2;
-			contourStep.set(new MyDouble(kernel, step).toGeoElement());
+			contourStep.setValue(step);
 			list.clear();
 			compute();
 		}

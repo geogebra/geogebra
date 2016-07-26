@@ -15,9 +15,9 @@ package org.geogebra.common.kernel.statistics;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.util.Cloner;
 
 /**
@@ -38,13 +38,13 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 	 *            true for cumulative
 	 */
 	public AlgoBernoulliBarChart(Construction cons, String label,
-			NumberValue p, GeoBoolean isCumulative) {
+			GeoNumberValue p, GeoBoolean isCumulative) {
 		super(cons, label, p, null, null, isCumulative,
 				SumType.BARCHART_BERNOULLI);
 	}
 
-	private AlgoBernoulliBarChart(NumberValue p, GeoBoolean isCumulative,
-			NumberValue a, NumberValue b, double[] vals, double[] borders,
+	private AlgoBernoulliBarChart(GeoNumberValue p, GeoBoolean isCumulative,
+			GeoNumberValue a, GeoNumberValue b, double[] vals, double[] borders,
 			int N, Construction cons) {
 		super(p, null, null, isCumulative, SumType.BARCHART_BERNOULLI, a, b,
 				vals, borders, N, cons);
@@ -57,12 +57,15 @@ public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
-		if (b != null)
-			b = (GeoBoolean) b.copy();
+		if (b != null) {
+			b = b.copy();
+		}
 
-		return new AlgoBernoulliBarChart((NumberValue) this.getP1().deepCopy(
-				kernel), b, (NumberValue) this.getA().deepCopy(kernel),
-				(NumberValue) this.getB().deepCopy(kernel),
+		return new AlgoBernoulliBarChart(
+				(GeoNumberValue) this.getP1().deepCopy(
+						kernel),
+				b, (GeoNumberValue) this.getA().deepCopy(kernel),
+				(GeoNumberValue) this.getB().deepCopy(kernel),
 				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
 				getIntervals(), kernel.getConstruction());
 	}

@@ -16,8 +16,8 @@ import java.math.BigInteger;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Computes LCM[a, b]
@@ -26,7 +26,8 @@ import org.geogebra.common.kernel.commands.Commands;
  */
 public class AlgoLCM extends AlgoTwoNumFunction {
 
-	public AlgoLCM(Construction cons, String label, NumberValue a, NumberValue b) {
+	public AlgoLCM(Construction cons, String label, GeoNumberValue a,
+			GeoNumberValue b) {
 		super(cons, label, a, b);
 	}
 

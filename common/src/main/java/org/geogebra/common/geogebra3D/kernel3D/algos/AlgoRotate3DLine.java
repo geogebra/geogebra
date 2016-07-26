@@ -22,11 +22,11 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 
 /**
@@ -38,7 +38,7 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
 	private GeoLineND line;
 
 	AlgoRotate3DLine(Construction cons, String label, GeoElement in,
-			NumberValue angle, GeoLineND line) {
+			GeoNumberValue angle, GeoLineND line) {
 		this(cons, in, angle, line);
 		((GeoElement) out).setLabel(label);
 	}
@@ -47,7 +47,7 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
 	 * Creates new unlabeled point rotation algo
 	 */
 	public AlgoRotate3DLine(Construction cons, GeoElement in,
-			NumberValue angle, GeoLineND line) {
+			GeoNumberValue angle, GeoLineND line) {
 
 		super(cons, in, angle);
 

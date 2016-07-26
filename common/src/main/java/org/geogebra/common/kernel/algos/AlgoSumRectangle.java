@@ -13,9 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Rectangle sum of function f in interval [a, b] with n intervals and dividing
@@ -42,12 +42,13 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 	 *            0 for left sum, 1 for right sum
 	 */
 	public AlgoSumRectangle(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue b, NumberValue n, NumberValue d) {
+			GeoNumberValue a, GeoNumberValue b, GeoNumberValue n,
+			GeoNumberValue d) {
 		super(cons, label, f, a, b, n, d, SumType.RECTANGLESUM);
 	}
 
-	private AlgoSumRectangle(GeoFunction f, NumberValue a, NumberValue b,
-			NumberValue n, NumberValue d) {
+	private AlgoSumRectangle(GeoFunction f, GeoNumberValue a, GeoNumberValue b,
+			GeoNumberValue n, GeoNumberValue d) {
 		super(f, a, b, n, d);
 	}
 
@@ -58,9 +59,10 @@ public class AlgoSumRectangle extends AlgoFunctionAreaSums {
 
 	public AlgoSumRectangle copy() {
 		return new AlgoSumRectangle((GeoFunction) this.getF().copy(),
-				(NumberValue) this.getA().deepCopy(kernel), (NumberValue) this
+				(GeoNumberValue) this.getA().deepCopy(kernel),
+				(GeoNumberValue) this
 						.getB().deepCopy(kernel), this.getN().copy(),
-				(NumberValue) this.getD().deepCopy(kernel));
+				(GeoNumberValue) this.getD().deepCopy(kernel));
 	}
 
 }// class AlgoSumRectangle

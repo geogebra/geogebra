@@ -7,8 +7,8 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -93,7 +93,7 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 		storeUndoInfo();
 	}
 
-	public void applySpeedChanges(NumberValue value) {
+	public void applySpeedChanges(GeoNumberValue value) {
 		for (int i=0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			geo.setAnimationSpeedObject(value);

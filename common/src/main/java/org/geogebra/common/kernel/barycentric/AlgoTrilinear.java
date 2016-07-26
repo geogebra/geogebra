@@ -2,9 +2,9 @@ package org.geogebra.common.kernel.barycentric;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.MyMath;
@@ -20,7 +20,7 @@ import org.geogebra.common.util.MyMath;
 public class AlgoTrilinear extends AlgoElement {
 
 	private GeoPointND P1, P2, P3; // input
-	private NumberValue v1, v2, v3; // input
+	private GeoNumberValue v1, v2, v3; // input
 	private GeoPointND point; // output
 
 	/**
@@ -44,8 +44,8 @@ public class AlgoTrilinear extends AlgoElement {
 	 *            third trilinear coord
 	 */
 	public AlgoTrilinear(Construction cons, String label, GeoPointND A,
-			GeoPointND B, GeoPointND C, NumberValue a, NumberValue b,
-			NumberValue c) {
+			GeoPointND B, GeoPointND C, GeoNumberValue a, GeoNumberValue b,
+			GeoNumberValue c) {
 		super(cons);
 		this.P1 = A;
 		this.P2 = B;

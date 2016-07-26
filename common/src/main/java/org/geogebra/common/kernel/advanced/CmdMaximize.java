@@ -2,9 +2,9 @@ package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
@@ -37,7 +37,7 @@ public class CmdMaximize extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoNumeric()))) {
 
 				AlgoMaximize algo = new AlgoMaximize(cons, c.getLabel(),
-						(NumberValue) arg[0], (GeoNumeric) arg[1]);
+						(GeoNumberValue) arg[0], (GeoNumeric) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 
@@ -47,7 +47,7 @@ public class CmdMaximize extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 
 				AlgoMaximize algo = new AlgoMaximize(cons, c.getLabel(),
-						(NumberValue) arg[0], (GeoPointND) arg[1]);
+						(GeoNumberValue) arg[0], (GeoPointND) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 

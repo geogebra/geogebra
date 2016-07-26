@@ -21,8 +21,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.AlgoTwoNumFunction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
  * Computes CommonDenominator[a, b]
@@ -42,7 +42,7 @@ public class AlgoCommonDenominator extends AlgoTwoNumFunction {
 	 *            second number
 	 */
 	public AlgoCommonDenominator(Construction cons, String label,
-			NumberValue a, NumberValue b) {
+			GeoNumberValue a, GeoNumberValue b) {
 		super(cons, label, a, b);
 	}
 
