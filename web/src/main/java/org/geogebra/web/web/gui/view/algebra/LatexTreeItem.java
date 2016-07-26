@@ -98,7 +98,7 @@ public class LatexTreeItem extends RadioTreeItem
 				CancelEventTimer.keyboardSetVisible();
 			}
 		});
-
+		updateLineHeight();
 		return true;
 	}
 
@@ -307,6 +307,7 @@ public class LatexTreeItem extends RadioTreeItem
 				e.printStackTrace();
 			}
 		}
+		updateLineHeight();
 	}
 	@Override
 	public void setLabels() {
@@ -338,6 +339,7 @@ public class LatexTreeItem extends RadioTreeItem
 		app.closePerspectivesPopup();
 		updatePreview();
 		popupSuggestions();
+		updateLineHeight();
 	}
 
 	@Override
