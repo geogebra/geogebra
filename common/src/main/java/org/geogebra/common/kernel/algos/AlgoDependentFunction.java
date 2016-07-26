@@ -165,7 +165,6 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				e.printStackTrace();
 				Log.debug("derivative failed");
 			}
-			Log.debug(ev);
 			if (ev == null) {
 				f.setUndefined();
 				return;

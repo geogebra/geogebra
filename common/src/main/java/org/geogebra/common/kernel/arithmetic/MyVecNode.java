@@ -354,4 +354,14 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return new double[] { x.evaluateDouble(), y.evaluateDouble(), 0 };
 	}
 
+	public void replaceChildrenByValues(GeoElement geo) {
+		if (x instanceof ReplaceChildrenByValues) {
+			((ReplaceChildrenByValues) x).replaceChildrenByValues(geo);
+		}
+		if (y instanceof ReplaceChildrenByValues) {
+			((ReplaceChildrenByValues) y).replaceChildrenByValues(geo);
+		}
+
+	}
+
 }

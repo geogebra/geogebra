@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -426,6 +427,18 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	public void setMode(int mode) {
 		this.mode = mode;
 
+	}
+
+	public void replaceChildrenByValues(GeoElement geo) {
+		if (x instanceof ReplaceChildrenByValues) {
+			((ReplaceChildrenByValues) x).replaceChildrenByValues(geo);
+		}
+		if (y instanceof ReplaceChildrenByValues) {
+			((ReplaceChildrenByValues) y).replaceChildrenByValues(geo);
+		}
+		if (z instanceof ReplaceChildrenByValues) {
+			((ReplaceChildrenByValues) z).replaceChildrenByValues(geo);
+		}
 	}
 
 }
