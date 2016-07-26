@@ -46,7 +46,6 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineLabel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -74,8 +73,9 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class DockPanelW extends ResizeComposite implements
  DockPanel,
 		DockComponent {
+	/** Dock manager */
 	protected DockManagerW dockManager;
-
+	/** app */
 	protected AppW app;
 
 	/**
@@ -322,6 +322,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 *         meantime).
 	 */
 	protected void focusGained() {
+		// empty by default
 	}
 
 	/**
@@ -340,7 +341,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * Bind this view to a dock manager. Also initializes the whole GUI as just
 	 * at this point the application is available.
 	 * 
-	 * @param dockManager
+	 * @param dockManager1
+	 *            dock manager
 	 */
 	public void register(DockManagerW dockManager1) {
 		this.dockManager = dockManager1;
@@ -352,20 +354,18 @@ public abstract class DockPanelW extends ResizeComposite implements
 		// buildGUI();
 	}
 
+	/** dock panel */
 	MyDockLayoutPanel dockPanel;
-	PushButton toglStyleBtn;
-
-	PushButton toglStyleBtn2;
+	/** the main panel of this stylebar */
 	FlowPanel titleBarPanel;
 	private FlowPanel titleBarPanelContent;
 
-	Label titleBarLabel;
 	private PushButton closeButton;
 	private FlowPanel dragPanel;
 	private FlowPanel closeButtonPanel;
 
 	private VerticalPanel componentPanel;
-
+	/** button to collapse / expand stylebar */
 	protected StandardButton toggleStyleBarButton;
 
 	private ResourcePrototype viewImage;
@@ -374,15 +374,24 @@ public abstract class DockPanelW extends ResizeComposite implements
 	// adSouth(), before setLayout() is called
 	private final SimplePanel kbButtonSpace = new SimplePanel();
 
+	/**
+	 * @return height in pixels
+	 */
 	public int getHeight() {
 		return dockPanel.getOffsetHeight();
 	}
 
+	/**
+	 * @return width in pixels
+	 */
 	public int getWidth() {
 		return dockPanel.getOffsetWidth();
 	}
 
-	public void buildDockPanel() {
+	/**
+	 * Create the UI
+	 */
+	protected void buildDockPanel() {
 
 		// guard against repeated call
 		// while creating DockPanel based GUI (problem with early init of EV)
@@ -394,6 +403,12 @@ public abstract class DockPanelW extends ResizeComposite implements
 		initWidget(dockPanel);
 	}
 
+	/**
+	 * Build gui, has no effect when called the second time
+	 * 
+	 * @param setlayout
+	 *            whether to also set layout
+	 */
 	public void buildGUIIfNecessary(boolean setlayout) {
 
 		// This way it is safe to call buildGUI multiple times
@@ -459,7 +474,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 			}
 		});
-		
 		closeButtonPanel = new FlowPanel();
 		closeButtonPanel.setStyleName("closeButtonPanel");
 		closeButtonPanel.setVisible(isStyleBarEmpty());
@@ -487,8 +501,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 		}
 	}
 
+	/**
+	 * Switch panel to drag mode
+	 */
 	protected void startDragging() {
-		Log.debug("PANEL tapped:" + (componentPanel == null));
 		if (componentPanel == null)
 			return;
 
@@ -521,6 +537,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 		titleBarPanelContent.add(toggleStyleBarButton);
 	}
 
+	/**
+	 * Update localization
+	 */
 	public final void setLabels() {
 		if (toggleStyleBarButton != null) {
 			toggleStyleBarButton.setTitle(app.getPlain("ToggleStyleBar"));
@@ -529,6 +548,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	/**
 	 * sets the layout of the stylebar and title panel
+	 * 
+	 * @param deferred
+	 *            whether to set the layout in deferred call
 	 */
 	protected void setLayout(boolean deferred) {
 
@@ -542,7 +564,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (hasStyleBar()) {
 
 			if (app.getSettings().getLayout().showTitleBar()
-					&& (app.allowStylebar() || needsResetIcon())) {
+					&& (app.allowStylebar() || needsResetIcon()
+							|| forceCloseButton())) {
 				
 				dockPanel.addNorth(titleBarPanel, 0);
 			}
@@ -572,6 +595,11 @@ public abstract class DockPanelW extends ResizeComposite implements
 		} else {
 			onResize();
 		}
+	}
+
+	private boolean forceCloseButton() {
+		return getViewId() == App.VIEW_PROPERTIES
+				&& app.getArticleElement().getDataParamEnableRightClick();
 	}
 
 	protected boolean needsResetIcon() {
@@ -1000,7 +1028,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 
-	// @Override
+	/** @return Whether this has focus */
 	public boolean hasFocus() {
 		return hasFocus;
 	}

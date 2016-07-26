@@ -37,7 +37,6 @@ public class PropertiesStyleBarW extends
 	protected App app;
 	private FlowPanel wrappedPanel;
 	//private PopupMenuButton btnOption;
-	private MenuBar menu;
 	protected HashMap<OptionType, MenuItem> buttonMap;
 
 	private MenuItem currentButton;
@@ -47,7 +46,6 @@ public class PropertiesStyleBarW extends
 		this.app = app;
 		
 		this.wrappedPanel = new FlowPanel();
-		buildMenu();
 		wrappedPanel.setStyleName("propertiesStyleBar");
 		/*AGbtnOption.setHorizontalTextPosition(SwingConstants.RIGHT);
 		Dimension d = btnOption.getPreferredSize();
@@ -141,32 +139,6 @@ public class PropertiesStyleBarW extends
 
 
 
-	private void buildMenu() {
-	    if (menu == null) {
-	    	menu = new MenuBar(true);
-	    }
-	    menu.clearItems();
-	    
-	    for (final OptionType type : OptionType.values()) {
-	    	String typeHtml = getMenuHtml(type);
-	    	if (typeHtml == null) {
-	    		continue;
-	    	}
-			final MenuItem mi = new PropertiesButton(typeHtml,
-	    			new Command() {
-						
-						public void execute() {
-							propertiesView.setOptionPanel(type, 0);
-							buildMenu();
-						}
-					});
-	    	menu.addItem(mi);
-	    	if (type == OptionType.OBJECTS || type == OptionType.SPREADSHEET) {
-	    		menu.addSeparator();
-	    	}
-	    }
-	    
-    }
 
 	private String getMenuHtml(OptionType type) {
 		String typeString = "";//propertiesView.getTypeString(type);
