@@ -3411,7 +3411,6 @@ body.application[dir=rtl] .imageCorner {
 /* Slider top row: no extra padding*/
 .latexEditor .scrollableTextBox.noPadding{
 	padding-left: 0;
-	min-height: 0;
 }
 
 .latexEditor .scrollableTextBox{
@@ -3420,12 +3419,12 @@ body.application[dir=rtl] .imageCorner {
 	padding-bottom:5px;
 	padding-right:10px;
 	box-sizing: border-box;
-	min-height:58px;
 }
 
 .NewRadioButtonTreeItemParent .scrollableTextBox{
 	border-top: #6161FF solid 1px;
 	border-bottom:	#6161FF solid 1px;
+	min-height:61px;
 }
 
 .NoHorizontalScroll .InputTreeItem .hasCursorPermanent {

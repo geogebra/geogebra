@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.main.Feature;
 
 /**
  * Common logging class
@@ -373,6 +374,12 @@ public abstract class Log {
 	public static void debug(String message) {
 		if (logger != null) {
 			logger.log(logger.DEBUG, message);
+		}
+	}
+
+	public static void debug(Feature f, String message) {
+		if (logger != null) {
+			logger.log(logger.DEBUG, "[" + f + "] " + message);
 		}
 	}
 

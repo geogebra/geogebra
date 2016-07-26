@@ -660,7 +660,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 			canvas = latexToCanvas(text);
 			canvas.addStyleName("canvasDef");
-
+			if (geo == null) {
+				Log.debug("CANVAS to DEF");
+			}
 			definitionPanel.add(canvas);
 		} else if (geo != null) {
 
@@ -831,6 +833,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
 					getFontSize());
 			ihtml.clear();
+			if (geo == null) {
+				Log.debug("CANVAS to IHTML");
+			}
 			ihtml.add(canvas);
 		}
 
@@ -1167,6 +1172,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 			updateTextItems();
 		} else {
 			if (!isInputTreeItem() && isDefinitionAndValue()) {
+				if (geo == null) {
+					Log.debug(Feature.RETEX_EDITOR, "Build item");
+				}
 				buildItemContent();
 			} else {
 				updateTextItems();
@@ -1484,7 +1492,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		if (!this.isInputTreeItem() && canvas != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
-			LayoutUtilW.replace(ihtml, canvas, latexItem);
+			if (geo != null) {
+				LayoutUtilW.replace(ihtml, canvas, latexItem);
+			} else {
+				Log.debug(Feature.RETEX_EDITOR, "update after redefine");
+			}
 
 		}
 		if (!latex && !this.isInputTreeItem() && getPlainTextItem() != null
@@ -1869,8 +1881,9 @@ marblePanel, evt))) {
 				? main.getElement()
 				.getAbsoluteTop() : getElement()
 				.getAbsoluteTop();
-		Log.debug("itemTop: " + itemTop);
-		Log.debug("dockpaneltop: " + getAlgebraDockPanel().getAbsoluteTop());
+		Log.debug(Feature.AV_INPUT_BUTTON_COVER, "itemTop: " + itemTop);
+		Log.debug(Feature.AV_INPUT_BUTTON_COVER,
+				"dockpaneltop: " + getAlgebraDockPanel().getAbsoluteTop());
 		return (itemTop - getAlgebraDockPanel().getAbsoluteTop() < 35);
 	}
 
@@ -1952,14 +1965,15 @@ marblePanel, evt))) {
 		boolean accurate = true; // used for testing the new code
 		
 		if (styleBarCanHide()) {
-			Log.debug("canhide");
+			Log.debug(Feature.AV_INPUT_BUTTON_COVER, "canhide");
 			ScrollPanel algebraPanel = ((AlgebraDockPanelW) app.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
 					.getAbsolutePanel();
 			
 			if (accurate) { // new code
 			
-				Log.debug("algebra panel null: " + (algebraPanel == null));
+				Log.debug(Feature.AV_INPUT_BUTTON_COVER,
+						"algebra panel null: " + (algebraPanel == null));
 				int scrollbarWidth = algebraPanel == null ? 0
 						: algebraPanel.getOffsetWidth()
 						- algebraPanel.getElement().getClientWidth();
