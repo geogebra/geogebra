@@ -580,6 +580,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 						event.stopPropagation();
 				}
 			});
+			btnClearInput.addStyleName("ggb-btnClearAVInput");
 		}
 		return btnClearInput;
 	}

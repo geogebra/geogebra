@@ -2992,6 +2992,11 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	margin-bottom: 3px;
 }
 
+.ggb-btnClearAVInput{
+	position: absolute;
+	right: 5px;
+}
+
 /* ========== Text Editor end ============ */
 /*#####################################################################################
 ###      INPUT HELP
