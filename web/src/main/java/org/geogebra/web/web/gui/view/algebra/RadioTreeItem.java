@@ -450,8 +450,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		main.add(marblePanel);
 
-
-		if (geo instanceof GeoBoolean && geo.isSimple()) {
+		boolean checkbox = geo instanceof GeoBoolean && geo.isSimple();
+		if (checkbox) {
 			createCheckbox();
 		}
 
@@ -466,7 +466,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		ihtml.addStyleName("elemText");
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			ihtml.addStyleName("scrollableTextBox");
+				ihtml.addStyleName("scrollableTextBox");
+		}
+		if (checkbox) {
+			ihtml.addStyleName("noPadding");
 		}
 
 		addDomHandlers(main);
@@ -894,7 +897,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private void initSlider() {
 
 		final GeoNumeric num = (GeoNumeric) geo;
-
+		ihtml.addStyleName("noPadding");
 		if (!geo.isEuclidianVisible()) {
 			num.initAlgebraSlider();
 		}
@@ -1476,6 +1479,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 *            whether redefinition was successful
 	 */
 	protected void updateAfterRedefine(boolean success) {
+		if (latexItem == null) {
+			return;
+		}
 		if (!this.isInputTreeItem() && canvas != null
 				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
 			LayoutUtilW.replace(ihtml, canvas, latexItem);
@@ -2925,6 +2931,7 @@ marblePanel, evt))) {
 
 	@Override
 	public void updatePosition(DefaultSuggestionDisplay sug) {
+		Log.debug("UPDATING" + ihtml);
 		sug.setPositionRelativeTo(ihtml);
 	}
 
