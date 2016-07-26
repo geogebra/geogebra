@@ -331,7 +331,7 @@ var app = document.createElement("script");
 			tubeid = location.pathname.substring(3);
 		}
 		if(e("ggw")){
-			if(location.host.indexOf("beta") == 0 || location.host.indexOf("127") == 0 || location.host.indexOf("localhost") == 0|| location.host.indexOf("autotest") == 0){
+			if(location.host.indexOf("beta") == 0 || location.host.indexOf("127") == 0 || location.host.indexOf("localhost") == 0 || location.host.indexOf("autotest") == 0 || location.host.indexOf("192") == 0){
 				e("ggw").setAttribute("data-param-prerelease",true);
 			}
 			if(location.host.indexOf("alpha") == 0){
@@ -340,7 +340,7 @@ var app = document.createElement("script");
 				e("ggw").setAttribute("data-param-loginApi","https://"+location.host+"/api/login.php");
 				codebase = "https://autotest.geogebra.org/job/GeoGebra-autotest/lastSuccessfulBuild/artifact/web/war/";
 			}
-			if(location.host.indexOf("127") == 0 || location.host.indexOf("localhost") == 0|| location.host.indexOf("autotest") == 0){
+			if(location.host.indexOf("127") == 0 || location.host.indexOf("localhost") == 0|| location.host.indexOf("autotest") == 0 || location.host.indexOf("192") == 0){
 				codebase = "./";
 			}
 		}
@@ -403,7 +403,7 @@ var app = document.createElement("script");
 		
 		
 		insertScript(codebase);
-		if(location.host.indexOf("alpha") == 0 || location.host.indexOf("127") == 0 || location.host.indexOf("localhost") == 0|| location.host.indexOf("autotest") == 0 ){
+		if(location.host.indexOf("alpha") == 0 || location.host.indexOf("127") == 0 || location.host.indexOf("localhost") == 0|| location.host.indexOf("autotest") == 0 || location.host.indexOf("192") == 0){
 			perspective(false, "picker"); //TODO
 		}
 		else if(getCookie("SSID")){
