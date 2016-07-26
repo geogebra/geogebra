@@ -11,6 +11,7 @@ public class SelectionBox extends Box {
 	public static double startX, startY;
 	public static double endX, endY;
 	private Box content;
+	public static boolean touchSelection = true;
 
 	public SelectionBox(Box content) {
 		this.content = content;
@@ -40,7 +41,7 @@ public class SelectionBox extends Box {
 		SelectionBox.endY = g2.getTransform().getScaleY() * (y + content.depth)
 				+ g2.getTransform().getShearY() * (x + content.width)
 				+ g2.getTransform().getTranslateY();
-
+		if (touchSelection) {
 		g2.saveTransformation();
 
 		g2.scale(1.0 / DIAMETER, 1.0 / DIAMETER);
@@ -61,6 +62,7 @@ public class SelectionBox extends Box {
 				DIAMETER, 0, 360);
 
 		g2.restoreTransformation();
+		}
 		g2.setStroke(old);
 
 	}
