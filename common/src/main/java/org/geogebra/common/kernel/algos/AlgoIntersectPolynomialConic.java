@@ -48,14 +48,12 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 												// 250pxs interval if
 												// 5-pix-convention)
 
-	// private boolean isLimitedPathSituation;
 
 	public AlgoIntersectPolynomialConic(Construction cons, GeoFunction h,
 			GeoConic c) {
 		super(cons, h, c);
 		this.h = h;
 		this.c = c;
-		// isLimitedPathSituation = f.isLimitedPath() || c.isLimitedPath();
 
 		// initForNearToRelationship();
 		compute();

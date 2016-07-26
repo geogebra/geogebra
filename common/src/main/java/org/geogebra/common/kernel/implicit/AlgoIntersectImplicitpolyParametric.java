@@ -200,9 +200,6 @@ public class AlgoIntersectImplicitpolyParametric
 	}
 
 	private void computeNonPoly(GeoFunction fun) {
-		Kernel ker = cons.getKernel();
-
-
 
 		GeoFunction paramEquation = new GeoFunction(cons, p, null, fun);
 
