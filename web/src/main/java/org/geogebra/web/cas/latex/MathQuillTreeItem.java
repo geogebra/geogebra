@@ -14,7 +14,6 @@ import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MathQuillTreeItem extends RadioTreeItem
@@ -135,12 +134,6 @@ public class MathQuillTreeItem extends RadioTreeItem
 	@Override
 	public final Element getLaTeXElement() {
 		return latexItem.getElement();
-	}
-
-	@Override
-	public void updatePosition(DefaultSuggestionDisplay sug) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
