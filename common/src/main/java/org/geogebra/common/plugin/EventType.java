@@ -43,7 +43,7 @@ public enum EventType {
 
 	// called when the user uses the Relation Tool
 	// (send the text from the dialog)
-	RELATION_TOOL("relationTool");
+	RELATION_TOOL("relationTool"), SELECT("select"), DESELECT("deselect");
 
 	private String eventName;
 

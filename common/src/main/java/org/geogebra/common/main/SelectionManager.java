@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadric3DLimitedInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -155,6 +156,8 @@ public class SelectionManager {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = selectedGeos.get(i);
 				geo.setSelected(false);
+				kernel.getApplication().getEventDispatcher()
+						.dispatchEvent(EventType.DESELECT, null);
 			}
 			selectedGeos.clear();
 			if (repaint)
@@ -182,7 +185,8 @@ public class SelectionManager {
 		if (geo == null) {
 			return;
 		}
-
+		kernel.getApplication().getEventDispatcher()
+				.dispatchEvent(EventType.DESELECT, geo);
 		if (selectedGeos.remove(geo)) {
 			// update only if selectedGeos contained geo
 			geo.setSelected(false);
@@ -218,7 +222,7 @@ public class SelectionManager {
 		if ((geo == null) || selectedGeos.contains(geo)) {
 			return;
 		}
-
+		dispatchSelected(geo);
 		selectedGeos.add(geo);
 		geo.setSelected(true);
 
@@ -235,6 +239,12 @@ public class SelectionManager {
 				sl.geoElementSelected(geo, true);
 			}
 		}
+
+	}
+
+	private void dispatchSelected(GeoElement geo) {
+		kernel.getApplication().getEventDispatcher()
+				.dispatchEvent(EventType.SELECT, geo);
 
 	}
 
@@ -534,6 +544,7 @@ public class SelectionManager {
 		selectedGeos.addAll(geos);
 		for (int i = 0; i < geos.size(); i++) {
 			geos.get(i).setSelected(true);
+			dispatchSelected(geos.get(i));
 		}
 		if (repaint) {
 			kernel.notifyRepaint();
