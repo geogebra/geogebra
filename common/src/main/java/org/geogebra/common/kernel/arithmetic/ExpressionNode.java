@@ -788,8 +788,7 @@ public class ExpressionNode extends ValidExpression implements
 
 		switch (operation) {
 		case XCOORD:
-			if (xVar != null && !left.evaluatesToNDVector()
-					&& !(left.unwrap() instanceof GeoLine)) {
+			if (xVar != null && !leftHasCoord()) {
 				undecided.add(this);
 				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
@@ -798,8 +797,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case YCOORD:
-			if (yVar != null && !left.evaluatesToNDVector()
-					&& !(left.unwrap() instanceof GeoLine)) {
+			if (yVar != null && !leftHasCoord()) {
 				undecided.add(this);
 				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
@@ -808,8 +806,7 @@ public class ExpressionNode extends ValidExpression implements
 			break;
 
 		case ZCOORD:
-			if (zVar != null && !left.evaluatesToNDVector()
-					&& !(left.unwrap() instanceof GeoLine)) {
+			if (zVar != null && !leftHasCoord()) {
 				undecided.add(this);
 				operation = Operation.MULTIPLY_OR_FUNCTION;
 				right = left;
@@ -828,6 +825,12 @@ public class ExpressionNode extends ValidExpression implements
 		}
 
 		return undecided.size();
+	}
+
+	private boolean leftHasCoord() {
+		return left.evaluatesToNDVector()
+				|| left.getValueType() == ValueType.COMPLEX
+				|| (left.unwrap() instanceof GeoLine);
 	}
 
 	private void fixSqrtShort(Operation multiplicativeOperation) {
