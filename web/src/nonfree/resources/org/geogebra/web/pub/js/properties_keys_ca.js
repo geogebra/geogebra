@@ -1499,7 +1499,7 @@ __GGB__keysVar.ca.menu = {
     "FunctionInspector": "Inspecci\xf3 de funcions",
     "FunctionInspector.Help": "Seleccioneu una funci\xf3",
     "Functionality": "Funcionalitat",
-    "GUIFontSize": "Men\xfa de la mida del tipus de lletra",
+    "GUIFontSize": "Mida de la lletra per als men\xfas i etiquetes",
     "General": "General",
     "GeneralTools": "Eines generals",
     "GenerateCode": "Genera codi",
