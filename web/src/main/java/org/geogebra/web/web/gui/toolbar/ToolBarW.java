@@ -131,7 +131,10 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		this.add(menuList);
 
 		setMode(app.getMode(), ModeSetter.TOOLBAR);
-		tb.onResize();
+		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+			this.setVisible(true);
+			tb.onResize();
+		}
 		// update();
 	}
 
@@ -224,24 +227,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	 * mode numbers, "," adds a separator within a menu, "|" starts a new menu
 	 * and "||" adds a separator before starting a new menu.
 	 * 
-	 */
-	/*
-	 * private void addCustomModesToToolbar(UnorderedList mainUl) {
-	 * Vector<ToolbarItem> toolbarVec = getToolbarVec(); // set toolbar for (int
-	 * i = 0; i < toolbarVec.size() && i < this.maxButtons; i++) { ToolbarItem
-	 * ob = toolbarVec.get(i); Vector<Integer> menu = ob.getMenu();
-	 * 
-	 * if (app.isModeValid(menu.get(0).intValue())) { ModeToggleMenu mtm =
-	 * createModeToggleMenu(app, menu, i); mtm.setButtonTabIndex(-1);
-	 * 
-	 * modeToggleMenus.add(mtm); mainUl.add(mtm); } }
-	 * 
-	 * for (int i = this.maxButtons; i < toolbarVec.size(); i++) { ToolbarItem
-	 * ob = toolbarVec.get(i); Vector<Integer> menu = ob.getMenu();
-	 * modeToggleMenus.get(modeToggleMenus.size()-1).addModes(menu); }
-	 * 
-	 * if (modeToggleMenus.size() > 0)
-	 * modeToggleMenus.get(0).setButtonTabIndex(0); }
 	 */
 	private void addCustomModesToToolbar(UnorderedList mainUl) {
 		if(app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)){
@@ -367,6 +352,11 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 			for (int i = 0; i < modeToggleMenus.size(); i++) {
 				modeToggleMenus.get(i).hideMenu();
 			}
+		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+			if (submenuPanel != null) {
+				submenuPanel.clear();
+			}
+		}
 	}
 
 	
@@ -390,7 +380,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		event.stopPropagation();
 	}
 
-	public void selectMenuBotton(int index) {
+	public void selectMenuButton(int index) {
 		tb.selectMenuButton(index);
 
 	}
@@ -423,11 +413,15 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 			// between web view and mobile view)
 			if ((isMobileToolbar && max >= getToolbarVecSize()) || (!isMobileToolbar && max < getToolbarVecSize())) {
 				this.maxButtons = max;
-				// Log.debug("max buttons: " + max);
-				if (isMobileToolbar) {
-					submenuPanel.clear();
-				}
+
+				closeAllSubmenu();
+				/*
+				 * if (isMobileToolbar) { submenuPanel.clear(); }
+				 */
+
 				buildGui();
+
+
 			} else {
 				if (Math.min(max, this.getToolbarVec().size()) == this.getGroupCount()) {
 					return;
@@ -440,7 +434,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 				return;
 			}
 			this.maxButtons = max;
-			Log.debug("max buttons: " + max);
 			buildGui();
 		}
     }

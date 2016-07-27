@@ -430,32 +430,6 @@ pr.menu_header_undo(), null, 32);
 
 			}
 		});
-
-		//$wnd.console.log("x= " + $wnd.screenX + "; y= " + $wnd.screenY);
-		//var interval = setInterval(function() {
-
-		//	$wnd.console.log("innerHeight = " + $wnd.innerHeight
-		//			+ ", screen.height = " + screen.height + "; screenx= "
-		//			+ $wnd.screenX + "; screeny= " + $wnd.screenY
-		//			+ "; availHeight = " + screen.availHeight);
-
-		//if ($wnd.screenX != 0 || $wnd.screenY != 0) {
-		//	startCheating();
-		//	$wnd.console.log('moved! ' + "x= " + $wnd.screenX + "; y= "
-		//			+ $wnd.screenY);
-		//} else if ($wnd.innerHeight >= fullHeight && focus == true) {
-		//	stopCheating();
-		//$wnd.console.log('focus 4 ' + focus + ' stop!');
-
-		//}
-		//}, 3000);
-
-		// TODO find a way to stop interval on exit exam
-		//if (!examActive) {
-		//	$wnd.console.log("interval cleared");
-		//	clearInterval(interval);
-		//}
-
 	}-*/ ;
 
 	
@@ -1177,9 +1151,7 @@ pr.menu_header_undo(), null, 32);
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
 			toolBPanel.setWidth(maxButtons * 45 - 20 + "px");
 
-			if (toolBar.isMobileToolbar() && toolBar.hasPopupOpen()) {
-				setSubmenuWith();
-			}
+			setSubmenuDimensions();
 
 			if (maxButtons < toolBar.getToolbarVecSize()) {
 				toolBPanel.addStyleName("toolBPanelMobile");
@@ -1211,14 +1183,14 @@ pr.menu_header_undo(), null, 32);
 		return (appWidth - extraButtons - 20) / 45;
 	}
 
-	public void setSubmenuWith() {
-		int maxButtons = getMaxButtons((int) app.getWidth());
-		int submenuButtonCount = ((ToolbarSubmenuP) submenuPanel.getWidget(0)).getButtonCount();
+	public void setSubmenuDimensions() {
+		if (toolBar.isMobileToolbar() && toolBar.hasPopupOpen()) {
+			int maxButtons = getMaxButtons((int) app.getWidth());
+			int submenuButtonCount = ((ToolbarSubmenuP) submenuPanel.getWidget(0)).getButtonCount();
 
-		submenuScrollPanel.setWidth(maxButtons * 45 - 20 + "px");
-		submenuPanel.setWidth((submenuButtonCount + 1) * 45 - 5 + "px");
-
-		Log.debug("submenuButtonCount: " + submenuButtonCount);
+			submenuScrollPanel.setWidth(maxButtons * 45 - 20 + "px");
+			submenuPanel.setWidth((submenuButtonCount + 1) * 45 - 5 + "px");
+		}
 	}
 
 	/**
@@ -1247,10 +1219,13 @@ getFirstMode(),
 														 * isMobileToolbar()
 														 */) {
 			submenuScrollPanel.clear();
-			Log.debug("submenuPanel cleared");
+			// Log.debug("submenuPanel cleared");
 		}
 	}
 
+	public FlowPanel getToolBarPanel() {
+		return toolBarPanel;
+	}
 
 
 }

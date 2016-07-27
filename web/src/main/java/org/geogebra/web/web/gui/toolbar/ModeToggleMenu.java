@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -162,8 +163,13 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				}
 			}
 		}
-
-		hideMenu();
+		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+			if (!toolbar.isMobileToolbar()) {
+				hideMenu();
+			}
+		} else {
+			hideMenu();
+		}
 	}
 
 	protected ToolbarSubmenuW createToolbarSubmenu(AppW app, int order) {
@@ -186,7 +192,13 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		w.addDomHandler(this, MouseUpEvent.getType());
 		w.addDomHandler(this, TouchStartEvent.getType());
 		w.addDomHandler(this, TouchEndEvent.getType());
-		w.addDomHandler(this, MouseOverEvent.getType());
+		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+			if (!toolbar.isMobileToolbar()) {
+				w.addDomHandler(this, MouseOverEvent.getType());
+			}
+		} else {
+			w.addDomHandler(this, MouseOverEvent.getType());
+		}
 		w.addDomHandler(this, MouseOutEvent.getType());
 		w.addDomHandler(this, KeyUpEvent.getType());
 	}
@@ -350,9 +362,21 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			if ((event instanceof KeyUpEvent) && ((KeyUpEvent)event).getNativeKeyCode() == KeyCodes.KEY_ENTER){
 				setMenuVisibility(!isMenuShown());
 			}
-			// if submenu was open
-			if (wasMenuShownOnMouseDown && !(event instanceof TouchEndEvent && app.getLAF().isSmart())) {
-				hideMenu();
+			// ------------------------------------------------
+			if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+				if (toolbar.isMobileToolbar() && !(event instanceof TouchEndEvent && app.getLAF().isSmart())) {
+					showMenu(); // open submenu
+				} else {
+					// if submenu was open
+					if (wasMenuShownOnMouseDown && !(event instanceof TouchEndEvent && app.getLAF().isSmart())) {
+						hideMenu();
+					}
+				} // ------------------------------------------------
+			} else {
+				// if submenu was open
+				if (wasMenuShownOnMouseDown && !(event instanceof TouchEndEvent && app.getLAF().isSmart())) {
+					hideMenu();
+				}
 			}
 		} else { // click ended on menu item
 			hideMenu();
@@ -438,7 +462,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 	}
 	
-	private void showTooltipFor(HumanInputEvent<?> event) {
+	protected void showTooltipFor(HumanInputEvent<?> event) {
 
 		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 		int mode = -1;
@@ -538,7 +562,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			if (indexOfButton >= 0 && indexOfButton < toolbar.getModeToggleMenus().size()){
 				selectMenu(indexOfButton);
 			}else{
-				toolbar.selectMenuBotton(indexOfButton < 0 ? -1 : 0);
+				toolbar.selectMenuButton(indexOfButton < 0 ? -1 : 0);
 			}
 			break;
 		case KeyCodes.KEY_DOWN:
