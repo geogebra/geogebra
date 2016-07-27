@@ -55,18 +55,24 @@ public class PropertiesViewW extends PropertiesView
 
 	private PropertiesStyleBarW styleBar;
 
-	private FlowPanel mainPanel;
 	private Label notImplemented;
 
 	private FlowPanel contentsPanel;
 	private OptionType optionType;
 
-	private boolean wasAVShowing;
-
-	private boolean auxWasVisible;
-
-	private boolean isObjectOptionsVisible;
-
+	// For autoopen AV feature
+	// private boolean wasAVShowing;
+	//
+	// private boolean auxWasVisible;
+	//
+	// private boolean isObjectOptionsVisible;
+	/**
+	 * 
+	 * @param app
+	 *            app
+	 * @param ot
+	 *            initial options type
+	 */
 	public PropertiesViewW(AppW app, OptionType ot) {
 		super(app);
 		this.wrappedPanel = new FlowPanel();
@@ -80,7 +86,7 @@ public class PropertiesViewW extends PropertiesView
 		app.setDefaultCursor();
 	}
 
-	public void initGUI() {
+	private void initGUI() {
 
 		wrappedPanel.addStyleName("PropertiesViewW");
 		//		getStyleBar();
@@ -120,6 +126,9 @@ public class PropertiesViewW extends PropertiesView
 		return styleBar;
 	}
 
+	/**
+	 * @return properties stylebar
+	 */
 	protected PropertiesStyleBarW newPropertiesStyleBar() {
 		return new PropertiesStyleBarW(this, app);
 	}
@@ -129,11 +138,12 @@ public class PropertiesViewW extends PropertiesView
 	 * a new one is constructed
 	 * 
 	 * @param type
-	 * @return
+	 *            panel type
+	 * @param subType
+	 *            tab number for given panel
+	 * @return options panel
 	 */
 	public OptionPanelW getOptionPanel(OptionType type, int subType) {
-		Log.debug("[OptionPanelW] getOptionPanel " + type);
-		//AbstractApplication.printStacktrace("type :"+type);
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}	
@@ -230,6 +240,12 @@ public class PropertiesViewW extends PropertiesView
 		return null;
 	}
 
+	/**
+	 * TODO disabled; decide if we want this
+	 * 
+	 * @param visible
+	 *            whether to show AV
+	 */
 	public void updateAVvisible(boolean visible) {
 		// if ((visible && this.optionPanel instanceof OptionsObjectW) ==
 		// this.isObjectOptionsVisible) {
@@ -298,6 +314,7 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 	public void repaintView() {
+		// nothing on repaint
 	}
 
 	public void reset() {
@@ -352,7 +369,7 @@ public class PropertiesViewW extends PropertiesView
 	@Override
 	protected void setOptionPanelWithoutCheck(OptionType type) {
 		int sType = 0;
-		if (type == OptionType.OBJECTS) {
+		if (type == OptionType.OBJECTS && this.objectPanel != null) {
 			TabPanelInterface tabPanel = ((OptionsObjectW) this.objectPanel)
 					.getTabPanel();
 			if (tabPanel instanceof MultiRowsTabPanel) {
@@ -409,6 +426,9 @@ public class PropertiesViewW extends PropertiesView
 		this.styleBar.selectButton(type);
 	}
 
+	/**
+	 * @return selected option type
+	 */
 	public OptionType getOptionType() {
 		return optionType;
 	}
@@ -488,19 +508,23 @@ public class PropertiesViewW extends PropertiesView
 		Log.debug("updatePropertiesView");
 	}
 
-	public void repaint() {
-		Log.debug("repaint");
-	}
 
 	public boolean isShowing() {
 		Log.debug("isShowing");
 		return false;
 	}
 
+	/**
+	 * 
+	 * @return GWT panel of this view
+	 */
 	public Widget getWrappedPanel() {
 		return wrappedPanel;
 	}
 
+	/**
+	 * Rebuild GUI for the new font size
+	 */
 	public void updateFonts(){
 		updatePropertiesGUI();
 	}
