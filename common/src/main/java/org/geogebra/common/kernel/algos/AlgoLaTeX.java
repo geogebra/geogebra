@@ -41,6 +41,18 @@ public class AlgoLaTeX extends AlgoElement {
 	private GeoBoolean showName;
 	private GeoText text; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param geo
+	 *            element to be printed as LaTeX
+	 * @param substituteVars
+	 *            wheher to show value rather than definition
+	 * @param showName
+	 *            whether to append left hand side of the definition
+	 */
 	public AlgoLaTeX(Construction cons, String label, GeoElement geo,
 			GeoBoolean substituteVars, GeoBoolean showName) {
 		super(cons);
@@ -69,6 +81,14 @@ public class AlgoLaTeX extends AlgoElement {
 		text.setSerifFont(false);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param geo
+	 *            element to be printed
+	 */
 	public AlgoLaTeX(Construction cons, String label, GeoElement geo) {
 		this(cons, label, geo, null, null);
 	}
@@ -100,6 +120,9 @@ public class AlgoLaTeX extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting text
+	 */
 	public GeoText getGeoText() {
 		return text;
 	}
@@ -111,7 +134,8 @@ public class AlgoLaTeX extends AlgoElement {
 		// whether to use a formula renderer
 		boolean useLaTeX = true;
 
-		if (!geo.isDefined()){
+		// undefined 0/0 should be ?, undefined If[x>0,"a"] should be ""
+		if (!geo.isDefined() && !geo.isGeoText()) {
 			text.setTextString("?");
 		} else if ((substituteVars != null && !substituteVars.isDefined())
 				|| showName != null && !showName.isDefined()) {
