@@ -424,7 +424,7 @@ public class CASTableControllerW extends CASTableCellController implements
 
 	public void onBlur(BlurEvent event) {
 		CASTableCellEditor editor = view.getConsoleTable().getEditor();
-		if (!((CASEditorW) editor).getWidget().isSuggesting()
+		if (!((CASEditorW) editor).isSuggesting()
 		        && !AutoCompleteTextFieldW.showSymbolButtonFocused) {
 			view.getConsoleTable().stopEditing();
 			view.getConsoleTable().setFirstRowFront(false);

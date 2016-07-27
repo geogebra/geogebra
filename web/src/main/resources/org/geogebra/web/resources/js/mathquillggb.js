@@ -6085,7 +6085,7 @@ LatexCmds.closecurlybrace = bind(VanillaSymbol, '\\closecurlybrace ', '&#125;');
 
 LatexCmds.caret = bind(VanillaSymbol,'\\caret ','^');
 LatexCmds.underscore = bind(VanillaSymbol,'\\underscore ','_');
-LatexCmds.backslash = bind(VanillaSymbol,'\\backslash ','\\');
+LatexCmds.backslash = bind(VanillaSymbol,'\\backslash ','\\','\\');
 LatexCmds.vert = bind(VanillaSymbol,'|');
 LatexCmds.nabla = LatexCmds.del = bind(VanillaSymbol,'\\nabla ','&nabla;');
 LatexCmds.hbar = bind(VanillaSymbol,'\\hbar ','&#8463;');

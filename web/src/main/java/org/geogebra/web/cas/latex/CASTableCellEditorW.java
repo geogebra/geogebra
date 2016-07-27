@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -134,10 +133,6 @@ public class CASTableCellEditorW extends Label implements
 	public void setInputSelectionEnd(int selEnd) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public AutoCompleteW getWidget() {
-		return this;
 	}
 
 	public void setLabels() {

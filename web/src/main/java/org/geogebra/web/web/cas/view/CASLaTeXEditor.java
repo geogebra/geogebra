@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -19,13 +20,14 @@ import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.web.MathFieldW;
 
-public class CASLaTeXEditor extends Label
+public class CASLaTeXEditor extends SimplePanel
 		implements CASEditorW, MathKeyboardListener, AutoCompleteW,
 		MathFieldListener {
 	InputSuggestions sug;
@@ -44,8 +46,8 @@ public class CASLaTeXEditor extends Label
 		Canvas canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(canvas, canvas.getContext2d(), this);
 		retexListener = new RetexKeyboardListener(canvas, mf);
-		this.getElement().appendChild(mf.asWidget().getElement());
-		setText("Input...");
+		setText("");
+
 	}
 
 	public int getInputSelectionEnd() {
@@ -92,6 +94,9 @@ public class CASLaTeXEditor extends Label
 	}
 
 	public void setInput(String string) {
+		if (getWidget() != mf.asWidget()) {
+			setWidget(mf.asWidget());
+		}
 		setText(string);
 
 	}
@@ -125,7 +130,10 @@ public class CASLaTeXEditor extends Label
 	}
 
 	public void setFocus(boolean focus, boolean scheduled) {
-		// TODO Auto-generated method stub
+
+		setWidget(focus ? mf.asWidget()
+				: new Label(app.getPlain("InputLabel") + Unicode.ellipsis));
+		mf.setFocus(focus);
 
 	}
 
@@ -135,10 +143,6 @@ public class CASLaTeXEditor extends Label
 			return;
 		}
 		this.controller.handleEnterKey(false, false, app);
-	}
-
-	public AutoCompleteW getWidget() {
-		return this;
 	}
 
 	public void resetInput() {
@@ -169,6 +173,7 @@ public class CASLaTeXEditor extends Label
 				CancelEventTimer.keyboardSetVisible();
 			}
 		});
+		setFocus(true, false);
 
 	}
 
@@ -205,7 +210,10 @@ public class CASLaTeXEditor extends Label
 	}
 
 	public void requestFocus() {
-		// TODO Auto-generated method stub
+		if (getWidget() != mf.asWidget()) {
+			setWidget(mf.asWidget());
+		}
+		mf.requestViewFocus();
 
 	}
 

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.util.LaTeXHelper;
 
@@ -171,11 +172,13 @@ public class CASTableW extends Grid implements CASTable {
 		Widget w = getWidget(n, COL_CAS_CELLS_WEB);
 
 		if (w == editing && newText == null) {
+			getEditor().ensureEditing();
 			return;
 		}
 		setSelectedRows(n, n);
 		// cancelEditing();
 		stopEditing();
+		Log.debug(n + ":" + (w == null ? "null" : w.getClass()));
 		if (w instanceof CASTableCellW) {
 			// App.debug("cell found");
 			editing = (CASTableCellW) w;
