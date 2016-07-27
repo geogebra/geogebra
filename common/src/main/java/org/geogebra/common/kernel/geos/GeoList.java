@@ -244,6 +244,13 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		return ret;
 	}
 
+	@Override
+	public void updateVisualStyle(GProperty prop) {
+		for (int i = 0; i < geoList.size(); i++) {
+			geoList.get(i).updateVisualStyle(prop);
+		}
+	}
+
 	private void applyVisualStyle(final GeoElement geo) {
 
 		if (!geo.isLabelSet()) {

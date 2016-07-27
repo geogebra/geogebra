@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.PointProperties;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -77,9 +76,7 @@ public class PointStyleModel extends NumberOptionsModel {
 	protected void apply(int index, int value) {
 		PointProperties point = getPointPropertiesAt(index);
 		point.setPointStyle(value);
-		if (point instanceof GeoPointND) {
-			((GeoPointND) point).updateVisualStyle(GProperty.POINT_STYLE);
-		}
+		((GeoElement) point).updateVisualStyle(GProperty.POINT_STYLE);
 		point.updateRepaint();
 	}
 
