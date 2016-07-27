@@ -1855,8 +1855,8 @@ marblePanel, evt))) {
 									getAlgebraDockPanel()
 											.showStyleBarPanel(false);
 									if (buttonPanel != null) {
-										buttonPanel
-												.removeStyleName("positionedObjectStyleBar");
+										buttonPanel.getElement().getStyle()
+												.setRight(0, Unit.PX);
 									}
 								}
 
