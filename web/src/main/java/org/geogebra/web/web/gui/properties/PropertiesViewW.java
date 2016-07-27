@@ -11,6 +11,9 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
+import org.geogebra.web.html5.util.tabpanel.MyTabPanel;
+import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAdvancedW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAlgebraW;
@@ -348,7 +351,19 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	protected void setOptionPanelWithoutCheck(OptionType type) {
-		setOptionPanel(type, 0);
+		int sType = 0;
+		if (type == OptionType.OBJECTS) {
+			TabPanelInterface tabPanel = ((OptionsObjectW) this.objectPanel)
+					.getTabPanel();
+			if (tabPanel instanceof MultiRowsTabPanel) {
+				sType = ((MultiRowsTabPanel) tabPanel).getTabBar()
+						.getSelectedTab();
+			} else { // Remove after Feature.MULTIROW_TAB_PROPERTIES will be
+						// released
+				sType = ((MyTabPanel) tabPanel).getTabBar().getSelectedTab();
+			}
+		}
+		setOptionPanel(type, sType);
 	}
 
 	@Override
