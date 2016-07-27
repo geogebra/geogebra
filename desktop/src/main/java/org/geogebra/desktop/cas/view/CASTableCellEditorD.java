@@ -305,4 +305,8 @@ public class CASTableCellEditorD extends CASTableCell implements
 	public void clearInputText() {
 		clearInputSelectionText();
 	}
+
+	public void ensureEditing() {
+		// only in web
+	}
 }
