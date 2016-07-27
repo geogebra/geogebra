@@ -91,6 +91,9 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	    // because we want to take advantage of the entire client area.
 	    Window.enableScrolling(false);
 	    Window.setMargin("0px");
+		if (!laf.isSmart()) {
+			RootPanel.getBodyElement().addClassName("application");
+		}
 	    addStyleName("GeoGebraFrame");
 
 	    // Add the outer panel to the RootLayoutPanel, so that it will be
