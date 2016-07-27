@@ -2946,7 +2946,6 @@ marblePanel, evt))) {
 
 	@Override
 	public void updatePosition(DefaultSuggestionDisplay sug) {
-		Log.debug("UPDATING" + ihtml);
 		sug.setPositionRelativeTo(ihtml);
 	}
 

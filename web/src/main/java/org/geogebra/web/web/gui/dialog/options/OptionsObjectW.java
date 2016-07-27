@@ -230,7 +230,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			GeoElement geo0 = model.getGeoAt(0);
 			geo0.setLabelVisible(true);
 			geo0.setLabelMode(GeoElement.LABEL_CAPTION);
-			update(true, true);
+			model.updateProperties();
 		}
 
 		@Override
@@ -510,10 +510,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 
 		void doCaptionChanged() {
-			model.applyCaptionChange(tfCaption.getText());
 			if (!"".equals(tfCaption.getText())) {
 				labelPanel.autoShowCaption();
 			}
+			model.applyCaptionChange(tfCaption.getText());
+
 		}
 
 		public boolean onUndefinedVariables(String string,

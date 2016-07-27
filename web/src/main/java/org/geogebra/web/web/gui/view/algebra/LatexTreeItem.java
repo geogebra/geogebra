@@ -318,9 +318,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	public String getCommand() {
-		// TODO get it from JLM
-		Log.debug("WORD" + mf.getCurrentWord());
-		return mf.getCurrentWord();
+		return mf == null ? "" : mf.getCurrentWord();
 	}
 
 	@Override
@@ -386,7 +384,6 @@ public class LatexTreeItem extends RadioTreeItem
 	public void insertString(String text) {
 		this.mf.deleteCurrentWord();
 		GuiManagerW.makeKeyboardListener(retexListener).insertString(text);
-		// TODO Auto-generated method stub
 
 	}
 
@@ -445,6 +442,11 @@ public class LatexTreeItem extends RadioTreeItem
 	@Override
 	public boolean getAutoComplete() {
 		return true;
+	}
+
+	@Override
+	public boolean isSuggesting() {
+		return sug != null && sug.isSuggesting();
 	}
 
 }

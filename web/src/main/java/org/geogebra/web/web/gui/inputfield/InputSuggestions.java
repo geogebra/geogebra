@@ -222,4 +222,16 @@ public class InputSuggestions implements HasSuggestions {
 	public List<String> getCompletions() {
 		return completions;
 	}
+
+	public boolean isSuggesting() {
+		return sug.isSuggestionListShowing();
+	}
+
+	public boolean needsEnterForSuggestion() {
+		if (sug.isSuggestionListShowing()) {
+			sugCallback.onSuggestionSelected(sug.accessCurrentSelection());
+			return true;
+		}
+		return false;
+	}
 }

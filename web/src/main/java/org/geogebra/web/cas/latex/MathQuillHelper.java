@@ -3,6 +3,7 @@ package org.geogebra.web.cas.latex;
 import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
@@ -10,6 +11,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.ScriptManagerW;
+import org.geogebra.web.web.cas.view.CASLaTeXEditor;
 import org.geogebra.web.web.cas.view.CASTableControllerW;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.gui.view.algebra.AVTreeItem;
@@ -1358,6 +1360,9 @@ public class MathQuillHelper extends LaTeXHelper {
 	@Override
 	public CASTableCellEditor getCASEditor(CASTableW table, AppW app,
 			CASTableControllerW ml) {
+		if (app.has(Feature.RETEX_EDITOR)) {
+			return new CASLaTeXEditor(table, app, ml);
+		}
 		return new CASTableCellEditorW(table, app, ml);
 	}
 
