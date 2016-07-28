@@ -8,16 +8,19 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MathQuillTreeItem extends RadioTreeItem
-		implements EquationEditorListener {
+		implements EquationEditorListener, GeoContainer {
 
 	public MathQuillTreeItem(GeoElement geo0) {
 		super(geo0);
@@ -431,5 +434,49 @@ public class MathQuillTreeItem extends RadioTreeItem
 	protected String stopCommon(String newValue) {
 		return EquationEditor.stopCommon(newValue);
 	}
+
+	/**
+	 * Method to be overridden in InputTreeItem
+	 */
+	@Override
+	public boolean hideSuggestions() {
+		return false;
+	}
+
+	/**
+	 * Method to be overridden in InputTreeItem
+	 * 
+	 * @return
+	 */
+	@Override
+	public void showOrHideSuggestions() {
+		// override
+	}
+
+	/**
+	 * Method to be overridden in InputTreeItem
+	 */
+	@Override
+	public void shuffleSuggestions(boolean down) {
+		// override
+	}
+
+	@Override
+	public void onBlur(BlurEvent be) {
+		// to be overridden in InputTreeItem
+	}
+
+	@Override
+	public void onFocus(FocusEvent be) {
+		// to be overridden in InputTreeItem
+		// AppW.anyAppHasFocus = true;
+	}
+	
+	public void onKeyPress(String s) {
+		// TODO Auto-generated method stub
+
+	}
+
+
 
 }

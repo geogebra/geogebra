@@ -34,7 +34,6 @@ import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExamUtil;
@@ -533,7 +532,7 @@ public abstract class AppWFull extends AppW {
 					DockPanelW dp = ((DockManagerW) getGuiManager().getLayout()
 							.getDockManager()).getPanelForKeyboard();
 					if (dp != null
-							&& dp.getKeyboardListener() instanceof GeoContainer) { // dp.getKeyboardListener().setFocus(true);
+							&& dp.getKeyboardListener().needsAutofocus()) { // dp.getKeyboardListener().setFocus(true);
 
 						showKeyboard(dp.getKeyboardListener(), true);
 					}

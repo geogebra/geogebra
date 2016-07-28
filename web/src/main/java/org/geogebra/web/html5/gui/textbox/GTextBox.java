@@ -88,4 +88,8 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 		// TODO Auto-generated method stub
 
 	}
+
+	public boolean needsAutofocus() {
+		return false;
+	}
 }

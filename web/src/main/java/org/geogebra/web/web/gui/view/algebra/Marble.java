@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -16,7 +15,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class Marble extends SimplePanel
 {
-	private GeoContainer gc;
+	private RadioTreeItem gc;
 	/** whether the last switch was done using touch (ignore onclick in that case) */
 	boolean touchUsed;
 	
@@ -36,7 +35,7 @@ public class Marble extends SimplePanel
 	/**
 	 * @param gc object providing the GeoElement
 	 */
-	public Marble(final GeoContainer gc) {
+	public Marble(final RadioTreeItem gc) {
 		this.gc = gc;
 
 		// stopPropagation activated (parameters for the constructor)

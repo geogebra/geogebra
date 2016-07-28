@@ -12,7 +12,6 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.web.cas.view.CASEditorW;
 import org.geogebra.web.web.cas.view.CASTableControllerW;
@@ -32,15 +31,14 @@ import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CASTableCellEditorW extends Label implements
- CASEditorW,
-		EquationEditorListener, GeoContainer,
+		CASEditorW, EquationEditorListener, GeoContainer,
 		MathKeyboardListener {
 
 	// private AutoCompleteTextFieldW textField;
 	private CASTableW table;
 	private AppW app;
-	private EquationEditor editor;
-	private final SpanElement seMayLaTeX;
+	EquationEditor editor;
+	final SpanElement seMayLaTeX;
 	private CASTableControllerW ml;
 	private boolean autocomplete = true;
 	private boolean thisIsEdited;
@@ -162,6 +160,11 @@ public class CASTableCellEditorW extends Label implements
 		return editor.getCompletions();
 	}
 
+	/**
+	 * 
+	 * @param b
+	 *            whether to focus or blur
+	 */
 	public void setFocus(boolean b) {
 		setFocus(b, false);
 	}
@@ -240,7 +243,7 @@ public class CASTableCellEditorW extends Label implements
 
 	@Override
 	public boolean stopNewFormulaCreation(String input2, String latex,
-	        AsyncOperation callback) {
+			AsyncOperation<Object> callback) {
 		if (editor.needsEnterForSuggestion()) {
 			return false;
 		}
@@ -284,7 +287,7 @@ public class CASTableCellEditorW extends Label implements
 		// but then probably this is the call,
 		// (almost) the same as in NewRadioButtonTreeItem:
 		if ((seMayLaTeX != null) && seMayLaTeX.hasParentElement()) {
-			DrawEquationW.showOrHideSuggestions(this, seMayLaTeX);
+			MathQuillHelper.showOrHideSuggestions(this, seMayLaTeX);
 		}
 	}
 
@@ -357,7 +360,7 @@ public class CASTableCellEditorW extends Label implements
 				MathQuillHelper.getActualEditedValue(seMayLaTeX, true));
 	}
 
-	private String dollarFix(String actualEditedValue) {
+	private static String dollarFix(String actualEditedValue) {
 		return actualEditedValue.replace("$", "\\$");
 	}
 
@@ -430,5 +433,9 @@ public class CASTableCellEditorW extends Label implements
 
 	public String getCommand() {
 		return editor.getCurrentCommand();
+	}
+
+	public boolean needsAutofocus() {
+		return true;
 	}
 }

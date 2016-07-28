@@ -11,11 +11,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
-import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
@@ -121,104 +118,6 @@ public class DrawEquationW extends DrawEquation {
 		if (FactoryProvider.INSTANCE == null) {
 			FactoryProvider.INSTANCE = new FactoryProviderGWT();
 		}
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	/**
-	 * In case we're in (editing) newCreationMode, then this method shall decide
-	 * whether to show the autocomplete suggestions or hide them...
-	 */
-	public static native void showOrHideSuggestions(GeoContainer rbti,
-			Element parentElement) /*-{
-		var elSecond = parentElement.firstChild.firstChild.nextSibling;
-		var querr = elSecond.lastChild;
-
-		if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
-			// when the suggestions should pop up, we make them pop up,
-			// when not, there may be two possibilities: we should hide the old,
-			// or we should not hide the old... e.g. up/down arrows should not hide...
-			// is there any other case? (up/down will unset later here)
-			if (querr.GeoGebraSuggestionPopupCanShow === true) {
-				@org.geogebra.web.html5.main.DrawEquationW::popupSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
-			} else {
-				@org.geogebra.web.html5.main.DrawEquationW::hideSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
-			}
-		}
-	}-*/;
-
-	public static void popupSuggestions(GeoContainer rbti) {
-		rbti.popupSuggestions();
-	}
-
-	public static void hideSuggestions(GeoContainer rbti) {
-		rbti.hideSuggestions();
-	}
-
-	public static void shuffleSuggestions(GeoContainer rbti, boolean down) {
-		rbti.shuffleSuggestions(down);
-	}
-
-
-
-
-
-
-
-	public static void scrollJSOIntoView(JavaScriptObject jo,
-	        GeoContainer rbti, Element parentElement,
-	        boolean newCreationMode) {
-
-		Element joel = Element.as(jo);
-		joel.scrollIntoView();
-		Element el = rbti.getScrollElement();
-		// Note: the following hacks should only be made in
-		// new creation mode! so boolean introduced...
-		if (newCreationMode) {
-			// if the cursor is on the right or on the left,
-			// it would be good to scroll some more, to show the "X" closing
-			// sign and the blue border of the window! How to know that?
-			// let's compare their places, and if the difference is little,
-			// scroll to the left/right!
-			if (joel.getAbsoluteLeft() - parentElement.getAbsoluteLeft() < 50) {
-				// InputTreeItem class in theory
-				el.setScrollLeft(0);
-			} else if (parentElement.getAbsoluteRight()
-			        - joel.getAbsoluteRight() < 50) {
-				// InputTreeItem class in theory
-				el.setScrollLeft(el.getScrollWidth() - el.getClientWidth());
-			} else if (joel.getAbsoluteLeft() - el.getAbsoluteLeft() < 50) {
-				// we cannot show the "X" sign all the time anyway!
-				// but it would be good not to keep the cursor on the
-				// edge...
-				// so if it is around the edge by now, scroll!
-				el.setScrollLeft(el.getScrollLeft() - 50
-						+ joel.getAbsoluteLeft() - el.getAbsoluteLeft());
-			} else if (el.getAbsoluteRight()
-			        - joel.getAbsoluteRight() < 50) {
-				// similarly
-				el.setScrollLeft(el.getScrollLeft() + 50
-						- el.getAbsoluteRight()
-				                + joel.getAbsoluteRight());
-			}
-		}
-	}
-
-
-
-	public static DrawEquationW getNonStaticCopy(GeoContainer rbti) {
-		return (DrawEquationW) rbti.getApplication().getDrawEquation();
 	}
 
 	/*

@@ -257,4 +257,8 @@ public class CASLaTeXEditor extends SimplePanel
 		getInputSuggestions().popupSuggestions();
 	}
 
+	public boolean needsAutofocus() {
+		return true;
+	}
+
 }

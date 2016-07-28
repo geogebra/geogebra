@@ -20,7 +20,7 @@ public interface GeoContainer {
 	public boolean hideSuggestions();
 
 	public boolean stopNewFormulaCreation(String input, String latex,
-	        AsyncOperation callback);
+			AsyncOperation<Object> callback);
 
 	public boolean popupSuggestions();
 

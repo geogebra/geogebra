@@ -44,4 +44,8 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 		return mf;
 	}
 
+	public boolean needsAutofocus() {
+		return true;
+	}
+
 }

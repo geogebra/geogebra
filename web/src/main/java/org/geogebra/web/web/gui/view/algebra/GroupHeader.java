@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -29,7 +28,6 @@ public class GroupHeader extends FlowPanel {
 	public class OpenButton extends SimplePanel
 	{
 		private SafeUri showUrl, hiddenUrl;
-		private GeoContainer gc;
 		
 		public OpenButton(SafeUri showUrl,SafeUri hiddenUrl,final TreeItem ti){
 			this.showUrl = showUrl;

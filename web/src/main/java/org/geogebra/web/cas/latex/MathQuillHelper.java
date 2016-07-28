@@ -8,7 +8,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.web.cas.view.CASLaTeXEditor;
@@ -242,8 +241,6 @@ public class MathQuillHelper extends LaTeXHelper {
 	public static native void editEquationMathQuillGGB(GeoContainer rbti,
 			Element parentElement, boolean newCreationMode) /*-{
 
-		var DrawEquation = @org.geogebra.web.html5.main.DrawEquationW::getNonStaticCopy(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
-
 		var elfirst = parentElement.firstChild.firstChild || parentElement;
 
 		
@@ -325,7 +322,7 @@ public class MathQuillHelper extends LaTeXHelper {
 
 								if (newCreationMode) {
 									// the same method can be called from the on-screen keyboard!
-									@org.geogebra.web.html5.main.DrawEquationW::showOrHideSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+									@org.geogebra.web.cas.latex.MathQuillHelper::showOrHideSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							}
 
@@ -377,7 +374,7 @@ public class MathQuillHelper extends LaTeXHelper {
 					// so let's change it:
 					delete elSecondInside.GeoGebraSuggestionPopupCanShow;
 
-					@org.geogebra.web.html5.main.DrawEquationW::shuffleSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Z)(rbti, false);
+					@org.geogebra.web.cas.latex.MathQuillHelper::shuffleSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Z)(rbti, false);
 					event.stopPropagation();
 					event.preventDefault();
 					return false;
@@ -386,7 +383,7 @@ public class MathQuillHelper extends LaTeXHelper {
 					// so let's change it:
 					delete elSecondInside.GeoGebraSuggestionPopupCanShow;
 
-					@org.geogebra.web.html5.main.DrawEquationW::shuffleSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Z)(rbti, true);
+					@org.geogebra.web.cas.latex.MathQuillHelper::shuffleSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;Z)(rbti, true);
 					event.stopPropagation();
 					event.preventDefault();
 					return false;
@@ -462,6 +459,76 @@ public class MathQuillHelper extends LaTeXHelper {
 		}
 	}-*/
 	;
+
+	public static void popupSuggestions(GeoContainer rbti) {
+		rbti.popupSuggestions();
+	}
+
+	public static void hideSuggestions(GeoContainer rbti) {
+		rbti.hideSuggestions();
+	}
+
+	public static void shuffleSuggestions(GeoContainer rbti, boolean down) {
+		rbti.shuffleSuggestions(down);
+	}
+
+	public static void scrollJSOIntoView(JavaScriptObject jo, GeoContainer rbti,
+			Element parentElement, boolean newCreationMode) {
+
+		Element joel = Element.as(jo);
+		joel.scrollIntoView();
+		Element el = rbti.getScrollElement();
+		// Note: the following hacks should only be made in
+		// new creation mode! so boolean introduced...
+		if (newCreationMode) {
+			// if the cursor is on the right or on the left,
+			// it would be good to scroll some more, to show the "X" closing
+			// sign and the blue border of the window! How to know that?
+			// let's compare their places, and if the difference is little,
+			// scroll to the left/right!
+			if (joel.getAbsoluteLeft() - parentElement.getAbsoluteLeft() < 50) {
+				// InputTreeItem class in theory
+				el.setScrollLeft(0);
+			} else if (parentElement.getAbsoluteRight()
+					- joel.getAbsoluteRight() < 50) {
+				// InputTreeItem class in theory
+				el.setScrollLeft(el.getScrollWidth() - el.getClientWidth());
+			} else if (joel.getAbsoluteLeft() - el.getAbsoluteLeft() < 50) {
+				// we cannot show the "X" sign all the time anyway!
+				// but it would be good not to keep the cursor on the
+				// edge...
+				// so if it is around the edge by now, scroll!
+				el.setScrollLeft(el.getScrollLeft() - 50
+						+ joel.getAbsoluteLeft() - el.getAbsoluteLeft());
+			} else if (el.getAbsoluteRight() - joel.getAbsoluteRight() < 50) {
+				// similarly
+				el.setScrollLeft(el.getScrollLeft() + 50 - el.getAbsoluteRight()
+						+ joel.getAbsoluteRight());
+			}
+		}
+	}
+
+	/**
+	 * In case we're in (editing) newCreationMode, then this method shall decide
+	 * whether to show the autocomplete suggestions or hide them...
+	 */
+	public static native void showOrHideSuggestions(GeoContainer rbti,
+			Element parentElement) /*-{
+		var elSecond = parentElement.firstChild.firstChild.nextSibling;
+		var querr = elSecond.lastChild;
+
+		if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
+			// when the suggestions should pop up, we make them pop up,
+			// when not, there may be two possibilities: we should hide the old,
+			// or we should not hide the old... e.g. up/down arrows should not hide...
+			// is there any other case? (up/down will unset later here)
+			if (querr.GeoGebraSuggestionPopupCanShow === true) {
+				@org.geogebra.web.cas.latex.MathQuillHelper::popupSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
+			} else {
+				@org.geogebra.web.cas.latex.MathQuillHelper::hideSuggestions(Lorg/geogebra/web/html5/gui/view/algebra/GeoContainer;)(rbti);
+			}
+		}
+	}-*/;
 
 	/**
 	 * Edits a MathQuillGGB equation which was created by
@@ -1266,7 +1333,7 @@ public class MathQuillHelper extends LaTeXHelper {
 			Element parentElement, boolean newCreationMode) {
 		JavaScriptObject jo = grabCursorForScrollIntoView(parentElement);
 		if (jo != null) {
-			DrawEquationW.scrollJSOIntoView(jo, rbti, parentElement,
+			MathQuillHelper.scrollJSOIntoView(jo, rbti, parentElement,
 					newCreationMode);
 		} else {
 			rbti.scrollIntoView();
@@ -1303,7 +1370,7 @@ public class MathQuillHelper extends LaTeXHelper {
 		JavaScriptObject jo = grabSelectionFocusForScrollIntoView(
 				parentElement);
 		if (jo != null)
-			DrawEquationW.scrollJSOIntoView(jo, rbti, parentElement, false);
+			MathQuillHelper.scrollJSOIntoView(jo, rbti, parentElement, false);
 	}
 
 	private static Element mqSize;

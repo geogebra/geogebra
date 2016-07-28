@@ -54,7 +54,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
-import org.geogebra.web.html5.gui.view.algebra.GeoContainer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -80,14 +79,12 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -146,7 +143,7 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class RadioTreeItem extends AVTreeItem
  implements DoubleClickHandler,
 		ClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
-		MouseOverHandler, MouseOutHandler, GeoContainer, MathKeyboardListener,
+		MouseOverHandler, MouseOutHandler, MathKeyboardListener,
 		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
 		AutoCompleteW, RequiresResize, HasHelpButton {
 
@@ -1062,36 +1059,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 	/**
 	 * Method to be overridden in InputTreeItem
 	 */
-	@Override
 	public boolean popupSuggestions() {
 		return false;
 	}
 
-	/**
-	 * Method to be overridden in InputTreeItem
-	 */
-	@Override
-	public boolean hideSuggestions() {
-		return false;
-	}
 
-	/**
-	 * Method to be overridden in InputTreeItem
-	 * 
-	 * @return
-	 */
-	@Override
-	public void showOrHideSuggestions() {
-		// override
-	}
-
-	/**
-	 * Method to be overridden in InputTreeItem
-	 */
-	@Override
-	public void shuffleSuggestions(boolean down) {
-		// override
-	}
 
 	/**
 	 * Method to be overridden in InputTreeItem
@@ -1425,7 +1397,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 				&& point.isChangeable();
 	}
 
-	@Override
 	public void stopEditing(String newValue0,
 			final AsyncOperation<GeoElement> callback) {
 
@@ -1530,9 +1501,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 * @param newValue0
 	 * @return boolean whether it was successful
 	 */
-	@Override
 	public boolean stopNewFormulaCreation(final String newValue0,
-			final String latexx, final AsyncOperation cb) {
+			final String latexx, final AsyncOperation<Object> cb) {
 		return stopNewFormulaCreation(newValue0, latexx, cb, true);
 	}
 
@@ -2094,7 +2064,6 @@ marblePanel, evt))) {
 		onPointerMove(wrappedEvent);
 	}
 
-	@Override
 	public GeoElement getGeo() {
 		return geo;
 	}
@@ -2372,16 +2341,11 @@ marblePanel, evt))) {
 
 
 
-	@Override
 	public void scrollIntoView() {
 		this.getElement().scrollIntoView();
 	}
 
-	@Override
-	public void typing(boolean heuristic) {
-		// to be overridden in InputTreeItem,
-		// to know whether it's empty, whether to show Xbutton
-	}
+
 
 	public void removeCloseButton() {
 		this.maybeSetPButtonVisibility(true);
@@ -2443,7 +2407,7 @@ marblePanel, evt))) {
 
 	}
 
-	@Override
+	// @Override
 	public App getApplication() {
 		return app;
 	}
@@ -2526,16 +2490,7 @@ marblePanel, evt))) {
 
 
 
-	@Override
-	public void onBlur(BlurEvent be) {
-		// to be overridden in InputTreeItem
-	}
 
-	@Override
-	public void onFocus(FocusEvent be) {
-		// to be overridden in InputTreeItem
-		// AppW.anyAppHasFocus = true;
-	}
 
 
 
@@ -2635,10 +2590,7 @@ marblePanel, evt))) {
 
 	}
 
-	public void onKeyPress(String s) {
-		// TODO Auto-generated method stub
 
-	}
 
 	public void autocomplete(String s) {
 		// TODO implement autocomplete in RTI
@@ -2942,6 +2894,15 @@ marblePanel, evt))) {
 
 	}
 
+	/**
+	 * @param heuristic
+	 *            true = user is typing
+	 */
+	public void typing(boolean heuristic) {
+		// to be overridden in InputTreeItem,
+		// to know whether it's empty, whether to show Xbutton
+	}
+
 	public abstract RadioTreeItem copy();
 
 	@Override
@@ -2952,6 +2913,10 @@ marblePanel, evt))) {
 	@Override
 	public boolean isForCAS() {
 		return false;
+	}
+
+	public boolean needsAutofocus() {
+		return true;
 	}
 
 }

@@ -1672,4 +1672,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	public boolean isForCAS() {
 		return false;
 	}
+
+	public boolean needsAutofocus() {
+		return false;
+	}
 }

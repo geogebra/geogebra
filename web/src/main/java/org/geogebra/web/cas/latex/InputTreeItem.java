@@ -18,7 +18,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
-import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
@@ -521,7 +520,7 @@ public class InputTreeItem extends MathQuillTreeItem
 	public void showOrHideSuggestions() {
 		if ((latexItem != null)
 				&& latexItem.getElement().hasParentElement()) {
-			DrawEquationW.showOrHideSuggestions(this, latexItem.getElement());
+			MathQuillHelper.showOrHideSuggestions(this, latexItem.getElement());
 		}
 	}
 
