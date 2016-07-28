@@ -420,6 +420,7 @@ public abstract class AppWFull extends AppW {
 	 */
 	public void examWelcome(){
 		if (isExam() && getExam().getStart() < 0) {
+			this.closePerspectivesPopup();
 			Localization loc = getLocalization();
 			//StyleInjector
 			//		.inject(GuiResources.INSTANCE.examStyleLTR().getText());
