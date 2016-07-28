@@ -163,13 +163,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				}
 			}
 		}
-		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			if (!toolbar.isMobileToolbar()) {
-				hideMenu();
-			}
-		} else {
-			hideMenu();
-		}
+		hideMenu();
 	}
 
 	protected ToolbarSubmenuW createToolbarSubmenu(AppW app, int order) {
@@ -207,6 +201,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 * Sets the menu visible if it exists
 	 */
 	public void showMenu() {
+		Log.debug("show menu web");
 		if(this.submenu == null){
 			this.buildGui();
 		}
@@ -276,15 +271,17 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 		if (needsGUI) {
 			buildGui();
+			Log.debug("select mode");
 		}
 		
 		for (int i = 0; i < getItemList().getWidgetCount(); i++) {
-			Widget mi = getItemList().getWidget(i);
+			Widget mi = getItemList().getWidget(i); // submenuitems
 			// found item for mode?
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 
 				if (!imageDialog) {
 					selectItem(mi);
+					Log.debug("select item");
 				}
 				
 				showToolTipBottom(mode, m);
@@ -613,6 +610,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	public void addModes(Vector<Integer> menu2) {
+		Log.debug("add modes");
 		if(this.submenu == null){
 			this.buildGui();
 		}

@@ -5,7 +5,6 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.UnorderedList;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.user.client.ui.Image;
 
@@ -31,7 +30,6 @@ public class ToolbarSubmenuP extends ToolbarSubmenuW {
 
 		itemList = new UnorderedList();
 		itemList.setStyleName("submenuItems");
-		setMaxHeight((int) app.getHeight() - GLookAndFeel.TOOLBAR_OFFSET);
 		add(itemList);
 
 		// catch the events to make sure scrollbar is usable when present

@@ -3,10 +3,14 @@ package org.geogebra.web.web.gui.toolbar;
 import java.util.Vector;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 
 public class ModeToggleMenuP extends ModeToggleMenu {
 
@@ -24,12 +28,42 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 	
 	@Override
 	protected ToolbarSubmenuW createToolbarSubmenu(AppW app, int order) {
+		Log.debug("create toolbar submenu P");
 		return new ToolbarSubmenuP(app, order);
 	}
 
+	@Override
+	protected void buildGui() {
+		submenu = createToolbarSubmenu(app, order);
+		Label back = new Label("<");
+		back.addStyleName("submenuBack");
+		submenu.add(back);
+		back.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				hideMenu();
+			}
+		});
+
+		for (int k = 0; k < menu.size(); k++) {
+			final int addMode = menu.get(k).intValue();
+			if (addMode < 0) { // TODO
+				// // separator within menu:
+				// tm.addSeparator();
+			} else { // standard case: add mode
+				// check mode
+				if (!"".equals(app.getToolName(addMode))) {
+					ListItem subLi = submenu.addItem(addMode);
+					addDomHandlers(subLi);
+				}
+			}
+		}
+	}
 
 	@Override
 	public void showMenu() {
+		Log.debug("show menu phone");
 		// remove toolbar before showing submenu
 		toolbar.setVisible(false);
 

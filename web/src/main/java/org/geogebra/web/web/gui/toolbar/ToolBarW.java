@@ -414,13 +414,8 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 			if ((isMobileToolbar && max >= getToolbarVecSize()) || (!isMobileToolbar && max < getToolbarVecSize())) {
 				this.maxButtons = max;
 
-				closeAllSubmenu();
-				/*
-				 * if (isMobileToolbar) { submenuPanel.clear(); }
-				 */
-
 				buildGui();
-
+				closeAllSubmenu();
 
 			} else {
 				if (Math.min(max, this.getToolbarVec().size()) == this.getGroupCount()) {
