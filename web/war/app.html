@@ -51,7 +51,8 @@ fontactive: function(familyName, fvd) {},
 		if(label){
 			parentTable(label).className += " perspectiveHighlighted";
 		}
-		if(name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0){
+		if(name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
+				!isLocalhost()){
 			history.pushState({}, "GeoGebra", "/"+name);
 		}
 		return false;
