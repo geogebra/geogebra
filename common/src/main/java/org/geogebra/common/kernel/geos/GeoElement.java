@@ -4194,24 +4194,14 @@ public abstract class GeoElement extends ConstructionElement implements
 		return set;
 	}
 
-	/**
-	 * Returns all independent predecessors (of type GeoElement) that this
-	 * object depends on. The predecessors are sorted topologically. Note: when
-	 * this method is called on an independent geo that geo is included in the
-	 * TreeSet.
-	 */
-	@Override
-	public TreeSet<GeoElement> getAllIndependentPredecessors() {
-		final TreeSet<GeoElement> set = new TreeSet<GeoElement>();
-		addPredecessorsToSet(set, true);
-		return set;
-	}
+
 
 	/** adds all predecessors of this object to the given set
 	* the set is topologically sorted
 	 * @param set set of predecessors
 	* @param onlyIndependent whether only indpendent geos should be added
 	*/
+	@Override
 	final public void addPredecessorsToSet(final TreeSet<GeoElement> set,
 			final boolean onlyIndependent) {
 		if (algoParent == null) {

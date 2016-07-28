@@ -796,6 +796,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 	}
 
+	@Override
 	public boolean euclidianViewUpdate() {
 		update();
 		return false;
@@ -1038,17 +1039,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return min - 1;
 	}
 
-	/**
-	 * Returns all independent predecessors (of type GeoElement) that this algo
-	 * depends on. The predecessors are sorted topologically.
-	 */
-	@Override
-	final public TreeSet<GeoElement> getAllIndependentPredecessors() {
-		// return predecessors of any output, i.e. the inputs of this algo
-		TreeSet<GeoElement> set = new TreeSet<GeoElement>();
-		addPredecessorsToSet(set, true);
-		return set;
-	}
+
 
 	/**
 	 * adds all predecessors of this object to the given list the set is kept
@@ -1059,6 +1050,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * @param onlyIndependent
 	 *            whether only indpendent geos should be added
 	 */
+	@Override
 	public final void addPredecessorsToSet(TreeSet<GeoElement> set,
 			boolean onlyIndependent) {
 		for (int i = 0; i < input.length; i++) {
@@ -1776,6 +1768,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		return false;
 	}
 
+	@Override
 	public String toString(GTemplate tpl) {
 		return toString(tpl.getTemplate());
 	}

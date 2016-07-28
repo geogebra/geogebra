@@ -151,14 +151,6 @@ public abstract class ConstructionElement implements
 	public abstract boolean isIndependent();
 
 	/**
-	 * Returns all independent predecessors (of type GeoElement) that this
-	 * object depends on. The predecessors are sorted topologically.
-	 * 
-	 * @return all independent predecessors (of type GeoElement)
-	 */
-	public abstract TreeSet<GeoElement> getAllIndependentPredecessors();
-
-	/**
 	 * Returns XML representation of this object. GeoGebra File Format.
 	 * 
 	 * @param getListentersToo
@@ -314,4 +306,7 @@ public abstract class ConstructionElement implements
 	protected Localization getLoc() {
 		return cons.getKernel().getLocalization();
 	}
+
+	abstract public void addPredecessorsToSet(final TreeSet<GeoElement> set,
+			final boolean onlyIndependent);
 }

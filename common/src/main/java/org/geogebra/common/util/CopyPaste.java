@@ -125,33 +125,36 @@ public class CopyPaste {
 	 */
 	protected void removeDependentFromAxes(ArrayList<ConstructionElement> geos,
 			App app) {
-
+		TreeSet<GeoElement> ancestors = new TreeSet<GeoElement>();
 		ConstructionElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = geos.get(i);
-			if (geo.getAllIndependentPredecessors().contains(
+			ancestors.clear();
+			geo.addPredecessorsToSet(ancestors, true);
+			if (ancestors.contains(
 					app.getKernel().getXAxis())) {
 				geos.remove(i);
-			} else if (geo.getAllIndependentPredecessors().contains(
+			} else if (ancestors.contains(
 					app.getKernel().getYAxis())) {
 				geos.remove(i);
 			} else if (app.is3D()) {
-				if (geo.getAllIndependentPredecessors().contains(
+				if (ancestors.contains(
 						app.getKernel().getXAxis3D())) {
 					geos.remove(i);
-				} else if (geo.getAllIndependentPredecessors().contains(
+				} else if (ancestors.contains(
 						app.getKernel().getYAxis3D())) {
 					geos.remove(i);
-				} else if (geo.getAllIndependentPredecessors().contains(
+				} else if (ancestors.contains(
 						app.getKernel().getZAxis3D())) {
 					geos.remove(i);
-				} else if (geo.getAllIndependentPredecessors().contains(
+				} else if (ancestors.contains(
 						app.getKernel().getXOYPlane())) {
 					geos.remove(i);
-				} else if (geo.getAllIndependentPredecessors().contains(
+				} else if (ancestors
+						.contains(
 						app.getKernel().getClippingCube())) {
 					geos.remove(i);
-				} else if (geo.getAllIndependentPredecessors().contains(
+				} else if (ancestors.contains(
 						app.getKernel().getSpace())) {
 					geos.remove(i);
 				}

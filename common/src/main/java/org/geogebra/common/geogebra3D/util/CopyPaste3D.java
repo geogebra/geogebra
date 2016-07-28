@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.TreeSet;
 
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoCircle3DThreePoints;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoConicFivePoints3D;
@@ -24,6 +25,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.CopyPaste;
 
@@ -48,6 +50,8 @@ public class CopyPaste3D extends CopyPaste {
 				// TODO: implementation!
 
 				if (geo.isGeoPolyhedron()) {
+					TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(geo);
+
 					// there are many kinds of algorithm to create a
 					// GeoPolyhedron,
 					// but the essence is that its faces, edges and points
@@ -61,9 +65,7 @@ public class CopyPaste3D extends CopyPaste {
 					while (polysit.hasNext()) {
 						psnext = polysit.next();
 						if (!geos.contains(psnext)
-								&& geo.getAllIndependentPredecessors()
-										.containsAll(
-												psnext.getAllIndependentPredecessors())) {
+								&& predecessorsCovered(psnext, ancestors)) {
 							geos.add(psnext);
 						}
 					}
@@ -73,43 +75,36 @@ public class CopyPaste3D extends CopyPaste {
 					while (ps2.hasNext()) {
 						ps2n = ps2.next();
 						if (!geos.contains(ps2n)
-								&& geo.getAllIndependentPredecessors()
-										.containsAll(
-												ps2n.getAllIndependentPredecessors())) {
+								&& predecessorsCovered(ps2n, ancestors)) {
 							geos.add(ps2n);
 						}
 					}
 					GeoSegment3D[] segm = ((GeoPolyhedron) geo).getSegments3D();
 					for (int j = 0; j < segm.length; j++) {
 						if (!geos.contains(segm[j])
-								&& geo.getAllIndependentPredecessors()
-										.containsAll(
-												segm[j].getAllIndependentPredecessors())) {
+								&& predecessorsCovered(segm[j], ancestors)) {
 							geos.add(segm[j]);
 							GeoPointND[] pspoints2 = { segm[j].getStartPoint(),
 									segm[j].getEndPoint() };
 							for (int k = 0; k < pspoints2.length; k++) {
 								if (!geos.contains(pspoints2[k])
-										&& geo.getAllIndependentPredecessors()
-												.containsAll(
-														((GeoElement) (pspoints2[k]))
-																.getAllIndependentPredecessors())) {
+										&& predecessorsCovered(pspoints2[k],
+												ancestors)) {
 									geos.add((GeoElement) (pspoints2[k]));
 								}
 							}
 						}
 					}
 				} else if (geo instanceof GeoPolyhedronNet) {
+					TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(geo);
+
 					Iterator<GeoPolygon3D> polysit = ((GeoPolyhedronNet) geo)
 							.getPolygons().iterator();
 					GeoPolygon3D psnext;
-					GeoPointND[] pspoints;
 					while (polysit.hasNext()) {
 						psnext = polysit.next();
 						if (!geos.contains(psnext)
-								&& geo.getAllIndependentPredecessors()
-										.containsAll(
-												psnext.getAllIndependentPredecessors())) {
+								&& predecessorsCovered(psnext, ancestors)) {
 							geos.add(psnext);
 						}
 					}
@@ -119,9 +114,7 @@ public class CopyPaste3D extends CopyPaste {
 					while (ps2.hasNext()) {
 						ps2n = ps2.next();
 						if (!geos.contains(ps2n)
-								&& geo.getAllIndependentPredecessors()
-										.containsAll(
-												ps2n.getAllIndependentPredecessors())) {
+								&& predecessorsCovered(ps2n, ancestors)) {
 							geos.add(ps2n);
 						}
 					}
@@ -129,18 +122,14 @@ public class CopyPaste3D extends CopyPaste {
 							.getSegments3D();
 					for (int j = 0; j < segm.length; j++) {
 						if (!geos.contains(segm[j])
-								&& geo.getAllIndependentPredecessors()
-										.containsAll(
-												segm[j].getAllIndependentPredecessors())) {
+								&& predecessorsCovered(segm[j], ancestors)) {
 							geos.add(segm[j]);
 							GeoPointND[] pspoints2 = { segm[j].getStartPoint(),
 									segm[j].getEndPoint() };
 							for (int k = 0; k < pspoints2.length; k++) {
 								if (!geos.contains(pspoints2[k])
-										&& geo.getAllIndependentPredecessors()
-												.containsAll(
-														((GeoElement) (pspoints2[k]))
-																.getAllIndependentPredecessors())) {
+										&& predecessorsCovered(pspoints2[k],
+												ancestors)) {
 									geos.add((GeoElement) (pspoints2[k]));
 								}
 							}
@@ -151,22 +140,20 @@ public class CopyPaste3D extends CopyPaste {
 							|| geo.getParentAlgorithm() instanceof AlgoQuadricLimitedPointPointRadiusCylinder
 							|| geo.getParentAlgorithm() instanceof AlgoQuadricLimitedConicHeightCone
 							|| geo.getParentAlgorithm() instanceof AlgoQuadricLimitedConicHeightCylinder) {
+						TreeSet<GeoElement> ancestors = getAllIndependentPredecessors(geo);
+
 						GeoElement[] pgeos = geo.getParentAlgorithm()
 								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
 							if (!geos.contains(pgeos[j])
-									&& geo.getAllIndependentPredecessors()
-											.containsAll(
-													pgeos[j].getAllIndependentPredecessors())) {
+									&& predecessorsCovered(pgeos[j], ancestors)) {
 								geos.add(pgeos[j]);
 							}
 						}
 						pgeos = geo.getParentAlgorithm().getOutput();
 						for (int j = 0; j < pgeos.length; j++) {
 							if (!geos.contains(pgeos[j])
-									&& geo.getAllIndependentPredecessors()
-											.containsAll(
-													pgeos[j].getAllIndependentPredecessors())) {
+									&& predecessorsCovered(pgeos[j], ancestors)) {
 								geos.add(pgeos[j]);
 							}
 						}
@@ -262,5 +249,17 @@ public class CopyPaste3D extends CopyPaste {
 				}
 			}
 		}
+	}
+
+	private TreeSet<GeoElement> getAllIndependentPredecessors(GeoElement geo) {
+		TreeSet<GeoElement> ancestors = new TreeSet<GeoElement>();
+		geo.addPredecessorsToSet(ancestors, true);
+		return ancestors;
+	}
+
+	private boolean predecessorsCovered(GeoElementND ps2n,
+			TreeSet<GeoElement> ancestors) {
+		return ancestors.containsAll(getAllIndependentPredecessors(ps2n
+				.toGeoElement()));
 	}
 }
