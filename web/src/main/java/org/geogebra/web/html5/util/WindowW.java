@@ -24,13 +24,27 @@ public class WindowW {
 		return $wnd.open(url, name, features);
 	}-*/;
 
+	/**
+	 * Post message using message API
+	 * 
+	 * @param gifWnd
+	 *            window reference
+	 * @param message
+	 *            message
+	 */
 	public native static void postMessage(JavaScriptObject gifWnd,
 	        String message) /*-{
-	    if(gifWnd && gifWnd.postMessage){    	
+		if (gifWnd && gifWnd.postMessage) {
 			gifWnd.postMessage(message, '*');
-	    }
+		}
 	}-*/;
 
+	/**
+	 * 
+	 * @param data
+	 *            HTML text (not encoded)
+	 * @return window reference
+	 */
 	public native static JavaScriptObject openFromData(String data) /*-{
 		// TODO Auto-generated method stub
 		return $wnd.open("data:text/html," + encodeURIComponent(data),

@@ -30,6 +30,10 @@ import java.io.Serializable;
  */
 public class UUIDW implements Serializable, Comparable<UUIDW> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String uuidValue;
 
 	/**
@@ -43,8 +47,9 @@ public class UUIDW implements Serializable, Comparable<UUIDW> {
 	 * Constructs a new UUID from a string representation.
 	 *
 	 * @param name
+	 *            value
 	 *
-	 * @return
+	 * @return string wrapped in UUID
 	 */
 	public static UUIDW fromString(String name) {
 		UUIDW newUUID = new UUIDW();
@@ -56,7 +61,7 @@ public class UUIDW implements Serializable, Comparable<UUIDW> {
 	 * Generates a random UUID that <em>should</em> be RFC-4122 Version 4
 	 * compliant, although we can't really guarantee much about it's randomness.
 	 *
-	 * @return
+	 * @return random UUID
 	 */
 	public static UUIDW randomUUID() {
 		return fromString(generateUUIDString());
