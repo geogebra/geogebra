@@ -21,6 +21,7 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 public class AlgoAngleVectors extends AlgoAngleVectorsND {
@@ -77,7 +78,7 @@ public class AlgoAngleVectors extends AlgoAngleVectorsND {
 	}
 
 	@Override
-	public GeoElement getInput(int i) {
+	public GeoElementND getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
 

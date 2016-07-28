@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  *
@@ -119,7 +120,7 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 	}
 
 	@Override
-	public GeoElement getInput(int i) {
+	public GeoElementND getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
 

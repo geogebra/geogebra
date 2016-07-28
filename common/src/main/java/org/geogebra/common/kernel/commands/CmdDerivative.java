@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -186,7 +187,7 @@ public class CmdDerivative extends CommandProcessor {
 	 *            derivative order
 	 * @return next free label for derivative
 	 */
-	static String getDerivLabel(GeoElement geo, int order) {
+	static String getDerivLabel(GeoElementND geo, int order) {
 		String label = null;
 
 		if (geo.isLabelSet()) {

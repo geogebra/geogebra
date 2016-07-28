@@ -3019,7 +3019,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		if (getParentAlgorithm() instanceof AlgoDependentList) {
 			AlgoElement algo = getParentAlgorithm();
 			for (int i = 0; i < algo.getInputLength(); i++) {
-				GeoElement element = algo.getInput(i);
+				GeoElementND element = algo.getInput(i);
 				if (!element.isIndependent() && !(element
 						.getParentAlgorithm() instanceof AlgoDependentList)) {
 					return false;

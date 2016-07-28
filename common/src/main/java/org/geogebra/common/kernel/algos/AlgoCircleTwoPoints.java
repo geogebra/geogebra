@@ -138,7 +138,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 	}
 
 	@Override
-	public GeoElement getInput(int i) {
+	public GeoElementND getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
 

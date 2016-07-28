@@ -41,7 +41,7 @@ public class CmdParseToFunction extends CommandProcessor {
 				if (!fun.isLabelSet()) {
 					AlgoElement algo = fun.getParentAlgorithm();
 					if (algo instanceof AlgoDependentGeoCopy) {
-						fun = algo.getInput(0);
+						fun = algo.getInput(0).toGeoElement();
 					}
 				}
 

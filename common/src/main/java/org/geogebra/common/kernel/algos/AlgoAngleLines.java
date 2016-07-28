@@ -19,9 +19,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 
 /**
@@ -135,7 +135,7 @@ public class AlgoAngleLines extends AlgoAngleLinesND {
 	}
 
 	@Override
-	public GeoElement getInput(int i) {
+	public GeoElementND getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
 

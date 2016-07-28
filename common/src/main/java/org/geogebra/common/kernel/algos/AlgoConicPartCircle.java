@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Circular arc or sector defined by the circle's center, one point on the
@@ -171,7 +172,7 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 	}
 
 	@Override
-	public GeoElement getInput(int i) {
+	public GeoElementND getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
 

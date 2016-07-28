@@ -415,4 +415,14 @@ public interface GeoElementND extends ExpressionValue {
 
 	GeoElement toGeoElement();
 
+	boolean isRandomGeo();
+
+	void updateRandomGeo();
+
+	void addAlgorithm(AlgoElement algoElement);
+
+	String getFreeLabel(String label);
+
+	void removeOrSetUndefinedIfHasFixedDescendent();
+
 }

@@ -698,7 +698,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 *            index
 	 * @return i-th input
 	 */
-	public GeoElement getInput(int i) {
+	public GeoElementND getInput(int i) {
 		return input[i];
 	}
 
@@ -1220,7 +1220,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	/*
 	 * see #1377 g:X = (-5, 5) + t (4, -3)
 	 */
-	private void appendCheckVector(StringBuilder sb, GeoElement geo,
+	private void appendCheckVector(StringBuilder sb, GeoElementND geo,
 			StringTemplate tpl) {
 		String cmd = geo.getLabel(tpl);
 		if (geo.isGeoVector()) {
@@ -1500,7 +1500,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 				// attribute name is input No.
 				sb.append("=\"");
 
-				GeoElement inputGeo = getInput(i);
+				GeoElementND inputGeo = getInput(i);
 				String cmd = StringUtil.encodeXML(inputGeo.getLabel(tpl));
 
 				// ensure a vector stays a vector!
@@ -1593,10 +1593,10 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 *            index
 	 * @return input or xOy plane if i == input length
 	 */
-	final protected GeoElement getInputMaybeXOYPlane(int i) {
+	final protected GeoElementND getInputMaybeXOYPlane(int i) {
 
 		if (i == getInputLength()) {
-			return (GeoElement) kernel.getXOYPlane();
+			return kernel.getXOYPlane();
 		}
 
 		return input[i];
