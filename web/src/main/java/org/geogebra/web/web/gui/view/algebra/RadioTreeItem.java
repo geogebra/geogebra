@@ -20,7 +20,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -33,7 +32,6 @@ import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
@@ -109,7 +107,6 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -272,7 +269,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected PushButton btnDelete;
 
 	protected GeoElement geo;
-	Kernel kernel;
+	protected Kernel kernel;
 	protected AppW app;
 	protected AlgebraView av;
 	protected boolean latex = false;
@@ -1494,143 +1491,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// LayoutUtilW.replace(ihtml, definitionPanel, latexItem);
 		doUpdate();
 	}
-	/**
-	 * Stop new formula creation Much of this code is copied from
-	 * AlgebraInputW.onKeyUp
-	 * 
-	 * @param newValue0
-	 * @return boolean whether it was successful
-	 */
-	public boolean stopNewFormulaCreation(final String newValue0,
-			final String latexx, final AsyncOperation<Object> cb) {
-		return stopNewFormulaCreation(newValue0, latexx, cb, true);
-	}
 
-
-	/**
-	 * Stop new formula creation Much of this code is copied from
-	 * AlgebraInputW.onKeyUp
-	 * 
-	 * @param newValue0
-	 * @return boolean whether it was successful
-	 */
-	public boolean stopNewFormulaCreation(final String newValue0,
-			final String latexx, final AsyncOperation<Object> cb,
-			final boolean keepFocus) {
-
-		// TODO: move to InputTreeItem? Wouldn't help much...
-
-		String newValue = newValue0;
-		if (newValue0 != null) {
-			newValue = stopCommon(newValue);
-		}
-
-		app.getKernel().clearJustCreatedGeosInViews();
-		final String input = app.has(Feature.INPUT_BAR_PREVIEW)
-				? kernel.getInputPreviewHelper().getInput(newValue) : newValue;
-
-		if (input == null || input.length() == 0) {
-			app.getActiveEuclidianView().requestFocusInWindow(); // Michael
-			// Borcherds
-			// 2008-05-12
-			scrollIntoView();
-			return false;
-		}
-		final boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
-				|| input.equals(newValue);
-		final String newValueF = newValue;
-		app.setScrollToShow(true);
-
-		try {
-			AsyncOperation<GeoElement[]> callback = new AsyncOperation<GeoElement[]>() {
-
-				@Override
-				public void callback(GeoElement[] geos) {
-
-					if (geos == null) {
-						// inputField.getTextBox().setFocus(true);
-						setFocus(true);
-						return;
-					}
-
-					// need label if we type just eg
-					// lnx
-					if (geos.length == 1 && !geos[0].labelSet) {
-						geos[0].setLabel(geos[0].getDefaultLabel());
-					}
-
-					InputHelper.updateProperties(geos, app.getActiveEuclidianView());
-					app.setScrollToShow(false);
-					if(!valid){
-						addToHistory(input, null);
-						addToHistory(newValueF, latexx);
-					} else {
-						addToHistory(input, latexx);
-					}
-
-					Scheduler.get().scheduleDeferred(
-							new Scheduler.ScheduledCommand() {
-								@Override
-								public void execute() {
-									scrollIntoView();
-									if (isInputTreeItem() && keepFocus) {
-										setFocus(true);
-									}
-								}
-							});
-
-					// actually this (and only this) means return true!
-					cb.callback(null);
-					if (!keepFocus) {
-						setText("");
-					}
-					updateLineHeight();
-				}
-
-			};
-
-			app.getKernel().getAlgebraProcessor()
-					.processAlgebraCommandNoExceptionHandling(input, true,
-							getErrorHandler(valid), true, callback);
-
-
-
-		} catch (Exception ee) {
-			// TODO: better exception handling
-			// GOptionPaneW.setCaller(inputField.getTextBox());// we have no
-			// good FocusWidget
-			// app.showError(ee, inputField);
-			if (ee.getCause() instanceof MyError) {
-				app.showError((MyError) ee.getCause());
-			} else {
-				app.showError(ee.getMessage());// we use what we have
-			}
-			return false;
-		} catch (MyError ee) {
-			// TODO: better error handling
-			// GOptionPaneW.setCaller(inputField.getTextBox());// we have no
-			// good FocusWidget
-			// inputField.showError(ee);
-			app.showError(ee);// we use what we have
-			return false;
-		}
-		// there is also a timer to make sure it scrolls into view
-		if (keepFocus) {
-			Timer tim = new Timer() {
-				@Override
-				public void run() {
-					scrollIntoView();
-					if (isInputTreeItem()) {
-						setFocus(true);
-					}
-				}
-			};
-			tim.schedule(500);
-		} else {
-			blurEditor();
-		}
-		return true;
-	}
 
 	protected String stopCommon(String newValue) {
 		return newValue;

@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.gui.view.algebra;
+package org.geogebra.web.cas.latex;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
