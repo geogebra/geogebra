@@ -12,6 +12,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.kernelND;
 
 import java.util.List;
+import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPaint;
@@ -29,7 +30,9 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.LaTeXCache;
 /**
  * Common interface for all interfaces that represent GeoElements
@@ -424,5 +427,45 @@ public interface GeoElementND extends ExpressionValue {
 	String getFreeLabel(String label);
 
 	void removeOrSetUndefinedIfHasFixedDescendent();
+
+	void removeAlgorithm(AlgoElement algoAttachCopyToView);
+
+	boolean addToUpdateSets(AlgoElement algorithm);
+
+	boolean removeFromUpdateSets(AlgoElement algorithm);
+
+	void addToUpdateSetOnly(AlgoElement algoElement);
+
+	boolean canBeRemovedAsInput();
+
+	boolean isGeoCasCell();
+
+	int getMinConstructionIndex();
+
+	boolean setCaption(String object);
+
+	boolean isGeoConic();
+
+	void addToAlgorithmListOnly(AlgoElement algoElement);
+
+	boolean isVisibleInputForMacro();
+
+	String getNameDescription();
+
+	Script getScript(EventType type);
+
+	String getDefaultLabel();
+
+	String getLongDescription();
+
+	GColor getAlgebraColor();
+
+	boolean isGeoPolyLine();
+
+	Object getOldLabel();
+
+	void setSelected(boolean b);
+
+	TreeSet<GeoElement> getAllChildren();
 
 }

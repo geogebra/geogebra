@@ -58,7 +58,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 */
 	@Deprecated
 	private GeoElement[] output;
-	private GeoElement[] efficientInput;
+	private GeoElementND[] efficientInput;
 
 	private boolean isPrintedInXML = true;
 	protected boolean stopUpdateCascade = false;
@@ -743,7 +743,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	protected final void setEfficientDependencies(GeoElement[] standardInput,
-			GeoElement[] efficientInput) {
+			GeoElementND[] efficientInput) {
 		// dependens on standardInput
 		for (int i = 0; i < standardInput.length; i++) {
 			standardInput[i].addToAlgorithmListOnly(this);
