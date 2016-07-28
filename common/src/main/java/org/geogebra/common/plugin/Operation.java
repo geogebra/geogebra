@@ -614,7 +614,8 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber().acos();
+				return ((NumberValue) lt).getNumber()
+						.acos(ev.getKernel().getInverseTrigReturnsAngle());
 			}
 			return ev.polynomialOrDie(lt, this, "acos(");
 
@@ -626,7 +627,8 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber().asin();
+				return ((NumberValue) lt).getNumber()
+						.asin(ev.getKernel().getInverseTrigReturnsAngle());
 			}
 			return ev.polynomialOrDie(lt, this, "asin(");
 
@@ -638,7 +640,8 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber().atan();
+				return ((NumberValue) lt).getNumber()
+						.atan(ev.getKernel().getInverseTrigReturnsAngle());
 			}
 			return ev.polynomialOrDie(lt, this, "atan(");
 
@@ -650,7 +653,9 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber().atan2((NumberValue) rt)
+				return ((NumberValue) lt).getNumber()
+						.atan2((NumberValue) rt,
+								ev.getKernel().getInverseTrigReturnsAngle())
 						.getNumber();
 			}
 			return ev.illegalArgument(lt, rt, "arctan2(");
@@ -1031,7 +1036,8 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber().floor();
+				return ((NumberValue) lt).getNumber()
+						.floor(ev.getKernel().getAngleUnit());
 			}
 			if (lt instanceof VectorValue) {
 				GeoVec2D ret = ((VectorValue) lt).getVector().floor();
@@ -1053,7 +1059,8 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber().ceil();
+				return ((NumberValue) lt).getNumber()
+						.ceil(ev.getKernel().getAngleUnit());
 			}
 			if (lt instanceof VectorValue) {
 				GeoVec2D ret = ((VectorValue) lt).getVector().ceil();
@@ -1087,7 +1094,8 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber().round();
+				return ((NumberValue) lt).getNumber()
+						.round(ev.getKernel().getAngleUnit());
 			}
 			if (lt instanceof VectorValue) {
 				GeoVec2D ret = ((VectorValue) lt).getVector().round();
@@ -1113,9 +1121,11 @@ public enum Operation {
 						&& (!Double.isNaN(((NumberValue) rt).getDouble()) || rt
 								.isGeoElement())) {
 					return ((NumberValue) lt).getNumber().round(
-							((NumberValue) rt).getDouble());
+							((NumberValue) rt).getDouble(),
+							ev.getKernel().getAngleUnit());
 				}
-				return ((NumberValue) lt).getNumber().round();
+				return ((NumberValue) lt).getNumber()
+						.round(ev.getKernel().getAngleUnit());
 			}
 			if (lt instanceof VectorValue) {
 				GeoVec2D ret = ((VectorValue) lt).getVector().round();

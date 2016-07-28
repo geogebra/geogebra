@@ -49,7 +49,7 @@ public final class MyMath {
 		return -Math.pow(-a, ONE_THIRD);
 	}
 
-	final public static double sgn(Kernel AbstracKernel, double a) {
+	final public static double sgn(double a) {
 
 		// bugfix for graph f(x) = sgn(sqrt(1 - x))
 		if (Double.isNaN(a)) {

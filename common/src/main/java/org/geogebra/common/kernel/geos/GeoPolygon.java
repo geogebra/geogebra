@@ -818,7 +818,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 */
 	public double getDirection() {
 		if (defined) {
-			return MyMath.sgn(kernel, area);
+			return MyMath.sgn(area);
 		}
 		return Double.NaN;
 	}

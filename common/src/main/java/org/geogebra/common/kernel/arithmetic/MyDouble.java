@@ -475,8 +475,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	/**
 	 * @return acos(this)
 	 */
-	final public MyDouble acos() {
-		angleDim = kernel.getInverseTrigReturnsAngle() ? 1 : 0;
+	final public MyDouble acos(boolean deg) {
+		angleDim = deg ? 1 : 0;
 		set(Math.acos(val));
 		return this;
 	}
@@ -484,8 +484,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	/**
 	 * @return asin(this)
 	 */
-	final public MyDouble asin() {
-		angleDim = kernel.getInverseTrigReturnsAngle() ? 1 : 0;
+	final public MyDouble asin(boolean deg) {
+		angleDim = deg ? 1 : 0;
 		set(Math.asin(val));
 		return this;
 	}
@@ -493,8 +493,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	/**
 	 * @return atan(this)
 	 */
-	final public MyDouble atan() {
-		angleDim = kernel.getInverseTrigReturnsAngle() ? 1 : 0;
+	final public MyDouble atan(boolean deg) {
+		angleDim = deg ? 1 : 0;
 		set(Math.atan(val));
 		return this;
 	}
@@ -504,8 +504,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 *            y
 	 * @return atan2(this,y)
 	 */
-	final public MyDouble atan2(NumberValue y) {
-		angleDim = kernel.getInverseTrigReturnsAngle() ? 1 : 0;
+	final public MyDouble atan2(NumberValue y, boolean deg) {
+		angleDim = deg ? 1 : 0;
 		set(Math.atan2(val, y.getDouble()));
 		return this;
 	}
@@ -629,13 +629,15 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	/**
+	 * @param angleUnit
+	 *            angle unit, eg Kernel.ANGLE_DEGREE
 	 * @return floor(this)
 	 */
-	final public MyDouble floor() {
+	final public MyDouble floor(int angleUnit) {
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise floor(60degrees) gives
 		// 59degrees
-		if (angleDim == 1 && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
+		if (angleDim == 1 && angleUnit == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180
 					* Math.floor(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
@@ -646,12 +648,14 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	/**
+	 * @param angleUnit
+	 *            angle unit, eg Kernel.ANGLE_DEGREE
 	 * @return ceil(this)
 	 */
-	final public MyDouble ceil() {
+	final public MyDouble ceil(int angleUnit) {
 		// angle in degrees
 		// kernel.checkInteger() needed otherwise ceil(241deg) fails
-		if (angleDim == 1 && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
+		if (angleDim == 1 && angleUnit == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180
 					* Math.ceil(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
@@ -662,11 +666,13 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	/**
+	 * @param angleUnit
+	 *            angle unit, eg Kernel.ANGLE_DEGREE
 	 * @return round(this)
 	 */
-	final public MyDouble round() {
+	final public MyDouble round(int angleUnit) {
 		// angle in degrees
-		if (angleDim == 1 && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
+		if (angleDim == 1 && angleUnit == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180 * MyDouble.doRound(val * Kernel.CONST_180_PI));
 		} else {
 			// number or angle in radians
@@ -680,15 +686,17 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * 
 	 * @param digits
 	 *            number of digits
+	 * @param angleUnit
+	 *            angle unit, eg Kernel.ANGLE_DEGREE
 	 * @return rounded value
 	 */
-	final public MyDouble round(double digits) {
+	final public MyDouble round(double digits, int angleUnit) {
 		if (!Kernel.isInteger(digits)) {
 			set(Double.NaN);
 		}
 		double pow = Math.pow(10, digits);
 		set(val * pow);
-		round();
+		round(angleUnit);
 		set(val / pow);
 		return this;
 	}
@@ -713,7 +721,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * @return sgn(this)
 	 */
 	final public MyDouble sgn() {
-		val = MyMath.sgn(kernel, val);
+		val = MyMath.sgn(val);
 		angleDim = 0;
 		return this;
 	}
