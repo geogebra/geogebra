@@ -323,10 +323,10 @@ public class ClipLine {
 		double dx2 = x22 - x21;
 		double dy2 = y22 - y21;
 		double det = (dx2 * dy1 - dy2 * dx1);
-		// at least one line vertical: no 0.5 hack
-		double xhack = x11 == x12 || x21 == x22 ? 0 : 0.5;
-		// at least one horizontal: no hack
-		double yhack = y11 == y12 || y21 == y22 ? 0 : 0.5;
+		// line vertical: no 0.5 hack
+		double xhack = x11 == x12 ? 0 : 0.5;
+		// line horizontal: no hack
+		double yhack = y11 == y12 ? 0 : 0.5;
 
 		if (det != 0.0) {
 			double mu = ((x11 - x21) * dy1 - (y11 - y21) * dx1) / det;
