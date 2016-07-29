@@ -248,11 +248,6 @@ public class MetaModelParser {
         MetaFunction metaFunction = new MetaFunction(name, cas, tex, key, parameters);
 
         try {
-            String img = getStringAttribute(IMG, element);
-        } catch (Exception e) {
-        }
-
-        try {
             String desc = getStringAttribute(DESC, element);
             metaFunction.setDescription(desc);
         } catch (Exception e) {
