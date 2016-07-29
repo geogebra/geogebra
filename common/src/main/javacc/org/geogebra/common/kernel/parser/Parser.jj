@@ -472,12 +472,8 @@ ValidExpression buildValidExpression() :
 ValidExpression buildCASExpression(GeoCasCell cell) : 
 {
     ValidExpression ve;
-    ExpressionNode lhs, rhs;
     Token l = new Token();
     Token assign = null;
-    Token c= null;
-    Token c2 =null;
-    Vector labels = new Vector();
 } 
 {         
         // CAS function
@@ -486,25 +482,11 @@ ValidExpression buildCASExpression(GeoCasCell cell) :
         LOOKAHEAD(2147483647)   
         ve = casFunction(cell)
     |     
-/*       // h: X = (3,2) + t (5,a)
- *      LOOKAHEAD(2147483647) 
- *      l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric() 
- *  |
- *       // h: X = (3,2,a) + t (5,b,c)
- *       LOOKAHEAD(2147483647) 
- *       l = label() (assign= ":" | assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > )  ve = parametric3D() 
-    |     */
          // labeled equation, e.g. g: 3x + y = 7
          // assignment         
         // b := 27 + c, also allow x := 5, see http://www.geogebra.org/trac/ticket/946
         LOOKAHEAD(2147483647)    
     l = casVar() (assign= ":" |assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = expressionOrEquation()
-/*   |
- *    LOOKAHEAD(2147483647)   
- *       ve = parametric()
- *  |
- *     LOOKAHEAD(2147483647)   
- *       ve = parametric3D()*/
    |      
          // equation, e.g. 3x + y = 7
          LOOKAHEAD(2147483647)   
@@ -536,60 +518,16 @@ ValidExpression buildCASExpression(GeoCasCell cell) :
 
 
 /**
- * convert MathPiper String to GeoGebra string
- */
-ValidExpression buildMathPiperExpression() : 
-{
-    ValidExpression ve;
-    ExpressionNode lhs, rhs;
-    Token l = new Token();
-    Vector labels = new Vector();
-} 
-{         
-    (     
-    // try to parse MathPiper string as standard GeoGebra expression 
-      ve = buildCASExpression(null)                 
-  )                     
-    ( <POLAR_SEPARATOR> | <EOF> )     
-    {                                  
-        return ve;
-    }    
-}
-
-/**
  * convert Giac String to GeoGebra string
  */
 private ValidExpression buildGiacExpression() : 
 {
     ValidExpression ve;
-    ExpressionNode lhs, rhs;
-    Token l = new Token();
-    Vector labels = new Vector();
 } 
 {         
     (     
     // try to parse Giac string as standard GeoGebra expression 
       ve = buildCASExpression(null)                 
-  )                     
-    ( <POLAR_SEPARATOR> | <EOF> )     
-    {                                  
-        return ve;
-    }    
-}
-
-/**
- * convert Maxima String to GeoGebra string
- */
-ValidExpression buildMaximaExpression() : 
-{
-    ValidExpression ve;
-    ExpressionNode lhs, rhs;
-    Token start,sign = null,end;
-} 
-{         
-    (
-      // try to parse Maxima string as standard GeoGebra expression 
-      ve = buildCASExpression(null) 
   )                     
     ( <POLAR_SEPARATOR> | <EOF> )     
     {                                  
@@ -689,7 +627,6 @@ ExpressionNode expressionNoFreeVars():
 Function  function():
 {
     ExpressionNode rhs;
-    Token l = null;
     Function f;
 }
 {          
@@ -715,7 +652,6 @@ Function  function():
 FunctionNVar  functionNVar():
 {
     ExpressionNode rhs;
-    Token l = null;
     FunctionNVar f;
 }
 {          
@@ -761,7 +697,6 @@ ExpressionNode functionExpressionnode():
     Token funName = null;
     Token varName = null;
     ArrayList<String> localVars;
-    Token var;
 }
 {          
 (
@@ -854,7 +789,6 @@ FunctionNVar casFunction(GeoCasCell cell):
     Token varName = null;
     Token assign = null;
     ArrayList<String> localVars;
-    Token var;
 }
 {          
 (
@@ -913,7 +847,6 @@ FunctionNVar casFunction(GeoCasCell cell):
 ExpressionNode expressionnode():
 {
     ExpressionValue ret, f;
-    Token x;
 }
 {
     ret = ORterm()                 
@@ -960,7 +893,6 @@ ValidExpression expressionOrEquation():
 ExpressionValue ANDterm():
 {
     ExpressionValue ret, f;
-    Token x;    
 }
 {
     ret = COMPAREterm()           
@@ -978,7 +910,6 @@ ExpressionValue ANDterm():
 ExpressionValue ORterm():
 {
     ExpressionValue ret, f;
-    Token x;    
 }
 {
     ret = ANDterm()           
@@ -1120,7 +1051,6 @@ ExpressionValue plusminusnode():
 ExpressionValue sequencenode():
 {
     ExpressionValue ret, f;
-    Token x;
 }
 {
     ret = plusminusnode()                 
@@ -1138,7 +1068,6 @@ ExpressionValue sequencenode():
 ExpressionValue setdifferencenode():
 {
     ExpressionValue ret, f;
-    Token x;
 }
 {
     ret = sequencenode()                 
@@ -1156,7 +1085,6 @@ ExpressionValue setdifferencenode():
 ExpressionValue listopnode():
 {
     ExpressionValue ret, f;
-    Token x;
 }
 {
     ret = setdifferencenode()                 
@@ -1177,7 +1105,7 @@ ExpressionValue listopnode():
 ExpressionValue multterm():
 {
     ExpressionValue ret, f;
-    Token x;    
+    Token x;
 }
 {
     ret = divterm()           
@@ -1215,7 +1143,6 @@ ExpressionValue multterm():
 ExpressionValue divterm():
 {
     ExpressionValue ret, f;
-    Token x;    
 }
 {
     ret = enunary()           
@@ -1234,7 +1161,6 @@ ExpressionValue divterm():
 ExpressionValue powerdivterm():
 {
     ExpressionValue ret, f;
-    Token x;    
 }
 {
     ret = enpower()           
@@ -1255,7 +1181,6 @@ ExpressionValue powerdivterm():
 ExpressionValue enunary():        
 {
     ExpressionValue e;
-    Token c;
 }
 {
     <MINUS> e = enpower()
@@ -1431,7 +1356,6 @@ ExpressionValue NOTterm():
 ExpressionValue enelement():
 {    
     ExpressionValue ev;
-    double num;
     Token c;    
 }
 {   
@@ -1525,7 +1449,6 @@ ExpressionValue list():
 
 ExpressionValue numVecVariable():
 {
-    GeoElement geo;
     Token c;
     ExpressionValue ev;
 }
@@ -1728,13 +1651,9 @@ ExpressionValue myDouble():
  */
 ExpressionNode numberFunction():
 {
-    ExpressionNode en2, en3,en4;
     ValidExpression en;
-    ExpressionValue ev;
     MyList myList;
-    Token c, flabel, fvar1, fvar2;
-    String conslabel;
-    MySpecialDouble myconst;
+    Token c;
 }
 {           
     c = <X_FUNC> en = expressionOrEquation() (")"|"]")
@@ -1928,7 +1847,6 @@ ExpressionNode numberFunction():
       ExpressionValue geoExp = geoVar.resolveAsExpressionValue();
 
       // numer of arguments
-      int argNumber = myList.size();
           
           if (order > 0) { // derivative
                         // n-th derivative of geo
