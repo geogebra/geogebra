@@ -76,8 +76,6 @@ public class AppWapplication extends AppWFull {
 			RootPanel.getBodyElement().addClassName("zoomedBody");
 
 			removeSplash();
-		} else {
-			RootPanel.getBodyElement().addClassName("application");
 		}
 		appFrame.app = this;
 		App.useFullAppGui = true;
@@ -86,7 +84,7 @@ public class AppWapplication extends AppWFull {
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
 
 		initCommonObjects();
-
+		
 		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
 		this.canvas = euclidianViewPanel.getCanvas();
 
@@ -98,27 +96,29 @@ public class AppWapplication extends AppWFull {
 		                && Cookies.getCookie("SSID") == null);
 
 		afterCoreObjectsInited();
-		Log.debug("after core");
 
 		resetFonts();
 		// initing = true;
 		removeDefaultContextMenu();
 
-		Log.debug("checked token");
+		if (!this.getLAF().isSmart()) {
+			RootPanel.getBodyElement().addClassName("application");
+		}
 		if (token != null && !"".equals(token)) {
-			Log.debug("LTOKEN set via URL");
+			Log.debug("Login token set via URL.");
 			this.getLoginOperation().performTokenLogin(token, false);
 			this.showBrowser((HeaderPanel) ((GuiManagerW) this.getGuiManager())
 			        .getBrowseView());
 			nativeLoggedIn();
-		} else {
-			if (Cookies.getCookie("SSID") != null) {
-				this.getLoginOperation().performCookieLogin(
-				        Cookies.getCookie("SSID"));
-			}
+		} else if (Cookies.getCookie("SSID") != null) {
+			Log.debug("Login token set via cookie.");
+			this.getLoginOperation()
+					.performCookieLogin(Cookies.getCookie("SSID"));
 		}
 
+
 		restoreMacro();
+
 	}
 
 	private static void removeSplash() {

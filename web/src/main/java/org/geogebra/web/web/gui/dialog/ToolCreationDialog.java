@@ -8,6 +8,7 @@ import org.geogebra.common.gui.dialog.ToolInputOutputListener;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.util.AsyncOperation;
@@ -440,7 +441,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 		updateListBox(inputLB, toolModel.getInputList(), false);
 	}
 
-	private static void updateListBox(ListBox lb, GeoElement[] geos,
+	private static void updateListBox(ListBox lb, GeoElementND[] geos,
 			boolean addList) {
 		lb.clear();
 		if (addList) {

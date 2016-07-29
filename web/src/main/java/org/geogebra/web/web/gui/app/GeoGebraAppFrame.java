@@ -91,7 +91,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	    Window.enableScrolling(false);
 	    Window.setMargin("0px");
 		if (!laf.isSmart()) {
-			RootPanel.getBodyElement().addClassName("application");
+			// RootPanel.getBodyElement().addClassName("application");
 		}
 	    addStyleName("GeoGebraFrame");
 

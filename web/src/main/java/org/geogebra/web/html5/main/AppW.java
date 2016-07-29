@@ -180,7 +180,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	private Material activeMaterial;
 
 	protected final ArticleElement articleElement;
-	private String ORIGINAL_BODY_CLASSNAME = "";
 
 	protected EuclidianPanelWAbstract euclidianViewPanel;
 	protected Canvas canvas;
@@ -1712,9 +1711,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		Factory.setPrototype(new FactoryW());
 		// App.initializeSingularWS();
 
-		// neded to not overwrite anything already exists
-		ORIGINAL_BODY_CLASSNAME = RootPanel.getBodyElement().getClassName();
-
 		// Online - Offline event handling begins here
 		initNetworkEventFlow();
 	}
@@ -1853,7 +1849,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (getDialogManager() instanceof LoadingApplication) {
 			((LoadingApplication) getDialogManager()).showLoadingAnimation();
 		}
-		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
 		RootPanel.get().addStyleName("cursor_wait");
 	}
 
@@ -1862,14 +1857,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (getDialogManager() instanceof LoadingApplication) {
 			((LoadingApplication) getDialogManager()).hideLoadingAnimation();
 		}
-		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
+		resetCursor();
 	}
 
 	/**
 	 * Set default cursor for whole body
 	 */
 	public void resetCursor() {
-		RootPanel.get().setStyleName(ORIGINAL_BODY_CLASSNAME);
+		RootPanel.get().removeStyleName("cursor_wait");
 	}
 
 	private void updateContentPane(boolean updateComponentTreeUI) {

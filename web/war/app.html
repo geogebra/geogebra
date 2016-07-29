@@ -406,7 +406,7 @@ body {
 	margin: 0px;
 	padding: 0px;
 }
-.application .startScreen{
+.application #ggbPage{
  display:none;
 }
 /** from LESS */
@@ -564,6 +564,14 @@ margin: 0px 5px 0px 0px;
 .KeyBoard.startScreen{
 padding-left:0;
 padding-right:0;
+position:absolute;
+}
+.ggbPageContent{
+	bottom: 0;
+    position: absolute !important;
+    right: 0;
+    top: 53px;
+    left: 0;
 }
 /** KEYBOARD */
 
@@ -862,7 +870,7 @@ padding-right:0;
 	opacity:0.3;
 }
 /** input */
-.startScreen .scrollableTextBox{
+.startScreen .clearButtonWrapper{
 	float:right;
 	margin-top:18px;
 	margin-right:10px;
@@ -885,13 +893,12 @@ width:20%;
 }
 
 .rightButtonPanel.startScreen img{
- margin-top:10px;
- margin-right:10px;
- opacity:0.3;
+ margin-top:6px;
+ margin-right:11px;
 }
 
 .toolbarPanel.startScreen img{
- opacity:0.02;
+ opacity:0.3;
 }
 /** Start scren aplitter**/
 .startScreen.splitter{
@@ -945,7 +952,7 @@ z-index:501;
     </style>
 </head>
 <body dir="ltr" tabindex="-1" onload="checkLogin()">
-	<div id="ggbPage" style="display:none">
+	<div id="ggbPage" style="display:none; background-color:#FFFFFF;position:absolute;top:0;bottom:0;left:0;right:0;z-index:1000;">
 
     <div id="ggbHeader" class="GeoGebraFrame">
         <div class="startScreen toolbarPanel">
@@ -953,57 +960,58 @@ z-index:501;
 			<ul>
 			<li class="toolbar_item">
                  <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABAklEQVR42u2XUQ2EMBBEKwEJSKgEpCABB0hAAhKQgAQkIAEJvTyS+eFyydIWeh/dpAlJSeZ12lmKC4XLVYAKYH1xGIZwHEc5gK7rgvc+bNtWDgDxtm2zQpgBWD217/v5PM/z+w6oOAtATNNUBkDV9/05igEoHczFJiQZgOI8sCUxEFkAqGVZohKSDYBSTNd1LQMgJ5qmMcc0GQBB9p95BodyHEdzRKP7gATUE16LoQSxma6oKMZ2xlsAEkeMoSYECIfv8W/B9RuAqFwAJsYFM4Bz7ksghwtmgF+rS3Uh+Up2dcHaL7LeCa8uPNIJLS4grGb0+q0YFxC/s/r6X1AB/gLgAwXNUBolQyXcAAAAAElFTkSuQmCC" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li>
+				  <li  class="toolbar_item">
+                 <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABAUlEQVR42u2VYQ2EMAyFJwEJk4AEJCBhEuaAc4AEJCABCZMwCUjg+mgWOC4QwtHy40bSNF3I+q193cz08GcyQAa4e0PnaFPDXh1gHKepKBgAHrEqQNty8qpij1gVwNrl5PCI1QCGgU/t/acW+l4JoK45YYwch8Ax1sUBkDQJr2kWS4JMUGIASIZEe5baIgZwJLi1MEUAuo5PiSocVQf/iQBsxbenj7LMj9FFgJbu05LqZ6iOlhTV7DVbAsDT/CCxMZbsRcYg7uxT9wtAJPVw8noz125eD7jqJAE6mhsGCBuAcV6/qxUXAKIOwOMt+Bah1xXhuhVpDOFVxzDfhBngLwDeb7gUuFQJjTgAAAAASUVORK5CYII=" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
 				 </div>
 				 </li>
 				 <li  class="toolbar_item">
                  <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABi0lEQVR42sWXsW3DMBBFb4SMoBHUpVWT3kAWEDKBNpAHCKA+jepULl2yU+smvQEtQGiCy/+01AhJBIoXkcABNg2Jj3f8/2jR2FFVqt6r1ZDoJ9pWte8zAtxuqnWdEYCjLDMDnE6PTGQD4BnouowA97s6qME5dzyAhwRLnAGRpxD87BNkGQ3QIfUiBPBzVGHuMIAWPiByRugcZ6iyPg6gxwEUKRBujiLMHXoIm6bBwhKiSTQlSXoaIHq5ZASgDAmRDcDAltMB2J5hTPkA6AFHq8CyPacDcBRF9CMjyvZJTzEBYAY22vOEfnGFZFuo5hnAb2jpH7R1E4Bf2vMAmb7Dul9xUF+gFi4+rDqoDQBVgB19IQvcFXfHBemS3PX0R7dMAuCLWUcuNMKWuTC/jxGyjAZY6sgdMrVMMXceHHHHBWUTgC9f1/H6k/9zjlf2VACmb11HpnXauvXw9x22LIs8uBAXXOQx7rFXAkRez2Sp42BwwQwliGzPNjJMaM+2ADts2R6A/5r+0wes2/M387w+PyCI5QoAAAAASUVORK5CYII=" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
 				 </div>
 				 </li> <li  class="toolbar_item">
                  <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABLklEQVR42u2XURGDMAyGIwEJSKgEJCBhEnCABCQgAQlIqIRKqISMP6W323Z0210THgZ3fSgP5Evy/7lAfPJDF8BfA8zzfA5AjJH7vpdjDrCuK7dtK9mbtgBZD8PAXddxCEFXAwiGTHMg7z0753gcR30RLsvCTdMwkdsOSZ8RHBAmLkB/iabtbB8nLxBHwVUAEJAo7gAslUA7TADQ+1T+2w4xyR3v1QGyvSA0KB2VwB2aUJ2ER/YyGcUle6kDIGjJXmoAKDPKjbKXxFUFAAJKviYJiqxxL9mqGsDDUhgqQaz1yVJVAZBlGqd5oESphNlCAnGlqeZ3gEnKbwKQ7SULg0A4Kf+noVIF4NVeUD3aUbv3bwC17fUTANaj2vb6GiAvh5ZZPwHk5fD6MbkAznruH54xSEipjv4AAAAASUVORK5CYII=" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
 				 </div>
 				 </li> <li  class="toolbar_item">
                  <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACE0lEQVR42uWXsUvDQBTG8w+oWTsInQoKYqA4OZhNkAoVBCk4ZJDOgYJIlxTUTclcHDKUFkWrUAddJOigCIWgQ6EoxKWTQqCb0/PeJS01TeOlbaJg4KMUmn6/3L373gsHv3xxfxbAsixQVRUURaGfkQOIoggcJxAViOIgSVJ0AKZpElOOyCIiP+Ls7/8HwGsLBJ4DU7+Itgh3t2VYmk/A3k4OWnUdqptJ0AsSfLataI4hmt7tZ+G9Ue/qQc1BZTUOH00jfIB6UYGn0sE3ANTLdQWO1xLwXFbDB2hUi30AKFydm3wGLrPiSFviC4B/jkZeAB3hCpVXpocu0B8B/Mx7VwML9P5QDrwavgAn6zNMAL0FepYRAhWoLwA+VRCAYQp0IEC7ZTJvgdeWXMkpen86nXZSlQNZltkBvDIgqPJbGSdNTUdx0DSNDQCrelSAxYWkE+XgqEDbOxOAXwawCO9NzcaIqeg0NYuugHu2GDsA3tfpGa+POgiC0K0BbHDYY5gAWELIbVxajlFjLODeyzAMqkCngOUEICCefcwLBHAbj3QM8Sz7GWOBYgSjcSi9wCuE3m5rtAGdbsxBs6aNZS7oA9B1nQ6gWMH6eaVrjMGCcwAahzYRobldsTKRBFOTE3CUtRMtjHGsDwCf3DbvBIcE+Zwc3YuJF4A7uUIFcG8Bz/N0RI/01Qwh8KlRg8Ljf7ycRnV9ARfnmRWRKMYkAAAAAElFTkSuQmCC" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
 				 </div>
 				 </li> <li  class="toolbar_item">
                  <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABRklEQVR42u2XgRGCMAxFMwIjMAIjMAojsAEjMAKjMAIjMAIjRB6VU7HYqAXUM3c57iBN/k+TpogeLPIH8FUAhmHQpmm0KArN8/xGecc3bKIDwGlZlpplmdZ1rV3X3dnwjm/YYGsFEgTQtq2maTqxswq2rGEtwHj2ff88ABzBaG3xI2ENIERk1Gx6+kjII+YEf3ZPrwG44N2oYyCpNUkSGwCCgv4V5tcERNJzcHSYAJkAzBX9jkACxjB3WXCdEwQws48hFOClDmTKShAAzGmn2IJPUxGSfl+f+9jR76jVHt9BAL598jlzaS3PKiYQphqw7D+sXeC5wl0mQkJbBwH4jHYFcPgWHF6Eh7dhzINoWdy+ubLZUbzM6lqRbjaMlmN5bapuNo5nIvjwzYBdLiSsDW3l5ley6JfSqqr2vZR+xLX8/2f00wBO6JLX+t5OV6kAAAAASUVORK5CYII=" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
 				 </div>
 				 </li> <li  class="toolbar_item">
                  <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
-				 </div>
-				 </li> <li  class="toolbar_item">
-                 <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABzElEQVR42u2XYZGDMBBGVwISIgEJSEACEnDAOUACEpCAhEpAAhJyfUB6aQpkyTHtn+4MAx3Y7Nsvm00q9sMmX4BUx9vtZpumsUVR2DzP57t7LsvSdl1np2m6HoCBjTG2qirb9/1mkHEcbdu2MwyQlwCQMQMSmABaq+t6VmZPDdFmTXAgUgx/pkUNgAPUOLlLM5+Yqwt8fGCUYNwoAB+JZPeL+8/9ErXkBBcxq29lsyx7gHNHxSgA9MsAdr2qaCE9+/aeb/6UNSpQuIcASLdk7gYp5orWA/jwxg7D8HjPMxCHAHyE7GROcF/GmJHdn6/ZlBzIKAAqIDuZa4P7/ke+UQCCn1nnZ+0QgMBbsr0NgIrVFlyKMT100l0AXqZ2O42RXNiM5Eieq43pDevrbQAE3toPogAsJaTjXcqy9FeX35TUAEt3y9fumCepROA9Pwn3bp8S2ZbONq2tdZp/nzG3Ce31Fglbqd+rXwHG0wDueKY+EUHrz/OyOZl1CszLOj4yvg03H9V5IHSi+Fx/18oOuAZWUmTTnB21/rKXAVUbky9c52R89uwosSMWAyL9VhUDSuESmKN6imqimU93qg3/gHAH8j/7x/e/4ccBfgH1rY8Uw0PehwAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
 				 </div>
 				 </li>
 				 <li  class="toolbar_item">
                  <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
-				 </div>
-				 </li>
-				 <li  class="toolbar_item">
-                 <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAACEklEQVR42u1XzUoCURidegJfQGgVGJRDRAVthKi1YZuIQAqiWsS0rWxaFhUuooW5GHCVbWZlLl3lShDNvegLmE9wumduk1oj/TheNw18jKJzz/n+zveNhhFf2j8BPw+zLAuRSATRaBSFQkEtAYJrWkAY7+fCNNTrdXUE6LkEx7vFYZqmOgIMu/TcJRBBMplURyCTyThhp+cEDwQCaLVaagjUXmpYmFtEpVJxwk7PfwLuCwEXnHflbTgo+EAE2q9txNbWBwL/MwGCryyvIv+UV6+ELvjj/sFopJjg2dMEMDkJ2PbXP5TLFAUgHgcMA/hGkn9FwDg8QvbiEiiV5MHBIPC53QjO3yhCmuZfBAhubG5JcNcotfS0V5M7n4UY+ULAE9y1UKg3CowA08D0MAJeafqOACcbtd0QOTw5Pu0PTtvY6AVxa8Al8tsaoIzKscrBEsX42DhaPKQfgVRKpsKvLpBj1e6aajosAqglYPUQWNJnkU6YaOZywyfQ2WyMj7FarVZxn0pjO76D+WkdZ7t7yN/edTrBTwK8uM9xrNK8xmrxuQhTRISiFJuaQVoUqtdM4LOsKZ7Tb0cceBw3m01kH7JOdEjIESvxvdFoQNd1J4VySdFEs9jDX8sZieurG4SnwwJ0oquWkk59KXsvkO2sdxGw1RLgSs4CluGXhe21JQ/1zagslJCKSs/7bcj/74YjJ/AGTt/FgSXU1OUAAAAASUVORK5CYII=" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
 				 </div>
 				 </li> 
 				 <li  class="toolbar_item">
                  <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABcklEQVR42sWWYdGEIBCGNwIRjEAEIhjBCDbwGhjBCEYwghGIQIT9eD2Zce5TDxZOdmZ/3Iwnj+w+LMR79H3PXdfx00HHH23b8jRN9QCcc6y15mVZ6gAEiKZpeF3XOgAILG6M2WCqACDQC4CoBoAYhkFsBnYPZuEjxnGUASAAcPeCq0AzGyJ++Wx8AkYEEMyY5zl6cVik/KLOJ/u0PolIBiAxA88dAZZcgPBS7ESsGai93kugckrwaQYgYncNvYNGvjtdKbW5cswoApBjRjEAiRlFAY4QuTODcv6cakZxAATKEGvGTwAQaEipGVRKJwBA0WIAqC/O9JT6ohSpVzq6+hoi5VOzUiq60yVm0Nkkey/u+D1LXttlNcUMDK7YnaOzhiIy++LIJflmFMyIgfgHYK3dRicRQOxWBkmHx5pBV1MP2wgQbL/0oIkxo5iGd/eCouNYMjMAcWXGzwG+mfEIQND7zIzHAEJzf54pjwIEM44X1D/HbxBf2/4LpQAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
 				 </div>
 				 </li>
 				 <li  class="toolbar_item">
                  <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABRklEQVR42u2VYQ2DMBBGKwEJSEACEpCABBwgAQlIQAISkIAEJHR5TT7Cuisb/NmSleTC2l7L++6uN+e//LgMkAEyQAb4WYB5nv2yLMm12NZ1NX2ZH4bB930f3rGfCTBNk3fOBbMO1lpsXdc9+Y3jaPoxfwrQNM3uDLkFUFXVrh5gxswzlnL5SQTvsix9URRpAG1s2zY4YxZAXdcvaWGeMPPwZgxcHBX2Kr0vACiWEv0+hswC2LYtAB9Txjrjy0VIeKSagy21qRqQegEQ/ksAKprjQbEyAQBJhDCKT7lVaG8BKGyWAXJWA4oWBXwrBSo+NkqZDCWo4yMpAKVP80QFv7iXJItQobaaj1KjYrSuoRTr2r67hrsYhY/JVM60ruJMpQkIHXypEbHprJ3yEBk1GasVp9r2sRXz4Y9acf43zAAZIAP8FcADn4NwTzq95TgAAAAASUVORK5CYII=" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
 				 </div>
 				 </li>
 				 <li  class="toolbar_item">
                  <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
-				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAB1UlEQVR42u1XbZGEMAyNBCQgoRKQgAQk4IB1UAlIQAISkICESujx0pYtUKDlYO9+bGYysAybvLx8FdJ/LPQFEPNSVVWaiFjruuZnSind973uuk43TcOK38Mw3AtASjk5zicdreY6z3NdFMXCcdu2fA+wQgi+4vmvAcAo0WtSbfXFxs8EzgGyLMsNSxcAiEmVVcGsxIphEOlDGmu+B6AoAMino9vVAO6R/1gxAVQLBsHKKQA4Ry6ds3EcWVPlEgA4hfPUig4JQGdZlpYCoE7JcwwI2EQLIzCfSdqL/ilB9G6WBAGgn++MPhQgCnkXAArkSrGlCDprF8CT9DsJMuB63vX6HR2wJ36QMwDTKtLO++pRJjYMYD4TZd6wUMzEx7oARWdG7WABSGbkCVlvSdouDcFXtONdgiFkUkybwGg9sYAOxZiycM7WsklvbxkWDOhwFCP6mJ0fv4xqr77k8SDyB9IdaXifqJQFUC6Co6ORiVb06fJTFTMnYAPOzHzJ5uPc4TJaC1rGH0z+AXVtbJ1GBOD2Cv4fOiNSbCEBBAyaSIaZTv9wgffcygXQmJ1C6QVVeAXVc1vBIQDCKSJP6aAkAKDx3VJqU1Af+TIyLFw7oH6/Df8lgB934FK9xQ4E2wAAAABJRU5ErkJggg==" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABSklEQVR42u2VMU7DQBBFfQR3SNC4IUBnCQkKJPARfAQ3oXYDNCg+gquk9RGcG7girQ/gwpK70JicYNBbichYjvAukoPQjvSl0Saz83b/ZuLIkcOxABbgXwO0bStlWR4HIMsycV1XgiAQz/MUzKQANM3zXOVxHEuSJOMBoKUI+jAM9xuZhjYADSki8JDTdAOwIQ35zRpW1HWtZwEeRlGkNnYcM6e+mhdFofcIuS6aswF29AH4fEjdU1LHzXEQ7V9B13c2MLkB3/clTVOzOcDJgUAAYINu9N/HoZuwo9gCGANUVSXrfK1EPilA0zTy/PQil7MrJXLWfg3AxDo0ZLqazx9ldn4hpydnSuSsjantT8VvAEwyvvCTVsuV3Fzf7gHIWRtT2/9PMLJgu32XxetC7u8elMh3H7tpHyENN28bJdPmdg5YAAvwJwA+AXlcJkNOCy0xAAAAAElFTkSuQmCC" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
+				 </div>
+				 </li>
+				 <li  class="toolbar_item">
+                 <div class="toolbar_button" mode="0" tabindex="0" isselected="false" style="border-width: 1px;">
+				 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABFklEQVR42u2X4Q2FIAyEOwIjOIIjMIojuIEjMIIjOIIjOIIjOALmXkKCBLVS0LwEkv7AxNxH2ytK9uNFFaACSF5e19X2ff8NwLZttm1bS0QiiGQAJ+5iHMf3ALquO4i7mKapPADSHRNHKKXssixlAeZ5PgRK4e/RmK/aUGtd3gVIO073BMAYwyoHcRvuKcAwDL+euHMHcXyeCsCxKJ1NuNDnEgAEMskGiFkNQBALA2mOPW+ahmVR4vpdkoGr+XDZhKidFACZuHLDrQswXnGCFACUDc0sngM4wdmEOwMA8J34/0zCcMIhvS5QY39f/DKCAHoidhtyap6lBL47JOKiHvAhUr4DsjShu6hSxbO4QCJef0wqANYODVKuyHqvpAYAAAAASUVORK5CYII=" class="gwt-Image toolbar_icon" draggable="false" style="width: 32px;">
 				 </div>
 				 </li>
 				 </ul>
@@ -1043,7 +1051,7 @@ z-index:501;
 <div class="gwt-TreeItem NewRadioButtonTreeItemParent startScreen" role="treeitem" >
 <div class="latexEditor" style="min-height: 59px;">
 
-<div class="scrollableTextBox"><div></div><div tabindex="0" class="gwt-PushButton ggb-btnClearAVInput gwt-PushButton-up" role="button" aria-pressed="false">
+<div class="clearButtonWrapper"><div tabindex="0" class="gwt-PushButton ggb-btnClearAVInput gwt-PushButton-up" role="button" aria-pressed="false">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAaklEQVR42mNgGAWDDkydOjUBiM/39/cLEKsHpBakB6SXGAtACv8TawmS4WA9DKRqwGcJKWpJ1ki24cQYQLHh+AyimuG4LKGq4Tgsoa7hNLeApkFE00imaTKlaUajeVFB88KO5sX1KKA7AADr2TfUFtDYqwAAAABJRU5ErkJggg==" width="24" height="24" class="gwt-Image"></div></div></div></div>
 
 <div class="gwt-PopupPanel KeyBoard normal startScreen" style="width: 100%;">
