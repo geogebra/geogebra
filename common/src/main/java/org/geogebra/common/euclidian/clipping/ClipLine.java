@@ -173,21 +173,23 @@ public class ClipLine {
 		 * System.out.println("mask2 = "+mask2);
 		 * System.out.println("mask = "+mask);
 		 */
+		double xhack = x1 == x2 ? 0 : 0.5;
+		double yhack = y1 == y2 ? 0 : 0.5;
 
 		if (mask1 == INSIDE) {
 			// point 1 is internal
-			p1 = AwtFactory.prototype.newPoint2D((x1 + 0.5), (y1 + 0.5));
+			p1 = AwtFactory.prototype.newPoint2D((x1 + xhack), (y1 + yhack));
 			if (mask == 0) {
 				// both masks are the same, so the second point is inside, too
 				GPoint2D[] ret = new GPoint2D[2];
 				ret[0] = p1;
 				ret[1] = AwtFactory.prototype
-						.newPoint2D((x2 + 0.5), (y2 + 0.5));
+						.newPoint2D((x2 + xhack), (y2 + yhack));
 				return ret;
 			}
 		} else if (mask2 == INSIDE) {
 			// point 2 is internal
-			p1 = AwtFactory.prototype.newPoint2D((x2 + 0.5), (y2 + 0.5));
+			p1 = AwtFactory.prototype.newPoint2D((x2 + xhack), (y2 + yhack));
 		} else if (mask == 0) {
 			// shortcut: no point is inside, but both are in the same sector, so
 			// no intersection is possible
@@ -226,7 +228,7 @@ public class ClipLine {
 				}
 			}
 		}
-		if (p1 != null && p1.getY() == (ymin + 0.5)) {
+		if (p1 != null && p1.getY() == (ymin + yhack)) {
 			// use different sequence if a lower corner of clipping rectangle is
 			// hit
 
@@ -321,22 +323,18 @@ public class ClipLine {
 		double dx2 = x22 - x21;
 		double dy2 = y22 - y21;
 		double det = (dx2 * dy1 - dy2 * dx1);
-
-		/*
-		 * System.out.println("intersect"); System.out.println("x1  = "+x11);
-		 * System.out.println("y1  = "+y11); System.out.println("x2  = "+x21);
-		 * System.out.println("y2  = "+y21); System.out.println("dx1 = "+dx1);
-		 * System.out.println("dy1 = "+dy1); System.out.println("dx2 = "+dx2);
-		 * System.out.println("dy2 = "+dy2);
-		 */
+		// at least one line vertical: no 0.5 hack
+		double xhack = x11 == x12 || x21 == x22 ? 0 : 0.5;
+		// at least one horizontal: no hack
+		double yhack = y11 == y12 || y21 == y22 ? 0 : 0.5;
 
 		if (det != 0.0) {
 			double mu = ((x11 - x21) * dy1 - (y11 - y21) * dx1) / det;
 			// System.out.println("mu = "+mu);
 			if (mu >= 0.0 && mu <= 1.0) {
 				GPoint2D p = AwtFactory.prototype
-						.newPoint2D((x21 + mu * dx2 + 0.5),
-								(y21 + mu * dy2 + 0.5));
+						.newPoint2D((x21 + mu * dx2 + xhack),
+								(y21 + mu * dy2 + yhack));
 				// System.out.println("p = "+p);
 				return p;
 			}
