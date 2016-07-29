@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import org.geogebra.common.kernel.arithmetic.Traversing.CopyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
+import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -34,6 +35,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Function of N variables that returns either a number or a boolean. This
@@ -871,9 +873,17 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return -1;
 	}
 
-	// replace every x in tree by (x - vx)
-	// i.e. replace fVar with (fvar - vx)
-	private void translateX(ExpressionNode en, double vx, int varNo) {
+	/**
+	 * replace every x in tree by (x - vx) // i.e. replace fVar with (fvar - vx)
+	 * 
+	 * @param en
+	 *            node
+	 * @param vx
+	 *            shift
+	 * @param varNo
+	 *            variable index
+	 */
+	protected void translateX(ExpressionNode en, double vx, int varNo) {
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
 
@@ -919,21 +929,159 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 			} else {
 				en.setLeft(shiftXnode(vx, varNo));
 			}
-		} else if (left instanceof ExpressionNode) {
-			translateX((ExpressionNode) left, vx, varNo);
+		} else {
+			translateExpressionX(left, vx, varNo);
 		}
 
 		// right tree
 		if (right == fVars[varNo]) {
 			en.setRight(shiftXnode(vx, varNo));
-		} else if (right instanceof ExpressionNode) {
-			translateX((ExpressionNode) right, vx, varNo);
+		} else {
+			translateExpressionX(right, vx, varNo);
 		}
+
+	}
+
+	private void translateExpressionX(ExpressionValue right, double vx,
+			int varNo) {
+		if (right instanceof ExpressionNode) {
+			translateX((ExpressionNode) right, vx, varNo);
+		} else if (right instanceof MyList) {
+			for (int i = 0; i < ((MyList) right).size(); i++) {
+				translateX(((MyList) right).getListElement(i).wrap(), vx,
+						varNo);
+			}
+		} else if (right instanceof MyVecNode) {
+			translateX(((MyVecNode) right).getX().wrap(), vx, varNo);
+			translateX(((MyVecNode) right).getY().wrap(), vx, varNo);
+		} else if (right instanceof MyVec3DNode) {
+			translateX(((MyVec3DNode) right).getX().wrap(), vx, varNo);
+			translateX(((MyVec3DNode) right).getY().wrap(), vx, varNo);
+			translateX(((MyVec3DNode) right).getZ().wrap(), vx, varNo);
+		}
+
+	}
+
+	/**
+	 * Dilates node in single direction
+	 * 
+	 * @param en
+	 *            node to dilate
+	 * @param vx
+	 *            coefficient
+	 * @param varNo
+	 *            variable in which to dilate
+	 */
+	protected void dilateX(ExpressionNode en, double vx, int varNo) {
+		Log.debug(vx);
+		ExpressionValue left = en.getLeft();
+		ExpressionValue right = en.getRight();
+
+		// left tree
+		if (left == fVars[varNo]) {
+			if (right instanceof MyDouble && right.isConstant()) { // is there a
+																	// constant
+																	// number to
+																	// the
+																	// right?
+				MyDouble num = (MyDouble) right;
+				double temp;
+				switch (en.getOperation()) {
+				case MULTIPLY:
+					temp = num.getDouble() / vx;
+					if (Kernel.isEqual(1, temp)) {
+						expression = expression.replace(en, fVars[varNo])
+								.wrap();
+					} else {
+						num.set(temp);
+					}
+					return;
+
+				case DIVIDE:
+					temp = num.getDouble() * vx;
+					if (Kernel.isEqual(1, temp)) {
+						expression = expression.replace(en, fVars[varNo])
+								.wrap();
+					} else {
+						num.set(temp);
+					}
+					return;
+
+				default:
+					en.setLeft(multXnode(vx, varNo));
+				}
+			} else {
+				en.setLeft(multXnode(vx, varNo));
+			}
+		} else {
+			dilateExpressionX(left, vx, varNo);
+		}
+
+		// right tree
+		if (right == fVars[varNo]) {
+			if (left instanceof MyDouble && left.isConstant()) { // is there a
+				// constant
+				// number to
+				// the
+				// right?
+				MyDouble num = (MyDouble) left;
+				double temp;
+				switch (en.getOperation()) {
+				case MULTIPLY:
+					temp = num.getDouble() / vx;
+					if (Kernel.isEqual(1, temp)) {
+						expression = expression.replace(en, fVars[varNo])
+								.wrap();
+					} else {
+						num.set(temp);
+					}
+					return;
+
+
+
+				default:
+					en.setRight(multXnode(vx, varNo));
+				}
+			} else {
+			en.setRight(multXnode(vx, varNo));
+			}
+		} else {
+			dilateExpressionX(right, vx, varNo);
+		}
+
+	}
+
+	private void dilateExpressionX(ExpressionValue right, double vx,
+			int varNo) {
+		if (right instanceof ExpressionNode) {
+			dilateX((ExpressionNode) right, vx, varNo);
+		} else if (right instanceof MyList) {
+			for (int i = 0; i < ((MyList) right).size(); i++) {
+				dilateX(((MyList) right).getListElement(i).wrap(), vx,
+						varNo);
+			}
+		} else if (right instanceof MyVecNode) {
+			dilateX(((MyVecNode) right).getX().wrap(), vx, varNo);
+			dilateX(((MyVecNode) right).getY().wrap(), vx, varNo);
+		} else if (right instanceof MyVec3DNode) {
+			dilateX(((MyVec3DNode) right).getX().wrap(), vx, varNo);
+			dilateX(((MyVec3DNode) right).getY().wrap(), vx, varNo);
+			dilateX(((MyVec3DNode) right).getZ().wrap(), vx, varNo);
+		}
+
 	}
 
 	// node for (x - vx)
-	private ExpressionNode shiftXnode(double vx, int varNo) {
+	/**
+	 * @param vx0
+	 *            shift
+	 * @param varNo
+	 *            variable index
+	 * @return variable with given index shifted by given amount
+	 */
+	protected ExpressionNode shiftXnode(double vx0, int varNo) {
 		ExpressionNode node;
+		double vx = Kernel.checkDecimalFraction(vx0);
 		if (vx > 0) {
 			node = new ExpressionNode(kernel, fVars[varNo], Operation.MINUS,
 					new MyDouble(kernel, vx));
@@ -942,6 +1090,21 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 					new MyDouble(kernel, -vx));
 		}
 		return node;
+	}
+
+	/**
+	 * @param vx0
+	 *            coefficient
+	 * @param varNo
+	 *            variable index
+	 * @return node coefficient * variable
+	 */
+	protected ExpressionNode multXnode(double vx0, int varNo) {
+		double vx = Kernel.checkDecimalFraction(1 / vx0);
+
+		return new ExpressionNode(kernel, new MyDouble(kernel, vx),
+				Operation.MULTIPLY, fVars[varNo]);
+
 	}
 
 	/**

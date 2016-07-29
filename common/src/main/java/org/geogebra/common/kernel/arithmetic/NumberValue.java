@@ -60,6 +60,8 @@ public interface NumberValue extends ExpressionValue {
 
 	/**
 	 * 
+	 * @param cons
+	 *            construction for the new GeoNumeric
 	 * @return GeoNumeric for MyDoubles, self otherwise
 	 */
 	public GeoElement toGeoElement(Construction cons);

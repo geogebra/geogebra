@@ -474,6 +474,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	/**
 	 * @return acos(this)
+	 * @param deg
+	 *            whether result should be degrees
 	 */
 	final public MyDouble acos(boolean deg) {
 		angleDim = deg ? 1 : 0;
@@ -483,6 +485,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	/**
 	 * @return asin(this)
+	 * @param deg
+	 *            whether result should be degrees
 	 */
 	final public MyDouble asin(boolean deg) {
 		angleDim = deg ? 1 : 0;
@@ -492,6 +496,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	/**
 	 * @return atan(this)
+	 * @param deg
+	 *            whether result should be degrees
 	 */
 	final public MyDouble atan(boolean deg) {
 		angleDim = deg ? 1 : 0;
@@ -502,6 +508,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	/**
 	 * @param y
 	 *            y
+	 * @param deg
+	 *            whether result should be degrees
 	 * @return atan2(this,y)
 	 */
 	final public MyDouble atan2(NumberValue y, boolean deg) {

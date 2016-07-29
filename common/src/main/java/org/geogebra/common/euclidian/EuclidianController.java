@@ -62,7 +62,6 @@ import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.AlgoVertexConic;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -6132,71 +6131,18 @@ public abstract class EuclidianController {
 						.getExpression();
 
 				if (Operation.isSimpleFunction(en.getOperation())) {
-					ExpressionValue arg = en.getLeft();
-
-					if (arg.isExpressionNode()) {
-
-						ExpressionNode enArg = (ExpressionNode) arg;
-
-						Operation op2 = enArg.getOperation();
-
-						// check for sin(3x+2)
-						if (op2.equals(Operation.PLUS)
-								|| op2.equals(Operation.MINUS)) {
-							ExpressionValue left = enArg.getLeft();
-							ExpressionValue right = enArg.getRight();
-
-							// eg sin(3-x)
-							// sin(3-1x) OK though
-							if (!(right.isExpressionNode())
-									&& !(left.isExpressionNode())) {
-								return;
-							}
-
-							if (left instanceof MyDouble) {
-								enArg = (ExpressionNode) right;
-								op2 = enArg.getOperation();
-							} else if (right instanceof MyDouble) {
-								enArg = (ExpressionNode) left;
-								op2 = enArg.getOperation();
-							} else {
-
-								// not sin(linear expression)
-								return;
-							}
-
-						}
-
-						if (op2.equals(Operation.MULTIPLY)) {
-							ExpressionValue left = enArg.getLeft();
-							ExpressionValue right = enArg.getRight();
-
-							// eg sin(x 4)
-							if (left instanceof FunctionVariable
-									&& right instanceof MyDouble) {
-								// swap left and right
-								ExpressionValue tmp = right;
-								right = left;
-								left = tmp;
-							}
-
-							// eg sin(4 x)
-							if (right instanceof FunctionVariable
-									&& left instanceof MyDouble) {
-
-								if (Double.isNaN(initxRW)) {
-									initxRW = xRW;
-									initFactor = ((MyDouble) left).getDouble();
-									return;
-								}
-
-								((MyDouble) left).set(initxRW / xRW
-										* initFactor);
-								movedGeoFunction.updateRepaint();
-							}
-
+					if (Double.isNaN(initxRW) || Kernel.isZero(initxRW)) {
+						initxRW = xRW;
+						initFactor = 1;
+					} else {
+						if (!Kernel.isZero(xRW)) {
+							movedGeoFunction.getFunction()
+									.dilateX(xRW / initxRW / initFactor);
+							initFactor = xRW / initxRW;
+							movedGeoFunction.updateRepaint();
 						}
 					}
+
 
 				}
 
