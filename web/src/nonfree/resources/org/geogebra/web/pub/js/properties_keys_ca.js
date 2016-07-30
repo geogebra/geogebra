@@ -2890,7 +2890,7 @@ __GGB__keysVar.ca.plain = {
     "SubstituteForAinB": "Substituiex per %0 a %1",
     "SubstituteSimplify": "Substitueix i Simplifica",
     "Surface": "Superf\xedcie",
-    "Symbolic": "Symbolic",
+    "Symbolic": "Simb\xf2lic",
     "Syntax": "Sintaxis",
     "SyntaxErrorAisNotAList": "Error de sintaxi: %0 no \xe9s una llista",
     "SystemInformation": "Informaci\xf3 del sistema",
