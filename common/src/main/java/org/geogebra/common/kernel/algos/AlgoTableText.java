@@ -784,8 +784,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	private void addCellLaTeX(int c, int r, boolean finalCell,
 			StringTemplate tpl, char justification1) {
 
-		Log.error("justification1 = " + justification1);
-
 		if (geoLists[c].size() > r) { // check list has an element at this
 										// position
 			GeoElement geo1 = geoLists[c].get(r);
