@@ -3002,4 +3002,71 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return ret;
 	}
 
+	/**
+	 * 
+	 * GGB-1106
+	 * 
+	 * @param s
+	 *            number to pad
+	 * @param phantom
+	 *            whether to make extra digits invisible (just for padding)
+	 * @param defaultDigits
+	 *            default if not set explicitly for the GeoText
+	 * @return number padded, eg 1 padded to 1.00 (2dp) and wrapped in \texttt
+	 *         (monospace font)
+	 */
+	public String padZerosAfterDecimalPoint(String s, boolean phantom,
+			int defaultDigits) {
+
+		if (!StringUtil.isNumber(s)) {
+			return s;
+		}
+
+		int length = s.length();
+		int pointPos = length - s.indexOf('.') - 1;
+
+		int digits = nf == null ? defaultDigits : nf.getMaximumFractionDigits();
+		int zerosToAdd = digits - (pointPos);
+
+		if (pointPos >= length) {
+
+			if (digits == 0) {
+				return wrapInTexttt(s);
+			}
+
+			if (phantom) {
+				return wrapInTexttt(
+						s + wrapInPhantom(
+								"." +
+								StringUtil.string("0", digits)));
+			}
+			return wrapInTexttt(s + "." + StringUtil.string("0", digits));
+
+		}
+
+		if (zerosToAdd == 0) {
+			return wrapInTexttt(s);
+		}
+
+		if (zerosToAdd < 0) {
+			Log.error("problem in TableText[] " + s);
+		}
+
+		if (phantom) {
+			return wrapInTexttt(
+					s + wrapInPhantom(StringUtil.string("0", zerosToAdd)));
+		}
+
+		return wrapInTexttt(s + StringUtil.string("0", zerosToAdd));
+
+	}
+
+	private String wrapInTexttt(String s) {
+		return "\\texttt{" + s + "}";
+	}
+
+	private String wrapInPhantom(String s) {
+		return "\\phantom{" + s + "}";
+	}
+
 }

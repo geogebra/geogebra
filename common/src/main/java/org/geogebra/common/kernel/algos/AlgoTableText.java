@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -156,9 +157,9 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		return text;
 	}
 
-	// get the lrc from middle of ABCDlrcEFGH
+	// get the lrc.a from middle of ABCDlrcEFGH
 	private final static RegExp matchLRC = RegExp
-			.compile("([^lrc]*)([lrc]*)([^lrc]*)");
+			.compile("([^.lrca]*)([.lrca]*)([^.lrca]*)");
 
 	private void parseArgs() {
 
@@ -383,7 +384,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 						&& charAt(verticalLinesArray, c) == '1') {
 					sb.append("|");
 				}
-				sb.append(getJustification(c)); // "l", "r" or "c"
+				sb.append(getJustificationLaTeX(c)); // "l", "r" or "c"
 			}
 			if (verticalLines && charAt(verticalLinesArray, columns) == '1') {
 				sb.append("|");
@@ -398,7 +399,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < columns; c++) {
 					boolean finalCell = (c == columns - 1);
-					addCellLaTeX(c, r, finalCell, tpl);
+					addCellLaTeX(c, r, finalCell, tpl, getJustification(c));
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
 				if (horizontalLines
@@ -416,7 +417,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					sb.append("|");
 				}
 
-				sb.append(getJustification(c)); // "l", "r" or "c"
+				sb.append(getJustificationLaTeX(c)); // "l", "r" or "c"
 			}
 			if (verticalLines && charAt(verticalLinesArray, rows) == '1') {
 				sb.append("|");
@@ -433,7 +434,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			for (int c = 0; c < columns; c++) {
 				for (int r = 0; r < rows; r++) {
 					boolean finalCell = (r == rows - 1);
-					addCellLaTeX(c, r, finalCell, tpl);
+					addCellLaTeX(c, r, finalCell, tpl, getJustification(c));
 				}
 				sb.append(" \\\\ "); // newline in LaTeX ie \\
 				if (horizontalLines
@@ -466,6 +467,29 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		}
 
 		return justification.charAt(c);
+	}
+
+	/**
+	 * 
+	 * @param c
+	 *            column/row
+	 * @return 'l', 'r', 'c' for left/right/center
+	 */
+	private char getJustificationLaTeX(int c) {
+
+		char j = getJustification(c);
+
+		switch (j) {
+		case 'r':
+		case 'c':
+		case 'l':
+			return j;
+
+		// for 'a', '.'
+		default:
+			return 'r';
+		}
+
 	}
 
 	private void latexMQ(StringTemplate tpl) {
@@ -628,7 +652,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					} else {
 						sb.append("\\ggbtd" + jc + "{");
 					}
-					addCellLaTeX(c, r, true, tpl);
+					addCellLaTeX(c, r, true, tpl, getJustificationLaTeX(c));
 					sb.append("}");
 				}
 				sb.append("}");
@@ -688,7 +712,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					c0 = charAt(verticalLinesArray, r);
 					c1 = charAt(verticalLinesArray, r + 1);
 
-					String jc = String.valueOf(getJustification(r))
+					String jc = String.valueOf(getJustificationLaTeX(r))
 							.toUpperCase();
 					if ("C".equals(jc)) {
 						// syntax is without "C" to maintain
@@ -738,7 +762,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 					} else {
 						sb.append("\\ggbtd" + jc + "{");
 					}
-					addCellLaTeX(c, r, true, tpl);
+					addCellLaTeX(c, r, true, tpl, getJustificationLaTeX(c));
 					sb.append("}");
 				}
 				sb.append("}");
@@ -758,7 +782,10 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	}
 
 	private void addCellLaTeX(int c, int r, boolean finalCell,
-			StringTemplate tpl) {
+			StringTemplate tpl, char justification1) {
+
+		Log.error("justification1 = " + justification1);
+
 		if (geoLists[c].size() > r) { // check list has an element at this
 										// position
 			GeoElement geo1 = geoLists[c].get(r);
@@ -790,6 +817,12 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
 			String text1 = geo1.toLaTeXString(false, tpl);
+
+			if (justification1 == '.' || justification1 == 'a') {
+				text1 = tpl.padZerosAfterDecimalPoint(text1,
+						justification1 == '.', kernel.getPrintDecimals());
+			}
+			Log.debug("after  " + text1);
 
 			if (" ".equals(text1) || "".equals(text1)) {
 				text1 = "\\;"; // problem with JLaTeXMath, was "\u00a0";
