@@ -10,8 +10,11 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.advanced.CmdIntersectPath;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -80,16 +83,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 						(GeoPlane3D) arg[1], (GeoPolyhedron) arg[0],
 						c.getOutputSizes());
 
-			// intersection plane/plane
-			if ((ok[0] = (arg[0].isGeoPlane()))
-					&& (ok[0] = (arg[1].isGeoPlane()))) {
 
-				GeoElement[] ret = { kernelA.getManager3D().IntersectPlanes(
-						c.getLabel(), (GeoPlaneND) arg[0],
-						(GeoPlaneND) arg[1]) };
-				return ret;
-
-			}
 
 			// intersection 3D polygons
 			if ((ok[0] = (arg[0].isGeoPolygon()))
@@ -98,6 +92,23 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 						c.getLabels(), (GeoPolygon3D) arg[0],
 						(GeoPolygon3D) arg[1]);
 				return result;
+			}
+			// argument x=0 should be a plane, not line
+			for (int i = 0; i < 2; i++) {
+				if (arg[i] instanceof GeoLine && arg[i].isIndependent()
+						&& !arg[i].isLabelSet()) {
+					arg[i] = lineToPlane(arg[i]);
+				}
+			}
+
+			// intersection plane/plane
+			if ((ok[0] = (arg[0].isGeoPlane()))
+					&& (ok[0] = (arg[1].isGeoPlane()))) {
+
+				GeoElement[] ret = { kernelA.getManager3D().IntersectPlanes(
+						c.getLabel(), (GeoPlaneND) arg[0], (GeoPlaneND) arg[1]) };
+				return ret;
+
 			}
 
 			GeoElement ret = processPlaneSurface(kernelA, arg, ok, c.getLabel());
@@ -116,6 +127,20 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 		default:
 			return super.process(c);
 		}
+	}
+
+	private GeoElement lineToPlane(GeoElement geoElement) {
+
+		GeoLine line = (GeoLine) geoElement;
+		GeoPlane3D plane = new GeoPlane3D(cons, line.getX(), line.getY(), 0,
+				line.getZ());
+		if (line.getDefinition() != null) {
+			ExpressionValue eq = geoElement.getDefinition().unwrap();
+			if (eq instanceof Equation) {
+				plane.setDefinition(eq.wrap());
+			}
+		}
+		return plane;
 	}
 
 	/**
