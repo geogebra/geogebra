@@ -3065,8 +3065,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return "\\texttt{" + s + "}";
 	}
 
+	/**
+	 * GGB-1106 \texttt{\phantom{}} doesn't seem to work,
+	 * \texttt{\phantom{\texttt{}}} seems OK
+	 * 
+	 * @param s
+	 *            strin to wrap
+	 * @return wrapped string
+	 */
 	private String wrapInPhantom(String s) {
-		return "\\phantom{" + s + "}";
+		return "\\phantom{\\texttt{" + s + "}}";
 	}
 
 }
