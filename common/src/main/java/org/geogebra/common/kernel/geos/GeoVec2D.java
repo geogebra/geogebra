@@ -1129,7 +1129,11 @@ final public class GeoVec2D extends ValidExpression implements
 			sbToString.append(kernel.format(x, tpl));
 			sbToString.append(" ");
 			kernel.formatSignedCoefficient(y, sbToString, tpl);
-			sbToString.append(Unicode.IMAGINARY);
+			if (tpl.hasCASType()) {
+				sbToString.append('i');
+			} else {
+				sbToString.append(Unicode.IMAGINARY);
+			}
 			sbToString.append(tpl.rightBracket());
 			return sbToString.toString();
 		}
