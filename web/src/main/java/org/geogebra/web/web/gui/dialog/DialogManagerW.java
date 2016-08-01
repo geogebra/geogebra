@@ -35,12 +35,12 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.LoadingApplication;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.export.AnimationExportDialogW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
@@ -467,7 +467,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	private PopupPanel createLoadingAnimation() {
 	    PopupPanel anim = new PopupPanel();
 	    anim.addStyleName("loadinganimation");
-	    anim.add(new Image(GuiResources.INSTANCE.getGeoGebraWebSpinner()));
+		anim.add(
+				new Image(GuiResourcesSimple.INSTANCE.getGeoGebraWebSpinner()));
 	    return anim;
     }
 

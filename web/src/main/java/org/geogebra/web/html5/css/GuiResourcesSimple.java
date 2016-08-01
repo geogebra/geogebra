@@ -148,8 +148,11 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/view_refresh.png")
 	ImageResource viewRefresh();
 
-	@Source("org/geogebra/web/resources/images/spinner.html")
-	TextResource ggbSpinnerHtml();
+	@Source("org/geogebra/web/resources/images/spinner.gif")
+	ImageResource getGeoGebraWebSpinner();
+
+	// @Source("org/geogebra/web/resources/images/spinner.html")
+	// TextResource ggbSpinnerHtml();
 
 	@Source("org/geogebra/web/resources/images/ggbSplash.html")
 	TextResource ggbSplashHtml();

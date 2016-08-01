@@ -14,8 +14,7 @@ public interface GuiResources extends ClientBundle {
 	// @Source("org/geogebra/web/resources/images/ggb4-splash-h120.png")
 	// ImageResource getGeoGebraWebSplash();
 
-	@Source("org/geogebra/web/resources/images/spinner.gif")
-	ImageResource getGeoGebraWebSpinner();
+
 
 	@Source("org/geogebra/web/resources/images/spacer.png")
 	ImageResource spacer();

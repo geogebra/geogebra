@@ -6,9 +6,11 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class SplashDialog extends SimplePanel {
@@ -46,8 +48,15 @@ public class SplashDialog extends SimplePanel {
 				        .ggbSplashHtml().getText());
 				panel.add(logo);
 			}
-			HTML spinner = new HTML(GuiResourcesSimple.INSTANCE
-			        .ggbSpinnerHtml().getText());
+			Image spinner = new NoDragImage(GuiResourcesSimple.INSTANCE
+					.getGeoGebraWebSpinner().getSafeUri().asString());
+			Style sstyle = spinner.getElement().getStyle();
+			// position:absolute; margin-left:-8px; left:50%; bottom:5px;
+			sstyle.setLeft(50, Unit.PCT);
+			sstyle.setBottom(5, Unit.PX);
+			sstyle.setPosition(Position.ABSOLUTE);
+			sstyle.setMarginLeft(-8, Unit.PX);
+
 			panel.add(spinner);
 			addNativeLoadHandler(panel.getElement());
 			add(panel);
