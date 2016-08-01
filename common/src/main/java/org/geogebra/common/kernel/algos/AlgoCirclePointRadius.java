@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -121,8 +122,12 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		}
 		
 		GeoPoint P = (GeoPoint) this.getInput(0);
+		GeoNumeric num = null;
+		if (this.getInput(1) instanceof GeoNumeric) {
+			num = (GeoNumeric) this.getInput(1);
+		}
 
-		if (P == null) {
+		if (P == null || num == null) {
 			throw new NoSymbolicParametersException();
 		}
 		
@@ -136,14 +141,21 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 				botanaVars[2] = new Variable();
 				botanaVars[3] = new Variable();				
 				// radius
-			botanaVars[4] = new Variable();
+				botanaVars[4] = new Variable();
 		}
 		
-		botanaPolynomials = new Polynomial[1];
+		botanaPolynomials = new Polynomial[2];
+		Variable[] radiusBotanaVars = num.getBotanaVars(num);
 		// r^2
 		Polynomial sqrR = Polynomial.sqr(new Polynomial(botanaVars[4]));
+		// define circle
 		botanaPolynomials[0] = Polynomial.sqrDistance(botanaVars[0],
 				botanaVars[1], botanaVars[2], botanaVars[3]).subtract(sqrR);
+		// define radius
+		botanaPolynomials[1] = Polynomial
+				.sqrDistance(radiusBotanaVars[0], radiusBotanaVars[1],
+						radiusBotanaVars[2], radiusBotanaVars[3])
+				.subtract(sqrR);
 		
 		return botanaPolynomials;
 
