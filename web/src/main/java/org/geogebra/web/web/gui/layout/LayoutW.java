@@ -108,10 +108,10 @@ public class LayoutW extends Layout implements SettingListener {
 
 		// app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
 		if (((LaTeXHelper) GWT.create(LaTeXHelper.class)).supportsAV()) {
-			app.setInputPositon(app.getArticleElement()
+			app.setInputPosition(app.getArticleElement()
 					.getAlgebraPosition(perspective.getInputPosition()), false);
 		} else {
-			app.setInputPositon(InputPosition.bottom, false);
+			app.setInputPosition(InputPosition.bottom, false);
 		}
 		
 

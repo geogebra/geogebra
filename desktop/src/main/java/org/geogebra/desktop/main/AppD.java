@@ -897,7 +897,7 @@ ToolbarD.getAllTools(this));
 			boolean showAlgebraInputTop = args.getBooleanValue(
 					"showAlgebraInputTop", true);
 			if (showAlgebraInputTop) {
-				setInputPositon(InputPosition.top, false);
+				setInputPosition(InputPosition.top, false);
 			}
 		}
 

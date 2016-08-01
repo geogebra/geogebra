@@ -321,6 +321,14 @@ public class AppWapplet extends AppWFull {
 				p = PerspectiveDecoder.decode(perspective, this.getKernel()
 						.getParser(), ToolBar.getAllToolsNoMacros(true, false));
 			}
+			if(articleElement.getDataParamShowAlgebraInput(false)){
+				Perspective p2 = getTmpPerspective(p);
+				if (!algebraVisible(p2)
+						&& getInputPosition() == InputPosition.algebraView) {
+					setInputPosition(InputPosition.bottom, false);
+					p2.setInputPosition(InputPosition.bottom);
+				}
+			}
 			getGuiManager().getLayout()
 					.setPerspectives(getTmpPerspectives(), p);
 		}
@@ -373,6 +381,18 @@ public class AppWapplet extends AppWFull {
 		onOpenFile();
 		showStartTooltip(0);
 		setAltText();
+	}
+
+	private static boolean algebraVisible(Perspective p2) {
+		if (p2 == null || p2.getDockPanelData() == null) {
+			return false;
+		}
+		for (DockPanelData dp : p2.getDockPanelData()) {
+			if (dp.getViewId() == App.VIEW_ALGEBRA) {
+				return dp.isVisible() && !dp.isOpenInFrame();
+			}
+		}
+		return false;
 	}
 
 	private View focusedView;
@@ -458,13 +478,7 @@ public class AppWapplet extends AppWFull {
 			return true;
 		}
 
-		Perspective docPerspective = null;
-
-		for (Perspective perspective : tmpPerspectives) {
-			if (perspective.getId().equals("tmp")) {
-				docPerspective = perspective;
-			}
-		}
+		Perspective docPerspective = getTmpPerspective(null);
 
 		if (docPerspective == null) {
 			return true;
@@ -482,6 +496,17 @@ public class AppWapplet extends AppWFull {
 		}
 
 		return justEuclidianVisible;
+	}
+
+	private Perspective getTmpPerspective(Perspective fallback) {
+
+		for (Perspective perspective : tmpPerspectives) {
+			if (perspective.getId().equals("tmp")) {
+				return perspective;
+			}
+		}
+		return fallback;
+
 	}
 
 	@Override

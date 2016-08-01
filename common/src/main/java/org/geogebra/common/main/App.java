@@ -2705,7 +2705,7 @@ public abstract class App implements UpdateSelection {
 	 * @param update
 	 *            whether layout update is needed afterwards
 	 */
-	public void setInputPositon(InputPosition flag, boolean update) {
+	public void setInputPosition(InputPosition flag, boolean update) {
 		if (flag == showInputTop) {
 			return;
 		}

@@ -58,7 +58,7 @@ public class SplashDialog extends SimplePanel {
 			sstyle.setMarginLeft(-8, Unit.PX);
 
 			panel.add(spinner);
-			addNativeLoadHandler(panel.getElement());
+			addNativeLoadHandler(spinner.getElement());
 			add(panel);
 		} else {
 			Timer afterConstructor = new Timer() {
@@ -75,8 +75,8 @@ public class SplashDialog extends SimplePanel {
 		t.schedule(GeoGebraConstants.SPLASH_DIALOG_DELAY);
 	}
 
-	protected native void addNativeLoadHandler(Element el) /*-{
-		var img = el.querySelector(".spinner"), t = this;
+	protected native void addNativeLoadHandler(Element img) /*-{
+		var t = this;
 		img.addEventListener("load", function() {
 			t.@org.geogebra.web.html5.gui.SplashDialog::triggerImageLoaded()();
 		});

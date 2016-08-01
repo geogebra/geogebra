@@ -108,7 +108,7 @@ public class ViewMenuW extends GMenuBar {
 								visibleBelow ? -GLookAndFeelI.COMMAND_LINE_HEIGHT
 										: GLookAndFeelI.COMMAND_LINE_HEIGHT);
 						app.setShowAlgebraInput(true, false);
-						app.setInputPositon(
+						app.setInputPosition(
 								app.getInputPosition() == InputPosition.algebraView
 										? InputPosition.bottom
 										: InputPosition.algebraView,
@@ -201,7 +201,7 @@ public class ViewMenuW extends GMenuBar {
 				boolean shown = app.getGuiManager().showView(e.getID());
 
 				if (e.getID() == App.VIEW_ALGEBRA && shown == false) {
-					app.setInputPositon(InputPosition.algebraView, true);
+					app.setInputPosition(InputPosition.algebraView, true);
 				}
 				app.getGuiManager().setShowView(!shown, e.getID());
 				newItem.setSelected(app.getGuiManager().showView(e.getID()));

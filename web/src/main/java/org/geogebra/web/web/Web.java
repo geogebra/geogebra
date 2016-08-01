@@ -59,7 +59,7 @@ public class Web implements EntryPoint {
 		GeoGebraProfiler.getInstance().profile();
 
 		CustomElements.registerGeoGebraWebElement();
-
+		WebSimple.registerSuperdevExceptionHandler();
 		exportGGBElementRenderer();
 
 		// setLocaleToQueryParam();
@@ -67,7 +67,7 @@ public class Web implements EntryPoint {
 		run();
 		allowRerun();
 		// just debug for now
-		WebSimple.registerSuperdevExceptionHandler();
+
 	}
 
 	private static void run() {

@@ -344,7 +344,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 					// so the options defaults dialog should be reset later
 					app.getKernel().getConstruction().getConstructionDefaults()
 							.createDefaultGeoElements();
-					app.setInputPositon(InputPosition.algebraView, false);
+					app.setInputPosition(InputPosition.algebraView, false);
 					// reset the stylebar defaultGeo
 					if (app.getEuclidianView1().hasStyleBar())
 						app.getEuclidianView1().getStyleBar()
