@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.AlgoClasses;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
@@ -213,12 +214,12 @@ public class StatGeo {
 
 	}
 
-	public GeoElement createHistogram(GeoList dataList,
+	public GeoElementND createHistogram(GeoList dataList,
 			StatPanelSettings settings, boolean isFrequencyPolygon) {
 
 		AlgoElement al = null, algoHistogram = null;
 		histogramRight = !settings.isLeftRule();
-		GeoElement geo;
+		GeoElementND geo;
 
 		// determine min/max X values
 		if (settings.groupType() == GroupType.RAWDATA) {
@@ -365,8 +366,8 @@ public class StatGeo {
 		removeFromConstructionList(mean);
 		removeFromConstructionList(sd);
 
-		GeoElement meanGeo = mean.getGeoElements()[0];
-		GeoElement sdGeo = sd.getGeoElements()[0];
+		GeoElementND meanGeo = mean.getGeoElements()[0];
+		GeoElementND sdGeo = sd.getGeoElements()[0];
 
 		FunctionVariable x = new FunctionVariable(kernel);
 
@@ -391,7 +392,7 @@ public class StatGeo {
 		return geo;
 	}
 
-	public void getHistogramSettings(GeoList dataList, GeoElement histogram,
+	public void getHistogramSettings(GeoList dataList, GeoElementND histogram,
 			StatPanelSettings settings) {
 
 		// get the data bounds
@@ -433,10 +434,10 @@ public class StatGeo {
 	 * @param settings
 	 * @return
 	 */
-	public GeoElement createBarChartText(GeoList dataList,
+	public GeoElementND createBarChartText(GeoList dataList,
 			StatPanelSettings settings) {
 
-		GeoElement geo = null;
+		GeoElementND geo = null;
 		AlgoBarChart algoBarChart = null;
 
 		if (settings.isAutomaticBarWidth()) {
@@ -560,7 +561,7 @@ public class StatGeo {
 	}
 
 	public void getBarChartSettings(GeoList dataList,
-			StatPanelSettings settings, GeoElement barChart) {
+			StatPanelSettings settings, GeoElementND barChart) {
 
 		double[] leftBorder = ((AlgoBarChart) barChart.getParentAlgorithm())
 				.getLeftBorder();
@@ -788,11 +789,11 @@ public class StatGeo {
 		settings.isPositiveOnly[1] = false;
 	}
 
-	public GeoElement createScatterPlotLine(GeoList points) {
+	public GeoElementND createScatterPlotLine(GeoList points) {
 
 		AlgoPolyLine polyLine = new AlgoPolyLine(cons, (String) null, points);
 		removeFromConstructionList(polyLine);
-		GeoElement geo = polyLine.getGeoElements()[0];
+		GeoElementND geo = polyLine.getGeoElements()[0];
 
 		// set visibility
 		geo.setEuclidianVisible(true);

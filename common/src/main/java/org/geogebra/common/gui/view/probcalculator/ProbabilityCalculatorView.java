@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.statistics.AlgoBinomialDist;
 import org.geogebra.common.kernel.statistics.AlgoCauchyDF;
@@ -130,10 +131,11 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	protected HashMap<String, DIST> reverseDistributionMap;
 
 	// GeoElements
-	protected ArrayList<GeoElement> plotGeoList;
+	protected ArrayList<GeoElementND> plotGeoList;
 	protected GeoPoint lowPoint, highPoint, curvePoint;
 	protected GeoElement densityCurve, integral, ySegment, xSegment,
-				discreteGraph, discreteIntervalGraph, normalOverlay;
+			discreteIntervalGraph, normalOverlay;
+	protected GeoElementND discreteGraph;
 	protected GeoList discreteValueList, discreteProbList, intervalProbList,
 				intervalValueList;
 		// private GeoList parmList;
@@ -203,7 +205,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 		
 		probManager = new ProbabilityManager(app, this);
 		plotSettings = new PlotSettings();
-		plotGeoList = new ArrayList<GeoElement>();
+		plotGeoList = new ArrayList<GeoElementND>();
 
 	}
 	
@@ -709,8 +711,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 		}
 
 		private void hideAllGeosFromViews() {
-			for (GeoElement geo : plotGeoList) {
-				hideGeoFromViews(geo);
+		for (GeoElementND geo : plotGeoList) {
+			hideGeoFromViews(geo.toGeoElement());
 			}
 		}
 
@@ -723,7 +725,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 		}
 
 		private void hideToolTips() {
-			for (GeoElement geo : plotGeoList) {
+		for (GeoElementND geo : plotGeoList) {
 				geo.setTooltipMode(GeoElement.TOOLTIP_OFF);
 			}
 		}
@@ -989,7 +991,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			AlgoInversePascal n2 = new AlgoInversePascal(cons, nGeo, pGeo,
 					new GeoNumeric(cons, nearlyOne));
 			cons.removeFromConstructionList(n2);
-			GeoElement n2Geo = n2.getGeoElements()[0];
+			GeoElementND n2Geo = n2.getGeoElements()[0];
 
 			algoSeq = new AlgoSequence(cons, k, k, new GeoNumeric(cons, 0.0),
 					(GeoNumberValue) n2Geo, null);
@@ -1134,7 +1136,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 	private void clearPlotGeoList() {
 
-		for (GeoElement geo : plotGeoList) {
+		for (GeoElementND geo : plotGeoList) {
 			if (geo != null) {
 				geo.setFixed(false);
 				geo.remove();
@@ -1221,7 +1223,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 				GeoElement discreteGraphCopy = createGeoFromString(expr, false);
 				discreteGraphCopy.setLabel(null);
-				discreteGraphCopy.setVisualStyle(discreteGraph);
+				discreteGraphCopy.setVisualStyle(discreteGraph.toGeoElement());
 				newGeoList.add(discreteGraphCopy);
 
 				// create interval bar chart

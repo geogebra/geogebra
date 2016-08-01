@@ -65,6 +65,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
@@ -203,10 +204,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		// generate point list
 		if (pairName) {
 			for (int step = 0; step < construction.steps(); step++) {
-				GeoElement[] geos = construction.getConstructionElement(step)
+				GeoElementND[] geos = construction.getConstructionElement(step)
 						.getGeoElements();
 				for (int j = 0; j < geos.length; j++) {
-					GeoElement g = geos[j];
+					GeoElementND g = geos[j];
 					if (g.isEuclidianVisible() && g.isGeoPoint())
 						pointList.add((GeoPoint) g);
 				}

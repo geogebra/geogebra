@@ -468,4 +468,16 @@ public interface GeoElementND extends ExpressionValue {
 
 	TreeSet<GeoElement> getAllChildren();
 
+	void setSelectionAllowed(boolean b);
+
+	int getLayer();
+
+	void setTooltipMode(int tooltipOff);
+
+	void setLayer(int i);
+
+	void addView(int viewEuclidian);
+
+	void removeView(int viewEuclidian2);
+
 }

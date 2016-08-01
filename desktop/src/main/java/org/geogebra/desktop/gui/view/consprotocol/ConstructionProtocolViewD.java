@@ -71,6 +71,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -895,10 +896,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 			// reorder rows in this view
 			ConstructionElement ce = kernel.getConstructionElement(toIndex);
-			GeoElement[] geos = ce.getGeoElements();
+			GeoElementND[] geos = ce.getGeoElements();
 			for (int i = 0; i < geos.length; ++i) {
-				remove(geos[i]);
-				add(geos[i]);
+				remove(geos[i].toGeoElement());
+				add(geos[i].toGeoElement());
 			}
 			return changed;
 		}

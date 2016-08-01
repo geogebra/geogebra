@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 
 /**
@@ -194,7 +195,7 @@ public abstract class ConstructionElement implements
 	 * 
 	 * @return an array with all GeoElements of this construction element.
 	 */
-	public abstract GeoElement[] getGeoElements();
+	public abstract GeoElementND[] getGeoElements();
 
 	/**
 	 * @return true for GeoElements

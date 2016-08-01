@@ -59,6 +59,7 @@ import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.statistics.AlgoHistogram;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
@@ -1208,10 +1209,10 @@ public abstract class GeoGebraExport {
 				beamerSlideNumber = step + 2;
 			else
 				beamerSlideNumber = step + 1;
-			GeoElement[] geos = construction.getConstructionElement(step)
+			GeoElementND[] geos = construction.getConstructionElement(step)
 					.getGeoElements();
 			for (int j = 0; j < geos.length; j++) {
-				GeoElement g = geos[j];
+				GeoElement g = geos[j].toGeoElement();
 				drawGeoElement(g, false, false);
 			}
 		}
@@ -1228,10 +1229,10 @@ public abstract class GeoGebraExport {
 				beamerSlideNumber = step + 2;
 			else
 				beamerSlideNumber = step + 1;
-			GeoElement[] geos = construction.getConstructionElement(step)
+			GeoElementND[] geos = construction.getConstructionElement(step)
 					.getGeoElements();
 			for (int j = 0; j < geos.length; j++) {
-				GeoElement g = geos[j];
+				GeoElement g = geos[j].toGeoElement();
 				if (g.isIndependent())
 					drawGeoElement(g, false, false);
 			}

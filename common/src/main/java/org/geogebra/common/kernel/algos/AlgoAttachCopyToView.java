@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoly;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.MyMath;
@@ -67,7 +68,8 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	 * @param screenCorner3
 	 *            screen point corresponding to corner3
 	 */
-	public AlgoAttachCopyToView(Construction cons, String label, GeoElement in,
+	public AlgoAttachCopyToView(Construction cons, String label,
+			GeoElementND in,
 			GeoNumberValue viewID, GeoPointND corner1, GeoPointND corner3,
 			GeoPointND screenCorner1, GeoPointND screenCorner3) {
 		this(cons, in, viewID, corner1, corner3, screenCorner1, screenCorner3);
@@ -92,7 +94,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 	 * @param screenCorner3
 	 *            screen point corresponding to corner3
 	 */
-	public AlgoAttachCopyToView(Construction cons, GeoElement in,
+	public AlgoAttachCopyToView(Construction cons, GeoElementND in,
 			GeoNumberValue viewID, GeoPointND corner1, GeoPointND corner3,
 			GeoPointND screenCorner1, GeoPointND screenCorner3) {
 		super(cons);

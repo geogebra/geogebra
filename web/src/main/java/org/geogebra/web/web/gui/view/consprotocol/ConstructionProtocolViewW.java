@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -1040,10 +1041,10 @@ myCell) {
 
 			// reorder rows in this view
 			ConstructionElement ce = kernel.getConstructionElement(toIndex);
-			GeoElement[] geos = ce.getGeoElements();
+			GeoElementND[] geos = ce.getGeoElements();
 			for (int i = 0; i < geos.length; ++i) {
-				remove(geos[i]);
-				add(geos[i]);
+				remove(geos[i].toGeoElement());
+				add(geos[i].toGeoElement());
 			}
 			return changed;
 		}

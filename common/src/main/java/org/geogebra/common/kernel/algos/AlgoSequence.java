@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -42,7 +43,7 @@ public class AlgoSequence extends AlgoElement {
 		SIMPLE, RANGE, FULL
 	}
 
-	private GeoElement expression; // input expression dependent on var
+	private GeoElementND expression; // input expression dependent on var
 	private GeoNumeric var; // input: local variable
 	private GeoNumberValue var_from, var_to, var_step;
 	private GeoElement var_from_geo, var_to_geo, var_step_geo;
@@ -77,7 +78,8 @@ public class AlgoSequence extends AlgoElement {
 	 * @param var_step
 	 *            step
 	 */
-	public AlgoSequence(Construction cons, String label, GeoElement expression,
+	public AlgoSequence(Construction cons, String label,
+			GeoElementND expression,
 			GeoNumeric var, GeoNumberValue var_from, GeoNumberValue var_to,
 			GeoNumberValue var_step) {
 
@@ -101,7 +103,7 @@ public class AlgoSequence extends AlgoElement {
 	 * @param var_step
 	 *            step
 	 */
-	public AlgoSequence(Construction cons, GeoElement expression,
+	public AlgoSequence(Construction cons, GeoElementND expression,
 			GeoNumeric var, GeoNumberValue var_from, GeoNumberValue var_to,
 			GeoNumberValue var_step) {
 		super(cons);
@@ -212,7 +214,7 @@ public class AlgoSequence extends AlgoElement {
 			list.setTypeStringForXML(expression.getXMLtypeString());
 			int len = var_step == null ? 4 : 5;
 			input = new GeoElement[len];
-			input[0] = expression;
+			input[0] = expression.toGeoElement();
 			input[1] = var;
 			input[2] = var_from_geo;
 			input[3] = var_to_geo;
@@ -246,7 +248,7 @@ public class AlgoSequence extends AlgoElement {
 		int skip = expression == var ? 2 : 1;
 		GeoElement[] realInput = new GeoElement[input.length - skip];
 		if (skip == 1) {
-			realInput[0] = expression;
+			realInput[0] = expression.toGeoElement();
 		}
 		realInput[2 - skip] = var_from_geo;
 		realInput[3 - skip] = var_to_geo;

@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -114,13 +115,14 @@ public class DataDisplayModel {
 
 	private StatPanelSettings settings;
 
-	private ArrayList<GeoElement> plotGeoList;
+	private ArrayList<GeoElementND> plotGeoList;
 
 	private GeoElement[] boxPlotTitles;
-	private GeoElement histogram, dotPlot, frequencyPolygon, normalCurve,
-			scatterPlot, scatterPlotLine, residualPlot, logarithmicPlot,
+	private GeoElementND frequencyPolygon, histogram, barChart, scatterPlotLine;
+	private GeoElement dotPlot, normalCurve,
+			scatterPlot, residualPlot, logarithmicPlot,
 			nqPlot, boxPlot,
-	barChart, freqTableGeo;
+			freqTableGeo;
 
 	private boolean hasControlPanel = true;
 	private IDataDisplayListener listener;
@@ -138,7 +140,7 @@ public class DataDisplayModel {
 		this.loc = app.getLocalization();
 		this.statGeo = daModel.getStatGeo();
 		this.listener = listener;
-		plotGeoList = new ArrayList<GeoElement>();
+		plotGeoList = new ArrayList<GeoElementND>();
 
 		// create settings
 		settings = new StatPanelSettings();
@@ -480,9 +482,9 @@ public class DataDisplayModel {
 				// ==============================================
 	
 				if (doCreate && statGeo.removeFromConstruction()) {
-					for (GeoElement listGeo : plotGeoList) {
+				for (GeoElementND listGeo : plotGeoList) {
 						// add the geo to our view and remove it from EV
-						listener.geoToPlotPanel(listGeo);
+					listener.geoToPlotPanel(listGeo.toGeoElement());
 					
 					}
 				}
@@ -507,7 +509,7 @@ public class DataDisplayModel {
 	
 
 	public void clearPlotGeoList() {
-		for (GeoElement geo : plotGeoList) {
+		for (GeoElementND geo : plotGeoList) {
 			if (geo != null) {
 				geo.remove();
 				geo = null;
@@ -560,7 +562,7 @@ public class DataDisplayModel {
 			}
 
 			// prepare all display geos to appear in the EV
-			for (GeoElement geo : plotGeoList) {
+			for (GeoElementND geo : plotGeoList) {
 				prepareGeoForEV(geo, euclidianViewID);
 			}
 
@@ -649,7 +651,7 @@ public class DataDisplayModel {
 	 * @param euclidianViewID
 	 *            viewID of the target EuclidianView
 	 */
-	private static void prepareGeoForEV(GeoElement geo, int euclidianViewID) {
+	private static void prepareGeoForEV(GeoElementND geo, int euclidianViewID) {
 
 		geo.setLabel(null);
 		geo.setEuclidianVisible(true);
