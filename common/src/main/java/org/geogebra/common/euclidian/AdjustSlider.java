@@ -79,7 +79,8 @@ public class AdjustSlider {
 			return true;
 		}
 
-		if (x == origX && y == origY && origY < view.getHeight()
+		if (x == origX && origX < view.getWidth() && y == origY
+				&& origY < view.getHeight()
 				&& origWidth == width) {
 			return true;
 		}
