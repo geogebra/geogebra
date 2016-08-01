@@ -350,16 +350,13 @@ public class DrawSlider extends Drawable {
 		int fileHeight = app.getSettings()
 				.getEuclidian(view.getEuclidianViewNo()).getFileHeight();
 
-		if (!app.has(Feature.ADJUST_SLIDERS) || adjustChecked || fileWidth == 0
+		if (!app.has(Feature.ADJUST_SLIDERS) || fileWidth == 0
 				|| fileHeight == 0) {
 			return false;
 		}
 
-		// adjustChecked = true;
 
-		if (view.getViewWidth() == fileWidth
-				&& view.getViewHeight() == fileHeight) {
-			// Log.debug(ADJUST + " NOT need to be adjusted.");
+		if (app.getWidth() == fileWidth && app.getHeight() == fileHeight) {
 			return false;
 		}
 
