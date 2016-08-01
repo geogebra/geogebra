@@ -1713,9 +1713,6 @@ marblePanel, evt))) {
 				? main.getElement()
 				.getAbsoluteTop() : getElement()
 				.getAbsoluteTop();
-		Log.debug(Feature.AV_INPUT_BUTTON_COVER, "itemTop: " + itemTop);
-		Log.debug(Feature.AV_INPUT_BUTTON_COVER,
-				"dockpaneltop: " + getAlgebraDockPanel().getAbsoluteTop());
 		return (itemTop - getAlgebraDockPanel().getAbsoluteTop() < 35);
 	}
 
@@ -1794,47 +1791,20 @@ marblePanel, evt))) {
 			return;
 		}
 		
-		boolean accurate = true; // used for testing the new code
 		
 		if (styleBarCanHide()) {
-			Log.debug(Feature.AV_INPUT_BUTTON_COVER, "canhide");
 			ScrollPanel algebraPanel = ((AlgebraDockPanelW) app.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
 					.getAbsolutePanel();
 			
-			if (accurate) { // new code
+			int scrollbarWidth = algebraPanel == null ? 0 : algebraPanel
+					.getOffsetWidth()
+					- algebraPanel.getElement().getClientWidth();
+			buttonPanel.getElement().getStyle()
+					.setRight(46 - scrollbarWidth, Unit.PX);
 			
-				Log.debug(Feature.AV_INPUT_BUTTON_COVER,
-						"algebra panel null: " + (algebraPanel == null));
-				int scrollbarWidth = algebraPanel == null ? 0
-						: algebraPanel.getOffsetWidth()
-						- algebraPanel.getElement().getClientWidth();
-				buttonPanel.getElement().getStyle()
-						.setRight(46 - scrollbarWidth, Unit.PX);
-			
-			} else { // old code
-			
-				if (algebraPanel != null
-						&& algebraPanel.getOffsetWidth() > algebraPanel.getElement()
-								.getClientWidth()) {
-						buttonPanel.addStyleName("positionedObjectStyleBar_scrollbarVisible"); 
-						buttonPanel.removeStyleName("positionedObjectStyleBar"); 
-				} else { 
-					buttonPanel.addStyleName("positionedObjectStyleBar");
-					buttonPanel
-					.removeStyleName("positionedObjectStyleBar_scrollbarVisible"); 
-				}
-			
-			}
 		} else {
-			Log.debug("canNOT hide");
-			if (accurate) {
-				buttonPanel.getElement().getStyle().setRight(0, Unit.PX);
-			} else {
-				buttonPanel.removeStyleName("positionedObjectStyleBar");
-				buttonPanel
-						.removeStyleName("positionedObjectStyleBar_scrollbarVisible");
-			}
+			buttonPanel.getElement().getStyle().setRight(0, Unit.PX);
 		}
 	}
 
