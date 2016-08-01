@@ -5,19 +5,12 @@ import org.geogebra.web.html5.util.LessResource;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.TextResource;
 
 public interface GuiResources extends ClientBundle {
 
 	GuiResources INSTANCE = GWT.create(GuiResources.class);
 
-	// @Source("org/geogebra/web/resources/images/ggb4-splash-h120.png")
-	// ImageResource getGeoGebraWebSplash();
 
-
-
-	@Source("org/geogebra/web/resources/images/spacer.png")
-	ImageResource spacer();
 
 	@Source("org/geogebra/common/icons/png/web/algebra-view-tree-open.png")
 	ImageResource algebra_tree_open();
@@ -40,17 +33,8 @@ public interface GuiResources extends ClientBundle {
 
 	// end PHONE GUI
 
-	// StyleBar
 
-	// end StyleBar
 
-	/*
-	 * @Source("org/geogebra/web/resources/images/triangle-down.png") ImageResource
-	 * triangle_down();
-	 */
-
-	@Source("org/geogebra/web/resources/images/splash-ggb4.svg")
-	TextResource ggb4Splash();
 
 	// TOOLBAR
 	// Little triangles for tools with submenu
