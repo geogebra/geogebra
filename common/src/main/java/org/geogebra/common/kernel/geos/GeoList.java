@@ -260,6 +260,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 			geo.setLineThickness(getLineThickness());
 			geo.setLineType(getLineType());
+			geo.setLineOpacity(getLineOpacity());
 
 			if (geo instanceof PointProperties) {
 				((PointProperties) geo).setPointSize(getPointSize());
