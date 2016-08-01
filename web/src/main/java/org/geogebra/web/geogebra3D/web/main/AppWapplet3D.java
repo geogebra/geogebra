@@ -16,6 +16,7 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
 import org.geogebra.web.geogebra3D.web.gui.GuiManager3DW;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -68,8 +69,9 @@ public class AppWapplet3D extends AppWapplet {
 	@Override
 	public boolean supportsView(int viewID) {
 		if (viewID == App.VIEW_EUCLIDIAN3D) {
-			return (getExam() == null || getExam().is3DAllowed())
-					&& getArticleElement().getDataParamEnable3D(true);
+			if (Browser.supportsWebGL()) {
+				return getSettings().getEuclidian(-1).isEnabled();
+			}
 		}
 		return super.supportsView(viewID);
 	}

@@ -447,38 +447,42 @@ public abstract class AppWFull extends AppW {
 
 			if(getArticleElement().getDataParamEnableCAS(false)
 				||!getArticleElement().getDataParamEnableCAS(true)){
-				getExam().setCASAllowed(getArticleElement().getDataParamEnableCAS(false));
+				getSettings().getCasSettings().setEnabled(
+						getArticleElement().getDataParamEnableCAS(false));
 			}else{
 				checkboxes++;
 				final CheckBox cas = new CheckBox(loc.getMenu("Perspective.CAS"));
 				cas.addStyleName("examCheckbox");
 				cas.setValue(true);
-				getExam().setCASAllowed(true);
+				getSettings().getCasSettings().setEnabled(true);
 				cbxPanel.add(cas);
 				cas.addClickHandler(new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
-						getExam().setCASAllowed(cas.getValue());
+						getSettings().getCasSettings()
+								.setEnabled(cas.getValue());
 						getGuiManager().updateToolbarActions();
 					}
 				});
 			}
 			if(getArticleElement().getDataParamEnable3D(false)
 				||!getArticleElement().getDataParamEnable3D(true)){
-				getExam().setCASAllowed(getArticleElement().getDataParamEnable3D(false));
+				getSettings().getEuclidian(-1).setEnabled(
+						getArticleElement().getDataParamEnable3D(false));
 			}else{
 				checkboxes++;
 				final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
 				allow3D.addStyleName("examCheckbox");
 				allow3D.setValue(true);
 			
-				getExam().set3DAllowed(true);
+				getSettings().getEuclidian(-1).setEnabled(true);
 
 				cbxPanel.add(allow3D);
 				allow3D.addClickHandler(new ClickHandler() {
 					@Override
 					public void onClick(ClickEvent event) {
-						getExam().set3DAllowed(allow3D.getValue());
+						getSettings().getEuclidian(-1)
+								.setEnabled(allow3D.getValue());
 						getGuiManager().updateToolbarActions();
 
 					}

@@ -634,8 +634,8 @@ CasEvaluableFunction, ParametricCurve,
 		// derivGeoFun.setUndefined();
 		// else
 		derivGeoFun.setDerivative(this, order, fast);
-		if (cons.getApplication().isExam()
-				&& !cons.getApplication().getExam().isCASAllowed()) {
+		if (!kernel.getApplication().getSettings().getCasSettings()
+				.isEnabled()) {
 			derivGeoFun.setSecret(new AlgoDerivative(cons, this, true,
 					new EvalInfo(false)));
 		}

@@ -22,7 +22,7 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 	}
 
 	public void ensureEditing() {
-		// TODO Auto-generated method stub
+		mf.setFocus(true);
 
 	}
 

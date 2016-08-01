@@ -88,8 +88,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 			cons.addToConstructionList(this, false);
 		}
 		this.fast = fast
-				|| (cons.getApplication().isExam() && !cons.getApplication()
-						.getExam().isCASAllowed());
+				|| !cons.getApplication().getSettings().getCasSettings()
+						.isEnabled();
 		this.fun = fun;
 		f = new GeoFunction(cons, false);
 		f.setFunction(fun);

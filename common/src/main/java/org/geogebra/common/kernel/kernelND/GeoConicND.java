@@ -51,7 +51,6 @@ import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
-import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.MyMath;
@@ -1657,9 +1656,10 @@ FromMeta
 		if (toStringMode == GeoConicND.EQUATION_PARAMETRIC) {
 			return this.buildParametricValueString(tpl, 2);
 		}
-		ExamEnvironment exam = kernel.getApplication().getExam();
 		if (getDefinition() != null
-				&& ((exam != null && !exam.isCASAllowed()) || toStringMode == GeoConicND.EQUATION_USER)) {
+				&& (!kernel.getApplication().getSettings().getCasSettings()
+						.isEnabled()
+				|| toStringMode == GeoConicND.EQUATION_USER)) {
 			return sbToValueString.append(getDefinition().toString(tpl));
 		}
 		if (type == CONIC_LINE) {

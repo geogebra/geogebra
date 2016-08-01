@@ -215,7 +215,7 @@ public class Settings {
 	 * @return Settings of euclidian view.
 	 */
 	public final EuclidianSettings getEuclidian(int number) {
-		return euclidianSettings[number - 1];
+		return euclidianSettings[number == -1 ? 2 : number - 1];
 	}
 
 	/**

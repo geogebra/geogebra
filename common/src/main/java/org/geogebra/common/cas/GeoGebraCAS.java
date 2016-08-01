@@ -106,7 +106,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public String evaluateGeoGebraCAS(ValidExpression casInput,
 			MyArbitraryConstant arbconst, StringTemplate tpl, GeoCasCell cell, Kernel kernel)
 			throws CASException {
-		if (app.isExam() && !app.getExam().isCASAllowed()
+		if (!app.getSettings().getCasSettings().isEnabled()
 				&& getCurrentCAS() != null) {
 			return "?";
 		}
@@ -163,7 +163,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	final public String evaluateRaw(String exp) throws Throwable {
-		if (!app.isExam() || app.getExam().isCASAllowed()) {
+		if (app.getSettings().getCasSettings().isEnabled()) {
 			return getCurrentCAS().evaluateRaw(exp);
 		}
 		return "?";
@@ -179,7 +179,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	 *             if there is a timeout or the expression cannot be evaluated
 	 * */
 	final public String evaluate(String exp) throws CASException {
-		if (!app.isExam() || app.getExam().isCASAllowed()) {
+		if (app.getSettings().getCasSettings().isEnabled()) {
 			return getCurrentCAS().evaluateCAS(exp);
 		}
 		return "?";
@@ -979,7 +979,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c) {
-		if (!app.isExam() || app.getExam().isCASAllowed()) {
+		if (!app.getSettings().getCasSettings().isEnabled()) {
 			getCurrentCAS().evaluateGeoGebraCASAsync(c);
 		}
 	}

@@ -216,7 +216,7 @@ public class EquationEditor implements HasSuggestions {
 			} else {
 				syntaxString = app.getExam() == null ? loc
 						.getCommandSyntax(cmdInt) : app.getExam().getSyntax(
-						cmdInt, loc);
+								cmdInt, loc, app.getSettings());
 			}
 			if (syntaxString
 					.endsWith(component.isForCAS() ? Localization.syntaxCAS

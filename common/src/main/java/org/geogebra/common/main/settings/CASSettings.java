@@ -12,6 +12,7 @@ public class CASSettings extends AbstractSettings {
 
 	private long timeoutMillis;
 	private boolean showExpAsRoots;
+	private Boolean enabled = null;
 
 	public CASSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
@@ -65,5 +66,16 @@ public class CASSettings extends AbstractSettings {
 	 */
 	public boolean getShowExpAsRoots() {
 		return showExpAsRoots;
+	}
+
+	public void setEnabled(boolean enable) {
+		if (enabled != enable) {
+			this.enabled = enable;
+			settingChanged();
+		}
+	}
+
+	public boolean isEnabled() {
+		return enabled == null || enabled;
 	}
 }

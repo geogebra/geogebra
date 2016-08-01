@@ -289,7 +289,9 @@ pr.menu_header_undo(), null, 32);
 		fp.addDomHandler(new ClickHandler() {
 			// clicking on info button
 			public void onClick(ClickEvent event) {
-				app.showMessage(true, app.getExam().getLog(app.getLocalization()), app.getMenu("exam_log_header"));
+				app.showMessage(true,
+						app.getExam().getLog(app.getLocalization(),
+						app.getSettings()), app.getMenu("exam_log_header"));
 
 			}
 		}, ClickEvent.getType());
@@ -456,14 +458,14 @@ pr.menu_header_undo(), null, 32);
 			// reasons (e.g. the graphics card is problematic), but in such
 			// cases we don't want to show that here.
 
-			if (!app.getExam().isCASAllowed()) {
+			if (!app.getSettings().getCasSettings().isEnabled()) {
 				Label nocas = new Label("CAS");
 				nocas.getElement().getStyle()
 				        .setTextDecoration(TextDecoration.LINE_THROUGH);
 				nocas.getElement().setClassName("timer");
 				rightButtonPanel.add(nocas);
 			}
-			if (!app.getExam().is3DAllowed()) {
+			if (!app.getSettings().getEuclidian(-1).isEnabled()) {
 				Label no3d = new Label("3D");
 				no3d.getElement().getStyle()
 				        .setTextDecoration(TextDecoration.LINE_THROUGH);
@@ -1173,10 +1175,10 @@ pr.menu_header_undo(), null, 32);
 		 }
 		if (app.isExam()) {
 			extraButtons += 30;
-			if (!app.getExam().is3DAllowed()) {
+			if (!app.getSettings().getEuclidian(-1).isEnabled()) {
 				extraButtons += 55;
 			}
-			if (!app.getExam().isCASAllowed()) {
+			if (!app.getSettings().getCasSettings().isEnabled()) {
 				extraButtons += 55;
 			}
 		}

@@ -186,7 +186,8 @@ public class InputSuggestions implements HasSuggestions {
 			} else {
 				syntaxString = app.getExam() == null
 						? loc.getCommandSyntax(cmdInt)
-						: app.getExam().getSyntax(cmdInt, loc);
+						: app.getExam().getSyntax(cmdInt, loc,
+								app.getSettings());
 			}
 			if (syntaxString.endsWith(component.isForCAS()
 					? Localization.syntaxCAS : Localization.syntaxStr)) {

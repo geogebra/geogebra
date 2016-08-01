@@ -4348,4 +4348,9 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
+	public void examWelcome() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

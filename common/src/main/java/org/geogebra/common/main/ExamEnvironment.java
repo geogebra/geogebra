@@ -5,12 +5,12 @@ import java.util.LinkedList;
 
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.debug.Log;
 
 //import com.google.gwt.i18n.client.DateTimeFormat;
 
 public class ExamEnvironment {
-	private boolean supports3D, supportsCAS;
 	long examStartTime = -1;
 	private LinkedList<Long> cheatingTimes = null;
 	private LinkedList<Boolean> cheatingEvents = null;
@@ -19,22 +19,6 @@ public class ExamEnvironment {
 
 	public long getStart() {
 		return examStartTime;
-	}
-
-	public boolean is3DAllowed() {
-		return supports3D;
-	}
-
-	public void set3DAllowed(boolean supports3d) {
-		supports3D = supports3d;
-	}
-
-	public boolean isCASAllowed() {
-		return supportsCAS;
-	}
-
-	public void setCASAllowed(boolean supportsCAS) {
-		this.supportsCAS = supportsCAS;
 	}
 
 	public void setStart(long time) {
@@ -114,10 +98,12 @@ public class ExamEnvironment {
 	/**
 	 * NEW LOG DIALOG
 	 */
-	public String getLog(Localization loc) {
+	public String getLog(Localization loc, Settings settings) {
 		StringBuilder sb = new StringBuilder();
 
 		// Deactivated Views
+		boolean supportsCAS = !settings.getCasSettings().isEnabled();
+		boolean supports3D = !settings.getEuclidian(-1).isEnabled();
 		if (supportsCAS == false || supports3D == false) {
 			sb.append(loc.getMenu("exam_views_deactivated") + ":");
 			sb.append(' ');
@@ -203,8 +189,9 @@ public class ExamEnvironment {
 		this.closed = System.currentTimeMillis();
 	}
 
-	public String getSyntax(String cmdInt, Localization loc) {
-		if (supportsCAS) {
+	public String getSyntax(String cmdInt, Localization loc,
+			Settings settings) {
+		if (settings.getCasSettings().isEnabled()) {
 			return loc.getCommandSyntax(cmdInt);
 		}
 		Commands cmd = null;

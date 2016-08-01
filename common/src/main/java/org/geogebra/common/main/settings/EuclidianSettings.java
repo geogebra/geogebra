@@ -372,6 +372,8 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private boolean axesLabelsSerif = false;
 
+	private Boolean enabled = null;
+
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
 	}
@@ -1072,6 +1074,18 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public boolean isSelectionAllowed(int axisNo) {
 		return selectionAllowed[axisNo];
+	}
+
+	public void setEnabled(boolean enable) {
+		if (enabled != enable) {
+			this.enabled = enable;
+			settingChanged();
+		}
+
+	}
+
+	public boolean isEnabled() {
+		return enabled == null || enabled;
 	}
 
 }

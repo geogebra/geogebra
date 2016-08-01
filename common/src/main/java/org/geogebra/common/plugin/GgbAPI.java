@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
@@ -142,7 +143,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * @return output from CAS
 	 */
 	public synchronized String evalCommandCAS(String cmdString) {
-		if (app.isExam() && !app.getExam().isCASAllowed()) {
+		if (!app.getSettings().getCasSettings().isEnabled()) {
 			return "?";
 		}
 		// default (undefined)
@@ -1466,7 +1467,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public synchronized String evalGeoGebraCAS(String cmdString,
 			boolean debugOutput) {
-		if (app.isExam() && !app.getExam().isCASAllowed()) {
+		if (!app.getSettings().getCasSettings().isEnabled()) {
 			return "?";
 		}
 		String ret = "";
@@ -1518,6 +1519,12 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 		if (code.startsWith("customize:")) {
 			app.showCustomizeToolbarGUI();
+			return;
+		}
+		if ("exam".equals(code)) {
+			ExamEnvironment exam = new ExamEnvironment();
+			app.setExam(exam);
+			app.examWelcome();
 			return;
 		}
 		// the exam setting is certainly false
@@ -1732,6 +1739,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		}
 
 
+	}
+
+	public void setEnableCAS(boolean enable) {
+		app.getSettings().getCasSettings().setEnabled(enable);
+	}
+
+	public void setEnable3D(boolean enable) {
+		app.getSettings().getEuclidian(-1).setEnabled(enable);
 	}
 
 }

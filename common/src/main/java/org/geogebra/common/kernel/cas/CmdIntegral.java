@@ -40,8 +40,8 @@ public class CmdIntegral extends CommandProcessor {
 
 	@Override
 	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
-		if (c.getArgumentNumber() < 3 && app.isExam()
-				&& !app.getExam().isCASAllowed()) {
+		if (c.getArgumentNumber() < 3
+				&& !app.getSettings().getCasSettings().isEnabled()) {
 			throw new MyError(kernelA.getLocalization(), "UnknownCommand");
 		}
 		int n = c.getArgumentNumber();

@@ -41,7 +41,7 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 
 		}
 
-		if (app.isExam() && !app.getExam().isCASAllowed()) {
+		if (!app.getSettings().getCasSettings().isEnabled()) {
 
 			if (Commands.Derivative.equals(c)) {
 				return new CmdNDerivative(kernel);

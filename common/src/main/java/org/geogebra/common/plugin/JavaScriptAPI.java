@@ -742,4 +742,8 @@ public interface JavaScriptAPI {
 
 	public String getVersion();
 
+	public void setEnableCAS(boolean enable);
+
+	public void setEnable3D(boolean enable);
+
 }
