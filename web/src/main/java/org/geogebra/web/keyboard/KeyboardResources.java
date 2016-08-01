@@ -10,7 +10,7 @@ public interface KeyboardResources extends ClientBundle {
 	KeyboardResources INSTANCE = GWT.create(KeyboardResources.class);
 
 	// ONSCREENKEYBOARD
-	@Source("org/geogebra/web/resources/images/view_close.png")
+	@Source("org/geogebra/common/icons/png/keyboard/view_close.png")
 	ImageResource keyboard_close();
 
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_shiftDown.png")
