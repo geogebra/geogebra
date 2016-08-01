@@ -57,13 +57,13 @@ public class CmdLogNormal extends CommandProcessor {
 					AlgoLogNormalDF algo = new AlgoLogNormalDF(cons,
 							c.getLabel(), (GeoNumberValue) arg[0],
 							(GeoNumberValue) arg[1], cumulative);
-					return algo.getGeoElements();
+					return algo.getResult().asArray();
 
 				} else if (arg[2] instanceof GeoNumberValue) {
 					AlgoLogNormal algo = new AlgoLogNormal(cons, c.getLabel(),
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 							(GeoNumberValue) arg[2]);
-					return algo.getGeoElements();
+					return algo.getResult().asArray();
 
 				} else
 					throw argErr(app, c.getName(), arg[2]);

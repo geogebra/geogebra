@@ -57,7 +57,7 @@ public class CmdExponential extends CommandProcessor {
 
 					AlgoExponentialDF algo = new AlgoExponentialDF(cons,
 							c.getLabel(), (GeoNumberValue) arg[0], cumulative);
-					return algo.getGeoElements();
+					return algo.getResult().asArray();
 
 				} else if (arg[1] instanceof GeoNumberValue) {
 

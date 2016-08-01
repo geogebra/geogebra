@@ -56,7 +56,7 @@ public class CmdTDistribution extends CommandProcessor {
 
 					AlgoTDistributionDF algo = new AlgoTDistributionDF(cons,
 							c.getLabel(), (GeoNumberValue) arg[0], cumulative);
-					return algo.getGeoElements();
+					return algo.getResult().asArray();
 
 				} else if (arg[1] instanceof GeoNumberValue) {
 

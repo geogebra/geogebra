@@ -8196,4 +8196,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		return this;
 	}
 
+	public GeoElement[] asArray() {
+		return new GeoElement[] { this };
+	}
+
 }

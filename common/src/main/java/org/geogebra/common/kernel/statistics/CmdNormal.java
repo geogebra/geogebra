@@ -54,7 +54,7 @@ public class CmdNormal extends CommandProcessor {
 					AlgoNormalDF algo = new AlgoNormalDF(cons, c.getLabel(),
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 							cumulative);
-					return algo.getGeoElements();
+					return algo.getResult().asArray();
 
 				} else if (arg[2] instanceof GeoNumberValue) {
 

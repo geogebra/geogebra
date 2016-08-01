@@ -57,13 +57,13 @@ public class CmdUniform extends CommandProcessor {
 					AlgoUniformDF algo = new AlgoUniformDF(cons, c.getLabel(),
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 							cumulative);
-					return algo.getGeoElements();
+					return algo.getResult().asArray();
 
 				} else if (arg[2] instanceof GeoNumberValue) {
 					AlgoUniform algo = new AlgoUniform(cons, c.getLabel(),
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 							(GeoNumberValue) arg[2]);
-					return algo.getGeoElements();
+					return algo.getResult().asArray();
 
 				} else
 					throw argErr(app, c.getName(), arg[2]);

@@ -58,7 +58,7 @@ public class CmdGamma extends CommandProcessor {
 					AlgoGammaDF algo = new AlgoGammaDF(cons, c.getLabel(),
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 							cumulative);
-					return algo.getGeoElements();
+					return algo.getResult().asArray();
 
 				} else if (arg[2] instanceof GeoNumberValue) {
 

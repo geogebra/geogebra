@@ -905,7 +905,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	}
 
 	@Override
-	final public GeoElement[] getGeoElements() {
+	final public GeoElementND[] getGeoElements() {
 		return getOutput();
 	}
 

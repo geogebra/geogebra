@@ -54,14 +54,14 @@ public class CmdTriangular extends CommandProcessor {
 							c2.getLabel(), (GeoNumberValue) arg[0],
 							(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 							cumulative);
-					return algo.getGeoElements();
+					return algo.getResult().asArray();
 
 				} else if (arg[3] instanceof GeoNumberValue) {
 					AlgoTriangular algo = new AlgoTriangular(cons,
 							c2.getLabel(), (GeoNumberValue) arg[0],
 							(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 							(GeoNumberValue) arg[3]);
-					return algo.getGeoElements();
+					return algo.getResult().asArray();
 
 				} else
 					throw argErr(app, c2.getName(), arg[2]);

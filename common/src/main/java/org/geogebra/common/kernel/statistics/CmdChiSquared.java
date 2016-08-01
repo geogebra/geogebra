@@ -57,7 +57,7 @@ public class CmdChiSquared extends CommandProcessor {
 
 					AlgoChiSquaredDF algo = new AlgoChiSquaredDF(cons,
 							c.getLabel(), (GeoNumberValue) arg[0], cumulative);
-					return algo.getGeoElements();
+					return algo.getResult().asArray();
 
 				} else if (arg[1] instanceof GeoNumberValue) {
 

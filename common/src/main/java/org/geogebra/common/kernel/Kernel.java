@@ -4647,7 +4647,7 @@ public class Kernel {
 		setUseInternalCommandNames(oldVal);
 
 		AlgoPolygon algo = new AlgoPolygon(cons, null, p);
-		GeoElement[] ret = { algo.getGeoElements()[0] };
+		GeoElement[] ret = { algo.getOutput(0) };
 
 		GeoPointND firstPoint = ((GeoPolygon) ret[0]).getPoints()[0];
 

@@ -382,7 +382,7 @@ public class CellRangeProcessor {
 			ret = list.getKernel().getManager3D().PolyLine3D(null, list)[0];
 		} else {
 			AlgoPolyLine al = new AlgoPolyLine(cons, list);
-			ret = al.getGeoElements()[0];
+			ret = al.getOutput(0);
 			ret.setLabel(null);
 		}
 

@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.main.App;
@@ -116,7 +117,7 @@ public class FunctionInspectorModel {
 
 	private ArrayList<GeoElement> intervalTabGeoList, pointTabGeoList,
 	hiddenGeoList;
-	private GeoElement[] rootGeos;
+	private GeoElementND[] rootGeos;
 
 	// stores lists of column data from the point panel table
 	private ArrayList<Double[]> xyTableCopyList = new ArrayList<Double[]>();
@@ -337,8 +338,8 @@ public class FunctionInspectorModel {
 			roots = new AlgoRootsPolynomial(cons, selectedGeo);
 		} else {
 			roots = new AlgoRoots(cons, selectedGeo,
-					(GeoNumeric) xLow.getGeoElements()[0],
-					(GeoNumeric) xHigh.getGeoElements()[0]);
+					(GeoNumeric) xLow.getOutput(0),
+					(GeoNumeric) xHigh.getOutput(0));
 		}
 
 		cons.removeFromConstructionList(roots);
@@ -546,11 +547,11 @@ public class FunctionInspectorModel {
 						cons.removeFromConstructionList(pointAlgo);
 
 						AlgoCurvature curvature = new AlgoCurvature(cons,
-								(GeoPoint) pointAlgo.getGeoElements()[0],
+								(GeoPoint) pointAlgo.getOutput(0),
 								selectedGeo);
 						cons.removeFromConstructionList(curvature);
 
-						double c = ((GeoNumeric) curvature.getGeoElements()[0])
+						double c = ((GeoNumeric) curvature.getOutput(0))
 								.getDouble();
 
 						// double c = evaluateExpression(
@@ -724,7 +725,7 @@ public class FunctionInspectorModel {
 		AlgoPointOnPath pAlgo = new AlgoPointOnPath(cons, f,
 				(activeEV.getXmin() + activeEV.getXmax()) / 2, 0);
 		cons.removeFromConstructionList(pAlgo);
-		testPoint = (GeoPoint) pAlgo.getGeoElements()[0];
+		testPoint = (GeoPoint) pAlgo.getOutput(0);
 		testPoint.setObjColor(listener.getColor(Colors.GEO));
 		testPoint.setPointSize(4);
 		testPoint.setLayer(f.getLayer() + 1);
@@ -742,9 +743,9 @@ public class FunctionInspectorModel {
 		cons.removeFromConstructionList(pointAlgo);
 
 		AlgoJoinPointsSegment seg1 = new AlgoJoinPointsSegment(cons, testPoint,
-				(GeoPoint) pointAlgo.getGeoElements()[0], null, false);
+				(GeoPoint) pointAlgo.getOutput(0), null, false);
 		// cons.removeFromConstructionList(seg1);
-		xSegment = seg1.getGeoElements()[0];
+		xSegment = seg1.getOutput(0);
 		xSegment.setSelectionAllowed(false);
 		xSegment.setObjColor(listener.getColor(Colors.GEO));
 		xSegment.setLineThickness(3);
@@ -766,10 +767,10 @@ public class FunctionInspectorModel {
 		cons.removeFromConstructionList(pointAlgoy);
 
 		AlgoJoinPointsSegment seg2 = new AlgoJoinPointsSegment(cons, testPoint,
-				(GeoPoint) pointAlgoy.getGeoElements()[0], null, false);
+				(GeoPoint) pointAlgoy.getOutput(0), null, false);
 		// cons.removeFromConstructionList(seg2);
 
-		ySegment = seg2.getGeoElements()[0];
+		ySegment = seg2.getOutput(0);
 		ySegment.setSelectionAllowed(false);
 		ySegment.setObjColor(listener.getColor(Colors.GEO));
 		ySegment.setLineThickness(3);
@@ -782,7 +783,7 @@ public class FunctionInspectorModel {
 		AlgoTangentFunctionPoint tangent = new AlgoTangentFunctionPoint(cons,
 				testPoint, f);
 		cons.removeFromConstructionList(tangent);
-		tangentLine = tangent.getGeoElements()[0];
+		tangentLine = tangent.getOutput(0);
 		tangentLine.setSelectionAllowed(false);
 		tangentLine.setObjColor(listener.getColor(Colors.GEO));
 		tangentLine.setEuclidianVisible(false);
@@ -791,7 +792,7 @@ public class FunctionInspectorModel {
 		// osculating circle
 		AlgoOsculatingCircle oc = new AlgoOsculatingCircle(cons, testPoint, f);
 		cons.removeFromConstructionList(oc);
-		oscCircle = oc.getGeoElements()[0];
+		oscCircle = oc.getOutput(0);
 		oscCircle.setSelectionAllowed(false);
 		oscCircle.setObjColor(listener.getColor(Colors.GEO));
 		oscCircle.setEuclidianVisible(false);
@@ -801,7 +802,7 @@ public class FunctionInspectorModel {
 		AlgoDerivative deriv = new AlgoDerivative(cons, f, true,
 				new EvalInfo(false));
 		cons.removeFromConstructionList(deriv);
-		derivative = (GeoFunction) deriv.getGeoElements()[0];
+		derivative = (GeoFunction) deriv.getOutput(0);
 		derivative.setEuclidianVisible(false);
 		hiddenGeoList.add(derivative);
 
@@ -809,7 +810,7 @@ public class FunctionInspectorModel {
 		AlgoDerivative deriv2 = new AlgoDerivative(cons, derivative, true,
 				new EvalInfo(false));
 		cons.removeFromConstructionList(deriv2);
-		derivative2 = (GeoFunction) deriv2.getGeoElements()[0];
+		derivative2 = (GeoFunction) deriv2.getOutput(0);
 		derivative2.setEuclidianVisible(false);
 		hiddenGeoList.add(derivative2);
 
@@ -832,7 +833,7 @@ public class FunctionInspectorModel {
 		AlgoPointOnPath pxAlgo = new AlgoPointOnPath(cons, f,
 				(2 * activeEV.getXmin() + activeEV.getXmax()) / 3, 0);
 		cons.removeFromConstructionList(pxAlgo);
-		lowPoint = (GeoPoint) pxAlgo.getGeoElements()[0];
+		lowPoint = (GeoPoint) pxAlgo.getOutput(0);
 		lowPoint.setEuclidianVisible(false);
 		lowPoint.setPointSize(4);
 		lowPoint.setObjColor(listener.getColor(Colors.GEO));
@@ -842,7 +843,7 @@ public class FunctionInspectorModel {
 		AlgoPointOnPath pyAlgo = new AlgoPointOnPath(cons, f,
 				(activeEV.getXmin() + 2 * activeEV.getXmax()) / 3, 0);
 		cons.removeFromConstructionList(pyAlgo);
-		highPoint = (GeoPoint) pyAlgo.getGeoElements()[0];
+		highPoint = (GeoPoint) pyAlgo.getOutput(0);
 		highPoint.setEuclidianVisible(false);
 		highPoint.setPointSize(4);
 		highPoint.setObjColor(listener.getColor(Colors.GEO));
@@ -867,7 +868,7 @@ public class FunctionInspectorModel {
 		AlgoDependentFunction interval = new AlgoDependentFunction(cons,
 				new Function(expr, x), false);
 
-		functionInterval = interval.getGeoElements()[0];
+		functionInterval = interval.getOutput(0);
 		functionInterval.setSelectionAllowed(false);
 		functionInterval.setEuclidianVisible(false);
 		functionInterval.setLineThickness(selectedGeo.getLineThickness() + 5);
@@ -877,10 +878,10 @@ public class FunctionInspectorModel {
 		intervalTabGeoList.add(functionInterval);
 
 		AlgoIntegralDefinite inte = new AlgoIntegralDefinite(cons, selectedGeo,
-				(GeoNumberValue) xLow.getGeoElements()[0],
-				(GeoNumberValue) xHigh.getGeoElements()[0], null, false);
+				(GeoNumberValue) xLow.getOutput(0),
+				(GeoNumberValue) xHigh.getOutput(0), null, false);
 		cons.removeFromConstructionList(inte);
-		integralGeo = inte.getGeoElements()[0];
+		integralGeo = inte.getOutput(0);
 		integralGeo.setSelectionAllowed(false);
 		integralGeo.setEuclidianVisible(false);
 		integralGeo.setObjColor(listener.getColor(Colors.GEO));
@@ -895,20 +896,20 @@ public class FunctionInspectorModel {
 		// might be difficult to find if it exists at all. Therefore the
 		// definite integral is calculated numerically.
 		AlgoIntegralDefinite area = new AlgoIntegralDefinite(cons,
-				(GeoFunction) funAlgo.getGeoElements()[0],
-				(GeoNumberValue) xLow.getGeoElements()[0],
-				(GeoNumberValue) xHigh.getGeoElements()[0], null, true);
+				(GeoFunction) funAlgo.getOutput(0),
+				(GeoNumberValue) xLow.getOutput(0),
+				(GeoNumberValue) xHigh.getOutput(0), null, true);
 		cons.removeFromConstructionList(area);
-		areaGeo = area.getGeoElements()[0];
+		areaGeo = area.getOutput(0);
 		areaGeo.setSelectionAllowed(false);
 		areaGeo.setEuclidianVisible(false);
 		intervalTabGeoList.add(areaGeo);
 
 		AlgoLengthFunction len = new AlgoLengthFunction(cons, selectedGeo,
-				(GeoNumeric) xLow.getGeoElements()[0],
-				(GeoNumeric) xHigh.getGeoElements()[0]);
+				(GeoNumeric) xLow.getOutput(0),
+				(GeoNumeric) xHigh.getOutput(0));
 		cons.removeFromConstructionList(len);
-		lengthGeo = len.getGeoElements()[0];
+		lengthGeo = len.getOutput(0);
 		hiddenGeoList.add(lengthGeo);
 
 		minPoint = new GeoPoint(cons);

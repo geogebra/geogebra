@@ -685,7 +685,7 @@ public class EuclidianPen {
 				algo = new AlgoJoinPointsSegment(app.getKernel()
 						.getConstruction(), null, p, q);
 
-				GeoElement line = algo.getGeoElements()[0];
+				GeoElement line = algo.getOutput(0);
 				// line.setLineThickness(penSize * 2);
 				// line.setLineType(penLineStyle);
 				// line.setObjColor(penColor);
@@ -805,11 +805,11 @@ public class EuclidianPen {
 			cons.removeFromConstructionList(newPolyLine);
 
 			algo = new AlgoAttachCopyToView(cons, null,
-					newPolyLine.getGeoElements()[0], evNo, corner1, corner3,
+					newPolyLine.getOutput(0), evNo, corner1, corner3,
 					screenCorner1, screenCorner3);
 		}
 
-		newPolyLine.getGeoElements()[0].setTooltipMode(GeoElement.TOOLTIP_OFF);
+		newPolyLine.getOutput(0).setTooltipMode(GeoElement.TOOLTIP_OFF);
 
 		if (lastAlgo == null) {
 			// lastPolyLine = new AlgoPolyLine(cons, null, newPts);
@@ -970,7 +970,7 @@ public class EuclidianPen {
 
 		new AlgoFunctionFreehand(cons, null, list).getGeoElements();
 
-		//GeoElement fun = algo.getGeoElements()[0];
+		// GeoElement fun = algo.getOutput(0);
 
 		// fun.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		// fun.setLineType(penLineStyle);
@@ -1874,7 +1874,7 @@ public class EuclidianPen {
 
 		algo = new AlgoPolygon(cons, null, pts);
 
-		GeoElement poly = algo.getGeoElements()[0];
+		GeoElement poly = algo.getOutput(0);
 		// poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		// poly.setLineType(penLineStyle);
 		// poly.setObjColor(penColor);
@@ -2067,7 +2067,7 @@ public class EuclidianPen {
 		p = new GeoPoint(cons, x_first, y_first, 1.0);
 		q = new GeoPoint(cons, x_last, y_last, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
-		GeoElement line = algo.getGeoElements()[0];
+		GeoElement line = algo.getOutput(0);
 		// line.setLineThickness(penSize * 2);
 		// line.setLineType(penLineStyle);
 		// line.setObjColor(penColor);
@@ -2077,7 +2077,7 @@ public class EuclidianPen {
 		y_first = view.toRealWorldCoordY((y2 - dist * Math.sin(angle + delta)));
 		p = new GeoPoint(cons, x_first, y_first, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
-		line = algo.getGeoElements()[0];
+		line = algo.getOutput(0);
 		// line.setLineThickness(penSize * 2);
 		// line.setLineType(penLineStyle);
 		// line.setObjColor(penColor);
@@ -2087,7 +2087,7 @@ public class EuclidianPen {
 		y_first = view.toRealWorldCoordY((y2 - dist * Math.sin(angle - delta)));
 		p = new GeoPoint(cons, x_first, y_first, 1.0);
 		algo = new AlgoJoinPointsSegment(cons, null, p, q);
-		line = algo.getGeoElements()[0];
+		line = algo.getOutput(0);
 		// line.setLineThickness(penSize * 2);
 		// line.setLineType(penLineStyle);
 		// line.setObjColor(penColor);
@@ -2222,7 +2222,7 @@ public class EuclidianPen {
 
 		algo = new AlgoPolygon(cons, null, pts);
 
-		GeoElement poly = algo.getGeoElements()[0];
+		GeoElement poly = algo.getOutput(0);
 		// poly.setLineThickness(penSize * 2);
 		// poly.setLineType(penLineStyle);
 		// poly.setObjColor(penColor);

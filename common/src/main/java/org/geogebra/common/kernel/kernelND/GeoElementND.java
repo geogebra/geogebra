@@ -480,4 +480,6 @@ public interface GeoElementND extends ExpressionValue {
 
 	void removeView(int viewEuclidian2);
 
+	void setVisualStyleForTransformations(GeoElement topHit);
+
 }
