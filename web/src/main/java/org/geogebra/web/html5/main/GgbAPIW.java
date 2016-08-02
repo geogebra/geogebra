@@ -787,7 +787,7 @@ public class GgbAPIW extends GgbAPI {
 
 		Log.debug("svgAsXML = " + svgAsXML);
 
-		svgAsXML = ((AppW) app).decodeBase64String(svgAsXML);
+		svgAsXML = Browser.decodeBase64(svgAsXML);
 
 		Log.debug("svgAsXML (decoded) = " + svgAsXML);
 

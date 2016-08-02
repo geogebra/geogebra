@@ -374,67 +374,40 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	// ================================================
-	// NATIVE JS
+	// native JS
 	// ================================================
 
-	public native void evalScriptNative(String script) /*-{
-		$wnd.eval(script);
-	}-*/;
 
-	public native void callNativeJavaScript(String funcname) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname]();
-		}
-	}-*/;
-
-	public native void callNativeJavaScript(String funcname, String arg) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname](arg);
-		}
-	}-*/;
-
-	public native void callNativeJavaScriptMultiArg(String funcname,
-	        JavaScriptObject arg) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname](arg);
-		}
-	}-*/;
-
-	public native void callNativeJavaScriptMultiArg(String funcname,
-			String arg0, String arg1) /*-{
-		if ($wnd[funcname]) {
-			$wnd[funcname](arg0, arg1);
-		}
-	}-*/;
 
 	@Override
 	public void callAppletJavaScript(String fun, Object[] args) {
 		if (args == null || args.length == 0) {
-			callNativeJavaScript(fun);
+			JsEval.callNativeJavaScript(fun);
 		} else if (args.length == 1) {
 			Log.debug("calling function: " + fun + "(" + args[0].toString()
 			        + ")");
-			callNativeJavaScript(fun, args[0].toString());
+			JsEval.callNativeJavaScript(fun, args[0].toString());
 		} else {
 			JsArrayString jsStrings = (JsArrayString) JsArrayString
 			        .createArray();
 			for (Object obj : args) {
 				jsStrings.push(obj.toString());
 			}
-			callNativeJavaScriptMultiArg(fun, jsStrings);
+			JsEval.callNativeJavaScriptMultiArg(fun, jsStrings);
 		}
 
 	}
 
 	public void callAppletJavaScript(String fun, Object arg0, Object arg1) {
 		if (arg0 == null && arg1 == null) {
-			callNativeJavaScript(fun);
+			JsEval.callNativeJavaScript(fun);
 		} else if (arg1 == null) {
 			Log.debug("calling function: " + fun + "(" + arg0.toString()
 					+ ")");
-			callNativeJavaScript(fun, arg0.toString());
+			JsEval.callNativeJavaScript(fun, arg0.toString());
 		} else {
-			callNativeJavaScriptMultiArg(fun, arg0.toString(), arg1.toString());
+			JsEval.callNativeJavaScriptMultiArg(fun, arg0.toString(),
+					arg1.toString());
 		}
 
 	}
@@ -505,7 +478,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 
 		if (Browser.supportsSessionStorage()
-				&& loadPropertiesFromStorage(lang,
+				&& LocalizationW.loadPropertiesFromStorage(lang,
 						GeoGebraConstants.VERSION_STRING)) {
 			doSetLanguage(lang);
 		} else {
@@ -521,13 +494,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 					// force reload
 					doSetLanguage(lang);
 					if (Browser.supportsSessionStorage()) {
-						savePropertiesToStorage(lang,
+						LocalizationW.savePropertiesToStorage(lang,
 								GeoGebraConstants.VERSION_STRING);
 					}
 				}
 
 				public void onError() {
-					loadPropertiesFromStorage(lang, "");
+					LocalizationW.loadPropertiesFromStorage(lang, "");
 					doSetLanguage(lang);
 				}
 
@@ -537,43 +510,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
-	native boolean loadPropertiesFromStorage(String lang, String version) /*-{
-		var storedTranslation = {};
-		if ($wnd.localStorage && $wnd.localStorage.translation) {
-			try {
-				storedTranslation = JSON.parse(localStorage.translation);
-				if (version.length > 0 && storedTranslation
-						&& storedTranslation["version"] != version) {
-					storedTranslation = {};
-				}
-			} catch (e) {
-				$wnd.console && $wnd.console.log(e.message);
-			}
-		}
-		if (storedTranslation && storedTranslation[lang]) {
-			$wnd["__GGB__keysVar"] = {};
-			$wnd["__GGB__keysVar"][lang] = storedTranslation[lang];
-			return true;
-		}
-		return false;
-	}-*/;
 
-	/**
-	 * Saves properties loaded from external JSON to localStorage
-	 * 
-	 * @param lang
-	 *            language
-	 */
-	native void savePropertiesToStorage(String lang, String version) /*-{
-		var storedTranslation = {};
-		if ($wnd.localStorage && $wnd["__GGB__keysVar"]
-				&& $wnd["__GGB__keysVar"][lang]) {
-			var obj = {};
-			obj.version = version;
-			obj[lang] = $wnd.__GGB__keysVar[lang];
-			$wnd.localStorage.translation = JSON.stringify(obj);
-		}
-	}-*/;
 
 	/**
 	 * @param language
@@ -896,25 +833,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (ext.equals(FileExtensions.SVG)) {
 			// IE11/12 seems to require SVG to be base64 encoded
 			addExternalImage(filename, "data:image/svg+xml;base64,"
-			        + encodeBase64String(content));
+					+ Browser.encodeBase64(content));
 		} else {
 			addExternalImage(filename, content);
 		}
 	}
 
-	/*
-	 * String -> String only
-	 */
-	public native String encodeBase64String(String s) /*-{
-		return $wnd.btoa(s);
-	}-*/;
 
-	/*
-	 * String -> String only
-	 */
-	public native String decodeBase64String(String s) /*-{
-		return $wnd.atob(s);
-	}-*/;
 
 	public void addExternalImage(String filename, String src) {
 		getImageManager().addExternalImage(filename, src);
@@ -1220,7 +1145,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public void copyBase64ToClipboard() {
 		String str = getGgbApi().getBase64();
-		if (isChromeWebApp()) {
+		if (Browser.isChromeWebApp()) {
 			copyBase64ToClipboardChromeWebAppCase(str);
 		} else {
 			// this usually opens a Window.prompt
@@ -1231,7 +1156,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public void copyFullHTML5ExportToClipboard() {
 		String str = getFullHTML5ExportString();
-		if (isChromeWebApp()) {
+		if (Browser.isChromeWebApp()) {
 			copyBase64ToClipboardChromeWebAppCase(str);
 		} else {
 			// this usually opens a Window.prompt
@@ -1277,12 +1202,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// This should do nothing in webSimple!
 	}
 
-	public static native boolean isChromeWebApp() /*-{
-		if ($doc.isChromeWebapp()) {
-			return true;
-		}
-		return false;
-	}-*/;
+
 
 	/**
 	 * @param id
@@ -2971,7 +2891,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (arg != null) {
 			script = "arg=\"" + arg + "\";" + script;
 		}
-		evalScriptNative(script);
+		JsEval.evalScriptNative(script);
 	}
 
 	public static int getAbsoluteLeft(Element element) {
@@ -2990,61 +2910,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return element.getAbsoluteBottom();
 	}
 
-	public static native void removeDefaultContextMenu(Element element) /*-{
 
-		function eventOnElement(e) {
 
-			x1 = @org.geogebra.web.html5.main.AppW::getAbsoluteLeft(Lcom/google/gwt/dom/client/Element;)(element);
-			x2 = @org.geogebra.web.html5.main.AppW::getAbsoluteRight(Lcom/google/gwt/dom/client/Element;)(element);
-			y1 = @org.geogebra.web.html5.main.AppW::getAbsoluteTop(Lcom/google/gwt/dom/client/Element;)(element);
-			y2 = @org.geogebra.web.html5.main.AppW::getAbsoluteBottom(Lcom/google/gwt/dom/client/Element;)(element);
 
-			if ((e.pageX < x1) || (e.pageX > x2) || (e.pageY < y1)
-					|| (e.pageY > y2)) {
-				return false;
-			}
-			return true;
-		}
-
-		if ($doc.addEventListener) {
-			element.addEventListener("MSHoldVisual", function(e) {
-				e.preventDefault();
-			}, false);
-			$doc.addEventListener('contextmenu', function(e) {
-				if (eventOnElement(e))
-					e.preventDefault();
-			}, false);
-		} else {
-			$doc.attachEvent('oncontextmenu', function() {
-				if (eventOnElement(e))
-					$wnd.event.returnValue = false;
-			});
-		}
-	}-*/;
-
-	public static native void removeDefaultContextMenu() /*-{
-
-		if ($doc.addEventListener) {
-			$doc.addEventListener('contextmenu', function(e) {
-				e.preventDefault();
-			}, false);
-			$doc.addEventListener("MSHoldVisual", function(e) {
-				e.preventDefault();
-			}, false);
-
-		} else {
-			$doc.attachEvent('oncontextmenu', function() {
-				$wnd.event.returnValue = false;
-			});
-		}
-	}-*/;
-
-	public native String getNativeEmailSet() /*-{
-		if ($wnd.GGW_appengine) {
-			return $wnd.GGW_appengine.USER_EMAIL;
-		} else
-			return "";
-	}-*/;
 
 	public void attachNativeLoadHandler(ImageElement img) {
 		addNativeLoadHandler(img, (EuclidianView) getActiveEuclidianView());
@@ -3060,13 +2928,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 						});
 	}-*/;
 
-	public static native void console(JavaScriptObject dataAsJSO) /*-{
-		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(dataAsJSO);
-	}-*/;
-
-	public static native void nativeConsole(String object) /*-{
-		$wnd.console.log(object);
-	}-*/;
 
 	// ============================================
 	// LAYOUT & GUI UPDATES
@@ -3419,9 +3280,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
-	public static native String decode(String base64)/*-{
-		return atob(base64);
-	}-*/;
+
 
 	/**
 	 * 

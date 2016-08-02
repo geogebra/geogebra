@@ -603,31 +603,34 @@ public class MaterialListElement extends FlowPanel implements
 				.getItem(material.getSharingKeyOrId() + "",
 						new MaterialCallback() {
 
-					@Override
-					public void onLoaded(final List<Material> parseResponse,
-							ArrayList<Chapter> meta) {
-						if (parseResponse.size() == 1) {
-							material = parseResponse.get(0);
-							material.setSyncStamp(synced);
-							if (material.getType() == MaterialType.csv) {
-								app.openCSV(AppW.decode(material
-										.getBase64()));
-							} else {
-								app.getGgbApi().setBase64(material.getBase64());
+							@Override
+							public void onLoaded(
+									final List<Material> parseResponse,
+									ArrayList<Chapter> meta) {
+								if (parseResponse.size() == 1) {
+									material = parseResponse.get(0);
+									material.setSyncStamp(synced);
+									if (material
+											.getType() == MaterialType.csv) {
+										app.openCSV(Browser.decodeBase64(
+												material.getBase64()));
+									} else {
+										app.getGgbApi().setBase64(
+												material.getBase64());
+									}
+									app.setActiveMaterial(material);
+								} else {
+									app.showError(app.getLocalization()
+											.getError("LoadFileFailed"));
+								}
 							}
-							app.setActiveMaterial(material);
-						} else {
+
+							@Override
+							public void onError(Throwable error) {
 							app.showError(app.getLocalization().getError(
 									"LoadFileFailed"));
-						}
-					}
-
-					@Override
-					public void onError(Throwable error) {
-						app.showError(app.getLocalization().getError(
-								"LoadFileFailed"));
-					}
-				});
+							}
+						});
 
 	}
 

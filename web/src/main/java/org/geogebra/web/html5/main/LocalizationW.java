@@ -401,4 +401,44 @@ public final class LocalizationW extends Localization {
 		return localeStr;
 	}
 
+	static native boolean loadPropertiesFromStorage(String lang,
+			String version) /*-{
+		var storedTranslation = {};
+		if ($wnd.localStorage && $wnd.localStorage.translation) {
+			try {
+				storedTranslation = JSON.parse(localStorage.translation);
+				if (version.length > 0 && storedTranslation
+						&& storedTranslation["version"] != version) {
+					storedTranslation = {};
+				}
+			} catch (e) {
+				$wnd.console && $wnd.console.log(e.message);
+			}
+		}
+		if (storedTranslation && storedTranslation[lang]) {
+			$wnd["__GGB__keysVar"] = {};
+			$wnd["__GGB__keysVar"][lang] = storedTranslation[lang];
+			return true;
+		}
+		return false;
+	}-*/;
+
+	/**
+	 * Saves properties loaded from external JSON to localStorage
+	 * 
+	 * @param lang
+	 *            language
+	 */
+	static native void savePropertiesToStorage(String lang,
+			String version) /*-{
+		var storedTranslation = {};
+		if ($wnd.localStorage && $wnd["__GGB__keysVar"]
+				&& $wnd["__GGB__keysVar"][lang]) {
+			var obj = {};
+			obj.version = version;
+			obj[lang] = $wnd.__GGB__keysVar[lang];
+			$wnd.localStorage.translation = JSON.stringify(obj);
+		}
+	}-*/;
+
 }

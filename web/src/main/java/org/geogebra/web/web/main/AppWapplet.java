@@ -116,7 +116,7 @@ public class AppWapplet extends AppWFull {
 		initCoreObjects(undoActive, this);
 		afterCoreObjectsInited();
 		resetFonts();
-		removeDefaultContextMenu(this.getArticleElement());
+		Browser.removeDefaultContextMenu(this.getArticleElement());
 		if (this.showMenuBar()) {
 			this.initSignInEventFlow(new LoginOperationW(this),
 					ae.isEnableUsageStats());
@@ -242,7 +242,8 @@ public class AppWapplet extends AppWFull {
 			frame.remove(oldSplitLayoutPanel);
 			frame.insert(getSplitLayoutPanel(), wi);
 			oldSplitLayoutPanel = getSplitLayoutPanel();
-			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
+			Browser.removeDefaultContextMenu(
+					getSplitLayoutPanel().getElement());
 		}
 	}
 
@@ -276,7 +277,8 @@ public class AppWapplet extends AppWFull {
 			} else {
 				frame.add(oldSplitLayoutPanel);
 			}
-			removeDefaultContextMenu(getSplitLayoutPanel().getElement());
+			Browser.removeDefaultContextMenu(
+					getSplitLayoutPanel().getElement());
 
 			ClickStartHandler.init(oldSplitLayoutPanel,
 					new ClickStartHandler() {

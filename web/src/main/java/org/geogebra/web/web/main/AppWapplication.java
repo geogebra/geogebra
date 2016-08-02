@@ -5,6 +5,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
@@ -99,7 +100,7 @@ public class AppWapplication extends AppWFull {
 
 		resetFonts();
 		// initing = true;
-		removeDefaultContextMenu();
+		Browser.removeDefaultContextMenu();
 
 		if (!this.getLAF().isSmart()) {
 			RootPanel.getBodyElement().addClassName("application");

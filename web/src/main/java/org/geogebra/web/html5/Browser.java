@@ -347,4 +347,68 @@ public class Browser {
 		$wnd.open(url);
 	}-*/;
 
+	public static native String decodeBase64(String base64)/*-{
+		return atob(base64);
+	}-*/;
+
+	public static native String encodeBase64(String text)/*-{
+		return btoa(base64);
+	}-*/;
+
+	public static native void removeDefaultContextMenu(Element element) /*-{
+
+		function eventOnElement(e) {
+
+			x1 = @org.geogebra.web.html5.main.AppW::getAbsoluteLeft(Lcom/google/gwt/dom/client/Element;)(element);
+			x2 = @org.geogebra.web.html5.main.AppW::getAbsoluteRight(Lcom/google/gwt/dom/client/Element;)(element);
+			y1 = @org.geogebra.web.html5.main.AppW::getAbsoluteTop(Lcom/google/gwt/dom/client/Element;)(element);
+			y2 = @org.geogebra.web.html5.main.AppW::getAbsoluteBottom(Lcom/google/gwt/dom/client/Element;)(element);
+
+			if ((e.pageX < x1) || (e.pageX > x2) || (e.pageY < y1)
+					|| (e.pageY > y2)) {
+				return false;
+			}
+			return true;
+		}
+
+		if ($doc.addEventListener) {
+			element.addEventListener("MSHoldVisual", function(e) {
+				e.preventDefault();
+			}, false);
+			$doc.addEventListener('contextmenu', function(e) {
+				if (eventOnElement(e))
+					e.preventDefault();
+			}, false);
+		} else {
+			$doc.attachEvent('oncontextmenu', function() {
+				if (eventOnElement(e))
+					$wnd.event.returnValue = false;
+			});
+		}
+	}-*/;
+
+	public static native void removeDefaultContextMenu() /*-{
+
+		if ($doc.addEventListener) {
+			$doc.addEventListener('contextmenu', function(e) {
+				e.preventDefault();
+			}, false);
+			$doc.addEventListener("MSHoldVisual", function(e) {
+				e.preventDefault();
+			}, false);
+
+		} else {
+			$doc.attachEvent('oncontextmenu', function() {
+				$wnd.event.returnValue = false;
+			});
+		}
+	}-*/;
+
+	public static native boolean isChromeWebApp() /*-{
+		if ($doc.isChromeWebapp()) {
+			return true;
+		}
+		return false;
+	}-*/;
+
 }
