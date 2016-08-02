@@ -1419,6 +1419,16 @@ public class PredefMacros {
 		}
 	}
 
+	public static final Atom cursor_macro(final TeXParser tp,
+			final String[] args) throws ParseException {
+		try {
+			return new CursorAtom(new SymbolAtom("vert", 0, false),
+					null, ColorAtom.getColor(args[1]));
+		} catch (NumberFormatException e) {
+			throw new ParseException(e.toString());
+		}
+	}
+
 	public static final Atom textcolor_macro(final TeXParser tp, final String[] args) throws ParseException {
 		return new ColorAtom(new TeXFormula(tp, args[2]).root, null, ColorAtom.getColor(args[1]));
 	}

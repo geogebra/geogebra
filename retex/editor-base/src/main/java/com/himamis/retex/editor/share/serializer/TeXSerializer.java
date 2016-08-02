@@ -12,7 +12,7 @@ import com.himamis.retex.renderer.share.util.LaTeXUtil;
  */
 public class TeXSerializer extends SerializerAdapter {
 
-    private static final String cursor = "\\textcolor{red}{|}";
+	private static final String cursor = "\\jlmcursor{red}";
 	private static final String selection_start = "\\jlmselection{#CCCCFF}{";
 	private static final String selection_end = "}";
 
