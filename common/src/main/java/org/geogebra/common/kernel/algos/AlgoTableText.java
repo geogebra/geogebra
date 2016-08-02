@@ -18,10 +18,10 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
@@ -157,9 +157,9 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		return text;
 	}
 
-	// get the lrc.a from middle of ABCDlrcEFGH
+	// get the lrc.a% from middle of ABCDlrc.a%EFGH
 	private final static RegExp matchLRC = RegExp
-			.compile("([^.lrca]*)([.lrca]*)([^.lrca]*)");
+			.compile("([^.%lrca]*)([.%lrca]*)([^.%lrca]*)");
 
 	private void parseArgs() {
 
@@ -485,7 +485,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		case 'l':
 			return j;
 
-		// for 'a', '.'
+		// for 'a', '.', '%"
 		default:
 			return 'r';
 		}
@@ -816,11 +816,26 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			// replace " " and "" with a hard space (allow blank columns/rows)
 			String text1 = geo1.toLaTeXString(false, tpl);
 
-			if (justification1 == '.' || justification1 == 'a') {
+			switch (justification1) {
+			case '.':
+			case 'a':
 				text1 = tpl.padZerosAfterDecimalPoint(text1,
-						justification1 == '.', kernel.getPrintDecimals());
+						justification1 == '.', kernel.getPrintDecimals(), "");
+				break;
+			case '%':
+
+				if (geo1 instanceof GeoNumberValue) {
+
+					double num = ((GeoNumberValue) geo1).getDouble();
+
+					String numStr = kernel.format(num * 100, tpl);
+
+					text1 = tpl.padZerosAfterDecimalPoint(numStr, true,
+							kernel.getPrintDecimals(), "%");
+				}
+
 			}
-			Log.debug("after  " + text1);
+
 
 			if (" ".equals(text1) || "".equals(text1)) {
 				text1 = "\\;"; // problem with JLaTeXMath, was "\u00a0";

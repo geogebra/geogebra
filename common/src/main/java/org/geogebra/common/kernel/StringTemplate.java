@@ -3012,11 +3012,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *            whether to make extra digits invisible (just for padding)
 	 * @param defaultDigits
 	 *            default if not set explicitly for the GeoText
+	 * @param suffix
 	 * @return number padded, eg 1 padded to 1.00 (2dp) and wrapped in \texttt
 	 *         (monospace font)
 	 */
 	public String padZerosAfterDecimalPoint(String s, boolean phantom,
-			int defaultDigits) {
+			int defaultDigits, String suffix) {
 
 		if (!StringUtil.isNumber(s)) {
 			return s;
@@ -3031,21 +3032,21 @@ public class StringTemplate implements ExpressionNodeConstants {
 		if (pointPos >= length) {
 
 			if (digits == 0) {
-				return wrapInTexttt(s);
+				return wrapInTexttt(s + suffix);
 			}
 
 			if (phantom) {
 				return wrapInTexttt(
 						s + wrapInPhantom(
-								"." +
-								StringUtil.string("0", digits)));
+								"." + StringUtil.string("0", digits), suffix));
 			}
-			return wrapInTexttt(s + "." + StringUtil.string("0", digits));
+			return wrapInTexttt(
+					s + "." + StringUtil.string("0", digits) + suffix);
 
 		}
 
 		if (zerosToAdd == 0) {
-			return wrapInTexttt(s);
+			return wrapInTexttt(s + suffix);
 		}
 
 		if (zerosToAdd < 0) {
@@ -3054,10 +3055,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		if (phantom) {
 			return wrapInTexttt(
-					s + wrapInPhantom(StringUtil.string("0", zerosToAdd)));
+					s + wrapInPhantom(StringUtil.string("0", zerosToAdd),
+							suffix));
 		}
 
-		return wrapInTexttt(s + StringUtil.string("0", zerosToAdd));
+		return wrapInTexttt(s + StringUtil.string("0", zerosToAdd) + suffix);
 
 	}
 
@@ -3070,11 +3072,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * \texttt{\phantom{\texttt{}}} seems OK
 	 * 
 	 * @param s
-	 *            strin to wrap
+	 *            string to wrap
 	 * @return wrapped string
 	 */
-	private String wrapInPhantom(String s) {
-		return "\\phantom{\\texttt{" + s + "}}";
+	private String wrapInPhantom(String s, String prefix) {
+		return prefix + "\\phantom{\\texttt{" + s + "}}";
 	}
 
 }
