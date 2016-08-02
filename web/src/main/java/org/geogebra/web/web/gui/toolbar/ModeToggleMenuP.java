@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Label;
 public class ModeToggleMenuP extends ModeToggleMenu {
 
 	FlowPanel submenuPanel;
+	Label back;
 
 	public ModeToggleMenuP(AppW appl, Vector<Integer> menu1, ToolBarW tb,
 			int order) {
@@ -35,9 +36,9 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 	@Override
 	protected void buildGui() {
 		submenu = createToolbarSubmenu(app, order);
-		Label back = new Label("<");
+
+		back = new Label("<");
 		back.addStyleName("submenuBack");
-		submenu.add(back);
 		back.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -45,6 +46,7 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 				hideMenu();
 			}
 		});
+		submenu.add(back);
 
 		for (int k = 0; k < menu.size(); k++) {
 			final int addMode = menu.get(k).intValue();

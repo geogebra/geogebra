@@ -279,7 +279,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
 			// toolbarVecSize is i.e. 12 for AV, 14 for 3D
-			if (maxButtons < getToolbarVecSize()) {
+			if (maxButtons < getToolbarVecSize() || (maxButtons < 11 && getToolbarVecSize() < 11)) {
 				isMobileToolbar = true;
 				return new ModeToggleMenuP(app, menu, this, order, submenuPanel);
 			} else {
@@ -409,9 +409,21 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		}
 
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+
+			if (getToolbarVecSize() < 11) {
+				if ((isMobileToolbar && max >= 11) || !isMobileToolbar && max < 11) {
+					Log.debug("toolbarvecsize < 11");
+					this.maxButtons = max;
+
+					buildGui();
+					closeAllSubmenu();
+				}
+			}
 			// make sure gui is only rebuilt when necessary (when state changes
 			// between web view and mobile view)
-			if ((isMobileToolbar && max >= getToolbarVecSize()) || (!isMobileToolbar && max < getToolbarVecSize())) {
+			else if ((isMobileToolbar && max >= getToolbarVecSize())
+					|| (!isMobileToolbar && max < getToolbarVecSize())) {
+				Log.debug("standard view change");
 				this.maxButtons = max;
 
 				buildGui();
