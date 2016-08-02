@@ -1760,6 +1760,21 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		setUndoActive(undoActive);
 		registerFileDropHandlers(getFrameElement());
+		setViewsEnabled();
+	}
+
+	private void setViewsEnabled() {
+		if (getArticleElement().getDataParamEnableCAS(false)
+				|| !getArticleElement().getDataParamEnableCAS(true)) {
+			getSettings().getCasSettings().setEnabled(
+					getArticleElement().getDataParamEnableCAS(false));
+		}
+		if (getArticleElement().getDataParamEnable3D(false)
+				|| !getArticleElement().getDataParamEnable3D(true)) {
+			getSettings().getEuclidian(-1).setEnabled(
+					getArticleElement().getDataParamEnable3D(false));
+		}
+
 	}
 
 	/**

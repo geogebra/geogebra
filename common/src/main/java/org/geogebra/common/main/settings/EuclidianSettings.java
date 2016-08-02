@@ -1054,14 +1054,27 @@ public class EuclidianSettings extends AbstractSettings {
 		this.sizeFromFile = newDimension;
 	}
 
+	/**
+	 * @return width from XML
+	 */
 	public int getFileWidth() {
 		return sizeFromFile.getWidth();
 	}
 
+	/**
+	 * @return height from XML
+	 */
 	public int getFileHeight() {
 		return sizeFromFile.getHeight();
 	}
 
+	/**
+	 * @param axis
+	 *            axis index
+	 * @param flag
+	 *            whether to allow selection
+	 * @return whether setting was changed
+	 */
 	public boolean setSelectionAllowed(int axis, boolean flag) {
 		boolean changed = flag != selectionAllowed[axis];
 
@@ -1072,20 +1085,39 @@ public class EuclidianSettings extends AbstractSettings {
 		return changed;
 	}
 
+	/**
+	 * @param axisNo
+	 *            axis index
+	 * @return whether axis selection is allowed
+	 */
 	public boolean isSelectionAllowed(int axisNo) {
 		return selectionAllowed[axisNo];
 	}
 
+	/**
+	 * @param enable
+	 *            whether this view is enabled (for 3D only)
+	 */
 	public void setEnabled(boolean enable) {
-		if (enabled != enable) {
+		if (enabled == null || enabled != enable) {
 			this.enabled = enable;
 			settingChanged();
 		}
 
 	}
 
+	/**
+	 * @return whether this view is enabled
+	 */
 	public boolean isEnabled() {
 		return enabled == null || enabled;
+	}
+
+	/**
+	 * @return whether this view was explicitly disabled
+	 */
+	public boolean isEnabledSet() {
+		return enabled != null;
 	}
 
 }

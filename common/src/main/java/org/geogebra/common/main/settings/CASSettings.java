@@ -14,11 +14,18 @@ public class CASSettings extends AbstractSettings {
 	private boolean showExpAsRoots;
 	private Boolean enabled = null;
 
+	/**
+	 * @param listeners
+	 *            listeners
+	 */
 	public CASSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
 		init();
 	}
 
+	/**
+	 * New settings
+	 */
 	public CASSettings() {
 		super();
 		init();
@@ -68,14 +75,28 @@ public class CASSettings extends AbstractSettings {
 		return showExpAsRoots;
 	}
 
+	/**
+	 * @param enable
+	 *            whether CAS view and commands are allowed
+	 */
 	public void setEnabled(boolean enable) {
-		if (enabled != enable) {
+		if (enabled == null || enabled != enable) {
 			this.enabled = enable;
 			settingChanged();
 		}
 	}
 
+	/**
+	 * @return whether CAS view and commands are allowed
+	 */
 	public boolean isEnabled() {
 		return enabled == null || enabled;
+	}
+
+	/**
+	 * @return whether CAS was enabled / disabled explicitly
+	 */
+	public boolean isEnabledSet() {
+		return enabled != null;
 	}
 }

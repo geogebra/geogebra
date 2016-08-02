@@ -107,6 +107,8 @@ public abstract class AppWFull extends AppW {
 	 */
 	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super(ae, dimension, laf);
+		
+
 		if (this.isExam()) {
 			afterLocalizationLoaded(new Runnable() {
 
@@ -445,11 +447,7 @@ public abstract class AppWFull extends AppW {
 			box.addStyleName("boxsize");
 			int checkboxes = 0;
 
-			if(getArticleElement().getDataParamEnableCAS(false)
-				||!getArticleElement().getDataParamEnableCAS(true)){
-				getSettings().getCasSettings().setEnabled(
-						getArticleElement().getDataParamEnableCAS(false));
-			}else{
+			if (!getSettings().getCasSettings().isEnabledSet()) {
 				checkboxes++;
 				final CheckBox cas = new CheckBox(loc.getMenu("Perspective.CAS"));
 				cas.addStyleName("examCheckbox");
@@ -465,11 +463,7 @@ public abstract class AppWFull extends AppW {
 					}
 				});
 			}
-			if(getArticleElement().getDataParamEnable3D(false)
-				||!getArticleElement().getDataParamEnable3D(true)){
-				getSettings().getEuclidian(-1).setEnabled(
-						getArticleElement().getDataParamEnable3D(false));
-			}else{
+			if (!getSettings().getEuclidian(-1).isEnabledSet()) {
 				checkboxes++;
 				final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
 				allow3D.addStyleName("examCheckbox");

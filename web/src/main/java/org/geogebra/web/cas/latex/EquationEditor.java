@@ -218,25 +218,25 @@ public class EquationEditor implements HasSuggestions {
 						.getCommandSyntax(cmdInt) : app.getExam().getSyntax(
 								cmdInt, loc, app.getSettings());
 			}
-			if (syntaxString
-					.endsWith(component.isForCAS() ? Localization.syntaxCAS
-							:
-			        Localization.syntaxStr)) {
+			if (syntaxString != null) {
+				if (syntaxString.endsWith(component.isForCAS()
+						? Localization.syntaxCAS : Localization.syntaxStr)) {
 
-				// command not found, check for macros
-				Macro macro = component.isForCAS() ? null :
-				app.getKernel().getMacro(cmd);
-				if (macro != null) {
-					syntaxes.add(macro.toString());
-				} else {
-					// syntaxes.add(cmdInt + "[]");
-					Log.debug("Can't find syntax for: " + cmd);
+					// command not found, check for macros
+					Macro macro = component.isForCAS() ? null
+							: app.getKernel().getMacro(cmd);
+					if (macro != null) {
+						syntaxes.add(macro.toString());
+					} else {
+						// syntaxes.add(cmdInt + "[]");
+						Log.debug("Can't find syntax for: " + cmd);
+					}
+
+					continue;
 				}
-
-				continue;
-			}
-			for (String syntax : syntaxString.split("\\n")) {
-				syntaxes.add(syntax);
+				for (String syntax : syntaxString.split("\\n")) {
+					syntaxes.add(syntax);
+				}
 			}
 		}
 		return syntaxes;
