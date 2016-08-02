@@ -36,26 +36,7 @@ public interface HasAppletProperties {
 	 */
 	public void resetAutoSize();
 
-	/**
-	 * @param enable
-	 *            wheter geogebra-web applet rightclick enabled or not
-	 */
-	public void enableRightClick(boolean enable);
 
-	/**
-	 * @param enable
-	 * 
-	 *            wheter labels draggable in geogebra-web applets or not
-	 */
-	public void enableLabelDrags(boolean enable);
-
-	/**
-	 * @param enable
-	 * 
-	 *            wheter shift - drag - zoom enabled in geogebra-web applets or
-	 *            not
-	 */
-	public void enableShiftDragZoom(boolean enable);
 
 	/**
 	 * @param show

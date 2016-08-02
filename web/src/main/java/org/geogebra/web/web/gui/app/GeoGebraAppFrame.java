@@ -421,24 +421,6 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	}
 
 	@Override
-	public void enableRightClick(boolean enable) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void enableLabelDrags(boolean enable) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void enableShiftDragZoom(boolean enable) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void showToolBar(boolean show) {
 		// TODO Auto-generated method stub
 

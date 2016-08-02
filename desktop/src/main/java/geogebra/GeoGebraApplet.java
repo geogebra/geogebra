@@ -795,4 +795,19 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	private JavaScriptAPI getGgbApi() {
 		return getAppletImplementation().getGgbApi();
 	}
+
+	public void enableRightClick(boolean enable) {
+		getGgbApi().enableRightClick(enable);
+
+	}
+
+	public void enableLabelDrags(boolean enable) {
+		getGgbApi().enableLabelDrags(enable);
+
+	}
+
+	public void enableShiftDragZoom(boolean enable) {
+		getGgbApi().enableShiftDragZoom(enable);
+
+	}
 }

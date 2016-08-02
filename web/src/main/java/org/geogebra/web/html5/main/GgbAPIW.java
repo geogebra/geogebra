@@ -869,32 +869,7 @@ public class GgbAPIW extends GgbAPI {
 		((AppW) app).getAppletFrame().setSize(width, height);
 	}
 
-	/**
-	 * @param enable
-	 *            wheter geogebra-web applet rightclick enabled or not
-	 */
-	public void enableRightClick(boolean enable) {
-		((AppW) app).getAppletFrame().enableRightClick(enable);
-	}
 
-	/**
-	 * @param enable
-	 * 
-	 *            wheter labels draggable in geogebra-web applets or not
-	 */
-	public void enableLabelDrags(boolean enable) {
-		((AppW) app).getAppletFrame().enableLabelDrags(enable);
-	}
-
-	/**
-	 * @param enable
-	 * 
-	 *            wheter shift - drag - zoom enabled in geogebra-web applets or
-	 *            not
-	 */
-	public void enableShiftDragZoom(boolean enable) {
-		((AppW) app).getAppletFrame().enableShiftDragZoom(enable);
-	}
 
 	/**
 	 * @param show

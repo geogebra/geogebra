@@ -623,32 +623,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		setHeight("auto");
 	}
 
-	/**
-	 * @param enable
-	 *            wheter geogebra-web applet rightclick enabled or not
-	 */
-	public void enableRightClick(boolean enable) {
-		app.setRightClickEnabled(enable);
-	}
 
-	/**
-	 * @param enable
-	 * 
-	 *            wheter labels draggable in geogebra-web applets or not
-	 */
-	public void enableLabelDrags(boolean enable) {
-		app.setLabelDragsEnabled(enable);
-	}
-
-	/**
-	 * @param enable
-	 * 
-	 *            wheter shift - drag - zoom enabled in geogebra-web applets or
-	 *            not
-	 */
-	public void enableShiftDragZoom(boolean enable) {
-		app.setShiftDragZoomEnabled(enable);
-	}
 
 	/**
 	 * @param show
