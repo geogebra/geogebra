@@ -3293,6 +3293,9 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public boolean showConsProtNavigation() {
+		if (showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+			return true;
+		}
 		if (showConsProtNavigation == null) {
 			return false;
 		}
@@ -3307,7 +3310,12 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public void getConsProtNavigationIds(StringBuilder sb) {
-
+		if (showConsProtNavigation == null) {
+			if (showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+				sb.append(App.VIEW_CONSTRUCTION_PROTOCOL);
+			}
+			return;
+		}
 		boolean alreadyOne = false;
 		for (int id : showConsProtNavigation.keySet()) {
 			if (showConsProtNavigation.get(id)) {
@@ -3811,7 +3819,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-335
 		case TOOLBAR_ON_SMALL_SCREENS:
-			return prerelease;
+			return false;
 
 		// GGB-993
 		case NEW_START_SCREEN:

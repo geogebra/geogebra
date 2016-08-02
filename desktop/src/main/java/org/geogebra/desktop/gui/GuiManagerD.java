@@ -776,6 +776,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public boolean showView(int viewId) {
 		try {
+			if (layout.getDockManager().getPanel(viewId) == null) {
+				return false;
+			}
 			return layout.getDockManager().getPanel(viewId).isVisible();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -872,10 +875,14 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			menuBar.updateFonts();
 		}
 
-		if (constructionProtocolView != null)
+		if (constructionProtocolView != null){
 			constructionProtocolView.initGUI();
-		((ConstructionProtocolNavigationD) getConstructionProtocolNavigation())
-				.initGUI();
+		}
+		if (getConstructionProtocolNavigationIfExists() != null) {
+			((ConstructionProtocolNavigationD) getConstructionProtocolNavigation())
+					.initGUI();
+		}
+
 
 		if (casView != null)
 			casView.updateFonts();
