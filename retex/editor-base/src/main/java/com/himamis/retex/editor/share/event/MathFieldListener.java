@@ -4,4 +4,6 @@ public interface MathFieldListener {
 	public void onEnter();
 
 	public void onKeyTyped();
+
+	public void onCursorMove();
 }

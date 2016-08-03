@@ -339,7 +339,19 @@ public class LatexTreeItem extends RadioTreeItem
 		updatePreview();
 		popupSuggestions();
 		updateLineHeight();
-		Log.debug("shiftX" + CursorBox.startX);
+		onCursorMove();
+	}
+
+	@Override
+	public void onCursorMove() {
+		if (latexItem.getOffsetWidth() + latexItem.getElement().getScrollLeft()
+				- 10 < CursorBox.startX) {
+			latexItem.getElement().setScrollLeft(
+					(int) CursorBox.startX - latexItem.getOffsetWidth() + 10);
+		} else if (CursorBox.startX < latexItem.getElement().getScrollLeft() + 10) {
+			latexItem.getElement().setScrollLeft((int) CursorBox.startX - 10);
+		}
+
 	}
 
 	@Override

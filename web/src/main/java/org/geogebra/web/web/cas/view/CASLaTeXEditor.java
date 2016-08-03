@@ -261,4 +261,9 @@ public class CASLaTeXEditor extends SimplePanel
 		return true;
 	}
 
+	public void onCursorMove() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
