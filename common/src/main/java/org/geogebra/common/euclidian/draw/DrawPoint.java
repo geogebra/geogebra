@@ -399,7 +399,7 @@ public final class DrawPoint extends Drawable {
 			drawable.update();
 			drawable.draw(g2);
 			geo2.forceEuclidianVisible(false);
-			g2.setClip(null);
+			g2.resetClip();
 		}
 	}
 

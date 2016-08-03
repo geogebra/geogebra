@@ -17,7 +17,6 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.DrawableList.DrawableIterator;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
@@ -3434,8 +3433,7 @@ sb.toString(), getFontAxes(),
 				: 0;
 
 		// set the clipping region to the region defined by the axes
-		GShape oldClip = g2.getClip();
-		g2.setClip(xAxisStart, 0, getWidth(), yAxisEnd);
+
 		double tickStepX = getXscale() * gridDistances[0] * Math.sqrt(3.0);
 		double startX = getxZero() % (tickStepX);
 		double startX2 = getxZero() % (tickStepX / 2);
@@ -3445,27 +3443,32 @@ sb.toString(), getFontAxes(),
 		// vertical
 		double pix = startX2;
 		for (int j = 0; pix <= getWidth(); j++) {
-			tempLine.setLine(pix, 0, pix, getHeight());
-			g2.draw(tempLine);
+			if ((!Kernel.isEqual(pix, xCrossPix) || !showAxes[0])
+					&& pix > xAxisStart - Kernel.MIN_PRECISION) {
+				tempLine.setLine(pix, 0, pix, yAxisEnd);
+				g2.draw(tempLine);
+			}
+			
 			pix = startX2 + ((j * tickStepX) / 2.0);
 		}
-
+		g2.setClip(xAxisStart, 0, getWidth(), yAxisEnd);
 		// extra lines needed because it's diagonal
 		int extra = (int) ((((getHeight() * getXscale()) / getYscale())
 				* Math.sqrt(3.0)) / tickStepX) + 3;
 
-		// positive gradient
+		// negative gradient
 		pix = startX + (-(extra + 1) * tickStepX);
 		for (int j = -extra; pix <= getWidth(); j += 1) {
+			double endx = pix
+					+ (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale()) / getYscale());
 			tempLine.setLine(pix, startY - tickStepY,
-					pix + (((getHeight() + tickStepY) * Math.sqrt(3)
-							* getXscale()) / getYscale()),
+ endx,
 					(startY - tickStepY) + getHeight() + tickStepY);
-			g2.draw(tempLine);
+				g2.draw(tempLine);
 			pix = startX + (j * tickStepX);
 		}
 
-		// negative gradient
+		// positive gradient
 		pix = startX;
 		for (int j = 0; pix <= (getWidth()
 				+ ((((getHeight() * getXscale()) / getYscale()) + tickStepY)
@@ -3479,7 +3482,7 @@ sb.toString(), getFontAxes(),
 			g2.draw(tempLine);
 			pix = startX + (j * tickStepX);
 		}
-		g2.setClip(oldClip);
+		g2.resetClip();
 
 	}
 
@@ -5413,6 +5416,7 @@ sb.toString(), getFontAxes(),
 		getApplication().setExporting(exportType, scale);
 		exportPaintPre(g2d, scale, transparency);
 		drawObjects(g2d);
+		g2d.resetClip();
 		getApplication().setExporting(ExportType.NONE, 1);
 	}
 
@@ -5444,15 +5448,6 @@ sb.toString(), getFontAxes(),
 		return img;
 	}
 
-	/**
-	 * @param g2d
-	 *            target graphics object
-	 * @param scale
-	 *            ratio of desired size and current size of the graphics
-	 */
-	public void exportPaintPre(GGraphics2D g2d, double scale) {
-		exportPaintPre(g2d, scale, false);
-	}
 
 	public void centerView(GeoPointND point) {
 

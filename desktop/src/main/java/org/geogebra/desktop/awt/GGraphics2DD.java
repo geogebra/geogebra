@@ -271,8 +271,8 @@ public class GGraphics2DD implements GGraphics2D {
 		}
 	}
 
-	public GShape getClip() {
-		return new GGenericShapeD(impl.getClip());
+	public void resetClip() {
+		impl.setClip(null);
 	}
 
 	public void drawRect(int x, int y, int width, int height) {

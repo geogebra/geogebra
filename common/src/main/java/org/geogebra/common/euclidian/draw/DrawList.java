@@ -353,7 +353,7 @@ public final class DrawList extends CanvasDrawable
 						false);
 			}
 			if (clip) {
-				g2.setClip(0, 0, viewWidth, viewHeight);
+				g2.resetClip();
 			}
 
 		}

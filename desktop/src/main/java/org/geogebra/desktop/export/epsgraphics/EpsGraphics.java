@@ -838,8 +838,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Gets the current clipping area.
 	 */
-	@Override
-	public GShape getClip() {
+	protected GShape getClip() {
 		if (_clip == null) {
 			return null;
 		}

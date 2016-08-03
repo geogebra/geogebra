@@ -196,5 +196,9 @@ public class EpsGraphicsD extends EpsGraphics {
 
 	}
 
+	public void resetClip() {
+		this.setClip(null);
+
+	}
 
 }

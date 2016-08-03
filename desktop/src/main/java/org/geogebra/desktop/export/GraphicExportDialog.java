@@ -48,6 +48,7 @@ import org.freehep.graphicsio.pdf.PDFGraphics2D;
 import org.freehep.graphicsio.svg.SVGGraphics2D;
 import org.freehep.util.UserProperties;
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App.ExportType;
@@ -979,10 +980,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			// and avoid lots of these in the file
 			// <g
 			// transform="matrix(.56693, 0.0000, 0.0000, .56693, 0.0000, 0.0000)">
-			ev.exportPaintPre(new GGraphics2DD(g), 1, transparent0);
+			GGraphics2D expGraphics = new GGraphics2DD(g);
+			ev.exportPaintPre(expGraphics, 1, transparent0);
 
 			g.startGroup("misc");
-			ev.drawActionObjects(new GGraphics2DD(g));
+			ev.drawActionObjects(expGraphics);
 			g.endGroup("misc");
 
 			for (int layer = 0; layer <= app.getMaxLayerUsed(); layer++) // draw
@@ -1000,6 +1002,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			}
 
 			g.endExport();
+			expGraphics.resetClip();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

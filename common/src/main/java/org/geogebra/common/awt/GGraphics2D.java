@@ -362,7 +362,7 @@ public interface GGraphics2D {
 
 	public abstract void setClip(GShape shape);
 
-	public abstract GShape getClip();
+	public void resetClip();
 
 	public abstract void drawRect(int x, int y, int width, int height);
 

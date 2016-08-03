@@ -43,7 +43,6 @@ public class GGraphics2DW implements GGraphics2D {
 
 	protected final Canvas canvas;
 	private final JLMContext2d context;
-	protected GShape clipShape = null;
 
 	private GFontW currentFont = new GFontW("normal");
 	private GColor color = new GColorW(255, 255, 255, 255);
@@ -511,22 +510,19 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	public void setClip(GShape shape) {
-		clipShape = shape;
 		if (shape == null) {
-			// this may be an intentional call to restore the context
-			context.restoreTransform();
+			Log.warn("Set clip should not be called with null, use resetClip instead");
+			resetClip();
 			return;
 		}
 		Shape shape2 = (Shape) shape;
 
 		doDrawShape(shape2, false);
-		if (clipShape != null) {
-			// we should call this only if no clip was set or just after another
-			// clip to overwrite
-			// in this case we don't want to double-clip something so let's
-			// restore the context
-			context.restoreTransform();
-		}
+		// we should call this only if no clip was set or just after another
+		// clip to overwrite
+		// in this case we don't want to double-clip something so let's
+		// restore the context
+		context.restoreTransform();
 		context.saveTransform();
 		context.clip();
 	}
@@ -578,10 +574,6 @@ public class GGraphics2DW implements GGraphics2D {
 		} else {
 			context.fill();
 		}
-	}
-
-	public GShape getClip() {
-		return clipShape;
 	}
 
 	public void drawRect(int x, int y, int width, int height) {
@@ -977,6 +969,10 @@ public class GGraphics2DW implements GGraphics2D {
 			setCoordinateSpaceSize(width - 1, height);
 			setCoordinateSpaceSize(width, height);
 		}
+	}
+
+	public void resetClip() {
+		context.restoreTransform();
 	}
 
 
