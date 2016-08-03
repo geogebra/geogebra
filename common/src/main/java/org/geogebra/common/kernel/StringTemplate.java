@@ -33,7 +33,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private StringType stringType;
 	private boolean internationalizeDigits;
-	private String casPrintFormPI;
+
+	// form to serialise "pi" to
+	private String printFormPI;
+
+	// form to serialise sqrt(-1) to
+	private String printFormImaginary;
+
 	private ScientificFormatAdapter sf;
 	private NumberFormatAdapter nf;
 	private boolean forceSF;
@@ -350,7 +356,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		// View
 		// #5129, #5130
 
-		maxPrecision13.casPrintFormPI = "3.141592653590";
+		maxPrecision13.printFormPI = "3.141592653590";
 	}
 	/**
 	 * Default template, just allow bigger precision for Numeric command
@@ -651,7 +657,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return string representation of PI in this template
 	 */
 	public String getPi() {
-		return casPrintFormPI;
+		return printFormPI;
+	}
+
+	/**
+	 * 
+	 * @return string representation of PI in this template
+	 */
+	public String getImaginary() {
+		return printFormImaginary;
 	}
 
 	/**
@@ -675,25 +689,30 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		switch (t) {
 		case GIAC:
-			casPrintFormPI = "%pi";
+			printFormPI = "%pi";
+			printFormImaginary = "i";
 			break;
 
 		case GEOGEBRA_XML:
-			casPrintFormPI = "pi";
+			printFormPI = "pi";
+			printFormImaginary = Unicode.IMAGINARY;
 			break;
 
 		case LATEX:
-			casPrintFormPI = "\\pi";
+			printFormPI = "\\pi";
+			printFormImaginary = "i";
 			break;
 
 		case LIBRE_OFFICE:
-			casPrintFormPI = "%pi";
+			printFormPI = "%pi";
+			printFormImaginary = "i";
 			break;
 
 		default:
 			// #5129
 			// #5130
-			casPrintFormPI = Unicode.PI_STRING;
+			printFormPI = Unicode.PI_STRING;
+			printFormImaginary = Unicode.IMAGINARY;
 		}
 
 	}
@@ -959,7 +978,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		result.sf = sf;
 		result.usePrefix = usePrefix;
 		result.allowMoreDigits = allowMoreDigits;
-		result.casPrintFormPI = casPrintFormPI;
+		result.printFormPI = printFormPI;
 		result.internationalizeDigits = internationalizeDigits;
 		result.useRealLabels = useRealLabels;
 		result.localizeCmds = localizeCmds;
