@@ -8200,4 +8200,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		return new GeoElement[] { this };
 	}
 
+	public void resetDefinition() {
+		definition = null;
+	}
+
 }

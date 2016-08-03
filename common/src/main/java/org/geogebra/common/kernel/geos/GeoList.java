@@ -3053,4 +3053,12 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 				tpl, fallback);
 	}
 
+	@Override
+	public void resetDefinition() {
+		super.resetDefinition();
+		for (int i = 0; i < size(); i++) {
+			this.geoList.get(i).resetDefinition();
+		}
+	}
+
 }

@@ -471,7 +471,9 @@ public class MyList extends ValidExpression implements ListValue,
 		// + operationResult);
 		if (kernel.getApplication().has(Feature.FRACTIONS)
 				&& operationResult instanceof NumberValue) {
-			operationResult = ((NumberValue) operationResult)
+			operationResult = operationResult.isGeoElement()
+					? operationResult.deepCopy(kernel)
+					: ((NumberValue) operationResult)
 					.toGeoElement(kernel.getConstruction());
 			((GeoElement) operationResult).setDefinition(tempNode
 					.deepCopy(kernel));

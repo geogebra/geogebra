@@ -175,6 +175,9 @@ public class CmdSetValue extends CmdScripting {
 					arg0.setUndefined();
 				} else {
 					arg0.set(arg1);
+					if (arg1.isChildOf(arg0)) {
+						arg0.resetDefinition();
+					}
 				}
 			}
 			arg0.updateRepaint();
