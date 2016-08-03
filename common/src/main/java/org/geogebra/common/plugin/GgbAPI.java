@@ -1776,4 +1776,65 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		app.setShiftDragZoomEnabled(enable);
 	}
 
+	public void setAxisSteps(int view, String xStep, String yStep,
+			String zStep) {
+		int index = view < 0 ? 3 : view;
+		if (index < 1 || index > 3) {
+			return;
+		}
+		EuclidianSettings evs = app.getSettings().getEuclidian(index);
+		evs.beginBatch();
+		evs.setAxisNumberingDistance(0,
+				this.algebraprocessor.evaluateToNumeric(xStep, true));
+		evs.setAxisNumberingDistance(1,
+				this.algebraprocessor.evaluateToNumeric(yStep, true));
+		if (evs.is3D()) {
+			evs.setAxisNumberingDistance(2,
+					this.algebraprocessor.evaluateToNumeric(zStep, true));
+		}
+		evs.endBatch();
+		kernel.notifyRepaint();
+
+	}
+
+	public void setAxisLabels(int view, String xLabel, String yLabel,
+			String zLabel) {
+		int index = view < 0 ? 3 : view;
+		if (index < 1 || index > 3) {
+			return;
+		}
+		EuclidianSettings evs = app.getSettings().getEuclidian(index);
+		evs.beginBatch();
+		evs.setAxisLabel(0, xLabel);
+		evs.setAxisLabel(1, yLabel);
+		if (evs.is3D()) {
+			evs.setAxisLabel(2, zLabel);
+		}
+		evs.endBatch();
+		kernel.notifyRepaint();
+
+	}
+
+	public void setAxisUnits(int view, String xLabel, String yLabel,
+			String zLabel) {
+		int index = view < 0 ? 3 : view;
+		if (index < 1 || index > 3) {
+			return;
+		}
+		EuclidianSettings evs = app.getSettings().getEuclidian(index);
+		evs.beginBatch();
+		evs.setAxesUnitLabels(new String[] { xLabel, yLabel, zLabel });
+
+		evs.endBatch();
+		kernel.notifyRepaint();
+
+	}
+
+	public void setAuxiliary(String objName, boolean flag) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		geo.setAuxiliaryObject(flag);
+		geo.updateRepaint();
+
+	}
+
 }

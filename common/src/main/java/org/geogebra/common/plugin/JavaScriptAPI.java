@@ -172,6 +172,8 @@ public interface JavaScriptAPI {
 	 */
 	public void setFixed(String objName, boolean flag);
 
+	public void setAuxiliary(String objName, boolean flag);
+
 	/**
 	 * Turns the trace of the object with the given name on or off.
 	 */
@@ -537,6 +539,15 @@ public interface JavaScriptAPI {
 	 */
 	public void setAxesVisible(int view, boolean xVisible, boolean yVisible,
 			boolean zVisible);
+
+	public void setAxisSteps(int view, String xStep, String yStep,
+			String zStep);
+
+	public void setAxisLabels(int view, String xLabel, String yLabel,
+			String zLabel);
+
+	public void setAxisUnits(int view, String xLabel, String yLabel,
+			String zLabel);
 
 	/**
 	 * Shows or hides the coordinate grid in the graphics windows 1 and 2.

@@ -23,10 +23,13 @@ import org.geogebra.desktop.main.AppletImplementation3D;
  */
 public class GeoGebraApplet3D extends GeoGebraApplet {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Initializes the appletImplementation object. Loads geogebra_main.jar file
 	 * and initializes applet if necessary.
 	 */
+	@Override
 	public synchronized void initAppletImplementation() {
 		if (isAppletFullyLoaded())
 			return;

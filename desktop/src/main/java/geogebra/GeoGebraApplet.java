@@ -265,6 +265,13 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getAppletImplementation().evalGeoGebraCAS(cmdString);
 	}
 
+	/**
+	 * @param cmdString
+	 *            command
+	 * @param waitForResult
+	 *            whether to wait
+	 * @return true when successful (or not waiting)
+	 */
 	public synchronized boolean evalCommand(final String cmdString,
 			boolean waitForResult) {
 
@@ -792,7 +799,12 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getGgbApi().enable3D(enable);
 	}
 
-	private JavaScriptAPI getGgbApi() {
+	/**
+	 * The API instance
+	 * 
+	 * @return the API
+	 */
+	JavaScriptAPI getGgbApi() {
 		return getAppletImplementation().getGgbApi();
 	}
 
@@ -808,6 +820,29 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 
 	public void enableShiftDragZoom(boolean enable) {
 		getGgbApi().enableShiftDragZoom(enable);
+
+	}
+
+	public void setAxisSteps(int view, String xStep, String yStep,
+			String zStep) {
+		getGgbApi().setAxisSteps(view, xStep, yStep, zStep);
+
+	}
+
+	public void setAxisLabels(int view, String xLabel, String yLabel,
+			String zLabel) {
+		getGgbApi().setAxisLabels(view, xLabel, yLabel, zLabel);
+
+	}
+
+	public void setAxisUnits(int view, String xLabel, String yLabel,
+			String zLabel) {
+		getGgbApi().setAxisUnits(view, xLabel, yLabel, zLabel);
+
+	}
+
+	public void setAuxiliary(String objName, boolean flag) {
+		getGgbApi().setAuxiliary(objName, flag);
 
 	}
 }

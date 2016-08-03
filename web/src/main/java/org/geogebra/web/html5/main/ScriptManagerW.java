@@ -131,6 +131,11 @@ public class ScriptManagerW extends ScriptManager {
 			api.listeners[api.listeners.length]=obj;
 			return (api.listeners.length-1)+"";
 		}
+		
+		function makeStr(data){
+			return data ? data+"" : "";
+		}
+		
 		api.getXML = function(objName) {
 			if (objName) {
 				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getXML(Ljava/lang/String;)(objName);
@@ -355,7 +360,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.setAnimating = function(objName, animate) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAnimating(Ljava/lang/String;Z)(objName,animate);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAnimating(Ljava/lang/String;Z)(objName,!!animate);
 		};
 
 		api.setAnimationSpeed = function(objName, speed) {
@@ -368,6 +373,10 @@ public class ScriptManagerW extends ScriptManager {
 
 		api.stopAnimation = function() {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::stopAnimation()();
+		};
+		
+		api.setAuxiliary = function(objName, auxiliary) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAuxiliary(Ljava/lang/String;Z)(objName,!!auxiliary);
 		};
 
 		api.hideCursorWhenDragging = function(hideCursorWhenDragging) {//TODO: CSS hacks in GeoGebraWeb
@@ -542,6 +551,18 @@ public class ScriptManagerW extends ScriptManager {
 			} else {
 				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxesVisible(IZZZ)(arg1, arg2, arg3, !!arg4);
 			}
+		};
+		
+		api.setAxisUnits = function(arg1, arg2, arg3, arg4) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisUnits(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, makeStr(arg2), makeStr(arg3), makeStr(arg4));
+		};
+		
+		api.setAxisLabels = function(arg1, arg2, arg3, arg4) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisLabels(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, makeStr(arg2), makeStr(arg3), makeStr(arg4));
+		};
+		
+		api.setAxisSteps = function(arg1, arg2, arg3, arg4) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisSteps(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, makeStr(arg2), makeStr(arg3), makeStr(arg4));
 		};
 
 		api.getGridVisible = function(view) {
@@ -830,14 +851,6 @@ public class ScriptManagerW extends ScriptManager {
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
 
-	}-*/;
-
-	public void setEnabled(boolean enable) {
-		enable(enable ? api : null, ggbApplet);
-	}
-
-	private native void enable(JavaScriptObject apiN, String ggbAppletN)/*-{
-		$doc[ggbAppletN] = $wnd[ggbAppletN] = apiN;
 	}-*/;
 
 }
