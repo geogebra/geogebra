@@ -1830,6 +1830,17 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	}
 
+	public void setPointCapture(int view, int capture) {
+		int index = view < 0 ? 3 : view;
+		if (index < 1 || index > 3) {
+			return;
+		}
+		EuclidianSettings evs = app.getSettings().getEuclidian(index);
+		evs.setPointCapturing(capture);
+		kernel.notifyRepaint();
+
+	}
+
 	public void setAuxiliary(String objName, boolean flag) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		geo.setAuxiliaryObject(flag);

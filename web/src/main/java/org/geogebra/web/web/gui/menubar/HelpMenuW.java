@@ -16,7 +16,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	
 	public HelpMenuW(final App app)  {
 
-		super(true);
+		super(true, "help");
 	    this.app = app;
 	    addStyleName("GeoGebraMenuBar");
 	    

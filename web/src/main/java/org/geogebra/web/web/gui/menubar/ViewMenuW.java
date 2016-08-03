@@ -42,7 +42,7 @@ public class ViewMenuW extends GMenuBar {
 	 */
 	public ViewMenuW(AppW application) {
 
-		super(true);
+		super(true, "view");
 		this.app = application;
 		addStyleName("GeoGebraMenuBar");
 		initActions();

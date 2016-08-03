@@ -23,7 +23,7 @@ public class ToolsMenuW extends GMenuBar {
 	 */
 	public ToolsMenuW(AppW application) {
 
-		super(true);
+		super(true, "tools");
 		this.app = application;
 		addStyleName("GeoGebraMenuBar");
 		initActions();

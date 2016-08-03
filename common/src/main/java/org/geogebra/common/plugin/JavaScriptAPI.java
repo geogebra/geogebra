@@ -549,6 +549,8 @@ public interface JavaScriptAPI {
 	public void setAxisUnits(int view, String xLabel, String yLabel,
 			String zLabel);
 
+	public void setPointCapture(int view, int capture);
+
 	/**
 	 * Shows or hides the coordinate grid in the graphics windows 1 and 2.
 	 * 

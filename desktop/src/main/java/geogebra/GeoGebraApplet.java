@@ -845,4 +845,9 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getGgbApi().setAuxiliary(objName, flag);
 
 	}
+
+	public void setPointCapture(int view, int capture) {
+		getGgbApi().setPointCapture(view, capture);
+
+	}
 }

@@ -29,7 +29,7 @@ public class EditMenuW extends GMenuBar {
 	 */
 	public EditMenuW(AppW app) {
 
-		super(true, new MenuResources());
+		super(true, "edit", new MenuResources());
 		this.app = app;
 		this.selection = app.getSelectionManager();
 		addStyleName("GeoGebraMenuBar");

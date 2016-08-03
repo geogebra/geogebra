@@ -31,7 +31,7 @@ public class PerspectivesMenuW extends GMenuBar {
 	 * @param app application
 	 */
 	public PerspectivesMenuW(AppW app) {
-	    super(true);
+		super(true, "apps");
 	    this.app = app;
 	    this.layout = app.getGuiManager().getLayout();
 	    addStyleName("GeoGebraMenuBar");

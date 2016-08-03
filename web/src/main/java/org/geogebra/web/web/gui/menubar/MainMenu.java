@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.laf.MainMenuI;
 import org.geogebra.web.html5.main.AppW;
@@ -58,7 +59,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 */
 	GMenuBar[] menus;
 	private GMenuBar userMenu;
-	private GMenuBar signInMenu = new GMenuBar(true);
+	/** sign in menu */
+	GMenuBar signInMenu = new GMenuBar(true, "signin");
 
 	/**
 	 * Constructs the menubar
@@ -130,6 +132,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			@Override
 			public void showStack(int index) {
 				super.showStack(index);
+				app.dispatchEvent(new org.geogebra.common.plugin.Event(
+						EventType.OPEN_MENU, null,
+						menus[index].getMenuTitle()));
 				app.getGuiManager().setDraggingViews(
 						isViewDraggingMenu(menus[index]), false);
 			}
@@ -247,7 +252,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
     }
 
 	private void createUserMenu() {
-	    this.userMenu = new GMenuBar(true);	
+		this.userMenu = new GMenuBar(true, "user");
 	    this.userMenu.addStyleName("GeoGebraMenuBar");
 	    this.userMenu.addItem(getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(), app.getMenu("SignOut"), true), true, new MenuCommand(app) {
 
@@ -296,10 +301,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	    return editMenu;
     }
 
-	public PerspectivesMenuW getPerspectivesMenuW() {
-		return perspectivesMenu;
-	}
 
+	/**
+	 * Update all submenus that depend on file content
+	 */
 	public void updateMenubar() {
 		if(app.hasOptionsMenu()){
 			app.getOptionsMenu(null).update();
@@ -312,12 +317,11 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
     }
 	
-	public void updatePrintMenu() {
-		if (fileMenu != null) {
-			fileMenu.updatePrintMenu();
-		}
-	}
 
+
+	/**
+	 * Update on selection change
+	 */
 	public void updateSelection() {
 		if(this.getEditMenu()!=null){
 			getEditMenu().invalidate();

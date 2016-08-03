@@ -564,6 +564,14 @@ public class ScriptManagerW extends ScriptManager {
 		api.setAxisSteps = function(arg1, arg2, arg3, arg4) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisSteps(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, makeStr(arg2), makeStr(arg3), makeStr(arg4));
 		};
+		
+		api.setPointCapture = function(view, capture) {
+			if(typeof capture == "undefined"){
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPointCapture(II)(1, view);
+			}else{
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPointCapture(II)(view, capture);
+			}
+		}
 
 		api.getGridVisible = function(view) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getGridVisible(I)(view || 1);

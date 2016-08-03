@@ -39,6 +39,8 @@ public enum EventType {
 
 	SHOW_STYLE_BAR("showStyleBar"),
 
+	OPEN_MENU("openMenu"),
+
 	PERSPECTIVE_CHANGE("perspectiveChange"),
 
 	// called when the user uses the Relation Tool

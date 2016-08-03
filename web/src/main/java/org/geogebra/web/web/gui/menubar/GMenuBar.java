@@ -15,13 +15,17 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public class GMenuBar extends MenuBar{
 	private int separators = 0;
 	private AbstractImagePrototype iconSubMenu;
+	private String menuTitle;
 
-	public GMenuBar(boolean vertical) {
+	public GMenuBar(boolean vertical, String menuTitle) {
 	    super(vertical);
+		this.menuTitle = menuTitle;
     }
 
-	public GMenuBar(boolean vertical, MenuResources menuResources) {
+	public GMenuBar(boolean vertical, String menuTitle,
+			MenuResources menuResources) {
 	    super(vertical, menuResources);
+		this.menuTitle = menuTitle;
 		iconSubMenu = AbstractImagePrototype.create(menuResources.menuBarSubMenuIcon());
     }
 
@@ -131,5 +135,9 @@ public class GMenuBar extends MenuBar{
 			menuparent.appendChild(rb);
 		}
 		return (MenuItem) ait[0];
+	}
+
+	public String getMenuTitle() {
+		return menuTitle;
 	}
 }
