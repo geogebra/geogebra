@@ -12,8 +12,9 @@ import com.himamis.retex.renderer.share.util.LaTeXUtil;
  */
 public class TeXSerializer extends SerializerAdapter {
 
-	private static final String cursor = "\\jlmcursor{red}";
-	private static final String selection_start = "\\jlmselection{#CCCCFF}{";
+	private static final String cursor = "\\jlmcursor{0}";
+	private static final String cursorBig = "\\jlmcursor{1}";
+	private static final String selection_start = "\\jlmselection{";
 	private static final String selection_end = "}";
 
     private static final String latexFunctions[] = {"sin", "cos", "tan",
@@ -80,7 +81,7 @@ public class TeXSerializer extends SerializerAdapter {
         if (sequence.size() == 0) {
 			if (sequence == currentField) {
 				if (currentSelStart == null) {
-					stringBuilder.append(cursor);
+					stringBuilder.append(cursorBig);
 				}
             } else {
                 if (sequence.getParent() == null

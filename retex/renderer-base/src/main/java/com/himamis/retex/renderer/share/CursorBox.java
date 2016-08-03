@@ -10,12 +10,12 @@ public class CursorBox extends Box {
 	private Box content;
 	public static boolean touchSelection = true;
 
-	public CursorBox(Box content) {
+	public CursorBox(Box content, float coeff) {
 		this.content = content;
 		this.children.add(content);
 		this.width = 0;
-		this.height = content.height;
-		this.depth = content.depth;
+		this.height = content.height * coeff;
+		this.depth = content.depth * coeff;
 	}
 	@Override
 	public void draw(Graphics2DInterface g2, float x, float y) {
