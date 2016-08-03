@@ -784,12 +784,12 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		return getGgbApi().getDefinitionString(objName, localize);
 	}
 
-	public void setEnableCAS(boolean enable) {
-		getGgbApi().setEnableCAS(enable);
+	public void enableCAS(boolean enable) {
+		getGgbApi().enableCAS(enable);
 	}
 
-	public void setEnable3D(boolean enable) {
-		getGgbApi().setEnable3D(enable);
+	public void enable3D(boolean enable) {
+		getGgbApi().enable3D(enable);
 	}
 
 	private JavaScriptAPI getGgbApi() {

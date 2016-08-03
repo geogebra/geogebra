@@ -753,12 +753,12 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPerspective(Ljava/lang/String;)(code+"");
 		};
 		
-		api.setEnableCAS = function(enable) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setEnableCAS(Z)(enable);
+		api.enableCAS = function(enable) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::enableCAS(Z)(enable);
 		};
 		
-		api.setEnable3D = function(enable) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setEnable3D(Z)(enable);
+		api.enable3D = function(enable) {
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::enable3D(Z)(enable);
 		};
 
 		api.getPNGBase64 = function(exportScale, transparent, dpi,

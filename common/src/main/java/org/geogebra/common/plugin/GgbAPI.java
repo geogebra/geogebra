@@ -1741,11 +1741,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	}
 
-	public void setEnableCAS(boolean enable) {
+	public void enableCAS(boolean enable) {
 		app.getSettings().getCasSettings().setEnabled(enable);
 	}
 
-	public void setEnable3D(boolean enable) {
+	public void enable3D(boolean enable) {
 		app.getSettings().getEuclidian(-1).setEnabled(enable);
 	}
 
