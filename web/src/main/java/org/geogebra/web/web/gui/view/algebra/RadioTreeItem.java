@@ -1000,18 +1000,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 				: width);
 	}
 
-	/**
-	 * Adds the "X" button to the AV item
-	 * 
-	 * @param item
-	 *            the AV item delete button must be added.
-	 */
-	public final void addDeleteButton(TreeItem item) {
-		addStyleName("XButtonPanelParent");
-		main.add(buttonPanel);
-
-	}
-
 	@Override
 	public void setFirst(boolean first) {
 		super.setFirst(first);
