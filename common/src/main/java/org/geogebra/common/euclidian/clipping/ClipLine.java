@@ -173,8 +173,8 @@ public class ClipLine {
 		 * System.out.println("mask2 = "+mask2);
 		 * System.out.println("mask = "+mask);
 		 */
-		double xhack = x1 == x2 ? 0 : 0.5;
-		double yhack = y1 == y2 ? 0 : 0.5;
+		double xhack = 0;
+		double yhack = 0;
 
 		if (mask1 == INSIDE) {
 			// point 1 is internal
@@ -324,9 +324,9 @@ public class ClipLine {
 		double dy2 = y22 - y21;
 		double det = (dx2 * dy1 - dy2 * dx1);
 		// line vertical: no 0.5 hack
-		double xhack = x11 == x12 ? 0 : 0.5;
+		double xhack = 0;
 		// line horizontal: no hack
-		double yhack = y11 == y12 ? 0 : 0.5;
+		double yhack = 0;
 
 		if (det != 0.0) {
 			double mu = ((x11 - x21) * dy1 - (y11 - y21) * dx1) / det;

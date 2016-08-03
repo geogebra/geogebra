@@ -66,14 +66,25 @@ public class ClipShape {
 	 * smaller interval from an arbitary [t0,t1].
 	 */
 	static class ClippedPath {
-		public final GGeneralPath g;
+		/** path */
+		final GGeneralPath g;
 		private Stack<double[]> uncommittedPoints = new Stack<double[]>();
 		private double initialX, initialY;
 
+		/**
+		 * @param windingRule
+		 *            winding rule
+		 */
 		public ClippedPath(int windingRule) {
 			g = AwtFactory.prototype.newGeneralPath(windingRule);
 		}
 
+		/**
+		 * @param x
+		 *            x coordinate
+		 * @param y
+		 *            y coordinate
+		 */
 		public void moveTo(double x, double y) {
 			flush();
 			g.moveTo((float) x, (float) y);
@@ -120,6 +131,12 @@ public class ClipShape {
 		 * <P>
 		 * However only horizontal/vertical lines are consolidated, because this
 		 * method is aimed at clipping to (non-rotated) rectangles.
+		 * 
+		 * @param x
+		 *            x coordinate
+		 * @param y
+		 *            y coordinate
+		 * 
 		 */
 		public void lineTo(double x, double y) {
 
@@ -137,6 +154,9 @@ public class ClipShape {
 			uncommittedPoints.push(f);
 		}
 
+		/**
+		 * Close the path
+		 */
 		public void closePath() {
 			lineTo(initialX, initialY);
 			flush();
@@ -179,7 +199,13 @@ public class ClipShape {
 	 * segment of a path. This can be thought of is f(t).
 	 */
 	static interface Function {
-		/** evaluates this function at a given value */
+		/**
+		 * evaluates this function at a given value
+		 * 
+		 * @param t
+		 *            parameter
+		 * @return function value
+		 */
 		public double evaluate(double t);
 
 		/**
