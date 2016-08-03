@@ -509,7 +509,7 @@ public class GeoGebraFileChooser extends JFileChooser implements
 									newHeight, BufferedImage.TYPE_INT_ARGB));
 							graphics2D = (GGraphics2DD) img.createGraphics();
 							graphics2D.drawImage(bigImage, 0, 0, newWidth,
-									newHeight, null);
+									newHeight);
 
 							graphics2D.dispose();
 
@@ -522,7 +522,7 @@ public class GeoGebraFileChooser extends JFileChooser implements
 									.createGraphics();
 
 							graphics2D.drawImage(tmpImage, 0, 0, newWidth,
-									newHeight, null);
+									newHeight);
 
 							graphics2D.dispose();
 

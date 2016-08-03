@@ -9,7 +9,6 @@ import java.awt.RenderingHints;
 import java.awt.RenderingHints.Key;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
@@ -20,7 +19,6 @@ import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GImage;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GShape;
@@ -35,23 +33,19 @@ import com.kitfox.svg.SVGException;
 /**
  * Desktop implementation of Graphics2D; wraps the java.awt.Graphics2D class
  * 
- * @author kondr
+ * @author Zbynek
  * 
  */
 public class GGraphics2DD implements GGraphics2D {
 	private Graphics2D impl;
 
+	/**
+	 * 
+	 * @param g2Dtemp
+	 *            wrapped graphics
+	 */
 	public GGraphics2DD(Graphics2D g2Dtemp) {
 		impl = g2Dtemp;
-	}
-
-	public void draw3DRect(int x, int y, int width, int height, boolean raised) {
-		impl.draw3DRect(x, y, width, height, raised);
-
-	}
-
-	public void fill3DRect(int x, int y, int width, int height, boolean raised) {
-		impl.fill3DRect(x, y, width, height, raised);
 	}
 
 	public void drawString(String str, int x, int y) {
@@ -83,7 +77,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	private Key getAwtHintKey(int key) {
+	private static Key getAwtHintKey(int key) {
 
 		switch (key) {
 		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_ANTIALIASING:
@@ -99,7 +93,7 @@ public class GGraphics2DD implements GGraphics2D {
 		return null;
 	}
 
-	private Object getAwtHintValue(int value) {
+	private static Object getAwtHintValue(int value) {
 
 		switch (value) {
 		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_ANTIALIAS_ON:
@@ -124,33 +118,14 @@ public class GGraphics2DD implements GGraphics2D {
 		impl.setRenderingHint(getAwtHintKey(key), getAwtHintValue(value));
 	}
 
-	public void translate(int x, int y) {
-		impl.translate(x, y);
-
-	}
-
 	public void translate(double tx, double ty) {
 		impl.translate(tx, ty);
 
 	}
 
-	public void rotate(double theta) {
-		impl.rotate(theta);
-
-	}
-
-	public void rotate(double theta, double x, double y) {
-		impl.rotate(theta, x, y);
-
-	}
 
 	public void scale(double sx, double sy) {
 		impl.scale(sx, sy);
-
-	}
-
-	public void shear(double shx, double shy) {
-		impl.shear(shx, shy);
 
 	}
 
@@ -159,6 +134,10 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
+	/**
+	 * 
+	 * @return currently used paint
+	 */
 	public GPaint getPaint() {
 		Paint paint = impl.getPaint();
 		if (paint instanceof Color) {
@@ -172,10 +151,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 	public GComposite getComposite() {
 		return new GCompositeD(impl.getComposite());
-	}
-
-	public void setBackground(GColor color) {
-		impl.setBackground(GColorD.getAwtColor(color));
 	}
 
 	public GColor getBackground() {
@@ -194,6 +169,11 @@ public class GGraphics2DD implements GGraphics2D {
 		return new GFontD(impl.getFont());
 	}
 
+	/**
+	 * @param g2
+	 *            graphics object
+	 * @return wrapped implementation
+	 */
 	public static Graphics2D getAwtGraphics(GGraphics2D g2) {
 		return ((GGraphics2DD) g2).impl;
 	}
@@ -252,10 +232,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	public void drawImage(GImage img, int x, int y) {
-		impl.drawImage(GGenericImageD.getAwtImage(img), x, y, null);
-
-	}
 
 	public void fillRect(int x, int y, int width, int height) {
 		impl.fillRect(x, y, width, height);
@@ -313,6 +289,12 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
+	/**
+	 * Replace wrapped graphics
+	 * 
+	 * @param g
+	 *            implementation
+	 */
 	public void setImpl(Graphics2D g) {
 		impl = g;
 	}
@@ -333,6 +315,10 @@ public class GGraphics2DD implements GGraphics2D {
 		setAntialiasing(impl);
 	}
 
+	/**
+	 * @param g2
+	 *            graphics that needs antialiasing
+	 */
 	public static void setAntialiasing(Graphics2D g2) {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
@@ -402,12 +388,26 @@ public class GGraphics2DD implements GGraphics2D {
 		this.draw(line);
 	}
 
+	/**
+	 * Dispose wrapped implementation
+	 */
 	public void dispose() {
 		impl.dispose();
 	}
 
-	public void drawImage(MyImageD img, int x, int y, int width, int height,
-			ImageObserver io) {
+	/**
+	 * @param img
+	 *            image
+	 * @param x
+	 *            left
+	 * @param y
+	 *            top
+	 * @param width
+	 *            width
+	 * @param height
+	 *            height
+	 */
+	public void drawImage(MyImageD img, int x, int y, int width, int height) {
 		if (img.isSVG()) {
 			try {
 				// TODO: scaling
@@ -416,7 +416,7 @@ public class GGraphics2DD implements GGraphics2D {
 				e.printStackTrace();
 			}
 		} else {
-			impl.drawImage(img.getImage(), x, y, width, height, io);
+			impl.drawImage(img.getImage(), x, y, width, height, null);
 		}
 
 	}
