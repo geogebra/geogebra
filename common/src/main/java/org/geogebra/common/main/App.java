@@ -3966,7 +3966,7 @@ public abstract class App implements UpdateSelection {
 			// code, and remove the old code from OptionsTab.update(Object[]
 			// geos).
 		case MULTIROW_TAB_PROPERTIES:
-			return prerelease;
+			return true;
 
 			// GGB-944
 		case EXPORT_ANIMATED_PDF:
