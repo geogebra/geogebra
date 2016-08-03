@@ -6247,7 +6247,7 @@ kernel, left,
 				double lt = fraction[0].evaluateDouble();
 				double rt = fraction[1].evaluateDouble();
 				boolean pi = false;
-				if (Kernel.isInteger(lt / Math.PI)) {
+				if (Kernel.isInteger(lt / Math.PI) && !Kernel.isZero(lt)) {
 					lt = lt / Math.PI;
 					pi = true;
 				}
