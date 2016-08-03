@@ -79,7 +79,6 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * View containing graphic representation of construction elements
@@ -3527,7 +3526,6 @@ sb.toString(), getFontAxes(),
 					// hits axis label, draw in 2 sections
 					drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
 				} else {
-					Log.debug(pix);
 					// not hitting axis label, just draw it
 					g2.drawStraightLine(pix, 0, pix, bottom);
 
