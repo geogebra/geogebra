@@ -128,10 +128,7 @@ public class TextGraphics implements GGraphics2D {
 		return null;
 	}
 
-	public void clip(GShape s) {
-		// intentionaly left blank
 
-	}
 
 	public GFontRenderContext getFontRenderContext() {
 		// intentionaly left blank

@@ -197,10 +197,6 @@ public class GGraphics2DD implements GGraphics2D {
 		return (GBasicStrokeD) impl.getStroke();
 	}
 
-	public void clip(GShape shape) {
-		impl.clip(((GShapeD) shape).getAwtShape());
-	}
-
 	public void drawImage(GBufferedImage img, GBufferedImageOp op, int x, int y) {
 		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img),
 				(GBufferedImageOpD) op, x, y);

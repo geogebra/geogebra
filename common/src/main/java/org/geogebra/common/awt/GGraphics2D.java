@@ -322,7 +322,7 @@ public interface GGraphics2D {
 	 *            <code>Clip</code>. If <code>s</code> is <code>null</code>,
 	 *            this method clears the current <code>Clip</code>.
 	 */
-	public abstract void clip(GShape s);
+	// public abstract void clip(GShape s);
 
 	/**
 	 * Get the rendering context of the <code>Font</code> within this

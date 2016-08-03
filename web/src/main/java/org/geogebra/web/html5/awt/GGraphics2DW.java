@@ -476,20 +476,6 @@ public class GGraphics2DW implements GGraphics2D {
 
 	}
 
-	public void clip(GShape shape) {
-		if (shape == null) {
-			Log.error("Error in Graphics2D.clip");
-			return;
-		}
-		clipShape = shape;
-
-		Shape shape2 = (Shape) shape;
-
-		doDrawShape(shape2, false);
-		context.saveTransform();
-		context.clip();
-	}
-
 	public void fillRect(int x, int y, int w, int h) {
 		context.fillRect(x, y, w, h);
 	}

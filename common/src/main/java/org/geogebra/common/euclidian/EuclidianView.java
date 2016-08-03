@@ -79,6 +79,7 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * View containing graphic representation of construction elements
@@ -3328,16 +3329,10 @@ sb.toString(), getFontAxes(),
 		// vars for handling positive-only axes
 		double xCrossPix = this.getxZero() + (axisCross[1] * getXscale());
 		double yCrossPix = this.getyZero() - (axisCross[0] * getYscale());
-		int yAxisEnd = (positiveAxes[1] && yCrossPix < getHeight()) ? (int) yCrossPix
-				: getHeight();
-		int xAxisStart = (positiveAxes[0] && xCrossPix > 0) ? (int) xCrossPix
-				: 0;
 
-		// set the clipping region to the region defined by the axes
-		GShape oldClip = g2.getClip();
-		if (gridType != GRID_POLAR) {
-			g2.setClip(xAxisStart, 0, getWidth(), yAxisEnd);
-		}
+
+
+
 
 		// this needs to be after setClip()
 		// bug in FreeHEP (PDF export)
@@ -3349,147 +3344,12 @@ sb.toString(), getFontAxes(),
 
 		case GRID_CARTESIAN:
 
-			// vertical grid lines
-			double tickStep = getXscale() * gridDistances[0];
-			double start = getxZero() % tickStep;
-			double pix = start;
-			double rw = getXmin() - (getXmin() % axesNumberingDistances[0]);
-			double rwBase = Kernel.checkDecimalFraction(rw);
-			if (pix < SCREEN_BORDER) {
-				pix += tickStep;
-				if (!getXaxisLog() || getXmin() < 0)
-					rw += axesNumberingDistances[0];
-			}
-			for (int i = 0; pix <= getWidth(); i++) {
-				// don't draw the grid line x=0 if the y-axis is showing
-				// or if it's too close (eg sticky axes)
-				if(getXaxisLog()){
-					double r = rwBase + Kernel.checkDecimalFraction(axesNumberingDistances[0] * i);
-					if (Math.round(r) == r)
-						rw = Math.pow(10, r); // condition of integer power
-					else {
-						rw = Math.pow(10, (int) r);
-						double decimal = r - (int) r;
-						rw = decimal * 10 * rw;
-					}
-					pix = toScreenCoordXd(rw);
-				}
-				if (!showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
-					if (axesLabelsPositionsX.contains(new Integer(
-							(int) (pix + Kernel.MIN_PRECISION)))) {
-
-						// hits axis label, draw in 2 sections
-						drawLineAvoidingLabelsV(g2, pix, 0, pix, getHeight(),
-								yCrossPix);
-					} else {
-
-						// not hitting axis label, just draw it
-						g2.drawStraightLine(pix, 0, pix, getHeight());
-
-					}
-
-				}
-
-				pix = start + (i * tickStep);
-			}
-
-			// horizontal grid lines
-			tickStep = getYscale() * gridDistances[1];
-			start = getyZero() % tickStep;
-			pix = start;
-			rw = getYmin() - (getYmin() % axesNumberingDistances[1]);
-			rwBase = Kernel.checkDecimalFraction(rw);
-			if (pix > (getHeight() - SCREEN_BORDER)) {
-				pix -= tickStep;
-				if (!getYaxisLog() || getYmin() < 0)
-					rw += axesNumberingDistances[1];
-			}
-			for (int j = 0; pix <= getHeight(); j++) {
-				// don't draw the grid line x=0 if the y-axis is showing
-				// or if it's too close (eg sticky axes)
-				if (getYaxisLog()) {
-					double r = rwBase
-							+ Kernel.checkDecimalFraction(axesNumberingDistances[1]
-									* j);
-					if (Math.round(r) == r)
-						rw = Math.pow(10, r); // condition of integer power
-					else {
-						rw = Math.pow(10, (int) r);
-						double decimal = r - (int) r;
-						rw = decimal * 10 * rw;
-					}
-					pix = 2 * getYZero() - toScreenCoordYd(rw);
-				}
-
-				if (!showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
-
-					if (axesLabelsPositionsY.contains(new Integer(
-							(int) (pix + Kernel.MIN_PRECISION)))) {
-
-						// hits axis label, draw in 2 sections
-						drawLineAvoidingLabelsH(g2, 0, pix, getWidth(), pix,
-								xCrossPix);
-					} else {
-
-						// not hitting axis label, just draw it
-						g2.drawStraightLine(0, pix, getWidth(), pix);
-					}
-				}
-
-				pix = start + (j * tickStep);
-			}
+			drawCartesianGrid(g2, xCrossPix, yCrossPix);
 
 			break;
 
 		case GRID_ISOMETRIC:
-
-			double tickStepX = getXscale() * gridDistances[0] * Math.sqrt(3.0);
-			double startX = getxZero() % (tickStepX);
-			double startX2 = getxZero() % (tickStepX / 2);
-			double tickStepY = getYscale() * gridDistances[0];
-			double startY = getyZero() % tickStepY;
-
-			// vertical
-			pix = startX2;
-			for (int j = 0; pix <= getWidth(); j++) {
-				tempLine.setLine(pix, 0, pix, getHeight());
-				g2.draw(tempLine);
-				pix = startX2 + ((j * tickStepX) / 2.0);
-			}
-
-			// extra lines needed because it's diagonal
-			int extra = (int) ((((getHeight() * getXscale()) / getYscale()) * Math
-					.sqrt(3.0)) / tickStepX) + 3;
-
-			// positive gradient
-			pix = startX + (-(extra + 1) * tickStepX);
-			for (int j = -extra; pix <= getWidth(); j += 1) {
-				tempLine.setLine(
-						pix,
-						startY - tickStepY,
-						pix
-								+ (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale()) / getYscale()),
-						(startY - tickStepY) + getHeight() + tickStepY);
-				g2.draw(tempLine);
-				pix = startX + (j * tickStepX);
-			}
-
-			// negative gradient
-			pix = startX;
-			for (int j = 0; pix <= (getWidth() + ((((getHeight() * getXscale()) / getYscale()) + tickStepY) * Math
-					.sqrt(3.0))); j += 1)
-			// for (int j=0; j<=kk; j+=1)
-			{
-				tempLine.setLine(
-						pix,
-						startY - tickStepY,
-						pix
-								- (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale()) / getYscale()),
-						(startY - tickStepY) + getHeight() + tickStepY);
-				g2.draw(tempLine);
-				pix = startX + (j * tickStepX);
-			}
-
+			drawIsometricGrid(g2, xCrossPix, yCrossPix);
 			break;
 
 		case GRID_POLAR: // G.Sturr 2010-8-13
@@ -3561,13 +3421,169 @@ sb.toString(), getFontAxes(),
 			break;
 		}
 
-		// reset the clipping region
-		g2.setClip(oldClip);
 	}
 
 	// =================================================
 	// Draw Axes
 	// =================================================
+
+	private void drawIsometricGrid(GGraphics2D g2, double xCrossPix,
+			double yCrossPix) {
+		int yAxisEnd = (positiveAxes[1] && yCrossPix < getHeight())
+				? (int) yCrossPix : getHeight();
+		int xAxisStart = (positiveAxes[0] && xCrossPix > 0) ? (int) xCrossPix
+				: 0;
+
+		// set the clipping region to the region defined by the axes
+		GShape oldClip = g2.getClip();
+		g2.setClip(xAxisStart, 0, getWidth(), yAxisEnd);
+		double tickStepX = getXscale() * gridDistances[0] * Math.sqrt(3.0);
+		double startX = getxZero() % (tickStepX);
+		double startX2 = getxZero() % (tickStepX / 2);
+		double tickStepY = getYscale() * gridDistances[0];
+		double startY = getyZero() % tickStepY;
+
+		// vertical
+		double pix = startX2;
+		for (int j = 0; pix <= getWidth(); j++) {
+			tempLine.setLine(pix, 0, pix, getHeight());
+			g2.draw(tempLine);
+			pix = startX2 + ((j * tickStepX) / 2.0);
+		}
+
+		// extra lines needed because it's diagonal
+		int extra = (int) ((((getHeight() * getXscale()) / getYscale())
+				* Math.sqrt(3.0)) / tickStepX) + 3;
+
+		// positive gradient
+		pix = startX + (-(extra + 1) * tickStepX);
+		for (int j = -extra; pix <= getWidth(); j += 1) {
+			tempLine.setLine(pix, startY - tickStepY,
+					pix + (((getHeight() + tickStepY) * Math.sqrt(3)
+							* getXscale()) / getYscale()),
+					(startY - tickStepY) + getHeight() + tickStepY);
+			g2.draw(tempLine);
+			pix = startX + (j * tickStepX);
+		}
+
+		// negative gradient
+		pix = startX;
+		for (int j = 0; pix <= (getWidth()
+				+ ((((getHeight() * getXscale()) / getYscale()) + tickStepY)
+						* Math.sqrt(3.0))); j += 1)
+		// for (int j=0; j<=kk; j+=1)
+		{
+			tempLine.setLine(pix, startY - tickStepY,
+					pix - (((getHeight() + tickStepY) * Math.sqrt(3)
+							* getXscale()) / getYscale()),
+					(startY - tickStepY) + getHeight() + tickStepY);
+			g2.draw(tempLine);
+			pix = startX + (j * tickStepX);
+		}
+		g2.setClip(oldClip);
+
+	}
+
+	private void drawCartesianGrid(GGraphics2D g2, double xCrossPix,
+			double yCrossPix) {
+		// vertical grid lines
+		double tickStepX = getXscale() * gridDistances[0];
+		final double xAxisStart = (positiveAxes[0] && xCrossPix > 0) ? xCrossPix
+				+ (((xZero - xCrossPix) % tickStepX) + tickStepX) % tickStepX
+				: (getXZero() % tickStepX);
+		double tickStepY = getYscale() * gridDistances[1];
+		final double yAxisEnd = (positiveAxes[1] && yCrossPix < getHeight())
+				? yCrossPix : getHeight();
+		final double bottom = positiveAxes[1] ? yAxisEnd : getHeight();
+		double pix = xAxisStart;
+		double rw = getXmin() - (getXmin() % axesNumberingDistances[0]);
+		double rwBase = Kernel.checkDecimalFraction(rw);
+		final double left = positiveAxes[0] ? xCrossPix : 0;
+
+		if (pix < SCREEN_BORDER) {
+			pix += tickStepX;
+			if (!getXaxisLog() || getXmin() < 0)
+				rw += axesNumberingDistances[0];
+		}
+		for (int i = 0; pix <= getWidth(); i++) {
+			// don't draw the grid line x=0 if the y-axis is showing
+			// or if it's too close (eg sticky axes)
+			if (getXaxisLog()) {
+				double r = rwBase + Kernel
+						.checkDecimalFraction(axesNumberingDistances[0] * i);
+				if (Math.round(r) == r)
+					rw = Math.pow(10, r); // condition of integer power
+				else {
+					rw = Math.pow(10, (int) r);
+					double decimal = r - (int) r;
+					rw = decimal * 10 * rw;
+				}
+				pix = toScreenCoordXd(rw);
+			}
+			if (!showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
+				if (axesLabelsPositionsX.contains(
+						new Integer((int) (pix + Kernel.MIN_PRECISION)))) {
+
+					// hits axis label, draw in 2 sections
+					drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
+				} else {
+					Log.debug(pix);
+					// not hitting axis label, just draw it
+					g2.drawStraightLine(pix, 0, pix, bottom);
+
+				}
+
+			}
+
+			pix = xAxisStart + (i * tickStepX);
+		}
+
+		// horizontal grid lines
+
+		double start = getyZero() % tickStepY;
+		pix = start;
+		rw = getYmin() - (getYmin() % axesNumberingDistances[1]);
+		rwBase = Kernel.checkDecimalFraction(rw);
+		if (pix > (getHeight() - SCREEN_BORDER)) {
+			pix -= tickStepY;
+			if (!getYaxisLog() || getYmin() < 0)
+				rw += axesNumberingDistances[1];
+		}
+
+		for (int j = 0; pix <= yAxisEnd; j++) {
+			// don't draw the grid line x=0 if the y-axis is showing
+			// or if it's too close (eg sticky axes)
+			if (getYaxisLog()) {
+				double r = rwBase + Kernel
+						.checkDecimalFraction(axesNumberingDistances[1] * j);
+				if (Math.round(r) == r)
+					rw = Math.pow(10, r); // condition of integer power
+				else {
+					rw = Math.pow(10, (int) r);
+					double decimal = r - (int) r;
+					rw = decimal * 10 * rw;
+				}
+				pix = 2 * getYZero() - toScreenCoordYd(rw);
+			}
+			if (!showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
+
+				if (axesLabelsPositionsY.contains(
+						new Integer((int) (pix + Kernel.MIN_PRECISION)))) {
+
+					// hits axis label, draw in 2 sections
+					drawLineAvoidingLabelsH(g2, left, pix, getWidth(), pix,
+							xCrossPix);
+				} else {
+
+					// not hitting axis label, just draw it
+					g2.drawStraightLine(left, pix, getWidth(), pix);
+				}
+			}
+
+			pix = start + (j * tickStepY);
+		}
+
+	}
 
 	double getXAxisCrossingPixel() {
 		return getxZero() + (axisCross[1] * getXscale());

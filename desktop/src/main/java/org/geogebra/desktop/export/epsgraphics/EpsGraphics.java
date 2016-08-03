@@ -30,7 +30,6 @@ package org.geogebra.desktop.export.epsgraphics;
 import java.util.LinkedList;
 
 import org.geogebra.common.awt.GAffineTransform;
-import org.geogebra.common.awt.GArea;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GBufferedImageOp;
@@ -667,20 +666,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 		return _stroke;
 	}
 
-	/**
-	 * Intersects the current clip with the interior of the specified Shape and
-	 * sets the clip to the resulting intersection.
-	 */
-	@Override
-	public void clip(GShape s) {
-		if (_clip == null) {
-			setClip(s);
-		} else {
-			GArea area = AwtFactory.prototype.newArea(_clip);
-			area.intersect(AwtFactory.prototype.newArea(s));
-			setClip(area);
-		}
-	}
+
 
 	/**
 	 * Returns the FontRenderContext.

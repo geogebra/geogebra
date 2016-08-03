@@ -394,7 +394,7 @@ public final class DrawPoint extends Drawable {
 			GEllipse2DFloat circleClip = AwtFactory.prototype
 					.newEllipse2DFloat((int) coords1[0] - 30,
 							(int) coords1[1] - 30, 60, 60);
-			g2.clip(circleClip);
+			g2.setClip(circleClip);
 			geo2.forceEuclidianVisible(true);
 			drawable.update();
 			drawable.draw(g2);
