@@ -78,7 +78,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -1570,12 +1569,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			break;
 
 		case Kernel.COORD_COMPLEX:
-			// if (!isI) { // return just "i" for special i
 			sbBuildValueString.append(kernel.format(x, tpl));
 			sbBuildValueString.append(" ");
 			kernel.formatSignedCoefficient(y, sbBuildValueString, tpl);
-			// }
-			sbBuildValueString.append(Unicode.IMAGINARY);
+			sbBuildValueString.append(tpl.getImaginary());
 			break;
 
 		default: // CARTESIAN
