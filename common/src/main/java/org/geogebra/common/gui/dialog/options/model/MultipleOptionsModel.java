@@ -2,7 +2,9 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.List;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 
 
@@ -31,6 +33,13 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 		
 	public void fillModes(Localization loc) {
 		if (getListener() == null) {
+			return;
+		}
+		if (app.has(Feature.OBJECT_COLOR_IN_LIST)
+				&& this instanceof StartPointModel) {
+			for (GeoElement geo : ((StartPointModel) this).getGeoChoiches(loc)) {
+				getListener().addItem(geo);
+			}
 			return;
 		}
 		for (String item: getChoiches(loc)) {

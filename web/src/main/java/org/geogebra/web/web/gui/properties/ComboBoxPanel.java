@@ -2,6 +2,8 @@ package org.geogebra.web.web.gui.properties;
 
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
@@ -61,6 +63,15 @@ public class ComboBoxPanel extends OptionPanel implements IComboListener {
 	public void addItem(String item) {
         comboBox.addItem(item);
     }
+
+	public void addItem(GeoElement geo) {
+		if (geo == null) {
+			comboBox.addItem("");
+			return;
+		}
+		comboBox.addItem(geo.getLabel(StringTemplate.editTemplate),
+				geo);
+	}
 
 	public String getTitle() {
         return title;

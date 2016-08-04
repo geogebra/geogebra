@@ -10,6 +10,7 @@ import org.geogebra.common.gui.dialog.options.model.FillingModel.IFillingListene
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -717,5 +718,10 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		}
 
 		lbBars.update(algo != null);
+	}
+
+	public void addItem(GeoElement item) {
+		// TODO Auto-generated method stub
+
 	}
 }

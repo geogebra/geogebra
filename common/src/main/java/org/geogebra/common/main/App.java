@@ -3992,6 +3992,10 @@ public abstract class App implements UpdateSelection {
 		case SCRIPT_AUTOSAVE:
 			return prerelease;
 
+			// GGB-793
+		case OBJECT_COLOR_IN_LIST:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

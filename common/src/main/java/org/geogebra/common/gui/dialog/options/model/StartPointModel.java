@@ -73,8 +73,17 @@ public class StartPointModel extends MultipleOptionsModel {
 		return choices;
 	}
 
-	private int indexOf(final String item) {
-		return choices.indexOf(item);
+	public List<GeoElement> getGeoChoiches(Localization loc) {
+		TreeSet<GeoElement> points = kernel.getPointSet();
+		List<GeoElement> choices2 = new ArrayList();
+		choices2.add(null);
+		Iterator<GeoElement> it = points.iterator();
+		int count = 0;
+		while (it.hasNext() || ++count > MAX_CHOICES) {
+			GeoElement p = it.next();
+			choices2.add(p);
+		}
+		return choices2;
 	}
 	
 	public void applyChanges(final String strLoc) {

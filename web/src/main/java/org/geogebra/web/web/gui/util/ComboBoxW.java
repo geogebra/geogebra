@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
@@ -103,5 +104,9 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 
 	public void addItem(String item) {
 		getModel().add(item, item);
+	}
+
+	public void addItem(String id, GeoElement item) {
+		getModel().add(id, item);
 	}
 }

@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.properties;
 
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -95,6 +96,11 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 
 	public void clearItems() {
 		getListBox().clear();
+
+	}
+
+	public void addItem(GeoElement item) {
+		// TODO Auto-generated method stub
 
 	}
 	

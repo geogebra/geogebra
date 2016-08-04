@@ -997,6 +997,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		}
 
+		public void addItem(GeoElement item) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	private class TabPanel extends JPanel {
@@ -1607,6 +1612,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		}
 
+		public void addItem(GeoElement item) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	/**
@@ -1775,6 +1785,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void addItem(String item) {
+			cbModel.addElement(item);
+
+		}
+
+		public void addItem(GeoElement item) {
 			cbModel.addElement(item);
 
 		}
@@ -2411,6 +2426,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void clearItems() {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void addItem(GeoElement item) {
 			// TODO Auto-generated method stub
 
 		}
@@ -3416,6 +3436,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// TODO Auto-generated method stub
 
 		}
+
+		public void addItem(GeoElement item) {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	/**
@@ -3985,6 +4010,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// TODO Auto-generated method stub
 
 		}
+
+		public void addItem(GeoElement item) {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	/**
@@ -4170,6 +4200,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			// TODO Auto-generated method stub
 
 		}
+
+		public void addItem(GeoElement item) {
+			// TODO Auto-generated method stub
+
+		}
 	}
 
 	private class DecoAnglePanel extends JPanel implements ActionListener,
@@ -4256,6 +4291,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void clearItems() {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void addItem(GeoElement item) {
 			// TODO Auto-generated method stub
 
 		}

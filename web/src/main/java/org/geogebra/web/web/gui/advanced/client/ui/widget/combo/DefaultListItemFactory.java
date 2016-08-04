@@ -16,6 +16,10 @@
 
 package org.geogebra.web.web.gui.advanced.client.ui.widget.combo;
 
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.GeoElement;
+
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -38,8 +42,13 @@ public class DefaultListItemFactory implements ListItemFactory {
     public Widget createWidget(Object value) {
         if (value == null)
             return new Label();
-        else if (value instanceof String || value instanceof Number)
-            return new Label(String.valueOf(value));
+		else if (value instanceof String || value instanceof Number)
+             return new Label(String.valueOf(value));
+
+		else if (value instanceof GeoElement){
+			return new HTML(((GeoElement) value).getColoredLabel());			
+		}
+
        /* else if (value instanceof Date) {
             DatePicker datePicker = new DatePicker((Date) value);
             datePicker.setChoiceButtonVisible(false);
@@ -63,6 +72,8 @@ public class DefaultListItemFactory implements ListItemFactory {
             return "";
         else if (value instanceof String || value instanceof Number)
             return String.valueOf(value);
+		else if (value instanceof GeoElement)
+			return ((GeoElement) value).getLabel(StringTemplate.editTemplate);
       /*  else if (value instanceof Date)
             return new DatePicker((Date)value).getTextualDate();
         else if (value instanceof IconItem)

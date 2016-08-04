@@ -792,6 +792,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		}
 
+		public void addItem(GeoElement item) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 

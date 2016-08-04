@@ -181,4 +181,9 @@ public class AnimationSpeedPanel extends JPanel implements ActionListener,
 		// TODO Auto-generated method stub
 
 	}
+
+	public void addItem(GeoElement item) {
+		// TODO Auto-generated method stub
+
+	}
 }

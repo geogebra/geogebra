@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
@@ -149,6 +150,11 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	}
 
 	public void clearItems() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void addItem(GeoElement item) {
 		// TODO Auto-generated method stub
 
 	}

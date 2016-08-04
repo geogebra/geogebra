@@ -608,6 +608,11 @@ public class OptionsTab extends FlowPanel {
 
 		}
 
+		public void addItem(GeoElement item) {
+			// TODO Auto-generated method stub
+
+		}
+
 	}
 
 	private class DecoSegmentPanel extends OptionPanel implements
@@ -670,6 +675,11 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		public void clearItems() {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void addItem(GeoElement item) {
 			// TODO Auto-generated method stub
 
 		}
@@ -774,6 +784,11 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		public void clearItems() {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void addItem(GeoElement item) {
 			// TODO Auto-generated method stub
 
 		}
@@ -1309,6 +1324,11 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		public void clearItems() {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void addItem(GeoElement item) {
 			// TODO Auto-generated method stub
 
 		}
