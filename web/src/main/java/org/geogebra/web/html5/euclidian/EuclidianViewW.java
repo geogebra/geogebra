@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -22,7 +21,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -379,65 +377,6 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	public void exportPaint(Canvas canvas, double scale) {
 		exportPaint(new GGraphics2DW(canvas), scale, false, ExportType.PNG);
-	}
-
-	@Override
-	public void exportPaintPre(GGraphics2D g2d,
-	        double scale, boolean transparency) {
-		g2d.scale(scale, scale);
-
-		// clipping on selection rectangle
-		if (getSelectionRectangle() != null) {
-			GRectangle rect = getSelectionRectangle();
-			g2d.setClip(0, 0, (int) rect.getWidth(), (int) rect.getHeight());
-			g2d.translate(-rect.getX(), -rect.getY());
-			// Application.debug(rect.x+" "+rect.y+" "+rect.width+" "+rect.height);
-		} else {
-			// use points Export_1 and Export_2 to define corner
-			try {
-				// Construction cons = kernel.getConstruction();
-				GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
-				GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
-				double[] xy1 = new double[2];
-				double[] xy2 = new double[2];
-				export1.getInhomCoords(xy1);
-				export2.getInhomCoords(xy2);
-				double x1 = xy1[0];
-				double x2 = xy2[0];
-				double y1 = xy1[1];
-				double y2 = xy2[1];
-				x1 = (x1 / getInvXscale()) + getxZero();
-				y1 = getyZero() - (y1 / getInvYscale());
-				x2 = (x2 / getInvXscale()) + getxZero();
-				y2 = getyZero() - (y2 / getInvYscale());
-				int x = (int) Math.min(x1, x2);
-				int y = (int) Math.min(y1, y2);
-				int exportWidth = (int) Math.abs(x1 - x2) + 2;
-				int exportHeight = (int) Math.abs(y1 - y2) + 2;
-
-				g2d.setClip(0, 0, exportWidth, exportHeight);
-				g2d.translate(-x, -y);
-			} catch (Exception e) {
-				// or take full euclidian view
-				g2d.setClip(0, 0, getWidth(), getHeight());
-			}
-		}
-
-		// DRAWING
-		if (isTracing() || hasBackgroundImages()) {
-			// draw background image to get the traces
-			if (bgImage == null) {
-				drawBackgroundWithImages(g2d, transparency);
-			} else {
-				paintBackground(g2d);
-			}
-		} else {
-			// just clear the background if transparency is disabled (clear =
-			// draw background color)
-			drawBackground(g2d, !transparency);
-		}
-
-		setAntialiasing(g2d);
 	}
 
 	/**
