@@ -152,18 +152,18 @@ public class PropertiesStyleBarW extends
 		case DEFAULTS:
 			ImgResourceHelper.setIcon(AppResources.INSTANCE.options_defaults224(), btn) ;
 		case SPREADSHEET:
-			ImgResourceHelper.setIcon(pr.menu_icon_spreadsheet(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_spreadsheet24(), btn);
 		case EUCLIDIAN:
-			ImgResourceHelper.setIcon(pr.menu_icon_graphics(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_graphics24(), btn);
 		case EUCLIDIAN2:
-			ImgResourceHelper.setIcon(pr.menu_icon_graphics2(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_graphics224(), btn);
 		case EUCLIDIAN_FOR_PLANE:
-			ImgResourceHelper.setIcon(pr.menu_icon_graphics_extra(),
+			ImgResourceHelper.setIcon(pr.menu_icon_graphics_extra24(),
 					btn);
 		case EUCLIDIAN3D:
-			ImgResourceHelper.setIcon(pr.menu_icon_graphics3D(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_graphics3D24(), btn);
 		case CAS:
-			ImgResourceHelper.setIcon(pr.menu_icon_cas(), btn);
+			ImgResourceHelper.setIcon(pr.menu_icon_cas24(), btn);
 		case ADVANCED:
 			ImgResourceHelper.setIcon(AppResources.INSTANCE.options_advanced24(), btn);
 		case ALGEBRA:
@@ -183,15 +183,15 @@ public class PropertiesStyleBarW extends
 		case DEFAULTS:
 			return AppResources.INSTANCE.options_defaults224().getSafeUri().asString();
 		case SPREADSHEET:
-			return ImgResourceHelper.safeURI(pr.menu_icon_spreadsheet());
+			return ImgResourceHelper.safeURI(pr.menu_icon_spreadsheet24());
 		case EUCLIDIAN:
-			return ImgResourceHelper.safeURI(pr.menu_icon_graphics());
+			return ImgResourceHelper.safeURI(pr.menu_icon_graphics24());
 			//return GuiResources.INSTANCE.properties_graphics().getSafeUri().asString();
 		case EUCLIDIAN2:
-			return ImgResourceHelper.safeURI(pr.menu_icon_graphics2());
+			return ImgResourceHelper.safeURI(pr.menu_icon_graphics224());
 			//return GuiResources.INSTANCE.properties_graphics2().getSafeUri().asString();
 		case CAS:
-			return ImgResourceHelper.safeURI(pr.menu_icon_cas());
+			return ImgResourceHelper.safeURI(pr.menu_icon_cas24());
 		case ADVANCED:
 			return AppResources.INSTANCE.options_advanced24().getSafeUri().asString();
 		case ALGEBRA:

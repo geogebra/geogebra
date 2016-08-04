@@ -62,19 +62,19 @@ public class PerspectivesPopup {
 		PerspectiveResources pr = ((ImageFactory) GWT
 				.create(ImageFactory.class)).getPerspectiveResources();
 		contentPanel.clear();
-		addPerspective(0, pr.menu_icon_algebra());
+		addPerspective(0, pr.menu_icon_algebra24());
 		if (app.supportsView(App.VIEW_CAS)) {
-			addPerspective(3, pr.menu_icon_cas());
+			addPerspective(3, pr.menu_icon_cas24());
 		}
-		addPerspective(1, pr.menu_icon_geometry());
+		addPerspective(1, pr.menu_icon_geometry24());
 		if (app.supportsView(App.VIEW_EUCLIDIAN3D)) {
-			addPerspective(4, pr.menu_icon_graphics3D());
+			addPerspective(4, pr.menu_icon_graphics3D24());
 		}
-		addPerspective(2, pr.menu_icon_spreadsheet());
-		addPerspective(5, pr.menu_icon_probability());
+		addPerspective(2, pr.menu_icon_spreadsheet24());
+		addPerspective(5, pr.menu_icon_probability24());
 
 		// add exam mode
-		HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam(),
+		HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam24(),
 				"exam_menu_entry", -1, 7);
 		contentPanel.add(examRow);
 
@@ -119,7 +119,9 @@ public class PerspectivesPopup {
 		// icon
 		rowPanel.add(new Image(ImgResourceHelper.safeURI(icon)));
 		// perspective label
-		rowPanel.add(new Label(app.getMenu(menuID)));
+		Label label = new Label(app.getMenu(menuID));
+		label.addStyleName("perspectivesLabel");
+		rowPanel.add(label);
 		rowPanel.setStyleName("perspectivesRow");
 
 		// help button

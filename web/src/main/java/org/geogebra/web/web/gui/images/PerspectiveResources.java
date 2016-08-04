@@ -6,29 +6,49 @@ public interface PerspectiveResources {
 	
 	
 	ResourcePrototype menu_icon_algebra();
+
+	ResourcePrototype menu_icon_algebra24();
 	
 
 	ResourcePrototype menu_icon_geometry();
+
+	ResourcePrototype menu_icon_geometry24();
 	
 	ResourcePrototype menu_icon_cas();
+
+	ResourcePrototype menu_icon_cas24();
 	
 	ResourcePrototype menu_icon_graphics();
+
+	ResourcePrototype menu_icon_graphics24();
 	
 	ResourcePrototype menu_icon_graphics1();
 	
 	ResourcePrototype menu_icon_graphics2();
 
+	ResourcePrototype menu_icon_graphics224();
+
 	ResourcePrototype menu_icon_graphics_extra();
 
+	ResourcePrototype menu_icon_graphics_extra24();
+
 	ResourcePrototype menu_icon_spreadsheet();
+
+	ResourcePrototype menu_icon_spreadsheet24();
 	
 	ResourcePrototype menu_icon_graphics3D();
+
+	ResourcePrototype menu_icon_graphics3D24();
 	
 	ResourcePrototype menu_icon_construction_protocol();
 	
 	ResourcePrototype menu_icon_probability();
+
+	ResourcePrototype menu_icon_probability24();
 	
 	ResourcePrototype menu_icon_exam();
+
+	ResourcePrototype menu_icon_exam24();
 
 	// StyleBar
 	ResourcePrototype styleBar_algebraView();

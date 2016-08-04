@@ -5711,10 +5711,15 @@ body.application[dir=rtl] .deleteAlgebra {
     text-align: left;
 	cursor: pointer;
 	display: block;
+	
 }
+
 .perspectivesRow img{
 	padding-right: 10px;
 }
+.perspectivesLabel{
+	 margin-top: 3px;
+} 
 
 .perspectiveHighlighted{
 	background-color: #F0F0FF;
@@ -5731,6 +5736,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	cursor: pointer;
 	width: 20px;
     height: 20px;
+    margin-top: 3px;
 }
 .upperBorder{
     padding-top: 10px;
@@ -5738,5 +5744,5 @@ body.application[dir=rtl] .deleteAlgebra {
     border-top: 1px solid #DCDCDC;
 }
 .upperBorder div{
-	padding-top: 3px;
+	padding-top: 0px;
 }

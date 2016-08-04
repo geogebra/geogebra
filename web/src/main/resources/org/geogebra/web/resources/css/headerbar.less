@@ -35,6 +35,7 @@
 		.toolBPanel {
 			.float(left);
 			padding-top: 1px;
+		/*	overflow: visible;*/
 						
 			ul {
 				margin: 0px;
@@ -148,7 +149,7 @@
 		.submenuScrollPanel{
 			overflow-x: auto;
 			position: absolute;
-			top: 6px;
+			top: 1px;
 		}
 		.submenuItems {
 			margin-left: -10px;
@@ -188,6 +189,7 @@
 			.float(right);
 			margin: 6px;
 			
+			
 			& > * {
 				.margin(0px, 5px, 0px, 10px);
 				.float(left);
@@ -210,6 +212,11 @@
 				border: none;
 				background: none;
 			}
+		}
+		.rightButtonPanelMobile {
+			position: absolute;
+  			top: 5px;
+   			right: 5px;
 		}
 	}
 	

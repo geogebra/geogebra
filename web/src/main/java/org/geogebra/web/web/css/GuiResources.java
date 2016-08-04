@@ -74,7 +74,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/menu_icons/p20/menu-mode-exam.png")
 	ImageResource menu_icons_exam_mode();
 
-	@Source("org/geogebra/common/menu_icons/p20/menu_view_exam.png")
+	@Source("org/geogebra/common/icons_view_perspectives/p20/menu_view_exam.png")
 	ImageResource menu_icon_exam();
 
 	@Source("org/geogebra/common/menu_icons/p20/menu-file-print-preview.png")
