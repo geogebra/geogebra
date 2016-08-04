@@ -6,15 +6,21 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
-import org.geogebra.web.web.gui.view.algebra.SliderTreeItem.AVField;
+import org.geogebra.web.web.gui.view.algebra.SliderTreeItem.CancelListener;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseEvent;
@@ -25,10 +31,43 @@ import com.google.gwt.user.client.ui.Label;
 class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		KeyHandler, MouseDownHandler, MouseUpHandler,
 
-		SliderTreeItem.CancelListener {
+CancelListener {
+
+
+
 	/**
-	 * 
+	 * Input field for MinMaxPanel
 	 */
+	class AVField extends AutoCompleteTextFieldW {
+		private CancelListener listener;
+
+		public AVField(int columns, App app, CancelListener listener) {
+			super(columns, app);
+			this.listener = listener;
+			setDeferredFocus(true);
+		}
+
+		@Override
+		public void onKeyPress(KeyPressEvent e) {
+			e.stopPropagation();
+		}
+
+		@Override
+		public void onKeyDown(KeyDownEvent e) {
+			e.stopPropagation();
+			if (e.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
+				listener.cancel();
+			}
+
+		}
+
+		@Override
+		public void onKeyUp(KeyUpEvent e) {
+			e.stopPropagation();
+		}
+
+	}
+
 	private final SliderTreeItem sliderTreeItem;
 	private static final int MINMAX_MIN_WIDHT = 326;
 	private AVField tfMin;
@@ -45,11 +84,11 @@ class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		if (this.sliderTreeItem.geo instanceof GeoNumeric) {
 			num = (GeoNumeric) this.sliderTreeItem.geo;
 		}
-		tfMin = this.sliderTreeItem.new AVField(4, this.sliderTreeItem.app,
+		tfMin = new AVField(4, this.sliderTreeItem.app,
 				this);
-		tfMax = this.sliderTreeItem.new AVField(4, this.sliderTreeItem.app,
+		tfMax = new AVField(4, this.sliderTreeItem.app,
 				this);
-		tfStep = this.sliderTreeItem.new AVField(4, this.sliderTreeItem.app,
+		tfStep = new AVField(4, this.sliderTreeItem.app,
 				this);
 		lblValue = new Label(Unicode.LESS_EQUAL + " "
 				+ this.sliderTreeItem.geo

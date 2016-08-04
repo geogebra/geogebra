@@ -18,11 +18,8 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
@@ -31,9 +28,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -43,48 +37,17 @@ import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * Slider item for Algebra View.
  * 
  * @author laszlo
  *
  */
 public class SliderTreeItem extends LatexTreeItem {
-	private static final int SLIDER_EXT = 15;
-	private static final int DEFAULT_SLIDER_WIDTH = 100;
-
 	interface CancelListener {
 		void cancel();
 	}
-
-	class AVField extends AutoCompleteTextFieldW {
-		private CancelListener listener;
-
-		public AVField(int columns, App app, CancelListener listener) {
-			super(columns, app);
-			this.listener = listener;
-			setDeferredFocus(true);
-		}
-
-		@Override
-		public void onKeyPress(KeyPressEvent e) {
-			e.stopPropagation();
-		}
-
-		@Override
-		public void onKeyDown(KeyDownEvent e) {
-			e.stopPropagation();
-			if (e.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
-				listener.cancel();
-			}
-
-		}
-
-		@Override
-		public void onKeyUp(KeyUpEvent e) {
-			e.stopPropagation();
-		}
-
-	}
-
+	private static final int SLIDER_EXT = 15;
+	private static final int DEFAULT_SLIDER_WIDTH = 100;
 	private static MinMaxPanel openedMinMaxPanel = null;
 
 	/**
@@ -118,23 +81,20 @@ public class SliderTreeItem extends LatexTreeItem {
 	 *            the existing GeoElement to display/edit
 	 */
 	public SliderTreeItem(final GeoElement geo0) {
-		super(geo0);// .getKernel());
-		// geo = geo0;
-		createContentPanel();
+		super(geo0);
 		createAnimPanel();
-		initSlider();
+		createSliderGUI();
 		addDomHandlers(main);
 		deferredResize();
 	}
 
-	private void initSlider() {
+	private void createSliderGUI() {
 		num = (GeoNumeric) geo;
 		ihtml.addStyleName("noPadding");
 		if (!geo.isEuclidianVisible()) {
 			num.initAlgebraSlider();
 		}
 
-	// a slider (e.g. boxplots)
 		if (num.getIntervalMinObject() != null
 				&& num.getIntervalMaxObject() != null) {
 			boolean degree = geo.isGeoAngle()
@@ -250,7 +210,7 @@ public class SliderTreeItem extends LatexTreeItem {
 		if (slider == null) {
 
 			addAVEXWidget(ihtml);
-			initSlider();
+			createSliderGUI();
 			styleContentPanel();
 			getElement().setDraggable(Element.DRAGGABLE_FALSE);
 		} else {
@@ -317,17 +277,11 @@ public class SliderTreeItem extends LatexTreeItem {
 
 		if ((isWidgetHit(animPanel, evt)
 				|| (minMaxPanel != null && minMaxPanel.isVisible())
-		// || isWidgetHit(marblePanel, evt)
+				|| isWidgetHit(marblePanel, evt)
 		)) {
 			return;
 		}
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		// if (commonEditingCheck())
-		// return;
-
-		onDoubleClickAction(evt.isControlKeyDown());
+		super.onDoubleClick(evt);
 	}
 
 	static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
@@ -425,6 +379,7 @@ public class SliderTreeItem extends LatexTreeItem {
 		openedMinMaxPanel = panel;
 	}
 
+	@Override
 	public void setDraggable() {
 		// slider is not draggable from AV to EV.
 	}
@@ -434,31 +389,11 @@ public class SliderTreeItem extends LatexTreeItem {
 	 * 
 	 * @param item
 	 *            TreeItem to be casted
-	 * @return Casted item to RadioTreeItem
+	 * @return Casted item to SliderTreeItem
 	 */
 	public static SliderTreeItem as(TreeItem item) {
 		return (SliderTreeItem) item;
 	}
 
-	private boolean isGeoASlider() {
-		return true;
-	}
-
-
-	private boolean hasAnimPanel() {
-		return true;
-	}
-
-	private boolean hasMarblePanel() {
-		return true;
-	}
-
-	private boolean isItemNumeric() {
-		return true;
-	}
-
-	private boolean isItemCheckBox() {
-		return false;
-	}
 }
 

@@ -201,18 +201,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		public void setHighlighted(boolean selected) {
 			this.selected = selected;
-			// getElement().getStyle().setBackgroundColor(
-			// selected ? getBgColorString() : CLEAR_COLOR_STR);
-			// getElement().getStyle().setBorderColor(
-			// selected ? getColorString() : CLEAR_COLOR_STR_BORDER);
-
 		}
 
 		public void update() {
 			if (marble != null) {
 				marble.setChecked(geo.isEuclidianVisible());
 			}
-
 			setHighlighted(selected);
 		}
 	}
