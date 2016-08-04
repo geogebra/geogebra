@@ -25,6 +25,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -461,6 +462,11 @@ public class LatexTreeItem extends RadioTreeItem
 	@Override
 	public boolean isSuggesting() {
 		return sug != null && sug.isSuggesting();
+	}
+
+	public void onMouseMove(MouseMoveEvent event) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

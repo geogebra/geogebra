@@ -948,7 +948,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	public final static AVTreeItem createAVItem(final GeoElement ob,
 			boolean forceRetex) {
 		AVTreeItem ti = null;
-		if (forceRetex) {
+		if (RadioTreeItem.sliderNeeded(ob)) {
+			ti = new SliderTreeItem(ob);
+		} else if (forceRetex) {
 			ti = new LatexTreeItem(ob);
 		} else {
 			ti = ((LaTeXHelper) GWT.create(LaTeXHelper.class)).getAVItem(ob);
@@ -1906,7 +1908,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	public void resetItems(boolean unselectAll) {
-		RadioTreeItem.closeMinMaxPanel();
+		SliderTreeItem.closeMinMaxPanel();
 		updateSelection();
 	}
 

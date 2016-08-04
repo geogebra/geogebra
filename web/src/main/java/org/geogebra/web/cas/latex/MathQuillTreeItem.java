@@ -18,6 +18,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -72,9 +73,9 @@ public class MathQuillTreeItem extends RadioTreeItem
 	 */
 	@Override
 	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		if (isMinMaxPanelVisible()) {
-			return;
-		}
+		// if (isMinMaxPanelVisible()) {
+		// return;
+		// }
 		if (commonEditingCheck()) {
 			MathQuillHelper.triggerKeydown(this, latexItem.getElement(), key,
 					alt, ctrl, shift);
@@ -101,9 +102,9 @@ public class MathQuillTreeItem extends RadioTreeItem
 	@Override
 	public void keypress(char character, boolean alt, boolean ctrl,
 			boolean shift, boolean more) {
-		if (isMinMaxPanelVisible()) {
-			return;
-		}
+		// if (isMinMaxPanelVisible()) {
+		// return;
+		// }
 
 		if (commonEditingCheck()) {
 			MathQuillHelper.triggerKeypress(this, latexItem.getElement(),
@@ -127,9 +128,9 @@ public class MathQuillTreeItem extends RadioTreeItem
 	 */
 	@Override
 	public final void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
-		if (isMinMaxPanelVisible()) {
-			return;
-		}
+		// if (isMinMaxPanelVisible()) {
+		// return;
+		// }
 
 		if (commonEditingCheck()) {
 			MathQuillHelper.triggerKeyUp(latexItem.getElement(), key, alt, ctrl,
@@ -616,6 +617,10 @@ public class MathQuillTreeItem extends RadioTreeItem
 		return true;
 	}
 
+	public void onMouseMove(MouseMoveEvent event) {
+		// TODO Auto-generated method stub
+
+	}
 
 
 }

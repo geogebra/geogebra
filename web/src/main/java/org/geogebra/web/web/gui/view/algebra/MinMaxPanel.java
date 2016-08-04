@@ -8,7 +8,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
-import org.geogebra.web.web.gui.view.algebra.RadioTreeItem.AVField;
+import org.geogebra.web.web.gui.view.algebra.SliderTreeItem.AVField;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -23,11 +23,13 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.Label;
 
 class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
-		KeyHandler, MouseDownHandler, MouseUpHandler, RadioTreeItem.CancelListener {
+		KeyHandler, MouseDownHandler, MouseUpHandler,
+
+		SliderTreeItem.CancelListener {
 	/**
 	 * 
 	 */
-	private final RadioTreeItem radioTreeItem;
+	private final SliderTreeItem sliderTreeItem;
 	private static final int MINMAX_MIN_WIDHT = 326;
 	private AVField tfMin;
 	private AVField tfMax;
@@ -37,18 +39,24 @@ class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	private GeoNumeric num;
 	private boolean keepOpen = false;
 	private boolean focusRequested = false;
-	public MinMaxPanel(RadioTreeItem radioTreeItem) {
-		this.radioTreeItem = radioTreeItem;
-		if (this.radioTreeItem.geo instanceof GeoNumeric) {
-			num = (GeoNumeric) this.radioTreeItem.geo;
+
+	public MinMaxPanel(SliderTreeItem item) {
+		this.sliderTreeItem = item;
+		if (this.sliderTreeItem.geo instanceof GeoNumeric) {
+			num = (GeoNumeric) this.sliderTreeItem.geo;
 		}
-		tfMin = this.radioTreeItem.new AVField(4, this.radioTreeItem.app, this);
-		tfMax = this.radioTreeItem.new AVField(4, this.radioTreeItem.app, this);
-		tfStep = this.radioTreeItem.new AVField(4, this.radioTreeItem.app, this);
+		tfMin = this.sliderTreeItem.new AVField(4, this.sliderTreeItem.app,
+				this);
+		tfMax = this.sliderTreeItem.new AVField(4, this.sliderTreeItem.app,
+				this);
+		tfStep = this.sliderTreeItem.new AVField(4, this.sliderTreeItem.app,
+				this);
 		lblValue = new Label(Unicode.LESS_EQUAL + " "
-				+ this.radioTreeItem.geo.getCaption(StringTemplate.defaultTemplate) + " "
+				+ this.sliderTreeItem.geo
+						.getCaption(StringTemplate.defaultTemplate)
+				+ " "
 				+ Unicode.LESS_EQUAL);
-		lblStep = new Label(this.radioTreeItem.app.getPlain("Step"));
+		lblStep = new Label(this.sliderTreeItem.app.getPlain("Step"));
 		addStyleName("minMaxPanel");
 		add(tfMin);
 		add(lblValue);
@@ -103,44 +111,45 @@ class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	}
 
 	public void update() {
-		tfMin.setText(this.radioTreeItem.kernel.format(num.getIntervalMin(),
+		tfMin.setText(this.sliderTreeItem.kernel.format(num.getIntervalMin(),
 				StringTemplate.editTemplate));
-		tfMax.setText(this.radioTreeItem.kernel.format(num.getIntervalMax(),
+		tfMax.setText(this.sliderTreeItem.kernel.format(num.getIntervalMax(),
 				StringTemplate.editTemplate));
-		tfStep.setText(num.isAutoStep() ? "" : this.radioTreeItem.kernel.format(
+		tfStep.setText(
+				num.isAutoStep() ? "" : this.sliderTreeItem.kernel.format(
 				num.getAnimationStep(), StringTemplate.editTemplate));
 		setLabels();
 	}
 
 	public void setLabels() {
-		lblStep.setText(this.radioTreeItem.app.getPlain("Step"));
+		lblStep.setText(this.sliderTreeItem.app.getPlain("Step"));
 	}
 
 
 
 	public void show() {
-		this.radioTreeItem.geo.setAnimating(false);
-		this.radioTreeItem.expandSize(MINMAX_MIN_WIDHT);
-		this.radioTreeItem.sliderPanel.setVisible(false);
+		this.sliderTreeItem.geo.setAnimating(false);
+		this.sliderTreeItem.expandSize(MINMAX_MIN_WIDHT);
+		this.sliderTreeItem.sliderPanel.setVisible(false);
 		setVisible(true);
 		setKeepOpen(true);
-		RadioTreeItem.setOpenedMinMaxPanel(this);
-		this.radioTreeItem.animPanel.setVisible(false);
+		sliderTreeItem.setOpenedMinMaxPanel(this);
+		this.sliderTreeItem.animPanel.setVisible(false);
 	}
 
 	public void hide(boolean restore) {
 		if (restore) {
-			this.radioTreeItem.restoreSize();
+			this.sliderTreeItem.restoreSize();
 		}
 		hide();
 	}
 
 	public void hide() {
-		this.radioTreeItem.sliderPanel.setVisible(true);
-		this.radioTreeItem.deferredResizeSlider();
+		this.sliderTreeItem.sliderPanel.setVisible(true);
+		this.sliderTreeItem.deferredResize();
 		setVisible(false);
-		if (this.radioTreeItem.animPanel != null) {
-			this.radioTreeItem.animPanel.setVisible(true);
+		if (this.sliderTreeItem.animPanel != null) {
+			this.sliderTreeItem.animPanel.setVisible(true);
 		}
 	}
 
@@ -176,7 +185,8 @@ class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		boolean emptyString = inputText.equals("");
 		NumberValue value = null;// new MyDouble(kernel, Double.NaN);
 		if (!emptyString) {
-			value = this.radioTreeItem.kernel.getAlgebraProcessor().evaluateToNumeric(
+			value = this.sliderTreeItem.kernel.getAlgebraProcessor()
+					.evaluateToNumeric(
 					inputText, false);
 		}
 

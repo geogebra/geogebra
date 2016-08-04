@@ -5448,6 +5448,9 @@ body.application[dir=rtl] .deleteAlgebra {
 
 /* Options Slider */
 
+.avItemContent {
+	padding-left: 40px;
+}
 
 .avItemContent .optionsSlider .gwt-Label {
 	margin: 0px;
