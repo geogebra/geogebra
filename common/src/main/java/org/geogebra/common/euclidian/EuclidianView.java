@@ -82,6 +82,7 @@ import org.geogebra.common.util.Unicode;
 /**
  * View containing graphic representation of construction elements
  */
+@SuppressWarnings("javadoc")
 public abstract class EuclidianView
 		implements EuclidianViewInterfaceCommon, SetLabels {
 	/** says if the view has the mouse */
@@ -3306,7 +3307,6 @@ public abstract class EuclidianView
 				|| getApplication().isHTML5Applet())) {
 			return false;
 		}
-		;
 		return isPrimaryEV();
 	}
 
@@ -3425,9 +3425,11 @@ public abstract class EuclidianView
 
 	private void drawIsometricGrid(GGraphics2D g2, double xCrossPix,
 			double yCrossPix) {
-		int yAxisEnd = (positiveAxes[1] && yCrossPix < getHeight())
+		boolean clipX = positiveAxes[1] && yCrossPix < getHeight();
+		int yAxisEnd = clipX
 				? (int) yCrossPix : getHeight();
-		int xAxisStart = (positiveAxes[0] && xCrossPix > 0) ? (int) xCrossPix
+		boolean clipY = positiveAxes[0] && xCrossPix > 0;
+		int xAxisStart = clipY ? (int) xCrossPix
 				: 0;
 
 		// set the clipping region to the region defined by the axes
@@ -3449,7 +3451,6 @@ public abstract class EuclidianView
 
 			pix = startX2 + ((j * tickStepX) / 2.0);
 		}
-		g2.setClip(xAxisStart, 0, getWidth(), yAxisEnd);
 		// extra lines needed because it's diagonal
 		int extra = (int) ((((getHeight() * getXscale()) / getYscale())
 				* Math.sqrt(3.0)) / tickStepX) + 3;
@@ -3460,8 +3461,14 @@ public abstract class EuclidianView
 			double endx = pix
 					+ (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale())
 							/ getYscale());
-			tempLine.setLine(pix, startY - tickStepY, endx,
-					(startY - tickStepY) + getHeight() + tickStepY);
+			if (clipX || clipY) {
+			DrawSegment.drawClipped(new double[]{pix, startY - tickStepY}, new double[]{endx,
+							(startY - tickStepY) + getHeight() + tickStepY },
+					tempLine, xAxisStart, getWidth(), 0, yAxisEnd);
+			} else {
+				tempLine.setLine(pix, startY - tickStepY, endx,
+						startY + getHeight());
+			}
 			g2.draw(tempLine);
 			pix = startX + (j * tickStepX);
 		}
@@ -3473,14 +3480,23 @@ public abstract class EuclidianView
 						* Math.sqrt(3.0))); j += 1)
 		// for (int j=0; j<=kk; j+=1)
 		{
-			tempLine.setLine(pix, startY - tickStepY,
+			double endx =
 					pix - (((getHeight() + tickStepY) * Math.sqrt(3)
-							* getXscale()) / getYscale()),
-					(startY - tickStepY) + getHeight() + tickStepY);
+							* getXscale()) / getYscale());
+			if (clipX || clipY) {
+				DrawSegment.drawClipped(
+						new double[] { pix, startY - tickStepY },
+						new double[] { endx,
+								(startY - tickStepY) + getHeight()
+										+ tickStepY },
+						tempLine, xAxisStart, getWidth(), 0, yAxisEnd);
+			} else {
+				tempLine.setLine(pix, startY - tickStepY, endx,
+						startY + getHeight());
+			}
 			g2.draw(tempLine);
 			pix = startX + (j * tickStepX);
 		}
-		g2.resetClip();
 
 	}
 

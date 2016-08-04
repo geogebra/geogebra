@@ -143,18 +143,10 @@ public class DrawSegment extends Drawable implements Previewable {
 		} else {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
-			GPoint2D[] clippedPoints = ClipLine.getClipped(
-					coordsA[0], coordsA[1], coordsB[0], coordsB[1],
-					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
-							+ EuclidianStatic.CLIP_DISTANCE,
-					-EuclidianStatic.CLIP_DISTANCE, view.getHeight()
-							+ EuclidianStatic.CLIP_DISTANCE);
-			if (clippedPoints == null) {
-				isVisible = false;
-			} else {
-				line.setLine(clippedPoints[0].getX(), clippedPoints[0].getY(),
-						clippedPoints[1].getX(), clippedPoints[1].getY());
-			}
+			drawClipped(coordsA, coordsB, line, -EuclidianStatic.CLIP_DISTANCE,
+					view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
+					-EuclidianStatic.CLIP_DISTANCE,
+					view.getHeight() + EuclidianStatic.CLIP_DISTANCE);
 		}
 
 		// draw trace
@@ -345,6 +337,19 @@ public class DrawSegment extends Drawable implements Previewable {
 			}
 
 		}
+	}
+
+	public static boolean drawClipped(double[] coordsA, double[] coordsB,
+			GLine2D line, int xmin, int xmax, int ymin, int ymax) {
+		GPoint2D[] clippedPoints = ClipLine.getClipped(coordsA[0], coordsA[1],
+				coordsB[0], coordsB[1], xmin, xmax, ymin, ymax);
+		if (clippedPoints == null) {
+			return false;
+		}
+		line.setLine(clippedPoints[0].getX(), clippedPoints[0].getY(),
+				clippedPoints[1].getX(), clippedPoints[1].getY());
+		return true;
+
 	}
 
 	@Override
