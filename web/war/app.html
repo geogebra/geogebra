@@ -125,14 +125,22 @@ fontactive: function(familyName, fvd) {},
 	}
 	function button(id,perspectiveId){
 		var ret = e(id);
-		var parent = ret;
-		parentTable(ret).addEventListener("click",function(){
-				if(id == "tutorials"){
+		var parent = parentTable(ret);
+		if(id == "tutorials"){
+			parent.addEventListener("click",function(){
 					window.open("https://www.geogebra.org/tutorial")
-					return;
-				}
+					
+			});
+		}else{
+			parent.addEventListener("click",function(){
 				perspective(perspectiveId,id.replace("perspective",""));
 			});
+			parent.getElementsByTagName("TD")[2].addEventListener("click",function(e){
+				var evt = e || window.event;
+				evt.stopPropagation();
+				window.open("https://www.geogebra.org/tutorial/"+id.replace("perspective",""));
+			});
+		}
 		return ret;
 	}
 	function showInLang(lang){
@@ -150,31 +158,26 @@ fontactive: function(familyName, fvd) {},
 			button("perspective3d",5).innerHTML=props.menu["Perspective.3DGraphics"];
 			button("probability",6).innerHTML=props.menu["Perspective.Probability"];
 			button("tutorials",0).innerHTML=props.menu["Tutorials"];
+			button("exam","exam").innerHTML=props.menu["exam_menu_entry"];
 			//e("search").innerHTML=props.menu["search_geogebra_materials"];
 			e("create").innerHTML=props.menu["CreateYourOwn"];
-			if(e("signIn")){
-				e("signIn").innerHTML=props.menu["SignIn"];
-			}
+
 			//console.trace();
-			if(e("signOut")){
-				e("signOut").innerHTML=props.menu["SignOut"];
-			}
 	}
 	
 	function showInEnglish(){
 			if(!window.__GGB__keysVar){
-
-				e("graphing").innerHTML="Algebra and Graphics";
-				e("geometry").innerHTML="Geometry";
-				e("cas").innerHTML="CAS";
-				e("spreadsheet").innerHTML="Spreadsheet";
-				e("perspective3d").innerHTML="3D Graphics";
-				e("probability").innerHTML="Probability";
+				button("graphing",1).innerHTML="Graphing";			
+				button("geometry",2).innerHTML="Geometry";
+				button("cas",4).innerHTML="CAS";
+				button("spreadsheet",3).innerHTML="Spreadsheet";
+				button("perspective3d",5).innerHTML="3D Graphics";
+				button("probability",6).innerHTML="Probability";
+				button("tutorials",0).innerHTML="Tutorials";
+				button("exam","exam").innerHTML="Exam";
 				//e("search").innerHTML="Search GeoGebra materials";
 				e("create").innerHTML="GeoGebra Math Apps";
-				if(e("signIn")){
-					e("signIn").innerHTML="Sign in";
-				}
+	
 				e("ggbPage").style.display="";
 			}
 			
@@ -339,7 +342,7 @@ var app = document.createElement("script");
 		
 		insertScript(codebase);
 		if(location.host.indexOf("alpha") == 0 || isLocalhost()){
-			perspective(false, "picker");
+			perspective(false, "picker"); //TODO
 		}
 		else if(getCookie("SSID")){
 			checkCookie(getCookie("SSID"), lang);
@@ -746,14 +749,36 @@ z-index:501;
     	<div class=""><table  class=""><tbody>
 <tr class="dialogTop"><td class="dialogTopLeft"><div class="dialogTopLeftInner"></div></td><td class="dialogTopCenter"><div class="dialogTopCenterInner">
 		<div class="Caption perspectivesCaption" id="create">GeoGebra Math Apps</div></div></td><td class="dialogTopRight"><div class="dialogTopRightInner"></div></td></tr>
-		<tr class="dialogMiddle"><td class="dialogMiddleLeft"><div class="dialogMiddleLeftInner"></div></td><td class="dialogMiddleCenter"><div class="dialogMiddleCenterInner dialogContent"><div class="perspectivesMainPanel"><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAn0lEQVR42mNgwAMSEv4LpKb+35+W9v8/CIPYIDEGcgHQkAaYYUi4gWwDkV2H7EpKXNiPxYX9ZBsICi+gAeeRDDtPURjCQEbGfwcQZhiUYObMmQFAvB6KA6hh2HsgLoDi9xQZCnVVARIfZOh6Sg1sQOI3UGTg9OnTHaDebIDi9yAxisIRaig4Uig2jGaAagmb6lmP6oUDLYov6haw5FQBAMuA4oEYnZWrAAAAAElFTkSuQmCC" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
-<div class="gwt-Label" id="graphing">Algebra</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAl0lEQVR42mOYOfP/f2yYgVwwauAQMzAtLa0AiBtSU1MNQPyMjAwFEB8kTpaBQAMcgJr/A/H9hIQEASC9HsoPINvLQM39IEOArtwPotPT0+cjWdaAjgkaCHXZfWSXUmQgNNzeQw38jxyeIEPRMUEDYV6FRhCIPg8NigaYJciYmFj+D/YKhL8emU92skEKNwV4WI1mvRFsIADb3ff2E8Pv8AAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
-<div class="gwt-Label" id="cas">CAS</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAACUElEQVR42q2UT2gTQRTGv0tBPNR46B8o0qgR6S0i5NKDkYqhCMVDwVpBctApBgp7qeKpK+2hlUKghTTby55UcvIQ8dKFQIk5iYMKklWhsmAVCXpJ8bi+tztpJm2apuDAx9vdzPzyzZv3Buh6+JFVzG5zxP8ZvmnC9Ck+7zwNsEnRo9yRdp5hukLRI13vBIyTSgocOcwdqfga40WKCwzfv/UGR/+QJL0kma1gv18BDAUUDCdl1boIKavWqp1uIA4LBkcFlk2wv6IAQgMapBodkqHm3mwasGCSPORRpOgStIR1RGlSmreQDjIRAPaAMXwxHFxzLYg/85jfl38LO4G7PEQgC7ngG7uGbz/EsvyFPi+PGZuBS3iU4/c5PGXnTmPrOtDdgzW0gQUsnue87bI7dlQYHK8IIfxXA1ckv+tbJyU6A1nnyhIjjssLX2Cq8A3DbmE4JdllFRelcihUjqUO9A7A7t9+gp6/9cTVu96b3pjHQD2HY3Aev8OlCv8JP4dALq0QKFtyyOr7+nH5ROb3h5NDP8/eSNeUE/2UhQ4uY1RGsc2HF2dgliB2AzabGsqVqHLu9azV0f/5PUY26zj1gzukmMMDV5VQi0ZRlryGweASIWgttghj6wKc6gDkmclbK5icC3VnxkZmgreUfIvLNsfDRL+H9TiRgawOwltKUcm0OyALu6orzKPvEGqZ772wT2dRO5DLJtBVXdQVMKl1jGwL5C5aD1rSPN6Vx4djodLGoSRg4vhAmy6DENosJY7cit3msO0IIZ+C3IV9ne4W+A/HGXFQTiTWqQAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
-<div class="gwt-Label" id="geometry">Geometry</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAByklEQVR42q2Uy0sCURhHJ2wsmsiBbFX2oteuCYJsE72INkVQFO0uPYg2ZViBoKRUUhEJtWrVnzQtXEgYzmIgFwM3SMpI+3VvMYSmTpkXzmYWhzP38QlCyQXCkIXKLLQzIFRl1QpJceNyAe7hDKT6NBXElPKvusZGIBxmQncGp2dptLanqM1O58quIwS4vgYUJYPLqzSOwyl09z7CJhqkrDou40xMZnEQTOMiksLZ+SMGhwxU1yQjZdVxCHnH2vq38PjEwPhUEmKdfiPICflPdRy+j6NjucLQURJzCzrsdZpqIc2tM+nvf/0hDIR0rG5ocDjvVVG6U35VZzIw8PZ5KPlCX0ADWY+jqTlGRSmq/KqOs7iUxcpqYeGuL47N7RhaOqO0VlaJZR3H7wdGRosLPfsxzC9HUeO4pZZ1Js2u55KFjqYolWRVsawz6e17Rejwp3DLG2e/m7OH1nWcmdkMNjZzhTv7GlwdcZp3yqA9PWzjF7/uXDGh1wtMTX8L93w6k2lMlih4ZdhHsOeEBJ8wheSRCNDV/fQp9PmTTKYXkxWVq/ny1rYXBIIGWtrY05N0pdwh6zHlTucbpAYDYu0DqdAEz3psdqPkTPwA6mddcOZ/mFsAAAAASUVORK5CYII=" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
-<div class="gwt-Label" id="perspective3d">3D Graphics</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAABF0lEQVR42s2ULRKDMBCFcydUXRQOhcKhUIjOoHAoFA4BwdT1AhwAh+ICvUAP0Auk80KzbWlSZpqIMvMGkk2+7A8bJoSUW42jlMvyHFfVQt+Yh13PQ3V9ITvbA2JDEASyKMYPIOeRzDIhwzAh6C4wSSraZAMeDly27W0f2DRX5V0UZeoNb1+BOARzsOu0fAXi9Dw/q7mynJS3Ng8pZBi3mucViEU6FAhjU1EQCRUFC0xilkcIUXVdx5l9wUpO04YqqU5yASKUOC5UPrwAdT7+G4iwveTQVmVsNGkYhqnv+5PNbvwPIXhh0gN2tNmpymgfVJp60iWHyB1aC0DqSR9VRrN78RAho9HfLkrXkJFDiG4N15C3+hV4B+Us1vcjQ/fkAAAAAElFTkSuQmCC" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
-<div class="gwt-Label" id="spreadsheet">Spreadsheet</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAmklEQVR42mNgGAVDFfx3gGDKDTIA4vtAfAyK70PEyDfsGRA3A3EaFDdDxQzINawSyTAYriTR0P8CUK95YjEMhkFy5yFqCRsIUhgAxFJ4DJSCqtlPyGVABf8ToHwCBoLVJED1CKCHVz/CZXBxIgwEqwuA6u2HhmvDfwaG3PsgBiqW6GFg8NyMHYPk0NWDzACZxcDgQGU8CgYbAACsFYcpwHkoogAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
-<div class="gwt-Label" id="probability">Probability</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAt0lEQVR42u3VzQmEMBAF4JSwpViibXiyASEl5OZJEDxbghCwgbc+sqvGxJifqwPvkkw+hExQCKugtiAxStwXVF0jutj7gg4oqwrQ+hljD3t5JgR+toxsnGdgGPzh3g8bzZlgHaiUQNPY4VoCFkYzMT9aiNkgL+B0CWVfd77xTNSPZaJ+bF1NMlB3sKcJaFsTzmDqYO9Pb1mArnPnkGvcS3rLfe9C17AnGnzC/okG797wNVFg6S/gC6LR7OvaAdxwAAAAAElFTkSuQmCC" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
-<div class="gwt-Label" id="exam">Exam Mode</div></td><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow upperBorder"><tbody><tr><td align="left" style="vertical-align: top;"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+		<tr class="dialogMiddle"><td class="dialogMiddleLeft"><div class="dialogMiddleLeftInner"></div></td><td class="dialogMiddleCenter"><div class="dialogMiddleCenterInner dialogContent"><div class="perspectivesMainPanel"><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+		<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABo0lEQVR42tVVO6qDUBB1CS7BJYifwsJgFXiFIqQI6QTxUwZSpXMBAYtUVi4hxVtAluAS7F774G3gvjnihRDuD7sEhgRznXNm5sy5lvWJn7qu+6IobOUh13WdIAgSxAYARtFJD1DSzvd9tt+fWBQljH5PBGibJK+qygUAfRfCA2EYukh+vT7ZMDB2v/8tQLvdV2/IPgdA27biyj3PO6dpvSTnUdcDqngaAnQAkB6gRDnaAuYc4HTqAPAwbNGTACbpASrNieN4acvl8s2Ts+PxOBtW8EvxUEqsLEskHdEWMM+yrFcO7oWcVkEyBvRsRmjaUygHzBUgYqp9ea1eOWB+QLSFeIb/mqYZFe9PGLIKYFIpAMnRQhEBbf85Q9WATFqITZYpIFkBco0MhcNe9T9rN1DngpwppAsJQ8pRFC3Sxgx1G2i0TIfDYcbyYQlhI0mSUiRQmKMr3cgOwBqJuZXcbj/LtsMoNw/4HYC7LQ9UIb07TAf8AjDCcbkhwrNQAS4pWXvOSokJbjtKOIM1TBHJyeaL7R4uBrGRFPeHlPnbDHrrEz//l7VBxK0QYiYAAAAASUVORK5CYII=" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="graphing">Algebra</div></td><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAzUlEQVR42mNgoAeYP/+/wMyZ/9fPmvV/Pxo2oIoFIMOB+D86nj79vwNVLAC5dtSCEWxBWlpaABD/h+L1IPUZGRkOSGINFPsAZDCSgSAL70PZ56kSRAkJCQJAw94jWQLGqamp4IwIpBOAeD8yBsr3kxQHaEGFEjTAIFMABRsyhllOigUFaBasp1oqArkQKYiQgyoAankDluDbT7QF0DAFabyPZtl9UPxQFETIQQOKTCzB1U9pPiiABkEBsh4k8YbRsmgIWEDzKpPmlT4tAQAWDW45MTTrlQAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="cas">CAS</div></td><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAB6klEQVR42s1VPWvCUBT1J/Qn9CcUBEFwyOAkBARRyCIRMSo4BISA4PBAEAQhgyBkcis4OXQtdOskODsFOhQKBUHofPvOa57NZ2MbhQYuCUneOefed+59udx/vDqdzp1hGOY1CZ44waHX691eHJwDV3lQv28Sv2+uQeCORiuazXYgIJ6FcklwBuWLxTs5DtFwOAfJ7iLguq7foO6MPQhwBIiQBd8TPTNBt9tdDQYjWi4/TgSI8XgNkgME/AoQtYUVUZZ6va63222aTp8D4AgQehvOzq0zQF2kLkNRFMrn86RpjGz7LUIymTzKDb9NLQN+RCmgdj7fk2muBXippIl7sajwb/sICdagP1LBYcHvTTxy9SoVCgo1m0dqNLbiGST45ieAmETbevUmy1oGFhmGI1Sr6j21WiQCJLJc4SywHuVNVC/9/aXoVSgtFtUTuIxymQmScBbStpE5BVY0jf/nWm0oQCoVR6j2B97hG2PbSBaxtgWrv4GwEABpoWka+d0WCjtA4N9clAckSWFZGwHOVZrYv7jASA+MX9gsnG5SSN8HQM5orthOjetciIl1S8ogc9Hytv3yIwFK6dW4+pdj8ACSuExgQW88E2yd5ax15bgAIBSb5sTvDpZ57mO+e+eu620mnu2rnMFZr09ByapPfpTUtAAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="geometry">Geometry</div></td><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAB20lEQVR42uWVP2vCUBTF+xH8CH6E4D8ICAYEBSEQEAJBkWQwKjgEBEFwCAiCEMggCE7OnTq4Ftw6FZw7CR06FYRC59t3Xn0haaPWqlBo4CAZPL/knnNfbm7+zWWaptNut5NXMZckKamqKjWbzdVVAOl0eqXrOtm2DbmXNteYyDAMGo3uOYSNSrnUaBLMfAsAjH3/WUA2LJPE2YBMJuPn8wYJwHxOXP3+DPd3Z5lns1kJxrXaCymKQt3uIADMZu/U6TiAOGcFW6nMSdcfqVgsUq/nBQDI854A2LJmSSebp1IpU5ZVajTeOAAVHQwWEQDkuktA1iflIYKtVldkWUR4C03TuNlXAOQ4I0D8k4ItFGxuDpXLHq/oePwQC5hOX0Ue2k/MlVxO4cEKAGD1ep3PPA4ATSZrnsfRo4SNZo2RCHMINUVF0Zx9AAgZIY9DwToINmwOybIc2YF9wgPs8nD3BovGhM3RIuwA/ngMAGHTY48SZr6Ie3oAS6XStx04pN1Rso1UF+FisQDRtGUAQFWxA8Ph7UFTNAlBo8p4GLxFq9VaxLaIgTYC9LnJemQHMAZUFlBhBuFbgX1gv+bR7cYmAySOaRxuIbPtzsxF9391VIRBlmUFZlf7ZP7p6wNWj03ic68T4QAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="perspective3d">3D Graphics</div></td><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABWElEQVR42u2VIY7DMBBFe4TeJagsqCyoKMwkRmVGBZWMiiIVFFQpKVtUKaAH8AV6gaJlSyv1AtN8y47srJPdSE6XrKXRNJ74v9SeGc9m7xjnM82riurTiVTHWDO/D8wrM896YjU0WwAmGqOASbOADocnZRnXHs9mXuI3Y6WOrVaCyvLLrq1bgBUZAnBeUZpm2ncBELcgIa5tfBQA4lgMHwLAENts1HgAFkEAXw8PUBcg5Y3yXHr/cBTA7i08nl0AgBCGuWfkAph52bPjkdK+2HZ7qYUoVShmPoy5WRRMRe+lzuCcy6Io1K/qwE3F9frD26KoAIgvFul0ADen/wHe6MsipCKEQgbxxn8OxNmPdYA8h1DIjPhjIL7/tkWoUpT8ZGeAZoV+gq44CWC3u+tasA0rOgBNa7nM24YVHZAkiXdpxExTfWXigGHYqqiAoUu/bw3y3EvFvxovxBc9s4YlQz4AAAAASUVORK5CYII=" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="spreadsheet">Spreadsheet</div></td><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABS0lEQVR42uWWvW3DMBCFPUJGyAiBpB1ceQMXbPRjwIVaAS4EeABVNmA3rlNnAI2gEQRkARVBaoZfQAr6cSyRUZUIeABx9/jenXQktFr9mydJkucoinLAelHxMAxflHCz32cSsCa2ZOVNlt3k5SK/wZrYIp2oSss0Pcrz+bM1YE2M3G/FhapUFsV7K25AjBwcJ3EhxBOv4XB4HYkbkIMD19qAadnt0t6rGYIcHLhO1ef524/iBnCsu9Dz3pxOH9WUARy4Vl0ocs2G61WWUwZwdEG11eQw43MN9FmZN1FUEsfxjfVcA7jsmexCEVJTva2B6QKNh/dN92PZGHSHY3RP6bHkw1bduK2BNmGq6t7YcqeQGM6yi4EuturdU7R276C4GHRMps+Fq8HoCYKg8H2/HGK93jabTSQfAc69vWi2Bp7nCRXIlwSaf+Nn4QuFXH9fFe9Y2wAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="probability">Probability</div></td><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABOUlEQVR42r1VOw6CQBDlCB7BI3AEj0ABBLuNpY00BktLY2wJwYbexiNwBCprjkBjP84zbGJQcAY/m7xks/tm5z/rOP9eQRC4jHIkXKkCYhRhGG4lALeVcaVekO/7M6nX4EJGE6aGhWKFghgyGgWIZ6HgI0Slo7XI87zJOy44Wo+dKIqmbdKMwHoDLmS05VrM54bS9Ep5Ti+BO3A04ex60SyX+14FuANHbX23/Far9OlxnGnLeajx6sViTYdDfQf2OBM3lkQBo9psTgbA/isKbIheJdGOh9EhsklmnAe8O49OcmvhYLPZJlOXaV+jHY9kgI8brTsqsoxmXJrVQ5lWOBs9Kuyw40embHHZ12i4A0c97GBRkpzqvoe7AFc7rmm3u5BUAbjiD8d+mRgFbJkIdmyIEv3zT//b6wbWa8kBL/WLbAAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
+<div class="gwt-Label" id="exam">Exam Mode</div></td><td align="left" style="vertical-align: top;">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table><table  class="perspectivesRow upperBorder"><tbody><tr><td align="left" style="vertical-align: top;">
+
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
 <div class="gwt-Label" id="tutorials">Tutorials</div></td></tr></tbody></table></div></div></td><td class="dialogMiddleRight"><div class="dialogMiddleRightInner"></div></td></tr><tr class="dialogBottom"><td class="dialogBottomLeft"><div class="dialogBottomLeftInner"></div></td><td class="dialogBottomCenter"><div class="dialogBottomCenterInner"></div></td><td class="dialogBottomRight"><div class="dialogBottomRightInner"></div></td></tr></tbody></table></div>
     </div>
 	</div>
