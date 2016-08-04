@@ -14,10 +14,8 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -26,7 +24,6 @@ import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -82,6 +79,7 @@ public class SliderTreeItem extends LatexTreeItem {
 	 */
 	public SliderTreeItem(final GeoElement geo0) {
 		super(geo0);
+		num = (GeoNumeric) geo;
 		createAnimPanel();
 		createSliderGUI();
 		addDomHandlers(main);
@@ -89,9 +87,8 @@ public class SliderTreeItem extends LatexTreeItem {
 	}
 
 	private void createSliderGUI() {
-		num = (GeoNumeric) geo;
 		ihtml.addStyleName("noPadding");
-		if (!geo.isEuclidianVisible()) {
+		if (!num.isEuclidianVisible()) {
 			num.initAlgebraSlider();
 		}
 
@@ -144,6 +141,9 @@ public class SliderTreeItem extends LatexTreeItem {
 
 	}
 
+	/**
+	 * resize slider to fit to the panel in a deferred way.
+	 */
 	void deferredResize() {
 		if (slider == null) {
 			return;
@@ -167,10 +167,9 @@ public class SliderTreeItem extends LatexTreeItem {
 		minMaxPanel.setVisible(false);
 	}
 
-	protected boolean isMinMaxPanelVisible() {
-		return (minMaxPanel != null && minMaxPanel.isVisible());
-	}
-
+	/**
+	 * @return true if another SliderTreeItem's min/max panel is showing.
+	 */
 	boolean isAnotherMinMaxOpen() {
 		return (openedMinMaxPanel != null && openedMinMaxPanel != minMaxPanel);
 	}
@@ -202,56 +201,31 @@ public class SliderTreeItem extends LatexTreeItem {
 		setNeedsUpdate(false);
 		marblePanel.update();
 		animPanel.update();
-		updateNumerics();
-	}
 
-	private void updateNumerics() {
+		slider.setScale(app.getArticleElement().getScaleX());
+		double min = num.getIntervalMin();
+		double max = num.getIntervalMax();
+		boolean degree = geo.isGeoAngle()
+				&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
+		slider.setMinimum(min, degree);
+		slider.setMaximum(max, degree);
 
-		if (slider == null) {
+		slider.setStep(num.getAnimationStep());
+		slider.setValue(num.value);
+		minMaxPanel.update();
 
-			addAVEXWidget(ihtml);
-			createSliderGUI();
+		if (!slider.isAttached()) {
+			sliderPanel.add(slider);
 			styleContentPanel();
-			getElement().setDraggable(Element.DRAGGABLE_FALSE);
-		} else {
-			slider.setScale(app.getArticleElement().getScaleX());
 		}
 
-		boolean hasMinMax = false;
-		if (((GeoNumeric) geo).getIntervalMaxObject() != null
-				&& ((GeoNumeric) geo).getIntervalMinObject() != null) {
-			double min = ((GeoNumeric) geo).getIntervalMin();
-			double max = ((GeoNumeric) geo).getIntervalMax();
-			hasMinMax = MyDouble.isFinite(min) && MyDouble.isFinite(max);
-			if (hasMinMax) {
-				boolean degree = geo.isGeoAngle()
-						&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
-				slider.setMinimum(min, degree);
-				slider.setMaximum(max, degree);
-
-				slider.setStep(geo.getAnimationStep());
-				slider.setValue(((GeoNumeric) geo).value);
-				if (minMaxPanel != null) {
-					minMaxPanel.update();
-				}
-			}
-		}
-
-		if (hasMinMax && ((HasExtendedAV) geo).isShowingExtendedAV()) {
-			if (!slider.isAttached()) {
-				sliderPanel.add(slider);
-				styleContentPanel();
-			}
-
-			updateColor();
-		}
-
+		updateColor();
 	}
 
 	@Override
 	protected void onPointerUp(AbstractEvent event) {
 		selectionCtrl.setSelectHandled(false);
-		if (isMinMaxPanelVisible()) {
+		if (minMaxPanel.isVisible()) {
 			return;
 		}
 		super.onPointerUp(event);
@@ -301,6 +275,7 @@ public class SliderTreeItem extends LatexTreeItem {
 		return (x > left && x < right && y > top && y < bottom);
 	}
 
+	@Override
 	protected boolean handleAVItem(int x, int y, boolean rightClick) {
 
 		boolean minHit = sliderPanel != null
@@ -361,10 +336,21 @@ public class SliderTreeItem extends LatexTreeItem {
 		super.onResize();
 	}
 
+	/**
+	 * Closes min/max/step settings panel of the slider and restores its size if
+	 * needed.
+	 */
 	public static void closeMinMaxPanel() {
 		closeMinMaxPanel(true);
 	}
 
+	/**
+	 * Closes min/max/step settings panel of the slider.
+	 * 
+	 * @param restore
+	 *            Decides if the item size should be restored (AV was too arrow
+	 *            to fit min/max panel) or not.
+	 */
 	public static void closeMinMaxPanel(boolean restore) {
 		if (openedMinMaxPanel == null) {
 			return;
@@ -375,6 +361,9 @@ public class SliderTreeItem extends LatexTreeItem {
 
 	}
 
+	/**
+	 * Sets the currently open min/max panel of AV.
+	 */
 	public static void setOpenedMinMaxPanel(MinMaxPanel panel) {
 		openedMinMaxPanel = panel;
 	}
@@ -396,4 +385,3 @@ public class SliderTreeItem extends LatexTreeItem {
 	}
 
 }
-
