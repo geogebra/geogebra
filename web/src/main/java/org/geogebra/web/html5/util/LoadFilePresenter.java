@@ -210,7 +210,6 @@ public class LoadFilePresenter {
 	 */
 	void finishEmptyLoading(AppW app, Perspective p) {
 
-		Log.debug("FINISH");
 		// code moved here from AppWapplication.afterCoreObjectsInited - end
 		Storage stockStore = null;
 
@@ -246,10 +245,9 @@ public class LoadFilePresenter {
 		if (p != null) {
 			app.showStartTooltip(p.getDefaultID());
 			app.setActivePerspective(p.getDefaultID() - 1);
-			Log.debug("POPUP" + p.getDefaultID());
 		}
-			if (app.has(Feature.NEW_START_SCREEN)) {
-			Log.debug("POPUP SHOW");
+		if (app.has(Feature.NEW_START_SCREEN)
+				&& app.getArticleElement().getDataParamShowAppsPicker()) {
 				app.showPerspectivesPopup();
 			}
 

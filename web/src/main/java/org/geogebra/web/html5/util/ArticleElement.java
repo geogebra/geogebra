@@ -649,4 +649,8 @@ public final class ArticleElement extends Element {
 		return this.getAttribute("data-param-loginApi");
 	}
 
+	public boolean getDataParamShowAppsPicker() {
+		return this.getBoolParam("data-param-showAppsPicker", false);
+	}
+
 }

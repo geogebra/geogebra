@@ -33,7 +33,7 @@ fontactive: function(familyName, fvd) {},
 		if(e("ggw")){
 			e("ggw").className="geogebraweb";
 			if(id){
-				e("ggw").setAttribute("data-param-perspective",id);
+				e("ggw").setAttribute("data-param-perspective",id);				
 			}
 			
 			if(window.ggbRerun){
@@ -133,6 +133,9 @@ fontactive: function(familyName, fvd) {},
 			});
 		}else{
 			parent.addEventListener("click",function(){
+				if(e("ggw")){
+					e("ggw").setAttribute("data-param-showAppsPicker","false");
+				}
 				perspective(perspectiveId,id.replace("perspective",""));
 			});
 			parent.getElementsByTagName("TD")[2].addEventListener("click",function(e){
@@ -796,7 +799,7 @@ z-index:501;
 </div>
     <article id="ggw" data-param-showLogging="true" 
     data-param-useBrowserForJS="false"
-    data-param-app="true" data-param-laf="modern"></article>
+    data-param-app="true" data-param-showAppsPicker="true"></article>
 </body>
 </html>
 
