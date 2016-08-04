@@ -405,6 +405,10 @@ public class ViewW {
 		return ((ArticleElement) container).getDataParamApp();
 	}
 
+	/**
+	 * @param encoded
+	 *            JSON encoded ZIP file (zip.js format)
+	 */
 	public native void processJSON(String encoded) /*-{
 
 		var content = JSON.parse(encoded).archive;

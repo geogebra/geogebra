@@ -36,7 +36,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		        4, // menu order
 		        '3' // ctrl-shift-3
 		);
-		setViewImage(getResources().styleBar_graphics3dView());
+
 
 		this.app = (AppW) app;
 		this.setOpenInFrame(true);
@@ -47,6 +47,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	@Override
 	protected Widget loadComponent() {
+		setViewImage(getResources().styleBar_graphics3dView());
 		if (!app.supportsView(App.VIEW_EUCLIDIAN3D)) {
 			return new FlowPanel();
 		}

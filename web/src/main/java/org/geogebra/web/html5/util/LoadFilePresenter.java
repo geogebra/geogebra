@@ -17,22 +17,38 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window.Location;
 
+/**
+ * File loader for Web
+ */
 public class LoadFilePresenter {
 
+	/**
+	 * Create new file loader
+	 */
 	public LoadFilePresenter() {
 
 	}
 
-	private ViewW view;
+	private ViewW mview;
 
+	/**
+	 * @return Article element wrapper
+	 */
 	public ViewW getView() {
-		return view;
+		return mview;
 	}
 
+	/**
+	 * @param view
+	 *            article element wrapper
+	 */
 	public void setView(ViewW view) {
-		this.view = view;
+		this.mview = view;
 	}
 
+	/**
+	 * Run applet for current view
+	 */
 	public void onPageLoad() {
 
 		ViewW view = getView();
@@ -127,12 +143,19 @@ public class LoadFilePresenter {
 		}
 	}
 
-	private boolean openEmptyApp(final AppW app) {
+	/**
+	 * Open app without file / base64
+	 * 
+	 * @param app
+	 *            application
+	 * @return whether special perspective (search / customize) was used
+	 */
+	boolean openEmptyApp(final AppW app) {
 		// we dont have content, it is an app
 		Log.debug("no base64content, possibly App loaded?");
 
 		// code moved here from AppWapplication.afterCoreObjectsInited - start
-		String perspective = view.getDataParamPerspective();
+		String perspective = mview.getDataParamPerspective();
 		if (perspective.length() == 0) {
 			perspective = Location.getParameter("GeoGebraPerspective");
 		}
@@ -177,9 +200,17 @@ public class LoadFilePresenter {
 
 	}
 
-	private void finishEmptyLoading(AppW app, Perspective p) {
+	/**
+	 * FInish loading when no base64 / filename enetered
+	 * 
+	 * @param app
+	 *            application
+	 * @param p
+	 *            perspective
+	 */
+	void finishEmptyLoading(AppW app, Perspective p) {
 
-
+		Log.debug("FINISH");
 		// code moved here from AppWapplication.afterCoreObjectsInited - end
 		Storage stockStore = null;
 
@@ -214,11 +245,14 @@ public class LoadFilePresenter {
 
 		if (p != null) {
 			app.showStartTooltip(p.getDefaultID());
-		} else {
+			app.setActivePerspective(p.getDefaultID() - 1);
+			Log.debug("POPUP" + p.getDefaultID());
+		}
 			if (app.has(Feature.NEW_START_SCREEN)) {
+			Log.debug("POPUP SHOW");
 				app.showPerspectivesPopup();
 			}
-		}
+
 		app.updateRounding();
 
 	}
@@ -262,31 +296,23 @@ public class LoadFilePresenter {
 		getView().processBase64String(dataParamBase64String);
 	}
 
-	public void processJSON(final String dataParamBase64String) {
+	/**
+	 * @param json
+	 *            JSON encoded ZIP file (zip.js)
+	 */
+	public void processJSON(final String json) {
 		Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
 			public void execute() {
-				getView().processJSON(dataParamBase64String);
+				getView().processJSON(json);
 			}
 		};
 
 		Scheduler.get().scheduleDeferred(deferredOnRes);
 	}
 
-	public void onWorksheetConstructionFailed(String errorMessage) {
-		getView().showError(errorMessage);
-	}
-
-	public void onWorksheetReady() {
-		getView().hide();
-	}
-
 	private void fetch(String fileName) {
 		getView().showLoadAnimation();
 		getView().processFileName(fileName);
-	}
-
-	public AppW getApplication() {
-		return getView().getApplication();
 	}
 
 }
