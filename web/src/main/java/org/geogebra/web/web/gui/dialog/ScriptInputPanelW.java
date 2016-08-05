@@ -80,8 +80,8 @@ public class ScriptInputPanelW extends FlowPanel implements
 		btPanel.setStyleName("optionsPanel");
 		if (!app.has(Feature.SCRIPT_AUTOSAVE)) {
 			btOk = new Button();
+			btCancel = new Button();
 		}
-		btCancel = new Button();
 		
 		FlowPanel centerPanel = new FlowPanel();
 
@@ -106,15 +106,18 @@ public class ScriptInputPanelW extends FlowPanel implements
 					applyScript();
 				}
 			});
+
+			btCancel.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					model.setGeo(model.getGeo());
+
+				}
+			});
+
 		}
 
-		btCancel.addClickHandler(new ClickHandler(){
-	
-			public void onClick(ClickEvent event) {
-				model.setGeo(model.getGeo());
-				
-            }});
-		
+
 		textArea.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
@@ -129,8 +132,9 @@ public class ScriptInputPanelW extends FlowPanel implements
             }});
 		if (!app.has(Feature.SCRIPT_AUTOSAVE)) {
 			btPanel.add(btOk);
+			btPanel.add(btCancel);
 		}
-		btPanel.add(btCancel);
+
 		
 		add(inputPanel);
 		add(btPanel);
@@ -138,10 +142,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 	public void setLabels(String ok, String cancel) {
 		btOk.setText(ok);
-		btCancel.setText(cancel);
-	}
-
-	public void setLabel(String cancel) {
 		btCancel.setText(cancel);
 	}
 

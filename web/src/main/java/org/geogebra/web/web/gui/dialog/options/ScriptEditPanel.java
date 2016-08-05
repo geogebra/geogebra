@@ -20,11 +20,9 @@ class ScriptEditPanel extends OptionPanel {
 	private TabPanel tabbedPane;
 	private FlowPanel clickScriptPanel, updateScriptPanel, globalScriptPanel;
 	private Localization loc;
-	private AppW app;
 
 	public ScriptEditPanel(ScriptEditorModel model0, final AppW app) {
 		this.loc = app.getLocalization();
-		this.app = app;
 		int row = 35;
 		int column = 15;
 		setModel(model0);
@@ -56,9 +54,9 @@ class ScriptEditPanel extends OptionPanel {
 		globalScriptPanel.add(globalDialog.getButtonPanel());
 		setWidget(tabbedPane);
 
-		
-
-		setLabels();
+		if (!app.has(Feature.SCRIPT_AUTOSAVE)) {
+			setLabels();
+		}
 	}
 
 	/**
@@ -76,17 +74,10 @@ class ScriptEditPanel extends OptionPanel {
 		String ok = loc.getPlain("OK");
 		String cancel = loc.getMenu("Cancel");
 
-		// TODO: remove app field, if there is no need for that after removing
-		// SCRIPT_AUTOSAVE feature check
-		if (app.has(Feature.SCRIPT_AUTOSAVE)) {
-			clickDialog.setLabel(cancel);
-			updateDialog.setLabel(cancel);
-			globalDialog.setLabel(cancel);
-		} else {
-			clickDialog.setLabels(ok, cancel);
-			updateDialog.setLabels(ok, cancel);
-			globalDialog.setLabels(ok, cancel);
-		}
+		clickDialog.setLabels(ok, cancel);
+		updateDialog.setLabels(ok, cancel);
+		globalDialog.setLabels(ok, cancel);
+
 
 	}
 
