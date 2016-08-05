@@ -35,7 +35,8 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 		if (getListener() == null) {
 			return;
 		}
-		if (app.has(Feature.OBJECT_COLOR_IN_LIST)
+
+		if (app.has(Feature.OBJECT_COLOR_IN_LIST) && !app.isDesktop()
 				&& this instanceof StartPointModel) {
 			for (GeoElement geo : ((StartPointModel) this).getGeoChoiches(loc)) {
 				getListener().addItem(geo);
