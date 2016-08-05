@@ -208,16 +208,7 @@ public class Browser {
 
 	}-*/;
 
-	/**
-	 * Returns a base64 encoding of the specified binary string
-	 * 
-	 * @param str
-	 *            A binary string (obtained for instance by the FileReader API)
-	 * @return a base64 encoded string.
-	 */
-	public static native String base64encode(String str) /*-{
-		return $wnd.btoa(str);
-	}-*/;
+
 
 	public static void scale(Element parent, double externalScale, int x, int y) {
 		if (externalScale < 0) {
@@ -347,12 +338,28 @@ public class Browser {
 		$wnd.open(url);
 	}-*/;
 
+	/**
+	 * Returns a string based on base 64 encoded value
+	 * 
+	 * @param base64
+	 *            a base64 encoded string
+	 * 
+	 * @return decoded string
+	 */
 	public static native String decodeBase64(String base64)/*-{
 		return atob(base64);
 	}-*/;
 
+	/**
+	 * 
+	 * Returns a base64 encoding of the specified (binary) string
+	 * 
+	 * @param text
+	 *            A binary string (obtained for instance by the FileReader API)
+	 * @return a base64 encoded string.
+	 */
 	public static native String encodeBase64(String text)/*-{
-		return btoa(base64);
+		return btoa(text);
 	}-*/;
 
 	public static native void removeDefaultContextMenu(Element element) /*-{
