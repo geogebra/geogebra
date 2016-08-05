@@ -5379,6 +5379,9 @@ body.application[dir=rtl] .deleteAlgebra {
 	width: 100%;
 	padding-top: 2px;
 	padding-bottom: 8px;
+	box-sizing: border-box;
+ 	-moz-box-sizing: border-box;
+ 	-webkit-box-sizing: border-box;
 }
 
 .avItemContent img {
