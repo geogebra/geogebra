@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.common.gui.util.TableSymbolsLaTeX;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -148,7 +149,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 
 	public void updateGeoList() {
 		geoPanel.clear();
-		String[] geoLabels = getGeoObjectList(editPanel.getEditGeo());
+		Object[] datas = getGeoObjectList(editPanel.getEditGeo());
+		String[] geoLabels = (String[]) datas[0];
+		GColor[] geoColors = (GColor[]) datas[1];
+
 		final SymbolTableW symTable = newSymbolTable(geoLabels, false,
  2,
 				new StringHandler() {
@@ -158,23 +162,25 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 								s));
 
 					}
-				});
+				}, geoColors);
 		symTable.getColumnFormatter().setStyleName(0, "geoSelectFirst");
 		geoPanel.add(symTable);
 	}
 
 	/**
-	 * Creates an array of labels of existing geos that can be inserted into the
-	 * editor content
+	 * Creates an array of labels and colors of existing geos that can be
+	 * inserted into the editor content
 	 */
-	private String[] getGeoObjectList(GeoText editGeo) {
+	private Object[] getGeoObjectList(GeoText editGeo) {
 
 		TreeSet<GeoElement> ts = app.getKernel().getConstruction()
 		        .getGeoSetLabelOrder();
 		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<GColor> colors = new ArrayList<GColor>();
 
 		// first possibility : create empty box
 		list.add(app.getPlain("EmptyBox"));
+		colors.add(null);
 
 		// add all geos
 		Iterator<GeoElement> iter = ts.iterator();
@@ -182,11 +188,18 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 			GeoElement g = iter.next();
 			if (g.isLabelSet() && !g.equals(editGeo)) {
 				list.add(g.getLabelSimple());
+				colors.add(g.getAlgebraColor());
 			}
 		}
 		String[] geoArray = new String[list.size()];
 		geoArray = list.toArray(geoArray);
-		return geoArray;
+		GColor[] colorArray = new GColor[colors.size()];
+		colorArray = colors.toArray(colorArray);
+
+		Object[] objArray = new Object[2];
+		objArray[0] = geoArray;
+		objArray[1] = colorArray;
+		return objArray;
 	}
 
 	// =====================================================
@@ -230,7 +243,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 						editPanel.insertTextString(s, isLatex);
 
 					}
-				});
+				}, null);
 
 		if (addSeparator) {
 			symbolPanel.add(new HTML("<hr>"));
@@ -283,7 +296,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 						editPanel.insertTextString(s, true);
 						editPanel.ensureLaTeX();
 					}
-				});
+				}, null);
 
 		if (addSeparator) {
 			latexPanel.add(new HTML("<hr>"));
@@ -298,11 +311,10 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	// =====================================================
 
 	private SymbolTableW newSymbolTable(String[] table, boolean isLatexSymbol,
-			int rowSize, final StringHandler onChange) {
+			int rowSize, final StringHandler onChange, GColor[] colors) {
 
 		final SymbolTableW symTable = new SymbolTableW(table, null,
-				isLatexSymbol,
-				rowSize, app);
+				isLatexSymbol, rowSize, app, colors);
 
 		if (Browser.isIE10plus()) {
 		symTable.addDomHandler(new MouseDownHandler() {

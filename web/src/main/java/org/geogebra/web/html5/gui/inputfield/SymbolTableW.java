@@ -1,7 +1,9 @@
 package org.geogebra.web.html5.gui.inputfield;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.DrawEquationW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -31,7 +33,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	 * @param symbolToolTips
 	 */
 	public SymbolTableW(String[] symbolStrings, String[] symbolToolTips,
-			boolean isLatex, int rowLength, App app) {
+			boolean isLatex, int rowLength, App app, GColor[] colors) {
 		super();
 		this.symbolStrings = symbolStrings;
 		this.symbolToolTips = symbolToolTips;
@@ -40,7 +42,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 		if (app != null) {
 			this.sample = new GeoNumeric(app.getKernel().getConstruction());
 		}
-		buildSymbolTable(app);
+		buildSymbolTable(app, colors);
 		addClickHandler(this);
 		addStyleName("SymbolTable");
 	}
@@ -53,10 +55,10 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	 * @param symbolToolTips
 	 */
 	public SymbolTableW(String[] symbolStrings, String[] symbolToolTips) {
-		this(symbolStrings, symbolToolTips, false, 10, null);
+		this(symbolStrings, symbolToolTips, false, 10, null, null);
 	}
 
-	private void buildSymbolTable(App app) {
+	private void buildSymbolTable(App app, GColor[] colors) {
 
 		for (int i = 0; i < symbolStrings.length; i++) {
 			int col = (int) Math.floor(i % rowLength);
@@ -66,6 +68,13 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 				this.setWidget(row, col, getLatexHTML(symbolStrings[i], app));
 			} else {
 				setText(row, col, symbolStrings[i]);
+				if (app.has(Feature.OBJECT_COLOR_IN_LIST) && colors != null
+						&& colors[i] != null) {
+					this.getCellFormatter()
+							.getElement(row, col)
+							.getStyle()
+							.setColor(GColor.getColorString(colors[i]));
+				}
 			}
 
 			// getCellFormatter().setHeight(row, col, "12px");
