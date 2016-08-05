@@ -1,14 +1,11 @@
 package org.geogebra.web.web.main;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.menubar.MenuInterface;
-import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
@@ -18,7 +15,6 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -36,7 +32,6 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -48,8 +43,8 @@ import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.LanguageGUI;
 import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWToolBar;
-import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
+import org.geogebra.web.web.gui.exam.ExamDialog;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -67,18 +62,10 @@ import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.StyleInjector;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HeaderPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * App with all the GUI
@@ -419,150 +406,12 @@ public abstract class AppWFull extends AppW {
 	/**
 	 * Popup exam welcome message
 	 */
+	@Override
 	public void examWelcome(){
 		if (isExam() && getExam().getStart() < 0) {
 			this.closePerspectivesPopup();
-			Localization loc = getLocalization();
-			//StyleInjector
-			//		.inject(GuiResources.INSTANCE.examStyleLTR().getText());
-			final DialogBoxW box = new DialogBoxW(false, true, null, getPanel());
-			VerticalPanel mainWidget = new VerticalPanel();
-			FlowPanel btnPanel = new FlowPanel();
-			FlowPanel cbxPanel = new FlowPanel();
 
-			Button btnOk = new Button();
-			Button btnCancel = new Button();
-			Button btnHelp = new Button();
-			//mainWidget.add(btnPanel);
-			
-			btnPanel.add(btnOk);
-			btnPanel.add(btnCancel);
-			btnPanel.add(btnHelp);
-			
-			btnOk.setText(loc.getMenu("exam_start_button"));
-			btnCancel.setText(loc.getMenu("Cancel"));
-			btnHelp.setText(loc.getMenu("Help"));
-
-			//description.addStyleName("padding");
-			box.addStyleName("boxsize");
-			int checkboxes = 0;
-
-			if (!getSettings().getCasSettings().isEnabledSet()) {
-				checkboxes++;
-				final CheckBox cas = new CheckBox(loc.getMenu("Perspective.CAS"));
-				cas.addStyleName("examCheckbox");
-				cas.setValue(true);
-				getSettings().getCasSettings().setEnabled(true);
-				cbxPanel.add(cas);
-				cas.addClickHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-						getSettings().getCasSettings()
-								.setEnabled(cas.getValue());
-						getGuiManager().updateToolbarActions();
-					}
-				});
-			}
-			if (!getSettings().getEuclidian(-1).isEnabledSet()) {
-				checkboxes++;
-				final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
-				allow3D.addStyleName("examCheckbox");
-				allow3D.setValue(true);
-			
-				getSettings().getEuclidian(-1).setEnabled(true);
-
-				cbxPanel.add(allow3D);
-				allow3D.addClickHandler(new ClickHandler() {
-					@Override
-					public void onClick(ClickEvent event) {
-						getSettings().getEuclidian(-1)
-								.setEnabled(allow3D.getValue());
-						getGuiManager().updateToolbarActions();
-
-					}
-				});
-			}
-			getGuiManager().updateToolbarActions();
-			if (checkboxes > 0) {
-				Label description = new Label(
-						loc.getMenu("exam_custom_description"));
-				mainWidget.add(description);
-				mainWidget.add(cbxPanel);
-				cbxPanel.addStyleName("ExamCheckboxPanel");
-				btnPanel.addStyleName("DialogButtonPanel");
-			}
-
-
-			
-			
-			
-			mainWidget.add(btnPanel);
-			box.setWidget(mainWidget);
-			box.getCaption().setText(getMenu("exam_custom_header"));
-			box.center();
-			
-			// start exam button
-			btnOk.addStyleName("examStartButton");
-			btnOk.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
-					if (getLAF().supportsFullscreen()) {
-						ExamUtil.toggleFullscreen(true);
-					}
-					StyleInjector
-					.inject(GuiResources.INSTANCE.examStyleLTR().getText());
-					Date date = new Date();	
-					getGuiManager().updateToolbarActions();
-					getLAF().removeWindowClosingHandler();
-					fileNew();
-					updateRounding();
-					getGgbApi().setPerspective("1");
-					getGuiManager().setGeneralToolBarDefinition(
-							ToolBar.getAllToolsNoMacros(true, true));
-					getKernel().getAlgebraProcessor().reinitCommands();
-					getExam().setStart(date.getTime());
-					fireViewsChangedEvent();
-					getGuiManager().updateToolbar();
-					getGuiManager().updateToolbarActions();
-					Layout.initializeDefaultPerspectives(AppWFull.this, 0.2);
-					getGuiManager().updateMenubar();
-					getGuiManager().resetMenu();
-					DockPanelW dp = ((DockManagerW) getGuiManager().getLayout()
-							.getDockManager()).getPanelForKeyboard();
-					if (dp != null
-							&& dp.getKeyboardListener().needsAutofocus()) { // dp.getKeyboardListener().setFocus(true);
-
-						showKeyboard(dp.getKeyboardListener(), true);
-					}
-					box.hide();
-
-				}
-			});
-			// Cancel button
-			btnCancel.addStyleName("cancelBtn");
-			btnCancel.addClickHandler(new ClickHandler(){
-				@Override
-				public void onClick(ClickEvent event) {
-					getExam().exit();
-					setExam(null);
-					ExamUtil.toggleFullscreen(false);
-					fireViewsChangedEvent();
-					getGuiManager().updateToolbarActions();
-					getGuiManager().setGeneralToolBarDefinition(
-							ToolBar.getAllToolsNoMacros(true, false));
-					getGuiManager().updateToolbar();
-					getGuiManager().resetMenu();
-					box.hide();
-				}
-			});
-			// Help button
-			btnHelp.addStyleName("cancelBtn");
-			btnHelp.addClickHandler(new ClickHandler(){
-				@Override
-				public void onClick(ClickEvent event) {
-					ToolTipManagerW.openWindow("https://www.geogebra.org/tutorial/exam");
-				}
-			});
+			new ExamDialog(this).show();
 
 			if (Location.getHost() != null) {
 				return;
