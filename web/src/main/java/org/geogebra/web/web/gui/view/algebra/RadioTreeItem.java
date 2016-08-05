@@ -978,7 +978,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 			if (latex && latexAfterEdit) {
 				// Both original and edited text is LaTeX
-				if (isInputTreeItem()) {
+				if (isInputTreeItem() && geo != null) {
 					text = geo.getLaTeXAlgebraDescription(true,
 							StringTemplate.latexTemplateMQ);
 				}

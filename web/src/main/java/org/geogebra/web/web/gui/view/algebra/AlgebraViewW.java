@@ -1698,6 +1698,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			editing = true;
 			setAnimationEnabled(false);
 			if (node instanceof RadioTreeItem) {
+				SliderTreeItem.as(node).enterEditMode(
+						geo.isPointOnPath() || geo.isPointInRegion());
+			} else if (node instanceof RadioTreeItem) {
 				RadioTreeItem.as(node).enterEditMode(
 						geo.isPointOnPath() || geo.isPointInRegion());
 			}

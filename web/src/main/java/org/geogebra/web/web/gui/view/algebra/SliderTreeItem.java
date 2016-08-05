@@ -384,4 +384,8 @@ public class SliderTreeItem extends LatexTreeItem {
 		return (SliderTreeItem) item;
 	}
 
+	@Override
+	public boolean isInputTreeItem() {
+		return false;
+	}
 }
