@@ -7,7 +7,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.cas.view.CASLaTeXEditor;
 import org.geogebra.web.web.cas.view.CASTableControllerW;
 import org.geogebra.web.web.cas.view.CASTableW;
-import org.geogebra.web.web.gui.view.algebra.AVTreeItem;
 import org.geogebra.web.web.gui.view.algebra.LatexTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 
@@ -29,7 +28,7 @@ public class ReTeXHelper extends LaTeXHelper {
 	}
 
 	@Override
-	public AVTreeItem getAVItem(GeoElement ob) {
+	public RadioTreeItem getAVItem(GeoElement ob) {
 		return new LatexTreeItem(ob);
 	}
 

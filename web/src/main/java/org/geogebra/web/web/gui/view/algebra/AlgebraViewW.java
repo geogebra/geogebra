@@ -945,9 +945,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 *            whether ReTeX editor should be used
 	 * @return AV item
 	 */
-	public final static AVTreeItem createAVItem(final GeoElement ob,
+	public final static RadioTreeItem createAVItem(final GeoElement ob,
 			boolean forceRetex) {
-		AVTreeItem ti = null;
+		RadioTreeItem ti = null;
 		if (RadioTreeItem.sliderNeeded(ob)) {
 			ti = new SliderTreeItem(ob);
 		} else if (forceRetex) {
@@ -990,8 +990,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			break;
 		case ORDER:
 			rootOrder.removeItem(node);
-			if (getItemCount() > 0 && getItem(0) instanceof AVTreeItem) {
-				((AVTreeItem) getItem(0)).setFirst(true);
+			if (getItemCount() > 0 && getItem(0) instanceof RadioTreeItem) {
+				((RadioTreeItem) getItem(0)).setFirst(true);
 			}
 		}
 	}
@@ -1034,7 +1034,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			}
 
 			TreeItem parent = getParentNode(geo, forceLayer);
-			AVTreeItem node = createAVItem(geo, app.has(Feature.RETEX_EDITOR));
+			RadioTreeItem node = createAVItem(geo,
+					app.has(Feature.RETEX_EDITOR));
 
 			// add node to model (alphabetically ordered)
 			int pos = getInsertPosition(parent, geo, treeMode);
@@ -1074,8 +1075,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			// setUserObject(node, geo);
 
 			// item is already added
-			if (node instanceof RadioTreeItem
-					&& !(((RadioTreeItem) node).isInputTreeItem())) {
+			if (node != null && !(node.isInputTreeItem())) {
 				// RadioTreeItem.as(node)
 				// .addDeleteButton(node);
 			}

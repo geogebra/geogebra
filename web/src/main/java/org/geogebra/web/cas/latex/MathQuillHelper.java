@@ -12,7 +12,6 @@ import org.geogebra.web.html5.main.ScriptManagerW;
 import org.geogebra.web.web.cas.view.CASLaTeXEditor;
 import org.geogebra.web.web.cas.view.CASTableControllerW;
 import org.geogebra.web.web.cas.view.CASTableW;
-import org.geogebra.web.web.gui.view.algebra.AVTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.util.LaTeXHelper;
 
@@ -1433,7 +1432,7 @@ public class MathQuillHelper extends LaTeXHelper {
 	}
 
 	@Override
-	public AVTreeItem getAVItem(GeoElement ob) {
+	public RadioTreeItem getAVItem(GeoElement ob) {
 		return MathQuillTreeItem.create(ob);
 	}
 

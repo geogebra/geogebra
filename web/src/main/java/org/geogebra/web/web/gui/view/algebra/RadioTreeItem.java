@@ -836,9 +836,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 	}
-	@Override
+
+	protected boolean first = false;
 	public void setFirst(boolean first) {
-		super.setFirst(first);
+		this.first = first;
 		updateButtonPanelPosition();
 	}
 
