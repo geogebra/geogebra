@@ -39,6 +39,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private void setInput(String str, ErrorHandler validation) {
 		this.input = str;
 		this.validation = validation;
+		if (str.length() == 0) {
+			validInput = "";
+		}
 		if (str.length() > maxLength || str.length() == 0) {
 			Log.debug("Timeout at length " + maxLength);
 			return;
