@@ -20,6 +20,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.main.AppD;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -594,5 +595,14 @@ public class ArbitraryConstIntegrationTest {
 				"y = c_2 * cos(2 * x) + c_3 * sin(2 * x)");
 	}
 
+	@Test
+	public void ConstMulti() {
+		ta("Simplify[SolveODE[ y*ln(2)]]", "y = c_1 * 2^(x)");
+		Assert.assertEquals(1, app.getGgbApi().getValue("c_1"), 0.01);
+		ta("SolveODE[ x]", "y = c_2 + 1 / 2 * x^(2)");
+		Assert.assertEquals(0, app.getGgbApi().getValue("c_2"), 0.01);
+	}
+
 }
+
 
