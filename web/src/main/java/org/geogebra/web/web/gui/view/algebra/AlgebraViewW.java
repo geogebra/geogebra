@@ -948,8 +948,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	public final static RadioTreeItem createAVItem(final GeoElement ob,
 			boolean forceRetex) {
 		RadioTreeItem ti = null;
-		if (RadioTreeItem.sliderNeeded(ob)) {
-			ti = new SliderTreeItem(ob);
+		if (SliderTreeItemRetex.match(ob)) {
+			ti = new SliderTreeItemRetex(ob);
+		} else if (SliderTreeItemMQ.match(ob)) {
+			ti = new SliderTreeItemMQ(ob);
 		} else if (forceRetex) {
 			ti = new LatexTreeItem(ob);
 		} else {
@@ -1697,8 +1699,11 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			// FIXMEWEB select and show node
 			editing = true;
 			setAnimationEnabled(false);
-			if (node instanceof RadioTreeItem) {
-				SliderTreeItem.as(node).enterEditMode(
+			if (node instanceof SliderTreeItemRetex) {
+				SliderTreeItemRetex.as(node).enterEditMode(
+						geo.isPointOnPath() || geo.isPointInRegion());
+			} else if (node instanceof SliderTreeItemMQ) {
+				SliderTreeItemMQ.as(node).enterEditMode(
 						geo.isPointOnPath() || geo.isPointInRegion());
 			} else if (node instanceof RadioTreeItem) {
 				RadioTreeItem.as(node).enterEditMode(
@@ -1911,7 +1916,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	public void resetItems(boolean unselectAll) {
-		SliderTreeItem.closeMinMaxPanel();
+		if (app.has(Feature.RETEX_EDITOR)) {
+			SliderTreeItemRetex.closeMinMaxPanel();
+		} else {
+			SliderTreeItemMQ.closeMinMaxPanel();
+
+		}
 		updateSelection();
 	}
 

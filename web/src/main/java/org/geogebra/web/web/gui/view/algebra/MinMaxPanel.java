@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -11,7 +12,7 @@ import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
-import org.geogebra.web.web.gui.view.algebra.SliderTreeItem.CancelListener;
+import org.geogebra.web.web.gui.view.algebra.SliderTreeItemInterface.CancelListener;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -29,9 +30,7 @@ import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.Label;
 
 class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
-		KeyHandler, MouseDownHandler, MouseUpHandler,
-
-CancelListener {
+		KeyHandler, MouseDownHandler, MouseUpHandler, CancelListener {
 
 
 
@@ -68,7 +67,7 @@ CancelListener {
 
 	}
 
-	private final SliderTreeItem sliderTreeItem;
+	private SliderTreeItemInterface sliderTreeItem;
 	private static final int MINMAX_MIN_WIDHT = 326;
 	private AVField tfMin;
 	private AVField tfMax;
@@ -78,24 +77,27 @@ CancelListener {
 	private GeoNumeric num;
 	private boolean keepOpen = false;
 	private boolean focusRequested = false;
+	private Kernel kernel;
+	private App app;
 
-	public MinMaxPanel(SliderTreeItem item) {
+	public MinMaxPanel(SliderTreeItemInterface item) {
 		this.sliderTreeItem = item;
-		if (this.sliderTreeItem.geo instanceof GeoNumeric) {
-			num = (GeoNumeric) this.sliderTreeItem.geo;
-		}
-		tfMin = new AVField(4, this.sliderTreeItem.app,
+		num = (GeoNumeric) this.sliderTreeItem.getGeo();
+		kernel = num.getKernel();
+		app = kernel.getApplication();
+
+		tfMin = new AVField(4, app,
 				this);
-		tfMax = new AVField(4, this.sliderTreeItem.app,
+		tfMax = new AVField(4, app,
 				this);
-		tfStep = new AVField(4, this.sliderTreeItem.app,
+		tfStep = new AVField(4, app,
 				this);
 		lblValue = new Label(Unicode.LESS_EQUAL + " "
-				+ this.sliderTreeItem.geo
+				+ num
 						.getCaption(StringTemplate.defaultTemplate)
 				+ " "
 				+ Unicode.LESS_EQUAL);
-		lblStep = new Label(this.sliderTreeItem.app.getPlain("Step"));
+		lblStep = new Label(app.getPlain("Step"));
 		addStyleName("minMaxPanel");
 		add(tfMin);
 		add(lblValue);
@@ -150,30 +152,30 @@ CancelListener {
 	}
 
 	public void update() {
-		tfMin.setText(this.sliderTreeItem.kernel.format(num.getIntervalMin(),
+		tfMin.setText(kernel.format(num.getIntervalMin(),
 				StringTemplate.editTemplate));
-		tfMax.setText(this.sliderTreeItem.kernel.format(num.getIntervalMax(),
+		tfMax.setText(kernel.format(num.getIntervalMax(),
 				StringTemplate.editTemplate));
 		tfStep.setText(
-				num.isAutoStep() ? "" : this.sliderTreeItem.kernel.format(
+				num.isAutoStep() ? "" : kernel.format(
 				num.getAnimationStep(), StringTemplate.editTemplate));
 		setLabels();
 	}
 
 	public void setLabels() {
-		lblStep.setText(this.sliderTreeItem.app.getPlain("Step"));
+		lblStep.setText(app.getPlain("Step"));
 	}
 
 
 
 	public void show() {
-		this.sliderTreeItem.geo.setAnimating(false);
+		num.setAnimating(false);
 		this.sliderTreeItem.expandSize(MINMAX_MIN_WIDHT);
-		this.sliderTreeItem.sliderPanel.setVisible(false);
+		this.sliderTreeItem.setSliderVisible(false);
 		setVisible(true);
 		setKeepOpen(true);
 		sliderTreeItem.setOpenedMinMaxPanel(this);
-		this.sliderTreeItem.animPanel.setVisible(false);
+		this.sliderTreeItem.setAnimPanelVisible(false);
 	}
 
 	public void hide(boolean restore) {
@@ -184,12 +186,11 @@ CancelListener {
 	}
 
 	public void hide() {
-		this.sliderTreeItem.sliderPanel.setVisible(true);
+		this.sliderTreeItem.setSliderVisible(true);
 		this.sliderTreeItem.deferredResize();
 		setVisible(false);
-		if (this.sliderTreeItem.animPanel != null) {
-			this.sliderTreeItem.animPanel.setVisible(true);
-		}
+		this.sliderTreeItem.setAnimPanelVisible(true);
+
 	}
 
 
@@ -224,7 +225,7 @@ CancelListener {
 		boolean emptyString = inputText.equals("");
 		NumberValue value = null;// new MyDouble(kernel, Double.NaN);
 		if (!emptyString) {
-			value = this.sliderTreeItem.kernel.getAlgebraProcessor()
+			value = kernel.getAlgebraProcessor()
 					.evaluateToNumeric(
 					inputText, false);
 		}

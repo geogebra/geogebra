@@ -14,8 +14,10 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -39,10 +41,9 @@ import com.google.gwt.user.client.ui.Widget;
  * @author laszlo
  *
  */
-public class SliderTreeItem extends LatexTreeItem {
-	interface CancelListener {
-		void cancel();
-	}
+public class SliderTreeItemRetex extends LatexTreeItem
+		implements SliderTreeItemInterface {
+
 	private static final int SLIDER_EXT = 15;
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
 	private static MinMaxPanel openedMinMaxPanel = null;
@@ -77,7 +78,7 @@ public class SliderTreeItem extends LatexTreeItem {
 	 * @param geo0
 	 *            the existing GeoElement to display/edit
 	 */
-	public SliderTreeItem(final GeoElement geo0) {
+	public SliderTreeItemRetex(final GeoElement geo0) {
 		super(geo0);
 		num = (GeoNumeric) geo;
 		createAnimPanel();
@@ -144,7 +145,7 @@ public class SliderTreeItem extends LatexTreeItem {
 	/**
 	 * resize slider to fit to the panel in a deferred way.
 	 */
-	void deferredResize() {
+	public void deferredResize() {
 		if (slider == null) {
 			return;
 		}
@@ -364,7 +365,7 @@ public class SliderTreeItem extends LatexTreeItem {
 	/**
 	 * Sets the currently open min/max panel of AV.
 	 */
-	public static void setOpenedMinMaxPanel(MinMaxPanel panel) {
+	public void setOpenedMinMaxPanel(MinMaxPanel panel) {
 		openedMinMaxPanel = panel;
 	}
 
@@ -380,12 +381,37 @@ public class SliderTreeItem extends LatexTreeItem {
 	 *            TreeItem to be casted
 	 * @return Casted item to SliderTreeItem
 	 */
-	public static SliderTreeItem as(TreeItem item) {
-		return (SliderTreeItem) item;
+	public static SliderTreeItemRetex as(TreeItem item) {
+		return (SliderTreeItemRetex) item;
 	}
 
 	@Override
 	public boolean isInputTreeItem() {
 		return false;
 	}
+
+	/**
+	 * 
+	 * @param geo
+	 * @return if geo matches to SliderTreeItem.
+	 */
+	public static boolean match(GeoElement geo) {
+		return geo.getKernel().getApplication().has(Feature.RETEX_EDITOR)
+				&& geo instanceof GeoNumeric
+				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
+				&& MyDouble.isFinite(((GeoNumeric) geo).value);
+	}
+
+	public void setSliderVisible(boolean visible) {
+		sliderPanel.setVisible(visible);
+	}
+
+
+	public void setAnimPanelVisible(boolean visible) {
+		if (animPanel == null) {
+			return;
+		}
+		animPanel.setVisible(visible);
+	}
+
 }

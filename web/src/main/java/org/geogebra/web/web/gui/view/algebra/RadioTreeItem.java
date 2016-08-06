@@ -23,7 +23,6 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -236,9 +235,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	/**
 	 * this panel contains the marble (radio) button
 	 */
-	MarblePanel marblePanel;
+	protected MarblePanel marblePanel;
 
-	FlowPanel contentPanel;
+	protected FlowPanel contentPanel;
 
 
 	/**
@@ -250,7 +249,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 * panel to display animation related controls
 	 */
 
-	AnimPanel animPanel;
+	protected AnimPanel animPanel;
 
 	protected boolean definitionAndValue;
 
@@ -809,13 +808,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		w.getElement().getStyle().setFontSize(app.getFontSizeWeb(), Unit.PX);
 
 	}
-
-	public static boolean sliderNeeded(GeoElement geo) {
-		return geo instanceof GeoNumeric
-				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
-				&& MyDouble.isFinite(((GeoNumeric) geo).value);
-	}
-
 
 
 	protected void createContentPanel() {
@@ -1757,7 +1749,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	void updateSelection(boolean separated, boolean continous) {
+	public void updateSelection(boolean separated, boolean continous) {
 		if (geo == null) {
 			selectionCtrl.clear();
 			getAV().updateSelection();
