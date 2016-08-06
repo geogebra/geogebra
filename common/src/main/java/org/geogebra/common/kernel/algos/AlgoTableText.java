@@ -157,9 +157,9 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		return text;
 	}
 
-	// get the lrc.a% from middle of ABCDlrc.a%EFGH
+	// get the lrc.a%p from middle of ABCDlrc.a%pEFGH
 	private final static RegExp matchLRC = RegExp
-			.compile("([^.%lrca]*)([.%lrca]*)([^.%lrca]*)");
+			.compile("([^.%lrcap]*)([.%lrcap]*)([^.%lrcap]*)");
 
 	private void parseArgs() {
 
@@ -823,6 +823,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 						justification1 == '.', kernel.getPrintDecimals(), "");
 				break;
 			case '%':
+			case 'p':
 
 				if (geo1 instanceof GeoNumberValue) {
 
@@ -830,7 +831,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 					String numStr = kernel.format(num * 100, tpl);
 
-					text1 = tpl.padZerosAfterDecimalPoint(numStr, true,
+					text1 = tpl.padZerosAfterDecimalPoint(numStr,
+							justification1 == '%',
 							kernel.getPrintDecimals(), "%");
 				}
 
