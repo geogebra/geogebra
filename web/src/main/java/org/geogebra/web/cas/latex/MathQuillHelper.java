@@ -1455,4 +1455,9 @@ public class MathQuillHelper extends LaTeXHelper {
 		Document.get().getElementsByTagName("head").getItem(0)
 				.appendChild(mqSize);
 	}
+
+	@Override
+	public RadioTreeItem getSliderItem(GeoElement ob) {
+		return new SliderTreeItemMQ(ob);
+	}
 }

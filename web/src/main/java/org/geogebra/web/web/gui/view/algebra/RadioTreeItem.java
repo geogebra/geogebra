@@ -182,7 +182,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	class MarblePanel extends FlowPanel {
+	public class MarblePanel extends FlowPanel {
 		private Marble marble;
 		private boolean selected = false;
 

@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -396,8 +395,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	 * @return if geo matches to SliderTreeItem.
 	 */
 	public static boolean match(GeoElement geo) {
-		return geo.getKernel().getApplication().has(Feature.RETEX_EDITOR)
-				&& geo instanceof GeoNumeric
+		return geo instanceof GeoNumeric
 				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
 				&& MyDouble.isFinite(((GeoNumeric) geo).value);
 	}

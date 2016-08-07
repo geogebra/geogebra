@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 
-class AnimPanel extends FlowPanel implements ClickHandler {
+public class AnimPanel extends FlowPanel implements ClickHandler {
 	final static double animSpeeds[] = { 0.05, 0.1, 0.15, 0.2, 0.35, 0.75, 1,
 			1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
 	static final String MUL_SIGN = "\u00d7";

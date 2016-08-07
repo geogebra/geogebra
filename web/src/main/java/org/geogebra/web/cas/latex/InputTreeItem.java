@@ -25,7 +25,6 @@ import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.web.gui.view.algebra.SliderTreeItemMQ;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

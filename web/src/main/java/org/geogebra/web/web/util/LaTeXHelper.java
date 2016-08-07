@@ -26,4 +26,6 @@ public abstract class LaTeXHelper {
 	public boolean supportsAV() {
 		return true;
 	}
+
+	public abstract RadioTreeItem getSliderItem(GeoElement ob);
 }

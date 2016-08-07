@@ -9,6 +9,7 @@ import org.geogebra.web.web.cas.view.CASTableControllerW;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.gui.view.algebra.LatexTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
+import org.geogebra.web.web.gui.view.algebra.SliderTreeItemRetex;
 
 /**
  * Factory class for ReTeX based editor
@@ -40,6 +41,11 @@ public class ReTeXHelper extends LaTeXHelper {
 	@Override
 	public boolean supportsAV() {
 		return false;
+	}
+
+	@Override
+	public RadioTreeItem getSliderItem(GeoElement ob) {
+		return new SliderTreeItemRetex(ob);
 	}
 
 }

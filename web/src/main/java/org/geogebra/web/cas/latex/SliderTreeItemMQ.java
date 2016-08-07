@@ -10,20 +10,19 @@ the Free Software Foundation.
 
  */
 
-package org.geogebra.web.web.gui.view.algebra;
+package org.geogebra.web.cas.latex;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.Feature;
-import org.geogebra.web.cas.latex.MathQuillTreeItem;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
+import org.geogebra.web.web.gui.view.algebra.MinMaxPanel;
+import org.geogebra.web.web.gui.view.algebra.SliderTreeItemInterface;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -393,17 +392,6 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 		return false;
 	}
 
-	/**
-	 * 
-	 * @param geo
-	 * @return if geo matches to SliderTreeItemMQ.
-	 */
-	public static boolean match(GeoElement geo) {
-		return !geo.getKernel().getApplication().has(Feature.RETEX_EDITOR)
-				&& geo instanceof GeoNumeric
-				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
-				&& MyDouble.isFinite(((GeoNumeric) geo).value);
-	}
 
 	public void setSliderVisible(boolean visible) {
 		sliderPanel.setVisible(visible);

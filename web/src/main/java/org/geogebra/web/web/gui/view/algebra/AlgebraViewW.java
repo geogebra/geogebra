@@ -25,6 +25,7 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.cas.latex.SliderTreeItemMQ;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -949,9 +950,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			boolean forceRetex) {
 		RadioTreeItem ti = null;
 		if (SliderTreeItemRetex.match(ob)) {
-			ti = new SliderTreeItemRetex(ob);
-		} else if (SliderTreeItemMQ.match(ob)) {
-			ti = new SliderTreeItemMQ(ob);
+			if (forceRetex) {
+				ti = new SliderTreeItemRetex(ob);
+			} else {
+				ti = ((LaTeXHelper) GWT.create(LaTeXHelper.class))
+						.getSliderItem(ob);
+			}
 		} else if (forceRetex) {
 			ti = new LatexTreeItem(ob);
 		} else {
