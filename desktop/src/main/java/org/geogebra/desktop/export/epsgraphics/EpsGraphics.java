@@ -44,9 +44,11 @@ import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GPolygon;
+import org.geogebra.common.awt.GQuadCurve2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.util.debug.Log;
 
 
 /**
@@ -200,16 +202,20 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Appends the commands required to draw a shape on the EPS document.
 	 */
-	protected void draw(GShape s, String action) {
+	protected void draw(GShape s, String action, boolean subPath) {
 		if (s != null) {
 
 			// 20120115 bugfix: stroke needs to be appended each time
-			appendStroke();
+			if (!subPath) {
+				appendStroke();
+			}
 
 			if (!_transform.isIdentity()) {
 				s = _transform.createTransformedShape(s);
 			}
-			append("newpath");
+			if (!subPath) {
+				append("newpath");
+			}
 			int type = 0;
 			double[] coords = new double[6];
 			GPathIterator it = s.getPathIterator(null);
@@ -254,11 +260,15 @@ abstract public class EpsGraphics implements GGraphics2D {
 					// Ignore.
 				} else if (type == GPathIterator.WIND_NON_ZERO) {
 					// Ignore.
+				} else {
+					Log.warn("unknown type " + type);
 				}
 				it.next();
 			}
-			append(action);
-			append("newpath");
+			if (!subPath) {
+				append(action);
+				append("newpath");
+			}
 		}
 	}
 
@@ -326,7 +336,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	@Override
 	public void draw(GShape s) {
-		draw(s, "stroke");
+		draw(s, "stroke", false);
 	}
 
 	/**
@@ -424,7 +434,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	@Override
 	public void fill(GShape s) {
-		draw(s, "fill");
+		draw(s, "fill", false);
 	}
 
 	/**
@@ -865,7 +875,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 				_document.setClipSet(true);
 				append("gsave");
 			}
-			draw(clip, "clip");
+			draw(clip, "clip", false);
 			_clip = clip;
 			// _clipTransform = (GAffineTransform) _transform.clone();
 			_clipTransform = AwtFactory.prototype.newAffineTransform();
@@ -905,7 +915,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	@Override
 	public void fillRect(int x, int y, int width, int height) {
 		GShape shape = AwtFactory.prototype.newRectangle(x, y, width, height);
-		draw(shape, "fill");
+		draw(shape, "fill", false);
 	}
 
 	/**
@@ -926,34 +936,88 @@ abstract public class EpsGraphics implements GGraphics2D {
 		GColor originalColor = getColor();
 		setColor(getBackground());
 		GShape shape = AwtFactory.prototype.newRectangle(x, y, width, height);
-		draw(shape, "fill");
+		draw(shape, "fill", false);
 		setColor(originalColor);
 	}
 
 	/**
 	 * Draws a rounded rectangle.
+	 * 
+	 * adapted from GGraphics2DW.drawRoundRectangle()
 	 */
 	@Override
-	public void drawRoundRect(int x, int y, int width, int height, int arcWidth,
+	public void drawRoundRect(int x, int y, int width, int height, int radius,
 			int arcHeight) {
-		methodNotSupported();
-		// GShape shape = new RoundRectangle2D.Double(x, y, width, height,
-		// arcWidth,
-		// arcHeight);
-		// draw(shape);
+
+		drawLine(x + radius, y, x + width - radius, y);
+
+		GQuadCurve2D arc = AwtFactory.prototype.newQuadCurve2D();
+		arc.setCurve(x + width - radius, y, x + width, y, x + width,
+				y + radius);
+		draw(arc);
+
+		drawLine(x + width, y + radius, x + width, y + height - radius);
+
+		arc.setCurve(x + width, y + height - radius, x + width, y + height,
+				x + width - radius,
+				y + height);
+		draw(arc);
+
+		drawLine(x + width - radius, y + height, x + radius, y + height);
+
+		arc.setCurve(x + radius, y + height, x, y + height, x,
+				y + height - radius);
+		draw(arc);
+
+		drawLine(x, y + height - radius, x, y + radius);
+
+		arc.setCurve(x, y + radius, x, y, x + radius, y);
+		draw(arc);
+
 	}
 
 	/**
 	 * Fills a rounded rectangle.
 	 */
 	@Override
-	public void fillRoundRect(int x, int y, int width, int height, int arcWidth,
+	public void fillRoundRect(int x, int y, int width, int height, int radius,
 			int arcHeight) {
-		methodNotSupported();
-		// GShape shape = new RoundRectangle2D.Double(x, y, width, height,
-		// arcWidth,
-		// arcHeight);
-		// draw(shape, "fill");
+
+		appendStroke();
+		append("newpath");
+		
+		GLine2D line = AwtFactory.prototype.newLine2D();
+		line.setLine(x + radius, y, x + width - radius, y);
+		draw(line, null, true);
+
+		GQuadCurve2D arc = AwtFactory.prototype.newQuadCurve2D();
+		arc.setCurve(x + width - radius, y, x + width, y, x + width,
+				y + radius);
+		draw(arc, null, true);
+
+		line.setLine(x + width, y + radius, x + width, y + height - radius);
+		draw(line, null, true);
+
+		arc.setCurve(x + width, y + height - radius, x + width, y + height,
+				x + width - radius, y + height);
+		draw(arc, null, true);
+
+		line.setLine(x + width - radius, y + height, x + radius, y + height);
+		draw(line, null, true);
+
+		arc.setCurve(x + radius, y + height, x, y + height, x,
+				y + height - radius);
+		draw(arc, null, true);
+
+		line.setLine(x, y + height - radius, x, y + radius);
+		draw(line, null, true);
+
+		arc.setCurve(x, y + radius, x, y, x + radius, y);
+		draw(arc, null, true);
+		
+		append("fill");
+		append("newpath");
+
 	}
 
 	/**
@@ -1040,7 +1104,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Fills a polygon.
 	 */
 	public void fillPolygon(GPolygon p) {
-		draw(p, "fill");
+		draw(p, "fill", false);
 	}
 
 	/**

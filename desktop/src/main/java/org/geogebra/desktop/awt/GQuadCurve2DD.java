@@ -69,4 +69,10 @@ public class GQuadCurve2DD implements GQuadCurve2D, GShapeD {
 		return impl;
 	}
 
+	public void setCurve(double x1, double y1, double ctrlx, double ctrly,
+			double x2, double y2) {
+		impl.setCurve(x1, y1, ctrlx, ctrly, x2, y2);
+
+	}
+
 }

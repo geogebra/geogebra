@@ -61,7 +61,7 @@ public class EpsGraphicsD extends EpsGraphics {
 					.getOutline(AffineTransform.getTranslateInstance(x, y));
 			GShape shape = new GGenericShapeD(shapeNative);
 
-			draw(shape, "fill");
+			draw(shape, "fill", false);
 		} else {
 			append("newpath");
 			GPoint2D location = transform(x, y);
