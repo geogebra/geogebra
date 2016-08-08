@@ -10,6 +10,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Event;
@@ -107,7 +108,8 @@ public class LayoutW extends Layout implements SettingListener {
 		}
 
 		// app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
-		if (((LaTeXHelper) GWT.create(LaTeXHelper.class)).supportsAV()) {
+		if (((LaTeXHelper) GWT.create(LaTeXHelper.class)).supportsAV()
+				|| app.has(Feature.RETEX_EDITOR)) {
 			app.setInputPosition(app.getArticleElement()
 					.getAlgebraPosition(perspective.getInputPosition()), false);
 		} else {
