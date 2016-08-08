@@ -203,7 +203,9 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	protected void doUpdate() {
 		setNeedsUpdate(false);
 		marblePanel.update();
-		animPanel.update();
+		if (animPanel != null) {
+			animPanel.update();
+		}
 
 		slider.setScale(app.getArticleElement().getScaleX());
 		double min = num.getIntervalMin();
