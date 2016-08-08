@@ -45,15 +45,12 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testDiv() {
-		checkCannonDiv("1/|2|", "(1)/(2)");
-		checkCannonDiv("1/|(2/|3|)|", "(1)/(((2)/(3)))");
+		checkCannon("1/2", "(1)/(2)");
+		checkCannon("1/2+3", "(1)/(2)+3");
+		checkCannon("1/ ( 2)", "(1)/((2))");
+		checkCannon("1/ ( 2+3)", "(1)/((2+3))");
+		checkCannon("1/(2/3)", "(1)/(((2)/(3)))");
 		
-	}
-
-	private static void checkCannonDiv(String input, String output) {
-		checkCannon(input.replace("|", "" + Unicode.ZERO_WIDTH_SPACE),
-				output);
-
 	}
 
 	@Test
@@ -67,7 +64,7 @@ public class SerializeLaTeX {
 		checkCannon("1 + x" + Unicode.Superscript_Minus + Unicode.Superscript_2
 				+ Unicode.Superscript_3, "1+x^(-23)");
 		checkCannon("e^x*sin(x)", "e^(x)*sin(x)");
-		checkCannonDiv("e^(-10/|x|)*sin(x)", "e^((-(10)/(x)))*sin(x)");
+		checkCannon("e^(-10/x)*sin(x)", "e^((-(10)/(x)))*sin(x)");
 
 	}
 

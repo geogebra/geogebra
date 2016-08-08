@@ -204,19 +204,18 @@ void fraction(MathContainer currentField) :
 {
     <FRACTION> {
         fraction = new MathFunction(metaModel.getGeneral("frac"));
+        //handle numerator
         MathSequence passArgs = new MathSequence();
-
         editorState.setCurrentField((MathSequence) currentField);
         editorState.setCurrentOffset(currentField.size());
-
         fraction.setArgument(0, passArgs);
         argumentHelper.passArgument(editorState, fraction);
-    }  (<SPACE>)? <FRACTION_DIVIDER> (LOOKAHEAD(2147483647) <SPACE>)? {
+    	//handle denominator
         MathSequence mathSequence = new MathSequence();
-        mathContainer(mathSequence);
+        mathAtom(mathSequence);
         fraction.setArgument(1, mathSequence);
         currentField.addArgument(fraction);
-    } (<SPACE>)? <FRACTION_DIVIDER>
+    } 
 }
 
 void subscript(MathContainer currentField) :

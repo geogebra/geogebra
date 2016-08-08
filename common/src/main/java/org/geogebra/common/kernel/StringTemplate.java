@@ -2163,16 +2163,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 				append(sb, leftStr, left, Operation.DIVIDE);
 			}
 			sb.append(" / ");
-			if (this == StringTemplate.editorTemplate) {
-				sb.append(Unicode.ZERO_WIDTH_SPACE);
-			}
+
 
 			// right wing
 			append(sb, rightStr, right, Operation.POWER); // not
 
-			if (this == StringTemplate.editorTemplate) {
-				sb.append(Unicode.ZERO_WIDTH_SPACE);
-			}
+
 			// +,
 			// -,
 			// *,
