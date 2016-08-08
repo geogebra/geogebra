@@ -39,8 +39,12 @@ public class GeoFactory {
 	/**
 	 * Creates a new GeoElement object for the given type string.
 	 * 
+	 * @param cons1
+	 *            construction
+	 * 
 	 * @param type
 	 *            String as produced by GeoElement.getXMLtypeString()
+	 * @return created element
 	 */
 	public GeoElement createGeoElement(Construction cons1, String type) {
 		// the type strings are the classnames in lowercase without the
@@ -147,6 +151,11 @@ public class GeoFactory {
 		}
 	}
 
+	/**
+	 * @param cons2
+	 *            construction
+	 * @return implicit curve
+	 */
 	public GeoImplicit newImplicitPoly(Construction cons2) {
 		return new GeoImplicitCurve(cons2);
 	}
@@ -184,6 +193,13 @@ public class GeoFactory {
 		return geo.copyInternal(cons1);
 	}
 
+	/**
+	 * @param dim
+	 *            dimension
+	 * @param cons
+	 *            construction
+	 * @return conic
+	 */
 	public GeoConicND newConic(int dim, Construction cons) {
 		return new GeoConic(cons);
 	}

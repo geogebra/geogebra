@@ -44,6 +44,8 @@ public interface GeoGebraCasInterface {
 	 *            includes internal command names
 	 * @param input
 	 *            includes localized command names
+	 * @param kernel
+	 *            kernel
 	 * @return whether the two input expressions are structurally equal
 	 */
 	public boolean isStructurallyEqual(ValidExpression inputVE, String input,
@@ -89,6 +91,8 @@ public interface GeoGebraCasInterface {
 	 *            arbitrary constant handler
 	 * @param tpl
 	 *            string template
+	 * @param kernel
+	 *            kernel
 	 * @return result string in GeoGebra syntax (null possible)
 	 * @throws CASException
 	 *             if there is a timeout or the expression cannot be evaluated
@@ -106,6 +110,10 @@ public interface GeoGebraCasInterface {
 	 *            Arbitrary constant handler
 	 * @param tpl
 	 *            String template for result
+	 * @param cell
+	 *            CAS cell
+	 * @param kernel
+	 *            kernel
 	 * @return evaluation result
 	 * @throws CASException
 	 *             if there is a timeout or the expression cannot be evaluated
@@ -156,6 +164,11 @@ public interface GeoGebraCasInterface {
 	 */
 	public void clearCache();
 
+	/**
+	 * @param string
+	 *            signature, eg Midpoint.2
+	 * @return command for particular CAS
+	 */
 	public String translateCommandSignature(String string);
 
 }

@@ -38,6 +38,10 @@ public interface CASGenericInterface extends SettingListener {
 	 *            arbitrary constant handler
 	 * @param tpl
 	 *            string template
+	 * @param cell
+	 *            CAS cell
+	 * @param kernel
+	 *            kernel
 	 * @return evaluation result
 	 * @throws CASException
 	 *             if evaluation fails
@@ -87,6 +91,8 @@ public interface CASGenericInterface extends SettingListener {
 	 *            input
 	 * @param arbconst
 	 *            constant handler
+	 * @param kernel
+	 *            kernel
 	 * @return evaluated input
 	 */
 	public ExpressionValue evaluateToExpression(
@@ -167,6 +173,9 @@ public interface CASGenericInterface extends SettingListener {
 	 */
 	void clearResult();
 
+	/**
+	 * @return whether loading is finished
+	 */
 	boolean isLoaded();
 
 }

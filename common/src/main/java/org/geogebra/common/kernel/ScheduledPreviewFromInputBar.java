@@ -17,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class ScheduledPreviewFromInputBar implements Runnable {
 
-	private static final int DEFAULT_MAX_LENGTH = 1000;
+	private static final int DEFAULT_MAX_LENGTH = 5;
 	/**
 	 * 
 	 */
@@ -40,10 +40,10 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		this.input = str;
 		this.validation = validation;
 		if (str.length() == 0) {
-			validInput = "";
 			maxLength = DEFAULT_MAX_LENGTH;
 		}
 		if (str.length() > maxLength || str.length() == 0) {
+			validInput = null;
 			Log.debug("Timeout at length " + maxLength);
 			return;
 		}

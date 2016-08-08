@@ -215,7 +215,7 @@ public abstract class Transform {
 	 */
 
 	public GeoElement getTransformedLine(GeoLineND line) {
-		GeoElement ret = doTransform((GeoElement) line);
+		GeoElement ret = doTransform(line);
 		ret.setVisualStyleForTransformations((GeoElement) line);
 		return ret;
 	}

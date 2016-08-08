@@ -77,6 +77,8 @@ public interface View {
 
 	/**
 	 * Suggest repaint now
+	 * 
+	 * @return true when repaint happened or is planned, false when sleeping
 	 */
 	public boolean suggestRepaint();
 
@@ -95,6 +97,8 @@ public interface View {
 	 * 
 	 * @param mode
 	 *            Euclidian view mode
+	 * @param m
+	 *            how did the mode change happen
 	 */
 	public void setMode(int mode, ModeSetter m);
 
@@ -103,13 +107,29 @@ public interface View {
 	 */
 	public int getViewID();
 
+	/**
+	 * @return whether this view is focused
+	 */
 	public boolean hasFocus();
 
+	/**
+	 * @return whether this view is visible
+	 */
 	public boolean isShowing();
 
+	/**
+	 * Notification for update batch
+	 */
 	public void startBatchUpdate();
 
+	/**
+	 * Notification for end of update batch
+	 */
 	public void endBatchUpdate();
 
+	/**
+	 * @param geos
+	 *            input bar elements
+	 */
 	public void updatePreviewFromInputBar(GeoElement[] geos);
 }
