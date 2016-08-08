@@ -3996,6 +3996,12 @@ public abstract class App implements UpdateSelection {
 		case OBJECT_COLOR_IN_LIST:
 			return prerelease;
 
+		case MOBILE_OUTPUT_ROW:
+			return prerelease;
+
+		case MOBILE_FRACTIONS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
