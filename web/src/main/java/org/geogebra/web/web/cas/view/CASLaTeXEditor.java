@@ -46,7 +46,9 @@ public class CASLaTeXEditor extends SimplePanel
 		Canvas canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(canvas, canvas.getContext2d(), this);
 		retexListener = new RetexKeyboardListener(canvas, mf);
-		setText("");
+		setWidget(mf);
+		// TODO should not be necessary
+		mf.setFocus(true);
 
 	}
 
@@ -130,7 +132,9 @@ public class CASLaTeXEditor extends SimplePanel
 	}
 
 	public void setFocus(boolean focus, boolean scheduled) {
-
+		if (focus) {
+		Log.printStacktrace("FOCUS");
+		}
 		setWidget(focus ? mf.asWidget()
 				: new Label(app.getPlain("InputLabel") + Unicode.ellipsis));
 		mf.setFocus(focus);

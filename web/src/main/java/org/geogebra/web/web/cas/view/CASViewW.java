@@ -174,6 +174,7 @@ public class CASViewW extends CASView implements PrintableW {
 				app1.showKeyboard(getEditor(), force);
 				getConsoleTable().startEditingRow(
 						getConsoleTable().getRowCount() - 1);
+				getEditor().setFocus(true, true);
 			}
 		});
 		/*

@@ -48,7 +48,9 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	public void setLabels() {
-		getEditor().setLabels();
+		if (hasEditor()) {
+			getEditor().setLabels();
+		}
 
 	}
 
@@ -424,5 +426,9 @@ public class CASTableW extends Grid implements CASTable {
 			startEditingRow(i, cellInput);
 		}
 
+	}
+
+	public boolean hasEditor() {
+		return this.editor != null;
 	}
 }
