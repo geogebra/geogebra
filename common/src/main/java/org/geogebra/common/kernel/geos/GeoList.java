@@ -45,11 +45,9 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
-import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
-import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -2791,6 +2789,8 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	public void replaceChildrenByValues(GeoElement vars) {
 		if(this.elementType != GeoClass.FUNCTION &&
 				this.elementType != GeoClass.CURVE_CARTESIAN &&
+				this.elementType != GeoClass.CURVE_CARTESIAN3D
+				&&
 				this.elementType != GeoClass.FUNCTION_NVAR &&
 				this.elementType != GeoClass.SURFACECARTESIAN3D &&
 				this.elementType != GeoClass.LIST &&
@@ -2798,24 +2798,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			return;
 		}
 		for(GeoElement listElement:this.geoList){
-			if (listElement.isGeoFunction()
-					|| listElement.isGeoFunctionBoolean()) {
-				GeoFunction f = (GeoFunction) listElement;
+			if (listElement instanceof CasEvaluableFunction) {
+				CasEvaluableFunction f = (CasEvaluableFunction) listElement;
 				f.replaceChildrenByValues(vars);
-			}
-			// GeoCurve
-			else if (listElement.isGeoCurveCartesian()) {
-				GeoCurveCartesianND curve = (GeoCurveCartesianND) listElement;
-				curve.replaceChildrenByValues(vars);
-			}
-
-			else if (listElement.isGeoFunctionNVar()) {
-				GeoFunctionNVar fnv = (GeoFunctionNVar) listElement;
-				fnv.replaceChildrenByValues(vars);
-			}
-			else if (listElement.isGeoSurfaceCartesian()) {
-				GeoSurfaceCartesianND surface = (GeoSurfaceCartesianND) listElement;
-				surface.replaceChildrenByValues(vars);
 			}
 
 			else if(listElement.isGeoList()){
