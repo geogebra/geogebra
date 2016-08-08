@@ -31,7 +31,38 @@ import com.google.gwt.user.client.ui.Label;
 
 public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		KeyHandler, MouseDownHandler, MouseUpHandler, CancelListener {
+	public static MinMaxPanel openedMinMaxPanel = null;
+	/**
+	 * Closes min/max/step settings panel of the slider and restores its size if
+	 * needed.
+	 */
+	public static void closeMinMaxPanel() {
+		closeMinMaxPanel(true);
+	}
 
+	/**
+	 * Closes min/max/step settings panel of the slider.
+	 * 
+	 * @param restore
+	 *            Decides if the item size should be restored (AV was too arrow
+	 *            to fit min/max panel) or not.
+	 */
+	public static void closeMinMaxPanel(boolean restore) {
+		if (openedMinMaxPanel == null) {
+			return;
+		}
+
+		openedMinMaxPanel.hide(restore);
+		openedMinMaxPanel = null;
+
+	}
+
+	/**
+	 * Sets the currently open min/max panel of AV.
+	 */
+	public void setOpenedMinMaxPanel(MinMaxPanel panel) {
+		openedMinMaxPanel = panel;
+	}
 
 
 	/**
@@ -174,7 +205,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		this.sliderTreeItem.setSliderVisible(false);
 		setVisible(true);
 		setKeepOpen(true);
-		sliderTreeItem.setOpenedMinMaxPanel(this);
+		setOpenedMinMaxPanel(this);
 		this.sliderTreeItem.setAnimPanelVisible(false);
 	}
 

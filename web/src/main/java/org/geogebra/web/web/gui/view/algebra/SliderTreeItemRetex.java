@@ -45,7 +45,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 	private static final int SLIDER_EXT = 15;
 	private static final int DEFAULT_SLIDER_WIDTH = 100;
-	private static MinMaxPanel openedMinMaxPanel = null;
+
 
 	/**
 	 * Slider to be shown as part of the extended Slider entries
@@ -113,7 +113,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 					if (!geo.isAnimating()) {
 						if (isAnotherMinMaxOpen()) {
-							closeMinMaxPanel();
+							MinMaxPanel.closeMinMaxPanel();
 						}
 
 						selectItem(true);
@@ -171,11 +171,12 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	 * @return true if another SliderTreeItem's min/max panel is showing.
 	 */
 	boolean isAnotherMinMaxOpen() {
-		return (openedMinMaxPanel != null && openedMinMaxPanel != minMaxPanel);
+		return (MinMaxPanel.openedMinMaxPanel != null
+				&& MinMaxPanel.openedMinMaxPanel != minMaxPanel);
 	}
 
 	private boolean isClickedOutMinMax(int x, int y) {
-		return (openedMinMaxPanel == minMaxPanel
+		return (MinMaxPanel.openedMinMaxPanel == minMaxPanel
 				&& !isWidgetHit(minMaxPanel, x, y));
 	}
 
@@ -284,7 +285,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 				&& isWidgetHit(slider.getWidget(2), x, y);
 		// Min max panel should be closed
 		if (isAnotherMinMaxOpen() || isClickedOutMinMax(x, y)) {
-			closeMinMaxPanel(!(minHit || maxHit));
+			MinMaxPanel.closeMinMaxPanel(!(minHit || maxHit));
 		}
 
 		if (isAnotherMinMaxOpen()) {
@@ -336,37 +337,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		super.onResize();
 	}
 
-	/**
-	 * Closes min/max/step settings panel of the slider and restores its size if
-	 * needed.
-	 */
-	public static void closeMinMaxPanel() {
-		closeMinMaxPanel(true);
-	}
 
-	/**
-	 * Closes min/max/step settings panel of the slider.
-	 * 
-	 * @param restore
-	 *            Decides if the item size should be restored (AV was too arrow
-	 *            to fit min/max panel) or not.
-	 */
-	public static void closeMinMaxPanel(boolean restore) {
-		if (openedMinMaxPanel == null) {
-			return;
-		}
-
-		openedMinMaxPanel.hide(restore);
-		openedMinMaxPanel = null;
-
-	}
-
-	/**
-	 * Sets the currently open min/max panel of AV.
-	 */
-	public void setOpenedMinMaxPanel(MinMaxPanel panel) {
-		openedMinMaxPanel = panel;
-	}
 
 	@Override
 	public void setDraggable() {

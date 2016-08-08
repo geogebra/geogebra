@@ -25,6 +25,7 @@ import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.web.gui.view.algebra.MinMaxPanel;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -689,7 +690,7 @@ public class InputTreeItem extends MathQuillTreeItem
 		super.onFocus(event);
 
 		getAV().getSelectionCtrl().clear();
-		SliderTreeItemMQ.closeMinMaxPanel();
+		MinMaxPanel.closeMinMaxPanel();
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER) && plusButton != null) {
 			plusButton.setVisible(false);

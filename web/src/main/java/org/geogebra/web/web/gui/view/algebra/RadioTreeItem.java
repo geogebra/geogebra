@@ -222,7 +222,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected boolean latex = false;
 	protected boolean editing = false;
 
-	protected FlowPanel latexItem;
+	public FlowPanel latexItem;
 	private FlowPanel plainTextItem;
 
 	protected FlowPanel ihtml;

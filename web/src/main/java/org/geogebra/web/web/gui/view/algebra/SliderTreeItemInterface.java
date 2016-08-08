@@ -31,7 +31,6 @@ public interface SliderTreeItemInterface {
 
 	void setSliderVisible(boolean visible);
 
-	void setOpenedMinMaxPanel(MinMaxPanel minMaxPanel);
 
 	void setAnimPanelVisible(boolean visible);
 
