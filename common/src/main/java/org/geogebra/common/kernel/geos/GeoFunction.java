@@ -2934,7 +2934,9 @@ CasEvaluableFunction, ParametricCurve,
 	}
 
 	public void updateCASEvalMap(TreeMap<String, String> map) {
-		fun.updateCASEvalMap(map);
+		if (fun != null) {
+			fun.updateCASEvalMap(map);
+		}
 	}
 
 	public double evaluate(double x, double y) {
