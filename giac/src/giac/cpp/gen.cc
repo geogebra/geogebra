@@ -7167,6 +7167,8 @@ namespace giac {
     if (p.coord.empty())
       return zero;
     gen d=gcd(Tcontent<gen>(p),e,context0);
+    if (d.type==_EXT)
+      d=_gcd(*d._EXTptr,context0);
     if (is_one(d)){
       if (e==cst_i || e==minus_one || e==-cst_i)
 	return p/e;
@@ -9754,7 +9756,9 @@ namespace giac {
 	    ((d._CPLXptr+1)->type==_DOUBLE_ || (d._CPLXptr+1)->type==_FLOAT_)) )
 	 ){
       gen dd=no_context_evalf(d);
-      n=rdiv(no_context_evalf(n),dd,context0); 
+      gen nn=no_context_evalf(n);
+      // if (d==dd && n==nn) return 1; // avoid infinite recursion?
+      n=rdiv(nn,dd,context0); 
       d=plus_one;
       return dd;
     }
@@ -14940,6 +14944,14 @@ namespace giac {
       double xscale=window_xmax-window_xmin,yscale=window_ymax-window_ymin;
       double ratio=yscale/xscale;
       double gratio=0.6,gwidth=9;
+      gwidth=EM_ASM_DOUBLE_V({
+	  var hw=window.innerWidth;
+	  if (hw>=1000)
+	    return 9.0*hw/1000.0;
+	  else
+	    return hw/60.0;
+	});
+      //CERR << gwidth << endl;
       if (ratio<gratio/3 || ratio>3*gratio) ortho=false; else ortho=true;
       if (ortho){
 	if (ratio>gratio){ // yscale>gratio*xscale, use yscale for x
