@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.cas;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -36,7 +39,6 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 			CasEvaluableFunction f, EvalInfo info) {
 		super(cons);
 		this.nocas = !info.isUsingCAS();
-		Log.printStacktrace(nocas + "NOCAS");
 		cons.addCASAlgo(this);
 		this.f = f;
 		/** g is created in compute */
@@ -147,9 +149,8 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		boolean ok = false;
 		try {
 			// TODO put caching back
-			Log.debug("NOCAS" + nocas);
 			functionOut = kernel.evaluateGeoGebraCAS(casString,
-					nocas ? null : arbconst);
+					nocas ? getSilentArbConst() : arbconst);
 			boolean flag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			GeoElement[] res = kernel.getAlgebraProcessor()
@@ -180,6 +181,16 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 				g = new GeoFunction(cons);
 			}
 		}
+	}
+
+	private MyArbitraryConstant getSilentArbConst() {
+		return new MyArbitraryConstant(this) {
+			@Override
+			protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
+					Map<Integer, GeoNumeric> map, String prefix, double index) {
+				return new GeoNumeric(cons, 0.0);
+			}
+		};
 	}
 
 	/**
