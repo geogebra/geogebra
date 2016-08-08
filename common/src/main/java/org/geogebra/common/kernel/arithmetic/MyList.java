@@ -24,6 +24,7 @@ import java.util.HashSet;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
@@ -813,10 +814,10 @@ public class MyList extends ValidExpression implements ListValue,
 		return listElements.size();
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(EvalInfo info) {
 		for (int i = 0; i < listElements.size(); i++) {
 			ExpressionValue en = listElements.get(i);
-			en.resolveVariables();
+			en.resolveVariables(info);
 		}
 	}
 

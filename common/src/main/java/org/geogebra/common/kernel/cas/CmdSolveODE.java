@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
@@ -28,7 +29,7 @@ public class CmdSolveODE extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
@@ -39,7 +40,7 @@ public class CmdSolveODE extends CommandProcessor {
 			if ((arg[0] instanceof CasEvaluableFunction)) {
 
 				AlgoSolveODECas algo = new AlgoSolveODECas(cons, c.getLabel(),
-						(CasEvaluableFunction) arg[0]);
+						(CasEvaluableFunction) arg[0], info);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

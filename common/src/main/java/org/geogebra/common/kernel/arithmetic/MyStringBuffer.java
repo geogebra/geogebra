@@ -16,6 +16,7 @@ import java.util.HashSet;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -73,7 +74,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return temp.toString();
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(EvalInfo info) {
 		// MyStringBuffer never has variables
 	}
 

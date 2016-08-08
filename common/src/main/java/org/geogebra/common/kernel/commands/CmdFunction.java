@@ -36,10 +36,10 @@ public class CmdFunction extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
-
+		EvalInfo argInfo = info.withLabels(false);
 		String varName = null;
 		ExpressionNode expr;
 		boolean mayUseIndependent;
@@ -157,8 +157,8 @@ public class CmdFunction extends CommandProcessor {
 							.isSuppressLabelsActive();
 					kernelA.getConstruction().setSuppressLabelCreation(true);
 
-					c.getArgument(1).resolveVariables();
-					c.getArgument(2).resolveVariables();
+					c.getArgument(1).resolveVariables(argInfo);
+					c.getArgument(2).resolveVariables(argInfo);
 					EvalInfo silent = new EvalInfo(false);
 					GeoFunction condFun;
 					if (c.getArgument(0).unwrap() instanceof Command) {
@@ -167,7 +167,7 @@ public class CmdFunction extends CommandProcessor {
 										(Command) c.getArgument(0).unwrap(),
 										silent)[0];
 					} else {
-						c.getArgument(0).resolveVariables();
+						c.getArgument(0).resolveVariables(argInfo);
 						condFun = (GeoFunction) kernelA.getAlgebraProcessor()
 								.processFunction(
 										new Function(c.getArgument(0), fv),
@@ -182,7 +182,7 @@ public class CmdFunction extends CommandProcessor {
 					if (!(high instanceof NumberValue))
 						throw argErr(app, c.getName(), high);
 					c.getArgument(1).replaceVariables(varName, fv);
-					c.getArgument(0).resolveVariables();
+					c.getArgument(0).resolveVariables(argInfo);
 
 					kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
 					return new GeoElement[] { Function(c.getLabel(), condFun,

@@ -114,7 +114,7 @@ public class ParametricProcessor {
 						.traverse(
 								VariableReplacer.getReplacer(varName, fv,
 										kernel)).wrap();
-				exp.resolveVariables();
+				exp.resolveVariables(new EvalInfo(false));
 				GeoElement[] ret = processParametricFunction(exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
 						new FunctionVariable[] { fv },
@@ -141,7 +141,7 @@ public class ParametricProcessor {
 						.traverse(
 								VariableReplacer.getReplacer(varName, fv,
 										kernel)).wrap();
-				exp.resolveVariables();
+				exp.resolveVariables(info);
 				GeoElement[] ret = processParametricFunction(exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
 						new FunctionVariable[] { fv },
@@ -498,7 +498,7 @@ public class ParametricProcessor {
 						.traverse(
 								VariableReplacer.getReplacer(varName, fv,
 										kernel)).wrap();
-				exp.resolveVariables();
+				exp.resolveVariables(info);
 				boolean flag = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
 				GeoElement[] ret = processParametricFunction(exp,
@@ -536,7 +536,7 @@ public class ParametricProcessor {
 		ExpressionNode exp = equ.getRHS().deepCopy(kernel)
 				.traverse(VariableReplacer.getReplacer(varName, fv, kernel))
 				.wrap();
-		exp.resolveVariables();
+		exp.resolveVariables(info);
 		GeoElement[] ret = processParametricFunction(exp,
 				exp.evaluate(StringTemplate.defaultTemplate),
 				new FunctionVariable[] { fv },

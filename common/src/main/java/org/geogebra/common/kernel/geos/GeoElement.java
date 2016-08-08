@@ -75,6 +75,7 @@ import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -813,7 +814,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		return copy();
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(EvalInfo info) {
 		//do nothing
 	}
 

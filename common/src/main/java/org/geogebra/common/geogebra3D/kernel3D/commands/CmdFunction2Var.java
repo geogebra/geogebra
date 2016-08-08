@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdFunction;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -23,7 +24,7 @@ public class CmdFunction2Var extends CmdFunction {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -101,7 +102,7 @@ public class CmdFunction2Var extends CmdFunction {
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 		}
 
-		return super.process(c);
+		return super.process(c, info);
 	}
 
 }

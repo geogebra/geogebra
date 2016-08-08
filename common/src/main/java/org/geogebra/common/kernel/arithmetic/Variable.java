@@ -22,6 +22,7 @@ import java.util.HashSet;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -277,7 +278,7 @@ public class Variable extends ValidExpression {
 		return ret;
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(EvalInfo info) {
 		// this has to be handled in ExpressionNode
 	}
 

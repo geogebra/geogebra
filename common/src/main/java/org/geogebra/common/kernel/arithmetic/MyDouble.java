@@ -24,6 +24,7 @@ import java.util.HashSet;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoVec2D;
@@ -164,7 +165,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		val = x;
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(EvalInfo info) {
 		// do nothing
 	}
 

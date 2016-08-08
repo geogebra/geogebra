@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -16,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
  * @author zbynek
  *
  */
-public class AlgoSolveODECas extends AlgoUsingTempCASalgo implements UsesCAS {
+public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	private CasEvaluableFunction f;
 	private GeoElement g;
 	private GeoPointND pt;
@@ -28,10 +29,14 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo implements UsesCAS {
 	 *            label for output
 	 * @param f
 	 *            input function
+	 * @param info
+	 *            eval info
 	 */
 	public AlgoSolveODECas(Construction cons, String label,
-			CasEvaluableFunction f) {
+			CasEvaluableFunction f, EvalInfo info) {
 		super(cons);
+		this.nocas = !info.isUsingCAS();
+		Log.printStacktrace(nocas + "NOCAS");
 		cons.addCASAlgo(this);
 		this.f = f;
 		/** g is created in compute */
@@ -82,6 +87,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo implements UsesCAS {
 	}
 
 	private String oldCASstring;
+	private boolean nocas = false;
 
 	@Override
 	public void compute() {
@@ -141,7 +147,9 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo implements UsesCAS {
 		boolean ok = false;
 		try {
 			// TODO put caching back
-			functionOut = kernel.evaluateGeoGebraCAS(casString, arbconst);
+			Log.debug("NOCAS" + nocas);
+			functionOut = kernel.evaluateGeoGebraCAS(casString,
+					nocas ? null : arbconst);
 			boolean flag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			GeoElement[] res = kernel.getAlgebraProcessor()

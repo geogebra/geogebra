@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.roots.RealRootDerivFunction;
@@ -744,7 +745,7 @@ public class Function extends FunctionNVar implements
 	private ExpressionNode evaluateToExpressionNode(String str) {
 		try {
 			ExpressionNode en = kernel.getParser().parseExpression(str);
-			en.resolveVariables();
+			en.resolveVariables(new EvalInfo(false));
 			return en;
 		} catch (Exception e) {
 			e.printStackTrace();

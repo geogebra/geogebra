@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.main.MyParseError;
@@ -94,10 +95,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue,
 	}
 
 	@Override
-	public void resolveVariables() {
-		x.resolveVariables();
-		y.resolveVariables();
-		z.resolveVariables();
+	public void resolveVariables(EvalInfo info) {
+		x.resolveVariables(info);
+		y.resolveVariables(info);
+		z.resolveVariables(info);
 	}
 
 	/**

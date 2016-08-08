@@ -142,17 +142,17 @@ public abstract class CommandProcessor {
 		// resolve arguments to get GeoElements
 		ExpressionNode[] arg = c.getArguments();
 		// name of replace variable of "x"/"y"
-
+		EvalInfo argInfo = info.withLabels(false);
 		String[] newXYZ = replaceXYarguments(arg);
 		GeoElement[] result = new GeoElement[arg.length];
 
 		for (int i = 0; i < arg.length; ++i) {
 			// resolve variables in argument expression
-			arg[i].resolveVariables();
+			arg[i].resolveVariables(argInfo);
 
 			// resolve i-th argument and get GeoElements
 			// use only first resolved argument object for result
-			result[i] = resArg(arg[i], info)[0];
+			result[i] = resArg(arg[i], argInfo)[0];
 		}
 
 		// remove added variables from construction
@@ -222,7 +222,8 @@ public abstract class CommandProcessor {
 	 *             when arguments contain errors, eg. invalid operation in exp
 	 *             node
 	 */
-	protected final GeoElement[] resArgs(Command c, boolean keepCAScells)
+	protected final GeoElement[] resArgs(Command c, boolean keepCAScells,
+			EvalInfo info)
 			throws MyError {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
@@ -230,17 +231,17 @@ public abstract class CommandProcessor {
 		// resolve arguments to get GeoElements
 		ExpressionNode[] arg = c.getArguments();
 		GeoElement[] result = new GeoElement[arg.length];
-
+		EvalInfo argInfo = info.withLabels(false);
 		for (int i = 0; i < arg.length; ++i) {
 			// resolve variables in argument expression
-			arg[i].resolveVariables();
+			arg[i].resolveVariables(argInfo);
 			if (keepCAScells && arg[i].unwrap() instanceof GeoCasCell) {
 				result[i] = (GeoElement) arg[i].unwrap();
 			} else {
 
 				// resolve i-th argument and get GeoElements
 				// use only first resolved argument object for result
-				result[i] = resArg(arg[i], new EvalInfo(false))[0];
+				result[i] = resArg(arg[i], argInfo)[0];
 
 			}
 		}

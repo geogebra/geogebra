@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.TokenMgrError;
@@ -168,7 +169,7 @@ public abstract class TextPreviewer {
 		// resolve variables and evaluate the expression
 		if (!(hasParseError)) {
 			try {
-				exp.resolveVariables();
+				exp.resolveVariables(new EvalInfo(false));
 				isIndependent = exp.isConstant();
 				eval = exp.evaluate(tpl);
 			}

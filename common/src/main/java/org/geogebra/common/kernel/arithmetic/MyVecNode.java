@@ -23,6 +23,7 @@ import java.util.HashSet;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.main.MyParseError;
@@ -83,9 +84,9 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 		return ret;
 	}
 
-	public void resolveVariables() {
-		x.resolveVariables();
-		y.resolveVariables();
+	public void resolveVariables(EvalInfo info) {
+		x.resolveVariables(info);
+		y.resolveVariables(info);
 	}
 
 	/**

@@ -24,14 +24,14 @@ public class CmdLaTeX extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
 		switch (n) {
 		case 1:
 
-			arg = resArgs(c, true);
+			arg = resArgs(c, true, info);
 			AlgoLaTeX algo = new AlgoLaTeX(cons, c.getLabel(), arg[0]);
 
 			GeoElement[] ret = { algo.getGeoText() };
@@ -39,7 +39,7 @@ public class CmdLaTeX extends CommandProcessor {
 
 		case 2:
 
-			arg = resArgs(c, true);
+			arg = resArgs(c, true, info);
 			if (arg[1].isGeoBoolean()) {
 				GeoElement[] ret2 = { LaTeX(c.getLabel(), arg[0],
 						(GeoBoolean) arg[1], null) };
@@ -49,7 +49,7 @@ public class CmdLaTeX extends CommandProcessor {
 
 		case 3:
 
-			arg = resArgs(c, true);
+			arg = resArgs(c, true, info);
 			if (arg[1].isGeoBoolean() && arg[2].isGeoBoolean()) {
 				GeoElement[] ret2 = { LaTeX(c.getLabel(), arg[0],
 						(GeoBoolean) arg[1], (GeoBoolean) arg[2]) };

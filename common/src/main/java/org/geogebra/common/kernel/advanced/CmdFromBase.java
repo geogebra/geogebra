@@ -27,7 +27,7 @@ public class CmdFromBase extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
@@ -42,13 +42,13 @@ public class CmdFromBase extends CommandProcessor {
 			ExpressionNode[] argE = c.getArguments();
 			GeoElement[] arg = new GeoElement[2];
 
-			argE[1].resolveVariables();
+			argE[1].resolveVariables(info.withLabels(false));
 			arg[1] = resArg(argE[1], argInfo)[0];
 			if (!(arg[1] instanceof GeoNumberValue))
 				throw argErr(app, c.getName(), arg[1]);
 			String str = argE[0].toString(StringTemplate.defaultTemplate);
 			try {
-				argE[0].resolveVariables();
+				argE[0].resolveVariables(info.withLabels(false));
 				arg[0] = resArg(argE[0], argInfo)[0];
 			} catch (Throwable t) {
 				// do nothing

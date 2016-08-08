@@ -1078,7 +1078,7 @@ public class AlgebraProcessor {
 		try {
 			ValidExpression ve = parser.parseExpression(str);
 			ExpressionNode en = (ExpressionNode) ve;
-			en.resolveVariables();
+			en.resolveVariables(new EvalInfo(false));
 			NumberValue nv = (NumberValue) en
 					.evaluate(StringTemplate.defaultTemplate);
 			if (forGeo != null) {
@@ -1853,7 +1853,7 @@ public class AlgebraProcessor {
 							VariableReplacer.getReplacer(varName,
 									fun.getFunctionVariable(), kernel))
 					.wrap();
-			exp.resolveVariables();
+			exp.resolveVariables(info);
 			GeoElement[] ret = getParamProcessor().processParametricFunction(
 					exp,
 					exp.evaluate(StringTemplate.defaultTemplate),
@@ -2629,7 +2629,7 @@ public class AlgebraProcessor {
 		// extended processExpressionNode
 
 		// ELSE: resolve variables and evaluate expressionnode
-		n.resolveVariables();
+		n.resolveVariables(info);
 		String label = n.getLabel();
 		if (n.containsFreeFunctionVariable(null)) {
 			Set<String> fvSet = new TreeSet<String>();

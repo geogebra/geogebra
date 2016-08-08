@@ -41,6 +41,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		this.validation = validation;
 		if (str.length() == 0) {
 			validInput = "";
+			maxLength = DEFAULT_MAX_LENGTH;
 		}
 		if (str.length() > maxLength || str.length() == 0) {
 			Log.debug("Timeout at length " + maxLength);
@@ -55,12 +56,15 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				validInput = input;
 			}
 		} catch (MyError t) {
+			t.printStackTrace();
 			ErrorHelper.handleError(t, null, kernel.getLocalization(),
 					validation);
 		} catch (Exception e) {
+			e.printStackTrace();
 			ErrorHelper.handleException(e, kernel.getApplication(),
 					validation);
 		} catch (Error e) {
+			e.printStackTrace();
 			ErrorHelper.handleException(new Exception(e),
 					kernel.getApplication(), validation);
 		}

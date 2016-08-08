@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import org.geogebra.common.kernel.arithmetic.Traversing.CopyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -172,8 +173,8 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		return expression;
 	}
 
-	public void resolveVariables() {
-		expression.resolveVariables();
+	public void resolveVariables(EvalInfo info) {
+		expression.resolveVariables(info);
 	}
 
 	/**
@@ -303,7 +304,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 		}
 
 		// replace variable names by objects
-		expression.resolveVariables();
+		expression.resolveVariables(new EvalInfo(false));
 
 		// the idea here was to allow something like: Derivative[f] + 3x
 		// but wrapping the GeoFunction objects as ExpressionNodes of type

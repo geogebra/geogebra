@@ -69,7 +69,7 @@ public class CmdIf extends CommandProcessor {
 			int r = kernelA.getAlgebraProcessor()
 					.replaceVariables(c.getArgument(0), varName, fv);
 			if (r > 0) {
-				return specialFunction(c, varName, fv);
+				return specialFunction(c, varName, fv, info);
 			}
 		}
 		arg = resArgs(c, info);
@@ -147,8 +147,8 @@ public class CmdIf extends CommandProcessor {
 	}
 
 	private GeoElement[] specialFunction(Command c, String[] varName,
-			FunctionVariable[] fv) {
-
+			FunctionVariable[] fv, EvalInfo info) {
+		EvalInfo argInfo = info.withLabels(false);
 		boolean oldFlag = kernelA.getConstruction().isSuppressLabelsActive();
 		kernelA.getConstruction().setSuppressLabelCreation(true);
 		ArrayList<FunctionalNVar> conditions = new ArrayList<FunctionalNVar>();
@@ -159,7 +159,7 @@ public class CmdIf extends CommandProcessor {
 		for (int i = 0; i < n - 1; i += 2) {
 			kernelA.getAlgebraProcessor().replaceVariables(c.getArgument(i),
 					varName, fv);
-			FunctionalNVar current = resolveFunction(c, i, fv, vars);
+			FunctionalNVar current = resolveFunction(c, i, fv, vars, argInfo);
 			if (current.isBooleanFunction()) {
 				conditions.add(current);
 			} else {
@@ -168,13 +168,13 @@ public class CmdIf extends CommandProcessor {
 			kernelA.getAlgebraProcessor().replaceVariables(c.getArgument(i + 1),
 					varName, fv);
 			vars = checkAdd(c, functions,
-					(GeoElement) resolveFunction(c, i + 1, fv, vars), vars);
+					(GeoElement) resolveFunction(c, i + 1, fv, vars, argInfo), vars);
 		}
 		if (n % 2 == 1) {
 			kernelA.getAlgebraProcessor().replaceVariables(c.getArgument(n - 1),
 					varName, fv);
 			vars = checkAdd(c, functions,
-					(GeoElement) resolveFunction(c, n - 1, fv, vars), vars);
+					(GeoElement) resolveFunction(c, n - 1, fv, vars, argInfo), vars);
 		}
 
 		kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
@@ -182,9 +182,9 @@ public class CmdIf extends CommandProcessor {
 	}
 
 	private FunctionalNVar resolveFunction(Command c, int i,
-			FunctionVariable[] fv, int vars) {
+			FunctionVariable[] fv, int vars, EvalInfo argInfo) {
 		ExpressionNode arg = c.getArgument(i);
-		arg.resolveVariables();
+		arg.resolveVariables(argInfo);
 		// If we have a ready function rather than expression, just use it #4674
 		if (arg.unwrap() instanceof GeoFunction
 				|| arg.unwrap() instanceof GeoFunctionNVar) {

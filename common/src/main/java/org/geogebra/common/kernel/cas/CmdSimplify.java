@@ -31,7 +31,7 @@ public class CmdSimplify extends CommandProcessor {
 	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+		arg = resArgs(c, info);
 		AlgoElement algo;
 		switch (n) {
 		case 1:

@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.NonFunctionCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.NonFunctionReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -141,7 +142,7 @@ public class CASparser implements CASParserInterface {
 		}
 		// resolve variables of valid expression
 		kernel.setResolveUnkownVarsAsDummyGeos(true);
-		ev.resolveVariables();
+		ev.resolveVariables(new EvalInfo(false));
 		kernel.setResolveUnkownVarsAsDummyGeos(false);
 
 		Set<String> nonFunctions = new TreeSet<String>();

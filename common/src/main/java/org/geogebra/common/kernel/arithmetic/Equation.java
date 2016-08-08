@@ -233,25 +233,9 @@ public class Equation extends ValidExpression implements EquationValue {
 	 * MyError (InvalidEquation).
 	 */
 	public void initEquation() {
-		/*
-		 * ExpressionNode en=lhs.getCopy(kernel); en.makePolynomialTree(); //
-		 * en.evaluate(); lhs=en;
-		 */
-		// boolean valid = lhs.includesPolynomial() || rhs.includesPolynomial();
-		//
-		// if (!valid)
-		// throw new MyError(kernel.getApplication(), "InvalidEquation");
 
-		// replace GeoDummyVariables for "x", "y", "z" which may be coming from
-		// CAS view
-		/*
-		 * traverse(GeoDummyReplacer.getReplacer("x", new Polynomial(kernel,
-		 * "x"),true)); traverse(GeoDummyReplacer.getReplacer("y", new
-		 * Polynomial(kernel, "y"),true));
-		 * traverse(GeoDummyReplacer.getReplacer("z", new Polynomial(kernel,
-		 * "z"),true));
-		 */
 
+		EvalInfo info = new EvalInfo(false);
 		// resolve variables in lhs
 		if (lhs.isLeaf() && lhs.getLeft().isVariable()) {
 			// avoid auto creation of GeoElement when lhs is a single variable
@@ -261,11 +245,11 @@ public class Equation extends ValidExpression implements EquationValue {
 														// creation of variables
 		} else {
 			// standard case for lhs
-			lhs.resolveVariables();
+			lhs.resolveVariables(info);
 		}
 
 		// resolve variables in rhs
-		rhs.resolveVariables();
+		rhs.resolveVariables(info);
 
 		// simplify the both sides to single polynomials
 		this.isPolynomial = true;
@@ -478,13 +462,13 @@ public class Equation extends ValidExpression implements EquationValue {
 		return false;
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(EvalInfo info) {
 		if ("X".equals(lhs.toString(StringTemplate.defaultTemplate))
 				&& kernel.lookupLabel("X") == null) {
 			return;
 		}
-		lhs.resolveVariables();
-		rhs.resolveVariables();
+		lhs.resolveVariables(info);
+		rhs.resolveVariables(info);
 	}
 
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {

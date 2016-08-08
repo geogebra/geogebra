@@ -120,12 +120,12 @@ public class CmdSetColor extends CmdScripting {
 			arg = new GeoElement[args.length];
 
 			// resolve first argument
-			args[0].resolveVariables();
+			args[0].resolveVariables(argInfo);
 			arg[0] = resArg(args[0], argInfo)[0];
 
 			try {
 				// resolve second argument
-				args[1].resolveVariables();
+				args[1].resolveVariables(argInfo);
 				arg[1] = resArg(args[1], argInfo)[0];
 			} catch (Error e) {
 				// if there's a problem with the second argument, just wrap in

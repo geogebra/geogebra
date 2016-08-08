@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
@@ -372,24 +373,23 @@ public class ExpressionNode extends ValidExpression implements
 	 * Replaces all Command objects in tree by their evaluated GeoElement
 	 * objects.
 	 */
-	final private void simplifyAndEvalCommands() {
+	final private void simplifyAndEvalCommands(EvalInfo info) {
 		// don't evaluate any commands for the CAS here
 		if (kernel.isResolveUnkownVarsAsDummyGeos()) {
 			return;
 		}
 
 		if (left.isExpressionNode()) {
-			((ExpressionNode) left).simplifyAndEvalCommands();
+			((ExpressionNode) left).simplifyAndEvalCommands(info);
 		} else if (left instanceof Command) {
-			left = ((Command) left).simplify(StringTemplate.defaultTemplate);
+			left = ((Command) left).simplify(info);
 		}
 
 		if (right != null) {
 			if (right.isExpressionNode()) {
-				((ExpressionNode) right).simplifyAndEvalCommands();
+				((ExpressionNode) right).simplifyAndEvalCommands(info);
 			} else if (right instanceof Command) {
-				right = ((Command) right)
-						.simplify(StringTemplate.defaultTemplate);
+				right = ((Command) right).simplify(info);
 			}
 		}
 	}
@@ -455,9 +455,9 @@ public class ExpressionNode extends ValidExpression implements
 	 * look for Variable objects in the tree and replace them by their resolved
 	 * GeoElement
 	 */
-	public final void resolveVariables() {
-		doResolveVariables();
-		simplifyAndEvalCommands();
+	public final void resolveVariables(EvalInfo info) {
+		doResolveVariables(info);
+		simplifyAndEvalCommands(info);
 		simplifyLeafs();
 
 		// left instanceof NumberValue needed rather than left.isNumberValue()
@@ -511,7 +511,7 @@ public class ExpressionNode extends ValidExpression implements
 		}
 	}
 
-	private void doResolveVariables() {
+	private void doResolveVariables(EvalInfo info) {
 		// resolve left wing
 		if (left.isVariable()) {
 			left = ((Variable) left).resolveAsExpressionValue();
@@ -523,7 +523,7 @@ public class ExpressionNode extends ValidExpression implements
 				fixSqrtShort(Operation.MULTIPLY);
 			}
 		} else {
-			left.resolveVariables();
+			left.resolveVariables(info);
 		}
 
 		// resolve right wing
@@ -531,7 +531,7 @@ public class ExpressionNode extends ValidExpression implements
 			if (right.isVariable()) {
 				right = ((Variable) right).resolveAsExpressionValue();
 			} else {
-				right.resolveVariables();
+				right.resolveVariables(info);
 			}
 		}
 	}

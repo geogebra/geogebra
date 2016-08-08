@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.util.MyMath;
@@ -121,7 +122,7 @@ final public class GeoVec2D extends ValidExpression
 		return new GeoVec2D(this);
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(EvalInfo info) {
 		// do nothing
 	}
 

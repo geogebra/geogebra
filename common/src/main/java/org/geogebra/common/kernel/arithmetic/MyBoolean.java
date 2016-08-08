@@ -17,6 +17,7 @@ import java.util.HashSet;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -85,7 +86,7 @@ public class MyBoolean extends ValidExpression implements BooleanValue,
 		return true;
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(EvalInfo info) {
 		// do nothing
 	}
 

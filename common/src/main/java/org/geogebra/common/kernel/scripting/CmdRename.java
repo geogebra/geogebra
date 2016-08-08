@@ -28,25 +28,25 @@ public class CmdRename extends CmdScripting {
 	}
 
 	@Override
-	protected final GeoElement[] perform(Command c) throws MyError {
+	protected final GeoElement[] perform(Command c)
+			throws MyError {
 		int n = c.getArgumentNumber();
 		EvalInfo argInfo = new EvalInfo(false);
 		switch (n) {
 		case 2:
 			// adapted from resArgs()
-
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			ExpressionNode[] args = c.getArguments();
 			GeoElement[] arg = new GeoElement[args.length];
 
 			// resolve first argument
-			args[0].resolveVariables();
+			args[0].resolveVariables(argInfo);
 			arg[0] = resArg(args[0], argInfo)[0];
 
 			try {
 				// resolve second argument
-				args[1].resolveVariables();
+				args[1].resolveVariables(argInfo);
 				arg[1] = resArg(args[1], argInfo)[0];
 			} catch (Error e) {
 				// if there's a problem with the second argument, just wrap in

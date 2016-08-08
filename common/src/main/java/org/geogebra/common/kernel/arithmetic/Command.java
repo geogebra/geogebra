@@ -440,10 +440,10 @@ public class Command extends ValidExpression implements
 	 *            evaluation template
 	 * @return evaluation result
 	 */
-	public ExpressionValue simplify(StringTemplate tpl) {
+	public ExpressionValue simplify(EvalInfo info) {
 		// not yet evaluated: process command
 		ExpressionValue result = kernel.getAlgebraProcessor().simplifyCommand(
-				this, new EvalInfo(false));
+				this, info.withLabels(false));
 		if (result instanceof GeoElement) {
 			evalGeos = new GeoElement[]{(GeoElement)result};
 		}
@@ -457,7 +457,7 @@ public class Command extends ValidExpression implements
 	}
 
 	@Override
-	public void resolveVariables() {
+	public void resolveVariables(EvalInfo info) {
 		// standard case:
 		// nothing to do here: argument variables are resolved
 		// while command processing (see evaluate())
@@ -465,7 +465,7 @@ public class Command extends ValidExpression implements
 		// CAS parsing case: we need to resolve arguments also
 		if (kernel.isResolveUnkownVarsAsDummyGeos()) {
 			for (int i = 0; i < args.size(); i++) {
-				args.get(i).resolveVariables();
+				args.get(i).resolveVariables(info);
 			}
 
 			// avoid evaluation of command

@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -161,7 +162,7 @@ public class FitRealFunction implements
 
 		ExpressionNode node = f.getExpression();
 
-		ExpressionNode enf = (ExpressionNode) node.deepCopy(kernel); // Make new
+		ExpressionNode enf = node.deepCopy(kernel); // Make new
 																		// tree
 																		// for
 																		// new
@@ -175,7 +176,7 @@ public class FitRealFunction implements
 			// System.out.println("Replaced: "+((NumberValue)pars[i]).toString()+"with: "+mydoubles[i].toString());
 		}// for all parameters
 			// System.out.println("enf(etter replace): "+enf.toString());
-		enf.resolveVariables();
+		enf.resolveVariables(new EvalInfo(false));
 		// should we dispose this??? if(this.newf!=null)
 		this.newf = new Function(enf, fvar); // System.out.println("new function: "+newf.toString());
 

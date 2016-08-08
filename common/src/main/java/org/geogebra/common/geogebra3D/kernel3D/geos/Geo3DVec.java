@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVec3D;
@@ -95,7 +96,7 @@ final public class Geo3DVec extends ValidExpression
 		return new Geo3DVec(this);
 	}
 
-	public void resolveVariables() {
+	public void resolveVariables(EvalInfo info) {
 		// no variables ?
 	}
 
