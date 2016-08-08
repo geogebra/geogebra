@@ -49,6 +49,7 @@ public class SerializeLaTeX {
 		checkCannon("1/2+3", "(1)/(2)+3");
 		checkCannon("1/ ( 2)", "(1)/((2))");
 		checkCannon("1/ ( 2+3)", "(1)/((2+3))");
+		checkCannon("1/ ((2+3)+4)", "(1)/(((2+3)+4))");
 		checkCannon("1/(2/3)", "(1)/(((2)/(3)))");
 		
 	}
@@ -88,12 +89,12 @@ public class SerializeLaTeX {
 		MathFormula mf = null;
 		try {
 			mf = parser.parse(input);
-			System.out.println(mf.getRootComponent());
 		} catch (ParseException e) {
 			Assert.assertNull(e);
 		}
 
-		Assert.assertEquals(output, serializer.serialize(mf));
+		Assert.assertEquals(mf.getRootComponent() + "", output,
+				serializer.serialize(mf));
 		
 	}
 
