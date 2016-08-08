@@ -39,11 +39,13 @@ import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.desktop.IconHelper;
+import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.Resource;
 
@@ -62,6 +64,7 @@ public class MathFieldD extends JLabel implements MathField {
 	private MathFieldInternal mathFieldInternal;
 
 	public MathFieldD() {
+		SelectionBox.touchSelection = false;
 		setBackground(Color.white);
 		setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
 		mathFieldInternal = new MathFieldInternal(this);
@@ -145,6 +148,14 @@ public class MathFieldD extends JLabel implements MathField {
 
 	public void fireInputChangedEvent() {
 		// TODO Auto-generated method stub
+
+	}
+
+	public void insertString(String text) {
+
+		for (int i = 0; i < text.length(); i++) {
+			mathFieldInternal.onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
+		}
 
 	}
 }
