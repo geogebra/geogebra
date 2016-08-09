@@ -138,6 +138,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				// get the first node that really contains an articleElement
 				for (int i = 0; i < nodes.getLength(); i++) {
 					ell = nodes.getItem(i);
+					Log.debug(ell.getInnerHTML());
 					Log.debug(ell.getFirstChildElement());
 					if (ell.getFirstChildElement() != null
 							&& ell.getFirstChildElement().hasTagName("ARTICLE")) {
