@@ -401,6 +401,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 				&& autoInput.equals(getTextField().getText())) {
 			return;
 		}
+		autoInput = null;
 		app.getKernel().clearJustCreatedGeosInViews();
 		boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
 				|| app.getKernel().getInputPreviewHelper().isValid();
