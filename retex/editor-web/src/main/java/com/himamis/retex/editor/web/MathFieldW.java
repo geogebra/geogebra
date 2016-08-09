@@ -48,6 +48,7 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.Resource;
@@ -82,6 +83,7 @@ public class MathFieldW implements MathField, IsWidget {
 		html = el;
 		el.getElement().setTabIndex(1);
 		this.ctx = context;
+		SelectionBox.touchSelection = false;
 		mathFieldInternal = new MathFieldInternal(this);
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setFieldListener(listener);
@@ -125,6 +127,7 @@ public class MathFieldW implements MathField, IsWidget {
 						new KeyEvent(event.getNativeEvent().getKeyCode(), 0,
 								event.getCharCode()));
 				event.stopPropagation();
+				event.preventDefault();
 
 			}
 		}, KeyPressEvent.getType());
@@ -134,7 +137,7 @@ public class MathFieldW implements MathField, IsWidget {
 				int code = event.getNativeEvent().getKeyCode();
 				code = fixCode(code);
 				debug(code + "");
-				keyListener.onKeyPressed(
+				keyListener.onKeyReleased(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
 				if (code == 8 || code == 27) {
@@ -149,7 +152,7 @@ public class MathFieldW implements MathField, IsWidget {
 			public void onKeyDown(KeyDownEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
 				code = fixCode(code);
-				keyListener.onKeyReleased(
+				keyListener.onKeyPressed(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
 				MathFieldW.this.setFocus(true);
@@ -267,14 +270,19 @@ public class MathFieldW implements MathField, IsWidget {
 				}
 			};
 			t.schedule(200);
-			if (mathFieldInternal.getEditorState().getCurrentField() == null) {
-				mathFieldInternal.getCursorController()
-						.lastField(mathFieldInternal.getEditorState());
-			}
+			startEditing();
 			html.getElement().focus();
 
 		}
 		this.focused = focus;
+	}
+
+	public void startEditing() {
+		if (mathFieldInternal.getEditorState().getCurrentField() == null) {
+			mathFieldInternal.getCursorController()
+					.lastField(mathFieldInternal.getEditorState());
+		}
+
 	}
 
 	public String deleteCurrentWord() {

@@ -184,7 +184,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     @Override
     public boolean onKeyTyped(KeyEvent keyEvent) {
-		System.out.println(keyEvent.getKeyModifiers());
 		boolean handled = ((keyEvent.getKeyModifiers() & 2) > 0)
 				|| keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar());
         if (handled) {
@@ -200,9 +199,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public void onPointerDown(int x, int y) {
         if (selectionMode) {
             ArrayList<Integer> list = new ArrayList<Integer>();
-			System.out.println(SelectionBox.startX + "," + SelectionBox.endX
-					+ ";"
-					+ length(SelectionBox.startX - x, SelectionBox.startY - y));
+
 			if (length(SelectionBox.startX - x, SelectionBox.startY - y) < 10) {
 				editorState.cursorToSelectionEnd();
 				selectionDrag = true;
