@@ -481,7 +481,7 @@ public class DataAnalysisModel {
 	public void getXML(StringBuilder sb) {
 		sb.append("<dataAnalysis mode=\"");
 		sb.append(mode);
-		sb.append("\">");
+		sb.append("\">\n");
 		ctrl.getDataSource().getXMLDescription(sb);
 		sb.append("</dataAnalysis>");
 

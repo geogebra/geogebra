@@ -2,17 +2,20 @@ package org.geogebra.common.gui.view.data;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Manages a list of DataVariables for the DataAnalysisView.
@@ -399,6 +402,25 @@ public class DataSource {
 		return;
 	}
 
+	public void setDataListFromSettings(ArrayList<String> items, int mode) {
+		dataList.clear();
+		ArrayList<CellRange> ranges = new ArrayList<CellRange>();
+		for (int i = 0; i < items.size(); i++) {
+			String range = items.get(i);
+
+			GPoint start = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+					range.substring(0, range.indexOf(':')));
+
+			GPoint end = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
+					range.substring(range.indexOf(':') + 1));
+
+			CellRange cr = new CellRange(app, start.x, start.y, end.x, end.y);
+			Log.debug(cr.getLabel());
+			ranges.add(cr);
+		}
+		this.setDataListFromSpreadsheet(mode, GroupType.RAWDATA, ranges);
+	}
+
 	/**
 	 * Creates a new list of DataVariables from the currently selected GeoLists
 	 */
@@ -460,7 +482,11 @@ public class DataSource {
 		// dynamically, so we need to use a copy.
 		ArrayList<CellRange> rangeList = CellRangeProcessor
 				.clone(spreadsheetTable().getSelectedCellRanges());
+		setDataListFromSpreadsheet(mode, groupType, rangeList);
+	}
 
+	private void setDataListFromSpreadsheet(int mode, GroupType groupType,
+			ArrayList<CellRange> rangeList) {
 		DataVariable var = new DataVariable(app);
 
 		ArrayList<DataItem> itemList = new ArrayList<DataItem>();
@@ -584,17 +610,11 @@ public class DataSource {
 
 	public void getXMLDescription(StringBuilder sb) {
 		for (DataVariable var : dataList) {
-			sb.append("<var items=\"");
-			for (DataItem item : var.getItemList()) {
-				ArrayList<CellRange> crList = item.getRangeList();
-				if (crList != null) {
-					for (CellRange cr : crList) {
-						sb.append(cr.toString());
-					}
-				}
-			}
-			sb.append("\"/>");
+
+			var.getXML(sb);
+
 		}
+		Log.debug(sb.toString());
 
 	}
 }

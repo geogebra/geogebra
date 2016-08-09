@@ -39,6 +39,8 @@ public class Settings {
 
 	private ProbabilityCalculatorSettings probCalcSettings;
 
+	private DataAnalysisSettings daSettings;
+
 	/**
 	 * Initialize settings using the constructors of the setting container
 	 * classes.
@@ -335,5 +337,12 @@ public class Settings {
 		} else {
 			return null;
 		}
+	}
+
+	public DataAnalysisSettings getDataAnalysis() {
+		if (this.daSettings == null) {
+			daSettings = new DataAnalysisSettings();
+		}
+		return daSettings;
 	}
 }

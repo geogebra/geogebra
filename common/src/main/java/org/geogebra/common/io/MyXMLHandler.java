@@ -91,6 +91,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
+import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.KeyboardSettings;
@@ -154,8 +155,11 @@ public class MyXMLHandler implements DocHandler {
 																// <views />
 																// </perspective>
 
+	private static final int MODE_DATA_ANALYSIS = 450;
+
 	private static final int MODE_DEFAULTS = 500;
 	private static final int MODE_DEFAULT_GEO = 501;
+
 
 	/** available font sizes (will be reused in OptionsAdvanced) */
 	final public static int[] menuFontSizes = { 12, 14, 16, 18, 20, 24, 28, 32,
@@ -519,6 +523,9 @@ public class MyXMLHandler implements DocHandler {
 			startGuiViewsElement(eName, attrs);
 			break;
 
+		case MODE_DATA_ANALYSIS:
+			startDataAnalysisElement(eName, attrs);
+
 		case MODE_INVALID:
 			// is this a geogebra file?
 			if ("geogebra".equals(eName)) {
@@ -567,6 +574,14 @@ public class MyXMLHandler implements DocHandler {
 
 		default:
 			Log.error("unknown mode: " + mode);
+		}
+	}
+
+	private void startDataAnalysisElement(String eName,
+			LinkedHashMap<String, String> attrs) {
+		DataAnalysisSettings das = app.getSettings().getDataAnalysis();
+		if ("item".equals(eName)) {
+			das.addItem(attrs.get("ranges"));
 		}
 	}
 
@@ -665,7 +680,10 @@ public class MyXMLHandler implements DocHandler {
 			if ("gui".equals(eName))
 				mode = MODE_GEOGEBRA;
 			break;
-
+		case MODE_DATA_ANALYSIS:
+			if ("dataAnalysis".equals(eName)) {
+				mode = MODE_GUI;
+			}
 		case MODE_GUI_PERSPECTIVES:
 			if ("perspectives".equals(eName))
 				mode = MODE_GUI;
@@ -1999,7 +2017,10 @@ new GPoint(row, column));
 			else if ("consProtNavigationBar".equals(eName))
 				ok = handleConsProtNavigationBar(app, attrs);
 			break;
-
+		case 'd':
+			if ("dataAnalysis".equals(eName)) {
+				ok = handleDataAnalysis(attrs);
+			}
 		case 'f':
 			if ("font".equals(eName))
 				ok = handleFont(app, attrs);
@@ -2049,6 +2070,16 @@ new GPoint(row, column));
 
 		if (!ok)
 			Log.error("error in <gui>: " + eName);
+	}
+
+	private boolean handleDataAnalysis(LinkedHashMap<String, String> attrs) {
+		mode = MODE_DATA_ANALYSIS;
+		try{
+			app.getSettings().getDataAnalysis().setMode(Integer.parseInt(attrs.get(mode)));
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
 	}
 
 	/**

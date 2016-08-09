@@ -554,14 +554,23 @@ public class DataVariable {
 		return false;
 	}
 
-	private void getXML() {
+	public void getXML(StringBuilder sb) {
 
 		// save these fields to XML:
 		// groupType, enableHeader
-
+		sb.append("<variable>\n");
 		// save the DataItems to XML
-		for (int i = 0; i < values.size(); i++) {
-			// write item XML for value1, value2 etc.
+		for (DataItem item : values) {
+			sb.append("<item ranges=\"");
+			ArrayList<CellRange> crList = item.getRangeList();
+			if (crList != null) {
+				boolean first = true;
+				for (CellRange cr : crList) {
+					sb.append(first ? "" : ",");
+					sb.append(cr.getLabel());
+				}
+			}
+			sb.append("\"/>\n");
 		}
 		if (frequency != null) {
 			// write item XML
@@ -572,6 +581,7 @@ public class DataVariable {
 		if (label != null) {
 			// write item XML
 		}
+		sb.append("</variable>\n");
 
 	}
 
