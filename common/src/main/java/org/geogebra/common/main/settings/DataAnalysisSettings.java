@@ -2,13 +2,12 @@ package org.geogebra.common.main.settings;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.gui.view.data.DataAnalysisModel;
 
 public class DataAnalysisSettings {
 	private ArrayList<String> items = new ArrayList<String>();
-	private int mode;
+	private int mode = DataAnalysisModel.MODE_ONEVAR;
 	public void addItem(String ranges) {
-		Log.error("RANGE" + ranges);
 		items.add(ranges);
 	}
 

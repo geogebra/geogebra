@@ -70,7 +70,6 @@ import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ModeSetter;
@@ -507,9 +506,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public DataAnalysisViewD getDataAnalysisView() {
-		if (dataView == null)
-			dataView = new DataAnalysisViewD((AppD) app,
-					DataAnalysisModel.MODE_ONEVAR);
+		if (dataView == null) {
+			dataView = new DataAnalysisViewD((AppD) app, app.getSettings()
+					.getDataAnalysis().getMode());
+		}
 		return dataView;
 	}
 

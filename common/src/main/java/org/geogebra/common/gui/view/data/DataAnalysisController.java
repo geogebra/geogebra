@@ -272,7 +272,7 @@ public abstract class DataAnalysisController {
 	 * @return String array of data titles
 	 */
 	public String[] getDataTitles() {
-		return dataSource.getTitles();
+		return dataSource == null ? new String[0] : dataSource.getTitles();
 		// return dataSource.getDataTitles(mode(), leftToRight);
 	}
 

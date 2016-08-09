@@ -1241,7 +1241,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public View getDataAnalysisView() {
 		if (dataAnalysisView == null) {
-			dataAnalysisView = new DataAnalysisViewW((AppW) app, app.getMode());
+			dataAnalysisView = new DataAnalysisViewW((AppW) app, app
+					.getSettings().getDataAnalysis().getMode());
 		}
 		return dataAnalysisView;
 	}

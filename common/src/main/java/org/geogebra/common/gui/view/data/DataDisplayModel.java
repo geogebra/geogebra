@@ -150,7 +150,7 @@ public class DataDisplayModel {
 
 	public void updatePlot(PlotType index, int mode) {
 
-		setMode(mode);
+		daModel.setMode(mode);
 		this.setSelectedPlot(index);
 		getSettings().setDataSource(daModel.getDataSource());
 	}
@@ -672,11 +672,6 @@ public class DataDisplayModel {
 
 	public void removeGeos() {
 		clearPlotGeoList();
-	}
-
-
-	public void setMode(int mode) {
-		daModel.setMode(mode);
 	}
 
 	public StatPanelSettings getSettings() {

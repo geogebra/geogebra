@@ -486,6 +486,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	}
 
 	public void attachView() {
+		model.updateFromSettings();
 		kernel.attach(this);
 
 		// attachView to plot panels

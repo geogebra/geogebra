@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.util.debug.Log;
 
 
@@ -311,7 +312,7 @@ public class DataAnalysisModel {
 	}
 
 	public int getMode() {
-		return mode;
+		return app.getSettings().getDataAnalysis().getMode();
 	}
 
 	public void setShowDataOptionsDialog(boolean showDialog) {
@@ -458,32 +459,28 @@ public class DataAnalysisModel {
 	}
 
 	public void setMode(int mode) {
-		this.mode = mode;
-	}
-	 
-	public String modeString() {
-		String str = "[DAMODE] ";
-		switch (mode) {
-		case MODE_ONEVAR:
-			str += "ONEVAR";
-			break;
-		case MODE_REGRESSION:
-			str += "TWOVAR - REGRESSION";
-			break;
-		case MODE_MULTIVAR:
-			str += "MULTIVAR";
-			break;
-				
-		}
-		return str;
+		app.getSettings().getDataAnalysis().setMode(mode);
 	}
 
 	public void getXML(StringBuilder sb) {
 		sb.append("<dataAnalysis mode=\"");
-		sb.append(mode);
+		sb.append(getMode());
 		sb.append("\">\n");
 		ctrl.getDataSource().getXMLDescription(sb);
 		sb.append("</dataAnalysis>");
+
+	}
+
+	public void updateFromSettings() {
+		DataAnalysisSettings settings = app.getSettings().getDataAnalysis();
+		if (settings.getItems().size() > 0) {
+			DataSource source = new DataSource(app);
+			source.setDataListFromSettings(settings.getItems(),
+					settings.getMode());
+			this.setView(source, settings.getMode(),
+					true);
+			settings.getItems().clear();
+		}
 
 	}
 }

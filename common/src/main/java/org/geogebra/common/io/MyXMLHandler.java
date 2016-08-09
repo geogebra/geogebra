@@ -2074,8 +2074,9 @@ new GPoint(row, column));
 
 	private boolean handleDataAnalysis(LinkedHashMap<String, String> attrs) {
 		mode = MODE_DATA_ANALYSIS;
-		try{
-			app.getSettings().getDataAnalysis().setMode(Integer.parseInt(attrs.get(mode)));
+		try {
+			app.getSettings().getDataAnalysis()
+					.setMode(Integer.parseInt(attrs.get("mode")));
 		} catch (Exception e) {
 			return false;
 		}

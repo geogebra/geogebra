@@ -609,14 +609,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 	public void attachView() {
 		// clearView();
 		// kernel.notifyAddAll(this);
-		if (app.getSettings().getDataAnalysis().getItems().size() > 0) {
-			DataSource source = new DataSource(app);
-			source.setDataListFromSettings(
-					app.getSettings().getDataAnalysis().getItems(),
-					app.getSettings().getDataAnalysis().getMode());
-			model.setView(source, app.getSettings().getDataAnalysis().getMode(),
-					true);
-		}
+		model.updateFromSettings();
 		kernel.attach(this);
 
 		// attachView to plot panels
