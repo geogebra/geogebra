@@ -581,4 +581,20 @@ public class DataSource {
 		}
 		return false;
 	}
+
+	public void getXMLDescription(StringBuilder sb) {
+		for (DataVariable var : dataList) {
+			sb.append("<var items=\"");
+			for (DataItem item : var.getItemList()) {
+				ArrayList<CellRange> crList = item.getRangeList();
+				if (crList != null) {
+					for (CellRange cr : crList) {
+						sb.append(cr.toString());
+					}
+				}
+			}
+			sb.append("\"/>");
+		}
+
+	}
 }

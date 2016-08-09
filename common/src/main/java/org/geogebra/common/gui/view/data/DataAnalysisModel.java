@@ -35,6 +35,8 @@ public class DataAnalysisModel {
 		DataAnalysisController getController();
 		void showComboPanel2(boolean show);
 		void updateGUI();
+
+		DataAnalysisModel getModel();
 	}
 	
 	public interface ICreateColor {
@@ -474,5 +476,14 @@ public class DataAnalysisModel {
 				
 		}
 		return str;
+	}
+
+	public void getXML(StringBuilder sb) {
+		sb.append("<dataAnalysis mode=\"");
+		sb.append(mode);
+		sb.append("\">");
+		ctrl.getDataSource().getXMLDescription(sb);
+		sb.append("</dataAnalysis>");
+
 	}
 }

@@ -2498,29 +2498,16 @@ public abstract class App implements UpdateSelection {
 
 			sb.append("/>\n");
 		}
-
-		getConsProtocolXML(sb);
+		if (getGuiManager() != null) {
+			getGuiManager().getExtraViewsXML(sb);
+		}
 
 		sb.append("</gui>\n");
 
 		return sb.toString();
 	}
 
-	/**
-	 * Appends construction protocol view settings in XML format
-	 *
-	 * @param sb string builder
-	 */
-	public final void getConsProtocolXML(StringBuilder sb) {
-		if (getGuiManager() == null) {
-			return;
-		}
 
-		// construction protocol
-		if (getGuiManager().isUsingConstructionProtocol()) {
-			getGuiManager().getConsProtocolXML(sb);
-		}
-	}
 
 	protected abstract int getWindowWidth();
 

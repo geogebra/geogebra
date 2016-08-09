@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GeoClass;
@@ -337,6 +338,11 @@ public class CellRange {
 		return list;
 	}
 
+	public String getLabel() {
+		return GeoElementSpreadsheet.getSpreadsheetCellName(minColumn, minRow)
+				+ ":" + GeoElementSpreadsheet.getSpreadsheetCellName(maxColumn,
+						maxRow);
+	}
 	/**
 	 * ArrayList of geo value string for each geo found in the given cell range
 	 */

@@ -734,8 +734,7 @@ public class ConstructionProtocolView {
 
 	}
 
-	public final String getConsProtocolXML() {
-		StringBuilder sb = new StringBuilder();
+	public final void getXML(StringBuilder sb) {
 		
 		// COLUMNS
 		sb.append("\t<consProtColumns ");
@@ -761,7 +760,6 @@ public class ConstructionProtocolView {
 		sb.append("\"");
 		sb.append("/>\n");
 	
-		return sb.toString();
 	}
 	
 

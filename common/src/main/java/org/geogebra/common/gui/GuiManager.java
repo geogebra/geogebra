@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
+import org.geogebra.common.gui.view.data.DataAnalysisModel.IDataAnalysisListener;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.kernel.Kernel;
@@ -98,9 +99,19 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return false;
 	}
 
+	public void getExtraViewsXML(StringBuilder sb) {
+		if (isUsingConstructionProtocol()) {
+			getConsProtocolXML(sb);
+		}
+		if (this.hasDataAnalysisView()) {
+			((IDataAnalysisListener) getDataAnalysisView()).getModel()
+					.getXML(sb);
+		}
+	}
 	public final void getConsProtocolXML(StringBuilder sb) {
-		if (this.isUsingConstructionProtocol())
-			sb.append(getConstructionProtocolView().getConsProtocolXML());
+		if (this.isUsingConstructionProtocol()) {
+			getConstructionProtocolView().getXML(sb);
+		}
 		if (app.showConsProtNavigation()) {
 			sb.append("\t<consProtNavigationBar ");
 			sb.append("id=\"");

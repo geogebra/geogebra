@@ -367,4 +367,6 @@ public interface GuiManagerInterface {
 	public void setImageCornersFromSelection(GeoImage geoImage);
 
 	public void refreshCustomToolsInToolBar();
+
+	public void getExtraViewsXML(StringBuilder sb);
 }
