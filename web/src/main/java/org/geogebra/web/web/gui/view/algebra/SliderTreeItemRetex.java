@@ -87,7 +87,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	}
 
 	private void createSliderGUI() {
-		ihtml.addStyleName("noPadding");
+		content.addStyleName("noPadding");
 		if (!num.isEuclidianVisible()) {
 			num.initAlgebraSlider();
 		}
@@ -133,7 +133,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 			createContentPanel();
 			styleContentPanel();
 
-			addAVEXWidget(ihtml);
+			addAVEXWidget(content);
 
 			contentPanel.add(LayoutUtilW.panelRow(sliderPanel, minMaxPanel));
 			main.add(contentPanel);
@@ -322,7 +322,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 	}
 
-	void addAVEXWidget(Widget w) {
+	protected void addAVEXWidget(Widget w) {
 		if (sliderPanel == null) {
 			return;
 		}

@@ -97,20 +97,20 @@ public class InputTreeItem extends MathQuillTreeItem
 		FlowPanel item = new FlowPanel();
 		item.addStyleName("avTextItem");
 
-		addDomHandlers(ihtml);
-		main.add(ihtml);
+		addDomHandlers(content);
+		main.add(content);
 
 
-		ihtml.getElement().appendChild(item.getElement());
-		ihtml.getElement().addClassName("hasCursorPermanent");
+		content.getElement().appendChild(item.getElement());
+		content.getElement().addClassName("hasCursorPermanent");
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			ihtml.addStyleName("scrollableTextBox");
+			content.addStyleName("scrollableTextBox");
 		}
 
 
 		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
-			ihtml.getElement().addClassName("tempHasCursorPermanent");
+			content.getElement().addClassName("tempHasCursorPermanent");
 		}
 
 		getElement().getStyle().setWidth(100, Style.Unit.PCT);
@@ -119,7 +119,7 @@ public class InputTreeItem extends MathQuillTreeItem
 		SpanElement se2 = DOM.createSpan().cast();
 		se2.appendChild(Document.get()
 				.createTextNode("\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"));
-		ihtml.getElement().appendChild(se2);
+		content.getElement().appendChild(se2);
 
 		// if enabled, render with LaTeX
 

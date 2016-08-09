@@ -89,7 +89,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	}
 
 	private void createSliderGUI() {
-		ihtml.addStyleName("noPadding");
+		content.addStyleName("noPadding");
 		if (!num.isEuclidianVisible()) {
 			num.initAlgebraSlider();
 		}
@@ -135,7 +135,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 			createContentPanel();
 			styleContentPanel();
 
-			addAVEXWidget(ihtml);
+			addAVEXWidget(content);
 
 			contentPanel.add(LayoutUtilW.panelRow(sliderPanel, minMaxPanel));
 			main.add(contentPanel);

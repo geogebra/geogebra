@@ -12,9 +12,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.geos.GProperty;
-import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
@@ -88,7 +86,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
-			doRepaint2();
+			doRepaint();
 		}
 	};
 
@@ -264,7 +262,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	/**
 	 * schedule a repaint
 	 */
-	public void doRepaint() {		
+	public void deferredRepaint() {		
 		repaintScheduler.requestAnimationFrame(repaintCallback);
 	}
 
@@ -293,7 +291,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
 			if (isShowing()){
-				doRepaint();	
+				deferredRepaint();	
 				waitForRepaint = TimerSystemW.SLEEPING_FLAG;	
 			}
 			return true;
@@ -316,7 +314,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * Make sure we repaint all updated objects in nodes that were collapsed before
 	 */
 	public void onOpen(OpenEvent<TreeItem> event){
-		this.doRepaint();
+		this.deferredRepaint();
 	}
 
 	public final int getViewID() {
@@ -354,14 +352,17 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	/**
-	 * Only call this method if you really know what you're doing. Otherwise
-	 * call repaint() instead.
+	 * Repaints the whole AV tree, item by item.
 	 */
-	public void doRepaint2() {
+	public void doRepaint() {
 		Object geo;
 		// suppose that the add operations have been already done elsewhere
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
+			if (ti instanceof CheckboxTreeItem) {
+				CheckboxTreeItem.as(ti).repaint();
+				return;
+			}
 			geo = getItem(i).getUserObject();
 			if (geo instanceof GeoElement) {
 				RadioTreeItem.as(ti).repaint();
@@ -417,16 +418,19 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	private void repaintSliderNode(TreeItem ti) {
-		GeoElement geo = (GeoElement) ti.getUserObject();
-		if ((geo instanceof GeoNumeric
-				&& !(app.has(Feature.AV_DEFINITION_AND_VALUE)
-						&& geo.needToShowBothRowsInAV())
-				|| geo instanceof GeoBoolean)
-				&& geo.isIndependent()
-				&& ti instanceof RadioTreeItem) {
+		// GeoElement geo = (GeoElement) ti.getUserObject();
+		// if ((geo instanceof GeoNumeric
+		// && !(app.has(Feature.AV_DEFINITION_AND_VALUE)
+		// && geo.needToShowBothRowsInAV())
+		// || geo instanceof GeoBoolean)
+		// && geo.isIndependent()
+		// && ti instanceof RadioTreeItem) {
+		// RadioTreeItem.as(ti).repaint();
+		// }
+		//
+		if (ti instanceof SliderTreeItemInterface) {
 			RadioTreeItem.as(ti).repaint();
-				}
-
+		}
 	}
 
 	private static void repaintChildren(TreeItem item) {
@@ -953,6 +957,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			} else {
 				ti = ((LaTeXHelper) GWT.create(LaTeXHelper.class))
 						.getSliderItem(ob);
+			}
+		} else if (CheckboxTreeItem.match(ob)) {
+			if (forceRetex) {
+				ti = new CheckboxTreeItem(ob);
+			} else {
+				ti = ((LaTeXHelper) GWT.create(LaTeXHelper.class))
+						.getCheckboxItem(ob);
+
 			}
 		} else if (forceRetex) {
 			ti = new LatexTreeItem(ob);

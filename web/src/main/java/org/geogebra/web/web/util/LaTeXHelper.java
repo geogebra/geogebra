@@ -28,4 +28,6 @@ public abstract class LaTeXHelper {
 	}
 
 	public abstract RadioTreeItem getSliderItem(GeoElement ob);
+
+	public abstract RadioTreeItem getCheckboxItem(GeoElement ob);
 }

@@ -242,7 +242,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 		});
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			ihtml.insert(getClearInputButton(), 1);
+			content.insert(getClearInputButton(), 1);
 			buttonPanel.setVisible(false);
 		}
 
@@ -302,7 +302,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 		latexItem.addStyleName("avTextItem");
 		updateColor(latexItem);
 
-		ihtml.clear();
+		content.clear();
 
 		String text = text0;
 		if (text0 == null) {
@@ -325,8 +325,8 @@ public class MathQuillTreeItem extends RadioTreeItem
 			}
 			updateValuePanel();
 			outputPanel.add(valuePanel);
-			ihtml.add(latexItem);
-			ihtml.add(outputPanel);
+			content.add(latexItem);
+			content.add(outputPanel);
 
 			latexItem.addStyleName("avDefinition");
 
@@ -335,7 +335,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 
 		} else {
 			latexItem.removeStyleName("avDefinition");
-			ihtml.add(latexItem);
+			content.add(latexItem);
 			MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
 					isInputTreeItem());
 		}
@@ -367,7 +367,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 		latexItem.addStyleName("avTextItem");
 		updateColor(latexItem);
 
-		ihtml.clear();
+		content.clear();
 
 		String text = text0;
 		if (text0 == null) {
@@ -381,7 +381,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 					: " \\mathbf {" + text + "}";
 		}
 
-		ihtml.add(latexItem);
+		content.add(latexItem);
 		MathQuillHelper.drawEquationAlgebraView(latexItem, latexString,
 				isInputTreeItem());
 	}

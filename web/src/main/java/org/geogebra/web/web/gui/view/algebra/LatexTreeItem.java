@@ -66,7 +66,7 @@ public class LatexTreeItem extends RadioTreeItem
 		addDomHandlers(main);
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			ihtml.addStyleName("scrollableTextBox");
+			content.addStyleName("scrollableTextBox");
 		}
 		getWidget().addStyleName("latexEditor");
 		renderLatex("", false);
@@ -125,13 +125,13 @@ public class LatexTreeItem extends RadioTreeItem
 		// latexItem.addStyleName("avTextItem");
 		// TODO updateColor(latexItem);
 
-		ihtml.clear();
+		content.clear();
 
 
 		ensureCanvas();
 		appendCanvas();
-		if (!ihtml.isAttached()) {
-			main.add(ihtml);
+		if (!content.isAttached()) {
+			main.add(content);
 		}
 
 		setText(text0);
@@ -149,7 +149,7 @@ public class LatexTreeItem extends RadioTreeItem
 		}
 		latexItem.clear();
 		latexItem.add(canvas);
-		ihtml.add(latexItem);
+		content.add(latexItem);
 
 	}
 
@@ -187,7 +187,7 @@ public class LatexTreeItem extends RadioTreeItem
 				main.add(this.marblePanel);
 			}
 			appendCanvas();
-			main.add(ihtml);
+			main.add(content);
 			if (buttonPanel != null) {
 				main.add(buttonPanel);
 				updateButtonPanelPosition();

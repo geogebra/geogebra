@@ -23,7 +23,6 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
@@ -98,10 +97,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.logical.shared.ValueChangeEvent;
-import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -150,6 +146,17 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected InputBarHelpPopup helpPopup;
 	/** label "Input..." */
 	protected Label dummyLabel;
+
+	/**
+	 * The main widget of the tree item containing all others
+	 */
+	protected FlowPanel main;
+
+	/** Item content after marble */
+	protected FlowPanel content;
+
+	/** Item controls like delete, play, etc */
+	protected FlowPanel buttonPanel;
 
 	public void expandSize(int newWidth) {
 		if (getAV().getOriginalWidth() != null) {
@@ -210,9 +217,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	protected FlowPanel main;
 
-	protected FlowPanel buttonPanel;
 	protected PushButton btnDelete;
 
 	protected GeoElement geo;
@@ -225,7 +230,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public FlowPanel latexItem;
 	private FlowPanel plainTextItem;
 
-	protected FlowPanel ihtml;
 	GTextBox tb;
 	private boolean needsUpdate;
 	protected Label errorLabel;
@@ -239,11 +243,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected FlowPanel contentPanel;
 
-
-	/**
-	 * checkbox displaying boolean variables
-	 */
-	private CheckBox checkBox;
 
 	/**
 	 * panel to display animation related controls
@@ -265,7 +264,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		needsUpdate = true;
 	}
 
-	private IndexHTMLBuilder getBuilder(final Widget w) {
+	protected IndexHTMLBuilder getBuilder(final Widget w) {
 		return new IndexHTMLBuilder(false) {
 			Element sub = null;
 
@@ -345,13 +344,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 		this.kernel = kernel;
 		app = (AppW) kernel.getApplication();
 		av = app.getAlgebraView();
-
-		main = new FlowPanel();
-		setWidget(main);
 		definitionAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
 		selectionCtrl = getAV().getSelectionCtrl();
-		setPlainTextItem(new FlowPanel());
-		ihtml = new FlowPanel();
+		createMainWidget();
+		content = new FlowPanel();
+
+		plainTextItem = new FlowPanel();
 		setLongTouchManager(LongTouchManager.getInstance());
 		setDraggable();
 
@@ -367,40 +365,26 @@ public abstract class RadioTreeItem extends AVTreeItem
 		this(geo0.getKernel());
 
 		geo = geo0;
-		main.addStyleName("elem");
-		main.addStyleName("panelRow");
 
-		marblePanel = new MarblePanel(geo0);
+		addMarble();
 
-		main.add(marblePanel);
-
-		boolean checkbox = geo instanceof GeoBoolean && geo.isSimple();
-		if (checkbox) {
-			createCheckbox();
-		}
-
-
-		getPlainTextItem().addStyleName("sqrtFontFix");
-		getPlainTextItem().addStyleName("avPlainTextItem");
 		if (geo.isSimple()) {
 			getPlainTextItem().addStyleName("avDefinitionSimple");
 		}
+
+		getPlainTextItem().addStyleName("sqrtFontFix");
+		getPlainTextItem().addStyleName("avPlainTextItem");
+
 		updateColor(getPlainTextItem());
 		updateFont(getPlainTextItem());
 
-		ihtml.addStyleName("elemText");
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-				ihtml.addStyleName("scrollableTextBox");
-		}
-		if (checkbox) {
-			ihtml.addStyleName("noPadding");
-		}
-
+		styleContent();
+		
 		addDomHandlers(main);
-		addAVEXWidget(ihtml);
 
+		createControls();
 
-		ihtml.add(getPlainTextItem());
+		content.add(getPlainTextItem());
 		buildPlainTextItem();
 		// if enabled, render with LaTeX
 
@@ -409,34 +393,60 @@ public abstract class RadioTreeItem extends AVTreeItem
 			av.repaintView();
 
 		}
+		createAvexWidget();
+		addAVEXWidget(content);
 
+	}
+
+	protected void createMainWidget() {
+		main = new FlowPanel();
+		setWidget(main);
+
+	}
+
+	protected void addMarble() {
+		main.addStyleName("elem");
+		main.addStyleName("panelRow");
+
+		marblePanel = new MarblePanel(geo);
+		main.add(marblePanel);
+
+	}
+
+	protected void styleContent() {
+		content.addStyleName("elemText");
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			content.addStyleName("scrollableTextBox");
+		}
+
+	}
+
+	protected void createButtonPanel() {
 		buttonPanel = new FlowPanel();
 		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
-
 		buttonPanel.addStyleName("smallStylebar");
-
 		buttonPanel.setVisible(false);
 
+	}
+
+	protected void createControls() {
+		createButtonPanel();
 		main.add(buttonPanel);
 	}
+	protected void createGUI() {
 
-	private void createCheckbox() {
-		checkBox = new CheckBox();
-		checkBox.setValue(((GeoBoolean) geo).getBoolean());
-		main.add(checkBox);
-		checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-			@Override
-			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				((GeoBoolean) geo).setValue(event.getValue());
-				geo.updateCascade();
-				kernel.notifyRepaint();
+		createAvexWidget();
 
-			}
-		});
+		getPlainTextItem().addStyleName("sqrtFontFix");
+		getPlainTextItem().addStyleName("avPlainTextItem");
 
 	}
 
-
+	/**
+	 *
+	 */
+	protected void createAvexWidget() {
+	}
 
 	private String getLatexString(boolean MathQuill, Integer limit) {
 		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
@@ -719,7 +729,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			definitionPanel.addStyleName("avDefinitionPlain");
 		}
 
-		ihtml.clear();
+		content.clear();
 		if (updateDefinitionPanel()) {
 			plainTextItem.clear();
 			plainTextItem.add(definitionPanel);
@@ -732,10 +742,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		// updateFont(plainTextItem);
 
-		ihtml.add(plainTextItem);
+		content.add(plainTextItem);
 	}
 
-	private void buildItemWithSingleRow() {
+	protected void buildItemWithSingleRow() {
 
 		// LaTeX
 		String text = getLatexString(isInputTreeItem(), LATEX_MAX_EDIT_LENGHT);
@@ -750,11 +760,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
 					getFontSize());
-			ihtml.clear();
+			content.clear();
 			if (geo == null) {
 				Log.debug("CANVAS to IHTML");
 			}
-			ihtml.add(canvas);
+			content.add(canvas);
 		}
 
 		else {
@@ -762,8 +772,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 						getBuilder(getPlainTextItem()));
 			updateItemColor();
 			// updateFont(getPlainTextItem());
-			ihtml.clear();
-			ihtml.add(getPlainTextItem());
+			content.clear();
+			content.add(getPlainTextItem());
 		}
 	}
 
@@ -892,25 +902,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				|| geo == null;
 	}
 
-	private void updateCheckBox() {
 
-		if (((HasExtendedAV) geo).isShowingExtendedAV()) {
-			// adds the checkBox at the right side
-			addAVEXWidget(ihtml);
-
-			// reset the value of the checkBox
-			checkBox.setValue(((GeoBoolean) geo).getBoolean());
-
-			// reset the label text
-			geo.getAlgebraDescriptionTextOrHTMLDefault(
-					getBuilder(getPlainTextItem()));
-			// updateFont(getPlainTextItem());
-			updateColor(getPlainTextItem());
-		} else {
-			main.remove(checkBox);
-		}
-
-	}
 
 	/**
 	 * Updates all the contents of the AV Item
@@ -926,10 +918,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		}
 
-		if (isItemCheckBox()) {
-			updateCheckBox();
-			updateTextItems();
-		} else if (isItemNumeric()) {
+		if (isItemNumeric()) {
 			updateTextItems();
 		} else {
 			if (!isInputTreeItem() && isDefinitionAndValue()) {
@@ -951,13 +940,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	private void updateTextItems() {
+	protected void updateTextItems() {
 
 		// check for new LaTeX
 		boolean latexAfterEdit = false;
 
 		if (!isDefinitionAndValue() && outputPanel != null) {
-			ihtml.remove(outputPanel);
+			content.remove(outputPanel);
 
 		}
 		if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
@@ -999,8 +988,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 				// original text was latex.
 
 				updateItemColor();
-				ihtml.clear();
-				ihtml.add(getPlainTextItem());
+				content.clear();
+				content.add(getPlainTextItem());
 				latex = false;
 			}
 		}
@@ -1025,8 +1014,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 			canvas = DrawEquationW.paintOnCanvas(geo, text0, canvas,
 					getFontSize());
 
-			if (canvas != null && ihtml.getElement().isOrHasChild(old)) {
-				ihtml.getElement().replaceChild(canvas.getCanvasElement(), old);
+			if (canvas != null && content.getElement().isOrHasChild(old)) {
+				content.getElement().replaceChild(canvas.getCanvasElement(), old);
 			}
 
 	}
@@ -1039,11 +1028,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private void updateLaTeX(String text) {
 		if (!isDefinitionAndValue()) {
-			ihtml.clear();
+			content.clear();
 			canvas = DrawEquationW.paintOnCanvas(geo, text, canvas,
 					getFontSize());
 
-			ihtml.add(canvas);
+			content.add(canvas);
 			return;
 		}
 	}
@@ -1051,7 +1040,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void replaceToCanvas(String text, Widget old) {
 
 		updateLaTeX(text);
-		LayoutUtilW.replace(ihtml, canvas, old);
+		LayoutUtilW.replace(content, canvas, old);
 	}
 
 
@@ -1151,7 +1140,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		av.cancelEditing();
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			if (btnClearInput != null){
-				ihtml.remove(btnClearInput);
+				content.remove(btnClearInput);
 				btnClearInput = null;
 			}
 			if (buttonPanel != null) {
@@ -1202,17 +1191,17 @@ public abstract class RadioTreeItem extends AVTreeItem
 			return;
 		}
 		if (!this.isInputTreeItem() && canvas != null
-				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
+				&& content.getElement().isOrHasChild(latexItem.getElement())) {
 			if (geo != null) {
-				LayoutUtilW.replace(ihtml, canvas, latexItem);
+				LayoutUtilW.replace(content, canvas, latexItem);
 			} else {
 				Log.debug(Feature.RETEX_EDITOR, "update after redefine");
 			}
 
 		}
 		if (!latex && !this.isInputTreeItem() && getPlainTextItem() != null
-				&& ihtml.getElement().isOrHasChild(latexItem.getElement())) {
-			LayoutUtilW.replace(ihtml, getPlainTextItem(), latexItem);
+				&& content.getElement().isOrHasChild(latexItem.getElement())) {
+			LayoutUtilW.replace(content, getPlainTextItem(), latexItem);
 
 		}
 		// maybe it's possible to enter something which is non-LaTeX
@@ -1250,7 +1239,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void updateLineHeight() {
 		if (helpButtonPanel != null) {
 			this.helpButtonPanel.getElement().getStyle().setLineHeight(
-					ihtml.getOffsetHeight() - HORIZONTAL_BORDER_HEIGHT,
+					content.getOffsetHeight() - HORIZONTAL_BORDER_HEIGHT,
 					Unit.PX);
 		}
 
@@ -1373,7 +1362,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	protected void focusAfterHelpClosed() {
-		ihtml.getElement().getElementsByTagName("textarea").getItem(0).focus();
+		content.getElement().getElementsByTagName("textarea").getItem(0).focus();
 	}
 
 
@@ -1455,7 +1444,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (appWidth < 1) {// for case app is not part of DOM
 			appWidth = 600;
 		}
-		return Math.min(ihtml.getOffsetWidth() + 70, appWidth);
+		return Math.min(content.getOffsetWidth() + 70, appWidth);
 	}
 
 	static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
@@ -1891,20 +1880,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 	void addAVEXWidget(Widget w) {
-		if (checkBox != null) {
-			if (hasGeoExtendedAV()) {
-				main.insert(checkBox, 1);
-				main.insert(w, 2);
-			} else {
-				main.remove(checkBox);
-				main.insert(w, 1);
-			}
-		} else {
-			main.add(w);
-		}
+		main.add(w);
 	}
 
-	private boolean hasGeoExtendedAV() {
+	protected boolean hasGeoExtendedAV() {
 		return (geo instanceof HasExtendedAV && ((HasExtendedAV) geo)
 				.isShowingExtendedAV());
 	}
@@ -2121,20 +2100,16 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return false;
 	}
 
-	private boolean hasAnimPanel() {
+	protected boolean hasAnimPanel() {
 		return animPanel != null;
 	}
 
-	private boolean hasMarblePanel() {
+	protected boolean hasMarblePanel() {
 		return marblePanel != null;
 	}
 
 	private boolean isItemNumeric() {
 		return false;
-	}
-
-	private boolean isItemCheckBox() {
-		return checkBox != null;
 	}
 
 	private String getOutputPrefix() {
@@ -2310,7 +2285,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// just making sure here as well
 		// dummyLabel.getElement().removeFromParent();
 		// }
-		ihtml.insert(dummyLabel, 0);
+		content.insert(dummyLabel, 0);
 		// }
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
@@ -2341,7 +2316,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			ihtml.add(getClearInputButton());
+			content.add(getClearInputButton());
 			if (buttonPanel != null) {
 				buttonPanel.setVisible(false);
 			}
@@ -2399,7 +2374,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void updatePosition(DefaultSuggestionDisplay sug) {
-		sug.setPositionRelativeTo(ihtml);
+		sug.setPositionRelativeTo(content);
 	}
 
 	@Override

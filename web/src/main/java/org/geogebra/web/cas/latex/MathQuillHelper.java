@@ -1462,4 +1462,9 @@ public class MathQuillHelper extends LaTeXHelper {
 	public RadioTreeItem getSliderItem(GeoElement ob) {
 		return new SliderTreeItemMQ(ob);
 	}
+
+	@Override
+	public RadioTreeItem getCheckboxItem(GeoElement ob) {
+		return new CheckboxTreeItemMQ(ob);
+	}
 }
