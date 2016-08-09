@@ -41,4 +41,6 @@ public interface CASTable {
 	 *            the first row number to change
 	 */
 	void resetRowNumbers(int from);
+
+	boolean hasEditor();
 }

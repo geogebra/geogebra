@@ -47,8 +47,6 @@ public class CASLaTeXEditor extends SimplePanel
 		mf = new MathFieldW(canvas, canvas.getContext2d(), this);
 		retexListener = new RetexKeyboardListener(canvas, mf);
 		setWidget(mf);
-		// TODO should not be necessary to focus
-		mf.setFocus(true);
 
 	}
 

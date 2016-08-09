@@ -216,7 +216,9 @@ public abstract class CASView implements Editing, SetLabels {
 		// delete all rows
 		getConsoleTable().deleteAllRows();
 		ensureOneEmptyRow();
-		getConsoleTable().getEditor().clearInputText();
+		if (getConsoleTable().hasEditor()) {
+			getConsoleTable().getEditor().clearInputText();
+		}
 	}
 
 	/**

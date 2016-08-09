@@ -890,4 +890,8 @@ public class CASTableD extends JTable implements CASTable {
 		// do nothing
 	}
 
+	public boolean hasEditor() {
+		return this.editor != null;
+	}
+
 }
