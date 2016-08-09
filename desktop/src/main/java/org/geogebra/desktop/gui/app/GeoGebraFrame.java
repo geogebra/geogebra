@@ -1033,6 +1033,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 							.getActiveEuclidianView();
 					try {
 
+						boolean export3D = false;
+
 						// if 3D view exists, assume that we should export
 						// that
 						// (only PNG supported right now for 3D)
@@ -1043,15 +1045,17 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 								Log.debug("exporting 3D View");
 								ev = (EuclidianView3DD) app
 										.getEuclidianView3D();
+
+								export3D = true;
 							}
 						}
 
 						double printingScale = ev.getPrintingScale();
 						double exportScale = (printingScale * dpi) / 2.54
 								/ ev.getXscale();
-						boolean transparent = true;
-						boolean textAsShapes = true;
-						boolean useEMFplus = true;
+						final boolean transparent = true;
+						final boolean textAsShapes = true;
+						final boolean useEMFplus = true;
 						int pixelWidth = (int) Math.floor(ev.getExportWidth()
 								* exportScale);
 						int pixelHeight = (int) Math.floor(ev.getExportHeight()
@@ -1086,11 +1090,20 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 							Log.debug("dpi2 = " + dpi2);
 						}
 
-						File file = new File(filename);
+						final File file = new File(filename);
 
 						GraphicExportDialog.export(extension, ev, file,
 								transparent, dpi2, exportScale, textAsShapes,
 								useEMFplus, pixelWidth, pixelHeight, app);
+
+						// HACK
+						// do it again for 3D, first call initializes JOGL
+						if (export3D) {
+							GraphicExportDialog.export(extension, ev, file,
+									transparent, dpi2, exportScale,
+									textAsShapes, useEMFplus, pixelWidth,
+									pixelHeight, app);
+						}
 
 						Log.debug("Graphics View exported successfully to "
 								+ file.getAbsolutePath());
