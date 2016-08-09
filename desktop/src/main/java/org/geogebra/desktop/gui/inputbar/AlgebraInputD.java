@@ -66,6 +66,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 	private InputPanelD inputPanel;
 	private LocalizationD loc;
 
+	private String autoInput;
+
 	/***********************************************************
 	 * creates new AlgebraInput
 	 * 
@@ -99,6 +101,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 					}
 
 					public void preview() {
+						setAutoInput(null);
 						inputField.setBackground(Color.WHITE);
 						app.getKernel().getInputPreviewHelper()
 								.updatePreviewFromInputBar(
@@ -394,6 +397,10 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 
 	private void onEnterPressed(boolean explicit) {
+		if (!explicit && autoInput != null
+				&& autoInput.equals(getTextField().getText())) {
+			return;
+		}
 		app.getKernel().clearJustCreatedGeosInViews();
 		boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
 				|| app.getKernel().getInputPreviewHelper().isValid();
@@ -516,6 +523,11 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 	public void mouseExited(MouseEvent e) {
 		//
+
+	}
+
+	public void setAutoInput(String string) {
+		this.autoInput = string;
 
 	}
 }

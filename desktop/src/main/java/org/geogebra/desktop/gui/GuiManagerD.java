@@ -3323,7 +3323,9 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		JTextComponent textComponent = ((AlgebraInputD) getAlgebraInput())
 				.getTextField();
 		textComponent.setText(string);
+		((AlgebraInputD) getAlgebraInput()).setAutoInput(string);
 		textComponent.requestFocusInWindow();
+
 
 	}
 
