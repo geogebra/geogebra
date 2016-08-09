@@ -1092,7 +1092,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 								transparent, dpi2, exportScale, textAsShapes,
 								useEMFplus, pixelWidth, pixelHeight, app);
 
-						Log.debug("Graphics View exported successfully");
+						Log.debug("Graphics View exported successfully to "
+								+ file.getAbsolutePath());
 
 					} catch (Throwable t) {
 						t.printStackTrace();
