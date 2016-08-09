@@ -143,7 +143,8 @@ public class DrawSegment extends Drawable implements Previewable {
 		} else {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
-			drawClipped(coordsA, coordsB, line, -EuclidianStatic.CLIP_DISTANCE,
+			isVisible = drawClipped(coordsA, coordsB, line,
+					-EuclidianStatic.CLIP_DISTANCE,
 					view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
 					-EuclidianStatic.CLIP_DISTANCE,
 					view.getHeight() + EuclidianStatic.CLIP_DISTANCE);
@@ -339,6 +340,23 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 	}
 
+	/**
+	 * @param coordsA
+	 *            first point
+	 * @param coordsB
+	 *            second point
+	 * @param line
+	 *            line to be updated
+	 * @param xmin
+	 *            clip left border
+	 * @param xmax
+	 *            clip right border
+	 * @param ymin
+	 *            clip top
+	 * @param ymax
+	 *            clip bottom
+	 * @return whether line intersects clipping rectangle
+	 */
 	public static boolean drawClipped(double[] coordsA, double[] coordsB,
 			GLine2D line, int xmin, int xmax, int ymin, int ymax) {
 		GPoint2D[] clippedPoints = ClipLine.getClipped(coordsA[0], coordsA[1],
