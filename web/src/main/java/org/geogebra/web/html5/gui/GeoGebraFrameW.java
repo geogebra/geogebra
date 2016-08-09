@@ -132,15 +132,18 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			// "applet_container"
 			Element ell;
 			nodes = Dom.getElementsByClassName("applet_scaler");
+			Log.debug(nodes.getLength() + " scalers found");
 			// so "nodes" is meaning something else here actually
 			if (nodes.getLength() > 0) {
 				// get the first node that really contains an articleElement
 				for (int i = 0; i < nodes.getLength(); i++) {
 					ell = nodes.getItem(i);
+					Log.debug(ell.getFirstChildElement());
 					if (ell.getFirstChildElement() != null
 							&& ell.getFirstChildElement().hasTagName("ARTICLE")) {
 						// found!!
 						if (ell.getFirstChildElement() == el) {
+							Log.debug("first article");
 							// firstDummy!
 							// now we can create dummy elements before & after
 							// each applet
@@ -152,6 +155,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 									programFocusEvent(firstDummy, lastDummy);
 								}
 							}
+						} else {
+							Log.debug("not first article");
 						}
 						break;
 					}
