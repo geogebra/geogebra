@@ -131,7 +131,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			// then they are probably child elements of class name
 			// "applet_container"
 			Element ell;
-			nodes = Dom.getElementsByClassName("applet_container");
+			nodes = Dom.getElementsByClassName("applet_scaler");
 			// so "nodes" is meaning something else here actually
 			if (nodes.getLength() > 0) {
 				// get the first node that really contains an articleElement
