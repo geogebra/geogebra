@@ -1,11 +1,17 @@
 package org.geogebra.web.web.main;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.HeaderPanel;
+import com.google.gwt.user.client.ui.MenuBar;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.menubar.MenuInterface;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
@@ -61,11 +67,9 @@ import org.geogebra.web.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.HeaderPanel;
-import com.google.gwt.user.client.ui.MenuBar;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * App with all the GUI
@@ -411,7 +415,34 @@ public abstract class AppWFull extends AppW {
 		if (isExam() && getExam().getStart() < 0) {
 			this.closePerspectivesPopup();
 
-			new ExamDialog(this).show();
+			if (this.getLAF().supportsFullscreen()) {
+				new ExamDialog(this).show();
+			} else {
+				StyleInjector
+						.inject(GuiResources.INSTANCE.examStyleLTR().getText());
+				Date date = new Date();
+				guiManager.updateToolbarActions();
+				this.getLAF().removeWindowClosingHandler();
+				this.fileNew();
+				this.updateRounding();
+				this.getGgbApi().setPerspective("1");
+				guiManager.setGeneralToolBarDefinition(
+						ToolBar.getAllToolsNoMacros(true, true));
+				this.getKernel().getAlgebraProcessor().reinitCommands();
+				this.getExam().setStart(date.getTime());
+				this.fireViewsChangedEvent();
+				guiManager.updateToolbar();
+				guiManager.updateToolbarActions();
+				Layout.initializeDefaultPerspectives(this, 0.2);
+				guiManager.updateMenubar();
+				guiManager.resetMenu();
+				DockPanelW dp = ((DockManagerW) guiManager.getLayout()
+						.getDockManager()).getPanelForKeyboard();
+				if (dp != null && dp.getKeyboardListener().needsAutofocus()) { // dp.getKeyboardListener().setFocus(true);
+
+					this.showKeyboard(dp.getKeyboardListener(), true);
+				}
+			}
 
 			if (Location.getHost() != null) {
 				return;
