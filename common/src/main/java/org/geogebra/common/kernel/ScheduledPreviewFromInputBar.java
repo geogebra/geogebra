@@ -17,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class ScheduledPreviewFromInputBar implements Runnable {
 
-	private static final int DEFAULT_MAX_LENGTH = 5;
+	private static final int DEFAULT_MAX_LENGTH = 1000;
 	/**
 	 * 
 	 */
@@ -39,10 +39,12 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	private void setInput(String str, ErrorHandler validation) {
 		this.input = str;
 		this.validation = validation;
-		if (str.length() == 0) {
+		if (str.trim().length() == 0) {
+			validInput = "";
 			maxLength = DEFAULT_MAX_LENGTH;
+			return;
 		}
-		if (str.length() > maxLength || str.length() == 0) {
+		if (str.length() > maxLength) {
 			validInput = null;
 			Log.debug("Timeout at length " + maxLength);
 			return;
@@ -177,7 +179,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			this.kernel.setSilentMode(silentModeOld);
 
 		} catch (Throwable ee) {
-			Log.debug("-- invalid input");
+			Log.debug("-- invalid input" + ee + ":" + validInput);
 			this.kernel.setSilentMode(true);
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
 			this.kernel.setSilentMode(silentModeOld);

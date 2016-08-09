@@ -39,7 +39,6 @@ import org.geogebra.web.web.util.LaTeXHelper;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.shared.GWT;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -1796,7 +1795,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		repaintView();
 	}
 
-	private Element mqSize = null;
 	private int mqFontSize = -1;
 	/**
 	 * Not used in Web so far. Will not work with JLM.

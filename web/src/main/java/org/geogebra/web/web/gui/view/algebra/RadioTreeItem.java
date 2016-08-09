@@ -888,7 +888,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public boolean commonEditingCheck() {
-		return av.isEditing() || isEditing() || isInputTreeItem();
+		return av.isEditing() || isEditing() || isInputTreeItem()
+				|| geo == null;
 	}
 
 	private void updateCheckBox() {

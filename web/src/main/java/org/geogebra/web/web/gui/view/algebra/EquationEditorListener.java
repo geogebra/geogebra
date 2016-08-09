@@ -4,13 +4,10 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.keyboard.KeyboardListener;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 
 public interface EquationEditorListener extends AutoCompleteW {
 
 	Element getLaTeXElement();
-
-	void updatePosition(DefaultSuggestionDisplay sug);
 
 	void keypress(char c, boolean alt, boolean ctrl, boolean shift, boolean more);
 
@@ -26,10 +23,15 @@ public interface EquationEditorListener extends AutoCompleteW {
 
 	boolean resetAfterEnter();
 
+	/**
+	 * @return latex content of editor
+	 */
 	String getLaTeX();
 
-	boolean isForCAS();
 
+	/**
+	 * @return keyboard listener
+	 */
 	KeyboardListener getKeyboardListener();
 
 }

@@ -11,6 +11,7 @@ import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -220,9 +221,7 @@ public class LatexTreeItem extends RadioTreeItem
 				return;
 			}
 			createGeoFromInput(keepFocus);
-			if (!keepFocus) {
-				setFocus(false, false);
-			}
+
 			return;
 		}
 		if (!isEditing()) {
@@ -277,6 +276,8 @@ public class LatexTreeItem extends RadioTreeItem
 								scrollIntoView();
 								if (keepFocus) {
 									setFocus(true);
+								}else{
+									setFocus(false, true);
 								}
 
 							}
@@ -288,10 +289,11 @@ public class LatexTreeItem extends RadioTreeItem
 			}
 
 		};
-
+		ErrorHandler err = getErrorHandler(valid);
+		err.showError(null);
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, true,
-						getErrorHandler(valid), true, callback);
+						err, true, callback);
 
 	}
 	
@@ -309,6 +311,7 @@ public class LatexTreeItem extends RadioTreeItem
 				e.printStackTrace();
 			}
 		}
+		updatePreview();
 		updateLineHeight();
 	}
 	@Override
@@ -370,6 +373,7 @@ public class LatexTreeItem extends RadioTreeItem
 	private void updatePreview() {
 		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
 			String text = getText();
+			Log.debug("LATEX INPUT:" + text);
 			app.getKernel().getInputPreviewHelper().updatePreviewFromInputBar(
 					text, AlgebraInputW.getWarningHandler(this, app));
 		}

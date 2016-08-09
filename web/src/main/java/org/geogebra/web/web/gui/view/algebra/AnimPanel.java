@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
@@ -14,13 +15,16 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 
+/**
+ * Animation panel for points and sliders
+ *
+ */
 public class AnimPanel extends FlowPanel implements ClickHandler {
+	/**
+	 * Animation speeds
+	 */
 	final static double animSpeeds[] = { 0.05, 0.1, 0.15, 0.2, 0.35, 0.75, 1,
 			1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
-	static final String MUL_SIGN = "\u00d7";
-	/**
-	 * 
-	 */
 	private final RadioTreeItem radioTreeItem;
 	private MyToggleButton2 btnSpeedDown;
 	private PushButton btnSpeedValue;
@@ -29,6 +33,11 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	private boolean speedButtons = false;
 	private boolean play = false;
 	private int speedIndex = 6;
+
+	/**
+	 * @param radioTreeItem
+	 *            parent item
+	 */
 	public AnimPanel(RadioTreeItem radioTreeItem) {
 		super();
 		this.radioTreeItem = radioTreeItem;
@@ -105,11 +114,20 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 
 	}
 
+	/**
+	 * @return geo element
+	 */
 	protected GeoElement getGeo() {
 		return this.radioTreeItem.geo;
 	}
 
-	private void setAnimating(boolean value) {
+	/**
+	 * Set aniating flag of underlying geo
+	 * 
+	 * @param value
+	 *            whether animation is on
+	 */
+	void setAnimating(boolean value) {
 		if (!(getGeo().isAnimatable())) {
 			return;
 		}
@@ -117,6 +135,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		getGeo().getKernel().getAnimatonManager().startAnimation();
 	}
 
+	/**
+	 * @param value
+	 *            whether animation is playing
+	 */
 	void setPlay(boolean value) {
 		play = value;
 		showSpeedButtons(false);
@@ -139,6 +161,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		}
 	}
 
+	/**
+	 * @param value
+	 *            whether play buttons should be visible
+	 */
 	public void showPlay(boolean value) {
 		btnPlay.setVisible(value);
 	}
@@ -162,7 +188,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	private void setSpeedText(double speed) {
-		String speedStr = speed + " " + MUL_SIGN;
+		String speedStr = speed + " " + Unicode.MULTIPLY;
 		btnSpeedValue.getUpFace().setText(speedStr);
 		btnSpeedValue.getUpHoveringFace().setText(speedStr);
 		btnSpeedValue.getDownFace().setText(speedStr);
@@ -201,6 +227,9 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		}
 	}
 
+	/**
+	 * Update UI
+	 */
 	public void update() {
 		if (isGeoAnimating() != play) {
 			boolean v = isGeoAnimating();
@@ -209,10 +238,16 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		}
 	}
 
+	/**
+	 * @return whether geo is animating
+	 */
 	boolean isGeoAnimating() {
 		return this.radioTreeItem.geo.isAnimating() && this.radioTreeItem.kernel.getAnimatonManager().isRunning();
 	}
 
+	/**
+	 * Reset UI
+	 */
 	public void reset() {
 		showSpeedButtons(false);
 		showSpeedValue(isGeoAnimating());
