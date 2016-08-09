@@ -80,10 +80,10 @@ public class CmdSetColor extends CmdScripting {
 		// SetBackgroundColor[0,1,0]
 		if (background && n == 3) {
 
-			ExpressionNode[] args = c.getArguments();
-			ExpressionNode enR = args[0];
-			ExpressionNode enG = args[1];
-			ExpressionNode enB = args[2];
+			GeoElement[] args = resArgs(c);
+			GeoElement enR = args[0];
+			GeoElement enG = args[1];
+			GeoElement enB = args[2];
 			double redD = enR.evaluateDouble();
 			double greenD = enG.evaluateDouble();
 			double blueD = enB.evaluateDouble();
