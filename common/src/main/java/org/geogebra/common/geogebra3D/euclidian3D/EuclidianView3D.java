@@ -1,11 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -113,6 +107,12 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -4400,6 +4400,10 @@ GRectangle selectionRectangle) {
 
 	@Override
 	public final void setViewShowAllObjects(boolean storeUndo, boolean keepRatio) {
+		setViewShowAllObjects(storeUndo, keepRatio, 15);
+	}
+
+	public final void setViewShowAllObjects(boolean storeUndo, boolean keepRatio, int steps) {
 
 		if (boundsMin == null) {
 			boundsMin = new Coords(3);
@@ -4418,11 +4422,15 @@ GRectangle selectionRectangle) {
 			return;
 		}
 
-		zoomRW(boundsMin, boundsMax);
+		zoomRW(boundsMin, boundsMax, steps);
 
 	}
 
 	public void zoomRW(Coords boundsMin2, Coords boundsMax2) {
+		zoomRW(boundsMin2, boundsMax2, 15);
+	}
+
+	public void zoomRW(Coords boundsMin2, Coords boundsMax2, int steps) {
 		double dx0 = getXmax() - getXmin();
 		double dy0 = getYmax() - getYmin();
 		double dz0 = getZmax() - getZmin();
@@ -4470,7 +4478,7 @@ GRectangle selectionRectangle) {
 		double y = -(boundsMin2.getY() + boundsMax2.getY()) / 2;
 		double z = -(boundsMin2.getZ() + boundsMax2.getZ()) / 2;
 
-		setAnimatedCoordSystem(x, y, z, scale, 15);
+		setAnimatedCoordSystem(x, y, z, scale, steps);
 
 	}
 
