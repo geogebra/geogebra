@@ -219,7 +219,9 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 	}
 
 	public void updateFonts(Font font) {
-		statTable.updateFonts(font);
+		if (statTable != null) {
+			statTable.updateFonts(font);
+		}
 	}
 
 	public void setLabels() {

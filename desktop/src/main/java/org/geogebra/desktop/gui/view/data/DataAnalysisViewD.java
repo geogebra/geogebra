@@ -614,7 +614,8 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			source.setDataListFromSettings(
 					app.getSettings().getDataAnalysis().getItems(),
 					app.getSettings().getDataAnalysis().getMode());
-			model.setDataSource(source);
+			model.setView(source, app.getSettings().getDataAnalysis().getMode(),
+					true);
 		}
 		kernel.attach(this);
 
