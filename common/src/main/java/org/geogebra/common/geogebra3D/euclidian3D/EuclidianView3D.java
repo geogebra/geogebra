@@ -2067,13 +2067,19 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			stopAnimation();
 			break;
 		case ANIMATED_SCALE:
-			double t = (app.getMillisecondTime() - animatedScaleTimeStart)
-					* animatedScaleTimeFactor;
-			t += 0.2; // starting at 1/4
-
-			if (t >= 1) {
+			double t;
+			if (animatedScaleTimeFactor == 0){
 				t = 1;
 				stopAnimation();
+			}else {
+				t = (app.getMillisecondTime() - animatedScaleTimeStart)
+						* animatedScaleTimeFactor;
+				t += 0.2; // starting at 1/4
+
+				if (t >= 1) {
+					t = 1;
+					stopAnimation();
+				}
 			}
 
 			// Application.debug("t="+t+"\nscale="+(startScale*(1-t)+endScale*t));
