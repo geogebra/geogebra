@@ -1781,7 +1781,20 @@ new GPoint(row, column));
 			String strTickDist = attrs.get("tickDistance");
 			if (strTickDist != null) {
 				double tickDist = StringUtil.parseDouble(strTickDist);
-				ev.setAxesNumberingDistance(new GeoNumeric(cons, tickDist),
+				GeoNumeric distNum = new GeoNumeric(cons, tickDist);
+				if (Kernel.isInteger(tickDist * 24 / Math.PI)) {
+					int num = (int) Math.round(tickDist * 24 / Math.PI);
+					int gcd = (int) Kernel.gcd(num, 24);
+					int den = 24 / gcd;
+					num = num / gcd;
+					ExpressionNode def = new ExpressionNode(kernel, Math.PI)
+							.multiplyR(num);
+					if (den != 1) {
+						def = def.divide(den);
+					}
+					distNum.setDefinition(def);
+				}
+				ev.setAxesNumberingDistance(distNum,
 						axis);
 			}
 
@@ -3476,7 +3489,7 @@ new GPoint(row, column));
 			// ev.updateBounds();
 		}
 		for (EuclidianSettings ev : eSet) {
-			if (xtick.get(ev) != null) {
+			if (!StringUtil.empty(xtick.get(ev))) {
 
 				GeoNumberValue n = kernel.getAlgebraProcessor()
 						.evaluateToNumeric(xtick.get(ev), true);
@@ -3485,7 +3498,7 @@ new GPoint(row, column));
 			// ev.updateBounds();
 		}
 		for (EuclidianSettings ev : eSet) {
-			if (ytick.get(ev) != null) {
+			if (!StringUtil.empty(ytick.get(ev))) {
 
 				GeoNumberValue n = kernel.getAlgebraProcessor()
 						.evaluateToNumeric(ytick.get(ev), true);

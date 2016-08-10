@@ -396,7 +396,14 @@ public class AxisModel {
 	}
 
 	public String getAxisDistance() {
-		return view.getAxesDistanceObjects()[axis] == null ? "" : view
+		return view.getAxesDistanceObjects()[axis] == null ? "" :
+			view
+			.getAxesDistanceObjects()[axis].getDefinition() == null ? view
+										.getAxesDistanceObjects()[axis]
+												.toValueString(
+														StringTemplate.editorTemplate)
+								:
+			view
 				.getAxesDistanceObjects()[axis]
 				.getDefinition(StringTemplate.editorTemplate);
 	}
