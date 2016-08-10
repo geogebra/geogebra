@@ -188,8 +188,8 @@ public class LatexTreeItem extends RadioTreeItem
 			}
 			appendCanvas();
 			main.add(content);
-			if (buttonPanel != null) {
-				main.add(buttonPanel);
+			if (controls != null) {
+				main.add(controls);
 				updateButtonPanelPosition();
 			}
 

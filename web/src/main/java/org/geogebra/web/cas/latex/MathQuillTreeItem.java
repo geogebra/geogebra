@@ -243,7 +243,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			content.insert(getClearInputButton(), 1);
-			buttonPanel.setVisible(false);
+			controls.setVisible(false);
 		}
 
 		return true;

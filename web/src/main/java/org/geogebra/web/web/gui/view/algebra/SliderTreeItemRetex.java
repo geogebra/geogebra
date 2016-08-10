@@ -80,9 +80,9 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	public SliderTreeItemRetex(final GeoElement geo0) {
 		super(geo0);
 		num = (GeoNumeric) geo;
-		createAnimPanel();
 		createSliderGUI();
 		addDomHandlers(main);
+		addControls();
 		deferredResize();
 	}
 
@@ -188,9 +188,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 		sliderPanel.setVisible(true);
 
-		if (animPanel != null) {
-			animPanel.setVisible(true);
-		}
+		controls.showAnimPanel();
 	}
 
 	private void updateColor() {
@@ -201,9 +199,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	protected void doUpdate() {
 		setNeedsUpdate(false);
 		marblePanel.update();
-		if (animPanel != null) {
-			animPanel.update();
-		}
+		controls.updateAnimPanel();
 
 		slider.setScale(app.getArticleElement().getScaleX());
 		double min = num.getIntervalMin();
@@ -252,7 +248,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
 
-		if ((isWidgetHit(animPanel, evt)
+		if ((isWidgetHit(controls.getAnimPanel(), evt)
 				|| (minMaxPanel != null && minMaxPanel.isVisible())
 				|| isWidgetHit(marblePanel, evt)
 		)) {
@@ -379,10 +375,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 
 	public void setAnimPanelVisible(boolean visible) {
-		if (animPanel == null) {
-			return;
-		}
-		animPanel.setVisible(visible);
+		controls.showAnimPanel(visible);
 	}
 
 }

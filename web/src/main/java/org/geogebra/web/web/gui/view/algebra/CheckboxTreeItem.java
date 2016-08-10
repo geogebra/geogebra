@@ -36,8 +36,8 @@ public class CheckboxTreeItem extends LatexTreeItem {
 	}
 
 	@Override
-	protected void createControls() {
-		createButtonPanel();
+	protected void addControls() {
+		createControls();
 		// no add this time
 	}
 
@@ -49,7 +49,7 @@ public class CheckboxTreeItem extends LatexTreeItem {
 		}
 
 		if (hasAnimPanel()) {
-			animPanel.update();
+			controls.updateAnimPanel();
 
 		}
 		createAvexWidget();

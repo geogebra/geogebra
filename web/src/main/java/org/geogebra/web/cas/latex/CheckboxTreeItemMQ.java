@@ -37,8 +37,8 @@ public class CheckboxTreeItemMQ extends MathQuillTreeItem {
 	}
 
 	@Override
-	protected void createControls() {
-		createButtonPanel();
+	protected void addControls() {
+		createControls();
 		// no add this time
 	}
 
@@ -50,7 +50,7 @@ public class CheckboxTreeItemMQ extends MathQuillTreeItem {
 		}
 
 		if (hasAnimPanel()) {
-			animPanel.update();
+			controls.updateAnimPanel();
 
 		}
 		createAvexWidget();
@@ -70,7 +70,7 @@ public class CheckboxTreeItemMQ extends MathQuillTreeItem {
 		if (checkBox != null) {
 			main.add(checkBox);
 		}
-		main.add(buttonPanel);
+		main.add(controls);
 		main.add(content);
 	}
 	

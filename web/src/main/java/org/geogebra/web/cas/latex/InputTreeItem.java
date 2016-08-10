@@ -29,6 +29,7 @@ import org.geogebra.web.web.gui.view.algebra.MinMaxPanel;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -67,6 +68,7 @@ public class InputTreeItem extends MathQuillTreeItem
 	// curve)
 	/** + button */
 	protected PushButton plusButton = null;
+	protected PushButton btnDelete = null;
 	/** Popup for history */
 	HistoryPopupW historyPopup;
 	/** Popup for submenu */
@@ -74,7 +76,7 @@ public class InputTreeItem extends MathQuillTreeItem
 	/** Editor */
 	EquationEditor editor;
 
-
+	private FlowPanel buttonPanel;
 	private Label piecewiseLabel, matrixLabel, curveLabel;
 
 
@@ -916,4 +918,27 @@ public class InputTreeItem extends MathQuillTreeItem
 		}
 	}
 
+	@Deprecated
+	public PushButton getDeleteButton() {
+		if (btnDelete == null) {
+			btnDelete = new PushButton(
+					new Image(GuiResources.INSTANCE.algebra_delete()));
+			btnDelete.getUpHoveringFace().setImage(
+					new Image(GuiResources.INSTANCE.algebra_delete_hover()));
+			btnDelete.addStyleName("XButton");
+			btnDelete.addStyleName("shown");
+			btnDelete.addMouseDownHandler(new MouseDownHandler() {
+				@Override
+				public void onMouseDown(MouseDownEvent event) {
+					if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+						return;
+					}
+					event.stopPropagation();
+					geo.remove();
+				}
+			});
+		}
+		return btnDelete;
+
+	}
 }

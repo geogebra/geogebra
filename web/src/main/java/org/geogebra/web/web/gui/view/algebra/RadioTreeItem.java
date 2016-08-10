@@ -156,44 +156,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected FlowPanel content;
 
 	/** Item controls like delete, play, etc */
-	protected FlowPanel buttonPanel;
+	protected ItemControls controls;
 
-	public void expandSize(int newWidth) {
-		if (getAV().getOriginalWidth() != null) {
-			return;
-		}
-		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
-		int w = avDockPanel.asWidget().getOffsetWidth();
-		if (w < newWidth) {
-			DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
-			if (splitPane == null || splitPane
-					.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
-				return;
-			}
-			getAV().setOriginalWidth(w);
-			splitPane.setWidgetSize(avDockPanel,
-					newWidth);
-			avDockPanel.deferredOnResize();
-		} else {
-			getAV().setOriginalWidth(null);
-		}
-	}
-
-	public void restoreSize() {
-		Integer w = getAV().getOriginalWidth();
-		if (w != null) {
-			AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
-			avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
-			avDockPanel.deferredOnResize();
-			getAV().setOriginalWidth(null);
-		}
-	}
 
 	public class MarblePanel extends FlowPanel {
 		private Marble marble;
 		private boolean selected = false;
 
-		public MarblePanel(final GeoElement geo) {
+		public MarblePanel() {
 
 			marble = new Marble(RadioTreeItem.this);
 			marble.setStyleName("marble");
@@ -217,8 +187,134 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
+	public class ItemControls extends FlowPanel {
+		/** Deletes the whole item */
+		protected PushButton btnDelete;
 
-	protected PushButton btnDelete;
+
+		/** animation controls */
+		protected AnimPanel animPanel;
+
+		public ItemControls() {
+			addStyleName("AlgebraViewObjectStylebar");
+			addStyleName("smallStylebar");
+			setVisible(false);
+		}
+
+		/**
+		 * Gets (and creates if there is not yet) the delete button which geo
+		 * item can be removed with from AV.
+		 * 
+		 * @return The "X" button.
+		 */
+		public PushButton getDeleteButton() {
+			if (btnDelete == null) {
+				btnDelete = new PushButton(
+						new Image(GuiResources.INSTANCE.algebra_delete()));
+				btnDelete.getUpHoveringFace().setImage(new Image(
+						GuiResources.INSTANCE.algebra_delete_hover()));
+				btnDelete.addStyleName("XButton");
+				btnDelete.addStyleName("shown");
+				btnDelete.addMouseDownHandler(new MouseDownHandler() {
+					@Override
+					public void onMouseDown(MouseDownEvent event) {
+						if (event
+								.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+							return;
+						}
+						event.stopPropagation();
+						geo.remove();
+					}
+				});
+			}
+			return btnDelete;
+
+		}
+
+		public void showAnimPanel(boolean value) {
+			if (animPanel != null) {
+				animPanel.setVisible(value);
+			}
+		}
+
+		public void showAnimPanel() {
+			showAnimPanel(true);
+		}
+
+		public void hideAnimPanel() {
+			showAnimPanel(true);
+		}
+
+		protected void createAnimPanel() {
+			animPanel = geo.isAnimatable() ? new AnimPanel(RadioTreeItem.this)
+					: null;
+
+		}
+
+		public void updateAnimPanel() {
+			if (animPanel != null) {
+				animPanel.setVisible(geo != null && geo.isAnimatable());
+				animPanel.update();
+			}
+		}
+
+		public AnimPanel getAnimPanel() {
+			return animPanel;
+		}
+
+		public void update(boolean showX) {
+			setFirst(first);
+
+			if (geo == null) {
+				return;
+			}
+
+			if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
+				setFirst(first);
+				clear();
+				if (geo.isAnimatable()) {
+					if (animPanel == null) {
+						createAnimPanel();
+					}
+
+					add(animPanel);
+				}
+
+				if (getPButton() != null) {
+					add(getPButton());
+				}
+				if (showX) {
+					add(getDeleteButton());
+				}
+
+				setVisible(true);
+
+				if (!isEditing()) {
+					maybeSetPButtonVisibility(false);
+				}
+
+				getAV().setActiveTreeItem(RadioTreeItem.this);
+
+			} else {
+				getAV().removeCloseButton();
+			}
+
+			updateAnimPanel();
+		}
+
+		public void removeAnimPanel() {
+			if (animPanel != null) {
+				remove(animPanel);
+			}
+		}
+
+		public void reset() {
+			if (animPanel != null) {
+				animPanel.reset();
+			}
+		}
+
+	}
 
 	protected GeoElement geo;
 	protected Kernel kernel;
@@ -234,6 +330,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private boolean needsUpdate;
 	protected Label errorLabel;
 
+	/** Clears input only when editing */
+	protected PushButton btnClearInput;
+
 	private LongTouchManager longTouchManager;
 
 	/**
@@ -244,11 +343,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected FlowPanel contentPanel;
 
 
-	/**
-	 * panel to display animation related controls
-	 */
-
-	protected AnimPanel animPanel;
 
 	protected boolean definitionAndValue;
 
@@ -258,7 +352,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected FlowPanel outputPanel;
 
-	protected PushButton btnClearInput;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -382,7 +475,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		
 		addDomHandlers(main);
 
-		createControls();
+		addControls();
 
 		content.add(getPlainTextItem());
 		buildPlainTextItem();
@@ -408,7 +501,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		main.addStyleName("elem");
 		main.addStyleName("panelRow");
 
-		marblePanel = new MarblePanel(geo);
+		marblePanel = new MarblePanel();
 		main.add(marblePanel);
 
 	}
@@ -421,17 +514,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	protected void createButtonPanel() {
-		buttonPanel = new FlowPanel();
-		buttonPanel.addStyleName("AlgebraViewObjectStylebar");
-		buttonPanel.addStyleName("smallStylebar");
-		buttonPanel.setVisible(false);
-
+	protected void createControls() {
+		controls = new ItemControls();
 	}
 
-	protected void createControls() {
-		createButtonPanel();
-		main.add(buttonPanel);
+	protected void addControls() {
+		createControls();
+		main.add(controls);
 	}
 	protected void createGUI() {
 
@@ -466,51 +555,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return null;
 	}
 
-	/**
-	 * Gets (and creates if there is not yet) the delete button which geo item
-	 * can be removed with from AV.
-	 * 
-	 * @return The "X" button.
-	 */
-	protected PushButton getDeleteButton() {
-		if (btnDelete == null) {
-			btnDelete = new PushButton(
-					new Image(
-					GuiResources.INSTANCE.algebra_delete()));
-			btnDelete.getUpHoveringFace().setImage(
-					new Image(GuiResources.INSTANCE.algebra_delete_hover()));
-			btnDelete.addStyleName("XButton");
-			btnDelete.addStyleName("shown");
-			btnDelete.addMouseDownHandler(new MouseDownHandler() {
-				@Override
-				public void onMouseDown(MouseDownEvent event) {
-					if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
-						return;
-					}
-					event.stopPropagation();
-					geo.remove();
-				}
-			});
-		}
-		return btnDelete;
 
-	}
-
-	protected PushButton getClearInputButton() {
-		if (btnClearInput == null) {
-			btnClearInput = new PushButton(new Image(
-					GuiResources.INSTANCE.algebra_delete()));
-			btnClearInput.addMouseDownHandler(new MouseDownHandler() {
-				public void onMouseDown(MouseDownEvent event) {
-						clearInput();
-						RadioTreeItem.this.setFocus(true);
-						event.stopPropagation();
-				}
-			});
-			btnClearInput.addStyleName("ggb-btnClearAVInput");
-		}
-		return btnClearInput;
-	}
 
 	protected abstract void clearInput();
 
@@ -832,10 +877,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void styleContentPanel() {
 		contentPanel.addStyleName("elemPanel");
 		contentPanel.removeStyleName("avItemContent");
-
-		if (animPanel != null) {
-			animPanel.setVisible(geo != null && geo.isAnimatable());
-		}
+		controls.updateAnimPanel();
 
 	}
 
@@ -849,10 +891,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	//
 	// methods for AV Slider
 
-	protected void createAnimPanel() {
-		animPanel = geo.isAnimatable() ? new AnimPanel(this) : null;
-
-	}
 	// END OF AV Slider methods
 	/**
 	 * Method to be overridden in InputTreeItem
@@ -913,24 +951,19 @@ public abstract class RadioTreeItem extends AVTreeItem
 			marblePanel.update();
 		}
 
-		if (hasAnimPanel()) {
-			animPanel.update();
-
+		if (controls != null) {
+			controls.updateAnimPanel();
 		}
 
-		if (isItemNumeric()) {
-			updateTextItems();
-		} else {
-			if (!isInputTreeItem() && isDefinitionAndValue()) {
-				if (geo == null) {
-					Log.debug(Feature.RETEX_EDITOR, "Build item");
-				}
-				buildItemContent();
-			} else {
-				updateTextItems();
+		if (!isInputTreeItem() && isDefinitionAndValue()) {
+			if (geo == null) {
+				Log.debug(Feature.RETEX_EDITOR, "Build item");
 			}
-
+			buildItemContent();
+		} else {
+			updateTextItems();
 		}
+
 
 		if (plainTextItem != null) {
 			updateFont(plainTextItem);
@@ -1083,14 +1116,16 @@ public abstract class RadioTreeItem extends AVTreeItem
 			return true;
 		}
 
-		updateButtonPanel(true);
+		if (controls != null) {
+			controls.update(true);
+		}
 
 		editing = true;
 		if (startEditing(substituteNumbers) == false) {
 			return false;
 		}
-		if (buttonPanel != null) {
-			buttonPanel.setVisible(true);
+		if (controls != null) {
+			controls.setVisible(true);
 			updateButtonPanelPosition();
 		}
 		maybeSetPButtonVisibility(true);
@@ -1143,8 +1178,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 				content.remove(btnClearInput);
 				btnClearInput = null;
 			}
-			if (buttonPanel != null) {
-				buttonPanel.setVisible(true);
+			if (controls != null) {
+				controls.setVisible(true);
 			}
 		}
 
@@ -1388,8 +1423,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 			if (!isEditing()) {
 				geo.setAnimating(false);
 				av.startEditing(geo);
-				if (app.has(Feature.AV_INPUT_BUTTON_COVER) && buttonPanel != null) {
-					buttonPanel.setVisible(false);
+				if (app.has(Feature.AV_INPUT_BUTTON_COVER)
+						&& controls != null) {
+					controls.setVisible(false);
 				}
 
 				Scheduler.get()
@@ -1405,14 +1441,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 											.isStyleBarPanelShown();
 									getAlgebraDockPanel()
 											.showStyleBarPanel(false);
-									if (buttonPanel != null) {
-										buttonPanel.getElement().getStyle()
+									if (controls != null) {
+										controls.getElement().getStyle()
 												.setRight(0, Unit.PX);
 									}
 								}
 
-								if (animPanel != null && buttonPanel != null) {
-									buttonPanel.remove(animPanel);
+								if (controls != null) {
+									controls.removeAnimPanel();
 								}
 							}
 
@@ -1510,7 +1546,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 	protected void updateButtonPanelPosition() {
-		if (buttonPanel == null) {
+		if (controls == null) {
 			return;
 		}
 		
@@ -1529,7 +1565,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				int scrollbarWidth = algebraPanel == null ? 0
 						: algebraPanel.getOffsetWidth()
 						- algebraPanel.getElement().getClientWidth();
-				buttonPanel.getElement().getStyle()
+				controls.getElement().getStyle()
 						.setRight(46 - scrollbarWidth, Unit.PX);
 			
 			} else { // old code
@@ -1537,11 +1573,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 				if (algebraPanel != null
 						&& algebraPanel.getOffsetWidth() > algebraPanel.getElement()
 								.getClientWidth()) {
-						buttonPanel.addStyleName("positionedObjectStyleBar_scrollbarVisible"); 
-						buttonPanel.removeStyleName("positionedObjectStyleBar"); 
+					controls.addStyleName(
+							"positionedObjectStyleBar_scrollbarVisible");
+					controls.removeStyleName("positionedObjectStyleBar");
 				} else { 
-					buttonPanel.addStyleName("positionedObjectStyleBar");
-					buttonPanel
+					controls.addStyleName("positionedObjectStyleBar");
+					controls
 					.removeStyleName("positionedObjectStyleBar_scrollbarVisible"); 
 				}
 			
@@ -1549,10 +1586,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		} else {
 			Log.debug("canNOT hide");
 			if (accurate) {
-				buttonPanel.getElement().getStyle().setRight(0, Unit.PX);
+				controls.getElement().getStyle().setRight(0, Unit.PX);
 			} else {
-				buttonPanel.removeStyleName("positionedObjectStyleBar");
-				buttonPanel
+				controls.removeStyleName("positionedObjectStyleBar");
+				controls
 						.removeStyleName("positionedObjectStyleBar_scrollbarVisible");
 			}
 		}
@@ -1759,40 +1796,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 * This method shall only be called when we are not doing editing, so this
 	 * is for the delete button at selection
 	 */
-	private void updateButtonPanel(boolean showX) {
-		setFirst(first);
-
-		if (geo == null) {
-			return;
-		}
-
-		if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
-			setFirst(first);
-			buttonPanel.clear();
-			if (geo.isAnimatable()) {
-				if (animPanel == null) {
-					createAnimPanel();
-				}
-				buttonPanel.add(animPanel);
-			}
-			if (getPButton() != null) {
-				buttonPanel.add(getPButton());
-			}
-			if (showX) {
-				buttonPanel.add(getDeleteButton());
-			}
-			buttonPanel.setVisible(true);
-
-			if (!isEditing()) {
-				maybeSetPButtonVisibility(false);
-			}
-
-			getAV().setActiveTreeItem(this);
-
-		} else {
-			getAV().removeCloseButton();
-		}
-	}
 
 	protected PushButton getPButton() {
 		return null;
@@ -1873,8 +1876,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	public void removeCloseButton() {
 		this.maybeSetPButtonVisibility(true);
-		if (buttonPanel != null) {
-			buttonPanel.setVisible(false);
+		if (controls != null) {
+			controls.setVisible(false);
 		}
 	}
 
@@ -1996,7 +1999,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void onResize() {
 		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			if (first && isSelected()) {
-				updateButtonPanel(true);
+				controls.update(true);
 			}
 		}
 		updateButtonPanelPosition();
@@ -2017,7 +2020,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (selected) {
 			addStyleName("avSelectedRow");
-			updateButtonPanel(true);
+			controls.update(true);
 
 		} else {
 			removeStyleName("avSelectedRow");
@@ -2027,8 +2030,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		if (selected == false
 				// && geo != AVSelectionController.get(app).getLastSelectedGeo()
-				&& animPanel != null) {
-			animPanel.reset();
+		) {
+			controls.reset();
 		}
 	}
 
@@ -2101,15 +2104,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	protected boolean hasAnimPanel() {
-		return animPanel != null;
+		return controls.animPanel != null;
 	}
 
 	protected boolean hasMarblePanel() {
 		return marblePanel != null;
-	}
-
-	private boolean isItemNumeric() {
-		return false;
 	}
 
 	private String getOutputPrefix() {
@@ -2293,8 +2292,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 				btnClearInput.removeFromParent();
 				btnClearInput = null;
 			}
-			if (buttonPanel != null) {
-				buttonPanel.setVisible(true);
+			if (controls != null) {
+				controls.setVisible(true);
 			}
 			setLatexItemVisible(false);
 		}
@@ -2317,8 +2316,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			content.add(getClearInputButton());
-			if (buttonPanel != null) {
-				buttonPanel.setVisible(false);
+			if (controls != null) {
+				controls.setVisible(false);
 			}
 			setLatexItemVisible(true);
 		}
@@ -2341,7 +2340,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		// After changing the stylebar visibility, maybe the small stylebar's
 		// position will be changed too
-		if (buttonPanel != null) {
+		if (controls != null) {
 			updateButtonPanelPosition();
 		}
 
@@ -2384,6 +2383,52 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	public boolean needsAutofocus() {
 		return true;
+	}
+
+	public void expandSize(int newWidth) {
+		if (getAV().getOriginalWidth() != null) {
+			return;
+		}
+		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
+		int w = avDockPanel.asWidget().getOffsetWidth();
+		if (w < newWidth) {
+			DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
+			if (splitPane == null || splitPane
+					.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+				return;
+			}
+			getAV().setOriginalWidth(w);
+			splitPane.setWidgetSize(avDockPanel, newWidth);
+			avDockPanel.deferredOnResize();
+		} else {
+			getAV().setOriginalWidth(null);
+		}
+	}
+
+	public void restoreSize() {
+		Integer w = getAV().getOriginalWidth();
+		if (w != null) {
+			AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
+			avDockPanel.getParentSplitPane().setWidgetSize(avDockPanel, w);
+			avDockPanel.deferredOnResize();
+			getAV().setOriginalWidth(null);
+		}
+	}
+
+	protected PushButton getClearInputButton() {
+		if (btnClearInput == null) {
+			btnClearInput = new PushButton(
+					new Image(GuiResources.INSTANCE.algebra_delete()));
+			btnClearInput.addMouseDownHandler(new MouseDownHandler() {
+				public void onMouseDown(MouseDownEvent event) {
+					clearInput();
+					RadioTreeItem.this.setFocus(true);
+					event.stopPropagation();
+				}
+			});
+			btnClearInput.addStyleName("ggb-btnClearAVInput");
+		}
+		return btnClearInput;
 	}
 
 }

@@ -82,7 +82,9 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	public SliderTreeItemMQ(final GeoElement geo0) {
 		super(geo0);
 		num = (GeoNumeric) geo;
-		createAnimPanel();
+
+		addControls();
+
 		createSliderGUI();
 		addDomHandlers(main);
 		deferredResize();
@@ -190,9 +192,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 
 		sliderPanel.setVisible(true);
 
-		if (animPanel != null) {
-			animPanel.setVisible(true);
-		}
+		controls.showAnimPanel();
 	}
 
 	private void updateColor() {
@@ -203,9 +203,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	protected void doUpdate() {
 		setNeedsUpdate(false);
 		marblePanel.update();
-		if (animPanel != null) {
-			animPanel.update();
-		}
+		controls.updateAnimPanel();
 
 		slider.setScale(app.getArticleElement().getScaleX());
 		double min = num.getIntervalMin();
@@ -254,7 +252,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
 
-		if ((isWidgetHit(animPanel, evt)
+		if ((isWidgetHit(controls.getAnimPanel(), evt)
 				|| (minMaxPanel != null && minMaxPanel.isVisible())
 				|| isWidgetHit(marblePanel, evt)
 		)) {
@@ -378,10 +376,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 
 
 	public void setAnimPanelVisible(boolean visible) {
-		if (animPanel == null) {
-			return;
-		}
-		animPanel.setVisible(visible);
+		controls.showAnimPanel(visible);
 	}
 
 
