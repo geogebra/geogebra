@@ -200,8 +200,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 		String[] result = getPolynomialCoeffsCache.get(getPolynomialCoeffsSB
 				.toString());
-		if (result != null)
-			return result;
+		if (result != null) {
+			return result.length == 0 ? null : result;
+		}
 
 		sbPolyCoeffs.setLength(0);
 		sbPolyCoeffs.append("when(is\\_polynomial("); // first check if
@@ -221,8 +222,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			// "3*a*x^2 + b" in form "{ b, 0, 3*a }"
 			String tmp = evaluate(sbPolyCoeffs.toString());
 
-			// no result
-			if ("{}".equals(tmp) || "".equals(tmp) || tmp == null)
+			// not a polynomial -- cache
+			if ("{}".equals(tmp)) {
+				getPolynomialCoeffsCache.put(getPolynomialCoeffsSB.toString(),
+						new String[0]);
+				return null;
+			}
+			// invalid output -- don't cache
+			if ("?".equals(tmp) || "".equals(tmp) || tmp == null)
 				return null;
 
 			// not a polynomial: result still includes the variable, e.g. "x"
