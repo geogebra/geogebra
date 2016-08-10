@@ -18,6 +18,7 @@ import org.geogebra.web.html5.util.debug.LoggerW;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Node;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
@@ -138,12 +139,13 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				// get the first node that really contains an articleElement
 				for (int i = 0; i < nodes.getLength(); i++) {
 					ell = nodes.getItem(i);
-					Log.debug(ell.getInnerHTML());
-					Log.debug(ell.getFirstChildElement());
-					if (ell.getFirstChildElement() != null
-							&& ell.getFirstChildElement().hasTagName("ARTICLE")) {
+
+					Node elChild = Element.as(ell.getChild(1));
+					Log.debug(elChild);
+					if (elChild != null
+							&& Element.as(elChild).hasTagName("ARTICLE")) {
 						// found!!
-						if (ell.getFirstChildElement() == el) {
+						if (elChild == el) {
 							Log.debug("first article");
 							// firstDummy!
 							// now we can create dummy elements before & after
@@ -156,8 +158,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 									programFocusEvent(firstDummy, lastDummy);
 								}
 							}
-						} else {
-							Log.debug("not first article");
 						}
 						break;
 					}
@@ -165,10 +165,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				// get the last node that really contains an articleElement
 				for (int i = nodes.getLength() - 1; i >= 0; i--) {
 					ell = nodes.getItem(i);
-					if (ell.getFirstChildElement() != null
-							&& ell.getFirstChildElement().hasTagName("ARTICLE")) {
+					Node elChild = ell.getChild(1);
+					if (elChild != null
+							&& Element.as(elChild).hasTagName("ARTICLE")) {
 						// found!!
-						if (ell.getFirstChildElement() == el) {
+						if (elChild == el) {
 							// lastDummy!
 							if (lastDummy == null) {
 								tackleLastDummy(el);
