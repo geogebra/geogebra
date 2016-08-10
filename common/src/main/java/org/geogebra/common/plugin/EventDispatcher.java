@@ -1,13 +1,13 @@
 package org.geogebra.common.plugin;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.kernel.ClientView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
+
+import java.util.ArrayList;
 
 /**
  * Every event scripting machinery must implement the EventListener interface
@@ -45,6 +45,16 @@ public class EventDispatcher implements ClientView {
 	 */
 	public void addEventListener(EventListener listener) {
 		listeners.add(listener);
+	}
+
+	/**
+	 * Remove an EventListener object
+	 *
+	 * @param listener
+	 *            the object to remove
+	 */
+	public void removeEventListener(EventListener listener) {
+		listeners.remove(listener);
 	}
 
 	/**
