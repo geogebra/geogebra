@@ -414,8 +414,11 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		useLight = true;	
 		
 		clippingReduction = 1;
-		useClippingCube = true;
-		showClippingCube = true;
+		useClippingCube = false;
+		showClippingCube = false;
+
+		showPlate = true;
+
 		
 		projection = 0;
 		
