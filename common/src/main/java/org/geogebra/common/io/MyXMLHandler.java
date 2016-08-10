@@ -1782,7 +1782,8 @@ new GPoint(row, column));
 			if (strTickDist != null) {
 				double tickDist = StringUtil.parseDouble(strTickDist);
 				GeoNumeric distNum = new GeoNumeric(cons, tickDist);
-				if (Kernel.isInteger(tickDist * 24 / Math.PI)) {
+				if (StringUtil.empty(tickExpr)
+						&& Kernel.isInteger(tickDist * 24 / Math.PI)) {
 					int num = (int) Math.round(tickDist * 24 / Math.PI);
 					int gcd = (int) Kernel.gcd(num, 24);
 					int den = 24 / gcd;

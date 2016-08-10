@@ -86,8 +86,11 @@ public class ScriptManagerD extends ScriptManager {
 					sb.append(",");
 			}
 			sb.append(");");
-
-			evalJavaScript(app, sb.toString(), null);
+			try {
+				evalJavaScript(app, sb.toString(), null);
+			} catch (Exception e) {
+				Log.debug("error calling script " + e.getMessage());
+			}
 
 		}
 	}
@@ -103,17 +106,15 @@ public class ScriptManagerD extends ScriptManager {
 
 	}
 
-	public void evalJavaScript(App app, String script, String arg) {
+	public void evalJavaScript(App app, String script, String arg)
+			throws Exception {
 
 		if (globalScopeMap.get(app.getKernel().getConstruction()) == null) {
 			setGlobalScript();
 		}
 
-		try {
 			CallJavaScript.evalScript(app, script, arg);
-		} catch (Exception e) {
-			Log.debug("error calling script " + e.getMessage());
-		}
+
 	}
 
 }

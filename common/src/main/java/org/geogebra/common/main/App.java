@@ -1244,11 +1244,17 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Runs JavaScript
 	 *
-	 * @param app    application
-	 * @param script JS method name
-	 * @param arg    arguments
+	 * @param app
+	 *            application
+	 * @param script
+	 *            JS method name
+	 * @param arg
+	 *            arguments
+	 * @throws Exception
+	 *             when script contains errors
 	 */
-	public abstract void evalJavaScript(App app, String script, String arg);
+	public abstract void evalJavaScript(App app, String script, String arg)
+			throws Exception;
 
 	/**
 	 * @param v version parts

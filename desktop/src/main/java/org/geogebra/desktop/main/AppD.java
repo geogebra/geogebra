@@ -4581,7 +4581,8 @@ ToolbarD.getAllTools(this));
 	}
 
 	@Override
-	public void evalJavaScript(App app, String script, String arg) {
+	public void evalJavaScript(App app, String script, String arg)
+			throws Exception {
 		getScriptManager().evalJavaScript(app, script, arg);
 	}
 

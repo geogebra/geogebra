@@ -643,7 +643,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 			if (value instanceof PlotType) {
 				str = app.getMenu(((PlotType) value).key);
 			} else {
-				Log.error("wrong class");
+				Log.error("wrong class" + value);
 			}
 			if (SEPARATOR.equals(str)) {
 				return separator;
