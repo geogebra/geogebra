@@ -589,6 +589,7 @@ public class DrawAxis {
 
 	private String tickDescription(long labelno, int axis) {
 		if (view.getAxesDistanceObjects()[axis] != null
+				&& !view.isAutomaticAxesNumberingDistance()[axis]
 				&& view.getAxesDistanceObjects()[axis].getDefinition() != null
 				&& view.getAxesDistanceObjects()[axis].getDouble() > 0) {
 			return multiple(
