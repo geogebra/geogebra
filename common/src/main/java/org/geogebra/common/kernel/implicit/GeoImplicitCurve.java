@@ -62,9 +62,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Transformable, PointRotateable, GeoImplicit, Evaluate2Var,
 		EquationValue {
 	/**
-	 * Movements around grid [TOP, BOTTOM, LEFT, RIGHT]
+	 * Movements around grid [TOP, BOTTOM, LEFT, RIGHT,TOP_FAR, BOTTOM_FAR,
+	 * LEFT_FAR, RIGHT_FAR]
 	 */
-	static final int[][] MOVE = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+	static final int[][] MOVE = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 },
+			{ -3, 0 }, { 3, 0 }, { 0, -3 }, { 0, 3 } };
 	/* The input expression. */
 	private FunctionNVar expression;
 	/*
@@ -1669,7 +1671,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			double y1 = onScreen(pt.getInhomY(), this.y, this.y + this.h);
 			double d1 = evaluateImplicitCurve(x1, y1);
 			if (Kernel.isZero(d1)) {
-				pt.setCoords(new Coords(x1, y1, 1.0), false);
+				// pt.setCoords(new Coords(x1, y1, 1.0), false);
 				return;
 			}
 			double mv = Math.max(w, h) / MAX_SPLIT, x2, y2, d2, mx, my, md;
