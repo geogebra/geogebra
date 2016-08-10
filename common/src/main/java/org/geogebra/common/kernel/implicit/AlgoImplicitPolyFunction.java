@@ -60,7 +60,11 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 			equ.initEquation();
 			Polynomial poly = equ.getNormalForm();
 			implicitPoly.fromEquation(equ, null);
-			implicitPoly.setCoeff(poly.getCoeff());
+			if (equ.mayBePolynomial()) {
+				implicitPoly.setCoeff(poly.getCoeff());
+			} else {
+				implicitPoly.setCoeff((double[][]) null);
+			}
 		} catch (MyError e) {
 			Log.debug(e.getMessage());
 			implicitPoly.setUndefined();
