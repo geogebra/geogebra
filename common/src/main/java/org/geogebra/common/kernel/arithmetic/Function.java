@@ -670,18 +670,24 @@ public class Function extends FunctionNVar implements
 			return symbPolyFun;
 		}
 		// build PolyFunction
-		try {
-			PolyFunction polyFun = new PolyFunction(degree);
-			for (int i = 0; i < strCoeffs.length; i++) {
-				polyFun.coeffs[degree - i] = evaluateToExpressionNode(
-						strCoeffs[i]).evaluateDouble();
+
+		PolyFunction polyFun = new PolyFunction(degree);
+		for (int i = 0; i < strCoeffs.length; i++) {
+			ExpressionNode coeff = evaluateToExpressionNode(strCoeffs[i]);
+			if (coeff == null) {
+				Log.warn("error in buildPolyFunction:" + strCoeffs[i]);
+				return null;
 			}
-			return polyFun;
-		} catch (Exception e) {
-			Log.warn("error in buildPolyFunction:" + e.getMessage());
-			e.printStackTrace();
-			return null;
+			try {
+				polyFun.coeffs[degree - i] = coeff.evaluateDouble();
+			} catch (Exception e) {
+				Log.warn("error in buildPolyFunction:" + e.getMessage());
+				e.printStackTrace();
+					return null;
+				}
 		}
+		return polyFun;
+
 	}
 
 	private ExpressionNode zeroExpr = new ExpressionNode(kernel, new MyDouble(
