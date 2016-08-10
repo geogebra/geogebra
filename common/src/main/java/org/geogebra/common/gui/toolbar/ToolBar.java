@@ -1,13 +1,13 @@
 package org.geogebra.common.gui.toolbar;
 
-import java.util.List;
-import java.util.Vector;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+
+import java.util.List;
+import java.util.Vector;
 
 /**
  * @author gabor
@@ -714,6 +714,12 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_DILATE_FROM_POINT);
+
+		if (app.has(Feature.MOBILE_RELATION_TOOL)) {
+			//
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_RELATION);
+		}
 
 		// objects with actions
 		sb.append(" | ");
