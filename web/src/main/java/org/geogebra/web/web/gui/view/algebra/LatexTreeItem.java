@@ -16,6 +16,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -401,8 +402,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	public void insertString(String text) {
-		this.mf.deleteCurrentWord();
-		GuiManagerW.makeKeyboardListener(retexListener).insertString(text);
+		new MathFieldProcessing(mf).autocomplete(text);
 
 	}
 

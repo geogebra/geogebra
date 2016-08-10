@@ -74,4 +74,14 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	}
 
+	public void autocomplete(String text) {
+		this.mf.deleteCurrentWord();
+		insertString(text);
+		if (text.contains("[") || text.contains("(")) {
+			mf.selectNextArgument();
+			mf.setFocus(true);
+		}
+
+	}
+
 }
