@@ -25,7 +25,7 @@ public class CASgiacD extends CASgiacJre {
 	 */
 	public CASgiacD(CASparser casParser, CasParserTools t, Kernel k) {
 		super(casParser, t, k);
-		Log.printStacktrace("");
+		// Log.printStacktrace("");
 		createContext();
 	}
 

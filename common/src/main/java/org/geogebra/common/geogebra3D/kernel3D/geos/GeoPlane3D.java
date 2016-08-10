@@ -438,16 +438,17 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		StringBuilder ret = kernel.buildImplicitEquation(getCoordSys()
 				.getEquationVector().get(), VAR_STRING, KEEP_LEADING_SIGN,
 				true, !isLabelSet(), '=', tpl);
-
-		if (tpl.hasCASType()) {
-			StringBuilder sbTemp = new StringBuilder();
+		// fix for GGB-1116
+		// we don't need this since equation is already
+		// wrapped in Ggb2giac
+		// if (tpl.hasCASType()) {
+		// StringBuilder sbTemp = new StringBuilder();
 			// Giac
-			sbTemp.append("plane(");
-			sbTemp.append(ret);
-			sbTemp.append(")");
-
-			return sbTemp;
-		}
+		// sbTemp.append("plane(");
+		// sbTemp.append(ret);
+		// sbTemp.append(")");
+		// return sbTemp;
+		// }
 
 		return ret;
 
