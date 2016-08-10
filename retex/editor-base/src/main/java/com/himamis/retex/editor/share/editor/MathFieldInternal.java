@@ -39,6 +39,7 @@ import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
+import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -412,6 +413,34 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			}
 		}
 		return str.reverse().toString().trim();
+	}
+
+	public void selectNextArgument() {
+		EditorState state = getEditorState();
+		MathSequence seq = state.getCurrentField();
+		if (seq != null && seq.size() > 0) {
+			MathComponent last = seq.getArgument(state.getCurrentOffset() - 1);
+			if (last instanceof MathArray && ((MathArray) last).size() > 0) {
+				MathSequence args = ((MathArray) last).getArgument(0);
+				int endchar = -1;
+				for (int i = 1; i < args.size(); i++) {
+					if (args.getArgument(i) instanceof MathCharacter
+							&& ((MathCharacter) args.getArgument(i))
+									.getUnicode() == '>') {
+						endchar = i;
+						break;
+					}
+				}
+				if (endchar > 0) {
+					state.setCurrentField(args);
+					state.setSelectionStart(args.getArgument(0));
+					state.setSelectionEnd(args.getArgument(endchar));
+					state.setCurrentOffset(endchar);
+					update();
+				}
+			}
+		}
+
 	}
 
 }

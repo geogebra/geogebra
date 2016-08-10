@@ -9,6 +9,7 @@ import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -189,9 +190,7 @@ public class CASLaTeXEditor extends SimplePanel
 	}
 
 	public void insertString(String text) {
-		this.mf.deleteCurrentWord();
-		GuiManagerW.makeKeyboardListener(retexListener).insertString(text);
-
+		new MathFieldProcessing(mf).autocomplete(text);
 	}
 
 	public void toggleSymbolButton(boolean toggled) {

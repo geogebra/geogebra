@@ -294,4 +294,9 @@ public class MathFieldW implements MathField, IsWidget {
 	public String getCurrentWord() {
 		return this.mathFieldInternal.getCurrentWord();
 	}
+
+	public void selectNextArgument() {
+		this.mathFieldInternal.selectNextArgument();
+
+	}
 }

@@ -48,6 +48,7 @@ public class Test {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
-		mathField.insertString("Midpoint[<Point>, <Point>]");
+		// mathField.insertString("Midpoint[<Point>, <Point>]");
+		mathField.insertString("Midpoint(<Point>, <Point>)");
 	}
 }

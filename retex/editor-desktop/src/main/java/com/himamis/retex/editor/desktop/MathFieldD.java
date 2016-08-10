@@ -35,6 +35,7 @@ import javax.swing.SwingConstants;
 import com.himamis.retex.editor.desktop.event.ClickListenerAdapter;
 import com.himamis.retex.editor.desktop.event.FocusListenerAdapter;
 import com.himamis.retex.editor.desktop.event.KeyListenerAdapter;
+import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
@@ -152,10 +153,21 @@ public class MathFieldD extends JLabel implements MathField {
 	}
 
 	public void insertString(String text) {
+		EditorState state = mathFieldInternal.getEditorState();
 
+		int offset = state.getCurrentOffset();
 		for (int i = 0; i < text.length(); i++) {
+
 			mathFieldInternal.onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
+
 		}
+
+		mathFieldInternal.selectNextArgument();
+		// System.out.println(seq);
+		// state.setSelectionStart(seq.getArgument(pos));
+		// state.setSelectionEnd(seq.getArgument(pos + 4));
+
+		mathFieldInternal.update();
 
 	}
 }
