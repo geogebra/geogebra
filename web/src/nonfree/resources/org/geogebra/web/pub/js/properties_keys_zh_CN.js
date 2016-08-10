@@ -2542,6 +2542,7 @@ __GGB__keysVar.zh_CN.plain = {
     "Height": "\u9ad8\u5ea6",
     "HeightOfA": "%0 \u7684\u9ad8\u5ea6",
     "Hexagon": "\u516d\u8fb9\u5f62",
+    "Hidden": "\u9690\u85cf",
     "Hide": "\u9690\u85cf",
     "Hint": "\u63d0\u793a",
     "Home": "\u9996\u9875",

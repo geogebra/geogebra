@@ -2542,6 +2542,7 @@ __GGB__keysVar.xh.plain = {
     "Height": "ukuPhakama",
     "HeightOfA": "Ukuphakama okungu %0",
     "Hexagon": "UmacalaAsithandathu",
+    "Hidden": "Hidden",
     "Hide": "Fihla",
     "Hint": "Hint",
     "Home": "eKhaya",

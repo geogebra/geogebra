@@ -2542,6 +2542,7 @@ __GGB__keysVar.cs.plain = {
     "Height": "V\xfd\u0161ka",
     "HeightOfA": "V\xfd\u0161ka %0",
     "Hexagon": "\u0160esti\xfaheln\xedk",
+    "Hidden": "Hidden",
     "Hide": "Skr\xfdt",
     "Hint": "N\xe1pov\u011bda",
     "Home": "Po\u010d\xe1tek",

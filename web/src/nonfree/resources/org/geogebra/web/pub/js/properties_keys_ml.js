@@ -2542,6 +2542,7 @@ __GGB__keysVar.ml.plain = {
     "Height": "Height",
     "HeightOfA": "Height of %0",
     "Hexagon": "Hexagon",
+    "Hidden": "Hidden",
     "Hide": "Hide",
     "Hint": "Hint",
     "Home": "Home",

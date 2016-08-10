@@ -2542,6 +2542,7 @@ __GGB__keysVar.ro.plain = {
     "Height": "In\u0103l\u0163ime",
     "HeightOfA": "\xcen\u0103l\u021bime pentru: %0",
     "Hexagon": "Hexagon",
+    "Hidden": "Hidden",
     "Hide": "Ascunde",
     "Hint": "Indiciu",
     "Home": "Acas\u0103",

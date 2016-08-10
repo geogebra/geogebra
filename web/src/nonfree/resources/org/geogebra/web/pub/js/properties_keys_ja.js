@@ -2542,6 +2542,7 @@ __GGB__keysVar.ja.plain = {
     "Height": "\u9ad8\u3055",
     "HeightOfA": "%0 \u306e\u9ad8\u3055",
     "Hexagon": "\uff16\u89d2\u5f62",
+    "Hidden": "Hidden",
     "Hide": "\u975e\u8868\u793a",
     "Hint": "\u30d2\u30f3\u30c8",
     "Home": "\u30db\u30fc\u30e0",

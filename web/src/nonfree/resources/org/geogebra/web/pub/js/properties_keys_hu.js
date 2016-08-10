@@ -2542,6 +2542,7 @@ __GGB__keysVar.hu.plain = {
     "Height": "Magass\xe1g",
     "HeightOfA": "%0 magass\xe1ga",
     "Hexagon": "Hatsz\xf6g",
+    "Hidden": "Hidden",
     "Hide": "Elrejt",
     "Hint": "Tipp",
     "Home": "Kezd\u0151",

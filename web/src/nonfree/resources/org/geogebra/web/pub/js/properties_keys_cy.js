@@ -2542,6 +2542,7 @@ __GGB__keysVar.cy.plain = {
     "Height": "Uchder",
     "HeightOfA": "Height of %0",
     "Hexagon": "Hecsagon",
+    "Hidden": "Hidden",
     "Hide": "Cuddio",
     "Hint": "Hint",
     "Home": "Hafan",

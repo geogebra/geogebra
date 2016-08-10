@@ -2542,6 +2542,7 @@ __GGB__keysVar.et.plain = {
     "Height": "K\xf5rgus",
     "HeightOfA": "%0 k\xf5rgus",
     "Hexagon": "Kuusnurk",
+    "Hidden": "Hidden",
     "Hide": "Peida",
     "Hint": "Vihje",
     "Home": "Home",

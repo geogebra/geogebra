@@ -2542,6 +2542,7 @@ __GGB__keysVar.eo.plain = {
     "Height": "Alto",
     "HeightOfA": "Height of %0",
     "Hexagon": "Seslatero",
+    "Hidden": "Hidden",
     "Hide": "Ka\u015di",
     "Hint": "Hint",
     "Home": "Hejmo",

@@ -2542,6 +2542,7 @@ __GGB__keysVar.lv.plain = {
     "Height": "Augstums",
     "HeightOfA": "Augstums %0",
     "Hexagon": "Se\u0161st\u016bra",
+    "Hidden": "Hidden",
     "Hide": "Sl\u0113pt",
     "Hint": "Hint",
     "Home": "M\u0101jas",

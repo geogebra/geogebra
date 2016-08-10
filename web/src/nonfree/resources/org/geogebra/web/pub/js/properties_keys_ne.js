@@ -2542,6 +2542,7 @@ __GGB__keysVar.ne.plain = {
     "Height": "\u0909\u091a\u093e\u0908",
     "HeightOfA": "Height of %0",
     "Hexagon": "\u0937\u091f\u094d\u092d\u0941\u091c",
+    "Hidden": "Hidden",
     "Hide": "\u0932\u0941\u0915\u093e\u0909\u0928\u0941",
     "Hint": "Hint",
     "Home": "\u0918\u0930",

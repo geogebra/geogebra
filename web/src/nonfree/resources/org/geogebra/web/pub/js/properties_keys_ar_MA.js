@@ -2542,6 +2542,7 @@ __GGB__keysVar.ar_MA.plain = {
     "Height": "\u0627\u0644\u0625\u0631\u062a\u0641\u0627\u0639",
     "HeightOfA": "Height of %0",
     "Hexagon": "\u0633\u062f\u0627\u0633\u064a \u0627\u0644\u0623\u0636\u0644\u0627\u0639",
+    "Hidden": "Hidden",
     "Hide": "\u0625\u062e\u0641\u0627\u0621",
     "Hint": "Hint",
     "Home": "\u0627\u0644\u0628\u062f\u0627\u064a\u0629",

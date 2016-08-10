@@ -2542,6 +2542,7 @@ __GGB__keysVar.fi.plain = {
     "Height": "Korkeus",
     "HeightOfA": "%0n korkeus",
     "Hexagon": "Kuusikulmio",
+    "Hidden": "Hidden",
     "Hide": "Piilota",
     "Hint": "Vihje",
     "Home": "Alkuun",

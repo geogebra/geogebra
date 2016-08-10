@@ -2542,6 +2542,7 @@ __GGB__keysVar.sl.plain = {
     "Height": "Vi\u0161ina",
     "HeightOfA": "Vi\u0161ina %0",
     "Hexagon": "\u0160estkotnik",
+    "Hidden": "Hidden",
     "Hide": "Skrij",
     "Hint": "Namig",
     "Home": "Za\u010detna stran",

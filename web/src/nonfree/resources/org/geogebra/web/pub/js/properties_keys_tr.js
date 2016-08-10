@@ -2542,6 +2542,7 @@ __GGB__keysVar.tr.plain = {
     "Height": "Y\xfckseklik",
     "HeightOfA": "%0 y\xfcksekli\u011fi",
     "Hexagon": "Alt\u0131gen",
+    "Hidden": "Hidden",
     "Hide": "Gizle",
     "Hint": "\u0130pucu",
     "Home": "Ba\u015f",

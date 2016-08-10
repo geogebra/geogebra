@@ -2542,6 +2542,7 @@ __GGB__keysVar.ru.plain = {
     "Height": "\u0412\u044b\u0441\u043e\u0442\u0430",
     "HeightOfA": "\u0412\u044b\u0441\u043e\u0442\u0430 %0",
     "Hexagon": "\u0428\u0435\u0441\u0442\u0438\u0443\u0433\u043e\u043b\u044c\u043d\u0438\u043a",
+    "Hidden": "Hidden",
     "Hide": "\u0421\u043a\u0440\u044b\u0442\u044c",
     "Hint": "Hint",
     "Home": "\u0412 \u043d\u0430\u0447\u0430\u043b\u043e",

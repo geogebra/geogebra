@@ -2542,6 +2542,7 @@ __GGB__keysVar.no_NN.plain = {
     "Height": "H\xf8gde",
     "HeightOfA": "H\xf8gde av %0",
     "Hexagon": "Sekskant",
+    "Hidden": "Hidden",
     "Hide": "Skjul",
     "Hint": "Hint",
     "Home": "Heim",

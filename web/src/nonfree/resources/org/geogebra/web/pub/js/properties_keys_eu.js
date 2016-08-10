@@ -2542,6 +2542,7 @@ __GGB__keysVar.eu.plain = {
     "Height": "Altuera",
     "HeightOfA": "%0-(r)en altuera",
     "Hexagon": "Hexagonoa",
+    "Hidden": "Hidden",
     "Hide": "Ezkutatu",
     "Hint": "Aholkua",
     "Home": "Hasiera",

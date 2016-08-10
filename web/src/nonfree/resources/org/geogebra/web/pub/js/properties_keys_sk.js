@@ -2542,6 +2542,7 @@ __GGB__keysVar.sk.plain = {
     "Height": "V\xfd\u0161ka",
     "HeightOfA": "V\xfd\u0161ka objektu %0",
     "Hexagon": "\u0160estuholn\xedk",
+    "Hidden": "Hidden",
     "Hide": "Sky\u0165",
     "Hint": "Hint",
     "Home": "Za\u010diatok",

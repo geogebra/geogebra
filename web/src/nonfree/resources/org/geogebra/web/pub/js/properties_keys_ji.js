@@ -2542,6 +2542,7 @@ __GGB__keysVar.ji.plain = {
     "Height": "\u05d4\u05d9\u05d9\u05da",
     "HeightOfA": "Height of %0",
     "Hexagon": "\u05d4\u05e2\u05e7\u05e1\u05d0\u05b7\u05d2\u05d0\u05b8\u05df",
+    "Hidden": "Hidden",
     "Hide": "\u05d1\u05d0\u05b7\u05d4\u05d0\u05b7\u05dc\u05d8\u05df",
     "Hint": "Hint",
     "Home": "\u05d4\u05d9\u05d9\u05dd",

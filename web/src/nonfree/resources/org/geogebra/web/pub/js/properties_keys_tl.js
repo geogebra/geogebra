@@ -2542,6 +2542,7 @@ __GGB__keysVar.tl.plain = {
     "Height": "Taas",
     "HeightOfA": "Height of %0",
     "Hexagon": "Hexagon",
+    "Hidden": "Hidden",
     "Hide": "Itago",
     "Hint": "Hint",
     "Home": "Tahanan",

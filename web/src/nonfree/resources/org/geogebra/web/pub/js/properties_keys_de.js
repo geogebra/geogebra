@@ -2542,6 +2542,7 @@ __GGB__keysVar.de.plain = {
     "Height": "H\xf6he",
     "HeightOfA": "H\xf6he von %0",
     "Hexagon": "Sechseck",
+    "Hidden": "Hidden",
     "Hide": "Ausblenden",
     "Hint": "Hinweis",
     "Home": "Startseite",

@@ -2542,6 +2542,7 @@ __GGB__keysVar.sq.plain = {
     "Height": "Lartesi",
     "HeightOfA": "Height of %0",
     "Hexagon": "Gjashte-kendesh",
+    "Hidden": "Hidden",
     "Hide": "Fsheh",
     "Hint": "Hint",
     "Home": "Shtepi(Vendi Baze)",

@@ -2542,6 +2542,7 @@ __GGB__keysVar.lt.plain = {
     "Height": "Auk\u0161tis",
     "HeightOfA": "Auk\u0161tis %0",
     "Hexagon": "\u0160e\u0161iakampis",
+    "Hidden": "Hidden",
     "Hide": "Sl\u0117pti",
     "Hint": "Patarimas",
     "Home": "Prad\u017eia",

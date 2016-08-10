@@ -2542,6 +2542,7 @@ __GGB__keysVar.gl.plain = {
     "Height": "Altura",
     "HeightOfA": "Altura de %0",
     "Hexagon": "Hex\xe1gono",
+    "Hidden": "Hidden",
     "Hide": "Agochar",
     "Hint": "Pista",
     "Home": "Inicio",

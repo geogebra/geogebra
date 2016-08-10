@@ -2542,6 +2542,7 @@ __GGB__keysVar.pt.plain = {
     "Height": "Altura",
     "HeightOfA": "Altura de %0",
     "Hexagon": "Hex\xe1gono",
+    "Hidden": "Hidden",
     "Hide": "Esconder",
     "Hint": "Dica",
     "Home": "In\xedcio",

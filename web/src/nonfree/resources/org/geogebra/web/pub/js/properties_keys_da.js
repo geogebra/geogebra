@@ -2542,6 +2542,7 @@ __GGB__keysVar.da.plain = {
     "Height": "H\xf8jde",
     "HeightOfA": "H\xf8jden af %0",
     "Hexagon": "Hexagon",
+    "Hidden": "Hidden",
     "Hide": "Skjul",
     "Hint": "Hint",
     "Home": "Hjem",

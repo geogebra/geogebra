@@ -2542,6 +2542,7 @@ __GGB__keysVar.is.plain = {
     "Height": "H\xe6\xf0",
     "HeightOfA": "H\xe6\xf0 %0",
     "Hexagon": "Sexhyrningur",
+    "Hidden": "Hidden",
     "Hide": "Fela",
     "Hint": "Hint",
     "Home": "Heim",

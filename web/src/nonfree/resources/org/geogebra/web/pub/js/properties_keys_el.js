@@ -2542,6 +2542,7 @@ __GGB__keysVar.el.plain = {
     "Height": "\u038e\u03c8\u03bf\u03c2",
     "HeightOfA": "\u03a5\u03c8\u03bf\u03c2 \u03c4\u03bf\u03c5 %0",
     "Hexagon": "\u0395\u03be\u03ac\u03b3\u03c9\u03bd\u03bf",
+    "Hidden": "Hidden",
     "Hide": "\u039a\u03c1\u03cd\u03c8\u03b5",
     "Hint": "\u0392\u03bf\u03ae\u03b8\u03b5\u03b9\u03b1",
     "Home": "\u03a3\u03c4\u03b7\u03bd \u03b1\u03c1\u03c7\u03ae",
