@@ -5644,13 +5644,6 @@ kernel, left,
 	}
 
 	/**
-	 * @return whether top level operation is IF / IF_ELSE
-	 */
-	public boolean isConditionalOldFashion() {
-		return operation == Operation.IF || operation == Operation.IF_ELSE;
-	}
-
-	/**
 	 * @return whether this contains any conditional operations
 	 */
 	public boolean isConditionalDeep() {

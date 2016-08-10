@@ -2356,7 +2356,7 @@ CasEvaluableFunction, ParametricCurve,
 		if (en == null)
 			return false;
 
-		return en.isConditionalOldFashion();
+		return en.isConditional();
 	}
 
 	@Override

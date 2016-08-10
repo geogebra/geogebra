@@ -515,6 +515,9 @@ public class Function extends FunctionNVar implements
 			boolean rootFindingSimplification, boolean assumeFalseIfCASNeeded) {
 		if (ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;
+			if (node.isConditionalDeep()) {
+				return false;
+			}
 			switch (node.getOperation()) {
 			case MULTIPLY:
 				return addPolynomialFactors(node.getLeft(), l, symbolic,
