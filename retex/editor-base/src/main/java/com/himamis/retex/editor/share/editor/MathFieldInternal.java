@@ -157,7 +157,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     @Override
 	public boolean onKeyPressed(KeyEvent keyEvent) {
-		System.out.println(keyEvent.getKeyModifiers() + "press");
 		if (keyEvent.getKeyCode() == 13 || keyEvent.getKeyCode() == 10) {
 			if (listener != null) {
 				listener.onEnter();
@@ -170,7 +169,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				listener.onCursorMove();
 			}
 		}
-        boolean handled = keyListener.onKeyPressed(keyEvent);
+		boolean handled = keyListener.onKeyPressed(keyEvent);
         if (handled) {
             update();
         }

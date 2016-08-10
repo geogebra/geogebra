@@ -136,7 +136,6 @@ public class MathFieldW implements MathField, IsWidget {
 			public void onKeyUp(KeyUpEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
 				code = fixCode(code);
-				debug(code + "");
 				keyListener.onKeyReleased(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
@@ -152,11 +151,14 @@ public class MathFieldW implements MathField, IsWidget {
 			public void onKeyDown(KeyDownEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
 				code = fixCode(code);
-				keyListener.onKeyPressed(
+				boolean handled = keyListener.onKeyPressed(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
 				MathFieldW.this.setFocus(true);
-				if (code == 8 || code == 27) {
+				// need to prevent sdefault for arrows to kill keypress
+				// (otherwise strange chars appear in Firefox). Backspace/delete
+				// also need killing.
+				if (code == 8 || code == 27 || handled) {
 					event.preventDefault();
 				}
 				event.stopPropagation();
