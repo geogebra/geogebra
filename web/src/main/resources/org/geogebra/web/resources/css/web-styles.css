@@ -3418,6 +3418,10 @@ body.application[dir=rtl] .imageCorner {
 	padding-left: 0;
 }
 
+.mathQuillEditor {
+	padding-left:40px;
+}
+
 .latexEditor .scrollableTextBox{
 	padding-left:40px;
 	padding-top:5px;

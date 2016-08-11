@@ -28,6 +28,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 
 	public MathQuillTreeItem(GeoElement geo0) {
 		super(geo0);
+		content.addStyleName("mathQuillEditor");
 	}
 
 	public MathQuillTreeItem(Kernel kernel) {
