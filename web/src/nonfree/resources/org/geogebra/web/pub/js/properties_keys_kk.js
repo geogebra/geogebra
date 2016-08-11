@@ -941,7 +941,7 @@ __GGB__keysVar.kk.command = {
     "SurdText": "\u0418\u0440\u0440\u0430\u0446\u0438\u043e\u043d\u0430\u043b\u0422\u04af\u0440\u0456",
     "SurdText.Syntax": "[ <\u041d\u04af\u043a\u0442\u0435> ]\n[ <\u041d\u04af\u043a\u0442\u0435> ]\n[ <\u0421\u0430\u043d>, <\u0422\u0456\u0437\u0456\u043c> ]",
     "Surface": "\u0411\u0435\u0442",
-    "Surface.Syntax": "[ <Function>, <Angle> ]\n[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
+    "Surface.Syntax": "[ <Function>, <Angle> ]\n[ <Curve>, <Angle>, <Line> ]\n[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
     "TDistribution": "T\u04ae\u043b\u0435\u0441\u0442\u0456\u0440\u0443",
     "TDistribution.Syntax": "[ <\u0422\u04d9\u0443\u0435\u043b\u0441\u0456\u0437\u0434\u0456\u043a \u0414\u04d9\u0440\u0435\u0436\u0435\u0441\u0456>, x ]\n[ <\u0422\u04d9\u0443\u0435\u043b\u0441\u0456\u0437\u0434\u0456\u043a \u0414\u04d9\u0440\u0435\u0436\u0435\u0441\u0456>, <\u0410\u0439\u043d\u044b\u043c\u0430\u043b\u044b\u043d\u044b\u04a3 \u041c\u04d9\u043d\u0456> ]\n[ <\u0422\u04d9\u0443\u0435\u043b\u0441\u0456\u0437\u0434\u0456\u043a \u0414\u04d9\u0440\u0435\u0436\u0435\u0441\u0456>, x, <Boolean \u0416\u0438\u044b\u043d\u044b> ]",
     "TDistribution.SyntaxCAS": "[ <\u0422\u04d9\u0443\u0435\u043b\u0441\u0456\u0437\u0434\u0456\u043a \u0414\u04d9\u0440\u0435\u0436\u0435\u043b\u0435\u0440\u0456>, x ]",

@@ -941,7 +941,7 @@ __GGB__keysVar.xh.command = {
     "SurdText": "iSurdText",
     "SurdText.Syntax": "[ <iChaphaza> ]\n[ <Inani> ]\n[ <Inani>, <uLuhlu> ]",
     "Surface": "uMphandle",
-    "Surface.Syntax": "[ <Function>, <Angle> ]\n[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
+    "Surface.Syntax": "[ <Function>, <Angle> ]\n[ <Curve>, <Angle>, <Line> ]\n[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
     "TDistribution": "TDistribution",
     "TDistribution.Syntax": "[ <iiDegrees of Freedom>, x ]\n[ <iiDegrees of Freedom>, <Ixabiso likaMmeliNani> ]\n[ <iiDegrees of Freedom>, x, <iBoolean Cumulative> ]",
     "TDistribution.SyntaxCAS": "[ <iiDegrees of Freedom>, <Ixabiso Lonobumba> ]",

@@ -941,7 +941,7 @@ __GGB__keysVar.ne.command = {
     "SurdText": "\u0938\u0930\u094d\u0921\u091f\u0947\u0915\u094d\u0938\u094d\u091f",
     "SurdText.Syntax": "[ <\u092c\u093f\u0928\u094d\u0926\u0941> ]\n[ <\u0938\u0902\u0916\u094d\u092f\u093e> ]\n[ <\u0938\u0902\u0916\u094d\u092f\u093e>, <\u0938\u0941\u091a\u0940> ]",
     "Surface": "Surface",
-    "Surface.Syntax": "[ <Function>, <Angle> ]\n[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
+    "Surface.Syntax": "[ <Function>, <Angle> ]\n[ <Curve>, <Angle>, <Line> ]\n[ <Expression>, <Expression>, <Expression>, <Parameter Variable 1>, <Start Value>, <End Value>, <Parameter Variable 2>, <Start Value>, <End Value> ]",
     "TDistribution": "T\u0921\u093f\u0938\u094d\u091f\u094d\u0930\u093f\u092c\u094d\u092f\u0941\u0938\u0928\u094d",
     "TDistribution.Syntax": "[ <\u0921\u093f\u0917\u094d\u0930\u093f \u0905\u092b \u092b\u094d\u0930\u093f\u0921\u092e>, x ]\n[ <\u0921\u093f\u0917\u094d\u0930\u093f \u0905\u092b \u092b\u094d\u0930\u093f\u0921\u092e>, <\u091a\u0932\u093e\u092f\u092e\u093e\u0928> ]\n[ <\u0921\u093f\u0917\u094d\u0930\u093f \u0905\u092b \u092b\u094d\u0930\u093f\u0921\u092e>, x, <\u092c\u0941\u0932\u0928 \u0915\u094d\u092f\u0941\u092e\u0941\u0932\u0947\u091f\u093f\u092d> ]",
     "TDistribution.SyntaxCAS": "[ <\u0921\u093f\u0917\u094d\u0930\u093f \u0905\u092b \u092b\u094d\u0930\u093f\u0921\u092e>, <\u091a\u0932\u0915\u094b \u092e\u093e\u0928> ]",
