@@ -941,7 +941,7 @@ __GGB__keysVar.fr.command = {
     "SurdText": "TexteMath",
     "SurdText.Syntax": "[ <Nombre> ]\n[ <Point> ]\n[ <Nombre>, <Liste> ]",
     "Surface": "Surface",
-    "Surface.Syntax": "[ <Fonction>, <Angle> ]\n[ <Expression>, <Expression>, <Expression>, <Variable 1>, <de>, <\xe0>, <Variable 2>, <de>, <\xe0> ]",
+    "Surface.Syntax": "[ <Fonction>, <Angle> ]\n[ <Courbe>, <Angle>, <Ligne> ]\n[ <Expression>, <Expression>, <Expression>, <Variable 1>, <de>, <\xe0>, <Variable 2>, <de>, <\xe0> ]",
     "TDistribution": "TDistribution",
     "TDistribution.Syntax": "[ <Degr\xe9 Libert\xe9>, x ]\n[ <Degr\xe9 Libert\xe9>, <Valeur Variable> ]\n[ <Degr\xe9 Libert\xe9>, x, <Bool\xe9en Cumul> ]",
     "TDistribution.SyntaxCAS": "[ <Degr\xe9 Libert\xe9>, <Valeur Variable> ]",
