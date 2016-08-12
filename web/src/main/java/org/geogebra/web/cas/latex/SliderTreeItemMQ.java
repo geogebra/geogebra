@@ -286,7 +286,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 
 	@Override
 	protected boolean handleAVItem(int x, int y, boolean rightClick) {
-
+		setForceControls(true);
 		boolean minHit = sliderPanel != null
 				&& isWidgetHit(slider.getWidget(0), x, y);
 		boolean maxHit = sliderPanel != null

@@ -1620,6 +1620,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private boolean selectedItem = false;
 	protected AVSelectionController selectionCtrl;
 
+	// controls must appear on select or not
+	private boolean forceControls = false;
+
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
@@ -1994,6 +1997,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (controls == null) {
 			return;
 		}
+
+		if (isForceControls()) {
+			setForceControls(false);
+			controls.setVisible(controls.isVisible());
+
+		}
+
 		boolean geoInSelection = app.getSelectionManager()
 
 				.containsSelectedGeo(geo);
@@ -2014,7 +2024,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			return;
 		}
 
-
+		setForceControls(false);
 
 		selectedItem = selected;
 
@@ -2446,6 +2456,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 		panel.addDomHandler(this, TouchMoveEvent.getType());
 		panel.addDomHandler(this, TouchEndEvent.getType());
 
+	}
+
+	public boolean isForceControls() {
+		return forceControls;
+	}
+
+	public void setForceControls(boolean forceControls) {
+		this.forceControls = forceControls;
 	}
 
 }
