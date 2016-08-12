@@ -4002,7 +4002,7 @@ public abstract class App implements UpdateSelection {
 
 		//MOB-695
 		case MOBILE_RELATION_TOOL:
-			return prerelease;
+			return true; // 5.0.268
 
 		default:
 			Log.debug("missing case in Feature: " + f);
