@@ -75,6 +75,18 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		showSpeedValue(false);
 	}
 
+	private void doStyle() {
+		btnSpeedDown.setStyleName("avSpeedButton");
+		btnSpeedDown.addStyleName("slideIn");
+
+		btnSpeedUp.setStyleName("avSpeedButton");
+		btnSpeedUp.addStyleName("slideIn");
+
+		btnSpeedValue.addStyleName("speedValue");
+		btnSpeedValue.addStyleName("slideIn");
+
+	}
+
 	private void createPlayButton() {
 		btnPlay = new MyToggleButton2(
 				GuiResourcesSimple.INSTANCE.icons_play_circle(),
@@ -231,11 +243,14 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	 * Update UI
 	 */
 	public void update() {
-		if (isGeoAnimating() != play) {
+		boolean visible = this.radioTreeItem.geo != null
+				&& this.radioTreeItem.geo.isAnimatable();
+		if (isGeoAnimating() != play || !isVisible()) {
 			boolean v = isGeoAnimating();
 			setPlay(v);
 			btnPlay.setDown(v);
 		}
+		setVisible(visible);
 	}
 
 	/**

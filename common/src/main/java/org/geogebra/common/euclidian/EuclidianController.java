@@ -129,6 +129,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -6681,7 +6682,7 @@ public abstract class EuclidianController {
 			if (hit.isGeoNumeric()
 					&& ((GeoNumeric) hit).isSlider()
 					&& ((labelMode == GeoElement.LABEL_NAME_VALUE) || (labelMode == GeoElement.LABEL_VALUE))) {
-
+				Log.debug("HIT SLIDER");
 				// only do this if we are not pasting something from the
 				// clipboard right now
 				// because moving on the label of a slider might move the pasted

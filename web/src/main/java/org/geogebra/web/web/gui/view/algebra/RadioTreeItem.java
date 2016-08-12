@@ -113,11 +113,11 @@ import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * main -> marblePanel (ihtml | contentPanel | checkBox ) buttonPanel?
+ * main -> marblePanel content controls
  * 
- * ihtml -> plainTextitem | latexItem | c | (definitionPanel outputPanel)
+ * content -> plainTextitem | latexItem | c | (definitionPanel outputPanel)
  * 
- * contentPanel -> [sliderPanel minmaxPanel]
+ * sliderPanel -> [sliderPanel minmaxPanel]
  * 
  * plaintextitem -> STRING | (definitionPanel, outputPanel)
  * 
@@ -127,10 +127,11 @@ import com.google.gwt.user.client.ui.Widget;
  */
 @SuppressWarnings("javadoc")
 public abstract class RadioTreeItem extends AVTreeItem
- implements DoubleClickHandler,
-		ClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
-		MouseOverHandler, MouseOutHandler, MathKeyboardListener,
-		TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler,
+		implements DoubleClickHandler, ClickHandler, MouseDownHandler,
+		MouseUpHandler, MouseMoveHandler, MouseOverHandler, MouseOutHandler,
+		MathKeyboardListener, TouchStartHandler, TouchMoveHandler,
+		TouchEndHandler,
+		LongTouchHandler,
 		AutoCompleteW, RequiresResize, HasHelpButton {
 
 	private static final int LATEX_MAX_EDIT_LENGHT = 1500;
@@ -232,7 +233,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		public void showAnimPanel(boolean value) {
-			if (animPanel != null) {
+			if (hasAnimPanel()) {
 				animPanel.setVisible(value);
 			}
 		}
@@ -242,7 +243,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		public void hideAnimPanel() {
-			showAnimPanel(true);
+			showAnimPanel(false);
 		}
 
 		protected void createAnimPanel() {
@@ -252,8 +253,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		public void updateAnimPanel() {
-			if (animPanel != null) {
-				animPanel.setVisible(geo != null && geo.isAnimatable());
+			if (hasAnimPanel()) {
 				animPanel.update();
 			}
 		}
@@ -303,17 +303,21 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		public void removeAnimPanel() {
-			if (animPanel != null) {
+			if (hasAnimPanel()) {
 				remove(animPanel);
 			}
 		}
 
 		public void reset() {
-			if (animPanel != null) {
+			Log.debug("[CONTROLS] reset");
+			if (hasAnimPanel()) {
 				animPanel.reset();
 			}
 		}
 
+		public boolean hasAnimPanel() {
+			return animPanel != null;
+		}
 	}
 
 	protected GeoElement geo;
@@ -340,7 +344,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 */
 	protected MarblePanel marblePanel;
 
-	protected FlowPanel contentPanel;
+	protected FlowPanel sliderContent;
 
 
 
@@ -413,20 +417,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		};
 	}
 
-	protected void addDomHandlers(FlowPanel panel) {
-		panel.addDomHandler(this, DoubleClickEvent.getType());
-		panel.addDomHandler(this, ClickEvent.getType());
-		panel.addDomHandler(this, MouseOverEvent.getType());
-		panel.addDomHandler(this, MouseOutEvent.getType());
-		panel.addDomHandler(this, MouseMoveEvent.getType());
-		panel.addDomHandler(this, MouseDownEvent.getType());
-		panel.addDomHandler(this, MouseUpEvent.getType());
-		panel.addDomHandler(this, TouchStartEvent.getType());
-		panel.addDomHandler(this, TouchMoveEvent.getType());
-		panel.addDomHandler(this, TouchEndEvent.getType());
-
-	}
-
 	/**
 	 * Minimal constructor
 	 *
@@ -438,11 +428,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 		app = (AppW) kernel.getApplication();
 		av = app.getAlgebraView();
 		definitionAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
-		selectionCtrl = getAV().getSelectionCtrl();
-		createMainWidget();
-		content = new FlowPanel();
 
+		main = new FlowPanel();
+		content = new FlowPanel();
 		plainTextItem = new FlowPanel();
+		setWidget(main);
+
+		selectionCtrl = getAV().getSelectionCtrl();
 		setLongTouchManager(LongTouchManager.getInstance());
 		setDraggable();
 
@@ -491,12 +483,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	protected void createMainWidget() {
-		main = new FlowPanel();
-		setWidget(main);
-
-	}
-
 	protected void addMarble() {
 		main.addStyleName("elem");
 		main.addStyleName("panelRow");
@@ -521,14 +507,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void addControls() {
 		createControls();
 		main.add(controls);
-	}
-	protected void createGUI() {
-
-		createAvexWidget();
-
-		getPlainTextItem().addStyleName("sqrtFontFix");
-		getPlainTextItem().addStyleName("avPlainTextItem");
-
 	}
 
 	/**
@@ -865,18 +843,18 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 
-	protected void createContentPanel() {
-		if (contentPanel == null) {
-			contentPanel = new FlowPanel();
+	protected void createSliderContent() {
+		if (sliderContent == null) {
+			sliderContent = new FlowPanel();
 		} else {
-			contentPanel.clear();
+			sliderContent.clear();
 		}
 
 	}
 
 	protected void styleContentPanel() {
-		contentPanel.addStyleName("elemPanel");
-		contentPanel.removeStyleName("avItemContent");
+		sliderContent.addStyleName("elemPanel");
+		sliderContent.removeStyleName("avItemContent");
 		controls.updateAnimPanel();
 
 	}
@@ -887,11 +865,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		updateButtonPanelPosition();
 	}
 
-	// AV EXTENSIONS
-	//
-	// methods for AV Slider
-
-	// END OF AV Slider methods
 	/**
 	 * Method to be overridden in InputTreeItem
 	 */
@@ -931,7 +904,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (isNeedsUpdate()) {
 			doUpdate();
 		}
+		// highlight only
 		setSelected(geo.doHighlighting());
+
+		// select only if it is in selection really.
 		selectItem(geo.doHighlighting());
 	}
 
@@ -1502,7 +1478,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
-		if (geo == null || (isGeoASlider())) {
+		if (geo == null) {
 			return;
 		}
 
@@ -2011,16 +1987,41 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return selectedItem;
 	}
 
+	private void toggleControls() {
+		// GGB-986 Don't show controls if geo is only highlighted
+		// but no selected.
+
+		if (controls == null) {
+			return;
+		}
+		boolean geoInSelection = app.getSelectionManager()
+
+				.containsSelectedGeo(geo);
+
+		if (!controls.isVisible() && geoInSelection) {
+			controls.setVisible(true);
+			controls.update(true);
+		} else if (controls.isVisible() && !geoInSelection) {
+			controls.setVisible(false);
+		}
+	}
+
 	public void selectItem(boolean selected) {
+
+		toggleControls();
+
 		if (selectedItem == selected) {
 			return;
 		}
+
+
 
 		selectedItem = selected;
 
 		if (selected) {
 			addStyleName("avSelectedRow");
-			controls.update(true);
+
+
 
 		} else {
 			removeStyleName("avSelectedRow");
@@ -2049,10 +2050,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 */
 	public static RadioTreeItem as(TreeItem item) {
 		return (RadioTreeItem) item;
-	}
-
-	private boolean isGeoASlider() {
-		return false;
 	}
 
 	public Element getScrollElement() {
@@ -2429,6 +2426,26 @@ public abstract class RadioTreeItem extends AVTreeItem
 			btnClearInput.addStyleName("ggb-btnClearAVInput");
 		}
 		return btnClearInput;
+	}
+
+	/**
+	 * Adds the needed event handlers to FlowPanel
+	 * 
+	 * @param panel
+	 *            add events to.
+	 */
+	protected void addDomHandlers(FlowPanel panel) {
+		panel.addDomHandler(this, DoubleClickEvent.getType());
+		panel.addDomHandler(this, ClickEvent.getType());
+		panel.addDomHandler(this, MouseOverEvent.getType());
+		panel.addDomHandler(this, MouseOutEvent.getType());
+		panel.addDomHandler(this, MouseMoveEvent.getType());
+		panel.addDomHandler(this, MouseDownEvent.getType());
+		panel.addDomHandler(this, MouseUpEvent.getType());
+		panel.addDomHandler(this, TouchStartEvent.getType());
+		panel.addDomHandler(this, TouchMoveEvent.getType());
+		panel.addDomHandler(this, TouchEndEvent.getType());
+
 	}
 
 }

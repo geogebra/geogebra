@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
@@ -175,7 +176,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 					.addSelectionListener(new GeoElementSelectionListener() {
 						public void geoElementSelected(GeoElement geo,
 								boolean addToSelection) {
-
+						if (geo.isGeoNumeric()
+								&& ((GeoNumeric) geo).isSlider()) {
+							Log.debug("Slideeeeeeeeeeeeeeeeeeeeeeer!");
+						}
 							updateSelection();
 						}
 					});

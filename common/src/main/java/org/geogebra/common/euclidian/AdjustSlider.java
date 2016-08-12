@@ -43,7 +43,7 @@ public class AdjustSlider {
 		ratioY = fileHeight == 0 ? 1
 				: (double) view.getViewHeight() / fileHeight;
 
-		Log.debug("[ADJUST] ratioX: " + ratioX + " ratioY: " + ratioY);
+//		Log.debug("[ADJUST] ratioX: " + ratioX + " ratioY: " + ratioY);
 		x = number.getSliderX();
 		origX = number.getOrigSliderX();
 

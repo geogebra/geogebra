@@ -28,6 +28,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -130,13 +131,13 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 			createMinMaxPanel();
 
-			createContentPanel();
+			createSliderContent();
 			styleContentPanel();
 
 			addAVEXWidget(content);
 
-			contentPanel.add(LayoutUtilW.panelRow(sliderPanel, minMaxPanel));
-			main.add(contentPanel);
+			sliderContent.add(LayoutUtilW.panelRow(sliderPanel, minMaxPanel));
+			main.add(sliderContent);
 		}
 
 	}
@@ -183,8 +184,8 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	@Override
 	protected void styleContentPanel() {
 
-		contentPanel.removeStyleName("elemPanel");
-		contentPanel.addStyleName("avItemContent");
+		sliderContent.removeStyleName("elemPanel");
+		sliderContent.addStyleName("avItemContent");
 
 		sliderPanel.setVisible(true);
 
@@ -217,7 +218,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 			sliderPanel.add(slider);
 			styleContentPanel();
 		}
-
+		updateTextItems();
 		updateColor();
 	}
 
@@ -242,6 +243,11 @@ public class SliderTreeItemRetex extends LatexTreeItem
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
 				ZeroOffset.instance);
 		onPointerMove(wrappedEvent);
+	}
+
+	@Override
+	public void onMouseOver(MouseOverEvent event) {
+		return;
 	}
 
 	@Override
@@ -323,7 +329,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 			return;
 		}
 		sliderPanel.remove(slider);
-		contentPanel.add(w);
+		sliderContent.add(w);
 		sliderPanel.add(slider);
 	}
 
@@ -376,6 +382,11 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 	public void setAnimPanelVisible(boolean visible) {
 		controls.showAnimPanel(visible);
+	}
+
+	@Override
+	public void setFocus(boolean b, boolean sv) {
+
 	}
 
 }

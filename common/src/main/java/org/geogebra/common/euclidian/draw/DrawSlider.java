@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -169,7 +168,7 @@ public class DrawSlider extends Drawable {
 			updateStrokes(number, 2);
 		}
 		if (needsAdjusted()) {
-			Log.debug(ADJUST + " needed for " + geo.getNameDescription());
+			// Log.debug(ADJUST + " needed for " + geo.getNameDescription());
 		}
 	}
 
