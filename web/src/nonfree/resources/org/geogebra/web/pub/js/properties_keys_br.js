@@ -275,7 +275,7 @@ __GGB__keysVar.br.command = {
     "DivisorsSum.Syntax": "[ <Number> ]",
     "Dodecahedron": "Dodecahedron",
     "Dodecahedron.Syntax": "[ <Point>, <Point> ]\n[ <Point>, <Point>, <Point> ]\n[ <Point>, <Point>, <Direction> ]",
-    "Dot": "Dot",
+    "Dot": "Pik",
     "Dot.Syntax": "[ <Vector>, <Vector> ]",
     "DotPlot": "DotPlot",
     "DotPlot.Syntax": "[ <List of Raw Data>, <Stack Adjacent Dots (optional)>, <Scale Factor (optional)>]",

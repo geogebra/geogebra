@@ -2542,7 +2542,7 @@ __GGB__keysVar.ko.plain = {
     "Height": "\ub192\uc774",
     "HeightOfA": "%0 \uc758 \ub192\uc774",
     "Hexagon": "\uc721\uac01\ud615",
-    "Hidden": "Hidden",
+    "Hidden": "\ubcf4\uc774\uc9c0 \uc54a\uc74c",
     "Hide": "\uc228\uae30\uae30",
     "Hint": "\ud78c\ud2b8",
     "Home": "\ud648",

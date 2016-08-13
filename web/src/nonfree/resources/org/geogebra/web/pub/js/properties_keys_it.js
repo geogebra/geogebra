@@ -941,7 +941,7 @@ __GGB__keysVar.it.command = {
     "SurdText": "IrrazionaleInTesto",
     "SurdText.Syntax": "[ <Numero> ]\n[ <Punto> ]\n[ <Numero>, <Lista> ]",
     "Surface": "Superficie",
-    "Surface.Syntax": "[ <Funzione>, <Angolo> ]\n[ <Espressione>, <Espressione>, <Espressione>, <Parametro variabile 1>, <Valore iniziale>, <Valore finale>, <Parametro variabile 2>, <Valore iniziale>, <Valore finale> ]",
+    "Surface.Syntax": "[ <Funzione>, <Angolo> ]\n[ <Curva>, <Angolo>, <Retta> ]\n[ <Espressione>, <Espressione>, <Espressione>, <Parametro variabile 1>, <Valore iniziale>, <Valore finale>, <Parametro variabile 2>, <Valore iniziale>, <Valore finale> ]",
     "TDistribution": "DistribuzioneT",
     "TDistribution.Syntax": "[ <Gradi di libert\xe0>, x ]\n[ <Gradi di libert\xe0>, <Valore variabile> ]\n[ <Gradi di libert\xe0>, x, <Booleano Cumulativa> ]",
     "TDistribution.SyntaxCAS": "[ <Gradi di libert\xe0>, <Valore variabile> ]",
