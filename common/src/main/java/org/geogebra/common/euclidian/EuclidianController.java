@@ -367,6 +367,8 @@ public abstract class EuclidianController {
 	private boolean freehandModeSet = false;
 	private int previousMode = -1;
 
+	private boolean altCopy;
+
 	public EuclidianController(App app) {
 		this.app = app;
 		this.selection = app.getSelectionManager();
@@ -7765,6 +7767,8 @@ public abstract class EuclidianController {
 
 			return;
 		}
+
+		altCopy = false;
 		// moveMode was set in mousePressed()
 		switch (moveMode) {
 			case MOVE_ROTATE:
@@ -8925,6 +8929,8 @@ public abstract class EuclidianController {
 
 		setMoveModeForFurnitures();
 
+		altCopy = true;
+
 		DrawList dl = getComboBoxHit();
 
 		if (!event.isRightClick() && dl != null) {
@@ -9838,7 +9844,7 @@ public abstract class EuclidianController {
 			GeoElement geo = hits.get(0);
 
 			// F3 key: copy definition to input bar
-			if (mode != EuclidianConstants.MODE_ATTACH_DETACH) {
+			if (mode != EuclidianConstants.MODE_ATTACH_DETACH && altCopy) {
 				app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(
 						3, geo);
 			}
