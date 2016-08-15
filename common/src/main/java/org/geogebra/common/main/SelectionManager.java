@@ -578,9 +578,13 @@ public class SelectionManager {
 		boolean contains = selectedGeos.contains(geo);
 		if (contains) {
 			selectedGeos.remove(geo);
+			kernel.getApplication().getEventDispatcher()
+					.dispatchEvent(EventType.DESELECT, geo);
 			geo.setSelected(false);
 		} else {
 			selectedGeos.add(geo);
+			kernel.getApplication().getEventDispatcher()
+					.dispatchEvent(EventType.SELECT, geo);
 			geo.setSelected(true);
 		}
 
