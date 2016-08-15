@@ -83,6 +83,7 @@ public abstract class ScriptManager implements EventListener {
 		case PERSPECTIVE_CHANGE:
 		case SELECT:
 		case DESELECT:
+		case OPEN_MENU:
 			callClientListeners(clientListeners, evt);
 			break;
 		// TODO case CLEAR
