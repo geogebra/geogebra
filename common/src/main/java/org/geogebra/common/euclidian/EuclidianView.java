@@ -5336,7 +5336,9 @@ public abstract class EuclidianView
 	 * @param g2d
 	 *            graphics
 	 */
-	protected abstract void drawBackgroundImage(GGraphics2D g2d);
+	protected void drawBackgroundImage(GGraphics2D g2d) {
+		g2d.drawImage(bgImage, 0, 0);
+	}
 
 	protected void exportPaintPreScale(GGraphics2D g2d, double scale) {
 		g2d.scale(scale, scale);

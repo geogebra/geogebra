@@ -429,14 +429,6 @@ public class EuclidianViewD extends EuclidianView implements
 
 	}
 
-	@Override
-	protected void drawBackgroundImage(GGraphics2D g2d) {
-		GGraphics2DD.getAwtGraphics(g2d)
-				.drawImage(GBufferedImageD.getAwtBufferedImage(bgImage), 0, 0,
-						getJPanel());
-	}
-
-
 	/**
 	 * @param g2d
 	 *            graphics
