@@ -186,6 +186,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 			setHighlighted(selected);
 		}
+
+		public boolean isHit(int x, int y) {
+			return x > getAbsoluteLeft()
+					&& x < getAbsoluteLeft() + getOffsetWidth()
+					&& y < getAbsoluteTop() + getOffsetHeight();
+		}
 	}
 
 	public class ItemControls extends FlowPanel {
@@ -1381,6 +1387,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 	@Override
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
+
+		if (marblePanel.isHit(evt.getClientX(), evt.getClientY())) {
+			return;
+		}
 
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
