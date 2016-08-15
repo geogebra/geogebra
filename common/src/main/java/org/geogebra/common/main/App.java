@@ -1,12 +1,5 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
-import java.util.Vector;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -81,6 +74,13 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
 
 /**
  * Represents an application window, gives access to views and system stuff
@@ -3968,7 +3968,7 @@ public abstract class App implements UpdateSelection {
 
 		//MOB-601
 		case MOBILE_LOCAL_SAVE:
-			return prerelease;
+			return false;
 		case RETEX_EDITOR:
 			return prerelease;
 
@@ -3992,7 +3992,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-787
 		case MOBILE_ALWAYS_LOAD_FEATURED_MATERIALS:
-			return false;
+			return prerelease;
 
 		case MOBILE_OUTPUT_ROW:
 			return prerelease;
