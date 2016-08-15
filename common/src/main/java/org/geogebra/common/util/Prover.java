@@ -737,6 +737,7 @@ public abstract class Prover {
 		private static HashMap<GeoElement, Integer> nodeComplexity;
 		private static int longestPath;
 		private static HashSet<ArrayList<GeoElement>> deps;
+		private static ArrayList<String> statementDescription = new ArrayList<String>();
 
 		private static void computeNodeLongestPath(GeoElement node, int set) {
 			nodeLongestPath.put(node, set);
@@ -765,12 +766,14 @@ public abstract class Prover {
 				nodeComplexity.put(node, 0);
 				return 0;
 			}
+			statementDescription.add(ae.getClassName().toString());
 			int parentsComplexity = 1;
 
 			/*
 			 * Compute node complexity by counting multiplicites in occurrences
 			 * of GeoElement objects, if an expression is found.
 			 */
+
 			if (ae instanceof AlgoDependentBoolean) {
 				ExpressionNode root = ((AlgoDependentBoolean) ae)
 						.getExpression();
@@ -922,6 +925,23 @@ public abstract class Prover {
 			csv_data += data + ",";
 		}
 
+		void csvAdd(String header, String data) {
+			csv_header += header + ",";
+			csv_data += data + ",";
+		}
+
+		void csvAdd(String header, ArrayList<String> data) {
+			csv_header += header + ",";
+			int count = data.size();
+			for (int i = 0; i < count; ++i) {
+				csv_data += data.get(i);
+				if (i < count - 1) {
+					csv_data += " ";
+				}
+			}
+			csv_data += ",";
+		}
+
 		StatementFeatures(GeoElement statement) {
 
 			nodeLongestPath = new HashMap<GeoElement, Integer>();
@@ -1013,6 +1033,9 @@ public abstract class Prover {
 			csvAdd("max path length/num of edges", (double) longestPath / edges);
 			csvAdd("num of edges/max path length", (double) edges / longestPath);
 			csvAdd("statement complexity", nodeComplexity.get(statement));
+			csvAdd("statement dominant predicate",
+					statement.getParentAlgorithm().getClassName().toString());
+			csvAdd("statement predicates", statementDescription);
 			generateStatistics("node in-degree", nodes_in_deg, null);
 			generateStatistics("node out-degree", nodes_out_deg, null);
 			generateStatistics("node degree", nodes_deg, null);
@@ -1046,5 +1069,6 @@ public abstract class Prover {
 			digraph += "}";
 			Log.debug(digraph);
 		}
+
 	}
 }
