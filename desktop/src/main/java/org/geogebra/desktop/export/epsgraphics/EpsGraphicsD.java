@@ -32,8 +32,10 @@ public class EpsGraphicsD extends EpsGraphics {
 	}
 
 	public EpsGraphicsD(String string, StringBuilder epsOutput, int i, int j,
-			int pixelWidth, int pixelHeight, ColorMode colorRgb) {
-		super(string, epsOutput, i, j, pixelWidth, pixelHeight, colorRgb);
+			int pixelWidth, int pixelHeight, ColorMode colorRgb,
+			GColor bgColor) {
+		super(string, epsOutput, i, j, pixelWidth, pixelHeight, colorRgb,
+				bgColor);
 	}
 
 	public EpsGraphicsD(EpsGraphicsD eps) {

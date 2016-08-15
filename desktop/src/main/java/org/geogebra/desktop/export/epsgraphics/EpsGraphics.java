@@ -104,12 +104,14 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * document is fixed and specified at construction time by
 	 * minX,minY,maxX,maxY. The output stream is flushed and closed when the
 	 * close() method is called.
+	 * 
+	 * @param bgColor
 	 */
 	public EpsGraphics(String title, StringBuilder outputStream, int minX,
-			int minY, int maxX, int maxY, ColorMode colorMode) {
+			int minY, int maxX, int maxY, ColorMode colorMode, GColor bgColor) {
 		_document = new EpsDocument(title, outputStream, minX, minY, maxX, maxY);
 		this.colorMode = colorMode;
-		_backgroundColor = GColor.WHITE;
+		_backgroundColor = bgColor == null ? GColor.WHITE : bgColor;
 		_clip = null;
 		_transform = AwtFactory.prototype.newAffineTransform();
 		_clipTransform = AwtFactory.prototype.newAffineTransform();
@@ -720,31 +722,52 @@ abstract public class EpsGraphics implements GGraphics2D {
 		if (color == null) {
 			color = GColor.BLACK;
 		}
+
+		float red = color.getRed() / 255f;
+		float green = color.getGreen() / 255f;
+		float blue = color.getBlue() / 255f;
+
+		float alpha = color.getAlpha() / 255f;
+
+		if (alpha != 1) {
+
+			float bgRed = _backgroundColor.getRed() / 255f;
+			float bgGreen = _backgroundColor.getGreen() / 255f;
+			float bgBlue = _backgroundColor.getBlue() / 255f;
+
+			// GGB-1146
+			// fake transparency, work out correct color assuming shape
+			// is being drawn on the background and not over something else
+			// https://en.wikipedia.org/wiki/Alpha_compositing
+			red = bgRed * (1 - alpha) + red * alpha;
+			green = bgGreen * (1 - alpha) + green * alpha;
+			blue = bgBlue * (1 - alpha) + blue * alpha;
+
+		}
+
 		this.color = color;
 		switch (colorMode) {
 		case BLACK_AND_WHITE:
 			double value = 0;
-			if (color.getRed() + color.getGreen() + color.getBlue() > 255 * 1.5 - 1) {
+			if (red + green + blue > 0.5) {
 				value = 1;
 			}
 			append(value + " setgray");
 			break;
 		case GRAYSCALE:
-			double grayvalue = ((color.getRed() + color.getGreen() + color
-					.getBlue()) / (3 * 255f));
+			double grayvalue = (red + green + blue) / 3;
 			append(grayvalue + " setgray");
 			break;
 		case COLOR_RGB:
-			append((color.getRed() / 255f) + " " + (color.getGreen() / 255f)
-					+ " " + (color.getBlue() / 255f) + " setrgbcolor");
+			append(red + " " + green + " " + blue + " setrgbcolor");
 			break;
 		case COLOR_CMYK:
 			if (color.equals(GColor.BLACK)) {
 				append("0.0 0.0 0.0 1.0 setcmykcolor");
 			} else {
-				double c = 1 - (color.getRed() / 255f);
-				double m = 1 - (color.getGreen() / 255f);
-				double y = 1 - (color.getBlue() / 255f);
+				double c = 1 - red;
+				double m = 1 - green;
+				double y = 1 - blue;
 				double k = Math.min(Math.min(c, y), m);
 
 				append((c - k) / (1 - k) + " " + (m - k) / (1 - k) + " "

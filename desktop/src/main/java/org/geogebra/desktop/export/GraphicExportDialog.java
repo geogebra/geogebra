@@ -1163,7 +1163,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		g = new EpsGraphicsD(
 				GeoGebraConstants.APPLICATION_NAME + ", "
 						+ GeoGebraConstants.GEOGEBRA_WEBSITE,
-				epsOutput, 0, 0, pixelWidth, pixelHeight, ColorMode.COLOR_RGB);
+				epsOutput, 0, 0, pixelWidth, pixelHeight, ColorMode.COLOR_RGB,
+				ev.getBackgroundCommon());
 
 
 		// draw to epsGraphics2D
