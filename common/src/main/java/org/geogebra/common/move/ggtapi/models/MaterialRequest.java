@@ -1,12 +1,12 @@
 package org.geogebra.common.move.ggtapi.models;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeSet;
-
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeSet;
 
 /**
  * For Generating a JSON String for specific GeoGebratube API Requests
@@ -29,7 +29,7 @@ public class MaterialRequest implements Request {
 
 	public enum Filters {
 		id, title, search, type, description, timestamp, author, author_url,
-		language, featured, likes, inbook, inws;
+		language, featured, likes, inbook, inws, author_id;
 	}
 
 	public enum Order {
@@ -250,5 +250,9 @@ public class MaterialRequest implements Request {
 		req.by = Order.timestamp;
 		req.type = Type.desc;
 		return req;
+	}
+
+	public int getUserId(){
+		return model.getUserId();
 	}
 }
