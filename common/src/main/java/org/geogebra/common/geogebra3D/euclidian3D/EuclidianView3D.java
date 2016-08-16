@@ -1,5 +1,11 @@
 package org.geogebra.common.geogebra3D.euclidian3D;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -107,12 +113,6 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * Class for 3D view
@@ -2416,7 +2416,9 @@ GRectangle selectionRectangle) {
 	public void updateCursor3D(Hits hits) {
 		if (hasMouse()) {
 			getEuclidianController().updateNewPoint(true, hits, true, true,
-					true, // TODO doSingleHighlighting = false ?
+					getMode() != EuclidianConstants.MODE_MOVE, // TODO
+																// doSingleHighlighting
+																// = false ?
 					false, false);
 
 			updateCursorOnXOYPlane();
