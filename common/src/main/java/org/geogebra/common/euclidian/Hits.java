@@ -876,6 +876,11 @@ public class Hits extends ArrayList<GeoElement> {
 		return false;
 	}
 
+	/**
+	 * @param ret
+	 *            hits
+	 * @return whether gits contain input box
+	 */
 	final public boolean containsGeoTextfield(Hits ret) {
 
 		GeoElement geo;
@@ -889,6 +894,11 @@ public class Hits extends ArrayList<GeoElement> {
 		return false;
 	}
 
+	/**
+	 * @param ret
+	 *            hits
+	 * @return whether hits contain combobox
+	 */
 	final public boolean containsComboBox(Hits ret) {
 
 		GeoElement geo;

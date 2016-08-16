@@ -60,6 +60,7 @@ public class HatchingHandler {
 	 *            for symbol filling
 	 * @param app
 	 *            needed to determine right font
+	 * @return texture paint
 	 */
 	public final GPaint setHatching(GGraphics2D g3,
 			GBasicStroke defObjStroke, GColor color, GColor bgColor,

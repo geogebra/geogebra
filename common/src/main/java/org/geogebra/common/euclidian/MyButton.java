@@ -68,6 +68,8 @@ public class MyButton implements Observer {
 	 * 
 	 * @param g
 	 *            graphics
+	 * @param multiplier
+	 *            font size multiplier
 	 */
 	public void paintComponent(GGraphics2D g,
 			double multiplier) {
