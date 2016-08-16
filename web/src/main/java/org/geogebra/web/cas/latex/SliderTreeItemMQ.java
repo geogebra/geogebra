@@ -82,6 +82,7 @@ public class SliderTreeItemMQ extends MathQuillTreeItem
 	 */
 	public SliderTreeItemMQ(final GeoElement geo0) {
 		super(geo0);
+		content.removeStyleName("mathQuillEditor");
 		num = (GeoNumeric) geo;
 
 		addControls();

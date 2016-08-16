@@ -17,6 +17,7 @@ public class CheckboxTreeItemMQ extends MathQuillTreeItem {
 
 	public CheckboxTreeItemMQ(GeoElement geo0) {
 		super(geo0);
+		content.removeStyleName("mathQuillEditor");
 	}
 
 	@Override
