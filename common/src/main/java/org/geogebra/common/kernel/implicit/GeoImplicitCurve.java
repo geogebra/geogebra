@@ -1632,36 +1632,37 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				return;
 			}
 			int e = edgeConfig(r);
-			if (grid[r.y][r.x].singular || e != EMPTY) {
+			if (grid[r.y][r.x] != null && grid[r.y][r.x].singular
+					|| e != EMPTY) {
 				if (depth >= plotDepth) {
 					if (addSegment(r, factor) == T0101) {
 						createTree(r, depth + 1, factor);
 						return;
 					}
 					if (r.x != 0 && (e & r.shares & 0x1) != 0) {
-						if (grid[r.y][r.x - 1].status == EMPTY) {
-							grid[r.y][r.x - 1].status = 1;
-						}
+						nonempty(r.y, r.x - 1);
+
 					}
 					if (r.x + 1 != sw && (e & r.shares & 0x4) != 0) {
-						if (grid[r.y][r.x + 1].status == EMPTY) {
-							grid[r.y][r.x + 1].status = 1;
-						}
+						nonempty(r.y, r.x + 1);
 					}
 					if (r.y != 0 && (e & r.shares & 0x8) != 0) {
-						if (grid[r.y - 1][r.x].status == EMPTY) {
-							grid[r.y - 1][r.x].status = 1;
-						}
+						nonempty(r.y - 1, r.x);
 					}
 					if (r.y + 1 != sh && (e & r.shares & 0x2) != 0) {
-						if (grid[r.y + 1][r.x].status == EMPTY) {
-							grid[r.y + 1][r.x].status = 1;
-						}
+						nonempty(r.y + 1, r.x);
 					}
 				} else {
 					createTree(r, depth + 1, factor);
 				}
 			}
+		}
+
+		private void nonempty(int ry, int rx) {
+			if (grid[ry][rx - 1] != null && grid[ry][rx - 1].status == EMPTY) {
+				grid[ry][rx - 1].status = 1;
+			}
+
 		}
 
 		@Override
