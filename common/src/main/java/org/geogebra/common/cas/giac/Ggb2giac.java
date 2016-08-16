@@ -810,13 +810,16 @@ public class Ggb2giac {
 		p("LCM.1", "lcm(%0)");
 		p("LCM.2", "lcm(%0,%1)");
 		p("LeftSide.1",
-				"[[ggbleftarg0:=%0],when(type(ggbleftarg0)==DOM_LIST,map(ggbleftarg0,left),"
+				"[[ggbleftarg0:=%0],when(type(ggbleftarg0)==DOM_LIST,map(ggbleftarg0,"
+						+ "t->when(t[0] == '=',left(t),?)),"
 						// LeftSide only defined for equations
 						// see GGB-1116
 						+ "when ((ggbleftarg0)[0] == '=',"
 						+ "left(ggbleftarg0),"
 						+ "?))][1]");
-		p("LeftSide.2", "left(%0[%1-1])");
+		p("LeftSide.2",
+				"[[ggbleftarg0:=%0],"
+						+ "when(ggbleftarg0[%1-1][0] == '=',right(ggbleftarg0[%1-1]),?)][1]");
 		// subtype 27 is ggbvect()
 		p("Length.1",
 				"[[ggbv:=%0],regroup(when(ggbv[0]=='pnt' || (type(ggbv)==DOM_LIST && subtype(ggbv)==27), l2norm(ggbv),size(ggbv)))][1]");
@@ -996,12 +999,14 @@ public class Ggb2giac {
 				"[[ggbratarg0:=%0],if type(ggbratarg0)==DOM_RAT then ggbratarg0 else normal(exact(ggbratarg0)) fi][1]");
 		p("Reverse.1", "revlist(%0)");
 		p("RightSide.1",
-				"[[ggbrightarg0:=%0],when(type(ggbrightarg0)==DOM_LIST,map(ggbrightarg0,right),"
+				"[[ggbrightarg0:=%0],when(type(ggbrightarg0)==DOM_LIST,map(ggbrightarg0,"
+						+ "t->when(t[0] == '=',right(t),?)),"
 						// RightSide only defined for equations
 						// see GGB-1116
 						+ "when ((ggbrightarg0)[0] == '=',"
 						+ "right(ggbrightarg0),?))][1]");
-		p("RightSide.2", "right(%0[%1-1]) ");
+		p("RightSide.2", "[[ggbrightarg0:=%0],"
+						+ "when(ggbrightarg0[%1-1][0] == '=',right(ggbrightarg0[%1-1]),?)][1]");
 
 		p("ReducedRowEchelonForm.1", "rref(%0)");
 		p("Sample.2", "flatten1(seq(rand(1,%0),j,1,%1))");
