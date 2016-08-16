@@ -85,7 +85,7 @@ public class MatrixAtom extends Atom {
 	private int type;
 	private boolean isPartial;
 	private boolean spaceAround;
-	private ArrayList<Rectangle2D> arr = new ArrayList<Rectangle2D>();
+	private ArrayList<Rectangle2D> rectangles = new ArrayList<Rectangle2D>();
 	private ArrayList<Color> colors = new ArrayList<Color>();
 
 	private static SpaceAtom align = new SpaceAtom(TeXConstants.MEDMUSKIP);
@@ -379,7 +379,8 @@ public class MatrixAtom extends Atom {
 	}
 
 	public TableBox createBox(TeXEnvironment env) {
-		arr.clear();
+		rectangles.clear();
+		colors.clear();
 		int row = matrix.row;
 		int col = matrix.col;
 		Box[][] boxarr = new Box[row][col];
@@ -481,13 +482,16 @@ public class MatrixAtom extends Atom {
 
 					if (boxarr[i][j].type == -1) {
 						colors.add(matrix.getColor(i, j));
-						arr.add(FactoryProvider.INSTANCE.getGeomFactory()
+						double sepWidth = Hsep[j == 0 && Hsep.length > 0 ? 1
+								: j].getWidth();
+						rectangles.add(FactoryProvider.INSTANCE
+								.getGeomFactory()
 								.createRectangle2D(
 										hb.getWidth()
-												- Hsep[j + 1].getWidth() / 2,
+ - sepWidth / 2,
 										vb.getHeight() + vb.getDepth()
 												- Vsep.getHeight(),
-										rowWidth[j] + Hsep[j + 1].getWidth(),
+										rowWidth[j] + sepWidth,
 										lineHeight[i] + lineDepth[i]
 												+ Vsep.getHeight()));
 						hb.add(new HorizontalBox(boxarr[i][j], rowWidth[j], position[j]));
@@ -557,7 +561,7 @@ public class MatrixAtom extends Atom {
 		vb.setHeight(totalHeight / 2 + axis);
 		vb.setDepth(totalHeight / 2 - axis);
 
-		return new TableBox(vb, arr, colors);
+		return new TableBox(vb, rectangles, colors);
 	}
 
 	private Box generateMulticolumn(TeXEnvironment env, Box[] Hsep, float[] rowWidth, int i, int j) {
