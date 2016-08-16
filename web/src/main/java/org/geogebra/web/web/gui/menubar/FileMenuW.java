@@ -9,6 +9,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.html5.main.FileManagerI;
@@ -242,23 +243,39 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		}
 		if (!app.has(Feature.NEW_START_SCREEN)) {
-		addSeparator();
+			addSeparator();
 
-		if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-					.menu_icons_exam_mode().getSafeUri().asString(),
-					app.getMenu("exam_menu_enter"), true),// EnterExamMode
+			if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
+				addItem(MainMenu.getMenuBarHtml(
+						GuiResources.INSTANCE.menu_icons_exam_mode()
+								.getSafeUri().asString(),
+						app.getMenu("exam_menu_enter"), true), // EnterExamMode
+						true, new MenuCommand(app) {
+
+							@Override
+							public void doExecute() {
+								((DialogManagerW) app.getDialogManager())
+										.getSaveDialog()
+										.showIfNeeded(getExamCallback());
+
+							}
+						});
+			}
+		}
+		if (app.has(Feature.BACK_TO_GGB)) {
+			addItem(MainMenu.getMenuBarHtml(
+					GuiResourcesSimple.INSTANCE.icons_fillings_arrow_big_left()
+							.getSafeUri().asString(),
+					app.getMenu("BackToGeoGebra"), true), // EnterExamMode
 					true, new MenuCommand(app) {
 
 						@Override
 						public void doExecute() {
-							((DialogManagerW) app.getDialogManager())
-									.getSaveDialog().showIfNeeded(
-											getExamCallback());
+							backToGeoGebra();
 
 						}
 					});
-		}
+
 		}
 	    app.getNetworkOperation().getView().add(this);
 	    
@@ -266,6 +283,16 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    	render(false);    	
 	    }
 	}
+
+	protected native void backToGeoGebra() /*-{
+		if ($wnd != $wnd.parent) {
+			$wnd.parent.postMessage("{\"type\":\"closesingleton\"}",
+					location.protocol + "//" + location.host);
+		} else {
+			$wnd.location.assign("/");
+		}
+
+	}-*/;
 
 	private boolean printItemAdded = false;
 
