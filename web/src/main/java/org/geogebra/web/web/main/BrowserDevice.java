@@ -15,12 +15,21 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 
+/**
+ * Device class for case we are running in the browser (eg Chrome app)
+ */
 public class BrowserDevice implements GDevice {
-
-	public class MyButton extends FlowPanel {
+	/**
+	 * Button for opening local files
+	 *
+	 */
+	public class FileOpenButton extends FlowPanel {
 		private Element input;
 
-		public MyButton() {
+		/**
+		 * New button
+		 */
+		public FileOpenButton() {
 			super();
 			this.setStyleName("button");
 			final Image icon = new Image(
@@ -42,10 +51,15 @@ public class BrowserDevice implements GDevice {
 
 		}
 
+		/**
+		 * @param bg
+		 *            browsing gui
+		 */
 		public void setBrowseGUI(BrowseGUI bg) {
 			addGgbChangeHandler(input, bg);
 		}
-		public native void addGgbChangeHandler(Element el, BrowseGUI bg) /*-{
+
+		private native void addGgbChangeHandler(Element el, BrowseGUI bg) /*-{
 			var dialog = this;
 			//		el.setAttribute("accept", "application/vnd.geogebra.file, application/vnd.geogebra.tool");
 			el.onchange = function(event) {
@@ -58,10 +72,6 @@ public class BrowserDevice implements GDevice {
 
 			};
 		}-*/;
-	}
-
-	public boolean supportsExport() {
-		return true;
 	}
 
 	@Override
@@ -91,7 +101,7 @@ public class BrowserDevice implements GDevice {
 
 	@Override
 	public BrowseGUI createBrowseView(AppW app) {
-		MyButton mb = new MyButton();
+		FileOpenButton mb = new FileOpenButton();
 		BrowseGUI bg = new BrowseGUI(app, mb);
 		mb.setBrowseGUI(bg);
 		return bg;

@@ -111,15 +111,22 @@ public class AppWapplication extends AppWFull {
 			this.showBrowser((HeaderPanel) ((GuiManagerW) this.getGuiManager())
 			        .getBrowseView());
 			nativeLoggedIn();
-		} else if (Cookies.getCookie("SSID") != null) {
+		} else if (getLoginCookie() != null) {
 			Log.debug("Login token set via cookie.");
 			this.getLoginOperation()
-					.performCookieLogin(Cookies.getCookie("SSID"));
+					.performCookieLogin(getLoginCookie());
 		}
 
 
 		restoreMacro();
 
+	}
+
+	private static String getLoginCookie() {
+		return Location.getHost() != null
+				&& Location.getHost().contains("alpha.geogebra.org")
+						? Cookies.getCookie("SSID_DEV")
+						: Cookies.getCookie("SSID");
 	}
 
 	private static void removeSplash() {
