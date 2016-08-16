@@ -1413,7 +1413,7 @@ public class PredefMacros {
 			final String[] args) throws ParseException {
 		try {
 			tp.cellColor(ColorAtom.getColor(args[1]));
-			return new EmptyAtom();
+			return null;
 		} catch (NumberFormatException e) {
 			throw new ParseException(e.toString());
 		}
