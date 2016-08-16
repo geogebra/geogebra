@@ -802,7 +802,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			}
 
 			if (bgCol != null) {
-				sb.append("\\bgcolor{#");
+				sb.append("\\cellcolor{#");
 				sb.append(StringUtil.toHexString(bgCol));
 				sb.append("}{");
 			}

@@ -480,9 +480,7 @@ public class MatrixAtom extends Atom {
 					boolean lastVline = true;
 
 					if (boxarr[i][j].type == -1) {
-						colors.add(FactoryProvider.INSTANCE.getGraphicsFactory()
-								.createColor((int) (Math.random() * 255),
-										(int) (Math.random() * 255), 0));
+						colors.add(matrix.getColor(i, j));
 						arr.add(FactoryProvider.INSTANCE.getGeomFactory()
 								.createRectangle2D(
 										hb.getWidth()

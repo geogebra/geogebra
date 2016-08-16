@@ -140,8 +140,23 @@ public class ArrayOfAtoms extends TeXFormula {
 		return array.get(i).get(j);
 	}
 
-	public void cellColor(Color color) {
-		// TODO Auto-generated method stub
+	public Color getColor(int i, int j) {
+		if (colors.size() <= i) {
+			return null;
+		}
+		if (colors.get(i).size() <= j) {
+			return null;
+		}
+		return colors.get(i).get(j);
+	}
 
+	public void cellColor(Color color) {
+		while (colors.size() < row + 1) {
+			colors.add(new LinkedList<Color>());
+		}
+		while (colors.get(row).size() < array.get(row).size() + 1) {
+			colors.get(row).add(null);
+		}
+		colors.get(row).set(array.get(row).size(), color);
 	}
 }

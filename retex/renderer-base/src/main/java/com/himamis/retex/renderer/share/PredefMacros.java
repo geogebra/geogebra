@@ -1409,11 +1409,11 @@ public class PredefMacros {
 		}
 	}
 
-	public static final Atom cellcolor_macro(final TeXParser tp,
+	public static final Object cellcolor_macro(final TeXParser tp,
 			final String[] args) throws ParseException {
 		try {
-			return new ColorAtom(new TeXFormula(tp, args[2]).root,
-					ColorAtom.getColor(args[1]), null);
+			tp.cellColor(ColorAtom.getColor(args[1]));
+			return new EmptyAtom();
 		} catch (NumberFormatException e) {
 			throw new ParseException(e.toString());
 		}
