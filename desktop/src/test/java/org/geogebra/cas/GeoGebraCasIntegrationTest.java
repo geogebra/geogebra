@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
+import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.main.AppD;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -56,7 +57,9 @@ public class GeoGebraCasIntegrationTest {
 
   @BeforeClass
   public static void setupCas () {
-    app = new AppD(new CommandLineArguments(silent ? new String[] { "--silent", "--giac" } : new String[] { "--giac" }), new JFrame(), false);
+		app = new App3D(new CommandLineArguments(silent ? new String[] {
+				"--silent", "--giac" } : new String[] { "--giac" }),
+				new JFrame(), false);
 
     if (silent) {
       Log.logger = null;
@@ -1995,12 +1998,31 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void LeftSide_0 () {
-    t("LeftSide[x + 2 = 3x + 1]", "x + 2");
+		in("lsa:x+y+z=1");
+		t("LeftSide[lsa]", "x + y + z");
+		t("RightSide[lsa]", "1");
+		in("lsb:xx+yy+zz=1");
+		t("LeftSide[lsb]", "x^(2) + y^(2) + z^(2)");
+		t("RightSide[lsb]", "1");
+		in("lsc:x+y+0z=1");
+		t("LeftSide[lsc]", "x + y");
+		t("RightSide[lsc]", "1");
+		in("lsd:x+y=1");
+		t("LeftSide[lsd]", "x + y");
+		t("RightSide[lsd]", "1");
   }
 
-  @Test
+	private void in(String string) {
+		app.getKernel().getAlgebraProcessor()
+				.processAlgebraCommand(string, false);
+
+	}
+
+	@Test
   public void LeftSide_1 () {
-    t("LeftSide[{a^2 + b^2 = c^2, x + 2 = 3 x + 1}]", "{a^(2) + b^(2), x + 2}");
+		t("LeftSide[x + 2 = 3x + 1]", "x + 2");
+		t("LeftSide[{a^2 + b^2 = c^2, x + 2 = 3 x + 1}]",
+				"{a^(2) + b^(2), x + 2}");
   }
 
   @Test
