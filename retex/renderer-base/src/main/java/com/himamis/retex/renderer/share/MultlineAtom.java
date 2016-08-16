@@ -76,7 +76,7 @@ public class MultlineAtom extends Atom {
 		}
 
 		VerticalBox vb = new VerticalBox();
-		Atom at = column.array.get(0).get(0);
+		Atom at = column.get(0, 0);
 		int alignment = type == GATHER ? TeXConstants.ALIGN_CENTER : TeXConstants.ALIGN_LEFT;
 		if (at.alignment != -1) {
 			alignment = at.alignment;
@@ -84,7 +84,7 @@ public class MultlineAtom extends Atom {
 		vb.add(new HorizontalBox(at.createBox(env), tw, alignment));
 		Box Vsep = vsep_in.createBox(env);
 		for (int i = 1; i < column.row - 1; i++) {
-			at = column.array.get(i).get(0);
+			at = column.get(i, 0);
 			alignment = TeXConstants.ALIGN_CENTER;
 			if (at.alignment != -1) {
 				alignment = at.alignment;
@@ -94,7 +94,7 @@ public class MultlineAtom extends Atom {
 		}
 
 		if (column.row > 1) {
-			at = column.array.get(column.row - 1).get(0);
+			at = column.get(column.row - 1, 0);
 			alignment = type == GATHER ? TeXConstants.ALIGN_CENTER : TeXConstants.ALIGN_RIGHT;
 			if (at.alignment != -1) {
 				alignment = at.alignment;

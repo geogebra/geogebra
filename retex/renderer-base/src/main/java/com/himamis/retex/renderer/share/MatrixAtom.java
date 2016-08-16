@@ -50,6 +50,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.geom.Rectangle2D;
+import com.himamis.retex.renderer.share.platform.graphics.Color;
+
 /**
  * A box representing a matrix.
  */
@@ -81,6 +85,8 @@ public class MatrixAtom extends Atom {
 	private int type;
 	private boolean isPartial;
 	private boolean spaceAround;
+	private ArrayList<Rectangle2D> arr = new ArrayList<Rectangle2D>();
+	private ArrayList<Color> colors = new ArrayList<Color>();
 
 	private static SpaceAtom align = new SpaceAtom(TeXConstants.MEDMUSKIP);
 
@@ -197,7 +203,7 @@ public class MatrixAtom extends Atom {
 				Atom at = tp.getArgument();
 				matrix.col++;
 				for (int j = 0; j < matrix.row; j++) {
-					matrix.array.get(j).add(lposition.size(), at);
+					matrix.get(j).add(lposition.size(), at);
 				}
 
 				lposition.add(TeXConstants.ALIGN_NONE);
@@ -373,6 +379,7 @@ public class MatrixAtom extends Atom {
 	}
 
 	public TableBox createBox(TeXEnvironment env) {
+		arr.clear();
 		int row = matrix.row;
 		int col = matrix.col;
 		Box[][] boxarr = new Box[row][col];
@@ -395,7 +402,7 @@ public class MatrixAtom extends Atom {
 			for (int j = 0; j < col; j++) {
 				Atom at = null;
 				try {
-					at = matrix.array.get(i).get(j);
+					at = matrix.get(i, j);
 				} catch (Exception e) {
 					// The previous atom was an intertext atom
 					// position[j - 1] = -1;
@@ -451,7 +458,6 @@ public class MatrixAtom extends Atom {
 		vb.add(vsep_ext_top.createBox(env));
 		float vsepH = Vsep.getHeight();
 		float totalHeight = 0;
-
 		for (int i = 0; i < row; i++) {
 			HorizontalBox hb = new HorizontalBox();
 			for (int j = 0; j < col; j++) {
@@ -474,10 +480,23 @@ public class MatrixAtom extends Atom {
 					boolean lastVline = true;
 
 					if (boxarr[i][j].type == -1) {
+						colors.add(FactoryProvider.INSTANCE.getGraphicsFactory()
+								.createColor((int) (Math.random() * 255),
+										(int) (Math.random() * 255), 0));
+						arr.add(FactoryProvider.INSTANCE.getGeomFactory()
+								.createRectangle2D(
+										hb.getWidth()
+												- Hsep[j + 1].getWidth() / 2,
+										vb.getHeight() + vb.getDepth()
+												- Vsep.getHeight(),
+										rowWidth[j] + Hsep[j + 1].getWidth(),
+										lineHeight[i] + lineDepth[i]
+												+ Vsep.getHeight()));
 						hb.add(new HorizontalBox(boxarr[i][j], rowWidth[j], position[j]));
 					} else {
 						Box b = generateMulticolumn(env, Hsep, rowWidth, i, j);
-						MulticolumnAtom matom = (MulticolumnAtom) matrix.array.get(i).get(j);
+						MulticolumnAtom matom = (MulticolumnAtom) matrix.get(i,
+								j);
 						j += matom.getSkipped() - 1;
 						hb.add(b);
 						lastVline = matom.hasRightVline();
@@ -506,9 +525,9 @@ public class MatrixAtom extends Atom {
 					j = col - 1;
 					break;
 				case TeXConstants.TYPE_HLINE:
-					HlineAtom at = (HlineAtom) matrix.array.get(i).get(j);
+					HlineAtom at = (HlineAtom) matrix.get(i, j);
 					at.setWidth(matW);
-					if (i >= 1 && matrix.array.get(i - 1).get(j) instanceof HlineAtom) {
+					if (i >= 1 && matrix.get(i, j) instanceof HlineAtom) {
 						hb.add(new StrutBox(0, 2 * drt, 0, 0));
 						at.setShift(-Vsep.getHeight() / 2 + drt);
 					} else {
@@ -540,12 +559,12 @@ public class MatrixAtom extends Atom {
 		vb.setHeight(totalHeight / 2 + axis);
 		vb.setDepth(totalHeight / 2 - axis);
 
-		return new TableBox(vb);
+		return new TableBox(vb, arr, colors);
 	}
 
 	private Box generateMulticolumn(TeXEnvironment env, Box[] Hsep, float[] rowWidth, int i, int j) {
 		float w = 0;
-		MulticolumnAtom mca = (MulticolumnAtom) matrix.array.get(i).get(j);
+		MulticolumnAtom mca = (MulticolumnAtom) matrix.get(i, j);
 		int k, n = mca.getSkipped();
 		for (k = j; k < j + n - 1; k++) {
 			w += rowWidth[k] + Hsep[k + 1].getWidth();

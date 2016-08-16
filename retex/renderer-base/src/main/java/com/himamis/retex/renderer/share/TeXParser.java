@@ -52,6 +52,7 @@ import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.FormulaNotFoundException;
 import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.exception.SymbolNotFoundException;
+import com.himamis.retex.renderer.share.platform.graphics.Color;
 
 /**
  * This class implements a parser for LaTeX' formulas.
@@ -471,6 +472,13 @@ public class TeXParser {
 		if (!arrayMode)
 			throw new ParseException("You can add a row only in array mode !");
 		((ArrayOfAtoms) formula).addRow();
+	}
+
+	public void cellColor(Color color) throws ParseException {
+		if (!arrayMode)
+			throw new ParseException(
+					"You can use cellcolor only in array mode !");
+		((ArrayOfAtoms) formula).cellColor(color);
 	}
 
 	private void firstpass() throws ParseException {

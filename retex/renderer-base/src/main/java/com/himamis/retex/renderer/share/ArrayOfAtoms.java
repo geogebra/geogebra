@@ -47,14 +47,18 @@ package com.himamis.retex.renderer.share;
 
 import java.util.LinkedList;
 
+import com.himamis.retex.renderer.share.platform.graphics.Color;
+
 public class ArrayOfAtoms extends TeXFormula {
 
-	public LinkedList<LinkedList<Atom>> array;
+	private LinkedList<LinkedList<Atom>> array;
+	private LinkedList<LinkedList<Color>> colors;
 	public int col, row;
 
 	public ArrayOfAtoms() {
 		super();
 		array = new LinkedList<LinkedList<Atom>>();
+		colors = new LinkedList<LinkedList<Color>>();
 		array.add(new LinkedList<Atom>());
 		row = 0;
 	}
@@ -127,5 +131,17 @@ public class ArrayOfAtoms extends TeXFormula {
 				}
 			}
 		}
+	}
+
+	public LinkedList<Atom> get(int row) {
+		return array.get(row);
+	}
+	public Atom get(int i, int j) {
+		return array.get(i).get(j);
+	}
+
+	public void cellColor(Color color) {
+		// TODO Auto-generated method stub
+
 	}
 }
