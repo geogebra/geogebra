@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * GeoElement representing an implicit curve.
@@ -1632,6 +1633,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				return;
 			}
 			int e = edgeConfig(r);
+			if (grid[r.y][r.x] == null) {
+				Log.warn("Grid for implicit plotting is null");
+			}
 			if (grid[r.y][r.x] != null && grid[r.y][r.x].singular
 					|| e != EMPTY) {
 				if (depth >= plotDepth) {
@@ -1659,8 +1663,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		private void nonempty(int ry, int rx) {
-			if (grid[ry][rx - 1] != null && grid[ry][rx - 1].status == EMPTY) {
-				grid[ry][rx - 1].status = 1;
+			if (grid[ry][rx] != null && grid[ry][rx].status == EMPTY) {
+				grid[ry][rx].status = 1;
 			}
 
 		}
