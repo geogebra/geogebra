@@ -324,7 +324,11 @@ public class Browser {
 
 	private static native void nativeChangeUrl(String name) /*-{
 		if (name && $wnd.history && $wnd.history.pushState) {
-			$wnd.history.pushState({}, "GeoGebra", "/" + name);
+			try {
+				$wnd.parent.history.pushState({}, "GeoGebra", "/" + name);
+			} catch (e) {
+				$wnd.history.pushState({}, "GeoGebra", "/" + name);
+			}
 		}
 	}-*/;
 
