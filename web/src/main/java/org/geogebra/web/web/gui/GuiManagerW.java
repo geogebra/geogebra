@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -2197,7 +2198,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void setInputText(String string) {
 		if (app.showView(App.VIEW_ALGEBRA)
 				&& ((AlgebraViewW) app.getAlgebraView())
-						.getInputTreeItem() != null) {
+						.getInputTreeItem() != null
+				&& app.getInputPosition() == InputPosition.algebraView) {
 			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
 					.setText(string);
 			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
