@@ -603,6 +603,27 @@ public class ArbitraryConstIntegrationTest {
 		Assert.assertEquals(0, app.getGgbApi().getValue("c_2"), 0.01);
 	}
 
+	@Test
+	public void ReloadTest() {
+		ta("f(x):=sin(x)", "sin(x)");
+		ta("F(x):=Integral[sin(x)]", "-cos(x) + c_1");
+		for (int i = 0; i < 2; i++) {
+			app.getKernel().getAlgebraProcessor()
+					.processAlgebraCommand("P=(1,1)", true);
+			app.getKernel().getAlgebraProcessor()
+					.processAlgebraCommand("Q=(1,1)", true);
+			app.getGgbApi().undo(true);
+			app.getGgbApi().undo(true);
+		}
+		Assert.assertEquals(app.getGgbApi().getValueString("$2"),
+				"F(x):=-cos(x) + c_1");
+		String base64 = app.getGgbApi().getBase64();
+		app.getKernel().clearConstruction(true);
+		app.getGgbApi().setBase64(base64);
+		Assert.assertEquals(app.getGgbApi().getValueString("$2"),
+				"F(x):=-cos(x) + c_1");
+	}
+
 }
 
 
