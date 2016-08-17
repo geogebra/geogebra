@@ -321,7 +321,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @param useOldMouse
 	 *            if true, shift the point according to old mouse location
 	 */
-	protected void movePointOnCurrentPlane(GeoPoint3D point, boolean useOldMouse) {
+	protected void movePointOnCurrentPlane(GeoPointND point,
+			boolean useOldMouse) {
 
 		// Michael Borcherds
 		// move mouse fast, sometimes get mouseLoc = null
@@ -368,7 +369,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				.checkPointCapturingXY(tmpCoords);
 
 		// set point coords
-		point.setCoords(tmpCoords);
+		point.setCoords(tmpCoords, true);
 	}
 
 	private Coords tmpCoords = new Coords(4);
@@ -3719,8 +3720,20 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected void moveDependent(boolean repaint) {
 
 		updateTranslationVector();
+		Coords end = startPoint3D;
+		if (translateableGeos.size() > 0 && translateableGeos.get(0) != null) {
+			GeoPointND g3d = (GeoPointND) translateableGeos.get(0).copy();
+
+			getCurrentPlane().set(g3d.getCoords(), 4);
+
+			this.movePointOnCurrentPlane(g3d, false);
+			end = g3d.getInhomCoordsInD3();
+		} else {
+			Log.warn("no moved points");
+		}
+
 		GeoElement.moveObjects(translateableGeos, translationVec3D,
-				startPoint3D, view3D.getHittingDirection(), view3D);
+				end, view3D.getHittingDirection(), view3D);
 
 		kernel.notifyRepaint();
 	}
