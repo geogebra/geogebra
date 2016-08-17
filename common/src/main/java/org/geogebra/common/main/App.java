@@ -3986,7 +3986,7 @@ public abstract class App implements UpdateSelection {
 
 		//GGB-982
 		case SCRIPT_AUTOSAVE:
-			return prerelease;
+			return true;
 
 			// GGB-793
 		case OBJECT_COLOR_IN_LIST:
