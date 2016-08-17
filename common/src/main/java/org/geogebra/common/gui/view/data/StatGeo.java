@@ -322,7 +322,7 @@ public class StatGeo {
 			boolean doCumulative) {
 
 		double[] leftBorder = histogram.getLeftBorder();
-		double yValue[] = histogram.getYValue();
+		double yValue[] = histogram.getValues();
 		int size = doCumulative ? yValue.length : yValue.length + 1;
 		GeoPointND[] points = new GeoPoint[size];
 

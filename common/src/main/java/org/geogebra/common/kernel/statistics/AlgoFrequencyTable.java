@@ -221,7 +221,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 			AlgoHistogram algoHistogram = (AlgoHistogram) chart
 					.getParentAlgorithm();
 			if (algoHistogram == null || algoHistogram.getLeftBorder() == null
-					|| algoHistogram.getYValue() == null) {
+					|| algoHistogram.getValues() == null) {
 				table.setUndefined();
 				return;
 			}
@@ -237,7 +237,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 			}
 
 			double[] leftBorder = algoHistogram.getLeftBorder();
-			double[] f = algoHistogram.getYValue();
+			double[] f = algoHistogram.getValues();
 			strValue = new String[f.length];
 			strFrequency = new String[f.length];
 			for (int i = 0; i < f.length; i++) {

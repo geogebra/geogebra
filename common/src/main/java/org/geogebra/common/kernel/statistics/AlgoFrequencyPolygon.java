@@ -170,7 +170,7 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 			outputPolyLine.setUndefined();
 			return;
 		}
-		double[] yValue = algoHistogram.getYValue();
+		double[] yValue = algoHistogram.getValues();
 		if (yValue == null || yValue.length < 2) {
 			outputPolyLine.setUndefined();
 			return;

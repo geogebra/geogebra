@@ -1185,7 +1185,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 					(GeoNumberValue) getA().deepCopy(kernel),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
 		default: // TYPE_BARCHART_RAWDATA
-			return new AlgoBarChart(cons, (GeoNumeric) getN().copy(),
+			return new AlgoBarChart(cons, getN().copy(),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
 		}
 	}

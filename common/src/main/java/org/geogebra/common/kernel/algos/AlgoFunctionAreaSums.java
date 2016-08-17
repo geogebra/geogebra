@@ -178,15 +178,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	}
 
 	/**
-	 * Returns y values (heights) of a bar chart or histogram
-	 * 
-	 * @return y values (heights) of a bar chart or histogram
-	 */
-	public double[] getYValue() {
-		return yval;
-	}
-
-	/**
 	 * Returns left class borders of a bar chart or histogram
 	 * 
 	 * @return left class borders of a bar chart or histogram
@@ -331,26 +322,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	}
 
 	/**
-	 * Constructor for copying BarChart
-	 * 
-	 * @param a
-	 * @param b
-	 * @param vals
-	 * @param borders
-	 * @param N
-	 */
-	protected AlgoFunctionAreaSums(GeoNumberValue a, GeoNumberValue b,
-			double[] vals, double[] borders, int N, Construction cons1) {
-		super(cons1, false);
-		type = SumType.BARCHART;
-		this.a = a;
-		this.b = b;
-		this.yval = vals;
-		this.leftBorder = borders;
-		this.N = N;
-	}
-
-	/**
 	 * BarChart [<list of data without repetition>, <frequency of each of these
 	 * data>]
 	 * 
@@ -379,26 +350,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		setInputOutput(); // for AlgoElement
 		compute();
 		sum.setDrawable(true);
-	}
-
-	/**
-	 * Constructor for copying BarChart
-	 * 
-	 * @param cons
-	 * @param dummy
-	 *            to distinguish from other constructors
-	 * @param vals
-	 * @param borders
-	 * @param N
-	 */
-	protected AlgoFunctionAreaSums(Construction cons, boolean dummy,
-			double[] vals, double[] borders, int N) {
-		super(cons, false);
-		type = SumType.BARCHART_FREQUENCY_TABLE;
-
-		this.yval = vals;
-		this.leftBorder = borders;
-		this.N = N;
 	}
 
 	/**
@@ -434,27 +385,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		setInputOutput(); // for AlgoElement
 		compute();
 		sum.setDrawable(true);
-	}
-
-	/**
-	 * Constructor for copying BarChart
-	 * 
-	 * @param width
-	 * @param vals
-	 * @param borders
-	 * @param N
-	 */
-	protected AlgoFunctionAreaSums(GeoNumberValue width, double[] vals,
-			double[] borders, int N, Construction cons1) {
-		super(cons1, false);
-
-		type = SumType.BARCHART_FREQUENCY_TABLE_WIDTH;
-
-		this.width = width;
-		widthGeo = width.toGeoElement();
-		this.yval = vals;
-		this.leftBorder = borders;
-		this.N = N;
 	}
 
 	/**
@@ -504,26 +434,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		setInputOutput(); // for AlgoElement
 		compute();
 		sum.setDrawable(true);
-	}
-
-	/**
-	 * Constructor for copying BarChart
-	 * 
-	 * @param n
-	 * @param vals
-	 * @param borders
-	 * @param N
-	 */
-	protected AlgoFunctionAreaSums(GeoNumeric n, double[] vals,
-			double[] borders, int N) {
-		super(n.getKernel().getConstruction(), false);
-
-		type = SumType.BARCHART_RAWDATA;
-
-		this.n = n;
-		this.yval = vals;
-		this.leftBorder = borders;
-		this.N = N;
 	}
 
 	/**
@@ -842,7 +752,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * 
 	 * @return list of function values
 	 */
-	public double[] getValues() {
+	public final double[] getValues() {
 		return yval;
 	}
 
