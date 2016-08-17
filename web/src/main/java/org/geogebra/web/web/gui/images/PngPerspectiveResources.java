@@ -88,8 +88,11 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 		@Source("org/geogebra/common/icons/png24x24/stylebar_icon_construction_protocol.png")
 		ImageResource styleBar_ConstructionProtocol();
 
-		@Source("org/geogebra/common/icons/png24x24/stylebar_icon_3Dgraphics.png")
+	@Source("org/geogebra/common/icons/png24x24/stylebar_icon_graphics_extra.png")
 		ImageResource styleBar_graphics3dView();
+
+	@Source("org/geogebra/common/icons/png24x24/stylebar_icon_3Dgraphics.png")
+	ImageResource styleBar_graphics_extra();
 
 		@Source("org/geogebra/common/icons/png24x24/stylebar_icon_graphics2.png")
 		ImageResource styleBar_graphics2View();

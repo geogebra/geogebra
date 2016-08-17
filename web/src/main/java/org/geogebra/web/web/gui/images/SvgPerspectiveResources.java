@@ -89,4 +89,8 @@ public interface SvgPerspectiveResources extends PerspectiveResources, ClientBun
 	@Source("org/geogebra/common/icons/svg/web/menu-button-open-menu.svg")
 	SVGResource menu_header_open_menu_hover();
 
+	@Source("org/geogebra/common/icons/svg/web/stylingbar/stylebar_icon_graphics_extra.svg")
+	SVGResource styleBar_graphics_extra();
+
+
 }

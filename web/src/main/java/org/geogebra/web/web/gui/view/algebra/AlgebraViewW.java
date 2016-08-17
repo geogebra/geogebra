@@ -937,11 +937,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 */
 	public final void setUserObject(TreeItem ti, final String ob) {
 		ti.setUserObject(ob);
-
-			ti.setWidget(new GroupHeader(this.app.getSelectionManager(), ti, ob
-					.toString(), GuiResources.INSTANCE.algebra_tree_open()
-					.getSafeUri(), GuiResources.INSTANCE.algebra_tree_closed()
-				.getSafeUri()));
+		GroupHeader group = new GroupHeader(this.app.getSelectionManager(), ti,
+				ob.toString(),
+				GuiResources.INSTANCE.algebra_tree_open().getSafeUri(),
+				GuiResources.INSTANCE.algebra_tree_closed().getSafeUri());
+		group.getElement().getStyle().setFontSize(app.getFontSizeWeb(),
+				Unit.PX);
+		ti.setWidget(group);
 
 	}
 

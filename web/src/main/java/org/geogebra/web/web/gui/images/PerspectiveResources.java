@@ -61,6 +61,8 @@ public interface PerspectiveResources {
 
 	ResourcePrototype styleBar_graphics3dView();
 
+	ResourcePrototype styleBar_graphics_extra();
+
 	ResourcePrototype styleBar_graphics2View();
 
 	ResourcePrototype styleBar_spreadsheetView();

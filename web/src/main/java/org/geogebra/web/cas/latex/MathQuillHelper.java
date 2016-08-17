@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
@@ -1386,6 +1385,7 @@ public class MathQuillHelper extends LaTeXHelper {
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
 			@Override
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
+
 				switch (event.getTypeInt()) {
 				// AFAIK, mouse events do not fire on touch devices,
 				// and touch events do not fire on mouse devices,
@@ -1427,7 +1427,6 @@ public class MathQuillHelper extends LaTeXHelper {
 	public CASTableCellEditor getCASEditor(CASTableW table, AppW app,
 			CASTableControllerW ml) {
 		if (app.has(Feature.RETEX_EDITOR)) {
-			Log.printStacktrace("RETEX");
 			return new CASLaTeXEditor(table, app, ml);
 		}
 		return new CASTableCellEditorW(table, app, ml);
