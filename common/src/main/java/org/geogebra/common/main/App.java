@@ -3996,11 +3996,12 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_ALWAYS_LOAD_FEATURED_MATERIALS:
 			return prerelease;
 
+		// MOB-777
 		case MOBILE_OUTPUT_ROW:
-			return prerelease;
+			return true;
 
 		case MOBILE_FRACTIONS:
-			return prerelease;
+			return true;
 
 		//MOB-695
 		case MOBILE_RELATION_TOOL:
