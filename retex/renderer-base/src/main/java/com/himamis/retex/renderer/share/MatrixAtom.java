@@ -529,7 +529,7 @@ public class MatrixAtom extends Atom {
 				case TeXConstants.TYPE_HLINE:
 					HlineAtom at = (HlineAtom) matrix.get(i, j);
 					at.setWidth(matW);
-					if (i >= 1 && matrix.get(i, j) instanceof HlineAtom) {
+					if (i >= 1 && matrix.get(i - 1, j) instanceof HlineAtom) {
 						hb.add(new StrutBox(0, 2 * drt, 0, 0));
 						at.setShift(-Vsep.getHeight() / 2 + drt);
 					} else {
