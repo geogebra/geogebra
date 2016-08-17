@@ -6236,13 +6236,20 @@ kernel, left,
 		if (resolve == null || !resolve.isExpressionNode()) {
 			ExpressionValue[] fraction = new ExpressionValue[2];
 			getFraction(fraction, true);
-			if (fraction[0] != null && fraction[1] != null) {
+			if (fraction[0] != null) {
 				double lt = fraction[0].evaluateDouble();
-				double rt = fraction[1].evaluateDouble();
+
 				boolean pi = false;
 				if (Kernel.isInteger(lt / Math.PI) && !Kernel.isZero(lt)) {
 					lt = lt / Math.PI;
 					pi = true;
+				}
+				double rt = 1;
+				if (fraction[1] != null) {
+					rt = fraction[1].evaluateDouble();
+				} else if (!pi) {
+					resolve = new ExpressionNode(kernel, lt);
+					return;
 				}
 				if (Kernel.isInteger(rt) && Kernel.isInteger(lt)
 						&& !Kernel.isZero(rt) && Math.abs(lt) < 1E15
@@ -6253,8 +6260,10 @@ kernel, left,
 							* Math.signum(rt);
 					lt = lt / g;
 					rt = rt / g;
-					resolve = (pi ? new ExpressionNode(kernel, Math.PI)
-							.multiplyR(lt) : new ExpressionNode(kernel, lt))
+					resolve = (pi ? new ExpressionNode(kernel, new MyDouble(
+							kernel, lt), Operation.MULTIPLY, new MyDouble(
+							kernel, Math.PI)) : new ExpressionNode(
+							kernel, lt))
 							.divide(rt);
 				} else {
 					resolve = new ExpressionNode(kernel, pi ? Math.PI * lt / rt
@@ -6268,6 +6277,11 @@ kernel, left,
 	}
 
 	private String toFractionStringFlat(StringTemplate tpl) {
+		if (operation == Operation.MULTIPLY && right instanceof MyDouble
+				&& right.evaluateDouble() == Math.PI) {
+			return tpl.multiplyString(left, right, left.toValueString(tpl),
+					right.toValueString(tpl), true, loc);
+		}
 		if (operation == Operation.DIVIDE) {
 			return tpl.divideString(left, right, left.toValueString(tpl),
 					right.toValueString(tpl), true);
