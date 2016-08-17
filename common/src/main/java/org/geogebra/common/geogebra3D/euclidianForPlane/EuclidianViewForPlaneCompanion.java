@@ -409,8 +409,9 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 	 *            y coord in view plane
 	 * @return coords in 3D world
 	 */
-	public Coords getCoordsFromView(double x, double y) {
-		return getCoordsFromView(new Coords(x, y, 0, 1));
+	@Override
+	public void getCoordsFromView(double x, double y, Coords c) {
+		c.set(getCoordsFromView(new Coords(x, y, 0, 1)));
 	}
 
 	@Override

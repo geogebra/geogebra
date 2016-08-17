@@ -6367,11 +6367,10 @@ public abstract class EuclidianController {
 		// Transformables
 		kernel.movingGeoSet();
 		if (tmpCoordsL3 == null) {
-			tmpCoordsL3 = new Coords(3);
+			tmpCoordsL3 = new Coords(4);
 		}
-		tmpCoordsL3.setX(xRW);
-		tmpCoordsL3.setY(yRW);
-		tmpCoordsL3.setZ(0);
+
+		view.getCompanion().getCoordsFromView(xRW, yRW, tmpCoordsL3);
 		GeoElement.moveObjects(translateableGeos, translationVec, tmpCoordsL3,
 				null, view);
 		kernel.movedGeoSet(translateableGeos);

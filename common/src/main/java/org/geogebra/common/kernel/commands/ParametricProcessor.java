@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.commands;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -15,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
@@ -542,5 +544,62 @@ public class ParametricProcessor {
 				new FunctionVariable[] { fv },
 				equ.getLabel(), info);
 		return ret;
+	}
+
+	/**
+	 * Returns the single free GeoNumeric/MyDouble expression wrapped in this
+	 * ExpressionValue. For "a + x(A)" this returns a, for "x(A)" this returns
+	 * null where A is a free point. If A is a dependent point, "a + x(A)"
+	 * throws an Exception.
+	 */
+	public NumberValue getCoordNumber(ExpressionValue ev) {
+		// simple variable "a"
+		if (ev.isLeaf()) {
+
+			// handle (a,1) and (1,a) case
+			// 1 is MyDouble
+			if (ev.isExpressionNode()) {
+				if (((ExpressionNode) ev).getLeft() instanceof MyDouble) {
+					return (NumberValue) ((ExpressionNode) ev).getLeft();
+				}
+			}
+
+			GeoElement geo = kernel.lookupLabel(ev.isGeoElement()
+					? ((GeoElement) ev).getLabel(StringTemplate.defaultTemplate)
+					: ev.toString(StringTemplate.defaultTemplate));
+			if (geo != null && geo.isGeoNumeric() && geo.isChangeable()) {
+				return (GeoNumeric) geo;
+			}
+			return null;
+		}
+
+		// return value
+		GeoNumeric coordNumeric = null;
+
+		// expression + expression
+		ExpressionNode en = (ExpressionNode) ev;
+		if (en.getOperation().equals(Operation.PLUS)
+				&& en.getLeft() instanceof GeoNumeric) {
+
+			// left branch needs to be a single number variable: get it
+			// e.g. a + x(D)
+			coordNumeric = (GeoNumeric) en.getLeft();
+			if (!coordNumeric.isChangeable()) {
+				return null;
+			}
+			// check that variables in right branch are all independent to avoid
+			// circular definitions
+			HashSet<GeoElement> rightVars = en.getRight().getVariables();
+			if (rightVars != null) {
+				Iterator<GeoElement> it = rightVars.iterator();
+				while (it.hasNext()) {
+					GeoElement var = it.next();
+					if (var.isChildOrEqual(coordNumeric))
+						return null;
+				}
+			}
+		}
+
+		return coordNumeric;
 	}
 }

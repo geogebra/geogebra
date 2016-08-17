@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -58,12 +57,12 @@ import org.geogebra.common.kernel.algos.SymbolicParametersAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
+import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -565,9 +564,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 						// coords (r; phi)
 						ExpressionValue xcoord = vn.getX();
 						ExpressionValue ycoord = vn.getY();
-
-						NumberValue xNum = getCoordNumber(xcoord);
-						NumberValue yNum = getCoordNumber(ycoord);
+						ParametricProcessor proc = kernel.getAlgebraProcessor()
+								.getParamProcessor();
+						NumberValue xNum = proc.getCoordNumber(xcoord);
+						NumberValue yNum = proc.getCoordNumber(ycoord);
 
 						if (xNum instanceof GeoNumeric
 								&& ((GeoNumeric) xNum).isChangeable()) {
@@ -598,68 +598,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	/**
 	 * @return whether getCoordParentNumbers() returns polar variables (r; phi).
 	 */
-	public boolean hasPolarParentNumbers() {
+	private boolean hasPolarParentNumbers() {
 		return hasPolarParentNumbers;
 	}
 
-	/**
-	 * Returns the single free GeoNumeric/MyDouble expression wrapped in this
-	 * ExpressionValue. For "a + x(A)" this returns a, for "x(A)" this returns
-	 * null where A is a free point. If A is a dependent point, "a + x(A)"
-	 * throws an Exception.
-	 */
-	private NumberValue getCoordNumber(ExpressionValue ev)
- {
-		// simple variable "a"
-		if (ev.isLeaf()) {
 
-			// handle (a,1) and (1,a) case
-			// 1 is MyDouble
-			if (ev.isExpressionNode()) {
-				if (((ExpressionNode) ev).getLeft() instanceof MyDouble) {
-					return (NumberValue) ((ExpressionNode) ev).getLeft();
-				}
-			}
-
-			GeoElement geo = kernel
-					.lookupLabel(ev.isGeoElement() ? ((GeoElement) ev)
-							.getLabel(StringTemplate.defaultTemplate) : ev
-							.toString(StringTemplate.defaultTemplate));
-			if (geo != null && geo.isGeoNumeric() && geo.isChangeable()) {
-				return (GeoNumeric) geo;
-			}
-			return null;
-		}
-
-		// return value
-		GeoNumeric coordNumeric = null;
-
-		// expression + expression
-		ExpressionNode en = (ExpressionNode) ev;
-		if (en.getOperation().equals(Operation.PLUS)
-				&& en.getLeft() instanceof GeoNumeric) {
-
-			// left branch needs to be a single number variable: get it
-			// e.g. a + x(D)
-			coordNumeric = (GeoNumeric) en.getLeft();
-			if (!coordNumeric.isChangeable()) {
-				return null;
-			}
-			// check that variables in right branch are all independent to avoid
-			// circular definitions
-			HashSet<GeoElement> rightVars = en.getRight().getVariables();
-			if (rightVars != null) {
-				Iterator<GeoElement> it = rightVars.iterator();
-				while (it.hasNext()) {
-					GeoElement var = it.next();
-					if (var.isChildOrEqual(coordNumeric))
-						return null;
-				}
-			}
-		}
-
-		return coordNumeric;
-	}
 
 	@Override
 	final public boolean isPointOnPath() {

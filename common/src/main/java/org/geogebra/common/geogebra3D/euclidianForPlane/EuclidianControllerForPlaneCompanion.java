@@ -50,8 +50,9 @@ public class EuclidianControllerForPlaneCompanion extends
 	}
 
 	private Coords getCoordsFromView(double x, double y) {
-		return ((EuclidianViewForPlaneCompanion) ec.view.getCompanion())
-				.getCoordsFromView(x, y);
+		Coords c = new Coords(4);
+		ec.view.getCompanion().getCoordsFromView(x, y, c);
+		return c;
 	}
 
 	@Override

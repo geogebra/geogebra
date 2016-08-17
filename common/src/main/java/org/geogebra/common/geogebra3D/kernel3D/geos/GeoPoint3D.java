@@ -24,7 +24,9 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -44,10 +46,13 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -111,6 +116,16 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	// list of Locateables (GeoElements) that this point is start point of
 	// if this point is removed, the Locateables have to be notified
 	private LocateableList locateableList;
+
+	private ArrayList<NumberValue> changeableCoordNumbers = null;
+	private boolean hasPolarParentNumbers = false;
+
+	/**
+	 * @return whether getCoordParentNumbers() returns polar variables (r; phi).
+	 */
+	private boolean hasPolarParentNumbers() {
+		return hasPolarParentNumbers;
+	}
 
 	public GeoPoint3D(Construction c) {
 		super(c, 4);
@@ -969,14 +984,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	}
 
-	/**
-	 * Returns whether this point has three changeable numbers as coordinates,
-	 * e.g. point A = (a, b, c) where a, b and c are free GeoNumeric objects.
-	 */
-	@Override
-	public boolean hasChangeableCoordParentNumbers() {
-		return false;
-	}
+
 
 	// /////////////////////////////////////
 	// PointProperties
@@ -1893,5 +1901,176 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public void removePath() {
 		path = null;
 		pp = null;
+	}
+
+	final public ArrayList<NumberValue> getCoordParentNumbers() {
+		// init changeableCoordNumbers
+		if (changeableCoordNumbers == null) {
+			changeableCoordNumbers = new ArrayList<NumberValue>(3);
+			AlgoElement parentAlgo = getParentAlgorithm();
+
+			// dependent point of form P = (a, b)
+			if (parentAlgo instanceof AlgoDependentPoint3D) {
+				AlgoDependentPoint3D algo = (AlgoDependentPoint3D) parentAlgo;
+				ExpressionNode en = algo.getExpression();
+
+				// (xExpression, yExpression)
+				if (en.isLeaf() && en.getLeft() instanceof MyVec3DNode) {
+					// (xExpression, yExpression)
+					MyVec3DNode vn = (MyVec3DNode) en.getLeft();
+					hasPolarParentNumbers = vn
+							.getMode() == Kernel.COORD_SPHERICAL
+							|| vn.getMode() == Kernel.COORD_POLAR;
+
+					try {
+						// try to get free number variables used in coords for
+						// this point
+						// don't allow expressions like "a + x(A)" for polar
+						// coords (r; phi)
+						ExpressionValue xcoord = vn.getX();
+						ExpressionValue ycoord = vn.getY();
+						ExpressionValue zcoord = vn.getZ();
+						ParametricProcessor proc = kernel.getAlgebraProcessor()
+								.getParamProcessor();
+						NumberValue xNum = proc.getCoordNumber(xcoord);
+						NumberValue yNum = proc.getCoordNumber(ycoord);
+						NumberValue zNum = proc.getCoordNumber(zcoord);
+
+						if (xNum instanceof GeoNumeric
+								&& ((GeoNumeric) xNum).isChangeable()) {
+							changeableCoordNumbers.add(xNum);
+						} else {
+							changeableCoordNumbers.add(null);
+						}
+						if (yNum instanceof GeoNumeric
+								&& ((GeoNumeric) yNum).isChangeable()) {
+							changeableCoordNumbers.add(yNum);
+						} else {
+							changeableCoordNumbers.add(null);
+						}
+						if (zNum instanceof GeoNumeric
+								&& ((GeoNumeric) zNum).isChangeable()) {
+							changeableCoordNumbers.add(zNum);
+						} else {
+							changeableCoordNumbers.add(null);
+						}
+					} catch (Throwable e) {
+						changeableCoordNumbers.clear();
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+		return changeableCoordNumbers;
+	}
+
+	/**
+	 * Returns whether this point has three changeable numbers as coordinates,
+	 * e.g. point A = (a, b, c) where a, b and c are free GeoNumeric objects.
+	 */
+	@Override
+	final public boolean hasChangeableCoordParentNumbers() {
+
+		if (isFixed()) {
+			return false;
+		}
+
+		ArrayList<NumberValue> coords = getCoordParentNumbers();
+		if (coords.size() == 0) {
+			return false;
+		}
+
+		NumberValue num1 = coords.get(0);
+		NumberValue num2 = coords.get(1);
+
+		if (num1 == null && num2 == null)
+			return false;
+
+		if (num1 instanceof GeoNumeric && num2 instanceof GeoNumeric) {
+			GeoElement maxObj1 = GeoElement
+					.as(((GeoNumeric) num1).getIntervalMaxObject());
+			GeoElement maxObj2 = GeoElement
+					.as(((GeoNumeric) num2).getIntervalMaxObject());
+			GeoElement minObj1 = GeoElement
+					.as(((GeoNumeric) num1).getIntervalMinObject());
+			GeoElement minObj2 = GeoElement
+					.as(((GeoNumeric) num2).getIntervalMinObject());
+			if (maxObj1 != null && maxObj1.isChildOrEqual((GeoElement) num2))
+				return false;
+			if (minObj1 != null && minObj1.isChildOrEqual((GeoElement) num2))
+				return false;
+			if (maxObj2 != null && maxObj2.isChildOrEqual((GeoElement) num1))
+				return false;
+			if (minObj2 != null && minObj2.isChildOrEqual((GeoElement) num1))
+				return false;
+		}
+
+		boolean ret = (num1 instanceof GeoNumeric
+				&& ((GeoNumeric) num1).isChangeable())
+				|| (num2 instanceof GeoNumeric
+						&& ((GeoNumeric) num2).isChangeable());
+
+		return ret;
+	}
+
+	@Override
+	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
+			Coords targetPosition, Coords viewDirection,
+			ArrayList<GeoElement> updateGeos,
+			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
+		Coords endPosition = targetPosition;
+		if (!hasChangeableCoordParentNumbers())
+			return false;
+
+		if (endPosition == null) {
+			endPosition = getInhomCoords().add(rwTransVec);
+		}
+
+		// translate x and y coordinates by changing the parent coords
+		// accordingly
+		ArrayList<NumberValue> freeCoordNumbers = getCoordParentNumbers();
+		NumberValue xvar = freeCoordNumbers.get(0);
+		NumberValue yvar = freeCoordNumbers.get(1);
+		NumberValue zvar = freeCoordNumbers.get(2);
+
+		// polar coords (r; phi)
+		if (hasPolarParentNumbers()) {
+			// don't move
+
+		}
+
+		// cartesian coords (xvar + constant, yvar + constant)
+		else {
+			// only change if GeoNumeric
+			if (xvar instanceof GeoNumeric) {
+				double newXval = xvar.getDouble() - getInhomX()
+						+ endPosition.getX();
+				((GeoNumeric) xvar).setValue(newXval);
+			}
+
+			if (xvar != yvar && yvar instanceof GeoNumeric) {
+				double newYval = yvar.getDouble() - getInhomY()
+						+ endPosition.getY();
+				((GeoNumeric) yvar).setValue(newYval);
+			}
+
+			if (zvar != yvar && zvar != xvar && zvar instanceof GeoNumeric) {
+				double newZval = zvar.getDouble() - getInhomZ()
+						+ endPosition.getZ();
+				((GeoNumeric) zvar).setValue(newZval);
+			}
+		}
+
+		if (xvar instanceof GeoNumeric) {
+			addChangeableCoordParentNumberToUpdateList((GeoNumeric) xvar,
+					updateGeos, tempMoveObjectList);
+		}
+		if (yvar instanceof GeoNumeric) {
+			addChangeableCoordParentNumberToUpdateList((GeoNumeric) yvar,
+					updateGeos, tempMoveObjectList);
+		}
+
+		return true;
 	}
 }

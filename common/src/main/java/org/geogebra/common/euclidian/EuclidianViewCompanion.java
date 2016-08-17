@@ -420,4 +420,18 @@ public class EuclidianViewCompanion {
 		return sys.getEquationVector()
 				.isEqual(CoordSys.Identity3D.getEquationVector());
 	}
+
+	/**
+	 * @param xRW
+	 *            real world x-coord
+	 * @param yRW
+	 *            real world y-coord
+	 * @param tmpCoordsL3
+	 *            target coordinates
+	 */
+	public void getCoordsFromView(double xRW, double yRW, Coords tmpCoordsL3) {
+		tmpCoordsL3.setX(xRW);
+		tmpCoordsL3.setY(yRW);
+		tmpCoordsL3.setZ(0);
+	}
 }
