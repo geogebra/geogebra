@@ -255,7 +255,7 @@ public class EuclidianStyleBarStatic {
 	}
 
 	public static void applyTableTextFormat(ArrayList<GeoElement> geos,
-			int justifyIndex, boolean HisSelected, boolean VisSelected,
+			String justify, boolean HisSelected, boolean VisSelected,
 			int index, App app) {
 
 		AlgoElement algo = null;
@@ -263,9 +263,9 @@ public class EuclidianStyleBarStatic {
 		GeoElement geo;
 		String arg = null;
 
-		String[] justifyArray = { "l", "c", "r" };
+
 		// arg = justifyArray[btnTableTextJustify.getSelectedIndex()];
-		arg = justifyArray[justifyIndex];
+		arg = justify;
 		// if (this.btnTableTextLinesH.isSelected())
 		if (HisSelected) {
 			arg += "_";

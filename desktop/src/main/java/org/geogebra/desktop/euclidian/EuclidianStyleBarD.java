@@ -281,6 +281,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	}
 
 	protected ArrayList<GeoElement> activeGeoList;
+	protected String specialJustification;
 
 	/**
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
@@ -1375,13 +1376,18 @@ axesIcon, iconHeight);
 				if (tableText != null) {
 					this.setVisible(true);
 					String justification = tableText.getJustification();
-					if (justification.equals("c"))
+					EuclidianStyleBarD.this.specialJustification = null;
+					if ("c".equals(justification)) {
 						btnTableTextJustify.setSelectedIndex(1);
-					else if (justification.equals("r"))
+					} else if ("r".equals(justification)) {
 						btnTableTextJustify.setSelectedIndex(2);
-					else
+					}
+					else if ("l".equals(justification)) {
 						btnTableTextJustify.setSelectedIndex(0); // left align
-
+					} else {
+						btnTableTextJustify.setSelectedIndex(0);
+						EuclidianStyleBarD.this.specialJustification = justification;
+					}
 				} else {
 					this.setVisible(false);
 				}
@@ -1644,8 +1650,14 @@ axesIcon, iconHeight);
 		else if (source == btnTableTextJustify || source == btnTableTextLinesH
 				|| source == btnTableTextLinesV
 				|| source == btnTableTextBracket) {
+			if (source == btnTableTextJustify) {
+				specialJustification = null;
+			}
+			String[] justifyArray = { "l", "c", "r" };
 			EuclidianStyleBarStatic.applyTableTextFormat(targetGeos,
-					btnTableTextJustify.getSelectedIndex(),
+					specialJustification != null ? specialJustification
+							: justifyArray[btnTableTextJustify
+									.getSelectedIndex()],
 					btnTableTextLinesH.isSelected(),
 					btnTableTextLinesV.isSelected(),
 					btnTableTextBracket.getSelectedIndex(), app);

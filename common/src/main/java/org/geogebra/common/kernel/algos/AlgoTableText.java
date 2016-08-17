@@ -74,7 +74,10 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	 *         different alignment)
 	 */
 	public String getJustification() {
-		return justification.charAt(0) + "";
+		if (justification == null) {
+			parseArgs();
+		}
+		return justification;
 	}
 
 	public String getOpenSymbol() {
