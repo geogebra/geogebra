@@ -3994,14 +3994,14 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-787
 		case MOBILE_ALWAYS_LOAD_FEATURED_MATERIALS:
-			return prerelease;
+			return true; // 5.0.269
 
 		// MOB-777
 		case MOBILE_OUTPUT_ROW:
-			return true;
+			return true; // 5.0.269
 
 		case MOBILE_FRACTIONS:
-			return true;
+			return true; // 5.0.269
 
 		//MOB-695
 		case MOBILE_RELATION_TOOL:
