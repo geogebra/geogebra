@@ -3769,7 +3769,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-621
 		case XML_CAS_CACHE:
-			return true;
+			return prerelease;
 
 			// when moved to stable, move Difference[] from TABLE_ENGLISH in
 			// Command.Java
