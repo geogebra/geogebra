@@ -801,10 +801,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 		plainTextItem.clear();
 		plainTextItem.add(outputPanel);
 		outputPanel.clear();
-		addPrefixLabel(getOutputPrefix());
+
 		valuePanel.clear();
-		String valueText = previewGeo.getAlgebraDescriptionDefault();
-		valuePanel.add(new Label(valueText.replaceFirst("undefined", "")));
+		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
+		previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
+		valuePanel.add(new HTML(sb.toString().replace("undefined", "")));
+
 		if (outputPanel.getWidgetIndex(valuePanel) == -1) {
 			outputPanel.add(valuePanel);
 		}
