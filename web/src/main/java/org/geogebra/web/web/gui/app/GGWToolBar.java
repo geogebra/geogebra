@@ -384,7 +384,7 @@ pr.menu_header_undo(), null, 32);
 		//};
 		//$wnd.console.log("examActive " + examActive);
 
-		//$wnd.visibilityEventMain(startCheating, stopCheating);
+		$wnd.visibilityEventMain(startCheating, stopCheating);
 
 		// Suggested by Zbynek (Hero of the Day, 2015-01-22)
 		$wnd.onblur = function(event) {
