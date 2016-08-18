@@ -164,8 +164,10 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				return true;
 			}
 		}
-		if (keyEvent.getKeyCode() >= 37 && keyEvent.getKeyCode() <= 40) { // move
-																			// cursor
+		boolean arrow = false;
+		if (keyEvent.getKeyCode() >= 37 && keyEvent.getKeyCode() <= 40) {
+			// move cursor
+			arrow = true;
 			if (listener != null) {
 				listener.onCursorMove();
 			}
@@ -173,7 +175,11 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		boolean handled = keyListener.onKeyPressed(keyEvent);
         if (handled) {
             update();
+			if (!arrow && listener != null) {
+				listener.onKeyTyped();
+			}
         }
+
         return handled;
     }
 
