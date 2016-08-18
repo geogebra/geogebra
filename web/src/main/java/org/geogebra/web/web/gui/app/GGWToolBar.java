@@ -36,6 +36,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -72,9 +74,11 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	FlowPanel toolBarPanel;
 	//panel for toolbar (without undo-redo buttons)
 	FlowPanel toolBPanel;
+	// ScrollPanel toolBPanel;
 	// panel for mobile submenu view
 	FlowPanel submenuPanel;
 	FlowPanel submenuScrollPanel;
+	// ScrollPanel submenuScrollPanel;
 	boolean inited = false;
 	private Integer activeToolbar = -1;
 	private boolean menuBarShowing = false;
@@ -136,7 +140,14 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			submenuPanel.addStyleName("submenuPanel");
 			submenuScrollPanel.addStyleName("submenuScrollPanel");
 			submenuScrollPanel.add(submenuPanel);
-			// submenuScrollPanel.addMouseWheelHandler();
+			submenuScrollPanel.addHandler(new MouseWheelHandler() {
+
+				@Override
+				public void onMouseWheel(MouseWheelEvent event) {
+					// TODO Auto-generated method stub
+
+				}
+			}, MouseWheelEvent.getType());
 			toolBarPanel.add(submenuScrollPanel);
 			// Log.debug("submenuPanel added");
 			toolBar = new ToolBarW(this, submenuPanel);
@@ -444,6 +455,7 @@ pr.menu_header_undo(), null, 32);
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		this.rightButtonPanel = new FlowPanel();
 		this.rightButtonPanel.setStyleName("rightButtonPanel");
+
 		updateActionPanel();
 		toolBarPanel.add(rightButtonPanel);
 	}
@@ -1157,8 +1169,11 @@ pr.menu_header_undo(), null, 32);
 
 			if (maxButtons < toolBar.getToolbarVecSize()) {
 				toolBPanel.addStyleName("toolBPanelMobile");
+				rightButtonPanel.addStyleName("rightButtonPanelMobile");
+				Log.debug("rightButtonPanelMobile");
 			} else {
 				toolBPanel.removeStyleName("toolBPanelMobile");
+				rightButtonPanel.removeStyleName("rightButtonPanelMobile");
 			}
 		}
 
@@ -1174,7 +1189,7 @@ pr.menu_header_undo(), null, 32);
 			extraButtons += 90;
 		 }
 		if (app.isExam()) {
-			extraButtons += 30;
+			extraButtons += 95;
 			if (!app.getSettings().getEuclidian(-1).isEnabled()) {
 				extraButtons += 55;
 			}
