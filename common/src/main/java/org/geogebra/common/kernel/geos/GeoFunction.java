@@ -937,7 +937,9 @@ CasEvaluableFunction, ParametricCurve,
 		sbxml.append("\">\n");
 		getXMLtags(sbxml);
 		getCaptionXML(sbxml);
-		if (getListenersToo) getListenerTagsXML(sb);
+		printCASEvalMapXML(sbxml);
+		if (getListenersToo)
+			getListenerTagsXML(sbxml);
 		sbxml.append("</element>\n");
 	}
 
@@ -2930,7 +2932,9 @@ CasEvaluableFunction, ParametricCurve,
 	}
 
 	public void printCASEvalMapXML(StringBuilder sbXML) {
-		fun.printCASevalMapXML(sbXML);
+		if (fun != null) {
+			fun.printCASevalMapXML(sbXML);
+		}
 	}
 
 	public void updateCASEvalMap(TreeMap<String, String> map) {

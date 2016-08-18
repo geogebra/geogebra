@@ -58,6 +58,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
+import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -3394,6 +3395,10 @@ new GPoint(row, column));
 				if (!symbolicTagProcessed && geo.isGeoText()) {
 					((GeoText) geo).setSymbolicMode(false, false);
 				}
+				if (casMap != null && geo instanceof CasEvaluableFunction) {
+					((CasEvaluableFunction) geo).updateCASEvalMap(casMap);
+				}
+				casMap = null;
 				constMode = MODE_CONSTRUCTION;
 			}
 
@@ -3408,7 +3413,7 @@ new GPoint(row, column));
 			break;
 		case MODE_CAS_MAP:
 			if ("casMap".equals(eName)) {
-				constMode = MODE_CONST_COMMAND;
+				constMode = casMapParent;
 			}
 			break;
 		case MODE_CONST_CAS_CELL:
@@ -3664,6 +3669,12 @@ new GPoint(row, column));
 					break;
 				} else if ("curveParam".equals(eName)) {
 					ok = handleCurveParam(attrs);
+					break;
+				} else if ("casMap".equals(eName)) {
+					casMap = new TreeMap<String, String>();
+					constMode = MODE_CAS_MAP;
+					casMapParent = MODE_CONST_GEO_ELEMENT;
+					ok = true;
 					break;
 				}
 
@@ -4081,6 +4092,8 @@ new GPoint(row, column));
 	private boolean symbolicTagProcessed;
 
 	private TreeMap<String, String> casMap;
+
+	private int casMapParent;
 
 	private boolean handleLineStyle(LinkedHashMap<String, String> attrs) {
 		try {
@@ -5568,6 +5581,7 @@ new GPoint(row, column));
 		} else if ("casMap".equals(eName)) {
 			casMap = new TreeMap<String, String>();
 			constMode = MODE_CAS_MAP;
+			casMapParent = MODE_CONST_COMMAND;
 			ok = true;
 		} else
 			Log.error("unknown tag in <command>: " + eName);
