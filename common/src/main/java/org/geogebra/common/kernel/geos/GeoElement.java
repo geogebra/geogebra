@@ -8193,14 +8193,25 @@ public abstract class GeoElement extends ConstructionElement implements
 		return isLabelSet();
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @return reference to this
+	 */
 	public GeoElement toGeoElement(Construction cons) {
 		return this;
 	}
 
+	/**
+	 * @return this wrapped in array
+	 */
 	public GeoElement[] asArray() {
 		return new GeoElement[] { this };
 	}
 
+	/**
+	 * Set definition to null, no checks
+	 */
 	public void resetDefinition() {
 		definition = null;
 	}

@@ -3,10 +3,17 @@ package org.geogebra.common.plugin;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.script.Script;
 
+/**
+ * Runs GGB Scripts
+ */
 public class GeoScriptRunner implements EventListener {
 
 	private App app;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public GeoScriptRunner(App app) {
 		this.app = app;
 	}

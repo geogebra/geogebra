@@ -1339,8 +1339,9 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 			// stop if outside range
 			if (animationValue > getIntervalMax()) {
 				setAnimating(false);
+				boolean changed = getIntervalMax() != value;
 				setValue(getIntervalMax(), false);
-				return true;
+				return changed;
 			} else if (animationValue < getIntervalMin()) {
 				setAnimating(false);
 				setValue(getIntervalMin(), false);
