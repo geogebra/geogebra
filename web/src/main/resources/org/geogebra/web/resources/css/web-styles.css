@@ -5715,8 +5715,6 @@ body.application[dir=rtl] .deleteAlgebra {
     right: 0px !important;
     left: auto !important;
     /* float: right; */
-    top: 50% !important;
-    margin-top: -250px;
 }
 .perspectivesCaption{
 	color: #6161FF !important;

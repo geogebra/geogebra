@@ -37,9 +37,14 @@ public class PerspectivesPopup {
 
 	private int activePerspective;
 
-	public PerspectivesPopup(AppW app) {
+	public PerspectivesPopup(final AppW app) {
 		this.app = app;
-		box = new DialogBoxW(true, false, null, app.getPanel());
+		box = new DialogBoxW(true, false, null, app.getPanel()){
+			public void setPopupPosition(int left, int top) {
+				super.setPopupPosition(left,
+						Math.max(0, (int) (app.getHeight() / 2 - 250)));
+			}
+		};
 		box.setGlassEnabled(false);
 
 		this.contentPanel = new FlowPanel();
@@ -50,6 +55,7 @@ public class PerspectivesPopup {
 		box.addStyleName("perspectivesBox");
 
 		box.getCaption().asWidget().addStyleName("perspectivesCaption");
+		
 
 	}
 
@@ -182,4 +188,6 @@ public class PerspectivesPopup {
 	public void closePerspectivesPopup() {
 		box.hide();
 	}
+
+
 }

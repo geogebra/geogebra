@@ -271,6 +271,13 @@ var app = document.createElement("script");
 		if(location.pathname.substring(0,3)==="/o/"){
 			tubeid = location.pathname.substring(3);
 		}
+		function resizeStart(){
+			if(e("perspectivesBox")){
+				e("perspectivesBox").style.top= Math.max(0,Math.round(window.innerHeight/2 -250))+"px";
+			}
+		}
+		resizeStart();
+		window.addEventListener && window.addEventListener("resize", resizeStart);
 		if(e("ggw")){
 			if(location.host.indexOf("beta") == 0){
 				e("ggw").setAttribute("data-param-prerelease",true);
@@ -425,6 +432,7 @@ padding:0;
 .startScreen table{
 border-spacing:0;
 }
+
 /** from LESS */
 .perspectivesBox{
 	width: 250px;
@@ -432,8 +440,7 @@ border-spacing:0;
     right: 0px !important;
     left: auto !important;
     /* float: right; */
-    top: 50% !important;
-    margin-top: -250px;
+    
 }
 .perspectivesCaption{
 	color: #6161FF !important;
@@ -581,7 +588,7 @@ margin: 0px 5px 0px 0px;
 	bottom: 0;
     position: absolute !important;
     right: 0;
-    top: 53px;
+    top: 0;
     left: 0;
 }
 /** KEYBOARD */
@@ -638,25 +645,6 @@ border:1px solid #dcdcdc
 #ggbPage {
   background-color: #ffffff;
 }
-.ggbPageContent {
-  padding: 50px 30px;
-  text-align: center;
-}
-.ggbPageContent a.button {
-	color: #666666;
-}
-
-.createOwnPanel {
-	margin: 0px auto;
-	margin-top: 70px;
-	max-width: 700px;
-	width: 100%;
-	text-align: center;
-}
-
-
-
-
 
 #ggbsplash {
 text-align:center;
@@ -748,7 +736,7 @@ z-index:501;
     </div>
     
     <div class="ggbPageContent GeoGebraFrame startScreen" id="appPicker">
-	<div class="gwt-DialogBox DialogBox GeoGebraFrame perspectivesBox" style="right: 0px; top: 101px; position: absolute; overflow: visible;">
+	<div class="gwt-DialogBox DialogBox GeoGebraFrame perspectivesBox" id="perspectivesBox" style="right: 0px; top: 101px; position: absolute; overflow: visible;">
     	<div class=""><table  class=""><tbody>
 <tr class="dialogTop"><td class="dialogTopLeft"><div class="dialogTopLeftInner"></div></td><td class="dialogTopCenter"><div class="dialogTopCenterInner">
 		<div class="Caption perspectivesCaption" id="create">GeoGebra Math Apps</div></div></td><td class="dialogTopRight"><div class="dialogTopRightInner"></div></td></tr>
