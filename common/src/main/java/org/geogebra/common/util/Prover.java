@@ -766,7 +766,7 @@ public abstract class Prover {
 				nodeComplexity.put(node, 0);
 				return 0;
 			}
-			statementDescription.add(ae.getClassName().toString());
+
 			int parentsComplexity = 1;
 
 			/*
@@ -777,15 +777,18 @@ public abstract class Prover {
 			if (ae instanceof AlgoDependentBoolean) {
 				ExpressionNode root = ((AlgoDependentBoolean) ae)
 						.getExpression();
+
 				HashMap<GeoElement, Integer> gSet = new HashMap<GeoElement, Integer>();
 				GeoCollector gc = GeoCollector.getCollector(gSet);
 				root.traverse(gc);
 				Iterator<GeoElement> it = gSet.keySet().iterator();
+
 				while (it.hasNext()) {
 					GeoElement dependency = it.next();
 					parentsComplexity += computeNodeComplexity(dependency)
 							* gSet.get(dependency);
 				}
+
 			} else {
 				/* Otherwise just count each GeoElement once. */
 				for (GeoElement dependency : ae.getInput()) {
@@ -948,6 +951,8 @@ public abstract class Prover {
 			nodeComplexity = new HashMap<GeoElement, Integer>();
 			longestPath = 0;
 			deps = new HashSet<ArrayList<GeoElement>>();
+			csv_header = "";
+			csv_data = "";
 
 			TreeSet<GeoElement> geos = statement.getAllPredecessors();
 			geos.add(statement);
@@ -1035,7 +1040,9 @@ public abstract class Prover {
 			csvAdd("statement complexity", nodeComplexity.get(statement));
 			csvAdd("statement dominant predicate",
 					statement.getParentAlgorithm().getClassName().toString());
-			csvAdd("statement predicates", statementDescription);
+			csvAdd("statement predicates",
+					'"' + statement.getDefinition(StringTemplate.ogpTemplate)
+							+ '"');
 			generateStatistics("node in-degree", nodes_in_deg, null);
 			generateStatistics("node out-degree", nodes_out_deg, null);
 			generateStatistics("node degree", nodes_deg, null);
