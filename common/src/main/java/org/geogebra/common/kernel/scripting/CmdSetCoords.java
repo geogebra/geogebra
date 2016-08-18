@@ -113,17 +113,34 @@ public class CmdSetCoords extends CmdScripting {
 		return false;
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @param x
+	 *            x coordinate
+	 * @param y
+	 *            y coordinate
+	 * @param z
+	 *            z coordinate
+	 * @return true when successful
+	 */
 	public static boolean setCoords(GeoElement geo, double x, double y, double z) {
 		if (geo.isMoveable() && geo instanceof GeoPointND) {
 			((GeoPointND) geo).setCoords(x, y, z, 1);
+			geo.updateRepaint();
+			return true;
 
 		}
 		if (geo.isMoveable() && geo instanceof GeoVectorND) {
 			((GeoVectorND) geo).setCoords(x, y, z, 0);
+			geo.updateRepaint();
+			return true;
 
 		}
 		if (geo.isMoveable() && geo instanceof GeoLine) {
 			((GeoLine) geo).setCoords(x, y, z);
+			geo.updateRepaint();
+			return true;
 
 		}
 		// ignore z-coord otherwise
