@@ -803,8 +803,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		outputPanel.clear();
 		addPrefixLabel(getOutputPrefix());
 		valuePanel.clear();
-		valuePanel.add(new Label(
-				previewGeo.getAlgebraDescriptionDefault().split("=")[1]));
+		String valueText = previewGeo.getAlgebraDescriptionDefault();
+		valuePanel.add(new Label(valueText.replaceFirst("undefined", "")));
 		if (outputPanel.getWidgetIndex(valuePanel) == -1) {
 			outputPanel.add(valuePanel);
 		}
