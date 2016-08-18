@@ -3721,15 +3721,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		updateTranslationVector();
 		Coords end = startPoint3D;
-		if (translateableGeos.size() > 0 && translateableGeos.get(0) != null) {
+		if (translateableGeos.size() > 0
+				&& translateableGeos.get(0) instanceof GeoPointND) {
+			Log.debug("Move mode:"
+					+ ((GeoPointND) translateableGeos.get(0)).getMoveMode());
 			GeoPointND g3d = (GeoPointND) translateableGeos.get(0).copy();
 
 			getCurrentPlane().set(g3d.getCoords(), 4);
 
 			this.movePointOnCurrentPlane(g3d, false);
 			end = g3d.getInhomCoordsInD3();
-		} else {
-			Log.warn("no moved points");
 		}
 
 		GeoElement.moveObjects(translateableGeos, translationVec3D,
