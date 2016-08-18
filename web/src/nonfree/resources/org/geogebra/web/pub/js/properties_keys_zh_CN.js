@@ -1789,7 +1789,7 @@ __GGB__keysVar.zh_CN.menu = {
     "ProbabilityCalculator.Help": "\u6982\u7387\u7edf\u8ba1\u8ba1\u7b97\u5bf9\u8bdd\u6846",
     "ProbabilityOf": "P(",
     "ProductTour": "\u8f6f\u4ef6\u5bfc\u5f15",
-    "Properties.Algebra": "\u4ee3\u6570",
+    "Properties.Algebra": "\u4ee3\u6570\u533a",
     "Properties.Basic": "\u5e38\u89c4",
     "Properties.Position": "\u4f4d\u7f6e",
     "Properties.Style": "\u6837\u5f0f",
