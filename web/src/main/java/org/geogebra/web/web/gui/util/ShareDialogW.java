@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -166,9 +167,11 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		iconPanel.add(onenote);
 
 		// Edmodo
+		String title = StringUtil.empty(app.getActiveMaterial().getTitle()) ? app
+				.getKernel().getConstruction().getTitle()
+				: app.getActiveMaterial().getTitle();
 		String source_desc = (app.getActiveMaterial() != null) ? "&source="
-				+ app.getActiveMaterial().getId() + "&desc="
-				+ app.getActiveMaterial().getDescription() : "";
+				+ app.getActiveMaterial().getId() + "&desc=" + title : "";
 		Anchor edmodolink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_edmodo().getSafeUri().asString()).toString(), true,
 				"http://www.edmodo.com/home?share=1 " + source_desc + "&url="
