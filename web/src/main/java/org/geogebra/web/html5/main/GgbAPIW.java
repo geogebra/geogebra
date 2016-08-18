@@ -306,7 +306,7 @@ public class GgbAPIW extends GgbAPI {
 		// write construction thumbnails
 		if (includeThumbnail)
 			addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
-					((EuclidianViewWInterface) app.getActiveEuclidianView())
+					getViewForThumbnail()
 							.getCanvasBase64WithTypeString(), archiveContent);
 
 		if (!macroXml.equals("")) {
@@ -329,6 +329,14 @@ public class GgbAPIW extends GgbAPI {
 		archiveContent.put(MyXMLio.XML_FILE, constructionXml);
 		getKernel().setSaving(isSaving);
 		return archiveContent;
+	}
+
+	private EuclidianViewWInterface getViewForThumbnail() {
+		if (app.hasEuclidianView3D() && app.showView(App.VIEW_EUCLIDIAN3D)) {
+			return (EuclidianViewWInterface) app.getEuclidianView3D();
+		}
+		return ((EuclidianViewWInterface) app.getActiveEuclidianView());
+
 	}
 
 	public HashMap<String, String> createMacrosArchive() {
