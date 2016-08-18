@@ -1211,6 +1211,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public int getMoveMode() {
+		if (this.hasChangeableCoordParentNumbers()) {
+			return moveMode;
+		}
 		if (!isIndependent() || isFixed()) {
 			return MOVE_MODE_NONE;
 		} else if (hasPath()) {
@@ -2068,6 +2071,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 		if (yvar instanceof GeoNumeric) {
 			addChangeableCoordParentNumberToUpdateList((GeoNumeric) yvar,
+					updateGeos, tempMoveObjectList);
+		}
+		if (zvar instanceof GeoNumeric) {
+			addChangeableCoordParentNumberToUpdateList((GeoNumeric) zvar,
 					updateGeos, tempMoveObjectList);
 		}
 

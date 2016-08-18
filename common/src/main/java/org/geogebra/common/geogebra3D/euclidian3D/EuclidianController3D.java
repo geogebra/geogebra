@@ -1619,7 +1619,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	private int pointMoveMode = GeoPointND.MOVE_MODE_XY;
 
-	private void switchPointMoveMode() {
+	@Override
+	protected void switchPointMoveMode() {
 		if (pointMoveMode == GeoPointND.MOVE_MODE_XY) {
 			pointMoveMode = GeoPointND.MOVE_MODE_Z;
 		} else {
@@ -3723,13 +3724,21 @@ public abstract class EuclidianController3D extends EuclidianController {
 		Coords end = startPoint3D;
 		if (translateableGeos.size() > 0
 				&& translateableGeos.get(0) instanceof GeoPointND) {
-			Log.debug("Move mode:"
-					+ ((GeoPointND) translateableGeos.get(0)).getMoveMode());
 			GeoPointND g3d = (GeoPointND) translateableGeos.get(0).copy();
 
-			getCurrentPlane().set(g3d.getCoords(), 4);
+			if (g3d.getMoveMode() == GeoPointND.MOVE_MODE_Z
+					|| (g3d.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT && this
+							.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
+				((EuclidianController3DCompanion) companion)
+						.moveAlongZAxis(g3d);
 
-			this.movePointOnCurrentPlane(g3d, false);
+			} else {
+				getCurrentPlane().set(g3d.getCoordsInD3(), 4);
+				movePointOnCurrentPlane(g3d, false);
+
+			}
+
+
 			end = g3d.getInhomCoordsInD3();
 		}
 

@@ -2157,6 +2157,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	public int getMoveMode() {
+		if (hasChangeableCoordParentNumbers()) {
+			return MOVE_MODE_XY;
+		}
 		if (!isIndependent() || isFixed())
 			return MOVE_MODE_NONE;
 		else if (hasPath())

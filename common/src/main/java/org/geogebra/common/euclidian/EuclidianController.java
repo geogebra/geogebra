@@ -9575,6 +9575,11 @@ public abstract class EuclidianController {
 			 * getMovedGeoPoint().resetTraceColumns();
 			 */
 		}
+		if (movedGeoElement instanceof GeoPointND
+				&& movedGeoElement.hasChangeableCoordParentNumbers()
+				&& !draggingOccured) {
+			this.switchPointMoveMode();
+		}
 		if (movedGeoNumeric != null) {
 
 			// deselect slider after drag, but not on click
@@ -9708,6 +9713,11 @@ public abstract class EuclidianController {
 		endOfWrapMouseReleased(hits, event);
 
 		draggingOccurredBeforeRelease = false;
+
+	}
+
+	protected void switchPointMoveMode() {
+		// TODO Auto-generated method stub
 
 	}
 

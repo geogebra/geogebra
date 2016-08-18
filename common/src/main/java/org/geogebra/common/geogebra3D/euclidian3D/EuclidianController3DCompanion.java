@@ -92,69 +92,7 @@ public class EuclidianController3DCompanion extends
 				if (ec.movedGeoPoint.getMoveMode() == GeoPointND.MOVE_MODE_Z
 						|| (ec.movedGeoPoint.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT && ((EuclidianController3D) ec)
 								.getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
-					// along
-					// z-axis
-
-					/*
-					 * //getting current pick point and direction v if
-					 * (movePointMode != MOVE_POINT_MODE_Z){ mouseLocOld =
-					 * (Point) mouseLoc.clone(); positionOld =
-					 * movedGeoPoint3D.getCoords().copyVector(); movePointMode =
-					 * MOVE_POINT_MODE_Z; }
-					 */
-					Coords o = ((EuclidianController3D) ec).view3D
-							.getPickPoint(ec.mouseLoc);
-					((EuclidianController3D) ec).view3D.toSceneCoords3D(o);
-					((EuclidianController3D) ec).addOffsetForTranslation(o);
-					// GgbVector o =
-					// view3D.getPickFromScenePoint(positionOld,mouseLoc.x-mouseLocOld.x,mouseLoc.y-mouseLocOld.y);
-					// view3D.toSceneCoords3D(o);
-
-					// getting new position of the point
-					movedGeoPoint3D.getCoords().projectNearLine(
-							o,
-							((EuclidianController3D) ec).view3D
-									.getHittingDirection(),
-							((EuclidianController3D) ec)
-									.getNormalTranslateDirection(),
-									tmpCoords1);
-
-					if (ec.getMoveMode() == EuclidianController.MOVE_POINT) {
-						// max z value
-						if (tmpCoords1.getZ() > ((EuclidianController3D) ec).zMinMax[1])
-							tmpCoords1
-									.setZ(((EuclidianController3D) ec).zMinMax[1]);
-						else if (tmpCoords1.getZ() < ((EuclidianController3D) ec).zMinMax[0])
-							tmpCoords1
-									.setZ(((EuclidianController3D) ec).zMinMax[0]);
-					}
-
-					// capturing points
-					switch (ec.view.getPointCapturingMode()) {
-					case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
-						// TODO
-					case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
-						if (!ec.view.isGridOrAxesShown()) {
-							break;
-						}
-					case EuclidianStyleConstants.POINT_CAPTURING_ON:
-					case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
-						double z0 = tmpCoords1.getZ();
-						double gz = ec.view.getGridDistances(2);
-						double z = Kernel.roundToScale(z0, gz);
-						if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-								|| Math.abs(z - z0) < gz
-										* ec.getPointCapturingPercentage()) {
-							tmpCoords1.setZ(z);
-						}
-					}
-
-					// set point coords
-					movedGeoPoint3D.setCoords(tmpCoords1);
-
-					// update the moving plane altitude
-					((EuclidianController3D) ec).getCurrentPlane().set(
-							movedGeoPoint3D.getCoords(), 4);
+					moveAlongZAxis(movedGeoPoint3D);
 
 				} else {
 
@@ -219,6 +157,66 @@ public class EuclidianController3DCompanion extends
 					ec.movedGeoPoint.getCoordsInD3(), false);
 
 		}
+	}
+
+	public void moveAlongZAxis(GeoPointND movedGeoPoint3D) {
+		// along
+		// z-axis
+
+		/*
+		 * //getting current pick point and direction v if (movePointMode !=
+		 * MOVE_POINT_MODE_Z){ mouseLocOld = (Point) mouseLoc.clone();
+		 * positionOld = movedGeoPoint3D.getCoords().copyVector(); movePointMode
+		 * = MOVE_POINT_MODE_Z; }
+		 */
+		Coords o = ((EuclidianController3D) ec).view3D
+				.getPickPoint(ec.mouseLoc);
+		((EuclidianController3D) ec).view3D.toSceneCoords3D(o);
+		((EuclidianController3D) ec).addOffsetForTranslation(o);
+		// GgbVector o =
+		// view3D.getPickFromScenePoint(positionOld,mouseLoc.x-mouseLocOld.x,mouseLoc.y-mouseLocOld.y);
+		// view3D.toSceneCoords3D(o);
+
+		// getting new position of the point
+		movedGeoPoint3D.getCoords().projectNearLine(o,
+				((EuclidianController3D) ec).view3D.getHittingDirection(),
+				((EuclidianController3D) ec).getNormalTranslateDirection(),
+				tmpCoords1);
+
+		if (ec.getMoveMode() == EuclidianController.MOVE_POINT) {
+			// max z value
+			if (tmpCoords1.getZ() > ((EuclidianController3D) ec).zMinMax[1])
+				tmpCoords1.setZ(((EuclidianController3D) ec).zMinMax[1]);
+			else if (tmpCoords1.getZ() < ((EuclidianController3D) ec).zMinMax[0])
+				tmpCoords1.setZ(((EuclidianController3D) ec).zMinMax[0]);
+		}
+
+		// capturing points
+		switch (ec.view.getPointCapturingMode()) {
+		case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
+			// TODO
+		case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
+			if (!ec.view.isGridOrAxesShown()) {
+				break;
+			}
+		case EuclidianStyleConstants.POINT_CAPTURING_ON:
+		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
+			double z0 = tmpCoords1.getZ();
+			double gz = ec.view.getGridDistances(2);
+			double z = Kernel.roundToScale(z0, gz);
+			if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
+					|| Math.abs(z - z0) < gz * ec.getPointCapturingPercentage()) {
+				tmpCoords1.setZ(z);
+			}
+		}
+
+		// set point coords
+		movedGeoPoint3D.setCoords(tmpCoords1, true);
+
+		// update the moving plane altitude
+		((EuclidianController3D) ec).getCurrentPlane().set(
+				movedGeoPoint3D.getCoords(), 4);
+
 	}
 
 	/**
