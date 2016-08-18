@@ -348,6 +348,10 @@ pr.menu_header_undo(), null, 32);
 		}
 	}
 
+	private boolean isTablet() {
+		return app.getLAF().isTablet();
+	}
+
 	/**
 	 * check and log window resize and focus lost/gained window resize is
 	 * checked first - if window is not in full screen mode "cheating" can't be
@@ -379,70 +383,76 @@ pr.menu_header_undo(), null, 32);
 		var stopCheating = function() {
 			that.@org.geogebra.web.web.gui.app.GGWToolBar::stopCheating()()
 		};
+		var isTablet = function() {
+			that.@org.geogebra.web.web.gui.app.GGWToolBar::isTablet()()
+		};
 		//	var examActive = function() {
 		//	that.@org.geogebra.common.main.App::isExam()()
 		//};
 		//$wnd.console.log("examActive " + examActive);
+		if (isTablet()) {
+			$wnd.visibilityEventMain(startCheating, stopCheating);
+		} else {
 
-		$wnd.visibilityEventMain(startCheating, stopCheating);
+			// Suggested by Zbynek (Hero of the Day, 2015-01-22)
+			$wnd.onblur = function(event) {
+				// Borrowed from http://www.quirksmode.org/js/events_properties.html
+				//$wnd.console.log("4");
+				var e = event ? event : $wnd.event;
+				var targ;
+				if (e.target) {
+					targ = e.target;
+				} else if (e.srcElement) {
+					targ = e.srcElement;
+				}
+				if (targ.nodeType == 3) { // defeat Safari bug
+					targ = targ.parentNode;
+				}
+				console.log("Checking cheating: Type = " + e.type
+						+ ", Target = " + targ + ", " + targ.id
+						+ " CurrentTarget = " + e.currentTarget + ", "
+						+ e.currentTarget.id);
+				// The focusout event should not be caught:
+				if (e.type == "blur") { //&& fullscreen == true
+					//$wnd.console.log("5");
+					startCheating();
+					//focus = false;
+					//console.log("focus 2 " + focus);
+				}
 
-		// Suggested by Zbynek (Hero of the Day, 2015-01-22)
-		$wnd.onblur = function(event) {
-			// Borrowed from http://www.quirksmode.org/js/events_properties.html
-			//$wnd.console.log("4");
-			var e = event ? event : $wnd.event;
-			var targ;
-			if (e.target) {
-				targ = e.target;
-			} else if (e.srcElement) {
-				targ = e.srcElement;
+			};
+			$wnd.onfocus = function(event) {
+				//$wnd.console.log("6");
+				if (fullscreen == true) {
+					stopCheating();
+					//	focus = true;
+					//	console.log("focus 3 " + focus);
+				}
 			}
-			if (targ.nodeType == 3) { // defeat Safari bug
-				targ = targ.parentNode;
-			}
-			console.log("Checking cheating: Type = " + e.type + ", Target = "
-					+ targ + ", " + targ.id + " CurrentTarget = "
-					+ e.currentTarget + ", " + e.currentTarget.id);
-			// The focusout event should not be caught:
-			if (e.type == "blur") { //&& fullscreen == true
-				//$wnd.console.log("5");
-				startCheating();
-				//focus = false;
-				//console.log("focus 2 " + focus);
-			}
+			// window resize has 2 cases: full screen and not full screen
+			$wnd.addEventListener("resize", function() {
+				//$wnd.console.log("7");
+				var height = $wnd.innerHeight;
+				var width = $wnd.innerWidth;
 
-		};
-		$wnd.onfocus = function(event) {
-			//$wnd.console.log("6");
-			if (fullscreen == true) {
-				stopCheating();
-				//	focus = true;
-				//	console.log("focus 3 " + focus);
-			}
+				var screenHeight = screen.height - 5;
+				var screenWidth = screen.width - 5;
+
+				//$wnd.console.log("height: " + height, screenHeight);
+				//$wnd.console.log("width: " + width, screenWidth);
+
+				if (height < screenHeight || width < screenWidth) {
+					startCheating();
+					fullscreen = false;
+
+				}
+				if (height >= screenHeight && width >= screenWidth) {
+					stopCheating();
+					fullscreen = true;
+
+				}
+			});
 		}
-		// window resize has 2 cases: full screen and not full screen
-		$wnd.addEventListener("resize", function() {
-			//$wnd.console.log("7");
-			var height = $wnd.innerHeight;
-			var width = $wnd.innerWidth;
-
-			var screenHeight = screen.height - 5;
-			var screenWidth = screen.width - 5;
-
-			//$wnd.console.log("height: " + height, screenHeight);
-			//$wnd.console.log("width: " + width, screenWidth);
-
-			if (height < screenHeight || width < screenWidth) {
-				startCheating();
-				fullscreen = false;
-
-			}
-			if (height >= screenHeight && width >= screenWidth) {
-				stopCheating();
-				fullscreen = true;
-
-			}
-		});
 	}-*/ ;
 
 	
