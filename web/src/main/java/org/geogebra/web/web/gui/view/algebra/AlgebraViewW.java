@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
@@ -176,10 +175,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 					.addSelectionListener(new GeoElementSelectionListener() {
 						public void geoElementSelected(GeoElement geo,
 								boolean addToSelection) {
-						if (geo.isGeoNumeric()
-								&& ((GeoNumeric) geo).isSlider()) {
-							Log.debug("Slideeeeeeeeeeeeeeeeeeeeeeer!");
-						}
 							updateSelection();
 						}
 					});
@@ -430,16 +425,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	private void repaintSliderNode(TreeItem ti) {
-		// GeoElement geo = (GeoElement) ti.getUserObject();
-		// if ((geo instanceof GeoNumeric
-		// && !(app.has(Feature.AV_DEFINITION_AND_VALUE)
-		// && geo.needToShowBothRowsInAV())
-		// || geo instanceof GeoBoolean)
-		// && geo.isIndependent()
-		// && ti instanceof RadioTreeItem) {
-		// RadioTreeItem.as(ti).repaint();
-		// }
-		//
 		if (ti instanceof SliderTreeItemInterface) {
 			RadioTreeItem.as(ti).repaint();
 		}
@@ -1659,8 +1644,22 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
+	private GeoElement[] previewGeos = null;
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		// TODO
+		if (!app.has(Feature.AV_PREVIEW)) {
+			return;
+		}
+
+		previewGeos = geos;
+
+		if (previewGeos != null) {
+			for (GeoElement geo : previewGeos) {
+				inputPanelLatex.previewValue(geo);
+				Log.debug("AVPreview: " + geo.getAlgebraDescriptionDefault());
+			}
+		} else {
+			inputPanelLatex.clearPreview();
+		}
 	}
 
 	public boolean isShowing() {
@@ -2019,4 +2018,5 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			}
 		});
 	}
+
 }

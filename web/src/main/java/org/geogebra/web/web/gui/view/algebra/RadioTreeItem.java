@@ -117,7 +117,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * content -> plainTextitem | latexItem | c | (definitionPanel outputPanel)
  * 
- * sliderPanel -> [sliderPanel minmaxPanel]
+ * sliderContent -> [sliderPanel minmaxPanel]
  * 
  * plaintextitem -> STRING | (definitionPanel, outputPanel)
  * 
@@ -671,7 +671,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		outputPanel.add(label);
 	}
+
 	private boolean updateValuePanel(String text) {
+		return updateValuePanel(geo, text);
+	}
+
+	private boolean updateValuePanel(GeoElement geo, String text) {
 		if (geo == null || !geo.needToShowBothRowsInAV()) {
 			return false;
 		}
@@ -746,6 +751,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
+
 	private void buildItemWithTwoRows() {
 		createDVPanels();
 		String text = isGeoFraction()
@@ -772,6 +778,47 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// updateFont(plainTextItem);
 
 		content.add(plainTextItem);
+	}
+
+	public void clearPreview() {
+		if (!app.has(Feature.AV_PREVIEW)) {
+			return;
+		}
+
+		if (valuePanel == null) {
+			return;
+		}
+		valuePanel.clear();
+	}
+
+	public void previewValue(GeoElement previewGeo) {
+		if (!app.has(Feature.AV_PREVIEW)) {
+			return;
+		}
+
+		createDVPanels();
+		content.addStyleName("avPreview");
+		plainTextItem.clear();
+		plainTextItem.add(outputPanel);
+		outputPanel.clear();
+		addPrefixLabel(getOutputPrefix());
+		valuePanel.clear();
+		valuePanel.add(new Label(
+				previewGeo.getAlgebraDescriptionDefault().split("=")[1]));
+		if (outputPanel.getWidgetIndex(valuePanel) == -1) {
+			outputPanel.add(valuePanel);
+		}
+
+		if (content.getWidgetIndex(plainTextItem) == -1) {
+			content.add(plainTextItem);
+		}
+
+		// if (previewGeo == null) {
+		// return;
+		// }
+		Log.debug("previewValue " + previewGeo);
+		
+		
 	}
 
 	protected void buildItemWithSingleRow() {

@@ -3835,6 +3835,10 @@ public abstract class App implements UpdateSelection {
 		case INPUT_BAR_PREVIEW:
 			return true;
 
+		// GGB-1121
+		case AV_PREVIEW:
+			return prerelease;
+
 		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
 			if (isDesktop()) {
