@@ -822,6 +822,12 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			switch (justification1) {
 			case '.':
 			case 'a':
+				if (geo1 instanceof GeoNumberValue) {
+
+					double num = ((GeoNumberValue) geo1).getDouble();
+
+					text1 = kernel.format(num, tpl);
+				}
 				text1 = tpl.padZerosAfterDecimalPoint(text1,
 						justification1 == '.', kernel.getPrintDecimals(), "");
 				break;

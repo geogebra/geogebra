@@ -3028,6 +3028,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @param defaultDigits
 	 *            default if not set explicitly for the GeoText
 	 * @param suffix
+	 *            string suffix eg %
 	 * @return number padded, eg 1 padded to 1.00 (2dp) and wrapped in \texttt
 	 *         (monospace font)
 	 */
@@ -3035,7 +3036,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 			int defaultDigits, String suffix) {
 
 		if (!StringUtil.isNumber(s)) {
-			return s;
+			if (!phantom) {
+				return wrapInTexttt(s);
+			}
+			return wrapInTexttt(s + wrapInPhantom(
+					"." + StringUtil.string("0", defaultDigits), ""));
 		}
 
 		int length = s.length();
