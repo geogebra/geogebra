@@ -60,6 +60,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	public static SpanElement firstDummy = null;
 	public static SpanElement lastDummy = null;
+	public static ArrayList<SpanElement> dummies = new ArrayList<SpanElement>();
 	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
 
 	/** Creates new GeoGebraFrame */
@@ -93,6 +94,14 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		lastDummy.addClassName("geogebraweb-dummy-invisible");
 		lastDummy.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
 		parentElement.appendChild(lastDummy);
+	}
+
+	protected static void addDummies(Element parentElement, int i) {
+		SpanElement item = DOM.createSpan().cast();
+		item.addClassName("geogebraweb-dummy-invisible2");
+		item.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
+		dummies.add(item);
+		parentElement.appendChild(item);
 	}
 
 	public static void reCheckForDummies(Element el) {

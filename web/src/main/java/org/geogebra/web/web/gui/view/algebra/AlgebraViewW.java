@@ -239,6 +239,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 					event.preventDefault();
 					return;
 				}
+				
+				//TODO: check this ----
+				break;
+			case KeyCodes.KEY_TAB:
+				if (!app.getGlobalKeyDispatcher().inFocus) {
+					return;
+				}
+				// ----
 			}
 		case Event.ONMOUSEDOWN:
 		case Event.ONTOUCHSTART:

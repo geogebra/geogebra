@@ -126,7 +126,7 @@ public class AppWsimple extends AppW {
 		super.focusLost(v, el);
 		hasFocus = true;
 		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
-		this.getGlobalKeyDispatcher().InFocus = false;
+		this.getGlobalKeyDispatcher().setFocused(false);
 	}
 
 	@Override
@@ -145,13 +145,13 @@ public class AppWsimple extends AppW {
 		case App.VIEW_ALGEBRA:
 		case App.VIEW_EUCLIDIAN:
 		case App.VIEW_EUCLIDIAN2:
-			this.getGlobalKeyDispatcher().InFocus = true;
+			this.getGlobalKeyDispatcher().setFocused(true);
 			break;
 		default:
 			if (App.isView3D(v.getViewID())
 					|| ((v.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START) && (v
 							.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
-				this.getGlobalKeyDispatcher().InFocus = true;
+				this.getGlobalKeyDispatcher().setFocused(true);
 			}
 		}
 	}

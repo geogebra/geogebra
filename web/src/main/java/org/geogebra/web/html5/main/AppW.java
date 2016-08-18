@@ -2625,7 +2625,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		if (ret != null) {
 			lastActiveElement = ret;
 			anyAppHasFocus = false;
-			getGlobalKeyDispatcher().InFocus = false;
+			getGlobalKeyDispatcher().setFocused(false);
 		}
 	}
 

@@ -1,6 +1,8 @@
 package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -12,6 +14,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -20,6 +23,9 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Event.NativePreviewEvent;
+import com.google.gwt.user.client.Event.NativePreviewHandler;
 
 /**
  * Handles keyboard events.
@@ -48,7 +54,7 @@ public class GlobalKeyDispatcherW extends
 	/**
 	 * Used if we need tab working properly
 	 */
-	public boolean InFocus = true;
+	public boolean inFocus = false;
 
 	/**
 	 * @param app
@@ -56,13 +62,71 @@ public class GlobalKeyDispatcherW extends
 	 */
 	public GlobalKeyDispatcherW(App app) {
 		super(app);
+		initNativeKeyHandlers();
+	}
+
+	boolean tabfixdebug = false;
+
+	private void initNativeKeyHandlers() {
+		Event.addNativePreviewHandler(new NativePreviewHandler() {
+
+			public void onPreviewNativeEvent(NativePreviewEvent event) {
+				//
+				// if (event.getTypeInt() != Event.ONFOCUS) {
+				if (tabfixdebug) Log.debug("typeint: " + event.getTypeInt());
+				// return;
+				// }
+
+
+				// Log.debug("source: " + event.getSource());
+				// Log.debug("eventtarget: "
+				// + event.getNativeEvent().getEventTarget().toString());
+				// // Log.debug(event.getNativeEvent().getEventTarget()
+				// .equals(app.get));
+
+				Element targetElement = Element.as(event.getNativeEvent().getEventTarget());
+				
+				if (hasParentWithClassName(targetElement, "geogebraweb") // TODO:
+																			// not
+																			// "geogebraweb"
+						&& !isFocused()) {
+					if(tabfixdebug) Log.debug("not focused");
+				}
+			}
+
+		});
+	}
+
+	boolean hasParentWithClassName(Element el, String className) {
+		Log.debug("targetElement parent check");
+		Log.debug(el.getClassName());
+		while (el.hasParentElement()) {
+			el = el.getParentElement();
+			List<String> classnames = Arrays.asList(el.getClassName()
+					.split(" "));
+			if (classnames.contains(className)) {
+				Log.debug("has parent ... InFocus: " + inFocus);
+				return true;
+			}
+		}
+		Log.debug("no parent ...");
+		return false;
+	}
+
+	public void setFocused(boolean f) {
+		Log.debug("Focus set to: " + f);
+		inFocus = f;
+	}
+
+	public boolean isFocused() {
+		return inFocus;
 	}
 
 	public void onKeyPress(KeyPressEvent event) {
 		Log.debug("Key pressed:" + event.getCharCode());
 		setDownKeys(event);
 		event.stopPropagation();
-		if (InFocus) {
+		if (inFocus) {
 			// in theory, default action of TAB is not triggered here
 			// but it seems Firefox triggers the default action of TAB
 			// here (or some place other than onKeyDown), so we only
@@ -91,7 +155,7 @@ public class GlobalKeyDispatcherW extends
 
 	public void onKeyUp(KeyUpEvent event) {
 		setDownKeys(event);
-		if (InFocus) {
+		if (inFocus) {
 			// KeyCodes kc =
 			// KeyCodes.translateGWTcode(event.getNativeKeyCode());
 			// if (kc != KeyCodes.TAB) {
@@ -113,11 +177,11 @@ public class GlobalKeyDispatcherW extends
 
 		// we have keypress here only
 		// do this only, if we really have focus
-		Log.debug(InFocus + "");
-		if (InFocus) {
+		Log.debug(inFocus + "");
+		if (inFocus) {
 			handleKeyPressed(event);
 		} else if (event.getNativeKeyCode() == com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER) {
-			InFocus = true;
+			setFocused(true);
 		}
 
 	}
@@ -215,7 +279,7 @@ public class GlobalKeyDispatcherW extends
 		        event.isShiftKeyDown(), event.isControlKeyDown(),
 		        event.isAltKeyDown(), false);
 		// if not handled, do not consume so that keyPressed works
-		if (InFocus && handled) {
+		if (inFocus && handled) {
 			keydownPreventsDefaultKeypressTAB = true;
 		}
 
@@ -253,6 +317,7 @@ public class GlobalKeyDispatcherW extends
 				EuclidianViewW.tabPressed = false;
 				keydownPreventsDefaultKeypressTAB = true;
 			}
+			 if (tabfixdebug) printActiveElement();
 		} else if (kc == KeyCodes.ESCAPE) {
 			keydownPreventsDefaultKeypressTAB = true;
 			// EuclidianViewW.tabPressed = false;
@@ -262,10 +327,18 @@ public class GlobalKeyDispatcherW extends
 			app.setMoveMode();
 			// here we shall focus on a dummy element that is
 			// after all graphics views by one:
-			if (GeoGebraFrameW.lastDummy != null) {
-				GeoGebraFrameW.lastDummy.focus();
+			// if (GeoGebraFrameW.lastDummy != null) {
+			// GeoGebraFrameW.lastDummy.focus();
+			// }
+
+			if (GeoGebraFrameW.dummies.size() > 0) {
+				if (tabfixdebug) Log.debug("dummies! :)");
 			}
-		} else if (InFocus && preventBrowserCtrl(kc)
+
+
+			// printActiveElement();
+
+		} else if (inFocus && preventBrowserCtrl(kc)
 				&& event.isControlKeyDown()) {
 			event.preventDefault();
 		}
@@ -273,11 +346,16 @@ public class GlobalKeyDispatcherW extends
 		if (keydownPreventsDefaultKeypressTAB) {
 			event.preventDefault();
 		}
+		if(tabfixdebug) printActiveElement();
 	}
 
 	private boolean preventBrowserCtrl(KeyCodes kc) {
 		return kc == KeyCodes.S || kc == KeyCodes.O;
 	}
+
+	public static native void printActiveElement() /*-{
+		$wnd.console.log($wnd.document.activeElement);
+	}-*/;
 
 	/**
 	 * This method is almost the same as GlobalKeyDispatcher.handleTab, just is
