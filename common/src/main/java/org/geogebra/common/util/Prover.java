@@ -66,11 +66,16 @@ public abstract class Prover {
 		/**
 		 * default prover (GeoGebra decides internally)
 		 */
-		AUTO, /**
+		AUTO, 
+		/**
 		 * 
-		 * not a theorem prover, but an implicit/explicit locus calculator
+		 * not a theorem prover, but an implicit locus calculator
 		 */
-		LOCUS_IMPLICIT, LOCUS_EXPLICIT
+		LOCUS_IMPLICIT,
+		/**
+		 * not a theorem prover, but an explicit locus calculator
+		 */
+		LOCUS_EXPLICIT
 	}
 
 	/**
@@ -737,7 +742,6 @@ public abstract class Prover {
 		private static HashMap<GeoElement, Integer> nodeComplexity;
 		private static int longestPath;
 		private static HashSet<ArrayList<GeoElement>> deps;
-		private static ArrayList<String> statementDescription = new ArrayList<String>();
 
 		private static void computeNodeLongestPath(GeoElement node, int set) {
 			nodeLongestPath.put(node, set);
@@ -931,18 +935,6 @@ public abstract class Prover {
 		void csvAdd(String header, String data) {
 			csv_header += header + ",";
 			csv_data += data + ",";
-		}
-
-		void csvAdd(String header, ArrayList<String> data) {
-			csv_header += header + ",";
-			int count = data.size();
-			for (int i = 0; i < count; ++i) {
-				csv_data += data.get(i);
-				if (i < count - 1) {
-					csv_data += " ";
-				}
-			}
-			csv_data += ",";
 		}
 
 		StatementFeatures(GeoElement statement) {
