@@ -100,9 +100,20 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		SpanElement item = DOM.createSpan().cast();
 		item.addClassName("geogebraweb-dummy-invisible2");
 		item.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
+		addFocusEventForDummy(item);
 		dummies.add(item);
 		parentElement.appendChild(item);
 	}
+
+	protected static native void addFocusEventForDummy(Element dummy) /*-{
+		// this might be needed in case of tabbing by TAB key (more applets)
+		dummy.onfocus = function(evnt) {
+			$wnd.condole.log("dummy onfocus");
+			dummy.fire(document, 'keypress', {
+				keyCode : 9
+			});
+		};
+	}-*/;
 
 	public static void reCheckForDummies(Element el) {
 

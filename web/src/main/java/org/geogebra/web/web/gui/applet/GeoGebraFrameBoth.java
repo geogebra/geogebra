@@ -97,7 +97,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			
 			tackleLastDummy(geoGebraMobileTags
 					.get(geoGebraMobileTags.size() - 1));
-			programFocusEvent(firstDummy, lastDummy);
+			// programFocusEvent(firstDummy, lastDummy);
 		}
 	}
 

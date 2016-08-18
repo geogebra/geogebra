@@ -71,26 +71,40 @@ public class GlobalKeyDispatcherW extends
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
 
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
-				//
-				// if (event.getTypeInt() != Event.ONFOCUS) {
-				if (tabfixdebug) Log.debug("typeint: " + event.getTypeInt());
-				// return;
-				// }
 
+				if (event.getNativeEvent().getKeyCode() != 9) {
+					return;
+				}
 
-				// Log.debug("source: " + event.getSource());
-				// Log.debug("eventtarget: "
-				// + event.getNativeEvent().getEventTarget().toString());
-				// // Log.debug(event.getNativeEvent().getEventTarget()
-				// .equals(app.get));
+				switch (event.getTypeInt()) {
+				case Event.ONKEYDOWN:
 
-				Element targetElement = Element.as(event.getNativeEvent().getEventTarget());
-				
-				if (hasParentWithClassName(targetElement, "geogebraweb") // TODO:
-																			// not
-																			// "geogebraweb"
-						&& !isFocused()) {
-					if(tabfixdebug) Log.debug("not focused");
+					if (tabfixdebug)
+						Log.debug("typeint: " + event.getTypeInt());
+
+					Element targetElement = Element.as(event.getNativeEvent()
+							.getEventTarget());
+
+					if (hasParentWithClassName(targetElement, "geogebraweb") // TODO:
+																				// not
+																				// "geogebraweb"
+							&& !isFocused()) {
+						if (tabfixdebug) {
+							Log.debug("not focused");
+						}
+
+						event.cancel();
+
+						// TODO find the dummy element in another way
+						((AppW) app).getArticleElement()
+								.getElementsByTagName("span").getItem(0)
+								.focus();
+					}
+					break;
+
+				case Event.ONKEYUP:
+					event.cancel();
+					break;
 				}
 			}
 
