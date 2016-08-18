@@ -344,7 +344,7 @@ var app = document.createElement("script");
 		
 		
 		insertScript(codebase);
-		if(location.host.indexOf("alpha") == 0 || isLocalhost()){
+		if(location.host.indexOf("alpha") == 0 || location.host.indexOf("beta") == 0 || isLocalhost()){
 			perspective(false, "picker"); //TODO
 		}
 		else if(getCookie("SSID")){
