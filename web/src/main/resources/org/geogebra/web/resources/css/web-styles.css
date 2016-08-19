@@ -5391,7 +5391,7 @@ body.application[dir=rtl] .deleteAlgebra {
 /*.avSelectedRow .gwt-TreeItem-selected {
 	background: #CCCCFF;
 }*/
-.avItemContent {
+.GeoGebraFrame .avItemContent {
 	width: 100%;
 	padding-top: 2px;
 	padding-bottom: 8px;
