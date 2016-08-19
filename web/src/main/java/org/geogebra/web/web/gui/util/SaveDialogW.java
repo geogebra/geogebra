@@ -617,7 +617,17 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 *            not needed {@link Runnable}
 	 */
 	public void showIfNeeded(Runnable runnable) {
-		if (!app.isSaved() && !app.getLAF().isEmbedded()) {
+		showIfNeeded(runnable, !app.isSaved());
+	}
+
+	/**
+	 * @param runnable
+	 *            callback
+	 * @param needed
+	 *            whether it's needed to save (otherwise just run callback)
+	 */
+	public void showIfNeeded(Runnable runnable, boolean needed) {
+		if (needed && !app.getLAF().isEmbedded()) {
 			runAfterSave = runnable;
 			center();
 			position();
