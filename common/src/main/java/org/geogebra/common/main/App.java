@@ -97,10 +97,10 @@ public abstract class App implements UpdateSelection {
 	/** Url for Intel RealSense tutorials */
 	public static final String REALSENSE_TUTORIAL = "https://tube.geogebra.org/b/OaGmb7LE";
 	/**
-	 * Url for wiki article about exporting to HTML changed to GeoGebraTube
-	 * upload from ggb44
+	 * Url for wiki article about exporting to HTML changed to GeoGebra
+	 * Materials upload from ggb44
 	 */
-	public static final String WIKI_EXPORT_WORKSHEET = "Upload_to_GeoGebraTube";
+	public static final String WIKI_EXPORT_WORKSHEET = "Upload_to_GeoGebra_Materials";
 	/**
 	 * Url for wiki article about advanced features (layers, cond. visibility
 	 * etc.)
