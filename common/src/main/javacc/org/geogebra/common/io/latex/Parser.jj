@@ -99,6 +99,7 @@ PARSER_END(Parser)
     | < QUOTE_START : "\""> : IN_QUOTE
     | < SQRT : "sqrt" >
     | < NROOT : "nroot" >
+    | < MATRIX : "ggbmatrix" >
     | < COMMA : "," >
     | < SPACE : " " >
     | < OPERATOR : ["*","+","-","/"] >
@@ -125,6 +126,8 @@ void mathContainer(MathContainer currentField) : {}
         sqrt(currentField)
     |
         nroot(currentField)
+    |
+    	matrix(currentField)
     |
         arrayParantheses(currentField)
     |
@@ -153,6 +156,8 @@ void mathAtom(MathContainer currentField) : {}
         sqrt(currentField)
     |
         nroot(currentField)
+    |
+        matrix(currentField)
     |
         arrayParantheses(currentField)
     |
@@ -258,6 +263,24 @@ void nroot(MathContainer currentField) : {}
         nroot.setArgument(1, param1);
         nroot.setArgument(0, param2);
         currentField.addArgument(nroot);
+    } <PARANTHESES_CLOSE>
+}
+
+void matrix(MathContainer currentField) : {}
+{
+    <MATRIX> <PARANTHESES_OPEN> {
+       
+        MathSequence param1 = new MathSequence();                
+        mathContainer(param1);
+
+    } <COMMA> {
+        MathSequence param2 = new MathSequence();
+        mathContainer(param2);
+        int width = Integer.parseInt(GeoGebraSerializer.serialize(param1));
+        int height = Integer.parseInt(GeoGebraSerializer.serialize(param2));
+        MetaArray meta = metaModel.getMatrix();
+        MathArray matrix = new MathArray(meta, width, height);
+        currentField.addArgument(matrix);
     } <PARANTHESES_CLOSE>
 }
 

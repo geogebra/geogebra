@@ -85,6 +85,11 @@ public class SerializeLaTeX {
 		checkCannon("Turtle[1*3,7]", "Turtle[1*3,7]");
 	}
 
+	@Test
+	public void testMatrix() {
+		// checkCannon("ggbmatrix(3,3)", ""); TODO
+	}
+
 	private static void checkCannon(String input, String output) {
 		MathFormula mf = null;
 		try {
@@ -92,7 +97,7 @@ public class SerializeLaTeX {
 		} catch (ParseException e) {
 			Assert.assertNull(e);
 		}
-
+		Assert.assertNotNull(mf);
 		Assert.assertEquals(mf.getRootComponent() + "", output,
 				serializer.serialize(mf));
 		

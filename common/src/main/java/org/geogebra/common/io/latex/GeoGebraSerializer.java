@@ -18,7 +18,8 @@ public class GeoGebraSerializer implements Serializer {
         return stringBuilder.toString();
     }
 
-    private void serialize(MathComponent mathComponent, StringBuilder stringBuilder) {
+	private void serialize(MathComponent mathComponent,
+			StringBuilder stringBuilder) {
         if (mathComponent instanceof MathCharacter) {
             serialize((MathCharacter) mathComponent, stringBuilder);
         } else if (mathComponent instanceof MathFunction) {
@@ -29,6 +30,13 @@ public class GeoGebraSerializer implements Serializer {
             serialize((MathSequence) mathComponent, stringBuilder);
         }
     }
+
+	public static String serialize(MathComponent c) {
+		GeoGebraSerializer ser = new GeoGebraSerializer();
+		StringBuilder sb = new StringBuilder();
+		ser.serialize(c, sb);
+		return sb.toString();
+	}
 
     private void serialize(MathCharacter mathCharacter, StringBuilder stringBuilder) {
         stringBuilder.append(mathCharacter.getUnicode());
@@ -226,6 +234,9 @@ public class GeoGebraSerializer implements Serializer {
     }
 
     private void serialize(MathSequence mathSequence, StringBuilder stringBuilder) {
+		if (mathSequence == null) {
+			return;
+		}
         for (int i = 0; i < mathSequence.size(); i++) {
             serialize(mathSequence.getArgument(i), stringBuilder);
         }

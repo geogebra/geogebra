@@ -264,7 +264,7 @@ public class MetaModel {
         this.defaultMatrixRows = defaultMatrixRows;
     }
 
-    public void addGroup(ListMetaGroup metaGroup) {
+	public void addGroup(MetaGroup metaGroup) {
         groups.add(metaGroup);
     }
 

@@ -1,11 +1,11 @@
 package com.himamis.retex.editor.share.meta;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.renderer.share.platform.ParserAdapter;
 import com.himamis.retex.renderer.share.platform.parser.Element;
 import com.himamis.retex.renderer.share.platform.parser.Node;
 import com.himamis.retex.renderer.share.platform.parser.NodeList;
-
-import java.util.ArrayList;
 
 /**
  * Created by Balazs on 8/26/2015.
@@ -102,7 +102,15 @@ public class MetaModelParser {
         String tagName = element.getTagName();
         String name = getStringAttribute(NAME, element);
 
-        ArrayList<MetaComponent> components = new ArrayList<MetaComponent>();
+		ArrayList<MetaComponent> components = getComponents(element);
+		MetaArray metaArray = new MetaArray(tagName, name, components);
+
+		return metaArray;
+	}
+
+	private ArrayList<MetaComponent> getComponents(Element element)
+			throws Exception {
+		ArrayList<MetaComponent> components = new ArrayList<MetaComponent>();
         NodeList elements = element.getChildNodes();
         for (int i = 0; i < elements.getLength(); i++) {
             Node component = elements.item(i);
@@ -114,12 +122,10 @@ public class MetaModelParser {
             MetaCharacter metaComponent = parseArrayElement(childElement);
             components.add(metaComponent);
         }
-        MetaArray metaArray = new MetaArray(tagName, name, components);
+		return components;
+	}
 
-        return metaArray;
-    }
-
-    private MetaCharacter parseCharacter(Element element) throws Exception {
+	private MetaCharacter parseCharacter(Element element) throws Exception {
 
         String name = getStringAttribute(NAME, element);
         String cas = name;
@@ -330,11 +336,13 @@ public class MetaModelParser {
             }
 
             // TODO fix matrix
-            /*if (groupName.equals(MetaModel.MATRIX)) {
-                metaModel.addGroup(new MetaArray(groupName, group, metas));
-            } else {*/
-            metaModel.addGroup(new ListMetaGroup(groupName, group, metas, columns));
-            //}
+            if (groupName.equals(MetaModel.MATRIX)) {
+				metaModel.addGroup(new MetaArray(groupName, group,
+						getComponents(rootChild)));
+            } else {
+				metaModel.addGroup(
+						new ListMetaGroup(groupName, group, metas, columns));
+			}
         }
         return metaModel;
     }

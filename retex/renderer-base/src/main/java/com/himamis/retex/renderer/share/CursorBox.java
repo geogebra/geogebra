@@ -9,6 +9,7 @@ public class CursorBox extends Box {
 	public static double startX, startY;
 	private Box content;
 	public static boolean touchSelection = true;
+	public static boolean blink = true;
 
 	public CursorBox(Box content, float coeff) {
 		this.content = content;
@@ -19,7 +20,9 @@ public class CursorBox extends Box {
 	}
 	@Override
 	public void draw(Graphics2DInterface g2, float x, float y) {
-		content.draw(g2, (float) (x - content.width * 0.5), y);
+		if (CursorBox.blink) {
+			content.draw(g2, (float) (x - content.width * 0.5), y);
+		}
 
 
 		CursorBox.startX = g2.getTransform().getScaleX() * x

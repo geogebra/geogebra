@@ -29,7 +29,7 @@ package com.himamis.retex.editor.share.meta;
 
 import java.util.List;
 
-public class MetaArray extends MetaComponent {
+public class MetaArray extends MetaComponent implements MetaGroup {
 
     public static final String CURLY = "curly";
     public static final String REGULAR = "regular";
@@ -45,6 +45,7 @@ public class MetaArray extends MetaComponent {
     MetaArray(String tagName, String name, List<MetaComponent> metaComponents) {
         super(name, name, name, (char) 0, (char) 0);
         this.tagName = tagName;
+		System.out.println(metaComponents.size());
         setupComponents(metaComponents);
     }
 
@@ -107,5 +108,14 @@ public class MetaArray extends MetaComponent {
     public boolean isMatrix() {
         return tagName.equals("Matrix");
     }
+
+	public String getGroup() {
+		return tagName;
+	}
+
+	public MetaComponent getComponent(String componentName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

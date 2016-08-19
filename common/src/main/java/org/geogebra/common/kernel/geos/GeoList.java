@@ -831,11 +831,11 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			sbBuildValueString.append("?");
 			return sbBuildValueString;
 		}
-
-		if (tpl.getStringType().equals(StringType.LATEX)) {
-			sbBuildValueString.append("\\left\\");
+		if (isMatrix() && tpl == StringTemplate.editorTemplate) {
+			sbBuildValueString.append("ggbmatrix(3,3)");
+			return sbBuildValueString;
 		}
-		sbBuildValueString.append(STR_OPEN);
+		tpl.leftCurlyBracket(sbBuildValueString);
 
 		// first (n-1) elements
 		final int lastIndex = geoList.size() - 1;
@@ -852,10 +852,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			sbBuildValueString.append(geo.toOutputValueString(tpl));
 		}
 		
-		if (tpl.getStringType().equals(StringType.LATEX)) {
-			sbBuildValueString.append("\\right\\");
-		}
-		sbBuildValueString.append(STR_CLOSE);
+		tpl.rightCurlyBracket(sbBuildValueString);
 
 		return sbBuildValueString;
 	}

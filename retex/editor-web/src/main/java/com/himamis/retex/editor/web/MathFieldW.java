@@ -48,6 +48,7 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
@@ -68,6 +69,7 @@ public class MathFieldW implements MathField, IsWidget {
 	private Widget html;
 	private Context2d ctx;
 	private boolean focused = false;
+	private TeXIcon lastIcon;
 
 	/**
 	 * 
@@ -89,11 +91,20 @@ public class MathFieldW implements MathField, IsWidget {
 		mathFieldInternal.setFieldListener(listener);
 		mathFieldInternal.setType(TeXFormula.SANSSERIF);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
+		Timer t = new Timer() {
+
+			@Override
+			public void run() {
+				CursorBox.blink = !CursorBox.blink;
+				repaint();
+			}
+		};
+		t.scheduleRepeating(500);
 	}
 
 	@Override
 	public void setTeXIcon(TeXIcon icon) {
-
+		this.lastIcon = icon;
 
 		ctx.getCanvas().setHeight(icon.getIconHeight() + 15);
 		ctx.getCanvas().getStyle().setHeight(icon.getIconHeight() + 15,
@@ -101,10 +112,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 		ctx.getCanvas().setWidth(icon.getIconWidth() + 30);
 		ctx.getCanvas().getStyle().setWidth(icon.getIconWidth() + 30, Unit.PX);
-		ctx.setFillStyle("rgb(255,255,255)");
-		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(),
-				icon.getIconHeight() + 15);
-		JlmLib.draw(icon, ctx, 0, 0, "#000000", "#FFFFFF", null);
+		repaint();
 	}
 
 	@Override
@@ -216,7 +224,10 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	public void repaint() {
-		// TODO Auto-generated method stub
+		ctx.setFillStyle("rgb(255,255,255)");
+		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(),
+				lastIcon.getIconHeight() + 15);
+		JlmLib.draw(lastIcon, ctx, 0, 0, "#000000", "#FFFFFF", null);
 
 	}
 

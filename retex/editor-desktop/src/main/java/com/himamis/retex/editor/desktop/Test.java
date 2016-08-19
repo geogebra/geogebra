@@ -39,7 +39,7 @@ public class Test {
 	}
 
 	public static void main(String[] args) {
-		MathFieldD mathField = new MathFieldD();
+		final MathFieldD mathField = new MathFieldD();
 		
 		JFrame frame = new JFrame();
 		frame.setPreferredSize(new Dimension(200, 200));
@@ -48,7 +48,8 @@ public class Test {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
-		// mathField.insertString("Midpoint[<Point>, <Point>]");
-		mathField.insertString("Midpoint(<Point>, <Point>)");
+		mathField.insertString("ggbmatrix(3,3)");
+		// mathField.insertString("Midpoint(<Point>, <Point>)");
+
 	}
 }

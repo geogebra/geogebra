@@ -786,6 +786,7 @@ public class MyList extends ValidExpression implements ListValue,
 			boolean printBrackets) {
 
 		StringBuilder sb = new StringBuilder();
+
 		if(printBrackets){
 			tpl.leftCurlyBracket(sb);
 		}
@@ -796,7 +797,8 @@ public class MyList extends ValidExpression implements ListValue,
 				ExpressionValue exp = listElements.get(i);
 				sb.append(valueMode ? exp.toOutputValueString(tpl) : exp
 						.toString(tpl)); // .toOutputValueString());
-				sb.append(", ");
+				sb.append(kernel.getLocalization().unicodeComma);
+				sb.append(" ");
 			}
 
 			// last element

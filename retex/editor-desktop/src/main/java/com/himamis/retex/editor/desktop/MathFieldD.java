@@ -28,9 +28,12 @@ package com.himamis.retex.editor.desktop;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
 
 import com.himamis.retex.editor.desktop.event.ClickListenerAdapter;
 import com.himamis.retex.editor.desktop.event.FocusListenerAdapter;
@@ -46,6 +49,7 @@ import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.desktop.IconHelper;
+import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.Resource;
@@ -72,6 +76,15 @@ public class MathFieldD extends JLabel implements MathField {
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 		mathFieldInternal.setSelectionMode(true);
 		this.setVerticalAlignment(SwingConstants.TOP);
+		Timer t = new Timer(500, new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				CursorBox.blink = !CursorBox.blink;
+				repaint();
+			}
+		});
+		t.setRepeats(true);
+		t.start();
 	}
 	
 	public MathFieldD(String latex) {
