@@ -3211,10 +3211,7 @@ body.application[dir=rtl] .algebraOpenButton {
  	display: inline-block !important;
  	background: none;
  }
- 
-/*.algebraView .avItem .AlgebraViewObjectStylebar {
- 	top: 0px;
- } */
+
  
  .algebraView .panelRow > * {
  	margin: 0px;
@@ -3488,7 +3485,7 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 
 .GeoGebraFrame .AlgebraViewObjectStylebar {
 	position: absolute;
-	top: 2px;
+	top: 0px;
 	right: 0px;
 	z-index: 10;
 	padding: 4px 4px 2px 0px;

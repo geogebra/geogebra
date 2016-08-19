@@ -6,7 +6,10 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.move.events.BaseEvent;
+import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
+import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -18,6 +21,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.export.PrintPreviewW;
 import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
+import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.util.ShareDialogW;
 import org.geogebra.web.web.main.AppWFull;
 
@@ -174,29 +178,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 						@Override
 						public void doExecute() {
-							Runnable shareCallback = new Runnable() {
-
-								public void run() {
-									ShareDialogW sd = new ShareDialogW(app);
-									sd.setVisible(true);
-									sd.center();
-
-								}
-							};
 							if (!nativeShareSupported()) {
-								if (app.getActiveMaterial() == null
-										|| "P".equals(app.getActiveMaterial()
-												.getVisibility())) {
-									((DialogManagerW) app.getDialogManager())
-											.getSaveDialog()
-											.showIfNeeded(shareCallback, true);
-								} else if (!app.getLoginOperation()
-										.isLoggedIn()) {
-									((SignInButton) app.getLAF()
-											.getSignInButton(app)).login();
-								} else {
-									shareCallback.run();
-								}
+								showShareDialog();
 							} else {
 								app.getGgbApi().getBase64(true,
 										getShareStringHandler(app));
@@ -302,6 +285,50 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    }
 	}
 
+	/**
+	 * SHow the custom share dialog
+	 */
+	protected void showShareDialog() {
+		Runnable shareCallback = new Runnable() {
+
+			public void run() {
+				ShareDialogW sd = new ShareDialogW(app);
+				sd.setVisible(true);
+				sd.center();
+
+			}
+		};
+		if (app.getActiveMaterial() == null
+				|| "P".equals(app.getActiveMaterial().getVisibility())) {
+			if (!app.getLoginOperation().isLoggedIn()) {
+				// not saved, not logged in
+				app.getLoginOperation().getView().add(new EventRenderable() {
+
+					public void renderEvent(BaseEvent event) {
+						if (event instanceof LoginEvent
+								&& ((LoginEvent) event).isSuccessful()) {
+							showShareDialog();
+						}
+
+					}
+				});
+				((SignInButton) app.getLAF().getSignInButton(app)).login();
+			} else {
+				// not saved, logged in
+				((DialogManagerW) app.getDialogManager()).getSaveDialog()
+						.setDefaultVisibility(SaveDialogW.Visibility.Shared)
+					.showIfNeeded(shareCallback, true);
+			}
+		} else {
+			// saved
+			shareCallback.run();
+		}
+
+	}
+
+	/**
+	 * Go to geogebra.org or close iframe if we are running in one
+	 */
 	protected native void backToGeoGebra() /*-{
 		if ($wnd != $wnd.parent) {
 			$wnd.parent.postMessage("{\"type\":\"closesingleton\"}",

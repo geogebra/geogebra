@@ -56,7 +56,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
         EventRenderable {
 
-	private enum Visibility {
+	public enum Visibility {
 		Private(0, "P"), Shared(1, "S"), Public(2, "O");
 
 		private int index;
@@ -92,6 +92,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private ListBox listBox;
 	private MaterialType saveType;
 	private ArrayList<Material.Provider> supportedProviders = new ArrayList<Material.Provider>();
+	private Visibility defaultVisibility = Visibility.Private;
 
 	// private MaterialCallback materialCB;
 
@@ -592,7 +593,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 					        .setSelectedIndex(Visibility.Private.getIndex());
 				}
 			} else {
-				this.listBox.setSelectedIndex(Visibility.Private.getIndex());
+				this.listBox.setSelectedIndex(defaultVisibility.getIndex());
 			}
 		}
 		listBox.setVisible(app.getFileManager().getFileProvider() == Provider.TUBE);
@@ -731,5 +732,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	boolean isMacro() {
 		return saveType.equals(MaterialType.ggt);
+	}
+
+	/**
+	 * @param visibility
+	 *            new default
+	 */
+	public SaveDialogW setDefaultVisibility(Visibility visibility) {
+		this.defaultVisibility = visibility;
+		return this;
 	}
 }
