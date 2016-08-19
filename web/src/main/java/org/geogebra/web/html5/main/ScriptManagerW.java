@@ -449,9 +449,9 @@ public class ScriptManagerW extends ScriptManager {
 
 		api.setCoords = function(objName, x, y, z) {
 			if (typeof z === 'undefined') {
-				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoords(Ljava/lang/String;DDD)(objName,x,y);
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoords(Ljava/lang/String;DD)(objName,x,y);
 			} else {
-				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoords(Ljava/lang/String;DD)(objName,x,y,z);
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoords(Ljava/lang/String;DDD)(objName,x,y,z);
 			}
 		};
 
