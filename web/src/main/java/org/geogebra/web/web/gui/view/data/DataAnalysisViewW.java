@@ -658,8 +658,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	}
 
 	public boolean isShowing() {
-		// TODO Auto-generated method stub
-		return false;
+		return app.showView(App.VIEW_DATA_ANALYSIS);
 	}
 
 	@Override

@@ -20,10 +20,6 @@ public class MinimalMultiVarStatTableModel extends MultiVarStatTableModel {
 		return names;
 	}
 
-	@Override
-	public int getRowCount() {
-		return getRowNames().length;
-	}
 
 	@Override
 	public int getColumnCount() {

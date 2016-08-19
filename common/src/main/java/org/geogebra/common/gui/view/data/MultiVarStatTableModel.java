@@ -43,7 +43,7 @@ public class MultiVarStatTableModel extends StatTableModel {
 
 	@Override
 	public int getRowCount() {
-		return getRowNames().length;
+		return getRowNames() == null ? 0 : getRowNames().length;
 	}
 
 	@Override

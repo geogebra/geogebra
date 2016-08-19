@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GPointW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -190,16 +191,20 @@ public class StatTableW extends FlowPanel {
 		if (columnNames != null && rowNames != null) {
 			myTable.resize(rowNames.length + 1, columnNames.length + 1);
 		}
-		if (columnNames != null) {
-			for (int i = 0; i < columnNames.length; i++)
-				myTable.setWidget(0, i + 1, new Label(columnNames[i]));
-		}
-
-		int startRow = hasHeader ? 1: 0;
-		if (rowNames != null) {
-			for (int i = 0; i < rowNames.length; i++) {
-				myTable.setWidget(startRow + i , 0, new Label(rowNames[i]));
+		try {
+			if (columnNames != null) {
+				for (int i = 0; i < columnNames.length; i++)
+					myTable.setWidget(0, i + 1, new Label(columnNames[i]));
 			}
+
+			int startRow = hasHeader ? 1 : 0;
+			if (rowNames != null) {
+				for (int i = 0; i < rowNames.length; i++) {
+					myTable.setWidget(startRow + i, 0, new Label(rowNames[i]));
+				}
+			}
+		} catch (Exception e) {
+			Log.debug(e);
 		}
 	}
 
