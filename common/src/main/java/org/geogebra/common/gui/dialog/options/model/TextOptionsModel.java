@@ -138,9 +138,7 @@ public class TextOptionsModel extends OptionsModel {
 		listener.selectDecimalPlaces(selItem);
 		listener.setSecondLineVisible((getGeoAt(0).isIndependent() || (geo0 instanceof GeoList)));
 
-		if (geo.isGeoInputBox()) {
-			listener.setFontSizeVisibleOnly();
-		}
+
 		Log.debug("UpdateText Properties Text");
 		GeoText text0 = getGeoTextAt(0);
 		if (text0 != null) {
