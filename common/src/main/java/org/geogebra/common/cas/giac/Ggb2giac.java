@@ -819,7 +819,7 @@ public class Ggb2giac {
 						+ "?))][1]");
 		p("LeftSide.2",
 				"[[ggbleftarg0:=%0],"
-						+ "when(ggbleftarg0[%1-1][0] == '=',right(ggbleftarg0[%1-1]),?)][1]");
+						+ "when(ggbleftarg0[%1-1][0] == '=',left(ggbleftarg0[%1-1]),?)][1]");
 		// subtype 27 is ggbvect()
 		p("Length.1",
 				"[[ggbv:=%0],regroup(when(ggbv[0]=='pnt' || (type(ggbv)==DOM_LIST && subtype(ggbv)==27), l2norm(ggbv),size(ggbv)))][1]");
