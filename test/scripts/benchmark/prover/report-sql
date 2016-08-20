@@ -302,7 +302,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  TEST=`echo $TEST | sed s/".ggb"//`
 
  if [ "$CSV" != none ]; then
-  POPULATION_DATA=`cat $MYDIR/portfolio-first-columns.txt | grep "^$TEST " | cut -f2 -d" "`
+  POPULATION_DATA=`cat $MYDIR/portfolio-first-columns.txt | grep "^$TEST " | cut -f2- -d" "`
   if [ "$POPULATION_DATA" != "" ]; then
    echo -n "$TEST,$POPULATION_DATA" >> $MYDIR/$CSV
    fi
