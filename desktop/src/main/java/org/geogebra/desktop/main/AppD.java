@@ -2407,15 +2407,24 @@ ToolbarD.getAllTools(this));
 
 	}
 
-	// TODO: maybe we want to implement this for EV2 as well
+	/**
+	 * @param maxX
+	 *            maximum width
+	 * @param maxY
+	 *            maximum height
+	 * @return preview image
+	 * @throws OutOfMemoryError
+	 *             error
+	 */
 	public BufferedImage getExportImage(double maxX, double maxY)
 			throws OutOfMemoryError {
 
-		double scale = Math.min(maxX / getEuclidianView1().getSelectedWidth(),
-				maxY / getEuclidianView1().getSelectedHeight());
+		EuclidianView ev = getActiveEuclidianView();
 
-		return GBufferedImageD.getAwtBufferedImage(getEuclidianView1()
-				.getExportImage(scale));
+		double scale = Math.min(maxX / ev.getSelectedWidth(),
+				maxY / ev.getSelectedHeight());
+
+		return GBufferedImageD.getAwtBufferedImage(ev.getExportImage(scale));
 	}
 
 	// **************************************************************************
