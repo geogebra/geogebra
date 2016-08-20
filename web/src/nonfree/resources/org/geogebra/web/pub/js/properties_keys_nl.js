@@ -2542,7 +2542,7 @@ __GGB__keysVar.nl.plain = {
     "Height": "Hoogte",
     "HeightOfA": "Hooget van %0",
     "Hexagon": "Zeshoek",
-    "Hidden": "Hidden",
+    "Hidden": "Verborgen",
     "Hide": "Verbergen",
     "Hint": "Tip",
     "Home": "Naar begin",
