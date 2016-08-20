@@ -4742,6 +4742,14 @@ public abstract class EuclidianView
 		return (int) selectionRectangle.getHeight();
 	}
 
+	public int getSelectedWidthInPixels() {
+		return getSelectedWidth();
+	}
+
+	public int getSelectedHeightInPixels() {
+		return getSelectedHeight();
+	}
+
 	/**
 	 * @return export width in pixels
 	 */

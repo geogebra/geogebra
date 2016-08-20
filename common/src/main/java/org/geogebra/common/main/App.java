@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
@@ -3977,7 +3978,7 @@ public abstract class App implements UpdateSelection {
 
 		//MOB-601
 		case MOBILE_LOCAL_SAVE:
-			return false;
+			return prerelease;
 		case RETEX_EDITOR:
 			return prerelease;
 
@@ -4381,6 +4382,15 @@ public abstract class App implements UpdateSelection {
 	public void examWelcome() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public GBufferedImage getActiveEuclidianViewExportImage(double maxX, double maxY){
+		EuclidianView ev = getActiveEuclidianView();
+
+		double scale = Math.min(maxX / ev.getSelectedWidthInPixels(),
+				maxY / ev.getSelectedHeightInPixels());
+
+		return ev.getExportImage(scale);
 	}
 
 }
