@@ -2419,12 +2419,9 @@ ToolbarD.getAllTools(this));
 	public BufferedImage getExportImage(double maxX, double maxY)
 			throws OutOfMemoryError {
 
-		EuclidianView ev = getActiveEuclidianView();
-
-		double scale = Math.min(maxX / ev.getSelectedWidth(),
-				maxY / ev.getSelectedHeight());
-
-		return GBufferedImageD.getAwtBufferedImage(ev.getExportImage(scale));
+		return GBufferedImageD
+				.getAwtBufferedImage(getActiveEuclidianViewExportImage(maxX,
+						maxY));
 	}
 
 	// **************************************************************************
