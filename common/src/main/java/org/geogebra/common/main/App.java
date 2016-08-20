@@ -17,7 +17,6 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -1146,7 +1145,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * @return active euclidian view (may be EV, EV2 or 3D)
 	 */
-	public abstract EuclidianViewInterfaceCommon getActiveEuclidianView();
+	public abstract EuclidianView getActiveEuclidianView();
 
 	/**
 	 * @return whether 3D view was initialized

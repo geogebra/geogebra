@@ -2048,7 +2048,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	public EuclidianViewInterfaceCommon getActiveEuclidianView() {
+	public EuclidianView getActiveEuclidianView() {
 		if (getGuiManager() == null) {
 			return getEuclidianView1();
 		}
