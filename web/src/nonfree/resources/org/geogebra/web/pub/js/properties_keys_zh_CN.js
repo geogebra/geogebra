@@ -2245,7 +2245,7 @@ __GGB__keysVar.zh_CN.plain = {
     "AisNotDefined": "%0 \u672a\u5b9a\u4e49",
     "AisaDegenerateBranchOfB": "%0 \u662f %1 \u7684\u4e00\u79cd\u9000\u5316\u60c5\u51b5",
     "AisaTangentToB": "%0 \u662f %1 \u7684\u5207\u7ebf",
-    "Algebra": "\u4ee3\u6570",
+    "Algebra": "\u4ee3\u6570\u533a",
     "AlgebraWindow": "\u4ee3\u6570\u533a",
     "AliesOnB": "%0 \u5728 %1 \u4e0a",
     "AliesOnThePerimeterOfB": "%0 \u5728 %1 \u7684\u8fb9\u754c\u4e0a",
