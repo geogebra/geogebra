@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Properties view
@@ -222,9 +223,13 @@ public abstract class PropertiesView implements View {
 			return loc.getPlain("GraphicsView3D");
 		case EUCLIDIAN_FOR_PLANE:
 			return loc.getPlain("ExtraViews");
+		case ALGEBRA:
+			return loc.getPlain("Algebra");
+		default:
+			Log.error("missing case in getTypeStringSimple():" + type);
+			return null;
 
 		}
-		return null;
 	}
 
 	/**
