@@ -602,7 +602,7 @@ public class DrawAxis {
 				view.axesNumberFormat[axis], StringTemplate.defaultTemplate);
 	}
 
-	private static String multiple(ExpressionNode definition, long labelno) {
+	public static String multiple(ExpressionNode definition, long labelno) {
 		return definition.multiply(labelno).toFractionString(
 				StringTemplate.defaultTemplate);
 	}

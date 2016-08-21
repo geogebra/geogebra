@@ -86,7 +86,6 @@ public class EuclidianSettings extends AbstractSettings {
 
 	protected void resetNoFire() {
 		gridDistances = null;
-
 		// length might be 2 or 3
 		for (int i = 0; i < axisNumberingDistances.length; i++) {
 			axisNumberingDistances[i] = null;
@@ -482,46 +481,11 @@ public class EuclidianSettings extends AbstractSettings {
 		return showAxesNumbers;
 	}
 
-	public GeoNumberValue getAxisNumberingDistanceX() {
-		return axisNumberingDistances[0];
-	}
-
-	public GeoNumberValue getAxisNumberingDistanceY() {
-		return axisNumberingDistances[1];
-	}
-
 	public GeoNumberValue getAxisNumberingDistance(int i) {
 		return axisNumberingDistances[i];
 	}
 
-	/**
-	 * 
-	 * @param dist
-	 */
-	public void setAxisNumberingDistanceX(GeoNumberValue dist) {
-
-		axisNumberingDistances[0] = dist;
-
-		setAutomaticAxesNumberingDistance(false, 0, false);
-
-		settingChanged();
-	}
-
-	/**
-	 * 
-	 * @param dist
-	 */
-	public void setAxisNumberingDistanceY(GeoNumberValue dist) {
-
-		axisNumberingDistances[1] = dist;
-
-		setAutomaticAxesNumberingDistance(false, 1, false);
-
-		settingChanged();
-	}
-
 	public void setAxisNumberingDistance(int i, GeoNumberValue dist) {
-
 		axisNumberingDistances[i] = dist;
 
 		setAutomaticAxesNumberingDistance(false, i, false);
@@ -536,9 +500,7 @@ public class EuclidianSettings extends AbstractSettings {
 			automaticAxesNumberingDistances[axis] = flag;
 
 			if (flag) {
-				axisNumberingDistances[0] = null;
-				axisNumberingDistances[1] = null;
-				axisNumberingDistances[2] = null;
+				axisNumberingDistances[axis] = null;
 				if (callsc) {
 					settingChanged();
 				}

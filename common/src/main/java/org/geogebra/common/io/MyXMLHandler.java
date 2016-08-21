@@ -394,6 +394,7 @@ public class MyXMLHandler implements DocHandler {
 		ymax.clear();
 		xtick.clear();
 		ytick.clear();
+		ztick.clear();
 	}
 
 	private void initKernelVars() {
@@ -1269,6 +1270,7 @@ public class MyXMLHandler implements DocHandler {
 			ymin = new HashMap<EuclidianSettings, String>(),
 			xtick = new HashMap<EuclidianSettings, String>(),
 			ytick = new HashMap<EuclidianSettings, String>(),
+			ztick = new HashMap<EuclidianSettings, String>(),
 			ymax = new HashMap<EuclidianSettings, String>();
 
 	private boolean sliderTagProcessed, fontTagProcessed;
@@ -1775,8 +1777,10 @@ new GPoint(row, column));
 			if(tickExpr!=null){
 				if (axis == 0) {
 					xtick.put(evSet, tickExpr);
-				} else {
+				} else if (axis == 1) {
 					ytick.put(evSet, tickExpr);
+				} else {
+					ztick.put(evSet, tickExpr);
 				}
 			}
 			String strTickDist = attrs.get("tickDistance");
@@ -3457,6 +3461,9 @@ new GPoint(row, column));
 		// Set<EuclidianSettings> eSet0 = xmin.keySet();
 		ArrayList<EuclidianSettings> eSet = new ArrayList<EuclidianSettings>(
 				xmin.keySet());
+		eSet.addAll(xtick.keySet());
+		eSet.addAll(ytick.keySet());
+		eSet.addAll(ztick.keySet());
 		for (EuclidianSettings ev : eSet) {
 			if (xmin.get(ev) == null) {
 				ev.setXminObject(null, true);
@@ -3509,6 +3516,15 @@ new GPoint(row, column));
 				GeoNumberValue n = kernel.getAlgebraProcessor()
 						.evaluateToNumeric(ytick.get(ev), true);
 				ev.setAxisNumberingDistance(1, n);
+			}
+			// ev.updateBounds();
+		}
+		for (EuclidianSettings ev : eSet) {
+			if (!StringUtil.empty(ztick.get(ev))) {
+
+				GeoNumberValue n = kernel.getAlgebraProcessor()
+						.evaluateToNumeric(ztick.get(ev), true);
+				ev.setAxisNumberingDistance(2, n);
 			}
 			// ev.updateBounds();
 		}

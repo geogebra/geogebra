@@ -3181,8 +3181,9 @@ GRectangle selectionRectangle) {
 			//
 			// sb.append("\"/>\n");
 			this.getSettings().addAxisXML(i, sb);
-		}
 
+		}
+		Log.debug(sb.toString());
 		// xOy plane settings
 		sb.append("\t<plate show=\"");
 		sb.append(getxOyPlane().isPlateVisible());
@@ -3544,6 +3545,12 @@ GRectangle selectionRectangle) {
 
 	@Override
 	public void updateBounds(boolean updateDrawables, boolean updateSettings) {
+		for (int i = 0; i < axesDistanceObjects.length; i++) {
+			if (axesDistanceObjects[i] != null
+					&& axesDistanceObjects[i].getDouble() > 0) {
+				axesNumberingDistances[i] = axesDistanceObjects[i].getDouble();
+			}
+		}
 		updateBounds();
 	}
 

@@ -2,12 +2,14 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import java.util.TreeMap;
 
+import org.geogebra.common.euclidian.DrawAxis;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush.Ticks;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
@@ -68,6 +70,21 @@ public class DrawAxis3D extends DrawLine3D {
 			label.setWaitForReset();
 	}
 
+	private String tickDescription(long labelno, int axis) {
+		EuclidianView3D view = getView3D();
+		if (view.getAxesDistanceObjects()[axis] != null
+				&& !view.isAutomaticAxesNumberingDistance()[axis]
+				&& view.getAxesDistanceObjects()[axis].getDefinition() != null
+				&& view.getAxesDistanceObjects()[axis].getDouble() > 0) {
+			return DrawAxis.multiple(
+					view.getAxesDistanceObjects()[axis].getDefinition(),
+					labelno);
+		}
+		return view.getKernel().formatPiE(
+				Kernel.checkDecimalFraction(labelno
+						* view.getAxisNumberingDistance(axis)),
+				view.getAxisNumberFormat(axis), StringTemplate.defaultTemplate);
+	}
 	@Override
 	protected void updateLabel() {
 
@@ -115,8 +132,7 @@ public class DrawAxis3D extends DrawLine3D {
 						val);
 
 				// draw numbers
-				String strNum = getView3D().getKernel().formatPiE(val,
-						numberFormat, StringTemplate.defaultTemplate);
+				String strNum = this.tickDescription(i, axisIndex);
 				if (unitLabel != null) {
 					strNum += unitLabel;
 				}
