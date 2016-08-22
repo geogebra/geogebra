@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Draws definite Integral of a GeoFunction
@@ -134,9 +133,6 @@ public class DrawIntegralFunctions extends Drawable {
 		if (bRW < view.getXmin() - clipX) {
 			return;
 		}
-
-		Log.debug("aRW = " + aRW);
-		Log.debug("bRW = " + bRW);
 
 		// init first point of gp as (ax, ay)
 		double ax = view.toClippedScreenCoordX(aRW);
