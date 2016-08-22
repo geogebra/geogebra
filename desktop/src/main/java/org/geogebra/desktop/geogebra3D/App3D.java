@@ -58,9 +58,7 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
-import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.GLFactoryD;
@@ -697,22 +695,19 @@ public class App3D extends AppD {
 				maxY / getEuclidianView1().getSelectedHeight());
 
 		if (this.euclidianView3D == null) {
-			return GBufferedImageD
-					.getAwtBufferedImage(((EuclidianViewInterfaceD) getActiveEuclidianView())
-							.getExportImage(scale));
+			return super.getExportImage(maxX, maxY);
 		}
 
 		EuclidianView3D ev3D = getEuclidianView3D();
 
 		if (ev3D.isShowing()) {
 			return (BufferedImage) getEuclidianView3D().getRenderer()
-					.getExportImage();
+					.getExportImage(maxX, maxY);
 		}
 
-		return GBufferedImageD
-				.getAwtBufferedImage(((EuclidianViewInterfaceD) getActiveEuclidianView())
-						.getExportImage(scale));
+		return super.getExportImage(maxX, maxY);
 	}
+
 
 	/**
 	 * only for 3D really. Overridden in App3D

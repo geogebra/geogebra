@@ -406,6 +406,24 @@ public abstract class Renderer {
 	}
 
 	/**
+	 * 
+	 * @param maxX
+	 * @param maxY
+	 * @return export image immediately
+	 */
+	public Object getExportImage(double maxX, double maxY) {
+
+		exportImageForThumbnail = true;
+		double scale = Math.min(maxX / getWidth(), maxY / getHeight());
+
+		needExportImage(scale, (int) (getWidth() * scale),
+				(int) (getHeight() * scale));
+
+		return getExportImage();
+
+	}
+
+	/**
 	 * says that an export image is needed, and call immediate display
 	 * 
 	 * @param scale
