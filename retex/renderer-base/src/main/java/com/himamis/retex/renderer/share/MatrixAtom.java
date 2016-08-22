@@ -57,6 +57,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 /**
  * A box representing a matrix.
  */
+@SuppressWarnings("javadoc")
 public class MatrixAtom extends Atom {
 
 	public static SpaceAtom hsep = new SpaceAtom(TeXConstants.UNIT_EM, 1f, 0.0f, 0.0f);
@@ -372,7 +373,8 @@ public class MatrixAtom extends Atom {
 
 	}
 
-	public TableBox createBox(TeXEnvironment env) {
+	@Override
+	public TableBox createBox(TeXEnvironment env0) {
 		rectangles.clear();
 		colors.clear();
 		int row = matrix.row;
@@ -382,8 +384,8 @@ public class MatrixAtom extends Atom {
 		float[] lineHeight = new float[row];
 		float[] rowWidth = new float[col];
 		float matW = 0;
-		float drt = env.getTeXFont().getDefaultRuleThickness(env.getStyle());
-
+		float drt = env0.getTeXFont().getDefaultRuleThickness(env0.getStyle());
+		TeXEnvironment env = env0;
 		if (type == SMALLMATRIX) {
 			env = env.copy();
 			env.setStyle(TeXConstants.STYLE_SCRIPT);
@@ -474,19 +476,25 @@ public class MatrixAtom extends Atom {
 					boolean lastVline = true;
 
 					if (boxarr[i][j].type == -1) {
+						if (matrix.getColor(i, j) != null) {
 						colors.add(matrix.getColor(i, j));
-						double sepWidth = Hsep[j == 0 && Hsep.length > 0 ? 1
-								: j].getWidth();
+						double sepWidth = j == 0 ? 2 * Hsep[j].getWidth()
+								: Hsep[j].getWidth();
+						double thickness = env.getTeXFont()
+								.getDefaultRuleThickness(env.getStyle());
 						rectangles.add(FactoryProvider.INSTANCE
 								.getGeomFactory()
 								.createRectangle2D(
 										hb.getWidth()
- - sepWidth / 2,
+													- sepWidth / 2,
 										vb.getHeight() + vb.getDepth()
-												- Vsep.getHeight(),
-										rowWidth[j] + sepWidth,
+												- Vsep.getHeight()
+												- thickness / 2,
+										rowWidth[j] + sepWidth + thickness,
 										lineHeight[i] + lineDepth[i]
 												+ Vsep.getHeight()));
+
+						}
 						hb.add(new HorizontalBox(boxarr[i][j], rowWidth[j], position[j]));
 					} else {
 						Box b = generateMulticolumn(env, Hsep, rowWidth, i, j);
