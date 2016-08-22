@@ -3184,7 +3184,7 @@ GRectangle selectionRectangle) {
 			this.getSettings().addAxisXML(i, sb);
 
 		}
-		Log.debug(sb.toString());
+
 		// xOy plane settings
 		sb.append("\t<plate show=\"");
 		sb.append(getxOyPlane().isPlateVisible());
