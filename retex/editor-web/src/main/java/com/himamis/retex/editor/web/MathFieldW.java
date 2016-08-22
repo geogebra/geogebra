@@ -26,6 +26,8 @@
 package com.himamis.retex.editor.web;
 
 
+import java.util.ArrayList;
+
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
@@ -70,6 +72,8 @@ public class MathFieldW implements MathField, IsWidget {
 	private Context2d ctx;
 	private boolean focused = false;
 	private TeXIcon lastIcon;
+	private static Timer tick;
+	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 
 	/**
 	 * 
@@ -91,15 +95,20 @@ public class MathFieldW implements MathField, IsWidget {
 		mathFieldInternal.setFieldListener(listener);
 		mathFieldInternal.setType(TeXFormula.SANSSERIF);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
-		Timer t = new Timer() {
+		if (tick == null) {
+			Timer t = new Timer() {
 
-			@Override
-			public void run() {
-				CursorBox.blink = !CursorBox.blink;
-				repaint();
-			}
-		};
-		t.scheduleRepeating(500);
+				@Override
+				public void run() {
+					CursorBox.blink = !CursorBox.blink;
+					for (MathFieldW field : instances) {
+						field.repaint();
+					}
+				}
+			};
+			t.scheduleRepeating(500);
+		}
+		instances.add(this);
 	}
 
 	@Override
@@ -224,12 +233,20 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	public void repaint() {
+		if (lastIcon == null) {
+			return;
+		}
 		ctx.setFillStyle("rgb(255,255,255)");
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(),
 				lastIcon.getIconHeight() + 15);
+		debug(CursorBox.blink);
 		JlmLib.draw(lastIcon, ctx, 0, 0, "#000000", "#FFFFFF", null);
 
 	}
+
+	private native void debug(boolean blink) /*-{
+		console.log(blink);
+	}-*/;
 
 	public boolean hasFocus() {
 		return focused;
