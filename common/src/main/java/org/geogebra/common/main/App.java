@@ -3945,9 +3945,6 @@ public abstract class App implements UpdateSelection {
 		case EXPLICIT_LOCUS_VIA_BOTANA:
 			return prerelease;
 
-		case FIX_CP_HEADER:
-			return prerelease;
-
 		case WEB_SHARE_DIALOG:
 			return prerelease;
 

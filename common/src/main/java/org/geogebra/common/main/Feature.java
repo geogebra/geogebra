@@ -76,8 +76,6 @@ public enum Feature {
 
 	AV_DEFINITION_AND_VALUE,
 
-	FIX_CP_HEADER,
-
 	FRACTIONS,
 
 	XML_CAS_CACHE,

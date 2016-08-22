@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -125,7 +124,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 
 		scrollPane.setStyleName("cpScrollPanel");
-		if (app.has(Feature.FIX_CP_HEADER)) {
+		if (true) {
 			headerTable = new CellTable<RowData>();
 			headerTable.addStyleName("headerTable");
 			headerTable.addStyleName("cpTable");
@@ -174,10 +173,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	
 	void initGUI() {
 
-		if (app.has(Feature.FIX_CP_HEADER)) {
-			clearTable(headerTable);
-			addColumnsForTable(headerTable);
-		}
+		clearTable(headerTable);
+		addColumnsForTable(headerTable);
 
 		clearTable(table);
 
@@ -187,18 +184,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		tableInit();
 		rowCountChanged();
 
-		if (app.has(Feature.FIX_CP_HEADER)) {
-			setHeaderSizes();
-		}
+		setHeaderSizes();
+
 	}
 
 
 
 	public void setHeaderSizes() {
 
-		if (!app.has(Feature.FIX_CP_HEADER)) {
-			return;
-		}
+
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
@@ -348,8 +342,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 								+ tb.getStyleName().indexOf("headerTable"));
 						// if cp header fixed, we must insert the popup button
 						// only in headertable
-						if (!app.has(Feature.FIX_CP_HEADER)
-								|| tb.getStyleName().indexOf("headerTable") > 0) {
+						if (tb.getStyleName().indexOf("headerTable") > 0) {
 							sb.append(SafeHtmlUtils
 									.fromSafeConstant("<div id = \"CP_popupImage\">"));
 							sb.append(AbstractImagePrototype.create(
@@ -465,12 +458,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			}
 		};
 
-		if (app.has(Feature.FIX_CP_HEADER)) {
-			headerTable
-					.addHandler(popupMenuClickHandler, ClickEvent.getType());
-		} else {
-			table.addHandler(popupMenuClickHandler, ClickEvent.getType());
-		}
+		headerTable.addHandler(popupMenuClickHandler, ClickEvent.getType());
+
 	}
 
 	public Column<RowData, ?> getColumn(String title) {

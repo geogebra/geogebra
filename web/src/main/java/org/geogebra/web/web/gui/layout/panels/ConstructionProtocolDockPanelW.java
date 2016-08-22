@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.StyleBarW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolViewW;
@@ -59,12 +58,10 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	protected Panel getViewPanel() {
-		if (app.has(Feature.FIX_CP_HEADER)) {
-			return ((ConstructionProtocolViewW) app.getGuiManager()
-					.getConstructionProtocolView()).getOuterScrollPanel();
-		}
+
 		return ((ConstructionProtocolViewW) app.getGuiManager()
-				.getConstructionProtocolView()).getCpPanel();
+				.getConstructionProtocolView()).getOuterScrollPanel();
+
 	}
 
 	@Override

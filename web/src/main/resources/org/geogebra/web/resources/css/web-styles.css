@@ -3166,10 +3166,6 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 	z-index: 3;
 }
 
-/* .algebraView div table+div {
-	margin-top: 5px;
-} */
-
 .elemHeadingName {
 	padding: 15px 10px 10px 40px;
 }
@@ -3270,23 +3266,9 @@ body.application[dir=rtl] .algebraOpenButton {
 	border-right: 1px solid #DCDCDC;
 }
 
-
-.avItem .marblePanel + * {
+.algebraView .gwt-CheckBox{
 	padding-left: 40px;
-	
-	box-sizing: border-box;
- 	-moz-box-sizing: border-box;
- 	-webkit-box-sizing: border-box;
- 	
- 	margin-right: 0px;
 }
-body.application[dir=rtl] .avItem .marblePanel + * {
-	padding-left: 0px;
-	padding-right: 40px;
-	
-	margin-left: 0px;
-}
-
 .marble {
 	height: 18px;
 	width: 18px;
@@ -3308,6 +3290,7 @@ body.application[dir=rtl] .avItem .marblePanel + * {
 
 .GeoGebraFrame .avItem .elemText {
 	padding-top: 10px;
+	padding-left: 40px;
 	padding-bottom: 4px;
 	display: inline-block;
 }
@@ -3423,7 +3406,7 @@ body.application[dir=rtl] .imageCorner {
 }
 
 /* Slider top row: no extra padding*/
-.latexEditor .scrollableTextBox.noPadding{
+.GeoGebraFrame .gwt-TreeItem .noPadding{
 	padding-left: 0;
 }
 
