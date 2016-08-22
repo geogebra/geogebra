@@ -747,7 +747,8 @@ public abstract class EuclidianView
 	 */
 	final public double toScreenCoordXd(double xRW) {
 		if (getXaxisLog())
-			return getxZero() + (Math.log10(xRW) * getXscale());
+			return getWidth() * (Math.log10(xRW) - Math.log10(xmin))
+					/ (Math.log10(xmax) - Math.log10(xmin));
 		else
 			return getxZero() + (xRW * getXscale());
 	}
@@ -761,7 +762,8 @@ public abstract class EuclidianView
 	 */
 	final public double toScreenCoordYd(double yRW) {
 		if (getYaxisLog())
-			return getYZero() + (Math.log10(yRW) * getYscale());
+			return getHeight() * (1 - (Math.log10(yRW) - Math.log10(ymin))
+					/ (Math.log10(ymax) - Math.log10(ymin)));
 		else
 			return getyZero() - (yRW * getYscale());
 	}
@@ -822,12 +824,16 @@ public abstract class EuclidianView
 		// convert to screen coords
 
 		if (getXaxisLog()) {
-			inOut[0] = getxZero() + (Math.log10(inOut[0]) * getXscale());
+			inOut[0] = getWidth()
+					* (Math.log10(inOut[0]) - Math.log10(xmin))
+					/ (Math.log10(xmax) - Math.log10(xmin));
 		} else
 			inOut[0] = getxZero() + (inOut[0] * getXscale());
 
 		if (getYaxisLog()) {
-			inOut[1] = getyZero() - (Math.log10(inOut[1]) * getYscale());
+			inOut[1] = getHeight()
+					* (1 - (Math.log10(inOut[1]) - Math.log10(ymin))
+							/ (Math.log10(ymax) - Math.log10(ymin)));
 		} else
 			inOut[1] = getyZero() - (inOut[1] * getYscale());
 

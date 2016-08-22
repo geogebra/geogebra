@@ -142,8 +142,13 @@ public class PlotPanelEuclidianViewCommon {
 	
 		// do this last ?
 
-		plotPanelEuclidianViewD.setRealWorldCoordSystem(getPlotSettings().xMin, getPlotSettings().xMax,
-				getPlotSettings().yMin, getPlotSettings().yMax);
+		plotPanelEuclidianViewD.setRealWorldCoordSystem(getPlotSettings().logXAxis && getPlotSettings().xMin <=0
+						? 0.1 : getPlotSettings().xMin,
+				getPlotSettings().xMax,
+				getPlotSettings().logYAxis && getPlotSettings().yMin <=0
+						? 0.1
+						: getPlotSettings().yMin,
+				getPlotSettings().yMax);
 	
 		plotPanelEuclidianViewD.repaint();
 	}

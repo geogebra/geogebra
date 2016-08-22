@@ -33,6 +33,8 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
+import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
@@ -2096,6 +2098,12 @@ new GPoint(row, column));
 		try {
 			app.getSettings().getDataAnalysis()
 					.setMode(Integer.parseInt(attrs.get("mode")));
+			app.getSettings().getDataAnalysis()
+					.setRegression(Regression.valueOf(attrs.get("regression")));
+			app.getSettings().getDataAnalysis().setPlotType(0,
+					PlotType.valueOf(attrs.get("plot1")));
+			app.getSettings().getDataAnalysis().setPlotType(1,
+					PlotType.valueOf(attrs.get("plot1")));
 		} catch (Exception e) {
 			return false;
 		}

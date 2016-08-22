@@ -24,6 +24,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.IDataAnalysisListener;
+import org.geogebra.common.gui.view.data.DataDisplayModel;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.data.DataSource;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
@@ -794,6 +795,11 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			;
 		}
 
+	}
+
+	public DataDisplayModel getDisplayModel(int index) {
+		return index == 0 ? this.dataDisplayPanel1.getModel()
+				: this.dataDisplayPanel2.getModel();
 	}
 
 }

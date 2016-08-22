@@ -38,6 +38,8 @@ public class DataAnalysisModel {
 		void updateGUI();
 
 		DataAnalysisModel getModel();
+
+		DataDisplayModel getDisplayModel(int zeroBasedIndex);
 	}
 	
 	public interface ICreateColor {
@@ -285,7 +287,7 @@ public class DataAnalysisModel {
 
 		for (Regression l : Regression.values()) {
 			if (l.ordinal() == regressionMode) {
-				this.regressionMode = l;
+				app.getSettings().getDataAnalysis().setRegression(l);
 
 				ctrl.setRegressionGeo();
 				ctrl.updateAllPanels(true);
@@ -300,7 +302,7 @@ public class DataAnalysisModel {
 	}
 
 	public Regression getRegressionMode() {
-		return regressionMode;
+		return app.getSettings().getDataAnalysis().getRegression();
 	}
 
 	public void setRegressionOrder(int regressionOrder) {
@@ -462,14 +464,7 @@ public class DataAnalysisModel {
 		app.getSettings().getDataAnalysis().setMode(mode);
 	}
 
-	public void getXML(StringBuilder sb) {
-		sb.append("<dataAnalysis mode=\"");
-		sb.append(getMode());
-		sb.append("\">\n");
-		ctrl.getDataSource().getXMLDescription(sb);
-		sb.append("</dataAnalysis>");
 
-	}
 
 	public void updateFromSettings() {
 		DataAnalysisSettings settings = app.getSettings().getDataAnalysis();
@@ -481,6 +476,27 @@ public class DataAnalysisModel {
 					true);
 			settings.getItems().clear();
 		}
+
+	}
+
+	public void getXML(StringBuilder sb) {
+		sb.append("<dataAnalysis mode=\"");
+		sb.append(getMode());
+		if (this.getListener().getDisplayModel(0).getSelectedPlot() != null) {
+			sb.append("\" plot1=\"");
+			sb.append(this.getListener().getDisplayModel(0).getSelectedPlot());
+		}
+		if (this.getListener().getDisplayModel(1).getSelectedPlot() != null) {
+			sb.append("\" plot2=\"");
+			sb.append(this.getListener().getDisplayModel(1).getSelectedPlot());
+		}
+		if (getRegressionMode() != null) {
+			sb.append("\" regression=\"");
+			sb.append(getRegressionMode());
+		}
+		sb.append("\">\n");
+		getDataSource().getXMLDescription(sb);
+		sb.append("</dataAnalysis>");
 
 	}
 }
