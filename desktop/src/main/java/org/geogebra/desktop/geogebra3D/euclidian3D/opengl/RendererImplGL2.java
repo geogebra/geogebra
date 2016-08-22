@@ -71,7 +71,9 @@ public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider 
 	}
 
 	private void setClipPlane(int n, double[] equation) {
-		jogl.getGL2().glClipPlane(GL_CLIP_PLANE[n], equation, 0);
+		if (jogl.getGL2() != null) {
+			jogl.getGL2().glClipPlane(GL_CLIP_PLANE[n], equation, 0);
+		}
 	}
 
 	public void setMatrixView() {

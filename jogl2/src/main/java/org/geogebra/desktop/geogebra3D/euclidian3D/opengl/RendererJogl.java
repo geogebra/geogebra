@@ -30,7 +30,9 @@ public class RendererJogl {
 	}
 	
 	public GL2 getGL2(){
-		
+		if (gLDrawable.getGL() == null) {
+			return null;
+		}
 		return gLDrawable.getGL().getGL2(); 
 	}
 	
