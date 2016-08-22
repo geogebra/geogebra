@@ -12,6 +12,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -695,6 +696,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			if (macros != null) {
 				getXMLio().processXMLString(macros, true, true);
 			}
+
+
 			setCurrentFile(archiveContent);
 			afterLoadFileAppOrNot();
 			if (!hasMacroToRestore()) {
@@ -751,7 +754,24 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			setCurrentFile(archiveContent);
 
 		}
+		String toolbar3D = "";
+		if (hasEuclidianView3D()) {
+			toolbar3D = getGuiManager().getLayout().getDockManager()
+					.getPanel(VIEW_EUCLIDIAN3D).getToolbarString();
+		}
 
+		int macroCount = kernel.getMacroNumber();
+		for (int i = 0; i < macroCount; i++) {
+			Macro macro = kernel.getMacro(i);
+			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET + i;
+			Log.debug("[MM] " + macro);
+			if (toolbar3D.contains(String.valueOf(macroMode))) {
+				macro.setViewId(VIEW_EUCLIDIAN3D);
+			} else {
+				macro.setViewId(VIEW_EUCLIDIAN);
+
+			}
+		}
 	}
 
 	/**

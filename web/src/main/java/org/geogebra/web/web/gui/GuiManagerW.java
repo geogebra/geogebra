@@ -719,6 +719,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 			return;
 		}
+
 		if (generalToolbarDefinition != null) {
 			generalToolbarDefinition = ToolBar.addMode(
 					generalToolbarDefinition, mode);
@@ -1555,11 +1556,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			def = this.generalToolbarDefinition;
 		}
 		setToolBarDefinition(def);
-		if (toolbarID == App.VIEW_EUCLIDIAN
-				|| toolbarID == App.VIEW_EUCLIDIAN2) {
-			refreshCustomToolsInToolBar();
-		}
+
 		if (this.toolbarID != toolbarID && toolbarPanel != null) {
+
+			if (toolbarID == App.VIEW_EUCLIDIAN
+					|| toolbarID == App.VIEW_EUCLIDIAN2) {
+				refreshCustomToolsInToolBar();
+				if (strCustomToolbarDefinition != null) {
+					setToolBarDefinition(strCustomToolbarDefinition);
+				}
+			}
+
 			getToolbarPanel().setActiveToolbar(new Integer(toolbarID));
 			updateToolbar();
 		}

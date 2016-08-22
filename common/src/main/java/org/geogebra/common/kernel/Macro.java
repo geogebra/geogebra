@@ -48,7 +48,7 @@ public class Macro {
 	private GeoElement[] macroInput, macroOutput; // input and output objects
 	private String[] macroInputLabels, macroOutputLabels;
 	private Test[] inputTypes;
-
+	private Integer viewId = null;
 	private LinkedList<AlgoElement> usingAlgos = new LinkedList<AlgoElement>();
 
 	/**
@@ -790,5 +790,13 @@ public class Macro {
 	 */
 	public boolean isCopyCaptionsAndVisibility() {
 		return copyCaptions;
+	}
+
+	public Integer getViewId() {
+		return viewId;
+	}
+
+	public void setViewId(Integer viewId) {
+		this.viewId = viewId;
 	}
 }

@@ -229,6 +229,8 @@ public class ToolCreationDialogModel {
 
 		// set macro mode
 		if (newTool.isShowInToolBar()) {
+			newTool.setViewId(
+					app.getGuiManager().getActiveEuclidianView().getViewID());
 			int mode = kernel.getMacroID(newTool)
 					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
 			appToSave.getGuiManager().addToToolbarDefinition(mode);

@@ -20,6 +20,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
@@ -772,18 +773,47 @@ public abstract class GuiManager implements GuiManagerInterface {
 		setToolBarDefinition(refreshCustomToolsInToolBar(oldToolbar));
 	}
 
+	private boolean isEuclidian12(Integer viewId) {
+		if (viewId == null) {
+			return true;
+		}
+		return viewId == App.VIEW_EUCLIDIAN || viewId == App.VIEW_EUCLIDIAN2;
+	}
 	public String refreshCustomToolsInToolBar(String initial) {
 		int macroCount = kernel.getMacroNumber();
 
 		// add the ones that have (showInToolbar == true) into the toolbar if
 		// they are not already there.
+
 		StringBuilder customToolBar = new StringBuilder("");
 		String oldToolbar = initial;
+		String toolbar3D = "";
+		if (app.hasEuclidianView3D()) {
+			DockPanel dockPanel = getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN3D);
+			toolbar3D = dockPanel.getToolbarString();
+			if (toolbar3D == null) {
+				toolbar3D = getToolbarDefinition();
+			}
+			Log.debug("[CT] 3D toolbar: " + toolbar3D);
+		}
+
 		for (int i = 0; i < macroCount; i++) {
 			Macro macro = kernel.getMacro(i);
 			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET + i;
+			Integer macroViewId = macro.getViewId();
+			Integer activeViewId = getActiveEuclidianView().getViewID();
+			boolean tool3d = macroViewId == App.VIEW_EUCLIDIAN3D
+					|| toolbar3D.contains(String.valueOf(macroMode));
+			Log.debug(
+					"[CT] macro: " + macro.getToolName() + " is 3D: " + tool3d);
+			Log.debug("[CT] macroViewId: " + macro.getViewId()
+					+ " activeViewId: "
+					+ activeViewId);
+
 			if (macro.isShowInToolBar()
-					&& !(oldToolbar.contains(String.valueOf(macroMode)))) {
+					&& !(oldToolbar.contains(String.valueOf(macroMode)))
+					&& (macroViewId == activeViewId)
+			) {
 				customToolBar.append(" " + macroMode);
 			}
 		}
