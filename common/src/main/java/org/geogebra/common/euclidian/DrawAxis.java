@@ -55,14 +55,6 @@ public class DrawAxis {
 
 		// for axes ticks
 
-		double xZeroTick = xCrossPix;
-
-		double xBig = xCrossPix - 3;
-
-		double xSmall1 = xCrossPix - 0;
-		double xSmall2 = xCrossPix - 2;
-		int xoffset, yoffset;
-
 		boolean bold = view.areAxesBold();
 		boolean filled = (view.axesLineType & EuclidianStyleConstants.AXES_FILL_ARROWS) != 0;
 
@@ -84,10 +76,7 @@ public class DrawAxis {
 		// AXES_TICK_STYLE_MAJOR = 1;
 		// AXES_TICK_STYLE_NONE = 2;
 
-		boolean[] drawMajorTicks = { view.axesTickStyles[0] <= 1,
-				view.axesTickStyles[1] <= 1 };
-		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0,
-				view.axesTickStyles[1] == 0 };
+
 
 		g2.setFont(view.getFontAxes());
 		int fontsize = view.getFontAxes().getSize();
@@ -98,7 +87,7 @@ public class DrawAxis {
 		if (bold) {
 			view.axesStroke = EuclidianView.boldAxesStroke;
 			view.tickStroke = EuclidianView.boldAxesStroke;
-			xSmall2--;
+
 			arrowSize += 1;
 		} else {
 			view.axesStroke = EuclidianView.defAxesStroke;
@@ -185,8 +174,6 @@ public class DrawAxis {
 		if (view.xAxisOnscreen()) {
 			// erase the grid to make space for labels, use two rectangles
 
-			yoffset = view.getYOffsetForXAxis(fontsize);
-			xoffset = 1;
 
 			// label of x axis
 			if (view.axesLabels[0] != null) {
@@ -285,7 +272,8 @@ public class DrawAxis {
 			// for (; pix < view.getWidth(); rw +=
 			// view.axesNumberingDistances[0], pix +=
 			// axesStep) {
-			drawXTicksLinear(g2, yCrossPix, minusSign, drawRightArrow, yoffset,
+			drawXTicksLinear(g2, yCrossPix, minusSign, drawRightArrow,
+					fontsize,
 					xAxisStart);
 
 		}
@@ -295,8 +283,7 @@ public class DrawAxis {
 
 		if (view.yAxisOnscreen()) {
 
-			xoffset = -4 - (fontsize / 4);
-			yoffset = (fontsize / 2) - 1;
+
 
 			// label of y axis
 			if (view.axesLabels[1] != null) {
@@ -320,158 +307,170 @@ public class DrawAxis {
 				}
 			}
 
-			// numbers
-			double rw = view.getYmin()
-					- (view.getYmin() % view.axesNumberingDistances[1]);
-			long labelno = Math
-					.round(rw / view.axesNumberingDistances[1]);
-			// by default we start with minor tick to the left of first major
-			// tick, exception is for positive only
-			double smallTickOffset = 0;
-			double axesStep = view.getYscale() * view.axesNumberingDistances[1]; // pixelstep
-			if (view.getPositiveAxes()[1]
-					&& (Kernel.isGreaterEqual(rw, view.getYmin()))) {
-				// start labels at the y-axis instead of screen border
-				// be careful: view.axisCross[1] = x value for which the y-axis
-				// crosses,
-				// so xmin is replaced view.axisCross[1] and not
-				// view.axisCross[0]
-				rw = MyMath.nextMultiple(view.axisCross[0],
-						view.axesNumberingDistances[1]);
-				smallTickOffset = axesStep;
-				labelno = Math.round(rw / view.axesNumberingDistances[1]);
-			}
 
-			double pix = view.getyZero() - (rw * view.getYscale());
-
-			double tickStep = axesStep / 2;
-
-			double maxHeight = EuclidianView.estimateNumberHeight(view
-					.getFontAxes());
-			int unitsPerLabelY = (int) MyMath.nextPrettyNumber(maxHeight
-					/ axesStep, 1);
-
-			if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
-				// big tick
-				if (drawMajorTicks[1]) {
-					g2.setStroke(view.tickStroke);
-					g2.drawStraightLine(xBig, pix, xZeroTick, pix);
-				}
-				pix -= axesStep;
-				rw += view.axesNumberingDistances[1];
-				labelno++;
-			}
-
-			double smallTickPix = pix + tickStep;
-
-			// draw all of the remaining ticks and labels
-
-			// int maxY = height - view.SCREEN_BORDER;
-			int maxY = EuclidianView.SCREEN_BORDER;
-
-			// yAxisEnd
-
-			String crossAtStr = "" + view.kernel.formatPiE(view.axisCross[0],
-							view.axesNumberFormat[1],
-							StringTemplate.defaultTemplate);
-
-			for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
-				if (pix >= maxY && pix < yAxisEnd + 1) {
-					if (view.showAxesNumbers[1]) {
-						String strNum = tickDescription(labelno, 1);
-
-						if ((labelno % unitsPerLabelY) == 0) {
-
-							StringBuilder sb = new StringBuilder(strNum);
-
-							// don't check rw < 0 as it fails for eg
-							// -0.0000000001
-							if (sb.charAt(0) == '-') {
-								// change minus sign (too short) to n-dash
-								sb.setCharAt(0, minusSign);
-							}
-
-							if ((view.axesUnitLabels[1] != null)
-									&& !view.piAxisUnit[1]) {
-								sb.append(view.axesUnitLabels[1]);
-							}
-
-							GTextLayout layout = AwtFactory.prototype
-									.newTextLayout(sb.toString(),
-											view.getFontAxes(),
-											g2.getFontRenderContext());
-
-							double width = layout.getAdvance();
-
-							int x = (int) ((xCrossPix + xoffset) - width);
-							int y;
-
-							// flag for handling label at axis cross point
-							boolean zero = strNum.equals(crossAtStr);
-
-							// if the label is at the axis cross point then draw
-							// it 2 pixels above
-							if (zero && view.showAxes[0]
-									&& !view.positiveAxes[0]) {
-								y = (int) (yCrossPix - 2);
-							} else {
-								y = (int) (pix + yoffset);
-							}
-							// draw number
-							view.drawString(g2, sb.toString(), x, y);
-							// measure width, so grid line can avoid it
-							// use same (max) for all labels
-							if (sb.charAt(0) == minusSign
-									&& width > view.yLabelMaxWidthNeg) {
-								view.yLabelMaxWidthNeg = width;
-							} else if (sb.charAt(0) != minusSign
-									&& width > view.yLabelMaxWidthPos) {
-								view.yLabelMaxWidthPos = width;
-							}
-
-							// store position of number, so grid line can avoid
-							// it
-							view.axesLabelsPositionsY.add(new Integer(
-									(int) (pix + Kernel.MIN_PRECISION)));
-						}
-					}
-					if (drawMajorTicks[1]
-							&& (!view.showAxes[0] || rw != view.axisCross[0])) {
-						g2.setStroke(view.tickStroke);
-						g2.drawStraightLine(xBig, pix, xZeroTick, pix);
-					}
-				} else if (drawMajorTicks[1] && !drawTopArrow) {
-					// draw last tick if there is no arrow
-					g2.setStroke(view.tickStroke);
-					g2.drawStraightLine(xBig, pix, xZeroTick, pix);
-				}
-
-				// small tick
-				smallTickPix = (pix + tickStep) - smallTickOffset;
-				if (drawMinorTicks[1]) {
-					g2.setStroke(view.tickStroke);
-					g2.drawStraightLine(xSmall1, smallTickPix, xSmall2,
-							smallTickPix);
-				}
-
-			}// end for
-
-			/*
-			 * removed - draws an extra tick in the wrong place. What was it
-			 * for? smallTickPix = (pix + tickStep) - smallTickOffset; if
-			 * (drawMinorTicks[0]) { g2.setStroke(view.tickStroke);
-			 * tempLine.setLine(smallTickPix, ySmall1, smallTickPix, ySmall2);
-			 * g2.draw(tempLine); }
-			 */
-
+			drawYticksLinear(g2, xCrossPix, fontsize, minusSign, drawTopArrow,
+					yCrossPix, yAxisEnd);
 		}
 
+	}
+
+	private void drawYticksLinear(GGraphics2D g2, double xCrossPix,
+			int fontsize, char minusSign, boolean drawTopArrow,
+			double yCrossPix, double yAxisEnd) {
+		double xoffset = -4 - (fontsize / 4);
+		double yoffset = (fontsize / 2) - 1;
+		boolean[] drawMajorTicks = { view.axesTickStyles[0] <= 1,
+				view.axesTickStyles[1] <= 1 };
+		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0,
+				view.axesTickStyles[1] == 0 };
+		double xSmall1 = xCrossPix - 0;
+		double xSmall2 = xCrossPix - 2;
+		double xBig = xCrossPix - 3;
+		double smallTickOffset = 0;
+		double xZeroTick = xCrossPix;
+		if (view.areAxesBold()) {
+			xSmall2--;
+		}
+		// numbers
+		double rw = view.getYmin()
+				- (view.getYmin() % view.axesNumberingDistances[1]);
+		long labelno = Math.round(rw / view.axesNumberingDistances[1]);
+		// by default we start with minor tick to the left of first major
+		// tick, exception is for positive only
+
+		double axesStep = view.getYscale() * view.axesNumberingDistances[1]; // pixelstep
+		if (view.getPositiveAxes()[1]
+				&& (Kernel.isGreaterEqual(rw, view.getYmin()))) {
+			// start labels at the y-axis instead of screen border
+			// be careful: view.axisCross[1] = x value for which the y-axis
+			// crosses,
+			// so xmin is replaced view.axisCross[1] and not
+			// view.axisCross[0]
+			rw = MyMath.nextMultiple(view.axisCross[0],
+					view.axesNumberingDistances[1]);
+			smallTickOffset = axesStep;
+			labelno = Math.round(rw / view.axesNumberingDistances[1]);
+		}
+
+		double pix = view.getyZero() - (rw * view.getYscale());
+
+		double tickStep = axesStep / 2;
+
+		double maxHeight = EuclidianView.estimateNumberHeight(view
+				.getFontAxes());
+		int unitsPerLabelY = (int) MyMath.nextPrettyNumber(
+				maxHeight / axesStep, 1);
+
+		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
+			// big tick
+			if (drawMajorTicks[1]) {
+				g2.setStroke(view.tickStroke);
+				g2.drawStraightLine(xBig, pix, xZeroTick, pix);
+			}
+			pix -= axesStep;
+			rw += view.axesNumberingDistances[1];
+			labelno++;
+		}
+
+		double smallTickPix = pix + tickStep;
+
+		// draw all of the remaining ticks and labels
+
+		// int maxY = height - view.SCREEN_BORDER;
+		int maxY = EuclidianView.SCREEN_BORDER;
+
+		// yAxisEnd
+
+		String crossAtStr = ""
+				+ view.kernel.formatPiE(view.axisCross[0],
+						view.axesNumberFormat[1],
+						StringTemplate.defaultTemplate);
+		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
+			if (pix >= maxY && pix < yAxisEnd + 1) {
+				if (view.showAxesNumbers[1]) {
+					String strNum = tickDescription(labelno, 1);
+
+					if ((labelno % unitsPerLabelY) == 0) {
+
+						StringBuilder sb = new StringBuilder(strNum);
+
+						// don't check rw < 0 as it fails for eg
+						// -0.0000000001
+						if (sb.charAt(0) == '-') {
+							// change minus sign (too short) to n-dash
+							sb.setCharAt(0, minusSign);
+						}
+
+						if ((view.axesUnitLabels[1] != null)
+								&& !view.piAxisUnit[1]) {
+							sb.append(view.axesUnitLabels[1]);
+						}
+
+						GTextLayout layout = AwtFactory.prototype
+								.newTextLayout(sb.toString(),
+										view.getFontAxes(),
+										g2.getFontRenderContext());
+
+						double width = layout.getAdvance();
+
+						int x = (int) ((xCrossPix + xoffset) - width);
+						int y;
+
+						// flag for handling label at axis cross point
+						boolean zero = strNum.equals(crossAtStr);
+
+						// if the label is at the axis cross point then draw
+						// it 2 pixels above
+						if (zero && view.showAxes[0] && !view.positiveAxes[0]) {
+							y = (int) (yCrossPix - 2);
+						} else {
+							y = (int) (pix + yoffset);
+						}
+						// draw number
+						view.drawString(g2, sb.toString(), x, y);
+						// measure width, so grid line can avoid it
+						// use same (max) for all labels
+						if (sb.charAt(0) == minusSign
+								&& width > view.yLabelMaxWidthNeg) {
+							view.yLabelMaxWidthNeg = width;
+						} else if (sb.charAt(0) != minusSign
+								&& width > view.yLabelMaxWidthPos) {
+							view.yLabelMaxWidthPos = width;
+						}
+
+						// store position of number, so grid line can avoid
+						// it
+						view.axesLabelsPositionsY.add(new Integer(
+								(int) (pix + Kernel.MIN_PRECISION)));
+					}
+				}
+				if (drawMajorTicks[1]
+						&& (!view.showAxes[0] || rw != view.axisCross[0])) {
+					g2.setStroke(view.tickStroke);
+					g2.drawStraightLine(xBig, pix, xZeroTick, pix);
+				}
+			} else if (drawMajorTicks[1] && !drawTopArrow) {
+				// draw last tick if there is no arrow
+				g2.setStroke(view.tickStroke);
+				g2.drawStraightLine(xBig, pix, xZeroTick, pix);
+			}
+
+			// small tick
+			smallTickPix = (pix + tickStep) - smallTickOffset;
+			if (drawMinorTicks[1]) {
+				g2.setStroke(view.tickStroke);
+				g2.drawStraightLine(xSmall1, smallTickPix, xSmall2,
+						smallTickPix);
+			}
+
+		}
 
 	}
 
 	private void drawXTicksLinear(GGraphics2D g2, double yCrossPix,
-			char minusSign, boolean drawRightArrow, double yoffset,
+			char minusSign, boolean drawRightArrow, int fontsize,
 			double xAxisStart) {
+		double yoffset = view.getYOffsetForXAxis(fontsize);
 		boolean[] drawMajorTicks = { view.axesTickStyles[0] <= 1,
 				view.axesTickStyles[1] <= 1 };
 		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0,
@@ -616,6 +615,13 @@ public class DrawAxis {
 				view.axesNumberFormat[axis], StringTemplate.defaultTemplate);
 	}
 
+	/**
+	 * @param definition
+	 *            step definition
+	 * @param labelno
+	 *            step coefficient
+	 * @return description of labelno*definition
+	 */
 	public static String multiple(ExpressionNode definition, long labelno) {
 		return definition.multiply(labelno).toFractionString(
 				StringTemplate.defaultTemplate);
