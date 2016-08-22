@@ -57,14 +57,23 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 	// getters for style variables (used by EuclidianStyleBar)
 
+	/**
+	 * @return "v" or "h" for vertical / horizontal alignment
+	 */
 	public char getAlignment() {
 		return alignment.equals(Alignment.VERTICAL) ? 'v' : 'h';
 	}
 
+	/**
+	 * @return whether table has vertical lines
+	 */
 	public boolean isVerticalLines() {
 		return verticalLines;
 	}
 
+	/**
+	 * @return whether table has horizontal lines
+	 */
 	public boolean isHorizontalLines() {
 		return horizontalLines;
 	}
@@ -80,10 +89,16 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		return justification;
 	}
 
+	/**
+	 * @return opening bracket for matrices
+	 */
 	public String getOpenSymbol() {
 		return openString;
 	}
 
+	/**
+	 * @return closing bracket for matrices
+	 */
 	public String getCloseSymbol() {
 		return closeString;
 	}
@@ -818,7 +833,10 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 			// replace " " and "" with a hard space (allow blank columns/rows)
 			String text1 = geo1.toLaTeXString(false, tpl);
+			if (geo1.isGeoText() && !((GeoText) geo1).isLaTeX()) {
+				text1 = text1.replace("$", "\\dollar");
 
+			}
 			switch (justification1) {
 			case '.':
 			case 'a':
