@@ -63,6 +63,10 @@ public class TeXSerializer extends SerializerAdapter {
 
     @Override
     public void serialize(MathSequence sequence, StringBuilder stringBuilder) {
+		if (sequence == null) {
+			stringBuilder.append("?");
+			return;
+		}
         boolean addBraces = (sequence.hasChildren() || // {a^b_c}
                 sequence.size() > 1 || // {aa}
                 (sequence.size() == 1 && letterLength(sequence, 0) > 1) || // {\pi}
@@ -331,7 +335,7 @@ public class TeXSerializer extends SerializerAdapter {
 
     @Override
     public void serialize(MathArray array, StringBuilder stringBuilder) {
-        if (jmathtex && MetaModel.MATRIX.equals(array.getName())) {
+		if (!jmathtex && MetaModel.MATRIX.equals(array.getName())) {
             // jmathlib does not implement matrix
             stringBuilder.append(array.getOpen().getCasName());
             for (int i = 0; i < array.rows(); i++) {
