@@ -905,8 +905,8 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	}
 
 	@Override
-	final public BufferedImage getExportImage() {
-		return bi;
+	final public GBufferedImage getExportImage() {
+		return new GBufferedImageD(bi);
 	}
 
 	/**

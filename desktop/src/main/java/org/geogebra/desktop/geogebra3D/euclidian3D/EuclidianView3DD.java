@@ -155,6 +155,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	}
 
 
+	@Override
 	protected void setBackground(GColor updatedColor, GColor applyedColor) {
 		super.setBackground(updatedColor, applyedColor);
 		evjpanel.setBackground(GColorD
@@ -176,14 +177,17 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	 * @param cursor
 	 *            new cursor
 	 */
+	@Override
 	public void setCursor(Cursor cursor) {
 		evjpanel.setCursor(cursor);
 	}
 
+	@Override
 	public boolean hasFocus() {
 		return evjpanel.hasFocus();
 	}
 
+	@Override
 	public void repaint() {
 		this.updateBackgroundIfNecessary();
 		evjpanel.repaint();
@@ -203,6 +207,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	/**
 	 * @return underlying component
 	 */
+	@Override
 	public JPanel getJPanel() {
 		return evjpanel;
 	}
@@ -210,6 +215,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	/**
 	 * This view should be focused
 	 */
+	@Override
 	public void requestFocus() {
 		evjpanel.requestFocus();
 	}
@@ -222,6 +228,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	/**
 	 * @return mouse position
 	 */
+	@Override
 	public java.awt.Point getMousePosition() {
 		return evjpanel.getMousePosition();
 	}
@@ -239,6 +246,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	/**
 	 * @return whethe this view is visible
 	 */
+	@Override
 	public boolean isShowing() {
 		return evjpanel.isShowing();
 	}
@@ -338,6 +346,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	 * @param border
 	 *            new border
 	 */
+	@Override
 	public void setBorder(Border border) {
 		evjpanel.setBorder(border);
 	}
@@ -389,6 +398,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	}
 
 	// @Override
+	@Override
 	public void setToolTipText(String plain) {
 		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
 				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
@@ -396,10 +406,12 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		}
 	}
 
+	@Override
 	public int getWidth() {
 		return evjpanel.getWidth();
 	}
 
+	@Override
 	public int getHeight() {
 		return evjpanel.getHeight();
 	}
@@ -503,16 +515,17 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		return (App3D) this.app;
 	}
 
+	@Override
 	public GBufferedImage getExportImage(double scale) {
 		return getExportImage(scale, false);
 	}
 
+	@Override
 	public GBufferedImage getExportImage(double scale, boolean transparency)
 			throws OutOfMemoryError {
 		getRenderer().needExportImage(scale);
 
-		return new GBufferedImageD((BufferedImage) getRenderer()
-				.getExportImage());
+		return getRenderer().getExportImage();
 	}
 
 	private boolean exportToClipboard;
@@ -541,7 +554,8 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		}
 
 		try {
-			BufferedImage img = (BufferedImage) getRenderer().getExportImage();
+			BufferedImage img = GBufferedImageD
+					.getAwtBufferedImage(getRenderer().getExportImage());
 			MyImageIO.write(img, "png", exportDPI, exportFile);
 			if (exportToClipboard) {
 				GraphicExportDialog.sendToClipboard(exportFile);
@@ -557,6 +571,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		return new EuclidianStyleBar3D(this);
 	}
 
+	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// only for web
@@ -569,6 +584,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	}
 
+	@Override
 	public void setAltText() {
 		// TODO Auto-generated method stub
 

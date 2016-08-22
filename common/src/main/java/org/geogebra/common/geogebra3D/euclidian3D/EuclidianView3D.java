@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -4722,6 +4723,11 @@ GRectangle selectionRectangle) {
 	 */
 	public boolean showPyramidAndPrismPreviews() {
 		return true;
+	}
+
+	@Override
+	public GBufferedImage getExportImage(double scale, boolean transparency) {
+		return getRenderer().getExportImage(scale);
 	}
 
 }

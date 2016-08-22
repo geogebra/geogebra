@@ -14,7 +14,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
@@ -808,8 +807,8 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	}
 
 	@Override
-	public final BufferedImage getExportImage() {
-		return bi;
+	public final GBufferedImage getExportImage() {
+		return new GBufferedImageD(bi);
 	}
 
 

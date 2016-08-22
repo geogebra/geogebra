@@ -25,7 +25,6 @@ import java.awt.Desktop;
 import java.awt.FlowLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -39,6 +38,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -688,26 +688,21 @@ public class App3D extends AppD {
 	}
 
 	@Override
-	public BufferedImage getExportImage(double maxX, double maxY)
-			throws OutOfMemoryError {
+	public GBufferedImage getActiveEuclidianViewExportImage(double maxX,
+			double maxY) {
 
-		double scale = Math.min(maxX / getEuclidianView1().getSelectedWidth(),
-				maxY / getEuclidianView1().getSelectedHeight());
+		EuclidianView ev = getActiveEuclidianView();
 
-		if (this.euclidianView3D == null) {
-			return super.getExportImage(maxX, maxY);
+		// force 3D view if showing
+		if (this.euclidianView3D != null) {
+			EuclidianView3D ev3D = getEuclidianView3D();
+			if (ev3D.isShowing()) {
+				ev = ev3D;
+			}
 		}
 
-		EuclidianView3D ev3D = getEuclidianView3D();
-
-		if (ev3D.isShowing()) {
-			return (BufferedImage) getEuclidianView3D().getRenderer()
-					.getExportImage(maxX, maxY);
-		}
-
-		return super.getExportImage(maxX, maxY);
+		return getEuclidianViewExportImage(ev, maxX, maxY);
 	}
-
 
 	/**
 	 * only for 3D really. Overridden in App3D

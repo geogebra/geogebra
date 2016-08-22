@@ -411,10 +411,9 @@ public abstract class Renderer {
 	 * @param maxY
 	 * @return export image immediately
 	 */
-	public Object getExportImage(double maxX, double maxY) {
+	public GBufferedImage getExportImage(double scale) {
 
 		exportImageForThumbnail = true;
-		double scale = Math.min(maxX / getWidth(), maxY / getHeight());
 
 		needExportImage(scale, (int) (getWidth() * scale),
 				(int) (getHeight() * scale));
@@ -439,7 +438,7 @@ public abstract class Renderer {
 	/**
 	 * @return an image containing last export image created
 	 */
-	public Object getExportImage() {
+	public GBufferedImage getExportImage() {
 		return null;
 	}
 

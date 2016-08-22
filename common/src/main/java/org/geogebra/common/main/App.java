@@ -4385,7 +4385,11 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public GBufferedImage getActiveEuclidianViewExportImage(double maxX, double maxY){
-		EuclidianView ev = getActiveEuclidianView();
+		return getEuclidianViewExportImage(getActiveEuclidianView(), maxX, maxY);
+	}
+
+	final protected GBufferedImage getEuclidianViewExportImage(
+			EuclidianView ev, double maxX, double maxY) {
 
 		double scale = Math.min(maxX / ev.getSelectedWidthInPixels(),
 				maxY / ev.getSelectedHeightInPixels());
