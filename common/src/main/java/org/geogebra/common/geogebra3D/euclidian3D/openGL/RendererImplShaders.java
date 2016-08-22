@@ -15,7 +15,7 @@ import org.geogebra.common.main.Feature;
  * @author mathieu
  *
  */
-public abstract class RendererImplShaders implements RendererImpl {
+public abstract class RendererImplShaders extends RendererImpl {
 
 	static public int GLSL_ATTRIB_POSITION;
 	static public int GLSL_ATTRIB_COLOR;
@@ -64,13 +64,8 @@ public abstract class RendererImplShaders implements RendererImpl {
 	protected Object vertShader;
 	protected Object fragShader;
 
-	protected EuclidianView3D view3D;
-
-	protected Renderer renderer;
-
 	public RendererImplShaders(Renderer renderer, EuclidianView3D view) {
-		this.renderer = renderer;
-		this.view3D = view;
+		super(renderer, view);
 	}
 
 	abstract protected void createBufferFor(GPUBuffer buffer);

@@ -523,7 +523,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	@Override
 	public GBufferedImage getExportImage(double scale, boolean transparency)
 			throws OutOfMemoryError {
-		getRenderer().needExportImage(scale);
+		getRenderer().needExportImage(scale, true);
 
 		return getRenderer().getExportImage();
 	}
@@ -540,7 +540,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		exportFile = file;
 		this.exportToClipboard = exportToClipboard;
 
-		getRenderer().needExportImage(scale);
+		getRenderer().needExportImage(scale, true);
 	}
 
 	/**

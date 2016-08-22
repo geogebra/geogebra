@@ -689,7 +689,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		view3D.setFontScale(scale);
 		setExportImageDimension(w, h);
 
-		needExportImage = true;
+		setNeedExportImage(true);
 		display();
 
 	}
@@ -702,7 +702,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	}
 
 	private void endNeedExportImage(){
-		needExportImage = false;
+		setNeedExportImage(false);
 
 		// set no font scale
 		view3D.setFontScale(1);

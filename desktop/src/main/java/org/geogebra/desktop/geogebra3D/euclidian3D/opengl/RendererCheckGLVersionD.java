@@ -41,24 +41,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 
 	protected FrameCollector gifEncoder;
 
-	private int fboID;
-
-	private int fboColorTextureID;
-
-	private int fboDepthTextureID;
-
-	private int fboWidth = 1;
-
-	private int fboHeight = 1;
-
-	private int oldRight;
-
-	private int oldLeft;
-
-	private int oldTop;
-
-	private int oldBottom;
-
 	protected BufferedImage bi;
 
 	private BufferedImage[] equirectangularTilesLeft;
@@ -139,7 +121,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		Log.debug("openGL version : " + version + ", vbo supported : "
 				+ VBOsupported);
 
-		initFBO();
+		rendererImpl.initFBO();
 
 		init();
 	}
@@ -335,7 +317,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 				gifEncoder.finish();
 	
 				Log.debug("GIF export finished");
-				endNeedExportImage();
+				rendererImpl.endNeedExportImage();
 	
 			} else {
 				export_num.setValue(export_val);
@@ -357,7 +339,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 				Toolkit.getDefaultToolkit().getSystemClipboard()
 						.setContents(imgSel, null);
 			}
-			endNeedExportImage();
+			rendererImpl.endNeedExportImage();
 	
 			break;
 		case UPLOAD_TO_GEOGEBRATUBE:
@@ -372,7 +354,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 			}
 	
 			view3D.getApplication().uploadToGeoGebraTube();
-			endNeedExportImage();
+			rendererImpl.endNeedExportImage();
 			
 			break;
 	
@@ -383,7 +365,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 					// call write to file
 					((EuclidianView3DD) view3D).writeExportImage();
 				}
-				endNeedExportImage();
+				rendererImpl.endNeedExportImage();
 			}
 			break;
 		}
@@ -401,7 +383,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 			Toolkit.getDefaultToolkit().getSystemClipboard()
 					.setContents(imgSel, null);
 		}
-		endNeedExportImage();
+		rendererImpl.endNeedExportImage();
 	}
 
 	@Override
@@ -565,135 +547,30 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 
 	@Override
 	protected final void selectFBO() {
-		
-		if (fboID < 0){
-			view3D.setFontScale(1);
-			return;
-		}
-		
-		updateFBOBuffers();
-		
-		// bind the buffer
-		getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
-	
-	
-		// store view values
-		oldRight = right; oldLeft = left; oldTop = top; oldBottom = bottom;
-		
-		// set view values for buffer
-		setView(0, 0, fboWidth, fboHeight);
-		
+		rendererImpl.selectFBO();
 	}
 
 	@Override
 	protected final void unselectFBO() {
-		
-		if (fboID < 0){
-			return;
-		}
-		
-		// set back the view
-		setView(0, 0, oldRight - oldLeft, oldTop - oldBottom);
-		
-		//unbind the framebuffer ...
-		getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
+		rendererImpl.unselectFBO();
 	}
 
 	@Override
 	protected final void needExportImage(double scale, int w,
 			int h) {
 				
-				view3D.setFontScale(scale);
-				setExportImageDimension(w, h);
+		rendererImpl.needExportImage(scale, w, h);
 			
-				needExportImage = true;
-				display();
-			
-			}
+	}
 
 	@Override
 	protected final void setExportImageDimension(int w, int h) {
-		fboWidth = w;
-		fboHeight = h;
-	
+		rendererImpl.setExportImageDimension(w, h);
 	}
 
-	private void endNeedExportImage() {
-		needExportImage = false;
-	
-		// set no font scale
-		view3D.setFontScale(1);
-	}
 
-	private void updateFBOBuffers() {
-	
-		// image texture
-		getGL().glBindTexture(GLlocal.GL_TEXTURE_2D, fboColorTextureID);
-		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
-				GLlocal.GL_TEXTURE_MAG_FILTER, GLlocal.GL_NEAREST);
-		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
-				GLlocal.GL_TEXTURE_MIN_FILTER, GLlocal.GL_NEAREST);
-		getGL().glTexImage2D(GLlocal.GL_TEXTURE_2D, 0, GLlocal.GL_RGBA,
-				fboWidth, fboHeight, 0, GLlocal.GL_RGBA,
-				GLlocal.GL_UNSIGNED_BYTE, null);
-	
-		getGL().glBindTexture(GLlocal.GL_TEXTURE_2D, 0);
-	    
-	    
-	    // depth buffer
-		getGL().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, fboDepthTextureID);
-		getGL().glRenderbufferStorage(GLlocal.GL_RENDERBUFFER,
-				GLlocal.GL_DEPTH_COMPONENT, fboWidth, fboHeight);
-	    
-		getGL().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, 0);
-	    
-	    
-	}
 
-	/**
-	 * init frame buffer object for save image
-	 */
-	protected final void initFBO() {
 	
-		try{
-			int[] result = new int[1];
-	
-			//allocate the colour texture ...
-			getGL().glGenTextures(1, result, 0);
-			fboColorTextureID = result[0];
-	
-			//allocate the depth texture ...
-			getGL().glGenRenderbuffers(1, result, 0);
-			fboDepthTextureID = result[0];
-	
-			updateFBOBuffers();
-	
-	
-			//allocate the framebuffer object ...
-			getGL().glGenFramebuffers(1, result, 0);
-			fboID = result[0];
-			getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
-	
-			//attach the textures to the framebuffer
-			getGL().glFramebufferTexture2D(GLlocal.GL_FRAMEBUFFER,
-					GLlocal.GL_COLOR_ATTACHMENT0,GLlocal.GL_TEXTURE_2D,fboColorTextureID,0);
-			getGL().glFramebufferRenderbuffer(GLlocal.GL_FRAMEBUFFER,
-					GLlocal.GL_DEPTH_ATTACHMENT,GLlocal.GL_RENDERBUFFER,fboDepthTextureID);
-	
-			getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
-			
-			// check if frame buffer is complete
-			if (getGL().glCheckFramebufferStatus(GLlocal.GL_FRAMEBUFFER) != GLlocal.GL_FRAMEBUFFER_COMPLETE) {
-				Log.error("Frame buffer is not complete");
-				fboID = -1;
-			}
-		}catch(Exception e){
-			Log.error(e.getMessage());
-			fboID = -1;
-		}
-		
-	
-	}
 
 	@Override
 	protected void initExportImageEquirectangularTiles() {

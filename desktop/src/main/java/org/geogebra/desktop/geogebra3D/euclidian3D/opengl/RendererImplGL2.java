@@ -27,14 +27,10 @@ import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
  * @author mathieu
  * 
  */
-public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
+public class RendererImplGL2 extends RendererImpl implements JoglAndGluProvider {
 
-
-	private EuclidianView3D view3D;
 
 	private RendererJogl jogl;
-
-	private Renderer renderer;
 
 	private GLU glu = new GLU();
 
@@ -51,9 +47,8 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	 */
 	public RendererImplGL2(Renderer renderer, EuclidianView3D view,
 			RendererJogl jogl) {
+		super(renderer, view);
 		Log.debug("============== Renderer with old GL created (shaders failed)");
-		this.renderer = renderer;
-		this.view3D = view;
 		this.jogl = jogl;
 	}
 
@@ -803,6 +798,64 @@ public class RendererImplGL2 implements RendererImpl, JoglAndGluProvider {
 	@Override
 	public int getGL_DEPTH_TEST() {
 		return GLlocal.GL_DEPTH_TEST;
+	}
+
+	protected void bindFramebuffer(Object id) {
+		getGL().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, (Integer) id);
+	}
+
+	protected void bindRenderbuffer(Object id) {
+		getGL().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, (Integer) id);
+	}
+
+	protected void unbindFramebuffer() {
+		bindFramebuffer(0);
+	}
+
+	protected void unbindRenderbuffer() {
+		bindRenderbuffer(0);
+	}
+
+	protected void textureParametersNearest() {
+		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
+				GLlocal.GL_TEXTURE_MAG_FILTER, GLlocal.GL_NEAREST);
+		getGL().glTexParameterf(GLlocal.GL_TEXTURE_2D,
+				GLlocal.GL_TEXTURE_MIN_FILTER, GLlocal.GL_NEAREST);
+	}
+
+	protected void textureImage2DForBuffer(int width, int height) {
+		getGL().glTexImage2D(GLlocal.GL_TEXTURE_2D, 0, GLlocal.GL_RGBA, width,
+				height, 0, GLlocal.GL_RGBA, GLlocal.GL_UNSIGNED_BYTE, null);
+	}
+
+	protected void renderbufferStorage(int width, int height) {
+		getGL().glRenderbufferStorage(GLlocal.GL_RENDERBUFFER,
+				GLlocal.GL_DEPTH_COMPONENT, width, height);
+	}
+
+	private int[] tmp = new int[1];
+
+	protected Object genRenderbuffer() {
+		getGL().glGenRenderbuffers(1, tmp, 0);
+		return tmp[0];
+	}
+
+	protected Object genFramebuffer() {
+		getGL().glGenFramebuffers(1, tmp, 0);
+		return tmp[0];
+	}
+
+	protected void framebuffer(Object colorId, Object depthId) {
+		getGL().glFramebufferTexture2D(GLlocal.GL_FRAMEBUFFER,
+				GLlocal.GL_COLOR_ATTACHMENT0, GLlocal.GL_TEXTURE_2D,
+				(Integer) colorId, 0);
+		getGL().glFramebufferRenderbuffer(GLlocal.GL_FRAMEBUFFER,
+				GLlocal.GL_DEPTH_ATTACHMENT, GLlocal.GL_RENDERBUFFER,
+				(Integer) depthId);
+	}
+
+	protected boolean checkFramebufferStatus() {
+		return getGL().glCheckFramebufferStatus(GLlocal.GL_FRAMEBUFFER) == GLlocal.GL_FRAMEBUFFER_COMPLETE;
 	}
 
 }

@@ -20,7 +20,9 @@ import org.geogebra.web.html5.gawt.GBufferedImageW;
 
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.ImageElement;
+import com.googlecode.gwtgl.binding.WebGLFramebuffer;
 import com.googlecode.gwtgl.binding.WebGLProgram;
+import com.googlecode.gwtgl.binding.WebGLRenderbuffer;
 import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 import com.googlecode.gwtgl.binding.WebGLShader;
 import com.googlecode.gwtgl.binding.WebGLTexture;
@@ -559,6 +561,73 @@ public class RendererImplShadersW extends RendererImplShaders {
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, null);
 
 		label.setTextureIndex(textureIndex);
+	}
+
+	protected void bindFramebuffer(Object id) {
+		getGL().bindFramebuffer(WebGLRenderingContext.FRAMEBUFFER,
+				(WebGLFramebuffer) id);
+	}
+
+	protected void bindRenderbuffer(Object id) {
+		getGL().bindRenderbuffer(WebGLRenderingContext.RENDERBUFFER,
+				(WebGLRenderbuffer) id);
+	}
+
+	protected void unbindFramebuffer() {
+		bindFramebuffer(null);
+	}
+
+	protected void unbindRenderbuffer() {
+		bindRenderbuffer(null);
+	}
+
+	protected void textureParametersNearest() {
+		getGL().texParameterf(WebGLRenderingContext.TEXTURE_2D,
+				WebGLRenderingContext.TEXTURE_MAG_FILTER,
+				WebGLRenderingContext.NEAREST);
+		getGL().texParameterf(WebGLRenderingContext.TEXTURE_2D,
+				WebGLRenderingContext.TEXTURE_MIN_FILTER,
+				WebGLRenderingContext.NEAREST);
+	}
+
+	protected void textureImage2DForBuffer(int width, int height) {
+		getGL().texImage2D(WebGLRenderingContext.TEXTURE_2D, 0,
+				WebGLRenderingContext.RGBA, width, height, 0,
+				WebGLRenderingContext.RGBA,
+				WebGLRenderingContext.UNSIGNED_BYTE, null);
+	}
+
+	protected void renderbufferStorage(int width, int height) {
+		getGL().renderbufferStorage(WebGLRenderingContext.RENDERBUFFER,
+				WebGLRenderingContext.DEPTH_COMPONENT, width, height);
+	}
+
+
+	protected Object genTexture() {
+		return getGL().createTexture();
+	}
+
+	protected Object genRenderbuffer() {
+		return getGL().createRenderbuffer();
+	}
+
+	protected Object genFramebuffer() {
+		return getGL().createFramebuffer();
+	}
+
+	protected void framebuffer(Object colorId, Object depthId) {
+		getGL().framebufferTexture2D(WebGLRenderingContext.FRAMEBUFFER,
+				WebGLRenderingContext.COLOR_ATTACHMENT0,
+				WebGLRenderingContext.TEXTURE_2D, (WebGLTexture) colorId, 0);
+		getGL().framebufferRenderbuffer(WebGLRenderingContext.FRAMEBUFFER,
+				WebGLRenderingContext.DEPTH_ATTACHMENT,
+				WebGLRenderingContext.RENDERBUFFER, (WebGLRenderbuffer) depthId);
+	}
+
+	protected boolean checkFramebufferStatus() {
+		return getGL()
+				.checkFramebufferStatus(
+				WebGLRenderingContext.FRAMEBUFFER) == WebGLRenderingContext.FRAMEBUFFER_COMPLETE;
 	}
 
 }

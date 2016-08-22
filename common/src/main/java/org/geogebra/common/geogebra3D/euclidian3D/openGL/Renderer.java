@@ -281,9 +281,7 @@ public abstract class Renderer {
 			setExportImageEquirectangularFromTiles();
 			exportImageEquirectangular();
 			unselectFBO();
-			needExportImage = false;
-
-			Log.debug("ici");
+			setNeedExportImage(false);
 
 			exportImageEquirectangular = false;
 
@@ -395,7 +393,7 @@ public abstract class Renderer {
 	 */
 	public void needExportImage() {
 
-		exportImageForThumbnail = true;
+		setExportImageForThumbnail(true);
 		double scale = Math.min(MyXMLio.THUMBNAIL_PIXELS_X / getWidth(),
 				MyXMLio.THUMBNAIL_PIXELS_Y / getHeight());
 
@@ -413,7 +411,7 @@ public abstract class Renderer {
 	 */
 	public GBufferedImage getExportImage(double scale) {
 
-		exportImageForThumbnail = true;
+		setExportImageForThumbnail(true);
 
 		needExportImage(scale, (int) (getWidth() * scale),
 				(int) (getHeight() * scale));
@@ -422,15 +420,19 @@ public abstract class Renderer {
 
 	}
 
+	private void setExportImageForThumbnail(boolean flag) {
+		exportImageForThumbnail = flag;
+	}
+
 	/**
 	 * says that an export image is needed, and call immediate display
 	 * 
 	 * @param scale
 	 *            scale for export image
 	 */
-	public void needExportImage(double scale) {
+	public void needExportImage(double scale, boolean forThumbnail) {
 
-		exportImageForThumbnail = false;
+		setExportImageForThumbnail(forThumbnail);
 		needExportImage(scale, (int) (getWidth() * scale),
 				(int) (getHeight() * scale));
 	}
@@ -476,7 +478,7 @@ public abstract class Renderer {
 		this.export_step = step;
 		setGIFEncoder(gifEncoder);
 
-		needExportImage(1);
+		needExportImage(1, false);
 
 	}
 
@@ -2078,7 +2080,7 @@ public abstract class Renderer {
 
 	public void exportToClipboard() {
 		exportType = ExportType.CLIPBOARD;
-		needExportImage(App.getMaxScaleForClipBoard(view3D));
+		needExportImage(App.getMaxScaleForClipBoard(view3D), true);
 
 	}
 
@@ -2319,6 +2321,11 @@ public abstract class Renderer {
 
 	public CoordMatrix4x4 getToScreenMatrix() {
 		return view3D.getToScreenMatrixForGL();
+	}
+
+	final public void setNeedExportImage(boolean flag) {
+		// Log.printStacktrace("" + flag);
+		needExportImage = flag;
 	}
 
 }
