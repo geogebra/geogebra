@@ -760,16 +760,6 @@ public abstract class RendererWithImpl extends Renderer implements
 	}
 
 	@Override
-	protected void needExportImage(double scale, int w, int h) {
-
-	}
-
-	@Override
-	protected void setExportImageDimension(int w, int h) {
-
-	}
-
-	@Override
 	protected void exportImage() {
 
 	}
@@ -780,5 +770,27 @@ public abstract class RendererWithImpl extends Renderer implements
 	 */
 	public boolean hasExport3DPrinter() {
 		return false;
+	}
+
+	@Override
+	protected void selectFBO() {
+		rendererImpl.selectFBO();
+	}
+
+	@Override
+	protected void unselectFBO() {
+		rendererImpl.unselectFBO();
+	}
+
+	@Override
+	protected void needExportImage(double scale, int w, int h) {
+
+		rendererImpl.needExportImage(scale, w, h);
+
+	}
+
+	@Override
+	protected void setExportImageDimension(int w, int h) {
+		rendererImpl.setExportImageDimension(w, h);
 	}
 }

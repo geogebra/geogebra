@@ -313,4 +313,25 @@ public class RendererWithImplW extends RendererWithImpl implements
 		this.createGLContext(b);
 	}
 
+	@Override
+	protected final void selectFBO() {
+		// TODO implement?
+	}
+
+	@Override
+	protected final void unselectFBO() {
+		// TODO implement?
+	}
+
+
+	@Override
+	protected void needExportImage(double scale, int w, int h) {
+		// TODO implement?
+	}
+
+	@Override
+	protected void setExportImageDimension(int w, int h) {
+		// TODO implement?
+	}
+
 }

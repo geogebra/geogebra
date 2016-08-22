@@ -545,32 +545,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 		this.gifEncoder = (FrameCollector) gifEncoder;
 	}
 
-	@Override
-	protected final void selectFBO() {
-		rendererImpl.selectFBO();
-	}
-
-	@Override
-	protected final void unselectFBO() {
-		rendererImpl.unselectFBO();
-	}
-
-	@Override
-	protected final void needExportImage(double scale, int w,
-			int h) {
-				
-		rendererImpl.needExportImage(scale, w, h);
-			
-	}
-
-	@Override
-	protected final void setExportImageDimension(int w, int h) {
-		rendererImpl.setExportImageDimension(w, h);
-	}
-
-
-
-	
 
 	@Override
 	protected void initExportImageEquirectangularTiles() {
