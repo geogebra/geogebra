@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Draws definite Integral of a GeoFunction
@@ -116,16 +117,26 @@ public class DrawIntegralFunctions extends Drawable {
 		double aRW = Math.min(a.getDouble(), b.getDouble());
 		double bRW = Math.max(a.getDouble(), b.getDouble());
 
+		double clipX = view.toRealWorldCoordX(EuclidianStatic.CLIP_DISTANCE)
+				- view.toRealWorldCoordX(0);
+		// double clipY = view.toRealWorldCoordY(0)
+		// - view.toRealWorldCoordY(EuclidianStatic.CLIP_DISTANCE);
+
 		// for DrawParametricCurve.plotCurve to work with special values,
 		// these changes are needed (also filter out out of screen integrals)
 		// see #1234
-		aRW = Math.max(aRW, view.getXmin() - EuclidianStatic.CLIP_DISTANCE);
-		if (aRW > view.getXmax() + EuclidianStatic.CLIP_DISTANCE)
+		aRW = Math.max(aRW, view.getXmin() - clipX);
+		if (aRW > view.getXmax() + clipX) {
 			return;
+		}
 
-		bRW = Math.min(bRW, view.getXmax() + EuclidianStatic.CLIP_DISTANCE);
-		if (bRW < view.getXmin() - EuclidianStatic.CLIP_DISTANCE)
+		bRW = Math.min(bRW, view.getXmax() + clipX);
+		if (bRW < view.getXmin() - clipX) {
 			return;
+		}
+
+		Log.debug("aRW = " + aRW);
+		Log.debug("bRW = " + bRW);
 
 		// init first point of gp as (ax, ay)
 		double ax = view.toClippedScreenCoordX(aRW);
