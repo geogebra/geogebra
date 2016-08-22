@@ -33,6 +33,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.util.LaTeXHelper;
+import org.geogebra.web.web.util.ReTeXHelper;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
@@ -1679,13 +1680,16 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * Open Editor textfield for geo.
 	 */
 	public void startEditing(GeoElement geo) {
+		if (!app.has(Feature.RETEX_EDITOR)
+				&& GWT.create(LaTeXHelper.class) instanceof ReTeXHelper) {
+			return;
+		}
 		if (geo == null) {
 			if (app.has(Feature.RETEX_EDITOR)) {
 				editing = true;
 			}
 			return;
 		}
-
 		// open Object Properties for eg GeoImages
 		if (!geo.isAlgebraViewEditable()) {
 			ArrayList<GeoElement> geos = new ArrayList<GeoElement>();

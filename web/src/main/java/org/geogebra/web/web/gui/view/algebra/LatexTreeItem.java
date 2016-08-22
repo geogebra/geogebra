@@ -22,9 +22,12 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
+import org.geogebra.web.web.util.LaTeXHelper;
+import org.geogebra.web.web.util.ReTeXHelper;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -76,7 +79,7 @@ public class LatexTreeItem extends RadioTreeItem
 	@Override
 	protected boolean startEditing(boolean substituteNumbers) {
 		String text = geo == null ? "" : geo.getDefinitionForEditor();
-		if (text == null) {
+		if (text == null || !app.has(Feature.RETEX_EDITOR)) {
 			return false;
 		}
 		if (errorLabel != null) {
@@ -175,8 +178,12 @@ public class LatexTreeItem extends RadioTreeItem
 	}
 
 	@Override
-	public void setFocus(boolean b, boolean sv) {
-		if (b) {
+	public void setFocus(boolean focus, boolean sv) {
+		if (focus && !app.has(Feature.RETEX_EDITOR)
+				&& GWT.create(LaTeXHelper.class) instanceof ReTeXHelper) {
+			return;
+		}
+		if (focus) {
 			removeDummy();
 		}
 		if (ensureCanvas()) {
@@ -195,14 +202,14 @@ public class LatexTreeItem extends RadioTreeItem
 			}
 
 		}
-		if (b) {
+		if (focus) {
 			canvas.setVisible(true);
 		} else {
 			if (geo == null) {
 				addDummyLabel();
 			}
 		}
-		mf.setFocus(b);
+		mf.setFocus(focus);
 		//canvas.setFocus(b);
 	}
 
