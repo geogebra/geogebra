@@ -65,7 +65,7 @@ dependencies {
 	compile project(path:':apps:android')
 }
 
-def devModule = 'org.geogebra.web.Tablet3D'
+def devModule = 'org.geogebra.web.SuperWeb'
 
 gwt {
 	gwtVersion = '2.7.0'
