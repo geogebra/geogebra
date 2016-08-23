@@ -688,7 +688,9 @@ public class MyList extends ValidExpression implements ListValue,
 			// changed from "\\{ \\}" as MathQuillGGB doesn't render that
 			// correctly
 			return "\\left\\{ \\right\\}";
-		} else if (isMatrix()) {
+		} else if (isMatrix()
+				&& !(getListElement(0).unwrap() instanceof ListValue
+				&& getListElement(0).getListDepth() > 1)) {
 			if (kernel.getApplication().isLatexMathQuillStyle(tpl)) {
 				toLaTeXString.append("\\left(\\ggbtable{");
 				for (int i = 0; i < size(); i++) {
