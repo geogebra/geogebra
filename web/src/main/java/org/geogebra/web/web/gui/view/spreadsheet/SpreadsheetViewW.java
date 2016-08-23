@@ -25,7 +25,6 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.web.gui.util.AdvancedFocusPanelI;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -52,7 +51,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// spreadsheet table and row header
 	MyTableW table;
 	protected SpreadsheetTableModelW tableModel;
-	public Canvas bluedot;
 
 	public static final int ROW_HEADER_WIDTH = 35; // wide enough for "9999"
 

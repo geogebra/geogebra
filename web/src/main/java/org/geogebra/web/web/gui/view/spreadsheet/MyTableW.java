@@ -1502,8 +1502,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return getPixel(minSelectionColumn, minSelectionRow, true);
 	}
 
-	protected GPoint getMaxSelectionPixel() {
-		return getPixel(maxSelectionColumn, maxSelectionRow, false);
+	protected GPoint getMaxSelectionPixel(boolean scaleOffset) {
+		return getPixel(maxSelectionColumn, maxSelectionRow, false,
+				scaleOffset);
 	}
 
 	/**
@@ -2397,7 +2398,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 
 		GPoint min = this.getMinSelectionPixel();
-		GPoint max = this.getMaxSelectionPixel();
+		GPoint max = this.getMaxSelectionPixel(true);
 
 		if (minSelectionRow != -1 && maxSelectionRow != -1
 		        && minSelectionColumn != -1 && maxSelectionColumn != -1) {

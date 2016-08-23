@@ -681,7 +681,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 			updateTableIsOverDot(event);
 
-			GPoint maxPoint = table.getMaxSelectionPixel();
+			GPoint maxPoint = table.getMaxSelectionPixel(true);
 			GPoint minPoint = table.getMinSelectionPixel();
 			// check if over the DnD region and update accordingly
 			GPoint testPoint = table.getMinSelectionPixel();
@@ -706,7 +706,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	private void updateTableIsOverDot(DomEvent<?> event) {
 		// check if over the dragging dot and update accordingly
 		GPoint point = getPixelFromEvent(event);
-		GPoint maxPoint = table.getMaxSelectionPixel();
+		GPoint maxPoint = table.getMaxSelectionPixel(false);
 
 		if (maxPoint != null) {
 			int dotX = maxPoint.getX();
