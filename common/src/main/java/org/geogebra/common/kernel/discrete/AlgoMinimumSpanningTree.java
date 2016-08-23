@@ -23,7 +23,7 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 
 	protected int edgeCount;
 
-	private Transformer<MyLink, Double> wtTransformer = new Transformer<MyLink, Double>() {
+	private static Transformer<MyLink, Double> wtTransformer = new Transformer<MyLink, Double>() {
 		public Double transform(MyLink link) {
 			return link.weight;
 		}

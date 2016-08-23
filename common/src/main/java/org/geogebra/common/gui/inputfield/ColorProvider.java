@@ -54,7 +54,7 @@ public class ColorProvider {
 	private RegExp commandParamReg = RegExp.compile("<(\\p{L}\\p{M}*| |\\-)*>",
 			"g");
 	private RegExp splitter = RegExp.compile(",");
-	private RegExp assignmentReg = createAssignmentRegExp(isCasInput);
+	private RegExp assignmentReg;
 
 	/**
 	 * @param app
@@ -65,6 +65,7 @@ public class ColorProvider {
 	public ColorProvider(App app, boolean isCasInput1) {
 		kernel = app.getKernel();
 		setIsCasInput(isCasInput1);
+		assignmentReg = createAssignmentRegExp(isCasInput);
 		labels = null;
 		locals = null;
 		definedObjectsIntervals = new ArrayList<Integer[]>();

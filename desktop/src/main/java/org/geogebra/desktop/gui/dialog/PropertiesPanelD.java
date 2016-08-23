@@ -900,7 +900,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private String title;
 
 		public ComboPanel(final String title) {
-			this.setModel(model);
 			this.setTitle(title);
 			label = new JLabel();
 			comboBox = new JComboBox();

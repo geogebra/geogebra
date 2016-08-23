@@ -34,8 +34,8 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 	/** Desktop popUp panel */
 	protected JPopupMenu popup;
 
-	private Color bgColor = Color.white;
-	private Color fgColor = Color.black;
+	private static final Color bgColor = Color.white;
+	private static final Color fgColor = Color.black;
 
 	/**
 	 * Constructor

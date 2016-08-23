@@ -48,8 +48,8 @@ import org.geogebra.common.util.MyMath;
  * @author Markus Hohenwarter
  */
 public class GeoCurveCartesian extends GeoCurveCartesianND implements
-		Transformable, Translateable, PointRotateable, Mirrorable,
-		Dilateable, MatrixTransformable, ParametricCurve,
+		Transformable, Translateable, PointRotateable, Mirrorable, Dilateable,
+		MatrixTransformable,
 		ConicMirrorable {
 
 

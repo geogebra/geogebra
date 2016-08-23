@@ -917,7 +917,7 @@ public class AlgoDispatcher {
 	final public GeoElement[] Difference(String[] labels, GeoPolygon poly0,
 			GeoPolygon poly1) {
 		AlgoPolygonDifference algo = new AlgoPolygonDifference(cons, labels,
-				poly0, poly1);
+				poly0, poly1, null);
 		GeoElement[] polygon = algo.getOutput();
 		return polygon;
 	}
@@ -931,7 +931,7 @@ public class AlgoDispatcher {
 	final public GeoElement[] Difference(String[] labels, GeoPolygon poly0,
 			GeoPolygon poly1, int[] outputSizes) {
 		AlgoPolygonDifference algo = new AlgoPolygonDifference(cons, labels,
-				poly0, poly1, outputSizes);
+				poly0, poly1, null, outputSizes);
 		GeoElement[] polygon = algo.getOutput();
 		return polygon;
 	}

@@ -35,32 +35,15 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 
 		super(cons, labels, inPoly0, inPoly1);
 		this.exclusive = exclusive;
-		this.threeArgs = true;
+		this.threeArgs = exclusive != null;
 
-		if (this.exclusive.getBoolean()) {
+		if (threeArgs && this.exclusive.getBoolean()) {
 			this.initiatePolyOperation(PolyOperation.XOR);
 		} else {
 			initiatePolyOperation(PolyOperation.DIFFERENCE);
 		}
 	}
 
-	/**
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param labels
-	 *            labels for the output
-	 * @param inPoly0
-	 *            first input polygon
-	 * @param inPoly1
-	 *            second input polygon
-	 */
-	public AlgoPolygonDifference(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1) {
-
-		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE);
-
-	}
 
 	/**
 	 * 
@@ -77,7 +60,8 @@ public class AlgoPolygonDifference extends AlgoPolygonOperation {
 	 *            size, point size, and segment size
 	 */
 	public AlgoPolygonDifference(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1, int[] outputSizes) {
+			GeoPolygon inPoly0, GeoPolygon inPoly1, GeoBoolean exclusive,
+			int[] outputSizes) {
 
 		super(cons, labels, inPoly0, inPoly1, PolyOperation.DIFFERENCE,
 				outputSizes);
