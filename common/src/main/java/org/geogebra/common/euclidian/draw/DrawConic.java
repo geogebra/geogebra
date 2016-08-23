@@ -173,6 +173,9 @@ public class DrawConic extends Drawable implements Previewable {
 		if (conic.isInverseFill()) {
 			GArea complement = AwtFactory.prototype.newArea(view
 					.getBoundingPath());
+			if (arcFiller != null) {
+				complement = AwtFactory.prototype.newArea(arcFiller);
+			}
 			complement.subtract(area);
 			return complement;
 		}
@@ -754,62 +757,10 @@ public class DrawConic extends Drawable implements Previewable {
 					gp.reset();
 				GPoint2D sp = arc.getStartPoint();
 				GPoint2D ep = arc.getEndPoint();
-
-				switch (i) { // case number
-				case 0: // left top
-					gp.moveTo(0, 0);
-					gp.lineTo(sp.getX(), sp.getY());
-					gp.lineTo(ep.getX(), ep.getY());
-					break;
-
-				case 1: // left middle
-					gp.moveTo(0, view.getHeight());
-					gp.lineTo(sp.getX(), sp.getY());
-					gp.lineTo(ep.getX(), ep.getY());
-					gp.lineTo(0, 0);
-					break;
-
-				case 2: // left bottom
-					gp.moveTo(0, view.getHeight());
-					gp.lineTo(sp.getX(), sp.getY());
-					gp.lineTo(ep.getX(), ep.getY());
-					break;
-
-				case 3: // middle bottom
-					gp.moveTo(view.getWidth(), view.getHeight());
-					gp.lineTo(sp.getX(), sp.getY());
-					gp.lineTo(ep.getX(), ep.getY());
-					gp.lineTo(0, view.getHeight());
-					break;
-
-				case 4: // right bottom
-					gp.moveTo(view.getWidth(), view.getHeight());
-					gp.lineTo(sp.getX(), sp.getY());
-					gp.lineTo(ep.getX(), ep.getY());
-					break;
-
-				case 5: // right middle
-					gp.moveTo(view.getWidth(), 0);
-					gp.lineTo(sp.getX(), sp.getY());
-					gp.lineTo(ep.getX(), ep.getY());
-					gp.lineTo(view.getWidth(), view.getHeight());
-					break;
-
-				case 6: // right top
-					gp.moveTo(view.getWidth(), 0);
-					gp.lineTo(sp.getX(), sp.getY());
-					gp.lineTo(ep.getX(), ep.getY());
-					break;
-
-				case 7: // top middle
-					gp.moveTo(0, 0);
-					gp.lineTo(sp.getX(), sp.getY());
-					gp.lineTo(ep.getX(), ep.getY());
-					gp.lineTo(view.getWidth(), 0);
-					break;
-
-				default:
-					gp = null;
+				if (!conic.isInverseFill()) {
+					getArcFillerGP(sp, ep, i);
+				} else {
+					getInverseArcFillerGP(sp, ep, i);
 				}
 				// gp.
 				arcFiller = gp;
@@ -820,6 +771,125 @@ public class DrawConic extends Drawable implements Previewable {
 		// set label position
 		xLabel = (int) (mx - radius / 2.0);
 		yLabel = (int) (my - yradius * 0.85) + 20;
+	}
+
+	private void getArcFillerGP(GPoint2D sp, GPoint2D ep, int i) {
+		switch (i) { // case number
+		case 0: // left top
+			gp.moveTo(0, 0);
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(ep.getX(), ep.getY());
+			break;
+
+		case 1: // left middle
+			gp.moveTo(0, view.getHeight());
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(ep.getX(), ep.getY());
+			gp.lineTo(0, 0);
+			break;
+
+		case 2: // left bottom
+			gp.moveTo(0, view.getHeight());
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(ep.getX(), ep.getY());
+			break;
+
+		case 3: // middle bottom
+			gp.moveTo(view.getWidth(), view.getHeight());
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(ep.getX(), ep.getY());
+			gp.lineTo(0, view.getHeight());
+			break;
+
+		case 4: // right bottom
+			gp.moveTo(view.getWidth(), view.getHeight());
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(ep.getX(), ep.getY());
+			break;
+
+		case 5: // right middle
+			gp.moveTo(view.getWidth(), 0);
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(ep.getX(), ep.getY());
+			gp.lineTo(view.getWidth(), view.getHeight());
+			break;
+
+		case 6: // right top
+			gp.moveTo(view.getWidth(), 0);
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(ep.getX(), ep.getY());
+			break;
+
+		case 7: // top middle
+			gp.moveTo(0, 0);
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(ep.getX(), ep.getY());
+			gp.lineTo(view.getWidth(), 0);
+			break;
+
+		default:
+			gp = null;
+		}
+
+	}
+
+	private void getInverseArcFillerGP(GPoint2D sp, GPoint2D ep, int i) {
+		switch (i) { // case number
+		case 0: // left top
+			gp.moveTo(view.getWidth(), view.getHeight());
+			gp.lineTo(view.getWidth(), 0);
+			gp.lineTo(ep.getX(), ep.getY());
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(sp.getX(), view.getHeight());
+
+			break;
+
+		case 1: // left middle
+			getArcFillerGP(ep, sp, 5);
+			break;
+
+		case 2: // left bottom
+			gp.moveTo(view.getWidth(), 0);
+			gp.lineTo(view.getWidth(), view.getHeight());
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(ep.getX(), ep.getY());
+
+			gp.lineTo(ep.getX(), 0);
+
+			break;
+
+		case 3: // middle bottom
+			this.getArcFillerGP(ep, sp, 7);
+			break;
+
+		case 4: // right bottom
+			gp.moveTo(0, 0);
+			gp.lineTo(0, view.getHeight());
+			gp.lineTo(ep.getX(), ep.getY());
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(sp.getX(), 0);
+			break;
+
+		case 5: // right middle
+			getArcFillerGP(ep, sp, 1);
+			break;
+
+		case 6: // right top
+			gp.moveTo(0, view.getHeight());
+			gp.lineTo(0, 0);
+			gp.lineTo(sp.getX(), sp.getY());
+			gp.lineTo(ep.getX(), ep.getY());
+			gp.lineTo(ep.getX(), view.getHeight());
+			break;
+
+		case 7: // top middle
+			this.getArcFillerGP(ep, sp, 3);
+			break;
+
+		default:
+			gp = null;
+		}
+
 	}
 
 	/**
@@ -1348,7 +1418,7 @@ public class DrawConic extends Drawable implements Previewable {
 			fill(g2, shape, false); // fill using default/hatching/image as
 									// appropriate
 		}
-		if (arcFiller != null)
+		if (arcFiller != null && !conic.isInverseFill())
 			fill(g2, arcFiller, true); // fill using default/hatching/image
 										// as appropriate
 	}

@@ -545,7 +545,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 		app.setWaitCursor();
 
 		if (app.has(Feature.SAVE_SETTINGS_TO_FILE)) {
-
+			Log.debug("Preferences loaded from " + WINDOWS_USERS_PREFS);
 			String userPrefsXML = UtilD.loadFileIntoString(WINDOWS_USERS_PREFS);
 			String objectPrefsXML = UtilD
 					.loadFileIntoString(WINDOWS_OBJECTS_PREFS);
