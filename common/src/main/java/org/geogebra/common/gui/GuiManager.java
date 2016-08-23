@@ -802,7 +802,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET + i;
 			Integer macroViewId = macro.getViewId();
 			Integer activeViewId = getActiveEuclidianView().getViewID();
-			boolean tool3d = macroViewId == App.VIEW_EUCLIDIAN3D
+			boolean tool3d = macroViewId != null
+					&& macroViewId == App.VIEW_EUCLIDIAN3D
 					|| toolbar3D.contains(String.valueOf(macroMode));
 			Log.debug(
 					"[CT] macro: " + macro.getToolName() + " is 3D: " + tool3d);
