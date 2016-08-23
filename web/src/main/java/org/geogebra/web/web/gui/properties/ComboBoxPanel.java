@@ -12,7 +12,8 @@ import org.geogebra.web.web.gui.util.ComboBoxW;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public class ComboBoxPanel extends OptionPanel implements IComboListener {
+public abstract class ComboBoxPanel extends OptionPanel
+		implements IComboListener {
 
 	private Label label;
 	private ComboBoxW comboBox;
@@ -29,7 +30,7 @@ public class ComboBoxPanel extends OptionPanel implements IComboListener {
             protected void onValueChange(String value) {
 	            onComboBoxChange();
             }};
-            
+		comboBox.setEnabled(true);
 		FlowPanel mainWidget = new FlowPanel(); 
 		mainWidget.setStyleName("listBoxPanel");
 
@@ -42,10 +43,7 @@ public class ComboBoxPanel extends OptionPanel implements IComboListener {
 		return (MultipleOptionsModel)getModel();
 	}
 	
-	protected void onComboBoxChange() {
-		getMultipleModel().applyChanges(comboBox.getSelectedIndex());
-        
-	}
+	protected abstract void onComboBoxChange();
 	@Override
     public void setLabels() {
 		getLabel().setText(loc.getPlain(getTitle()) + ":");
