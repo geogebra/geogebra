@@ -840,7 +840,8 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	}
 
 	private void buildOldToolbarString() {
-		oldToolbarString = dockPanel.getDefaultToolbarString();
+		oldToolbarString = dockPanel.getToolbarString();
+		// oldToolbarString = dockPanel.getDefaultToolbarString();
 		if (oldToolbarString == null) {
 			oldToolbarString = ((GuiManagerW) app.getGuiManager())
 					.getToolbarDefinition();
