@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
  * Container for transforms
@@ -154,14 +155,29 @@ public abstract class Transform {
 		GeoElement[] ret;
 
 		// build the polygon from the transformed points
-		if (oldPoly instanceof GeoPolygon)
+		if (oldPoly instanceof GeoPolygon) {
 			ret = cons.getKernel().PolygonND(wrapLabel(polyLabel),
 					transformedPoints);
-		else
+		} else {
 			ret = cons.getKernel().PolyLineND(polyLabel, transformedPoints);
+		}
 
 		for (int i = 0; i < ret.length; i++) {
 			setVisualStyleForTransformations((GeoElement) oldPoly, ret[i]);
+		}
+
+		if (oldPoly instanceof GeoPolygon) {
+			// set segments' color (needs to be done after setting polygon
+			// color)
+			GeoSegmentND[] transformedSegments = ((GeoPolygon) ret[0])
+					.getSegments();
+			GeoSegmentND[] oldSegments = ((GeoPolygon) oldPoly).getSegments();
+			for (int i = 0; i < oldSegments.length; i++) {
+				setVisualStyleForTransformations((GeoElement) oldSegments[i],
+						(GeoElement) transformedSegments[i]);
+				cons.getKernel()
+						.notifyUpdate((GeoElement) transformedSegments[i]);
+			}
 		}
 
 		return ret;
