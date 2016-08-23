@@ -18,7 +18,7 @@ public final class ScrollableSuggestionDisplay extends
 	// I checked this from web-styles.css (5px padding plus 16px font size)
 	// maybe em-size is 19px, 120% of 16px font size... but smaller is OK
 	// TODO: improve it, if we can... this still seems smaller (but OK)
-	public static int lineWidth = 29;
+	public final static int lineWidth = 29;
 	private HasSuggestions editor;
 
 	public ScrollableSuggestionDisplay(HasSuggestions ed) {

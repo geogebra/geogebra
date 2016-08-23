@@ -83,8 +83,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 			btCancel = new Button();
 		}
 		
-		FlowPanel centerPanel = new FlowPanel();
-
 		languageSelector = new ListBox();
 		for (ScriptType type : ScriptType.values()) {
 			languageSelector.addItem(app.getPlain(type.getName()));

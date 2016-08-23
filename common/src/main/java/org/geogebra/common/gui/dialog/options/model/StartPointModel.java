@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
 
 public class StartPointModel extends MultipleOptionsModel {
 
@@ -103,7 +104,7 @@ public class StartPointModel extends MultipleOptionsModel {
 				l.setStartPoint(newLoc);
 				l.toGeoElement().updateRepaint();
 			} catch (CircularDefinitionException e) {
-				app.showError("CircularDefinition");
+				ErrorHelper.handleException(e, app, handler);
 			}			
 		}
 	}

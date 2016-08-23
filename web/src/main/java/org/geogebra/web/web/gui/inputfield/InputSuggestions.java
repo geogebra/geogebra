@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 public class InputSuggestions implements HasSuggestions {
 	protected AutoCompleteDictionary dict;
 	private ScrollableSuggestionDisplay sug;
-	public static int querylimit = 5000;
+	public static final int querylimit = 5000;
 	private List<String> completions;
 	StringBuilder curWord;
 	private int curWordStart;

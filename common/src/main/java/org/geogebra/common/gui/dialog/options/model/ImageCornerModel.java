@@ -98,7 +98,7 @@ public class ImageCornerModel extends MultipleOptionsModel {
 
 		for (int i=0; i < getGeosLength(); i++) {
 			GeoImage im = getGeoImageAt(i);
-			im.setCorner((GeoPoint) newLoc, cornerIdx);
+			im.setCorner(newLoc, cornerIdx);
 			im.updateRepaint();
 		}
 		storeUndoInfo();

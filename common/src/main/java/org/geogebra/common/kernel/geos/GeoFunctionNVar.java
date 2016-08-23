@@ -930,11 +930,11 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	}
 
 	/** helper for pointin region dichotomy */
-	public static int DICHO_FIRST = 0;
+	public static final int DICHO_FIRST = 0;
 	/** helper for pointin region dichotomy */
-	public static int DICHO_LAST = 1;
+	public static final int DICHO_LAST = 1;
 	/** helper for pointin region dichotomy */
-	public static int DICHO_MID = 2;
+	public static final int DICHO_MID = 2;
 
 	static private int DICHO_MAX_STEP = 20;
 

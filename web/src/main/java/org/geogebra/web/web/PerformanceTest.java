@@ -104,7 +104,7 @@ public class PerformanceTest implements EntryPoint {
 		GeoPoint G = regPoly1.getPoly().getPoint(2);
 		GeoPoint H = regPoly1.getPoly().getPoint(3);
 
-		GeoSegment b = new AlgoJoinPointsSegment(cons, "b", D, A).getSegment();
+		new AlgoJoinPointsSegment(cons, "b", D, A).getSegment();
 
 		GeoSegment d = new AlgoJoinPointsSegment(cons, "d", A, B).getSegment();
 
@@ -148,52 +148,52 @@ public class PerformanceTest implements EntryPoint {
 		GeoPoint S = regPoly4.getPoly().getPoint(2);
 		GeoPoint T = regPoly4.getPoly().getPoint(3);
 
-		AlgoPolygon ptPoly5 = new AlgoPolygon(cons, null, new GeoPointND[] { Q,
-		        M, T, S });
+		new AlgoPolygon(cons, null, new GeoPointND[] { Q, M, T, S })
+				.getOutput();
 
-		AlgoPolygon ptPoly6 = new AlgoPolygon(cons, null, new GeoPointND[] { S,
-		        N, F, H });
+		new AlgoPolygon(cons, null, new GeoPointND[] { S, N, F, H })
+				.getOutput();
 
-		AlgoPolygon ptPoly7 = new AlgoPolygon(cons, null, new GeoPointND[] { H,
-		        G, L, P });
+		new AlgoPolygon(cons, null, new GeoPointND[] { H, G, L, P })
+				.getOutput();
 
-		AlgoPolygon ptPoly8 = new AlgoPolygon(cons, null, new GeoPointND[] { O,
-		        R, Q, P });
+		new AlgoPolygon(cons, null, new GeoPointND[] { O, R, Q, P })
+				.getOutput();
 
-		AlgoPolygon ptPoly9 = new AlgoPolygon(cons, null, new GeoPointND[] { Q,
-		        S, H, P });
+		new AlgoPolygon(cons, null, new GeoPointND[] { Q, S, H, P })
+				.getOutput();
 
-		GeoSegment e1 = new AlgoJoinPointsSegment(cons, "e1", Q, M)
+		new AlgoJoinPointsSegment(cons, "e1", Q, M)
 		        .getSegment();
 
-		GeoSegment f1 = new AlgoJoinPointsSegment(cons, "f1", M, T)
+		new AlgoJoinPointsSegment(cons, "f1", M, T)
 		        .getSegment();
 
-		GeoSegment g1 = new AlgoJoinPointsSegment(cons, "g1", T, S)
+		new AlgoJoinPointsSegment(cons, "g1", T, S)
 		        .getSegment();
 
-		GeoSegment h1 = new AlgoJoinPointsSegment(cons, "h1", A, M)
+		new AlgoJoinPointsSegment(cons, "h1", A, M)
 		        .getSegment();
 
-		GeoSegment i1 = new AlgoJoinPointsSegment(cons, "i1", A, R)
+		new AlgoJoinPointsSegment(cons, "i1", A, R)
 		        .getSegment();
 
-		GeoSegment j1 = new AlgoJoinPointsSegment(cons, "j1", T, B)
+		new AlgoJoinPointsSegment(cons, "j1", T, B)
 		        .getSegment();
 
-		GeoSegment k1 = new AlgoJoinPointsSegment(cons, "k1", B, N)
+		new AlgoJoinPointsSegment(cons, "k1", B, N)
 		        .getSegment();
 
-		GeoSegment l1 = new AlgoJoinPointsSegment(cons, "l1", (GeoPoint) F, C)
+		new AlgoJoinPointsSegment(cons, "l1", (GeoPoint) F, C)
 		        .getSegment();
 
-		GeoSegment m1 = new AlgoJoinPointsSegment(cons, "m1", C, G)
+		new AlgoJoinPointsSegment(cons, "m1", C, G)
 		        .getSegment();
 
-		GeoSegment n1 = new AlgoJoinPointsSegment(cons, "n1", L, D)
+		new AlgoJoinPointsSegment(cons, "n1", L, D)
 		        .getSegment();
 
-		GeoSegment p1 = new AlgoJoinPointsSegment(cons, "p1", D, O)
+		new AlgoJoinPointsSegment(cons, "p1", D, O)
 		        .getSegment();
 
 		/** Construction end */

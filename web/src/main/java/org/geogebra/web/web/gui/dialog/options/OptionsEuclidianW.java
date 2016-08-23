@@ -19,7 +19,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -348,7 +347,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// axes style
 			lineStyle = new Label(app.getPlain("LineStyle") + ":");
 			final ImageOrText[] iconArray = new ImageOrText[EuclidianOptionsModel.getAxesStyleLength()];
-			GDimensionW iconSize = new GDimensionW(80, 30);
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon
 				        .createAxesStyleIcon(EuclidianStyleConstants.lineStyleOptions[i]);
