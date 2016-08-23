@@ -42,7 +42,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.HelpDialog;
 import org.geogebra.desktop.gui.layout.DockPanelD;
-import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -355,9 +354,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnRedo.setAlignmentX(RIGHT_ALIGNMENT);
 
 		// properties button
-		ImageIcon ic = GeoGebraIcon.joinIcons(
-				app.getScaledIcon(GuiResourcesD.MENU_OPTIONS, iconSize),
-				app.getScaledIcon(GuiResourcesD.TRIANGLE_DOWN, iconSize));
+
 		final JButton btnProperties = new JButton(
 app.getScaledIcon(
 						GuiResourcesD.MENU_OPTIONS, iconSize));

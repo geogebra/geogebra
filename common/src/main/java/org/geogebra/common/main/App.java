@@ -347,7 +347,7 @@ public abstract class App implements UpdateSelection {
 	private SpreadsheetTraceManager traceManager;
 	private ExamEnvironment exam;
 	// currently used application fonts
-	private int appFontSize;
+	private int appFontSize = 16;
 	// moved to Application from EuclidianView as the same value is used across
 	// multiple EVs
 	private int maxLayerUsed = 0;
