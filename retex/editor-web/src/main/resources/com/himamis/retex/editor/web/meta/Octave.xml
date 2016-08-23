@@ -58,8 +58,8 @@
     </Arrays>
 
 	<Matrix>
-		<Open cas="[" tex="\begin{bmatrix} " />
-		<Close cas="]" tex=" \end{bmatrix}" />
+		<Open cas="{" tex="\begin{pmatrix} " />
+		<Close cas="}" tex=" \end{pmatrix}" />
 		<Field cas="," tex=" &amp; " />
 		<Row cas=";" tex=" \\ " />
 	</Matrix>

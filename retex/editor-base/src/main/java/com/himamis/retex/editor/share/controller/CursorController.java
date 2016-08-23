@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.controller;
 
 import java.util.ArrayList;
 
+import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -163,8 +164,10 @@ public class CursorController {
                     return true;
                 }
             }
-            // matrix goes here
         }
+		if (checkMoveArray(component, editorState, -1)) {
+			return true;
+		}
         if (component.getParent() != null) {
             return upField(editorState, component.getParent());
         }
@@ -183,20 +186,46 @@ public class CursorController {
                     return true;
                 }
             }
-            // matrix goes here
-        }
-        if (component.getParent() != null) {
-            return downField(editorState, component.getParent());
-        }
-        return false;
-    }
 
-    /**
-     * set position in editor state from tree path
-     * @param list tree path
-     * @param ct starting container
-     * @param editorState
-     */
+			// matrix goes here
+		}
+		if (checkMoveArray(component, editorState, +1)) {
+			return true;
+		}
+		if (component.getParent() != null) {
+			return downField(editorState, component.getParent());
+		}
+		return false;
+	}
+
+	private boolean checkMoveArray(MathComponent component,
+			EditorState editorState, int rowChange) {
+		if (component.getParent() instanceof MathArray) {
+			MathArray function = (MathArray) component.getParent();
+
+			if (function.rows() > 1) {
+				int downIndex = component.getParentIndex()
+						+ function.columns() * rowChange;
+				if (downIndex < function.size()) {
+					editorState
+							.setCurrentField(function.getArgument(downIndex));
+					editorState.setCurrentOffset(0);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * set position in editor state from tree path
+	 * 
+	 * @param list
+	 *            tree path
+	 * @param ct
+	 *            starting container
+	 * @param editorState
+	 */
 	public void setPath(ArrayList<Integer> list, MathContainer ct,
 			EditorState editorState) {
 		MathContainer current = ct;

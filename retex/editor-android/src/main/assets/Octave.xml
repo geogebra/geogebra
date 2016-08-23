@@ -61,6 +61,13 @@
             <Row cas=";" />
         </Array>
     </Arrays>
+    
+    <Matrix>
+		<Open cas="{" tex="\begin{pmatrix} " />
+		<Close cas="}" tex=" \end{pmatrix}" />
+		<Field cas="," tex=" &amp; " />
+		<Row cas=";" tex=" \\ " />
+	</Matrix>
 
     <Functions group="General">
         <Function name="_" cas="_" tex="_">
