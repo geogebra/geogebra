@@ -90,7 +90,7 @@ public class StartPointModel extends MultipleOptionsModel {
 	
 	public void applyChanges(final String strLoc, ErrorHandler handler) {
 		GeoPointND newLoc = null;
-
+		handler.showError(null);
 		if (strLoc == null || strLoc.trim().length() == 0) {
 			// newLoc = null;
 		} else {

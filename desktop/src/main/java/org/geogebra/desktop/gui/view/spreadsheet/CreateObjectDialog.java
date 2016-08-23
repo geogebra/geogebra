@@ -430,7 +430,7 @@ public class CreateObjectDialog extends InputDialogD implements
 	}
 
 	public boolean isVisible() {
-		return isVisible();
+		return wrappedDialog != null && wrappedDialog.isVisible();
 	}
 
 	public boolean isCopiedByValue() {
