@@ -1361,7 +1361,7 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		protected void onComboBoxChange() {
 			final String item = getComboBox().getValue();
-			model.applyChanges(item);
+			model.applyChanges(item, this);
 
 		}
 
@@ -1376,6 +1376,7 @@ public class OptionsTab extends FlowPanel {
 		public void setSelectedItem(String item) {
 			getComboBox().setValue(item);
 		}
+
 	}
 
 	class CornerPointsPanel extends OptionPanel {
@@ -1467,7 +1468,7 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		protected void onComboBoxChange() {
 			final String strLoc = getComboBox().getValue();
-			getStartPointModel().applyChanges(strLoc);
+			getStartPointModel().applyChanges(strLoc, this);
 
 		}
 

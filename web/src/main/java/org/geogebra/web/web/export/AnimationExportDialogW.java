@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
@@ -227,7 +228,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		        .evaluateToPoint(
 		                "Export_" + idx + "=CopyFreeObject[Corner[" + corner
 		                        + "]]",
-		                false, false);
+ ErrorHelper.silent(), false);
 
 		ret.setEuclidianVisible(false);
 

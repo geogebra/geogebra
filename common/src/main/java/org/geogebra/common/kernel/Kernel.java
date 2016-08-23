@@ -76,6 +76,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -4538,7 +4539,7 @@ public class Kernel {
 			// Application.debug(sb.toString());
 
 			GeoPoint pp = (GeoPoint) getAlgebraProcessor().evaluateToPoint(
-					sb.toString(), true, true);
+					sb.toString(), ErrorHelper.silent(), true);
 
 			try {
 				cons.replace((GeoElement) points[i], pp);
@@ -4636,7 +4637,8 @@ public class Kernel {
 
 			// Log.error(sb.toString());
 
-			p[i] = getAlgebraProcessor().evaluateToPoint(sb.toString(), true,
+			p[i] = getAlgebraProcessor().evaluateToPoint(sb.toString(),
+					ErrorHelper.silent(),
 					false);
 			p[i].setLabel(null);
 			p[i].setEuclidianVisible(false);
@@ -4739,7 +4741,7 @@ public class Kernel {
 			// Application.debug(sb.toString());
 
 			GeoPointND pp = getAlgebraProcessor().evaluateToPoint(
-					sb.toString(), true, true);
+					sb.toString(), ErrorHelper.silent(), true);
 
 			try {
 				(cons).replace((GeoElement) points[i], (GeoElement) pp);

@@ -5140,7 +5140,8 @@ new GPoint(row, column));
 			while (it.hasNext()) {
 				LocateableExpPair pair = it.next();
 				GeoPointND P = pair.point != null ? pair.point
-						: algProc.evaluateToPoint(pair.exp, true, true);
+ : algProc
+						.evaluateToPoint(pair.exp, ErrorHelper.silent(), true);
 				pair.locateable.setStartPoint(P, pair.number);
 
 			}

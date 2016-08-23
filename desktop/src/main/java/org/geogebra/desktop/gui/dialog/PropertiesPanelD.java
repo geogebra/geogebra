@@ -1751,7 +1751,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		private void doActionPerformed() {
 			String strLoc = (String) cbLocation.getSelectedItem();
-			model.applyChanges(strLoc);
+			model.applyChanges(strLoc, app.getDefaultErrorHandler());
 			updateSelection(model.getGeos());
 		}
 
@@ -1836,7 +1836,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == comboBox) {
-				model.applyChanges((String) comboBox.getSelectedItem());
+				model.applyChanges((String) comboBox.getSelectedItem(),
+						app.getDefaultErrorHandler());
 			}
 		}
 
@@ -5298,12 +5299,13 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		if (source == tfName) {
 			// rename
-			model.applyNameChange(tfName.getText(), app.getErrorHandler());
+			model.applyNameChange(tfName.getText(),
+					app.getDefaultErrorHandler());
 
 		} else if (source == tfDefinition) {
 
 			model.applyDefinitionChange(tfDefinition.getText(),
-					app.getErrorHandler());
+					app.getDefaultErrorHandler());
 			tfDefinition.requestFocusInWindow();
 
 		} else if (source == tfCaption) {
@@ -5350,11 +5352,11 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 			// geo
 			if (model.getCurrentGeo() == currentGeoForFocusLost) {
 				model.applyDefinitionChange(tfDefinition.getText(),
-						app.getErrorHandler());
+						app.getDefaultErrorHandler());
 			} else {
 				model.redefineCurrentGeo(currentGeoForFocusLost,
 						tfDefinition.getText(), redefinitionForFocusLost,
-						app.getErrorHandler());
+						app.getDefaultErrorHandler());
 			}
 
 			SwingUtilities.invokeLater(doActionStopped);

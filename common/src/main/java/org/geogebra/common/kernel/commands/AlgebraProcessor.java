@@ -1407,7 +1407,7 @@ public class AlgebraProcessor {
 	 *            true to suppress labeling
 	 * @return resulting point
 	 */
-	public GeoPointND evaluateToPoint(String str, boolean showErrors,
+	public GeoPointND evaluateToPoint(String str, ErrorHandler handler,
 			boolean suppressLabels) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		if (suppressLabels) {
@@ -1429,26 +1429,12 @@ public class AlgebraProcessor {
 			} else {
 				p = (GeoPointND) temp[0];
 			}
-		} catch (CircularDefinitionException e) {
-			if (showErrors) {
-				Log.debug("CircularDefinition");
-				app.showError("CircularDefinition");
-			}
 		} catch (Exception e) {
-			if (showErrors) {
-				e.printStackTrace();
-				app.showError("InvalidInput", str);
-			}
+			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
-			if (showErrors) {
-				e.printStackTrace();
-				app.showError(e);
-			}
+			ErrorHelper.handleError(e, str, loc, handler);
 		} catch (Error e) {
-			if (showErrors) {
-				e.printStackTrace();
-				app.showError("InvalidInput", str);
-			}
+			ErrorHelper.handleException(new Exception(e), app, handler);
 		}
 
 		if (suppressLabels) {

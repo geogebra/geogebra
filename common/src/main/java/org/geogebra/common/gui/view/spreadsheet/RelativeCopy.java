@@ -637,7 +637,9 @@ public class RelativeCopy {
 		if (startPoints != null) {
 			for (int i = 0 ; i < startPoints.length ; i++) {
 				((Locateable)value2).setStartPoint(kernel.getAlgebraProcessor()
-						.evaluateToPoint(startPoints[i], false, true),  i);
+.evaluateToPoint(
+								startPoints[i], app.getDefaultErrorHandler(),
+								true), i);
 			}
 			
 			value2.update();

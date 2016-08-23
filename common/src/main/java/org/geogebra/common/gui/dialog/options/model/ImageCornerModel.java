@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.GeoClass;
 
 public class ImageCornerModel extends MultipleOptionsModel {
@@ -85,14 +86,14 @@ public class ImageCornerModel extends MultipleOptionsModel {
 
 	}
 	
-	public void applyChanges(final String strLoc) {
+	public void applyChanges(final String strLoc, ErrorHandler handler) {
 		GeoPointND newLoc = null;
 
 		if (strLoc == null || strLoc.trim().length() == 0) {
 			// newLoc = null;
 		} else {
 			newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
-					true, true);
+					handler, true);
 		}
 
 		for (int i=0; i < getGeosLength(); i++) {

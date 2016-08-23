@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.error.ErrorHandler;
 
 public class StartPointModel extends MultipleOptionsModel {
 
@@ -86,14 +87,14 @@ public class StartPointModel extends MultipleOptionsModel {
 		return choices2;
 	}
 	
-	public void applyChanges(final String strLoc) {
+	public void applyChanges(final String strLoc, ErrorHandler handler) {
 		GeoPointND newLoc = null;
 
 		if (strLoc == null || strLoc.trim().length() == 0) {
 			// newLoc = null;
 		} else {
 			newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
-					true, true);
+					handler, true);
 		}
 
 		for (int i=0; i < getGeosLength(); i++) {
