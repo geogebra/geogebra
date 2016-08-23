@@ -8194,11 +8194,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return reference to this
 	 */
-	public GeoElement toGeoElement(Construction cons) {
+	public GeoElement toGeoElement(Construction cons1) {
 		return this;
 	}
 

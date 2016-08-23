@@ -176,9 +176,6 @@ public class MathFieldD extends JLabel implements MathField {
 		}
 
 		mathFieldInternal.selectNextArgument();
-		// System.out.println(seq);
-		// state.setSelectionStart(seq.getArgument(pos));
-		// state.setSelectionEnd(seq.getArgument(pos + 4));
 
 		mathFieldInternal.update();
 

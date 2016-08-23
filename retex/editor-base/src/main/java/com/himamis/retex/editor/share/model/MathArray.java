@@ -214,13 +214,18 @@ public class MathArray extends MathContainer {
 			if (getArgument(i).size() == 1
 					&& getArgument(i).getArgument(0) instanceof MathArray) {
 				MathArray row = (MathArray) getArgument(i).getArgument(0);
-				if (matrixWidth == -1) {
+
+				if (row.meta != metaModel.getArray(MetaArray.CURLY)) {
+					return;
+				}
+				else if (matrixWidth == -1) {
 					matrixWidth = row.size();
 				} else if (matrixWidth != row.size()) {
-					matrixWidth = -2;
+					return;
 				}
 			}
 		}
+
 		if (matrixWidth >= 0) {
 			this.columns = matrixWidth;
 			this.rows = size();

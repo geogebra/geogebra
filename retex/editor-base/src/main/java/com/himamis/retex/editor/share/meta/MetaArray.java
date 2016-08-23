@@ -45,7 +45,6 @@ public class MetaArray extends MetaComponent implements MetaGroup {
     MetaArray(String tagName, String name, List<MetaComponent> metaComponents) {
         super(name, name, name, (char) 0, (char) 0);
         this.tagName = tagName;
-		System.out.println(metaComponents.size());
         setupComponents(metaComponents);
     }
 

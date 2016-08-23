@@ -69,9 +69,9 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	public RendererCheckGLVersionD(EuclidianView3D view, boolean useCanvas,
 			RendererType type) {
 		super(view, type);
-
+		Log.debug("create jogl -- use Canvas : " + useCanvas);
 		jogl = new RendererJogl();
-
+		Log.debug("create jogl -- default profile");
 		// init jogl profile
 		isGL2ES2 = RendererJogl.setDefaultProfile();
 
