@@ -55,7 +55,7 @@ public class Test {
 		frame.setVisible(true);
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
-			MathFormula f = p.parse("ggbmatrix(3,3)");
+			MathFormula f = p.parse("{{1,2,3},{4,5,6}}");
 			mathField.setFormula(f);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block

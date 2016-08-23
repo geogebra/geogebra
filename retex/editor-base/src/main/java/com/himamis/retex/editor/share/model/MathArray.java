@@ -27,8 +27,11 @@
  */
 package com.himamis.retex.editor.share.model;
 
+import java.util.ArrayList;
+
 import com.himamis.retex.editor.share.meta.MetaArray;
 import com.himamis.retex.editor.share.meta.MetaComponent;
+import com.himamis.retex.editor.share.meta.MetaModel;
 
 /**
  * Array/array. This class is part of model.
@@ -204,5 +207,38 @@ public class MathArray extends MathContainer {
     public int rows() {
         return rows;
     }
+
+	public void checkMatrix(MetaModel metaModel) {
+		int matrixWidth = -1;
+		for (int i = 0; i < this.size(); i++) {
+			if (getArgument(i).size() == 1
+					&& getArgument(i).getArgument(0) instanceof MathArray) {
+				MathArray row = (MathArray) getArgument(i).getArgument(0);
+				if (matrixWidth == -1) {
+					matrixWidth = row.size();
+				} else if (matrixWidth != row.size()) {
+					matrixWidth = -2;
+				}
+			}
+		}
+		if (matrixWidth >= 0) {
+			this.columns = matrixWidth;
+			this.rows = size();
+			ArrayList<MathComponent> entries = new ArrayList<MathComponent>();
+			for (int i = 0; i < this.size(); i++) {
+				for (int j = 0; j < ((MathContainer) getArgument(i)
+						.getArgument(0)).size(); j++) {
+					MathComponent arg = ((MathContainer) getArgument(i)
+							.getArgument(0)).getArgument(j);
+					arg.setParent(this);
+					entries.add(arg);
+				}
+			}
+			this.arguments.clear();
+			this.arguments.addAll(entries);
+			this.meta = metaModel.getMatrix();
+		}
+
+	}
 
 }

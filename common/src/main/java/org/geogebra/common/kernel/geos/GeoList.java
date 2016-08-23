@@ -831,10 +831,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			sbBuildValueString.append("?");
 			return sbBuildValueString;
 		}
-		if (isMatrix() && tpl == StringTemplate.editorTemplate) {
-			sbBuildValueString.append("ggbmatrix(3,3)");
-			return sbBuildValueString;
-		}
+
 		tpl.leftCurlyBracket(sbBuildValueString);
 
 		// first (n-1) elements

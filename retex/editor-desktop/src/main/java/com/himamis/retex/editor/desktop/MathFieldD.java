@@ -183,4 +183,9 @@ public class MathFieldD extends JLabel implements MathField {
 		mathFieldInternal.update();
 
 	}
+
+	public void setFormula(MathFormula f) {
+		mathFieldInternal.setFormula(f);
+
+	}
 }
