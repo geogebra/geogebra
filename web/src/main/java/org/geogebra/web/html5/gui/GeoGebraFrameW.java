@@ -25,6 +25,12 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.HasAllFocusHandlers;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
@@ -99,6 +105,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	protected static void addDummies(Element parentElement, int i) {
 		SpanElement item = DOM.createSpan().cast();
 		item.addClassName("geogebraweb-dummy-invisible2");
+		item.addClassName("temp_" + i);
 		item.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
 		addFocusEventForDummy(item);
 		dummies.add(item);
@@ -108,11 +115,41 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	protected static native void addFocusEventForDummy(Element dummy) /*-{
 		// this might be needed in case of tabbing by TAB key (more applets)
 		dummy.onfocus = function(evnt) {
-			$wnd.condole.log("dummy onfocus");
-			dummy.fire(document, 'keypress', {
-				keyCode : 9
-			});
+			$wnd.console.log("dummy onfocus");
+			//			this.fire(document, 'keypress', {
+			//				keyCode : 9
+			//			});
+
+			//			var keyboardEvent = document.createEvent("KeyboardEvent");
+			//			var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent"
+			//					: "initKeyEvent";
+			//
+			//			keyboardEvent[initMethod]("keydown", // event type : keydown, keyup, keypress
+			//			true, // bubbles
+			//			true, // cancelable
+			//			window, // viewArg: should be window
+			//			false, // ctrlKeyArg
+			//			false, // altKeyArg
+			//			false, // shiftKeyArg
+			//			false, // metaKeyArg
+			//			9, // keyCodeArg : unsigned long the virtual key code, else 0
+			//			0 // charCodeArgs : unsigned long the Unicode character associated with the depressed key, else 0
+			//			);
+			//			dummy.dispatchEvent(keyboardEvent);
+
+			var TAB_KEY = 9;
+			var keyboardEvent = document.createEvent("KeyboardEvent");
+			var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent"
+					: "initKeyEvent";
+			keyboardEvent[initMethod]("keydown", true, true, window, 0, 0, 0,
+					0, 0, TAB_KEY);
+			document.dispatchEvent(keyboardEvent);
+
 		};
+
+		dummy.onblur = function(evnt) {
+			$wnd.console.log("dummy onblur");
+		}
 	}-*/;
 
 	public static void reCheckForDummies(Element el) {
@@ -125,27 +162,35 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 
 		if (nodes.getLength() > 0) {
-			if (nodes.getItem(0) == el) {
-				// firstDummy!
-				// now we can create dummy elements before & after each applet
-				// with tabindex 10000, for ticket #5158
-				if (firstDummy == null) {
-					tackleFirstDummy(el);
 
-					if (lastDummy != null) {
-						programFocusEvent(firstDummy, lastDummy);
-					}
-				}
-			} else if (nodes.getItem(nodes.getLength() - 1) == el) {
-				// lastDummy!
-				if (lastDummy == null) {
-					tackleLastDummy(el);
-
-					if (firstDummy != null) {
-						programFocusEvent(firstDummy, lastDummy);
-					}
+			if (dummies.size() == 0) {
+				Log.debug("dummies size 0");
+				for (int i = 0; i < nodes.getLength() - 1; i++) {
+					addDummies(nodes.getItem(i), i);
 				}
 			}
+
+			// if (nodes.getItem(0) == el) {
+			// // firstDummy!
+			// // now we can create dummy elements before & after each applet
+			// // with tabindex 10000, for ticket #5158
+			// if (firstDummy == null) {
+			// tackleFirstDummy(el);
+			//
+			// if (lastDummy != null) {
+			// programFocusEvent(firstDummy, lastDummy);
+			// }
+			// }
+			// } else if (nodes.getItem(nodes.getLength() - 1) == el) {
+			// // lastDummy!
+			// if (lastDummy == null) {
+			// tackleLastDummy(el);
+			//
+			// if (firstDummy != null) {
+			// programFocusEvent(firstDummy, lastDummy);
+			// }
+			// }
+			// }
 		} else {
 			// it would be better for the article tags to always have
 			// GeoGebraConstants.GGM_CLASS_NAME, but in case they do not,

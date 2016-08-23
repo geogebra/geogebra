@@ -67,6 +67,12 @@ public class GlobalKeyDispatcherW extends
 
 	boolean tabfixdebug = false;
 
+	// Temp for testing
+	public void debug(String s){
+		if (tabfixdebug)
+			Log.debug(s);
+	}
+
 	private void initNativeKeyHandlers() {
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
 
@@ -76,34 +82,38 @@ public class GlobalKeyDispatcherW extends
 					return;
 				}
 
+				if (tabfixdebug) debug("onpreviewnativeevent - " + event.getTypeInt());
+				printActiveElement();
+
+				Element targetElement = Element.as(event.getNativeEvent()
+						.getEventTarget());
+
 				switch (event.getTypeInt()) {
 				case Event.ONKEYDOWN:
 
-					if (tabfixdebug)
-						Log.debug("typeint: " + event.getTypeInt());
+					debug("keydown!");
+					debug("typeint: " + event.getTypeInt());
 
-					Element targetElement = Element.as(event.getNativeEvent()
-							.getEventTarget());
-
-					if (hasParentWithClassName(targetElement, "geogebraweb") // TODO:
-																				// not
-																				// "geogebraweb"
+					if (isGGBApplet(targetElement)
 							&& !isFocused()) {
-						if (tabfixdebug) {
-							Log.debug("not focused");
-						}
+						debug("not focused");
 
 						event.cancel();
 
 						// TODO find the dummy element in another way
-						((AppW) app).getArticleElement()
-								.getElementsByTagName("span").getItem(0)
-								.focus();
+						// ((AppW) app).getArticleElement()
+						// .getElementsByTagName("span").getItem(0)
+						// .focus();
+						GeoGebraFrameW.dummies.get(0).focus();
 					}
 					break;
 
 				case Event.ONKEYUP:
-					event.cancel();
+					debug("keyup!");
+
+					if (isGGBApplet(targetElement)) {
+						event.cancel();
+					}
 					break;
 				}
 			}
@@ -111,24 +121,34 @@ public class GlobalKeyDispatcherW extends
 		});
 	}
 
-	boolean hasParentWithClassName(Element el, String className) {
-		Log.debug("targetElement parent check");
-		Log.debug(el.getClassName());
+	/*
+	 * Returns true, if el is ggb applet, but not the dummy element
+	 */
+	boolean isGGBApplet(Element el) {
+		return hasParentWithClassName(el, "geogebraweb")
+				&& el.getClassName().indexOf("geogebraweb-dummy-invisible") < 0; // TODO:
+																		// not
+																// "geogebraweb"
+	}
+
+	private boolean hasParentWithClassName(Element el, String className) {
+		debug("targetElement parent check");
+		debug(el.getClassName());
 		while (el.hasParentElement()) {
 			el = el.getParentElement();
 			List<String> classnames = Arrays.asList(el.getClassName()
 					.split(" "));
 			if (classnames.contains(className)) {
-				Log.debug("has parent ... InFocus: " + inFocus);
+				debug("has parent ... InFocus: " + inFocus);
 				return true;
 			}
 		}
-		Log.debug("no parent ...");
+		debug("no parent ...");
 		return false;
 	}
 
 	public void setFocused(boolean f) {
-		Log.debug("Focus set to: " + f);
+		debug("Focus set to: " + f);
 		inFocus = f;
 	}
 
@@ -137,7 +157,6 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public void onKeyPress(KeyPressEvent event) {
-		Log.debug("Key pressed:" + event.getCharCode());
 		setDownKeys(event);
 		event.stopPropagation();
 		if (inFocus) {
@@ -162,7 +181,6 @@ public class GlobalKeyDispatcherW extends
 
 		// this needs to be done in onKeyPress -- keyUp is not case sensitive
 		if (!event.isAltKeyDown() && !event.isControlKeyDown()) {
-			Log.debug("Key pressed:" + event.getCharCode());
 			this.renameStarted(event.getCharCode());
 		}
 	}
@@ -191,7 +209,8 @@ public class GlobalKeyDispatcherW extends
 
 		// we have keypress here only
 		// do this only, if we really have focus
-		Log.debug(inFocus + "");
+
+		debug("dispatchEvent - inFocus" + inFocus);
 		if (inFocus) {
 			handleKeyPressed(event);
 		} else if (event.getNativeKeyCode() == com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER) {
@@ -304,6 +323,8 @@ public class GlobalKeyDispatcherW extends
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (kc == KeyCodes.TAB) {
 
+			debug("InFocus (GKDW.onkeydown): " + this.inFocus);
+
 			// event.stopPropagation() is already called!
 			boolean success = handleTab(event.isControlKeyDown(),
 					event.isShiftKeyDown(), false);
@@ -331,7 +352,8 @@ public class GlobalKeyDispatcherW extends
 				EuclidianViewW.tabPressed = false;
 				keydownPreventsDefaultKeypressTAB = true;
 			}
-			 if (tabfixdebug) printActiveElement();
+			if (tabfixdebug)
+				printActiveElement();
 		} else if (kc == KeyCodes.ESCAPE) {
 			keydownPreventsDefaultKeypressTAB = true;
 			// EuclidianViewW.tabPressed = false;
@@ -346,7 +368,7 @@ public class GlobalKeyDispatcherW extends
 			// }
 
 			if (GeoGebraFrameW.dummies.size() > 0) {
-				if (tabfixdebug) Log.debug("dummies! :)");
+				debug("dummies! :)");
 			}
 
 
@@ -360,7 +382,8 @@ public class GlobalKeyDispatcherW extends
 		if (keydownPreventsDefaultKeypressTAB) {
 			event.preventDefault();
 		}
-		if(tabfixdebug) printActiveElement();
+		if (tabfixdebug)
+			printActiveElement();
 	}
 
 	private boolean preventBrowserCtrl(KeyCodes kc) {
@@ -377,6 +400,8 @@ public class GlobalKeyDispatcherW extends
 	 * cycle
 	 */
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
+
+		debug("GKDW - handleTab");
 
 		app.getActiveEuclidianView().closeDropdowns();
 		
