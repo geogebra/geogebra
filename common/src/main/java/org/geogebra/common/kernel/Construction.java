@@ -2913,7 +2913,7 @@ public class Construction {
 
 		geoSetsTypeMap.clear();
 		euclidianViewCE.clear();
-		arbitraryConsTable.clear();
+
 		this.corner5Algos = null;
 		this.corner11Algos = null;
 		this.casDummies.clear();

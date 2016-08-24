@@ -2910,7 +2910,9 @@ public class Kernel {
 			animationManager.stopAnimation();
 			animationManager.clearAnimatedGeos();
 		}
-
+		if (clearScripts) {
+			cons.getArbitraryConsTable().clear();
+		}
 		cons.clearConstruction();
 		notifyClearView();
 		notifyRepaint();
