@@ -155,10 +155,10 @@
 			<Parameter name="x" type="number" order="0" />
 		</Function>
 
-		<Function name="nthroot" cas="nthroot" tex="\sqrt" key="r" img="nroot.png" insert="1" desc="nth root" >
-			<Parameter name="x" type="number" order="0" up="1" />
-			<Parameter name="n" type="number" order="1" down="0" />
-		</Function>
+		<Function name="nroot" cas="nroot" insert="1" tex="\sqrt">
+            <Parameter name="n" down="0" order="0" type="number" />
+            <Parameter name="x" order="1" type="number" up="1" />
+        </Function>
 
 		<!-- not yet implemented -
 		<Function name="nsum" cas="nsum" tex="\nsum" key="" img="nsum.png" desc="sum" >

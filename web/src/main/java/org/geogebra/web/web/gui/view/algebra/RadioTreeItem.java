@@ -208,6 +208,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 			setVisible(false);
 		}
 
+		public void setVisible(boolean b) {
+			super.setVisible(b);
+			if (b) {
+				Log.printStacktrace("SHOW CONTROLS");
+			}
+
+		}
+
 		/**
 		 * Gets (and creates if there is not yet) the delete button which geo
 		 * item can be removed with from AV.
@@ -268,13 +276,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 			return animPanel;
 		}
 
-		public void update(boolean showX) {
+		public boolean update(boolean showX) {
 			setFirst(first);
 
 			if (geo == null) {
-				return;
+				return false;
 			}
-
+			boolean ret = false;
 			if (selectionCtrl.isSingleGeo() || selectionCtrl.isEmpty()) {
 				setFirst(first);
 				clear();
@@ -300,12 +308,13 @@ public abstract class RadioTreeItem extends AVTreeItem
 				}
 
 				getAV().setActiveTreeItem(RadioTreeItem.this);
-
+				ret = true;
 			} else {
 				getAV().removeCloseButton();
 			}
 
 			updateAnimPanel();
+			return ret;
 		}
 
 		public void removeAnimPanel() {
@@ -2068,8 +2077,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 				.containsSelectedGeo(geo);
 
 		if (!controls.isVisible() && geoInSelection) {
-			controls.setVisible(true);
-			controls.update(true);
+			if (controls.update(true)) {
+				// don't show controls for multiselect
+				controls.setVisible(true);
+			}
 		} else if (controls.isVisible() && !geoInSelection) {
 			controls.setVisible(false);
 		}
