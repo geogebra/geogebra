@@ -4015,6 +4015,10 @@ public abstract class App implements UpdateSelection {
 		//MOB-788
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;
+
+		//MOB-823, MOB-824
+		case MOBILE_APPS_CONNECTION:
+			return prerelease;
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
