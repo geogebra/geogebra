@@ -439,6 +439,14 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 	}
 
+	/**
+	 * Store content of input bar in history (even when it's wrong); update
+	 * autoInput to prevent resending
+	 */
+	protected void storeFaultyInput() {
+		inputField.addToHistory(getTextField().getText());
+		autoInput = getTextField().getText();
+	}
 	private ErrorHandler getErrorHandler(final boolean valid,
 			final boolean explicit) {
 		return new ErrorHandler() {
@@ -446,6 +454,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			public void showError(String msg) {
 				if (explicit) {
 					app.getDefaultErrorHandler().showError(msg);
+					storeFaultyInput();
 				}
 
 			}
@@ -454,6 +463,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 				if (explicit) {
 					app.getDefaultErrorHandler().showCommandError(command,
 							message);
+					storeFaultyInput();
 				}
 
 			}
