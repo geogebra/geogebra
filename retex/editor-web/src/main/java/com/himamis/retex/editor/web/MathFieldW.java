@@ -98,7 +98,7 @@ public class MathFieldW implements MathField, IsWidget {
 		mathFieldInternal.setType(TeXFormula.SANSSERIF);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 		if (tick == null) {
-			Timer t = new Timer() {
+			tick = new Timer() {
 
 				@Override
 				public void run() {
@@ -108,7 +108,7 @@ public class MathFieldW implements MathField, IsWidget {
 					}
 				}
 			};
-			t.scheduleRepeating(500);
+			tick.scheduleRepeating(500);
 		}
 		instances.add(this);
 	}
