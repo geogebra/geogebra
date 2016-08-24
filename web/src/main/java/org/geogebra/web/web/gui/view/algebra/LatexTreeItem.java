@@ -167,6 +167,7 @@ public class LatexTreeItem extends RadioTreeItem
 		if (mf == null) {
 			mf = new MathFieldW(canvas, canvas.getContext2d(), this);
 		}
+		mf.setPixelRatio(app.getPixelRatio());
 		return false;
 	}
 
@@ -477,6 +478,15 @@ public class LatexTreeItem extends RadioTreeItem
 
 	public void onMouseMove(MouseMoveEvent event) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setPixelRatio(float pixelRatio) {
+		if (mf != null) {
+			mf.setPixelRatio(pixelRatio);
+			mf.repaint();
+		}
 
 	}
 

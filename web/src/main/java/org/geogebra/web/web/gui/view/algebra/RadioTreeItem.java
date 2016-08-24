@@ -2536,5 +2536,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		this.forceControls = forceControls;
 	}
 
+	public void setPixelRatio(float pixelRatio) {
+		// only for LaTeX tree item
+
+	}
+
 }
 

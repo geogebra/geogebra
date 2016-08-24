@@ -384,6 +384,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				}
 			}
 		}
+		if (getInputTreeItem() != null) {
+			getInputTreeItem().setPixelRatio(app.getPixelRatio());
+		}
 	}
 
 
