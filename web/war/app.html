@@ -273,7 +273,7 @@ var app = document.createElement("script");
 		}
 		function resizeStart(){
 			if(e("perspectivesBox")){
-				e("perspectivesBox").style.top= Math.max(0,Math.round(window.innerHeight/2 -250))+"px";
+				e("perspectivesBox").style.top= (Math.max(0,Math.round(window.innerHeight/2 -250))-53)+"px";
 			}
 		}
 		resizeStart();
@@ -588,7 +588,7 @@ margin: 0px 5px 0px 0px;
 	bottom: 0;
     position: absolute !important;
     right: 0;
-    top: 0;
+    top: 53px;
     left: 0;
 }
 /** KEYBOARD */
