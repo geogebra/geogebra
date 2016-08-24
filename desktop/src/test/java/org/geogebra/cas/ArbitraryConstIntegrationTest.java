@@ -103,27 +103,7 @@ public class ArbitraryConstIntegrationTest {
 
 			f.computeOutput();
 
-			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<Command>();
-
-			f.getInputVE().traverse(CommandCollector.getCollector(commands));
-
-			if (!commands.isEmpty()) {
-				for (Command cmd : commands) {
-					String cmdName = cmd.getName();
-					// Numeric used
-					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName)
-									&& cmd.getArgumentNumber() > 1);
-				}
-			}
-
-			result = f.getOutputValidExpression() != null
-					? f.getOutputValidExpression()
-							.toString(includesNumericCommand
-									? StringTemplate.testNumeric
-									: StringTemplate.testTemplate)
-					: f.getOutput(StringTemplate.testTemplate);
+			result = getOutput(f);
 		} catch (Throwable t) {
 			String sts = "";
 			StackTraceElement[] st = t.getStackTrace();
@@ -318,27 +298,7 @@ public class ArbitraryConstIntegrationTest {
 			f.setInput(inputUpdate);
 			f.computeOutput();
 
-			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<Command>();
-
-			f.getInputVE().traverse(CommandCollector.getCollector(commands));
-
-			if (!commands.isEmpty()) {
-				for (Command cmd : commands) {
-					String cmdName = cmd.getName();
-					// Numeric used
-					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName)
-									&& cmd.getArgumentNumber() > 1);
-				}
-			}
-
-			result = f.getOutputValidExpression() != null
-					? f.getOutputValidExpression()
-							.toString(includesNumericCommand
-									? StringTemplate.testNumeric
-									: StringTemplate.testTemplate)
-					: f.getOutput(StringTemplate.testTemplate);
+			result = getOutput(f);
 		} catch (Throwable t) {
 			String sts = "";
 			StackTraceElement[] st = t.getStackTrace();
@@ -387,8 +347,7 @@ public class ArbitraryConstIntegrationTest {
 	 */
 	private static void casCellupdate2(String cell1Input, String cell2Input,
 			String cell1InputUpdate, String cell2InputUpdate,
-			String expectedResult1, String expectedResult2,
-			String... validResults) {
+			String expectedResult1, String expectedResult2) {
 		String result1, result2;
 
 		try {
@@ -407,52 +366,12 @@ public class ArbitraryConstIntegrationTest {
 			f2.setInput(cell2InputUpdate);
 			f2.computeOutput();
 
-			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<Command>();
-
-			f2.getInputVE().traverse(CommandCollector.getCollector(commands));
-
-			if (!commands.isEmpty()) {
-				for (Command cmd : commands) {
-					String cmdName = cmd.getName();
-					// Numeric used
-					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName)
-									&& cmd.getArgumentNumber() > 1);
-				}
-			}
-
-			result2 = f2.getOutputValidExpression() != null
-					? f2.getOutputValidExpression()
-							.toString(includesNumericCommand
-									? StringTemplate.testNumeric
-									: StringTemplate.testTemplate)
-					: f2.getOutput(StringTemplate.testTemplate);
+			result2 = getOutput(f2);
 
 			f1.setInput(cell1InputUpdate);
 			f1.computeOutput();
 
-			includesNumericCommand = false;
-			commands = new HashSet<Command>();
-
-			f1.getInputVE().traverse(CommandCollector.getCollector(commands));
-
-			if (!commands.isEmpty()) {
-				for (Command cmd : commands) {
-					String cmdName = cmd.getName();
-					// Numeric used
-					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName)
-									&& cmd.getArgumentNumber() > 1);
-				}
-			}
-
-			result1 = f1.getOutputValidExpression() != null
-					? f1.getOutputValidExpression()
-							.toString(includesNumericCommand
-									? StringTemplate.testNumeric
-									: StringTemplate.testTemplate)
-					: f1.getOutput(StringTemplate.testTemplate);
+			result1 = getOutput(f1);
 
 		} catch (Throwable t) {
 			String sts = "";
@@ -468,11 +387,35 @@ public class ArbitraryConstIntegrationTest {
 			result1 = t.getClass().getName() + ":" + t.getMessage() + sts;
 			result2 = t.getClass().getName() + ":" + t.getMessage() + sts;
 		}
-
+		String[] alternatives = new String[0];
 		assertThat(result1, equalToIgnoreWhitespaces(logger, cell1Input,
-				expectedResult1, validResults));
+				expectedResult1, alternatives));
 		assertThat(result2, equalToIgnoreWhitespaces(logger, cell2Input,
-				expectedResult2, validResults));
+				expectedResult2, alternatives));
+	}
+
+	private static String getOutput(GeoCasCell f2) {
+		HashSet<Command> commands = new HashSet<Command>();
+
+		f2.getInputVE().traverse(CommandCollector.getCollector(commands));
+		boolean includesNumericCommand = false;
+		if (!commands.isEmpty()) {
+			for (Command cmd : commands) {
+				String cmdName = cmd.getName();
+				// Numeric used
+				includesNumericCommand = includesNumericCommand
+						|| ("Numeric".equals(cmdName)
+								&& cmd.getArgumentNumber() > 1);
+			}
+		}
+
+		return f2.getOutputValidExpression() != null
+				? f2.getOutputValidExpression()
+						.toString(includesNumericCommand
+								? StringTemplate.testNumeric
+								: StringTemplate.testTemplate)
+				: f2.getOutput(StringTemplate.testTemplate);
+
 	}
 
 	@Test
@@ -514,27 +457,9 @@ public class ArbitraryConstIntegrationTest {
 			f1.setInput(cell1InputUpdate);
 			f1.computeOutput();
 
-			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<Command>();
 
-			f1.getInputVE().traverse(CommandCollector.getCollector(commands));
 
-			if (!commands.isEmpty()) {
-				for (Command cmd : commands) {
-					String cmdName = cmd.getName();
-					// Numeric used
-					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName)
-									&& cmd.getArgumentNumber() > 1);
-				}
-			}
-
-			result1 = f1.getOutputValidExpression() != null
-					? f1.getOutputValidExpression()
-							.toString(includesNumericCommand
-									? StringTemplate.testNumeric
-									: StringTemplate.testTemplate)
-					: f1.getOutput(StringTemplate.testTemplate);
+			result1 = getOutput(f1);
 
 			GeoCasCell f2 = new GeoCasCell(kernel.getConstruction());
 			kernel.getConstruction().addToConstructionList(f2, false);
@@ -545,27 +470,7 @@ public class ArbitraryConstIntegrationTest {
 			f2.setInput(cell2InputUpdate);
 			f2.computeOutput();
 
-			includesNumericCommand = false;
-			commands = new HashSet<Command>();
-
-			f2.getInputVE().traverse(CommandCollector.getCollector(commands));
-
-			if (!commands.isEmpty()) {
-				for (Command cmd : commands) {
-					String cmdName = cmd.getName();
-					// Numeric used
-					includesNumericCommand = includesNumericCommand
-							|| ("Numeric".equals(cmdName)
-									&& cmd.getArgumentNumber() > 1);
-				}
-			}
-
-			result2 = f2.getOutputValidExpression() != null
-					? f2.getOutputValidExpression()
-							.toString(includesNumericCommand
-									? StringTemplate.testNumeric
-									: StringTemplate.testTemplate)
-					: f2.getOutput(StringTemplate.testTemplate);
+			result2 = getOutput(f2);
 
 		} catch (Throwable t) {
 			String sts = "";
