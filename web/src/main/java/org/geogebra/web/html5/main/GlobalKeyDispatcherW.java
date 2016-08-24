@@ -79,20 +79,22 @@ public class GlobalKeyDispatcherW extends
 
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 
-				Element targetElement = Element.as(event.getNativeEvent()
-						.getEventTarget());
-				ArticleElement ggbApplet = getGGBApplet(targetElement);
-				if(ggbApplet == null) {
-					return;
-				}
-
-				
 
 				switch (event.getTypeInt()) {
 					case Event.ONKEYDOWN:
 
+					Element targetElement = Element.as(event.getNativeEvent()
+						.getEventTarget());
+					ArticleElement ggbApplet = getGGBApplet(targetElement);
+					if (ggbApplet == null) {
+						return;
+					}
+
 					if (event.getNativeEvent().getKeyCode() == 9) { // TAB
 																	// pressed
+
+						debug("targetElement class: "
+								+ targetElement.getClassName());
 
 						if (!isFocused()) {
 							event.cancel();
@@ -109,9 +111,6 @@ public class GlobalKeyDispatcherW extends
 							}
 						}
 
-						if (tabfixdebug) {
-							printActiveElement();
-						}
 					} else if (event.getNativeEvent().getKeyCode() == 13) { // ENTER
 																			// pressed
 						if (!isFocused()) {
@@ -164,41 +163,32 @@ public class GlobalKeyDispatcherW extends
 
 	// TODO - not only parent element
 	private boolean hasParentWithClassName(Element el, String className) {
-		debug("targetElement parent check");
-		debug(el.getClassName());
 		do {
 
 			List<String> classnames = Arrays.asList(el.getClassName()
 					.split(" "));
 			if (classnames.contains(className)) {
-				debug("has parent ... InFocus: " + inFocus);
 				return true;
 			}
 			if (el.hasParentElement())
 				el = el.getParentElement();
 		} while (el.hasParentElement());
 
-		debug("no parent ...");
 		return false;
 	}
 
 	// TODO - not only parent element
 	private Element getParentWithClassName(Element el, String className) {
-		debug("targetElement parent check");
-		debug(el.getClassName());
 		do {
 
 			List<String> classnames = Arrays.asList(el.getClassName()
 					.split(" "));
 			if (classnames.contains(className)) {
-				debug("has parent ... InFocus: " + inFocus);
 				return el;
 			}
 			if (el.hasParentElement())
 				el = el.getParentElement();
 		} while (el.hasParentElement());
-
-		debug("no parent ...");
 		return null;
 	}
 
@@ -265,7 +255,6 @@ public class GlobalKeyDispatcherW extends
 		// we have keypress here only
 		// do this only, if we really have focus
 
-		debug("dispatchEvent - inFocus" + inFocus);
 		if (inFocus) {
 			handleKeyPressed(event);
 		} else if (event.getNativeKeyCode() == com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER) {
@@ -407,8 +396,6 @@ public class GlobalKeyDispatcherW extends
 				EuclidianViewW.tabPressed = false;
 				keydownPreventsDefaultKeypressTAB = true;
 			}
-			if (tabfixdebug)
-				printActiveElement();
 		} else if (kc == KeyCodes.ESCAPE) {
 			keydownPreventsDefaultKeypressTAB = true;
 			// EuclidianViewW.tabPressed = false;
