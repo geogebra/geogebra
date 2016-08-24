@@ -239,7 +239,6 @@ public class MathFieldW implements MathField, IsWidget {
 		ctx.setFillStyle("rgb(255,255,255)");
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(),
 				lastIcon.getIconHeight() + 15);
-		debug(CursorBox.blink);
 		JlmLib.draw(lastIcon, ctx, 0, 0, "#000000", "#FFFFFF", null);
 
 	}
