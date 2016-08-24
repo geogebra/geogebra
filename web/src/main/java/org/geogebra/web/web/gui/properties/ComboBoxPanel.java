@@ -27,6 +27,7 @@ public abstract class ComboBoxPanel extends OptionPanel
 	
 	public ComboBoxPanel(App app, final String title) {
 		this.loc = app.getLocalization();
+		this.app = app;
 		this.title = title;
 		label = new Label();
 		comboBox = new ComboBoxW((AppW) app) {

@@ -253,6 +253,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				if (draggedRow != null) {
 					draggedRow.removeClassName("isDragging");
 				}
+				Log.debug(event.getNativeEvent().getScreenX());
 				if (Window.getClientWidth()+event.getNativeEvent().getScreenX() > table.getElement().getAbsoluteRight() ||
 						Window.getClientWidth()+event.getNativeEvent().getScreenX() < table.getElement().getAbsoluteLeft()) {
 					return;

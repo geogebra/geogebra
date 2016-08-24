@@ -440,12 +440,14 @@ public class DrawAxis {
 
 						// store position of number, so grid line can avoid
 						// it
-						view.axesLabelsPositionsY.add(new Integer(
+						view.axesLabelsPositionsY.add(Integer
+								.valueOf(
 								(int) (pix + Kernel.MIN_PRECISION)));
 					}
 				}
 				if (drawMajorTicks[1]
-						&& (!view.showAxes[0] || rw != view.axisCross[0])) {
+						&& (!view.showAxes[0]
+								|| !Kernel.isEqual(rw, view.axisCross[0]))) {
 					g2.setStroke(view.tickStroke);
 					g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 				}
@@ -523,7 +525,6 @@ public class DrawAxis {
 				g2.drawStraightLine(pix, yZeroTick, pix, yBig);
 			}
 			pix += axesStep;
-			rw += view.axesNumberingDistances[0];
 			labelno += 1;
 		}
 		for (; pix < view.getWidth(); pix += axesStep) {
@@ -567,14 +568,15 @@ public class DrawAxis {
 
 						// store position of number, so grid line can avoid
 						// it
-						view.axesLabelsPositionsX.add(new Integer(
+						view.axesLabelsPositionsX.add(Integer
+								.valueOf(
 								(int) (pix + Kernel.MIN_PRECISION)));
 					}
 				}
 				// big tick
 				if (drawMajorTicks[0]
-						&& (!view.showAxes[1] || pix != view
-								.toScreenCoordX(view.axisCross[1]))) {
+						&& (!view.showAxes[1] || !Kernel.isEqual(pix,
+								view.toScreenCoordX(view.axisCross[1])))) {
 					g2.setStroke(view.tickStroke);
 					g2.drawStraightLine(pix, yZeroTick, pix, yBig);
 				}

@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
-import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -93,8 +92,6 @@ public class DrawAxis3D extends DrawLine3D {
 
 		int axisIndex = axis.getType();
 
-		NumberFormatAdapter numberFormat = getView3D().getAxisNumberFormat(
-				axisIndex);
 		double distance = getView3D().getAxisNumberingDistance(axisIndex);
 
 		// Application.debug("drawMinMax="+getDrawMin()+","+getDrawMax());
@@ -116,8 +113,9 @@ public class DrawAxis3D extends DrawLine3D {
 		}
 
 		// sets all already existing labels not visible
-		for (DrawLabel3D label : labels.values())
-			label.setIsVisible(false);
+		for (DrawLabel3D currentLabel : labels.values()) {
+			currentLabel.setIsVisible(false);
+		}
 
 		if (getView3D().getShowAxisNumbers(axisIndex)) {
 
