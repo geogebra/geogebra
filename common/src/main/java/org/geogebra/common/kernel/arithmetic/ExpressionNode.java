@@ -5936,10 +5936,10 @@ kernel, left,
 			}
 		case FUNCTION:
 			if (expandPlus && left instanceof Functional) {
-				ExpressionNode expCopy = ((Functional) left)
-						.getFunction().getExpression().deepCopy(kernel);
+				Function fn = ((Functional) left).getFunction();
+				ExpressionNode expCopy = fn.getExpression().deepCopy(kernel);
 				expCopy.replace(
-						((Functional) left).getFunction()
+fn
 								.getFunctionVariables()[0],
 						denR == null ? numR : numR.wrap().divide(denR));
 				expCopy.getFraction(parts, expandPlus);
