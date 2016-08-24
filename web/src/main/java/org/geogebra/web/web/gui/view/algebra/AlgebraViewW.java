@@ -369,17 +369,19 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			TreeItem ti = getItem(i);
 			if (ti instanceof CheckboxTreeItem) {
 				CheckboxTreeItem.as(ti).repaint();
-				return;
-			}
-			geo = getItem(i).getUserObject();
-			if (geo instanceof GeoElement) {
-				RadioTreeItem.as(ti).repaint();
-			} else if (ti.getWidget() instanceof GroupHeader) {				
-				((GroupHeader) ti.getWidget()).setText(ti.getUserObject().toString());
-				if (ti.getState()) {
-					repaintChildren(ti);
-				}
 
+			} else {
+				geo = getItem(i).getUserObject();
+				if (geo instanceof GeoElement) {
+					RadioTreeItem.as(ti).repaint();
+				} else if (ti.getWidget() instanceof GroupHeader) {
+					((GroupHeader) ti.getWidget())
+							.setText(ti.getUserObject().toString());
+					if (ti.getState()) {
+						repaintChildren(ti);
+					}
+
+				}
 			}
 		}
 	}
@@ -411,7 +413,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
-	private void repaintSlidersDependent(TreeItem ti) {
+	private static void repaintSlidersDependent(TreeItem ti) {
 		if (ti != null) {
 			for (int j = 0; j < ti.getChildCount(); j++) {
 				repaintSliderNode(ti.getChild(j));
@@ -425,7 +427,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
-	private void repaintSliderNode(TreeItem ti) {
+	private static void repaintSliderNode(TreeItem ti) {
 		if (ti instanceof SliderTreeItemInterface) {
 			RadioTreeItem.as(ti).repaint();
 		}
