@@ -73,14 +73,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 
 	public void initPopup(AppW app, ArrayList<GeoElement> geos) {
 		this.geos = geos;
-		geo = geos.get(0);
+		setGeo(geos.get(0));
 
 		wrappedPopup.clearItems();
 
 		String title;
 
 		if (geos.size() == 1) {
-			title = getDescription(geo, false);
+			title = getDescription(getGeo(), false);
 		} else {
 			title = app.getPlain("Selection");
 		}
@@ -112,13 +112,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 
 		// G.Sturr 2010-5-14: allow menu to show spreadsheet trace for
 		// non-drawables
-		if (geo.isDrawable()
-		        || (geo.isSpreadsheetTraceable() && app.getGuiManager() != null && app
+		if (getGeo().isDrawable()
+		        || (getGeo().isSpreadsheetTraceable() && app.getGuiManager() != null && app
 		                .getGuiManager().showView(App.VIEW_SPREADSHEET))) {
 			GCheckBoxMenuItem cbItem;
-			if (geo.isEuclidianShowable()
-			        && geo.getShowObjectCondition() == null
-			        && (!geo.isGeoBoolean() || geo.isIndependent())) {
+			if (getGeo().isEuclidianShowable()
+			        && getGeo().getShowObjectCondition() == null
+			        && (!getGeo().isGeoBoolean() || getGeo().isIndependent())) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.mode_showhideobject_16()
 				                .getSafeUri().asString(),
@@ -128,12 +128,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 						showObjectCmd();
 					}
 				}, true);
-				cbItem.setSelected(geo.isSetEuclidianVisible());
+				cbItem.setSelected(getGeo().isSetEuclidianVisible());
 				wrappedPopup.addItem(cbItem);
 
 			}
 
-			if (geo.isLabelShowable()) {
+			if (getGeo().isLabelShowable()) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.mode_showhidelabel_16()
 				                .getSafeUri().asString(),
@@ -148,7 +148,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 			}
 
 			// trace
-			if (geo.isTraceable()) {
+			if (getGeo().isTraceable()) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.trace_on().getSafeUri()
 				                .asString(), app.getPlain("TraceOn")),
@@ -158,11 +158,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 						        traceCmd();
 					        }
 						}, true);
-				cbItem.setSelected(((Traceable) geo).getTrace());
+				cbItem.setSelected(((Traceable) getGeo()).getTrace());
 				wrappedPopup.addItem(cbItem);
 			}
 
-			if (geo.isSpreadsheetTraceable()
+			if (getGeo().isSpreadsheetTraceable()
 			        && app.getGuiManager().showView(App.VIEW_SPREADSHEET)) {
 				boolean showRecordToSpreadsheet = true;
 				// check if other geos are recordable
@@ -182,12 +182,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 									// recordToSpreadSheetCmd();");
 						}
 					}, true);
-					cbItem.setSelected(geo.getSpreadsheetTrace());
+					cbItem.setSelected(getGeo().getSpreadsheetTrace());
 					wrappedPopup.addItem(cbItem);
 				}
 			}
 
-			if (geo.isAnimatable()) {
+			if (getGeo().isAnimatable()) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.empty().getSafeUri().asString(),
 				        app.getPlain("Animating")), new Command() {
@@ -196,14 +196,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 						animationCmd();
 					}
 				}, true);
-				cbItem.setSelected(((Animatable) geo).isAnimating()
+				cbItem.setSelected(((Animatable) getGeo()).isAnimating()
 				        && app.getKernel().getAnimatonManager().isRunning());
 				wrappedPopup.addItem(cbItem);
 			}
 
 			if (app.getGuiManager() != null
 			        && app.getGuiManager().showView(App.VIEW_ALGEBRA)
-			        && app.showAuxiliaryObjects() && geo.isAlgebraShowable()) {
+			        && app.showAuxiliaryObjects() && getGeo().isAlgebraShowable()) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.aux_folder().getSafeUri()
 				                .asString(), app.getPlain("AuxiliaryObject")),
@@ -213,14 +213,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 						        showObjectAuxiliaryCmd();
 					        }
 						}, true);
-				cbItem.setSelected(geo.isAuxiliaryObject());
+				cbItem.setSelected(getGeo().isAuxiliaryObject());
 				wrappedPopup.addItem(cbItem);
 
 			}
 
 			// fix object
-			if (geo.isFixable()
-			        && (geo.isGeoText() || geo.isGeoImage() || geo
+			if (getGeo().isFixable()
+			        && (getGeo().isGeoText() || getGeo().isGeoImage() || getGeo()
 			                .isGeoButton())) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
@@ -230,10 +230,10 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 						fixObjectCmd();
 					}
 				}, true);
-				cbItem.setSelected(geo.isFixed());
+				cbItem.setSelected(getGeo().isFixed());
 				wrappedPopup.addItem(cbItem);
-			} else if (geo.isGeoNumeric()) {
-				final GeoNumeric num = (GeoNumeric) geo;
+			} else if (getGeo().isGeoNumeric()) {
+				final GeoNumeric num = (GeoNumeric) getGeo();
 				if (num.isSlider()) {
 					cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 							AppResources.INSTANCE.objectFixed().getSafeUri()
@@ -247,7 +247,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					cbItem.setSelected(num.isSliderFixed());
 					wrappedPopup.addItem(cbItem);
 				}
-			} else if (geo.isGeoBoolean()) {
+			} else if (getGeo().isGeoBoolean()) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 						AppResources.INSTANCE.objectFixed().getSafeUri()
 								.asString(),
@@ -257,7 +257,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 						fixCheckboxCmd();
 					}
 				}, true);
-				cbItem.setSelected(((GeoBoolean) geo).isCheckboxFixed());
+				cbItem.setSelected(((GeoBoolean) getGeo()).isCheckboxFixed());
 				wrappedPopup.addItem(cbItem);
 			}
 
@@ -268,7 +268,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		}
 
 		// Rename
-		if (geos.size() == 1 && app.letRename() && geo.isRenameable()) {
+		if (geos.size() == 1 && app.letRename() && getGeo().isRenameable()) {
 			addAction(
 			        new Command() {
 
@@ -281,8 +281,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			        app.getPlain("Rename"));
 		}
 
-		if (geos.size() == 1 && geo instanceof TextValue
-		        && !geo.isTextCommand() && !geo.isFixed()) {
+		if (geos.size() == 1 && getGeo() instanceof TextValue
+		        && !getGeo().isTextCommand() && !getGeo().isFixed()) {
 			addAction(
 			        new Command() {
 
@@ -296,7 +296,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		}
 
 		// DELETE
-		if (app.letDelete() && !geo.isFixed()) {
+		if (app.letDelete() && !getGeo().isFixed()) {
 			addAction(
 			        new Command() {
 
@@ -311,7 +311,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 		// Object properties menuitem
 		if (app.showMenuBar() && app.letShowPropertiesDialog()
-		        && geo.hasProperties()) {
+		        && getGeo().hasProperties()) {
 			wrappedPopup.addSeparator();
 
 			// open properties dialog
@@ -331,7 +331,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 	}
 
 	private void addPin() {
-		if (geo.isPinnable()) {
+		if (getGeo().isPinnable()) {
 			final MenuItem cbItem = new MenuItem(MainMenu.getMenuBarHtml(
 			        AppResources.INSTANCE.pin().getSafeUri().asString(),
 			        app.getPlain("AbsoluteScreenLocation")), true,
@@ -349,7 +349,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					pinCmd(isSelected);
 				}
 			});
-			MainMenu.setMenuSelected(cbItem, geo.isPinned());
+			MainMenu.setMenuSelected(cbItem, getGeo().isPinned());
 			addItem(cbItem);
 			cbItem.addStyleName("mi_with_image");
 		}
@@ -361,12 +361,12 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 	private void addPlaneItems() {
 
-		if (!(geo instanceof ViewCreator))
+		if (!(getGeo() instanceof ViewCreator))
 			return;
 
 		Log.debug("==================== addPlaneItems");
 
-		final ViewCreator plane = (ViewCreator) geo;
+		final ViewCreator plane = (ViewCreator) getGeo();
 
 		Command action = new Command() {
 
@@ -379,13 +379,13 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		        action,
 		        null,
 		        app.getLocalization().getPlain("ShowAas2DView",
-		                geo.getLabelSimple()));
+		                getGeo().getLabelSimple()));
 
 	}
 
 	private void addUserInputItem() {
-		if (geo instanceof GeoImplicit) {
-			final GeoImplicit inputElement = (GeoImplicit) geo;
+		if (getGeo() instanceof GeoImplicit) {
+			final GeoImplicit inputElement = (GeoImplicit) getGeo();
 			if (inputElement.isValidInputForm()) {
 				Command action;
 				if (inputElement.isInputForm()) {
@@ -416,9 +416,9 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 	}
 
 	private void addConicItems() {
-		if (geo.getClass() != GeoConic.class)
+		if (getGeo().getClass() != GeoConic.class)
 			return;
-		GeoConic conic = (GeoConic) geo;
+		GeoConic conic = (GeoConic) getGeo();
 		// there's no need to show implicit equation
 		// if you can't select the specific equation
 		boolean specificPossible = conic.isSpecificPossible();
@@ -480,12 +480,12 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 
 	private void addLineItems() {
-		if (!(geo instanceof GeoLine))
+		if (!(getGeo() instanceof GeoLine))
 			return;
-		if (geo instanceof GeoSegment)
+		if (getGeo() instanceof GeoSegment)
 			return;
 
-		GeoLine line = (GeoLine) geo;
+		GeoLine line = (GeoLine) getGeo();
 		int mode = line.getMode();
 		Command action;
 
@@ -533,14 +533,14 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 	private void addCoordsModeItems() {
 
-		if (!(geo instanceof HasCoordsMode))
+		if (!(getGeo() instanceof HasCoordsMode))
 			return;
 
-		if (geo.isFixed()) {
+		if (getGeo().isFixed()) {
 			return;
 		}
 
-		HasCoordsMode point = (HasCoordsMode) geo;
+		HasCoordsMode point = (HasCoordsMode) getGeo();
 		int mode = point.getMode();
 		Command action;
 

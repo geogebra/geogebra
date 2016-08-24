@@ -40,7 +40,7 @@ public abstract class ContextMenuGeoElement {
 	/** selected elements */
 	protected ArrayList<GeoElement> geos;
 	/** current element */
-	protected GeoElement geo;
+	private String geoLabel;
 	/** application */
 	public App app;
 	protected boolean justOneGeo = false;
@@ -250,7 +250,7 @@ public abstract class ContextMenuGeoElement {
 	public ArrayList<GeoElement> checkOneGeo() {
 		if (justOneGeo) {
 			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
-			ret.add(geo);
+			ret.add(getGeo());
 			return ret;
 		}
 
@@ -258,12 +258,12 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void editCmd() {
-		app.getDialogManager().showTextDialog((GeoText) geo);
+		app.getDialogManager().showTextDialog((GeoText) getGeo());
 	}
 
 	public void renameCmd() {
-		app.getDialogManager().showRenameDialog(geo, true,
-				geo.getLabelSimple(), true);
+		app.getDialogManager().showRenameDialog(getGeo(), true,
+				getGeo().getLabelSimple(), true);
 	}
 
 	public void fixObjectNumericCmd(final GeoNumeric num) {
@@ -406,8 +406,8 @@ public abstract class ContextMenuGeoElement {
 		app.getActiveEuclidianView().repaint();
 
 		// automatically start animation when animating was turned on
-		if (geo.isAnimating())
-			geo.getKernel().getAnimatonManager().startAnimation();
+		if (getGeo().isAnimating())
+			getGeo().getKernel().getAnimatonManager().startAnimation();
 	}
 
 	public void pinCmd(boolean isSelected) {
@@ -435,7 +435,7 @@ public abstract class ContextMenuGeoElement {
 				}
 				geoText.setAbsoluteScreenLocActive(flag);
 				geoText.updateRepaint();
-			} else if (geo.isPinnable()) {
+			} else if (getGeo().isPinnable()) {
 				EuclidianStyleBarStatic.applyFixPosition(geos2, isSelected,
 						app.getActiveEuclidianView());
 			}
@@ -471,9 +471,17 @@ public abstract class ContextMenuGeoElement {
 
 	public void recordToSpreadSheetCmd() {
 		SpreadsheetTraceManager traceManager = app.getTraceManager();
-		if (!traceManager.isTraceGeo(geo)) {
-			traceManager.addSpreadsheetTraceGeo(geo);
+		if (!traceManager.isTraceGeo(getGeo())) {
+			traceManager.addSpreadsheetTraceGeo(getGeo());
 		}
+	}
+
+	protected GeoElement getGeo() {
+		return app.getKernel().lookupLabel(geoLabel);
+	}
+
+	protected void setGeo(GeoElement geo) {
+		this.geoLabel = geo.getLabelSimple();
 	}
 
 }

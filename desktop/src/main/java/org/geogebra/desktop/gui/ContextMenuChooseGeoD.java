@@ -236,11 +236,11 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 																			// done
 																			// next
 																			// step
-						app.getSelectionManager().addSelectedGeo(geo);
+						app.getSelectionManager().addSelectedGeo(getGeo());
 
 					} else { // use geo clicked to process mode
 						Hits hits = new Hits();
-						hits.add(geo);
+						hits.add(getGeo());
 						view.getEuclidianController().processMode(hits, false);
 					}
 				}

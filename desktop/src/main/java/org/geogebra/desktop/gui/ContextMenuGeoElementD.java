@@ -92,12 +92,12 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			Point location) {
 		this(app);
 		this.geos = geos;
-		geo = geos.get(0);
+		setGeo(geos.get(0));
 
 		String title;
 
 		if (geos.size() == 1) {
-			title = getDescription(geo, true);
+			title = getDescription(getGeo(), true);
 		} else {
 			title = app.getPlain("Selection");
 		}
@@ -125,14 +125,14 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	}
 
 	private void addCoordsModeItems() {
-		if (!(geo instanceof HasCoordsMode))
+		if (!(getGeo() instanceof HasCoordsMode))
 			return;
 
-		if (geo.isFixed()) {
+		if (getGeo().isFixed()) {
 			return;
 		}
 
-		HasCoordsMode point = (HasCoordsMode) geo;
+		HasCoordsMode point = (HasCoordsMode) getGeo();
 		int mode = point.getMode();
 		AbstractAction action;
 
@@ -204,12 +204,12 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	}
 
 	private void addLineItems() {
-		if (!(geo instanceof GeoLine))
+		if (!(getGeo() instanceof GeoLine))
 			return;
-		if (geo instanceof GeoSegment)
+		if (getGeo() instanceof GeoSegment)
 			return;
 
-		GeoLine line = (GeoLine) geo;
+		GeoLine line = (GeoLine) getGeo();
 		int mode = line.getMode();
 		AbstractAction action;
 		StringBuilder sb = new StringBuilder();
@@ -269,9 +269,9 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 
 	private void addConicItems() {
-		if (geo.getClass() != GeoConic.class)
+		if (getGeo().getClass() != GeoConic.class)
 			return;
-		GeoConic conic = (GeoConic) geo;
+		GeoConic conic = (GeoConic) getGeo();
 
 		// there's no need to show implicit equation
 		// if you can't select the specific equation
@@ -343,8 +343,8 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	}
 
 	private void addUserInputItem() {
-		if (geo instanceof GeoImplicit) {
-			final GeoImplicit inputElement = (GeoImplicit) geo;
+		if (getGeo() instanceof GeoImplicit) {
+			final GeoImplicit inputElement = (GeoImplicit) getGeo();
 			if (inputElement.isValidInputForm()) {
 				AbstractAction action;
 				if (inputElement.isInputForm()) {
@@ -376,14 +376,14 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	}
 
 	private void addPin() {
-		if (geo.isPinnable()) {
+		if (getGeo().isPinnable()) {
 			// GeoText geoText = (GeoText) geo;
 			// show object
 			final JCheckBoxMenuItem cbItem = new JCheckBoxMenuItem(
 					app.getPlain("AbsoluteScreenLocation"));
 			((AppD) app).setEmptyIcon(cbItem);
 			cbItem.setIcon(((AppD) app).getScaledIcon(GuiResourcesD.PIN));
-			cbItem.setSelected(geo.isPinned());
+			cbItem.setSelected(getGeo().isPinned());
 			cbItem.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					boolean isSelected = cbItem.isSelected();
@@ -395,14 +395,14 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	}
 
 	private void addPlaneItems() {
-		if (!(geo instanceof ViewCreator))
+		if (!(getGeo() instanceof ViewCreator))
 			return;
-		final ViewCreator plane = (ViewCreator) geo;
+		final ViewCreator plane = (ViewCreator) getGeo();
 
 		AbstractAction action;
 
 		action = new AbstractAction(app.getLocalization().getPlain(
-				"ShowAas2DView", geo.getLabelSimple())) {
+				"ShowAas2DView", getGeo().getLabelSimple())) {
 			/**
 			 * 
 			 */
@@ -421,20 +421,20 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 		// G.Sturr 2010-5-14: allow menu to show spreadsheet trace for
 		// non-drawables
-		if (geo.isDrawable()
-				|| (geo.isSpreadsheetTraceable() && app.getGuiManager()
+		if (getGeo().isDrawable()
+				|| (getGeo().isSpreadsheetTraceable() && app.getGuiManager()
 						.showView(App.VIEW_SPREADSHEET))) {
 
 			JCheckBoxMenuItem cbItem;
 
 			// show object
-			if (geo.isEuclidianShowable()
-					&& geo.getShowObjectCondition() == null
-					&& (!geo.isGeoBoolean() || geo.isIndependent())) {
+			if (getGeo().isEuclidianShowable()
+					&& getGeo().getShowObjectCondition() == null
+					&& (!getGeo().isGeoBoolean() || getGeo().isIndependent())) {
 				cbItem = new JCheckBoxMenuItem(app.getPlain("ShowObject"));
 				cbItem.setIcon(((AppD) app)
 						.getScaledIcon(GuiResourcesD.MODE_SHOWHIDEOBJECT_GIF));
-				cbItem.setSelected(geo.isSetEuclidianVisible());
+				cbItem.setSelected(getGeo().isSetEuclidianVisible());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						showObjectCmd();
@@ -443,7 +443,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				addItem(cbItem);
 			}
 
-			if (geo.isLabelShowable()) {
+			if (getGeo().isLabelShowable()) {
 				// show label
 				cbItem = new JCheckBoxMenuItem(app.getPlain("ShowLabel"));
 				cbItem.setSelected(isLabelShown());
@@ -458,11 +458,11 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			}
 
 			// trace
-			if (geo.isTraceable()) {
+			if (getGeo().isTraceable()) {
 				cbItem = new JCheckBoxMenuItem(app.getPlain("TraceOn"));
 				cbItem.setIcon(((AppD) app)
 						.getScaledIcon(GuiResourcesD.TRACE_ON));
-				cbItem.setSelected(((Traceable) geo).getTrace());
+				cbItem.setSelected(((Traceable) getGeo()).getTrace());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						traceCmd();
@@ -475,7 +475,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			// trace to spreadsheet: use SpreadsheetTrace Dialog
 
 			if (app.getGuiManager().showView(App.VIEW_SPREADSHEET)
-					&& geo.hasSpreadsheetTraceModeTraceable()) {
+					&& getGeo().hasSpreadsheetTraceModeTraceable()) {
 
 				// if multiple geos selected, check if recordable as a list
 				if (geos.size() == 1
@@ -484,7 +484,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 							app.getMenu("RecordToSpreadsheet"));
 					cbItem.setIcon(((AppD) app)
 							.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE));
-					cbItem.setSelected(geo.getSpreadsheetTrace());
+					cbItem.setSelected(getGeo().getSpreadsheetTrace());
 
 					cbItem.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
@@ -497,10 +497,10 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			}
 
 			// animation
-			if (geo.isAnimatable()) {
+			if (getGeo().isAnimatable()) {
 				cbItem = new JCheckBoxMenuItem(app.getPlain("Animating"));
 				((AppD) app).setEmptyIcon(cbItem);
-				cbItem.setSelected(((Animatable) geo).isAnimating()
+				cbItem.setSelected(((Animatable) getGeo()).isAnimating()
 						&& app.getKernel().getAnimatonManager().isRunning());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -514,13 +514,13 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			// AUXILIARY OBJECT
 
 			if (app.getGuiManager().showView(App.VIEW_ALGEBRA)
-					&& app.showAuxiliaryObjects() && geo.isAlgebraShowable()) {
+					&& app.showAuxiliaryObjects() && getGeo().isAlgebraShowable()) {
 
 				// show object
 				cbItem = new JCheckBoxMenuItem(app.getPlain("AuxiliaryObject"));
 				cbItem.setIcon(((AppD) app)
 						.getScaledIcon(GuiResourcesD.AUXILIARY));
-				cbItem.setSelected(geo.isAuxiliaryObject());
+				cbItem.setSelected(getGeo().isAuxiliaryObject());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						showObjectAuxiliaryCmd();
@@ -530,14 +530,14 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			}
 
 			// fix object
-			if (geo.isFixable()
-					&& (geo.isGeoText() || geo.isGeoImage()
- || geo
+			if (getGeo().isFixable()
+					&& (getGeo().isGeoText() || getGeo().isGeoImage()
+ || getGeo()
 							.isGeoButton())) {
 
 				cbItem = new JCheckBoxMenuItem(app.getPlain("FixObject"));
 				((AppD) app).setEmptyIcon(cbItem);
-				cbItem.setSelected(geo.isFixed());
+				cbItem.setSelected(getGeo().isFixed());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						fixObjectCmd();
@@ -546,8 +546,8 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				addItem(cbItem);
 			} else
 
-			if (geo.isGeoNumeric()) {
-				final GeoNumeric num = (GeoNumeric) geo;
+			if (getGeo().isGeoNumeric()) {
+				final GeoNumeric num = (GeoNumeric) getGeo();
 				if (num.isSlider()) {
 
 					cbItem = new JCheckBoxMenuItem(app.getPlain("FixObject"));
@@ -560,11 +560,11 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 					});
 					addItem(cbItem);
 				}
-			} else if (geo.isGeoBoolean()) {
+			} else if (getGeo().isGeoBoolean()) {
 
 				cbItem = new JCheckBoxMenuItem(app.getPlain("FixCheckbox"));
 				((AppD) app).setEmptyIcon(cbItem);
-				cbItem.setSelected(((GeoBoolean) geo).isCheckboxFixed());
+				cbItem.setSelected(((GeoBoolean) getGeo()).isCheckboxFixed());
 				cbItem.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						fixCheckboxCmd();
@@ -581,7 +581,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 
 		// Rename
-		if (geos.size() == 1 && app.letRename() && geo.isRenameable()) {
+		if (geos.size() == 1 && app.letRename() && getGeo().isRenameable()) {
 			addAction(new AbstractAction(app.getPlain("Rename"),
 					((AppD) app).getScaledIcon(GuiResourcesD.RENAME)) {
 				private static final long serialVersionUID = 1L;
@@ -594,8 +594,8 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 		// EDITING
 		// EDIT Text in special dialog
-		if (geos.size() == 1 && geo instanceof TextValue
-				&& !geo.isTextCommand() && !geo.isFixed()) {
+		if (geos.size() == 1 && getGeo() instanceof TextValue
+				&& !getGeo().isTextCommand() && !getGeo().isFixed()) {
 			addAction(new AbstractAction(app.getPlain("Edit"),
 					((AppD) app).getScaledIcon(GuiResourcesD.EDIT)) {
 				private static final long serialVersionUID = 1L;
@@ -607,7 +607,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		}
 
 		// DELETE
-		if (app.letDelete() && !geo.isFixed()) {
+		if (app.letDelete() && !getGeo().isFixed()) {
 			addAction(new AbstractAction(app.getPlain("Delete"),
 					((AppD) app).getScaledIcon(GuiResourcesD.DELETE_SMALL)) {
 				/**
@@ -621,7 +621,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			});
 		}
 
-		if (((AppD) app).letShowPropertiesDialog() && geo.hasProperties()) {
+		if (((AppD) app).letShowPropertiesDialog() && getGeo().hasProperties()) {
 			wrappedPopup.addSeparator();
 
 			// open properties dialog
@@ -717,7 +717,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	public void recordToSpreadSheetCmd() {
 		GeoElement geoRecordToSpreadSheet;
 		if (geos.size() == 1)
-			geoRecordToSpreadSheet = geo;
+			geoRecordToSpreadSheet = getGeo();
 		else {
 			geoRecordToSpreadSheet = app.getKernel().getAlgoDispatcher()
 					.List(null, geos, false);
