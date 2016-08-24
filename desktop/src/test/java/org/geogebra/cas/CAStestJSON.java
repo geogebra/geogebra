@@ -185,7 +185,7 @@ public class CAStestJSON {
 				assertThat(
 						result,
 						equalToIgnoreWhitespaces(logger, input,
-								expectedResult[i].replaceAll("c_[0-9]", "c_0"),
+								expectedResult[i].replaceAll("c_[0-9]+", "c_0"),
 								validResults));
 				return;
 			} catch (Throwable t) {
@@ -195,7 +195,7 @@ public class CAStestJSON {
 				if (i == expectedResult.length - 1) {
 					Assert.assertEquals(result,
 							(expectedResult[0] == null ? "null"
-									: expectedResult[0].replaceAll("c_[0-9]",
+									: expectedResult[0].replaceAll("c_[0-9]+",
 											"c_0"))
 									+ " input:"
 							+ input);
