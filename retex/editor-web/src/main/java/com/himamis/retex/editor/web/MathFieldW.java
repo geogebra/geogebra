@@ -56,6 +56,7 @@ import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.Resource;
 import com.himamis.retex.renderer.web.JlmLib;
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public class MathFieldW implements MathField, IsWidget {
 
@@ -72,6 +73,7 @@ public class MathFieldW implements MathField, IsWidget {
 	private Context2d ctx;
 	private boolean focused = false;
 	private TeXIcon lastIcon;
+	private float ratio = 1;
 	private static Timer tick;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 
@@ -115,11 +117,10 @@ public class MathFieldW implements MathField, IsWidget {
 	public void setTeXIcon(TeXIcon icon) {
 		this.lastIcon = icon;
 
-		ctx.getCanvas().setHeight(icon.getIconHeight() + 15);
+
 		ctx.getCanvas().getStyle().setHeight(icon.getIconHeight() + 15,
 				Unit.PX);
 
-		ctx.getCanvas().setWidth(icon.getIconWidth() + 30);
 		ctx.getCanvas().getStyle().setWidth(icon.getIconWidth() + 30, Unit.PX);
 		repaint();
 	}
@@ -135,6 +136,9 @@ public class MathFieldW implements MathField, IsWidget {
 		adapter.listenTo(html);
 	}
 
+	public void setPixelRatio(float ratio) {
+		this.ratio = ratio;
+	}
 	@Override
 	public void setKeyListener(final KeyListener keyListener) {
 		html.addDomHandler(new KeyPressHandler() {
@@ -236,7 +240,12 @@ public class MathFieldW implements MathField, IsWidget {
 		if (lastIcon == null) {
 			return;
 		}
+		ctx.getCanvas()
+				.setHeight((int) ((lastIcon.getIconHeight() + 15) * ratio));
+		ctx.getCanvas()
+				.setWidth((int) ((lastIcon.getIconWidth() + 30) * ratio));
 		ctx.setFillStyle("rgb(255,255,255)");
+		((JLMContext2d) ctx).scale2(ratio, ratio);
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(),
 				lastIcon.getIconHeight() + 15);
 		JlmLib.draw(lastIcon, ctx, 0, 0, "#000000", "#FFFFFF", null);
