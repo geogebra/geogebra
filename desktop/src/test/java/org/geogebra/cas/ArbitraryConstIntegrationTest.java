@@ -418,10 +418,17 @@ public class ArbitraryConstIntegrationTest {
 
 	}
 
+	/**
+	 * Before redefinition: c_1 in first row, c_2 in second.
+	 * 
+	 * After redefine 2: c_2 and c_3 in second
+	 * 
+	 * After redefine 1: c_1 and c_4 in first
+	 */
 	@Test
 	public void ArbConst_Integration_3() {
 		casCellupdate2("Integral[x]", "Integral[sin(x)]", "SolveODE[y''+9y=0]",
-				"SolveODE[y''+4y=0]", "y = c_1 * cos(3 * x) + c_2 * sin(3 * x)",
+				"SolveODE[y''+4y=0]", "y = c_1 * cos(3 * x) + c_4 * sin(3 * x)",
 				"y = c_2 * cos(2 * x) + c_3 * sin(2 * x)");
 	}
 
@@ -494,10 +501,15 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	@Test
+	/**
+	 * First cell: c_1 before redefine, c_1 and c_2 after
+	 * 
+	 * Second cell: c_3 before redefine, c_3 and c_4 after
+	 */
 	public void ArbConst_Integration_4() {
 		casCellupdate3("Integral[x]", "Integral[sin(x)]", "SolveODE[y''+9y=0]",
 				"SolveODE[y''+4y=0]", "y = c_1 * cos(3 * x) + c_2 * sin(3 * x)",
-				"y = c_2 * cos(2 * x) + c_3 * sin(2 * x)");
+				"y = c_3 * cos(2 * x) + c_4 * sin(2 * x)");
 	}
 
 	@Test
