@@ -96,16 +96,16 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		parentElement.appendChild(lastDummy);
 	}
 
-	protected static void addDummies(Element parentElement, int i) {
+	protected static void addDummies(Element el, int i) {
 		SpanElement item = DOM.createSpan().cast();
 		item.addClassName("geogebraweb-dummy-invisible2");
 		item.addClassName("temp_" + i);
 		item.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
 		addFocusEventForDummy(item);
 		dummies.add(item);
-		parentElement.appendChild(item);
+		// parentElement.appendChild(item);
 		// siblingElement.getParentElement().appendChild(item);
-		// siblingElement.getParentElement().insertAfter(item, siblingElement);
+		el.getParentElement().insertAfter(item, el);
 	}
 
 	protected static native void addFocusEventForDummy(Element dummy) /*-{
