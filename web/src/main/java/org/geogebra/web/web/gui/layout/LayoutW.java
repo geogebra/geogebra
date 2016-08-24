@@ -85,6 +85,7 @@ public class LayoutW extends Layout implements SettingListener {
 
 		app.getGuiManager().setGeneralToolBarDefinition(
 		        perspective.getToolbarDefinition());
+
 		// override the previous command with the data-param-customToolBar
 		// setting
 		if (!App.isFullAppGui() && app.isApplet()) {
@@ -127,6 +128,8 @@ public class LayoutW extends Layout implements SettingListener {
 		}
 		dockManager.applyPerspective(perspective.getSplitPaneData(),
 		        perspective.getDockPanelData());
+
+
 		if (!app.isIniting()) {
 			app.updateToolBar();
 			app.updateMenubar();
@@ -135,6 +138,10 @@ public class LayoutW extends Layout implements SettingListener {
 		        && app.getInputPosition() != InputPosition.algebraView) {
 			app.updateContentPane();
 		}
+		app.getGuiManager().refreshCustomToolsInToolBar();
+		app.updateToolBar();
+
+
 		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
 		return changed;
 		// old behaviour: just updating center, instead of updateContentPane

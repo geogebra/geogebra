@@ -1556,9 +1556,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			def = this.generalToolbarDefinition;
 		}
 		setToolBarDefinition(def);
+		boolean changed = this.toolbarID != toolbarID && toolbarPanel != null;
+		this.toolbarID = toolbarID;
 
-		if (this.toolbarID != toolbarID && toolbarPanel != null) {
-
+		if (changed) {
+			getToolbarPanel().setActiveToolbar(new Integer(toolbarID));
 			if (toolbarID == App.VIEW_EUCLIDIAN
 					|| toolbarID == App.VIEW_EUCLIDIAN2) {
 				refreshCustomToolsInToolBar();
@@ -1567,10 +1569,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				}
 			}
 
-			getToolbarPanel().setActiveToolbar(new Integer(toolbarID));
 			updateToolbar();
 		}
-		this.toolbarID = toolbarID;
 
 		// in theory, it should do not harm to also set mode here:
 		// app.set1rstMode();

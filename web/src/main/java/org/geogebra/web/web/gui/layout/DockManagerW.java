@@ -1129,7 +1129,7 @@ public class DockManagerW extends DockManager {
 					setActiveToolBarDefault(null);
 				}
 			}
-			
+			app.getGuiManager().refreshCustomToolsInToolBar();
 			app.updateToolBar();
 		}
 
