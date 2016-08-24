@@ -730,7 +730,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			getXMLio().processXMLString(construction, true, false);
 
 
-
 			// Log.debug("end processing" + System.currentTimeMillis());
 			// defaults (optional)
 			if (defaults2d != null) {
@@ -754,12 +753,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			setCurrentFile(archiveContent);
 
 		}
-		String toolbar3D = "";
-		if (hasEuclidianView3D()) {
-			toolbar3D = getGuiManager().getLayout().getDockManager()
-					.getPanel(VIEW_EUCLIDIAN3D).getToolbarString();
-		}
+	}
 
+	/**
+	 * Sets viewId for each macro
+	 * 
+	 * @param toolbar3D
+	 *            toolbar string for 3D View that includes its macros as well.
+	 */
+	public void setMacroViewIds(String toolbar3D) {
 		int macroCount = kernel.getMacroNumber();
 		for (int i = 0; i < macroCount; i++) {
 			Macro macro = kernel.getMacro(i);
@@ -772,8 +774,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 			}
 		}
-	}
 
+	}
 	/**
 	 * Prepare for loading file
 	 */

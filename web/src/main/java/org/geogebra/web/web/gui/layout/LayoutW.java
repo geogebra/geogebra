@@ -117,6 +117,7 @@ public class LayoutW extends Layout implements SettingListener {
 			app.setInputPosition(InputPosition.bottom, false);
 		}
 		
+		String toolbar3D = "";
 
 		// change the dock panel layout
 		app.setKeyboardNeeded(false);
@@ -125,21 +126,28 @@ public class LayoutW extends Layout implements SettingListener {
 					&& (dp.getViewId() == App.VIEW_ALGEBRA || dp.getViewId() == App.VIEW_CAS)) {
 				app.setKeyboardNeeded(true);
 			}
+
+			if (dp.getViewId() == App.VIEW_EUCLIDIAN3D) {
+				toolbar3D = dp.getToolbarString();
+				// Log.debug("TADAM " + toolbar3D);
+			}
 		}
 		dockManager.applyPerspective(perspective.getSplitPaneData(),
 		        perspective.getDockPanelData());
 
 
+		app.setMacroViewIds(toolbar3D);
+
 		if (!app.isIniting()) {
 			app.updateToolBar();
 			app.updateMenubar();
 			app.updateContentPane();
+			app.getGuiManager().refreshCustomToolsInToolBar();
+			app.updateToolBar();
 		} else if (app.showAlgebraInput()
 		        && app.getInputPosition() != InputPosition.algebraView) {
 			app.updateContentPane();
 		}
-		app.getGuiManager().refreshCustomToolsInToolBar();
-		app.updateToolBar();
 
 
 		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
