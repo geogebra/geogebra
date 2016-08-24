@@ -25,12 +25,6 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.event.dom.client.HasAllFocusHandlers;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
@@ -110,9 +104,28 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		addFocusEventForDummy(item);
 		dummies.add(item);
 		parentElement.appendChild(item);
+		// siblingElement.getParentElement().appendChild(item);
+		// siblingElement.getParentElement().insertAfter(item, siblingElement);
 	}
 
 	protected static native void addFocusEventForDummy(Element dummy) /*-{
+
+		dummy.onkeydown = function(event) {
+			$wnd.console.log("dummy onkeydown - keyCode: " + event.keyCode);
+			//$wnd.console.log(document.activeElement);
+			//			if (evnt.keyCode == 13) {
+			//				evnt.keyCode = 9;
+			//				this.dispatchEvent(evnt);
+			//			}
+			//			
+			if (event.keyCode == 13) {
+				var keyEvent = document.createEvent("KeyboardEvent");
+				keyEvent.initKeyboardEvent("onkeydown", true, true, window, 9,
+						event.location, "", event.repeat, event.locale);
+				event.currentTarget.dispatchEvent(keyEvent);
+			}
+		}
+
 		// this might be needed in case of tabbing by TAB key (more applets)
 		dummy.onfocus = function(evnt) {
 			$wnd.console.log("dummy onfocus");
@@ -137,13 +150,60 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			//			);
 			//			dummy.dispatchEvent(keyboardEvent);
 
-			var TAB_KEY = 9;
-			var keyboardEvent = document.createEvent("KeyboardEvent");
-			var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent"
-					: "initKeyEvent";
-			keyboardEvent[initMethod]("keydown", true, true, window, 0, 0, 0,
-					0, 0, TAB_KEY);
-			document.dispatchEvent(keyboardEvent);
+			//			var TAB_KEY = 9;
+			//			var keyboardEvent = document.createEvent("KeyboardEvent");
+			//			var initMethod = typeof keyboardEvent.initKeyboardEvent !== 'undefined' ? "initKeyboardEvent"
+			//					: "initKeyEvent";
+			//			keyboardEvent[initMethod]("keydown", true, true, window, 0, 0, 0,
+			//					0, 9, 0);
+			//
+			//			//keyboardEvent.keyCode = 9;
+			//
+			//			$wnd.console.log("keyCode in the new event: "
+			//					+ keyboardEvent.keyCode);
+			//
+			//			//(typeArg, canBubbleArg, cancelableArg,
+			//			//                           viewArg, charArg, keyArg,
+			//			//                           locationArg, modifiersListArg, repeat)
+			//
+			//			//keyboardEvent[initMethod]("keydown", true, true, $wnd, 0, 9);
+			//			//			keyboardEvent[initMethod]("keydown", true, true,
+			//			//					document.defaultView, 9, 0, "", 0);
+			//
+			//			var hasfeature = document.implementation.hasFeature(
+			//					"KeyboardEvents", "3.0");
+			//			$wnd.console.log("hasfeature: " + hasfeature);
+
+			//			keyboardEvent[initMethod]("keydown", true, true,
+			//					document.defaultView, "a", 0, "Shift", 0);
+
+			//keyboardEvent.which = 9;
+
+			//			keyboardEvent.charCode = 0;
+
+			//			var temp = this.dispatchEvent(keyboardEvent);
+			//			$wnd.console.log("dispatched: " + temp);
+
+			//			var jQueryObject = $wnd.$ggbQuery || $wnd.jQuery;
+			//			jQueryObject.event.trigger({
+			//				type : 'keydown',
+			//				which : 9,
+			//			});
+
+			//			this.on("keydown", 9);
+
+			//			var $ = $wnd.$ggbQuery || $wnd.jQuery;
+			//			$wnd.console.log($(dummy).next("article"));
+			//			$(dummy).next("article").focus();
+			//			$wnd.console.log(document.activeElement);
+
+			//$(dummy).on("keydown", 9);
+
+			//$(dummy).blur();
+
+			//			$(dummy).fire(document, 'keydown', {
+			//				keyCode : 9
+			//			});
 
 		};
 
@@ -165,7 +225,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 			if (dummies.size() == 0) {
 				Log.debug("dummies size 0");
-				for (int i = 0; i < nodes.getLength() - 1; i++) {
+				for (int i = 0; i < nodes.getLength(); i++) {
 					addDummies(nodes.getItem(i), i);
 				}
 			}

@@ -13,6 +13,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.util.ArticleElement;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -78,47 +79,72 @@ public class GlobalKeyDispatcherW extends
 
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 
-				if (event.getNativeEvent().getKeyCode() != 9) {
+				Element targetElement = Element.as(event.getNativeEvent()
+						.getEventTarget());
+				ArticleElement ggbApplet = getGGBApplet(targetElement);
+				if(ggbApplet == null) {
 					return;
 				}
 
-				if (tabfixdebug) debug("onpreviewnativeevent - " + event.getTypeInt());
-				printActiveElement();
-
-				Element targetElement = Element.as(event.getNativeEvent()
-						.getEventTarget());
+				
 
 				switch (event.getTypeInt()) {
-				case Event.ONKEYDOWN:
+					case Event.ONKEYDOWN:
 
-					debug("keydown!");
-					debug("typeint: " + event.getTypeInt());
+					if (event.getNativeEvent().getKeyCode() == 9) { // TAB
+																	// pressed
 
-					if (isGGBApplet(targetElement)
-							&& !isFocused()) {
-						debug("not focused");
+						if (!isFocused()) {
+							event.cancel();
+							ArticleElement nextApplet = getNextGGBApplet(ggbApplet);
+							if (nextApplet == null) {
+								// TODO: go to last dummy - maybe won't dummies
+								// for
+								// all GGW Articles...
+								GeoGebraFrameW.dummies.get(
+										GeoGebraFrameW.dummies.size() - 1)
+										.focus();
+							} else {
+								nextApplet.focus();
+							}
+						}
 
-						event.cancel();
-
-						// TODO find the dummy element in another way
-						// ((AppW) app).getArticleElement()
-						// .getElementsByTagName("span").getItem(0)
-						// .focus();
-						GeoGebraFrameW.dummies.get(0).focus();
+						if (tabfixdebug) {
+							printActiveElement();
+						}
+					} else if (event.getNativeEvent().getKeyCode() == 13) { // ENTER
+																			// pressed
+						if (!isFocused()) {
+							event.cancel();
+							setFocused(true);
+						}
 					}
-					break;
 
-				case Event.ONKEYUP:
-					debug("keyup!");
+						break;
 
-					if (isGGBApplet(targetElement)) {
-						event.cancel();
-					}
-					break;
+//				case Event.ONKEYUP:
+//					debug("keyup!");
+//
+//					if (isGGBApplet(targetElement)) {
+//						event.cancel();
+//					}
+//					break;
+//				}
 				}
 			}
 
 		});
+	}
+
+	ArticleElement getNextGGBApplet(ArticleElement ggbapp) {
+		ArrayList<ArticleElement> mobileTags = ArticleElement
+				.getGeoGebraMobileTags();
+		for (int i = 0; i < mobileTags.size() - 1; i++) {
+			if (mobileTags.get(i).equals(ggbapp)) {
+				return mobileTags.get(i + 1);
+			}
+		}
+		return null;
 	}
 
 	/*
@@ -131,20 +157,49 @@ public class GlobalKeyDispatcherW extends
 																// "geogebraweb"
 	}
 
+	ArticleElement getGGBApplet(Element el) {
+		// TODO: sure ArticleElement?
+		return ArticleElement.as(getParentWithClassName(el, "geogebraweb"));
+	}
+
+	// TODO - not only parent element
 	private boolean hasParentWithClassName(Element el, String className) {
 		debug("targetElement parent check");
 		debug(el.getClassName());
-		while (el.hasParentElement()) {
-			el = el.getParentElement();
+		do {
+
 			List<String> classnames = Arrays.asList(el.getClassName()
 					.split(" "));
 			if (classnames.contains(className)) {
 				debug("has parent ... InFocus: " + inFocus);
 				return true;
 			}
-		}
+			if (el.hasParentElement())
+				el = el.getParentElement();
+		} while (el.hasParentElement());
+
 		debug("no parent ...");
 		return false;
+	}
+
+	// TODO - not only parent element
+	private Element getParentWithClassName(Element el, String className) {
+		debug("targetElement parent check");
+		debug(el.getClassName());
+		do {
+
+			List<String> classnames = Arrays.asList(el.getClassName()
+					.split(" "));
+			if (classnames.contains(className)) {
+				debug("has parent ... InFocus: " + inFocus);
+				return el;
+			}
+			if (el.hasParentElement())
+				el = el.getParentElement();
+		} while (el.hasParentElement());
+
+		debug("no parent ...");
+		return null;
 	}
 
 	public void setFocused(boolean f) {

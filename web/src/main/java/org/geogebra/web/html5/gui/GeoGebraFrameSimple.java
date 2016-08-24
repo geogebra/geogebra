@@ -54,7 +54,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 		// tackleLastDummy(geoGebraMobileTags
 		// .get(geoGebraMobileTags.size() - 1));
 		// programFocusEvent(firstDummy, lastDummy);
-			for (int i = 0; i < geoGebraMobileTags.size() - 1; i++) {
+			for (int i = 0; i < geoGebraMobileTags.size(); i++) {
 				addDummies(geoGebraMobileTags.get(i), i);
 			}
 		}
