@@ -140,6 +140,24 @@ public class OptionsMenu {
 	public void updateMenuDecimalPlaces() {
 		if (menuDecimalPlaces == null)
 			return;
+		
+		int pos = getMenuDecimalPosition(kernel);
+
+		try {
+			menuDecimalPlaces.setSelected(pos);
+		} catch (Exception e) {
+			//
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @return position in rounding menu regarding current kernel settings
+	 */
+	static final public int getMenuDecimalPosition(Kernel kernel) {
 		int pos = -1;
 
 		if (kernel.useSignificantFigures) {
@@ -154,11 +172,7 @@ public class OptionsMenu {
 
 		}
 
-		try {
-			menuDecimalPlaces.setSelected(pos);
-		} catch (Exception e) {
-			//
-		}
+		return pos;
 
 	}
 
