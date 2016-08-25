@@ -332,26 +332,39 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 	private void addPin() {
 		if (getGeo().isPinnable()) {
-			final MenuItem cbItem = new MenuItem(MainMenu.getMenuBarHtml(
-			        AppResources.INSTANCE.pin().getSafeUri().asString(),
-			        app.getPlain("AbsoluteScreenLocation")), true,
-			        new Command() {
-
-				        public void execute() {
-					        // must set emtpy because "not initialized..." error
-				        }
-			        });
-			cbItem.setScheduledCommand(new Command() {
+			final boolean pinned = getGeo().isPinned();
+			GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(
+					MainMenu.getMenuBarHtml(
+							AppResources.INSTANCE.pin().getSafeUri().asString(),
+							app.getPlain("AbsoluteScreenLocation")),
+					new Command() {
 
 				public void execute() {
-					boolean isSelected = (cbItem.getStyleName().indexOf(
-					        "checked") > -1);
-					pinCmd(isSelected);
+							pinCmd(pinned);
 				}
-			});
-			MainMenu.setMenuSelected(cbItem, getGeo().isPinned());
-			addItem(cbItem);
-			cbItem.addStyleName("mi_with_image");
+					}, true);
+			cbItem.setSelected(pinned);
+			//
+			// final MenuItem cbItem = new MenuItem(MainMenu.getMenuBarHtml(
+			// AppResources.INSTANCE.pin().getSafeUri().asString(),
+			// app.getPlain("AbsoluteScreenLocation")), true,
+			// new Command() {
+			//
+			// public void execute() {
+			// // must set emtpy because "not initialized..." error
+			// }
+			// });
+			// cbItem.setScheduledCommand(new Command() {
+			//
+			// public void execute() {
+			// boolean isSelected = (cbItem.getStyleName().indexOf(
+			// "checked") > -1);
+			// pinCmd(isSelected);
+			// }
+			// });
+			// MainMenu.setMenuSelected(cbItem, getGeo().isPinned());
+			wrappedPopup.addItem(cbItem);
+			// cbItem.addStyleName("mi_with_image");
 		}
 	}
 
