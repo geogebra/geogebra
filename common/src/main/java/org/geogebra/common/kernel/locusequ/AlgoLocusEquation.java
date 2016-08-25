@@ -44,18 +44,21 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 
     private GeoPoint movingPoint, locusPoint;
-    public static final String CLASS_NAME = "AlgoLocusEqu";
 	private GeoImplicit geoPoly;
 	private GeoElement[] efficientInput, standardInput;
 	private String efficientInputFingerprint;
     private EquationSystem old_system = null; // for caching
 	private GeoElement implicitLocus = null;
+
     
-	public AlgoLocusEquation(Construction cons, String label, GeoPoint locusPoint, GeoPoint movingPoint) {
-		this(cons, locusPoint, movingPoint);
-        this.geoPoly.setLabel(label);
-	}
-    
+	/**
+	 * @param cons
+	 *            construction
+	 * @param locusPoint
+	 *            dependent point
+	 * @param movingPoint
+	 *            moving point
+	 */
     public AlgoLocusEquation(Construction cons, GeoPoint locusPoint, GeoPoint movingPoint) {
         super(cons);
         
@@ -69,12 +72,14 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		initialCompute();
     }
 
-	public AlgoLocusEquation(Construction cons, String label,
-			GeoElement implicitLocus, GeoPoint movingPoint) {
-		this(cons, implicitLocus, movingPoint);
-		this.geoPoly.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param implicitLocus
+	 *            boolean describing the locus
+	 * @param movingPoint
+	 *            moving point
+	 */
 	public AlgoLocusEquation(Construction cons, GeoElement implicitLocus,
 			GeoPoint movingPoint) {
 		super(cons);
@@ -170,14 +175,16 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		}
 		String efficientInputFingerprintPrev = efficientInputFingerprint;
 		setInputOutput();
-		if (!efficientInputFingerprintPrev.equals(efficientInputFingerprint)) {
+		if (efficientInputFingerprintPrev == null
+				|| !efficientInputFingerprintPrev
+						.equals(efficientInputFingerprint)) {
 			Log.trace(efficientInputFingerprintPrev + " -> "
 					+ efficientInputFingerprint);
 			initialCompute();
 		}
 	}
 
-	public void initialCompute() {
+	private void initialCompute() {
 		if (implicitLocus != null) {
 			computeExplicitImplicit(true);
 			return;
