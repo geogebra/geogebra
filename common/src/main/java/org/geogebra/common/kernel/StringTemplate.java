@@ -1985,12 +1985,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// Log.debug(left.getClass()+" "+right.getClass());
 			// Log.debug(leftStr+" "+rightStr);
 
-			if (left instanceof MySpecialDouble
-					&& right instanceof ExpressionNode
-					&& ((ExpressionNode) right).getOperation().isInequality()) {
+			if (right instanceof ExpressionNode
+					&& ((ExpressionNode) right).getOperation().isInequality()
+					&& left.evaluatesToNumber(false)) {
 				// eg 3(x<4)
 				// MySpecialDouble shouldn't be negative, but just in case:
-				boolean reverse = leftStr.startsWith("-");
+				boolean reverse = left.evaluateDouble() < 0;
 
 				sb.append('(');
 				sb.append(leftStr);
@@ -2005,12 +2005,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(expToString(((ExpressionNode) right).getRight(),
 						valueForm));
 				sb.append(')');
-			} else if (right instanceof MySpecialDouble
-					&& left instanceof ExpressionNode
-					&& ((ExpressionNode) left).getOperation().isInequality()) {
+			} else if (left instanceof ExpressionNode
+					&& ((ExpressionNode) left).getOperation().isInequality()
+					&& right.evaluatesToNumber(false)) {
 				// eg 3(x<4)
 				// MySpecialDouble shouldn't be negative, but just in case:
-				boolean reverse = rightStr.startsWith("-");
+				boolean reverse = right.evaluateDouble() < 0;
 
 				sb.append('(');
 				sb.append(rightStr);
