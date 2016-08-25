@@ -104,7 +104,7 @@ public class MathFieldW implements MathField, IsWidget {
 				public void run() {
 					CursorBox.blink = !CursorBox.blink;
 					for (MathFieldW field : instances) {
-						field.repaint();
+						// field.repaintWeb();
 					}
 				}
 			};
@@ -115,6 +115,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	@Override
 	public void setTeXIcon(TeXIcon icon) {
+		trace("SET ICON");
 		this.lastIcon = icon;
 
 
@@ -122,7 +123,7 @@ public class MathFieldW implements MathField, IsWidget {
 				Unit.PX);
 
 		ctx.getCanvas().getStyle().setWidth(icon.getIconWidth() + 30, Unit.PX);
-		repaint();
+		repaintWeb();
 	}
 
 	@Override
@@ -132,7 +133,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	@Override
 	public void setClickListener(ClickListener clickListener) {
-		ClickAdapterW adapter = new ClickAdapterW(clickListener);
+		ClickAdapterW adapter = new ClickAdapterW(clickListener, this);
 		adapter.listenTo(html);
 	}
 
@@ -175,7 +176,6 @@ public class MathFieldW implements MathField, IsWidget {
 				boolean handled = keyListener.onKeyPressed(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
-				MathFieldW.this.setFocus(true);
 				// need to prevent sdefault for arrows to kill keypress
 				// (otherwise strange chars appear in Firefox). Backspace/delete
 				// also need killing.
@@ -235,8 +235,11 @@ public class MathFieldW implements MathField, IsWidget {
 	public MetaModel getMetaModel() {
 		return metaModel;
 	}
-
 	public void repaint() {
+
+	}
+
+	public void repaintWeb() {
 		if (lastIcon == null) {
 			return;
 		}
@@ -253,7 +256,11 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	private native void debug(boolean blink) /*-{
-		console.log(blink);
+		$wnd.console.log(blink);
+	}-*/;
+
+	private native void trace(String txt) /*-{
+		$wnd.console.trace(txt);
 	}-*/;
 
 	public boolean hasFocus() {
@@ -299,6 +306,8 @@ public class MathFieldW implements MathField, IsWidget {
 
 	public void setFocus(boolean focus) {
 		if (focus) {
+			startBlink();
+
 			Timer t = new Timer() {
 
 				@Override
@@ -311,6 +320,8 @@ public class MathFieldW implements MathField, IsWidget {
 			startEditing();
 			html.getElement().focus();
 
+		} else {
+			instances.remove(this);
 		}
 		this.focused = focus;
 	}
@@ -334,5 +345,11 @@ public class MathFieldW implements MathField, IsWidget {
 	public void selectNextArgument() {
 		this.mathFieldInternal.selectNextArgument();
 
+	}
+
+	public void startBlink() {
+		if (!instances.contains(this)) {
+			instances.add(this);
+		}
 	}
 }

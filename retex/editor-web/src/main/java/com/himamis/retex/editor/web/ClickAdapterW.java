@@ -28,13 +28,16 @@ public class ClickAdapterW
 	private ClickListener handler;
 	private boolean pointerIsDown = false;
 	private Widget widget;
+	private MathFieldW mf;
 
-	public ClickAdapterW(ClickListener handler) {
+	public ClickAdapterW(ClickListener handler, MathFieldW mf) {
 		this.handler = handler;
+		this.mf = mf;
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
 		SelectionBox.touchSelection = false;
+		mf.startBlink();
 		handler.onPointerDown(event.getX(), event.getY());
 		Event.setCapture(widget.getElement());
 		this.pointerIsDown = true;
