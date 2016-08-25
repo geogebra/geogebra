@@ -208,14 +208,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 			setVisible(false);
 		}
 
-		public void setVisible(boolean b) {
-			super.setVisible(b);
-			if (b) {
-				Log.printStacktrace("SHOW CONTROLS");
-			}
-
-		}
-
 		/**
 		 * Gets (and creates if there is not yet) the delete button which geo
 		 * item can be removed with from AV.
@@ -528,6 +520,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 *
 	 */
 	protected void createAvexWidget() {
+		// only for checkboxes
 	}
 
 	private String getLatexString(boolean MathQuill, Integer limit) {
@@ -685,8 +678,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return updateValuePanel(geo, text);
 	}
 
-	private boolean updateValuePanel(GeoElement geo, String text) {
-		if (geo == null || !geo.needToShowBothRowsInAV()) {
+	private boolean updateValuePanel(GeoElement geo1, String text) {
+		if (geo1 == null || !geo1.needToShowBothRowsInAV()) {
 			return false;
 		}
 
@@ -723,10 +716,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		valuePanel.clear();
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
-		geo.getAlgebraDescriptionTextOrHTMLDefault(sb);
+		geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
 		valuePanel.add(new HTML(sb.toString()));
 		if (latex) {
-			valCanvas = DrawEquationW.paintOnCanvas(geo, text, valCanvas,
+			valCanvas = DrawEquationW.paintOnCanvas(geo1, text, valCanvas,
 					getFontSize());
 			valCanvas.addStyleName("canvasVal");
 			if (valCanvas != null) {
@@ -1446,7 +1439,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
 
-		if (marblePanel.isHit(evt.getClientX(), evt.getClientY())) {
+		if (marblePanel != null
+				&& marblePanel.isHit(evt.getClientX(), evt.getClientY())) {
 			return;
 		}
 
@@ -1666,6 +1660,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
+	/**
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param rightClick
+	 *            wheher rght click was used
+	 */
 	protected boolean handleAVItem(int x, int y, boolean rightClick) {
 
 		if (!selectionCtrl.isSelectHandled()) {
@@ -2541,6 +2543,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		this.forceControls = forceControls;
 	}
 
+	/**
+	 * @param pixelRatio
+	 *            pixel ratio for input panel
+	 */
 	public void setPixelRatio(float pixelRatio) {
 		// only for LaTeX tree item
 
