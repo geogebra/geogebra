@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.commands;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoDependentList;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -53,9 +56,21 @@ public class CmdPolygon extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 			// G.Sturr 2010-3-14
 		case 1:
-			if (arg[0].isGeoList())
-				return getAlgoDispatcher().Polygon(c.getLabels(),
-						(GeoList) arg[0]);
+			GeoList l = null;
+			if (arg[0].isGeoList()) {
+				l = (GeoList) arg[0];
+			}
+			if (arg[0].isGeoPoint()) {
+				ArrayList<GeoElement> els = new ArrayList<GeoElement>(1);
+				els.add(arg[0]);
+				AlgoDependentList adl = new AlgoDependentList(cons, els,
+						false);
+				l = adl.getGeoList();
+			}
+			if (l != null) {
+				return getAlgoDispatcher().Polygon(c.getLabels(), l);
+			}
+			throw argErr(arg[0], c);
 			// END G.Sturr
 
 		case 3:

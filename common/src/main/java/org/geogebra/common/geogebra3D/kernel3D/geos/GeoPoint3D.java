@@ -737,7 +737,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			 * Application.debug(getX2D()+","+getY2D()); if (getX2D()>3)
 			 * Application.printStacktrace("ici"); }
 			 */
-			setCoords(((Region3D) region).getPoint(getX2D(), getY2D()),
+			setCoords(((Region3D) region).getPoint(getX2D(), getY2D(),
+					new Coords(4)),
 					doPathOrRegion);
 		} else
 			setCoords(new Coords(getX2D(), getY2D(), 0, 1), doPathOrRegion);

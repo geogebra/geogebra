@@ -373,8 +373,8 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 	// //////////////////////////////////
 
 	@Override
-	public Coords getPoint(double x2d, double y2d) {
-		return getCoordSys().getPoint(x2d, y2d);
+	public Coords getPoint(double x2d, double y2d, Coords coords) {
+		return getCoordSys().getPoint(x2d, y2d, coords);
 	}
 
 	@Override

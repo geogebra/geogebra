@@ -593,8 +593,6 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 		
 
-		int polyLength = poly.getPoints().length;
-
 		// set values
 		updatePoints(poly.getPoints());
 		
@@ -1559,7 +1557,6 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	}
 
 	public void pointChanged(GeoPointND PI) {
-
 		Coords coords = PI.getCoordsInD2();
 		double qx = coords.getX() / coords.getZ();
 		double qy = coords.getY() / coords.getZ();
@@ -1571,26 +1568,26 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		PathParameter pp = PI.getPathParameter();
 		if (segments != null) {
 
-		for (int i = 0; i < segments.length; i++) {
-			PI.setCoords2D(qx, qy, 1);
-			segments[i].pointChanged(PI);
-
-			coords = PI.getCoordsInD2();
-			double x = coords.getX() / coords.getZ() - qx;
-			double y = coords.getY() / coords.getZ() - qy;
-			double dist = x * x + y * y;
-			if (dist < minDist) {
-				minDist = dist;
-				// remember closest point
-				resx = coords.getX();
-				resy = coords.getY();
-				resz = coords.getZ();
-				param = i + pp.t;
+			for (int i = 0; i < segments.length; i++) {
+				PI.setCoords2D(qx, qy, 1);
+				PI.updateCoordsFrom2D(false);
+				segments[i].pointChanged(PI);
+				coords = PI.getCoordsInD2();
+				double x = coords.getX() / coords.getZ() - qx;
+				double y = coords.getY() / coords.getZ() - qy;
+				double dist = x * x + y * y;
+				if (dist < minDist) {
+					minDist = dist;
+					// remember closest point
+					resx = coords.getX();
+					resy = coords.getY();
+					resz = coords.getZ();
+					param = i + pp.t;
+				}
 			}
 		}
-		}
 		PI.setCoords2D(resx, resy, resz);
-
+		PI.updateCoordsFrom2D(false);
 		pp.t = param;
 	}
 
@@ -2176,8 +2173,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		return CoordSys.Identity3D;
 	}
 
-	public Coords getPoint(double x2d, double y2d) {
-		return getCoordSys().getPoint(x2d, y2d);
+	public Coords getPoint(double x2d, double y2d, Coords coords) {
+		return getCoordSys().getPoint(x2d, y2d, coords);
 	}
 
 	public Coords[] getNormalProjection(Coords coords) {

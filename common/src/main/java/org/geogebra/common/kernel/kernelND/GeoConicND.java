@@ -3994,8 +3994,8 @@ FromMeta
 		return getCoordSys().getNormalProjection(coords);
 	}
 	
-	public Coords getPoint(double x2d, double y2d) {
-		return getCoordSys().getPoint(x2d, y2d);
+	public Coords getPoint(double x2d, double y2d, Coords coords) {
+		return getCoordSys().getPoint(x2d, y2d, coords);
 	}
 	
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,

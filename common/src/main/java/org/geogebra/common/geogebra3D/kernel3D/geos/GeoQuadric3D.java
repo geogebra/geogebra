@@ -2396,6 +2396,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return getNormalProjection(willingCoords.add(willingDirection.mul(t1)));
 	}
 
+	public Coords getPoint(double u, double v, Coords coords) {
+		coords.set(evaluatePoint(u, v));
+		return coords;
+	}
+
 	public Coords getPoint(double u, double v) {
 		return evaluatePoint(u, v);
 	}
@@ -2719,7 +2724,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					t1Shift = 2;
 				}
 
-				p.setCoords(plane.getPoint(tmpCoords.getX(), tmpCoords.getY()),
+				p.setCoords(plane.getPoint(tmpCoords.getX(), tmpCoords.getY(),
+						new Coords(4)),
 						false);
 				rp.setT1(PathNormalizer.inverseInfFunction(tmpCoords.getX())
 						+ t1Shift);

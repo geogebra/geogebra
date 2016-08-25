@@ -170,13 +170,13 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 		// pointChangedForRegion(P);
 		RegionParameters rp = P.getRegionParameters();
-		P.setCoords(getPoint(rp.getT1(), rp.getT2()), false);
+		P.setCoords(getPoint(rp.getT1(), rp.getT2(), new Coords(4)), false);
 
 	}
 
 	@Override
-	public Coords getPoint(double x2d, double y2d) {
-		return getCoordSys().getPoint(x2d, y2d);
+	public Coords getPoint(double x2d, double y2d, Coords coords) {
+		return getCoordSys().getPoint(x2d, y2d, coords);
 	}
 
 	// /////////////////////////////////
