@@ -841,4 +841,9 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 		return new GeoElement[] { t.getTransformedConic(this) };
 	}
 
+	@Override
+	public boolean isInverseFillable() {
+		return false;
+	}
+
 }

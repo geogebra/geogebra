@@ -876,4 +876,9 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		parameters.value = 0;
 		parameters.value_defined = true;
 	}
+
+	@Override
+	public boolean isInverseFillable() {
+		return false;
+	}
 }
