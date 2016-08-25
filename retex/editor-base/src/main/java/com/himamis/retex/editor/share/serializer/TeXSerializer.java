@@ -67,6 +67,7 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("?");
 			return;
 		}
+		int lengthBefore = stringBuilder.length();
         boolean addBraces = (sequence.hasChildren() || // {a^b_c}
                 sequence.size() > 1 || // {aa}
                 (sequence.size() == 1 && letterLength(sequence, 0) > 1) || // {\pi}
@@ -105,13 +106,23 @@ public class TeXSerializer extends SerializerAdapter {
 					serialize(sequence, stringBuilder, 0, currentOffset);
 				}
 				if (currentSelStart == null) {
+					
 					stringBuilder.append(cursor);
-					}
+
+				}
 				if (currentOffset < sequence.size()) {
 					serialize(sequence, stringBuilder, currentOffset,
 							sequence.size());
 				}
-
+				boolean emptyFormula = stringBuilder
+						.substring(lengthBefore, stringBuilder.length())
+						.replace("\\nbsp", "").replace(cursor, "").trim()
+						.isEmpty();
+				if(emptyFormula){
+					String cursorFix = stringBuilder.toString().replace(cursor,cursorBig);
+					stringBuilder.setLength(0);
+					stringBuilder.append(cursorFix);
+				}
             } else {
                 serialize(sequence, stringBuilder, 0, sequence.size());
             }
