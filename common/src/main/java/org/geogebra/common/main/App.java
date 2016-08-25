@@ -4019,6 +4019,12 @@ public abstract class App implements UpdateSelection {
 		//MOB-823, MOB-824
 		case MOBILE_APPS_CONNECTION:
 			return prerelease;
+
+		//MOB-827
+		case MOBILE_ROUNDING_OPTION:
+			return prerelease;
+
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
