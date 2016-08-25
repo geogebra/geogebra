@@ -183,7 +183,7 @@ __GGB__keysVar.eu.command = {
     "Column": "Zutabea",
     "Column.Syntax": "[ <Kalkulu-Orriaren Gelaxka> ]",
     "ColumnName": "ZutabeaIzena",
-    "ColumnName.Syntax": "[ <Kalkulu-Orriaren Gelaxka> ]",
+    "ColumnName.Syntax": "[ <Kalkulu-orriaren Gelaxka> ]",
     "Command": "Komandoa",
     "CommonDenominator": "IzendatzaileKomuna",
     "CommonDenominator.Syntax": "[ <Adierazpena>, <Adierazpena> ]",
