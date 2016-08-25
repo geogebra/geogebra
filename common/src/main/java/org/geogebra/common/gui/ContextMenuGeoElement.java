@@ -298,6 +298,7 @@ public abstract class ContextMenuGeoElement {
 			}
 
 		}
+		app.getActiveEuclidianView().getStyleBar().updateStyleBar();
 		app.storeUndoInfo();
 	}
 
@@ -440,6 +441,7 @@ public abstract class ContextMenuGeoElement {
 						app.getActiveEuclidianView());
 			}
 		}
+		app.getActiveEuclidianView().getStyleBar().updateStyleBar();
 		app.storeUndoInfo();
 	}
 
