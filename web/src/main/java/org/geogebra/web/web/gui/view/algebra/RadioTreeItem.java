@@ -2392,7 +2392,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			content.add(getClearInputButton());
+			// content.add(getClearInputButton());
+			if (app.has(Feature.AV_PREVIEW)) {
+				content.insert(getClearInputButton(), 0);
+			} else {
+				content.add(getClearInputButton());
+			}
 			if (controls != null) {
 				controls.setVisible(false);
 			}
