@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.spreadsheet;
 
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetController;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -56,6 +57,8 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	private boolean allowAutoEdit;
 
+	private SpreadsheetController controller;
+
 	public boolean isEnableAutoComplete() {
 		return enableAutoComplete;
 	}
@@ -66,11 +69,8 @@ public class MyCellEditorW implements BaseCellEditor {
 	}
 
 	public MyCellEditorW(Kernel kernel, SpreadsheetViewW view,
-	        SimplePanel editorPanel) {
-
-		// TODO//super(new AutoCompleteTextFieldW(0, (AppW)
-		// kernel.getApplication(), false));
-
+			SimplePanel editorPanel, SpreadsheetController controller) {
+		this.controller = controller;
 		this.kernel = kernel;
 		app = (AppW) kernel.getApplication();
 		this.view = view;
@@ -104,7 +104,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		String text = "";
 
 		if (value != null) {
-			text = getEditorInitString(value);
+			text = controller.getEditorInitString(value);
 			int index = text.indexOf("=");
 			if ((!value.isGeoText())) {
 				if (index == -1) {
@@ -156,16 +156,6 @@ public class MyCellEditorW implements BaseCellEditor {
 	// =======================================================
 	// In-cell Editing Methods
 	// =======================================================
-
-	/**
-	 * Returns the definition of geo used to init the editor when editing is
-	 * started.
-	 * 
-	 * @param geo
-	 */
-	public String getEditorInitString(GeoElement geo) {
-		return geo.getRedefineString(true, false);
-	}
 
 	public boolean isEditing() {
 		return editing;

@@ -259,7 +259,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		case BOOLEAN:
 		case BUTTON:
 		case LIST:
-			table.oneClickEditMap.remove(location);
+			table.getOneClickEditMap().remove(location);
 		}
 		// scheduleRepaint();
 
@@ -300,7 +300,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// restore defaults;
 		app.getSettings().restoreDefaultSpreadsheetSettings();
 		setDefaultSelection();
-		table.oneClickEditMap.clear();
+		table.getOneClickEditMap().clear();
 		tableModel.clearView();
 
 	}
@@ -351,7 +351,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		app.getTraceManager().loadTraceGeoCollection();
 
-		table.oneClickEditMap.clear();
+		table.getOneClickEditMap().clear();
 
 		// clear the formats and call settingsChanged
 		settings().setCellFormat(null);
@@ -393,7 +393,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 			// put geos with special editors in the oneClickEditMap
 			if (geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList()) {
-				table.oneClickEditMap.put(location, geo);
+				table.getOneClickEditMap().put(location, geo);
 			}
 
 			// Update the cell format, it may change with this geo's properties

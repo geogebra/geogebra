@@ -14,12 +14,12 @@ import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetController;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetModeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.OptionType;
@@ -65,8 +65,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	private static final long serialVersionUID = 1L;
 
 	private int tableMode = MyTable.TABLE_MODE_STANDARD;
-
-	public static final int MAX_CELL_EDIT_STRING_LENGTH = 10;
 
 	public static final int DOT_SIZE = 6;
 	public static final int LINE_THICKNESS1 = 3;
@@ -206,14 +204,20 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public static int minusRowHeight = 2; // 12;
 	public static int minusColumnWidth = 2; // 14;
 
-	// Collection of cells that contain geos that can be edited with one click,
-	// e.g. booleans, buttons, lists
-	protected HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<GPoint, GeoElement>();
+	private HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<GPoint, GeoElement>();
 
+	/**
+	 * @return Collection of cells that contain geos that can be edited with one
+	 *         click, e.g. booleans, buttons, lists
+	 */
 	public HashMap<GPoint, GeoElement> getOneClickEditMap() {
 		return oneClickEditMap;
 	}
 
+	/**
+	 * @param oneClickEditMap
+	 *            fast editable geos, see {@link #getOneClickEditMap()}
+	 */
 	public void setOneClickEditMap(HashMap<GPoint, GeoElement> oneClickEditMap) {
 		this.oneClickEditMap = oneClickEditMap;
 	}
@@ -309,7 +313,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		((SpreadsheetTableModelW) tableModel).attachMyTable(this);
 
 		// :NEXT:Grid.setCellFormatter
-		editor = new MyCellEditorW(kernel, view, editorPanel);
+		editor = new MyCellEditorW(kernel, view, editorPanel,
+				getEditorController());
 		// setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields
@@ -1574,6 +1579,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// =============================
 	private GRectangle targetcellFrame;
 
+	private SpreadsheetController controller;
+
 	public GRectangle getTargetcellFrame() {
 		return targetcellFrame;
 	}
@@ -1618,17 +1625,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				return true;
 			}
 			if (!view.getShowFormulaBar()) {
-				if (!geo.isFixed()) {
-					if (!geo.isGeoText()
-					        && editor.getEditorInitString(geo).length() > MAX_CELL_EDIT_STRING_LENGTH) {
-						app.getDialogManager().showRedefineDialog(geo, false);
+
+				if (getEditorController().redefineIfNeeded(geo)) {
 						return true;
 					}
-					if (geo.isGeoText() && ((GeoText) geo).isLaTeX()) {
-						app.getDialogManager().showRedefineDialog(geo, true);
-						return true;
-					}
-				}
+
 			}
 		}
 		// STANDARD case: in cell editing
@@ -1677,6 +1678,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return false;// TODO: implementation needed
 	}
 
+	private SpreadsheetController getEditorController() {
+		if (controller == null) {
+			controller = new SpreadsheetController(app);
+		}
+		return controller;
+	}
 	public int convertColumnIndexToModel(int viewColumnIndex) {
 		return viewColumnIndex;
 	}

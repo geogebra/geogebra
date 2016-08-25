@@ -42,11 +42,11 @@ import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetController;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetModeProcessor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.OptionType;
@@ -63,7 +63,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 	private int tableMode = MyTable.TABLE_MODE_STANDARD;
 
-	public static final int MAX_CELL_EDIT_STRING_LENGTH = 10;
 
 	public static final int DOT_SIZE = 7;
 	public static final int LINE_THICKNESS1 = 3;
@@ -182,6 +181,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			.getPredefinedCursor(Cursor.HAND_CURSOR);
 	protected Cursor grabbingCursor, grabCursor;
 
+	private SpreadsheetController controller;
+
 	/*******************************************************************
 	 * Construct table
 	 */
@@ -236,7 +237,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// add cell renderer & editors
 		setDefaultRenderer(Object.class, new MyCellRenderer(this));
-		editor = new MyCellEditor(kernel);
+		editor = new MyCellEditor(kernel, getEditorController());
 		setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields
@@ -299,6 +300,13 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		// click
 		// changeSelection(0, 0, false, false);
 
+	}
+
+	private SpreadsheetController getEditorController() {
+		if (controller == null) {
+			controller = new SpreadsheetController(app);
+		}
+		return controller;
 	}
 
 	/**
@@ -1305,17 +1313,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 				return true;
 			}
 			if (!view.getShowFormulaBar()) {
-				if (!geo.isFixed()) {
-					if (!geo.isGeoText()
-							&& editor.getEditorInitString(geo).length() > MAX_CELL_EDIT_STRING_LENGTH) {
-						app.getDialogManager().showRedefineDialog(geo, false);
-						return true;
-					}
-
-					if (geo.isGeoText() && ((GeoText) geo).isLaTeX()) {
-						app.getDialogManager().showRedefineDialog(geo, true);
-						return true;
-					}
+				if (getEditorController().redefineIfNeeded(geo)) {
+					return true;
 				}
 			}
 		}

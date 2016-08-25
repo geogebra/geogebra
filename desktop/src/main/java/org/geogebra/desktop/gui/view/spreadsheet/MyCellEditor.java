@@ -12,6 +12,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetController;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -52,6 +53,8 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 	private boolean enableAutoComplete = false;
 
+	private SpreadsheetController controller;
+
 	public boolean isEnableAutoComplete() {
 		return enableAutoComplete;
 	}
@@ -61,11 +64,12 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		textField.setAutoComplete(enableAutoComplete);
 	}
 
-	public MyCellEditor(Kernel kernel) {
+	public MyCellEditor(Kernel kernel, SpreadsheetController controller) {
 
 		super(new AutoCompleteTextFieldD(0, (AppD) kernel.getApplication(),
 				false));
 		this.kernel = kernel;
+		this.controller = controller;
 		app = (AppD) kernel.getApplication();
 		textField = (AutoCompleteTextFieldD) editorComponent;
 		textField.setAutoComplete(enableAutoComplete);
@@ -121,7 +125,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 		String text = "";
 
 		if (value != null) {
-			text = getEditorInitString(value);
+			text = controller.getEditorInitString(value);
 			int index = text.indexOf("=");
 			if ((!value.isGeoText())) {
 				if (index == -1) {
@@ -169,15 +173,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 	// In-cell Editing Methods
 	// =======================================================
 
-	/**
-	 * Returns the definition of geo used to init the editor when editing is
-	 * started.
-	 * 
-	 * @param geo
-	 */
-	public String getEditorInitString(GeoElement geo) {
-		return geo.getRedefineString(true, false);
-	}
+
 
 	public boolean isEditing() {
 		return editing;
