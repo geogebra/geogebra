@@ -2934,7 +2934,10 @@ new GPoint(row, column));
 			String iconFile = attrs.get("iconFile");
 			boolean copyCaptions = parseBoolean(attrs.get("copyCaptions"));
 			String strShowInToolBar = attrs.get("showInToolBar");
-
+			Integer viewId = null;
+			if (attrs.containsKey("viewId")) {
+				viewId = Integer.parseInt(attrs.get("viewId"));
+			}
 			// Make sure we don't have a macro with the same name in kernel.
 			// This can happen when a macro file (ggt) is loaded because
 			// the previous macros are not cleared in this case.
@@ -2954,6 +2957,7 @@ new GPoint(row, column));
 			boolean showTool = strShowInToolBar == null ? true
 					: parseBoolean(strShowInToolBar);
 			macro.setShowInToolBar(showTool);
+			macro.setViewId(viewId);
 
 			MacroKernel macroKernel = kernel.newMacroKernel();
 			macroKernel.setContinuous(false);

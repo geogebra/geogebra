@@ -682,6 +682,11 @@ public class Macro {
 		sb.append(showInToolBar);
 		sb.append("\" copyCaptions=\"");
 		sb.append(copyCaptions);
+		if (viewId != null) {
+			sb.append("\" viewId=\"");
+			sb.append(viewId);
+		}
+
 		sb.append("\">\n");
 
 		// add input labels
