@@ -524,6 +524,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	private String getLatexString(boolean MathQuill, Integer limit) {
+		return getLatexString(geo, MathQuill, limit);
+	}
+
+	private String getLatexString(GeoElement geo, boolean MathQuill,
+			Integer limit) {
 		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
 						&& !isDefinitionAndValue())
 				|| !geo.isDefined() || !geo.isLaTeXDrawableGeo()) {
@@ -807,8 +812,23 @@ public abstract class RadioTreeItem extends AVTreeItem
 		valuePanel.clear();
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 		previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
-		valuePanel.add(new HTML(sb.toString().replace("undefined", "")));
+		String plain = sb.toString();
+		String text = previewGeo
+				.getAlgebraDescription(StringTemplate.latexTemplate);
+		Log.debug("PREV-- " + text);
+		if (!plain.equals(text)) {
+			// LaTeX
+			valCanvas = DrawEquationW.paintOnCanvas(previewGeo, text, valCanvas,
+					getFontSize());
+			valCanvas.addStyleName("canvasVal");
+			if (valCanvas != null) {
+				valuePanel.clear();
+				valuePanel.add(valCanvas);
+			}
+		} else {
+			valuePanel.add(new HTML(plain.replace("undefined", "")));
 
+		}
 		if (outputPanel.getWidgetIndex(valuePanel) == -1) {
 			outputPanel.add(valuePanel);
 		}
