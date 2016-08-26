@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -298,7 +299,8 @@ public abstract class ContextMenuGeoElement {
 			}
 
 		}
-		app.getActiveEuclidianView().getStyleBar().updateStyleBar();
+		getGeo().updateVisualStyle(GProperty.COMBINED);
+		app.getKernel().notifyRepaint();
 		app.storeUndoInfo();
 	}
 
@@ -441,7 +443,9 @@ public abstract class ContextMenuGeoElement {
 						app.getActiveEuclidianView());
 			}
 		}
-		app.getActiveEuclidianView().getStyleBar().updateStyleBar();
+
+		getGeo().updateVisualStyle(GProperty.COMBINED);
+		app.getKernel().notifyRepaint();
 		app.storeUndoInfo();
 	}
 
