@@ -104,7 +104,7 @@ public class MathFieldW implements MathField, IsWidget {
 				public void run() {
 					CursorBox.blink = !CursorBox.blink;
 					for (MathFieldW field : instances) {
-						// field.repaintWeb();
+						field.repaintWeb();
 					}
 				}
 			};
@@ -115,7 +115,6 @@ public class MathFieldW implements MathField, IsWidget {
 
 	@Override
 	public void setTeXIcon(TeXIcon icon) {
-		trace("SET ICON");
 		this.lastIcon = icon;
 
 
@@ -259,9 +258,9 @@ public class MathFieldW implements MathField, IsWidget {
 		$wnd.console.log(blink);
 	}-*/;
 
-	private native void trace(String txt) /*-{
-		$wnd.console.trace(txt);
-	}-*/;
+	// private native void trace(String txt) /*-{
+	// $wnd.console.trace(txt);
+	// }-*/;
 
 	public boolean hasFocus() {
 		return focused;
@@ -304,11 +303,12 @@ public class MathFieldW implements MathField, IsWidget {
 		return this.mathFieldInternal.getFormula();
 	}
 
+	private Timer focuser;
 	public void setFocus(boolean focus) {
 		if (focus) {
 			startBlink();
 
-			Timer t = new Timer() {
+			focuser = new Timer() {
 
 				@Override
 				public void run() {
@@ -316,11 +316,15 @@ public class MathFieldW implements MathField, IsWidget {
 
 				}
 			};
-			t.schedule(200);
+			focuser.schedule(200);
 			startEditing();
 			html.getElement().focus();
 
 		} else {
+			if (focuser != null) {
+				focuser.cancel();
+			}
+			this.lastIcon = null;
 			instances.remove(this);
 		}
 		this.focused = focus;

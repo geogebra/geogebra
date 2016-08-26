@@ -490,4 +490,12 @@ public class LatexTreeItem extends RadioTreeItem
 
 	}
 
+	@Override
+	protected void updateAfterRedefine(boolean success) {
+		if (mf != null && success) {
+			mf.setFocus(false);
+		}
+		super.updateAfterRedefine(success);
+	}
+
 }
