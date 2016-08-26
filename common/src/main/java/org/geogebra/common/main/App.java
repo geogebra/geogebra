@@ -4020,10 +4020,13 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_APPS_CONNECTION:
 			return prerelease;
 
+		// MOB-821
+		case MOBILE_MATERIAL_RELEVANT_APP_TAG:
+			return prerelease;
+
 		//MOB-827
 		case MOBILE_ROUNDING_OPTION:
 			return prerelease;
-
 
 		default:
 			Log.debug("missing case in Feature: " + f);
