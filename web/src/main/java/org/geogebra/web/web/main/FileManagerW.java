@@ -10,6 +10,7 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialFilter;
 import org.geogebra.common.move.ggtapi.models.SyncEvent;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
@@ -29,6 +30,7 @@ import com.google.gwt.storage.client.Storage;
  */
 public class FileManagerW extends FileManager {
 
+	private static final String TIMESTAMP = "timestamp";
 	/** locale storage */
 	Storage stockStore = Storage.getLocalStorageIfSupported();
 
@@ -178,8 +180,8 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void autoSave() {
-		if (this.stockStore == null) {
+	public void autoSave(int counter) {
+		if (this.stockStore == null || counter % 30 != 0) {
 			return;
 		}
 		final StringHandler base64saver = new StringHandler() {
@@ -196,8 +198,24 @@ public class FileManagerW extends FileManager {
 
 	@Override
 	public String getAutosaveJSON() {
-		if (stockStore != null) {
-			return stockStore.getItem(AUTO_SAVE_KEY);
+		if (Browser.supportsSessionStorage()) {
+
+			if (stockStore != null) {
+				if (stockStore.getItem(TIMESTAMP) != null) {
+					long l = 0;
+					try{
+						l = Long.parseLong(stockStore.getItem(TIMESTAMP));
+					} catch (Exception e) {
+						Log.warn("Invalid timestamp.");
+					}
+					if (l > System.currentTimeMillis() - 2000) {
+						Log.debug(
+								"App still running, autosave timestamp: " + l);
+						return null;
+					}
+				}
+				return stockStore.getItem(AUTO_SAVE_KEY);
+			}
 		}
 		return null;
 	}
@@ -305,6 +323,13 @@ public class FileManagerW extends FileManager {
 
 	public void exportImage(String url, String filename) {
 		Browser.exportImage(url, filename);
+	}
+
+	public void refreshAutosaveTimestamp() {
+		if (stockStore != null) {
+			stockStore.setItem(TIMESTAMP, "" + System.currentTimeMillis());
+		}
+
 	}
 
 }

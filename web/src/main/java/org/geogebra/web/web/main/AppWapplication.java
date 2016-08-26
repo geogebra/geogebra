@@ -31,7 +31,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class AppWapplication extends AppWFull {
 
-	private final int AUTO_SAVE_PERIOD = 60000;
+	private final int AUTO_SAVE_PERIOD = 2000;
 	private GeoGebraAppFrame appFrame = null;
 	// TODO remove GUI stuff from appW
 	private AuthenticationModelW authenticationModel = null;
@@ -199,15 +199,18 @@ public class AppWapplication extends AppWFull {
 	 */
 	public void startAutoSave() {
 		Timer timer = new Timer() {
-
+			private int counter = 0;
 			@Override
 			public void run() {
+				counter++;
 				if (!isSaved()) {
-					getFileManager().autoSave();
+					getFileManager().autoSave(counter);
 				}
+				getFileManager().refreshAutosaveTimestamp();
 			}
 		};
 		timer.scheduleRepeating(AUTO_SAVE_PERIOD);
+
 	}
 
 	@Override

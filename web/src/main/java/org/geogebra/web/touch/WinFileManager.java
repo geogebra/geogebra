@@ -27,7 +27,7 @@ public class WinFileManager extends FileManager {
 	}
 
 	@Override
-	public void autoSave() {
+	public void autoSave(int counter) {
 		// not in touch either
 
 	}
@@ -337,6 +337,11 @@ public class WinFileManager extends FileManager {
 
 	public void showExportAsPictureDialog(String url, String filename, AppW app) {
 		exportImage(url, filename);
+
+	}
+
+	public void refreshAutosaveTimestamp() {
+		// TODO Auto-generated method stub
 
 	}
 

@@ -24,7 +24,7 @@ public interface FileManagerI {
 
 	Provider getFileProvider();
 
-	void autoSave();
+	void autoSave(int counter);
 
 	String getAutosaveJSON();
 
@@ -51,4 +51,6 @@ public interface FileManagerI {
 	void nativeShare(String s, String string);
 
 	void showExportAsPictureDialog(String url, String filename, AppW app);
+
+	void refreshAutosaveTimestamp();
 }

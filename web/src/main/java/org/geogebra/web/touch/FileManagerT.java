@@ -758,7 +758,7 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-	public void autoSave() {
+	public void autoSave(int counter) {
 		// TODO Auto-generated method stub
 
 	}
@@ -1075,5 +1075,10 @@ public class FileManagerT extends FileManager {
 
 	public boolean hasBase64(Material material) {
 		return true;
+	}
+
+	public void refreshAutosaveTimestamp() {
+		// TODO Auto-generated method stub
+
 	}
 }
