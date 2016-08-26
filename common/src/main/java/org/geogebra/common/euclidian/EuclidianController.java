@@ -8849,9 +8849,9 @@ public abstract class EuclidianController {
 				setViewHits(type);
 				hits = view.getHits();
 				hits.removePolygons();
-				if (hits.isEmpty()) {
-					createNewPoint(hits, false, true, true);
-				}
+			if (selConics() > 0 || selPoints() > 1 || selSegments() > 0) {
+				createNewPoint(hits, true, true, true);
+			}
 				break;
 
 			case EuclidianConstants.MODE_ANGLE:
