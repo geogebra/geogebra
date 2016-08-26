@@ -137,7 +137,8 @@ public class ConvexHull {
 
             if (theta1 < theta2) {
                 return -1;
-            } else if (theta1 == theta2) {
+			} else if (Math.abs(
+					theta1.doubleValue() - theta2.doubleValue()) < 10E-15) {
                 double errorTolerance = LineAndPointUtils.getErrorTolerance();
                 double x1 = p1.getX();
                 double x2 = p2.getX();
@@ -394,7 +395,6 @@ public class ConvexHull {
 
             Collections.sort(points, new PointComparator());
             Point2D startingPoint = points.get(0);
-            Point2D highestPoint = points.get(points.size() - 1);
 
             for (int i = 0; i < 30; i++) {
                 System.out.println();
