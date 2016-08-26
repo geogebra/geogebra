@@ -388,7 +388,7 @@ public class DrawAxis {
 		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
 			if (pix >= maxY && pix < yAxisEnd + 1) {
 				if (view.showAxesNumbers[1]) {
-					String strNum = tickDescription(labelno, 1);
+					String strNum = tickDescription(view, labelno, 1);
 
 					if ((labelno % unitsPerLabelY) == 0) {
 
@@ -532,7 +532,7 @@ public class DrawAxis {
 			// 285, 285.1, 285.2 -> rounding problems
 			if (pix >= xAxisStart && pix <= maxX) {
 				if (view.showAxesNumbers[0]) {
-					String strNum = tickDescription(labelno, 0);
+					String strNum = tickDescription(view, labelno, 0);
 
 					if ((labelno % unitsPerLabelX) == 0) {
 
@@ -602,7 +602,17 @@ public class DrawAxis {
 
 	}
 
-	private String tickDescription(long labelno, int axis) {
+	/**
+	 * @param view
+	 *            view
+	 * @param labelno
+	 *            coefficient
+	 * @param axis
+	 *            axis index
+	 * @return description
+	 */
+	public static String tickDescription(EuclidianView view, long labelno,
+			int axis) {
 		if (view.getAxesDistanceObjects()[axis] != null
 				&& !view.isAutomaticAxesNumberingDistance()[axis]
 				&& view.getAxesDistanceObjects()[axis].getDefinition() != null

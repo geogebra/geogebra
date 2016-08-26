@@ -120,6 +120,8 @@ public abstract class Drawable extends DrawableND {
 	 *            mouse x-coord
 	 * @param y
 	 *            mouse y-coord
+	 * @param hitThreshold
+	 *            pixel threshold
 	 * @return true if hit
 	 */
 	public abstract boolean hit(int x, int y, int hitThreshold);
@@ -362,6 +364,7 @@ public abstract class Drawable extends DrawableND {
 	 * @param g2
 	 *            graphics
 	 * @param textFont
+	 *            font
 	 */
 	protected final void drawMultilineText(GGraphics2D g2, GFont textFont) {
 
@@ -469,6 +472,8 @@ public abstract class Drawable extends DrawableND {
 	 *            multiply the x size by it to ensure fitting
 	 * @param Ymultiplier
 	 *            multiply the y size by it to ensure fitting
+	 * @param font
+	 *            font
 	 * 
 	 */
 	public final void addLabelOffsetEnsureOnScreen(double Xmultiplier,
@@ -510,6 +515,12 @@ public abstract class Drawable extends DrawableND {
 		lineType = type;
 	}
 
+	/**
+	 * Update strokes (default,selection,deco) accordingly to geo
+	 * 
+	 * @param fromGeo
+	 *            geo whose style should be used for the update
+	 */
 	final public void updateStrokes(GeoElementND fromGeo) {
 		updateStrokes(fromGeo, 0);
 	}
@@ -519,6 +530,8 @@ public abstract class Drawable extends DrawableND {
 	 * 
 	 * @param fromGeo
 	 *            geo whose style should be used for the update
+	 * @param minThickness
+	 *            minimal acceptable thickness
 	 */
 	final public void updateStrokes(GeoElementND fromGeo, int minThickness) {
 		strokedShape = null;
@@ -587,10 +600,24 @@ public abstract class Drawable extends DrawableND {
 	 * @param usePureStroke
 	 *            true to use pure stroke
 	 */
-	protected void fill(GGraphics2D g2, GShape shape, boolean usePureStroke) {
-		fill(g2, shape, usePureStroke, null, null);
+	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke) {
+		fill(g2, fillShape, usePureStroke, null, null);
 	}
 
+	/**
+	 * Fills given shape
+	 * 
+	 * @param g2
+	 *            graphics
+	 * @param fillShape
+	 *            shape to be filled
+	 * @param usePureStroke
+	 *            true to use pure stroke
+	 * @param gpaint0
+	 *            override paint
+	 * @param subImage
+	 *            override image
+	 */
 	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke,
 			GPaint gpaint0, GBufferedImage subImage) {
 		if (isForceNoFill())
@@ -615,15 +642,14 @@ public abstract class Drawable extends DrawableND {
 				else
 					g2.fill(fillShape);
 			} else {
-
-				if (subImage == null) {
-					subImage = getHatchingHandler().getSubImage();
+				GBufferedImage subImage2 = subImage;
+				if (subImage2 == null) {
+					subImage2 = getHatchingHandler().getSubImage();
 				}
 
 				// take care of filling after the image is loaded
-				EuclidianStatic.fillAfterImageLoaded(fillShape, g2,
-						subImage, geo.getKernel()
-								.getApplication());
+				EuclidianStatic.fillAfterImageLoaded(fillShape, g2, subImage2,
+						geo.getKernel().getApplication());
 			}
 
 		} else if (geo.getFillType() == GeoElement.FillType.IMAGE) {
@@ -675,9 +701,7 @@ public abstract class Drawable extends DrawableND {
 		return shape;
 	}
 
-	/**
-	 * @return true if trace is on
-	 */
+	@Override
 	public boolean isTracing() {
 		return isTracing;
 	}
@@ -707,7 +731,10 @@ public abstract class Drawable extends DrawableND {
 		return view;
 	}
 
-	public boolean isEuclidianVisible() {
+	/**
+	 * @return whether geo is visible in euclidian views
+	 */
+	public final boolean isEuclidianVisible() {
 		return geo.isEuclidianVisible();
 	}
 
@@ -725,6 +752,9 @@ public abstract class Drawable extends DrawableND {
 		return color;
 	}
 
+	/**
+	 * Update when view was changed and geo is still the same
+	 */
 	public void updateForView() {
 		update();
 	}

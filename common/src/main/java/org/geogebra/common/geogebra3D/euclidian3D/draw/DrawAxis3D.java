@@ -9,8 +9,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush.Ticks;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.util.debug.Log;
@@ -29,7 +27,9 @@ public class DrawAxis3D extends DrawLine3D {
 	 * common constructor
 	 * 
 	 * @param view3D
+	 *            view
 	 * @param axis3D
+	 *            axis
 	 */
 	public DrawAxis3D(EuclidianView3D view3D, GeoAxisND axis3D) {
 
@@ -55,8 +55,8 @@ public class DrawAxis3D extends DrawLine3D {
 		if (!getGeoElement().isLabelVisible())
 			return;
 
-		for (DrawLabel3D label : labels.values())
-			label.draw(renderer);
+		for (DrawLabel3D currentLabel : labels.values())
+			currentLabel.draw(renderer);
 
 		super.drawLabel(renderer);
 
@@ -65,25 +65,11 @@ public class DrawAxis3D extends DrawLine3D {
 	@Override
 	public void setWaitForReset() {
 		super.setWaitForReset();
-		for (DrawLabel3D label : labels.values())
-			label.setWaitForReset();
+		for (DrawLabel3D currentLabel : labels.values())
+			currentLabel.setWaitForReset();
 	}
 
-	private String tickDescription(long labelno, int axis) {
-		EuclidianView3D view = getView3D();
-		if (view.getAxesDistanceObjects()[axis] != null
-				&& !view.isAutomaticAxesNumberingDistance()[axis]
-				&& view.getAxesDistanceObjects()[axis].getDefinition() != null
-				&& view.getAxesDistanceObjects()[axis].getDouble() > 0) {
-			return DrawAxis.multiple(
-					view.getAxesDistanceObjects()[axis].getDefinition(),
-					labelno);
-		}
-		return view.getKernel().formatPiE(
-				Kernel.checkDecimalFraction(labelno
-						* view.getAxisNumberingDistance(axis)),
-				view.getAxisNumberFormat(axis), StringTemplate.defaultTemplate);
-	}
+
 	@Override
 	protected void updateLabel() {
 
@@ -130,30 +116,33 @@ public class DrawAxis3D extends DrawLine3D {
 						val);
 
 				// draw numbers
-				String strNum = this.tickDescription(i, axisIndex);
+				String strNum = DrawAxis.tickDescription(getView3D(), i,
+						axisIndex);
 				if (unitLabel != null) {
 					strNum += unitLabel;
 				}
 				// check if the label already exists
-				DrawLabel3D label = labels.get(strNum);
-				if (label != null) {
+				DrawLabel3D tickLabel = labels.get(strNum);
+				if (tickLabel != null) {
 					// sets the label visible
-					label.setIsVisible(true);
-					label.update(strNum, getView3D().getFontAxes(),
+					tickLabel.setIsVisible(true);
+					tickLabel
+							.update(strNum, getView3D().getFontAxes(),
 							getGeoElement().getObjectColor(),
 							origin.copyVector(), numbersXOffset, numbersYOffset);
-					label.updatePosition(getView3D().getRenderer());
+					tickLabel.updatePosition(getView3D().getRenderer());
 					// TODO optimize this
 				} else {
 					// creates new label
-					label = new DrawLabel3D(getView3D(), this);
-					label.setAnchor(true);
-					label.update(strNum, getView3D().getFontAxes(),
+					tickLabel = new DrawLabel3D(getView3D(), this);
+					tickLabel.setAnchor(true);
+					tickLabel
+							.update(strNum, getView3D().getFontAxes(),
 							getGeoElement()
 							.getObjectColor(), origin.copyVector(),
 							numbersXOffset, numbersYOffset);
-					label.updatePosition(getView3D().getRenderer());
-					labels.put(strNum, label);
+					tickLabel.updatePosition(getView3D().getRenderer());
+					labels.put(strNum, tickLabel);
 				}
 
 			}
@@ -249,7 +238,8 @@ public class DrawAxis3D extends DrawLine3D {
 		GeoAxisND axis = (GeoAxisND) getGeoElement();
 
 		// gets the direction vector of the axis as it is drawn on screen
-		Coords v = getView3D().getToScreenMatrixForGL().mul(
+		Coords v = new Coords(4);
+		v.setMul(getView3D().getToScreenMatrixForGL(),
 				axis.getDirectionInD3());
 		v.set(3, 0); // set z-coord to 0
 
@@ -336,8 +326,8 @@ public class DrawAxis3D extends DrawLine3D {
 
 		// if outside the box, set all labels invisible
 		if (outsideBox) {
-			for (DrawLabel3D label : labels.values()) {
-				label.setIsVisible(false);
+			for (DrawLabel3D currentLabel : labels.values()) {
+				currentLabel.setIsVisible(false);
 			}
 		}
 

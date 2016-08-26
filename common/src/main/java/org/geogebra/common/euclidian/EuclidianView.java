@@ -82,7 +82,6 @@ import org.geogebra.common.util.Unicode;
 /**
  * View containing graphic representation of construction elements
  */
-@SuppressWarnings("javadoc")
 public abstract class EuclidianView
 		implements EuclidianViewInterfaceCommon, SetLabels {
 	/** says if the view has the mouse */
@@ -205,19 +204,21 @@ public abstract class EuclidianView
 	protected double[] AxesTickInterval; // for axes =
 	/** number formats for axes */
 	protected NumberFormatAdapter[] axesNumberFormat;
+	/** Flags for axis visibility */
 	protected boolean[] showAxes = { true, true };
-
+	/** Flags for logarithmic axes */
 	protected boolean[] logAxes = { false, false };
 
 	// distances between grid lines
 	private boolean automaticGridDistance = true;
-
+	/** distance between gridlines */
 	protected double[] gridDistances;
 
 	private int gridLineStyle;
+	/** bit mask for axis style, see EuclidianStyleConstants.AXES_BOLD */
 	int axesLineType;
-
-	protected boolean gridIsBold = false; // Michael Borcherds 2008-04-11
+	/** whether grid is bold */
+	protected boolean gridIsBold = false;
 	/** tooltip mode in this view */
 	protected int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
@@ -316,8 +317,8 @@ public abstract class EuclidianView
 
 	// Counts of sliders that need to be adjusted, to omit overlaps.
 	// See GGB-334, Feature.ADJUST.
-	private int adjustedHSliderCount = 0;
-	private int adjustedVSliderCount = 0;
+	// private int adjustedHSliderCount = 0;
+	// private int adjustedVSliderCount = 0;
 
 	// keep same center after layout resize
 	private boolean keepCenter = false;
@@ -420,6 +421,7 @@ public abstract class EuclidianView
 	 * Sets the coord system to default
 	 * 
 	 * @param repaint
+	 *            whether to repaint afterwards
 	 */
 	protected void setStandardCoordSystem(boolean repaint) {
 		setCoordSystem(XZERO_STANDARD, YZERO_STANDARD, SCALE_STANDARD,
@@ -746,11 +748,11 @@ public abstract class EuclidianView
 	 * @return screen equivalent of real world x-coord as double
 	 */
 	final public double toScreenCoordXd(double xRW) {
-		if (getXaxisLog())
+		if (getXaxisLog()) {
 			return getWidth() * (Math.log10(xRW) - Math.log10(xmin))
 					/ (Math.log10(xmax) - Math.log10(xmin));
-		else
-			return getxZero() + (xRW * getXscale());
+		}
+		return getxZero() + (xRW * getXscale());
 	}
 
 	/**
@@ -761,11 +763,11 @@ public abstract class EuclidianView
 	 * @return screen equivalent of real world y-coord
 	 */
 	final public double toScreenCoordYd(double yRW) {
-		if (getYaxisLog())
+		if (getYaxisLog()) {
 			return getHeight() * (1 - (Math.log10(yRW) - Math.log10(ymin))
 					/ (Math.log10(ymax) - Math.log10(ymin)));
-		else
-			return getyZero() - (yRW * getYscale());
+		}
+		return getyZero() - (yRW * getYscale());
 	}
 
 	/**
@@ -986,7 +988,7 @@ public abstract class EuclidianView
 	}
 
 	/** Sets coord system from mouse move */
-	public void translateCoordSystemInPixels(int dx, int dy, int dz, int mode) {
+	public void translateCoordSystemInPixels(int dx, int dy, int dz, int modeForTranslate) {
 		setCoordSystem(xZeroOld + dx, yZeroOld + dy, getXscale(), getYscale());
 	}
 
@@ -2036,8 +2038,8 @@ public abstract class EuclidianView
 	public void repaintView() {
 		repaint();
 		if (app.has(Feature.ADJUST_SLIDERS)) {
-			adjustedHSliderCount = 0;
-			adjustedVSliderCount = 0;
+			// adjustedHSliderCount = 0;
+			// adjustedVSliderCount = 0;
 		}
 
 	}
@@ -2934,8 +2936,8 @@ public abstract class EuclidianView
 		updateSizeKeepDrawables();
 		updateAllDrawablesForView(true);
 		if (app.has(Feature.ADJUST_SLIDERS)) {
-			adjustedHSliderCount = 0;
-			adjustedVSliderCount = 0;
+			// adjustedHSliderCount = 0;
+			// adjustedVSliderCount = 0;
 		}
 	}
 
@@ -3624,8 +3626,8 @@ public abstract class EuclidianView
 				&& (getXmax() > axisCross[1]);
 	}
 
-	protected int getYOffsetForXAxis(int fontSize) {
-		return fontSize + 4;
+	protected int getYOffsetForXAxis(int fontSize1) {
+		return fontSize1 + 4;
 	}
 
 	ArrayList<Integer> axesLabelsPositionsY = new ArrayList<Integer>();
@@ -3736,7 +3738,7 @@ public abstract class EuclidianView
 	 * @param g2
 	 *            graphics
 	 */
-	final public void setAntialiasing(GGraphics2D g2) {
+	final public static void setAntialiasing(GGraphics2D g2) {
 		g2.setAntialiasing();
 	}
 
@@ -4092,11 +4094,6 @@ public abstract class EuclidianView
 			updateBackgroundImage();
 		}
 		return true;
-	}
-
-	public boolean setLogAxes(boolean flag, boolean update) {
-		boolean changedX = setLogAxis(AXIS_X, flag, false);
-		return setLogAxis(AXIS_Y, flag, true) || changedX;
 	}
 
 	/**
@@ -4596,7 +4593,7 @@ public abstract class EuclidianView
 		}
 	}
 
-	private boolean hasVisibleObjects(GRectangle rect) {
+	private static boolean hasVisibleObjects(GRectangle rect) {
 		return !(Kernel.isZero(rect.getHeight())
 				|| Kernel.isZero(rect.getWidth()));
 	}
@@ -4692,7 +4689,7 @@ public abstract class EuclidianView
 	 * @return {@code true} if an object of the given TreeSet is visible in the
 	 *         graphicsView
 	 */
-	private boolean hasVisibleObjects(TreeSet<GeoElement> allFunctions) {
+	private static boolean hasVisibleObjects(TreeSet<GeoElement> allFunctions) {
 		for (GeoElement element : allFunctions) {
 			if (element.isEuclidianVisible()) {
 				return true;
@@ -5529,6 +5526,10 @@ public abstract class EuclidianView
 		return settings.isViewForPlane();
 	}
 
+	/**
+	 * @param pixelRatio
+	 *            physical x logical pixel ratio
+	 */
 	public void setPixelRatio(float pixelRatio) {
 		// TODO Auto-generated method stub
 	}

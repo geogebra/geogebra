@@ -126,6 +126,9 @@ public abstract class DrawableND {
 		return this.needsUpdate;
 	}
 
+	/**
+	 * @return true if trace is on for the geo
+	 */
 	public abstract boolean isTracing();
 
 	public void move() {
