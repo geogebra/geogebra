@@ -1576,6 +1576,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		app.closePopups();
 		handleAVItem(event);
 		event.stopPropagation();
 		if (commonEditingCheck()) {
@@ -1930,6 +1931,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 *            focus (false: blur)
 	 */
 	public void setFocus(boolean b) {
+
 		setFocus(b, false);
 	}
 
@@ -2109,7 +2111,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void selectItem(boolean selected) {
-
 		toggleControls();
 
 		if (selectedItem == selected) {
