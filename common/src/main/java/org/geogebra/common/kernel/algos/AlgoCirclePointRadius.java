@@ -146,16 +146,30 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		
 		botanaPolynomials = new Polynomial[2];
 		Variable[] radiusBotanaVars = num.getBotanaVars(num);
+		Polynomial[] extraPolys = null;
+		if (num.getParentAlgorithm() instanceof AlgoDependentNumber) {
+			extraPolys = num.getBotanaPolynomials(num);
+		}
+		int k = 0;
 		// r^2
 		Polynomial sqrR = Polynomial.sqr(new Polynomial(botanaVars[4]));
-		// define circle
-		botanaPolynomials[0] = Polynomial.sqrDistance(botanaVars[0],
-				botanaVars[1], botanaVars[2], botanaVars[3]).subtract(sqrR);
 		// define radius
-		botanaPolynomials[1] = Polynomial
-				.sqrDistance(radiusBotanaVars[0], radiusBotanaVars[1],
-						radiusBotanaVars[2], radiusBotanaVars[3])
-				.subtract(sqrR);
+		if (extraPolys != null) {
+			botanaPolynomials = new Polynomial[extraPolys.length + 1];
+			for (k = 0; k < extraPolys.length; k++) {
+				botanaPolynomials[k] = extraPolys[k];
+			}
+		} else {
+			botanaPolynomials[k] = Polynomial
+					.sqrDistance(radiusBotanaVars[0], radiusBotanaVars[1],
+							radiusBotanaVars[2], radiusBotanaVars[3])
+					.subtract(sqrR);
+			k++;
+		}
+
+		// define circle
+		botanaPolynomials[k] = Polynomial.sqrDistance(botanaVars[0],
+				botanaVars[1], botanaVars[2], botanaVars[3]).subtract(sqrR);
 		
 		return botanaPolynomials;
 
