@@ -9776,7 +9776,7 @@ public abstract class EuclidianController {
 
 	private boolean hitComboBoxOrTextfield() {
 		return view.getHits() != null
-				&& view.getHits().size() > 0
+				&& view.getHits().getTopHits().size() > 0
 				&& (view.getHits().getTopHits().get(0) instanceof GeoInputBox || view
 				.getHits().getTopHits().get(0) instanceof GeoList);
 	}
