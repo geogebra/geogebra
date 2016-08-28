@@ -1352,6 +1352,14 @@ public class AlgebraProcessor {
 	 * @return resulting number
 	 */
 	public GeoNumberValue evaluateToNumeric(String str, boolean suppressErrors) {
+
+		if (str == null || "".equals(str)) {
+			if (!suppressErrors) {
+				app.showError("InvalidInput", str);
+			}
+			return new GeoNumeric(cons, Double.NaN);
+		}
+
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
