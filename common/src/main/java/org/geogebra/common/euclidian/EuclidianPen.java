@@ -923,8 +923,9 @@ public class EuclidianPen {
 
 		for (int i = 0; i < penPoints.size(); i++) {
 			GPoint p = penPoints.get(i);
-			if (Double.isNaN(freehand1[p.x - minX])) {
-				freehand1[p.x - minX] = view.toRealWorldCoordY(p.y);
+			int index = p.x - minX;
+			if (index < freehand1.length && Double.isNaN(freehand1[index])) {
+				freehand1[index] = view.toRealWorldCoordY(p.y);
 			}
 		}
 
