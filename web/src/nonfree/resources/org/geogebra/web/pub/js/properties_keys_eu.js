@@ -2528,7 +2528,7 @@ __GGB__keysVar.eu.plain = {
     "GeneratePgf": "Sortu PGF/TikZ kodea",
     "GeneratePstricks": "Sortu PSTricks kodea LaTeX-erako",
     "GeoGebra3DGrapher.short": "3D Grafikatzailea",
-    "GeoGebraMathApps": "GeoGebra Math Apps",
+    "GeoGebraMathApps": "GeoGebra Matematika-aplikazioak",
     "GeoGebraProperties": "GeoGebra propietateak",
     "GeometricObjects": "Objektu geometrikoak",
     "Glasses": "Betaurrekoak",
