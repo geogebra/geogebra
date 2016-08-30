@@ -842,7 +842,7 @@ public class EuclidianPen {
 
 		poly.updateRepaint();
 
-		app.storeUndoInfo();
+		// app.storeUndoInfo() will be called from wrapMouseReleasedND
 	}
 
 	private static AlgoPolyLine getAlgoPolyline(AlgoElement al) {
@@ -2297,6 +2297,13 @@ public class EuclidianPen {
 	 */
 	public GeoElement getCreatedShape() {
 		return null;
+	}
+
+	public void remove(GeoElement geo) {
+		if (geo.getParentAlgorithm() == this.lastAlgo) {
+			lastAlgo = null;
+		}
+
 	}
 
 }

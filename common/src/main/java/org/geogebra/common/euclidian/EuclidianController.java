@@ -11366,5 +11366,12 @@ public abstract class EuclidianController {
 		return null;
 	}
 
+	public void removeFromPen(GeoElement geo) {
+		if (pen != null) {
+			pen.remove(geo);
+		}
+
+	}
+
 	// public abstract void closePopups(int x, int y, PointerEventType type);
 }
