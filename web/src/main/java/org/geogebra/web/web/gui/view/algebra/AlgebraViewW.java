@@ -1923,12 +1923,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti instanceof RadioTreeItem) {
-				RadioTreeItem.as(ti).setItemWidth(w);
+				RadioTreeItem.as(ti).setItemWidth(maxItemWidth);
 			} else if (ti.getWidget() instanceof GroupHeader) {
 
 				for (int j = 0; j < ti.getChildCount(); j++) {
 					if (ti.getChild(j) instanceof RadioTreeItem) {
-						RadioTreeItem.as(ti.getChild(j)).setItemWidth(w);
+						RadioTreeItem.as(ti.getChild(j))
+								.setItemWidth(maxItemWidth);
 
 					}
 				}
