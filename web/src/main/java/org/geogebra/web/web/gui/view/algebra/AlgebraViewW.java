@@ -1839,8 +1839,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 	private int mqFontSize = -1;
 	private int maxItemWidth = 0;
-	/**
-	 * Not used in Web so far. Will not work with JLM.
+
+	/*
+	 * private int resizedWidth;* Not used in Web so far. Will not work with
+	 * JLM.
 	 */
 	private void updateFonts() {
 		if (mqFontSize != app.getFontSizeWeb()) {
@@ -1886,7 +1888,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 */
 	public void resize() {
 		if (app.has(Feature.AV_SCROLL)) {
-			setItemWidth(getOffsetWidth());
+			int resizedWidth = getOffsetWidth();
+			if (resizedWidth > maxItemWidth) {
+				setWidths(resizedWidth);
+			}
 			return;
 		}
 
@@ -1915,21 +1920,30 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			return;
 		}
 
-		int w = getOffsetWidth() < width ? width : getOffsetWidth();
-
 		if (width > maxItemWidth) {
 			maxItemWidth = width;
+		}
+		setWidths(maxItemWidth);
+	}
+
+	private void setWidths(int width) {
+		if (!app.has(Feature.AV_SCROLL)) {
+			return;
+		}
+
+		if (getInputTreeItem() != null) {
+			getInputTreeItem().setItemWidth(width);
 		}
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti instanceof RadioTreeItem) {
-				RadioTreeItem.as(ti).setItemWidth(maxItemWidth);
+				RadioTreeItem.as(ti).setItemWidth(width);
 			} else if (ti.getWidget() instanceof GroupHeader) {
 
 				for (int j = 0; j < ti.getChildCount(); j++) {
 					if (ti.getChild(j) instanceof RadioTreeItem) {
 						RadioTreeItem.as(ti.getChild(j))
-								.setItemWidth(maxItemWidth);
+								.setItemWidth(width);
 
 					}
 				}
