@@ -105,7 +105,6 @@ import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
-import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.js.JavaScriptInjector;
 import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
@@ -3341,10 +3340,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public GImageIcon wrapGetModeIcon(int mode) {
-		if (this.getToolbar() == null) {
-			return null;
-		}
-		return new GImageIconW(this.getToolbar().getImageURL(mode));
+		return null;
 	}
 
 

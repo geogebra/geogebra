@@ -1,10 +1,7 @@
 package org.geogebra.web.web.main;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.HeaderPanel;
-import com.google.gwt.user.client.ui.MenuBar;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -34,6 +31,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
@@ -64,8 +62,11 @@ import org.geogebra.web.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import org.geogebra.web.web.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Window.Location;
+import com.google.gwt.user.client.ui.HeaderPanel;
+import com.google.gwt.user.client.ui.MenuBar;
 
 /**
  * App with all the GUI
@@ -675,6 +676,11 @@ public abstract class AppWFull extends AppW {
 		}
 		getAppletFrame().setMenuHeight(
 				getInputPosition() == InputPosition.bottom);
+	}
+
+	@Override
+	public GImageIconW wrapGetModeIcon(int mode) {
+		return new GImageIconW(GGWToolBar.getImageURL(mode, this));
 	}
 
 }
