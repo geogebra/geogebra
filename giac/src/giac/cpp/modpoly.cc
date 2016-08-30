@@ -6733,6 +6733,7 @@ namespace giac {
   }
 #endif
 
+#ifndef USE_GMP_REPLACEMENTS
   // pz is not const because we modify it in place for sign/carries handling
   static void zbuild(vector<longlong> & pz,int zsize,int nbits,vecteur & p){
     size_t s=pz.size()/zsize;
@@ -6835,6 +6836,7 @@ namespace giac {
     }
     mpz_clear(z);
   }
+#endif
 
   // Product of polynomial with integer coeffs using FFT
   bool fftmult(const modpoly & p,const modpoly & q,const gen &P,const gen &Q,modpoly & pq,int modulo, vector<int> & a,vector<int>&b,vector<int> &resp1,vector<int>&resp2,vector<int> & resp3, vector<int> & W,vector<int> &tmp_p,vector<int> &tmp_q,bool compute_pq){

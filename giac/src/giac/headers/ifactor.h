@@ -77,9 +77,10 @@ namespace giac {
   gen _propfrac(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_propfrac ;
 
-  gen iabcuv(const gen & a,const gen & b,const gen & c);
+  gen iabcuv(const gen & a,const gen & b,const gen & c,GIAC_CONTEXT0);
   gen _iabcuv(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_iabcuv ;
+  void step_egcd(int a,int b,GIAC_CONTEXT);
 
   gen abcuv(const gen & a,const gen & b,const gen & c,const gen & x,GIAC_CONTEXT);
   gen _abcuv(const gen & args,GIAC_CONTEXT);

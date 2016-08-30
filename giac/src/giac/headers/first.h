@@ -206,7 +206,9 @@ int my_sprintf(char * s, const char * format, ...);
 #endif
 
 #ifdef GIAC_HAS_STO_38
+#ifndef GIAC_GENERIC_CONSTANTS
 #define GIAC_GENERIC_CONSTANTS
+#endif
 #endif
 
 #ifdef __VISUALC__ 
@@ -245,7 +247,7 @@ typedef unsigned long long ulonglong;
 // from int_multilinear_combination in vecteur.cc (from rref?)
 #ifdef FIR
 #if !(defined(BESTA_OS) || defined(WINDOWS))
-// #if !(defined(IOS) || defined(__ANDROID__)) && !defined(OSX) && !defined(LINUX)
+// was #if !(defined(IOS) || defined(__ANDROID__)) && !defined(OSX) && !defined(LINUX)
 #define PSEUDO_MOD 
 #endif
 #else
@@ -269,7 +271,7 @@ typedef int ref_count_t;
 #ifdef WINSTORE
 //tw  **NOTE** this is pulled out of winnt.h!!! I don't know why it is not found there.
 //             there is some sort of interaction in windows ARM builds... 
-#define CP15_TPIDRURW          15, 0, 13,  0, 2         // Software Thread ID Register, User Read/Write
+//#define CP15_TPIDRURW          15, 0, 13,  0, 2         // Software Thread ID Register, User Read/Write
 #endif
 
 #ifndef __x86_64__
@@ -475,4 +477,8 @@ inline float atan2f(float f1,float f2,int rad){ if (rad) return atan2f(f1,f2); e
 #define fis_inf my_isinf
 #endif // BCD
 
+#ifdef FIR_ANDROID
+#undef B0 //this conflicts with a define
+#undef bcopy //this conflicts with a define
+#endif
 #endif // _GIAC_FIRST_H_

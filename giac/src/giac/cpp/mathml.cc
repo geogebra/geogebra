@@ -478,10 +478,15 @@ namespace giac {
   // --------------------------- provenant de derive ----------------------------
 
   static string mathml_printasderive(const gen & feuille,GIAC_CONTEXT){
-    if (feuille.type!=_VECT)
+    if (feuille.type!=_VECT || feuille._VECTptr->size()<2)
       return "<msup><mrow><mo>(</mo>"+gen2mathml(feuille,contextptr)+"<mo>)</mo></mrow><mi>'</mi></msup>";
-    return "<mfrac><mrow><mo>&part;</mo><mo>(</mo>"+gen2mathml(feuille._VECTptr->front(),contextptr)
-      +"<mo>)</mo></mrow><mrow><mo>&part;</mo>"+gen2mathml(feuille._VECTptr->back(),contextptr)+"</mrow></mfrac>";
+    vecteur & v = *feuille._VECTptr;
+    bool needpar=v[0].type==_SYMB;
+    if (v.size()>2)
+      return "<mfrac><mrow><msup><mo>&part;</mo><mrow>"+gen2mathml(v[2],contextptr)+"</mrow></msup>"+(needpar?"<mo>(</mo>":"")+gen2mathml(v[0],contextptr)
+	+(needpar?"<mo>)</mo>":"")+"</mrow><mrow><mo>&part;</mo><msup>"+gen2mathml(v[1],contextptr)+"<mrow>"+gen2mathml(v[2],contextptr)+"</mrow></msup></mrow></mfrac>";
+    return string("<mfrac><mrow><mo>&part;</mo>")+(needpar?"<mo>(</mo>":"")+gen2mathml(v[0],contextptr)
+      +(needpar?"<mo>)</mo>":"")+"</mrow><mrow><mo>&part;</mo>"+gen2mathml(v[1],contextptr)+"</mrow></mfrac>";
   }
   // ----------------------- fin provenant de derive ---------------------------
 

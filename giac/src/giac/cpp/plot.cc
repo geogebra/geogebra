@@ -929,8 +929,19 @@ namespace giac {
 	    }
 	  }
 	}
-	if (!done)
-	  res[i]=eval(v[i],contextptr);
+	if (!done){
+#if 0
+	  vecteur lv=lidnt(v[i]);
+	  vecteur lw(lv);
+	  for (int j=0;j<int(lw.size());++j){
+	    gen g=eval(lv[j],1,contextptr);
+	    g=ifte2when(g,contextptr); 
+	    lw[j]=g;
+	  }
+	  res[i]=quotesubst(v[i],lv,lw,contextptr); // otherwise plots with if else fails (error not catched with emscripten)
+#endif
+	  res[i]=eval(v[i],contextptr); 
+	}
 #ifndef NO_STDEXCEPT
       } catch (std::runtime_error & ){
 	;  //    *logptr(contextptr) << e.what() << endl;
@@ -1639,7 +1650,9 @@ namespace giac {
 	opt1=gen(int(opt1._DOUBLE_val));
       if (opt2.type==_DOUBLE_ && opt1.val!=_LEGEND)
 	opt2=gen(int(opt2._DOUBLE_val));
-      if ( opt1.type!=_INT_ || opt1.subtype==0)
+      if ( opt1.type!=_INT_ || opt1.subtype==0 
+	   // || (opt1.subtype==_INT_PLOT && opt1.val>=_GL_X && opt1.val<=_GL_Z)
+	   ) 
 	continue;
       if (s==smax)
 	s=int(it-v.begin());
@@ -1761,10 +1774,11 @@ namespace giac {
     if (s<1)
       return gensizeerr(contextptr);
     gen e1=vargs[1];
+#if 0 // ?#ifdef EMCC
     if (!densityplot && e1.type==_IDNT){
       gen m=minus_inf,M=plus_inf;
       vecteur poi,tvi;
-      if (step_func(vargs[0],e1,m,M,poi,tvi,true,contextptr)){
+      if (step_func(vargs[0],e1,m,M,poi,tvi,true,false,contextptr)){
 	gen scale=(gnuplot_xmax-gnuplot_xmin)/5.0;
 	if (is_inf(m))
 	  m=gnuplot_xmin;
@@ -1776,9 +1790,11 @@ namespace giac {
 	vargs[1]=symb_equal(vargs[1],symb_interval(m,M));
 	gen p=funcplotfunc(gen(vargs,_SEQ__VECT),false,contextptr);
 	poi=mergevecteur(poi,gen2vecteur(p));
+	//poi=mergevecteur(gen2vecteur(p),poi);
 	return gen(poi,_SEQ__VECT);
       }
     }
+#endif
     bool newsyntax;
     if (e1.type!=_VECT){
       newsyntax=readrange(e1,gnuplot_xmin,gnuplot_xmax,e1,xmin,xmax,contextptr) && (is_equal(vargs[1]) || s<4);
@@ -5457,11 +5473,12 @@ namespace giac {
     //grad
     if (mode){ //not radians
       gen resd;
-      if (has_evalf(res,resd,1,contextptr))
+      if (has_evalf(res,resd,1,contextptr)){
 	if(mode==1) //are we in degrees
 	  res= rad2deg_d*resd;
 	else
 	  res= rad2grad_d*resd;
+      }
       angle_mode(mode,contextptr);
     }
     if (montrer && c.is_symb_of_sommet(at_pnt) && c._SYMBptr->feuille.type==_VECT && c._SYMBptr->feuille._VECTptr->size()==2){
@@ -5619,6 +5636,9 @@ namespace giac {
     else
       return vecteur(1,args);
   }
+#ifdef EMCC
+#include <emscripten.h>  
+#endif
   // user input sent back to the parent process
   // Use a vector of format [message,default_value,variable,convert_to_string]
   gen _click(const gen & args,GIAC_CONTEXT){
@@ -5630,6 +5650,24 @@ namespace giac {
     if (vs>1)
       v[1]=eval(v[1],contextptr);
     gen res;
+#ifdef EMCC
+    string mesg="Input\n";
+    mesg += args[0].type==_STRNG?*args[0]._STRNGptr:args[0].print(contextptr);
+    int i=EM_ASM_INT({
+	var msg = Pointer_stringify($0); // Convert message to JS string
+	var tst=prompt(msg,' ');
+	if (tst==null) return 0;
+	return allocate(intArrayFromString(tst), 'i8', ALLOC_NORMAL);
+      }, mesg.c_str());
+    if (i==0){ ctrl_c=interrupted=true; return undef; }
+    char *ptr=(char *)i;
+    string s(ptr);
+    free(ptr);
+    if (vs==4)
+      res=string2gen(s,false);
+    else
+      res=gen(s,contextptr);
+#else
 #if 1 // def WIN32
     COUT << "// " << args ;
     string s;
@@ -5670,6 +5708,7 @@ namespace giac {
     return undef;
 #endif // HAVE_SIGNAL_H_OLD
 #endif //WIN32
+#endif // EMCC
     if (vs>2 && !is_zero(v[2],contextptr)){
       if (res.type==_VECT){
 	if (vs==4 && res._VECTptr->size()==2){
@@ -7722,7 +7761,8 @@ namespace giac {
       }
       else 
 	reim(fg,r,i,contextptr);
-      if (step_param(r,i,t,m,M,poi,tvi,true,contextptr)){
+#if 0 // ? #ifdef EMCC
+      if (step_param(r,i,t,m,M,poi,tvi,true,false,contextptr)){
 	gen scale=(gnuplot_tmax-gnuplot_tmin)/5.0;
 	if (is_inf(m))
 	  m=gnuplot_tmin;
@@ -7736,6 +7776,7 @@ namespace giac {
 	return gen(poi,_SEQ__VECT);
       }
       else
+#endif
 	return paramplotparam(makesequence(args,t),false,contextptr);
     }
     vecteur vargs(plotpreprocess(args,contextptr));

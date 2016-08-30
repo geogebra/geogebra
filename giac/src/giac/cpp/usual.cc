@@ -5347,6 +5347,19 @@ namespace giac {
   static define_unary_function_eval (giac__max,&giac::_max,_max_s);
   define_unary_function_ptr5( at_max ,alias_at_max,&giac__max,0,true);
 
+  gen step_gcd(int a,int b,GIAC_CONTEXT){
+    gprintf("===============",vecteur(0),1,contextptr);
+    gprintf("Euclide algorithm for %gen and %gen",makevecteur(a,b),1,contextptr);
+    while (b){
+      int r=a%b;
+      gprintf("%gen mod %gen = %gen",makevecteur(a,b,r),1,contextptr);
+      a=b;
+      b=r;
+    }
+    gprintf("gcd=%gen",makevecteur(a),1,contextptr);
+    return a;
+  }
+
   // static symbolic symb_gcd(const gen & a,const gen & b){    return symbolic(at_gcd,makevecteur(a,b));  }
   gen _gcd(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -5354,6 +5367,8 @@ namespace giac {
       return abs(args,contextptr);
     if (args.type!=_VECT)
       return args;
+    if (step_infolevel(contextptr) && args._VECTptr->size()==2 && args._VECTptr->front().type==_INT_ && args._VECTptr->back().type==_INT_)
+      return step_gcd(args._VECTptr->front().val,args._VECTptr->back().val,contextptr);
     if (debug_infolevel>2)
       CERR << "gcd begin " << CLOCK() << endl;
     vecteur::const_iterator it=args._VECTptr->begin(),itend=args._VECTptr->end();
@@ -5447,6 +5462,8 @@ namespace giac {
     gen a(args._VECTptr->front()),b(args._VECTptr->back()),u,v,d;
     if (!is_integral(a) || !is_integral(b))
       return gentypeerr(contextptr);
+    if (a.type==_INT_ && b.type==_INT_ && step_infolevel(contextptr))
+      step_egcd(a.val,b.val,contextptr);
     egcd(a,b,u,v,d);
     return makevecteur(u,v,d);
   }

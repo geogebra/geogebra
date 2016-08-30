@@ -968,6 +968,7 @@ namespace giac {
   gen when2piecewise(const gen & g,GIAC_CONTEXT);
   gen when2sign(const gen & g,GIAC_CONTEXT);
   gen piecewise2when(const gen & g,GIAC_CONTEXT);
+  gen ifte2when(const gen & g,GIAC_CONTEXT);
   gen _geo2d(const gen & g,GIAC_CONTEXT);
   gen symb_double_deux_points(const gen & args);
   std::string printasinnerbloc(const gen & feuille,GIAC_CONTEXT);

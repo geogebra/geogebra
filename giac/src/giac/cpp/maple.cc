@@ -2794,7 +2794,7 @@ namespace giac {
     }
     return gensizeerr(gettext("Not yet implemented"));
   }
-  static gen rsolve(const gen & f0,const gen &u,const gen & n,vecteur & initcond0,GIAC_CONTEXT){
+  static gen rsolve(const gen & f0,const gen &u,const gen & n,vecteur & initcond0,int st,GIAC_CONTEXT){
     bool b=complex_mode(contextptr);
     complex_mode(true,contextptr);
     gen res=crsolve(f0,u,n,initcond0,contextptr);
@@ -2873,7 +2873,11 @@ namespace giac {
 	}
       }
     }
-    return rsolve(f,u,n,initcond,contextptr);
+    int st=step_infolevel(contextptr);
+    step_infolevel(0,contextptr);
+    gen res=rsolve(f,u,n,initcond,st,contextptr);
+    step_infolevel(st,contextptr);
+    return res;
   }
   static const char _rsolve_s []="rsolve";
   static define_unary_function_eval_quoted (__rsolve,&_rsolve,_rsolve_s);

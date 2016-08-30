@@ -1910,7 +1910,7 @@ namespace giac {
 	  return false;
 	res.push_back(tmp);
       }
-      fx=res;
+      fx=gen(res,fu.subtype);
       return true;
     }
     if (fu.type==_IDNT){
@@ -2444,7 +2444,7 @@ namespace giac {
     }
     vecteur rvar=v;
     gen fu,fx;
-    if (rvarsize<TRY_FU_UPRIME){ // otherwise no hope
+    if (rvarsize<=TRY_FU_UPRIME){ // otherwise no hope
       const_iterateur it=v.begin(),itend=v.end();
       ++it; // don't try x!
       for (;it!=itend;++it){
@@ -2466,6 +2466,8 @@ namespace giac {
 	  fu=_trigcos(tan2sincos(fu,contextptr),contextptr);
 	if (it->is_symb_of_sommet(at_sin))
 	  fu=_trigsin(tan2sincos(fu,contextptr),contextptr);
+	if (it->is_symb_of_sommet(at_tan))
+	  fu=_trigtan(fu,contextptr);
 	if (is_rewritable_as_f_of(fu,*it,fx,gen_x,contextptr)){
 	  if ( (intmode & 2)==0)
 	    gprintf(step_fuuprime,gettext("Integration of %gen: f(u)*u' where f=%gen->%gen and u=%gen"),makevecteur(e,gen_x,fx,*it),contextptr);

@@ -4269,12 +4269,38 @@ namespace giac {
   static const char _propfrac_s []="propfrac";
   static define_unary_function_eval (__propfrac,&_propfrac,_propfrac_s);
   define_unary_function_ptr5( at_propfrac ,alias_at_propfrac,&__propfrac,0,true);
+  
+  void step_egcd(int a,int b,GIAC_CONTEXT){
+    gprintf("===============",vecteur(0),1,contextptr);
+    gprintf("Extended Euclide algorithm for a=%gen and b=%gen",makevecteur(a,b),1,contextptr);
+    gprintf("L%gen: 1*a+0*b=%gen",makevecteur(1,a),1,contextptr);
+    gprintf("L%gen: 0*a+1*b=%gen",makevecteur(2,b),1,contextptr);
+    int i=3;
+    int u0=1,v0=0,u1=0,v1=1,u2,v2;
+    for (;b;++i){
+      int q=a/b;
+      u2=u0-q*u1;
+      v2=v0-q*v1;
+      int r=a-q*b;
+      gprintf("iquo(%gen,%gen)=%gen",makevecteur(a,b,q),1,contextptr);
+      gprintf("L%gen=L%gen-%gen*L%gen: %gen*a+%gen*b=%gen",makevecteur(i,i-2,q,i-1,u2,v2,r),1,contextptr);
+      u0=u1;
+      u1=u2;
+      v0=v1;
+      v1=v2;
+      a=b;
+      b=r;
+    }
+    gprintf("Bezout identity %gen*a+%gen*b=%gen",makevecteur(u0,v0,a),1,contextptr);
+  }
 
-  gen iabcuv(const gen & a,const gen & b,const gen & c){
+  gen iabcuv(const gen & a,const gen & b,const gen & c,GIAC_CONTEXT){
     gen d=gcd(a,b);
     if (c%d!=0)  return gensizeerr(gettext("No solution in ring"));
     gen a1=a/d,b1=b/d,c1=c/d;
     gen u,v,w;
+    if (a1.type==_INT_ && b1.type==_INT_ && step_infolevel(contextptr))
+      step_egcd(a1.val,b1.val,contextptr);
     egcd(a1,b1,u,v,w);
     vecteur r(2);
     r[0]=smod(u*c1,b);
@@ -4286,7 +4312,7 @@ namespace giac {
     if ( (args.type!=_VECT) || (args._VECTptr->size()!=3) )
       return gensizeerr(contextptr);
     gen a=args[0],b=args[1],c=args[2];
-    return iabcuv(a,b,c);
+    return iabcuv(a,b,c,contextptr);
   }
   static const char _iabcuv_s []="iabcuv";
   static define_unary_function_eval (__iabcuv,&_iabcuv,_iabcuv_s);

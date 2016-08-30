@@ -8019,7 +8019,7 @@ namespace giac {
 	  return 1;
       }
     }
-    if (a.is_symb_of_sommet(at_neg))
+    if (a.is_symb_of_sommet(at_neg) && !is_inf(a))
       return -sign(a._SYMBptr->feuille,contextptr);
     if (a.is_symb_of_sommet(at_inv))
       return sign(a._SYMBptr->feuille,contextptr);

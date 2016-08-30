@@ -2337,7 +2337,9 @@ namespace giac {
       }
       bool absb=eval_abs(contextptr);
       eval_abs(false,contextptr);
-      first_try = recursive_normal(eval(first_try,eval_level(contextptr),contextptr),contextptr);
+      first_try=eval(first_try,eval_level(contextptr),contextptr);
+      first_try = recursive_normal(first_try,contextptr);
+      //first_try=eval(first_try,1,contextptr);
       eval_abs(absb,contextptr);
       if (is_undef(first_try) && first_try.type==_STRNG)
 	return first_try;

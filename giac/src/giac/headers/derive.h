@@ -33,6 +33,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_grad ;
   extern const unary_function_ptr * const  at_function_diff ;
   extern const unary_function_ptr * const  at_implicit_diff ;
+  extern const unary_function_ptr * const  at_domain ;
   symbolic symb_derive(const gen & a,const gen & b);
   gen symb_derive(const gen & a,const gen & b,const gen &c);
   gen _function_diff(const gen & g,GIAC_CONTEXT);

@@ -523,6 +523,39 @@ namespace giac {
     return res;
   }
 
+  void transpose_double(const matrix_double & a,int r0,int r1,int c0,int c1,matrix_double & at){
+    int L=a.size(),C=a.front().size();
+    if (r0<0) r0=0;
+    if (r1<=r0)
+      r1=L;
+    if (c1<0) c1=0;
+    if (c1<=c0)
+      c1=C;
+    if (r1>L) r1=L;
+    if (c1>C) c1=C;
+    L=r1-r0; C=c1-c0;
+    at.resize(C);
+    for (int i=0;i<C;++i)
+      at[i].resize(L);
+    for (int i=0;i<L;++i){
+      const vector<giac_double> & ai=a[r0+i];
+      for (int j=0;j<C;++j){
+	at[j][i]=ai[c0+j];
+      }
+    }
+  }
+
+  // square matrix inplace transpose
+  void transpose_double(matrix_double &P){
+    int Ps=int(P.size());
+    for (int i=0;i<Ps;++i){
+      for (int j=0;j<i;++j){
+	giac_double t=P[i][j];
+	P[i][j]=P[j][i];
+	P[j][i]=t;
+      }
+    }
+  }
   int alphaposcell(const string & s,int & r){
     int ss=int(s.size());
     r=0;
@@ -4288,39 +4321,6 @@ namespace giac {
     return true;
   }
 
-  void transpose_double(const matrix_double & a,int r0,int r1,int c0,int c1,matrix_double & at){
-    int L=a.size(),C=a.front().size();
-    if (r0<0) r0=0;
-    if (r1<=r0)
-      r1=L;
-    if (c1<0) c1=0;
-    if (c1<=c0)
-      c1=C;
-    if (r1>L) r1=L;
-    if (c1>C) c1=C;
-    L=r1-r0; C=c1-c0;
-    at.resize(C);
-    for (int i=0;i<C;++i)
-      at[i].resize(L);
-    for (int i=0;i<L;++i){
-      const vector<giac_double> & ai=a[r0+i];
-      for (int j=0;j<C;++j){
-	at[j][i]=ai[c0+j];
-      }
-    }
-  }
-
-  // square matrix inplace transpose
-  void transpose_double(matrix_double &P){
-    int Ps=int(P.size());
-    for (int i=0;i<Ps;++i){
-      for (int j=0;j<i;++j){
-	giac_double t=P[i][j];
-	P[i][j]=P[j][i];
-	P[j][i]=t;
-      }
-    }
-  }
 
   // ad*b->c where b is given by it's tranposed btrand
   void mmult_double(const matrix_double & ad,const matrix_double & btrand,matrix_double & c){
@@ -5767,7 +5767,7 @@ namespace giac {
 	it1end=v1.begin()+cend;
       it1_=it1end-4;
       vector<int>::const_iterator it2=v2.begin()+cstart;
-#if defined(PSEUDO_MOD) && !(defined(VISUALC) || defined (BESTA_OS) || defined(OSX)  || defined(OSXIOS) || defined(FIR_LINUX) || defined(ANDROID))
+#if defined(PSEUDO_MOD) && !(defined(VISUALC) || defined (BESTA_OS) || defined(OSX)  || defined(OSXIOS) || defined(FIR_LINUX) || defined(FIR_ANDROID) || defined(ANDROID))
       c2 %= modulo;
       if (pseudo && (modulo<(1<<29) 
 		     // && modulo>=(1<<16)
@@ -10724,6 +10724,7 @@ namespace giac {
     int n=int(H.size())-rstart,c=int(H.front().size()),cP=int(P.front().size());
     if (cstart>=c) return;
     if (cend<=0) cend=c;
+#ifndef VISUALC
     if (recurse && n>=c && cend-cstart>200){
       // if cstart, cend !=0, block-recursive version 
       // H n rows, c1+c2 cols, n>=c1+c2, H=[A1|A2]=Q*[[R11,R12],[0,R22]]
@@ -10783,6 +10784,7 @@ namespace giac {
 #endif
       return;
     }
+#endif // VISUALC
     int lastcol=std::min(n,cend);
     double t,tn,tabs,u,un,norme;
     vector<double> coeffs; coeffs.reserve(lastcol*(2*n-lastcol));
@@ -14777,10 +14779,15 @@ namespace giac {
     size_t nrows=0,ncols=0;
     char c;
     string s;
-    for (;i;){
+    bool ok=true;
+    for (;ok && i;){
       c=i.get();
-      if (i.eof() || c==eof)
-	break;
+      if (i.eof() || c==eof){
+	if (s.empty())
+	  break;
+	ok=false;
+	c=nl;
+      }
       if (c=='%')
 	c=' ';
       if (c==sep || c==nl){
@@ -15434,6 +15441,7 @@ namespace giac {
     int lastcol=std::min(n,cend);
     if (debug_infolevel)
       CERR << CLOCK() << " Householder, computing H" << endl;
+#ifndef VISUALC
     if (recurse && n>=c && cend-cstart>200){
       if (n<2*(cend-cstart)) 
 	thin=false;
@@ -15488,6 +15496,7 @@ namespace giac {
 	CERR << CLOCK() << " Householder end" << endl;
       return;
     }
+#endif // VISUALC
     vector<giac_double> w(n),q(cend-cstart);
     // save w to compute P all at once at the end, this could also be done
     // inside the lower diagonal bloc of H

@@ -4274,6 +4274,159 @@ namespace giac {
   static define_unary_function_eval_quoted (__rmbreakpoint,&_rmbreakpoint,_rmbreakpoint_s);
   define_unary_function_ptr5( at_rmbreakpoint ,alias_at_rmbreakpoint,&__rmbreakpoint,_QUOTE_ARGUMENTS,true);
 
+#ifdef EMCC
+#include <emscripten.h>
+  void debug_loop(gen &res,GIAC_CONTEXT){
+    if (!debug_ptr(contextptr)->debug_allowed || (!debug_ptr(contextptr)->sst_mode && !equalposcomp(debug_ptr(contextptr)->sst_at,debug_ptr(contextptr)->current_instruction)) )
+      return;
+    // Fill dbgptr->debug_info_ptr and fast_debug_info_ptr 
+    // with debugging infos to be displayed
+    debug_struct * dbgptr=debug_ptr(contextptr);
+    vecteur w;
+    string progs;
+    // w[0]=function, args,
+    // w[1]=breakpoints
+    // w[2] = instruction to eval or program if debugging a prog
+    // w[3]= evaluation result
+    // w[4]= current instruction number 
+    // w[5] = watch vector, w[6] = watch values
+    if (!debug_ptr(contextptr)->args_stack.empty()){
+      w.push_back(debug_ptr(contextptr)->args_stack.back());
+      w.push_back(vector_int_2_vecteur(debug_ptr(contextptr)->sst_at,contextptr));
+    }
+    else {
+      w.push_back(undef);
+      w.push_back(undef);
+    }
+    w.push_back((*debug_ptr(contextptr)->fast_debug_info_ptr));
+    w.push_back(res);
+    w.push_back(debug_ptr(contextptr)->current_instruction);
+    vecteur dw=debug_ptr(contextptr)->debug_watch;
+    if (contextptr && dw.empty()){
+      // put the last 2 environments
+      const context * cur=contextptr;
+      sym_tab::const_iterator it=cur->tabptr->begin(),itend=cur->tabptr->end();
+      for (;it!=itend;++it){
+	dw.push_back(identificateur(it->first));
+      }
+      if (cur->previous && cur->previous!=cur->globalcontextptr){
+	cur=cur->previous;
+	sym_tab::const_iterator it=cur->tabptr->begin(),itend=cur->tabptr->end();
+	for (;it!=itend;++it){
+	  dw.push_back(identificateur(it->first));
+	}
+      }
+    }
+    w.push_back(dw);
+    // print debugged program instructions from current-2 to current+3
+    string s=w[2].print(contextptr);
+    progs="debug "+w[0].print(contextptr)+'\n';
+    if (w[4].type==_INT_){
+      vector<string> ws;
+      int l=s.size();
+      string cur;
+      for (int i=0;i<l;++i){
+	if (s[i]=='\n'){
+	  ws.push_back(cur);
+	  cur="";
+	}
+	else cur+=s[i];
+      }
+      ws.push_back(cur);
+      int m=giacmax(0,w[4].val-2),M=giacmin(w[4].val+3,ws.size()-1);
+      for (int i=m;i<=M;++i){
+	progs += print_INT_(i)+((i==w[4].val)?" => ":"    ")+ws[i]+'\n';
+      }
+    }
+    else
+      progs += "\nprg: "+s+" # "+w[4].print(contextptr);
+    // evaluate watch with debug_ptr(contextptr)->debug_allowed=false
+    debug_ptr(contextptr)->debug_allowed=false;
+    string evals,breaks;
+    iterateur it=dw.begin(),itend=dw.end();
+    for (;it!=itend;++it){
+      evals += it->print(contextptr)+"=";
+      gen tmp=protecteval(*it,1,contextptr);
+      evals += tmp.print(contextptr)+",";
+    }
+    w.push_back(dw);
+    debug_ptr(contextptr)->debug_allowed=true;
+    *dbgptr->debug_info_ptr=w;
+    // dbgptr->debug_refresh=false;
+    // need a way to pass w to EM_ASM like environment and call HTML5 prompt
+#if 0
+    EM_ASM_ARGS({
+        var msg = Pointer_stringify($0); // Convert message to JS string
+        alert(msg);                      // Use JS version of alert          
+      }, (progs+evals).c_str());
+#else
+    while (1){
+      int i=EM_ASM_INT({
+	  var msg = Pointer_stringify($0); // Convert message to JS string
+	  var tst=prompt(msg,'n');             // Use JS version of alert
+	  if (tst==null) return -4;
+	  if (tst=='next' || tst=='n' || tst=='sst') return -1;
+	  if (tst=='sst_in' || tst=='s' ) return -2;
+	  if (tst=='cont' || tst=='c' ) return -3;
+	  if (tst=='kill' || tst=='k' ) return -4;
+	  if (tst=='break' || tst=='b' ) return -5;
+	  if (tst=='delete' || tst=='d' ) return -6;
+	  return allocate(intArrayFromString(tst), 'i8', ALLOC_NORMAL);
+	}, (progs+breaks+evals+"\nn: next, s:step in, c:cont, b: break, d:del").c_str());
+      breaks="";
+      if (i>0){
+	char *ptr=(char *)i;
+	gen tmp=gen(ptr,contextptr);
+	free(ptr);
+	if (tmp.is_symb_of_sommet(at_equal)) tmp=equaltosto(tmp,contextptr);
+	evals=(string("eval: ")+ptr)+" => "+protecteval(tmp,1,contextptr).print(contextptr)+'\n';
+	CERR << evals ;
+	iterateur it=dw.begin(),itend=dw.end();
+	for (;it!=itend;++it){
+	  evals += it->print(contextptr)+"=";
+	  gen tmp=protecteval(*it,1,contextptr);
+	  evals += tmp.print(contextptr)+",";
+	}
+      }
+      // CERR << i << endl;
+      if (i==-1){
+	dbgptr->sst_in_mode=false;
+	dbgptr->sst_mode=true;
+	return;
+      }
+      if (i==-2){
+	dbgptr->sst_in_mode=true;
+	dbgptr->sst_mode=true;
+	return;
+      }
+      if (i==-3){
+	dbgptr->sst_in_mode=false;
+	dbgptr->sst_mode=false;
+	return;
+      }
+      if (i==-4){
+	if (!contextptr)
+	  protection_level=0;
+	debug_ptr(contextptr)->debug_mode=false;
+	debug_ptr(contextptr)->current_instruction_stack.clear();
+	debug_ptr(contextptr)->sst_at_stack.clear();
+	debug_ptr(contextptr)->args_stack.clear();
+	ctrl_c=interrupted=true;
+	return;
+      }
+      if (i==-5){
+	breaks="break line "+print_INT_(w[4].val)+'\n';
+	_breakpoint(makesequence(w[0][0],w[4]),contextptr);
+      }
+      if (i==-6){
+	breaks="remove break line "+print_INT_(w[4].val)+'\n';
+	_rmbreakpoint(makesequence(w[0][0],w[4]),contextptr);
+      }
+    } // end while(i>0)
+#endif
+   }
+#else // EMCC
+
 #ifdef GIAC_HAS_STO_38
   void aspen_debug_loop(gen & res,GIAC_CONTEXT);
 
@@ -4474,6 +4627,7 @@ namespace giac {
 #endif // WIN32
   }
 #endif // GIAC_HAS_STO_38
+#endif // EMCC
 
   static string printasbackquote(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     return "`"+feuille.print(contextptr)+"`";
@@ -5301,6 +5455,8 @@ namespace giac {
   }
   gen _insmod(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    if (args.type==_IDNT)
+      return _insmod(string2gen(args.print(contextptr),false),contextptr);
     if (args.type!=_STRNG)
       return _xport(args,contextptr);
 #ifdef HAVE_LIBDL
@@ -9206,6 +9362,16 @@ namespace giac {
     vector< const unary_function_ptr *> when_v(1,at_when);
     return subst(g,when_v,when2sign_v,false,contextptr);
     */
+  }
+
+  gen iftetowhen(const gen & g,GIAC_CONTEXT){
+    return symbolic(at_when,g);
+  }
+  const alias_type ifte_tab_alias[]={(alias_type)&__ifte,0};
+  const unary_function_ptr * const ifte_tab=(const unary_function_ptr * const)ifte_tab_alias;
+  const gen_op_context ifte2when_tab[]={iftetowhen,0};
+  gen ifte2when(const gen & g,GIAC_CONTEXT){
+    return subst(g,ifte_tab,ifte2when_tab,false,contextptr);
   }
 
   // test if m(i) is an array index: that will not be the case if

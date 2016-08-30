@@ -635,7 +635,7 @@ namespace giac {
       v[1]=eval(v[1],1,contextptr);
     if (is_undef(v))
       return v;
-    if (step_infolevel(contextptr) && v.size()==2)
+    if (step_infolevel(contextptr) && v.size()==2 && v[0].type==_SYMB)
       gprintf(step_derive_header,gettext("===== Derive %gen with respect to %gen ====="),makevecteur(v[0],v[1]),contextptr);
     gen var,res;
     if (args.type!=_VECT && is_algebraic_program(v[0],var,res)){

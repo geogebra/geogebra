@@ -877,7 +877,10 @@ namespace giac {
     if (f.type!=_VECT){
       gen r,i;
       reim(f,r,i,contextptr);
-      f=makevecteur(r,i);
+      if (is_zero(i))
+	f=makevecteur(x,r);
+      else
+	f=makevecteur(r,i);
     }
     int dim=int(f._VECTptr->size());
     gen vitesse=derive(f,x,contextptr),v2=normal(l2norm2(vitesse),contextptr);

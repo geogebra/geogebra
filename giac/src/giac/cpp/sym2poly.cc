@@ -1749,6 +1749,8 @@ namespace giac {
     gen iext=find_iext(e,lvnum,contextptr);
     clean_iext(lvnum,lvden,iext,contextptr);
     totally_converted =totally_converted && sym2r(e,iext,l,lv,lvnum,lvden,l_size,num,den,contextptr);
+    if (is_inf(num) && !is_inf(den)) den=1;
+    if (is_inf(den) && !is_inf(num)) num=1;
     // If den is a _POLY, multiply den by the _EXT conjugate of it's lcoeff
     // FIXME this should be done recursively if the 1st coeff is a _POLY!
     if (den.type==_POLY && !den._POLYptr->coord.empty() && den._POLYptr->coord.front().value.type==_EXT){
