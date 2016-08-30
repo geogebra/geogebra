@@ -647,6 +647,8 @@ public class InputController {
 
     public boolean handleChar(EditorState editorState, char ch) {
         boolean handled = false;
+        // debug for non handled chars
+        System.out.println("InputController.handleChar: " + ch + "," + ((int) ch));
         // backspace, delete and escape are handled for key down
         if (ch == 8 || ch == 127 || ch == 27) {
             return true;
