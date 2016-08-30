@@ -540,7 +540,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		exportFile = file;
 		this.exportToClipboard = exportToClipboard;
 
-		getRenderer().needExportImage(scale, true);
+		getRenderer().needExportImage(scale, false);
 	}
 
 	/**
