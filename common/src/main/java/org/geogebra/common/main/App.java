@@ -3961,6 +3961,10 @@ public abstract class App implements UpdateSelection {
 		case ADJUST_SLIDERS:
 			return prerelease;
 
+		// GGB-798
+		case AV_SCROLL:
+			return prerelease;
+
 			// GGB-886
 			// After removing this feature flag, MyTabPanel and
 			// TabPanelInterface classes can be removed too with cleaning the

@@ -1100,6 +1100,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				// RadioTreeItem.as(node)
 				// .addDeleteButton(node);
 			}
+
+			if (app.has(Feature.AV_SCROLL)) {
+				if (node != null && getOffsetWidth() < maxItemWidth) {
+					RadioTreeItem.as(node).setItemWidth(maxItemWidth);
+				}
+			}
+
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);
 			if (wasEmpty) {
@@ -1123,6 +1130,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		if (inputPanelLatex != null) {
 			inputPanelLatex.updateButtonPanelPosition();
 		}
+
 	}
 
 
@@ -1830,6 +1838,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	}
 
 	private int mqFontSize = -1;
+	private int maxItemWidth = 0;
 	/**
 	 * Not used in Web so far. Will not work with JLM.
 	 */
@@ -1876,6 +1885,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 * Update items for new window size / pixel ratio
 	 */
 	public void resize() {
+		if (app.has(Feature.AV_SCROLL)) {
+			setItemWidth(getOffsetWidth());
+			return;
+		}
 
 		if (this.getInputTreeItem() != null) {
 			this.getInputTreeItem().onResize();
@@ -1889,6 +1902,33 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				for (int j = 0; j < ti.getChildCount(); j++) {
 					if (ti.getChild(j) instanceof RadioTreeItem) {
 						RadioTreeItem.as(ti.getChild(j)).onResize();
+
+					}
+				}
+
+			}
+		}
+	}
+
+	public void setItemWidth(int width) {
+		if (!app.has(Feature.AV_SCROLL)) {
+			return;
+		}
+
+		int w = getOffsetWidth() < width ? width : getOffsetWidth();
+
+		if (width > maxItemWidth) {
+			maxItemWidth = width;
+		}
+		for (int i = 0; i < getItemCount(); i++) {
+			TreeItem ti = getItem(i);
+			if (ti instanceof RadioTreeItem) {
+				RadioTreeItem.as(ti).setItemWidth(w);
+			} else if (ti.getWidget() instanceof GroupHeader) {
+
+				for (int j = 0; j < ti.getChildCount(); j++) {
+					if (ti.getChild(j) instanceof RadioTreeItem) {
+						RadioTreeItem.as(ti.getChild(j)).setItemWidth(w);
 
 					}
 				}

@@ -865,6 +865,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				Log.debug("CANVAS to IHTML");
 			}
 			content.add(canvas);
+			adjustToCanvas();
 		}
 
 		else {
@@ -1121,6 +1122,24 @@ public abstract class RadioTreeItem extends AVTreeItem
 			content.add(canvas);
 			return;
 		}
+	}
+
+	protected void adjustToCanvas() {
+		if (!app.has(Feature.AV_SCROLL)) {
+			return;
+		}
+
+		int width = canvas.getCoordinateSpaceWidth()
+				+ marblePanel.getOffsetWidth();
+		if (getOffsetWidth() < width) {
+			getAV().setItemWidth(width);
+		}
+
+	}
+
+	public void setItemWidth(int width) {
+		setWidth(width + "px");
+		onResize();
 	}
 
 	protected void replaceToCanvas(String text, Widget old) {
@@ -2505,6 +2524,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			getAV().setOriginalWidth(w);
 			splitPane.setWidgetSize(avDockPanel, newWidth);
 			avDockPanel.deferredOnResize();
+
 		} else {
 			getAV().setOriginalWidth(null);
 		}
