@@ -332,6 +332,9 @@ var app = document.createElement("script");
 			var names = {'algebra':1,'geometry':2,'spreadsheet':3,'cas':4,'3d':5,'probability':6};
 			var pName = location.hash.length ? location.hash.replace('#','') : location.pathname.replace(/\//g,'');
 			if( pName.substring(0,6)=="search" || pName == "exam"){
+				if(e("perspectivesBox")){
+					e("perspectivesBox").style.display = "none";
+				}
 				perspective(pName);
 			}
 			else{
@@ -351,14 +354,8 @@ var app = document.createElement("script");
 		
 		
 		insertScript(codebase);
-		if(location.host.indexOf("alpha") == 0 || location.host.indexOf("beta") == 0 || isLocalhost()){
-			perspective(false, "picker"); //TODO
-		}
-		else if(getCookie("SSID")){
-			checkCookie(getCookie("SSID"), lang);
-		}
 		
-
+		perspective(false, "picker"); //TODO
 		
 	}
 </script>

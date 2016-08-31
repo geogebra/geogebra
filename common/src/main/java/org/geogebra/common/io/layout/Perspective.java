@@ -88,7 +88,7 @@ public class Perspective {
 	private int defaultID;
 	
 	final public static String[] perspectiveNames = new String[] { "Custom",
-			"Perspective.AlgebraAndGraphics", "Perspective.Geometry",
+			"Graphing", "Perspective.Geometry",
 			"Perspective.Spreadsheet", "Perspective.CAS",
 			"Perspective.3DGraphics", "Perspective.Probability" };
 	final public static String[] perspectiveSlugs = new String[] {

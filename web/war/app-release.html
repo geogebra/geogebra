@@ -273,7 +273,7 @@ var app = document.createElement("script");
 		}
 		function resizeStart(){
 			if(e("perspectivesBox")){
-				e("perspectivesBox").style.top= Math.max(0,Math.round(window.innerHeight/2 -250))+"px";
+				e("perspectivesBox").style.top= (Math.max(0,Math.round(window.innerHeight/2 -250))-53)+"px";
 			}
 		}
 		resizeStart();
@@ -332,6 +332,9 @@ var app = document.createElement("script");
 			var names = {'algebra':1,'geometry':2,'spreadsheet':3,'cas':4,'3d':5,'probability':6};
 			var pName = location.hash.length ? location.hash.replace('#','') : location.pathname.replace(/\//g,'');
 			if( pName.substring(0,6)=="search" || pName == "exam"){
+				if(e("perspectivesBox")){
+					e("perspectivesBox").style.display = "none";
+				}
 				perspective(pName);
 			}
 			else{
@@ -351,14 +354,8 @@ var app = document.createElement("script");
 		
 		
 		insertScript(codebase);
-		if(location.host.indexOf("alpha") == 0 || location.host.indexOf("beta") == 0 || isLocalhost()){
-			perspective(false, "picker"); //TODO
-		}
-		else if(getCookie("SSID")){
-			checkCookie(getCookie("SSID"), lang);
-		}
 		
-
+		perspective(false, "picker"); //TODO
 		
 	}
 </script>
@@ -588,7 +585,7 @@ margin: 0px 5px 0px 0px;
 	bottom: 0;
     position: absolute !important;
     right: 0;
-    top: 0;
+    top: 53px;
     left: 0;
 }
 /** KEYBOARD */
