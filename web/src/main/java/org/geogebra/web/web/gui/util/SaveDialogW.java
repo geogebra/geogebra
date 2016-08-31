@@ -201,7 +201,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				Log.error("SAVE Error" + exception.getMessage());
 
 				resetCallback();
-				((GuiManagerW) app.getGuiManager()).openFilePicker();
+				((GuiManagerW) app.getGuiManager()).exportGGB();
 				saveLocalIfNeeded(getCurrentTimestamp(app), SaveState.ERROR);
 				hide();
 			}

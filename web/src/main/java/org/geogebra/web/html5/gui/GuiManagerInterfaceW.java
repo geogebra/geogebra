@@ -84,7 +84,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void updateStyleBarPositions(boolean menuOpen);
 
-	public void openFilePicker();
+	public void exportGGB();
 
 	public void listenToLogin();
 

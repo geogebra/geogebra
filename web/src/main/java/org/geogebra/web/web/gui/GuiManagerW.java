@@ -1965,18 +1965,21 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	 * shows the downloadDialog
 	 */
 	@Override
-	public void openFilePicker() {
+	public void exportGGB() {
 		getOptionPane().showSaveDialog(app, app.getPlain("Save"),
-				app.getExportTitle() + ".ggb",
-				null,
+				app.getExportTitle() + ".ggb", null,
 				new AsyncOperation<String[]>() {
 
 					@Override
 					public void callback(String[] obj) {
+						Log.debug("XWALK" + isXWALK());
 
+						if (isXWALK()) {
+							((AppW) app).getGgbApi().getBase64(true,
+									getStringCallback(obj[1]));
+						}
 
-
-						if (Integer.parseInt(obj[0]) == 0) {
+				else if (Integer.parseInt(obj[0]) == 0) {
 							((AppW) app).getGgbApi().getGGB(true,
 									getDownloadCallback(obj[1]));
 						}
@@ -1984,6 +1987,22 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				}, app.getPlain("Save"));
 	}
 
+	protected native boolean isXWALK() /*-{
+		return !!$wnd.xwalk;
+	}-*/;
+
+	private native JavaScriptObject getStringCallback(String title) /*-{
+
+		return function(base64) {
+			var a = $doc.createElement("a");
+			$doc.body.appendChild(a);
+			a.style = "display: none";
+			a.href = "data:application/vnd.geogebra.file;base64," + base64;
+			a.download = title;
+			a.click();
+		}
+
+	}-*/;
 	private native JavaScriptObject getDownloadCallback(String title) /*-{
 		var _this = this;
 		return function(ggbZip) {

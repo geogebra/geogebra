@@ -245,11 +245,11 @@ public class FileManagerW extends FileManager {
 	}
 
 	public void saveLoggedOut(AppW app) {
-		app.getGuiManager().openFilePicker();
+		app.getGuiManager().exportGGB();
 	}
 	
 	public void export(AppW app) {
-		app.getGuiManager().openFilePicker();
+		app.getGuiManager().exportGGB();
 	}
 
 	@Override
