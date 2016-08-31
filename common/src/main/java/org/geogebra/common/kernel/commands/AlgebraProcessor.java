@@ -1352,11 +1352,24 @@ public class AlgebraProcessor {
 	 * @return resulting number
 	 */
 	public GeoNumberValue evaluateToNumeric(String str, boolean suppressErrors) {
+		return evaluateToNumeric(str, suppressErrors ? ErrorHelper.silent()
+				: app.getDefaultErrorHandler());
+	}
+
+	/**
+	 * Parses given String str and tries to evaluate it to a NumberValue Returns
+	 * null if something went wrong.
+	 * 
+	 * @param str
+	 *            string to parse
+	 * @param handler
+	 *            callback for handling errors
+	 * @return resulting number
+	 */
+	public GeoNumberValue evaluateToNumeric(String str, ErrorHandler handler) {
 
 		if (str == null || "".equals(str)) {
-			if (!suppressErrors) {
-				app.showError("InvalidInput", str);
-			}
+			handler.showError(loc.getError("InvalidInput") + "\n" + str);
 			return new GeoNumeric(cons, Double.NaN);
 		}
 
@@ -1373,30 +1386,16 @@ public class AlgebraProcessor {
 			} else {
 				num = new GeoNumeric(cons, Double.NaN);
 
-				if (!suppressErrors) {
-					app.showError("InvalidInput", str);
-				}
-			}
-		} catch (CircularDefinitionException e) {
-			Log.debug("CircularDefinition");
-			if (!suppressErrors) {
-				app.showError("CircularDefinition");
+				handler.showError(loc.getError("InvalidInput") + "\n" + str);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			if (!suppressErrors) {
-				app.showError("InvalidInput", str);
-			}
+			ErrorHelper.handleException(e, app, handler);
 		} catch (MyError e) {
 			e.printStackTrace();
-			if (!suppressErrors) {
-				app.showError(e);
-			}
+			ErrorHelper.handleError(e, str, loc, handler);
 		} catch (Error e) {
 			e.printStackTrace();
-			if (!suppressErrors) {
-				app.showError("InvalidInput", str);
-			}
+			ErrorHelper.handleException(new Exception(e), app, handler);
 		}
 
 		cons.setSuppressLabelCreation(oldMacroMode);

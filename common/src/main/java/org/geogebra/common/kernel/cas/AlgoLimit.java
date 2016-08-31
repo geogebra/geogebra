@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.error.ErrorHelper;
 
 /**
  * Find a limit
@@ -111,7 +112,8 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand,
 
 			// handles Infinity, ?
 			outNum.setValue(kernel.getAlgebraProcessor()
-					.evaluateToNumeric(numStr, true).getDouble());
+					.evaluateToNumeric(numStr, ErrorHelper.silent())
+					.getDouble());
 		} catch (Throwable e) {
 			e.printStackTrace();
 			outNum.setUndefined();
@@ -135,7 +137,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand,
 	public void handleCASoutput(String output, int requestID) {
 
 		NumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(output,
-				true);
+				ErrorHelper.silent());
 		outNum.setValue(nv.getDouble());
 		if (USE_ASYNCHRONOUS)
 			outNum.updateCascade();

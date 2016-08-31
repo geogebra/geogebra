@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
@@ -1073,7 +1074,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 */
 	public synchronized double getValue(String objName) {
 		GeoNumberValue geo = kernel.getAlgebraProcessor().evaluateToNumeric(
-				objName, true);
+				objName, ErrorHelper.silent());
 		if (geo == null)
 			return 0;
 
@@ -1785,12 +1786,15 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		EuclidianSettings evs = app.getSettings().getEuclidian(index);
 		evs.beginBatch();
 		evs.setAxisNumberingDistance(0,
-				this.algebraprocessor.evaluateToNumeric(xStep, true));
+				this.algebraprocessor.evaluateToNumeric(xStep,
+						ErrorHelper.silent()));
 		evs.setAxisNumberingDistance(1,
-				this.algebraprocessor.evaluateToNumeric(yStep, true));
+				this.algebraprocessor.evaluateToNumeric(yStep,
+						ErrorHelper.silent()));
 		if (evs.is3D()) {
 			evs.setAxisNumberingDistance(2,
-					this.algebraprocessor.evaluateToNumeric(zStep, true));
+					this.algebraprocessor.evaluateToNumeric(zStep,
+							ErrorHelper.silent()));
 		}
 		evs.endBatch();
 		kernel.notifyRepaint();

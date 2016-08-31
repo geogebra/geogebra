@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.error.ErrorHelper;
 
 /**
  * ParseToNumber
@@ -40,7 +41,8 @@ public class CmdParseToNumber extends CommandProcessor {
 
 				try {
 					num.setValue(kernelA.getAlgebraProcessor()
-							.evaluateToNumeric(str, true).getDouble());
+							.evaluateToNumeric(str, ErrorHelper.silent())
+							.getDouble());
 					num.updateCascade();
 				} catch (Exception e) {
 					num.setUndefined();

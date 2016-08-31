@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHelper;
 
 public class TextFieldSizeModel extends OptionsModel {
 	private ITextFieldListener listener;
@@ -43,7 +44,7 @@ public class TextFieldSizeModel extends OptionsModel {
 
 		applyChanges(app.getKernel().getAlgebraProcessor()
 				.evaluateToNumeric(
-			strValue, true));
+strValue, ErrorHelper.silent()));
 	}
 	
 	public void applyChanges(NumberValue value) {

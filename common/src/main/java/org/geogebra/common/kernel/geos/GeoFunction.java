@@ -58,6 +58,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 import org.geogebra.common.kernel.roots.RealRootUtil;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
@@ -2052,7 +2053,8 @@ CasEvaluableFunction, ParametricCurve,
 							isInRange = parentFunction.evaluateCondition(kernel
 									.getAlgebraProcessor()
 									.evaluateToNumeric(
-											verticalAsymptotesArray[i], true)
+											verticalAsymptotesArray[i],
+											ErrorHelper.silent())
 											.getDouble());
 					} catch (Exception e) {
 						Log.warn("Error parsing: "

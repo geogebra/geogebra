@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHelper;
 
 
 public class AnimationStepModel extends OptionsModel {
@@ -86,7 +87,7 @@ autostep ? "" : step.getLabel(highPrecision));
 	public void applyChanges(String text) {
 		NumberValue value = text.length() == 0 ? null
 				: app.getKernel().getAlgebraProcessor().evaluateToNumeric(
-				text, true);
+text, ErrorHelper.silent());
 		boolean isNaN = value == null || Double.isNaN(value.getDouble());
 
 		for (int i = 0; i < getGeosLength(); i++) {

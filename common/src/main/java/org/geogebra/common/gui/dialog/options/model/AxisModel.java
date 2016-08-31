@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.Unicode;
 
@@ -59,7 +60,7 @@ public class AxisModel {
 		final String text = str.trim();
 		if (!text.equals("")) {
 			value = app.getKernel().getAlgebraProcessor()
-					.evaluateToNumeric(text, true);
+					.evaluateToNumeric(text, ErrorHelper.silent());
 		}
 		if (value != null) {
 			if (app.getEuclidianView1() == view) {

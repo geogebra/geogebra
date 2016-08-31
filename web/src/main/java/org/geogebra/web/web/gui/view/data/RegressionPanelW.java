@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -344,7 +345,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 				NumberValue nv;
 				nv = app.getKernel().getAlgebraProcessor()
-						.evaluateToNumeric(inputText, true);
+						.evaluateToNumeric(inputText, ErrorHelper.silent());
 				double value = nv.getDouble();
 				double output = ((GeoFunctionable) statDialog
 						.getRegressionModel()).getGeoFunction().evaluate(value);

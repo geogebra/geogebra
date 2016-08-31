@@ -92,6 +92,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.DataAnalysisSettings;
@@ -108,6 +109,7 @@ import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.GeoAssignment;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
@@ -3480,8 +3482,9 @@ new GPoint(row, column));
 			if (xmin.get(ev) == null) {
 				ev.setXminObject(null, true);
 			} else {
-				NumberValue n = kernel.getAlgebraProcessor()
-						.evaluateToNumeric(xmin.get(ev), true);
+				NumberValue n = getAlgProcessor()
+.evaluateToNumeric(
+						xmin.get(ev), handler);
 				ev.setXminObject(n, true);
 			}
 		}
@@ -3489,8 +3492,9 @@ new GPoint(row, column));
 			if (xmax.get(ev) == null) {
 				ev.setXmaxObject(null, true);
 			} else {
-				NumberValue n = kernel.getAlgebraProcessor()
-						.evaluateToNumeric(xmax.get(ev), true);
+				NumberValue n = getAlgProcessor()
+.evaluateToNumeric(
+						xmax.get(ev), handler);
 				ev.setXmaxObject(n, true);
 			}
 		}
@@ -3498,8 +3502,9 @@ new GPoint(row, column));
 			if (ymin.get(ev) == null) {
 				ev.setYminObject(null, true);
 			} else {
-				NumberValue n = kernel.getAlgebraProcessor()
-						.evaluateToNumeric(ymin.get(ev), true);
+				NumberValue n = getAlgProcessor()
+.evaluateToNumeric(
+						ymin.get(ev), handler);
 				ev.setYminObject(n, true);
 			}
 		}
@@ -3507,8 +3512,9 @@ new GPoint(row, column));
 			if (ymax.get(ev) == null) {
 				ev.setYmaxObject(null, true);
 			} else {
-				NumberValue n = kernel.getAlgebraProcessor()
-						.evaluateToNumeric(ymax.get(ev), true);
+				NumberValue n = getAlgProcessor()
+.evaluateToNumeric(
+						ymax.get(ev), handler);
 				ev.setYmaxObject(n, true);
 			}
 			// ev.updateBounds();
@@ -3516,8 +3522,9 @@ new GPoint(row, column));
 		for (EuclidianSettings ev : eSet) {
 			if (!StringUtil.empty(xtick.get(ev))) {
 
-				GeoNumberValue n = kernel.getAlgebraProcessor()
-						.evaluateToNumeric(xtick.get(ev), true);
+				GeoNumberValue n = getAlgProcessor()
+.evaluateToNumeric(
+						xtick.get(ev), handler);
 				ev.setAxisNumberingDistance(0, n);
 			}
 			// ev.updateBounds();
@@ -3525,8 +3532,9 @@ new GPoint(row, column));
 		for (EuclidianSettings ev : eSet) {
 			if (!StringUtil.empty(ytick.get(ev))) {
 
-				GeoNumberValue n = kernel.getAlgebraProcessor()
-						.evaluateToNumeric(ytick.get(ev), true);
+				GeoNumberValue n = getAlgProcessor()
+.evaluateToNumeric(
+						ytick.get(ev), handler);
 				ev.setAxisNumberingDistance(1, n);
 			}
 			// ev.updateBounds();
@@ -3534,8 +3542,9 @@ new GPoint(row, column));
 		for (EuclidianSettings ev : eSet) {
 			if (!StringUtil.empty(ztick.get(ev))) {
 
-				GeoNumberValue n = kernel.getAlgebraProcessor()
-						.evaluateToNumeric(ztick.get(ev), true);
+				GeoNumberValue n = getAlgProcessor()
+.evaluateToNumeric(
+						ztick.get(ev), handler);
 				ev.setAxisNumberingDistance(2, n);
 			}
 			// ev.updateBounds();
@@ -5139,7 +5148,7 @@ new GPoint(row, column));
 	private void processStartPointList() {
 		try {
 			Iterator<LocateableExpPair> it = startPointList.iterator();
-			AlgebraProcessor algProc = kernel.getAlgebraProcessor();
+			AlgebraProcessor algProc = getAlgProcessor();
 
 			while (it.hasNext()) {
 				LocateableExpPair pair = it.next();
@@ -5230,7 +5239,7 @@ new GPoint(row, column));
 
 	private void processShowObjectConditionList() {
 		Iterator<GeoExpPair> it = showObjectConditionList.iterator();
-		AlgebraProcessor algProc = kernel.getAlgebraProcessor();
+		AlgebraProcessor algProc = getAlgProcessor();
 
 		while (it.hasNext()) {
 			try {
@@ -5255,11 +5264,12 @@ new GPoint(row, column));
 	private void processAnimationSpeedList() {
 		try {
 			Iterator<GeoExpPair> it = animationSpeedList.iterator();
-			AlgebraProcessor algProc = kernel.getAlgebraProcessor();
+			AlgebraProcessor algProc = getAlgProcessor();
 
 			while (it.hasNext()) {
 				GeoExpPair pair = it.next();
-				GeoNumberValue num = algProc.evaluateToNumeric(pair.exp, false);
+				GeoNumberValue num = algProc.evaluateToNumeric(pair.exp,
+						handler);
 				pair.getGeo().setAnimationSpeedObject(num);
 			}
 		} catch (Exception e) {
@@ -5273,11 +5283,11 @@ new GPoint(row, column));
 	private void processAnimationStepList() {
 		try {
 			Iterator<GeoExpPair> it = animationStepList.iterator();
-			AlgebraProcessor algProc = kernel.getAlgebraProcessor();
+			AlgebraProcessor algProc = getAlgProcessor();
 
 			while (it.hasNext()) {
 				GeoExpPair pair = it.next();
-				NumberValue num = algProc.evaluateToNumeric(pair.exp, false);
+				NumberValue num = algProc.evaluateToNumeric(pair.exp, handler);
 				if (pair.getGeo().isGeoNumeric()) {
 					((GeoNumeric) pair.getGeo())
 							.setAutoStep(Double.isNaN(num.getDouble()));
@@ -5307,10 +5317,34 @@ new GPoint(row, column));
 		animatingList.clear();
 	}
 
+	private ErrorHandler handler = new ErrorHandler() {
+
+		public void showError(String msg) {
+			errors.add(msg);
+
+		}
+
+		public void showCommandError(String command, String message) {
+			errors.add(message);
+
+		}
+
+		public String getCurrentCommand() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public boolean onUndefinedVariables(String string,
+				AsyncOperation<String[]> callback) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+	};
+
 	private void processMinMaxList() {
 		try {
 			Iterator<GeoNumericMinMax> it = minMaxList.iterator();
-			AlgebraProcessor algProc = kernel.getAlgebraProcessor();
+			AlgebraProcessor algProc = getAlgProcessor();
 
 			while (it.hasNext()) {
 				GeoNumericMinMax pair = it.next();
@@ -5321,13 +5355,13 @@ new GPoint(row, column));
 				boolean wasDefined = pair.getGeo().isDefined();
 				if (pair.min != null) {
 					NumberValue num = algProc.evaluateToNumeric(pair.min,
-							false);
+							handler);
 					((GeoNumeric) pair.getGeo()).setIntervalMin(num);
 				}
 
 				if (pair.max != null) {
 					NumberValue num2 = algProc.evaluateToNumeric(pair.max,
-							false);
+							handler);
 					((GeoNumeric) pair.getGeo()).setIntervalMax(num2);
 				}
 
@@ -5346,7 +5380,7 @@ new GPoint(row, column));
 	private void processDynamicColorList() {
 		try {
 			Iterator<GeoExpPair> it = dynamicColorList.iterator();
-			AlgebraProcessor algProc = kernel.getAlgebraProcessor();
+			AlgebraProcessor algProc = getAlgProcessor();
 
 			while (it.hasNext()) {
 				GeoExpPair pair = it.next();
@@ -5696,7 +5730,7 @@ new GPoint(row, column));
 			if (countLabels == 0)
 				return true;
 			// process the command
-			cmdOutput = kernel.getAlgebraProcessor().processCommand(cmd,
+			cmdOutput = getAlgProcessor().processCommand(cmd,
 					new EvalInfo(true, casMap));
 			cons.registerFunctionVariable(null);
 			String cmdName = cmd.getName();
@@ -5855,9 +5889,9 @@ new GPoint(row, column));
 				}
 			}
 
-			// Application.debug(""+kernel.getAlgebraProcessor());
+			// Application.debug(""+getAlgProcessor());
 
-			GeoElement[] result = kernel.getAlgebraProcessor()
+			GeoElement[] result = getAlgProcessor()
 					.processValidExpression(ve);
 			cons.registerFunctionVariable(null);
 			// ensure that labels are set for invisible objects too
@@ -5881,6 +5915,10 @@ new GPoint(row, column));
 			e.printStackTrace();
 			errors.add(msg);
 		}
+	}
+
+	private AlgebraProcessor getAlgProcessor() {
+		return kernel.getAlgebraProcessor();
 	}
 
 	private boolean handleAlgebraViewMode(LinkedHashMap<String, String> attrs) {
