@@ -3,7 +3,6 @@ package org.geogebra.common.kernel;
 import java.util.Iterator;
 import java.util.SortedSet;
 
-import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.gui.util.RelationMore;
 import org.geogebra.common.javax.swing.RelationPane;
@@ -177,9 +176,8 @@ public class Relation {
 		// just send first row to event
 		app.dispatchEvent(new Event(EventType.RELATION_TOOL, null, rr[0].info));
 
-		tablePane.showDialog(GeoGebraConstants.APPLICATION_NAME + " - "
-				+ app.getLocalization().getCommand("Relation"), rr, ra
-				.getConstruction().getApplication());
+		tablePane.showDialog(app.getLocalization().getCommand("Relation"), rr,
+				ra.getConstruction().getApplication());
 	}
 
 	/**
