@@ -46,7 +46,22 @@ public class AlgoCurveCartesian extends AlgoElement {
 	private boolean[] containsFunctions;
 	private ExpressionNode[] exp;
 
-	/** Creates new AlgoJoinPoints */
+	/**
+	 * Creates new AlgoJoinPoints
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param point
+	 *            point expression (null when defined per coord)
+	 * @param coords
+	 *            coordinate expressions
+	 * @param localVar
+	 *            variable
+	 * @param from
+	 *            min parameter
+	 * @param to
+	 *            max parameter
+	 */
 	public AlgoCurveCartesian(Construction cons, ExpressionNode point,
 			GeoNumberValue[] coords, GeoNumeric localVar, GeoNumberValue from,
 			GeoNumberValue to) {
@@ -87,13 +102,17 @@ public class AlgoCurveCartesian extends AlgoElement {
 	/**
 	 * creates a curve
 	 * 
-	 * @param cons
+	 * @param cons1
+	 *            construction
 	 * @param fun
+	 *            functions
+	 * @param point
+	 *            point expression
 	 * @return a curve
 	 */
-	protected GeoCurveCartesianND createCurve(Construction cons,
+	protected GeoCurveCartesianND createCurve(Construction cons1,
 			Function[] fun, ExpressionNode point) {
-		return new GeoCurveCartesian(cons, fun[0], fun[1], point);
+		return new GeoCurveCartesian(cons1, fun[0], fun[1], point);
 	}
 
 	@Override
@@ -132,6 +151,9 @@ public class AlgoCurveCartesian extends AlgoElement {
 
 
 
+	/**
+	 * @return resulting curve
+	 */
 	public GeoCurveCartesianND getCurve() {
 		return curve;
 	}
@@ -160,7 +182,6 @@ public class AlgoCurveCartesian extends AlgoElement {
 					// here ...
 					ev = AlgoDependentFunction.expandFunctionDerivativeNodes(
 							exp[i].deepCopy(kernel), false);
-
 					// Kernel.internationalizeDigits = internationalizeDigits;
 
 				} catch (Exception e) {
