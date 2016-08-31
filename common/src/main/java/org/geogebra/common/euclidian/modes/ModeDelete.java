@@ -105,6 +105,7 @@ public class ModeDelete {
 										Math.abs(eventY
 												- view.toScreenCoordYd(p.inhomY))) <= deleteSize / 2) {
 							dataPoints[i].setUndefined();
+							dataPoints[i].resetDefinition();
 							if (as == null) {
 								as = dataPoints[i].getAlgoUpdateSet();
 							} else {

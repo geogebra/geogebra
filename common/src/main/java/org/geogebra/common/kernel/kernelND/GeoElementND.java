@@ -482,4 +482,6 @@ public interface GeoElementND extends ExpressionValue {
 
 	void setVisualStyleForTransformations(GeoElement topHit);
 
+	public void resetDefinition();
+
 }
