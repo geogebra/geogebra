@@ -564,7 +564,7 @@ public class MyXMLHandler implements DocHandler {
 					}
 
 				} catch (Exception e) {
-					throw new MyError(loc, "FileFormatUnknown");
+					errors.add(loc.getError("FileFormatUnknown"));
 				}
 
 				String ggbVersion = attrs.get("version");
@@ -5361,20 +5361,6 @@ new GPoint(row, column));
 		dynamicColorList.clear();
 	}
 
-	/*
-	 * private void processDynamicCoordinatesList() { try {
-	 * 
-	 * Iterator it = dynamicCoordinatesList.iterator(); AlgebraProcessor algProc
-	 * = kernel.getAlgebraProcessor();
-	 * 
-	 * while (it.hasNext()) { GeoExpPair pair = (GeoExpPair) it.next();
-	 * ((GeoPoint
-	 * )(pair.geo)).setCoordinateFunction(algProc.evaluateToList(pair.exp)); } }
-	 * catch (Exception e) { dynamicCoordinatesList.clear();
-	 * e.printStackTrace(); throw new MyError(loc, "dynamicCoordinatesList: " +
-	 * e.toString()); } dynamicCoordinatesList.clear(); }
-	 */
-
 	/**
 	 * @param attrs
 	 *            attributes
@@ -5894,7 +5880,6 @@ new GPoint(row, column));
 			Log.error(msg);
 			e.printStackTrace();
 			errors.add(msg);
-			//throw new MyError(loc, msg);
 		}
 	}
 
