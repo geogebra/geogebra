@@ -247,6 +247,19 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			addSeparator();
 
 			if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
+				// reset cas and 3d settings for restart of exam
+				app.getSettings().getCasSettings().resetEnabled();
+				app.getSettings().getEuclidian(-1).resetEnabled();
+				if (app.getArticleElement().getDataParamEnableCAS(false) || !app
+						.getArticleElement().getDataParamEnableCAS(true)) {
+					app.getSettings().getCasSettings().setEnabled(app
+							.getArticleElement().getDataParamEnableCAS(false));
+				}
+				if (app.getArticleElement().getDataParamEnable3D(false) || !app
+						.getArticleElement().getDataParamEnable3D(true)) {
+					app.getSettings().getEuclidian(-1).setEnabled(app
+							.getArticleElement().getDataParamEnable3D(false));
+				}
 				addItem(MainMenu.getMenuBarHtml(
 						GuiResources.INSTANCE.menu_icons_exam_mode()
 								.getSafeUri().asString(),

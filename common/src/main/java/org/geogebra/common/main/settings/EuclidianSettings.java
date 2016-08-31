@@ -1065,7 +1065,13 @@ public class EuclidianSettings extends AbstractSettings {
 			this.enabled = enable;
 			settingChanged();
 		}
+	}
 
+	/**
+	 * reset 3d enable (needed for exam mode)
+	 */
+	public void resetEnabled() {
+		enabled = null;
 	}
 
 	/**

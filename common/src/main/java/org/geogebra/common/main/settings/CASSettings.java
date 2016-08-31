@@ -87,6 +87,13 @@ public class CASSettings extends AbstractSettings {
 	}
 
 	/**
+	 * reset cas enable (needed for exam mode)
+	 */
+	public void resetEnabled() {
+		enabled = null;
+	}
+
+	/**
 	 * @return whether CAS view and commands are allowed
 	 */
 	public boolean isEnabled() {
