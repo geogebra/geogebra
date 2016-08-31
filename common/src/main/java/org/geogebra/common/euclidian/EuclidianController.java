@@ -9513,13 +9513,15 @@ public abstract class EuclidianController {
 		// else if (app.isHTML5Applet()) {
 		// view.requestFocusInWindow();
 		// }
-
+		boolean isPenDragged = penMode(mode) && penDragged;
 		// remove deletion rectangle
 		if (view.getDeletionRectangle() != null) {
 			// ended deletion
 			view.setDeletionRectangle(null);
 			view.repaintView();
-			storeUndoInfo();
+			if (!isPenDragged) {
+				storeUndoInfo();
+			}
 		}
 
 		// reset
@@ -9531,7 +9533,7 @@ public abstract class EuclidianController {
 			return;
 		}
 
-		if (penMode(mode) && penDragged) {
+		if (isPenDragged) {
 			getPen().handleMouseReleasedForPenMode(right, x, y);
 			storeUndoInfo();
 			draggingOccured = false;
