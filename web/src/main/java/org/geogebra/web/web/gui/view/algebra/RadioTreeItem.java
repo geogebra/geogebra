@@ -67,6 +67,7 @@ import org.geogebra.web.web.gui.util.MyToggleButton2;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -501,9 +502,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected void styleContent() {
 		content.addStyleName("elemText");
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			content.addStyleName("scrollableTextBox");
-		}
+
 
 	}
 
@@ -756,6 +755,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 		} else {
 			buildPlainTextItem();
 		}
+
+		adjustToPanel(content);
+
 	}
 
 
@@ -780,10 +782,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (updateValuePanel(geo.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate))) {
 			outputPanel.add(valuePanel);
+			;
 			plainTextItem.add(outputPanel);
 		}
-		// updateFont(plainTextItem);
 
+		// updateFont(plainTextItem);
 		content.add(plainTextItem);
 	}
 
@@ -865,7 +868,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 				Log.debug("CANVAS to IHTML");
 			}
 			content.add(canvas);
-			adjustToCanvas();
 		}
 
 		else {
@@ -875,6 +877,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			// updateFont(getPlainTextItem());
 			content.clear();
 			content.add(getPlainTextItem());
+			adjustToPanel(plainTextItem);
 		}
 	}
 
@@ -1124,19 +1127,29 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	protected void adjustToCanvas() {
+	protected void adjustToPanel(final FlowPanel panel) {
 		if (!app.has(Feature.AV_SCROLL)) {
 			return;
 		}
 
-		int width = canvas.getCoordinateSpaceWidth()
-				+ marblePanel.getOffsetWidth();
+
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				int width = panel.getOffsetWidth()
+						+ marblePanel.getOffsetWidth();
+				Log.debug("[AD] adjustToPanel: " + width);
+				setAVItemWidths(width);
+			}
+		});
+	}
+
+	private void setAVItemWidths(int width) {
 		if (getOffsetWidth() < width) {
 			getAV().setItemWidth(width);
 		}
 
 	}
-
 	public void setItemWidth(int width) {
 		setWidth(width + "px");
 		onResize();
@@ -1188,6 +1201,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 			return true;
 		}
 
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER) && !isInputTreeItem()) {
+			content.addStyleName("scrollableTextBox");
+		}
+
 		if (controls != null) {
 			controls.update(true);
 		}
@@ -1234,6 +1251,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	public void stopEditing(String newValue0,
 			final AsyncOperation<GeoElement> callback) {
+
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER) && !isInputTreeItem()) {
+			content.removeStyleName("scrollableTextBox");
+		}
 
 		restoreSize();
 		if (stylebarShown != null) {

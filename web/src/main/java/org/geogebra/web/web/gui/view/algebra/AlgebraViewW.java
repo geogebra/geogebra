@@ -1915,6 +1915,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
+	/**
+	 * Sets each tree item to a specific width
+	 * 
+	 * @param width
+	 *            to set.
+	 */
 	public void setItemWidth(int width) {
 		if (!app.has(Feature.AV_SCROLL)) {
 			return;
