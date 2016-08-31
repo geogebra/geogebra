@@ -1,6 +1,7 @@
 package org.geogebra.web.geogebra3D.web.gui;
 
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.html5.main.AppW;
@@ -65,7 +66,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		miShowAllObjectsView.addStyleName("mi_no_image");
 		wrappedPopup.addItem(miShowAllObjectsView);
 
-		addMiProperties("GraphicsView3D");
+		addMiProperties("GraphicsView3D", OptionType.EUCLIDIAN3D);
 	}
 
 	@Override

@@ -5,7 +5,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
@@ -34,7 +34,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		this.py = py;
 
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		OptionType ot = OptionType.EUCLIDIAN;
 		if (ev.getEuclidianViewNo() == 2) {
+			ot = OptionType.EUCLIDIAN2;
 			setTitle(app.getPlain("DrawingPad2"));
 		} else {
 			setTitle(app.getPlain("DrawingPad"));
@@ -85,7 +87,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			yaxisMenu.setEnabled(false);
 		}
 
-		addMiProperties("DrawingPad");
+		addMiProperties("DrawingPad", ot);
 
 	}
 
@@ -94,23 +96,23 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				.getActiveEuclidianView().getViewID());
 	}
 
-	protected void addMiProperties(String name) {
+	protected void addMiProperties(String name, final OptionType type) {
 		MenuItem miProperties = new MenuItem(MainMenu.getMenuBarHtml(
 		        AppResources.INSTANCE.view_properties16().getSafeUri()
 		                .asString(), app.getPlain(name) + " ..."), true,
 		        new Command() {
 
 			        public void execute() {
-				        showOptionsDialog();
+						showOptionsDialog(type);
 			        }
 		        });
 		miProperties.setEnabled(true); // TMP AG
 		wrappedPopup.addItem(miProperties);
 	}
 
-	protected void showOptionsDialog() {
+	protected void showOptionsDialog(OptionType type) {
 		if (app.getGuiManager() != null) {
-			app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+			app.getDialogManager().showPropertiesDialog(type, null);
 		}
 	}
 
