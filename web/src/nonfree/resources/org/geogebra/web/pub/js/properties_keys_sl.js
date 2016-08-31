@@ -2178,7 +2178,7 @@ __GGB__keysVar.sl.menu = {
     "exam_log_window_entered": "Ponoven vnos okna za preverjanje",
     "exam_log_window_left": "Zapustil/a si okno z nalogami",
     "exam_menu_enter": "Vnesi \"Na\u010din preverjanja\"",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Izhod iz na\u010dina preverjanja",
     "exam_start_button": "Za\u010dni z re\u0161evanjem",
     "exam_start_date": "Za\u010detni datum preverjanja",

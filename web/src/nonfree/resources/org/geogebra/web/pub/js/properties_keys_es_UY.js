@@ -2178,7 +2178,7 @@ __GGB__keysVar.es_UY.menu = {
     "exam_log_window_entered": "Reingreso a la ventana de Examen",
     "exam_log_window_left": "Ventana de examen abandonada",
     "exam_menu_enter": "Ingresar en \"Modo examen\"",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Abandonar modo Examen",
     "exam_start_button": "Comenzar el examen",
     "exam_start_date": "Fecha de inicio del examen",

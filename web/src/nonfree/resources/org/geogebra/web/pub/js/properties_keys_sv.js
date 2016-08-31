@@ -2178,7 +2178,7 @@ __GGB__keysVar.sv.menu = {
     "exam_log_window_entered": "Gick tillbaka till provf\xf6nstret",
     "exam_log_window_left": "L\xe4mnade provf\xf6nstret",
     "exam_menu_enter": "Starta provl\xe4get",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Prov",
     "exam_menu_exit": "Avsluta provl\xe4get",
     "exam_start_button": "Starta provet",
     "exam_start_date": "Provdatum",

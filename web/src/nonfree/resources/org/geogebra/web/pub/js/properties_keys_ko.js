@@ -2178,7 +2178,7 @@ __GGB__keysVar.ko.menu = {
     "exam_log_window_entered": "\ud3c9\uac00 \ucc3d \uc7ac\uc785\ub825",
     "exam_log_window_left": "\ud3c9\uac00 \ucc3d \ub098\uac00\uae30",
     "exam_menu_enter": "\ud3c9\uac00 \ubaa8\ub4dc \uc785\ub825",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "\ud3c9\uac00 \ubaa8\ub4dc \uc885\ub8cc",
     "exam_start_button": "\ud3c9\uac00 \uc2dc\uc791",
     "exam_start_date": "\ud3c9\uac00 \uc2dc\uc791 \uc77c\uc790",

@@ -2178,7 +2178,7 @@ __GGB__keysVar.zh_TW.menu = {
     "exam_log_window_entered": "Exam window re-entered",
     "exam_log_window_left": "Exam window left",
     "exam_menu_enter": "Enter Exam Mode",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Exit Exam Mode",
     "exam_start_button": "Start Exam",
     "exam_start_date": "Exam Start Date",

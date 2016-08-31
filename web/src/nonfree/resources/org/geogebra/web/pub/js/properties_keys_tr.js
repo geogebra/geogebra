@@ -2178,7 +2178,7 @@ __GGB__keysVar.tr.menu = {
     "exam_log_window_entered": "S\u0131nav penceresine yeniden girildi",
     "exam_log_window_left": "S\u0131nav penceresi terk edildi",
     "exam_menu_enter": "S\u0131nav Moduna Gir",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "S\u0131nav Modundan \xc7\u0131k",
     "exam_start_button": "S\u0131nava ba\u015fla",
     "exam_start_date": "S\u0131nav Ba\u015flama Tarihi",

@@ -2178,7 +2178,7 @@ __GGB__keysVar.de.menu = {
     "exam_log_window_entered": "R\xfcckkehr zum Pr\xfcfungs-Fenster",
     "exam_log_window_left": "Verlassen des Pr\xfcfungs-Fensters",
     "exam_menu_enter": "Pr\xfcfungs-Modus starten",
-    "exam_menu_entry": "Pr\xfcfungs-Modus",
+    "exam_menu_entry": "Pr\xfcfung",
     "exam_menu_exit": "Pr\xfcfungs-Modus beenden",
     "exam_start_button": "Pr\xfcfung starten",
     "exam_start_date": "Datum der Pr\xfcfung",

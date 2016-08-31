@@ -2178,7 +2178,7 @@ __GGB__keysVar.nl.menu = {
     "exam_log_window_entered": "Je opent opnieuw het Examenscherm",
     "exam_log_window_left": "Je verlaat het Examenscherm",
     "exam_menu_enter": "Open de Examenmodus",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Examenmodus afsluiten",
     "exam_start_button": "Start het examen.",
     "exam_start_date": "Startdatum examen",

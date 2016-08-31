@@ -2178,7 +2178,7 @@ __GGB__keysVar.cs.menu = {
     "exam_log_window_entered": "Okno se zkou\u0161kou op\u011bt aktivn\xed",
     "exam_log_window_left": "Okno se zkou\u0161kou opu\u0161t\u011bno",
     "exam_menu_enter": "Spustit zkou\u0161kov\xe9 prost\u0159ed\xed",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Ukon\u010dit zkou\u0161kov\xe9 prost\u0159ed\xed",
     "exam_start_button": "Za\u010d\xedt test",
     "exam_start_date": "Datum za\u010d\xe1tku zkou\u0161ky",

@@ -2178,7 +2178,7 @@ __GGB__keysVar.ca_XV.menu = {
     "exam_log_window_entered": "S'ha tornat a la finestra d'examen",
     "exam_log_window_left": "Surt de la finestra d'examen",
     "exam_menu_enter": "Entra en \"Mode examen\"",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Sortir del mode examen",
     "exam_start_button": "Comen\xe7ar l'examen",
     "exam_start_date": "Data d'inici de l'examen",

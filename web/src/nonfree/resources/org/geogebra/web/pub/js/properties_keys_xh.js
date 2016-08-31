@@ -2178,7 +2178,7 @@ __GGB__keysVar.xh.menu = {
     "exam_log_window_entered": "Exam window re-entered",
     "exam_log_window_left": "Exam window left",
     "exam_menu_enter": "Enter Exam Mode",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Phuma kwiSimo Sovavanyo",
     "exam_start_button": "Qalisa uVavanyo",
     "exam_start_date": "uMhla wokuQala koVavanyo",

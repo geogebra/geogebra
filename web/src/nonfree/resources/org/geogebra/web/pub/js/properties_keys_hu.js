@@ -2178,7 +2178,7 @@ __GGB__keysVar.hu.menu = {
     "exam_log_window_entered": "Ism\xe9telt bel\xe9p\xe9s a vizsgaablakba",
     "exam_log_window_left": "A vizsgaablak elhagy\xe1sra ker\xfclt",
     "exam_menu_enter": "Vizsga \xfczemm\xf3d ind\xedt\xe1sa",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Kil\xe9p\xe9s a vizsga \xfczemm\xf3db\xf3l",
     "exam_start_button": "A vizsga megkezd\xe9se",
     "exam_start_date": "A vizsga d\xe1tuma",

@@ -2178,7 +2178,7 @@ __GGB__keysVar.mn.menu = {
     "exam_log_window_entered": "Exam window re-entered",
     "exam_log_window_left": "\u0428\u0430\u043b\u0433\u0430\u043b\u0442\u044b\u043d \u0446\u043e\u043d\u0445\u044b\u0433 \u043e\u0440\u0445\u0438\u0445",
     "exam_menu_enter": "\u0428\u0430\u043b\u0433\u0430\u043b\u0442 \u043e\u0440\u0443\u0443\u043b\u0430\u0445",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "\u0428\u0430\u043b\u0433\u0430\u043b\u0442\u0430\u0430\u0441 \u0433\u0430\u0440\u0430\u0445",
     "exam_start_button": "\u0428\u0430\u043b\u0433\u0430\u043b\u0442\u044b\u0433 \u044d\u0445\u043b\u044d\u0445",
     "exam_start_date": "\u0428\u0430\u043b\u0433\u0430\u043b\u0442 \u044d\u0445\u044d\u043b\u0441\u044d\u043d \u043e\u0433\u043d\u043e\u043e",

@@ -2178,7 +2178,7 @@ __GGB__keysVar.fi.menu = {
     "exam_log_window_entered": "Koeikkunaan palattiin",
     "exam_log_window_left": "Koeikkunasta poistuttiin",
     "exam_menu_enter": "Siirry koetilaan",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Poistu koetilasta",
     "exam_start_button": "Aloita koe",
     "exam_start_date": "Kokeen aloitusp\xe4iv\xe4",

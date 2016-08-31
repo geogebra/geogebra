@@ -2178,7 +2178,7 @@ __GGB__keysVar.gl.menu = {
     "exam_log_window_entered": "Regresouse \xe1 xanela de Exame",
     "exam_log_window_left": "Abandonada a xanela de Exame",
     "exam_menu_enter": "Entrar en \"Modo exame\"",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Sa\xedr do Modo Exame",
     "exam_start_button": "Comezar o exame",
     "exam_start_date": "Data de comezo de exame",

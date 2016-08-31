@@ -2178,7 +2178,7 @@ __GGB__keysVar.ug.menu = {
     "exam_log_window_entered": "Exam window re-entered",
     "exam_log_window_left": "Exam window left",
     "exam_menu_enter": "Enter Exam Mode",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Exit Exam Mode",
     "exam_start_button": "\u062a\u06d5\u0643\u0634\u06c8\u0631\u06c8\u0634\u0646\u0649 \u0628\u0627\u0634\u0644\u0627\u0634",
     "exam_start_date": "Exam Start Date",

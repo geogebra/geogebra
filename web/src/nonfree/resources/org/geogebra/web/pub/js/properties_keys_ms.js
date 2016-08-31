@@ -2178,7 +2178,7 @@ __GGB__keysVar.ms.menu = {
     "exam_log_window_entered": "Exam window re-entered",
     "exam_log_window_left": "Exam window left",
     "exam_menu_enter": "Masuk ke \"Mod Peperiksaan\"",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Exit Exam Mode",
     "exam_start_button": "Mula peperiksaan",
     "exam_start_date": "Exam Start Date",

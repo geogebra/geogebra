@@ -2178,7 +2178,7 @@ __GGB__keysVar.hr.menu = {
     "exam_log_window_entered": "Ponovni ulazak u ispitni prozor",
     "exam_log_window_left": "Izlaz iz ispitnog prozora",
     "exam_menu_enter": "Ulaz u ispitni na\u010din",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Izlaz iz ispitnog na\u010dina",
     "exam_start_button": "Po\u010detak ispita",
     "exam_start_date": "Datum ispita",

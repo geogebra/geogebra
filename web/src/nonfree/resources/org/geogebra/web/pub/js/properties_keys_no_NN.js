@@ -2178,7 +2178,7 @@ __GGB__keysVar.no_NN.menu = {
     "exam_log_window_entered": "Du har g\xe5tt inn i pr\xf8vevindauget igjen",
     "exam_log_window_left": "Du har forlate pr\xf8vevindauget",
     "exam_menu_enter": "G\xe5 inn i  pr\xf8vemodulen",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Exam",
     "exam_menu_exit": "Avslutt pr\xf8vemodul",
     "exam_start_button": "Start pr\xf8va",
     "exam_start_date": "Dato for start av pr\xf8ve",

@@ -2178,7 +2178,7 @@ __GGB__keysVar.eu.menu = {
     "exam_log_window_entered": "Azterketa-leihoan sartu zara berriz",
     "exam_log_window_left": "Azterketa-leihotik irten zara",
     "exam_menu_enter": "Sartu \"Azterketa-moduan\"",
-    "exam_menu_entry": "Exam Mode",
+    "exam_menu_entry": "Azterketa",
     "exam_menu_exit": "Irten Azterketa-modutik",
     "exam_start_button": "Hasi Azterketa",
     "exam_start_date": "Azterketaren hasiera-data",
