@@ -682,6 +682,9 @@ public class InputController {
         } else if (ch == 8226) { // big dot char
             newOperator(editorState, '*');
             handled = true;
+        } else if (ch == 215) { // multiplication cross char
+            newOperator(editorState, '*');
+            handled = true;
         } else if (metaModel.isOperator("" + ch)) {
             newOperator(editorState, ch);
             handled = true;
