@@ -4052,7 +4052,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (selPlanes() == 1 && selLines() == 1) {
 			GeoLineND[] lines = getSelectedLinesND();
 			GeoPlaneND[] planes = getSelectedPlanes();
-			kernel.getManager3D().Angle3D(null, lines[0], planes[0]);
+			return kernel.getManager3D().Angle3D(null, lines[0], planes[0]);
 		}
 
 		return null;
