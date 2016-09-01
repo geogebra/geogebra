@@ -135,6 +135,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		LongTouchHandler,
 		AutoCompleteW, RequiresResize, HasHelpButton {
 
+	private static final int BROWSER_SCROLLBAR_WIDTH = 17;
+
 	private static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
 	static final String CLEAR_COLOR_STR = GColor
@@ -1644,6 +1646,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void adjustControlsPosition() {
+		if (!app.has(Feature.AV_SCROLL)) {
+			return;
+		}
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			public void execute() {
@@ -1651,8 +1656,15 @@ public abstract class RadioTreeItem extends AVTreeItem
 						.getGuiManager().getLayout().getDockManager()
 						.getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
 				int scrollPos = algebraPanel.getHorizontalScrollPosition();
-				int value = getOffsetWidth()
+
+				// extra margin if vertical scrollbar is visible.
+				int margin = getAV().getOffsetHeight()
+						+ getOffsetHeight() > algebraPanel
+						.getOffsetHeight() ? BROWSER_SCROLLBAR_WIDTH : 0;
+
+				int value = margin + getOffsetWidth()
 						- (algebraPanel.getOffsetWidth() + scrollPos);
+					 
 					Log.debug("[AD] controls right: " + value);
 					controls.getElement().getStyle().setRight(value, Unit.PX);
 
@@ -1673,15 +1685,17 @@ public abstract class RadioTreeItem extends AVTreeItem
 					.getAbsolutePanel();
 			
 			if (accurate) { // new code
-				adjustControlsPosition();
-				// Log.debug(Feature.AV_INPUT_BUTTON_COVER,
-				// "algebra panel null: " + (algebraPanel == null));
-				// int scrollbarWidth = algebraPanel == null ? 0
-				// : algebraPanel.getOffsetWidth()
-				// - algebraPanel.getElement().getClientWidth();
-				// controls.getElement().getStyle()
-				// .setRight(visibleRight - scrollbarWidth, Unit.PX);
-				//
+				if (app.has(Feature.AV_SCROLL)) {
+					adjustControlsPosition();
+				} else {
+					Log.debug(Feature.AV_INPUT_BUTTON_COVER,
+							"algebra panel null: " + (algebraPanel == null));
+					int scrollbarWidth = algebraPanel == null ? 0
+							: algebraPanel.getOffsetWidth() - algebraPanel
+									.getElement().getClientWidth();
+					controls.getElement().getStyle()
+							.setRight(46 - scrollbarWidth, Unit.PX);
+				}
 			} else { // old code
 			
 				if (algebraPanel != null
