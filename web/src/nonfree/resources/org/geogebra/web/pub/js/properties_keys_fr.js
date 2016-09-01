@@ -2178,7 +2178,7 @@ __GGB__keysVar.fr.menu = {
     "exam_log_window_entered": "Rentr\xe9e Examen",
     "exam_log_window_left": "Sortie Examen",
     "exam_menu_enter": "Examen",
-    "exam_menu_entry": "Exam",
+    "exam_menu_entry": "Examen",
     "exam_menu_exit": "Quitter Examen",
     "exam_start_button": "Commencer",
     "exam_start_date": "Date Examen",
