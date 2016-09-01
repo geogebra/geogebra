@@ -207,6 +207,9 @@ public class DrawableList {
 		}
 	}
 
+	/**
+	 * Update all elements when view was updated
+	 */
 	public final void updateAllForView() {
 		Link cur = head;
 		while (cur != null) {
@@ -235,10 +238,21 @@ public class DrawableList {
 		size = 0;
 	}
 
+	/**
+	 * Linked list of drawables
+	 */
 	public class Link {
+		/** drawable */
 		public Drawable d;
+		/** next element */
 		public Link next;
 
+		/**
+		 * @param a
+		 *            drawable
+		 * @param n
+		 *            next
+		 */
 		Link(Drawable a, Link n) {
 			d = a;
 			next = n;

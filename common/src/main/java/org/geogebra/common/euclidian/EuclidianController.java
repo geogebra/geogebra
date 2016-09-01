@@ -5206,14 +5206,19 @@ public abstract class EuclidianController {
 	/**
 	 * Handles selected objects for a macro
 	 *
-	 * @param hits
-	 * @return
+	 * @param hits0
+	 *            hits
+	 * @return whether macro was successfully processed
 	 */
-	protected final boolean macro(Hits hits,
+	protected final boolean macro(Hits hits0,
 			final AsyncOperation<Boolean> callback2, boolean selPreview) {
 		// try to get next needed type of macroInput
 		index = selGeos();
-
+		Hits hits = hits0;
+		// we want a polyhedron, maybe we hit its side?
+		if (macroInput[index] == Test.GEOPOLYHEDRON) {
+			hits = hits.getPolyhedronsIncludingMetaHits();
+		}
 		// standard case: try to get one object of needed input type
 		boolean objectFound = 1 == handleAddSelected(hits, macroInput.length,
 				false, getSelectedGeoList(), macroInput[index], selPreview);

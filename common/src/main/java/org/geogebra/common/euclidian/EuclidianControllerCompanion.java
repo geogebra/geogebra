@@ -40,13 +40,26 @@ import org.geogebra.common.main.Feature;
  *
  */
 public class EuclidianControllerCompanion {
-
+	/** controller */
 	protected EuclidianController ec;
 
+	/**
+	 * @param ec
+	 *            controller
+	 */
 	public EuclidianControllerCompanion(EuclidianController ec) {
 		this.ec = ec;
 	}
 
+	/**
+	 * @param A
+	 *            point
+	 * @param B
+	 *            point
+	 * @param C
+	 *            point
+	 * @return angle
+	 */
 	protected GeoAngle createAngle(GeoPointND A, GeoPointND B, GeoPointND C) {
 		ec.checkZooming();
 
@@ -99,6 +112,8 @@ public class EuclidianControllerCompanion {
 	 *            first geo
 	 * @param b
 	 *            second geo
+	 * @param coords2D
+	 *            closest coords
 	 * @return single intersection points from geos a,b
 	 */
 	public GeoPointND getSingleIntersectionPoint(GeoElement a, GeoElement b,

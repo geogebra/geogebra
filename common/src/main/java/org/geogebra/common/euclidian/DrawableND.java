@@ -118,10 +118,17 @@ public abstract class DrawableND {
 		return 0;
 	}
 
+	/**
+	 * @param b
+	 *            whether update is needed
+	 */
 	public void setNeedsUpdate(boolean b) {
 		this.needsUpdate = b;
 	}
 
+	/**
+	 * @return whether update is needed
+	 */
 	public boolean needsUpdate() {
 		return this.needsUpdate;
 	}
@@ -131,11 +138,17 @@ public abstract class DrawableND {
 	 */
 	public abstract boolean isTracing();
 
+	/**
+	 * Reset responsive coordinates
+	 */
 	public void move() {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * @return whether this is a Drawable for input box or list in dropdown mode
+	 */
 	public boolean isCanvasDrawable() {
 		if (!(this instanceof CanvasDrawable)) {
 			return false;
