@@ -477,7 +477,7 @@ app.getScaledIcon(
 			}
 		}
 
-		updateHelpText();
+		updateHelpText(mode);
 
 		return ret;
 	}
@@ -504,9 +504,10 @@ app.getScaledIcon(
 	 * @param toolbar
 	 *            toolbar
 	 */
-	public void setActiveToolbar(ToolbarD toolbar) {
-		setActiveToolbar(getViewId(toolbar));
+	public int setActiveToolbar(ToolbarD toolbar) {
+		int ret = setActiveToolbar(getViewId(toolbar));
 		setOrientation(app.getToolbarPosition());
+		return ret;
 	}
 
 	/**
@@ -515,9 +516,9 @@ app.getScaledIcon(
 	 * @param id
 	 *            The view ID
 	 */
-	public void setActiveToolbar(int id) {
+	public int setActiveToolbar(int id) {
 		if (activeToolbar == id) {
-			return;
+			return app.getMode();
 		}
 
 		activeToolbar = id;
@@ -530,8 +531,10 @@ app.getScaledIcon(
 			if (id != App.VIEW_DATA_ANALYSIS) {
 				app.setMode(getToolbar(id).getSelectedMode(),
 						ModeSetter.DOCK_PANEL);
+				return getToolbar(id).getSelectedMode();
 			}
 		}
+		return app.getMode();
 	}
 
 	/**
@@ -643,15 +646,22 @@ app.getScaledIcon(
 	}
 
 	private MouseAdapter helpMouseAdapter;
-
 	/**
 	 * Update the help text.
 	 */
 	public void updateHelpText() {
+		updateHelpText(app.getMode());
+	}
+
+	/**
+	 * Update the help text.
+	 * 
+	 * @param mode
+	 *            mode
+	 */
+	public void updateHelpText(int mode) {
 		if (modeNameLabel == null)
 			return;
-
-		int mode = app.getMode();
 
 		String toolName = app.getToolName(mode);
 		String helpText = app.getToolHelp(mode);
@@ -676,9 +686,12 @@ app.getScaledIcon(
 	 * @param mode
 	 */
 	private void resolveMouseListener(final int mode) {
-		final String modeName = EuclidianConstants.getModeText(mode);
 		if (modeNameLabel.getMouseListeners().length > 0)
 			modeNameLabel.removeMouseListener(helpMouseAdapter);
+		if (mode > EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			return;
+		}
+		final String modeName = EuclidianConstants.getModeText(mode);
 		if (!("".equals(modeName))) {
 			helpMouseAdapter = new MouseAdapter() {
 				@Override

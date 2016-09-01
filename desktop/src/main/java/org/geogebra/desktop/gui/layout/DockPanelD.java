@@ -1382,17 +1382,19 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 * sets the active toolbar
 	 */
 	protected void setActiveToolBar() {
+		int currentMode;
 		if (hasToolbar()) {
-			((GuiManagerD) app.getGuiManager()).getToolbarPanel()
+			currentMode = ((GuiManagerD) app.getGuiManager()).getToolbarPanel()
 					.setActiveToolbar(toolbar);
 		} else {
-			((GuiManagerD) app.getGuiManager()).getToolbarPanel()
+			currentMode = ((GuiManagerD) app.getGuiManager()).getToolbarPanel()
 					.setActiveToolbar(-1);
 		}
 		// switching the view may cause shrinking of help panel,
 		// we need an update here
 		((GuiManagerD) app.getGuiManager()).getToolbarPanel().validate();
-		((GuiManagerD) app.getGuiManager()).getToolbarPanel().updateHelpText();
+		((GuiManagerD) app.getGuiManager()).getToolbarPanel()
+				.updateHelpText(currentMode);
 	}
 
 	/**

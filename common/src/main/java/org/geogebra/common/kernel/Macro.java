@@ -277,6 +277,7 @@ public class Macro {
 			case POLYGON:
 			case FUNCTION:
 			case INTERVAL:
+			case POLYHEDRON:
 			case CURVE_CARTESIAN:// added by Zbynek Konecny, 2010-05-25
 									// (http://www.geogebra.org/forum/viewtopic.php?t=7275)
 				// add parent algo and its input objects to
