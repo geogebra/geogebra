@@ -128,24 +128,26 @@ public interface Traversing {
 	 *
 	 */
 	public class CommandReplacer implements Traversing {
-		private App app;
+		private Kernel kernel;
 		private boolean cas;
 
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command) {
 				Command c = (Command) ev;
-				String cmdName = app.getReverseCommand(c.getName());
-				if (CommandProcessor.isCmdName(cmdName)) {
+				String cmdName = kernel.getApplication()
+						.getReverseCommand(c.getName());
+				if (CommandProcessor.isCmdName(cmdName)
+						|| kernel.getMacro(c.getName()) != null) {
 					return ev;
 				}
-				MyList argList = new MyList(c.getKernel());
+				MyList argList = new MyList(kernel);
 				for (int i = 0; i < c.getArgumentNumber(); i++) {
 					argList.addListElement(c.getItem(i).traverse(this));
 				}
-				ExpressionValue var = cas ? new GeoDummyVariable(c.getKernel()
+				ExpressionValue var = cas ? new GeoDummyVariable(kernel
 						.getConstruction(), c.getName()) : new Variable(
-						c.getKernel(), c.getName());
-				return new ExpressionNode(c.getKernel(), var,
+								kernel, c.getName());
+				return new ExpressionNode(kernel, var,
 						Operation.FUNCTION_NVAR, argList);
 			}
 			return ev;
@@ -154,14 +156,15 @@ public interface Traversing {
 		private static CommandReplacer replacer = new CommandReplacer();
 
 		/**
-		 * @param app
-		 *            application (needed to check which commands are valid)
+		 * @param kernel
+		 *            kernel in which resulting variables live (also needed to
+		 *            check which commands are valid)
 		 * @param cas
 		 *            whether this is for CAS
 		 * @return replacer
 		 */
-		public static CommandReplacer getReplacer(App app, boolean cas) {
-			replacer.app = app;
+		public static CommandReplacer getReplacer(Kernel kernel, boolean cas) {
+			replacer.kernel = kernel;
 			replacer.cas = cas;
 			return replacer;
 		}

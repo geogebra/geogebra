@@ -1473,8 +1473,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			}
 			
 			if(outputVE!=null){
-				CommandReplacer cr = CommandReplacer.getReplacer(
-						kernel.getApplication(), true);
+				CommandReplacer cr = CommandReplacer.getReplacer(kernel, true);
 				outputVE.traverse(cr);
 				if (inputVE!=null) {
 					if (inputVE.isTopLevelCommand("Vector")) {

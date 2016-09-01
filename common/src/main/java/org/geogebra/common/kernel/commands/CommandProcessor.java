@@ -217,6 +217,8 @@ public abstract class CommandProcessor {
 	 *            command
 	 * @param keepCAScells
 	 *            false = replace CAS cells by twin geos, true = keep cells
+	 * @param info
+	 *            evaluation flags
 	 * @return processed arguments
 	 * @throws MyError
 	 *             when arguments contain errors, eg. invalid operation in exp
@@ -426,7 +428,8 @@ kernelA.getEulerNumber(), localVar));
 		}
 		GeoElement[] arg = resArg(
 				c.getArgument(0)
-						.traverse(CommandReplacer.getReplacer(app, false))
+						.traverse(CommandReplacer.getReplacer(kernelA,
+								false))
 						.wrap(),
 				argInfo);
 

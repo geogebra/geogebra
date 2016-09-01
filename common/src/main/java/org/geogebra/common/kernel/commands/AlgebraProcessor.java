@@ -885,7 +885,8 @@ public class AlgebraProcessor {
 				if ("Rename".equals(c.getName())) {
 					cmd = "="
 							+ c.getArgument(1)
-									.traverse(CommandReplacer.getReplacer(app,
+									.traverse(CommandReplacer
+											.getReplacer(kernel,
 											true))
 							.toString(StringTemplate.defaultTemplate) + ":="
 							+ c.getArgument(0)
