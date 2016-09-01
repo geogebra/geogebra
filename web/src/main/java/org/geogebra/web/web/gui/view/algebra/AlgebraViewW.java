@@ -31,17 +31,21 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.util.LaTeXHelper;
 import org.geogebra.web.web.util.ReTeXHelper;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.ScrollEvent;
+import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -55,6 +59,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasTreeItems;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ProvidesResize;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -180,8 +185,31 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 						}
 					});
 
+		if (app.has(Feature.AV_SCROLL)) {
+			addOnScroll();
+		}
 	}
 
+	private void addOnScroll() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				ScrollPanel algebraPanel = ((AlgebraDockPanelW) app
+						.getGuiManager().getLayout().getDockManager()
+						.getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
+				algebraPanel.addScrollHandler(new ScrollHandler() {
+
+					public void onScroll(ScrollEvent event) {
+						Log.debug("scrollliiiiing");
+						if (activeItem != null) {
+							activeItem.adjustControlsPosition();
+						}
+					}
+				});
+			}
+		});
+
+	}
 	private void initGUI(AlgebraControllerW algCtrl) {
 		// add listener
 		this.addDomHandler(algCtrl, MouseDownEvent.getType());
@@ -1937,13 +1965,14 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			return;
 		}
 
-		if (getInputTreeItem() != null) {
-			getInputTreeItem().setItemWidth(width);
-		}
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti instanceof RadioTreeItem) {
-				RadioTreeItem.as(ti).setItemWidth(width);
+				RadioTreeItem ri = RadioTreeItem.as(ti);
+				if (!ri.isInputTreeItem()) {
+					ri.setItemWidth(width);
+				}
+
 			} else if (ti.getWidget() instanceof GroupHeader) {
 
 				for (int j = 0; j < ti.getChildCount(); j++) {

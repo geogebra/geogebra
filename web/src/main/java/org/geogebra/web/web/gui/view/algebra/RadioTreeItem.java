@@ -1643,6 +1643,22 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// marblePanel.setBackground();
 	}
 
+	public void adjustControlsPosition() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				ScrollPanel algebraPanel = ((AlgebraDockPanelW) app
+						.getGuiManager().getLayout().getDockManager()
+						.getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
+				int scrollPos = algebraPanel.getHorizontalScrollPosition();
+				int value = getOffsetWidth()
+						- (algebraPanel.getOffsetWidth() + scrollPos);
+					Log.debug("[AD] controls right: " + value);
+					controls.getElement().getStyle().setRight(value, Unit.PX);
+
+			}
+		});
+	}
 
 	protected void updateButtonPanelPosition() {
 		if (controls == null) {
@@ -1650,7 +1666,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		
 		boolean accurate = true; // used for testing the new code
-		
 		if (styleBarCanHide()) {
 			Log.debug(Feature.AV_INPUT_BUTTON_COVER, "canhide");
 			ScrollPanel algebraPanel = ((AlgebraDockPanelW) app.getGuiManager()
@@ -1658,15 +1673,15 @@ public abstract class RadioTreeItem extends AVTreeItem
 					.getAbsolutePanel();
 			
 			if (accurate) { // new code
-			
-				Log.debug(Feature.AV_INPUT_BUTTON_COVER,
-						"algebra panel null: " + (algebraPanel == null));
-				int scrollbarWidth = algebraPanel == null ? 0
-						: algebraPanel.getOffsetWidth()
-						- algebraPanel.getElement().getClientWidth();
-				controls.getElement().getStyle()
-						.setRight(46 - scrollbarWidth, Unit.PX);
-			
+				adjustControlsPosition();
+				// Log.debug(Feature.AV_INPUT_BUTTON_COVER,
+				// "algebra panel null: " + (algebraPanel == null));
+				// int scrollbarWidth = algebraPanel == null ? 0
+				// : algebraPanel.getOffsetWidth()
+				// - algebraPanel.getElement().getClientWidth();
+				// controls.getElement().getStyle()
+				// .setRight(visibleRight - scrollbarWidth, Unit.PX);
+				//
 			} else { // old code
 			
 				if (algebraPanel != null
@@ -1685,7 +1700,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 		} else {
 			Log.debug("canNOT hide");
 			if (accurate) {
-				controls.getElement().getStyle().setRight(0, Unit.PX);
+				adjustControlsPosition();
+				// controls.getElement().getStyle().setRight(visibleRight,
+				// Unit.PX);
 			} else {
 				controls.removeStyleName("positionedObjectStyleBar");
 				controls
@@ -2614,5 +2631,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
+	public boolean isLatex() {
+		return latex;
+	}
 }
 
