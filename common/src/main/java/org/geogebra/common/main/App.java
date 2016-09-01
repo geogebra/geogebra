@@ -4047,6 +4047,9 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_ROUNDING_OPTION:
 			return prerelease;
 
+		case ITERATION_LIST_DOUBLE:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
