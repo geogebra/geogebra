@@ -417,19 +417,20 @@ public class AppWapplet extends AppWFull {
 		super.focusGained(v, el);
 		focusedView = v;
 		GeoGebraFrameW.useFocusedBorder(getArticleElement(), frame);
+		Log.debug("AppWapplet - focusgained");
 
 		// we really need to set it to true
 		switch (v.getViewID()) {
 		case App.VIEW_ALGEBRA:
 		case App.VIEW_EUCLIDIAN:
 		case App.VIEW_EUCLIDIAN2:
-			this.getGlobalKeyDispatcher().setFocused(true);
+			this.getGlobalKeyDispatcher().setFocusedIfNotTab();
 			break;
 		default:
 			if (App.isView3D(v.getViewID())
 					|| ((v.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START) && (v
 							.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
-				this.getGlobalKeyDispatcher().setFocused(true);
+				this.getGlobalKeyDispatcher().setFocusedIfNotTab();
 			}
 		}
 	}

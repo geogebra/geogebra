@@ -220,6 +220,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 		this.loc = new LocalizationW(dimension);
 		this.articleElement = ae;
+		ArticleElement.addNativeHandlers(articleElement, this);
 		this.laf = laf;
 
 		getTimerSystem();
@@ -231,6 +232,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 				windowResized();
 			}
 		});
+
+
 
 	}
 

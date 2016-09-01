@@ -14,9 +14,11 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyEvent;
@@ -27,6 +29,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
+import com.google.gwt.user.client.ui.FocusPanel;
 
 /**
  * Handles keyboard events.
@@ -57,6 +60,8 @@ public class GlobalKeyDispatcherW extends
 	 */
 	public boolean inFocus = false;
 
+	public static boolean isHandlingTab;
+
 	/**
 	 * @param app
 	 *            application
@@ -66,7 +71,7 @@ public class GlobalKeyDispatcherW extends
 		initNativeKeyHandlers();
 	}
 
-	boolean tabfixdebug = false;
+	boolean tabfixdebug = true;
 
 	// Temp for testing
 	public void debug(String s){
@@ -79,16 +84,29 @@ public class GlobalKeyDispatcherW extends
 
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 
-
 				switch (event.getTypeInt()) {
 					case Event.ONKEYDOWN:
 
 					Element targetElement = Element.as(event.getNativeEvent()
 						.getEventTarget());
-					ArticleElement ggbApplet = getGGBApplet(targetElement);
-					if (ggbApplet == null) {
+					debug("keydown (" + event.getNativeEvent().getKeyCode()
+							+ ") in target element: "
+							+ targetElement.toString());
+					ArticleElement targetArticle = getGGBArticle(targetElement);
+					if (targetArticle == null) {
+						// if (targetElement.getClassName().indexOf(
+						// "geogebraweb-dummy-invisible") < 0) {
+						// event.cancel();
+						// isHandlingTab = true;
+						// ArrayList<ArticleElement> mobileTags = ArticleElement
+						// .getGeoGebraMobileTags();
+						// mobileTags.get(0).focus();
+						// }
 						return;
+
 					}
+					debug("target article: " + targetArticle.getClassName());
+
 
 					if (event.getNativeEvent().getKeyCode() == 9) { // TAB
 																	// pressed
@@ -97,50 +115,144 @@ public class GlobalKeyDispatcherW extends
 								+ targetElement.getClassName());
 
 						if (!isFocused()) {
+							Log.debug("not focused");
 							event.cancel();
-							ArticleElement nextApplet = getNextGGBApplet(ggbApplet);
-							if (nextApplet == null) {
-								// TODO: go to last dummy - maybe won't dummies
-								// for
-								// all GGW Articles...
-								GeoGebraFrameW.dummies.get(
-										GeoGebraFrameW.dummies.size() - 1)
-										.focus();
-							} else {
-								nextApplet.focus();
-							}
-						}
+							// FocusPanel nextDummy = getNextDummy(ggbApplet);
+							isHandlingTab = true;
+							// debug("nextDummy - focus");
+							// nextDummy.setFocus(true);
 
-					} else if (event.getNativeEvent().getKeyCode() == 13) { // ENTER
-																			// pressed
+							// TODO - set border in an other place...
+							GeoGebraFrameW.useDataParamBorder(targetArticle,
+									targetArticle.getFirstChildElement());
+							ArticleElement nextArticle = getNextArticle(targetArticle);
+							if (nextArticle == null) {
+								// TODO: go to a dummy after last article
+								Dom.getElementsByClassName(
+										"geogebraweb-dummy-invisible")
+										.getItem(1)
+										.focus();
+
+							} else {
+								debug("nextArticle.focus()");
+								debug(nextArticle.toString());
+								nextArticle.focus();
+								printActiveElement();
+							}
+
+							//nextDummy.fireEvent(event);
+							// DomEvent.fireNativeEvent(Document.get().createKeyDownEvent(false,
+							// false, false, false, 9), nextDummy);
+
+							// nextDummy.fireEvent(new KeyDownEvent(){
+							//
+							// });
+							//
+							// ne
+							//
+							// class TabKeyEvent extends KeyDownEvent{
+							// public TabKeyEvent(){
+							// super();
+							// this.
+							// }
+							// }
+							
+//							ArticleElement nextApplet = getNextGGBApplet(ggbApplet);
+//							if (nextApplet == null) {
+//								// TODO: go to last dummy - maybe won't dummies
+//								// for
+//								// all GGW Articles...
+//								GeoGebraFrameW.dummies.get(
+//										GeoGebraFrameW.dummies.size() - 1)
+//										.focus();
+//								
+//							} else {
+//								debug("next applet gets the focus");
+//
+//								nextApplet.focus();
+//
+//								// !!! ????
+
+//								GeoGebraFrameW.useFocusedBorder(nextApplet,
+//										nextApplet.getFirstChildElement());
+
+//								GeoGebraFrameW.useDataParamBorder(ggbApplet,
+//										(GeoGebraFrameW) ((AppW) app)
+//												.getAppletFrame());
+							// }
+						} else {
+							// event.cancel();
+							// FocusPanel nextDummy = getNextDummy(ggbApplet);
+							// isHandleTab = true;
+							// nextDummy.setFocus(true);
+							// nextDummy.fireEvent(event);
+						}
+					} 
+					
+					/*else if (event.getNativeEvent().getKeyCode() == 13) { // ENTER
+
+						// pressed
+						debug("enter pressed - isFocused: " + isFocused());
 						if (!isFocused()) {
 							event.cancel();
 							setFocused(true);
 						}
-					}
+					} else {
+						// debug("this key pressed: "
+						// + event.getNativeEvent().getKeyCode());
+					}*/
 
-						break;
 
-//				case Event.ONKEYUP:
-//					debug("keyup!");
-//
-//					if (isGGBApplet(targetElement)) {
-//						event.cancel();
-//					}
-//					break;
-//				}
+						//break;
+
+				// case Event.ONKEYUP:
+				// debug("keyup!");
+				//
+				// if (isGGBApplet(targetElement)) {
+				// event.cancel();
+				// }
+				// break;
+				// }
 				}
 			}
 
 		});
 	}
 
-	ArticleElement getNextGGBApplet(ArticleElement ggbapp) {
+	FocusPanel getNextDummy(ArticleElement ggbapp) {
+		debug("getNextDummy - " + ggbapp.getClassName() + " -> ");
+		ArrayList<ArticleElement> mobileTags = ArticleElement
+				.getGeoGebraMobileTags();
+		for (int i = 0; i < mobileTags.size() - 1; i++) {
+			if (mobileTags.get(i).equals(ggbapp)) {
+				// GeoGebraFrameW.dummies2.get(i + 1).getElement().focus();
+
+				debug((i + 1) + "");
+				return GeoGebraFrameW.dummies2.get(i + 1);
+			}
+		}
+		debug("0");
+		return GeoGebraFrameW.dummies2.get(0);
+	}
+
+	ArticleElement getNextArticle(ArticleElement ggbapp) {
 		ArrayList<ArticleElement> mobileTags = ArticleElement
 				.getGeoGebraMobileTags();
 		for (int i = 0; i < mobileTags.size() - 1; i++) {
 			if (mobileTags.get(i).equals(ggbapp)) {
 				return mobileTags.get(i + 1);
+			}
+		}
+
+		NodeList<Element> appletscalers = Dom
+				.getElementsByClassName("applet_scaler");
+		for (int i = 0; i < appletscalers.getLength() - 1; i++) {
+			Element actualArticle = appletscalers.getItem(i)
+					.getElementsByTagName("Article").getItem(0);
+			if (ggbapp.equals(actualArticle)) {
+
+				return ArticleElement.as(appletscalers.getItem(i + 1)
+						.getFirstChildElement());
 			}
 		}
 		return null;
@@ -150,15 +262,37 @@ public class GlobalKeyDispatcherW extends
 	 * Returns true, if el is ggb applet, but not the dummy element
 	 */
 	boolean isGGBApplet(Element el) {
+		if (el.getClassName().indexOf("geogebraweb-dummy-invisible") >= 0) {
+			return false;
+		}
 		return hasParentWithClassName(el, "geogebraweb")
 				&& el.getClassName().indexOf("geogebraweb-dummy-invisible") < 0; // TODO:
 																		// not
 																// "geogebraweb"
 	}
 
-	ArticleElement getGGBApplet(Element el) {
+	ArticleElement getGGBArticle(Element el) {
+		if (el.getClassName().indexOf("geogebraweb-dummy-invisible") >= 0) {
+			return null;
+		}
+
 		// TODO: sure ArticleElement?
-		return ArticleElement.as(getParentWithClassName(el, "geogebraweb"));
+		Element ggwparent = getParentWithClassName(el, "geogebraweb");
+		// debug("ggwparent tagname: " + ggwparent.getTagName());
+		if (ggwparent != null && ggwparent.getTagName().equals("ARTICLE")) {
+			return ArticleElement.as(ggwparent);
+		}
+
+		ggwparent = getParentWithClassName(el, "applet_scaler");
+		if (ggwparent != null) {
+			NodeList<Element> articles = ggwparent
+					.getElementsByTagName("article");
+			if (articles.getLength() > 0) {
+				return ArticleElement.as(articles.getItem(0));
+			}
+		}
+		return null;
+
 	}
 
 	// TODO - not only parent element
@@ -197,11 +331,22 @@ public class GlobalKeyDispatcherW extends
 		inFocus = f;
 	}
 
+	public void setFocusedIfNotTab(){
+		debug("setFocusedIfNotTab - isHandlingTab: " + isHandlingTab);
+		if (isHandlingTab) {
+			isHandlingTab = false;
+		} else {
+			setFocused(true);
+		}
+	}
+
 	public boolean isFocused() {
+		debug("focused: " + inFocus);
 		return inFocus;
 	}
 
 	public void onKeyPress(KeyPressEvent event) {
+		debug("GKDW - onKeyPress");
 		setDownKeys(event);
 		event.stopPropagation();
 		if (inFocus) {
@@ -231,6 +376,7 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
+		debug("GKDW - onKeyUp");
 		setDownKeys(event);
 		if (inFocus) {
 			// KeyCodes kc =
@@ -248,12 +394,15 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	private void dispatchEvent(KeyUpEvent event) {
+		debug("GKDW - dispatchEvent");
 		// we Must find out something here to identify the component that fired
 		// this, like class names for example,
 		// id-s or data-param-attributes
 
 		// we have keypress here only
 		// do this only, if we really have focus
+
+		Log.debug("GKDW.dispathEvent - inFocus: " + inFocus);
 
 		if (inFocus) {
 			handleKeyPressed(event);
@@ -264,6 +413,7 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	private boolean handleKeyPressed(KeyUpEvent event) {
+		debug("GKDW - handleKeyPressed");
 		// GENERAL KEYS:
 		// handle ESC, function keys, zooming with Ctrl +, Ctrl -, etc.
 		if (handleGeneralKeys(event)) {
@@ -289,6 +439,7 @@ public class GlobalKeyDispatcherW extends
 	 * @return whether event was consumed
 	 */
 	public boolean handleGeneralKeys(KeyUpEvent event) {
+		debug("GKDW - handleGeneralkeys");
 
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (kc == KeyCodes.TAB || kc == KeyCodes.ESCAPE) {
@@ -372,6 +523,7 @@ public class GlobalKeyDispatcherW extends
 			// event.stopPropagation() is already called!
 			boolean success = handleTab(event.isControlKeyDown(),
 					event.isShiftKeyDown(), false);
+			debug("handletab success: " + success);
 
 			if (!success) {
 				// should select first GeoElement in next applet
@@ -399,9 +551,9 @@ public class GlobalKeyDispatcherW extends
 		} else if (kc == KeyCodes.ESCAPE) {
 			keydownPreventsDefaultKeypressTAB = true;
 			// EuclidianViewW.tabPressed = false;
-			if (app.isApplet()) {
-				app.loseFocus();
-			}
+			// if (app.isApplet()) {
+			// app.loseFocus();
+			// }
 			app.setMoveMode();
 			// here we shall focus on a dummy element that is
 			// after all graphics views by one:
@@ -413,6 +565,7 @@ public class GlobalKeyDispatcherW extends
 				debug("dummies! :)");
 			}
 
+			inFocus = false;
 
 			// printActiveElement();
 
@@ -467,6 +620,7 @@ public class GlobalKeyDispatcherW extends
 
 	@Override
 	protected boolean handleEnter() {
+		debug("GKDW - handleEnter");
 		if (super.handleEnter()) {
 			return true;
 		}
@@ -477,10 +631,12 @@ public class GlobalKeyDispatcherW extends
 				// && !((GuiManagerW) app.getGuiManager()).getAlgebraInput()
 				// .hasFocus()) {
 
-				((GuiManagerInterfaceW) app.getGuiManager()).getAlgebraInput()
-				        .requestFocus();
-
-				return true;
+				if (((GuiManagerInterfaceW) app.getGuiManager())
+						.getAlgebraInput() != null) {
+					((GuiManagerInterfaceW) app.getGuiManager())
+							.getAlgebraInput().requestFocus();
+					return true;
+				}
 			}
 		}
 

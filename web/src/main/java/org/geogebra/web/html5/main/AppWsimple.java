@@ -134,6 +134,7 @@ public class AppWsimple extends AppW {
 		super.focusGained(v, el);
 		hasFocus = true;
 		GeoGebraFrameW.useFocusedBorder(getArticleElement(), frame);
+		Log.debug("AppWsimple_focusGained");
 
 		// if focusLost sets this to false, it is probably
 		// right to set this to true again here! Otherwise
@@ -145,13 +146,13 @@ public class AppWsimple extends AppW {
 		case App.VIEW_ALGEBRA:
 		case App.VIEW_EUCLIDIAN:
 		case App.VIEW_EUCLIDIAN2:
-			this.getGlobalKeyDispatcher().setFocused(true);
+			this.getGlobalKeyDispatcher().setFocusedIfNotTab();
 			break;
 		default:
 			if (App.isView3D(v.getViewID())
 					|| ((v.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START) && (v
 							.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
-				this.getGlobalKeyDispatcher().setFocused(true);
+				this.getGlobalKeyDispatcher().setFocusedIfNotTab();
 			}
 		}
 	}

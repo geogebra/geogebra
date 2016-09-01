@@ -953,7 +953,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (isInFocus) {
 			this.isInFocus = false;
 			if (getCanvas() != null) {
-				this.app.focusLost(this, getCanvas().getElement());
+				// this.app.focusLost(this, getCanvas().getElement());
 			}
 		}
 	}

@@ -57,6 +57,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 			for (int i = 0; i < geoGebraMobileTags.size(); i++) {
 				addDummies(geoGebraMobileTags.get(i), i);
 			}
+			addLastDummy2(geoGebraMobileTags.get(geoGebraMobileTags.size() - 1));
 		}
 	}
 

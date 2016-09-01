@@ -25,11 +25,16 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * The main frame containing every view / menu bar / .... This Panel (Frame is
@@ -61,6 +66,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public static SpanElement firstDummy = null;
 	public static SpanElement lastDummy = null;
 	public static ArrayList<SpanElement> dummies = new ArrayList<SpanElement>();
+	public static ArrayList<FocusPanel> dummies2 = new ArrayList<FocusPanel>();
 	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
 
 	/** Creates new GeoGebraFrame */
@@ -106,6 +112,60 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// parentElement.appendChild(item);
 		// siblingElement.getParentElement().appendChild(item);
 		el.getParentElement().insertAfter(item, el);
+
+		FocusPanel fp = new FocusPanel();
+		fp.addStyleName("tmp_" + i);
+		// FocusPanel fp = new SimplePanel();
+		fp.addFocusHandler(new FocusHandler() {
+
+			public void onFocus(FocusEvent event) {
+				Log.debug("onFooooooooooooooocus");
+			}
+
+
+		});
+
+		dummies2.add(fp);
+		addNativeHandlersForDummy2(fp.getElement(), i);
+		el.getParentElement().insertBefore(fp.getElement(), el);
+
+	}
+
+	protected static void addLastDummy2(Element el) {
+		Log.debug("addLastDummy!");
+		SimplePanel lastDummy2 = new SimplePanel();
+		lastDummy2.addStyleName("geogebraweb_lastdummy");
+		lastDummy2.getElement().setTabIndex(0);
+		el.getParentElement().insertAfter(lastDummy2.getElement(), el);
+	}
+
+	private static native void addNativeHandlersForDummy2(Element dummy, int i)/*-{
+		dummy.onfocus = function(event) {
+			$wnd.console.log("dummy2 focus - " + i);
+			$wnd.console.log(dummy);
+			//@org.geogebra.web.html5.gui.GeoGebraFrameW::fireTabOnDummyElement(I)(i);
+
+			var $ = $wnd.$ggbQuery || $wnd.jQuery;
+			$(dummy).next().focus();
+		}
+
+		dummy.onblur = function(event) {
+			$wnd.console.log("dummy2 blur - " + i);
+		}
+
+		dummy.onkeydown = function(event) {
+			$wnd.console.log("keydown on dummy2: " + event.keyCode);
+		}
+	}-*/;
+
+	private static void fireTabOnDummyElement(int i) {
+		Log.debug("fire tab on dummy: " + i);
+		Log.debug("this dummy: " + dummies2.get(i).getStyleName());
+		DomEvent.fireNativeEvent(
+				Document.get()
+						.createKeyDownEvent(false, false, false, false,
+						9),
+				dummies2.get(i));
 	}
 
 	protected static native void addFocusEventForDummy(Element dummy) /*-{
@@ -228,6 +288,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 				for (int i = 0; i < nodes.getLength(); i++) {
 					addDummies(nodes.getItem(i), i);
 				}
+				addLastDummy2(nodes.getItem(nodes.getLength() - 1));
 			}
 
 			// if (nodes.getItem(0) == el) {
@@ -307,6 +368,14 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 						break;
 					}
 				}
+
+				if (dummies.size() == 0) {
+					Log.debug("dummies size 0");
+					for (int i = 0; i < nodes.getLength(); i++) {
+						addDummies(nodes.getItem(i), i);
+					}
+				}
+
 			}
 		}
 	}
@@ -513,6 +582,16 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		gf.getStyleElement().getStyle().setBorderColor(dpBorder);
 	}
 
+	private static void setBorder(ArticleElement ae, Element gfE,
+			String dpBorder, int px) {
+		ae.getStyle().setBorderWidth(0, Style.Unit.PX);
+		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		ae.getStyle().setBorderColor(dpBorder);
+		gfE.getStyle().setBorderWidth(px, Style.Unit.PX);
+		gfE.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
+		gfE.getStyle().setBorderColor(dpBorder);
+	}
+
 	/**
 	 * Sets the border around the canvas to the data-param-bordercolor property
 	 * or leaves it invisible if "none" was set.
@@ -523,6 +602,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            frame
 	 */
 	public static void useDataParamBorder(ArticleElement ae, GeoGebraFrameW gf) {
+		Log.debug("useDataParamBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
 		if (dpBorder != null) {
 			if (dpBorder.equals("none")) {
@@ -537,6 +617,20 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		        GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
 	}
 
+	public static void useDataParamBorder(ArticleElement ae, Element gfE) {
+		Log.debug("useDataParamBorder - " + ae.getClassName());
+		String dpBorder = ae.getDataParamBorder();
+		if (dpBorder != null) {
+			if (dpBorder.equals("none")) {
+				setBorder(ae, gfE, "transparent", 1);
+			} else {
+				setBorder(ae, gfE, dpBorder, 1);
+			}
+		}
+		gfE.removeClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
+		gfE.addClassName(GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
+	}
+
 	/**
 	 * Sets the border around the canvas to be highlighted. At the moment we use
 	 * "#9999ff" for this purpose.
@@ -547,6 +641,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            frame
 	 */
 	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrameW gf) {
+		Log.debug("useFocusedBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
 		gf.getElement().removeClassName(
 		        GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
@@ -554,6 +649,17 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		        .addClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
 		if (dpBorder != null && dpBorder.equals("none")) {
 			setBorder(ae, gf, "transparent", 1);
+			return;
+		}
+	}
+
+	public static void useFocusedBorder(ArticleElement ae, Element gfE) {
+		Log.debug("useFocusedBorder - " + ae.getClassName());
+		String dpBorder = ae.getDataParamBorder();
+		gfE.removeClassName(GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
+		gfE.addClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
+		if (dpBorder != null && dpBorder.equals("none")) {
+			setBorder(ae, gfE, "transparent", 1);
 			return;
 		}
 	}
