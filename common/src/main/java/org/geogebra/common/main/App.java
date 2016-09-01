@@ -3828,7 +3828,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-993
 		case NEW_START_SCREEN:
-			return prerelease;
+			return true;
 		case BACK_TO_GGB:
 			return prerelease;
 
@@ -3957,7 +3957,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case WEB_SHARE_DIALOG:
-			return prerelease;
+			return true;
 
 		// GGB-737
 		case CAS_INTERSECT_3D:
