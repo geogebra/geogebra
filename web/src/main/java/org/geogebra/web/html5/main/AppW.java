@@ -123,7 +123,6 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -2316,18 +2315,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	// MISC
 	// ========================================
 
-	/**
-	 * Clear selection
-	 * 
-	 * @param repaint
-	 *            whether all views need repainting afterwards
-	 */
-	/*
-	 * @Override public void clearSelectedGeos(boolean repaint) { // if
-	 * (getUseFullGui()) ? if (useFullAppGui) ((AlgebraViewW)
-	 * getAlgebraView()).clearSelection(); super.clearSelectedGeos(repaint); }
-	 */
-
 	@Override
 	public GeoElementSelectionListener getCurrentSelectionListener() {
 		// TODO Auto-generated method stub
@@ -3420,8 +3407,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		Log.debug("AV visible: " + visible);
 		if (visible) {
 			Log.debug("AV visible, so gets the focus");
-			((AlgebraViewW) av).getElement().focus();
-			focusGained(av, ((AlgebraViewW) av).getElement());
+			((Widget) av).getElement().focus();
+			focusGained(av, ((Widget) av).getElement());
 			return;
 		}
 
