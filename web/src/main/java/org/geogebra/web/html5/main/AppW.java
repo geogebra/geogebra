@@ -123,6 +123,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -3408,6 +3409,31 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public void setActivePerspective(int index) {
 		// only for GUI
+
+	}
+
+	public void addFocusToApp() {
+		Log.debug("addFocusToApp");
+		// add focus to AV if visible
+		AlgebraView av = getAlgebraView();
+		boolean visible = (av == null) ? false : av.isShowing();
+		Log.debug("AV visible: " + visible);
+		if (visible) {
+			Log.debug("AV visible, so gets the focus");
+			((AlgebraViewW) av).getElement().focus();
+			focusGained(av, ((AlgebraViewW) av).getElement());
+			return;
+		}
+
+		// focus -> EV
+		EuclidianViewW ev = getEuclidianView1();
+		visible = (ev == null) ? false : ev.isShowing();
+		if (visible) {
+			Log.debug("EV1 visible, so gets the focus");
+			ev.getCanvas().getElement().focus();
+			ev.focusGained();
+		} else
+			Log.debug("nobody gets the focus");
 
 	}
 

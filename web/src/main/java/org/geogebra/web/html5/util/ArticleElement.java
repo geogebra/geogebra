@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -64,35 +61,12 @@ public final class ArticleElement extends Element {
 
 	public static native void addNativeHandlers(Element el, AppW app)/*-{
 		el.onfocus = function(event) {
-			@org.geogebra.web.html5.util.ArticleElement::addFocusToApp(Lorg/geogebra/web/html5/main/AppW;)(app);
+			app.@org.geogebra.web.html5.main.AppW::addFocusToApp()();
 		}
 
 	}-*/;
 
-	public static void addFocusToApp(AppW app) {
-		Log.debug("addFocusToApp");
-		// add focus to AV if visible
-		AlgebraView av = app.getAlgebraView();
-		boolean visible = (av == null) ? false : av.isShowing();
-		Log.debug("AV visible: " + visible);
-		if (visible) {
-			Log.debug("AV visible, so gets the focus");
-			((AlgebraViewW) av).getElement().focus();
-			app.focusGained(av, ((AlgebraViewW) av).getElement());
-			return;
-		}
 
-		// focus -> EV
-		EuclidianViewW ev = app.getEuclidianView1();
-		visible = (ev == null) ? false : ev.isShowing();
-		if (visible) {
-			Log.debug("EV1 visible, so gets the focus");
-			ev.getCanvas().getElement().focus();
-			ev.focusGained();
-		} else
-		Log.debug("nobody gets the focus");
-
-	}
 
 	/**
 	 * @return the data-param-id article attribute as String if set else
