@@ -1440,6 +1440,7 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void setUnsaved() {
 		isSaved = false;
+		isAutoSaved = false;
 		for (SavedStateListener sl : savedListeners) {
 			sl.stateChanged(false);
 		}
@@ -1447,6 +1448,16 @@ public abstract class App implements UpdateSelection {
 
 	public final boolean isSaved() {
 		return isSaved;
+	}
+
+	private boolean isAutoSaved = false;
+
+	public final boolean isAutoSaved() {
+		return isAutoSaved;
+	}
+
+	public final void setAutoSaved(){
+		isAutoSaved = true;
 	}
 
 	/**
@@ -4027,6 +4038,10 @@ public abstract class App implements UpdateSelection {
 		// MOB-821
 		case MOBILE_MATERIAL_RELEVANT_APP_TAG:
 			return prerelease;
+
+		// MOB-825
+		case MOBILE_AUTO_SAVE:
+			return false;
 
 		//MOB-827
 		case MOBILE_ROUNDING_OPTION:

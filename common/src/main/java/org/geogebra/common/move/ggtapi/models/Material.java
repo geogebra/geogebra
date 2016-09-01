@@ -219,8 +219,7 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public Date getDate() {
-		// JAVA USES MILLISECONDS, UNIX USES SECONDS
-		return new Date(timestamp * 1000);
+		return new Date(getTimestampForJava());
 	}
 
 	public void setId(int id) {
@@ -241,6 +240,10 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
+	}
+
+	public void setTimestampFromJava(long timestamp) {
+		setTimestamp(timestamp / 1000); // JAVA USES MILLISECONDS, UNIX USES SECONDS
 	}
 
 	public void setAuthor(String author) {
@@ -382,6 +385,11 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public long getTimestamp() {
 		return timestamp;
+	}
+
+	public long getTimestampForJava() {
+		// JAVA USES MILLISECONDS, UNIX USES SECONDS
+		return timestamp * 1000;
 	}
 
 	public int getWidth() {

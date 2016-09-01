@@ -2881,8 +2881,12 @@ public abstract class EuclidianView
 		updateBackground();
 	}
 
-	protected void setKeepCenter(boolean center) {
+	public void setKeepCenter(boolean center) {
 		keepCenter = center;
+	}
+
+	public boolean getKeepCenter() {
+		return keepCenter;
 	}
 
 	/**
