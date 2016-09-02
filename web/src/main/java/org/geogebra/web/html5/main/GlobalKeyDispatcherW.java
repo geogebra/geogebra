@@ -124,7 +124,8 @@ public class GlobalKeyDispatcherW extends
 
 							// TODO - set border in an other place...
 							GeoGebraFrameW.useDataParamBorder(targetArticle,
-									targetArticle.getFirstChildElement());
+									getChildElementByStyleName(targetArticle,
+											"GeoGebraFrame"));
 							ArticleElement nextArticle = getNextArticle(targetArticle);
 							if (nextArticle == null) {
 								// TODO: go to a dummy after last article
@@ -218,6 +219,18 @@ public class GlobalKeyDispatcherW extends
 
 		});
 	}
+
+	public Element getChildElementByStyleName(Element parent,
+			String childName){
+		NodeList<Element> elements = Dom.getElementsByClassName(childName);
+		for (int i = 0; i < elements.getLength(); i++) {
+			if (elements.getItem(i).getParentElement() == parent) {
+				return elements.getItem(i);
+			}
+		}
+		return null;
+	}
+
 
 	FocusPanel getNextDummy(ArticleElement ggbapp) {
 		debug("getNextDummy - " + ggbapp.getClassName() + " -> ");
