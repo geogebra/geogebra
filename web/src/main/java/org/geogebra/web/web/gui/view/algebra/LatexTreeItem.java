@@ -498,4 +498,11 @@ public class LatexTreeItem extends RadioTreeItem
 		super.updateAfterRedefine(success);
 	}
 
+	@Override
+	public boolean isInputTreeItem() {
+		if (app.has(Feature.AV_SCROLL)) {
+			return getAV().getInputTreeItem() == this;
+		}
+		return super.isInputTreeItem();
+	}
 }
