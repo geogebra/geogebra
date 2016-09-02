@@ -22,8 +22,7 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
  * 
  * @author Markus Hohenwarter
  */
-public class ParametricCurveDistanceFunction implements RealRootFunction,
-		DistanceFunction {
+public class ParametricCurveDistanceFunction implements DistanceFunction {
 
 	// private GeoPoint P;
 	private double px, py;
@@ -70,10 +69,8 @@ public class ParametricCurveDistanceFunction implements RealRootFunction,
 	 * Sets the point to be used in the distance function (funX(t) - Px)^2 +
 	 * (funY(t) - Py)^2.
 	 * 
-	 * @param px
-	 *            distant point x-coord
-	 * @param py
-	 *            distant point y-coord
+	 * @param P
+	 *            distant point
 	 */
 	@Override
 	public void setDistantPoint(GeoPointND P) {

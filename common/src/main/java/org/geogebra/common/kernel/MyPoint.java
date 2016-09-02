@@ -45,10 +45,21 @@ public class MyPoint extends GPoint2D implements Point {
 		this.lineTo = lineTo;
 	}
 
+	/**
+	 * Creates new empty MyPoint for cache
+	 */
 	public MyPoint() {
 		//
 	}
 
+	/**
+	 * Creates new lineto MyPoint
+	 * 
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 */
 	public MyPoint(double x, double y) {
 		this.x = x;
 		this.y = y;

@@ -15,6 +15,7 @@ package org.geogebra.common.kernel;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.geos.GeoLocusND;
+import org.geogebra.common.kernel.geos.GeoLocusNDInterface;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -25,7 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 
-	private ArrayList<T> myPointList;
+	private ArrayList<? extends MyPoint> myPointList;
 	private boolean noLineToSet, lastNoLineToSet;
 
 	/**
@@ -42,7 +43,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 	@Override
 	public void init(GeoPointND p, int min_steps) {
 		if (p.getPath() instanceof GeoLocusND) {
-			myPointList = ((GeoLocusND<T>) p.getPath()).getPoints();
+			myPointList = ((GeoLocusNDInterface) p.getPath()).getPoints();
 		}
 		lastNoLineToSet = noLineToSet = false;
 		super.init(p, min_steps);
@@ -51,7 +52,7 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 	@Override
 	public void init(GeoPointND p) {
 		if (p.getPath() instanceof GeoLocusND) {
-			myPointList = ((GeoLocusND<T>) p.getPath()).getPoints();
+			myPointList = ((GeoLocusNDInterface) p.getPath()).getPoints();
 		}
 		lastNoLineToSet = noLineToSet = false;
 		super.init(p);
@@ -79,8 +80,8 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 			p.setUndefined();
 			return;
 		}
-		T leftPoint = myPointList.get(leftIndex);
-		T rightPoint = myPointList.get(rightIndex);
+		MyPoint leftPoint = myPointList.get(leftIndex);
+		MyPoint rightPoint = myPointList.get(rightIndex);
 
 		// interpolate between leftPoint and rightPoint
 		double param1 = (param - leftIndex);

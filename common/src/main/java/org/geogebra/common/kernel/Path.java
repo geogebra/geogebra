@@ -12,11 +12,9 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.kernel.kernelND.GeoElementND;
-
 /**
  * @author Markus Hohenwarter
  */
-public interface Path extends PathOrPoint, GeoElementND {
+public interface Path extends PathOrPoint {
 	// just tagging interface
 }

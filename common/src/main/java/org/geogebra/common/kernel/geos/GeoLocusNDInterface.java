@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.kernel.MyPoint;
 
 /**
@@ -11,4 +13,6 @@ public interface GeoLocusNDInterface {
 	 * @return this locus
 	 */
 	GeoLocusND<? extends MyPoint> getLocus();
+
+	ArrayList<? extends MyPoint> getPoints();
 }
