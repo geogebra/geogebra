@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.main;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -8,8 +9,10 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
@@ -205,5 +208,25 @@ public class AppWsimple extends AppW {
 	@Override
 	public boolean isSelectionRectangleAllowed() {
 		return getToolbar() != null;
+	}
+
+	public void addFocusToApp() {
+		// add focus to AV if visible
+		AlgebraView av = getAlgebraView();
+		boolean visible = (av == null) ? false : av.isShowing();
+		if (visible) {
+			((AlgebraViewW) av).getElement().focus();
+			focusGained(av, ((AlgebraViewW) av).getElement());
+			return;
+		}
+
+		// focus -> EV
+		EuclidianViewW ev = getEuclidianView1();
+		visible = (ev == null) ? false : ev.isShowing();
+		if (visible) {
+			ev.getCanvas().getElement().focus();
+			ev.focusGained();
+		}
+
 	}
 }

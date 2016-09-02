@@ -602,7 +602,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            frame
 	 */
 	public static void useDataParamBorder(ArticleElement ae, GeoGebraFrameW gf) {
-		Log.debug("useDataParamBorder - " + ae.getClassName());
+		// Log.debug("useDataParamBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
 		if (dpBorder != null) {
 			if (dpBorder.equals("none")) {
@@ -618,7 +618,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	public static void useDataParamBorder(ArticleElement ae, Element gfE) {
-		Log.debug("useDataParamBorder - " + ae.getClassName());
+		// Log.debug("useDataParamBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
 		if (dpBorder != null) {
 			if (dpBorder.equals("none")) {
@@ -641,7 +641,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            frame
 	 */
 	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrameW gf) {
-		Log.debug("useFocusedBorder - " + ae.getClassName());
+		// Log.debug("useFocusedBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
 		gf.getElement().removeClassName(
 		        GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
@@ -654,7 +654,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	}
 
 	public static void useFocusedBorder(ArticleElement ae, Element gfE) {
-		Log.debug("useFocusedBorder - " + ae.getClassName());
+		// Log.debug("useFocusedBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
 		gfE.removeClassName(GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
 		gfE.addClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);

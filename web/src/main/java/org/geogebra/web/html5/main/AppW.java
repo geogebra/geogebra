@@ -3400,13 +3400,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public void addFocusToApp() {
-		Log.debug("addFocusToApp");
 		// add focus to AV if visible
 		AlgebraView av = getAlgebraView();
 		boolean visible = (av == null) ? false : av.isShowing();
-		Log.debug("AV visible: " + visible);
 		if (visible) {
-			Log.debug("AV visible, so gets the focus");
 			((Widget) av).getElement().focus();
 			focusGained(av, ((Widget) av).getElement());
 			return;
@@ -3416,12 +3413,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		EuclidianViewW ev = getEuclidianView1();
 		visible = (ev == null) ? false : ev.isShowing();
 		if (visible) {
-			Log.debug("EV1 visible, so gets the focus");
 			ev.getCanvas().getElement().focus();
 			ev.focusGained();
-		} else
-			Log.debug("nobody gets the focus");
-
+		}
 	}
 
 }

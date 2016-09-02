@@ -71,7 +71,7 @@ public class GlobalKeyDispatcherW extends
 		initNativeKeyHandlers();
 	}
 
-	boolean tabfixdebug = true;
+	boolean tabfixdebug = false;
 
 	// Temp for testing
 	public void debug(String s){
@@ -115,7 +115,7 @@ public class GlobalKeyDispatcherW extends
 								+ targetElement.getClassName());
 
 						if (!isFocused()) {
-							Log.debug("not focused");
+							debug("not focused");
 							event.cancel();
 							// FocusPanel nextDummy = getNextDummy(ggbApplet);
 							isHandlingTab = true;
@@ -138,7 +138,6 @@ public class GlobalKeyDispatcherW extends
 								debug("nextArticle.focus()");
 								debug(nextArticle.toString());
 								nextArticle.focus();
-								printActiveElement();
 							}
 
 							//nextDummy.fireEvent(event);
@@ -415,7 +414,7 @@ public class GlobalKeyDispatcherW extends
 		// we have keypress here only
 		// do this only, if we really have focus
 
-		Log.debug("GKDW.dispathEvent - inFocus: " + inFocus);
+		debug("GKDW.dispathEvent - inFocus: " + inFocus);
 
 		if (inFocus) {
 			handleKeyPressed(event);
@@ -590,8 +589,7 @@ public class GlobalKeyDispatcherW extends
 		if (keydownPreventsDefaultKeypressTAB) {
 			event.preventDefault();
 		}
-		if (tabfixdebug)
-			printActiveElement();
+
 	}
 
 	private boolean preventBrowserCtrl(KeyCodes kc) {

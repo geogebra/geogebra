@@ -63,7 +63,6 @@ public final class ArticleElement extends Element {
 		el.onfocus = function(event) {
 			app.@org.geogebra.web.html5.main.AppW::addFocusToApp()();
 		}
-
 	}-*/;
 
 
