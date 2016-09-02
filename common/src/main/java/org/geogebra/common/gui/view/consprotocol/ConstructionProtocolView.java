@@ -246,8 +246,9 @@ public class ConstructionProtocolView {
 		
 	}
 
-	public final void updateNavigationBars() {
+	public final void updateNavBarsAndRepaint() {
 		// update all registered navigation bars
+		kernel.notifyRepaint();
 		int size = navigationBars.size();
 		for (int i = 0; i < size; i++) {
 			navigationBars.get(i).update();
@@ -276,7 +277,7 @@ public class ConstructionProtocolView {
 		kernel.setConstructionStep(step);
 		if (isViewAttached)
 			kernel.attach(data);
-		updateNavigationBars();
+		updateNavBarsAndRepaint();
 	}
 
 	public void nextStep() {
@@ -285,7 +286,7 @@ public class ConstructionProtocolView {
 		kernel.nextStep();
 		if (isViewAttached)
 			kernel.attach(data);
-		updateNavigationBars();
+		updateNavBarsAndRepaint();
 		scrollToConstructionStep();
 	}
 
@@ -295,7 +296,7 @@ public class ConstructionProtocolView {
 		kernel.previousStep();
 		if (isViewAttached)
 			kernel.attach(data);
-		updateNavigationBars();
+		updateNavBarsAndRepaint();
 	}
 
 	public void firstStep() {
@@ -304,7 +305,7 @@ public class ConstructionProtocolView {
 		kernel.firstStep();
 		if (isViewAttached)
 			kernel.attach(data);
-		updateNavigationBars();
+		updateNavBarsAndRepaint();
 	}
 
 	public void lastStep() {
@@ -313,7 +314,7 @@ public class ConstructionProtocolView {
 		kernel.lastStep();
 		if (isViewAttached)
 			kernel.attach(data);
-		updateNavigationBars();
+		updateNavBarsAndRepaint();
 	}
 
 
@@ -559,7 +560,7 @@ public class ConstructionProtocolView {
 				updateIndices();
 				fireTableRowsInserted(pos, pos);
 				updateAll();
-				updateNavigationBars();
+				updateNavBarsAndRepaint();
 			}
 		}
 
@@ -577,7 +578,7 @@ public class ConstructionProtocolView {
 				updateIndices();
 				fireTableRowsDeleted(row.getRowNumber(), row.getRowNumber());
 				updateAll();
-				updateNavigationBars();
+				updateNavBarsAndRepaint();
 			}
 		}
 
@@ -586,7 +587,7 @@ public class ConstructionProtocolView {
 			geoMap.clear();
 			notifyClear();
 			kernel.notifyRepaint();
-			updateNavigationBars();
+			updateNavBarsAndRepaint();
 		}
 
 		public void repaintView() {
