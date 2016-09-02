@@ -179,6 +179,9 @@ public enum Feature {
 	// MOB-825
 	MOBILE_AUTO_SAVE,
 
+	// related to MOB-825
+	MOBILE_NEW_EV_CENTERING,
+
 	// MOB-827
 	MOBILE_ROUNDING_OPTION,
 

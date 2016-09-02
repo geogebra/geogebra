@@ -122,9 +122,9 @@ public abstract class EuclidianView
 	// public static final double SCALE_MAX = 10000;
 	// public static final double SCALE_MIN = 0.1;
 	/** default screen x-coord of origin */
-	public static final double XZERO_STANDARD = 215;
+	public static final double XZERO_STANDARD = 215; // needs to be positive
 	/** default screen y-coord of origin */
-	public static final double YZERO_STANDARD = 315;
+	public static final double YZERO_STANDARD = 315; // needs to be positive
 	// or use volatile image
 	// protected int drawMode = DRAW_MODE_BACKGROUND_IMAGE;
 	/** background image */
@@ -2901,16 +2901,41 @@ public abstract class EuclidianView
 	}
 
 	protected void updateSizeKeepCenter() {
-		if (!mViewCentered) {
-			mCenterX = 0;
-			mCenterY = 0;
-			mViewCentered = true;
-		} else {
-			mCenterX = getCenterX();
-			mCenterY = getCenterY();
+
+		if (app.has(Feature.MOBILE_NEW_EV_CENTERING)) {
+			int w = getWidth();
+			int h = getHeight();
+//			Log.debug(w + "x" + h);
+			if (getSettings() != null) {
+//				Log.debug("settings: " + getSettings().getFileWidth() + "x" + getSettings().getFileHeight());
+				int fw = getSettings().getFileWidth();
+				int fh = getSettings().getFileHeight();
+				if (fw > 0 && fh > 0) {
+					int dx = (w - fw) / 2;
+					int dy = (h - fh) / 2;
+					xZero += dx;
+					yZero += dy;
+				}
+//				Log.debug("xZero >> " + xZero);
+				getSettings().setSizeFromFile(w, h);
+			} else {
+//				Log.debug("settings: null");
+			}
+
+			updateSizeChange();
+		}else {
+			if (!mViewCentered) {
+				mCenterX = 0;
+				mCenterY = 0;
+				mViewCentered = true;
+			} else {
+				mCenterX = getCenterX();
+				mCenterY = getCenterY();
+			}
+			updateSizeChange();
+			centerView(mCenterX, mCenterY);
 		}
-		updateSizeChange();
-		centerView(mCenterX, mCenterY);
+
 	}
 
 	private double getCenterX() {

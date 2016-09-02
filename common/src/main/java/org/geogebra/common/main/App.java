@@ -4043,6 +4043,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_AUTO_SAVE:
 			return false;
 
+		// realted to MOB-825
+		case MOBILE_NEW_EV_CENTERING:
+			return prerelease;
+
 		//MOB-827
 		case MOBILE_ROUNDING_OPTION:
 			return prerelease;
@@ -4432,4 +4436,11 @@ public abstract class App implements UpdateSelection {
 		return ev.getExportImage(scale);
 	}
 
+	/**
+	 *
+	 * @return true if EV should be centered at start (used for phones)
+     */
+	public boolean centerEuclidianViewsOnStart(){
+		return false;
+	}
 }
