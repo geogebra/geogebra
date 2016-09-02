@@ -1218,7 +1218,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		}
 
 		@Override
-		public void init(GeoPointND p) {
+		public void init(GeoPointND p, int minSteps) {
 			// we need a start point for pathChanged() to work correctly
 			// with our path parameters
 			if (startPoint == null) {
@@ -1234,7 +1234,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			// pp.t = 0;
 			// }
 
-			super.init(p);
+			super.init(p, minSteps);
 
 			// // we need a point on the line:
 			// // p is a point on the line ;-)

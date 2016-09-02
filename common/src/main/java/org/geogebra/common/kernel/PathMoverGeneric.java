@@ -86,11 +86,6 @@ public class PathMoverGeneric implements PathMover {
 		init(pp.t);
 	}
 
-	public void init(GeoPointND p) {
-		PathParameter pp = p.getPathParameter();
-		init(pp.t);
-	}
-
 	private void init(double param) {
 		start_param = param;
 

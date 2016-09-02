@@ -49,14 +49,6 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 		super.init(p, min_steps);
 	}
 
-	@Override
-	public void init(GeoPointND p) {
-		if (p.getPath() instanceof GeoLocusND) {
-			myPointList = ((GeoLocusNDInterface) p.getPath()).getPoints();
-		}
-		lastNoLineToSet = noLineToSet = false;
-		super.init(p);
-	}
 
 	@Override
 	public void resetStartParameter() {
