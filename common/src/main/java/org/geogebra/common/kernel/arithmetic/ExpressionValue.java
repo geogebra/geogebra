@@ -156,6 +156,9 @@ public interface ExpressionValue {
 
 	/**
 	 * Resolve variables
+	 * 
+	 * @param info
+	 *            evaluation flags
 	 */
 	public void resolveVariables(EvalInfo info);
 

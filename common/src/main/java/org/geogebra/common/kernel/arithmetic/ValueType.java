@@ -174,8 +174,8 @@ public enum ValueType {
 		case LOG10:
 		case LOG2:
 		case FUNCTION:
-			return ValueType.COMPLEX.check(left,
-					ValueType.LIST.check(left, ValueType.NUMBER));
+			return ValueType.COMPLEX.check(right,
+					ValueType.LIST.check(right, ValueType.NUMBER));
 		case FUNCTION_NVAR:
 		case FREEHAND:
 		case DATA:
@@ -250,7 +250,8 @@ public enum ValueType {
 			break;
 		case SUM:
 			break;
-
+		case SEQUENCE:
+			return ValueType.LIST;
 		case VECTORPRODUCT:
 			return ValueType.VECTOR3D.check(left, ValueType.NUMBER);
 		case VEC_FUNCTION:

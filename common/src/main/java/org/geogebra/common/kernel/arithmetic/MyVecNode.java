@@ -365,4 +365,20 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 
 	}
 
+	@Override
+	public ExpressionValue evaluate(StringTemplate tpl) {
+		if (x.evaluatesToList() && y.evaluatesToList()) {
+			MyList result = new MyList(kernel);
+			ListValue xEval = (ListValue) x.evaluate(tpl);
+			ListValue yEval = (ListValue) y.evaluate(tpl);
+			for (int idx = 0; idx < xEval.size() && idx < yEval.size(); idx++) {
+				result.addListElement(new MyVecNode(kernel,
+						xEval.getListElement(idx),
+						yEval.getListElement(idx)));
+			}
+			return result;
+		}
+		return super.evaluate(tpl);
+	}
+
 }

@@ -436,8 +436,8 @@ public class Command extends ValidExpression implements
 	/**
 	 * Like evaluate, but does not necessarily produce GeoElement
 	 * 
-	 * @param tpl
-	 *            evaluation template
+	 * @param info
+	 *            evaluation flags
 	 * @return evaluation result
 	 */
 	public ExpressionValue simplify(EvalInfo info) {

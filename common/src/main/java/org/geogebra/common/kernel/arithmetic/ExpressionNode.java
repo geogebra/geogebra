@@ -1264,6 +1264,8 @@ kernel, left,
 		if (leaf) {
 			if (left.isExpressionNode()) {
 				((ExpressionNode) left).hasOperations();
+			} else if (left instanceof MyVecNDNode) {
+				return true;
 			} else {
 				return false;
 			}
