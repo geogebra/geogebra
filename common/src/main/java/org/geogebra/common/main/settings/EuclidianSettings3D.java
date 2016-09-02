@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.App;
 
 /**
  * Settings for 3D view
@@ -19,8 +20,8 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	private double a = EuclidianView3D.ANGLE_ROT_OZ;
 	private double b = EuclidianView3D.ANGLE_ROT_XOY;// angles (in degrees)
 
-	public EuclidianSettings3D(EuclidianSettings euclidianSettings1) {
-		super(euclidianSettings1);
+	public EuclidianSettings3D(App app, EuclidianSettings euclidianSettings1) {
+		super(app, euclidianSettings1);
 
 		setXscale(50);
 		setYscale(50);

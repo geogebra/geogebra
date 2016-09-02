@@ -48,15 +48,15 @@ public class Settings {
 	 * @param euclidianLength
 	 *            2 or 3 euclidian views
 	 */
-	public Settings(int euclidianLength) {
+	public Settings(App app, int euclidianLength) {
 		euclidianSettings = new EuclidianSettings[euclidianLength];
 
 		euclidianSettingsForPlane = new HashMap<String, EuclidianSettings>();
 
-		resetSettings();
+		resetSettings(app);
 	}
 
-	private EuclidianSettings createEuclidanSettings(int i) {
+	private EuclidianSettings createEuclidanSettings(App app, int i) {
 
 		EuclidianSettings base = null;
 		if (i != 0) {
@@ -64,20 +64,20 @@ public class Settings {
 		}
 
 		if (i == 2) { // 3D view
-			return new EuclidianSettings3D(base);
+			return new EuclidianSettings3D(app, base);
 		}
 
-		return new EuclidianSettings(base);
+		return new EuclidianSettings(app, base);
 	}
 
-	public void resetSettings() {
+	public void resetSettings(App app) {
 		for (int i = 0; i < euclidianSettings.length; ++i) {
 			if (euclidianSettings[i] == null) {
-				euclidianSettings[i] = createEuclidanSettings(i);
+				euclidianSettings[i] = createEuclidanSettings(app, i);
 			} else {
 				LinkedList<SettingListener> ls = euclidianSettings[i]
 						.getListeners();
-				euclidianSettings[i] = createEuclidanSettings(i);
+				euclidianSettings[i] = createEuclidanSettings(app, i);
 				Iterator<SettingListener> lsi = ls.iterator();
 				while (lsi.hasNext()) {
 					SettingListener a = lsi.next();

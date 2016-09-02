@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -65,7 +66,7 @@ public class EuclidianSettings extends AbstractSettings {
 	// settings for the base EuclidianView (or null if this is the base)
 	//private final EuclidianSettings euclidianSettings1;
 
-	public EuclidianSettings(EuclidianSettings euclidianSettings1) {
+	public EuclidianSettings(App app, EuclidianSettings euclidianSettings1) {
 		//this.euclidianSettings1 = euclidianSettings1;
 		xZero = EuclidianView.XZERO_STANDARD;
 		yZero = EuclidianView.YZERO_STANDARD;

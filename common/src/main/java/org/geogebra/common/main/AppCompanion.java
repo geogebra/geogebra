@@ -112,7 +112,7 @@ public class AppCompanion {
 	 * @return new settings
 	 */
 	public Settings newSettings() {
-		return new Settings(2);
+		return new Settings(app, 2);
 	}
 
 	/**

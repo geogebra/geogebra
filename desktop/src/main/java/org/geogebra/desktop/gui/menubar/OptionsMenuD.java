@@ -328,7 +328,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 					// reset defaults for GUI, views etc
 					// this has to be called before load XML preferences,
 					// in order to avoid overwrite
-					app.getSettings().resetSettings();
+					app.getSettings().resetSettings(app);
 
 					// for geoelement defaults, this will do nothing, so it is
 					// OK here

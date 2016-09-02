@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.main.settings;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
 /**
@@ -16,8 +17,8 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 	 * @param standardSettings
 	 *            standard settings
 	 */
-	public EuclidianSettingsForPlane(EuclidianSettings standardSettings) {
-		super(standardSettings);
+	public EuclidianSettingsForPlane(App app, EuclidianSettings standardSettings) {
+		super(app, standardSettings);
 	}
 
 	private boolean mirror = false;

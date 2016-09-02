@@ -106,7 +106,8 @@ public abstract class App3DCompanion extends AppCompanion {
 		String name = ((GeoElement) plane).getLabelSimple();
 		EuclidianSettings evSettings = settings.getEuclidianForPlane(name);
 		if (evSettings == null) {
-			evSettings = new EuclidianSettingsForPlane(app.getEuclidianView1()
+			evSettings = new EuclidianSettingsForPlane(app, app
+					.getEuclidianView1()
 					.getSettings());
 			evSettings.setShowGridSetting(false);
 			evSettings.setShowAxes(false, false);
@@ -192,7 +193,7 @@ public abstract class App3DCompanion extends AppCompanion {
 
 	@Override
 	public Settings newSettings() {
-		return new Settings(3);
+		return new Settings(app, 3);
 	}
 
 	@Override
