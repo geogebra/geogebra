@@ -91,7 +91,7 @@ FromMeta
 	protected static String[] varsCAS = { "x^2", "x*y", "y^2", "x", "y" };
 	
 	/** enable negative sign of first coefficient in implicit equations*/
-	protected static boolean KEEP_LEADING_SIGN = false;
+	protected final static boolean KEEP_LEADING_SIGN = false;
 
 	/** point in case of single point degenerate conic*/
 	protected GeoPoint singlePoint;

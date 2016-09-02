@@ -1156,13 +1156,13 @@ ToolbarD.getAllTools(this));
 			return;
 		}
 		if ("fpnevercoll".equalsIgnoreCase(str[0])) {
-			ProverSettings.freePointsNeverCollinear = Boolean.valueOf(str[1])
-					.booleanValue();
+			ProverSettings.freePointsNeverCollinear = Boolean
+					.parseBoolean(str[1]);
 			return;
 		}
 		if ("usefixcoords".equalsIgnoreCase(str[0])) {
-			int fixcoordsP = Integer.valueOf(str[1].substring(0, 1));
-			int fixcoordsPD = Integer.valueOf(str[1].substring(1, 2));
+			int fixcoordsP = Integer.parseInt(str[1].substring(0, 1));
+			int fixcoordsPD = Integer.parseInt(str[1].substring(1, 2));
 
 			if (fixcoordsP < 0 || fixcoordsP > 4)
 				Log.error("Improper value for usefixcoords for Prove, using default instead");
@@ -1177,12 +1177,11 @@ ToolbarD.getAllTools(this));
 			return;
 		}
 		if ("transcext".equalsIgnoreCase(str[0])) {
-			ProverSettings.transcext = Boolean.valueOf(str[1]).booleanValue();
+			ProverSettings.transcext = Boolean.parseBoolean(str[1]);
 			return;
 		}
 		if ("captionalgebra".equalsIgnoreCase(str[0])) {
-			ProverSettings.captionAlgebra = Boolean.valueOf(str[1])
-					.booleanValue();
+			ProverSettings.captionAlgebra = Boolean.parseBoolean(str[1]);
 			return;
 		}
 		Log.warn("Prover option not recognized: ".concat(option));
@@ -4730,18 +4729,20 @@ ToolbarD.getAllTools(this));
 	private static String OS = System.getProperty("os.name").toLowerCase(
 			Locale.US);
 
-	public static boolean MAC_OS = OS.startsWith("mac");
-	public static boolean WINDOWS = OS.startsWith("windows");
-	public static boolean LINUX = OS.startsWith("linux");
+	public static final boolean MAC_OS = OS.startsWith("mac");
+	public static final boolean WINDOWS = OS.startsWith("windows");
+	public static final boolean LINUX = OS.startsWith("linux");
 
 	// make sure still works in the future on eg Windows 10/11
 	// note Java 7u40 returns "Windows 8" for Windows 8.1 and Windows 10
-	private static boolean WINDOWS_XP_OR_EARLIER = OS.startsWith("windows 2000") || OS.startsWith("windows 95")
+	private static final boolean WINDOWS_XP_OR_EARLIER = OS
+			.startsWith("windows 2000") || OS.startsWith("windows 95")
 			|| OS.startsWith("windows 98") || OS.startsWith("windows nt") || OS.startsWith("windows xp");
 	
-	public static boolean WINDOWS_VISTA_OR_LATER = WINDOWS && !WINDOWS_XP_OR_EARLIER;
+	public static final boolean WINDOWS_VISTA_OR_LATER = WINDOWS
+			&& !WINDOWS_XP_OR_EARLIER;
 
-	public static boolean WINDOWS_VISTA_OR_EARLIER = WINDOWS_XP_OR_EARLIER
+	public static final boolean WINDOWS_VISTA_OR_EARLIER = WINDOWS_XP_OR_EARLIER
 			|| OS.startsWith("windows vista");
 
 	@Override

@@ -51,9 +51,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	//
 
 	/** maximum time for the computation of one locus point in millis **/
-	public static int MAX_TIME_FOR_ONE_STEP = 500;
+	public static final int MAX_TIME_FOR_ONE_STEP = 500;
 
-	protected static int MAX_X_PIXEL_DIST = 5;
+	protected static final int MAX_X_PIXEL_DIST = 5;
 	private static int MAX_Y_PIXEL_DIST = 5;
 
 	private GeoPointND locusPoint; // input (Q)

@@ -190,17 +190,20 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return lastFilenameOfSaveDialog;
 	}
 
-	public static DataFlavor urlFlavor, uriListFlavor;
-	static {
+	private static DataFlavor getFlavor(String desc) {
 		try {
-			urlFlavor = new DataFlavor(
-					"application/x-java-url; class=java.net.URL");
-			uriListFlavor = new DataFlavor(
-					"text/uri-list; class=java.lang.String");
+			return new DataFlavor(desc);
 		} catch (ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
 		}
+		return null;
 	}
+
+	public static final DataFlavor urlFlavor = getFlavor(
+			"application/x-java-url; class=java.net.URL");
+	public static final DataFlavor uriListFlavor = getFlavor(
+					"text/uri-list; class=java.lang.String");
+
 
 	// Actions
 	private AbstractAction showAxesAction, showGridAction, undoAction,

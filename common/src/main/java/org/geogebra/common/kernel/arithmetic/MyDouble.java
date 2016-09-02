@@ -55,7 +55,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	/**
 	 * Do not use integer operations beyond this bound
 	 */
-	public static double LARGEST_INTEGER = 9007199254740992.0; // 0x020000000000000
+	public static final double LARGEST_INTEGER = 9007199254740992.0; // 0x020000000000000
 
 	/**
 	 * @param kernel

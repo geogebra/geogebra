@@ -33,7 +33,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoLocusList extends AlgoElement {
 
-	public static int MIN_STEPS_REALLY = 16;
+	public static final int MIN_STEPS_REALLY = 16;
 
 	ArrayList<AlgoElement> arrLocus;
 

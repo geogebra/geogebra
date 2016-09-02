@@ -94,7 +94,8 @@ public class EuclidianViewD extends EuclidianView implements
 	/**
 	 * Rendering hints for the graphics
 	 */
-	protected static RenderingHints defRenderingHints = new RenderingHints(null);
+	protected static final RenderingHints defRenderingHints = new RenderingHints(
+			null);
 	{
 		defRenderingHints.put(RenderingHints.KEY_RENDERING,
 				RenderingHints.VALUE_RENDER_SPEED);

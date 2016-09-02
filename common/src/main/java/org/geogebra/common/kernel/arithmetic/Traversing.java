@@ -1702,7 +1702,7 @@ public interface Traversing {
 		/**
 		 * Replacer object
 		 */
-		public static CASCommandReplacer replacer = new CASCommandReplacer();
+		public final static CASCommandReplacer replacer = new CASCommandReplacer();
 
 	}
 }

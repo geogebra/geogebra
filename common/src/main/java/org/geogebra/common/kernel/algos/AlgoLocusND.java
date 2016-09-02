@@ -48,11 +48,11 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	//
 
 	/** maximum time for the computation of one locus point in millis **/
-	public static int MAX_TIME_FOR_ONE_STEP = 500;
+	public static final int MAX_TIME_FOR_ONE_STEP = 500;
 
 	public int MIN_STEPS_INSTANCE = PathMover.MIN_STEPS;
 
-	protected static int MAX_X_PIXEL_DIST = 5;
+	protected static final int MAX_X_PIXEL_DIST = 5;
 	private static int MAX_Y_PIXEL_DIST = 5;
 
 	protected GeoPointND movingPoint, locusPoint; // input
