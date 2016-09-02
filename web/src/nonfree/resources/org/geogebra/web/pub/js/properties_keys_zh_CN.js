@@ -2178,7 +2178,7 @@ __GGB__keysVar.zh_CN.menu = {
     "exam_log_window_entered": "\u518d\u6b21\u8fdb\u5165\u68c0\u6d4b\u7a97\u53e3",
     "exam_log_window_left": "\u68c0\u6d4b\u7a97\u53e3\u672a\u5173",
     "exam_menu_enter": "\u8fdb\u5165\u68c0\u6d4b\u6a21\u5f0f",
-    "exam_menu_entry": "Exam",
+    "exam_menu_entry": "\u68c0\u6d4b",
     "exam_menu_exit": "\u9000\u51fa\u68c0\u6d4b\u6a21\u5f0f",
     "exam_start_button": "\u5f00\u59cb\u68c0\u6d4b",
     "exam_start_date": "\u68c0\u6d4b\u5f00\u59cb\u65e5\u671f",

@@ -2178,7 +2178,7 @@ __GGB__keysVar.pt_PT.menu = {
     "exam_log_window_entered": "Janela de exame reentrada",
     "exam_log_window_left": "Janela Esquerda do Exame",
     "exam_menu_enter": "Entrar \"Modo Exame\"",
-    "exam_menu_entry": "Exam",
+    "exam_menu_entry": "Exame",
     "exam_menu_exit": "Sair do \"Modo Exame\"",
     "exam_start_button": "Iniciar o Exame",
     "exam_start_date": "Data de In\xedcio do Exame",
