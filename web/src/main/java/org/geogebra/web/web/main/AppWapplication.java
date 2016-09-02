@@ -435,10 +435,4 @@ public class AppWapplication extends AppWFull {
 	protected GDevice getDevice() {
 		return device;
 	}
-
-	@Override
-	public void addFocusToApp() {
-		// TODO Auto-generated method stub
-
-	}
 }

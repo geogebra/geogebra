@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -15,7 +14,6 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -28,7 +26,6 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
@@ -638,31 +635,5 @@ public class AppWapplet extends AppWFull {
 	@Override
 	protected GDevice getDevice() {
 		return new BrowserDevice();
-	}
-
-	@Override
-	public void addFocusToApp() {
-		Log.debug("addFocusToApp");
-		// add focus to AV if visible
-		AlgebraView av = getAlgebraView();
-		boolean visible = (av == null) ? false : av.isShowing();
-		Log.debug("AV visible: " + visible);
-		if (visible) {
-			Log.debug("AV visible, so gets the focus");
-			((AlgebraViewW) av).getElement().focus();
-			focusGained(av, ((AlgebraViewW) av).getElement());
-			return;
-		}
-
-		// focus -> EV
-		EuclidianViewW ev = getEuclidianView1();
-		visible = (ev == null) ? false : ev.isShowing();
-		if (visible) {
-			Log.debug("EV1 visible, so gets the focus");
-			ev.getCanvas().getElement().focus();
-			ev.focusGained();
-		} else
-			Log.debug("nobody gets the focus");
-
 	}
 }
