@@ -457,6 +457,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		macroCons.updateConstruction();
 
 		// use current position of movingPoint to start Pcopy
+		Pcopy.getPathParameter().setT(path.getMinParameter());
 		pathMover.init(Pcopy, MIN_STEPS_INSTANCE);
 
 		if (continuous) {
