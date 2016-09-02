@@ -273,7 +273,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		return getCASCommand(name, args, symbolic, tpl, true);
 	}
 
-	int counter = 1;
+	private int counter = 1;
 	final synchronized private String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl, boolean allowOutsourcing) {

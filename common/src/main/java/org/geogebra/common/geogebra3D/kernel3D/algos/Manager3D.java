@@ -51,7 +51,6 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -66,6 +65,7 @@ import org.geogebra.common.kernel.geos.GeoSurfaceFinite;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
@@ -1189,6 +1189,12 @@ public class Manager3D implements Manager3DInterface {
 
 	/**
 	 * intersect conics
+	 * 
+	 * @param A
+	 *            conic
+	 * @param B
+	 *            conic
+	 * @return intersect algo
 	 */
 	public AlgoIntersectConics3D getIntersectionAlgorithm(GeoConicND A,
 			GeoConicND B) {
@@ -1920,7 +1926,7 @@ public class Manager3D implements Manager3DInterface {
 	final public GeoConicPart3D CircumcircleArc3D(String label, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
 		AlgoConicPartCircumcircle3D algo = new AlgoConicPartCircumcircle3D(
-				cons, label, A, B, C, GeoConicPart.CONIC_PART_ARC);
+				cons, label, A, B, C, GeoConicNDConstants.CONIC_PART_ARC);
 		return algo.getConicPart();
 	}
 
@@ -1930,7 +1936,7 @@ public class Manager3D implements Manager3DInterface {
 	final public GeoConicPart3D CircumcircleSector3D(String label,
 			GeoPointND A, GeoPointND B, GeoPointND C) {
 		AlgoConicPartCircumcircle3D algo = new AlgoConicPartCircumcircle3D(
-				cons, label, A, B, C, GeoConicPart.CONIC_PART_SECTOR);
+				cons, label, A, B, C, GeoConicNDConstants.CONIC_PART_SECTOR);
 		return algo.getConicPart();
 	}
 
