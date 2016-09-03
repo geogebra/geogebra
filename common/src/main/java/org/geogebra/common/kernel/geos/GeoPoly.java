@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Path;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 
@@ -9,7 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Common interface for polygons and polylines
  * @author Zbynek & Michael
  */
-public interface GeoPoly extends GeoElementND{
+public interface GeoPoly extends Path {
 	/**
 	 * Returns true iff all vertices are labeled
 	 * @return true iff all vertices are labeled

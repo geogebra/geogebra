@@ -556,8 +556,10 @@ public interface Manager3DInterface {
 			ParametricCurve function,
  GeoNumberValue angle);
 
+
 	public GeoElement SurfaceOfRevolution(String label,
-			ParametricCurve function, GeoNumberValue angle, GeoLineND line);
+ Path function,
+			GeoNumberValue angle, GeoLineND line);
 
 	// //////////////////////////////////////////////
 	// intersection algos

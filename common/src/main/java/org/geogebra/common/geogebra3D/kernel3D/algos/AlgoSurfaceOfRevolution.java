@@ -21,6 +21,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -29,8 +30,11 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
@@ -50,7 +54,19 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	private GeoSurfaceCartesian3D surface; // output
 	private GeoLineND line;
 	private FunctionVariable[] funVar;
+	private Path path;
 
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param function
+	 *            path to be rotated
+	 * @param angle
+	 *            max angle
+	 */
 	public AlgoSurfaceOfRevolution(Construction cons, String label,
 			ParametricCurve function, GeoNumberValue angle) {
 		this(cons, label, function, angle, null);
@@ -59,18 +75,30 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	/**
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
-	 * @param function
+	 *            output label
+	 * @param path
+	 *            path to be rotated
 	 * @param angle
+	 *            max angle
+	 * @param line
+	 *            rotation axis
 	 */
 	public AlgoSurfaceOfRevolution(Construction cons, String label,
-			ParametricCurve function, GeoNumberValue angle, GeoLineND line) {
+ Path path,
+			GeoNumberValue angle, GeoLineND line) {
 
 		super(cons);
-
-		this.function = function;
+		if (path instanceof ParametricCurve) {
+			this.function = (ParametricCurve) path;
+		} else {
+			GeoCurveCartesian gc = new GeoCurveCartesian(cons);
+			this.function = gc;
+		}
 		this.angle = angle;
 		this.line = line;
+		this.path = path;
 		min = new double[2];
 		max = new double[2];
 		min[1] = 0;
@@ -79,7 +107,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		funVar[0].setVarString("u");
 		funVar[1] = new FunctionVariable(kernel);
 		funVar[1].setVarString("v");
-		if (line == null) {
+		if (line == null && function == path) {
 			rotateAroundX();
 		} else {
 
@@ -94,7 +122,8 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 
 		}
-		if (function.isFunctionInX()) {
+		if (path instanceof ParametricCurve
+				&& ((ParametricCurve) path).isFunctionInX()) {
 			surface.setIsSurfaceOfRevolutionAroundOx(true);
 		}
 
@@ -105,6 +134,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		surface.setLabel(label);
 
 	}
+
 
 	private void rotateAroundX() {
 
@@ -158,7 +188,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[line == null ? 2 : 3];
-		input[0] = function.toGeoElement();
+		input[0] = path.toGeoElement();
 		input[1] = (GeoElement) angle;
 		if (line != null) {
 			input[2] = line.toGeoElement();
@@ -175,19 +205,30 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
+		if (path instanceof GeoPoly) {
+			((GeoPoly) path).toGeoCurveCartesian((GeoCurveCartesian) function);
+		}
+		if (path instanceof GeoConic) {
+			((GeoConic) path).toGeoCurveCartesian((GeoCurveCartesian) function);
+		}
 		if (function.isDefined() && angle.isDefined()) {
 			surface.setDefined(true);
 		} else {
 			surface.setUndefined();
 		}
-		if (line != null) {
+		if (line != null || path != function) {
 			ExpressionValue[][] coeffs = new ExpressionValue[4][4];
-			Rotation4x4(line.getDirectionInD3().normalized(),
-					funVar[1],
-					line.getStartInhomCoords(), coeffs);
 			FunctionNVar[] fun = surface.getFunctions();
-			transform(function, coeffs, fun);
+			if(line == null){
+				Rotation4x4(new Coords(1, 0, 0), funVar[1], coeffs);
+				transform(function, coeffs, fun, new Coords(0, 0, 0));
+			}else{
+				Rotation4x4(line.getDirectionInD3().normalized(), funVar[1],
+						coeffs);
+				transform(function, coeffs, fun, line.getStartInhomCoords());
+			}
+
+
 			String var = function.getFunctionVariables()[0] + "";
 			for (int i = 0; i < 3; i++) {
 				fun[i].getExpression().replaceVariables(var, funVar[0]);
@@ -209,13 +250,13 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	}
 
 	public void transform(ParametricCurve curve, ExpressionValue[][] m,
-			FunctionNVar[] fun1) {
+			FunctionNVar[] fun1, Coords startPoint) {
 
 		// current expressions
 		ExpressionNode[] expr = new ExpressionNode[3];
 		for (int i = 0; i < 3; i++) {
 			expr[i] = curve.getFun(i).deepCopy(kernel).getExpression()
-					.subtract(line.getStartInhomCoords().get(i + 1));
+					.subtract(startPoint.get(i + 1));
 		}
 
 		for (int row = 0; row < 3; row++) {
@@ -226,14 +267,14 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 				trans = trans.plus(expr[i].multiply(coeff[i]));
 			}
 
-			fun1[row].setExpression(trans.plus(line.getStartInhomCoords().get(
+			fun1[row].setExpression(trans.plus(startPoint.get(
 					row + 1)));
 		}
 
 	}
 
 	public static final void Rotation4x4(Coords u, ExpressionValue angle,
-			Coords center, ExpressionValue[][] m) {
+			ExpressionValue[][] m) {
 
 		double ux = u.getX();
 		double uy = u.getY();
@@ -245,17 +286,17 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		ExpressionNode oneMinusC = new ExpressionNode(kernel, 1).subtract(c);
 		// Coords[] vec = m.vectors;
 		m[0][0] = oneMinusC.multiply(ux * ux).plus(c);
-		m[0][1] = oneMinusC.multiply(ux * uy).plus(s.multiply(uz));
-		m[0][2] = oneMinusC.multiply(ux * uz).subtract(s.multiply(uy));
+		m[0][1] = oneMinusC.multiply(ux * uy).subtract(s.multiply(uz));
+		m[0][2] = oneMinusC.multiply(ux * uz).plus(s.multiply(uy));
 		// vals[3] = 0;
 
-		m[1][0] = oneMinusC.multiply(ux * uy).subtract(s.multiply(uz));
+		m[1][0] = oneMinusC.multiply(ux * uy).plus(s.multiply(uz));
 		m[1][1] = oneMinusC.multiply(uy * uy).plus(c);
-		m[1][2] = oneMinusC.multiply(uy * uz).plus(s.multiply(ux));
+		m[1][2] = oneMinusC.multiply(uy * uz).subtract(s.multiply(ux));
 		// vals[7] = 0;
 
-		m[2][0] = oneMinusC.multiply(ux * uz).plus(s.multiply(uy));
-		m[2][1] = oneMinusC.multiply(uy * uz).subtract(s.multiply(ux));
+		m[2][0] = oneMinusC.multiply(ux * uz).subtract(s.multiply(uy));
+		m[2][1] = oneMinusC.multiply(uy * uz).plus(s.multiply(ux));
 		m[2][2] = oneMinusC.multiply(uz * uz).plus(c);
 
 		m[3][0] = new ExpressionNode(kernel, 0);

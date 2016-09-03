@@ -1,18 +1,22 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.CmdCurveCartesian;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -51,6 +55,17 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 
 				return ret;
 			}
+			if ((ok[0] = (arg[0] instanceof GeoPoly || arg[0] instanceof GeoConic)
+					&& app.has(Feature.SURFACE_REVOLUTION_GENERIC))
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+				GeoElement[] ret = new GeoElement[1];
+
+				ret[0] = kernelA.getManager3D().SurfaceOfRevolution(
+						c.getLabel(), (Path) arg[0],
+						(GeoNumberValue) arg[1], null);
+
+				return ret;
+			}
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 		case 3:
 			arg = resArgs(c);
@@ -62,6 +77,18 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 				ret[0] = kernelA.getManager3D().SurfaceOfRevolution(
 						c.getLabel(), (ParametricCurve) arg[0],
 						(GeoNumberValue) arg[1], (GeoLineND) arg[2]);
+
+				return ret;
+			}
+			if ((ok[0] = (arg[0] instanceof GeoPoly || arg[0] instanceof GeoConic)
+					&& app.has(Feature.SURFACE_REVOLUTION_GENERIC))
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoLineND)) {
+				GeoElement[] ret = new GeoElement[1];
+
+				ret[0] = kernelA.getManager3D().SurfaceOfRevolution(
+						c.getLabel(), (Path) arg[0], (GeoNumberValue) arg[1],
+						(GeoLineND) arg[2]);
 
 				return ret;
 			}
