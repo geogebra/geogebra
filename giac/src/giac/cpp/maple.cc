@@ -3525,6 +3525,7 @@ namespace giac {
   static define_unary_function_eval (__cprint,&_cprint,_cprint_s);
   define_unary_function_ptr5( at_cprint ,alias_at_cprint,&__cprint,_QUOTE_ARGUMENTS,true);
 
+#ifndef GIAC_HAS_STO_38
   // make a cpp translation file
   gen _cpp(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -3599,7 +3600,7 @@ namespace giac {
   static const char _cpp_s []="cpp";
   static define_unary_function_eval (__cpp,&_cpp,_cpp_s);
   define_unary_function_ptr5( at_cpp ,alias_at_cpp,&__cpp,_QUOTE_ARGUMENTS,true);
-
+#endif
 
   gen _hexprint(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;

@@ -1150,7 +1150,7 @@ namespace giac {
     save_debug_info=(*dbgptr->debug_info_ptr);
     if (vars.type!=_VECT)
       vars=gen(makevecteur(vars));
-    if (values.type!=_VECT || values.subtype!=_SEQ__VECT || (vars._VECTptr->size()==1 && values._VECTptr->size()!=1))
+    if (values.type!=_VECT || values.subtype!=_SEQ__VECT || (vars._VECTptr->size()==1 && values._VECTptr->size()>1))
       values=gen(makevecteur(values));
     // *logptr(contextptr) << vars << " " << values << endl;
     dbgptr->args_stack.push_back(gen(mergevecteur(vecteur(1,name),*values._VECTptr)));
@@ -5667,6 +5667,12 @@ namespace giac {
 	a=a._SYMBptr->feuille[1]; b=b._SYMBptr->feuille[1];
       }
     }
+    if (a.type==_STRNG){
+      if (b.type!=_STRNG) return true;
+      return *a._STRNGptr<*b._STRNGptr;
+    }
+    if (b.type==_STRNG)
+      return false;
     gen res=inferieur_strict(a,b,contextptr);
     if (res.type==_INT_)
       return res;

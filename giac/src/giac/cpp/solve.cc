@@ -370,6 +370,8 @@ namespace giac {
   }
 
   vecteur protect_find_singularities(const gen & e,const identificateur & x,int cplxmode,GIAC_CONTEXT){
+    //int C=calc_mode(contextptr);
+    //calc_mode(0,contextptr);
     vecteur sp;
 #ifdef NO_STDEXCEPT
     sp=find_singularities(e,x,cplxmode,contextptr);
@@ -387,6 +389,7 @@ namespace giac {
       // sp.clear();
     }
 #endif
+    //calc_mode(C,contextptr);
     return sp;
   }
 
@@ -450,8 +453,8 @@ namespace giac {
 	  }
 	  if (expr.is_symb_of_sommet(at_exp)){
 	    if (is_positive(l,contextptr)){
-	      l=ln(l,contextptr);
-	      m=ln(m,contextptr);
+	      l=l==0?minus_inf:ln(l,contextptr);
+	      m=m==0?minus_inf:ln(m,contextptr);
 	    }
 	    else
 	      l=m=minus_inf;

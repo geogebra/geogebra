@@ -10724,7 +10724,7 @@ namespace giac {
     int n=int(H.size())-rstart,c=int(H.front().size()),cP=int(P.front().size());
     if (cstart>=c) return;
     if (cend<=0) cend=c;
-#ifndef VISUALC
+#ifndef GIAC_HAS_STO_38
     if (recurse && n>=c && cend-cstart>200){
       // if cstart, cend !=0, block-recursive version 
       // H n rows, c1+c2 cols, n>=c1+c2, H=[A1|A2]=Q*[[R11,R12],[0,R22]]
@@ -10784,7 +10784,7 @@ namespace giac {
 #endif
       return;
     }
-#endif // VISUALC
+#endif // GIAC_HAS_STO_38
     int lastcol=std::min(n,cend);
     double t,tn,tabs,u,un,norme;
     vector<double> coeffs; coeffs.reserve(lastcol*(2*n-lastcol));
@@ -15441,7 +15441,7 @@ namespace giac {
     int lastcol=std::min(n,cend);
     if (debug_infolevel)
       CERR << CLOCK() << " Householder, computing H" << endl;
-#ifndef VISUALC
+#ifndef GIAC_HAS_STO_38
     if (recurse && n>=c && cend-cstart>200){
       if (n<2*(cend-cstart)) 
 	thin=false;
@@ -15496,7 +15496,7 @@ namespace giac {
 	CERR << CLOCK() << " Householder end" << endl;
       return;
     }
-#endif // VISUALC
+#endif // GIAC_HAS_STO_38
     vector<giac_double> w(n),q(cend-cstart);
     // save w to compute P all at once at the end, this could also be done
     // inside the lower diagonal bloc of H

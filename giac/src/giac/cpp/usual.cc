@@ -5039,7 +5039,7 @@ namespace giac {
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
       return string(sommetstr)+('('+gen2string(feuille,format,contextptr)+')');
     vecteur & v=*feuille._VECTptr;
-    if (xcas_mode(contextptr) > 0 || abs_calc_mode(contextptr)==38){
+    if (v.back().type!=_STRNG && (xcas_mode(contextptr) > 0 || abs_calc_mode(contextptr)==38)){
       gen indice;
       if (v.back().type==_VECT)
 	indice=v.back()+vecteur(v.size(),plus_one);
@@ -7408,6 +7408,9 @@ namespace giac {
     if (z>0 && -z+s*std::log(z)-lngamma(s+1)<-37)
       return regularize?1:std::exp(lngamma(s));
     if (z<0){
+      // FIXME: this does not work if z is large with double precision
+      // example igamma(1/3,-216.)
+      // multi-precision is required
       gen zs=-std::pow(-z,s)*gammaetoile(s,z,contextptr);
       return regularize?std::exp(-lngamma(s))*zs:zs;
     }
