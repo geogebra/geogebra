@@ -367,7 +367,9 @@ public class MyVecNode extends ValidExpression implements VectorValue,
 
 	@Override
 	public ExpressionValue evaluate(StringTemplate tpl) {
-		if (x.evaluatesToList() && y.evaluatesToList()) {
+		// MyNumberPair used for datafunction -- don't simplify
+		if (!(this instanceof MyNumberPair) && x.evaluatesToList()
+				&& y.evaluatesToList()) {
 			MyList result = new MyList(kernel);
 			ListValue xEval = (ListValue) x.evaluate(tpl);
 			ListValue yEval = (ListValue) y.evaluate(tpl);

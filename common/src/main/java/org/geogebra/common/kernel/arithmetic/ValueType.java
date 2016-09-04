@@ -173,6 +173,8 @@ public enum ValueType {
 		case LOG:
 		case LOG10:
 		case LOG2:
+			return ValueType.COMPLEX.check(left,
+					ValueType.LIST.check(left, ValueType.NUMBER));
 		case FUNCTION:
 			return ValueType.COMPLEX.check(right,
 					ValueType.LIST.check(right, ValueType.NUMBER));
