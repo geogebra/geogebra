@@ -1422,7 +1422,7 @@ __GGB__keysVar.hr.menu = {
     "DrawingPadToClipboard": "Grafi\u010dki prikaz u me\u0111uspremnik",
     "DynamicColors": "Dinami\u010dne boje",
     "EMFPlus": "EMF+",
-    "Edit": "Ure\u0111ivanje",
+    "Edit": "Uredi",
     "Ellipse3": "Elipsa",
     "Ellipse3.Help": "Odaberite dva \u017eari\u0161ta i to\u010dku na elipsi",
     "EnableLabelDrags": "Omogu\u0107i povla\u010denje oznaka",
