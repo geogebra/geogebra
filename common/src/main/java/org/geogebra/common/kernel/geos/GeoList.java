@@ -2979,7 +2979,14 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		if (isMatrix() && isIndependent()) {
 			return false;
 		}
-		return super.needToShowBothRowsInAV();
+
+		for (GeoElement geo : geoList) {
+			if (geo.needToShowBothRowsInAV()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
