@@ -3229,7 +3229,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public final String getPlain(String key) {
-		return getLocalization().getPlain(key);
+		return getLocalization().getMenu(key);
 	}
 
 	@Deprecated

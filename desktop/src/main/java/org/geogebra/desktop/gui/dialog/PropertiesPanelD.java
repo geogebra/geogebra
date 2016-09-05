@@ -264,11 +264,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private JTabbedPane tabs;
 
 	private String localize(final String id) {
-		String txt = loc.getPlain(id);
-		if (txt.equals(id)) {
-			txt = loc.getMenu(id);
-		}
-		return txt;
+		return loc.getMenu(id);
 	}
 
 	/**

@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.StringUtil;
@@ -53,46 +54,6 @@ public class LocalizationD extends Localization {
 		} catch (Exception e) {
 			return key;
 		}
-	}
-
-	@Override
-	final public String getPlain(String key) {
-
-		if (tooltipFlag) {
-			return getPlainTooltip(key);
-		}
-
-		if (rbplain == null) {
-			initPlainResourceBundle();
-		}
-
-		try {
-			return rbplain.getString(key);
-		} catch (Exception e) {
-			return key;
-		}
-	}
-
-	@Override
-	final public String getPlainTooltip(String key) {
-
-		if (tooltipLocale == null) {
-			return getPlain(key);
-		}
-
-		if (rbplainTT == null) {
-			initPlainTTResourceBundle();
-		}
-
-		try {
-			return rbplainTT.getString(key);
-		} catch (Exception e) {
-			return key;
-		}
-	}
-
-	private void initPlainTTResourceBundle() {
-		rbplainTT = MyResourceBundle.createBundle(RB_PLAIN, tooltipLocale);
 	}
 
 	@Override
@@ -193,12 +154,6 @@ public class LocalizationD extends Localization {
 		return ret;
 	}
 
-	private void initPlainResourceBundle() {
-		rbplain = MyResourceBundle.createBundle(RB_PLAIN, currentLocale);
-		if (rbplain != null) {
-			app.getKernel().updateLocalAxesNames();
-		}
-	}
 
 	private void initSymbolResourceBundle() {
 		rbsymbol = MyResourceBundle.createBundle(RB_SYMBOL, currentLocale);
@@ -244,7 +199,7 @@ public class LocalizationD extends Localization {
 	 * locale. If the language of locale is not supported an English locale is
 	 * returned.
 	 */
-	private static Locale getClosestSupportedLocale(Locale locale) {
+	private Locale getClosestSupportedLocale(Locale locale) {
 		int size = getSupportedLocales().size();
 
 		// try to find country and variant
@@ -280,8 +235,9 @@ public class LocalizationD extends Localization {
 	// supported GUI languages (from properties files)
 	private static ArrayList<Locale> supportedLocales = null;
 
-	public static ArrayList<Locale> getSupportedLocales() {
-		return getSupportedLocales(false);
+	private ArrayList<Locale> getSupportedLocales() {
+		return getSupportedLocales(
+				app != null && app.has(Feature.ALL_LANGUAGES));
 	}
 
 	public static ArrayList<Locale> getSupportedLocales(boolean prerelease) {

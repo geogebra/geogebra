@@ -126,12 +126,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 
 	String localize(final String id) {
-		// TODO Auto-generated method stub
-		String txt = loc.getPlain(id);
-		if (txt.equals(id)) {
-			txt = loc.getMenu(id);
-		}
-		return txt;
+		return loc.getMenu(id);
 	}
 
 

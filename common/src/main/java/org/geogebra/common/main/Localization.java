@@ -358,7 +358,9 @@ public abstract class Localization implements KeyboardLocale {
 	 * @return translation of given key
 	 */
 
-	public abstract String getPlain(String key);
+	public final String getPlain(String key) {
+		return getMenu(key);
+	}
 
 	/**
 	 * Returns translation of given key from the "menu" bundle
@@ -994,7 +996,9 @@ public abstract class Localization implements KeyboardLocale {
 	 *            key
 	 * @return translation of key from plain bundle in tooltip language
 	 */
-	public abstract String getPlainTooltip(String string);
+	public final String getPlainTooltip(String string) {
+		return getMenuTooltip(string);
+	}
 
 	/**
 	 * Initialize the command bundle (not needed in Web)

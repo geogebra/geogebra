@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.dialog;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
-import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ColorChooserW;
@@ -116,12 +115,7 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
     }
 
 	private String localize(final String id) {
-		Localization loc = app.getLocalization();
-		String txt = loc.getPlain(id);
-		if (txt.equals(id)) {
-			txt = loc.getMenu(id);
-		}
-		return txt;
+		return app.getLocalization().getMenu(id);
 	}
 	
 	public GColor getSelectedColor() {

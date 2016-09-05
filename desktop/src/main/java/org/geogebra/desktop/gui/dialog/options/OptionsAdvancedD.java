@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
@@ -34,7 +35,7 @@ import org.geogebra.common.gui.dialog.options.OptionsAdvanced;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathRegionHandling;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -536,15 +537,16 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	}
 
 	public void updateTooltipLanguages() {
-		if (cbTooltipLanguage.getItemCount() == LocalizationD
-				.getSupportedLocales().size() + 1) {
+		ArrayList<Locale> locales = getSupportedLocales();
+		if (cbTooltipLanguage.getItemCount() == locales.size()
+				+ 1) {
 			Locale ttl = app.getLocalization().getTooltipLocale();
 			if (ttl == null) {
 				cbTooltipLanguage.setSelectedIndex(0);
 			} else {
 				boolean found = false;
-				for (int i = 0; i < LocalizationD.getSupportedLocales().size(); i++) {
-					if (LocalizationD.getSupportedLocales().get(i).toString()
+				for (int i = 0; i < locales.size(); i++) {
+					if (locales.get(i).toString()
 							.equals(ttl.toString())) {
 						cbTooltipLanguage.setSelectedIndex(i + 1);
 						found = true;
@@ -579,7 +581,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 			if (index == -1)
 				app.setTooltipLanguage(null);
 			else
-				app.setTooltipLanguage(LocalizationD.getSupportedLocales()
+				app.setTooltipLanguage(
+						getSupportedLocales()
 						.get(index).toString());
 		} else if (source == cbUseLocalDigits) {
 			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(), app);
@@ -911,13 +914,14 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	 * @see #setLabelsKeyboardLanguage()
 	 */
 	private void setLabelsTooltipLanguages() {
-		String[] languages = new String[LocalizationD.getSupportedLocales()
+		ArrayList<Locale> locales = getSupportedLocales();
+		String[] languages = new String[locales
 				.size() + 1];
 		languages[0] = loc.getPlain("Default");
 		String ggbLangCode;
 
-		for (int i = 0; i < LocalizationD.getSupportedLocales().size(); i++) {
-			Locale locale = LocalizationD.getSupportedLocales().get(i);
+		for (int i = 0; i < locales.size(); i++) {
+			Locale locale = locales.get(i);
 			ggbLangCode = locale.getLanguage() + locale.getCountry()
 					+ locale.getVariant();
 
@@ -934,6 +938,11 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		cbTooltipLanguage.addActionListener(this);
 
 		updateTooltipLanguages();
+	}
+
+	private ArrayList<Locale> getSupportedLocales() {
+		return LocalizationD
+				.getSupportedLocales(app.has(Feature.ALL_LANGUAGES));
 	}
 
 	/**

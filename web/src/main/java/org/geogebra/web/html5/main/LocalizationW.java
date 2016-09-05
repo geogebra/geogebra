@@ -97,33 +97,6 @@ public final class LocalizationW extends Localization {
 	}
 
 	/**
-	 * @author Rana This method should work for both if the getPlain and
-	 *         getPlainTooltip. In the case of getPlainTooltip then getPlain is
-	 *         called as secondary languages not supported in HTML5
-	 */
-	@Override
-	public String getPlain(String key) {
-
-		if (key == null) {
-			return "";
-		}
-
-		if (localeStr == null) {
-			// keys not loaded yet
-			return key;
-		}
-
-		String ret = getPropertyNative(localeStr, key, "plain");
-
-		if (ret == null || "".equals(ret)) {
-			// Log.debug("plain key not found: "+key+" "+ret);
-			return key;
-		}
-
-		return ret;
-	}
-
-	/**
 	 * @author Rana This method should work for both menu and menu tooltips
 	 *         items
 	 */
@@ -341,14 +314,6 @@ public final class LocalizationW extends Localization {
 	@Override
 	public void initCommand() {
 		//
-	}
-
-	@Override
-	public String getPlainTooltip(String key) {
-
-		// secondary languages not supported in HTML5
-
-		return getPlain(key);
 	}
 
 	public void setLanguage(String lang) {
