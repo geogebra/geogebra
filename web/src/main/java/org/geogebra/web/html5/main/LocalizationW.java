@@ -13,8 +13,15 @@ import org.geogebra.web.html5.util.MyDictionary;
 
 import com.google.gwt.user.client.ui.RootPanel;
 
+/**
+ * JSON based localization for Web
+ *
+ */
 public final class LocalizationW extends Localization {
-
+	/**
+	 * @param dimension
+	 *            3 for 3D
+	 */
 	public LocalizationW(int dimension) {
 		super(dimension, 13);
 	}
@@ -30,30 +37,21 @@ public final class LocalizationW extends Localization {
 	 * 
 	 */
 	public final static String DEFAULT_LANGUAGE = "en";
-	public final static String DEFAULT_LOCALE = "default";
-
-	/*
-	 * The representation of no_NO_NY (Norwegian Nynorsk) is illegal in a BCP47
-	 * language tag: it should actually use "nn" (Norwegian Nynorsk) for the
-	 * language field
-	 * 
-	 * @Ref:
-	 * https://sites.google.com/site/openjdklocale/design-specification#TOC
-	 * -Norwegian
-	 */
-	public final static String LANGUAGE_NORWEGIAN_NYNORSK = "no_NO_NY"; // Nynorsk
-	                                                                    // Norwegian
-	                                                                    // language
-	                                                                    // Java
-	                                                                    // Locale
-	public final static String LANGUAGE_NORWEGIAN_NYNORSK_BCP47 = "nn"; // Nynorsk
-	                                                                    // Norwegian
-	                                                                    // language
-	                                                                    // BCP47
 
 	//
 	/*
 	 * eg __GGB__keysVar.en.command.Ellipse
+	 */
+	/**
+	 * 
+	 * @param language
+	 *            language
+	 * @param key
+	 *            key
+	 * @param section
+	 *            properties section (menu /error/...)
+	 * @return translation or English if translation not found; fallback is
+	 *         empty string
 	 */
 	public native String getPropertyNative(String language, String key,
 	        String section) /*-{
@@ -316,6 +314,10 @@ public final class LocalizationW extends Localization {
 		//
 	}
 
+	/**
+	 * @param lang
+	 *            preferred language
+	 */
 	public void setLanguage(String lang) {
 		if ("".equals(lang)) {
 			localeStr = "en";
@@ -366,6 +368,13 @@ public final class LocalizationW extends Localization {
 		return localeStr;
 	}
 
+	/**
+	 * @param lang
+	 *            language (assuming it is supported)
+	 * @param version
+	 *            app version
+	 * @return true when available
+	 */
 	static native boolean loadPropertiesFromStorage(String lang,
 			String version) /*-{
 		var storedTranslation = {};
@@ -393,6 +402,8 @@ public final class LocalizationW extends Localization {
 	 * 
 	 * @param lang
 	 *            language
+	 * @param version
+	 *            app version
 	 */
 	static native void savePropertiesToStorage(String lang,
 			String version) /*-{

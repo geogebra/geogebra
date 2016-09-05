@@ -12,9 +12,13 @@ import org.geogebra.common.util.Language;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 
+/**
+ * Desktop localization
+ */
 public class LocalizationD extends Localization {
-
+	/** path to menu */
 	static final String RB_MENU = "/org/geogebra/desktop/properties/menu";
+	/** path to commands */
 	static final String RB_COMMAND = "/org/geogebra/desktop/properties/command";
 	private static final String RB_ERROR = "/org/geogebra/desktop/properties/error";
 	private static final String RB_PLAIN = "/org/geogebra/desktop/properties/plain";
@@ -30,14 +34,23 @@ public class LocalizationD extends Localization {
 	private Locale tooltipLocale = null;
 	private App app;
 
+	/**
+	 * @param dimension
+	 *            3 for 3D
+	 */
 	public LocalizationD(int dimension) {
 		super(dimension, 15);
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public void setApp(App app) {
 		this.app = app;
 	}
 
+	@Override
 	public void setTooltipFlag() {
 		if (tooltipLocale != null) {
 			tooltipFlag = true;
@@ -74,6 +87,7 @@ public class LocalizationD extends Localization {
 		}
 	}
 
+	@Override
 	final public String getMenuTooltip(String key) {
 
 		if (tooltipLocale == null) {
@@ -240,6 +254,11 @@ public class LocalizationD extends Localization {
 				app != null && app.has(Feature.ALL_LANGUAGES));
 	}
 
+	/**
+	 * @param prerelease
+	 *            whether we also have prereleased languages
+	 * @return locales
+	 */
 	public static ArrayList<Locale> getSupportedLocales(boolean prerelease) {
 
 		if (supportedLocales != null) {
@@ -277,10 +296,17 @@ public class LocalizationD extends Localization {
 
 	}
 
+	/**
+	 * @return current locale
+	 */
 	public Locale getLocale() {
 		return currentLocale;
 	}
 
+	/**
+	 * @param locale
+	 *            preferred locale (closest is used)
+	 */
 	public void setLocale(Locale locale) {
 		currentLocale = getClosestSupportedLocale(locale);
 		updateResourceBundles();
@@ -294,6 +320,11 @@ public class LocalizationD extends Localization {
 		return rbplain != null;
 	}
 
+	/**
+	 * @param s
+	 *            language for tooltips
+	 * @return success
+	 */
 	public boolean setTooltipLanguage(String s) {
 		Locale locale = null;
 
@@ -319,10 +350,14 @@ public class LocalizationD extends Localization {
 		return updateNeeded;
 	}
 
+	/**
+	 * @return tootlip loacle
+	 */
 	public Locale getTooltipLocale() {
 		return tooltipLocale;
 	}
 
+	@Override
 	public String getTooltipLanguageString() {
 		if (tooltipLocale == null)
 			return null;
@@ -417,14 +452,15 @@ public class LocalizationD extends Localization {
 	 * return East/West as appropriate for eg Hebrew / Arabic
 	 * 
 	 * return String rather than app.borderEast() so we're not dependent on awt
+	 * 
+	 * @return "East" or "West"
 	 */
 	public String borderEast() {
 		// return app.borderEast();
 		if (isRightToLeftReadingOrder()) {
 			return "West";
-		} else {
-			return "East";
 		}
+		return "East";
 	}
 
 	/**
@@ -432,14 +468,15 @@ public class LocalizationD extends Localization {
 	 * return East/West as appropriate for eg Hebrew / Arabic
 	 * 
 	 * return String rather than app.borderWest() so we're not dependent on awt
+	 * 
+	 * @return "West" or "East"
 	 */
 	public String borderWest() {
 		// return app.borderWest();
 		if (!isRightToLeftReadingOrder()) {
 			return "West";
-		} else {
-			return "East";
 		}
+		return "East";
 	}
 
 }
