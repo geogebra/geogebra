@@ -28,7 +28,6 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
-import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -43,8 +42,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.ScrollEvent;
@@ -206,6 +203,10 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 						Log.debug("scrollliiiiing");
 						if (activeItem != null) {
 							activeItem.adjustControlsPosition();
+						}
+
+						if (getInputTreeItem() != null) {
+							getInputTreeItem().setItemWidth(maxItemWidth);
 						}
 					}
 				});
@@ -1133,8 +1134,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			}
 
 			if (app.has(Feature.AV_SCROLL)) {
-				if (node != null && getOffsetWidth() < maxItemWidth) {
-					RadioTreeItem.as(node).setItemWidth(maxItemWidth);
+				if (node != null) {// && getOffsetWidth() < maxItemWidth) {
+					RadioTreeItem.as(node).setItemWidth(getMaxItemWidth());
 				}
 			}
 
@@ -1159,6 +1160,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 
 		if (inputPanelLatex != null) {
+			inputPanelLatex.styleScrollBox();
 			inputPanelLatex.updateButtonPanelPosition();
 		}
 
@@ -1472,8 +1474,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
 			}
 		}
-
-
 		showAlgebraInput(forceKeyboard);
 	}
 
@@ -1534,6 +1534,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		// inputPanelTreeItem.addStyleName("NewRadioButtonTreeItemParent");
 		inputPanelLatex.getWidget().getElement().getParentElement()
 				.addClassName("NewRadioButtonTreeItemParent");
+
+
 		inputPanelLatex.replaceXButtonDOM();
 		if (appletHack) {
 			if (!isNodeTableEmpty()) {
@@ -1967,14 +1969,16 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		if (!app.has(Feature.AV_SCROLL)) {
 			return;
 		}
+		if (this.getInputTreeItem() != null) {
+			getInputTreeItem().setItemWidth(width);
+			getInputTreeItem().adjustControlsPosition();
+		}
 
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
 			if (ti instanceof RadioTreeItem) {
 				RadioTreeItem ri = RadioTreeItem.as(ti);
-				if (!ri.isInputTreeItem()) {
-					ri.setItemWidth(width);
-				}
+				ri.setItemWidth(width);
 
 			} else if (ti.getWidget() instanceof GroupHeader) {
 
@@ -2119,6 +2123,16 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				btPrint.setEnabled(true);
 			}
 		});
+	}
+
+	/**
+	 * The maximum width of the items. Relevant for scrolling horizontally.
+	 * 
+	 * @return the max item width.
+	 */
+	public int getMaxItemWidth() {
+		return maxItemWidth > getOffsetWidth() ? maxItemWidth
+				: getOffsetWidth();
 	}
 
 }

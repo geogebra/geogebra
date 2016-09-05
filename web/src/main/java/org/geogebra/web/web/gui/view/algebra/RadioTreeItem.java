@@ -807,7 +807,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (!app.has(Feature.AV_PREVIEW)) {
 			return;
 		}
-
+		String text = "";
+		if (previewGeo.isGeoFunction()) {
+			Log.debug("FUNCTIOOOOOOOOOOOOOON");
+			text += previewGeo.getLabel(StringTemplate.defaultTemplate);
+		}
 		createDVPanels();
 		content.addStyleName("avPreview");
 		plainTextItem.clear();
@@ -818,7 +822,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 		previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 		String plain = sb.toString();
-		String text = previewGeo
+		text = previewGeo
 				.getAlgebraDescription(StringTemplate.latexTemplate);
 		Log.debug("PREV-- " + text);
 		if (!plain.equals(text)) {
@@ -1204,15 +1208,15 @@ public abstract class RadioTreeItem extends AVTreeItem
 	 * @return whether it was successful
 	 */
 	public boolean enterEditMode(boolean substituteNumbers) {
-		if (isEditing()) {
-			return true;
-		}
-
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			content.addStyleName("scrollableTextBox");
 			if (isInputTreeItem()) {
 				setItemWidth(getAV().getOffsetWidth());
 			}
+		}
+
+		if (isEditing()) {
+			return true;
 		}
 
 
