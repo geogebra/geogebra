@@ -24,7 +24,6 @@ public class KeyListenerAdapter implements View.OnKeyListener {
             case KeyEvent.ACTION_DOWN:
                 com.himamis.retex.editor.share.event.KeyEvent wrappedEvent = wrapEvent(event);
                 boolean handled = mKeyListener.onKeyPressed(wrappedEvent);
-                mFormulaEditor.updateSuggestions(wrappedEvent, handled);
                 return handled;
             case KeyEvent.ACTION_UP:
             case KeyEvent.ACTION_MULTIPLE:
@@ -37,7 +36,6 @@ public class KeyListenerAdapter implements View.OnKeyListener {
                 char unicodeChar = wrappedEvent.getUnicodeKeyChar();
                 if (unicodeChar != '\0') {
                     handled = mKeyListener.onKeyTyped(wrappedEvent);
-                    mFormulaEditor.updateSuggestions(wrappedEvent, handled);
                     ret |= handled;
                 }
                 return ret;

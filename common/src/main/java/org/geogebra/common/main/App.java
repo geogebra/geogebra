@@ -3917,10 +3917,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_NATIVE_KEYBOARD:
 			return prerelease;
 
-		// MOB-646
-		case MOBILE_NATIVE_KEYBOARD_SUGGESTIONS:
-			return false; // no more suggestions
-
 		// MOB-660
 		case MOBILE_UNDO_REDO_LEFT_ALIGN:
 			return true; // 5.0.250
