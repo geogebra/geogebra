@@ -2612,12 +2612,14 @@ public abstract class EuclidianView
 		if (axesDistanceObjects[axis] != null) {
 			((GeoNumeric) axesDistanceObjects[axis]).removeEVSizeListener(this);
 		}
-		if (dist != null && !Double.isNaN(dist.getDouble())) {
+		if (dist != null && !Double.isNaN(dist.getDouble())
+				&& dist.getDouble() > 0) {
 			axesNumberingDistances[axis] = dist.getDouble();
 			axesDistanceObjects[axis] = dist;
 			setAutomaticAxesNumberingDistance(false, axis);
 			((GeoNumeric) dist).addEVSizeListener(this);
 		} else {
+			axesDistanceObjects[axis] = null;
 			setAutomaticAxesNumberingDistance(true, axis);
 		}
 	}
