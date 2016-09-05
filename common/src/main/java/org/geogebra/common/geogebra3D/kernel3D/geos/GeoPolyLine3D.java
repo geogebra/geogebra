@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
@@ -283,14 +282,6 @@ public class GeoPolyLine3D extends GeoPolyLine {
 	@Override
 	public GeoPoint getPoint(int i) {
 		return null;
-	}
-
-	/**
-	 * @deprecated
-	 */
-	@Override
-	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
-		return;
 	}
 
 	// /////////////////////

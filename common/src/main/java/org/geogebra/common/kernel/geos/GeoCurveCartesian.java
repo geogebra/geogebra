@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
@@ -868,62 +867,8 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 				transZ));
 
 	}
-	/**
-	 * 
-	 * @param points list of vertices
-	 * @param repeatLast true if we should add last-first edge
-	 */
-	public void setFromPolyLine(GeoPointND[] points, boolean repeatLast) {
-		double coef = 0, coefY = 0;
-		double cumulative = 0, cumulativeY = 0;
 
-		if (points.length < 2) {
-			setUndefined();
-			return;
-		}
-		ExpressionNode enx = new ExpressionNode(this.kernel, new MyDouble(this.kernel,
-				points[0].getInhomCoordsInD2().getX()));
-		ExpressionNode eny = new ExpressionNode(this.kernel, new MyDouble(this.kernel,
-				points[0].getInhomCoordsInD2().getY()));
-		FunctionVariable fv = new FunctionVariable(this.kernel, "t");
-		double sum = 0;
-		double sumY = 0;
-		int limit = repeatLast ? points.length + 1 : points.length;
-		int nonzeroSegments = 0;
-		for (int i = 1; i < limit; i++) {
-			int pointIndex = i >= points.length ? 0 : i;
-			ExpressionNode greater = new ExpressionNode(this.kernel,
-					new ExpressionNode(this.kernel, fv, Operation.MINUS,
-							new MyDouble(this.kernel, nonzeroSegments)), Operation.ABS, null);
-			Coords c1 = points[pointIndex].getInhomCoordsInD2();
-			Coords c2 = points[i-1].getInhomCoordsInD2();
-			if(c1.isEqual(c2))
-				continue;
-			coef = 0.5 * c1.getX() - 0.5
-					* c2.getX() - cumulative;
-			coefY = 0.5 * c1.getY() - 0.5
-					* c2.getY() - cumulativeY;
-			sum += coef * nonzeroSegments;
-			sumY += coefY * nonzeroSegments;
-			nonzeroSegments++;
-			cumulative += coef;
-			cumulativeY += coefY;
-			enx = enx.plus(greater.multiply(new MyDouble(this.kernel, coef)));
-			eny = eny.plus(greater.multiply(new MyDouble(this.kernel, coefY)));
-		}
-		enx = enx.plus(new ExpressionNode(this.kernel, fv, Operation.MULTIPLY,
-				new MyDouble(this.kernel, cumulative)));
-		eny = eny.plus(new ExpressionNode(this.kernel, fv, Operation.MULTIPLY,
-				new MyDouble(this.kernel, cumulativeY)));
-		enx = enx.plus(new MyDouble(this.kernel, -sum));
-		eny = eny.plus(new MyDouble(this.kernel, -sumY));
-		Function xFun = new Function(enx, fv);
-		Function yFun = new Function(eny, fv);
-		this.setFunctionY(yFun);
 
-		this.setFunctionX(xFun);
-		this.setInterval(0, nonzeroSegments);
-	}
 
 	/**
 	 * @return x-function

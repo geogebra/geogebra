@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -2416,7 +2417,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		
 	}
 
-	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
+	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		if (!isDefined()) {
 			curve.setUndefined();
 			return;

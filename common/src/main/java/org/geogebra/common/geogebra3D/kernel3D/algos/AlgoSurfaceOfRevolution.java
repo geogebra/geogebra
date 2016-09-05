@@ -30,12 +30,12 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConic;
-import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.ParametricCurve;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.plugin.Operation;
@@ -93,7 +93,8 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 		if (path instanceof ParametricCurve) {
 			this.function = (ParametricCurve) path;
 		} else {
-			GeoCurveCartesian gc = new GeoCurveCartesian(cons);
+			GeoCurveCartesianND gc = kernel.getGeoFactory()
+					.newCurve(path.isGeoElement3D() ? 3 : 2, cons);
 			this.function = gc;
 		}
 		this.angle = angle;
@@ -206,10 +207,12 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	@Override
 	public final void compute() {
 		if (path instanceof GeoPoly) {
-			((GeoPoly) path).toGeoCurveCartesian((GeoCurveCartesian) function);
+			((GeoPoly) path)
+					.toGeoCurveCartesian((GeoCurveCartesianND) function);
 		}
-		if (path instanceof GeoConic) {
-			((GeoConic) path).toGeoCurveCartesian((GeoCurveCartesian) function);
+		if (path instanceof GeoConicND) {
+			((GeoConicND) path)
+					.toGeoCurveCartesian((GeoCurveCartesianND) function);
 		}
 		if (function.isDefined() && angle.isDefined()) {
 			surface.setDefined(true);

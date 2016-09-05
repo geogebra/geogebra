@@ -774,4 +774,9 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return null;
 	}
 
+	@Override
+	protected Coords pointToCoords(GeoPointND geoPointND) {
+		return geoPointND.getInhomCoordsInD3();
+	}
+
 }

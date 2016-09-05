@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Path;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 
@@ -38,7 +39,7 @@ public interface GeoPoly extends Path {
 	 * Converts polyline to cartesian curve
 	 * @param outGeo curve to store result
 	 */
-	public void toGeoCurveCartesian(GeoCurveCartesian outGeo);
+	public void toGeoCurveCartesian(GeoCurveCartesianND outGeo);
 	/**
 	 * @return boundary as Path
 	 */

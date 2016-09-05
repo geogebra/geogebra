@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -545,7 +546,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 		return (GeoPoint) points[i];
 	}
 
-	public void toGeoCurveCartesian(GeoCurveCartesian curve) {
+	public void toGeoCurveCartesian(GeoCurveCartesianND curve) {
 		if (!isDefined()) {
 			curve.setUndefined();
 			return;

@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
 
@@ -202,5 +203,9 @@ public class GeoFactory {
 	 */
 	public GeoConicND newConic(int dim, Construction cons) {
 		return new GeoConic(cons);
+	}
+
+	public GeoCurveCartesianND newCurve(int dimension, Construction cons) {
+		return new GeoCurveCartesian(cons);
 	}
 }

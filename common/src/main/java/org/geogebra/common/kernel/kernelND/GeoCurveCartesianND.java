@@ -7,17 +7,20 @@ import org.geogebra.common.kernel.DistanceFunction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -567,6 +570,72 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	public void evaluateCurve(double t, double[] f1eval) {
 		// TODO Auto-generated method stub
 
+	}
+
+	/**
+	 * 
+	 * @param points
+	 *            list of vertices
+	 * @param repeatLast
+	 *            true if we should add last-first edge
+	 */
+	public final void setFromPolyLine(GeoPointND[] points, boolean repeatLast) {
+		double coef = 0;
+		int dim = fun.length;
+		if (points.length < 2) {
+			setUndefined();
+			return;
+		}
+		ExpressionNode[] en = new ExpressionNode[dim];
+		for (int i = 0; i < dim; i++) {
+			en[i] = new ExpressionNode(this.kernel, new MyDouble(this.kernel,
+					pointToCoords(points[0]).get(i + 1)));
+		}
+
+		FunctionVariable fv = new FunctionVariable(this.kernel, "t");
+		double[] sum = new double[] { 0, 0, 0 };
+		double[] cumulative = new double[] { 0, 0, 0 };
+
+		int limit = repeatLast ? points.length + 1 : points.length;
+		int nonzeroSegments = 0;
+		for (int i = 1; i < limit; i++) {
+			int pointIndex = i >= points.length ? 0 : i;
+			ExpressionNode greater = new ExpressionNode(this.kernel,
+					new ExpressionNode(this.kernel, fv, Operation.MINUS,
+							new MyDouble(this.kernel, nonzeroSegments)),
+					Operation.ABS, null);
+			Coords c1 = pointToCoords(points[pointIndex]);
+			Coords c2 = pointToCoords(points[i - 1]);
+			if (c1.isEqual(c2))
+				continue;
+			for (int j = 0; j < dim; j++) {
+				coef = 0.5 * c1.get(j + 1) - 0.5 * c2.get(j + 1)
+						- cumulative[j];
+				sum[j] += coef * nonzeroSegments;
+
+				cumulative[j] += coef;
+				en[j] = en[j].plus(
+						greater.multiply(new MyDouble(this.kernel, coef)));
+			}
+			nonzeroSegments++;
+
+		}
+
+		for (int j = 0; j < dim; j++) {
+			en[j] = en[j].plus(
+					new ExpressionNode(this.kernel, fv, Operation.MULTIPLY,
+							new MyDouble(this.kernel, cumulative[j])));
+
+			en[j] = en[j].plus(new MyDouble(this.kernel, -sum[j]));
+
+			Function xFun = new Function(en[j], fv);
+			this.setFun(j, xFun);
+		}
+		this.setInterval(0, nonzeroSegments);
+	}
+
+	protected Coords pointToCoords(GeoPointND geoPointND) {
+		return geoPointND.getInhomCoordsInD2();
 	}
 
 }

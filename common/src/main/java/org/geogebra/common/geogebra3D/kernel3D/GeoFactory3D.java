@@ -22,11 +22,13 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
+import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -186,5 +188,13 @@ public class GeoFactory3D extends GeoFactory {
 	public GeoConicND newConic(int dimension, Construction cons) {
 		return dimension == 3 ? new GeoConic3D(cons, new CoordSys(2))
 				: new GeoConic(cons);
+	}
+
+	@Override
+	public GeoCurveCartesianND newCurve(int dim, Construction cons) {
+		if (dim == 3) {
+			return new GeoCurveCartesian3D(cons);
+		}
+		return new GeoCurveCartesian(cons);
 	}
 }

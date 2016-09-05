@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.CmdCurveCartesian;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -15,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.ParametricCurve;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
@@ -55,7 +55,8 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 
 				return ret;
 			}
-			if ((ok[0] = (arg[0] instanceof GeoPoly || arg[0] instanceof GeoConic)
+			if ((ok[0] = (arg[0] instanceof GeoPoly
+					|| arg[0] instanceof GeoConicND)
 					&& app.has(Feature.SURFACE_REVOLUTION_GENERIC))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
@@ -80,7 +81,8 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 
 				return ret;
 			}
-			if ((ok[0] = (arg[0] instanceof GeoPoly || arg[0] instanceof GeoConic)
+			if ((ok[0] = (arg[0] instanceof GeoPoly
+					|| arg[0] instanceof GeoConicND)
 					&& app.has(Feature.SURFACE_REVOLUTION_GENERIC))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoLineND)) {
