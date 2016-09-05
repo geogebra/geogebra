@@ -1153,7 +1153,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 	public void setItemWidth(int width) {
-		setWidth(width + "px");
+		if (isInputTreeItem()) {
+			getWidget().getElement().getParentElement().getStyle()
+					.setWidth(width, Unit.PX);
+		} else {
+			setWidth(width + "px");
+		}
 		onResize();
 	}
 
@@ -1203,9 +1208,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 			return true;
 		}
 
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER) && !isInputTreeItem()) {
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			content.addStyleName("scrollableTextBox");
+			if (isInputTreeItem()) {
+				setItemWidth(getAV().getOffsetWidth());
+			}
 		}
+
+
 
 		if (controls != null) {
 			controls.update(true);
@@ -1251,12 +1261,29 @@ public abstract class RadioTreeItem extends AVTreeItem
 				&& point.isChangeable();
 	}
 
+	public void styleEditor() {
+		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			return;
+		}
+		content.removeStyleName("scrollableTextBox");
+		if (isInputTreeItem()) {
+			setItemWidth(getAV().getMaxItemWidth());
+		}
+
+	}
+
+	public void styleScrollBox() {
+		if (!app.has(Feature.AV_SCROLL)) {
+			return;
+		}
+		content.addStyleName("scrollableTextBox");
+
+	}
+
 	public void stopEditing(String newValue0,
 			final AsyncOperation<GeoElement> callback) {
 
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER) && !isInputTreeItem()) {
-			content.removeStyleName("scrollableTextBox");
-		}
+		styleEditor();
 
 		restoreSize();
 		if (stylebarShown != null) {
@@ -1665,8 +1692,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 				int value = margin + getOffsetWidth()
 						- (algebraPanel.getOffsetWidth() + scrollPos);
 					 
+				if (controls != null) {
 					Log.debug("[AD] controls right: " + value);
 					controls.getElement().getStyle().setRight(value, Unit.PX);
+				}
 
 			}
 		});
