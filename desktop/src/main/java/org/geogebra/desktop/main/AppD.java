@@ -4616,7 +4616,7 @@ ToolbarD.getAllTools(this));
 			return applet.width;
 		}
 		JPanel appCP = getCenterPanel();
-		return appCP.getWidth();
+		return appCP != null ? appCP.getWidth() : 0;
 	}
 
 	@Override
@@ -4626,7 +4626,7 @@ ToolbarD.getAllTools(this));
 			return applet.height;
 		}
 		JPanel appCP = getCenterPanel();
-		return appCP.getHeight();
+		return appCP != null ? appCP.getHeight() : 0;
 	}
 
 	@Override

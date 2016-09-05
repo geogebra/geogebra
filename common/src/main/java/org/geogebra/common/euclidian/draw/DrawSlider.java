@@ -354,8 +354,9 @@ public class DrawSlider extends Drawable {
 			return false;
 		}
 
-
-		if (app.getWidth() == fileWidth && app.getHeight() == fileHeight) {
+		double w = app.getWidth(); 
+		double h = app.getHeight();
+		if ((w == fileWidth && h == fileHeight) || w == 0 || h == 0) {
 			return false;
 		}
 
