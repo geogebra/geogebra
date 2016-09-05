@@ -413,7 +413,7 @@ namespace giac {
       return apply(e,giac::ln,contextptr);
     }
     if (is_zero(e,contextptr))
-      return calc_mode(contextptr)==1?unsigned_inf:minus_inf;
+      return minus_inf; // calc_mode(contextptr)==1?unsigned_inf:minus_inf;
     if (is_one(e))
       return 0;
     if (is_minus_one(e))
