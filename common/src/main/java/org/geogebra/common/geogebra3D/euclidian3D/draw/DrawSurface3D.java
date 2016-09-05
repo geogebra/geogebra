@@ -255,6 +255,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		if (!surfaceGeo.isDefined()) {
 			return false;
 		}
+		
+		if (((GeoElement) surfaceGeo).isGeoFunctionNVar()) {
+			if(((GeoFunctionNVar) surfaceGeo).getVarNumber() != 2){
+				setSurfaceIndex(-1);
+				setGeometryIndex(-1);
+				return true;
+			}
+		}
+		
 		boolean drawOccured = false;
 
 		if (drawFromScratch){
