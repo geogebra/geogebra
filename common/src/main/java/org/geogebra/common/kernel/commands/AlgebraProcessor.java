@@ -1195,6 +1195,9 @@ public class AlgebraProcessor {
 		return list;
 	}
 
+	public GeoFunction evaluateToFunction(String str, boolean suppressErrors) {
+		return evaluateToFunction(str, suppressErrors, false);
+	}
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoFunction Returns
 	 * null if something went wrong. Michael Borcherds 2008-04-04
@@ -1205,7 +1208,8 @@ public class AlgebraProcessor {
 	 *            false to show error messages (only stacktrace otherwise)
 	 * @return resulting function
 	 */
-	public GeoFunction evaluateToFunction(String str, boolean suppressErrors) {
+	public GeoFunction evaluateToFunction(String str, boolean suppressErrors,
+			boolean revertArbconst) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
@@ -1215,9 +1219,33 @@ public class AlgebraProcessor {
 			String[] varName = kernel.getConstruction()
 					.getRegisteredFunctionVariables();
 			FunctionVariable[] fv = new FunctionVariable[varName.length];
+			ExpressionNode exp = ve.wrap();
+			replaceVariables(exp, varName, fv);
+			exp = exp.traverse(new Traversing() {
 
-			replaceVariables(ve.wrap(), varName, fv);
-			GeoElement[] temp = processValidExpression(ve);
+				public ExpressionValue process(ExpressionValue ev) {
+					if (ev instanceof Variable) {
+						GeoElement geo = kernel
+								.lookupLabel(((Variable) ev).getName());
+						String[] parts = ((Variable) ev).getName().split("_");
+						if (geo == null && parts.length == 2) {
+							try {
+								int idx = Integer.parseInt(parts[1]
+										.replace("{", "").replace("}", ""));
+								return new ExpressionNode(kernel,
+										new MyDouble(kernel, idx),
+									Operation.ARBCONST, null);
+							} catch (Exception e) {
+								Log.debug("Invalid variable");
+							}
+						} else if (geo != null) {
+							return geo;
+						}
+					}
+					return ev;
+				}
+			}).wrap();
+			GeoElement[] temp = processValidExpression(exp);
 
 			if (temp[0].isGeoFunctionable()) {
 				GeoFunctionable f = (GeoFunctionable) temp[0];

@@ -86,6 +86,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FileExtensions;
+import org.geogebra.common.util.Language;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -960,8 +961,17 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			menuBar2 = new JMenuBar();
 			String country = ((AppD) app).getLocale().getCountry();
 			if (country.equals("")) {
-				// TODO: hack
 				country = ((AppD) app).getLocale().getLanguage();
+				try {
+					country = Language.getLanguage(
+							((AppD) app).getLocale().getLanguage()).countries[0]
+									.getISO()
+							.toLowerCase();
+				} catch (Exception e) {
+					e.printStackTrace();
+					Log.error("No flag for "
+							+ ((AppD) app).getLocale().getLanguage());
+				}
 			}
 
 			String flag = StringUtil.toLowerCase(country) + ".png";

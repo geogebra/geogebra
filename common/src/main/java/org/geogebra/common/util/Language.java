@@ -547,7 +547,12 @@ public enum Language {
 
 	}
 
-	private static Language getLanguage(String language) {
+	/**
+	 * @param language
+	 *            ISO code
+	 * @return closest constant
+	 */
+	public static Language getLanguage(String language) {
 		for (Language l : Language.values()) {
 			// language could be "ca" or "caXV"
 			if (l.locale.equals(language)) {

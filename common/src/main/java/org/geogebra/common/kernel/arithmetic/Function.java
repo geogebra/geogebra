@@ -1157,7 +1157,7 @@ public class Function extends FunctionNVar implements
 				this.fVars[0].getSetVarString());
 		for (Entry<String, String> entry : map.entrySet()) {
 			GeoFunction gfun = kernel.getAlgebraProcessor()
-					.evaluateToFunction(entry.getValue(), true);
+					.evaluateToFunction(entry.getValue(), true, true);
 			if (gfun != null) {
 				getCasEvalMap().put(entry.getKey(), gfun.getFunction());
 			}

@@ -147,6 +147,11 @@ public class CommandsTest extends Assert{
 		t("Delete[matrix1]", new String[] {});
 	}
 
+	@Test
+	public void tuples() {
+		t("(1..2,1..2)", "{(1, 1), (2, 2)}");
+	}
+
 	private GeoElement get(String label) {
 		return app.getKernel().lookupLabel(label);
 	}
