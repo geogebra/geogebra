@@ -78,7 +78,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 		hintsAndFractiosforResult = new FlexTable();
 
 		hintsAndFractiosforResult.setWidget(0, 0,
-				new Label(app.getPlain("Result")));
+				new Label(app.getPlain("Result.Exercise")));
 		hintsAndFractiosforResult.setWidget(0, 1,
 				new Label(app.getPlain("Hint")));
 		hintsAndFractiosforResult.setWidget(0, 2,

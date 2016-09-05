@@ -428,7 +428,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			checkAssignmentsTable.setWidget(i, k++,
 					new Label(app.getMenu("Tool")));
 			checkAssignmentsTable.setWidget(i, k++,
-					new Label(app.getPlain("Result")));
+					new Label(app.getPlain("Result.Exercise")));
 			checkAssignmentsTable.setWidget(i, k++,
 					new Label(app.getPlain("HintForResult")));
 			checkAssignmentsTable.setWidget(i, k++,

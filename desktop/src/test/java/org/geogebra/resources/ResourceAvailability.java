@@ -60,7 +60,7 @@ public class ResourceAvailability {
 		StringUtil.prototype = new StringUtilD();
 		ImageManagerD man = new ImageManagerD(new JPanel());
 		for (int i = 0; i < 1000; i++) {
-			String modeText = EuclidianConstants.getModeText(i);
+			String modeText = EuclidianConstants.getModeTextSimple(i);
 			if (modeText.isEmpty() || "Select".equals(modeText)
 					|| "FreehandCircle".equals(modeText)) {
 				continue;

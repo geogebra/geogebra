@@ -62,7 +62,7 @@ public class CreateObjectModel {
 
 	public List<String> getObjectTypeNames() {
 		return Arrays.asList( 
-				app.getMenu("List"),
+				app.getMenu("List.Create"),
 				app.getMenu("Matrix"),
 				app.getMenu("ListOfPoints"),
 				app.getMenu("Table"),

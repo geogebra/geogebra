@@ -131,7 +131,7 @@ public abstract class CASView implements Editing, SetLabels {
 		if (m != ModeSetter.TOOLBAR)
 			return;
 
-		String command = EuclidianConstants.getModeText(mode); // e.g.
+		String command = EuclidianConstants.getModeTextSimple(mode); // e.g.
 																// "Derivative"
 		boolean backToEvaluate = true;
 		switch (mode) {

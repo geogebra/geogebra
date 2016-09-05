@@ -387,6 +387,9 @@ public final class EuclidianConstants {
 	/** 13 in older files */
 	public static final int DEFAULT_CHECKBOX_SIZE = 26;
 
+	public static String getModeTextSimple(int mode) {
+		return getModeText(mode).replace(".Tool", "");
+	}
 	/**
 	 * @param mode
 	 *            mode number
@@ -403,7 +406,7 @@ public final class EuclidianConstants {
 			return "PlaneThreePoint";
 
 		case EuclidianConstants.MODE_PLANE:
-			return "Plane";
+			return "Plane.Tool";
 
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
 			return "OrthogonalPlane";
@@ -412,7 +415,7 @@ public final class EuclidianConstants {
 			return "ParallelPlane";
 
 		case EuclidianConstants.MODE_CUBE:
-			return "Cube";
+			return "Cube.Tool";
 
 		case EuclidianConstants.MODE_TETRAHEDRON:
 			return "Tetrahedron";
@@ -427,10 +430,10 @@ public final class EuclidianConstants {
 			return "Conify";
 
 		case EuclidianConstants.MODE_PYRAMID:
-			return "Pyramid";
+			return "Pyramid.Tool";
 
 		case EuclidianConstants.MODE_NET:
-			return "Net";
+			return "Net.Tool";
 
 		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
 			return "SpherePointRadius";
@@ -439,10 +442,10 @@ public final class EuclidianConstants {
 			return "Sphere2";
 
 		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
-			return "Cone";
+			return "Cone.Tool";
 
 		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-			return "Cylinder";
+			return "Cylinder.Tool";
 
 		case EuclidianConstants.MODE_ROTATEVIEW:
 			return "RotateView";
@@ -472,10 +475,10 @@ public final class EuclidianConstants {
 			return "Move";
 
 		case EuclidianConstants.MODE_POINT:
-			return "Point";
+			return "Point.Tool";
 
 		case EuclidianConstants.MODE_COMPLEX_NUMBER:
-			return "ComplexNumber";
+			return "ComplexNumber.Tool";
 
 		case EuclidianConstants.MODE_POINT_ON_OBJECT:
 			return "PointOnObject";
@@ -484,19 +487,19 @@ public final class EuclidianConstants {
 			return "Join";
 
 		case EuclidianConstants.MODE_SEGMENT:
-			return "Segment";
+			return "Segment.Tool";
 
 		case EuclidianConstants.MODE_SEGMENT_FIXED:
 			return "SegmentFixed";
 
 		case EuclidianConstants.MODE_RAY:
-			return "Ray";
+			return "Ray.Tool";
 
 		case EuclidianConstants.MODE_POLYGON:
-			return "Polygon";
+			return "Polygon.Tool";
 
 		case EuclidianConstants.MODE_POLYLINE:
-			return "PolyLine";
+			return "PolyLine.Tool";
 
 		case EuclidianConstants.MODE_RIGID_POLYGON:
 			return "RigidPolygon";
@@ -538,7 +541,7 @@ public final class EuclidianConstants {
 			return "Ellipse3";
 
 		case EuclidianConstants.MODE_PARABOLA:
-			return "Parabola";
+			return "Parabola.Tool";
 
 		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
 			return "Hyperbola3";
@@ -569,19 +572,19 @@ public final class EuclidianConstants {
 			return "Delete";
 
 		case EuclidianConstants.MODE_VECTOR:
-			return "Vector";
+			return "Vector.Tool";
 
 		case EuclidianConstants.MODE_TEXT:
-			return "Text";
+			return "Text.Tool";
 
 		case EuclidianConstants.MODE_IMAGE:
-			return "Image";
+			return "Image.Tool";
 
 		case EuclidianConstants.MODE_MIDPOINT:
-			return "Midpoint";
+			return "Midpoint.Tool";
 
 		case EuclidianConstants.MODE_SEMICIRCLE:
-			return "Semicircle";
+			return "Semicircle.Tool";
 
 		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
 			return "CircleArc3";
@@ -596,7 +599,7 @@ public final class EuclidianConstants {
 			return "CircumcircleSector3";
 
 		case EuclidianConstants.MODE_SLIDER:
-			return "Slider";
+			return "Slider.Tool";
 
 		case EuclidianConstants.MODE_MIRROR_AT_POINT:
 			return "MirrorAtPoint";
@@ -620,7 +623,7 @@ public final class EuclidianConstants {
 			return "CirclePointRadius";
 
 		case EuclidianConstants.MODE_ANGLE:
-			return "Angle";
+			return "Angle.Tool";
 
 		case EuclidianConstants.MODE_ANGLE_FIXED:
 			return "AngleFixed";
@@ -635,13 +638,13 @@ public final class EuclidianConstants {
 			return "MoveRotate";
 
 		case EuclidianConstants.MODE_ZOOM_IN:
-			return "ZoomIn";
+			return "ZoomIn.Tool";
 
 		case EuclidianConstants.MODE_ZOOM_OUT:
-			return "ZoomOut";
+			return "ZoomOut.Tool";
 
 		case EuclidianConstants.MODE_LOCUS:
-			return "Locus";
+			return "Locus.Tool";
 
 		case EuclidianConstants.MODE_AREA:
 			return "Area";
@@ -691,7 +694,7 @@ public final class EuclidianConstants {
 			return "Evaluate";
 
 		case EuclidianConstants.MODE_CAS_NUMERIC:
-			return "Numeric";
+			return "Numeric.Tool";
 
 		case EuclidianConstants.MODE_CAS_KEEP_INPUT:
 			return "KeepInput";
@@ -703,7 +706,7 @@ public final class EuclidianConstants {
 			return "Factor";
 
 		case EuclidianConstants.MODE_CAS_SUBSTITUTE:
-			return "Substitute";
+			return "Substitute.Tool";
 
 		case EuclidianConstants.MODE_CAS_SOLVE:
 			return "Solve";

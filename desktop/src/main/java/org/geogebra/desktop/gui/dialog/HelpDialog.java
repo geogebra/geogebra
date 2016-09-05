@@ -52,7 +52,7 @@ public class HelpDialog {
 
 		} else {
 
-			modeTextInternal = EuclidianConstants.getModeText(mode);
+			modeTextInternal = EuclidianConstants.getModeTextSimple(mode);
 			icon = app.getToolBarImage(modeTextInternal, Color.BLACK);
 		}
 

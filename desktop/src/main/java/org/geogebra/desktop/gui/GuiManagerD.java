@@ -3289,7 +3289,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 	public String getToolImageURL(int mode, GeoImage gi) {
 		String modeStr = StringUtil.toLowerCase(EuclidianConstants
-				.getModeText(mode));
+				.getModeTextSimple(mode));
 		return ((AppD) app).getImageManager().createImage(
 				((AppD) app).getImageManager().getToolImageResource(modeStr,
 						true),

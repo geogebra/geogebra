@@ -2180,7 +2180,7 @@ ToolbarD.getAllTools(this));
 			}
 		} else {
 			// standard case
-			String modeText = EuclidianConstants.getModeText(mode);
+			String modeText = EuclidianConstants.getModeTextSimple(mode);
 			// bugfix for Turkish locale added Locale.US
 			icon = getToolBarImage(modeText, border);
 			if (icon == null) {
