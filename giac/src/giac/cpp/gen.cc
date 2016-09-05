@@ -14944,6 +14944,7 @@ namespace giac {
       double xscale=window_xmax-window_xmin,yscale=window_ymax-window_ymin;
       double ratio=yscale/xscale;
       double gratio=0.6,gwidth=9;
+#ifndef GIAC_GGB
       gwidth=EM_ASM_DOUBLE_V({
 	  var hw=window.innerWidth;
 	  if (hw>=1000)
@@ -14951,6 +14952,7 @@ namespace giac {
 	  else
 	    return hw/60.0;
 	});
+#endif
       //CERR << gwidth << endl;
       if (ratio<gratio/3 || ratio>3*gratio) ortho=false; else ortho=true;
       if (ortho){

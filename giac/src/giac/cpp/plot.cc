@@ -5650,7 +5650,7 @@ namespace giac {
     if (vs>1)
       v[1]=eval(v[1],contextptr);
     gen res;
-#ifdef EMCC
+#if defined EMCC && !defined GIAC_GGB
     string mesg="Input\n";
     mesg += args[0].type==_STRNG?*args[0]._STRNGptr:args[0].print(contextptr);
     int i=EM_ASM_INT({
