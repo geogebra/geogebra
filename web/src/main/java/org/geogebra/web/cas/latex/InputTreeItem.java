@@ -814,6 +814,7 @@ public class InputTreeItem extends MathQuillTreeItem
 	public void typing(boolean heuristic) {
 		if (heuristic) {
 			updateLineHeight();
+			app.closePerspectivesPopup();
 		}
 		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)){
 			if (isEmpty() && plusButton != null) {
@@ -822,7 +823,6 @@ public class InputTreeItem extends MathQuillTreeItem
 				plusButton.setVisible(false);
 			}
 		}
-
 		updatePreview();
 	}
 

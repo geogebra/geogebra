@@ -638,8 +638,14 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void showPerspectivesPopup() {
+		afterLocalizationLoaded(new Runnable() {
 
-		getPerspectivesPopup().showPerspectivesPopup();
+			@Override
+			public void run() {
+				getPerspectivesPopup().showPerspectivesPopup();
+			}
+		});
+
 	}
 
 	@Override
@@ -653,7 +659,10 @@ public abstract class AppWFull extends AppW {
 		getPerspectivesPopup().setActivePerspective(index);
 	}
 
-	private PerspectivesPopup getPerspectivesPopup() {
+	/**
+	 * @return perspectives popup
+	 */
+	PerspectivesPopup getPerspectivesPopup() {
 		if (this.perspectivesPopup == null) {
 			this.perspectivesPopup = new PerspectivesPopup(this);
 		}
