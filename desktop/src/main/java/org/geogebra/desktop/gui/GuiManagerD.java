@@ -41,7 +41,6 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
@@ -86,7 +85,6 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.FileExtensions;
-import org.geogebra.common.util.Language;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -957,28 +955,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void initMenubar() {
 		if (menuBar == null) {
 			menuBar = new GeoGebraMenuBar((AppD) app, layout);
-
-			menuBar2 = new JMenuBar();
-			String country = ((AppD) app).getLocale().getCountry();
-			if (country.equals("")) {
-				country = ((AppD) app).getLocale().getLanguage();
-				try {
-					country = Language.getLanguage(
-							((AppD) app).getLocale().getLanguage()).countries[0]
-									.getISO()
-							.toLowerCase();
-				} catch (Exception e) {
-					e.printStackTrace();
-					Log.error("No flag for "
-							+ ((AppD) app).getLocale().getLanguage());
-				}
-			}
-
-			String flag = StringUtil.toLowerCase(country) + ".png";
-			JMenuItem jj = new JMenuItem(((AppD) app).getScaledFlagIcon(flag));
-			jj.setAlignmentX(100);
-			menuBar2.add(jj, ((AppD) app).getLocalization().borderEast());
-
 		}
 		// ((GeoGebraMenuBar) menuBar).setFont(app.getPlainFont());
 		menuBar.initMenubar();
