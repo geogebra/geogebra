@@ -42,6 +42,4 @@ public interface ClickListener {
 	 */
 	void onScroll(int dx, int dy);
 
-	void setSelectionMode(boolean flag);
-
 }

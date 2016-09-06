@@ -302,6 +302,12 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     private boolean selectionMode = false;
 
+	/**
+	 * says if dragging over should select or swype
+	 * 
+	 * @param flag
+	 *            flag
+	 */
     public void setSelectionMode(boolean flag) {
         selectionMode = flag;
     }
