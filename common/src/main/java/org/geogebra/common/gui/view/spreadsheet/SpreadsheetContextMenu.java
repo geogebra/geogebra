@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 
 /**
@@ -39,6 +40,8 @@ public class SpreadsheetContextMenu {
 
 	/** maximum selected column */
 	private int column2 = -1;
+
+	private Localization loc;
 
 	@SuppressWarnings("javadoc")
 	public enum MenuCommand {
@@ -77,6 +80,7 @@ public class SpreadsheetContextMenu {
 	 */
 	protected void updateFields() {
 		app = table.getApplication();
+		this.loc = app.getLocalization();
 		cp = table.getCellRangeProcessor();
 
 		column1 = table.getSelectedCellRanges().get(0).getMinColumn();
@@ -111,17 +115,17 @@ public class SpreadsheetContextMenu {
 		// Copy
 		cmdString = MenuCommand.Copy.toString();
 		boolean enabled = !isEmptySelection();
-		addMenuItem(cmdString, app.getMenu(cmdString), enabled);
+		addMenuItem(cmdString, loc.getMenu(cmdString), enabled);
 
 		// Paste
 		cmdString = MenuCommand.Paste.toString();
 		enabled = true;
-		addMenuItem(cmdString, app.getMenu(cmdString), enabled);
+		addMenuItem(cmdString, loc.getMenu(cmdString), enabled);
 
 		// Cut
 		cmdString = MenuCommand.Cut.toString();
 		enabled = !isEmptySelection();
-		addMenuItem(cmdString, app.getMenu(cmdString), enabled);
+		addMenuItem(cmdString, loc.getMenu(cmdString), enabled);
 
 		// Delete
 		// TODO use "DeleteObjects" as text ?
@@ -131,7 +135,7 @@ public class SpreadsheetContextMenu {
 			cmdString = MenuCommand.Delete.toString();
 		}
 		enabled = !allFixed();
-		addMenuItem(cmdString, app.getMenu(cmdString), enabled);
+		addMenuItem(cmdString, loc.getMenu(cmdString), enabled);
 
 		// ===============================================
 		// Insert/Delete Rows or Columns
@@ -142,27 +146,27 @@ public class SpreadsheetContextMenu {
 
 			addSeparator();
 
-			subMenu = addSubMenu(app.getPlain("Insert") + " ...", null);
+			subMenu = addSubMenu(loc.getMenu("Insert") + " ...", null);
 
 			if (selectionType == MyTableInterface.COLUMN_SELECT) {
 
 				cmdString = MenuCommand.InsertLeft.toString();
-				addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString),
+				addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString),
 						true);
 
 				cmdString = MenuCommand.InsertRight.toString();
-				addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString),
+				addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString),
 						true);
 			}
 
 			if (selectionType == MyTableInterface.ROW_SELECT) {
 
 				cmdString = MenuCommand.InsertAbove.toString();
-				addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString),
+				addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString),
 						true);
 
 				cmdString = MenuCommand.InsertBelow.toString();
-				addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString),
+				addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString),
 						true);
 			}
 
@@ -188,31 +192,31 @@ public class SpreadsheetContextMenu {
 
 			addSeparator();
 
-			subMenu = addSubMenu(app.getMenu("Create"), null);
+			subMenu = addSubMenu(loc.getMenu("Create"), null);
 
 			cmdString = MenuCommand.List.toString();
 			enabled = true;
-			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
+			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 			cmdString = MenuCommand.ListOfPoints.toString();
 			enabled = cp.isCreatePointListPossible(selectedCellRanges);
-			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
+			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 			cmdString = MenuCommand.Matrix.toString();
 			enabled = cp.isCreateMatrixPossible(selectedCellRanges);
-			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
+			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 			cmdString = MenuCommand.Table.toString();
 			enabled = cp.isCreateMatrixPossible(selectedCellRanges);
-			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
+			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 			cmdString = MenuCommand.PolyLine.toString();
 			enabled = cp.isCreatePointListPossible(selectedCellRanges);
-			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
+			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 			cmdString = MenuCommand.OperationTable.toString();
 			enabled = cp.isCreateOperationTablePossible(selectedCellRanges);
-			addSubMenuItem(subMenu, cmdString, app.getMenu(cmdString), enabled);
+			addSubMenuItem(subMenu, cmdString, loc.getMenu(cmdString), enabled);
 
 		}
 
@@ -234,13 +238,13 @@ public class SpreadsheetContextMenu {
 
 				if (doObjectMenu) {
 					cmdString = MenuCommand.ShowObject.toString();
-					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
+					addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
 							geo.isSetEuclidianVisible());
 				}
 
 				if (doLabelMenu) {
 					cmdString = MenuCommand.ShowLabel.toString();
-					addCheckBoxMenuItem(cmdString, app.getPlain(cmdString),
+					addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
 							geo.isLabelVisible());
 				}
 			}
@@ -260,7 +264,7 @@ public class SpreadsheetContextMenu {
 
 				if (showRecordToSpreadsheet) {
 					cmdString = MenuCommand.RecordToSpreadsheet.toString();
-					addCheckBoxMenuItem(cmdString, app.getMenu(cmdString),
+					addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
 							geo.getSpreadsheetTrace());
 				}
 			}
@@ -273,7 +277,7 @@ public class SpreadsheetContextMenu {
 
 		if (enableDataImport()) {
 			cmdString = MenuCommand.ImportDataFile.toString();
-			addMenuItem(cmdString, app.getMenu(cmdString) + " ...", true);
+			addMenuItem(cmdString, loc.getMenu(cmdString) + " ...", true);
 		}
 
 		// ===============================================
@@ -284,7 +288,7 @@ public class SpreadsheetContextMenu {
 			addSeparator();
 
 			cmdString = MenuCommand.SpreadsheetOptions.toString();
-			addMenuItem(cmdString, app.getMenu(cmdString) + " ...", true);
+			addMenuItem(cmdString, loc.getMenu(cmdString) + " ...", true);
 		}
 
 		// ===============================================
@@ -296,7 +300,7 @@ public class SpreadsheetContextMenu {
 			addSeparator();
 
 			cmdString = MenuCommand.Properties.toString();
-			addMenuItem(cmdString, app.getPlain(cmdString) + " ...", true);
+			addMenuItem(cmdString, loc.getMenu(cmdString) + " ...", true);
 		}
 
 	}

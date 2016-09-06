@@ -210,7 +210,7 @@ public class ConstructionProtocolView {
 		}
 	
 		public String getTranslatedTitle() {
-			return app.getPlain(title);
+			return app.getLocalization().getMenu(title);
 		}
 	
 		public int getPreferredWidth() {

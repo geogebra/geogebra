@@ -231,13 +231,15 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 						// app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
 						extrusionComputer.getAlgo().getOutput(0)
 								.translatedTypeString(),
-						app.getPlain("Altitude"),
+						app.getLocalization().getMenu("Altitude"),
 						"",
 						// check basis direction / view direction to say if the
 						// sign has to be forced
 						basis.getMainDirection().dotproduct(
 								getView3D().getViewDirection()) > 0,
-						app.getPlain("PositiveValuesFollowTheView"), callback);
+						app.getLocalization().getMenu(
+								"PositiveValuesFollowTheView"),
+						callback);
 
 			} else {
 				hits.add(height);

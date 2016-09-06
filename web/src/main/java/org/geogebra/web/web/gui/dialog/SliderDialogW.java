@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -63,6 +64,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	private GeoElement geoResult;
 	private GeoNumeric number;
 	private GeoAngle angle;
+	private Localization loc;
 			
 	/**
 	 * Creates a dialog to create a new GeoNumeric for a slider.
@@ -78,6 +80,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		super(false, true, null, app.getPanel());
 		//super(app.getFrame(), false);
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.addStyleName("sliderDialog");
 		this.addStyleName("GeoGebraFrame");
 		//addWindowListener(this);
@@ -117,9 +120,9 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	}
 
 	private void createGUI() {
-		//setTitle(app.getPlain("Slider"));
+		// setTitle(loc.getMenu("Slider"));
 		//setResizable(false);
-		this.getCaption().setText(app.getMenu("Slider"));
+		this.getCaption().setText(loc.getMenu("Slider"));
 
 		//Create components to be displayed
 		//mainWidget.setHorizontalAlignment(VerticalPanel.ALIGN_CENTER);		
@@ -133,12 +136,12 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 
 		// radio buttons for number or angle
 		String id = DOM.createUniqueId();
-		rbNumber = new RadioButton(id, app.getPlain("Numeric"));
+		rbNumber = new RadioButton(id, loc.getMenu("Numeric"));
 		rbNumber.addValueChangeHandler(this);
 		rbNumber.setValue(true);
-		rbAngle = new RadioButton(id, app.getPlain("Angle"));
+		rbAngle = new RadioButton(id, loc.getMenu("Angle"));
 		rbAngle.addValueChangeHandler(this);
-		rbInteger = new RadioButton(id, app.getPlain("Integer"));
+		rbInteger = new RadioButton(id, loc.getMenu("Integer"));
 		rbInteger.addValueChangeHandler(this);
 
 		radioButtonWidget.add(rbNumber);
@@ -150,7 +153,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		//nameWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
 		
 //		FlowPanel namePanel = new FlowPanel();
-		nameLabel = new Label(app.getPlain("Name"));
+		nameLabel = new Label(loc.getMenu("Name"));
 		nameWidget.add(nameLabel);
 		
 		tfLabel = new AutoCompleteTextFieldW(-1, app);
@@ -163,11 +166,11 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 
 
 		// buttons
-		btOK = new Button(app.getPlain("OK"));
+		btOK = new Button(loc.getMenu("OK"));
 		btOK.addClickHandler(this);
 		// btApply.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
-		btCancel = new Button(app.getPlain("Cancel"));
+		btCancel = new Button(loc.getMenu("Cancel"));
 		btCancel.addStyleName("cancelBtn");
 		btCancel.addClickHandler(this);
 		// btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);

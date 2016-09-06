@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -93,6 +94,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private MaterialType saveType;
 	private ArrayList<Material.Provider> supportedProviders = new ArrayList<Material.Provider>();
 	private Visibility defaultVisibility = Visibility.Private;
+	private Localization loc;
 
 	// private MaterialCallback materialCB;
 
@@ -109,13 +111,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	public SaveDialogW(final AppW app) {
 		super(app.getPanel());
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.addStyleName("GeoGebraFileChooser");
 		this.setGlassEnabled(true);
 		// this.saveCallback = new SaveCallback(this.app);
 		this.contentPanel = new FlowPanel();
 		this.add(this.contentPanel);
 
-		this.getCaption().setText(app.getMenu("Save"));
+		this.getCaption().setText(loc.getMenu("Save"));
 		this.p = new VerticalPanel();
 		this.p.add(getTitelPanel());
 		this.p.add(getButtonPanel());
@@ -227,7 +230,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private HorizontalPanel getTitelPanel() {
 		final HorizontalPanel titlePanel = new HorizontalPanel();
 		titlePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		this.titleLabel = new Label(app.getPlain("Title") + ": ");
+		this.titleLabel = new Label(loc.getMenu("Title") + ": ");
 		titlePanel.add(this.titleLabel);
 		titlePanel.add(title = new GTextBox());
 		title.setMaxLength(MAX_TITLE_LENGTH);
@@ -256,7 +259,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 		buttonPanel.add(dontSaveButton = new StandardButton(app
 		        .getMenu("DontSave")));
-		buttonPanel.add(saveButton = new StandardButton(app.getMenu("Save")));
+		buttonPanel.add(saveButton = new StandardButton(loc.getMenu("Save")));
 
 		saveButton.addStyleName("saveButton");
 		dontSaveButton.addStyleName("cancelBtn");
@@ -316,9 +319,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 		listBox = new ListBox();
 		listBox.addStyleName("visibility");
-		listBox.addItem(app.getMenu("Private"));
-		listBox.addItem(app.getMenu("Shared"));
-		listBox.addItem(app.getMenu("Public"));
+		listBox.addItem(loc.getMenu("Private"));
+		listBox.addItem(loc.getMenu("Shared"));
+		listBox.addItem(loc.getMenu("Public"));
 		listBox.setItemSelected(Visibility.Private.getIndex(), true);
 		if (app.getLAF().externalDriveSupported()) {
 			providerPopup.addPopupHandler(this);
@@ -391,7 +394,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	private void saveLocal() {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
-				app.getMenu("Saving"), false, app);
+				loc.getMenu("Saving"), false, app);
 		if (!this.title.getText().equals(
 		        app.getKernel().getConstruction().getTitle())) {
 			app.resetUniqueId();
@@ -460,7 +463,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		};
 
 		ToolTipManagerW.sharedInstance().showBottomMessage(
-				app.getMenu("Saving"), false, app);
+				loc.getMenu("Saving"), false, app);
 
 		if (saveType == MaterialType.ggt) {
 			app.getGgbApi().getMacrosBase64(true, handler);
@@ -473,7 +476,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 
 	private void uploadToDrive() {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
-				app.getMenu("Saving"), false, app);
+				loc.getMenu("Saving"), false, app);
 		app.getGoogleDriveOperation().afterLogin(new Runnable() {
 
 			@Override
@@ -656,7 +659,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 			}
 			this.title.setText(consTitle);
 		} else {
-			this.title.setText(app.getMenu("Untitled"));
+			this.title.setText(loc.getMenu("Untitled"));
 			this.title.setSelectionRange(0, this.title.getText().length());
 		}
 	}
@@ -666,16 +669,16 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	}
 
 	public void setLabels() {
-		this.getCaption().setText(app.getMenu("Save"));
-		this.titleLabel.setText(app.getPlain("Title") + ": ");
-		this.dontSaveButton.setText(app.getMenu("DontSave"));
-		this.saveButton.setText(app.getMenu("Save"));
+		this.getCaption().setText(loc.getMenu("Save"));
+		this.titleLabel.setText(loc.getMenu("Title") + ": ");
+		this.dontSaveButton.setText(loc.getMenu("DontSave"));
+		this.saveButton.setText(loc.getMenu("Save"));
 		this.listBox.setItemText(Visibility.Private.getIndex(),
-		        app.getMenu("Private"));
+				loc.getMenu("Private"));
 		this.listBox.setItemText(Visibility.Shared.getIndex(),
-		        app.getMenu("Shared"));
+				loc.getMenu("Shared"));
 		this.listBox.setItemText(Visibility.Public.getIndex(),
-		        app.getMenu("Public"));
+				loc.getMenu("Public"));
 	}
 
 	/**

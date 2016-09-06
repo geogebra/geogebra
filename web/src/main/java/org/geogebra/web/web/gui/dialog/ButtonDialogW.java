@@ -7,6 +7,7 @@ import org.geogebra.common.gui.dialog.ButtonDialogModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ScriptArea;
@@ -30,11 +31,13 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 	private AppW app;
 	private GeoButton button = null;
 	private ScriptArea tfScript;
+	private Localization loc;
 	
 	public ButtonDialogW(AppW app, int x, int y, boolean textField) {
 		super(false, true, null, app.getPanel());
 		
-		this.app = app;		
+		this.app = app;
+		this.loc = app.getLocalization();
 		model = new ButtonDialogModel(app, x, y, textField);
 		addStyleName("GeoGebraPopup");
 		createGUI();	
@@ -45,14 +48,14 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 
 	private void createGUI() {
 		if (model.isTextField()) {
-			this.getCaption().setText(app.getMenu("TextFieldAction"));
+			this.getCaption().setText(loc.getMenu("TextFieldAction"));
 		}
 		else {
-			this.getCaption().setText(app.getMenu("ButtonAction"));
+			this.getCaption().setText(loc.getMenu("ButtonAction"));
 		}
 		
 		// create caption panel
-		Label captionLabel = new Label(app.getMenu("Button.Caption")+":");
+		Label captionLabel = new Label(loc.getMenu("Button.Caption") + ":");
 		
 		String initString = model.getInitString();
 		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);				
@@ -125,7 +128,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 			}
 		}
 
-		Label scriptLabel = new Label(app.getPlain("Script") + ":");
+		Label scriptLabel = new Label(loc.getMenu("Script") + ":");
 
 		tfScript = new ScriptArea();
 		
@@ -134,15 +137,15 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 		scriptPanel.add(tfScript);
 
 		VerticalPanel linkedPanel = new VerticalPanel();
-		Label linkedLabel = new Label(app.getPlain("LinkedObject")+":");
+		Label linkedLabel = new Label(loc.getMenu("LinkedObject") + ":");
 		linkedPanel.add(linkedLabel);
 		linkedPanel.add(cbAdd);
 		
 		// buttons
-		btOK = new Button(app.getPlain("OK"));
+		btOK = new Button(loc.getMenu("OK"));
 		btOK.getElement().setAttribute("action", "OK");
 		btOK.addClickHandler(this);
-		btCancel = new Button(app.getPlain("Cancel"));
+		btCancel = new Button(loc.getMenu("Cancel"));
 		btCancel.getElement().setAttribute("action","Cancel");
 		btCancel.addClickHandler(this);
 		btCancel.addStyleName("cancelBtn");

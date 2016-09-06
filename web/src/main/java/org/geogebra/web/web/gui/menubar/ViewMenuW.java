@@ -193,7 +193,8 @@ public class ViewMenuW extends GMenuBar {
 
 		final GCheckBoxMenuItem newItem = new GCheckBoxMenuItem(
 				MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(e.getIcon()),
-						app.getPlain(e.getKey()), true), true);
+						app.getLocalization().getMenu(e.getKey()), true),
+				true);
 		newItem.setCommand(new MenuCommand(app) {
 
 			@Override

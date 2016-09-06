@@ -121,7 +121,7 @@ public class EuclidianViewCompanion {
 	 * @return string translated description of plane from the view was created
 	 */
 	public String getTranslatedFromPlaneString() {
-		return view.getApplication().getPlain("xOyPlane");
+		return view.getApplication().getLocalization().getMenu("xOyPlane");
 	}
 
 	/**

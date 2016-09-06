@@ -3831,7 +3831,7 @@ GRectangle selectionRectangle) {
 
 	@Override
 	public String getTranslatedFromPlaneString() {
-		return app.getPlain("space");
+		return app.getLocalization().getMenu("space");
 	}
 
 	@Override

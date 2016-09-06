@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 
 public abstract class OptionsObject {
 
@@ -55,18 +56,20 @@ public abstract class OptionsObject {
 	 * @return description for selection
 	 */
 	public String getSelectionDescription() {
+		Localization loc = app.getLocalization();
 		if (selection == null || selection.size() == 0) {
-			return app.getPlain("Properties");
+			return loc.getMenu("Properties");
 		} else if (selection.size() == 1) {
 			GeoElement geo = selection.get(0);
 			sb.setLength(0);
 			sb.append("<html>");
-			sb.append(app.getLocalization().getPlain("PropertiesOfA",
+			sb.append(loc.getPlain("PropertiesOfA",
 					geo.getNameDescriptionHTML(false, false)));
 			sb.append("</html>");
 			return sb.toString();
 		} else {
-			return app.getLocalization().getPlain("PropertiesOfA", app.getPlain("Selection"));
+			return app.getLocalization().getPlain("PropertiesOfA",
+					loc.getMenu("Selection"));
 		}
 	}
 

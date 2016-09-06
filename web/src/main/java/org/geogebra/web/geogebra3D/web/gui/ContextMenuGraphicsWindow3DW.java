@@ -35,7 +35,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		this.px = px;
 		this.py = py;
 
-		setTitle(app.getPlain("GraphicsView3D"));
+		setTitle(loc.getMenu("GraphicsView3D"));
 
 		addAxesAndGridCheckBoxes();
 
@@ -44,7 +44,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 		addZoomMenu();
 
-		MenuItem miStandardView = new MenuItem(app.getPlain("StandardView"),
+		MenuItem miStandardView = new MenuItem(loc.getMenu("StandardView"),
 		        new Command() {
 
 			        public void execute() {
@@ -56,7 +56,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		wrappedPopup.addItem(miStandardView);
 
 		MenuItem miShowAllObjectsView = new MenuItem(
-		        app.getPlain("ShowAllObjects"), new Command() {
+				loc.getMenu("ShowAllObjects"), new Command() {
 
 			        public void execute() {
 						setViewShowAllObject();

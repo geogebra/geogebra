@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.AsyncOperation;
@@ -62,6 +63,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	private ArrayList<Object> addListMappings; // TODO? Override add, remove,...
 												// instead of relying on calling
 												// updateAddList each time
+	private Localization loc;
 
 	/**
 	 * Brings up a new ExerciseBuilderDialog
@@ -73,6 +75,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		super(false, false, null, ((AppW) app).getPanel());
 
 		this.app = (AppW) app;
+		this.loc = app.getLocalization();
 		exercise = app.getKernel().getExercise();
 		addListMappings = new ArrayList<Object>();
 		createGUI();
@@ -132,13 +135,13 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		mainWidget.add(bottomWidget = new FlowPanel());
 		bottomWidget.setStyleName("DialogButtonPanel");
 
-		btApply = new Button(app.getPlain("OK"));
+		btApply = new Button(loc.getMenu("OK"));
 		btApply.addClickHandler(this);
 		btApply.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
 		addCancelButton();
 
-		btTest = new Button(app.getPlain("Test"));
+		btTest = new Button(loc.getMenu("Test"));
 		btTest.addClickHandler(this);
 		btTest.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		if (exercise.getParts().size() == 0) {
@@ -170,10 +173,10 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 	private void createAssignmentsTable() {
 		assignmentsTable.removeAllRows();
-		assignmentsTable.setWidget(0, 1, new Label(app.getPlain("Tool")));
+		assignmentsTable.setWidget(0, 1, new Label(loc.getMenu("Tool")));
 		assignmentsTable.setWidget(0, 2,
-				new Label(app.getPlain("HintForCorrect")));
-		assignmentsTable.setWidget(0, 3, new Label(app.getPlain("Fraction")));
+				new Label(loc.getMenu("HintForCorrect")));
+		assignmentsTable.setWidget(0, 3, new Label(loc.getMenu("Fraction")));
 
 		addAssignmentsTableRows();
 	}
@@ -349,7 +352,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	private void updateAddList() {
 		addList.clear();
 
-		addList.addItem(app.getPlain("AddToolOrBoolean"));
+		addList.addItem(loc.getMenu("AddToolOrBoolean"));
 		addList.addItem(app.getMenu("Tool.CreateNew"));
 		for (Object obj : addListMappings) {
 			if (obj instanceof Macro) {
@@ -393,8 +396,8 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				assignmentsTable.setVisible(true);
 				checkAssignmentsTable.setVisible(false);
 				addList.setVisible(true);
-				btTest.setText(app.getPlain("Test"));
-				btApply.setText(app.getPlain("OK"));
+				btTest.setText(loc.getMenu("Test"));
+				btApply.setText(loc.getMenu("OK"));
 				hide();
 				center();
 				if (!app.getSelectionManager().getSelectionListeners()
@@ -408,8 +411,8 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				checkAssignmentsTable.setVisible(true);
 				addList.setVisible(false);
 				check();
-				btTest.setText(app.getPlain("Check"));
-				btApply.setText(app.getPlain("Back"));
+				btTest.setText(loc.getMenu("Check"));
+				btApply.setText(loc.getMenu("Back"));
 				hide();
 				center();
 				app.getSelectionManager().removeSelectionListener(this);
@@ -428,11 +431,11 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			checkAssignmentsTable.setWidget(i, k++,
 					new Label(app.getMenu("Tool")));
 			checkAssignmentsTable.setWidget(i, k++,
-					new Label(app.getPlain("Result.Exercise")));
+					new Label(loc.getMenu("Result.Exercise")));
 			checkAssignmentsTable.setWidget(i, k++,
-					new Label(app.getPlain("HintForResult")));
+					new Label(loc.getMenu("HintForResult")));
 			checkAssignmentsTable.setWidget(i, k++,
-					new Label(app.getPlain("Fraction")));
+					new Label(loc.getMenu("Fraction")));
 			i++;
 
 			ArrayList<Assignment> parts = exercise.getParts();
@@ -460,7 +463,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			}
 
 			checkAssignmentsTable.setWidget(i, k = 0,
-					new Label(app.getPlain("FractionTotal")));
+					new Label(loc.getMenu("FractionTotal")));
 			checkAssignmentsTable.setWidget(
 					i,
 					k++,

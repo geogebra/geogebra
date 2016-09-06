@@ -86,7 +86,7 @@ public abstract class DialogManager {
 
 		InputHandler handler = new RedefineInputHandler(app, geo, str);
 
-		newInputDialog(app, geo.getNameDescription(), app.getPlain("Redefine"),
+		newInputDialog(app, geo.getNameDescription(), loc.getMenu("Redefine"),
  str, true, handler, geo, false);
 
 
@@ -107,7 +107,7 @@ public abstract class DialogManager {
 				selectedSegments,
 				selectedPoints,
 				selGeos,
-				getNumber(app.getKernel(), menu + " " + app.getPlain("Length"),
+				getNumber(app.getKernel(), menu + " " + loc.getMenu("Length"),
 						""), false, ec);
 
 	}
@@ -194,7 +194,7 @@ public abstract class DialogManager {
 	public void showNumberInputDialogRotate(String menu,
 			GeoPolygon[] selectedPolygons, GeoPointND[] selectedPoints,
 			GeoElement[] selGeos, EuclidianController ec) {
-		String inputString = prompt(menu + " " + app.getPlain("Angle"),
+		String inputString = prompt(menu + " " + loc.getMenu("Angle"),
 				defaultAngle);
 
 		defaultAngle = rotateObject(app, inputString, false, selectedPolygons,

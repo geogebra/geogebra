@@ -33,7 +33,8 @@ public class InputDialogAngleFixed extends AngleInputDialog{
 	private EuclidianController ec;
 		
 	public InputDialogAngleFixed(AppW app, String title, InputHandler handler, GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
-		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false, handler, false);
+		super(app, app.getLocalization().getMenu("Angle"), title,
+				defaultRotateAngle, false, handler, false);
 		
 		geoPoint1 = points[0];
 		this.segments = segments;

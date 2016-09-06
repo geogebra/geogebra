@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.probcalculator;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 
 /**
@@ -20,6 +21,7 @@ public class StatisticsCalculatorHTML {
 	private String strSample1, strSample2, strMean, strSD, strSigma,
 			strSuccesses, strN, strSE, strDF, strUpper, strLower, strInterval,
 			strP, strChiSq, strZ, strT, strPooled;
+	private Localization loc;
 
 	private final static String newline = "<br/>";
 	private final static String eq = " = ";
@@ -35,6 +37,7 @@ public class StatisticsCalculatorHTML {
 			StatisticsCollection sc) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		cons = app.getKernel().getConstruction();
 		kernel = cons.getKernel();
 		this.statCalc = statCalc;
@@ -56,24 +59,24 @@ public class StatisticsCalculatorHTML {
 
 	private void setLabelStrings() {
 
-		strSample1 = app.getMenu("Sample1");
-		strSample2 = app.getMenu("Sample2");
+		strSample1 = loc.getMenu("Sample1");
+		strSample2 = loc.getMenu("Sample2");
 
-		strMean = app.getMenu("Mean");
-		strSD = app.getMenu("SampleStandardDeviation.short");
-		strSigma = app.getMenu("StandardDeviation.short");
-		strSuccesses = app.getMenu("Successes");
-		strN = app.getMenu("N");
-		strSE = app.getMenu("StandardError.short");
-		strDF = app.getMenu("DegreesOfFreedom.short");
-		strP = app.getMenu("PValue");
-		strZ = app.getMenu("ZStatistic");
-		strT = app.getMenu("TStatistic");
+		strMean = loc.getMenu("Mean");
+		strSD = loc.getMenu("SampleStandardDeviation.short");
+		strSigma = loc.getMenu("StandardDeviation.short");
+		strSuccesses = loc.getMenu("Successes");
+		strN = loc.getMenu("N");
+		strSE = loc.getMenu("StandardError.short");
+		strDF = loc.getMenu("DegreesOfFreedom.short");
+		strP = loc.getMenu("PValue");
+		strZ = loc.getMenu("ZStatistic");
+		strT = loc.getMenu("TStatistic");
 		
-		strUpper = app.getMenu("UpperLimit");
-		strLower = app.getMenu("LowerLimit");
-		strInterval = app.getMenu("Interval");
-		strPooled = app.getMenu("Pooled");
+		strUpper = loc.getMenu("UpperLimit");
+		strLower = loc.getMenu("LowerLimit");
+		strInterval = loc.getMenu("Interval");
+		strPooled = loc.getMenu("Pooled");
 		
 		strChiSq = Unicode.Chi + "" + Unicode.Superscript_2;
 		
@@ -259,7 +262,7 @@ public class StatisticsCalculatorHTML {
 	}
 
 	private String isPooled() {
-		return sc.pooled ? app.getPlain("True") : app.getPlain("False");
+		return sc.pooled ? loc.getMenu("True") : loc.getMenu("False");
 	}
 
 	private String getInterval(double stat, double me) {

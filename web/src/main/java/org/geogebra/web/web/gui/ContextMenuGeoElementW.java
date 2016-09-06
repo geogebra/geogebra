@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.HasCoordsMode;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -41,6 +42,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
         AttachedToDOM {
 
 	protected GPopupMenuW wrappedPopup;
+	protected Localization loc;
 
 	/**
 	 * Creates new context menu
@@ -51,6 +53,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 	ContextMenuGeoElementW(AppW app) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		wrappedPopup = new GPopupMenuW(app);
 
 	}
@@ -82,7 +85,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 		if (geos.size() == 1) {
 			title = getDescription(getGeo(), false);
 		} else {
-			title = app.getPlain("Selection");
+			title = loc.getMenu("Selection");
 		}
 		setTitle(title);
 	}
@@ -122,7 +125,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.mode_showhideobject_16()
 				                .getSafeUri().asString(),
-				        app.getPlain("ShowObject")), new Command() {
+						loc.getMenu("ShowObject")), new Command() {
 
 					public void execute() {
 						showObjectCmd();
@@ -137,7 +140,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.mode_showhidelabel_16()
 				                .getSafeUri().asString(),
-				        app.getPlain("ShowLabel")), new Command() {
+						loc.getMenu("ShowLabel")), new Command() {
 
 					public void execute() {
 						showLabelCmd();
@@ -151,7 +154,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 			if (getGeo().isTraceable()) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.trace_on().getSafeUri()
-				                .asString(), app.getPlain("TraceOn")),
+								.asString(),
+						loc.getMenu("TraceOn")),
 				        new Command() {
 
 					        public void execute() {
@@ -190,7 +194,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 			if (getGeo().isAnimatable()) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.empty().getSafeUri().asString(),
-				        app.getPlain("Animating")), new Command() {
+						loc.getMenu("Animating")), new Command() {
 
 					public void execute() {
 						animationCmd();
@@ -206,7 +210,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 			        && app.showAuxiliaryObjects() && getGeo().isAlgebraShowable()) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.aux_folder().getSafeUri()
-				                .asString(), app.getPlain("AuxiliaryObject")),
+								.asString(),
+						loc.getMenu("AuxiliaryObject")),
 				        new Command() {
 
 					        public void execute() {
@@ -224,7 +229,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 			                .isGeoButton())) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
-				        app.getPlain("FixObject")), new Command() {
+						loc.getMenu("FixObject")), new Command() {
 
 					public void execute() {
 						fixObjectCmd();
@@ -237,7 +242,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				if (num.isSlider()) {
 					cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 							AppResources.INSTANCE.objectFixed().getSafeUri()
-					                .asString(), app.getPlain("FixObject")),
+									.asString(),
+							loc.getMenu("FixObject")),
 					        new Command() {
 
 						        public void execute() {
@@ -251,7 +257,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 						AppResources.INSTANCE.objectFixed().getSafeUri()
 								.asString(),
-				        app.getPlain("FixCheckbox")), new Command() {
+						loc.getMenu("FixCheckbox")), new Command() {
 
 					public void execute() {
 						fixCheckboxCmd();
@@ -277,8 +283,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				        }
 			        },
 			        MainMenu.getMenuBarHtml(AppResources.INSTANCE.rename()
-			                .getSafeUri().asString(), app.getPlain("Rename")),
-			        app.getPlain("Rename"));
+							.getSafeUri().asString(), loc.getMenu("Rename")),
+					loc.getMenu("Rename"));
 		}
 
 		if (geos.size() == 1 && getGeo() instanceof TextValue
@@ -291,8 +297,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 				        }
 			        },
 			        MainMenu.getMenuBarHtml(AppResources.INSTANCE.edit()
-			                .getSafeUri().asString(), app.getPlain("Edit")),
-			        app.getPlain("Edit"));
+							.getSafeUri().asString(), loc.getMenu("Edit")),
+					loc.getMenu("Edit"));
 		}
 
 		// DELETE
@@ -306,7 +312,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			        },
 			        MainMenu.getMenuBarHtml(AppResources.INSTANCE
 			                .delete_small().getSafeUri().asString(),
-			                app.getPlain("Delete")), app.getPlain("Delete"));
+							loc.getMenu("Delete")),
+					loc.getMenu("Delete"));
 		}
 
 		// Object properties menuitem
@@ -324,8 +331,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			        },
 			        MainMenu.getMenuBarHtml(AppResources.INSTANCE
 			                .view_properties16().getSafeUri().asString(),
-			                app.getPlain("Properties")),
-			        app.getPlain("Properties"));
+							loc.getMenu("Properties")),
+					loc.getMenu("Properties"));
 		}
 
 	}
@@ -336,7 +343,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(
 					MainMenu.getMenuBarHtml(
 							AppResources.INSTANCE.pin().getSafeUri().asString(),
-							app.getPlain("AbsoluteScreenLocation")),
+							loc.getMenu("AbsoluteScreenLocation")),
 					new Command() {
 
 				public void execute() {
@@ -347,7 +354,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			//
 			// final MenuItem cbItem = new MenuItem(MainMenu.getMenuBarHtml(
 			// AppResources.INSTANCE.pin().getSafeUri().asString(),
-			// app.getPlain("AbsoluteScreenLocation")), true,
+			// loc.getMenu("AbsoluteScreenLocation")), true,
 			// new Command() {
 			//
 			// public void execute() {
@@ -368,9 +375,6 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		}
 	}
 
-	private void addItem(MenuItem item) {
-		wrappedPopup.addItem(item);
-	}
 
 	private void addPlaneItems() {
 
@@ -408,7 +412,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 							extendedFormCmd(inputElement);
 						}
 					};
-					addAction(action, null, app.getPlain("ExtendedForm"));
+					addAction(action, null, loc.getMenu("ExtendedForm"));
 				} else {
 					action = new Command() {
 
@@ -416,7 +420,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 							inputFormCmd(inputElement);
 						}
 					};
-					addAction(action, null, app.getPlain("InputForm"));
+					addAction(action, null, loc.getMenu("InputForm"));
 				}
 
 			}
@@ -444,9 +448,9 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		StringBuilder sb = new StringBuilder();
 
 		if (mode != GeoConicND.EQUATION_IMPLICIT) {
-			sb.append(app.getPlain("Equation"));
+			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
-			sb.append(app.getPlain("ImplicitConicEquation"));
+			sb.append(loc.getMenu("ImplicitConicEquation"));
 			action = new Command() {
 
 				public void execute() {
@@ -461,7 +465,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			String conicEqn = conic.getSpecificEquation();
 			if (conicEqn != null) {
 				sb.setLength(0);
-				sb.append(app.getPlain("Equation"));
+				sb.append(loc.getMenu("Equation"));
 				sb.append(' ');
 				sb.append(conicEqn);
 				action = new Command() {
@@ -476,9 +480,9 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 		if (explicitPossible && mode != GeoConicND.EQUATION_EXPLICIT) {
 			sb.setLength(0);
-			sb.append(app.getPlain("Equation"));
+			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
-			sb.append(app.getPlain("ExplicitConicEquation"));
+			sb.append(loc.getMenu("ExplicitConicEquation"));
 			action = new Command() {
 
 				public void execute() {
@@ -506,9 +510,9 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 		if (mode != GeoLine.EQUATION_IMPLICIT) {
 			sb.setLength(0);
-			sb.append(app.getPlain("Equation"));
+			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
-			sb.append(app.getPlain("ImplicitLineEquation"));
+			sb.append(loc.getMenu("ImplicitLineEquation"));
 			action = new Command() {
 
 				public void execute() {
@@ -520,9 +524,9 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 
 		if (mode != GeoLine.EQUATION_EXPLICIT) {
 			sb.setLength(0);
-			sb.append(app.getPlain("Equation"));
+			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
-			sb.append(app.getPlain("ExplicitLineEquation"));
+			sb.append(loc.getMenu("ExplicitLineEquation"));
 			action = new Command() {
 
 				public void execute() {
@@ -539,7 +543,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					parametricFormCmd();
 				}
 			};
-			addAction(action, null, app.getPlain("ParametricForm"));
+			addAction(action, null, loc.getMenu("ParametricForm"));
 		}
 
 	}
@@ -570,7 +574,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					cartesianCoordsCmd();
 				}
 			};
-			addAction(action, null, app.getPlain("CartesianCoords"));
+			addAction(action, null, loc.getMenu("CartesianCoords"));
 			break;
 
 		case Kernel.COORD_CARTESIAN:
@@ -580,7 +584,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					polarCoorsCmd();
 				}
 			};
-			addAction(action, null, app.getPlain("PolarCoords"));
+			addAction(action, null, loc.getMenu("PolarCoords"));
 			break;
 
 		// 3D coords styles
@@ -591,7 +595,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					cartesianCoords3dCmd();
 				}
 			};
-			addAction(action, null, app.getPlain("CartesianCoords"));
+			addAction(action, null, loc.getMenu("CartesianCoords"));
 			break;
 
 		case Kernel.COORD_CARTESIAN_3D:
@@ -601,7 +605,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 					sphericalCoordsCmd();
 				}
 			};
-			addAction(action, null, app.getPlain("Spherical"));
+			addAction(action, null, loc.getMenu("Spherical"));
 			break;
 		}
 

@@ -630,8 +630,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lbTooltips.setSelectedIndex(index);
 			cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
 			
-			consProtocolTitle.setText(app
-				.getPlain("ConstructionProtocolNavigation"));
+			consProtocolTitle
+					.setText(loc.getMenu("ConstructionProtocolNavigation"));
 			
 			cbShowNavbar.setText(loc.getMenu("Show"));
 			cbNavPlay.setText(loc.getMenu("PlayButton"));

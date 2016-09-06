@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
@@ -60,12 +61,14 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private boolean widthUnit = false;
 
 	private CheckboxPanel avPanel;
+	private Localization loc;
 
 	
 
 	public SliderPanelW(AppW app,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		kernel = app.getKernel();
 		model = new SliderModel(app, this);
 		setModel(model);
@@ -232,9 +235,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		// put together interval, slider options, animation panels
 		if (useTabbedPane) {
 			TabPanel tabPanel = new TabPanel();
-			tabPanel.add(intervalPanel, app.getPlain("Interval"));
-			tabPanel.add(sliderPanel, app.getMenu("Slider"));
-			tabPanel.add(animationPanel, app.getPlain("Animation"));
+			tabPanel.add(intervalPanel, loc.getMenu("Interval"));
+			tabPanel.add(sliderPanel, loc.getMenu("Slider"));
+			tabPanel.add(animationPanel, loc.getMenu("Animation"));
 
 			mainPanel.add(tabPanel);
 			tabPanel.selectTab(0);
@@ -257,11 +260,11 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	}
 
 	public void setLabels() {
-		cbSliderFixed.setText(app.getPlain("fixed"));
-		cbRandom.setText(app.getPlain("Random"));
+		cbSliderFixed.setText(loc.getMenu("fixed"));
+		cbRandom.setText(loc.getMenu("Random"));
 
-		String[] comboStr = { app.getPlain("horizontal"),
-				app.getPlain("vertical") };
+		String[] comboStr = { loc.getMenu("horizontal"),
+				loc.getMenu("vertical") };
 
 		int selectedIndex = lbSliderHorizontal.getSelectedIndex();
 		lbSliderHorizontal.clear();
@@ -273,9 +276,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		lbSliderHorizontal.setSelectedIndex(selectedIndex);
 
 
-		minLabel.setText(app.getPlain("min") + ":");
-		maxLabel.setText(app.getPlain("max") + ":");
-		widthLabel.setText(app.getPlain("Width") + ":"); 
+		minLabel.setText(loc.getMenu("min") + ":");
+		maxLabel.setText(loc.getMenu("max") + ":");
+		widthLabel.setText(loc.getMenu("Width") + ":");
 
 		model.setLabelForWidthUnit();
 

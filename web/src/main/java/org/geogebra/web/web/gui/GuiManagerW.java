@@ -170,8 +170,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	private ColorPanel colorPanel;
 
+	private Localization loc;
+
 	public GuiManagerW(final AppW app, GDevice device) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.device = device;
 		this.kernel = app.getKernel();
 		this.objectPool = new ObjectPool();
@@ -1966,7 +1969,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	 */
 	@Override
 	public void exportGGB() {
-		getOptionPane().showSaveDialog(app, app.getPlain("Save"),
+		getOptionPane().showSaveDialog(app, loc.getMenu("Save"),
 				app.getExportTitle() + ".ggb", null,
 				new AsyncOperation<String[]>() {
 
@@ -1984,7 +1987,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 									getDownloadCallback(obj[1]));
 						}
 					}
-				}, app.getPlain("Save"));
+				}, loc.getMenu("Save"));
 	}
 
 	protected native boolean isXWALK() /*-{

@@ -10,6 +10,7 @@ import org.apache.commons.math.stat.inference.TTestImpl;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 
 public class TwoVarInferenceModel {
 	public interface TwoVarInferenceListener {
@@ -57,11 +58,13 @@ public class TwoVarInferenceModel {
 	private double meanDifference;
 
 	private TwoVarInferenceListener listener;
+	private Localization loc;
 	/**
 	 * Construct a TwoVarInference panel
 	 */
 	public TwoVarInferenceModel(App app, TwoVarInferenceListener listener) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.listener = listener;
 	}
 
@@ -73,10 +76,10 @@ public class TwoVarInferenceModel {
 	public String getNullHypName() {
 
 		if (selectedInference == StatisticsModel.INFER_TTEST_2MEANS) {
-			return app.getMenu("DifferenceOfMeans.short");
+			return loc.getMenu("DifferenceOfMeans.short");
 		}
 		else if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED) {
-			return app.getMenu("MeanDifference");
+			return loc.getMenu("MeanDifference");
 		}
 		else {
 			return "";
@@ -97,29 +100,29 @@ public class TwoVarInferenceModel {
 		case StatisticsModel.INFER_TTEST_PAIRED:
 
 			if (selectedInference == StatisticsModel.INFER_TTEST_PAIRED)
-				list.add(app.getMenu("MeanDifference"));
+				list.add(loc.getMenu("MeanDifference"));
 			else
-				list.add(app.getPlain("fncInspector.Difference"));
+				list.add(loc.getMenu("fncInspector.Difference"));
 
-			list.add(app.getMenu("PValue"));
-			list.add(app.getMenu("TStatistic"));
-			list.add(app.getMenu("StandardError.short"));
-			list.add(app.getMenu("DegreesOfFreedom.short"));
+			list.add(loc.getMenu("PValue"));
+			list.add(loc.getMenu("TStatistic"));
+			list.add(loc.getMenu("StandardError.short"));
+			list.add(loc.getMenu("DegreesOfFreedom.short"));
 			break;
 
 		case StatisticsModel.INFER_TINT_2MEANS:
 		case StatisticsModel.INFER_TINT_PAIRED:
 
 			if (selectedInference == StatisticsModel.INFER_TINT_PAIRED)
-				list.add(app.getMenu("MeanDifference"));
+				list.add(loc.getMenu("MeanDifference"));
 			else
-				list.add(app.getPlain("fncInspector.Difference"));
+				list.add(loc.getMenu("fncInspector.Difference"));
 
-			list.add(app.getMenu("MarginOfError.short"));
-			list.add(app.getMenu("LowerLimit"));
-			list.add(app.getMenu("UpperLimit"));
-			list.add(app.getMenu("StandardError.short"));
-			list.add(app.getMenu("DegreesOfFreedom.short"));
+			list.add(loc.getMenu("MarginOfError.short"));
+			list.add(loc.getMenu("LowerLimit"));
+			list.add(loc.getMenu("UpperLimit"));
+			list.add(loc.getMenu("StandardError.short"));
+			list.add(loc.getMenu("DegreesOfFreedom.short"));
 			break;
 		}
 

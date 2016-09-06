@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 
 /**
  * Settings for the algebra view.
@@ -113,13 +114,13 @@ public class AlgebraSettings extends AbstractSettings {
 	}
 
 	public static String[] getDescriptionModes(App app) {
+		Localization loc = app.getLocalization();
 		return app.has(Feature.AV_DEFINITION_AND_VALUE)
-				? new String[] { app.getPlain("DefinitionAndValue"),
-						app.getPlain("Value"), app.getPlain("Definition"),
-						app.getPlain("Description"), }
-				: new String[] { app.getPlain("Value"),
-						app.getPlain("Description"),
-						app.getPlain("Definition") };
+				? new String[] { loc.getMenu("DefinitionAndValue"),
+						loc.getMenu("Value"), loc.getMenu("Definition"),
+						loc.getMenu("Description"), }
+				: new String[] { loc.getMenu("Value"),
+						loc.getMenu("Description"), loc.getMenu("Definition") };
 	}
 
 	/**

@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
@@ -44,6 +45,8 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	ArrayList<SortMode> supportedModes = new ArrayList<SortMode>();
 
 	private GeoElement selectedEntry;
+	/** localization */
+	Localization loc;
 
 	/**
 	 * @param app
@@ -52,7 +55,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	public AlgebraStyleBarW(AppW app){
 		super(app, App.VIEW_ALGEBRA);
 		app.getSettings().getAlgebra().addListener(this);
-
+		this.loc = app.getLocalization();
 		update(null);
 
 		createColorBtn();
@@ -112,9 +115,9 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 					}
 
 					if (hasFillable)
-						setTitle(app.getPlain("stylebar.ColorTransparency"));
+						setTitle(loc.getMenu("stylebar.ColorTransparency"));
 					else
-						setTitle(app.getPlain("stylebar.Color"));
+						setTitle(loc.getMenu("stylebar.Color"));
 					setSliderVisible(hasFillable);
 
 					setSliderValue(Math.round(alpha * 100));
@@ -262,7 +265,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
     private ImageOrText[] getTreeModeStr() {
 		String[] modes = new String[supportedModes.size()];
 		for (int i = 0; i < supportedModes.size(); i++) {
-			modes[i] = app.getPlain(supportedModes.get(i).toString());
+			modes[i] = loc.getMenu(supportedModes.get(i).toString());
 		}
 		return ImageOrText.convert(modes);
     }

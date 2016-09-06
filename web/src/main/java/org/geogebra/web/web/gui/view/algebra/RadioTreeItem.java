@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
@@ -366,6 +367,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected FlowPanel outputPanel;
 
+	protected Localization loc;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -436,6 +438,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		super();
 		this.kernel = kernel;
 		app = (AppW) kernel.getApplication();
+		loc = app.getLocalization();
 		av = app.getAlgebraView();
 		definitionAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
 
@@ -2475,7 +2478,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected void addDummyLabel() {
 		if (dummyLabel == null) {
 			dummyLabel = new Label(
-					app.getPlain("InputLabel") + Unicode.ellipsis);
+					loc.getMenu("InputLabel") + Unicode.ellipsis);
 			dummyLabel.addStyleName("avDummyLabel");
 		}
 		if (canvas != null) {

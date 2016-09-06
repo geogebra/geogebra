@@ -268,7 +268,7 @@ public class InputTreeItem extends MathQuillTreeItem
 		ListItem actual = new ListItem();
 		actual.add(new Image(GuiResources.INSTANCE.algebra_new_piecewise()));
 		actual.add(
-				piecewiseLabel = new Label(app.getPlain("PiecewiseFunction")));
+				piecewiseLabel = new Label(loc.getMenu("PiecewiseFunction")));
 		// ClickHandler is Okay here, but maybe MouseDownHandler is better?
 		actual.addDomHandler(new ClickHandler() {
 			@Override
@@ -298,7 +298,7 @@ public class InputTreeItem extends MathQuillTreeItem
 
 		actual = new ListItem();
 		actual.add(new Image(GuiResources.INSTANCE.algebra_new_matrix()));
-		actual.add(matrixLabel = new Label(app.getMenu("Matrix")));
+		actual.add(matrixLabel = new Label(loc.getMenu("Matrix")));
 		actual.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent ce) {
@@ -335,7 +335,7 @@ public class InputTreeItem extends MathQuillTreeItem
 
 		actual = new ListItem();
 		actual.add(new Image(GuiResources.INSTANCE.algebra_new_parametric()));
-		actual.add(curveLabel = new Label(app.getPlain("CurveCartesian")));
+		actual.add(curveLabel = new Label(loc.getMenu("CurveCartesian")));
 		actual.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent ce) {
@@ -851,12 +851,12 @@ public class InputTreeItem extends MathQuillTreeItem
 	public void setLabels() {
 		editor.resetLanguage();
 		if (dummyLabel != null) {
-			dummyLabel.setText(app.getPlain("InputLabel") + Unicode.ellipsis);
+			dummyLabel.setText(loc.getMenu("InputLabel") + Unicode.ellipsis);
 		}
 		if (piecewiseLabel != null) {
-			piecewiseLabel.setText(app.getPlain("PiecewiseFunction"));
-			curveLabel.setText(app.getPlain("CurveCartesian"));
-			matrixLabel.setText(app.getMenu("Matrix"));
+			piecewiseLabel.setText(loc.getMenu("PiecewiseFunction"));
+			curveLabel.setText(loc.getMenu("CurveCartesian"));
+			matrixLabel.setText(loc.getMenu("Matrix"));
 		}
 	}
 

@@ -197,14 +197,14 @@ public class TableSymbols {
 	public final static String[] getTranslatedFunctions(App app) {
 
 		StringBuilder sb = new StringBuilder();
-
+		Localization loc = app.getLocalization();
 		String[] ret = new String[functions.length];
 		for (int i = 0; i < functions.length; i++) {
 			String[] strs = functions[i].split("\\(");
 
 			String functionName = strs[0].trim();
-			String translatedFunctionName = app.getPlain("Function."
-					+ functionName);
+			String translatedFunctionName = loc
+					.getMenu("Function." + functionName);
 			if (translatedFunctionName.startsWith("Function.")) {
 				// translation not supported for this function
 				ret[i] = functions[i];
@@ -231,7 +231,7 @@ public class TableSymbols {
 	public final static String[][] getTranslatedFunctionsGrouped(App app) {
 
 		StringBuilder sb = new StringBuilder();
-
+		Localization loc = app.getLocalization();
 		String[][] ret = new String[functionsGrouped.length][];
 		for (int i = 0; i < functionsGrouped.length; i++) {
 
@@ -241,8 +241,8 @@ public class TableSymbols {
 
 				String[] strs = functionsGrouped[i][j].split("\\(");
 				String functionName = strs[0].trim();
-				String translatedFunctionName = app.getPlain("Function."
-						+ functionName);
+				String translatedFunctionName = loc
+						.getMenu("Function." + functionName);
 				if (translatedFunctionName.startsWith("Function.")) {
 					// translation not supported for this function
 					ret[i][j] = functionsGrouped[i][j];

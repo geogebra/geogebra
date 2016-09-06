@@ -37,9 +37,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		OptionType ot = OptionType.EUCLIDIAN;
 		if (ev.getEuclidianViewNo() == 2) {
 			ot = OptionType.EUCLIDIAN2;
-			setTitle(app.getPlain("DrawingPad2"));
+			setTitle(loc.getMenu("DrawingPad2"));
 		} else {
-			setTitle(app.getPlain("DrawingPad"));
+			setTitle(loc.getMenu("DrawingPad"));
 		}
 
 		addAxesAndGridCheckBoxes();
@@ -51,13 +51,14 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW(app, false);
 		addAxesRatioItems(yaxisMenu);
 
-		MenuItem mi = new MenuItem(app.getPlain("xAxis") + " : "
-		        + app.getPlain("yAxis"), true, (MenuBar) yaxisMenu);
+		MenuItem mi = new MenuItem(
+				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
+				(MenuBar) yaxisMenu);
 		mi.addStyleName("mi_no_image");
 		wrappedPopup.addItem(mi);
 
 		MenuItem miShowAllObjectsView = new MenuItem(
-		        app.getPlain("ShowAllObjects"), new Command() {
+				loc.getMenu("ShowAllObjects"), new Command() {
 
 			        public void execute() {
 				        setViewShowAllObject();
@@ -67,7 +68,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		miShowAllObjectsView.addStyleName("mi_no_image");
 		wrappedPopup.addItem(miShowAllObjectsView);
 
-		MenuItem miStandardView = new MenuItem(app.getPlain("StandardView"),
+		MenuItem miStandardView = new MenuItem(loc.getMenu("StandardView"),
 		        new Command() {
 
 			        public void execute() {
@@ -99,7 +100,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	protected void addMiProperties(String name, final OptionType type) {
 		MenuItem miProperties = new MenuItem(MainMenu.getMenuBarHtml(
 		        AppResources.INSTANCE.view_properties16().getSafeUri()
-		                .asString(), app.getPlain(name) + " ..."), true,
+						.asString(),
+				loc.getMenu(name) + " ..."), true,
 		        new Command() {
 
 			        public void execute() {

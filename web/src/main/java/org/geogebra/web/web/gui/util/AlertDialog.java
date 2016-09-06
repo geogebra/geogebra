@@ -36,7 +36,7 @@ public class AlertDialog extends DialogBoxW {
 		textPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		textPanel.add(msg = new Label(""));
 		HorizontalPanel buttonPanel = new HorizontalPanel();
-		buttonPanel.add(ok = new Button(app.getPlain("OK")));
+		buttonPanel.add(ok = new Button(app.getLocalization().getMenu("OK")));
 		buttonPanel.addStyleName("buttonPanel");
 		final AlertDialog _this = this;
 		ok.addClickHandler(new ClickHandler() {

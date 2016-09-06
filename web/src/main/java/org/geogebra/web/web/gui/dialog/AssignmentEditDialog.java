@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.GeoAssignment;
@@ -38,6 +39,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 	private VerticalPanel mainWidget;
 	private FlowPanel bottomWidget;
 	private ExerciseBuilderDialog exerciseBuilderDialog;
+	private Localization loc;
 
 	/**
 	 * @param app
@@ -54,6 +56,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 		super(false, false, null, ((AppW) app).getPanel());
 
 		this.app = (AppW) app;
+		this.loc = app.getLocalization();
 		this.assignment = assignment;
 		this.exerciseBuilderDialog = exerciseBuilderDialog;
 		this.exerciseBuilderDialog.setVisible(false);
@@ -62,7 +65,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 
 	private void createGUI() {
 
-		getCaption().setText(app.getMenu("Assignment.Edit"));
+		getCaption().setText(loc.getMenu("Assignment.Edit"));
 
 		setWidget(mainWidget = new VerticalPanel());
 
@@ -78,11 +81,11 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 		hintsAndFractiosforResult = new FlexTable();
 
 		hintsAndFractiosforResult.setWidget(0, 0,
-				new Label(app.getPlain("Result.Exercise")));
+				new Label(loc.getMenu("Result.Exercise")));
 		hintsAndFractiosforResult.setWidget(0, 1,
-				new Label(app.getPlain("Hint")));
+				new Label(loc.getMenu("Hint")));
 		hintsAndFractiosforResult.setWidget(0, 2,
-				new Label(app.getPlain("Fraction")));
+				new Label(loc.getMenu("Fraction")));
 
 		createHintsAndFractionsTable();
 
@@ -96,7 +99,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 		mainWidget.add(bottomWidget = new FlowPanel());
 		bottomWidget.setStyleName("DialogButtonPanel");
 
-		btApply = new Button(app.getPlain("Apply"));
+		btApply = new Button(loc.getMenu("Apply"));
 		btApply.addClickHandler(this);
 		btApply.getElement().getStyle().setMargin(3, Style.Unit.PX);
 

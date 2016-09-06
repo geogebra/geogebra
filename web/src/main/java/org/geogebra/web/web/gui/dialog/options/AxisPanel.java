@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.AxisModel;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -48,6 +49,8 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 	private AppW app;
 	protected EuclidianView view;
+
+	private Localization loc;
 	
 	
 	/******************************************************
@@ -58,16 +61,17 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	public AxisPanel(AppW app, EuclidianView view, int axis, boolean view3D) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.view = view;
 		model = new AxisModel(app, view, axis, this);
 
 		this.addStyleName("axisPanel");
 		
 		String strAxisEn = model.getAxisName();
-		//		this.setBorder(LayoutUtil.titleBorder(app.getPlain(strAxisEn)));
+		// this.setBorder(LayoutUtil.titleBorder(loc.getMenu(strAxisEn)));
 
 		// show axis
-		cbShowAxis = new CheckBox(app.getPlain("Show" + strAxisEn));
+		cbShowAxis = new CheckBox(loc.getMenu("Show" + strAxisEn));
 		cbShowAxis.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
@@ -75,7 +79,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 			}});
 
 		// show numbers
-		cbAxisNumber = new CheckBox(app.getPlain("ShowAxisNumbers"));
+		cbAxisNumber = new CheckBox(loc.getMenu("ShowAxisNumbers"));
 		cbAxisNumber.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
@@ -83,7 +87,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 			}});
 
 		// show positive axis only
-		cbPositiveAxis = new CheckBox(app.getPlain("PositiveDirectionOnly"));
+		cbPositiveAxis = new CheckBox(loc.getMenu("PositiveDirectionOnly"));
 		cbPositiveAxis.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
@@ -92,7 +96,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 			}});
 
 		// allow axis selection
-		cbAllowSelection = new CheckBox(app.getPlain("SelectionAllowed"));
+		cbAllowSelection = new CheckBox(loc.getMenu("SelectionAllowed"));
 		cbAllowSelection.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -101,7 +105,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		});
 
 		// ticks
-		axisTicks = new Label(app.getPlain("AxisTicks") + ":");
+		axisTicks = new Label(loc.getMenu("AxisTicks") + ":");
 		lbTickStyle = new ListBox();
 
 		model.fillTicksCombo();
@@ -120,7 +124,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		showTicksPanel.add(lbTickStyle);
 
 		// distance
-		cbManualTicks = new CheckBox(app.getPlain("TickDistance") + ":");
+		cbManualTicks = new CheckBox(loc.getMenu("TickDistance") + ":");
 		cbManualTicks.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
@@ -158,8 +162,8 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		comboAxisLabel.setEnabled(true);
         model.fillAxisCombo();
 		
-        axisLabel = new Label(app.getPlain("AxisLabel") + ":");
-		axisUnitLabel = new Label(app.getPlain("AxisUnitLabel") + ":");
+		axisLabel = new Label(loc.getMenu("AxisLabel") + ":");
+		axisUnitLabel = new Label(loc.getMenu("AxisUnitLabel") + ":");
 		comboUnitLabel = new ComboBoxW(app) {
 
 			@Override
@@ -202,8 +206,8 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 			}	
 		});
 
-		crossAt = new Label(app.getPlain("CrossAt") + ":");
-		cbDrawAtBorder = new CheckBox(app.getPlain("StickToEdge"));
+		crossAt = new Label(loc.getMenu("CrossAt") + ":");
+		cbDrawAtBorder = new CheckBox(loc.getMenu("StickToEdge"));
 		cbDrawAtBorder.addClickHandler(new ClickHandler(){
 
 			public void onClick(ClickEvent event) {
@@ -283,18 +287,18 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 	public void setLabels() {
 		String strAxisEn = model.getAxisName();
-		//		this.setBorder(LayoutUtil.titleBorder(app.getPlain(strAxisEn)));
+		// this.setBorder(LayoutUtil.titleBorder(loc.getMenu(strAxisEn)));
 		//		this.setBorder(LayoutUtil.titleBorder(null));
-		cbShowAxis.setText(app.getPlain("Show" + strAxisEn));
-		cbAxisNumber.setText(app.getPlain("ShowAxisNumbers"));
-		cbManualTicks.setText(app.getPlain("TickDistance") + ":");
-		axisTicks.setText(app.getPlain("AxisTicks") + ":");
-		cbPositiveAxis.setText(app.getPlain("PositiveDirectionOnly"));
-		axisLabel.setText(app.getPlain("AxisLabel") + ":");
-		axisUnitLabel.setText(app.getPlain("AxisUnitLabel") + ":");
-		crossAt.setText(app.getPlain("CrossAt") + ":");
-		cbDrawAtBorder.setText(app.getPlain("StickToEdge"));
-		cbAllowSelection.setText(app.getPlain("SelectionAllowed"));
+		cbShowAxis.setText(loc.getMenu("Show" + strAxisEn));
+		cbAxisNumber.setText(loc.getMenu("ShowAxisNumbers"));
+		cbManualTicks.setText(loc.getMenu("TickDistance") + ":");
+		axisTicks.setText(loc.getMenu("AxisTicks") + ":");
+		cbPositiveAxis.setText(loc.getMenu("PositiveDirectionOnly"));
+		axisLabel.setText(loc.getMenu("AxisLabel") + ":");
+		axisUnitLabel.setText(loc.getMenu("AxisUnitLabel") + ":");
+		crossAt.setText(loc.getMenu("CrossAt") + ":");
+		cbDrawAtBorder.setText(loc.getMenu("StickToEdge"));
+		cbAllowSelection.setText(loc.getMenu("SelectionAllowed"));
 	}
 
 	protected double parseDouble(String text) {

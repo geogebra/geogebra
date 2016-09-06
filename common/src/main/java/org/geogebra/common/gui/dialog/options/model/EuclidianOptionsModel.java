@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Unicode;
@@ -543,8 +544,9 @@ public class EuclidianOptionsModel {
 	}
 
 	public void fillTooltipCombo() {
-		String[] tooltipItems = new String[] { app.getPlain("On"),
-				app.getPlain("Automatic"), app.getPlain("Off") };
+		Localization loc = app.getLocalization();
+		String[] tooltipItems = new String[] { loc.getMenu("On"),
+				loc.getMenu("Automatic"), loc.getMenu("Off") };
 		for (String item: tooltipItems) {
 			listener.addTooltipItem(item);
 		}

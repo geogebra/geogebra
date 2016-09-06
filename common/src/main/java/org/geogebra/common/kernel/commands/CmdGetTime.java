@@ -54,9 +54,9 @@ public class CmdGetTime extends CommandProcessor {
 			GeoNumeric date1 = new GeoNumeric(cons, cal.getDate());
 			GeoNumeric ms1 = new GeoNumeric(cons, cal.getTime() % 1000);
 
-			monthStr1.setTextString(app.getPlain("Month." + m));
+			monthStr1.setTextString(loc.getMenu("Month." + m));
 
-			dayStr1.setTextString(app.getPlain("Day." + d));
+			dayStr1.setTextString(loc.getMenu("Day." + d));
 			GeoList list = new GeoList(cons);
 			list.setLabel(c.getLabel());
 

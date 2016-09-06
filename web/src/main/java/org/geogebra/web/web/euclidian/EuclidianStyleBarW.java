@@ -125,6 +125,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private PopupMenuButton[] popupBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
+	private Localization loc;
 
 
 	/**
@@ -135,7 +136,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 */
 	public EuclidianStyleBarW(EuclidianView ev, int viewID) {
 		super((AppW) ev.getApplication(), viewID);
-
+		this.loc = ev.getApplication().getLocalization();
 		isIniting = true;
 		this.ev = ev;
 		ec = ev.getEuclidianController();
@@ -638,8 +639,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	private void createPointCaptureBtn() {
 		ImageOrText[] strPointCapturing = ImageOrText.convert(new String[] {
-		        app.getMenu("Labeling.automatic"), app.getMenu("SnapToGrid"),
-		        app.getMenu("FixedToGrid"), app.getMenu("off") });
+				loc.getMenu("Labeling.automatic"), loc.getMenu("SnapToGrid"),
+				loc.getMenu("FixedToGrid"), loc.getMenu("off") });
 
 		btnPointCapture = new PopupMenuButton(app, strPointCapturing, -1, 1,
 		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
@@ -669,12 +670,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
     private void createLabelStyleBtn() {
 		ImageOrText[] captionArray = ImageOrText.convert(new String[] {
-		        app.getPlain("stylebar.Hidden"), // index
+				loc.getMenu("stylebar.Hidden"), // index
 		        // 4
-		        app.getPlain("Name"), // index 0
-		        app.getPlain("NameAndValue"), // index 1
-		        app.getPlain("Value"), // index 2
-		        app.getPlain("Caption") // index 3
+				loc.getMenu("Name"), // index 0
+				loc.getMenu("NameAndValue"), // index 1
+				loc.getMenu("Value"), // index 2
+				loc.getMenu("Caption") // index 3
 		        });
 
 		btnLabelStyle = new PopupMenuButton(app, captionArray, -1, 1,
@@ -811,9 +812,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						}
 
 						if (hasFillable)
-							setTitle(app.getPlain("stylebar.ColorTransparency"));
+							setTitle(loc.getMenu("stylebar.ColorTransparency"));
 						else
-							setTitle(app.getPlain("stylebar.Color"));
+							setTitle(loc.getMenu("stylebar.Color"));
 						setSliderVisible(hasFillable);
 
 						setSliderValue(Math.round(alpha * 100));
@@ -946,7 +947,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextBoldBtn() {
-		btnBold = new MyToggleButton2(app.getMenu("Bold.Short")) {
+		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short")) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -1008,7 +1009,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextItalicBtn() {
-		btnItalic = new MyToggleButton2(app.getMenu("Italic.Short")) {
+		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short")) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -1334,16 +1335,16 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// set labels for popups
 		this.btnPointCapture.getMyTable().updateText(
 		        ImageOrText.convert(new String[] {
-		                app.getMenu("Labeling.automatic"),
-		                app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
-		                app.getMenu("off") }));
+						loc.getMenu("Labeling.automatic"),
+						loc.getMenu("SnapToGrid"), loc.getMenu("FixedToGrid"),
+						loc.getMenu("off") }));
 		this.btnLabelStyle.getMyTable().updateText(
 		        ImageOrText.convert(new String[] {
-		                app.getPlain("stylebar.Hidden"), // index 4
-		                app.getPlain("Name"), // index 0
-		                app.getPlain("NameAndValue"), // index 1
-		                app.getPlain("Value"), // index 2
-		                app.getPlain("Caption") // index 3
+						loc.getMenu("stylebar.Hidden"), // index 4
+						loc.getMenu("Name"), // index 0
+						loc.getMenu("NameAndValue"), // index 1
+						loc.getMenu("Value"), // index 2
+						loc.getMenu("Caption") // index 3
 		                }));
 
 		String[] angleIntervalArray = new String[GeoAngle.INTERVAL_MIN.length - 1];
@@ -1362,10 +1363,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		                        .getFontSizeStrings()));
 
 		// set labels for buttons with text e.g. button "bold" or "italic"
-		this.btnBold.getDownFace().setText(app.getMenu("Bold.Short"));
-		this.btnItalic.getDownFace().setText(app.getMenu("Italic.Short"));
-		this.btnBold.getUpFace().setText(app.getMenu("Bold.Short"));
-		this.btnItalic.getUpFace().setText(app.getMenu("Italic.Short"));
+		this.btnBold.getDownFace().setText(loc.getMenu("Bold.Short"));
+		this.btnItalic.getDownFace().setText(loc.getMenu("Italic.Short"));
+		this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
+		this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
 		// set labels for ToolTips
 		setToolTips();
 	}

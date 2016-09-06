@@ -51,8 +51,10 @@ public class JsScript extends Script {
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new ScriptError(app.getPlain(update ? "OnUpdate" : "OnClick")
-					+ " " + label + ":\n" + app.getPlain("ErrorInJavaScript")
+			throw new ScriptError(app.getLocalization()
+					.getMenu(update ? "OnUpdate" : "OnClick")
+					+ " " + label + ":\n"
+					+ app.getLocalization().getMenu("ErrorInJavaScript")
 					+ "\n" + e.getLocalizedMessage());
 		}
 	}

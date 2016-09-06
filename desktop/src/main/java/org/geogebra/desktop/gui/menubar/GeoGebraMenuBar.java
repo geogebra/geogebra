@@ -676,7 +676,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 					sb.append(scanner.nextLine() + NL);
 				}
 			} catch (FileNotFoundException e) {
-				app.showMessage(app.getPlain("CannotOpenLogFile"));
+				app.showMessage(
+						app.getLocalization().getMenu("CannotOpenLogFile"));
 			} finally {
 				if (scanner != null)
 					scanner.close();

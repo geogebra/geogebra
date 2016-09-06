@@ -285,7 +285,7 @@ public class WinFileManager extends FileManager {
 	
 	public void export(final AppW app) {
 		final String title1 = app.getExportTitle();
-		app.getGgbApi().showTooltip(app.getPlain("Saving"));
+		app.getGgbApi().showTooltip(app.getLocalization().getMenu("Saving"));
 		final StringHandler onFileDialogClosed = new StringHandler() {
 
 			@Override

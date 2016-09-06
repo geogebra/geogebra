@@ -218,7 +218,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
 		InputDialogW id = new InputDialogW((AppW) app, app.getLocalization().getPlain("NewNameForA", geo.getNameDescription()),
-				app.getPlain("Rename"), initText, false, handler, false, selectInitText, null);
+				loc.getMenu("Rename"), initText, false, handler, false,
+				selectInitText, null);
 
 		id.setVisible(true);
 	}
@@ -536,7 +537,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
-		return new TextInputDialogW(app, app.getPlain("Text"), text,
+		return new TextInputDialogW(app, loc.getMenu("Text"), text,
 				startPoint, rw, 30,
 	        6, app.getMode() == EuclidianConstants.MODE_TEXT);
 	}

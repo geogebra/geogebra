@@ -131,7 +131,8 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		for (ViewType view : Views.getAll()) {
 			if (app.supportsView(view.getID())
 					&& !app.getGuiManager().showView(view.getID())) {
-				data[k] = new ImageOrText(app.getPlain(view.getKey()));
+				data[k] = new ImageOrText(
+						app.getLocalization().getMenu(view.getKey()));
 				data[k].setUrl(ImgResourceHelper.safeURI(view.getIcon()));
 				data[k].setBgSize(GLookAndFeel.VIEW_ICON_SIZE);
 				viewIDs[k] = view.getID();

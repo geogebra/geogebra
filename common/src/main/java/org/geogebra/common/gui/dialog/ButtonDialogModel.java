@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.plugin.script.Script;
@@ -97,7 +98,8 @@ public class ButtonDialogModel {
 	}
 
 	public String getTitle() {
-		return textField ? app.getPlain("TextField") : app.getPlain("Button");
+		Localization loc = app.getLocalization();
+		return textField ? loc.getMenu("TextField") : loc.getMenu("Button");
 	}
 
 	public String getInitString() {

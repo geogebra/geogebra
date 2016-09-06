@@ -588,7 +588,7 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			decoLabel.setText(app.getPlain("Decoration") + ":");
+			decoLabel.setText(loc.getMenu("Decoration") + ":");
 
 		}
 
@@ -665,7 +665,7 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			decoLabel.setText(app.getPlain("Decoration") + ":");
+			decoLabel.setText(loc.getMenu("Decoration") + ":");
 
 		}
 
@@ -1295,7 +1295,7 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			label.setText(app.getPlain("LevelOfDetail"));
+			label.setText(loc.getMenu("LevelOfDetail"));
 
 			int idx = combo.getSelectedIndex();
 			combo.clear();
@@ -1553,7 +1553,7 @@ public class OptionsTab extends FlowPanel {
 		}
 
 		public AnimationSpeedPanelW(AnimationSpeedModel m, AppW app) {
-			super(app.getLocalization(), app.getPlain("AnimationSpeed"));
+			super(app.getLocalization(), loc.getMenu("AnimationSpeed"));
 			this.app = app;
 			m.setListener(this);
 			setModel(m);
@@ -1611,8 +1611,8 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setLabels() {
 			super.setLabels();
-			getLabel().setText(app.getPlain("AnimationSpeed") + ":");
-			modeLabel.setText(app.getPlain("Repeat") + ": ");
+			getLabel().setText(loc.getMenu("AnimationSpeed") + ":");
+			modeLabel.setText(loc.getMenu("Repeat") + ": ");
 		}
 
 		public void setText(String text) {
