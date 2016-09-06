@@ -50,6 +50,7 @@ public abstract class DialogManager {
 	protected String defaultAngle = Unicode.FORTY_FIVE_DEGREES;
 
 	protected App app;
+	protected Localization loc;
 
 	private Object oldString;
 
@@ -65,6 +66,7 @@ public abstract class DialogManager {
 
 	public DialogManager(App app) {
 		this.app = app;
+		this.loc = app.getLocalization();
 
 	}
 

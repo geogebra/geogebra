@@ -35,6 +35,7 @@ public class DialogManagerMinimal extends DialogManager {
 	 */
 	public DialogManagerMinimal(App app) {
 		this.app = app;
+		this.loc = app.getLocalization();
 
 	}
 

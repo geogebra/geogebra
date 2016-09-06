@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.AngleTextField;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -64,10 +65,12 @@ public class SliderPanel extends JPanel implements ActionListener,
 	private boolean actionPerforming;
 
 	private boolean widthUnit = false;
+	private final Localization loc;
 
 	public SliderPanel(AppD app, PropertiesPanelD propPanel,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		kernel = app.getKernel();
 		model = new SliderModel(app, this);
 		this.propPanel = propPanel;
@@ -142,9 +145,9 @@ public class SliderPanel extends JPanel implements ActionListener,
 			setLayout(new FlowLayout());
 			JTabbedPane tabbedPane = new JTabbedPane();
 			tabbedPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-			tabbedPane.addTab(app.getPlain("Interval"), intervalPanel);
+			tabbedPane.addTab(loc.getMenu("Interval"), intervalPanel);
 			tabbedPane.addTab(app.getMenu("Slider"), sliderPanel);
-			tabbedPane.addTab(app.getPlain("Animation"), animationPanel);
+			tabbedPane.addTab(loc.getMenu("Animation"), animationPanel);
 			add(tabbedPane);
 		} else { // no tabs
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -165,11 +168,11 @@ public class SliderPanel extends JPanel implements ActionListener,
 	public void setLabels() {
 		initPanels();
 
-		cbSliderFixed.setText(app.getPlain("fixed"));
-		cbRandom.setText(app.getPlain("Random"));
+		cbSliderFixed.setText(loc.getMenu("fixed"));
+		cbRandom.setText(loc.getMenu("Random"));
 
-		String[] comboStr = { app.getPlain("horizontal"),
-				app.getPlain("vertical") };
+		String[] comboStr = { loc.getMenu("horizontal"),
+				loc.getMenu("vertical") };
 
 		int selectedIndex = coSliderHorizontal.getSelectedIndex();
 		coSliderHorizontal.removeActionListener(this);
@@ -182,9 +185,9 @@ public class SliderPanel extends JPanel implements ActionListener,
 		coSliderHorizontal.setSelectedIndex(selectedIndex);
 		coSliderHorizontal.addActionListener(this);
 
-		tLabels[0].setText(app.getPlain("min") + ":");
-		tLabels[1].setText(app.getPlain("max") + ":");
-		tLabels[2].setText(app.getPlain("Width") + ":");
+		tLabels[0].setText(loc.getMenu("min") + ":");
+		tLabels[1].setText(loc.getMenu("max") + ":");
+		tLabels[2].setText(loc.getMenu("Width") + ":");
 
 		model.setLabelForWidthUnit();
 

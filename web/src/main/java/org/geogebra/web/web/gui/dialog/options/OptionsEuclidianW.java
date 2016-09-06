@@ -16,6 +16,7 @@ import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMax
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -67,6 +68,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	private GridTab gridTab;
 	ListBox lbTooltips;
 	private boolean isIniting;
+	protected Localization loc;
 	
 	protected abstract class EuclidianTab extends FlowPanel implements SetLabels {
 		
@@ -287,22 +289,22 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			axesOptionsTitle = new Label();
 			axesOptionsTitle.setStyleName("panelTitle");
 			// show axes checkbox
-			cbShowAxes = new CheckBox(app.getPlain("ShowAxes"));
+			cbShowAxes = new CheckBox(loc.getMenu("ShowAxes"));
 
 			// show bold checkbox
-			cbBoldAxes = new CheckBox(app.getPlain("Bold"));
+			cbBoldAxes = new CheckBox(loc.getMenu("Bold"));
 
 			// axes color
 			colorLabel = new Label(app.getMenu("Color") + ":");
 
-			lblAxisLabelStyle = new Label(app.getPlain("LabelStyle"));
+			lblAxisLabelStyle = new Label(loc.getMenu("LabelStyle"));
 			// show axis label bold checkbox
-			cbAxisLabelBold = new CheckBox(app.getPlain("Bold"));
+			cbAxisLabelBold = new CheckBox(loc.getMenu("Bold"));
 
 			cbAxisLabelSerif = new CheckBox(app.getMenu("Serif"));
 
 			// show axis label italic checkbox
-			cbAxisLabelItalic = new CheckBox(app.getPlain("Italic"));
+			cbAxisLabelItalic = new CheckBox(loc.getMenu("Italic"));
 
 			btAxesColor = new MyCJButton();
 			
@@ -345,7 +347,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
                 }});
 			
 			// axes style
-			lineStyle = new Label(app.getPlain("LineStyle") + ":");
+			lineStyle = new Label(loc.getMenu("LineStyle") + ":");
 			final ImageOrText[] iconArray = new ImageOrText[EuclidianOptionsModel.getAxesStyleLength()];
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon
@@ -521,7 +523,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			miscTitle = new Label();
 			miscTitle.setStyleName("panelTitle");
 			// background color panel
-			backgroundColorLabel = new Label(app.getPlain("BackgroundColor") + ":");
+			backgroundColorLabel = new Label(
+					loc.getMenu("BackgroundColor") + ":");
 	
 			btBackgroundColor = new MyCJButton();
 
@@ -529,7 +532,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbShowMouseCoords = new CheckBox();
 
 			// show tooltips
-			tooltips = new Label(app.getPlain("Tooltips") + ":");
+			tooltips = new Label(loc.getMenu("Tooltips") + ":");
 			lbTooltips = new ListBox();
 			model.fillTooltipCombo();
 			
@@ -604,23 +607,23 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 
 		public void setLabels() {
-			dimTitle.setText(app.getPlain("Dimensions"));
+			dimTitle.setText(loc.getMenu("Dimensions"));
 			
-			dimLabel[0].setText(app.getPlain("xmin") + ":");
-			dimLabel[1].setText(app.getPlain("xmax") + ":");
-			dimLabel[2].setText(app.getPlain("ymin") + ":");
-			dimLabel[3].setText(app.getPlain("ymax") + ":");
-			axesRatioLabel.setText(app.getPlain("xAxis") + " : "
-					+ app.getPlain("yAxis"));
+			dimLabel[0].setText(loc.getMenu("xmin") + ":");
+			dimLabel[1].setText(loc.getMenu("xmax") + ":");
+			dimLabel[2].setText(loc.getMenu("ymin") + ":");
+			dimLabel[3].setText(loc.getMenu("ymax") + ":");
+			axesRatioLabel.setText(
+					loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"));
 			
 			axesOptionsTitle.setText(app.getMenu("Axes"));
-			cbShowAxes.setText(app.getPlain("ShowAxes"));
-			cbBoldAxes.setText(app.getPlain("Bold"));
+			cbShowAxes.setText(loc.getMenu("ShowAxes"));
+			cbBoldAxes.setText(loc.getMenu("Bold"));
 			colorLabel.setText(app.getMenu("Color") + ":");
-			lineStyle.setText(app.getPlain("LineStyle") + ":");
+			lineStyle.setText(loc.getMenu("LineStyle") + ":");
 
-			miscTitle.setText(app.getPlain("Miscellaneous"));
-			backgroundColorLabel.setText(app.getPlain("BackgroundColor") + ":");
+			miscTitle.setText(loc.getMenu("Miscellaneous"));
+			backgroundColorLabel.setText(loc.getMenu("BackgroundColor") + ":");
 			int index = lbTooltips.getSelectedIndex();
 			lbTooltips.clear();
 			model.fillTooltipCombo();
@@ -630,14 +633,15 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			consProtocolTitle.setText(app
 				.getPlain("ConstructionProtocolNavigation"));
 			
-			cbShowNavbar.setText(app.getPlain("Show"));
-			cbNavPlay.setText(app.getPlain("PlayButton"));
-			cbOpenConsProtocol.setText(app.getPlain("ConstructionProtocolButton"));
+			cbShowNavbar.setText(loc.getMenu("Show"));
+			cbNavPlay.setText(loc.getMenu("PlayButton"));
+			cbOpenConsProtocol
+					.setText(loc.getMenu("ConstructionProtocolButton"));
 			
-			lblAxisLabelStyle.setText(app.getPlain("LabelStyle"));
+			lblAxisLabelStyle.setText(loc.getMenu("LabelStyle"));
 			cbAxisLabelSerif.setText(app.getMenu("Serif"));
-			cbAxisLabelBold.setText(app.getPlain("Bold"));
-			cbAxisLabelItalic.setText(app.getPlain("Italic"));
+			cbAxisLabelBold.setText(loc.getMenu("Bold"));
+			cbAxisLabelItalic.setText(loc.getMenu("Italic"));
 
 		}
 
@@ -998,7 +1002,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 
 		public void setLabels() {
-	        cbShowGrid.setText(app.getPlain("ShowGrid"));
+			cbShowGrid.setText(loc.getMenu("ShowGrid"));
 	        int idx = lbGridType.getSelectedIndex();
 	        setGridTypeLabel();
 	        lbGridType.clear();
@@ -1009,14 +1013,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	        lbGridTickAngle.clear();
 	        model.fillAngleOptions();
 	        lbGridTickAngle.setSelectedIndex(idx);
-			cbGridManualTick.setText(app.getPlain("TickDistance") + ":");
-			lblGridStyle.setText(app.getPlain("LineStyle"));
+			cbGridManualTick.setText(loc.getMenu("TickDistance") + ":");
+			lblGridStyle.setText(loc.getMenu("LineStyle"));
 			lblColor.setText(app.getMenu("Color") + ":");
 			cbBoldGrid.setText(app.getMenu("Bold"));
 		}
 		
 		protected void setGridTypeLabel(){
-			lblGridType.setText(app.getPlain("GridType"));
+			lblGridType.setText(loc.getMenu("GridType"));
 		}
 
 		public void addGridTypeItem(String item) {
@@ -1088,6 +1092,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
             EuclidianViewInterfaceCommon activeEuclidianView) {
 		isIniting = true;
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.view = (EuclidianView) activeEuclidianView;
 		model = new EuclidianOptionsModel(app, view, this);
 		initGUI();
@@ -1192,16 +1197,16 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			MultiRowsTabBar tabBar = (MultiRowsTabBar) tabBar2;
 
 			tabBar.setTabText(0, app.getMenu("Properties.Basic"));
-			tabBar.setTabText(1, app.getPlain("xAxis"));
-			tabBar.setTabText(2, app.getPlain("yAxis"));
+			tabBar.setTabText(1, loc.getMenu("xAxis"));
+			tabBar.setTabText(2, loc.getMenu("yAxis"));
 			tabBar.setTabText(gridIndex, app.getMenu("Grid"));
 
 		} else {
 			TabBar tabBar = (TabBar) tabBar2;
 
 			tabBar.setTabText(0, app.getMenu("Properties.Basic"));
-			tabBar.setTabText(1, app.getPlain("xAxis"));
-			tabBar.setTabText(2, app.getPlain("yAxis"));
+			tabBar.setTabText(1, loc.getMenu("xAxis"));
+			tabBar.setTabText(2, loc.getMenu("yAxis"));
 			tabBar.setTabText(gridIndex, app.getMenu("Grid"));
 		}
 

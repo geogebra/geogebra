@@ -88,7 +88,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 	private void updateSortMode() {
 		sortMode.clear();
 		for (SortMode mode : supportedModes) {
-			sortMode.addItem(app.getPlain(mode.toString()));
+			sortMode.addItem(app.getLocalization().getMenu(mode.toString()));
 		}
 
 		SortMode selectedMode = app.getAlgebraView().getTreeMode();

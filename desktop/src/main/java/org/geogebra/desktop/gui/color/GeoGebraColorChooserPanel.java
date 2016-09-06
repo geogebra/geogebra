@@ -322,7 +322,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 			// show the chooser dialog
 			JDialog dialog = JColorChooser.createDialog(app.getMainComponent(),
-					app.getPlain("ChooseColor"), true, chooser,
+					app.getLocalization().getMenu("ChooseColor"), true, chooser,
 					okActionListener, null);
 			dialog.setVisible(true);
 

@@ -166,7 +166,7 @@ public class OptionsAlgebraD extends OptionsAlgebra
 		sortMode.removeAllItems();
 
 		for (SortMode mode : supportedModes) {
-			sortMode.addItem(app.getPlain(mode.toString()));
+			sortMode.addItem(app.getLocalization().getMenu(mode.toString()));
 		}
 
 		SortMode selectedMode = app.getAlgebraView().getTreeMode();

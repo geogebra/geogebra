@@ -212,7 +212,8 @@ class TextOptionsPanel extends JPanel implements ActionListener,
 			if (isCustom) {
 				final String percentStr = JOptionPane.showInputDialog(
 						this.propertiesPanelD.app.getFrame(),
-						this.propertiesPanelD.app.getPlain("EnterPercentage"),
+						this.propertiesPanelD.app.getLocalization()
+								.getMenu("EnterPercentage"),
 						Math.round(model.getTextPropertiesAt(0)
 								.getFontSizeMultiplier() * 100) + "%");
 

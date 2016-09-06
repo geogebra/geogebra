@@ -83,7 +83,8 @@ public class Relation {
 			final String relInfo = relInfos[i].replace("\n", "<br>");
 			// First information shown (result of numerical checks):
 			rr[i].info = "<html>" + relInfo + "<br>"
-					+ app.getPlain("CheckedNumerically") + "</html>";
+					+ app.getLocalization().getMenu("CheckedNumerically")
+					+ "</html>";
 			final RelationCommand relAlgo = relAlgos[i];
 
 			RelationMore rm = new RelationMore() {
@@ -99,7 +100,7 @@ public class Relation {
 					if (result != null && !result) {
 						// Prove==false
 						rel.info += relInfo + "<br><b>"
-								+ app.getPlain("ButNotGenerallyTrue") + "</b>";
+								+ loc.getMenu("ButNotGenerallyTrue") + "</b>";
 						app.setDefaultCursor();
 					} else {
 						// We don't show the second information unless
@@ -122,18 +123,18 @@ public class Relation {
 								if (result != null && result) {
 									// Using Prove's result (since ProveDetails
 									// couldn't find any interesting):
-									rel.info += app.getPlain("GenerallyTrue");
+									rel.info += loc.getMenu("GenerallyTrue");
 								} else {
 									// Prove==ProveDetails==undefined
-									rel.info += app
-											.getPlain("PossiblyGenerallyTrue");
+									rel.info += loc
+											.getMenu("PossiblyGenerallyTrue");
 								}
 							} else if ("1".equals(ndgResult[0])) {
 								// ProveDetails=={true}
-								rel.info += app.getPlain("AlwaysTrue");
+								rel.info += loc.getMenu("AlwaysTrue");
 							} else { // "0"
 								Log.error("Internal error in prover: Prove==true <-> ProveDetails==false");
-								rel.info += app.getPlain("ButNotGenerallyTrue");
+								rel.info += loc.getMenu("ButNotGenerallyTrue");
 							}
 							rel.info += "</b>";
 						} else {

@@ -68,9 +68,9 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		if (ev.getEuclidianViewNo() == 2) {
-			setTitle("<html>" + app.getPlain("DrawingPad2") + "</html>");
+			setTitle("<html>" + loc.getMenu("DrawingPad2") + "</html>");
 		} else {
-			setTitle("<html>" + app.getPlain("DrawingPad") + "</html>");
+			setTitle("<html>" + loc.getMenu("DrawingPad") + "</html>");
 		}
 
 		addAxesAndGridCheckBoxes();
@@ -81,8 +81,8 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		addZoomMenu(ev);
 
 		// zoom for y-axis
-		JMenu yaxisMenu = new JMenu(app.getPlain("xAxis") + " : "
-				+ app.getPlain("yAxis"));
+		JMenu yaxisMenu = new JMenu(
+				loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"));
 		yaxisMenu.setIcon(app.getEmptyIcon());
 		yaxisMenu.setBackground(wrappedPopup.getBackground());
 		addAxesRatioItems(yaxisMenu);
@@ -146,7 +146,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	 */
 	protected JMenuItem addShowAllObjectsView(AppD app) {
 		JMenuItem miShowAllObjectsView = new JMenuItem(
-				app.getPlain("ShowAllObjects"));
+				loc.getMenu("ShowAllObjects"));
 		miShowAllObjectsView.setIcon(app.getEmptyIcon());
 		miShowAllObjectsView.setActionCommand("showAllObjects");
 		miShowAllObjectsView.addActionListener(this);
@@ -162,7 +162,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	 * @return menu item
 	 */
 	protected JMenuItem addStandardViewItem() {
-		JMenuItem miStandardView = new JMenuItem(app.getPlain("StandardView"));
+		JMenuItem miStandardView = new JMenuItem(loc.getMenu("StandardView"));
 		setMenuShortCutAccelerator(miStandardView, 'M');
 		miStandardView.setIcon(((AppD) app).getEmptyIcon());
 		miStandardView.setActionCommand("standardView");
@@ -178,7 +178,8 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	}
 
 	protected void addMiProperties() {
-		JMenuItem miProperties = new JMenuItem(app.getPlain("DrawingPad")
+		JMenuItem miProperties = new JMenuItem(
+				loc.getMenu("DrawingPad")
 				+ " ...");
 		miProperties
 .setIcon(((AppD) app)

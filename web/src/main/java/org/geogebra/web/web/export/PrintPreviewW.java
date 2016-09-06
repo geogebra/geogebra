@@ -2,6 +2,7 @@ package org.geogebra.web.web.export;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -35,6 +36,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	ListBox m_cbView;
 	FlowPanel printPanel;
 	private SimplePanel scalePanelHolder;
+	private Localization loc;
 	/**
 	 * printable width at portrait orientation
 	 */
@@ -56,10 +58,11 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	public PrintPreviewW(AppW appl) {
 		super(appl.getPanel());
 		app = appl;
+		this.loc = app.getLocalization();
 		createGUI();
 		addStyleName("GeoGebraPopup");
 		setGlassEnabled(true);
-		getCaption().setText(app.getMenu("PrintPreview"));
+		getCaption().setText(loc.getMenu("PrintPreview"));
 		center();
 	}
 
@@ -75,12 +78,12 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 
 		FlowPanel centerPanel = new FlowPanel();
 
-		btPrint = new Button(app.getPlain("Print"));
+		btPrint = new Button(loc.getMenu("Print"));
 		btPrint.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btPrint.addClickHandler(this);
 		btPrint.setEnabled(false);
 
-		btCancel = new Button(app.getPlain("Cancel"));
+		btCancel = new Button(loc.getMenu("Cancel"));
 		btCancel.addStyleName("cancelBtn");
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
@@ -89,30 +92,30 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 
 		// app.forEachView(new App.ViewCallback() {
 		// public void run(int viewID, String viewName) {
-		// m_cbView.addItem(app.getPlain(viewName), viewID + "");
+		// m_cbView.addItem(loc.getMenu(viewName), viewID + "");
 		// }
 		// });
 
 
 		// We can print EVs yet
 		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
-			m_cbView.addItem(app.getPlain("DrawingPad"), App.VIEW_EUCLIDIAN
+			m_cbView.addItem(loc.getMenu("DrawingPad"), App.VIEW_EUCLIDIAN
 					+ "");
 		}
 		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
-			m_cbView.addItem(app.getPlain("DrawingPad2"), App.VIEW_EUCLIDIAN2
+			m_cbView.addItem(loc.getMenu("DrawingPad2"), App.VIEW_EUCLIDIAN2
 					+ "");
 		}
 		if (app.has(Feature.WEB_PRINT_ALGEBRA_VIEW)) {
 			if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
-				m_cbView.addItem(app.getPlain("AlgebraWindow"), App.VIEW_ALGEBRA
+				m_cbView.addItem(loc.getMenu("AlgebraWindow"), App.VIEW_ALGEBRA
 						+ "");
 			}
 		}
 
 		if (app.has(Feature.WEB_PRINT_CP_VIEW)) {
 			if (app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-				m_cbView.addItem(app.getPlain("ConstructionProtocol"),
+				m_cbView.addItem(loc.getMenu("ConstructionProtocol"),
 						App.VIEW_CONSTRUCTION_PROTOCOL + "");
 			}
 		}
@@ -127,9 +130,9 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 			DockPanelW focusedPanel = ((GuiManagerW) app.getGuiManager())
 					.getLayout().getDockManager().getFocusedPanel();
 			if (focusedPanel == null) {
-				m_cbView.setItemSelected(0, true); // setSelectedItem(app.getPlain("AllViews"));
+				m_cbView.setItemSelected(0, true); // setSelectedItem(loc.getMenu("AllViews"));
 			} else {
-				String title = app.getPlain(focusedPanel.getViewTitle());
+				String title = loc.getMenu(focusedPanel.getViewTitle());
 				int index = m_cbView.getItemCount() - 1;
 				while (!m_cbView.getValue(index).equals(title) && index != 0) {
 					index--;

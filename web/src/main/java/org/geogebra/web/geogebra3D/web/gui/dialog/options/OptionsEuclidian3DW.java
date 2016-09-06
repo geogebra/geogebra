@@ -253,18 +253,18 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		public void setLabels() {
 			super.setLabels();
 
-			cbYAxisVertical.setText(app.getPlain("YAxisVertical"));
+			cbYAxisVertical.setText(loc.getMenu("YAxisVertical"));
 
-			cbUseLight.setText(app.getPlain("UseLighting"));
+			cbUseLight.setText(loc.getMenu("UseLighting"));
 
-			clippingOptionsTitle.setText(app.getPlain("Clipping"));
-			cbUseClipping.setText(app.getPlain("UseClipping"));
-			cbShowClipping.setText(app.getPlain("ShowClipping"));
+			clippingOptionsTitle.setText(loc.getMenu("Clipping"));
+			cbUseClipping.setText(loc.getMenu("UseClipping"));
+			cbShowClipping.setText(loc.getMenu("ShowClipping"));
 
-			boxSizeTitle.setText(app.getPlain("BoxSize"));
-			radioClippingSmall.setText(app.getPlain("BoxSize.small"));
-			radioClippingMedium.setText(app.getPlain("BoxSize.medium"));
-			radioClippingLarge.setText(app.getPlain("BoxSize.large"));
+			boxSizeTitle.setText(loc.getMenu("BoxSize"));
+			radioClippingSmall.setText(loc.getMenu("BoxSize.small"));
+			radioClippingMedium.setText(loc.getMenu("BoxSize.medium"));
+			radioClippingLarge.setText(loc.getMenu("BoxSize.large"));
 		}
 
 	}
@@ -291,7 +291,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		}
 
 		protected void setGridTypeLabel() {
-			lblGridType.setText(app.getPlain("GridType") + " : "
+			lblGridType.setText(loc.getMenu("GridType") + " : "
 			        + app.getMenu("Cartesian"));
 		}
 	}
@@ -430,7 +430,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					processGlassesEyeSepText();
 				}
 			});
-			cbGlassesGray = new CheckBox(app.getPlain("GrayScale"));
+			cbGlassesGray = new CheckBox(loc.getMenu("GrayScale"));
 			cbGlassesGray.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -440,7 +440,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					view.repaintView();
 				}
 			});
-			cbGlassesShutDownGreen = new CheckBox(app.getPlain("ShutDownGreen"));
+			cbGlassesShutDownGreen = new CheckBox(loc.getMenu("ShutDownGreen"));
 			cbGlassesShutDownGreen.addClickHandler(new ClickHandler() {
 
 				@Override
@@ -594,19 +594,19 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		@Override
 		public void setLabels() {
-			orthoTitle.setText(app.getPlain("Orthographic"));
+			orthoTitle.setText(loc.getMenu("Orthographic"));
 
-			perspTitle.setText(app.getPlain("Perspective"));
+			perspTitle.setText(loc.getMenu("Perspective"));
 			tfPerspLabel
-			        .setText(app.getPlain(app.getPlain("EyeDistance") + ":"));
+					.setText(loc.getMenu(loc.getMenu("EyeDistance") + ":"));
 
-			glassesTitle.setText(app.getPlain("Glasses"));
-			tfGlassesLabel.setText(app.getPlain("EyesSeparation") + ":");
-			cbGlassesGray.setText(app.getPlain("GrayScale"));
-			cbGlassesShutDownGreen.setText(app.getPlain("ShutDownGreen"));
+			glassesTitle.setText(loc.getMenu("Glasses"));
+			tfGlassesLabel.setText(loc.getMenu("EyesSeparation") + ":");
+			cbGlassesGray.setText(loc.getMenu("GrayScale"));
+			cbGlassesShutDownGreen.setText(loc.getMenu("ShutDownGreen"));
 
-			obliqueTitle.setText(app.getPlain("Oblique"));
-			tfObliqueAngleLabel.setText(app.getPlain("Angle") + ":");
+			obliqueTitle.setText(loc.getMenu("Oblique"));
+			tfObliqueAngleLabel.setText(loc.getMenu("Angle") + ":");
 			tfObliqueFactorLabel.setText(app.getMenu("Dilate.Factor") + ":");
 
 		}
@@ -664,20 +664,20 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 			super.setLabels(tabBar, 4);
 
-			tabBar.setTabText(3, app.getPlain("zAxis"));
+			tabBar.setTabText(3, loc.getMenu("zAxis"));
 			zAxisTab.setLabels();
 
-			tabBar.setTabText(5, app.getPlain("Projection"));
+			tabBar.setTabText(5, loc.getMenu("Projection"));
 
 		} else { // old code
 			TabBar tabBar = ((MyTabPanel) tabPanel).getTabBar();
 
 			super.setLabels(tabBar, 4);
 
-			tabBar.setTabText(3, app.getPlain("zAxis"));
+			tabBar.setTabText(3, loc.getMenu("zAxis"));
 			zAxisTab.setLabels();
 
-			tabBar.setTabText(5, app.getPlain("Projection"));
+			tabBar.setTabText(5, loc.getMenu("Projection"));
 
 		}
 		projectionTab.setLabels();

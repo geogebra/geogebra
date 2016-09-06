@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * panel for animation speed
@@ -40,9 +41,11 @@ public class AnimationSpeedPanel extends JPanel implements ActionListener,
 	private JLabel modeLabel, speedLabel;
 	private AppD app;
 	private Kernel kernel;
+	private LocalizationD loc;
 
 	public AnimationSpeedPanel(AppD app) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 
 		model = new AnimationSpeedModel(app);
@@ -74,8 +77,8 @@ public class AnimationSpeedPanel extends JPanel implements ActionListener,
 	}
 
 	public void setLabels() {
-		modeLabel.setText(app.getPlain("Repeat") + ": ");
-		speedLabel.setText(app.getPlain("AnimationSpeed") + ": ");
+		modeLabel.setText(loc.getMenu("Repeat") + ": ");
+		speedLabel.setText(loc.getMenu("AnimationSpeed") + ": ");
 
 		int selectedIndex = animationModeCB.getSelectedIndex();
 		animationModeCB.removeActionListener(this);

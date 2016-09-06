@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -46,10 +47,12 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	String sharingKey = "";
 	private TextBox recipient;
 	private TextArea message;
+	private Localization loc;
 
 	public ShareDialogW(final AppW app) {
 		super(app.getPanel());
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.setGlassEnabled(true);
 		if (app.getActiveMaterial() != null
 				&& app.getActiveMaterial().getSharingKey() != null) {
@@ -66,9 +69,9 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		tabPanel = new TabLayoutPanel(30, Unit.PX);
 		tabPanel.addStyleName("GeoGebraTabLayout");
 
-		tabPanel.add(getLinkPanel(), app.getPlain("Link"));
-		tabPanel.add(getEmailPanel(), app.getPlain("Email"));
-		// tabPanel.add(getImagePanel(), app.getPlain("Image"));
+		tabPanel.add(getLinkPanel(), loc.getMenu("Link"));
+		tabPanel.add(getEmailPanel(), loc.getMenu("Email"));
+		// tabPanel.add(getImagePanel(), loc.getMenu("Image"));
 		tabPanel.selectTab(0);
 
 		return tabPanel;
@@ -82,7 +85,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		linkPanel.add(getIconPanel());
 		linkPanel.add(getCopyLinkPanel());
 
-		btCancel = new Button(app.getPlain("Cancel"));
+		btCancel = new Button(loc.getMenu("Cancel"));
 		// btCancel.getElement().setAttribute("action", "Cancel");
 		btCancel.addClickHandler(this);
 		btCancel.addStyleName("cancelBtn");
@@ -238,7 +241,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		copyLinkPanel = new HorizontalPanel();
 		copyLinkPanel.addStyleName("GeoGebraCopyLinkPanel");
 
-		// Label lblLink = new Label(app.getPlain("Link") + ": ");
+		// Label lblLink = new Label(loc.getMenu("Link") + ": ");
 
 		final TextBox link = new TextBox();
 		link.setValue(GeoGebraConstants.TUBE_URL_SHORT + sharingKey);
@@ -276,13 +279,15 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		emailPanel = new VerticalPanel();
 		emailPanel.addStyleName("GeoGebraEmailPanel");
 
-		Label lblRecipient = new Label(app.getPlain("share_recipient") + ":");
+		Label lblRecipient = new Label(loc.getMenu("share_recipient") + ":");
 		recipient = new TextBox();
-		recipient.getElement().setPropertyString("placeholder", app.getPlain("share_to"));
+		recipient.getElement().setPropertyString("placeholder",
+				loc.getMenu("share_to"));
 
-		Label lblMessage = new Label(app.getPlain("share_message") + ":");
+		Label lblMessage = new Label(loc.getMenu("share_message") + ":");
 		message = new TextArea();
-		message.getElement().setPropertyString("placeholder", app.getPlain("share_message_text"));
+		message.getElement().setPropertyString("placeholder",
+				loc.getMenu("share_message_text"));
 		message.setVisibleLines(3);
 
 		emailPanel.add(lblRecipient);
@@ -290,7 +295,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		emailPanel.add(lblMessage);
 		emailPanel.add(message);
 
-		btSendMail = new Button(app.getPlain("Send"));
+		btSendMail = new Button(loc.getMenu("Send"));
 		// btSendMail.getElement().setAttribute("action", "OK");
 		btSendMail.addClickHandler(this);
 

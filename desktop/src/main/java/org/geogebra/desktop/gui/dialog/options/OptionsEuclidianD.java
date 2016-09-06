@@ -63,6 +63,7 @@ import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
@@ -151,6 +152,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	private JPanel wrappedPanel;
 
+	private LocalizationD loc;
+
 	// private JButton restoreDefaultsButton;
 
 	/***********************************************
@@ -163,6 +166,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 		isIniting = true;
 		this.app = app;
+		this.loc = app.getLocalization();
 		kernel = app.getKernel();
 		this.view = view;
 		model = new EuclidianOptionsModel(app, view, this);
@@ -312,36 +316,36 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	protected void initAxesOptionsPanel() {
 
 		// show axes checkbox
-		cbShowAxes = new JCheckBox(app.getPlain("ShowAxes"));
+		cbShowAxes = new JCheckBox(loc.getMenu("ShowAxes"));
 
 		// show bold checkbox
-		cbBoldAxes = new JCheckBox(app.getPlain("Bold"));
+		cbBoldAxes = new JCheckBox(loc.getMenu("Bold"));
 
 		// show axis label bold checkbox
-		cbAxisLabelBold = new JCheckBox(app.getPlain("Bold"));
+		cbAxisLabelBold = new JCheckBox(loc.getMenu("Bold"));
 
 		// show axis label serif checkbox
-		cbAxisLabelSerif = new JCheckBox(app.getMenu("Serif"));
+		cbAxisLabelSerif = new JCheckBox(loc.getMenu("Serif"));
 
 		// show axis label bold checkbox
-		cbAxisLabelItalic = new JCheckBox(app.getPlain("Italic"));
+		cbAxisLabelItalic = new JCheckBox(loc.getMenu("Italic"));
 
 		cbAxisLabelBold.addActionListener(this);
 		cbAxisLabelSerif.addActionListener(this);
 		cbAxisLabelItalic.addActionListener(this);
 
 		// axes color
-		color = new JLabel(app.getMenu("Color") + ":");
+		color = new JLabel(loc.getMenu("Color") + ":");
 		color.setLabelFor(btAxesColor);
 		btAxesColor = new JButton("\u2588");
 		btAxesColor.addActionListener(this);
 
 		// axes style
-		lineStyle = new JLabel(app.getPlain("LineStyle") + ":");
+		lineStyle = new JLabel(loc.getMenu("LineStyle") + ":");
 		lineStyle.setLabelFor(cbAxesStyle);
 
 		// axes font style
-		lblAxisLabelStyle = new JLabel(app.getPlain("LabelStyle") + ":");
+		lblAxisLabelStyle = new JLabel(loc.getMenu("LabelStyle") + ":");
 
 		AxesStyleListRenderer renderer = new AxesStyleListRenderer();
 		cbAxesStyle = new JComboBox(EuclidianStyleConstants.lineStyleOptions);
@@ -349,9 +353,9 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		cbAxesStyle.setMaximumRowCount(AxesStyleListRenderer.MAX_ROW_COUNT);
 		// cbAxesStyle.setBackground(getBackground());
 
-		// cbAxesStyle.addItem("\u2014" + " " + app.getPlain("Bold")); // bold
+		// cbAxesStyle.addItem("\u2014" + " " + loc.getMenu("Bold")); // bold
 		// line
-		// cbAxesStyle.addItem("\u2192" + " " + app.getPlain("Bold")); // bold
+		// cbAxesStyle.addItem("\u2192" + " " + loc.getMenu("Bold")); // bold
 		// arrow
 
 		/*
@@ -387,7 +391,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	protected void initMiscPanel() {
 
 		// background color panel
-		backgroundColor = new JLabel(app.getPlain("BackgroundColor") + ":");
+		backgroundColor = new JLabel(loc.getMenu("BackgroundColor") + ":");
 		backgroundColor.setLabelFor(btBackgroundColor);
 		btBackgroundColor = new JButton("\u2588");
 		btBackgroundColor.addActionListener(this);
@@ -397,7 +401,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		cbShowMouseCoords.addActionListener(this);
 
 		// show tooltips
-		tooltips = new JLabel(app.getPlain("Tooltips") + ":");
+		tooltips = new JLabel(loc.getMenu("Tooltips") + ":");
 		cbTooltips = new JComboBox();
 		model.fillTooltipCombo();
 		cbTooltips.addActionListener(this);
@@ -449,7 +453,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 		// tick intervals
 
-		cbGridManualTick = new JCheckBox(app.getPlain("TickDistance") + ":");
+		cbGridManualTick = new JCheckBox(loc.getMenu("TickDistance") + ":");
 		ncbGridTickX = new NumberComboBox(app);
 		ncbGridTickY = new NumberComboBox(app);
 
@@ -497,11 +501,11 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		cbGridStyle.addActionListener(this);
 
 		// color
-		lblColor = new JLabel(app.getMenu("Color") + ":");
+		lblColor = new JLabel(loc.getMenu("Color") + ":");
 		lblColor.setLabelFor(btGridColor);
 
 		// bold
-		cbBoldGrid = new JCheckBox(app.getMenu("Bold"));
+		cbBoldGrid = new JCheckBox(loc.getMenu("Bold"));
 		cbBoldGrid.addActionListener(this);
 
 		// style panel
@@ -516,7 +520,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	private JPanel buildGridPanel() {
 
 		// show grid
-		cbShowGrid = new JCheckBox(app.getPlain("ShowGrid"));
+		cbShowGrid = new JCheckBox(loc.getMenu("ShowGrid"));
 		cbShowGrid.addActionListener(this);
 		JPanel showGridPanel = LayoutUtil.flowPanel(cbShowGrid);
 
@@ -645,7 +649,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	}
 
 	protected void setTypePanelLabel() {
-		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")));
+		typePanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("GridType")));
 	}
 
 	public void setLabels() {
@@ -658,30 +662,30 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		cbGridType.setSelectedIndex(index);
 		cbGridType.addActionListener(this);
 
-		cbGridManualTick.setText(app.getPlain("TickDistance") + ":");
-		stylePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("LineStyle")));
+		cbGridManualTick.setText(loc.getMenu("TickDistance") + ":");
+		stylePanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("LineStyle")));
 
 		// color
-		lblColor.setText(app.getMenu("Color") + ":");
-		cbBoldGrid.setText(app.getMenu("Bold"));
+		lblColor.setText(loc.getMenu("Color") + ":");
+		cbBoldGrid.setText(loc.getMenu("Bold"));
 
 		// TODO --- finish set labels
-		cbShowGrid.setText(app.getPlain("ShowGrid"));
+		cbShowGrid.setText(loc.getMenu("ShowGrid"));
 
 		// tab titles
 		setTabLabels();
 
 		// window dimension panel
-		dimLabel[0].setText(app.getPlain("xmin") + ":");
-		dimLabel[1].setText(app.getPlain("xmax") + ":");
-		dimLabel[2].setText(app.getPlain("ymin") + ":");
-		dimLabel[3].setText(app.getPlain("ymax") + ":");
-		axesRatioLabel.setText(app.getPlain("xAxis") + " : "
-				+ app.getPlain("yAxis"));
+		dimLabel[0].setText(loc.getMenu("xmin") + ":");
+		dimLabel[1].setText(loc.getMenu("xmax") + ":");
+		dimLabel[2].setText(loc.getMenu("ymin") + ":");
+		dimLabel[3].setText(loc.getMenu("ymax") + ":");
+		axesRatioLabel
+				.setText(loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"));
 
 		setLabelsForCbView();
 
-		cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
+		cbShowMouseCoords.setText(loc.getMenu("ShowMouseCoordinates"));
 
 		// axis
 		xAxisPanel.setLabels();
@@ -690,33 +694,33 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		// construction protocol panel
 		consProtocolPanel.setBorder(LayoutUtil.titleBorder(app
 				.getPlain("ConstructionProtocolNavigation")));
-		ckShowNavbar.setText(app.getPlain("Show"));
-		ckNavPlay.setText(app.getPlain("PlayButton"));
-		ckOpenConsProtocol.setText(app.getPlain("ConstructionProtocolButton"));
+		ckShowNavbar.setText(loc.getMenu("Show"));
+		ckNavPlay.setText(loc.getMenu("PlayButton"));
+		ckOpenConsProtocol.setText(loc.getMenu("ConstructionProtocolButton"));
 
 		/*
 		 * if (!app.isApplet())
-		 * restoreDefaultsButton.setText(app.getMenu("ApplyDefaults"));
+		 * restoreDefaultsButton.setText(loc.getMenu("ApplyDefaults"));
 		 */
 	}
 
 	protected void setTabLabels() {
-		tabbedPane.setTitleAt(0, app.getMenu("Properties.Basic"));
-		tabbedPane.setTitleAt(1, app.getPlain("xAxis"));
-		tabbedPane.setTitleAt(2, app.getPlain("yAxis"));
-		tabbedPane.setTitleAt(3, app.getMenu("Grid"));
+		tabbedPane.setTitleAt(0, loc.getMenu("Properties.Basic"));
+		tabbedPane.setTitleAt(1, loc.getMenu("xAxis"));
+		tabbedPane.setTitleAt(2, loc.getMenu("yAxis"));
+		tabbedPane.setTitleAt(3, loc.getMenu("Grid"));
 
 		app.setComponentOrientation(tabbedPane);
 	}
 
 	protected void setLabelsForCbView() {
 
-		backgroundColor.setText(app.getPlain("BackgroundColor") + ":");
-		cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
-		tooltips.setText(app.getPlain("Tooltips") + ":");
+		backgroundColor.setText(loc.getMenu("BackgroundColor") + ":");
+		cbShowMouseCoords.setText(loc.getMenu("ShowMouseCoordinates"));
+		tooltips.setText(loc.getMenu("Tooltips") + ":");
 
-		color.setText(app.getMenu("Color") + ":");
-		lineStyle.setText(app.getPlain("LineStyle") + ":");
+		color.setText(loc.getMenu("Color") + ":");
+		lineStyle.setText(loc.getMenu("LineStyle") + ":");
 
 		int index = cbTooltips.getSelectedIndex();
 		cbTooltips.removeActionListener(this);
@@ -725,18 +729,18 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		cbTooltips.setSelectedIndex(index);
 		cbTooltips.addActionListener(this);
 
-		dimPanel.setBorder(LayoutUtil.titleBorder(app.getPlain("Dimensions")));
-		axesOptionsPanel.setBorder(LayoutUtil.titleBorder(app.getMenu("Axes")));
+		dimPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Dimensions")));
+		axesOptionsPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Axes")));
 		miscPanel.setBorder(LayoutUtil.titleBorder(app
 				.getPlain("Miscellaneous")));
 
-		cbShowAxes.setText(app.getPlain("ShowAxes"));
-		cbBoldAxes.setText(app.getPlain("Bold"));
+		cbShowAxes.setText(loc.getMenu("ShowAxes"));
+		cbBoldAxes.setText(loc.getMenu("Bold"));
 
-		lblAxisLabelStyle.setText(app.getPlain("LabelStyle"));
-		cbAxisLabelBold.setText(app.getPlain("Bold"));
-		cbAxisLabelSerif.setText(app.getMenu("Serif"));
-		cbAxisLabelItalic.setText(app.getPlain("Italic"));
+		lblAxisLabelStyle.setText(loc.getMenu("LabelStyle"));
+		cbAxisLabelBold.setText(loc.getMenu("Bold"));
+		cbAxisLabelSerif.setText(loc.getMenu("Serif"));
+		cbAxisLabelItalic.setText(loc.getMenu("Italic"));
 	}
 
 	public void actionPerformed(ActionEvent e) {

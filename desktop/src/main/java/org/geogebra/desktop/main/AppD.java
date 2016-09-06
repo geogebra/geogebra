@@ -2609,8 +2609,7 @@ ToolbarD.getAllTools(this));
 	 *            key (for plain) to be localized
 	 */
 	public void showHelp(String key) {
-		final String text = getPlain(key); // Michael Borcherds changed to use
-		// getPlain() and removed try/catch
+		final String text = loc.getMenu(key);
 
 		JOptionPane.showConfirmDialog(mainComp, text,
 				GeoGebraConstants.APPLICATION_NAME + " - " + getMenu("Help"),

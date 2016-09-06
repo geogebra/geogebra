@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.desktop.gui.properties.SliderPanel;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * Dialog for slider creation
@@ -62,6 +63,7 @@ public class SliderDialogD extends JDialog implements ActionListener,
 	private GeoElement geoResult;
 	private GeoNumeric number;
 	private GeoAngle angle;
+	private LocalizationD loc;
 
 	/**
 	 * Creates a dialog to create a new GeoNumeric for a slider.
@@ -76,6 +78,7 @@ public class SliderDialogD extends JDialog implements ActionListener,
 	public SliderDialogD(AppD app, int x, int y) {
 		super(app.getFrame(), false);
 		this.app = app;
+		this.loc = app.getLocalization();
 		addWindowListener(this);
 
 		// create temp geos that may be returned as result
@@ -101,16 +104,16 @@ public class SliderDialogD extends JDialog implements ActionListener,
 	}
 
 	private void createGUI() {
-		setTitle(app.getPlain("Slider"));
+		setTitle(loc.getMenu("Slider"));
 		setResizable(false);
 
 		// Create components to be displayed
 
 		// radio buttons for number or angle
 		ButtonGroup bg = new ButtonGroup();
-		rbNumber = new JRadioButton(app.getPlain("Numeric"));
-		rbAngle = new JRadioButton(app.getPlain("Angle"));
-		rbInteger = new JRadioButton(app.getPlain("Integer"));
+		rbNumber = new JRadioButton(loc.getMenu("Numeric"));
+		rbAngle = new JRadioButton(loc.getMenu("Angle"));
+		rbInteger = new JRadioButton(loc.getMenu("Integer"));
 		rbNumber.addActionListener(this);
 		rbAngle.addActionListener(this);
 		rbInteger.addActionListener(this);
@@ -131,11 +134,11 @@ public class SliderDialogD extends JDialog implements ActionListener,
 		tfLabel = new InputPanelD(number.getDefaultLabel(), app, 1, 10, true);
 		tfLabel.getTextComponent().addKeyListener(this);
 		Border border = BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder(app.getPlain("Name")),
+				BorderFactory.createTitledBorder(loc.getMenu("Name")),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		tfLabel.setBorder(border);
 
-		cbRandom = new JCheckBox(app.getPlain("Random"));
+		cbRandom = new JCheckBox(loc.getMenu("Random"));
 
 		// put together label textfield and radioPanel
 		JPanel topPanel = new JPanel();
@@ -153,10 +156,10 @@ public class SliderDialogD extends JDialog implements ActionListener,
 		slPanel.add(sliderPanel.updatePanel(geos), BorderLayout.CENTER);
 
 		// buttons
-		btOK = new JButton(app.getPlain("OK"));
+		btOK = new JButton(loc.getMenu("OK"));
 		btOK.setActionCommand("OK");
 		btOK.addActionListener(this);
-		btCancel = new JButton(app.getPlain("Cancel"));
+		btCancel = new JButton(loc.getMenu("Cancel"));
 		btCancel.setActionCommand("Cancel");
 		btCancel.addActionListener(this);
 		JPanel btPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

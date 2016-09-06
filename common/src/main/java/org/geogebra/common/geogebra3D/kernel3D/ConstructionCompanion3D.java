@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
-import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 
 public class ConstructionCompanion3D extends ConstructionCompanion {
 
@@ -109,10 +109,10 @@ public class ConstructionCompanion3D extends ConstructionCompanion {
 		geoTable.remove(xOyPlaneLocalName);
 		geoTable.remove(spaceLocalName);
 
-		App app = cons.getKernel().getApplication();
-		zAxis3DLocalName = app.getPlain("zAxis");
-		xOyPlaneLocalName = app.getPlain("xOyPlane");
-		spaceLocalName = app.getPlain("space");
+		Localization app = cons.getKernel().getLocalization();
+		zAxis3DLocalName = app.getMenu("zAxis");
+		xOyPlaneLocalName = app.getMenu("xOyPlane");
+		spaceLocalName = app.getMenu("space");
 
 		geoTable.put(zAxis3DLocalName, zAxis3D);
 		geoTable.put(xOyPlaneLocalName, xOyPlane);

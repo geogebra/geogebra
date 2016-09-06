@@ -36,7 +36,7 @@ public class SignInDialogD extends WebViewDialog {
 	}
 
 	private void createGUI() {
-		setTitle(app.getPlain("SignInToGGT"));
+		setTitle(app.getLocalization().getMenu("SignInToGGT"));
 		setResizable(true);
 		getContentPane().setPreferredSize(new Dimension(500, 270));
 

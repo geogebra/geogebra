@@ -362,7 +362,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 							headerTitle = title;
 						}
 						sb.append(SafeHtmlUtils.fromSafeConstant("<div>"
-								+ app.getPlain(headerTitle) + "</div>"));
+								+ app.getLocalization().getMenu(headerTitle)
+								+ "</div>"));
 					}
 
 					tb.addColumn(col, sb.toSafeHtml());

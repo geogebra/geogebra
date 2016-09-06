@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.kernel.prover.AlgoProveDetails;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
@@ -322,9 +323,9 @@ public class Construction {
 		geoTable.remove(xAxisLocalName);
 		geoTable.remove(yAxisLocalName);
 
-		App app = kernel.getApplication();
-		xAxisLocalName = app.getPlain("xAxis");
-		yAxisLocalName = app.getPlain("yAxis");
+		Localization app = kernel.getLocalization();
+		xAxisLocalName = app.getMenu("xAxis");
+		yAxisLocalName = app.getMenu("yAxis");
 		geoTable.put(xAxisLocalName, xAxis);
 		geoTable.put(yAxisLocalName, yAxis);
 

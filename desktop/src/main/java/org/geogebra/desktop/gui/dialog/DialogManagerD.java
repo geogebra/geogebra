@@ -211,13 +211,13 @@ public class DialogManagerD extends DialogManager {
 																		// for
 																		// <b>Segment
 																		// a</b>
-				"</html>", app.getPlain("Rename"), initText, false, handler,
+				"</html>", loc.getMenu("Rename"), initText, false, handler,
 				false, selectInitText, null);
 
 		/*
 		 * InputDialog id = new InputDialog( this, "<html>" +
-		 * app.getPlain("NewName") + " " + app.getPlain("for") + " <b>" +
-		 * geo.getNameDescription() + "</b></html>", app.getPlain("Rename"),
+		 * loc.getMenu("NewName") + " " + loc.getMenu("for") + " <b>" +
+		 * geo.getNameDescription() + "</b></html>", loc.getMenu("Rename"),
 		 * initText, false, handler, true, selectInitText);
 		 */
 
@@ -242,7 +242,7 @@ public class DialogManagerD extends DialogManager {
 		InputHandler handler = new RedefineInputHandler(app, geo, str);
 
 		InputDialogD id = new InputDialogD(((AppD) app),
-				geo.getNameDescription(), app.getPlain("Redefine"), str, true,
+				geo.getNameDescription(), loc.getMenu("Redefine"), str, true,
 				handler, geo);
 		id.showSymbolTablePopup(true);
 		id.setVisible(true);
@@ -482,9 +482,9 @@ GPoint loc, GeoBoolean bool) {
 
 	@Override
 	public void showLogOutDialog() {
-		Object[] options = { app.getMenu("SignOut"), app.getPlain("Cancel") };
+		Object[] options = { app.getMenu("SignOut"), loc.getMenu("Cancel") };
 		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
-				app.getPlain("ReallySignOut"), app.getPlain("Question"),
+				loc.getMenu("ReallySignOut"), loc.getMenu("Question"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
 				options, options[0]);
 		if (n == 0) {
@@ -678,7 +678,7 @@ GPoint loc, GeoBoolean bool) {
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
 		return new TextInputDialogD(app,
-				app.getPlain("Text"), text, startPoint, rw, 30, 6,
+				loc.getMenu("Text"), text, startPoint, rw, 30, 6,
 				app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
 

@@ -36,6 +36,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * Panel with options for the spreadsheet view. G.Sturr 2010-3-5
@@ -57,12 +58,14 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 	boolean ignoreActions;
 	private JPanel wrappedPanel;
 	private JCheckBox cbShowNavigation;
+	private LocalizationD loc;
 
 	/**
 	 * Creates a new dialog for the properties of the spreadsheet view.
 	 */
 	public OptionsSpreadsheetD(AppD app, SpreadsheetViewD view) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.view = view;
 
 		this.wrappedPanel = new JPanel();
@@ -203,12 +206,12 @@ public class OptionsSpreadsheetD extends OptionsSpreadsheet
 
 	private void updateDescription() {
 		ignoreActions = true;
-		String[] modes = new String[] { app.getPlain("Value"),
-				app.getPlain("Definition"), app.getPlain("Command") };
+		String[] modes = new String[] { loc.getMenu("Value"),
+				loc.getMenu("Definition"), loc.getMenu("Command") };
 		description.removeAllItems();
 
 		for (int i = 0; i < modes.length; i++) {
-			description.addItem(app.getPlain(modes[i]));
+			description.addItem(loc.getMenu(modes[i]));
 		}
 
 		int descMode = app.getKernel().getAlgebraStyleSpreadsheet();
