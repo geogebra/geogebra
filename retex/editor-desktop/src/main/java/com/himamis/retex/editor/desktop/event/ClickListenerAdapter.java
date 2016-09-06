@@ -56,7 +56,7 @@ public class ClickListenerAdapter extends MouseAdapter {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() > 1) {
-			clickListener.onLongPress(0, e.getX(), e.getY());
+			clickListener.onLongPress(e.getX(), e.getY());
 		}
 	}
 }
