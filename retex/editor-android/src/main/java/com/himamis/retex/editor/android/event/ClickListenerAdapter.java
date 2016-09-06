@@ -59,7 +59,7 @@ public class ClickListenerAdapter implements View.OnTouchListener, GestureDetect
 
     @Override
     public void onLongPress(MotionEvent event) {
-        mClickListener.onLongPress(event.getAction(), (int) event.getX(), (int) event.getY());
+        mClickListener.onLongPress((int) event.getX(), (int) event.getY());
     }
 
     @Override

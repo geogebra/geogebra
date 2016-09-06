@@ -280,7 +280,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     }
 
-    public void onLongPress(int action, int x, int y) {
+    public void onLongPress(int x, int y) {
         longPressOccured = true;
         if (!mathFormula.isEmpty()) {
             editorState.selectAll();

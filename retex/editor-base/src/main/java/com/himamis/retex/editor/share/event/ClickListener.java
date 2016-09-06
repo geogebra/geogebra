@@ -33,7 +33,7 @@ public interface ClickListener {
 
 	void onPointerMove(int x, int y);
 
-	void onLongPress(int action, int x, int y);
+	void onLongPress(int x, int y);
 
 	/**
 	 * handle scroll
