@@ -20,6 +20,21 @@ public class KeyboardInputAdapter {
     private static final char minus = '\u2212';
     private static final List<KeyboardAdapter> adapters;
     private static final KeyboardAdapter commandAdapter;
+    private static final String[] allowedCharacterCategories = {
+            Character.DECIMAL_DIGIT_NUMBER,
+            Character.OTHER_NUMBER,
+            Character.LOWERCASE_LETTER,
+            Character.UPPERCASE_LETTER,
+            Character.OTHER_LETTER,
+            Character.OTHER_PUNCTUATION,
+            Character.START_PUNCTUATION,
+            Character.END_PUNCTUATION,
+            Character.MATH_SYMBOL,
+            Character.CONNECTOR_PUNCTUATION,
+            Character.SPACE_SEPARATOR,
+            Character.LETTER_NUMBER,
+            Character.DASH_PUNCTUATION
+    };
 
     static {
         adapters = new ArrayList();
@@ -129,22 +144,10 @@ public class KeyboardInputAdapter {
      * @return true if this char can be handled
      */
     static final public boolean isValidChar(char c) {
-        int type = Character.getType(c);
-        switch (type) {
-            case Character.DECIMAL_DIGIT_NUMBER:
-            case Character.OTHER_NUMBER: // e.g. square
-            case Character.LOWERCASE_LETTER:
-            case Character.UPPERCASE_LETTER:
-            case Character.OTHER_LETTER:
-            case Character.OTHER_PUNCTUATION: // e.g. /
-            case Character.START_PUNCTUATION: // e.g. (
-            case Character.END_PUNCTUATION: // e.g. )
-            case Character.MATH_SYMBOL: // e.g. +
-            case Character.CONNECTOR_PUNCTUATION: //e.g. _
-            case Character.SPACE_SEPARATOR:
-            case Character.LETTER_NUMBER:
-            case Character.DASH_PUNCTUATION:
+        for (int i = 0; i < allowedCharacterCategories.length; i++) {
+            if (Character.charIsTypeOf(c, allowedCharacterCategories[i])) {
                 return true;
+            }
         }
 
         // needs check:
