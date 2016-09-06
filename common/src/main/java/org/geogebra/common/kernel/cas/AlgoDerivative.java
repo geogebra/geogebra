@@ -53,6 +53,8 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            variable (may be null)
 	 * @param order
 	 *            derivative order (may be null)
+	 * @param info
+	 *            evaluation flags
 	 */
 	public AlgoDerivative(Construction cons, String label,
 			CasEvaluableFunction f, GeoNumeric var, GeoNumberValue order,
@@ -74,6 +76,8 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            derivative order (may be null)
 	 * @param fast
 	 *            whether to use CAS
+	 * @param info
+	 *            evaluation flags
 	 */
 	public AlgoDerivative(Construction cons, String label,
 			CasEvaluableFunction f, GeoNumeric var, GeoNumberValue order,
@@ -87,6 +91,8 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            construction
 	 * @param f
 	 *            function
+	 * @param info
+	 *            evaluation flags
 	 */
 	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
 			EvalInfo info) {
@@ -104,6 +110,8 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            derivative order (may be null)
 	 * @param fast
 	 *            true to avoid CAS
+	 * @param info
+	 *            evaluation flags
 	 */
 	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
 			GeoNumeric var, GeoNumberValue order, boolean fast, EvalInfo info) {
@@ -123,6 +131,8 @@ public class AlgoDerivative extends AlgoCasBase {
 	 *            function to derive
 	 * @param fast
 	 *            true to avoid CAS
+	 * @param info
+	 *            evaluation flags
 	 */
 	public AlgoDerivative(Construction cons, CasEvaluableFunction f,
 			boolean fast, EvalInfo info) {
@@ -156,12 +166,13 @@ public class AlgoDerivative extends AlgoCasBase {
 	protected void applyCasCommand(StringTemplate tpl) {
 
 		int orderInt = order == null ? 1 : (int) Math.round(order.getDouble());
-
+		// secret is not the same as fast: preview is fast but not secret
+		boolean secret = getClassName() == Commands.NDerivative;
 		if (f instanceof GeoFunction) {
 
 			Function funDeriv = ((GeoFunction) f).getFunction().getDerivative(
 					orderInt, fast);
-			if (fast) {
+			if (secret) {
 				funDeriv.setSecret(this);
 			}
 			((GeoFunction) g).setFunction(funDeriv);
@@ -172,7 +183,7 @@ public class AlgoDerivative extends AlgoCasBase {
 		if (f instanceof GeoCurveCartesianND) {
 			((GeoCurveCartesianND) g).setDerivative((GeoCurveCartesianND) f,
 					orderInt);
-			for (int i = 0; fast
+			for (int i = 0; secret
 					&& i < ((GeoCurveCartesianND) g).getDimension(); i++) {
 				((GeoCurveCartesianND) g).getFun(i).setSecret(this);
 			}
