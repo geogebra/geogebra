@@ -101,7 +101,7 @@ public class ClickAdapterW
 	}
 
 	public void onDoubleClick(DoubleClickEvent event) {
-		handler.onLongPress(1, event.getX(), event.getY());
+		handler.onLongPress(event.getX(), event.getY());
 		
 	}
 
