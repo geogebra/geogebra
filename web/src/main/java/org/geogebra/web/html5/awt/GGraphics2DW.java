@@ -914,19 +914,21 @@ public class GGraphics2DW implements GGraphics2D {
 			return;
 		try {
 			if (bi.hasCanvas()) {
-				context.drawImage(bi.getCanvas().getCanvasElement(), 0, 0,
+				if (bi.getCanvas().getCoordinateSpaceWidth() > 0) {
+					context.drawImage(bi.getCanvas().getCanvasElement(), 0, 0,
 						bi.getCanvas().getCoordinateSpaceWidth(),
 						bi.getCanvas().getCoordinateSpaceHeight(), x, y,
 						this
 						.getOffsetWidth(), this.getOffsetHeight());
-
+				}
+				// zero width canvas throws error in FF
 			} else {
 				context.drawImage(bi.getImageElement(), 0, 0, bi.getWidth(),
 						bi.getHeight(), x, y, this.getOffsetWidth(),
 						this.getOffsetHeight());
 			}
 		} catch (Exception e) {
-			Log.error("error in context.drawImage method");
+			Log.error("error in context.drawImage.4 method");
 		}
 	}
 
@@ -934,7 +936,7 @@ public class GGraphics2DW implements GGraphics2D {
 		try {
 			context.drawImage(img, x, y);
 		} catch (Exception e) {
-			Log.error("error in context.drawImage method");
+			Log.error("error in context.drawImage.3 method");
 		}
 	}
 
