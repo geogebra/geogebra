@@ -94,7 +94,11 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			}
 		}
 
-		lastCreated = checkShapes(x, y);
+		if (this.expected == ShapeType.polygon) {
+			lastCreated = checkFreehandPolygon(x, y);
+		} else {
+			lastCreated = checkShapes(x, y);
+		}
 
 		if (lastCreated == null) {
 			return;

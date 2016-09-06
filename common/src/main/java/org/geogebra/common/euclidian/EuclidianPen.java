@@ -232,7 +232,7 @@ public class EuclidianPen {
 
 	/**
 	 * use one point as first point of the created shape
-	 * 
+	 *
 	 * @param point
 	 *            start point
 	 * @param deletePoint
@@ -255,7 +255,7 @@ public class EuclidianPen {
 
 	/************************************************
 	 * Construct EuclidianPen
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 * @param view
@@ -306,7 +306,7 @@ public class EuclidianPen {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param e
 	 *            event
 	 * @return Is this MouseEvent an erasing Event.
@@ -317,7 +317,7 @@ public class EuclidianPen {
 
 	/**
 	 * Update the info about last geo so that we can continue a polyline
-	 * 
+	 *
 	 * @param penGeo
 	 *            last object created with pen
 	 */
@@ -343,7 +343,7 @@ public class EuclidianPen {
 
 	/**
 	 * Mouse dragged while in pen mode, decide whether erasing or new points.
-	 * 
+	 *
 	 * @param e
 	 *            mouse event
 	 */
@@ -373,7 +373,7 @@ public class EuclidianPen {
 
 	/**
 	 * add the saved points to the last stroke or create a new one
-	 * 
+	 *
 	 * @param e
 	 *            event
 	 * @param h
@@ -416,7 +416,7 @@ public class EuclidianPen {
 				drawPenPreviewLine(g2D, newPoint, p);
 			}
 			penPoints.add(newPoint);
-		}else {
+		} else {
 			GPoint lastPoint = penPoints.get(penPoints.size() - 1);
 			drawPenPreviewLine(g2D, newPoint, lastPoint);
 			if (lastPoint.distance(newPoint) > 3)
@@ -473,14 +473,14 @@ public class EuclidianPen {
 
 	/**
 	 * Clean up the pen mode stuff, add points.
-	 * 
+	 *
 	 * @param right
 	 *            true for right click
 	 * @param x
 	 *            x-coord
 	 * @param y
 	 *            y-coord
-	 * 
+	 *
 	 */
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y) {
 		if (right && !freehand) {
@@ -531,169 +531,14 @@ public class EuclidianPen {
 		penPoints.add(newPoint);
 		// AbstractApplication.debug(penPoints);
 		// if recognize_shape option is checked
-		brk = new int[5];
-		a = new Inertia();
-		b = new Inertia();
-		c = new Inertia();
-		d = new Inertia();
-		int j = 0;
-		RecoSegment rs = null;
-		Inertia ss = null;
-		RecoSegment temp1 = null;
-		// AbstractApplication.debug(penPoints);
+
+		GeoElement geo = tryPolygon();
+		if (geo != null) {
+			return geo;
+		}
+
 		Inertia s = new Inertia();
 		this.calc_inertia(0, penPoints.size() - 1, s);
-		int n = this.findPolygonal(0, penPoints.size() - 1, MAX_POLYGON_SIDES,
-				0, 0);
-		// AbstractApplication.debug.println(n);
-		if (n > 0) {
-			this.optimize_polygonal(n);
-			while (n + recognizer_queue_length > MAX_POLYGON_SIDES) {
-				j = 1;
-				temp1 = reco_queue_b;
-				while (j < recognizer_queue_length && temp1.startpt != 0) {
-					j++;
-					if (j == 2)
-						temp1 = reco_queue_c;
-					if (j == 3)
-						temp1 = reco_queue_d;
-					if (j == 4)
-						temp1 = reco_queue_e;
-				}
-				recognizer_queue_length = recognizer_queue_length - j;
-				int te1 = 0;
-				int te2 = j;
-				RecoSegment t1 = null;
-				RecoSegment t2 = null;
-				for (int k = 0; k < recognizer_queue_length; ++k) {
-					if (te1 == 0)
-						t1 = reco_queue_a;
-					if (te1 == 1)
-						t1 = reco_queue_b;
-					if (te1 == 2)
-						t1 = reco_queue_c;
-					if (te1 == 3)
-						t1 = reco_queue_d;
-					if (te1 == 4)
-						t1 = reco_queue_e;
-					if (te2 == 0)
-						t2 = reco_queue_a;
-					if (te2 == 1)
-						t2 = reco_queue_b;
-					if (te2 == 2)
-						t2 = reco_queue_c;
-					if (te2 == 3)
-						t2 = reco_queue_d;
-					if (te2 == 4)
-						t2 = reco_queue_e;
-					t1.startpt = t2.startpt;
-					t1.endpt = t2.endpt;
-					t1.xcenter = t2.xcenter;
-					t1.ycenter = t2.ycenter;
-					t1.angle = t2.angle;
-					t1.radius = t2.radius;
-					t1.x1 = t2.x1;
-					t1.x2 = t2.x2;
-					t1.y1 = t2.y2;
-					t1.y2 = t2.y2;
-					t1.reversed = t2.reversed;
-					te1++;
-					te2++;
-				}
-			}
-			int temp_reco = recognizer_queue_length;
-			recognizer_queue_length = recognizer_queue_length + n;
-			for (j = 0; j < n; ++j) {
-				if (temp_reco + j == 0)
-					rs = reco_queue_a;
-				if (temp_reco + j == 1)
-					rs = reco_queue_b;
-				if (temp_reco + j == 2)
-					rs = reco_queue_c;
-				if (temp_reco + j == 3)
-					rs = reco_queue_d;
-				if (temp_reco + j == 4)
-					rs = reco_queue_e;
-				if (j == 0)
-					ss = a;
-				if (j == 1)
-					ss = b;
-				if (j == 2)
-					ss = c;
-				if (j == 3)
-					ss = d;
-				rs.startpt = brk[j];
-				rs.endpt = brk[j + 1];
-				this.get_segment_geometry(brk[j], brk[j + 1], ss, rs);
-			}
-
-			GeoElement geo = try_rectangle();
-			if (geo != null) {
-				recognizer_queue_length = 0;
-				Log.debug("Rectangle Recognized");
-				return geo;
-			}
-			geo = try_arrow();
-			if (geo != null) {
-				recognizer_queue_length = 0;
-				Log.debug("Arrow Recognized");
-				return geo;
-			}
-
-			geo = try_closed_polygon(3);
-			if (geo != null) {
-				recognizer_queue_length = 0;
-				Log.debug("Triangle Recognized");
-				return geo;
-			}
-
-			geo = try_closed_polygon(4);
-			if (geo != null) {
-				recognizer_queue_length = 0;
-				Log.debug("Quadrilateral Recognized");
-				return geo;
-			}
-
-			if (n == 1)// then stroke is a line
-			{
-				Log.debug("Current stroke is a line");
-				if (Math.abs(rs.angle) < SLANT_TOLERANCE) {
-					rs.angle = 0;
-					rs.y1 = rs.y2 = rs.ycenter;
-				}
-				if (Math.abs(rs.angle) > Math.PI / 2 - SLANT_TOLERANCE) {
-					rs.angle = (rs.angle > 0) ? (Math.PI / 2) : (-Math.PI / 2);
-					rs.x1 = rs.x2 = rs.xcenter;
-				}
-				// line1=new Line2D();
-				// System.out.println(penOffsetX);
-				double x_first = view.toRealWorldCoordX(rs.x1);
-				double y_first = view.toRealWorldCoordY(rs.y1);
-				double x_last = view.toRealWorldCoordX(rs.x2);
-				double y_last = view.toRealWorldCoordY(rs.y2);
-				AlgoJoinPointsSegment algo = null;
-
-				GeoPoint p;
-				if (this.initialPoint != null) {
-					p = initialPoint;
-				} else {
-					p = new GeoPoint(app.getKernel().getConstruction(), null,
-							x_first, y_first, 1.0);
-				}
-				GeoPoint q = new GeoPoint(app.getKernel().getConstruction(),
-						null, x_last, y_last, 1.0);
-				algo = new AlgoJoinPointsSegment(app.getKernel()
-						.getConstruction(), null, p, q);
-
-				GeoElement line = algo.getOutput(0);
-				// line.setLineThickness(penSize * 2);
-				// line.setLineType(penLineStyle);
-				// line.setObjColor(penColor);
-				line.updateRepaint();
-
-				return line;
-			}
-		}
 		if (EuclidianPen.I_det(s) > CIRCLE_MIN_DET) {
 			score = this.score_circle(0, penPoints.size() - 1, s);
 			if (score < CIRCLE_MAX_SCORE) {
@@ -721,11 +566,204 @@ public class EuclidianPen {
 			}
 		}
 
+		resetInitialPoint();
+		return makeAConic(); // might return null
+	}
+
+	private void resetInitialPoint() {
 		if (this.deleteInitialPoint && this.initialPoint != null) {
 			this.initialPoint.remove();
 		}
 		this.initialPoint = null;
-		return makeAConic(); // might return null
+	}
+
+	/**
+	 * Used for predicted polygon
+	 * @param x x-coord of new point
+	 * @param y y-coord of new point
+	 * @return {@link GeoElement} if polygon could be created, {@code null} otherwise
+     */
+	public GeoElement checkFreehandPolygon(int x, int y) {
+		count = 0;
+		clearTemporaryInfo();
+		GPoint newPoint = new GPoint(x, y);
+		penPoints.add(newPoint);
+		GeoElement geo = tryPolygon();
+		if (geo == null) {
+			resetInitialPoint();
+			return null;
+		}
+		return geo;
+	}
+
+	/**
+	 * @return {@link GeoElement} if polygon could be created, {@code null} otherwise
+	 */
+	private GeoElement tryPolygon() {
+		brk = new int[5];
+		a = new Inertia();
+		b = new Inertia();
+		c = new Inertia();
+		d = new Inertia();
+
+		// AbstractApplication.debug(penPoints);
+
+		int n = this.findPolygonal(0, penPoints.size() - 1, MAX_POLYGON_SIDES, 0, 0);
+		if (n <= 0) {
+			return null;
+		}
+
+		RecoSegment rs = null;
+		Inertia ss = null;
+		int j;
+		RecoSegment temp1;
+		this.optimize_polygonal(n);
+		while (n + recognizer_queue_length > MAX_POLYGON_SIDES) {
+			j = 1;
+			temp1 = reco_queue_b;
+			while (j < recognizer_queue_length && temp1.startpt != 0) {
+				j++;
+				if (j == 2)
+					temp1 = reco_queue_c;
+				if (j == 3)
+					temp1 = reco_queue_d;
+				if (j == 4)
+					temp1 = reco_queue_e;
+			}
+			recognizer_queue_length = recognizer_queue_length - j;
+			int te1 = 0;
+			int te2 = j;
+			RecoSegment t1 = null;
+			RecoSegment t2 = null;
+			for (int k = 0; k < recognizer_queue_length; ++k) {
+				if (te1 == 0)
+					t1 = reco_queue_a;
+				if (te1 == 1)
+					t1 = reco_queue_b;
+				if (te1 == 2)
+					t1 = reco_queue_c;
+				if (te1 == 3)
+					t1 = reco_queue_d;
+				if (te1 == 4)
+					t1 = reco_queue_e;
+				if (te2 == 0)
+					t2 = reco_queue_a;
+				if (te2 == 1)
+					t2 = reco_queue_b;
+				if (te2 == 2)
+					t2 = reco_queue_c;
+				if (te2 == 3)
+					t2 = reco_queue_d;
+				if (te2 == 4)
+					t2 = reco_queue_e;
+				t1.startpt = t2.startpt;
+				t1.endpt = t2.endpt;
+				t1.xcenter = t2.xcenter;
+				t1.ycenter = t2.ycenter;
+				t1.angle = t2.angle;
+				t1.radius = t2.radius;
+				t1.x1 = t2.x1;
+				t1.x2 = t2.x2;
+				t1.y1 = t2.y2;
+				t1.y2 = t2.y2;
+				t1.reversed = t2.reversed;
+				te1++;
+				te2++;
+			}
+		}
+		int temp_reco = recognizer_queue_length;
+		recognizer_queue_length = recognizer_queue_length + n;
+		for (j = 0; j < n; ++j) {
+			if (temp_reco + j == 0)
+				rs = reco_queue_a;
+			if (temp_reco + j == 1)
+				rs = reco_queue_b;
+			if (temp_reco + j == 2)
+				rs = reco_queue_c;
+			if (temp_reco + j == 3)
+				rs = reco_queue_d;
+			if (temp_reco + j == 4)
+				rs = reco_queue_e;
+			if (j == 0)
+				ss = a;
+			if (j == 1)
+				ss = b;
+			if (j == 2)
+				ss = c;
+			if (j == 3)
+				ss = d;
+			rs.startpt = brk[j];
+			rs.endpt = brk[j + 1];
+			this.get_segment_geometry(brk[j], brk[j + 1], ss, rs);
+		}
+
+		GeoElement geo = try_rectangle();
+		if (geo != null) {
+			recognizer_queue_length = 0;
+			Log.debug("Rectangle Recognized");
+			return geo;
+		}
+		geo = try_arrow();
+		if (geo != null) {
+			recognizer_queue_length = 0;
+			Log.debug("Arrow Recognized");
+			return geo;
+		}
+
+		geo = try_closed_polygon(3);
+		if (geo != null) {
+			recognizer_queue_length = 0;
+			Log.debug("Triangle Recognized");
+			return geo;
+		}
+
+		geo = try_closed_polygon(4);
+		if (geo != null) {
+			recognizer_queue_length = 0;
+			Log.debug("Quadrilateral Recognized");
+			return geo;
+		}
+
+		if (n == 1)// then stroke is a line
+		{
+			Log.debug("Current stroke is a line");
+			if (Math.abs(rs.angle) < SLANT_TOLERANCE) {
+				rs.angle = 0;
+				rs.y1 = rs.y2 = rs.ycenter;
+			}
+			if (Math.abs(rs.angle) > Math.PI / 2 - SLANT_TOLERANCE) {
+				rs.angle = (rs.angle > 0) ? (Math.PI / 2) : (-Math.PI / 2);
+				rs.x1 = rs.x2 = rs.xcenter;
+			}
+			// line1=new Line2D();
+			// System.out.println(penOffsetX);
+			double x_first = view.toRealWorldCoordX(rs.x1);
+			double y_first = view.toRealWorldCoordY(rs.y1);
+			double x_last = view.toRealWorldCoordX(rs.x2);
+			double y_last = view.toRealWorldCoordY(rs.y2);
+			AlgoJoinPointsSegment algo = null;
+
+			GeoPoint p;
+			if (this.initialPoint != null) {
+				p = initialPoint;
+			} else {
+				p = new GeoPoint(app.getKernel().getConstruction(), null,
+						x_first, y_first, 1.0);
+			}
+			GeoPoint q = new GeoPoint(app.getKernel().getConstruction(),
+					null, x_last, y_last, 1.0);
+			algo = new AlgoJoinPointsSegment(app.getKernel()
+					.getConstruction(), null, p, q);
+
+			GeoElement line = algo.getOutput(0);
+			// line.setLineThickness(penSize * 2);
+			// line.setLineType(penLineStyle);
+			// line.setObjColor(penColor);
+			line.updateRepaint();
+
+			return line;
+		}
+		return null;
 	}
 
 	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {
@@ -1265,7 +1303,7 @@ public class EuclidianPen {
 	/**
 	 * creates a conic form the points in penPoints, if there are enough points
 	 * and a conic exists that fits good enough
-	 * 
+	 *
 	 * @return the conic that fits best to the given points; null in case that
 	 *         there are too few points or the thresholds cannot be fulfilled
 	 */
@@ -2290,9 +2328,9 @@ public class EuclidianPen {
 
 	/**
 	 * used for subclasses to return the last shape that was created
-	 * 
+	 *
 	 * NOT USED IN THIS CLASS
-	 * 
+	 *
 	 * @return null
 	 */
 	public GeoElement getCreatedShape() {
@@ -2305,5 +2343,4 @@ public class EuclidianPen {
 		}
 
 	}
-
 }
