@@ -814,6 +814,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 				text += heads[0] + " = ";
 			}
 		}
+
+		if (app.has(Feature.FRACTIONS)
+				&& previewGeo instanceof HasSymbolicMode) {
+			((HasSymbolicMode) previewGeo).setSymbolicMode(true, false);
+		}
 		createDVPanels();
 		content.addStyleName("avPreview");
 		plainTextItem.clear();
@@ -825,7 +830,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 		String plain = sb.toString();
 		text += previewGeo
-				.getAlgebraDescription(StringTemplate.latexTemplate);
+				.getAlgebraDescription(StringTemplate.latexTemplate)
+				.replace("undefined", "");
 
 		if (!plain.equals(text)) {
 			// LaTeX
@@ -836,10 +842,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 				valuePanel.clear();
 				valuePanel.add(valCanvas);
 			}
-		} else {
-			valuePanel.add(new HTML(plain.replace("undefined", "")));
-
 		}
+
 		if (outputPanel.getWidgetIndex(valuePanel) == -1) {
 			outputPanel.add(valuePanel);
 		}
@@ -847,13 +851,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (content.getWidgetIndex(plainTextItem) == -1) {
 			content.add(plainTextItem);
 		}
-
-		// if (previewGeo == null) {
-		// return;
-		// }
-		Log.debug("previewValue " + previewGeo);
-		
-		
 	}
 
 	protected void buildItemWithSingleRow() {
