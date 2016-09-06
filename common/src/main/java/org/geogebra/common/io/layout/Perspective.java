@@ -86,11 +86,12 @@ public class Perspective {
 
 
 	private int defaultID;
-	
+	/** translation keys for perspective names */
 	final public static String[] perspectiveNames = new String[] { "Custom",
-			"Graphing", "Perspective.Geometry",
+			"GraphingCalculator", "Perspective.Geometry",
 			"Perspective.Spreadsheet", "Perspective.CAS",
-			"Perspective.3DGraphics", "Perspective.Probability" };
+			"GeoGebra3DGrapher.short", "Perspective.Probability" };
+	/** slugs for web app url / tutorials url */
 	final public static String[] perspectiveSlugs = new String[] {
 			"graphing", "geometry", "spreadsheet", "cas", "3d", "probability"
  };
@@ -208,53 +209,6 @@ public class Perspective {
 		this.isDockBarEast = isDockBarEast;
 	}
 
-	/**
-	 * Create a perspective with all available fields.
-	 * 
-	 * @deprecated use variable of type InputPositon for showInputPanelOnTop
-	 *             (respective inputPosition) instead
-	 * 
-	 * 
-	 * @param id
-	 *            id
-	 * @param splitPaneInfo
-	 *            split settings
-	 * @param dockPanelInfo
-	 *            dock panel settings
-	 * @param toolbarDefinition
-	 *            toolbar string
-	 * @param showToolBar
-	 *            true to show toolbar
-	 * @param showGrid
-	 *            true to show grid
-	 * @param showAxes
-	 *            true to show axes
-	 * @param showInputPanel
-	 *            true to show input bar
-	 * @param showInputPanelCommands
-	 *            true to show input help
-	 * @param showInputPanelOnTop
-	 *            true to show input bar on top
-	 * @param toolBarPosition
-	 *            see {@link #setToolBarPosition(int)}
-	 * @param showToolBarHelp
-	 *            whether toolbar help should be visible
-	 * @param showDockBar
-	 *            whether dock bar should be visible
-	 * @param isDockBarEast
-	 *            whether dock bar should be on the eastern side
-	 */
-	public Perspective(String id, DockSplitPaneData[] splitPaneInfo,
-			DockPanelData[] dockPanelInfo, String toolbarDefinition,
-			boolean showToolBar, boolean showGrid, boolean showAxes,
-			boolean showInputPanel, boolean showInputPanelCommands,
-			boolean showInputPanelOnTop, int toolBarPosition,
-			boolean showToolBarHelp, boolean showDockBar, boolean isDockBarEast) {
-		this(id, splitPaneInfo, dockPanelInfo, toolbarDefinition, showToolBar,
-				showGrid, showAxes, showInputPanel, showInputPanelCommands,
-				showInputPanelOnTop ? InputPosition.top : InputPosition.bottom,
-				toolBarPosition, showToolBarHelp, showDockBar, isDockBarEast);
-	}
 
 	/**
 	 * Create an empty perspective.
@@ -399,16 +353,6 @@ public class Perspective {
 	 */
 	public void setInputPosition(InputPosition inputPosition) {
 		this.showInputPanelOnTop = inputPosition;
-	}
-
-	/**
-	 * @deprecated use getInputPosition instead
-	 * 
-	 * @return If the input panel should be displayed at the top of the screen
-	 *         instead of the bottom; false if displayed in the AlgebraView
-	 */
-	public boolean getShowInputPanelOnTop() {
-		return showInputPanelOnTop == InputPosition.top;
 	}
 
 	/**
@@ -579,6 +523,9 @@ public class Perspective {
 		return iconString;
 	}
 
+	/**
+	 * @return whether a view that works with keyboard is showing
+	 */
 	public boolean isKeyboardNeeded() {
 		if (!this.showInputPanel) {
 			return false;
@@ -591,6 +538,9 @@ public class Perspective {
 		return false;
 	}
 
+	/**
+	 * @return id of this perspective if it's default
+	 */
 	public int getDefaultID() {	
 		return defaultID;
 	}

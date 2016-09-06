@@ -52,7 +52,7 @@ fontactive: function(familyName, fvd) {},
 			parentTable(label).className += " perspectiveHighlighted";
 		}
 		if(name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
-				!isLocalhost()){
+				location.href.indexOf("?") < 0 && !isLocalhost()){
 			history.pushState({}, "GeoGebra", "/"+name);
 		}
 		return false;
@@ -154,11 +154,11 @@ fontactive: function(familyName, fvd) {},
 			return;
 		}
 		var props = __GGB__keysVar[lang];
-			button("graphing",1).innerHTML=props.menu["Graphing"];			
+			button("graphing",1).innerHTML=props.menu["GraphingCalculator"];			
 			button("geometry",2).innerHTML=props.menu["Perspective.Geometry"];
 			button("cas",4).innerHTML=props.menu["Perspective.CAS"];
 			button("spreadsheet",3).innerHTML=props.menu["Perspective.Spreadsheet"];
-			button("perspective3d",5).innerHTML=props.menu["Perspective.3DGraphics"];
+			button("perspective3d",5).innerHTML=props.menu["GeoGebra3DGrapher.short"];
 			button("probability",6).innerHTML=props.menu["Perspective.Probability"];
 			button("tutorials",0).innerHTML=props.menu["Tutorials"];
 			button("exam","exam").innerHTML=props.menu["exam_menu_entry"];

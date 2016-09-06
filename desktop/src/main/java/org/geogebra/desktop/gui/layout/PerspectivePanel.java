@@ -88,7 +88,7 @@ public class PerspectivePanel extends JPopupMenu {
 		this.removeAll();
 
 		JMenuItem title = new JMenuItem("<html><font color = black>"
-				+ app.getMenu("Perspectives") + "</font></html>");
+				+ app.getMenu("CreateYourOwn") + "</font></html>");
 		title.setIcon(GeoGebraIcon.createEmptyIcon(32, 32));
 		title.setFont(app.getBoldFont());
 		title.setEnabled(false);
