@@ -2265,7 +2265,6 @@ __GGB__keysVar.fr.menu = {
     "PerspectiveName": "Nom Association",
     "PerspectivePanel": "Panneau des associations",
     "PerspectiveProjection": "Perspective",
-    "Perspectives": "Associations",
     "Picture": "Image",
     "PictureHeight": "Hauteur de la figure",
     "PictureWidth": "Largeur de la figure",

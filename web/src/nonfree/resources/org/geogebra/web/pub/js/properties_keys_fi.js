@@ -2265,7 +2265,6 @@ __GGB__keysVar.fi.menu = {
     "PerspectiveName": "N\xe4kym\xe4n nimi",
     "PerspectivePanel": "Perspektiivipaneeli",
     "PerspectiveProjection": "Perspektiiviprojektio",
-    "Perspectives": "N\xe4kym\xe4t",
     "Picture": "Kuva",
     "PictureHeight": "Kuvan korkeus",
     "PictureWidth": "Kuvan leveys",

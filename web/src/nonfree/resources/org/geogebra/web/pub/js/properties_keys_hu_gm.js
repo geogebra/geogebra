@@ -2265,7 +2265,6 @@ __GGB__keysVar.hu_gm.menu = {
     "PerspectiveName": "Munkaasztal elnevez\xe9se",
     "PerspectivePanel": "Perspekt\xedv panel",
     "PerspectiveProjection": "Perspekt\xedv vet\xedt\xe9s",
-    "Perspectives": "Munkaasztalok",
     "Picture": "K\xe9p",
     "PictureHeight": "K\xe9pmagass\xe1g",
     "PictureWidth": "K\xe9psz\xe9less\xe9g",

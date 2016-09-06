@@ -2265,7 +2265,6 @@ __GGB__keysVar.eo.menu = {
     "PerspectiveName": "Name of Perspective",
     "PerspectivePanel": "Perspective Panel",
     "PerspectiveProjection": "Perspektiva projekcio",
-    "Perspectives": "Perspectives",
     "Picture": "Bildo",
     "PictureHeight": "Alto de la bildo",
     "PictureWidth": "Lar\u011do de la bildo",

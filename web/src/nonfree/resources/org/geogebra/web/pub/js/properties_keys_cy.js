@@ -2265,7 +2265,6 @@ __GGB__keysVar.cy.menu = {
     "PerspectiveName": "Enw'r Persbectif",
     "PerspectivePanel": "Panel Perspectif",
     "PerspectiveProjection": "Perspective projection",
-    "Perspectives": "Persbectif",
     "Picture": "Llun",
     "PictureHeight": "Uchder y llun",
     "PictureWidth": "Lled y llun",

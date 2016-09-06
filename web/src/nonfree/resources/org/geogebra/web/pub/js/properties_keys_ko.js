@@ -2265,7 +2265,6 @@ __GGB__keysVar.ko.menu = {
     "PerspectiveName": "\ud654\uba74\ubc30\uce58 \uc774\ub984",
     "PerspectivePanel": "\ud654\uba74\ubc30\uce58 \ud328\ub110",
     "PerspectiveProjection": "\uc6d0\uadfc\ud22c\uc601",
-    "Perspectives": "\ud654\uba74\ubc30\uce58",
     "Picture": "\uadf8\ub9bc",
     "PictureHeight": "\ub192\uc774",
     "PictureWidth": "\ud3ed",

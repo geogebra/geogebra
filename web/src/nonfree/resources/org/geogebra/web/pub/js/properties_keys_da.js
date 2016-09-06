@@ -2265,7 +2265,6 @@ __GGB__keysVar.da.menu = {
     "PerspectiveName": "Navn p\xe5 perspektivet",
     "PerspectivePanel": "Perspektivpanel",
     "PerspectiveProjection": "Perspectiv projektion",
-    "Perspectives": "Perspektiv",
     "Picture": "Billede",
     "PictureHeight": "Billede h\xf8jde",
     "PictureWidth": "Billede bredde",

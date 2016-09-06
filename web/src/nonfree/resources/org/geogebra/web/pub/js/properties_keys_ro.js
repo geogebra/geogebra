@@ -2265,7 +2265,6 @@ __GGB__keysVar.ro.menu = {
     "PerspectiveName": "Numele de perspectiv\u0103",
     "PerspectivePanel": "Panel perspectiv\u0103",
     "PerspectiveProjection": "proiec\u021bie perspectiv\u0103",
-    "Perspectives": "Perspective",
     "Picture": "Imagine",
     "PictureHeight": "\xcen\u0103l\u0163ime imagine",
     "PictureWidth": "L\u0103\u0163ime imagine",

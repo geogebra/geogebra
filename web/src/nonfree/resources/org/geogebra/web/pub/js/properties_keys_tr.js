@@ -2265,7 +2265,6 @@ __GGB__keysVar.tr.menu = {
     "PerspectiveName": "Perspektif Ad\u0131",
     "PerspectivePanel": "Perspektif Paneli",
     "PerspectiveProjection": "Perspektif projeksiyon",
-    "Perspectives": "Perspektifler",
     "Picture": "Resim",
     "PictureHeight": "Resim y\xfcksekli\u011fi",
     "PictureWidth": "Resim geni\u015fli\u011fi",

@@ -2265,7 +2265,6 @@ __GGB__keysVar.sq.menu = {
     "PerspectiveName": "Emer i Perspektives",
     "PerspectivePanel": "Panele Perspektive",
     "PerspectiveProjection": "Perspective projection",
-    "Perspectives": "Perspektive",
     "Picture": "Pikture",
     "PictureHeight": "Lartesi e Piktures",
     "PictureWidth": "Gjeresi e Piktures",

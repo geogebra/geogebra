@@ -2265,7 +2265,6 @@ __GGB__keysVar.si.menu = {
     "PerspectiveName": "\u0db4\u0dbb\u0dca\u0dba\u0dcf\u0dbd\u0ddd\u0d9a \u0db1\u0dcf\u0db8\u0dba\u0db1\u0dca",
     "PerspectivePanel": "Perspective Panel",
     "PerspectiveProjection": "\u0daf\u0dd8\u0dc2\u0dca\u0da7\u0dd2\u0d9a\u0ddd\u0dab\u0dba \u0db4\u0dca\u200d\u0dbb\u0d9a\u0dca\u0dc2\u0dda\u0db4\u0dab\u0dba",
-    "Perspectives": "Perspectives",
     "Picture": "\u0dbb\u0dd6\u0db4\u0dba\u0db1\u0dca",
     "PictureHeight": "\u0dbb\u0dd6\u0db4\u0dba\u0dda \u0d8b\u0dc3",
     "PictureWidth": "\u0dbb\u0dd6\u0db4\u0dba\u0dda \u0db4\u0dc5\u0dbd",

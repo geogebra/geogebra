@@ -2265,7 +2265,6 @@ __GGB__keysVar.nl.menu = {
     "PerspectiveName": "Naam voor perspectief",
     "PerspectivePanel": "Perspectief Paneel",
     "PerspectiveProjection": "Perspectief projectie",
-    "Perspectives": "Schermindelingen",
     "Picture": "Afbeelding",
     "PictureHeight": "Hoogte afbeelding",
     "PictureWidth": "Breedte afbeelding",

@@ -2265,7 +2265,6 @@ __GGB__keysVar.ca.menu = {
     "PerspectiveName": "Nom de l'Escenari",
     "PerspectivePanel": "Panell d'escenaris",
     "PerspectiveProjection": "Projecci\xf3 perspectiva",
-    "Perspectives": "Escenaris",
     "Picture": "imatge",
     "PictureHeight": "Al\xe7ada de la imatge",
     "PictureWidth": "Amplada de la imatge",

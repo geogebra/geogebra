@@ -2265,7 +2265,6 @@ __GGB__keysVar.lv.menu = {
     "PerspectiveName": "Perspekt\u012bvas Nosaukums",
     "PerspectivePanel": "Perspekt\u012bvais Panelis",
     "PerspectiveProjection": "Perspekt\u012bvas projekcija",
-    "Perspectives": "Perspekt\u012bve",
     "Picture": "Bilde",
     "PictureHeight": "Bildes augstums",
     "PictureWidth": "Bildes platums",

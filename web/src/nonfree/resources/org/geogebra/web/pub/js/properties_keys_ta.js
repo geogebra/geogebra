@@ -2265,7 +2265,6 @@ __GGB__keysVar.ta.menu = {
     "PerspectiveName": "Perspective \u0b87\u0ba9\u0bc1\u0b9f\u0bc8\u0baf \u0baa\u0bc6\u0baf\u0bb0\u0bcd",
     "PerspectivePanel": "Perspective Panel",
     "PerspectiveProjection": "Perspective projection",
-    "Perspectives": "Perspectives",
     "Picture": "\u0baa\u0b9f\u0bae\u0bcd",
     "PictureHeight": "\u0baa\u0b9f \u0b89\u0baf\u0bb0\u0bae\u0bcd",
     "PictureWidth": "\u0baa\u0b9f \u0b85\u0b95\u0bb2\u0bae\u0bcd",

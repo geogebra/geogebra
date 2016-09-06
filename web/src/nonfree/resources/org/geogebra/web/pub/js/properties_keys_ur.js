@@ -2265,7 +2265,6 @@ __GGB__keysVar.ur.menu = {
     "PerspectiveName": "Name of Perspective",
     "PerspectivePanel": "Perspective Panel",
     "PerspectiveProjection": "Perspective projection",
-    "Perspectives": "Perspectives",
     "Picture": "Picture",
     "PictureHeight": "Picture height",
     "PictureWidth": "Picture width",

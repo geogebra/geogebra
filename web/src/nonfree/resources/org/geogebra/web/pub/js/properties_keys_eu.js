@@ -2265,7 +2265,6 @@ __GGB__keysVar.eu.menu = {
     "PerspectiveName": "Antolaketaren izena",
     "PerspectivePanel": "Perspektiba panela",
     "PerspectiveProjection": "Perspektiba-proiekzioa",
-    "Perspectives": "Antolaketak",
     "Picture": "Irudia",
     "PictureHeight": "Irudiaren altuera",
     "PictureWidth": "Irudiaren zabalera",

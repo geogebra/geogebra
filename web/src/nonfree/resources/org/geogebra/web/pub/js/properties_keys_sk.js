@@ -2265,7 +2265,6 @@ __GGB__keysVar.sk.menu = {
     "PerspectiveName": "N\xe1zov perspekt\xedvy",
     "PerspectivePanel": "Panel Perspekt\xedvy",
     "PerspectiveProjection": "Per\u0161pekt\xedvne premietanie",
-    "Perspectives": "Perspekt\xedvy",
     "Picture": "Obraz",
     "PictureHeight": "V\xfd\u0161ka obrazu",
     "PictureWidth": "\u0160\xedrka obrazu",

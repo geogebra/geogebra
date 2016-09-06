@@ -2265,7 +2265,6 @@ __GGB__keysVar.it.menu = {
     "PerspectiveName": "Nome Raccolta",
     "PerspectivePanel": "Elenco Raccolta Viste",
     "PerspectiveProjection": "Proiezione in prospettiva",
-    "Perspectives": "Raccolta Viste",
     "Picture": "Immagine",
     "PictureHeight": "Altezza immagine",
     "PictureWidth": "Larghezza immagine",

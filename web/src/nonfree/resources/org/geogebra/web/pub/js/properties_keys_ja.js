@@ -2265,7 +2265,6 @@ __GGB__keysVar.ja.menu = {
     "PerspectiveName": "\u30d1\u30fc\u30b9\u30da\u30af\u30c6\u30a3\u30d6\u306e\u540d\u524d",
     "PerspectivePanel": "\u30d1\u30fc\u30b9\u30da\u30af\u30c6\u30a3\u30d6\u30d1\u30cd\u30eb",
     "PerspectiveProjection": "\u900f\u8996\u6295\u5f71",
-    "Perspectives": "\u30d1\u30fc\u30b9\u30da\u30af\u30c6\u30a3\u30d6",
     "Picture": "\u56f3",
     "PictureHeight": "\u56f3\u306e\u9ad8\u3055",
     "PictureWidth": "\u56f3\u306e\u5e45",

@@ -2265,7 +2265,6 @@ __GGB__keysVar.bs.menu = {
     "PerspectiveName": "Naziv perspektive",
     "PerspectivePanel": "Panel s prikazima",
     "PerspectiveProjection": "Perspektivna projekcija",
-    "Perspectives": "Prikazi",
     "Picture": "Slika",
     "PictureHeight": "Visina slike",
     "PictureWidth": "\u0160irina slike",

@@ -2265,7 +2265,6 @@ __GGB__keysVar.xh.menu = {
     "PerspectiveName": "Igama lePerspective",
     "PerspectivePanel": "iPerspective Panel",
     "PerspectiveProjection": "iPerspective projection",
-    "Perspectives": "Imibono",
     "Picture": "Umfanekiso",
     "PictureHeight": "Ukuphakama koMfanekiso",
     "PictureWidth": "Ububanzi boMfanekiso",

@@ -2265,7 +2265,6 @@ __GGB__keysVar.et.menu = {
     "PerspectiveName": "Perspektiivi t\xe4his",
     "PerspectivePanel": "Perspektiivide paneel",
     "PerspectiveProjection": "Perspektiivprojektsioon",
-    "Perspectives": "Perspektiivid",
     "Picture": "Pilt",
     "PictureHeight": "Pildi k\xf5rgus",
     "PictureWidth": "Pildi laius",

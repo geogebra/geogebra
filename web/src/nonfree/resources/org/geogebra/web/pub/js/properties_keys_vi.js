@@ -2265,7 +2265,6 @@ __GGB__keysVar.vi.menu = {
     "PerspectiveName": "T\xean c\u1ee7a h\xecnh kh\u1ed1i",
     "PerspectivePanel": "B\u1ea3ng v\u1ebd",
     "PerspectiveProjection": "Perspective projection",
-    "Perspectives": "Ph\u1ed1i c\u1ea3nh",
     "Picture": "\u1ea2nh",
     "PictureHeight": "Chi\u1ec1u cao \u1ea3nh",
     "PictureWidth": "Chi\u1ec1u r\u1ed9ng \u1ea3nh",

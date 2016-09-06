@@ -2265,7 +2265,6 @@ __GGB__keysVar.es.menu = {
     "PerspectiveName": "Nombre de la apariencia",
     "PerspectivePanel": "Panel de apariencias",
     "PerspectiveProjection": "Perspectiva",
-    "Perspectives": "Apariencias",
     "Picture": "Imagen",
     "PictureHeight": "Altura de la imagen",
     "PictureWidth": "Ancho de la imagen",

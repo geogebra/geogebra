@@ -2265,7 +2265,6 @@ __GGB__keysVar.pl.menu = {
     "PerspectiveName": "Nazwa widoku",
     "PerspectivePanel": "Panel Widok\xf3w",
     "PerspectiveProjection": "Rzut perspektywiczny",
-    "Perspectives": "Widoki",
     "Picture": "Obraz",
     "PictureHeight": "Wysoko\u015b\u0107 obrazu",
     "PictureWidth": "Szeroko\u015b\u0107 obrazu",

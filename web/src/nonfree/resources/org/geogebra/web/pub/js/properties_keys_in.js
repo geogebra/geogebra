@@ -2265,7 +2265,6 @@ __GGB__keysVar.in.menu = {
     "PerspectiveName": "Nama Prespektif",
     "PerspectivePanel": "Panel Persfektif",
     "PerspectiveProjection": "Perspective projection",
-    "Perspectives": "Perfektif",
     "Picture": "Gambar",
     "PictureHeight": "Tinggi gambar",
     "PictureWidth": "Lebar gambar",

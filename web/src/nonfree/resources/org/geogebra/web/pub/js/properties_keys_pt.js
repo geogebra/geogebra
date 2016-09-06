@@ -2265,7 +2265,6 @@ __GGB__keysVar.pt.menu = {
     "PerspectiveName": "Nome da Disposi\xe7\xe3o",
     "PerspectivePanel": "Painel das Disposi\xe7\xf5es",
     "PerspectiveProjection": "Proje\xe7\xe3o em Perspectiva",
-    "Perspectives": "Disposi\xe7\xf5es",
     "Picture": "Figura",
     "PictureHeight": "Altura da figura",
     "PictureWidth": "Largura da figura",

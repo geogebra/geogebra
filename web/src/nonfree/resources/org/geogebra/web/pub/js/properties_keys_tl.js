@@ -2265,7 +2265,6 @@ __GGB__keysVar.tl.menu = {
     "PerspectiveName": "Pangalan ng Perspektibo",
     "PerspectivePanel": "Perspective Panel",
     "PerspectiveProjection": "Perspective projection",
-    "Perspectives": "Perspectives",
     "Picture": "Larawan",
     "PictureHeight": "Taas ng larawan",
     "PictureWidth": "Lapad ng larawan",

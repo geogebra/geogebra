@@ -2265,7 +2265,6 @@ __GGB__keysVar.gl.menu = {
     "PerspectiveName": "Nome da perspectiva",
     "PerspectivePanel": "Disposici\xf3ns",
     "PerspectiveProjection": "Proxecci\xf3n en Perspectiva",
-    "Perspectives": "Aparencias",
     "Picture": "Imaxe",
     "PictureHeight": "Altura da imaxe",
     "PictureWidth": "Anchura da imaxe",

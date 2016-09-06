@@ -2265,7 +2265,6 @@ __GGB__keysVar.zh_CN.menu = {
     "PerspectiveName": "\u683c\u5c40\u540d\u79f0",
     "PerspectivePanel": "\u683c\u5c40\u9762\u677f",
     "PerspectiveProjection": "\u900f\u89c6\u6295\u5f71",
-    "Perspectives": "\u683c\u5c40",
     "Picture": "\u56fe\u7247",
     "PictureHeight": "\u56fe\u7247\u9ad8\u5ea6",
     "PictureWidth": "\u56fe\u7247\u5bbd\u5ea6",

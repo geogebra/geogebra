@@ -2265,7 +2265,6 @@ __GGB__keysVar.hr.menu = {
     "PerspectiveName": "Naziv prikaza",
     "PerspectivePanel": "Plo\u010da s prikazima",
     "PerspectiveProjection": "Perspektivna projekcija",
-    "Perspectives": "Prikazi",
     "Picture": "Crte\u017e",
     "PictureHeight": "Visina crte\u017ea",
     "PictureWidth": "\u0160irina crte\u017ea",

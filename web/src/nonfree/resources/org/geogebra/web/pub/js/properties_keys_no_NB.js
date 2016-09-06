@@ -2265,7 +2265,6 @@ __GGB__keysVar.no_NB.menu = {
     "PerspectiveName": "Navn p\xe5 oppsett",
     "PerspectivePanel": "Oppsett for sidefelt",
     "PerspectiveProjection": "Perspektivprojeksjon",
-    "Perspectives": "Oppsett",
     "Picture": "Bilde",
     "PictureHeight": "BIldeh\xf8yde",
     "PictureWidth": "BIldebredde",

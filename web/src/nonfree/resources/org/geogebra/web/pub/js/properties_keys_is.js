@@ -2265,7 +2265,6 @@ __GGB__keysVar.is.menu = {
     "PerspectiveName": "Nafn s\xfdnar",
     "PerspectivePanel": "Stj\xf3rnbor\xf0 fyrir mismunandi s\xfdn",
     "PerspectiveProjection": "Perspective projection",
-    "Perspectives": "S\xfdn",
     "Picture": "Mynd",
     "PictureHeight": "H\xe6\xf0 myndar",
     "PictureWidth": "Breidd myndar",

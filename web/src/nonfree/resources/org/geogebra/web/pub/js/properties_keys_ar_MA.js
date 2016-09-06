@@ -2265,7 +2265,6 @@ __GGB__keysVar.ar_MA.menu = {
     "PerspectiveName": "\u0625\u0633\u0645 \u0627\u0644\u0645\u0646\u0638\u0648\u0631",
     "PerspectivePanel": "\u0644\u0648\u062d\u0629 \u0627\u0644\u0645\u0646\u0638\u0648\u0631",
     "PerspectiveProjection": "Perspective projection",
-    "Perspectives": "\u0645\u0646\u0638\u0648\u0631\u0627\u062a",
     "Picture": "\u0635\u0648\u0631\u0629",
     "PictureHeight": "\u0637\u0648\u0644 \u0627\u0644\u0635\u0648\u0631\u0629",
     "PictureWidth": "\u0639\u0631\u0636 \u0627\u0644\u0635\u0648\u0631\u0629",
