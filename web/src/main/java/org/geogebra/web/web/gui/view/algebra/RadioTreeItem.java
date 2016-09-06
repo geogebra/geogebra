@@ -809,8 +809,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		String text = "";
 		if (previewGeo.isGeoFunction()) {
-			Log.debug("FUNCTIOOOOOOOOOOOOOON");
-			text += previewGeo.getLabel(StringTemplate.defaultTemplate);
+			String[] heads = getText().split("=");
+			if (heads.length > 0) {
+				text += heads[0] + " = ";
+			}
 		}
 		createDVPanels();
 		content.addStyleName("avPreview");
@@ -822,9 +824,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 		previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 		String plain = sb.toString();
-		text = previewGeo
+		text += previewGeo
 				.getAlgebraDescription(StringTemplate.latexTemplate);
-		Log.debug("PREV-- " + text);
+
 		if (!plain.equals(text)) {
 			// LaTeX
 			valCanvas = DrawEquationW.paintOnCanvas(previewGeo, text, valCanvas,
