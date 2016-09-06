@@ -1997,7 +1997,7 @@ kernel, left,
 					if (tpl.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
-					sb.append("\\times");
+					sb.append("\\otimes");
 					break;
 				case LIBRE_OFFICE:
 					sb.append(" cdot ");
