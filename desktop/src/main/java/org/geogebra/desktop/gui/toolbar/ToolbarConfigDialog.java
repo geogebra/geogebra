@@ -30,6 +30,7 @@ import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * Toolbar configuration dialog.
@@ -44,6 +45,8 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 	private AppD app;
 	public ToolbarConfigPanel confPanel;
 
+	private LocalizationD loc;
+
 	/**
 	 * Creates new dialog
 	 * 
@@ -53,12 +56,12 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 	public ToolbarConfigDialog(AppD app) {
 		super(app.getFrame(), false);
 		this.app = app;
-
-		setTitle(app.getMenu("Toolbar.Customize"));
+		this.loc = app.getLocalization();
+		setTitle(loc.getMenu("Toolbar.Customize"));
 
 		// list with panels
 		JComboBox switcher = new JComboBox();
-		switcher.addItem(new KeyValue(-1, app.getPlain("General")));
+		switcher.addItem(new KeyValue(-1, loc.getMenu("General")));
 
 		DockPanelD[] panels = ((LayoutD) ((GuiManagerD) app.getGuiManager())
 				.getLayout()).getDockManager().getPanels();
@@ -68,8 +71,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		for (DockPanelD panel : panels) {
 			if (panel.canCustomizeToolbar()) {
 				int viewId = panel.getViewId();
-				switcher.addItem(new KeyValue(viewId,
-						app
+				switcher.addItem(new KeyValue(viewId, loc
 						.getPlain(panel.getViewTitle())));
 				if (viewId == toolbarId) {
 					selIdx = switcher.getItemCount() - 1;
@@ -113,25 +115,25 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 
 		/*
 		 * DefaultComboBoxModel model = new DefaultComboBoxModel();
-		 * model.addElement(app.getMenu("Toolbar.Default"));
-		 * //model.addElement(app.getMenu("Basic"));
-		 * model.addElement(app.getMenu("Toolbar.UserDefined")); JComboBox
+		 * model.addElement(loc.getMenu("Toolbar.Default"));
+		 * //model.addElement(loc.getMenu("Basic"));
+		 * model.addElement(loc.getMenu("Toolbar.UserDefined")); JComboBox
 		 * cbToolbar = new JComboBox(model);
 		 */
 
 		final JButton btDefaultToolbar = new JButton();
 		btPanel.add(btDefaultToolbar);
-		btDefaultToolbar.setText(app.getMenu("Toolbar.ResetDefault"));
+		btDefaultToolbar.setText(loc.getMenu("Toolbar.ResetDefault"));
 
 		btPanel.add(Box.createHorizontalGlue());
 		final JButton btApply = new JButton();
 		btPanel.add(btApply);
-		btApply.setText(app.getPlain("Apply"));
+		btApply.setText(loc.getMenu("Apply"));
 
 		final JButton btCancel = new JButton();
 		btPanel.add(Box.createRigidArea(new Dimension(5, 0)));
 		btPanel.add(btCancel);
-		btCancel.setText(app.getMenu("Close"));
+		btCancel.setText(loc.getMenu("Close"));
 
 		ActionListener ac = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

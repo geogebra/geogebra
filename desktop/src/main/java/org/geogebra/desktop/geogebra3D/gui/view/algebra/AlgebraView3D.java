@@ -141,7 +141,7 @@ public class AlgebraView3D extends AlgebraViewD {
 		DefaultMutableTreeNode node;
 		for (String key : viewNodesMap.keySet()) {
 			node = viewNodesMap.get(key);
-			node.setUserObject(app.getPlain(key));
+			node.setUserObject(app.getLocalization().getMenu(key));
 			model.nodeChanged(node);
 		}	
 	}

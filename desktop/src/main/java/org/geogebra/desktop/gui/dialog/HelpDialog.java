@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.GuiManager.Help;
 import org.geogebra.common.kernel.Macro;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.main.AppD;
@@ -55,9 +56,9 @@ public class HelpDialog {
 			modeTextInternal = EuclidianConstants.getModeTextSimple(mode);
 			icon = app.getToolBarImage(modeTextInternal, Color.BLACK);
 		}
-
-		Object[] options = { app.getPlain("ShowOnlineHelp"),
-				app.getPlain("Cancel") };
+		Localization loc = app.getLocalization();
+		Object[] options = { loc.getMenu("ShowOnlineHelp"),
+				loc.getMenu("Cancel") };
 		int n = JOptionPane.showOptionDialog(app.getMainComponent(),
 				helpText, app.getMenu("ToolHelp") + " - " + toolName,
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon,

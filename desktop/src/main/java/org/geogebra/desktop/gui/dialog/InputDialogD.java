@@ -324,7 +324,7 @@ public class InputDialogD extends InputDialog
 	public void addHelpButton(String articleName) {
 		btHelp = new JButton();
 		HelpAction helpAction = new HelpAction(app,
-				app.getScaledIcon(GuiResourcesD.HELP), app.getMenu("Help"),
+				app.getScaledIcon(GuiResourcesD.HELP), loc.getMenu("Help"),
 				articleName);
 		btHelp.setAction(helpAction);
 		btPanel2.add(btHelp);
@@ -345,10 +345,10 @@ public class InputDialogD extends InputDialog
 
 		wrappedDialog.setTitle(title);
 
-		btOK.setText(app.getPlain("OK"));
-		btCancel.setText(app.getPlain("Cancel"));
-		btApply.setText(app.getPlain("Apply"));
-		btProperties.setText(app.getPlain("Properties") + "...");
+		btOK.setText(loc.getMenu("OK"));
+		btCancel.setText(loc.getMenu("Cancel"));
+		btApply.setText(loc.getMenu("Apply"));
+		btProperties.setText(loc.getMenu("Properties") + "...");
 	}
 
 	// ===================================================

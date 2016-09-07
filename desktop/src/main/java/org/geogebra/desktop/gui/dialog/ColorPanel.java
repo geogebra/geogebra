@@ -362,7 +362,7 @@ class ColorPanel extends JPanel implements ActionListener,
 			selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
 			barsPanel = new JPanel(new GridLayout(0, 3, 5, 5));
-			barsPanel.setBorder(new TitledBorder(this.propertiesPanelD.app
+			barsPanel.setBorder(new TitledBorder(this.propertiesPanelD.loc
 					.getPlain("SelectedBar")));
 			for (int i = 0; i < numBar + 1; i++) {
 				selectionBarButtons[i] = new JToggleButton(

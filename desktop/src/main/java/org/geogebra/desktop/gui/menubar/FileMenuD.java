@@ -58,7 +58,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 	private AbstractAction exitAllAction;
 
 	public FileMenuD(AppD app) {
-		super(app, app.getMenu("File"));
+		super(app, app.getLocalization().getMenu("File"));
 
 		// items are added to the menu when it's opened, see BaseMenu:
 		// addMenuListener(this);
@@ -107,7 +107,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		}
 
 		// recent SubMenu
-		JMenu submenuRecent = new JMenu(app.getMenu("Recent"));
+		JMenu submenuRecent = new JMenu(loc.getMenu("Recent"));
 		submenuRecent.setIcon(app.getEmptyIcon());
 		add(submenuRecent);
 
@@ -136,7 +136,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		mi.setIcon(app.getMenuIcon(GuiResourcesD.EXPORT_SMALL));
 
 		// export
-		JMenu submenu = new JMenu(app.getMenu("Export"));
+		JMenu submenu = new JMenu(loc.getMenu("Export"));
 		submenu.setIcon(app.getEmptyIcon());
 		add(submenu);
 
@@ -166,7 +166,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		addSeparator();
 
 		mi = add(printEuclidianViewAction);
-		mi.setText(app.getMenu("PrintPreview"));
+		mi.setText(loc.getMenu("PrintPreview"));
 		mi.setIcon(app.getMenuIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW));
 		setMenuShortCutAccelerator(mi, 'P');
 
@@ -204,7 +204,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 	 */
 	@Override
 	protected void initActions() {
-		deleteAll = new AbstractAction(app.getMenu("New"), app.getEmptyIcon()) {
+		deleteAll = new AbstractAction(loc.getMenu("New"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -214,7 +214,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		newWindowAction = new AbstractAction(app.getMenu("NewWindow"),
+		newWindowAction = new AbstractAction(loc.getMenu("NewWindow"),
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_NEW)) {
 			private static final long serialVersionUID = 1L;
 
@@ -231,7 +231,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		saveAction = new AbstractAction(app.getMenu("Save"),
+		saveAction = new AbstractAction(loc.getMenu("Save"),
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_SAVE)) {
 			private static final long serialVersionUID = 1L;
 
@@ -240,7 +240,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		saveAsAction = new AbstractAction(app.getMenu("SaveAs") + " ...",
+		saveAsAction = new AbstractAction(loc.getMenu("SaveAs") + " ...",
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
@@ -249,7 +249,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		shareAction = new AbstractAction(app.getMenu("Share") + "...",
+		shareAction = new AbstractAction(loc.getMenu("Share") + "...",
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
@@ -260,7 +260,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		/*
 		 * printProtocolAction = new AbstractAction(
-		 * app.getPlain("ConstructionProtocol") + " ...") { private static final
+		 * loc.getMenu("ConstructionProtocol") + " ...") { private static final
 		 * long serialVersionUID = 1L;
 		 * 
 		 * public void actionPerformed(ActionEvent e) { Thread runner = new
@@ -276,7 +276,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		 */
 
 		printEuclidianViewAction = new AbstractAction(
-				app.getPlain("DrawingPad") + " ...") {
+loc.getMenu("DrawingPad")
+				+ " ...") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -284,7 +285,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		exitAction = new AbstractAction(app.getMenu("Close"),
+		exitAction = new AbstractAction(loc.getMenu("Close"),
 				app.getMenuIcon(GuiResourcesD.EXIT)) {
 			private static final long serialVersionUID = 1L;
 
@@ -293,7 +294,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		exitAllAction = new AbstractAction(app.getMenu("CloseAll"),
+		exitAllAction = new AbstractAction(loc.getMenu("CloseAll"),
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
@@ -302,7 +303,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		loadAction = new AbstractAction(app.getMenu("Load") + " ...",
+		loadAction = new AbstractAction(loc.getMenu("Load") + " ...",
 				app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
 			private static final long serialVersionUID = 1L;
 
@@ -311,7 +312,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 
-		loadURLAction = new AbstractAction(app.getMenu("OpenFromGeoGebraTube")
+		loadURLAction = new AbstractAction(loc.getMenu("OpenFromGeoGebraTube")
 				+ " ...", app.getMenuIcon(GuiResourcesD.DOCUMENT_OPEN)) {
 			private static final long serialVersionUID = 1L;
 
@@ -343,7 +344,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 
 		drawingPadToClipboardAction = new AbstractAction(
-				app.getMenu("DrawingPadToClipboard"),
+				loc.getMenu("DrawingPadToClipboard"),
 				app.getMenuIcon(GuiResourcesD.MENU_EDIT_COPY)) {
 			private static final long serialVersionUID = 1L;
 
@@ -372,7 +373,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		 */
 
 		exportGraphicAction = new AbstractAction(
-				app.getPlain("DrawingPadAsPicture") + " (" + FileExtensions.PNG
+				loc.getMenu("DrawingPadAsPicture") + " (" + FileExtensions.PNG
 						+ ", " + FileExtensions.EPS + ") ...",
 				app.getMenuIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
 			private static final long serialVersionUID = 1L;
@@ -407,7 +408,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		// export slider as animation
 		exportAnimationAction = new AbstractAction(
-				app.getPlain("ExportAnimatedGIF") + " ...") {
+				loc.getMenu("ExportAnimatedGIF") + " ...") {
 			private static final long serialVersionUID = 1L;
 
 			@SuppressWarnings("unused")
@@ -424,7 +425,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 
 		exportPSTricksAction = new AbstractAction(
-				app.getPlain("DrawingPadAsPSTricks") + " ...",
+				loc.getMenu("DrawingPadAsPSTricks") + " ...",
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
@@ -442,7 +443,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			}
 		};
 		// Added By Loic Le Coq
-		exportPgfAction = new AbstractAction(app.getPlain("DrawingPagAsPGF")
+		exportPgfAction = new AbstractAction(loc.getMenu("DrawingPagAsPGF")
 				+ " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
@@ -463,7 +464,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		if (app.has(Feature.EXPORT_ANIMATED_PDF)) {
 			// added by Hoszu Henrietta, animated pdf export
 			exportPDFaction = new AbstractAction(
-					app.getPlain("Graphics View as Animated PDF") + " ...",
+					loc.getMenu("Graphics View as Animated PDF") + " ...",
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
@@ -484,7 +485,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 		// Added by Andy Zhu; Asymptote export
 		exportAsymptoteAction = new AbstractAction(
-				app.getPlain("GraphicsViewAsAsymptote") + " ...",
+				loc.getMenu("GraphicsViewAsAsymptote") + " ...",
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
@@ -506,7 +507,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		// End
 
 		exportWorksheet = new AbstractAction(
-				app.getPlain("DynamicWorksheetAsWebpage") + " ("
+				loc.getMenu("DynamicWorksheetAsWebpage") + " ("
 						+ FileExtensions.HTML + ") ...",
 				app.getMenuIcon(GuiResourcesD.TEXT_HTML)) {
 			private static final long serialVersionUID = 1L;
@@ -545,7 +546,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 
 		exportGeoGebraTubeAction = new AbstractAction(
-				app.getMenu("UploadGeoGebraTube") + " ...", app.getEmptyIcon()) {
+				loc.getMenu("UploadGeoGebraTube") + " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

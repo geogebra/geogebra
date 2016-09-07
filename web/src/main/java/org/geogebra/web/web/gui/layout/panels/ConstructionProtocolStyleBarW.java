@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.layout.panels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.ColumnData;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView.RowData;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -84,8 +85,9 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 			if (show[selIndex]) { // adding a new column for the table
 				Column<RowData, ?> col = cpView
 						.getColumn(tableColumns[selIndex]);
+				Localization loc = app.getLocalization();
 				cpView.getTable().insertColumn(colIndex, col,
-						app.getPlain(tableColumns[selIndex]));
+						loc.getPlain(tableColumns[selIndex]));
 				cpView.getData().columns[selIndex + 1].setVisible(true);
 				
 			} else { // removing a column from the table

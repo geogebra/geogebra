@@ -65,6 +65,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -675,10 +676,11 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					Log.debug("current=" + currentVersionL + " newest="
 							+ newestVersionL);
 					if (currentVersionL < newestVersionL) {
-						String q = app.getPlain("NewerVersionA").replaceAll(
+						Localization loc = app.getLocalization();
+						String q = loc.getMenu("NewerVersionA").replaceAll(
 								"%0", newestVersion);
-						String dl = app.getPlain("GoToDownloadPage");
-						Object[] options = { app.getMenu("Cancel"), dl };
+						String dl = loc.getMenu("GoToDownloadPage");
+						Object[] options = { loc.getMenu("Cancel"), dl };
 						Component comp = app.getMainComponent();
 						int returnVal = JOptionPane.showOptionDialog(comp, q,
 								dl, JOptionPane.DEFAULT_OPTION,

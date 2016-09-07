@@ -26,12 +26,12 @@ public class PgfFrame extends ExportFrame {
 	}
 
 	protected void initGui() {
-		forceGnuplot = new JCheckBox(app.getPlain("ForceGnuplotPgf"));
+		forceGnuplot = new JCheckBox(loc.getMenu("ForceGnuplotPgf"));
 		forceGnuplot.setSelected(false);
 		comboFormat = new JComboBox(format);
-		labelFormat = new JLabel(app.getPlain("Format"));
+		labelFormat = new JLabel(loc.getMenu("Format"));
 		js.getViewport().add(textarea);
-		setTitle(app.getPlain("TitleExportPgf"));
+		setTitle(loc.getMenu("TitleExportPgf"));
 		panel.setLayout(new GridBagLayout());
 		panel.add(labelXUnit, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,
 				GridBagConstraints.CENTER, GridBagConstraints.NONE, new Insets(

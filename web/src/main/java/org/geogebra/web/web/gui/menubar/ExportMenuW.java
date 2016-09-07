@@ -70,7 +70,8 @@ public class ExportMenuW extends MenuBar {
 		if (!app.getLAF().isTablet()) {
 			addItem(MainMenu
 					.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri()
-							.asString(), app.getPlain("AnimatedGIF"), true),
+.asString(),
+					app.getLocalization().getMenu("AnimatedGIF"), true),
 					true, new MenuCommand(app) {
 						public void doExecute() {
 							hide();

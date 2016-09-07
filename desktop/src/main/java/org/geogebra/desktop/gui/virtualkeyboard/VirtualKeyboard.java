@@ -51,6 +51,7 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.main.MyResourceBundle;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -118,6 +119,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 	private boolean shrink;
 
+	private LocalizationD loc;
+
 	public VirtualKeyboard(int windowX, int windowY) {
 		this(null, windowX, windowY, 0.7f);
 	}
@@ -141,6 +144,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		this.windowHeight = windowHeight;
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.setFocusableWindowState(false);
 		this.setAlwaysOnTop(true);
 
@@ -1002,7 +1006,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		if (text.equals("<backspace>"))
 			return "\u21a4";
 		if (text.equals("<escape>"))
-			return (app == null) ? escText : app.getPlain("Esc");
+			return (app == null) ? escText : loc.getMenu(
+					"Esc");
 		if (text.equals("<left>"))
 			return "\u2190";
 		if (text.equals("<up>"))
@@ -1281,9 +1286,9 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			fontsHash.clear();
 
 		if (app != null) {
-			getCtrlButton().setText(app.getPlain("Ctrl"));
-			getAltButton().setText(app.getPlain("Alt"));
-			getAltGrButton().setText(app.getPlain("AltGr"));
+			getCtrlButton().setText(loc.getMenu("Ctrl"));
+			getAltButton().setText(loc.getMenu("Alt"));
+			getAltGrButton().setText(loc.getMenu("AltGr"));
 			updateCtrlButton();
 			updateAltButton();
 			updateAltGrButton();

@@ -23,6 +23,7 @@ import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 
 public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		FocusListener, SetLabels, IAxisModelListener {
@@ -51,6 +52,8 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 	private AppD app;
 	protected EuclidianView view;
 
+	private LocalizationD loc;
+
 	/******************************************************
 	 * @param app
 	 * @param view
@@ -59,36 +62,37 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 	public AxisPanel(AppD app, EuclidianView view, int axis) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.view = view;
 		model = new AxisModel(app, view, axis, this);
 
 		setLayout(new FullWidthLayout());
 
 		String strAxisEn = model.getAxisName();
-		this.setBorder(LayoutUtil.titleBorder(app.getPlain(strAxisEn)));
+		this.setBorder(LayoutUtil.titleBorder(loc.getMenu(strAxisEn)));
 
 		// show axis
-		cbShowAxis = new JCheckBox(app.getPlain("Show" + strAxisEn));
+		cbShowAxis = new JCheckBox(loc.getMenu("Show" + strAxisEn));
 		cbShowAxis.addActionListener(this);
 		JPanel showAxisPanel = LayoutUtil.flowPanel(cbShowAxis);
 
 		// show numbers
-		cbAxisNumber = new JCheckBox(app.getPlain("ShowAxisNumbers"));
+		cbAxisNumber = new JCheckBox(loc.getMenu("ShowAxisNumbers"));
 		cbAxisNumber.addActionListener(this);
 		JPanel numberPanel = LayoutUtil.flowPanel(cbAxisNumber);
 
 		// show positive axis only
-		cbPositiveAxis = new JCheckBox(app.getPlain("PositiveDirectionOnly"));
+		cbPositiveAxis = new JCheckBox(loc.getMenu("PositiveDirectionOnly"));
 		cbPositiveAxis.addActionListener(this);
 		JPanel showPosPanel = LayoutUtil.flowPanel(cbPositiveAxis);
 
 		// allow selection
-		cbAllowSelection = new JCheckBox(app.getPlain("SelectionAllowed"));
+		cbAllowSelection = new JCheckBox(loc.getMenu("SelectionAllowed"));
 		cbAllowSelection.addActionListener(this);
 		JPanel allowSelectionPanel = LayoutUtil.flowPanel(cbAllowSelection);
 
 		// ticks
-		axisTicks = new JLabel(app.getPlain("AxisTicks") + ":");
+		axisTicks = new JLabel(loc.getMenu("AxisTicks") + ":");
 		cbTickStyle = new JComboBox();
 
 		model.fillTicksCombo();
@@ -98,7 +102,7 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		JPanel showTicksPanel = LayoutUtil.flowPanel(axisTicks, cbTickStyle);
 
 		// distance
-		cbManualTicks = new JCheckBox(app.getPlain("TickDistance") + ":");
+		cbManualTicks = new JCheckBox(loc.getMenu("TickDistance") + ":");
 		cbManualTicks.addActionListener(this);
 		ncbTickDist = new NumberComboBox(app);
 		ncbTickDist.addItemListener(this);
@@ -109,9 +113,9 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		model.fillAxisCombo();
 		cbAxisLabel.addActionListener(this);
 		cbAxisLabel.setEditable(true);
-		axisLabel = new JLabel(app.getPlain("AxisLabel") + ":");
+		axisLabel = new JLabel(loc.getMenu("AxisLabel") + ":");
 
-		axisUnitLabel = new JLabel(app.getPlain("AxisUnitLabel") + ":");
+		axisUnitLabel = new JLabel(loc.getMenu("AxisUnitLabel") + ":");
 		cbUnitLabel = new JComboBox();
 		cbUnitLabel.setEditable(true);
 		model.fillUnitLabel();
@@ -123,11 +127,11 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 		// cross at and stick to edge
 		tfCross = new MyTextFieldD(app, 6);
 		tfCross.addActionListener(this);
-		crossAt = new JLabel(app.getPlain("CrossAt") + ":");
+		crossAt = new JLabel(loc.getMenu("CrossAt") + ":");
 		cbDrawAtBorder = new JCheckBox();
 		cbDrawAtBorder.addActionListener(this);
-		stickToEdge = new JLabel(app.getPlain("StickToEdge"));
-		stickToEdge = new JLabel(app.getPlain("StickToEdge"));
+		stickToEdge = new JLabel(loc.getMenu("StickToEdge"));
+		stickToEdge = new JLabel(loc.getMenu("StickToEdge"));
 
 		JPanel crossPanel = LayoutUtil.flowPanel(crossAt, tfCross,
 				cbDrawAtBorder, stickToEdge);
@@ -298,18 +302,18 @@ public class AxisPanel extends JPanel implements ActionListener, ItemListener,
 
 	public void setLabels() {
 		String strAxisEn = model.getAxisName();
-		this.setBorder(LayoutUtil.titleBorder(app.getPlain(strAxisEn)));
+		this.setBorder(LayoutUtil.titleBorder(loc.getMenu(strAxisEn)));
 		this.setBorder(LayoutUtil.titleBorder(null));
-		cbShowAxis.setText(app.getPlain("Show" + strAxisEn));
-		cbAxisNumber.setText(app.getPlain("ShowAxisNumbers"));
-		cbManualTicks.setText(app.getPlain("TickDistance") + ":");
-		axisTicks.setText(app.getPlain("AxisTicks") + ":");
-		cbPositiveAxis.setText(app.getPlain("PositiveDirectionOnly"));
-		axisLabel.setText(app.getPlain("AxisLabel") + ":");
-		axisUnitLabel.setText(app.getPlain("AxisUnitLabel") + ":");
-		crossAt.setText(app.getPlain("CrossAt") + ":");
-		stickToEdge.setText(app.getPlain("StickToEdge"));
-		cbAllowSelection.setText(app.getPlain("SelectionAllowed"));
+		cbShowAxis.setText(loc.getMenu("Show" + strAxisEn));
+		cbAxisNumber.setText(loc.getMenu("ShowAxisNumbers"));
+		cbManualTicks.setText(loc.getMenu("TickDistance") + ":");
+		axisTicks.setText(loc.getMenu("AxisTicks") + ":");
+		cbPositiveAxis.setText(loc.getMenu("PositiveDirectionOnly"));
+		axisLabel.setText(loc.getMenu("AxisLabel") + ":");
+		axisUnitLabel.setText(loc.getMenu("AxisUnitLabel") + ":");
+		crossAt.setText(loc.getMenu("CrossAt") + ":");
+		stickToEdge.setText(loc.getMenu("StickToEdge"));
+		cbAllowSelection.setText(loc.getMenu("SelectionAllowed"));
 	}
 
 	protected double parseDouble(String text) {

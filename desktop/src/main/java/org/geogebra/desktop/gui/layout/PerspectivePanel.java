@@ -39,8 +39,7 @@ public class PerspectivePanel extends JPopupMenu {
 	private DockBar dockBar;
 	private JButton btnLanguage;
 
-	private AbstractAction setLanguageAction, changePerspectiveAction,
-			managePerspectivesAction, savePerspectiveAction;
+	private AbstractAction setLanguageAction, changePerspectiveAction;
 
 	/****************************************************
 	 * Constructs a PerspectivePanel
@@ -184,25 +183,7 @@ public class PerspectivePanel extends JPopupMenu {
 			}
 		};
 
-		savePerspectiveAction = new AbstractAction(
-				app.getMenu("SaveCurrentPerspective"), app.getEmptyIcon()) {
 
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				layout.showSaveDialog();
-			}
-		};
-
-		managePerspectivesAction = new AbstractAction(
-				app.getMenu("ManagePerspectives"), app.getEmptyIcon()) {
-
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				layout.showManageDialog();
-			}
-		};
 
 		changePerspectiveAction = new AbstractAction() {
 

@@ -46,7 +46,7 @@ public class AlgebraStyleListBox extends ListBox {
 		clear();
 
 		for (int i = 0; i < modes.length; i++) {
-			addItem(app.getPlain(modes[i]));
+			addItem(app.getLocalization().getMenu(modes[i]));
 		}
 
 		int descMode = app.getKernel().getAlgebraStyle();

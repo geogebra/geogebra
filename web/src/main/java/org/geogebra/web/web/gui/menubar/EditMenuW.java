@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.util.CopyPaste;
@@ -21,6 +22,7 @@ public class EditMenuW extends GMenuBar {
 	 */
 	final SelectionManager selection;
 	private boolean valid = true;
+	private Localization loc;
 	/**
 	 * Constructs the "Edit" menu
 	 * 
@@ -31,6 +33,7 @@ public class EditMenuW extends GMenuBar {
 
 		super(true, "edit", new MenuResources());
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.selection = app.getSelectionManager();
 		addStyleName("GeoGebraMenuBar");
 		initActions();
@@ -62,7 +65,7 @@ public class EditMenuW extends GMenuBar {
 		// copy menu
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 		        .menu_icon_edit_copy().getSafeUri().asString(),
-		        app.getMenu("Copy"), true), true, new MenuCommand(app) {
+				loc.getMenu("Copy"), true), true, new MenuCommand(app) {
 
 			@Override
 			public void doExecute() {
@@ -80,7 +83,7 @@ public class EditMenuW extends GMenuBar {
 		// paste menu
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 		        .menu_icon_edit_paste().getSafeUri().asString(),
-		        app.getMenu("Paste"), true), true, new MenuCommand(app) {
+				loc.getMenu("Paste"), true), true, new MenuCommand(app) {
 
 			@Override
 			public void doExecute() {
@@ -100,7 +103,8 @@ public class EditMenuW extends GMenuBar {
 		addItem(MainMenu.getMenuBarHtml(
 				GuiResources.INSTANCE.menu_icon_options().getSafeUri()
 						.asString(),
-				!app.getKernel().isEmpty() ? app.getPlain("Properties") : app
+ !app.getKernel()
+				.isEmpty() ? loc.getMenu("Properties") : app
 						.getMenu("Options") + " ...", true), true,
 				new MenuCommand(app) {
 
@@ -115,7 +119,7 @@ public class EditMenuW extends GMenuBar {
 
 
 		// select all menu
-		addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("SelectAll"), true),
+		addItem(MainMenu.getMenuBarHtml(noIcon, loc.getMenu("SelectAll"), true),
 		        true, new MenuCommand(app) {
 
 			        @Override
@@ -129,7 +133,7 @@ public class EditMenuW extends GMenuBar {
 		// select current layer menu
 		if (selection.getSelectedLayer() >= 0 && app.getMaxLayerUsed() > 0) {
 			addItem(MainMenu.getMenuBarHtml(noIcon,
-			        app.getMenu("SelectCurrentLayer"), true), true,
+					loc.getMenu("SelectCurrentLayer"), true), true,
 			        new MenuCommand(app) {
 
 				        @Override
@@ -145,7 +149,7 @@ public class EditMenuW extends GMenuBar {
 		if (selection.hasDescendants()) {
 			// select descendants menu
 			addItem(MainMenu.getMenuBarHtml(noIcon,
-			        app.getMenu("SelectDescendants"), true), true,
+					loc.getMenu("SelectDescendants"), true), true,
 			        new MenuCommand(app) {
 
 				        @Override
@@ -158,7 +162,7 @@ public class EditMenuW extends GMenuBar {
 		if (selection.hasPredecessors()) {
 			// select ancestors menu
 			addItem(MainMenu.getMenuBarHtml(noIcon,
-			        app.getMenu("SelectAncestors"), true), true,
+					loc.getMenu("SelectAncestors"), true), true,
 			        new MenuCommand(app) {
 
 				        @Override
@@ -173,7 +177,7 @@ public class EditMenuW extends GMenuBar {
 			addSeparator();
 			// invert selection menu
 			addItem(MainMenu.getMenuBarHtml(noIcon,
-			        app.getMenu("InvertSelection"), true), true,
+					loc.getMenu("InvertSelection"), true), true,
 			        new MenuCommand(app) {
 
 				        @Override
@@ -185,7 +189,7 @@ public class EditMenuW extends GMenuBar {
 
 		// show/hide objects and show/hide labels menus
 		if (layer != -1) {
-			addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("ShowHide"),
+			addItem(MainMenu.getMenuBarHtml(noIcon, loc.getMenu("ShowHide"),
 			        true), true, new MenuCommand(app) {
 
 				@Override
@@ -195,7 +199,7 @@ public class EditMenuW extends GMenuBar {
 			});
 
 			addItem(MainMenu.getMenuBarHtml(noIcon,
-			        app.getMenu("ShowHideLabels"), true), true,
+					loc.getMenu("ShowHideLabels"), true), true,
 			        new MenuCommand(app) {
 
 				        @Override
@@ -210,7 +214,7 @@ public class EditMenuW extends GMenuBar {
 			addSeparator();
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 			        .menu_icon_edit_delete().getSafeUri().asString(),
-			        app.getPlain("Delete"), true), true, new MenuCommand(app) {
+					loc.getMenu("Delete"), true), true, new MenuCommand(app) {
 
 				@Override
 				public void doExecute() {
@@ -227,7 +231,7 @@ public class EditMenuW extends GMenuBar {
 		// undo menu
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 				.menu_icon_edit_undo().getSafeUri().asString(),
-				app.getMenu("Undo"), true), true, new MenuCommand(app) {
+				loc.getMenu("Undo"), true), true, new MenuCommand(app) {
 
 					@Override
 					public void execute() {
@@ -240,7 +244,7 @@ public class EditMenuW extends GMenuBar {
 		// redo menu
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 				.menu_icon_edit_redo().getSafeUri().asString(),
-				app.getMenu("Redo"), true), true, new MenuCommand(app) {
+				loc.getMenu("Redo"), true), true, new MenuCommand(app) {
 
 					@Override
 					public void execute() {

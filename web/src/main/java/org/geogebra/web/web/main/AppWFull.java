@@ -257,7 +257,7 @@ public abstract class AppWFull extends AppW {
 				"cas", "3d", "probability" };
 		if (articleElement.getDataParamShowStartTooltip(perspID > 0)) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-			String tooltipText = getPlain("NewToGeoGebra")
+			String tooltipText = getLocalization().getMenu("NewToGeoGebra")
 					+ "<br/>"
 					+ getLocalization()
 					.getPlain(

@@ -158,7 +158,8 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 				return object.getVariable();
 			}
 		};
-		table.addColumn(oldVal, app.getPlain("OldExpression"));
+		Localization loc = app.getLocalization();
+		table.addColumn(oldVal, loc.getPlain("OldExpression"));
 		table.setColumnWidth(oldVal, 40, Unit.PX);
 		oldVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
 			public void update(int index, SubstituteValue object, String value) {
@@ -186,7 +187,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 				return object.getValue();
 			}
 		};
-		table.addColumn(newVal, app.getPlain("NewExpression"));
+		table.addColumn(newVal, loc.getPlain("NewExpression"));
 		table.setColumnWidth(newVal, 40, Unit.PX);
 		newVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
 			public void update(int index, SubstituteValue object, String value) {

@@ -159,7 +159,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		}
 		treeModeMenu.removeAll();
 
-		JLabel title = new JLabel(app.getPlain("SortBy") + ":");
+		JLabel title = new JLabel(loc.getMenu("SortBy") + ":");
 		title.setFont(app.getBoldFont());
 		title.setIcon(app.getEmptyIcon());
 		title.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
@@ -175,7 +175,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			mi.setFont(app.getPlainFont());
 			mi.setBackground(Color.white);
 			final SortMode sort = sortModes[i];
-			mi.setText(app.getPlain(sort.toString()));
+			mi.setText(loc.getMenu(sort.toString()));
 
 			mi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -201,7 +201,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		}
 		descriptionMenu.removeAll();
 
-		JLabel title = new JLabel(app.getMenu("AlgebraDescriptions") + ":");
+		JLabel title = new JLabel(loc.getMenu("AlgebraDescriptions") + ":");
 		title.setFont(app.getBoldFont());
 		title.setIcon(app.getEmptyIcon());
 		title.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
@@ -209,8 +209,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 
 		descriptionMenu.add(title);
 
-		String[] modes = new String[] { app.getPlain("Value"),
-				app.getPlain("Description"), app.getPlain("Definition") };
+		String[] modes = new String[] { loc.getMenu("Value"),
+				loc.getMenu("Description"), loc.getMenu("Definition") };
 		for (int i = 0; i < modes.length; i++) {
 			JCheckBoxMenuItem mi = new JCheckBoxMenuItem();
 			mi.setFont(app.getPlainFont());

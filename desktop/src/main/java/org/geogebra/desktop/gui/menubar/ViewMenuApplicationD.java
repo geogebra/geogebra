@@ -101,7 +101,8 @@ public class ViewMenuApplicationD extends ViewMenuD {
 			}
 		};
 
-		showKeyboardAction = new AbstractAction(app.getPlain("Keyboard")) {
+		showKeyboardAction = new AbstractAction(loc.getMenu(
+				"Keyboard")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -183,7 +184,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		private JCheckBoxMenuItem cb;
 
 		public ShowViewAction(DockPanelD panel) {
-			super(app.getPlain(panel.getViewTitle()));
+			super(app.getLocalization().getMenu(panel.getViewTitle()));
 			this.panel = panel;
 			viewId = panel.getViewId();
 		}

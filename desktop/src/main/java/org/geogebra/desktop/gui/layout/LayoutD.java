@@ -1,26 +1,12 @@
 package org.geogebra.desktop.gui.layout;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.euclidian.EuclidianView;
@@ -35,7 +21,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.main.GeoGebraPreferencesD;
 
 /**
  * Manage layout related stuff.
@@ -393,116 +378,4 @@ public class LayoutD extends Layout implements SettingListener {
 		// unused
 	}
 
-
-
-	/**
-	 * Show the dialog which is used to manage the custom defined perspectives.
-	 */
-	public void showManageDialog() {
-		ManagePerspectivesDialog dialog = new ManagePerspectivesDialog(app,
-				this);
-		dialog.setVisible(true);
-	}
-
-	/**
-	 * Dialog which is used to manage (delete) the custom perspectives.
-	 * 
-	 * @author Florian Sonner
-	 * @version 2008-09-14
-	 * 
-	 *          TODO More advanced functions (rename, etc.)
-	 */
-	private class ManagePerspectivesDialog extends JDialog implements
-			ActionListener {
-		private static final long serialVersionUID = 1L;
-
-		private AppD app;
-		private LayoutD layout;
-		private JList list;
-		private DefaultListModel listModel;
-		private JButton cancelButton, removeButton;
-
-		public ManagePerspectivesDialog(AppD app, LayoutD layout) {
-			super(app.getFrame());
-
-			this.app = app;
-			this.layout = layout;
-
-			setModal(true);
-			setTitle(app.getMenu("ManagePerspectives"));
-			buildGUI();
-			pack();
-			setLocationRelativeTo(app.getMainComponent());
-		}
-
-		/**
-		 * Build the GUI which includes a list with perspectives and some
-		 * buttons.
-		 */
-		private void buildGUI() {
-			// build list with perspectives
-			listModel = new DefaultListModel();
-			Perspective[] perspectives = layout.getPerspectives();
-			for (int i = 0; i < perspectives.length; ++i) {
-				listModel.addElement(perspectives[i].getId());
-			}
-
-			list = new JList(listModel);
-			list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			list.setLayoutOrientation(JList.VERTICAL);
-			list.setVisibleRowCount(6);
-
-			JScrollPane listSP = new JScrollPane(list,
-					ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			listSP.setPreferredSize(new Dimension(150, 200));
-
-			// build button panel to remove perspectives and to close this
-			// dialog
-			JPanel buttonPanel = new JPanel();
-			buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
-			removeButton = new JButton(app.getPlain("Remove"));
-			removeButton.addActionListener(this);
-			updateRemoveButton();
-			buttonPanel.add(removeButton);
-
-			cancelButton = new JButton(app.getPlain("Cancel"));
-			cancelButton.addActionListener(this);
-			buttonPanel.add(cancelButton);
-
-			Container cp = getContentPane();
-			cp.setLayout(new BorderLayout());
-			cp.add(listSP, BorderLayout.CENTER);
-			cp.add(buttonPanel, BorderLayout.SOUTH);
-		}
-
-		/**
-		 * One of the buttons was pressed.
-		 */
-		public void actionPerformed(ActionEvent e) {
-			if (e.getSource() == cancelButton) {
-				setVisible(false);
-				dispose();
-			} else if (e.getSource() == removeButton) {
-				int index = list.getSelectedIndex();
-
-				if (index != -1) { // -1 = no entry selected
-					listModel.remove(index);
-					layout.removePerspective(index);
-					GeoGebraPreferencesD.getPref().saveXMLPreferences(app);
-
-					app.updateMenubar();
-					updateRemoveButton();
-				}
-			}
-		}
-
-		/**
-		 * Don't enable the remove button if there are no items.
-		 */
-		private void updateRemoveButton() {
-			removeButton.setEnabled(listModel.size() != 0);
-		}
-	}
 }

@@ -37,6 +37,7 @@ import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.GuiManagerInterfaceD;
+import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.UtilD;
 
@@ -68,6 +69,8 @@ public class WorksheetExportDialog extends JDialog {
 	// private JTabbedPane modeSwitch;
 	private JPanel modeUploadPanel;
 
+	private LocalizationD loc;
+
 	/**
 	 * @param app
 	 *            app
@@ -75,6 +78,7 @@ public class WorksheetExportDialog extends JDialog {
 	public WorksheetExportDialog(AppD app) {
 		super(app.getFrame(), true);
 		this.app = app;
+		this.loc = app.getLocalization();
 		kernel = app.getKernel();
 
 		ggbPref = GeoGebraPreferencesD.getPref();
@@ -96,20 +100,20 @@ public class WorksheetExportDialog extends JDialog {
 		titlePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// Cancel and Export Button
-		JButton cancelButton = new JButton(app.getPlain("Cancel"));
+		JButton cancelButton = new JButton(loc.getMenu("Cancel"));
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
 		});
 
-		helpButton = new JButton(app.getMenu("Help"));
+		helpButton = new JButton(loc.getMenu("Help"));
 		HelpAction helpAction = new HelpAction(app,
-				app.getScaledIcon(GuiResourcesD.HELP), app.getMenu("Help"),
+				app.getScaledIcon(GuiResourcesD.HELP), loc.getMenu("Help"),
 				App.WIKI_EXPORT_WORKSHEET);
 		helpButton.setAction(helpAction);
 
-		uploadButton = new JButton(app.getPlain("Upload"));
+		uploadButton = new JButton(loc.getMenu("Upload"));
 		uploadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
@@ -159,7 +163,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		UtilD.registerForDisposeOnEscape(this);
 
-		setTitle(app.getMenu("UploadGeoGebraTube"));
+		setTitle(loc.getMenu("UploadGeoGebraTube"));
 		setResizable(true);
 		centerOnScreen();
 	}
@@ -200,14 +204,14 @@ public class WorksheetExportDialog extends JDialog {
 		});
 
 		JPanel p = new JPanel(new BorderLayout(5, 5));
-		p.add(new JLabel(app.getPlain("Title") + ": "), app.getLocalization()
+		p.add(new JLabel(loc.getMenu("Title") + ": "), app.getLocalization()
 				.borderWest());
 		p.add(titleField, BorderLayout.CENTER);
 		panel.add(p, BorderLayout.NORTH);
 
 		// text areas
 		JPanel centerPanel = new JPanel(new BorderLayout(5, 5));
-		JLabel label = new JLabel(app.getPlain("TextBeforeConstruction") + ":");
+		JLabel label = new JLabel(loc.getMenu("TextBeforeConstruction") + ":");
 		textAboveUpload = new InputPanelD(null, app, 5, 40, true,
 				DialogType.TextArea);
 		// JScrollPane scrollPane = new JScrollPane(textAbove);
@@ -217,7 +221,7 @@ public class WorksheetExportDialog extends JDialog {
 		p.add(textAboveUpload, BorderLayout.CENTER);
 		centerPanel.add(p, BorderLayout.CENTER);
 
-		label = new JLabel(app.getPlain("TextAfterConstruction") + ":");
+		label = new JLabel(loc.getMenu("TextAfterConstruction") + ":");
 		textBelowUpload = new InputPanelD(null, app, 8, 40, true,
 				DialogType.TextArea);
 

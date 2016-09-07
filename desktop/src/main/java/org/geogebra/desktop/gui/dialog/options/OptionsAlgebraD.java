@@ -176,12 +176,12 @@ public class OptionsAlgebraD extends OptionsAlgebra
 
 	private void updateDescription() {
 		ignoreActions = true;
-		String[] modes = new String[] { app.getPlain("Value"),
-				app.getPlain("Description"), app.getPlain("Definition") };
+		String[] modes = new String[] { loc.getMenu("Value"),
+				loc.getMenu("Description"), loc.getMenu("Definition") };
 		description.removeAllItems();
 
 		for (int i = 0; i < modes.length; i++) {
-			description.addItem(app.getPlain(modes[i]));
+			description.addItem(loc.getMenu(modes[i]));
 		}
 
 		int descMode = app.getKernel().getAlgebraStyle();

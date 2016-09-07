@@ -89,6 +89,7 @@ import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.javax.swing.table.GAbstractTableModelD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -117,11 +118,13 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	public JScrollPane scrollPane;
 	private ConstructionProtocolStyleBar helperBar;
 	private AbstractAction exportHtmlAction, printPreviewAction;
+	private LocalizationD loc;
 
 	public ConstructionProtocolViewD(final AppD app) {
 		// cpPanel = new JPanel(new BorderLayout());
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		kernel = app.getKernel();
 		data = new ConstructionTableDataD(this);
 		useColors = true;
@@ -237,7 +240,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 	 * inits GUI with labels of current language
 	 */
 	public void initGUI() {
-		// setTitle(app.getPlain("ConstructionProtocol"));
+		// setTitle(loc.getMenu("ConstructionProtocol"));
 		scrollPane.setFont(((AppD) app).getPlainFont());
 		// setMenuBar();
 		getStyleBar().setLabels();
@@ -356,7 +359,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 	private void initActions() {
 
-		exportHtmlAction = new AbstractAction(app.getPlain("ExportAsWebpage")
+		exportHtmlAction = new AbstractAction(loc.getMenu("ExportAsWebpage")
 				+ " (" + FileExtensions.HTML + ") ...") {
 			private static final long serialVersionUID = 1L;
 
@@ -377,7 +380,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			}
 		};
 
-		printPreviewAction = new AbstractAction(app.getMenu("Print") + "...",
+		printPreviewAction = new AbstractAction(loc.getMenu("Print") + "...",
 				((AppD) app)
 						.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW)) {
 			private static final long serialVersionUID = 1L;
@@ -420,7 +423,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 						String date = tp.configureDate(cons.getDate());
 
 						if (title.equals(""))
-							title = app.getPlain("UntitledConstruction");
+							title = loc.getMenu("UntitledConstruction");
 						if (author.equals(""))
 							return title + " (" + date + ")";
 						return author + ": " + title + " (" + date + ")";
@@ -1369,7 +1372,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		sb.append("<title>");
 		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
 		sb.append(" - ");
-		sb.append(app.getPlain("ConstructionProtocol"));
+		sb.append(loc.getMenu("ConstructionProtocol"));
 		sb.append("</title>\n");
 		sb.append("<meta keywords = \"");
 		sb.append(StringUtil.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
@@ -1419,7 +1422,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			sb.append(StringUtil
 					.toHTMLString(GeoGebraConstants.APPLICATION_NAME));
 			sb.append(' ');
-			sb.append(StringUtil.toHTMLString(app.getPlain("DrawingPad")));
+			sb.append(StringUtil.toHTMLString(loc.getMenu("DrawingPad")));
 			sb.append("\" border=\"1\">\n");
 			sb.append("</p>\n");
 		}

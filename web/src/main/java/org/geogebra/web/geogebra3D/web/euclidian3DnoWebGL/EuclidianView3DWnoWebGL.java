@@ -57,7 +57,9 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 
 		this.g2p.setColor(GColor.BLACK);
 		if (!getApplication().isScreenshotGenerator()) {
-			this.g2p.drawString(getApplication().getPlain("NoWebGL"), 10, 20);
+			this.g2p.drawString(
+					getApplication().getLocalization().getMenu("NoWebGL"), 10,
+					20);
 		}
 	}
 

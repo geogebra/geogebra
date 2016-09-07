@@ -3176,11 +3176,11 @@ FileExtensions.GEOGEBRA_TOOL)) {
 		LocalizationD loc = ((AppD) app).getLocalization();
 
 		// Michael Borcherds 2008-05-04
-		Object[] options = { app.getPlain("CreateSliders"),
-				app.getMenu("Cancel") };
+		Object[] options = { loc.getMenu("CreateSliders"),
+				loc.getMenu("Cancel") };
 		int returnVal = JOptionPane.showOptionDialog(comp,
 				loc.getPlain("CreateSlidersForA", s),
-				loc.getPlain("CreateSliders"), JOptionPane.DEFAULT_OPTION,
+				loc.getMenu("CreateSliders"), JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE,
 
 				((AppD) app).getModeIcon(EuclidianConstants.MODE_SLIDER),

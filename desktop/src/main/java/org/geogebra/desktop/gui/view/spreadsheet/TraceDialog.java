@@ -358,7 +358,7 @@ implements
 		// trace as... radio buttons
 		JPanel pane = new JPanel();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
-		traceModeTitle = BorderFactory.createTitledBorder(app
+		traceModeTitle = BorderFactory.createTitledBorder(loc
 				.getPlain("TraceMode"));
 		pane.setBorder(BorderFactory.createTitledBorder(traceModeTitle));
 

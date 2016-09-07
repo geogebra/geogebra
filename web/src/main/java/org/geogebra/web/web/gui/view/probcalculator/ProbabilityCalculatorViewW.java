@@ -1065,7 +1065,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		}
 		if (((AppW) app).getLAF().copyToClipboardSupported()) {
 			MenuItem miAsPicture = new MenuItem(
-					app.getPlain("ExportAsPicture"), new Command() {
+					loc.getPlain("ExportAsPicture"), new Command() {
 
 						public void execute() {
 							String url = ((EuclidianViewW) plotPanel)

@@ -27,8 +27,8 @@ public class PstricksFrame extends ExportFrame {
 
 	protected void initGui() {
 		comboFormat = new JComboBox(format);
-		labelFormat = new JLabel(app.getPlain("Format"));
-		setTitle(app.getPlain("TitleExportPstricks"));
+		labelFormat = new JLabel(loc.getMenu("Format"));
+		setTitle(loc.getMenu("TitleExportPstricks"));
 		js.getViewport().add(textarea);
 		panel.setLayout(new GridBagLayout());
 		panel.add(labelXUnit, new GridBagConstraints(0, 0, 1, 1, 1.0, 1.0,

@@ -379,7 +379,7 @@ kbdIcon, iconHeight);
 		// ========================================
 		// use as text button
 		ImageIcon useAsTextIcon = GeoGebraIcon.createStringIcon(
-				app.getPlain("Text").substring(0, 1), app.getPlainFont(), true,
+				loc.getMenu("Text").substring(0, 1), app.getPlainFont(), true,
 				false, true, iconDimension, Color.black, null);
 		btnUseAsText = new MyToggleButton(useAsTextIcon, iconHeight) {
 
@@ -397,7 +397,7 @@ kbdIcon, iconHeight);
 
 		// ========================================
 		// bold text button
-		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(app.getPlain("Bold")
+		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(loc.getMenu("Bold")
 				.substring(0, 1), app.getPlainFont(), true, false, true,
 				iconDimension, Color.black, null);
 		btnBold = new MyToggleButton(boldIcon, iconHeight) {
@@ -423,7 +423,7 @@ kbdIcon, iconHeight);
 		// ========================================
 		// italic text button
 		ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
-				app.getPlain("Italic").substring(0, 1), app.getPlainFont(),
+				loc.getMenu("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic = new MyToggleButton(italicIcon, iconHeight) {
 

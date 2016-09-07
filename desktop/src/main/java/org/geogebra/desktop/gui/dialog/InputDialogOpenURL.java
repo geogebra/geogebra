@@ -23,8 +23,8 @@ public class InputDialogOpenURL extends InputDialogD {
 							.startsWith("www")))
 			initString = clipboardString;
 
-		createGUI(app.getMenu("OpenWebpage"),
-				app.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1,
+		createGUI(loc.getMenu("OpenWebpage"),
+				loc.getMenu("EnterAppletAddress"), false, DEFAULT_COLUMNS, 1,
 				false, true, false, false, DialogType.TextArea);
 		optionPane.add(inputPanel, BorderLayout.CENTER);
 		centerOnScreen();
@@ -36,8 +36,8 @@ public class InputDialogOpenURL extends InputDialogD {
 	public void setLabels(String title) {
 		wrappedDialog.setTitle(title);
 
-		btOK.setText(app.getPlain("Open"));
-		btCancel.setText(app.getPlain("Cancel"));
+		btOK.setText(loc.getMenu("Open"));
+		btCancel.setText(loc.getMenu("Cancel"));
 	}
 
 	/**

@@ -230,53 +230,53 @@ public class CreateObjectDialog extends InputDialogD implements
 
 		// TODO: using buttons incorrectly for now
 		// btnOK = cancel, cancel = create
-		btOK.setText(app.getPlain("Create"));
-		btApply.setText(app.getPlain("Apply"));
-		btCancel.setText(app.getMenu("Cancel"));
+		btOK.setText(loc.getMenu("Create"));
+		btApply.setText(loc.getMenu("Apply"));
+		btCancel.setText(loc.getMenu("Cancel"));
 
 		// object/value checkboxes
-		btnObject.setText(app.getPlain("DependentObjects"));
+		btnObject.setText(loc.getMenu("DependentObjects"));
 		btnObject.addActionListener(this);
-		btnValue.setText(app.getPlain("FreeObjects"));
+		btnValue.setText(loc.getMenu("FreeObjects"));
 		btnValue.addActionListener(this);
 
 		// transpose checkbox
-		ckTranspose.setText(app.getMenu("Transpose"));
-		ckSort.setText(app.getMenu("Sort"));
+		ckTranspose.setText(loc.getMenu("Transpose"));
+		ckSort.setText(loc.getMenu("Sort"));
 		ckSort.addActionListener(this);
 
-		lblName.setText(app.getPlain("Name") + ": ");
+		lblName.setText(loc.getMenu("Name") + ": ");
 
 		/*
-		 * lblTake.setText(app.getMenu("Take") + ": ");
-		 * lblOrder.setText(app.getMenu("Order") + ":");
-		 * lblXYOrder.setText(app.getMenu("Order") + ": ");
+		 * lblTake.setText(loc.getMenu("Take") + ": ");
+		 * lblOrder.setText(loc.getMenu("Order") + ":");
+		 * lblXYOrder.setText(loc.getMenu("Order") + ": ");
 		 */
 
 		cbScanOrder.removeAllItems();
-		cbScanOrder.addItem(app.getMenu("RowOrder"));
-		cbScanOrder.addItem(app.getMenu("ColumnOrder"));
+		cbScanOrder.addItem(loc.getMenu("RowOrder"));
+		cbScanOrder.addItem(loc.getMenu("ColumnOrder"));
 
 		cbLeftRightOrder.removeAllItems();
-		cbLeftRightOrder.addItem(app.getMenu("X->Y"));
-		cbLeftRightOrder.addItem(app.getMenu("Y<-X"));
+		cbLeftRightOrder.addItem(loc.getMenu("X->Y"));
+		cbLeftRightOrder.addItem(loc.getMenu("Y<-X"));
 
 		model.clear();
 		for (String item : coModel.getObjectTypeNames()) {
 			model.addElement(item);
 		}
 
-		lblObject.setText(app.getMenu("Object") + ":");
+		lblObject.setText(loc.getMenu("Object") + ":");
 
-		// lblPreviewHeader.setText(app.getMenu("Preview")+ ":");
+		// lblPreviewHeader.setText(loc.getMenu("Preview")+ ":");
 
 		namePanel.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createTitledBorder(app.getPlain("Name")),
+				BorderFactory.createTitledBorder(loc.getMenu("Name")),
 				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
-		previewPanel.setBorder(BorderFactory.createTitledBorder(app
+		previewPanel.setBorder(BorderFactory.createTitledBorder(loc
 				.getMenu("Preview")));
 
-		optionsPanel.setBorder(BorderFactory.createTitledBorder(app
+		optionsPanel.setBorder(BorderFactory.createTitledBorder(loc
 				.getMenu("Options")));
 
 		wrappedDialog.setTitle(coModel.getTitle());

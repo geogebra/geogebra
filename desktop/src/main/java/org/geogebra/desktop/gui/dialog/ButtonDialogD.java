@@ -43,6 +43,7 @@ import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.gui.view.algebra.MyComboBoxListener;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 
 public class ButtonDialogD extends JDialog implements ActionListener,
 		KeyListener, WindowListener {
@@ -64,6 +65,7 @@ public class ButtonDialogD extends JDialog implements ActionListener,
 	private AppD app;
 
 	InputPanelD inputPanel, inputPanel2;
+	private LocalizationD loc;
 
 	/**
 	 * Creates a dialog to create a new GeoNumeric for a slider.
@@ -76,6 +78,7 @@ public class ButtonDialogD extends JDialog implements ActionListener,
 	public ButtonDialogD(AppD app, int x, int y, boolean textField) {
 		super(app.getFrame(), false);
 		this.app = app;
+		this.loc = app.getLocalization();
 		// this.textField = textField;
 		addWindowListener(this);
 		model = new ButtonDialogModel(app, x, y, textField);
@@ -95,7 +98,7 @@ public class ButtonDialogD extends JDialog implements ActionListener,
 		setResizable(true);
 
 		// create caption panel
-		JLabel captionLabel = new JLabel(app.getMenu("Button.Caption") + ":");
+		JLabel captionLabel = new JLabel(loc.getMenu("Button.Caption") + ":");
 		InputPanelD ip = new InputPanelD(model.getInitString(), app, 1, 25,
 				true);
 		tfCaption = ip.getTextComponent();
@@ -168,7 +171,7 @@ public class ButtonDialogD extends JDialog implements ActionListener,
 		}
 
 		// create script panel
-		JLabel scriptLabel = new JLabel(app.getPlain("Script") + ":");
+		JLabel scriptLabel = new JLabel(loc.getMenu("Script") + ":");
 		// XXX Remark 1: This has been incorrect as it assumes the click script
 		// is GgbScript. However I'm only adapting it to the new scripting
 		// structure so it will need to be dealt with later
@@ -196,15 +199,15 @@ public class ButtonDialogD extends JDialog implements ActionListener,
 		scriptPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
 		JPanel linkedPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		JLabel linkedLabel = new JLabel(app.getPlain("LinkedObject") + ":");
+		JLabel linkedLabel = new JLabel(loc.getMenu("LinkedObject") + ":");
 		linkedPanel.add(linkedLabel);
 		linkedPanel.add(cbAdd);
 
 		// buttons
-		btOK = new JButton(app.getPlain("OK"));
+		btOK = new JButton(loc.getMenu("OK"));
 		btOK.setActionCommand("OK");
 		btOK.addActionListener(this);
-		btCancel = new JButton(app.getPlain("Cancel"));
+		btCancel = new JButton(loc.getMenu("Cancel"));
 		btCancel.setActionCommand("Cancel");
 		btCancel.addActionListener(this);
 		btPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

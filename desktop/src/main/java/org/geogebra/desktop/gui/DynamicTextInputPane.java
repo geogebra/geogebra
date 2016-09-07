@@ -524,7 +524,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		void createContextMenu() {
 			contextMenu = new JPopupMenu();
 
-			JCheckBoxMenuItem item = new JCheckBoxMenuItem(app.getMenu("Value"));
+			JCheckBoxMenuItem item = new JCheckBoxMenuItem(app
+					.getLocalization().getMenu("Value"));
 			item.setSelected(mode == MODE_VALUE);
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -535,7 +536,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			});
 			contextMenu.add(item);
 
-			item = new JCheckBoxMenuItem(app.getPlain("Definition"));
+			item = new JCheckBoxMenuItem(app.getLocalization().getMenu(
+					"Definition"));
 			item.setSelected(mode == MODE_DEFINITION);
 			item.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {

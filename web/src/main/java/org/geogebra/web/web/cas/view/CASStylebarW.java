@@ -45,6 +45,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	private CASViewW casView;
 	private PopupMenuButton[] popupBtnList;
 	private MyToggleButton2[] toggleBtnList;
+	private Localization loc;
 
 	/**
 	 * @param view
@@ -54,6 +55,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 	 */
 	public CASStylebarW(CASViewW view, AppW app) {
 		super(app, App.VIEW_CAS);
+		this.loc = app.getLocalization();
 		this.casView = view;
 		this.selectedRows = new ArrayList<GeoElement>();
 		initGUI();
@@ -77,7 +79,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 
 	private void createTextButtons() {
 
-		btnUseAsText = new MyToggleButton2(app.getPlain("Text").substring(0, 1)) {
+		btnUseAsText = new MyToggleButton2(loc.getMenu("Text").substring(0, 1)) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -125,7 +127,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		btnTextColor.addActionListener(this);
 		btnTextColor.addPopupHandler(this);
 
-		btnBold = new MyToggleButton2(app.getMenu("Bold.Short")) {
+		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short")) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -143,7 +145,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		btnBold.addClickHandler(this);
 		btnBold.addStyleName("btnBold");
 
-		btnItalic = new MyToggleButton2(app.getMenu("Italic.Short")) {
+		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short")) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -326,19 +328,19 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		super.setLabels();
 		// with button.setText("...")the text is only set for the current face
 		this.btnUseAsText.getDownFace().setText(
-		        app.getPlain("Text").substring(0, 1));
-		this.btnBold.getDownFace().setText(app.getMenu("Bold.Short"));
-		this.btnItalic.getDownFace().setText(app.getMenu("Italic.Short"));
+				loc.getMenu("Text").substring(0, 1));
+		this.btnBold.getDownFace().setText(loc.getMenu("Bold.Short"));
+		this.btnItalic.getDownFace().setText(loc.getMenu("Italic.Short"));
 		this.btnUseAsText.getUpFace().setText(
-		        app.getPlain("Text").substring(0, 1));
-		this.btnBold.getUpFace().setText(app.getMenu("Bold.Short"));
-		this.btnItalic.getUpFace().setText(app.getMenu("Italic.Short"));
+				loc.getMenu("Text").substring(0, 1));
+		this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
+		this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
 		setTooltips();
 	}
 
 	private void setTooltips() {
-		Localization loc = app.getLocalization();
-		btnUseAsText.setToolTipText(app.getMenu("CasCellUseAsText"));
+
+		btnUseAsText.setToolTipText(loc.getMenu("CasCellUseAsText"));
 		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
 		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
 		btnTextColor.setToolTipText(loc.getPlainTooltip("stylebar.TextColor"));

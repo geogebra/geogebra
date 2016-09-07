@@ -222,7 +222,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			app.showError(app.getLocalization().getError("Tool.DeleteUsed")
 					+ " " + macroNamesNoDel);
 		} else {
-			question = loc.getPlain("Question");
+			question = loc.getMenu("Question");
 			message = loc.getMenu("Tool.DeleteQuestion") + macroNamesDel;
 
 			if (!macroNamesNoDel.isEmpty()) {
@@ -275,12 +275,12 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	private FlowPanel createListUpDownRemovePanel() {
 		btUp = new Button("\u25b2");
-		btUp.setTitle(app.getPlain("Up"));
+		btUp.setTitle(loc.getMenu("Up"));
 		btUp.addClickHandler(this);
 		btUp.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
 		btDown = new Button("\u25bc");
-		btDown.setTitle(app.getPlain("Down"));
+		btDown.setTitle(loc.getMenu("Down"));
 		btDown.addClickHandler(this);
 		btDown.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
@@ -319,12 +319,12 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 		btDelete = new Button();
 		toolButtonPanel.add(btDelete);
-		btDelete.setText(loc.getPlain("Delete"));
+		btDelete.setText(loc.getMenu("Delete"));
 
 		if (app.has(Feature.TOOL_EDITOR)) {
 			btOpen = new Button();
 			toolButtonPanel.add(btOpen);
-			btOpen.setText(loc.getPlain("Open"));
+			btOpen.setText(loc.getMenu("Open"));
 			btOpen.addClickHandler(this);
 		}
 
@@ -338,7 +338,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 		// name & icon
 		macroPanel = new ToolNameIconPanel(app);
-		macroPanel.setTitle(app.getMenu("NameIcon"));
+		macroPanel.setTitle(loc.getMenu("NameIcon"));
 		macroPanel.setMacroChangeListener(this);
 		panel.add(macroPanel);
 

@@ -262,11 +262,11 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 	 * @version 2010-06-04
 	 */
 	private void overwriteMacro(Macro macro) {
-		Object[] options = { app.getPlain("Tool.Replace"),
-				app.getPlain("Tool.DontReplace") };
+		Object[] options = { loc.getMenu("Tool.Replace"),
+				loc.getMenu("Tool.DontReplace") };
 		int returnVal = JOptionPane.showOptionDialog(this,
 				app.getLocalization().getPlain("Tool.ReplaceQuestion",
-						macro.getToolName()), app.getPlain("Question"),
+						macro.getToolName()), loc.getMenu("Question"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
 				options, options[1]);
 		if (returnVal == 1)
@@ -484,16 +484,16 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 
 		final JButton btBack = new JButton();
 		btPanel.add(btBack);
-		btBack.setText("< " + app.getPlain("Back"));
+		btBack.setText("< " + loc.getMenu("Back"));
 
 		final JButton btNext = new JButton();
 		btPanel.add(btNext);
-		btNext.setText(app.getPlain("Next") + " >");
+		btNext.setText(loc.getMenu("Next") + " >");
 
 		final JButton btCancel = new JButton();
 		btPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		btPanel.add(btCancel);
-		btCancel.setText(app.getPlain("Cancel"));
+		btCancel.setText(loc.getMenu("Cancel"));
 
 		ActionListener ac = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -527,13 +527,13 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 					updateInputList();
 
 				case 0: // output objects
-					btNext.setText(app.getPlain("Next") + " >");
+					btNext.setText(loc.getMenu("Next") + " >");
 					btNext.setEnabled(true);
 					break;
 
 				case 2: // name panel (finish)
 					if (createTool()) {
-						btNext.setText(app.getPlain("Finish"));
+						btNext.setText(loc.getMenu("Finish"));
 						btNext.setEnabled(inputList.size() > 0
 								&& outputList.size() > 0);
 						namePanel.requestFocus();

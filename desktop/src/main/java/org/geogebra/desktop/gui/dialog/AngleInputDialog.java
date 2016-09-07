@@ -49,8 +49,8 @@ public class AngleInputDialog extends InputDialogD {
 
 		// create radio buttons for "clockwise" and "counter clockwise"
 		ButtonGroup bg = new ButtonGroup();
-		rbCounterClockWise = new JRadioButton(app.getPlain("counterClockwise"));
-		rbClockWise = new JRadioButton(app.getPlain("clockwise"));
+		rbCounterClockWise = new JRadioButton(loc.getMenu("counterClockwise"));
+		rbClockWise = new JRadioButton(loc.getMenu("clockwise"));
 		bg.add(rbCounterClockWise);
 		bg.add(rbClockWise);
 		rbCounterClockWise.setSelected(true);

@@ -659,7 +659,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * @return title in plain style
 	 */
 	protected String getPlainTitle() {
-		return app.getPlain(title);
+		return app.getLocalization().getMenu(title);
 	}
 
 	/**
@@ -675,9 +675,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 			img.getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
 			img.getElement().getStyle().setMarginRight(4, Unit.PX);
 			p.add(img);
-			caption = app.getPlain(title);
+			caption = app.getLocalization().getMenu(title);
 		} else {
-			caption = app.getMenu("Close");
+			caption = app.getLocalization().getMenu("Close");
 		}
 
 		p.add(new InlineLabel(caption));

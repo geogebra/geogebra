@@ -335,7 +335,7 @@ public class TextInputDialogD extends InputDialogD
 		btInsertUnicode.setFixedIcon(GeoGebraIcon.createDownTriangleIcon(10));
 		// btInsertUnicode.setText("Symbols");
 
-		JMenu menu = new JMenu(app.getMenu("Properties.Basic"));
+		JMenu menu = new JMenu(loc.getMenu("Properties.Basic"));
 		menu.add(new LatexTable(app, this, btInsertUnicode, TableSymbols
 				.basicSymbols(app.getLocalization()), -1, 11,
 				SelectionTable.MODE_TEXT));
@@ -484,7 +484,7 @@ public class TextInputDialogD extends InputDialogD
 			return;
 
 		for (String text : laTexButtonTitleMap.keySet()) {
-			laTexButtonTitleMap.get(text).setText(app.getMenu(text));
+			laTexButtonTitleMap.get(text).setText(loc.getMenu(text));
 		}
 	}
 
@@ -499,7 +499,7 @@ public class TextInputDialogD extends InputDialogD
 		ArrayList<String> list = new ArrayList<String>();
 
 		// first possibility : create empty box
-		list.add(app.getPlain("EmptyBox"));
+		list.add(loc.getMenu("EmptyBox"));
 
 		// add all geos
 		Iterator<GeoElement> iter = ts.iterator();
@@ -623,7 +623,7 @@ public class TextInputDialogD extends InputDialogD
 	// =============================================================
 
 	public void setLabels() {
-		setLabels(app.getPlain("Text"));
+		setLabels(loc.getMenu("Text"));
 	}
 
 	@Override
@@ -635,9 +635,9 @@ public class TextInputDialogD extends InputDialogD
 		super.setLabels(title);
 
 		if (editHeader != null)
-			editHeader.setText(app.getPlain("Edit"));
+			editHeader.setText(loc.getMenu("Edit"));
 		if (previewHeader != null)
-			previewHeader.setText(app.getMenu("Preview"));
+			previewHeader.setText(loc.getMenu("Preview"));
 
 		// rebuild the symbol tables to catch localized symbols
 		buildInsertUnicodeButton();
@@ -648,11 +648,11 @@ public class TextInputDialogD extends InputDialogD
 		} else {
 			// add some spacing to compensate for replacement by wider
 			// LateXButton
-			cbLaTeX.setText(" " + app.getPlain("LaTeXFormula") + "    ");
+			cbLaTeX.setText(" " + loc.getMenu("LaTeXFormula") + "    ");
 		}
-		btInsertLaTeX.setText(app.getPlain("LaTeXFormula"));
-		btInsertUnicode.setText(app.getMenu("Symbols"));
-		btInsertGeo.setText(app.getMenu("Objects"));
+		btInsertLaTeX.setText(loc.getMenu("LaTeXFormula"));
+		btInsertUnicode.setText(loc.getMenu("Symbols"));
+		btInsertGeo.setText(loc.getMenu("Objects"));
 
 	}
 

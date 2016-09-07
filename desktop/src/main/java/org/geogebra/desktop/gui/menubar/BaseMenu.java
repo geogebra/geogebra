@@ -11,6 +11,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * The base class for the sub-menus.
@@ -26,6 +27,8 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	protected AppD app;
 
 	protected boolean initialized = false;
+	/** localization */
+	protected LocalizationD loc;
 
 	/**
 	 * Construct a new sub-menu and assign the application attribute.
@@ -38,6 +41,7 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 		super(text);
 
 		this.app = app;
+		this.loc = app.getLocalization();
 
 		// don't add any menu items until menu is opened
 		// makes GeoGebra load faster

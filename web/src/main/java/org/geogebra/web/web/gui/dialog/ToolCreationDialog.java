@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -59,6 +60,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 	private Button btDown;
 	private Button btUp;
 	private AsyncOperation returnHandler;
+	private Localization loc;
 
 	/**
 	 * Creates new tool creation dialog, if in macro-editing mode,
@@ -70,7 +72,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 	public ToolCreationDialog(App app) {
 		super(false, false, null, ((AppW) app).getPanel());
 		this.app = (AppW) app;
-
+		this.loc = app.getLocalization();
 		createGUI();
 
 		toolModel = new ToolCreationDialogModel(app, this);
@@ -205,17 +207,17 @@ public class ToolCreationDialog extends DialogBoxW implements
 
 	private VerticalPanel createListUpDownRemovePanel() {
 		btUp = new Button("\u25b2");
-		btUp.setTitle(app.getPlain("Up"));
+		btUp.setTitle(loc.getMenu("Up"));
 		btUp.addClickHandler(this);
 		btUp.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
 		btDown = new Button("\u25bc");
-		btDown.setTitle(app.getPlain("Down"));
+		btDown.setTitle(loc.getMenu("Down"));
 		btDown.addClickHandler(this);
 		btDown.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
 		btRemove = new Button("\u2718");
-		btRemove.setTitle(app.getPlain("Remove"));
+		btRemove.setTitle(loc.getMenu("Remove"));
 		btRemove.addClickHandler(this);
 		btRemove.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
@@ -239,13 +241,13 @@ public class ToolCreationDialog extends DialogBoxW implements
 				case 1: // input objects
 					toolModel.updateInputList();
 				case 0: // output objects
-					btNext.setText(app.getPlain("Next") + " >");
+					btNext.setText(loc.getMenu("Next") + " >");
 					btNext.setEnabled(true);
 					break;
 
 				case 2: // name panel (finish)
 					if (toolModel.createTool()) {
-						btNext.setText(app.getPlain("Finish"));
+						btNext.setText(loc.getMenu("Finish"));
 						btNext.setEnabled(true);
 					} else {
 						btNext.setEnabled(false);
@@ -261,16 +263,16 @@ public class ToolCreationDialog extends DialogBoxW implements
 		mainWidget.add(bottomWidget = new FlowPanel());
 		bottomWidget.setStyleName("DialogButtonPanel");
 		// buttons
-		btBack = new Button("< " + app.getPlain("Back"));
+		btBack = new Button("< " + loc.getMenu("Back"));
 		btBack.addClickHandler(this);
 		btBack.setEnabled(false);
 		btBack.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
-		btNext = new Button(app.getPlain("Next") + " >");
+		btNext = new Button(loc.getMenu("Next") + " >");
 		btNext.addClickHandler(this);
 		btNext.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
-		btCancel = new Button(app.getPlain("Cancel"));
+		btCancel = new Button(loc.getMenu("Cancel"));
 		btCancel.addStyleName("cancelBtn");
 		btCancel.addClickHandler(this);
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
@@ -319,11 +321,11 @@ public class ToolCreationDialog extends DialogBoxW implements
 							selIndices.add(i);
 						}
 					}
-					if (target.getTitle().equals(app.getPlain("Down"))) {
+					if (target.getTitle().equals(loc.getMenu("Down"))) {
 						toolModel.moveOutputDown(selIndices);
-					} else if (target.getTitle().equals(app.getPlain("Up"))) {
+					} else if (target.getTitle().equals(loc.getMenu("Up"))) {
 						toolModel.moveOutputUp(selIndices);
-					} else if (target.getTitle().equals(app.getPlain("Remove"))) {
+					} else if (target.getTitle().equals(loc.getMenu("Remove"))) {
 						toolModel.removeFromOutput(selIndices);
 					}
 				}
@@ -336,11 +338,11 @@ public class ToolCreationDialog extends DialogBoxW implements
 							selIndices.add(i);
 						}
 					}
-					if (target.getTitle().equals(app.getPlain("Down"))) {
+					if (target.getTitle().equals(loc.getMenu("Down"))) {
 						toolModel.moveInputDown(selIndices);
-					} else if (target.getTitle().equals(app.getPlain("Up"))) {
+					} else if (target.getTitle().equals(loc.getMenu("Up"))) {
 						toolModel.moveInputUp(selIndices);
-					} else if (target.getTitle().equals(app.getPlain("Remove"))) {
+					} else if (target.getTitle().equals(loc.getMenu("Remove"))) {
 						toolModel.removeFromInput(selIndices);
 					}
 				}
@@ -358,15 +360,15 @@ public class ToolCreationDialog extends DialogBoxW implements
 
 		final String commandName = toolNameIconPanel.getCommandName();
 		if (appToSave.getKernel().getMacro(commandName) != null) {
-			String[] options = { app.getPlain("Tool.Replace"),
-					app.getPlain("Tool.DontReplace") };
+			String[] options = { loc.getMenu("Tool.Replace"),
+					loc.getMenu("Tool.DontReplace") };
 			app.getGuiManager()
 					.getOptionPane()
 					.showOptionDialog(
 							app,
 							app.getLocalization().getPlain(
 									"Tool.ReplaceQuestion", commandName),
-							app.getPlain("Question"),
+							loc.getMenu("Question"),
  0,
 							GOptionPane.QUESTION_MESSAGE, null, options,
 							new AsyncOperation<String[]>() {
@@ -408,7 +410,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 		} else {
 			app.getGuiManager()
 					.getOptionPane()
-					.showConfirmDialog(app, app.getPlain("Tool.NotCompatible"),
+					.showConfirmDialog(app, loc.getMenu("Tool.NotCompatible"),
 							app.getLocalization().getError("Error"),
 							GOptionPane.OK_OPTION, GOptionPane.ERROR_MESSAGE,
 							null);

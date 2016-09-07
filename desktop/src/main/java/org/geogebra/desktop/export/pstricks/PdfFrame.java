@@ -30,9 +30,9 @@ public class PdfFrame extends ExportFrame {
 	@SuppressWarnings("unchecked")
 	protected void initGui() {
 		comboFormat = new JComboBox(format);
-		labelFormat = new JLabel(app.getPlain("Format"));
+		labelFormat = new JLabel(loc.getMenu("Format"));
 		js.getViewport().add(textarea);
-		setTitle(app.getPlain("Export to animated PDF"));
+		setTitle(loc.getMenu("Export to animated PDF"));
 		panel.setLayout(new GridBagLayout());
 
 		// disable controls if there are no sliders
@@ -117,7 +117,7 @@ public class PdfFrame extends ExportFrame {
 		panel.add(comboFormat, new GridBagConstraints(3, 4, 1, 1, 1.0, 1.0,
 				GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
 				new Insets(5, 5, 5, 5), 0, 0));
-		panel.add(new JLabel(app.getPlain("Slider") + ":"),
+		panel.add(new JLabel(loc.getMenu("Slider") + ":"),
 				new GridBagConstraints(0, 5, 2, 1, 1.0, 1.0,
 						GridBagConstraints.CENTER,
 						GridBagConstraints.HORIZONTAL, new Insets(5, 5, 5, 5),

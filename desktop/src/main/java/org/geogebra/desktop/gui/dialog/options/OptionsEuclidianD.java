@@ -152,7 +152,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 	private JPanel wrappedPanel;
 
-	private LocalizationD loc;
+	protected LocalizationD loc;
 
 	// private JButton restoreDefaultsButton;
 

@@ -34,7 +34,7 @@ public class FileInputDialog extends GPopupPanel implements ClickHandler {
 		setInputWidget(new FileUpload());
 		// addGgbChangeHandler(inputWidget.getElement(), app);
 
-		btCancel = new Button(app.getPlain("Cancel"));
+		btCancel = new Button(app.getLocalization().getMenu("Cancel"));
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
 

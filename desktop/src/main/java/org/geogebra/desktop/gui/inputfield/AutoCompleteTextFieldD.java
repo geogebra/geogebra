@@ -423,14 +423,14 @@ public class AutoCompleteTextFieldD extends MathTextField
 					}
 				}
 				if (!commandFound) {
-					Object[] options = { app.getPlain("OK"),
-							app.getPlain("ShowOnlineHelp") };
+					Object[] options = { loc.getPlain("OK"),
+							loc.getPlain("ShowOnlineHelp") };
 					int n = JOptionPane.showOptionDialog(
 							app.getMainComponent(),
-							app.getPlain(isCASInput ? "CASFieldHelp"
+							loc.getMenu(isCASInput ? "CASFieldHelp"
 									: "InputFieldHelp"),
 							GeoGebraConstants.APPLICATION_NAME + " - "
-									+ app.getMenu("Help"),
+									+ loc.getMenu("Help"),
 							JOptionPane.YES_NO_OPTION,
 							JOptionPane.QUESTION_MESSAGE, null, // do not use a
 							// custom Icon

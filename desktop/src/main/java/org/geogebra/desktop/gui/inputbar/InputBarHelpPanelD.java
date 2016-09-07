@@ -223,7 +223,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		btnPaste.addActionListener(this);
 		btnPaste.setFocusable(false);
 
-		btnOnlineHelp = new JButton(app.getPlain("ShowOnlineHelp"));
+		btnOnlineHelp = new JButton(app.getLocalization().getMenu(
+				"ShowOnlineHelp"));
 		btnOnlineHelp.setFocusable(false);
 		btnOnlineHelp.addActionListener(this);
 		// btnOnlineHelp.setBorderPainted(false);
@@ -538,7 +539,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 				// item = new JMenuItem((String) node.getUserObject());
 				// contextMenu.add(item);
 				contextMenu.addSeparator();
-				JMenuItem item = new JMenuItem(app.getPlain("ShowOnlineHelp"));
+				JMenuItem item = new JMenuItem(app.getLocalization().getMenu(
+						"ShowOnlineHelp"));
 				item.setIcon(app.getScaledIcon(GuiResourcesD.HELP));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {

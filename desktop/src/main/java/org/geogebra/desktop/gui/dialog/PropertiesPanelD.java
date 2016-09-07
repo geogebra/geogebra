@@ -3190,7 +3190,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				selectionBarButtons = new JToggleButton[numBar + 1];
 				ButtonGroup group = new ButtonGroup();
 				barsPanel = new JPanel(new GridLayout(0, 5, 5, 5));
-				barsPanel.setBorder(new TitledBorder(app
+				barsPanel.setBorder(new TitledBorder(loc
 						.getPlain("SelectedBar")));
 				for (int i = 0; i < numBar + 1; i++) {
 					selectionBarButtons[i] = new JToggleButton(loc.getPlain(

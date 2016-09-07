@@ -587,7 +587,7 @@ ToolbarD.getAllTools(this));
 		setSaved();
 
 		if (getCASVersionString().equals("")) {
-			setCASVersionString(getPlain("CASInitializing"));
+			setCASVersionString(loc.getMenu("CASInitializing"));
 
 		}
 

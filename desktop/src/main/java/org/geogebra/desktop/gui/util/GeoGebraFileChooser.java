@@ -303,7 +303,8 @@ public class GeoGebraFileChooser extends JFileChooser implements
 			dataPreviewPanel.setLineWrap(false);
 			dataPreviewPanel.setPreferredSize(imagePanel.getPreferredSize());
 			dataPreviewPanel.setMargin(new Insets(5, 5, 5, 5));
-			dataPreviewPanel.setText(app.getPlain("PreviewUnavailable"));
+			dataPreviewPanel.setText(app.getLocalization().getMenu(
+					"PreviewUnavailable"));
 			JScrollPane scroller = new JScrollPane(dataPreviewPanel);
 			scroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			scroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -366,7 +367,8 @@ public class GeoGebraFileChooser extends JFileChooser implements
 				fileLabel.setText(fileInfo.toString());
 
 				if (contents.length() == 0)
-					contents.append(app.getPlain("PreviewUnavailable"));
+					contents.append(app.getLocalization().getMenu(
+							"PreviewUnavailable"));
 
 				dataPreviewPanel.setText(contents.toString());
 				dataPreviewPanel.setCaretPosition(0);
@@ -603,7 +605,8 @@ public class GeoGebraFileChooser extends JFileChooser implements
 
 				// draw "no preview" message
 				else {
-					String message = app.getPlain("PreviewUnavailable");
+					String message = app.getLocalization().getMenu(
+							"PreviewUnavailable");
 
 					FontMetrics fm = g2.getFontMetrics();
 					Rectangle2D bounds = fm.getStringBounds(message, g2);

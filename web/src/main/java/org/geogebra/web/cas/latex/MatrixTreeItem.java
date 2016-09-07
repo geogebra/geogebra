@@ -122,7 +122,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 
 		ListItem actual = new ListItem();
 		actual.add(new Image(GuiResources.INSTANCE.algebra_new()));
-		actual.add(new Label(app.getPlain("AddRow")));
+		actual.add(new Label(loc.getMenu("AddRow")));
 		// ClickHandler is okay here, but maybe MouseDownHandler is better?
 		actual.addDomHandler(new ClickHandler() {
 			public void onClick(ClickEvent ce) {
@@ -138,7 +138,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 
 		actual = new ListItem();
 		actual.add(new Image(GuiResources.INSTANCE.algebra_remove()));
-		actual.add(new Label(app.getPlain("RemoveRow")));
+		actual.add(new Label(loc.getMenu("RemoveRow")));
 		actual.addDomHandler(new ClickHandler() {
 			public void onClick(ClickEvent ce) {
 				ce.stopPropagation();
@@ -153,7 +153,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 
 		actual = new ListItem();
 		actual.add(new Image(GuiResources.INSTANCE.algebra_new()));
-		actual.add(new Label(app.getPlain("AddColumn")));
+		actual.add(new Label(loc.getMenu("AddColumn")));
 		actual.addDomHandler(new ClickHandler() {
 			public void onClick(ClickEvent ce) {
 				ce.stopPropagation();
@@ -168,7 +168,7 @@ public class MatrixTreeItem extends MathQuillTreeItem {
 
 		actual = new ListItem();
 		actual.add(new Image(GuiResources.INSTANCE.algebra_remove()));
-		actual.add(new Label(app.getPlain("RemoveColumn")));
+		actual.add(new Label(loc.getMenu("RemoveColumn")));
 		actual.addDomHandler(new ClickHandler() {
 			public void onClick(ClickEvent ce) {
 				ce.stopPropagation();

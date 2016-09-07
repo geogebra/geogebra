@@ -80,7 +80,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		FlowPanel pnlButton = new FlowPanel();
 		// create help button if not in exam mode
 
-			btnOnlineHelp = new Button(app.getPlain("ShowOnlineHelp"));
+		btnOnlineHelp = new Button(app.getLocalization().getMenu(
+				"ShowOnlineHelp"));
 			btnOnlineHelp.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
 					openOnlineHelp();

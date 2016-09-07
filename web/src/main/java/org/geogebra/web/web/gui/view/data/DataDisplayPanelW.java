@@ -471,7 +471,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	private void createExportMenu() {
 		MenuBar menu = new MenuBar(true);
-		MenuItem miToGraphich = new MenuItem(app.getMenu("CopyToGraphics"),
+		MenuItem miToGraphich = new MenuItem(loc.getMenu("CopyToGraphics"),
 		        new Command() {
 
 			        public void execute() {
@@ -482,7 +482,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		menu.addItem(miToGraphich);
 
 		if(app.getLAF().copyToClipboardSupported()){
-			MenuItem miAsPicture = new MenuItem(app.getPlain("ExportAsPicture"),
+			MenuItem miAsPicture = new MenuItem(
+					loc.getPlain("ExportAsPicture"),
 			        new Command() {
 
 				        public void execute() {
@@ -627,7 +628,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	public void addDisplayTypeItem(PlotType type) {
-		lbDisplayType.addItem(app.getMenu(type.key));
+		lbDisplayType.addItem(loc.getMenu(type.key));
 		plotTypes.add(type);
 	}
 

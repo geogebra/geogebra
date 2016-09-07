@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -147,24 +148,25 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 	}
 
 	private void initGUI() {
+		Localization loc = app.getLocalization();
 		addStyleName("GeoGebraPopup");
 		add(panel = new VerticalPanel());
 		panel.add(sliderPanel = new HorizontalPanel());
 		sliderPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		sliderPanel.add(new Label(app.getPlain("Slider") + ":"));
+		sliderPanel.add(new Label(loc.getMenu("Slider") + ":"));
 		sliderPanel.add(sliderComboBox = new ListBox());
 
 		panel.add(optionsPanel = new HorizontalPanel());
 		optionsPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		optionsPanel.add(new Label(app.getPlain("TimeBetweenFrames") + ":"));
+		optionsPanel.add(new Label(loc.getMenu("TimeBetweenFrames") + ":"));
 		optionsPanel.add(timeBetweenFramesInput = new InputPanelW("500", app,
 		        5, false));
 		optionsPanel.add(new Label("ms"));
-		optionsPanel.add(isLoop = new CheckBox(app.getPlain("AnimationLoop")));
+		optionsPanel.add(isLoop = new CheckBox(loc.getMenu("AnimationLoop")));
 
 		panel.add(bottomPanel = new FlowPanel());
-		bottomPanel.add(saveBtn = new Button(app.getPlain("Apply")));
-		bottomPanel.add(cancelBtn = new Button(app.getPlain("Cancel")));
+		bottomPanel.add(saveBtn = new Button(loc.getMenu("Apply")));
+		bottomPanel.add(cancelBtn = new Button(loc.getMenu("Cancel")));
 
 		// buttons
 		saveBtn.addClickHandler(this);
@@ -173,7 +175,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 
 		bottomPanel.setStyleName("DialogButtonPanel");
 
-		getCaption().setText(app.getPlain("AnimatedGIFExport"));
+		getCaption().setText(loc.getMenu("AnimatedGIFExport"));
 		setGlassEnabled(true);
 		isLoop.getElement().getStyle().setMarginLeft(15, Unit.PX);
 	}

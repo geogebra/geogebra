@@ -418,7 +418,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 * Action to export an image of the view as a file.
 	 */
 	AbstractAction exportGraphicAction = new AbstractAction(getApplication()
-			.getPlain("ExportAsPicture") + "...", getApplication()
+			.getLocalization().getMenu("ExportAsPicture") + "...",
+			getApplication()
 			.getScaledIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
 		private static final long serialVersionUID = 1L;
 

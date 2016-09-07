@@ -66,6 +66,7 @@ import org.geogebra.desktop.gui.util.FileTransferable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.FontManagerD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
+import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.UtilD;
 
 
@@ -116,6 +117,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	/** print scale or pixel size settings */
 	PrintScalePanel psp;
 
+	private LocalizationD loc;
+
 	/**
 	 * Creates a dialog for exporting an image of the active EuclidianView
 	 * 
@@ -139,6 +142,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	public GraphicExportDialog(AppD app, EuclidianViewD specifiedEuclidianView) {
 		super(app.getFrame(), false);
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.specifiedEuclidianView = specifiedEuclidianView;
 
 		sizeLabelFormat = NumberFormat.getInstance(Locale.ENGLISH);
@@ -208,7 +212,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initGUI() {
 		setResizable(false);
-		setTitle(app.getPlain("ExportAsPicture"));
+		setTitle(loc.getMenu("ExportAsPicture"));
 		JPanel cp = new JPanel(new BorderLayout(5, 5));
 		cp.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		getContentPane().add(cp);
@@ -219,18 +223,19 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		
 		if (((EuclidianView) getEuclidianView()).isEuclidianView3D()){
 			formats = new String[] {
-					app.getPlain("png") + " (" + FileExtensions.PNG + ")" };
+ loc.getMenu("png") + " ("
+					+ FileExtensions.PNG + ")" };
 		}else{
 			formats = new String[] {
-					app.getPlain("png") + " (" + FileExtensions.PNG + ")",
-					app.getPlain("pdf") + " (" + FileExtensions.PDF + ")",
-					app.getPlain("eps") + " (" + FileExtensions.EPS + ")",
-					app.getPlain("svg") + " (" + FileExtensions.SVG + ")",
-					app.getPlain("emf") + " (" + FileExtensions.EMF + ")" };
+					loc.getMenu("png") + " (" + FileExtensions.PNG + ")",
+					loc.getMenu("pdf") + " (" + FileExtensions.PDF + ")",
+					loc.getMenu("eps") + " (" + FileExtensions.EPS + ")",
+					loc.getMenu("svg") + " (" + FileExtensions.SVG + ")",
+					loc.getMenu("emf") + " (" + FileExtensions.EMF + ")" };
 		}
 
 		cbFormat = new JComboBox(formats);
-		formatPanel.add(new JLabel(app.getPlain("Format") + ":"));
+		formatPanel.add(new JLabel(loc.getMenu("Format") + ":"));
 		formatPanel.add(cbFormat);
 		cp.add(formatPanel, BorderLayout.NORTH);
 
@@ -258,16 +263,16 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		cbDPI = new JComboBox(dpiStr);
 		cbDPI.setSelectedItem("300");
 		final JLabel resolutionInDPILabel = new JLabel(
-				app.getPlain("ResolutionInDPI") + ":");
+				loc.getMenu("ResolutionInDPI") + ":");
 		final JCheckBox cbTransparent = new JCheckBox(
-				app.getMenu("Transparent"), transparent);
-		final JCheckBox cbBraille = new JCheckBox(app.getMenu("Braille"),
+				loc.getMenu("Transparent"), transparent);
+		final JCheckBox cbBraille = new JCheckBox(loc.getMenu("Braille"),
 				braille);
-		final JCheckBox cbEMFPlus = new JCheckBox(app.getMenu("EMFPlus"),
+		final JCheckBox cbEMFPlus = new JCheckBox(loc.getMenu("EMFPlus"),
 				EMFPlus);
 
 		final JCheckBox textAsShapesCB = new JCheckBox(
-				app.getPlain("ExportTextAsShapes"), textAsShapes);
+				loc.getMenu("ExportTextAsShapes"), textAsShapes);
 
 		// make sure panel is wide enough
 		if (selectedFormat() == Format.PNG) {
@@ -375,20 +380,20 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		// width and height of picture
 		JPanel sizePanel = new JPanel(new FlowLayout(5));
-		sizePanel.add(new JLabel(app.getPlain("Size") + ":"));
+		sizePanel.add(new JLabel(loc.getMenu("Size") + ":"));
 		sizeLabel = new JLabel();
 		sizePanel.add(sizeLabel);
 		p.add(sizePanel);
 		cp.add(p, BorderLayout.CENTER);
 
 		// Cancel and Export Button
-		cancelButton = new JButton(app.getPlain("Cancel"));
+		cancelButton = new JButton(loc.getMenu("Cancel"));
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
 		});
-		JButton exportButton = new JButton(app.getMenu("Save"));
+		JButton exportButton = new JButton(loc.getMenu("Save"));
 		exportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
@@ -403,7 +408,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			}
 		});
 
-		JButton exportClipboardButton = new JButton(app.getMenu("Clipboard"));
+		JButton exportClipboardButton = new JButton(loc.getMenu("Clipboard"));
 		exportClipboardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
@@ -461,7 +466,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			FontManagerD fm = app.getFontManager();
 			int fontSize = fm.getFontSize();
 			File pngDestination = toClipboard ? getTmpPNG()
-					: getPNGdestination(app);
+					: getPNGdestination();
 			if (pngDestination != null) {
 				if (braille) {
 					// GGB-766
@@ -704,7 +709,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		} else {
 			file = app.getGuiManager().showSaveDialog(FileExtensions.EPS,
 					null,
-					app.getPlain("eps") + " " + app.getMenu("Files"), true,
+					loc.getMenu("eps") + " " + loc.getMenu("Files"), true,
 					false);
 
 			if (file == null) {
@@ -738,7 +743,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			file = new File(tempDir + "geogebra.emf");
 		} else {
 			file = app.getGuiManager().showSaveDialog(FileExtensions.EMF, null,
-					app.getPlain("emf") + " " + app.getMenu("Files"), true,
+					loc.getMenu("emf") + " " + loc.getMenu("Files"), true,
 					false);
 			// Michael Borcherds 2008-03-02 END
 		}
@@ -778,7 +783,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		} else {
 			// Michael Borcherds 2008-03-02 END
 			file = app.getGuiManager().showSaveDialog(FileExtensions.PDF, null,
-					app.getPlain("pdf") + " " + app.getMenu("Files"), true,
+					loc.getMenu("pdf") + " " + loc.getMenu("Files"), true,
 					false);
 		}
 
@@ -821,7 +826,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			file = new File(tempDir + "geogebra.svg");
 		} else {
 			file = app.getGuiManager().showSaveDialog(FileExtensions.SVG, null,
-					app.getPlain("svg") + " " + app.getMenu("Files"), true,
+					loc.getMenu("svg") + " " + loc.getMenu("Files"), true,
 					false);
 		}
 
@@ -878,10 +883,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		return new File(tempDir + "geogebra.png");
 	}
 
-	private static File getPNGdestination(AppD app) {
+	private File getPNGdestination() {
 
 		return app.getGuiManager().showSaveDialog(FileExtensions.PNG, null,
-				app.getPlain("png") + " " + app.getMenu("Files"), true, false);
+				loc.getMenu("png") + " " + loc.getMenu("Files"), true, false);
 	}
 
 	private static boolean exportPNGSilent(File file, boolean exportToClipboard,

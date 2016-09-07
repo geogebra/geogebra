@@ -103,8 +103,8 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		initData(cell);
 
 		Vector<String> header = new Vector<String>();
-		header.add(getApp().getPlain("OldExpression"));
-		header.add(getApp().getPlain("NewExpression"));
+		header.add(loc.getPlain("OldExpression"));
+		header.add(loc.getPlain("NewExpression"));
 		replaceTable = new JTable(data, header);
 		replaceTable.setDefaultEditor(Object.class, new MathTextCellEditor());
 		replaceTable.getTableHeader().setReorderingAllowed(false);

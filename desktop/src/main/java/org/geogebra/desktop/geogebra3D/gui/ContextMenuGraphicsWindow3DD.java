@@ -28,7 +28,8 @@ public class ContextMenuGraphicsWindow3DD extends ContextMenuGraphicsWindowD {
 	public ContextMenuGraphicsWindow3DD(AppD app, double px, double py) {
 		super(app);
 
-		setTitle("<html>" + app.getPlain("GraphicsView3D") + "</html>");
+		setTitle("<html>" + app.getLocalization().getMenu("GraphicsView3D")
+				+ "</html>");
 
 		addAxesAndGridCheckBoxes();
 		

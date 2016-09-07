@@ -185,7 +185,7 @@ public class AlgebraTree extends JTree {
 		DefaultMutableTreeNode node;
 		for (String key : typeNodesMap.keySet()) {
 			node = typeNodesMap.get(key);
-			node.setUserObject(app.getPlain(key));
+			node.setUserObject(app.getLocalization().getMenu(key));
 			model.nodeChanged(node);
 		}
 	}

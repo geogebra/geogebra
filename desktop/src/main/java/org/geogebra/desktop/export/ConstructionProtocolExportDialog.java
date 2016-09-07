@@ -257,7 +257,8 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		prot.setUseColors(useColors);
 		file = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
 				FileExtensions.HTML, null,
- app.getPlain("HTML"), true, false);
+ app.getLocalization()
+						.getMenu("HTML"), true, false);
 
 		try {
 

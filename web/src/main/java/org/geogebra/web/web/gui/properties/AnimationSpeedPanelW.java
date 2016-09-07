@@ -25,7 +25,8 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	}
 
 	public AnimationSpeedPanelW(AnimationSpeedModel m, AppW app) {
-        super(app.getLocalization(), app.getPlain("AnimationSpeed"));
+		super(app.getLocalization(), app.getLocalization().getMenu(
+				"AnimationSpeed"));
         this.app = app;
 		model = m;
 		model.setListener(this);

@@ -28,6 +28,7 @@ import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.AnimatedGifEncoder;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.FrameCollector;
 
 /**
@@ -64,6 +65,8 @@ public class AnimationExportDialog extends JDialog {
 	 */
 	private JButton cancelButton, exportButton;
 
+	private LocalizationD loc;
+
 	/**
 	 * Construct dialog.
 	 * 
@@ -73,7 +76,7 @@ public class AnimationExportDialog extends JDialog {
 	public AnimationExportDialog(AppD app) {
 		super(app.getFrame(), false);
 		this.app = app;
-
+		this.loc = app.getLocalization();
 		initGUI();
 	}
 
@@ -88,7 +91,7 @@ public class AnimationExportDialog extends JDialog {
 
 		// slider selection
 		JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel.add(new JLabel(app.getPlain("Slider") + ":"));
+		panel.add(new JLabel(loc.getMenu("Slider") + ":"));
 
 		// combo box with all sliders
 		DefaultComboBoxModel comboModel = new DefaultComboBoxModel();
@@ -112,9 +115,9 @@ public class AnimationExportDialog extends JDialog {
 
 		// options
 		panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		panel.setBorder(BorderFactory.createTitledBorder(app.getMenu("Options")));
+		panel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Options")));
 
-		panel.add(new JLabel(app.getPlain("TimeBetweenFrames") + ":"));
+		panel.add(new JLabel(loc.getMenu("TimeBetweenFrames") + ":"));
 
 		tfTimeBetweenFrames = new JTextField(5);
 		tfTimeBetweenFrames.setText("500");
@@ -124,7 +127,7 @@ public class AnimationExportDialog extends JDialog {
 
 		panel.add(Box.createHorizontalStrut(10));
 
-		cbLoop = new JCheckBox(app.getPlain("AnimationLoop"));
+		cbLoop = new JCheckBox(loc.getMenu("AnimationLoop"));
 		panel.add(cbLoop);
 
 		contentPane.add(panel, BorderLayout.CENTER);
@@ -132,7 +135,7 @@ public class AnimationExportDialog extends JDialog {
 		// buttons
 		panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-		exportButton = new JButton(app.getMenu("Export"));
+		exportButton = new JButton(loc.getMenu("Export"));
 		exportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				export();
@@ -148,7 +151,7 @@ public class AnimationExportDialog extends JDialog {
 			// sliders
 		}
 
-		cancelButton = new JButton(app.getMenu("Cancel"));
+		cancelButton = new JButton(loc.getMenu("Cancel"));
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
@@ -160,7 +163,7 @@ public class AnimationExportDialog extends JDialog {
 
 		contentPane.add(panel, BorderLayout.SOUTH);
 
-		setTitle(app.getPlain("AnimatedGIFExport"));
+		setTitle(loc.getMenu("AnimatedGIFExport"));
 		pack();
 		setLocationRelativeTo(app.getMainComponent());
 		setVisible(true);
@@ -189,7 +192,8 @@ public class AnimationExportDialog extends JDialog {
 
 		File file = ((GuiManagerD) app.getGuiManager()).showSaveDialog(
 				FileExtensions.GIF,
-				null, app.getPlain("gif") + " " + app.getMenu("Files"), true,
+ null,
+				loc.getMenu("gif") + " " + loc.getMenu("Files"), true,
 				false);
 
 		GeoNumeric num = (GeoNumeric) cbSliders.getSelectedItem();

@@ -39,7 +39,7 @@ public class EditMenuD extends BaseMenu {
 	private JSeparator selectionSeparator, deleteSeparator;
 
 	public EditMenuD(AppD app) {
-		super(app, app.getMenu("Edit"));
+		super(app, app.getLocalization().getMenu("Edit"));
 		selection = app.getSelectionManager();
 		// items are added to the menu when it's opened, see BaseMenu:
 		// addMenuListener(this);
@@ -85,7 +85,7 @@ public class EditMenuD extends BaseMenu {
 		addSeparator();
 
 		// insert image from...
-		JMenu submenu = new JMenu(app.getMenu("InsertImageFrom"));
+		JMenu submenu = new JMenu(loc.getMenu("InsertImageFrom"));
 		submenu.addMenuListener(this);
 		submenu.setIcon(app.getEmptyIcon());
 		add(submenu);
@@ -150,7 +150,7 @@ public class EditMenuD extends BaseMenu {
 	 */
 	@Override
 	protected void initActions() {
-		propertiesAction = new AbstractAction(app.getPlain("Properties")
+		propertiesAction = new AbstractAction(loc.getMenu("Properties")
 				+ " ...", app.getMenuIcon(GuiResourcesD.VIEW_PROPERTIES_16)) {
 			private static final long serialVersionUID = 1L;
 
@@ -160,7 +160,7 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		selectAllAction = new AbstractAction(app.getMenu("SelectAll"),
+		selectAllAction = new AbstractAction(loc.getMenu("SelectAll"),
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
@@ -170,7 +170,7 @@ public class EditMenuD extends BaseMenu {
 		};
 
 		selectCurrentLayerAction = new AbstractAction(
-				app.getMenu("SelectCurrentLayer"), app.getEmptyIcon()) {
+				loc.getMenu("SelectCurrentLayer"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -183,7 +183,7 @@ public class EditMenuD extends BaseMenu {
 		};
 
 		selectAllAncestorsAction = new AbstractAction(
-				app.getMenu("SelectAncestors"), app.getEmptyIcon()) {
+				loc.getMenu("SelectAncestors"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -193,7 +193,7 @@ public class EditMenuD extends BaseMenu {
 		};
 
 		selectAllDescendantsAction = new AbstractAction(
-				app.getMenu("SelectDescendants"), app.getEmptyIcon()) {
+				loc.getMenu("SelectDescendants"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -202,7 +202,7 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		showhideAction = new AbstractAction(app.getMenu("ShowHide"),
+		showhideAction = new AbstractAction(loc.getMenu("ShowHide"),
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
@@ -214,7 +214,7 @@ public class EditMenuD extends BaseMenu {
 		};
 
 		showhideLabelsAction = new AbstractAction(
-				app.getMenu("ShowHideLabels"), app.getEmptyIcon()) {
+				loc.getMenu("ShowHideLabels"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -223,7 +223,7 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		copyAction = new AbstractAction(app.getMenu("Copy"), app.getEmptyIcon()) {
+		copyAction = new AbstractAction(loc.getMenu("Copy"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -235,7 +235,7 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		pasteAction = new AbstractAction(app.getMenu("Paste"),
+		pasteAction = new AbstractAction(loc.getMenu("Paste"),
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
@@ -247,7 +247,7 @@ public class EditMenuD extends BaseMenu {
 		};
 
 		copyToClipboardAction = new AbstractAction(
-				app.getMenu("DrawingPadToClipboard"),
+				loc.getMenu("DrawingPadToClipboard"),
 				app.getMenuIcon(GuiResourcesD.MENU_EDIT_COPY)) {
 			private static final long serialVersionUID = 1L;
 
@@ -259,7 +259,7 @@ public class EditMenuD extends BaseMenu {
 		};
 
 		insertImageFromClipboardAction = new AbstractAction(
-				app.getMenu("Clipboard"), app.getEmptyIcon()) {
+				loc.getMenu("Clipboard"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -269,7 +269,7 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		insertImageFromFileAction = new AbstractAction(app.getMenu("File"),
+		insertImageFromFileAction = new AbstractAction(loc.getMenu("File"),
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
@@ -280,7 +280,7 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		deleteAction = new AbstractAction(app.getPlain("Delete"),
+		deleteAction = new AbstractAction(loc.getMenu("Delete"),
 				app.getMenuIcon(GuiResourcesD.DELETE_SMALL)) {
 			private static final long serialVersionUID = 1L;
 
@@ -289,7 +289,7 @@ public class EditMenuD extends BaseMenu {
 			}
 		};
 
-		invertAction = new AbstractAction(app.getMenu("InvertSelection"),
+		invertAction = new AbstractAction(loc.getMenu("InvertSelection"),
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 

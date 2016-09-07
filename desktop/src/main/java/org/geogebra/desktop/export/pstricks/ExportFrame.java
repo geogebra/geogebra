@@ -69,7 +69,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	// private ExportFrame ef;
 	protected File currentFile = null;
 	private GeoGebraExport ggb;
-	private Localization loc;
+	protected final Localization loc;
 	ListenKey listenKey;
 	protected FileExtensions fileExtension = FileExtensions.TEX;
 	protected String fileExtensionMsg = "TeX ";

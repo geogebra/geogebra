@@ -18,8 +18,7 @@ class PerspectivesMenuD extends BaseMenu {
 
 	LayoutD layout;
 
-	private AbstractAction changePerspectiveAction, managePerspectivesAction,
-			savePerspectiveAction;
+	private AbstractAction changePerspectiveAction;
 
 	/**
 	 * Creates new perspectives menu
@@ -74,12 +73,7 @@ class PerspectivesMenuD extends BaseMenu {
 			addSeparator();
 		}
 
-		// diable menu item to manage perspectives if there is no user
-		// perspective
-		managePerspectivesAction.setEnabled(perspectives.length != 0);
 
-		add(managePerspectivesAction);
-		add(savePerspectiveAction);
 	}
 
 	/**
@@ -87,23 +81,7 @@ class PerspectivesMenuD extends BaseMenu {
 	 */
 	@Override
 	protected void initActions() {
-		savePerspectiveAction = new AbstractAction(
-				app.getMenu("SaveCurrentPerspective"), app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
 
-			public void actionPerformed(ActionEvent e) {
-				layout.showSaveDialog();
-			}
-		};
-
-		managePerspectivesAction = new AbstractAction(
-				app.getMenu("ManagePerspectives"), app.getEmptyIcon()) {
-			private static final long serialVersionUID = 1L;
-
-			public void actionPerformed(ActionEvent e) {
-				layout.showManageDialog();
-			}
-		};
 
 		changePerspectiveAction = new AbstractAction() {
 			@SuppressWarnings("hiding")

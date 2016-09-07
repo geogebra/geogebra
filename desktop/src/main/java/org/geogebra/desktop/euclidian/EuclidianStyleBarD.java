@@ -1063,7 +1063,7 @@ axesIcon, iconHeight);
 						}
 
 						if (hasFillable)
-							setToolTipText(app
+							setToolTipText(loc
 									.getPlain("stylebar.ColorTransparency"));
 						else
 							setToolTipText(loc.getPlain("stylebar.Color"));

@@ -65,6 +65,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
@@ -1001,7 +1002,9 @@ public class EuclidianViewD extends EuclidianView implements
 
 	public String getScaleString() {
 		if (isPrintScaleString()) {
-			StringBuilder sb = new StringBuilder(getApplication().getPlain(
+			Localization loc = getApplication().getLocalization();
+			StringBuilder sb = new StringBuilder(
+					loc.getMenu(
 					"ScaleInCentimeter"));
 			if (printingScale <= 1) {
 				sb.append(": 1:");

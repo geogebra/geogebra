@@ -128,7 +128,8 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 						.getCaption(StringTemplate.defaultTemplate)
 				+ " "
 				+ Unicode.LESS_EQUAL);
-		lblStep = new Label(app.getPlain("Step"));
+		// content set in update()->setLabels()
+		lblStep = new Label();
 		addStyleName("minMaxPanel");
 		add(tfMin);
 		add(lblValue);
@@ -194,7 +195,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	}
 
 	public void setLabels() {
-		lblStep.setText(app.getPlain("Step"));
+		lblStep.setText(app.getLocalization().getMenu("Step"));
 	}
 
 

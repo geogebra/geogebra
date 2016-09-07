@@ -69,7 +69,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 	@Override
 	protected void initAxesOptionsPanel() {
 		// y axis is vertical
-		cbYAxisVertical = new JCheckBox(app.getPlain("YAxisVertical"));
+		cbYAxisVertical = new JCheckBox(loc.getMenu("YAxisVertical"));
 
 		super.initAxesOptionsPanel();
 
@@ -91,7 +91,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 	@Override
 	protected void setTypePanelLabel() {
-		typePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("GridType")
+		typePanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("GridType")
 				+ " : " + app.getMenu("Cartesian")));
 	}
 
@@ -110,17 +110,17 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 				BoxLayout.Y_AXIS));
 
 		// clipping
-		cbUseClipping = new JCheckBox(app.getPlain("UseClipping"));
+		cbUseClipping = new JCheckBox(loc.getMenu("UseClipping"));
 		clippingOptionsPanel.add(cbUseClipping);
 		clippingOptionsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-		cbShowClipping = new JCheckBox(app.getPlain("ShowClipping"));
+		cbShowClipping = new JCheckBox(loc.getMenu("ShowClipping"));
 		clippingOptionsPanel.add(cbShowClipping);
 
 		boxSizePanel = new JPanel();
 		boxSizePanel.setLayout(new BoxLayout(boxSizePanel, BoxLayout.Y_AXIS));
-		radioClippingSmall = new JRadioButton(app.getPlain("small"));
-		radioClippingMedium = new JRadioButton(app.getPlain("medium"));
-		radioClippingLarge = new JRadioButton(app.getPlain("large"));
+		radioClippingSmall = new JRadioButton(loc.getMenu("small"));
+		radioClippingMedium = new JRadioButton(loc.getMenu("medium"));
+		radioClippingLarge = new JRadioButton(loc.getMenu("large"));
 		boxSizePanel.add(radioClippingSmall);
 		boxSizePanel.add(radioClippingMedium);
 		boxSizePanel.add(radioClippingLarge);
@@ -440,11 +440,11 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 	@Override
 	protected void setTabLabels() {
 		tabbedPane.setTitleAt(0, app.getMenu("Properties.Basic"));
-		tabbedPane.setTitleAt(1, app.getPlain("xAxis"));
-		tabbedPane.setTitleAt(2, app.getPlain("yAxis"));
-		tabbedPane.setTitleAt(3, app.getPlain("zAxis"));
+		tabbedPane.setTitleAt(1, loc.getMenu("xAxis"));
+		tabbedPane.setTitleAt(2, loc.getMenu("yAxis"));
+		tabbedPane.setTitleAt(3, loc.getMenu("zAxis"));
 		tabbedPane.setTitleAt(4, app.getMenu("Grid"));
-		tabbedPane.setTitleAt(5, app.getPlain("Projection"));
+		tabbedPane.setTitleAt(5, loc.getMenu("Projection"));
 	}
 
 	@Override
@@ -454,35 +454,35 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		zAxisPanel.setLabels();
 
 		// y axis is vertical
-		cbYAxisVertical.setText(app.getPlain("YAxisVertical"));
+		cbYAxisVertical.setText(loc.getMenu("YAxisVertical"));
 		
 		// misc
-		cbUseLight.setText(app.getPlain("UseLighting"));
+		cbUseLight.setText(loc.getMenu("UseLighting"));
 
 		// clipping tab
 		clippingOptionsPanel.setBorder(LayoutUtil.titleBorder(app
 				.getPlain("Clipping")));
-		cbUseClipping.setText(app.getPlain("UseClipping"));
-		cbShowClipping.setText(app.getPlain("ShowClipping"));
+		cbUseClipping.setText(loc.getMenu("UseClipping"));
+		cbShowClipping.setText(loc.getMenu("ShowClipping"));
 
-		boxSizePanel.setBorder(LayoutUtil.titleBorder(app.getPlain("BoxSize")));
-		radioClippingSmall.setText(app.getPlain("BoxSize.small"));
-		radioClippingMedium.setText(app.getPlain("BoxSize.medium"));
-		radioClippingLarge.setText(app.getPlain("BoxSize.large"));
+		boxSizePanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("BoxSize")));
+		radioClippingSmall.setText(loc.getMenu("BoxSize.small"));
+		radioClippingMedium.setText(loc.getMenu("BoxSize.medium"));
+		radioClippingLarge.setText(loc.getMenu("BoxSize.large"));
 
 		// perspective tab
-		projectionLabel[0].setText(app.getPlain("Orthographic"));
+		projectionLabel[0].setText(loc.getMenu("Orthographic"));
 
-		projectionLabel[1].setText(app.getPlain("Perspective") + ":");
-		tfPerspLabel.setText(app.getPlain("EyeDistance") + ":");
+		projectionLabel[1].setText(loc.getMenu("Perspective") + ":");
+		tfPerspLabel.setText(loc.getMenu("EyeDistance") + ":");
 
-		projectionLabel[2].setText(app.getPlain("Glasses") + ":");
-		tfGlassesLabel.setText(app.getPlain("EyesSeparation") + ":");
-		cbGlassesGrayLabel.setText(app.getPlain("GrayScale"));
-		cbGlassesShutDownGreenLabel.setText(app.getPlain("ShutDownGreen"));
+		projectionLabel[2].setText(loc.getMenu("Glasses") + ":");
+		tfGlassesLabel.setText(loc.getMenu("EyesSeparation") + ":");
+		cbGlassesGrayLabel.setText(loc.getMenu("GrayScale"));
+		cbGlassesShutDownGreenLabel.setText(loc.getMenu("ShutDownGreen"));
 
-		projectionLabel[3].setText(app.getPlain("Oblique") + ":");
-		tfObliqueAngleLabel.setText(app.getPlain("Angle") + ":");
+		projectionLabel[3].setText(loc.getMenu("Oblique") + ":");
+		tfObliqueAngleLabel.setText(loc.getMenu("Angle") + ":");
 		tfObliqueFactorLabel.setText(app.getMenu("Dilate.Factor") + ":");
 
 		projectionButtons.updateIcons();

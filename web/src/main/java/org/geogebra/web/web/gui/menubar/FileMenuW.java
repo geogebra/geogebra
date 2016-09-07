@@ -6,6 +6,7 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
@@ -38,6 +39,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	/** clear construction and reset GUI */
 	Runnable newConstruction;
 	private MenuItem printItem;
+	private Localization loc;
 	
 	/**
 	 * @param app application
@@ -45,6 +47,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	public FileMenuW(final AppW app) {
 		super(true, "help");
 	    this.app = app;
+		this.loc = app.getLocalization();
 	    this.newConstruction = new Runnable() {
 			
 			@Override
@@ -82,7 +85,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		if (!ExamUtil.toggleFullscreen(false)) {
 			app.getExam().exit();
 			app.showMessage(true, app.getExam().getLog(app.getLocalization(),
-					app.getSettings()), app.getMenu("exam_log_header"));
+							app.getSettings()), loc.getMenu("exam_log_header"));
 			app.setExam(null);
 			Layout.initializeDefaultPerspectives(app, 0.2);
 			app.getLAF().addWindowClosingHandler(app);
@@ -102,19 +105,22 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	private void initActions() {
 		// if (!app.has(Feature.NEW_START_SCREEN)) {
 		if (app.isExam()) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(),app.getMenu("exam_menu_exit"), true),true,new MenuCommand(app) { //Close
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+					.menu_icon_sign_out().getSafeUri().asString(),
+					loc.getMenu("exam_menu_exit"), true), true,
+					new MenuCommand(app) { // Close
 
 				@Override
 				public void doExecute() {
 					// set Firefox dom.allow_scripts_to_close_windows in about:config to true to make this work
-					String[] optionNames = { app.getMenu("Cancel"),
-					        app.getMenu("Exit") };
+							String[] optionNames = { loc.getMenu("Cancel"),
+									loc.getMenu("Exit") };
 
 					app.getGuiManager()
 							.getOptionPane()
 							.showOptionDialog(app,
-									app.getMenu("exam_exit_confirmation"), //ExitExamConfirm
-									app.getMenu("exam_exit_header"), //ExitExamConfirmTitle
+											loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
+											loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
 											1, GOptionPane.WARNING_MESSAGE,
 											null,
 											optionNames,
@@ -139,7 +145,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		
 
 		// this is enabled always
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_new().getSafeUri().asString(),app.getMenu("New"), true),true,new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+				.menu_icon_file_new().getSafeUri().asString(),
+				loc.getMenu("New"), true), true, new MenuCommand(app) {
 
 			@Override
 			public void doExecute() {
@@ -150,7 +158,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		// open menu is always visible in menu
 		
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getPlain("Open"), true),true,new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+				.menu_icon_file_open().getSafeUri().asString(),
+				loc.getMenu("Open"), true), true, new MenuCommand(app) {
     		
 				@Override
 				public void doExecute() {
@@ -160,7 +170,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		
 		
 		if(app.getLAF().undoRedoSupported()) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("Save"), true),true,new MenuCommand(app) {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+					.menu_icon_file_save().getSafeUri().asString(),
+					loc.getMenu("Save"), true), true, new MenuCommand(app) {
 		
 				@Override
 				public void doExecute() {
@@ -174,7 +186,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		if (app.has(Feature.WEB_SHARE_DIALOG)) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 					.menu_icon_file_share().getSafeUri().asString(),
-					app.getMenu("Share"), true), true, new MenuCommand(app) {
+					loc.getMenu("Share"), true), true, new MenuCommand(app) {
 
 						@Override
 						public void doExecute() {
@@ -194,7 +206,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 			uploadToGGT = addItem(
 					MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),
-							app.getMenu("Share"), true),
+					loc.getMenu("Share"), true),
 					true, new MenuCommand(app) {
 
 						@Override
@@ -212,7 +224,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		if (app.getLAF().exportSupported()) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 				        .menu_icons_file_export()
-			        .getSafeUri().asString(), app.getMenu("Export"), true),
+.getSafeUri().asString(),
+					loc.getMenu("Export"), true),
 			        true, new ExportMenuW(app));
 
 		}
@@ -223,7 +236,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			printItem = new MenuItem(MainMenu.getMenuBarHtml(
 					GuiResources.INSTANCE
 					.menu_icons_file_print().getSafeUri().asString(),
-					app.getMenu("PrintPreview"), true), true, new MenuCommand(
+ loc.getMenu("PrintPreview"), true),
+					true, new MenuCommand(
 					app) {
 
 				@Override
@@ -263,7 +277,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				addItem(MainMenu.getMenuBarHtml(
 						GuiResources.INSTANCE.menu_icons_exam_mode()
 								.getSafeUri().asString(),
-						app.getMenu("exam_menu_enter"), true), // EnterExamMode
+						loc.getMenu("exam_menu_enter"), true), // EnterExamMode
 						true, new MenuCommand(app) {
 
 							@Override
@@ -280,7 +294,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			addItem(MainMenu.getMenuBarHtml(
 					GuiResourcesSimple.INSTANCE.icons_fillings_arrow_big_left()
 							.getSafeUri().asString(),
-					app.getMenu("BackToGeoGebra"), true), // EnterExamMode
+					loc.getMenu("BackToGeoGebra"), true), // EnterExamMode
 					true, new MenuCommand(app) {
 
 						@Override
@@ -396,7 +410,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	public void render(boolean online) {
 	    uploadToGGT.setEnabled(online);
 	    if (!online) {
-	    	uploadToGGT.setTitle(app.getMenu("YouAreOffline"));
+			uploadToGGT.setTitle(loc.getMenu("YouAreOffline"));
 		} else {
 			uploadToGGT.setTitle("");
 		}

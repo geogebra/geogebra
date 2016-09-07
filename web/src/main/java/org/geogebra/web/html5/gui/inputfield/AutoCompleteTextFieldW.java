@@ -1084,8 +1084,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			if (autoComplete) {
 				if (getText().equals("")) {
 
-					Object[] options = { app.getPlain("OK"),
-					        app.getPlain("ShowOnlineHelp") };
+					Object[] options = { loc.getPlain("OK"),
+							loc.getPlain("ShowOnlineHelp") };
 					/*
 					 * AG not yet... int n =
 					 * JOptionPane.showOptionDialog(app.getMainComponent(),

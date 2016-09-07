@@ -187,7 +187,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * Creates and adds the sign in button
 	 */
 	private void addSignIn() {
-		signInAction = new AbstractAction(app.getMenu("SignIn")) {
+		Localization loc = app.getLocalization();
+		signInAction = new AbstractAction(loc.getMenu("SignIn")) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -196,7 +197,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			}
 		};
 		signInInProgressAction = new AbstractAction(
-				app.getMenu("SignInProgress")) {
+				loc.getMenu("SignInProgress")) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -204,7 +205,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 				// do nothing
 			}
 		};
-		signOutAction = new AbstractAction(app.getMenu("SignOut")) {
+		signOutAction = new AbstractAction(loc.getMenu("SignOut")) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -215,7 +216,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 		if (app.isMacOS()) {
 			signInButton = new JMenuItem(signInAction);
-			JMenu m = new BaseMenu(app, app.getMenu("GeoGebraTube")) {
+			JMenu m = new BaseMenu(app, loc.getMenu("GeoGebraTube")) {
 
 				@Override
 				public void update() {
@@ -245,7 +246,6 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		}
 		signInButton.setContentAreaFilled(false);
 		signInButton.setFocusPainted(false);
-		Localization loc = app.getLocalization();
 		signInButton.setToolTipText(loc.getMenuTooltip("SignIn.Help"));
 
 		// Add the menu bar as a listener for login/logout operations
@@ -317,11 +317,11 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			// Show a login success message
 			if (!automatic) {
 				Object[] options = {
-						app.getMenu("OpenFromGeoGebraTube") + "...",
-						app.getPlain("OK") };
+						loc.getMenu("OpenFromGeoGebraTube") + "...",
+						loc.getMenu("OK") };
 				int n = JOptionPane.showOptionDialog(app.getMainComponent(),
-						app.getPlain("ThanksForSigningIn"),
-						app.getPlain("SignInSuccessful"),
+						loc.getMenu("ThanksForSigningIn"),
+						loc.getMenu("SignInSuccessful"),
 						JOptionPane.DEFAULT_OPTION,
 						JOptionPane.INFORMATION_MESSAGE, null, options,
 						options[0]);
