@@ -1,18 +1,5 @@
 package org.geogebra.desktop.geogebra3D.input3D.intelRealSense;
 
-import intel.rssdk.PXCMCaptureManager;
-import intel.rssdk.PXCMHandConfiguration;
-import intel.rssdk.PXCMHandConfiguration.AlertHandler;
-import intel.rssdk.PXCMHandData;
-import intel.rssdk.PXCMHandData.AlertType;
-import intel.rssdk.PXCMHandData.BodySideType;
-import intel.rssdk.PXCMHandModule;
-import intel.rssdk.PXCMPoint3DF32;
-import intel.rssdk.PXCMPoint4DF32;
-import intel.rssdk.PXCMSenseManager;
-import intel.rssdk.PXCMSession;
-import intel.rssdk.pxcmStatus;
-
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -36,9 +23,23 @@ import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.euclidian3D.Input3D.OutOfField;
 import org.geogebra.common.jre.util.DownloadManager;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DException;
 import org.geogebra.desktop.geogebra3D.input3D.Input3DFactory.Input3DExceptionType;
+
+import intel.rssdk.PXCMCaptureManager;
+import intel.rssdk.PXCMHandConfiguration;
+import intel.rssdk.PXCMHandConfiguration.AlertHandler;
+import intel.rssdk.PXCMHandData;
+import intel.rssdk.PXCMHandData.AlertType;
+import intel.rssdk.PXCMHandData.BodySideType;
+import intel.rssdk.PXCMHandModule;
+import intel.rssdk.PXCMPoint3DF32;
+import intel.rssdk.PXCMPoint4DF32;
+import intel.rssdk.PXCMSenseManager;
+import intel.rssdk.PXCMSession;
+import intel.rssdk.pxcmStatus;
 
 
 /**
@@ -600,9 +601,9 @@ public class Socket {
 				installRuntimes = true;
 
 				Log.debug("\n>>>>>>>>>>>>>> install runtimes: " + modules);
-
-				showMessage(app.getPlain("RealSense.DownloadRuntimes"),
-						app.getPlain("RealSenseNotUpToDate2"));
+				Localization loc = app.getLocalization();
+				showMessage(loc.getMenu("RealSense.DownloadRuntimes"),
+						loc.getMenu("RealSenseNotUpToDate2"));
 
 				String filenameWebSetup = null;
 
@@ -639,8 +640,8 @@ public class Socket {
 				
 				if (installOK) {
 					Log.debug("Successful update");
-					showMessage(app.getPlain("RealSense.UpdatedRuntimes"),
-							app.getPlain("RealSenseUpdated2"));
+					showMessage(loc.getMenu("RealSense.UpdatedRuntimes"),
+							loc.getMenu("RealSenseUpdated2"));
 					destWebSetup.delete();
 				}
 
@@ -673,6 +674,12 @@ public class Socket {
 
 	}
 
+	/**
+	 * @param message1
+	 *            first row
+	 * @param message2
+	 *            second row
+	 */
 	static void showMessage(String message1, String message2) {
 		final JFrame frame = new JFrame();
 		Container c = frame.getContentPane();
