@@ -187,6 +187,21 @@ public class LatexTreeItem extends RadioTreeItem
 		if (focus) {
 			removeDummy();
 		}
+
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			if (focus) {
+				content.addStyleName("scrollableTextBox");
+				if (isInputTreeItem()) {
+					setItemWidth(getAV().getOffsetWidth());
+				}
+			} else {
+				// content.removeStyleName("scrollableTextBox");
+				if (isInputTreeItem()) {
+					setItemWidth(getAV().getMaxItemWidth());
+				}
+			}
+		}
+
 		if (ensureCanvas()) {
 			main.clear();
 			if (geo == null) {
