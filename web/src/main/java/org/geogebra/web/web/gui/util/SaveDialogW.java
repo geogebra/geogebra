@@ -159,7 +159,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				if (isWorksheet()) {
 					if (parseResponse.size() == 1) {
 						Material newMat = parseResponse.get(0);
-						newMat.setThumbnail(((EuclidianViewWInterface) app
+						newMat.setThumbnailBase64(((EuclidianViewWInterface) app
 								.getActiveEuclidianView())
 								.getCanvasBase64WithTypeString());
 						app.getKernel().getConstruction()

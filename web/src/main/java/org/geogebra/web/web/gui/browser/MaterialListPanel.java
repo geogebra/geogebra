@@ -235,13 +235,19 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 		if (matElem != null) {
 			int oldLocalID = matElem.getMaterial().getLocalID();
 			String oldThumbnail = matElem.getMaterial().getThumbnail();
+			boolean oldThumbnailIsBase64 = matElem.getMaterial()
+					.thumbnailIsBase64();
 			if (mat.getLocalID() == -1) {
 				mat.setLocalID(oldLocalID);
 				mat.setSyncStamp(Math.max(matElem.getMaterial().getSyncStamp(),
 				        mat.getSyncStamp()));
 			}
 			if (mat.getThumbnail() == null || mat.getThumbnail().length() == 0) {
-				mat.setThumbnail(oldThumbnail);
+				if (oldThumbnailIsBase64) {
+					mat.setThumbnailBase64(oldThumbnail);
+				} else {
+					mat.setThumbnailUrl(oldThumbnail);
+				}
 			}
 
 			matElem.setMaterial(mat);

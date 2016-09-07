@@ -122,7 +122,7 @@ public abstract class FileManager implements FileManagerI {
 		mat.setTitle(app.getKernel().getConstruction().getTitle());
 		mat.setDescription(app.getKernel().getConstruction()
 		        .getWorksheetText(0));
-		mat.setThumbnail(((EuclidianViewWInterface) app
+		mat.setThumbnailBase64(((EuclidianViewWInterface) app
 		        .getActiveEuclidianView())
 		        .getCanvasBase64WithTypeString());
 		mat.setAuthor(app.getLoginOperation().getUserName());
@@ -375,7 +375,11 @@ null,
 					        mat.setTitle(getTitleFromKey(mat.getTitle()));
 					        mat.setLocalID(FileManager.getIDFromKey(localKey));
 					        final Material newMat = parseResponse.get(0);
-					        newMat.setThumbnail(mat.getThumbnail());
+							if (mat.thumbnailIsBase64()) {
+								newMat.setThumbnailBase64(mat.getThumbnail());
+							} else {
+								newMat.setThumbnailUrl(mat.getThumbnail());
+							}
 					        newMat.setSyncStamp(newMat.getModified());
 					        if (!FileManager.this.shouldKeep(mat.getId())) {
 						        delete(mat, true, new Runnable() {
