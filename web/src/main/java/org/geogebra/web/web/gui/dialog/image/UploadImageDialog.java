@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.dialog.image;
 
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.util.VerticalSeparator;
@@ -25,7 +26,7 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 	protected Button insertBtn;
 	protected Button cancelBtn;
 	protected Label upload;
-	protected GeoPoint loc;
+	protected GeoPoint location;
 	
 	int previewHeight;
 	int previewWidth;
@@ -84,10 +85,11 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 	}
 
 	public void setLabels() {
-		getCaption().setText(app.getMenu("Image"));
-		upload.setText(app.getMenu("File"));
-		insertBtn.setText(app.getPlain("OK"));
-		cancelBtn.setText(app.getMenu("Cancel"));
+		Localization loc = app.getLocalization();
+		getCaption().setText(loc.getMenu("Image"));
+		upload.setText(loc.getMenu("File"));
+		insertBtn.setText(loc.getPlain("OK"));
+		cancelBtn.setText(loc.getMenu("Cancel"));
 	}
 
 	protected void uploadClicked() {
@@ -109,7 +111,7 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 	 * @param loc {@link GeoPoint}
 	 */
 	public void setLocation(GeoPoint loc) {
-	    this.loc = loc;
+		this.location = loc;
     }
 	protected boolean mayCenter = true;
 	@Override

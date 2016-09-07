@@ -3483,4 +3483,12 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				: ((Functional) getTwinGeo()).getGeoDerivative(order, fast);
 	}
 
+	@Override
+	public double evaluateDouble() {
+		if (twinGeo != null) {
+			return twinGeo.evaluateDouble();
+		}
+		return super.evaluateDouble();
+	}
+
 }

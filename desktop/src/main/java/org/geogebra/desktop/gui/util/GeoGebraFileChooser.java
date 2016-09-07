@@ -288,7 +288,8 @@ public class GeoGebraFileChooser extends JFileChooser implements
 			CardLayout layout = (CardLayout) cards.getLayout();
 			if (mode == GeoGebraFileChooser.MODE_DATA) {
 				layout.show(cards, "dataPanel");
-				dataPreviewPanel.setText(app.getPlain("PreviewUnavailable"));
+				dataPreviewPanel.setText(
+						app.getLocalization().getMenu("PreviewUnavailable"));
 			} else {
 				layout.show(cards, "imagePanel");
 				img = null;

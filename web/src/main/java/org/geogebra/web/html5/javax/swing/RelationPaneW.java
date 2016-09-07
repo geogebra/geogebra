@@ -61,7 +61,8 @@ public class RelationPaneW extends DialogBox implements RelationPane,
 			if (relations[i].callback != null) {
 				callbacks[i] = relations[i].callback;
 				btnCallbacks[i] = new Button();
-				btnCallbacks[i].setText(app.getPlain("More") + "...");
+				btnCallbacks[i]
+						.setText(app.getLocalization().getMenu("More") + "...");
 				btnCallbacks[i].addClickHandler(this);
 				buttons[i].add(btnCallbacks[i]);
 			}

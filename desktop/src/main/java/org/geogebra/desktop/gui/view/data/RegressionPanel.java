@@ -243,7 +243,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 			// no regression
 			if (daModel.getRegressionMode().equals(Regression.NONE)
 					|| statDialog.getRegressionModel() == null) {
-				eqn = app.getPlain("");
+				eqn = "";
 			}
 
 			// nonlinear
@@ -257,7 +257,7 @@ public class RegressionPanel extends JPanel implements ActionListener,
 
 		catch (Exception e) {
 			e.printStackTrace();
-			eqn = "\\text{" + app.getPlain("NotAvailable") + "}";
+			eqn = "\\text{" + loc.getPlain("NotAvailable") + "}";
 
 		}
 

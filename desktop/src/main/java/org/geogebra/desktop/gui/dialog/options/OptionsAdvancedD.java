@@ -58,7 +58,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	 * Application object.
 	 */
 	private AppD app;
-	private LocalizationD loc;
+	private final LocalizationD loc;
 
 	/**
 	 * Settings for all kind of application components.
@@ -849,7 +849,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	private void setLabelsKeyboardLanguage() {
 		String[] languages = new String[KeyboardSettings.supportedLocales
 				.size() + 1];
-		languages[0] = app.getPlain("Default");
+		languages[0] = loc.getPlain("Default");
 
 		for (int i = 0; i < KeyboardSettings.supportedLocales.size(); i++) {
 			Locale loc1 = new Locale(KeyboardSettings.supportedLocales.get(i));
@@ -949,7 +949,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	 * @see #setLabelsKeyboardLanguage()
 	 */
 	private void setLabelsTooltipTimeouts() {
-		tooltipTimeouts[tooltipTimeouts.length - 1] = app.getPlain("off");
+		tooltipTimeouts[tooltipTimeouts.length - 1] = loc.getPlain("off");
 
 		int selectedIndex = cbTooltipTimeout.getSelectedIndex();
 

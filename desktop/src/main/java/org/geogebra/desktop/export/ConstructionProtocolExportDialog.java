@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
@@ -68,8 +69,9 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 
 	private void initGUI() {
 		setResizable(true);
-		setTitle(app.getMenu("Export") + ": "
-				+ app.getPlain("ConstructionProtocol") + " ("
+		Localization loc = app.getLocalization();
+		setTitle(loc.getMenu("Export") + ": "
+				+ loc.getMenu("ConstructionProtocol") + " ("
 				+ FileExtensions.HTML + ")");
 
 		JPanel cp = new JPanel(new BorderLayout(5, 5));
@@ -87,10 +89,10 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		// checkbox: insert picture of drawing pad
 		JPanel picPanel = new JPanel(new BorderLayout(20, 5));
 		cbDrawingPadPicture = new JCheckBox(
-				app.getPlain("InsertPictureOfConstruction"));
+				loc.getMenu("InsertPictureOfConstruction"));
 		cbDrawingPadPicture.setSelected(true);
 		cbScreenshotPicture = new JCheckBox(
-				app.getPlain("InsertPictureOfAllOpenViews"));
+				loc.getMenu("InsertPictureOfAllOpenViews"));
 		cbScreenshotPicture.setSelected(false);
 
 		picPanel.add(cbDrawingPadPicture, app.getLocalization().borderWest());
@@ -109,11 +111,11 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		picPanel.setBorder(BorderFactory.createEtchedBorder());
 		cp.add(picPanel, BorderLayout.CENTER);
 
-		cbColor = new JCheckBox(app.getPlain("ColorfulConstructionProtocol"));
+		cbColor = new JCheckBox(loc.getMenu("ColorfulConstructionProtocol"));
 		cbColor.setSelected(false);
 
 		cbIcons = new JCheckBox(
-				app.getPlain("ToolbarIconsConstructionProtocolExport"));
+				loc.getMenu("ToolbarIconsConstructionProtocolExport"));
 		cbIcons.setSelected(prot.getAddIcons());
 
 		// disable width and height field when checkbox is deselected
@@ -147,13 +149,13 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		});
 
 		// Cancel and Export Button
-		JButton cancelButton = new JButton(app.getPlain("Cancel"));
+		JButton cancelButton = new JButton(loc.getMenu("Cancel"));
 		cancelButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		JButton exportButton = new JButton(app.getMenu("Export"));
+		JButton exportButton = new JButton(loc.getMenu("Export"));
 		exportButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
@@ -171,7 +173,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 			}
 		});
 
-		JButton clipboardButton = new JButton(app.getMenu("Clipboard"));
+		JButton clipboardButton = new JButton(loc.getMenu("Clipboard"));
 		clipboardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {

@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CardPanel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -272,48 +273,49 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 		// TODO: using buttons incorrectly for now
 		// btnOK = cancel, cancel = create
-		btOK.setText(app.getPlain("Create"));
-		btApply.setText(app.getPlain("Apply"));
-		btCancel.setText(app.getMenu("Cancel"));
+		Localization loc = app.getLocalization();
+		btOK.setText(loc.getMenu("Create"));
+		btApply.setText(loc.getMenu("Apply"));
+		btCancel.setText(loc.getMenu("Cancel"));
 
 		// object/value checkboxes
-		btnObject.setText(app.getPlain("DependentObjects"));
-		btnValue.setText(app.getPlain("FreeObjects"));
+		btnObject.setText(loc.getMenu("DependentObjects"));
+		btnValue.setText(loc.getMenu("FreeObjects"));
 		
 		// transpose checkbox
-		ckTranspose.setText(app.getMenu("Transpose"));
-		ckSort.setText(app.getMenu("Sort"));
+		ckTranspose.setText(loc.getMenu("Transpose"));
+		ckSort.setText(loc.getMenu("Sort"));
 		
-		lblName.setText(app.getPlain("Name") + ": ");
+		lblName.setText(loc.getMenu("Name") + ": ");
 
 		/*
-		 * lblTake.setText(app.getMenu("Take") + ": ");
-		 * lblOrder.setText(app.getMenu("Order") + ":");
-		 * lblXYOrder.setText(app.getMenu("Order") + ": ");
+		 * lblTake.setText(loc.getMenu("Take") + ": ");
+		 * lblOrder.setText(loc.getMenu("Order") + ":");
+		 * lblXYOrder.setText(loc.getMenu("Order") + ": ");
 		 */
 
 		cbScanOrder.clear();
-		cbScanOrder.addItem(app.getMenu("RowOrder"));
-		cbScanOrder.addItem(app.getMenu("ColumnOrder"));
+		cbScanOrder.addItem(loc.getMenu("RowOrder"));
+		cbScanOrder.addItem(loc.getMenu("ColumnOrder"));
 
 		cbLeftRightOrder.clear();
-		cbLeftRightOrder.addItem(app.getMenu("X->Y"));
-		cbLeftRightOrder.addItem(app.getMenu("Y<-X"));
+		cbLeftRightOrder.addItem(loc.getMenu("X->Y"));
+		cbLeftRightOrder.addItem(loc.getMenu("Y<-X"));
 
 		typeList.clear();
 		for (String item : coModel.getObjectTypeNames()) {
 			typeList.addItem(item);
 		}
 
-		lblObject.setText(app.getMenu("Object") + ":");
+		lblObject.setText(loc.getMenu("Object") + ":");
 
-		lblPreviewHeader.setText(app.getMenu("Preview")+ ":");
+		lblPreviewHeader.setText(loc.getMenu("Preview") + ":");
 //
 //		namePanel.setBorder(BorderFactory.createCompoundBorder(
-//				BorderFactory.createTitledBorder(app.getPlain("Name")),
+		// BorderFactory.createTitledBorder(loc.getMenu("Name")),
 //				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
-		lblOptions.setText(app.getMenu("Options"));
+		lblOptions.setText(loc.getMenu("Options"));
 		wrappedPopup.getCaption().setText(coModel.getTitle());
 		
 	}

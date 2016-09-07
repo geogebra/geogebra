@@ -1754,7 +1754,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	protected char getLabelDelimiter() {
+	public char getLabelDelimiter() {
 		return ':';
 	}
 

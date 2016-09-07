@@ -2192,5 +2192,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		setCoeff(coeff, true);
 	}
 
+	@Override
+	final public char getLabelDelimiter() {
+		return ':';
+	}
 }
 

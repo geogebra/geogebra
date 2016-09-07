@@ -967,7 +967,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			});
 
 			final JCheckBoxMenuItem itmPoint = new JCheckBoxMenuItem(
-					app.getPlain("Point"));
+					app.getLocalization().getMenu("Point"));
 			itmPoint.setSelected(var.getGeoClass() == GeoClass.POINT);
 			itmPoint.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {

@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -457,16 +458,17 @@ public class AlgebraViewD extends AlgebraTree
 	 */
 	@Override
 	protected void setTreeLabels() {
+		Localization loc = app.getLocalization();
 		switch (getTreeMode()) {
 		case DEPENDENCY:
 
-			indNode.setUserObject(app.getPlain("FreeObjects"));
+			indNode.setUserObject(loc.getMenu("FreeObjects"));
 			model.nodeChanged(indNode);
 
-			depNode.setUserObject(app.getPlain("DependentObjects"));
+			depNode.setUserObject(loc.getMenu("DependentObjects"));
 			model.nodeChanged(depNode);
 
-			auxiliaryNode.setUserObject(app.getPlain("AuxiliaryObjects"));
+			auxiliaryNode.setUserObject(loc.getMenu("AuxiliaryObjects"));
 			model.nodeChanged(auxiliaryNode);
 			break;
 		case TYPE:

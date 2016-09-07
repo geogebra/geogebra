@@ -26,6 +26,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.table.TableColumn;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ColumnKeeper;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -59,12 +60,13 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 	/**
 	 * Initialize the menu items.
 	 */
-	private void initItems() {		
+	private void initItems() {
+		Localization loc = app.getLocalization();
 		// title for menu
-		JLabel title = new JLabel(app.getPlain("ConstructionProtocol"));
+		JLabel title = new JLabel(loc.getMenu("ConstructionProtocol"));
 		
-		JMenu colMenu = new JMenu(app.getMenu("Columns"));
-		JMenu optionsMenu = new JMenu(app.getMenu("Options"));
+		JMenu colMenu = new JMenu(loc.getMenu("Columns"));
+		JMenu optionsMenu = new JMenu(loc.getMenu("Options"));
 		
         title.setFont(app.getBoldFont());                      
         title.setBackground(Color.white);
@@ -101,7 +103,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		
 		//"Options" menu
 		JCheckBoxMenuItem cbShowOnlyBreakpoints = new JCheckBoxMenuItem(
-				app.getPlain("ShowOnlyBreakpoints"));
+				loc.getMenu("ShowOnlyBreakpoints"));
 		cbShowOnlyBreakpoints.setSelected(cons.showOnlyBreakpoints());
 		
 		cbShowOnlyBreakpoints.addActionListener(new ActionListener() {
@@ -113,7 +115,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		optionsMenu.add(cbShowOnlyBreakpoints);
 
 		JCheckBoxMenuItem cbUseColors = new JCheckBoxMenuItem(
-				app.getPlain("ColorfulConstructionProtocol"));
+				loc.getMenu("ColorfulConstructionProtocol"));
 		cbUseColors.setSelected(constprotView.getUseColors());
 		cbUseColors.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,7 +131,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		add(constprotView.getPrintPreviewAction());
 		
 		//Help menu
-		JMenuItem mi = new JMenuItem(app.getMenu("FastHelp"),
+		JMenuItem mi = new JMenuItem(loc.getMenu("FastHelp"),
 				app.getScaledIcon(GuiResourcesD.HELP));
 		ActionListener lstHelp = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

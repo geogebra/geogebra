@@ -11,6 +11,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -41,8 +42,9 @@ public class AlgebraContextMenuD extends JPopupMenu {
 	 */
 	private void initItems() {
 		// actions
+		Localization loc = app.getLocalization();
 		AbstractAction showAuxiliaryAction = new AbstractAction(
-				app.getPlain("AuxiliaryObjects"),
+				loc.getMenu("AuxiliaryObjects"),
 				app.getScaledIcon(GuiResourcesD.AUXILIARY)) {
 			private static final long serialVersionUID = 1L;
 
@@ -52,7 +54,7 @@ public class AlgebraContextMenuD extends JPopupMenu {
 		};
 		
 		// title for menu
-		JLabel title = new JLabel(app.getPlain("AlgebraWindow"));
+		JLabel title = new JLabel(loc.getMenu("AlgebraWindow"));
         title.setFont(app.getBoldFont());                      
         title.setBackground(Color.white);
         title.setForeground(Color.black);

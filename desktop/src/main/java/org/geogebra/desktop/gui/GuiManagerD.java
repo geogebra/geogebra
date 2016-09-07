@@ -79,6 +79,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.plugin.Event;
@@ -1208,7 +1209,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			chooser.setColor(GColorD.getAwtColor(currentColor));
 			JDialog dialog = JColorChooser.createDialog(
 					((AppD) app).getMainComponent(),
-					app.getPlain("ChooseColor"), true, chooser, null, null);
+					app.getLocalization().getMenu("ChooseColor"), true, chooser,
+					null, null);
 			dialog.setVisible(true);
 
 			return chooser.getColor();
@@ -1442,6 +1444,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return getImageFromFile(null);
 	}
 
+	public Localization getLocalization() {
+		return app.getLocalization();
+	}
 	/**
 	 * Loads and stores an image file is in this application's imageManager. If
 	 * a null image file is passed, then a file dialog is opened to choose a
@@ -1520,7 +1525,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						fileFilter.addExtension(FileExtensions.GIF);
 						fileFilter.addExtension(FileExtensions.BMP);
 						fileFilter.addExtension(FileExtensions.SVG);
-						fileFilter.setDescription(app.getPlain("Image"));
+						fileFilter.setDescription(
+								getLocalization().getMenu("Image"));
 						fileChooser.resetChoosableFileFilters();
 						fileChooser.setFileFilter(fileFilter);
 
@@ -1919,12 +1925,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 					// ask overwrite question
 
 					// Michael Borcherds 2008-05-04
-					Object[] options = { app.getMenu("Overwrite"),
+					Object[] options = { getLocalization().getMenu("Overwrite"),
 							app.getMenu("DontOverwrite") };
 					int n = JOptionPane.showOptionDialog(
 							((AppD) app).getMainComponent(),
-							app.getPlain("OverwriteFile") + "\n"
-									+ file.getName(), app.getPlain("Question"),
+							getLocalization().getPlain("OverwriteFile") + "\n"
+									+ file.getName(),
+							getLocalization().getPlain("Question"),
 							JOptionPane.DEFAULT_OPTION,
 							JOptionPane.WARNING_MESSAGE, null, options,
 							options[1]);
@@ -2233,7 +2240,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 						JOptionPane.showConfirmDialog(((AppD) app)
 								.getMainComponent(),
-								app.getLocalization().getError("FileNotFound")
+								getLocalization().getError("FileNotFound")
 										+ ":\n" + file.getAbsolutePath(), app
 										.getLocalization().getError("Error"),
 								JOptionPane.DEFAULT_OPTION,
@@ -2595,8 +2602,7 @@ FileExtensions.GEOGEBRA_TOOL)) {
 	 */
 	public String getCreatedWithHTML(boolean JSXGraph) {
 		String ret;
-
-		ret = StringUtil.toHTMLString(app.getPlain("CreatedWithGeoGebra"));
+		ret = StringUtil.toHTMLString(getLocalization().getMenu("CreatedWithGeoGebra"));
 
 		if (ret.toLowerCase(Locale.US).indexOf("geogebr") == -1)
 			ret = "Created with GeoGebra";

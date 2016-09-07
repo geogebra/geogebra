@@ -911,7 +911,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @return for conics, implicit polynomials and inequalities, = otherwise
 	 */
-	protected char getLabelDelimiter() {
+	public char getLabelDelimiter() {
 		return '=';
 	}
 

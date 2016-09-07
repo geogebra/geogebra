@@ -6,6 +6,7 @@ import org.geogebra.common.gui.CustomizeToolbarModel;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -893,11 +894,11 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		if (header != null) {
 			header.setLabels();
 		}
-
-		lblUsedTools.setText(app.getMenu("Toolbar"));
-		lblAllTools.setText(app.getMenu("Tools"));
-		btDefalutToolbar.setText(app.getMenu("Toolbar.ResetDefault"));
-		btApply.setText(app.getPlain("Apply"));
+		Localization loc = app.getLocalization();
+		lblUsedTools.setText(loc.getMenu("Toolbar"));
+		lblAllTools.setText(loc.getMenu("Tools"));
+		btDefalutToolbar.setText(loc.getMenu("Toolbar.ResetDefault"));
+		btApply.setText(loc.getPlain("Apply"));
 	}
 
 	/**

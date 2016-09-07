@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
 
@@ -65,9 +66,10 @@ public class GraphicSizePanel extends JPanel implements ActionListener,
 		setLayout(new FlowLayout(5));
 		tfWidth = new MyTextFieldD(app, 5);
 		tfHeight = new MyTextFieldD(app, 5);
-		add(new JLabel(app.getPlain("Width") + ":"));
+		Localization loc = app.getLocalization();
+		add(new JLabel(loc.getMenu("Width") + ":"));
 		add(tfWidth);
-		add(new JLabel(app.getPlain("Height") + ":"));
+		add(new JLabel(loc.getMenu("Height") + ":"));
 		add(tfHeight);
 
 		tfWidth.setHorizontalAlignment(SwingConstants.RIGHT);

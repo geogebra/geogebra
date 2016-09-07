@@ -418,7 +418,7 @@ public class GeoConic extends GeoConicND implements
 	}
 
 	@Override
-	protected char getLabelDelimiter() {
+	public char getLabelDelimiter() {
 		return ':';
 	}
 

@@ -139,23 +139,23 @@ public class SliderPanel extends JPanel implements ActionListener,
 
 	private void initPanels() {
 		removeAll();
-
 		// put together interval, slider options, animation panels
 		if (useTabbedPane) {
 			setLayout(new FlowLayout());
 			JTabbedPane tabbedPane = new JTabbedPane();
 			tabbedPane.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 			tabbedPane.addTab(loc.getMenu("Interval"), intervalPanel);
-			tabbedPane.addTab(app.getMenu("Slider"), sliderPanel);
+			tabbedPane.addTab(loc.getMenu("Slider"), sliderPanel);
 			tabbedPane.addTab(loc.getMenu("Animation"), animationPanel);
 			add(tabbedPane);
 		} else { // no tabs
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-			intervalPanel.setBorder(BorderFactory.createTitledBorder(app
+			intervalPanel.setBorder(BorderFactory.createTitledBorder(loc
 					.getPlain("Interval")));
-			sliderPanel.setBorder(BorderFactory.createTitledBorder(app
+			sliderPanel.setBorder(BorderFactory.createTitledBorder(loc
 					.getPlain("Slider")));
-			animationPanel.setBorder(BorderFactory.createTitledBorder(app
+			animationPanel.setBorder(BorderFactory
+					.createTitledBorder(loc
 					.getPlain("Animation")));
 			add(intervalPanel);
 			add(Box.createVerticalStrut(5));

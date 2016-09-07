@@ -265,7 +265,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 			// no regression
 			if (daModel.getRegressionMode().equals(Regression.NONE)
 					|| statDialog.getRegressionModel() == null) {
-				eqn = app.getPlain("");
+				eqn = "";
 			}
 
 			// linear
@@ -286,7 +286,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 		catch (Exception e) {
 			e.printStackTrace();
-			eqn = "\\text{" + app.getPlain("NotAvailable") + "}";
+			eqn = "\\text{" + loc.getPlain("NotAvailable") + "}";
 
 		}
 		DrawEquationW.paintOnCanvas(sample, eqn, latexCanvas,

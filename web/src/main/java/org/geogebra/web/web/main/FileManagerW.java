@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.TreeSet;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.JSONParserGGT;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -296,9 +297,10 @@ public class FileManagerW extends FileManager {
 	
 	public void showExportAsPictureDialog(final String url, String filename,
 			AppW app) {
+		Localization loc = getApp().getLocalization();
 		app.getGuiManager()
 				.getOptionPane()
-				.showSaveDialog(getApp(), getApp().getPlain("ExportAsPicture"),
+				.showSaveDialog(getApp(), loc.getMenu("ExportAsPicture"),
 						filename + ".png", null,
 						new AsyncOperation<String[]>() {
 
@@ -312,7 +314,7 @@ public class FileManagerW extends FileManager {
 								exportImage(url, obj[1]);
 
 							}
-						}, getApp().getPlain("Export"));
+						}, loc.getMenu("Export"));
 
 	}
 

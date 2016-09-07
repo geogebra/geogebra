@@ -108,7 +108,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			callbacks[i] = relations[i].callback;
 			if (areCallbacks) {
 				if (relations[i].callback != null) {
-					data[i][1] = app.getPlain("More") + "...";
+					data[i][1] = app.getLocalization().getMenu("More") + "...";
 				} else {
 					data[i][1] = "";
 				}
@@ -155,7 +155,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 		// Adding OK button:
 		JPanel buttonrow = new JPanel(new FlowLayout());
-		JButton ok = new JButton(app.getPlain("OK"));
+		JButton ok = new JButton(app.getLocalization().getMenu("OK"));
 		buttonrow.add(ok);
 		ok.setSize(OKWIDTH, OKHEIGHT);
 		panel.add(buttonrow, BorderLayout.SOUTH);

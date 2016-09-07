@@ -4301,7 +4301,8 @@ ToolbarD.getAllTools(this));
 							GeoGebra.splashFrame.setVisible(false);
 						}
 
-						Object[] options = { getPlain("OK"), getPlain("ShowOnlineHelp") };
+					Object[] options = { getLocalization().getPlain("OK"),
+							getLocalization().getPlain("ShowOnlineHelp") };
 						int n = JOptionPane.showOptionDialog(mainComp, message,
 								GeoGebraConstants.APPLICATION_NAME + " - "
 										+ getLocalization().getError("Error"),

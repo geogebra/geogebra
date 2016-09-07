@@ -352,8 +352,8 @@ public class UDPLoggerD extends SensorLogger {
 						// stoplogging called
 						if (e instanceof SocketTimeoutException) {
 							kernel.getApplication().showError(
-									kernel
-									.getApplication().getPlain("LoggingError"));
+									kernel.getApplication().getLocalization()
+											.getMenu("LoggingError"));
 						}
 
 						e.printStackTrace();

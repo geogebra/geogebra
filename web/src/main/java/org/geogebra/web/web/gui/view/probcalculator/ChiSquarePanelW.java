@@ -6,6 +6,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -276,17 +277,17 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	    
 	    
 		public void setLabels() {
-
-			lblRows.setText(app.getMenu("Rows"));
-			lblColumns.setText(app.getMenu("Columns"));
-			ckExpected.setText(app.getPlain("ExpectedCount"));
-			ckChiDiff.setText(app.getPlain("ChiSquaredContribution"));
-			ckRowPercent.setText(app.getPlain("RowPercent"));
-			ckColPercent.setText(app.getPlain("ColumnPercent"));
+		Localization loc = app.getLocalization();
+		lblRows.setText(loc.getMenu("Rows"));
+		lblColumns.setText(loc.getMenu("Columns"));
+		ckExpected.setText(loc.getMenu("ExpectedCount"));
+		ckChiDiff.setText(loc.getMenu("ChiSquaredContribution"));
+		ckRowPercent.setText(loc.getMenu("RowPercent"));
+		ckColPercent.setText(loc.getMenu("ColumnPercent"));
 
 			if (statCalc.getSelectedProcedure() == Procedure.GOF_TEST) {
-				cell[0][1].setLabelText(0, app.getPlain("ObservedCount"));
-				cell[0][2].setLabelText(0, app.getPlain("ExpectedCount"));
+			cell[0][1].setLabelText(0, loc.getMenu("ObservedCount"));
+			cell[0][2].setLabelText(0, loc.getMenu("ExpectedCount"));
 			}
 
 	}

@@ -132,7 +132,8 @@ public class CASLaTeXEditor extends SimplePanel
 
 	public void setFocus(boolean focus, boolean scheduled) {
 		setWidget(focus ? mf.asWidget()
-				: new Label(app.getPlain("InputLabel") + Unicode.ellipsis));
+				: new Label(app.getLocalization().getMenu("InputLabel")
+						+ Unicode.ellipsis));
 		mf.setFocus(focus);
 
 	}

@@ -46,6 +46,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -149,7 +150,7 @@ public class PrintPreview extends JDialog {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void initPrintPreview() {
-
+		final Localization loc = app.getLocalization();
 		m_scale = 75; // init scale to 75%
 
 		loadPreferences();
@@ -267,9 +268,9 @@ public class PrintPreview extends JDialog {
 		DockPanelD focusedPanel = ((GuiManagerD) app.getGuiManager())
 				.getLayout().getDockManager().getFocusedPanel();
 		if (focusedPanel == null)
-			m_cbView.setSelectedItem(app.getPlain("AllViews"));
+			m_cbView.setSelectedItem(loc.getMenu("AllViews"));
 		else
-			m_cbView.setSelectedItem(app.getPlain(focusedPanel.getViewTitle()));
+			m_cbView.setSelectedItem(loc.getMenu(focusedPanel.getViewTitle()));
 
 		ActionListener lst_view = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -284,7 +285,7 @@ public class PrintPreview extends JDialog {
 								.toString();
 						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
 						// change view
-						if (selItem.equals(app.getPlain("AllViews"))) {
+						if (selItem.equals(loc.getMenu("AllViews"))) {
 							final List<Printable> l = new ArrayList<Printable>();
 							app.forEachView(new App.ViewCallback() {
 
@@ -304,7 +305,7 @@ public class PrintPreview extends JDialog {
 								@Override
 								public void run(int viewID, String viewName) {
 
-									if (selItem.equals(app.getPlain(viewName))) {
+									if (selItem.equals(loc.getMenu(viewName))) {
 										m_target.addAll(getPrintables(viewID,
 												app));
 									}
@@ -313,13 +314,14 @@ public class PrintPreview extends JDialog {
 							});
 						}
 						tempPanel.removeAll();
-						if (selItem.equals(app.getPlain("DrawingPad"))
-								|| selItem.equals(app.getPlain("AllViews"))) {
+						if (selItem.equals(loc.getMenu("DrawingPad"))
+								|| selItem.equals(loc.getMenu("AllViews"))) {
 							tempPanel.add(createPanelForScaling(app
 									.getEuclidianView1()));
 						}
-						if (selItem.equals(app.getPlain("DrawingPad2"))
-								|| (selItem.equals(app.getPlain("AllViews")) && app
+						if (selItem.equals(loc.getMenu("DrawingPad2"))
+								|| (selItem.equals(loc.getMenu("AllViews"))
+										&& app
 										.hasEuclidianView2(1))) {
 							tempPanel.add(createPanelForScaling(app
 									.getEuclidianView2(1)));
@@ -417,15 +419,16 @@ public class PrintPreview extends JDialog {
 
 	private String[] getAvailableViews() {
 		final ArrayList<String> list = new ArrayList<String>();
+		final Localization loc = app.getLocalization();
 		app.forEachView(new App.ViewCallback() {
 
 			@Override
 			public void run(int viewID, String viewName) {
-				list.add(app.getPlain(viewName));
+				list.add(loc.getPlain(viewName));
 
 			}
 		});
-		list.add(app.getPlain("AllViews"));
+		list.add(loc.getPlain("AllViews"));
 
 		String[] s = new String[list.size()];
 		list.toArray(s);
@@ -456,7 +459,7 @@ public class PrintPreview extends JDialog {
 				.getPanel(view.getViewID());
 		retPanel.add(Box.createHorizontalStrut(10));
 		retPanel.add(new JLabel(dock.getIcon()));
-		// retPanel.add(new JLabel(app.getPlain(dock.getViewTitle())));
+		// retPanel.add(new JLabel(loc.getMenu(dock.getViewTitle())));
 		retPanel.setLayout(new BoxLayout(retPanel, BoxLayout.X_AXIS));
 
 		retPanel.setBorder(BorderFactory.createEtchedBorder());

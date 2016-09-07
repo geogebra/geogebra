@@ -179,7 +179,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		ArrayList<GColor> colors = new ArrayList<GColor>();
 
 		// first possibility : create empty box
-		list.add(app.getPlain("EmptyBox"));
+		list.add(loc.getMenu("EmptyBox"));
 		colors.add(null);
 
 		// add all geos

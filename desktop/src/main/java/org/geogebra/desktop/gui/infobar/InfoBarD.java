@@ -46,7 +46,8 @@ public class InfoBarD extends InfoBar {
 
 		if (origInfo == null)
 			origInfo = getFrame().getTitle();
-		String newName = origInfo + " - " + myApp.getPlain(message);
+		String newName = origInfo + " - "
+				+ myApp.getLocalization().getMenu(message);
 		getFrame().setTitle(newName);
 
 		// This does not work on Ubuntu 11.04 GNOME.

@@ -531,15 +531,15 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return getLatexString(geo, MathQuill, limit);
 	}
 
-	private String getLatexString(GeoElement geo, boolean MathQuill,
+	private String getLatexString(GeoElement geo1, boolean MathQuill,
 			Integer limit) {
 		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
 						&& !isDefinitionAndValue())
-				|| !geo.isDefined() || !geo.isLaTeXDrawableGeo()) {
+				|| !geo1.isDefined() || !geo1.isLaTeXDrawableGeo()) {
 			return null;
 		}
 
-		String text = geo.getLaTeXAlgebraDescription(true,
+		String text = geo1.getLaTeXAlgebraDescription(true,
 				MathQuill ? StringTemplate.latexTemplateMQ
 						: StringTemplate.latexTemplate);
 
@@ -787,7 +787,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (updateValuePanel(geo.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate))) {
 			outputPanel.add(valuePanel);
-			;
 			plainTextItem.add(outputPanel);
 		}
 
@@ -812,8 +811,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		String text = "";
 		boolean forceLatex = false;
-		if (previewGeo.isGeoFunction()) {
+		if (previewGeo.isGeoFunction() || previewGeo.isGeoFunctionNVar()
+				|| previewGeo.isGeoFunctionBoolean()) {
 			forceLatex = true;
+			text += geo.getLabelDelimiter();// = for functions, : for
+											// inequalities
 		}
 
 		if (app.has(Feature.FRACTIONS)
@@ -1150,7 +1152,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		});
 	}
 
-	private void setAVItemWidths(int width) {
+	void setAVItemWidths(int width) {
 		if (getOffsetWidth() < width) {
 			getAV().setItemWidth(width);
 		}

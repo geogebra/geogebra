@@ -449,7 +449,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	}
 
 	@Override
-	protected char getLabelDelimiter() {
+	public char getLabelDelimiter() {
 		return isBooleanFunction() ? ':' : '=';
 	}
 

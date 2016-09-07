@@ -85,7 +85,8 @@ public class ScriptInputPanelW extends FlowPanel implements
 		
 		languageSelector = new ListBox();
 		for (ScriptType type : ScriptType.values()) {
-			languageSelector.addItem(app.getPlain(type.getName()));
+			languageSelector
+					.addItem(app.getLocalization().getMenu(type.getName()));
 		}
 		model.setGeo(geo);
 

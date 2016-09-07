@@ -1238,7 +1238,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	}
 
 	@Override
-	protected char getLabelDelimiter() {
+	final public char getLabelDelimiter() {
 		return ':';
 	}
 

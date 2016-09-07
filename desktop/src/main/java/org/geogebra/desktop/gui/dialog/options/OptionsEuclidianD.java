@@ -731,8 +731,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 		dimPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Dimensions")));
 		axesOptionsPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Axes")));
-		miscPanel.setBorder(LayoutUtil.titleBorder(app
-				.getPlain("Miscellaneous")));
+		miscPanel.setBorder(
+				LayoutUtil.titleBorder(loc.getPlain("Miscellaneous")));
 
 		cbShowAxes.setText(loc.getMenu("ShowAxes"));
 		cbBoldAxes.setText(loc.getMenu("Bold"));

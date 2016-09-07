@@ -1957,7 +1957,7 @@ CasEvaluableFunction, ParametricCurve,
 	}
 
 	@Override
-	protected char getLabelDelimiter() {
+	public char getLabelDelimiter() {
 		return isBooleanFunction() ? ':' : '=';
 	}
 

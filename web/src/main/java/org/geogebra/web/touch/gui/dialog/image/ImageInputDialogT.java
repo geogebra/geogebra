@@ -111,13 +111,15 @@ public class ImageInputDialogT extends UploadImageDialog {
     public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 		if (source == insertBtn) {
-			if (!loc.isLabelSet()) {
-	    		loc.setLabel(null);
+			if (!location.isLabelSet()) {
+				location.setLabel(null);
 	    	}
 			if (this.cameraIsActive && !this.pictureFromCameraString.equals("")) {
-		    	app.imageDropHappened("devicePicture", this.pictureFromCameraString, "", loc);
+				app.imageDropHappened("devicePicture",
+						this.pictureFromCameraString, "", location);
 			} else if (!this.cameraIsActive && !this.pictureFromFileString.equals("")) {
-				app.imageDropHappened("devicePicture", this.pictureFromFileString, "", loc);
+				app.imageDropHappened("devicePicture",
+						this.pictureFromFileString, "", location);
 			}
 	    	hide();
 	    } else if (source == cancelBtn) {

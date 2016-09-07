@@ -87,15 +87,15 @@ public class ImageInputDialog extends UploadImageDialog {
 	    		name = "webcam";
 	    		camera = true;
 	    	}
-			if (loc != null && !loc.isLabelSet()) {
-	    		loc.setLabel(null);
+			if (location != null && !location.isLabelSet()) {
+				location.setLabel(null);
 	    	}
 	    	if(camera){
-				app.imageDropHappened(name, data, "", loc,
+				app.imageDropHappened(name, data, "", location,
 						webcamPanel.getCanvasWidth(),
 						webcamPanel.getCanvasHeight());
 	    	}else{
-	    		app.imageDropHappened(name, data, "", loc, 0, 0);
+				app.imageDropHappened(name, data, "", location, 0, 0);
 	    	}
 	    	hide();
 	    } else if (source == cancelBtn) {

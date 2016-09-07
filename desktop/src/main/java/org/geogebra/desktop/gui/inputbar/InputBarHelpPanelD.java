@@ -266,7 +266,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 
 		functionTitleNode = new DefaultMutableTreeNode(
-				app.getMenu("MathematicalFunctions"));
+				loc.getMenu("MathematicalFunctions"));
 		functionTitleNode.add(new DefaultMutableTreeNode(""));
 
 
@@ -314,16 +314,16 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		cmdTreeModel.setRoot(rootSubCommands);
 		cmdTreeModel.reload();
 
-		titleLabel.setText(app.getMenu("InputHelp"));
-		syntaxLabel.setText(app.getPlain("Syntax"));
-		btnPaste.setText(app.getMenu("Paste"));
-		btnOnlineHelp.setText(app.getPlain("ShowOnlineHelp"));
+		titleLabel.setText(loc.getMenu("InputHelp"));
+		syntaxLabel.setText(loc.getMenu("Syntax"));
+		btnPaste.setText(loc.getMenu("Paste"));
+		btnOnlineHelp.setText(loc.getMenu("ShowOnlineHelp"));
 		if (helpTextPane != null) {
 			helpTextPane.setText(null);
 		}
 		functionTable.populateModel(TableSymbols.getTranslatedFunctions(app));
-		functionTitleNode.setUserObject(app.getMenu("MathematicalFunctions"));
-		rootAllCommands.setUserObject(app.getMenu("AllCommands"));
+		functionTitleNode.setUserObject(loc.getMenu("MathematicalFunctions"));
+		rootAllCommands.setUserObject(loc.getMenu("AllCommands"));
 		updateFonts();
 		repaint();
 	}
@@ -409,7 +409,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			rootSubCommands = new DefaultMutableTreeNode();
 		if (rootAllCommands == null)
 			rootAllCommands = new DefaultMutableTreeNode(
-					app.getMenu("AllCommands"));
+					loc.getMenu("AllCommands"));
 		rootSubCommands.removeAllChildren();
 		rootAllCommands.removeAllChildren();
 
@@ -452,7 +452,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		rootSubCommands.insert(rootAllCommands, 0);
 
 		functionTitleNode = new DefaultMutableTreeNode(
-				app.getMenu("MathematicalFunctions"));
+				loc.getMenu("MathematicalFunctions"));
 		rootSubCommands.insert(functionTitleNode, 0);
 	}
 
@@ -643,7 +643,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		// String s = "Syntax:\n" + app.getCommandSyntax(cmd);
 		String description = app.getLocalization().getCommandSyntax(cmd);
 		String descriptionCAS = app.getLocalization().getCommandSyntaxCAS(cmd);
-		String descriptionCASHeader = "\n" + app.getMenu("Type.CAS") + ":\n";
+		String descriptionCASHeader = "\n" + loc.getMenu("Type.CAS") + ":\n";
 
 		StyledDocument doc = helpTextPane.getStyledDocument();
 		try {

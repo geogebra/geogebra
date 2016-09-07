@@ -842,7 +842,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	@Override
-	protected char getLabelDelimiter() {
+	public char getLabelDelimiter() {
 		return ':';
 	}
 

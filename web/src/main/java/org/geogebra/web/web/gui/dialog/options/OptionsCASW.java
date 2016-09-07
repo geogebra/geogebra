@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.dialog.options;
 
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 
@@ -59,8 +60,9 @@ public class OptionsCASW extends OptionsCAS implements OptionPanelW,
 	 * Update the language
 	 */
 	public void setLabels() {
-		showRoots.setText(app.getPlain("CASShowRationalExponentsAsRoots"));
-		showNavigation.setText(app.getMenu("NavigationBar"));
+		Localization loc = app.getLocalization();
+		showRoots.setText(loc.getPlain("CASShowRationalExponentsAsRoots"));
+		showNavigation.setText(loc.getMenu("NavigationBar"));
 
 	}
 

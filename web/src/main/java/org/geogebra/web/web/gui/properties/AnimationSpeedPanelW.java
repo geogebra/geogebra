@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel.IAnimationSpeedListener;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -86,8 +87,9 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		getLabel().setText(app.getPlain("AnimationSpeed") + ":");
-		modeLabel.setText(app.getPlain("Repeat") + ": ");
+		Localization loc = app.getLocalization();
+		getLabel().setText(loc.getPlain("AnimationSpeed") + ":");
+		modeLabel.setText(loc.getPlain("Repeat") + ": ");
 	}
 
 	public void setText(String text) {

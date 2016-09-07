@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.data.StatPanelSettings;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -173,7 +174,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		spGraph = new ScrollPanel();
 		spGraph.setStyleName("daScrollPanel");
 		spGraph.add(graphPanel);
-		tabPanel.add(spGraph, app.getMenu("Graph"));
+		tabPanel.add(spGraph, app.getLocalization().getMenu("Graph"));
 		graphPanel.setVisible(true);
 		showYAxisSettings = true;
 
@@ -459,52 +460,52 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 
 	public void setLabels() {
-
+		Localization loc = app.getLocalization();
 		// titled borders
-		lbClassTitle.setText(app.getMenu("Classes"));
-		lbShowTitle.setText(app.getMenu("Show"));
-		lbFreqTitle.setText(app.getMenu("FrequencyType"));
-		lbDimTitle.setText(app.getPlain("Dimensions"));
+		lbClassTitle.setText(loc.getMenu("Classes"));
+		lbShowTitle.setText(loc.getMenu("Show"));
+		lbFreqTitle.setText(loc.getMenu("FrequencyType"));
+		lbDimTitle.setText(loc.getMenu("Dimensions"));
 
 		// histogram options
-		ckManual.setText(app.getMenu("SetClasssesManually"));
-		lblFreqType.setText(app.getMenu("FrequencyType") + ":");
+		ckManual.setText(loc.getMenu("SetClasssesManually"));
+		lblFreqType.setText(loc.getMenu("FrequencyType") + ":");
 
-		rbFreq.setText(app.getMenu("Count"));
-		rbNormalized.setText(app.getMenu("Normalized"));
-		rbRelative.setText(app.getMenu("Relative"));
+		rbFreq.setText(loc.getMenu("Count"));
+		rbNormalized.setText(loc.getMenu("Normalized"));
+		rbRelative.setText(loc.getMenu("Relative"));
 
-		ckCumulative.setText(app.getMenu("Cumulative"));
-		lblOverlay.setText(app.getMenu("Overlay"));
-		ckOverlayNormal.setText(app.getMenu("NormalCurve"));
-		ckOverlayPolygon.setText(app.getMenu("FrequencyPolygon"));
-		ckShowFrequencyTable.setText(app.getMenu("FrequencyTable"));
-		ckShowHistogram.setText(app.getMenu("Histogram"));
+		ckCumulative.setText(loc.getMenu("Cumulative"));
+		lblOverlay.setText(loc.getMenu("Overlay"));
+		ckOverlayNormal.setText(loc.getMenu("NormalCurve"));
+		ckOverlayPolygon.setText(loc.getMenu("FrequencyPolygon"));
+		ckShowFrequencyTable.setText(loc.getMenu("FrequencyTable"));
+		ckShowHistogram.setText(loc.getMenu("Histogram"));
 
-		lblClassRule.setText(app.getMenu("ClassRule") + ":");
-		rbRightRule.setText(app.getMenu("RightClassRule"));
-		rbLeftRule.setText(app.getMenu("LeftClassRule"));
+		lblClassRule.setText(loc.getMenu("ClassRule") + ":");
+		rbRightRule.setText(loc.getMenu("RightClassRule"));
+		rbLeftRule.setText(loc.getMenu("LeftClassRule"));
 
 		// bar chart
-		lblBarWidth.setText(app.getMenu("Width"));
-		ckAutoBarWidth.setText(app.getMenu("AutoDimension"));
+		lblBarWidth.setText(loc.getMenu("Width"));
+		ckAutoBarWidth.setText(loc.getMenu("AutoDimension"));
 
 		// graph options
-		ckAutoWindow.setText(app.getMenu("AutoDimension"));
-		ckShowGrid.setText(app.getPlain("ShowGrid"));
-		lblXMin.setText(app.getPlain("xmin") + ":");
-		lblXMax.setText(app.getPlain("xmax") + ":");
-		lblYMin.setText(app.getPlain("ymin") + ":");
-		lblYMax.setText(app.getPlain("ymax") + ":");
+		ckAutoWindow.setText(loc.getMenu("AutoDimension"));
+		ckShowGrid.setText(loc.getMenu("ShowGrid"));
+		lblXMin.setText(loc.getMenu("xmin") + ":");
+		lblXMax.setText(loc.getMenu("xmax") + ":");
+		lblYMin.setText(loc.getMenu("ymin") + ":");
+		lblYMax.setText(loc.getMenu("ymax") + ":");
 
-		lblXInterval.setText(app.getPlain("xstep") + ":");
-		lblYInterval.setText(app.getPlain("ystep") + ":");
+		lblXInterval.setText(loc.getMenu("xstep") + ":");
+		lblYInterval.setText(loc.getMenu("ystep") + ":");
 
 		// scatterplot options
-		ckShowLines.setText(app.getMenu("LineGraph"));
+		ckShowLines.setText(loc.getMenu("LineGraph"));
 
 		// boxplot options
-		ckShowOutliers.setText(app.getPlain("ShowOutliers"));
+		ckShowOutliers.setText(loc.getMenu("ShowOutliers"));
 
 	}
 
