@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.MyToggleButton;
 import org.geogebra.desktop.main.AppD;
@@ -199,15 +200,16 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	}
 
 	public void setLabels() {
-		btnRounding.setText(app.getMenu(".xx"));
-		btnShowStatistics.setToolTipText(app.getMenu("ShowStatistics"));
-		btnShowData.setToolTipText(app.getMenu("ShowData"));
-		btnShowPlot2.setToolTipText(app.getMenu("ShowPlot2"));
-		btnPrint.setToolTipText(app.getMenu("Print"));
-		btnDataSource.setToolTipText(app.getPlain("ShowDataSource"));
+		Localization loc = app.getLocalization();
+		btnRounding.setText(loc.getMenu(".xx"));
+		btnShowStatistics.setToolTipText(loc.getMenu("ShowStatistics"));
+		btnShowData.setToolTipText(loc.getMenu("ShowData"));
+		btnShowPlot2.setToolTipText(loc.getMenu("ShowPlot2"));
+		btnPrint.setToolTipText(loc.getMenu("Print"));
+		btnDataSource.setToolTipText(loc.getMenu("ShowDataSource"));
 
-		String swapString = app.getMenu("Column.X") + " \u21C6 "
-				+ app.getMenu("Column.Y");
+		String swapString = loc.getMenu("Column.X") + " \u21C6 "
+				+ loc.getMenu("Column.Y");
 		btnSwapXY.setFont(app.getPlainFont());
 		btnSwapXY.setText(swapString);
 

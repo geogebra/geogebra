@@ -1266,7 +1266,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 		setFonts();
 
-		setTitle((app == null) ? "Virtual Keyboard" : app
+		setTitle((app == null) ? "Virtual Keyboard"
+				: loc
 				.getPlain("VirtualKeyboard"));
 
 		readConf(app, null, false);

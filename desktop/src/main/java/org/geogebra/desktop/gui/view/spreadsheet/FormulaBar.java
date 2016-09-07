@@ -23,6 +23,7 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
@@ -257,8 +258,9 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 	}
 
 	public void setLabels(){
-		btnAcceptFormula.setToolTipText(app.getPlain("Apply"));
-		btnCancelFormula.setToolTipText(app.getPlain("Cancel"));
+		Localization loc = app.getLocalization();
+		btnAcceptFormula.setToolTipText(loc.getPlain("Apply"));
+		btnCancelFormula.setToolTipText(loc.getPlain("Cancel"));
 
 	}
 

@@ -33,7 +33,8 @@ public abstract class InputDialogRadiusD extends InputDialogD {
 	 */
 	public InputDialogRadiusD(AppD app, String title, InputHandler handler,
 			Kernel kernel) {
-		super(app, app.getPlain("Radius"), title, "", false, handler);
+		super(app, app.getLocalization().getMenu("Radius"), title, "", false,
+				handler);
 
 		this.kernel = kernel;
 	}

@@ -37,7 +37,8 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 	public InputDialogAngleFixed(AppD app, String title, InputHandler handler,
 			GeoSegmentND[] segments, GeoPointND[] points, GeoElement[] selGeos,
 			Kernel kernel, EuclidianController ec) {
-		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false,
+		super(app, app.getLocalization().getMenu("Angle"), title,
+				defaultRotateAngle, false,
 				handler, false);
 
 		this.segments = segments;

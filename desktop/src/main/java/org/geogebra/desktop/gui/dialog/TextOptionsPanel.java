@@ -28,6 +28,7 @@ import org.geogebra.common.gui.dialog.options.model.TextOptionsModel.ITextOption
 import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD.TextEditPanel;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 
@@ -108,7 +109,8 @@ class TextOptionsPanel extends JPanel implements ActionListener,
 	}
 
 	public void setLabels() {
-		String[] fontSizes = this.propertiesPanelD.app.getLocalization().getFontSizeStrings();
+		Localization loc = this.propertiesPanelD.app.getLocalization();
+		String[] fontSizes = loc.getFontSizeStrings();
 
 		int selectedIndex = cbSize.getSelectedIndex();
 		cbSize.removeActionListener(this);
@@ -118,15 +120,15 @@ class TextOptionsPanel extends JPanel implements ActionListener,
 			cbSize.addItem(fontSizes[i]);
 		}
 
-		cbSize.addItem(this.propertiesPanelD.app.getMenu("Custom") + "...");
+		cbSize.addItem(loc.getMenu("Custom") + "...");
 
 		cbSize.setSelectedIndex(selectedIndex);
 		cbSize.addActionListener(this);
 
-		btItalic.setText(this.propertiesPanelD.app.getPlain("Italic").substring(0, 1));
-		btBold.setText(this.propertiesPanelD.app.getPlain("Bold").substring(0, 1));
+		btItalic.setText(loc.getMenu("Italic").substring(0, 1));
+		btBold.setText(loc.getMenu("Bold").substring(0, 1));
 
-		decimalLabel.setText(this.propertiesPanelD.app.getMenu("Rounding") + ":");
+		decimalLabel.setText(loc.getMenu("Rounding") + ":");
 	}
 
 	public void setFontSizeVisibleOnly() {

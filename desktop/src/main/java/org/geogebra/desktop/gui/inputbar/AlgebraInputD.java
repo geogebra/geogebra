@@ -263,10 +263,10 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 	 */
 	public void setLabels() {
 		if (inputLabel != null)
-			inputLabel.setText(app.getPlain("InputLabel") + ":");
+			inputLabel.setText(loc.getMenu("InputLabel") + ":");
 
 		if (btnHelpToggle != null)
-			btnHelpToggle.setToolTipText(app.getMenu("InputHelp"));
+			btnHelpToggle.setToolTipText(loc.getMenu("InputHelp"));
 
 		inputField.setDictionary(false);
 		inputField.setLabels();

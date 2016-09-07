@@ -8,6 +8,7 @@ import javax.swing.UIManager;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.DefaultColorSelectionModel;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -71,10 +72,10 @@ public class GeoGebraColorChooser extends JColorChooser {
 	}
 
 	public void setLabels() {
-
-		UIManager.put("ColorChooser.okText", app.getPlain("OK"));
-		UIManager.put("ColorChooser.cancelText", app.getPlain("Cancel"));
-		UIManager.put("ColorChooser.resetText", app.getMenu("Reset"));
+		Localization loc = app.getLocalization();
+		UIManager.put("ColorChooser.okText", loc.getPlain("OK"));
+		UIManager.put("ColorChooser.cancelText", loc.getPlain("Cancel"));
+		UIManager.put("ColorChooser.resetText", loc.getMenu("Reset"));
 
 		AbstractColorChooserPanel[] panels = getChooserPanels();
 		for (int i = 0; i < panels.length; i++) {

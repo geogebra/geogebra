@@ -2223,8 +2223,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setLabels() {
-			setBorder(BorderFactory.createTitledBorder(app
-					.getPlain("PointSize")));
+			setBorder(BorderFactory.createTitledBorder(
+					app.getLocalization().getMenu("PointSize")));
 		}
 
 		public JPanel updatePanel(Object[] geos) {
@@ -3534,9 +3534,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public void setLabels() {
-			thicknessPanel.setBorder(BorderFactory.createTitledBorder(app
-					.getPlain("Thickness")));
-			opacityPanel.setBorder(BorderFactory.createTitledBorder(app
+			Localization loc = app.getLocalization();
+			thicknessPanel.setBorder(
+					BorderFactory.createTitledBorder(loc.getMenu("Thickness")));
+			opacityPanel.setBorder(BorderFactory
+					.createTitledBorder(loc
 					.getMenu("LineOpacity")));
 
 			dashLabel.setText(loc.getMenu("LineStyle") + ":");

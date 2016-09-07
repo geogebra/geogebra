@@ -14,6 +14,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.main.AppD;
 
 
@@ -40,7 +41,9 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 
 	public DialogCopyToSpreadsheet(AppD app, SpreadsheetViewDnD dndHandler) {
 
-		super(app.getFrame(), app.getMenu("CopyToSpreadsheet"), true);  // modal dialog
+		super(app.getFrame(),
+				app.getLocalization().getMenu("CopyToSpreadsheet"), true); // modal
+																		// dialog
 		this.app = app;	
 		this.dndHandler = dndHandler;
 
@@ -75,8 +78,9 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 		Box vBox = Box.createVerticalBox();
 		vBox.add(copyTypePanel);
 		vBox.add(orderTypePanel);
+		Localization loc = app.getLocalization();
 		vBox.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createEmptyBorder(5, 2, 5, 2), 
-				BorderFactory.createTitledBorder(app.getMenu("Options"))));
+				BorderFactory.createTitledBorder(loc.getMenu("Options"))));
 
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(vBox, BorderLayout.CENTER);
@@ -110,14 +114,14 @@ public class DialogCopyToSpreadsheet extends JDialog implements ActionListener {
 
 
 	public void setLabels() {
+		Localization loc = app.getLocalization();
+		btnCopy.setText(loc.getMenu("Copy"));
+		btnCancel.setText(loc.getMenu("Cancel"));
 
-		btnCopy.setText(app.getMenu("Copy"));
-		btnCancel.setText(app.getMenu("Cancel"));
+		rbDependent.setText(loc.getMenu("DependentObjects"));
+		rbFree.setText(loc.getMenu("FreeObjects"));
 
-		rbDependent.setText(app.getPlain("DependentObjects"));
-		rbFree.setText(app.getPlain("FreeObjects"));
-
-		ckTranspose.setText(app.getMenu("Transpose"));
+		ckTranspose.setText(loc.getMenu("Transpose"));
 	}
 
 

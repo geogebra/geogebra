@@ -37,6 +37,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * JPanel to display settings options for a ComboStatPanel
@@ -95,6 +96,8 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 
 	private DataAnalysisModel daModel;
 
+	private LocalizationD loc;
+
 	private final static int fieldWidth = 8;
 
 	/************************************************************
@@ -112,6 +115,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 			StatPanelSettings settings) {
 
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.daModel = model;
 		this.settings = settings;
 
@@ -170,7 +174,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 		ckOverlayPolygon.setVisible(false);
 
 		// add graph tab
-		tabbedPane.addTab(app.getMenu("Graph"), new JScrollPane(graphPanel));
+		tabbedPane.addTab(loc.getMenu("Graph"), new JScrollPane(graphPanel));
 		graphPanel.setVisible(true);
 		showYAxisSettings = true;
 
@@ -548,61 +552,61 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 	public void setLabels() {
 
 		// titled borders
-		classesPanel.setBorder(BorderFactory.createTitledBorder(app
+		classesPanel.setBorder(BorderFactory.createTitledBorder(loc
 				.getMenu("Classes")));
-		showPanel.setBorder(BorderFactory.createTitledBorder(app
+		showPanel.setBorder(BorderFactory.createTitledBorder(loc
 				.getMenu("Show")));
-		freqPanel.setBorder(BorderFactory.createTitledBorder(app
+		freqPanel.setBorder(BorderFactory.createTitledBorder(loc
 				.getMenu("FrequencyType")));
-		dimPanel.setBorder(BorderFactory.createTitledBorder(app
+		dimPanel.setBorder(BorderFactory.createTitledBorder(loc
 				.getPlain("Dimensions")));
-		coordPanel.setBorder(BorderFactory.createTitledBorder(app
-				.getPlain("Coordinate Mode")));
+		coordPanel.setBorder(BorderFactory
+				.createTitledBorder(loc.getMenu("Coordinate Mode")));
 
 		// histogram options
-		ckManual.setText(app.getMenu("SetClasssesManually"));
-		lblFreqType.setText(app.getMenu("FrequencyType") + ":");
+		ckManual.setText(loc.getMenu("SetClasssesManually"));
+		lblFreqType.setText(loc.getMenu("FrequencyType") + ":");
 
-		rbFreq.setText(app.getMenu("Count"));
-		rbNormalized.setText(app.getMenu("Normalized"));
-		rbRelative.setText(app.getMenu("Relative"));
+		rbFreq.setText(loc.getMenu("Count"));
+		rbNormalized.setText(loc.getMenu("Normalized"));
+		rbRelative.setText(loc.getMenu("Relative"));
 
-		ckCumulative.setText(app.getMenu("Cumulative"));
-		lblOverlay.setText(app.getMenu("Overlay"));
-		ckOverlayNormal.setText(app.getMenu("NormalCurve"));
-		ckOverlayPolygon.setText(app.getMenu("FrequencyPolygon"));
-		ckShowFrequencyTable.setText(app.getMenu("FrequencyTable"));
-		ckShowHistogram.setText(app.getMenu("Histogram"));
+		ckCumulative.setText(loc.getMenu("Cumulative"));
+		lblOverlay.setText(loc.getMenu("Overlay"));
+		ckOverlayNormal.setText(loc.getMenu("NormalCurve"));
+		ckOverlayPolygon.setText(loc.getMenu("FrequencyPolygon"));
+		ckShowFrequencyTable.setText(loc.getMenu("FrequencyTable"));
+		ckShowHistogram.setText(loc.getMenu("Histogram"));
 
-		lblClassRule.setText(app.getMenu("ClassRule") + ":");
-		rbRightRule.setText(app.getMenu("RightClassRule"));
-		rbLeftRule.setText(app.getMenu("LeftClassRule"));
+		lblClassRule.setText(loc.getMenu("ClassRule") + ":");
+		rbRightRule.setText(loc.getMenu("RightClassRule"));
+		rbLeftRule.setText(loc.getMenu("LeftClassRule"));
 
 		// bar chart
-		lblBarWidth.setText(app.getMenu("Width"));
-		ckAutoBarWidth.setText(app.getMenu("AutoDimension"));
+		lblBarWidth.setText(loc.getMenu("Width"));
+		ckAutoBarWidth.setText(loc.getMenu("AutoDimension"));
 
 		// graph options
-		ckAutoWindow.setText(app.getMenu("AutoDimension"));
-		ckShowGrid.setText(app.getPlain("ShowGrid"));
-		lblXMin.setText(app.getPlain("xmin") + ":");
-		lblXMax.setText(app.getPlain("xmax") + ":");
-		lblYMin.setText(app.getPlain("ymin") + ":");
-		lblYMax.setText(app.getPlain("ymax") + ":");
+		ckAutoWindow.setText(loc.getMenu("AutoDimension"));
+		ckShowGrid.setText(loc.getMenu("ShowGrid"));
+		lblXMin.setText(loc.getMenu("xmin") + ":");
+		lblXMax.setText(loc.getMenu("xmax") + ":");
+		lblYMin.setText(loc.getMenu("ymin") + ":");
+		lblYMax.setText(loc.getMenu("ymax") + ":");
 
-		lblXInterval.setText(app.getPlain("xstep") + ":");
-		lblYInterval.setText(app.getPlain("ystep") + ":");
+		lblXInterval.setText(loc.getMenu("xstep") + ":");
+		lblYInterval.setText(loc.getMenu("ystep") + ":");
 
-		rbStandToStand.setText(app.getPlain("Standard To Standard"));
-		rbLogToStand.setText(app.getPlain("Logarithmic To Standard"));
-		rbStandToLog.setText(app.getPlain("Standard To Logarithmic"));
-		rbLogToLog.setText(app.getPlain("Logarithmic To Logarithmic"));
+		rbStandToStand.setText(loc.getMenu("Standard To Standard"));
+		rbLogToStand.setText(loc.getMenu("Logarithmic To Standard"));
+		rbStandToLog.setText(loc.getMenu("Standard To Logarithmic"));
+		rbLogToLog.setText(loc.getMenu("Logarithmic To Logarithmic"));
 
 		// scatterplot options
-		ckShowLines.setText(app.getMenu("LineGraph"));
+		ckShowLines.setText(loc.getMenu("LineGraph"));
 
 		// boxplot options
-		ckShowOutliers.setText(app.getPlain("ShowOutliers"));
+		ckShowOutliers.setText(loc.getMenu("ShowOutliers"));
 
 		repaint();
 	}

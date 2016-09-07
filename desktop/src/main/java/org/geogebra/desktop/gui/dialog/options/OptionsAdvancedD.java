@@ -197,9 +197,9 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		tfKeyboardHeight.addFocusListener(this);
 
 		virtualKeyboardPanel.add(LayoutUtil.flowPanel(widthLabel,
-				tfKeyboardWidth, new JLabel(app.getMenu("Pixels.short")),
+				tfKeyboardWidth, new JLabel(loc.getMenu("Pixels.short")),
 				Box.createHorizontalStrut(10), heightLabel, tfKeyboardHeight,
-				new JLabel(app.getMenu("Pixels.short"))));
+				new JLabel(loc.getMenu("Pixels.short"))));
 
 		cbKeyboardShowAutomatic = new JCheckBox();
 
@@ -770,67 +770,69 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 	 * Update the language of the user interface.
 	 */
 	public void setLabels() {
-		virtualKeyboardPanel.setBorder(LayoutUtil.titleBorder(app
+		virtualKeyboardPanel.setBorder(
+				LayoutUtil.titleBorder(loc
 				.getPlain("VirtualKeyboard")));
-		keyboardLanguageLabel.setText(app.getPlain("VirtualKeyboardLanguage")
+		keyboardLanguageLabel.setText(loc.getMenu("VirtualKeyboardLanguage")
 				+ ":");
-		widthLabel.setText(app.getPlain("Width") + ":");
-		heightLabel.setText(app.getPlain("Height") + ":");
-		cbKeyboardShowAutomatic.setText(app.getPlain("ShowAutomatically"));
-		opacityLabel.setText(app.getMenu("Opacity") + ":");
+		widthLabel.setText(loc.getMenu("Width") + ":");
+		heightLabel.setText(loc.getMenu("Height") + ":");
+		cbKeyboardShowAutomatic.setText(loc.getMenu("ShowAutomatically"));
+		opacityLabel.setText(loc.getMenu("Opacity") + ":");
 
 		guiFontsizePanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("FontSize")));
-		guiFontSizeLabel.setText(app.getMenu("GUIFontSize") + ":");
+		guiFontSizeLabel.setText(loc.getMenu("GUIFontSize") + ":");
 
 		tooltipPanel
-				.setBorder(LayoutUtil.titleBorder(app.getPlain("Tooltips")));
-		tooltipLanguageLabel.setText(app.getPlain("TooltipLanguage") + ":");
-		tooltipTimeoutLabel.setText(app.getPlain("TooltipTimeout") + ":");
+				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Tooltips")));
+		tooltipLanguageLabel.setText(loc.getMenu("TooltipLanguage") + ":");
+		tooltipTimeoutLabel.setText(loc.getMenu("TooltipTimeout") + ":");
 
 		languagePanel
-				.setBorder(LayoutUtil.titleBorder(app.getMenu("Language")));
-		cbUseLocalDigits.setText(app.getPlain("LocalizedDigits"));
-		cbUseLocalLabels.setText(app.getPlain("LocalizedLabels"));
+				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Language")));
+		cbUseLocalDigits.setText(loc.getMenu("LocalizedDigits"));
+		cbUseLocalLabels.setText(loc.getMenu("LocalizedLabels"));
 
 		angleUnitPanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("AngleUnit")));
-		angleUnitRadioDegree.setText(app.getMenu("Degree"));
-		angleUnitRadioRadian.setText(app.getMenu("Radiant"));
+		angleUnitRadioDegree.setText(loc.getMenu("Degree"));
+		angleUnitRadioRadian.setText(loc.getMenu("Radiant"));
 
 		continuityPanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("Continuity")));
-		continuityRadioOn.setText(app.getMenu("on"));
-		continuityRadioOff.setText(app.getMenu("off"));
+		continuityRadioOn.setText(loc.getMenu("on"));
+		continuityRadioOff.setText(loc.getMenu("off"));
 
 		usePathAndRegionParametersPanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("UsePathAndRegionParameters")));
-		usePathAndRegionParametersRadioOn.setText(app.getMenu("on"));
-		usePathAndRegionParametersRadioOff.setText(app.getMenu("off"));
+		usePathAndRegionParametersRadioOn.setText(loc.getMenu("on"));
+		usePathAndRegionParametersRadioOff.setText(loc.getMenu("off"));
 
 		rightAnglePanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("RightAngleStyle")));
-		rightAngleRadio1.setText(app.getMenu(app.getPlain("off")));
+		rightAngleRadio1.setText(loc.getMenu(loc.getMenu("off")));
 		rightAngleRadio2.setText("\u25a1");
 		rightAngleRadio3.setText("\u2219");
 		rightAngleRadio4.setText("\u2335");
 		rightAngleRadio4.setFont(app.getFontCanDisplayAwt("\u2335"));
 
-		coordinatesPanel.setBorder(LayoutUtil.titleBorder(app
+		coordinatesPanel
+				.setBorder(LayoutUtil.titleBorder(loc
 				.getPlain("Coordinates")));
-		coordinatesRadio1.setText(app.getMenu("A = (x, y)"));
-		coordinatesRadio2.setText(app.getMenu("A(x | y)"));
-		coordinatesRadio3.setText(app.getMenu("A: (x, y)"));
+		coordinatesRadio1.setText(loc.getMenu("A = (x, y)"));
+		coordinatesRadio2.setText(loc.getMenu("A(x | y)"));
+		coordinatesRadio3.setText(loc.getMenu("A: (x, y)"));
 
 		// perspectivesPanel.setBorder(LayoutUtil.titleBorder(app
 		// .getMenu("Perspectives")));
-		// cbIgnoreDocumentLayout.setText(app.getPlain("IgnoreDocumentLayout"));
+		// cbIgnoreDocumentLayout.setText(loc.getMenu("IgnoreDocumentLayout"));
 		/*
-		 * cbShowTitleBar.setText(app.getPlain("ShowTitleBar"));
-		 * cbAllowStyleBar.setText(app.getPlain("AllowStyleBar"));
+		 * cbShowTitleBar.setText(loc.getMenu("ShowTitleBar"));
+		 * cbAllowStyleBar.setText(loc.getMenu("AllowStyleBar"));
 		 */
 
-		cbReturnAngleInverseTrig.setText(app.getMenu("ReturnAngleInverseTrig"));
+		cbReturnAngleInverseTrig.setText(loc.getMenu("ReturnAngleInverseTrig"));
 		cbReturnAngleInverseTrig.setSelected(app.getKernel()
 				.getInverseTrigReturnsAngle());
 

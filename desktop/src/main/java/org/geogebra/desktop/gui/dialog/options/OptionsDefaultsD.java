@@ -27,6 +27,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsDefaults;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -320,32 +321,33 @@ public class OptionsDefaultsD extends OptionsDefaults implements OptionPanelD,
 	 */
 	public void setLabels() {
 		// update tree labels
-		pointsNode.setUserObject(app.getPlain("Point"));
-		pointsFreeNode.setUserObject(app.getPlain("PointFree"));
-		pointsDepNode.setUserObject(app.getPlain("PointDep"));
-		pointsPathNode.setUserObject(app.getPlain("PointOnPath"));
-		pointsInRegionNode.setUserObject(app.getPlain("PointInside"));
-		pointsComplexNode.setUserObject(app.getPlain("ComplexNumber"));
-		lineNode.setUserObject(app.getPlain("Line"));
-		segmentNode.setUserObject(app.getPlain("Segment"));
-		rayNode.setUserObject(app.getPlain("Ray"));
-		vectorNode.setUserObject(app.getPlain("Vector"));
-		conicNode.setUserObject(app.getPlain("Conic"));
-		conicSectorNode.setUserObject(app.getPlain("Sector"));
-		functionNode.setUserObject(app.getPlain("Function"));
-		functionNVarNode.setUserObject(app.getPlain("MultivariableFunction"));
-		polygonNode.setUserObject(app.getPlain("Polygon"));
-		polylineNode.setUserObject(app.getPlain("PolyLine"));
-		locusNode.setUserObject(app.getPlain("Locus"));
-		textNode.setUserObject(app.getPlain("Text"));
-		imageNode.setUserObject(app.getPlain("Image"));
-		numberNode.setUserObject(app.getPlain("Slider"));
-		angleNode.setUserObject(app.getPlain("Angle"));
-		booleanNode.setUserObject(app.getPlain("Boolean"));
-		listNode.setUserObject(app.getPlain("List"));
-		inequalitiesNode.setUserObject(app.getPlain("Inequality"));
+		Localization loc = app.getLocalization();
+		pointsNode.setUserObject(loc.getMenu("Point"));
+		pointsFreeNode.setUserObject(loc.getMenu("PointFree"));
+		pointsDepNode.setUserObject(loc.getMenu("PointDep"));
+		pointsPathNode.setUserObject(loc.getMenu("PointOnPath"));
+		pointsInRegionNode.setUserObject(loc.getMenu("PointInside"));
+		pointsComplexNode.setUserObject(loc.getMenu("ComplexNumber"));
+		lineNode.setUserObject(loc.getMenu("Line"));
+		segmentNode.setUserObject(loc.getMenu("Segment"));
+		rayNode.setUserObject(loc.getMenu("Ray"));
+		vectorNode.setUserObject(loc.getMenu("Vector"));
+		conicNode.setUserObject(loc.getMenu("Conic"));
+		conicSectorNode.setUserObject(loc.getMenu("Sector"));
+		functionNode.setUserObject(loc.getMenu("Function"));
+		functionNVarNode.setUserObject(loc.getMenu("MultivariableFunction"));
+		polygonNode.setUserObject(loc.getMenu("Polygon"));
+		polylineNode.setUserObject(loc.getMenu("PolyLine"));
+		locusNode.setUserObject(loc.getMenu("Locus"));
+		textNode.setUserObject(loc.getMenu("Text"));
+		imageNode.setUserObject(loc.getMenu("Image"));
+		numberNode.setUserObject(loc.getMenu("Slider"));
+		angleNode.setUserObject(loc.getMenu("Angle"));
+		booleanNode.setUserObject(loc.getMenu("Boolean"));
+		listNode.setUserObject(loc.getMenu("List"));
+		inequalitiesNode.setUserObject(loc.getMenu("Inequality"));
 
-		defaultsButton.setText(app.getPlain("ApplyToSelectedObjects"));
+		defaultsButton.setText(loc.getMenu("ApplyToSelectedObjects"));
 
 		propPanel.setLabels();
 	}

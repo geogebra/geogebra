@@ -3228,10 +3228,6 @@ public abstract class App implements UpdateSelection {
 		return getLocalization().getMenu(key);
 	}
 
-	public final String getPlain(String key) {
-		return getLocalization().getMenu(key);
-	}
-
 	@Deprecated
 	public final ArrayList<GeoElement> getSelectedGeos() {
 		return null;

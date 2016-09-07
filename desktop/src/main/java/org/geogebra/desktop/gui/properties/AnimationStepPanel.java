@@ -61,7 +61,7 @@ public class AnimationStepPanel extends JPanel implements ActionListener,
 	}
 
 	public void setLabels() {
-		label.setText(kernel.getApplication().getPlain("AnimationStep") + ": ");
+		label.setText(kernel.getLocalization().getMenu("AnimationStep") + ": ");
 	}
 
 	public void setPartOfSliderPanel() {

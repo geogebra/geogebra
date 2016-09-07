@@ -24,6 +24,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator.Procedure;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -69,17 +70,17 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	}
 
 	public void setLabels() {
-
-		lblRows.setText(app.getMenu("Rows"));
-		lblColumns.setText(app.getMenu("Columns"));
-		ckExpected.setText(app.getPlain("ExpectedCount"));
-		ckChiDiff.setText(app.getPlain("ChiSquaredContribution"));
-		ckRowPercent.setText(app.getPlain("RowPercent"));
-		ckColPercent.setText(app.getPlain("ColumnPercent"));
+		Localization loc = app.getLocalization();
+		lblRows.setText(loc.getMenu("Rows"));
+		lblColumns.setText(loc.getMenu("Columns"));
+		ckExpected.setText(loc.getMenu("ExpectedCount"));
+		ckChiDiff.setText(loc.getMenu("ChiSquaredContribution"));
+		ckRowPercent.setText(loc.getMenu("RowPercent"));
+		ckColPercent.setText(loc.getMenu("ColumnPercent"));
 
 		if (statCalc.getSelectedProcedure() == Procedure.GOF_TEST) {
-			cell[0][1].setLabelText(0, app.getPlain("ObservedCount"));
-			cell[0][2].setLabelText(0, app.getPlain("ExpectedCount"));
+			cell[0][1].setLabelText(0, loc.getMenu("ObservedCount"));
+			cell[0][2].setLabelText(0, loc.getMenu("ExpectedCount"));
 		}
 
 	}

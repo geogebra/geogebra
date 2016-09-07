@@ -692,7 +692,8 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		yAxisPanel.setLabels();
 
 		// construction protocol panel
-		consProtocolPanel.setBorder(LayoutUtil.titleBorder(app
+		consProtocolPanel.setBorder(LayoutUtil
+				.titleBorder(loc
 				.getPlain("ConstructionProtocolNavigation")));
 		ckShowNavbar.setText(loc.getMenu("Show"));
 		ckNavPlay.setText(loc.getMenu("PlayButton"));

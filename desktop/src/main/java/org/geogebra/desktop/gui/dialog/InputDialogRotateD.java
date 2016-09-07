@@ -28,7 +28,8 @@ public abstract class InputDialogRotateD extends AngleInputDialog implements
 
 	public InputDialogRotateD(AppD app, String title, InputHandler handler,
 			GeoPolygon[] polys, GeoElement[] selGeos, EuclidianController ec) {
-		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false,
+		super(app, app.getLocalization().getMenu("Angle"), title,
+				defaultRotateAngle, false,
 				handler, false);
 
 		this.polys = polys;

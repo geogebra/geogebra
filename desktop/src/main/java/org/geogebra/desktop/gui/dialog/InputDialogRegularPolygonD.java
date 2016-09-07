@@ -18,7 +18,8 @@ public class InputDialogRegularPolygonD extends InputDialogD {
 	public InputDialogRegularPolygonD(AppD app, EuclidianController ec,
 			String title, InputHandler handler, GeoPointND point1,
 			GeoPointND point2) {
-		super(app, app.getPlain("Points"), title, "4", false, handler, true);
+		super(app, app.getLocalization().getMenu("Points"), title, "4", false,
+				handler, true);
 
 		geoPoint1 = point1;
 		geoPoint2 = point2;

@@ -23,6 +23,7 @@ import javax.swing.border.Border;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsLayout;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -455,37 +456,37 @@ public class OptionsLayoutD extends OptionsLayout
 	 * Update the language of the user interface.
 	 */
 	public void setLabels() {
-
+		Localization loc = app.getLocalization();
 		// input bar panel
 		inputBarPanel.setBorder(LayoutUtil.titleBorder(app
 				.getMenu("InputField")));
-		ckShowInputBar.setText(app.getMenu("Show"));
-		ckShowInputHelp.setText(app.getMenu("CmdList"));
-		lblInputBarPosition.setText(app.getMenu("Position"));
+		ckShowInputBar.setText(loc.getMenu("Show"));
+		ckShowInputHelp.setText(loc.getMenu("CmdList"));
+		lblInputBarPosition.setText(loc.getMenu("Position"));
 
 		// tool bar panel
-		toolbarPanel.setBorder(LayoutUtil.titleBorder(app.getMenu("Toolbar")));
-		ckShowToolbar.setText(app.getMenu("Show"));
-		ckShowToolHelp.setText(app.getMenu("ShowToolBarHelp"));
+		toolbarPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Toolbar")));
+		ckShowToolbar.setText(loc.getMenu("Show"));
+		ckShowToolHelp.setText(loc.getMenu("ShowToolBarHelp"));
 
 		// perspectives panel
 		perspectivesPanel
-				.setBorder(LayoutUtil.titleBorder(app.getMenu("View")));
-		// ckIgnoreDocumentLayout.setText(app.getPlain("IgnoreDocumentLayout"));
-		ckShowTitleBar.setText(app.getPlain("ShowTitleBar"));
-		ckAllowStyleBar.setText(app.getPlain("AllowStyleBar"));
+				.setBorder(LayoutUtil.titleBorder(loc.getMenu("View")));
+		// ckIgnoreDocumentLayout.setText(loc.getMenu("IgnoreDocumentLayout"));
+		ckShowTitleBar.setText(loc.getMenu("ShowTitleBar"));
+		ckAllowStyleBar.setText(loc.getMenu("AllowStyleBar"));
 
 
 		// menu bar panel
-		menuBarPanel.setTitle(app.getPlain("Miscellaneous"));
-		ckShowMenuBar.setText(app.getMenu("ShowMenuBar"));
+		menuBarPanel.setTitle(loc.getMenu("Miscellaneous"));
+		ckShowMenuBar.setText(loc.getMenu("ShowMenuBar"));
 
 		// side bar panel
 		sideBarPanel
-				.setBorder(LayoutUtil.titleBorder(app.getMenu("Sidebar")));
-		ckShowSideBar.setText(app.getMenu("ShowSidebar"));
-		rbPespectiveSidebar.setText(app.getMenu("PerspectivePanel"));
-		rbButtonSidebar.setText(app.getMenu("ViewPanel"));
+				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Sidebar")));
+		ckShowSideBar.setText(loc.getMenu("ShowSidebar"));
+		rbPespectiveSidebar.setText(loc.getMenu("PerspectivePanel"));
+		rbButtonSidebar.setText(loc.getMenu("ViewPanel"));
 
 	}
 

@@ -39,6 +39,7 @@ import org.geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjec
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
@@ -228,15 +229,15 @@ class ColorPanel extends JPanel implements ActionListener,
 	}
 
 	public void setLabels() {
+		Localization loc = this.propertiesPanelD.app.getLocalization();
 		previewLabel.setText(this.propertiesPanelD.app.getMenu("Preview") + ": ");
 		opacityPanel.setBorder(BorderFactory.createTitledBorder(this.propertiesPanelD.app
 				.getMenu("Opacity")));
 		this.propertiesPanelD.colChooser.setLocale(this.propertiesPanelD.app.getLocale());
-		rbtnBackgroundColor.setText(this.propertiesPanelD.app.getMenu("BackgroundColor"));
-		rbtnForegroundColor.setText(this.propertiesPanelD.app.getMenu("ForegroundColor"));
-		btnClearBackground.setToolTipText(this.propertiesPanelD.app.getPlain("Remove"));
-		this.automatic
-				.setText(this.propertiesPanelD.app.getPlain("Automatic"));
+		rbtnBackgroundColor.setText(loc.getMenu("BackgroundColor"));
+		rbtnForegroundColor.setText(loc.getMenu("ForegroundColor"));
+		btnClearBackground.setToolTipText(loc.getMenu("Remove"));
+		this.automatic.setText(loc.getMenu("Automatic"));
 		updateToolTipText();
 	}
 

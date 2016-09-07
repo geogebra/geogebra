@@ -24,6 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.menubar.LanguageActionListener;
@@ -244,10 +245,11 @@ public class LanguageDialog extends JDialog {
 	 * 
 	 */
 	public void setLabels() {
-		setTitle(app.getMenu("Language"));
+		Localization loc = app.getLocalization();
+		setTitle(loc.getMenu("Language"));
 
-		btnCancel.setText(app.getPlain("Cancel"));
-		btnOK.setText(app.getPlain("OK"));
+		btnCancel.setText(loc.getMenu("Cancel"));
+		btnOK.setText(app.getMenu("OK"));
 	}
 
 }

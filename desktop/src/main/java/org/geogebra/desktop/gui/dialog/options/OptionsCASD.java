@@ -17,6 +17,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.io.MyXMLHandler;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.desktop.main.AppD;
 
@@ -136,9 +137,10 @@ public class OptionsCASD extends OptionsCAS
 	 * Update the language of the user interface.
 	 */
 	public void setLabels() {
-		timeoutLabel.setText(app.getPlain("CasTimeout"));
-		cbShowRoots.setText(app.getPlain("CASShowRationalExponentsAsRoots"));
-		cbShowNavigation.setText(app.getMenu("NavigationBar"));
+		Localization loc = app.getLocalization();
+		timeoutLabel.setText(loc.getPlain("CasTimeout"));
+		cbShowRoots.setText(loc.getPlain("CASShowRationalExponentsAsRoots"));
+		cbShowNavigation.setText(loc.getMenu("NavigationBar"));
 	}
 
 	/**
