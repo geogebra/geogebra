@@ -811,11 +811,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 			return;
 		}
 		String text = "";
+		boolean forceLatex = false;
 		if (previewGeo.isGeoFunction()) {
-			String[] heads = getText().split("=");
-			if (heads.length > 0) {
-				text += heads[0] + " = ";
-			}
+			forceLatex = true;
 		}
 
 		if (app.has(Feature.FRACTIONS)
@@ -836,7 +834,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 				.getAlgebraDescription(StringTemplate.latexTemplate)
 				.replace("undefined", "");
 
-		if (!plain.equals(text)) {
+		if (!plain.equals(text) || forceLatex) {
 			// LaTeX
 			valCanvas = DrawEquationW.paintOnCanvas(previewGeo, text, valCanvas,
 					getFontSize());
