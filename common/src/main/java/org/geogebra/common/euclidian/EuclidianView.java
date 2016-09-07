@@ -2908,18 +2908,25 @@ public abstract class EuclidianView
 			int w = getWidth();
 			int h = getHeight();
 //			Log.debug(w + "x" + h);
+//			Log.debug("xZero: "+xZero);
 			if (getSettings() != null) {
-//				Log.debug("settings: " + getSettings().getFileWidth() + "x" + getSettings().getFileHeight());
 				int fw = getSettings().getFileWidth();
 				int fh = getSettings().getFileHeight();
-				if (fw > 0 && fh > 0) {
-					int dx = (w - fw) / 2;
-					int dy = (h - fh) / 2;
-					xZero += dx;
-					yZero += dy;
+				double x0 = getSettings().getXZero();
+				double y0 = getSettings().getYZero();
+//				Log.debug("settings: " + fw + "x" + fh+","+x0+","+y0);
+				if (fw == 0){
+					// no dimension from file: center the view
+					fw = (int) Math.round(x0 * 2);
+					fh = (int) Math.round(y0 * 2);
 				}
+				int dx = (w - fw) / 2;
+				int dy = (h - fh) / 2;
+				xZero = getSettings().getXZero() + dx;
+				yZero = getSettings().getYZero() + dy;
 //				Log.debug("xZero >> " + xZero);
 				getSettings().setSizeFromFile(w, h);
+				getSettings().setOriginNoUpdate(xZero, yZero);
 			} else {
 //				Log.debug("settings: null");
 			}
@@ -4198,13 +4205,27 @@ public abstract class EuclidianView
 
 		companion.getXMLid(sbxml);
 
-		if ((getWidth() > MIN_WIDTH) && (getHeight() > MIN_HEIGHT)) {
+		int width = getWidth();
+		int height = getHeight();
+		if (app.has(Feature.MOBILE_NEW_EV_CENTERING)) {
+//			Log.debug(width + "x" + height);
+			if ((width <= MIN_WIDTH) && (height <= MIN_HEIGHT)) {
+				EuclidianSettings settings = getSettings();
+				if (settings != null) {
+					width = settings.getFileWidth();
+					height = settings.getFileHeight();
+				}
+			}
+//			Log.debug("after:" + width + "x" + height);
+		}
+
+		if ((width > MIN_WIDTH) && (height > MIN_HEIGHT)) {
 			sbxml.append("\t<size ");
 			sbxml.append(" width=\"");
-			sbxml.append(getWidth());
+			sbxml.append(width);
 			sbxml.append("\"");
 			sbxml.append(" height=\"");
-			sbxml.append(getHeight());
+			sbxml.append(height);
 			sbxml.append("\"");
 			sbxml.append("/>\n");
 		}

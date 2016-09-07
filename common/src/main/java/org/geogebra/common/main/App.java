@@ -4431,11 +4431,4 @@ public abstract class App implements UpdateSelection {
 		return ev.getExportImage(scale);
 	}
 
-	/**
-	 *
-	 * @return true if EV should be centered at start (used for phones)
-     */
-	public boolean centerEuclidianViewsOnStart(){
-		return false;
-	}
 }
