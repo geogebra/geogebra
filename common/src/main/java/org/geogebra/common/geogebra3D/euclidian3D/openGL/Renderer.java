@@ -15,7 +15,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -932,13 +931,18 @@ public abstract class Renderer {
 		enableLighting();
 		disableAlphaTest();
 		enableCulling();
-		if (enableClipPlanes) {
-			disableClipPlanes();
-		}
-		setCullFaceBack();
-		view3D.drawCursor(this);
-		if (enableClipPlanes) {
-			enableClipPlanes();
+		if (needExportImage) {
+			// we don't want mouse cursor on export image
+			setCullFaceBack(); // needed for further calculations
+		} else {
+			if (enableClipPlanes) {
+				disableClipPlanes();
+			}
+			setCullFaceBack();
+			view3D.drawCursor(this);
+			if (enableClipPlanes) {
+				enableClipPlanes();
+			}
 		}
 
 		// drawing hidden part
