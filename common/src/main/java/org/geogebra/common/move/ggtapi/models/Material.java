@@ -276,8 +276,24 @@ public class Material implements Comparable<Material>, Serializable {
 		this.language = language;
 	}
 
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+	private boolean thumbnailIsBase64 = false;
+
+	public void setThumbnailUrl(String url) {
+		this.thumbnail = url;
+		setThumbnailIsBase64(false);
+	}
+
+	public void setThumbnailBase64(String base64) {
+		this.thumbnail = base64;
+		setThumbnailIsBase64(true);
+	}
+
+	public boolean thumbnailIsBase64(){
+		return thumbnailIsBase64;
+	}
+
+	public void setThumbnailIsBase64(boolean flag){
+		thumbnailIsBase64 = flag;
 	}
 
 	public void setFeatured(boolean featured) {

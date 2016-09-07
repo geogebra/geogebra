@@ -43,7 +43,7 @@ public class JSONParserGGT {
 		material.setAuthorId(getInt(obj, "author_id", -1));
 		material.setURL(getString(obj, "url"));
 		material.setURLdirect(getString(obj, "url_direct"));
-		material.setThumbnail(getString(obj, "thumbnail"));
+		material.setThumbnailUrl(getString(obj, "thumbnail"));
 		material.setPreviewURL(getString(obj, "previewUrl"));
 		material.setLanguage(getString(obj, "language"));
 		material.setFeatured(Boolean.parseBoolean(getString(obj, "featured")));
