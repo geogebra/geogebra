@@ -15,11 +15,14 @@
  */
 package org.geogebra.web.linker;
 
+import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Date;
+
+import org.geogebra.common.GeoGebraConstants;
 
 import com.google.gwt.core.ext.LinkerContext;
 import com.google.gwt.core.ext.TreeLogger;
+import com.google.gwt.core.ext.TreeLogger.Type;
 import com.google.gwt.core.ext.UnableToCompleteException;
 import com.google.gwt.core.ext.linker.AbstractLinker;
 import com.google.gwt.core.ext.linker.Artifact;
@@ -74,7 +77,7 @@ import com.google.gwt.core.ext.linker.impl.SelectionInformation;
 @LinkerOrder(Order.POST)
 public class SimpleAppCacheLinker extends AbstractLinker {
 
-	private static final String MANIFEST = "appcache.nocache.manifest";
+	private static final String MANIFEST = "sworker.js";
 
 	@Override
 	public String getDescription() {
@@ -141,8 +144,7 @@ public class SimpleAppCacheLinker extends AbstractLinker {
 					        || pathName.endsWith("manifest.txt")
 					        || pathName.startsWith("rpcPolicyManifest")
 					        || pathName.endsWith("cssmap")
-					        || pathName.endsWith("svnignore.txt")
-					        || pathName.endsWith("compilation-mappings.txt")
+							|| pathName.endsWith("MANIFEST.MF") || pathName.endsWith(".txt")
 					        || pathName.endsWith(".php")
 					        || pathName.endsWith("README")
 							|| pathName.endsWith("COPYING") || pathName.endsWith("LICENSE")
@@ -152,7 +154,8 @@ public class SimpleAppCacheLinker extends AbstractLinker {
 					        || pathName.startsWith("js/properties_")) {
 						// skip these resources
 					} else {
-						publicSourcesSb.append("https://app.geogebra.org/5.0/web3d/" + pathName + "\n");
+						publicSourcesSb.append("\"https://d2lanadgwinn45.cloudfront.net/"
+								+ GeoGebraConstants.VERSION_STRING + "/web3d/" + pathName + "\",\n");
 					}
 				}
 			}
@@ -166,25 +169,7 @@ public class SimpleAppCacheLinker extends AbstractLinker {
 
 		// build cache list
 		StringBuilder sb = new StringBuilder();
-		sb.append("CACHE MANIFEST\n");
-		sb.append("# Unique id #" + (new Date()).getTime() + "."
-		        + Math.random() + "\n");
-		// we have to generate this unique id because the resources can change
-		// but
-		// the hashed cache.html files can remain the same.
-		sb.append("# Note: must change this every time for cache to invalidate\n");
-		sb.append("\n");
-		sb.append("CACHE:\n");
-		sb.append("# Static app files\n");
-		sb.append(staticResoucesSb.toString());
-		sb.append("\n# Generated app files\n");
-		sb.append(publicSourcesSb.toString());
-		sb.append("\n\n");
-		sb.append("# All other resources require the user to be online.\n");
-		sb.append("NETWORK:\n");
-		sb.append("*\n\n");
-		sb.append("FALLBACK:\n");
-		sb.append("/ https://app.geogebra.org/\n");
+
 
 		logger.log(
 		        TreeLogger.INFO,
@@ -194,6 +179,18 @@ public class SimpleAppCacheLinker extends AbstractLinker {
 		                + "\">");
 
 		// Create the manifest as a new artifact and return it:
+		try {
+			InputStream s = SimpleAppCacheLinker.class.getResourceAsStream("/org/geogebra/web/worker_template.js");
+			byte[] contents = new byte[1024];
+			int bytesRead = 0;
+			while ((bytesRead = s.read(contents)) != -1) {
+				sb.append(new String(contents, 0, bytesRead).replace("%URLS%", publicSourcesSb.toString()));
+			}
+			// fbr.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.log(Type.ERROR, e.getMessage());
+		}
 		return emitString(logger, sb.toString(), MANIFEST);
 	}
 
@@ -206,4 +203,6 @@ public class SimpleAppCacheLinker extends AbstractLinker {
 		return cacheExtraFiles == null ? new String[0] : Arrays.copyOf(
 		        cacheExtraFiles, cacheExtraFiles.length);
 	}
+
+
 }

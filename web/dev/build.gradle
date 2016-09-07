@@ -7,7 +7,8 @@ repositories {
 }
 
 dependencies {
-	compile 'com.google.gwt:gwt-dev:2.7.0'
+	compile 'com.google.gwt:gwt-dev:2.7.0',
+		project(':common')
 }
 
 javadoc {
