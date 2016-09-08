@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -59,6 +60,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	protected AppW createApplication(ArticleElement article,
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf);
+		getArticleMap().put(article.getId(), application);
 		this.glass = new DockGlassPaneW(new GDimensionW(
 				article.getDataParamWidth(), article.getDataParamHeight()));
 		this.add(glass);

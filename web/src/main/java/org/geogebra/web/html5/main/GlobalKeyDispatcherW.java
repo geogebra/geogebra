@@ -2,7 +2,9 @@ package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -58,7 +60,7 @@ public class GlobalKeyDispatcherW extends
 	/**
 	 * Used if we need tab working properly
 	 */
-	public boolean inFocus = false;
+	private boolean inFocus = false;
 
 	public static boolean isHandlingTab;
 
@@ -114,7 +116,12 @@ public class GlobalKeyDispatcherW extends
 						debug("targetElement class: "
 								+ targetElement.getClassName());
 
-						if (!isFocused()) {
+						
+						HashMap<String, AppW> articleMap = GeoGebraFrameW
+								.getArticleMap();
+						if (!articleMap.get(
+								targetArticle.getId())
+								.getGlobalKeyDispatcher().isFocused()) {
 							debug("not focused");
 							event.cancel();
 							// FocusPanel nextDummy = getNextDummy(ggbApplet);
@@ -577,7 +584,7 @@ public class GlobalKeyDispatcherW extends
 				debug("dummies! :)");
 			}
 
-			inFocus = false;
+			setFocused(false);
 
 			// printActiveElement();
 

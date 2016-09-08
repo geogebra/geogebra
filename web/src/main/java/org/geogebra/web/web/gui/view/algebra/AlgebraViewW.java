@@ -271,7 +271,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				//TODO: check this ----
 				break;
 			case KeyCodes.KEY_TAB:
-				if (!app.getGlobalKeyDispatcher().inFocus) {
+				if (!app.getGlobalKeyDispatcher().isFocused()) {
 					return;
 				}
 				// ----

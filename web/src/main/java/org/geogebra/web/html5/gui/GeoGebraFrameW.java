@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
@@ -68,6 +69,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public static ArrayList<SpanElement> dummies = new ArrayList<SpanElement>();
 	public static ArrayList<FocusPanel> dummies2 = new ArrayList<FocusPanel>();
 	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
+
+	private static HashMap<String, AppW> articleMap = new HashMap<String, AppW>();
 
 	/** Creates new GeoGebraFrame */
 	public GeoGebraFrameW(GLookAndFeelI laf) {
@@ -271,6 +274,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			$wnd.console.log("dummy onblur");
 		}
 	}-*/;
+
+	public static HashMap<String, AppW> getArticleMap() {
+		return articleMap;
+	}
 
 	public static void reCheckForDummies(Element el) {
 

@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -28,7 +29,9 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	@Override
 	protected AppW createApplication(ArticleElement article,
 	        GLookAndFeelI laf) {
-		return new AppWsimple(article, this);
+		AppWsimple appl = new AppWsimple(article, this);
+		getArticleMap().put(article.getId(), appl);
+		return appl;
 	}
 
 	/**
