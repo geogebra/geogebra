@@ -130,76 +130,76 @@ public class ProbabilityManager {
 	 * Returns a 2D array of strings used to label the parameter fields for each
 	 * type of distribution
 	 * 
-	 * @param app
-	 * @return
+	 * @param loc
+	 * @return matrix of strings
 	 */
-	public static String[][] getParameterLabelArray(App app) {
+	public static String[][] getParameterLabelArray(Localization loc) {
 
 		String[][] parameterLabels = new String[ProbabilityCalculatorSettings.distCount][4];
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL.ordinal()][0] = loc
 				.getMenu("Mean.short");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL.ordinal()][1] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.NORMAL.ordinal()][1] = loc
 				.getMenu("StandardDeviation.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.STUDENT.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.STUDENT.ordinal()][0] = loc
 				.getMenu("DegreesOfFreedom.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.CHISQUARE.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.CHISQUARE.ordinal()][0] = loc
 				.getMenu("DegreesOfFreedom.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.F.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.F.ordinal()][0] = loc
 				.getMenu("DegreesOfFreedom1.short");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.F.ordinal()][1] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.F.ordinal()][1] = loc
 				.getMenu("DegreesOfFreedom2.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.EXPONENTIAL
 				.ordinal()][0] = Unicode.lambda+"";
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][0] = loc
 				.getMenu("Median");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][1] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.CAUCHY.ordinal()][1] = loc
 				.getMenu("Distribution.Scale");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL.ordinal()][0] = loc
 				.getMenu("Distribution.Shape");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL.ordinal()][1] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.WEIBULL.ordinal()][1] = loc
 				.getMenu("Distribution.Scale");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][0] = loc
 				.getMenu("Mean.short");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][1] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGISTIC.ordinal()][1] = loc
 				.getMenu("Distribution.Scale");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][0] = loc
 				.getMenu("Mean.short");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][1] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.LOGNORMAL.ordinal()][1] = loc
 				.getMenu("StandardDeviation.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA.ordinal()][0] = loc
 				.getMenu("Alpha.short");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA.ordinal()][1] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA.ordinal()][1] = loc
 				.getMenu("Beta.short");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.BINOMIAL.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.BINOMIAL.ordinal()][0] = loc
 				.getMenu("Binomial.number");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.BINOMIAL.ordinal()][1] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.BINOMIAL.ordinal()][1] = loc
 				.getMenu("Binomial.probability");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL.ordinal()][0] = loc
 				.getMenu("Binomial.number");
-		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL.ordinal()][1] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.PASCAL.ordinal()][1] = loc
 				.getMenu("Binomial.probability");
 
-		parameterLabels[ProbabilityCalculatorSettings.DIST.POISSON.ordinal()][0] = app
+		parameterLabels[ProbabilityCalculatorSettings.DIST.POISSON.ordinal()][0] = loc
 				.getMenu("Mean.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.HYPERGEOMETRIC
-				.ordinal()][0] = app.getMenu("Hypergeometric.population");
+				.ordinal()][0] = loc.getMenu("Hypergeometric.population");
 		parameterLabels[ProbabilityCalculatorSettings.DIST.HYPERGEOMETRIC
-				.ordinal()][1] = app.getMenu("Hypergeometric.number");
+				.ordinal()][1] = loc.getMenu("Hypergeometric.number");
 		parameterLabels[ProbabilityCalculatorSettings.DIST.HYPERGEOMETRIC
-				.ordinal()][2] = app.getMenu("Hypergeometric.sample");
+				.ordinal()][2] = loc.getMenu("Hypergeometric.sample");
 
 		return parameterLabels;
 	}

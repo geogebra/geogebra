@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.data;
 import java.util.HashMap;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 
 /**
  * 
@@ -50,9 +51,9 @@ public class StatisticsModel {
 	private HashMap<String, Integer> labelMapReverse;
 	private int selectedMode = SUMMARY_STATISTICS;
 	// ggb fields
-	private App app;
 	private DataAnalysisModel daModel;
 	private IStatisticsModelListener listener;
+	private Localization loc;
 	/*************************************
 	 * Constructor
 	 * 
@@ -60,8 +61,7 @@ public class StatisticsModel {
 	 * @param statDialog
 	 */
 	public StatisticsModel(App app, DataAnalysisModel model, IStatisticsModelListener listener) {
-
-		this.app = app;
+		this.loc = app.getLocalization();
 		this.daModel = model;
 		this.listener = listener;
 		createLabelMap();
@@ -110,20 +110,20 @@ public class StatisticsModel {
 			labelMap = new HashMap<Integer, String>();
 
 		labelMap.clear();
-		labelMap.put(INFER_TTEST, app.getMenu("TMeanTest"));
-		labelMap.put(INFER_TINT, app.getMenu("TMeanInterval"));
-		labelMap.put(INFER_ZTEST, app.getMenu("ZMeanTest"));
-		labelMap.put(INFER_ZINT, app.getMenu("ZMeanInterval"));
+		labelMap.put(INFER_TTEST, loc.getMenu("TMeanTest"));
+		labelMap.put(INFER_TINT, loc.getMenu("TMeanInterval"));
+		labelMap.put(INFER_ZTEST, loc.getMenu("ZMeanTest"));
+		labelMap.put(INFER_ZINT, loc.getMenu("ZMeanInterval"));
 
-		labelMap.put(INFER_ANOVA, app.getMenu("ANOVA"));
-		labelMap.put(SUMMARY_STATISTICS, app.getMenu("Statistics"));
+		labelMap.put(INFER_ANOVA, loc.getMenu("ANOVA"));
+		labelMap.put(SUMMARY_STATISTICS, loc.getMenu("Statistics"));
 
-		labelMap.put(INFER_TTEST_2MEANS, app.getMenu("TTestDifferenceOfMeans"));
-		labelMap.put(INFER_TTEST_PAIRED, app.getMenu("TTestPairedDifferences"));
+		labelMap.put(INFER_TTEST_2MEANS, loc.getMenu("TTestDifferenceOfMeans"));
+		labelMap.put(INFER_TTEST_PAIRED, loc.getMenu("TTestPairedDifferences"));
 		labelMap.put(INFER_TINT_2MEANS,
-				app.getMenu("TEstimateDifferenceOfMeans"));
+				loc.getMenu("TEstimateDifferenceOfMeans"));
 		labelMap.put(INFER_TINT_PAIRED,
-				app.getMenu("TEstimatePairedDifferences"));
+				loc.getMenu("TEstimatePairedDifferences"));
 
 		// REVERSE LABEL MAP
 		labelMapReverse = new HashMap<String, Integer>();

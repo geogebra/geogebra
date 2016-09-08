@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
 
@@ -57,47 +58,48 @@ public abstract class CommandDispatcher {
 	 * @return localized name
 	 */
 	public String getSubCommandSetName(int index) {
+		Localization loc = app.getLocalization();
 		switch (index) {
 		case CommandsConstants.TABLE_GEOMETRY:
-			return app.getMenu("Type.Geometry");
+			return loc.getMenu("Type.Geometry");
 		case CommandsConstants.TABLE_ALGEBRA:
-			return app.getMenu("Type.Algebra");
+			return loc.getMenu("Type.Algebra");
 		case CommandsConstants.TABLE_TEXT:
-			return app.getMenu("Type.Text");
+			return loc.getMenu("Type.Text");
 		case CommandsConstants.TABLE_LOGICAL:
-			return app.getMenu("Type.Logic");
+			return loc.getMenu("Type.Logic");
 		case CommandsConstants.TABLE_FUNCTION:
-			return app.getMenu("Type.FunctionsAndCalculus");
+			return loc.getMenu("Type.FunctionsAndCalculus");
 		case CommandsConstants.TABLE_CONIC:
-			return app.getMenu("Type.Conic");
+			return loc.getMenu("Type.Conic");
 		case CommandsConstants.TABLE_LIST:
-			return app.getMenu("Type.List");
+			return loc.getMenu("Type.List");
 		case CommandsConstants.TABLE_VECTOR:
-			return app.getMenu("Type.VectorAndMatrix");
+			return loc.getMenu("Type.VectorAndMatrix");
 		case CommandsConstants.TABLE_TRANSFORMATION:
-			return app.getMenu("Type.Transformation");
+			return loc.getMenu("Type.Transformation");
 		case CommandsConstants.TABLE_CHARTS:
-			return app.getMenu("Type.Chart");
+			return loc.getMenu("Type.Chart");
 		case CommandsConstants.TABLE_STATISTICS:
-			return app.getMenu("Type.Statistics");
+			return loc.getMenu("Type.Statistics");
 		case CommandsConstants.TABLE_PROBABILITY:
-			return app.getMenu("Type.Probability");
+			return loc.getMenu("Type.Probability");
 		case CommandsConstants.TABLE_SPREADSHEET:
-			return app.getMenu("Type.Spreadsheet");
+			return loc.getMenu("Type.Spreadsheet");
 		case CommandsConstants.TABLE_SCRIPTING:
-			return app.getMenu("Type.Scripting");
+			return loc.getMenu("Type.Scripting");
 		case CommandsConstants.TABLE_DISCRETE:
-			return app.getMenu("Type.DiscreteMath");
+			return loc.getMenu("Type.DiscreteMath");
 		case CommandsConstants.TABLE_GEOGEBRA:
-			return app.getMenu("Type.GeoGebra");
+			return loc.getMenu("Type.GeoGebra");
 		case CommandsConstants.TABLE_OPTIMIZATION:
-			return app.getMenu("Type.OptimizationCommands");
+			return loc.getMenu("Type.OptimizationCommands");
 		case CommandsConstants.TABLE_CAS:
-			return app.getMenu("Type.CAS");
+			return loc.getMenu("Type.CAS");
 		case CommandsConstants.TABLE_3D:
-			return app.getMenu("Type.3D");
+			return loc.getMenu("Type.3D");
 		case CommandsConstants.TABLE_FINANCIAL:
-			return app.getMenu("Type.Financial");
+			return loc.getMenu("Type.Financial");
 			// Commands.TABLE_ENGLISH:
 		default:
 			return null;

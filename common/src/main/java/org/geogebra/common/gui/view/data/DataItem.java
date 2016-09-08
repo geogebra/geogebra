@@ -334,7 +334,7 @@ public class DataItem {
 			}
 		}
 
-		return app.getMenu("Untitled");
+		return app.getLocalization().getMenu("Untitled");
 	}
 
 	/**

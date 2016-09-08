@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.data;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 
 public class MinimalMultiVarStatTableModel extends MultiVarStatTableModel {
 
@@ -29,9 +30,10 @@ public class MinimalMultiVarStatTableModel extends MultiVarStatTableModel {
 	
 
 	private String[][] getCmdMap() {
-		String[][] map = { { getApp().getMenu("Length.short"), "Length" },
-				{ getApp().getMenu("Mean"), "Mean" },
-				{ getApp().getMenu("SampleStandardDeviation.short"), "SampleSD" } };
+		Localization loc = getApp().getLocalization();
+		String[][] map = { { loc.getMenu("Length.short"), "Length" },
+				{ loc.getMenu("Mean"), "Mean" },
+				{ loc.getMenu("SampleStandardDeviation.short"), "SampleSD" } };
 		return map;
 	}
 

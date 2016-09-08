@@ -609,9 +609,10 @@ public class EuclidianOptionsModel {
 
 	public void fillGridTypeCombo() {
 		String[] gridTypes = new String[3];
-		gridTypes[EuclidianView.GRID_CARTESIAN] = app.getMenu("Cartesian");
-		gridTypes[EuclidianView.GRID_ISOMETRIC] = app.getMenu("Isometric");
-		gridTypes[EuclidianView.GRID_POLAR] = app.getMenu("Polar");
+		Localization loc = app.getLocalization();
+		gridTypes[EuclidianView.GRID_CARTESIAN] = loc.getMenu("Cartesian");
+		gridTypes[EuclidianView.GRID_ISOMETRIC] = loc.getMenu("Isometric");
+		gridTypes[EuclidianView.GRID_POLAR] = loc.getMenu("Polar");
 		for (String item : gridTypes) {
 			listener.addGridTypeItem(item);
 		}

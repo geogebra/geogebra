@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -47,6 +48,7 @@ public class DataVariable {
 	private boolean enableHeader = false;
 	private double classStart = 0.0;
 	private double classWidth = 1.0;
+	private Localization loc;
 
 	/**
 	 * Constructs a DataVariable
@@ -55,6 +57,7 @@ public class DataVariable {
 	 */
 	public DataVariable(App app) {
 		this.app = app;
+		this.loc = app.getLocalization();
 	}
 
 	// =============================================
@@ -117,7 +120,7 @@ public class DataVariable {
 			if (frequency == null) {
 				frequency = new DataItem();
 				frequency.setGeoClass(GeoClass.NUMERIC);
-				frequency.setDescription(app.getMenu("Frequency"));
+				frequency.setDescription(loc.getMenu("Frequency"));
 			}
 			classes = null;
 			break;
@@ -126,11 +129,11 @@ public class DataVariable {
 			if (frequency == null) {
 				frequency = new DataItem();
 				frequency.setGeoClass(GeoClass.NUMERIC);
-				frequency.setDescription(app.getMenu("Frequency"));
+				frequency.setDescription(loc.getMenu("Frequency"));
 			}
 			if (classes == null) {
 				classes = new DataItem(new Double[0]);
-				classes.setDescription(app.getMenu("Classes"));
+				classes.setDescription(loc.getMenu("Classes"));
 			}
 
 			for (DataItem item : values) {
@@ -208,7 +211,7 @@ public class DataVariable {
 		this.frequency = frequency;
 		if (frequency != null) {
 			frequency.setGeoClass(GeoClass.NUMERIC);
-			frequency.setDescription(app.getMenu("Frequency"));
+			frequency.setDescription(loc.getMenu("Frequency"));
 		}
 	}
 
@@ -231,7 +234,7 @@ public class DataVariable {
 	public void setValueItemList(ArrayList<DataItem> values) {
 		this.values = values;
 		for (DataItem item : values) {
-			item.setDescription(app.getMenu("Data"));
+			item.setDescription(loc.getMenu("Data"));
 		}
 	}
 
@@ -239,7 +242,7 @@ public class DataVariable {
 		values = new ArrayList<DataItem>();
 		for (DataItem item : valueItem) {
 			values.add(item);
-			item.setDescription(app.getMenu("Data"));
+			item.setDescription(loc.getMenu("Data"));
 		}
 	}
 
@@ -478,15 +481,15 @@ public class DataVariable {
 			case DataAnalysisModel.MODE_ONEVAR:
 				switch (groupType) {
 				case RAWDATA:
-					list.add(app.getMenu("Data"));
+					list.add(loc.getMenu("Data"));
 					break;
 				case FREQUENCY:
-					list.add(app.getMenu("Data"));
-					list.add(app.getMenu("Frequency"));
+					list.add(loc.getMenu("Data"));
+					list.add(loc.getMenu("Frequency"));
 					break;
 				case CLASS:
-					list.add(app.getMenu("Classes"));
-					list.add(app.getMenu("Frequency"));
+					list.add(loc.getMenu("Classes"));
+					list.add(loc.getMenu("Frequency"));
 					break;
 				}
 
@@ -494,11 +497,11 @@ public class DataVariable {
 
 			case DataAnalysisModel.MODE_REGRESSION:
 				if (item.getGeoClass() == GeoClass.POINT) {
-					list.add("(" + app.getMenu("Column.X") + ","
-							+ app.getMenu("Column.Y") + ")");
+					list.add("(" + loc.getMenu("Column.X") + ","
+							+ loc.getMenu("Column.Y") + ")");
 				} else {
-					list.add(app.getMenu("Column.X"));
-					list.add(app.getMenu("Column.Y"));
+					list.add(loc.getMenu("Column.X"));
+					list.add(loc.getMenu("Column.Y"));
 				}
 				break;
 

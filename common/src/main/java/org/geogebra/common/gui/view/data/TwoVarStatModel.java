@@ -4,6 +4,7 @@ import org.apache.commons.math.stat.StatUtils;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 
 /**
  * Extension of StatTable that displays summary statistics for two data sets.
@@ -25,7 +26,7 @@ public class TwoVarStatModel {
 
 	}
 	
-	protected App app;
+	protected Localization loc;
 
 	private Integer[] selectedDataIndex = { 0, 1 };
 	private boolean isPairedData = false;
@@ -36,7 +37,7 @@ public class TwoVarStatModel {
 
 	public TwoVarStatModel(App app, boolean isPairedData, TwoVarStatListener listener) {
 
-		this.app = app;
+		this.loc = app.getLocalization();
 		this.isPairedData = isPairedData;
 		this.listener = listener;
 	}
@@ -50,17 +51,16 @@ public class TwoVarStatModel {
 		return null;
 		/*
 		 * if(isPairedData){ String[] names = { "1", "2",
-		 * app.getMenu("Differences") }; return names; }else{ String[] names = {
+		 * loc.getMenu("Differences") }; return names; }else{ String[] names = {
 		 * "1", "2" }; return names; }
 		 */
 
 	}
 
 	public String[] getColumnNames() {
-
-		String[] names = { " ", app.getMenu("Mean"),
-				app.getMenu("SampleStandardDeviation.short"),
-				app.getMenu("Length.short") };
+		String[] names = { " ", loc.getMenu("Mean"),
+				loc.getMenu("SampleStandardDeviation.short"),
+				loc.getMenu("Length.short") };
 		return names;
 	}
 
@@ -117,9 +117,8 @@ public class TwoVarStatModel {
 			listener.clear();
 			return;
 		}
-
 		// load paired difference statistics into the next row
-		listener.setValueAt(app.getMenu("Differences"), 2, 0);
+		listener.setValueAt(loc.getMenu("Differences"), 2, 0);
 		listener.setValueAt(meanDifference, 2, 1);
 		listener.setValueAt(sdDifference, 2, 2);
 		listener.setValueAt(n1, 2, 3);

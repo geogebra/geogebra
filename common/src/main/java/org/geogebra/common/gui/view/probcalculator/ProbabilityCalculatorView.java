@@ -213,7 +213,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 		distributionMap = probManager.getDistributionMap();
 		reverseDistributionMap = probManager.getReverseDistributionMap();
-		parameterLabels = ProbabilityManager.getParameterLabelArray(app);
+		parameterLabels = ProbabilityManager.getParameterLabelArray(app
+				.getLocalization());
 	}
 	
 	/**

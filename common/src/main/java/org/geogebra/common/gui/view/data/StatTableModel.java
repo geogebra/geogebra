@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.statistics.AlgoSpearman;
 import org.geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import org.geogebra.common.kernel.statistics.AlgoSumSquaredErrors;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 
 /**
  * Displays statistics for DataAnalysisView when in one variable or regression
@@ -208,51 +209,52 @@ public class StatTableModel {
 	}
 
 	protected String getStatName(Stat stat) {
+		Localization loc = app.getLocalization();
 		switch (stat) {
 		case LENGTH:
-			return getApp().getMenu("Length.short");
+			return loc.getMenu("Length.short");
 		case MEAN:
-			return getApp().getMenu("Mean");
+			return loc.getMenu("Mean");
 		case SD:
-			return getApp().getMenu("StandardDeviation.short");
+			return loc.getMenu("StandardDeviation.short");
 		case SAMPLE_SD:
-			return getApp().getMenu("SampleStandardDeviation.short");
+			return loc.getMenu("SampleStandardDeviation.short");
 		case SUM:
-			return getApp().getMenu("Sum");
+			return loc.getMenu("Sum");
 		case SIGMAXX:
-			return getApp().getMenu("Sum2");
+			return loc.getMenu("Sum2");
 		case MIN:
-			return getApp().getMenu("Minimum.short");
+			return loc.getMenu("Minimum.short");
 		case Q1:
-			return getApp().getMenu("LowerQuartile.short");
+			return loc.getMenu("LowerQuartile.short");
 		case MEDIAN:
-			return getApp().getMenu("Median");
+			return loc.getMenu("Median");
 		case Q3:
-			return getApp().getMenu("UpperQuartile.short");
+			return loc.getMenu("UpperQuartile.short");
 		case MAX:
-			return getApp().getMenu("Maximum.short");
+			return loc.getMenu("Maximum.short");
 		case MEANX:
-			return getApp().getMenu("MeanX");
+			return loc.getMenu("MeanX");
 		case MEANY:
-			return getApp().getMenu("MeanY");
+			return loc.getMenu("MeanY");
 		case SX:
-			return getApp().getMenu("Sx");
+			return loc.getMenu("Sx");
 		case SY:
-			return getApp().getMenu("Sy");
+			return loc.getMenu("Sy");
 		case PMCC:
-			return getApp().getMenu("CorrelationCoefficient.short");
+			return loc.getMenu("CorrelationCoefficient.short");
 		case SPEARMAN:
-			return getApp().getMenu("Spearman.short");
+			return loc.getMenu("Spearman.short");
 		case SXX:
-			return getApp().getMenu("Sxx");
+			return loc.getMenu("Sxx");
 		case SYY:
-			return getApp().getMenu("Syy");
+			return loc.getMenu("Syy");
 		case SXY:
-			return getApp().getMenu("Sxy");
+			return loc.getMenu("Sxy");
 		case RSQUARE:
-			return getApp().getMenu("RSquare.Short");
+			return loc.getMenu("RSquare.Short");
 		case SSE:
-			return getApp().getMenu("SumSquaredErrors.short");
+			return loc.getMenu("SumSquaredErrors.short");
 		default:
 			return null;
 		}

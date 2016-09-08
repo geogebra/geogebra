@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 
 public class ANOVAStatTableModel extends StatTableModel {
 	
@@ -252,18 +253,19 @@ public class ANOVAStatTableModel extends StatTableModel {
 	
 	@Override
 	public String[] getRowNames() {
-		String[] names = { getApp().getMenu("BetweenGroups"),
-				getApp().getMenu("WithinGroups"), getApp().getMenu("Total"), };
+		Localization loc = getApp().getLocalization();
+		String[] names = { loc.getMenu("BetweenGroups"),
+				loc.getMenu("WithinGroups"), loc.getMenu("Total"), };
 		return names;
 	}
 
 	@Override
 	public String[] getColumnNames() {
-
-		String[] names = { getApp().getMenu("DegreesOfFreedom.short"),
-				getApp().getMenu("SumSquares.short"),
-				getApp().getMenu("MeanSquare.short"),
-				getApp().getMenu("FStatistic"), getApp().getMenu("PValue"), };
+		Localization loc = getApp().getLocalization();
+		String[] names = { loc.getMenu("DegreesOfFreedom.short"),
+				loc.getMenu("SumSquares.short"),
+				loc.getMenu("MeanSquare.short"), loc.getMenu("FStatistic"),
+				loc.getMenu("PValue"), };
 
 		return names;
 	}

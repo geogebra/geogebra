@@ -154,7 +154,8 @@ public class SliderModel extends OptionsModel {
 	}
 	
 	public void setLabelForWidthUnit(){
-		listener.setWidthUnitText(widthUnit ? app.getMenu("Pixels.short") : "");
+		listener.setWidthUnitText(widthUnit ? app.getLocalization().getMenu(
+				"Pixels.short") : "");
 	}
 
 	public void applyFixed(boolean value) {

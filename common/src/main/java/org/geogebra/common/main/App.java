@@ -2786,11 +2786,11 @@ public abstract class App implements UpdateSelection {
 			if (toolName) {
 				// tool name
 				String modeText = EuclidianConstants.getModeText(mode);
-				ret = getMenu(modeText);
+				ret = getLocalization().getMenu(modeText);
 			} else {
 				String modeText = EuclidianConstants.getModeTextSimple(mode);
 				// tool help
-				ret = getMenu(modeText + ".Help");
+				ret = getLocalization().getMenu(modeText + ".Help");
 			}
 		}
 

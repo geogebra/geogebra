@@ -900,7 +900,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// we got the center point
 		if (selPoints() == 1) {
 			getDialogManager().showNumberInputDialogSpherePointRadius(
-					app.getMenu(EuclidianConstants.getModeText(mode)),
+					app.getLocalization().getMenu(
+							EuclidianConstants.getModeText(mode)),
 					getSelectedPointsND()[0]);
 			return true;
 		}
@@ -949,7 +950,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (selPoints() == 2) {
 			GeoPointND[] points = getSelectedPointsND();
 			getDialogManager().showNumberInputDialogCylinderTwoPointsRadius(
-					app.getMenu(EuclidianConstants.getModeText(mode)),
+					app.getLocalization().getMenu(
+							EuclidianConstants.getModeText(mode)),
 					points[0],
 					points[1]);
 			return true;

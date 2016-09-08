@@ -16,7 +16,6 @@ import org.geogebra.common.main.Localization;
  */
 public abstract class StatisticsCalculator {
 	
-	protected App app;
 	protected Construction cons;
 	protected StatisticsCollection sc;
 	protected StatisticsCalculatorProcessor statProcessor;
@@ -57,14 +56,15 @@ public abstract class StatisticsCalculator {
 	protected double[] s1;
 	protected double[] s2;
 	private Localization loc;
+	protected App app;
 
 	// =========================================
 	// Getters/Setters
 	// =========================================
 
 	public StatisticsCalculator(App app) {
-		this.app = app;
 		this.loc = app.getLocalization();
+		this.app = app;
 		cons = app.getKernel().getConstruction();
 		kernel = cons.getKernel();
 		sc = new StatisticsCollection();

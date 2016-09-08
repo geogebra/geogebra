@@ -105,7 +105,7 @@ public class DataDisplayModel {
 		 *         "Stem and Leaf Diagram" in en_GB
 		 */
 		public String getTranslatedKey(App app) {
-			return app.getMenu(key);
+			return app.getLocalization().getMenu(key);
 		}
 
 	}

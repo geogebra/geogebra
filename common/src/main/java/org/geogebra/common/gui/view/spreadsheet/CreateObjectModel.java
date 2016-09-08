@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.debug.Log;
 
@@ -47,10 +48,12 @@ public class CreateObjectModel {
 	private boolean keepNewGeo = false;
 	private App app;
 	private ICreateObjectListener listener;
+	private Localization loc;
 
 	public CreateObjectModel(App app, int objectType,
 			ICreateObjectListener listener) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.objectType = objectType;
 		this.listener = listener;
 
@@ -62,11 +65,9 @@ public class CreateObjectModel {
 
 	public List<String> getObjectTypeNames() {
 		return Arrays.asList( 
-				app.getMenu("List.Create"),
-				app.getMenu("Matrix"),
-				app.getMenu("ListOfPoints"),
-				app.getMenu("Table"),
-				app.getMenu("PolyLine")
+loc.getMenu("List.Create"), loc.getMenu("Matrix"),
+				loc.getMenu("ListOfPoints"), loc.getMenu("Table"),
+				loc.getMenu("PolyLine")
 				);
 	}
 
@@ -74,23 +75,23 @@ public class CreateObjectModel {
 		String titleText = "";
 		switch (getObjectType()) {
 		case TYPE_LIST:
-			titleText = app.getMenu("CreateList");
+			titleText = loc.getMenu("CreateList");
 			break;
 
 		case TYPE_LISTOFPOINTS:
-			titleText = app.getMenu("CreateListOfPoints");
+			titleText = loc.getMenu("CreateListOfPoints");
 			break;
 
 		case TYPE_TABLETEXT:
-			titleText = app.getMenu("CreateTable");
+			titleText = loc.getMenu("CreateTable");
 			break;
 
 		case TYPE_POLYLINE:
-			titleText = app.getMenu("CreatePolyLine");
+			titleText = loc.getMenu("CreatePolyLine");
 			break;
 
 		case TYPE_MATRIX:
-			titleText = app.getMenu("CreateMatrix");
+			titleText = loc.getMenu("CreateMatrix");
 			break;
 		}
 		Log.debug("[CO] title is " + titleText);

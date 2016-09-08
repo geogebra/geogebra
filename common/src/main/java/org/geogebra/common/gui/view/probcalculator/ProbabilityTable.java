@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.probcalculator;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import org.geogebra.common.util.Unicode;
 
@@ -32,15 +33,16 @@ public abstract class ProbabilityTable {
 	public abstract void setSelectionByRowValue(int lowValue, int highValue);
 
 	public void setColumnNames() {
-	
+		Localization loc = app.getLocalization();
 		columnNames = new String[2];
 		columnNames[0] = "k";
 		if(isCumulative())
-			columnNames[1] = app.getMenu("ProbabilityOf") + "X "
+			columnNames[1] = loc.getMenu("ProbabilityOf") + "X "
 					+ Unicode.LESS_EQUAL + " k"
-					+ app.getMenu("EndProbabilityOf");
+					+ loc.getMenu("EndProbabilityOf");
 		else
-			columnNames[1] = app.getMenu("ProbabilityOf") + "X = k" + app.getMenu("EndProbabilityOf");
+			columnNames[1] = loc.getMenu("ProbabilityOf") + "X = k"
+					+ loc.getMenu("EndProbabilityOf");
 		
 	}
 
