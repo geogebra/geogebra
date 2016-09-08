@@ -58,6 +58,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	// for symbolic integration
 	private GeoFunction symbIntegral;
 	private boolean evaluateNumerically;
+	private boolean validButUndefined = false;
 
 	// for numerical adaptive GaussQuad integration
 	private static final int FIRST_ORDER = 3;
@@ -258,7 +259,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			n.setUndefined();
 			return;
 		}
-
+		this.validButUndefined = false;
 		// check for equal bounds
 		double lowerLimit = a.getDouble();
 		double upperLimit = b.getDouble();
@@ -394,7 +395,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 				result = result.split(",")[0];
 				result = result.substring(1);
 			}
-			if ("(".equals(result)) {
+			if ("(".equals(result) || "undef".equals(result)) {
+				this.validButUndefined = true;
 				n.setUndefined();
 				return;
 			}
@@ -794,6 +796,10 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 	 * make sure shaded-only integrals are drawn
 	 */
 	public boolean evaluateOnly() {
+		return evaluateOnlySet() || validButUndefined;
+	}
+
+	private boolean evaluateOnlySet() {
 		return evaluate != null && !evaluate.getBoolean();
 	}
 

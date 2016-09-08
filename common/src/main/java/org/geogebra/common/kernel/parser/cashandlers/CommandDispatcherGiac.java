@@ -225,10 +225,16 @@ public class CommandDispatcherGiac {
 	 *            kernel
 	 */
 	public static ExpressionNode processCommand(String cmdName, GetItem args, Kernel kernel) {
-
+		commands cmd = null;
+		try {
+			cmd = commands.valueOf(cmdName);
+		} catch (Exception Ex) {
+			Log.error("Unknow CAS command " + cmdName + ", arguments: " + args);
+			return null;
+		}
 		try {
 			ExpressionValue ret = null;
-			switch (commands.valueOf(cmdName)) {
+			switch (cmd) {
 
 			case sum:
 				ret = new ExpressionNode(kernel,
