@@ -2503,6 +2503,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			}
 			setLatexItemVisible(false);
 		}
+		updateLineHeight();
 	}
 
 	private void setLatexItemVisible(boolean b) {

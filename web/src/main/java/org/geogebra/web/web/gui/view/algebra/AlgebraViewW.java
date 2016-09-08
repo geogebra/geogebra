@@ -200,19 +200,25 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				algebraPanel.addScrollHandler(new ScrollHandler() {
 
 					public void onScroll(ScrollEvent event) {
-						Log.debug("scrollliiiiing");
-						if (activeItem != null) {
-							activeItem.adjustControlsPosition();
-						}
-
-						if (getInputTreeItem() != null) {
-							getInputTreeItem().setItemWidth(maxItemWidth);
-						}
+						onAlgebraScroll();
 					}
 				});
 			}
 		});
 
+	}
+
+	/**
+	 * Scroll handler
+	 */
+	void onAlgebraScroll() {
+		if (activeItem != null) {
+			activeItem.adjustControlsPosition();
+		}
+
+		if (getInputTreeItem() != null) {
+			getInputTreeItem().setItemWidth(maxItemWidth);
+		}
 	}
 	private void initGUI(AlgebraControllerW algCtrl) {
 		// add listener

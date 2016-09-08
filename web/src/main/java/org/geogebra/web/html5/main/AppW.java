@@ -338,6 +338,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	final public GlobalKeyDispatcherW getGlobalKeyDispatcher() {
 		if (globalKeyDispatcher == null) {
 			globalKeyDispatcher = newGlobalKeyDispatcher();
+			if (articleElement != null && articleElement.getDataParamApp()) {
+				globalKeyDispatcher.setFocused(true);
+			}
 		}
 		return globalKeyDispatcher;
 	}
