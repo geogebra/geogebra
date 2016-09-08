@@ -85,40 +85,23 @@ public class GlobalKeyDispatcherW extends
 
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 
-				switch (event.getTypeInt()) {
-					case Event.ONKEYDOWN:
-
-					Element targetElement = Element.as(event.getNativeEvent()
+				Element targetElement = Element.as(event.getNativeEvent()
 						.getEventTarget());
-					debug("keydown (" + event.getNativeEvent().getKeyCode()
-							+ ") in target element: "
-							+ targetElement.toString());
-					ArticleElement targetArticle = getGGBArticle(targetElement);
-					if (targetArticle == null) {
-						// if (targetElement.getClassName().indexOf(
-						// "geogebraweb-dummy-invisible") < 0) {
-						// event.cancel();
-						// isHandlingTab = true;
-						// ArrayList<ArticleElement> mobileTags = ArticleElement
-						// .getGeoGebraMobileTags();
-						// mobileTags.get(0).focus();
-						// }
-						return;
+				ArticleElement targetArticle = getGGBArticle(targetElement);
+				if (targetArticle == null) {
+					return;
+				}
 
-					}
-					debug("target article: " + targetArticle.getClassName());
+				HashMap<String, AppW> articleMap = GeoGebraFrameW
+						.getArticleMap();
+				boolean appfocused = articleMap.get(targetArticle.getId())
+						.getGlobalKeyDispatcher().isFocused();
 
-					HashMap<String, AppW> articleMap = GeoGebraFrameW
-							.getArticleMap();
-					boolean appfocused = articleMap.get(targetArticle.getId())
-							.getGlobalKeyDispatcher().isFocused();
+				switch (event.getTypeInt()) {
+				case Event.ONKEYDOWN:
 
 					if (event.getNativeEvent().getKeyCode() == 9) { // TAB
 																	// pressed
-
-						debug("targetElement class: "
-								+ targetElement.getClassName());
-
 						
 						if (!appfocused) {
 							debug("not focused");
@@ -145,58 +128,14 @@ public class GlobalKeyDispatcherW extends
 								debug(nextArticle.toString());
 								nextArticle.focus();
 							}
-
-							//nextDummy.fireEvent(event);
-							// DomEvent.fireNativeEvent(Document.get().createKeyDownEvent(false,
-							// false, false, false, 9), nextDummy);
-
-							// nextDummy.fireEvent(new KeyDownEvent(){
-							//
-							// });
-							//
-							// ne
-							//
-							// class TabKeyEvent extends KeyDownEvent{
-							// public TabKeyEvent(){
-							// super();
-							// this.
-							// }
-							// }
-							
-//							ArticleElement nextApplet = getNextGGBApplet(ggbApplet);
-//							if (nextApplet == null) {
-//								// TODO: go to last dummy - maybe won't dummies
-//								// for
-//								// all GGW Articles...
-//								GeoGebraFrameW.dummies.get(
-//										GeoGebraFrameW.dummies.size() - 1)
-//										.focus();
-//								
-//							} else {
-//								debug("next applet gets the focus");
-//
-//								nextApplet.focus();
-//
-//								// !!! ????
-
-//								GeoGebraFrameW.useFocusedBorder(nextApplet,
-//										nextApplet.getFirstChildElement());
-
-//								GeoGebraFrameW.useDataParamBorder(ggbApplet,
-//										(GeoGebraFrameW) ((AppW) app)
-//												.getAppletFrame());
-							// }
-						} else {
-							// event.cancel();
-							// FocusPanel nextDummy = getNextDummy(ggbApplet);
-							// isHandleTab = true;
-							// nextDummy.setFocus(true);
-							// nextDummy.fireEvent(event);
 						}
 					} 
-					
-					else if (event.getNativeEvent().getKeyCode() != 13) { // not
-																			// ENTER
+
+				case Event.ONKEYPRESS:
+				case Event.ONKEYUP:
+					// not ESCAPE and not ENTER
+					if (event.getNativeEvent().getKeyCode() != 9
+							&& event.getNativeEvent().getKeyCode() != 13) {
 						if (!appfocused) {
 							event.cancel();
 						}
