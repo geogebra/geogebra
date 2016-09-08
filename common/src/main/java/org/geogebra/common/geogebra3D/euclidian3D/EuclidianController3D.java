@@ -923,7 +923,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (selPoints() == 2) {
 			GeoPointND[] points = getSelectedPointsND();
 			getDialogManager().showNumberInputDialogConeTwoPointsRadius(
-					app.getMenu(EuclidianConstants.getModeText(mode)),
+					app.getLocalization().getMenu(
+							EuclidianConstants.getModeText(mode)),
 					points[0],
 					points[1]);
 			return true;
@@ -1140,7 +1141,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (selPoints() == 1 && selDirections() == 1) {
 			app.getDialogManager()
 					.showNumberInputDialogCirclePointDirectionRadius(
-							app.getMenu(EuclidianConstants.getModeText(mode)),
+							app.getLocalization().getMenu(
+									EuclidianConstants.getModeText(mode)),
 							getSelectedPointsND()[0],
 							getSelectedDirections()[0]);
 

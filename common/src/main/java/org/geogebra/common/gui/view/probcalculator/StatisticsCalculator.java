@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 
 /**
  * @author gabor
@@ -23,58 +24,60 @@ public abstract class StatisticsCalculator {
 	protected Kernel kernel;
 	
 	// =========================================
-		// Procedures
-		// =========================================
+	// Procedures
+	// =========================================
 
-		/***/
-		public enum Procedure {
-			ZMEAN_TEST, ZMEAN2_TEST, TMEAN_TEST, TMEAN2_TEST, ZPROP_TEST, ZPROP2_TEST, ZMEAN_CI, ZMEAN2_CI, TMEAN_CI, TMEAN2_CI, ZPROP_CI, ZPROP2_CI, GOF_TEST, CHISQ_TEST
-		}
+	/***/
+	public enum Procedure {
+		ZMEAN_TEST, ZMEAN2_TEST, TMEAN_TEST, TMEAN2_TEST, ZPROP_TEST, ZPROP2_TEST, ZMEAN_CI, ZMEAN2_CI, TMEAN_CI, TMEAN2_CI, ZPROP_CI, ZPROP2_CI, GOF_TEST, CHISQ_TEST
+	}
 
-		protected Procedure selectedProcedure;
+	protected Procedure selectedProcedure;
 
-		protected HashMap<String, Procedure> mapNameToProcedure;
-		protected HashMap<Procedure, String> mapProcedureToName;
+	protected HashMap<String, Procedure> mapNameToProcedure;
+	protected HashMap<Procedure, String> mapProcedureToName;
 
-		// =========================================
-		// Misc
-		// =========================================
+	// =========================================
+	// Misc
+	// =========================================
 
-		public static final String tail_left = "<";
-		public static final String tail_right = ">";
-		public static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
+	public static final String tail_left = "<";
+	public static final String tail_right = ">";
+	public static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
 
-		protected StringBuilder bodyText;
+	protected StringBuilder bodyText;
 
-		protected String strMean;
-		protected String strSD;
-		protected String strSigma;
-		protected String strSuccesses;
-		protected String strN;
-		protected String strPooled;
+	protected String strMean;
+	protected String strSD;
+	protected String strSigma;
+	protected String strSuccesses;
+	protected String strN;
+	protected String strPooled;
 
-		protected double[] s1;
-		protected double[] s2;
+	protected double[] s1;
+	protected double[] s2;
+	private Localization loc;
+
+	// =========================================
+	// Getters/Setters
+	// =========================================
+
+	public StatisticsCalculator(App app) {
+		this.app = app;
+		this.loc = app.getLocalization();
+		cons = app.getKernel().getConstruction();
+		kernel = cons.getKernel();
+		sc = new StatisticsCollection();
+		statProcessor = new StatisticsCalculatorProcessor(app, this, sc);
+		statHTML = new StatisticsCalculatorHTML(app, this, sc);
+
+		selectedProcedure = Procedure.ZMEAN_TEST;
+	}
 		
-		// =========================================
-		// Getters/Setters
-		// =========================================
+	public Procedure getSelectedProcedure() {
+		return selectedProcedure;
+	}
 
-		public StatisticsCalculator(App app) {
-			this.app = app;
-			cons = app.getKernel().getConstruction();
-			kernel = cons.getKernel();
-			sc = new StatisticsCollection();
-			statProcessor = new StatisticsCalculatorProcessor(app, this, sc);
-			statHTML = new StatisticsCalculatorHTML(app, this, sc);
-
-			selectedProcedure = Procedure.ZMEAN_TEST;
-		}
-
-		public Procedure getSelectedProcedure() {
-			return selectedProcedure;
-		}
-	
 	/**
 	 * Formats a number string using local format settings.
 	 * 
@@ -125,32 +128,32 @@ public abstract class StatisticsCalculator {
 		mapNameToProcedure.clear();
 		mapProcedureToName.clear();
 	
-		mapNameToProcedure.put(app.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
-		mapNameToProcedure.put(app.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
-		mapNameToProcedure.put(app.getMenu("TMeanTest"), Procedure.TMEAN_TEST);
+		mapNameToProcedure.put(loc.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
+		mapNameToProcedure.put(loc.getMenu("ZMeanTest"), Procedure.ZMEAN_TEST);
+		mapNameToProcedure.put(loc.getMenu("TMeanTest"), Procedure.TMEAN_TEST);
 		mapNameToProcedure
-				.put(app.getMenu("ZMeanInterval"), Procedure.ZMEAN_CI);
+				.put(loc.getMenu("ZMeanInterval"), Procedure.ZMEAN_CI);
 		mapNameToProcedure
-				.put(app.getMenu("TMeanInterval"), Procedure.TMEAN_CI);
-		mapNameToProcedure.put(app.getMenu("ZTestDifferenceOfMeans"),
+				.put(loc.getMenu("TMeanInterval"), Procedure.TMEAN_CI);
+		mapNameToProcedure.put(loc.getMenu("ZTestDifferenceOfMeans"),
 				Procedure.ZMEAN2_TEST);
-		mapNameToProcedure.put(app.getMenu("TTestDifferenceOfMeans"),
+		mapNameToProcedure.put(loc.getMenu("TTestDifferenceOfMeans"),
 				Procedure.TMEAN2_TEST);
-		mapNameToProcedure.put(app.getMenu("ZEstimateDifferenceOfMeans"),
+		mapNameToProcedure.put(loc.getMenu("ZEstimateDifferenceOfMeans"),
 				Procedure.ZMEAN2_CI);
-		mapNameToProcedure.put(app.getMenu("TEstimateDifferenceOfMeans"),
+		mapNameToProcedure.put(loc.getMenu("TEstimateDifferenceOfMeans"),
 				Procedure.TMEAN2_CI);
-		mapNameToProcedure.put(app.getMenu("ZProportionTest"),
+		mapNameToProcedure.put(loc.getMenu("ZProportionTest"),
 				Procedure.ZPROP_TEST);
-		mapNameToProcedure.put(app.getMenu("ZProportionInterval"),
+		mapNameToProcedure.put(loc.getMenu("ZProportionInterval"),
 				Procedure.ZPROP_CI);
-		mapNameToProcedure.put(app.getMenu("ZTestDifferenceOfProportions"),
+		mapNameToProcedure.put(loc.getMenu("ZTestDifferenceOfProportions"),
 				Procedure.ZPROP2_TEST);
-		mapNameToProcedure.put(app.getMenu("ZEstimateDifferenceOfProportions"),
+		mapNameToProcedure.put(loc.getMenu("ZEstimateDifferenceOfProportions"),
 				Procedure.ZPROP2_CI);
-		mapNameToProcedure.put(app.getMenu("GoodnessOfFitTest"),
+		mapNameToProcedure.put(loc.getMenu("GoodnessOfFitTest"),
 				Procedure.GOF_TEST);
-		mapNameToProcedure.put(app.getMenu("ChiSquaredTest"),
+		mapNameToProcedure.put(loc.getMenu("ChiSquaredTest"),
 				Procedure.CHISQ_TEST);
 	
 		for (String s : mapNameToProcedure.keySet()) {
@@ -160,12 +163,12 @@ public abstract class StatisticsCalculator {
 
 	protected void setLabelStrings() {
 	
-		strMean = app.getMenu("Mean");
-		strSD = app.getMenu("SampleStandardDeviation.short");
-		strSigma = app.getMenu("StandardDeviation.short");
-		strSuccesses = app.getMenu("Successes");
-		strN = app.getMenu("N");
-		strPooled = app.getMenu("Pooled");
+		strMean = loc.getMenu("Mean");
+		strSD = loc.getMenu("SampleStandardDeviation.short");
+		strSigma = loc.getMenu("StandardDeviation.short");
+		strSuccesses = loc.getMenu("Successes");
+		strN = loc.getMenu("N");
+		strPooled = loc.getMenu("Pooled");
 	}
 
 }
