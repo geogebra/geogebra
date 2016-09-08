@@ -74,7 +74,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 		// checkboxes for axes and grid
 		String htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE
-		        .axes().getSafeUri().asString(), app.getMenu("Axes"));
+				.axes().getSafeUri().asString(), loc.getMenu("Axes"));
 		GCheckBoxMenuItem cbShowAxes = new GCheckBoxMenuItem(htmlString,
 				((GuiManager3DW) app.getGuiManager()).getShowAxes3DAction(),
 				true);
@@ -83,7 +83,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		getWrappedPopup().addItem(cbShowAxes);
 
 		htmlString = MainMenu.getMenuBarHtml(StyleBarResources.INSTANCE.grid()
-		        .getSafeUri().asString(), app.getMenu("Grid"));
+				.getSafeUri().asString(), loc.getMenu("Grid"));
 		GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
 				((GuiManager3DW) app.getGuiManager()).getShowGrid3DAction(),
 				true);
@@ -92,7 +92,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		getWrappedPopup().addItem(cbShowGrid);
 
 		htmlString = MainMenu.getMenuBarHtml(StyleBar3DResources.INSTANCE
-		        .plane().getSafeUri().asString(), app.getMenu("Plane"));
+				.plane().getSafeUri().asString(), loc.getMenu("Plane"));
 		GCheckBoxMenuItem cbShowPlane = new GCheckBoxMenuItem(htmlString,
 				((GuiManager3DW) app.getGuiManager()).getShowPlane3DAction(),
 				true);

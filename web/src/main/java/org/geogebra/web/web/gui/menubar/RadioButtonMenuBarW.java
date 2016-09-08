@@ -57,7 +57,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 		texts = items;
 		if (changeText){
 			for (int i=0; i<items.length; i++){
-				texts[i] = app.getMenu(items[i]);
+				texts[i] = app.getLocalization().getMenu(items[i]);
 			}
 		}
 		commands = actionCommands;

@@ -128,7 +128,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 		addStyleName("toolCreationDialog");
 		addStyleName("GeoGebraPopup");
 
-		getCaption().setText(app.getMenu("Tool.CreateNew"));
+		getCaption().setText(loc.getMenu("Tool.CreateNew"));
 
 		setWidget(mainWidget = new VerticalPanel());
 		mainWidget.add(tabPanel = new TabPanel());
@@ -160,10 +160,10 @@ public class ToolCreationDialog extends DialogBoxW implements
 		toolNameIconPanel = new ToolNameIconPanel(app);
 
 		// Create tabPanel and add Selectionhandler
-		tabPanel.add(outputObjectPanel, app.getMenu("OutputObjects"));
+		tabPanel.add(outputObjectPanel, loc.getMenu("OutputObjects"));
 		tabPanel.selectTab(0);
-		tabPanel.add(inputObjectPanel, app.getMenu("InputObjects"));
-		tabPanel.add(toolNameIconPanel, app.getMenu("NameIcon"));
+		tabPanel.add(inputObjectPanel, loc.getMenu("InputObjects"));
+		tabPanel.add(toolNameIconPanel, loc.getMenu("NameIcon"));
 		SelectionHandler<Integer> handler = getSelectionHandler();
 		tabPanel.addSelectionHandler(handler);
 
@@ -188,7 +188,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 		lB.setMultipleSelect(true);
 
 		VerticalPanel inputPanel = new VerticalPanel();
-		Label labelInputAdd = new Label(app.getMenu("Tool.SelectObjects"));
+		Label labelInputAdd = new Label(loc.getMenu("Tool.SelectObjects"));
 		inputPanel.add(labelInputAdd);
 
 		FlowPanel addListUpDownPanel = new FlowPanel();
@@ -404,7 +404,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 		if (success) {
 			if (returnHandler == null) {
 				ToolTipManagerW.sharedInstance().showBottomMessage(
-						app.getMenu("Tool.CreationSuccess"), true, app);
+						loc.getMenu("Tool.CreationSuccess"), true, app);
 
 			}
 		} else {

@@ -96,7 +96,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		pnlButton.getElement().getStyle().setFloat(Style.Float.RIGHT);
 
 		// create close button
-		btnClose = new Button(app.getMenu("Close"));
+		btnClose = new Button(app.getLocalization().getMenu("Close"));
 		btnClose.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				hide();
@@ -404,7 +404,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			if (!syntaxBasic.equals(cmd + Localization.syntaxStr)) {
 				formattedHTMLString(ret,syntaxBasic, false);
 			}
-			Label headCAS = new Label(app.getMenu("Type.CAS") + ":");
+			Label headCAS = new Label(loc.getMenu("Type.CAS") + ":");
 			headCAS.addStyleName("inputHelp-headerCAS");
 			ret.add(headCAS);
 			

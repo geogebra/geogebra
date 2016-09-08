@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -106,6 +107,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 	/** current used frequency */
 	private int freqHz;
+	private Localization loc;
 
 	/**
 	 * @param app
@@ -113,6 +115,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 */
 	public DataCollectionView(AppW app) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.addStyleName("dataCollectionView");
 		this.settings = app.getSettings().getDataCollection();
 		this.settings.addListener(this);
@@ -182,7 +185,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		addConnection();
 		addSettingsPanel();
 
-		this.tabPanel.add(this.dataCollectionTab, app.getMenu(SENSORS));
+		this.tabPanel.add(this.dataCollectionTab, loc.getMenu(SENSORS));
 	}
 
 	private void addSettingsPanel() {
@@ -208,7 +211,8 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		// Caption
 		FlowPanel connectionCaption = new FlowPanel();
 		connectionCaption.addStyleName("panelTitle");
-		this.connectionLabel = new Label(app.getMenu(DATA_CONNECTION));
+		this.connectionLabel = new Label(
+				loc.getMenu(DATA_CONNECTION));
 		connectionCaption.add(this.connectionLabel);
 		connection.add(connectionCaption);
 
@@ -227,9 +231,9 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.connectionStatusPanel = new FlowPanel();
 		this.connectionStatusPanel.setVisible(false);
 		this.connectionStatusPanel.addStyleName("rowContainer");
-		this.connectionFailed = new Label(this.app.getMenu(CONNECTION_FAILD));
+		this.connectionFailed = new Label(this.loc.getMenu(CONNECTION_FAILD));
 		this.connectionFailed.setVisible(false);
-		this.connecting = new Label(this.app.getMenu(CONNECTING));
+		this.connecting = new Label(this.loc.getMenu(CONNECTING));
 		this.connecting.setVisible(false);
 		this.connectionStatusPanel.add(this.connectionFailed);
 		this.connectionStatusPanel.add(this.connecting);
@@ -245,7 +249,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		FlowPanel appIDpanel = new FlowPanel();
 		appIDpanel.addStyleName("rowContainer");
 		appIDpanel.addStyleName("sharingCodePanel");
-		this.appID = new Label(app.getMenu(this.DATA_SHARING_CODE));
+		this.appID = new Label(loc.getMenu(this.DATA_SHARING_CODE));
 		this.appIDTextBox = new TextBox();
 		this.appIDTextBox.addStyleName("appIdTextBox");
 		this.appIDTextBox.addKeyDownHandler(new KeyDownHandler() {
@@ -402,12 +406,12 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	@Override
 	public void setLabels() {
 		// we only have one tab
-		this.tabPanel.setTabText(0, app.getMenu(SENSORS));
-		this.appID.setText(this.app.getMenu(DATA_SHARING_CODE));
-		this.connectionLabel.setText(this.app.getMenu(DATA_CONNECTION));
-		this.connecting.setText(this.app.getMenu(CONNECTING));
-		this.connectionFailed.setText(this.app.getMenu(CONNECTION_FAILD));
-		this.frequency.setText(app.getMenu(FREQUENCY) + ": " + this.freqHz);
+		this.tabPanel.setTabText(0, loc.getMenu(SENSORS));
+		this.appID.setText(this.loc.getMenu(DATA_SHARING_CODE));
+		this.connectionLabel.setText(this.loc.getMenu(DATA_CONNECTION));
+		this.connecting.setText(this.loc.getMenu(CONNECTING));
+		this.connectionFailed.setText(this.loc.getMenu(CONNECTION_FAILD));
+		this.frequency.setText(loc.getMenu(FREQUENCY) + ": " + this.freqHz);
 		for (SensorSetting setting : this.sensors) {
 			setting.setLabels();
 		}
@@ -626,7 +630,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 */
 	public void setFrequency(int freq) {
 		this.freqHz = freq;
-		this.frequency.setText(app.getMenu(FREQUENCY) + ": " + this.freqHz);
+		this.frequency.setText(loc.getMenu(FREQUENCY) + ": " + this.freqHz);
 	}
 
 	@Override

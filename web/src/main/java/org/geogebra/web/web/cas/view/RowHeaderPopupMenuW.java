@@ -2,6 +2,7 @@ package org.geogebra.web.web.cas.view;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW;
@@ -42,8 +43,9 @@ public class RowHeaderPopupMenuW extends
 
 	private void initMenu() {
 		// "Insert Above" menuitem
+		Localization loc = app.getLocalization();
 		boolean canSystemCopy = CopyPasteCutW.checkClipboardSupported();
-		MenuItem miCopyInput = new MenuItem(app.getMenu("CopyInput"),
+		MenuItem miCopyInput = new MenuItem(loc.getMenu("CopyInput"),
 				new ScheduledCommand() {
 					public void execute() {
 						actionPerformed(CellAction.COPY_INPUT);
@@ -52,7 +54,7 @@ public class RowHeaderPopupMenuW extends
 		rowHeaderPopupMenu.addItem(miCopyInput);
 		miCopyInput.addStyleName("mi_no_image");
 
-		MenuItem miPaste = new MenuItem(app.getMenu("Paste"),
+		MenuItem miPaste = new MenuItem(loc.getMenu("Paste"),
 				new ScheduledCommand() {
 					public void execute() {
 						actionPerformed(CellAction.PASTE);
@@ -62,7 +64,7 @@ public class RowHeaderPopupMenuW extends
 		rowHeaderPopupMenu.addSeparator();
 		miPaste.addStyleName("mi_no_image");
 
-		MenuItem miInsertAbove = new MenuItem(app.getMenu("InsertAbove"),
+		MenuItem miInsertAbove = new MenuItem(loc.getMenu("InsertAbove"),
 		        new ScheduledCommand() {
 			        public void execute() {
 						actionPerformed(CellAction.INSERT_ABOVE);
@@ -72,7 +74,7 @@ public class RowHeaderPopupMenuW extends
 		miInsertAbove.addStyleName("mi_no_image");
 
 		// "Insert Below" menuitem
-		MenuItem miInsertBelow = new MenuItem(app.getMenu("InsertBelow"),
+		MenuItem miInsertBelow = new MenuItem(loc.getMenu("InsertBelow"),
 		        new ScheduledCommand() {
 			        public void execute() {
 						actionPerformed(CellAction.INSERT_BELOW);
@@ -93,7 +95,7 @@ public class RowHeaderPopupMenuW extends
 
 		rowHeaderPopupMenu.addSeparator();
 
-		MenuItem miUseAsText = new MenuItem(app.getMenu("CasCellUseAsText"),
+		MenuItem miUseAsText = new MenuItem(loc.getMenu("CasCellUseAsText"),
 		        new ScheduledCommand() {
 			        public void execute() {
 						actionPerformed(CellAction.TEXT);
@@ -105,7 +107,7 @@ public class RowHeaderPopupMenuW extends
 
 		if (canSystemCopy) {
 
-			MenuItem copyItem = new MenuItem(app.getMenu("Copy"),
+			MenuItem copyItem = new MenuItem(loc.getMenu("Copy"),
 					new ScheduledCommand() {
 						public void execute() {
 							actionPerformed(CellAction.COPY);
@@ -114,7 +116,7 @@ public class RowHeaderPopupMenuW extends
 			rowHeaderPopupMenu.addItem(copyItem);
 			copyItem.addStyleName("mi_no_image");
 
-			MenuItem latexItem = new MenuItem(app.getMenu("CopyAsLaTeX"),
+			MenuItem latexItem = new MenuItem(loc.getMenu("CopyAsLaTeX"),
 				new ScheduledCommand() {
 					public void execute() {
 							actionPerformed(CellAction.COPY_LATEX);

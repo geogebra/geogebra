@@ -65,11 +65,12 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	}
 
 	private void createButtons() {
-		btnBold = new MyToggleButton2(app.getMenu("Bold.Short"));
+		Localization loc = app.getLocalization();
+		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short"));
 		btnBold.addClickHandler(this);
 		btnBold.addStyleName("btnBold");
 		
-		btnItalic = new MyToggleButton2(app.getMenu("Italic.Short"));
+		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short"));
 		btnItalic.addClickHandler(this);
 		btnItalic.addStyleName("btnItalic");
 
@@ -119,11 +120,12 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	@Override
 	public void setLabels() {
 		super.setLabels();
+		Localization loc = app.getLocalization();
 		// set labels for buttons with text e.g. button "bold" or "italic"
-		this.btnBold.getDownFace().setText(app.getMenu("Bold.Short"));
-		this.btnItalic.getDownFace().setText(app.getMenu("Italic.Short"));
-		this.btnBold.getUpFace().setText(app.getMenu("Bold.Short"));
-		this.btnItalic.getUpFace().setText(app.getMenu("Italic.Short"));
+		this.btnBold.getDownFace().setText(loc.getMenu("Bold.Short"));
+		this.btnItalic.getDownFace().setText(loc.getMenu("Italic.Short"));
+		this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
+		this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
 		// set labels for ToolTips
 		setToolTips();
 	}

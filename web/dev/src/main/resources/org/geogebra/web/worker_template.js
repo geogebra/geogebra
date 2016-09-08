@@ -6,7 +6,7 @@
 var urlsToCache = {"urls_to_cache":[%URLS% "https:\/\/ajax.googleapis.com\/ajax\/libs\/jquery\/1.11.1\/jquery.min.js",
                                     "https:\/\/ajax.googleapis.com\/ajax\/libs\/jqueryui\/1.11.1\/jquery-ui.min.js",
                                     "\/scripts\/jlatexmath\/jlatexmath.js?v=1472544409",
-                                    "\/scripts\/deployggb.js?v=1472544409"],"unique_id":"#1473028999576.0.8365771877801175"};
+                                    "\/scripts\/deployggb.js?v=1472544409"],"unique_id":"#%ID%"};
 
 self.addEventListener('install', function(event) {
     "use strict";

@@ -118,7 +118,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		
 		if (numberOfOpenViews > 1) {
 			// show close button if there are more than 1 views open
-			data[0] = new ImageOrText(app.getMenu("Close"));
+			data[0] = new ImageOrText(app.getLocalization().getMenu("Close"));
 			data[0].setResource(GuiResources.INSTANCE.dockbar_close());
 
 			// placeholder for the separator (needs to be != null)

@@ -112,7 +112,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	}
 
 	private void createGUI() {
-		getCaption().setText(app.getMenu("Exercise.CreateNew"));
+		getCaption().setText(loc.getMenu("Exercise.CreateNew"));
 
 		setWidget(mainWidget = new VerticalPanel());
 
@@ -353,7 +353,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		addList.clear();
 
 		addList.addItem(loc.getMenu("AddToolOrBoolean"));
-		addList.addItem(app.getMenu("Tool.CreateNew"));
+		addList.addItem(loc.getMenu("Tool.CreateNew"));
 		for (Object obj : addListMappings) {
 			if (obj instanceof Macro) {
 				addList.addItem(((Macro) obj).getToolName());
@@ -429,7 +429,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			int k = 1;
 			int i = 0; // keep track of the row we're in
 			checkAssignmentsTable.setWidget(i, k++,
-					new Label(app.getMenu("Tool")));
+					new Label(loc.getMenu("Tool")));
 			checkAssignmentsTable.setWidget(i, k++,
 					new Label(loc.getMenu("Result.Exercise")));
 			checkAssignmentsTable.setWidget(i, k++,

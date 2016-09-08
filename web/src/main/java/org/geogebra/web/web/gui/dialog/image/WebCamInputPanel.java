@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.dialog.image;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -32,9 +33,7 @@ public class WebCamInputPanel extends VerticalPanel {
 
 	private void initGUI() {		
 		inputWidget = new SimplePanel();
-		video = populate(inputWidget.getElement(),
-				app.getMenu("Webcam.Chrome"), app.getMenu("Webcam.Firefox"),
-				app.getMenu("Webcam.Edge"), app.getMenu("Webcam.Problem"));
+		resetVideo();
 
 		add(inputWidget);
 	}
@@ -147,12 +146,18 @@ public class WebCamInputPanel extends VerticalPanel {
 	public void startVideo() {
 		stopVideo();
 		inputWidget.getElement().removeAllChildren();
-		video = populate(inputWidget.getElement(),
-				app.getMenu("Webcam.Chrome"), app.getMenu("Webcam.Firefox"),
-				app.getMenu("Webcam.Edge"), app.getMenu("Webcam.Problem"));
+		resetVideo();
 
 	    
     }
+
+	private void resetVideo() {
+		Localization loc = app.getLocalization();
+		video = populate(inputWidget.getElement(), loc.getMenu("Webcam.Chrome"),
+				loc.getMenu("Webcam.Firefox"), loc.getMenu("Webcam.Edge"),
+				loc.getMenu("Webcam.Problem"));
+
+	}
 
 	/**
 	 * @return screenshot width

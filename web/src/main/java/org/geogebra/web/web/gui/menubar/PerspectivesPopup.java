@@ -125,7 +125,7 @@ public class PerspectivesPopup {
 		// icon
 		rowPanel.add(new Image(ImgResourceHelper.safeURI(icon)));
 		// perspective label
-		Label label = new Label(app.getMenu(menuID));
+		Label label = new Label(app.getLocalization().getMenu(menuID));
 		label.addStyleName("perspectivesLabel");
 		rowPanel.add(label);
 		rowPanel.setStyleName("perspectivesRow");

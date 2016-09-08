@@ -38,6 +38,6 @@ public class TimeSetting extends SensorSetting {
 
 	@Override
 	protected void updateCaptionLabel() {
-		this.captionLabel.setText(app.getMenu(captionString));
+		this.captionLabel.setText(loc.getMenu(captionString));
 	}
 }

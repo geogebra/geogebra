@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
@@ -142,11 +143,12 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	private void addSelectAnotherMenu(int mode) {
 		selectAnotherMenu = new MenuBar(true);
 		MenuItem selectAnotherMenuItem;
+		Localization l10n = app.getLocalization();
 		if (mode == EuclidianConstants.MODE_MOVE) {
-			selectAnotherMenuItem = new MenuItem(app.getMenu("SelectAnother"),
+			selectAnotherMenuItem = new MenuItem(l10n.getMenu("SelectAnother"),
 			        selectAnotherMenu);
 		} else {
-			selectAnotherMenuItem = new MenuItem(app.getMenu("PerformToolOn"),
+			selectAnotherMenuItem = new MenuItem(l10n.getMenu("PerformToolOn"),
 			        selectAnotherMenu);
 		}
 		selectAnotherMenuItem.addStyleName("mi_no_image");

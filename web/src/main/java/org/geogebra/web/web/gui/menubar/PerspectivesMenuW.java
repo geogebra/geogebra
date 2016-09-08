@@ -68,7 +68,8 @@ public class PerspectivesMenuW extends GMenuBar {
 
 			if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
 				addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_exam().getSafeUri().asString(),
-						app.getMenu("exam_menu_entry"), true), // "Exam Mode"
+						app.getLocalization().getMenu("exam_menu_entry"), true), // "Exam
+																					// Mode"
 						true, new MenuCommand(app) {
 
 							@Override
@@ -90,7 +91,8 @@ public class PerspectivesMenuW extends GMenuBar {
 		final int index = i;
 		final int defID = defaultPerspectives[i].getDefaultID();
 		addItem(MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(icon),
-				app.getMenu(defaultPerspectives[i].getId()), true), true,
+				app.getLocalization().getMenu(defaultPerspectives[i].getId()),
+				true), true,
 				new MenuCommand(app) {
 
 					@Override

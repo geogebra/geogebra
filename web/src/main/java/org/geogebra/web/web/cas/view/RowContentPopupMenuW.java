@@ -3,6 +3,7 @@ package org.geogebra.web.web.cas.view;
 import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW;
@@ -60,9 +61,11 @@ public class RowContentPopupMenuW extends GPopupMenuW {
 	}
 
 	private void initMenu() {
+		Localization loc = app.getLocalization();
+
 		switch (clickedPanel) {
 		case OUTPUT:
-			MenuItem copyItem = new MenuItem(app.getMenu("Copy"),
+			MenuItem copyItem = new MenuItem(loc.getMenu("Copy"),
 					new ScheduledCommand() {
 						public void execute() {
 							actionPerformed("copy");
@@ -73,11 +76,11 @@ public class RowContentPopupMenuW extends GPopupMenuW {
 
 			addSeparator();
 
-			MenuItem copyToLatexItem = new MenuItem(app.getMenu("CopyAsLaTeX"),
+			MenuItem copyToLatexItem = new MenuItem(loc.getMenu("CopyAsLaTeX"),
 					new ScheduledCommand() {
 						public void execute() {
 							// ??
-							// actionPerformed(app.getMenu("copyAsLatex"));
+							// actionPerformed(loc.getMenu("copyAsLatex"));
 							actionPerformed("copyAsLatex");
 						}
 					});

@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -20,7 +21,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    this.app = app;
 	    addStyleName("GeoGebraMenuBar");
 	    
-	    
+		Localization loc = app.getLocalization();
 	    // TODO: This item has no localization entry yet.
 	    //addItem("Version", new Command() {
 		//	public void execute() {
@@ -30,7 +31,8 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    //});
 	 // Tutorials
 	    tutorials = addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
-	    		app.getMenu("Tutorials"), true),true,new MenuCommand((AppW) app) {
+				loc.getMenu("Tutorials"), true), true,
+				new MenuCommand((AppW) app) {
 			
 	    	@Override
 	    	public void doExecute() {
@@ -40,7 +42,8 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    
 	    // Help
 	    manual = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help().getSafeUri().asString(),
-	    		app.getMenu("Manual"), true),true,new MenuCommand((AppW) app) {
+				loc.getMenu("Manual"), true), true,
+				new MenuCommand((AppW) app) {
 			
 	    	@Override
 	    	public void doExecute() {
@@ -50,7 +53,8 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    });
 	    
 	    forum = addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
-	    		app.getMenu("GeoGebraForum"), true), true, new MenuCommand((AppW) app) {
+				loc.getMenu("GeoGebraForum"), true), true,
+				new MenuCommand((AppW) app) {
 			
 	    	@Override
 	    	public void doExecute() {
@@ -63,7 +67,8 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    
 	    // Report Bug
 	    bug = addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
-	    		app.getMenu("ReportBug"), true),true,new MenuCommand((AppW) app) {
+				loc.getMenu("ReportBug"), true), true,
+				new MenuCommand((AppW) app) {
 			
 	    	@Override
 	    	public void doExecute() {
@@ -74,7 +79,8 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    addSeparator();
 
 	    about = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help_about().getSafeUri().asString(),
-	    		app.getMenu("AboutLicense"), true),true,new MenuCommand((AppW) app) {
+				loc.getMenu("AboutLicense"), true), true,
+				new MenuCommand((AppW) app) {
 	    	
 					@Override
 					public void doExecute() {

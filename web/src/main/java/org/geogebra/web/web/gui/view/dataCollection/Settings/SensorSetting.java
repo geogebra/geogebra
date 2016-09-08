@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.SensorLogger.Types;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -21,6 +22,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
+/**
+ * Settings for a sensor group
+ */
 public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	private final String REAL_FREQUENCY = "ActualFrequency";
 
@@ -31,7 +35,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	/** A label with the caption */
 	protected Label captionLabel;
 	/** button to collapse/expand settings for this sensor */
-	private ToggleButton collapse;
+	ToggleButton collapse;
 
 	private Image sensorON;
 	private Image sensorOFF;
@@ -50,7 +54,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 * language
 	 */
 	protected HashMap<Label, String> rowCaptions = new HashMap<Label, String>();
-
+	/** application */
 	protected AppW app;
 	private DataCollectionView view;
 	private String unit;
@@ -58,6 +62,8 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	private Label realFreqLabel;
 	private int realFreq;
 	private FlowPanel realFreqContainer;
+	/** localization */
+	protected Localization loc;
 
 	/**
 	 * 
@@ -74,6 +80,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 			String captionString, String unit) {
 		this.captionString = captionString;
 		this.app = app;
+		this.loc = app.getLocalization();
 		this.view = dataView;
 		this.unit = unit;
 		createGUI();
@@ -96,13 +103,14 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	protected void addFrequencyPanel() {
 		this.realFreqContainer = new FlowPanel();
 		this.realFreqContainer.addStyleName("rowContainer");
-		this.realFreqLabel = new Label(app.getMenu(REAL_FREQUENCY) + ": "
+		this.realFreqLabel = new Label(loc.getMenu(REAL_FREQUENCY) + ": "
 				+ this.realFreq);
 		this.realFreqContainer.add(this.realFreqLabel);
 		this.dataValues.add(this.realFreqContainer);
 		setRealFreqVisible(false);
 	}
 
+	/** fill the panel */
 	protected abstract void addContent();
 
 	/**
@@ -211,7 +219,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 * @param usedObjects
 	 *            {@link ArrayList}
 	 */
-	private void updateBox(GeoListBox box,
+	private static void updateBox(GeoListBox box,
 			ArrayList<GeoElement> availableObjects,
 			ArrayList<GeoElement> usedObjects) {
 		GeoElement selectedElem = box.getSelection();
@@ -248,7 +256,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 		updateCaptionLabel();
 		// is null for TimeSetting
 		if (this.realFreqLabel != null) {
-			this.realFreqLabel.setText(app.getMenu(REAL_FREQUENCY) + ": "
+			this.realFreqLabel.setText(loc.getMenu(REAL_FREQUENCY) + ": "
 					+ this.realFreq);
 		}
 		updateContent();
@@ -259,7 +267,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 */
 	private void updateContent() {
 		for (Label label : this.rowCaptions.keySet()) {
-			label.setText(app.getMenu(this.rowCaptions.get(label)));
+			label.setText(loc.getMenu(this.rowCaptions.get(label)));
 		}
 	}
 
@@ -267,8 +275,8 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 * sets the text of the {@link #captionLabel}
 	 */
 	protected void updateCaptionLabel() {
-		this.captionLabel.setText(app.getMenu(captionString) + " ("
-				+ app.getMenu(this.unit)
+		this.captionLabel.setText(
+				loc.getMenu(captionString) + " (" + loc.getMenu(this.unit)
 				+ ")");
 	}
 
@@ -280,7 +288,8 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 */
 	public void setRealFrequency(int freq) {
 		this.realFreq = freq;
-		this.realFreqLabel.setText(app.getMenu(REAL_FREQUENCY) + ": "
+		this.realFreqLabel
+				.setText(loc.getMenu(REAL_FREQUENCY) + ": "
 				+ this.realFreq);
 	}
 

@@ -59,7 +59,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 			sharingKey = app.getActiveMaterial().getSharingKey();
 		}
 
-		this.getCaption().setText(app.getMenu("Share"));
+		this.getCaption().setText(app.getLocalization().getMenu("Share"));
 		this.contentPanel = new VerticalPanel();
 		this.contentPanel.add(getTabPanel());
 		this.add(this.contentPanel);

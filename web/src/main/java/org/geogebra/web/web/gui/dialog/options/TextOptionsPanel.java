@@ -132,10 +132,10 @@ class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 		// font size
 		// TODO require font phrases F.S.
 		// toggle buttons for bold and italic
-		btnBold = new MyToggleButton2(app.getMenu("Bold.Short"));
+		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short"));
 		btnBold.addStyleName("btnBold");
 
-		btnItalic = new MyToggleButton2(app.getMenu("Italic.Short"));
+		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short"));
 		btnItalic.addStyleName("btnItalic");
 
 		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));

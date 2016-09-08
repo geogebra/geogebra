@@ -104,7 +104,8 @@ public class EditMenuW extends GMenuBar {
 				GuiResources.INSTANCE.menu_icon_options().getSafeUri()
 						.asString(),
  !app.getKernel()
-				.isEmpty() ? loc.getMenu("Properties") : app
+						.isEmpty() ? loc.getMenu("Properties")
+								: loc
 						.getMenu("Options") + " ...", true), true,
 				new MenuCommand(app) {
 

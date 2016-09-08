@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui;
 
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.Util;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -69,13 +70,13 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		listener = null;
 
 		mainWidget = new VerticalPanel();
-
-		Label labelCmdName = new Label(app.getMenu("CommandName"));
+		Localization loc = app.getLocalization();
+		Label labelCmdName = new Label(loc.getMenu("CommandName"));
 		int n = app.getKernel().getMacroNumber() + 1;
 
-		Label labelToolName = new Label(app.getMenu("ToolName"));
+		Label labelToolName = new Label(loc.getMenu("ToolName"));
 		tfToolName = new GTextBox();
-		tfToolName.setText(app.getMenu("Tool") + n);
+		tfToolName.setText(loc.getMenu("Tool") + n);
 		FlowPanel pToolName = new FlowPanel();
 		pToolName.add(labelToolName);
 		pToolName.add(tfToolName);
@@ -86,7 +87,7 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		pCmdName.add(labelCmdName);
 		pCmdName.add(tfCmdName);
 
-		Label labelToolHelp = new Label(app.getMenu("ToolHelp"));
+		Label labelToolHelp = new Label(loc.getMenu("ToolHelp"));
 		tfToolHelp = new GTextBox();
 		FlowPanel pToolHelp = new FlowPanel();
 		pToolHelp.add(labelToolHelp);
@@ -111,7 +112,7 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 				ImgResourceHelper.safeURI(
 						GGWToolBar
 		        .getMyIconResourceBundle().mode_tool_32()), 32);
-		Button labelIcon = new Button(app.getMenu("Icon") + " ...");
+		Button labelIcon = new Button(loc.getMenu("Icon") + " ...");
 		labelIcon.addClickHandler(new ClickHandler() {
 
 			public void onClick(ClickEvent event) {
@@ -134,7 +135,7 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		iconPanel.add(icon);
 		iconPanel.add(labelIcon);
 
-		showTool = new CheckBox(app.getMenu("ShowInToolBar"));
+		showTool = new CheckBox(loc.getMenu("ShowInToolBar"));
 		showTool.setValue(true);
 		showTool.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
@@ -323,7 +324,7 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 
 	private String defaultToolName() {
 		int n = app.getKernel().getMacroNumber() + 1;
-		return app.getMenu("Tool") + n;
+		return app.getLocalization().getMenu("Tool") + n;
 	}
 
 	private void macroChanged() {

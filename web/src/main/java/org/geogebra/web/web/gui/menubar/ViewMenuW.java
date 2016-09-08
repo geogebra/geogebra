@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -51,10 +52,9 @@ public class ViewMenuW extends GMenuBar {
 	/**
 	 * Init actions for Refresh views, recompute objects
 	 */
-	protected void initRefreshActions() {
-
+	protected void initRefreshActions(Localization loc) {
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-				.getSafeUri().asString(), app.getMenu("Refresh"), true), true,
+				.getSafeUri().asString(), loc.getMenu("Refresh"), true), true,
 				new MenuCommand(app) {
 
 					@Override
@@ -64,7 +64,7 @@ public class ViewMenuW extends GMenuBar {
 				});
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-				.getSafeUri().asString(), app.getMenu("RecomputeAllViews"),
+				.getSafeUri().asString(), loc.getMenu("RecomputeAllViews"),
 				true), true, new MenuCommand(app) {
 
 			@Override
@@ -91,10 +91,10 @@ public class ViewMenuW extends GMenuBar {
 			}
 			addToMenu(e);
 		}
-
+		Localization loc = app.getLocalization();
 		inputBarItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				AppResources.INSTANCE.empty().getSafeUri().asString(),
-				app.getMenu("InputField"), true), new MenuCommand(app) {
+				loc.getMenu("InputField"), true), new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
@@ -140,7 +140,7 @@ public class ViewMenuW extends GMenuBar {
 
 		consProtNav = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				AppResources.INSTANCE.empty().getSafeUri().asString(),
-				app.getMenu("NavigationBar"), true), new MenuCommand(app) {
+				loc.getMenu("NavigationBar"), true), new MenuCommand(app) {
 
 			@Override
 			public void doExecute() {
@@ -183,7 +183,7 @@ public class ViewMenuW extends GMenuBar {
 
 		addSeparator();
 
-		initRefreshActions();
+		initRefreshActions(loc);
 
 		update();
 	}

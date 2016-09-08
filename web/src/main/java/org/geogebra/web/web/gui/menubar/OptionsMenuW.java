@@ -66,7 +66,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		if (!app.isExam()) {
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 		        .menu_icon_options_language().getSafeUri().asString(),
- getApp()
+					getApp().getLocalization()
 				.getMenu("Language"), true), true, new MenuCommand(app) {
 
 			@Override
@@ -83,7 +83,8 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE
 .empty()
 				.getSafeUri().asString(),
-				getApp().getMenu("Settings.ResetDefault"), true),
+				getApp().getLocalization().getMenu("Settings.ResetDefault"),
+				true),
 		        true, new MenuCommand(app) {
 			
 			        @Override

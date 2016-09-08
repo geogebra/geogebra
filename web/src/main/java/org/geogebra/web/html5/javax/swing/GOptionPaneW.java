@@ -186,7 +186,8 @@ public class GOptionPaneW extends GDialogBox implements
 				optionButtons[i].addClickHandler(this);
 
 				// Styling of cancel button should be different
-				if (optionNames[i].equals(app.getMenu("Cancel"))) {
+				if (optionNames[i]
+						.equals(app.getLocalization().getMenu("Cancel"))) {
 					optionButtons[i].addStyleName("cancelBtn");
 				}
 

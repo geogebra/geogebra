@@ -213,7 +213,7 @@ public class ProbabilityCalculatorStyleBarW extends
 			if (items[i] == "---") {
 				//add separator with css
 			} else {
-				String text = app.getMenu(items[i]);
+				String text = app.getLocalization().getMenu(items[i]);
 				mi = new GRadioButtonMenuItem(text, actionCommands[i], "probstylebarradio");
 				if (i == selectedPos) {
 					mi.setSelected(true);

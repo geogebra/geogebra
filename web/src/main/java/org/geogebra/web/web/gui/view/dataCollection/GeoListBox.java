@@ -154,7 +154,8 @@ public class GeoListBox extends ListBox {
 		for (DefaultEntries entry : DefaultEntries.values()) {
 			if (this.type != Types.TIMESTAMP
 					|| entry != DefaultEntries.CREATE_DATA_FUNCTION) {
-				this.addItem(app.getMenu(entry.getText()), entry.getText());
+				this.addItem(app.getLocalization().getMenu(entry.getText()),
+						entry.getText());
 			}
 		}
 	}

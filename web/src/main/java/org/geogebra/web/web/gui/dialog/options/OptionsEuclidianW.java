@@ -295,13 +295,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbBoldAxes = new CheckBox(loc.getMenu("Bold"));
 
 			// axes color
-			colorLabel = new Label(app.getMenu("Color") + ":");
+			colorLabel = new Label(loc.getMenu("Color") + ":");
 
 			lblAxisLabelStyle = new Label(loc.getMenu("LabelStyle"));
 			// show axis label bold checkbox
 			cbAxisLabelBold = new CheckBox(loc.getMenu("Bold"));
 
-			cbAxisLabelSerif = new CheckBox(app.getMenu("Serif"));
+			cbAxisLabelSerif = new CheckBox(loc.getMenu("Serif"));
 
 			// show axis label italic checkbox
 			cbAxisLabelItalic = new CheckBox(loc.getMenu("Italic"));
@@ -616,10 +616,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			axesRatioLabel.setText(
 					loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"));
 			
-			axesOptionsTitle.setText(app.getMenu("Axes"));
+			axesOptionsTitle.setText(loc.getMenu("Axes"));
 			cbShowAxes.setText(loc.getMenu("ShowAxes"));
 			cbBoldAxes.setText(loc.getMenu("Bold"));
-			colorLabel.setText(app.getMenu("Color") + ":");
+			colorLabel.setText(loc.getMenu("Color") + ":");
 			lineStyle.setText(loc.getMenu("LineStyle") + ":");
 
 			miscTitle.setText(loc.getMenu("Miscellaneous"));
@@ -628,7 +628,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lbTooltips.clear();
 			model.fillTooltipCombo();
 			lbTooltips.setSelectedIndex(index);
-			cbShowMouseCoords.setText(app.getMenu("ShowMouseCoordinates"));
+			cbShowMouseCoords.setText(loc.getMenu("ShowMouseCoordinates"));
 			
 			consProtocolTitle
 					.setText(loc.getMenu("ConstructionProtocolNavigation"));
@@ -639,7 +639,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					.setText(loc.getMenu("ConstructionProtocolButton"));
 			
 			lblAxisLabelStyle.setText(loc.getMenu("LabelStyle"));
-			cbAxisLabelSerif.setText(app.getMenu("Serif"));
+			cbAxisLabelSerif.setText(loc.getMenu("Serif"));
 			cbAxisLabelBold.setText(loc.getMenu("Bold"));
 			cbAxisLabelItalic.setText(loc.getMenu("Italic"));
 
@@ -1015,8 +1015,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	        lbGridTickAngle.setSelectedIndex(idx);
 			cbGridManualTick.setText(loc.getMenu("TickDistance") + ":");
 			lblGridStyle.setText(loc.getMenu("LineStyle"));
-			lblColor.setText(app.getMenu("Color") + ":");
-			cbBoldGrid.setText(app.getMenu("Bold"));
+			lblColor.setText(loc.getMenu("Color") + ":");
+			cbBoldGrid.setText(loc.getMenu("Bold"));
 		}
 		
 		protected void setGridTypeLabel(){
@@ -1196,18 +1196,18 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
 			MultiRowsTabBar tabBar = (MultiRowsTabBar) tabBar2;
 
-			tabBar.setTabText(0, app.getMenu("Properties.Basic"));
+			tabBar.setTabText(0, loc.getMenu("Properties.Basic"));
 			tabBar.setTabText(1, loc.getMenu("xAxis"));
 			tabBar.setTabText(2, loc.getMenu("yAxis"));
-			tabBar.setTabText(gridIndex, app.getMenu("Grid"));
+			tabBar.setTabText(gridIndex, loc.getMenu("Grid"));
 
 		} else {
 			TabBar tabBar = (TabBar) tabBar2;
 
-			tabBar.setTabText(0, app.getMenu("Properties.Basic"));
+			tabBar.setTabText(0, loc.getMenu("Properties.Basic"));
 			tabBar.setTabText(1, loc.getMenu("xAxis"));
 			tabBar.setTabText(2, loc.getMenu("yAxis"));
-			tabBar.setTabText(gridIndex, app.getMenu("Grid"));
+			tabBar.setTabText(gridIndex, loc.getMenu("Grid"));
 		}
 
 

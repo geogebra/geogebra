@@ -518,7 +518,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			toolbarImg.setWidth("32px");
 			btn.clear();
 			btn.add(toolbarImg);
-			String str = app.getMenu(app.getToolName(mode));
+			String str = loc.getMenu(app.getToolName(mode));
 			setTitle(str);
 			Label text = new Label(str);
 			add(LayoutUtilW.panelRow(btn, text));
@@ -616,6 +616,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	private String oldToolbarString;
 	private DockPanelW dockPanel;
 	private int toolbarId;
+	private Localization loc;
 
 	/**
 	 * @param app
@@ -623,6 +624,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	 */
 	public CustomizeToolbarGUI(AppW app) {
 		this.app = app;
+		this.loc = app.getLocalization();
 		addHeader();
 		addContent();
 		addFooter();
@@ -679,7 +681,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		right.setStyleName("allToolsPanel");
 
 		// caption of right panel
-		lblAllTools = new Label(app.getMenu("Tools"));
+		lblAllTools = new Label(loc.getMenu("Tools"));
 		lblAllTools.setStyleName("panelTitle");
 
 		// content of right panel
@@ -759,7 +761,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		FlowPanel left = new FlowPanel();
 		left.setStyleName("usedToolsPanel");
 
-		lblUsedTools = new Label(app.getMenu("Toolbar"));
+		lblUsedTools = new Label(loc.getMenu("Toolbar"));
 		lblUsedTools.setStyleName("panelTitle");
 
 		usedToolsPanelContent = new ScrollPanel();
@@ -894,7 +896,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		if (header != null) {
 			header.setLabels();
 		}
-		Localization loc = app.getLocalization();
 		lblUsedTools.setText(loc.getMenu("Toolbar"));
 		lblAllTools.setText(loc.getMenu("Tools"));
 		btDefalutToolbar.setText(loc.getMenu("Toolbar.ResetDefault"));

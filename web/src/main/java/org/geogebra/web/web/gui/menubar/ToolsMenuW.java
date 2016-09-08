@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.ExerciseBuilderDialog;
@@ -33,10 +34,11 @@ public class ToolsMenuW extends GMenuBar {
 	 * Initialize the menu items
 	 */
 	protected void initActions() {
-
+		Localization loc = app.getLocalization();
 		if (!app.isExam()) {
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools_customize().getSafeUri().asString(),
-		        app.getMenu("Toolbar.Customize"), true), true, new MenuCommand(app) {
+					loc.getMenu("Toolbar.Customize"), true), true,
+					new MenuCommand(app) {
 
 			@Override
 			public void doExecute() {
@@ -46,8 +48,8 @@ public class ToolsMenuW extends GMenuBar {
 		}
 
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-			        .menu_icon_tools_new().getSafeUri().asString(), app
-			        .getMenu(app.isToolLoadedFromStorage() ? "Tool.SaveAs"
+				.menu_icon_tools_new().getSafeUri().asString(),
+				loc.getMenu(app.isToolLoadedFromStorage() ? "Tool.SaveAs"
 			                : "Tool.CreateNew"),
 					true), true, new MenuCommand(app) {
 	
@@ -58,7 +60,9 @@ public class ToolsMenuW extends GMenuBar {
 				}
 			});
 
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools().getSafeUri().asString(), app.getMenu("Tool.Manage"),
+		addItem(MainMenu.getMenuBarHtml(
+				GuiResources.INSTANCE.menu_icon_tools().getSafeUri().asString(),
+				loc.getMenu("Tool.Manage"),
 					true), true, new MenuCommand(app) {
 
 				@Override
@@ -72,7 +76,7 @@ public class ToolsMenuW extends GMenuBar {
 		if (app.has(Feature.EXERCISES)) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 					.menu_create_exercise().getSafeUri().asString(),
-			        app.getMenu("Exercise.CreateNew"), true), true,
+						loc.getMenu("Exercise.CreateNew"), true), true,
 			        new MenuCommand(app) {
 
 				        @Override
