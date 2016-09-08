@@ -65,8 +65,6 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 	private boolean trace;
 
-	private final static String STR_OPEN = "{";
-	private final static String STR_CLOSE = "}";
 
 	// GeoElement list members
 	private final ArrayList<GeoElement> geoList;
@@ -1830,13 +1828,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 
 		// check n is in a sensible range
 		if ((n >= size()) || (n < 0)) {
-			final double check = t - size();
-			// t = size() when at very end of path
-			// so check == 0 is OK, just need to set n = size() - 1
-			if (check != 0.0) {
-				Log.debug("problem with path param "
-						+ PI.getLabel(StringTemplate.defaultTemplate));
-			}
+
 			n = (n < 0) ? 0 : size() - 1;
 		}
 

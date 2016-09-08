@@ -50,12 +50,12 @@ public class AlgoLocusList extends AlgoElement {
 	private boolean shouldUpdateScreenBorders = false;
 
 	public AlgoLocusList(Construction cons, GeoPoint Q, GeoPoint P,
-			int try_steps) {
+			int try_steps, boolean registerCE) {
 
 		// just ignoring try_steps here because it would
 		// probably not be OK to split MIN_STEPS any more
 
-		super(cons);
+		super(cons, registerCE);
 		this.movingPoint = P;
 		this.locusPoint = Q;
 
@@ -150,7 +150,8 @@ public class AlgoLocusList extends AlgoElement {
 
 					if (actel instanceof GeoList) {
 						if (((GeoList) actel).shouldUseAlgoLocusList(true)) {
-							actal = new AlgoLocusList(cons, Q, P, try_steps);
+							actal = new AlgoLocusList(cons, Q, P, try_steps,
+									false);
 							pathp = ((AlgoLocusList) actal).getLocus();
 						} else {
 							actal = new AlgoLocus(cons, Q, P, try_steps, false);
@@ -161,7 +162,7 @@ public class AlgoLocusList extends AlgoElement {
 						pathp = ((AlgoLocus) actal).getLocus();
 					}
 					cons.removeFromAlgorithmList(actal);
-					cons.removeFromConstructionList(actal);
+					// cons.removeFromConstructionList(actal);
 					// cons.unregisterEuclidianViewCE(actal);
 					cons.removeFromConstructionList(pathp);
 					P.setPath(path);

@@ -98,7 +98,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	// Constructor called from AlgoLocusList
 	public AlgoLocusND(Construction cons, GeoPointND Q, GeoPointND P,
 			int min_steps, boolean registerCE) {
-		super(cons);
+		super(cons, registerCE);
 
 		createMaxDistances();
 
