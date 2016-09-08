@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -109,6 +108,10 @@ public class GlobalKeyDispatcherW extends
 					}
 					debug("target article: " + targetArticle.getClassName());
 
+					HashMap<String, AppW> articleMap = GeoGebraFrameW
+							.getArticleMap();
+					boolean appfocused = articleMap.get(targetArticle.getId())
+							.getGlobalKeyDispatcher().isFocused();
 
 					if (event.getNativeEvent().getKeyCode() == 9) { // TAB
 																	// pressed
@@ -117,11 +120,7 @@ public class GlobalKeyDispatcherW extends
 								+ targetElement.getClassName());
 
 						
-						HashMap<String, AppW> articleMap = GeoGebraFrameW
-								.getArticleMap();
-						if (!articleMap.get(
-								targetArticle.getId())
-								.getGlobalKeyDispatcher().isFocused()) {
+						if (!appfocused) {
 							debug("not focused");
 							event.cancel();
 							// FocusPanel nextDummy = getNextDummy(ggbApplet);
@@ -196,30 +195,15 @@ public class GlobalKeyDispatcherW extends
 						}
 					} 
 					
-					/*else if (event.getNativeEvent().getKeyCode() == 13) { // ENTER
-
-						// pressed
-						debug("enter pressed - isFocused: " + isFocused());
-						if (!isFocused()) {
+					else if (event.getNativeEvent().getKeyCode() != 13) { // not
+																			// ENTER
+						if (!appfocused) {
 							event.cancel();
-							setFocused(true);
 						}
-					} else {
-						// debug("this key pressed: "
-						// + event.getNativeEvent().getKeyCode());
-					}*/
+
+					}
 
 
-						//break;
-
-				// case Event.ONKEYUP:
-				// debug("keyup!");
-				//
-				// if (isGGBApplet(targetElement)) {
-				// event.cancel();
-				// }
-				// break;
-				// }
 				}
 			}
 
