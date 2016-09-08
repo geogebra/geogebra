@@ -350,7 +350,7 @@ public class DrawParametricCurve extends Drawable {
 				// geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
 				strokedShape = objStroke.createStrokedShape(gp);
 			}
-			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
+			if (geo.isFilled()) {
 				return t.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold);
 			}
@@ -407,7 +407,7 @@ public class DrawParametricCurve extends Drawable {
 				// geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
 				strokedShape = objStroke.createStrokedShape(gp);
 			}
-			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
+			if (geo.isFilled()) {
 				return t.intersects(rect);
 			}
 
@@ -446,8 +446,7 @@ public class DrawParametricCurve extends Drawable {
 
 	final private static boolean filling(CurveEvaluable curve) {
 		return !curve.isFunctionInX()
-				&& (curve.toGeoElement().getAlphaValue() > 0 || curve
-						.toGeoElement().isHatchingEnabled());
+				&& curve.toGeoElement().isFilled();
 	}
 
 }

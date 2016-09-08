@@ -421,7 +421,7 @@ public class DrawConic extends Drawable implements Previewable {
 		// intersect the view rectangle
 		boolean offScreen = includesScreenCompletely
 				|| !shape.getBounds2D().intersects(viewRect);
-		if (geo.getAlphaValue() == 0f) {
+		if (!geo.isFilled()) {
 			// no filling
 			return !offScreen;
 		}
@@ -749,7 +749,7 @@ public class DrawConic extends Drawable implements Previewable {
 					GArc2D.OPEN);
 
 			// set general path for filling the arc to screen borders
-			if ((conic.getAlphaValue() > 0.0f || conic.isHatchingEnabled())
+			if (conic.isFilled()
 					&& !fullAngle) {
 				if (gp == null)
 					gp = new GeneralPathClipped(view);
@@ -1166,7 +1166,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		// we have drawn the hyperbola from x=a to x=x0
 		// ensure correct filling by adding points at (2*x0, y)
-		if (conic.getAlphaValue() > 0.0f || conic.isHatchingEnabled()) {
+		if (conic.isFilled()) {
 			hypRight.lineTo(Float.MAX_VALUE, y);
 			hypRight.lineTo(Float.MAX_VALUE, -y);
 			hypLeft.lineTo(-Float.MAX_VALUE, y);
@@ -1574,7 +1574,7 @@ public class DrawConic extends Drawable implements Previewable {
 	 * @return true if it has to check it's on filling
 	 */
 	protected boolean checkIsOnFilling() {
-		return isFilled() && type != GeoConicNDConstants.CONIC_SINGLE_POINT
+		return geo.isFilled() && type != GeoConicNDConstants.CONIC_SINGLE_POINT
 				&& type != GeoConicNDConstants.CONIC_DOUBLE_LINE;
 	}
 
@@ -1730,7 +1730,7 @@ public class DrawConic extends Drawable implements Previewable {
 			return drawLines[0].intersectsRectangle(rect)
 					|| drawLines[1].intersectsRectangle(rect);
 		}
-		if (isFilled()) {
+		if (geo.isFilled()) {
 			return super.intersectsRectangle(rect);
 		}
 		if (shape != null) {

@@ -8216,4 +8216,12 @@ public abstract class GeoElement extends ConstructionElement implements
 		definition = null;
 	}
 
+	/**
+	 * @return whether the to-be-drawn geoElement is filled, meaning the
+	 *         alpha-value is greater zero, or hatching is enabled.
+	 */
+	public boolean isFilled() {
+		return getAlphaValue() > 0 || isHatchingEnabled();
+	}
+
 }

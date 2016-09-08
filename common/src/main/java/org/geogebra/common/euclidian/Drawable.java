@@ -143,7 +143,7 @@ public abstract class Drawable extends DrawableND {
 		if (s == null) {
 			return false;
 		}
-		if (isFilled()) {
+		if (geo.isFilled()) {
 			return s.intersects(rect);
 		}
 		return s.intersects(rect) && !s.contains(rect);
@@ -716,13 +716,7 @@ public abstract class Drawable extends DrawableND {
 		// do nothing, overridden where needed
 	}
 
-	/**
-	 * @return whether the to-be-drawn geoElement is filled, meaning the
-	 *         alpha-value is greater zero, or hatching is enabled.
-	 */
-	public boolean isFilled() {
-		return (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled());
-	}
+
 
 	/**
 	 * @return view in which this is drawn

@@ -497,7 +497,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		switch (draw_type) {
 		case DRAW_TYPE_ELLIPSE:
-			if (isFilled()) {
+			if (geo.isFilled()) {
 				shape.intersects(rect);
 			}
 			if (strokedShape == null) {
@@ -544,7 +544,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			pathHit = strokedShape.intersects(x - hitThreshold, y
 					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			if (!pathHit
-					&& (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled())) {
+					&& geo.isFilled()) {
 				regionHit = shape.intersects(x - hitThreshold,
 						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			}

@@ -170,7 +170,7 @@ public class DrawLocus extends Drawable {
 			g2.drawWithValueStrokePure(gp);
 
 			if (geo.isFillable()
-					&& (geo.getAlphaValue() > 0 || geo.isHatchingEnabled())) {
+					&& geo.isFilled()) {
 				try {
 
 					fill(g2, (geo.isInverseFill() ? getShape() : gp), false); // fill
@@ -205,7 +205,7 @@ public class DrawLocus extends Drawable {
 		}
 
 
-		if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
+		if (geo.isFilled()) {
 			return t.intersects(x - hitThreshold, y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);
 		}
