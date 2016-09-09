@@ -345,4 +345,15 @@ public class Settings {
 		}
 		return daSettings;
 	}
+
+	public void resetNoFireEuclidianSettings(){
+		if (euclidianSettings == null){
+			return;
+		}
+		for (EuclidianSettings s : euclidianSettings){
+			if (s != null){
+				s.resetNoFire();
+			}
+		}
+	}
 }

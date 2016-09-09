@@ -71,7 +71,6 @@ public class EuclidianSettings extends AbstractSettings {
 		xZero = EuclidianView.XZERO_STANDARD; // needs to be positive
 		yZero = EuclidianView.YZERO_STANDARD; // needs to be positive
 		preferredSize = AwtFactory.prototype.newDimension(0, 0);
-		sizeFromFile = AwtFactory.prototype.newDimension(0, 0);
 		resetNoFire();
 	}
 
@@ -86,6 +85,8 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	protected void resetNoFire() {
+		sizeFromFile = AwtFactory.prototype.newDimension(0, 0);
+
 		gridDistances = null;
 		// length might be 2 or 3
 		for (int i = 0; i < axisNumberingDistances.length; i++) {

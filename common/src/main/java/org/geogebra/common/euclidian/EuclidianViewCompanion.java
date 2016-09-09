@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
@@ -293,8 +294,25 @@ public class EuclidianViewCompanion {
 		if (!evs.hasDynamicBounds()) {
 			// the xmin, xmax, ... we read from Settings are nulls;
 			// use the double values instead
-			view.setCoordSystem(evs.getXZero(), evs.getYZero(),
-					evs.getXscale(), evs.getYscale(), true);
+			double x0 = evs.getXZero();
+			double y0 = evs.getYZero();
+			if (view.getApplication().has(Feature.MOBILE_NEW_EV_CENTERING)){
+//				Log.debug("view.isShowing() : "+view.isShowing()+" -- "+view);
+				if (view.isShowing()) {
+					// we may need to shift center if windows/settings sizes don't match
+					int w = view.getWidth();
+					int h = view.getHeight();
+					int fw = evs.getFileWidth();
+					int fh = evs.getFileHeight();
+//					Log.debug("x0:" + x0 + ", y0:" + y0 + ", " + fw + "x" + fh + ", view: " + w + "x" + h);
+					if (fw > 0 && fh > 0) { // dimensions from file?
+						x0 += (w - fw) / 2;
+						y0 += (h - fh) / 2;
+					}
+//					Log.debug(">> x0:" + x0 + ", y0:" + y0);
+				}
+			}
+			view.setCoordSystem(x0, y0, evs.getXscale(), evs.getYscale(), true);
 			evs.setXminObject(view.xminObject, false);
 			evs.setXmaxObject(view.xmaxObject, false);
 			evs.setYminObject(view.yminObject, false);
