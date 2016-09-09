@@ -2973,7 +2973,7 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 		}
 
 		for (GeoElement geo : geoList) {
-			if (geo.needToShowBothRowsInAV()) {
+			if (geo.needToShowBothRowsInAV() || geo.isLabelSet()) {
 				return true;
 			}
 		}

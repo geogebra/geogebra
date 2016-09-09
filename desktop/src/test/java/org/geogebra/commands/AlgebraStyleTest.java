@@ -60,11 +60,11 @@ public class AlgebraStyleTest extends Assert {
 		checkRows("a=1", 1);
 		checkRows("a+a", 2);
 		checkRows("sqrt(x+a)", 2);
-		checkRows("{a}", 1);
+		checkRows("{a}", 2);
 		checkRows("{x}", 1);
 		checkRows("{x+a}", 2);
 		checkRows("{{1}}", 1);
-		checkRows("{{a}}", 1);
+		checkRows("{{a}}", 2);
 		checkRows("{{a}}+{{1}}", 2);
 		checkRows("{x=y}", 2);
 		checkRows("x=y", 2);
