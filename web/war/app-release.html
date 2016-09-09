@@ -41,7 +41,7 @@ if (!window.console.log) window.console.log = function () { };
 			parentTable(label).className += " perspectiveHighlighted";
 		}
 		if(name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
-				!isLocalhost()){
+			location.href.indexOf("?") < 0 &&  !isLocalhost()){
 			history.pushState({}, "GeoGebra", "/"+name);
 		}
 		return false;
