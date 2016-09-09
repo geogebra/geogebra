@@ -53,6 +53,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
@@ -1080,6 +1081,7 @@ public class OptionsTab extends FlowPanel {
 		TextFieldSizeModel model;
 		private InputPanelW inputPanel;
 		AutoCompleteTextFieldW tfSize;
+		Label lbSize;
 
 		public TextFieldSizePanel(TextFieldSizeModel model0, AppW app) {
 			model = model0;
@@ -1087,7 +1089,7 @@ public class OptionsTab extends FlowPanel {
 			setModel(model);
 
 			FlowPanel mainPanel = new FlowPanel();
-
+			lbSize = new Label();
 			inputPanel = new InputPanelW(null, app, 1, -1, false);
 			tfSize = inputPanel.getTextComponent();
 			tfSize.setAutoComplete(false);
@@ -1106,7 +1108,7 @@ public class OptionsTab extends FlowPanel {
 					}
 				}
 			});
-			mainPanel.add(inputPanel);
+			mainPanel.add(LayoutUtilW.panelRow(lbSize, inputPanel));
 			mainPanel.setStyleName("optionsPanel");
 			setWidget(mainPanel);
 
@@ -1119,7 +1121,7 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			// title.setText(localize("TextfieldLength"));
+			lbSize.setText(localize("TextfieldLength"));
 		}
 
 	}
