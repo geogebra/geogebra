@@ -274,6 +274,27 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					app.getSettings().getEuclidian(-1).setEnabled(app
 							.getArticleElement().getDataParamEnable3D(false));
 				}
+				
+				if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
+					if (app.getArticleElement().getDataParamEnableGraphing(
+							false)
+							|| !app.getArticleElement()
+									.getDataParamEnableGraphing(true)) {
+						app.getSettings()
+								.getEuclidian(1)
+								.setEnabled(
+										app.getArticleElement()
+												.getDataParamEnableGraphing(
+														false));
+						app.getSettings()
+								.getEuclidian(2)
+								.setEnabled(
+										app.getArticleElement()
+												.getDataParamEnableGraphing(
+														false));
+					}
+				}
+				
 				addItem(MainMenu.getMenuBarHtml(
 						GuiResources.INSTANCE.menu_icons_exam_mode()
 								.getSafeUri().asString(),

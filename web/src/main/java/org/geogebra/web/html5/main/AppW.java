@@ -50,6 +50,7 @@ import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.ExamEnvironment;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
@@ -1724,6 +1725,16 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 					getArticleElement().getDataParamEnable3D(false));
 		}
 
+		if (getLAF().examSupported(has(Feature.EXAM_TABLET))) {
+			if (getArticleElement().getDataParamEnableGraphing(false)
+					|| !getArticleElement().getDataParamEnableGraphing(true)) {
+				getSettings().getEuclidian(1).setEnabled(
+						getArticleElement().getDataParamEnableGraphing(false));
+				getSettings().getEuclidian(2).setEnabled(
+						getArticleElement().getDataParamEnableGraphing(false));
+			}
+		}
+
 	}
 
 	/**
@@ -2534,6 +2545,14 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			return (getSettings().getCasSettings().isEnabled())
 					&& getArticleElement().getDataParamEnableCAS(true)
 					&& getCASFactory().isEnabled();
+		}
+		
+		if (getLAF().examSupported(has(Feature.EXAM_TABLET))) {
+			if (viewID == App.VIEW_EUCLIDIAN) {
+				return getSettings().getEuclidian(1).isEnabled();
+			} else if (viewID == App.VIEW_EUCLIDIAN2) {
+				return getSettings().getEuclidian(2).isEnabled();
+			}
 		}
 
 		return viewID != App.VIEW_EUCLIDIAN3D;

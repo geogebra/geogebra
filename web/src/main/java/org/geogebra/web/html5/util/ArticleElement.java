@@ -146,6 +146,10 @@ public final class ArticleElement extends Element {
 		return getBoolParam("data-param-enable3D", def);
 	}
 
+	public boolean getDataParamEnableGraphing(boolean def) {
+		return getBoolParam("data-param-enableGraphing", def);
+	}
+
 	public String getDataParamRounding() {
 		return this.getAttribute("data-param-rounding");
 	}
