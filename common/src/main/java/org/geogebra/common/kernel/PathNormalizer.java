@@ -124,6 +124,9 @@ public class PathNormalizer {
 	 * @return arbitrary parameter to be mapped into (-1,1)
 	 */
 	public static double inverseInfFunction(double z) {
+		if (z == Double.NEGATIVE_INFINITY) {
+			return -1 + PathMover.OPEN_BORDER_OFFSET;
+		}
 		if (z >= 0) {
 			return z / (1 + z);
 		}
