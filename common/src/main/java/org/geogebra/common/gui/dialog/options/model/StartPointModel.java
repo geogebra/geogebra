@@ -1,31 +1,23 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.TreeSet;
-
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Locateable;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoVector;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 
-public class StartPointModel extends MultipleOptionsModel {
+public class StartPointModel extends MultipleGeosModel {
 
 	private Kernel kernel;
-	private List<String> choices;
 	
+
 	public StartPointModel(App app) {
 		super(app);
 		this.kernel = app.getKernel();
-		choices = new ArrayList();
 	}
 
 	public Locateable getLocateableAt(int index) {
@@ -61,33 +53,10 @@ public class StartPointModel extends MultipleOptionsModel {
 		}
 
 	}
-	@Override
-	public List<String> getChoiches(Localization loc) {
-		TreeSet<GeoElement> points = kernel.getPointSet();
-		choices.clear();
-		choices.add("");
-		Iterator<GeoElement> it = points.iterator();
-		int count = 0;
-		while (it.hasNext() || ++count > MAX_CHOICES) {
-			GeoElement p = it.next();
-			choices.add(p.getLabel(StringTemplate.editTemplate));
-		}
-		return choices;
-	}
 
-	public List<GeoElement> getGeoChoiches(Localization loc) {
-		TreeSet<GeoElement> points = kernel.getPointSet();
-		List<GeoElement> choices2 = new ArrayList();
-		choices2.add(null);
-		Iterator<GeoElement> it = points.iterator();
-		int count = 0;
-		while (it.hasNext() || ++count > MAX_CHOICES) {
-			GeoElement p = it.next();
-			choices2.add(p);
-		}
-		return choices2;
-	}
+
 	
+
 	public void applyChanges(final String strLoc, ErrorHandler handler) {
 		GeoPointND newLoc = null;
 		handler.showError(null);

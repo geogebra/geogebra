@@ -1,6 +1,6 @@
 package org.geogebra.web.web.gui.properties;
 
-import org.geogebra.common.gui.dialog.options.model.IComboListener;
+import org.geogebra.common.gui.dialog.options.model.GeoComboListener;
 import org.geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Label;
 
 public abstract class ComboBoxPanel extends OptionPanel
  implements
-		IComboListener, ErrorHandler {
+		ErrorHandler, GeoComboListener {
 
 	private Label label;
 	private ComboBoxW comboBox;
@@ -118,7 +118,7 @@ public abstract class ComboBoxPanel extends OptionPanel
 	@Override
 	public void showError(String msg) {
 		if (msg == null) {
-			return;
+			errorPanel.clear();
 		}
 		errorPanel.clear();
 		String[] lines = msg.split("\n");

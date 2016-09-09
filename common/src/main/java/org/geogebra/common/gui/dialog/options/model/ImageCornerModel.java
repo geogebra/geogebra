@@ -1,22 +1,17 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
-import org.geogebra.common.plugin.GeoClass;
 
-public class ImageCornerModel extends MultipleOptionsModel {
+public class ImageCornerModel extends MultipleGeosModel {
 	private List<String> choices;
 	private Kernel kernel;
 	private int cornerIdx;
@@ -57,23 +52,6 @@ public class ImageCornerModel extends MultipleOptionsModel {
 	
 	public int getCornerNumber() {
 		return cornerIdx < 2 ? (cornerIdx + 1) : (cornerIdx + 2);
-	}
-
-	@Override
-	public List<String> getChoiches(Localization loc) {
-		TreeSet<GeoElement> points = kernel.getConstruction()
-				.getGeoSetLabelOrder(GeoClass.POINT);
-		choices.clear();
-		choices.add("");
-		Iterator<GeoElement> it = points.iterator();
-		int count = 0;
-		while (it.hasNext() || ++count > MAX_CHOICES) {
-			GeoPointND p = (GeoPointND) it.next();
-			choices.add(p
-					.getLabel(StringTemplate.defaultTemplate));
-		}
-
-		return choices;
 	}
 
 	private GeoImage getGeoImageAt(int index) {

@@ -4258,6 +4258,9 @@ ToolbarD.getAllTools(this));
 
 				public void showError(final String msg) {
 					// don't remove, useful
+					if (msg == null) {
+						return;
+					}
 					Log.printStacktrace("" + msg);
 
 					// make sure splash screen not showing (will be in front)
