@@ -2380,7 +2380,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 			directionInfoOrdering = null;
 			return true;
 		}
-
+		if (size() == 0) {
+			return false;
+		}
 		directionInfoArray = new boolean[this.size()];
 		directionInfoOrdering = new int[this.size()];
 		shouldUseAlgoLocusList = true;
