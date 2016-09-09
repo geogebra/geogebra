@@ -6242,8 +6242,9 @@ fn
 				double lt = fraction[0].evaluateDouble();
 
 				boolean pi = false;
-				if (Kernel.isInteger(lt / Math.PI) && !Kernel.isZero(lt)) {
-					lt = lt / Math.PI;
+				double piDiv = lt / Math.PI;
+				if (Kernel.isInteger(piDiv) && !Kernel.isZero(piDiv)) {
+					lt = piDiv;
 					pi = true;
 				}
 				double rt = 1;
