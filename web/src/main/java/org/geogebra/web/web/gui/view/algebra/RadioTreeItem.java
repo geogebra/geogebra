@@ -814,7 +814,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (previewGeo.isGeoFunction() || previewGeo.isGeoFunctionNVar()
 				|| previewGeo.isGeoFunctionBoolean()) {
 			forceLatex = true;
-			text += geo.getLabelDelimiter();// = for functions, : for
+			text += previewGeo.getLabelDelimiter();// = for functions, : for
 											// inequalities
 		}
 
