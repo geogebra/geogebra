@@ -1955,10 +1955,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		aOld = a;
 	}
 
-	public void setRotAnimation(Coords vn, boolean checkSameValues) {
+	public void setRotAnimation(Coords vn, boolean checkSameValues,
+			boolean animated) {
 		CoordMatrixUtil.sphericalCoords(vn, tmpCoordsLength3);
 		setRotAnimation(tmpCoordsLength3.get(2) * 180 / Math.PI,
-				tmpCoordsLength3.get(3) * 180 / Math.PI, checkSameValues);
+				tmpCoordsLength3.get(3) * 180 / Math.PI, checkSameValues,
+				animated);
 	}
 
 	/**
@@ -1967,14 +1969,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param vn
 	 */
 	public void setRotAnimation(Coords vn) {
-		setRotAnimation(vn, true);
+		setRotAnimation(vn, true, true);
 	}
 
-	public void setClosestRotAnimation(Coords v) {
-		if (v.dotproduct(getViewDirection()) > 0)
-			setRotAnimation(v.mul(-1));
-		else
-			setRotAnimation(v);
+	public void setClosestRotAnimation(Coords v, boolean animated) {
+		if (v.dotproduct(getViewDirection()) > 0) {
+			setRotAnimation(v.mul(-1), true, animated);
+		} else {
+			setRotAnimation(v, true, animated);
+		}
 	}
 
 	/**
@@ -1994,6 +1997,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *                        revert the view
 	 */
 	public void setRotAnimation(double aN, double bN, boolean checkSameValues) {
+		setRotAnimation(aN, bN, checkSameValues, true);
+	}
+
+	public void setRotAnimation(double aN, double bN, boolean checkSameValues,
+			boolean animated) {
 
 		if (Double.isNaN(aN) || Double.isNaN(bN)) {
 			Log.error("NaN values for setRotAnimation");
@@ -2002,7 +2010,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		// app.storeUndoInfo();
 
-		animationType = AnimationType.ROTATION;
+		animationType = animated ? AnimationType.ROTATION
+				: AnimationType.ROTATION_NO_ANIMATION;
 		aOld = this.a % 360;
 		bOld = this.b % 360;
 
@@ -2051,7 +2060,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	private enum AnimationType {
-		OFF, ANIMATED_SCALE, SCALE, CONTINUE_ROTATION, ROTATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE, AXIS_SCALE
+		OFF, ANIMATED_SCALE, SCALE, CONTINUE_ROTATION, ROTATION, ROTATION_NO_ANIMATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE, AXIS_SCALE
 	}
 
 	private AnimationType animationType = AnimationType.OFF;
@@ -2121,6 +2130,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			setRotXYinDegrees(aOld * (1 - t) + aNew * t, bOld * (1 - t) + bNew
 					* t);
 
+			updateMatrix();
+			setViewChangedByRotate();
+			break;
+
+		case ROTATION_NO_ANIMATION:
+			stopAnimation();
+			setRotXYinDegrees(aNew, bNew);
 			updateMatrix();
 			setViewChangedByRotate();
 			break;

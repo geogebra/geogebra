@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -31,54 +32,62 @@ public class CmdSetViewDirection extends CmdScripting {
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
-		switch (n) {
-		case 1:
-			GeoElement[] arg = resArgs(c);
-
-			if (arg[0].isGeoVector()) {
-				GeoVectorND v = (GeoVectorND) arg[0];
-
-				EuclidianView3DInterface view3D = app.getEuclidianView3D();
-
-				if (tmpCoords == null) {
-					tmpCoords = new Coords(3);
-				}
-				tmpCoords.setMul(v.getCoordsInD3(), -1);
-				view3D.setRotAnimation(tmpCoords, false);
-
-				return arg;
-			}
-
-			if (arg[0] instanceof GeoDirectionND) {
-				GeoDirectionND d = (GeoDirectionND) arg[0];
-
-				EuclidianView3DInterface view3D = app.getEuclidianView3D();
-
-				Coords v = d.getDirectionInD3();
-				if (v != null) {
-					view3D.setClosestRotAnimation(v);
-				}
-
-				return arg;
-
-			}
-
-			if (arg[0].isGeoPoint()) {
-				GeoPointND p = (GeoPointND) arg[0];
-
-				if (p.isDefined()) {
-					EuclidianView3DInterface view3D = app.getEuclidianView3D();
-					view3D.setClosestRotAnimation(p.getInhomCoordsInD3());
-				}
-
-				return arg;
-
-			}
-
-			throw argErr(app, c.getName(), arg[0]);
-
-		default:
+		if (n == 0 || n > 2) {
 			throw argNumErr(app, c.getName(), n);
 		}
+
+		GeoElement[] arg = resArgs(c);
+
+		boolean animated = true;
+		if (n == 2) {
+			if (arg[1].isGeoBoolean()) {
+				animated = ((GeoBoolean) arg[1]).getBoolean();
+			} else {
+				throw argErr(app, c.getName(), arg[1]);
+			}
+		}
+
+		if (arg[0].isGeoVector()) {
+			GeoVectorND v = (GeoVectorND) arg[0];
+
+			EuclidianView3DInterface view3D = app.getEuclidianView3D();
+
+			if (tmpCoords == null) {
+				tmpCoords = new Coords(3);
+			}
+			tmpCoords.setMul(v.getCoordsInD3(), -1);
+			view3D.setRotAnimation(tmpCoords, false, animated);
+
+			return arg;
+		}
+
+		if (arg[0] instanceof GeoDirectionND) {
+			GeoDirectionND d = (GeoDirectionND) arg[0];
+
+			EuclidianView3DInterface view3D = app.getEuclidianView3D();
+
+			Coords v = d.getDirectionInD3();
+			if (v != null) {
+				view3D.setClosestRotAnimation(v, animated);
+			}
+
+			return arg;
+
+		}
+
+		if (arg[0].isGeoPoint()) {
+			GeoPointND p = (GeoPointND) arg[0];
+
+			if (p.isDefined()) {
+				EuclidianView3DInterface view3D = app.getEuclidianView3D();
+				view3D.setClosestRotAnimation(p.getInhomCoordsInD3(), animated);
+			}
+
+			return arg;
+
+		}
+
+		throw argErr(app, c.getName(), arg[0]);
+
 	}
 }

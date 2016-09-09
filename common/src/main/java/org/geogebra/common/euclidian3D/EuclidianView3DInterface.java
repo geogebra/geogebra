@@ -18,16 +18,21 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 *            vector direction
 	 * @param checkSameValues
 	 *            say if we check already in vector direction, to swap the view
+	 * @param animated
+	 *            say if rotation will be animated
 	 */
-	public void setRotAnimation(Coords vn, boolean checkSameValues);
+	public void setRotAnimation(Coords vn, boolean checkSameValues,
+			boolean animated);
 
 	/**
 	 * start a rotation animation to be in the vector direction, shortest way
 	 * 
 	 * @param v
 	 *            vector direction
+	 * @param animated
+	 *            say if rotation will be animated
 	 */
-	public void setClosestRotAnimation(Coords v);
+	public void setClosestRotAnimation(Coords v, boolean animated);
 
 	/**
 	 * @return Returns the zmin.

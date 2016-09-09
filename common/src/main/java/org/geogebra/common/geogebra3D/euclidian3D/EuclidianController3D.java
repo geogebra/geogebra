@@ -1285,7 +1285,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				if (view3D.hasMouse())
 					view3D.setRotAnimation(view3D.getCursorNormal());
 				else {// doesn't come from 3D view
-					view3D.setClosestRotAnimation(vn);
+					view3D.setClosestRotAnimation(vn, true);
 				}
 			}
 		}
