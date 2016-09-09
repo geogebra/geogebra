@@ -941,6 +941,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 								: delayStr);
 
 						final AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
+						gifEncoder.setQuality(1);
 						gifEncoder.start(new File(filename + ".gif"));
 
 						gifEncoder.setDelay(delay); // miliseconds

@@ -238,6 +238,7 @@ public class AnimationExportDialog extends JDialog {
 		}
 
 		final AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
+		gifEncoder.setQuality(1);
 		gifEncoder.start(file);
 
 		gifEncoder.setDelay(timeBetweenFrames); // miliseconds
