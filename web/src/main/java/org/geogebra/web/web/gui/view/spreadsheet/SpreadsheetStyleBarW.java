@@ -146,7 +146,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		        "stylebar.AlignRight"));
 	}
 
-	public void onValueChange(ValueChangeEvent event) {
+	public void onValueChange(ValueChangeEvent<Boolean> event) {
 		Object source = event.getSource();
 		handleEventHandlers(source);
 	}
@@ -224,6 +224,9 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		table.updateCellFormat(selectedCells);
 	}
 
+	/**
+	 * Update stylebar for current selection
+	 */
 	public void updateStyleBar() {
 
 		allowActionPerformed = false;
@@ -244,16 +247,17 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		}
 
 		// update alignment buttons
-		Integer align = (Integer) formatHandler.getCellFormat(range,
+		Object align = formatHandler.getCellFormat(range,
 		        CellFormat.FORMAT_ALIGN);
 		if (align == null) {
 			btnLeftAlign.setSelected(false);
 			btnRightAlign.setSelected(false);
 			btnCenterAlign.setSelected(false);
 		} else {
-			btnLeftAlign.setSelected(align == CellFormat.ALIGN_LEFT);
-			btnRightAlign.setSelected(align == CellFormat.ALIGN_RIGHT);
-			btnCenterAlign.setSelected(align == CellFormat.ALIGN_CENTER);
+			int alignVal = (Integer) align;
+			btnLeftAlign.setSelected(alignVal == CellFormat.ALIGN_LEFT);
+			btnRightAlign.setSelected(alignVal == CellFormat.ALIGN_RIGHT);
+			btnCenterAlign.setSelected(alignVal == CellFormat.ALIGN_CENTER);
 		}
 		
 		// update the color
