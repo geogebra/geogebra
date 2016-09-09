@@ -78,6 +78,7 @@ import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * View containing graphic representation of construction elements
@@ -2907,14 +2908,14 @@ public abstract class EuclidianView
 		if (app.has(Feature.MOBILE_NEW_EV_CENTERING)) {
 			int w = getWidth();
 			int h = getHeight();
-//			Log.debug(w + "x" + h);
-//			Log.debug("xZero: "+xZero);
+			Log.debug(w + "x" + h);
+			Log.debug("xZero: "+xZero+", yZero: "+yZero);
 			if (getSettings() != null) {
 				int fw = getSettings().getFileWidth();
 				int fh = getSettings().getFileHeight();
 				double x0 = getSettings().getXZero();
 				double y0 = getSettings().getYZero();
-//				Log.debug("settings: " + fw + "x" + fh+","+x0+","+y0);
+				Log.debug("settings: " + fw + "x" + fh+","+x0+","+y0);
 				if (fw == 0){
 					// no dimension from file: center the view
 					fw = (int) Math.round(x0 * 2);
@@ -2924,11 +2925,11 @@ public abstract class EuclidianView
 				int dy = (h - fh) / 2;
 				xZero = getSettings().getXZero() + dx;
 				yZero = getSettings().getYZero() + dy;
-//				Log.debug("xZero >> " + xZero);
+				Log.debug(">> xZero: "+xZero+", yZero: "+yZero);
 				getSettings().setSizeFromFile(w, h);
 				getSettings().setOriginNoUpdate(xZero, yZero);
 			} else {
-//				Log.debug("settings: null");
+				Log.debug("settings: null");
 			}
 
 			updateSizeChange();
