@@ -2844,6 +2844,7 @@ public abstract class App implements UpdateSelection {
 	public abstract void fileNew();
 
 	protected void resetEVs() {
+		settings.resetNoFireEuclidianSettings();
 		getEuclidianView1().resetXYMinMaxObjects();
 		getEuclidianView1().setSelectionRectangle(null);
 		if (hasEuclidianView2EitherShowingOrNot(1)) {
