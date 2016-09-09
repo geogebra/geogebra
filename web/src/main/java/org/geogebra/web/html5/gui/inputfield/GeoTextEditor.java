@@ -14,6 +14,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.BodyElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -220,9 +221,45 @@ public class GeoTextEditor extends RichTextArea {
 		}
 	}-*/;
 
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getUnformattedContent() {
+		return getUnformattedContent(getBody());
+
+	}
+
+	private String getUnformattedContent(Node e) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < e.getChildCount(); i++) {
+			Node c = e.getChild(i);
+			if (c.getChildCount() > 0) {
+				sb.append(getUnformattedContent(c));
+			} else {
+				String nodeValue = c.getNodeValue();
+				if (nodeValue != null) {
+					sb.append("<div>");
+					sb.append(nodeValue);
+					sb.append("</div>");
+
+				}
+			}
+		}
+
+		return sb.toString();
+	}
 	public void handlePaste() {
+		setDynamicText();
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				getBody().setInnerHTML(getUnformattedContent());
+			}
+		});
 		editPanel.updatePreviewPanel();
-		// Log.debug("Paste!");
+		Log.debug("Paste! ");
 	}
 
 	public void handleCut() {
