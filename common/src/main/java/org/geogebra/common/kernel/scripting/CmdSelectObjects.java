@@ -39,13 +39,10 @@ public class CmdSelectObjects extends CmdScripting {
 			kernelA.notifyRepaint();
 			return arg;
 
-		} else {
-			kernelA.notifyRepaint();
-			app.updateSelection(false);
-			return new GeoElement[0];
 		}
 
-		
-
+		kernelA.notifyRepaint();
+		app.updateSelection(false);
+		return new GeoElement[0];
 	}
 }

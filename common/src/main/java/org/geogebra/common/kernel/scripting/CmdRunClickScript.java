@@ -15,6 +15,10 @@ import org.geogebra.common.plugin.EventType;
 
 public class CmdRunClickScript extends CmdScripting {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdRunClickScript(Kernel kernel) {
 		super(kernel);
 	}

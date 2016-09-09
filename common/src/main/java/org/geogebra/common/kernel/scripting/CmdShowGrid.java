@@ -54,8 +54,7 @@ public class CmdShowGrid extends CmdScripting {
 
 			boolean show = ((BooleanValue) arg[0]).getBoolean();
 			ev = app.getActiveEuclidianView();
-			ev.showGrid(show);
-			ev.repaintView();
+			setAndRepaint(show, ev);
 
 			break;
 		case 2:
@@ -81,8 +80,7 @@ public class CmdShowGrid extends CmdScripting {
 				ev = app.getEuclidianView1();
 			}
 			if (ev != null) {
-				ev.showGrid(show);
-				ev.repaintView();
+				setAndRepaint(show, ev);
 			}
 			break;
 
@@ -90,5 +88,16 @@ public class CmdShowGrid extends CmdScripting {
 			throw argNumErr(app, c.getName(), n);
 		}
 		return arg;
+	}
+
+	private static void setAndRepaint(boolean show,
+			EuclidianViewInterfaceCommon ev) {
+		if (ev.getSettings() != null) {
+			ev.getSettings().showGrid(show);
+		} else {
+			ev.setShowAxis(show);
+		}
+		ev.repaintView();
+
 	}
 }

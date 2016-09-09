@@ -12,7 +12,14 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.SensorLogger;
 
+/**
+ * Command for logging
+ */
 public class CmdStartLogging extends CmdScripting {
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdStartLogging(Kernel kernel) {
 		super(kernel);
 	}
@@ -42,7 +49,7 @@ public class CmdStartLogging extends CmdScripting {
 				logger.setLimit(((GeoNumberValue) arg[1]).getDouble());
 				offset++;
 			} else {
-				logger.setLimit(logger.DEFAULT_LIMIT);
+				logger.setLimit(SensorLogger.DEFAULT_LIMIT);
 			}
 			for (int i = offset; i <= n - 2; i += 2) {
 				argument = arg[i + 1];

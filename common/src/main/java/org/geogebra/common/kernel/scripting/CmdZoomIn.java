@@ -78,10 +78,14 @@ public class CmdZoomIn extends CmdScripting {
 
 	/**
 	 * @param arg
+	 *            arguments
 	 * @param cName
+	 *            command name
 	 * @param factor
+	 *            zoom factor
 	 * @param proc
-	 * @return
+	 *            command processor
+	 * @return args to delete
 	 */
 	protected static GeoElement[] zoomIn2(GeoElement[] arg, String cName,
 			double factor, CmdScripting proc) {

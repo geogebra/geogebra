@@ -15,7 +15,10 @@ import org.geogebra.common.plugin.EventType;
  */
 
 public class CmdRunUpdateScript extends CmdScripting {
-
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdRunUpdateScript(Kernel kernel) {
 		super(kernel);
 	}

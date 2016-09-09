@@ -54,8 +54,7 @@ public class CmdShowAxes extends CmdScripting {
 
 			boolean show = ((BooleanValue) arg[0]).getBoolean();
 			ev = app.getActiveEuclidianView();
-			ev.setShowAxis(show);
-			ev.repaintView();
+			setAndRepaint(show, ev);
 
 			break;
 		case 2:
@@ -81,8 +80,7 @@ public class CmdShowAxes extends CmdScripting {
 				ev = app.getEuclidianView1();
 			}
 			if (ev != null) {
-				ev.setShowAxis(show);
-				ev.repaintView();
+				setAndRepaint(show, ev);
 			}
 			break;
 
@@ -90,5 +88,16 @@ public class CmdShowAxes extends CmdScripting {
 			throw argNumErr(app, c.getName(), n);
 		}
 		return arg;
+	}
+
+	private static void setAndRepaint(boolean show,
+			EuclidianViewInterfaceCommon ev) {
+		if (ev.getSettings() != null) {
+			ev.getSettings().setShowAxes(show);
+		} else {
+			ev.setShowAxis(show);
+		}
+		ev.repaintView();
+
 	}
 }

@@ -6,7 +6,15 @@ import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.SensorLogger;
 
+/**
+ * Stops logging
+ *
+ */
 public class CmdStopLogging extends CmdScripting {
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdStopLogging(Kernel kernel) {
 		super(kernel);
 	}

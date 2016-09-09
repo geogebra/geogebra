@@ -22,6 +22,8 @@ public class CmdShowHideLayer extends CmdScripting {
 	 * 
 	 * @param kernel
 	 *            kernel
+	 * @param show
+	 *            whether to show or hide
 	 */
 	public CmdShowHideLayer(Kernel kernel, boolean show) {
 		super(kernel);

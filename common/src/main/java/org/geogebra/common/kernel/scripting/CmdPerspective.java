@@ -8,7 +8,15 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 
+/**
+ * Sets perspective
+ *
+ */
 public class CmdPerspective extends CmdScripting {
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public CmdPerspective(Kernel kernel) {
 		super(kernel);
 	}

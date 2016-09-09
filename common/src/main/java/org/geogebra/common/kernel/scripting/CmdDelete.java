@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
-import org.geogebra.common.gui.view.spreadsheet.MyTable;
+import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.statistics.AlgoCellRange;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -57,7 +56,7 @@ public class CmdDelete extends CmdScripting {
 				GPoint endCoords = GeoElementSpreadsheet
 						.getSpreadsheetCoordsForLabel(algo.getEnd());
 				CopyPasteCut.delete(app, startCoords.x, startCoords.y,
-						endCoords.x, endCoords.y, MyTable.CELL_SELECT);
+						endCoords.x, endCoords.y, MyTableInterface.CELL_SELECT);
 
 			} else if (geo.isLabelSet()) {
 				// delete object
