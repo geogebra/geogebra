@@ -10,9 +10,9 @@ public interface GeoGebraConstants {
 	// as it is read by the build system
 	// update lines below when this is updated
 	/** last build date */
-	public static final String BUILD_DATE = "08 September 2016";
+	public static final String BUILD_DATE = "10 September 2016";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.273.0";
+	public static final String VERSION_STRING = "5.0.273.1";
 
 	// proper noun, should NOT be translated / transliterated
 	public static final String APPLICATION_NAME = "GeoGebra";
