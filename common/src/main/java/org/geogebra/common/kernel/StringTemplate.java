@@ -1360,8 +1360,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 					break;
 				}
 			}
-
-			if (left instanceof Equation) {
+			int leftop = ExpressionNode.opID(left);
+			if (left instanceof Equation
+					|| (leftop >= 0 && leftop < Operation.PLUS.ordinal())) {
 				sb.append(leftBracket());
 				sb.append(leftStr);
 				sb.append(rightBracket());
