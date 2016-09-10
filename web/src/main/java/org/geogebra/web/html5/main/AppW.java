@@ -1725,7 +1725,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 					getArticleElement().getDataParamEnable3D(false));
 		}
 
-		if (getLAF().examSupported(has(Feature.EXAM_TABLET))) {
+		if (getLAF() != null
+				&& getLAF().examSupported(has(Feature.EXAM_TABLET))) {
 			if (getArticleElement().getDataParamEnableGraphing(false)
 					|| !getArticleElement().getDataParamEnableGraphing(true)) {
 				getSettings().getEuclidian(1).setEnabled(
@@ -2477,6 +2478,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public String getClientType() {
+		if (getLAF() == null) {
+			return "web";
+		}
 		return getLAF().getType();
 	}
 
@@ -2547,7 +2551,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 					&& getCASFactory().isEnabled();
 		}
 		
-		if (getLAF().examSupported(has(Feature.EXAM_TABLET))) {
+		if (getLAF() != null
+				&& getLAF().examSupported(has(Feature.EXAM_TABLET))) {
 			if (viewID == App.VIEW_EUCLIDIAN) {
 				return getSettings().getEuclidian(1).isEnabled();
 			} else if (viewID == App.VIEW_EUCLIDIAN2) {
