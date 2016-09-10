@@ -99,7 +99,7 @@ public abstract class EuclidianView
 	protected double xScaleStart, yScaleStart;
 	private int mode = EuclidianConstants.MODE_MOVE;
 	/** minimal width */
-	protected static final int MIN_WIDTH = 50;
+	public static final int MIN_WIDTH = 50;
 	/** minimal height */
 	protected static final int MIN_HEIGHT = 50;
 	/** corner of export area */

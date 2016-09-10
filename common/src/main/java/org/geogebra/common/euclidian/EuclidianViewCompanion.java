@@ -302,12 +302,16 @@ public class EuclidianViewCompanion {
 					// we may need to shift center if windows/settings sizes don't match
 					int w = view.getWidth();
 					int h = view.getHeight();
-					int fw = evs.getFileWidth();
-					int fh = evs.getFileHeight();
-//					Log.debug("x0:" + x0 + ", y0:" + y0 + ", " + fw + "x" + fh + ", view: " + w + "x" + h);
-					if (fw > 0 && fh > 0) { // dimensions from file?
-						x0 += (w - fw) / 2;
-						y0 += (h - fh) / 2;
+					if (w > EuclidianView.MIN_WIDTH
+							&& h > EuclidianView.MIN_HEIGHT) {
+						int fw = evs.getFileWidth();
+						int fh = evs.getFileHeight();
+						// Log.debug("x0:" + x0 + ", y0:" + y0 + ", " + fw + "x"
+						// + fh + ", view: " + w + "x" + h);
+						if (fw > 0 && fh > 0) { // dimensions from file?
+							x0 += (w - fw) / 2;
+							y0 += (h - fh) / 2;
+						}
 					}
 //					Log.debug(">> x0:" + x0 + ", y0:" + y0);
 				}
