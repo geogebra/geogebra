@@ -298,7 +298,7 @@ public class EuclidianViewCompanion {
 			double y0 = evs.getYZero();
 			if (view.getApplication().has(Feature.MOBILE_NEW_EV_CENTERING)){
 //				Log.debug("view.isShowing() : "+view.isShowing()+" -- "+view);
-				if (view.isShowing()) {
+				if (view.getKeepCenter() && view.isShowing()) {
 					// we may need to shift center if windows/settings sizes don't match
 					int w = view.getWidth();
 					int h = view.getHeight();
