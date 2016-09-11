@@ -23,6 +23,19 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 */
 	public void setRotAnimation(Coords vn, boolean checkSameValues,
 			boolean animated);
+	
+	/**
+	 * start a rotation animation to set angle around Oz axis
+	 * 
+	 * @param rotOz
+	 *            angle around Oz
+	 * @param checkSameValues
+	 *            say if we check already in vector direction, to swap the view
+	 * @param animated
+	 *            say if rotation will be animated
+	 */
+	public void setRotAnimation(double rotOz, boolean checkSameValues,
+			boolean animated);
 
 	/**
 	 * start a rotation animation to be in the vector direction, shortest way

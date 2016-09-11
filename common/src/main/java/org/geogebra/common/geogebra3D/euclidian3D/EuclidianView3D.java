@@ -1963,6 +1963,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				animated);
 	}
 
+	public void setRotAnimation(double rotOz, boolean checkSameValues,
+			boolean animated) {
+		setRotAnimation(rotOz * 180 / Math.PI, this.b, checkSameValues,
+				animated);
+	}
+
 	/**
 	 * start a rotation animation to be in the vector direction
 	 *

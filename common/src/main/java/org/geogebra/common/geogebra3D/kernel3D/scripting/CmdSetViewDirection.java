@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
@@ -82,6 +83,16 @@ public class CmdSetViewDirection extends CmdScripting {
 				EuclidianView3DInterface view3D = app.getEuclidianView3D();
 				view3D.setClosestRotAnimation(p.getInhomCoordsInD3(), animated);
 			}
+
+			return arg;
+
+		}
+
+		if (arg[0].isGeoNumeric()) {
+			// shift value to have x-axis to the left when angle is zero
+			double value = ((GeoNumeric) arg[0]).getDouble() - Math.PI / 2;
+
+			app.getEuclidianView3D().setRotAnimation(value, false, animated);
 
 			return arg;
 
