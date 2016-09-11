@@ -262,19 +262,19 @@ public final class LocalizationW extends Localization {
 			case '0':
 				return getColor("white");
 			case '1':
-				return getPlain("AGray", Unicode.fraction1_8);
+				return getMenu("AGray", Unicode.fraction1_8);
 			case '2':
-				return getPlain("AGray", Unicode.fraction1_4); // silver
+				return getMenu("AGray", Unicode.fraction1_4); // silver
 			case '3':
-				return getPlain("AGray", Unicode.fraction3_8);
+				return getMenu("AGray", Unicode.fraction3_8);
 			case '4':
-				return getPlain("AGray", Unicode.fraction1_2);
+				return getMenu("AGray", Unicode.fraction1_2);
 			case '5':
-				return getPlain("AGray", Unicode.fraction5_8);
+				return getMenu("AGray", Unicode.fraction5_8);
 			case '6':
-				return getPlain("AGray", Unicode.fraction3_4);
+				return getMenu("AGray", Unicode.fraction3_4);
 			case '7':
-				return getPlain("AGray", Unicode.fraction7_8);
+				return getMenu("AGray", Unicode.fraction7_8);
 			default:
 				return getColor("black");
 			}

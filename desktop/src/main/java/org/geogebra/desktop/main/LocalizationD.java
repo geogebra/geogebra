@@ -28,7 +28,7 @@ public class LocalizationD extends Localization {
 	private static final String RB_COLORS = "/org/geogebra/desktop/properties/colors";
 
 	private ResourceBundle rbmenu, rbmenuTT, rbcommand, rbcommandOld, rberror,
-			rbcolors, rbplain, rbplainTT, rbsymbol;
+			rbcolors, rbsymbol;
 
 	private Locale currentLocale;
 	private Locale tooltipLocale = null;
@@ -193,9 +193,7 @@ public class LocalizationD extends Localization {
 		if (rberror != null) {
 			rberror = MyResourceBundle.createBundle(RB_ERROR, currentLocale);
 		}
-		if (rbplain != null) {
-			rbplain = MyResourceBundle.createBundle(RB_PLAIN, currentLocale);
-		}
+
 		if (rbcommand != null) {
 			rbcommand = MyResourceBundle
 					.createBundle(RB_COMMAND, currentLocale);
@@ -335,9 +333,8 @@ public class LocalizationD extends Localization {
 			}
 		}
 
-		boolean updateNeeded = (rbplainTT != null) || (rbmenuTT != null);
+		boolean updateNeeded = (rbmenuTT != null);
 
-		rbplainTT = null;
 		rbmenuTT = null;
 
 		if (locale == null) {
