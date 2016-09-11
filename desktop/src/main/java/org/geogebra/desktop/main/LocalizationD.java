@@ -317,7 +317,7 @@ public class LocalizationD extends Localization {
 	 * @return whether properties bundles were initiated (at least plain)
 	 */
 	public boolean propertiesFilesPresent() {
-		return rbplain != null;
+		return rbmenu != null;
 	}
 
 	/**
