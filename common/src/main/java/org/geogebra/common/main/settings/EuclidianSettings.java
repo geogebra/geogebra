@@ -26,7 +26,7 @@ public class EuclidianSettings extends AbstractSettings {
 	/**
 	 * Color of the euclidian view's background.
 	 */
-	private GColor backgroundColor;
+	protected GColor backgroundColor;
 
 	/**
 	 * Color of the axes.
@@ -63,6 +63,8 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private GDimension sizeFromFile;
 
+	protected App app;
+
 	// settings for the base EuclidianView (or null if this is the base)
 	//private final EuclidianSettings euclidianSettings1;
 
@@ -71,6 +73,7 @@ public class EuclidianSettings extends AbstractSettings {
 		xZero = EuclidianView.XZERO_STANDARD; // needs to be positive
 		yZero = EuclidianView.YZERO_STANDARD; // needs to be positive
 		preferredSize = AwtFactory.prototype.newDimension(0, 0);
+		this.app = app;
 		resetNoFire();
 	}
 
@@ -355,7 +358,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private boolean showGrid;
 
-	private boolean gridIsBold;
+	protected boolean gridIsBold;
 
 	private int gridType;
 

@@ -1,9 +1,12 @@
 package org.geogebra.common.main.settings;
 
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * Settings for 3D view
@@ -450,6 +453,184 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	public double getRotSpeed() {
 		return rotSpeed;
+	}
+
+	/**
+	 * returns settings in XML format, read by xml handlers
+	 *
+	 * @return the XML description of 3D view settings
+	 * @see org.geogebra.common.io.MyXMLHandler
+	 * @see org.geogebra.common.geogebra3D.io.MyXMLHandler3D
+	 */
+	public void getXML(StringBuilder sb, boolean asPreference) {
+
+		// Application.debug("getXML: "+a+","+b);
+
+		// if (true) return "";
+
+		sb.append("<euclidianView3D>\n");
+
+		// coord system
+		sb.append("\t<coordSystem");
+
+		sb.append(" xZero=\"");
+		sb.append(getXZero());
+		sb.append("\"");
+		sb.append(" yZero=\"");
+		sb.append(getYZero());
+		sb.append("\"");
+		sb.append(" zZero=\"");
+		sb.append(getZZero());
+		sb.append("\"");
+
+		sb.append(" scale=\"");
+		sb.append(getXscale());
+		sb.append("\"");
+
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D) && !hasSameScales()) {
+			sb.append(" yscale=\"");
+			sb.append(getYscale());
+			sb.append("\"");
+
+			sb.append(" zscale=\"");
+			sb.append(getZscale());
+			sb.append("\"");
+		}
+
+		sb.append(" xAngle=\"");
+		sb.append(b);
+		sb.append("\"");
+		sb.append(" zAngle=\"");
+		sb.append(a);
+		sb.append("\"");
+
+		sb.append("/>\n");
+
+		// ev settings
+		sb.append("\t<evSettings axes=\"");
+		sb.append(getShowAxis(0) || getShowAxis(1) || getShowAxis(2));
+
+		sb.append("\" grid=\"");
+		sb.append(getShowGrid());
+		sb.append("\" gridIsBold=\""); //
+		sb.append(gridIsBold); // Michael Borcherds 2008-04-11
+		sb.append("\" pointCapturing=\"");
+
+		// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML
+		sb.append(getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX ? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT
+				: getPointCapturingMode());
+
+		sb.append("\" rightAngleStyle=\"");
+		sb.append(app.rightAngleStyle);
+		// if (asPreference) {
+		// sb.append("\" allowShowMouseCoords=\"");
+		// sb.append(getAllowShowMouseCoords());
+		//
+		// sb.append("\" allowToolTips=\"");
+		// sb.append(getAllowToolTips());
+		//
+		// sb.append("\" deleteToolSize=\"");
+		// sb.append(getEuclidianController().getDeleteToolSize());
+		// }
+
+		// sb.append("\" checkboxSize=\"");
+		// sb.append(app.getCheckboxSize()); // Michael Borcherds
+		// 2008-05-12
+
+		sb.append("\" gridType=\"");
+		sb.append(getGridType()); // cartesian/isometric/polar
+
+		// if (lockedAxesRatio != null) {
+		// sb.append("\" lockedAxesRatio=\"");
+		// sb.append(lockedAxesRatio);
+		// }
+
+		sb.append("\"/>\n");
+		// end ev settings
+
+		// axis settings
+		for (int i = 0; i < 3; i++) {
+			addAxisXML(i, sb);
+
+		}
+
+		// xOy plane settings
+		sb.append("\t<plate show=\"");
+		sb.append(showPlate);
+		sb.append("\"/>\n");
+		//
+		// sb.append("\t<grid show=\"");
+		// sb.append(getxOyPlane().isGridVisible());
+		// sb.append("\"/>\n");
+
+		// background color
+		sb.append("\t<bgColor r=\"");
+		sb.append(backgroundColor.getRed());
+		sb.append("\" g=\"");
+		sb.append(backgroundColor.getGreen());
+		sb.append("\" b=\"");
+		sb.append(backgroundColor.getBlue());
+		sb.append("\"/>\n");
+
+		// y axis is up
+		if (getYAxisVertical()) {
+			sb.append("\t<yAxisVertical val=\"true\"/>\n");
+		}
+
+		// use light
+		if (!getUseLight()) {
+			sb.append("\t<light val=\"false\"/>\n");
+		}
+
+		// clipping cube
+		sb.append("\t<clipping use=\"");
+		sb.append(useClippingCube());
+		sb.append("\" show=\"");
+		sb.append(showClippingCube());
+		sb.append("\" size=\"");
+		sb.append(getClippingReduction());
+		sb.append("\"/>\n");
+
+		// projection
+		sb.append("\t<projection type=\"");
+		sb.append(getProjection());
+		getXMLForStereo(sb);
+		if (projectionObliqueAngle != EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT) {
+			sb.append("\" obliqueAngle=\"");
+			sb.append(projectionObliqueAngle);
+		}
+		if (projectionObliqueFactor != EuclidianSettings3D.PROJECTION_OBLIQUE_FACTOR_DEFAULT) {
+			sb.append("\" obliqueFactor=\"");
+			sb.append(projectionObliqueFactor);
+		}
+
+		sb.append("\"/>\n");
+
+		// axes label style
+		int style = getAxisFontStyle();
+		if (style == GFont.BOLD || style == GFont.ITALIC
+				|| style == GFont.BOLD + GFont.ITALIC) {
+			sb.append("\t<labelStyle axes=\"");
+			sb.append(style);
+			sb.append("\"/>\n");
+		}
+
+		// end
+		sb.append("</euclidianView3D>\n");
+
+	}
+
+	private void getXMLForStereo(StringBuilder sb) {
+		int eyeDistance = projectionPerspectiveEyeDistance;
+		if (eyeDistance != EuclidianSettings3D.PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT) {
+			sb.append("\" distance=\"");
+			sb.append(eyeDistance);
+		}
+		int sep = getEyeSep();
+		if (sep != EuclidianSettings3D.EYE_SEP_DEFAULT) {
+			sb.append("\" separation=\"");
+			sb.append(sep);
+		}
 	}
 
 }
