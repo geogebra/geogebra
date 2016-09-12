@@ -4035,7 +4035,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-825
 		case MOBILE_AUTO_SAVE:
-			return prerelease;
+			return false;
 
 		// realted to MOB-825
 		case MOBILE_NEW_EV_CENTERING:
