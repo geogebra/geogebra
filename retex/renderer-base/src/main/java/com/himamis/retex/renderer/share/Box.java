@@ -375,7 +375,7 @@ public abstract class Box {
 			}
 		}
 		// System.out.println(this + " BOX " + this.foreground);
-		if (this.foreground != null) {
+		if (this instanceof CursorBox) {
 			return true;
 		}
 		return false;
