@@ -3837,11 +3837,8 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Tangent_PointOnConic_0 () {
     t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
-				// "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 *
-				// x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 *
-				// sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
-				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0",
-				"8 * x^(2) * sqrt(2) * sqrt(5) + 12 * x^(2) - 32 * x * sqrt(2) * sqrt(5) - 16 * x * y - 24 * x + 8 * sqrt(2) * sqrt(5) * y^(2) - 24 * sqrt(2) * sqrt(5) * y + 32 * sqrt(2) * sqrt(5) + 24 * y^(2) - 40 * y = 0");
+				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y - 24 * x + 24 * y^(2) - 40 * y = 0",
+				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("P := (2, 0)", "(2, 0)");
 		t("Tangent[P, c]", "{y = -2 * sqrt(10) + 6 + (sqrt(10) - 3) * x}",
 				"{y = (sqrt(10) - 3) x - 2 * sqrt(10) + 6}");
@@ -3850,11 +3847,8 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Tangent_PointOnConic_1 () {
     t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
-				// "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 *
-				// x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 *
-				// sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
-				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0",
-				"8 * x^(2) * sqrt(2) * sqrt(5) + 12 * x^(2) - 32 * x * sqrt(2) * sqrt(5) - 16 * x * y - 24 * x + 8 * sqrt(2) * sqrt(5) * y^(2) - 24 * sqrt(2) * sqrt(5) * y + 32 * sqrt(2) * sqrt(5) + 24 * y^(2) - 40 * y = 0");
+				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y - 24 * x + 24 * y^(2) - 40 * y = 0",
+				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
     t("P := (2, 3)", "(2, 3)");
 		t("Tangent[P, c]", "{y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x}",
 				"{y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9}");
@@ -3867,11 +3861,8 @@ public class GeoGebraCasIntegrationTest {
     t("B := (3, 2)", "(3, 2)");
     t("C := (2, 3)", "(2, 3)");
     t("c := Ellipse[A, B, C]",
-				// "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 *
-				// x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 *
-				// sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
-				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0",
-				"8 * x^(2) * sqrt(2) * sqrt(5) + 12 * x^(2) - 32 * x * sqrt(2) * sqrt(5) - 16 * x * y - 24 * x + 8 * sqrt(2) * sqrt(5) * y^(2) - 24 * sqrt(2) * sqrt(5) * y + 32 * sqrt(2) * sqrt(5) + 24 * y^(2) - 40 * y = 0");
+				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y - 24 * x + 24 * y^(2) - 40 * y = 0",
+				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
 		t("Tangent[C, c]", "{y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x}",
 				"{y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9}");
   }
@@ -4486,8 +4477,8 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Ticket_Ticket3524_0 () {
 		t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
-				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0",
-				"8 * x^(2) * sqrt(2) * sqrt(5) + 12 * x^(2) - 32 * x * sqrt(2) * sqrt(5) - 16 * x * y - 24 * x + 8 * sqrt(2) * sqrt(5) * y^(2) - 24 * sqrt(2) * sqrt(5) * y + 32 * sqrt(2) * sqrt(5) + 24 * y^(2) - 40 * y = 0");
+				"8 * sqrt(10) * x^(2) - 32 * sqrt(10) * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 12 * x^(2) - 16 * x * y - 24 * x + 24 * y^(2) - 40 * y = 0",
+				"8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
 		t("f(x) := Element[Solve[c, y], 2]",
 				"(2 * x + 3 * sqrt(10) - 3 * sqrt(x^(2) * (-2 * sqrt(10) - 6) + x * (8 * sqrt(10) + 24) - 2 * sqrt(10) - 5) + 5) / (2 * sqrt(10) + 6)",
 				"(x * (-4 * sqrt(10) + 6) - sqrt(10) + 3 * sqrt(x^(2) * (-sqrt(10) * 26 - 54) + x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) - 45) / (-6 * sqrt(10) - 22)");
