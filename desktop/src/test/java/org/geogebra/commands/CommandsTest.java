@@ -384,4 +384,15 @@ public class CommandsTest extends Assert{
 		t("1*lb", "{2}");
 
 	}
+
+	@Test
+	public void parsePower() {
+		t("a=4", "4");
+		t("pia", "12.566370614359172");
+		t("pix", "(" + Unicode.PI_STRING + " * x)");
+		t("x" + Unicode.PI_STRING, "(" + Unicode.PI_STRING + " * x)");
+		t("sinxdeg", "sin((1*" + Unicode.DEGREE + " * x))");
+
+
+	}
 }
