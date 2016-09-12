@@ -90,7 +90,8 @@ public class CmdSetViewDirection extends CmdScripting {
 
 		if (arg[0].isGeoNumeric()) {
 			// shift value to have x-axis to the left when angle is zero
-			double value = ((GeoNumeric) arg[0]).getDouble() - Math.PI / 2;
+			// sign for anti-clockwise rotation
+			double value = -((GeoNumeric) arg[0]).getDouble() - Math.PI / 2;
 
 			app.getEuclidianView3D().setRotAnimation(value, false, animated);
 
