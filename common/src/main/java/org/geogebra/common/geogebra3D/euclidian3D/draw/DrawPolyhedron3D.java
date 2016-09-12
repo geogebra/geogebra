@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing 3D polygons.
@@ -156,6 +157,13 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 		updateOutline(renderer);
 
 		// surface
+		updateSurface(renderer);
+
+		return true;
+
+	}
+
+	private void updateSurface(Renderer renderer) {
 		int index = renderer.startPolygons(getReusableSurfaceIndex());
 		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
 				.getPolygonsLinked()) {
@@ -167,9 +175,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 		renderer.endPolygons();
 
 		setSurfaceIndex(index);
-
-		return true;
-
 	}
 
 	private void updateOutline(Renderer renderer) {
@@ -251,6 +256,12 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 
 			// outline
 			updateOutline(renderer);
+
+			if (getView3D().getApplication().has(
+					Feature.DIFFERENT_AXIS_RATIO_3D)) {
+				// surface
+				updateSurface(renderer);
+			}
 
 			recordTrace();
 
