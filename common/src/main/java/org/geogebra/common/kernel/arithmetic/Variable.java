@@ -201,6 +201,9 @@ public class Variable extends ValidExpression {
 					.get(nameNoX, 1);
 			if (op != null && op != Operation.XCOORD && op != Operation.YCOORD
 					&& op != Operation.ZCOORD) {
+				if (exponents[4] == 0 && degPower == 0) {
+					return xyzPowers(kernel, exponents).apply(op);
+				}
 				return xyzPowers(kernel, exponents)
 						.multiply(piDegTo(exponents[4], degPower, kernel))
 						.apply(op);
