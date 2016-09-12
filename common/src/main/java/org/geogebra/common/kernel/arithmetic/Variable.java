@@ -174,7 +174,7 @@ public class Variable extends ValidExpression {
 			}
 
 		}
-		int[] exponents = new int[] { 0, 0, 0, 0 };
+		int[] exponents = new int[] { 0, 0, 0, 0, 0 };
 		int i;
 		ExpressionValue geo2 = null;
 		String nameNoX = name;
@@ -191,27 +191,29 @@ public class Variable extends ValidExpression {
 		}
 		for (i = nameNoX.length() - 1; i >= 0; i--) {
 			char c = name.charAt(i);
-			if ((c < 'x' || c > 'z') && c != Unicode.theta)
+			if ((c < 'x' || c > 'z') && c != Unicode.theta && c != Unicode.pi)
 				break;
-			exponents[c == Unicode.theta ? 3 : c - 'x']++;
+			exponents[c == Unicode.pi ? 4
+					: (c == Unicode.theta ? 3 : c - 'x')]++;
 			nameNoX = name.substring(0, i);
 			geo2 = kernel.lookupLabel(nameNoX);
 			Operation op = kernel.getApplication().getParserFunctions()
 					.get(nameNoX, 1);
 			if (op != null && op != Operation.XCOORD && op != Operation.YCOORD
 					&& op != Operation.ZCOORD) {
-				return xyzPowers(kernel, exponents).apply(op);
+				return xyzPowers(kernel, exponents)
+						.multiply(piDegTo(exponents[4], degPower, kernel))
+						.apply(op);
 			}
 
 			if (geo2 != null)
 				break;
 		}
-		int piPower = 0;
 		while (nameNoX.length() > 0
 				&& !(geo2 instanceof GeoElement)
 				&& (nameNoX.startsWith("pi") || nameNoX.charAt(0) == Unicode.pi)) {
 			int chop = nameNoX.charAt(0) == Unicode.pi ? 1 : 2;
-			piPower++;
+			exponents[4]++;
 			nameNoX = nameNoX.substring(chop);
 			if (i + 1 >= chop) {
 				geo2 = kernel.lookupLabel(nameNoX);
@@ -225,12 +227,13 @@ public class Variable extends ValidExpression {
 		}
 		ExpressionNode powers = xyzPowers(kernel, exponents);
 		if (geo2 == null) {
-			return piPower == 0 && degPower == 0 ? powers : powers
-					.multiply(piDegTo(piPower, degPower, kernel));
+			return exponents[4] == 0 && degPower == 0 ? powers
+					: powers.multiply(piDegTo(exponents[4], degPower, kernel));
 		}
-		return piPower == 0 && degPower == 0 ? powers.multiply(geo2) : powers
+		return exponents[4] == 0 && degPower == 0 ? powers.multiply(geo2)
+				: powers
 				.multiply(geo2)
-.multiply(piDegTo(piPower, degPower, kernel));
+						.multiply(piDegTo(exponents[4], degPower, kernel));
 	}
 
 	private static ExpressionValue asDerivative(Kernel kernel, String name) {

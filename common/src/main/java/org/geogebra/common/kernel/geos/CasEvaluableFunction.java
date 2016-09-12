@@ -66,7 +66,19 @@ public interface CasEvaluableFunction extends GeoElementND {
 	 */
 	public void replaceChildrenByValues(GeoElement var);
 
+	/**
+	 * Prins CAS cache to XML
+	 * 
+	 * @param sb
+	 *            XML builder
+	 */
 	public void printCASEvalMapXML(StringBuilder sb);
 
+	/**
+	 * Updates CAS cache from XML
+	 * 
+	 * @param casMap
+	 *            values from XML
+	 */
 	public void updateCASEvalMap(TreeMap<String, String> casMap);
 }

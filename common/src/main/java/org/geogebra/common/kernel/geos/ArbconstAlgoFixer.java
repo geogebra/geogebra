@@ -6,6 +6,9 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant.AlgoDependentArbconst;
 
+/**
+ * Replaces references to removed algos in arbitrary constant after XML reload
+ */
 public class ArbconstAlgoFixer implements Inspecting {
 
 	public boolean check(ExpressionValue ev) {
@@ -16,7 +19,6 @@ public class ArbconstAlgoFixer implements Inspecting {
 				AlgoElement el = it.next();
 				if (el instanceof AlgoDependentArbconst) {
 					((AlgoDependentArbconst) el).replaceOutCE();
-					;
 				}
 			}
 		}
