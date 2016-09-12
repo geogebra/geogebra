@@ -3941,6 +3941,7 @@ public class Kernel {
 
 	public void redo() {
 		if (undoActive && cons.getUndoManager().redoPossible()) {
+			app.batchUpdateStart();
 			app.startCollectingRepaints();
 			storeSelectedGeosNames();
 			app.getCompanion().storeViewCreators();
@@ -3951,6 +3952,7 @@ public class Kernel {
 			app.getCompanion().recallViewCreators();
 			recallSelectedGeosNames();
 			app.stopCollectingRepaints();
+			app.batchUpdateEnd();
 			storeStateForModeStarting();
 		}
 	}
@@ -3975,6 +3977,7 @@ public class Kernel {
 	}
 
 	private void restoreStateForModeStarting() {
+		app.batchUpdateStart();
 		app.getCompanion().storeViewCreators();
 		app.getScriptManager().disableListeners();
 		notifyReset();
@@ -3984,6 +3987,7 @@ public class Kernel {
 		notifyReset();
 		app.getScriptManager().enableListeners();
 		app.getCompanion().recallViewCreators();
+		app.batchUpdateEnd();
 	}
 
 	public void undo() {
@@ -4000,6 +4004,7 @@ public class Kernel {
 			}
 
 			if (cons.getUndoManager().undoPossible()) {
+				app.batchUpdateStart();
 				app.startCollectingRepaints();
 				storeSelectedGeosNames();
 				app.getCompanion().storeViewCreators();
@@ -4017,6 +4022,7 @@ public class Kernel {
 					notifyRepaint();
 				}
 				app.stopCollectingRepaints();
+				app.batchUpdateEnd();
 				storeStateForModeStarting();
 			}
 		}

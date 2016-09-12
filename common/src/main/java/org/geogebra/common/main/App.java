@@ -4431,4 +4431,13 @@ public abstract class App implements UpdateSelection {
 		return ev.getExportImage(scale);
 	}
 
+
+	public void batchUpdateStart() {
+		// used in android
+	}
+
+	public void batchUpdateEnd() {
+		// used in android
+	}
+
 }
