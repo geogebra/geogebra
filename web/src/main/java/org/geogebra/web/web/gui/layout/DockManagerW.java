@@ -1027,17 +1027,14 @@ public class DockManagerW extends DockManager {
 	 * @return true if it succeeded to hide the panel
 	 */
 	public boolean hide(DockPanelW panel, boolean isPermanent, boolean fromDrop) {
-		if (!panel.isVisible() && !app.isExam()) {
-			// if (!panel.isVisible()) {
+		if(!panel.isVisible()) {
 			// some views (especially CAS) will close so slowly that the user is able
 			// to issue another "close" call, therefore we quit quietly
 			return false;
 		}
 		
 		//if panel is open in frame, check if it's not the last one
-		if (!panel.isOpenInFrame() && containsLessThanTwoPanels()
-				&& !app.isExam())
-			// if (!panel.isOpenInFrame() && containsLessThanTwoPanels())
+		if (!panel.isOpenInFrame() && containsLessThanTwoPanels())
 			return false;
 		
 		// do in the end, because we need to calculate width/height
@@ -1051,102 +1048,95 @@ public class DockManagerW extends DockManager {
 			app.getGuiManager().detachView(panel.getViewId());
 		}
 		
-		// if (!app.isExam()) {
-			if (panel.isOpenInFrame()) {
-				// TODO: deal with remove
-				// panel.removeFrame();
-				panel.setOpenInFrame(true); // open in frame the next time
+		if(panel.isOpenInFrame()) {
+			// TODO: deal with remove
+		//	panel.removeFrame();
+			panel.setOpenInFrame(true); // open in frame the next time
+		} else {
+			DockSplitPaneW parent = panel.getParentSplitPane();
+			int parentOffsetWidth = parent.getOffsetWidth();
+			int parentOffsetHeight = parent.getOffsetHeight();
+			app.persistWidthAndHeight();
+			// Save settings
+			if(parent.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
+				panel.setEmbeddedSize(panel.getOffsetWidth());
 			} else {
-				DockSplitPaneW parent = panel.getParentSplitPane();
-				int parentOffsetWidth = parent.getOffsetWidth();
-				int parentOffsetHeight = parent.getOffsetHeight();
-				app.persistWidthAndHeight();
-				// Save settings
-				if (parent.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
-					panel.setEmbeddedSize(panel.getOffsetWidth());
-				} else {
-					panel.setEmbeddedSize(panel.getOffsetHeight());
-				}
-
-				panel.setEmbeddedDef(panel.calculateEmbeddedDef());
-				panel.setOpenInFrame(false);
-
-				Widget opposite = parent.getOpposite(panel);
-
-				// save divider location and size (if DockSplitPane)
-				if (opposite != null) {
-					((DockComponent) opposite).saveDividerLocation();
-				}
-				int orientation = parent.getOrientation();
-				int size = 0;
-				if (orientation == DockSplitPaneW.VERTICAL_SPLIT)
-					size = parentOffsetHeight;
-				else
-					size = parentOffsetWidth;
-
-				if (parent == rootPane) {
-					if (opposite instanceof DockSplitPaneW) {
-						rootPane = (DockSplitPaneW) opposite;
-					} else {
-						parent.replaceComponent(panel, null);
-					}
-					app.updateCenterPanel(true);
-				} else {
-					DockSplitPaneW grandParent = (DockSplitPaneW) parent
-							.getParent();
-					int dividerLoc = grandParent.getDividerLocation();
-					grandParent.replaceComponent(parent, opposite);
-					grandParent.setDividerLocation(dividerLoc);
-					grandParent.forceLayout();
-				}
-
-				// re dispatch divider location
-				if (opposite != null)
-					((DockComponent) opposite).updateDividerLocation(size,
-							orientation);
-
-				// TODO: resize here?
-				// if(isPermanent) {
-				// app.validateComponent();
-				// }
-
-				if (fromDrop) {
-					if (opposite.getParent() instanceof DockSplitPaneW) {
-						((DockSplitPaneW) opposite.getParent()).onResize();
-					} else if (opposite instanceof DockSplitPaneW) {
-						((DockSplitPaneW) opposite).onResize();
-					}
-				} else if (opposite != null) {
-					if (opposite.getParent() instanceof DockSplitPaneW) {
-						((DockSplitPaneW) opposite.getParent())
-								.deferredOnResize();
-					} else if (opposite instanceof DockSplitPaneW) {
-						((DockSplitPaneW) opposite).deferredOnResize();
-					}
-				}
-
-				if (panel.hasToolbar()) {
-					// ToolbarContainer mainContainer = ((GuiManagerD)
-					// app.getGuiManager()).getToolbarPanel();
-					// mainContainer.removeToolbar(panel.getToolbar());
-					// mainContainer.updateToolbarPanel();
-					app.setShowToolBar(true, true);
-					// active toolbar should not be the panel's any more
-					if (app.getGuiManager().getActiveToolbarId() == panel
-							.getViewId()) {
-						setActiveToolBarDefault(null);
-					}
-				}
-				app.getGuiManager().refreshCustomToolsInToolBar();
-				app.updateToolBar();
+				panel.setEmbeddedSize(panel.getOffsetHeight());
 			}
-		// }
+			
+			panel.setEmbeddedDef(panel.calculateEmbeddedDef());
+			panel.setOpenInFrame(false);
+			
+			Widget opposite = parent.getOpposite(panel);
+
+			//save divider location and size (if DockSplitPane)
+			if (opposite!=null){
+				((DockComponent) opposite).saveDividerLocation();
+			}
+			int orientation = parent.getOrientation();
+			int size = 0;
+			if (orientation==DockSplitPaneW.VERTICAL_SPLIT)
+				size = parentOffsetHeight;
+			else
+				size = parentOffsetWidth;
+
+
+			if(parent == rootPane) {
+				if(opposite instanceof DockSplitPaneW) {
+					rootPane = (DockSplitPaneW) opposite;
+				} else {
+					parent.replaceComponent(panel, null);
+				}
+				app.updateCenterPanel(true);
+			} else {
+				DockSplitPaneW grandParent = (DockSplitPaneW)parent.getParent();
+				int dividerLoc = grandParent.getDividerLocation();
+				grandParent.replaceComponent(parent, opposite);
+				grandParent.setDividerLocation(dividerLoc);
+				grandParent.forceLayout();
+			}
+			
+			//re dispatch divider location
+			if (opposite!=null)
+				((DockComponent) opposite).updateDividerLocation(size,orientation);
+			
+		// TODO: resize here?	
+		//	if(isPermanent) {
+		//		app.validateComponent();
+		//	}
+
+			if (fromDrop) {
+				if (opposite.getParent() instanceof DockSplitPaneW) {
+					((DockSplitPaneW)opposite.getParent()).onResize();
+				} else if (opposite instanceof DockSplitPaneW) {
+					((DockSplitPaneW)opposite).onResize();
+				}
+			} else if(opposite !=null) {
+				if (opposite.getParent() instanceof DockSplitPaneW) {
+					((DockSplitPaneW)opposite.getParent()).deferredOnResize();
+				} else if (opposite instanceof DockSplitPaneW) {
+					((DockSplitPaneW)opposite).deferredOnResize();
+				}
+			}
+
+			if(panel.hasToolbar()) {
+			//	ToolbarContainer mainContainer = ((GuiManagerD) app.getGuiManager()).getToolbarPanel();
+			//	mainContainer.removeToolbar(panel.getToolbar());
+			//	mainContainer.updateToolbarPanel();
+				app.setShowToolBar(true, true);
+				// active toolbar should not be the panel's any more
+				if (app.getGuiManager().getActiveToolbarId() == panel.getViewId()) {
+					setActiveToolBarDefault(null);
+				}
+			}
+			app.getGuiManager().refreshCustomToolsInToolBar();
+			app.updateToolBar();
+		}
 
 		panel.setHidden(!isPermanent);
 		panel.setVisible(false);
 
-		// if (!app.isExam())
-			markAlonePanel();
+		markAlonePanel();
 
 		return true;
 	}

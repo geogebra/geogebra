@@ -229,10 +229,6 @@ public class AppWapplication extends AppWFull {
 	@Override
 	protected final void afterCoreObjectsInited() {
 		initGuiManager();
-		// if (!getSettings().getEuclidian(1).isEnabled()) {
-		// ((DockManagerW) getGuiManager().getLayout().getDockManager()).hide(
-		// App.VIEW_EUCLIDIAN, true);
-		// }
 		appFrame.onceAfterCoreObjectsInited();
 		appFrame.finishAsyncLoading(articleElement, this);
 	}
