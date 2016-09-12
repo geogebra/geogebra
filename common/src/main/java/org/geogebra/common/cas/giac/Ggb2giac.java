@@ -739,11 +739,9 @@ public class Ggb2giac {
 				+ "[sqsumb := b1 * b1 + b2 * b2],"
 				+ "[sqsumc := c1 * c1 + c2 * c2],"
 				+ "[sqsumdiff := sqsumb - sqsumc],"
-				+ "[a2 := 2 * a],"
-				+ "[asq4 := a2 * a2],"
-				+ "[asq := a * a],"
+				+ "[a2 := 2 * a]," + "[asq4 := a2 * a2]," + "[asq := a * a],"
 				+ "[afo := asq * asq],"
-				+ "[ggbeherans:=simplify(4 * (a2 - diff1) * (a2 + diff1) * x^2 -8 * diff1 * diff2 * x * y + 4 * (a2 - diff2) * (a2 + diff2)* y^2 -4 * (asq4 * (b1 + c1) - diff1 * sqsumdiff)*x - 4 * (asq4 * (b2 + c2) - diff2 * sqsumdiff)*y-16 * afo - sqsumdiff * sqsumdiff + 8 * asq * (sqsumb + sqsumc))]],"
+				+ "[ggbeherans:=normal(simplify(4 * (a2 - diff1) * (a2 + diff1) * x^2 -8 * diff1 * diff2 * x * y + 4 * (a2 - diff2) * (a2 + diff2)* y^2 -4 * (asq4 * (b1 + c1) - diff1 * sqsumdiff)*x - 4 * (asq4 * (b2 + c2) - diff2 * sqsumdiff)*y-16 * afo - sqsumdiff * sqsumdiff + 8 * asq * (sqsumb + sqsumc)))]],"
 				+
 				// simplify (...)/1000 = 0
 				"when(type(denom(ggbeherans))==DOM_INT,numer(ggbeherans)=0,ggbeherans=0)][1]";
