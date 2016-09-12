@@ -580,7 +580,10 @@ public class EuclidianViewW extends EuclidianView implements
 
 		updateFonts();
 		initView(true);
-		attachView();
+		//if app.getSetting().getEuclidian(1).isEnabled()
+		// if (!app.isExam() || app.getArticleElement().getDataParamEnableGraphing(false)) {
+			attachView();			
+		// }
 
 		((EuclidianControllerW) euclidiancontroller).setView(this);
 

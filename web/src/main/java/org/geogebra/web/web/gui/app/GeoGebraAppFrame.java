@@ -20,6 +20,7 @@ import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.applet.AppletFactory;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
+import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.main.GDevice;
 
@@ -151,6 +152,11 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			public void execute() {
 				init();
+				if (app.isExam()
+						&& !app.getSettings().getEuclidian(1).isEnabled()) {
+					((DockManagerW) app.getGuiManager().getLayout()
+							.getDockManager()).hide(App.VIEW_EUCLIDIAN, true);
+				}
 			}
 		});		
 	}

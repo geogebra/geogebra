@@ -1733,6 +1733,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 						getArticleElement().getDataParamEnableGraphing(false));
 				getSettings().getEuclidian(2).setEnabled(
 						getArticleElement().getDataParamEnableGraphing(false));
+
+				//this.euclidianView.attachView();
+				// this.getKernel().detach(euclidianView);
+
+				// DockPanel panel = this.getGuiManager().getLayout()
+				// .getDockManager().getPanel(App.VIEW_EUCLIDIAN);
+				// getGuiManager().detachView(App.VIEW_EUCLIDIAN);
 			}
 		}
 
