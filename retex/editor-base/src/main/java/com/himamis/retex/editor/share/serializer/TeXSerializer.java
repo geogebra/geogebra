@@ -13,7 +13,7 @@ import com.himamis.retex.renderer.share.util.LaTeXUtil;
 public class TeXSerializer extends SerializerAdapter {
 
 	private static final String cursor = "\\jlmcursor{0}";
-	private static final String cursorBig = "\\jlmcursor{1}";
+	private static final String cursorBig = "\\jlmcursor{0.9}";
 	private static final String selection_start = "\\jlmselection{";
 	private static final String selection_end = "}";
 
