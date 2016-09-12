@@ -531,14 +531,14 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.wrapMouseReleased(e);
 		e.release();
 
-		boolean elementCreated = ec.pen != null
-		        && ec.pen.getCreatedShape() != null;
+//		boolean elementCreated = ec.pen != null
+//		        && ec.pen.getCreatedShape() != null;
 
 		ec.resetModeAfterFreehand();
-
-		if (elementCreated) {
-			ec.toolCompleted();
-		}
+//
+//		if (elementCreated) {
+//			ec.toolCompleted();
+//		}
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
