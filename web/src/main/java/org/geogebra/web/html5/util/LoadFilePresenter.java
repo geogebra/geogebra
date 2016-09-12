@@ -243,7 +243,9 @@ public class LoadFilePresenter {
 		app.focusLost(null, null);
 
 		if (p != null) {
-			app.showStartTooltip(p.getDefaultID());
+			if (!app.getArticleElement().getDataParamShowAppsPicker()) {
+				app.showStartTooltip(p.getDefaultID());
+			}
 			app.setActivePerspective(p.getDefaultID() - 1);
 		}
 		if (app.has(Feature.NEW_START_SCREEN)

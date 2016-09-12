@@ -352,7 +352,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			// get XML for macro construction of P -> Q
 			String locusConsXML = Macro
 					.buildMacroXML(kernel, locusConsElements).toString();
-			Log.debug(locusConsXML);
 			macroKernel.loadXML(locusConsXML);
 
 			// get the copies of P and Q from the macro kernel

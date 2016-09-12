@@ -632,7 +632,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 */
 	public void setPath(Path p) {
 		path = p;
-
 		// tell conic that this point is on it, that's needed to handle
 		// reflections
 		// of conics correctly for path parameter calculation of point P
