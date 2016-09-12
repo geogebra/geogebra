@@ -1035,7 +1035,8 @@ public class Ggb2giac {
 		// regroup for r*r^n
 		// tlin() removed, see #3956
 		// texpand() added for Simplify[exp(x)/exp(x+1)]
-		p("Simplify.1", "simplify(regroup(texpand(%0)))");
+		// normal needed for Simplify[sqrt(2)*sqrt(5)]
+		p("Simplify.1", "normal(simplify(regroup(texpand(%0))))");
 
 		p("Solutions.1", "ggbsort(normal(zeros(%0,x)))");
 		p("Solutions.2", "ggbsort(normal(zeros(%0,%1)))");
