@@ -224,7 +224,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		Iterator<GeoElement> it = Qin.iterator();
 		while (it.hasNext()) {
 			GeoElement parent = it.next();
-
 			if (parent.isLabelSet()
 					&& parent.isChildOf((GeoElement) movingPoint)) {
 				// note: locusConsOrigElements will contain AlgoElement and
@@ -266,7 +265,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 				locusConsOrigElements, usedAlgoIds);
 
 		// add locus creating point and its algorithm to locusConsOrigElements
-		Macro.addDependentElement((GeoElement) locusPoint,
+		Macro.addDependentAlgo(locusPoint.getParentAlgorithm(),
 				locusConsOrigElements, usedAlgoIds);
 
 		// create macro construction
@@ -353,7 +352,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			// get XML for macro construction of P -> Q
 			String locusConsXML = Macro
 					.buildMacroXML(kernel, locusConsElements).toString();
-
+			Log.debug(locusConsXML);
 			macroKernel.loadXML(locusConsXML);
 
 			// get the copies of P and Q from the macro kernel

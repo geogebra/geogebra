@@ -217,7 +217,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		locusConsOrigElements.add(movingSlider);
 
 		// add locus creating point and its algorithm to locusConsOrigElements
-		Macro.addDependentElement(locusPoint.toGeoElement(),
+		Macro.addDependentAlgo(locusPoint.getParentAlgorithm(),
 				locusConsOrigElements,
 				usedAlgoIds);
 
@@ -404,7 +404,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		// update macro construction with current values of global vars
 		resetMacroConstruction();
 		macroCons.updateConstruction();
-
+		Pcopy.setValue(movingSlider.getIntervalMin());
 		// use current position of movingPoint to start Pcopy
 		sliderMover.init(Pcopy);
 

@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoIntegralODE;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
@@ -60,7 +61,9 @@ public class CmdLocus extends CommandProcessor {
 				GeoElement[] ret = { locus(c.getLabel(), p2, p1) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoNumeric()))) {
+					&& (ok[1] = arg[1].isGeoNumeric()
+							&& AlgoDispatcher.LocusCheck((GeoPointND) arg[0],
+							(GeoNumeric) arg[1]))) {
 				GeoPointND p1 = (GeoPointND) arg[0];
 				GeoNumeric p2 = (GeoNumeric) arg[1];
 
@@ -76,6 +79,7 @@ public class CmdLocus extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+
 
 	/**
 	 * @param label

@@ -350,6 +350,29 @@ public class Macro {
 			Set<ConstructionElement> consElementSet, Set<Long> usedAlgoIds) {
 		AlgoElement algo = geo.getParentAlgorithm();
 		if (algo.isInConstructionList()) {
+			addDependentAlgo(algo, consElementSet, usedAlgoIds);
+		} else {
+			// HELPER algorithm, e.g. segment of polygon
+			// we only add the geo because it is output
+			// of some other algorithm in construction list
+			consElementSet.add(geo);
+		}
+	}
+
+	/**
+	 * Adds the geo, its parent algorithm and all its siblings to the
+	 * consElementSet and its id to used AlgoIds
+	 * 
+	 * @param algo
+	 *            Element to be added
+	 * @param consElementSet
+	 *            Set of geos & algos used in macro construction
+	 * @param usedAlgoIds
+	 *            Set of IDs of algorithms used in macro construction
+	 */
+	public static void addDependentAlgo(AlgoElement algo,
+			Set<ConstructionElement> consElementSet, Set<Long> usedAlgoIds) {
+
 			// STANDARD case
 			// add algorithm
 			Long algoID = Long.valueOf(algo.getID());
@@ -362,13 +385,9 @@ public class Macro {
 			for (int i = 0; i < algoOutput.length; i++) {
 				consElementSet.add(algoOutput[i]);
 			}
-		} else {
-			// HELPER algorithm, e.g. segment of polygon
-			// we only add the geo because it is output
-			// of some other algorithm in construction list
-			consElementSet.add(geo);
-		}
+
 	}
+
 
 	/**
 	 * Adds the geo, its parent algorithm and all input of the parent algorithm

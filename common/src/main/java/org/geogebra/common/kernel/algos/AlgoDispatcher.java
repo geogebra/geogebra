@@ -975,15 +975,16 @@ public class AlgoDispatcher {
 	 * locus line for Q dependent on P. Note: P must be a visible slider
 	 */
 	final public GeoElement Locus(String label, GeoPointND Q, GeoNumeric P) {
-		if (!P.isSlider() || !P.isDefined() || !P.isAnimatable() || // !P.isSliderable()
-																	// ||
-																	// !P.isDrawable()
-																	// ||
-				Q.getPath() != null || !P.isParentOf(Q))
+		if (!LocusCheck(Q, P))
 			return null;
 		return LocusNoCheck(label, Q, P);
 	}
 	
+	public static boolean LocusCheck(GeoPointND Q, GeoNumeric P) {
+		return P.isSlider() && P.isDefined() && P.isAnimatable()
+				&& Q.getPath() == null && P.isParentOf(Q);
+	}
+
 	protected GeoElement LocusNoCheck(String label, GeoPointND Q, GeoNumeric P){
 		AlgoLocusSlider algo = new AlgoLocusSlider(cons, label, (GeoPoint) Q, P);
 		return (GeoLocus) algo.getLocus();
