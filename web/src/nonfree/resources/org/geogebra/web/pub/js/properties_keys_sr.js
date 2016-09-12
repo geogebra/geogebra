@@ -864,7 +864,7 @@ __GGB__keysVar.sr.command = {
     "SetValue": "PostaviVrednost",
     "SetValue.Syntax": "[ <logi\u010dka vrednost>, <0|1> ]\n[ <objekat>, <objekat> ]\n[ <lista>, <broj>, <objekat> ]",
     "SetViewDirection": "SetViewDirection",
-    "SetViewDirection.Syntax": "[ <Direction> ]",
+    "SetViewDirection.Syntax": "[ <Direction> ]\n[ <Direction>, <Boolean animate> ]",
     "SetVisibleInView": "PostaviVidljivoUPrikazu",
     "SetVisibleInView.Syntax": "[ <objekat>, <prikaz broj 1|2>, <logi\u010dka vrednost> ]",
     "Shear": "Smicanje",

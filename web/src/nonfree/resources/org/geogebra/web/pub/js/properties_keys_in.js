@@ -864,7 +864,7 @@ __GGB__keysVar.in.command = {
     "SetValue": "AturNilai",
     "SetValue.Syntax": "[ <Boolean>, <0|1> ]\n[ <Objek>, <Objek> ]\n[ <Daftar>, <Angka>, <Objek> ]",
     "SetViewDirection": "SetViewDirection",
-    "SetViewDirection.Syntax": "[ <Direction> ]",
+    "SetViewDirection.Syntax": "[ <Direction> ]\n[ <Direction>, <Boolean animate> ]",
     "SetVisibleInView": "AturTerlihatDiTampilan",
     "SetVisibleInView.Syntax": "[ <Objek>, <Angka Tampil 1|2>, <Boolean> ]",
     "Shear": "Pangkas",

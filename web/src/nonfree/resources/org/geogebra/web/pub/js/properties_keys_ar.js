@@ -864,7 +864,7 @@ __GGB__keysVar.ar.command = {
     "SetValue": "\u0639\u064a\u0646_\u0627\u0644\u0642\u064a\u0645\u0629",
     "SetValue.Syntax": "[ <\u0645\u0646\u0637\u0642\u064a>, <0|1> ]\n[ <\u0643\u0627\u0626\u0646>, <\u0643\u0627\u0626\u0646> ]\n[ <\u0642\u0627\u0626\u0645\u0629>, <\u0639\u062f\u062f>, <\u0643\u0627\u0626\u0646> ]",
     "SetViewDirection": "SetViewDirection",
-    "SetViewDirection.Syntax": "[ <Direction> ]",
+    "SetViewDirection.Syntax": "[ <Direction> ]\n[ <Direction>, <Boolean animate> ]",
     "SetVisibleInView": "\u0639\u064a\u0646_\u0645\u0631\u0626\u064a_\u0641\u064a_\u0627\u0644\u0645\u0646\u0638\u0631",
     "SetVisibleInView.Syntax": "[ <\u0643\u0627\u0626\u0646>, <\u0623\u0638\u0647\u0631 \u0627\u0644\u0639\u062f\u062f 1|2>, <\u0645\u0646\u0637\u0642\u064a> ]",
     "Shear": "\u062c\u0632",

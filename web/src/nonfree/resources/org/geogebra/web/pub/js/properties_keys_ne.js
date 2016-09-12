@@ -864,7 +864,7 @@ __GGB__keysVar.ne.command = {
     "SetValue": "\u092e\u093e\u0928\u092e\u093f\u0932\u093e\u0909\u0928\u0941\u0939\u094b\u0938",
     "SetValue.Syntax": "[ <\u092c\u0941\u0932\u0928>, <0|\u0967> ]\n[ <\u0935\u0938\u094d\u0924\u0941>, <\u0935\u0938\u094d\u0924\u0941> ]\n[ <\u0938\u0941\u091a\u0940>, <\u0938\u0902\u0916\u094d\u092f\u093e>, <\u0935\u0938\u094d\u0924\u0941> ]",
     "SetViewDirection": "SetViewDirection",
-    "SetViewDirection.Syntax": "[ <Direction> ]",
+    "SetViewDirection.Syntax": "[ <Direction> ]\n[ <Direction>, <Boolean animate> ]",
     "SetVisibleInView": "\u0926\u0947\u0916\u093f\u0928\u0947\u0917\u0930\u093f\u0926\u0943\u0938\u094d\u092f\u092e\u093f\u0932\u093e\u0909\u0928\u0941\u0939\u094b\u0938",
     "SetVisibleInView.Syntax": "[ <\u0935\u0938\u094d\u0924\u0941t>, <1|2 \u0938\u0902\u0916\u094d\u092f\u093e \u0939\u0947\u0930\u094d\u0928\u0941\u0939\u094b\u0938>, <\u092c\u0941\u0932\u0928> ]",
     "Shear": "\u0936\u093f\u0930",

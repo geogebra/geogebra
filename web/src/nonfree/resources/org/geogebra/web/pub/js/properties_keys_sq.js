@@ -864,7 +864,7 @@ __GGB__keysVar.sq.command = {
     "SetValue": "VendosVlere",
     "SetValue.Syntax": "[ <Bulean>, <0|1> ]\n[ <Objekt>, <Objekt> ]\n[ <Liste>, <Number>, <Objekt> ]",
     "SetViewDirection": "SetViewDirection",
-    "SetViewDirection.Syntax": "[ <Direction> ]",
+    "SetViewDirection.Syntax": "[ <Direction> ]\n[ <Direction>, <Boolean animate> ]",
     "SetVisibleInView": "VendosiDukshemNePamje",
     "SetVisibleInView.Syntax": "[ <Objekt>, <Numri Pamjes 1|2>, <Bulean> ]",
     "Shear": "TranslacionSiperfaqeKonstante",

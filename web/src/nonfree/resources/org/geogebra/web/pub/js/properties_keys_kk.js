@@ -864,7 +864,7 @@ __GGB__keysVar.kk.command = {
     "SetValue": "\u041c\u04d9\u043d\u0456\u043d\u0411\u0435\u043b\u0433\u0456\u043b\u0435\u0443",
     "SetValue.Syntax": "[ <Boolean>, <0|1> ]\n[ <\u0422\u0456\u0437\u0456\u043c>, <\u042d\u043b\u0435\u043c\u0435\u043d\u0442> ]\n[ <\u041e\u0431\u044a\u0435\u043a\u0442>, <\u041e\u0431\u044a\u0435\u043a\u0442> ]\n[ <\u0422\u0456\u0437\u0456\u043c>, <\u0421\u0430\u043d>, <\u041e\u0431\u044a\u0435\u043a\u0442> ]",
     "SetViewDirection": "SetViewDirection",
-    "SetViewDirection.Syntax": "[ <Direction> ]",
+    "SetViewDirection.Syntax": "[ <Direction> ]\n[ <Direction>, <Boolean animate> ]",
     "SetVisibleInView": "\u041a\u04e9\u0440\u0456\u043d\u0435\u0442\u0456\u043d\u049a\u0430\u043b\u044b\u043f\u0442\u044b\u0415\u043d\u0433\u0456\u0437\u0443",
     "SetVisibleInView.Syntax": "[ <\u041e\u0431\u044a\u0435\u043a\u0442>, <\u0421\u0430\u043d\u0434\u044b \u041a\u04e9\u0440\u0441\u0435\u0442\u0443 1|2>, <Boolean> ]",
     "Shear": "\u0410\u043b\u044b\u043f\u0422\u0430\u0441\u0442\u0430\u0443",
