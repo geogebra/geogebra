@@ -619,7 +619,8 @@ pr.menu_header_undo(), null, 32);
 		//TODO
 		//toolbarPanel.show(Integer.toString(activeToolbar));
 		onResize();
-		if (app.isExam()) {
+		if (app.isExam()
+				&& !app.getArticleElement().getDataParamEnableGraphing(false)) {
 			toolBPanel.setVisible(false);
 		} else {
 			toolBPanel.setVisible(true);
