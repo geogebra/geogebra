@@ -80,11 +80,17 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if(app.enableFileFeatures()){
 			this.createFileMenu();
 		}
-		this.createPerspectivesMenu();
-		this.createEditMenu();
-		this.createViewMenu();
+		
+		boolean enableGraph = !exam || app.getArticleElement().getDataParamEnableGraphing(true);
+		if (enableGraph){
+			this.createPerspectivesMenu();
+			this.createEditMenu();
+			this.createViewMenu();
+		}
 		this.createOptionsMenu();
-		this.createToolsMenu();
+		if (enableGraph) {
+			this.createToolsMenu();
+		}
 		if (!exam) {
 			this.createHelpMenu();
 			this.createUserMenu();
@@ -94,7 +100,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};
 			}
 		} else {
-			this.menus = new GMenuBar[]{fileMenu, editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu};
+			this.menus = new GMenuBar[] { fileMenu, optionsMenu };
 		}
 		
 		for(int i=0; i<menus.length; i++){
@@ -199,17 +205,33 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if(app.enableFileFeatures()){	
 			this.menuPanel.add(fileMenu, getHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
 		}
-		this.menuPanel.add(editMenu, getHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"), true);
-		if (app.has(Feature.NEW_START_SCREEN)) {
-			this.menuPanel.add(perspectivesMenu, getHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "math_apps"),
+		if (enableGraph) {
+			this.menuPanel.add(editMenu,
+					getHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"),
 					true);
-		} else {
-			this.menuPanel.add(perspectivesMenu,
-					getHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "Perspectives"), true);
+
+			if (app.has(Feature.NEW_START_SCREEN)) {
+				if (enableGraph) {
+					this.menuPanel.add(
+							perspectivesMenu,
+							getHTML(GuiResources.INSTANCE
+									.menu_icon_perspectives(), "math_apps"),
+							true);
+				} else {
+					this.menuPanel.add(
+							perspectivesMenu,
+							getHTML(GuiResources.INSTANCE
+									.menu_icon_perspectives(), "Perspectives"),
+							true);
+				}
+				this.menuPanel
+						.add(viewMenu,
+								getHTML(GuiResources.INSTANCE.menu_icon_view(),
+										"View"), true);
+			}
 		}
-		this.menuPanel.add(viewMenu, getHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
 		this.menuPanel.add(optionsMenu, getHTML(GuiResources.INSTANCE.menu_icon_options(), "Options"), true);
-		if (!app.getLAF().isSmart()) {
+		if (!app.getLAF().isSmart() && enableGraph) {
 			this.menuPanel.add(toolsMenu, getHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
 		}
 		if (!exam) {
