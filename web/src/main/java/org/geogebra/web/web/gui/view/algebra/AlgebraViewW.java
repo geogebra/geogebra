@@ -186,7 +186,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 					});
 
 		if (app.has(Feature.AV_SCROLL)) {
-			addOnScroll();
+			// addOnScroll();
 		}
 	}
 
@@ -200,6 +200,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				algebraPanel.addScrollHandler(new ScrollHandler() {
 
 					public void onScroll(ScrollEvent event) {
+						event.preventDefault();
 						onAlgebraScroll();
 					}
 				});

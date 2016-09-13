@@ -1271,9 +1271,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			return;
 		}
-		content.removeStyleName("scrollableTextBox");
 		if (isInputTreeItem()) {
 			setItemWidth(getAV().getMaxItemWidth());
+		} else {
+			content.removeStyleName("scrollableTextBox");
+
 		}
 
 	}

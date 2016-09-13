@@ -71,8 +71,12 @@ public class LatexTreeItem extends RadioTreeItem
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			content.addStyleName("scrollableTextBox");
+			if (isInputTreeItem()) {
+				content.addStyleName("inputBorder");
+			}
 		}
 		getWidget().addStyleName("latexEditor");
+
 		renderLatex("", false);
 	}
 
@@ -195,9 +199,10 @@ public class LatexTreeItem extends RadioTreeItem
 					setItemWidth(getAV().getOffsetWidth());
 				}
 			} else {
-				// content.removeStyleName("scrollableTextBox");
 				if (isInputTreeItem()) {
 					setItemWidth(getAV().getMaxItemWidth());
+				} else {
+					content.removeStyleName("scrollableTextBox");
 				}
 			}
 		}

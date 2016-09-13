@@ -3422,7 +3422,9 @@ body.application[dir=rtl] .imageCorner {
 	box-sizing: border-box;
 }
 
-.NewRadioButtonTreeItemParent .scrollableTextBox{
+.NewRadioButtonTreeItemParent .scrollableTextBox,
+.NewRadioButtonTreeItemParent .inputBorder
+{
 	border-top: #6161FF solid 1px;
 	border-bottom:	#6161FF solid 1px;
 	min-height:61px;
