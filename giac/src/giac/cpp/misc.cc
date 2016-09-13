@@ -6397,7 +6397,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   int step_param_(const gen & f,const gen & g,const gen & t,gen & tmin,gen&tmax,vecteur & poi,vecteur & tvi,bool printtvi,bool exactlegende,GIAC_CONTEXT){
     if (t.type!=_IDNT)
       return 0;
-    gprintf("====================\nParametric plot %gen,%gen, variable %gen",makevecteur(f,g,t),1,contextptr);
+    gprintf("====================\nParametric plot (%gen,%gen), variable %gen",makevecteur(f,g,t),1,contextptr);
     gen periodef,periodeg,periode;
     if (is_periodic(f,t,periodef,contextptr) && is_periodic(g,t,periodeg,contextptr)){
       periode=gcd(periodef,periodeg,contextptr);
@@ -6611,7 +6611,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	    poi.push_back(dr);
 	  continue;
 	}
-	gen a=limit(f/g,xid,*it,0,contextptr);
+	gen a=limit(g/f,xid,*it,0,contextptr);
 	a=recursive_normal(a,contextptr);
 	if (is_undef(a)) continue;
 	if (is_inf(a)){
@@ -6899,11 +6899,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   // pass -inf and inf by default.
   // poi will contain point of interest: asymptotes and extremas
   // xmin and xmax will be set to values containing all points in poi
-  int step_func_(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,bool printtvi,bool exactlegende,GIAC_CONTEXT){
+  int step_func_(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,gen& periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & infl,bool printtvi,bool exactlegende,GIAC_CONTEXT){
     if (x.type!=_IDNT)
       return 0;
     gprintf("====================\nFunction plot %gen, variable %gen",makevecteur(f,x),1,contextptr);
-    gen periode;
     if (is_periodic(f,x,periode,contextptr)){
       gprintf("Periodic function T=%gen",vecteur(1,periode),1,contextptr);
       xmin=normal(-periode/2,contextptr);
@@ -6931,7 +6930,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       return 0;
     }
     // Asymptotes
-    vecteur sing,crit,infl;
+    vecteur sing;
     identificateur xid=*x._IDNTptr;
     iterateur it=df1._VECTptr->begin(),itend=df1._VECTptr->end();
     for (;it!=itend;++it){
@@ -7029,8 +7028,15 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	l=recursive_normal(l,contextptr);
 	if (is_inf(l)){
 	  equ=symb_equal(x__IDNT_e,*it);
+	  asym.push_back(makevecteur(*it,equ));
 	  gprintf("Vertical asymptote %gen",vecteur(1,equ),1,contextptr);
 	  poi.push_back(_droite(makesequence(*it,*it+cst_i,write_legende(equ,exactlegende,contextptr),symb_equal(at_couleur,_RED)),contextptr));
+	  if (eo && *it!=0){
+	    equ=symb_equal(x__IDNT_e,-*it);
+	    asym.push_back(makevecteur(-*it,equ));
+	    gprintf("Symmetric vertical asymptote %gen",vecteur(1,equ),1,contextptr);
+	    poi.push_back(_droite(makesequence(-*it,-*it+cst_i,write_legende(equ,exactlegende,contextptr),symb_equal(at_couleur,_RED)),contextptr));
+	  }
 	}
 	continue;
       }
@@ -7040,23 +7046,34 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       if (!is_inf(l)){
 	if (!lidnt(evalf(l,1,contextptr)).empty()) continue;
 	equ=symb_equal(y__IDNT_e,l);
+	asym.push_back(makevecteur(*it,equ));
 	gprintf("Horizontal asymptote %gen",vecteur(1,equ),1,contextptr);
 	gen dr=_droite(makesequence(l*cst_i,l*cst_i+1,write_legende(equ,exactlegende,contextptr),symb_equal(at_couleur,_RED)),contextptr);
 	if (!equalposcomp(poi,dr))
 	  poi.push_back(dr);
+	if (eo==2 && *it!=0 && l!=0){
+	  equ=symb_equal(y__IDNT_e,l);
+	  asym.push_back(makevecteur(-*it,-equ));
+	  gprintf("Symmetric horizontal asymptote %gen",vecteur(1,-equ),1,contextptr);
+	  dr=_droite(makesequence(-l*cst_i,-l*cst_i+1,write_legende(equ,exactlegende,contextptr),symb_equal(at_couleur,_RED)),contextptr);
+	  if (!equalposcomp(poi,dr))
+	    poi.push_back(dr);
+	}
 	continue;
       }
       gen a=limit(f/x,xid,*it,0,contextptr);
       a=recursive_normal(a,contextptr);
       if (is_undef(a)) continue;
       if (is_inf(a)){
-	gprintf("Vertical parabolic asymptote at %gen",vecteur(1,a),1,contextptr);
+	parab.push_back(makevecteur(*it,a));
+	gprintf("Vertical parabolic asymptote at %gen",vecteur(1,*it),1,contextptr);
 	continue;
       }
       else
 	if (!lidnt(evalf(a,1,contextptr)).empty()) continue;
       if (is_zero(a)){
-	gprintf("Horizontal parabolic asymptote at %gen",vecteur(1,a),1,contextptr);
+	parab.push_back(makevecteur(*it,0));
+	gprintf("Horizontal parabolic asymptote at %gen",vecteur(1,*it),1,contextptr);
 	continue;
       }
       gen b=limit(f-a*x,xid,*it,0,contextptr);
@@ -7064,16 +7081,29 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       if (is_undef(b)) continue;
       // avoid bounded_function
       if (is_inf(b)){
+	parab.push_back(makevecteur(*it,a));
 	gprintf("Parabolic asymptote direction %gen at infinity",vecteur(1,symb_equal(y__IDNT_e,a*x__IDNT_e)),1,contextptr);
 	continue;
       }
       else
 	if (!lidnt(evalf(b,1,contextptr)).empty()) continue;
       equ=symb_equal(y__IDNT_e,a*x__IDNT_e+b);
+      asym.push_back(makevecteur(*it,equ));
       gprintf("Asymptote %gen",vecteur(1,equ),1,contextptr);
       gen dr=_droite(makesequence(equ,write_legende(equ,exactlegende,contextptr),symb_equal(at_couleur,_RED)),contextptr);
       if (!equalposcomp(poi,dr))
 	poi.push_back(dr);
+      if (eo && *it!=0){
+	if (eo==1)
+	  equ=symb_equal(y__IDNT_e,-a*x__IDNT_e+b);
+	else
+	  equ=symb_equal(y__IDNT_e,a*x__IDNT_e-b);
+	asym.push_back(makevecteur(*it,equ));
+	gprintf("Symmetric asymptote %gen",vecteur(1,equ),1,contextptr);
+	gen dr=_droite(makesequence(equ,write_legende(equ,exactlegende,contextptr),symb_equal(at_couleur,_RED)),contextptr);
+	if (!equalposcomp(poi,dr))
+	  poi.push_back(dr);
+      }
     }
     // merge sing and crit, add xmin0, xmax0, build variation matrix
     for (int i=0;i<sing.size();++i)
@@ -7232,14 +7262,14 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     return 1 + (periode!=0);
   }
 
-  int step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,bool printtvi,bool exactlegende,GIAC_CONTEXT){
+  int step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poi,vecteur & tvi,gen & periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & inflex,bool printtvi,bool exactlegende,GIAC_CONTEXT){
     int c=complex_mode(contextptr),st=step_infolevel(contextptr),s=0;
     step_infolevel(0,contextptr);
 #ifdef NO_STDEXCEPT
-    s=step_func_(f,x,xmin,xmax,poi,tvi,printtvi,exactlegende,contextptr);
+    s=step_func_(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,printtvi,exactlegende,contextptr);
 #else
     try {
-      s=step_func_(f,x,xmin,xmax,poi,tvi,printtvi,exactlegende,contextptr);
+      s=step_func_(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,printtvi,exactlegende,contextptr);
     } catch (std::runtime_error & e){s=0;}
 #endif
     complex_mode(c,contextptr);
@@ -7321,8 +7351,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     int periodic=0;
     if (param)
       periodic=step_param(f._VECTptr->front(),f._VECTptr->back(),x,xmin,xmax,poi,tvi,false,exactlegende,contextptr);
-    else
-      periodic=step_func(f,x,xmin,xmax,poi,tvi,false,exactlegende,contextptr);
+    else {
+      gen periode; vecteur asym,parab,crit,inflex;
+      periodic=step_func(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,false,exactlegende,contextptr);
+    }
     if (periodic==0)
       return undef;
     if (return_tabvar)

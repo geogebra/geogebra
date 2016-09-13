@@ -118,6 +118,21 @@ namespace giac {
     return w;
   }
 
+  gen attoof(const gen & g){
+    if (g.type==_VECT){
+      vecteur v=*g._VECTptr;
+      iterateur it=v.begin(),itend=v.end();
+      for (;it!=itend;++it)
+	*it=attoof(*it);
+      return gen(v,g.subtype);
+    }
+    if (g.type!=_SYMB)
+      return g;
+    if (g._SYMBptr->sommet!=at_at)
+      return symbolic(g._SYMBptr->sommet,attoof(g._SYMBptr->feuille));
+    return symbolic(at_of,attoof(g._SYMBptr->feuille));
+  }
+
   static int prog_eval_level(GIAC_CONTEXT){
     if (int i=prog_eval_level_val(contextptr))
       return i;
