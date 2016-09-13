@@ -122,6 +122,7 @@ public class ExamDialog {
 				app.getLAF().removeWindowClosingHandler();
 				app.fileNew();
 				app.updateRounding();
+				app.getGgbApi().setPerspective("1");
 				guiManager.setGeneralToolBarDefinition(
 						ToolBar.getAllToolsNoMacros(true, true));
 				app.getKernel().getAlgebraProcessor().reinitCommands();
