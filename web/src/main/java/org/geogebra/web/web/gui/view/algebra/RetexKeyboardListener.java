@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -46,6 +47,10 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 
 	public boolean needsAutofocus() {
 		return true;
+	}
+
+	public String alt(char unicodeKeyChar, boolean shift) {
+		return AltKeys.getAltSymbols(unicodeKeyChar, shift);
 	}
 
 }

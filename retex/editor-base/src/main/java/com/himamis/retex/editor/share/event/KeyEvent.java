@@ -40,6 +40,12 @@ public class KeyEvent {
 	 * @since 1.4
 	 */
 	public static final int CTRL_MASK = 2;
+	/**
+	 * The Alt key extended modifier constant.
+	 * 
+	 * @since 1.4
+	 */
+	public static final int ALT_MASK = 1 << 3;
 
 	/**
 	 * The Meta key extended modifier constant.
@@ -48,12 +54,7 @@ public class KeyEvent {
 	 */
 	public static final int META_DOWN_MASK = 1 << 8;
 
-	/**
-	 * The Alt key extended modifier constant.
-	 * 
-	 * @since 1.4
-	 */
-	public static final int ALT_DOWN_MASK = 1 << 9;
+
 
 	public static final int VK_ENTER = '\n';
 	public static final int VK_BACK_SPACE = '\b';

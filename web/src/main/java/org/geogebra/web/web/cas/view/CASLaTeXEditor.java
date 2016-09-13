@@ -265,4 +265,8 @@ public class CASLaTeXEditor extends SimplePanel
 
 	}
 
+	public String alt(char unicodeKeyChar, boolean shift) {
+		return retexListener.alt(unicodeKeyChar, shift);
+	}
+
 }

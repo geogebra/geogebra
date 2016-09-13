@@ -204,7 +204,7 @@ public class MathFieldW implements MathField, IsWidget {
 	protected int getModifiers(com.google.gwt.event.dom.client.KeyEvent event) {
 		return (event.isShiftKeyDown() ? KeyEvent.SHIFT_MASK : 0)
 				+ (event.isControlKeyDown() ? KeyEvent.CTRL_MASK : 0)
-				+ (event.isAltKeyDown() ? KeyEvent.ALT_DOWN_MASK : 0);
+				+ (event.isAltKeyDown() ? KeyEvent.ALT_MASK : 0);
 	}
 
 	protected char getChar(NativeEvent nativeEvent) {

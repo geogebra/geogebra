@@ -139,10 +139,13 @@ public class AltKeys {
 	 * @return The "alpha-string" ie the symbols.
 	 */
 	public static String getAltSymbols(int keyCode, boolean isShiftDown) {
+
 		if (isShiftDown) {
 			return AltKeys.LookupUpper.get((char) keyCode);
 		}
-
+		if (keyCode >= 'a' && keyCode <= 'z') {
+			return AltKeys.LookupLower.get((char) (keyCode + 'A' - 'a'));
+		}
 		return AltKeys.LookupLower.get((char) keyCode);
 	}
 

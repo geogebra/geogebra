@@ -190,7 +190,16 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     @Override
     public boolean onKeyTyped(KeyEvent keyEvent) {
-		boolean handled = ((keyEvent.getKeyModifiers() & 2) > 0)
+		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0;
+		if(alt){
+			String str = listener.alt(keyEvent.getUnicodeKeyChar(),
+					(keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0);
+			for (int i = 0; str != null && i < str.length(); i++) {
+				keyListener.onKeyTyped(str.charAt(i));
+			}
+		}
+		boolean handled = alt || ((keyEvent.getKeyModifiers()
+				& KeyEvent.CTRL_MASK) > 0)
 				|| keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar());
         if (handled) {
 			if (listener != null) {
@@ -201,7 +210,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         return handled;
     }
 
-    @Override
+	@Override
 	public void onPointerDown(int x, int y) {
         if (selectionMode) {
             ArrayList<Integer> list = new ArrayList<Integer>();
@@ -318,7 +327,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	}
 
 	private void moveToSelection(ArrayList<Integer> list) {
-
+		System.out.println("SELECTION" + list);
 		while (cursorController.nextCharacter(editorState)) {
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
@@ -330,6 +339,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				list2.set(i, list2.get(list2.size() - 1 - i));
 				list2.set(list2.size() - 1 - i, tmp);
 			}
+			System.out.println(list2);
 			if (compare(list, list2)) {
 				break;
 			}

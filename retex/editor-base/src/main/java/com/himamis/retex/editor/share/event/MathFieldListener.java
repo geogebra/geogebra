@@ -6,4 +6,6 @@ public interface MathFieldListener {
 	public void onKeyTyped();
 
 	public void onCursorMove();
+
+	public String alt(char unicodeKeyChar, boolean shift);
 }

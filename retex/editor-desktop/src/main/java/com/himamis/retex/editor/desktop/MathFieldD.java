@@ -45,6 +45,7 @@ import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
+import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelParser;
 import com.himamis.retex.editor.share.model.MathFormula;
@@ -87,8 +88,12 @@ public class MathFieldD extends JLabel implements MathField {
 		t.start();
 	}
 	
-	public MathFieldD(String latex) {
-		
+	/**
+	 * @param listener
+	 *            listener
+	 */
+	public void setFieldListener(MathFieldListener listener) {
+		mathFieldInternal.setFieldListener(listener);
 	}
 
 	@Override

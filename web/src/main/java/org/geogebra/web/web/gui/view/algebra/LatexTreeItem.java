@@ -525,4 +525,9 @@ public class LatexTreeItem extends RadioTreeItem
 		}
 		return super.isInputTreeItem();
 	}
+
+	public String alt(char unicodeKeyChar, boolean shift) {
+		return retexListener.alt(unicodeKeyChar, shift);
+	}
+
 }

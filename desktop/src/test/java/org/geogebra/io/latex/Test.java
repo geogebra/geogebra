@@ -29,10 +29,12 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
+import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -45,7 +47,27 @@ public class Test {
 
 	public static void main(String[] args) {
 		final MathFieldD mathField = new MathFieldD();
+		mathField.setFieldListener(new MathFieldListener() {
 
+			public void onEnter() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onKeyTyped() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onCursorMove() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public String alt(char unicodeKeyChar, boolean shift) {
+				return AltKeys.getAltSymbols(unicodeKeyChar, shift);
+			}
+		});
 		JFrame frame = new JFrame();
 		frame.setPreferredSize(new Dimension(200, 200));
 		frame.getContentPane().add(mathField);
@@ -55,7 +77,7 @@ public class Test {
 		frame.setVisible(true);
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
-			MathFormula f = p.parse("{7,{{1,2},{3,4}}+2,{{4,5,6}}}");
+			MathFormula f = p.parse("a*x^2");
 			mathField.setFormula(f);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
