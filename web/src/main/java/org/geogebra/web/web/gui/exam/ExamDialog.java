@@ -122,7 +122,11 @@ public class ExamDialog {
 				app.getLAF().removeWindowClosingHandler();
 				app.fileNew();
 				app.updateRounding();
-				app.getGgbApi().setPerspective("1");
+				if (app.getArticleElement().getDataParamEnableGraphing(true)) {
+					app.getGgbApi().setPerspective("1");
+				} else {
+					app.getGgbApi().setPerspective("A");
+				}
 				guiManager.setGeneralToolBarDefinition(
 						ToolBar.getAllToolsNoMacros(true, true));
 				app.getKernel().getAlgebraProcessor().reinitCommands();
