@@ -1727,8 +1727,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 		if (getLAF() != null
 				&& getLAF().examSupported(has(Feature.EXAM_TABLET))) {
-			if (getArticleElement().getDataParamEnableGraphing(false)
-					|| !getArticleElement().getDataParamEnableGraphing(true)) {
+			if (!getArticleElement().getDataParamEnableGraphing(false)) {
 				getSettings().getEuclidian(1).setEnabled(
 						getArticleElement().getDataParamEnableGraphing(false));
 				getSettings().getEuclidian(2).setEnabled(
