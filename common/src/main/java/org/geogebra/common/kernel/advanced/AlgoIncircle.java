@@ -52,7 +52,7 @@ public class AlgoIncircle extends AlgoElement {
 		circle = kernel.getGeoFactory().newConic(dim, cons);
 		// output
 		incenter = kernel.getGeoFactory().newPoint(dim, cons);
-		incenter.setLabel("inc");
+		// incenter.setLabel("inc");
 		setInputOutput();
 
 		compute();
