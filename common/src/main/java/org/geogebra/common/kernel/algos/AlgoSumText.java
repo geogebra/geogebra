@@ -34,10 +34,6 @@ public class AlgoSumText extends AlgoElement {
 
 	private StringBuilder sb;
 
-	public AlgoSumText(Construction cons, String label, GeoList geoList) {
-		this(cons, label, geoList, null);
-	}
-
 	public AlgoSumText(Construction cons, String label, GeoList geoList,
 			GeoNumeric Truncate) {
 		super(cons);

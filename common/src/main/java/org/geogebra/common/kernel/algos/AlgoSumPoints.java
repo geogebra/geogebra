@@ -37,9 +37,6 @@ public class AlgoSumPoints extends AlgoElement {
 	public GeoNumeric Truncate; // input
 	public GeoElement result; // output
 
-	public AlgoSumPoints(Construction cons, String label, GeoList geoList) {
-		this(cons, label, geoList, null);
-	}
 
 	public AlgoSumPoints(Construction cons, String label, GeoList geoList,
 			GeoNumeric Truncate) {

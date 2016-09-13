@@ -4,12 +4,15 @@ import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoProduct;
 import org.geogebra.common.kernel.algos.AlgoProductMatrices;
+import org.geogebra.common.kernel.algos.AlgoFoldFunctions;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * Product[ list ]
@@ -57,6 +60,13 @@ public class CmdProduct extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
+			if (((GeoList) arg[0]).getGeoElementForPropertiesDialog() instanceof GeoFunction) {
+				AlgoFoldFunctions algo = new AlgoFoldFunctions(cons,
+						c.getLabel(), list, null, Operation.MULTIPLY);
+
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+			}
 			throw argErr(app, c.getName(), arg[0]);
 		case 2:
 			// Product[<List of Numbers>, <Number>]
@@ -66,6 +76,14 @@ public class CmdProduct extends CommandProcessor {
 
 					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),
 							list, (GeoNumeric) arg[1]);
+
+					GeoElement[] ret = { algo.getResult() };
+					return ret;
+				}
+				if (((GeoList) arg[0]).getGeoElementForPropertiesDialog() instanceof GeoFunction) {
+					AlgoFoldFunctions algo = new AlgoFoldFunctions(cons,
+							c.getLabel(), list, (GeoNumeric) arg[1],
+							Operation.MULTIPLY);
 
 					GeoElement[] ret = { algo.getResult() };
 					return ret;

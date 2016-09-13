@@ -22,47 +22,42 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * Sum of functions, may take whole list or just several first elements
  */
-public class AlgoSumFunctions extends AlgoElement {
+public class AlgoFoldFunctions extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.Sum;
+		return op == Operation.PLUS ? Commands.Sum : Commands.Product;
 	}
 
 	private GeoList geoList; // input
 	private GeoNumeric truncate; // input
 	private GeoFunction resultFun;
-
-	/**
-	 * Creates labeled function sum algo
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param geoList
-	 */
-	public AlgoSumFunctions(Construction cons, String label, GeoList geoList) {
-		this(cons, label, geoList, null);
-	}
+	private Operation op;
 
 	/**
 	 * Creates labeled function sum algo for truncated list (or whole list if
 	 * truncate == null)
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param geoList
+	 *            list
 	 * @param truncate
+	 *            number of elements to take
 	 */
-	public AlgoSumFunctions(Construction cons, String label, GeoList geoList,
-			GeoNumeric truncate) {
+	public AlgoFoldFunctions(Construction cons, String label, GeoList geoList,
+			GeoNumeric truncate, Operation op) {
 		super(cons);
 		this.geoList = geoList;
 		this.truncate = truncate;
-
+		this.op = op;
 		resultFun = new GeoFunction(cons);
 
 		setInputOutput();
@@ -135,7 +130,7 @@ public class AlgoSumFunctions extends AlgoElement {
 		// add first two:
 		resultFun = GeoFunction.add(resultFun,
 				((GeoFunctionable) geoList.get(0)).getGeoFunction(),
-				((GeoFunctionable) geoList.get(1)).getGeoFunction());
+				((GeoFunctionable) geoList.get(1)).getGeoFunction(), op);
 
 		if (n == 2)
 			return;
@@ -147,7 +142,7 @@ public class AlgoSumFunctions extends AlgoElement {
 				return;
 			}
 			resultFun = GeoFunction.add(resultFun, resultFun,
-					((GeoFunctionable) geoList.get(i)).getGeoFunction());
+					((GeoFunctionable) geoList.get(i)).getGeoFunction(), op);
 		}
 	}
 

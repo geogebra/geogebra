@@ -1453,7 +1453,7 @@ CasEvaluableFunction, ParametricCurve,
 	 * @return resultFun
 	 */
 	public static GeoFunction add(GeoFunction resultFun, GeoFunction fun1,
-			GeoFunction fun2) {
+			GeoFunction fun2, Operation op) {
 
 		Kernel kernel = fun1.getKernel();
 
@@ -1465,7 +1465,8 @@ CasEvaluableFunction, ParametricCurve,
 		ExpressionNode right = fun2.getFunctionExpression().getCopy(kernel);
 
 		ExpressionNode sum = new ExpressionNode(fun1.getKernel(),
-				left.replace(x1, x), Operation.PLUS,
+ left.replace(
+				x1, x), op,
 				right.replace(x2, x));
 
 		Function f = new Function(sum, x);

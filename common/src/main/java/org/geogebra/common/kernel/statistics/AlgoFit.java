@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * AlgoFit A general linear curvefit: Fit[<List of Points>,<List of Functions>]
@@ -215,7 +216,8 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 			p = P.getEntry(i, 0);
 			gf = ((GeoFunctionable) functionlist.get(i)).getGeoFunction();
 			product = GeoFunction.mult(product, p, gf); // product= p*func
-			fitfunction = GeoFunction.add(fitfunction, fitfunction, product); // fit(x)=...+p*func
+			fitfunction = GeoFunction.add(fitfunction, fitfunction, product,
+					Operation.PLUS); // fit(x)=...+p*func
 		}
 
 		return fitfunction;
