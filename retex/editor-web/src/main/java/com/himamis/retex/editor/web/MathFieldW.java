@@ -153,7 +153,6 @@ public class MathFieldW implements MathField, IsWidget {
 			}
 		}, KeyPressEvent.getType());
 		html.addDomHandler(new KeyUpHandler() {
-
 			public void onKeyUp(KeyUpEvent event) {
 				int code = event.getNativeEvent().getKeyCode();
 				code = fixCode(code);
@@ -196,7 +195,7 @@ public class MathFieldW implements MathField, IsWidget {
 		return code;
 	}
 
-	protected native void debug(String string) /*-{
+	public native void debug(String string) /*-{
 		$wnd.console.log(string);
 
 	}-*/;

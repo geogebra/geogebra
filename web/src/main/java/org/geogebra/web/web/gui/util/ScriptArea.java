@@ -30,9 +30,9 @@ public class ScriptArea extends TextArea
 	}
 
 	public void onKeyUp(KeyUpEvent e) {
-		if (e.isAltKeyDown()) {
+		if (e.isAltKeyDown() && !e.isControlKeyDown()) {
 
-			String s = AltKeys.getAltSymbols(e.getNativeKeyCode(),
+			String s = AltKeys.getAltSymbols((char) e.getNativeKeyCode(),
 					e.isShiftKeyDown());
 
 			if (s != null) {

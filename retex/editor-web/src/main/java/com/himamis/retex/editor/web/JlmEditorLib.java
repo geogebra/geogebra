@@ -32,7 +32,7 @@ public class JlmEditorLib extends JlmLib {
 
 					}
 
-					public String alt(char unicodeKeyChar, boolean shift) {
+					public String alt(int unicodeKeyChar, boolean shift) {
 						return unicodeKeyChar + "";
 					}
 				});

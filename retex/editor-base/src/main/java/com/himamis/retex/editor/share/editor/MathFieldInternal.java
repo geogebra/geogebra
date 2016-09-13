@@ -185,30 +185,39 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     @Override
     public boolean onKeyReleased(KeyEvent keyEvent) {
+		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0
+				&& (keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) == 0;
+		if (alt) {
+			String str = listener.alt(keyEvent.getKeyCode(),
+					(keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0);
+			for (int i = 0; str != null && i < str.length(); i++) {
+				keyListener.onKeyTyped(str.charAt(i));
+			}
+			notifyAndUpdate();
+		}
 		return false;
     }
 
     @Override
     public boolean onKeyTyped(KeyEvent keyEvent) {
 		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0;
-		if(alt){
-			String str = listener.alt(keyEvent.getUnicodeKeyChar(),
-					(keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0);
-			for (int i = 0; str != null && i < str.length(); i++) {
-				keyListener.onKeyTyped(str.charAt(i));
-			}
-		}
+
 		boolean handled = alt || ((keyEvent.getKeyModifiers()
 				& KeyEvent.CTRL_MASK) > 0)
 				|| keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar());
         if (handled) {
-			if (listener != null) {
-				listener.onKeyTyped();
-			}
-            update();
+			notifyAndUpdate();
         }
         return handled;
     }
+
+	private void notifyAndUpdate() {
+		if (listener != null) {
+			listener.onKeyTyped();
+		}
+		update();
+
+	}
 
 	@Override
 	public void onPointerDown(int x, int y) {

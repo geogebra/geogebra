@@ -64,7 +64,7 @@ public class Test {
 
 			}
 
-			public String alt(char unicodeKeyChar, boolean shift) {
+			public String alt(int unicodeKeyChar, boolean shift) {
 				return AltKeys.getAltSymbols(unicodeKeyChar, shift);
 			}
 		});

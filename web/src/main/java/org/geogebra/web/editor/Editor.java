@@ -106,7 +106,7 @@ public class Editor implements EntryPoint, MathFieldListener {
 
 	}
 
-	public String alt(char unicodeKeyChar, boolean shift) {
+	public String alt(int unicodeKeyChar, boolean shift) {
 		return unicodeKeyChar + "";
 	}
 
