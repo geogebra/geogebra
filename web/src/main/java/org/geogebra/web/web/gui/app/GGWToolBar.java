@@ -620,7 +620,7 @@ pr.menu_header_undo(), null, 32);
 		//toolbarPanel.show(Integer.toString(activeToolbar));
 		onResize();
 		if (app.isExam()
-				&& !app.getArticleElement().getDataParamEnableGraphing(false)) {
+				&& !app.getArticleElement().getDataParamEnableGraphing(true)) {
 			toolBPanel.setVisible(false);
 		} else {
 			toolBPanel.setVisible(true);
