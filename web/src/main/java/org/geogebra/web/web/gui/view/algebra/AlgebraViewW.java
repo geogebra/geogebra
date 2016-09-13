@@ -1932,6 +1932,9 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			if (resizedWidth > maxItemWidth) {
 				setWidths(resizedWidth);
 			}
+			if (activeItem != null) {
+				activeItem.updateButtonPanelPosition();
+			}
 			return;
 		}
 
