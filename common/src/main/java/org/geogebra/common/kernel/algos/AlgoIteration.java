@@ -13,10 +13,12 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.algos.AlgoIterationList.Type;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -35,6 +37,7 @@ public class AlgoIteration extends AlgoElement {
 	private GeoNumberValue startValue, n;
 	private GeoElement startValueGeo, nGeo;
 	private GeoElement result; // output
+	private GeoFunctionNVar fNVar;
 
 	public AlgoIteration(Construction cons, String label, GeoFunction f,
 			GeoNumberValue startValue, GeoNumberValue n) {
@@ -46,7 +49,23 @@ public class AlgoIteration extends AlgoElement {
 		nGeo = n.toGeoElement();
 
 		result = new GeoNumeric(cons);
-		isSimple = true;
+		type = Type.SIMPLE;
+		setInputOutput();
+		compute();
+		result.setLabel(label);
+	}
+
+	public AlgoIteration(Construction cons, String label, GeoFunctionNVar f,
+			GeoList startValue, GeoNumberValue n) {
+		super(cons);
+		this.fNVar = f;
+		// this.startValue = startValue;
+		startValueGeo = startValue.toGeoElement();
+		this.n = n;
+		nGeo = n.toGeoElement();
+
+		result = new GeoNumeric(cons);
+		type = Type.DOUBLE;
 		setInputOutput();
 		compute();
 		result.setLabel(label);
@@ -56,8 +75,9 @@ public class AlgoIteration extends AlgoElement {
 	private GeoElement[] vars; // input: local variable
 	private int varCount;
 	private GeoList[] over;
-	private boolean expIsFunctionOrCurve, isSimple, isEmpty;
+	private boolean expIsFunctionOrCurve, isEmpty;
 	private AlgoElement expressionParentAlgo;
+	AlgoIterationList.Type type;
 
 	public AlgoIteration(Construction cons, String label,
 			GeoElement expression, GeoElement[] vars, GeoList[] over,
@@ -68,7 +88,7 @@ public class AlgoIteration extends AlgoElement {
 		this.over = over;
 		this.n = n;
 		this.nGeo = n.toGeoElement();
-		isSimple = false;
+		type = Type.DEFAULT;
 
 		varCount = vars.length;
 
@@ -89,9 +109,17 @@ public class AlgoIteration extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		if (isSimple) {
+		if (type == Type.SIMPLE) {
 			input = new GeoElement[3];
 			input[0] = f;
+			input[1] = startValueGeo;
+			input[2] = nGeo;
+
+			// done by AlgoElement
+		}
+		else if (type == Type.DOUBLE) {
+			input = new GeoElement[3];
+			input[0] = fNVar;
 			input[1] = startValueGeo;
 			input[2] = nGeo;
 
@@ -136,12 +164,39 @@ public class AlgoIteration extends AlgoElement {
 		((GeoNumeric) result).setValue(val);
 	}
 
+	public final void computeDouble() {
+		if (!fNVar.isDefined() || !startValueGeo.isDefined()
+				|| !nGeo.isDefined() || ((GeoList) startValueGeo).size() != 2) {
+			result.setUndefined();
+			return;
+		}
+
+		int iterations = (int) Math.round(n.getDouble());
+		if (iterations < 0) {
+			result.setUndefined();
+			return;
+		}
+
+		// perform iteration f(f(f(...(startValue))))
+		double val = ((GeoList) startValueGeo).get(0).evaluateDouble();
+		double offset = Math
+				.round(((GeoList) startValueGeo).get(1).evaluateDouble());
+		for (int i = 0; i < iterations; i++) {
+			val = fNVar.evaluate(val, offset + i);
+		}
+		((GeoNumeric) result).setValue(val);
+	}
+
 	boolean updateRunning = false;
 
 	@Override
 	public final void compute() {
-		if (isSimple) {
+		if (type == Type.SIMPLE) {
 			computeSimple();
+			return;
+		}
+		if (type == Type.DOUBLE) {
+			computeDouble();
 			return;
 		}
 		Log.debug(nGeo.isLabelSet() + "label");
@@ -181,7 +236,7 @@ public class AlgoIteration extends AlgoElement {
 
 	@Override
 	public GeoElement[] getInputForUpdateSetPropagation() {
-		if (isSimple) {
+		if (type != Type.DEFAULT) {
 			return super.getInputForUpdateSetPropagation();
 		}
 		GeoElement[] realInput = new GeoElement[3];

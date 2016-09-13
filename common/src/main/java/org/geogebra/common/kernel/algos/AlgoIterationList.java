@@ -50,10 +50,13 @@ public class AlgoIterationList extends AlgoElement {
 	private boolean expIsFunctionOrCurve, isEmpty;
 	private AlgoElement expressionParentAlgo;
 
-	private enum Type {
-		SIMPLE, // u(n+1)=f(u(n))
-		DOUBLE, // u(n+1)=f(u(n),n)
-		DEFAULT // others
+	enum Type {
+		/** u(n+1)=f(u(n)) */
+		SIMPLE,
+		/** u(n+1)=f(u(n),n) */
+		DOUBLE,
+		/** general type: deeper dependency, arbitrary type */
+		DEFAULT
 	}
 
 	private Type type = Type.DEFAULT;
@@ -109,7 +112,7 @@ public class AlgoIterationList extends AlgoElement {
 			GeoFunctionNVar fNVar, GeoList startValues, GeoNumberValue n) {
 		super(cons);
 		this.fNVar = fNVar;
-		this.startValues = startValues;
+		this.startValueGeo = this.startValues = startValues;
 		this.n = n;
 		nGeo = n.toGeoElement();
 		type = Type.DOUBLE;
@@ -167,24 +170,10 @@ public class AlgoIterationList extends AlgoElement {
 	protected void setInputOutput() {
 		switch (type) {
 		case SIMPLE:
-			input = new GeoElement[3];
-			input[0] = f;
-			input[1] = startValueGeo;
-			input[2] = nGeo;
-
-			super.setOutputLength(1);
-			super.setOutput(0, list);
-			setDependencies(); // done by AlgoElement
+			simpleDependency(f);
 			break;
 		case DOUBLE:
-			input = new GeoElement[3];
-			input[0] = fNVar;
-			input[1] = startValues;
-			input[2] = nGeo;
-
-			super.setOutputLength(1);
-			super.setOutput(0, list);
-			setDependencies(); // done by AlgoElement
+			simpleDependency(fNVar); // done by AlgoElement
 			break;
 		case DEFAULT:
 		default:
@@ -205,6 +194,18 @@ public class AlgoIterationList extends AlgoElement {
 			setDependencies(); // done by AlgoElement
 			break;
 		}
+
+	}
+
+	private void simpleDependency(GeoElement f2) {
+		input = new GeoElement[3];
+		input[0] = f2;
+		input[1] = startValueGeo;
+		input[2] = nGeo;
+
+		super.setOutputLength(1);
+		super.setOutput(0, list);
+		setDependencies(); // done by AlgoElement
 
 	}
 
