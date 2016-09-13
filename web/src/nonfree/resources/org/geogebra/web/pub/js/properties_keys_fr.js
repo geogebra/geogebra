@@ -864,7 +864,7 @@ __GGB__keysVar.fr.command = {
     "SetValue": "SoitValeur",
     "SetValue.Syntax": "[ <Bool\xe9en>, <0|1> ]\n[ <Objet>, <Objet> ]\n[ <Liste>, <Nombre>, <Objet> ]",
     "SetViewDirection": "SoitDirectionVue",
-    "SetViewDirection.Syntax": "[ <Direction> ]",
+    "SetViewDirection.Syntax": "[ <Direction> ]\n[ <Direction>, <Bool\xe9en Animation> ]",
     "SetVisibleInView": "SoitVisibleDansVue",
     "SetVisibleInView.Syntax": "[ <Objet>, <Num\xe9ro 1|2|-1>, <Bool\xe9en> ]",
     "Shear": "Transvection",

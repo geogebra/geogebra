@@ -2923,7 +2923,7 @@ __GGB__keysVar.km.menu = {
     "back": "Back",
     "cartesian": "Cartesian",
     "clockwise": "clockwise",
-    "counterClockwise": "counter clockwise",
+    "counterClockwise": "counterclockwise",
     "dependent": "dependent",
     "emf": "Enhanced Metafile",
     "eps": "Encapsulated Postscript",
