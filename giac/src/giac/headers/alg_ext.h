@@ -91,6 +91,10 @@ namespace giac {
   // minmax=-1 min 0 both 1 max
   gen fminmax(const gen & g,int minmax,GIAC_CONTEXT);
   bool find_good_eval(const polynome & F,polynome & Fb,vecteur & b);
+  typedef map<gen,gen,comparegen > rootmap;
+  rootmap & symbolic_rootof_list();
+  rootmap & proot_list();
+  rootmap & galoisconj_list();
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

@@ -969,6 +969,8 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   void gprintf(unsigned special,const std::string & format,const vecteur & v,GIAC_CONTEXT);
   void gprintf(unsigned special,const std::string & format,const vecteur & v,int step_info,GIAC_CONTEXT);
   gen make_symbolic(const gen & op,const gen & args);
+  // optional, call it just before exiting
+  int release_globals();
   
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

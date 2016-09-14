@@ -909,6 +909,11 @@ namespace giac {
 #endif
 
   extern const unary_function_ptr * const  at_step_infolevel;
+#ifndef VISUALC
+  gen * normal_sin_pi_12_ptr_();
+  gen * normal_cos_pi_12_ptr_();
+#endif
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
