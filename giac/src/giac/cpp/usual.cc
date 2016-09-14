@@ -2011,6 +2011,14 @@ namespace giac {
     return -cst_i*ln(cst_i*x+sqrt(1-x*x,contextptr),contextptr);
     // return cst_i*ln(sqrt(x*x-1,contextptr)+x,contextptr)+cst_pi_over_2;
   }
+  gen * normal_sin_pi_12_ptr_(){
+    static gen * ans=new gen(normal(sin_pi_12,context0));
+    return ans;
+  }
+  gen * normal_cos_pi_12_ptr_(){
+    static gen * ans=new gen(normal(cos_pi_12,context0));
+    return ans;
+  }
   gen asin(const gen & e0,GIAC_CONTEXT){
     if ( (calc_mode(contextptr)==38 || !escape_real(contextptr) ) && !complex_mode(contextptr) && (e0.type<=_POLY || e0.type==_FLOAT_) && (!is_positive(e0+1,contextptr) || !is_positive(1-e0,contextptr)))
       return gensizeerr(contextptr);
@@ -2024,12 +2032,8 @@ namespace giac {
 #endif
     }
 #ifndef VISUALC
-    static gen * normal_sin_pi_12_ptr=0;
-    if (!normal_sin_pi_12_ptr)
-      normal_sin_pi_12_ptr=new gen(normal(sin_pi_12,contextptr));
-    static gen * normal_cos_pi_12_ptr=0;
-    if (!normal_cos_pi_12_ptr)
-      normal_cos_pi_12_ptr=new gen(normal(cos_pi_12,contextptr));
+    gen * normal_sin_pi_12_ptr=normal_sin_pi_12_ptr_();
+    gen * normal_cos_pi_12_ptr=normal_cos_pi_12_ptr_();
 #endif
     gen e=frac_neg_out(e0,contextptr);
     if (e.type==_DOUBLE_){

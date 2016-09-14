@@ -66,17 +66,17 @@ namespace giac {
     }
     return a.islesscomplexthan(b);
   }
-  typedef map<gen,gen,comparegen > rootmap;
-  static rootmap & symbolic_rootof_list(){
+
+  rootmap & symbolic_rootof_list(){
     static rootmap * ans= new rootmap;
     return *ans;
   }
-  static rootmap & proot_list(){
+  rootmap & proot_list(){
     static rootmap * ans= new rootmap;
     return *ans;
   }
 
-  static rootmap & galoisconj_list(){
+  rootmap & galoisconj_list(){
     static rootmap * ans= new rootmap;
     return *ans;
   }

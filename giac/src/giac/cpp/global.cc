@@ -5504,6 +5504,13 @@ unsigned int ConvertUTF8toUTF16 (
     delete &xcasrc();
     //delete &usual_units();
     if (vector_aide_ptr()) delete vector_aide_ptr();
+    delete &symbolic_rootof_list();
+    delete &proot_list();
+    delete &galoisconj_list();
+#ifndef VISUALC
+    delete normal_sin_pi_12_ptr_();
+    delete normal_cos_pi_12_ptr_();
+#endif
     return 0;
   }
 

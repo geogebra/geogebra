@@ -2012,7 +2012,7 @@ namespace giac {
       if (lv.empty())
 	continue;
       if (lv.size()>=2 || lv[0]!=w[i]){
-	//gensizeerr("Unable to handle "+g.print(contextptr));
+	//gensizeerr("Limit probably undefined, algorithm unable to handle "+g.print(contextptr));
 	return -1;
       }
     }
@@ -2221,14 +2221,14 @@ namespace giac {
     // check added for limit((tan(x)-x)/x^3,x=inf)
     for (unsigned i=0;i<p.size();++i){
       if (check_bounded(p[i].coeff,contextptr)==-1)
-	return gensizeerr("Unable to handle "+p[i].coeff.print(contextptr));
+	return gensizeerr("Limit probably undefined, algorithm unable to handle "+p[i].coeff.print(contextptr));
     }
     if (ck_is_strictly_positive(exponent,contextptr))
       return 0;
     if (is_zero(exponent)){
       int l=check_bounded(coeff,contextptr);
       if (l==-1)
-	return gensizeerr("Unable to handle "+coeff.print(contextptr));
+	return gensizeerr("Limit probably undefined, algorithm unable to handle "+coeff.print(contextptr));
       return l==1?bounded_function(contextptr):coeff;
     }
     // check sign of coeff, if coeff depends on x first find equivalent
@@ -2252,7 +2252,7 @@ namespace giac {
     // limit((-2)^n,n,inf)
     int l=check_bounded(essai,contextptr);
     if (l==-1)
-      return gensizeerr("Unable to handle "+essai.print(contextptr));
+      return gensizeerr("Limit probably undefined, algorithm unable to handle "+essai.print(contextptr));
     return l==1?undef:unsigned_inf;
     /* 
     essai=eval(subst(essai,sincosinf,vecteur(sincosinf.size(),undef)));
@@ -2446,7 +2446,7 @@ namespace giac {
 	}
 	int l=check_bounded(p.front().coeff,contextptr);
 	if (l==-1)
-	  return gensizeerr("Unable to handle "+p.front().coeff.print(contextptr));
+	  return gensizeerr("Limit probably undefined, algorithm unable to handle "+p.front().coeff.print(contextptr));
 	return l==1?bounded_function(contextptr):p.front().coeff;
       }
       return gensizeerr(gettext("Series internal bug"));
@@ -2572,7 +2572,7 @@ namespace giac {
 	}
       }
       if (temp._SYMBptr->feuille.type==_VECT){
-	*logptr(contextptr) << gettext("Unable to handle ")+temp.print(contextptr) << endl;
+	*logptr(contextptr) << gettext("Limit probably undefined, algorithm unable to handle ")+temp.print(contextptr) << endl;
 	return false;
       }
       gen l=in_limit(temp._SYMBptr->feuille,x,plus_inf,0,contextptr);
