@@ -60,7 +60,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		AbsoluteScreenLocateable, GeoFunctionable, Animatable, HasExtendedAV,
-		SymbolicParametersBotanaAlgo, HasSymbolicMode {
+		SymbolicParametersBotanaAlgo, HasSymbolicMode, AnimationExportSlider {
 
 	private Variable[] botanaVars;
 

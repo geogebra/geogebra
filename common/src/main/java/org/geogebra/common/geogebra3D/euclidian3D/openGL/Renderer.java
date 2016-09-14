@@ -12,8 +12,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 
 /**
@@ -461,7 +461,8 @@ public abstract class Renderer {
 	 * @param step
 	 *            slider step
 	 */
-	public void startAnimatedGIFExport(Object gifEncoder, GeoNumeric num,
+	public void startAnimatedGIFExport(Object gifEncoder,
+			AnimationExportSlider num,
 			int n, double val, double min, double max, double step) {
 		exportType = ExportType.ANIMATEDGIF;
 
@@ -2001,7 +2002,7 @@ public abstract class Renderer {
 	public double export_max;
 	public double export_step;
 	public int export_i;
-	public GeoNumeric export_num;
+	public AnimationExportSlider export_num;
 
 	public void updateProjectionObliqueValues() {
 		double angle = Math.toRadians(view3D.getProjectionObliqueAngle());

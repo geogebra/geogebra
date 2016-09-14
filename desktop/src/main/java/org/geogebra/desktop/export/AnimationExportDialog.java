@@ -21,7 +21,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.util.FileExtensions;
@@ -98,6 +100,11 @@ public class AnimationExportDialog extends JDialog {
 		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder();
 
+		// add rotation around Oz slider if 3D view
+		if (app.getActiveEuclidianView().isEuclidianView3D()) {
+			addRotOzSlider(comboModel);
+		}
+
 		// lists for combo boxes to select input and output objects
 		// fill combobox models
 		Iterator<GeoElement> it = sortedSet.iterator();
@@ -137,6 +144,7 @@ public class AnimationExportDialog extends JDialog {
 
 		exportButton = new JButton(loc.getMenu("Export"));
 		exportButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				export();
 			}
@@ -153,6 +161,7 @@ public class AnimationExportDialog extends JDialog {
 
 		cancelButton = new JButton(loc.getMenu("Cancel"));
 		cancelButton.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
@@ -167,6 +176,83 @@ public class AnimationExportDialog extends JDialog {
 		pack();
 		setLocationRelativeTo(app.getMainComponent());
 		setVisible(true);
+	}
+
+	private RotOzSlider rotOzSlider;
+
+	private class RotOzSlider implements AnimationExportSlider {
+
+		private String description;
+
+		private EuclidianView3DInterface view3D;
+
+		private double value;
+
+		// starts with Ox on the right
+		static final private double min = Math.PI / 2;
+		// ends 2pi later
+		static final private double max = min + 2 * Math.PI;
+		// 1 degree step )
+		static final private double step = Math.PI / 180;
+
+		public RotOzSlider(EuclidianView3DInterface view3D) {
+			this.view3D = view3D;
+		}
+
+		/**
+		 * set description displayed in combo box
+		 * 
+		 * @param description
+		 *            description
+		 */
+		public void setDescription(String description) {
+			this.description = description;
+		}
+
+		@Override
+		public String toString() {
+			return description;
+		}
+
+		@Override
+		public void updateRepaint() {
+			// use -value for anti-clockwise
+			view3D.setRotAnimation(-value, false, false);
+			view3D.repaintView();
+		}
+
+		@Override
+		public double getIntervalMin() {
+			return min;
+		}
+
+		@Override
+		public double getIntervalMax() {
+			return max;
+		}
+
+		@Override
+		public double getAnimationStep() {
+			return step;
+		}
+
+		public int getAnimationType() {
+			return GeoElement.ANIMATION_INCREASING;
+		}
+
+		public void setValue(double x) {
+			value = x;
+		}
+
+	}
+
+	private void addRotOzSlider(DefaultComboBoxModel comboModel){
+		if (rotOzSlider == null){
+			rotOzSlider = new RotOzSlider(app.getEuclidianView3D());
+		}
+		rotOzSlider.setDescription(app.getLocalization().getMenu(
+				"RotationAroundVerticalAxis"));
+		comboModel.addElement(rotOzSlider);
 	}
 
 	/**
@@ -196,7 +282,8 @@ public class AnimationExportDialog extends JDialog {
 				loc.getMenu("gif") + " " + loc.getMenu("Files"), true,
 				false);
 
-		GeoNumeric num = (GeoNumeric) cbSliders.getSelectedItem();
+		AnimationExportSlider num = (AnimationExportSlider) cbSliders
+				.getSelectedItem();
 
 		int type = num.getAnimationType();
 		double min = num.getIntervalMin();
@@ -247,11 +334,13 @@ public class AnimationExportDialog extends JDialog {
 		}
 		FrameCollector collector = new FrameCollector() {
 
+			@Override
 			public void addFrame(BufferedImage img) {
 				gifEncoder.addFrame(img);
 
 			}
 
+			@Override
 			public void finish() {
 				gifEncoder.finish();
 

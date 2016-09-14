@@ -51,7 +51,7 @@ import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -637,7 +637,7 @@ public class App3D extends AppD {
 
 	@Override
 	public void exportAnimatedGIF(EuclidianView ev, FrameCollector gifEncoder,
-			GeoNumeric num,
+			AnimationExportSlider num,
 			int n, double val, double min, double max, double step) {
 
 		if (!(ev instanceof EuclidianView3D)) {

@@ -140,9 +140,9 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.barycentric.AlgoCubicSwitch;
 import org.geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.AlgoCubicSwitchInterface;
 import org.geogebra.common.main.AlgoCubicSwitchParams;
 import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
@@ -5026,7 +5026,7 @@ ToolbarD.getAllTools(this));
 	// **************************************************************************
 
 	public void exportAnimatedGIF(EuclidianView ev, FrameCollector gifEncoder,
-			GeoNumeric num,
+			AnimationExportSlider num,
 			int n, double val, double min, double max, double step) {
 		for (int i = 0; i < n; i++) {
 
