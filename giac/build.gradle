@@ -4,6 +4,8 @@
 
 project.setDescription('Giac CAS for GeoGebra')
 
+apply from: 'gradle-scripts/repositories.gradle'
+
 apply plugin: 'cpp'
 
 // FIXME: These seetings are hardcoded at the moment, they need to be more general.
