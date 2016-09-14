@@ -26,8 +26,8 @@ import org.geogebra.web.web.util.LaTeXHelper;
 import org.geogebra.web.web.util.ReTeXHelper;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -192,6 +192,7 @@ public class LatexTreeItem extends RadioTreeItem
 			removeDummy();
 		}
 
+
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			if (focus) {
 				content.addStyleName("scrollableTextBox");
@@ -215,7 +216,10 @@ public class LatexTreeItem extends RadioTreeItem
 			} else {
 				main.add(this.marblePanel);
 			}
-			appendCanvas();
+
+			if (isInputTreeItem()) {
+				appendCanvas();
+			}
 			main.add(content);
 			if (controls != null) {
 				main.add(controls);
@@ -223,6 +227,7 @@ public class LatexTreeItem extends RadioTreeItem
 			}
 
 		}
+
 		if (focus) {
 			canvas.setVisible(true);
 		} else {
