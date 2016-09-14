@@ -2493,13 +2493,34 @@ CasEvaluableFunction, ParametricCurve,
 					} else {
 						sbLaTeX.append(conditions.get(i).toLaTeXString(
 								!substituteNumbers, getVarString(tpl), tpl));
+
 					}
 					sbLaTeX.append(" } } ");
 				}
 				sbLaTeX.append(" } } ");
 			} else {
+				int lastValid = cases.size()-1;
+				while (lastValid >= 0 && !conditions.get(lastValid).isValid()) {
+					lastValid--;
+				}
+				int firstValid = 0;
+				while (firstValid < cases.size()
+						&& !conditions.get(firstValid).isValid()) {
+					firstValid++;
+				}
+				if (firstValid > lastValid) {
+					sbLaTeX.append('?');
+					return sbLaTeX.toString();
+
+				}
+				if (firstValid == lastValid) {
+					sbLaTeX.append(cases.get(firstValid)
+							.toLaTeXString(!substituteNumbers, tpl));
+					return sbLaTeX.toString();
+				}
 				sbLaTeX.append("\\left\\{\\begin{array}{ll} ");
-				for (int i = 0; i < cases.size(); i++) {
+				for (int i = firstValid; i <= lastValid; i++) {
+					if (conditions.get(i).isValid()) {
 					sbLaTeX.append(cases.get(i).toLaTeXString(!substituteNumbers, tpl));
 					sbLaTeX.append("& : ");
 					if (i == cases.size() - 1 && complete) {
@@ -2507,10 +2528,12 @@ CasEvaluableFunction, ParametricCurve,
 						sbLaTeX.append(getLoc().getPlain("otherwise"));
 						sbLaTeX.append("}");
 					} else {
-						sbLaTeX.append(conditions.get(i).toLaTeXString(
+
+							sbLaTeX.append(conditions.get(i).toLaTeXString(
 								!substituteNumbers, getVarString(tpl), tpl));
-						if (i != cases.size() - 1)
+						if (i != lastValid)
 							sbLaTeX.append("\\\\ ");
+					}
 					}
 				}
 				sbLaTeX.append(" \\end{array}\\right. ");
@@ -2685,6 +2708,10 @@ CasEvaluableFunction, ParametricCurve,
 				}
 			}
 			return b;
+		}
+
+		public boolean isValid() {
+			return lower == null || upper == null || lower <= upper;
 		}
 
 		/**
