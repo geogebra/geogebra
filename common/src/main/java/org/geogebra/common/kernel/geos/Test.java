@@ -543,7 +543,9 @@ Test {
 		public boolean check(Object ob) {
 			return true;
 		}
-	}, PATH_NO_FILL_HIT {
+	},
+	/** path hit on boundary */
+	PATH_NO_FILL_HIT {
 		@Override
 		public boolean check(Object ob) {
 			if(ob instanceof GeoConicND){
@@ -572,6 +574,13 @@ Test {
 		return OBJECT;
 	}
 
+	/**
+	 * @param object
+	 *            changed object
+	 * @param setter
+	 *            setter
+	 * @return whether objec.set(setter) will run OK
+	 */
 	public static boolean canSet(GeoElement object, GeoElement setter) {
 		return gen(getSpecificTest(object),getSpecificTest(setter));
 	}

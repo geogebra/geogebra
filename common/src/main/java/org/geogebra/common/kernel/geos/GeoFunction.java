@@ -1450,6 +1450,8 @@ CasEvaluableFunction, ParametricCurve,
 	 *            first addend
 	 * @param fun2
 	 *            second addend
+	 * @param op
+	 *            operation
 	 * @return resultFun
 	 */
 	public static GeoFunction add(GeoFunction resultFun, GeoFunction fun1,
@@ -2516,6 +2518,14 @@ CasEvaluableFunction, ParametricCurve,
 				if (firstValid == lastValid) {
 					sbLaTeX.append(cases.get(firstValid)
 							.toLaTeXString(!substituteNumbers, tpl));
+					if (!complete) {
+
+						sbLaTeX.append(", \\;\\;\\;\\; \\left(");
+						sbLaTeX.append(conditions.get(firstValid).toLaTeXString(
+								!substituteNumbers, getVarString(tpl), tpl));
+						sbLaTeX.append(" \\right)");
+
+					}
 					return sbLaTeX.toString();
 				}
 				sbLaTeX.append("\\left\\{\\begin{array}{ll} ");
@@ -2563,7 +2573,8 @@ CasEvaluableFunction, ParametricCurve,
 		ExpressionNode elseFun = complete?condRoot.getRight().wrap():null;
 
 		Bounds positiveCond = parentCond.addRestriction(condFun);
-		Bounds negativeCond = parentCond.addRestriction(condFun.negation());
+		Bounds negativeCond = !positiveCond.isValid() ? parentCond
+				: parentCond.addRestriction(condFun.negation());
 		if (ifFun.isConditional()) {
 			complete &= collectCases(ifFun,cases,
 					conditions, positiveCond);
@@ -2710,6 +2721,9 @@ CasEvaluableFunction, ParametricCurve,
 			return b;
 		}
 
+		/**
+		 * @return whether this can be true for some x (allows false negatives)
+		 */
 		public boolean isValid() {
 			return lower == null || upper == null || lower <= upper;
 		}

@@ -59,8 +59,16 @@ public interface ParametricCurve extends Traceable, Path, CurveEvaluable {
 	 */
 	boolean isFunctionInX();
 	
+	/**
+	 * @param i
+	 *            coordinate
+	 * @return function
+	 */
 	Function getFun(int i);
 
+	/**
+	 * @return array of function variables
+	 */
 	FunctionVariable[] getFunctionVariables();
 
 }
