@@ -829,7 +829,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * @param value true to show style bar
 	 */
 	private void setStyleBarLongVisibility(boolean value) {
-		if (app.allowStylebar()) {
+		// in applets title bar may be null and view menu still enabled
+		if (app.allowStylebar() && titleBarPanel != null) {
 			dockPanel.setWidgetSize(titleBarPanel, value ? 44 : 0);
 			titleBarPanel.setStyleName("TitleBarPanel-open", value);
 			setLongStyleBar(value);

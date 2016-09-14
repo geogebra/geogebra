@@ -288,12 +288,16 @@ public class CommandsTest extends Assert{
 	public void cmdIteration() {
 		t("Iteration[ x*2, 2, 5 ]", "64");
 		t("Iteration[ t*2, t, {(2,3)}, 5 ]", "(64, 96)");
+		t("Iteration[ x*y, {1,1}, 6 ]", "720");
+		t("Iteration[ x*y, {1,1}, 0 ]", "1");
+		t("Iteration[ x*y, {1,1}, -1 ]", "NaN");
 	}
 
 	@Test
 	public void cmdIterationList() {
 		t("IterationList[ x*2, 2, 5 ]", "{2, 4, 8, 16, 32, 64}");
 		t("IterationList[ a+b, a, b, {1,1}, 5 ]", "{1, 1, 2, 3, 5, 8}");
+		t("IterationList[ x*y, {1,1}, 6 ]", "{1, 1, 2, 6, 24, 120, 720}");
 	}
 
 	@Test

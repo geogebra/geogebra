@@ -526,6 +526,14 @@ public class AppWapplet extends AppWFull {
 	}
 
 	@Override
+	public double getWidth() {
+		if (spWidth > 0) {
+			return spWidth;
+		}
+		return super.getWidth();
+	}
+
+	@Override
 	public void updateContentPane() {
 		super.updateContentPane();
 		frame.setApplication(this);

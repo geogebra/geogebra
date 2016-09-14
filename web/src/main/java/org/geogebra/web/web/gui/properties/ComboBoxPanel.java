@@ -119,6 +119,7 @@ public abstract class ComboBoxPanel extends OptionPanel
 	public void showError(String msg) {
 		if (msg == null) {
 			errorPanel.clear();
+			return;
 		}
 		errorPanel.clear();
 		String[] lines = msg.split("\n");
