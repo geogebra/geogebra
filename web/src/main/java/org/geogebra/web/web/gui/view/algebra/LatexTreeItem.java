@@ -26,8 +26,8 @@ import org.geogebra.web.web.util.LaTeXHelper;
 import org.geogebra.web.web.util.ReTeXHelper;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
