@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.util.debug.Log;
 
 public class AlgoDispatcher {
 
@@ -1814,7 +1815,11 @@ GeoImplicit p1,
 
 			return newPoint;
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			Log.error(e1.getMessage());
+			return null;
+		} catch (Error e2) {
+			// eg try to attach dependent point of regular polygon
+			Log.error(e2.getMessage());
 			return null;
 		}
 	}
