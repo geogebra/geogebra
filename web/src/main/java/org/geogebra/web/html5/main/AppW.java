@@ -3375,7 +3375,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public boolean allowStylebar() {
-		return getArticleElement().getDataParamApp()
+		return (getArticleElement().getDataParamApp()
+				&& getArticleElement().getDataParamEnableGraphing(true))
 				|| getArticleElement().getDataParamShowMenuBar(false)
 				|| getArticleElement().getDataParamAllowStyleBar(false);
 	}
