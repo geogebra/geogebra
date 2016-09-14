@@ -35,20 +35,25 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
+/**
+ * Intersect polynomial function with a conic
+ */
 public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 
 	private GeoFunction h; // input
 	private GeoConic c;
 
-	private static final int PIXELS_BETWEEN_SAMPLES = 5; // Open for empirical
-															// adjustments
-	private static final int MAX_SAMPLES = 400; // -"- (covers a screen up to
-												// 2000 pxs if 5-pix-convention)
-	private static final int MIN_SAMPLES = 50; // -"- (covers up to 50 in a
-												// 250pxs interval if
-												// 5-pix-convention)
 
 
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param h
+	 *            polynomial function
+	 * @param c
+	 *            conic
+	 */
 	public AlgoIntersectPolynomialConic(Construction cons, GeoFunction h,
 			GeoConic c) {
 		super(cons, h, c);
@@ -59,6 +64,18 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 		compute();
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            labels for result
+	 * @param setLabel
+	 *            whether to set labels
+	 * @param h
+	 *            function
+	 * @param c
+	 *            conic
+	 */
 	public AlgoIntersectPolynomialConic(Construction cons, String[] labels,
 			boolean setLabel, GeoFunction h, GeoConic c) {
 		super(cons, h, c);
@@ -115,7 +132,9 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			 */
 
 			GeoImplicit iPoly = kernel.newImplicitPoly(cons);
+			iPoly.preventPathCreation();
 			c.toGeoImplicitCurve(iPoly);
+
 			GeoFunction paramEquation = new GeoFunction(cons, iPoly, null, h);
 
 			// int nroots = 0;
@@ -179,10 +198,10 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 				// * hyperParaBolaFactor)));
 			}
 
-			GeoPoint[] points = algo.getRootPoints();
+			GeoPoint[] rootPoints = algo.getRootPoints();
 			List<double[]> valPairs = new ArrayList<double[]>();
-			for (int i = 0; i < points.length; i++) {
-				double t = points[i].getX();
+			for (int i = 0; i < rootPoints.length; i++) {
+				double t = rootPoints[i].getX();
 				valPairs.add(new double[] { t, h.evaluate(t) });
 			}
 
