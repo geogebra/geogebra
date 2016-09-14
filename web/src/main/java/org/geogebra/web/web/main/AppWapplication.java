@@ -1,5 +1,6 @@
 package org.geogebra.web.web.main;
 
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
@@ -58,7 +59,7 @@ public class AppWapplication extends AppWFull {
 	public AppWapplication(ArticleElement article,
 	        GeoGebraAppFrame geoGebraAppFrame, boolean undoActive,
 	        int dimension, GLookAndFeel laf, GDevice device) {
-		super(article, dimension, laf);
+		super(article, dimension, laf, Versions.WEB_APP_FOR_BROWSER_3D);
 		this.device = device;
 
 		maybeStartAutosave();

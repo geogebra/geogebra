@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.main;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -35,7 +36,7 @@ public class AppWsimple extends AppW {
 	 */
 	public AppWsimple(ArticleElement ae, GeoGebraFrameW gf,
 	        final boolean undoActive) {
-		super(ae, 2, null);
+		super(ae, 2, null, Versions.WEB_FOR_BROWSER_SIMPLE);
 		this.frame = gf;
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());

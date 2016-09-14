@@ -8,6 +8,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -372,7 +373,7 @@ public abstract class App implements UpdateSelection {
 	private boolean blockUpdateScripts = false;
 	private boolean useBrowserForJavaScript = true;
 	private EventDispatcher eventDispatcher;
-	private int[] version = null;
+	private int[] versionArray = null;
 	private List<SavedStateListener> savedListeners = new ArrayList<SavedStateListener>();
 	private Macro macro;
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
@@ -393,6 +394,8 @@ public abstract class App implements UpdateSelection {
 	// whether to allow perspective and login popups
 	private boolean allowPopUps = false;
 
+	private Versions version;
+
 	// TODO: move following methods somewhere else
 	private int tubeID = 0;
 
@@ -402,6 +405,14 @@ public abstract class App implements UpdateSelection {
 	public App() {
 		companion = newAppCompanion();
 		resetUniqueId();
+	}
+
+	/**
+	 * constructor
+	 */
+	public App(Versions version) {
+		this();
+		this.version = version;
 	}
 
 	/**
@@ -1261,24 +1272,24 @@ public abstract class App implements UpdateSelection {
 	 * @return whether given version is newer than this code
 	 */
 	public boolean fileVersionBefore(int[] v) {
-		if (this.version == null) {
+		if (this.versionArray == null) {
 			return true;
 		}
 
-		int length = version.length;
+		int length = versionArray.length;
 		if (v.length < length) {
 			length = v.length;
 		}
 
 		for (int i = 0; i < length; i++) {
-			if (version[i] < v[i]) {
+			if (versionArray[i] < v[i]) {
 				return true;
-			} else if (version[i] > v[i]) {
+			} else if (versionArray[i] > v[i]) {
 				return false;
 			}
 		}
 
-		return version.length < v.length;
+		return versionArray.length < v.length;
 	}
 
 	/**
@@ -1292,11 +1303,11 @@ public abstract class App implements UpdateSelection {
 		// AbstractApplication.debug("file version: " + version);
 
 		if (version == null) {
-			this.version = null;
+			this.versionArray = null;
 			return;
 		}
 
-		this.version = getSubValues(version);
+		this.versionArray = getSubValues(version);
 	}
 
 	/**
@@ -3032,6 +3043,12 @@ public abstract class App implements UpdateSelection {
 	// protected abstract Object getMainComponent();
 
 	public String getVersionString() {
+
+		if (version != null) {
+			return version.getVersionString();
+		}
+
+		// fallback in case version not set properly
 		return GeoGebraConstants.VERSION_STRING + getVersionSuffix();
 	}
 

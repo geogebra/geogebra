@@ -654,7 +654,7 @@ public final class ArticleElement extends Element {
 	}
 
 	public boolean isEnableUsageStats() {
-		return true;
+		return false;
 	}
 
 	public String getMaterialsAPIurl() {

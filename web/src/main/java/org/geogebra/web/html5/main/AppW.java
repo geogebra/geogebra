@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.MissingResourceException;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
@@ -207,8 +208,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * @param laf
 	 *            (null for webSimple) {@link GLookAndFeelI}
 	 */
-	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf) {
-		super();
+	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf,
+			Versions version) {
+		super(version);
 		setPrerelease(ae.getDataParamPrerelease());
 
 		// laf = null in webSimple

@@ -107,6 +107,7 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
@@ -397,7 +398,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			AppletImplementation appletImpl, Container comp,
 			boolean undoActive, LocalizationD loc) {
 
-		super();
+		super(Versions.DESKTOP);
 
 		this.loc = loc;
 		loc.setApp(this);

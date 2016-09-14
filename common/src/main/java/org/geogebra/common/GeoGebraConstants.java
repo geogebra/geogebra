@@ -17,6 +17,70 @@ public interface GeoGebraConstants {
 	// proper noun, should NOT be translated / transliterated
 	public static final String APPLICATION_NAME = "GeoGebra";
 
+	public enum Versions {
+
+		DESKTOP("3D"),
+
+		/** GeoGebra Graphing Calculator */
+		ANDROID_NATIVE_GRAPHING("a"),
+
+		ANDROID_NATIVE_3D("a3D"),
+
+		ANDROID_WEBVIEW("aw"),
+
+		ANDROID_WEBVIEW_EXAM("exam", true),
+
+		IOS_NATIVE("i"),
+
+		IOS_WEBVIEW("iw"),
+
+		WEB_FOR_DESKTOP("3D"),
+
+		WINDOWS_STORE("win"),
+
+		WEB_FOR_BROWSER_3D("web3d"),
+
+		WEB_FOR_BROWSER_2D("web"),
+
+		WEB_FOR_BROWSER_SIMPLE("webSimple"),
+
+		WEB_APP_FOR_BROWSER_3D("webapp"),
+
+		SMART("s"),
+
+		POWERPOINT("p"),
+
+		NO_CAS("nc");
+
+		private boolean exam = false;
+		private String suffix;
+
+		Versions(String suffix, boolean exam) {
+			this.suffix = suffix;
+			this.exam  = exam;
+		}
+
+		Versions(String suffix) {
+			this.suffix = suffix;
+		}
+
+		public String getVersionString() {
+
+			switch (this) {
+			case WEB_FOR_DESKTOP:
+				// change 5.0.274.0 to 6.0.274.0
+				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix;
+			default:
+				return VERSION_STRING + "-" + suffix;
+
+			}
+
+		}
+
+
+
+	}
+
 	/**
 	 * used by version checker, so that sys admins can disable version checking
 	 * for *all* ggb versions with

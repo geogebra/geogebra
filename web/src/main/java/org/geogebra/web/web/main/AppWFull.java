@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
@@ -93,8 +94,9 @@ public abstract class AppWFull extends AppW {
 	 * @param laf
 	 *            look and feel
 	 */
-	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf) {
-		super(ae, dimension, laf);
+	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf,
+			Versions version) {
+		super(ae, dimension, laf, version);
 		
 
 		if (this.isExam()) {
