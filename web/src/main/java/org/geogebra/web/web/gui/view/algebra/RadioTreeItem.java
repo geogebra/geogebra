@@ -2219,11 +2219,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void selectItem(boolean selected) {
-		toggleControls();
 
 		if (selectedItem == selected) {
 			return;
 		}
+
+		toggleControls();
 
 		setForceControls(false);
 
