@@ -1,15 +1,10 @@
 project.description = 'GeoGebra'
 
+apply from: 'gradle-scripts/repositories.gradle'
+
 subprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'java'
-
-	repositories {
-		maven {
-			url 'http://dev.geogebra.org/maven2'
-		}
-		mavenCentral()
-    }
 
 	eclipse.project {
 		natures 'org.springsource.ide.eclipse.gradle.core.nature'
@@ -42,7 +37,7 @@ subprojects {
 
 task wrapper(type: Wrapper) {
 	description = 'Creates the gradle wrapper'
-	gradleVersion = '2.13'
+	gradleVersion = '3.0'
 }
 
 // eclipse related tasks

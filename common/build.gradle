@@ -1,15 +1,6 @@
 project.setDescription('Common parts of GeoGebra for various platforms')
 
 buildscript {
-	repositories {
-    	maven {
-    		url 'https://plugins.gradle.org/m2/'
-		}
-		maven {
-			name 'GeoGebra Dev'
-			url 'http://dev.geogebra.org/maven2'
-		}
-	}
 	dependencies {
 		classpath "ca.coglinc:javacc-gradle-plugin:2.1.0"
 		

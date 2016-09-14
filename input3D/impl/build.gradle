@@ -3,10 +3,6 @@ apply plugin: 'eclipse'
 
 project.setDescription('Parts of GeoGebra related to input devices (Leonar3Do, Intel RealSense, zSpace)')
 
-repositories {
-	mavenCentral()
-}
-
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 

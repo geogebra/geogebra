@@ -4,12 +4,6 @@ apply plugin: 'application'
 apply plugin: 'jacoco'
 apply plugin: 'findbugs'
 
-repositories {
-    maven {
-        url 'http://dev.geogebra.org/maven2'
-    }
-}
-
 sourceSets {
     nonfree
     gpl

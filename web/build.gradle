@@ -7,12 +7,9 @@ evaluationDependsOn(':editor-web')
 //evaluationDependsOn(':giac-jni')
 
 buildscript {
-	repositories {
-		jcenter()
         dependencies {
         	classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
 		}
-	}
 }
 
 apply plugin: 'gwt-compiler'
@@ -22,13 +19,6 @@ apply plugin: 'jetty'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
-
-repositories {
-	mavenCentral()
-	maven {
-		url 'http://dev.geogebra.org/maven2'
-	}
-}
 
 sourceSets {
     nonfree

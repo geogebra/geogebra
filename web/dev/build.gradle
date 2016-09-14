@@ -2,10 +2,6 @@ project.setDescription('Developer tools required to compile web platforms')
 
 apply plugin: 'java'
 
-repositories {
-	mavenCentral()
-}
-
 dependencies {
 	compile 'com.google.gwt:gwt-dev:2.7.0',
 		project(':common')
