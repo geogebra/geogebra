@@ -1195,9 +1195,6 @@ public class AlgebraProcessor {
 		return list;
 	}
 
-	public GeoFunction evaluateToFunction(String str, boolean suppressErrors) {
-		return evaluateToFunction(str, suppressErrors, false);
-	}
 	/**
 	 * Parses given String str and tries to evaluate it to a GeoFunction Returns
 	 * null if something went wrong. Michael Borcherds 2008-04-04
@@ -1206,6 +1203,22 @@ public class AlgebraProcessor {
 	 *            input string
 	 * @param suppressErrors
 	 *            false to show error messages (only stacktrace otherwise)
+	 * @return resulting function
+	 */
+	public GeoFunction evaluateToFunction(String str, boolean suppressErrors) {
+		return evaluateToFunction(str, suppressErrors, false);
+	}
+	
+	/**
+	 * Parses given String str and tries to evaluate it to a GeoFunction Returns
+	 * null if something went wrong. Michael Borcherds 2008-04-04
+	 * 
+	 * @param str
+	 *            input string
+	 * @param suppressErrors
+	 *            false to show error messages (only stacktrace otherwise)
+	 * @param revertArbconst
+	 *            whether to replace c_1 back with arbconst(1)
 	 * @return resulting function
 	 */
 	public GeoFunction evaluateToFunction(String str, boolean suppressErrors,
@@ -1221,30 +1234,33 @@ public class AlgebraProcessor {
 			FunctionVariable[] fv = new FunctionVariable[varName.length];
 			ExpressionNode exp = ve.wrap();
 			replaceVariables(exp, varName, fv);
-			exp = exp.traverse(new Traversing() {
+			if (revertArbconst) {
+				exp = exp.traverse(new Traversing() {
 
-				public ExpressionValue process(ExpressionValue ev) {
-					if (ev instanceof Variable) {
-						GeoElement geo = kernel
-								.lookupLabel(((Variable) ev).getName());
-						String[] parts = ((Variable) ev).getName().split("_");
-						if (geo == null && parts.length == 2) {
-							try {
-								int idx = Integer.parseInt(parts[1]
-										.replace("{", "").replace("}", ""));
-								return new ExpressionNode(kernel,
-										new MyDouble(kernel, idx),
-									Operation.ARBCONST, null);
-							} catch (Exception e) {
-								Log.debug("Invalid variable");
+					public ExpressionValue process(ExpressionValue ev) {
+						if (ev instanceof Variable) {
+							GeoElement geo = kernel
+									.lookupLabel(((Variable) ev).getName());
+							String[] parts = ((Variable) ev).getName()
+									.split("_");
+							if (geo == null && parts.length == 2) {
+								try {
+									int idx = Integer.parseInt(parts[1]
+											.replace("{", "").replace("}", ""));
+									return new ExpressionNode(kernel,
+											new MyDouble(kernel, idx),
+											Operation.ARBCONST, null);
+								} catch (Exception e) {
+									Log.debug("Invalid variable");
+								}
+							} else if (geo != null) {
+								return geo;
 							}
-						} else if (geo != null) {
-							return geo;
 						}
+						return ev;
 					}
-					return ev;
-				}
-			}).wrap();
+				}).wrap();
+			}
 			GeoElement[] temp = processValidExpression(exp);
 
 			if (temp[0].isGeoFunctionable()) {
@@ -1437,8 +1453,8 @@ public class AlgebraProcessor {
 	 * 
 	 * @param str
 	 *            string to process
-	 * @param showErrors
-	 *            true to show error messages (only stacktrace otherwise)
+	 * @param handler
+	 *            error handler
 	 * @param suppressLabels
 	 *            true to suppress labeling
 	 * @return resulting point
@@ -1462,8 +1478,10 @@ public class AlgebraProcessor {
 			temp = processValidExpression(ve);
 			if (temp[0] instanceof GeoVectorND) {
 				p = kernel.wrapInPoint((GeoVectorND) temp[0]);
-			} else {
+			} else if (temp[0] instanceof GeoPointND) {
 				p = (GeoPointND) temp[0];
+			} else {
+				handler.showError(loc.getError("VectorExpected"));
 			}
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, app, handler);
@@ -3152,6 +3170,11 @@ public class AlgebraProcessor {
 		return new GeoElement[] { geo };
 	}
 
+	/**
+	 * @param geoConic
+	 *            element represented by equation
+	 * @return equation of the element
+	 */
 	public Equation parseEquation(GeoElementND geoConic) {
 		try {
 			return (Equation) kernel.getParser().parseGeoGebraExpression(

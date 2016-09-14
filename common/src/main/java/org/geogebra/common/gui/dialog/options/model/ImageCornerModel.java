@@ -73,7 +73,9 @@ public class ImageCornerModel extends MultipleGeosModel {
 			newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
 					handler, true);
 		}
-
+		if (newLoc == null) {
+			return;
+		}
 		for (int i=0; i < getGeosLength(); i++) {
 			GeoImage im = getGeoImageAt(i);
 			im.setCorner(newLoc, cornerIdx);

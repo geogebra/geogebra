@@ -66,7 +66,9 @@ public class StartPointModel extends MultipleGeosModel {
 			newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
 					handler, true);
 		}
-
+		if (newLoc == null) {
+			return;
+		}
 		for (int i=0; i < getGeosLength(); i++) {
 			Locateable l = getLocateableAt(i);
 			try {

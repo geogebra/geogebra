@@ -551,6 +551,10 @@ public class ParametricProcessor {
 	 * ExpressionValue. For "a + x(A)" this returns a, for "x(A)" this returns
 	 * null where A is a free point. If A is a dependent point, "a + x(A)"
 	 * throws an Exception.
+	 * 
+	 * @param ev
+	 *            expression
+	 * @return number
 	 */
 	public NumberValue getCoordNumber(ExpressionValue ev) {
 		// simple variable "a"
