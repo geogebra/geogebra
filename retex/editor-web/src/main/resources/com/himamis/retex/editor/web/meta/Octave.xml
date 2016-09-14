@@ -245,7 +245,6 @@
 <Operator name="&#x2265;" cas="&#x2265;"  />
 
 
-<Operator name="&lt;" cas="&lt;" code="60" fontId="0" img="lt.png" />
 		<Operator name="&lt;" cas="&lt;" code="60" fontId="0" img="lt.png" />
 		<Operator name="&gt;" cas="&gt;" code="62" fontId="0" img="gt.png" />
 		<Operator name="leq" cas="&lt;=" tex="\leq" key="" code="183" fontId="3" />
