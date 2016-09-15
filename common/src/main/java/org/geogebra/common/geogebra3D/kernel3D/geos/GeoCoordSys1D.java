@@ -759,13 +759,13 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 
 		// new line origin
 		Coords v2 = vn2.crossProduct4(v1);
-		Coords oRot = tmpCoords1.add(v1.mul(cos)).add(v2.mul(sin));
+		Coords oRot = tmpCoords1.addInsideMul(v1, cos).addInsideMul(v2, sin);
 
 		// new line direction
 		v2 = vn2.crossProduct4(v);
 		v1 = v2.crossProduct4(vn2);
-		Coords vRot = v1.mul(cos).add(v2.mul(sin))
-				.add(vn2.mul(v.dotproduct(vn2)));
+		Coords vRot = v1.mul(cos).addInsideMul(v2, sin).addInsideMul(vn2,
+				v.dotproduct(vn2));
 
 		setCoord(oRot, vRot);
 	}

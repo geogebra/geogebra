@@ -1909,7 +1909,10 @@ public class Coords {
 	
 	/**
 	 * add values of v inside this
-	 * @param v vector
+	 * 
+	 * @param v
+	 *            vector
+	 * @return this
 	 */
 	public Coords addInside(Coords v) {
 		for (int i = 0 ; i < v.val.length ; i++){
@@ -1919,8 +1922,23 @@ public class Coords {
 	}
 	
 	/**
+	 * add values of v inside this
+	 * 
+	 * @param v
+	 *            vector
+	 */
+	public Coords addInsideMul(Coords v, double coeff) {
+		for (int i = 0; i < v.val.length; i++) {
+			val[i] += coeff * v.val[i];
+		}
+		return this;
+	}
+
+	/**
 	 * add v inside this
-	 * @param v value
+	 * 
+	 * @param v
+	 *            value
 	 */
 	public void addInside(double v){
 		for (int i = 0 ; i < rows ; i++){

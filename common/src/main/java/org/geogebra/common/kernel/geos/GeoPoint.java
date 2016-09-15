@@ -2624,8 +2624,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		Coords cA = A.getInhomCoordsInD3();
 		Coords cB = B.getInhomCoordsInD3();
 		Coords cC = C.getInhomCoordsInD3();
-		Coords cM = cA.mul(wA / w).addInside(cB.mul(wB / w))
-				.addInside(cC.mul(wC / w));
+		Coords cM = cA.mul(wA / w).addInsideMul(cB, wB / w).addInsideMul(cC,
+				wC / w);
 		M.setCoords(cM, false);
 
 	}
