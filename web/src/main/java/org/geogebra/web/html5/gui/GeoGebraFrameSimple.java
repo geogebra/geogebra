@@ -53,8 +53,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 		// // now we can create dummy elements before & after each applet
 		// // with tabindex 10000, for ticket #5158
 		// tackleFirstDummy(geoGebraMobileTags.get(0));
-		// tackleLastDummy(geoGebraMobileTags
-		// .get(geoGebraMobileTags.size() - 1));
+			tackleLastDummy(geoGebraMobileTags
+					.get(geoGebraMobileTags.size() - 1));
 		// programFocusEvent(firstDummy, lastDummy);
 		}
 	}

@@ -159,9 +159,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 							if (lastDummy == null) {
 								tackleLastDummy(el);
 
-								if (firstDummy != null) {
-									programFocusEvent(firstDummy, lastDummy);
-								}
+								// if (firstDummy != null) {
+								// programFocusEvent(firstDummy, lastDummy);
+								// }
 							}
 						}
 						break;

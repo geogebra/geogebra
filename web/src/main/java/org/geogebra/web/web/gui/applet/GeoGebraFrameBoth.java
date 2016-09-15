@@ -101,8 +101,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// tackleFirstDummy(geoGebraMobileTags.get(0));
 		//
 		//
-		// tackleLastDummy(geoGebraMobileTags
-		// .get(geoGebraMobileTags.size() - 1));
+			tackleLastDummy(geoGebraMobileTags
+					.get(geoGebraMobileTags.size() - 1));
 		// // programFocusEvent(firstDummy, lastDummy);
 		}
 	}

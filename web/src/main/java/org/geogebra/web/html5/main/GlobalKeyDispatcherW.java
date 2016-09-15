@@ -71,14 +71,6 @@ public class GlobalKeyDispatcherW extends
 		initNativeKeyHandlers();
 	}
 
-	boolean tabfixdebug = false;
-
-	// Temp for testing
-	public void debug(String s){
-		if (tabfixdebug)
-			Log.debug(s);
-	}
-
 	private void initNativeKeyHandlers() {
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
 
@@ -103,12 +95,8 @@ public class GlobalKeyDispatcherW extends
 																	// pressed
 						
 						if (!appfocused) {
-							debug("not focused");
 							event.cancel();
-							// FocusPanel nextDummy = getNextDummy(ggbApplet);
 							isHandlingTab = true;
-							// debug("nextDummy - focus");
-							// nextDummy.setFocus(true);
 
 							// TODO - set border in an other place...
 							GeoGebraFrameW.useDataParamBorder(targetArticle,
@@ -123,8 +111,6 @@ public class GlobalKeyDispatcherW extends
 										.focus();
 
 							} else {
-								debug("nextArticle.focus()");
-								debug(nextArticle.toString());
 								nextArticle.focus();
 							}
 						}
@@ -251,12 +237,10 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public void setFocused(boolean f) {
-		debug("Focus set to: " + f);
 		inFocus = f;
 	}
 
 	public void setFocusedIfNotTab(){
-		debug("setFocusedIfNotTab - isHandlingTab: " + isHandlingTab);
 		if (isHandlingTab) {
 			isHandlingTab = false;
 		} else {
@@ -265,12 +249,10 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public boolean isFocused() {
-		debug("focused: " + inFocus);
 		return inFocus;
 	}
 
 	public void onKeyPress(KeyPressEvent event) {
-		debug("GKDW - onKeyPress");
 		setDownKeys(event);
 		event.stopPropagation();
 		if (inFocus) {
@@ -300,7 +282,6 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
-		debug("GKDW - onKeyUp");
 		setDownKeys(event);
 		if (inFocus) {
 			// KeyCodes kc =
@@ -318,7 +299,6 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	private void dispatchEvent(KeyUpEvent event) {
-		debug("GKDW - dispatchEvent");
 		// we Must find out something here to identify the component that fired
 		// this, like class names for example,
 		// id-s or data-param-attributes
@@ -326,7 +306,6 @@ public class GlobalKeyDispatcherW extends
 		// we have keypress here only
 		// do this only, if we really have focus
 
-		debug("GKDW.dispathEvent - inFocus: " + inFocus);
 
 		if (inFocus) {
 			handleKeyPressed(event);
@@ -337,7 +316,6 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	private boolean handleKeyPressed(KeyUpEvent event) {
-		debug("GKDW - handleKeyPressed");
 		// GENERAL KEYS:
 		// handle ESC, function keys, zooming with Ctrl +, Ctrl -, etc.
 		if (handleGeneralKeys(event)) {
@@ -363,7 +341,6 @@ public class GlobalKeyDispatcherW extends
 	 * @return whether event was consumed
 	 */
 	public boolean handleGeneralKeys(KeyUpEvent event) {
-		debug("GKDW - handleGeneralkeys");
 
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (kc == KeyCodes.TAB || kc == KeyCodes.ESCAPE) {
@@ -442,12 +419,10 @@ public class GlobalKeyDispatcherW extends
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (kc == KeyCodes.TAB) {
 
-			debug("InFocus (GKDW.onkeydown): " + this.inFocus);
 
 			// event.stopPropagation() is already called!
 			boolean success = handleTab(event.isControlKeyDown(),
 					event.isShiftKeyDown(), false);
-			debug("handletab success: " + success);
 
 			if (!success) {
 				// should select first GeoElement in next applet
@@ -515,8 +490,6 @@ public class GlobalKeyDispatcherW extends
 	 */
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
 
-		debug("GKDW - handleTab");
-
 		app.getActiveEuclidianView().closeDropdowns();
 		
 		if (isShiftDown) {
@@ -539,7 +512,6 @@ public class GlobalKeyDispatcherW extends
 
 	@Override
 	protected boolean handleEnter() {
-		debug("GKDW - handleEnter");
 		if (super.handleEnter()) {
 			return true;
 		}
