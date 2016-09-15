@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -93,9 +92,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// // with tabindex 10000, for ticket #5158
 		// tackleFirstDummy(geoGebraMobileTags.get(0));
 		//
-			for (int i = 0; i < geoGebraMobileTags.size(); i++) {
-				addDummies(geoGebraMobileTags.get(i), i);
-			}
 			addLastDummy2(geoGebraMobileTags.get(geoGebraMobileTags.size() - 1));
 		//
 		// tackleLastDummy(geoGebraMobileTags

@@ -30,7 +30,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
-import com.google.gwt.user.client.ui.FocusPanel;
 
 /**
  * Handles keyboard events.
@@ -158,23 +157,6 @@ public class GlobalKeyDispatcherW extends
 			}
 		}
 		return null;
-	}
-
-
-	FocusPanel getNextDummy(ArticleElement ggbapp) {
-		debug("getNextDummy - " + ggbapp.getClassName() + " -> ");
-		ArrayList<ArticleElement> mobileTags = ArticleElement
-				.getGeoGebraMobileTags();
-		for (int i = 0; i < mobileTags.size() - 1; i++) {
-			if (mobileTags.get(i).equals(ggbapp)) {
-				// GeoGebraFrameW.dummies2.get(i + 1).getElement().focus();
-
-				debug((i + 1) + "");
-				return GeoGebraFrameW.dummies2.get(i + 1);
-			}
-		}
-		debug("0");
-		return GeoGebraFrameW.dummies2.get(0);
 	}
 
 	ArticleElement getNextArticle(ArticleElement ggbapp) {
@@ -502,10 +484,6 @@ public class GlobalKeyDispatcherW extends
 			// if (GeoGebraFrameW.lastDummy != null) {
 			// GeoGebraFrameW.lastDummy.focus();
 			// }
-
-			if (GeoGebraFrameW.dummies.size() > 0) {
-				debug("dummies! :)");
-			}
 
 			setFocused(false);
 
