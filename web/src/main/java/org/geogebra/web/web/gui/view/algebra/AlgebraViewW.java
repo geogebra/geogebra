@@ -913,7 +913,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				int pos = getItemCount();
 				for (int i = 0; i < pos; i++) {
 					TreeItem child = getItem(i);
-					if (transTypeString.compareTo(child.toString()) < 0 || 
+					if (transTypeString.compareTo(getGroupName(child)) < 0 ||
 							(child.getWidget() != null
 							&& this.inputPanelTreeItem != null
 							&& this.inputPanelTreeItem.getWidget() != null
@@ -944,7 +944,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				int pos = getItemCount();
 				for (int i = 0; i < pos; i++) {
 					TreeItem child = getItem(i);
-					if (layerStr.compareTo(child.toString()) < 0) {
+					if (layerStr.compareTo(getGroupName(child)) < 0) {
 						pos = i;
 						break;
 					}
@@ -964,6 +964,12 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		return parent;
 	}
 
+
+	private static String getGroupName(TreeItem child) {
+		return child.getUserObject() instanceof GroupHeader
+				? ((GroupHeader) child.getUserObject()).getLabel()
+				: "_";
+	}
 
 	/**
 	 * Assign element or element group to a given tree node

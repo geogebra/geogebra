@@ -15,11 +15,12 @@ public class GroupHeader extends FlowPanel {
 	protected GroupNameLabel il;
 	Image img;
 	protected OpenButton open;
-
+	private String label;
 	public GroupHeader(SelectionManager selection, TreeItem parent,
 			String strlab, SafeUri showUrl, SafeUri hiddenUrl) {
 		
 		this.setStyleName("elemHeading");
+		this.label = strlab;
 		
 		add(open = new OpenButton(showUrl, hiddenUrl, parent));
 		add(il = new GroupNameLabel(selection, parent, strlab));
@@ -88,5 +89,9 @@ public class GroupHeader extends FlowPanel {
 
 	public void setChecked(boolean value) {
 		open.setChecked(value);
+	}
+
+	public String getLabel() {
+		return label;
 	}
 }
