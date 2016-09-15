@@ -130,20 +130,20 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 					if (elChild != null
 							&& Element.as(elChild).hasTagName("ARTICLE")) {
 						// found!!
-						if (elChild == el) {
-							Log.debug("first article");
-							// firstDummy!
-							// now we can create dummy elements before & after
-							// each applet
-							// with tabindex 10000, for ticket #5158
-							if (firstDummy == null) {
-								tackleFirstDummy(el);
-
-								if (lastDummy != null) {
-									programFocusEvent(firstDummy, lastDummy);
-								}
-							}
-						}
+						// if (elChild == el) {
+						// Log.debug("first article");
+						// // firstDummy!
+						// // now we can create dummy elements before & after
+						// // each applet
+						// // with tabindex 10000, for ticket #5158
+						// if (firstDummy == null) {
+						// tackleFirstDummy(el);
+						//
+						// if (lastDummy != null) {
+						// programFocusEvent(firstDummy, lastDummy);
+						// }
+						// }
+						// }
 						break;
 					}
 				}

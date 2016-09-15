@@ -107,7 +107,7 @@ public class GlobalKeyDispatcherW extends
 								// TODO: go to a dummy after last article
 								Dom.getElementsByClassName(
 										"geogebraweb-dummy-invisible")
-										.getItem(1)
+										.getItem(0)
 										.focus();
 
 							} else {
