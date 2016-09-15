@@ -189,13 +189,7 @@ public class FormulaEditor extends View implements MathField {
     public void setTeXIcon(TeXIcon icon) {
         mTeXIcon = icon;
         mTeXIcon.setInsets(createInsetsFromPadding());
-        if (hasFeature_MOBILE_EDITOR_CARET_ALWAYS_ON_SCREEN()) {
-            updateShiftX();
-        }
-    }
-
-    protected boolean hasFeature_MOBILE_EDITOR_CARET_ALWAYS_ON_SCREEN() {
-        return false;
+        updateShiftX();
     }
 
     @Override
