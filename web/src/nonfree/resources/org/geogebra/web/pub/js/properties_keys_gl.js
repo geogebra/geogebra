@@ -2450,6 +2450,7 @@ __GGB__keysVar.gl.menu = {
     "RotateByAngle.Help": "Escoller o obxecto a rotar, despois o centro, e inserir o \xe1ngulo",
     "RotateView": "Rota Vista gr\xe1fica 3D",
     "RotateView.Help": "Arrastra a Vista gr\xe1fica 3D",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Redondeo",
     "RowHeader": "Encabezado de fila",
     "RowLimit": "L\xedmite de fila",

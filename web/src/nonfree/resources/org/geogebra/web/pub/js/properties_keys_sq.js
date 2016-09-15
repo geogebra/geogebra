@@ -2450,6 +2450,7 @@ __GGB__keysVar.sq.menu = {
     "RotateByAngle.Help": "Zgjidh objekt per Rrotullim, pastaj qendren, dhe fut kendin",
     "RotateView": "Rrotullo Pamjen Grafikore 3D",
     "RotateView.Help": "Zvarrit Pamjen Grafikore 3D",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Rrumbullakosje",
     "RowHeader": "Krye Rreshti",
     "RowLimit": "Limit rreshti",

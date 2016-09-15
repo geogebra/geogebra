@@ -2450,6 +2450,7 @@ __GGB__keysVar.sk.menu = {
     "RotateByAngle.Help": "Vyzna\u010d objekt, potom stred a uhol ot\xe1\u010dania!",
     "RotateView": "Ota\u010danie vzh\u013eadu 3D okna",
     "RotateView.Help": "Uchop 3D vzh\u013ead",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Zaokr\xfah\u013eovanie",
     "RowHeader": "Hlavi\u010dka riadu",
     "RowLimit": "Hranica riadku",

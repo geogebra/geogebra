@@ -2450,6 +2450,7 @@ __GGB__keysVar.ca_XV.menu = {
     "RotateByAngle.Help": "Seleccioneu l'objecte que s'ha de girar, el centre de gir i introdu\xefu l'angle",
     "RotateView": "Gira la finestra 3D",
     "RotateView.Help": "Arrossegueu la finestra 3D",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Arredoniment",
     "RowHeader": "N\xfamero de la fila",
     "RowLimit": "L\xedmit de files",

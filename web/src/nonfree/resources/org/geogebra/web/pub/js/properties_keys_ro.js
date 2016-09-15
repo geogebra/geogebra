@@ -2450,6 +2450,7 @@ __GGB__keysVar.ro.menu = {
     "RotateByAngle.Help": "Selecta\u0163i obiectul de rotit, apoi centrul \u015fi introduce\u0163i unghiul",
     "RotateView": "Roti\u021bi Grafica 3D View",
     "RotateView.Help": "Trage\u021bi Vizualizare 3D Graphics",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Rotunjire",
     "RowHeader": "Antet r\xe2nd",
     "RowLimit": "Limit\u0103 r\xe2nd",

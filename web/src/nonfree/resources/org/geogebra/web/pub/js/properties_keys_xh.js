@@ -2450,6 +2450,7 @@ __GGB__keysVar.xh.menu = {
     "RotateByAngle.Help": "Khetha into ozakuyijikelezisa, kulandele ichaphaza elisembindini, ufake idolo",
     "RotateView": "Jikelezisa i3D Graphics View",
     "RotateView.Help": "Tsala i3D Graphics View",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "ukuRawndisha",
     "RowHeader": "Ingongoma yerowu",
     "RowLimit": "Isicuthaniso serowu",

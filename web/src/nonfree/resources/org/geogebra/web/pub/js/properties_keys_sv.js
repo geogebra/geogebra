@@ -2450,6 +2450,7 @@ __GGB__keysVar.sv.menu = {
     "RotateByAngle.Help": "Objekt som skall roteras, sedan rotationspunkt och vinkel",
     "RotateView": "Rotera 3D-vyn",
     "RotateView.Help": "Dra 3D-vyn",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Antal decimaler",
     "RowHeader": "Radrubrik",
     "RowLimit": "Radgr\xe4ns",

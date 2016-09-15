@@ -2450,6 +2450,7 @@ __GGB__keysVar.da.menu = {
     "RotateByAngle.Help": "Klik p\xe5 det objekt der skal drejes, s\xe5 p\xe5 omdrejningspunktet og angiv drejningsvinklen",
     "RotateView": "Drej 3D grafisk visning",
     "RotateView.Help": "Tr\xe6k 3D grafisk visning",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Afrunding",
     "RowHeader": "R\xe6kkeoverskrift",
     "RowLimit": "R\xe6kkegr\xe6nse",

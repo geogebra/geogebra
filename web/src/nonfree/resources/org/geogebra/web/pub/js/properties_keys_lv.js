@@ -2450,6 +2450,7 @@ __GGB__keysVar.lv.menu = {
     "RotateByAngle.Help": "Izv\u0113lies rot\u0101cijas objektu, tad punktu un ievadi le\u0146\u0137i",
     "RotateView": "Rot\u0113t 3D grafisko skatu",
     "RotateView.Help": "Vilkt 3D grafisko skatu",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Noapa\u013cot",
     "RowHeader": "Rindas galvene",
     "RowLimit": "Rindas iesp\u0113jas",

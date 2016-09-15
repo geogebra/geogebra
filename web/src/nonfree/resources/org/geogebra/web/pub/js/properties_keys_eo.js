@@ -2450,6 +2450,7 @@ __GGB__keysVar.eo.menu = {
     "RotateByAngle.Help": "Elektu objekton, rotacian centron kaj enigu angulon",
     "RotateView": "Rotate 3D Graphics View",
     "RotateView.Help": "Drag the 3D Graphics View",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Rondigo",
     "RowHeader": "Vica Titolo",
     "RowLimit": "Row limit",

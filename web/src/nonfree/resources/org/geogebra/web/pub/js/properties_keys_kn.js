@@ -2450,6 +2450,7 @@ __GGB__keysVar.kn.menu = {
     "RotateByAngle.Help": "Select object to rotate, then center point, and enter angle",
     "RotateView": "Rotate 3D Graphics View",
     "RotateView.Help": "Drag the 3D Graphics View",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Rounding",
     "RowHeader": "Row Header",
     "RowLimit": "\u0cb8\u0cbe\u0cb2\u0cc1 \u0cae\u0cbf\u0ca4\u0cbf",

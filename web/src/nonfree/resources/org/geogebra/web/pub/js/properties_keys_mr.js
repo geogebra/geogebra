@@ -2450,6 +2450,7 @@ __GGB__keysVar.mr.menu = {
     "RotateByAngle.Help": "\u092a\u0930\u093f\u092d\u094d\u0930\u092e\u0923 \u0915\u0930\u0923\u094d\u092f\u093e\u0938\u093e\u0920\u0940 \u092a\u0939\u093f\u0932\u0947 \u0918\u091f\u0915 \u092e\u0917 \u0915\u0947\u0902\u0926\u094d\u0930\u092c\u093f\u0902\u0926\u0942 \u0928\u093f\u0935\u0921\u093e \u0906\u0923\u093f \u0915\u094b\u0928\u093e\u091a\u0947 \u092e\u093e\u092a \u0926\u094d\u092f\u093e.",
     "RotateView": "Rotate 3D Graphics View",
     "RotateView.Help": "Drag the 3D Graphics View",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "\u0926\u0936\u093e\u0902\u0936 \u0938\u094d\u0925\u093e\u0928\u0947",
     "RowHeader": "Row Header",
     "RowLimit": "Row limit",

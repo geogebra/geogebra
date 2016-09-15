@@ -2450,6 +2450,7 @@ __GGB__keysVar.cy.menu = {
     "RotateByAngle.Help": "Dewis y gwrthrych i'w gylchroi, y pwynt canol ac yna nodwch yr ongl",
     "RotateView": "Cylchdroi'r wedd graffeg 3D",
     "RotateView.Help": "Llusgo'r wedd graffeg 3D",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Talgrynnu",
     "RowHeader": "Cychwynnwr rhes",
     "RowLimit": "Terfyn Rhes",

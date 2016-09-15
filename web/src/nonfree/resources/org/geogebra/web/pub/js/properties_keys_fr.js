@@ -2450,6 +2450,7 @@ __GGB__keysVar.fr.menu = {
     "RotateByAngle.Help": "Objet \xe0 tourner, centre de rotation[cr\xe9\xe9s] puis angle",
     "RotateView": "Tourner la vue Graphique 3D",
     "RotateView.Help": "Tourner la vue Graphique 3D",
+    "RotationAroundVerticalAxis": "Rotation autour de axeZ",
     "Rounding": "Arrondi",
     "RowHeader": "Titre Ligne",
     "RowLimit": "Nombre de lignes",

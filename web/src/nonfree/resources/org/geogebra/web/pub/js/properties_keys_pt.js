@@ -2450,6 +2450,7 @@ __GGB__keysVar.pt.menu = {
     "RotateByAngle.Help": "Selecione primeiro o objeto, depois o centro e, ent\xe3o, o \xe2ngulo de rota\xe7\xe3o",
     "RotateView": "Girar Janela de Visualiza\xe7\xe3o 3D",
     "RotateView.Help": "Arraste a Janela de Visualiza\xe7\xe3o 3D",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Arredondamento",
     "RowHeader": "Cabe\xe7alho da Linha",
     "RowLimit": "Limite de Linhas",

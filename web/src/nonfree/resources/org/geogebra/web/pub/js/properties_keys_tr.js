@@ -2450,6 +2450,7 @@ __GGB__keysVar.tr.menu = {
     "RotateByAngle.Help": "D\xf6nd\xfcr\xfclecek nesne, sonra merkez nokta ve a\xe7\u0131",
     "RotateView": "3D Grafik G\xf6r\xfcn\xfcm\xfcn\xfc D\xf6nd\xfcr",
     "RotateView.Help": "3D Grafik G\xf6r\xfcn\xfcm\xfcn\xfc S\xfcr\xfckle",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Yuvarlama",
     "RowHeader": "Sat\u0131r Ba\u015fl\u0131\u011f\u0131",
     "RowLimit": "Sat\u0131r Limiti",

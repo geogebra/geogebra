@@ -2450,6 +2450,7 @@ __GGB__keysVar.et.menu = {
     "RotateByAngle.Help": "Valige objekt, mida p\xf6\xf6rata, siis punkt ja sisestage nurk",
     "RotateView": "P\xf6\xf6ra 3D graafikavaadet",
     "RotateView.Help": "Lohistage 3D graafikavaadet",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "\xdcmardamine",
     "RowHeader": "Rea p\xe4is",
     "RowLimit": "Rea piirv\xe4\xe4rtus",

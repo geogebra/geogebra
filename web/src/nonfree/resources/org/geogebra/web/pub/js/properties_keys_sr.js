@@ -2450,6 +2450,7 @@ __GGB__keysVar.sr.menu = {
     "RotateByAngle.Help": "Izaberite objekat za rotiranje, a zatim centar rotacije i unesite ugao",
     "RotateView": "Rotiraj 3D grafi\u010dki prikaz",
     "RotateView.Help": "Povucite 3D grafi\u010dki prikaz",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Zaokrugljivanje",
     "RowHeader": "Zaglavlje reda",
     "RowLimit": "Ograni\u010denje",

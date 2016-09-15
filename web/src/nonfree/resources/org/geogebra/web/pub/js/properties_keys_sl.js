@@ -2450,6 +2450,7 @@ __GGB__keysVar.sl.menu = {
     "RotateByAngle.Help": "Objekt za vrtenje, nato sredi\u0161\u010de in \u0161e kot vrtenja",
     "RotateView": "Zavrti 3D pogled",
     "RotateView.Help": "Premakni 3D pogled",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Zaokro\u017ei",
     "RowHeader": "Naslov vrstice",
     "RowLimit": "Zadnja vrstica",

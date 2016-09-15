@@ -2450,6 +2450,7 @@ __GGB__keysVar.de_AT.menu = {
     "RotateByAngle.Help": "W\xe4hlen Sie das zu rotierende Objekt und dann jenen Punkt, um den es gedreht werden soll. Geben Sie danach noch den Drehwinkel ein.",
     "RotateView": "Drehe die 3D Grafik-Ansicht",
     "RotateView.Help": "Ziehen Sie die 3D Grafik-Ansicht um diese zu rotieren.",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Runden",
     "RowHeader": "Zeilenbezeichnung",
     "RowLimit": "Zeilenbegrenzung",

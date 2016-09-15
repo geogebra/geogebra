@@ -2450,6 +2450,7 @@ __GGB__keysVar.lt.menu = {
     "RotateByAngle.Help": "Pasirinkite objekt\u0105, tuomet centro ta\u0161k\u0105 ir \u012fveskite kamp\u0105",
     "RotateView": "Sukti 3D grafin\u012f vaizd\u0105",
     "RotateView.Help": "Tempkite 3D grafin\u012f vaizd\u0105",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Apvalinimas",
     "RowHeader": "Eilut\u0117s pavadinimas",
     "RowLimit": "Eilut\u0117s riba",

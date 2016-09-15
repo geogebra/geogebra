@@ -2450,6 +2450,7 @@ __GGB__keysVar.tl.menu = {
     "RotateByAngle.Help": "Pumil ng object na i-rotate, pagkatapos pumili ng center point, at i-enter ang angle",
     "RotateView": "Rotate 3D Graphics View",
     "RotateView.Help": "Drag the 3D Graphics View",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Rounding",
     "RowHeader": "Row Header",
     "RowLimit": "Row limit",

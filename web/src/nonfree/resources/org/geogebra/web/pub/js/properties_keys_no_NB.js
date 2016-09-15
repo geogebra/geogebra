@@ -2450,6 +2450,7 @@ __GGB__keysVar.no_NB.menu = {
     "RotateByAngle.Help": "Velg f\xf8rst objektet som skal roteres, deretter sentrum og vinkelst\xf8rrelse",
     "RotateView": "Roter 3D-plott",
     "RotateView.Help": "Dra i 3D-plott",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Avrunding",
     "RowHeader": "Overskrift for rad",
     "RowLimit": "Grense for rad",

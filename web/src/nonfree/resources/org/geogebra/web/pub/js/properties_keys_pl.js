@@ -2450,6 +2450,7 @@ __GGB__keysVar.pl.menu = {
     "RotateByAngle.Help": "Wybierz obiekt do obrotu, nast\u0119pnie \u015brodek i podaj k\u0105t obrotu",
     "RotateView": "Obr\xf3\u0107 Widok Grafiki 3D",
     "RotateView.Help": "Przeci\u0105gnij Widok Grafiki 3D",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Zaokr\u0105glenie",
     "RowHeader": "Nag\u0142\xf3wek Wiersza",
     "RowLimit": "Limit wierszy",

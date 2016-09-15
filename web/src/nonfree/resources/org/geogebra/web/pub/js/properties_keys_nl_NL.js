@@ -2450,6 +2450,7 @@ __GGB__keysVar.nl_NL.menu = {
     "RotateByAngle.Help": "Te roteren object, dan rotatiemiddelpunt en hoek",
     "RotateView": "Roteer 3D tekenvenster",
     "RotateView.Help": "Versleep 3D tekenvenster",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Afronden",
     "RowHeader": "Rij kop",
     "RowLimit": "Rij limiet",

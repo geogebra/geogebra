@@ -2450,6 +2450,7 @@ __GGB__keysVar.hu_gm.menu = {
     "RotateByAngle.Help": "Forgatni k\xedv\xe1nt alakzat, majd a forgat\xe1s centruma, v\xe9g\xfcl a sz\xf6g megad\xe1sa",
     "RotateView": "3D-s n\xe9zet forgat\xe1sa",
     "RotateView.Help": "Vonszold a 3D-s n\xe9zetet",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Kerek\xedt\xe9s",
     "RowHeader": "Sor fejl\xe9c",
     "RowLimit": "Sor korl\xe1t",

@@ -2450,6 +2450,7 @@ __GGB__keysVar.zh_TW.menu = {
     "RotateByAngle.Help": "\u5148\u9078\u8981\u65cb\u8f49\u7684\u7269\u4ef6\u3001\u65cb\u8f49\u4e2d\u5fc3\uff0c\u518d\u6307\u5b9a\u65cb\u8f49\u89d2",
     "RotateView": "\u65cb\u8f49 3D \u7e6a\u5716\u5340",
     "RotateView.Help": "\u62d6\u66f3 3D \u7e6a\u5716\u5340\u5373\u53ef\u65cb\u8f49\u6574\u500b\u8996\u7a97",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "\u5c0f\u6578\u4f4d\u6578",
     "RowHeader": "\u5217\u865f",
     "RowLimit": "\u7b46\u6578\u4e0a\u9650",

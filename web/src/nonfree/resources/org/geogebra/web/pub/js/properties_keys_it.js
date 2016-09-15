@@ -2450,6 +2450,7 @@ __GGB__keysVar.it.menu = {
     "RotateByAngle.Help": "Selezionare l'oggetto da ruotare, quindi il centro di rotazione e digitare la misura dell'angolo",
     "RotateView": "Ruota la vista Grafici 3D",
     "RotateView.Help": "Trascinare la vista Grafici 3D",
+    "RotationAroundVerticalAxis": "Ruota attorno all'asse verticale",
     "Rounding": "Arrotondamento",
     "RowHeader": "Intestazione riga",
     "RowLimit": "Fino alla riga",

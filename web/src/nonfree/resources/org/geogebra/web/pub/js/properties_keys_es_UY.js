@@ -2450,6 +2450,7 @@ __GGB__keysVar.es_UY.menu = {
     "RotateByAngle.Help": "Objeto a rotar, centro de rotaci\xf3n y amplitud del \xe1ngulo",
     "RotateView": "Rota vista gr\xe1fica 3D",
     "RotateView.Help": "Arrastra la vista gr\xe1fica 3D",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Redondeo",
     "RowHeader": "Encabezado de fila",
     "RowLimit": "L\xedmite de fila",

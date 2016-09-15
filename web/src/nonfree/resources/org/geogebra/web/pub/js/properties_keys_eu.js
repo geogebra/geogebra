@@ -2450,6 +2450,7 @@ __GGB__keysVar.eu.menu = {
     "RotateByAngle.Help": "Biratu nahi den objektua, ondoren biraketa-zentroa eta angelua",
     "RotateView": "Biratu 3D Ikuspegi Grafikoa",
     "RotateView.Help": "Arrastatu 3D Ikuspegi Grafikoa",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Biribiltzea",
     "RowHeader": "Errenkadaren Goiburukoa",
     "RowLimit": "Errenkadaren Limitea",

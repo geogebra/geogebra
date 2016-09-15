@@ -2450,6 +2450,7 @@ __GGB__keysVar.vi.menu = {
     "RotateByAngle.Help": "Ch\u1ecdn \u0111\u1ed1i t\u01b0\u1ee3ng c\u1ea7n quay, sau \u0111\xf3 ch\u1ecdn t\xe2m quay v\xe0 nh\u1eadp g\xf3c v\xe0o",
     "RotateView": "Quay c\u1eeda s\u1ed5 h\xecnh h\u1ecdc 3D",
     "RotateView.Help": "K\xe9o c\u1eeda s\u1ed5 h\xecnh h\u1ecdc 3D",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "L\xe0m tr\xf2n",
     "RowHeader": "Ti\xeau \u0111\u1ec1 d\xf2ng",
     "RowLimit": "Gi\u1edbi h\u1ea1n d\xf2ng",

@@ -2450,6 +2450,7 @@ __GGB__keysVar.is.menu = {
     "RotateByAngle.Help": "Velji\xf0 hlut a\xf0 sn\xfaa, s\xed\xf0an mi\xf0punkt og sl\xe1i\xf0 inn st\xe6r\xf0 horns",
     "RotateView": "Sn\xfaa 3-v\xed\xf0um myndaglugga",
     "RotateView.Help": "Dragi\xf0 3-v\xed\xf0an myndaglugga",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Afr\xfana",
     "RowHeader": "Yfirskrift ra\xf0ar",
     "RowLimit": "Takm\xf6rk ra\xf0ar",

@@ -2450,6 +2450,7 @@ __GGB__keysVar.cs.menu = {
     "RotateByAngle.Help": "Objekt, st\u0159ed oto\u010den\xed a \xfahel",
     "RotateView": "Oto\u010dit Grafick\xfd n\xe1hled 3D",
     "RotateView.Help": "Ta\u017een\xedm my\u0161i ot\xe1\u010dejte 3D pohled",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Zaokrouhlov\xe1n\xed",
     "RowHeader": "Z\xe1hlav\xed \u0159\xe1dku",
     "RowLimit": "Omezen\xed \u0159\xe1dku",

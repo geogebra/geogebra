@@ -2450,6 +2450,7 @@ __GGB__keysVar.ms.menu = {
     "RotateByAngle.Help": "Pilih objek untuk diputar, kemudian pusat, dan masukkan sudut",
     "RotateView": "Putar Paparan Grafik 3D",
     "RotateView.Help": "Heret Paparan Grafik 3D",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Bulatkan",
     "RowHeader": "Pengepala Baris",
     "RowLimit": "Had Baris",

@@ -2450,6 +2450,7 @@ __GGB__keysVar.fi.menu = {
     "RotateByAngle.Help": "Valitse kierrett\xe4v\xe4 objekti, sitten kiertokeskus, ja sy\xf6t\xe4 kulma",
     "RotateView": "Kierr\xe4 3D n\xe4kym\xe4\xe4",
     "RotateView.Help": "Raahaa 3D-n\xe4kym\xe4\xe4",
+    "RotationAroundVerticalAxis": "Rotate around vertical axis",
     "Rounding": "Py\xf6rist\xe4",
     "RowHeader": "Riviotsake",
     "RowLimit": "Rivirajoitus",
