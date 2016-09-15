@@ -208,9 +208,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 * @param laf
 	 *            (null for webSimple) {@link GLookAndFeelI}
 	 */
-	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf,
-			Versions version) {
-		super(version);
+	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf) {
+		super(laf == null ? Versions.WEB_FOR_BROWSER_SIMPLE
+				: laf.getVersion(dimension));
 		setPrerelease(ae.getDataParamPrerelease());
 
 		// laf = null in webSimple
@@ -3365,7 +3365,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public String getVersionSuffix() {
 		if (getLAF() != null) {
-			return getLAF().getVersionSuffix();
+			return getLAF().getVersion(this.is3D() ? 3 : 2).toString();
 		}
 		return "w";
 	}

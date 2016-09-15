@@ -1,6 +1,5 @@
 package org.geogebra.web.geogebra3D.web.main;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
@@ -35,7 +34,7 @@ public class AppWapplet3D extends AppWapplet {
 
 	public AppWapplet3D(ArticleElement ae, GeoGebraFrameBoth gf,
 	        GLookAndFeel laf) {
-		super(ae, gf, 3, laf, Versions.WEB_FOR_BROWSER_3D);
+		super(ae, gf, 3, laf);
 	}
 
 	@Override

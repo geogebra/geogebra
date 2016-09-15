@@ -36,6 +36,10 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+/**
+ * Frame for applets with GUI
+ *
+ */
 public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		HeaderPanelDeck, UpdateKeyBoardListener {
 
@@ -72,6 +76,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * 
 	 * @param geoGebraMobileTags
 	 *            list of &lt;article&gt; elements of the web page
+	 * @param factory
+	 *            applet factory
+	 * @param laf
+	 *            look and feel
 	 */
 	public static void main(ArrayList<ArticleElement> geoGebraMobileTags,
 			AppletFactory factory, GLookAndFeel laf) {
@@ -102,6 +110,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	/**
 	 * @param el
 	 *            html element to render into
+	 * @param factory
+	 *            applet factory
+	 * @param laf
+	 *            look and feel
+	 * @param clb
+	 *            call this after rendering
 	 */
 	public static void renderArticleElement(Element el, AppletFactory factory,
 			GLookAndFeel laf, JavaScriptObject clb) {
@@ -215,7 +229,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		keyBoard.resetKeyboardState();
 	}
 
-	private void addKeyboard(MathKeyboardListener textField) {
+	/**
+	 * Show keyboard and connect it to textField
+	 * 
+	 * @param textField
+	 *            keyboard listener
+	 */
+	void addKeyboard(MathKeyboardListener textField) {
 		final VirtualKeyboard keyBoard = app.getGuiManager()
 				.getOnScreenKeyboard(textField, this);
 		this.keyboardShowing = true;
@@ -230,16 +250,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			@Override
 			public void run() {
 
-				keyboardHeight = keyBoard.getOffsetHeight();
-				app.addToHeight(-keyboardHeight);
-				app.updateCenterPanel(true);
-				// TODO maybe too expensive?
-				app.updateViewSizes();
-				GeoGebraFrameBoth.this.add(keyBoard);
-				keyBoard.setVisible(true);
-				if (showKeyboardButton != null) {
-					showKeyboardButton.hide();
-				}
+				onKeyboardAdded(keyBoard);
 			}
 		});
 	}
@@ -254,6 +265,25 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	// };
 	// timer.schedule(0);
 	// }
+	/**
+	 * Callback for keyboard; takes care of resizing
+	 * 
+	 * @param keyBoard
+	 *            keyboard
+	 */
+	protected void onKeyboardAdded(final VirtualKeyboard keyBoard) {
+		keyboardHeight = keyBoard.getOffsetHeight();
+		app.addToHeight(-keyboardHeight);
+		app.updateCenterPanel(true);
+		// TODO maybe too expensive?
+		app.updateViewSizes();
+		GeoGebraFrameBoth.this.add(keyBoard);
+		keyBoard.setVisible(true);
+		if (showKeyboardButton != null) {
+			showKeyboardButton.hide();
+		}
+
+	}
 
 	/**
 	 * Scroll to the input-field, if the input-field is in the algebraView.
@@ -317,14 +347,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				|| (app.showView(App.VIEW_CAS));
 	}
 
-	private void showInAlgebra() {
-		DockPanelW algebraDockPanel = (DockPanelW) app.getGuiManager()
-				.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
-		showKeyboardButton = new ShowKeyboardButton(this, (DockManagerW) app
-				.getGuiManager().getLayout().getDockManager(), algebraDockPanel);
 
-	}
 
+	/**
+	 * @param show
+	 *            whether to show keyboard button
+	 */
 	public void showKeyboardButton(boolean show) {
 		if (showKeyboardButton == null) {
 			return;
@@ -336,6 +364,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
+	/**
+	 * Make sure keyboard visibility corresponds to both app.isKeyboardNeeded()
+	 * and appNeedsKeyboard() TODO rename one of those functions
+	 */
 	public void refreshKeyboard() {
 		if (keyboardShowing) {
 			final VirtualKeyboard keyBoard = app.getGuiManager()
@@ -414,20 +446,32 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		return keyboardShowing ? keyboardHeight : 0;
 	}
 
-	public void attachMenubar(AppW app) {
+	/**
+	 * Adds menu; if toolbar is missing also add it
+	 * 
+	 * @param app1
+	 *            application
+	 */
+	public void attachMenubar(AppW app1) {
 		if (ggwToolBar == null) {
 			ggwToolBar = new GGWToolBar();
-			ggwToolBar.init(app);
+			ggwToolBar.init(app1);
 			insert(ggwToolBar, 0);
 		}
 		ggwToolBar.attachMenubar();
 	}
 
-	public void attachToolbar(AppW app) {
+	/**
+	 * Adds toolbar
+	 * 
+	 * @param app1
+	 *            application
+	 */
+	public void attachToolbar(AppW app1) {
 		// reusing old toolbar is probably a good decision
 		if (ggwToolBar == null) {
 			ggwToolBar = new GGWToolBar();
-			ggwToolBar.init(app);
+			ggwToolBar.init(app1);
 		}
 		insert(ggwToolBar, 0);
 	}
@@ -441,15 +485,27 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// visible
 	}
 
-	public GGWMenuBar getMenuBar(AppW app) {
+	/**
+	 * @param app1
+	 *            application
+	 * @return menubar
+	 */
+	public GGWMenuBar getMenuBar(AppW app1) {
 		if (ggwMenuBar == null) {
 			ggwMenuBar = new GGWMenuBar();
-			((GuiManagerW) app.getGuiManager()).getObjectPool().setGgwMenubar(
+			((GuiManagerW) app1.getGuiManager()).getObjectPool()
+					.setGgwMenubar(
 					ggwMenuBar);
 		}
 		return ggwMenuBar;
 	}
 
+	/**
+	 * Close all popups and if event was not from menu, also close menu
+	 * 
+	 * @param event
+	 *            browser event
+	 */
 	public void closePopupsAndMaybeMenu(NativeEvent event) {
 		// app.closePopups(); TODO
 		if (app.isMenuShowing()

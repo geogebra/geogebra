@@ -1,7 +1,6 @@
 package org.geogebra.web.web.main;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -71,8 +70,8 @@ public class AppWapplet extends AppWFull {
 	 *            look and feel
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf, int dimension,
-			GLookAndFeel laf, Versions version) {
-		this(ae, gf, true, dimension, laf, version);
+			GLookAndFeel laf) {
+		this(ae, gf, true, dimension, laf);
 	}
 
 	/******************************************************
@@ -90,9 +89,8 @@ public class AppWapplet extends AppWFull {
 	 *            look and feel
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf,
-			final boolean undoActive, int dimension, GLookAndFeel laf,
-			Versions version) {
-		super(ae, dimension, laf, version);
+			final boolean undoActive, int dimension, GLookAndFeel laf) {
+		super(ae, dimension, laf);
 		this.frame = gf;
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());

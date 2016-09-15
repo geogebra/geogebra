@@ -1,5 +1,6 @@
 package org.geogebra.web.tablet;
 
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -90,8 +91,8 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public String getVersionSuffix() {
-		return "t";
+	public Versions getVersion(int dim) {
+		return Versions.ANDROID_WEBVIEW;
 	}
 
 	@Override

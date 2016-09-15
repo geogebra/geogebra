@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.laf;
 
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.main.AppW;
@@ -50,7 +51,7 @@ public interface GLookAndFeelI {
 
 	boolean printSupported();
 
-	String getVersionSuffix();
+	public Versions getVersion(int dim);
 
 	boolean supportsFullscreen();
 

@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.laf;
 
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
@@ -116,7 +117,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	}
 
 	@Override
-	public String getVersionSuffix() {
-		return "s";
+	public Versions getVersion(int dim) {
+		return Versions.SMART;
 	}
 }

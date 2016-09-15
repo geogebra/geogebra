@@ -7,11 +7,37 @@ import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.main.GDevice;
 
-
+/**
+ * Factory for either 2D or 3D applets
+ */
 public interface AppletFactory {
-	public AppW getApplet(ArticleElement ae, GeoGebraFrameBoth gf,
+	/**
+	 * 
+	 * @param ae
+	 *            article element
+	 * @param frame
+	 *            applet frame
+	 * @param laf
+	 *            look and feel
+	 * @return applet
+	 */
+	public AppW getApplet(ArticleElement ae, GeoGebraFrameBoth frame,
 	        GLookAndFeelI laf);
-	public AppW getApplication(ArticleElement article, GeoGebraAppFrame fr, GLookAndFeel laf,
+
+	/**
+	 * 
+	 * @param ae
+	 *            article element
+	 * @param frame
+	 *            application frame
+	 * @param laf
+	 *            look and feel
+	 * @param device
+	 *            browser / tablet; used for file sync
+	 * @return application
+	 */
+	public AppW getApplication(ArticleElement ae, GeoGebraAppFrame frame,
+			GLookAndFeel laf,
             GDevice device);
 
 }

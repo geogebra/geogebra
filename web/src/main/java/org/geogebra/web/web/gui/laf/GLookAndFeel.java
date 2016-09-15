@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.laf;
 
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.Browser;
@@ -151,8 +152,9 @@ public class GLookAndFeel implements GLookAndFeelI{
 		return true;
 	}
 
-	public String getVersionSuffix() {
-		return "w";
+	public Versions getVersion(int dim) {
+		return dim > 2 ? Versions.WEB_FOR_BROWSER_3D
+				: Versions.WEB_FOR_BROWSER_2D;
 	}
 
 	public boolean supportsFullscreen() {

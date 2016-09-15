@@ -394,7 +394,7 @@ public abstract class App implements UpdateSelection {
 	// whether to allow perspective and login popups
 	private boolean allowPopUps = false;
 
-	private Versions version;
+	private final Versions version;
 
 	// TODO: move following methods somewhere else
 	private int tubeID = 0;
@@ -402,16 +402,9 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * constructor
 	 */
-	public App() {
+	public App(Versions version) {
 		companion = newAppCompanion();
 		resetUniqueId();
-	}
-
-	/**
-	 * constructor
-	 */
-	public App(Versions version) {
-		this();
 		setVersion(version);
 	}
 
