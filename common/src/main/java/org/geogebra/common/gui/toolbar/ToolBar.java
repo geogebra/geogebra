@@ -688,10 +688,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_ANGLE);
 		sb.append(" ");
 
-		if (app.has(Feature.MOBILE_ANGLE_FIXED_SIZE)) {
-			sb.append(EuclidianConstants.MODE_ANGLE_FIXED); // MOB-413
-			sb.append(" , ");
-		}
+		sb.append(EuclidianConstants.MODE_ANGLE_FIXED);
+		sb.append(" , ");
 
 		sb.append(EuclidianConstants.MODE_DISTANCE);
 		sb.append(" ");

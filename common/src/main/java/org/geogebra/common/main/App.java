@@ -3973,11 +3973,6 @@ public abstract class App implements UpdateSelection {
 		case CAS_INTERSECT_3D:
 			return true;
 
-		// MOB-413
-			// from 5.0.243.0
-		case MOBILE_ANGLE_FIXED_SIZE:
-			return true;
-
 		// GGB-334
 		case ADJUST_SLIDERS:
 			return prerelease;
