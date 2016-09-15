@@ -3915,11 +3915,6 @@ public abstract class App implements UpdateSelection {
 			// add if you want to enable these tools for Android app:
 			return true;
 
-		// MOB-310
-			// from 5.0.243.0
-		case MOBILE_CIRCLE_POINT_RADIUS:
-			return true;
-
 		// MOB-527
 		case MOBILE_LANDSCAPE_FULLSCREEN_INPUT:
 			return false;

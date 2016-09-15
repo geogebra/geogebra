@@ -656,10 +656,8 @@ public class ToolBar {
 		// circles, arcs
 		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
-		if (app.has(Feature.MOBILE_CIRCLE_POINT_RADIUS)) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS);
-		}
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_COMPASSES);
 		sb.append(" ");
