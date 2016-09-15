@@ -9115,6 +9115,12 @@ public abstract class EuclidianController {
 	}
 
 	protected void runScriptsIfNeeded(GeoElement geo1) {
+		// GGB-1196
+		// no script run if Properies View is open.
+
+		if (app.showView(App.VIEW_PROPERTIES)) {
+			return;
+		}
 		// make sure that Input Boxes lose focus (and so update) before running
 		// scripts
 		if (view.getHits().size() > 0
