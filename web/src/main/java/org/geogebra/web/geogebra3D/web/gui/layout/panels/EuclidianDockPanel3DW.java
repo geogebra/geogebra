@@ -3,21 +3,24 @@ package org.geogebra.web.geogebra3D.web.gui.layout.panels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
-import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Dock panel for 3D
+ */
 public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	/**
 	 * default width of this panel
 	 */
 	public static final int DEFAULT_WIDTH = 480;
-	
+	/** the inner panel */
 	EuclidianPanel euclidianpanel;
 
 
@@ -48,7 +51,9 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	@Override
 	protected Widget loadComponent() {
 		setViewImage(getResources().styleBar_graphics3dView());
-		if (!app.supportsView(App.VIEW_EUCLIDIAN3D)) {
+		// 2D app or exam: just flow panel; 3D app in old browser: EVnoWebGL
+		if (!app.supportsView(App.VIEW_EUCLIDIAN3D)
+				&& Browser.supportsWebGL()) {
 			return new FlowPanel();
 		}
 		EuclidianView3DW view = (EuclidianView3DW) app.getEuclidianView3D();
@@ -88,7 +93,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	 * updateEuclidianPanel(); euclidianpanel.onResize(); } }
 	 */
 	
-	private ConstructionProtocolNavigationW consProtNav;
 	
 	
 	@Override

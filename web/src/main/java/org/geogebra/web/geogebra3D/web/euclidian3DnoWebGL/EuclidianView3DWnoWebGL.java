@@ -7,9 +7,12 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.ImageLoadCallback;
+import org.geogebra.web.html5.util.ImageWrapper;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
@@ -65,11 +68,21 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 
 	@Override
 	public void setCurrentFile(HashMap<String, String> f) {
+
+		Log.debug("No 3D:Set thumbnail");
 		HashMap<String, String> file = f;
 		if (file != null && file.get("geogebra_thumbnail.png") != null) {
 			ImageElement img = Document.get().createImageElement();
 			img.setSrc(file.get("geogebra_thumbnail.png"));
 			thumb = new GBufferedImageW(img);
+			ImageWrapper.nativeon(img, "load", new ImageLoadCallback() {
+
+				public void onLoad() {
+					repaint();
+
+				}
+			});
+			Log.debug("Set thumbnail done");
 		}
 
 		repaint();
