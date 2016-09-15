@@ -405,10 +405,6 @@ public abstract class App implements UpdateSelection {
 	public App(Versions version) {
 		companion = newAppCompanion();
 		resetUniqueId();
-		setVersion(version);
-	}
-
-	protected void setVersion(Versions version){
 		this.version = version;
 	}
 
