@@ -79,8 +79,9 @@ public class SpreadsheetModeProcessor {
 					String cellName = GeoElementSpreadsheet
 							.getSpreadsheetCellName(col, maxRow);
 					GeoElement cell = kernel.lookupLabel(cellName);
-					targetCell = new GeoNumeric(kernel.getConstruction(), 0);
 					if (cell == null) {
+						targetCell = new GeoNumeric(kernel.getConstruction(),
+								0);
 						targetCell.setLabel(cellName);
 					} else {
 						targetCell = cell;
