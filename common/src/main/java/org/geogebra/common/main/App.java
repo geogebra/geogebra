@@ -4070,6 +4070,11 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case SURFACE_REVOLUTION_GENERIC:
 			return prerelease;
+
+		// MOB-885
+		case MOBILE_PROGRESS_DIALOG_CANCEL:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
