@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui.inputfield;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.DrawEquationW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -68,9 +67,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 				this.setWidget(row, col, getLatexHTML(symbolStrings[i], app));
 			} else {
 				setText(row, col, symbolStrings[i]);
-				if (app != null && app.has(Feature.OBJECT_COLOR_IN_LIST)
-						&& colors != null
-						&& colors[i] != null) {
+				if (colors != null && colors[i] != null) {
 					this.getCellFormatter()
 							.getElement(row, col)
 							.getStyle()

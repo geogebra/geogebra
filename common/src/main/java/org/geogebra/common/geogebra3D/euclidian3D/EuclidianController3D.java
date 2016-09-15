@@ -85,6 +85,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
@@ -4083,16 +4084,18 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return view3D.getCursor3D().getInhomCoordsInD3();
 	}
 
-	public static String rotateObject(App app, String rawInput,
-			boolean clockwise, GeoPolygon[] polys, GeoLineND[] lines,
-			GeoElement[] selGeos, EuclidianController3D ec) {
-		String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+	public static void rotateObject(final App app, final String rawInput,
+			final boolean clockwise, final GeoPolygon[] polys,
+			final GeoLineND[] lines, final GeoElement[] selGeos,
+			final EuclidianController3D ec, final ErrorHandler eh,
+			final AsyncOperation<String> callback) {
+
 		final String angleText = rawInput;
 		Kernel kernel = app.getKernel();
 
 		// avoid labeling of num
-		Construction cons = kernel.getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
+		final Construction cons = kernel.getConstruction();
+		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		String inputText = rawInput;
 		// negative orientation ?
@@ -4100,8 +4103,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 			inputText = "-(" + inputText + ")";
 		}
 
-		GeoElement[] result = kernel.getAlgebraProcessor()
-				.processAlgebraCommand(inputText, false);
+		kernel.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(inputText, false, eh,
+						true, new AsyncOperation<GeoElement[]>() {
+
+							@Override
+							public void callback(GeoElement[] result) {
+								String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
 		cons.setSuppressLabelCreation(oldVal);
 
@@ -4126,7 +4134,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 					app.storeUndoInfoAndStateForModeStarting();
 					ec.memorizeJustCreatedGeos(geos);
 				}
-				return defaultRotateAngle;
+				if (callback != null) {
+					callback.callback(defaultRotateAngle);
+				}
+				return;
 			}
 
 			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
@@ -4145,9 +4156,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 				app.storeUndoInfoAndStateForModeStarting();
 				ec.memorizeJustCreatedGeos(ret);
 			}
-
 		}
-		return defaultRotateAngle;
+		if (callback != null) {
+			callback.callback(success ? defaultRotateAngle : null);
+		}
+							}
+
+						});
 	}
 
 	@Override

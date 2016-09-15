@@ -11,6 +11,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
@@ -50,9 +51,25 @@ public abstract class InputDialogRotateD extends AngleInputDialog implements
 
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
-				setVisibleForTools(!processInput());
+				processInput(new AsyncOperation<String>() {
+
+					@Override
+					public void callback(String obj) {
+						setVisibleForTools(obj == null);
+						if (obj != null) {
+							defaultRotateAngle = obj;
+						}
+					}
+				});
 			} else if (source == btApply) {
-				processInput();
+				processInput(new AsyncOperation<String>() {
+
+					@Override
+					public void callback(String obj) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 			} else if (source == btCancel) {
 				setVisibleForTools(false);
 			}
@@ -62,7 +79,7 @@ public abstract class InputDialogRotateD extends AngleInputDialog implements
 		}
 	}
 
-	protected abstract boolean processInput();
+	protected abstract void processInput(AsyncOperation<String> op);
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {

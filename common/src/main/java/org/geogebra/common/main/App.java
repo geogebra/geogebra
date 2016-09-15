@@ -4027,10 +4027,6 @@ public abstract class App implements UpdateSelection {
 		case SCRIPT_AUTOSAVE:
 			return true;
 
-			// GGB-793
-		case OBJECT_COLOR_IN_LIST:
-			return prerelease;
-
 		// MOB-787
 		case MOBILE_ALWAYS_LOAD_FEATURED_MATERIALS:
 			return true; // 5.0.269

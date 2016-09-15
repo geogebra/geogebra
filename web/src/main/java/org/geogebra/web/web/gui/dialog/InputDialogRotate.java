@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -59,15 +60,24 @@ public abstract class InputDialogRotate extends AngleInputDialog implements KeyU
 
 		try {
 			if (source == btOK || sourceShouldHandleOK(source)) {
-				//FIXME setVisibleForTools(!processInput());
-				if (!processInput()) {
-					//wrappedPopup.show();
-					inputPanel.getTextComponent().hideTablePopup();
-				} else {
-					wrappedPopup.hide();
-					inputPanel.getTextComponent().hideTablePopup();
-					app.getActiveEuclidianView().requestFocusInWindow();
-				}
+				//
+				processInput(new AsyncOperation<String>() {
+
+					@Override
+					public void callback(String obj) {
+						// FIXME setVisibleForTools(!processInput());
+						if (obj != null) {
+							// wrappedPopup.show();
+							inputPanel.getTextComponent().hideTablePopup();
+						} else {
+							wrappedPopup.hide();
+							inputPanel.getTextComponent().hideTablePopup();
+							app.getActiveEuclidianView().requestFocusInWindow();
+						}
+
+					}
+				});
+
 			//} else if (source == btApply) {
 			//	processInput();
 			} else if (source == btCancel) {
@@ -85,7 +95,7 @@ public abstract class InputDialogRotate extends AngleInputDialog implements KeyU
 		}
 	}
 
-	protected abstract boolean processInput();
+	protected abstract void processInput(AsyncOperation<String> op);
 
 /*
 	@Override

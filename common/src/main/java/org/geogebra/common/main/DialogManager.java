@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 public abstract class DialogManager {
 
@@ -197,8 +198,16 @@ public abstract class DialogManager {
 		String inputString = prompt(menu + " " + loc.getMenu("Angle"),
 				defaultAngle);
 
-		defaultAngle = rotateObject(app, inputString, false, selectedPolygons,
-				selectedPoints, selGeos, ec);
+		rotateObject(app, inputString, false, selectedPolygons, selectedPoints,
+				selGeos, ec, app.getDefaultErrorHandler(),
+				new AsyncOperation<String>() {
+
+					@Override
+					public void callback(String obj) {
+						defaultAngle = obj;
+
+					}
+				});
 
 	}
 
@@ -228,16 +237,19 @@ public abstract class DialogManager {
 	public abstract boolean showButtonCreationDialog(int x, int y,
 			boolean textfield);
 
-	public static String rotateObject(App app, String inputText,
-			boolean clockwise, GeoPolygon[] polys, GeoPointND[] points,
-			GeoElement[] selGeos, EuclidianController ec) {
-		String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
-		String angleText = inputText;
+	public static void rotateObject(final App app, String inputText,
+			boolean clockwise, final GeoPolygon[] polys,
+			final GeoPointND[] points,
+			final GeoElement[] selGeos, final EuclidianController ec,
+			ErrorHandler eh,
+			final AsyncOperation<String> callback) {
+
+		final String angleText = inputText;
 		Kernel kernel = app.getKernel();
 
 		// avoid labeling of num
-		Construction cons = kernel.getConstruction();
-		boolean oldVal = cons.isSuppressLabelsActive();
+		final Construction cons = kernel.getConstruction();
+		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		// negative orientation ?
@@ -245,56 +257,80 @@ public abstract class DialogManager {
 			inputText = "-(" + inputText + ")";
 		}
 
-		GeoElement[] result = kernel.getAlgebraProcessor()
-				.processAlgebraCommand(inputText, false);
+		kernel.getAlgebraProcessor()
+				.processAlgebraCommandNoExceptionHandling(inputText, false, eh,
+						true, new AsyncOperation<GeoElement[]>() {
 
-		cons.setSuppressLabelCreation(oldVal);
+							@Override
+							public void callback(GeoElement[] result) {
+								cons.setSuppressLabelCreation(oldVal);
+								String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+								boolean success = result != null
+										&& result[0] instanceof GeoNumberValue;
 
-		boolean success = result != null && result[0] instanceof GeoNumberValue;
+								if (success) {
+									// GeoElement circle = kernel.Circle(null,
+									// geoPoint1,
+									// ((NumberInputHandler)inputHandler).getNum());
+									GeoNumberValue num = (GeoNumberValue) result[0];
+									// geogebra.gui.AngleInputDialog dialog =
+									// (geogebra.gui.AngleInputDialog) ob[1];
 
-		if (success) {
-			// GeoElement circle = kernel.Circle(null, geoPoint1,
-			// ((NumberInputHandler)inputHandler).getNum());
-			GeoNumberValue num = (GeoNumberValue) result[0];
-			// geogebra.gui.AngleInputDialog dialog =
-			// (geogebra.gui.AngleInputDialog) ob[1];
+									// keep angle entered if it ends with
+									// 'degrees'
+									if (angleText.endsWith(Unicode.DEGREE))
+										defaultRotateAngle = angleText;
 
-			// keep angle entered if it ends with 'degrees'
-			if (angleText.endsWith(Unicode.DEGREE))
-				defaultRotateAngle = angleText;
+									if (polys.length == 1) {
 
-			if (polys.length == 1) {
+										GeoElement[] geos = ec.getCompanion()
+												.rotateByAngle(polys[0], num,
+														points[0]);
+										if (geos != null) {
+											app.storeUndoInfoAndStateForModeStarting();
+											ec.memorizeJustCreatedGeos(geos);
+										}
+										callback.callback(defaultRotateAngle);
+										return;
+									}
+									Log.debug(selGeos.length + "ROT"
+											+ cons.isSuppressLabelsActive());
+									ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+									for (int i = 0; i < selGeos.length; i++) {
+										if (selGeos[i] != points[0]) {
+											if (selGeos[i] instanceof Transformable) {
+												ret.addAll(Arrays.asList(ec
+														.getCompanion()
+														.rotateByAngle(
+																selGeos[i], num,
+																points[0])));
+											} else if (selGeos[i]
+													.isGeoPolygon()) {
+												ret.addAll(Arrays.asList(ec
+														.getCompanion()
+														.rotateByAngle(
+																selGeos[i], num,
+																points[0])));
+											}
+										}
+									}
+									if (!ret.isEmpty()) {
+										app.storeUndoInfoAndStateForModeStarting();
+										ec.memorizeJustCreatedGeos(ret);
+									}
 
-				GeoElement[] geos = ec.getCompanion().rotateByAngle(polys[0],
-						num, points[0]);
-				if (geos != null) {
-					app.storeUndoInfoAndStateForModeStarting();
-					ec.memorizeJustCreatedGeos(geos);
-				}
-				return defaultRotateAngle;
-			}
+								} else {
+									app.showError(app.getLocalization()
+											.getError("NumberExpected"));
+								}
+								callback.callback(
+										success ? defaultRotateAngle : null);
 
-			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
-			for (int i = 0; i < selGeos.length; i++) {
-				if (selGeos[i] != points[0]) {
-					if (selGeos[i] instanceof Transformable) {
-						ret.addAll(Arrays.asList(ec.getCompanion()
-								.rotateByAngle(selGeos[i], num, points[0])));
-					} else if (selGeos[i].isGeoPolygon()) {
-						ret.addAll(Arrays.asList(ec.getCompanion()
-								.rotateByAngle(selGeos[i], num, points[0])));
-					}
-				}
-			}
-			if (!ret.isEmpty()) {
-				app.storeUndoInfoAndStateForModeStarting();
-				ec.memorizeJustCreatedGeos(ret);
-			}
+							}
+						});
 
-		} else {
-			app.showError(app.getLocalization().getError("NumberExpected"));
-		}
-		return success ? defaultRotateAngle : null;
+
+
 	}
 
 	public static void makeRegularPolygon(final App app,

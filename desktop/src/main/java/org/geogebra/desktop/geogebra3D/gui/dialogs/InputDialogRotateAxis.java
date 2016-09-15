@@ -6,6 +6,7 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.dialog.InputDialogRotateD;
 import org.geogebra.desktop.main.AppD;
 
@@ -23,16 +24,11 @@ public class InputDialogRotateAxis extends InputDialogRotateD {
 
 	}
 
-	protected boolean processInput() {
+	protected void processInput(AsyncOperation<String> callback) {
 
-		String defaultRotateAngle1 = EuclidianController3D.rotateObject(app,
+		EuclidianController3D.rotateObject(app,
 				inputPanel.getText(), rbClockWise.isSelected(), polys, lines,
-				selGeos, (EuclidianController3D) ec);
-		if (defaultRotateAngle1 != null) {
-			defaultRotateAngle = defaultRotateAngle1;
-			return true;
-		}
-		return false;
+				selGeos, (EuclidianController3D) ec, this, callback);
 	}
 
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 
 
@@ -36,8 +35,7 @@ public abstract class MultipleOptionsModel extends NumberOptionsModel {
 			return;
 		}
 
-		if (app.has(Feature.OBJECT_COLOR_IN_LIST)
-				&& getListener() instanceof GeoComboListener) {
+		if (getListener() instanceof GeoComboListener) {
 			for (GeoElement geo : ((MultipleGeosModel) this)
 					.getGeoChoiches(loc)) {
 				((GeoComboListener) getListener()).addItem(geo);
