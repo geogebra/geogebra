@@ -76,9 +76,15 @@ public class SpreadsheetModeProcessor {
 				}
 				// create new targetCell
 				if (isOK) {
+					String cellName = GeoElementSpreadsheet
+							.getSpreadsheetCellName(col, maxRow);
+					GeoElement cell = kernel.lookupLabel(cellName);
 					targetCell = new GeoNumeric(kernel.getConstruction(), 0);
-					targetCell.setLabel(GeoElementSpreadsheet
-							.getSpreadsheetCellName(col, maxRow));
+					if (cell == null) {
+						targetCell.setLabel(cellName);
+					} else {
+						targetCell = cell;
+					}
 					createAutoFunctionCell(targetCell, new CellRange(app, col,
 							cr.getMinRow(), col, maxRow - 1));
 				}
