@@ -358,6 +358,7 @@
         <Operator name="div" tex="\div" unicode="/" />
         <Operator name="=" />
         <Operator name="ne" cas="!=" tex="\ne" unicode="≠" />
+        <Operator name="equal" cas="==" tex="≟" unicode="≟" />
         <Operator name="equiv" cas="NaN" tex="\equiv" unicode="≡" />
 
         <Operator name="neg" cas="!" tex="\neg" unicode="!" />
