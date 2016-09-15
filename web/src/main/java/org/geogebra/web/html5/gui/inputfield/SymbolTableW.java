@@ -68,7 +68,8 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 				this.setWidget(row, col, getLatexHTML(symbolStrings[i], app));
 			} else {
 				setText(row, col, symbolStrings[i]);
-				if (app.has(Feature.OBJECT_COLOR_IN_LIST) && colors != null
+				if (app != null && app.has(Feature.OBJECT_COLOR_IN_LIST)
+						&& colors != null
 						&& colors[i] != null) {
 					this.getCellFormatter()
 							.getElement(row, col)
