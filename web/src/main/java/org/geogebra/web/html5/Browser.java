@@ -422,4 +422,8 @@ public class Browser {
 		return false;
 	}-*/;
 
+	public static native boolean isXWALK() /*-{
+		return !!$wnd.xwalk;
+	}-*/;
+
 }

@@ -43,6 +43,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
@@ -1973,9 +1974,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 					@Override
 					public void callback(String[] obj) {
-						Log.debug("XWALK" + isXWALK());
-
-						if (isXWALK()) {
+						if (Browser.isXWALK()) {
 							((AppW) app).getGgbApi().getBase64(true,
 									getStringCallback(obj[1]));
 						}
@@ -1988,9 +1987,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				}, loc.getMenu("Save"));
 	}
 
-	protected native boolean isXWALK() /*-{
-		return !!$wnd.xwalk;
-	}-*/;
+
 
 	private native JavaScriptObject getStringCallback(String title) /*-{
 

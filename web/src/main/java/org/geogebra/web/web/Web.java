@@ -3,6 +3,8 @@ package org.geogebra.web.web;
 import java.util.ArrayList;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
 import org.geogebra.web.html5.Browser;
@@ -239,6 +241,20 @@ public class Web implements EntryPoint {
 					.equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
 				return new OfficeLookAndFeel();
 			}
+		}
+		if (!((CASFactory) GWT.create(CASFactory.class)).isEnabled()) {
+			return new GLookAndFeel() {
+				public Versions getVersion(int dim) {
+					return Versions.NO_CAS;
+				}
+			};
+		}
+		if (Browser.isXWALK()) {
+			return new GLookAndFeel() {
+				public Versions getVersion(int dim) {
+					return Versions.WEB_FOR_DESKTOP;
+				}
+			};
 		}
 		return new GLookAndFeel();
 
