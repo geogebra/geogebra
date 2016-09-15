@@ -11,7 +11,7 @@
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
 
-       
+var latestVersion = "5.0.275.0";       
 			
 	function e(id){
 		return document.getElementById(id);
@@ -216,9 +216,10 @@ if (!window.console.log) window.console.log = function () { };
 				console.log(e.message);
 			}
 		}
-		if(storedTranslation[lang]){
+		if(storedTranslation[lang] && storedTranslation["version"] == latestVersion){
 			window.__GGB__keysVar = {};
 			window.__GGB__keysVar[lang] = storedTranslation[lang];
+			window.__GGB__keysVar["version"] = storedTranslation["version"];
 			showInLang(lang);
 		}
 		else{
@@ -230,7 +231,8 @@ if (!window.console.log) window.console.log = function () { };
 				showInLang(lang);
 				if(window.localStorage && window.__GGB__keysVar[lang]){
 					var obj = {};
-					obj[lang]=window.__GGB__keysVar[lang];
+					obj["version"] = latestVersion;
+					obj[lang] = window.__GGB__keysVar[lang];
 					localStorage.translation = JSON.stringify(obj);
 				}
 				
@@ -263,7 +265,7 @@ var app = document.createElement("script");
 		document.head.appendChild(app);	
 }
 	function isLocalhost(){
-		return location.host == "" || location.host.indexOf("127") == 0 || location.host.indexOf("localhost") == 0|| location.host.indexOf("autotest") == 0 || location.host.indexOf("192") == 0;
+		return location.host == "" || location.host.indexOf("127") == 0 || location.host.indexOf("localhost") == 0||  location.host.indexOf("autotest.geogebra") == 0 || location.host.indexOf("deploy.geogebra") == 0|| location.host.indexOf("192") == 0;
 	}
 	function showStartScreen(codebase){
 		var lang = getURLparam("ggbLang") || getCookie("GeoGebraLangUI") || navigator.language || "en";
@@ -272,7 +274,7 @@ var app = document.createElement("script");
 	}
 	function checkLogin(){
 		var tubeid = getURLparam("id");
-		var codebase = "https://d2lanadgwinn45.cloudfront.net/%LATEST%/";
+		var codebase = "https://d2lanadgwinn45.cloudfront.net/"+latestVersion+"/";
 		if(location.pathname.substring(0,3)==="/o/"){
 			tubeid = location.pathname.substring(3);
 		}

@@ -394,17 +394,32 @@ public abstract class App implements UpdateSelection {
 	// whether to allow perspective and login popups
 	private boolean allowPopUps = false;
 
-	private final Versions version;
+	private Versions version;
 
 	// TODO: move following methods somewhere else
 	private int tubeID = 0;
 
 	/**
+	 * Please call setVersion right after this
+	 */
+	public App() {
+		companion = newAppCompanion();
+		resetUniqueId();
+	}
+	/**
 	 * constructor
 	 */
 	public App(Versions version) {
-		companion = newAppCompanion();
-		resetUniqueId();
+		this();
+		this.version = version;
+	}
+
+	/**
+	 * Changes version; should be called only once, right after the constructor
+	 * 
+	 * @param version
+	 */
+	protected void setVersion(Versions version) {
 		this.version = version;
 	}
 
