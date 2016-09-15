@@ -92,7 +92,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// // with tabindex 10000, for ticket #5158
 		// tackleFirstDummy(geoGebraMobileTags.get(0));
 		//
-			addLastDummy2(geoGebraMobileTags.get(geoGebraMobileTags.size() - 1));
 		//
 		// tackleLastDummy(geoGebraMobileTags
 		// .get(geoGebraMobileTags.size() - 1));

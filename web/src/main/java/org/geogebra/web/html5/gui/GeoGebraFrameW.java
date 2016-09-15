@@ -31,7 +31,6 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * The main frame containing every view / menu bar / .... This Panel (Frame is
@@ -65,7 +64,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
 
 	private static HashMap<String, AppW> articleMap = new HashMap<String, AppW>();
-	private static SimplePanel lastDummy2;
 
 	/** Creates new GeoGebraFrame */
 	public GeoGebraFrameW(GLookAndFeelI laf) {
@@ -100,16 +98,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		parentElement.appendChild(lastDummy);
 	}
 
-
-	protected static void addLastDummy2(Element el) {
-		Log.debug("addLastDummy!");
-		lastDummy2 = new SimplePanel();
-		lastDummy2.addStyleName("geogebraweb_lastdummy");
-		lastDummy2.getElement().setTabIndex(0);
-		el.getParentElement().insertAfter(lastDummy2.getElement(), el);
-	}
-
-
 	public static HashMap<String, AppW> getArticleMap() {
 		return articleMap;
 	}
@@ -123,9 +111,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		NodeList<Element> nodes = Dom
 				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 
-		if (nodes.getLength() > 0) {
-			if (lastDummy2==null) addLastDummy2(nodes.getItem(nodes.getLength() - 1));
-		} else {
+		if (nodes.getLength() == 0) {
 			// it would be better for the article tags to always have
 			// GeoGebraConstants.GGM_CLASS_NAME, but in case they do not,
 			// then they are probably child elements of class name
