@@ -412,6 +412,10 @@ public abstract class App implements UpdateSelection {
 	 */
 	public App(Versions version) {
 		this();
+		setVersion(version);
+	}
+
+	protected void setVersion(Versions version){
 		this.version = version;
 	}
 
