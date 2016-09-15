@@ -209,8 +209,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 *            (null for webSimple) {@link GLookAndFeelI}
 	 */
 	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf) {
-		super(laf == null ? Versions.WEB_FOR_BROWSER_SIMPLE
-				: laf.getVersion(dimension));
+		super(getVersion(ae, dimension, laf));
 		setPrerelease(ae.getDataParamPrerelease());
 
 		// laf = null in webSimple
@@ -238,6 +237,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 
 
+	}
+
+	private static Versions getVersion(ArticleElement ae, int dimension,
+			GLookAndFeelI laf2) {
+		if (ae.getDataParamApp()) {
+			return Versions.WEB_APP_FOR_BROWSER_3D;
+		}
+		return laf2 == null ? Versions.WEB_FOR_BROWSER_SIMPLE
+				: laf2.getVersion(dimension);
 	}
 
 	protected final void windowResized() {
