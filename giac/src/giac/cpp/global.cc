@@ -5485,6 +5485,10 @@ unsigned int ConvertUTF8toUTF16 (
 
   // optional, call it just before exiting
   int release_globals(){
+#ifndef VISUALC
+    delete normal_sin_pi_12_ptr_();
+    delete normal_cos_pi_12_ptr_();
+#endif
 #ifndef STATIC_BUILTIN_LEXER_FUNCTIONS
     for (int i=0;i<builtin_lexer_functions_number;++i){
 #ifdef SMARTPTR64
@@ -5507,10 +5511,6 @@ unsigned int ConvertUTF8toUTF16 (
     delete &symbolic_rootof_list();
     delete &proot_list();
     delete &galoisconj_list();
-#ifndef VISUALC
-    delete normal_sin_pi_12_ptr_();
-    delete normal_cos_pi_12_ptr_();
-#endif
     return 0;
   }
 

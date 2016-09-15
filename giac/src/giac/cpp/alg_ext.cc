@@ -1134,8 +1134,10 @@ namespace giac {
       return rootof(makesequence(makevecteur(1,0),e),contextptr);
     if (has_num_coeff(e))
       return approx_rootof(e,contextptr);
-    if (!lop(lvar(e),at_pow).empty())
-      return gensizeerr(gettext("Algebraic extensions not allowed in a rootof"));
+    if (!lop(lvar(e),at_pow).empty()){
+      *logptr(contextptr) << gettext("Algebraic extensions not allowed in a rootof");
+      return approx_rootof(e,contextptr);
+    }
     // should call factor before returning unevaluated rootof
     if (e.type==_VECT && e._VECTptr->size()==2 && e._VECTptr->back().type==_VECT){
       vecteur v2=*e._VECTptr->back()._VECTptr;

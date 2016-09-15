@@ -6420,7 +6420,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
       tmin=0;
     }
-    gen tmin0=tmin,tmax0=tmax;
+    gen tmin0=ratnormal(tmin,contextptr),tmax0=ratnormal(tmax,contextptr);
     vecteur lv=lidnt(evalf(f,1,contextptr));
     if (lv.empty())
       return 1;
@@ -6916,7 +6916,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	gprintf("Odd function %gen. Center O",vecteur(1,f),1,contextptr);
       xmin=0;
     }
-    gen xmin0=xmin,xmax0=xmax;
+    gen xmin0=ratnormal(xmin,contextptr),xmax0=ratnormal(xmax,contextptr);
     vecteur lv=lidnt(evalf(f,1,contextptr));
     if (lv.empty())
       return 1;
