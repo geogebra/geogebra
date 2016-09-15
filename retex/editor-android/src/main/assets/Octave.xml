@@ -361,8 +361,8 @@
         <Operator name="equiv" cas="NaN" tex="\equiv" unicode="≡" />
 
         <Operator name="neg" cas="!" tex="\neg" unicode="!" />
-        <Operator name="vee" cas="|" tex="\vee" unicode="∧" />
-        <Operator name="wedge" cas="&amp;" tex="\wedge" unicode="∨" />
+        <Operator name="vee" cas="|" tex="\vee" unicode="∨" />
+        <Operator name="wedge" cas="&amp;" tex="\wedge" unicode="∧" />
         <Operator name="implication" cas="->" tex="\implies" unicode="⇒" />
 
         <Operator name="&lt;" cas="&lt;" unicode="&lt;" />
