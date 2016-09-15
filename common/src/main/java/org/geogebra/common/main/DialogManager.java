@@ -44,7 +44,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 public abstract class DialogManager {
 
@@ -257,79 +256,69 @@ public abstract class DialogManager {
 			inputText = "-(" + inputText + ")";
 		}
 
-		kernel.getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(inputText, false, eh,
-						true, new AsyncOperation<GeoElement[]>() {
+		kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
+				inputText, false, eh, true, new AsyncOperation<GeoElement[]>() {
 
-							@Override
-							public void callback(GeoElement[] result) {
-								cons.setSuppressLabelCreation(oldVal);
-								String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
-								boolean success = result != null
-										&& result[0] instanceof GeoNumberValue;
+					@Override
+					public void callback(GeoElement[] result) {
+						cons.setSuppressLabelCreation(oldVal);
+						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+						boolean success = result != null
+								&& result[0] instanceof GeoNumberValue;
 
-								if (success) {
-									// GeoElement circle = kernel.Circle(null,
-									// geoPoint1,
-									// ((NumberInputHandler)inputHandler).getNum());
-									GeoNumberValue num = (GeoNumberValue) result[0];
-									// geogebra.gui.AngleInputDialog dialog =
-									// (geogebra.gui.AngleInputDialog) ob[1];
+						if (success) {
+							GeoNumberValue num = (GeoNumberValue) result[0];
+							// keep angle entered if it ends with
+							// 'degrees'
+							if (angleText.endsWith(Unicode.DEGREE))
+								defaultRotateAngle = angleText;
 
-									// keep angle entered if it ends with
-									// 'degrees'
-									if (angleText.endsWith(Unicode.DEGREE))
-										defaultRotateAngle = angleText;
+							if (polys.length == 1) {
 
-									if (polys.length == 1) {
-
-										GeoElement[] geos = ec.getCompanion()
-												.rotateByAngle(polys[0], num,
-														points[0]);
-										if (geos != null) {
-											app.storeUndoInfoAndStateForModeStarting();
-											ec.memorizeJustCreatedGeos(geos);
+								GeoElement[] geos = ec
+										.getCompanion()
+										.rotateByAngle(polys[0], num, points[0]);
+								if (geos != null) {
+									app.storeUndoInfoAndStateForModeStarting();
+									ec.memorizeJustCreatedGeos(geos);
+								}
+								if (callback != null) {
+									callback.callback(defaultRotateAngle);
+								}
+								return;
 										}
-										callback.callback(defaultRotateAngle);
-										return;
+							ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+							for (int i = 0; i < selGeos.length; i++) {
+								if (selGeos[i] != points[0]) {
+									if (selGeos[i] instanceof Transformable) {
+										ret.addAll(Arrays.asList(ec
+												.getCompanion().rotateByAngle(
+														selGeos[i], num,
+														points[0])));
+									} else if (selGeos[i].isGeoPolygon()) {
+										ret.addAll(Arrays.asList(ec
+												.getCompanion().rotateByAngle(
+														selGeos[i], num,
+														points[0])));
 									}
-									Log.debug(selGeos.length + "ROT"
-											+ cons.isSuppressLabelsActive());
-									ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
-									for (int i = 0; i < selGeos.length; i++) {
-										if (selGeos[i] != points[0]) {
-											if (selGeos[i] instanceof Transformable) {
-												ret.addAll(Arrays.asList(ec
-														.getCompanion()
-														.rotateByAngle(
-																selGeos[i], num,
-																points[0])));
-											} else if (selGeos[i]
-													.isGeoPolygon()) {
-												ret.addAll(Arrays.asList(ec
-														.getCompanion()
-														.rotateByAngle(
-																selGeos[i], num,
-																points[0])));
 											}
 										}
-									}
-									if (!ret.isEmpty()) {
-										app.storeUndoInfoAndStateForModeStarting();
-										ec.memorizeJustCreatedGeos(ret);
-									}
-
-								} else {
-									app.showError(app.getLocalization()
-											.getError("NumberExpected"));
-								}
-								callback.callback(
-										success ? defaultRotateAngle : null);
-
+							if (!ret.isEmpty()) {
+								app.storeUndoInfoAndStateForModeStarting();
+								ec.memorizeJustCreatedGeos(ret);
 							}
-						});
 
+						} else {
+							app.showError(app.getLocalization().getError(
+									"NumberExpected"));
+									}
+						if (callback != null) {
+							callback.callback(success ? defaultRotateAngle
+									: null);
+						}
 
+					}
+				});
 
 	}
 
