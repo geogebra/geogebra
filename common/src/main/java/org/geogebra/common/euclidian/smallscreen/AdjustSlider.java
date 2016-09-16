@@ -103,7 +103,7 @@ public class AdjustSlider extends AdjustWidget {
 
 	private void adjustToBottom() {
 		if (y + width > view.getViewHeight()) {
-			y = view.getViewHeight() - width;
+			y = view.getViewHeight();// - width;
 		}
 	}
 
