@@ -3906,10 +3906,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_SMOOTH_PINCH:
 			return true;
 
-		// MOB-520
-		case MOBILE_COPY_PASTE:
-			return true; // 5.0.244
-
 		// MOB-311
 		case MOBILE_SEGMENT_FIXED_TOOL:
 			// add if you want to enable these tools for Android app:
