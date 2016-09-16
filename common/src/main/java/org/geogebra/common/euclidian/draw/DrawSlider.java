@@ -93,8 +93,7 @@ public class DrawSlider extends Drawable {
 		update();
 	}
 
-	@Override
-	final public void update() {
+	final private void updateScreenCoords() {
 		// if (number.isAbsoluteScreenLocActive() && initX >= 0 && initY >= 0) {
 		// number.fixPositionHorizontal(initX, view.getSettings()
 		// .getFileWidth(),
@@ -167,8 +166,14 @@ public class DrawSlider extends Drawable {
 
 			updateStrokes(number, 2);
 		}
+	}
+
+	@Override
+	final public void update() {
+		updateScreenCoords();
 		if (needsAdjusted()) {
 			// Log.debug(ADJUST + " needed for " + geo.getNameDescription());
+			updateScreenCoords();
 		}
 	}
 
@@ -349,6 +354,8 @@ public class DrawSlider extends Drawable {
 		int fileHeight = app.getSettings()
 				.getEuclidian(view.getEuclidianViewNo()).getFileHeight();
 
+		// Log.debug("file: "+fileWidth+"x"+fileHeight);
+
 		if (!app.has(Feature.ADJUST_SLIDERS) || fileWidth == 0
 				|| fileHeight == 0) {
 			return false;
@@ -356,6 +363,7 @@ public class DrawSlider extends Drawable {
 
 		double w = app.getWidth(); 
 		double h = app.getHeight();
+		// Log.debug("app: "+w+"x"+h);
 		if ((w == fileWidth && h == fileHeight) || w == 0 || h == 0) {
 			return false;
 		}
