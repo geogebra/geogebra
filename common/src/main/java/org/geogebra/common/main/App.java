@@ -3923,10 +3923,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_NATIVE_KEYBOARD:
 			return prerelease;
 
-		// MOB-660
-		case MOBILE_UNDO_REDO_LEFT_ALIGN:
-			return true; // 5.0.250
-
 		//MOB-339
 		case MOBILE_ANALYTICS:
 			return true;
