@@ -125,6 +125,9 @@ public abstract class GlobalKeyDispatcher {
 		Log.debug("[KEYS] handleUpDownArrowsForDropdown");
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawList dl = DrawList.asDrawable(app, geos.get(0));
+			if (dl == null || !((GeoList) geos.get(0)).drawAsComboBox()) {
+				return false;
+			}
 			if (canOpenDropDown && !dl.isOptionsVisible()) {
 				dl.toggleOptions();
 			} else {
