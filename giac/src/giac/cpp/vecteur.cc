@@ -2186,6 +2186,13 @@ namespace giac {
 	return vecteur(0);
     }
     context ct;
+#ifdef HAVE_LIBPTHREAD
+    pthread_mutex_lock(&context_list_mutex);
+#endif
+    context_list().pop_back();
+#ifdef HAVE_LIBPTHREAD
+    pthread_mutex_unlock(&context_list_mutex);
+#endif
     context * contextptr=&ct;
     epsilon(contextptr)=eps;
     bool add_conjugate=is_zero(im(v,contextptr),contextptr); // ok
