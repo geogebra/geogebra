@@ -43,6 +43,55 @@ public enum Operation {
 			return null;
 		}
 	},
+	SEQUENCE {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if ((lt.unwrap() instanceof NumberValue)
+					&& (rt.unwrap() instanceof NumberValue)) {
+				MyList list = new MyList(ev.getKernel());
+
+				double from = Math.round(lt.evaluateDouble());
+				double to = Math.round(rt.evaluateDouble());
+
+				if (from > MyMath.LARGEST_INTEGER
+						|| from < -MyMath.LARGEST_INTEGER) {
+					return ev.illegalArgument(lt);
+				}
+
+				if (to > MyMath.LARGEST_INTEGER
+						|| to < -MyMath.LARGEST_INTEGER) {
+					return ev.illegalArgument(rt);
+				}
+
+				// also see AlgoSequence.computeRange()
+				if (from < to) {
+
+					// increasing list
+					for (double k = from; k <= to; k++) {
+						list.addListElement(new MyDouble(ev.getKernel(), k));
+					}
+
+				} else {
+
+					// decreasing list
+					for (double k = from; k >= to; k--) {
+						list.addListElement(new MyDouble(ev.getKernel(), k));
+					}
+
+				}
+
+				return list;
+			}
+			if (!(lt.unwrap() instanceof NumberValue)) {
+				ev.illegalArgument(lt);
+			}
+
+			return ev.illegalArgument(rt);
+
+		}
+	},
 	NOT_EQUAL {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
@@ -1656,55 +1705,6 @@ public enum Operation {
 			}
 			return new MyVecNode(ev.getKernel(), MyList.getCell(list, 0, 0),
 					MyList.getCell(list, 0, 1));
-		}
-	},
-	SEQUENCE {
-		@Override
-		public ExpressionValue handle(ExpressionNodeEvaluator ev,
-				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
-				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if ((lt.unwrap() instanceof NumberValue)
-					&& (rt.unwrap() instanceof NumberValue)) {
-				MyList list = new MyList(ev.getKernel());
-
-				double from = Math.round(lt.evaluateDouble());
-				double to = Math.round(rt.evaluateDouble());
-
-				if (from > MyMath.LARGEST_INTEGER
-						|| from < -MyMath.LARGEST_INTEGER) {
-					return ev.illegalArgument(lt);
-				}
-
-				if (to > MyMath.LARGEST_INTEGER
-						|| to < -MyMath.LARGEST_INTEGER) {
-					return ev.illegalArgument(rt);
-				}
-
-				// also see AlgoSequence.computeRange()
-				if (from < to) {
-
-					// increasing list
-					for (double k = from; k <= to; k++) {
-						list.addListElement(new MyDouble(ev.getKernel(), k));
-					}
-
-				} else {
-
-					// decreasing list
-					for (double k = from; k >= to; k--) {
-						list.addListElement(new MyDouble(ev.getKernel(), k));
-					}
-
-				}
-
-				return list;
-			}
-			if (!(lt.unwrap() instanceof NumberValue)) {
-				ev.illegalArgument(lt);
-			}
-
-			return ev.illegalArgument(rt);
-
 		}
 	};
 
