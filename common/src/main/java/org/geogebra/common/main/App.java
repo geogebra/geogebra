@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.factories.AwtFactory;
@@ -4440,4 +4441,11 @@ public abstract class App implements UpdateSelection {
 		// used in android
 	}
 
+	public void adjustScreen() {
+		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
+			return;
+		}
+		AdjustScreen as = new AdjustScreen(getActiveEuclidianView());
+
+	}
 }
