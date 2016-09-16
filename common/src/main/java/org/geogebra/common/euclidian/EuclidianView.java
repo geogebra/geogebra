@@ -34,6 +34,8 @@ import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.euclidian.smallscreen.AdjustSlider;
+import org.geogebra.common.euclidian.smallscreen.AdjustWidget;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
@@ -2039,7 +2041,7 @@ public abstract class EuclidianView
 
 	public void repaintView() {
 		repaint();
-		if (app.has(Feature.ADJUST_SLIDERS)) {
+		if (app.has(Feature.ADJUST_WIDGETS)) {
 			// adjustedHSliderCount = 0;
 			// adjustedVSliderCount = 0;
 		}
@@ -2975,7 +2977,7 @@ public abstract class EuclidianView
 	private void updateSizeChange() {
 		updateSizeKeepDrawables();
 		updateAllDrawablesForView(true);
-		if (app.has(Feature.ADJUST_SLIDERS)) {
+		if (app.has(Feature.ADJUST_WIDGETS)) {
 			// adjustedHSliderCount = 0;
 			// adjustedVSliderCount = 0;
 		}
@@ -5658,13 +5660,22 @@ public abstract class EuclidianView
 		return 1;
 	}
 
-	public void adjustSliderToNearestCorner(GeoNumeric number) {
-		if (!app.has(Feature.ADJUST_SLIDERS) || !number.isSlider()) {
+	public void ensureGeoOnScreen(GeoElement geo) {
+		if (!app.has(Feature.ADJUST_WIDGETS)) {
 			return;
 		}
 
-		AdjustSlider adjustSlider = new AdjustSlider(number, this);
-		adjustSlider.apply();
+		AdjustWidget adjust = null;
+		if (geo.isGeoNumeric()) {
+			GeoNumeric number = (GeoNumeric) geo;
+			if (number.isSlider()) {
+				adjust = new AdjustSlider(number, this);
+			}
+		}
+
+		if (adjust != null) {
+			adjust.apply();
+		}
 	}
 
 	public double getXZeroOld() {

@@ -1,24 +1,14 @@
-package org.geogebra.common.euclidian;
+package org.geogebra.common.euclidian.smallscreen;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Adjusts slider position on file load
  */
-public class AdjustSlider {
+public class AdjustSlider extends AdjustWidget {
 	private GeoNumeric number;
-	private final EuclidianView view;
-	private double x;
-	private double y;
-	private Double origX;
-	private Double origY;
-	private double width;
-	private double origWidth;
 	private boolean horizontal;
-	private double ratioX;
-	private double ratioY;
 
 	private static final int MARGIN_X = 15;
 	private static final int MARGIN_Y = 15;
@@ -30,20 +20,10 @@ public class AdjustSlider {
 	 *            view
 	 */
 	public AdjustSlider(GeoNumeric num, EuclidianView view) {
+		super(view);
+
 		this.number = num;
-		this.view = view;
 
-		App app = view.getApplication();
-		int fileWidth = app.getSettings()
-				.getEuclidian(view.getEuclidianViewNo()).getFileWidth();
-		int fileHeight = app.getSettings()
-				.getEuclidian(view.getEuclidianViewNo()).getFileHeight();
-
-		ratioX = fileWidth == 0 ? 1 : (double) view.getViewWidth() / fileWidth;
-		ratioY = fileHeight == 0 ? 1
-				: (double) view.getViewHeight() / fileHeight;
-
-//		Log.debug("[ADJUST] ratioX: " + ratioX + " ratioY: " + ratioY);
 		x = number.getSliderX();
 		origX = number.getOrigSliderX();
 
@@ -58,7 +38,8 @@ public class AdjustSlider {
 
 	}
 
-	private boolean isSliderOnScreen() {
+	@Override
+	public boolean isOnScreen() {
 		return horizontal ? isHSliderOnScreen() : isVSliderOnScreen();
 	}
 
@@ -86,17 +67,10 @@ public class AdjustSlider {
 		}
 		return false;
 	}
-	// private void restoreLocation() {
-	//
-	// number.setSliderWidth(origWidth);
-	// number.setSliderLocation(origX, origY, true);
-	// }
 
-	/**
-	 * Just do the job.
-	 */
+	@Override
 	public void apply() {
-		if (isSliderOnScreen()) {
+		if (isOnScreen()) {
 			return;
 		}
 
@@ -132,4 +106,5 @@ public class AdjustSlider {
 			y = view.getViewHeight() - width;
 		}
 	}
+
 }

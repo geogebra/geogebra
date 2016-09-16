@@ -3962,7 +3962,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		// GGB-334
-		case ADJUST_SLIDERS:
+		case ADJUST_WIDGETS:
 			return prerelease;
 
 		// GGB-798
