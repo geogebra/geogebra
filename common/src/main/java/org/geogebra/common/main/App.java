@@ -3915,10 +3915,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_LANDSCAPE_FULLSCREEN_INPUT:
 			return false;
 
-		// MOB-195
-		case MOBILE_REDO:
-			return true; // 5.0.250
-
 		// MOB-606
 		case MOBILE_SAVE_BEFORE_NEW:
 			return true; // 5.0.270
