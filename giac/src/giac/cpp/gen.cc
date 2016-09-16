@@ -8498,7 +8498,7 @@ namespace giac {
   }
   
   gen gen::operator_at(const gen & i,GIAC_CONTEXT) const {
-    if (is_undef(*this)) return *this;
+    if (type==_STRNG && subtype==-1) return *this;
     if (i.type==_DOUBLE_){
       double id=i._DOUBLE_val;
       if (int(id)==id)
