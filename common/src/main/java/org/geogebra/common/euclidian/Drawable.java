@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
@@ -754,31 +753,7 @@ public abstract class Drawable extends DrawableND {
 		update();
 	}
 
-	protected boolean needsAdjusted() {
-		App app = view.getApplication();
-		int fileWidth = app.getSettings()
-				.getEuclidian(view.getEuclidianViewNo()).getFileWidth();
-		int fileHeight = app.getSettings()
-				.getEuclidian(view.getEuclidianViewNo()).getFileHeight();
 
-		// Log.debug("file: "+fileWidth+"x"+fileHeight);
-
-		if (!app.has(Feature.ADJUST_WIDGETS) || fileWidth == 0
-				|| fileHeight == 0) {
-			return false;
-		}
-
-		double w = app.getWidth();
-		double h = app.getHeight();
-		// Log.debug("app: "+w+"x"+h);
-		if ((w == fileWidth && h == fileHeight) || w == 0 || h == 0) {
-			return false;
-		}
-
-		view.ensureGeoOnScreen(geo);
-
-		return true;
-	}
 
 	/**
 	 * adjust the specific geo if needed

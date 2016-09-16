@@ -1,8 +1,10 @@
 package org.geogebra.web.web.main;
 
+import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -310,6 +312,15 @@ public class AppWapplication extends AppWFull {
 		((GGWToolBar) this.getToolbar()).updateToolbarPanel();
 		onOpenFile();
 		setAltText();
+		adjustScreen();
+	}
+
+	private void adjustScreen() {
+		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
+			return;
+		}
+		AdjustScreen as = new AdjustScreen(getActiveEuclidianView());
+
 	}
 
 	@Override

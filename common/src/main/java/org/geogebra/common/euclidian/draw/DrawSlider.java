@@ -169,10 +169,10 @@ public class DrawSlider extends Drawable {
 	@Override
 	final public void update() {
 		updateScreenCoords();
-		if (needsAdjusted()) {
-			// Log.debug(ADJUST + " needed for " + geo.getNameDescription());
-			updateScreenCoords();
-		}
+		// if (needsAdjusted()) {
+		// // Log.debug(ADJUST + " needed for " + geo.getNameDescription());
+		// updateScreenCoords();
+		// }
 	}
 
 	@Override
