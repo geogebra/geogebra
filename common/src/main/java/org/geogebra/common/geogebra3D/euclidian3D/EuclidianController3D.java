@@ -498,6 +498,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return point3D;
 	}
 
+	private boolean lastGetNewPointWasExistingPoint = false;
+
 	/**
 	 * return a copy of the preview point if one
 	 */
@@ -509,6 +511,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		GeoPoint3D point3D;
 		GeoPointND ret;
+
+		lastGetNewPointWasExistingPoint = false;
 
 		// Application.debug("view3D.getCursor3DType()="+view3D.getCursor3DType());
 
@@ -604,6 +608,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			GeoPointND firstPoint = (GeoPointND) hits
 					.getFirstHit(Test.GEOPOINTND);
 			if (firstPoint == getMovedGeoPoint()) {
+				lastGetNewPointWasExistingPoint = true;
 				return firstPoint;
 			}
 			resetMovedGeoPoint();
@@ -1399,7 +1404,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected boolean draggingOccurredBeforeRelease(boolean notAlreadyStarted) {
-		if (notAlreadyStarted && draggingOccurredBeforeRelease) {
+		if (notAlreadyStarted && lastGetNewPointWasExistingPoint
+				&& draggingOccurredBeforeRelease) {
 			// don't select a first point on dragging
 			return true;
 		}

@@ -2011,6 +2011,10 @@ public abstract class EuclidianController {
 			return null;
 		}
 
+		if (draggingOccurredBeforeRelease(selPoints() == 0)) {
+			return null;
+		}
+
 		// points needed
 		addSelectedPoint(hits, 2, false, selPreview);
 		if (selPoints() == 2) {
