@@ -12361,6 +12361,7 @@ namespace giac {
     bool numeric_matrix=is_fully_numeric(m);
     bool sym=(m==mtran(*conj(m,contextptr)._VECTptr));
     double eps=epsilon(contextptr);
+    if (eps<1e-15) eps=1e-15;
     // check for symmetric numeric matrix
     if (numeric_matrix){
 #ifdef HAVE_LIBLAPACK
@@ -16115,8 +16116,14 @@ namespace giac {
       if (nend>n) nend=n;
       for (i=m+2;i<nend;++i){
 	u=H[i][m];
-	if (u==0)
+	if (u==0){
+	  //CERR << "u=0"<<endl;
+	  if (compute_P &&already_zero==2){
+	    oper.push_back(1);
+	    oper.push_back(0);
+	  }
 	  continue;
+	}
 	// line operation
 	t=H[m+1][m];
 	norme=std::sqrt(u*u+t*t);
