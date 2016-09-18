@@ -1,8 +1,8 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.algos.AlgoSum;
 import org.geogebra.common.kernel.algos.AlgoFoldFunctions;
+import org.geogebra.common.kernel.algos.AlgoSum;
 import org.geogebra.common.kernel.algos.AlgoSumPoints;
 import org.geogebra.common.kernel.algos.AlgoSumText;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -56,7 +56,7 @@ public class CmdSum extends CommandProcessor {
 
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = list.get(i);
-				if (!geo.isGeoFunctionable()) {
+				if (!geo.isGeoFunctionable() && !geo.isGeoFunctionNVar()) {
 					allFunctions = false;
 				}
 				if (!(geo instanceof GeoNumberValue)) {

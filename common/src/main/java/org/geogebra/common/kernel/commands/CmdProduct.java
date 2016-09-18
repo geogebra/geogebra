@@ -2,12 +2,13 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoFoldFunctions;
 import org.geogebra.common.kernel.algos.AlgoProduct;
 import org.geogebra.common.kernel.algos.AlgoProductMatrices;
-import org.geogebra.common.kernel.algos.AlgoFoldFunctions;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -54,41 +55,12 @@ public class CmdProduct extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			if (((GeoList) arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
-				AlgoProduct algo = new AlgoProduct(cons, c.getLabel(), list);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			if (((GeoList) arg[0]).getGeoElementForPropertiesDialog() instanceof GeoFunction) {
-				AlgoFoldFunctions algo = new AlgoFoldFunctions(cons,
-						c.getLabel(), list, null, Operation.MULTIPLY);
-
-				GeoElement[] ret = { algo.getResult() };
-				return ret;
-			}
-			throw argErr(app, c.getName(), arg[0]);
+			return productGeneric(arg[0], null, c);
 		case 2:
 			// Product[<List of Numbers>, <Number>]
 			if (arg[1].isGeoNumeric()) {
+				return productGeneric(arg[0], (GeoNumeric) arg[1], c);
 
-				if (((GeoList) arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
-
-					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),
-							list, (GeoNumeric) arg[1]);
-
-					GeoElement[] ret = { algo.getResult() };
-					return ret;
-				}
-				if (((GeoList) arg[0]).getGeoElementForPropertiesDialog() instanceof GeoFunction) {
-					AlgoFoldFunctions algo = new AlgoFoldFunctions(cons,
-							c.getLabel(), list, (GeoNumeric) arg[1],
-							Operation.MULTIPLY);
-
-					GeoElement[] ret = { algo.getResult() };
-					return ret;
-				}
-				throw argErr(app, c.getName(), arg[0]);
 			}
 			// Product[<List of Numbers>, <Frequency>]
 			else if (arg[1].isGeoList()) {
@@ -107,6 +79,27 @@ public class CmdProduct extends CommandProcessor {
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	private GeoElement[] productGeneric(GeoElement geoElement,
+			GeoNumeric limit, Command c) {
+		GeoList list = (GeoList) geoElement;
+		GeoElement sample = ((GeoList) geoElement)
+				.getGeoElementForPropertiesDialog();
+		if (sample instanceof GeoNumberValue) {
+			AlgoProduct algo = new AlgoProduct(cons, c.getLabel(), list, limit);
+
+			GeoElement[] ret = { algo.getResult() };
+			return ret;
+		}
+		if (sample instanceof GeoFunction || sample instanceof GeoFunctionNVar) {
+			AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, c.getLabel(),
+					list, limit, Operation.MULTIPLY);
+
+			GeoElement[] ret = { algo.getResult() };
+			return ret;
+		}
+		throw argErr(app, c.getName(), geoElement);
 	}
 
 }

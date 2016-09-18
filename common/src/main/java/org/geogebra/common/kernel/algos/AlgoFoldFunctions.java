@@ -13,15 +13,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -36,8 +32,9 @@ public class AlgoFoldFunctions extends AlgoElement {
 
 	private GeoList geoList; // input
 	private GeoNumeric truncate; // input
-	private GeoFunction resultFun;
+	private GeoElement resultFun;
 	private Operation op;
+	private FoldComputer foldComputer;
 
 	/**
 	 * Creates labeled function sum algo for truncated list (or whole list if
@@ -58,7 +55,12 @@ public class AlgoFoldFunctions extends AlgoElement {
 		this.geoList = geoList;
 		this.truncate = truncate;
 		this.op = op;
-		resultFun = new GeoFunction(cons);
+		this.foldComputer = geoList.getElementType() == GeoClass.FUNCTION_NVAR
+				|| geoList.getElementType() == GeoClass.DEFAULT ?
+
+		new FunctionNvarFold()
+				: new FunctionFold();
+		resultFun = foldComputer.getTemplate(cons);
 
 		setInputOutput();
 		compute();
@@ -96,53 +98,22 @@ public class AlgoFoldFunctions extends AlgoElement {
 
 		int n = truncate == null ? geoList.size() : (int) truncate.getDouble();
 
-		if (n == 0 || n > geoList.size()) {
-			resultFun.setUndefined();
-			return;
-		} else if (n == 1) {
-			if (!geoList.get(0).isGeoFunctionable()) {
-				resultFun.setUndefined();
-				return;
-			}
-
-			GeoFunction fun1 = ((GeoFunctionable) geoList.get(0))
-					.getGeoFunction();
-
-			FunctionVariable x1 = fun1.getFunction().getFunctionVariable();
-			FunctionVariable x = new FunctionVariable(kernel);
-
-			ExpressionNode left = fun1.getFunctionExpression().getCopy(
-					fun1.getKernel());
-
-			Function f = new Function(left.replace(x1, x).wrap(), x);
-
-			resultFun.setFunction(f);
-			resultFun.setDefined(true);
-			return;
-		}
-
-		if (!geoList.get(0).isGeoFunctionable()
-				|| !geoList.get(1).isGeoFunctionable()) {
+		if (n <= 0 || n > geoList.size() || !foldComputer.check(geoList.get(0))) {
 			resultFun.setUndefined();
 			return;
 		}
 
-		// add first two:
-		resultFun = GeoFunction.add(resultFun,
-				((GeoFunctionable) geoList.get(0)).getGeoFunction(),
-				((GeoFunctionable) geoList.get(1)).getGeoFunction(), op);
+		foldComputer.setFrom(geoList.get(0), kernel);
 
-		if (n == 2)
-			return;
 
-		for (int i = 2; i < n; i++) {
+		for (int i = 1; i < n; i++) {
 
-			if (!geoList.get(i).isGeoFunctionable()) {
+			if (!foldComputer.check(geoList.get(i))) {
 				resultFun.setUndefined();
 				return;
 			}
-			resultFun = GeoFunction.add(resultFun, resultFun,
-					((GeoFunctionable) geoList.get(i)).getGeoFunction(), op);
+			this.foldComputer.add(geoList.get(i), op);
+
 		}
 	}
 
