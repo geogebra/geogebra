@@ -408,7 +408,6 @@ public abstract class Localization implements KeyboardLocale {
 	 */
 	public abstract String getColor(String key);
 
-	private StringBuilder sbPlain = new StringBuilder();
 
 	/**
 	 * Translates the key and replaces "%0" by args[0], "%1" by args[1], etc
@@ -421,9 +420,9 @@ public abstract class Localization implements KeyboardLocale {
 	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
-	final public synchronized String getPlainArray(String key, String[] args) {
+	final public String getPlainArray(String key, String[] args) {
 		String str = getPlain(key);
-
+		StringBuilder sbPlain = new StringBuilder();
 		sbPlain.setLength(0);
 		boolean found = false;
 		for (int i = 0; i < str.length(); i++) {
