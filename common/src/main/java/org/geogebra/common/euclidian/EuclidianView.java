@@ -5675,6 +5675,7 @@ public abstract class EuclidianView
 
 		if (adjust != null) {
 			adjust.apply();
+			update(geo);
 		}
 	}
 
