@@ -5544,6 +5544,10 @@ body.application[dir=rtl] .deleteAlgebra {
 	margin-left: -12px;
 }
 
+.marbleHidden {
+	visibility: hidden;
+}
+
 .minMaxPanel>* {
 	margin: 0px;
 }
