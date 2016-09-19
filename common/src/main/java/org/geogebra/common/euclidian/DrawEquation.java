@@ -319,7 +319,7 @@ public abstract class DrawEquation {
 
 	public abstract void checkFirstCall(App app);
 
-	public abstract Color convertColor(GColor bLACK);
+	public abstract Color convertColor(GColor color);
 
 	public abstract GDimension measureEquation(App app, GeoElement geo0,
 			int minValue,
