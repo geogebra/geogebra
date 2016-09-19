@@ -306,12 +306,17 @@ public class EuclidianViewCompanion {
 							&& h > EuclidianView.MIN_HEIGHT) {
 						int sw = evs.getWidth();
 						int sh = evs.getHeight();
-						// Log.debug("x0:" + x0 + ", y0:" + y0 + ", " + fw + "x"
-						// + fh + ", view: " + w + "x" + h);
-						if (sw > 0 && sh > 0) { // dimensions from file?
-							x0 += (w - sw) / 2;
-							y0 += (h - sh) / 2;
+//						Log.debug("x0:" + x0 + ", y0:" + y0 + ", " + sw + "x"
+								+ sh + ", view: " + w + "x" + h);
+						if (sw == 0) {
+							// no dimension from file: center the view
+							sw = (int) Math.round(x0 * 2);
+							sh = (int) Math.round(y0 * 2);
 						}
+						x0 += (w - sw) / 2;
+						y0 += (h - sh) / 2;
+						evs.setSize(w, h);
+						evs.setOriginNoUpdate(x0, y0);
 					}
 //					Log.debug(">> x0:" + x0 + ", y0:" + y0);
 				}
