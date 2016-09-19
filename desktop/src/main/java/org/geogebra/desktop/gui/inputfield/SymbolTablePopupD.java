@@ -25,6 +25,7 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.util.TableSymbols;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.LocalizationD;
 
 /**
  * Prepares and shows a JPopupMenu containing a symbol table for MyTextField.
@@ -61,7 +62,8 @@ public class SymbolTablePopupD {
 		popup.setBorder(BorderFactory
 				.createLineBorder(SystemColor.controlShadow));
 
-		createSymbolTable();
+		// created in setLabels(), not needed here
+		// createSymbolTable();
 		registerListeners();
 		locale = app.getLocale();
 
@@ -70,16 +72,21 @@ public class SymbolTablePopupD {
 
 	private void createSymbolTable() {
 
-		symbolTable = new SelectionTableD(app, TableSymbols.basicSymbols(app
-.getLocalization()), -1, 10,
+		LocalizationD loc = app.getLocalization();
+
+		String[][] map = TableSymbols.basicSymbolsMap(loc);
+
+
+		symbolTable = new SelectionTableD(app,
+				TableSymbols.basicSymbols(loc, map), -1, 10,
 				new Dimension(24, 24), SelectionTable.MODE_TEXT);
 
 		symbolTable.setShowGrid(true);
 		symbolTable.setHorizontalAlignment(SwingConstants.CENTER);
 		symbolTable.setSelectedIndex(1);
 		symbolTable.setFocusable(false);
-		symbolTable.setToolTipArray(TableSymbols.basicSymbolsToolTips(app
-				.getLocalization()));
+		symbolTable
+				.setToolTipArray(TableSymbols.basicSymbolsToolTips(loc, map));
 
 		symbolTable.addMouseListener(new MouseAdapter() {
 			@Override

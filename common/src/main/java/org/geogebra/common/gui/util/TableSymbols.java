@@ -144,7 +144,8 @@ public class TableSymbols {
 
 	}
 
-	public final static String[] basicSymbols(Localization app) {
+	public final static String[] basicSymbols(Localization app,
+			String[][] map) {
 
 		ArrayList<String> extraSymbols = new ArrayList<String>();
 
@@ -156,18 +157,19 @@ public class TableSymbols {
 		}
 
 		// build the array from the basic symbol array and the extra symbol list
-		String[] array = new String[basicSymbolsMap(app).length
+		String[] array = new String[map.length
 				+ extraSymbols.size()];
-		for (int i = 0; i < basicSymbolsMap(app).length; i++) {
-			array[i] = basicSymbolsMap(app)[i][0];
+		for (int i = 0; i < map.length; i++) {
+			array[i] = map[i][0];
 		}
 		for (int i = 0; i < extraSymbols.size(); i++) {
-			array[i + basicSymbolsMap(app).length] = extraSymbols.get(i);
+			array[i + map.length] = extraSymbols.get(i);
 		}
 		return array;
 	}
 
-	public final static String[] basicSymbolsToolTips(Localization app) {
+	public final static String[] basicSymbolsToolTips(Localization app,
+			String[][] map) {
 
 		ArrayList<String> extraTooltips = new ArrayList<String>();
 
@@ -177,12 +179,13 @@ public class TableSymbols {
 			extraTooltips.add(app.getSymbolTooltip(index));
 			index++;
 		}
-		String[] array = basicSymbols(app);
-		for (int i = 0; i < basicSymbolsMap(app).length; i++) {
-			array[i] = basicSymbolsMap(app)[i][1];
+		String[] array = basicSymbols(app, map);
+
+		for (int i = 0; i < map.length; i++) {
+			array[i] = map[i][1];
 		}
 		for (int i = 0; i < extraTooltips.size(); i++) {
-			array[i + basicSymbolsMap(app).length] = extraTooltips.get(i);
+			array[i + map.length] = extraTooltips.get(i);
 		}
 		return array;
 	}

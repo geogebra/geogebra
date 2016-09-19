@@ -335,9 +335,12 @@ public class TextInputDialogD extends InputDialogD
 		btInsertUnicode.setFixedIcon(GeoGebraIcon.createDownTriangleIcon(10));
 		// btInsertUnicode.setText("Symbols");
 
+		String[][] map = TableSymbols.basicSymbolsMap(loc);
+
+
 		JMenu menu = new JMenu(loc.getMenu("Properties.Basic"));
 		menu.add(new LatexTable(app, this, btInsertUnicode, TableSymbols
-				.basicSymbols(app.getLocalization()), -1, 11,
+				.basicSymbols(app.getLocalization(), map), -1, 11,
 				SelectionTable.MODE_TEXT));
 		btInsertUnicode.addPopupMenuItem(menu);
 		// btInsertUnicode.addPopupMenuItem(createMenuItem(SymbolTable.math_ops,0,1,2));

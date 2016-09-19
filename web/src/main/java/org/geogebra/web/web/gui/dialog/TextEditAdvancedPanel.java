@@ -214,7 +214,9 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		symbolPanel.setWidth("100%");
 		symbolPanel.setHeight("100%");
 
-		addTable(TableSymbols.basicSymbols(app.getLocalization()), false,
+		String[][] map = TableSymbols.basicSymbolsMap(loc);
+
+		addTable(TableSymbols.basicSymbols(loc, map), false,
 		        defaultRowSize, false);
 		addTable(TableSymbols.operators, false, defaultRowSize, true);
 		addTable(TableSymbols.greekLettersPlusVariants(), false,

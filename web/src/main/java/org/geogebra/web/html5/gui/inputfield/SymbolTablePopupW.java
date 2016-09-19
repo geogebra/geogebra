@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.gui.inputfield;
 
 import org.geogebra.common.gui.util.TableSymbols;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 
@@ -40,9 +41,13 @@ public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 	}
 
 	private void createSymbolTable() {
-		String[] icons = TableSymbols.basicSymbols(app.getLocalization());
-		String[] iconshelp = TableSymbols.basicSymbolsToolTips(app
-		        .getLocalization());
+
+		Localization loc = app.getLocalization();
+
+		String[][] map = TableSymbols.basicSymbolsMap(loc);
+
+		String[] icons = TableSymbols.basicSymbols(loc, map);
+		String[] iconshelp = TableSymbols.basicSymbolsToolTips(loc, map);
 
 		symbolTable = new SymbolTableW(icons, iconshelp);
 		add(symbolTable);
