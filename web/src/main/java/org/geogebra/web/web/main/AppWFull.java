@@ -412,6 +412,21 @@ public abstract class AppWFull extends AppW {
 		if (isExam() && getExam().getStart() < 0) {
 			this.closePerspectivesPopup();
 
+			// reset cas and 3d settings for restart of exam
+			// needed for GGB-1015
+			this.getSettings().getCasSettings().resetEnabled();
+			this.getSettings().getEuclidian(-1).resetEnabled();
+			if (this.getArticleElement().getDataParamEnableCAS(false) || !this
+					.getArticleElement().getDataParamEnableCAS(true)) {
+				this.getSettings().getCasSettings().setEnabled(this
+						.getArticleElement().getDataParamEnableCAS(false));
+			}
+			if (this.getArticleElement().getDataParamEnable3D(false) || !this
+					.getArticleElement().getDataParamEnable3D(true)) {
+				this.getSettings().getEuclidian(-1).setEnabled(this
+						.getArticleElement().getDataParamEnable3D(false));
+			}
+				
 			new ExamDialog(this).show();
 
 			if (Location.getHost() != null) {
