@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html manifest="/apps/appcache.nocache.manifest">
+<html>
 <head>
     <meta charset="utf-8" />
     <title>GeoGebra</title>
@@ -272,7 +272,39 @@ var app = document.createElement("script");
 		window.setTimeout(showInEnglish, 1000);
 		switchLang(validLang(lang),codebase);
 	}
+	
+	function installWorker(){
+		window.GGBT_offlineRequestHandler = (function() {
+	    "use strict";
+	    function isServiceWorkerSupported() {
+	        return 'serviceWorker' in navigator && location.protocol === "https:";
+	    }
+	    function registerServiceWorker() {
+	        //TODO: will be cool for offline working. Not ready for push messages yet, too small browser support, too many quirks
+	        if (navigator.serviceWorker.controller) {
+	            console.log("service worker already controlling the page");
+	        } else {
+	            navigator.serviceWorker.register('/sworker.js', {
+	                scope: '/'
+	            });
+	        }
+	    }
+	    function initServiceWorker() {
+	        if (isServiceWorkerSupported()) {
+	            registerServiceWorker();
+	        } else {
+	            console.log("service workers not supported");
+	        }
+	    }
+	    return {
+	        initServiceWorker : initServiceWorker,
+	    };
+	})();
+	window.GGBT_offlineRequestHandler.initServiceWorker();
+}
+	
 	function checkLogin(){
+		installWorker();
 		var tubeid = getURLparam("id");
 		var codebase = "https://d2lanadgwinn45.cloudfront.net/"+latestVersion+"/";
 		if(location.pathname.substring(0,3)==="/o/"){
