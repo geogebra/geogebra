@@ -4050,6 +4050,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_PROGRESS_DIALOG_CANCEL:
 			return prerelease;
 
+		// MOB-779
+		case MOBILE_COPY_3D_VIEW_TO_IMAGE_VIEW_FOR_ANIMATIONS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
