@@ -2898,7 +2898,7 @@ public abstract class EuclidianView
 	 * Size changed, make sure our settings reflect that
 	 */
 	public void updateSize() {
-		if (keepCenter) {
+		if (getKeepCenter()) {
 			updateSizeKeepCenter();
 		} else {
 			updateSizeChange();

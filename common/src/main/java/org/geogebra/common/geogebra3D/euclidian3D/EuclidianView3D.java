@@ -4751,4 +4751,15 @@ GRectangle selectionRectangle) {
 		return getRenderer().getExportImage(scale);
 	}
 
+	@Override
+	final public boolean getKeepCenter() {
+		// no need in 3D
+		return false;
+	}
+
+	@Override
+	final public void setKeepCenter(boolean center) {
+		// no need in 3D
+	}
+
 }
