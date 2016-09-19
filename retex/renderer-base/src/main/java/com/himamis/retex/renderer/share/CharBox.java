@@ -72,6 +72,7 @@ public class CharBox extends Box {
 		depth = c.getDepth();
 	}
 
+	@Override
 	public void draw(Graphics2DInterface g2, float x, float y) {
 		drawDebug(g2, x, y);
 		g2.saveTransformation();
@@ -88,11 +89,13 @@ public class CharBox extends Box {
 		g2.restoreTransformation();
 	}
 
+	@Override
 	public int getLastFontId() {
 		return cf.fontId;
 	}
 
+	@Override
 	public String toString() {
-		return super.toString() + "=" + cf.c;
+		return "Char =" + cf.c;
 	}
 }

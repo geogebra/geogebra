@@ -392,7 +392,11 @@ public abstract class Box {
 		for (int i = 0; i < offset; i++) {
 			sb.append("  ");
 		}
-		sb.append(getClass().getSimpleName().replace("Box", ""));
+		if (this instanceof CharBox) {
+			sb.append(toString());
+		} else {
+			sb.append(getClass().getSimpleName().replace("Box", ""));
+		}
 		sb.append("\n");
 		for (int i = 0; i < children.size(); i++) {
 			children.get(i).append(sb, offset + 1);
