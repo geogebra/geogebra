@@ -42,6 +42,12 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		//"Algebra Descriptions" menu
 		// getOptionsMenu().addAlgebraDescriptionMenu(this);
 		getOptionsMenu().addDecimalPlacesMenu(this);
+
+		// in exam mode only "Rounding" menu needed
+		if (app.isExam()) {
+			return;
+		}
+
 		addSeparator();
 		getOptionsMenu().addLabelingMenu(this);
 		addSeparator();
