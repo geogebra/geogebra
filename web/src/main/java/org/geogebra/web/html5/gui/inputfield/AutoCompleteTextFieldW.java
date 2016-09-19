@@ -39,6 +39,7 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.Scheduler;
@@ -347,6 +348,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				// AG tf.setFocus(true);
 				// textField.setFocus(true);
 				requestFocus();
+				if (app != null) {
+					((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).setFocused(true);
+				}
 			}
 		});
 	}

@@ -17,6 +17,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
@@ -48,7 +49,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	protected String selectedCellName;
 	protected String prefix, postfix;
 
-	private AppW app;
+	private final AppW app;
 	private SpreadsheetViewW view;
 	private Kernel kernel;
 	private MyTableW table;
@@ -149,13 +150,21 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	public void onMouseDown(MouseDownEvent mouseDownEvent) {
+		focusKeyDispatcher();
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
 		handlePointerDown(mouseDownEvent);
 	}
 
+	private void focusKeyDispatcher() {
+		if (app != null) {
+			((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).setFocused(true);
+		}
+	}
+
 	public void onTouchStart(TouchStartEvent touchStartEvent) {
+		focusKeyDispatcher();
 		numberOfTouches = touchStartEvent.getTouches().length();
 		if (numberOfTouches == 1) {
 			updateTableIsOverDot(touchStartEvent);
