@@ -21,7 +21,7 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class AdjustScreen {
-	private static final int HSLIDER_OVERLAP_THRESOLD = 20;
+	private static final int HSLIDER_OVERLAP_THRESOLD = 50;
 	private EuclidianView view;
 	private App app;
 	private Kernel kernel;
@@ -76,6 +76,7 @@ public class AdjustScreen {
 		checkOvelappingHSliders();
 	}
 
+	@SuppressWarnings("unchecked")
 	private void checkOvelappingHSliders() {
 		Collections.sort(hSliders, new HSliderComparator());
 		int diff = HSLIDER_OVERLAP_THRESOLD;
