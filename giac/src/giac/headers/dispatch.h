@@ -245,6 +245,7 @@ namespace giac {
     _INTERVAL__VECT=26,
     _GGBVECT=27,
     _PRINT__VECT=28,
+    _TUPLE__VECT=29,
   } ;
 
   enum symb_subtypes {

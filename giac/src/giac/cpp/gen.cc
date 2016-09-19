@@ -5797,6 +5797,34 @@ namespace giac {
     }
     case _VECT__VECT: {
       gen A(a),B(b);
+      if (A.subtype==_SET__VECT && B.subtype==_SET__VECT){
+	vecteur res; res.reserve(A._VECTptr->size()*B._VECTptr->size());
+	const_iterateur at=A._VECTptr->begin(),aend=A._VECTptr->end(),bt=B._VECTptr->begin(),bend=B._VECTptr->end();
+	for (;at!=aend;++at){
+	  for (bt=B._VECTptr->begin();bt!=bend;++bt){
+	    if (at->type==_VECT && at->subtype==_TUPLE__VECT){
+	      if (bt->type==_VECT && bt->subtype==_TUPLE__VECT){
+		res.push_back(gen(mergevecteur(*at->_VECTptr,*bt->_VECTptr),_SEQ__VECT));
+	      }
+	      else {
+		vecteur tmp(*at->_VECTptr);
+		tmp.push_back(*bt);
+		res.push_back(gen(tmp,_TUPLE__VECT));
+	      }
+	    }
+	    else {
+	      if (bt->type==_VECT && bt->subtype==_TUPLE__VECT){
+		vecteur tmp(*bt->_VECTptr);
+		tmp.insert(tmp.begin(),*at);
+		res.push_back(gen(tmp,_TUPLE__VECT));
+	      }
+	      else
+		res.push_back(gen(makevecteur(*at,*bt),_TUPLE__VECT));
+	    }
+	  }
+	}
+	return gen(res,_SET__VECT);
+      }
       // FIXME should not convert 0 in B if A has intervals
       if (A.is_approx() && !is_fully_numeric(B)){
 	bool done=false;
@@ -11302,7 +11330,7 @@ namespace giac {
   /* I/O: Print routines */
   string print_DOUBLE_(double d,GIAC_CONTEXT){
     if (my_isnan(d))
-      return "undef";
+      return calc_mode(contextptr)?"?":"undef";
     if (my_isinf(d))
       return "infinity";
 #ifdef BCD
@@ -11632,7 +11660,9 @@ namespace giac {
       if ( (subtype==_RPN_FUNC__VECT) && (it->type==_SYMB) && (it->_SYMBptr->sommet==at_quote))
 	s += "'"+it->_SYMBptr->feuille.print(contextptr)+"'";
       else {
-	if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_sto) )
+	if ( (it->type==_SYMB && it->_SYMBptr->sommet==at_sto) 
+	     // || (it->type==_VECT && it->subtype==_SEQ__VECT && it->_VECTptr->size()>=2)
+	     )
 	  s += "("+it->print(contextptr)+")";
 	else
 	  add_print(s,*it,contextptr); // s += it->print(contextptr);
