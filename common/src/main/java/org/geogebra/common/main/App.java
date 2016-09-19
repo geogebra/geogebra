@@ -4039,7 +4039,7 @@ public abstract class App implements UpdateSelection {
 
 		//MOB-827
 		case MOBILE_ROUNDING_OPTION:
-			return prerelease;
+			return true; // 5.0.276
 
 		case ITERATION_LIST_DOUBLE:
 			return prerelease;
