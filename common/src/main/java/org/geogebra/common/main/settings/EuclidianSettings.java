@@ -61,7 +61,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private int tooltipsInThisView = EuclidianStyleConstants.TOOLTIPS_AUTOMATIC;
 
-	private GDimension sizeFromFile;
+	private GDimension sizeFromFile, size;
 
 	protected App app;
 
@@ -89,6 +89,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	protected void resetNoFire() {
 		sizeFromFile = AwtFactory.prototype.newDimension(0, 0);
+		size = null;
 
 		gridDistances = null;
 		// length might be 2 or 3
@@ -1017,12 +1018,19 @@ public class EuclidianSettings extends AbstractSettings {
 		}
 	}
 
+	/**
+	 * set size from XML file. Reset size value
+	 * 
+	 * @param newDimension
+	 */
 	public void setSizeFromFile(GDimension newDimension) {
 		this.sizeFromFile = newDimension;
+		this.size = null;
 	}
 
-	public void setSizeFromFile(int w, int h) {
-		setSizeFromFile(AwtFactory.prototype.newDimension(w, h));
+
+	public void setSize(int w, int h) {
+		size = AwtFactory.prototype.newDimension(w, h);
 	}
 
 	public void setOriginNoUpdate(double xZero, double yZero){
@@ -1042,6 +1050,26 @@ public class EuclidianSettings extends AbstractSettings {
 	 */
 	public int getFileHeight() {
 		return sizeFromFile.getHeight();
+	}
+
+	/**
+	 * @return width
+	 */
+	public int getWidth() {
+		if (size == null) {
+			return getFileWidth();
+		}
+		return size.getWidth();
+	}
+
+	/**
+	 * @return height
+	 */
+	public int getHeight() {
+		if (size == null) {
+			return getFileHeight();
+		}
+		return size.getHeight();
 	}
 
 	/**

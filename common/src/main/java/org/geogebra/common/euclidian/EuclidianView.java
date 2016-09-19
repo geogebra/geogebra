@@ -2913,22 +2913,22 @@ public abstract class EuclidianView
 			Log.debug(w + "x" + h);
 			Log.debug("xZero: "+xZero+", yZero: "+yZero);
 			if (getSettings() != null) {
-				int fw = getSettings().getFileWidth();
-				int fh = getSettings().getFileHeight();
+				int sw = getSettings().getWidth();
+				int sh = getSettings().getHeight();
 				double x0 = getSettings().getXZero();
 				double y0 = getSettings().getYZero();
-				Log.debug("settings: " + fw + "x" + fh+","+x0+","+y0);
-				if (fw == 0){
+				Log.debug("settings: " + sw + "x" + sh + "," + x0 + "," + y0);
+				if (sw == 0) {
 					// no dimension from file: center the view
-					fw = (int) Math.round(x0 * 2);
-					fh = (int) Math.round(y0 * 2);
+					sw = (int) Math.round(x0 * 2);
+					sh = (int) Math.round(y0 * 2);
 				}
-				int dx = (w - fw) / 2;
-				int dy = (h - fh) / 2;
+				int dx = (w - sw) / 2;
+				int dy = (h - sh) / 2;
 				xZero = getSettings().getXZero() + dx;
 				yZero = getSettings().getYZero() + dy;
 				Log.debug(">> xZero: "+xZero+", yZero: "+yZero);
-				getSettings().setSizeFromFile(w, h);
+				getSettings().setSize(w, h);
 				getSettings().setOriginNoUpdate(xZero, yZero);
 			} else {
 				Log.debug("settings: null");
@@ -4215,8 +4215,8 @@ public abstract class EuclidianView
 			if ((width <= MIN_WIDTH) && (height <= MIN_HEIGHT)) {
 				EuclidianSettings settings = getSettings();
 				if (settings != null) {
-					width = settings.getFileWidth();
-					height = settings.getFileHeight();
+					width = settings.getWidth();
+					height = settings.getHeight();
 				}
 			}
 //			Log.debug("after:" + width + "x" + height);
