@@ -22,6 +22,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AdjustScreen {
 	private static final int HSLIDER_OVERLAP_THRESOLD = 50;
+	private static final int VSLIDER_OVERLAP_THRESOLD = 50;
 	private EuclidianView view;
 	private App app;
 	private Kernel kernel;
@@ -37,6 +38,17 @@ public class AdjustScreen {
 				return 0;
 			}
 			return y1 < y2 ? -1 : 1;
+		}
+	}
+
+	private class VSliderComparator implements Comparator {
+		public int compare(Object o1, Object o2) {
+			double x1 = ((GeoNumeric) o1).getSliderX();
+			double x2 = ((GeoNumeric) o2).getSliderX();
+			if (x1 == x2) {
+				return 0;
+			}
+			return x1 < x2 ? -1 : 1;
 		}
 	}
 
@@ -73,7 +85,9 @@ public class AdjustScreen {
 				}
 			}
 		}
+
 		checkOvelappingHSliders();
+		checkOvelappingVSliders();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -95,6 +109,29 @@ public class AdjustScreen {
 						+ (y2 + diff) + ")");
 				num2.setSliderLocation(x2, y2 + diff, true);
 				diff += HSLIDER_OVERLAP_THRESOLD;
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void checkOvelappingVSliders() {
+		Collections.sort(vSliders, new VSliderComparator());
+		int diff = VSLIDER_OVERLAP_THRESOLD;
+		for (int idx = vSliders.size() - 1; idx > 0; idx--) {
+			GeoNumeric num1 = vSliders.get(idx - 1);
+			GeoNumeric num2 = vSliders.get(idx);
+			Log.debug("[AS] :" + num1 + " - " + num2);
+			double x1 = num1.getSliderX();
+			// double xEnd1 = num1.getSliderX() + num1.getSliderWidth();
+			double y1 = num1.getSliderY();
+			double x2 = num2.getSliderX();
+			// double xEnd2 = num2.getSliderX() + num2.getSliderWidth();
+			double y2 = num2.getSliderY();
+			if (x2 - x1 < VSLIDER_OVERLAP_THRESOLD) {
+				Log.debug("[AS] adjusting " + num2 + " to (" + (x2 + diff)
+						+ ", " + y2 + ")");
+				num2.setSliderLocation(x2 + diff, y2, true);
+				diff += VSLIDER_OVERLAP_THRESOLD;
 			}
 		}
 	}
