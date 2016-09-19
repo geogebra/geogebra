@@ -265,7 +265,7 @@ var app = document.createElement("script");
 		document.head.appendChild(app);	
 }
 	function isLocalhost(){
-		return location.protocol == "app:" || location.host.match(/^([0-9.]*|autotest.geogebra|deploy.geogebra|localhost)$/);
+		return location.protocol == "app:" || location.host.match(/^([0-9.]*|(autotest|deploy).geogebra.org|localhost)$/);
 	}
 	function showStartScreen(codebase){
 		var lang = getURLparam("ggbLang") || getCookie("GeoGebraLangUI") || navigator.language || "en";
