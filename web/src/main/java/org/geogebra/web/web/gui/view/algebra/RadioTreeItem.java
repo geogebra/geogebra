@@ -172,7 +172,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 			marble = new Marble(RadioTreeItem.this);
 			marble.setStyleName("marble");
-			marble.setEnabled(geo.isEuclidianShowable());
+			marble.setEnabled(geo.isEuclidianShowable()
+					&& (!app.isExam() || app.getArticleElement()
+							.getDataParamEnableGraphing(true)));
 			marble.setChecked(geo.isEuclidianVisible());
 
 			addStyleName("marblePanel");
@@ -185,6 +187,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		public void update() {
+			Log.debug("marble update");
+			marble.setEnabled(geo.isEuclidianShowable()
+					&& (!app.isExam() || app.getArticleElement()
+							.getDataParamEnableGraphing(true)));
 			if (marble != null) {
 				marble.setChecked(geo.isEuclidianVisible());
 			}

@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.awt.GColorW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 
+import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -120,8 +121,11 @@ public class Marble extends SimplePanel
 	 * Enable or disable this control, NOT IMPLEMENTED
 	 * @param euclidianShowable whether the geo may be shown/hidden
 	 */
-	public void setEnabled(boolean euclidianShowable) {
-	    // TODO Auto-generated method stub
+	public void setEnabled(boolean show) {
+		if (show)
+			this.getElement().getStyle().setVisibility(Visibility.VISIBLE);
+		else
+			this.getElement().getStyle().setVisibility(Visibility.HIDDEN);
 	    
     }
 
