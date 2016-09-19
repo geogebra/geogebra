@@ -307,7 +307,7 @@ public class EuclidianViewCompanion {
 						int sw = evs.getWidth();
 						int sh = evs.getHeight();
 //						Log.debug("x0:" + x0 + ", y0:" + y0 + ", " + sw + "x"
-								+ sh + ", view: " + w + "x" + h);
+//								+ sh + ", view: " + w + "x" + h);
 						if (sw == 0) {
 							// no dimension from file: center the view
 							sw = (int) Math.round(x0 * 2);
