@@ -44,6 +44,7 @@ import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 
 /**
@@ -240,7 +241,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
             cursorController.firstField(editorState);
             this.mouseDownPos = new int[]{x, y};
 
-            moveToSelection(list);
+			moveToSelection(x, y);
 
             mathFieldController.update(mathFormula, editorState, false);
         }
@@ -271,7 +272,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
             cursorController.firstField(editorState);
 
-            moveToSelection(list);
+			moveToSelection(x, y);
 
             editorState.resetSelection();
 
@@ -335,8 +336,11 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				|| Math.abs(y - mouseDownPos[1]) > 10);
 	}
 
-	private void moveToSelection(ArrayList<Integer> list) {
-		System.out.println("SELECTION" + list);
+	private void moveToSelection(int x, int y) {
+		// System.out.println("SELECTION" + list);
+		double dist = Integer.MAX_VALUE;
+		MathSequence closestComponent = null;
+		int closestOffset = -1;
 		while (cursorController.nextCharacter(editorState)) {
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
@@ -348,10 +352,21 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				list2.set(i, list2.get(list2.size() - 1 - i));
 				list2.set(list2.size() - 1 - i, tmp);
 			}
-			System.out.println(list2);
-			if (compare(list, list2)) {
-				break;
+			double currentDist = Math.abs(x - CursorBox.startX)
+					+ Math.abs(y - CursorBox.startY);
+			if (currentDist < dist) {
+				dist = currentDist;
+				closestComponent = editorState.getCurrentField();
+				closestOffset = editorState.getCurrentOffset();
 			}
+		}
+		if (closestComponent != null) {
+			editorState.setCurrentField(closestComponent);
+			editorState.setCurrentOffset(closestOffset);
+			ArrayList<Integer> list2 = new ArrayList<Integer>();
+			mathFieldController.getSelectedPath(mathFormula, list2,
+					editorState.getCurrentField(),
+					editorState.getCurrentOffset());
 		}
 
 	}
@@ -368,7 +383,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		MathSequence current = editorState.getCurrentField();
 		int offset = editorState.getCurrentOffset();
 		cursorController.firstField(editorState);
-		moveToSelection(list);
+		moveToSelection(x, y);
 		editorState.resetSelection();
 		editorState.extendSelection(false);
 		editorState.setCurrentField(current);

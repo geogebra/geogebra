@@ -10,6 +10,7 @@ import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class MathFieldController {
 
@@ -101,6 +102,8 @@ public class MathFieldController {
 				.setType(type).build();
 		renderer.getBox().getSelectedPath(list, 0);
 		mathField.setTeXIcon(renderer);
+		renderer.paintIcon(null, FactoryProvider.INSTANCE.getGraphicsFactory()
+				.createImage(100, 100, 1).createGraphics2D(), 0, 0);
 	}
 
 }
