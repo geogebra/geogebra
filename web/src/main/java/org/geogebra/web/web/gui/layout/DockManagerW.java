@@ -14,6 +14,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
@@ -299,13 +300,15 @@ public class DockManagerW extends DockManager {
 				// this might have to belong to panel.updatePanel
 				// maybe not needed if updatePanel is right
 				// maybe wrong if onResize makes things wrong
-				if (currentParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+				if (currentParent
+						.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 					panel.setHeight(dpData[i].getEmbeddedSize()+"px");
 				} else {
 					panel.setWidth(dpData[i].getEmbeddedSize()+"px");
 				}
 
-				if (currentParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+				if (currentParent
+						.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 					int panelDim = panel.getEstimatedSize().getWidth();
 					sph.put(currentParent, sph.get(currentParent) + dpData[i].getEmbeddedSize());
 					spw.put(currentParent, Math.max(spw.get(currentParent), panelDim));
@@ -321,7 +324,8 @@ public class DockManagerW extends DockManager {
 						DockSplitPaneW otherParent = oldParent;
 						oldParent = (DockSplitPaneW)oldParent.getParent();
 						
-						if (oldParent.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+						if (oldParent
+								.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 							sph.put(oldParent, sph.get(oldParent) + dpData[i].getEmbeddedSize());
 							spw.put(oldParent, Math.max(spw.get(oldParent), spw.get(otherParent)));
 						} else {
@@ -487,7 +491,7 @@ public class DockManagerW extends DockManager {
 				sdl = splitPanes[i].computeDividerLocationRecursive();
 			}
 
-			if(spData[i].getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+			if (spData[i].getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 				divLoc = (int)(sdl * windowHeight);
 				if (divLoc <= theRealWindowHeight - splitPanes[i].getSplitterSize()) {
 					splitPanes[i].setDividerLocationSilent(divLoc);
@@ -570,9 +574,9 @@ public class DockManagerW extends DockManager {
 		if(dndRegion == DnDState.LEFT || dndRegion == DnDState.LEFT_OUT ||
 			dndRegion == DnDState.RIGHT || dndRegion == DnDState.RIGHT_OUT)
 		{
-			newSplitPane.setOrientation(DockSplitPaneW.HORIZONTAL_SPLIT);
+			newSplitPane.setOrientation(SwingConstants.HORIZONTAL_SPLIT);
 		} else {
-			newSplitPane.setOrientation(DockSplitPaneW.VERTICAL_SPLIT);
+			newSplitPane.setOrientation(SwingConstants.VERTICAL_SPLIT);
 		}
 		
 		if(dndState.isRegionOut() && (target.getParent() == sourceParent || target == source)) {
@@ -795,9 +799,13 @@ public class DockManagerW extends DockManager {
 			// Get the location of our new DockPanel (ignore last entry)
 			for(int i = 0; i < locations.length - 1; ++i) {			
 				// The orientation of the current pane does not match the stored orientation, skip this
-				if(currentPane.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT && (locations[i] == 0 || locations[i] == 2)) {
+				if (currentPane
+						.getOrientation() == SwingConstants.HORIZONTAL_SPLIT
+						&& (locations[i] == 0 || locations[i] == 2)) {
 					continue;
-				} else if(currentPane.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT && (locations[i] == 1 || locations[i] == 3)) {
+				} else if (currentPane
+						.getOrientation() == SwingConstants.VERTICAL_SPLIT
+						&& (locations[i] == 1 || locations[i] == 3)) {
 					continue;
 				}
 				
@@ -823,9 +831,9 @@ public class DockManagerW extends DockManager {
 			
 			
 			if(lastPos == 0 || lastPos == 2) {
-				newSplitPane.setOrientation(DockSplitPaneW.VERTICAL_SPLIT);
+				newSplitPane.setOrientation(SwingConstants.VERTICAL_SPLIT);
 			} else {
-				newSplitPane.setOrientation(DockSplitPaneW.HORIZONTAL_SPLIT);
+				newSplitPane.setOrientation(SwingConstants.HORIZONTAL_SPLIT);
 			}
 			
 			// the size (height / width depending upon lastPos) of the parent element,
@@ -903,7 +911,8 @@ public class DockManagerW extends DockManager {
 			
 			//check new split pane size regarding orientation
 			int newSplitPaneSize;
-			if(newSplitPane.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
+			if (newSplitPane
+					.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
 				newSplitPaneSize=//newSplitPane.getOffsetWidth();
 					oppositeWidth;
 			} else {
@@ -1058,7 +1067,7 @@ public class DockManagerW extends DockManager {
 			int parentOffsetHeight = parent.getOffsetHeight();
 			app.persistWidthAndHeight();
 			// Save settings
-			if(parent.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
+			if (parent.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
 				panel.setEmbeddedSize(panel.getOffsetWidth());
 			} else {
 				panel.setEmbeddedSize(panel.getOffsetHeight());
@@ -1075,7 +1084,7 @@ public class DockManagerW extends DockManager {
 			}
 			int orientation = parent.getOrientation();
 			int size = 0;
-			if (orientation==DockSplitPaneW.VERTICAL_SPLIT)
+			if (orientation == SwingConstants.VERTICAL_SPLIT)
 				size = parentOffsetHeight;
 			else
 				size = parentOffsetWidth;
@@ -1595,7 +1604,9 @@ public class DockManagerW extends DockManager {
 	}
 	
 	private void scale(float scaleX, float scaleY, DockSplitPaneW splitPane) {
-		splitPane.setDividerLocation((int)(splitPane.getDividerLocation() * (splitPane.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT ? scaleX : scaleY)));
+		splitPane.setDividerLocation((int) (splitPane.getDividerLocation()
+				* (splitPane.getOrientation() == SwingConstants.VERTICAL_SPLIT
+						? scaleX : scaleY)));
 		
 		if(splitPane.getLeftComponent() != null && splitPane.getLeftComponent() instanceof DockSplitPaneW) {
 			scale(scaleX, scaleY, (DockSplitPaneW)splitPane.getLeftComponent());

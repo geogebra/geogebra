@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockComponent;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -228,7 +229,7 @@ public class DockGlassPaneW extends AbsolutePanel implements
 			color = COLOR_DEFAULT;
 
 			// calculate the preview rectangle
-			if (orientation == DockSplitPaneW.VERTICAL_SPLIT) {
+			if (orientation == SwingConstants.VERTICAL_SPLIT) {
 
 				if (leftPercent < maxDist) {
 					if (leftPercent < maxDist / 2) {

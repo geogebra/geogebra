@@ -21,6 +21,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -2615,7 +2616,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (w < newWidth) {
 			DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
 			if (splitPane == null || splitPane
-					.getOrientation() == DockSplitPaneW.VERTICAL_SPLIT) {
+					.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
 				return;
 			}
 			getAV().setOriginalWidth(w);

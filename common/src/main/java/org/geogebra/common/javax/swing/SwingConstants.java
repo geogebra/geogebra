@@ -79,7 +79,10 @@ public interface SwingConstants {
 	public static final int HORIZONTAL = 0;
 	/** Vertical orientation. Used for scrollbars and sliders. */
 	public static final int VERTICAL = 1;
-
+	/** See JSplitPane.HORIZONTAL_SPLIT */
+	public static final int HORIZONTAL_SPLIT = 1;
+	/** See JSplitPane.VERTICAL_SPLIT */
+	public static final int VERTICAL_SPLIT = 0;
 	//
 	// Constants for orientation support, since some languages are
 	// left-to-right oriented and some are right-to-left oriented.

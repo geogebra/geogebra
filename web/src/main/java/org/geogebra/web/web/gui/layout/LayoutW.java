@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
@@ -276,7 +277,8 @@ public class LayoutW extends Layout implements SettingListener {
 		Perspective perspective = new Perspective(id);
 
 		// get the information about the split panes
-		DockSplitPaneW.TreeReader spTreeReader = new DockSplitPaneW.TreeReader(app);
+		DockSplitPaneW.TreeReader spTreeReader = new DockSplitPaneW.TreeReader(
+				app);
 		perspective.setSplitPaneData(spTreeReader.getInfo(dockManager.getRoot()));
 
 		// get the information about the dock panels
@@ -288,7 +290,7 @@ public class LayoutW extends Layout implements SettingListener {
 			// is updated, so we have to take care of this by ourself
 			if (!panels[i].isOpenInFrame() && panels[i].isVisible()) {
 				DockSplitPaneW parent = panels[i].getParentSplitPane();
-				if (parent.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
+				if (parent.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
 					panels[i].setEmbeddedSize(panels[i].getWidth());
 				} else {
 					panels[i].setEmbeddedSize(panels[i].getHeight());

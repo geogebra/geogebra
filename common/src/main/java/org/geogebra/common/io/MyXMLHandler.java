@@ -175,10 +175,7 @@ public class MyXMLHandler implements DocHandler {
 	/** available CAS timeout options (will be reused in OptionsCAS) */
 	final public static Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
 
-	/** See JSplitPane.HORIZONTAL_SPLIT */
-	private static final int JSplitPane_HORIZONTAL_SPLIT = 1;
-	/** See JSplitPane.VERTICAL_SPLIT */
-	private static final int JSplitPane_VERTICAL_SPLIT = 0;
+
 
 	/**
 	 * we used minimal text size of 4px until 4.0 for texts, because the font
@@ -2117,12 +2114,13 @@ new GPoint(row, column));
 	 * Take care of backward compatibility for the dynamic layout component
 	 */
 	private void createCompabilityLayout() {
-		int splitOrientation = tmp_spHorizontal ? JSplitPane_HORIZONTAL_SPLIT
-				: JSplitPane_VERTICAL_SPLIT;
+		int splitOrientation = tmp_spHorizontal
+				? SwingConstants.HORIZONTAL_SPLIT
+				: SwingConstants.VERTICAL_SPLIT;
 		String defEV, defSV, defAV;
 		// we have to create the definitions for the single views manually to
 		// prevent nullpointers
-		if (splitOrientation == JSplitPane_HORIZONTAL_SPLIT) {
+		if (splitOrientation == SwingConstants.HORIZONTAL_SPLIT) {
 			if (tmp_showSpreadsheet && tmp_showAlgebra) {
 				defEV = "1,3";
 				defSV = "1,1";
@@ -2171,7 +2169,7 @@ new GPoint(row, column));
 
 		int ssize = 200;
 		if (tmp_showSpreadsheet) {
-			if (splitOrientation == JSplitPane_HORIZONTAL_SPLIT) {
+			if (splitOrientation == SwingConstants.HORIZONTAL_SPLIT) {
 				ssize = app.getSettings().getSpreadsheet().preferredSize()
 						.getWidth();
 			} else {
@@ -2202,7 +2200,7 @@ new GPoint(row, column));
 		tmp_perspective.setDockPanelData(dpXml);
 		tmp_perspective.setShowToolBar(true);
 
-		if (splitOrientation == JSplitPane_HORIZONTAL_SPLIT) {
+		if (splitOrientation == SwingConstants.HORIZONTAL_SPLIT) {
 			if (tmp_showSpreadsheet) {
 				width += 5 + ssize;
 			}
@@ -2223,18 +2221,20 @@ new GPoint(row, column));
 
 		// use two split panes in case all three views are visible
 		if (tmp_showSpreadsheet && tmp_showAlgebra) {
-			int total = (splitOrientation == JSplitPane_HORIZONTAL_SPLIT ? width
+			int total = (splitOrientation == SwingConstants.HORIZONTAL_SPLIT
+					? width
 					: height);
 			float relative1 = (float) tmp_sp2 / total;
 			float relative2 = (float) tmp_sp1 / (total - tmp_sp2);
 			spXml = new DockSplitPaneData[] {
 					new DockSplitPaneData("", relative1, splitOrientation),
 					new DockSplitPaneData(
-							(splitOrientation == JSplitPane_HORIZONTAL_SPLIT
+							(splitOrientation == SwingConstants.HORIZONTAL_SPLIT
 									? "1" : "2"),
 							relative2, splitOrientation) };
 		} else {
-			int total = (splitOrientation == JSplitPane_HORIZONTAL_SPLIT ? width
+			int total = (splitOrientation == SwingConstants.HORIZONTAL_SPLIT
+					? width
 					: height);
 			float relative;
 			if (tmp_showSpreadsheet) {

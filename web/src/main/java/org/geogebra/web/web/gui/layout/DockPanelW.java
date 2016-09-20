@@ -6,6 +6,7 @@ import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -868,7 +869,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 			parentDSP = (DockSplitPaneW) parent;
 
-			if (parentDSP.getOrientation() == DockSplitPaneW.HORIZONTAL_SPLIT) {
+			if (parentDSP.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
 				if (current == parentDSP.getLeftComponent()) // left
 					defType = 3;
 				else
