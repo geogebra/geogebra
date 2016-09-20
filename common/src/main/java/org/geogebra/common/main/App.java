@@ -4054,6 +4054,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_COPY_3D_VIEW_TO_IMAGE_VIEW_FOR_ANIMATIONS:
 			return prerelease;
 
+		// MOB-893
+		case MOBILE_SHOW_ALL_OBJECTS_ON_LOAD:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
