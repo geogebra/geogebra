@@ -1622,7 +1622,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (appWidth < 1) {// for case app is not part of DOM
 			appWidth = 600;
 		}
-		return Math.min(content.getOffsetWidth() + 70, appWidth);
+
+		int maxToExpand = Math.min(content.getOffsetWidth() + 70,
+				getAV().getOffsetWidth() * 2);
+		return Math.min(maxToExpand, appWidth);
 	}
 
 	static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
@@ -2693,6 +2696,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	public boolean isLatex() {
 		return latex;
+	}
+
+	public void onMouseMove(MouseMoveEvent event) {
+		if (app.has(Feature.AV_SCROLL)) {
+			event.preventDefault();
+		}
 	}
 }
 
