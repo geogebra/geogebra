@@ -393,7 +393,7 @@ public class GlobalKeyDispatcherW extends
 
 			// event.stopPropagation() is already called!
 			boolean success = handleTab(event.isControlKeyDown(),
-					event.isShiftKeyDown(), false);
+					event.isShiftKeyDown(), true);
 
 			if (!success) {
 				// should select first GeoElement in next applet
