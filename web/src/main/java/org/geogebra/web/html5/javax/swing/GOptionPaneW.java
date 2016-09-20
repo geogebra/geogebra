@@ -363,8 +363,9 @@ public class GOptionPaneW extends GDialogBox implements
 
 	}
 
-	public int showConfirmDialog(App app, ScrollPanel scrollPanel, String title, int optionType, int messageType,
-			Image icon) {
+	public int showConfirmDialog(App app, ScrollPanel scrollPanel,
+			String title, int optionType, int messageType, String okLabel,
+			Image icon, AsyncOperation<String[]> returnHandler) {
 
 		this.app = app;
 		this.scrollPanel = scrollPanel;
@@ -373,9 +374,10 @@ public class GOptionPaneW extends GDialogBox implements
 		this.messageType = messageType;
 		this.icon = icon;
 
-		this.okLabel = null;
+		this.okLabel = okLabel;
+		this.returnHandler = returnHandler;
 
-		this.returnHandler = null;
+		// this.returnHandler = null;
 		requiresReturnValue = false;
 
 		this.addStyleName("centerDialog");

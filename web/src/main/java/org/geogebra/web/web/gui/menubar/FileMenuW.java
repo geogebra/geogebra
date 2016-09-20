@@ -22,6 +22,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.export.PrintPreviewW;
 import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
+import org.geogebra.web.web.gui.exam.ExamDialog;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.util.ShareDialogW;
 import org.geogebra.web.web.main.AppWFull;
@@ -84,8 +85,24 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	protected void exitAndResetExam() {
 		if (!ExamUtil.toggleFullscreen(false)) {
 			app.getExam().exit();
+			boolean examFile = app.getArticleElement()
+					.hasDataParamEnableGraphing();
+			String buttonText = examFile ? loc.getPlain("Restart")
+					: null;
+			AsyncOperation<String[]> handler = null;
+			if (examFile) {
+				handler = new AsyncOperation<String[]>() {
+					@Override
+					public void callback(String[] dialogResult) {
+						ExamDialog.startExam(null, app);
+					}
+				};
+			}
 			app.showMessage(true, app.getExam().getLog(app.getLocalization(),
-							app.getSettings()), loc.getMenu("exam_log_header"));
+							app.getSettings()), loc.getMenu("exam_log_header"),
+					buttonText, handler);
+			if (examFile)
+				return;
 			app.setExam(null);
 			Layout.initializeDefaultPerspectives(app, 0.2);
 			app.getLAF().addWindowClosingHandler(app);

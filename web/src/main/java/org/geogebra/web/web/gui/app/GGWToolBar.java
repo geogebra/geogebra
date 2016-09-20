@@ -302,7 +302,8 @@ pr.menu_header_undo(), null, 32);
 			public void onClick(ClickEvent event) {
 				app.showMessage(true,
 						app.getExam().getLog(app.getLocalization(),
-						app.getSettings()), app.getMenu("exam_log_header"));
+								app.getSettings()),
+						app.getMenu("exam_log_header"), null, null);
 
 			}
 		}, ClickEvent.getType());

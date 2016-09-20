@@ -125,6 +125,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.gui.exam.ExamDialog;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -2836,13 +2837,16 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		        null);
 	}
 	
-	public void showMessage(boolean scrollable, final String message, final String title) {
+	public void showMessage(boolean scrollable, final String message,
+			final String title, String buttonText,
+			AsyncOperation<String[]> handler) {
 		HTML content = new HTML(message);
 		content.addStyleName("examContent");
 		ScrollPanel scrollPanel = new ScrollPanel(content);
 		scrollPanel.addStyleName("examScrollPanel");
-		getOptionPane().showConfirmDialog(this, scrollPanel, title, GOptionPane.DEFAULT_OPTION,
-				GOptionPane.INFORMATION_MESSAGE, null);
+		getOptionPane().showConfirmDialog(this, scrollPanel, title,
+				GOptionPane.DEFAULT_OPTION, GOptionPane.INFORMATION_MESSAGE,
+				buttonText, null, handler);
 
 	}
 

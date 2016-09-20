@@ -112,39 +112,7 @@ public class ExamDialog {
 		btnOk.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if (app.getLAF().supportsFullscreen()) {
-					ExamUtil.toggleFullscreen(true);
-				}
-				StyleInjector
-						.inject(GuiResources.INSTANCE.examStyleLTR().getText());
-				Date date = new Date();
-				guiManager.updateToolbarActions();
-				app.getLAF().removeWindowClosingHandler();
-				app.fileNew();
-				app.updateRounding();
-				if (app.getArticleElement().getDataParamEnableGraphing(true)) {
-					app.getGgbApi().setPerspective("1");
-				} else {
-					app.getGgbApi().setPerspective("A");
-				}
-				guiManager.setGeneralToolBarDefinition(
-						ToolBar.getAllToolsNoMacros(true, true));
-				app.getKernel().getAlgebraProcessor().reinitCommands();
-				app.getExam().setStart(date.getTime());
-				app.fireViewsChangedEvent();
-				guiManager.updateToolbar();
-				guiManager.updateToolbarActions();
-				Layout.initializeDefaultPerspectives(app, 0.2);
-				guiManager.updateMenubar();
-				guiManager.resetMenu();
-				DockPanelW dp = ((DockManagerW) guiManager.getLayout()
-						.getDockManager()).getPanelForKeyboard();
-				if (dp != null && dp.getKeyboardListener().needsAutofocus()) { // dp.getKeyboardListener().setFocus(true);
-
-					app.showKeyboard(dp.getKeyboardListener(), true);
-				}
-				box.hide();
-
+				startExam(box, app);
 			}
 		});
 		// Cancel button
@@ -173,5 +141,42 @@ public class ExamDialog {
 						.openWindow("https://www.geogebra.org/tutorial/exam");
 			}
 		});
+	}
+
+	public static void startExam(DialogBoxW box, AppW app) {
+		final GuiManagerInterfaceW guiManager = app.getGuiManager();
+		if (app.getLAF().supportsFullscreen()) {
+			ExamUtil.toggleFullscreen(true);
+		}
+		StyleInjector.inject(GuiResources.INSTANCE.examStyleLTR().getText());
+		Date date = new Date();
+		guiManager.updateToolbarActions();
+		app.getLAF().removeWindowClosingHandler();
+		app.fileNew();
+		app.updateRounding();
+		if (app.getArticleElement().getDataParamEnableGraphing(true)) {
+			app.getGgbApi().setPerspective("1");
+		} else {
+			app.getGgbApi().setPerspective("A");
+		}
+		guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(
+				true, true));
+		app.getKernel().getAlgebraProcessor().reinitCommands();
+		app.getExam().setStart(date.getTime());
+		app.fireViewsChangedEvent();
+		guiManager.updateToolbar();
+		guiManager.updateToolbarActions();
+		Layout.initializeDefaultPerspectives(app, 0.2);
+		guiManager.updateMenubar();
+		guiManager.resetMenu();
+		DockPanelW dp = ((DockManagerW) guiManager.getLayout().getDockManager())
+				.getPanelForKeyboard();
+		if (dp != null && dp.getKeyboardListener().needsAutofocus()) { // dp.getKeyboardListener().setFocus(true);
+
+			app.showKeyboard(dp.getKeyboardListener(), true);
+		}
+		if (box != null) {
+			box.hide();
+		}
 	}
 }

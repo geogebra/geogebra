@@ -150,6 +150,14 @@ public final class ArticleElement extends Element {
 		return getBoolParam("data-param-enableGraphing", def);
 	}
 
+	/*
+	 * Retruns true, if there is data-param-enableGraphing attribute, and it is
+	 * not an empty string
+	 */
+	public boolean hasDataParamEnableGraphing() {
+		return !"".equals(this.getAttribute("data-param-enableGraphing"));
+	}
+
 	public String getDataParamRounding() {
 		return this.getAttribute("data-param-rounding");
 	}
