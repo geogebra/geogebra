@@ -168,19 +168,6 @@ public class GlobalKeyDispatcherW extends
 		return null;
 	}
 
-	/*
-	 * Returns true, if el is ggb applet, but not the dummy element
-	 */
-	boolean isGGBApplet(Element el) {
-		if (el.getClassName().indexOf("geogebraweb-dummy-invisible") >= 0) {
-			return false;
-		}
-		return hasParentWithClassName(el, "geogebraweb")
-				&& el.getClassName().indexOf("geogebraweb-dummy-invisible") < 0; // TODO:
-																		// not
-																// "geogebraweb"
-	}
-
 	ArticleElement getGGBArticle(Element el) {
 		if (el.getClassName().indexOf("geogebraweb-dummy-invisible") >= 0) {
 			return null;
@@ -203,22 +190,6 @@ public class GlobalKeyDispatcherW extends
 		}
 		return null;
 
-	}
-
-	// TODO - not only parent element
-	private boolean hasParentWithClassName(Element el, String className) {
-		do {
-
-			List<String> classnames = Arrays.asList(el.getClassName()
-					.split(" "));
-			if (classnames.contains(className)) {
-				return true;
-			}
-			if (el.hasParentElement())
-				el = el.getParentElement();
-		} while (el.hasParentElement());
-
-		return false;
 	}
 
 	// TODO - not only parent element
