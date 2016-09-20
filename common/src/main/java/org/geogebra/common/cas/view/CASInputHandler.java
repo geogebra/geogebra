@@ -3,6 +3,7 @@ package org.geogebra.common.cas.view;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.CASException;
@@ -10,6 +11,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.AssignmentType;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -213,68 +215,10 @@ public class CASInputHandler {
 
 			if ("NSolve".equals(ggbcmd)) {
 				StringBuilder sb = new StringBuilder();
-				// sb.append("NSolve[");
-				sb.append(cellValue.getInput(StringTemplate.defaultTemplate));
-				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
-				try {
-					// check if input is polynomial
-					ExpressionValue expandValidExp = (kernel.getGeoGebraCAS())
-							.getCASparser().parseGeoGebraCASInput(evalText,
-									null)
-							.traverse(FunctionExpander.getCollector());
-					String casResult = cas.getCurrentCAS().evaluateRaw(
-									"ispolynomial("
-											+ expandValidExp
-													.toString(StringTemplate.giacTemplate)
-											+ ")");
-					// case it is not
-					if (casResult.equals("false")) {
-						ValidExpression ve = cellValue.getEvalVE();
-						HashSet<GeoElement> vars = ve.getVariables();
-						if (!vars.isEmpty()) {
-							Iterator<GeoElement> it = vars.iterator();
-							while (it.hasNext()) {
-								GeoElement next = it.next();
-								if (next instanceof GeoDummyVariable) {
-									// add var=1
-									String var = next.toString(
-											StringTemplate.defaultTemplate);
-									sb.append(",");
-									sb.append(var);
-									sb.append("=1");
-									break;
-								}
-								if (next instanceof GeoCasCell) {
-									String var = next
-											.toString(StringTemplate.defaultTemplate);
-									GeoElement geo = kernel.getConstruction()
-											.lookupLabel(var);
-									if (geo instanceof GeoFunction) {
-										FunctionVariable[] varsOfFunc = ((GeoFunction) geo)
-												.getFunction()
-												.getFunctionVariables();
-										if (varsOfFunc.length > 0) {
-											var = varsOfFunc[0]
-													.toString(StringTemplate.defaultTemplate);
-										}
-									} else {
-										break;
-									}
-									sb.append(",");
-									sb.append(var);
-									sb.append("=1");
-									break;
-								}
-							}
-						}
-						vars.clear();
-					} else {
-						cellValue.setNSolveCmdNeeded(false);
-					}
-				} catch (Throwable e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				// get input string for NSolve
+				String inputStrForNSolve = handleNSolve(cellValue,evalText);
+				sb.append(inputStrForNSolve);
+
 				// sb.append("]");
 				if (!cellValue.getInput(StringTemplate.defaultTemplate).equals(
 						sb.toString())) {
@@ -436,6 +380,137 @@ public class CASInputHandler {
 		}
 		// process given row and below, then start editing
 		processRowThenEdit(selRow, true);
+	}
+
+	// function to handle NSolve input for non-polynomial equations
+	private String handleNSolve(GeoCasCell cellValue, String evalText) {
+		boolean isEquList = false;
+		StringBuilder sb = new StringBuilder();
+		// sb.append("NSolve[");
+		sb.append(cellValue.getInput(StringTemplate.defaultTemplate));
+		ExpressionValue expandValidExp = (kernel.getGeoGebraCAS())
+				.getCASparser().parseGeoGebraCASInput(evalText, null)
+				.traverse(FunctionExpander.getCollector());
+
+		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+		try {
+			String casResult = "";
+			// use NSolve tool with list of equations
+			if (expandValidExp.isExpressionNode()
+					&& ((ExpressionNode) expandValidExp)
+							.getLeft() instanceof MyList
+					&& ((ExpressionNode) expandValidExp).getRight() == null) {
+				isEquList = true;
+				MyList equList = (MyList) (((ExpressionNode) expandValidExp)
+						.getLeft());
+				// handle case list with two equations
+				// TODO handle list with n equations
+				casResult = cas.getCurrentCAS()
+						.evaluateRaw("ispolynomial2("
+								+ equList.getListElement(0)
+										.toString(StringTemplate.giacTemplate)
+								+ ","
+								+ equList.getListElement(1)
+										.toString(StringTemplate.giacTemplate)
+								+ ")");
+			}
+			// use NSolve tool with one equation
+			else {
+				casResult = cas.getCurrentCAS().evaluateRaw("ispolynomial("
+					+ expandValidExp.toString(StringTemplate.giacTemplate)
+					+ ")");
+			}
+
+			// case it is not
+			if (casResult.equals("false")) {
+				ValidExpression ve = cellValue.getEvalVE();
+				HashSet<GeoElement> vars = ve.getVariables();
+				if (!vars.isEmpty()) {
+					Iterator<GeoElement> it = vars.iterator();
+					while (it.hasNext()) {
+						GeoElement next = it.next();
+						if (next instanceof GeoDummyVariable) {
+							// for non-polynomial equation list
+							// we have to add all vars
+							if (isEquList) {
+								sb.append(",{");
+								Set<String> varsStrSet = getVariableStrSet(
+										vars);
+								if (!varsStrSet.isEmpty()) {
+									Iterator<String> itStrSet = varsStrSet
+											.iterator();
+									while (itStrSet.hasNext()) {
+										String nextStr = itStrSet.next();
+										sb.append(nextStr);
+										sb.append("=1");
+										sb.append(",");
+									}
+									sb.setLength(sb.length() - 1);
+									sb.append("}");
+								}
+								varsStrSet.clear();
+							} else {
+								// add var=1
+								String var = next
+									.toString(StringTemplate.defaultTemplate);
+								sb.append(",");
+								sb.append(var);
+								sb.append("=1");
+							}
+							break;
+						}
+						if (next instanceof GeoCasCell) {
+							String var = next
+									.toString(StringTemplate.defaultTemplate);
+							GeoElement geo = kernel.getConstruction()
+									.lookupLabel(var);
+							if (geo instanceof GeoFunction) {
+								FunctionVariable[] varsOfFunc = ((GeoFunction) geo)
+										.getFunction().getFunctionVariables();
+								if (varsOfFunc.length > 0) {
+									var = varsOfFunc[0].toString(
+											StringTemplate.defaultTemplate);
+								}
+							} else {
+								break;
+							}
+							sb.append(",");
+							sb.append(var);
+							sb.append("=1");
+							break;
+						}
+					}
+				}
+				vars.clear();
+			} else {
+				cellValue.setNSolveCmdNeeded(false);
+			}
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return sb.toString();
+	}
+
+	/**
+	 * @return the set with geoDummy names
+	 */
+	private static Set<String> getVariableStrSet(HashSet<GeoElement> vars) {
+		Set<String> varsStrSet = new HashSet<String>();
+		if (!vars.isEmpty()) {
+			Iterator<GeoElement> it = vars.iterator();
+			while (it.hasNext()) {
+				GeoElement next = it.next();
+				if (next instanceof GeoDummyVariable) {
+					String var = next.toString(StringTemplate.defaultTemplate);
+					if (!varsStrSet.contains(var)) {
+						varsStrSet.add(var);
+					}
+				}
+			}
+		}
+		return varsStrSet;
 	}
 
 	/**
