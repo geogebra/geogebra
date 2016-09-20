@@ -37,7 +37,6 @@ public class ClickAdapterW
 
 	public void onMouseDown(MouseDownEvent event) {
 		SelectionBox.touchSelection = false;
-		mf.startBlink();
 		handler.onPointerDown(event.getX(), event.getY());
 		Event.setCapture(widget.getElement());
 		this.pointerIsDown = true;

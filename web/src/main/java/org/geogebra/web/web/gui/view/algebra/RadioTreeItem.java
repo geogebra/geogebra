@@ -1351,7 +1351,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 				cancelDV();
 			}
 		}
-		updateAfterRedefine(false);
+		// empty new value -- consider success to make sure focus goes away
+		updateAfterRedefine(newValue0 == null);
 	}
 
 	/**
