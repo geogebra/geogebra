@@ -628,7 +628,7 @@ public class CellRangeProcessor {
 			point.setForcePoint();
 
 			geoPoint = kernel.getManager3D().DependentPoint3D(point,
-					!doCreateFreePoints);
+					doCreateFreePoints);
 
 
 		}
