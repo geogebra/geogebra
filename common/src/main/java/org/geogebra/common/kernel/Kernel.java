@@ -1958,6 +1958,9 @@ public class Kernel {
 		dabs = Math.abs(d);
 		if ((dabs >= tpl.getPrecision(nf)) || useSignificantFigures) {
 			sbBuildExplicitLineEquation.append(formatCoeff(d, tpl));
+			if (tpl.hasType(StringType.LATEX)) {
+				sbBuildExplicitLineEquation.append(' ');
+			}
 			sbBuildExplicitLineEquation.append(vars[0]);
 
 			// constant
