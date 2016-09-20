@@ -94,6 +94,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				handler = new AsyncOperation<String[]>() {
 					@Override
 					public void callback(String[] dialogResult) {
+						app.setExam(new ExamEnvironment());
 						ExamDialog.startExam(null, app);
 					}
 				};
@@ -101,9 +102,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			app.showMessage(true, app.getExam().getLog(app.getLocalization(),
 							app.getSettings()), loc.getMenu("exam_log_header"),
 					buttonText, handler);
-			if (examFile)
-				return;
 			app.setExam(null);
+			if (examFile) {
+				return;
+			}
 			Layout.initializeDefaultPerspectives(app, 0.2);
 			app.getLAF().addWindowClosingHandler(app);
 			app.fireViewsChangedEvent();
