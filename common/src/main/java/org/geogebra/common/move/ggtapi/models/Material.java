@@ -246,6 +246,10 @@ public class Material implements Comparable<Material>, Serializable {
 		setTimestamp(timestamp / 1000); // JAVA USES MILLISECONDS, UNIX USES SECONDS
 	}
 
+	public void resetTimestamp() {
+		setTimestamp(0);
+	}
+
 	public void setAuthor(String author) {
 		this.author = author;
 	}
