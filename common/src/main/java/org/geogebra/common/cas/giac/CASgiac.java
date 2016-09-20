@@ -98,7 +98,7 @@ public abstract class CASgiac implements CASGenericInterface {
 						+ "when (is_polynomial(a) == 1, true, false ) )"),
 
 		IS_POLYNOMIAL2("ispolynomial2",
-				"ispolynomial2(a,b):= when(is_polynomial(a,b) == 1 , true , false)"),
+				"ispolynomial2(a,b):= is_polynomial(a) && is_polynomial(b)"),
 
 		GGBALT("ggbalt", "ggbalt(x):=when(type(x)==DOM_IDENT,altsymb(x),"
 				+ "when(x[0]=='pnt',when(is3dpoint(x),atan2(x[1][2],sqrt(x[1][0]^2+x[1][1]^2)),0),?))"),
