@@ -239,8 +239,8 @@ public class MyXMLHandler implements DocHandler {
 	private LinkedList<GeoExpPair> animationStepList = new LinkedList<GeoExpPair>();
 	private LinkedList<GeoElement> animatingList = new LinkedList<GeoElement>();
 	private LinkedList<GeoNumericMinMax> minMaxList = new LinkedList<GeoNumericMinMax>();
-
-	private ArrayList<String> errors = new ArrayList<String>();
+	/** errors encountered during load */
+	ArrayList<String> errors = new ArrayList<String>();
 
 	private class GeoExpPair {
 		private GeoElement geoElement;
@@ -333,7 +333,7 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * If the split divider is horizontal. (version < 3.03)
 	 */
-	private boolean tmp_spHorizontal;
+	private boolean tmp_spHorizontal = true;
 
 	/**
 	 * If the algebra or spreadsheet view is visible. (version < 3.03)
@@ -389,6 +389,7 @@ public class MyXMLHandler implements DocHandler {
 		fontTagProcessed = false;
 		lineStyleTagProcessed = false;
 		symbolicTagProcessed = false;
+		tmp_spHorizontal = true;
 		
 		initKernelVars();
 
@@ -2118,9 +2119,7 @@ new GPoint(row, column));
 	private void createCompabilityLayout() {
 		int splitOrientation = tmp_spHorizontal ? JSplitPane_HORIZONTAL_SPLIT
 				: JSplitPane_VERTICAL_SPLIT;
-
 		String defEV, defSV, defAV;
-
 		// we have to create the definitions for the single views manually to
 		// prevent nullpointers
 		if (splitOrientation == JSplitPane_HORIZONTAL_SPLIT) {
