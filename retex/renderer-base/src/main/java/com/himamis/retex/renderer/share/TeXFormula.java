@@ -128,7 +128,6 @@ public class TeXFormula {
 	public List<MiddleAtom> middle = new LinkedList<MiddleAtom>();
 
 	protected Map<String, String> jlmXMLMap;
-	private TeXParser parser;
 
 	static {
 		// character-to-symbol and character-to-delimiter mappings
@@ -212,7 +211,7 @@ public class TeXFormula {
 	 *
 	 */
 	public TeXFormula() {
-		parser = new TeXParser("", this, false);
+		new TeXParser("", this, false);
 	}
 
 	/**
@@ -223,7 +222,7 @@ public class TeXFormula {
 	 */
 	public TeXFormula(String s, Map<String, String> map) throws ParseException {
 		this.jlmXMLMap = map;
-		parser = new TeXParser(s, this);
+		TeXParser parser = new TeXParser(s, this);
 		parser.parse();
 	}
 
@@ -239,7 +238,7 @@ public class TeXFormula {
 
 	public TeXFormula(String s, boolean firstpass) throws ParseException {
 		this.textStyle = null;
-		parser = new TeXParser(s, this, firstpass);
+		TeXParser parser = new TeXParser(s, this, firstpass);
 		parser.parse();
 	}
 
@@ -249,13 +248,13 @@ public class TeXFormula {
 	 */
 	public TeXFormula(String s, String textStyle) throws ParseException {
 		this.textStyle = textStyle;
-		parser = new TeXParser(s, this);
+		TeXParser parser = new TeXParser(s, this);
 		parser.parse();
 	}
 
 	public TeXFormula(String s, String textStyle, boolean firstpass, boolean space) throws ParseException {
 		this.textStyle = textStyle;
-		parser = new TeXParser(s, this, firstpass, space);
+		TeXParser parser = new TeXParser(s, this, firstpass, space);
 		parser.parse();
 	}
 
@@ -278,7 +277,7 @@ public class TeXFormula {
 	 */
 	protected TeXFormula(TeXParser tp) {
 		this.jlmXMLMap = tp.formula.jlmXMLMap;
-		parser = new TeXParser(tp.getIsPartial(), "", this, false);
+		new TeXParser(tp.getIsPartial(), "", this, false);
 	}
 
 	/**
@@ -295,7 +294,7 @@ public class TeXFormula {
 		this.textStyle = null;
 		this.jlmXMLMap = tp.formula.jlmXMLMap;
 		boolean isPartial = tp.getIsPartial();
-		parser = new TeXParser(isPartial, s, this, firstpass);
+		TeXParser parser = new TeXParser(isPartial, s, this, firstpass);
 		if (isPartial) {
 			try {
 				parser.parse();
@@ -314,7 +313,7 @@ public class TeXFormula {
 		this.textStyle = textStyle;
 		this.jlmXMLMap = tp.formula.jlmXMLMap;
 		boolean isPartial = tp.getIsPartial();
-		parser = new TeXParser(isPartial, s, this);
+		TeXParser parser = new TeXParser(isPartial, s, this);
 		if (isPartial) {
 			try {
 				parser.parse();
@@ -333,7 +332,7 @@ public class TeXFormula {
 		this.textStyle = textStyle;
 		this.jlmXMLMap = tp.formula.jlmXMLMap;
 		boolean isPartial = tp.getIsPartial();
-		parser = new TeXParser(isPartial, s, this, firstpass, space);
+		TeXParser parser = new TeXParser(isPartial, s, this, firstpass, space);
 		if (isPartial) {
 			try {
 				parser.parse();
@@ -394,17 +393,6 @@ public class TeXFormula {
 	 */
 	public static void registerFonts(boolean b) {
 		DefaultTeXFontParser.registerFonts(b);
-	}
-
-	/**
-	 * Change the text of the TeXFormula and regenerate the root
-	 *
-	 * @param ltx the latex formula
-	 */
-	public void setLaTeX(String ltx) throws ParseException {
-		parser.reset(ltx);
-		if (ltx != null && ltx.length() != 0)
-			parser.parse();
 	}
 
 	/**

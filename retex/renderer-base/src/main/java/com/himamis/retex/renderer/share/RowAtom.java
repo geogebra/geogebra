@@ -51,8 +51,6 @@ package com.himamis.retex.renderer.share;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import com.himamis.retex.renderer.share.dynamic.DynamicAtom;
-
 /**
  * An atom representing a horizontal row of other atoms, to be seperated by glue. It's also
  * responsible for inserting kerns and ligatures.
@@ -162,18 +160,6 @@ public class RowAtom extends Atom implements Row {
 					position++;
 				} else {
 					break;
-				}
-			}
-
-			if (at instanceof DynamicAtom && ((DynamicAtom) at).getInsertMode()) {
-				Atom a = ((DynamicAtom) at).getAtom();
-				if (a instanceof RowAtom) {
-					elements.remove(position - 1);
-					elements.addAll(position - 1, ((RowAtom) a).elements);
-					it = elements.listIterator(position - 1);
-					at = it.next();
-				} else {
-					at = a;
 				}
 			}
 
