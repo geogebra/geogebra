@@ -18,7 +18,7 @@ public class FunctionFold implements FoldComputer {
 	 * @see org.geogebra.common.kernel.algos.FoldComputer#getTemplate(org.geogebra.common.kernel.Construction)
 	 */
 	@Override
-	public GeoElement getTemplate(Construction cons) {
+	public GeoElement getTemplate(Construction cons, GeoElement listElement) {
 		return this.resultFun = new GeoFunction(cons);
 	}
 
@@ -63,6 +63,10 @@ public class FunctionFold implements FoldComputer {
 	@Override
 	public boolean check(GeoElement geoElement) {
 		return geoElement.isGeoFunctionable();
+	}
+
+	public void finish() {
+		// nothing to do
 	}
 
 }

@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -50,17 +49,13 @@ public class AlgoFoldFunctions extends AlgoElement {
 	 *            number of elements to take
 	 */
 	public AlgoFoldFunctions(Construction cons, String label, GeoList geoList,
-			GeoNumeric truncate, Operation op) {
+			GeoNumeric truncate, Operation op, FoldComputer foldComputer) {
 		super(cons);
 		this.geoList = geoList;
 		this.truncate = truncate;
 		this.op = op;
-		this.foldComputer = geoList.getElementType() == GeoClass.FUNCTION_NVAR
-				|| geoList.getElementType() == GeoClass.DEFAULT ?
-
-		new FunctionNvarFold()
-				: new FunctionFold();
-		resultFun = foldComputer.getTemplate(cons);
+		this.foldComputer = foldComputer;
+		resultFun = foldComputer.getTemplate(cons, geoList.get(0));
 
 		setInputOutput();
 		compute();
@@ -95,7 +90,6 @@ public class AlgoFoldFunctions extends AlgoElement {
 	@Override
 	public final void compute() {
 		// Sum[{x^2,x^3}]
-
 		int n = truncate == null ? geoList.size() : (int) truncate.getDouble();
 
 		if (n <= 0 || n > geoList.size() || !foldComputer.check(geoList.get(0))) {
@@ -105,7 +99,6 @@ public class AlgoFoldFunctions extends AlgoElement {
 
 		foldComputer.setFrom(geoList.get(0), kernel);
 
-
 		for (int i = 1; i < n; i++) {
 
 			if (!foldComputer.check(geoList.get(i))) {
@@ -113,8 +106,8 @@ public class AlgoFoldFunctions extends AlgoElement {
 				return;
 			}
 			this.foldComputer.add(geoList.get(i), op);
-
 		}
+		foldComputer.finish();
 	}
 
 	// TODO Consider locusequability

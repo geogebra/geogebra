@@ -1,0 +1,141 @@
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+ */
+
+package org.geogebra.common.kernel.algos;
+
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.plugin.Operation;
+
+/**
+ * Sum of functions, may take whole list or just several first elements
+ */
+public class AlgoFoldExpression extends AlgoElement {
+
+	@Override
+	public Commands getClassName() {
+		return op == Operation.PLUS ? Commands.Sum : Commands.Product;
+	}
+
+	private GeoElement expression; // input
+	private GeoNumeric to; // input
+	private GeoElement resultFun;
+	private Operation op;
+	private FoldComputer foldComputer;
+	private GeoNumeric from;
+	private GeoNumeric var;
+
+	/**
+	 * Creates labeled function sum algo for truncated list (or whole list if
+	 * truncate == null)
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param expression
+	 *            list
+	 * @param truncate
+	 *            number of elements to take
+	 */
+	public AlgoFoldExpression(Construction cons, String label,
+			GeoElement expression, GeoNumeric var,
+			GeoNumeric from, GeoNumeric truncate, Operation op) {
+		super(cons);
+		this.expression = expression;
+		this.var = var;
+		this.from = from;
+		this.to = truncate;
+		this.op = op;
+		if (expression.getGeoClassType() == GeoClass.POINT
+				|| expression.getGeoClassType() == GeoClass.POINT3D
+				|| expression.getGeoClassType() == GeoClass.VECTOR
+				|| expression.getGeoClassType() == GeoClass.VECTOR3D) {
+			this.foldComputer = new PointNDFold();
+		} else {
+		this.foldComputer = expression.getGeoClassType() == GeoClass.FUNCTION_NVAR ?
+
+		new FunctionNvarFold()
+				: new FunctionFold();
+		}
+		resultFun = foldComputer.getTemplate(cons, expression);
+
+		setInputOutput();
+		compute();
+		resultFun.setLabel(label);
+	}
+
+	@Override
+	protected void setInputOutput() {
+		input = new GeoElement[4];
+		input[0] = expression;
+		input[1] = var;
+		input[2] = from;
+		input[3] = to;
+
+		setOutputLength(1);
+		setOutput(0, resultFun);
+		setDependencies(); // done by AlgoElement
+	}
+
+	/**
+	 * Returns result
+	 * 
+	 * @return sum of functions
+	 */
+	public GeoElement getResult() {
+		return resultFun;
+	}
+
+	@Override
+	public final void compute() {
+		// Sum[{x^2,x^3}]
+		GeoElement fn = expression.copyInternal(cons);
+		if (fn instanceof CasEvaluableFunction) {
+			((GeoFunction) fn).replaceChildrenByValues(var);
+		}
+		foldComputer.setFrom(fn, kernel);
+		for (int i = (int) from.getDouble() + 1; i <= to.getDouble(); i++) {
+			var.setValue(i);
+			updateLocalVar();
+			fn = expression.copyInternal(cons);
+			if (fn instanceof CasEvaluableFunction) {
+				((GeoFunction) fn).replaceChildrenByValues(var);
+			}
+			foldComputer.add(fn, op);
+		}
+		foldComputer.finish();
+	}
+
+	private void updateLocalVar() {
+		// set local variable to given value
+		AlgoElement expressionParentAlgo = expression.getParentAlgorithm();
+		// update var's algorithms until we reach expression
+		if (expressionParentAlgo != null) {
+			// update all dependent algorithms of the local variable var
+
+			var.getAlgoUpdateSet().updateAllUntil(expressionParentAlgo);
+
+			this.setStopUpdateCascade(false);
+			expressionParentAlgo.update();
+		}
+
+	}
+
+	// TODO Consider locusequability
+
+}

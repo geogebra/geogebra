@@ -8,13 +8,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 public class FunctionNvarFold implements FoldComputer {
 
 	private GeoFunctionNVar result;
 
-	public GeoElement getTemplate(Construction cons) {
+	public GeoElement getTemplate(Construction cons, GeoElement listElement) {
 		return this.result = new GeoFunctionNVar(cons);
 	}
 
@@ -24,7 +23,6 @@ public class FunctionNvarFold implements FoldComputer {
 		fn.setExpression(AlgoDependentFunction.expandFunctionDerivativeNodes(
 				fn.getExpression(), true).wrap());
 		result.setFunction(fn);
-		Log.debug(fn);
 		this.result.setDefined(true);
 
 	}
@@ -36,6 +34,10 @@ public class FunctionNvarFold implements FoldComputer {
 
 	public boolean check(GeoElement geoElement) {
 		return geoElement instanceof FunctionalNVar;
+	}
+
+	public void finish() {
+		this.result.setDefined(true);
 	}
 
 }

@@ -1,17 +1,19 @@
 package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoFoldExpression;
 import org.geogebra.common.kernel.algos.AlgoFoldFunctions;
 import org.geogebra.common.kernel.algos.AlgoSum;
-import org.geogebra.common.kernel.algos.AlgoSumPoints;
-import org.geogebra.common.kernel.algos.AlgoSumText;
+import org.geogebra.common.kernel.algos.FunctionFold;
+import org.geogebra.common.kernel.algos.FunctionNvarFold;
+import org.geogebra.common.kernel.algos.PointNDFold;
+import org.geogebra.common.kernel.algos.TextFold;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -34,16 +36,23 @@ public class CmdSum extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-		arg = resArgs(c);
+
 
 		// needed for Sum[]
-		if (arg.length == 0) {
+		if (c.getArgumentNumber() == 0) {
 			throw argNumErr(app, c.getName(), n);
 		}
-
+		if (c.getArgumentNumber() == 4) {
+			GeoElement[] res = processSymb(c);
+			if (res != null) {
+				return res;
+			}
+		}
+		arg = resArgs(c);
 		// set all to either true or false
 		boolean allNumbers = arg[0].isGeoList();
 		boolean allFunctions = allNumbers;
+		boolean allFunctionsND = allNumbers;
 		boolean allNumbersVectorsPoints = allNumbers;
 		boolean allText = allNumbers;
 
@@ -57,6 +66,9 @@ public class CmdSum extends CommandProcessor {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = list.get(i);
 				if (!geo.isGeoFunctionable() && !geo.isGeoFunctionNVar()) {
+					allFunctionsND = false;
+				}
+				if (!geo.isGeoFunctionable()) {
 					allFunctions = false;
 				}
 				if (!(geo instanceof GeoNumberValue)) {
@@ -83,8 +95,9 @@ public class CmdSum extends CommandProcessor {
 			} else if (allNumbersVectorsPoints) {
 				GeoElement[] ret = { SumPoints(c.getLabel(), list, null) };
 				return ret;
-			} else if (allFunctions) {
-				GeoElement[] ret = { SumFunctions(c.getLabel(), list, null) };
+			} else if (allFunctionsND) {
+				GeoElement[] ret = { SumFunctions(c.getLabel(), list, null,
+						allFunctions) };
 				return ret;
 			} else if (allText) {
 				GeoElement[] ret = { SumText(c.getLabel(), list, null) };
@@ -102,9 +115,9 @@ public class CmdSum extends CommandProcessor {
 
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
-				} else if (allFunctions) {
+				} else if (allFunctionsND) {
 					GeoElement[] ret = { SumFunctions(c.getLabel(), list,
-							(GeoNumeric) arg[1]) };
+							(GeoNumeric) arg[1], allFunctions) };
 					return ret;
 				} else if (allNumbersVectorsPoints) {
 					GeoElement[] ret = { SumPoints(c.getLabel(), list,
@@ -131,6 +144,7 @@ public class CmdSum extends CommandProcessor {
 			}
 			throw argErr(app, c.getName(), arg[0]);
 
+
 		default:
 			// try to create list of numbers
 			if (arg[0] instanceof GeoNumberValue) {
@@ -154,7 +168,16 @@ public class CmdSum extends CommandProcessor {
 						GeoClass.FUNCTION);
 				if (wrapList != null) {
 					GeoElement[] ret = { SumFunctions(c.getLabel(), wrapList,
-							null) };
+							null, true) };
+					return ret;
+				}
+			} else if (arg[0].isGeoFunction()) {
+				// try to create list of functions
+				GeoList wrapList = wrapInList(kernelA, arg, arg.length,
+						GeoClass.FUNCTION_NVAR);
+				if (wrapList != null) {
+					GeoElement[] ret = { SumFunctions(c.getLabel(), wrapList,
+							null, false) };
 					return ret;
 				}
 			} else if (arg[0].isGeoText()) {
@@ -171,6 +194,18 @@ public class CmdSum extends CommandProcessor {
 		}
 	}
 
+	private GeoElement[] processSymb(Command c) {
+		GeoElement[] arg = this.resArgsLocalNumVar(c, 1, 2);
+		if (!arg[1].isGeoNumeric() || !arg[2].isGeoNumeric()
+				|| !arg[3].isGeoNumeric()) {
+			return null;
+		}
+		AlgoFoldExpression algo = new AlgoFoldExpression(cons, c.getLabel(),
+				arg[0], (GeoNumeric) arg[1], (GeoNumeric) arg[2],
+				(GeoNumeric) arg[3], Operation.PLUS);
+		return algo.getOutput();
+	}
+
 	final private GeoElement Sum(String label, GeoList list) {
 		AlgoSum algo = new AlgoSum(cons, label, list);
 		GeoElement ret = algo.getResult();
@@ -181,9 +216,11 @@ public class CmdSum extends CommandProcessor {
 	 * Sum[list of functions,n] Michael Borcherds
 	 */
 	final private GeoElement SumFunctions(String label, GeoList list,
-			GeoNumeric num) {
+			GeoNumeric num, boolean oneVar) {
 		AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, label, list, num,
-				Operation.PLUS);
+				Operation.PLUS, oneVar ?
+
+				new FunctionFold() : new FunctionNvarFold());
 		GeoElement ret = algo.getResult();
 		return ret;
 	}
@@ -195,7 +232,8 @@ public class CmdSum extends CommandProcessor {
 	 */
 	final private GeoElement SumPoints(String label, GeoList list,
 			GeoNumeric num) {
-		AlgoSumPoints algo = new AlgoSumPoints(cons, label, list, num);
+		AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, label, list, num,
+				Operation.PLUS, new PointNDFold());
 		GeoElement ret = algo.getResult();
 		return ret;
 	}
@@ -206,8 +244,9 @@ public class CmdSum extends CommandProcessor {
 	 * Sum[list of text,n] Michael Borcherds
 	 */
 	final private GeoElement SumText(String label, GeoList list, GeoNumeric num) {
-		AlgoSumText algo = new AlgoSumText(cons, label, list, num);
-		GeoText ret = algo.getResult();
+		AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, label, list, num,
+				Operation.PLUS, new TextFold());
+		GeoElement ret = algo.getResult();
 		return ret;
 	}
 

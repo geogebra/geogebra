@@ -7,12 +7,14 @@ import org.geogebra.common.plugin.Operation;
 
 public interface FoldComputer {
 
-	public GeoElement getTemplate(Construction cons);
+	public GeoElement getTemplate(Construction cons, GeoElement listElement);
 
 	public void add(GeoElement geoElement, Operation op);
 
 	public void setFrom(GeoElement geoElement, Kernel kernel);
 
 	public boolean check(GeoElement geoElement);
+
+	public void finish();
 
 }

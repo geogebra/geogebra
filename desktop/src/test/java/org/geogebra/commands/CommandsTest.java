@@ -409,4 +409,21 @@ public class CommandsTest extends Assert{
 
 
 	}
+
+	@Test
+	public void cmdSum() {
+		t("listSum={1,10,1/2}", "{1, 10, 0.5}");
+		t("Sum[ listSum , listSum]", "101.25");
+		t("Sum[ listSum ]", "11.5");
+		t("Sum[ listSum , 2 ]", "11");
+		t("Sum[ listSum , 0 ]", "0");
+		t("Sum[{x+y,0x+y}]", "x + y + (0 * x) + y");
+		t("Sum[{(1,2),(3,4)}]", "(4, 6)");
+		t("Sum[{(1,2,7),(3,4),(1,1,1)}]", "(5, 7, 8)");
+		t("Sum[{\"Geo\",\"Gebra\"}]", "GeoGebra");
+		t("Sum[{}]", "0");
+		t("Sum[{x+y,2*x}]", "x + y + (2 * x)");
+		t("Sum[x^k,k,1,5]", "x^(1) + x^(2) + x^(3) + x^(4) + x^(5)");
+		t("Sum[(k,k),k,1,5]", "(15, 15)");
+	}
 }

@@ -1,0 +1,78 @@
+package org.geogebra.common.kernel.algos;
+
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVec4D;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.plugin.Operation;
+
+public class PointNDFold implements FoldComputer {
+
+	private GeoElement result;
+	private double x, y, z;
+
+	public GeoElement getTemplate(Construction cons, GeoElement listElement) {
+		return this.result = listElement.copyInternal(cons);
+	}
+
+	public void add(GeoElement p, Operation op) {
+		if (p instanceof GeoPoint) {
+			x += ((GeoPoint) p).getInhomX();
+			y += ((GeoPoint) p).getInhomY();
+		} else if (p instanceof GeoPointND) { // 3D
+			double[] coords = new double[3];
+			((GeoPointND) p).getInhomCoords(coords);
+			x += coords[0];
+			y += coords[1];
+			z += coords[2];
+		} else if (p.isGeoVector()) {
+			double[] coords = ((GeoVectorND) p).getInhomCoords();
+			x += coords[0];
+			y += coords[1];
+			if (coords.length == 3) {
+				z += coords[2];
+			}
+		} else if (p instanceof NumberValue) {
+			// changed from GeoGebra 4.2 so that Sum[{(1,2),3}] gives (4,5)
+			// not (4,2)
+			// to be consistent with the CAS View
+			double val = ((NumberValue) p).getDouble();
+			x += val;
+			y += val;
+			z += val;
+		} else {
+			result.setUndefined();
+			return;
+		}
+
+	}
+
+	public void setFrom(GeoElement geoElement, Kernel kernel) {
+		x = 0;
+		y = 0;
+		z = 0;
+		add(geoElement, Operation.PLUS);
+	}
+
+	public boolean check(GeoElement geoElement) {
+		return geoElement instanceof VectorNDValue;
+	}
+
+	public void finish() {
+		if (result instanceof GeoVec3D) {
+			// 2D Point / Vector
+			((GeoVec3D) result).setCoords(x, y, 1.0);
+		} else if (result instanceof GeoVec4D) {
+			// 3D Point / Vector
+			((GeoVec4D) result).setCoords(x, y, z, 1.0);
+		}
+
+	}
+
+}
