@@ -69,6 +69,7 @@ public class AlgebraStyleTest extends Assert {
 		checkRows("{x=y}", 2);
 		checkRows("x=y", 2);
 		checkRows("{y=x}", 1);
+		checkRows("Sequence[100]", 2);
 
 	}
 }
