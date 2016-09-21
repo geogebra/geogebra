@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.util;
 
+import com.google.j2objc.annotations.Weak;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPolygon;
@@ -29,7 +31,9 @@ public class DropDownList {
 	private GTimer clickTimer;
 	private GTimer scrollTimer;
 
+	@Weak
 	private DropDownListener listener;
+
 	private App app;
 
 	public DropDownList(App app, DropDownListener listener) {
