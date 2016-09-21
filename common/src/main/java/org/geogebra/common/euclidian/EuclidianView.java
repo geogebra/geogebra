@@ -2045,12 +2045,10 @@ public abstract class EuclidianView
 
 	public void repaintView() {
 		repaint();
-		if (app.has(Feature.ADJUST_WIDGETS) && screenChanged) {
-			app.adjustScreen();
-			screenChanged = false;
-		}
+
 
 	}
+
 
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
 		update(geo);
@@ -3040,6 +3038,7 @@ public abstract class EuclidianView
 		if (previewDrawable != null) {
 			previewDrawable.drawPreview(g2);
 		}
+		adjustObjects();
 	}
 
 	/**
@@ -5741,5 +5740,13 @@ public abstract class EuclidianView
 
 	public void screenChanged() {
 		screenChanged = true;
+	}
+
+	private void adjustObjects() {
+		if (app.has(Feature.ADJUST_WIDGETS) && screenChanged) {
+			app.adjustScreen();
+			screenChanged = false;
+			repaint();
+		}
 	}
 }

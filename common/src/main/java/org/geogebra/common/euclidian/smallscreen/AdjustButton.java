@@ -5,8 +5,8 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.util.debug.Log;
 
 public class AdjustButton extends AdjustWidget {
-	private static final int MARGIN_X = 5;
-	private static final int MARGIN_Y = 5;
+	private static final int MARGIN_X = 15;
+	private static final int MARGIN_Y = 15;
 	private GeoButton button;
 	private int viewWidth;
 	private int viewHeight;
@@ -19,6 +19,7 @@ public class AdjustButton extends AdjustWidget {
 		viewHeight = view.getViewHeight();
 		width = button.getWidth();
 		height = button.getHeight();
+		Log.debug(button.getLabelSimple() + " w: " + width + " h: " + height);
 	}
 
 	@Override
@@ -61,7 +62,8 @@ public class AdjustButton extends AdjustWidget {
 		}
 
 		if (changed) {
-			button.setAbsoluteScreenLoc((int) x, (int) y);
+			button.setAbsoluteScreenLoc((int) x,
+ (int) y);
 		}
 
 	}
