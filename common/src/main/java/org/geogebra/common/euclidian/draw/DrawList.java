@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import com.google.j2objc.annotations.WeakOuter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +69,6 @@ public final class DrawList extends CanvasDrawable
 	private GDimension selectedDimension;
 	private boolean latexLabel;
 
-
 	private DrawOptions drawOptions;
 	private boolean seLatex;
 
@@ -75,6 +76,7 @@ public final class DrawList extends CanvasDrawable
 		UP, DOWN, NONE
 	}
 
+	@WeakOuter
 	private class DrawOptions {
 		private static final int MARGIN = 5;
 
