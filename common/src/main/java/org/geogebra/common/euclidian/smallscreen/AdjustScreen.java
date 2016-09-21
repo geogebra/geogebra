@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -29,6 +31,8 @@ public class AdjustScreen {
 	private boolean enabled;
 	private List<GeoNumeric> hSliders = new ArrayList<GeoNumeric>();
 	private List<GeoNumeric> vSliders = new ArrayList<GeoNumeric>();
+	private List<GeoButton> buttons = new ArrayList<GeoButton>();
+	private List<GeoInputBox> inputBoxes = new ArrayList<GeoInputBox>();
 
 	private class HSliderComparator implements Comparator {
 		public int compare(Object o1, Object o2) {
@@ -65,13 +69,22 @@ public class AdjustScreen {
 			return;
 		}
 
-		collectSliders();
+		collectWidgets();
+		checkOvelappingHSliders();
+		checkOvelappingVSliders();
+
 	}
 
-	private void collectSliders() {
+	private void collectWidgets() {
+		hSliders.clear();
+		vSliders.clear();
+		buttons.clear();
+		inputBoxes.clear();
+
 		Log.debug("[AS] collectSliders()");
 		for (GeoElement geo : kernel.getConstruction().getGeoTable().values()) {
 			if (geo instanceof GeoNumeric) {
+				boolean ensure = false;
 				GeoNumeric num = (GeoNumeric) geo;
 				if (num.isSlider()) {
 					if (num.isSliderHorizontal()) {
@@ -80,14 +93,17 @@ public class AdjustScreen {
 						vSliders.add(num);
 					}
 
+
 					view.ensureGeoOnScreen(num);
 
 				}
+			} else if (geo.isGeoButton()) {
+				GeoButton btn = (GeoButton) geo;
+				buttons.add(btn);
+				view.ensureGeoOnScreen(btn);
 			}
 		}
 
-		checkOvelappingHSliders();
-		checkOvelappingVSliders();
 	}
 
 	@SuppressWarnings("unchecked")
