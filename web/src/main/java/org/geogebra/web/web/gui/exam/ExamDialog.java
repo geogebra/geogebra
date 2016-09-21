@@ -110,27 +110,36 @@ public class ExamDialog {
 		} else {
 			// TODO this is a quick fix so that markus can show a demo - trans
 			// key needed and also simple / graphing / cas
-			// CAS EXAM: cas && !3d && ev
-			if (app.getSettings().getCasSettings().isEnabledSet() && !app.getSettings().getEuclidian(-1).isEnabledSet()
-					&& app.getArticleElement().hasDataParamEnableGraphing()) {
-				Label description = new Label("CAS");
-				mainWidget.add(description);
-			}
-			// GRAPH EXAM: !cas && !3d && ev
-			if (!app.getSettings().getCasSettings().isEnabledSet() && !app.getSettings().getEuclidian(-1).isEnabledSet()
-					&& app.getArticleElement().hasDataParamEnableGraphing()) {
-				Label description = new Label("Graphing Calc");
-				mainWidget.add(description);
+			if (app.getArticleElement().hasDataParamEnableGraphing()) {
+				boolean supportsCAS = app.getSettings().getCasSettings()
+					.isEnabled();
+				boolean supports3D = app.getSettings().getEuclidian(-1)
+						.isEnabled();
+				// CAS EXAM: cas && !3d && ev
+				if (!supports3D && supportsCAS) {
+					Label description = new Label("CAS");
+					mainWidget.add(description);
+				}
+				// GRAPH EXAM: !cas && !3d && ev
+				else if (!supports3D && !supportsCAS) {
+					if (app.getArticleElement()
+							.getDataParamEnableGraphing(true)) {
+						Label description = new Label("Graphing Calc");
+						mainWidget.add(description);
+					} else {
+						Label description = new Label("Simple Calc");
+						mainWidget.add(description);
+					}
+				}
 			}
 			// SIMPLE EXAM: !cas && !3d && !ev
 			/*
 			 * if (!app.getSettings().getCasSettings().isEnabledSet() &&
 			 * !app.getSettings().getEuclidian(-1).isEnabledSet() &&
-			 * app.getArticleElement().hasDataParamEnableGraphing())
-			 */else {
-				Label description = new Label("Simple Calc");
-				mainWidget.add(description);
-			}
+			 * app.getArticleElement().hasDataParamEnableGraphing()) else {
+			 * Label description = new Label("Simple Calc");
+			 * mainWidget.add(description); }
+			 */
 		}
 
 		mainWidget.add(btnPanel);

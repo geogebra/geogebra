@@ -17,6 +17,8 @@ public class ExamEnvironment {
 	private long closed = -1;
 	private long maybeCheating = -1;
 
+	private boolean hasGraph = false;
+
 	public long getStart() {
 		return examStartTime;
 	}
@@ -102,22 +104,25 @@ public class ExamEnvironment {
 		StringBuilder sb = new StringBuilder();
 
 		// Deactivated Views
-		boolean supportsCAS = !settings.getCasSettings().isEnabled();
-		boolean supports3D = !settings.getEuclidian(-1).isEnabled();
-		if (supportsCAS == false || supports3D == false) {
-			sb.append(loc.getMenu("exam_views_deactivated") + ":");
-			sb.append(' ');
+		boolean supportsCAS = settings.getCasSettings().isEnabled();
+		boolean supports3D = settings.getEuclidian(-1).isEnabled();
+
+		if (!hasGraph) {
+			if (supportsCAS == false || supports3D == false) {
+				sb.append(loc.getMenu("exam_views_deactivated") + ":");
+				sb.append(' ');
+			}
+			if (supportsCAS == false) {
+				sb.append(loc.getMenu("Perspective.CAS"));
+			}
+			if (supportsCAS == false && supports3D == false) {
+				sb.append("," + ' ');
+			}
+			if (supports3D == false) {
+				sb.append(loc.getMenu("Perspective.3DGraphics"));
+			}
+			sb.append("<br>");
 		}
-		if (supportsCAS == false) {
-			sb.append(loc.getMenu("Perspective.CAS"));
-		}
-		if (supportsCAS == false && supports3D == false) {
-			sb.append("," + ' ');
-		}
-		if (supports3D == false) {
-			sb.append(loc.getMenu("Perspective.3DGraphics"));
-		}
-		sb.append("<br>");
 
 		// Exam Start Date
 		sb.append(loc.getMenu("exam_start_date") + ":");
@@ -169,6 +174,14 @@ public class ExamEnvironment {
 			sb.append(loc.getMenu("exam_ended"));
 		}
 		return sb.toString();
+	}
+
+	public boolean getHasGraph() {
+		return hasGraph;
+	}
+
+	public void setHasGraph(boolean hasGraph) {
+		this.hasGraph = hasGraph;
 	}
 
 	public String timeToString(long timestamp) {

@@ -300,10 +300,38 @@ pr.menu_header_undo(), null, 32);
 		fp.addDomHandler(new ClickHandler() {
 			// clicking on info button
 			public void onClick(ClickEvent event) {
+				if (app.getArticleElement().hasDataParamEnableGraphing()) {
+					app.getExam().setHasGraph(true);
+					boolean supportsCAS = app.getSettings().getCasSettings()
+							.isEnabled();
+					boolean supports3D = app.getSettings().getEuclidian(-1)
+							.isEnabled();
+					if (!supports3D && supportsCAS) {
+						app.showMessage(true,
+								app.getExam().getLog(app.getLocalization(),
+										app.getSettings()),
+								"GeoGebra Exam Cas", null, null);
+					} else if (!supports3D && !supportsCAS) {
+						if (app.getArticleElement()
+								.getDataParamEnableGraphing(true)) {
+							app.showMessage(true,
+									app.getExam().getLog(app.getLocalization(),
+											app.getSettings()),
+									"GeoGebra Exam Graph Calc", null, null);
+						} else {
+							app.showMessage(true,
+									app.getExam().getLog(app.getLocalization(),
+											app.getSettings()),
+									"GeoGebra Exam Simple Calc", null, null);
+						}
+					}
+
+				} else {
 				app.showMessage(true,
 						app.getExam().getLog(app.getLocalization(),
 								app.getSettings()),
 						app.getMenu("exam_log_header"), null, null);
+				}
 
 			}
 		}, ClickEvent.getType());

@@ -99,9 +99,40 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					}
 				};
 			}
-			app.showMessage(true, app.getExam().getLog(app.getLocalization(),
-							app.getSettings()), loc.getMenu("exam_log_header"),
-					buttonText, handler);
+			if (app.getArticleElement().hasDataParamEnableGraphing()) {
+				app.getExam().setHasGraph(true);
+				boolean supportsCAS = app.getSettings().getCasSettings()
+						.isEnabled();
+				boolean supports3D = app.getSettings().getEuclidian(-1)
+						.isEnabled();
+				if (!supports3D && supportsCAS) {
+					app.showMessage(true,
+							app.getExam().getLog(app.getLocalization(),
+									app.getSettings()),
+							"GeoGebra Exam Cas", buttonText, handler);
+				} else if (!supports3D && !supportsCAS) {
+					if (app.getArticleElement()
+							.getDataParamEnableGraphing(true)) {
+						app.showMessage(true,
+								app.getExam().getLog(app.getLocalization(),
+										app.getSettings()),
+								"GeoGebra Exam Graph Calc", buttonText,
+								handler);
+					} else {
+						app.showMessage(true,
+								app.getExam().getLog(app.getLocalization(),
+										app.getSettings()),
+								"GeoGebra Exam Simple Calc", buttonText,
+								handler);
+					}
+				}
+
+			} else {
+				app.showMessage(true,
+						app.getExam().getLog(app.getLocalization(),
+								app.getSettings()),
+						loc.getMenu("exam_log_header"), buttonText, handler);
+			}
 			app.setExam(null);
 			Layout.initializeDefaultPerspectives(app, 0.2);
 			app.getLAF().addWindowClosingHandler(app);
