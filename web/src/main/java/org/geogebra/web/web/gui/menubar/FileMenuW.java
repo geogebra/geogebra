@@ -103,9 +103,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							app.getSettings()), loc.getMenu("exam_log_header"),
 					buttonText, handler);
 			app.setExam(null);
-			if (examFile) {
-				return;
-			}
 			Layout.initializeDefaultPerspectives(app, 0.2);
 			app.getLAF().addWindowClosingHandler(app);
 			app.fireViewsChangedEvent();
