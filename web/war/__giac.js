@@ -1946,11 +1946,16 @@ var __giac = [ {},
 { cat:"Solve", cmd:"Solve((x+5)*exp(x)-(x+5)*exp(2*x))", result:"{x=-5, x=0}" },
 { cat:"Solve", cmd:"Integral[abs(x cos(x²)),0,sqrt(pi)]", result:"1" },
 { cat:"Solve", cmd:"ln(0)", result:"-\u221E" },
+{ cat: NSolve", cmd:"NSolve[(sqrt(3) 4 x³ + 12x² - sqrt(3) 12 x - 4)]", result:"{x = -2.747477419455, x = -0.1763269807085, x = 1.191753592594}", round:"{x = -2.75, x = -0.18, x = 1.19}", notes:"" },
+{ cat:"Solve", cmd:"Solve[(sqrt(3) 4 x³ + 12x² - sqrt(3) 12 x - 4)]", result:"{x = -2.747477419455, x = -0.1763269807085, x = 1.191753592594}", round:"{x = -2.75, x = -0.18, x = 1.19}", notes:"" },
+{ cat:"NSolve", cmd:"NSolve[ {2.5=a*b^-5,8.4=a*b^7},{a=1,b=1}]", result:"{a = 4.142361921917, b = 1.106271200184}", round:"{a = 4.14, b = 1.11", notes:"" },
+{ cat:"NSolve", cmd:"NSolve[{2.5b^5=a,8.4=a*b^7}]", result:"{a = 4.142361921917, b = 1.106271200184}", round:"{a = 4.14, b = 1.11", notes:"" },
+{ cat:"Evaluate", cmd:"Evaluate[ln(0)]", result:"-\u221E", notes:"" },
 // JSONEND
 // 
-// ln(0)
-//{ cat: "Evaluate", cmd:"", result:"", notes:"" },
-//{ cat: "Integral", cmd:"Integral[sqrt(sin(x))]", result:"?", notes:"" },
+// 
+//{ cat:"Evaluate", cmd:"", result:"", notes:"" },
+//{ cat:"Integral", cmd:"Integral[sqrt(sin(x))]", result:"?", notes:"" },
 //{ cat:"Integral", cmd:"Integral[1/(x\u2075 - 3x\u2074 + x\u00B3 + x\u00B2 + x + 1)]", result:"?" },
 ];
 
