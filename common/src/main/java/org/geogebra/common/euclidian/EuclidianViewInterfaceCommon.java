@@ -1006,4 +1006,6 @@ public interface EuclidianViewInterfaceCommon extends
 	void closeDropDowns(int x, int y);
 
 	public Coords getCoordsForView(Coords coordsInD3);
+
+	public void screenChanged();
 }

@@ -3362,6 +3362,12 @@ public class Kernel {
 		}
 	}
 
+	public final void notifyScreenChanged() {
+		for (View view : views) {
+			if (view instanceof EuclidianViewInterfaceCommon)
+				((EuclidianViewInterfaceCommon) view).screenChanged();
+		}
+	}
 	public final void notifyControllersMoveIfWaiting() {
 		if (notifyRepaint && notifyViewsActive) {
 			for (View view : views) {

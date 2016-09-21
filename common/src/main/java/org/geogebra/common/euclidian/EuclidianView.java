@@ -334,6 +334,8 @@ public abstract class EuclidianView
 
 	private boolean mViewCentered = false;
 
+	private boolean screenChanged = false;
+
 	protected EuclidianViewCompanion companion;
 
 	/**
@@ -2043,9 +2045,9 @@ public abstract class EuclidianView
 
 	public void repaintView() {
 		repaint();
-		if (app.has(Feature.ADJUST_WIDGETS)) {
-			// adjustedHSliderCount = 0;
-			// adjustedVSliderCount = 0;
+		if (app.has(Feature.ADJUST_WIDGETS) && screenChanged) {
+			app.adjustScreen();
+			screenChanged = false;
 		}
 
 	}
@@ -5737,4 +5739,7 @@ public abstract class EuclidianView
 		return yScaleStart;
 	}
 
+	public void screenChanged() {
+		screenChanged = true;
+	}
 }

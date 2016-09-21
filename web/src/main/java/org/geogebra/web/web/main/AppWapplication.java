@@ -17,8 +17,6 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.move.ggtapi.models.AuthenticationModelW;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
@@ -313,13 +311,7 @@ public class AppWapplication extends AppWFull {
 		((GGWToolBar) this.getToolbar()).updateToolbarPanel();
 		onOpenFile();
 		setAltText();
-
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			public void execute() {
-				adjustScreen();
-			}
-		});
+		kernel.notifyScreenChanged();
 	}
 
 
