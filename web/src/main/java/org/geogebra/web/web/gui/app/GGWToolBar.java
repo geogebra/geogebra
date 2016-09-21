@@ -488,14 +488,20 @@ pr.menu_header_undo(), null, 32);
 				nocas.getElement().getStyle()
 				        .setTextDecoration(TextDecoration.LINE_THROUGH);
 				nocas.getElement().setClassName("timer");
-				rightButtonPanel.add(nocas);
+				// do not add CAS to toolBar for tablet exam apps
+				if (!app.getArticleElement().hasDataParamEnableGraphing()) {
+					rightButtonPanel.add(nocas);
+				}
 			}
 			if (!app.getSettings().getEuclidian(-1).isEnabled()) {
 				Label no3d = new Label("3D");
 				no3d.getElement().getStyle()
 				        .setTextDecoration(TextDecoration.LINE_THROUGH);
 				no3d.getElement().setClassName("timer");
-				rightButtonPanel.add(no3d);
+				// do not add 3D to toolBar for tablet exam apps
+				if (!app.getArticleElement().hasDataParamEnableGraphing()) {
+					rightButtonPanel.add(no3d);
+				}
 			}
 			rightButtonPanel.add(getTimer());
 		}
