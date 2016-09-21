@@ -1479,7 +1479,7 @@ var __giac = [ {},
 { cat:"Tangent", cmd:"Tangent[(1, 1), x^3 + y^3 = 1]", result:"{x = 1, y = 1}|OR|{y = 1, x = 1}", notes:"Mike_1260 order different between JS/Windows/Linux" },
 { cat:"Tangent", cmd:"Tangent[(a, sqrt(1 - a^2)), x^2 + y^2 = 1]", result:"{y = a sqrt(-a\u00B2 + 1) / (a\u00B2 - 1) x - sqrt(-a\u00B2 + 1) / (a\u00B2 - 1)}" },
 { cat:"Tangent", cmd:"Tangent[(0, 1), x^2 - y^3 + 2y^2 - y = 0]", result:"?", notes:"singular point so {y = x + 1, y = -x + 1} wrong" },
-{ cat:"Tangent", cmd:"Tangent[(-1, -1), x^2 - y^3 + 2y^2 - y = 0]", result:"{y = 0.8561759549432x - 0.1438240450567, y = 2.326455954754x + 1.326455954754}|OR|{y = 2.326455954754x + 1.326455954754, y = 0.8561759549432x - 0.1438240450567}", round:"{y = 0.86x - 0.14, y = 2.33x + 1.33}" },
+{ cat:"Tangent", cmd:"Tangent[(-1, -1), x^2 - y^3 + 2y^2 - y = 0]", result:"{y = 0.8561759549432x - 0.1438240450567, y = 2.326455954754x + 1.326455954754}|OR|{y = 2.326455954754x + 1.326455954754, y = 0.8561759549432x - 0.1438240450567}", round:"{y = 2.33x + 1.33, y = 0.86x - 0.14}" },
 { cat:"NSolve", cmd:"NSolve[{3=c*a^5, 3=c*a^4},{a,c}]", result:"{a = 1, c = 3}", notes:"#2481" },
 { cat:"NSolve", cmd:"NSolutions[{3=c*a^5, 3=c*a^4},{a,c}]", result:"{{1, 3}}", notes:"#2481" },
 { cat:"NSolve", cmd:"Numeric[NSolve[13^(x+1)-2*13^x=1/5*5^x,x], 11]", result:"{x = -4.1939143755}", notes:"#2481, #4661" },
@@ -1951,7 +1951,9 @@ var __giac = [ {},
 { cat:"NSolve", cmd:"NSolve[ {2.5=a*b^-5,8.4=a*b^7},{a=1,b=1}]", result:"{a = 4.142361921917, b = 1.106271200184}", round:"{a = 4.14, b = 1.11", notes:"" },
 { cat:"NSolve", cmd:"NSolve[{2.5b^5=a,8.4=a*b^7}]", result:"{a = 4.142361921917, b = 1.106271200184}", round:"{a = 4.14, b = 1.11", notes:"" },
 { cat:"Evaluate", cmd:"Evaluate[ln(0)]", result:"-\u221E", notes:"" },
+{ cat:"Angle", cmd:"Angle[(1,0), (0, 0), 30deg]", result:"", notes:"GGB-1222" },
 // JSONEND
+//{ cat:"Angle", cmd:"Angle[(1,0), (0, 0), pi/6]", result:"", notes:"GGB-1222" },
 // 
 // 
 //{ cat:"Evaluate", cmd:"", result:"", notes:"" },
