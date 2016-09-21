@@ -321,7 +321,7 @@ public class AppWapplet extends AppWFull {
 			Perspective p = null;
 			if (perspective != null) {
 				p = PerspectiveDecoder.decode(perspective, this.getKernel()
-						.getParser(), ToolBar.getAllToolsNoMacros(true, false));
+						.getParser(), ToolBar.getAllToolsNoMacros(true, false, this));
 			}
 			if(articleElement.getDataParamShowAlgebraInput(false)){
 				Perspective p2 = getTmpPerspective(p);

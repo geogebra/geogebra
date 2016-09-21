@@ -72,7 +72,7 @@ public abstract class Layout {
 				GSplitPane.HORIZONTAL_SPLIT);
 
 		defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
-				app.isExam());
+				app.isExam(), app);
 
 		int i = 0; // current perspective
 

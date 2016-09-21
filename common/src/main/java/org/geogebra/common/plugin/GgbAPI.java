@@ -1544,7 +1544,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		Perspective ps = PerspectiveDecoder.decode(code, kernel.getParser(),
-				ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), app.isExam()));
+				ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), app.isExam(),
+						app));
 		try {
 			app.persistWidthAndHeight();
 			app.getGuiManager().getLayout().applyPerspective(ps);

@@ -139,7 +139,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			app.fireViewsChangedEvent();
 			app.getGuiManager().updateToolbarActions();
 			app.getGuiManager().setGeneralToolBarDefinition(
-					ToolBar.getAllToolsNoMacros(true, false));
+					ToolBar.getAllToolsNoMacros(true, false, app));
 			app.getGuiManager().resetMenu();
 
 			if (app.has(Feature.NEW_START_SCREEN)) {

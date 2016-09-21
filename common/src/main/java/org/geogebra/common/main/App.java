@@ -4062,6 +4062,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_SHOW_ALL_OBJECTS_ON_LOAD:
 			return prerelease;
 
+		// GGB-1208
+		case NEW_TOOLBAR_DESKTOP_WEB:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

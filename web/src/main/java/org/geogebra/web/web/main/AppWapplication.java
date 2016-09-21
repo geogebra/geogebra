@@ -284,7 +284,7 @@ public class AppWapplication extends AppWFull {
 		        getTmpPerspectives(),
 		        PerspectiveDecoder.decode(perspective, this.getKernel()
 		                        .getParser(), ToolBar.getAllToolsNoMacros(true,
-		                        false)));
+		                        false, this)));
 
 		getScriptManager().ggbOnInit(); // put this here from Application
 		                                // constructor because we have to delay

@@ -189,7 +189,7 @@ public class LoadFilePresenter {
 			} else {
 				finishEmptyLoading(app, PerspectiveDecoder.decode(perspective,
 				        app.getKernel().getParser(),
-				        ToolBar.getAllToolsNoMacros(true, app.isExam())));
+						ToolBar.getAllToolsNoMacros(true, app.isExam(), app)));
 				return false;
 
 			}

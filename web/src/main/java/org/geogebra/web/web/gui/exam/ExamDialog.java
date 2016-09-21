@@ -171,7 +171,7 @@ public class ExamDialog {
 				app.fireViewsChangedEvent();
 				guiManager.updateToolbarActions();
 				guiManager.setGeneralToolBarDefinition(
-						ToolBar.getAllToolsNoMacros(true, false));
+						ToolBar.getAllToolsNoMacros(true, false, app));
 				guiManager.updateToolbar();
 				guiManager.resetMenu();
 				box.hide();
@@ -205,7 +205,7 @@ public class ExamDialog {
 			app.getGgbApi().setPerspective("A");
 		}
 		guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(
-				true, true));
+				true, true, app));
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		app.getExam().setStart(date.getTime());
 		app.fireViewsChangedEvent();

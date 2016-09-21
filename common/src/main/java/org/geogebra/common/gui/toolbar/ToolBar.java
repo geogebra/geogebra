@@ -1,13 +1,13 @@
 package org.geogebra.common.gui.toolbar;
 
+import java.util.List;
+import java.util.Vector;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-
-import java.util.List;
-import java.util.Vector;
 
 /**
  * @author gabor
@@ -30,9 +30,10 @@ public class ToolBar {
 	 *            tools, which don't appear.)
 	 * @param exam
 	 *            true, if exam mode is set.
+	 * @param app TODO
 	 * @return The default definition of the general tool bar without macros.
 	 */
-	public static String getAllToolsNoMacros(boolean html5, boolean exam) {
+	public static String getAllToolsNoMacros(boolean html5, boolean exam, App app) {
 
 		StringBuilder sb = new StringBuilder();
 
@@ -43,186 +44,358 @@ public class ToolBar {
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_MOVE_ROTATE);
 		}
+		
+		if (app.has(Feature.NEW_TOOLBAR_DESKTOP_WEB)) {
 
-		// points
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_POINT);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_POINT_ON_OBJECT);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ATTACH_DETACH);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_INTERSECT);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_MIDPOINT);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_COMPLEX_NUMBER);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_EXTREMUM);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ROOTS);
-
-
-		// basic lines
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_JOIN);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SEGMENT);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SEGMENT_FIXED);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_RAY);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_POLYLINE);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_VECTOR);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_VECTOR_FROM_POINT);
-
-		// advanced lines
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_ORTHOGONAL);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_PARALLEL);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_LINE_BISECTOR);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_TANGENTS);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_POLAR_DIAMETER);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_FITLINE);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_LOCUS);
-
-		// polygon
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_POLYGON);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_RIGID_POLYGON);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_VECTOR_POLYGON);
-
-		// circles, arcs
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_COMPASSES);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SEMICIRCLE);
-		sb.append("  ");
-		sb.append(EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
-		// TODO cleanup
-		// sb.append(" ");
-		// sb.append(EuclidianConstants.MODE_FREEHAND_CIRCLE);
-
-		// conics
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_PARABOLA);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_CONIC_FIVE_POINTS);
-
-		// measurements
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_ANGLE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ANGLE_FIXED);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_DISTANCE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_AREA);
-		sb.append("  ");
-		sb.append(EuclidianConstants.MODE_SLOPE);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_CREATE_LIST);
-
-		// transformations
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_MIRROR_AT_LINE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_MIRROR_AT_POINT);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_MIRROR_AT_CIRCLE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_DILATE_FROM_POINT);
-
-		// dialogs
-		sb.append(" | ");
-
-		// in exam mode text and image cannot be inserted
-		if (!exam) {
-			sb.append(EuclidianConstants.MODE_TEXT);
+			// freehand tools in with move tool
 			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_PEN);
+
+			// points
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_POINT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_POINT_ON_OBJECT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ATTACH_DETACH);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_INTERSECT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_MIDPOINT);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_COMPLEX_NUMBER);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_EXTREMUM);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ROOTS);
+
+			// basic lines
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_JOIN);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_SEGMENT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_SEGMENT_FIXED);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_RAY);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_POLYLINE);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_VECTOR);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_VECTOR_FROM_POINT);
+
+			// advanced lines
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_ORTHOGONAL);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_PARALLEL);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_LINE_BISECTOR);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_TANGENTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_POLAR_DIAMETER);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_FITLINE);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_LOCUS);
+
+			// polygon
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_POLYGON);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_RIGID_POLYGON);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_VECTOR_POLYGON);
+
+			// circles, arcs
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_COMPASSES);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_SEMICIRCLE);
+			sb.append("  ");
+			sb.append(EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
+
+			// conics
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_PARABOLA);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_CONIC_FIVE_POINTS);
+
+			// measurements
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_ANGLE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ANGLE_FIXED);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_DISTANCE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_AREA);
+			sb.append("  ");
+			sb.append(EuclidianConstants.MODE_SLOPE);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_CREATE_LIST);
+			sb.append("  ");
+			sb.append(EuclidianConstants.MODE_RELATION);
+			sb.append("  ");
+			sb.append(EuclidianConstants.MODE_FUNCTION_INSPECTOR);
+
+			// transformations
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_MIRROR_AT_LINE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_MIRROR_AT_POINT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_MIRROR_AT_CIRCLE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_DILATE_FROM_POINT);
+
+			// objects with actions
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_SLIDER);
+			// in exam mode text and image cannot be inserted
+			if (!exam) {
+				sb.append(" ");
+				sb.append(EuclidianConstants.MODE_TEXT);
+
+				sb.append(" ");
+				sb.append(EuclidianConstants.MODE_IMAGE);
+			}
+
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_BUTTON_ACTION);
+
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
+
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_TEXTFIELD_ACTION);
+
+			// properties
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_TRANSLATEVIEW);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ZOOM_IN);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ZOOM_OUT);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_SHOW_HIDE_LABEL);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_COPY_VISUAL_STYLE);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_DELETE);
+
+		} else {
+
+			// points
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_POINT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_POINT_ON_OBJECT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ATTACH_DETACH);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_INTERSECT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_MIDPOINT);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_COMPLEX_NUMBER);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_EXTREMUM);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ROOTS);
+
+
+			// basic lines
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_JOIN);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_SEGMENT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_SEGMENT_FIXED);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_RAY);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_POLYLINE);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_VECTOR);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_VECTOR_FROM_POINT);
+
+			// advanced lines
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_ORTHOGONAL);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_PARALLEL);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_LINE_BISECTOR);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ANGULAR_BISECTOR);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_TANGENTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_POLAR_DIAMETER);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_FITLINE);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_LOCUS);
+
+			// polygon
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_POLYGON);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_REGULAR_POLYGON);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_RIGID_POLYGON);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_VECTOR_POLYGON);
+
+			// circles, arcs
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_COMPASSES);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_SEMICIRCLE);
+			sb.append("  ");
+			sb.append(EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
+			// TODO cleanup
+			// sb.append(" ");
+			// sb.append(EuclidianConstants.MODE_FREEHAND_CIRCLE);
+
+			// conics
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_PARABOLA);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_CONIC_FIVE_POINTS);
+
+			// measurements
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_ANGLE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ANGLE_FIXED);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_DISTANCE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_AREA);
+			sb.append("  ");
+			sb.append(EuclidianConstants.MODE_SLOPE);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_CREATE_LIST);
+
+			// transformations
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_MIRROR_AT_LINE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_MIRROR_AT_POINT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_MIRROR_AT_CIRCLE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ROTATE_BY_ANGLE);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_DILATE_FROM_POINT);
+
+			// dialogs
+			sb.append(" | ");
+
+			// in exam mode text and image cannot be inserted
+			if (!exam) {
+				sb.append(EuclidianConstants.MODE_TEXT);
+				sb.append(" ");
+
+				// if(showAllMenu){
+				sb.append(EuclidianConstants.MODE_IMAGE);
+				sb.append(" ");
+			}
 
 			// if(showAllMenu){
-			sb.append(EuclidianConstants.MODE_IMAGE);
+			sb.append(EuclidianConstants.MODE_PEN);
 			sb.append(" ");
+			// sb.append(EuclidianConstants.MODE_PENCIL);
+			// sb.append(" ");
+			sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
+			sb.append(" , ");
+			// }
+
+			sb.append(EuclidianConstants.MODE_RELATION);
+
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_FUNCTION_INSPECTOR);
+
+			// objects with actions
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_SLIDER);
+
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
+
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_BUTTON_ACTION);
+
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_TEXTFIELD_ACTION);
+
+			// properties
+			sb.append(" | ");
+			sb.append(EuclidianConstants.MODE_TRANSLATEVIEW);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ZOOM_IN);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_ZOOM_OUT);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_SHOW_HIDE_LABEL);
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_COPY_VISUAL_STYLE);
+			sb.append(" , ");
+			sb.append(EuclidianConstants.MODE_DELETE);
 		}
-
-		// if(showAllMenu){
-		sb.append(EuclidianConstants.MODE_PEN);
-		sb.append(" ");
-		// sb.append(EuclidianConstants.MODE_PENCIL);
-		// sb.append(" ");
-		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
-		sb.append(" , ");
-		// }
-
-		sb.append(EuclidianConstants.MODE_RELATION);
-
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_FUNCTION_INSPECTOR);
-
-		// objects with actions
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_SLIDER);
-
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
-
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_BUTTON_ACTION);
-
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_TEXTFIELD_ACTION);
-
-		// properties
-		sb.append(" | ");
-		sb.append(EuclidianConstants.MODE_TRANSLATEVIEW);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ZOOM_IN);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_ZOOM_OUT);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_SHOW_HIDE_LABEL);
-		sb.append(" ");
-		sb.append(EuclidianConstants.MODE_COPY_VISUAL_STYLE);
-		sb.append(" , ");
-		sb.append(EuclidianConstants.MODE_DELETE);
 
 		return sb.toString();
 	}
@@ -1003,7 +1176,7 @@ public class ToolBar {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(ToolBar.getAllToolsNoMacros(
-				true, app.isExam()));
+				true, app.isExam(), app));
 
 		// macros
 		Kernel kernel = app.getKernel();
