@@ -249,7 +249,8 @@ public class LoadFilePresenter {
 			app.setActivePerspective(p.getDefaultID() - 1);
 		}
 		if (app.has(Feature.NEW_START_SCREEN)
-				&& app.getArticleElement().getDataParamShowAppsPicker()) {
+				&& app.getArticleElement().getDataParamShowAppsPicker()
+				&& app.getExam() == null) {
 				app.showPerspectivesPopup();
 			}
 
