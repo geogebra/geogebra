@@ -127,8 +127,6 @@ public abstract class Box {
 	 * List of child boxes
 	 */
 	protected LinkedList<Box> children = new LinkedList<Box>();
-	protected Box parent;
-	protected Box elderParent;
 	protected Color markForDEBUG;
 
 	/**
@@ -138,8 +136,6 @@ public abstract class Box {
 	 */
 	public void add(Box b) {
 		children.add(b);
-		b.parent = this;
-		b.elderParent = elderParent;
 	}
 
 	/**
@@ -150,8 +146,6 @@ public abstract class Box {
 	 */
 	public void add(int pos, Box b) {
 		children.add(pos, b);
-		b.parent = this;
-		b.elderParent = elderParent;
 	}
 
 	/**
@@ -174,22 +168,6 @@ public abstract class Box {
 		background = bg;
 		geom = new Geom();
 		graphics = new Graphics();
-	}
-
-	public void setParent(Box parent) {
-		this.parent = parent;
-	}
-
-	public Box getParent() {
-		return parent;
-	}
-
-	public void setElderParent(Box elderParent) {
-		this.elderParent = elderParent;
-	}
-
-	public Box getElderParent() {
-		return elderParent;
 	}
 
 	/**
