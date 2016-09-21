@@ -45,8 +45,11 @@ public class ExamDialog {
 		// mainWidget.add(btnPanel);
 
 		btnPanel.add(btnOk);
-		btnPanel.add(btnCancel);
-		btnPanel.add(btnHelp);
+		// we don't need cancel and help buttons for tablet exam apps
+		if (!(app.getArticleElement().hasDataParamEnableGraphing())) {
+			btnPanel.add(btnCancel);
+			btnPanel.add(btnHelp);
+		}
 
 		btnOk.setText(loc.getMenu("exam_start_button"));
 		btnCancel.setText(loc.getMenu("Cancel"));
