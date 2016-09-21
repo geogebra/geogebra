@@ -286,7 +286,6 @@
         <Operator name="vectorprod" tex="\times" unicode="⨯" />
 
     </Operators>
-	</Operators>
 
 	<Symbols columns="12">
  		<Symbol name="inf" cas="inf" tex="\infty" key="" code="49"  fontId="3" /> 	

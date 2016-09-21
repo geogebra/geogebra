@@ -986,7 +986,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand c) {
-		if (!app.getSettings().getCasSettings().isEnabled()) {
+		if (app.getSettings().getCasSettings().isEnabled()) {
 			getCurrentCAS().evaluateGeoGebraCASAsync(c);
 		}
 	}

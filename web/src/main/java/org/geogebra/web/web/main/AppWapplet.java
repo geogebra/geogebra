@@ -526,7 +526,7 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public double getWidth() {
 		if (spWidth > 0) {
-			return spWidth;
+			return menuShowing ? spWidth + GLookAndFeel.MENUBAR_WIDTH : spWidth;
 		}
 		return super.getWidth();
 	}
