@@ -48,7 +48,7 @@ public class GBoxW extends GBox {
 
 		if (impl.getParent() instanceof AbsolutePanel) {
 			((AbsolutePanel) (impl.getParent())).setWidgetPosition(impl,
-			        (int) rect.getMinX(), (int) rect.getMinY());
+					(int) rect.getMinX(), (int) rect.getMinY());
 		}
 
 	}
@@ -71,9 +71,8 @@ public class GBoxW extends GBox {
 		}
 
 		return new Rectangle(left, top, impl.getOffsetWidth(),
-		        impl.getOffsetHeight());
+				impl.getOffsetHeight());
 	}
-
 
 	@Override
 	public void revalidate() {

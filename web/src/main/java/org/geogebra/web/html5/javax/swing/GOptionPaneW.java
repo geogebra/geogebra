@@ -31,8 +31,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * by the JOptionPane class.
  * 
  */
-public class GOptionPaneW extends GDialogBox implements
-		ClickHandler {
+public class GOptionPaneW extends GDialogBox implements ClickHandler {
 
 	private App app;
 	private String title, message, initialSelectionValue;
@@ -228,10 +227,10 @@ public class GOptionPaneW extends GDialogBox implements
 			messagePanel.addStyleName("examMessagePanel");
 		} else {
 			String[] lines = message.split("\n");
-		for (String item : lines) {
-			messageTextPanel.add(new Label(item));
-		}
-		messagePanel.add(messageTextPanel);
+			for (String item : lines) {
+				messageTextPanel.add(new Label(item));
+			}
+			messagePanel.add(messageTextPanel);
 		}
 	}
 
@@ -258,20 +257,20 @@ public class GOptionPaneW extends GDialogBox implements
 		switch (messageType) {
 
 		case GOptionPane.ERROR_MESSAGE:
-			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_error()
-					.getSafeUri());
+			icon = new Image(
+					GuiResourcesSimple.INSTANCE.dialog_error().getSafeUri());
 			break;
 		case GOptionPane.INFORMATION_MESSAGE:
-			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_info()
-					.getSafeUri());
+			icon = new Image(
+					GuiResourcesSimple.INSTANCE.dialog_info().getSafeUri());
 			break;
 		case GOptionPane.WARNING_MESSAGE:
-			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_warning()
-					.getSafeUri());
+			icon = new Image(
+					GuiResourcesSimple.INSTANCE.dialog_warning().getSafeUri());
 			break;
 		case GOptionPane.QUESTION_MESSAGE:
-			icon = new Image(GuiResourcesSimple.INSTANCE.dialog_question()
-					.getSafeUri());
+			icon = new Image(
+					GuiResourcesSimple.INSTANCE.dialog_question().getSafeUri());
 			break;
 		case GOptionPane.PLAIN_MESSAGE:
 			icon = null;
@@ -327,8 +326,8 @@ public class GOptionPaneW extends GDialogBox implements
 				close();
 
 			} else if (keyCode == KeyCodes.KEY_ENTER) {
-				returnOption = optionType == GOptionPane.CUSTOM_OPTION ? enterOption
-						: GOptionPane.OK_OPTION;
+				returnOption = optionType == GOptionPane.CUSTOM_OPTION
+						? enterOption : GOptionPane.OK_OPTION;
 				close();
 			}
 		}
@@ -363,9 +362,9 @@ public class GOptionPaneW extends GDialogBox implements
 
 	}
 
-	public int showConfirmDialog(App app, ScrollPanel scrollPanel,
-			String title, int optionType, int messageType, String okLabel,
-			Image icon, AsyncOperation<String[]> returnHandler) {
+	public int showConfirmDialog(App app, ScrollPanel scrollPanel, String title,
+			int optionType, int messageType, String okLabel, Image icon,
+			AsyncOperation<String[]> returnHandler) {
 
 		this.app = app;
 		this.scrollPanel = scrollPanel;
@@ -400,8 +399,7 @@ public class GOptionPaneW extends GDialogBox implements
 	 * (Note that returnValue is meaningless here.)
 	 */
 	public void showOptionDialog(App app, String message, String title,
-			int enterOption, int messageType, Object icon,
-			String[] optionNames,
+			int enterOption, int messageType, Object icon, String[] optionNames,
 			AsyncOperation<String[]> handler) {
 
 		this.app = app;
@@ -423,7 +421,8 @@ public class GOptionPaneW extends GDialogBox implements
 
 	/**
 	 * Launches a simple input dialog. The dialog result is returned in the
-	 * parameter of the handler callback function as an array of two strings: <br>
+	 * parameter of the handler callback function as an array of two strings:
+	 * <br>
 	 * 
 	 * dialogResult[0] = returnOption <br>
 	 * dialogResult[1] = returnValue
@@ -431,8 +430,7 @@ public class GOptionPaneW extends GDialogBox implements
 	 */
 	public void showInputDialog(App app, String message,
 			String initialSelectionValue, Object icon,
-			AsyncOperation<String[]> handler,
-			boolean autoComplete) {
+			AsyncOperation<String[]> handler, boolean autoComplete) {
 
 		this.app = app;
 		this.message = message;
@@ -451,8 +449,7 @@ public class GOptionPaneW extends GDialogBox implements
 
 	public void showSaveDialog(App app, String title,
 			String initialSelectionValue, Object icon,
-			AsyncOperation<String[]> handler,
-			String okLabel) {
+			AsyncOperation<String[]> handler, String okLabel) {
 
 		this.app = app;
 		this.message = "";

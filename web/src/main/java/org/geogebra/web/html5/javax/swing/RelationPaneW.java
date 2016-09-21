@@ -22,8 +22,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *         Elias for many hints.
  */
 
-public class RelationPaneW extends DialogBox implements RelationPane,
-        ClickHandler {
+public class RelationPaneW extends DialogBox
+		implements RelationPane, ClickHandler {
 
 	@Override
 	public void setGlassEnabled(boolean enabled) {
@@ -66,8 +66,7 @@ public class RelationPaneW extends DialogBox implements RelationPane,
 				btnCallbacks[i].addClickHandler(this);
 				buttons[i].add(btnCallbacks[i]);
 			}
-			fp.add(LayoutUtilW.panelRow(texts[i],
-			        buttons[i]));
+			fp.add(LayoutUtilW.panelRow(texts[i], buttons[i]));
 		}
 
 		db.add(fp);
