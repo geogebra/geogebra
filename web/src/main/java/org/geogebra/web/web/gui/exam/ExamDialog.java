@@ -49,14 +49,18 @@ public class ExamDialog {
 		if (!(app.getArticleElement().hasDataParamEnableGraphing())) {
 			btnPanel.add(btnCancel);
 			btnPanel.add(btnHelp);
+			box.addStyleName("boxsize");
+		} else {
+			box.addStyleName("ExamTabletBoxsize");
 		}
+
 
 		btnOk.setText(loc.getMenu("exam_start_button"));
 		btnCancel.setText(loc.getMenu("Cancel"));
 		btnHelp.setText(loc.getMenu("Help"));
 
 		// description.addStyleName("padding");
-		box.addStyleName("boxsize");
+
 		int checkboxes = 0;
 
 		if (!app.getSettings().getCasSettings().isEnabledSet()) {
@@ -103,15 +107,44 @@ public class ExamDialog {
 			mainWidget.add(cbxPanel);
 			cbxPanel.addStyleName("ExamCheckboxPanel");
 			btnPanel.addStyleName("DialogButtonPanel");
+		} else {
+			// TODO this is a quick fix so that markus can show a demo - trans
+			// key needed and also simple / graphing / cas
+			// CAS EXAM: cas && !3d && ev
+			if (app.getSettings().getCasSettings().isEnabledSet() && !app.getSettings().getEuclidian(-1).isEnabledSet()
+					&& app.getArticleElement().hasDataParamEnableGraphing()) {
+				Label description = new Label("CAS");
+				mainWidget.add(description);
+			}
+			// GRAPH EXAM: !cas && !3d && ev
+			if (!app.getSettings().getCasSettings().isEnabledSet() && !app.getSettings().getEuclidian(-1).isEnabledSet()
+					&& app.getArticleElement().hasDataParamEnableGraphing()) {
+				Label description = new Label("Graphing Calc");
+				mainWidget.add(description);
+			}
+			// SIMPLE EXAM: !cas && !3d && !ev
+			/*
+			 * if (!app.getSettings().getCasSettings().isEnabledSet() &&
+			 * !app.getSettings().getEuclidian(-1).isEnabledSet() &&
+			 * app.getArticleElement().hasDataParamEnableGraphing())
+			 */else {
+				Label description = new Label("Simple Calc");
+				mainWidget.add(description);
+			}
 		}
 
 		mainWidget.add(btnPanel);
 		box.setWidget(mainWidget);
-		box.getCaption().setText(loc.getMenu("exam_custom_header"));
+
+		if (!(app.getArticleElement().hasDataParamEnableGraphing())) {
+			box.getCaption().setText(loc.getMenu("exam_custom_header"));
+		} else {
+			box.getCaption().setText("GeoGebra Exam");
+			btnOk.addStyleName("ExamTableStartButton");
+		}
 		box.center();
 
 		// start exam button
-		btnOk.addStyleName("examStartButton");
 		btnOk.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {

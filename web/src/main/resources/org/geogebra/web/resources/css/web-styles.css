@@ -232,7 +232,25 @@ input[type="text"]::-ms-clear {
 	width: 340px;
 	max-width: 100%;
 	}
-	
+.ExamTabletBoxsize {
+/*	width: 150px;
+	height: 150px; */
+
+    margin-top: 30%;
+}
+
+.ExamTabletBoxsize div {
+	text-align: center;
+}
+
+.ExamTabletBoxsize .Caption {
+    margin-bottom: 5px !important;
+}
+
+.ExamTableStartButton {
+	margin: 30px 0px 10px 0px !important;
+}
+
 .examContent{
 	/*min-width:260px;*/
 	}
