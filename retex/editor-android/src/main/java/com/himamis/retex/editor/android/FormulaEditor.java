@@ -304,6 +304,11 @@ public class FormulaEditor extends View implements MathField {
         // implemented in AlgebraInput
     }
 
+    @Override
+    public void paste() {
+
+    }
+
 
     private void updateShiftX() {
 
