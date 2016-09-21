@@ -9072,13 +9072,18 @@ public abstract class EuclidianController {
 					|| mode != EuclidianConstants.MODE_TEXTFIELD_ACTION
 							&& f.isGeoInputBox()
 					|| (f.isGeoList() && ((GeoList) f).drawAsComboBox())
-					|| mode != EuclidianConstants.MODE_SLIDER
+					|| !sliderHittingMode()
 							&& (f.isGeoNumeric()
 									&& ((GeoNumeric) f).isSlider())) {
 				app.setMoveMode();
 			}
 		}
 
+	}
+
+	private boolean sliderHittingMode() {
+		return mode == EuclidianConstants.MODE_SLIDER
+				|| mode == EuclidianConstants.MODE_LOCUS;
 	}
 
 	protected boolean hasNoHitsDisablingModeForShallMoveView(Hits hits) {
