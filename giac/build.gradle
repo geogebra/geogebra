@@ -7,6 +7,7 @@ project.setDescription('Giac CAS for GeoGebra')
 apply from: 'gradle-scripts/repositories.gradle'
 
 apply plugin: 'cpp'
+apply plugin: 'visual-studio'
 
 // FIXME: These seetings are hardcoded at the moment, they need to be more general.
 // Set this as needed:
@@ -303,8 +304,6 @@ task testMinigiacExecutable (dependsOn: 'installMinigiacExecutable', type: Exec)
     commandLine './regression', '-r', '-s'
     }
 
-task androidCopyCrystaxSo (dependsOn: ':giac:giac-android:copyCrystaxSo')
-
 task androidCopyEabiLibjavagiacSo (dependsOn: 'javagiacAndroideabiSharedLibrary', type: Copy) {
     description 'Copies libjavagiac.so files to the src/android folder.'
     from 'build/binaries/javagiacSharedLibrary/androideabi'
@@ -317,10 +316,6 @@ task androidCopyX86LibjavagiacSo (dependsOn: 'javagiacAndroidx86SharedLibrary', 
     from 'build/binaries/javagiacSharedLibrary/androidx86'
     into 'giac-android/src/main/jniLibs/x86'
     include ('libjavagiac.so')
-    }
-
-task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo', 'androidCopyX86LibjavagiacSo', ':giac:giac-android:assemble']) {
-    description 'Creates .aar package'
     }
 
 task run (dependsOn: 'installMinigiacExecutable', type: Exec) {
@@ -522,3 +517,9 @@ task emMakeMpfr {
  * $ EMCC=.../emscripten-master/emcc LLVM=.../clang+llvm-3.2-x86_64-linux-ubuntu-12.04/bin \
    PATH=.../cross-compilers/x86/bin:/.../cross-compilers/arm/bin:$PATH JAVA_HEAP_SIZE=3072m ../gradlew createGiacJs
  */
+
+task androidCopyCrystaxSo (dependsOn: 'giac-android:copyCrystaxSo')
+
+task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo', 'androidCopyX86LibjavagiacSo', 'giac-android:assemble']) {
+    description 'Creates .aar package'
+    }

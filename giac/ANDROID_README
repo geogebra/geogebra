@@ -52,3 +52,10 @@ Compilation
    $ ../gradlew androidAar
 
    in this directory.
+
+Troubleshooting
+---------------
+
+You may need to create the file local.properties on your own
+with sdk.dir=/path/to/android/sdk if you don't want to set the
+ANDROID_SDK variable manually.
