@@ -411,6 +411,7 @@ public class GOptionPaneW extends GDialogBox implements
 		this.enterOption = enterOption;
 		this.messageType = messageType;
 		this.icon = (Image) icon;
+		this.scrollPanel = null;
 
 		this.optionNames = optionNames;
 		this.returnHandler = handler;
