@@ -3,45 +3,34 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
-public class TextFold implements FoldComputer {
+public class NumberFold implements FoldComputer {
 
-	private GeoText result;
-	private double x, y, z;
-	private StringBuilder sb;
+	private GeoNumeric result;
+	private double x;
 
 	public GeoElement getTemplate(Construction cons, GeoClass listElement) {
-		return this.result = new GeoText(cons);
+		return this.result = new GeoNumeric(cons);
 	}
 
 	public void add(GeoElement p, Operation op) {
-		if (p.isGeoText()) {
-			sb.append(((GeoText) p).getTextString());
-		} else {
-			result.setUndefined();
-			return;
-		}
-
+		x += ((GeoNumberValue) p).getDouble();
 	}
 
 	public void setFrom(GeoElement geoElement, Kernel kernel) {
-		if (sb == null) {
-			sb = new StringBuilder();
-		} else {
-			sb.setLength(0);
-		}
-		add(geoElement, Operation.PLUS);
+		x = ((GeoNumberValue) geoElement).getDouble();
 	}
 
 	public boolean check(GeoElement geoElement) {
-		return geoElement.isGeoText();
+		return geoElement instanceof GeoNumberValue;
 	}
 
 	public void finish() {
-		result.setTextString(sb.toString());
+		result.setValue(x);
 
 	}
 

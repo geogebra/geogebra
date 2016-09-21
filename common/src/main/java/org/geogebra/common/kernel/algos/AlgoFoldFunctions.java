@@ -55,7 +55,7 @@ public class AlgoFoldFunctions extends AlgoElement {
 		this.truncate = truncate;
 		this.op = op;
 		this.foldComputer = foldComputer;
-		resultFun = foldComputer.getTemplate(cons, geoList.get(0));
+		resultFun = foldComputer.getTemplate(cons, geoList.getElementType());
 
 		setInputOutput();
 		compute();

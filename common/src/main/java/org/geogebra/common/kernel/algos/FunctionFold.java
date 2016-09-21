@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
 public class FunctionFold implements FoldComputer {
@@ -18,7 +19,7 @@ public class FunctionFold implements FoldComputer {
 	 * @see org.geogebra.common.kernel.algos.FoldComputer#getTemplate(org.geogebra.common.kernel.Construction)
 	 */
 	@Override
-	public GeoElement getTemplate(Construction cons, GeoElement listElement) {
+	public GeoElement getTemplate(Construction cons, GeoClass listElement) {
 		return this.resultFun = new GeoFunction(cons);
 	}
 

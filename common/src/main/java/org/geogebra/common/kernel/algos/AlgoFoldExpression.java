@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -61,22 +60,29 @@ public class AlgoFoldExpression extends AlgoElement {
 		this.from = from;
 		this.to = truncate;
 		this.op = op;
-		if (expression.getGeoClassType() == GeoClass.POINT
-				|| expression.getGeoClassType() == GeoClass.POINT3D
-				|| expression.getGeoClassType() == GeoClass.VECTOR
-				|| expression.getGeoClassType() == GeoClass.VECTOR3D) {
-			this.foldComputer = new PointNDFold();
-		} else {
-		this.foldComputer = expression.getGeoClassType() == GeoClass.FUNCTION_NVAR ?
-
-		new FunctionNvarFold()
-				: new FunctionFold();
-		}
-		resultFun = foldComputer.getTemplate(cons, expression);
+		this.foldComputer = getComputer(expression);
+		resultFun = foldComputer
+				.getTemplate(cons, expression.getGeoClassType());
 
 		setInputOutput();
 		compute();
 		resultFun.setLabel(label);
+	}
+
+	private FoldComputer getComputer(GeoElement expression) {
+		switch(expression.getGeoClassType()){
+		case POINT:
+		case POINT3D:
+		case VECTOR:
+		case VECTOR3D:
+			return new PointNDFold();
+		case FUNCTION_NVAR:
+
+			return new FunctionNvarFold();
+		case FUNCTION:
+			return new FunctionFold();
+		}
+		return new NumberFold();
 	}
 
 	@Override

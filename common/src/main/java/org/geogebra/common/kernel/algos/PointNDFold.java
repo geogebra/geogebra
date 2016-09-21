@@ -8,8 +8,10 @@ import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
 public class PointNDFold implements FoldComputer {
@@ -17,8 +19,24 @@ public class PointNDFold implements FoldComputer {
 	private GeoElement result;
 	private double x, y, z;
 
-	public GeoElement getTemplate(Construction cons, GeoElement listElement) {
-		return this.result = listElement.copyInternal(cons);
+	public GeoElement getTemplate(Construction cons, GeoClass listElement) {
+		return this.result = doGetTemplate(cons, listElement);
+	}
+
+	private GeoElement doGetTemplate(Construction cons, GeoClass listElement) {
+		switch (listElement) {
+		case POINT:
+			return new GeoPoint(cons);
+		case POINT3D:
+			return (GeoElement) cons.getKernel().getGeoFactory()
+					.newPoint(3, cons);
+		case VECTOR:
+			return new GeoVector(cons);
+		case VECTOR3D:
+			return (GeoElement) cons.getKernel().getGeoFactory()
+					.newPoint(3, cons);
+		}
+		return new GeoPoint(cons);
 	}
 
 	public void add(GeoElement p, Operation op) {

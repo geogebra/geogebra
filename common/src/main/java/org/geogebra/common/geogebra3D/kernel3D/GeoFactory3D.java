@@ -26,12 +26,14 @@ import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -148,6 +150,13 @@ public class GeoFactory3D extends GeoFactory {
 		}
 	}
 
+	@Override
+	public GeoVectorND newVector(int dimension, Construction cons) {
+		if (dimension == 3) {
+			return new GeoVector3D(cons);
+		}
+		return new GeoVector(cons);
+	}
 	@Override
 	public GeoElement copyInternal3D(Construction cons1, GeoElement geo) {
 

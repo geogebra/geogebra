@@ -424,6 +424,7 @@ public class CommandsTest extends Assert{
 		t("Sum[{}]", "0");
 		t("Sum[{x+y,2*x}]", "x + y + (2 * x)");
 		t("Sum[x^k,k,1,5]", "x^(1) + x^(2) + x^(3) + x^(4) + x^(5)");
+		t("Sum[2^k,k,1,5]", "62");
 		t("Sum[(k,k),k,1,5]", "(15, 15)");
 	}
 }

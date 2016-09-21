@@ -7,13 +7,14 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
 public class FunctionNvarFold implements FoldComputer {
 
 	private GeoFunctionNVar result;
 
-	public GeoElement getTemplate(Construction cons, GeoElement listElement) {
+	public GeoElement getTemplate(Construction cons, GeoClass listElement) {
 		return this.result = new GeoFunctionNVar(cons);
 	}
 

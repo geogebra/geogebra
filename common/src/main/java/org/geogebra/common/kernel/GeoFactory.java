@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -180,6 +181,17 @@ public class GeoFactory {
 	 */
 	public GeoPointND newPoint(int dimension, Construction cons) {
 		return new GeoPoint(cons);
+	}
+
+	/**
+	 * @param dimension
+	 *            preferred dimension of point
+	 * @param cons
+	 *            construction
+	 * @return vector
+	 */
+	public GeoVectorND newVector(int dimension, Construction cons) {
+		return new GeoVector(cons);
 	}
 
 	/**
