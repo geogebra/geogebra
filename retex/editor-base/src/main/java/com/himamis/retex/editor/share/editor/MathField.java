@@ -73,4 +73,6 @@ public interface MathField {
     void scroll(int dx, int dy);
 
     void fireInputChangedEvent();
+
+	void paste();
 }

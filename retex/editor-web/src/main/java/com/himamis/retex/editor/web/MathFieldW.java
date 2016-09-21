@@ -29,6 +29,7 @@ package com.himamis.retex.editor.web;
 import java.util.ArrayList;
 
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -40,6 +41,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
@@ -355,4 +357,50 @@ public class MathFieldW implements MathField, IsWidget {
 			instances.add(this);
 		}
 	}
+
+	public void paste() {
+		insertString(getSystemClipboardChromeWebapp(html.getElement()));
+
+	}
+
+	private void insertString(String text) {
+		EditorState state = mathFieldInternal.getEditorState();
+
+		int offset = state.getCurrentOffset();
+		for (int i = 0; i < text.length(); i++) {
+
+			mathFieldInternal.onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
+
+		}
+
+		mathFieldInternal.selectNextArgument();
+
+		mathFieldInternal.update();
+
+	}
+
+	private static native Element getHiddenTextArea() /*-{
+		var hiddenTextArea = $doc.getElementById('hiddenCopyPasteLatexArea');
+		if (!hiddenTextArea) {
+			hiddenTextArea = $doc.createElement("textarea");
+			hiddenTextArea.id = 'hiddenCopyPasteLatexArea';
+			hiddenTextArea.style.position = 'absolute';
+			hiddenTextArea.style.zIndex = '100';
+			hiddenTextArea.style.left = '-1000px';
+			$doc.getElementsByTagName('body')[0].appendChild(hiddenTextArea);
+		}
+		//hiddenTextArea.value = '';
+		return hiddenTextArea;
+	}-*/;
+
+	private static native String getSystemClipboardChromeWebapp(
+			Element el) /*-{
+		var copyFrom = @com.himamis.retex.editor.web.MathFieldW::getHiddenTextArea()();
+		copyFrom.select();
+		$doc.execCommand('paste');
+		var contents = copyFrom.value;
+		copyFrom.value = "";
+		el.focus();
+		return contents;
+	}-*/;
 }

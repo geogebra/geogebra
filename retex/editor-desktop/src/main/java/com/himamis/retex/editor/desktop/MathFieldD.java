@@ -28,8 +28,13 @@ package com.himamis.retex.editor.desktop;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -188,6 +193,20 @@ public class MathFieldD extends JLabel implements MathField {
 
 	public void setFormula(MathFormula f) {
 		mathFieldInternal.setFormula(f);
+
+	}
+
+	public void paste() {
+		Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
+		try {
+			insertString(clip.getData(DataFlavor.stringFlavor).toString());
+		} catch (UnsupportedFlavorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 }

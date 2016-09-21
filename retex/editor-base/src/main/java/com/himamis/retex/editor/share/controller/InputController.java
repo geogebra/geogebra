@@ -1,5 +1,6 @@
 package com.himamis.retex.editor.share.controller;
 
+import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.meta.MetaArray;
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.MetaFunction;
@@ -708,6 +709,7 @@ public class InputController {
     }
 
     private boolean mCreateFrac = true;
+	private MathField mathField;
 
     public void setCreateFrac(boolean createFrac) {
         this.mCreateFrac = createFrac;
@@ -716,4 +718,16 @@ public class InputController {
     public boolean getCreateFrac() {
         return mCreateFrac;
     }
+
+	public void paste() {
+		if (this.mathField != null) {
+			this.mathField.paste();
+		}
+
+	}
+
+	public void setMathField(MathField mathField) {
+		this.mathField = mathField;
+
+	}
 }

@@ -71,26 +71,22 @@ public class GeoGebraSerializer implements Serializer {
             serialize(mathFunction.getArgument(0), stringBuilder);
             stringBuilder.append(')');
         }  // Strict control of available functions is needed, so that SUM/ and Prod doesn't work
-        /*else if ("sum".equals(function.getName())
-                || "prod".equals(function.getName())) {
-            buffer.append(function.getTexName());
-            buffer.append("_{");
-            serialize(function.getArgument(0), buffer);
-            buffer.append('=');
-            serialize(function.getArgument(1), buffer);
-            buffer.append("}^");
-            serialize(function.getArgument(2), buffer);
-            boolean addBraces = currentBraces
-                    || (function.getArgument(3).hasOperator());
-            if (addBraces) {
-                buffer.append('(');
-            }
-            serialize(function.getArgument(3), buffer);
-            if (addBraces) {
-                buffer.append(')');
-            }
+        else if ("sum".equals(mathFunctionName)
+                || "prod".equals(mathFunctionName)) {
+			stringBuilder.append(
+					"prod".equals(mathFunctionName) ? "Product" : "Sum");
+        	stringBuilder.append("((");
+            serialize(mathFunction.getArgument(3), stringBuilder);
+            stringBuilder.append("),");
+            serialize(mathFunction.getArgument(0), stringBuilder);
+            stringBuilder.append(",");
+            serialize(mathFunction.getArgument(1), stringBuilder);
+			stringBuilder.append(",");
+            serialize(mathFunction.getArgument(2), stringBuilder);
+            stringBuilder.append(')');
+		}
 
-        else if ("nsum".equals(function.getName())
+        /*else if ("nsum".equals(function.getName())
                 || "nprod".equals(function.getName())) {
             buffer.append(function.getTexName());
             buffer.append("_{");
