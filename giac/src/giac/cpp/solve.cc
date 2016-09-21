@@ -3392,7 +3392,7 @@ namespace giac {
 	tmp=evalf(tmp,eval_level(contextptr),contextptr);
 	if (tmp.type==_VECT){
 	  // call realroot? this would be more accurate
-	  gen res=complex_mode(contextptr)?proot(*tmp._VECTptr,epsilon(contextptr)):_realroot(gen(makevecteur(tmp1,epsilon(contextptr),at_evalf),_SEQ__VECT),contextptr);//real_proot(*tmp._VECTptr,epsilon(contextptr),contextptr);
+	  gen res=complex_mode(contextptr)?proot(*tmp._VECTptr,epsilon(contextptr)):(lvar(tmp1).empty()?_realroot(gen(makevecteur(tmp1,epsilon(contextptr),at_evalf),_SEQ__VECT),contextptr):real_proot(*tmp._VECTptr,epsilon(contextptr),contextptr));
 	  if (res.type==_VECT && res._VECTptr->size()==1)
 	    return res._VECTptr->front();
 	  return res;
