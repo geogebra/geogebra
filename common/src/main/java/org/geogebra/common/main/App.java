@@ -1480,6 +1480,10 @@ public abstract class App implements UpdateSelection {
 		isAutoSaved = true;
 	}
 
+	public final void setUnAutoSaved(){
+		isAutoSaved = false;
+	}
+
 	/**
 	 * Makes given view active
 	 *
