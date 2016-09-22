@@ -115,7 +115,9 @@ public class Graphics2DA implements Graphics2DInterface {
 		if (matrix == null) {
 			matrix = mCanvas.getMatrix();
 		}
-		return new TransformA(matrix);
+		TransformA transform = new TransformA(matrix);
+		transform.scale(mScaleStack.getScaleX(), mScaleStack.getScaleY());
+		return transform;
 	}
 
 	public Font getFont() {
