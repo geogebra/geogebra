@@ -88,14 +88,20 @@ public class CAStestJSON {
 			Assert.assertNotSame(0, testsJSON.length());
 			int i = 1;
 			while (i < testsJSON.length()) {
+				Object testVal = testsJSON.opt(i);
 				
-				JSONObject test = testsJSON.getJSONObject(i);
-			i++;
+				i++;
+				if (!(testVal instanceof JSONObject)) {
+					System.err.println("Invalid JSON:" + testVal);
+					continue;
+				}
+				JSONObject test = (JSONObject) testVal;
 			String cat = "general";
 			if(test.has("cat")){
 				cat = test.getString("cat");
-			}
+				}
 			if(!testcases.containsKey(cat)){
+
 				/*System.out.println("@Test");
 				System.out.println("public void test"+cat+"(){");
 				System.out.println("	testCat(\""+cat+"\");");
