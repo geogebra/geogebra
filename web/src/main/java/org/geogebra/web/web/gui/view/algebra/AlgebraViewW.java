@@ -31,7 +31,6 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.util.LaTeXHelper;
 import org.geogebra.web.web.util.ReTeXHelper;
@@ -44,8 +43,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.ScrollEvent;
-import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -59,7 +56,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasTreeItems;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.ProvidesResize;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -190,24 +186,24 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
-	private void addOnScroll() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			public void execute() {
-				ScrollPanel algebraPanel = ((AlgebraDockPanelW) app
-						.getGuiManager().getLayout().getDockManager()
-						.getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
-				algebraPanel.addScrollHandler(new ScrollHandler() {
-
-					public void onScroll(ScrollEvent event) {
-						event.preventDefault();
-						onAlgebraScroll();
-					}
-				});
-			}
-		});
-
-	}
+	// private void addOnScroll() {
+	// Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+	//
+	// public void execute() {
+	// ScrollPanel algebraPanel = ((AlgebraDockPanelW) app
+	// .getGuiManager().getLayout().getDockManager()
+	// .getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
+	// algebraPanel.addScrollHandler(new ScrollHandler() {
+	//
+	// public void onScroll(ScrollEvent event) {
+	// event.preventDefault();
+	// onAlgebraScroll();
+	// }
+	// });
+	// }
+	// });
+	//
+	// }
 
 	/**
 	 * Scroll handler
@@ -1647,7 +1643,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 		if ((this.activeItem != null) && !sameItem
 				&& (!this.activeItem.commonEditingCheck())) {
-			removeCloseButton();
+			// removeCloseButton() on this would cause infinite recursion
+			activeItem.removeCloseButton();
 		}
 
 		if (activeItem != null && !sameItem
@@ -1669,7 +1666,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	public void removeCloseButton() {
 		if (activeItem != null) {
 			activeItem.removeCloseButton();
-			activeItem = null;
+			// use setter to make sure current item is reset correctly
+			setActiveTreeItem(null);
 		}
 	}
 
