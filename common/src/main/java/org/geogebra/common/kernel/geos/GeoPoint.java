@@ -2217,7 +2217,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	// lines: line by two point, intersect lines, line/conic, point on line
 	// TODO: parallel line, perpenticular line
 	private ArrayList<GeoElement> incidenceList;
-	private ArrayList<GeoElement> nonIncidenceList;
 
 	/**
 	 * @return list of objects incident by construction

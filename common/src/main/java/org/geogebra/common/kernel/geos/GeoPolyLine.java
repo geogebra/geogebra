@@ -34,7 +34,7 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  * @author Michael Borcherds, adapted from GeoPolygon
  */
-public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
+public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		Traceable, Transformable, Mirrorable,
 		MatrixTransformable, PointRotateable, Translateable, Dilateable,
 		GeoPoly {
