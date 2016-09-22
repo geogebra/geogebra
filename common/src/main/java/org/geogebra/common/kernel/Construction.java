@@ -103,9 +103,9 @@ public class Construction {
 		else
 			newConstructionDefaults();
 		// consDefaults = new ConstructionDefaults(this);
-
+		setIgnoringNewTypes(true);
 		initAxis();
-
+		setIgnoringNewTypes(false);
 		geoTable = new HashMap<String, GeoElement>(200);
 		initGeoTables();
 	}
@@ -2743,6 +2743,7 @@ public class Construction {
 		if (this.ignoringNewTypes) {
 			return;
 		}
+		Log.printStacktrace(c);
 		this.usedGeos.add(c);
 	}
 
@@ -2766,6 +2767,13 @@ public class Construction {
 		}
 
 		return kernelHas3DObjects;
+	}
+
+	/**
+	 * @return Whether some objects were created in this cons
+	 */
+	public boolean isStarted() {
+		return usedGeos.size() > 0 || kernel.getMacroNumber() > 0;
 	}
 	/**
 	 * Returns a set with all labeled GeoElement objects sorted in alphabetical

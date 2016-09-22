@@ -1467,7 +1467,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public final boolean isSaved() {
-		return isSaved;
+		return isSaved || kernel.getConstruction() == null
+				|| !kernel.getConstruction().isStarted();
 	}
 
 	private boolean isAutoSaved = false;

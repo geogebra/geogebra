@@ -216,12 +216,12 @@ public class EuclidianViewCompanion {
 		EuclidianSettings evs = (EuclidianSettings) settings;
 
 		int viewDim = view.getDimension();
-
+		view.getKernel().getConstruction().setIgnoringNewTypes(true);
 		view.setXminObject(evs.getXminObject());
 		view.setXmaxObject(evs.getXmaxObject());
 		view.setYminObject(evs.getYminObject());
 		view.setYmaxObject(evs.getYmaxObject());
-
+		view.getKernel().getConstruction().setIgnoringNewTypes(false);
 		view.setBackground(evs.getBackground());
 		view.setAxesColor(evs.getAxesColor());
 		view.setGridColor(evs.getGridColor());

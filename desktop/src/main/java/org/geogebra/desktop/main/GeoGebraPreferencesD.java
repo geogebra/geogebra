@@ -566,7 +566,9 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 					&& !objectPrefsXML.equals(factoryDefaultXml)) {
 				boolean eda = app.getKernel().getElementDefaultAllowed();
 				app.getKernel().setElementDefaultAllowed(true);
+				app.getKernel().getConstruction().setIgnoringNewTypes(true);
 				app.setXML(objectPrefsXML, false);
+				app.getKernel().getConstruction().setIgnoringNewTypes(false);
 				app.getKernel().setElementDefaultAllowed(eda);
 			}
 

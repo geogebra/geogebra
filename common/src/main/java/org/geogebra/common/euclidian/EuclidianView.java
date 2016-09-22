@@ -366,10 +366,12 @@ public abstract class EuclidianView
 		this.settings = settings;
 		// no repaint
 		if (kernel.getConstruction() != null) {
+			kernel.getConstruction().setIgnoringNewTypes(true);
 			xminObject = new GeoNumeric(kernel.getConstruction());
 			xmaxObject = new GeoNumeric(kernel.getConstruction());
 			yminObject = new GeoNumeric(kernel.getConstruction());
 			ymaxObject = new GeoNumeric(kernel.getConstruction());
+			kernel.getConstruction().setIgnoringNewTypes(false);
 		}
 		// ggb3D 2009-02-05
 		hits = new Hits();
