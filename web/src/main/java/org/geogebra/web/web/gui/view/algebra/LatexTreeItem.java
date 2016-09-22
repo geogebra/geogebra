@@ -95,7 +95,6 @@ public class LatexTreeItem extends RadioTreeItem
 
 		canvas.addBlurHandler(this);
 
-		app.getGuiManager().setOnScreenKeyboardTextField(this.retexListener);
 		CancelEventTimer.keyboardSetVisible();
 		ClickStartHandler.init(main, new ClickStartHandler(false, false) {
 			@Override
@@ -108,8 +107,16 @@ public class LatexTreeItem extends RadioTreeItem
 				CancelEventTimer.keyboardSetVisible();
 			}
 		});
+
 		updateLineHeight();
+		app.getGuiManager().setOnScreenKeyboardTextField(retexListener);
 		return true;
+	}
+
+	@Override
+	protected void showKeyboard() {
+		app.showKeyboard(retexListener);
+
 	}
 
 	/**

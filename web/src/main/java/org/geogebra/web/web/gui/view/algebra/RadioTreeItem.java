@@ -1599,9 +1599,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 			}
-			app.showKeyboard(this);
+			showKeyboard();
 			this.setFocus(true);
 		}
+	}
+
+	protected void showKeyboard() {
+		app.showKeyboard(this);
+
 	}
 
 	boolean styleBarCanHide() {

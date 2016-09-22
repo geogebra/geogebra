@@ -47,7 +47,9 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboard {
 	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
 		// TODO
 		ToolTipManagerW.hideAllToolTips();
-
+		if (processField == null) {
+			return;
+		}
 		if (btn instanceof KeyBoardButtonFunctionalBase) {
 			KeyBoardButtonFunctionalBase button = (KeyBoardButtonFunctionalBase) btn;
 

@@ -336,6 +336,8 @@ public class MathFieldW implements MathField, IsWidget {
 			mathFieldInternal.getCursorController()
 					.lastField(mathFieldInternal.getEditorState());
 		}
+		// update even when cursor didn't change here
+		mathFieldInternal.update();
 
 	}
 
