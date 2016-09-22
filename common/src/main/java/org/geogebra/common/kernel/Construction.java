@@ -2743,7 +2743,6 @@ public class Construction {
 		if (this.ignoringNewTypes) {
 			return;
 		}
-		Log.printStacktrace(c);
 		this.usedGeos.add(c);
 	}
 
