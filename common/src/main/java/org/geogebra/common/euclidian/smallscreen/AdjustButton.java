@@ -5,8 +5,8 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.util.debug.Log;
 
 public class AdjustButton extends AdjustWidget {
-	private static final int MARGIN_X = 15;
-	private static final int MARGIN_Y = 15;
+	private static final int MARGIN_X = 5;
+	private static final int MARGIN_Y = 5;
 	private GeoButton button;
 	private int viewWidth;
 	private int viewHeight;

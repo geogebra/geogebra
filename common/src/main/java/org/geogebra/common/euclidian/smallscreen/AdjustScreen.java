@@ -171,9 +171,9 @@ public class AdjustScreen {
 	private void checkOvelappingButtons() {
 		Collections.sort(buttons, new ButtonComparator());
 		Log.debug("[AS] Buttons:");
-		for (int idx = buttons.size() - 1; idx > 0; idx--) {
-			GeoButton btn1 = buttons.get(idx - 1);
-			GeoButton btn2 = buttons.get(idx);
+		for (int idx = 0; idx < buttons.size() - 1; idx++) {
+			GeoButton btn1 = buttons.get(idx);
+			GeoButton btn2 = buttons.get(idx + 1);
 			GRectangle rect1 = AwtFactory.prototype.newRectangle(btn1.getAbsoluteScreenLocX(),
 					btn1.getAbsoluteScreenLocY(),
 					btn1.getWidth(), btn1.getHeight());
@@ -187,9 +187,8 @@ public class AdjustScreen {
 			Log.debug("[AS] " + btn1 + " - " + btn2 + " overlaps: " + overlap);
 
 			if (overlap) {
-				btn1.setAbsoluteScreenLoc(btn1.getAbsoluteScreenLocX(), 
-						btn2.getAbsoluteScreenLocY()
- + btn2.getHeight()
+				btn2.setAbsoluteScreenLoc(btn2.getAbsoluteScreenLocX(),
+						btn1.getAbsoluteScreenLocY() + btn1.getHeight()
 								+ BUTTON_GAP);
 			}
 		}
