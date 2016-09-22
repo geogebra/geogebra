@@ -412,7 +412,7 @@ public class FormulaEditor extends View implements MathField {
     /**
      * @return current shift in x for drawing the formula
      */
-    protected int getShiftX() {
+    public int getShiftX() {
         return mShiftX;
     }
 

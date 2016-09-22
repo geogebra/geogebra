@@ -5,6 +5,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.himamis.retex.editor.android.FormulaEditor;
 import com.himamis.retex.editor.share.event.ClickListener;
 
 public class ClickListenerAdapter implements View.OnTouchListener, GestureDetector.OnGestureListener {
@@ -13,6 +14,8 @@ public class ClickListenerAdapter implements View.OnTouchListener, GestureDetect
 
     private GestureDetector mGestureDetector;
 
+    int shiftX = 0;
+
     public ClickListenerAdapter(ClickListener clickListener, Context context) {
         mClickListener = clickListener;
         mGestureDetector = new GestureDetector(context, this);
@@ -20,10 +23,14 @@ public class ClickListenerAdapter implements View.OnTouchListener, GestureDetect
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if(v instanceof FormulaEditor){
+            shiftX = ((FormulaEditor) v).getShiftX();
+        }
+
         if (event.getAction() == MotionEvent.ACTION_DOWN){
-            mClickListener.onPointerDown((int) event.getX(), (int) event.getY());
+            mClickListener.onPointerDown((int)(event.getX()-shiftX), (int) event.getY());
         }else if (event.getAction() == MotionEvent.ACTION_UP){
-            mClickListener.onPointerUp((int) event.getX(), (int) event.getY());
+            mClickListener.onPointerUp((int) event.getX()-shiftX, (int) event.getY());
         }
 
         mGestureDetector.onTouchEvent(event);
