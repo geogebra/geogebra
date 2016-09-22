@@ -68,6 +68,7 @@ public class CASTableCellEditorW extends Label implements
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				app.getGlobalKeyDispatcher().setFocused(true);
 				app.showKeyboard(CASTableCellEditorW.this);
 				ensureEditing();
 				editor.setFocus(true);

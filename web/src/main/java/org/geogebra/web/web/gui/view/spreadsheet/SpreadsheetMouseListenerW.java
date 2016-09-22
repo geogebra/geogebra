@@ -17,7 +17,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
@@ -159,7 +158,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	private void focusKeyDispatcher() {
 		if (app != null) {
-			((GlobalKeyDispatcherW) app.getGlobalKeyDispatcher()).setFocused(true);
+			app.getGlobalKeyDispatcher().setFocused(true);
 		}
 	}
 

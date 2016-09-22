@@ -172,7 +172,9 @@ public class CASTableW extends Grid implements CASTable {
 			setFirstRowFront(true);
 		}
 		Widget w = getWidget(n, COL_CAS_CELLS_WEB);
-
+		if (app != null) {
+			app.getGlobalKeyDispatcher().setFocused(true);
+		}
 		if (w == editing && newText == null) {
 			getEditor().ensureEditing();
 			return;
