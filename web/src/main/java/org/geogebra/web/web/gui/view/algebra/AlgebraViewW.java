@@ -1174,7 +1174,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 		if (inputPanelLatex != null) {
 			inputPanelLatex.styleScrollBox();
-			inputPanelLatex.updateButtonPanelPosition();
+			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+				public void execute() {
+
+					inputPanelLatex.updateButtonPanelPosition();
+				}
+			});
 		}
 
 	}

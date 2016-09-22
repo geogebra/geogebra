@@ -1741,8 +1741,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 					int scrollbarWidth = algebraPanel == null ? 0
 							: algebraPanel.getOffsetWidth() - algebraPanel
 									.getElement().getClientWidth();
-					controls.getElement().getStyle()
-							.setRight(46 - scrollbarWidth, Unit.PX);
+					controls.getElement().getStyle().setRight(-scrollbarWidth,
+							Unit.PX);
 				}
 			} else { // old code
 			
