@@ -1745,6 +1745,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		// TODO: modify this using removeIncidence
 		if (incidenceList != null) {
+			incidenceList.remove(this);
 			for (int i = 0; i < incidenceList.size(); ++i) {
 				GeoElement geo = incidenceList.get(i);
 				if (geo.isGeoConic()) {
