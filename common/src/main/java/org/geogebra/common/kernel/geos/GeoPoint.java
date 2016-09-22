@@ -2227,13 +2227,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	/**
-	 * @return list of objects NOT incident by construction
-	 */
-	public ArrayList<GeoElement> getNonIncidenceList() {
-		return nonIncidenceList;
-	}
-
-	/**
 	 * @param list
 	 *            list of objects incident by construction
 	 */
@@ -2251,13 +2244,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public void createIncidenceList() {
 		incidenceList = new ArrayList<GeoElement>();
 		incidenceList.add(this);
-	}
-
-	/**
-	 * Resets the list of object that are not incident by construction
-	 */
-	public void createNonIncidenceList() {
-		nonIncidenceList = new ArrayList<GeoElement>();
 	}
 
 	/**
@@ -2282,18 +2268,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		// TODO: if geo instanceof GeoPoint...
 	}
 
-	/**
-	 * Add non-incident object
-	 * 
-	 * @param geo
-	 *            object thatisnot incident by construction
-	 */
-	public void addNonIncidence(GeoElement geo) {
-		if (nonIncidenceList == null)
-			createNonIncidenceList();
-		if (!nonIncidenceList.contains(geo))
-			nonIncidenceList.add(geo);
-	}
+
 
 	/**
 	 * @param geo
