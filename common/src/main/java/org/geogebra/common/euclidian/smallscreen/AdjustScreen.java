@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -25,6 +27,7 @@ import org.geogebra.common.util.debug.Log;
 public class AdjustScreen {
 	private static final int HSLIDER_OVERLAP_THRESOLD = 50;
 	private static final int VSLIDER_OVERLAP_THRESOLD = 50;
+	private static final int BUTTON_GAP = 10;
 	private EuclidianView view;
 	private App app;
 	private Kernel kernel;
@@ -56,6 +59,17 @@ public class AdjustScreen {
 		}
 	}
 
+	private class ButtonComparator implements Comparator {
+		public int compare(Object o1, Object o2) {
+			int y1 = ((GeoButton) o1).getAbsoluteScreenLocY();
+			int y2 = ((GeoButton) o2).getAbsoluteScreenLocY();
+			if (y1 == y2) {
+				return 0;
+			}
+			return y1 < y2 ? -1 : 1;
+		}
+	}
+
 	public AdjustScreen(EuclidianView view) {
 		this.view = view;
 		app = view.getApplication();
@@ -72,6 +86,7 @@ public class AdjustScreen {
 		collectWidgets();
 		checkOvelappingHSliders();
 		checkOvelappingVSliders();
+		checkOvelappingButtons();
 
 	}
 
@@ -152,6 +167,33 @@ public class AdjustScreen {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	private void checkOvelappingButtons() {
+		Collections.sort(buttons, new ButtonComparator());
+		Log.debug("[AS] Buttons:");
+		for (int idx = buttons.size() - 1; idx > 0; idx--) {
+			GeoButton btn1 = buttons.get(idx - 1);
+			GeoButton btn2 = buttons.get(idx);
+			GRectangle rect1 = AwtFactory.prototype.newRectangle(btn1.getAbsoluteScreenLocX(),
+					btn1.getAbsoluteScreenLocY(),
+					btn1.getWidth(), btn1.getHeight());
+			GRectangle rect2 = AwtFactory.prototype.newRectangle(
+					btn2.getAbsoluteScreenLocX(), btn2.getAbsoluteScreenLocY(),
+					btn2.getWidth(), btn2.getHeight());
+			
+			boolean overlap = rect1.intersects(rect2)
+					|| rect2.intersects(rect1);
+			
+			Log.debug("[AS] " + btn1 + " - " + btn2 + " overlaps: " + overlap);
+
+			if (overlap) {
+				btn1.setAbsoluteScreenLoc(btn1.getAbsoluteScreenLocX(), 
+						btn2.getAbsoluteScreenLocY()
+ + btn2.getHeight()
+								+ BUTTON_GAP);
+			}
+		}
+	}
 	/**
 	 * @return if the original screen was bigger so adjusting is needed.
 	 */
