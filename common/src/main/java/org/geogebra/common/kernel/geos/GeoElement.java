@@ -18,6 +18,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
+import com.google.j2objc.annotations.Weak;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -476,6 +478,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public static final int DECORATION_ANGLE_ARROW_CLOCKWISE = 7; 
 
 	/** parent algorithm */
+	@Weak
 	protected AlgoElement algoParent = null;
 	/** draw algorithm */
 	protected AlgoElement algoDraw = null;
