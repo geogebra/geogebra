@@ -1489,7 +1489,8 @@ public class Ggb2giac {
 						+ "normal(regroup(angle(point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg2),ycoord(ggbangarg2),zcoord(ggbangarg2))))), "
 						// syntax Angle[Point, Apex, Angle]
 						// third parameter is angle given in degree
-						+ "when ( (ggbangarg0)[0] == 'pnt' && (ggbangarg1)[0] == 'pnt' && (ggbangarg2)[0] == '*' && (ggbangarg2)[2] == pi && (ggbangarg2)[3] == 1/180 , "
+						+ "when ( (ggbangarg0)[0] == 'pnt' && (ggbangarg1)[0] == 'pnt' && "
+						+ "type(evalf(ggbangarg2)) == DOM_FLOAT , "
 						+ "normal(regroup(rotation(ggbangarg1,ggbangarg2,ggbangarg0))) , "
 						+ "? ) )][1]");
 		// p("Angle.3", "normal(regroup(angle(%1,%0,%2)))");
