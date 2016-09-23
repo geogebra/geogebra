@@ -58,7 +58,6 @@ import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -253,9 +252,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				if (draggedRow != null) {
 					draggedRow.removeClassName("isDragging");
 				}
-				Log.debug(event.getNativeEvent().getScreenX());
-				if (Window.getClientWidth()+event.getNativeEvent().getScreenX() > table.getElement().getAbsoluteRight() ||
-						Window.getClientWidth()+event.getNativeEvent().getScreenX() < table.getElement().getAbsoluteLeft()) {
+
+				if (event.getNativeEvent().getClientX() > table.getElement()
+						.getAbsoluteRight()
+						|| event.getNativeEvent().getClientX() < table
+								.getElement().getAbsoluteLeft()) {
 					return;
 				}
 				handleDrop(event.getNativeEvent().getClientY());
