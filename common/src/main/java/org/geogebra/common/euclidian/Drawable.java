@@ -752,14 +752,4 @@ public abstract class Drawable extends DrawableND {
 	public void updateForView() {
 		update();
 	}
-
-
-
-	/**
-	 * adjust the specific geo if needed
-	 */
-	protected void esureGeoOnScreen() {
-
-	}
-
 }

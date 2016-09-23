@@ -345,10 +345,4 @@ public class DrawSlider extends Drawable {
 		this.initY = -1;
 	}
 
-	@Override
-	protected void esureGeoOnScreen() {
-		view.ensureGeoOnScreen(number);
-	}
-
-
 }

@@ -34,9 +34,6 @@ import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.euclidian.smallscreen.AdjustButton;
-import org.geogebra.common.euclidian.smallscreen.AdjustSlider;
-import org.geogebra.common.euclidian.smallscreen.AdjustWidget;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
@@ -53,7 +50,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GProperty;
-import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
@@ -5703,26 +5699,6 @@ public abstract class EuclidianView
 		return 1;
 	}
 
-	public void ensureGeoOnScreen(GeoElement geo) {
-		if (!app.has(Feature.ADJUST_WIDGETS)) {
-			return;
-		}
-
-		AdjustWidget adjust = null;
-		if (geo.isGeoNumeric()) {
-			GeoNumeric number = (GeoNumeric) geo;
-			if (number.isSlider()) {
-				adjust = new AdjustSlider(number, this);
-			}
-		} else if (geo.isGeoButton()) {
-			adjust = new AdjustButton((GeoButton) geo, this);
-		}
-
-		if (adjust != null) {
-			adjust.apply();
-			update(geo);
-		}
-	}
 
 	public double getXZeroOld() {
 		return xZeroOld;

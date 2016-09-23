@@ -96,10 +96,10 @@ public class AdjustScreen {
 		buttons.clear();
 		inputBoxes.clear();
 
-		Log.debug("[AS] collectSliders()");
+		Log.debug("[AS] collectWidgets()");
 		for (GeoElement geo : kernel.getConstruction().getGeoTable().values()) {
+			boolean ensure = false;
 			if (geo instanceof GeoNumeric) {
-				boolean ensure = false;
 				GeoNumeric num = (GeoNumeric) geo;
 				if (num.isSlider()) {
 					if (num.isSliderHorizontal()) {
@@ -107,20 +107,50 @@ public class AdjustScreen {
 					} else {
 						vSliders.add(num);
 					}
-
-
-					view.ensureGeoOnScreen(num);
-
+					ensure = true;
 				}
 			} else if (geo.isGeoButton()) {
-				GeoButton btn = (GeoButton) geo;
-				buttons.add(btn);
-				view.ensureGeoOnScreen(btn);
+				if (geo.isGeoInputBox()) {
+					GeoInputBox input = (GeoInputBox) geo;
+					inputBoxes.add(input);
+				} else {
+					GeoButton btn = (GeoButton) geo;
+					buttons.add(btn);
+					ensure = true;
+				}
+			}
+
+			if (ensure) {
+				ensureGeoOnScreen(geo);
 			}
 		}
 
 	}
 
+	private void ensureGeoOnScreen(GeoElement geo) {
+		if (!app.has(Feature.ADJUST_WIDGETS)) {
+			return;
+		}
+
+		AdjustWidget adjust = null;
+		if (geo.isGeoNumeric()) {
+			GeoNumeric number = (GeoNumeric) geo;
+			if (number.isSlider()) {
+				adjust = new AdjustSlider(number, view);
+			}
+		} else if (geo.isGeoButton()) {
+			if (geo.isGeoInputBox()) {
+
+			} else {
+				adjust = new AdjustButton((GeoButton) geo, view);
+			}
+		}
+
+		if (adjust != null) {
+			adjust.apply();
+			view.update(geo);
+		}
+	}
 	@SuppressWarnings("unchecked")
 	private void checkOvelappingHSliders() {
 		Collections.sort(hSliders, new HSliderComparator());
@@ -129,14 +159,12 @@ public class AdjustScreen {
 			GeoNumeric num1 = hSliders.get(idx - 1);
 			GeoNumeric num2 = hSliders.get(idx);
 			Log.debug("[AS] :" + num1 + " - " + num2);
-			// double x1 = num1.getSliderX();
-			// double xEnd1 = num1.getSliderX() + num1.getSliderWidth();
+
 			double y1 = num1.getSliderY();
 			double x2 = num2.getSliderX();
-			// double xEnd2 = num2.getSliderX() + num2.getSliderWidth();
 			double y2 = num2.getSliderY();
 			if (y2 - y1 < HSLIDER_OVERLAP_THRESOLD) {
-				Log.debug("[AS] adjusting " + num2 + " to (" + x2 + ", "
+				Log.debug("[AS] HSLIDER adjusting " + num2 + " to (" + x2 + ", "
 						+ (y2 + diff) + ")");
 				num2.setSliderLocation(x2, y2 + diff, true);
 				diff += HSLIDER_OVERLAP_THRESOLD;
@@ -159,7 +187,8 @@ public class AdjustScreen {
 			// double xEnd2 = num2.getSliderX() + num2.getSliderWidth();
 			double y2 = num2.getSliderY();
 			if (x2 - x1 < VSLIDER_OVERLAP_THRESOLD) {
-				Log.debug("[AS] adjusting " + num2 + " to (" + (x2 + diff)
+				Log.debug("[AS] VSLIDER adjusting " + num2 + " to ("
+						+ (x2 + diff)
 						+ ", " + y2 + ")");
 				num2.setSliderLocation(x2 + diff, y2, true);
 				diff += VSLIDER_OVERLAP_THRESOLD;
