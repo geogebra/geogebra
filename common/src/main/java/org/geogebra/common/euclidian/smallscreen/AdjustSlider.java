@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian.smallscreen;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Adjusts slider position on file load
@@ -57,14 +58,17 @@ public class AdjustSlider extends AdjustWidget {
 
 	private boolean isVSliderOnScreen() {
 		if (origY == null) {
+			Log.debug("VSlider " + number.getLabelSimple() + " is ON screen");
 			return true;
 		}
 
 		if (x == origX && origX < view.getWidth() && y == origY
 				&& origY < view.getHeight()
 				&& origWidth == width) {
+			Log.debug("VSlider " + number.getLabelSimple() + " is ON screen");
 			return true;
 		}
+		Log.debug("VSlider " + number.getLabelSimple() + " is OFF screen");
 		return false;
 	}
 

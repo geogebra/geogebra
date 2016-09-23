@@ -131,6 +131,7 @@ public class AdjustScreen {
 		if (!app.has(Feature.ADJUST_WIDGETS)) {
 			return;
 		}
+		Log.debug("[AS]  ensureGeoOnScreen geo: " + geo);
 
 		AdjustWidget adjust = null;
 		if (geo.isGeoNumeric()) {
@@ -154,20 +155,19 @@ public class AdjustScreen {
 	@SuppressWarnings("unchecked")
 	private void checkOvelappingHSliders() {
 		Collections.sort(hSliders, new HSliderComparator());
-		int diff = HSLIDER_OVERLAP_THRESOLD;
-		for (int idx = hSliders.size() - 1; idx > 0; idx--) {
-			GeoNumeric num1 = hSliders.get(idx - 1);
-			GeoNumeric num2 = hSliders.get(idx);
-			Log.debug("[AS] :" + num1 + " - " + num2);
+		for (int idx = 0; idx < hSliders.size() - 1; idx++) {
+			GeoNumeric slider1 = hSliders.get(idx);
+			GeoNumeric slider2 = hSliders.get(idx + 1);
+			Log.debug("[AS] :" + slider1 + " - " + slider2);
 
-			double y1 = num1.getSliderY();
-			double x2 = num2.getSliderX();
-			double y2 = num2.getSliderY();
+			double y1 = slider1.getSliderY();
+			double x2 = slider2.getSliderX();
+			double y2 = slider2.getSliderY();
 			if (y2 - y1 < HSLIDER_OVERLAP_THRESOLD) {
-				Log.debug("[AS] HSLIDER adjusting " + num2 + " to (" + x2 + ", "
-						+ (y2 + diff) + ")");
-				num2.setSliderLocation(x2, y2 + diff, true);
-				diff += HSLIDER_OVERLAP_THRESOLD;
+				Log.debug("[AS] HSLIDER adjusting " + slider2 + " to (" + x2
+						+ ", " + (y1 + HSLIDER_OVERLAP_THRESOLD) + ")");
+				slider2.setSliderLocation(x2, y1 + HSLIDER_OVERLAP_THRESOLD,
+						true);
 			}
 		}
 	}
@@ -176,22 +176,17 @@ public class AdjustScreen {
 	private void checkOvelappingVSliders() {
 		Collections.sort(vSliders, new VSliderComparator());
 		int diff = VSLIDER_OVERLAP_THRESOLD;
-		for (int idx = vSliders.size() - 1; idx > 0; idx--) {
-			GeoNumeric num1 = vSliders.get(idx - 1);
-			GeoNumeric num2 = vSliders.get(idx);
-			Log.debug("[AS] :" + num1 + " - " + num2);
-			double x1 = num1.getSliderX();
-			// double xEnd1 = num1.getSliderX() + num1.getSliderWidth();
-			double y1 = num1.getSliderY();
-			double x2 = num2.getSliderX();
-			// double xEnd2 = num2.getSliderX() + num2.getSliderWidth();
-			double y2 = num2.getSliderY();
+		for (int idx = 0; idx < vSliders.size() - 1; idx++) {
+			GeoNumeric slider1 = vSliders.get(idx);
+			GeoNumeric slider2 = vSliders.get(idx + 1);
+			Log.debug("[AS] VSIDER:" + slider1 + " - " + slider2);
+			double x1 = slider1.getSliderX();
+			double y1 = slider1.getSliderY();
+			double x2 = slider2.getSliderX();
+			double y2 = slider2.getSliderY();
 			if (x2 - x1 < VSLIDER_OVERLAP_THRESOLD) {
-				Log.debug("[AS] VSLIDER adjusting " + num2 + " to ("
-						+ (x2 + diff)
-						+ ", " + y2 + ")");
-				num2.setSliderLocation(x2 + diff, y2, true);
-				diff += VSLIDER_OVERLAP_THRESOLD;
+				slider2.setSliderLocation(x1 + VSLIDER_OVERLAP_THRESOLD, y2,
+						true);
 			}
 		}
 	}
