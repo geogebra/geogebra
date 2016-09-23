@@ -222,8 +222,8 @@ public class CASInputHandler {
 				// sb.append("]");
 				if (!cellValue.getInput(StringTemplate.defaultTemplate).equals(
 						sb.toString())) {
-					cellValue.setInput(sb.toString());
 					cellValue.setNSolveCmdNeeded(true);
+					cellValue.setInput(sb.toString());
 					selRowInput = sb.toString();
 					evalText = sb.toString();
 				}
@@ -388,9 +388,19 @@ public class CASInputHandler {
 		StringBuilder sb = new StringBuilder();
 		// sb.append("NSolve[");
 		sb.append(cellValue.getInput(StringTemplate.defaultTemplate));
-		ExpressionValue expandValidExp = (kernel.getGeoGebraCAS())
+
+		ExpressionValue expandValidExp = null;
+		// case input is a cell
+		if (evalText.charAt(0) == (GeoCasCell.ROW_REFERENCE_DYNAMIC)) {
+			int row = Integer.parseInt(evalText.substring(1, 2));
+			GeoCasCell geoCasCell = consoleTable
+					.getGeoCasCell(row - 1);
+			expandValidExp = geoCasCell.getInputVE();
+		} else {
+			expandValidExp = (kernel.getGeoGebraCAS())
 				.getCASparser().parseGeoGebraCASInput(evalText, null)
 				.traverse(FunctionExpander.getCollector());
+		}
 
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		try {
@@ -483,7 +493,7 @@ public class CASInputHandler {
 				}
 				vars.clear();
 			} else {
-				cellValue.setNSolveCmdNeeded(false);
+				cellValue.setNSolveCmdNeeded(true);
 			}
 		} catch (Throwable e) {
 			// TODO Auto-generated catch block

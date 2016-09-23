@@ -582,7 +582,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			this.commentText.setTextString(inNotNull);
 		} else { // parse input into valid expression
 			suppressOutput = inNotNull.endsWith(";");
-			setInputVE(parseGeoGebraCASInputAndResolveDummyVars(inNotNull));
+			// with nSolve command do not update inputVE
+			// only the input string
+			if (!nSolveCmdNeeded) {
+				setInputVE(parseGeoGebraCASInputAndResolveDummyVars(inNotNull));
+			}
 		}
 		latexInput = null;
 		input = inNotNull; // remember exact user input
@@ -2092,12 +2096,25 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					}
 				}
 
-				if (!expandedEvalVE.isTopLevelCommand("Delete")) {
+				if (!expandedEvalVE.isTopLevelCommand("Delete")
+						&& !this.getNSolveCmdNeeded()) {
 					FunctionExpander fex = FunctionExpander.getCollector();
 					expandedEvalVE = (ValidExpression) expandedEvalVE.wrap().getCopy(kernel).traverse(fex);
 					expandedEvalVE = processSolveCommand(expandedEvalVE);
 					// needed for GGB-955
 					expandedEvalVE = processSolutionCommand(expandedEvalVE);
+				}
+
+				// make work NSolve with cell input
+				if (expandedEvalVE.getTopLevelCommand().getName()
+						.equals("NSolve")
+						&& ((Command) ((ExpressionNode) expandedEvalVE)
+								.getLeft()).getArgument(0)
+										.getLeft() instanceof GeoCasCell) {
+					ExpressionNode inputVEofGeoCasCell = (ExpressionNode) ((GeoCasCell) ((Command) ((ExpressionNode) expandedEvalVE)
+							.getLeft()).getArgument(0).getLeft()).getInputVE();
+					((Command) ((ExpressionNode) expandedEvalVE).getLeft())
+							.setArgument(0, inputVEofGeoCasCell);
 				}
 
 				// hack needed for GGB-494
