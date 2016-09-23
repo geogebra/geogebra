@@ -111,13 +111,14 @@ public class AdjustScreen {
 				}
 			} else if (geo.isGeoButton()) {
 				if (geo.isGeoInputBox()) {
+					Log.debug("[AS] collecting inputbox: " + geo);
 					GeoInputBox input = (GeoInputBox) geo;
 					inputBoxes.add(input);
 				} else {
 					GeoButton btn = (GeoButton) geo;
 					buttons.add(btn);
-					ensure = true;
 				}
+				ensure = true;
 			}
 
 			if (ensure) {
@@ -141,7 +142,7 @@ public class AdjustScreen {
 			}
 		} else if (geo.isGeoButton()) {
 			if (geo.isGeoInputBox()) {
-
+				adjust = new AdjustInputBox((GeoInputBox) geo, view);
 			} else {
 				adjust = new AdjustButton((GeoButton) geo, view);
 			}

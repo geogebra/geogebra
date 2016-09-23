@@ -309,6 +309,22 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		box.setBounds(labelRectangle);
 	}
 
+	public GDimension getTotalSize() {
+		measureLabel(view.getGraphicsForPen(), geoInputBox, labelDesc);
+		return new GDimension() {
+
+			@Override
+			public int getWidth() {
+				return labelSize.x + getPreferredSize().getWidth();
+			}
+
+			@Override
+			public int getHeight() {
+				return labelSize.y + getPreferredSize().getHeight();
+			}
+		};
+	}
+
 	@Override
 	public GDimension getPreferredSize() {
 		// TODO: eliminate magic numbers
