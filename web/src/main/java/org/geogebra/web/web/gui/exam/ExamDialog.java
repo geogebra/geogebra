@@ -127,6 +127,10 @@ public class ExamDialog {
 						Label description = new Label("Graphing Calc");
 						mainWidget.add(description);
 					} else {
+						// set algebra view in background of start dialog
+						// for tablet Exam Simple Calc
+						// needed for GGB-1176
+						app.getGgbApi().setPerspective("A");
 						Label description = new Label("Simple Calc");
 						mainWidget.add(description);
 					}
