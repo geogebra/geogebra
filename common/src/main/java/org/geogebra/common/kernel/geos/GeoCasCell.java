@@ -2106,7 +2106,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				}
 
 				// make work NSolve with cell input
-				if (expandedEvalVE.getTopLevelCommand().getName()
+				if (expandedEvalVE.isExpressionNode()
+						&& ((ExpressionNode) expandedEvalVE)
+								.getLeft() instanceof Command
+						&& expandedEvalVE.getTopLevelCommand().getName()
 						.equals("NSolve")
 						&& ((Command) ((ExpressionNode) expandedEvalVE)
 								.getLeft()).getArgument(0)
