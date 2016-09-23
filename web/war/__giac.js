@@ -1951,7 +1951,7 @@ var __giac = [ {},
 { cat:"NSolve", cmd:"NSolve[ {2.5=a*b^-5,8.4=a*b^7},{a=1,b=1}]", result:"{a = 4.142361921917, b = 1.106271200184}", round:"{a = 4.14, b = 1.11}", notes:"" },
 { cat:"NSolve", cmd:"NSolve[{2.5b^5=a,8.4=a*b^7}]", result:"{a = 4.142361921917, b = 1.106271200184}", round:"{a = 4.14, b = 1.11}", notes:"" },
 { cat:"Evaluate", cmd:"Evaluate[ln(0)]", result:"-\u221E", notes:"" },
-{ cat:"Angle", cmd:"Angle[(1,0), (0, 0), 30deg]", result:"", notes:"GGB-1222" },
+{ cat:"Angle", cmd:"Angle[(1,0), (0, 0), 30deg]", result:"(sqrt(3) / 2, 1 / 2)", notes:"GGB-1222" },
 // JSONEND
 //{ cat:"Angle", cmd:"Angle[(1,0), (0, 0), pi/6]", result:"", notes:"GGB-1222" },
 // 
