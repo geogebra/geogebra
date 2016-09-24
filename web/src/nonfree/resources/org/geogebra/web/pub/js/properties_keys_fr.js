@@ -2935,7 +2935,7 @@ __GGB__keysVar.fr.menu = {
     "eps": "Postscript encapsul\xe9",
     "equal": "\xe9gaux",
     "exam_custom_description": "Autoriser pour Examen.",
-    "exam_custom_header": "GeoGebraExamen",
+    "exam_custom_header": "GeoGebra Examen",
     "exam_end_time": "Fin Examen",
     "exam_ended": "Terminer Examen",
     "exam_exit_confirmation": "Vraiment ?",
