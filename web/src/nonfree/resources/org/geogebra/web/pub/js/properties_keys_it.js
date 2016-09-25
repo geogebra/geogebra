@@ -2935,7 +2935,7 @@ __GGB__keysVar.it.menu = {
     "eps": "Encapsulated Postscript",
     "equal": "uguale",
     "exam_custom_description": "Decidere se le seguenti Viste di GeoGebra devono essere disponibili in modalit\xe0 Esame.",
-    "exam_custom_header": "Modalit\xe0 GeoGebra Esame",
+    "exam_custom_header": "GeoGebra Esame",
     "exam_end_time": "Orario di fine Esame",
     "exam_ended": "Modalit\xe0 Esame terminata",
     "exam_exit_confirmation": "Uscire da GeoGebra Esame?",
