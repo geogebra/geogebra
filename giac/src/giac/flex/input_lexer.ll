@@ -313,7 +313,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "_"                     opened_quote(yyextra) |= 2; return T_UNIT;
 "'"                     if (opened_quote(yyextra) & 1) { opened_quote(yyextra) &= 0x7ffffffe; return T_QUOTE; } if (index_status(yyextra) && !in_rpn(yyextra) && xcas_mode(yyextra)!= 1) return T_PRIME; opened_quote(yyextra) |= 1; return T_QUOTE;
 ";"			index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return TI_SEMI; (*yylval)=0; return T_SEMI;
-";;"			index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return TI_SEMI; (*yylval)=0; return T_SEMI;
+  /* commented otherwise for(;;) will not work ";;"			index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return TI_SEMI; (*yylval)=0; return T_SEMI; */
 "§"                  index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return T_SEMI; return TI_SEMI;
 ":"			if (spread_formula(yyextra)) return T_DEUXPOINTS; if ( xcas_mode(yyextra)==3 ) { index_status(yyextra)=0; return TI_DEUXPOINTS; }  index_status(yyextra)=0; if (xcas_mode(yyextra)>0) { (*yylval)=1; return T_SEMI; } else return T_DEUXPOINTS;
 ":;"                    index_status(yyextra)=0; (*yylval)=1; return T_SEMI;
@@ -380,7 +380,9 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "<"                     index_status(yyextra)=0; (*yylval)=gen(at_inferieur_strict,2);  return T_TEST_EQUAL;
 ">"                     index_status(yyextra)=0; (*yylval)=gen(at_superieur_strict,2); return T_TEST_EQUAL;
 "&lt;"                     index_status(yyextra)=0; (*yylval)=gen(at_inferieur_strict,2);  return T_TEST_EQUAL;
+"&lt;="                     index_status(yyextra)=0; (*yylval)=gen(at_inferieur_egal,2);  return T_TEST_EQUAL;
 "&gt;"                     index_status(yyextra)=0; (*yylval)=gen(at_superieur_strict,2); return T_TEST_EQUAL;
+"&gt;="                     index_status(yyextra)=0; (*yylval)=gen(at_superieur_egal,2); return T_TEST_EQUAL;
 ","                     index_status(yyextra)=0; return T_VIRGULE;
 ",,"                     index_status(yyextra)=0; return T_VIRGULE;
 "("                     index_status(yyextra)=0; *yylval = 0; return T_BEGIN_PAR;
@@ -449,6 +451,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "→"                    index_status(yyextra)=0; if (xcas_mode(yyextra)==3){ (*yylval)=gen(at_sto,2); return TI_STO; } else return T_MAPSTO;
 "=>"                    index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 "=<"                    index_status(yyextra)=0; (*yylval)=gen(at_array_sto,2); return T_AFFECT;
+"=&lt;"                  index_status(yyextra)=0; (*yylval)=gen(at_array_sto,2); return T_AFFECT;
 "@"{D}+                   index_status(yyextra)=1; yytext[0]='0'; (*yylval) = symb_double_deux_points(makevecteur(_IDNT_id_at,chartab2gen(yytext,yyextra))); return T_SYMBOL;
 "@"                     if (xcas_mode(yyextra)!=3) {index_status(yyextra)=0; (*yylval)=gen(at_compose,2); return T_COMPOSE; } BEGIN(comment_hash);
 "@@"                     index_status(yyextra)=0; (*yylval)=gen(at_composepow,2); return T_POW;

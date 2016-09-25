@@ -6342,6 +6342,13 @@ namespace giac {
 	return true;
       }
     }
+    if (divide_an_by.type==_EXT){
+      gen an;
+      if (!ext_factor(p_primit,divide_an_by,an,p_content,f,complexmode,extra_div))
+	return false;
+      p_content=an*p_content;
+      return true;
+    }
     vector< monomial<gen> >::const_iterator ckalg_it=p.coord.begin(),ckalg_itend=p.coord.end();
     for (; ckalg_it!=ckalg_itend;++ckalg_it){
       if (p.dim>1 && (ckalg_it->value.type==_DOUBLE_ || 

@@ -5804,7 +5804,7 @@ namespace giac {
 	  for (bt=B._VECTptr->begin();bt!=bend;++bt){
 	    if (at->type==_VECT && at->subtype==_TUPLE__VECT){
 	      if (bt->type==_VECT && bt->subtype==_TUPLE__VECT){
-		res.push_back(gen(mergevecteur(*at->_VECTptr,*bt->_VECTptr),_SEQ__VECT));
+		res.push_back(gen(mergevecteur(*at->_VECTptr,*bt->_VECTptr),_TUPLE__VECT));
 	      }
 	      else {
 		vecteur tmp(*at->_VECTptr);

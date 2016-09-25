@@ -220,7 +220,7 @@ exp	: T_NUMBER		{$$ = $1;}
          const giac::context * contextptr = giac_yyget_extra(scanner);
          gen g=symbolic(at_of,gen(makevecteur($3,$6) ,_SEQ__VECT)); $$=symb_sto($1,g); 
         }
-	| exp TI_STO symbol { if ($3.type==_IDNT && unit_conversion_map().find($3.print(context0).c_str()+1) != unit_conversion_map().end()) $$=symbolic(at_convert,gen(makevecteur($1,symbolic(at_unit,makevecteur(1,$3))) ,_SEQ__VECT)); else $$=symb_sto($1,$3); }
+	| exp TI_STO symbol { if ($3.type==_IDNT){ const char * ch=$3.print(context0).c_str(); if (ch[0]=='_' && unit_conversion_map().find(ch+1) != unit_conversion_map().end()) $$=symbolic(at_convert,gen(makevecteur($1,symbolic(at_unit,makevecteur(1,$3))) ,_SEQ__VECT)); } else $$=symb_sto($1,$3); }
 	| exp TI_STO T_UNARY_OP { $$=symbolic(at_convert,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| exp TI_STO T_PLUS { $$=symbolic(at_convert,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| exp TI_STO T_FOIS { $$=symbolic(at_convert,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
@@ -255,6 +255,8 @@ exp	: T_NUMBER		{$$ = $1;}
 	| exp T_POW exp		{if ($1==symbolic(at_exp,1) && $2==at_pow) $$=symbolic(at_exp,$3); else $$ =symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}
 	| exp T_MOD exp		{if ($2.type==_FUNC) $$=symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT)); else $$ = symbolic(at_normalmod,gen(makevecteur($1,$3),_SEQ__VECT));}
 	| exp T_INTERVAL exp	{$$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
+	| exp T_INTERVAL	{$$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,RAND_MAX) ,_SEQ__VECT)); }
+	| T_INTERVAL exp	{$$ = symbolic(*$1._FUNCptr,gen(makevecteur(0,$2) ,_SEQ__VECT)); }
 	/* | exp T_PLUS T_PLUS		{$$ = symb_sto($1+1,$1);} */
 	/* | exp T_MOINS T_MOINS	{$$ = symb_sto($1-1,$1);} */
 	| exp T_AND_OP exp	{$$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}

@@ -5490,8 +5490,12 @@ unsigned int ConvertUTF8toUTF16 (
     delete normal_cos_pi_12_ptr_();
 #endif
 #ifndef STATIC_BUILTIN_LEXER_FUNCTIONS
+    if (debug_infolevel)
+      CERR << "releasing " << builtin_lexer_functions_number << " functions" << endl;
     for (int i=0;i<builtin_lexer_functions_number;++i){
 #ifdef SMARTPTR64
+      if (debug_infolevel)
+	CERR << builtin_lexer_functions_begin()[i].first << endl; 
       delete (ref_unary_function_ptr *) (* ((longlong * ) &builtin_lexer_functions_begin()[i].second) >> 16);
 #endif
     }

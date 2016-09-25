@@ -2351,8 +2351,16 @@ namespace giac {
     vabs2=lvar(e);
     vabs.clear();
     for (unsigned int i=0;i<vabs2.size();++i){
-      if (vabs2[i].is_symb_of_sommet(at_abs) || vabs2[i].is_symb_of_sommet(at_pow) || vabs2[i].is_symb_of_sommet(at_integrate))
+      if (vabs2[i].is_symb_of_sommet(at_abs) || vabs2[i].is_symb_of_sommet(at_pow) || vabs2[i].is_symb_of_sommet(at_integrate)){
 	vabs.push_back(vabs2[i]);
+	continue;
+      }
+      if (vabs2[i].is_symb_of_sommet(at_exp)){
+	// detect sin/cos/tan/exp/ inside an exp
+	gen tmp=_lin(_trig2exp(lvar(vabs2[i]._SYMBptr->feuille),contextptr),contextptr);
+	if (!lop(tmp,at_exp).empty())
+	  vabs.push_back(vabs2[i]);
+      }
     }
     if (!vabs.empty() && debug_infolevel)
       *logptr(contextptr) << gettext("simplify preserving ") << vabs << endl;

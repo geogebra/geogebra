@@ -4570,6 +4570,11 @@ namespace giac {
     if (v.size()==1)
       v=gen2vecteur(eval(g,contextptr));
     if (v.size()<4){
+      if (type==0 && v.size()==3 && v[2].type==_VECT){
+	// for example seq(2^k,k,[1,2,5])
+	gen f=_unapply(makesequence(v[0],v[1]),contextptr);
+	return _map(makesequence(v[2],f),contextptr);
+      }
       if (v.size()==3 && v[1].is_symb_of_sommet(at_equal) && v[1]._SYMBptr->feuille[1].is_symb_of_sommet(at_interval)){
 	gen f=v[1]._SYMBptr->feuille;
 	gen v1=f[0];

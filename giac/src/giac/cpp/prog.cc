@@ -5718,7 +5718,7 @@ namespace giac {
       f=at_inferieur_strict_sort;
       subtype=args.subtype;
     }
-    if (!v.empty() && f==at_inferieur_strict){
+    if (!v.empty() && (f==at_inferieur_strict || f==at_inferieur_strict_sort)){
       // check integer or double vector
       if (v.front().type==_INT_ && is_integer_vecteur(v)){
 	// find min/max
@@ -5740,7 +5740,7 @@ namespace giac {
 	}
 	sort(w.begin(),w.end());
 	vector_int2vecteur(w,v);
-	return v;
+	return gen(v,subtype);
       }
       vector<giac_double> V;
       if (v.front().type==_DOUBLE_ && is_fully_numeric(v) && convert(v,V,true)){
@@ -5985,6 +5985,8 @@ namespace giac {
       return gensizeerr(contextptr);
     gen f=v[1];
     gen g=v.front();
+    if (g.type==_VECT && v[1].type==_VECT)
+      return gen(*g._VECTptr,v[1].subtype);
     if (f.is_symb_of_sommet(at_unit)){
       if (f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2)
 	f=symbolic(at_unit,makesequence(1,f._SYMBptr->feuille._VECTptr->back()));
