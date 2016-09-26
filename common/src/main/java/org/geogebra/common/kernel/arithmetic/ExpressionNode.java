@@ -2926,9 +2926,7 @@ kernel, left,
 		case GAMMA:
 			switch (stringType) {
 			case LATEX:
-				wrapInBackslashOperatorname(sb, "Gamma", tpl);
-
-				sb.append(" \\left( ");
+				sb.append(" \\Gamma \\left( ");
 				break;
 			case LIBRE_OFFICE:
 				sb.append("%GAMMA left (");
@@ -2947,9 +2945,7 @@ kernel, left,
 		case GAMMA_INCOMPLETE:
 			switch (stringType) {
 			case LATEX:
-				wrapInBackslashOperatorname(sb, "gamma", tpl);
-
-				sb.append(" \\left( ");
+				sb.append(" \\gamma \\left( ");
 				break;
 			case LIBRE_OFFICE:
 				sb.append("%GAMMA left (");
