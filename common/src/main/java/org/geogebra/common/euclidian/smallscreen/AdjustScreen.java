@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -87,6 +89,7 @@ public class AdjustScreen {
 		checkOvelappingHSliders();
 		checkOvelappingVSliders();
 		checkOvelappingButtons();
+		checkOvelappingInputs();
 
 	}
 
@@ -215,9 +218,47 @@ public class AdjustScreen {
 				btn2.setAbsoluteScreenLoc(btn2.getAbsoluteScreenLocX(),
 						btn1.getAbsoluteScreenLocY() + btn1.getHeight()
 								+ BUTTON_GAP);
+
 			}
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	private void checkOvelappingInputs() {
+		Collections.sort(inputBoxes, new ButtonComparator());
+		Log.debug("[AS] inputs:");
+		for (int idx = 0; idx < inputBoxes.size() - 1; idx++) {
+			GeoInputBox input1 = inputBoxes.get(idx);
+			GeoInputBox input2 = inputBoxes.get(idx + 1);
+			DrawInputBox d1 = (DrawInputBox) view.getDrawableFor(input1);
+			DrawInputBox d2 = (DrawInputBox) view.getDrawableFor(input2);
+			GDimension t1 = d1.getTotalSize();
+			GDimension t2 = d2.getTotalSize();
+
+			GRectangle rect1 = AwtFactory.prototype.newRectangle(
+					input1.getAbsoluteScreenLocX(), input1.getAbsoluteScreenLocY(),
+ t1.getWidth(),
+					t1.getHeight());
+			GRectangle rect2 = AwtFactory.prototype.newRectangle(
+					input2.getAbsoluteScreenLocX(), input2.getAbsoluteScreenLocY(),
+ t2.getWidth(),
+					t2.getHeight());
+
+			boolean overlap = rect1.intersects(rect2)
+					|| rect2.intersects(rect1);
+
+			Log.debug("[AS] " + input1 + " - " + input2 + " overlaps: " + overlap);
+
+			if (overlap) {
+				input2.setAbsoluteScreenLoc(input2.getAbsoluteScreenLocX(),
+						input1.getAbsoluteScreenLocY() + t1.getHeight()
+								+ BUTTON_GAP);
+				input2.update();
+			}
+		}
+
+	}
+
 	/**
 	 * @return if the original screen was bigger so adjusting is needed.
 	 */
