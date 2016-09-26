@@ -172,6 +172,7 @@ public class AdjustScreen {
 						+ ", " + (y1 + HSLIDER_OVERLAP_THRESOLD) + ")");
 				slider2.setSliderLocation(x2, y1 + HSLIDER_OVERLAP_THRESOLD,
 						true);
+				slider2.update();
 			}
 		}
 	}
@@ -179,7 +180,6 @@ public class AdjustScreen {
 	@SuppressWarnings("unchecked")
 	private void checkOvelappingVSliders() {
 		Collections.sort(vSliders, new VSliderComparator());
-		int diff = VSLIDER_OVERLAP_THRESOLD;
 		for (int idx = 0; idx < vSliders.size() - 1; idx++) {
 			GeoNumeric slider1 = vSliders.get(idx);
 			GeoNumeric slider2 = vSliders.get(idx + 1);
@@ -191,6 +191,7 @@ public class AdjustScreen {
 			if (x2 - x1 < VSLIDER_OVERLAP_THRESOLD) {
 				slider2.setSliderLocation(x1 + VSLIDER_OVERLAP_THRESOLD, y2,
 						true);
+				slider2.update();
 			}
 		}
 	}
@@ -219,6 +220,7 @@ public class AdjustScreen {
 						btn1.getAbsoluteScreenLocY() + btn1.getHeight()
 								+ BUTTON_GAP);
 
+				btn2.update();
 			}
 		}
 	}
