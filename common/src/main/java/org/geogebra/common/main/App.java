@@ -2956,8 +2956,15 @@ public abstract class App implements UpdateSelection {
 		sb.append("<!DOCTYPE html>\n");
 		sb.append("<html>\n");
 		sb.append("<head>\n");
-		sb.append(
-				"<script src=\"https://www.geogebra.org/scripts/deployggb.js\"></script>\n\n");
+		if (has(Feature.TUBE_BETA)) {
+			sb.append(
+					"<script src=\"https://beta.geogebra.org/scripts/deployggb.js\"></script>\n\n");
+
+		} else {
+			sb.append(
+					"<script src=\"https://www.geogebra.org/scripts/deployggb.js\"></script>\n\n");
+
+		}
 		sb.append("</head>\n");
 		sb.append("<body>\n");
 
@@ -2991,6 +2998,7 @@ public abstract class App implements UpdateSelection {
 		sb.append("\"preventFocus\":false,\n");
 		sb.append("\"scale\":1,\n");
 		sb.append("\"disableAutoScale\":false,\n");
+		sb.append("\"clickToLoad\":false,\n");
 
 		sb.append("\"language\":\"" + getLocalization().getLanguage() + "\",\n");
 
