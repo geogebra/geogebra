@@ -3441,7 +3441,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public void addFocusToApp() {
 
-		if (!GlobalKeyDispatcherW.isHandlingTab) {
+		if (!GlobalKeyDispatcherW.getIsHandlingTab()) {
 			return;
 		}
 

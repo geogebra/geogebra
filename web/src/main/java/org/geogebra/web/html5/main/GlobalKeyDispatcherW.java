@@ -60,7 +60,7 @@ public class GlobalKeyDispatcherW extends
 	 */
 	private boolean inFocus = false;
 
-	public static boolean isHandlingTab;
+	private static boolean isHandlingTab;
 
 	/**
 	 * @param app
@@ -132,6 +132,10 @@ public class GlobalKeyDispatcherW extends
 			}
 
 		});
+	}
+
+	public static boolean getIsHandlingTab() {
+		return isHandlingTab;
 	}
 
 	public Element getChildElementByStyleName(Element parent,
