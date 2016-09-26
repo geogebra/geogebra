@@ -2137,7 +2137,10 @@ kernel, left,
 			} else {
 				switch (stringType) {
 				case LATEX:
-					sb.append("atan2 \\left( ");
+
+					wrapInBackslashOperatorname(sb, "atan2", tpl);
+
+					sb.append(" \\left( ");
 					break;
 				case LIBRE_OFFICE:
 					sb.append("func atan2 left( ");
@@ -2208,7 +2211,10 @@ kernel, left,
 		case ZETA:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\zeta\\left( ");
+
+				wrapInBackslashOperatorname(sb, "zeta", tpl);
+
+				sb.append(" \\left( ");
 				break;
 
 			case LIBRE_OFFICE:
@@ -2226,7 +2232,10 @@ kernel, left,
 		case CI:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\Ci \\left( ");
+
+				wrapInBackslashOperatorname(sb, "Ci", tpl);
+
+				sb.append(" \\left( ");
 				break;
 
 			case LIBRE_OFFICE:
@@ -2245,7 +2254,10 @@ kernel, left,
 		case SI:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\Si \\left( ");
+
+				wrapInBackslashOperatorname(sb, "Si", tpl);
+
+				sb.append(" \\left( ");
 				break;
 
 			case LIBRE_OFFICE:
@@ -2265,7 +2277,10 @@ kernel, left,
 		case EI:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\Ei \\left( ");
+
+				wrapInBackslashOperatorname(sb, "Ei", tpl);
+
+				sb.append(" \\left( ");
 				break;
 			case LIBRE_OFFICE:
 				sb.append("func Ei left (");
@@ -2459,7 +2474,9 @@ kernel, left,
 		case ERF:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\erf");
+
+				wrapInBackslashOperatorname(sb, "erf", tpl);
+
 				sb.append(tpl.leftBracket());
 				sb.append(leftStr);
 				sb.append(tpl.rightBracket());
@@ -2710,7 +2727,8 @@ kernel, left,
 		case SGN:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\sgn");
+				wrapInBackslashOperatorname(sb, "sgn", tpl);
+
 				break;
 
 			case GIAC:
@@ -2885,7 +2903,10 @@ kernel, left,
 		case ROUND:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\round \\left( ");
+
+				wrapInBackslashOperatorname(sb, "round", tpl);
+
+				sb.append(" \\left( ");
 				break;
 
 			case LIBRE_OFFICE:
@@ -2905,7 +2926,9 @@ kernel, left,
 		case GAMMA:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\Gamma \\left( ");
+				wrapInBackslashOperatorname(sb, "Gamma", tpl);
+
+				sb.append(" \\left( ");
 				break;
 			case LIBRE_OFFICE:
 				sb.append("%GAMMA left (");
@@ -2924,7 +2947,9 @@ kernel, left,
 		case GAMMA_INCOMPLETE:
 			switch (stringType) {
 			case LATEX:
-				sb.append("\\gamma \\left( ");
+				wrapInBackslashOperatorname(sb, "gamma", tpl);
+
+				sb.append(" \\left( ");
 				break;
 			case LIBRE_OFFICE:
 				sb.append("%GAMMA left (");
@@ -2948,7 +2973,9 @@ kernel, left,
 		case GAMMA_INCOMPLETE_REGULARIZED:
 			switch (stringType) {
 			case LATEX:
-				sb.append("P \\left( ");
+				wrapInBackslashOperatorname(sb, "P", tpl);
+
+				sb.append(" \\left( ");
 				break;
 
 			case LIBRE_OFFICE:
@@ -3027,7 +3054,10 @@ kernel, left,
 		case BETA_INCOMPLETE_REGULARIZED:
 			switch (stringType) {
 			case LATEX:
-				sb.append("I \\left( ");
+
+				wrapInBackslashOperatorname(sb, "I", tpl);
+
+				sb.append(" \\left( ");
 				break;
 
 			case LIBRE_OFFICE:
@@ -3633,6 +3663,18 @@ kernel, left,
 			sb.append("unhandled operation " + operation);
 		}
 		return sb.toString();
+	}
+
+	private static void wrapInBackslashOperatorname(StringBuilder sb,
+			String cmd, StringTemplate tpl) {
+		if (!tpl.isMathQuill()) {
+			sb.append("\\operatorname{");
+			sb.append(cmd);
+			sb.append("}");
+		} else {
+			sb.append("\\");
+			sb.append(cmd);
+		}
 	}
 
 	private static void appendFunctionNVar(StringBuilder sb,
