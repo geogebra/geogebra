@@ -161,7 +161,7 @@ public class SymbolTablePopupD {
 
 	public void showPopup(boolean locateAtFieldEnd) {
 
-		symbolTable.updateFonts();
+		getSymbolTable().updateFonts();
 		if (locale != app.getLocale()) {
 			locale = app.getLocale();
 			setLabels();
@@ -185,6 +185,13 @@ public class SymbolTablePopupD {
 						textField.getY() + textField.getHeight());
 			}
 		}
+	}
+
+	private SelectionTableD getSymbolTable() {
+		if (symbolTable == null) {
+			createSymbolTable();
+		}
+		return symbolTable;
 	}
 
 	private boolean isPopupVisible() {
