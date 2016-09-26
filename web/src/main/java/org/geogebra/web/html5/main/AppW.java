@@ -125,7 +125,6 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.gui.exam.ExamDialog;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -3441,6 +3440,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public void addFocusToApp() {
+
+		if (!GlobalKeyDispatcherW.isHandlingTab) {
+			return;
+		}
+
 		// add focus to AV if visible
 		AlgebraView av = getAlgebraView();
 		boolean visible = (av == null) ? false : av.isShowing();
