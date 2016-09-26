@@ -110,7 +110,8 @@ public abstract class DrawEquation {
 		initJLM.append("\\newcommand{\\dollar}[0]{\\$} ");
 
 		// #4068 so that we can use \questeq in Java and HTML5
-		initJLM.append("\\newcommand{\\questeq}[0]{ \\stackrel{ \\small ?}{=} } ");
+		// initJLM.append("\\newcommand{\\questeq}[0]{ \\stackrel{ \\small ?}{=}
+		// } ");
 		initJLM.append("\\newcommand{\\pcdot}{\\space} ");
 
 		HashMap<String, GColor> ggbCols = GeoGebraColorConstants
