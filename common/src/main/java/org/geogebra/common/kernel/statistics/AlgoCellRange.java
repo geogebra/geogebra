@@ -60,7 +60,6 @@ public class AlgoCellRange extends AlgoElement {
 		this.startCell = startCell;
 		this.endCell = endCell;
 		setInputOutput();
-		Log.printStacktrace(cons.isSuppressLabelsActive());
 		geoList.setLabel(label);
 	}
 
