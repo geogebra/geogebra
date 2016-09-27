@@ -7,6 +7,14 @@ public class FocusListener {
 
 	private Object listenerClass;
 
+	public FocusListener() {
+		this(null);
+	}
+
+	public FocusListener(Object listener) {
+		listenerClass = listener;
+	}
+
 	protected void wrapFocusGained(GFocusEvent event) {
 		if (listenerClass instanceof DrawInputBox.InputFieldListener) {
 			((DrawInputBox.InputFieldListener) listenerClass)
