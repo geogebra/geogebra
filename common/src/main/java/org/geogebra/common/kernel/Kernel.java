@@ -1021,8 +1021,17 @@ public class Kernel {
 				tpl);
 
 		if (!implicit) {
-			sbBuildImplicitEquation.append(" + ");
-			sbBuildImplicitEquation.append(format(temp[vars.length], tpl));
+			String sign;
+			double abs;
+			if (temp[vars.length] < 0.0) {
+				sign = " - ";
+				abs = -temp[vars.length];
+			} else {
+				sign = " + ";
+				abs = temp[vars.length];
+			}
+			sbBuildImplicitEquation.append(sign);
+			sbBuildImplicitEquation.append(format(abs, tpl));
 		}
 
 		sbBuildImplicitEquation.append(' ');
