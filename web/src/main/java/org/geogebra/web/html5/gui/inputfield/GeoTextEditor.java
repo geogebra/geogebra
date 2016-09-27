@@ -238,11 +238,23 @@ public class GeoTextEditor extends RichTextArea {
 			if (c.getChildCount() > 0) {
 				sb.append(getUnformattedContent(c));
 			} else {
+				if (c instanceof Element) {
+					Element el = (Element) c;
+					if (((Element) c).getClassName()
+							.contains(GeoTextEditor.DYNAMIC_TEXT_CLASS)) {
+						sb.append(el.getString());
+						continue;
+					}
+				}
 				String nodeValue = c.getNodeValue();
 				if (nodeValue != null) {
-					sb.append("<div>");
-					sb.append(nodeValue);
-					sb.append("</div>");
+					if (c.getNodeType() == Node.TEXT_NODE) {
+						sb.append(nodeValue);
+					} else {
+						sb.append("<div>");
+						sb.append(nodeValue);
+						sb.append("</div>");
+					}
 
 				}
 			}
