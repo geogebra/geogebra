@@ -424,16 +424,21 @@ public class CellRangeProcessor {
 					|| (rangeList.get(0).getWidth() == 3
 							&& rangeList.get(0).getHeight() != 2);
 			pd.c1 = rangeList.get(0).getMinColumn();
-			pd.c2 = pd.c1 + 1;
-			if (rangeList.get(0).getWidth() == 3
-					&& rangeList.get(0).getHeight() != 2) {
-				pd.c3 = pd.c1 + 2;
-			} else if (rangeList.get(0).getHeight() == 3
-					&& rangeList.get(0).getWidth() != 2) {
-				pd.c3 = pd.c1 + 2;
-			}
+			pd.c2 = rangeList.get(0).getMaxColumn();
 			pd.r1 = rangeList.get(0).getMinRow();
 			pd.r2 = rangeList.get(0).getMaxRow();
+
+			if (rangeList.get(0).getWidth() == 3
+					&& pd.doHorizontalPairs) {
+				pd.c2 = pd.c1 + 1;
+				pd.c3 = pd.c1 + 2;
+			} else if (rangeList.get(0).getHeight() == 3
+					&& !pd.doHorizontalPairs) {
+				pd.r2 = pd.r1 + 1;
+				pd.r3 = pd.r1 + 2;
+			}
+
+
 
 			// CASE 2: non-contiguous with two ranges (either single row or
 			// single column)
