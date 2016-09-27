@@ -164,6 +164,13 @@ public class EuclidianSettings extends AbstractSettings {
 			selectionAllowed[i] = true;
 		}
 
+		// length might be 2 or 3
+		for (int i = 0; i < showAxes.length; i++) {
+			showAxes[i] = true;
+		}
+
+		showGrid = false;
+
 		axisFontStyle = GFont.PLAIN;
 		axesLabelsSerif = false;
 	}
