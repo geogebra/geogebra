@@ -454,6 +454,11 @@ public class MyXMLHandler implements DocHandler {
 		// throws SAXException {
 		// String eName = qName;
 
+		if (kernel.userStopsLoading()){
+			kernel.setUserStopsLoading(false);
+			throw new SAXException(loc.getPlain("UserStopsLoading"));
+		}
+
 		switch (mode) {
 		case MODE_GEOGEBRA: // top level mode
 			startGeoGebraElement(eName, attrs);

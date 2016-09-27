@@ -5287,4 +5287,13 @@ public class Kernel {
 		return new ConstructionCompanion(cons);
 	}
 
+	private boolean userStopsLoading = false;
+
+	public boolean userStopsLoading() {
+		return userStopsLoading;
+	}
+
+	public void setUserStopsLoading(boolean flag){
+		userStopsLoading = flag;
+	}
 }
