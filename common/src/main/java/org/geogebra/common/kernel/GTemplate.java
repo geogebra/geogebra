@@ -18,6 +18,6 @@ public class GTemplate {
 	public StringBuilder buildImplicitEquation(CoordSys coordSys, String[] var,
 			boolean keep, boolean needsZ) {
 		return kernel.buildImplicitEquation(coordSys.getEquationVector().get(),
-				var, keep, true, needsZ, '=', tpl);
+				var, keep, true, needsZ, '=', tpl, true);
 	}
 }

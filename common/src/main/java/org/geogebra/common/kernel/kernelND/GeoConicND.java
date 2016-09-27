@@ -1690,7 +1690,7 @@ FromMeta
 			case EQUATION_SPECIFIC :
 				if (!isSpecificPossible())
 					return kernel.buildImplicitEquation(coeffs, myVars, 
-							KEEP_LEADING_SIGN, true, false, '=',tpl);						
+						KEEP_LEADING_SIGN, true, false, '=', tpl, true);
 				
 				switch (type) {					
 					case CONIC_CIRCLE :		
@@ -1740,7 +1740,7 @@ FromMeta
 					return kernel.buildImplicitEquation(								
 						coeffs,
 						myVars, 
-						KEEP_LEADING_SIGN, true, false, '=',tpl);
+						KEEP_LEADING_SIGN, true, false, '=', tpl, true);
 
 					case CONIC_HYPERBOLA :
 						if (Kernel.isZero(coeffs[1])) { // xy coeff = 0	
@@ -1795,7 +1795,7 @@ FromMeta
 						coeffs,
 						myVars,
 						KEEP_LEADING_SIGN,
-						true,  false, '=',tpl);
+						true, false, '=', tpl, true);
 
 					case CONIC_PARABOLA :
 						if (!Kernel.isZero(coeffs[2]))
@@ -1814,8 +1814,9 @@ FromMeta
 							return kernel.buildImplicitEquation(
 								coeffs,
 								myVars,
-								KEEP_LEADING_SIGN,
-								true, false, '=',tpl);
+							KEEP_LEADING_SIGN,
+
+							true, false, '=', tpl, true);
 
 					case CONIC_DOUBLE_LINE :
 						sbToValueString.append('(');
@@ -1841,7 +1842,8 @@ FromMeta
 					return kernel.buildExplicitConicEquation(coeffs, myVars, 4, KEEP_LEADING_SIGN,tpl); 
 
 			default : //implicit
-				return kernel.buildImplicitEquation(coeffs, myVars, KEEP_LEADING_SIGN, true, false, '=',tpl);
+			return kernel.buildImplicitEquation(coeffs, myVars,
+					KEEP_LEADING_SIGN, true, false, '=', tpl, true);
 		}
 	}
 	

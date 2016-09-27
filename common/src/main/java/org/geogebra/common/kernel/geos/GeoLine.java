@@ -84,6 +84,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public static final int PARAMETRIC = 2;
 	/** non-canonical implicit equation */
 	public static final int EQUATION_IMPLICIT_NON_CANONICAL = 3;
+	/** general form **/
+	public static final int GENERAL_EQUATION = 4;
 
 	private boolean showUndefinedInAlgebraView = false;
 
@@ -862,6 +864,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			toStringMode = EQUATION_IMPLICIT_NON_CANONICAL;
 			break;
 
+		case GENERAL_EQUATION:
+			toStringMode = GENERAL_EQUATION;
+			break;
+
 		default:
 			toStringMode = EQUATION_IMPLICIT;
 		}
@@ -949,7 +955,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
-			return kernel.buildExplicitLineEquation(g, vars, op,tpl);
+			return kernel.buildExplicitEquation(g, vars, op, tpl,
+					true);
 
 		case PARAMETRIC:
 			getInhomPointOnLine(P); // point
@@ -972,28 +979,33 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return sbBuildValueStr;
 
 		case EQUATION_IMPLICIT_NON_CANONICAL:
+		case GENERAL_EQUATION:
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
 			if (Kernel.isZero(x) || Kernel.isZero(y)) {
-				return kernel.buildExplicitLineEquation(g, vars, op,tpl);
+				return kernel.buildExplicitEquation(g, vars, op, tpl,
+						EQUATION_IMPLICIT_NON_CANONICAL == toStringMode);
 			}
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
-					false, false, op,tpl);
+					false, false, op, tpl,
+					EQUATION_IMPLICIT_NON_CANONICAL == toStringMode);
+
 
 		default: // EQUATION_IMPLICIT
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
 			if (Kernel.isZero(x) || Kernel.isZero(y)) {
-				return kernel.buildExplicitLineEquation(g, vars, op,tpl);
+				return kernel.buildExplicitEquation(g, vars, op,
+						tpl, true);
 			}
 			if (kernel.getAlgebraProcessor().getDisableGcd()) {
 				return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
-						false, false, op, tpl);
+						false, false, op, tpl, true);
 			}
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
-					true, false, op,tpl);
+					true, false, op, tpl, true);
 		}
 	}
 

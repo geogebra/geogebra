@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 
 public class LineEqnModel extends MultipleOptionsModel {
@@ -15,9 +16,14 @@ public class LineEqnModel extends MultipleOptionsModel {
 
 	public LineEqnModel(App app) {
 		super(app);
-		eqnValues = Arrays.asList(GeoLine.EQUATION_IMPLICIT,
-				GeoLine.EQUATION_EXPLICIT,
-				GeoLine.PARAMETRIC);
+		if (app.has(Feature.MORE_DISPLAY_FORMS)) {
+			eqnValues = Arrays.asList(GeoLine.EQUATION_IMPLICIT,
+					GeoLine.EQUATION_EXPLICIT, GeoLine.PARAMETRIC,
+					GeoLine.GENERAL_EQUATION);
+		} else {
+			eqnValues = Arrays.asList(GeoLine.EQUATION_IMPLICIT,
+					GeoLine.EQUATION_EXPLICIT, GeoLine.PARAMETRIC);
+		}
 	}
 
 	@Override
@@ -52,6 +58,14 @@ public class LineEqnModel extends MultipleOptionsModel {
 	}
 	@Override
 	public List<String> getChoiches(Localization loc) {
+		if(app.has(Feature.MORE_DISPLAY_FORMS)){
+			return Arrays.asList(loc.getPlain("ImplicitLineEquation"), // index 0
+					loc.getPlain("ExplicitLineEquation"), // index 1
+					loc.getPlain("ParametricForm"), // index 2
+					loc.getPlain("GeneralLineEquation") // index 3
+					);
+			
+		}
 		return Arrays.asList(loc.getPlain("ImplicitLineEquation"), // index 0
 				loc.getPlain("ExplicitLineEquation"), // index 1
 				loc.getPlain("ParametricForm") // index 2

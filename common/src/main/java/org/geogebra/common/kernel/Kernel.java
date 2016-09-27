@@ -1013,20 +1013,28 @@ public class Kernel {
 	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	public final StringBuilder buildImplicitEquation(double[] numbers,
 			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
-			boolean needsZ, char op, StringTemplate tpl) {
+			boolean needsZ, char op, StringTemplate tpl, boolean implicit) {
 
 		sbBuildImplicitEquation.setLength(0);
 		double[] temp = buildImplicitVarPart(sbBuildImplicitEquation, numbers,
 				vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN, needsZ,
 				tpl);
 
+		if (!implicit) {
+			sbBuildImplicitEquation.append(" + ");
+			sbBuildImplicitEquation.append(format(temp[vars.length], tpl));
+		}
+
 		sbBuildImplicitEquation.append(' ');
 		sbBuildImplicitEquation.append(op);
 		sbBuildImplicitEquation.append(' ');
 
+		if (implicit) {
 		// temp is set by buildImplicitVarPart
-		sbBuildImplicitEquation.append(format(-temp[vars.length], tpl));
-
+			sbBuildImplicitEquation.append(format(-temp[vars.length], tpl));
+		} else {
+			sbBuildImplicitEquation.append('0');
+		}
 		return sbBuildImplicitEquation;
 	}
 
@@ -1714,7 +1722,7 @@ public class Kernel {
 		// coeff of y^2 is 0 or coeff of y is not 0
 		if (isZero(q)) {
 			return buildImplicitEquation(numbers, vars, KEEP_LEADING_SIGN,
-					true, false, '=', tpl);
+					true, false, '=', tpl, true);
 		}
 
 		int i, leadingNonZero = numbers.length;
@@ -1919,8 +1927,10 @@ public class Kernel {
 		}
 	}
 
-	public final StringBuilder buildExplicitLineEquation(double[] numbers,
-			String[] vars, char opDefault, StringTemplate tpl) {
+	public final StringBuilder buildExplicitEquation(double[] numbers,
+ String[] vars, char opDefault,
+			StringTemplate tpl, boolean explicit) {
+
 		char op = opDefault;
 		double d, dabs, q = numbers[1];
 		sbBuildExplicitLineEquation.setLength(0);

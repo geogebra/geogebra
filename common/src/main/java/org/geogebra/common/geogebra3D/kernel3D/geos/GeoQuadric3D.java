@@ -1802,7 +1802,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			coeffs[8] = 2 * matrix[9]; // z
 
 			return kernel.buildImplicitEquation(coeffs, vars3D, false, true,
-					true, '=', tpl);
+					true, '=', tpl, true);
 		}
 
 		return sbToValueString;

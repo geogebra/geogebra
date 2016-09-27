@@ -4075,6 +4075,10 @@ public abstract class App implements UpdateSelection {
 		case NEW_TOOLBAR_DESKTOP_WEB:
 			return prerelease;
 
+			// GGB-1212
+		case MORE_DISPLAY_FORMS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
