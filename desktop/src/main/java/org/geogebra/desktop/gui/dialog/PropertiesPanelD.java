@@ -5233,7 +5233,17 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 		tfDefinition.removeActionListener(this);
 		model.getDefInputHandler().setGeoElement(geo);
-		tfDefinition.setText(ObjectNameModel.getDefText(geo));
+		String text = ObjectNameModel.getDefText(geo);
+		if (app.isMacOS()) {
+			if (app.isMacOS() && text.length() > 300) {
+				text = text.substring(0, 300);
+				tfDefinition.setEditable(false);
+			} else {
+				tfDefinition.setEditable(true);
+			}
+		}
+
+		tfDefinition.setText(text);
 		tfDefinition.addActionListener(this);
 
 		// App.printStacktrace(""+geo);
@@ -5321,6 +5331,11 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 		if (source == tfDefinition) {
 			// currentGeo may has changed if focus is lost by clicking another
 			// geo
+
+			if (!tfDefinition.isEditable()) {
+				return;
+			}
+
 			if (model.getCurrentGeo() == currentGeoForFocusLost) {
 				model.applyDefinitionChange(tfDefinition.getText(),
 						app.getDefaultErrorHandler());
