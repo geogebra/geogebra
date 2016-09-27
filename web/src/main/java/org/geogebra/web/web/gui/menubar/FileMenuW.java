@@ -109,20 +109,22 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					app.showMessage(true,
 							app.getExam().getLog(app.getLocalization(),
 									app.getSettings()),
-							"GeoGebra Exam Cas", buttonText, handler);
+							loc.getMenu("exam_custom_header") + " " + loc.getMenu("CAS"), buttonText, handler);
 				} else if (!supports3D && !supportsCAS) {
 					if (app.getArticleElement()
 							.getDataParamEnableGraphing(true)) {
 						app.showMessage(true,
 								app.getExam().getLog(app.getLocalization(),
 										app.getSettings()),
-								"GeoGebra Exam Graph Calc", buttonText,
+								loc.getMenu("exam_custom_header") + " " + loc.getMenu("GraphingCalculator"),
+								buttonText,
 								handler);
 					} else {
 						app.showMessage(true,
 								app.getExam().getLog(app.getLocalization(),
 										app.getSettings()),
-								"GeoGebra Exam Simple Calc", buttonText,
+								loc.getMenu("exam_custom_header") + " " + loc.getMenu("SimpleCalculator"),
+								buttonText,
 								handler);
 					}
 				}

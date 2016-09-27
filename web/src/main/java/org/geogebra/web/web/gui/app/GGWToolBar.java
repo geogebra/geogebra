@@ -310,19 +310,21 @@ pr.menu_header_undo(), null, 32);
 						app.showMessage(true,
 								app.getExam().getLog(app.getLocalization(),
 										app.getSettings()),
-								"GeoGebra Exam Cas", null, null);
+								app.getMenu("exam_custom_header") + " " + app.getMenu("CAS"), null, null);
 					} else if (!supports3D && !supportsCAS) {
 						if (app.getArticleElement()
 								.getDataParamEnableGraphing(true)) {
 							app.showMessage(true,
 									app.getExam().getLog(app.getLocalization(),
 											app.getSettings()),
-									"GeoGebra Exam Graph Calc", null, null);
+									app.getMenu("exam_custom_header") + " " + app.getMenu("GraphingCalculator"), null,
+									null);
 						} else {
 							app.showMessage(true,
 									app.getExam().getLog(app.getLocalization(),
 											app.getSettings()),
-									"GeoGebra Exam Simple Calc", null, null);
+									app.getMenu("exam_custom_header") + " " + app.getMenu("SimpleCalculator"), null,
+									null);
 						}
 					}
 
