@@ -13,6 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -63,7 +65,9 @@ public class AlgoFoldExpression extends AlgoElement {
 		this.foldComputer = getComputer(expression);
 		resultFun = foldComputer
 				.getTemplate(cons, expression.getGeoClassType());
-
+		if (op == Operation.MULTIPLY && resultFun instanceof VectorNDValue) {
+			((VectorNDValue) resultFun).setMode(Kernel.COORD_COMPLEX);
+		}
 		setInputOutput();
 		compute();
 		resultFun.setLabel(label);

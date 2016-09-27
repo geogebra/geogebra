@@ -8,6 +8,9 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Helper for Sum/Product when numbers are involved
+ */
 public class NumberFold implements FoldComputer {
 
 	private GeoNumeric result;
@@ -18,7 +21,11 @@ public class NumberFold implements FoldComputer {
 	}
 
 	public void add(GeoElement p, Operation op) {
-		x += ((GeoNumberValue) p).getDouble();
+		if (op == Operation.MULTIPLY) {
+			x *= ((GeoNumberValue) p).getDouble();
+		} else {
+			x += ((GeoNumberValue) p).getDouble();
+		}
 	}
 
 	public void setFrom(GeoElement geoElement, Kernel kernel) {

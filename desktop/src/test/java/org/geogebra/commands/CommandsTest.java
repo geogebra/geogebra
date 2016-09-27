@@ -427,4 +427,14 @@ public class CommandsTest extends Assert{
 		t("Sum[2^k,k,1,5]", "62");
 		t("Sum[(k,k),k,1,5]", "(15, 15)");
 	}
+
+	@Test
+	public void cmdProduct() {
+		t("Product[ {1,2,3,4} ]", "24");
+		t("Product[ 1..10,  5 ]", "120");
+		t("Product[ {1,2,3},  {100,1,2} ]", "18");
+		t("round(Product[ k/(k+1),k,1,7 ],5)", "0.125");
+		t("Product[ (k,k),k,1,5 ]", "-480 - 480" + Unicode.IMAGINARY);
+
+	}
 }

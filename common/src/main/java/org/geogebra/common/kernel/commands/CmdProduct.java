@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.algos.AlgoProductMatrices;
 import org.geogebra.common.kernel.algos.FoldComputer;
 import org.geogebra.common.kernel.algos.FunctionFold;
 import org.geogebra.common.kernel.algos.FunctionNvarFold;
+import org.geogebra.common.kernel.algos.PointNDFold;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -15,6 +16,8 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -40,13 +43,20 @@ public class CmdProduct extends CommandProcessor {
 	public GeoElement[] process(Command c)
 			throws MyError, CircularDefinitionException {
 		int n = c.getArgumentNumber();
-		GeoElement[] arg;
-		arg = resArgs(c);
+
 
 		// needed for Sum[]
-		if (arg.length == 0) {
+		if (c.getArgumentNumber() == 0) {
 			throw argNumErr(app, c.getName(), n);
 		}
+		if (c.getArgumentNumber() == 4) {
+			GeoElement[] res = CmdSum.processSymb(this, c, Operation.MULTIPLY);
+			if (res != null) {
+				return res;
+			}
+		}
+		GeoElement[] arg;
+		arg = resArgs(c);
 		if (!arg[0].isGeoList())
 			throw argErr(app, c.getName(), arg[0]);
 		GeoList list = (GeoList) arg[0];
@@ -96,11 +106,18 @@ public class CmdProduct extends CommandProcessor {
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
+		FoldComputer computer = null;
 		if (sample instanceof GeoFunction || sample instanceof GeoFunctionNVar) {
-			FoldComputer computer = sample.getGeoClassType() == GeoClass.FUNCTION_NVAR
+			computer = sample.getGeoClassType() == GeoClass.FUNCTION_NVAR
 					|| sample.getGeoClassType() == GeoClass.DEFAULT ?
 
-			new FunctionNvarFold() : new FunctionFold();
+							new FunctionNvarFold() : new FunctionFold();
+		}
+		if (sample instanceof GeoPoint || sample instanceof GeoVector) {
+			computer = new PointNDFold();
+
+		}
+		if (computer != null) {
 			AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, c.getLabel(),
 					list, limit, Operation.MULTIPLY, computer);
 

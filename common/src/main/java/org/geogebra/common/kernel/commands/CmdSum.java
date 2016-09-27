@@ -43,7 +43,7 @@ public class CmdSum extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 		if (c.getArgumentNumber() == 4) {
-			GeoElement[] res = processSymb(c);
+			GeoElement[] res = processSymb(this, c, Operation.PLUS);
 			if (res != null) {
 				return res;
 			}
@@ -194,15 +194,26 @@ public class CmdSum extends CommandProcessor {
 		}
 	}
 
-	private GeoElement[] processSymb(Command c) {
-		GeoElement[] arg = this.resArgsLocalNumVar(c, 1, 2);
+	/**
+	 * @param proc
+	 *            processor (product/sum)
+	 * @param c
+	 *            command
+	 * @param op
+	 *            operation
+	 * @return sum/product object if applicable
+	 */
+	static GeoElement[] processSymb(CommandProcessor proc, Command c,
+			Operation op) {
+		GeoElement[] arg = proc.resArgsLocalNumVar(c, 1, 2);
 		if (!arg[1].isGeoNumeric() || !arg[2].isGeoNumeric()
 				|| !arg[3].isGeoNumeric()) {
 			return null;
 		}
-		AlgoFoldExpression algo = new AlgoFoldExpression(cons, c.getLabel(),
+		AlgoFoldExpression algo = new AlgoFoldExpression(proc.cons,
+				c.getLabel(),
 				arg[0], (GeoNumeric) arg[1], (GeoNumeric) arg[2],
-				(GeoNumeric) arg[3], Operation.PLUS);
+				(GeoNumeric) arg[3], op);
 		return algo.getOutput();
 	}
 

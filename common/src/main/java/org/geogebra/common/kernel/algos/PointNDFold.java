@@ -13,7 +13,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
+/**
+ * Helper for Sum/Product when points or vectors are involved
+ */
 public class PointNDFold implements FoldComputer {
 
 	private GeoElement result;
@@ -23,7 +27,8 @@ public class PointNDFold implements FoldComputer {
 		return this.result = doGetTemplate(cons, listElement);
 	}
 
-	private GeoElement doGetTemplate(Construction cons, GeoClass listElement) {
+	private static GeoElement doGetTemplate(Construction cons,
+			GeoClass listElement) {
 		switch (listElement) {
 		case POINT:
 			return new GeoPoint(cons);
@@ -40,6 +45,24 @@ public class PointNDFold implements FoldComputer {
 	}
 
 	public void add(GeoElement p, Operation op) {
+		if (op == Operation.MULTIPLY) {
+			double x0 = x;
+			if (p instanceof GeoPoint) {
+				((GeoPoint) p).updateCoords();
+				x = x0 * ((GeoPoint) p).getInhomX()
+						- y * ((GeoPoint) p).getInhomY();
+				y = y * ((GeoPoint) p).getInhomX()
+						+ x0 * ((GeoPoint) p).getInhomY();
+				Log.debug(x + "," + y);
+			} else if (p instanceof GeoVector) {
+				double[] coords = ((GeoVectorND) p).getInhomCoords();
+				x = x0 * coords[0] - y * coords[1];
+				y = y * coords[0] + x0 * coords[1];
+			} else {
+				x = Double.NaN;
+			}
+			return;
+		}
 		if (p instanceof GeoPoint) {
 			x += ((GeoPoint) p).getInhomX();
 			y += ((GeoPoint) p).getInhomY();

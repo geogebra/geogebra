@@ -1508,14 +1508,8 @@ new String[] { "--silent" }),
 
 	}
 
-	@Test
-	public void cmdProduct() {
-		t("Product[ list1 ]");
-		t("Product[ list1,  n1 ]");
-		t("Product[ list1,  list2 ]");
-
-	}
 	
+
 	@Test
 	public void cmdProve() {
 		t("Prove[ true ]");
