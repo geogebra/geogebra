@@ -288,6 +288,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	private GeoInputBox geoUsedForInputBox;
 
+	private boolean previewActive;
+
+
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
@@ -616,6 +619,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		if (!e.isAltDown()
 				&& (caretPos == text.length() || org.geogebra.common.gui.inputfield.MyTextField
 						.isCloseBracketOrWhitespace(text.charAt(caretPos)))) {
+			this.setPreviewActive(false);
 			switch (ch) {
 			case '(':
 				// opening parentheses: insert closing parenthesis automatically
@@ -632,10 +636,16 @@ public class AutoCompleteTextFieldD extends MathTextField
 				insertString("]");
 				break;
 			}
+			this.setPreviewActive(true);
 		}
 
 		// make sure we keep the previous caret position
 		setCaretPosition(Math.min(text.length(), caretPos));
+	}
+
+	private void setPreviewActive(boolean b) {
+		previewActive = b;
+
 	}
 
 	/**
@@ -1031,5 +1041,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void hideDeferred(final GBox box) {
 		setVisible(false);
 		box.setVisible(false);
+	}
+
+	/**
+	 * @return whether we may update preview
+	 */
+	public boolean isPreviewActive() {
+		return previewActive;
 	}
 }
