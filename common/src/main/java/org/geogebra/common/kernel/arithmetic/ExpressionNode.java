@@ -2217,10 +2217,7 @@ kernel, left,
 		case ZETA:
 			switch (stringType) {
 			case LATEX:
-
-				wrapInBackslashOperatorname(sb, "zeta", tpl);
-
-				sb.append(" \\left( ");
+				sb.append("\\zeta\\left( ");
 				break;
 
 			case LIBRE_OFFICE:
