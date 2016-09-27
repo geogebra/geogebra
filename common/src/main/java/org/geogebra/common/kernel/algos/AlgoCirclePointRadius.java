@@ -122,11 +122,50 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		}
 		
 		GeoPoint P = (GeoPoint) this.getInput(0);
+
+		/* SPECIAL CASE 1: radius is a segment */
+		if (this.getInput(1) instanceof GeoSegment) {
+			/*
+			 * Here we do the full work for this segment. It would be nicer to
+			 * put this code into GeoSegment but we need to use the square of
+			 * the length of the segment in this special case.
+			 */
+			GeoSegment s = (GeoSegment) this.getInput(1);
+			if (botanaVars == null) {
+				Variable[] centerBotanaVars = P.getBotanaVars(P);
+				botanaVars = new Variable[4];
+				// center P
+				botanaVars[0] = centerBotanaVars[0];
+				botanaVars[1] = centerBotanaVars[1];
+				// point C on the circle
+				botanaVars[2] = new Variable();
+				botanaVars[3] = new Variable();
+			}
+			GeoPoint A = s.getStartPoint();
+			GeoPoint B = s.getEndPoint();
+			Variable[] ABotanaVars = A.getBotanaVars(A);
+			Variable[] BBotanaVars = B.getBotanaVars(B);
+
+			botanaPolynomials = new Polynomial[2];
+			// C-P == B-A <=> C-P-B+A == 0
+			botanaPolynomials[0] = new Polynomial(botanaVars[2])
+					.subtract(new Polynomial(botanaVars[0]))
+					.subtract(new Polynomial(BBotanaVars[0]))
+					.add(new Polynomial(ABotanaVars[0]));
+			botanaPolynomials[1] = new Polynomial(botanaVars[3])
+					.subtract(new Polynomial(botanaVars[1]))
+					.subtract(new Polynomial(BBotanaVars[1]))
+					.add(new Polynomial(ABotanaVars[1]));
+			// done for both coordinates!
+			return botanaPolynomials;
+		}
+
+		/* SPECIAL CASE 2: radius is an expression */
+
 		GeoNumeric num = null;
 		if (this.getInput(1) instanceof GeoNumeric) {
 			num = (GeoNumeric) this.getInput(1);
 		}
-
 		if (P == null || num == null) {
 			throw new NoSymbolicParametersException();
 		}
