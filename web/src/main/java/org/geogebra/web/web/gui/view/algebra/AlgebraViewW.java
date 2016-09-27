@@ -1633,13 +1633,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 
 		boolean sameItem = activeItem == item;
-		if (!sameItem && getActiveTreeItem() != null) {
-			// new item inserted => confirm the old input first
-			if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-				getActiveTreeItem().stopEditing(null, null);
-			} else {
-				getActiveTreeItem().onEnter(false);
-			}
+		if (!sameItem) {
+			stopCurrentEditor();
 		}
 		if ((this.activeItem != null) && !sameItem
 				&& (!this.activeItem.commonEditingCheck())) {
@@ -1660,14 +1655,27 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		}
 	}
 
+	private void stopCurrentEditor() {
+		if (getActiveTreeItem() != null) {
+			// new item inserted => confirm the old input first
+			if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+				getActiveTreeItem().stopEditing(null, null);
+			} else {
+				getActiveTreeItem().onEnter(false);
+			}
+		}
+
+	}
+
 	/**
 	 * Remove close button from active item
 	 */
 	public void removeCloseButton() {
 		if (activeItem != null) {
 			activeItem.removeCloseButton();
+			stopCurrentEditor();
 			// use setter to make sure current item is reset correctly
-			setActiveTreeItem(null);
+			activeItem = null;
 		}
 	}
 
