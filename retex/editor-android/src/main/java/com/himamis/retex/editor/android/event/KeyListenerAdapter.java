@@ -37,6 +37,7 @@ public class KeyListenerAdapter implements View.OnKeyListener {
                 if (unicodeChar != '\0') {
                     handled = mKeyListener.onKeyTyped(wrappedEvent);
                     ret |= handled;
+                    mFormulaEditor.afterKeyTyped(wrappedEvent);
                 }
                 return ret;
             default:

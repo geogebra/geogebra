@@ -1560,4 +1560,17 @@ public class StringUtil {
 		return str == null || str.isEmpty();
 	}
 
+	public static String addDegreeSignIfNumber(char c, String inputText) {
+		// return unless digit typed
+		if (!StringUtil.isDigit(c))
+			return inputText;
+
+		// if text already contains degree symbol or variable
+		for (int i = 0; i < inputText.length(); i++) {
+			if (!StringUtil.isDigit(inputText.charAt(i)))
+				return inputText;
+		}
+
+		return (inputText + Unicode.DEGREE);
+	}
 }

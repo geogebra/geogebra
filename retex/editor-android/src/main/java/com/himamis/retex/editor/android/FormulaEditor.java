@@ -211,6 +211,10 @@ public class FormulaEditor extends View implements MathField {
         // used in AlgebraInput
     }
 
+    public void afterKeyTyped(com.himamis.retex.editor.share.event.KeyEvent keyEvent) {
+        // used in FormulaInput
+    }
+
     @Override
     public void repaint() {
         invalidate();
