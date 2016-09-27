@@ -1946,7 +1946,8 @@ public class Kernel {
 
 		// BUILD EQUATION STRING
 		// special case
-		// y-coeff is 0: form x = constant
+		// y-coeff is 0: if explicit equation: form x = constant
+		// if general eq: form x + constant = 0
 		if (isZero(q)) {
 			sbBuildExplicitLineEquation.append(vars[0]);
 
@@ -1954,11 +1955,32 @@ public class Kernel {
 			if (numbers[0] < MIN_PRECISION) {
 				op = oppositeSign(op);
 			}
+
+			if (!explicit) {
+				double constant = numbers[2] / numbers[0];
+				String sign;
+				double abs;
+				if (constant < 0.0) {
+					sign = " - ";
+					abs = -constant;
+				} else {
+					sign = " + ";
+					abs = constant;
+				}
+				sbBuildExplicitLineEquation.append(sign + " "
+						+ format(abs, tpl) + " ");
+			}
+
 			sbBuildExplicitLineEquation.append(op);
 			sbBuildExplicitLineEquation.append(' ');
 
-			sbBuildExplicitLineEquation.append(format(-numbers[2] / numbers[0],
-					tpl));
+			if (explicit) {
+				sbBuildExplicitLineEquation.append(format(-numbers[2]
+						/ numbers[0], tpl));
+			} else {
+				sbBuildExplicitLineEquation.append('0');
+			}
+
 			return sbBuildExplicitLineEquation;
 		}
 
