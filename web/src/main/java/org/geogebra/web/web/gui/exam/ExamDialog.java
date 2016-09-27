@@ -33,8 +33,7 @@ public class ExamDialog {
 	public void show() {
 		Localization loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
-		final DialogBoxW box = new DialogBoxW(false, true, null,
-				app.getPanel());
+		final DialogBoxW box = new DialogBoxW(false, true, null, app.getPanel());
 		VerticalPanel mainWidget = new VerticalPanel();
 		FlowPanel btnPanel = new FlowPanel();
 		FlowPanel cbxPanel = new FlowPanel();
@@ -54,7 +53,6 @@ public class ExamDialog {
 			box.addStyleName("ExamTabletBoxsize");
 		}
 
-
 		btnOk.setText(loc.getMenu("exam_start_button"));
 		btnCancel.setText(loc.getMenu("Cancel"));
 		btnHelp.setText(loc.getMenu("Help"));
@@ -73,16 +71,14 @@ public class ExamDialog {
 			cas.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					app.getSettings().getCasSettings()
-							.setEnabled(cas.getValue());
+					app.getSettings().getCasSettings().setEnabled(cas.getValue());
 					guiManager.updateToolbarActions();
 				}
 			});
 		}
 		if (!app.getSettings().getEuclidian(-1).isEnabledSet()) {
 			checkboxes++;
-			final CheckBox allow3D = new CheckBox(
-					loc.getMenu("Perspective.3DGraphics"));
+			final CheckBox allow3D = new CheckBox(loc.getMenu("Perspective.3DGraphics"));
 			allow3D.addStyleName("examCheckbox");
 			allow3D.setValue(true);
 
@@ -92,8 +88,7 @@ public class ExamDialog {
 			allow3D.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
-					app.getSettings().getEuclidian(-1)
-							.setEnabled(allow3D.getValue());
+					app.getSettings().getEuclidian(-1).setEnabled(allow3D.getValue());
 					guiManager.updateToolbarActions();
 
 				}
@@ -101,37 +96,31 @@ public class ExamDialog {
 		}
 		guiManager.updateToolbarActions();
 		if (checkboxes > 0) {
-			Label description = new Label(
-					loc.getMenu("exam_custom_description"));
+			Label description = new Label(loc.getMenu("exam_custom_description"));
 			mainWidget.add(description);
 			mainWidget.add(cbxPanel);
 			cbxPanel.addStyleName("ExamCheckboxPanel");
 			btnPanel.addStyleName("DialogButtonPanel");
 		} else {
-			// TODO this is a quick fix so that markus can show a demo - trans
-			// key needed and also simple / graphing / cas
 			if (app.getArticleElement().hasDataParamEnableGraphing()) {
-				boolean supportsCAS = app.getSettings().getCasSettings()
-					.isEnabled();
-				boolean supports3D = app.getSettings().getEuclidian(-1)
-						.isEnabled();
+				boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
+				boolean supports3D = app.getSettings().getEuclidian(-1).isEnabled();
 				// CAS EXAM: cas && !3d && ev
 				if (!supports3D && supportsCAS) {
-					Label description = new Label("CAS");
+					Label description = new Label(loc.getMenu("CAS"));
 					mainWidget.add(description);
 				}
 				// GRAPH EXAM: !cas && !3d && ev
 				else if (!supports3D && !supportsCAS) {
-					if (app.getArticleElement()
-							.getDataParamEnableGraphing(true)) {
-						Label description = new Label("Graphing Calc");
+					if (app.getArticleElement().getDataParamEnableGraphing(true)) {
+						Label description = new Label(loc.getMenu("GraphingCalculator"));
 						mainWidget.add(description);
 					} else {
 						// set algebra view in background of start dialog
 						// for tablet Exam Simple Calc
 						// needed for GGB-1176
 						app.getGgbApi().setPerspective("A");
-						Label description = new Label("Simple Calc");
+						Label description = new Label(loc.getMenu("SimpleCalculator"));
 						mainWidget.add(description);
 					}
 				}
@@ -148,12 +137,10 @@ public class ExamDialog {
 
 		mainWidget.add(btnPanel);
 		box.setWidget(mainWidget);
+		box.getCaption().setText(loc.getMenu("exam_custom_header"));
 
-		if (!(app.getArticleElement().hasDataParamEnableGraphing())) {
-			box.getCaption().setText(loc.getMenu("exam_custom_header"));
-		} else {
-			box.getCaption().setText("GeoGebra Exam");
-			btnOk.addStyleName("ExamTableStartButton");
+		if ((app.getArticleElement().hasDataParamEnableGraphing())) {
+			btnOk.addStyleName("ExamTabletStartButton");
 		}
 		box.center();
 
@@ -174,8 +161,7 @@ public class ExamDialog {
 				ExamUtil.toggleFullscreen(false);
 				app.fireViewsChangedEvent();
 				guiManager.updateToolbarActions();
-				guiManager.setGeneralToolBarDefinition(
-						ToolBar.getAllToolsNoMacros(true, false, app));
+				guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, false, app));
 				guiManager.updateToolbar();
 				guiManager.resetMenu();
 				box.hide();
@@ -186,8 +172,7 @@ public class ExamDialog {
 		btnHelp.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				ToolTipManagerW
-						.openWindow("https://www.geogebra.org/tutorial/exam");
+				ToolTipManagerW.openWindow("https://www.geogebra.org/tutorial/exam");
 			}
 		});
 	}
@@ -208,8 +193,7 @@ public class ExamDialog {
 		} else {
 			app.getGgbApi().setPerspective("A");
 		}
-		guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(
-				true, true, app));
+		guiManager.setGeneralToolBarDefinition(ToolBar.getAllToolsNoMacros(true, true, app));
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		app.getExam().setStart(date.getTime());
 		app.fireViewsChangedEvent();
@@ -218,8 +202,7 @@ public class ExamDialog {
 		Layout.initializeDefaultPerspectives(app, 0.2);
 		guiManager.updateMenubar();
 		guiManager.resetMenu();
-		DockPanelW dp = ((DockManagerW) guiManager.getLayout().getDockManager())
-				.getPanelForKeyboard();
+		DockPanelW dp = ((DockManagerW) guiManager.getLayout().getDockManager()).getPanelForKeyboard();
 		if (dp != null && dp.getKeyboardListener().needsAutofocus()) { // dp.getKeyboardListener().setFocus(true);
 
 			app.showKeyboard(dp.getKeyboardListener(), true);
