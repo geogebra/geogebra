@@ -163,9 +163,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		this.app = (AppW) algCtrl.getApplication();
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
-		if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
-			kernel.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
-		}
 
 		this.addOpenHandler(this);
 		selectionCtrl = new AVSelectionController(app);
