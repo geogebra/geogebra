@@ -4209,6 +4209,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		GeoElement geo = hits.get(0);
+		if (app.has(Feature.DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW)) {
+			return !geo.isMoveable(view3D);
+		}
 		return geo == kernel.getXOYPlane();
 	}
 
