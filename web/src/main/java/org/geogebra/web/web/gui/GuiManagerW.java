@@ -1529,9 +1529,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public boolean hasAlgebraView() {
-		if (algebraView == null)
-			return false;
-		return true;
+		return algebraView != null;
 	}
 
 	@Override
