@@ -1,6 +1,6 @@
 package org.geogebra.common.euclidian.event;
 
-public abstract class ActionListener {
+public class ActionListener {
 
 	private ActionListenerI listenerClass;
 
