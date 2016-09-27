@@ -11725,6 +11725,9 @@ namespace giac {
     case _POINT__VECT:
       s="point[";
       break;
+    case _TUPLE__VECT:
+      s="tuple[";
+      break;
     case _MATRIX__VECT:
       if (calc_mode(contextptr)==1)
 	s="{";
