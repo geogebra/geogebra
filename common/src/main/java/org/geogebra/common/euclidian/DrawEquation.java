@@ -80,8 +80,7 @@ public abstract class DrawEquation {
 	 * @return dimensions of result
 	 */
 	public abstract GDimension drawEquation(App app, GeoElementND geo,
-			GGraphics2D g2, int x, int y, String text,
- GFont font,
+			GGraphics2D g2, int x, int y, String text, GFont font,
 			boolean serif, GColor fgColor,
 			GColor bgColor, boolean useCache, boolean updateAgain,
 			Runnable callback);
@@ -89,12 +88,7 @@ public abstract class DrawEquation {
 	public static StringBuilder getJLMCommands() {
 		StringBuilder initJLM = new StringBuilder();
 
-		initJLM.append("\\newcommand{\\space}[0]{\\ } ");
-		initJLM.append("\\newcommand{\\dollar}[0]{\\$} ");
-
-		// #4068 so that we can use \questeq in Java and HTML5
-		// initJLM.append("\\newcommand{\\questeq}[0]{ \\stackrel{ \\small ?}{=}
-		// } ");
+		// https://dev.geogebra.org/trac/changeset/47736
 		initJLM.append("\\newcommand{\\pcdot}{\\space} ");
 
 		HashMap<String, GColor> ggbCols = GeoGebraColorConstants

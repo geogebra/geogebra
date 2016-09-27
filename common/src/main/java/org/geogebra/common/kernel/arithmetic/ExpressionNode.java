@@ -2180,31 +2180,37 @@ kernel, left,
 			break;
 
 		case ACOSH:
-			trig(kernel, left, leftStr, sb, "<arccosh/>", "\\acosh", "ACOSH(",
+			trig(kernel, left, leftStr, sb, "<arccosh/>",
+					"\\operatorname{acosh}", "ACOSH(",
 					"acosh", "arcosh", tpl, loc, false);
 			break;
 		case ASINH:
-			trig(kernel, left, leftStr, sb, "<arcsinh/>", "\\asinh", "ASINH(",
+			trig(kernel, left, leftStr, sb, "<arcsinh/>",
+					"\\operatorname{asinh}", "ASINH(",
 					"asinh", "arsinh", tpl, loc, false);
 			break;
 
 		case ATANH:
-			trig(kernel, left, leftStr, sb, "<arctanh/>", "\\atanh", "ATANH(",
+			trig(kernel, left, leftStr, sb, "<arctanh/>",
+					"\\operatorname{atanh}", "ATANH(",
 					"atanh", "artanh", tpl, loc, false);
 			break;
 		case REAL:
-			trig(kernel, left, leftStr, sb, "<real/>", "\\real", "", "real",
+			trig(kernel, left, leftStr, sb, "<real/>", "\\operatorname{real}",
+					"", "real",
 					"real", "re", tpl, loc, false);
 			break;
 		case IMAGINARY:
-			trig(kernel, left, leftStr, sb, "<imaginary/>", "\\imaginary", "",
+			trig(kernel, left, leftStr, sb, "<imaginary/>",
+					"\\operatorname{imaginary}", "",
 					"imaginary", "imaginary", "im", tpl, loc, false);
 			break;
 		case FRACTIONAL_PART:
 			// trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fPart",
 			// Giac: problem with fPart, use custom definition instead, see
 			// CASgiacW
-			trig(kernel, left, leftStr, sb, "<todo/>", "\\fractionalPart", "",
+			trig(kernel, left, leftStr, sb, "<todo/>",
+					"\\operatorname{fractionalPart}", "",
 					"fractionalPart", "fractionalPart", "fractionalPart", tpl,
 					loc, false);
 			break;
@@ -3795,6 +3801,7 @@ kernel, left,
 						sb.append(" ");
 					}
 				} else if (tpl.isPrintLocalizedCommandNames()) {
+					// eg \\operatorname{sen} when sin translated
 					sb.append("\\operatorname{");
 					sb.append(loc.getFunction(key));
 					sb.append("}");

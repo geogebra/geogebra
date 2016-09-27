@@ -51,6 +51,10 @@ final class PredefinedTeXFormulas {
 	}
 
 	static {
+		// added for GeoGebra
+		TeXFormula.predefinedTeXFormulasAsString.put("space", "\\ ");
+		TeXFormula.predefinedTeXFormulasAsString.put("dollar", "\\textdollar");
+		
 		TeXFormula.predefinedTeXFormulasAsString.put("qquad", "\\quad\\quad");
 		TeXFormula.predefinedTeXFormulasAsString.put(" ", "\\nbsp");
 		TeXFormula.predefinedTeXFormulasAsString.put("ne", "\\not\\equals");
