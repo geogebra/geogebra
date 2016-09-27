@@ -4,6 +4,14 @@ public class ActionListener {
 
 	private ActionListenerI listenerClass;
 
+	public ActionListener() {
+		this(null);
+	}
+
+	public ActionListener(ActionListenerI listener) {
+		listenerClass = listener;
+	}
+
 	public void wrapActionPerformed(ActionEvent event) {
 		listenerClass.actionPerformed(event);
 	}
