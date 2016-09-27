@@ -2597,6 +2597,7 @@ __GGB__keysVar.gl.menu = {
     "SignOut": "Desconectarse",
     "SignedInAsA": "Conectado como %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "F\xf3rmulas simples",
     "Sin": "Sen",
     "SingleFile": "\xdanico arquivo",

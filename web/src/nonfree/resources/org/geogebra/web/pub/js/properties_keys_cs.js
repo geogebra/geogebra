@@ -2597,6 +2597,7 @@ __GGB__keysVar.cs.menu = {
     "SignOut": "Odhl\xe1sit",
     "SignedInAsA": "P\u0159ihl\xe1\u0161en/a jako %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "Jednoduch\xe9 vzorce",
     "Sin": "Sin",
     "SingleFile": "Jeden soubor",

@@ -2597,6 +2597,7 @@ __GGB__keysVar.tr.menu = {
     "SignOut": "\xc7\u0131k\u0131\u015f",
     "SignedInAsA": "%0 olarak oturum a\xe7\u0131ld\u0131",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "Basit Form\xfcller",
     "Sin": "Sin\xfcs",
     "SingleFile": "Tek Dosya",

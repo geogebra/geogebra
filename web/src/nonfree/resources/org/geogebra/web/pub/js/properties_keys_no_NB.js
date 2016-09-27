@@ -2597,6 +2597,7 @@ __GGB__keysVar.no_NB.menu = {
     "SignOut": "Logg ut",
     "SignedInAsA": "Innlogget som %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "Enkle formler",
     "Sin": "Sin",
     "SingleFile": "Separat fil",

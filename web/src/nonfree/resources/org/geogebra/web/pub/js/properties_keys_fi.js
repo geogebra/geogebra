@@ -2597,6 +2597,7 @@ __GGB__keysVar.fi.menu = {
     "SignOut": "Kirjaudu ulos",
     "SignedInAsA": "Kirjautuneena %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "Yksinkertaiset kaavat",
     "Sin": "Sin",
     "SingleFile": "Yksi tiedosto",

@@ -2597,6 +2597,7 @@ __GGB__keysVar.ko.menu = {
     "SignOut": "\ub85c\uadf8\uc544\uc6c3",
     "SignedInAsA": "%0 (\uc73c)\ub85c \ub85c\uadf8\uc778",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "\uac04\ub2e8\ud55c \uc218\uc2dd",
     "Sin": "Sin",
     "SingleFile": "\ub2e8\uc77c \ud30c\uc77c",

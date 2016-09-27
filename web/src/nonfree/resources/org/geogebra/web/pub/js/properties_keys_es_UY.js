@@ -2597,6 +2597,7 @@ __GGB__keysVar.es_UY.menu = {
     "SignOut": "Desconectar",
     "SignedInAsA": "Conectado como %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "F\xf3rmulas simples",
     "Sin": "Sen",
     "SingleFile": "Unico archivo",

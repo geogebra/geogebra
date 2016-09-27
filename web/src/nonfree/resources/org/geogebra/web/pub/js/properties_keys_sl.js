@@ -2597,6 +2597,7 @@ __GGB__keysVar.sl.menu = {
     "SignOut": "Odjava",
     "SignedInAsA": "Prijavljen/a kot %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "Preproste formule",
     "Sin": "sin",
     "SingleFile": "Posamezna datoteka",

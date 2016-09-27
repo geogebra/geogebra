@@ -2597,6 +2597,7 @@ __GGB__keysVar.bg.menu = {
     "SignOut": "\u0418\u0437\u043b\u0438\u0437\u0430\u043d\u0435",
     "SignedInAsA": "\u0412\u043b\u0435\u0437\u043b\u0438 \u0441\u0442\u0435 \u043a\u0430\u0442\u043e %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "\u041e\u0431\u0438\u043a\u043d\u043e\u0432\u0435\u043d\u0438 \u0424\u043e\u0440\u043c\u0443\u043b\u0438",
     "Sin": "Sin",
     "SingleFile": "\u0415\u0434\u0438\u043d\u0438\u0447\u0435\u043d \u0444\u0430\u0439\u043b",

@@ -2597,6 +2597,7 @@ __GGB__keysVar.es.menu = {
     "SignOut": "Cerrar sesi\xf3n",
     "SignedInAsA": "En conexi\xf3n como %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "F\xf3rmulas simples",
     "Sin": "Sen",
     "SingleFile": "\xdanico archivo",

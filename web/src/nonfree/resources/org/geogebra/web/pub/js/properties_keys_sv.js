@@ -2597,6 +2597,7 @@ __GGB__keysVar.sv.menu = {
     "SignOut": "Logga ut",
     "SignedInAsA": "Inloggad som %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "Enkla formler",
     "Sin": "Sin",
     "SingleFile": "En fil",

@@ -2597,6 +2597,7 @@ __GGB__keysVar.pt_PT.menu = {
     "SignOut": "Sair",
     "SignedInAsA": "A iniciar a sess\xe3o como %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "F\xf3rmulas Simples",
     "Sin": "Sin",
     "SingleFile": "Ficheiro \xdanico",

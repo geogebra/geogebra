@@ -2597,6 +2597,7 @@ __GGB__keysVar.hu.menu = {
     "SignOut": "Kijelentkez\xe9s",
     "SignedInAsA": "%0 bejelentkezett",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "Egyszer\u0171 kifejez\xe9sek",
     "Sin": "Szinusz",
     "SingleFile": "Egyetlen f\xe1jl",

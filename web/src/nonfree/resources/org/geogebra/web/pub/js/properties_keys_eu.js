@@ -2597,6 +2597,7 @@ __GGB__keysVar.eu.menu = {
     "SignOut": "Saioa itxi",
     "SignedInAsA": "Saioa hasita %0 gisara",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "Formula Sinpleak",
     "Sin": "Sin",
     "SingleFile": "Fitxategi Bakarra",

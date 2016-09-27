@@ -2597,6 +2597,7 @@ __GGB__keysVar.uk.menu = {
     "SignOut": "\u0412\u0438\u0439\u0442\u0438",
     "SignedInAsA": "\u0412\u0438 \u0443\u0432\u0456\u0439\u0448\u043b\u0438 \u044f\u043a %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "\u041d\u0430\u0439\u043f\u0440\u043e\u0441\u0442\u0456\u0448\u0456 \u0444\u043e\u0440\u043c\u0443\u043b\u0438",
     "Sin": "\u0421\u0438\u043d\u0443\u0441\u043e\u0457\u0434\u0430\u043b\u044c\u043d\u0430",
     "SingleFile": "\u041e\u0434\u0438\u043d\u0438\u0447\u043d\u0438\u0439 \u0444\u0430\u0439\u043b",

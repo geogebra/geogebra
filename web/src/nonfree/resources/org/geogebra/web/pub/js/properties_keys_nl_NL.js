@@ -2597,6 +2597,7 @@ __GGB__keysVar.nl_NL.menu = {
     "SignOut": "Afmelden",
     "SignedInAsA": "Aangemeld als %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "Eeenvoudige formules",
     "Sin": "Sin",
     "SingleFile": "Enkel bestand",

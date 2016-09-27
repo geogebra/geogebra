@@ -2597,6 +2597,7 @@ __GGB__keysVar.ca.menu = {
     "SignOut": "Tanca la sessi\xf3",
     "SignedInAsA": "Iniciada la sessi\xf3 de %0",
     "SimpleCalc": "Simple Calc",
+    "SimpleCalculator": "Simple Calculator",
     "SimpleFormulas": "F\xf3rmules simples",
     "Sin": "sin",
     "SingleFile": "Un sol fitxer",
