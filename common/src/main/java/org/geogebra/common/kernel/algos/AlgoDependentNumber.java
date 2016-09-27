@@ -287,7 +287,19 @@ public class AlgoDependentNumber extends AlgoElement
 					k++;
 				}
 			}
+
 			allSegmentsFromExpression = new HashSet<GeoSegment>();
+			// remove variables as geoSegment names
+			if (!segVarPairs.isEmpty()) {
+				Iterator<Entry<GeoElement, Variable>> it = segVarPairs
+						.iterator();
+				while (it.hasNext()) {
+					Entry<GeoElement, Variable> curr = it.next();
+					GeoSegment currGeoSeg = (GeoSegment) curr.getKey();
+					currGeoSeg.setLabelSimple(null);
+					currGeoSeg.labelSet = false;
+				}
+			}
 			segVarPairs = new ArrayList<Entry<GeoElement, Variable>>();
 
 			return botanaPolynomials;
@@ -322,8 +334,7 @@ public class AlgoDependentNumber extends AlgoElement
 			// set new name for segment (which giac will use later)
 			Variable currentVar = new Variable();
 			if (((GeoSegment) node.getRight()).getLabelSimple() == null) {
-				((GeoSegment) node.getRight())
-						.setLabel(currentVar.toString());
+				((GeoSegment) node.getRight()).setLabel(currentVar.toString());
 			}
 			Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
 					(GeoSegment) node.getRight(), currentVar);
