@@ -136,9 +136,14 @@ public interface CASGenericInterface extends SettingListener {
 	 *            input polynomials (comma separated strings)
 	 * @param elimVars
 	 *            variables to eliminate (comma separated strings)
+	 * @param oneCurve
+	 *            if the output consists of more polynomials, consider the
+	 *            intersections of them as points with real coordinates and
+	 *            convert them to a single product
 	 * @return the elimination ideal
 	 */
-	public String createEliminateScript(String polys, String elimVars);
+	public String createEliminateScript(String polys, String elimVars,
+			boolean oneCurve);
 
 	/**
 	 * Creates a program to check if an equation system has no solution, using

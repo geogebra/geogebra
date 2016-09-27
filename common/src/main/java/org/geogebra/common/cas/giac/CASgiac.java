@@ -659,9 +659,65 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	}
 
-	public String createEliminateScript(String polys, String elimVars) {
-		return "primpoly(eliminate([" + polys + "],revlist([" + elimVars
-				+ "])))";
+	/**
+	 * Create a script which eliminates variables from a set of polynomials.
+	 * 
+	 * @param polys
+	 *            the input polynomials
+	 * @param elimVars
+	 *            the variables to be eliminated
+	 * @param oneCurve
+	 *            if the output consists of more polynomials, consider the
+	 *            intersections of them as points with real coordinates and
+	 *            convert them to a single product
+	 * 
+	 * @return the Giac program which creates the output ideal
+	 */
+	public String createEliminateScript(String polys, String elimVars,
+			boolean oneCurve) {
+		if (!oneCurve) {
+			return "primpoly(eliminate([" + polys + "],revlist([" + elimVars
+					+ "])))";
+		}
+
+		/*
+		 * FIXME. The FAKE_NULL hack is needed for the moment because the
+		 * implicit curve plotter cannot plot points being defined in the form
+		 * (x-a)^2+(y-b)^2=0, so we use (x-a)^2+(y-b)^2=FAKE_NULL instead.
+		 */
+		String FAKE_NULL = "1/100";
+		/*
+		 * FIXME. Compute FAKE_PRECISION from the kernel precision instead of
+		 * using a fix number here.
+		 */
+		String FAKE_PRECISION = "10000";
+		String retval;
+		/*
+		 * Exact approach. This will not work if there are irrationals since
+		 * sqrt(...) cannot be directly converted to a number.
+		 */
+		/*
+		 * retval = "primpoly([[ee:=eliminate([" + polys + "],revlist([" +
+		 * elimVars +
+		 * "]))],[ll:=lvar(ee)],[if(size(ee)>1) begin ff:=solve(ee,ll);" +
+		 * "gg:=1;for ii from 0 to size(ff)-1 do gg:=gg*right(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)-"
+		 * + FAKE_NULL + ");" +
+		 * "od ee:=[lcm(denom(coeff(gg)))*gg]; end],ee][3])";
+		 */
+		/*
+		 * Rounded approach. This works in general, but we should check how
+		 * fsolve is implemented. The best would be to use symbolical
+		 * computation during solve(...) and then do the numerical
+		 * approximation. TODO: Check how giac implements fsolve and use a
+		 * different method if needed (and available).
+		 */
+		retval = "primpoly([[ee:=eliminate([" + polys + "],revlist([" + elimVars
+				+ "]))],[ll:=lvar(ee)],[if(size(ee)>1) begin ff:=round(fsolve(ee,ll)*"
+				+ FAKE_PRECISION + ")/" + FAKE_PRECISION + ";"
+				+ "gg:=1;for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)-"
+				+ FAKE_NULL + ");"
+				+ "od ee:=[lcm(denom(coeff(gg)))*gg]; end],ee][3])";
+		return retval;
 	}
 
 	public String createGroebnerSolvableScript(

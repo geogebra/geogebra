@@ -1,7 +1,9 @@
 package org.geogebra.common.kernel.locusequ;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocus;
+import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
@@ -55,10 +57,12 @@ public class CmdLocusEquation extends CommandProcessor {
 				locusPoint = (GeoPoint) arg[0];
 				movingPoint = (GeoPoint) arg[1];
 			} else {
+				AlgoElement ae;
 				if ((ok[0] = (arg[0] instanceof BooleanValue))
-						// second parameter should be a free point
-						&& (ok[1] = (arg[1].isGeoPoint() && arg[1]
-								.getParentAlgorithm() == null))) {
+						// second parameter should be a (semi-)free point
+						&& (ok[1] = (arg[1].isGeoPoint()
+								&& ((ae = arg[1].getParentAlgorithm()) == null
+										|| ae instanceof AlgoPointOnPath)))) {
 					implicitLocus = arg[0];
 					movingPoint = (GeoPoint) arg[1];
 					return new GeoElement[] { LocusEquation(c.getLabel(),

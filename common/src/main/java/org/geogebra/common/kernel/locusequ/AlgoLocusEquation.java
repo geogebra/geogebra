@@ -353,8 +353,10 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		List<GeoElement> freePoints = ProverBotanasMethod
 				.getFreePoints(implicit ? implicitLocus : locusPoint);
 		if (!implicit) {
-			freePoints.add(movingPoint);
 			freePoints.add(locusPoint);
+		}
+		if (!freePoints.contains(movingPoint)) {
+			freePoints.add(movingPoint);
 		}
 
 		/* axis support */
@@ -456,8 +458,9 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		eliminationIdeal = Polynomial.eliminate(
 				as.getPolynomials().toArray(
 						new Polynomial[as.getPolynomials().size()]),
-				substitutions, kernel, 0, false);
+				substitutions, kernel, 0, false, true);
 
+		// We implicitly assume that there is one equation here as result.
 		Polynomial result = null;
 		Iterator<Set<Polynomial>> it1 = eliminationIdeal.iterator();
 		if (it1.hasNext()) {

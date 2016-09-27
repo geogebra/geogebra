@@ -940,7 +940,7 @@ public class ProverBotanasMethod {
 				eliminationIdeal = Polynomial.eliminate(as.polynomials
 						.toArray(new Polynomial[as.polynomials.size()]),
 						substitutions, statement.getKernel(), permutation++,
-						true);
+						true, false);
 				if (eliminationIdeal == null) {
 					return ProofResult.UNKNOWN;
 				}

@@ -1055,11 +1055,16 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param permutation
 	 *            use this permutation number for changing the order of the
 	 *            first free variables
+	 * @param factorized
+	 *            compute output ideal in factorized form
+	 * @param oneCurve
+	 *            prefer getting one algebraic curve than an ideal with more
+	 *            elements
 	 * @return elements of the elimination ideal or null if computation failed
 	 */
 	public static Set<Set<Polynomial>> eliminate(Polynomial[] eqSystem,
 			HashMap<Variable, Long> substitutions, Kernel kernel,
-			int permutation, boolean factorized) {
+			int permutation, boolean factorized, boolean oneCurve) {
 
 		TreeSet<Variable> dependentVariables = new TreeSet<Variable>();
 		TreeSet<Variable> freeVariables = new TreeSet<Variable>();
@@ -1182,16 +1187,21 @@ public class Polynomial implements Comparable<Polynomial> {
 						.createEliminateFactorizedScript(polys, elimVars);
 			} else {
 				elimProgram = cas.getCurrentCAS().createEliminateScript(polys,
-						elimVars);
+						elimVars, oneCurve);
 			}
 			if (elimProgram == null) {
 				Log.info("Not implemented (yet)");
 				return null; // cannot decide
 			}
-			elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_").replace("unicode91u", "[");
+
+			elimResult = cas.evaluate(elimProgram).replace("unicode95u", "_")
+					.replace("unicode91u", "[");
+
 			if (!factorized) {
-				elimResult = "[1]: [1]: _[1]=1 _[2]="
-						+ elimResult.substring(1, elimResult.length() - 1)
+
+				elimResult = elimResult.replace(".0", "");
+				elimResult = elimResult.substring(1, elimResult.length() - 1);
+				elimResult = "[1]: [1]: _[1]=1 _[2]=" + elimResult
 						+ " [2]: 1,1";
 				Log.trace("Rewritten: " + elimResult);
 			}
