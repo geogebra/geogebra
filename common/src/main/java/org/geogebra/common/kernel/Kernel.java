@@ -1020,7 +1020,7 @@ public class Kernel {
 				vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN, needsZ,
 				tpl);
 
-		if (!implicit) {
+		if (!implicit && temp[vars.length] != 0.0) {
 			String sign;
 			double abs;
 			if (temp[vars.length] < 0.0) {
