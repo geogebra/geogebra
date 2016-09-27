@@ -251,11 +251,12 @@ public class GeoTextEditor extends RichTextArea {
 		return sb.toString();
 	}
 	public void handlePaste() {
-		setDynamicText();
+		// setDynamicText();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			public void execute() {
 				getBody().setInnerHTML(getUnformattedContent());
+				updateFonts();
 			}
 		});
 		editPanel.updatePreviewPanel();
