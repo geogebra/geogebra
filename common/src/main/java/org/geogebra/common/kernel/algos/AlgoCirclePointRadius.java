@@ -184,14 +184,18 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		}
 		
 		botanaPolynomials = new Polynomial[2];
-		Variable[] radiusBotanaVars = num.getBotanaVars(num);
 		Polynomial[] extraPolys = null;
 		if (num.getParentAlgorithm() instanceof AlgoDependentNumber) {
 			extraPolys = num.getBotanaPolynomials(num);
 		}
+		/*
+		 * Note that we read the Botana variables just after reading the Botana
+		 * polynomials since the variables are set after the polys are set.
+		 */
+		Variable[] radiusBotanaVars = num.getBotanaVars(num);
 		int k = 0;
 		// r^2
-		Polynomial sqrR = Polynomial.sqr(new Polynomial(botanaVars[4]));
+		Polynomial sqrR = Polynomial.sqr(new Polynomial(radiusBotanaVars[0]));
 		// define radius
 		if (extraPolys != null) {
 			botanaPolynomials = new Polynomial[extraPolys.length + 1];
@@ -199,6 +203,7 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 				botanaPolynomials[k] = extraPolys[k];
 			}
 		} else {
+			/* Unsure what this code is for. TODO: check this! */
 			botanaPolynomials[k] = Polynomial
 					.sqrDistance(radiusBotanaVars[0], radiusBotanaVars[1],
 							radiusBotanaVars[2], radiusBotanaVars[3])

@@ -387,10 +387,12 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 				condition = geo != locusPoint;
 			}
 			if (condition && algo instanceof AlgoPointOnPath) {
-				GeoElement[] elems = algo.getInput();
-				if (elems != null && elems[0] instanceof GeoAxis) {
-					freePoints.add(geo);
-				}
+				/*
+				 * We need to add handle all points which are on a path like
+				 * free points (that is, substitution of their coordinates will
+				 * be performed later), unless this point is the locus point.
+				 */
+				freePoints.add(geo);
 			}
 		}
 

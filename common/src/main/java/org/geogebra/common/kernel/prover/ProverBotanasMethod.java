@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
+import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
@@ -31,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.prover.polynomial.Polynomial;
 import org.geogebra.common.kernel.prover.polynomial.Variable;
@@ -373,7 +375,27 @@ public class ProverBotanasMethod {
 				predecessors.add(geoStatement);
 			}
 
-			Iterator<GeoElement> it = predecessors.iterator();
+			TreeSet<GeoElement> predecessors2 = (TreeSet<GeoElement>) predecessors
+					.clone();
+
+			Iterator<GeoElement> it = predecessors2.iterator();
+			/*
+			 * Remove geos directly related with AlgoDependentNumber algos since
+			 * we don't want to add them twice (they will be invoked during
+			 * their occurrence on a higher level in their geos). Hopefully this
+			 * is OK in general, that is, we never need using
+			 * AlgoDependentNumber's polynomials directly. If this is still the
+			 * case, our idea here must be redesigned.
+			 */
+
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				if (geo instanceof GeoNumeric && geo
+						.getParentAlgorithm() instanceof AlgoDependentNumber)
+					predecessors.remove(geo);
+			}
+
+			it = predecessors.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
 				if (geo instanceof SymbolicParametersBotanaAlgo) {

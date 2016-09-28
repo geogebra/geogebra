@@ -319,10 +319,19 @@ public class AlgoDependentNumber extends AlgoElement
 			// if segment was given with command, eg. Segment[A,B]
 			// set new name for segment (which giac will use later)
 			Variable currentVar = new Variable();
+			/*
+			 * This is voodoo magic here. We obviously need a different solution
+			 * since such a spell on changing a label may cause the object to be
+			 * visible in the Algebra and Graphics Views. FIXME.
+			 */
+			boolean suppress = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(false);
 			 if (((GeoSegment) node.getLeft()).getLabelSimple() == null) {
 			 ((GeoSegment) node.getLeft())
 						.setLabel(currentVar.toString());
 			 }
+			cons.setSuppressLabelCreation(suppress);
+
 			Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
 					(GeoSegment) node.getLeft(), currentVar);
 			searchSegVarPair(pair);
@@ -332,10 +341,19 @@ public class AlgoDependentNumber extends AlgoElement
 				&& node.getRight() instanceof GeoSegment) {
 			// if segment was given with command, eg. Segment[A,B]
 			// set new name for segment (which giac will use later)
+
 			Variable currentVar = new Variable();
+			/*
+			 * This is voodoo magic here. We obviously need a different solution
+			 * since such a spell on changing a label may cause the object to be
+			 * visible in the Algebra and Graphics Views. FIXME.
+			 */
+			boolean suppress = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(false);
 			if (((GeoSegment) node.getRight()).getLabelSimple() == null) {
 				((GeoSegment) node.getRight()).setLabel(currentVar.toString());
 			}
+			cons.setSuppressLabelCreation(suppress);
 			Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
 					(GeoSegment) node.getRight(), currentVar);
 			searchSegVarPair(pair);
