@@ -369,16 +369,14 @@ public class ProverBotanasMethod {
 		private void setHypotheses() {
 			polynomials = new HashSet<Polynomial>();
 			int nHypotheses = 0;
-			TreeSet<GeoElement> predecessors = geoStatement
+			TreeSet<GeoElement> predecessors = new TreeSet<GeoElement>();
+			TreeSet<GeoElement> allPredecessors = geoStatement
 					.getAllPredecessors();
 			if (geoProver.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
-				predecessors.add(geoStatement);
+				allPredecessors.add(geoStatement);
 			}
 
-			TreeSet<GeoElement> predecessors2 = (TreeSet<GeoElement>) predecessors
-					.clone();
-
-			Iterator<GeoElement> it = predecessors2.iterator();
+			Iterator<GeoElement> it = allPredecessors.iterator();
 			/*
 			 * Remove geos directly related with AlgoDependentNumber algos since
 			 * we don't want to add them twice (they will be invoked during
@@ -390,9 +388,9 @@ public class ProverBotanasMethod {
 
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
-				if (geo instanceof GeoNumeric && geo
-						.getParentAlgorithm() instanceof AlgoDependentNumber)
-					predecessors.remove(geo);
+				if (!(geo instanceof GeoNumeric && geo
+						.getParentAlgorithm() instanceof AlgoDependentNumber))
+					predecessors.add(geo);
 			}
 
 			it = predecessors.iterator();
