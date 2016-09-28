@@ -1937,8 +1937,7 @@ public class Kernel {
 	}
 
 	public final StringBuilder buildExplicitEquation(double[] numbers,
- String[] vars, char opDefault,
-			StringTemplate tpl, boolean explicit) {
+			String[] vars, char opDefault, StringTemplate tpl, boolean explicit) {
 
 		char op = opDefault;
 		double d, dabs, q = numbers[1];
@@ -1991,6 +1990,20 @@ public class Kernel {
 		if (numbers[1] < MIN_PRECISION) {
 			op = oppositeSign(op);
 		}
+
+		// general line equation, coeff of x is null
+		if (!explicit) {
+			d = numbers[2] / q;
+			dabs = Math.abs(d);
+			sbBuildExplicitLineEquation.append(sign(d));
+			sbBuildExplicitLineEquation.append(' ');
+			sbBuildExplicitLineEquation.append(format(dabs, tpl));
+			sbBuildExplicitLineEquation.append(' ');
+			sbBuildExplicitLineEquation.append(op);
+			sbBuildExplicitLineEquation.append(" 0");
+			return sbBuildExplicitLineEquation;
+		}
+
 		sbBuildExplicitLineEquation.append(op);
 		sbBuildExplicitLineEquation.append(' ');
 
