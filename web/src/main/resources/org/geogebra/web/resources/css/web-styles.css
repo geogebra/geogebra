@@ -265,6 +265,10 @@ input[type="text"]::-ms-clear {
 .examMessagePanel{
 	margin-right:30px;
 }
+.examInfo {
+	margin-left: 5px;
+	cursor: pointer;
+}
 
 .centerDialog{
 	position: absolute !important;

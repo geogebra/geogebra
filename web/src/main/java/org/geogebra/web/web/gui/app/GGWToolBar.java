@@ -30,7 +30,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.TextDecoration;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -295,8 +294,9 @@ pr.menu_header_undo(), null, 32);
 		fp.add(timer);
 		Image info = new Image(GuiResourcesSimple.INSTANCE.dialog_info()
 				.getSafeUri());
+		info.setStyleName("examInfo");
 		fp.add(info);
-		info.getElement().getStyle().setMarginLeft(5, Unit.PX);
+
 		fp.addDomHandler(new ClickHandler() {
 			// clicking on info button
 			public void onClick(ClickEvent event) {
