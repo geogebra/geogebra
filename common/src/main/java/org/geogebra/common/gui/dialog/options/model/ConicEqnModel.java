@@ -5,6 +5,7 @@ import java.util.List;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 
 public class ConicEqnModel extends MultipleOptionsModel {
@@ -12,7 +13,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 
 	private Localization loc;
 	int implicitIndex, explicitIndex, specificIndex, parametricIndex,
-			userIndex;
+			userIndex, vertexformIndex;
 
 	public ConicEqnModel(App app) {
 		super(app);
@@ -38,6 +39,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		boolean specificPossible = geo0.isSpecificPossible();
 		boolean explicitPossible = geo0.isExplicitPossible();
 		boolean userPossible = geo0.getDefinition() != null;
+		boolean vertexformPossible = geo0.isVertexformPossible();
 		for (int i = 1; i < getGeosLength(); i++) {
 			temp = getConicAt(i);
 			// same type?
@@ -55,6 +57,9 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			if (temp.getDefinition() == null) {
 				userPossible = false;
 			}
+			if (!temp.isVertexformPossible()) {
+				vertexformPossible = false;
+			}
 		}
 
 		// specific can't be shown because there are different types
@@ -66,6 +71,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		implicitIndex = -1;
 		userIndex = -1;
 		parametricIndex = -1;
+		vertexformIndex = -1;
 		int counter = -1;
 		getListener().clearItems();
 		if (specificPossible) {
@@ -86,6 +92,10 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		implicitIndex = ++counter;
 		getListener().addItem(loc
 				.getPlain("ImplicitConicEquation"));
+		if (vertexformPossible && app.has(Feature.MORE_DISPLAY_FORMS)) {
+			getListener().addItem(loc.getPlain("ParabolaVertexForm"));
+			vertexformIndex = ++counter;
+		}
 
 		int mode;
 		if (equalMode)
@@ -112,6 +122,10 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		case GeoConicND.EQUATION_USER:
 			getListener().setSelectedIndex(userIndex);
 			break;
+		case GeoConicND.EQUATION_VERTEX:
+			if (vertexformIndex > -1)
+				getListener().setSelectedIndex(vertexformIndex);
+			break;
 
 		default:
 			getListener().setSelectedIndex(-1);
@@ -137,6 +151,8 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			geo.setToUser();
 		} else if (value == parametricIndex) {
 			geo.setToParametric();
+		} else if (value == vertexformIndex) {
+			geo.setToVertexform();
 		}
 
 		geo.updateRepaint();

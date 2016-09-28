@@ -83,6 +83,9 @@ FromMeta
 	public static final int EQUATION_PARAMETRIC = 3;
 	/** user defined equation form */
 	public static final int EQUATION_USER = 4;
+	/** vertex form **/
+	public static final int EQUATION_VERTEX = 5;
+
 	/** variable strings for default output */
 	protected static String[] vars = { "x\u00b2", "x y", "y\u00b2", "x", "y" };
 	/** variable strings for LaTeX output */
@@ -1304,6 +1307,7 @@ FromMeta
 		case EQUATION_EXPLICIT:
 		case EQUATION_USER:
 		case EQUATION_PARAMETRIC:
+		case EQUATION_VERTEX:
 			this.toStringMode = mode;
 			break;
 
@@ -1391,6 +1395,11 @@ FromMeta
 		setToStringMode(EQUATION_USER);
 	}
 
+	/** Changes equation mode to Vertex form */
+	final public void setToVertexform() {
+		setToStringMode(EQUATION_VERTEX);
+	}
+
 	/**
 	 * Returns whether specific equation representation is possible.    
 	 * @return true iff specific equation representation is possible. 
@@ -1428,9 +1437,16 @@ FromMeta
 		return !Kernel.isZero(matrix[5]) && Kernel.isZero(matrix[3]) && Kernel.isZero(matrix[1]);
 	}
 
-
-
-
+	/**
+	 * Returns wheter vertex form of parabola equation representation (y = a
+	 * (x-h)\u00b2 + k) is possible.
+	 * 
+	 * @return true if vertex form equation is possible
+	 */
+	final public boolean isVertexformPossible() {
+		return !Kernel.isZero(matrix[0]) && !Kernel.isZero(matrix[5])
+				&& Kernel.isZero(matrix[1]) && Kernel.isZero(matrix[3]);
+	}
 
 	/**
 	 * returns false if conic's matrix is the zero matrix
@@ -1839,7 +1855,13 @@ FromMeta
 				
 			case EQUATION_EXPLICIT:
 				if (isExplicitPossible())
-					return kernel.buildExplicitConicEquation(coeffs, myVars, 4, KEEP_LEADING_SIGN,tpl); 
+				return kernel.buildExplicitConicEquation(coeffs, myVars, 4,
+						KEEP_LEADING_SIGN, tpl);
+
+			case EQUATION_VERTEX:
+				if (isVertexformPossible()){
+					return kernel.buildVertexformEquation(coeffs, myVars, tpl);
+				}
 
 			default : //implicit
 			return kernel.buildImplicitEquation(coeffs, myVars,

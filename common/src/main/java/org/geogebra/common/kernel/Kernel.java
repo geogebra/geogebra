@@ -1794,6 +1794,13 @@ public class Kernel {
 		}
 	}
 
+	public final StringBuilder buildVertexformEquation(double[] numbers,
+			String[] vars, StringTemplate tpl) {
+		StringBuilder sbBuildVertexformEquation = new StringBuilder(80);
+		sbBuildVertexformEquation.append("vertexform");
+		return sbBuildVertexformEquation;
+	}
+
 	/**
 	 * Uses current ScientificFormat sf to format a number. Makes sure ".123" is
 	 * returned as "0.123".
