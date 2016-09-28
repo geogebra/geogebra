@@ -1794,10 +1794,36 @@ public class Kernel {
 		}
 	}
 
+	/*
+	 * y = a (x + h)^2 + k
+	 */
 	public final StringBuilder buildVertexformEquation(double[] numbers,
 			String[] vars, StringTemplate tpl) {
+		Log.debug("vars: " + vars);
+
+		double a = -1 * numbers[0] / numbers[4];
+		double h = numbers[3] / numbers[0] / 2;
+		double k = (numbers[3] * numbers[3])
+ / (4 * numbers[4] * numbers[0])
+				- (numbers[5] / numbers[4]);
+		
+		// Log.debug("(" + numbers[3] + " * " + numbers[3] + ")/ (4 * "
+		// + numbers[4] + " * " + numbers[0] + ")- (" + numbers[5] + " / "
+		// + numbers[4] + ")");
+
 		StringBuilder sbBuildVertexformEquation = new StringBuilder(80);
-		sbBuildVertexformEquation.append("vertexform");
+		sbBuildVertexformEquation.append(vars[4] + " = ");
+		if (a != 1) {
+			sbBuildVertexformEquation.append(a);
+		}
+		if (h == 0) {
+			sbBuildVertexformEquation.append(vars[3] + "^2");
+		} else {
+			sbBuildVertexformEquation.append("(" + vars[3] + " + " + h + ")^2");
+		}
+		if (k != 0) {
+			sbBuildVertexformEquation.append(" + " + k);
+		}
 		return sbBuildVertexformEquation;
 	}
 
