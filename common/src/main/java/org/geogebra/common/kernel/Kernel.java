@@ -1799,30 +1799,38 @@ public class Kernel {
 	 */
 	public final StringBuilder buildVertexformEquation(double[] numbers,
 			String[] vars, StringTemplate tpl) {
-		Log.debug("vars: " + vars);
-
 		double a = -1 * numbers[0] / numbers[4];
 		double h = numbers[3] / numbers[0] / 2;
-		double k = (numbers[3] * numbers[3])
- / (4 * numbers[4] * numbers[0])
+		double k = (numbers[3] * numbers[3]) / (4 * numbers[4] * numbers[0])
 				- (numbers[5] / numbers[4]);
 		
-		// Log.debug("(" + numbers[3] + " * " + numbers[3] + ")/ (4 * "
-		// + numbers[4] + " * " + numbers[0] + ")- (" + numbers[5] + " / "
-		// + numbers[4] + ")");
+		String squared;
+		switch (tpl.getStringType()) {
+		case LATEX:
+			squared = "^{2}";
+			break;
+
+		case GIAC:
+			squared = "^2";
+			break;
+
+		default:
+			squared = "\u00b2";
+		}
 
 		StringBuilder sbBuildVertexformEquation = new StringBuilder(80);
 		sbBuildVertexformEquation.append(vars[4] + " = ");
-		if (a != 1) {
-			sbBuildVertexformEquation.append(a);
-		}
+		sbBuildVertexformEquation.append(formatCoeff(a, tpl));
 		if (h == 0) {
-			sbBuildVertexformEquation.append(vars[3] + "^2");
+			sbBuildVertexformEquation.append(vars[3] + squared);
 		} else {
-			sbBuildVertexformEquation.append("(" + vars[3] + " + " + h + ")^2");
+			sbBuildVertexformEquation.append("(" + vars[3] + " " + sign(h)
+					+ ' '
+					+ format(Math.abs(h), tpl) + ")" + squared);
 		}
 		if (k != 0) {
-			sbBuildVertexformEquation.append(" + " + k);
+			sbBuildVertexformEquation.append(" " + sign(k)
+					+ format(Math.abs(k), tpl));
 		}
 		return sbBuildVertexformEquation;
 	}
