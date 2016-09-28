@@ -69,6 +69,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -1118,10 +1119,10 @@ public class TextInputDialogD extends InputDialogD
 			try {
 				kernel.getAlgebraProcessor().changeGeoElement(editGeo,
 						inputValue, true, true, TextInputDialogD.this,
-						new AsyncOperation<GeoElement>() {
+						new AsyncOperation<GeoElementND>() {
 
 							@Override
-							public void callback(GeoElement obj) {
+							public void callback(GeoElementND obj) {
 								// update editGeo
 								GeoText newText = (GeoText) obj;
 								editGeo = newText;
@@ -1158,13 +1159,13 @@ public class TextInputDialogD extends InputDialogD
 		app.setMoveMode();
 	}
 
-	public AsyncOperation<GeoElement[]> getCallback(
+	public AsyncOperation<GeoElementND[]> getCallback(
 			final AsyncOperation<Boolean> callback) {
 		// TODO Auto-generated method stub
-		return new AsyncOperation<GeoElement[]>() {
+		return new AsyncOperation<GeoElementND[]>() {
 
 			@Override
-			public void callback(GeoElement[] ret) {
+			public void callback(GeoElementND[] ret) {
 				if (ret != null && ret[0] instanceof GeoText) {
 					Kernel kernel = ret[0].getKernel();
 					GeoText t = (GeoText) ret[0];

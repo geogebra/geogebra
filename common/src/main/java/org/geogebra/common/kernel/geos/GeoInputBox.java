@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
@@ -67,7 +69,7 @@ public class GeoInputBox extends GeoButton {
 	/**
 	 * @param geo new linked geo
 	 */
-	public void setLinkedGeo(GeoElement geo) {
+	public void setLinkedGeo(GeoElementND geo) {
 		linkedGeo = geo;
 		text = geo.getValueForInputBar();
 		
@@ -84,11 +86,11 @@ public class GeoInputBox extends GeoButton {
 	 * Returns the linked geo
 	 * @return linked geo
 	 */
-	public GeoElement getLinkedGeo() {
+	public GeoElementND getLinkedGeo() {
 		return linkedGeo;
 	}
 
-	private GeoElement linkedGeo = null;
+	private GeoElementND linkedGeo = null;
 
 	private String text = null;
 	private AutoCompleteTextField textField, textField2;
@@ -202,7 +204,7 @@ public class GeoInputBox extends GeoButton {
 		} else if (linkedGeo.isGeoText()) {
 			defineText = "\"" + defineText + "\"";
 		} else if (linkedGeo.isGeoPoint()) {
-			if (linkedGeo.toStringMode == Kernel.COORD_COMPLEX) {
+			if (((GeoPointND) linkedGeo).getMode() == Kernel.COORD_COMPLEX) {
 				// z=2 doesn't work for complex numbers (parses to
 				// GeoNumeric)
 				defineText = defineText + "+0" + Unicode.IMAGINARY;
@@ -256,10 +258,10 @@ public class GeoInputBox extends GeoButton {
 				kernel.getAlgebraProcessor()
 						.changeGeoElementNoExceptionHandling(linkedGeo,
 								defineText, linkedGeo.isIndependent(), true,
-								new AsyncOperation<GeoElement>() {
+								new AsyncOperation<GeoElementND>() {
 
 									@Override
-									public void callback(GeoElement obj) {
+									public void callback(GeoElementND obj) {
 										if (imaginary) {
 											ExpressionNode def = obj
 													.getDefinition();

@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -264,7 +265,7 @@ public class CASTableCellEditorW extends Label implements
 
 	@Override
 	public void stopEditing(String latex,
-			AsyncOperation<GeoElement> callback) {
+ AsyncOperation<GeoElementND> callback) {
 		thisIsEdited = false;
 		// App.debug("STOPPED" + latex);
 	}

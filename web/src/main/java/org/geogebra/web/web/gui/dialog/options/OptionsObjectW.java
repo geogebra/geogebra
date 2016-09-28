@@ -63,6 +63,7 @@ import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsV
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -573,11 +574,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		 * current geo on which focus lost shouls apply
 		 * (may be different to current geo, due to threads)
 		 */
-		GeoElement currentGeoForFocusLost = null;
+		GeoElementND currentGeoForFocusLost = null;
 
 		String redefinitionForFocusLost = "";
 
-		public void updateDef(GeoElement geo) {
+		public void updateDef(GeoElementND geo) {
 
 			// do nothing if called by doActionPerformed
 			//		if (actionPerforming)

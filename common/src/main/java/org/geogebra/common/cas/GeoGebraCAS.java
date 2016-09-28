@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.debug.Log;
@@ -623,7 +624,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 									StringTemplate.defaultTemplate));
 						}
 						sb.append(']');
-						GeoElement[] ggbResult = kern.getAlgebraProcessor()
+						GeoElementND[] ggbResult = kern.getAlgebraProcessor()
 								.processAlgebraCommandNoExceptions(
 										sb.toString(), false);
 						kern.setSilentMode(silent);

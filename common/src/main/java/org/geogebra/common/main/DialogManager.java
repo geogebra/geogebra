@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -257,10 +258,11 @@ public abstract class DialogManager {
 		}
 
 		kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
-				inputText, false, eh, true, new AsyncOperation<GeoElement[]>() {
+				inputText, false, eh, true,
+				new AsyncOperation<GeoElementND[]>() {
 
 					@Override
-					public void callback(GeoElement[] result) {
+					public void callback(GeoElementND[] result) {
 						cons.setSuppressLabelCreation(oldVal);
 						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 						boolean success = result != null
@@ -340,9 +342,9 @@ public abstract class DialogManager {
 		final boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		AsyncOperation<GeoElement[]> checkNumber = new AsyncOperation<GeoElement[]>() {
+		AsyncOperation<GeoElementND[]> checkNumber = new AsyncOperation<GeoElementND[]>() {
 			@Override
-			public void callback(GeoElement[] result) {
+			public void callback(GeoElementND[] result) {
 				
 
 				cons.setSuppressLabelCreation(oldVal);
@@ -582,10 +584,10 @@ public abstract class DialogManager {
 		kernel.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(inputString, false,
 						handler, true,
-						new AsyncOperation<GeoElement[]>() {
+				new AsyncOperation<GeoElementND[]>() {
 
 							@Override
-							public void callback(GeoElement[] result) {
+					public void callback(GeoElementND[] result) {
 								cons.setSuppressLabelCreation(oldVal);
 
 								boolean success = result != null

@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
@@ -77,7 +78,7 @@ public class ParametricProcessor {
 	 */
 	final GeoElement[] checkParametricEquation(ValidExpression ve0,
 			TreeSet<String> undefinedVariables, boolean autocreateSliders,
-			AsyncOperation<GeoElement[]> callback, EvalInfo info) {
+			AsyncOperation<GeoElementND[]> callback, EvalInfo info) {
 		if (undefinedVariables.isEmpty()) {
 			return null;
 		}

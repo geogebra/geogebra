@@ -7,6 +7,7 @@ import java.util.TreeSet;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 
@@ -241,7 +242,7 @@ public abstract class CopyPasteCut {
 		int y3 = row1;
 		int x4 = column1 + width - 1;
 		int y4 = row1 + height - 1;
-		GeoElement[][] values2 = RelativeCopy.getValues(app, x3, y3, x4, y4);
+		GeoElementND[][] values2 = RelativeCopy.getValues(app, x3, y3, x4, y4);
 		/*
 		 * for (int i = 0; i < values2.length; ++ i) { for (int j = 0; j <
 		 * values2[i].length; ++ j) { if (values2[i][j] != null) {
@@ -433,7 +434,7 @@ public abstract class CopyPasteCut {
 			if (tableModel.getRowCount() < row1 + data.length) {
 				tableModel.setRowCount(row1 + data.length);
 			}
-			GeoElement[][] values2 = new GeoElement[data.length][];
+			GeoElementND[][] values2 = new GeoElement[data.length][];
 			int maxLen = -1;
 			for (int row = row1; row < row1 + data.length; ++row) {
 				if (row < 0 || row > maxRow)

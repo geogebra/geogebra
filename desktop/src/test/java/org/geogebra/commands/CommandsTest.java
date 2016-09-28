@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -67,7 +68,7 @@ public class CommandsTest extends Assert{
 			
 		}
 		Throwable t = null;
-		GeoElement[] result = null;
+		GeoElementND[] result = null;
 		try {
 			result = ap.processAlgebraCommandNoExceptionHandling(s,
 					false, TestErrorHandler.INSTANCE, false, null);

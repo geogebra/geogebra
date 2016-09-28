@@ -3,6 +3,7 @@ package org.geogebra.web.cas.latex;
 import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.css.StyleInjector;
@@ -988,10 +989,10 @@ public class MathQuillHelper extends LaTeXHelper {
 			String latex, final JavaScriptObject onError) {
 		currentWidget = null;
 		currentElement = null;
-		rbti.stopEditing(latex, new AsyncOperation<GeoElement>() {
+		rbti.stopEditing(latex, new AsyncOperation<GeoElementND>() {
 
 			@Override
-			public void callback(GeoElement obj) {
+			public void callback(GeoElementND obj) {
 				if (obj == null) {
 					ScriptManagerW.runCallback(onError);
 				}

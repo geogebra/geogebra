@@ -985,7 +985,7 @@ public class CellRangeProcessor {
 	 * @param copyByValue
 	 * @return
 	 */
-	public GeoElement createMatrix(int column1, int column2, int row1,
+	public GeoElementND createMatrix(int column1, int column2, int row1,
 			int row2, boolean copyByValue) {
 		return createMatrix(column1, column2, row1, row2, copyByValue, false);
 	}
@@ -1004,10 +1004,10 @@ public class CellRangeProcessor {
 	 * @param transpose
 	 * @return
 	 */
-	public GeoElement createMatrix(int column1, int column2, int row1,
+	public GeoElementND createMatrix(int column1, int column2, int row1,
 			int row2, boolean copyByValue, boolean transpose) {
 
-		GeoElement[] geos = null;
+		GeoElementND[] geos = null;
 		String expr = null;
 
 		try {
@@ -1040,10 +1040,10 @@ public class CellRangeProcessor {
 	 * @param copyByValue
 	 * @return
 	 */
-	public GeoElement createTableText(int column1, int column2, int row1,
+	public GeoElementND createTableText(int column1, int column2, int row1,
 			int row2, boolean copyByValue, boolean transpose) {
 
-		GeoElement[] geos = null;
+		GeoElementND[] geos = null;
 		StringBuilder text = new StringBuilder();
 
 		try {
@@ -1261,7 +1261,7 @@ public class CellRangeProcessor {
 		int r1 = cr.getMinRow();
 		int c1 = cr.getMinColumn();
 		String text = "";
-		GeoElement[] geos;
+		GeoElementND[] geos;
 		GeoFunctionNVar fcn = (GeoFunctionNVar) RelativeCopy.getValue(app, c1,
 				r1);
 

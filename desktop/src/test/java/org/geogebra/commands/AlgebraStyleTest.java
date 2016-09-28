@@ -5,7 +5,7 @@ import java.util.Locale;
 import javax.swing.JFrame;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.main.AppD;
@@ -23,7 +23,7 @@ public class AlgebraStyleTest extends Assert {
 
 
 	private void checkRows(String def, int rows) {
-		GeoElement[] el = ap.processAlgebraCommandNoExceptionHandling(def,
+		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false,
 				TestErrorHandler.INSTANCE, false, null);
 		assertEquals(rows, el[0].needToShowBothRowsInAV() ? 2 : 1);

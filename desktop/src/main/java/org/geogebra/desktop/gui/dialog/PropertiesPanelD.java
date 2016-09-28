@@ -137,6 +137,7 @@ import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
@@ -5182,7 +5183,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	 * current geo on which focus lost shouls apply (may be different to current
 	 * geo, due to threads)
 	 */
-	private GeoElement currentGeoForFocusLost = null;
+	private GeoElementND currentGeoForFocusLost = null;
 
 	public JPanel updatePanel(Object[] geos) {
 
@@ -5225,7 +5226,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 	private String redefinitionForFocusLost = "";
 
-	public void updateDef(GeoElement geo) {
+	public void updateDef(GeoElementND geo) {
 
 		// do nothing if called by doActionPerformed
 		if (model.isBusy())

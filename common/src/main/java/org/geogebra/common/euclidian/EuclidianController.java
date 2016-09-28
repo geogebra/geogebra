@@ -1264,11 +1264,11 @@ public abstract class EuclidianController {
 		}
 	}
 
-	public void memorizeJustCreatedGeos(GeoElement[] geos) {
+	public void memorizeJustCreatedGeos(GeoElementND[] geos) {
 		justCreatedGeos.clear();
 		for (int i = 0; i < geos.length; i++) {
 			if (geos[i] != null) {
-				justCreatedGeos.add(geos[i]);
+				justCreatedGeos.add(geos[i].toGeoElement());
 			}
 		}
 		if (app.isUsingFullGui() && app.getGuiManager() != null) {

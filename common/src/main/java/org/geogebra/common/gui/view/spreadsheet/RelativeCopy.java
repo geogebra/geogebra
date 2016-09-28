@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
@@ -412,16 +413,16 @@ public class RelativeCopy {
 	protected static final RegExp pattern2 = RegExp
 			.compile("(::|\\$)([A-Z]+)(::|\\$)([0-9]+)");
 
-	public static GeoElement doCopyNoStoringUndoInfo0(Kernel kernel, App app,
-			GeoElement value, GeoElement oldValue, int dx, int dy)
+	public static GeoElementND doCopyNoStoringUndoInfo0(Kernel kernel, App app,
+			GeoElement value, GeoElementND oldValue, int dx, int dy)
 			throws Exception {
 
 		return doCopyNoStoringUndoInfo0(kernel, app, value, oldValue, dx, dy,
 				-1, -1);
 	}
 
-	public static GeoElement doCopyNoStoringUndoInfo0(Kernel kernel, App app,
-			GeoElement value, GeoElement oldValue, int dx, int dy, int row0,
+	public static GeoElementND doCopyNoStoringUndoInfo0(Kernel kernel, App app,
+			GeoElement value, GeoElementND oldValue, int dx, int dy, int row0,
 			int column0)
 			throws Exception {
 		if (value == null) {
@@ -549,7 +550,7 @@ public class RelativeCopy {
 		}
 		
 		// create the new cell geo
-		GeoElement value2;
+		GeoElementND value2;
 
 		if (freeImage || value.isGeoButton()) {
 			value2 = value.copy();
@@ -726,7 +727,8 @@ public class RelativeCopy {
 			return;
 		}
 
-		GeoElement value2 = prepareAddingValueToTableNoStoringUndoInfo(kernel,
+		GeoElementND value2 = prepareAddingValueToTableNoStoringUndoInfo(
+				kernel,
 				app, text, oldValue, column, row, true);
 
 		if (geoForStyle != null) {
@@ -847,7 +849,7 @@ public class RelativeCopy {
 	// Cell Editing Methods
 	// =========================================================================
 
-	private static GeoElement prepareNewValue(Kernel kernel, String name,
+	private static GeoElementND prepareNewValue(Kernel kernel, String name,
 			String inputText) throws Exception {
 		String text = inputText;
 		if (text == null) {
@@ -861,7 +863,7 @@ public class RelativeCopy {
 		text = text.trim();
 
 		// no equal sign in input
-		GeoElement[] newValues = null;
+		GeoElementND[] newValues = null;
 		try {
 			// check if input is same as name: circular definition
 			if (text.equals(name)) {
@@ -942,8 +944,8 @@ public class RelativeCopy {
 	}
 
 	private static void updateOldValue(final Kernel kernel,
-			final GeoElement oldValue, String name, String text,
-			final AsyncOperation<GeoElement> callback)
+			final GeoElementND oldValue, String name, String text,
+			final AsyncOperation<GeoElementND> callback)
 			throws Exception {
 		String text0 = text;
 		if (text.charAt(0)== '=') {
@@ -955,13 +957,15 @@ public class RelativeCopy {
 			// here
 			kernel.getAlgebraProcessor()
 					.changeGeoElementNoExceptionHandling(oldValue, text, true,
-							false, new AsyncOperation<GeoElement>() {
+ false,
+				new AsyncOperation<GeoElementND>() {
 
 								@Override
-								public void callback(GeoElement newValue) {
+					public void callback(GeoElementND newValue) {
 									Log.debug("REDEFINED" + newValue);
 									// newValue.setConstructionDefaults();
-									newValue.setAllVisualProperties(oldValue,
+						newValue.setAllVisualProperties(
+								oldValue.toGeoElement(),
 											true);
 									if (oldValue.isAuxiliaryObject()) {
 										newValue.setAuxiliaryObject(true);
@@ -983,7 +987,9 @@ public class RelativeCopy {
 
 	}
 
-	private static ErrorHandler getErrorHandler(final Kernel kernel, final GeoElement oldValue, final String name, final String text0, final AsyncOperation<GeoElement> callback) {
+	private static ErrorHandler getErrorHandler(final Kernel kernel,
+			final GeoElementND oldValue, final String name, final String text0,
+			final AsyncOperation<GeoElementND> callback) {
 		return new ErrorHandler() {
 
 			public void showError(String msg) {
@@ -1011,7 +1017,7 @@ public class RelativeCopy {
 						// as new GeoText
 						else if (!oldValue.hasChildren()) {
 							oldValue.remove();
-							GeoElement newValue;
+					GeoElementND newValue;
 							// add input as text
 							try {
 								newValue = prepareNewValue(kernel, name, "\"" + text0
@@ -1073,8 +1079,8 @@ public class RelativeCopy {
 	 * @return either (1) a new GeoElement for the cell or (2) null
 	 * @throws Exception
 	 */
-	public static GeoElement prepareAddingValueToTableNoStoringUndoInfo(
-			Kernel kernel, App app, String inputText, GeoElement oldValue,
+	public static GeoElementND prepareAddingValueToTableNoStoringUndoInfo(
+			Kernel kernel, App app, String inputText, GeoElementND oldValue,
 			int column, int row, boolean internal) throws Exception {
 		String text = inputText;
 		// get the cell name
@@ -1121,7 +1127,7 @@ public class RelativeCopy {
 			try {
 				// this will be a new geo
 				kernel.setUseInternalCommandNames(internal);
-				GeoElement ret = prepareNewValue(kernel, name, text);
+				GeoElementND ret = prepareNewValue(kernel, name, text);
 				kernel.setUseInternalCommandNames(oldFlag);
 				return ret;
 			} catch (Throwable t) {
@@ -1132,10 +1138,10 @@ public class RelativeCopy {
 			// else the target cell is an existing GeoElement, so redefine it
 		} else {
 			updateOldValue(kernel, oldValue, name, text,
-					new AsyncOperation<GeoElement>() {
+					new AsyncOperation<GeoElementND>() {
 
 						@Override
-						public void callback(GeoElement obj) {
+						public void callback(GeoElementND obj) {
 							redefinedElement = obj;
 						}
 					});
@@ -1143,7 +1149,7 @@ public class RelativeCopy {
 		}
 	}
 
-	private static GeoElement redefinedElement;
+	private static GeoElementND redefinedElement;
 
 	/**
 	 * Tests if a string represents a number. 

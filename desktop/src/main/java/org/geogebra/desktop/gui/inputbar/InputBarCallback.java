@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 
-public class InputBarCallback extends AsyncOperation<GeoElement[]> {
+public class InputBarCallback extends AsyncOperation<GeoElementND[]> {
 	private App app;
 	private AutoCompleteTextFieldD inputField;
 	private String input;
@@ -22,10 +23,10 @@ public class InputBarCallback extends AsyncOperation<GeoElement[]> {
 	}
 
 	@Override
-	public void callback(GeoElement[] geos) {
+	public void callback(GeoElementND[] geos) {
 		// need label if we type just eg
 		// lnx
-		if (geos != null && geos.length == 1 && !geos[0].labelSet) {
+		if (geos != null && geos.length == 1 && !geos[0].isLabelSet()) {
 			geos[0].setLabel(geos[0].getDefaultLabel());
 		}
 
@@ -34,15 +35,15 @@ public class InputBarCallback extends AsyncOperation<GeoElement[]> {
 		if (geos != null && geos.length > 0) {
 			ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 			// add first output
-			GeoElement geo = geos[0];
-			list.add(geo);
+			GeoElementND geo = geos[0];
+			list.add(geo.toGeoElement());
 			GeoClass c = geo.getGeoClassType();
 			int i = 1;
 			// add following outputs until geo class changes
 			while (i < geos.length) {
 				geo = geos[i];
 				if (geo.getGeoClassType() == c) {
-					list.add(geo);
+					list.add(geo.toGeoElement());
 					i++;
 				} else {
 					i = geos.length;
@@ -51,7 +52,7 @@ public class InputBarCallback extends AsyncOperation<GeoElement[]> {
 			app.getSelectionManager().setSelectedGeos(list);
 		}
 
-		new InputHelper().updateProperties(geos, app.getActiveEuclidianView());
+		InputHelper.updateProperties(geos, app.getActiveEuclidianView());
 		if (geos != null) {
 			app.setScrollToShow(false);
 

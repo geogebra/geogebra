@@ -320,9 +320,9 @@ public class AlgebraProcessor {
 	 * @param callback
 	 *            receives changed geo
 	 */
-	public void changeGeoElement(GeoElement geo, String newValue,
+	public void changeGeoElement(GeoElementND geo, String newValue,
 			boolean redefineIndependent, boolean storeUndoInfo,
-			ErrorHandler handler, AsyncOperation<GeoElement> callback) {
+			ErrorHandler handler, AsyncOperation<GeoElementND> callback) {
 
 		try {
 			changeGeoElementNoExceptionHandling(geo, newValue,
@@ -358,9 +358,10 @@ public class AlgebraProcessor {
 	 *             eg assignment to fixed object
 	 *
 	 */
-	public void changeGeoElementNoExceptionHandling(GeoElement geo,
+	public void changeGeoElementNoExceptionHandling(GeoElementND geo,
 			String newValue, boolean redefineIndependent, boolean storeUndoInfo,
-			AsyncOperation<GeoElement> callback, ErrorHandler handler)
+ AsyncOperation<GeoElementND> callback,
+			ErrorHandler handler)
 			throws Exception, MyError {
 
 		try {
@@ -403,10 +404,10 @@ public class AlgebraProcessor {
 	 * @param handler
 	 *            decides how to handle exceptions
 	 */
-	public void changeGeoElementNoExceptionHandling(final GeoElement geo,
+	public void changeGeoElementNoExceptionHandling(final GeoElementND geo,
 			ValidExpression newValue, boolean redefineIndependent,
 			final boolean storeUndoInfo,
-			final AsyncOperation<GeoElement> callback, ErrorHandler handler) {
+			final AsyncOperation<GeoElementND> callback, ErrorHandler handler) {
 		String oldLabel, newLabel;
 		GeoElement[] result;
 		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
@@ -444,10 +445,10 @@ public class AlgebraProcessor {
 				// try to overwrite
 				final boolean listeners = app.getScriptManager().hasListeners();
 				app.getScriptManager().disableListeners();
-				AsyncOperation<GeoElement[]> changeCallback = new AsyncOperation<GeoElement[]>() {
+			AsyncOperation<GeoElementND[]> changeCallback = new AsyncOperation<GeoElementND[]>() {
 
 					@Override
-					public void callback(GeoElement[] obj) {
+				public void callback(GeoElementND[] obj) {
 						if (listeners) {
 							geo.updateCascade();
 						}
@@ -502,7 +503,7 @@ public class AlgebraProcessor {
 	 *            true to make undo step
 	 * @return resulting geos
 	 */
-	public GeoElement[] processAlgebraCommand(String cmd, boolean storeUndo) {
+	public GeoElementND[] processAlgebraCommand(String cmd, boolean storeUndo) {
 
 		try {
 			return processAlgebraCommandNoExceptionHandling(cmd, storeUndo,
@@ -525,7 +526,7 @@ public class AlgebraProcessor {
 	 *            true to create undo step
 	 * @return resulting geos
 	 */
-	public GeoElement[] processAlgebraCommandNoExceptions(String cmd,
+	public GeoElementND[] processAlgebraCommandNoExceptions(String cmd,
 			boolean storeUndo) {
 
 		try {
@@ -545,7 +546,7 @@ public class AlgebraProcessor {
 	 *            true to create undo step
 	 * @return resulting elements
 	 */
-	public GeoElement[] processAlgebraCommandNoExceptionsOrErrors(String str,
+	public GeoElementND[] processAlgebraCommandNoExceptionsOrErrors(String str,
 			boolean storeUndo) {
 
 		try {
@@ -582,15 +583,15 @@ public class AlgebraProcessor {
 	 *            callback after the geos are created
 	 * @return resulting geos
 	 */
-	public GeoElement[] processAlgebraCommandNoExceptionHandling(
+	public GeoElementND[] processAlgebraCommandNoExceptionHandling(
 			final String cmd, final boolean storeUndo,
 			final ErrorHandler handler,
 			boolean autoCreateSliders,
-			final AsyncOperation<GeoElement[]> callback0)
+			final AsyncOperation<GeoElementND[]> callback0)
 	{
 
 		// both return this and call callback0 in case of success!
-		GeoElement[] rett;
+		GeoElementND[] rett;
 
 		if (cmd.length() > 0 && cmd.charAt(0) == '<' && cmd.startsWith("<math")) {
 			rett = parseMathml(cmd, storeUndo, handler,
@@ -651,7 +652,7 @@ public class AlgebraProcessor {
 			ValidExpression ve, final boolean storeUndo,
 			final ErrorHandler handler,
 			boolean autoCreateSliders,
-			final AsyncOperation<GeoElement[]> callback0,
+			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
 		// collect undefined variables
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
@@ -961,14 +962,14 @@ public class AlgebraProcessor {
 	 * @param autoCreateSliders
 	 *            whether sliders should be autocreated
 	 */
-	private GeoElement[] parseMathml(String cmd, final boolean storeUndo,
+	private GeoElementND[] parseMathml(String cmd, final boolean storeUndo,
 			ErrorHandler handler,
 			boolean autoCreateSliders,
-			final AsyncOperation<GeoElement[]> callback0) {
+			final AsyncOperation<GeoElementND[]> callback0) {
 		if (mathmlParserGGB == null) {
 			mathmlParserGGB = new MathMLParser(true);
 		}
-		GeoElement[] ret = null;
+		GeoElementND[] ret = null;
 		try {
 			String ggb = mathmlParserGGB.parse(cmd, false, true);
 			RegExp assignment = RegExp.compile("^(\\w+) \\(x\\)=(.*)$");

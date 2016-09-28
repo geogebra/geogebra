@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
@@ -1296,7 +1297,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void stopEditing(String newValue0,
-			final AsyncOperation<GeoElement> callback) {
+			final AsyncOperation<GeoElementND> callback) {
 
 		styleEditor();
 
@@ -1330,12 +1331,12 @@ public abstract class RadioTreeItem extends AVTreeItem
 				boolean redefine = !isMoveablePoint(geo);
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
 						redefine, true, getErrorHandler(true),
-						new AsyncOperation<GeoElement>() {
+						new AsyncOperation<GeoElementND>() {
 
 							@Override
-							public void callback(GeoElement geo2) {
+							public void callback(GeoElementND geo2) {
 								if (geo2 != null) {
-									geo = geo2;
+									geo = geo2.toGeoElement();
 								}
 								updateAfterRedefine(geo != null);
 								if (callback != null) {

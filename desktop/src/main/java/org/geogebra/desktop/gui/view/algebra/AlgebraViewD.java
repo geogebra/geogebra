@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.LayerView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -750,12 +751,12 @@ public class AlgebraViewD extends AlgebraTree
 			// allow shift-double-click on a PointonPath in Algebra View to
 			// change without redefine
 			boolean redefine = !selectedGeoElement.isPointOnPath();
-			AsyncOperation<GeoElement> callback = new AsyncOperation<GeoElement>() {
+			AsyncOperation<GeoElementND> callback = new AsyncOperation<GeoElementND>() {
 
 				@Override
-				public void callback(GeoElement geo) {
+				public void callback(GeoElementND geo) {
 					if (geo != null) {
-						selectedGeoElement = geo;
+						selectedGeoElement = geo.toGeoElement();
 						selectedNode.setUserObject(selectedGeoElement);
 					}
 

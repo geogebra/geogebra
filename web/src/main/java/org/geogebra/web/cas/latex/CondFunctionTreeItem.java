@@ -3,6 +3,7 @@ package org.geogebra.web.cas.latex;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.web.html5.gui.util.CancelEvents;
 import org.geogebra.web.web.css.GuiResources;
 
@@ -73,7 +74,7 @@ public class CondFunctionTreeItem extends MathQuillTreeItem {
 	public static GeoFunction createBasic(Kernel kern) {
 		boolean oldVal = kern.isUsingInternalCommandNames();
 		kern.setUseInternalCommandNames(true);
-		GeoElement[] ret = kern.getAlgebraProcessor().processAlgebraCommand(
+		GeoElementND[] ret = kern.getAlgebraProcessor().processAlgebraCommand(
 				"If[x<1,x,x^2]", false);
 		kern.setUseInternalCommandNames(oldVal);
 		if ((ret != null) && (ret.length > 0) && (ret[0] != null)

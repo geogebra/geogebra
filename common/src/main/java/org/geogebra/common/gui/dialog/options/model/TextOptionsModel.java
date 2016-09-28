@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -295,10 +296,10 @@ public class TextOptionsModel extends OptionsModel {
 				.getAlgebraProcessor()
 				.changeGeoElement(geo0,
 						dTProcessor.buildGeoGebraString(text, isLatex), true,
-						true, handler, new AsyncOperation<GeoElement>() {
+						true, handler, new AsyncOperation<GeoElementND>() {
 
 							@Override
-							public void callback(GeoElement geo1) {
+							public void callback(GeoElementND geo1) {
 								((GeoText) geo1).setSerifFont(isSerif);
 								((GeoText) geo1).setLaTeX(isLatex, true);
 								((GeoText) geo1).updateRepaint();

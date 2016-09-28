@@ -4,6 +4,7 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -11,7 +12,7 @@ import org.geogebra.common.util.AsyncOperation;
 
 public class RedefineInputHandler implements InputHandler {
 
-	private GeoElement geo;
+	private GeoElementND geo;
 	App app;
 	String oldString;
 
@@ -24,7 +25,7 @@ public class RedefineInputHandler implements InputHandler {
 	/**
 	 * @param geo
 	 */
-	public void setGeoElement(GeoElement geo) {
+	public void setGeoElement(GeoElementND geo) {
 		this.geo = geo;
 		oldString = geo.getRedefineString(false, true);
 	}
@@ -33,7 +34,7 @@ public class RedefineInputHandler implements InputHandler {
 	 * 
 	 * @return current geo
 	 */
-	public GeoElement getGeoElement(){
+	public GeoElementND getGeoElement() {
 		return geo;
 	}
 
@@ -60,10 +61,10 @@ public class RedefineInputHandler implements InputHandler {
 			final String input = inputValue;
 			app.getKernel().getAlgebraProcessor().changeGeoElement(geo,
 					inputValue, true, true, handler,
-					new AsyncOperation<GeoElement>() {
+							new AsyncOperation<GeoElementND>() {
 
 						@Override
-						public void callback(GeoElement newGeo) {
+								public void callback(GeoElementND newGeo) {
 							app.getKernel().clearJustCreatedGeosInViews();
 
 							if (newGeo != null) {

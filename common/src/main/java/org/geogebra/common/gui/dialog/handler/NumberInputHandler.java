@@ -3,8 +3,8 @@ package org.geogebra.common.gui.dialog.handler;
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
@@ -36,10 +36,10 @@ public class NumberInputHandler implements InputHandler {
 			handler.showError(null);
 			algebraProcessor.processAlgebraCommandNoExceptionHandling(
 					inputString, false, handler, true,
-					new AsyncOperation<GeoElement[]>() {
+					new AsyncOperation<GeoElementND[]>() {
 
 						@Override
-						public void callback(GeoElement[] result) {
+						public void callback(GeoElementND[] result) {
 							boolean success = result != null
 									&& result[0] instanceof GeoNumberValue;
 							Construction cons = algebraProcessor.getKernel()

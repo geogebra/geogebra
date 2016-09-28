@@ -1,7 +1,7 @@
 package org.geogebra.web.web.gui.inputbar;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
@@ -303,10 +303,10 @@ public class AlgebraInputW extends FlowPanel
 		app.setScrollToShow(true);
 
 		try {
-			AsyncOperation<GeoElement[]> callback = new AsyncOperation<GeoElement[]>() {
+			AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
 
 				@Override
-				public void callback(GeoElement[] geos) {
+				public void callback(GeoElementND[] geos) {
 
 					if (geos == null) {
 						inputField.getTextBox().setFocus(true);
@@ -315,7 +315,7 @@ public class AlgebraInputW extends FlowPanel
 
 					// need label if we type just eg
 					// lnx
-					if (geos.length == 1 && !geos[0].labelSet) {
+					if (geos.length == 1 && !geos[0].isLabelSet()) {
 						geos[0].setLabel(geos[0].getDefaultLabel());
 					}
 

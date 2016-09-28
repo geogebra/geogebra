@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -44,7 +44,7 @@ public class CreateObjectModel {
 	public static final int TYPE_POLYLINE = 4;
 	private int objectType = TYPE_LIST;
 
-	private GeoElement newGeo;
+	private GeoElementND newGeo;
 	private boolean keepNewGeo = false;
 	private App app;
 	private ICreateObjectListener listener;
@@ -287,7 +287,8 @@ loc.getMenu("List.Create"), loc.getMenu("Matrix"),
 	}
 	
 	public String getNonLatexText() {
-		return newGeo.getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(
+		return newGeo.toGeoElement().getAlgebraDescriptionTextOrHTMLDefault(
+				new IndexHTMLBuilder(
 				true));
 	}
 
@@ -360,7 +361,7 @@ loc.getMenu("List.Create"), loc.getMenu("Matrix"),
 	}
 
 
-	public GeoElement getGeo() {
+	public GeoElementND getGeo() {
 		return newGeo;
 	}
 

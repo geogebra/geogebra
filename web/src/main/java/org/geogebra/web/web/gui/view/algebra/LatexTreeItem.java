@@ -10,6 +10,7 @@ import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
@@ -267,10 +268,10 @@ public class LatexTreeItem extends RadioTreeItem
 		if (!isEditing()) {
 			return;
 		}
-		stopEditing(getText(), new AsyncOperation<GeoElement>() {
+		stopEditing(getText(), new AsyncOperation<GeoElementND>() {
 
 			@Override
-			public void callback(GeoElement obj) {
+			public void callback(GeoElementND obj) {
 				if (obj != null && !keepFocus) {
 					obj.update();
 				}
@@ -284,10 +285,10 @@ public class LatexTreeItem extends RadioTreeItem
 				? kernel.getInputPreviewHelper().getInput(newValue) : newValue;
 		final boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
 				|| input.equals(newValue);
-		AsyncOperation<GeoElement[]> callback = new AsyncOperation<GeoElement[]>() {
+		AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
 
 			@Override
-			public void callback(GeoElement[] geos) {
+			public void callback(GeoElementND[] geos) {
 
 				if (geos == null) {
 					// inputField.getTextBox().setFocus(true);
@@ -297,7 +298,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 				// need label if we type just eg
 				// lnx
-				if (geos.length == 1 && !geos[0].labelSet) {
+				if (geos.length == 1 && !geos[0].isLabelSet()) {
 					geos[0].setLabel(geos[0].getDefaultLabel());
 				}
 

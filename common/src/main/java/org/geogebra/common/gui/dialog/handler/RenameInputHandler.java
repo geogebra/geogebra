@@ -6,13 +6,14 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
 public class RenameInputHandler implements InputHandler {
-	private GeoElement geo;
+	private GeoElementND geo;
 
 	private boolean storeUndo;
 
@@ -26,13 +27,13 @@ public class RenameInputHandler implements InputHandler {
 		this.storeUndo = storeUndo;
 	}
 
-	public void setGeoElement(GeoElement geo) {
+	public void setGeoElement(GeoElementND geo) {
 		this.geo = geo;
 	}
 
 	public void processInput(String inputValue, ErrorHandler handler,
 			AsyncOperation<Boolean> callback) {
-		GeoElement geo = this.geo;
+		GeoElementND geo = this.geo;
 		
 		if (inputValue == null){
 			callback.callback(false);

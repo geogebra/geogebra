@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -397,7 +398,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		                StringTemplate.latexTemplate) + "\"");
 		String text = EuclidianView.getDraggedLabels(list);
 
-		GeoElement[] ret = app.getKernel().getAlgebraProcessor()
+		GeoElementND[] ret = app.getKernel().getAlgebraProcessor()
 		        .processAlgebraCommand(text, true);
 
 		if (ret != null && ret[0] instanceof TextValue) {

@@ -16,8 +16,8 @@ import javax.swing.TransferHandler;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.arithmetic.TextValue;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
@@ -185,7 +185,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 				// tableRef = "$" + (cellnumber+1);
 
 				// create a GeoText on the specific mouse position
-				GeoElement[] ret = ev
+				GeoElementND[] ret = ev
 						.getApplication()
 						.getKernel()
 						.getAlgebraProcessor()
@@ -284,7 +284,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 				// ---------------------------------
 				// create GeoText
 
-				GeoElement[] ret = ev.getApplication().getKernel()
+				GeoElementND[] ret = ev.getApplication().getKernel()
 						.getAlgebraProcessor()
 						.processAlgebraCommand(text, true);
 

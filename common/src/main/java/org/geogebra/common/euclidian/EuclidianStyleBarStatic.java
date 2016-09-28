@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.TextProperties;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -236,10 +237,10 @@ public class EuclidianStyleBarStatic {
 		try {
 			app.getKernel().getAlgebraProcessor().changeGeoElement(geo, cmdtext,
 					true, true, app.getDefaultErrorHandler(),
-					new AsyncOperation<GeoElement>() {
+							new AsyncOperation<GeoElementND>() {
 
 						@Override
-						public void callback(GeoElement newGeo) {
+								public void callback(GeoElementND newGeo) {
 							app.doAfterRedefine(newGeo);
 							newGeo.updateRepaint();
 

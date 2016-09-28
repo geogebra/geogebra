@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
@@ -98,13 +99,14 @@ public class CmdCopyFreeObject extends CommandProcessor {
 		}
 
 		try {
-			GeoElement[] ret = kernelA.getAlgebraProcessor()
+			GeoElementND[] ret = kernelA
+					.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptions(command.toString(),
 							true);
 			ret[0].setVisualStyle(geoElement);
 			if (!geoElement.isLabelSet())
 				geoElement.remove();
-			return ret;
+			return ret[0].toGeoElement().asArray();
 
 		} catch (Exception e) {
 			if (!geoElement.isLabelSet())

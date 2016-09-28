@@ -5,6 +5,7 @@ import org.geogebra.common.gui.view.spreadsheet.SpreadsheetController;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -32,7 +33,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	protected AppW app;
 	protected SpreadsheetViewW view;
 
-	protected GeoElement value;
+	protected GeoElementND value;
 	protected MyTableW table;
 	AutoCompleteTextFieldW autoCompleteTextField;
 
@@ -268,7 +269,7 @@ public class MyCellEditorW implements BaseCellEditor {
 					}
 
 				} else {
-					GeoElement newVal = RelativeCopy
+					GeoElementND newVal = RelativeCopy
 					        .prepareAddingValueToTableNoStoringUndoInfo(kernel,
 									app, text, value, column, row, false);
 					if (newVal == null) {

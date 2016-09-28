@@ -74,6 +74,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -4111,10 +4112,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		kernel.getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(inputText, false, eh,
-						true, new AsyncOperation<GeoElement[]>() {
+ true,
+				new AsyncOperation<GeoElementND[]>() {
 
 							@Override
-							public void callback(GeoElement[] result) {
+					public void callback(GeoElementND[] result) {
 								String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
 		cons.setSuppressLabelCreation(oldVal);

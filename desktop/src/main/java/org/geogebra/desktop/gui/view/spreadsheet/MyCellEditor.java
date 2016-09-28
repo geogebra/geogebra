@@ -16,6 +16,7 @@ import org.geogebra.common.gui.view.spreadsheet.SpreadsheetController;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
@@ -32,7 +33,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 
 	protected Kernel kernel;
 	protected AppD app;
-	protected GeoElement value;
+	protected GeoElementND value;
 	protected MyTableD table;
 	AutoCompleteTextFieldD textField;
 
@@ -285,7 +286,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 					}
 
 				} else {
-					GeoElement newVal = RelativeCopy
+					GeoElementND newVal = RelativeCopy
 							.prepareAddingValueToTableNoStoringUndoInfo(kernel,
 									app, text, value, column, row, false);
 					if (newVal == null) {

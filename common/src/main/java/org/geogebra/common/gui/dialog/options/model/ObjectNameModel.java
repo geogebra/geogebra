@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
@@ -25,7 +26,7 @@ public class ObjectNameModel extends OptionsModel {
 	private IObjectNameListener listener;
 	private RenameInputHandler nameInputHandler;
 	private RedefineInputHandler defInputHandler;
-	private GeoElement currentGeo;
+	private GeoElementND currentGeo;
 	private boolean redefinitionFailed;
 	private GeoElement currentGeoForFocusLost;
 	private boolean busy;
@@ -159,7 +160,7 @@ public class ObjectNameModel extends OptionsModel {
 
 	}
 	
-	public static String getDefText(GeoElement geo) {
+	public static String getDefText(GeoElementND geo) {
 			/*
 			 * return geo.isIndependent() ? geo.toOutputValueString() :
 			 * geo.getCommandDescription();
@@ -178,7 +179,7 @@ public class ObjectNameModel extends OptionsModel {
 		storeUndoInfo();
 	}
 
-	public void redefineCurrentGeo(GeoElement geo, final String text,
+	public void redefineCurrentGeo(GeoElementND geo, final String text,
 			final String redefinitionText, ErrorHandler handler) {
 		setBusy(true);
 
@@ -226,12 +227,12 @@ public class ObjectNameModel extends OptionsModel {
 
 	}
 
-	public GeoElement getCurrentGeo() {
+	public GeoElementND getCurrentGeo() {
 		return currentGeo;
 	}
 
 
-	public void setCurrentGeo(GeoElement currentGeo) {
+	public void setCurrentGeo(GeoElementND currentGeo) {
 		this.currentGeo = currentGeo;
 	}
 

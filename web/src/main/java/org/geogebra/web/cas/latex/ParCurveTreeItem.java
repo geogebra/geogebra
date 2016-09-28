@@ -3,6 +3,7 @@ package org.geogebra.web.cas.latex;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * ParCurveRadioButtonTreeItem for creating parametric curves (GeoCurveCartesian
@@ -25,7 +26,7 @@ public class ParCurveTreeItem extends MathQuillTreeItem {
 	public static GeoCurveCartesianND createBasic(Kernel kern) {
 		boolean oldVal = kern.isUsingInternalCommandNames();
 		kern.setUseInternalCommandNames(true);
-		GeoElement[] ret;
+		GeoElementND[] ret;
 
 		if (kern.getApplication().is3D()
 				&& kern.getApplication().isEuclidianView3Dinited()

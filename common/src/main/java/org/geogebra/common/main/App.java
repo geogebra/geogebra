@@ -56,6 +56,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -2661,7 +2662,7 @@ public abstract class App implements UpdateSelection {
 		this.useTransparentCursorWhenDragging = useTransparentCursorWhenDragging;
 	}
 
-	public void doAfterRedefine(GeoElement geo) {
+	public void doAfterRedefine(GeoElementND geo) {
 		if (getGuiManager() != null) {
 			getGuiManager().doAfterRedefine(geo);
 		}

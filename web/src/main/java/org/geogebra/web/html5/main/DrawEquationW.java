@@ -129,7 +129,8 @@ public class DrawEquationW extends DrawEquation {
 		printScale = t;
 	}
 
-	public static Canvas paintOnCanvas(GeoElement geo, String text0, Canvas c,
+	public static Canvas paintOnCanvas(GeoElementND geo, String text0,
+			Canvas c,
 			int fontSize) {
 		if (geo == null) {
 			return c == null ? Canvas.createIfSupported() : c;

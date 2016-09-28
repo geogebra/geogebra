@@ -680,7 +680,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 		// Geo Handlers
 		// =================================================
 
-		private GeoElement createGeoFromString(String text,
+	private GeoElementND createGeoFromString(String text,
 				boolean suppressLabelCreation) {
 
 			try {
@@ -695,7 +695,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 				boolean oldEnableUndo = cons.isUndoEnabled();
 				cons.setUndoEnabled(false);
 
-				GeoElement[] geos = kernel.getAlgebraProcessor()
+			GeoElementND[] geos = kernel.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptions(text, false);
 
 				cons.setUndoEnabled(oldEnableUndo);
@@ -1165,7 +1165,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	public void exportGeosToEV(int euclidianViewID) {
 
 		app.setWaitCursor();
-		ArrayList<GeoElement> newGeoList = new ArrayList<GeoElement>();
+		ArrayList<GeoElementND> newGeoList = new ArrayList<GeoElementND>();
 		String expr;
 
 		try {
@@ -1222,7 +1222,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 					// TODO: polyline
 				}
 
-				GeoElement discreteGraphCopy = createGeoFromString(expr, false);
+				GeoElementND discreteGraphCopy = createGeoFromString(expr,
+						false);
 				discreteGraphCopy.setLabel(null);
 				discreteGraphCopy.setVisualStyle(discreteGraph.toGeoElement());
 				newGeoList.add(discreteGraphCopy);
@@ -1234,13 +1235,14 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 				expr = "Take[" + discreteProbListCopy.getLabel(tpl) + ", x("
 						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
 						+ highPointCopy.getLabel(tpl) + ")+" + offset + "]";
-				GeoElement intervalProbList = createGeoFromString(expr, false);
+				GeoElementND intervalProbList = createGeoFromString(expr, false);
 				newGeoList.add(intervalProbList);
 
 				expr = "Take[" + discreteValueListCopy.getLabel(tpl) + ", x("
 						+ lowPointCopy.getLabel(tpl) + ")+" + offset + ", x("
 						+ highPointCopy.getLabel(tpl) + ")+" + offset + "]";
-				GeoElement intervalValueList = createGeoFromString(expr, false);
+				GeoElementND intervalValueList = createGeoFromString(expr,
+						false);
 				newGeoList.add(intervalValueList);
 
 				if (graphType == GRAPH_LINE)
@@ -1250,7 +1252,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 					expr = "BarChart[" + intervalValueList.getLabel(tpl) + ","
 							+ intervalProbList.getLabel(tpl) + ",1]";
 
-				GeoElement discreteIntervalGraphCopy = createGeoFromString(
+				GeoElementND discreteIntervalGraphCopy = createGeoFromString(
 						expr, false);
 				discreteIntervalGraphCopy.setLabel(null);
 				discreteIntervalGraphCopy.setVisualStyle(discreteIntervalGraph);
@@ -1272,7 +1274,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 					expr = "Integral[" + densityCurveCopy.getLabel(tpl)
 							+ ", x(" + lowPointCopy.getLabel(tpl) + "), x("
 							+ highPointCopy.getLabel(tpl) + ") , true ]";
-					GeoElement integralCopy = createGeoFromString(expr, false);
+					GeoElementND integralCopy = createGeoFromString(expr, false);
 					integralCopy.setVisualStyle(integral);
 					integralCopy.setLabel(null);
 					newGeoList.add(integralCopy);
@@ -1288,7 +1290,7 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 			}
 
 			// set the EV location and auxiliary = false for all of the new geos
-			for (GeoElement geo : newGeoList) {
+			for (GeoElementND geo : newGeoList) {
 				geo.setAuxiliaryObject(false);
 				if (euclidianViewID == App.VIEW_EUCLIDIAN) {
 					geo.addView(App.VIEW_EUCLIDIAN);

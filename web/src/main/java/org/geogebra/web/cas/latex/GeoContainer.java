@@ -1,6 +1,7 @@
 package org.geogebra.web.cas.latex;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.AsyncOperation;
 
@@ -27,7 +28,7 @@ public interface GeoContainer {
 	public void showOrHideSuggestions();
 
 	public void stopEditing(String latex,
-			AsyncOperation<GeoElement> callback);
+ AsyncOperation<GeoElementND> callback);
 
 	public Element getElement();
 

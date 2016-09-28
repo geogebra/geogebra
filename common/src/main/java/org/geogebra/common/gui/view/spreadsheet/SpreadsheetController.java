@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.spreadsheet;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 
 public class SpreadsheetController {
@@ -34,7 +35,7 @@ public class SpreadsheetController {
 	 * @param geo
 	 * @return editor string
 	 */
-	public String getEditorInitString(GeoElement geo) {
+	public String getEditorInitString(GeoElementND geo) {
 		return geo.getRedefineString(true, false);
 	}
 }

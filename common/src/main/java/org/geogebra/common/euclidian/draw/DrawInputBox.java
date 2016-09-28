@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
@@ -210,7 +211,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				draw(getView().getGraphicsForPen());
 				geoInputBox.setText(textField.getText());
 			} else {
-				GeoElement linkedGeo = ((GeoInputBox) getGeo()).getLinkedGeo();
+				GeoElementND linkedGeo = ((GeoInputBox) getGeo())
+						.getLinkedGeo();
 
 				if (linkedGeo instanceof GeoAngle) {
 

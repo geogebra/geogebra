@@ -7,8 +7,8 @@ import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -191,10 +191,10 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			try {
 				kernel.getAlgebraProcessor().changeGeoElement(editGeo,
 						inputValue, true, true, TextInputDialogW.this,
-						new AsyncOperation<GeoElement>() {
+						new AsyncOperation<GeoElementND>() {
 
 							@Override
-							public void callback(GeoElement newText) {
+							public void callback(GeoElementND newText) {
 								if (newText instanceof GeoText) {
 									// make sure newText is using correct LaTeX
 									// setting
@@ -223,13 +223,13 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			}
 		}
 
-		private AsyncOperation<GeoElement[]> getCallback(
+		private AsyncOperation<GeoElementND[]> getCallback(
 				final AsyncOperation<Boolean> callback) {
 			// TODO Auto-generated method stub
-			return new AsyncOperation<GeoElement[]>() {
+			return new AsyncOperation<GeoElementND[]>() {
 
 				@Override
-				public void callback(GeoElement[] ret) {
+				public void callback(GeoElementND[] ret) {
 					if (ret != null && ret[0] instanceof GeoText) {
 						GeoText t = (GeoText) ret[0];
 						updateTextStyle(t);
