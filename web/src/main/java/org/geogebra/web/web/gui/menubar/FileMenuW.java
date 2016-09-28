@@ -36,7 +36,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	
 	/** Application */
 	AppW app;
-	private MenuItem uploadToGGT;
+	private MenuItem shareItem;
 	/** clear construction and reset GUI */
 	Runnable newConstruction;
 	private MenuItem printItem;
@@ -232,8 +232,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		addSeparator();
 
-		if (app.has(Feature.WEB_SHARE_DIALOG)) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		shareItem = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 					.menu_icon_file_share().getSafeUri().asString(),
 					loc.getMenu("Share"), true), true, new MenuCommand(app) {
 
@@ -250,25 +249,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					}
 			});
 
-		} else {
-		// this is enabled always
 
-			uploadToGGT = addItem(
-					MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),
-					loc.getMenu("Share"), true),
-					true, new MenuCommand(app) {
-
-						@Override
-						public void doExecute() {
-							if (!nativeShareSupported()) {
-								app.uploadToGeoGebraTube();
-							} else {
-						app.getGgbApi().getBase64(true,
-								getShareStringHandler(app));
-							}
-						}
-					});
-		}
 
 		if (app.getLAF().exportSupported()) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
@@ -473,11 +454,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * renders a the online - offline state of the FileMenu
 	 */
 	public void render(boolean online) {
-	    uploadToGGT.setEnabled(online);
+		shareItem.setEnabled(online);
 	    if (!online) {
-			uploadToGGT.setTitle(loc.getMenu("YouAreOffline"));
+			shareItem.setTitle(loc.getMenu("Offline"));
 		} else {
-			uploadToGGT.setTitle("");
+			shareItem.setTitle("");
 		}
     }
 }

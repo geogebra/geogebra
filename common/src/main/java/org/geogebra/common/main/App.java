@@ -3973,9 +3973,6 @@ public abstract class App implements UpdateSelection {
 		case EXPLICIT_LOCUS_VIA_BOTANA:
 			return prerelease;
 
-		case WEB_SHARE_DIALOG:
-			return true;
-
 		// GGB-737
 		case CAS_INTERSECT_3D:
 			return true;
