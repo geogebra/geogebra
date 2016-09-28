@@ -85,6 +85,8 @@ FromMeta
 	public static final int EQUATION_USER = 4;
 	/** vertex form **/
 	public static final int EQUATION_VERTEX = 5;
+	/** conic form **/
+	public static final int EQUATION_CONICFORM = 6;
 
 	/** variable strings for default output */
 	protected static String[] vars = { "x\u00b2", "x y", "y\u00b2", "x", "y" };
@@ -1308,6 +1310,7 @@ FromMeta
 		case EQUATION_USER:
 		case EQUATION_PARAMETRIC:
 		case EQUATION_VERTEX:
+		case EQUATION_CONICFORM:
 			this.toStringMode = mode;
 			break;
 
@@ -1400,6 +1403,11 @@ FromMeta
 		setToStringMode(EQUATION_VERTEX);
 	}
 
+	/** Changes equation mode to Vertex form */
+	final public void setToConicform() {
+		setToStringMode(EQUATION_CONICFORM);
+	}
+
 	/**
 	 * Returns whether specific equation representation is possible.    
 	 * @return true iff specific equation representation is possible. 
@@ -1446,6 +1454,29 @@ FromMeta
 	final public boolean isVertexformPossible() {
 		return !Kernel.isZero(matrix[0]) && !Kernel.isZero(matrix[5])
 				&& Kernel.isZero(matrix[1]) && Kernel.isZero(matrix[3]);
+	}
+
+	/**
+	 * Returns wheter conic form of parabola equation representation
+	 * ( 4p(y - k) = (x - h)^2 is possible.
+	 * 
+	 * @return true if conic form equation is possible
+	 */
+	final public boolean isConicformPossible() {
+
+		// directrix parallel with xAxis
+		if (!Kernel.isZero(matrix[0]) && !Kernel.isZero(matrix[5])
+				&& Kernel.isZero(matrix[1]) && Kernel.isZero(matrix[3])) {
+			return true;
+		}
+
+		// directrix parallel with yAxis
+		if (!Kernel.isZero(matrix[1]) && !Kernel.isZero(matrix[4])
+				&& Kernel.isZero(matrix[0]) && Kernel.isZero(matrix[3])) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -1862,6 +1893,11 @@ FromMeta
 				if (isVertexformPossible()){
 					return kernel.buildVertexformEquation(coeffs, myVars, tpl);
 				}
+
+		case EQUATION_CONICFORM:
+			if (isConicformPossible()) {
+				return kernel.buildConicformEquation(coeffs, myVars, tpl);
+			}
 
 			default : //implicit
 			return kernel.buildImplicitEquation(coeffs, myVars,

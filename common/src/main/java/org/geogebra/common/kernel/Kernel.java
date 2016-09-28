@@ -1835,6 +1835,13 @@ public class Kernel {
 		return sbBuildVertexformEquation;
 	}
 
+	public final StringBuilder buildConicformEquation(double[] numbers,
+			String[] vars, StringTemplate tpl) {
+		StringBuilder sbBuildConicformEquation = new StringBuilder(80);
+		sbBuildConicformEquation.append("conicformequation");
+		return sbBuildConicformEquation;
+	}
+
 	/**
 	 * Uses current ScientificFormat sf to format a number. Makes sure ".123" is
 	 * returned as "0.123".

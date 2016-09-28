@@ -13,7 +13,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 
 	private Localization loc;
 	int implicitIndex, explicitIndex, specificIndex, parametricIndex,
-			userIndex, vertexformIndex;
+			userIndex, vertexformIndex, conicformIndex;
 
 	public ConicEqnModel(App app) {
 		super(app);
@@ -40,6 +40,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		boolean explicitPossible = geo0.isExplicitPossible();
 		boolean userPossible = geo0.getDefinition() != null;
 		boolean vertexformPossible = geo0.isVertexformPossible();
+		boolean conicformPossible = geo0.isConicformPossible();
 		for (int i = 1; i < getGeosLength(); i++) {
 			temp = getConicAt(i);
 			// same type?
@@ -60,6 +61,9 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			if (!temp.isVertexformPossible()) {
 				vertexformPossible = false;
 			}
+			if (!temp.isConicformPossible()) {
+				conicformPossible = false;
+			}
 		}
 
 		// specific can't be shown because there are different types
@@ -72,6 +76,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		userIndex = -1;
 		parametricIndex = -1;
 		vertexformIndex = -1;
+		conicformIndex = -1;
 		int counter = -1;
 		getListener().clearItems();
 		if (specificPossible) {
@@ -95,6 +100,10 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		if (vertexformPossible && app.has(Feature.MORE_DISPLAY_FORMS)) {
 			getListener().addItem(loc.getPlain("ParabolaVertexForm"));
 			vertexformIndex = ++counter;
+		}
+		if (conicformPossible && app.has(Feature.MORE_DISPLAY_FORMS)) {
+			getListener().addItem(loc.getPlain("ParabolaConicForm"));
+			conicformIndex = ++counter;
 		}
 
 		int mode;
@@ -126,6 +135,10 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			if (vertexformIndex > -1)
 				getListener().setSelectedIndex(vertexformIndex);
 			break;
+		case GeoConicND.EQUATION_CONICFORM:
+			if (conicformIndex > -1)
+				getListener().setSelectedIndex(conicformIndex);
+			break;
 
 		default:
 			getListener().setSelectedIndex(-1);
@@ -153,6 +166,8 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			geo.setToParametric();
 		} else if (value == vertexformIndex) {
 			geo.setToVertexform();
+		} else if (value == conicformIndex) {
+			geo.setToConicform();
 		}
 
 		geo.updateRepaint();
