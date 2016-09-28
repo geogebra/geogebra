@@ -374,18 +374,8 @@ public abstract class Log {
 	public static void debug(String message) {
 		if (logger != null) {
 			logger.log(logger.DEBUG, message);
-		} else {
-			printMessage(message);
 		}
 	}
-
-	private native static boolean loggerNull()/*-{
-												$wnd.console.log("logger null");
-												}-*/;
-
-	private native static boolean printMessage(String message)/*-{
-																$wnd.console.log(message);
-																}-*/;
 
 	public static void debug(Feature f, String message) {
 		if (logger != null) {
