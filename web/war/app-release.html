@@ -11,7 +11,8 @@
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
 
-var latestVersion = "5.0.275.0";       
+var latestVersion = "5.0.275.0"; 
+var module = "web3d";
 			
 	function e(id){
 		return document.getElementById(id);
@@ -237,7 +238,7 @@ var latestVersion = "5.0.275.0";
 				}
 				
 			}
-			l10n.setAttribute("src", codebase + "web3d/js/properties_keys_"+lang+".js");
+			l10n.setAttribute("src", codebase + module+"/js/properties_keys_"+lang+".js");
 		}
 		
 		
@@ -252,16 +253,16 @@ fontactive: function(familyName, fvd) {},
             fontinactive: function(familyName, fvd) {},
             custom: {
                 families: ["geogebra-serif", "geogebra-sans-serif" ],
-                urls: [ codebase+"web3d/css/fonts.css" ]
+                urls: [ codebase+module+"/css/fonts.css" ]
             }
         };
 
 var app = document.createElement("script");		
-		app.setAttribute("src",codebase+"web3d/js/webfont.js");
+		app.setAttribute("src",codebase+module+"/js/webfont.js");
 		document.head.appendChild(app);
 		
 		app = document.createElement("script");
-		app.setAttribute("src",codebase+"web3d/web3d.nocache.js");
+		app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
 		document.head.appendChild(app);	
 }
 	function isLocalhost(){
