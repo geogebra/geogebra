@@ -56,7 +56,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 			break;
 		}
 		
-		labelSet = true;
+		setLabelSet(true);
 		setFixed(true);
 		setLabelVisible(false);
 	}

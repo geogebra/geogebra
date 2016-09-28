@@ -23,7 +23,7 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 	public GeoSpace(Construction c) {
 		super(c);
 		label = "space";
-		labelSet = true;
+		setLabelSet(true);
 		setFixed(true);
 	}
 

@@ -479,7 +479,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 			}
 
 			// update alive state
-			isPalive[i] = isPalive[i] || finite || P[i].labelSet;
+			isPalive[i] = isPalive[i] || finite || P[i].isLabelSet();
 		}
 
 		// calc new intersection points Q

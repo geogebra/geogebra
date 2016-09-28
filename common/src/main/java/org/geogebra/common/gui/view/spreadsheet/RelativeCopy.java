@@ -537,7 +537,7 @@ public class RelativeCopy {
 		// TODO: Why not always use getSpreadsheetCoords()? 
 		if (row0 > -1 && column0 > -1) {
 			// nothing to do, already set
-		} else if (value.labelSet) {
+		} else if (value.isLabelSet()) {
 			MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
 					.exec(value.getLabel(StringTemplate.defaultTemplate));
 			column0 = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);

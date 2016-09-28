@@ -3716,7 +3716,7 @@ public class Kernel {
 
 	public final void notifyAdd(GeoElement geo) {
 		if (notifyViewsActive) {
-			if (addingPolygon && geo.labelSet) {
+			if (addingPolygon && geo.isLabelSet()) {
 				if (geo.getXMLtypeString().equalsIgnoreCase("Polygon")) {
 					this.newPolygon = geo;
 				}

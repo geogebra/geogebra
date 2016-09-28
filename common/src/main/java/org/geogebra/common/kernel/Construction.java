@@ -1733,7 +1733,7 @@ public class Construction {
 		} else {
 			// newGeo doesn't exist in construction, so we take oldGeo's label
 			newGeo.setLabelSimple(oldGeo.getLabelSimple());
-			newGeo.labelSet = true; // to get right XML output
+			newGeo.setLabelSet(true); // to get right XML output
 			newGeo.setAllVisualProperties(oldGeo, false);
 			newGeo.setViewFlags(oldGeo.getViewSet());
 			newGeo.setScripting(oldGeo);

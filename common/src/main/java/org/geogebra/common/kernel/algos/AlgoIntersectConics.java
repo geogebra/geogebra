@@ -506,7 +506,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			}
 
 			// update alive state
-			isPalive[i] = isPalive[i] || finite || P[i].labelSet;
+			isPalive[i] = isPalive[i] || finite || P[i].isLabelSet();
 		}
 
 		// calc new intersection Points Q

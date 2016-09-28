@@ -297,7 +297,7 @@ public class AlgoDependentNumber extends AlgoElement
 					Entry<GeoElement, Variable> curr = it.next();
 					GeoSegment currGeoSeg = (GeoSegment) curr.getKey();
 					currGeoSeg.setLabelSimple(null);
-					currGeoSeg.labelSet = false;
+					currGeoSeg.setLabelSet(false);
 				}
 			}
 			segVarPairs = new ArrayList<Entry<GeoElement, Variable>>();

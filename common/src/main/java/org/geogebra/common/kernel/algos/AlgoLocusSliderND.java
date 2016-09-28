@@ -204,13 +204,13 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		boolean isLabeledP = movingSlider.isLabelSet();
 		if (!isLabeledP) {
 			movingSlider.setLabelSimple(movingSlider.getDefaultLabel());
-			movingSlider.labelSet = true;
+			movingSlider.setLabelSet(true);
 		}
 		boolean isLabeledQ = locusPoint.isLabelSet();
 		if (!isLabeledQ) {
 			locusPoint.toGeoElement().setLabelSimple(
 					locusPoint.toGeoElement().getDefaultLabel());
-			locusPoint.toGeoElement().labelSet = true;
+			locusPoint.toGeoElement().setLabelSet(true);
 		}
 
 		// add moving point on line
@@ -226,9 +226,9 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 		// if we used temp labels remove them again
 		if (!isLabeledP)
-			movingSlider.labelSet = false;
+			movingSlider.setLabelSet(false);
 		if (!isLabeledQ)
-			locusPoint.toGeoElement().labelSet = false;
+			locusPoint.toGeoElement().setLabelSet(false);
 	}
 
 	// for AlgoElement

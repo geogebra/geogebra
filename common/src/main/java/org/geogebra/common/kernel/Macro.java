@@ -260,7 +260,7 @@ public class Macro {
 			isInputLabeled[i] = input[i].isLabelSet();
 			if (!isInputLabeled[i]) {
 				input[i].setLabelSimple(input[i].getDefaultLabel());
-				input[i].labelSet = true;
+				input[i].setLabelSet(true);
 			}
 			if (input[i] instanceof GeoVector) {
 				startPoints[i] = ((GeoVector) input[i]).getStartPoint();
@@ -301,7 +301,7 @@ public class Macro {
 			isOutputLabeled[i] = output[i].isLabelSet();
 			if (!isOutputLabeled[i]) {
 				output[i].setLabelSimple(output[i].getDefaultLabel());
-				output[i].labelSet = true;
+				output[i].setLabelSet(true);
 			}
 			outputLabels[i] = output[i].getLabelSimple();
 
@@ -317,14 +317,14 @@ public class Macro {
 		// if we used temp labels in step (4) remove them again
 		for (int i = 0; i < input.length; i++) {
 			if (!isInputLabeled[i])
-				input[i].labelSet = false;
+				input[i].setLabelSet(false);
 			if (input[i] instanceof GeoVector) {
 				((GeoVector) input[i]).setStartPoint(startPoints[i]);
 			}
 		}
 		for (int i = 0; i < output.length; i++) {
 			if (!isOutputLabeled[i])
-				output[i].labelSet = false;
+				output[i].setLabelSet(false);
 		}
 		Log.debug(macroConsXML);
 		// 6) create a new macro-construction from this XML representation
@@ -785,7 +785,7 @@ public class Macro {
 
 			// seek for the first visible geo
 			GeoElement geo = algo.getOutput(0);
-			while (!geo.labelSet && geo.getAllChildren().size() > 0) {
+			while (!geo.isLabelSet() && geo.getAllChildren().size() > 0) {
 				geo = geo.getAllChildren().first();
 			}
 

@@ -65,7 +65,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 			break;
 		}
 
-		labelSet = true;
+		setLabelSet(true);
 		setFixed(true);
 		setLabelVisible(false);
 	}

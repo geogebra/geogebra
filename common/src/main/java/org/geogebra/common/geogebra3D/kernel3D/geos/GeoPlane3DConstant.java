@@ -34,7 +34,7 @@ public class GeoPlane3DConstant extends GeoPlane3D implements
 			coordsys.setEquationVector(0, 0, 1, 0);
 			// setCoord(EuclidianView3D.o,EuclidianView3D.vx,EuclidianView3D.vy);
 			label = "xOyPlane";
-			labelSet = true;
+			setLabelSet(true);
 			setObjColor(GColor.GRAY);
 			setLabelVisible(false);
 			break;

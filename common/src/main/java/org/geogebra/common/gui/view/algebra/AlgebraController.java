@@ -137,7 +137,7 @@ public class AlgebraController {
 					GeoElement[] geos = (GeoElement[]) obj;
 
 					// need label if we type just eg lnx
-					if (geos.length == 1 && !geos[0].labelSet) {
+					if (geos.length == 1 && !geos[0].isLabelSet()) {
 						geos[0].setLabel(geos[0].getDefaultLabel());
 					}
 

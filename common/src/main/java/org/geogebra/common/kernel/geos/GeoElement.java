@@ -18,8 +18,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.geos;
 
-import com.google.j2objc.annotations.Weak;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -101,6 +99,8 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+
+import com.google.j2objc.annotations.Weak;
 
 /**
  * 
@@ -203,9 +203,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	private String oldLabel; // see doRenameLabel
 	private String caption; //accessible via getRawCaption
 	/** true if label is wanted, but not set*/
-	public boolean labelWanted = false;
+	private boolean labelWanted = false;
 	/** tue if label is set */
-	public boolean labelSet = false;
+	private boolean labelSet = false;
 	
 	private boolean localVarLabelSet = false;
 	private boolean euclidianVisible = true;
@@ -555,7 +555,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public String getLabel(StringTemplate tpl) {
 		if (!tpl.isUseRealLabels() || (realLabel == null) || realLabel.equals("")) {
-			if (!labelSet && !localVarLabelSet) {
+			if (!isLabelSet() && !localVarLabelSet) {
 				if (algoParent != null) {
 					return algoParent.getDefinition(tpl);
 				}
@@ -1907,7 +1907,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public void setAuxiliaryObject(final boolean flag) {
 		if (auxiliaryObject != flag) {
 			auxiliaryObject = flag;
-			if (labelSet) {
+			if (isLabelSet()) {
 				notifyUpdateAuxiliaryObject();
 			}
 		}
@@ -2616,7 +2616,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return String in the format of the current CAS.
 	 */
 	public String toCasAssignment(final StringTemplate tpl) {
-		if (!labelSet) {
+		if (!isLabelSet()) {
 			return null;
 		}
 		
@@ -2746,7 +2746,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		labelWanted = true;
 
 		// had no label: try to set it
-		if (!labelSet) {
+		if (!isLabelSet()) {
 			// to avoid wasting of labels, new elements must wait
 			// until they are shown in one of the views to get a label
 			if (isVisible()) {
@@ -2800,7 +2800,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param label label
 	 */
 	public void setLoadedLabel(final String label) {
-		if (labelSet) { // label was set before -> rename
+		if (isLabelSet()) { // label was set before -> rename
 			doRenameLabel(label);
 		} else { // no label set so far -> set new label
 			if (label.startsWith("c_") && this instanceof GeoNumeric) {
@@ -3043,7 +3043,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			}
 		}
 		// UPDATE KERNEL
-		if (!labelSet && isIndependent()) {
+		if (!isLabelSet() && isIndependent()) {
 			// add independent object to list of all Construction Elements
 			// dependent objects are represented by their parent algorithm
 			if (addToConstr) {
@@ -3052,7 +3052,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		this.label = newLabel; // set new label
-		labelSet = true;
+		setLabelSet(true);
 		labelWanted = false; // got a label, no longer wanted
 
 		if (this instanceof GeoNumeric && newLabel.startsWith("c_")) {
@@ -3081,7 +3081,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	private void updateSpreadsheetCoordinates() {
-		if (labelSet && (label.length() > 0)
+		if (isLabelSet() && (label.length() > 0)
 				&& StringUtil.isLetter(label.charAt(0)) // starts with letter
 				&& StringUtil.isDigit(label.charAt(label.length() - 1))) // ends
 																		// with
@@ -3624,7 +3624,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// notify views before we change labelSet
 		notifyRemove();
 
-		labelSet = false;
+		setLabelSet(false);
 		labelWanted = false;
 		correspondingCasCell = null;
 
@@ -3832,7 +3832,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	protected final void updateGeo(boolean mayUpdateCas) {
 
-		if (labelWanted && !labelSet) {
+		if (labelWanted && !isLabelSet()) {
 			// check if this object's label needs to be set
 			if (isVisible()) {
 				setLabel(label);
@@ -8225,6 +8225,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public boolean isFilled() {
 		return getAlphaValue() > 0 || isHatchingEnabled();
+	}
+
+	/**
+	 * @param labelSet
+	 *            the labelSet flag
+	 */
+	public void setLabelSet(boolean labelSet) {
+		this.labelSet = labelSet;
 	}
 
 }

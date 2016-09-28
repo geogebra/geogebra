@@ -240,13 +240,13 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			((GeoElement) movingPoint)
 					.setLabelSimple(((GeoElement) movingPoint)
 							.getDefaultLabel());
-			((GeoElement) movingPoint).labelSet = true;
+			((GeoElement) movingPoint).setLabelSet(true);
 		}
 		boolean isLabeledQ = locusPoint.isLabelSet();
 		if (!isLabeledQ) {
 			((GeoElement) locusPoint).setLabelSimple(((GeoElement) locusPoint)
 					.getDefaultLabel());
-			((GeoElement) locusPoint).labelSet = true;
+			((GeoElement) locusPoint).setLabelSet(true);
 		}
 
 		// add moving point on line
@@ -273,9 +273,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 		// if we used temp labels remove them again
 		if (!isLabeledP)
-			((GeoElement) movingPoint).labelSet = false;
+			((GeoElement) movingPoint).setLabelSet(false);
 		if (!isLabeledQ)
-			((GeoElement) locusPoint).labelSet = false;
+			((GeoElement) locusPoint).setLabelSet(false);
 	}
 
 	// for AlgoElement
