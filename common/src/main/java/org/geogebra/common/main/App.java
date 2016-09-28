@@ -3948,7 +3948,11 @@ public abstract class App implements UpdateSelection {
 
 
 		case DATA_COLLECTION:
-			return true;
+			if (version != null && version != Versions.WEB_FOR_DESKTOP) {
+				return true;
+			}
+
+			return false;
 
 			// in web (not tablet apps yet)
 			// File -> Enter Exam Mode
