@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -384,13 +385,14 @@ public abstract class GuiManager implements GuiManagerInterface {
 		app.updateMenubar();
 	}
 
-	public void doAfterRedefine(GeoElement geo) {
+	public void doAfterRedefine(GeoElementND geo) {
 
 		// G.Sturr 2010-6-28
 		// if a tracing geo has been redefined, then put it back into the
 		// traceGeoCollection
 		if (geo.getSpreadsheetTrace()) {
-			getApp().getTraceManager().addSpreadsheetTraceGeo(geo);
+			getApp().getTraceManager().addSpreadsheetTraceGeo(
+					geo.toGeoElement());
 		}
 	}
 

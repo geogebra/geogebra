@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
@@ -1111,7 +1112,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						node, null, StringTemplate.numericNoLocal, null, kernel);
 				boolean mode = kernel.isSilentMode();
 				kernel.setSilentMode(true);
-				GeoElement geo = kernel.getAlgebraProcessor()
+				GeoElementND geo = kernel.getAlgebraProcessor()
 						.processAlgebraCommand(result, false)[0];
 				kernel.setSilentMode(mode);
 				return geo;

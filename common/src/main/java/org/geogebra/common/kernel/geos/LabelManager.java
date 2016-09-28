@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.StringUtil;
 
@@ -15,7 +16,7 @@ public class LabelManager {
 		 * @param nameToCheck potential label
 		 * @return true for valid labels
 		 */
-		public static boolean checkName(GeoElement geo, String nameToCheck) {
+	public static boolean checkName(GeoElementND geo, String nameToCheck) {
 			String name = nameToCheck;
 			if (name == null) return true;
 

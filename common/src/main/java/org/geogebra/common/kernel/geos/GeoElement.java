@@ -3216,7 +3216,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param geos array of geos to be labeled
 	 */
 	public static void setLabels(final String labelPrefix,
-			final GeoElement[] geos) {
+			final GeoElementND[] geos) {
 		if (geos == null) {
 			return;
 		}

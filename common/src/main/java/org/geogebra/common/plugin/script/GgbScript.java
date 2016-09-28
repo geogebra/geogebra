@@ -3,7 +3,7 @@ package org.geogebra.common.plugin.script;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.ScriptError;
@@ -52,7 +52,7 @@ public class GgbScript extends Script {
 				continue;
 			}
 			try {
-				GeoElement[] res = proc
+				GeoElementND[] res = proc
 						.processAlgebraCommandNoExceptionHandling(line, false,
 						new ScriptErrorHandler(app, evt, i), false, null);
 				success = success && res != null;

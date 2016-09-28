@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
 
@@ -22,7 +23,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	private CasEvaluableFunction f;
-	private GeoElement g;
+	private GeoElementND g;
 	private GeoPointND pt;
 
 	/**
@@ -153,7 +154,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 					nocas ? getSilentArbConst() : arbconst);
 			boolean flag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			GeoElement[] res = kernel.getAlgebraProcessor()
+			GeoElementND[] res = kernel.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionsOrErrors(functionOut,
 							false);
 			cons.setSuppressLabelCreation(flag);
@@ -197,7 +198,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	 * @return resulting function, conic or line
 	 */
 	public GeoElement getResult() {
-		return g;
+		return g.toGeoElement();
 	}
 
 	@Override

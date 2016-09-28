@@ -17,6 +17,7 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -483,5 +484,38 @@ public interface GeoElementND extends ExpressionValue {
 	void setVisualStyleForTransformations(GeoElement topHit);
 
 	public void resetDefinition();
+
+	boolean needToShowBothRowsInAV();
+
+	boolean isGeoFunctionable();
+
+	boolean isLaTeXDrawableGeo();
+
+	String getIndexLabel(String labelPrefix);
+
+	boolean isGeoCurveCartesian();
+
+	boolean isChildOf(GeoElement autoCreateGeo);
+
+	void setAllVisualProperties(GeoElement value, boolean b);
+
+	void setShowObjectCondition(GeoBoolean newConditionToShowObject)
+			throws CircularDefinitionException;
+
+	String getRedefineString(boolean b, boolean c);
+
+	boolean isAuxiliaryObject();
+
+	String getFormulaString(StringTemplate latextemplate, boolean b);
+
+	String getValueForInputBar();
+
+	boolean isGeoAngle();
+
+	boolean isGeoLine();
+
+	boolean rename(String newLabel);
+
+	boolean isGeoImage();
 
 }

@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
 import org.geogebra.common.main.App;
@@ -211,7 +212,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public synchronized String evalCommandGetLabels(String cmdString) {
 
 		// Application.debug("evalCommand called..."+cmdString);
-		GeoElement[] result;
+		GeoElementND[] result;
 
 		// this is new in GeoGebra 4.2 and it will stop some files working
 		// but causes problems if the files are opened and edited

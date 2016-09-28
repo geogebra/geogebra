@@ -2254,7 +2254,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			try {
 				// process inputExp in GeoGebra *without* assignment (we need to
 				// avoid redefinition)
-				GeoElement[] geos = kernel.getAlgebraProcessor()
+				GeoElementND[] geos = kernel.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionsOrErrors(
 								// we remove Numeric commands, since we are using GeoGebra here
 								evalVE.deepCopy(kernel).traverse(Traversing.CommandRemover.getRemover("Numeric")).toString(StringTemplate.maxPrecision),

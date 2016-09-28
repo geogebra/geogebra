@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.util.AsyncOperation;
@@ -121,7 +122,7 @@ public class AlgebraController {
 	 * @return evaluation was successful
      */
 	public boolean onTextEntered(String input) {
-		GeoElement[] geos;
+		GeoElementND[] geos;
 		try {
 
 			AsyncOperation callback = new AsyncOperation() {
@@ -176,7 +177,7 @@ public class AlgebraController {
 			geos = kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
 					input, true, app.getErrorHandler(), true, callback);
 
-			if (geos != null && geos.length == 1 && !geos[0].labelSet) {
+			if (geos != null && geos.length == 1 && !geos[0].isLabelSet()) {
 				geos[0].setLabel(geos[0].getDefaultLabel());
 			}
 

@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -224,12 +225,13 @@ public class SelectionManager {
 	 * @param updateSelection
 	 *            whether selection update is needed
 	 */
-	public final void addSelectedGeo(GeoElement geo, boolean repaint,
+	public final void addSelectedGeo(GeoElementND geoND, boolean repaint,
 			boolean updateSelection) {
 
-		if ((geo == null) || selectedGeos.contains(geo)) {
+		if ((geoND == null) || selectedGeos.contains(geoND)) {
 			return;
 		}
+		GeoElement geo = geoND.toGeoElement();
 		dispatchSelected(geo);
 		selectedGeos.add(geo);
 		geo.setSelected(true);
@@ -534,7 +536,7 @@ public class SelectionManager {
 	 * @param geo
 	 *            geo
 	 */
-	public final void addSelectedGeo(GeoElement geo) {
+	public final void addSelectedGeo(GeoElementND geo) {
 		addSelectedGeo(geo, true, true);
 	}
 
