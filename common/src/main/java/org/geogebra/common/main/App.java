@@ -98,7 +98,7 @@ public abstract class App implements UpdateSelection {
 	/** Url for wiki tutorials */
 	public static final String WIKI_TUTORIAL = "Tutorial:Main Page";
 	/** Url for Intel RealSense tutorials */
-	public static final String REALSENSE_TUTORIAL = "https://tube.geogebra.org/b/OaGmb7LE";
+	public static final String REALSENSE_TUTORIAL = "https://www.geogebra.org/b/OaGmb7LE";
 	/**
 	 * Url for wiki article about exporting to HTML changed to GeoGebra
 	 * Materials upload from ggb44
@@ -4392,7 +4392,7 @@ public abstract class App implements UpdateSelection {
 		}
 
 		// something like
-		// http://tube.geogebra.org/files/material-1264825.mp3
+		// http://www.geogebra.org/files/material-1264825.mp3
 		url = url + "material/download/format/file/id/" + id;
 		return url;
 	}
