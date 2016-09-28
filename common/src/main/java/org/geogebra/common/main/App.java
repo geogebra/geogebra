@@ -4081,7 +4081,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW:
-			return prerelease;
+			return true;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
