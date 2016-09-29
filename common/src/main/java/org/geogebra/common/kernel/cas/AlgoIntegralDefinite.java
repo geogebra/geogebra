@@ -784,7 +784,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 
 	public DrawInformationAlgo copy() {
 		if (evaluate != null)
-			return new AlgoIntegralDefinite((GeoFunction) f.copy(),
+			return new AlgoIntegralDefinite(
+					(GeoFunction) f.copy(),
 					(NumberValue) a.deepCopy(kernel),
 					(NumberValue) b.deepCopy(kernel), evaluate.copy());
 		return new AlgoIntegralDefinite((GeoFunction) f.copy(),
@@ -813,6 +814,11 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			// make sure algo is removed properly
 			algoCAS = algoInt;
 		}
+	}
+
+	public void replaceChildrenByValues(GeoElement geo) {
+		f.replaceChildrenByValues(geo);
+
 	}
 
 	// TODO Consider locusequability

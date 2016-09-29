@@ -225,6 +225,11 @@ public class AlgoIntegralFunctions extends AlgoElement implements
 		return evaluate != null && !evaluate.getBoolean();
 	}
 
+	public void replaceChildrenByValues(GeoElement geo) {
+		f.replaceChildrenByValues(geo);
+		g.replaceChildrenByValues(geo);
+
+	}
 	// TODO Consider locusequability
 
 }

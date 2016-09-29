@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
+import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -265,14 +266,7 @@ public class AlgoZip extends AlgoElement {
 					((GeoList) listElement).replaceChildrenByValues(vars[j]);
 				}
 			}
-			AlgoElement drawAlgo = expression.getDrawAlgorithm();
-			if (listElement instanceof GeoNumeric
-					&& drawAlgo instanceof DrawInformationAlgo) {
-				Log.debug(expression.getDrawAlgorithm().getClass().getName());
-				listElement.setDrawAlgorithm(((DrawInformationAlgo) drawAlgo)
-						.copy());
-				listElement.setEuclidianVisible(true);
-			}
+			copyDrawAlgo(listElement);
 		}
 
 		// set the value of our element
@@ -334,16 +328,29 @@ public class AlgoZip extends AlgoElement {
 				}
 			} else
 				listElement.setUndefined();
-			if (listElement instanceof GeoNumeric
-					&& listElement.getDrawAlgorithm() instanceof DrawInformationAlgo) {
-				listElement.setDrawAlgorithm(((DrawInformationAlgo) expression
-						.getDrawAlgorithm()).copy());
-				listElement.setEuclidianVisible(true);
-			}
+			copyDrawAlgo(listElement);
 			listElement.update();
 
 			currentVal += 1;
 		}
+	}
+
+	private void copyDrawAlgo(GeoElement listElement) {
+		AlgoElement drawAlgo = expression.getDrawAlgorithm();
+		if (listElement instanceof GeoNumeric
+				&& drawAlgo instanceof DrawInformationAlgo) {
+			DrawInformationAlgo algoCopy = ((DrawInformationAlgo) drawAlgo)
+					.copy();
+			if (algoCopy instanceof ReplaceChildrenByValues) {
+				for (int j = 0; j < varCount; j++) {
+					((ReplaceChildrenByValues) algoCopy)
+							.replaceChildrenByValues(vars[j]);
+				}
+			}
+			listElement.setDrawAlgorithm(algoCopy);
+			listElement.setEuclidianVisible(true);
+		}
+
 	}
 
 	private int minOverSize() {

@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -385,18 +386,31 @@ public class AlgoIterationList extends AlgoElement {
 					((GeoList) listElement).replaceChildrenByValues(vars[j]);
 				}
 			}
-			AlgoElement drawAlgo = expression.getDrawAlgorithm();
-			if (listElement instanceof GeoNumeric
-					&& drawAlgo instanceof DrawInformationAlgo) {
-				listElement.setDrawAlgorithm(((DrawInformationAlgo) drawAlgo)
-						.copy());
-				listElement.setEuclidianVisible(true);
-			}
+			copyDrawAlgo(listElement);
 		}
 
 		// set the value of our element
 		listElement.update();
 		list.add(listElement);
+	}
+
+	private void copyDrawAlgo(GeoElement listElement) {
+		AlgoElement drawAlgo = expression.getDrawAlgorithm();
+		if (listElement instanceof GeoNumeric
+				&& drawAlgo instanceof DrawInformationAlgo) {
+			DrawInformationAlgo algoCopy = ((DrawInformationAlgo) drawAlgo)
+					.copy();
+			if (algoCopy instanceof ReplaceChildrenByValues) {
+				for (int j = 0; j < varCount; j++) {
+					((ReplaceChildrenByValues) algoCopy)
+							.replaceChildrenByValues(vars[j]);
+				}
+			}
+			listElement
+					.setDrawAlgorithm(algoCopy);
+			listElement.setEuclidianVisible(true);
+		}
+
 	}
 
 	private GeoElement createNewListElement() {
@@ -466,12 +480,7 @@ public class AlgoIterationList extends AlgoElement {
 				}
 			} else
 				listElement.setUndefined();
-			if (listElement instanceof GeoNumeric
-					&& listElement.getDrawAlgorithm() instanceof DrawInformationAlgo) {
-				listElement.setDrawAlgorithm(((DrawInformationAlgo) expression
-						.getDrawAlgorithm()).copy());
-				listElement.setEuclidianVisible(true);
-			}
+			copyDrawAlgo(listElement);
 			listElement.update();
 			i++;
 		}
