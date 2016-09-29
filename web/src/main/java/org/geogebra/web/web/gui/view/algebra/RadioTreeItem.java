@@ -1302,6 +1302,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		styleEditor();
 
 		restoreSize();
+
 		if (stylebarShown != null) {
 			getAlgebraDockPanel().showStyleBarPanel(stylebarShown);
 			stylebarShown = null;
@@ -1312,7 +1313,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		editing = false;
 		av.cancelEditing();
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			if (btnClearInput != null){
+			if (btnClearInput != null) {
 				content.remove(btnClearInput);
 				btnClearInput = null;
 			}
@@ -1383,13 +1384,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 			doUpdate();
 		}
 
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			@Override
-			public void execute() {
-				scrollIntoView();
-			}
-		});
-
+		if (!app.has(Feature.AV_SCROLL)) {
+			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+				@Override
+				public void execute() {
+					scrollIntoView();
+				}
+			});
+		}
 	}
 
 	private void cancelDV() {
