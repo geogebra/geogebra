@@ -4084,6 +4084,10 @@ public abstract class App implements UpdateSelection {
 		case DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW:
 			return true;
 
+		// MOB-882
+		case NEW_TOOLBAR_ANDROID:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

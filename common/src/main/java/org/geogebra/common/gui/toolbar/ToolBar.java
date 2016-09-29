@@ -1106,9 +1106,12 @@ public class ToolBar {
 	 * @throws NumberFormatException
 	 *             when non-integer is encountered
 	 */
-
-
 	public static Vector<ToolbarItem> parseToolbarString(String toolbarString)
+			throws NumberFormatException {
+		return parseToolbarString(toolbarString, defaultToolsRemover);
+	}
+
+	public static Vector<ToolbarItem> parseToolbarString(String toolbarString, ToolsRemover toolsRemover)
 			throws NumberFormatException {
 		Vector<ToolbarItem> toolbar = new Vector<ToolbarItem>();
 		StringBuilder currentNumber = new StringBuilder();
@@ -1118,29 +1121,29 @@ public class ToolBar {
 			if ('0' <= ch && ch <= '9') {
 				currentNumber.append(ch);
 			} else if (ch == '|') {
-				flush(currentNumber, menu);
+				flush(currentNumber, menu, toolsRemover);
 				if (menu.size() > 0) {
 					toolbar.add(new ToolbarItem(menu));
 				}
 				menu = new Vector<Integer>();
 			} else if (ch == ',') {
-				flush(currentNumber, menu);
+				flush(currentNumber, menu, toolsRemover);
 				menu.add(SEPARATOR);
 			} else {
-				flush(currentNumber, menu);
+				flush(currentNumber, menu, toolsRemover);
 			}
 		}
-		flush(currentNumber, menu);
+		flush(currentNumber, menu, toolsRemover);
 		if (menu.size() > 0) {
 			toolbar.add(new ToolbarItem(menu));
 		}
 		return toolbar;
 	}
 
-	private static void flush(StringBuilder currentNumber, Vector<Integer> menu) {
+	private static void flush(StringBuilder currentNumber, Vector<Integer> menu, ToolsRemover toolsRemover) {
 		if (currentNumber.length() > 0) {
 			int mode = Integer.parseInt(currentNumber.toString());
-			if (mode != 59 && mode != 1011) {
+			if (toolsRemover.keep(mode)) {
 				menu.addElement(mode);
 			}
 			currentNumber.setLength(0);
@@ -1218,4 +1221,25 @@ public class ToolBar {
 			}
 		}
 	}
+
+	static public class ToolsRemover {
+
+		public ToolsRemover(){
+			init();
+		}
+
+		protected void init(){
+			// to override
+		}
+
+		public boolean keep(int mode){
+			if (mode != 59 && mode != 1011) {
+				return true;
+			}
+			return false;
+		}
+	}
+
+	static private ToolsRemover defaultToolsRemover = new ToolsRemover();
+
 }
