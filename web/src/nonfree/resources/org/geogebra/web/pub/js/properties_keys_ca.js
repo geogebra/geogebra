@@ -2288,6 +2288,7 @@ __GGB__keysVar.ca.menu = {
     "PlaneThroughAPerpendicularToB": "Pla per %0 perpendicular a %1",
     "Play": "Reprodueix",
     "PlayButton": "Bot\xf3 de reproduir",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Espereu, si us plau...",
     "Point": "Punt",
     "Point.Help": "Cliqueu en una finestra gr\xe0fica o en un objecte adequat",

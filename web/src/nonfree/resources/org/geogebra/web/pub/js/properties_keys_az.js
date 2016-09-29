@@ -2288,6 +2288,7 @@ __GGB__keysVar.az.menu = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "Play",
     "PlayButton": "Play button",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "L\xfctf\u0259n g\xf6zl\u0259yin\u2026",
     "Point": "Point",
     "Point.Help": "Click on the Graphics View or on line, function, or curve",

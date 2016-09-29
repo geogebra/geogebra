@@ -2288,6 +2288,7 @@ __GGB__keysVar.sq.menu = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "Luaj",
     "PlayButton": "Celsi Luaj",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Please wait\u2026",
     "Point": "Pike",
     "Point.Help": "Kliko ne panelen e vizatimit ose ne drejtez, funksion, ose kurbe",

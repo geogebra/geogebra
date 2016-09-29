@@ -2288,6 +2288,7 @@ __GGB__keysVar.sv.menu = {
     "PlaneThroughAPerpendicularToB": "Plan genom %0 vinkelr\xe4t mot %1",
     "Play": "Spela",
     "PlayButton": "Uppspelningsknapp",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Dags f\xf6r fika...",
     "Point": "Punkt",
     "Point.Help": "Klicka p\xe5 ritomr\xe5det eller p\xe5 objekt",

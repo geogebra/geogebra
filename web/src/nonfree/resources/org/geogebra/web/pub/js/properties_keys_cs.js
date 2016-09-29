@@ -2288,6 +2288,7 @@ __GGB__keysVar.cs.menu = {
     "PlaneThroughAPerpendicularToB": "Rovina proch\xe1zej\xedc\xed %0 kolm\xe1 k %1",
     "Play": "P\u0159ehr\xe1t",
     "PlayButton": "Tla\u010d\xedtko pro p\u0159ehr\xe1n\xed konstrukce",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Pros\xedm po\u010dkejte ...",
     "Point": "Bod",
     "Point.Help": "Kliknout na n\xe1kresnu nebo p\u0159\xedmku",

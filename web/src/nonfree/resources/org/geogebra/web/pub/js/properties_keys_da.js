@@ -2288,6 +2288,7 @@ __GGB__keysVar.da.menu = {
     "PlaneThroughAPerpendicularToB": "Plan gennem %0 vinkelret p\xe5 %1",
     "Play": "Spil",
     "PlayButton": "Spil knap",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Vent\u2026",
     "Point": "Punkt",
     "Point.Help": "Klik p\xe5 tegnefladen eller en linje",

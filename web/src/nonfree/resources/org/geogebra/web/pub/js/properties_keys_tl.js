@@ -2288,6 +2288,7 @@ __GGB__keysVar.tl.menu = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "I-play",
     "PlayButton": "Pindutan para i-play",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Please wait\u2026",
     "Point": "Point",
     "Point.Help": "I-click ang Graphics View o ang line, function, or curve",

@@ -2288,6 +2288,7 @@ __GGB__keysVar.ro.menu = {
     "PlaneThroughAPerpendicularToB": "Plan prin %0 perpendicular pe %1",
     "Play": "Start",
     "PlayButton": "Buton start",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "V\u0103 rug\u0103m astepta\u021bi...",
     "Point": "Punct",
     "Point.Help": "Click pe suprafa\u0163a de desen sau pe o linie, func\u0163ie sau curb\u0103",

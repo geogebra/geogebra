@@ -2288,6 +2288,7 @@ __GGB__keysVar.hr.menu = {
     "PlaneThroughAPerpendicularToB": "RAvnina kroz %0 okomita na %1",
     "Play": "Pokreni",
     "PlayButton": "Gumb za pokretanje",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Molimo pri\u010dekajte...",
     "Point": "To\u010dka",
     "Point.Help": "Kliknite na grafi\u010dki prikaz ili na pravac, funkciju ili krivulju",

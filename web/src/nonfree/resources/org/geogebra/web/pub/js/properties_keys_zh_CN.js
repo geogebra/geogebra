@@ -2288,6 +2288,7 @@ __GGB__keysVar.zh_CN.menu = {
     "PlaneThroughAPerpendicularToB": "\u7ecf\u8fc7\u70b9 %0 \u4e14\u5782\u76f4\u4e8e %1 \u7684\u5e73\u9762",
     "Play": "\u64ad\u653e",
     "PlayButton": "\"\u64ad\u653e\" \u6309\u94ae",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "\u8bf7\u7a0d\u7b49...",
     "Point": "\u70b9",
     "Point.Help": "\u5355\u51fb\u7ed8\u56fe\u533a\u3001\u76f4\u7ebf\u3001\u51fd\u6570\u3001\u66f2\u7ebf\u7b49, \u6784\u9020\u65b0\u70b9",

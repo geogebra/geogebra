@@ -2288,6 +2288,7 @@ __GGB__keysVar.gl.menu = {
     "PlaneThroughAPerpendicularToB": "Plano ao trav\xe9s de %0 perpendicular a %1",
     "Play": "Reproducir",
     "PlayButton": "Bot\xf3n de reproduci\xf3n",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Agarda, por favor ...",
     "Point": "Punto",
     "Point.Help": "Premer na Vista gr\xe1fica ou nunha recta, funci\xf3n ou curva",

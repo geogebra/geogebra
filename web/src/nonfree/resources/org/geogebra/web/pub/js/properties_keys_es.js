@@ -2288,6 +2288,7 @@ __GGB__keysVar.es.menu = {
     "PlaneThroughAPerpendicularToB": "Plano por %0 perpendicular a %1",
     "Play": "Reproduce",
     "PlayButton": "Bot\xf3n de reproducci\xf3n",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Aguarde, por favor\u2026",
     "Point": "Punto",
     "Point.Help": "Clic en Vista Gr\xe1fica u objeto (recta, curva, pol\xedgono, funci\xf3n)",

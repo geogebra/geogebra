@@ -2288,6 +2288,7 @@ __GGB__keysVar.pl.menu = {
     "PlaneThroughAPerpendicularToB": "P\u0142aszczyzna %0 prostopad\u0142a do %1",
     "Play": "Odtw\xf3rz",
     "PlayButton": "Przycisk odtwarzania",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Prosz\u0119 czeka\u0107\u2026",
     "Point": "Punkt",
     "Point.Help": "Kliknij w Widoku Grafiki lub na prostej, funkcji lub krzywej",

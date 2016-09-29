@@ -2288,6 +2288,7 @@ __GGB__keysVar.de_AT.menu = {
     "PlaneThroughAPerpendicularToB": "Ebene durch %0 normal auf %1",
     "Play": "Abspielen",
     "PlayButton": "Schaltfl\xe4che \"Abspielen\"",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Bitte warten...",
     "Point": "Punkt",
     "Point.Help": "Klicken Sie auf die Grafik-Ansicht oder w\xe4hlen sie eine Gerade, Funktion oder Kurve.",

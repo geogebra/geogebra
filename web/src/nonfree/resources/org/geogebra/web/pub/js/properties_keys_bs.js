@@ -2288,6 +2288,7 @@ __GGB__keysVar.bs.menu = {
     "PlaneThroughAPerpendicularToB": "Ravan odre\u0111ena ta\u010dkom %0 normalna na %1",
     "Play": "Pokreni",
     "PlayButton": "Dugme za pokretanje",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Molimo pri\u010dekajte\u2026",
     "Point": "Ta\u010dka",
     "Point.Help": "Kliknite na radnu povr\u0161 ili pravu ili krivu da kreirate novu ta\u010dku",

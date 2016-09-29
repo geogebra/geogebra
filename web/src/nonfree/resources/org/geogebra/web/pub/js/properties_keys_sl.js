@@ -2288,6 +2288,7 @@ __GGB__keysVar.sl.menu = {
     "PlaneThroughAPerpendicularToB": "Ravnina skozi %0 pravokotna na %1",
     "Play": "Za\u017eeni",
     "PlayButton": "Gumb za zagon",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Samo trenutek \u2026",
     "Point": "To\u010dka",
     "Point.Help": "Klikni kjerkoli na risalni povr\u0161ini, na premici, funkciji ali krivulji",

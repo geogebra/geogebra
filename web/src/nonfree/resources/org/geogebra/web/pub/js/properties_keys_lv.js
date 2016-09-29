@@ -2288,6 +2288,7 @@ __GGB__keysVar.lv.menu = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "Sp\u0113l\u0113t",
     "PlayButton": "Spel\u0113\u0161anas poga",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Please wait\u2026",
     "Point": "Punkts",
     "Point.Help": "Uzspied uz grafsk\u0101 skata, taisnes, funkcijas vai l\u012bknes",

@@ -2288,6 +2288,7 @@ __GGB__keysVar.af.menu = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "Play",
     "PlayButton": "Play button",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Please wait\u2026",
     "Point": "Point",
     "Point.Help": "Click on the Graphics View or on line, function, or curve",

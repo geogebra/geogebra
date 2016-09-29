@@ -2288,6 +2288,7 @@ __GGB__keysVar.fi.menu = {
     "PlaneThroughAPerpendicularToB": "Taso %0 l\xe4pi kohtisuorassa %1 vastaan",
     "Play": "K\xe4ynnist\xe4",
     "PlayButton": "K\xe4ynnist\xe4-painike",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Odota...",
     "Point": "Piste",
     "Point.Help": "Klikkaa piirtoaluetta, suoraa, funktiota tai k\xe4yr\xe4\xe4",

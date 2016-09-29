@@ -2288,6 +2288,7 @@ __GGB__keysVar.cy.menu = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "Chwarae",
     "PlayButton": "Botwm chwarae",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Please wait\u2026",
     "Point": "Pwynt",
     "Point.Help": "Clicio ar y wedd graffeg neu ar linell, ffwythiant neu gromlin",

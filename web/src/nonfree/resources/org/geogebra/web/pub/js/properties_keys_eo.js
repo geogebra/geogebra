@@ -2288,6 +2288,7 @@ __GGB__keysVar.eo.menu = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "Play",
     "PlayButton": "Play button",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Bonvolu atendi\u2026",
     "Point": "Punkto",
     "Point.Help": "Click on the Graphics View or on line, function, or curve",

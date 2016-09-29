@@ -2288,6 +2288,7 @@ __GGB__keysVar.fr.menu = {
     "PlaneThroughAPerpendicularToB": "Plan par %0 perpendiculaire \xe0 %1",
     "Play": "Ex\xe9cuter",
     "PlayButton": "\"Ex\xe9cuter\"",
+    "PleaseInstallA": "Installer %0",
     "PleaseWait": "Patienter svp \u2026",
     "Point": "Point",
     "Point.Help": "Cliquer dans Graphique ou sur un objet[cr\xe9\xe9]",

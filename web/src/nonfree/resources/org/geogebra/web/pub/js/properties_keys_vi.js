@@ -2288,6 +2288,7 @@ __GGB__keysVar.vi.menu = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "Ch\u1ea1y",
     "PlayButton": "N\xfat ch\u1ea1y",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Please wait\u2026",
     "Point": "\u0110i\u1ec3m",
     "Point.Help": "Ch\u1ecdn tr\xean v\xf9ng l\xe0m vi\u1ec7c ho\u1eb7c \u0111\u01b0\u1eddng th\u1eb3ng",

@@ -2288,6 +2288,7 @@ __GGB__keysVar.et.menu = {
     "PlaneThroughAPerpendicularToB": "Tasand l\xe4bi %0, mis on ristuv %1-ga",
     "Play": "M\xe4ngi",
     "PlayButton": "M\xe4ngi nupp",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Please wait\u2026",
     "Point": "Punkt",
     "Point.Help": "Kl\xf5psake graafikavaatel v\xf5i sirgel/l\xf5igul/kiirel, funktsioonil v\xf5i k\xf5veral",

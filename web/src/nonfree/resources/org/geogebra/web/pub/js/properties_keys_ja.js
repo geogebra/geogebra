@@ -2288,6 +2288,7 @@ __GGB__keysVar.ja.menu = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "\u518d\u751f",
     "PlayButton": "\u518d\u751f\u30dc\u30bf\u30f3",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "\u5c11\u3005\u304a\u5f85\u3061\u4e0b\u3055\u3044\u2026",
     "Point": "\u70b9",
     "Point.Help": "\u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30b9\u30d3\u30e5\u30fc\u3001\u76f4\u7dda\u3001\u95a2\u6570\u306e\u30b0\u30e9\u30d5\u307e\u305f\u306f\u66f2\u7dda\u4e0a\u3067\u30af\u30ea\u30c3\u30af\u3059\u308b",

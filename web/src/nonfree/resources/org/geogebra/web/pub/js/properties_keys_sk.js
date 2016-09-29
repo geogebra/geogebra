@@ -2288,6 +2288,7 @@ __GGB__keysVar.sk.menu = {
     "PlaneThroughAPerpendicularToB": "Rovina cez %0, ktor\xe1 je kolm\xe1 na %1",
     "Play": "Prehr\xe1vanie",
     "PlayButton": "Tla\u010d\xedtko prehr\xe1vania",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Please wait\u2026",
     "Point": "Bod",
     "Point.Help": "Klikni na n\xe1kres\u0148u alebo na priamku, graf funkcie, krivku!",

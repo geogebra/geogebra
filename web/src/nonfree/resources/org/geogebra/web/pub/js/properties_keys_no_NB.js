@@ -2288,6 +2288,7 @@ __GGB__keysVar.no_NB.menu = {
     "PlaneThroughAPerpendicularToB": "Plan gjennom %0 og vinkelrett p\xe5 %1",
     "Play": "Spill av",
     "PlayButton": "Avspillingsknapp",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Vennligst vent\u2026",
     "Point": "Punkt",
     "Point.Help": "Klikk p\xe5 grafikkfeltet eller p\xe5 ei linje, en funksjon eller ei kurve",

@@ -2288,6 +2288,7 @@ __GGB__keysVar.pt_PT.menu = {
     "PlaneThroughAPerpendicularToB": "Plano que cont\xe9m %0 e \xe9 perpendicular a %1",
     "Play": "Reproduzir",
     "PlayButton": "Bot\xe3o para reproduzir a constru\xe7\xe3o",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Aguarde se faz favor\u2026",
     "Point": "Ponto",
     "Point.Help": "Clique numa \xe1rea livre da Folha Gr\xe1fica ou numa reta, fun\xe7\xe3o ou curva",

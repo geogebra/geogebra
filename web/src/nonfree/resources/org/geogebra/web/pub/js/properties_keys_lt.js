@@ -2288,6 +2288,7 @@ __GGB__keysVar.lt.menu = {
     "PlaneThroughAPerpendicularToB": "Plok\u0161tuma per %0 statmena %1",
     "Play": "Paleisti",
     "PlayButton": "Paleidimo mygtukas",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Palaukite\u2026",
     "Point": "Ta\u0161kas",
     "Point.Help": "Spregtelkite bet kur grafikos lange",

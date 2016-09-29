@@ -2288,6 +2288,7 @@ __GGB__keysVar.hu.menu = {
     "PlaneThroughAPerpendicularToB": "%0-n \xe1tmen\u0151 %1-ra/re mer\u0151leges s\xedk",
     "Play": "Lej\xe1tsz\xe1s",
     "PlayButton": "Lej\xe1tsz\xe1s gomb",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "K\xe9rem, v\xe1rjon...",
     "Point": "Pont",
     "Point.Help": "Kattint\xe1s a rajzlapon, f\xfcggv\xe9nyen vagy egy g\xf6rb\xe9n",

@@ -2288,6 +2288,7 @@ __GGB__keysVar.sr.menu = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "Kreni",
     "PlayButton": "Dugme za pokretanje",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Please wait\u2026",
     "Point": "ta\u010dka",
     "Point.Help": "Kliknite na povr\u0161inu za crtanje ili na pravu, funkciju ili krivu",

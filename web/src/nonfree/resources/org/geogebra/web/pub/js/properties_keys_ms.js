@@ -2288,6 +2288,7 @@ __GGB__keysVar.ms.menu = {
     "PlaneThroughAPerpendicularToB": "Satah melalui %0 serenjang dengan %1",
     "Play": "Main",
     "PlayButton": "Butang main",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Sila tunggu\u2026",
     "Point": "Titik",
     "Point.Help": "Klik pada Paparan Grafik atau atas garis, fungsi, atau lengkung",

@@ -2288,6 +2288,7 @@ __GGB__keysVar.ru.menu = {
     "PlaneThroughAPerpendicularToB": "Plane through %0 perpendicular to %1",
     "Play": "\u041f\u0440\u043e\u0438\u0433\u0440\u0430\u0442\u044c",
     "PlayButton": "\u041a\u043d\u043e\u043f\u043a\u0430 \u043f\u0440\u043e\u0438\u0433\u0440\u044b\u0432\u0430\u043d\u0438\u044f",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Please wait\u2026",
     "Point": "\u0422\u043e\u0447\u043a\u0430",
     "Point.Help": "\u0429\u0451\u043b\u043a\u043d\u0438\u0442\u0435 \u043d\u0430 \u043f\u043e\u043b\u043e\u0442\u043d\u0435 \u0438\u043b\u0438 \u043b\u0438\u043d\u0438\u0438",

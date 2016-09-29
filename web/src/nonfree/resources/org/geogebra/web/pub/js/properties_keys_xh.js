@@ -2288,6 +2288,7 @@ __GGB__keysVar.xh.menu = {
     "PlaneThroughAPerpendicularToB": "iPleyini edlula ku %0 emeNgqo kunye no %1",
     "Play": "Dlala",
     "PlayButton": "iQhosha lokudlala",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Nceda ulinde\u2026",
     "Point": "iChaphaza",
     "Point.Help": "Klikha kumbono wegrafu okanye emgceni, ifankshini, okanye igophe",

@@ -2288,6 +2288,7 @@ __GGB__keysVar.tr.menu = {
     "PlaneThroughAPerpendicularToB": "%1'e dik ve %0'dan ge\xe7en d\xfczlem",
     "Play": "\xc7al\u0131\u015ft\u0131r",
     "PlayButton": "\xc7al\u0131\u015ft\u0131r d\xfc\u011fmesi",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "L\xfctfen bekleyin...",
     "Point": "Nokta",
     "Point.Help": "\xc7izim tahtas\u0131na veya do\u011fruya, fonksiyon veya e\u011friye t\u0131klay\u0131n",

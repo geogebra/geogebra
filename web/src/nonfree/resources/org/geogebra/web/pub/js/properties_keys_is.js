@@ -2288,6 +2288,7 @@ __GGB__keysVar.is.menu = {
     "PlaneThroughAPerpendicularToB": "Plan gegnum %0 hornr\xe9tt \xe1 %1",
     "Play": "Spila",
     "PlayButton": "Hnappur til a\xf0 spila",
+    "PleaseInstallA": "Please install %0",
     "PleaseWait": "Please wait\u2026",
     "Point": "Punktur",
     "Point.Help": "Smelli\xf0 \xe1 teiknibor\xf0 e\xf0a \xe1 l\xednu, fall e\xf0a feril",
