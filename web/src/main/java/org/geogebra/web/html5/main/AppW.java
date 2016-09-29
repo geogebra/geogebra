@@ -3441,9 +3441,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public void addFocusToApp() {
 
-		// if (!GlobalKeyDispatcherW.getIsHandlingTab()) {
-		// return;
-		// }
+
+		 if (!GlobalKeyDispatcherW.getIsHandlingTab()) {
+			getGlobalKeyDispatcher().setFocused(true);
+			return;
+		 }
 
 		// add focus to AV if visible
 		AlgebraView av = getAlgebraView();
