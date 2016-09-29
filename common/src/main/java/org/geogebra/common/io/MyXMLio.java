@@ -325,6 +325,12 @@ public abstract class MyXMLio {
 				clearAll, settingsBatch);
 	}
 
+	final protected void doParseXML(XMLStream stream, boolean clearConstruction,
+			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch)
+			throws Exception {
+		doParseXML(stream, clearConstruction, isGGTOrDefaults, mayZoom,
+				settingsBatch, true);
+	}
 	/**
 	 * @param stream
 	 *            xml stream
@@ -341,7 +347,8 @@ public abstract class MyXMLio {
 	 */
 	final protected void doParseXML(XMLStream stream,
 			boolean clearConstruction,
-			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch)
+			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch,
+			boolean randomize)
 			throws Exception {
 		boolean oldVal = kernel.isNotifyViewsActive();
 		boolean oldVal2 = kernel.isUsingInternalCommandNames();
@@ -380,7 +387,7 @@ public abstract class MyXMLio {
 		} finally {
 			kernel.setUseInternalCommandNames(oldVal2);
 			if (!isGGTOrDefaults && mayZoom) {
-				kernel.updateConstruction();
+				kernel.updateConstruction(randomize, 1);
 				kernel.setNotifyViewsActive(oldVal);
 			}
 

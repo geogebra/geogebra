@@ -136,7 +136,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			// process xml file
 			kernel.getConstruction().setFileLoading(true);
 			doParseXML(new XMLStreamInputStream(zip), true, false, true,
-					true);
+					true, false);
 			kernel.getConstruction().setFileLoading(false);
 			zip.close();
 		} else {

@@ -1113,10 +1113,13 @@ public class Construction {
 		num.setRandomGeo(false);
 	}
 
+	final public void updateConstruction() {
+		updateConstruction(true);
+	}
 	/**
 	 * Updates all objects in this construction.
 	 */
-	final public void updateConstruction() {
+	final public void updateConstruction(boolean randomize) {
 		// collect notifyUpdate calls using xAxis as dummy geo
 		updateConstructionRunning = true;
 		try {
@@ -1137,7 +1140,9 @@ public class Construction {
 			// update all free random numbers() (dependent random numbers will
 			// be updated from algo list)
 			// no update cascade is done: algos will be updated
-			updateAllFreeRandomGeosNoCascade();
+			if (randomize) {
+				updateAllFreeRandomGeosNoCascade();
+			}
 
 			// init and update all algorithms
 			// make sure we call algo.initNearToRelationship() fist
@@ -1171,7 +1176,9 @@ public class Construction {
 				algo.initForNearToRelationship();
 
 				// update algorithm
-				algo.update();
+				if (randomize || !(algo instanceof SetRandomValue)) {
+					algo.update();
+				}
 			}
 
 			// G.Sturr 2010-5-28:

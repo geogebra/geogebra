@@ -3959,11 +3959,11 @@ public class Kernel {
 	 * 
 	 * @param n
 	 */
-	public void updateConstruction(int n) {
+	public void updateConstruction(boolean randomize, int n) {
 
 		// views are notified about update at the end of this method
 		for (int i = 0; i < n; i++) {
-			cons.updateConstruction();
+			cons.updateConstruction(randomize);
 		}
 
 		// latexes in GeoGebraWeb are rendered afterwards and set updateEVAgain
