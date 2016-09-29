@@ -12,8 +12,11 @@ import java.util.List;
 public class JSONParserGGT {
 	public static final JSONParserGGT prototype = new JSONParserGGT();
 
-
 	public Material toMaterial(JSONObject obj) {
+		return toMaterial(obj, false);
+	}
+
+	public Material toMaterial(JSONObject obj, boolean setLocalID) {
 		Material.MaterialType type = MaterialType.ggb;
 		if (getString(obj, "type").length() > 0) {
 			try {
@@ -63,7 +66,9 @@ public class JSONParserGGT {
 		material.setFromAnotherDevice(
 				getBoolean(obj, "from_another_device", false));
 		material.setIs3d(getStringBoolean(obj, "is3d", false));
-		material.setLocalID(getInt(obj, "localId", -1));
+		if (setLocalID) {
+			material.setLocalID(getInt(obj, "localID", -1));
+		}
 		return material;
 	}
 
@@ -269,7 +274,12 @@ public class JSONParserGGT {
 		result.add(toMaterial(((JSONObject) obj)));
 	}
 
+
 	public static Material parseMaterial(String item) {
+		return parseMaterial(item, false);
+	}
+
+	public static Material parseMaterial(String item, boolean setLocalID) {
 		JSONObject mat = null;
 		try {
 			JSONTokener tok = new JSONTokener(item);
@@ -280,6 +290,6 @@ public class JSONParserGGT {
 		if (mat == null) {
 			return null;
 		}
-		return prototype.toMaterial(mat);
+		return prototype.toMaterial(mat, setLocalID);
 	}
 }

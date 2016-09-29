@@ -349,6 +349,10 @@ public class Material implements Comparable<Material>, Serializable {
 	}
 
 	public JSONObject toJson() {
+		return toJson(false);
+	}
+
+	public JSONObject toJson(boolean storeLocalId) {
 		JSONObject ret = new JSONObject();
 		putString(ret, "thumbnail", thumbnail);
 		// putString(ret,"-type", TODO);
@@ -379,7 +383,9 @@ public class Material implements Comparable<Material>, Serializable {
 		putBoolean(ret, "inputbar", this.showInputbar);
 		putBoolean(ret, "from_another_device", this.fromAnotherDevice);
 		putString(ret, "is3d", this.is3d ? "1" : "0");
-		putString(ret, "localId", localID + "");
+		if (storeLocalId) {
+			putString(ret, "localID", localID + "");
+		}
 		return ret;
 	}
 
