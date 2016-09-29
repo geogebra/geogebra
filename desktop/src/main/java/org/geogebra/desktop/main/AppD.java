@@ -394,7 +394,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param comp
 	 * @param undoActive
 	 */
-	protected AppD(CommandLineArguments args, JFrame frame,
+	public AppD(CommandLineArguments args, JFrame frame,
 			AppletImplementation appletImpl, Container comp,
 			boolean undoActive, LocalizationD loc) {
 

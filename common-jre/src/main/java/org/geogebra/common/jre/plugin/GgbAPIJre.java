@@ -1,10 +1,15 @@
 package org.geogebra.common.jre.plugin;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GgbAPI;
 
 public abstract class GgbAPIJre extends GgbAPI {
 
+	public GgbAPIJre(App app) {
+		this.app = app;
+		this.kernel = app.getKernel();
+	}
 	final public synchronized String getPNGBase64(double exportScale,
 			boolean transparent, double DPI) {
 		return getPNGBase64(exportScale, transparent, DPI, false);

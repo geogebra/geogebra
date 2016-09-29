@@ -2,8 +2,6 @@ package org.geogebra.commands;
 
 import java.util.Locale;
 
-import javax.swing.JFrame;
-
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -12,9 +10,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.geogebra3D.App3D;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.main.LocalizationD;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,7 +19,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CommandsTest extends Assert{
-	static AppD app;
+	static AppDNoGui app;
 	static AlgebraProcessor ap;
 
 	private static void  t(String input, String expected){
@@ -102,9 +99,7 @@ public class CommandsTest extends Assert{
 	
 	@BeforeClass
 	public static void setupApp() {
-		app = new App3D(new CommandLineArguments(
-				new String[] {
-				"--prerelease" }), new JFrame(), false);
+		app = new AppDNoGui(new LocalizationD(3));
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
 		// make sure x=y is a line, not plane

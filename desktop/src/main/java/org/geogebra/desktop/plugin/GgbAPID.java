@@ -81,7 +81,7 @@ public class GgbAPID extends GgbAPIJre {
 	 *            Application
 	 */
 	public GgbAPID(AppD app) {
-		this.app = app;
+		super(app);
 		kernel = app.getKernel();
 		algebraprocessor = kernel.getAlgebraProcessor();
 		construction = kernel.getConstruction();

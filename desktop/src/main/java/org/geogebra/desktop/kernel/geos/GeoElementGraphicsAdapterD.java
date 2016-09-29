@@ -14,10 +14,10 @@ import org.geogebra.desktop.util.ImageResourceD;
 
 public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 
-	protected AppD app;
+	protected App app;
 
 	public GeoElementGraphicsAdapterD(App appl) {
-		app = (AppD) appl;
+		app = appl;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 		}
 
 		if (imageFileName.startsWith("/geogebra")) {
-			Image im = app.getImageManager()
+			Image im = ((AppD) app).getImageManager()
 					.getImageResource(findFillImage(imageFileName));
 			if(im == null){
 				Log.error(imageFileName + " does not exist");
