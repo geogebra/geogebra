@@ -63,6 +63,7 @@ public class JSONParserGGT {
 		material.setFromAnotherDevice(
 				getBoolean(obj, "from_another_device", false));
 		material.setIs3d(getStringBoolean(obj, "is3d", false));
+		material.setLocalID(getInt(obj, "localId", -1));
 		return material;
 	}
 

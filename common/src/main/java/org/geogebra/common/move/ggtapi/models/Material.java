@@ -333,7 +333,7 @@ public class Material implements Comparable<Material>, Serializable {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("ID: " + this.id + ": (" + this.type + ") ");
+		sb.append("ID: " + this.id + ": (" + this.type + ") (local " + localID + ") ");
 		sb.append("Title: " + this.title + " ");
 		sb.append("by " + this.author + " (" + this.getAuthorURL() + "), ");
 		sb.append("Date: " + this.getDate() + "\n");
@@ -379,6 +379,7 @@ public class Material implements Comparable<Material>, Serializable {
 		putBoolean(ret, "inputbar", this.showInputbar);
 		putBoolean(ret, "from_another_device", this.fromAnotherDevice);
 		putString(ret, "is3d", this.is3d ? "1" : "0");
+		putString(ret, "localId", localID + "");
 		return ret;
 	}
 
