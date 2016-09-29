@@ -456,7 +456,7 @@ public class MyXMLHandler implements DocHandler {
 
 		if (kernel.userStopsLoading()){
 			kernel.setUserStopsLoading(false);
-			throw new SAXException(loc.getPlain("UserStopsLoading"));
+			throw new SAXException("User has cancelled loading");
 		}
 
 		switch (mode) {
