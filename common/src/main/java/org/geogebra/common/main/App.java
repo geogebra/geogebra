@@ -4089,6 +4089,10 @@ public abstract class App implements UpdateSelection {
 		case NEW_TOOLBAR_ANDROID:
 			return prerelease;
 
+		// MOB-774, MOB-775
+		case MOBILE_TOOLBAR_FROM_FILE:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

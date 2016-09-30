@@ -177,6 +177,13 @@ public class DockPanelData {
 	}
 
 	/**
+	 * Set the toolbar string of this view (or an empty string).
+	 */
+	public void setToolbarString(String toolbar) {
+		toolbarString = toolbar;
+	}
+
+	/**
 	 * @return If this view is visible at the moment.
 	 */
 	public boolean isVisible() {
