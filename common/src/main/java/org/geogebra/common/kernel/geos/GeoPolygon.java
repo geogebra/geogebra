@@ -2621,4 +2621,21 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		}
 		return pt;
 	}
+
+	@Override
+	public void setVisualStyle(final GeoElement geo) {
+		super.setVisualStyle(geo);
+
+		if (segments == null) {
+			return;
+		}
+
+		for (GeoSegmentND segment : segments) {
+			segment.setObjColor(geo.getObjectColor());
+			segment.updateVisualStyle(GProperty.COLOR);
+
+		}
+
+	}
+
 }
