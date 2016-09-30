@@ -518,4 +518,6 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean isGeoImage();
 
+	void setLoadedLabel(String label);
+
 }

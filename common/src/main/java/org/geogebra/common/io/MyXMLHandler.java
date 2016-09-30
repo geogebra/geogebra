@@ -84,6 +84,7 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.GParser;
@@ -5895,7 +5896,7 @@ new GPoint(row, column));
 
 			// Application.debug(""+getAlgProcessor());
 
-			GeoElement[] result = getAlgProcessor()
+			GeoElementND[] result = getAlgProcessor()
 					.processValidExpression(ve);
 			cons.registerFunctionVariable(null);
 			// ensure that labels are set for invisible objects too

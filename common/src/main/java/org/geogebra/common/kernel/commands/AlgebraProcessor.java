@@ -409,7 +409,7 @@ public class AlgebraProcessor {
 			final boolean storeUndoInfo,
 			final AsyncOperation<GeoElementND> callback, ErrorHandler handler) {
 		String oldLabel, newLabel;
-		GeoElement[] result;
+		GeoElementND[] result;
 		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
 				redefineIndependent);
 
@@ -648,7 +648,7 @@ public class AlgebraProcessor {
 	 *            redefined etc
 	 * @return resulting geos
 	 */
-	public GeoElement[] processAlgebraCommandNoExceptionHandling(
+	public GeoElementND[] processAlgebraCommandNoExceptionHandling(
 			ValidExpression ve, final boolean storeUndo,
 			final ErrorHandler handler,
 			boolean autoCreateSliders,
@@ -750,7 +750,7 @@ public class AlgebraProcessor {
 			if (sb.length() > 0) {
 				// eg from Spreadsheet we don't want a popup
 				if (!autoCreateSliders) {
-					GeoElement[] rett = tryReplacingProducts(ve, handler);
+					GeoElementND[] rett = tryReplacingProducts(ve, handler);
 					if (callback0 != null && rett != null) {
 						callback0.callback(rett);
 					}
@@ -925,7 +925,7 @@ public class AlgebraProcessor {
 	 * replaceUndefinedVariables(ve, undefinedVariables, true); } return null; }
 	 */
 
-	private GeoElement[] tryReplacingProducts(ValidExpression ve,
+	private GeoElementND[] tryReplacingProducts(ValidExpression ve,
 			ErrorHandler eh) {
 		ValidExpression ve2 = (ValidExpression) ve.traverse(new Traversing() {
 
@@ -945,7 +945,7 @@ public class AlgebraProcessor {
 				return ev;
 			}
 		});
-		GeoElement[] ret = null;
+		GeoElementND[] ret = null;
 		try {
 			ret = this.processValidExpression(ve2);
 		} catch (MyError t) {
@@ -1133,7 +1133,7 @@ public class AlgebraProcessor {
 				ve = new ExpressionNode(kernel, eq.getLHS(),
 						Operation.EQUAL_BOOLEAN, eq.getRHS());
 			}
-			GeoElement[] temp = processValidExpression(ve);
+			GeoElementND[] temp = processValidExpression(ve);
 
 			// GGB-1043 GWT: can't rely on ClassCast Exception
 			if (temp[0] instanceof GeoBoolean) {
@@ -1169,7 +1169,7 @@ public class AlgebraProcessor {
 		GeoList list = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
-			GeoElement[] temp = processValidExpression(ve);
+			GeoElementND[] temp = processValidExpression(ve);
 			// CAS in GeoGebraWeb dies badly if we don't handle this case
 			// (Simon's hack):
 			// list = (GeoList) temp[0];
@@ -1262,7 +1262,7 @@ public class AlgebraProcessor {
 					}
 				}).wrap();
 			}
-			GeoElement[] temp = processValidExpression(exp);
+			GeoElementND[] temp = processValidExpression(exp);
 
 			if (temp[0].isGeoFunctionable()) {
 				GeoFunctionable f = (GeoFunctionable) temp[0];
@@ -1329,7 +1329,7 @@ public class AlgebraProcessor {
 		GeoFunctionNVar func = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
-			GeoElement[] temp = processValidExpression(ve);
+			GeoElementND[] temp = processValidExpression(ve);
 
 			if (temp[0] instanceof GeoFunctionNVar) {
 				func = (GeoFunctionNVar) temp[0];
@@ -1425,7 +1425,7 @@ public class AlgebraProcessor {
 		GeoNumberValue num = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
-			GeoElement[] temp = processValidExpression(ve);
+			GeoElementND[] temp = processValidExpression(ve);
 
 			if (temp[0] instanceof GeoNumberValue) {
 				num = (GeoNumberValue) temp[0];
@@ -1468,7 +1468,7 @@ public class AlgebraProcessor {
 		}
 
 		GeoPointND p = null;
-		GeoElement[] temp = null;
+		GeoElementND[] temp = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			if (ve instanceof ExpressionNode) {
@@ -1516,7 +1516,7 @@ public class AlgebraProcessor {
 		cons.setSuppressLabelCreation(!createLabel);
 
 		GeoText text = null;
-		GeoElement[] temp = null;
+		GeoElementND[] temp = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
 			temp = processValidExpression(ve);
@@ -1557,14 +1557,14 @@ public class AlgebraProcessor {
 	 *            if false, only stacktraces are printed
 	 * @return implicit polygon or null
 	 */
-	public GeoElement evaluateToGeoElement(String str, boolean showErrors) {
+	public GeoElementND evaluateToGeoElement(String str, boolean showErrors) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		GeoElement geo = null;
+		GeoElementND geo = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
-			GeoElement[] temp = processValidExpression(ve);
+			GeoElementND[] temp = processValidExpression(ve);
 			geo = temp[0];
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
@@ -3190,11 +3190,18 @@ public class AlgebraProcessor {
 
 	}
 
+	/**
+	 * @param enable
+	 *            whether commands should be enabled
+	 */
 	public void setCommandsEnabled(boolean enable) {
 		cmdDispatcher.setEnabled(enable);
 
 	}
 
+	/**
+	 * @return whether commands dispatching is enabled
+	 */
 	public boolean isCommandsEnabled() {
 		return cmdDispatcher.isEnabled();
 	}

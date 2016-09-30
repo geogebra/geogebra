@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -133,7 +134,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				GeoElement existingGeo = this.kernel.lookupLabel(ve.getLabel());
 				if (existingGeo == null) {
 
-					GeoElement[] inputGeos = this.kernel.getAlgebraProcessor()
+					GeoElementND[] inputGeos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(ve, false,
 									validation, false, null, info);
 					previewGeos = null;
@@ -141,7 +142,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 						InputHelper.updateProperties(previewGeos, kernel
 								.getApplication().getActiveEuclidianView());
 						int unlabeled = 0;
-						for (GeoElement geo : inputGeos) {
+						for (GeoElementND geo : inputGeos) {
 							if (geo instanceof GeoFunction) {
 								boolean b = ((GeoFunction) geo)
 										.validate(ve.getLabel() == null, false);
@@ -156,9 +157,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 						}
 						previewGeos = new GeoElement[unlabeled];
 						int i = 0;
-						for (GeoElement geo : inputGeos) {
+						for (GeoElementND geo : inputGeos) {
 							if (!geo.isLabelSet()) {
-								previewGeos[i++] = geo;
+								previewGeos[i++] = geo.toGeoElement();
 							}
 						}
 					}
