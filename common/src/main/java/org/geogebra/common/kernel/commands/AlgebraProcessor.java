@@ -3189,4 +3189,13 @@ public class AlgebraProcessor {
 				new ExpressionNode(kernel, Double.NaN));
 
 	}
+
+	public void setCommandsEnabled(boolean enable) {
+		cmdDispatcher.setEnabled(enable);
+
+	}
+
+	public boolean isCommandsEnabled() {
+		return cmdDispatcher.isEnabled();
+	}
 }

@@ -711,7 +711,8 @@ public abstract class App implements UpdateSelection {
 				.getTranslateCommandTable();
 		for (Commands comm : Commands.values()) {
 			String internal = comm.name();
-			if (!companion.tableVisible(comm.getTable())) {
+			if (!companion.tableVisible(comm.getTable())
+					|| !kernel.getAlgebraProcessor().isCommandsEnabled()) {
 				if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
 					putInTranslateCommandTable(comm, null);
 				}

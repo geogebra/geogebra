@@ -312,8 +312,7 @@ pr.menu_header_undo(), null, 32);
 										app.getSettings()),
 								app.getMenu("exam_custom_header") + " " + app.getMenu("CAS"), null, null);
 					} else if (!supports3D && !supportsCAS) {
-						if (app.getArticleElement()
-								.getDataParamEnableGraphing(true)) {
+						if (app.enableGraphing()) {
 							app.showMessage(true,
 									app.getExam().getLog(app.getLocalization(),
 											app.getSettings()),
@@ -656,8 +655,7 @@ pr.menu_header_undo(), null, 32);
 		//TODO
 		//toolbarPanel.show(Integer.toString(activeToolbar));
 		onResize();
-		if (app.isExam()
-				&& !app.getArticleElement().getDataParamEnableGraphing(true)) {
+		if (app.isExam() && !app.enableGraphing()) {
 			toolBPanel.setVisible(false);
 		} else {
 			toolBPanel.setVisible(true);

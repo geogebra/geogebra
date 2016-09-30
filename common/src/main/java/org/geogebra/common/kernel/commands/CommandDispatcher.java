@@ -185,7 +185,10 @@ public abstract class CommandDispatcher {
 		return ret;
 	}
 
-	private CommandProcessor getProcessor(Command c) {
+	private CommandProcessor getProcessor(Command c) throws MyError {
+		if (!enabled) {
+			throw new MyError(kernel.getLocalization(), "InvalidInput");
+		}
 		if (cmdTable == null) {
 			initCmdTable();
 		}
@@ -848,6 +851,7 @@ public abstract class CommandDispatcher {
 	}
 
 	private CommandDispatcherBasic basicDispatcher = null;
+	private boolean enabled = true;
 
 	private CommandDispatcherBasic getBasicDispatcher() {
 		if (basicDispatcher == null) {
@@ -874,5 +878,21 @@ public abstract class CommandDispatcher {
 			}
 		}
 		return process(cmdProc, c, info)[0];
+	}
+
+	/**
+	 * @param enable
+	 *            true to enable commands
+	 */
+	public void setEnabled(boolean enable) {
+		this.enabled = enable;
+
+	}
+
+	/**
+	 * @return whether commands are supported
+	 */
+	public boolean isEnabled() {
+		return enabled;
 	}
 }

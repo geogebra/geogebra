@@ -81,7 +81,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			this.createFileMenu();
 		}
 		
-		boolean enableGraph = !exam || app.getArticleElement().getDataParamEnableGraphing(true);
+		boolean enableGraph = !exam || app.enableGraphing();
 		if (enableGraph){
 			this.createPerspectivesMenu();
 			this.createEditMenu();

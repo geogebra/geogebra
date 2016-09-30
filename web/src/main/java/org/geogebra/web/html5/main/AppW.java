@@ -1426,7 +1426,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public CommandDispatcher getCommandDispatcher(Kernel k) {
-		return new CommandDispatcherW(k);
+		CommandDispatcher cmd = new CommandDispatcherW(k);
+		if (!enableGraphing()) {
+			cmd.setEnabled(false);
+		}
+		return cmd;
 	}
 
 	/**
@@ -1735,15 +1739,16 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 					getArticleElement().getDataParamEnable3D(false));
 		}
 
-		if (getLAF() != null
-				&& getLAF().examSupported(has(Feature.EXAM_TABLET))) {
-			if (!getArticleElement().getDataParamEnableGraphing(true)) {
-				getSettings().getEuclidian(1).setEnabled(
-						getArticleElement().getDataParamEnableGraphing(false));
-				getSettings().getEuclidian(2).setEnabled(
-						getArticleElement().getDataParamEnableGraphing(false));
-			}
+		if (getArticleElement().getDataParamEnableGraphing(false)
+					|| !getArticleElement().getDataParamEnableGraphing(true)) {
+
+			boolean enableGraphing = getArticleElement()
+					.getDataParamEnableGraphing(false);
+			getSettings().getEuclidian(1).setEnabled(enableGraphing);
+			getSettings().getEuclidian(2).setEnabled(enableGraphing);
+			kernel.getAlgebraProcessor().setCommandsEnabled(enableGraphing);
 		}
+
 
 	}
 
@@ -3387,9 +3392,13 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public boolean allowStylebar() {
 		return (getArticleElement().getDataParamApp()
-				&& getArticleElement().getDataParamEnableGraphing(true))
+				&& enableGraphing())
 				|| getArticleElement().getDataParamShowMenuBar(false)
 				|| getArticleElement().getDataParamAllowStyleBar(false);
+	}
+
+	public boolean enableGraphing() {
+		return getArticleElement().getDataParamEnableGraphing(true);
 	}
 
 	public boolean isStartedWithFile() {

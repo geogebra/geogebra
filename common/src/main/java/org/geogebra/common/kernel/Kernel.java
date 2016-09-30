@@ -5358,4 +5358,5 @@ public class Kernel {
 	public void setUserStopsLoading(boolean flag){
 		userStopsLoading = flag;
 	}
+
 }

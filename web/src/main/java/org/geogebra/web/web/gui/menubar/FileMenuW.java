@@ -111,8 +111,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 									app.getSettings()),
 							loc.getMenu("exam_custom_header") + " " + loc.getMenu("CAS"), buttonText, handler);
 				} else if (!supports3D && !supportsCAS) {
-					if (app.getArticleElement()
-							.getDataParamEnableGraphing(true)) {
+					if (app.enableGraphing()) {
 						app.showMessage(true,
 								app.getExam().getLog(app.getLocalization(),
 										app.getSettings()),

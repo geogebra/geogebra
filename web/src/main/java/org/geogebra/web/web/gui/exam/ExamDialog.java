@@ -112,7 +112,7 @@ public class ExamDialog {
 				}
 				// GRAPH EXAM: !cas && !3d && ev
 				else if (!supports3D && !supportsCAS) {
-					if (app.getArticleElement().getDataParamEnableGraphing(true)) {
+					if (app.enableGraphing()) {
 						Label description = new Label(loc.getMenu("GraphingCalculator"));
 						mainWidget.add(description);
 					} else {
@@ -188,7 +188,7 @@ public class ExamDialog {
 		app.getLAF().removeWindowClosingHandler();
 		app.fileNew();
 		app.updateRounding();
-		if (app.getArticleElement().getDataParamEnableGraphing(true)) {
+		if (app.enableGraphing()) {
 			app.getGgbApi().setPerspective("1");
 		} else {
 			app.getGgbApi().setPerspective("A");
