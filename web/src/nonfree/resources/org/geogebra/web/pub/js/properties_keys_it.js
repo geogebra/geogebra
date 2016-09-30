@@ -2288,7 +2288,7 @@ __GGB__keysVar.it.menu = {
     "PlaneThroughAPerpendicularToB": "Piano per %0 perpendicolare a %1",
     "Play": "Esegui",
     "PlayButton": "Pulsante Esegui",
-    "PleaseInstallA": "Please install %0",
+    "PleaseInstallA": "\xc8 necessario installare %0",
     "PleaseWait": "Attendere\u2026",
     "Point": "Punto",
     "Point.Help": "Fare clic nella vista Grafici o su una retta, una funzione o una curva",
