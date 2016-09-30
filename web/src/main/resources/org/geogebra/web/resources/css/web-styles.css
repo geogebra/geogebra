@@ -3132,6 +3132,11 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 	padding: 15px 2px 0px 0px;	
 }
 
+.AVHelpDetailScroller {
+	max-height: 500px;
+}
+
+
 /* ========== Input Help  end ============ */
 /* first td of heading table should have width: 0% */
 .algebraView {

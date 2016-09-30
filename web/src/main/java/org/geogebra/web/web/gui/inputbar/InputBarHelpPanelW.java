@@ -49,6 +49,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private Button btnClose;
 	private LocaleSensitiveComparator comparator;
 	private SplitLayoutPanel sp;
+	private ScrollPanel detailScroller;
 	private InlineLabel lblSyntax;
 	private MyTreeItem itmFunction;
 	private AutoCompleteW inputField;
@@ -133,27 +134,35 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 				onSelectionNative(item, fireEvents);
 			}
 
-			private native void onSelectionNative(TreeItem item,
-					boolean fireEvents)/*-{
-		this.@com.google.gwt.user.client.ui.Tree::onSelection(Lcom/google/gwt/user/client/ui/TreeItem;ZZ)(item, fireEvents, false);
-
-	}-*/;
+			private native void onSelectionNative(TreeItem item, boolean fireEvents)/*-{
+																					this.@com.google.gwt.user.client.ui.Tree::onSelection(Lcom/google/gwt/user/client/ui/TreeItem;ZZ)(item, fireEvents, false);
+																					
+																					}-*/;
 		};
 		indexTree.addStyleName("inputHelp-tree");
 		indexTree.setAnimationEnabled(true);
-		ScrollPanel treeScroller = new ScrollPanel(indexTree);
-		treeScroller.setSize("100%", "100%");
 
-		// put the detail panel and index tree side by side in a
-		// SplitLayoutPanel
-		sp = new SplitLayoutPanel();
-		sp.addStyleName("ggbdockpanelhack");
-		sp.addEast(treeScroller, 280);
-		sp.add(new ScrollPanel(detailPanel));
+		// show only mathematical functions for exam simple calculator
+		if (app.getArticleElement().hasDataParamEnableGraphing()
+				&& !app.getArticleElement().getDataParamEnableGraphing(true)) {
+			detailScroller = new ScrollPanel(detailPanel);
+			detailScroller.setStyleName("AVHelpDetailScroller");
+			add(detailScroller);
+		} else {
 
-		// now add the split panel to our main panel
-		add(sp);
+			ScrollPanel treeScroller = new ScrollPanel(indexTree);
+			treeScroller.setSize("100%", "100%");
 
+			// put the detail panel and index tree side by side in a
+			// SplitLayoutPanel
+			sp = new SplitLayoutPanel();
+			sp.addStyleName("ggbdockpanelhack");
+			sp.addEast(treeScroller, 280);
+			sp.add(new ScrollPanel(detailPanel));
+
+			// now add the split panel to our main panel
+			add(sp);
+		}
 	}
 
 	public void render(boolean online) {
@@ -219,9 +228,16 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		showOnlineHelpButton(!app.isExam());
 		int h = (int) (maxOffsetHeight * scale
 				- 60);
-		int w = (int) Math.min(700,
-				AppW.getRootComponent(app).getOffsetWidth() * scale - 60);
-		sp.setPixelSize(w, h);
+		double width = AppW.getRootComponent(app).getOffsetWidth() * scale - 60;
+
+		if (app.getArticleElement().hasDataParamEnableGraphing()
+				&& !app.getArticleElement().getDataParamEnableGraphing(true)) {
+			int w = (int) Math.min(400, width);
+			detailScroller.setPixelSize(w, h);
+		} else {
+			int w = (int) Math.min(700, width);
+			sp.setPixelSize(w, h);
+		}
 	}
 
 	// =================================================================
