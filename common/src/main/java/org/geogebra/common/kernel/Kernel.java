@@ -1837,8 +1837,34 @@ public class Kernel {
 
 	public final StringBuilder buildConicformEquation(double[] numbers,
 			String[] vars, StringTemplate tpl) {
+		Log.debug("numbers: " + numbers);
 		StringBuilder sbBuildConicformEquation = new StringBuilder(80);
-		sbBuildConicformEquation.append("conicformequation");
+		double h, p4, k, a, b, c, d;
+		String var1, var2;
+
+		if (numbers[0] == 0) { // directrix parallel with y axis
+			a = numbers[2];
+			b = numbers[4];
+			c = numbers[3];
+			d = numbers[5];
+			var1 = vars[4];
+			var2 = vars[3];
+		} else { // directrix parallel with x axis
+			a = numbers[0];
+			b = numbers[3];
+			c = numbers[4];
+			d = numbers[5];
+			var1 = vars[3];
+			var2 = vars[4];
+		}
+
+		h = -b / a / 2;
+		p4 = -c / a;
+		k = b * b / (4 * a * c) - d / c;
+
+
+		sbBuildConicformEquation.append(formatCoeff(p4, tpl) + "(" + var2
+				+ " - " + k + ")= " + "(" + var1 + " - " + h + ")^2");
 		return sbBuildConicformEquation;
 	}
 
