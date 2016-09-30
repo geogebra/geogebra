@@ -420,14 +420,18 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			if (!syntaxBasic.equals(cmd + Localization.syntaxStr)) {
 				formattedHTMLString(ret,syntaxBasic, false);
 			}
-			Label headCAS = new Label(loc.getMenu("Type.CAS") + ":");
-			headCAS.addStyleName("inputHelp-headerCAS");
-			ret.add(headCAS);
-			
-			String syntaxCAS = loc.getCommandSyntaxCAS(cmd);
-			formattedHTMLString(ret,syntaxCAS,true);
-			
+			// don't show cas specific syntax for exam graphing
+			boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
+			if (!app.getArticleElement().hasDataParamEnableGraphing()
+					|| (app.getArticleElement().hasDataParamEnableGraphing() && supportsCAS)) {
 
+				Label headCAS = new Label(loc.getMenu("Type.CAS") + ":");
+				headCAS.addStyleName("inputHelp-headerCAS");
+				ret.add(headCAS);
+			
+				String syntaxCAS = loc.getCommandSyntaxCAS(cmd);
+				formattedHTMLString(ret, syntaxCAS, true);
+			}
 		} else {
 
 			formattedHTMLString(ret, syntaxBasic, false);
