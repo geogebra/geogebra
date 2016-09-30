@@ -85,6 +85,8 @@ public class AlgoFoldExpression extends AlgoElement {
 			return new FunctionNvarFold();
 		case FUNCTION:
 			return new FunctionFold();
+		case LIST:
+			return new ListFold();
 		}
 		return new NumberFold();
 	}

@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.algos.AlgoProductMatrices;
 import org.geogebra.common.kernel.algos.FoldComputer;
 import org.geogebra.common.kernel.algos.FunctionFold;
 import org.geogebra.common.kernel.algos.FunctionNvarFold;
+import org.geogebra.common.kernel.algos.ListFold;
 import org.geogebra.common.kernel.algos.PointNDFold;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -100,23 +101,28 @@ public class CmdProduct extends CommandProcessor {
 		GeoList list = (GeoList) geoElement;
 		GeoElement sample = ((GeoList) geoElement)
 				.getGeoElementForPropertiesDialog();
-		if (sample instanceof GeoNumberValue) {
+		if (sample instanceof GeoNumberValue && list.getListDepth() < 2) {
 			AlgoProduct algo = new AlgoProduct(cons, c.getLabel(), list, limit);
 
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
 		FoldComputer computer = null;
-		if (sample instanceof GeoFunction || sample instanceof GeoFunctionNVar) {
+		if (list.getListDepth() > 1) {
+			computer = new ListFold();
+
+		} else if (sample instanceof GeoFunction
+				|| sample instanceof GeoFunctionNVar) {
 			computer = sample.getGeoClassType() == GeoClass.FUNCTION_NVAR
 					|| sample.getGeoClassType() == GeoClass.DEFAULT ?
 
 							new FunctionNvarFold() : new FunctionFold();
 		}
-		if (sample instanceof GeoPoint || sample instanceof GeoVector) {
+		else if (sample instanceof GeoPoint || sample instanceof GeoVector) {
 			computer = new PointNDFold();
 
 		}
+
 		if (computer != null) {
 			AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, c.getLabel(),
 					list, limit, Operation.MULTIPLY, computer);
