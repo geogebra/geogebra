@@ -2159,10 +2159,14 @@ public abstract class App implements UpdateSelection {
 		}
 
 		if (getGuiManager() != null) {
-			getGuiManager().setMode(mode, m);
+			setModeFromGuiManager(mode, m);
 		} else if (euclidianView != null) {
 			euclidianView.setMode(mode, m);
 		}
+	}
+
+	protected void setModeFromGuiManager(int mode, ModeSetter m) {
+		getGuiManager().setMode(mode, m);
 	}
 
 	/**
