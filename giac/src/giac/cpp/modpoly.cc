@@ -4756,8 +4756,8 @@ namespace giac {
   }
 
   // p and q assumed to have the same size, gcd(pmod,qmod)=1
-  bool ichinrem_inplace(dense_POLY1 &p,const vector<int> & q,const gen & pmod,int qmodval){
-    if (debug_infolevel)
+  int ichinrem_inplace(dense_POLY1 &p,const vector<int> & q,const gen & pmod,int qmodval){
+    if (debug_infolevel>2)
       CERR << CLOCK()*1e-6 << " ichinrem begin"<< endl;
     gen u,v,d,tmp,pqmod(qmodval*pmod),pqmod2=iquo(pqmod,2),minuspqmod2=-pqmod2;
     egcd(pmod,qmodval,u,v,d);
@@ -4766,14 +4766,15 @@ namespace giac {
     if (d==-1){ u=-u; v=-v; d=1; }
     int U=u.val;
     if (d!=1)
-      return false;
+      return 0;
     if (pmod.type!=_ZINT)
-      return false;
+      return 0;
     dense_POLY1::iterator a = p.begin(),a_end = p.end();
     vector<int>::const_iterator b = q.begin(),b_end = q.end();
     int n=int(a_end-a), m=int(b_end-b);
     if (n!=m)
-      return false;
+      return 0;
+    bool changed=false;
     mpz_t tmpz;
     mpz_init(tmpz);
     for (;a!=a_end;++a,++b){
@@ -4783,11 +4784,19 @@ namespace giac {
 	int amodq=modulo(*a->_ZINTptr,qmodval);
 	if (amodq==*b)
 	  continue;
-	mpz_mul_si(tmpz,*pmod._ZINTptr,(U*(*b-longlong(amodq)))%qmodval);
+	int ab=(U*(*b-longlong(amodq)))%qmodval;
+	if (ab==0)
+	  continue;
+	changed=true;
+	mpz_mul_si(tmpz,*pmod._ZINTptr,ab);
 	mpz_add(tmpz,tmpz,*a->_ZINTptr);	  
       }
       else {
-	mpz_mul_si(tmpz,*pmod._ZINTptr,(U*(longlong(*b)-a->val))%qmodval);
+	int ab=(U*(longlong(*b)-a->val))%qmodval;
+	if (ab==0)
+	  continue;
+	changed=true;
+	mpz_mul_si(tmpz,*pmod._ZINTptr,ab);
 	if (a->val>=0)
 	  mpz_add_ui(tmpz,tmpz,a->val);
 	else
@@ -4799,16 +4808,18 @@ namespace giac {
 	if (mpz_cmp(tmpz,*minuspqmod2._ZINTptr)<=0)
 	  mpz_add(tmpz,tmpz,*pqmod._ZINTptr);
       }
-      if (a->type==_ZINT) mpz_set(*a->_ZINTptr,tmpz); else *a=tmpz;
+      // && a->ref_count()==1 ?
+      if (a->type==_ZINT) mpz_set(*a->_ZINTptr,tmpz); else 
+	*a=tmpz;
 #else
       *a=*a+u*(*b-*a) *pmod ; // improve to modulo(U*(*b-*a), qmodval) and type checking for overwrite
       *a = smod(*a,pqmod);
 #endif
     }
     mpz_clear(tmpz);
-    if (debug_infolevel)
+    if (debug_infolevel>2)
       CERR << CLOCK()*1e-6 << " ichinrem end"<< endl;
-    return true;
+    return changed?1:2;
   }
 
   // assuming pmod and qmod are prime together, find r such that

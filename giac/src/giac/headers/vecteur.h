@@ -369,6 +369,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_hessenberg ;
 
   bool probabilistic_pmin(const matrice & m,vecteur & w,bool check,GIAC_CONTEXT);
+  bool mod_pcar(std::vector< std::vector<int> > & N,int modulo,bool & krylov,std::vector<int> & res,GIAC_CONTEXT);
   vecteur mpcar_hessenberg(const matrice & A,int modulo,GIAC_CONTEXT);
   gen _pcar_hessenberg(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_pcar_hessenberg ;

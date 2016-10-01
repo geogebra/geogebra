@@ -64,11 +64,9 @@ enum Fl_Color {	// standard colors
   FL_COLOR_CUBE		= 56
 };
 #else // GIAC_HAS_STO_38
-#ifndef LP64
+//#ifndef LP64
 typedef ptrdiff_t Int;
-#else
-typedef signed long Int;
-#endif
+//#else typedef signed long Int; #endif
 #include "Colors.h"
 //#include "../../src/Colors.h"
 enum Fl_Color {

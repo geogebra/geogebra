@@ -209,6 +209,7 @@ namespace giac {
   // A=u*(q-p)/d
   dense_POLY1 ichinrem(const dense_POLY1 &p,const dense_POLY1 & q,const gen & pmod,const gen & qmod);
   modpoly chinrem(const modpoly & p,const modpoly & q, const modpoly & pmod, const modpoly & qmod,environment * env);
+  int ichinrem_inplace(dense_POLY1 &p,const vector<int> & q,const gen & pmod,int qmodval); // 0 error, 1 p changed, 2 p unchanged
   void divided_differences(const vecteur & x,const vecteur & y,vecteur & res,environment * env);
   void interpolate(const vecteur & x,const vecteur & y,modpoly & res,environment * env);
   void mulpoly_interpolate(const polynome & p,const polynome & q,polynome & res,environment * env);

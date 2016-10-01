@@ -5993,11 +5993,11 @@ namespace giac {
     res.clear(); // insure that res will be build properly
     // Modular algorithm for matrix integer reduction
     // Find Hadamard bound
-    if (debug_infolevel>2)
+    if (debug_infolevel>1)
       CERR << "rref padic/modular " << CLOCK() << endl;
     bool inverting=fullreduction==2;
     gen h2=4*square_hadamard_bound(a),h20=h2;
-    if (debug_infolevel>2)
+    if (debug_infolevel>1)
       CERR << "rref padic hadamard done " << CLOCK() << endl;
     gen p,det_mod_p,pi_p;
     int done=0;
@@ -6119,6 +6119,8 @@ namespace giac {
 	  return 0;
       }
       // First find det to avoid bad primes
+      int initial_clock=CLOCK();
+      int dbglevel=debug_infolevel;
       for (;is_strictly_greater(h2,pi_p*pi_p,contextptr);){
 #ifdef HAVE_LIBPTHREAD
 	for (int j=0;j<nthreads-1;j++){
@@ -6136,8 +6138,15 @@ namespace giac {
 	}
 #endif
 	p=nextp(p+1,factdet);
-	if (as>10 && debug_infolevel>2)
-	  CERR << CLOCK() << " detrref, % done " << evalf_double(_evalf(gen(makevecteur(200*ln(pi_p,contextptr)/ln(h2,contextptr),20),_SEQ__VECT),contextptr),1,contextptr)<< ", prime " << p << ", det/lif=" << det << endl;
+	gen current_estimate=evalf_double(_evalf(gen(makevecteur(200*ln(pi_p,contextptr)/ln(h2,contextptr),20),_SEQ__VECT),contextptr),1,contextptr);
+	if (as>10 && dbglevel<2 && CLOCK()-initial_clock>60*CLOCKS_PER_SEC)
+	  dbglevel=2;
+	if (as>10 && dbglevel>1){
+	  CERR << CLOCK() << " detrref, % done " << current_estimate << ", prime " << p << (proba<1e-10?" stable":" unstable");
+	  if (dbglevel>2)
+	    CERR << ", det/lif=" << det ;
+	  CERR << endl;
+	}
 	if (!in_modrref(a,N,res,pivots,det_mod_p,l,lmax,c,cmax,
 			0 /* fullreduction */,dont_swap_below,p.val,1 /* det */,1 /* mult by 1*/,false /* inverting */,true/* no initial mod */
 #ifdef HAVE_LIBPTHREAD
@@ -6147,7 +6156,7 @@ namespace giac {
 	  // FIXME clean launched threads
 	  return 0;
 	}
-	if (debug_infolevel>2)
+	if (dbglevel>2)
 	  CERR << CLOCK() << " end rref " << endl;
 #ifdef HAVE_LIBPTHREAD
 	// get back launched mod det
@@ -6175,12 +6184,12 @@ namespace giac {
 	  proba=proba/evalf_double(p,1,contextptr)._DOUBLE_val;
 	else
 	  proba=1.0;
-	if (proba<proba_epsilon(contextptr))
+	if (proba<proba_epsilon(contextptr) && is_greater(70,current_estimate,contextptr) && CLOCK()-initial_clock>5*CLOCKS_PER_SEC)
 	  break;
       } // end loop h2>pi_p^2
       det=smod(det,pi_p)*factdet;
       if (rref_or_det_or_lu==1){
-	if (proba<proba_epsilon(contextptr))
+	if (is_strictly_greater(h2,pi_p*pi_p,contextptr))
 	  *logptr(contextptr) << gettext("Probabilistic algorithm for determinant\n(run proba_epsilon:=0 for a deterministic answer, this is slower).\nError probability is less than ") << proba << endl;
 	return 1;
       }
@@ -6277,7 +6286,7 @@ namespace giac {
 	  }
 	}
 #endif
-	if (as>10 && debug_infolevel>2)
+	if (as>10 && debug_infolevel>1)
 	  CERR << CLOCK() << " modrref, % done " << evalf_double(_evalf(gen(makevecteur(200*ln(pi_p,contextptr)/ln(h2,contextptr),20),_SEQ__VECT),contextptr),1,contextptr)<< ", prime " << p << endl;
 	if (rref_or_det_or_lu==3){
 	  if (is_zero(det_mod_p,contextptr))
@@ -6942,18 +6951,29 @@ namespace giac {
   }
 
   //transforme un vecteur en vector<int>  
-  void vecteur2vector_int(const vecteur & v,int modulo,vector<int> & res){
+  void vecteur2vector_int(const vecteur & v,int m,vector<int> & res){
     vecteur::const_iterator it=v.begin(),itend=v.end();
     res.clear();
     res.reserve(itend-it);
+    if (m==0) {
+      for (;it!=itend;++it){
+	if (it->type==_MOD)
+	  res.push_back(it->_MODptr->val);
+	else
+	  res.push_back(it->val); 
+      }
+      return;
+    }
+    if (m<0)
+      m=-m;
     for (;it!=itend;++it){
       if (it->type==_MOD)
 	res.push_back(it->_MODptr->val);
       else {
-	if (modulo) 
-	  res.push_back(smod((*it),modulo).val); 
-	else
-	  res.push_back(it->val); 
+	int r=it->type==_ZINT?modulo(*it->_ZINTptr,m):(it->val % m);
+	r += (unsigned(r)>>31)*m; // make positive
+	r -= (unsigned((m>>1)-r)>>31)*m;
+	res.push_back(r);// res.push_back(smod((*it),m).val); 
       }
     }
   } 
@@ -7770,7 +7790,7 @@ namespace giac {
     }
 #endif // GIAC_HAS_STO_38
 #ifdef GIAC_DETBLOCK
-    int det_blocksize=mmult_int_blocksize;
+    int det_blocksize=mmult_int_blocksize*0.7;
     bool tryblock=blocktest && rref_or_det_or_lu==1 && giacmax(mmult_int_blocksize,det_blocksize)*double(modulo)*modulo<((1ULL << 63)) && lmax-l>=3*det_blocksize && cmax-c>=3*det_blocksize;
     // commented because it's slower...
     // if (tryblock) det_blocksize=giacmin((lmax-l)/3,(cmax-c)/3);
@@ -8304,6 +8324,9 @@ namespace giac {
       N.resize(itend-it);
       vector< vector<int> >::iterator kt=N.begin();
       for (;it!=itend;++kt,++it){
+#if 1
+	vecteur2vector_int(*it->_VECTptr,Modulo,*kt);
+#else
 	const_iterateur jt=it->_VECTptr->begin(),jtend=it->_VECTptr->end();
 	kt->resize(jtend-jt);
 	vector<int>::iterator lt=kt->begin();
@@ -8313,6 +8336,7 @@ namespace giac {
 	  else
 	    *lt=smod(*jt,Modulo).val;
 	}
+#endif
       }
     }
     else 
@@ -10419,17 +10443,22 @@ namespace giac {
       for (i=m+2;i<n;++i){
 	// line operation
 	vector<int> & Hi=H[i];
-	u=( (longlong) t*Hi[m]) % modulo;
-	if (debug_infolevel>=2)
+	u=((longlong) t*Hi[m])%modulo;
+	if (!u){ 
+	  //CERR << "zero " << m << " " << i << endl;
+	  continue;
+	}
+	if (debug_infolevel>3)
 	  CERR << "// i=" << i << " " << u <<endl;
-	modlinear_combination(Hi,-u,Hmp1,modulo,0,0,false); // H[i]=H[i]-u*H[m+1]; COULD START at m
+	modlinear_combination(Hi,-u,Hmp1,modulo,m,0,false); // H[i]=H[i]-u*H[m+1]; COULD START at m
 	// column operation
 	for (int j=0;j<n;++j){
 	  vector<int> & Hj=H[j];
 #ifdef _I386_
 	  mod(Hj[m+1],u,Hj[i],modulo);
 #else
-	  Hj[m+1]=(Hj[m+1]+longlong(u)*Hj[i])%modulo;
+	  int * ptr=&Hj[m+1];
+	  *ptr=(*ptr+longlong(u)*Hj[i])%modulo;
 #endif
 	}
 	if (compute_P)
@@ -10491,7 +10520,7 @@ namespace giac {
       for (i=m+2;i<n;++i){
 	// line operation
 	u=rdiv(H[i][m],t,contextptr);
-	if (debug_infolevel>=2)
+	if (debug_infolevel>2)
 	  CERR << "// i=" << i << " " << u <<endl;
 	linear_combination(plus_one,H[i],-u,H[m+1],plus_one,vtemp,1e-12,0); // H[i]=H[i]-u*H[m+1];
 	swap(H[i],vtemp);
@@ -11764,96 +11793,212 @@ namespace giac {
   static define_unary_function_eval (__hessenberg,&giac::_hessenberg,_hessenberg_s);
   define_unary_function_ptr5( at_hessenberg ,alias_at_hessenberg,&__hessenberg,0,true);
 
-  dense_POLY1 mpcar_hessenberg(const matrice & A,int modulo,GIAC_CONTEXT){
-    int n=int(A.size());
-    if (modulo || is_integer_matrice(A)){
-      if (modulo){ // try Krylov pmin
-	vector< vector<int> > N,temp(n+1),ttemp;
-	if (debug_infolevel)
-	  CERR << "Charpoly mod " << modulo << " A*v" << CLOCK() << endl;
-	if (!vecteur2vectvector_int(A,modulo,N))
-	  return vecteur(1,gendimerr(contextptr));
-	vector<int> & t0=temp[0];
-	t0.reserve(n);
-	for (int i=0;i<n;++i)
-	  t0.push_back(std::rand()%modulo);
-	for (int j=0;j<n;++j){
-	  if (!multvectvector_int_vector_int(N,temp[j],modulo,temp[j+1]))
-	    return vecteur(1,gendimerr(contextptr));
+  int trace(const vector< vector<int> > & N,int modulo){
+    longlong res=0;
+    int n=int(N.size());
+    for (int i=0;i<n;++i){
+      res += N[i][i];
+    }
+    return res%modulo;
+  }
+
+  bool mod_pcar(vector< vector<int> > & N,int modulo,bool & krylov,vector<int> & res,GIAC_CONTEXT){
+    int n=int(N.size());
+    if (krylov){ // try Krylov pmin
+      vector< vector<int> > temp(n+1),ttemp; 
+      vector<int> & t0=temp[0];
+      t0.reserve(n);
+      for (int i=0;i<n;++i)
+	t0.push_back(std::rand()%modulo);
+      for (int j=0;j<n;++j){
+	if (!multvectvector_int_vector_int(N,temp[j],modulo,temp[j+1]))
+	  return false;
+      }
+      if (debug_infolevel>2)
+	CERR << CLOCK() << " Charpoly mod " << modulo << " tran " << endl;
+      tran_vect_vector_int(temp,ttemp);
+      vecteur pivots;
+      longlong det;
+      vector<int> permutation,maxrankcol;
+      if (debug_infolevel>2)
+	CERR << CLOCK() << " Charpoly mod " << modulo << " rref " << endl;
+      smallmodrref(1,ttemp,pivots,permutation,maxrankcol,det,0,n,0,n+1,false/*full reduction */,0,modulo,2/* LU */,true);
+      if (debug_infolevel>2)
+	CERR << CLOCK() << " Charpoly mod " << modulo << " det=" << det << " " << endl;
+      // if det==0 we will use Hessenberg
+      // If rank==n-1 we could extract the min polynomial and find charpoly using the trace
+      int rank=det?n:(ttemp[n-2][n-2]?n-1:0);
+      if (
+	  // false 
+	  det || rank==n-1
+	  ){ 
+	// U*charpol=last column
+	for (int i=rank-1;i>=0;--i){
+	  // charpol[i]=LU[i,i]^(-1)*(bp[i]-sum(j>i)LU[i,j]*charpol[j])
+	  int res=0;
+	  vector<int> & li=ttemp[i];
+	  for (int j=i+1;j<rank;++j)
+	    mod(res,li[j],ttemp[j][rank],modulo);
+	  li[rank]=(invmod(li[i],modulo)*longlong(li[rank]-res))%modulo;
 	}
-	if (debug_infolevel)
-	  CERR << "Charpoly mod " << modulo << " tran " << CLOCK() << endl;
-	tran_vect_vector_int(temp,ttemp);
-	vecteur pivots;
-	longlong det;
-	vector<int> permutation,maxrankcol;
-	if (debug_infolevel)
-	  CERR << "Charpoly mod " << modulo << " rref " << CLOCK() << endl;
-	smallmodrref(1,ttemp,pivots,permutation,maxrankcol,det,0,n,0,n+1,false/* LU decomp */,0,modulo,2/* LU */,true);
-	if (debug_infolevel)
-	  CERR << "Charpoly mod " << modulo << " det=" << det << " " << CLOCK() << endl;
-	// if det==0 we will use Hessenberg
-	// If rank==n-1 we could extract the min polynomial and find charpoly using the trace
-	if (
-	    // false 
-	    det
-	    ){ 
-	  // U*charpol=last column
-	  for (int i=n-1;i>=0;--i){
-	    // charpol[i]=LU[i,i]^(-1)*(bp[i]-sum(j>i)LU[i,j]*charpol[j])
-	    int res=0;
-	    vector<int> & li=ttemp[i];
-	    for (int j=i+1;j<n;++j)
-	      mod(res,li[j],ttemp[j][n],modulo);
-	    li[n]=(invmod(li[i],modulo)*longlong(li[n]-res))%modulo;
-	  }
-	  // the last column is the min poly
-	  modpoly charpol(n+1);
-	  for (int i=0;i<n;++i)
-	    charpol[n-i]=smod(-ttemp[i][n],modulo);
-	  charpol[0]=1;
-	  return charpol;
+	// the last column is the min poly
+	res.resize(rank+1);
+	for (int i=0;i<rank;++i)
+	  res[rank-i]=smod(-ttemp[i][rank],modulo);
+	res[0]=1;
+	if (rank==n)
+	  return true;
+	if (rank==n-1){
+	  vector<int> resx=res;
+	  resx.push_back(0);
+	  longlong t=trace(N,modulo)+res[1]; 
+	  // res[1]=-sum eigenvals, trace=sum eigenvals with multiplicities
+	  for (int i=0;i<=rank;++i)
+	    resx[i+1] = (resx[i+1]-t*res[i])%modulo;
+	  res.swap(resx);
+	  // CERR << res << endl;
+	  return true;
 	}
-	else
-	  if (debug_infolevel)
-	    CERR << "Singular, back to Hessenberg " << endl;
       }
       else {
-	gen B=evalf_double(linfnorm(A,contextptr),0,contextptr);
-	double Bd=B._DOUBLE_val;
-	if (!Bd){
-	  modpoly charpol(n+1);
-	  charpol[0]=1;
-	  return charpol;
+	krylov=false;
+	if (debug_infolevel>2)
+	  CERR << CLOCK() << " Singular, calling Hessenberg " << endl;
+      }
+    }
+    mhessenberg(N,N,modulo,false); // Hessenberg reduction, don't compute P
+    if (debug_infolevel>2)
+      CERR << CLOCK() << " Hessenberg reduced" << endl;
+    vector<int> P0(1,1),P1; 
+    P0.reserve(n+1); P1.reserve(n+1);
+    vector< vector<int> > P;
+    P.reserve(n+1);
+    P.push_back(P0);
+    for (int m=1;m<=n;++m){
+      longlong n=N[m-1][m-1];
+      P1=P0;
+      P1.push_back(0);
+      for (int j=0;j<P0.size();++j){
+	P1[j+1] = (P1[j+1]-n*P0[j])%modulo;
+      }
+      P1.swap(P0);
+      longlong t=1;
+      for (int i=1;i<m;++i){
+	t=(t*N[m-i][m-i-1])%modulo;
+	longlong f=(t*N[m-i-1][m-1])%modulo;
+	const vector<int> & pmi=P[m-i-1];
+	int delta=P0.size()-pmi.size();
+	int * target=&P0[delta];
+	const int * ptr=&pmi[0], * ptrend=ptr+pmi.size();
+	for (;ptr!=ptrend;++target,++ptr){
+	  *target = (*target-f*(*ptr))%modulo;
 	}
-	// max value of any coeff in the charpoly
-	// max eigenval is <= sqrt(n)||A|| hence bound is in n (log(B)+log(n)/2)
-	// we must add combinatorial (n k)<2^n
-	double logbound=n*(std::log10(double(n))/2+std::log10(Bd)+std::log10(2.0));
-	double proba=proba_epsilon(contextptr),currentprob=1;
-	gen currentp(init_modulo(n,logbound));
-	gen pip(currentp);
-	double pipd=std::log10(pip.val/2+1.0);
-	modpoly charpol=*makemod(mpcar_hessenberg(A,currentp.val,contextptr),0)._VECTptr;
-	if (is_undef(charpol)) return charpol;
-	for (;pipd<logbound && currentprob>proba;){
-	  currentp=nextprime(currentp.val+2);
-	  modpoly currentcharpol=*makemod(mpcar_hessenberg(A,currentp.val,contextptr),0)._VECTptr;
-	  if (is_undef(currentcharpol)) return currentcharpol;
-	  modpoly newcharpol=ichinrem(charpol,currentcharpol,pip,currentp);
-	  if (newcharpol==charpol)
-	    currentprob=currentprob/currentp.val;
-	  else {
-	    charpol=newcharpol;
-	    currentprob=1.0;
-	  }
-	  pip=pip*currentp;
-	  pipd += std::log10(double(currentp.val));
-	}
-	if (debug_infolevel && pipd<logbound)
-	  CERR << "Probabilistic answer" << endl;
+	// for (int j=0;j<pmi.size();++j) P0[j+delta]=(P0[j+delta]-f*pmi[j])%modulo;
+      }
+      P.push_back(P0);
+    }
+#if 1
+    // CERR << P0 << endl;
+    res=P0;
+#else
+    modpoly p0(1,plus_one);
+    modpoly pX(2,plus_one);
+    vector< modpoly > p(1,p0);
+    environment env;
+    env.moduloon=true; env.modulo=modulo;
+    for (int m=1;m<=n;++m){
+      pX[1]=-N[m-1][m-1];
+      p0=operator_times(pX,p0,&env);
+      longlong t=1;
+      for (int i=1;i<m;++i){
+	t=(t*N[m-i][m-i-1])%modulo;
+	p0=p0-operator_times(gen(int((t*N[m-i-1][m-1])%modulo)),p[m-i-1],&env);
+      }
+      p.push_back(p0);
+    }
+    vecteur2vector_int(p0,modulo,res);
+#endif
+    // dbgtmp=p0;
+    if (debug_infolevel>2)
+      CERR << CLOCK() <<" Hessenberg charpoly " << endl;
+    return true;
+  }
+    
+  bool mod_pcar(const matrice & A,vector< vector<int> > & N,int modulo,bool & krylov,vector<int> & res,GIAC_CONTEXT){
+    if (debug_infolevel>2)
+      CERR << CLOCK() << " Charpoly mod " << modulo << " A*v" << endl;
+    if (!vecteur2vectvector_int(A,modulo,N))
+      return false;
+    return mod_pcar(N,modulo,krylov,res,contextptr);
+  }
+
+  dense_POLY1 mpcar_hessenberg(const matrice & A,int modulo,GIAC_CONTEXT){
+    int n=int(A.size());
+    modpoly dbgtmp;
+    bool krylov=true;
+    if (modulo){
+      vector<int> res; modpoly RES;
+      vector< vector<int> > N;
+      if (!mod_pcar(A,N,modulo,krylov,res,contextptr))
+	return vecteur(1,gensizeerr("Non integer cell in matrix"));
+      vector_int2vecteur(res,RES);
+      return RES;
+    }
+    if (is_integer_matrice(A)){
+      gen B=evalf_double(linfnorm(A,contextptr),0,contextptr);
+      double Bd=B._DOUBLE_val;
+      if (!Bd){
+	modpoly charpol(n+1);
+	charpol[0]=1;
 	return charpol;
       }
+      // max value of any coeff in the charpoly
+      // max eigenval is <= sqrt(n)||A|| hence bound is in n (log(B)+log(n)/2)
+      // we must add combinatorial (n k)<2^n
+      double logbound=n*(std::log10(double(n))/2+std::log10(Bd)+std::log10(2.0));
+      double proba=proba_epsilon(contextptr),currentprob=1;
+      gen currentp(init_modulo(n,logbound));
+      gen pip(currentp);
+      double pipd=std::log10(pip.val/2+1.0);
+      vector<int> modpcar;
+      vector< vector<int> > N;
+      if (!mod_pcar(A,N,currentp.val,krylov,modpcar,contextptr))
+	return vecteur(1,gensizeerr(contextptr));
+      modpoly charpol;
+      vector_int2vecteur(modpcar,charpol);
+      int initial_clock=CLOCK();
+      int dbglevel=debug_infolevel;
+      for (;pipd < logbound;){
+	if (currentprob < proba &&  pipd<logbound/1.33 && CLOCK()-initial_clock>5*CLOCKS_PER_SEC)
+	  break;
+	if (n>10 && dbglevel<2 && CLOCK()-initial_clock>60*CLOCKS_PER_SEC)
+	  dbglevel=2;
+	if (dbglevel>1)
+	  CERR << CLOCK() << " " << 100*pipd/logbound << " % done" << (currentprob<proba?", stable.":", unstable.")<< endl;
+	currentp=nextprime(currentp.val+2);
+	if (!mod_pcar(A,N,currentp.val,krylov,modpcar,contextptr))
+	  return vecteur(1,gensizeerr(contextptr));
+	bool stable;
+	int tmp;
+	if (pip.type==_ZINT && (tmp=ichinrem_inplace(charpol,modpcar,pip,currentp.val)) ){
+	  stable=tmp==2;
+	} else {
+	  modpoly newcharpol,currentcharpol;
+	  vector_int2vecteur(modpcar,currentcharpol);
+	  newcharpol=ichinrem(charpol,currentcharpol,pip,currentp);
+	  stable=newcharpol==charpol;
+	  charpol.swap(newcharpol);
+	}
+	if (stable)
+	  currentprob=currentprob/currentp.val;
+	else 
+	  currentprob=1.0;
+	pip=pip*currentp;
+	pipd += std::log10(double(currentp.val));
+      }
+      if (pipd<logbound)
+	*logptr(contextptr) << gettext("Probabilistic answer. Run proba_epsilon:=0 for a certified result. Error <") << proba << endl;
+      return charpol;
     } // end if (is_integer_matrix)
     matrice H,P;
     if (!mhessenberg(A,H,P,modulo,500,1e-10,contextptr))
@@ -11872,6 +12017,7 @@ namespace giac {
       }
       p.push_back(p0);
     }
+    // if (!is_zero(dbgtmp-p0)) CERR << dbgtmp-p0 << endl;
     return p0;
   }
   gen _pcar_hessenberg(const gen & g,GIAC_CONTEXT){
