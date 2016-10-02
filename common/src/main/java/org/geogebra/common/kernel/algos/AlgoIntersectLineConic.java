@@ -246,9 +246,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		boolean continous = isPermutationNeeded || kernel.isContinuous()
 				|| kernel.getLoadingMode();
 		if (continous) {
-			computeContinous();
+			computeContinuous();
 		} else {
-			computeNonContinous();
+			computeNonContinuous();
 		}
 
 		avoidDoubleTangentPoint();
@@ -435,7 +435,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	 * Use the current permutation to set output points P from computed points
 	 * Q.
 	 */
-	private void computeNonContinous() {
+	private void computeNonContinuous() {
 		// calc new intersection points Q
 		intersect(c, Q);
 
@@ -457,7 +457,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	 * We want to find a permutation of Q, so that the distances between old
 	 * points Di and new points Qi are minimal.
 	 */
-	private void computeContinous() {
+	private void computeContinuous() {
 		/*
 		 * D ... old defined points P ... current points Q ... new points
 		 * 
@@ -505,10 +505,10 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 					count++;
 				}
 			}
-
-			// for (i = count; i < P.length; i++) {
-			// P[i].setUndefined();
-			// }
+			// TRAC-643 we may have P loaded from XML on redfine
+			for (int i = count; i < P.length; i++) {
+				P[i].setUndefined();
+			}
 			return;
 		}
 

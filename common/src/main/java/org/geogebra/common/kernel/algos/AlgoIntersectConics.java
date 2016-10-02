@@ -295,7 +295,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		if (continuous) {
 			computeContinuous();
 		} else {
-			computeNonContinous();
+			computeNonContinuous();
 		}
 
 		matchExistingIntersections();
@@ -458,7 +458,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	 * Use the current permutation to set output points P from computed points
 	 * Q.
 	 */
-	private void computeNonContinous() {
+	private void computeNonContinuous() {
 		// calc new intersection points Q
 		intersectConics(A, B, Q);
 
@@ -531,6 +531,11 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 					firstIntersection = false;
 					count++;
 				}
+			}
+			// make points loaded from XML undefined TRAC-643
+			for (int i = count; i < P.length; i++) {
+				P[i].setUndefined();
+
 			}
 			return;
 		}
