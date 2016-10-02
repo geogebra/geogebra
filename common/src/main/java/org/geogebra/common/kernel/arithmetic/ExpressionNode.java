@@ -2870,13 +2870,13 @@ kernel, left,
 				MathmlTemplate.mathml(sb, "<ceiling/>", leftStr, null);
 				break;
 			case LATEX:
-				if (!kernel.getApplication().isHTML5Applet()) {
+				if (!tpl.isMathQuill()) {
 					// MathQuillGGB doesn't support this
 					sb.append("\\left");
 				}
 				sb.append("\\lceil ");
 				sb.append(leftStr);
-				if (!kernel.getApplication().isHTML5Applet()) {
+				if (!tpl.isMathQuill()) {
 					// MathQuillGGB doesn't support this
 					sb.append("\\right");
 				}
