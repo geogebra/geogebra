@@ -776,6 +776,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   double & epsilon(GIAC_CONTEXT);
   void epsilon(double c,GIAC_CONTEXT);
   double & proba_epsilon(GIAC_CONTEXT);
+  extern double min_proba_time; // in seconds, minimal time for proba early termination
 
 #ifdef NSPIRE
   nio::console * logptr(GIAC_CONTEXT);

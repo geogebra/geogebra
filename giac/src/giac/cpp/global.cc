@@ -123,6 +123,8 @@ namespace giac {
     return * (double *)(&r); 
   }
 
+  double min_proba_time=10; // in seconds
+
 #ifdef TIMEOUT
 #ifndef EMCC
   double time(int ){

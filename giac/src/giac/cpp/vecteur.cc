@@ -5982,6 +5982,10 @@ namespace giac {
     ptr->success=in_modrref(*ptr->aptr, *ptr->Nptr,*ptr->resptr, *ptr->pivotsptr, ptr->det,ptr->l, ptr->lmax, ptr->c,ptr->cmax,ptr->fullreduction,ptr->dont_swap_below,ptr->Modulo,ptr->rref_or_det_or_lu,ptr->mult_by_det_mod_p,ptr->inverting,ptr->no_initial_mod,ptr->workptr);
     return ptr;
   }
+
+#ifndef CLOCKS_PER_SEC
+#define CLOCKS_PER_SEC 1e6
+#endif
   
 #ifndef GIAC_HAS_STO_38
   static int mrref_int(const matrice & a, matrice & res, vecteur & pivots, gen & det,int l, int lmax, int c,int cmax,
@@ -6139,11 +6143,11 @@ namespace giac {
 #endif
 	p=nextp(p+1,factdet);
 	gen current_estimate=evalf_double(_evalf(gen(makevecteur(200*ln(pi_p,contextptr)/ln(h2,contextptr),20),_SEQ__VECT),contextptr),1,contextptr);
-	if (as>10 && dbglevel<2 && CLOCK()-initial_clock>60*CLOCKS_PER_SEC)
+	if (as>10 && dbglevel<2 && CLOCK()-initial_clock>min_proba_time*CLOCKS_PER_SEC)
 	  dbglevel=2;
 	if (as>10 && dbglevel>1){
 	  CERR << CLOCK() << " detrref, % done " << current_estimate << ", prime " << p << (proba<1e-10?" stable":" unstable");
-	  if (dbglevel>2)
+	  if (dbglevel>3)
 	    CERR << ", det/lif=" << det ;
 	  CERR << endl;
 	}
@@ -6184,7 +6188,7 @@ namespace giac {
 	  proba=proba/evalf_double(p,1,contextptr)._DOUBLE_val;
 	else
 	  proba=1.0;
-	if (proba<proba_epsilon(contextptr) && is_greater(70,current_estimate,contextptr) && CLOCK()-initial_clock>5*CLOCKS_PER_SEC)
+	if (proba<proba_epsilon(contextptr) && is_greater(70,current_estimate,contextptr) && CLOCK()-initial_clock>min_proba_time*CLOCKS_PER_SEC)
 	  break;
       } // end loop h2>pi_p^2
       det=smod(det,pi_p)*factdet;
@@ -7040,6 +7044,27 @@ namespace giac {
     return smod(res,modulo) ;
   }
 
+  void dotvector_int(const vector<int> & v0,const vector<int> & v1,const vector<int> & v2,const vector<int> & v3,const vector<int> & w,longlong &res0,longlong & res1,longlong & res2,longlong & res3){
+    vector<int>::const_iterator it=w.begin(),itend=w.end(),it1,jt0=v0.begin(),jt1=v1.begin(),jt2=v2.begin(),jt3=v3.begin();
+    unsigned n=unsigned(itend-it);
+    res0=res1=res2=res3=0;
+    it1 = itend -4;
+    for (;it<=it1;jt0+=4,jt1+=4,jt2+=4,jt3+=4,it+=4){
+      longlong tmp0=it[0],tmp1=it[1],tmp2=it[2],tmp3=it[3];
+      res0 += tmp0*jt0[0]+tmp1*jt0[1]+tmp2*jt0[2]+tmp3*jt0[3];
+      res1 += tmp0*jt1[0]+tmp1*jt1[1]+tmp2*jt1[2]+tmp3*jt1[3];
+      res2 += tmp0*jt2[0]+tmp1*jt2[1]+tmp2*jt2[2]+tmp3*jt2[3];
+      res3 += tmp0*jt3[0]+tmp1*jt3[1]+tmp2*jt3[2]+tmp3*jt3[3];
+    }
+    for (;it!=itend;++jt0,++jt1,++jt2,++jt3,++it){
+      longlong tmp=*it;
+      res0 += tmp*(*jt0);
+      res1 += tmp*(*jt1);
+      res2 += tmp*(*jt2);
+      res3 += tmp*(*jt3);
+    }
+  }
+
   bool multvectvector_int_vector_int(const vector< vector<int> > & M,const vector<int> & v,int modulo,vector<int> & Mv){
     unsigned n=unsigned(M.size());
     Mv.clear();
@@ -7049,6 +7074,20 @@ namespace giac {
       return false; 
     Mv.reserve(n);
     vector< vector<int> >::const_iterator it=M.begin(),itend=M.end();
+#if 1
+    if ( ((longlong(modulo)*modulo)/RAND_MAX)*n<=RAND_MAX){
+      itend-=4;
+      longlong l0,l1,l2,l3;
+      for (;it<=itend;it+=4){
+	dotvector_int(it[0],it[1],it[2],it[3],v,l0,l1,l2,l3);
+	Mv.push_back(smod(l0,modulo));
+	Mv.push_back(smod(l1,modulo));
+	Mv.push_back(smod(l2,modulo));
+	Mv.push_back(smod(l3,modulo));
+      }
+      itend+=4;
+    }
+#endif    
     for (;it!=itend;++it){
       Mv.push_back(dotvector_int(*it,v,modulo));
     }
@@ -7790,8 +7829,8 @@ namespace giac {
     }
 #endif // GIAC_HAS_STO_38
 #ifdef GIAC_DETBLOCK
-    int det_blocksize=mmult_int_blocksize*0.7;
-    bool tryblock=blocktest && rref_or_det_or_lu==1 && giacmax(mmult_int_blocksize,det_blocksize)*double(modulo)*modulo<((1ULL << 63)) && lmax-l>=3*det_blocksize && cmax-c>=3*det_blocksize;
+    int det_blocksize=mmult_int_blocksize;
+    bool tryblock=blocktest && rref_or_det_or_lu==1 && giacmax(mmult_int_blocksize,det_blocksize)*double(modulo)*modulo<((1ULL << 63)) && lmax-l>=2*det_blocksize && cmax-c>=2*det_blocksize;
     // commented because it's slower...
     // if (tryblock) det_blocksize=giacmin((lmax-l)/3,(cmax-c)/3);
     if (tmpptr){
@@ -7801,7 +7840,7 @@ namespace giac {
 #endif
     for (;(l<lmax) && (c<cmax);){
 #ifdef GIAC_DETBLOCK
-      if (tryblock &&lmax-l>=3*det_blocksize && cmax-c>=3*det_blocksize && l % det_blocksize==0 && c % det_blocksize==0){
+      if (tryblock &&lmax-l>=2*det_blocksize && cmax-c>=2*det_blocksize && l % det_blocksize==0 && c % det_blocksize==0){
 	// try to invert block of size det_blocksize
 	for (int i=0;i<det_blocksize;++i){
 	  tmpptr->Ainv[i].reserve(2*det_blocksize);
@@ -11825,8 +11864,14 @@ namespace giac {
       smallmodrref(1,ttemp,pivots,permutation,maxrankcol,det,0,n,0,n+1,false/*full reduction */,0,modulo,2/* LU */,true);
       if (debug_infolevel>2)
 	CERR << CLOCK() << " Charpoly mod " << modulo << " det=" << det << " " << endl;
-      // if det==0 we will use Hessenberg
-      // If rank==n-1 we could extract the min polynomial and find charpoly using the trace
+      // If rank==n-1 extract the min polynomial and find charpoly using the trace
+      // if det==0 && rank<n-1 we will use Hessenberg
+      // we could use recursive method
+      // permute lines and columns of N with permutation
+      // P*N*P^t =[[N11 N12]
+      //           [N21 N22]] where N11 is rank*rank
+      // where ttemp=K, P*K=L*U, L=[[L11,0],[L21,Id]] L11 rankxrank
+      // find charpoly of N22-L21*L11^-1*N12
       int rank=det?n:(ttemp[n-2][n-2]?n-1:0);
       if (
 	  // false 
@@ -11969,7 +12014,7 @@ namespace giac {
       int initial_clock=CLOCK();
       int dbglevel=debug_infolevel;
       for (;pipd < logbound;){
-	if (currentprob < proba &&  pipd<logbound/1.33 && CLOCK()-initial_clock>5*CLOCKS_PER_SEC)
+	if (currentprob < proba &&  pipd<logbound/1.33 && CLOCK()-initial_clock>min_proba_time*CLOCKS_PER_SEC)
 	  break;
 	if (n>10 && dbglevel<2 && CLOCK()-initial_clock>60*CLOCKS_PER_SEC)
 	  dbglevel=2;
