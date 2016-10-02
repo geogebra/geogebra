@@ -4,14 +4,17 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoFoldExpression;
 import org.geogebra.common.kernel.algos.AlgoFoldFunctions;
 import org.geogebra.common.kernel.algos.AlgoSum;
+import org.geogebra.common.kernel.algos.FoldComputer;
 import org.geogebra.common.kernel.algos.FunctionFold;
 import org.geogebra.common.kernel.algos.FunctionNvarFold;
 import org.geogebra.common.kernel.algos.ListFold;
+import org.geogebra.common.kernel.algos.NumberFold;
 import org.geogebra.common.kernel.algos.PointNDFold;
 import org.geogebra.common.kernel.algos.TextFold;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -51,42 +54,13 @@ public class CmdSum extends CommandProcessor {
 		}
 		arg = resArgs(c);
 		// set all to either true or false
-		boolean allNumbers = arg[0].isGeoList();
-		boolean allFunctions = allNumbers;
-		boolean allFunctionsND = allNumbers;
-		boolean allNumbersVectorsPoints = allNumbers;
-		boolean allText = allNumbers;
-		boolean allList = allNumbers;
+
 
 		GeoList list = null;
-		int size = -1;
-
+		FoldComputer fold = null;
 		if (arg[0].isGeoList()) {
 			list = (GeoList) arg[0];
-			size = list.size();
-
-			for (int i = 0; i < size; i++) {
-				GeoElement geo = list.get(i);
-				if (!geo.isGeoFunctionable() && !geo.isGeoFunctionNVar()) {
-					allFunctionsND = false;
-				}
-				if (!geo.isGeoFunctionable()) {
-					allFunctions = false;
-				}
-				if (!(geo instanceof GeoNumberValue)) {
-					allNumbers = false;
-				}
-				if (!(geo.isGeoList())) {
-					allList = false;
-				}
-				if (!(geo instanceof GeoNumberValue) && !geo.isGeoVector()
-						&& !geo.isGeoPoint()) {
-					allNumbersVectorsPoints = false;
-				}
-				if (!geo.isGeoText()) {
-					allText = false;
-				}
-			}
+			fold = getComputer(list);
 		}
 
 		// this is bad - list can be saved later with size 0
@@ -94,51 +68,27 @@ public class CmdSum extends CommandProcessor {
 
 		switch (n) {
 		case 1:
-			if (allNumbers) {
+			if (fold instanceof NumberFold) {
 				GeoElement[] ret = { Sum(c.getLabel(), list) };
 				return ret;
-			} else if (allNumbersVectorsPoints) {
-				GeoElement[] ret = { SumPoints(c.getLabel(), list, null) };
+			} else if (fold != null) {
+				GeoElement[] ret = { Sum(c.getLabel(), list, null, fold) };
 				return ret;
-			} else if (allFunctionsND) {
-				GeoElement[] ret = { SumFunctions(c.getLabel(), list, null,
-						allFunctions) };
-				return ret;
-			} else if (allText) {
-				GeoElement[] ret = { SumText(c.getLabel(), list, null) };
-				return ret;
-			} else if (allList) {
-				GeoElement[] ret = { SumList(c.getLabel(), list, null) };
-				return ret;
-			} else {
-				throw argErr(app, c.getName(), arg[0]);
 			}
+			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
 			if (arg[1].isGeoNumeric()) {
 
-				if (allNumbers) {
+				if (fold instanceof NumberFold) {
 					AlgoSum algo = new AlgoSum(cons, c.getLabel(), list,
 							(GeoNumeric) arg[1]);
 
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
-				} else if (allFunctionsND) {
-					GeoElement[] ret = { SumFunctions(c.getLabel(), list,
-							(GeoNumeric) arg[1], allFunctions) };
+				} else if (fold != null) {
+					GeoElement[] ret = { Sum(c.getLabel(), list, (GeoNumeric) arg[1], fold) };
 					return ret;
-				} else if (allNumbersVectorsPoints) {
-					GeoElement[] ret = { SumPoints(c.getLabel(), list,
-							(GeoNumeric) arg[1]) };
-					return ret;
-				} else if (allText) {
-					GeoElement[] ret = { SumText(c.getLabel(), list,
-							(GeoNumeric) arg[1]) };
-					return ret;
-				} else if (allList) {
-					GeoElement[] ret = { SumList(c.getLabel(), list, null) };
-					return ret;
-
 				} else {
 					throw argErr(app, c.getName(), arg[0]);
 				}
@@ -216,6 +166,65 @@ public class CmdSum extends CommandProcessor {
 	}
 
 	/**
+	 * @param list
+	 *            list
+	 * @return helper for Sum/Product commands
+	 */
+	public static FoldComputer getComputer(GeoList list) {
+		boolean allNumbers = true;
+		boolean allFunctions = allNumbers;
+		boolean allFunctionsND = allNumbers;
+		boolean allNumbersVectorsPoints = allNumbers;
+		boolean allText = allNumbers;
+		boolean allList = allNumbers;
+		int size = list.size();
+
+		for (int i = 0; i < size; i++) {
+			GeoElement geo = list.get(i);
+			if (!geo.isGeoFunctionable() && !geo.isGeoFunctionNVar()) {
+				allFunctionsND = false;
+			}
+			if (!geo.isGeoFunctionable()
+					|| (geo.isGeoFunction() && ((GeoFunction) geo)
+							.isFunctionOfY())) {
+				allFunctions = false;
+			}
+			if (!(geo instanceof GeoNumberValue)) {
+				allNumbers = false;
+			}
+			if (!(geo.isGeoList())) {
+				allList = false;
+			}
+			if (!(geo instanceof GeoNumberValue) && !geo.isGeoVector()
+					&& !geo.isGeoPoint()) {
+				allNumbersVectorsPoints = false;
+			}
+			if (!geo.isGeoText()) {
+				allText = false;
+			}
+		}
+		if (allNumbers) {
+			return new NumberFold();
+		}
+		if (allNumbersVectorsPoints) {
+			return new PointNDFold();
+		}
+		if (allFunctions) {
+			return new FunctionFold();
+		}
+		if (allFunctionsND) {
+			return new FunctionNvarFold();
+		}
+		if (allText) {
+			return new TextFold();
+		}
+		if (allList) {
+			return new ListFold();
+		}
+		return null;
+	}
+
+	/**
 	 * @param proc
 	 *            processor (product/sum)
 	 * @param c
@@ -275,9 +284,9 @@ public class CmdSum extends CommandProcessor {
 	/**
 	 * Sum[list of text,n] Michael Borcherds
 	 */
-	final private GeoElement SumText(String label, GeoList list, GeoNumeric num) {
+	final private GeoElement Sum(String label, GeoList list, GeoNumeric num, FoldComputer fold) {
 		AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, label, list, num,
-				Operation.PLUS, new TextFold());
+				Operation.PLUS, fold);
 		GeoElement ret = algo.getResult();
 		return ret;
 	}

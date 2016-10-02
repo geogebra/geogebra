@@ -414,6 +414,7 @@ public class CommandsTest extends Assert{
 		t("Sum[ listSum , 2 ]", "11");
 		t("Sum[ listSum , 0 ]", "0");
 		t("Sum[{x+y,0x+y}]", "x + y + (0 * x) + y");
+		t("Sum[{x,y}]", "x + y");
 		t("Sum[{(1,2),(3,4)}]", "(4, 6)");
 		t("Sum[{(1,2,7),(3,4),(1,1,1)}]", "(5, 7, 8)");
 		t("Sum[{\"Geo\",\"Gebra\"}]", "GeoGebra");
@@ -430,6 +431,7 @@ public class CommandsTest extends Assert{
 		t("Product[ 1..10,  5 ]", "120");
 		t("Product[ {1,2,3},  {100,1,2} ]", "18");
 		t("round(Product[ k/(k+1),k,1,7 ],5)", "0.125");
+		t("Product[{x,y}]", "(x * y)");
 		t("Product[ (k,k),k,1,5 ]", "-480 - 480" + Unicode.IMAGINARY);
 
 	}

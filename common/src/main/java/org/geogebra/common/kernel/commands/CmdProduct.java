@@ -6,21 +6,12 @@ import org.geogebra.common.kernel.algos.AlgoFoldFunctions;
 import org.geogebra.common.kernel.algos.AlgoProduct;
 import org.geogebra.common.kernel.algos.AlgoProductMatrices;
 import org.geogebra.common.kernel.algos.FoldComputer;
-import org.geogebra.common.kernel.algos.FunctionFold;
-import org.geogebra.common.kernel.algos.FunctionNvarFold;
-import org.geogebra.common.kernel.algos.ListFold;
-import org.geogebra.common.kernel.algos.PointNDFold;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -99,29 +90,7 @@ public class CmdProduct extends CommandProcessor {
 	private GeoElement[] productGeneric(GeoElement geoElement,
 			GeoNumeric limit, Command c) {
 		GeoList list = (GeoList) geoElement;
-		GeoElement sample = ((GeoList) geoElement)
-				.getGeoElementForPropertiesDialog();
-		if (sample instanceof GeoNumberValue && list.getListDepth() < 2) {
-			AlgoProduct algo = new AlgoProduct(cons, c.getLabel(), list, limit);
-
-			GeoElement[] ret = { algo.getResult() };
-			return ret;
-		}
-		FoldComputer computer = null;
-		if (list.getListDepth() > 1) {
-			computer = new ListFold();
-
-		} else if (sample instanceof GeoFunction
-				|| sample instanceof GeoFunctionNVar) {
-			computer = sample.getGeoClassType() == GeoClass.FUNCTION_NVAR
-					|| sample.getGeoClassType() == GeoClass.DEFAULT ?
-
-							new FunctionNvarFold() : new FunctionFold();
-		}
-		else if (sample instanceof GeoPoint || sample instanceof GeoVector) {
-			computer = new PointNDFold();
-
-		}
+		FoldComputer computer = CmdSum.getComputer(list);
 
 		if (computer != null) {
 			AlgoFoldFunctions algo = new AlgoFoldFunctions(cons, c.getLabel(),
