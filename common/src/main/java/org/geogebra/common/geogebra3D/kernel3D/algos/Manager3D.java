@@ -955,17 +955,19 @@ public class Manager3D implements Manager3DInterface {
 
 	public GeoConic3D Intersect(String label, GeoPlaneND plane,
 			GeoQuadricND quadric) {
-
+		GeoConic3D ret;
 		if (quadric instanceof GeoQuadric3DPart) {
 			AlgoIntersectPlaneQuadricPart algo = new AlgoIntersectPlaneQuadricPart(
-					cons, label, (GeoPlane3D) plane, quadric);
-			return algo.getConic();
+					cons, (GeoPlane3D) plane, quadric);
+			ret = algo.getConic();
+		} else {
+
+			AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadric(
+					cons, plane, quadric);
+			ret = algo.getConic();
 		}
-
-		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadric(cons,
-				label, (GeoPlane3D) plane, quadric);
-
-		return algo.getConic();
+		ret.setLabel(label);
+		return ret;
 	}
 
 	public GeoConicND IntersectQuadricLimited(String label, GeoPlaneND plane,
@@ -988,7 +990,7 @@ public class Manager3D implements Manager3DInterface {
 	public GeoConic3D Intersect(GeoPlaneND plane, GeoQuadricND quadric) {
 
 		AlgoIntersectPlaneQuadric algo = new AlgoIntersectPlaneQuadric(cons,
-				(GeoPlane3D) plane, quadric);
+				plane, quadric);
 
 		return algo.getConic();
 	}
@@ -1197,8 +1199,8 @@ public class Manager3D implements Manager3DInterface {
 	 *            conic
 	 * @return intersect algo
 	 */
-	public AlgoIntersectConics3D getIntersectionAlgorithm(GeoConicND A,
-			GeoConicND B) {
+	private AlgoIntersectConics3D getIntersectionAlgorithmConics(GeoConicND A,
+			GeoQuadricND B) {
 		AlgoElement existingAlgo = kernel.getAlgoDispatcher()
 				.findExistingIntersectionAlgorithm(A, B);
 		if (existingAlgo != null)
@@ -1218,8 +1220,8 @@ public class Manager3D implements Manager3DInterface {
 	 * conics A and B
 	 */
 	final public GeoPoint3D[] IntersectConics(String[] labels, GeoConicND A,
-			GeoConicND B) {
-		AlgoIntersectConics3D algo = getIntersectionAlgorithm(A, B);
+			GeoQuadricND B) {
+		AlgoIntersectConics3D algo = getIntersectionAlgorithmConics(A, B);
 		algo.setPrintedInXML(true);
 		GeoPoint3D[] points = algo.getIntersectionPoints();
 		GeoElement.setLabels(labels, points);
@@ -1227,9 +1229,9 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
-			GeoConicND B, double xRW, double yRW, CoordMatrix mat) {
+			GeoQuadricND B, double xRW, double yRW, CoordMatrix mat) {
 
-		AlgoIntersectConics3D algo = getIntersectionAlgorithm(A, B);
+		AlgoIntersectConics3D algo = getIntersectionAlgorithmConics(A, B);
 
 		int index = algo.getClosestPointIndex(xRW, yRW, mat);
 		AlgoIntersectSingle3D salgo = new AlgoIntersectSingle3D(label, algo,
@@ -1239,13 +1241,14 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
-			GeoConicND B, NumberValue index) {
+			GeoQuadricND B, NumberValue index) {
 		return IntersectConicsSingle(label, A, B, (int) index.getDouble() - 1);
 	}
 
 	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
-			GeoConicND B, int index) {
-		AlgoIntersectConics3D algo = getIntersectionAlgorithm(A, B); // index -
+			GeoQuadricND B, int index) {
+		AlgoIntersectConics3D algo = getIntersectionAlgorithmConics(A, B); // index
+																			// -
 																		// 1 to
 																		// start
 																		// at 0
@@ -1256,8 +1259,9 @@ public class Manager3D implements Manager3DInterface {
 	}
 
 	final public GeoPoint3D IntersectConicsSingle(String label, GeoConicND A,
-			GeoConicND B, GeoPointND refPoint) {
-		AlgoIntersectConics3D algo = getIntersectionAlgorithm(A, B); // index -
+			GeoQuadricND B, GeoPointND refPoint) {
+		AlgoIntersectConics3D algo = getIntersectionAlgorithmConics(A, B); // index
+																			// -
 																		// 1 to
 																		// start
 																		// at 0

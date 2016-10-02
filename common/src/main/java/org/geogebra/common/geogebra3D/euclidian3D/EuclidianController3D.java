@@ -2505,6 +2505,19 @@ public abstract class EuclidianController3D extends EuclidianController {
 				ret[i] = (GeoElement) points[i];
 
 			return ret;
+		} else if (selConics() >= 1 && selQuadric() == 1) {
+
+			GeoQuadricND quadric = getSelectedQuadric()[0];
+			GeoConicND conic = getSelectedConicsND()[0];
+
+			GeoElement[] ret = new GeoElement[2];
+
+			GeoPointND[] points = getKernel().getManager3D().IntersectConics(
+					null, conic, quadric);
+			for (int i = 0; i < 2; i++)
+				ret[i] = (GeoElement) points[i];
+
+			return ret;
 		} else if (selPolygons() == 1 && selPlanes() == 1) { // plane-polygon
 			return getKernel().getManager3D().IntersectionPoint(null,
 					getSelectedPlanes()[0], getSelectedPolygons()[0]);

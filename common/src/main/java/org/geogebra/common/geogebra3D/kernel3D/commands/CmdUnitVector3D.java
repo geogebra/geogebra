@@ -19,6 +19,8 @@ public class CmdUnitVector3D extends CmdUnitVector {
 	/**
 	 * @param kernel
 	 *            Kernel
+	 * @param normalize
+	 *            whether this is UnitVector or Direction command
 	 */
 	public CmdUnitVector3D(Kernel kernel, boolean normalize) {
 		super(kernel, normalize);

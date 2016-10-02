@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -297,24 +296,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	// /////////////////////////////////
 	// GEOELEMENT3D
 
-	private CoordMatrix parametricMatrix;
 
-	/**
-	 * return the (v1, v2, o) parametric matrix of this plane, ie each point of
-	 * the plane is (v1, v2, o)*(a,b,1) for some a, b value
-	 * 
-	 * @return the (v1, v2, o) parametric matrix of this plane
-	 */
-	public CoordMatrix getParametricMatrix() {
-		CoordMatrix4x4 m4 = getCoordSys().getMatrixOrthonormal();
-		if (parametricMatrix == null) {
-			parametricMatrix = new CoordMatrix(4, 3);
-		}
-		parametricMatrix.setVx(m4.getVx());
-		parametricMatrix.setVy(m4.getVy());
-		parametricMatrix.setOrigin(m4.getOrigin());
-		return parametricMatrix;
-	}
+
 
 	@Override
 	public Coords getMainDirection() {

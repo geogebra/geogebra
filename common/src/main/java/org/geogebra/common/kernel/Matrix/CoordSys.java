@@ -1145,4 +1145,19 @@ public class CoordSys {
 		}
 	}
 
+	/**
+	 * return the (v1, v2, o) parametric matrix of this plane, ie each point of
+	 * the plane is (v1, v2, o)*(a,b,1) for some a, b value
+	 * 
+	 * @return the (v1, v2, o) parametric matrix of this plane
+	 */
+	public CoordMatrix getParametricMatrix(CoordMatrix parametricMatrix) {
+		CoordMatrix4x4 m4 = this.getMatrixOrthonormal();
+
+		parametricMatrix.setVx(m4.getVx());
+		parametricMatrix.setVy(m4.getVy());
+		parametricMatrix.setOrigin(m4.getOrigin());
+		return parametricMatrix;
+	}
+
 }

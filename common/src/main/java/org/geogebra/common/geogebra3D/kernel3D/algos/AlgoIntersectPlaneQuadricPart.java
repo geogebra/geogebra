@@ -14,9 +14,9 @@ public class AlgoIntersectPlaneQuadricPart extends
 
 	private AlgoQuadricEnds algoEnds = null;
 
-	public AlgoIntersectPlaneQuadricPart(Construction cons, String label,
+	public AlgoIntersectPlaneQuadricPart(Construction cons,
 			GeoPlane3D plane, GeoQuadricND quadric) {
-		super(cons, label, plane, quadric);
+		super(cons, plane, quadric);
 	}
 
 	@Override

@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
 /**
  *
@@ -43,7 +44,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoIntersectConics3D extends AlgoIntersect3D {
 
-	private GeoConicND A, B; // input
+	private GeoConicND A;
+	private GeoQuadricND B; // input
 	private GeoPoint3D[] P, D; // output
 
 	/** 2d line description of intersection of the two coord sys when exists */
@@ -54,6 +56,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 	private GeoPoint[] points2d;
 	/** 2d intersect conics helper algo */
 	private AlgoIntersectConics algo2d;
+	private AlgoIntersectPlaneQuadric algoPlane;
 
 	/** matrix so that (x y 0 z) = AUGMENT_DIM * (x y z) */
 	final static private CoordMatrix AUGMENT_DIM = new CoordMatrix(4, 3,
@@ -123,7 +126,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 	 * @param B
 	 *            second conic
 	 */
-	AlgoIntersectConics3D(Construction cons, GeoConicND A, GeoConicND B) {
+	AlgoIntersectConics3D(Construction cons, GeoConicND A, GeoQuadricND B) {
 
 		this(cons);
 
@@ -171,22 +174,6 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 		destination.setCoords(source.getCoordsInD3(), false);
 	}
 
-	/**
-	 * 
-	 * @return first conic input
-	 */
-	GeoConicND getA() {
-		return A;
-	}
-
-	/**
-	 * 
-	 * @return second conic input
-	 */
-	GeoConicND getB() {
-		return B;
-	}
-
 	@Override
 	public final String toString(StringTemplate tpl) {
 		return getLoc().getPlain("IntersectionPointOfAB", A.getLabel(tpl),
@@ -195,7 +182,18 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 
 	@Override
 	public void compute() {
-		intersectConics3D(A, B, P);
+		if (B.isGeoConic()) {
+			intersectConics3D(A, (GeoConicND) B, P);
+		} else {
+			if (algoPlane == null) {
+				algoPlane = new AlgoIntersectPlaneQuadric(
+					cons, A, B, false);
+				algoPlane.compute();
+			}
+
+			intersectSamePlane(A, algoPlane.getConic(), P);
+			// TODO limited quadric
+		}
 	}
 
 	/**
@@ -250,29 +248,34 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 				setPointsUndefined(P); // TODO infinite points ?
 			} else {// coord sys included
 
-				setPointsUndefined(P);
-
-				CoordMatrix BtoA = REDUCE_DIM.mul(
-						csB.getMatrixOrthonormal().inverse()
-								.mul(csA.getMatrixOrthonormal())).mul(
-						AUGMENT_DIM);
-				// Log.debug("\nBtoA=\n"+BtoA);
-
-				CoordMatrix sB = B.getSymetricMatrix();
-				CoordMatrix sBinA = BtoA.transposeCopy().mul(sB).mul(BtoA);
-				// Log.debug(/*"\ncsA=\n"+csA.getMatrixOrthonormal()+"\ncsB=\n"+csB.getMatrixOrthonormal()+*/"\nsym=\n"+sB+"\ninA\n"+sBinA);
-
-				A2d.setMatrix(A.getMatrix());
-				B2d.setMatrix(sBinA);
-				// Log.debug(sBinA.get(1,1)+","+B2d.matrix[0]+"");
-				algo2d.intersectConics(A2d, B2d, points2d);
-
-				for (int i = 0; i < 4; i++)
-					P[i].setCoords(csA.getPoint(points2d[i].x, points2d[i].y),
-							false);
+				intersectSamePlane(A, B, P);
 
 			}
 		}
+
+	}
+
+	private void intersectSamePlane(GeoConicND A, GeoConicND B, GeoPoint3D[] P) {
+		CoordSys csA = A.getCoordSys();
+		CoordSys csB = B.getCoordSys();
+		setPointsUndefined(P);
+
+		CoordMatrix BtoA = REDUCE_DIM.mul(
+				csB.getMatrixOrthonormal().inverse()
+						.mul(csA.getMatrixOrthonormal())).mul(AUGMENT_DIM);
+		// Log.debug("\nBtoA=\n"+BtoA);
+
+		CoordMatrix sB = B.getSymetricMatrix();
+		CoordMatrix sBinA = BtoA.transposeCopy().mul(sB).mul(BtoA);
+		// Log.debug(/*"\ncsA=\n"+csA.getMatrixOrthonormal()+"\ncsB=\n"+csB.getMatrixOrthonormal()+*/"\nsym=\n"+sB+"\ninA\n"+sBinA);
+
+		A2d.setMatrix(A.getMatrix());
+		B2d.setMatrix(sBinA);
+		// Log.debug(sBinA.get(1,1)+","+B2d.matrix[0]+"");
+		algo2d.intersectConics(A2d, B2d, points2d);
+
+		for (int i = 0; i < 4; i++)
+			P[i].setCoords(csA.getPoint(points2d[i].x, points2d[i].y), false);
 
 	}
 

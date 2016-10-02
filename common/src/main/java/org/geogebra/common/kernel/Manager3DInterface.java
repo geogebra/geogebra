@@ -606,19 +606,19 @@ public interface Manager3DInterface {
 	 * @return 4 intersection points
 	 */
 	public GeoPointND[] IntersectConics(String[] labels, GeoConicND A,
-			GeoConicND B);
+			GeoQuadricND B);
 
 	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
-			GeoConicND B, double xRW, double yRW, CoordMatrix mat);
+			GeoQuadricND B, double xRW, double yRW, CoordMatrix mat);
 
 	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
-			GeoConicND B, NumberValue index);
+			GeoQuadricND B, NumberValue index);
 
 	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
-			GeoConicND B, int index);
+			GeoQuadricND B, int index);
 
 	public GeoPointND IntersectConicsSingle(String label, GeoConicND A,
-			GeoConicND B, GeoPointND refPoint);
+			GeoQuadricND B, GeoPointND refPoint);
 
 	/**
 	 * intersect line/quadric
