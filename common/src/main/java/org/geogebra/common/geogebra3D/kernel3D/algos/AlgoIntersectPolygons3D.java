@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -12,6 +11,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  */
 public class AlgoIntersectPolygons3D extends AlgoElement3D {
 	// input
-	protected GeoPolygon3D polyA, polyB;
+	protected GeoPolygon polyA, polyB;
 	// output
 	protected OutputHandler<GeoElement> outputPoints;
 	// intersections
@@ -40,7 +40,7 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 	 * @param polyB
 	 */
 	public AlgoIntersectPolygons3D(Construction c, String[] labels,
-			GeoPolygon3D polyA, GeoPolygon3D polyB) {
+			GeoPolygon polyA, GeoPolygon polyB) {
 		super(c);
 		this.polyA = polyA;
 		this.polyB = polyB;
@@ -57,18 +57,6 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 		update();
 	}
 
-	/**
-	 * common constructor
-	 * 
-	 * @param c
-	 * @param polyA
-	 * @param polyB
-	 */
-	public AlgoIntersectPolygons3D(Construction c, GeoPolygon3D polyA,
-			GeoPolygon3D polyB) {
-		this(c, null, polyA, polyB);
-
-	}
 
 	@Override
 	protected void setInputOutput() {

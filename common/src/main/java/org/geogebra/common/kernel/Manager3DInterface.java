@@ -668,8 +668,8 @@ public interface Manager3DInterface {
 	 * 
 	 * @return intersect points
 	 */
-	public GeoElement[] IntersectionPoint(String[] labels, GeoPolygon3D poly0,
-			GeoPolygon3D poly1);
+	public GeoElement[] IntersectionPoint(String[] labels, GeoPolygon poly0,
+			GeoPolygon poly1);
 
 	/**
 	 * intersect polygons (region)

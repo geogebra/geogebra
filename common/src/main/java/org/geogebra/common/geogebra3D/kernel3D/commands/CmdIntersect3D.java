@@ -150,11 +150,12 @@ public class CmdIntersect3D extends CmdIntersect {
 							(GeoPolygon) arg[1]);
 
 				// intersect points polygon/polygon
-				else if (arg[0] instanceof GeoPolygon3D
-						&& arg[1] instanceof GeoPolygon3D)
+				else if (arg[0].isGeoPolygon()
+						&& arg[1].isGeoPolygon()
+						&& (arg[1] instanceof GeoPolygon3D || arg[0] instanceof GeoPolygon3D))
 					return kernelA.getManager3D().IntersectionPoint(
-							c.getLabels(), (GeoPolygon3D) arg[0],
-							(GeoPolygon3D) arg[1]);
+							c.getLabels(), (GeoPolygon) arg[0],
+							(GeoPolygon) arg[1]);
 
 				// intersection line/planar objects
 				else if ((arg[0] instanceof GeoLineND && arg[1] instanceof GeoCoordSys2D)

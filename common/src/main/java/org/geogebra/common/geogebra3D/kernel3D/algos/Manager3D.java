@@ -2278,8 +2278,8 @@ public class Manager3D implements Manager3DInterface {
 	 * 
 	 * @author thilina
 	 */
-	public GeoElement[] IntersectionPoint(String[] labels, GeoPolygon3D poly0,
-			GeoPolygon3D poly1) {
+	public GeoElement[] IntersectionPoint(String[] labels, GeoPolygon poly0,
+			GeoPolygon poly1) {
 		AlgoIntersectPolygons3D algo = new AlgoIntersectPolygons3D(cons,
 				labels, poly0, poly1);
 		return algo.getOutput();
