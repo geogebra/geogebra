@@ -135,7 +135,7 @@ public class CmdIntersect3D extends CmdIntersect {
 
 				// intersection conic/conic
 				else if ((arg[0] instanceof GeoConicND)
-						&& (arg[1] instanceof GeoQuadricND))
+						&& (arg[1].isGeoConic() || arg[1] instanceof GeoQuadric3D))
 					return (GeoElement[]) kernelA.getManager3D()
 							.IntersectConics(c.getLabels(),
 									(GeoConicND) arg[0], (GeoQuadricND) arg[1]);
@@ -293,11 +293,11 @@ public class CmdIntersect3D extends CmdIntersect {
 				}
 				// Conic - Conic
 				else if ((arg[0].isGeoConic())
-						&& arg[1] instanceof GeoQuadricND
+						&& (arg[1].isGeoConic() || arg[1] instanceof GeoQuadric3D)
 						&& arg[2] instanceof GeoNumberValue) {
 					GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
 							.IntersectConicsSingle(c.getLabel(),
-									(GeoConicND) arg[0], (GeoConicND) arg[1],
+									(GeoConicND) arg[0], (GeoQuadricND) arg[1],
 									(GeoNumberValue) arg[2]) };
 					return ret;
 				} else if ((arg[0].isGeoConic()) && arg[1].isGeoConic()
