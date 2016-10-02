@@ -283,7 +283,7 @@ public class GeoTransferFunction extends GeoElement {
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		if (isDefined) {
 			StringBuilder sb = new StringBuilder();
-			if (kernel.getApplication().isHTML5Applet()) {
+			if (tpl.isMathQuill()) {
 				sb.append(originalFunction.toLaTeXString(symbolic, tpl));
 				sb.append(" , ");
 				sb.append(kernel.format(-omegaStart, tpl));
