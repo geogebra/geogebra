@@ -380,8 +380,6 @@ public interface GGraphics2D {
 
 	public abstract void drawWithValueStrokePure(GShape shape);
 
-	public abstract void fillWithValueStrokePure(GShape shape);
-
 	public abstract Object setInterpolationHint(
 			boolean needsInterpolationRenderingHint);
 

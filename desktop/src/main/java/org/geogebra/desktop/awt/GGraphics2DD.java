@@ -259,18 +259,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	public void fill(GShape s) {
-		if (s instanceof GShapeD)
-			impl.fill(((GShapeD) s).getAwtShape());
-		if (s instanceof GeneralPathClipped)
-			impl.fill(GGeneralPathD
-					.getAwtGeneralPath(((GeneralPathClipped) s)
-							.getGeneralPath()));
-		if (s instanceof GPolygonD) {
-			getAwtGraphics(this).fillPolygon(((GPolygonD) s).getPolygon());
-		}
-	}
-
 	public void resetClip() {
 		impl.setClip(null);
 	}
@@ -337,12 +325,18 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	public void fillWithValueStrokePure(GShape shape) {
+	public void fill(GShape shape) {
 		Object oldHint = impl
 				.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_PURE);
-		impl.fill(GGenericShapeD.getAwtShape(shape));
+
+		if (shape instanceof GPolygonD) {
+			impl.fillPolygon(((GPolygonD) shape).getPolygon());
+		} else {
+			impl.fill(GGenericShapeD.getAwtShape(shape));
+		}
+
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 
 	}

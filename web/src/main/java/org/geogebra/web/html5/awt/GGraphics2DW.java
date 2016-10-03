@@ -887,11 +887,6 @@ public class GGraphics2DW implements GGraphics2D {
 		draw(shape);
 	}
 
-	public void fillWithValueStrokePure(GShape shape) {
-		fill(shape);
-
-	}
-
 	public Object setInterpolationHint(boolean needsInterpolationRenderingHint) {
 		this.setImageInterpolation(needsInterpolationRenderingHint);
 		return null;

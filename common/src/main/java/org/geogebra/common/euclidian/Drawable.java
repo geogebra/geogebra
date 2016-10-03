@@ -637,10 +637,7 @@ public abstract class Drawable extends DrawableND {
 			g2.setPaint(gpaint);
 
 			if (!geo.getKernel().getApplication().isHTML5Applet()) {
-				if (usePureStroke)
-					g2.fillWithValueStrokePure(fillShape);
-				else
-					g2.fill(fillShape);
+				g2.fill(fillShape);
 			} else {
 				GBufferedImage subImage2 = subImage;
 				if (subImage2 == null) {
