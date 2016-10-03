@@ -16,6 +16,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -29,7 +31,8 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
  *
  */
 public class AlgebraControllerW extends AlgebraController
-		implements MouseDownHandler, TouchStartHandler, TouchEndHandler,
+		implements MouseMoveHandler, MouseDownHandler, TouchStartHandler,
+		TouchEndHandler,
 		TouchMoveHandler, LongTouchHandler {
 
 	private LongTouchManager longTouchManager;
@@ -52,7 +55,6 @@ public class AlgebraControllerW extends AlgebraController
 
 	private void mousePressed(AbstractEvent e) {
 		view.cancelEditing();
-		
 		boolean rightClick = app.isRightClickEnabled() && e.isRightClick();
 
 		// RIGHT CLICK
@@ -77,6 +79,7 @@ public class AlgebraControllerW extends AlgebraController
 			// view.getPathForLocation is not yet implemented, but if it will be, note Window.getScrollLeft() (ticket #4049)
 
 		}
+
 	}
 
 
@@ -86,11 +89,11 @@ public class AlgebraControllerW extends AlgebraController
 	//=====================================================
 
 	public void onMouseDown(MouseDownEvent event) {
+		event.stopPropagation();
+		event.preventDefault();
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		// event.stopPropagation();
-		// event.preventDefault();
 		mousePressed(PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
 	}
 
@@ -123,5 +126,9 @@ public class AlgebraControllerW extends AlgebraController
 		mousePressed(e);
 		CancelEventTimer.touchEventOccured();
     }
+
+	public void onMouseMove(MouseMoveEvent event) {
+		event.preventDefault();
+	}
 
 }
