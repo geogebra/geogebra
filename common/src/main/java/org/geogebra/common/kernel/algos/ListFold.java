@@ -37,6 +37,8 @@ public class ListFold implements FoldComputer {
 	public void finish() {
 		result.clear();
 		AlgebraProcessor ap = result.getKernel().getAlgebraProcessor();
+		boolean oldMode = result.getConstruction().isSuppressLabelsActive();
+		result.getConstruction().setSuppressLabelCreation(true);
 		for (int i = 0; i < sum.size(); i++) {
 			try {
 				result.add(ap.processValidExpression(
@@ -49,6 +51,7 @@ public class ListFold implements FoldComputer {
 				e.printStackTrace();
 			}
 		}
+		result.getConstruction().setSuppressLabelCreation(oldMode);
 
 	}
 

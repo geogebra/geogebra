@@ -1113,11 +1113,18 @@ public class Construction {
 		num.setRandomGeo(false);
 	}
 
+	/**
+	 * Update construction including random
+	 */
 	final public void updateConstruction() {
 		updateConstruction(true);
 	}
+	
 	/**
 	 * Updates all objects in this construction.
+	 * 
+	 * @param randomize
+	 *            whether to also update random algos
 	 */
 	final public void updateConstruction(boolean randomize) {
 		// collect notifyUpdate calls using xAxis as dummy geo
@@ -3298,7 +3305,7 @@ public class Construction {
 	 */
 	public void recomputeCASalgos() {
 		for (AlgoElement algo : casAlgos) {
-			if (!algo.getOutput(0).isLabelSet()) {
+			if (algo.getOutput() != null && !algo.getOutput(0).isLabelSet()) {
 				if (algo instanceof AlgoCasBase) {
 					((AlgoCasBase) algo).clearCasEvalMap("");
 					algo.compute();
