@@ -162,7 +162,6 @@ public class EuclidianView3DD extends EuclidianView3D implements
 				.getAwtColor(bgApplyedColor));
 	}
 
-	@Override
 	public void setTransparentCursor() {
 
 		setCursor(((AppD) app).getTransparentCursor());

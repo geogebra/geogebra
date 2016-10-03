@@ -54,6 +54,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -234,28 +235,20 @@ public class EuclidianViewD extends EuclidianView implements
 
 	}
 
-	@Override
-	public void setTransparentCursor() {
+	private void setTransparentCursor() {
 
 		setCursor(getApplication().getTransparentCursor());
 	}
 
-	@Override
-	public void setEraserCursor() {
-
-		setCursor(getApplication().getEraserCursor());
-
-	}
-
-	public void setMoveCursor() {
+	private void setMoveCursor() {
 		setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
 	}
 
-	public void setResizeXAxisCursor() {
+	private void setResizeXAxisCursor() {
 		setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
 	}
 
-	public void setResizeYAxisCursor() {
+	private void setResizeYAxisCursor() {
 		setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
 	}
 
@@ -1041,6 +1034,33 @@ public class EuclidianViewD extends EuclidianView implements
 
 	public void closeDropdowns() {
 		closeAllDropDowns();
+	}
+
+	public void setCursor(EuclidianCursor cursor) {
+		switch (cursor) {
+		case HIT:
+			setHitCursor();
+			return;
+		case DRAG:
+			setDragCursor();
+			return;
+		case MOVE:
+			setMoveCursor();
+			return;
+		case DEFAULT:
+			setDefaultCursor();
+			return;
+		case RESIZE_X:
+			setResizeXAxisCursor();
+			return;
+		case RESIZE_Y:
+			setResizeYAxisCursor();
+			return;
+		case TRANSPARENT:
+			setTransparentCursor();
+			return;
+		}
+
 	}
 
 }

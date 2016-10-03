@@ -657,15 +657,11 @@ public interface EuclidianViewInterfaceCommon extends
 	public MyButton getHitButton(GPoint p,
 			PointerEventType type);
 
-	/**
-	 * Switch to default cursor
-	 */
-	public void setDefaultCursor();
 
 	/**
 	 * Switch to hit cursor
 	 */
-	public void setHitCursor();
+	public void setCursor(EuclidianCursor cursor);
 
 	/**
 	 * Try to focus this view
@@ -699,11 +695,6 @@ public interface EuclidianViewInterfaceCommon extends
 	 *            update (or not) the background image
 	 */
 	public boolean setShowAxis(int axis, boolean flag, boolean update);
-
-	/**
-	 * Change cursor to drag cursor
-	 */
-	public void setDragCursor();
 
 	/**
 	 * @return selection rectangle
@@ -761,16 +752,6 @@ public interface EuclidianViewInterfaceCommon extends
 	public GeoElement getLabelHit(GPoint mouseLoc, PointerEventType type);
 
 	/**
-	 * Switch to x-resize cursor
-	 */
-	public void setResizeXAxisCursor();
-
-	/**
-	 * Switch to y-resize cursor
-	 */
-	public void setResizeYAxisCursor();
-
-	/**
 	 * Updates previewable
 	 */
 	public void updatePreviewable();
@@ -779,11 +760,6 @@ public interface EuclidianViewInterfaceCommon extends
 	 * Updates previewable
 	 */
 	public void updatePreviewableForProcessMode();
-
-	/**
-	 * Switch to move cursor
-	 */
-	public void setMoveCursor();
 
 	/**
 	 * @return number of euclidian view

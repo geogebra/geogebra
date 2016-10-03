@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianControllerCompanion;
+import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.Previewable;
@@ -1858,7 +1859,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// remembers mouse location
 		startLoc = mouseLoc;
 		view.rememberOrigins();
-		view.setDefaultCursor();
+		view.setCursor(EuclidianCursor.DEFAULT);
 
 		timeOld = app.getMillisecondTime();
 		xOld = startLoc.x;
@@ -1920,7 +1921,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// Application.debug("hits"+view.getHits().toString());
 			((EuclidianView3D) view).updateCursor3D();
 
-			view.setHitCursor();
+			view.setCursor(EuclidianCursor.HIT);
 			app.storeUndoInfo();
 
 

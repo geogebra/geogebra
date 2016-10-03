@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -51,7 +52,7 @@ public class ModeDelete {
 		boolean onlyStrokes = forceOnlyStrokes || this.penDeleteMode;
 
 		// hide cursor, the new "cursor" is the deletion rectangle
-		view.setTransparentCursor();
+		view.setCursor(EuclidianCursor.TRANSPARENT);
 
 		Iterator<GeoElement> it = h.iterator();
 

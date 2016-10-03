@@ -4930,7 +4930,7 @@ public abstract class EuclidianController {
 		}
 
 		view.setShowMouseCoords(!app.isApplet() && !movedGeoPoint.hasPath());
-		view.setDragCursor();
+		setDragCursor();
 	}
 
 	public final GeoPointND updateNewPoint(boolean forPreviewable, Hits hits,
@@ -5186,7 +5186,7 @@ public abstract class EuclidianController {
 			handleMovedElement((GeoElement) point, false,
 					PointerEventType.MOUSE);
 
-			view.setDragCursor();
+			setDragCursor();
 			if (doSingleHighlighting) {
 				doSingleHighlighting(getMovedGeoPoint());
 			}
@@ -6598,6 +6598,9 @@ public abstract class EuclidianController {
 				&& ((mouseLoc.y < 30) && (mouseLoc.x > (view.getViewWidth() - 24)));
 	}
 
+	protected void setHitCursor() {
+		view.setCursor(EuclidianCursor.HIT);
+	}
 	protected void processMouseMoved(AbstractEvent event) {
 
 		boolean repaintNeeded;
@@ -6605,7 +6608,7 @@ public abstract class EuclidianController {
 		// reset icon
 		if (hitResetIcon()) {
 			view.setToolTipText(l10n.getPlainTooltip("resetConstruction"));
-			view.setHitCursor();
+			setHitCursor();
 			return;
 		}
 
@@ -6620,7 +6623,7 @@ public abstract class EuclidianController {
 				view.setToolTipText(l10n.getPlainTooltip("Pause"));
 			}
 
-			view.setHitCursor();
+			setHitCursor();
 			view.repaintView();
 			return;
 		}
@@ -6660,19 +6663,19 @@ public abstract class EuclidianController {
 
 		if (hits.isEmpty()) {
 			view.setToolTipText(null);
-			view.setDefaultCursor();
+			view.setCursor(EuclidianCursor.DEFAULT);
 		} else {
 			if ((event.isShiftDown() || mode == EuclidianConstants.MODE_TRANSLATEVIEW)
 					&& (hits.size() >= 1)) {
 				if (hits.hasXAxis()) {
-					view.setResizeXAxisCursor();
+					view.setCursor(EuclidianCursor.RESIZE_X);
 				} else if (hits.hasYAxis()) {
-					view.setResizeYAxisCursor();
+					view.setCursor(EuclidianCursor.RESIZE_Y);
 				} else {
-					view.setHitCursor();
+					setHitCursor();
 				}
 			} else {
-				view.setHitCursor();
+				setHitCursor();
 			}
 		}
 
@@ -6891,7 +6894,7 @@ public abstract class EuclidianController {
 		moveMode = MOVE_MULTIPLE_OBJECTS;
 		setStartPointLocation();
 		startLoc = mouseLoc;
-		view.setDragCursor();
+		setDragCursor();
 		if (translationVec == null) {
 			translationVec = new Coords(2);
 		}
@@ -7110,7 +7113,7 @@ public abstract class EuclidianController {
 
 			setStartPointLocation();
 
-			view.setDragCursor();
+			setDragCursor();
 			if (translationVec == null) {
 				translationVec = new Coords(2);
 			}
@@ -7139,7 +7142,7 @@ public abstract class EuclidianController {
 			moveMode = MOVE_TEXT;
 			movedGeoText = (GeoText) movedGeoElement;
 			view.setShowMouseCoords(false);
-			view.setDragCursor();
+			setDragCursor();
 
 			if (movedGeoText.isAbsoluteScreenLocActive()) {
 				oldLoc.setLocation(movedGeoText.getAbsoluteScreenLocX(),
@@ -7204,7 +7207,7 @@ public abstract class EuclidianController {
 			moveMode = MOVE_LINE;
 			movedGeoLine = (GeoLineND) movedGeoElement;
 			view.setShowMouseCoords(true);
-			view.setDragCursor();
+			setDragCursor();
 		}
 
 		// free vector
@@ -7250,7 +7253,7 @@ public abstract class EuclidianController {
 			}
 
 			view.setShowMouseCoords(true);
-			view.setDragCursor();
+			setDragCursor();
 		}
 
 		// free text
@@ -7263,7 +7266,7 @@ public abstract class EuclidianController {
 			moveMode = MOVE_CONIC;
 			movedGeoConic = (GeoConicND) movedGeoElement;
 			view.setShowMouseCoords(false);
-			view.setDragCursor();
+			setDragCursor();
 
 			// make sure vertex snaps to grid for parabolas
 			if (movedGeoConic.getType() == GeoConicNDConstants.CONIC_PARABOLA) {
@@ -7285,7 +7288,7 @@ public abstract class EuclidianController {
 			moveMode = MOVE_IMPLICIT_CURVE;
 			movedGeoImplicitCurve = (GeoImplicitCurve) movedGeoElement;
 			view.setShowMouseCoords(false);
-			view.setDragCursor();
+			setDragCursor();
 			setStartPointLocation();
 			if (tempImplicitCurve == null) {
 				tempImplicitCurve = new GeoImplicitCurve(movedGeoImplicitCurve);
@@ -7297,7 +7300,7 @@ public abstract class EuclidianController {
 			moveMode = MOVE_IMPLICITPOLY;
 			movedGeoImplicitPoly = (GeoImplicit) movedGeoElement;
 			view.setShowMouseCoords(false);
-			view.setDragCursor();
+			setDragCursor();
 
 			setStartPointLocation();
 			if (tempImplicitPoly == null) {
@@ -7397,7 +7400,7 @@ public abstract class EuclidianController {
 			}
 
 			view.setShowMouseCoords(false);
-			view.setDragCursor();
+			setDragCursor();
 
 			setStartPointLocation();
 			if (tempFunction == null) {
@@ -7451,7 +7454,7 @@ public abstract class EuclidianController {
 			}
 
 			view.setShowMouseCoords(false);
-			view.setDragCursor();
+			setDragCursor();
 		}
 
 		// checkbox
@@ -7487,7 +7490,7 @@ public abstract class EuclidianController {
 					- yRW;
 
 			view.setShowMouseCoords(false);
-			view.setDragCursor();
+			setDragCursor();
 
 		}
 
@@ -7528,7 +7531,7 @@ public abstract class EuclidianController {
 						- yRW;
 
 				view.setShowMouseCoords(false);
-				view.setDragCursor();
+				setDragCursor();
 			} else {
 				// need to trigger scripts
 				// (on tablets only get drag events)
@@ -7546,7 +7549,7 @@ public abstract class EuclidianController {
 			moveMode = MOVE_IMAGE;
 			movedGeoImage = (GeoImage) movedGeoElement;
 			view.setShowMouseCoords(false);
-			view.setDragCursor();
+			setDragCursor();
 
 			if (movedGeoImage.isAbsoluteScreenLocActive()) {
 				oldLoc.setLocation(movedGeoImage.getAbsoluteScreenLocX(),
@@ -7879,7 +7882,7 @@ public abstract class EuclidianController {
 				if (repaint) {
 					if (temporaryMode
 							&& mode != EuclidianConstants.MODE_TRANSLATEVIEW) {
-						view.setMoveCursor();
+					view.setCursor(EuclidianCursor.MOVE);
 					}
 				/*
 				 * view.setCoordSystem(xZeroOld + mouseLoc.x - startLoc.x,
@@ -7914,7 +7917,7 @@ public abstract class EuclidianController {
 	protected void scaleXAxis(boolean repaint) {
 		if (repaint) {
 			if (temporaryMode) {
-				view.setResizeXAxisCursor();
+				view.setCursor(EuclidianCursor.RESIZE_X);
 			}
 
 			setScaleAxis(view.getXZero(), view.getXmin(), view.getXmax(),
@@ -7928,7 +7931,7 @@ public abstract class EuclidianController {
 	protected void scaleYAxis(boolean repaint) {
 		if (repaint) {
 			if (temporaryMode) {
-				view.setResizeYAxisCursor();
+				view.setCursor(EuclidianCursor.RESIZE_Y);
 			}
 
 			// value have to be swapped due to y goes down on screen
@@ -8060,7 +8063,7 @@ public abstract class EuclidianController {
 			movedLabelGeoElement = geo;
 			oldLoc.setLocation(geo.labelOffsetX, geo.labelOffsetY);
 			startLoc = mouseLoc;
-			view.setDragCursor();
+			setDragCursor();
 			return;
 		}
 
@@ -8729,8 +8732,13 @@ public abstract class EuclidianController {
 
 	protected void setDragCursorIfMoveView() {
 		if (moveMode == MOVE_VIEW) {
-			view.setDragCursor();
+			setDragCursor();
 		}
+
+	}
+
+	private void setDragCursor() {
+		view.setCursor(EuclidianCursor.DRAG);
 
 	}
 
@@ -9829,9 +9837,9 @@ public abstract class EuclidianController {
 									   PointerEventType type) {
 
 		if (!hits.isEmpty()) {
-			view.setDefaultCursor();
+			view.setCursor(EuclidianCursor.DEFAULT);
 		} else {
-			view.setHitCursor();
+			setHitCursor();
 		}
 
 		refreshHighlighting(null, control);

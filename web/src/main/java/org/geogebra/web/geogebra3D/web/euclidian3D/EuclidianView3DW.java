@@ -518,7 +518,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
-	@Override
 	public void setTransparentCursor() {
 		setCursorClass("cursor_transparent");
 

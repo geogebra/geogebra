@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
@@ -37,37 +38,12 @@ public class EuclidianViewNoGui extends EuclidianView {
 		return false;
 	}
 
-	public void setDefaultCursor() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setHitCursor() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setDragCursor() {
+	public void setCursor(EuclidianCursor cursor) {
 		// TODO Auto-generated method stub
 
 	}
 
 	public void setToolTipText(String plainTooltip) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setResizeXAxisCursor() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setResizeYAxisCursor() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void setMoveCursor() {
 		// TODO Auto-generated method stub
 
 	}
@@ -210,18 +186,6 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public void remove(GBox box) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setTransparentCursor() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setEraserCursor() {
 		// TODO Auto-generated method stub
 
 	}

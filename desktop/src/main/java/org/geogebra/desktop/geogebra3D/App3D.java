@@ -40,6 +40,7 @@ import javax.swing.SwingConstants;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian3D.Input3D;
@@ -619,7 +620,7 @@ public class App3D extends AppD {
 		return true;
 	}
 
-	private int oldCursorMode;
+	private EuclidianCursor oldCursorMode;
 
 	@Override
 	protected void handleShiftEvent(boolean isShiftDown) {
@@ -628,7 +629,7 @@ public class App3D extends AppD {
 		}
 		if (isShiftDown) {
 			oldCursorMode = getEuclidianView3D().getCursor();
-			getEuclidianView3D().setMoveCursor();
+			getEuclidianView3D().setCursor(EuclidianCursor.MOVE);
 		} else {
 			getEuclidianView3D().setCursor(oldCursorMode);
 

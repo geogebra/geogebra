@@ -113,6 +113,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -3248,7 +3249,8 @@ ToolbarD.getAllTools(this));
 			for (int i = 0; i < guiManager.getEuclidianViewCount(); i++) {
 				if (guiManager.hasEuclidianView2EitherShowingOrNot(i)) {
 					((EuclidianViewInterfaceCommon) guiManager
-							.getEuclidianView2(i)).setDefaultCursor();
+							.getEuclidianView2(i))
+									.setCursor(EuclidianCursor.DEFAULT);
 				}
 			}
 		} else if (euclidianView != null) {

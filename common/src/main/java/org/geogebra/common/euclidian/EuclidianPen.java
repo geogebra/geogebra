@@ -330,7 +330,7 @@ public class EuclidianPen {
 	 *            mouse event
 	 */
 	public void handleMouseDraggedForPenMode(AbstractEvent e) {
-		view.setTransparentCursor();
+		view.setCursor(EuclidianCursor.TRANSPARENT);
 		if (isErasingEvent(e)) {
 			view.getEuclidianController().getDeleteMode()
 					.handleMouseDraggedForDelete(e, eraserSize, true);
@@ -372,7 +372,7 @@ public class EuclidianPen {
 			lastAlgo = selGeos.get(0).getParentAlgorithm();
 		}
 
-		view.setTransparentCursor();
+		view.setCursor(EuclidianCursor.TRANSPARENT);
 
 		// if (g2D == null) g2D = penImage.createGraphics();
 

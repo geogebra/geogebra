@@ -9,6 +9,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
@@ -971,7 +972,6 @@ public class EuclidianViewW extends EuclidianView implements
 		return isInFocus;
 	}
 
-	@Override
 	public void setDefaultCursor() {
 		setCursorClass("cursor_default");
 	}
@@ -987,7 +987,6 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 	}
 
-	@Override
 	public void setHitCursor() {
 		setCursorClass("cursor_hit");
 	}
@@ -1052,8 +1051,7 @@ final GGraphics2D g2) {
 		setPreferredSize(new GDimensionW(width, height));
 	}
 
-	@Override
-	public void setDragCursor() {
+	private void setDragCursor() {
 		if (this.app.useTransparentCursorWhenDragging) {
 			setCursorClass("cursor_transparent");
 		} else {
@@ -1066,29 +1064,20 @@ final GGraphics2D g2) {
 		ToolTipManagerW.sharedInstance().showToolTip(plainTooltip);
 	}
 
-	@Override
-	public void setResizeXAxisCursor() {
+	private void setResizeXAxisCursor() {
 		setCursorClass("cursor_resizeXAxis");
 	}
 
-	@Override
-	public void setResizeYAxisCursor() {
+	private void setResizeYAxisCursor() {
 		setCursorClass("cursor_resizeYAxis");
 	}
 
-	@Override
-	public void setMoveCursor() {
+	private void setMoveCursor() {
 		setCursorClass("cursor_move");
 	}
 
-	@Override
-	public void setTransparentCursor() {
+	private void setTransparentCursor() {
 		setCursorClass("cursor_transparent");
-	}
-
-	@Override
-	public void setEraserCursor() {
-		Log.warn("setEraserCursor() unimplemented");
 	}
 
 	@Override
@@ -1229,6 +1218,33 @@ final GGraphics2D g2) {
 
 	public float getPixelRatio() {
 		return app.getPixelRatio();
+	}
+
+	public void setCursor(EuclidianCursor cursor) {
+		switch (cursor) {
+		case HIT:
+			setHitCursor();
+			return;
+		case DRAG:
+			setDragCursor();
+			return;
+		case MOVE:
+			setMoveCursor();
+			return;
+		case DEFAULT:
+			setDefaultCursor();
+			return;
+		case RESIZE_X:
+			setResizeXAxisCursor();
+			return;
+		case RESIZE_Y:
+			setResizeYAxisCursor();
+			return;
+		case TRANSPARENT:
+			setTransparentCursor();
+			return;
+		}
+
 	}
 
 }

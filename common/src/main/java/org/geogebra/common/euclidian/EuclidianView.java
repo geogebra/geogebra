@@ -5257,16 +5257,6 @@ public abstract class EuclidianView
 	}
 
 	/**
-	 * Makes the cursor transparent (for pen)
-	 */
-	public abstract void setTransparentCursor();
-
-	/**
-	 * Swithes the cursor to eraser (for pen)
-	 */
-	public abstract void setEraserCursor();
-
-	/**
 	 * @return graphics object (for pen)
 	 */
 	public abstract GGraphics2D getGraphicsForPen();

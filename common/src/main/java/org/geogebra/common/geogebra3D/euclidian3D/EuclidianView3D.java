@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
@@ -258,7 +259,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private Previewable previewDrawable;
 	private GeoPoint3D cursor3D;
 	private int cursor3DType = PREVIEW_POINT_NONE;
-	private int cursor = CURSOR_DEFAULT;
+	private EuclidianCursor cursor = EuclidianCursor.DEFAULT;
 	/** starting and ending scales */
 	private double xScaleEnd, yScaleEnd, zScaleStart, zScaleEnd;
 	/** velocity of animated scaling */
@@ -2479,7 +2480,7 @@ GRectangle selectionRectangle) {
 	}
 
 	protected boolean moveCursorIsVisible() {
-		return cursor == CURSOR_MOVE
+		return cursor == EuclidianCursor.MOVE
 				|| getEuclidianController().getMode() == EuclidianConstants.MODE_TRANSLATEVIEW;
 	}
 
@@ -2890,7 +2891,7 @@ GRectangle selectionRectangle) {
 				renderer1.setMatrix(cursorMatrix);
 
 				switch (cursor) {
-					case CURSOR_DEFAULT:
+				case DEFAULT:
 						switch (getCursor3DType()) {
 							case PREVIEW_POINT_FREE:
 								drawFreeCursor(renderer1);
@@ -2903,7 +2904,7 @@ GRectangle selectionRectangle) {
 								break;
 						}
 						break;
-					case CURSOR_HIT:
+				case HIT:
 						switch (getCursor3DType()) {
 							case PREVIEW_POINT_FREE:
 								if (drawCrossForFreePoint()) {
@@ -2994,34 +2995,47 @@ GRectangle selectionRectangle) {
 	public void setMoveCursor() {
 
 		// 3D cursor
-		cursor = CURSOR_MOVE;
+		cursor = EuclidianCursor.MOVE;
 
 		// Application.printStacktrace("");
 		// Application.debug("ici");
 
 	}
 
-	public int getCursor() {
+	public EuclidianCursor getCursor() {
 		return cursor;
 	}
 
-	public void setCursor(int cursor) {
+	public void setCursor(EuclidianCursor cursor) {
 		switch (cursor) {
-			case CURSOR_DRAG:
-				setDragCursor();
-				break;
-			case CURSOR_MOVE:
-				setMoveCursor();
-				break;
-			case CURSOR_HIT:
-				setHitCursor();
-				break;
-			case CURSOR_DEFAULT:
-			default:
-				setDefaultCursor();
-				break;
+		case HIT:
+			setHitCursor();
+			return;
+		case DRAG:
+			setDragCursor();
+			return;
+		case MOVE:
+			setMoveCursor();
+			return;
+		case DEFAULT:
+			setDefaultCursor();
+			return;
+		case RESIZE_X:
+			setResizeXAxisCursor();
+			return;
+		case RESIZE_Y:
+			setResizeYAxisCursor();
+			return;
+		case TRANSPARENT:
+			setTransparentCursor();
+			return;
+		default:
+			setDefaultCursor();
+			break;
 		}
 	}
+
+	protected abstract void setTransparentCursor();
 
 	/**
 	 * next call to setDefaultCursor() will call setHitCursor() instead
@@ -3036,7 +3050,7 @@ GRectangle selectionRectangle) {
 		// setCursor(app.getTransparentCursor());
 
 		// 3D cursor
-		cursor = CURSOR_DRAG;
+		cursor = EuclidianCursor.DRAG;
 		// Application.printStacktrace("setDragCursor");
 
 	}
@@ -3060,14 +3074,15 @@ GRectangle selectionRectangle) {
 
 		// 2D cursor
 		if (getProjection() == PROJECTION_GLASSES) {
-			setTransparentCursor(); // use own 3D cursor (for depth)
+			setCursor(EuclidianCursor.TRANSPARENT); // use own 3D cursor
+															// (for depth)
 			// setDefault2DCursor();
 		} else {
 			setDefault2DCursor();
 		}
 
 		// 3D cursor
-		cursor = CURSOR_DEFAULT;
+		cursor = EuclidianCursor.DEFAULT;
 	}
 
 	/**
@@ -3081,7 +3096,7 @@ GRectangle selectionRectangle) {
 			return;
 
 		// App.printStacktrace("setHitCursor");
-		cursor = CURSOR_HIT;
+		cursor = EuclidianCursor.HIT;
 	}
 
 	/**
@@ -3976,7 +3991,8 @@ GRectangle selectionRectangle) {
 			renderer.setWaitForDisableStencilLines();
 		}
 		setProjectionValues(PROJECTION_GLASSES);
-		setTransparentCursor();
+		setCursor(EuclidianCursor.TRANSPARENT);
+		;
 	}
 
 	public void setProjectionEquirectangular() {
@@ -3997,7 +4013,7 @@ GRectangle selectionRectangle) {
 			renderer.setWaitForDisableStencilLines();
 		}
 		setProjectionValues(PROJECTION_EQUIRECTANGULAR);
-		setTransparentCursor();
+		setCursor(EuclidianCursor.TRANSPARENT);
 
 		// set view origin
 		setXZero(0);
@@ -4229,12 +4245,6 @@ GRectangle selectionRectangle) {
 		setShowAxis(0, show, false);
 		setShowAxis(1, show, false);
 		setShowAxis(2, show, true);
-	}
-
-	@Override
-	public void setEraserCursor() {
-		Log.warn("unimplemented");
-
 	}
 
 	@Override
