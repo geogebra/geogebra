@@ -597,11 +597,9 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 * @param fillShape
 	 *            shape to be filled
-	 * @param usePureStroke
-	 *            true to use pure stroke
 	 */
-	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke) {
-		fill(g2, fillShape, usePureStroke, null, null);
+	protected void fill(GGraphics2D g2, GShape fillShape) {
+		fill(g2, fillShape, null, null);
 	}
 
 	/**
@@ -611,15 +609,13 @@ public abstract class Drawable extends DrawableND {
 	 *            graphics
 	 * @param fillShape
 	 *            shape to be filled
-	 * @param usePureStroke
-	 *            true to use pure stroke
 	 * @param gpaint0
 	 *            override paint
 	 * @param subImage
 	 *            override image
 	 */
-	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke,
-			GPaint gpaint0, GBufferedImage subImage) {
+	protected void fill(GGraphics2D g2, GShape fillShape, GPaint gpaint0,
+			GBufferedImage subImage) {
 		if (isForceNoFill())
 			return;
 		GPaint gpaint = gpaint0;

@@ -223,7 +223,7 @@ public class DrawBarGraph extends Drawable {
 
 						}
 
-						fill(g2, gp[i], false, gpaint, subImage);
+						fill(g2, gp[i], gpaint, subImage);
 
 						// appropriate
 						// Restore values

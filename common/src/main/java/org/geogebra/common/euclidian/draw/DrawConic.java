@@ -1356,7 +1356,7 @@ public class DrawConic extends Drawable implements Previewable {
 			int pointType;
 			if ((conic == geo && conic.isInverseFill())
 					|| geo.isInverseFill() != conic.isInverseFill()) {
-				fill(g2, getShape(), false);
+				fill(g2, getShape());
 				pointType = EuclidianStyleConstants.POINT_STYLE_CIRCLE;
 			} else {
 				pointType = EuclidianStyleConstants.POINT_STYLE_DOT;
@@ -1378,7 +1378,7 @@ public class DrawConic extends Drawable implements Previewable {
 			break;
 		case GeoConicNDConstants.CONIC_EMPTY:
 			if (conic.isInverseFill()) {
-				fill(g2, getShape(), false);
+				fill(g2, getShape());
 			}
 			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
@@ -1413,13 +1413,13 @@ public class DrawConic extends Drawable implements Previewable {
 
 	private void fillEllipseParabola(GGraphics2D g2) {
 		if (conic.isInverseFill()) {
-			fill(g2, getShape(), false);
+			fill(g2, getShape());
 		} else {
-			fill(g2, shape, false); // fill using default/hatching/image as
+			fill(g2, shape); // fill using default/hatching/image as
 									// appropriate
 		}
 		if (arcFiller != null && !conic.isInverseFill())
-			fill(g2, arcFiller, true); // fill using default/hatching/image
+			fill(g2, arcFiller); // fill using default/hatching/image
 										// as appropriate
 	}
 
@@ -1435,9 +1435,9 @@ public class DrawConic extends Drawable implements Previewable {
 			drawLines[1].draw(g2);
 		}
 		if (conic.isInverseFill()) {
-			fill(g2, getShape(), false);
+			fill(g2, getShape());
 		} else
-			fill(g2, shape, false);
+			fill(g2, shape);
 	}
 
 	/**
@@ -1482,12 +1482,12 @@ public class DrawConic extends Drawable implements Previewable {
 					.newArea(view.getBoundingPath());
 			complement.subtract(a1);
 			complement.subtract(a2);
-			fill(g2, complement, false);
+			fill(g2, complement);
 		} else {
 			if (hypLeftOnScreen)
-				fill(g2, hypLeft, true);
+				fill(g2, hypLeft);
 			if (hypRightOnScreen)
-				fill(g2, hypRight, true);
+				fill(g2, hypRight);
 		}
 	}
 

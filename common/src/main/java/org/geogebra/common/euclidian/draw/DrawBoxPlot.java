@@ -64,7 +64,7 @@ public class DrawBoxPlot extends Drawable {
 			}
 
 			try {
-				fill(g2, gp, false); // fill using default/hatching/image as
+				fill(g2, gp); // fill using default/hatching/image as
 										// appropriate
 			} catch (Exception e) {
 				e.printStackTrace();

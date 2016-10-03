@@ -163,7 +163,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				GGraphics2D g2 = view
 						.getBackgroundGraphics();
 				if (g2 != null) {
-					fill(g2, gp, false);
+					fill(g2, gp);
 				}
 			} else {
 				if (isTracing) {
@@ -484,7 +484,7 @@ AwtFactory.prototype.newArea(gp));
 	final public void draw(GGraphics2D g2) {
 
 		if (isVisible) {
-			fill(g2, (fillShape ? getShape() : gp), false); // fill
+			fill(g2, (fillShape ? getShape() : gp)); // fill
 																		// using
 																		// default/hatching/image
 																		// as
@@ -623,7 +623,7 @@ AwtFactory.prototype.newArea(gp));
 	final public void drawPreview(GGraphics2D g2) {
 		if (isVisible) {
 
-			fill(g2, (geo.isInverseFill() ? getShape() : gp), false);
+			fill(g2, (geo.isInverseFill() ? getShape() : gp));
 
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);

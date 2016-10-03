@@ -60,7 +60,7 @@ class DrawParametricInequality extends Drawable {
 			g2.draw(gp);
 		}
 
-		fill(g2, gp, true); // fill using default/hatching/image as
+		fill(g2, gp); // fill using default/hatching/image as
 		// appropriate
 
 		if (geo.getLineThickness() > 0) {

@@ -519,7 +519,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		if (isVisible) {
 			if (!show90degrees
 					|| view.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L) {
-				fill(g2, shape, false); // fill using default/hatching/image as
+				fill(g2, shape); // fill using default/hatching/image as
 										// appropriate
 			}
 

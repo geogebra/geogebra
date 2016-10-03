@@ -620,7 +620,7 @@ public class DrawInequality extends Drawable {
 					updateStrokes(geo);
 				}
 
-				fill(g2, getShape(), true);
+				fill(g2, getShape());
 			}
 		}
 
