@@ -364,7 +364,17 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void drawStraightLine(double x1, double y1, double x2, double y2) {
 		line.setLine(x1, y1, x2, y2);
-		this.draw(line);
+
+		Object oldHint = impl
+				.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
+
+		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
+				RenderingHints.VALUE_STROKE_DEFAULT);
+
+		impl.draw(GGenericShapeD.getAwtShape(line));
+
+		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
+
 	}
 
 	/**
