@@ -34,7 +34,8 @@ public class ErrorHelper {
 	public static void handleCommandError(Localization loc, String localCommand,
 			ErrorHandler handler) {
 		String cmd = loc.getReverseCommand(localCommand);
-		handler.showCommandError(cmd, loc.getError("InvalidInput") + "\n"
+		handler.showCommandError(cmd,
+				loc.getError("InvalidInput") + ":\n"
 				+ localCommand + "\n\n" + loc.getPlain("Syntax")
 				+ ":\n" + loc.getCommandSyntax(cmd));
 

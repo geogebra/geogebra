@@ -1415,7 +1415,7 @@ public class AlgebraProcessor {
 	public GeoNumberValue evaluateToNumeric(String str, ErrorHandler handler) {
 
 		if (str == null || "".equals(str)) {
-			handler.showError(loc.getError("InvalidInput") + "\n" + str);
+			handler.showError(loc.getError("InvalidInput") + ":\n" + str);
 			return new GeoNumeric(cons, Double.NaN);
 		}
 
@@ -1432,7 +1432,7 @@ public class AlgebraProcessor {
 			} else {
 				num = new GeoNumeric(cons, Double.NaN);
 
-				handler.showError(loc.getError("InvalidInput") + "\n" + str);
+				handler.showError(loc.getError("InvalidInput") + ":\n" + str);
 			}
 		} catch (Exception e) {
 			ErrorHelper.handleException(e, app, handler);
