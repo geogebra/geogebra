@@ -3909,7 +3909,11 @@ public abstract class App implements UpdateSelection {
 
 		case INPUTHELP_SHOWN_IN_AV:
 			return true;
-
+	
+		// GGB-986
+		case ONE_TEXTFIELD_PER_EV:
+			return false;// prerelease;
+		
 		// MOB-356 and MOB-503
 		case MOBILE_PROPERTIES_VIEW:
 			return true;

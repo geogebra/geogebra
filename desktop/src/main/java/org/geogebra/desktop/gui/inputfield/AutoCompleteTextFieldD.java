@@ -148,6 +148,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		this.drawTextField = (DrawInputBox) drawTextField;
 	}
 
+	@Override
 	public DrawInputBox getDrawTextField() {
 		return drawTextField;
 	}
@@ -1048,5 +1049,9 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 */
 	public boolean isPreviewActive() {
 		return previewActive;
+	}
+
+	public void setDrawTextField(DrawInputBox df) {
+		drawTextField = df;
 	}
 }

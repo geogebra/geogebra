@@ -3,6 +3,7 @@ package org.geogebra.common.gui.inputfield;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.event.FocusListener;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.javax.swing.GBox;
@@ -68,6 +69,10 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener,
 
 	boolean usedForInputBox();
 
+	// GGB-986
+	DrawInputBox getDrawTextField();
+
+	void setDrawTextField(DrawInputBox df);
 	/**
 	 * Removes the "alpha" button forever
 	 */

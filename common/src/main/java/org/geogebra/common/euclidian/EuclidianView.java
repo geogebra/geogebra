@@ -38,6 +38,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsEuclidian;
+import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
@@ -55,6 +56,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -5280,6 +5282,7 @@ public abstract class EuclidianView
 
 	private OptionsEuclidian optionPanel = null;
 	private DrawList openedComboBox = null;
+	private AutoCompleteTextField textField;
 
 	/**
 	 * sets the option panel for gui update
@@ -5716,5 +5719,30 @@ public abstract class EuclidianView
 			screenChanged = false;
 			repaint();
 		}
+	}
+
+	public AutoCompleteTextField getTextField(GeoInputBox input,
+			DrawInputBox drawInputBox) {
+		// if (textField == null) {
+			textField = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(
+					input.getLength(), kernel.getApplication(), drawInputBox);
+			textField.setAutoComplete(false);
+			textField.enableColoring(false);
+			textField.setFocusTraversalKeysEnabled(false);
+
+		// }
+		// textField.setDrawTextField(drawInputBox);
+
+			// don't show symbol popup when TextField linked to free text
+		if (input.getLinkedGeo() instanceof GeoText) {
+			textField.removeSymbolTable();
+		} else {
+			// textField.showPopupSymbolButton(true);
+		}
+		//
+		// textField.setColumns(input.getLength());
+		textField.setUsedForInputBox(input);
+		return textField;
+
 	}
 }
