@@ -634,7 +634,7 @@ public class EuclidianViewD extends EuclidianView implements
 
 	@Override
 	public void paintBackground(GGraphics2D g2) {
-		g2.drawImage(bgImage, null, 0, 0);
+		g2.drawImage(bgImage, 0, 0);
 	}
 
 	@Override

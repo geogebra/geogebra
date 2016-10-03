@@ -8,12 +8,10 @@ import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.RenderingHints.Key;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.awt.GBufferedImageOp;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GFont;
@@ -194,16 +192,6 @@ public class GGraphics2DD implements GGraphics2D {
 
 	public GBasicStroke getStroke() {
 		return (GBasicStrokeD) impl.getStroke();
-	}
-
-	public void drawImage(GBufferedImage img, GBufferedImageOp op, int x, int y) {
-		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img),
-				(GBufferedImageOpD) op, x, y);
-	}
-
-	public void drawImage(MyImage img, GBufferedImageOp op, int x, int y) {
-		impl.drawImage((BufferedImage) ((MyImageD) img).getImage(),
-				(GBufferedImageOpD) op, x, y);
 	}
 
 	public void drawImage(GBufferedImage img, int x, int y) {

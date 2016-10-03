@@ -3,7 +3,6 @@ package org.geogebra.web.html5.awt;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.awt.GBufferedImageOp;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GDimension;
@@ -825,10 +824,6 @@ public class GGraphics2DW implements GGraphics2D {
 		context.putImageData(data, x, y);
 	}
 
-	public void drawImage(GBufferedImage img, int x, int y) {
-		drawImage(img, null, x, y);
-	}
-
 	public void setAntialiasing() {
 		// not needed
 	}
@@ -893,13 +888,7 @@ public class GGraphics2DW implements GGraphics2D {
 		this.color = null;
 	}
 
-	public void drawImage(MyImage img, GBufferedImageOp op, int x, int y) {
-		context.drawImage(((MyImageW) img).getImage(), x, y);
-
-	}
-
-	public void drawImage(GBufferedImage img,
-	        GBufferedImageOp op, int x, int y) {
+	public void drawImage(GBufferedImage img, int x, int y) {
 		GBufferedImageW bi = (GBufferedImageW) img;
 		if (bi == null)
 			return;

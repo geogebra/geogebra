@@ -32,7 +32,6 @@ import java.util.LinkedList;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.awt.GBufferedImageOp;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GFont;
@@ -357,7 +356,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Draws a BufferedImage on the EPS document.
 	 */
 	@Override
-	public void drawImage(GBufferedImage img, GBufferedImageOp op, int x,
+	public void drawImage(GBufferedImage img, int x,
 			int y) {
 		GAffineTransform transform = AwtFactory.prototype.newAffineTransform();
 		transform.setTransform(1f, 0f, 0f, 1f, x, y);
@@ -1257,14 +1256,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	protected ColorMode colorMode = ColorMode.COLOR_RGB;
 
 	abstract public GGraphics2D create();
-
-	public void drawImage(MyImage img, GBufferedImageOp op, int x, int y) {
-		drawImage(img, x, y);
-	}
-
-	public void drawImage(GBufferedImage img, int x, int y) {
-		drawImage(img, x, y, null);
-	}
 
 	abstract public void drawImage(MyImage img, int x, int y);
 

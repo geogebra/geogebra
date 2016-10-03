@@ -21,41 +21,6 @@ public interface GGraphics2D {
 	 */
 	public abstract void draw(GShape s);
 
-	/**
-	 * Renders a <code>BufferedImage</code> that is filtered with a
-	 * {@link GBufferedImageOp}. The rendering attributes applied include the
-	 * <code>Clip</code>, <code>Transform</code> and <code>Composite</code>
-	 * attributes. This is equivalent to:
-	 * 
-	 * <pre>
-	 * img1 = op.filter(img, null);
-	 * drawImage(img1, new AffineTransform(1f, 0f, 0f, 1f, x, y), null);
-	 * </pre>
-	 * 
-	 * @param op
-	 *            the filter to be applied to the image before rendering
-	 * @param img
-	 *            the specified <code>BufferedImage</code> to be rendered. This
-	 *            method does nothing if <code>img</code> is null.
-	 * @param x
-	 *            the x coordinate of the location in user space where the upper
-	 *            left corner of the image is rendered
-	 * @param y
-	 *            the y coordinate of the location in user space where the upper
-	 *            left corner of the image is rendered
-	 *
-	 * @see #transform
-	 * @see #setTransform
-	 * @see #setComposite
-	 * @see #clip
-	 * @see #setClip
-	 */
-	public abstract void drawImage(GBufferedImage img, GBufferedImageOp op,
-			int x, int y);
-
-	public abstract void drawImage(MyImage img, GBufferedImageOp op, int x,
-			int y);
-
 	public abstract void drawImage(GBufferedImage img, int x, int y);
 
 	public abstract void drawImage(MyImage img, int x, int y);

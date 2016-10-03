@@ -260,7 +260,7 @@ public final class DrawImage extends Drawable {
 			}
 
 			if (absoluteLocation) {
-				g3.drawImage(image, null, screenX, screenY);
+				g3.drawImage(image, screenX, screenY);
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
