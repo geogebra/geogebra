@@ -96,23 +96,7 @@ public class EuclidianPen {
 	private ArrayList<GPoint> temp = null;
 	private int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
 	private double score = 0;
-	private double ARROW_MAXSIZE = 0.8; // max size of arrow tip relative to
-										// main segment
-	private double ARROW_ANGLE_MIN = (5 * Math.PI / 180); // arrow tip angles
-															// relative to main
-															// segment
-	private double ARROW_ANGLE_MAX = (50 * Math.PI / 180);
-	private double ARROW_ASYMMETRY_MAX_ANGLE = (30 * Math.PI / 180);
-	private double ARROW_ASYMMETRY_MAX_LINEAR = 1.0; // size imbalance of two
-														// legs of tip
-	private double ARROW_TIP_LINEAR_TOLERANCE = 0.30; // gap tolerance on tip
-														// segments
-	private double ARROW_SIDEWAYS_GAP_TOLERANCE = 0.25; // gap tolerance in
-														// lateral direction
-	private double ARROW_MAIN_LINEAR_GAP_MIN = -0.3; // gap tolerance on main
-														// segment
-	private double ARROW_MAIN_LINEAR_GAP_MAX = 0.7; // gap tolerance on main
-													// segment
+	// segment
 	private int brk[];
 	private int count = 0;
 	private int recognizer_queue_length = 0;
@@ -659,8 +643,9 @@ public class EuclidianPen {
 		}
 
 		GeoElement geo;
-		if ((geo = try_rectangle()) != null || (geo = try_arrow()) != null ||
-				(geo = try_closed_polygon(3)) != null || (geo = try_closed_polygon(4)) != null) {
+		if ((geo = try_rectangle()) != null
+				|| (geo = try_closed_polygon(3)) != null
+				|| (geo = try_closed_polygon(4)) != null) {
 			recognizer_queue_length = 0;
 			return geo;
 		}
@@ -1447,7 +1432,7 @@ public class EuclidianPen {
 		}
 	}
 
-	private double getCost(Inertia temp1, Inertia temp2) {
+	private static double getCost(Inertia temp1, Inertia temp2) {
 		return (EuclidianPen.I_det(temp1) * EuclidianPen.I_det(temp1))
 				+ (EuclidianPen.I_det(temp2) * EuclidianPen.I_det(temp2));
 	}
@@ -1617,146 +1602,6 @@ public class EuclidianPen {
 		// poly.setObjColor(penColor);
 		poly.updateRepaint();
 		return poly;
-	}
-
-	private GeoElement try_arrow() {
-		int nsides = 3;
-
-		if (recognizer_queue_length < nsides) {
-			return null;
-		}
-
-		RecoSegment rs = getRecoSegment(recognizer_queue_length - nsides);
-
-		// AbstractApplication.debug(rs.startpt);
-		if (rs.startpt != 0) {
-			return null;
-		}
-
-		RecoSegment temp1 = null;
-		int i;
-
-		boolean rev[] = new boolean[3];
-
-		for (i = 1; i < nsides; ++i) {
-			temp1 = getRecoSegment(recognizer_queue_length - nsides + i);
-			if (temp1.radius > ARROW_MAXSIZE * rs.radius)
-				return null;
-			rev[i] = (Math.hypot(temp1.xcenter - rs.x1, temp1.ycenter - rs.y1)) < (Math
-					.hypot(temp1.xcenter - rs.x2, temp1.ycenter - rs.y2));
-		}
-		if (rev[1] != rev[2]) {
-			return null;
-		}
-
-		double x1, y1, x2, y2, angle;
-		double alpha[] = new double[3];
-
-		if (rev[1]) {
-			x1 = rs.x2;
-			y1 = rs.y2;
-			x2 = rs.x1;
-			y2 = rs.y1;
-			angle = rs.angle + Math.PI;
-		} else {
-			x1 = rs.x1;
-			y1 = rs.y1;
-			x2 = rs.x2;
-			y2 = rs.y2;
-			angle = rs.angle;
-		}
-		for (i = 1; i < nsides; ++i) {
-			temp1 = getRecoSegment(recognizer_queue_length - nsides - i);
-			temp1.reversed = false;
-			alpha[i] = temp1.angle - angle;
-			while (alpha[i] < -Math.PI / 2) {
-				alpha[i] = alpha[i] + Math.PI;
-				temp1.reversed = !temp1.reversed;
-			}
-			while (alpha[i] > Math.PI / 2) {
-				alpha[i] = alpha[i] - Math.PI;
-				temp1.reversed = !temp1.reversed;
-			}
-			if (Math.abs(alpha[i]) < ARROW_ANGLE_MIN
-					|| Math.abs(alpha[i]) > ARROW_ANGLE_MAX) {
-				return null;
-			}
-		}
-		if (alpha[1] * alpha[2] > 0
-				|| Math.abs(alpha[1] + alpha[2]) > ARROW_ASYMMETRY_MAX_ANGLE) {
-			return null;
-		}
-
-		temp1 = getRecoSegment(recognizer_queue_length - 2);
-		RecoSegment temp2 = getRecoSegment(recognizer_queue_length - 1);
-
-		if (temp1.radius / temp2.radius > 1 + ARROW_ASYMMETRY_MAX_LINEAR ||
-				temp2.radius / temp1.radius > 1 + ARROW_ASYMMETRY_MAX_LINEAR) {
-			return null;
-		}
-
-		double dist;
-		double pt[] = new double[2];
-		EuclidianPen.calc_edge_isect(temp1, temp2, pt);
-
-		for (i = 1; i < nsides; ++i) {
-			temp1 = getRecoSegment(recognizer_queue_length - nsides - i);
-			dist = Math.hypot(pt[0] - (temp1.reversed ? temp1.x1 : temp1.x2),
-					pt[1] - (temp1.reversed ? temp1.y1 : temp1.y2));
-			if (dist > ARROW_TIP_LINEAR_TOLERANCE * temp1.radius)
-				return null;
-		}
-		dist = (pt[0] - x2) * Math.sin(angle) - (pt[1] - y2) * Math.cos(angle);
-		temp1 = getRecoSegment(recognizer_queue_length - 2);
-		temp2 = getRecoSegment(recognizer_queue_length - 1);
-		dist = dist / (temp1.radius + temp2.radius);
-		if (Math.abs(dist) > ARROW_SIDEWAYS_GAP_TOLERANCE) {
-			return null;
-		}
-		dist = (pt[0] - x2) * Math.cos(angle) + (pt[1] - y2) * Math.sin(angle);
-		dist = dist / (temp1.radius + temp2.radius);
-		if (dist < ARROW_MAIN_LINEAR_GAP_MIN
-				|| dist > ARROW_MAIN_LINEAR_GAP_MAX) {
-			return null;
-		}
-		if (Math.abs(rs.angle) < SLANT_TOLERANCE) { // nearly horizontal
-			angle = angle - rs.angle;
-			y1 = y2 = rs.ycenter;
-		}
-		if (rs.angle > Math.PI / 2 - SLANT_TOLERANCE) { // nearly vertical
-			angle = angle - (rs.angle - Math.PI / 2);
-			x1 = x2 = rs.xcenter;
-		}
-		if (rs.angle < -Math.PI / 2 + SLANT_TOLERANCE) { // nearly vertical
-			angle = angle - (rs.angle + Math.PI / 2);
-			x1 = x2 = rs.xcenter;
-		}
-		double delta = Math.abs(alpha[1] - alpha[2]) / 2;
-		dist = (Math.hypot(temp1.x1 - temp1.x2, temp1.y1 - temp1.y2) + Math
-				.hypot(temp2.x1 - temp2.x2, temp2.y1 - temp2.y2)) / 2;
-
-		double x_last = view.toRealWorldCoordX(x2);
-		double y_last = view.toRealWorldCoordY(y2);
-		GeoPoint q = new GeoPoint(app.getKernel().getConstruction(), x_last, y_last, 1.0);
-		getJoinPointsSegment(x1, y1, q);
-		getJoinPointsSegment(x2 - dist * Math.cos(angle + delta), y2 - dist * Math.sin(angle + delta), q);
-		GeoElement line = getJoinPointsSegment(x2 - dist * Math.cos(angle - delta), y2 - dist * Math.sin(angle - delta), q);
-
-		Log.debug("Arrow Recognized");
-		return line;
-	}
-
-	/**
-	 *
-	 * @param x1 x coord of first point
-	 * @param y1 y coord of first point
-	 * @param q second point
-     * @return
-     */
-	private GeoElement getJoinPointsSegment(double x1, double y1, GeoPoint q) {
-		Construction cons = app.getKernel().getConstruction();
-		GeoPoint p = new GeoPoint(cons, view.toRealWorldCoordX(x1), view.toRealWorldCoordY(y1), 1.0);
-		return getJoinPointsSegment(p, q);
 	}
 
 	private GeoElement getJoinPointsSegment(GeoPoint first, GeoPoint last) {
