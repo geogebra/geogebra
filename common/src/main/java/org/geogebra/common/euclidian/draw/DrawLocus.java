@@ -124,7 +124,7 @@ public class DrawLocus extends Drawable {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
-			g2.drawWithValueStrokePure(gp);
+			g2.draw(gp);
 		}
 	}
 
@@ -161,13 +161,13 @@ public class DrawLocus extends Drawable {
 				// draw locus
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				g2.drawWithValueStrokePure(gp);
+				g2.draw(gp);
 			}
 
 			// draw locus
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
-			g2.drawWithValueStrokePure(gp);
+			g2.draw(gp);
 
 			if (geo.isFillable()
 					&& geo.isFilled()) {

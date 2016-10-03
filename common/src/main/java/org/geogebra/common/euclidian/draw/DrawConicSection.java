@@ -583,12 +583,12 @@ public class DrawConicSection extends DrawConic {
 		if (geo.doHighlighting()) {
 			g2.setStroke(selStroke);
 			g2.setColor(geo.getSelColor());
-			g2.drawWithValueStrokePure(shape);
+			g2.draw(shape);
 		}
 
 		g2.setStroke(objStroke);
 		g2.setColor(geo.getObjectColor());
-		g2.drawWithValueStrokePure(shape);
+		g2.draw(shape);
 
 		if (labelVisible) {
 			g2.setFont(view.getFontConic());

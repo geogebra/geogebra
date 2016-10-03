@@ -96,9 +96,9 @@ public class DrawNyquist extends Drawable {
 		GColor color = AwtFactory.prototype.newColor(geoColor.getRed(),
 				geoColor.getGreen(), geoColor.getBlue(), 127);
 		g2.setColor(color);
-		g2.drawWithValueStrokePure(gpN);
+		g2.draw(gpN);
 		g2.setColor(geoColor);
-		g2.drawWithValueStrokePure(gpP);
+		g2.draw(gpP);
 		drawArrow(g2);
 	}
 

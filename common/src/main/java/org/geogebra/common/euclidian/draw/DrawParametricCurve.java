@@ -288,12 +288,12 @@ public class DrawParametricCurve extends Drawable {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
-				g2.drawWithValueStrokePure(gp);
+				g2.draw(gp);
 			}
 
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
-			g2.drawWithValueStrokePure(gp);
+			g2.draw(gp);
 
 			if (fillCurve) {
 				try {
@@ -328,7 +328,7 @@ public class DrawParametricCurve extends Drawable {
 	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
-		g2.drawWithValueStrokePure(gp);
+		g2.draw(gp);
 	}
 
 	@Override

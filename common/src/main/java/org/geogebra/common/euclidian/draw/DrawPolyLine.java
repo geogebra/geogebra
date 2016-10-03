@@ -111,7 +111,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
-			g2.drawWithValueStrokePure(gp);
+			g2.draw(gp);
 		}
 	}
 

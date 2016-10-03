@@ -23,7 +23,6 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
@@ -249,16 +248,6 @@ public class GGraphics2DD implements GGraphics2D {
 		}
 	}
 
-	public void draw(GShape s) {
-		if (s instanceof GShapeD)
-			impl.draw(((GShapeD) s).getAwtShape());
-		if (s instanceof GeneralPathClipped)
-			impl.draw(GGeneralPathD
-					.getAwtGeneralPath(((GeneralPathClipped) s)
-							.getGeneralPath()));
-
-	}
-
 	public void resetClip() {
 		impl.setClip(null);
 	}
@@ -315,7 +304,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	public void drawWithValueStrokePure(GShape shape) {
+	public void draw(GShape shape) {
 		Object oldHint = impl
 				.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,

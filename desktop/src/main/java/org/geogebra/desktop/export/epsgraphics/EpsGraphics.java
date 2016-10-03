@@ -1297,11 +1297,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	@Override
-	public void drawWithValueStrokePure(GShape shape) {
-		draw(shape);
-	}
-
-	@Override
 	public Object setInterpolationHint(
 			boolean needsInterpolationRenderingHint) {
 		return null;

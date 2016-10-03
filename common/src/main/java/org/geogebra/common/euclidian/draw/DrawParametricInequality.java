@@ -57,7 +57,7 @@ class DrawParametricInequality extends Drawable {
 		if (geo.doHighlighting()) {
 			g2.setPaint(geo.getSelColor());
 			g2.setStroke(selStroke);
-			g2.drawWithValueStrokePure(gp);
+			g2.draw(gp);
 		}
 
 		fill(g2, gp, true); // fill using default/hatching/image as
@@ -66,7 +66,7 @@ class DrawParametricInequality extends Drawable {
 		if (geo.getLineThickness() > 0) {
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
-			g2.drawWithValueStrokePure(gp);
+			g2.draw(gp);
 		}
 
 	}

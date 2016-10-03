@@ -726,7 +726,6 @@ public class GeoGebraIcon {
 			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
 				// draw diamond
 				g2.setStroke(crossStrokes[pointSize]);
-				// drawWithValueStrokePure(gp, g2);
 				g2.draw(gp);
 				g2.fill(gp);
 				break;

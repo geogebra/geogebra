@@ -1454,17 +1454,17 @@ public class DrawConic extends Drawable implements Previewable {
 			g2.setColor(geo.getSelColor());
 
 			if (hypLeftOnScreen)
-				g2.drawWithValueStrokePure(hypLeft);
+				g2.draw(hypLeft);
 			if (hypRightOnScreen)
-				g2.drawWithValueStrokePure(hypRight);
+				g2.draw(hypRight);
 		}
 		g2.setStroke(objStroke);
 		g2.setColor(getObjectColor());
 		if (geo.getLineThickness() > 0) {
 			if (hypLeftOnScreen)
-				g2.drawWithValueStrokePure(hypLeft);
+				g2.draw(hypLeft);
 			if (hypRightOnScreen)
-				g2.drawWithValueStrokePure(hypRight);
+				g2.draw(hypRight);
 		}
 
 		if (labelVisible) {
