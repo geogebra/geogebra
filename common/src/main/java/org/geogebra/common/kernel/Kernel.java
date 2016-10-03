@@ -1794,16 +1794,7 @@ public class Kernel {
 		}
 	}
 
-	/*
-	 * y = a (x + h)^2 + k
-	 */
-	public final StringBuilder buildVertexformEquation(double[] numbers,
-			String[] vars, StringTemplate tpl) {
-		double a = -1 * numbers[0] / numbers[4];
-		double h = numbers[3] / numbers[0] / 2;
-		double k = (numbers[3] * numbers[3]) / (4 * numbers[4] * numbers[0])
-				- (numbers[5] / numbers[4]);
-		
+	public static String squared(StringTemplate tpl) {
 		String squared;
 		switch (tpl.getStringType()) {
 		case LATEX:
@@ -1817,16 +1808,28 @@ public class Kernel {
 		default:
 			squared = "\u00b2";
 		}
+		return squared;
+	}
+
+	/*
+	 * y = a (x + h)^2 + k
+	 */
+	public final StringBuilder buildVertexformEquation(double[] numbers,
+			String[] vars, StringTemplate tpl) {
+		double a = -1 * numbers[0] / numbers[4];
+		double h = numbers[3] / numbers[0] / 2;
+		double k = (numbers[3] * numbers[3]) / (4 * numbers[4] * numbers[0])
+				- (numbers[5] / numbers[4]);
 
 		StringBuilder sbBuildVertexformEquation = new StringBuilder(80);
 		sbBuildVertexformEquation.append(vars[4] + " = ");
 		sbBuildVertexformEquation.append(formatCoeff(a, tpl));
 		if (h == 0) {
-			sbBuildVertexformEquation.append(vars[3] + squared);
+			sbBuildVertexformEquation.append(vars[3] + squared(tpl));
 		} else {
 			sbBuildVertexformEquation.append("(" + vars[3] + " " + sign(h)
 					+ ' '
-					+ format(Math.abs(h), tpl) + ")" + squared);
+					+ format(Math.abs(h), tpl) + ")" + squared(tpl));
 		}
 		if (k != 0) {
 			sbBuildVertexformEquation.append(" " + sign(k)
@@ -1863,8 +1866,10 @@ public class Kernel {
 		k = b * b / (4 * a * c) - d / c;
 
 
-		sbBuildConicformEquation.append(formatCoeff(p4, tpl) + "(" + var2
-				+ " - " + k + ")= " + "(" + var1 + " - " + h + ")^2");
+		sbBuildConicformEquation.append(formatCoeff(p4, tpl) + "(" + var2 + " "
+				+ sign(-k) + " " + format(Math.abs(k), tpl) + ") = " + "("
+				+ var1 + " " + sign(-h) + " " + format(Math.abs(h), tpl) + ")"
+				+ squared(tpl));
 		return sbBuildConicformEquation;
 	}
 
