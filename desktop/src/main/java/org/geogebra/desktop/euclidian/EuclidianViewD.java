@@ -93,25 +93,6 @@ import org.geogebra.desktop.util.ImageResourceD;
 public class EuclidianViewD extends EuclidianView implements
 		EuclidianViewInterfaceD, Printable {
 
-	/**
-	 * Rendering hints for the graphics
-	 */
-	protected static final RenderingHints defRenderingHints = new RenderingHints(
-			null);
-	{
-		defRenderingHints.put(RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_SPEED);
-		defRenderingHints.put(RenderingHints.KEY_ALPHA_INTERPOLATION,
-				RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED);
-		defRenderingHints.put(RenderingHints.KEY_COLOR_RENDERING,
-				RenderingHints.VALUE_COLOR_RENDER_SPEED);
-
-		// This ensures fast image drawing. Note that DrawImage changes
-		// this hint for scaled and sheared images to improve their quality
-		defRenderingHints.put(RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-	}
-
 	// temp
 	// public static final int DRAW_MODE_DIRECT_DRAW = 0;
 	// public static final int DRAW_MODE_BACKGROUND_IMAGE = 1;
