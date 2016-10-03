@@ -1142,7 +1142,7 @@ __GGB__keysVar.cs.error = {
     "InvalidEquation": "Neplatn\xe1 rovnice:\nZadejte pros\xedm line\xe1rn\xed nebo kvadratickou rovnici pomoc\xed x a y.",
     "InvalidFunction": "Neplatn\xe1 funkce:\nZadejte pros\xedm explicitn\xed funkci prom\u011bnn\xe9 x.",
     "InvalidInequality": "Neplatn\xe1 nerovnost:\nPros\xedm zadejte line\xe1rn\xed nerovnost pomoc\xed x a y.",
-    "InvalidInput": "Zkontrolujte pros\xedm vstup.",
+    "InvalidInput": "Zkontrolujte pros\xedm vstup",
     "LengthMustBeConstant": "D\xe9lka mus\xed b\xfdt konstantn\xed.",
     "LoadFileFailed": "Nelze otev\u0159\xedt soubor.",
     "NameUsed": "Toto jm\xe9no je ji\u017e u\u017e\xedv\xe1no.",

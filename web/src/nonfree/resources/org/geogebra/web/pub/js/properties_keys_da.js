@@ -1509,7 +1509,7 @@ __GGB__keysVar.da.menu = {
     "CreatePolyLine": "StykvisLinje",
     "CreatePolyLine.Help": "V\xe6lg celler der indeholder punkterne og klik p\xe5 v\xe6rkt\xf8jet",
     "CreateSliders": "Opret skydere",
-    "CreateSlidersForA": "Opret skyder(s) for: %0",
+    "CreateSlidersForA": "Opret skyder(e) for: %0",
     "CreateTable": "Oprettabel",
     "CreateTable.Help": "V\xe6lg celler og klik p\xe5 v\xe6rkt\xf8jet",
     "CreateYourOwn": "GeoGebra Matematik Apps",

@@ -1142,7 +1142,7 @@ __GGB__keysVar.xh.error = {
     "InvalidEquation": "Iikhweyjini eNgekhoMthethweni:\nNceda ufakele iikhweyjini eyipholinomiyali eno x no y",
     "InvalidFunction": "Ifankshini engalunganga:\nNceda ufake ifankshini ecacileyo eno x",
     "InvalidInequality": "Iinikhwaliti engalunganga:\nNceda ufakele iinikhwaliti yeliniya eno x no y",
-    "InvalidInput": "Uxolo, ikhona into erongo eyenzekileyo. Phinda ujonge lento uyifakileyo.",
+    "InvalidInput": "Uxolo, ikhona into erongo eyenzekileyo. Phinda ujonge lento uyifakileyo",
     "LengthMustBeConstant": "Bonke ubude mabungatshintshi",
     "LoadFileFailed": "Uvulu lwefayile aluphumelelanga",
     "NameUsed": "Le leyibheli seleisetyenziswa",

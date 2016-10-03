@@ -2288,7 +2288,7 @@ __GGB__keysVar.nl_NL.menu = {
     "PlaneThroughAPerpendicularToB": "Vlak door %0 loodrecht op %1",
     "Play": "Afspelen",
     "PlayButton": "Knop voor afspelen",
-    "PleaseInstallA": "Please install %0",
+    "PleaseInstallA": "Installeer a.u.b. %0",
     "PleaseWait": "Eventjes geduld\u2026",
     "Point": "Punt",
     "Point.Help": "Klik in tekenvenster of op rechte, grafiek of kromme",

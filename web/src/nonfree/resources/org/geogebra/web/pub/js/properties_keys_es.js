@@ -1142,7 +1142,7 @@ __GGB__keysVar.es.error = {
     "InvalidEquation": "Ecuaci\xf3n no v\xe1lida:\nDebe ingresarse una lineal o una cuadr\xe1tica en x e y",
     "InvalidFunction": "Funci\xf3n no v\xe1lida:\nDebe ingresarse una expl\xedcita en x",
     "InvalidInequality": "Inecuaci\xf3n no v\xe1lida:\nDebe ingresarse una inecuaci\xf3n lineal en x e y",
-    "InvalidInput": "Por favor, revisa la entrada.",
+    "InvalidInput": "Por favor, revisa la entrada",
     "LengthMustBeConstant": "Cada longitud debe ser constante.",
     "LoadFileFailed": "Error al abrir el archivo",
     "NameUsed": "Esta etiqueta ya est\xe1 en uso",
