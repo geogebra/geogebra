@@ -330,9 +330,13 @@ public abstract class Layout {
 			return;
 		}
 		if (!foundTmp) {
-			applyPerspective(defaultPerspectives[0]);
+			applyPerspective(getDefaultPerspective());
 		}
 
+	}
+
+	protected Perspective getDefaultPerspective(){
+		return defaultPerspectives[0];
 	}
 
 	protected boolean setEVsettingsFromPerspective(App app,
