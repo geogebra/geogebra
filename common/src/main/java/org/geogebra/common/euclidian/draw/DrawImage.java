@@ -254,8 +254,7 @@ public final class DrawImage extends Drawable {
 			if (alpha >= 0f && alpha < 1f) {
 				if (alphaComp == null)
 					alphaComp = AwtFactory.prototype
-							.newAlphaComposite(
-GAlphaComposite.SRC_OVER,
+							.newAlphaComposite(GAlphaComposite.SRC_OVER,
 									alpha);
 				g3.setComposite(alphaComp);
 			}
@@ -275,8 +274,6 @@ GAlphaComposite.SRC_OVER,
 				// improve rendering quality for transformed images
 				Object oldInterpolationHint = g3
 						.setInterpolationHint(needsInterpolationRenderingHint);
-
-				// g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
 				g3.drawImage(image, 0, 0);
 				g3.restoreTransform();

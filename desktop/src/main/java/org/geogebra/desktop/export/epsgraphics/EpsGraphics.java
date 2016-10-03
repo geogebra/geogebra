@@ -530,22 +530,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 	}
 
 	/**
-	 * Adds rendering hints. These are ignored by EpsGraphics2D.
-	 */
-	// @Override
-	// public void addRenderingHints(Map<?, ?> hints) {
-	// // Do nothing.
-	// }
-
-	/**
-	 * Returns the preferences for the rendering algorithms.
-	 */
-	// @Override
-	// public GRenderingHints getRenderingHints() {
-	// return new GRenderingHints(null);
-	// }
-
-	/**
 	 * Translates the origin of the EpsGraphics2D context to the point (x,y) in
 	 * the current coordinate system.
 	 */

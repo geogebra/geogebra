@@ -94,12 +94,6 @@ public class DrawAxis {
 			view.tickStroke = EuclidianView.defAxesStroke;
 		}
 
-		// turn antialiasing off
-		// Object antiAliasValue = g2
-		// .getRenderingHint(RenderingHints.KEY_ANTIALIASING);
-		// g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-		// RenderingHints.VALUE_ANTIALIAS_OFF);
-
 		// make sure arrows don't go off screen (eg EMF export)
 		double arrowAdjustx = drawRightArrow ? view.axesStroke.getLineWidth()
 				: 0;
