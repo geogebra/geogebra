@@ -17,10 +17,10 @@ public class GroupHeader extends FlowPanel {
 	protected OpenButton open;
 	private String label;
 	public GroupHeader(SelectionManager selection, TreeItem parent,
-			String strlab, SafeUri showUrl, SafeUri hiddenUrl) {
+			String strlab, String key, SafeUri showUrl, SafeUri hiddenUrl) {
 		
 		this.setStyleName("elemHeading");
-		this.label = strlab;
+		this.label = key;
 		
 		add(open = new OpenButton(showUrl, hiddenUrl, parent));
 		add(il = new GroupNameLabel(selection, parent, strlab));

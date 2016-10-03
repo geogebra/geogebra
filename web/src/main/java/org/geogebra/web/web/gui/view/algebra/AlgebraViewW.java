@@ -760,7 +760,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				// both rootOrder and AlgebraView will have the Tree items
 				rootOrder = new AVTreeItem();
 			}
-			setUserObject(rootOrder, "");
+			setUserObject(rootOrder, "", "");
 
 			// always try to remove the auxiliary node
 			if (app.showAuxiliaryObjects && auxiliaryNode != null) {
@@ -847,20 +847,21 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 		TreeItem node;
 		switch (getTreeMode()) {
 		case DEPENDENCY:
-			setUserObject(indNode, loc.getPlain("FreeObjects"));
-			setUserObject(depNode, loc.getPlain("DependentObjects"));
-			setUserObject(auxiliaryNode, loc.getPlain("AuxiliaryObjects"));
+			setUserObject(indNode, loc.getPlain("FreeObjects"), "1");
+			setUserObject(depNode, loc.getPlain("DependentObjects"), "2");
+			setUserObject(auxiliaryNode, loc.getPlain("AuxiliaryObjects"), "3");
 			break;
 		case TYPE:
 			for (String key : typeNodesMap.keySet()) {
 				node = typeNodesMap.get(key);
-				setUserObject(node, loc.getPlain(key));
+				setUserObject(node, loc.getMenu(key), key);
 			}
 			break;
 		case LAYER:
 			for (Integer key : layerNodesMap.keySet()) {
 				node = layerNodesMap.get(key);
-				setUserObject(node, loc.getPlain("LayerA", key.toString()));
+				setUserObject(node, loc.getPlain("LayerA", key.toString()),
+						key.toString());
 			}
 			break;
 		case ORDER:
@@ -899,14 +900,16 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				String transTypeString = geo
 						.translatedTypeStringForAlgebraView();
 				parent = new AVTreeItem(new InlineLabel(transTypeString));
-				setUserObject(parent, transTypeString);
+				setUserObject(parent, transTypeString, typeString);
 				typeNodesMap.put(typeString, parent);
 
 				// find insert pos
 				int pos = getItemCount();
 				for (int i = 0; i < pos; i++) {
 					TreeItem child = getItem(i);
-					if (transTypeString.compareTo(getGroupName(child)) < 0 ||
+					String groupName = getGroupName(child);
+					if (typeString.compareTo(groupName) < 0
+							||
 							(child.getWidget() != null
 							&& this.inputPanelTreeItem != null
 							&& this.inputPanelTreeItem.getWidget() != null
@@ -929,7 +932,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 				String layerStr = loc.getPlain("LayerA", layer + "");
 				parent = new AVTreeItem(SafeHtmlUtils.fromString(layerStr));
 
-				setUserObject(parent, layerStr);
+				setUserObject(parent, layerStr, layer + "");
 
 				layerNodesMap.put(layer, parent);
 
@@ -959,9 +962,8 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 
 	private static String getGroupName(TreeItem child) {
-		return child.getUserObject() instanceof GroupHeader
-				? ((GroupHeader) child.getUserObject()).getLabel()
-				: "_";
+		return child.getUserObject() instanceof String
+				? ((String) child.getUserObject()) : "_";
 	}
 
 	/**
@@ -971,11 +973,13 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	 *            tree item
 	 * @param ob
 	 *            object
+	 * @param key
+	 *            sorting key
 	 */
-	public final void setUserObject(TreeItem ti, final String ob) {
+	public final void setUserObject(TreeItem ti, final String ob, String key) {
 		ti.setUserObject(ob);
 		GroupHeader group = new GroupHeader(this.app.getSelectionManager(), ti,
-				ob.toString(),
+				ob, key,
 				GuiResources.INSTANCE.algebra_tree_open().getSafeUri(),
 				GuiResources.INSTANCE.algebra_tree_closed().getSafeUri());
 		group.getElement().getStyle().setFontSize(app.getFontSizeWeb(),
