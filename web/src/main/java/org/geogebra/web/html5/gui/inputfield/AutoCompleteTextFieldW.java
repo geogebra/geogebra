@@ -1680,4 +1680,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	public boolean needsAutofocus() {
 		return false;
 	}
+
+	public void setDrawTextField(DrawInputBox df) {
+		drawTextField = df;
+	}
 }
