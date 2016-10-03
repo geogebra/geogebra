@@ -888,6 +888,7 @@ public class GGraphics2DW implements GGraphics2D {
 		this.color = null;
 	}
 
+	@Override
 	public void drawImage(GBufferedImage img, int x, int y) {
 		GBufferedImageW bi = (GBufferedImageW) img;
 		if (bi == null)
@@ -898,8 +899,7 @@ public class GGraphics2DW implements GGraphics2D {
 					context.drawImage(bi.getCanvas().getCanvasElement(), 0, 0,
 						bi.getCanvas().getCoordinateSpaceWidth(),
 						bi.getCanvas().getCoordinateSpaceHeight(), x, y,
-						this
-						.getOffsetWidth(), this.getOffsetHeight());
+							this.getOffsetWidth(), this.getOffsetHeight());
 				}
 				// zero width canvas throws error in FF
 			} else {
@@ -910,6 +910,8 @@ public class GGraphics2DW implements GGraphics2D {
 		} catch (Exception e) {
 			Log.error("error in context.drawImage.4 method");
 		}
+
+		return;
 	}
 
 	public void drawImage(ImageElement img, int x, int y) {

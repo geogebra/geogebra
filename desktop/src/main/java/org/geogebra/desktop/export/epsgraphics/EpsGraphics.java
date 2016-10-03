@@ -37,7 +37,6 @@ import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GImageObserver;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPathIterator;
@@ -343,13 +342,11 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Draws an Image on the EPS document.
 	 */
-	public boolean drawImage(GBufferedImage img, GAffineTransform xform,
-			GImageObserver obs) {
+	public void drawImage(GBufferedImage img, GAffineTransform xform) {
 		GAffineTransform at = getTransform();
 		transform(xform);
-		boolean st = drawImage(img, 0, 0, obs);
+		drawImage(img, 0, 0);
 		setTransform(at);
-		return st;
 	}
 
 	/**
@@ -361,7 +358,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 		GAffineTransform transform = AwtFactory.prototype.newAffineTransform();
 		transform.setTransform(1f, 0f, 0f, 1f, x, y);
 		// drawImage(op.filter(img, null), transform, null);
-		drawImage(img, transform, null);
+		drawImage(img, transform);
 	}
 
 	/**
@@ -1133,59 +1130,50 @@ abstract public class EpsGraphics implements GGraphics2D {
 	// drawString(string, x, y);
 	// }
 
+
 	/**
 	 * Draws an image.
 	 */
-	public boolean drawImage(GBufferedImage img, int x, int y,
-			GImageObserver observer) {
-		return drawImage(img, x, y, GColor.WHITE, observer);
+	public void drawImage(GBufferedImage img, int x, int y, int width,
+			int height) {
+		drawImage(img, x, y, width, height, GColor.WHITE);
 	}
 
 	/**
 	 * Draws an image.
 	 */
-	public boolean drawImage(GBufferedImage img, int x, int y, int width,
-			int height,
-			GImageObserver observer) {
-		return drawImage(img, x, y, width, height, GColor.WHITE, observer);
-	}
-
-	/**
-	 * Draws an image.
-	 */
-	public boolean drawImage(GBufferedImage img, int x, int y, GColor bgcolor,
-			GImageObserver observer) {
+	public void drawImage(GBufferedImage img, int x, int y, GColor bgcolor) {
 		int width = img.getWidth();
 		int height = img.getHeight();
-		return drawImage(img, x, y, width, height, bgcolor, observer);
+		drawImage(img, x, y, width, height, bgcolor);
 	}
 
 	/**
 	 * Draws an image.
 	 */
-	public boolean drawImage(GBufferedImage img, int x, int y, int width,
+	public void drawImage(GBufferedImage img, int x, int y, int width,
 			int height,
-			GColor bgcolor, GImageObserver observer) {
-		return drawImage(img, x, y, x + width, y + height, 0, 0, width, height,
-				bgcolor, observer);
+			GColor bgcolor) {
+		drawImage(img, x, y, x + width, y + height, 0, 0, width, height,
+				bgcolor);
 	}
 
 	/**
 	 * Draws an image.
 	 */
-	public boolean drawImage(GBufferedImage img, int dx1, int dy1, int dx2,
+	public void drawImage(GBufferedImage img, int dx1, int dy1, int dx2,
 			int dy2,
-			int sx1, int sy1, int sx2, int sy2, GImageObserver observer) {
-		return drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
-				GColor.WHITE, observer);
+			int sx1, int sy1, int sx2, int sy2) {
+		drawImage(img, dx1, dy1, dx2, dy2, sx1, sy1, sx2, sy2,
+				GColor.WHITE);
 	}
 
 	/**
 	 * Draws an image.
 	 */
-	abstract public boolean drawImage(GBufferedImage img, int dx1, int dy1,
+	abstract public void drawImage(GBufferedImage img, int dx1, int dy1,
 			int dx2, int dy2, int sx1, int sy1, int sx2, int sy2,
-			GColor bgcolor, GImageObserver observer);
+			GColor bgcolor);
 
 	/**
 	 * Returns the entire contents of the EPS document, complete with headers

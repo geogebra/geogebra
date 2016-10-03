@@ -194,8 +194,10 @@ public class GGraphics2DD implements GGraphics2D {
 		return (GBasicStrokeD) impl.getStroke();
 	}
 
+	@Override
 	public void drawImage(GBufferedImage img, int x, int y) {
-		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img), x, y, null);
+		impl.drawImage(GBufferedImageD.getAwtBufferedImage(img), x, y,
+				null);
 	}
 
 	public void drawImage(MyImage img, int x, int y) {

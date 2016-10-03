@@ -12,7 +12,6 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GImageObserver;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
@@ -85,9 +84,8 @@ public class EpsGraphicsD extends EpsGraphics {
 	}
 
 	@Override
-	public boolean drawImage(GBufferedImage img, int dx1, int dy1, int dx2,
-			int dy2, int sx1, int sy1, int sx2, int sy2, GColor bgcolor,
-			GImageObserver observer) {
+	public void drawImage(GBufferedImage img, int dx1, int dy1, int dx2,
+			int dy2, int sx1, int sy1, int sx2, int sy2, GColor bgcolor) {
 		if (dx1 >= dx2) {
 			throw new IllegalArgumentException("dx1 >= dx2");
 		}
@@ -112,7 +110,7 @@ public class EpsGraphicsD extends EpsGraphics {
 		try {
 			pg.grabPixels();
 		} catch (InterruptedException e) {
-			return false;
+			return;
 		}
 		GAffineTransform matrix = AwtFactory.prototype.newAffineTransform();
 		matrix.setTransform(_transform);
@@ -180,7 +178,6 @@ public class EpsGraphicsD extends EpsGraphics {
 			append(line.toString());
 		}
 		append("grestore");
-		return true;
 	}
 
 	@Override

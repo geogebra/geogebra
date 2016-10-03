@@ -2,8 +2,8 @@ package org.geogebra.common.awt;
 
 public interface GImage {
 
-	int getWidth(GImageObserver object);
+	int getWidth();
 
-	int getHeight(GImageObserver object);
+	int getHeight();
 
 }

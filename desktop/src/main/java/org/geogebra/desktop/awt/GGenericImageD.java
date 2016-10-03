@@ -3,7 +3,6 @@ package org.geogebra.desktop.awt;
 import java.awt.Image;
 
 import org.geogebra.common.awt.GImage;
-import org.geogebra.common.awt.GImageObserver;
 
 public class GGenericImageD implements GImage {
 	private Image impl;
@@ -20,11 +19,11 @@ public class GGenericImageD implements GImage {
 		return null;
 	}
 
-	public int getWidth(GImageObserver im) {
+	public int getWidth() {
 		return impl.getWidth(null);
 	}
 
-	public int getHeight(GImageObserver im) {
+	public int getHeight() {
 		return impl.getHeight(null);
 	}
 }
