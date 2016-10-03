@@ -66,9 +66,7 @@ public class GeoGebraIcon {
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_ARGB);
 
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		Graphics2D g2 = createGraphics(image);
 
 		g2.setPaint(Color.GRAY);
 		// draw a rectangle with an x inside
@@ -104,9 +102,7 @@ public class GeoGebraIcon {
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
 
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		Graphics2D g2 = createGraphics(image);
 
 		// draw 3 horizontal lines
 		g2.setPaint(Color.GRAY);
@@ -132,9 +128,7 @@ public class GeoGebraIcon {
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
 
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		Graphics2D g2 = createGraphics(image);
 
 		// draw 3 horizontal lines
 		g2.setPaint(Color.GRAY);
@@ -152,6 +146,18 @@ public class GeoGebraIcon {
 		return ic;
 	}
 
+	private static Graphics2D createGraphics(BufferedImage image) {
+		Graphics2D g2 = image.createGraphics();
+
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+		return g2;
+	}
+
 	/**
 	 * Creates a 16x16 pixel icon representing a tree display of data
 	 */
@@ -160,9 +166,7 @@ public class GeoGebraIcon {
 		BufferedImage image = new BufferedImage(16, 16,
 				BufferedImage.TYPE_INT_ARGB);
 
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		Graphics2D g2 = createGraphics(image);
 
 		g2.setPaint(Color.DARK_GRAY);
 
@@ -189,9 +193,9 @@ public class GeoGebraIcon {
 
 		BufferedImage image = new BufferedImage(16, 16,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
+
 		g2.setPaint(Color.DARK_GRAY);
 
 		for (int i = 3; i <= 12; i = i + 2) {
@@ -220,9 +224,9 @@ public class GeoGebraIcon {
 
 		BufferedImage image = new BufferedImage(16, 16,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
+
 		g2.setPaint(Color.DARK_GRAY);
 
 		for (int i = 3; i <= 12; i = i + 2) {
@@ -247,9 +251,8 @@ public class GeoGebraIcon {
 		int width = 8;
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
 
 		g2.setColor(Color.BLACK);
 		int x = 1;
@@ -267,9 +270,8 @@ public class GeoGebraIcon {
 		int width = 8;
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
 
 		g2.setColor(Color.LIGHT_GRAY);
 		g2.fillOval(0, 0, width, height);
@@ -293,9 +295,9 @@ public class GeoGebraIcon {
 
 		BufferedImage image = new BufferedImage(s, s,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
+
 		g2.setPaint(Color.DARK_GRAY);
 
 		font = font.deriveFont(Font.BOLD, s);
@@ -355,9 +357,8 @@ public class GeoGebraIcon {
 		int w = 12;
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
 
 		if (!isEnabled) {
 
@@ -424,9 +425,8 @@ public class GeoGebraIcon {
 
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
 
 		--h;
 		--w;
@@ -462,9 +462,8 @@ public class GeoGebraIcon {
 
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
 
 		if (bgColor != null) {
 			g2.setPaint(bgColor);
@@ -493,9 +492,8 @@ public class GeoGebraIcon {
 
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
 
 		if (bgColor != null)
 			g2.setBackground(bgColor);
@@ -529,9 +527,8 @@ public class GeoGebraIcon {
 
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
 
 		// fill rectangle with bgColor (the selected color)
 		g2.setPaint(bgColor);
@@ -561,9 +558,8 @@ public class GeoGebraIcon {
 
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
 
 		if (bgColor != null)
 			g2.setBackground(bgColor);
@@ -602,9 +598,8 @@ public class GeoGebraIcon {
 
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = image.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(image);
 
 		if (bgColor != null)
 			g2.setBackground(bgColor);
@@ -690,6 +685,7 @@ public class GeoGebraIcon {
 		public void drawPointStyle(Color fgColor, Color bgColor) {
 
 			Graphics2D g2 = createGraphics();
+
 			g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 					RenderingHints.VALUE_ANTIALIAS_ON);
 
@@ -906,9 +902,8 @@ public class GeoGebraIcon {
 
 		BufferedImage newImage = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2 = newImage.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		Graphics2D g2 = createGraphics(newImage);
 
 		try {
 			Image currentImage = icon.getImage();
@@ -937,8 +932,8 @@ public class GeoGebraIcon {
 		geo.setSerifFont(serif);
 		DrawText draw = new DrawText(app.getActiveEuclidianView(), geo);
 		draw.drawMultilineLaTeX(
-				app.getActiveEuclidianView().getTempGraphics2D(
-new GFontD(font)),
+				app.getActiveEuclidianView()
+						.getTempGraphics2D(new GFontD(font)),
 				new GFontD(font), new GColorD(fgColor), new GColorD(
 						bgColor));
 		Rectangle d = GRectangleD
@@ -949,13 +944,12 @@ new GFontD(font)),
 			return;
 		BufferedImage image = new BufferedImage(d.width, d.height,
 				BufferedImage.TYPE_INT_ARGB);
-		Graphics2D g2image = image.createGraphics();
+
+		Graphics2D g2image = createGraphics(image);
+
 		g2image.setBackground(bgColor);
 		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
-		g2image.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
 		draw.drawMultilineLaTeX(new GGraphics2DD(g2image), new GFontD(font),
 				new GColorD(fgColor), new GColorD(
 						bgColor));
