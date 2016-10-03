@@ -405,8 +405,11 @@ public class CASInputHandler {
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 		try {
 			String casResult = "";
+			if (expandValidExp == null) {
+				return sb.toString();
+			}
 			// use NSolve tool with list of equations
-			if (expandValidExp.isExpressionNode()
+			else if (expandValidExp.isExpressionNode()
 					&& ((ExpressionNode) expandValidExp)
 							.getLeft() instanceof MyList
 					&& ((ExpressionNode) expandValidExp).getRight() == null) {
@@ -625,33 +628,11 @@ public class CASInputHandler {
 				GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 				try {
 					StringBuilder inputStr = new StringBuilder();
-					if (vars.isEmpty() || i == 0) {
-						// check if input is polynomial
-						inputStr.append("ispolynomial(");
-						inputStr.append(selCellValue.getOutputValidExpression()
+					// check if input is polynomial
+					inputStr.append("is_polynomial(");
+					inputStr.append(selCellValue.getOutputValidExpression()
 								.toString(
 								StringTemplate.giacTemplate));
-					} else {
-						inputStr.append("ispolynomial2(");
-						inputStr.append(selCellValue.getOutputValidExpression()
-								.toString(
-								StringTemplate.giacTemplate));
-						inputStr.append(",");
-						if (vars.size() == 1) {
-							inputStr.append(vars.get(0).toString(
-									StringTemplate.giacTemplate));
-						} else {
-							inputStr.append("[");
-							for (int j = 0; j < vars.size(); j++) {
-								if (j != 0) {
-									inputStr.append(",");
-								}
-								inputStr.append(vars.get(j).toString(
-										StringTemplate.giacTemplate));
-							}
-							inputStr.append("]");
-						}
-					}
 					inputStr.append(")");
 
 					String casResult = cas.getCurrentCAS().evaluateRaw(
@@ -679,7 +660,7 @@ public class CASInputHandler {
 						}
 					}
 					// case it is not
-					if (casResult.equals("false")) {
+					if (casResult.equals("false") || casResult.equals("0")) {
 						foundNonPolynomial = true;
 					} 
 				} catch (Throwable e) {
@@ -740,9 +721,6 @@ public class CASInputHandler {
 		}
 
 		cellValue.setInput(cellText.toString());
-		if (ggbcmd.equals("NSolve") && !vars.isEmpty()) {
-			cellValue.setNSolveCmdNeeded(true);
-		}
 
 		// prepare evalText as ggbcmd[ evalText, parameters ... ]
 		StringBuilder sb = new StringBuilder();
