@@ -106,8 +106,6 @@ public interface EuclidianViewInterfaceCommon extends
 	/**
 	 * create a previewable for parabolas
 	 * 
-	 * @param mode
-	 *            mode
 	 * @param selectedPoints
 	 *            points
 	 * @param selectedLines
@@ -639,6 +637,8 @@ public interface EuclidianViewInterfaceCommon extends
 	 * 
 	 * @param mouseLoc
 	 *            update hits using mouse position
+	 * @param t
+	 *            event type
 	 */
 	public void setHits(GPoint mouseLoc, PointerEventType t);
 
@@ -652,6 +652,8 @@ public interface EuclidianViewInterfaceCommon extends
 	/**
 	 * @param p
 	 *            mouse coords
+	 * @param type
+	 *            event type
 	 * @return hit button (or null)
 	 */
 	public MyButton getHitButton(GPoint p,
@@ -660,6 +662,9 @@ public interface EuclidianViewInterfaceCommon extends
 
 	/**
 	 * Switch to hit cursor
+	 * 
+	 * @param cursor
+	 *            cursor
 	 */
 	public void setCursor(EuclidianCursor cursor);
 
@@ -693,6 +698,7 @@ public interface EuclidianViewInterfaceCommon extends
 	 *            show/hide
 	 * @param update
 	 *            update (or not) the background image
+	 * @return whether something changed
 	 */
 	public boolean setShowAxis(int axis, boolean flag, boolean update);
 
@@ -747,6 +753,8 @@ public interface EuclidianViewInterfaceCommon extends
 	/**
 	 * @param mouseLoc
 	 *            mouse location
+	 * @param type
+	 *            event type
 	 * @return hit geo (or null)
 	 */
 	public GeoElement getLabelHit(GPoint mouseLoc, PointerEventType type);
@@ -806,6 +814,7 @@ public interface EuclidianViewInterfaceCommon extends
 	 *            show/hide
 	 * @param update
 	 *            update (or not) the background image
+	 * @return whether setting changed
 	 */
 	public boolean setShowAxes(boolean flag, boolean update);
 
@@ -858,6 +867,7 @@ public interface EuclidianViewInterfaceCommon extends
 	/**
 	 * @param show
 	 *            true to show grid
+	 * @return whether setting changed
 	 */
 	public boolean showGrid(boolean show);
 
@@ -955,33 +965,85 @@ public interface EuclidianViewInterfaceCommon extends
 	 */
 	public void requestFocus();
 
+	/**
+	 * Change coord system so that all objects are shown
+	 *
+	 * @param storeUndo
+	 *            true to store undo after
+	 * @param keepRatio
+	 *            true to keep ratio of x and y axes
+	 */
 	public void setViewShowAllObjects(boolean storeUndo, boolean keepRatio);
 
-	public void zoomAxesRatio(double axesratio, boolean b);
+	/**
+	 * Zooms towards the given axes scale ratio. Note: Only the y-axis is
+	 * changed here. ratio = yscale / xscale;
+	 * 
+	 * @param newRatio
+	 *            new yscale / xscale ratio
+	 * @param storeUndo
+	 *            true to store undo step after
+	 */
+	public void zoomAxesRatio(double newRatio, boolean storeUndo);
 
 	public EuclidianSettings getSettings();
 
+	/**
+	 * @return view direction
+	 */
 	public GeoDirectionND getDirection();
 
+	/**
+	 * @return whether this is a view for plane
+	 */
 	public boolean isViewForPlane();
 
-	/*
-	 * return true if the axis is logarithmic
+	/**
+	 * @param axis
+	 *            0/1 for x/y axis
+	 * @param flag
+	 *            whether it should be log
+	 * @param update
+	 *            whether to update view after
+	 * @return true if the axis is logarithmic
 	 */
 	public boolean setLogAxis(int axis, boolean flag, boolean update);
 
+	/**
+	 * @return whether x-axis is logarithmic
+	 */
 	public boolean getXaxisLog();
 
+	/**
+	 * @return whether y-axis is logarithmic
+	 */
 	public boolean getYaxisLog();
 
+	/**
+	 * Close all dropdowns
+	 */
 	void closeDropdowns();
 
-	/*
+	/**
 	 * Close all the dropdowns but the one was hit at
+	 * 
+	 * @param x
+	 *            hit x
+	 * @param y
+	 *            hit y
 	 */
 	void closeDropDowns(int x, int y);
 
+	/**
+	 * 
+	 * @param coordsInD3
+	 *            3D point coords
+	 * @return 2D coords in view's coord system
+	 */
 	public Coords getCoordsForView(Coords coordsInD3);
 
+	/**
+	 * Notify view about screen size change
+	 */
 	public void screenChanged();
 }
