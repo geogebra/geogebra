@@ -178,7 +178,6 @@ var __giac = [ {},
 { cat:"LimitBelow", cmd:"LimitBelow[If[x>1,x^2,-2x], 1]", result:"-2" },
 { cat:"LimitAbove", cmd:"LimitAbove[If[x>1,x^2,-2x], 1]", result:"1" },
 { cat:"LimitAbove", cmd:"LimitAbove[ln(x),0]", result:"-\u221E" },
-{ cat:"LimitBelow", cmd:"LimitBelow[ln(x),0]", result:"?" },
 { cat:"Max", cmd:"Max[{1,4,6,3,9}]", result:"9" },
 { cat:"MatrixRank", cmd:"MatrixRank[ {{1,2,3},{4,5,-1},{4,5,2}} ]", result:"3" },
 { cat:"Mean", cmd:"Mean[{4,5,3,7,8,8,8,9}]", result:"13/2" },
@@ -1998,6 +1997,7 @@ var bugs = [
 { cat:"Evaluate", cmd:"Evaluate[z(x=4)]", result:"-4" },
 { cat: "SolveIneq", cmd:"Solve[{t^2<=p^2},{p}]", result:"", notes:"#5521, TRAC-4161" },
 { cat: "Solve", cmd:"Solve[{X=(t,t),X=(2s-1,3s+3)}]", result:"{{s = -4, t = -9}}", notes:"#5332 OK in GUI" },
+{ cat:"LimitBelow", cmd:"LimitBelow[ln(x),0]", result:"?" },
 ];
 
 // these tests are very slow in giac.js
