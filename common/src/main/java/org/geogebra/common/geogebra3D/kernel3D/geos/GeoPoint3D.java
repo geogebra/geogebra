@@ -758,7 +758,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			this.willingCoords = Coords.createInhomCoorsInD3();
 		}
 
-		if (willingCoords == null) {
+		if (willingCoords == null || !willingCoords.isDefined()) {
 			this.willingCoords.setUndefined();
 		} else {
 			this.willingCoords.set(willingCoords);
@@ -792,7 +792,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			this.willingDirection = new Coords(4);
 		}
 
-		if (willingDirection == null) {
+		if (willingDirection == null || !willingDirection.isDefined()) {
 			this.willingDirection.setUndefined();
 		} else {
 			this.willingDirection.set(willingDirection);

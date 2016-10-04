@@ -2185,6 +2185,9 @@ public class Coords {
 	 */
 	public boolean isDefined() {
 
+		if (val == null){
+			return false;
+		}
 
 		for (int i = 0; i < rows ; i++) {
 			if (Double.isNaN(val[i])){
