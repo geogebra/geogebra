@@ -80,8 +80,8 @@ public class CreateLibrary implements EntryPoint {
 			if (!opts.context) {
 				throw ("drawLatex(opts): opts.context must not be null");
 			}
-			if (!opts.latex) {
-				throw ("drawLatex(opts): opts.latex must not be null");
+			if (!(opts.latex typeof == "string")) {
+				throw ("drawLatex(opts): opts.latex must be of type string.");
 			}
 			var ctx = opts.context, latex = opts.latex, size = opts.size || 12, type = opts.type || 0, x = opts.x || 0, y = opts.y || 0, insets = opts.insets
 					|| {
