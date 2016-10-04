@@ -21,5 +21,10 @@
   
   <!-- #3511 -->
   <set-property name="compiler.stackMode" value="strip"/>
+  
+  <replace-with class="org.geogebra.web.html5.util.OfflineLoadingStrategy">
+    <when-type-is
+        class="com.google.gwt.core.client.impl.AsyncFragmentLoader.LoadingStrategy"/>
+  </replace-with>
 
 </module>
