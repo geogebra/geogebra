@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoListForCellRange;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm to create a GeoList with GeoElement objects of a given range in
@@ -80,7 +79,6 @@ public class AlgoCellRange extends AlgoElement {
 		if (geoList.hasChildren()) {
 			return;
 		}
-		Log.printStacktrace("remove");
 		// remove this from item update sets
 		for (GeoElement geo : listItems) {
 			geo.removeFromUpdateSets(this);
