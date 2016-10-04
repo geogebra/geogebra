@@ -1548,6 +1548,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 						cur = evaluateImplicitCurve(xcoords[j], ycoords[i],
 								factor);
 						Rect rect = this.grid[i - 1][j - 1];
+						if (rect == null) {
+							continue;
+						}
 						rect.set(j - 1, i - 1, frx, fry, false);
 						rect.coords.val[0] = xcoords[j - 1];
 						rect.coords.val[1] = ycoords[i - 1];
