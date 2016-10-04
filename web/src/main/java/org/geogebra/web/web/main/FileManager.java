@@ -27,9 +27,11 @@ import org.geogebra.web.web.util.SaveCallback;
 public abstract class FileManager implements FileManagerI {
 	private AppW app;
 	private Provider provider = Provider.TUBE;
-
+	/** prefix for autosave items in storage */
 	public static final String AUTO_SAVE_KEY = "autosave";
+	/** prefix for files in storage */
 	public static final String FILE_PREFIX = "file_";
+	/** characters not allowed in filename */
 	public static final String reservedCharacters = "*/:<>?\\|+,.;=[]";
 
 	/**

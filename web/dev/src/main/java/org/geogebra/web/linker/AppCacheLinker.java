@@ -78,7 +78,8 @@ import com.google.gwt.core.ext.linker.impl.SelectionInformation;
 @Shardable
 public class AppCacheLinker extends AbstractLinker {
 
-	private static final String MANIFEST = "sworker.js";
+	private static final String SWORKER = "sworker.js";
+	private static final String MANIFEST = "appcache.nocache.manifest";
 
 	@Override
 	public String getDescription() {
@@ -102,7 +103,8 @@ public class AppCacheLinker extends AbstractLinker {
 		}
 
 		// Create the general cache-manifest resource for the landing page:
-		toReturn.add(emitLandingPageCacheManifest(context, logger, artifacts));
+		emitLandingPageCacheManifest(context, logger, artifacts, toReturn);
+
 		return toReturn;
 	}
 
@@ -123,12 +125,15 @@ public class AppCacheLinker extends AbstractLinker {
 	 *            the tree logger to record to
 	 * @param artifacts
 	 *            {@code null} to generate an empty cache manifest
+	 * @param toReturn
 	 */
-	private Artifact<?> emitLandingPageCacheManifest(LinkerContext context,
-	        TreeLogger logger, ArtifactSet artifacts)
+	private void emitLandingPageCacheManifest(LinkerContext context,
+			TreeLogger logger, ArtifactSet artifacts, ArtifactSet toReturn)
 	        throws UnableToCompleteException {
 		StringBuilder publicSourcesSb = new StringBuilder();
 		StringBuilder staticResoucesSb = new StringBuilder();
+		StringBuilder publicSourcesSbM = new StringBuilder();
+		StringBuilder staticResoucesSbM = new StringBuilder();
 
 		if (artifacts != null) {
 			// Iterate over all emitted artifacts, and collect all cacheable
@@ -157,6 +162,11 @@ public class AppCacheLinker extends AbstractLinker {
 					} else {
 						publicSourcesSb.append("\"https://d2lanadgwinn45.cloudfront.net/"
 								+ GeoGebraConstants.VERSION_STRING + "/web3d/" + pathName.replace("\\", "/") + "\",\n");
+						publicSourcesSbM
+								.append("https://d2lanadgwinn45.cloudfront.net/"
+										+ GeoGebraConstants.VERSION_STRING
+										+ "/web3d/"
+										+ pathName.replace("\\", "/") + "\n");
 					}
 				}
 			}
@@ -166,9 +176,35 @@ public class AppCacheLinker extends AbstractLinker {
 				staticResoucesSb.append("\"");
 				staticResoucesSb.append(cacheExtraFiles[i]);
 				staticResoucesSb.append("\",\n");
+
+				staticResoucesSbM.append(cacheExtraFiles[i]);
+				staticResoucesSbM.append("\n");
 			}
 		}
 
+		// build manifest
+		StringBuilder sbM = new StringBuilder();
+		sbM.append("CACHE MANIFEST\n");
+		String id = GeoGebraConstants.VERSION_STRING + ":"
+				+ System.currentTimeMillis();
+		sbM.append("# Unique id #" + id + "\n");
+		// we have to generate this unique id because the resources can change
+		// but
+		// the hashed cache.html files can remain the same.
+		sbM.append(
+				"# Note: must change this every time for cache to invalidate\n");
+		sbM.append("\n");
+		sbM.append("CACHE:\n");
+		sbM.append("# Static app files\n");
+		sbM.append(staticResoucesSbM.toString());
+		sbM.append("\n# Generated app files\n");
+		sbM.append(publicSourcesSbM.toString());
+		sbM.append("\n\n");
+		sbM.append("# All other resources require the user to be online.\n");
+		sbM.append("NETWORK:\n");
+		sbM.append("*\n\n");
+		sbM.append("FALLBACK:\n");
+		sbM.append("/ https://app.geogebra.org/\n");
 		// build cache list
 		StringBuilder sb = new StringBuilder();
 
@@ -188,14 +224,15 @@ public class AppCacheLinker extends AbstractLinker {
 			while ((bytesRead = s.read(contents)) != -1) {
 				sb.append(new String(contents, 0, bytesRead).replace("%URLS%",
 						publicSourcesSb.toString() + staticResoucesSb.toString())
-						.replace("%ID%", GeoGebraConstants.VERSION_STRING + ":" + System.currentTimeMillis()));
+						.replace("%ID%", id));
 			}
 			// fbr.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.log(Type.ERROR, e.getMessage());
 		}
-		return emitString(logger, sb.toString(), MANIFEST);
+		toReturn.add(emitString(logger, sbM.toString(), MANIFEST));
+		toReturn.add(emitString(logger, sb.toString(), SWORKER));
 	}
 
 

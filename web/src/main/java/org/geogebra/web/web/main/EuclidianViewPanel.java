@@ -9,14 +9,17 @@ import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianViewPanel extends Composite implements HasWidgets /*
-																		 * ,
-																		 * HasAllKeyHandlers
-																		 */{
+/**
+ * Panel for Euclidian View
+ */
+public class EuclidianViewPanel extends Composite implements HasWidgets {
 
 	private AbsolutePanel evPanel;
 	private FocusPanel focusPanel;
 
+	/**
+	 * Creates new EV panel
+	 */
 	public EuclidianViewPanel() {
 		evPanel = new AbsolutePanel();
 		focusPanel = new FocusPanel();
@@ -24,16 +27,6 @@ public class EuclidianViewPanel extends Composite implements HasWidgets /*
 		initWidget(focusPanel);
 	}
 
-	/*
-	 * public HandlerRegistration addKeyUpHandler(KeyUpHandler handler) { return
-	 * focusPanel.addKeyUpHandler(handler); }
-	 * 
-	 * public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
-	 * return focusPanel.addKeyDownHandler(handler); }
-	 * 
-	 * public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
-	 * return focusPanel.addKeyPressHandler(handler); }
-	 */
 
 	public void add(Widget w) {
 		evPanel.add(w);
@@ -51,10 +44,23 @@ public class EuclidianViewPanel extends Composite implements HasWidgets /*
 		return evPanel.remove(w);
 	}
 
+	/**
+	 * @param i
+	 *            index
+	 * @return child widget of nested panel at specified index
+	 */
 	public Widget getWidget(int i) {
 		return evPanel.getWidget(i);
 	}
 
+	/**
+	 * @param panel
+	 *            panel to be added
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 */
 	public void add(HorizontalPanel panel, int x, int y) {
 		evPanel.add(panel, x, y);
 
