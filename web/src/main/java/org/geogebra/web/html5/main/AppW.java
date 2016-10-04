@@ -3416,7 +3416,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public void updateMaterialURL(int i, String object) {
 		setTubeId(i);
 
-		Log.printStacktrace("SETTING" + i + "," + object);
 		if (articleElement.getDataParamApp() && object !=null) {
 			Browser.changeUrl("o/" + object);
 		}
