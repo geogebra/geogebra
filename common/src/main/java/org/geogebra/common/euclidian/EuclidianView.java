@@ -5726,14 +5726,7 @@ public abstract class EuclidianView
 			textField.setDrawTextField(drawInputBox);
 		}
 
-			// don't show symbol popup when TextField linked to free text
-		if (input.getLinkedGeo() instanceof GeoText) {
-			textField.removeSymbolTable();
-		} else {
-			// textField.showPopupSymbolButton(true);
-		}
-		//
-		textField.setColumns(input.getLength());
+
 		return textField;
 
 	}

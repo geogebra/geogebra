@@ -489,7 +489,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		tf.setUsedForInputBox(geoInputBox);
 		tf.setVisible(true);
-		tf.setColumns(geoInputBox.getLength() - 1);
+		tf.setColumns(geoInputBox.getLength());
 		setLabelFontSize((int) (view.getFontSize()
 				* geoInputBox.getFontSizeMultiplier()));
 
@@ -508,7 +508,13 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		tf.setFocusable(true);
 		tf.setEditable(true);
-	
+		tf.showPopupSymbolButton(false);
+		// don't show symbol popup when TextField linked to free text
+		// if (geoInputBox.getLinkedGeo() instanceof GeoText) {
+		// tf.removeSymbolTable();
+		// } else {
+		// tf.showPopupSymbolButton(true);
+		// }
 	}
 
 	@Override

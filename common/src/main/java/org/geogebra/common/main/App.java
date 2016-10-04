@@ -3912,7 +3912,7 @@ public abstract class App implements UpdateSelection {
 	
 		// GGB-986
 		case ONE_TEXTFIELD_PER_EV:
-			return false;// prerelease;
+			return prerelease;
 		
 		// MOB-356 and MOB-503
 		case MOBILE_PROPERTIES_VIEW:
