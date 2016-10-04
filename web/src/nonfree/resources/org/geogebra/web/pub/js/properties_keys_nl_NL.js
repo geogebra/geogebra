@@ -864,7 +864,7 @@ __GGB__keysVar.nl_NL.command = {
     "SetValue": "ZetWaarde",
     "SetValue.Syntax": "[ <Boolean>, <0|1> ]\n[ <Object>, <Object> ]\n[ <Lijst>, <Getal>, <Object> ]",
     "SetViewDirection": "SetViewDirection",
-    "SetViewDirection.Syntax": "[ <Richting> ]",
+    "SetViewDirection.Syntax": "[ <Richting> ]\n[ <Richting>, <Booleaans animatie> ]",
     "SetVisibleInView": "SetVisibleInView",
     "SetVisibleInView.Syntax": "[ <Object>, <View Number 1|2>, <Boolean> ]",
     "Shear": "Vervormen",
