@@ -2300,6 +2300,7 @@ namespace giac {
       e=recursive_normal(expln2trig(e,contextptr),contextptr);
     if (loptab(e,sign_floor_ceil_round_tab).empty()){
       gen first_try=subst(e,x,lim_point,false,contextptr);
+      first_try=eval(first_try,1,contextptr);
       first_try=simplifier(first_try,contextptr);
       // if (first_try==plus_inf || first_try==minus_inf) return first_try;
       if (!contains(lidnt(first_try),unsigned_inf)){
