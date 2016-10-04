@@ -17,9 +17,11 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
+import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -630,9 +632,17 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 	@Override
 	protected void actionBtBackgroundColor() {
-		view.setBackground(new GColorD(((GuiManagerD) (app
-				.getGuiManager())).showColorChooser(((EuclidianView3D) view)
-				.getBackground())));
+		EuclidianSettings settings = view.getSettings();
+		GColor old = settings == null ? ((EuclidianView3D) view).getBackground()
+				: settings.getBackground();
+		GColorD color = new GColorD(((GuiManagerD) (app.getGuiManager()))
+				.showColorChooser(old));
+
+		if (settings == null) {
+			view.setBackground(color);
+		} else {
+			settings.setBackground(color);
+		}
 	}
 
 
