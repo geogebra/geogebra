@@ -355,6 +355,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		});
 	}
 
+	@Override
 	public DrawInputBox getDrawTextField() {
 		return drawTextField;
 	}
@@ -1652,6 +1653,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 				setVisible(false);
 				box.setVisible(false);
+				app.getActiveEuclidianView().remove(box);
 				return false;
 			}
 		});
@@ -1683,5 +1685,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	public void setDrawTextField(DrawInputBox df) {
 		drawTextField = df;
+	}
+
+	public GeoInputBox getInputBox() {
+		return geoUsedForInputBox;
 	}
 }

@@ -1054,4 +1054,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void setDrawTextField(DrawInputBox df) {
 		drawTextField = df;
 	}
+
+	public GeoInputBox getInputBox() {
+		return geoUsedForInputBox;
+	}
 }

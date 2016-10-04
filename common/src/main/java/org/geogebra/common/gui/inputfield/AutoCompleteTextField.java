@@ -65,11 +65,15 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener,
 
 	void setUsedForInputBox(GeoInputBox geoTextField);
 
+
 	boolean hasFocus();
 
 	boolean usedForInputBox();
 
+
 	// GGB-986
+	GeoInputBox getInputBox();
+
 	DrawInputBox getDrawTextField();
 
 	void setDrawTextField(DrawInputBox df);

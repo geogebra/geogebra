@@ -102,6 +102,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			// textField.setLabel(label);
 
 			getTextField().setVisible(true);
+			box.add(getTextField());
 		}
 		// ((geogebra.gui.inputfield.AutoCompleteTextField)
 		// textField).addFocusListener(bl);
@@ -110,9 +111,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		// label.addMouseListener(bl);
 		// label.addMouseMotionListener(bl);
 		getTextField().addKeyHandler(ifKeyListener);
-		box.add(getTextField());
 
-		view.add(box);
+		// view.add(box);
 
 		// Add mouse listeners to textField so that it becomes draggable
 		// on a right click. These listeners are registered first to prevent
@@ -162,6 +162,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		 *            focus event
 		 */
 		public void focusGained(GFocusEvent e) {
+			if (!isSelectedForInput()) {
+				return;
+			}
+
 			getView().getEuclidianController().textfieldHasFocus(true);
 			geoInputBox.updateText(getTextField());
 
@@ -173,6 +177,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		 *            focus event
 		 */
 		public void focusLost(GFocusEvent e) {
+			if (!isSelectedForInput()) {
+				return;
+			}
 			getView().getEuclidianController().textfieldHasFocus(false);
 
 			// GGB-22 revert r43455
@@ -210,6 +217,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		 *            key event
 		 */
 		public void keyReleased(KeyEvent e) {
+			if (!isSelectedForInput()) {
+				return;
+			}
+			Log.debug("[DF] keyReleased for " + labelDesc);
 			if (e.isEnterKey()) {
 				// Force focus removal in IE
 				getTextField().setFocus(false);
@@ -241,6 +252,15 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				}
 			}
 		}
+	}
+
+	private boolean isSelectedForInput() {
+		if (oneTextFieldPerEV) {
+			return view.getTextField() != null
+					&& view.getTextField().getInputBox() == geoInputBox;
+		}
+
+		return true;
 	}
 
 	private int oldLength = 0;
@@ -451,7 +471,11 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void showWidget() {
+		box.add(getTextField());
+		view.add(box);
+		updateBoxPosition();
 		view.cancelBlur();
+		getTextField().setUsedForInputBox(geoInputBox);
 		getTextField().setVisible(true);
 
 		box.setVisible(true);
@@ -467,8 +491,11 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	public AutoCompleteTextField getTextField() {
-		return oneTextFieldPerEV ? view.getTextField(geoInputBox, this)
-				: textField;
+		if (oneTextFieldPerEV) {
+			AutoCompleteTextField tf = view.getTextField(geoInputBox, this);
+			return tf;
+		}
+		return textField;
 	}
 
 }

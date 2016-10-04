@@ -5709,17 +5709,22 @@ public abstract class EuclidianView
 		}
 	}
 
+	public AutoCompleteTextField getTextField() {
+		return textField;
+	}
+
 	public AutoCompleteTextField getTextField(GeoInputBox input,
 			DrawInputBox drawInputBox) {
-		// if (textField == null) {
+		if (textField == null) {
 			textField = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(
 					input.getLength(), kernel.getApplication(), drawInputBox);
 			textField.setAutoComplete(false);
 			textField.enableColoring(false);
 			textField.setFocusTraversalKeysEnabled(false);
 
-		// }
-		// textField.setDrawTextField(drawInputBox);
+		} else {
+			textField.setDrawTextField(drawInputBox);
+		}
 
 			// don't show symbol popup when TextField linked to free text
 		if (input.getLinkedGeo() instanceof GeoText) {
@@ -5728,9 +5733,9 @@ public abstract class EuclidianView
 			// textField.showPopupSymbolButton(true);
 		}
 		//
-		// textField.setColumns(input.getLength());
-		textField.setUsedForInputBox(input);
+		textField.setColumns(input.getLength());
 		return textField;
 
 	}
+
 }
