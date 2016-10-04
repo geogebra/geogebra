@@ -2072,6 +2072,10 @@ public class Kernel {
 
 		// general line equation, coeff of x is null
 		if (!explicit) {
+			if (useSignificantFigures) {
+				sbBuildExplicitLineEquation.append("+ " + format(0.0, tpl)
+						+ vars[0]);
+			}
 			d = numbers[2] / q;
 			dabs = Math.abs(d);
 			sbBuildExplicitLineEquation.append(sign(d));
@@ -2079,7 +2083,7 @@ public class Kernel {
 			sbBuildExplicitLineEquation.append(format(dabs, tpl));
 			sbBuildExplicitLineEquation.append(' ');
 			sbBuildExplicitLineEquation.append(op);
-			sbBuildExplicitLineEquation.append(" 0");
+			sbBuildExplicitLineEquation.append(formatCoeff(0.0, tpl));
 			return sbBuildExplicitLineEquation;
 		}
 
