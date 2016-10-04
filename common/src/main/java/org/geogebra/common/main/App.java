@@ -4508,4 +4508,21 @@ public abstract class App implements UpdateSelection {
 	protected Versions getVersion(){
 		return version;
 	}
+
+	final public static String getLabelStyleName(App app, int id) {
+		switch (id) {
+			case (-1):
+				return app.getLocalization().getPlain("Hidden");
+			case (GeoElement.LABEL_NAME):
+				return app.getLocalization().getPlain("Name");
+			case (GeoElement.LABEL_NAME_VALUE):
+				return app.getLocalization().getPlain("NameAndValue");
+			case (GeoElement.LABEL_VALUE):
+				return app.getLocalization().getPlain("Value");
+			case (GeoElement.LABEL_CAPTION):
+				return app.getLocalization().getPlain("Caption");
+			default:
+				return "";
+		}
+	}
 }
