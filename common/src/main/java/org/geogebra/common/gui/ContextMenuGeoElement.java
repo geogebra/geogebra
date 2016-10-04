@@ -213,6 +213,34 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
+	public void equationVertexEquationCmd() {
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1; i >= 0; i--) {
+			GeoElement geo1 = geos2.get(i);
+			if (geo1.getClass() == GeoConic.class) {
+				GeoConic conic1 = (GeoConic) geo1;
+				conic1.setToVertexform();
+				conic1.updateRepaint();
+			}
+		}
+		app.storeUndoInfo();
+	}
+
+	public void equationConicformEquationCmd() {
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1; i >= 0; i--) {
+			GeoElement geo1 = geos2.get(i);
+			if (geo1.getClass() == GeoConic.class) {
+				GeoConic conic1 = (GeoConic) geo1;
+				conic1.setToConicform();
+				conic1.updateRepaint();
+			}
+		}
+		app.storeUndoInfo();
+	}
+
 	public void equationExplicitConicEquationCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 

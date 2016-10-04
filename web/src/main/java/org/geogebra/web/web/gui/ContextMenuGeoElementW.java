@@ -440,6 +440,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		// if you can't select the specific equation
 		boolean specificPossible = conic.isSpecificPossible();
 		boolean explicitPossible = conic.isExplicitPossible();
+		boolean vertexformPossible = conic.isVertexformPossible();
+		boolean conicformPossible = conic.isConicformPossible();
 		if (!(specificPossible || explicitPossible))
 			return;
 
@@ -492,6 +494,33 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			addAction(action, null, sb.toString());
 		}
 
+		if (vertexformPossible && mode != GeoConicND.EQUATION_VERTEX) {
+			sb.setLength(0);
+			sb.append(loc.getMenu("Equation"));
+			sb.append(' ');
+			sb.append(loc.getMenu("ParabolaVertexForm"));
+			action = new Command() {
+
+				public void execute() {
+					equationVertexEquationCmd();
+				}
+			};
+			addAction(action, null, sb.toString());
+		}
+
+		if (conicformPossible && mode != GeoConicND.EQUATION_CONICFORM) {
+			sb.setLength(0);
+			sb.append(loc.getMenu("Equation"));
+			sb.append(' ');
+			sb.append(loc.getMenu("ParabolaConicForm"));
+			action = new Command() {
+
+				public void execute() {
+					equationConicformEquationCmd();
+				}
+			};
+			addAction(action, null, sb.toString());
+		}
 	}
 
 
