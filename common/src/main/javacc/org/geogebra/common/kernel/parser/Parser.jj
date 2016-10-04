@@ -784,7 +784,7 @@ ExpressionNode functionExpressionnode():
  */
 FunctionNVar casFunction(GeoCasCell cell):          
 {
-    ExpressionNode rhs;
+    ExpressionNode rhs,cond = null;
     Token funName = null;
     Token varName = null;
     Token assign = null;
@@ -806,8 +806,12 @@ FunctionNVar casFunction(GeoCasCell cell):
        (<COMMA> ( varName =  casVar() )
        { localVars.add(varName.image); } )* 
       // closing ) and assignment with expressionnode
-          ")" (assign = <ASSIGNMENT> | assign = < DELAYED_ASSIGNMENT >) rhs = expressionnode()
+          ")" (assign = <ASSIGNMENT> | assign = < DELAYED_ASSIGNMENT >) rhs = expressionnode() (cond = conditions())?
       {
+        if(cond != null)
+      	{
+			rhs = new ExpressionNode(kernel, cond, Operation.IF, rhs);
+      	}
         String funLabel = funName.image.substring(0,funName.image.length()-1);   
 
       // number of vars
