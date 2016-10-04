@@ -1081,7 +1081,7 @@ public abstract class EuclidianView
 	/**
 	 * If the background was marked for update (axes changed), repaint it
 	 */
-	protected void updateBackgroundIfNecessary() {
+	public void updateBackgroundIfNecessary() {
 		if (updateBackgroundOnNextRepaint) {
 			this.updateBackgroundImage();
 		}
