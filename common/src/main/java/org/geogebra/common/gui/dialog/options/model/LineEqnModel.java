@@ -19,7 +19,7 @@ public class LineEqnModel extends MultipleOptionsModel {
 		if (app.has(Feature.MORE_DISPLAY_FORMS)) {
 			eqnValues = Arrays.asList(GeoLine.EQUATION_IMPLICIT,
 					GeoLine.EQUATION_EXPLICIT, GeoLine.PARAMETRIC,
-					GeoLine.GENERAL_EQUATION);
+					GeoLine.EQUATION_GENERAL);
 		} else {
 			eqnValues = Arrays.asList(GeoLine.EQUATION_IMPLICIT,
 					GeoLine.EQUATION_EXPLICIT, GeoLine.PARAMETRIC);

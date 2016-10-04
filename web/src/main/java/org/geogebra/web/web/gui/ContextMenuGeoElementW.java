@@ -575,6 +575,20 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			addAction(action, null, loc.getMenu("ParametricForm"));
 		}
 
+		if (mode != GeoLine.EQUATION_GENERAL) {
+			sb.setLength(0);
+			sb.append(loc.getMenu("Equation"));
+			sb.append(' ');
+			sb.append(loc.getMenu("GeneralLineEquation"));
+			action = new Command() {
+
+				public void execute() {
+					equationGeneralLineEquationCmd();
+				}
+			};
+			addAction(action, null, sb.toString());
+		}
+
 	}
 
 	private void addCoordsModeItems() {

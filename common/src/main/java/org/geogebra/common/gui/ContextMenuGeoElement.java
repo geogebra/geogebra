@@ -143,6 +143,20 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
+	public void equationGeneralLineEquationCmd() {
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1; i >= 0; i--) {
+			GeoElement geo1 = geos2.get(i);
+			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
+				GeoLine line1 = (GeoLine) geo1;
+				line1.setMode(GeoLine.EQUATION_GENERAL);
+				line1.updateRepaint();
+			}
+		}
+		app.storeUndoInfo();
+	}
+
 	public void parametricFormCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 

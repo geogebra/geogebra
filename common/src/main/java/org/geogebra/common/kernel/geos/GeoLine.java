@@ -85,7 +85,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	/** non-canonical implicit equation */
 	public static final int EQUATION_IMPLICIT_NON_CANONICAL = 3;
 	/** general form **/
-	public static final int GENERAL_EQUATION = 4;
+	public static final int EQUATION_GENERAL = 4;
 
 	private boolean showUndefinedInAlgebraView = false;
 
@@ -864,8 +864,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			toStringMode = EQUATION_IMPLICIT_NON_CANONICAL;
 			break;
 
-		case GENERAL_EQUATION:
-			toStringMode = GENERAL_EQUATION;
+		case EQUATION_GENERAL:
+			toStringMode = EQUATION_GENERAL;
 			break;
 
 		default:
@@ -979,7 +979,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return sbBuildValueStr;
 
 		case EQUATION_IMPLICIT_NON_CANONICAL:
-		case GENERAL_EQUATION:
+		case EQUATION_GENERAL:
 			g[0] = x;
 			g[1] = y;
 			g[2] = z;
