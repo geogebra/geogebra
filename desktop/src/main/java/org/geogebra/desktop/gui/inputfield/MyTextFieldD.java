@@ -6,7 +6,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -32,6 +31,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.GeoGebraIcon;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
@@ -372,10 +372,7 @@ public class MyTextFieldD extends JTextField implements ActionListener,
 		// ===============================================================
 		// prepare for custom drawing
 
-		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		GGraphics2DD.setAntialiasing(g2);
 
 		String text = getText();
 

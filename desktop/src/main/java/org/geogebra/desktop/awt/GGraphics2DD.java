@@ -280,13 +280,17 @@ public class GGraphics2DD implements GGraphics2D {
 
 	/**
 	 * @param g2
-	 *            graphics that needs antialiasing
+	 *            initialise g2 for best quality rendering
 	 */
 	public static void setAntialiasing(Graphics2D g2) {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g2.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
+				RenderingHints.VALUE_STROKE_PURE);
+		g2.setRenderingHint(RenderingHints.KEY_RENDERING,
+				RenderingHints.VALUE_RENDER_QUALITY);
 	}
 
 	public void setTransparent() {
@@ -295,28 +299,17 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	public void draw(GShape shape) {
-		Object oldHint = impl
-				.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
-		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_PURE);
-		impl.draw(GGenericShapeD.getAwtShape(shape));
-		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 
+		impl.draw(GGenericShapeD.getAwtShape(shape));
 	}
 
 	public void fill(GShape shape) {
-		Object oldHint = impl
-				.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
-		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_PURE);
 
 		if (shape instanceof GPolygonD) {
 			impl.fillPolygon(((GPolygonD) shape).getPolygon());
 		} else {
 			impl.fill(GGenericShapeD.getAwtShape(shape));
 		}
-
-		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
 
 	}
 
@@ -355,15 +348,14 @@ public class GGraphics2DD implements GGraphics2D {
 	public void drawStraightLine(double x1, double y1, double x2, double y2) {
 		line.setLine(x1, y1, x2, y2);
 
-		Object oldHint = impl
-				.getRenderingHint(RenderingHints.KEY_STROKE_CONTROL);
-
+		// turn off "pure" to avoid blurry axes
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
 				RenderingHints.VALUE_STROKE_DEFAULT);
 
 		impl.draw(GGenericShapeD.getAwtShape(line));
 
-		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, oldHint);
+		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
+				RenderingHints.VALUE_STROKE_PURE);
 
 	}
 

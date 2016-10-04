@@ -203,8 +203,11 @@ public class DrawLabel3D {
 
 		g2d.setColor(GColor.BLACK);
 		g2d.setFont(font);
+
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
+		g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		return g2d;
 	}

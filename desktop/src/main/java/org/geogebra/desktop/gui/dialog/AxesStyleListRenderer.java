@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 
@@ -15,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.EuclidianStaticD;
 
 /**
@@ -63,8 +63,8 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	public void paint(Graphics g) {
 
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		GGraphics2DD.setAntialiasing(g2);
 
 		// paint cell background
 		if (getBackground() == Color.LIGHT_GRAY) {

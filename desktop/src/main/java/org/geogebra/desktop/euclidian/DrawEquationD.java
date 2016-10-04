@@ -3,7 +3,6 @@ package org.geogebra.desktop.euclidian;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
@@ -20,8 +19,8 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.export.epsgraphics.EpsGraphicsWrapper;
 import org.geogebra.desktop.export.epsgraphics.EpsGraphicsD;
+import org.geogebra.desktop.export.epsgraphics.EpsGraphicsWrapper;
 import org.geogebra.desktop.main.AppD;
 
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
@@ -123,10 +122,8 @@ public class DrawEquationD extends DrawEquation {
 		Graphics2D g2image = image.createGraphics();
 		g2image.setBackground(bgColor);
 		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
-		g2image.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		GGraphics2DD.setAntialiasing(g2image);
 
 		GDimension d = new GDimensionD();
 		d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
@@ -140,10 +137,8 @@ public class DrawEquationD extends DrawEquation {
 		g2image = image.createGraphics();
 		g2image.setBackground(bgColor);
 		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
-		g2image.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+
+		GGraphics2DD.setAntialiasing(g2image);
 
 		d = drawEquation(app, null, new GGraphics2DD(g2image), 0, 0, latex,
 				new GFontD(font), serif, new GColorD(fgColor),

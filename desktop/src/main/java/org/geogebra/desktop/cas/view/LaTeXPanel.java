@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -79,10 +78,7 @@ public class LaTeXPanel extends JPanel {
 		g2image.setBackground(getBackground());
 		g2image.clearRect(0, 0, image.getWidth(), image.getHeight());
 
-		g2image.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		GGraphics2DD.setAntialiasing(g2image);
 
 		GDimension fd = app.getDrawEquation().drawEquation(app, null,
 				new GGraphics2DD(g2image), 0, 0, latex,

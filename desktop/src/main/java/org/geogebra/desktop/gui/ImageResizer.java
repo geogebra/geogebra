@@ -1,8 +1,9 @@
 package org.geogebra.desktop.gui;
 
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+
+import org.geogebra.desktop.awt.GGraphics2DD;
 
 public class ImageResizer {
 
@@ -22,8 +23,8 @@ public class ImageResizer {
 				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = resizedImage.createGraphics();
 
-		g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_QUALITY);
+		GGraphics2DD.setAntialiasing(g2);
+
 		g2.drawImage(srcImage, 0, 0, width, height, null);
 
 		g2.dispose();

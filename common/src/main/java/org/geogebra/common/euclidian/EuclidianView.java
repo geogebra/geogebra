@@ -5492,14 +5492,6 @@ public abstract class EuclidianView
 			if (bgImage == null) {
 				drawBackgroundWithImages(g2d, transparency);
 			} else {
-
-				g2d.setRenderingHint(
-						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
-						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
-
-				g2d.setRenderingHint(
-						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
-						com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
 				drawBackgroundImage(g2d);
 			}
 		} else {
@@ -5507,10 +5499,6 @@ public abstract class EuclidianView
 			// draw background color)
 			drawBackground(g2d, !transparency);
 		}
-
-		g2d.setRenderingHint(
-				com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING,
-				com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY);
 
 		g2d.setAntialiasing();
 	}

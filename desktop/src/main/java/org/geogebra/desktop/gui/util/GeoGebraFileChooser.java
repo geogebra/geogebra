@@ -9,7 +9,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Label;
-import java.awt.RenderingHints;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.geom.Rectangle2D;
@@ -583,11 +582,7 @@ public class GeoGebraFileChooser extends JFileChooser implements
 				g2.setColor(Color.white);
 				g2.fillRect(0, 0, getWidth(), getHeight());
 
-				g2.setRenderingHint(RenderingHints.KEY_RENDERING,
-						RenderingHints.VALUE_RENDER_QUALITY);
-
-				g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-						RenderingHints.VALUE_ANTIALIAS_ON);
+				GGraphics2DD.setAntialiasing(g2);
 
 				// draw preview image if possible
 				if (img != null) {

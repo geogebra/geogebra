@@ -149,11 +149,7 @@ public class GeoGebraIcon {
 	private static Graphics2D createGraphics(BufferedImage image) {
 		Graphics2D g2 = image.createGraphics();
 
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-
-		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
-				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		GGraphics2DD.setAntialiasing(g2);
 
 		return g2;
 	}

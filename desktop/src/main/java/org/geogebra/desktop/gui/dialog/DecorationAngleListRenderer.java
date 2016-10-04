@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.geom.Arc2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
@@ -15,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.desktop.awt.GGraphics2DD;
 
 /**
  * @author Loic Le Coq date 31/10/2006 This class defines the renderer for the
@@ -67,8 +67,8 @@ public class DecorationAngleListRenderer extends JPanel implements
 		super.paint(g);
 		// added by Markus Hohenwarter, BEGIN
 		Graphics2D g2 = (Graphics2D) g;
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
+		GGraphics2DD.setAntialiasing(g2);
+
 		// added by Markus Hohenwarter, END
 		// Michael Borcherds 2007-10-13 BEGIN
 		// g2.setColor(getBackground());

@@ -25,7 +25,6 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.event.ComponentEvent;
@@ -536,8 +535,6 @@ public class EuclidianViewD extends EuclidianView implements
 		Graphics2D g2d = (Graphics2D) penImage2.getGraphics();
 
 		GGraphics2DD.setAntialiasing(g2d);
-		g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
-				RenderingHints.VALUE_STROKE_PURE);
 
 		g2d.setStroke(GBasicStrokeD
 				.getAwtStroke(EuclidianStatic.getStroke(2 * penSize,
