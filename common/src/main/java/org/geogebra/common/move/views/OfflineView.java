@@ -24,6 +24,9 @@ public class OfflineView extends BaseView<BooleanRenderable> {
 	 *            true for online, false for offline
 	 */
 	public void render(boolean b) {
+		if (this.viewComponents == null) {
+			return;
+		}
 		Iterator<BooleanRenderable> views = this.viewComponents.iterator();
 		while (views.hasNext()) {
 			views.next().render(b);

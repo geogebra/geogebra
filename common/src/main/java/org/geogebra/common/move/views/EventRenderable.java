@@ -11,8 +11,8 @@ public interface EventRenderable {
 	/**
 	 * renders the given view
 	 * 
-	 * @param The
-	 *            event that should be rendered
+	 * @param event
+	 *            The event that should be rendered
 	 */
 	public void renderEvent(BaseEvent event);
 }

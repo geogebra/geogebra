@@ -1,7 +1,5 @@
 package org.geogebra.common.move.models;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.move.events.BaseEvent;
 
 /**
@@ -9,11 +7,6 @@ import org.geogebra.common.move.events.BaseEvent;
  *         needed at all.
  */
 public class BaseModel {
-
-	/**
-	 * list of used models (for child classes)
-	 */
-	protected ArrayList modelComponents = null;
 
 	/**
 	 * A handler for events. Can be overwritten in derived classes to handle
