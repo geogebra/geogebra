@@ -76,8 +76,12 @@ public class OpentypeFont extends FontW implements OpentypeFontStatusListener {
 		if (opentype.fontIsLoaded(name)) {
 			callback.onFontLoaded(this);
 		} else {
-			fontLoadCallbacks.add(callback);
-			opentype.addListener(this);
+			if (fontLoadCallbacks == null) {
+				callback.onFontError(this);
+			} else {
+				fontLoadCallbacks.add(callback);
+				opentype.addListener(this);
+			}
 		}
 	}
 
