@@ -12,6 +12,11 @@ import org.geogebra.common.kernel.Matrix.Coords;
 public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 
 	/**
+	 * rotate to default
+	 */
+	public void setDefaultRotAnimation();
+
+	/**
 	 * start a rotation animation to be in the vector direction
 	 * 
 	 * @param vn

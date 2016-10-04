@@ -33,8 +33,14 @@ public class CmdSetViewDirection extends CmdScripting {
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
-		if (n == 0 || n > 2) {
+		if (n > 2) {
 			throw argNumErr(app, c.getName(), n);
+		}
+
+		// no argument: set default orientation
+		if (n == 0) {
+			app.getEuclidianView3D().setDefaultRotAnimation();
+			return new GeoElement[0];
 		}
 
 		GeoElement[] arg = resArgs(c);
