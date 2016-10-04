@@ -463,25 +463,52 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	private void updateBoxPosition() {
 		box.revalidate();
-		labelRectangle.setBounds(xLabel, yLabel, getPreferredSize().getWidth(),
+		measureLabel(view.getGraphicsForPen(), geoInputBox, labelDesc);
+		labelRectangle.setBounds(boxLeft, boxTop, getPreferredSize().getWidth(),
 				getPreferredSize().getHeight());
-		calculateBoxBounds();
 		box.setBounds(labelRectangle);
 	}
 
 	@Override
 	protected void showWidget() {
-		box.add(getTextField());
-		view.add(box);
-		updateBoxPosition();
 		view.cancelBlur();
-		getTextField().setUsedForInputBox(geoInputBox);
-		getTextField().setVisible(true);
-
+		if (oneTextFieldPerEV) {
+			updateTextField();
+		}
 		box.setVisible(true);
 		if (!view.getEuclidianController().isTemporaryMode()) {
 			getTextField().requestFocus();
 		}
+	}
+
+	private void updateTextField() {
+		AutoCompleteTextField tf = getTextField();
+		box.add(tf);
+		view.add(box);
+		updateBoxPosition();
+
+		tf.setUsedForInputBox(geoInputBox);
+		tf.setVisible(true);
+		tf.setColumns(geoInputBox.getLength() - 1);
+		setLabelFontSize((int) (view.getFontSize()
+				* geoInputBox.getFontSizeMultiplier()));
+
+		GFont vFont = view.getFont();
+		textFont = view.getApplication().getFontCanDisplay(tf.getText(), false,
+				vFont.getStyle(), getLabelFontSize());
+
+		tf.setOpaque(true);
+		tf.setFont(textFont);
+		if (geo != null) {
+			tf.setForeground(geo.getObjectColor());
+		}
+
+		GColor bgCol = geo.getBackgroundColor();
+		tf.setBackground(bgCol != null ? bgCol : view.getBackgroundCommon());
+
+		tf.setFocusable(true);
+		tf.setEditable(true);
+	
 	}
 
 	@Override

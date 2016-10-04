@@ -43,6 +43,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -166,7 +167,6 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 
 		this.addOpenHandler(this);
 		selectionCtrl = new AVSelectionController(app);
-
 		algCtrl.setView(this);
 		initGUI((AlgebraControllerW) algCtrl);
 
@@ -217,6 +217,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 	private void initGUI(AlgebraControllerW algCtrl) {
 		// add listener
 		this.addDomHandler(algCtrl, MouseDownEvent.getType());
+		this.addDomHandler(algCtrl, MouseMoveEvent.getType());
 		this.addDomHandler(algCtrl,
 				TouchStartEvent.getType());
 		this.addDomHandler(algCtrl, TouchEndEvent.getType());
