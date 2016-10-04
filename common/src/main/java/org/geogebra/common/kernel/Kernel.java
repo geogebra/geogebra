@@ -1042,7 +1042,7 @@ public class Kernel {
 		// temp is set by buildImplicitVarPart
 			sbBuildImplicitEquation.append(format(-temp[vars.length], tpl));
 		} else {
-			sbBuildImplicitEquation.append('0');
+			sbBuildImplicitEquation.append(format(0.0, tpl));
 		}
 		return sbBuildImplicitEquation;
 	}
@@ -2056,7 +2056,7 @@ public class Kernel {
 				sbBuildExplicitLineEquation.append(format(-numbers[2]
 						/ numbers[0], tpl));
 			} else {
-				sbBuildExplicitLineEquation.append('0');
+				sbBuildExplicitLineEquation.append(format(0.0, tpl));
 			}
 
 			return sbBuildExplicitLineEquation;
