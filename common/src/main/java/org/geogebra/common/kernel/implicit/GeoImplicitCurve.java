@@ -1590,7 +1590,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 				for (i = 0; i < sh; i++) {
 					for (j = 0; j < sw; j++) {
-						if (!grid[i][j].singular
+						if (grid[i][j] != null && !grid[i][j].singular
 								&& grid[i][j].status != EMPTY) {
 							temp.set(grid[i][j]);
 							plot(temp, 0, factor);
@@ -1614,7 +1614,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				for (int k = 0; k < 4; k++) {
 					for (i = 0; i < sh; i++) {
 						for (j = 0; j < sw; j++) {
-							if (grid[i][j].singular
+							if (grid[i][j] != null && grid[i][j].singular
 									&& grid[i][j].status != FINISHED) {
 								temp.set(grid[i][j]);
 								plot(temp, 0, factor);
