@@ -632,6 +632,65 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		updatePathQuadTree(viewBounds[0], viewBounds[3],
 				viewBounds[1] - viewBounds[0], viewBounds[3] - viewBounds[2],
 				viewBounds[4], viewBounds[5]);
+		/*
+		 * TODO (some speedup): Consider not running the QuadTree algorithm if
+		 * the path is just a single point (see below).
+		 */
+
+		/*
+		 * If a factor is a point, the QuadTree algorithm will not add that point in the locus, so just
+		 * add that single point to the locus separately.
+		 */
+		int factors = coeffSquarefree.length;
+		for (int i = 0; i < factors; i++) {
+			if (coeffSquarefree[i].length == 3) {
+				double xx = coeffSquarefree[i][0][2];
+				double xy = coeffSquarefree[i][1][1];
+				double yy = coeffSquarefree[i][2][0];
+				double x = coeffSquarefree[i][1][0];
+				double y = coeffSquarefree[i][0][1];
+				double xxy = coeffSquarefree[i][1][2];
+				double xyy = coeffSquarefree[i][2][1];
+				double xxyy = coeffSquarefree[i][2][2];
+				double constant = coeffSquarefree[i][0][0];
+				/*
+				 * E.g. (x+2)^2+(y-3)^2=0 is stored as x^2+4x+y^2-6y-13=0 or for
+				 * some constant c as c*(x^2+2x+y^2-6y-13)=0.
+				 */
+				double px = -x / 2;
+				double py = -y / 2;
+				/*
+				 * FIXME: Since this check must be numerically unstable, use a
+				 * better way here by using kernel's epsilon.
+				 */
+				if (xy == 0 && xxy == 0 && xyy == 0 && xxyy == 0 && xx == yy
+						&& px * px + py * py == constant) {
+					/*
+					 * This is how we should define a single point in the locus,
+					 * but it is not implemented yet in the plotting routine for
+					 * GeoLocus. TODO: Implement it!
+					 */
+					// locus.insertPoint(px, py, false);
+					// locus.insertPoint(px, py, true);
+					// locus.insertPoint(px, py, false);
+
+					/*
+					 * Instead, we draw a small X cross around the point. Here
+					 * the size of the X is fixed (FIXME: read the correct value
+					 * from the current settings of the Euclidean View).
+					 */
+					double SIZE_X = 0.1;
+
+					locus.insertPoint(px + SIZE_X, py + SIZE_X, false);
+					locus.insertPoint(px - SIZE_X, py - SIZE_X, true);
+					locus.insertPoint(px - SIZE_X, py + SIZE_X, false);
+					locus.insertPoint(px + SIZE_X, py - SIZE_X, true);
+					locus.insertPoint(px + SIZE_X, py - SIZE_X, false);
+
+					Log.debug("Point (" + px + "," + py + ") inserted.");
+				}
+			}
+		}
 	}
 
 	private void updatePathQuadTree(double x, double y, double w, double h,
