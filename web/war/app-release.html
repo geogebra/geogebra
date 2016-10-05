@@ -38,6 +38,9 @@ var module = "web3d";
 					e("ggw").setAttribute("data-param-enableCAS","true");				
 					e("ggw").setAttribute("data-param-enable3D","false");
 				}
+				if(getURLparam("rounding")){
+					e("ggw").setAttribute("data-param-rounding",getURLparam("rounding"));
+				}
 				e("ggw").setAttribute("data-param-perspective",id);				
 			}
 			
