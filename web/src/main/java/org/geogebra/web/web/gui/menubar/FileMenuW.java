@@ -13,7 +13,6 @@ import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.html5.main.FileManagerI;
@@ -335,21 +334,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						});
 			}
 		}
-		if (app.has(Feature.BACK_TO_GGB)) {
-			addItem(MainMenu.getMenuBarHtml(
-					GuiResourcesSimple.INSTANCE.icons_fillings_arrow_big_left()
-							.getSafeUri().asString(),
-					loc.getMenu("BackToGeoGebra"), true), // EnterExamMode
-					true, new MenuCommand(app) {
 
-						@Override
-						public void doExecute() {
-							backToGeoGebra();
-
-						}
-					});
-
-		}
 	    app.getNetworkOperation().getView().add(this);
 	    
 	    if (!app.getNetworkOperation().isOnline()) {

@@ -3869,8 +3869,6 @@ public abstract class App implements UpdateSelection {
 		// GGB-993
 		case NEW_START_SCREEN:
 			return true;
-		case BACK_TO_GGB:
-			return prerelease;
 
 		// MOB-270
 		case ACRA:
