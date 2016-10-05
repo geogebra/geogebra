@@ -501,8 +501,13 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				if (Q[i].isDefined() && pointLiesOnBothPaths(Q[i])) {
 					P[count].setCoords(Q[i]);
 					D[count].setCoords(P[count]);
-					firstIntersection = false;
+
 					count++;
+				}
+				// TRAC-4272 don't initialize nearto relations until we actually
+				// have two intersections
+				if (count > 1 && !P[0].isEqual(P[1])) {
+					firstIntersection = false;
 				}
 			}
 			// TRAC-643 we may have P loaded from XML on redfine
