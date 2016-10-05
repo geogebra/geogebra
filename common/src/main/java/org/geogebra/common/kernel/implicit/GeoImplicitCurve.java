@@ -659,12 +659,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				 */
 				double px = -x / 2;
 				double py = -y / 2;
-				/*
-				 * FIXME: Since this check must be numerically unstable, use a
-				 * better way here by using kernel's epsilon.
-				 */
-				if (xy == 0 && xxy == 0 && xyy == 0 && xxyy == 0 && xx == yy
-						&& px * px + py * py == constant) {
+
+				if (Kernel.isEpsilon(xy, 1) && Kernel.isEpsilon(xxy, 1)
+						&& Kernel.isEpsilon(xyy, 1) && Kernel.isEpsilon(xxyy, 1)
+						&& !Kernel.isEpsilon(yy, 1)
+						&& Kernel
+								.isEpsilon(xx / yy - 1,
+										0)
+						&& Kernel.isEpsilon((px /= xx) * px + (py /= xx) * py
+								- constant / xx, 1)) {
 					/*
 					 * This is how we should define a single point in the locus,
 					 * but it is not implemented yet in the plotting routine for
@@ -687,7 +690,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					locus.insertPoint(px + SIZE_X, py - SIZE_X, true);
 					locus.insertPoint(px + SIZE_X, py - SIZE_X, false);
 
-					Log.debug("Point (" + px + "," + py + ") inserted.");
+					Log.trace("Point (" + px + "," + py + ") inserted.");
 				}
 			}
 		}

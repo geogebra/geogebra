@@ -681,14 +681,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 
 		/*
-		 * FIXME. The FAKE_NULL hack is needed for the moment because the
-		 * implicit curve plotter cannot plot points being defined in the form
-		 * (x-a)^2+(y-b)^2=0, so we use (x-a)^2+(y-b)^2=FAKE_NULL instead.
-		 */
-		String FAKE_NULL = "1/100";
-		/*
 		 * FIXME. Compute FAKE_PRECISION from the kernel precision instead of
-		 * using a fix number here.
+		 * using a fix number here by obtaining kernel.getPrintDecimals().
 		 */
 		String FAKE_PRECISION = "10000";
 		String retval;
@@ -714,8 +708,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		retval = "primpoly([[ee:=eliminate([" + polys + "],revlist([" + elimVars
 				+ "]))],[ll:=lvar(ee)],[if(size(ee)>1) begin ff:=round(fsolve(ee,ll)*"
 				+ FAKE_PRECISION + ")/" + FAKE_PRECISION + ";"
-				+ "gg:=1;for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)-"
-				+ FAKE_NULL + ");"
+				+ "gg:=1;for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2));"
 				+ "od ee:=[lcm(denom(coeff(gg)))*gg]; end],ee][3])";
 		return retval;
 	}
