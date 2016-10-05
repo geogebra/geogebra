@@ -99,7 +99,7 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 	public void hideMenu() {
 
 		if (submenu != null/* && submenu.isAttached() */) {
-			Log.debug("hide submenu");
+			// Log.debug("hide submenu");
 			submenuPanel.remove(submenu);
 			submenu.setVisible(false);
 		}
@@ -119,10 +119,11 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 	public void onTouchStart(TouchStartEvent event) {
 		if (toolbar.isVisible()) {
 			startPosition = toolbar.getAbsoluteLeft();
-			Log.debug("onTouchStart toolbar: " + toolbar.getAbsoluteLeft());
+			// Log.debug("onTouchStart toolbar: " + toolbar.getAbsoluteLeft());
 		} else {
 			startPosition = submenuPanel.getAbsoluteLeft();
-			Log.debug("onTouchStart submenuPanel: " + submenuPanel.getAbsoluteLeft());
+			// Log.debug("onTouchStart submenuPanel: " +
+			// submenuPanel.getAbsoluteLeft());
 		}
 	}
 
@@ -130,10 +131,11 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 	public void onTouchEnd(TouchEndEvent event) {
 		if (toolbar.isVisible()) {
 			endPosition = toolbar.getAbsoluteLeft();
-			Log.debug("onTouchEnd toolbar: " + toolbar.getAbsoluteLeft());
+			// Log.debug("onTouchEnd toolbar: " + toolbar.getAbsoluteLeft());
 		} else {
 			endPosition = submenuPanel.getAbsoluteLeft();
-			Log.debug("onTouchEnd submenuPanel: " + submenuPanel.getAbsoluteLeft());
+			// Log.debug("onTouchEnd submenuPanel: " +
+			// submenuPanel.getAbsoluteLeft());
 		}
 
 		onEnd(event);
