@@ -337,22 +337,13 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	private void drawSegment(PlotterBrush brush, int x1, int y1, int z1,
 			int x2, int y2, int z2) {
-		if (isNearestCorner(x1, y1, z1)) {
-			return;
-		}
-		if (isNearestCorner(x2, y2, z2)) {
-			return;
-		}
+
 		setVertexWithBorder(x1, y1, z1, border, tmpCoords1);
 		setVertexWithBorder(x2, y2, z2, border, tmpCoords2);
 		brush.segment(tmpCoords1, tmpCoords2);
 	}
 
 	private boolean isNearestCorner(int x, int y, int z) {
-
-		if (!getView3D().getApplication().has(Feature.NO_CLIPPING_BOX_ON_FRONT)) {
-			return false;
-		}
 
 		if (x != nearestCornerX) {
 			return false;

@@ -3622,13 +3622,6 @@ GRectangle selectionRectangle) {
 			// coordinates
 			clippingCubeDrawable.updateRendererClipPlanes();
 
-			// nearest corner to avoid drawing front part
-			if (app.has(Feature.NO_CLIPPING_BOX_ON_FRONT)) {
-				if (clippingCubeDrawable.updateNearestCorner()) {
-					clippingCubeDrawable.setWaitForUpdate();
-				}
-			}
-
 			// we need to update axis numbers locations
 			for (int i = 0; i < 3; i++) {
 				axisDrawable[i].updateDecorations();

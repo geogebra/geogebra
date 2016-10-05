@@ -3856,9 +3856,6 @@ public abstract class App implements UpdateSelection {
 		case DIFFERENT_AXIS_RATIO_3D:
 			return prerelease;
 			
-		case NO_CLIPPING_BOX_ON_FRONT:
-			return false;
-
 		case WEB_PRINT_ALGEBRA_VIEW:
 			return prerelease;
 
