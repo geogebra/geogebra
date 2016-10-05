@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>GeoGebra</title>
+    <title>GeoGebra</title>	
 	<link rel="shortcut icon" href="//app.geogebra.org/static/img/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="//app.geogebra.org/static/img/favicon.ico" type="image/x-icon">
 
@@ -11,7 +11,7 @@
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
 
-var latestVersion = "5.0.275.0"; 
+var latestVersion="5.0.279.0";
 var module = "web3d";
 			
 	function e(id){
@@ -23,6 +23,21 @@ var module = "web3d";
 		if(e("ggw")){
 			e("ggw").className="geogebraweb";
 			if(id){
+				if(id=="exam-simple"){
+					e("ggw").setAttribute("data-param-enableGraphing","false");				
+					e("ggw").setAttribute("data-param-enableCAS","false");				
+					e("ggw").setAttribute("data-param-enable3D","false");
+				}
+				if(id=="exam-graphing"){
+					e("ggw").setAttribute("data-param-enableGraphing","true");	
+					e("ggw").setAttribute("data-param-enableCAS","false");				
+					e("ggw").setAttribute("data-param-enable3D","false");
+				}
+				if(id=="exam-cas"){
+					e("ggw").setAttribute("data-param-enableGraphing","true");	
+					e("ggw").setAttribute("data-param-enableCAS","true");				
+					e("ggw").setAttribute("data-param-enable3D","false");
+				}
 				e("ggw").setAttribute("data-param-perspective",id);				
 			}
 			
@@ -368,7 +383,7 @@ var app = document.createElement("script");
 		&& location.pathname != '/apps/' && !location.pathname.match(/app.html/))){
 			var names = {'geometry':2,'spreadsheet':3,'cas':4,'3d':5,'probability':6,'graphing':1};
 			var pName = location.hash.length ? location.hash.replace('#','') : location.pathname.replace(/\//g,'');
-			if( pName.substring(0,6)=="search" || pName == "exam"){
+			if( pName.substring(0,6)=="search" || pName.substring(0,4) == "exam"){
 				if(e("perspectivesBox")){
 					e("perspectivesBox").style.display = "none";
 				}
