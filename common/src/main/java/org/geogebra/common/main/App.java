@@ -4079,7 +4079,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1208
 		case NEW_TOOLBAR_DESKTOP_WEB:
-			return prerelease;
+			return true;
 
 			// GGB-1212
 		case MORE_DISPLAY_FORMS:
@@ -4090,11 +4090,11 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-882
 		case NEW_TOOLBAR_ANDROID:
-			return prerelease;
+			return true;
 
 		// MOB-774, MOB-775
 		case MOBILE_TOOLBAR_FROM_FILE:
-			return prerelease;
+			return true;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
