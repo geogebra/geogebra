@@ -3816,12 +3816,16 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @see #updateRepaint()
 	 */
-	@Override
-	public void update() {
+	public void update(boolean dragging) {
 
 		updateGeo(!cons.isUpdateConstructionRunning());
 
 		kernel.notifyUpdate(this);
+	}
+
+	@Override
+	public void update() {
+		update(false);
 	}
 
 	/**
@@ -3830,7 +3834,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param mayUpdateCas
 	 *            whether update migt be sent to CAS
 	 */
-	protected final void updateGeo(boolean mayUpdateCas) {
+	protected final void updateGeo(boolean mayUpdateCas, boolean dragging) {
 
 		if (labelWanted && !isLabelSet()) {
 			// check if this object's label needs to be set
@@ -3840,13 +3844,17 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		if (mayUpdateCas && correspondingCasCell != null) {
-			correspondingCasCell.setInputFromTwinGeo(false);
+			correspondingCasCell.setInputFromTwinGeo(false, dragging);
 		}
 
 
 
 		// texts need updates
 		algebraStringsNeedUpdate();
+	}
+
+	protected final void updateGeo(boolean mayUpdateCas) {
+		updateGeo(mayUpdateCas, false);
 	}
 
 	private void algebraStringsNeedUpdate() {
@@ -3861,14 +3869,18 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Updates this object and all dependent ones. Note: no repainting is done
 	 * afterwards! synchronized for animation
 	 */
-	public void updateCascade() {
+	public void updateCascade(boolean dragging) {
 		long l = System.currentTimeMillis();
 		kernel.notifyBatchUpdate();
-		update();
+		update(dragging);
 		updateDependentObjects();
 		GeoGebraProfiler.addUpdateCascade(System.currentTimeMillis() -l);
 		kernel.notifyEndBatchUpdate();
 		
+	}
+
+	public void updateCascade() {
+		updateCascade(false);
 	}
 
 	private void updateDependentObjects() {
@@ -4096,9 +4108,17 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * Updates this object and all dependent ones. Notifies kernel to repaint
 	 * views.
 	 */
-	public void updateRepaint() {
-		updateCascade();
+	public void updateRepaint(boolean dragging) {
+		updateCascade(dragging);
 		kernel.notifyRepaint();
+	}
+
+	/**
+	 * Updates this object and all dependent ones. Notifies kernel to repaint
+	 * views.
+	 */
+	public void updateRepaint() {
+		updateRepaint(false);
 	}
 
 	public void updateVisualStyle(GProperty prop) {

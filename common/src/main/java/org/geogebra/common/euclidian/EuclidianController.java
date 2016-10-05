@@ -6193,7 +6193,8 @@ public abstract class EuclidianController {
 		}
 
 		if (repaint) {
-			movedGeoFunction.updateRepaint();
+			// GGB-1249 fast dragging of CAS functions
+			movedGeoFunction.updateRepaint(true);
 		} else {
 			movedGeoFunction.updateCascade();
 		}

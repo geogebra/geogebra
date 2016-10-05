@@ -529,7 +529,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * Sets the input of this row using the current casTwinGeo.
 	 * @param force force update (needed if twin geo is a slider)
 	 */
-	public void setInputFromTwinGeo(boolean force) {
+	public void setInputFromTwinGeo(boolean force, boolean dragging) {
 		if (ignoreTwinGeoUpdate && !force) {
 			return;
 		}
@@ -547,10 +547,17 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					setProcessingInformation("", "Numeric[" + evalVE.toString(StringTemplate.defaultTemplate) + "]", "");
 				}
 				setEvalCommand(evalCmd1);
-				computeOutput(false,false);
+				// GGB-1249 don't update the cell if dragging
+				if (!dragging) {
+					computeOutput(false, false);
+				}
 				update();
 			}
 		}
+	}
+
+	public void setInputFromTwinGeo(boolean force) {
+		setInputFromTwinGeo(force, false);
 	}
 
 	/**

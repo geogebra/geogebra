@@ -2347,6 +2347,13 @@ CasEvaluableFunction, ParametricCurve,
 		super.update();
 	}
 
+	public void update(boolean dragging) {
+
+		updateGeo(!cons.isUpdateConstructionRunning(), dragging);
+
+		kernel.notifyUpdate(this);
+	}
+
 	@Override
 	public boolean isGeoFunctionBoolean() {
 		return isBooleanFunction();
