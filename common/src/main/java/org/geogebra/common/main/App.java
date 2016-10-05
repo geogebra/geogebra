@@ -3821,9 +3821,9 @@ public abstract class App implements UpdateSelection {
 		case POLYGON_TRIANGULATION:
 			return prerelease;
 
-		// GGB-621
+		// GGB-621 GGB-900
 		case XML_CAS_CACHE:
-			return prerelease;
+			return true;
 
 			// when moved to stable, move Difference[] from TABLE_ENGLISH in
 			// Command.Java
