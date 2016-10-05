@@ -665,7 +665,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 						&& !Kernel.isEpsilon(yy, 1)
 						&& Kernel
 								.isEpsilon(xx / yy - 1,
-										0)
+										1)
 						&& Kernel.isEpsilon((px /= xx) * px + (py /= xx) * py
 								- constant / xx, 1)) {
 					/*
