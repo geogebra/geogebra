@@ -109,7 +109,6 @@ public class ToolbarSubmenuW extends FlowPanel {
 
 	protected ListItem createListItem(int mode) {
 		ListItem listItem = new ListItem();
-		
 		Image image = createImage(mode);
 		Label label = createLabel(mode);
 		listItem.add(image);

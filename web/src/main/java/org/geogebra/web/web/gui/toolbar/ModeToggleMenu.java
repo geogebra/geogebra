@@ -5,7 +5,6 @@ import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -46,7 +45,7 @@ public class ModeToggleMenu extends ListItem implements MouseDownHandler, MouseU
 TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHandler{
 
 
-	private FlowPanel tbutton;
+	protected FlowPanel tbutton;
 	protected ToolbarSubmenuW submenu;
 
 	protected AppW app;
@@ -71,13 +70,14 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		buildButton();
 	}
 
-	private void buildButton() {
+	protected void buildButton() {
 		tbutton = new FlowPanel();
 		tbutton.addStyleName("toolbar_button");
 		Image toolbarImg = new NoDragImage(((GGWToolBar)app.getToolbar()).getImageURL(menu.get(0).intValue()),32);
 		toolbarImg.addStyleName("toolbar_icon");
 		tbutton.add(toolbarImg);
 		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");	
+		tbutton.getElement().setAttribute("isMobile", "false");
 		addDomHandlers(tbutton);
 		addPasteHandlerTo(tbutton.getElement());
 		this.add(tbutton);
@@ -186,13 +186,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		w.addDomHandler(this, MouseUpEvent.getType());
 		w.addDomHandler(this, TouchStartEvent.getType());
 		w.addDomHandler(this, TouchEndEvent.getType());
-		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			if (!toolbar.isMobileToolbar()) {
-				w.addDomHandler(this, MouseOverEvent.getType());
-			}
-		} else {
-			w.addDomHandler(this, MouseOverEvent.getType());
-		}
+		w.addDomHandler(this, MouseOverEvent.getType());
 		w.addDomHandler(this, MouseOutEvent.getType());
 		w.addDomHandler(this, KeyUpEvent.getType());
 	}
@@ -347,6 +341,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	public void onEnd(DomEvent<?> event) {
+		// Log.debug("**************** Web onEnd");
 		int mode = Integer.parseInt(event.getRelativeElement().getAttribute(
 				"mode"));
 		if (mode < 999 || mode > 2000) {
@@ -359,21 +354,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			if ((event instanceof KeyUpEvent) && ((KeyUpEvent)event).getNativeKeyCode() == KeyCodes.KEY_ENTER){
 				setMenuVisibility(!isMenuShown());
 			}
-			// ------------------------------------------------
-			if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-				if (toolbar.isMobileToolbar() && !(event instanceof TouchEndEvent && app.getLAF().isSmart())) {
-					showMenu(); // open submenu
-				} else {
-					// if submenu was open
-					if (wasMenuShownOnMouseDown && !(event instanceof TouchEndEvent && app.getLAF().isSmart())) {
-						hideMenu();
-					}
-				} // ------------------------------------------------
-			} else {
 				// if submenu was open
 				if (wasMenuShownOnMouseDown && !(event instanceof TouchEndEvent && app.getLAF().isSmart())) {
 					hideMenu();
-				}
 			}
 		} else { // click ended on menu item
 			hideMenu();
@@ -392,23 +375,26 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	@Override
     public void onTouchStart(TouchStartEvent event) {
-	    if (event.getSource() == tbutton){
+		// Log.debug("**************** Web onTouchStart");
+		if (event.getSource() == tbutton) {
 	    	onStart(event);
 	    	CancelEventTimer.touchEventOccured();
 	    } else { // clicked on a submenu list item
 	    	event.stopPropagation(); // the submenu doesn't close as a popup, see GeoGebraAppFrame init()
 	    }
-	    event.preventDefault();
+		event.preventDefault();
     }
 
 	@Override
     public void onTouchEnd(TouchEndEvent event) {
+		// Log.debug("**************** Web onTouchEnd");
 		onEnd(event);
 		CancelEventTimer.touchEventOccured();
     }
 
 	@Override
     public void onMouseUp(MouseUpEvent event) {
+		// Log.debug("**************** Web onMouseUp");
 		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
@@ -427,6 +413,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	@Override
     public void onMouseDown(MouseDownEvent event) {
+		// Log.debug("**************** Web onMouseDown");
 		if (event.getSource() == tbutton
 		        && !CancelEventTimer.cancelMouseEvent()) {
 	    	onStart(event);
@@ -444,6 +431,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 *            mouse or touch event
 	 */
 	public void onStart(HumanInputEvent<?> event) {
+		// Log.debug("**************** Web onStart");
 		event.preventDefault();
 		event.stopPropagation();
 		this.setFocus(true);

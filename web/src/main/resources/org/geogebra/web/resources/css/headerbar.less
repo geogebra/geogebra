@@ -30,6 +30,8 @@
 		
 		.toolBPanelMobile {
 			overflow-x: auto;
+			overflow-y: hidden;
+			height: 50px;
 			}	
 			
 		.toolBPanel {
@@ -65,8 +67,8 @@
 				&[isSelected=false] {
 					border-color: @color-bordergrey;
 				}				
-				&:hover[isSelected=false],
-				&:focus[isSelected=false] {
+				&:hover[isSelected=false][isMobile=false],
+				&:focus[isSelected=false][isMobile=false] {
 					border-color: @color-highlight;
 				}
 				&[isSelected=true] {
@@ -167,10 +169,10 @@
 					&[isSelected=false] {
 						border-color: @color-bordergrey;
 					}				
-					&:hover,
+					/*&:hover,
 					&:focus {
 						border-color: @color-highlight;
-					}
+					}*/
 				}
 				li {
 					.margin(0px, 5px, 0px, 0px);
