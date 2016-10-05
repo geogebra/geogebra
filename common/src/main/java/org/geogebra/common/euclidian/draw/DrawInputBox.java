@@ -472,8 +472,12 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	@Override
 	protected void showWidget() {
 		view.cancelBlur();
+		box.revalidate();
+		updateTextField();
 		if (oneTextFieldPerEV) {
 			updateTextField();
+		} else {
+			textField.setVisible(true);
 		}
 		box.setVisible(true);
 		if (!view.getEuclidianController().isTemporaryMode()) {
