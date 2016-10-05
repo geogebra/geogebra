@@ -668,27 +668,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 										1)
 						&& Kernel.isEpsilon((px /= xx) * px + (py /= xx) * py
 								- constant / xx, 1)) {
-					/*
-					 * This is how we should define a single point in the locus,
-					 * but it is not implemented yet in the plotting routine for
-					 * GeoLocus. TODO: Implement it!
-					 */
-					// locus.insertPoint(px, py, false);
-					// locus.insertPoint(px, py, true);
-					// locus.insertPoint(px, py, false);
 
-					/*
-					 * Instead, we draw a small X cross around the point. Here
-					 * the size of the X is fixed (FIXME: read the correct value
-					 * from the current settings of the Euclidean View).
-					 */
-					double SIZE_X = 0.1;
-
-					locus.insertPoint(px + SIZE_X, py + SIZE_X, false);
-					locus.insertPoint(px - SIZE_X, py - SIZE_X, true);
-					locus.insertPoint(px - SIZE_X, py + SIZE_X, false);
-					locus.insertPoint(px + SIZE_X, py - SIZE_X, true);
-					locus.insertPoint(px + SIZE_X, py - SIZE_X, false);
+					// add single point to locus
+					locus.insertPoint(px, py, false);
+					locus.insertPoint(px, py, true);
+					locus.insertPoint(px, py, false);
 
 					Log.trace("Point (" + px + "," + py + ") inserted.");
 				}
