@@ -339,9 +339,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				if (col != null) {
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
 					if (i == 0) {
-						Log.debug("tb stylename: " + tb.getStyleName()
-								+ "-----"
-								+ tb.getStyleName().indexOf("headerTable"));
 						// if cp header fixed, we must insert the popup button
 						// only in headertable
 						if (tb.getStyleName().indexOf("headerTable") > 0) {
@@ -1110,6 +1107,22 @@ myCell) {
 		previewTable.setRowCount(data.getRowCount());
 		previewTable.setVisibleRange(0, data.getRowCount());
 		previewTable.setRowData(0, data.getrowList());
+		printPanel.setWidth("160px");
+
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+
+			public void execute() {
+				Log.debug("width: " + previewTable.getOffsetWidth());
+				Log.debug("zoom: " + 800.0 / previewTable.getOffsetWidth());
+				previewTable
+						.getElement()
+						.getStyle()
+						.setProperty("zoom",
+								(800.0 / previewTable.getOffsetWidth()) + "");
+			}
+
+		});
+
 		btPrint.setEnabled(true);
 	}
 
