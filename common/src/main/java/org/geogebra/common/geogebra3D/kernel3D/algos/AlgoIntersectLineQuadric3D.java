@@ -46,7 +46,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	AlgoIntersectLineQuadric3D(Construction cons, String label, GeoLineND g,
 			GeoQuadric3D q) {
 		this(cons, g, q);
-		GeoElement.setLabels(label, Q); // TODO change to P
+		GeoElement.setLabels(label, P); // TODO change to P
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	AlgoIntersectLineQuadric3D(Construction cons, String[] labels, GeoLineND g,
 			GeoQuadric3D q) {
 		this(cons, g, q);
-		GeoElement.setLabels(labels, Q); // TODO change to P
+		GeoElement.setLabels(labels, P); // TODO change to P
 	}
 
 	@Override
@@ -93,12 +93,20 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 			D[i] = new GeoPoint3D(cons);
 		}
 
+		initForNearToRelationship();
+		computeNoPermutation();
+		if (Q[1].isDefined() && !Q[0].isDefined()) {
+			permuted = true;
+		} else {
+			permuted = false;
+		}
+		setPermutation();
+
 		setInputOutput(); // for AlgoElement
 
-		initForNearToRelationship();
-		compute();
-
 	}
+
+	private boolean permuted;
 
 	// for AlgoElement
 	@Override
@@ -107,14 +115,14 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		input[0] = (GeoElement) g;
 		input[1] = q;
 
-		setOutput(Q); // TODO change to P
+		setOutput(P);
 		noUndefinedPointsInAlgebraView();
 		setDependencies(); // done by AlgoElement
 	}
 
 	@Override
 	public final GeoPoint3D[] getIntersectionPoints() {
-		return Q; // TODO change to P
+		return P;
 	}
 
 	@Override
@@ -154,7 +162,11 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 
 	@Override
 	public void compute() {
+		computeNoPermutation();
+		setPermutation();
+	}
 
+	final private void computeNoPermutation() {
 
 		// g: X' = p + tv (X' is inhom coords)
 		// q: XAX = 0 (the second X is transposed; X = (X',1) is hom coords)
@@ -252,6 +264,16 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 
 	}
 
+	final private void setPermutation() {
+		if (permuted) {
+			P[0].setCoordsFromPoint(Q[1]);
+			P[1].setCoordsFromPoint(Q[0]);
+		} else {
+			P[0].setCoordsFromPoint(Q[0]);
+			P[1].setCoordsFromPoint(Q[1]);
+		}
+	}
+
 	private void checkIsOnLine(GeoPoint3D p) {
 		if (!p.isDefined())
 			return;
@@ -290,4 +312,20 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	public final void initForNearToRelationship() {
 		// TODO
 	}
+
+	@Override
+	protected GeoElement getOutputForCmdXML(int i) {
+		// if points have been permuted at start because
+		// first point was not defined, and now this point
+		// is defined, we need to store this point in second
+		// position so that on reload the two points created
+		// will be correctly labeled
+		if (permuted) {
+			if (P[1].isLabelSet()) {
+				return P[1 - i];
+			}
+		}
+		return super.getOutputForCmdXML(i);
+	}
+
 }

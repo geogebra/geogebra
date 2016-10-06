@@ -1607,13 +1607,23 @@ public abstract class AlgoElement extends ConstructionElement implements
 			sb.append(i);
 			// attribute name is output No.
 			sb.append("=\"");
-			if (getOutput(i).isLabelSet()) {
-				StringUtil.encodeXML(sb, getOutput(i).getLabel(tpl));
+			GeoElement geo = getOutputForCmdXML(i);
+			if (geo.isLabelSet()) {
+				StringUtil.encodeXML(sb, geo.getLabel(tpl));
 			}
 			sb.append("\"");
 		}
 
 		sb.append("/>\n");
+	}
+
+	/**
+	 * @param i
+	 *            index
+	 * @return output geo at position i for command output XML
+	 */
+	protected GeoElement getOutputForCmdXML(int i) {
+		return getOutput(i);
 	}
 
 	/**
