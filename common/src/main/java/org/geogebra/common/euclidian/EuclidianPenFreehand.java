@@ -12,17 +12,33 @@ import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 
+/**
+ * Freehand processor
+ */
 public class EuclidianPenFreehand extends EuclidianPen {
 
 	/**
 	 * type that is expected to be created
 	 */
 	public enum ShapeType {
-		circleThreePoints, polygon, rigidPolygon, vectorPolygon;
+		/** circle */
+		circleThreePoints,
+		/** normal polygon */
+		polygon,
+		/** polygon with two moveable points */
+		rigidPolygon,
+		/** polygon that can be moved by first point */
+		vectorPolygon;
 	}
 
 	private ShapeType expected = null;
 
+	/**
+	 * @param app
+	 *            app
+	 * @param view
+	 *            euclidian view
+	 */
 	public EuclidianPenFreehand(App app, EuclidianView view) {
 		super(app, view);
 		super.setFreehand(true);
@@ -164,7 +180,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					list.add((GeoPoint) point);
 				}
 			}
-			if (list.size() == ((GeoPolygon) polygon).getPoints().length) {
+			if (list.size() == ((GeoPolygon) polygon).getPoints().length
+					&& expected != ShapeType.polygon) {
 				// true if all the points are GeoPoints, otherwise the
 				// original Polygon will not be deleted
 				polygon.remove();
