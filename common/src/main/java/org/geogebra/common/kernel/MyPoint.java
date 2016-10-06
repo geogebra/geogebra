@@ -132,6 +132,9 @@ public class MyPoint extends GPoint2D implements Point {
 		return y;
 	}
 
+	/**
+	 * @return 0; for 3D compatibility
+	 */
 	public double getZ() {
 		return 0;
 	}
@@ -182,7 +185,7 @@ public class MyPoint extends GPoint2D implements Point {
 	 */
 	static final protected boolean isFinite(double value) {
 		return !java.lang.Double.isInfinite(value)
-				&& !java.lang.Double.isInfinite(value);
+				&& !java.lang.Double.isNaN(value);
 	}
 
 	/**
@@ -198,8 +201,14 @@ public class MyPoint extends GPoint2D implements Point {
 				* point2.y, false);
 	}
 
-	public void setLineTo(boolean b) {
-		this.lineTo = b;
+	/**
+	 * Change to lineto /moveto point
+	 * 
+	 * @param lineTo
+	 *            whether this shoul be linto point
+	 */
+	public void setLineTo(boolean lineTo) {
+		this.lineTo = lineTo;
 
 	}
 

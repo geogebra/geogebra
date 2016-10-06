@@ -245,7 +245,7 @@ public final class DrawBoolean extends Drawable {
 		private EuclidianView ev;
 
 		/** background color when highlighted */
-		public static GColor highlightBackground = AwtFactory.prototype
+		public static final GColor highlightBackground = AwtFactory.prototype
 				.newColor(248, 248, 248);
 
 		/**

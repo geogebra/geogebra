@@ -22,7 +22,7 @@ public class ResourcesInjector {
 	/**
 	 * resource class name
 	 */
-	public static String CLASSNAME = "ggw_resource";
+	public static final String CLASSNAME = "ggw_resource";
 	private static boolean resourcesInjected = false;
 	private static ResourcesInjector INSTANCE;
 

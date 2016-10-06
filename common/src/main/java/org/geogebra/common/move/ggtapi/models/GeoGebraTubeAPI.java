@@ -30,14 +30,14 @@ public abstract class GeoGebraTubeAPI {
 	 */
 	public static final int STANDARD_RESULT_QUANTITY = 30;
 
-	/**
-	 * Public url (no SSL)
-	 * DO NOT CHANGE!
-	 */
-	public static String url = "https://www.geogebra.org/api/json.php";
-	public static String urlBeta = "https://beta.geogebra.org/api/json.php";
-	public static String login_url = "https://accounts.geogebra.org/api/index.php";
-	public static String login_urlBeta = "https://login-beta.geogebra.org/api/index.php";
+	/** Public url DO NOT CHANGE!s */
+	public static final String url = "https://www.geogebra.org/api/json.php";
+	/** For beta version */
+	public static final String urlBeta = "https://beta.geogebra.org/api/json.php";
+	/** Public login url DO NOT CHANGE! */
+	public static final String login_url = "https://accounts.geogebra.org/api/index.php";
+	/** Login for beta */
+	public static final String login_urlBeta = "https://login-beta.geogebra.org/api/index.php";
 	/**
 	 * Instance of the new GeoGebraTube API D/W/T
 	 */

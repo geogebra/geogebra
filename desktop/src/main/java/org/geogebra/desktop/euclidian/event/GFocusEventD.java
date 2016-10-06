@@ -8,7 +8,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class GFocusEventD extends GFocusEvent {
 
-	public static LinkedList<GFocusEventD> pool = new LinkedList<GFocusEventD>();
+	public static final LinkedList<GFocusEventD> pool = new LinkedList<GFocusEventD>();
 	private FocusEvent event;
 
 	private GFocusEventD(FocusEvent e) {

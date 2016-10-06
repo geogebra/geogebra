@@ -1841,7 +1841,6 @@ public class Kernel {
 
 	public final StringBuilder buildConicformEquation(double[] numbers,
 			String[] vars, StringTemplate tpl) {
-		Log.debug("numbers: " + numbers);
 		StringBuilder sbBuildConicformEquation = new StringBuilder(80);
 		double h, p4, k, a, b, c, d;
 		String var1, var2;

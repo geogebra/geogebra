@@ -118,10 +118,14 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 
 	}
 
-	public static int RESULTCATEGORY_NA = -1;
-	public static int RESULTCATEGORY_GENERAL = 1;
-	public static int RESULTCATEGORY_PARALLEL = 2;
-	public static int RESULTCATEGORY_CONTAINED = 3;
+	/** unknown */
+	public static final int RESULTCATEGORY_NA = -1;
+	/** intersecting */
+	public static final int RESULTCATEGORY_GENERAL = 1;
+	/** parallel */
+	public static final int RESULTCATEGORY_PARALLEL = 2;
+	/** identical */
+	public static final int RESULTCATEGORY_CONTAINED = 3;
 
 	// TODO optimize it, using the coefficients of planes directly
 	public static int getConfigPlanePlane(GeoCoordSys2D plane1,

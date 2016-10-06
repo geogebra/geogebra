@@ -271,13 +271,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * for input bar; same as default, but increases precision to
 	 * MIN_EDITING_PRINT_PRECISION
 	 */
-	public static StringTemplate editTemplate = new StringTemplate(
+	public static final StringTemplate editTemplate = new StringTemplate(
 			"editTemplate");
 
 	/**
 	 * for input bar; same as default, but adds some extra helper symbols
 	 */
-	public static StringTemplate editorTemplate = new StringTemplate(
+	public static final StringTemplate editorTemplate = new StringTemplate(
 			"editorTemplate");
 	/**
 	 * For simplicity make this static now and see in the future whether we will

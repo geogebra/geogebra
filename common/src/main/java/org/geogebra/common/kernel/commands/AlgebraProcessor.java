@@ -55,7 +55,6 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
-import org.geogebra.common.kernel.arithmetic.Traversing.CollectFunctionVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
@@ -660,23 +659,6 @@ public class AlgebraProcessor {
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 
 
-		// check if there's already an "x" in expression. Create one if not.
-		// eg sinx + x -> sin(x) + x
-		CollectFunctionVariables fvCollecter = new Traversing.CollectFunctionVariables();
-		ve.traverse(fvCollecter);
-		ArrayList<FunctionVariable> fvTree = fvCollecter.getResult();
-		FunctionVariable fvX = null;
-		Iterator<FunctionVariable> fvIt = fvTree.iterator();
-		while (fvIt.hasNext()) {
-			FunctionVariable fv = fvIt.next();
-			if ("x".equals(fv.getLabel())) {
-				fvX = fv;
-				break;
-			}
-		}
-		if (fvX == null) {
-			fvX = new FunctionVariable(kernel, "x");
-		}
 		GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
 				undefinedVariables, autoCreateSliders, callback0,
 				new EvalInfo(!cons.isSuppressLabelsActive()));

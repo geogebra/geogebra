@@ -45,7 +45,7 @@ public abstract class KBBase extends PopupPanel {
 	 * all supported locales and the associated keyboardLocal, e.g. en_UK - en,
 	 * ca - es, de_AT - de
 	 */
-	public static HashMap<String, String> supportedLocales = new HashMap<String, String>();
+	public final static HashMap<String, String> supportedLocales = new HashMap<String, String>();
 	static {
 
 		// supportedLocales.put(Language.Arabic.localeGWT, "ar");

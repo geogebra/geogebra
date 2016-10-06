@@ -5,7 +5,7 @@ import org.geogebra.web.phone.gui.GeoGebraAppFrameP;
 import org.geogebra.web.phone.gui.PhoneUI;
 import org.geogebra.web.phone.gui.view.AbstractView;
 import org.geogebra.web.phone.gui.view.algebra.AlgebraView;
-import org.geogebra.web.phone.gui.view.euclidian.EuclidianView;
+import org.geogebra.web.phone.gui.view.euclidian.EuclidianPhoneView;
 import org.geogebra.web.phone.gui.view.menu.MenuView;
 import org.geogebra.web.touch.PhoneGapManager;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
@@ -49,7 +49,7 @@ public class Phone implements EntryPoint {
 		browseView = (AbstractView) appFrame.app.getGuiManager()
 				.getBrowseView();
 		phoneGui.addView(new AlgebraView(appFrame.app));
-		phoneGui.addView(euclidianView = new EuclidianView(appFrame.app));
+		phoneGui.addView(euclidianView = new EuclidianPhoneView(appFrame.app));
 		phoneGui.addView(browseView);
 		phoneGui.addView(new MenuView(appFrame.app));
 		phoneGui.showView(browseView);

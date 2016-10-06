@@ -1063,7 +1063,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		}
 	}
 
-	private void addText(String st, boolean isLatex, int style) {
+	private void addText(String st0, boolean isLatex, int style) {
+		String st = st0;
 		if (format == FORMAT_LATEX) {
 			if (isLatex) {
 				if (!st.startsWith("$"))
@@ -1338,7 +1339,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		}
 	}
 
-	private boolean isTrigInv(String s) {
+	private static boolean isTrigInv(String s) {
 		return s.toLowerCase().contains("atan(")
 				|| s.toLowerCase().contains("acos(")
 				|| s.toLowerCase().contains("asin(");
@@ -2404,7 +2405,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				if (geo.getLabelMode() == GeoElement.LABEL_CAPTION) {
 					String nameSym = name;
 					for (int i = 0; i < name.length(); i++) {
-						String uCode = "" + name.charAt(i);
+						char uCode = name.charAt(i);
 						if (UnicodeTeX.getMap().containsKey(uCode)) {
 							nameSym = nameSym.replaceAll("\\" + uCode,
 									"\\$\\\\" + UnicodeTeX.getMap().get(uCode)
@@ -2465,9 +2466,10 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				endBeamer(codePoint);
 			}
 		}
-		// For GeoElement that don't have a Label
-		// For example (created with geoList)
+
 		catch (NullPointerException e) {
+			// For GeoElement that don't have a Label
+			// For example (created with geoList)
 		}
 	}
 
@@ -2847,7 +2849,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		}
 	}
 
-	private String getUnit(String[] units, double spaceTick,int xy) {
+	private static String getUnit(String[] units, double spaceTick, int xy) {
 		// TODO Auto-generated method stub
 		if (spaceTick==Math.PI/2){
 			return "\\pi/2";
@@ -2861,7 +2863,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		return units[xy];
 	}
 
-	private boolean hasMeasureUnit(String[] units, double spaceTick, int xy) {
+	private static boolean hasMeasureUnit(String[] units, double spaceTick,
+			int xy) {
 		// TODO Auto-generated method stub
 		return (units != null && units[xy] != null && units[xy].length()!=0)
 				|| spaceTick == Math.PI || spaceTick == Math.PI / 2;
@@ -3043,18 +3046,19 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	 *            The StringBuilder where the color has to be added
 	 */
 	@Override
-	protected void ColorCode(GColor c, StringBuilder sb) {
+	protected void ColorCode(GColor c0, StringBuilder sb) {
 		if (frame.isGrayscale()) {
-			if (c.equals(GColor.BLACK)) {
+			if (c0.equals(GColor.BLACK)) {
 				sb.append("black");
 				return;
 			}
 			String colorname = "";
-			int red = c.getRed();
-			int green = c.getGreen();
-			int blue = c.getBlue();
+			int red = c0.getRed();
+			int green = c0.getGreen();
+			int blue = c0.getBlue();
 			int grayscale = (red + green + blue) / 3;
-			c = AwtFactory.prototype.newColor(grayscale, grayscale, grayscale);
+			GColor c = AwtFactory.prototype.newColor(grayscale, grayscale,
+					grayscale);
 			if (CustomColor.containsKey(c)) {
 				colorname = CustomColor.get(c).toString();
 			} else {
@@ -3095,17 +3099,17 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			}
 			sb.append(colorname);
 		} else {
-			if (c.equals(GColor.BLACK)) {
+			if (c0.equals(GColor.BLACK)) {
 				sb.append("black");
 				return;
 			}
 			String colorname = "";
-			if (CustomColor.containsKey(c)) {
-				colorname = CustomColor.get(c).toString();
+			if (CustomColor.containsKey(c0)) {
+				colorname = CustomColor.get(c0).toString();
 			} else {
-				int red = c.getRed();
-				int green = c.getGreen();
-				int blue = c.getBlue();
+				int red = c0.getRed();
+				int green = c0.getGreen();
+				int blue = c0.getBlue();
 				colorname = createCustomColor(red, green, blue);
 				// Example: \definecolor{orange}{rgb}{1,0.5,0}
 				if (format == GeoGebraToPgf.FORMAT_LATEX
@@ -3114,13 +3118,13 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 							+ "}{rgb}{" + format(red / 255d) + ","
 							+ format(green / 255d) + "," + format(blue / 255d)
 							+ "}\n");
-					CustomColor.put(c, colorname);
+					CustomColor.put(c0, colorname);
 				} else if (format == GeoGebraToPgf.FORMAT_CONTEXT) {
 					codeBeginDoc.insert(0, "\\definecolor[" + colorname
 							+ "][r=" + format(red / 255d) + ",g="
 							+ format(green / 255d) + ",b="
 							+ format(blue / 255d) + "]\n");
-					CustomColor.put(c, colorname);
+					CustomColor.put(c0, colorname);
 
 				}
 			}
@@ -3309,6 +3313,16 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		return true;
 	}
 
+	/**
+	 * @param s
+	 *            shape
+	 * @param ineq
+	 *            inequality
+	 * @param geo
+	 *            function
+	 * @param ds
+	 *            view parameters
+	 */
 	public void superFill(GShape s, Inequality ineq, FunctionalNVar geo,
 			double[] ds) {
 		((GeoElement) geo).setLineType(ineq.getBorder().lineType);

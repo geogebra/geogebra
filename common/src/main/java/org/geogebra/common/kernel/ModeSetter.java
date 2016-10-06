@@ -1,6 +1,14 @@
 package org.geogebra.common.kernel;
 
+/**
+ * Used to distinguish mode change events triggered by human and code
+ */
 public enum ModeSetter {
-	DOCK_PANEL, TOOLBAR, CAS_VIEW
+	/** resetting to first mode */
+	DOCK_PANEL,
+	/** human action in toolbar */
+	TOOLBAR,
+	/** CAS view switching to 1st mode automatically */
+	CAS_VIEW
 
 }

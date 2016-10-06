@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian.controller;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
@@ -19,15 +21,13 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MyMath;
 
-import java.util.ArrayList;
-
 
 public class MouseTouchGestureController {
 
 	/**
 	 * Threshold for moving in case of a multitouch-event (pixel).
 	 */
-	public static int MIN_MOVE = 5;
+	public static final int MIN_MOVE = 5;
 
 	protected App app;
 

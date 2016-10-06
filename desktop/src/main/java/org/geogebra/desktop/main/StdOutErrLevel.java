@@ -24,12 +24,12 @@ public class StdOutErrLevel extends Level {
 	/**
 	 * Level for STDOUT activity.
 	 */
-	public static Level STDOUT = new StdOutErrLevel("STDOUT",
+	public static final Level STDOUT = new StdOutErrLevel("STDOUT",
 			Level.INFO.intValue() + 53);
 	/**
 	 * Level for STDERR activity
 	 */
-	public static Level STDERR = new StdOutErrLevel("STDERR",
+	public static final Level STDERR = new StdOutErrLevel("STDERR",
 			Level.INFO.intValue() + 54);
 
 	/**

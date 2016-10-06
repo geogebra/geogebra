@@ -17,7 +17,7 @@ public class KeyboardSettings extends AbstractSettings {
 	/**
 	 * List of supported locales as strings, e.g. hu, en_GB
 	 */
-	public static ArrayList<String> supportedLocales = new ArrayList<String>();
+	public static final ArrayList<String> supportedLocales = new ArrayList<String>();
 	static {
 		supportedLocales.add(Language.Arabic.locale); // Arabic
 

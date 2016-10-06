@@ -7,7 +7,7 @@ import org.geogebra.desktop.main.AppD;
 
 public class KeyEventD extends org.geogebra.common.euclidian.event.KeyEvent {
 
-	public static LinkedList<KeyEventD> pool = new LinkedList<KeyEventD>();
+	public static final LinkedList<KeyEventD> pool = new LinkedList<KeyEventD>();
 	private KeyEvent event;
 
 	public KeyEventD(KeyEvent e) {

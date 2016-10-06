@@ -8,10 +8,10 @@ import org.geogebra.web.web.move.ggtapi.models.AuthenticationModelW;
 public class GoogleDriveModelW extends AuthenticationModelW {
 
 	/**
-	 * @return the username of the signed in user
+	 * Session storage key indicating we are logged in
 	 */
 
-	public static String GGT_GOOGLE_KEY_NAME = "ggt_google";
+	public static final String GGT_GOOGLE_KEY_NAME = "ggt_google";
 
 	public GoogleDriveModelW() {
 		super(null);
@@ -38,8 +38,6 @@ public class GoogleDriveModelW extends AuthenticationModelW {
 			storage.setItem(GGT_GOOGLE_KEY_NAME, "true");
 		} else {
 			storage.removeItem(GGT_GOOGLE_KEY_NAME);
-			;
-
 		}
 	}
 

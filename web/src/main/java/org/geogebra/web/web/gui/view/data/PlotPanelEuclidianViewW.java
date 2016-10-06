@@ -23,7 +23,7 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	/**
 	 * default height ot PlotPanelEuclidianViewW
 	 */
-	public static int DEFAULT_HEIGHT = 300;
+	public static final int DEFAULT_HEIGHT = 300;
 	
 	private EuclidianControllerW ec;
 	public PlotPanelEuclidianViewCommon commonFields;

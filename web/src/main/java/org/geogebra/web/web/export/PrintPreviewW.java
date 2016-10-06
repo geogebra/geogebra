@@ -40,19 +40,19 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	/**
 	 * printable width at portrait orientation
 	 */
-	public static int PWIDTH = 900;
+	public static final int PWIDTH = 900;
 	/**
 	 * printable height at portrait orientation
 	 */
-	public static int PHEIGHT = 1400;
+	public static final int PHEIGHT = 1400;
 	/**
 	 * printable width at landscape orientation
 	 */
-	public static int LWIDTH = 1200;
+	public static final int LWIDTH = 1200;
 	/**
 	 * printable height at landscape orientation
 	 */
-	public static int LHEIGHT = 900;
+	public static final int LHEIGHT = 900;
 
 
 	public PrintPreviewW(AppW appl) {

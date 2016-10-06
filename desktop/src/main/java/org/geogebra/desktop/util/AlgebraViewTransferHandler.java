@@ -25,8 +25,8 @@ public class AlgebraViewTransferHandler extends TransferHandler implements
 		Transferable {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
-
-	public static DataFlavor algebraViewFlavor = new DataFlavor(
+	/** for transfering geos into AV */
+	public static final DataFlavor algebraViewFlavor = new DataFlavor(
 			AlgebraViewD.class, "algebraView");
 	private static final DataFlavor supportedFlavors[] = { algebraViewFlavor };
 

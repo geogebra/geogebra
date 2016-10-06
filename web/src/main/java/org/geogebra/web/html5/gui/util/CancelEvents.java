@@ -34,7 +34,7 @@ public class CancelEvents implements MouseDownHandler,
 		ClickHandler, DoubleClickHandler, TouchStartHandler, TouchEndHandler,
 		TouchMoveHandler, TouchCancelHandler {
 
-	public static CancelEvents instance = new CancelEvents();
+	public static final CancelEvents instance = new CancelEvents();
 
 	private CancelEvents() {
 		super();

@@ -45,7 +45,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static GeoGebraFrameW activeInstance;
 
 	/** Loads file into active GeoGebraFrame */
-	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
+	public static final LoadFilePresenter fileLoader = new LoadFilePresenter();
 
 	/** The application */
 	public AppW app;

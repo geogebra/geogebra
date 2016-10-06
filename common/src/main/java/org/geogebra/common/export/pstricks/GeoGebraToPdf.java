@@ -1106,7 +1106,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				if (!st.startsWith("$"))
 					code.append("$");
 				for (int i = 0; i < st.length(); i++) {
-					String uCode = "" + st.charAt(i);
+					char uCode = st.charAt(i);
 					if (UnicodeTeX.getMap().containsKey(uCode)) {
 						addTextPackage();
 						st = st.replaceAll("\\" + uCode,
@@ -1118,7 +1118,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			else {
 				st = st.replaceAll("\\\\", "\\\\textbackslash ");
 				for (int i = 0; i < st.length(); i++) {
-					String uCode = "" + st.charAt(i);
+					char uCode = st.charAt(i);
 					if (UnicodeTeX.getMap().containsKey(uCode)) {
 						addTextPackage();
 						st = st.replaceAll("\\" + uCode, "\\$\\\\"
@@ -2413,7 +2413,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 				if (geo.getLabelMode() == GeoElement.LABEL_CAPTION) {
 					String nameSym = name;
 					for (int i = 0; i < name.length(); i++) {
-						String uCode = "" + name.charAt(i);
+						char uCode = name.charAt(i);
 						if (UnicodeTeX.getMap().containsKey(uCode)) {
 							nameSym = nameSym.replaceAll("\\" + uCode, "\\$\\\\"
 									+ UnicodeTeX.getMap().get(uCode) + "\\$");

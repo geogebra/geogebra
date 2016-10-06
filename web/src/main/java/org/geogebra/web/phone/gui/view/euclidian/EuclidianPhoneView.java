@@ -11,11 +11,11 @@ import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 
 import com.google.gwt.resources.client.ImageResource;
 
-public class EuclidianView extends AbstractView {
+public class EuclidianPhoneView extends AbstractView {
 	
 	private EuclidianViewW euclidianView;
 
-	public EuclidianView(AppW app) {
+	public EuclidianPhoneView(AppW app) {
 		super(app);
 		euclidianView = app.getEuclidianView1();
 	}

@@ -2296,7 +2296,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			st = st.replaceAll("\\\\", "\\\\textbackslash ");
 			String stSym = st;
 			for (int i = 0; i < st.length(); i++) {
-				String uCode = "" + st.charAt(i);
+				char uCode = st.charAt(i);
 				if (UnicodeTeX.getMap().containsKey(uCode)) {
 					addTextPackage();
 					stSym = stSym.replaceAll("\\" + uCode, "\\$\\\\"
