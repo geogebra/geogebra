@@ -81,10 +81,6 @@ public class GeoGebraIcon {
 	public static ImageIcon createFileImageIcon(AppD app, ImageResourceD res,
 			float alpha, Dimension iconSize) {
 
-		int h = iconSize.height;
-		int w = iconSize.width;
-		BufferedImage image = new BufferedImage(w, h,
-				BufferedImage.TYPE_INT_ARGB);
 		Image im = app.getImageManager().getImageResource(res);
 		ImageIcon ic = im == null ? null
 				: new ImageIcon(ImageManagerD.toBufferedImage(im));

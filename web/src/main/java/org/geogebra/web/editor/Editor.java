@@ -12,7 +12,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.himamis.retex.editor.share.event.MathFieldListener;
@@ -73,14 +72,14 @@ public class Editor implements EntryPoint, MathFieldListener {
 		parentWidget.add(fld.asWidget());
 		parentWidget.add(kb);
 		kb.show();
-		Timer t = new Timer() {
-
-			@Override
-			public void run() {
-				kb.updateSize();
-				kb.setStyleName();
-			}
-		};
+		// Timer t = new Timer() {
+		//
+		// @Override
+		// public void run() {
+		// kb.updateSize();
+		// kb.setStyleName();
+		// }
+		// };
 		// t.schedule(0);
 		// fld.requestViewFocus();
 	}

@@ -19,6 +19,11 @@ public class FocusListenerW extends FocusListener implements FocusHandler,
 		setListenerClass(listener);
 	}
 
+	/** dummy method */
+	public void init() {
+		// avoid warnings
+	}
+
 	public void onFocus(FocusEvent event) {
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);

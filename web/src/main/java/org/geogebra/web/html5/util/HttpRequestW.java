@@ -66,7 +66,6 @@ public class HttpRequestW extends HttpRequest {
 
 	@Override
 	public void sendRequestPost(String url, String post, AjaxCallback callback) {
-		RequestBuilder builder = new RequestBuilder(RequestBuilder.POST, url);
 		XHR2 request = (XHR2) XMLHttpRequest.create();
 		if (callback == null) {
 			request.openSync("POST", url);

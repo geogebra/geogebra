@@ -40,7 +40,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	private DataAnalysisViewW statDialog;
 
 	// regression panel objects
-	private Label lblRegEquation, lblEqn;
+	private Label lblEqn;
 
 	private ListBox lbRegression, lbPolyOrder;
 	private Label lblEvaluate;
@@ -155,7 +155,6 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	 */
 	private void createPredictionPanel() {
 
-		FlowPanel p = new FlowPanel();
 		lblEvaluate = new Label();
 		fldInputX = new AutoCompleteTextFieldW(6, app);
 		

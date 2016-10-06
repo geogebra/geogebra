@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.probcalculator;
 import java.util.HashMap;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -54,6 +53,7 @@ import org.geogebra.common.util.debug.Log;
  * @author G Sturr
  * 
  */
+@SuppressWarnings("javadoc")
 public class ProbabilityManager {
 
 	private final App app;
@@ -385,8 +385,6 @@ public class ProbabilityManager {
 	 * values for the distribution type
 	 */
 	public static double[] getDefaultParameters(DIST d) {
-		HashMap<DIST, double[]> defaultParameterMap = new HashMap<DIST, double[]>();
-
 		switch (d) {
 		case NORMAL:
 			return new double[] { 0, 1 }; // mean = 0, sigma = 1
@@ -431,6 +429,16 @@ public class ProbabilityManager {
 	 * Returns the appropriate plot dimensions for a given distribution and
 	 * parameter set. Plot dimensions are returned as an array of double: {xMin,
 	 * xMax, yMin, yMax}
+	 * 
+	 * @param selectedDist
+	 *            distribution
+	 * @param parms
+	 *            parameters
+	 * @param densityCurve
+	 *            density curve
+	 * @param isCumulative
+	 *            cumulative?
+	 * @return plot width and height
 	 */
 	public double[] getPlotDimensions(DIST selectedDist, double[] parms,
 			GeoElement densityCurve, boolean isCumulative) {
@@ -439,7 +447,7 @@ public class ProbabilityManager {
 
 		// retrieve the parameter values from the parmList geo
 		// double [] parms = getCurrentParameters();
-		double mean, sigma, v, v2, k, median, scale, shape, mode, n, p, pop, sample, sd, variance;
+		double mean, sigma, v, v2, k, median, scale, shape, mode, sd;
 
 		switch (selectedDist) {
 
@@ -477,9 +485,7 @@ public class ProbabilityManager {
 			v2 = parms[1];
 			mean = v2 > 2 ? v2 / (v2 - 2) : 1;
 			mode = ((v - 2) * v2) / (v * (v2 + 2));
-			// TODO variance only valid for v2 > 4, need to handle v2<4
-			variance = 2 * v2 * v2 * (v + v2 - 2)
-					/ (v * (v2 - 2) * (v2 - 2) * (v2 - 4));
+
 			xMin = 0;
 
 			xMax = getContXMax((GeoFunction) densityCurve, 1,.2,-1);
@@ -678,7 +684,7 @@ public class ProbabilityManager {
 		// for interesting discussion
 
 		Double mean = null, sigma = null;
-		double v, v2, k, median, scale, shape, mode, n, N, p, pop, sd, variance, r;
+		double v, v2, k, scale, shape, n, N, p, variance, r;
 
 		switch (selectedDist) {
 
@@ -718,7 +724,6 @@ public class ProbabilityManager {
 			break;
 
 		case CAUCHY:
-			median = parms[0];
 			scale = parms[1];
 			// mean and median are undefined
 			break;
@@ -732,7 +737,6 @@ public class ProbabilityManager {
 		case GAMMA:
 			double alpha = parms[0]; // (shape)
 			double beta = parms[1]; // (scale)
-			mode = (alpha - 1) * beta;
 			mean = alpha * beta;
 			sigma = Math.sqrt(alpha) * beta;
 			break;
@@ -740,7 +744,6 @@ public class ProbabilityManager {
 		case WEIBULL:
 			shape = parms[0];
 			scale = parms[1];
-			median = scale * Math.pow(Math.log(2), 1 / shape);
 
 			mean = scale * MyMath2.gamma(1 + 1 / shape);
 			variance = scale * scale * MyMath2.gamma(1 + 2 / shape) - mean
@@ -762,7 +765,6 @@ public class ProbabilityManager {
 					* Math.exp(2 * meanParm + varParm);
 			sigma = Math.sqrt(var);
 
-			mode = Math.exp(meanParm - varParm);
 			break;
 
 		case LOGISTIC:
@@ -808,27 +810,7 @@ public class ProbabilityManager {
 		return d;
 	}
 
-	/**
-	 * Returns the maximum probability value for a specified discrete
-	 * distribution over the range given by [low,high]
-	 * 
-	 * @param distType
-	 * @param parms
-	 * @param low
-	 * @param high
-	 * @return
-	 */
-	private double getDiscreteYMax(DIST distType, double[] parms, int low,
-			int high) {
-
-		double max = 0;
-
-		for (int i = low; i <= high; i++) {
-			max = Math.max(max, probability(i, parms, distType, false));
-		}
-		return max;
 	
-	}
 
 	/**
 	 * If isCumulative = true, returns P(X <= value) for the given distribution
@@ -840,7 +822,6 @@ public class ProbabilityManager {
 		GeoNumeric param1 = null, param2 = null, param3 = null;
 
 		Construction cons = app.getKernel().getConstruction();
-		Kernel kernel = app.getKernel();
 
 		if (parms.length > 0) {
 			param1 = new GeoNumeric(cons, parms[0]);
