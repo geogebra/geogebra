@@ -12,11 +12,13 @@ the Free Software Foundation.
 
 package org.geogebra.web.web.gui.dialog;
 
+import org.geogebra.common.euclidian.smallscreen.AdjustSlider;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -104,6 +106,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 		angle.setSliderLocation(x, y, true);
 		
 		
+
 				
 		geoResult = null;
 
@@ -237,13 +240,17 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	public void onClick(ClickEvent e) {
 		Element target = e.getNativeEvent().getEventTarget().cast();
 		if (target == btOK.getElement()) {
-			geoResult = rbAngle.getValue() ? angle : number; 		
+			geoResult = rbAngle.getValue() ? angle : number;
 			getResult();
 			geoResult.setLabelMode(GeoElement.LABEL_NAME_VALUE);
 			geoResult.setLabelVisible(true);
 			sliderPanel.applyAll(geoResult);
 			geoResult.update();
 			//((GeoNumeric)geoResult).setRandom(cbRandom.isSelected());
+			if (!rbAngle.getValue() && app.has(Feature.ADJUST_WIDGETS)) {
+				AdjustSlider.ensureOnScreen((GeoNumeric) geoResult,
+						app.getActiveEuclidianView());
+			}
 
 			hide();
 			app.getActiveEuclidianView().requestFocusInWindow();

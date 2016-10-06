@@ -99,6 +99,10 @@ public class AdjustSlider extends AdjustWidget {
 		number.setSliderLocation(x, y, true);
 	}
 
+	protected void setDefaultRatio() {
+		ratioX = 1;
+		ratioY = 1;
+	}
 	private void adjustToRight() {
 		if (x + width > view.getViewWidth()) {
 			x = view.getViewWidth() - width;
@@ -111,4 +115,18 @@ public class AdjustSlider extends AdjustWidget {
 		}
 	}
 
+	/**
+	 * Makes a slider onScreen with no scaling enabled.
+	 * 
+	 * @param num
+	 *            The geo represents the slider.
+	 * @param view
+	 *            The view to adjust the slider on.
+	 */
+	public static void ensureOnScreen(GeoNumeric num, EuclidianView view) {
+		AdjustSlider adjust = new AdjustSlider(num, view);
+		adjust.setDefaultRatio();
+		adjust.apply();
+		
+	}
 }
