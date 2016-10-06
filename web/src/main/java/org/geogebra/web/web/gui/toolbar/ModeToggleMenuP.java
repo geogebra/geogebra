@@ -4,24 +4,27 @@ import java.util.Vector;
 
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.ImageFactory;
+import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.util.StandardButton;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 public class ModeToggleMenuP extends ModeToggleMenu {
 
 	FlowPanel submenuPanel;
-	Label back;
+	StandardButton back;
 
 	private int startPosition;
 	private int endPosition;
@@ -49,20 +52,30 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 		tbutton.getElement().setAttribute("isMobile", "true");
 	}
 
-	@Override
-	protected void buildGui() {
-		submenu = createToolbarSubmenu(app, order);
-
-		back = new Label("<");
+	private void addBackButton() {
+		PerspectiveResources pr = ((ImageFactory) GWT.create(ImageFactory.class)).getPerspectiveResources();
+		back = new StandardButton(pr.menu_header_back(), null, 32);
 		back.addStyleName("submenuBack");
-		back.addClickHandler(new ClickHandler() {
+		back.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClick(Widget source) {
 				hideMenu();
 			}
 		});
-		submenu.add(back);
+		// submenuPanel.submenuScrollPanel.toolbarPanel.add
+		((FlowPanel) submenuPanel.getParent().getParent()).add(back);
+	}
+
+	public void removeBackButton() {
+		if (back != null) {
+			((FlowPanel) submenuPanel.getParent().getParent()).remove(back);
+		}
+	}
+
+	@Override
+	protected void buildGui() {
+		submenu = createToolbarSubmenu(app, order);
 
 		for (int k = 0; k < menu.size(); k++) {
 			final int addMode = menu.get(k).intValue();
@@ -91,6 +104,7 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 		if (submenu != null) {
 			submenuPanel.add(submenu);
 			submenu.setVisible(true);
+			addBackButton();
 		}
 		toolbar.getGGWToolBar().setSubmenuDimensions();
 	}
@@ -98,11 +112,12 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 	@Override
 	public void hideMenu() {
 
-		if (submenu != null/* && submenu.isAttached() */) {
-			// Log.debug("hide submenu");
+		if (submenu != null) {
+
 			submenuPanel.remove(submenu);
 			submenu.setVisible(false);
 		}
+		removeBackButton();
 		toolbar.setVisible(true);
 	}
 
@@ -119,11 +134,8 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 	public void onTouchStart(TouchStartEvent event) {
 		if (toolbar.isVisible()) {
 			startPosition = toolbar.getAbsoluteLeft();
-			// Log.debug("onTouchStart toolbar: " + toolbar.getAbsoluteLeft());
 		} else {
 			startPosition = submenuPanel.getAbsoluteLeft();
-			// Log.debug("onTouchStart submenuPanel: " +
-			// submenuPanel.getAbsoluteLeft());
 		}
 	}
 
@@ -131,11 +143,8 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 	public void onTouchEnd(TouchEndEvent event) {
 		if (toolbar.isVisible()) {
 			endPosition = toolbar.getAbsoluteLeft();
-			// Log.debug("onTouchEnd toolbar: " + toolbar.getAbsoluteLeft());
 		} else {
 			endPosition = submenuPanel.getAbsoluteLeft();
-			// Log.debug("onTouchEnd submenuPanel: " +
-			// submenuPanel.getAbsoluteLeft());
 		}
 
 		onEnd(event);

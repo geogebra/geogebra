@@ -82,4 +82,6 @@ public interface PerspectiveResources {
 	ResourcePrototype menu_header_open_menu();
 
 	ResourcePrototype menu_header_open_menu_hover();
+
+	ResourcePrototype menu_header_back();
 }

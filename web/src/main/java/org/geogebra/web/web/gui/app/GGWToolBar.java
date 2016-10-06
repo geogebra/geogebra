@@ -1215,14 +1215,11 @@ pr.menu_header_undo(), null, 32);
 			toolbars.get(0).setMaxButtons(maxButtons);
 		}
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			toolBPanel.setWidth(maxButtons * 45 - 20 + "px");
-
-			setSubmenuDimensions();
-
 			if (maxButtons < toolBar.getToolbarVecSize()) {
+				toolBPanel.setWidth((maxButtons) * 45 - 20 + "px");
+				setSubmenuDimensions();
 				toolBPanel.addStyleName("toolBPanelMobile");
 				rightButtonPanel.addStyleName("rightButtonPanelMobile");
-				Log.debug("rightButtonPanelMobile");
 			} else {
 				toolBPanel.removeStyleName("toolBPanelMobile");
 				rightButtonPanel.removeStyleName("rightButtonPanelMobile");
@@ -1257,8 +1254,8 @@ pr.menu_header_undo(), null, 32);
 			int maxButtons = getMaxButtons((int) app.getWidth());
 			int submenuButtonCount = ((ToolbarSubmenuP) submenuPanel.getWidget(0)).getButtonCount();
 
-			submenuScrollPanel.setWidth(maxButtons * 45 - 20 + "px");
-			submenuPanel.setWidth((submenuButtonCount + 1) * 45 - 5 + "px");
+			submenuScrollPanel.setWidth((maxButtons - 1) * 45 - 20 + "px");
+			submenuPanel.setWidth((submenuButtonCount) * 45 + "px");
 		}
 	}
 
@@ -1281,14 +1278,9 @@ getFirstMode(),
     }
 
 	public void closeAllSubmenu() {
-		// Log.debug("close all submenu");
 		toolBar.closeAllSubmenu();
-		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS) /*
-														 * && toolBar.
-														 * isMobileToolbar()
-														 */) {
+		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
 			submenuScrollPanel.clear();
-			// Log.debug("submenuPanel cleared");
 		}
 	}
 

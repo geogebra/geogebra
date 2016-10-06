@@ -124,4 +124,6 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 	@Source("org/geogebra/common/menu_header/p32/menu_open_menu_hover.png")
 	ImageResource menu_header_open_menu_hover();
 
+	@Source("org/geogebra/common/menu_header/p32/menu_back.png")
+	ImageResource menu_header_back();
 }

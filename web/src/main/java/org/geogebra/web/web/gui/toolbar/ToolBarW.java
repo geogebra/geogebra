@@ -359,6 +359,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		}
 	}
 
+
 	
 
 	/**
@@ -412,22 +413,19 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 
 			if (getToolbarVecSize() < 11) {
 				if ((isMobileToolbar && max >= 11) || !isMobileToolbar && max < 11) {
-					Log.debug("toolbarvecsize < 11");
 					this.maxButtons = max;
-
-					buildGui();
 					closeAllSubmenu();
+					buildGui();
+
 				}
 			}
 			// make sure gui is only rebuilt when necessary (when state changes
 			// between web view and mobile view)
 			else if ((isMobileToolbar && max >= getToolbarVecSize())
 					|| (!isMobileToolbar && max < getToolbarVecSize())) {
-				Log.debug("standard view change");
 				this.maxButtons = max;
-
-				buildGui();
 				closeAllSubmenu();
+				buildGui();
 
 			} else {
 				if (Math.min(max, this.getToolbarVec().size()) == this.getGroupCount()) {
