@@ -218,7 +218,11 @@
 				//that.size = Number(request.getResponseHeader("Content-Length"));
 				that.size = request.response.length;
 				//end of hack
-				callback();
+				if(request.status == 404 || request.status == 403 ){
+					onerror("Error "+request.status+"loading "+url);
+				}else{
+					callback();
+				}
 			}, false);
 			request.addEventListener("error", onerror, false);
 			//Zbynek's hack: GET instead of HEAD
