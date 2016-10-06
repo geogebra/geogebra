@@ -63,7 +63,7 @@ public class AdjustSlider extends AdjustWidget {
 		}
 
 		if (x == origX && origX < view.getWidth() && y == origY
-				&& origY < view.getHeight()
+				&& origY - origWidth > 0 
 				&& origWidth == width) {
 			Log.debug("VSlider " + number.getLabelSimple() + " is ON screen");
 			return true;
@@ -89,7 +89,7 @@ public class AdjustSlider extends AdjustWidget {
 		if (horizontal) {
 			adjustToRight();
 		} else {
-			adjustToBottom();
+			adjustToTop();
 		}
 
 		if (width > view.getViewWidth() || width != origWidth) {
@@ -105,16 +105,15 @@ public class AdjustSlider extends AdjustWidget {
 	}
 	private void adjustToRight() {
 		if (x + width > view.getViewWidth()) {
-			x = view.getViewWidth() - width;
+			x = view.getViewWidth() - width - MARGIN_Y;
 		}
 	}
 
-	private void adjustToBottom() {
-		if (y + width > view.getViewHeight()) {
-			y = view.getViewHeight();// - width;
+	private void adjustToTop() {
+		if (y - width < 0) {
+			y = width + MARGIN_Y;
 		}
 	}
-
 	/**
 	 * Makes a slider onScreen with no scaling enabled.
 	 * 
