@@ -3432,6 +3432,10 @@ public abstract class App implements UpdateSelection {
 			return;
 		}
 
+		if (showConsProtNavigation == null) {
+			return;
+		}
+
 		if (getGuiManager() != null) {
 			for (int id : showConsProtNavigation.keySet()) {
 				showConsProtNavigation.put(id, false);
