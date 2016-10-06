@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -247,7 +246,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 			sliderPanel.applyAll(geoResult);
 			geoResult.update();
 			//((GeoNumeric)geoResult).setRandom(cbRandom.isSelected());
-			if (!rbAngle.getValue() && app.has(Feature.ADJUST_WIDGETS)) {
+			if (!rbAngle.getValue()) {
 				AdjustSlider.ensureOnScreen((GeoNumeric) geoResult,
 						app.getActiveEuclidianView());
 			}

@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.gui.properties.SliderPanel;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -234,7 +233,7 @@ public class SliderDialogD extends JDialog implements ActionListener,
 			geoResult.setLabelMode(GeoElement.LABEL_NAME_VALUE);
 			geoResult.setLabelVisible(true);
 			geoResult.update();
-			if (!rbAngle.isSelected() && app.has(Feature.ADJUST_WIDGETS)) {
+			if (!rbAngle.isSelected()) {
 				AdjustSlider.ensureOnScreen((GeoNumeric) geoResult,
 						app.getActiveEuclidianView());
 			}
