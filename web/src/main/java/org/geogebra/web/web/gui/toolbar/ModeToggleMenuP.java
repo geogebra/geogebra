@@ -162,8 +162,8 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 
 		// make sure it is a click, not a scroll
 		if (startPosition == endPosition) {
-		// if menu item was tapped
-			if (event.getSource() == tbutton) {
+			// if tool button was tapped && if there is a submenu
+			if (event.getSource() == tbutton && menu.size() > 1) {
 				showMenu(); // open submenu
 			} else { // click ended on submenu item
 				hideMenu();
