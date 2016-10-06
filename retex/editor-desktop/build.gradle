@@ -9,4 +9,4 @@ dependencies {
 	compile project(':editor-base')
 }
 
-mainClassName = 'cz.natur.cuni.mirai.math.desktop.Test'
+mainClassName = 'com.himamis.retex.editor.desktop.Test'
