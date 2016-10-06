@@ -25,8 +25,6 @@ import org.geogebra.common.util.debug.Log;
 public class GeneralPathClipped implements GShape {
 
 	private static final float MAX_COORD_VALUE = 10000;
-	private static final double TOLERANCE = 0.01; // pixel distance for equal
-													// points
 
 	private ArrayList<MyPoint> pathPoints;
 	private GGeneralPath gp;
@@ -215,9 +213,21 @@ public class GeneralPathClipped implements GShape {
 
 	private void addToGeneralPath(GPoint2D q, boolean lineTo) {
 		GPoint2D p = gp.getCurrentPoint();
-		if (p != null && p.distance(q) < TOLERANCE) {
-			return;
-		}
+
+		/*
+		 * We don't need to check the distance, since it has been already
+		 * checked when gp was constructed. Anyway, the distance check is not
+		 * enough here: we also would need to check if this is really a new
+		 * point or just a single point in the same position when a
+		 * moveTo-lineTo-moveTo construct was done.
+		 */
+		// boolean distant = true;
+		// if (p != null) {
+		// distant = p.distance(q) >= TOLERANCE;
+		// }
+		// if (distant) {
+		// return;
+		// }
 
 		if (lineTo && p != null) {
 			try {

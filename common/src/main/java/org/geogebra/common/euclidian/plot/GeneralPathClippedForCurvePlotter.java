@@ -20,6 +20,7 @@ import org.geogebra.common.util.Cloner;
 public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		implements PathPlotter {
 
+	private boolean lineDrawn;
 	/**
 	 * constructor
 	 * 
@@ -50,18 +51,26 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		// no points in path yet
 		if (point == null) {
 			moveTo(x, y);
+			lineDrawn = false;
+			return;
 		}
+
+		boolean distant = !Kernel.isEqual(x, point.getX(),
+				view.getMinPixelDistance())
+				|| !Kernel.isEqual(y, point.getY(), view.getMinPixelDistance());
 
 		// only add points that are more than MIN_PIXEL_DISTANCE
 		// from current location
-		else if (!Kernel.isEqual(x, point.getX(), view.getMinPixelDistance())
-				|| !Kernel.isEqual(y, point.getY(), view.getMinPixelDistance())) {
-			if (lineTo) {
-				lineTo(x, y);
-			} else {
-				moveTo(x, y);
-			}
+		if (!distant && lineTo == lineDrawn) {
+			return;
+		}
 
+		if (lineTo) {
+			lineTo(x, y);
+			lineDrawn = true;
+		} else {
+			moveTo(x, y);
+			lineDrawn = false;
 		}
 
 	}
