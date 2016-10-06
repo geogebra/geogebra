@@ -585,8 +585,7 @@ public class SelectionManager {
 			geo.setSelected(false);
 		} else {
 			selectedGeos.add(geo);
-			kernel.getApplication().getEventDispatcher()
-					.dispatchEvent(EventType.SELECT, geo);
+			dispatchSelected(geo);
 			geo.setSelected(true);
 		}
 

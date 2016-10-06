@@ -77,6 +77,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -4101,6 +4102,8 @@ public class Kernel {
 			app.stopCollectingRepaints();
 			app.batchUpdateEnd();
 			storeStateForModeStarting();
+			app.getEventDispatcher()
+					.dispatchEvent(new Event(EventType.REDO, null));
 		}
 	}
 
@@ -4171,6 +4174,8 @@ public class Kernel {
 				app.stopCollectingRepaints();
 				app.batchUpdateEnd();
 				storeStateForModeStarting();
+				app.getEventDispatcher()
+						.dispatchEvent(new Event(EventType.UNDO, null));
 			}
 		}
 	}
