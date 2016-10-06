@@ -1661,6 +1661,12 @@ final class PredefinedCommands {
 				return PredefMacros.quad_macro(tp, args);
 			}
 		},
+		qquad(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp, final String[] args) {
+				return PredefMacros.qquad_macro(tp, args);
+			}
+		},
 		surd(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {

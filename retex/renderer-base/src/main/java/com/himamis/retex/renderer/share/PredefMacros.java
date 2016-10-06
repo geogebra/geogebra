@@ -1849,6 +1849,10 @@ public class PredefMacros {
 		return new SpaceAtom(TeXConstants.UNIT_EM, 1f, 0f, 0f);
 	}
 
+	public static final Atom qquad_macro(final TeXParser tp, final String[] args) throws ParseException {
+		return new SpaceAtom(TeXConstants.UNIT_EM, 2f, 0f, 0f);
+	}
+
 	public static final Atom muskip_macros(final TeXParser tp, final String[] args) throws ParseException {
 		int type = 0;
 		if (args[0].equals(",")) {

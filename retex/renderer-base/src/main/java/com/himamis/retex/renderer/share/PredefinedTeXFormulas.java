@@ -55,7 +55,8 @@ final class PredefinedTeXFormulas {
 		TeXFormula.predefinedTeXFormulasAsString.put("space", "\\ ");
 		TeXFormula.predefinedTeXFormulasAsString.put("dollar", "\\textdollar");
 		
-		TeXFormula.predefinedTeXFormulasAsString.put("qquad", "\\quad\\quad");
+		// TRAC-5421 removed and added qquad as a proper command
+		//TeXFormula.predefinedTeXFormulasAsString.put("qquad", "\\quad\\quad");
 		TeXFormula.predefinedTeXFormulasAsString.put(" ", "\\nbsp");
 		TeXFormula.predefinedTeXFormulasAsString.put("ne", "\\not\\equals");
 		TeXFormula.predefinedTeXFormulasAsString.put("neq", "\\not\\equals");
