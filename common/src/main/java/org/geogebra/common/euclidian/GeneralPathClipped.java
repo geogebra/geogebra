@@ -225,7 +225,7 @@ public class GeneralPathClipped implements GShape {
 		// if (p != null) {
 		// distant = p.distance(q) >= TOLERANCE;
 		// }
-		// if (distant) {
+		// if (!distant) {
 		// return;
 		// }
 
