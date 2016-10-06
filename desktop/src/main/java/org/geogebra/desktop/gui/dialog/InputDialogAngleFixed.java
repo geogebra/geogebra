@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
@@ -136,22 +137,13 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 	 */
 	public void keyReleased(KeyEvent e) {
 
-		// return unless digit typed
-		if (!Character.isDigit(e.getKeyChar()))
-			return;
-
 		JTextComponent tc = inputPanel.getTextComponent();
 		String text = tc.getText();
 
-		// if text already contains degree symbol or variable
-		for (int i = 0; i < text.length(); i++) {
-			if (!Character.isDigit(text.charAt(i)))
-				return;
-		}
-
+		String input = StringUtil.addDegreeSignIfNumber(e.getKeyChar(), text);
 		int caretPos = tc.getCaretPosition();
 
-		tc.setText(tc.getText() + Unicode.DEGREE);
+		tc.setText(input);
 
 		tc.setCaretPosition(caretPos);
 	}

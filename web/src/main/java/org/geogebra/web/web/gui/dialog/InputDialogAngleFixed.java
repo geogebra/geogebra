@@ -17,6 +17,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 
 public class InputDialogAngleFixed extends AngleInputDialog{
@@ -147,30 +148,23 @@ public class InputDialogAngleFixed extends AngleInputDialog{
 	}*/
 
 	/*
-	 * auto-insert degree symbol when appropriate
-	 */
-	public void onKeyUp(KeyUpEvent e) {
-		super.onKeyUp(e);
-		
-		// return unless digit typed (instead of !Character.isDigit)
-		if (e.getNativeKeyCode() < 48 ||
-			(e.getNativeKeyCode() >  57 && e.getNativeKeyCode() < 96) ||
-			e.getNativeKeyCode() > 105)
-			return;
-		
+ 	* auto-insert degree symbol when appropriate
+ 	*/
+	//moved the operations from onKeyUp to onKeyPress,
+	//because only the KeyPress event has getCharCode method
+	@Override
+	public void onKeyPress(KeyPressEvent event) {
 		AutoCompleteTextFieldW tc = inputPanel.getTextComponent();
 		String text = tc.getText();
-		
-		// if text already contains degree symbol or variable
-		for (int i = 0 ; i < text.length() ; i++) {
-			if (!StringUtil.isDigit(text.charAt(i))) return;
-		}
-		
+
+		String input = StringUtil.addDegreeSignIfNumber(event.getCharCode(), text);
+
 		int caretPos = tc.getCaretPosition();
-		
-		tc.setText(tc.getText()+Unicode.DEGREE);
-		
+		tc.setText(input);
 		tc.setCaretPosition(caretPos);
-		
+	}
+
+	public void onKeyUp(KeyUpEvent e) {
+		super.onKeyUp(e);
 	}
 }

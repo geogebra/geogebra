@@ -20,6 +20,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -29,7 +31,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class InputDialogW extends InputDialog implements ClickHandler,
-        SetLabels, KeyUpHandler, ErrorHandler {
+        SetLabels, KeyUpHandler, ErrorHandler, KeyPressHandler {
 
 	protected final AppW app;
 
@@ -175,6 +177,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		if (inputPanel.getTextComponent() != null) {
 			inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);
 			inputPanel.getTextComponent().addFocusListener(new FocusListenerW(this));
+			inputPanel.getTextComponent().getTextField().getValueBox().addKeyPressHandler(this);
 		}
 		
 		
@@ -353,5 +356,10 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	public boolean onUndefinedVariables(String string,
 			AsyncOperation<String[]> callback) {
 		return app.getGuiManager().checkAutoCreateSliders(string, callback);
+	}
+
+	@Override
+	public void onKeyPress(KeyPressEvent event) {
+
 	}
 }
