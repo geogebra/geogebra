@@ -643,7 +643,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		 */
 		int factors = coeffSquarefree.length;
 		for (int i = 0; i < factors; i++) {
-			if (coeffSquarefree[i].length == 3) {
+			if (coeffSquarefree[i].length == 3
+					&& coeffSquarefree[i][0].length == 3) {
 				double xx = coeffSquarefree[i][0][2];
 				double xy = coeffSquarefree[i][1][1];
 				double yy = coeffSquarefree[i][2][0];
