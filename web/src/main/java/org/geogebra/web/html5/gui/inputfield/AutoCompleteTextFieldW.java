@@ -1025,7 +1025,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			 * SwingUtilities.getRoot(this); if (comp instanceof JDialog) {
 			 * ((JDialog) comp).setVisible(false); return; }
 			 */
-			textField.hideSuggestions();
+			if (textField.isSuggestionListVisible()) {
+				textField.hideSuggestions();
+			} else {
+				textField.setFocus(false);
+			}
 			break;
 
 		case GWTKeycodes.KEY_UP:

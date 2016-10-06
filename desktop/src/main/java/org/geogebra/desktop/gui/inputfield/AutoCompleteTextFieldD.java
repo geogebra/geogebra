@@ -352,7 +352,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 				return;
 			}
 
-			setText(null);
+			// loose focus
+			app.getActiveEuclidianView().requestFocusInWindow();
 			break;
 
 		// removed - what is this for?
