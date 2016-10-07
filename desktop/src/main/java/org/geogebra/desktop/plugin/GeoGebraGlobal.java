@@ -9,7 +9,6 @@ import org.mozilla.javascript.IdFunctionObject;
 import org.mozilla.javascript.Kit;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
-import org.mozilla.javascript.Undefined;
 
 /*
  * @author Joel Duffin
@@ -69,14 +68,14 @@ public class GeoGebraGlobal implements IdFunctionCall {
 			switch (methodId) {
 			case Id_alert: {
 
-				if (args.length != 1) {
+				if (args.length > 1) {
 					String error = argNumError(args.length, "alert( <String> )");
 					app.showError(error);
 					throw new Error(error);
 				}
 
 				Object value = (args.length != 0) ? args[0]
-						: Undefined.instance;
+						: "";
 
 				app.getGgbApi().alert(value.toString());
 

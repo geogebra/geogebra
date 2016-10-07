@@ -79,7 +79,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		wrappedPopup.addItem(miStandardView);
 
 		if (!ev.isZoomable()) {
-			((MenuItem) yaxisMenu).setEnabled(false);
+			yaxisMenu.setEnabled(false);
 			miShowAllObjectsView.setEnabled(false);
 			miStandardView.setEnabled(false);
 		}

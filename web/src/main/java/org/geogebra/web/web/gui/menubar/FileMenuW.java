@@ -55,9 +55,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				app.setWaitCursor();
 				app.fileNew();
 				app.setDefaultCursor();
-				if (app.has(Feature.NEW_START_SCREEN)) {
-					app.showPerspectivesPopup();
-				}
+
+				app.showPerspectivesPopup();
+
 			}
 		};
 	    addStyleName("GeoGebraMenuBar");
@@ -142,9 +142,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					ToolBar.getAllToolsNoMacros(true, false, app));
 			app.getGuiManager().resetMenu();
 
-			if (app.has(Feature.NEW_START_SCREEN)) {
-				app.setActivePerspective(0);
-			}
+			app.setActivePerspective(0);
+
 		}
 	}
 	
@@ -159,29 +158,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 				@Override
 				public void doExecute() {
-					// set Firefox dom.allow_scripts_to_close_windows in about:config to true to make this work
-							String[] optionNames = { loc.getMenu("Cancel"),
-									loc.getMenu("Exit") };
-
-					app.getGuiManager()
-							.getOptionPane()
-							.showOptionDialog(app,
-											loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
-											loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
-											1, GOptionPane.WARNING_MESSAGE,
-											null,
-											optionNames,
-											new AsyncOperation<String[]>() {
-										@Override
-												public void callback(
-														String[] obj) {
-													if ("1".equals(obj[0])) {
-												exitAndResetExam();
-											}
-										}
-					        });
-				}
-			});
+							showExamExitDialog();
+						}
+					});
 
 			return;
 		}
@@ -285,55 +264,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			addItem(printItem);
 
 		}
-		if (!app.has(Feature.NEW_START_SCREEN)) {
-			addSeparator();
-
-			if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
-				// reset cas and 3d settings for restart of exam
-				app.getSettings().getCasSettings().resetEnabled();
-				app.getSettings().getEuclidian(-1).resetEnabled();
-				if (app.getArticleElement().getDataParamEnableCAS(false) || !app
-						.getArticleElement().getDataParamEnableCAS(true)) {
-					app.getSettings().getCasSettings().setEnabled(app
-							.getArticleElement().getDataParamEnableCAS(false));
-				}
-				if (app.getArticleElement().getDataParamEnable3D(false) || !app
-						.getArticleElement().getDataParamEnable3D(true)) {
-					app.getSettings().getEuclidian(-1).setEnabled(app
-							.getArticleElement().getDataParamEnable3D(false));
-				}
-				
-				if (app.getArticleElement().getDataParamEnableGraphing(false)
-						|| !app.getArticleElement().getDataParamEnableGraphing(
-								true)) {
-					app.getSettings()
-							.getEuclidian(1)
-							.setEnabled(
-									app.getArticleElement()
-											.getDataParamEnableGraphing(false));
-					app.getSettings()
-							.getEuclidian(2)
-							.setEnabled(
-									app.getArticleElement()
-											.getDataParamEnableGraphing(false));
-				}
-				
-				addItem(MainMenu.getMenuBarHtml(
-						GuiResources.INSTANCE.menu_icons_exam_mode()
-								.getSafeUri().asString(),
-						loc.getMenu("exam_menu_enter"), true), // EnterExamMode
-						true, new MenuCommand(app) {
-
-							@Override
-							public void doExecute() {
-								((DialogManagerW) app.getDialogManager())
-										.getSaveDialog()
-										.showIfNeeded(getExamCallback());
-
-							}
-						});
-			}
-		}
 
 	    app.getNetworkOperation().getView().add(this);
 	    
@@ -341,6 +271,30 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    	render(false);    	
 	    }
 	}
+
+	/**
+	 * Show exit exam dialog
+	 */
+	protected void showExamExitDialog() {
+		// set Firefox dom.allow_scripts_to_close_windows in about:config to
+		// true to make this work
+		String[] optionNames = { loc.getMenu("Cancel"), loc.getMenu("Exit") };
+
+		app.getGuiManager().getOptionPane().showOptionDialog(app,
+				loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
+				loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
+				1, GOptionPane.WARNING_MESSAGE, null, optionNames,
+				new AsyncOperation<String[]>() {
+					@Override
+					public void callback(String[] obj) {
+						if ("1".equals(obj[0])) {
+							exitAndResetExam();
+						}
+					}
+				});
+	}
+
+
 
 	/**
 	 * SHow the custom share dialog

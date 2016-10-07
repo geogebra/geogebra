@@ -90,10 +90,10 @@ public class Hits3D extends Hits {
 	}
 
 	@Override
-	public Hits3D clone() {
+	public Hits3D cloneHits() {
 
-		Hits3D ret = (Hits3D) super.clone();
-		ret.topHits = this.topHits.clone();
+		Hits3D ret = (Hits3D) super.cloneHits();
+		ret.topHits = this.topHits.cloneHits();
 		ret.QuadCount = QuadCount;
 
 		// TreeSets are not cloned because they are only used when the hits are
@@ -295,7 +295,7 @@ public class Hits3D extends Hits {
 	public Hits getTopHits() {
 
 		if (topHits.isEmpty())
-			return clone();
+			return cloneHits();
 		return topHits;
 
 	}

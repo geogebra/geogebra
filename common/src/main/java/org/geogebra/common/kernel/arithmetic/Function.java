@@ -718,9 +718,11 @@ public class Function extends FunctionNVar implements
 		} catch (Throwable t) {
 			Log.warn(ev + " couldn't be transformed to polynomial:"
 					+ t.getMessage());
-		}
-		if (terms == -1 || !equ.isPolynomial())
 			return null;
+		}
+		if (!equ.isPolynomial()) {
+			return null;
+		}
 		if (!symbolic) {
 			double[] coeffValues = new double[terms];
 			for (int i = 0; i < coeff.length; i++) {

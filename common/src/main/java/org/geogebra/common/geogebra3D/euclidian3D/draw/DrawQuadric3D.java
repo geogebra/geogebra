@@ -1428,14 +1428,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case POINT_OR_CURVE:
 			int quadricType = ((GeoQuadric3D) getGeoElement()).getType();
 			if (quadricType == GeoQuadricNDConstants.QUADRIC_SINGLE_POINT
-					&& quadricType == GeoQuadricNDConstants.QUADRIC_LINE) {
+					|| quadricType == GeoQuadricNDConstants.QUADRIC_LINE) {
 				return super.drawForPicking(renderer, intersection, type);
 			}
 			return null;
 		case SURFACE:
 			quadricType = ((GeoQuadric3D) getGeoElement()).getType();
 			if (quadricType == GeoQuadricNDConstants.QUADRIC_SINGLE_POINT
-					&& quadricType == GeoQuadricNDConstants.QUADRIC_LINE) {
+					|| quadricType == GeoQuadricNDConstants.QUADRIC_LINE) {
 				return null;
 			}
 			return super.drawForPicking(renderer, intersection, type);

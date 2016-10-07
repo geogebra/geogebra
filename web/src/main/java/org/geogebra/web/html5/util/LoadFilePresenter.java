@@ -5,7 +5,6 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -248,8 +247,7 @@ public class LoadFilePresenter {
 			}
 			app.setActivePerspective(p.getDefaultID() - 1);
 		}
-		if (app.has(Feature.NEW_START_SCREEN)
-				&& app.getArticleElement().getDataParamShowAppsPicker()
+		if (app.getArticleElement().getDataParamShowAppsPicker()
 				&& app.getExam() == null) {
 				app.showPerspectivesPopup();
 			}

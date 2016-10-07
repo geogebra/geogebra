@@ -2239,7 +2239,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public Hits getHits() {
-		return hits.clone();
+		return hits.cloneHits();
 	}
 
 	/**

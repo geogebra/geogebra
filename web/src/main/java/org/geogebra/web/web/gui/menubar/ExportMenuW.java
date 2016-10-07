@@ -49,30 +49,31 @@ public class ExportMenuW extends MenuBar {
 		});
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-		// translation not needed
-				.getSafeUri().asString(), "png", true), true, new MenuCommand(
-				app) {
+				// translation not needed
+				.getSafeUri().asString(), "png", true), true,
+				new MenuCommand(app) {
 
-			public void execute() {
+						@Override
+					public void execute() {
 						app.getActiveEuclidianView()
 								.setSelectionRectangle(null);
 						app.getActiveEuclidianView().getEuclidianController()
 								.clearSelections();
-				hide();
-				String url = ((EuclidianViewWInterface) app
-						.getActiveEuclidianView()).getExportImageDataUrl(1.0,
- false);
+						hide();
+						String url = ((EuclidianViewWInterface) app
+								.getActiveEuclidianView())
+										.getExportImageDataUrl(1.0, false);
 
-				app.getFileManager().showExportAsPictureDialog(url,
-						app.getExportTitle(), app);
-			}
-				});
+						app.getFileManager().showExportAsPictureDialog(url,
+								app.getExportTitle(), app);
+					}
+					});
 		if (!app.getLAF().isTablet()) {
-			addItem(MainMenu
-					.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri()
-.asString(),
-					app.getLocalization().getMenu("AnimatedGIF"), true),
-					true, new MenuCommand(app) {
+			addItem(MainMenu.getMenuBarHtml(
+					AppResources.INSTANCE.empty().getSafeUri().asString(),
+					app.getLocalization().getMenu("AnimatedGIF"), true), true,
+					new MenuCommand(app) {
+						@Override
 						public void doExecute() {
 							hide();
 							((FileManagerW) app.getFileManager())
@@ -82,7 +83,8 @@ public class ExportMenuW extends MenuBar {
 		}
 	}
 
-	private void hide() {
+	/** hide the submenu */
+	void hide() {
 		PopupPanel p = (PopupPanel) getParent();
 		p.hide();
 	}

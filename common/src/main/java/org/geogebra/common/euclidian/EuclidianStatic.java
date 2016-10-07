@@ -572,7 +572,7 @@ public abstract class EuclidianStatic {
 			case '}': // end of index with several characters
 				if (depth > 0) {
 					if (i > startPos) {
-						font = (depth == 0) ? g2font : indexFont;
+						font = indexFont;
 						y = yPos + depth * indexOffset;
 						if (y > maxY)
 							maxY = y;

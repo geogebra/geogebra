@@ -121,10 +121,6 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 	private LocalizationD loc;
 
-	public VirtualKeyboard(int windowX, int windowY) {
-		this(null, windowX, windowY, 0.7f);
-	}
-
 	/**
 	 * This is the default constructor
 	 * 

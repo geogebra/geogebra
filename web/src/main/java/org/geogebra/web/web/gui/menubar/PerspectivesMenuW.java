@@ -24,7 +24,6 @@ public class PerspectivesMenuW extends GMenuBar {
 	
 	/** Application */
 	AppW app;
-	private Layout layout;
 	
 
 	/**
@@ -33,7 +32,6 @@ public class PerspectivesMenuW extends GMenuBar {
 	public PerspectivesMenuW(AppW app) {
 		super(true, "apps");
 	    this.app = app;
-	    this.layout = app.getGuiManager().getLayout();
 	    addStyleName("GeoGebraMenuBar");
 		initActions();
 		update();
@@ -47,24 +45,16 @@ public class PerspectivesMenuW extends GMenuBar {
 	private void initActions() {
 
 	    PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
-		if (app.has(Feature.NEW_START_SCREEN)) {
-			addPerspective(0, pr.menu_icon_algebra());
-			addPerspective(3, pr.menu_icon_cas());
-			addPerspective(1, pr.menu_icon_geometry());
-			addPerspective(4, pr.menu_icon_graphics3D());
-			addPerspective(2, pr.menu_icon_spreadsheet());
-			addPerspective(5, pr.menu_icon_probability());
-		} else {
-			addPerspective(0, pr.menu_icon_algebra());
-			addPerspective(1, pr.menu_icon_geometry());
-			addPerspective(2, pr.menu_icon_spreadsheet());
-			addPerspective(3, pr.menu_icon_cas());
-			addPerspective(4, pr.menu_icon_graphics3D());
-			addPerspective(5, pr.menu_icon_probability());
-		}
+
+		addPerspective(0, pr.menu_icon_algebra());
+		addPerspective(3, pr.menu_icon_cas());
+		addPerspective(1, pr.menu_icon_geometry());
+		addPerspective(4, pr.menu_icon_graphics3D());
+		addPerspective(2, pr.menu_icon_spreadsheet());
+		addPerspective(5, pr.menu_icon_probability());
 
 
-		if (app.has(Feature.NEW_START_SCREEN) && !app.isExam()) {
+		if (!app.isExam()) {
 
 			if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
 				addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_exam().getSafeUri().asString(),
@@ -126,6 +116,8 @@ public class PerspectivesMenuW extends GMenuBar {
 	}
 
 	/**
+	 * @param app
+	 *            application
 	 * @param index
 	 *            perspective index
 	 */
@@ -138,7 +130,8 @@ public class PerspectivesMenuW extends GMenuBar {
 		// set active perspective for highlighting
 		app.setActivePerspective(index);
 		// app.getToolbar().closeAllSubmenu();
-		if (app.getTubeId() < 1 && app.getArticleElement().getDataParamApp()) {
+		if (app.getTubeId() < 1
+				&& app.getArticleElement().getDataParamApp()) {
 
 			Browser.changeUrl(Perspective.perspectiveSlugs[index]);
 

@@ -89,19 +89,17 @@ public class MyImageD implements MyImageJre {
 
 		try {
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			if (img == null) {
-				Log.error("image==null");
-			} else {
-				ImageIO.write((BufferedImage) img, "png", baos);
-				byte[] fileData = baos.toByteArray();
 
-				MessageDigest md;
-				md = MessageDigest.getInstance("MD5");
-				byte[] md5hash = new byte[32];
-				md.update(fileData, 0, fileData.length);
-				md5hash = md.digest();
-				return StringUtil.convertToHex(md5hash);
-			}
+			ImageIO.write((BufferedImage) img, "png", baos);
+			byte[] fileData = baos.toByteArray();
+
+			MessageDigest md;
+			md = MessageDigest.getInstance("MD5");
+			byte[] md5hash = new byte[32];
+			md.update(fileData, 0, fileData.length);
+			md5hash = md.digest();
+			return StringUtil.convertToHex(md5hash);
+
 		} catch (Exception e) {
 			//
 		}

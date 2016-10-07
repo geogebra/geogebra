@@ -70,7 +70,7 @@ public class Hits extends ArrayList<GeoElement> {
 
 	// Can't override and GWT don't support CLONE anyway.
 	@SuppressWarnings("all")
-	public Hits clone() {
+	public Hits cloneHits() {
 		Hits ret = newHits();
 		if (this.size() > 0) {
 			for (int i = 0; i < this.size(); i++) {
@@ -749,7 +749,7 @@ public class Hits extends ArrayList<GeoElement> {
 	public Hits getTopHits() {
 
 		if (isEmpty())
-			return clone();
+			return cloneHits();
 
 		// point in there?
 		Hits topHitsList = new Hits();
@@ -772,7 +772,7 @@ public class Hits extends ArrayList<GeoElement> {
 			return topHitsList;
 		}
 
-		return clone();
+		return cloneHits();
 	}
 
 	/**

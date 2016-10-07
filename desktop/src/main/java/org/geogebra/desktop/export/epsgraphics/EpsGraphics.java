@@ -256,10 +256,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 							+ " " + _y3 + " curveto");
 					x0 = _x3;
 					y0 = _y3;
-				} else if (type == GPathIterator.WIND_EVEN_ODD) {
-					// Ignore.
-				} else if (type == GPathIterator.WIND_NON_ZERO) {
-					// Ignore.
 				} else {
 					Log.warn("unknown type " + type);
 				}

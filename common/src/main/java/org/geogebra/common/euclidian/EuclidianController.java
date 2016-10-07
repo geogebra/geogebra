@@ -3708,7 +3708,7 @@ public abstract class EuclidianController {
 
 	public boolean refreshHighlighting(Hits hits, boolean isControlDown) {
 
-		Hits oldHighlightedGeos = highlightedGeos.clone();
+		Hits oldHighlightedGeos = highlightedGeos.cloneHits();
 
 		// clear old highlighting
 		boolean repaintNeeded = clearHighlightedGeos();
@@ -6681,7 +6681,7 @@ public abstract class EuclidianController {
 		}
 
 		// for testing: save the full hits for later use
-		Hits tempFullHits = hits.clone();
+		Hits tempFullHits = hits.cloneHits();
 
 		// set tool tip text
 		// the tooltips are only shown if algebra view is visible
@@ -10080,7 +10080,7 @@ public abstract class EuclidianController {
 	}
 
 	public Hits getHighlightedgeos() {
-		return highlightedGeos.clone();
+		return highlightedGeos.cloneHits();
 	}
 
 	public void setAlpha(float alpha) {
@@ -10858,7 +10858,7 @@ public abstract class EuclidianController {
 					event.getType());
 		}
 		// clone because that way view.getHits still contains Polygons
-		Hits hits = view.getHits().clone();
+		Hits hits = view.getHits().cloneHits();
 		hits.removePolygons();
 
 		// use view.getHits for Region, because it still contains Polygons

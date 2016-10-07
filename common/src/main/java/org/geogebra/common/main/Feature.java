@@ -43,8 +43,6 @@ public enum Feature {
 
 	TOOLBAR_ON_SMALL_SCREENS,
 
-	NEW_START_SCREEN,
-
 	// GGB-790
 	AV_INPUT_BUTTON_COVER,
 

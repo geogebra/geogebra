@@ -298,13 +298,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			                invoker.getAbsoluteTop() + p.y);
 
 			app.getActiveEuclidianView().resetMode();
-			getPopupMenu(app, view, selectedGeos, geos, screenPos, p).show(
-			        invoker, p.x, p.y);
+			ContextMenuGeoElementW menu = getPopupMenu(view, selectedGeos,
+					geos, screenPos, p);
+			menu.show(invoker, p.x, p.y);
 		}
 
 	}
 
-	private ContextMenuGeoElementW getPopupMenu(final App app,
+	private ContextMenuGeoElementW getPopupMenu(
 	        final EuclidianView view, final ArrayList<GeoElement> selectedGeos,
 	        final ArrayList<GeoElement> geos, final GPoint screenPos,
 	        final GPoint p) {

@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.menubar;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -210,25 +209,15 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					getHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"),
 					true);
 
-			if (app.has(Feature.NEW_START_SCREEN)) {
-				if (enableGraph) {
-					this.menuPanel.add(
-							perspectivesMenu,
+			this.menuPanel
+					.add(perspectivesMenu,
 							getHTML(GuiResources.INSTANCE
 									.menu_icon_perspectives(), "math_apps"),
 							true);
-				} else {
-					this.menuPanel.add(
-							perspectivesMenu,
-							getHTML(GuiResources.INSTANCE
-									.menu_icon_perspectives(), "Perspectives"),
-							true);
-				}
-				this.menuPanel
-						.add(viewMenu,
-								getHTML(GuiResources.INSTANCE.menu_icon_view(),
-										"View"), true);
-			}
+			this.menuPanel.add(viewMenu,
+					getHTML(GuiResources.INSTANCE.menu_icon_view(), "View"),
+					true);
+
 		}
 		this.menuPanel.add(optionsMenu, getHTML(GuiResources.INSTANCE.menu_icon_options(), "Options"), true);
 		if (!app.getLAF().isSmart() && enableGraph) {
