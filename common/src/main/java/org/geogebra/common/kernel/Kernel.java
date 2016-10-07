@@ -1021,7 +1021,7 @@ public class Kernel {
 				vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN, needsZ,
 				tpl);
 
-		if (!implicit && temp[vars.length] != 0.0) {
+		if (!implicit && !isZeroFigure(temp[vars.length], tpl)) {
 			String sign;
 			double abs;
 			if (temp[vars.length] < 0.0) {
@@ -1839,6 +1839,9 @@ public class Kernel {
 		return sbBuildVertexformEquation;
 	}
 
+	/*
+	 * 4p(y-k) = (x-h)^2
+	 */
 	public final StringBuilder buildConicformEquation(double[] numbers,
 			String[] vars, StringTemplate tpl) {
 		StringBuilder sbBuildConicformEquation = new StringBuilder(80);
