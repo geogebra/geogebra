@@ -107,6 +107,8 @@ public class ExamDialog {
 				boolean supports3D = app.getSettings().getEuclidian(-1).isEnabled();
 				// CAS EXAM: cas && !3d && ev
 				if (!supports3D && supportsCAS) {
+					// set CAS background view for Exam CAS
+					app.getGgbApi().setPerspective("4");
 					Label description = new Label(loc.getMenu("CAS"));
 					mainWidget.add(description);
 				}
@@ -188,8 +190,14 @@ public class ExamDialog {
 		app.getLAF().removeWindowClosingHandler();
 		app.fileNew();
 		app.updateRounding();
+		boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
 		if (app.enableGraphing()) {
-			app.getGgbApi().setPerspective("1");
+			if (supportsCAS) {
+				// set CAS start view for Exam CAS
+				app.getGgbApi().setPerspective("4");
+			} else {
+				app.getGgbApi().setPerspective("1");
+			}
 		} else {
 			app.getGgbApi().setPerspective("A");
 		}
