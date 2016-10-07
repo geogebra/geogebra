@@ -267,6 +267,24 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			addAction(action);
 		}
 
+		if (mode != GeoLine.EQUATION_GENERAL) {
+			sb.setLength(0);
+			sb.append(loc.getMenu("Equation"));
+			sb.append(' ');
+			sb.append(loc.getMenu("GeneralLineEquation"));
+			action = new AbstractAction(sb.toString()) {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				public void actionPerformed(ActionEvent e) {
+					equationGeneralLineEquationCmd();
+				}
+			};
+			addAction(action);
+		}
+
 	}
 
 
@@ -280,6 +298,8 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		// if you can't select the specific equation
 		boolean specificPossible = conic.isSpecificPossible();
 		boolean explicitPossible = conic.isExplicitPossible();
+		boolean vertexformPossible = conic.isVertexformPossible();
+		boolean conicformPossible = conic.isConicformPossible();
 		if (!(specificPossible || explicitPossible))
 			return;
 
@@ -339,6 +359,42 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 				public void actionPerformed(ActionEvent e) {
 					equationExplicitConicEquationCmd();
+				}
+			};
+			addAction(action);
+		}
+
+		if (vertexformPossible && mode != GeoConicND.EQUATION_VERTEX) {
+			sb.setLength(0);
+			sb.append(loc.getMenu("Equation"));
+			sb.append(' ');
+			sb.append(loc.getMenu("ParabolaVertexForm"));
+			action = new AbstractAction(sb.toString()) {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				public void actionPerformed(ActionEvent e) {
+					equationVertexEquationCmd();
+				}
+			};
+			addAction(action);
+		}
+
+		if (conicformPossible && mode != GeoConicND.EQUATION_CONICFORM) {
+			sb.setLength(0);
+			sb.append(loc.getMenu("Equation"));
+			sb.append(' ');
+			sb.append(loc.getMenu("ParabolaConicForm"));
+			action = new AbstractAction(sb.toString()) {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				public void actionPerformed(ActionEvent e) {
+					equationConicformEquationCmd();
 				}
 			};
 			addAction(action);
