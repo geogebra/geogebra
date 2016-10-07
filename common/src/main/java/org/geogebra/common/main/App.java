@@ -3864,7 +3864,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case WEB_PRINT_CP_VIEW:
-			return prerelease;
+			return true;
 
 		// GGB-335
 		case TOOLBAR_ON_SMALL_SCREENS:
