@@ -2641,7 +2641,7 @@ __GGB__keysVar.fi.menu = {
     "Spherical": "Pallokoordinaatit",
     "Split": "Jaa solu sarakkeiksi",
     "Split.Help": "Valitse jaettava sarake/sarakkeet",
-    "Spreadsheet": "Laskentataulukko",
+    "Spreadsheet": "Taulukkolaskenta",
     "SpreadsheetOptions": "Laskentataulukon ominaisuudet",
     "Stack": "Pinoa solut",
     "Stack.Help": "Valitse sarakkeet pinottavaksi",
