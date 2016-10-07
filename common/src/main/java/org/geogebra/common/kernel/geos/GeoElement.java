@@ -3186,7 +3186,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		// rename corresponding cas cell, before the label
 		// is in construction set
 		if (correspondingCasCell != null) {
-			correspondingCasCell.setInputFromTwinGeo(false);
+			correspondingCasCell.setInputFromTwinGeo(false, false);
 		}
 		cons.putLabel(this); // add new table entry
 
@@ -3815,6 +3815,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * updated.
 	 * 
 	 * @see #updateRepaint()
+	 * @param dragging
+	 *            whether this was triggered by drag
 	 */
 	public void update(boolean dragging) {
 
@@ -3824,7 +3826,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	@Override
-	public void update() {
+	public final void update() {
 		update(false);
 	}
 
@@ -3833,6 +3835,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param mayUpdateCas
 	 *            whether update migt be sent to CAS
+	 * @param dragging
+	 *            whether this was triggered by drag
 	 */
 	protected final void updateGeo(boolean mayUpdateCas, boolean dragging) {
 
@@ -3853,6 +3857,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		algebraStringsNeedUpdate();
 	}
 
+	/**
+	 * @param mayUpdateCas
+	 *            whether CAS may need update
+	 */
 	protected final void updateGeo(boolean mayUpdateCas) {
 		updateGeo(mayUpdateCas, false);
 	}
@@ -3868,6 +3876,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * Updates this object and all dependent ones. Note: no repainting is done
 	 * afterwards! synchronized for animation
+	 * 
+	 * @param dragging
+	 *            whether this was triggered by drag
 	 */
 	public void updateCascade(boolean dragging) {
 		long l = System.currentTimeMillis();
@@ -4107,6 +4118,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * Updates this object and all dependent ones. Notifies kernel to repaint
 	 * views.
+	 * 
+	 * @param dragging
+	 *            whether this was triggered by drag
 	 */
 	public void updateRepaint(boolean dragging) {
 		updateCascade(dragging);

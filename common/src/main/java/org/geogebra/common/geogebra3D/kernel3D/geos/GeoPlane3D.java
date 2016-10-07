@@ -600,8 +600,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	@Override
-	public void update() {
-		super.update();
+	public void update(boolean drag) {
+		super.update(drag);
 		if (euclidianViewForPlane != null) {
 			euclidianViewForPlane.updateForPlane();
 		}

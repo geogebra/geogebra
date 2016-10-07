@@ -738,11 +738,11 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 	}
 
 	@Override
-	public void update() {
+	public void update(boolean drag) {
 		if (fun != null && fun.isBooleanFunction()) {
 			isInequality = fun.updateIneqs();
 		}
-		super.update();
+		super.update(drag);
 	}
 
 	@Override

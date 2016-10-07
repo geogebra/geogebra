@@ -285,8 +285,8 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 	}
 
 	@Override
-	public final void update(){
-		super.update();
+	public final void update(boolean drag) {
+		super.update(drag);
 		for(int i=0; i< this.funExpanded.length; i++){
 			this.funExpanded[i]=null;
 		}

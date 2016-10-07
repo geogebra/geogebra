@@ -626,8 +626,8 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 	}
 
 	@Override
-	public void update() {
-		super.update();
+	public void update(boolean drag) {
+		super.update(drag);
 		if (euclidianViewForPlane != null) {
 			euclidianViewForPlane.updateMatrix();
 			updateViewForPlane();

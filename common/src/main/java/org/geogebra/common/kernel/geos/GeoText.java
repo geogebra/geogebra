@@ -316,9 +316,9 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 	@Override
-	public void update() {
+	public void update(boolean drag) {
 
-		super.update();
+		super.update(drag);
 		if (getLabelSimple() != null && getLabelSimple().startsWith("altText")) {
 			kernel.getApplication().setAltText();
 		}

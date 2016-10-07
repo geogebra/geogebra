@@ -1114,8 +1114,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 * Calls super.update() and updateCascade() for all registered locateables.
 	 */
 	@Override
-	public void update() {
-		super.update();
+	public void update(boolean drag) {
+		super.update(drag);
 
 		// update all registered locatables (they have this point as start
 		// point)

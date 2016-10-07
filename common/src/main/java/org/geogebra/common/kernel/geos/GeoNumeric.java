@@ -551,12 +551,12 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		else if (isIntervalMinActive() && x < getIntervalMin()){
 			value = getIntervalMin();
 			if(getCorrespondingCasCell()!=null)
-				getCorrespondingCasCell().setInputFromTwinGeo(true);
+				getCorrespondingCasCell().setInputFromTwinGeo(true, false);
 		}
 		else if (isIntervalMaxActive() && x > getIntervalMax()){
 			value = getIntervalMax();
 			if(getCorrespondingCasCell()!=null)
-				getCorrespondingCasCell().setInputFromTwinGeo(true);
+				getCorrespondingCasCell().setInputFromTwinGeo(true, false);
 		}
 		else
 			value = x;
@@ -1209,8 +1209,8 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public void update() {
-		super.update();
+	public void update(boolean drag) {
+		super.update(drag);
 		if (minMaxListeners != null) {
 			for (int i = 0; i < minMaxListeners.size(); i++) {
 				GeoNumeric geo = minMaxListeners.get(i);

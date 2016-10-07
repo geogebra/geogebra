@@ -1657,8 +1657,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * Calls super.update() and updateCascade() for all registered locateables.
 	 */
 	@Override
-	public void update() {
-		super.update();
+	public void update(boolean drag) {
+		super.update(drag);
 		/*
 		 * Log.debug(""); System.out.print("point: " +
 		 * this.getLabel(StringTemplate.defaultTemplate) + " = " +

@@ -1024,9 +1024,9 @@ SpreadsheetTraceable, AbsoluteScreenLocateable, Furniture, InequalityProperties,
 	 * geos. // Michael Borcherds 2008-04-02
 	 */
 	@Override
-	public void update() {
+	public void update(boolean drag) {
 
-		super.update();
+		super.update(drag);
 
 		// update information on whether this path is fit for AlgoLocus
 		// or it can only support AlgoLocusList (call this method here again

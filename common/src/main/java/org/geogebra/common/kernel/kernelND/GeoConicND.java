@@ -1294,9 +1294,9 @@ FromMeta
 	 * to force an update of all path parameters of all points on this conic.
 	 */
 	@Override
-	public void update() {			
+	public void update(boolean drag) {
 		makePathParametersInvalid();
-		super.update();        				
+		super.update(drag);
 	}
 
 	/**

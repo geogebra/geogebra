@@ -133,8 +133,8 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 * geos.
 	 */
 	@Override
-	public void update() {
-		super.update();
+	public void update(boolean drag) {
+		super.update(drag);
 
 		// update all registered locatables (they have this point as start
 		// point)

@@ -678,8 +678,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	}
 
 	@Override
-	public void update() {
-		super.update();
+	public void update(boolean drag) {
+		super.update(drag);
 		if (euclidianViewForPlane != null) {
 			euclidianViewForPlane.updateForPlane();
 		}
