@@ -1105,16 +1105,29 @@ myCell) {
 		// create more tables for all possible settings (I mean size of paper
 		// and orientation.)
 
+		addTable(printPanel, 1000.0, "preview_portrait", 500);
+		addTable(printPanel, 1400.0, "preview_landscape", 700);
+
+		btPrint.setEnabled(true);
+	}
+
+	/*
+	 * Add tables for print preview. Value w influences the appearance of the
+	 * table: if this value is lower, the long texts will be wrapped more, the
+	 * size of letters will be bigger, and there will be less GeoElement in a
+	 * page
+	 */
+	private void addTable(final FlowPanel printPanel, final double scaledWidth,
+			String stylename, int w) {
 		final CellTable<RowData> previewTable = new CellTable<RowData>();
 		// width of table in pixel
-		final double scaledWidth = 1000.0;
 		addColumnsForTable(previewTable);
-		previewTable.addStyleName("previewTable");
+		previewTable.addStyleName(stylename);
 		printPanel.add(previewTable);
 		previewTable.setRowCount(data.getRowCount());
 		previewTable.setVisibleRange(0, data.getRowCount());
 		previewTable.setRowData(0, data.getrowList());
-		previewTable.setWidth("160px");
+		previewTable.setWidth(w + "px");
 
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -1129,13 +1142,8 @@ myCell) {
 								"zoom",
 								(scaledWidth / previewTable.getOffsetWidth())
 										+ "");
-				
-
 			}
-
 		});
-
-		btPrint.setEnabled(true);
 	}
 
 	private enum Orientation {
