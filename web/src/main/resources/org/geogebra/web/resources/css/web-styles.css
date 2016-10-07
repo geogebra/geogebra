@@ -5603,10 +5603,6 @@ body.application[dir=rtl] .deleteAlgebra {
    ###       Printing                   ###
    ######################################## */
  
-.previewTable{
-	font-size: 40px;
-}
-
 .printScalePanel div{
 	display: inline-block;
 }

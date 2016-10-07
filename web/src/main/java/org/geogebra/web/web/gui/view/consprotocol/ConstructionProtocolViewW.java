@@ -20,7 +20,6 @@ import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.export.PrintPreviewW;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolStyleBarW;
 import org.geogebra.web.web.gui.util.StyleBarW;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
@@ -1099,26 +1098,39 @@ myCell) {
 	    return styleBar;
     }
 
-	public void getPrintable(FlowPanel printPanel, Button btPrint) {
+	public void getPrintable(final FlowPanel printPanel, Button btPrint) {
+		// I couldn't put into less the calculating of the zoom, because less
+		// has no any knowledge about the elements of the page, and because of
+		// this, I can get the current width with help of less. So I have to
+		// create more tables for all possible settings (I mean size of paper
+		// and orientation.)
+
 		final CellTable<RowData> previewTable = new CellTable<RowData>();
+		// width of table in pixel
+		final double scaledWidth = 1000.0;
 		addColumnsForTable(previewTable);
 		previewTable.addStyleName("previewTable");
 		printPanel.add(previewTable);
 		previewTable.setRowCount(data.getRowCount());
 		previewTable.setVisibleRange(0, data.getRowCount());
 		previewTable.setRowData(0, data.getrowList());
-		printPanel.setWidth("160px");
+		previewTable.setWidth("160px");
+
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
 			public void execute() {
 				Log.debug("width: " + previewTable.getOffsetWidth());
-				Log.debug("zoom: " + 800.0 / previewTable.getOffsetWidth());
+				Log.debug("zoom: " + scaledWidth / previewTable.getOffsetWidth());
 				previewTable
 						.getElement()
 						.getStyle()
-						.setProperty("zoom",
-								(800.0 / previewTable.getOffsetWidth()) + "");
+						.setProperty(
+								"zoom",
+								(scaledWidth / previewTable.getOffsetWidth())
+										+ "");
+				
+
 			}
 
 		});
@@ -1130,74 +1142,75 @@ myCell) {
 		PORTRAIT, LANDSCAPE
 	}
 
-	private void createTable(final FlowPanel printPanel, final int row,
-			final int numberOfRows, Orientation orient, Button btPrint) {
-		final CellTable<RowData> previewTable = new CellTable<RowData>();
-		addColumnsForTable(previewTable);
-		previewTable.addStyleName("previewTable");
-		if (row > 0) {
-			previewTable.addStyleName("pagebreakbefore");
-		}
-		if (orient == Orientation.PORTRAIT) {
-			previewTable.addStyleName("preview_portrait");
-		} else
-			previewTable.addStyleName("preview_landscape");
-		printPanel.add(previewTable);
+	// private void createTable(final FlowPanel printPanel, final int row,
+	// final int numberOfRows, Orientation orient, Button btPrint) {
+	// final CellTable<RowData> previewTable = new CellTable<RowData>();
+	// addColumnsForTable(previewTable);
+	// previewTable.addStyleName("previewTable");
+	// if (row > 0) {
+	// previewTable.addStyleName("pagebreakbefore");
+	// }
+	// if (orient == Orientation.PORTRAIT) {
+	// previewTable.addStyleName("preview_portrait");
+	// } else
+	// previewTable.addStyleName("preview_landscape");
+	// printPanel.add(previewTable);
+	//
+	// addRows(printPanel, row, numberOfRows, previewTable, orient, btPrint);
+	//
+	// }
 
-		addRows(printPanel, row, numberOfRows, previewTable, orient, btPrint);
-		
-	}
-
-	void addRows(final FlowPanel printPanel, final int row,
-			final int numberOfRows, final CellTable<RowData> previewTable,
-			final Orientation orient, final Button btPrint) {
-
-		previewTable.setRowCount(numberOfRows);
-		previewTable.setVisibleRange(0, numberOfRows);
-		previewTable.setRowData(0,
-				data.getrowList().subList(row, row + numberOfRows));
-
-		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-			public void execute() {
-				int offsetHeight = previewTable.getOffsetHeight();
-				int printHeight = (orient == Orientation.PORTRAIT) ? PrintPreviewW.PHEIGHT
-						: PrintPreviewW.LHEIGHT;
-				if (row + numberOfRows == data.getRowCount()) {
-					setRows(printPanel, row, numberOfRows, previewTable,
-							orient, btPrint);
-				} else if (offsetHeight < printHeight) {
-					addRows(printPanel, row, numberOfRows + 1, previewTable,
-							orient, btPrint);
-				} else {
-					setRows(printPanel, row, numberOfRows - 1, previewTable,
-							orient, btPrint);
-				}
-
-			}
-		});
-
-	}
+	// void addRows(final FlowPanel printPanel, final int row,
+	// final int numberOfRows, final CellTable<RowData> previewTable,
+	// final Orientation orient, final Button btPrint) {
+	//
+	// previewTable.setRowCount(numberOfRows);
+	// previewTable.setVisibleRange(0, numberOfRows);
+	// previewTable.setRowData(0,
+	// data.getrowList().subList(row, row + numberOfRows));
+	//
+	// Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+	// public void execute() {
+	// int offsetHeight = previewTable.getOffsetHeight();
+	// int printHeight = (orient == Orientation.PORTRAIT) ?
+	// PrintPreviewW.PHEIGHT
+	// : PrintPreviewW.LHEIGHT;
+	// if (row + numberOfRows == data.getRowCount()) {
+	// setRows(printPanel, row, numberOfRows, previewTable,
+	// orient, btPrint);
+	// } else if (offsetHeight < printHeight) {
+	// addRows(printPanel, row, numberOfRows + 1, previewTable,
+	// orient, btPrint);
+	// } else {
+	// setRows(printPanel, row, numberOfRows - 1, previewTable,
+	// orient, btPrint);
+	// }
+	//
+	// }
+	// });
+	//
+	// }
 
 	/**
 	 * true, if the previews are ready for both orientation
 	 */
 	int ready = 0;
 
-	void setRows(final FlowPanel printPanel, final int row,
-			final int numberOfRows, final CellTable<RowData> previewTable,
-			Orientation orient, Button btPrint) {
-		previewTable.setRowCount(numberOfRows);
-		previewTable.setVisibleRange(0, numberOfRows);
-		previewTable.setRowData(0,
-				data.getrowList().subList(row, row + numberOfRows));
-
-		if (row + numberOfRows < data.getRowCount()) {
-			createTable(printPanel, row + numberOfRows, 1, orient, btPrint);
-		} else { // last page of the current orientation
-			ready++;
-			if (ready == 2) {
-				btPrint.setEnabled(true);
-			}
-		}
-	}
+	// void setRows(final FlowPanel printPanel, final int row,
+	// final int numberOfRows, final CellTable<RowData> previewTable,
+	// Orientation orient, Button btPrint) {
+	// previewTable.setRowCount(numberOfRows);
+	// previewTable.setVisibleRange(0, numberOfRows);
+	// previewTable.setRowData(0,
+	// data.getrowList().subList(row, row + numberOfRows));
+	//
+	// if (row + numberOfRows < data.getRowCount()) {
+	// createTable(printPanel, row + numberOfRows, 1, orient, btPrint);
+	// } else { // last page of the current orientation
+	// ready++;
+	// if (ready == 2) {
+	// btPrint.setEnabled(true);
+	// }
+	// }
+	// }
 }
