@@ -173,6 +173,8 @@ public class RelationNumerical {
 
 	private Set<Report> reports;
 
+	private double prec;
+
 	/**
 	 * Creates new relation
 	 * 
@@ -180,6 +182,7 @@ public class RelationNumerical {
 	 *            kernel
 	 */
 	public RelationNumerical(Kernel kernel) {
+		prec = Math.pow(0.1, kernel.getPrintDecimals());
 		app = kernel.getApplication();
 		loc = app.getLocalization();
 		cons = kernel.getConstruction();
@@ -266,7 +269,7 @@ public class RelationNumerical {
 	 * description of the relation between two numbers a, b (equal, unequal)
 	 */
 	final private Set<Report> relation(GeoNumberValue a, GeoNumberValue b) {
-		Boolean bool = Kernel.isEqual(a.getDouble(), b.getDouble());
+		Boolean bool = Kernel.isEqual(a.getDouble(), b.getDouble(), prec);
 		String str = equalityString(a.toGeoElement(), b.toGeoElement(), bool);
 		register(bool, RelationCommand.AreEqual, str);
 		return reports;
@@ -280,7 +283,7 @@ public class RelationNumerical {
 		Boolean bool;
 		String str;
 		if (Kernel.isEqual(((NumberValue) a).getDouble(),
-				((NumberValue) b).getDouble())) {
+				((NumberValue) b).getDouble(), prec)) {
 
 			if (a.isEqual(b)) {
 				register(true, RelationCommand.AreEqual,
@@ -470,7 +473,7 @@ public class RelationNumerical {
 		if (type == b.getConicPartType()) {
 			if (type == GeoConicNDConstants.CONIC_PART_ARC) {
 				if (Kernel.isEqual(((NumberValue) a).getDouble(),
-						((NumberValue) b).getDouble())) {
+						((NumberValue) b).getDouble(), prec)) {
 					str = loc.getPlain("AhasTheSameLengthAsB",
 							a.getColoredLabel(), b.getColoredLabel());
 					register(true, null, str); // TODO: No symbolic support.
@@ -482,7 +485,7 @@ public class RelationNumerical {
 			} else {
 				// sb.append(app.getCommand("Area"));
 				if (Kernel.isEqual(((NumberValue) a).getDouble(),
-						((NumberValue) b).getDouble())) {
+						((NumberValue) b).getDouble(), prec)) {
 					str = loc.getPlain("AhasTheSameAreaAsB",
 							a.getColoredLabel(), b.getColoredLabel());
 					register(true, null, str); // TODO: No symbolic support.
