@@ -2288,7 +2288,7 @@ __GGB__keysVar.eu.menu = {
     "PlaneThroughAPerpendicularToB": "%0-tik igarotzen den eta %1-(r)ekiko perpendikularra den planoa",
     "Play": "Erreproduzitu",
     "PlayButton": "Erreproduzitzeko botoia",
-    "PleaseInstallA": "Please install %0",
+    "PleaseInstallA": "Instalatu %0, mesedez.",
     "PleaseWait": "Itxaron, mesedez\u2026",
     "Point": "Puntua",
     "Point.Help": "Egin klik Ikuspegi Grafikoan edo zuzen, funtzio edo kurba batean",
