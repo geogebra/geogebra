@@ -30,15 +30,13 @@ public class MirrorBotana {
 			GeoPoint P, Q;
 			// if we want to mirror a line to a line
 			if (inGeo.isGeoLine()) {
-				P = ((GeoLine) inGeo).startPoint;
-				Q = ((GeoLine) inGeo).endPoint;
-				GeoLine l = (GeoLine) mirrorLine;
 
-				if (P != null && Q != null && l != null) {
-					Variable[] vP = P.getBotanaVars(P);
-					Variable[] vQ = Q.getBotanaVars(Q);
-					Variable[] vL = l.getBotanaVars(l);
+				/* It's possible that inGeo already has Botana vars. */
+				Variable[] inGeoVars = ((GeoLine) inGeo).getBotanaVars(inGeo);
+				Variable[] mirrorLineVars = ((GeoLine) mirrorLine)
+						.getBotanaVars(mirrorLine);
 
+				if (inGeoVars != null && mirrorLineVars != null) {
 					if (botanaVars == null) {
 						botanaVars = new Variable[8];
 						// P' - mirror of P
@@ -59,8 +57,8 @@ public class MirrorBotana {
 
 					// first we want to mirror P to line l
 
-					Polynomial p1 = new Polynomial(vP[0]);
-					Polynomial p2 = new Polynomial(vP[1]);
+					Polynomial p1 = new Polynomial(inGeoVars[0]);
+					Polynomial p2 = new Polynomial(inGeoVars[1]);
 					Polynomial v1_1 = new Polynomial(botanaVars[4]);
 					Polynomial v1_2 = new Polynomial(botanaVars[5]);
 					Polynomial p_1 = new Polynomial(botanaVars[0]);
@@ -74,26 +72,27 @@ public class MirrorBotana {
 
 					Variable[] A = new Variable[2];
 					// A - start point of mirrorLine
-					A[0] = vL[0];
-					A[1] = vL[1];
+					A[0] = mirrorLineVars[0];
+					A[1] = mirrorLineVars[1];
 					Variable[] B = new Variable[2];
 					// B - end point of mirrorLine
-					B[0] = vL[2];
-					B[1] = vL[3];
+					B[0] = mirrorLineVars[2];
+					B[1] = mirrorLineVars[3];
 
 					// A, V1, B collinear
 					botanaPolynomials[2] = Polynomial.collinear(A[0], A[1],
 							botanaVars[4], botanaVars[5], B[0], B[1]);
 
 					// PV1 orthogonal AB
-					botanaPolynomials[3] = Polynomial.perpendicular(vP[0],
-							vP[1], botanaVars[4], botanaVars[5], A[0], A[1],
+					botanaPolynomials[3] = Polynomial.perpendicular(
+							inGeoVars[0], inGeoVars[1], botanaVars[4],
+							botanaVars[5], A[0], A[1],
 							B[0], B[1]);
 
-					// second we want to mirror Q to line l
+					// second we want to mirror Q to the mirrorLine
 
-					Polynomial q1 = new Polynomial(vQ[0]);
-					Polynomial q2 = new Polynomial(vQ[1]);
+					Polynomial q1 = new Polynomial(inGeoVars[2]);
+					Polynomial q2 = new Polynomial(inGeoVars[3]);
 					Polynomial v2_1 = new Polynomial(botanaVars[6]);
 					Polynomial v2_2 = new Polynomial(botanaVars[7]);
 					Polynomial q_1 = new Polynomial(botanaVars[2]);
@@ -110,8 +109,9 @@ public class MirrorBotana {
 							botanaVars[6], botanaVars[7], B[0], B[1]);
 
 					// QV2 orthogonal AB
-					botanaPolynomials[7] = Polynomial.perpendicular(vQ[0],
-							vQ[1], botanaVars[6], botanaVars[7], A[0], A[1],
+					botanaPolynomials[7] = Polynomial.perpendicular(
+							inGeoVars[2], inGeoVars[3], botanaVars[6],
+							botanaVars[7], A[0], A[1],
 							B[0], B[1]);
 
 					return botanaPolynomials;
