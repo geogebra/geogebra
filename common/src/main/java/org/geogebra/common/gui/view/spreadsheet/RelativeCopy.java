@@ -992,6 +992,10 @@ public class RelativeCopy {
 			final AsyncOperation<GeoElementND> callback) {
 		return new ErrorHandler() {
 
+			public boolean useLocalization(){
+				return true;
+			}
+
 			public void showError(String msg) {
 				if ("CircularDefinition".equals(msg)) {
 					kernel.getApplication().getDefaultErrorHandler()

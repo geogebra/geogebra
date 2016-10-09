@@ -19,6 +19,10 @@ public class ScriptErrorHandler implements ErrorHandler {
 		this.line = i;
 	}
 
+	public boolean useLocalization(){
+		return true;
+	}
+
 	public void showError(String msg) {
 		if (evt.type == EventType.UPDATE) {
 			app.setBlockUpdateScripts(true);

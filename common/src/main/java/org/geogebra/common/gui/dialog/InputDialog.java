@@ -21,5 +21,9 @@ public abstract class InputDialog implements ErrorHandler {
 		inputHandler.processInput(inputText, this, callback);
 	}
 
+	public boolean useLocalization(){
+		return true;
+	}
+
 
 }

@@ -5324,6 +5324,10 @@ new GPoint(row, column));
 
 	private ErrorHandler handler = new ErrorHandler() {
 
+		public boolean useLocalization(){
+			return true;
+		}
+
 		public void showError(String msg) {
 			errors.add(msg);
 

@@ -4,6 +4,8 @@ import org.geogebra.common.util.AsyncOperation;
 
 public interface ErrorHandler {
 
+	boolean useLocalization();
+
 	void showError(String msg);
 
 	void showCommandError(String command, String message);

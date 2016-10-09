@@ -52,8 +52,21 @@ public class ErrorHelper {
 		}
 	}
 
+
+	public static void handleInvalidInput(String str, Localization loc, ErrorHandler handler) {
+		if (handler.useLocalization()) {
+			handler.showError(loc.getError("InvalidInput") + ":\n" + str);
+		}else{
+			handler.showError("InvalidInput:\n" + str);
+		}
+	}
+
 	public static ErrorHandler silent() {
 		return new ErrorHandler() {
+
+			public boolean useLocalization(){
+				return false;
+			}
 
 			public void showError(String msg) {
 				Log.printStacktrace(msg);
