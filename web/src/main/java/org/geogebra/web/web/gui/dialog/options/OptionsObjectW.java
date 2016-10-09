@@ -305,6 +305,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			setWidget(mainPanel);
 		}
 
+		public boolean useLocalization() {
+			return true;
+		}
+
 		@Override
 		public void showError(String msg) {
 			if (msg == null) {
@@ -645,6 +649,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			redefinitionForFocusLost = tfDefinition.getText();
 
 
+		}
+
+		public boolean useLocalization() {
+			return true;
 		}
 
 		@Override

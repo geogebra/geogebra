@@ -111,6 +111,10 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 										inputField.getText(),
 										new ErrorHandler() {
 
+											public boolean useLocalization() {
+												return true;
+											}
+
 											public void showError(String msg) {
 												updateIcons(msg != null);
 												btnHelpToggle.setToolTipText(
@@ -453,6 +457,10 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 	private ErrorHandler getErrorHandler(final boolean valid,
 			final boolean explicit) {
 		return new ErrorHandler() {
+
+			public boolean useLocalization() {
+				return true;
+			}
 
 			public void showError(String msg) {
 				if (explicit) {

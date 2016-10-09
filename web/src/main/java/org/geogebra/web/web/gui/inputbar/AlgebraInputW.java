@@ -367,6 +367,10 @@ public class AlgebraInputW extends FlowPanel
 		// TODO Auto-generated method stub
 		return new ErrorHandler() {
 
+			public boolean useLocalization() {
+				return true;
+			}
+
 			public void showError(String msg) {
 
 				input.updateIcons(msg != null);
@@ -409,6 +413,10 @@ public class AlgebraInputW extends FlowPanel
 	private ErrorHandler getErrorHandler(final boolean valid,
 			final boolean explicit) {
 		return new ErrorHandler() {
+
+			public boolean useLocalization() {
+				return true;
+			}
 
 			public void showError(String msg) {
 				if (explicit) {
