@@ -44,8 +44,6 @@ public class DrawSlider extends Drawable {
 	// private GeoPoint geoPoint;
 	// private DrawPointSlider drawPoint;
 
-	private int HIGHLIGHT_OFFSET;
-
 	// used by getSelectionDiamaterMin()
 	private static final int SELECTION_RADIUS_MIN = 12;
 
@@ -53,7 +51,12 @@ public class DrawSlider extends Drawable {
 
 	// private GeoPointND P;
 
-	private int diameter, hightlightDiameter, pointSize;
+	// now hard-coded
+	final private static int pointSize = 5;
+	final private static int diameter = 2 * pointSize + 1;
+	final private static int HIGHLIGHT_OFFSET = pointSize / 2 + 1;
+	final private static int hightlightDiameter = diameter
+			+ 2 * HIGHLIGHT_OFFSET;
 
 	// for dot and selection
 	private GEllipse2DDouble circle = AwtFactory.prototype.newEllipse2DDouble();
@@ -84,6 +87,8 @@ public class DrawSlider extends Drawable {
 	public DrawSlider(EuclidianView view, GeoNumeric number) {
 		this.view = view;
 		this.number = number;
+		// now hard-coded
+		number.setLineThickness(10);
 		geo = number;
 		initX = number.getSliderX();
 		initY = number.getSliderY();
@@ -133,7 +138,7 @@ public class DrawSlider extends Drawable {
 			double max = number.getIntervalMax();
 
 			double param = (number.getValue() - min) / (max - min);
-			setPointSize(2 + (number.getLineThickness() + 1) / 3);
+			// setPointSize(2 + (number.getLineThickness() + 1) / 3);
 
 			// horizontal slider
 			if (horizontal) {
@@ -329,15 +334,18 @@ public class DrawSlider extends Drawable {
 		}
 	}
 
-	private void setPointSize(int pointSize) {
-		if (this.pointSize != pointSize) {
-			diameter = 2 * pointSize;
-			HIGHLIGHT_OFFSET = pointSize / 2 + 1;
-			// HIGHLIGHT_OFFSET = pointSize / 2 + 1;
-			hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
-		}
-		this.pointSize = pointSize;
-	}
+	// private void setPointSize(int pointSize) {
+	// if (this.pointSize != pointSize) {
+	// diameter = 2 * pointSize;
+	// HIGHLIGHT_OFFSET = pointSize / 2 + 1;
+	// // HIGHLIGHT_OFFSET = pointSize / 2 + 1;
+	// hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
+	// }
+	//
+	// Log.error("pointSize = " + pointSize);
+	//
+	// this.pointSize = pointSize;
+	// }
 
 	@Override
 	public void move() {
