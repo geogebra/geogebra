@@ -36,9 +36,8 @@ public class DrawImplicitCurve extends DrawLocus {
 	 *            implicit Curvenomial
 	 */
 	public DrawImplicitCurve(EuclidianView view, GeoImplicit implicitCurve) {
-		super(view, implicitCurve.getLocus(), implicitCurve.getCoordSys(),
-				implicitCurve.getTransformedCoordSys(), implicitCurve
-						.isTransformed());
+		super(view, implicitCurve.getLocus(),
+				implicitCurve.getTransformedCoordSys());
 		this.view = view;
 		this.implicitCurve = implicitCurve;
 		this.geo = implicitCurve.toGeoElement();

@@ -56,7 +56,6 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 	@Override
 	public void compute() {
 
-		curve.getCoordSys().set(plane.getCoordSys());
 		// a*x+b*y+c*z=d, z=d/c-a/c*x-b/c*y
 		Coords norm = plane.getCoordSys().getEquationVector();
 		FunctionVariable x = surface.getFunctionVariables()[0];
@@ -75,7 +74,6 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 									kernel)).plus(d / c));
 
 			curve.getTransformedCoordSys().setZequal(a, b, c, d);
-			curve.setIsTransformed(true);
 		} else {
 			VariableReplacer vr = VariableReplacer.getReplacer(kernel);
 			exp = surface.getFunctionExpression().getCopy(kernel);
@@ -87,7 +85,6 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 				VariableReplacer.addVars("y", substY);
 
 				curve.getTransformedCoordSys().setYequal(a, b, d);
-				curve.setIsTransformed(true);
 
 			} else {
 				double v = -norm.getW() / norm.getX();
@@ -98,7 +95,6 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 				
 				// set transformed coord sys to x=value
 				curve.getTransformedCoordSys().setXequal(v);
-				curve.setIsTransformed(true);
 			}
 			exp = exp.traverse(vr).wrap()
 					.subtract(new FunctionVariable(kernel, "y"));

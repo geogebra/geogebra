@@ -1190,14 +1190,14 @@ public class PlotterBrush implements PathPlotter {
 
 	private Coords tmpCopyCoords;
 
-	public boolean copyCoords(MyPoint point, double[] ret, Coords eq,
-			CoordSys transformSys, boolean isTransformed) {
+	public boolean copyCoords(MyPoint point, double[] ret,
+			CoordSys transformSys) {
 
 		ret[0] = point.x;
 		ret[1] = point.y;
 		ret[2] = point.getZ();// maybe 0 if 2D point
 
-		if (isTransformed) {
+		if (transformSys != CoordSys.Identity3D) {
 			if (tmpCopyCoords == null) {
 				tmpCopyCoords = Coords.createInhomCoorsInD3();
 			}
@@ -1226,8 +1226,7 @@ public class PlotterBrush implements PathPlotter {
 		// TODO Auto-generated method stub
 	}
 
-	public boolean supports(Coords equationVector, CoordSys transformSys,
-			boolean isTransformed) {
+	public boolean supports(CoordSys transformSys) {
 		return true;
 	}
 

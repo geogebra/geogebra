@@ -1847,20 +1847,8 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 		}
 	}
 
-	public CoordSys getCoordSys() {
-		return CoordSys.Identity3D;
-	}
-
-	public Coords getEquationVector() {
-		return Coords.VZ;
-	}
-
 	public void setCoeff(double[][][] coeff) {
 		Log.error("unimplemented");
-	}
-
-	public boolean isTransformed() {
-		return false;
 	}
 
 	public CoordSys getTransformedCoordSys() {

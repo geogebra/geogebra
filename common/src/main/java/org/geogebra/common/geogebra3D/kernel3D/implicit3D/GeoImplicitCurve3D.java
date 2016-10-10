@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
-	private CoordSys coordSys, transformCoordSys;
+	private CoordSys transformCoordSys;
 	private boolean isTransformed;
 
 	/**
@@ -27,7 +27,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	 */
 	public GeoImplicitCurve3D(Construction c) {
 		super(c);
-		this.coordSys = new CoordSys(2);
 		this.transformCoordSys = new CoordSys(2);
 		transformCoordSys.set(CoordSys.Identity3D);
 		isTransformed = false;
@@ -40,20 +39,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	}
 
 	@Override
-	public CoordSys getCoordSys() {
-		return coordSys;
-	}
-
-	@Override
-	public boolean isTransformed() {
-		return isTransformed;
-	}
-
-	public void setIsTransformed(boolean flag) {
-		isTransformed = flag;
-	}
-
-	@Override
 	public CoordSys getTransformedCoordSys() {
 		return transformCoordSys;
 	}
@@ -62,18 +47,11 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		transformCoordSys.set(sys);
 	}
 
-	private Coords equationVector3D = new Coords(4);
-
-	public Coords getEquationVector() {
-		return equationVector3D;
-	}
 
 	@Override
 	public void set(GeoElementND geo) {
 		super.set(geo);
 		GeoImplicit implicit = (GeoImplicit) geo;
-		coordSys.set(implicit.getCoordSys());
-		equationVector3D.set(implicit.getEquationVector());
 		transformCoordSys.set(implicit.getTransformedCoordSys());
 	}
 
@@ -92,7 +70,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		valueSb.append(eqn);
 		valueSb.append(",");
 		valueSb.append(new GTemplate(tpl, kernel).buildImplicitEquation(
-				coordSys,
+				transformCoordSys,
 				GeoPlane3D.VAR_STRING, false, true));
 		valueSb.append(")");
 		return valueSb.toString();
@@ -102,16 +80,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	@Override
 	public boolean isGeoElement3D() {
 		return true;
-	}
-
-
-	@Override
-	protected void setPointOnCoordsys(GeoPointND PI) {
-		Coords coords = PI.getInhomCoordsInD3().copyVector();
-		Coords vec = coordSys.getEquationVector();
-		Coords.xyToCoordSystem(coords, vec);
-		PI.setCoords(coords, false);
-		PI.updateCoords();
 	}
 
 	private Coords tmpCoords = new Coords(4);

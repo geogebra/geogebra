@@ -5,7 +5,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 
@@ -18,9 +17,7 @@ import org.geogebra.common.kernel.geos.GeoLocusND;
 public class DrawLocus3D extends Drawable3DCurves {
 
 	private GeoLocusND locus;
-	private Coords equationVector;
 	private CoordSys transformCoordSys;
-	private boolean isTransformed;
 
 	/**
 	 * @param a_view3d
@@ -31,13 +28,10 @@ public class DrawLocus3D extends Drawable3DCurves {
 	 *            locus itself or parent geo
 	 */
 	public DrawLocus3D(EuclidianView3D a_view3d, GeoLocusND locus,
-			GeoElement geo, Coords equationVector, CoordSys transformSys,
-			boolean isTransformed) {
+			GeoElement geo, CoordSys transformSys) {
 		super(a_view3d, geo);
 		this.locus = locus;
-		this.equationVector = equationVector;
 		this.transformCoordSys = transformSys;
-		this.isTransformed = isTransformed;
 
 	}
 
@@ -62,8 +56,7 @@ public class DrawLocus3D extends Drawable3DCurves {
 		brush.setAffineTexture(0f, 0f);
 		brush.setLength(1f);
 
-		CurvePlotter.draw(brush, getLocus().getPoints(), equationVector,
-				transformCoordSys, isTransformed);
+		CurvePlotter.draw(brush, getLocus().getPoints(), transformCoordSys);
 
 		setGeometryIndex(brush.end());
 

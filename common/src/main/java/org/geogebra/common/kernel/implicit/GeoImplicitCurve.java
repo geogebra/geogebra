@@ -777,7 +777,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	protected void polishPointOnPath(GeoPointND PI) {
 		quadTree.polishPointOnPath(PI);
-		setPointOnCoordsys(PI);
 	}
 
 	@Override
@@ -822,16 +821,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	protected void locusPathChanged(GeoPointND PI) {
 		locus.pathChanged(PI);
 		polishPointOnPath(PI);
-	}
-
-	/**
-	 * set point on coord sys
-	 * 
-	 * @param PI
-	 *            point
-	 */
-	protected void setPointOnCoordsys(GeoPointND PI) {
-		// only for 3D
 	}
 
 	/**
@@ -2080,18 +2069,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		this.coeff = coeffMatrix;
 		this.degX = coeff.length - 1;
 		this.degY = coeff[0].length - 1;
-	}
-
-	public CoordSys getCoordSys() {
-		return CoordSys.Identity3D;
-	}
-
-	public Coords getEquationVector() {
-		return Coords.VZ;
-	}
-
-	public boolean isTransformed() {
-		return false;
 	}
 
 	public CoordSys getTransformedCoordSys() {

@@ -4,7 +4,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -58,21 +57,11 @@ public interface GeoImplicit extends GeoElementND {
 
 	void throughPoints(GeoList p);
 
-	CoordSys getCoordSys();
-
-	public Coords getEquationVector();
-
 	double derivativeX(double x, double y);
 
 	double derivativeY(double x, double y);
 
 	double evaluateImplicitCurve(double x, double y);
-
-	/**
-	 * 
-	 * @return true if the curve is transformed (translated etc.)
-	 */
-	public boolean isTransformed();
 
 	/**
 	 * 

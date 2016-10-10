@@ -55,7 +55,6 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement {
 	@Override
 	public void compute() {
 		VariableReplacer vr = VariableReplacer.getReplacer(kernel);
-		curve.getCoordSys().set(plane.getCoordSys());
 		// a*x+b*y+c*z=d, z=d/c-a/c*x-b/c*y
 		Coords norm = plane.getCoordSys().getEquationVector();
 		FunctionVariable x = surface.getExpression().getFunctionVariables()[0];

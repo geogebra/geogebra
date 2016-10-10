@@ -180,11 +180,10 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	}
 
 	public boolean copyCoords(MyPoint point, double[] ret,
-			Coords equationVector,
-			CoordSys transformSys, boolean isTransformed) {
+			CoordSys transformSys) {
 		
 		Coords coords = new Coords(point.x, point.y, point.getZ(), 1);
-		if (isTransformed){
+		if (transformSys != CoordSys.Identity3D) {
 			transformSys.getPointFromOriginVectors(coords, tmpCoords);
 			coords.set(tmpCoords);
 		}
@@ -201,12 +200,8 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 	private Coords tmpCoords = new Coords(4);
 
-	public boolean supports(Coords equationVector, CoordSys transformSys,
-			boolean isTransformed) {
-		if (isTransformed) {
-			return view.isInPlane(transformSys);
-		}
-		return view.isInPlane(CoordSys.Identity3D);
+	public boolean supports(CoordSys transformSys) {
+		return view.isInPlane(transformSys);
 	}
 
 }

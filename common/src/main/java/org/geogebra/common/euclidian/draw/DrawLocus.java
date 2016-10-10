@@ -40,8 +40,7 @@ public class DrawLocus extends Drawable {
 	private boolean isVisible, labelVisible;
 	private GeneralPathClippedForCurvePlotter gp;
 	private double[] labelPosition;
-	private CoordSys coordSys, transformSys;
-	private boolean isTransformed;
+	private CoordSys transformSys;
 
 	/**
 	 * Creates new drawable for given locus
@@ -52,14 +51,11 @@ public class DrawLocus extends Drawable {
 	 *            locus
 	 */
 	public DrawLocus(EuclidianView view, GeoLocusND<? extends MyPoint> locus,
-			CoordSys sys, CoordSys transformSys, boolean isTransformed) {
+			CoordSys transformSys) {
 		this.view = view;
 		this.locus = locus;
 		geo = locus;
-		this.coordSys = sys;
 		this.transformSys = transformSys;
-		this.isTransformed = isTransformed;
-
 		update();
 	}
 
@@ -139,8 +135,7 @@ public class DrawLocus extends Drawable {
 
 		// Use the last plotted point for positioning the label:
 		labelPosition = CurvePlotter.draw(gp, pointList,
-				coordSys.getEquationVector(),
-				transformSys, isTransformed);
+				transformSys);
 		/*
 		 * Due to numerical instability of the curve plotter algorithm this
 		 * position may be changing too quickly which results in an annoying
