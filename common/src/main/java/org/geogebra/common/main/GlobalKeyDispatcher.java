@@ -983,7 +983,6 @@ public abstract class GlobalKeyDispatcher {
 	protected boolean handleSelectedGeosKeys(KeyCodes key,
 			ArrayList<GeoElement> geos, boolean isShiftDown,
 			boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet) {
-
 		// SPECIAL KEYS
 		double changeValX = 0; // later: changeVal = base or -base
 		double changeValY = 0; // later: changeVal = base or -base

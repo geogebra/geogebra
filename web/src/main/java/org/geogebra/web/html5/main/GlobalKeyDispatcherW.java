@@ -394,7 +394,6 @@ public class GlobalKeyDispatcherW extends
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (kc == KeyCodes.TAB) {
 
-
 			// event.stopPropagation() is already called!
 			boolean success = handleTab(event.isControlKeyDown(),
 					event.isShiftKeyDown(), true);
@@ -419,6 +418,7 @@ public class GlobalKeyDispatcherW extends
 					keydownPreventsDefaultKeypressTAB = false;
 				}
 			} else {
+
 				EuclidianViewW.tabPressed = false;
 				keydownPreventsDefaultKeypressTAB = true;
 			}
@@ -464,7 +464,6 @@ public class GlobalKeyDispatcherW extends
 	 * cycle
 	 */
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
-
 		app.getActiveEuclidianView().closeDropdowns();
 		
 		if (isShiftDown) {

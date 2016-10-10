@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.VirtualKeyboardListener;
 import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.common.gui.inputfield.AutoComplete;
+import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.inputfield.MyTextField;
 import org.geogebra.common.javax.swing.GBox;
@@ -977,13 +978,26 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		if (keyCode == GWTKeycodes.KEY_TAB || keyCode == GWTKeycodes.KEY_F1
 				|| app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
 			e.preventDefault();
+			if (keyCode == GWTKeycodes.KEY_TAB && usedForInputBox()) {
+				// setFocus(false);
+
+				AutoCompleteTextField tf = app.getActiveEuclidianView()
+						.getTextField();
+				if (tf != null) {
+					tf.setVisible(false);
+				}
+
+				app.getGlobalKeyDispatcher().handleTab(e.isControlKeyDown(),
+						e.isShiftKeyDown(), true);
+
+				app.getActiveEuclidianView().requestFocus();
+			}
 		}
 	}
 
 	@Override
 	public void onKeyUp(KeyUpEvent e) {
 		int keyCode = e.getNativeKeyCode();
-
 		// we don't want to trap AltGr
 		// as it is used eg for entering {[}] is some locales
 		// NB e.isAltGraphDown() doesn't work
@@ -1029,6 +1043,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				textField.hideSuggestions();
 			} else {
 				textField.setFocus(false);
+				app.getActiveEuclidianView().requestFocus();
 			}
 			break;
 
