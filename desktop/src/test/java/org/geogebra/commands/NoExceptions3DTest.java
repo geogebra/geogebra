@@ -4,8 +4,6 @@ import java.util.Locale;
 
 import javax.swing.JFrame;
 
-import junit.framework.Assert;
-
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.geogebra3D.App3D;
@@ -13,6 +11,8 @@ import org.geogebra.desktop.main.AppD;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import junit.framework.Assert;
 
 public class NoExceptions3DTest {
 	static AppD app;
@@ -41,10 +41,7 @@ new String[] { "--silent" }),
 		ap = app.getKernel().getAlgebraProcessor();
 	}
 	
-	@Test
-	public void cmdSurfaceCartesian() {
-		t("Surface[u*v,u+v,u^2+v^2,u,-1,1,v,1,3]");
-	}
+
 
 	@Test
 	public void cmdEnds() {
@@ -56,10 +53,7 @@ new String[] { "--silent" }),
 		// TODO write test
 	}
 
-	@Test
-	public void cmdCube() {
-		// TODO write test
-	}
+
 
 	@Test
 	public void cmdBottom() {
@@ -100,12 +94,7 @@ new String[] { "--silent" }),
 	public void cmdPerpendicularPlane() {
 		// TODO write test
 	}
-	
-	@Test
-	public void cmdPlane() {
-		// TODO write test
-	}
-	
+
 	@Test
 	public void cmdPlaneBisector() {
 		// TODO write test
@@ -131,11 +120,8 @@ new String[] { "--silent" }),
 		// TODO write test
 	}
 	
-	@Test
-	public void cmdSphere() {
-		// TODO write test
-	}
 	
+
 	@Test
 	public void cmdSurface() {
 		// TODO write test
@@ -170,11 +156,8 @@ new String[] { "--silent" }),
 	public void cmdIntersectCircle(){
 		// TODO write test
 	}
-	@Test
-	public void cmdVolume(){
-		// TODO write test
-	}
 	
+
 	@Test
 	public void cmdHeight(){
 		// TODO write test

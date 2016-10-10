@@ -77,6 +77,10 @@ public class CommandsTest extends Assert{
 		Assert.assertNotNull(s,result);
 
 		Assert.assertEquals(s + " count:", expected.length, result.length);
+		// for (int i = 0; i < expected.length; i++) {
+		// String actual = result[i].toValueString(tpl);
+		// System.out.println("\"" + actual + "\",");
+		// }
 		for (int i = 0; i < expected.length; i++) {
 			String actual = result[i].toValueString(tpl);
 			Assert.assertEquals(s + ":" + actual, expected[i], actual);
@@ -434,5 +438,64 @@ public class CommandsTest extends Assert{
 		t("Product[{x,y}]", "(x * y)");
 		t("Product[ (k,k),k,1,5 ]", "-480 - 480" + Unicode.IMAGINARY);
 
+	}
+
+	@Test
+	public void cmdPlane() {
+		t("Plane[ (0,0,1),(1,0,0),(0,1,0) ]", "x + y + z = 1");
+		t("Plane[ Polygon[(0,0,1),(2,0,0),(0,3,0)] ]", "3x + 2y + 6z = 6");
+		t("Plane[ Ellipse[(0,0,1),(2,0,0),(0,3,0)] ]", "3x + 2y + 6z = 6");
+		t("Plane[ (1,2,3),X=(s,s,s) ]", "x - 2y + z = 0");
+		t("Plane[ (1,2,3),x+y+z=0 ]", "x + y + z = 6");
+		t("Plane[ X=(s,s,s+1),X=(s,s,s) ]", "-x + y = 0");
+		t("Plane[ (0,0,1),Vector[(1,0,0)],Vector[(0,1,0)] ]", "z = 1");
+	}
+
+	@Test
+	public void cmdSurfaceCartesian() {
+		t("Surface[u*v,u+v,u^2+v^2,u,-1,1,v,1,3]",
+				"((u * v), u + v, u^(2) + v^(2))");
+	}
+
+	@Test
+	public void cmdCube() {
+		t("Cube[(0,0,0),(0,0,2)]",
+				new String[] { "8", "(2, 0, 0)", "(0, 2, 0)", "(0, 2, 2)",
+						"(2, 2, 2)", "(2, 2, 0)", "4", "4", "4", "4", "4", "4",
+						"2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
+						"2" });
+		t("Cube[(0,0,0),(0,2,0),(0,2,2)]",
+				new String[] { "8", "(0, 0, 2)", "(2, 0, 0)", "(2, 2, 0)",
+						"(2, 2, 2)", "(2, 0, 2)", "4", "4", "4", "4", "4", "4",
+						"2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
+						"2" });
+		t("Cube[(0,0,0),(0,0,2),xAxis]",
+				new String[] { "8", "(0, -2, 2)", "(0, -2, 0)", "(2, 0, 0)",
+						"(2, 0, 2)", "(2, -2, 2)", "(2, -2, 0)", "4", "4", "4",
+						"4", "4", "4", "2", "2", "2", "2", "2", "2", "2", "2",
+						"2", "2", "2",
+						"2" });
+	}
+
+	@Test
+	public void cmdVolume() {
+		t("round(Volume[Cube[(0,0,1),(0,1,0)]],10)",
+				eval("round(sqrt(8),10)"));
+		t("Volume[Sphere[(0,0,1),4]]", eval("4/3*pi*4^3"));
+	}
+
+	@Test
+	public void cmdSphere() {
+		t("Sphere[(0,0,1),4]", indices("x^2 + y^2 + (z - 1)^2 = 16"));
+		t("Sphere[(0,0,1),(0,4,1)]", indices("x^2 + y^2 + (z - 1)^2 = 16"));
+	}
+
+	private String indices(String string) {
+		return string.replace("^2", Unicode.Superscript_2 + "");
+	}
+
+	private String eval(String string) {
+		return ap.evaluateToNumeric(string, true)
+				.toValueString(StringTemplate.xmlTemplate);
 	}
 }
