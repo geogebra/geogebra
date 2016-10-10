@@ -54,30 +54,32 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		myPointList.add(new MyPoint(x, y, lineTo));
 	}
 
-
-
-	public void pointChanged(GeoPointND P) {
-		
-		Coords coords = P.getCoordsInD2().getInhomCoordsInSameDimension();
-		setChangingPoint(P);
-		 
+	public void pointChanged(Coords coords, PathParameter pp) {
+		changingPoint = coords;
 		// this updates closestPointParameter and closestPointIndex
 		MyPoint closestPoint = getClosestPoint();
 
-		PathParameter pp = P.getPathParameter();
 		// Application.debug(pp.t);
 		if (closestPoint != null) {
-			coords.setX(closestPoint.x);// (1 - closestPointParameter) * locusPoint.x +
-									// closestPointParameter * locusPoint2.x;
-			coords.setY(closestPoint.y);// (1 - closestPointParameter) * locusPoint.y +
-									// closestPointParameter * locusPoint2.y;
+			coords.setX(closestPoint.x);// (1 - closestPointParameter) *
+										// locusPoint.x +
+			// closestPointParameter * locusPoint2.x;
+			coords.setY(closestPoint.y);// (1 - closestPointParameter) *
+										// locusPoint.y +
+			// closestPointParameter * locusPoint2.y;
 			coords.setZ(1.0);
 			pp.t = closestPointIndex + closestPointParameter;
 		}
-		
-		 P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
-		 P.updateCoordsFrom2D(false);
-		 P.updateCoords();
+	}
+
+	public void pointChanged(GeoPointND P) {
+
+		Coords coords = P.getCoordsInD2().getInhomCoordsInSameDimension();
+		pointChanged(coords, P.getPathParameter());
+
+		P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
+		P.updateCoordsFrom2D(false);
+		P.updateCoords();
 	}
 
 

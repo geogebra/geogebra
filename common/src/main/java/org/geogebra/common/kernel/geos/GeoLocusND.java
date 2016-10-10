@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverLocus;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoLocusSliderInterface;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -341,6 +342,22 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	}
 	
+	public void pathChanged(Coords P, PathParameter pp) {
+		int n = (int) Math.floor(pp.t);
+
+		double t = pp.t - n; // between 0 and 1
+
+		// check n and n+1 are in a sensible range
+		// might occur if locus has changed no of segments/points
+		if (n >= myPointList.size() || n < 0) {
+			n = (n < 0) ? 0 : myPointList.size() - 1;
+		}
+
+		MyPoint locusPoint = myPointList.get(n);
+		MyPoint locusPoint2 = myPointList.get((n + 1) % myPointList.size());
+
+		P.set(1 - t, t, locusPoint, locusPoint2);
+	}
 	
 
 

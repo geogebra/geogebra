@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.util.Cloner;
 
@@ -649,10 +650,12 @@ public class CurvePlotter {
 	 * @return last point drawn
 	 */
 	static public double[] draw(PathPlotter gp,
-			ArrayList<? extends MyPoint> pointList, CoordSys sys) {
+			ArrayList<? extends MyPoint> pointList, Coords equationVector,
+			CoordSys transformSys, boolean isTransformed) {
 		double[] coords = gp.newDoubleArray();
 		int size = pointList.size();
-		if (!gp.supports(sys) || size == 0) {
+		if (!gp.supports(equationVector, transformSys, isTransformed)
+				|| size == 0) {
 			return coords;
 		}
 		// this is for making sure that there is no lineto from nothing
@@ -667,7 +670,8 @@ public class CurvePlotter {
 			// don't add infinite points
 			// otherwise hit-testing doesn't work
 			if (p.isFinite()) {
-				if (gp.copyCoords(p, coords, sys)) {
+				if (gp.copyCoords(p, coords, equationVector, transformSys,
+						isTransformed)) {
 
 					if (p.lineTo && !linetofirst) {
 						gp.lineTo(coords);

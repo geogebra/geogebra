@@ -81,7 +81,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	FunctionNVar[] factorExpression;
 	private FunctionNVar[] diffExp = new FunctionNVar[3];
 
-	private GeoLocus locus;
+	protected GeoLocus locus;
 
 	/**
 	 * Underlying drawing algorithm
@@ -775,7 +775,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 * @param PI
 	 *            point
 	 */
-	private void polishPointOnPath(GeoPointND PI) {
+	protected void polishPointOnPath(GeoPointND PI) {
 		quadTree.polishPointOnPath(PI);
 		setPointOnCoordsys(PI);
 	}
@@ -783,9 +783,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public void pointChanged(GeoPointND PI) {
 		if (locus.getPoints().size() > 0) {
-			locus.pointChanged(PI);
-			polishPointOnPath(PI);
+			locusPointChanged(PI);
 		}
+	}
+
+	protected void locusPointChanged(GeoPointND PI) {
+		locus.pointChanged(PI);
+		polishPointOnPath(PI);
 	}
 
 	@Override
@@ -799,9 +803,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 
 		if (locus.getPoints().size() > 0) {
-			locus.pathChanged(PI);
-			polishPointOnPath(PI);
+			locusPathChanged(PI);
 		}
+	}
+
+	protected void locusPathChanged(GeoPointND PI) {
+		locus.pathChanged(PI);
+		polishPointOnPath(PI);
 	}
 
 	/**
@@ -2063,6 +2071,18 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	public CoordSys getCoordSys() {
+		return CoordSys.Identity3D;
+	}
+
+	public Coords getEquationVector() {
+		return Coords.VZ;
+	}
+
+	public boolean isTransformed() {
+		return false;
+	}
+
+	public CoordSys getTransformedCoordSys() {
 		return CoordSys.Identity3D;
 	}
 

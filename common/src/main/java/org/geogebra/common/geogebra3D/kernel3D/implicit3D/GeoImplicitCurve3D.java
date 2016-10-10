@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.StringTemplate;
@@ -17,7 +18,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
-	private CoordSys coordSys;
+	private CoordSys coordSys, transformCoordSys;
+	private boolean isTransformed;
 
 	/**
 	 * @param c
@@ -26,6 +28,15 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	public GeoImplicitCurve3D(Construction c) {
 		super(c);
 		this.coordSys = new CoordSys(2);
+		this.transformCoordSys = new CoordSys(2);
+		transformCoordSys.set(CoordSys.Identity3D);
+		isTransformed = false;
+
+	}
+
+	public GeoImplicitCurve3D(GeoImplicitCurve geo) {
+		this(geo.getConstruction());
+		set(geo);
 	}
 
 	@Override
@@ -34,9 +45,36 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	}
 
 	@Override
+	public boolean isTransformed() {
+		return isTransformed;
+	}
+
+	public void setIsTransformed(boolean flag) {
+		isTransformed = flag;
+	}
+
+	@Override
+	public CoordSys getTransformedCoordSys() {
+		return transformCoordSys;
+	}
+
+	public void setTransformedCoordSys(CoordSys sys) {
+		transformCoordSys.set(sys);
+	}
+
+	private Coords equationVector3D = new Coords(4);
+
+	public Coords getEquationVector() {
+		return equationVector3D;
+	}
+
+	@Override
 	public void set(GeoElementND geo) {
 		super.set(geo);
-		coordSys.set(((GeoImplicit) geo).getCoordSys());
+		GeoImplicit implicit = (GeoImplicit) geo;
+		coordSys.set(implicit.getCoordSys());
+		equationVector3D.set(implicit.getEquationVector());
+		transformCoordSys.set(implicit.getTransformedCoordSys());
 	}
 
 	@Override
@@ -74,6 +112,58 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		Coords.xyToCoordSystem(coords, vec);
 		PI.setCoords(coords, false);
 		PI.updateCoords();
+	}
+
+	private Coords tmpCoords = new Coords(4);
+	private Coords tmpCoords3d = new Coords(4);
+
+	@Override
+	protected void locusPointChanged(GeoPointND PI) {
+
+		Coords willingCoords = null, willingDirection = null;
+			GeoPoint3D p3d = (GeoPoint3D) PI;
+		if (p3d.hasWillingCoords()) {
+			willingCoords = p3d.getWillingCoords();
+		} else {
+			willingCoords = PI.getInhomCoordsInD3();
+		}
+
+		if (p3d.hasWillingDirection()) {
+			willingDirection = p3d.getWillingDirection();
+		} else {
+			willingDirection = transformCoordSys.getVz();
+		}
+
+		willingCoords.projectPlaneInPlaneCoords(transformCoordSys.getVx(),
+				transformCoordSys.getVy(), willingDirection,
+				transformCoordSys.getOrigin(),
+				tmpCoords);
+		locus.pointChanged(tmpCoords, PI.getPathParameter());
+		transformCoordSys.getPointFromOriginVectors(tmpCoords, tmpCoords3d);
+		PI.setCoords(tmpCoords3d, false);
+
+		p3d.setWillingCoordsUndefined();
+		p3d.setWillingDirectionUndefined();
+
+	}
+
+	@Override
+	protected void locusPathChanged(GeoPointND PI) {
+		PI.getInhomCoordsInD3().projectPlaneInPlaneCoords(
+				transformCoordSys.getVx(), transformCoordSys.getVy(),
+				transformCoordSys.getVz(), transformCoordSys.getOrigin(),
+				tmpCoords);
+		locus.pathChanged(tmpCoords, PI.getPathParameter());
+		transformCoordSys.getPointFromOriginVectors(tmpCoords, tmpCoords3d);
+		PI.setCoords(tmpCoords3d, false);
+	}
+
+	@Override
+	public void translate(Coords v) {
+		transformCoordSys.translate(v);
+		transformCoordSys.translateEquationVector(v);
+		isTransformed = true;
+		euclidianViewUpdate();
 	}
 
 }

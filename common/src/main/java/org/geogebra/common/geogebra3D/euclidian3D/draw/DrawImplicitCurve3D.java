@@ -19,7 +19,8 @@ public class DrawImplicitCurve3D extends DrawLocus3D {
 	 */
 	public DrawImplicitCurve3D(EuclidianView3D a_view3d, GeoImplicit curve) {
 		super(a_view3d, curve.getLocus(), curve.toGeoElement(), curve
-				.getCoordSys());
+				.getEquationVector(), curve.getTransformedCoordSys(), curve
+				.isTransformed());
 
 	}
 

@@ -18,6 +18,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoRay3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
+import org.geogebra.common.geogebra3D.kernel3D.implicit3D.GeoImplicitCurve3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Matrix.CoordSys;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
@@ -144,6 +146,9 @@ public class GeoFactory3D extends GeoFactory {
 
 		case CONICPART:
 			return new GeoConicPart3D((GeoConicPartND) geo);
+			
+		case IMPLICIT_POLY:
+			return new GeoImplicitCurve3D((GeoImplicitCurve) geo);
 
 		default:
 			return super.copy3D(geo);

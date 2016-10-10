@@ -179,21 +179,19 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		return new double[2];
 	}
 
-	public boolean copyCoords(MyPoint point, double[] ret, CoordSys sys) {
-		if(((EuclidianView) view).isViewForPlane()){
-			Coords coords = new Coords(point.x, point.y, point.getZ(), 1);
-			Coords.xyToCoordSystem(coords, sys.getEquationVector());
-			Coords projection = ((EuclidianView) view).getCoordsForView(coords);
+	public boolean copyCoords(MyPoint point, double[] ret,
+			Coords equationVector,
+			CoordSys transformSys, boolean isTransformed) {
+		
+		Coords coords = new Coords(point.x, point.y, point.getZ(), 1);
+		if (isTransformed){
+			transformSys.getPointFromOriginVectors(coords, tmpCoords);
+			coords.set(tmpCoords);
+		}
+		Coords projection = ((EuclidianView) view).getCoordsForView(coords);
 
-			ret[0] = projection.getX();
-			ret[1] = projection.getY();
-			return true;
-		}
-		if (!Kernel.isZero(point.getZ())) {
-			return false;
-		}
-		ret[0] = point.x;
-		ret[1] = point.y;
+		ret[0] = projection.getX();
+		ret[1] = projection.getY();
 		return true;
 	}
 
@@ -201,8 +199,14 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		// TODO Auto-generated method stub
 	}
 
-	public boolean supports(CoordSys sys) {
-		return sys == null || view.isInPlane(sys);
+	private Coords tmpCoords = new Coords(4);
+
+	public boolean supports(Coords equationVector, CoordSys transformSys,
+			boolean isTransformed) {
+		if (isTransformed) {
+			return view.isInPlane(transformSys);
+		}
+		return view.isInPlane(CoordSys.Identity3D);
 	}
 
 }

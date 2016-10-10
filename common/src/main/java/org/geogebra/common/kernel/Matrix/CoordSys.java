@@ -79,8 +79,12 @@ public class CoordSys {
 	
 	static{
 		Identity3D = new CoordSys(2);
-		Identity3D.makeCoordSys(new double[] { 0, 0, 1, 0 }); // equation z=0
-		Identity3D.makeOrthoMatrix(true, true);
+		// equation z=0
+		Identity3D.getEquationVector().set(new double[] { 0, 0, 1, 0 });
+		Identity3D.addPoint(Coords.O);
+		Identity3D.addVectorWithoutCheckMadeCoordSys(Coords.VX);
+		Identity3D.addVectorWithoutCheckMadeCoordSys(Coords.VY);
+		Identity3D.makeOrthoMatrix(false, false);
 	}
 
 	public CoordMatrix getMatrix() {
@@ -142,6 +146,16 @@ public class CoordSys {
 	public Coords getPoint(double x, double y, Coords result) {
 		result.setAdd(matrixOrthonormal.getOrigin(),
 				getVector(x, y, tmpCoords2));
+		return result;
+	}
+
+	public Coords getPointFromOriginVectors(Coords coords2D, Coords result) {
+		return getPointFromOriginVectors(coords2D.getX(), coords2D.getY(),
+				result);
+	}
+
+	public Coords getPointFromOriginVectors(double x, double y, Coords result) {
+		result.setAdd(origin, getVectorFromVectors(x, y, tmpCoords2));
 		return result;
 	}
 
@@ -223,6 +237,11 @@ public class CoordSys {
 	public Coords getVector(double x, double y, Coords result) {
 		result.setAdd(result.setMul(matrixOrthonormal.getVx(), x),
 				tmpCoords1.setMul(matrixOrthonormal.getVy(), y));
+		return result;
+	}
+
+	public Coords getVectorFromVectors(double x, double y, Coords result) {
+		result.setAdd(result.setMul(getVx(), x), tmpCoords1.setMul(getVy(), y));
 		return result;
 	}
 
@@ -1158,6 +1177,101 @@ public class CoordSys {
 		parametricMatrix.setVy(m4.getVy());
 		parametricMatrix.setOrigin(m4.getOrigin());
 		return parametricMatrix;
+	}
+
+	/**
+	 * set coord sys for equation x=v
+	 * 
+	 * @param value
+	 */
+	public void setXequal(double value) {
+		resetCoordSys();
+		// equation x=0
+		equationVector.set(new double[] { 1, 0, 0, 0 });
+		origin.setX(value);
+		origin.setY(0);
+		origin.setZ(0);
+		origin.setW(1);
+
+		Coords v = getVx();
+		v.setX(0);
+		v.setY(1);
+		v.setZ(0);
+		v.setW(0);
+
+		v = getVy();
+		v.setX(0);
+		v.setY(0);
+		v.setZ(1);
+		v.setW(0);
+
+		setMadeCoordSys(2);
+		makeOrthoMatrix(false, false);
+	}
+
+	/**
+	 * set coord sys for equation ax+by+d=0 (b!=0)
+	 * 
+	 * @param a
+	 * @param b
+	 * @param d
+	 */
+	public void setYequal(double a, double b, double d) {
+		resetCoordSys();
+		// equation ax+by+d=0
+		equationVector.set(new double[] { a, b, 0, d });
+		origin.setX(0);
+		origin.setY(-d / b);
+		origin.setZ(0);
+		origin.setW(1);
+
+		Coords v = getVx();
+		v.setX(1);
+		v.setY(-a / b);
+		v.setZ(0);
+		v.setW(0);
+
+		v = getVy();
+		v.setX(0);
+		v.setY(0);
+		v.setZ(1);
+		v.setW(0);
+
+		setMadeCoordSys(2);
+		makeOrthoMatrix(false, false);
+	}
+
+	/**
+	 * set coord sys for equation ax+by+cz+d=0 (c!=0)
+	 * 
+	 * @param a
+	 * @param b
+	 * @param c
+	 * @param d
+	 */
+	public void setZequal(double a, double b, double c, double d) {
+		resetCoordSys();
+		// equation ax+by+d=0
+		equationVector.set(new double[] { a, b, c, d });
+		origin.setX(0);
+		origin.setY(0);
+		origin.setZ(-d / c);
+		origin.setW(1);
+
+		Coords v = getVx();
+		v.setX(1);
+		v.setY(0);
+		v.setZ(-a / c);
+		v.setW(0);
+
+		v = getVy();
+		v.setX(0);
+		v.setY(1);
+		v.setZ(-b / c);
+		v.setW(0);
+
+		setMadeCoordSys(2);
+		makeOrthoMatrix(false, false);
 	}
 
 }

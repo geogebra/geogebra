@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.Matrix;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -2467,4 +2468,19 @@ public class Coords {
 
 	}
 	
+	/**
+	 * set 2D barycenter from the two points
+	 * 
+	 * @param param1
+	 * @param param2
+	 * @param leftPoint
+	 * @param rightPoint
+	 */
+	public void set(double param1, double param2, MyPoint leftPoint,
+			MyPoint rightPoint) {
+		val[0] = param2 * leftPoint.x + param1 * rightPoint.x;
+		val[1] = param2 * leftPoint.y + param1 * rightPoint.y;
+		val[2] = 1.0;
+	}
+
 }

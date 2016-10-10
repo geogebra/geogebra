@@ -42,7 +42,7 @@ public class DrawImplicitPoly extends DrawLocus {
 	 *            implicit polynomial
 	 */
 	public DrawImplicitPoly(EuclidianView view, GeoImplicit implicitPoly) {
-		super(view, implicitPoly.getLocus(), CoordSys.Identity3D);
+		super(view, implicitPoly.getLocus(), CoordSys.Identity3D, null, false);
 		this.view = view;
 		this.implicitPoly = implicitPoly;
 		this.geo = implicitPoly.toGeoElement();

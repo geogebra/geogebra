@@ -63,28 +63,42 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 		FunctionVariable y = surface.getFunctionVariables()[1];
 		ExpressionNode exp;
 		if (!Kernel.isZero(norm.getZ())) {
+			double a = norm.getX();
+			double b = norm.getY();
+			double c = norm.getZ();
+			double d = norm.getW();
 			exp = x.wrap()
-					.multiply(norm.getX() / norm.getZ())
-					.plus(y.wrap().multiply(norm.getY() / norm.getZ())
-							.plus(surface.getFunctionExpression()
-									.deepCopy(kernel))
-							.plus(norm.getW() / norm.getZ()));
+					.multiply(a / c)
+					.plus(y.wrap()
+							.multiply(b / c)
+							.plus(surface.getFunctionExpression().deepCopy(
+									kernel)).plus(d / c));
+
+			curve.getTransformedCoordSys().setZequal(a, b, c, d);
+			curve.setIsTransformed(true);
 		} else {
 			VariableReplacer vr = VariableReplacer.getReplacer(kernel);
 			exp = surface.getFunctionExpression().getCopy(kernel);
 			if (!Kernel.isZero(norm.getY())) {
-
-				ExpressionNode substY = x.wrap()
-						.multiply(-norm.getX() / norm.getY())
-						.plus(-norm.getW() / norm.getY());
+				double a = norm.getX();
+				double b = norm.getY();
+				double d = norm.getW();
+				ExpressionNode substY = x.wrap().multiply(-a / b).plus(-d / b);
 				VariableReplacer.addVars("y", substY);
 
+				curve.getTransformedCoordSys().setYequal(a, b, d);
+				curve.setIsTransformed(true);
+
 			} else {
-				ExpressionNode substY = new ExpressionNode(kernel,
-						-norm.getW() / norm.getX());
+				double v = -norm.getW() / norm.getX();
+				ExpressionNode substY = new ExpressionNode(kernel, v);
 				VariableReplacer.addVars("x", substY);
 				VariableReplacer.addVars("y",
 						new FunctionVariable(kernel, "x"));
+				
+				// set transformed coord sys to x=value
+				curve.getTransformedCoordSys().setXequal(v);
+				curve.setIsTransformed(true);
 			}
 			exp = exp.traverse(vr).wrap()
 					.subtract(new FunctionVariable(kernel, "y"));
