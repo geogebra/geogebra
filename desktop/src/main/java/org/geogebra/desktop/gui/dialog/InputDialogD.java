@@ -379,10 +379,6 @@ public class InputDialogD extends InputDialog
 		}
 	}
 
-	public String getInputString() {
-		return inputText;
-	}
-
 	public String getText() {
 		return inputPanel.getText();
 	}

@@ -75,7 +75,7 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 				Boolean solvable = Polynomial.solvable(as.polynomials
 						.toArray(new Polynomial[as.polynomials.size()]),
 						substitutions, as.geoStatement.getKernel(),
-						ProverSettings.transcext);
+						ProverSettings.get().transcext);
 				Log.debug("Recio meets Botana #" + nrOfTests + ": "
 						+ substitutions);
 				if (solvable) {

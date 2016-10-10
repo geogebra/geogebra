@@ -5,50 +5,58 @@ package org.geogebra.common.main;
  */
 public class ProverSettings {
 
+	private static ProverSettings INSTANCE;
 	/**
 	 * The used prover engine.
 	 */
-	public static String proverEngine = "Auto";
+	public String proverEngine = "Auto";
 	/**
 	 * Timeout for the provers to run in seconds.
 	 */
-	public static int proverTimeout = 5;
+	public int proverTimeout = 5;
 	/**
 	 * Maximal number of allowed terms. Used by OpenGeoProver at the moment.
 	 */
-	public static int maxTerms = 10000;
+	public int maxTerms = 10000;
 	/**
 	 * Sub-engine in the defined engine. Used by OpenGeoProver/Recio at the
 	 * moment.
 	 */
-	public static String proverMethod = "Wu";
+	public String proverMethod = "Wu";
 	/**
 	 * Assume if the free points are never collinear. Used by Botana's prover at
 	 * the moment.
 	 */
-	public static Boolean freePointsNeverCollinear = null;
+	public Boolean freePointsNeverCollinear = null;
 	/**
 	 * How many coordinates are to be fixed speed up computation for "Prove"?
 	 * Used by Botana's prover at the moment.
 	 */
-	public static int useFixCoordinatesProve = 4;
+	public int useFixCoordinatesProve = 4;
 	/**
 	 * How many coordinates are to be fixed speed up computation for
 	 * "ProveDetails"? Used by Botana's prover at the moment.
 	 */
-	public static int useFixCoordinatesProveDetails = 2;
+	public int useFixCoordinatesProveDetails = 2;
 	/**
 	 * If possible, should the polynomial ring with coefficients from
 	 * transcendental extension used? Singular normally supports that by using a
 	 * good enough (and fast) implementation.
 	 */
-	public static boolean transcext = true;
+	public boolean transcext = true;
 
 	/**
 	 * Show debug information in GeoElement captions. Useful for creating
 	 * mathematically precise documentation of the applied algorithms. Used in
 	 * Botana's method.
 	 */
-	public static boolean captionAlgebra = false;
+	public boolean captionAlgebra = false;
+
+	public static ProverSettings get() {
+		if (INSTANCE == null) {
+			INSTANCE = new ProverSettings();
+		}
+		return INSTANCE;
+	}
 
 }

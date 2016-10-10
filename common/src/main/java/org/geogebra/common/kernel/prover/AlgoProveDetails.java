@@ -135,20 +135,21 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 
 		// Create and initialize the prover
 		Prover p = UtilFactory.prototype.newProver();
-		if ("OpenGeoProver".equalsIgnoreCase(ProverSettings.proverEngine)) {
-			if ("Wu".equalsIgnoreCase(ProverSettings.proverMethod))
+		ProverSettings proverSettings = ProverSettings.get();
+		if ("OpenGeoProver".equalsIgnoreCase(proverSettings.proverEngine)) {
+			if ("Wu".equalsIgnoreCase(proverSettings.proverMethod))
 				p.setProverEngine(ProverEngine.OPENGEOPROVER_WU);
-			else if ("Area".equalsIgnoreCase(ProverSettings.proverMethod))
+			else if ("Area".equalsIgnoreCase(proverSettings.proverMethod))
 				p.setProverEngine(ProverEngine.OPENGEOPROVER_AREA);
-		} else if ("Botana".equalsIgnoreCase(ProverSettings.proverEngine))
+		} else if ("Botana".equalsIgnoreCase(proverSettings.proverEngine))
 			p.setProverEngine(ProverEngine.BOTANAS_PROVER);
-		else if ("Recio".equalsIgnoreCase(ProverSettings.proverEngine))
+		else if ("Recio".equalsIgnoreCase(proverSettings.proverEngine))
 			p.setProverEngine(ProverEngine.RECIOS_PROVER);
-		else if ("PureSymbolic".equalsIgnoreCase(ProverSettings.proverEngine))
+		else if ("PureSymbolic".equalsIgnoreCase(proverSettings.proverEngine))
 			p.setProverEngine(ProverEngine.PURE_SYMBOLIC_PROVER);
-		else if ("Auto".equalsIgnoreCase(ProverSettings.proverEngine))
+		else if ("Auto".equalsIgnoreCase(proverSettings.proverEngine))
 			p.setProverEngine(ProverEngine.AUTO);
-		p.setTimeout(ProverSettings.proverTimeout);
+		p.setTimeout(proverSettings.proverTimeout);
 		p.setConstruction(cons);
 		p.setStatement(root);
 		// Compute extra NDG's:

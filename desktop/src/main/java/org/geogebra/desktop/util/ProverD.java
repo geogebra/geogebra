@@ -44,7 +44,7 @@ public class ProverD extends Prover {
 
 	@Override
 	public void compute() {
-		if (ProverSettings.proverTimeout == 0) {
+		if (ProverSettings.get().proverTimeout == 0) {
 			// Do not create a thread if there is no timeout set:
 			decideStatement();
 			// This is especially useful for debugging in Eclipse.
@@ -95,7 +95,7 @@ public class ProverD extends Prover {
 
 		OpenGeoProver.settings = new OGPConfigurationSettings();
 		ILogger logger = OpenGeoProver.settings.getLogger();
-
+		ProverSettings proverSettings = ProverSettings.get();
 		// Input prover object
 		GeoGebraOGPInputProverProtocol inputObject = new GeoGebraOGPInputProverProtocol();
 		inputObject.setGeometryTheoremText(c);
@@ -105,8 +105,8 @@ public class ProverD extends Prover {
 		if (pe == ProverEngine.OPENGEOPROVER_AREA)
 			inputObject
 					.setMethod(GeoGebraOGPInputProverProtocol.OGP_METHOD_AREA);
-		inputObject.setTimeOut(ProverSettings.proverTimeout);
-		inputObject.setMaxTerms(ProverSettings.maxTerms);
+		inputObject.setTimeOut(proverSettings.proverTimeout);
+		inputObject.setMaxTerms(proverSettings.maxTerms);
 		if (isReturnExtraNDGs())
 			inputObject
 					.setReportFormat(GeoGebraOGPInputProverProtocol.OGP_REPORT_FORMAT_ALL);

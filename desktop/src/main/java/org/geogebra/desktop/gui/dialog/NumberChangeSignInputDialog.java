@@ -26,6 +26,8 @@ public class NumberChangeSignInputDialog extends InputDialogD {
 	 * @param handler
 	 * @param changingSign
 	 *            says if the sign has to be changed
+	 * @param checkBoxText
+	 *            text for sign change checkbox
 	 * @param basis
 	 *            TODO
 	 */
@@ -51,7 +53,8 @@ public class NumberChangeSignInputDialog extends InputDialogD {
 		super.loadBtPanel(showApply);
 	}
 
+	@Override
 	public void handleDialogVisibilityChange(boolean isVisible) {
-
+		// do nothing
 	}
 }

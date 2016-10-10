@@ -32,7 +32,6 @@ public class AngleInputDialog extends InputDialogW {
 	protected RadioButton rbCounterClockWise, rbClockWise;
 
 	public boolean success = true;
-	protected String inputText = null;
 
 	/**
 	 * Input Dialog for a GeoAngle object.
@@ -83,15 +82,15 @@ public class AngleInputDialog extends InputDialogW {
 		try {
 
 			if (source == btOK || sourceShouldHandleOK(source)) {
-				inputText = inputPanel.getText();
+				String inputTextWithSign = inputPanel.getText();
 				inputPanel.getTextComponent().hideTablePopup();
 
 				// negative orientation ?
 				if (rbClockWise.getValue()) {
-					inputText = "-(" + inputText + ")";
+					inputTextWithSign = "-(" + inputTextWithSign + ")";
 				}
 
-				inputHandler.processInput(inputText, this,
+				inputHandler.processInput(inputTextWithSign, this,
 						new AsyncOperation<Boolean>() {
 
 							@Override

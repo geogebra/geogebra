@@ -3701,7 +3701,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public void unregisterOpenFileListener(OpenFileListener o) {
-		if (openFileListener != null) {
+		if (openFileListener == null) {
 			return;
 		}
 		this.openFileListener.remove(o);

@@ -21,7 +21,6 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 
 public class InputDialogAngleFixed extends AngleInputDialog{
-	private static final long serialVersionUID = 1L;
 	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
 	private GeoPointND geoPoint1;

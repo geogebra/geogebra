@@ -761,21 +761,22 @@ ToolbarD.getAllTools(this));
 			System.exit(0);
 		}
 		if (args.containsArg("proverhelp")) {
+			ProverSettings proverSettings = ProverSettings.get();
 			// help message for the prover
 			System.out
 					.println("  --prover=OPTIONS\tset options for the prover subsystem\n"
 							+ "    where OPTIONS is a comma separated list, formed with the following available settings (defaults in brackets):\n"
 							+ "      engine:ENGINE\tset engine (Auto|OpenGeoProver|Recio|Botana|PureSymbolic) ["
-							+ ProverSettings.proverEngine
+									+ proverSettings.proverEngine
 							+ "]\n"
 							+ "      timeout:SECS\tset the maximum time attributed to the prover (in seconds) ["
-							+ ProverSettings.proverTimeout
+									+ proverSettings.proverTimeout
 							+ "]\n"
 							+ "      maxterms:NUMBER\tset the maximal number of terms ["
-							+ ProverSettings.maxTerms
+									+ proverSettings.maxTerms
 							+ "] (OpenGeoProver only)\n"
 							+ "      method:METHOD\tset the method (Wu|Groebner|Area) ["
-							+ ProverSettings.proverMethod
+									+ proverSettings.proverMethod
 							+ "] (OpenGeoProver/Recio only)\n"
 							/*
 							 * +
@@ -784,8 +785,8 @@ ToolbarD.getAllTools(this));
 							 * "] (Botana only, forced to 'yes' when SingularWS is unavailable)\n"
 							 */
 							+ "      usefixcoords:NUMBER1NUMBER2\tuse fix coordinates for the first NUMBER1 for Prove and NUMBER2 for ProveDetails, maximum of 4 both ["
-							+ ProverSettings.useFixCoordinatesProve
-							+ ProverSettings.useFixCoordinatesProveDetails
+									+ proverSettings.useFixCoordinatesProve
+									+ proverSettings.useFixCoordinatesProveDetails
 							+ "] (Botana only)\n"
 							/*
 							 * +
@@ -794,7 +795,7 @@ ToolbarD.getAllTools(this));
 							 * "] (Botana only, needs SingularWS)\n"
 							 */
 							+ "      captionalgebra:BOOLEAN\tshow algebraic debug information in object captions ["
-							+ ProverSettings.captionAlgebra
+									+ proverSettings.captionAlgebra
 							+ "] (Botana only)\n"
 							+ "  Example: --prover=engine:Botana,timeout:10,fpnevercoll:true,usefixcoords:43\n");
 			System.exit(0);
@@ -1126,6 +1127,7 @@ ToolbarD.getAllTools(this));
 
 	private static void setProverOption(String option) {
 		String[] str = option.split(":", 2);
+		ProverSettings proverSettings = ProverSettings.get();
 		if ("engine".equalsIgnoreCase(str[0])) {
 			if ("OpenGeoProver".equalsIgnoreCase(str[1])
 					|| "Recio".equalsIgnoreCase(str[1])
@@ -1133,32 +1135,32 @@ ToolbarD.getAllTools(this));
 					|| "alternativeBotana".equalsIgnoreCase(str[1])
 					|| "PureSymbolic".equalsIgnoreCase(str[1])
 					|| "Auto".equalsIgnoreCase(str[1])) {
-				ProverSettings.proverEngine = str[1].toLowerCase();
+				proverSettings.proverEngine = str[1].toLowerCase();
 				return;
 			}
 			Log.warn("Option not recognized: ".concat(option));
 			return;
 		}
 		if ("timeout".equalsIgnoreCase(str[0])) {
-			ProverSettings.proverTimeout = Integer.parseInt(str[1]);
+			proverSettings.proverTimeout = Integer.parseInt(str[1]);
 			return;
 		}
 		if ("maxTerms".equalsIgnoreCase(str[0])) {
-			ProverSettings.maxTerms = Integer.parseInt(str[1]);
+			proverSettings.maxTerms = Integer.parseInt(str[1]);
 			return;
 		}
 		if ("method".equalsIgnoreCase(str[0])) {
 			if ("Groebner".equalsIgnoreCase(str[1])
 					|| "Wu".equalsIgnoreCase(str[1])
 					|| "Area".equalsIgnoreCase(str[1])) {
-				ProverSettings.proverMethod = str[1].toLowerCase();
+				proverSettings.proverMethod = str[1].toLowerCase();
 				return;
 			}
 			Log.warn("Method parameter not recognized: ".concat(option));
 			return;
 		}
 		if ("fpnevercoll".equalsIgnoreCase(str[0])) {
-			ProverSettings.freePointsNeverCollinear = Boolean
+			proverSettings.freePointsNeverCollinear = Boolean
 					.parseBoolean(str[1]);
 			return;
 		}
@@ -1169,21 +1171,21 @@ ToolbarD.getAllTools(this));
 			if (fixcoordsP < 0 || fixcoordsP > 4)
 				Log.error("Improper value for usefixcoords for Prove, using default instead");
 			else
-				ProverSettings.useFixCoordinatesProve = fixcoordsP;
+				proverSettings.useFixCoordinatesProve = fixcoordsP;
 
 			if (fixcoordsPD < 0 || fixcoordsPD > 4)
 				Log.error("Improper value for usefixcoords for ProveDetails, using default instead");
 			else
-				ProverSettings.useFixCoordinatesProveDetails = fixcoordsPD;
+				proverSettings.useFixCoordinatesProveDetails = fixcoordsPD;
 
 			return;
 		}
 		if ("transcext".equalsIgnoreCase(str[0])) {
-			ProverSettings.transcext = Boolean.parseBoolean(str[1]);
+			proverSettings.transcext = Boolean.parseBoolean(str[1]);
 			return;
 		}
 		if ("captionalgebra".equalsIgnoreCase(str[0])) {
-			ProverSettings.captionAlgebra = Boolean.parseBoolean(str[1]);
+			proverSettings.captionAlgebra = Boolean.parseBoolean(str[1]);
 			return;
 		}
 		Log.warn("Prover option not recognized: ".concat(option));

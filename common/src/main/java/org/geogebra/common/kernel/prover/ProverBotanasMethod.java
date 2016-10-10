@@ -392,7 +392,7 @@ public class ProverBotanasMethod {
 						.getParentAlgorithm() instanceof AlgoDependentNumber))
 					predecessors.add(geo);
 			}
-
+			ProverSettings proverSettings = ProverSettings.get();
 			it = predecessors.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
@@ -408,7 +408,7 @@ public class ProverBotanasMethod {
 						}
 						Log.debug("/* PROCESSING OBJECT "
 								+ geo.getLabelSimple() + " */");
-						if (ProverSettings.captionAlgebra) {
+						if (proverSettings.captionAlgebra) {
 							geo.setCaption(null);
 						}
 						String command = geo
@@ -434,7 +434,7 @@ public class ProverBotanasMethod {
 								Variable[] v = new Variable[2];
 								v = ((SymbolicParametersBotanaAlgo) geo)
 										.getBotanaVars(geo);
-								if (ProverSettings.captionAlgebra) {
+								if (proverSettings.captionAlgebra) {
 									geo.setCaptionBotanaVars("(" + v[0].toTeX()
 											+ "," + v[1].toTeX() + ")");
 								}
@@ -499,7 +499,7 @@ public class ProverBotanasMethod {
 						 */
 						if (algo instanceof AlgoPointOnPath
 								&& algo.input[0] instanceof GeoLine
-								&& ProverSettings.transcext) {
+								&& proverSettings.transcext) {
 							maxFixcoords = 2;
 						}
 
@@ -511,7 +511,7 @@ public class ProverBotanasMethod {
 								Log.debug("// Constrained point "
 										+ geo.getLabelSimple() + "(" + v[0]
 										+ "," + v[1] + ")");
-								if (ProverSettings.captionAlgebra) {
+								if (proverSettings.captionAlgebra) {
 									geo.setCaptionBotanaVars("(" + v[0].toTeX()
 											+ "," + v[1].toTeX() + ")");
 								}
@@ -521,7 +521,7 @@ public class ProverBotanasMethod {
 								polynomials.add(p);
 								nHypotheses++;
 								Log.debug((nHypotheses) + ". " + p);
-								if (ProverSettings.captionAlgebra) {
+								if (proverSettings.captionAlgebra) {
 									geo.addCaptionBotanaPolynomial(p.toTeX());
 								}
 							}
@@ -774,13 +774,13 @@ public class ProverBotanasMethod {
 				if (geoProver.getProverEngine() == ProverEngine.LOCUS_IMPLICIT) {
 					minus = 0;
 				}
-
+				ProverSettings proverSettings = ProverSettings.get();
 				Log.debug("Thesis equations (non-denied ones):");
 				for (int i = 0; i < statements.length; ++i) {
 					for (int j = 0; j < statements[i].length - minus; ++j) {
 						Log.debug((k + 1) + ". " + statements[i][j]);
 						polynomials.add(statements[i][j]);
-						if (ProverSettings.captionAlgebra) {
+						if (proverSettings.captionAlgebra) {
 							geoStatement.addCaptionBotanaPolynomial(statements[i][j].toTeX());
 						}
 						k++;
@@ -820,7 +820,7 @@ public class ProverBotanasMethod {
 				polynomials.add(spoly);
 				Log.debug("that is,");
 				Log.debug((k + 1) + ". " + spoly);
-				if (ProverSettings.captionAlgebra) {
+				if (proverSettings.captionAlgebra) {
 					geoStatement.addCaptionBotanaPolynomial(spoly.toTeX());
 				}
 
@@ -834,7 +834,7 @@ public class ProverBotanasMethod {
 
 		private void algebraicTranslation(GeoElement statement,
 				Prover prover) {
-
+			ProverSettings proverSettings = ProverSettings.get();
 			geoStatement = statement;
 			geoProver = prover;
 
@@ -861,8 +861,8 @@ public class ProverBotanasMethod {
 			 * conditions
 			 */
 			if (prover.getProverEngine() != ProverEngine.RECIOS_PROVER
-					&& ProverSettings.freePointsNeverCollinear != null
-					&& ProverSettings.freePointsNeverCollinear
+					&& proverSettings.freePointsNeverCollinear != null
+					&& proverSettings.freePointsNeverCollinear
 					&& !(prover.isReturnExtraNDGs())) {
 				for (Polynomial p : create3FreePointsNeverCollinearNDG(prover)) {
 					polynomials.add(p);
@@ -881,6 +881,7 @@ public class ProverBotanasMethod {
 	public ProofResult prove(Prover prover) {
 
 		GeoElement statement = prover.getStatement();
+		ProverSettings proverSettings = ProverSettings.get();
 		/*
 		 * Decide quickly if proving this kind of statement is already
 		 * implemented at all:
@@ -893,16 +894,16 @@ public class ProverBotanasMethod {
 
 		/* If Singular is not available, let's try Giac (mainly on web) */
 		if (App.singularWS == null || (!App.singularWS.isAvailable())) {
-			ProverSettings.transcext = false;
+			proverSettings.transcext = false;
 		}
 
 		/* The NDG conditions (automatically created): */
-		if (ProverSettings.freePointsNeverCollinear == null) {
+		if (proverSettings.freePointsNeverCollinear == null) {
 			if (App.singularWS != null && App.singularWS.isAvailable()) {
 				/* SingularWS will use Cox' method */
-				ProverSettings.freePointsNeverCollinear = false;
+				proverSettings.freePointsNeverCollinear = false;
 			} else {
-				ProverSettings.freePointsNeverCollinear = true;
+				proverSettings.freePointsNeverCollinear = true;
 			}
 		}
 
@@ -921,9 +922,9 @@ public class ProverBotanasMethod {
 		HashMap<Variable, Long> substitutions = null;
 		int fixcoords = 0;
 		if (prover.isReturnExtraNDGs())
-			fixcoords = ProverSettings.useFixCoordinatesProveDetails;
+			fixcoords = proverSettings.useFixCoordinatesProveDetails;
 		else
-			fixcoords = ProverSettings.useFixCoordinatesProve;
+			fixcoords = proverSettings.useFixCoordinatesProve;
 		if (as.maxFixcoords >= 0 && as.maxFixcoords < fixcoords) {
 			fixcoords = as.maxFixcoords;
 		}
@@ -1102,7 +1103,7 @@ public class ProverBotanasMethod {
 			Boolean solvable = Polynomial.solvable(as.polynomials
 					.toArray(new Polynomial[as.polynomials.size()]),
 					substitutions, statement.getKernel(),
-					ProverSettings.transcext);
+					proverSettings.transcext);
 			if (solvable == null) {
 				/*
 				 * Prover returned with no success, search for another prover:
@@ -1111,7 +1112,7 @@ public class ProverBotanasMethod {
 				return ProofResult.UNKNOWN;
 			}
 			if (solvable) {
-				if (!ProverSettings.transcext) {
+				if (!proverSettings.transcext) {
 					/*
 					 * We cannot reliably tell if the statement is really false:
 					 */
