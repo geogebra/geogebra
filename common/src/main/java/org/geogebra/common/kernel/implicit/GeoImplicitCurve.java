@@ -80,7 +80,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	/** factorised expression */
 	FunctionNVar[] factorExpression;
 	private FunctionNVar[] diffExp = new FunctionNVar[3];
-
+	/** path */
 	protected GeoLocus locus;
 
 	/**
@@ -641,7 +641,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		 * If a factor is a point, the QuadTree algorithm will not add that point in the locus, so just
 		 * add that single point to the locus separately.
 		 */
-		int factors = coeffSquarefree.length;
+		int factors = coeffSquarefree == null ? 0 : coeffSquarefree.length;
 		for (int i = 0; i < factors; i++) {
 			if (coeffSquarefree[i].length == 3
 					&& coeffSquarefree[i][0].length == 3) {
@@ -787,6 +787,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 	}
 
+	/**
+	 * Update point when changed using locus as path
+	 * 
+	 * @param PI
+	 *            point on path
+	 */
 	protected void locusPointChanged(GeoPointND PI) {
 		locus.pointChanged(PI);
 		polishPointOnPath(PI);
@@ -807,6 +813,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 	}
 
+	/**
+	 * Update point for locus change
+	 * 
+	 * @param PI
+	 *            point on path
+	 */
 	protected void locusPathChanged(GeoPointND PI) {
 		locus.pathChanged(PI);
 		polishPointOnPath(PI);
