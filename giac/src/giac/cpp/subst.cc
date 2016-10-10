@@ -2136,15 +2136,15 @@ namespace giac {
     if (g._SYMBptr->sommet!=at_plus && g._SYMBptr->sommet!=at_prod && g._SYMBptr->sommet!=at_inv && g._SYMBptr->sommet!=at_pow && g._SYMBptr->sommet!=at_neg)
       f=normal(f,contextptr);
     if (g._SYMBptr->sommet==at_ln){
-      gen gre=re(f,contextptr); 
-      gen gim=im(f,contextptr); 
+      gen gre=simplify(re(f,contextptr),contextptr); 
+      gen gim=simplify(im(f,contextptr),contextptr); 
       if (is_zero(gre))
 	return ln(pow(gim,2),contextptr)/2+sign(gim,contextptr)*cst_i*cst_pi_over_2;
       if (is_zero(gim)){
 	if (complex_mode(contextptr))
 	  return rdiv(ln(pow(gre,2),contextptr),plus_two,contextptr)+cst_i*(plus_one-sign(gre,contextptr))*cst_pi_over_2;
 	else
-	  return ln(f,contextptr);
+	  return ln(gre,contextptr);
       }
       return rdiv(ln(pow(gre,2)+pow(gim,2),contextptr),plus_two,contextptr)+cst_i*(atan(gim/gre,contextptr)+sign(gim,contextptr)*(plus_one-sign(gre,contextptr))*cst_pi_over_2);
     }

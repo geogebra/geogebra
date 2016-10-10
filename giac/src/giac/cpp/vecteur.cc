@@ -7440,7 +7440,7 @@ namespace giac {
     for (int L=lmax-1;L>=l;--L){
       vector<int> & NL=N[L];
       if (NL.empty()) continue;
-      if (debug_infolevel>2){
+      if (debug_infolevel>1){
 	if (L%10==9){ CERR << "+"; CERR.flush();}
 	if (L%500==499){ CERR << CLOCK() << " remaining " << l-L << endl; }
       }
@@ -7610,10 +7610,12 @@ namespace giac {
     bool noswap=true;
     smallmodrref_temp_t * tmpptr = workptr;
 #ifndef GIAC_HAS_STO_38 
-    if (allow_block && rref_or_det_or_lu==0 && dont_swap_below==0 ){ 
+    if (allow_block && (rref_or_det_or_lu==0 
+			//|| rref_or_det_or_lu==1
+			) && dont_swap_below==0 ){ 
       if (
-	  //lmax-l>=4 && cmax-c>=4
-	  lmax-l>=3*mmult_int_blocksize && cmax-c>=3*mmult_int_blocksize
+	  //lmax-l>=4 && cmax-c>=4 
+	  lmax-l>=2.5*mmult_int_blocksize && cmax-c>=2.5*mmult_int_blocksize
 	){
 	// reduce first half
 	int halfl=(lmax-l)/2,effl=l+halfl;
@@ -7663,7 +7665,7 @@ namespace giac {
 	  CERR << CLOCK() << " rref_lower end " << effl << ".." << lmax << "/" << c << ".." << cmax << endl;
 	// reduce second half
 	//cerr << N <<endl;
-	smallmodrref(nthreads,N,pivots,permutation,maxrankcols,idet,l+halfl,lmax,c,cmax,0/*fullreduction*/,0,modulo,0,false,workptr);
+	smallmodrref(nthreads,N,pivots,permutation,maxrankcols,idet,l+halfl,lmax,c+(idet && rref_or_det_or_lu==1?halfl:0),cmax,0/*fullreduction*/,0,modulo,0,false,workptr);
 	if (debug_infolevel>2)
 	  CERR << CLOCK() << " rref end " << lmax-l << "x" << cmax-c << endl;
 	//cerr << N <<endl;
@@ -7683,6 +7685,7 @@ namespace giac {
 	      COUT << "erreur" << N[r][C] << endl;
 	    swap(N[r],N[L]);
 	    swap(permutation[r],permutation[L]);
+	    idet=-idet;
 	    // swap(pivots[r],pivots[L]);
 	  }
 	  ++L; ++C;
@@ -7918,7 +7921,7 @@ namespace giac {
 	}
       } // end if is_zero(pivot), true pivot found on line or column
       if (pivot){
-	if (debug_infolevel>2){
+	if (debug_infolevel>1){
 	  if (l%10==9){ CERR << "+"; CERR.flush();}
 	  if (l%500==499){ CERR << CLOCK() << " remaining " << lmax-l << endl; }
 	}
@@ -11841,6 +11844,91 @@ namespace giac {
     return res%modulo;
   }
 
+  // Danilevsky algorithm
+  // kind of row reduction to companion matrix
+  void mod_pcar(vector< vector<int> > & N,int modulo,vector<int> & res){
+    int n=int(N.size());
+    if (n==1){
+      res.resize(2);
+      res[0]=1;
+      res[1]=-N[0][0];
+    }
+    vector<int> v(n),w(n);
+    for (int k=0;k<n-1;++k){
+      // search "pivot" on line k
+      for (int j=k+1;j<n;++j){
+	if (N[k][j]){
+	  // swap columns and lines k+1 and j
+	  if (j>k+1){
+	    for (int i=k;i<n;++i)
+	      swapint(N[i][k+1],N[i][j]);
+	    N[k+1].swap(N[j]);
+	  }
+	  break;
+	}
+      }
+      v=N[k];
+      int akk1=v[k+1];
+      if (akk1==0){
+	// degenerate case, split N in two parts
+	vector<int> part1(k+2),part2;
+	part1[0]=1;
+	for (int i=0;i<=k;++i){
+	  part1[i+1]=smod(-N[k][k-i],modulo);
+	}
+	vector< vector<int> > N2(n-1-k);
+	for (int i=k+1;i<n;++i)
+	  N2[i-1-k]=vector<int>(N[i].begin()+k+1,N[i].end());
+	mod_pcar(N2,modulo,part2);
+	modpoly p1,p2,p12;
+	vector_int2vecteur(part1,p1);
+	vector_int2vecteur(part2,p2);
+	environment env;
+	env.modulo=modulo; env.moduloon=true;
+	mulmodpoly(p1,p2,&env,p12);
+	vecteur2vector_int(p12,modulo,res);
+	return;
+      }
+      // multiply right by identity with line k+1 replaced by 
+      // -N[k]/a_{k,k+1} except on diagonal 1/a_{k,k+1} 
+      // this will replace line k by 0...010...0 (1 at column k+1)
+      longlong invakk1=invmod(akk1,modulo);
+      for (int i=0;i<n;++i)
+	w[i]=(-invakk1*v[i])%modulo;
+      w[k+1]=invakk1;
+      // column operations
+      for (int l=k;l<n;++l){
+	vector<int> & Nl=N[l];
+	longlong Nlk1=Nl[k+1];
+	for (int j=0;j<=k;++j){
+	  int & Nlj=Nl[j];
+	  Nlj=(Nlj+w[j]*Nlk1)%modulo;
+	}
+	Nl[k+1]=(invakk1*Nlk1)%modulo;
+	for (int j=k+2;j<n;++j){
+	  int & Nlj=Nl[j];
+	  Nlj=(Nlj+w[j]*Nlk1)%modulo;
+	}
+      }
+      // multiply left by identity with line k+1 replaced by original N[k]
+      // line operations L_{k+1}=sum a_{k,i} L_i
+      for (int j=0;j<n;++j){
+	longlong coeff=0;
+	if (j>=1 && j<=k+1)
+	  coeff=v[j-1];
+	for (int i=k+1;i<n;++i){
+	  coeff += longlong(v[i])*N[i][j];
+	}
+	N[k+1][j]=coeff%modulo;
+      }
+    }
+    // get charpoly
+    res.resize(n+1);
+    res[0]=1;
+    for (int i=0;i<n;++i)
+      res[1+i]=smod(-N[n-1][n-1-i],modulo);
+  }
+
   bool mod_pcar(vector< vector<int> > & N,int modulo,bool & krylov,vector<int> & res,GIAC_CONTEXT){
     int n=int(N.size());
     if (krylov){ // try Krylov pmin
@@ -11849,6 +11937,9 @@ namespace giac {
       t0.reserve(n);
       for (int i=0;i<n;++i)
 	t0.push_back(std::rand()%modulo);
+      // for very very large matrices (10^7 entries?) 
+      // it might be faster to compute
+      // N, N^2, (N^2)^2, etc. and compute Nv, N^2(v,Nv), N^4(v,Nv,N^2v,N^3v)...
       for (int j=0;j<n;++j){
 	if (!multvectvector_int_vector_int(N,temp[j],modulo,temp[j+1]))
 	  return false;
@@ -11899,7 +11990,7 @@ namespace giac {
 	  longlong t=trace(N,modulo)+res[1]; 
 	  // res[1]=-sum eigenvals, trace=sum eigenvals with multiplicities
 	  for (int i=0;i<=rank;++i)
-	    resx[i+1] = (resx[i+1]-t*res[i])%modulo;
+	    resx[i+1] = smod(resx[i+1]-t*res[i],modulo);
 	  res.swap(resx);
 	  // CERR << res << endl;
 	  return true;
@@ -11911,6 +12002,12 @@ namespace giac {
 	  CERR << CLOCK() << " Singular, calling Hessenberg " << endl;
       }
     }
+#if 1 // Danilevsky is faster than Hessenberg but slower than Krylov
+    if (n*double(n)*modulo<double(1ULL<<63)){
+      mod_pcar(N,modulo,res);
+      return true;
+    }
+#endif
     mhessenberg(N,N,modulo,false); // Hessenberg reduction, don't compute P
     if (debug_infolevel>2)
       CERR << CLOCK() << " Hessenberg reduced" << endl;
@@ -11999,8 +12096,10 @@ namespace giac {
       }
       // max value of any coeff in the charpoly
       // max eigenval is <= sqrt(n)||A|| hence bound is in n (log(B)+log(n)/2)
-      // we must add combinatorial (n k)<2^n
-      double logbound=n*(std::log10(double(n))/2+std::log10(Bd)+std::log10(2.0));
+      // we must add combinatorial (n k)<=2^n
+      // or optimize comb(n,k)*(sqrt(n)||A||)^n
+      // gives k<=n/(1+1/sqrt(n)B)
+      double logbound=n/(1+1.0/std::sqrt(double(n))/Bd)*(std::log10(double(n))/2+std::log10(Bd))+n*std::log10(2.0);
       double proba=proba_epsilon(contextptr),currentprob=1;
       gen currentp(init_modulo(n,logbound));
       gen pip(currentp);

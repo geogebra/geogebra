@@ -4444,7 +4444,14 @@ namespace giac {
 
   // this version of reduce returns in rem the reduction of m*p
   // other version of reduce do not care about m
-  void reduce(const polynome & p,const polynome * it0,const polynome * itend,polynome & rem,gen & m,environment * env){
+  void reduce(const polynome & p,const polynome * it0,const polynome * itend,polynome & rem,gen & m,environment * env,vector<polynome> * quo=0){
+    if (quo){
+      quo->resize(itend-it0);
+      for (int i=0;i<int(quo->size());++i){
+	(*quo)[i].dim=p.dim;
+	(*quo)[i].coord.clear();
+      }
+    }
     m=1;
     if (&p!=&rem)
       rem=p;
@@ -4468,12 +4475,22 @@ namespace giac {
 	break;
       gen a(pt->value),b(it->coord.front().value) ;
       if (env && env->moduloon){
-	polynome temp=it->shift(pt->index-it->coord.front().index,a*invmod(b,env->modulo));
+	gen q=a*invmod(b,env->modulo);
+	polynome temp=it->shift(pt->index-it->coord.front().index,q);
 	rem = smod(rem - temp,env->modulo) ; // FIXME: improve!
+	if (quo){
+	  (*quo)[it-it0].coord.push_back(monomial<gen>(q,pt->index-it->coord.front().index));
+	}
       }
       else {
 	simplify(a,b);
 	m=b*m;
+	if (quo){
+	  for (int i=0;i<int(quo->size());++i){
+	    (*quo)[i]=b*((*quo)[i]);
+	  }
+	  (*quo)[it-it0].coord.push_back(monomial<gen>(a,pt->index-it->coord.front().index));
+	}
 #if 0
 	polynome temp=it->shift(pt->index-it->coord.front().index,a);
 	if (is_one(b))
@@ -4491,6 +4508,11 @@ namespace giac {
 	rem.TSub(TMP1,TMP2);
 	swap(rem.coord,TMP2.coord);
 #endif
+      }
+    }
+    if (quo && (!env || !env->moduloon)){
+      for (int i=0;i<int(quo->size());++i){
+	(*quo)[i]=(*quo)[i]/m;
       }
     }
     m=m/inplace_ppz(rem);
@@ -6636,7 +6658,7 @@ namespace giac {
   static define_unary_function_eval (__gbasis,&_gbasis,_gbasis_s);
   define_unary_function_ptr5( at_gbasis ,alias_at_gbasis,&__gbasis,0,true);
   
-  static gen in_greduce(const gen & eq,const vecteur & l,const vectpoly & eqp,const gen & order,bool with_cocoa,GIAC_CONTEXT){
+  static gen in_greduce(const gen & eq,const vecteur & l,const vectpoly & eqp,const gen & order,bool with_cocoa,GIAC_CONTEXT,vector<polynome> * quo=0){
     if (eq.type!=_POLY)
       return r2e(eq,l,contextptr);
     gen coeff;
@@ -6663,7 +6685,7 @@ namespace giac {
     gen C1;
     if (debug_infolevel>1)
       COUT << CLOCK() << "begin reduce poly #monomials " << p.coord.size() << endl;
-    reduce(p,&eqp.front(),&eqp.front()+eqp.size(),p,C1,&env);
+    reduce(p,&eqp.front(),&eqp.front()+eqp.size(),p,C1,&env,quo);
     if (debug_infolevel>1)
       COUT << CLOCK() << "end reduce poly #monomials " << p.coord.size() << endl;
     // gen C1(res.constant_term());
@@ -6693,11 +6715,30 @@ namespace giac {
     return res;
   }
 
-  static gen greduce(const gen & g,const vecteur & l,const vectpoly & eqp,const gen & order,bool with_cocoa,GIAC_CONTEXT){
+  static gen greduce(const gen & g,const vecteur & l,const vectpoly & eqp,const gen & order,bool with_cocoa,GIAC_CONTEXT,vecteur * quo=0){
     gen eq(e2r(g,l,contextptr));
-    if (eq.type==_FRAC)
-      return in_greduce(eq._FRACptr->num,l,eqp,order,with_cocoa,contextptr)/in_greduce(eq._FRACptr->den,l,eqp,order,with_cocoa,contextptr);
-    return in_greduce(eq,l,eqp,order,with_cocoa,contextptr);
+    vector<polynome> q;
+    if (eq.type==_FRAC){
+      gen den=in_greduce(eq._FRACptr->den,l,eqp,order,with_cocoa,contextptr,0);
+      gen res=in_greduce(eq._FRACptr->num,l,eqp,order,with_cocoa,contextptr,quo?&q:0)/den;
+      if (quo){
+	for (int i=0;i<int(quo->size());++i){
+	  (*quo)[i]=r2e(q[i],l,contextptr)/den;
+	}
+      }
+      reverse(quo->begin(),quo->end()); // the gbasis was reversed
+      return res;
+    }
+    gen res=in_greduce(eq,l,eqp,order,with_cocoa,contextptr,quo?&q:0);
+    if (quo){
+      quo->clear();
+      quo->resize(q.size());
+      for (int i=0;i<int(quo->size());++i){
+	(*quo)[i]=r2e(q[i],l,contextptr);
+      }
+      reverse(quo->begin(),quo->end()); // the gbasis was reversed
+    }
+    return res;
   }
 
   // greduce(P,[gbasis],[vars])
@@ -6707,6 +6748,13 @@ namespace giac {
       return symbolic(at_gbasis,args);
     vecteur v = *args._VECTptr;
     int s=int(v.size());
+    vecteur quo;
+    vecteur * quoptr=0;
+    if (s && (v.back()==at_quo || v.back()==at_quorem)){
+      quoptr=&quo;
+      v.pop_back();
+      --s;
+    }
     if (s<2)
       return gentoofewargs("greduce");
     if (s<3)
@@ -6758,7 +6806,7 @@ namespace giac {
     order_t order_={order.val,0};
     environment env;
     env.moduloon=false;
-    if (greduce8(red_in,eqp,order_,red_out,&env,contextptr)){
+    if (!quoptr && greduce8(red_in,eqp,order_,red_out,&env,contextptr)){
       vecteur red_out_;
       for (int i=0;i<int(red_out.size());++i)
 	red_out_.push_back(r2e(red_out[i],l,contextptr));
@@ -6772,13 +6820,18 @@ namespace giac {
       if (debug_infolevel>1)
 	COUT << CLOCK() << " begin reduce vector size " << res.size() << endl;
       for (unsigned i=0;i<v[0]._VECTptr->size();++i){
-	res[i]=greduce((*v[0]._VECTptr)[i],l,eqp,order,with_cocoa,contextptr);
+	res[i]=greduce((*v[0]._VECTptr)[i],l,eqp,order,with_cocoa,contextptr,quoptr);
+	if (quoptr)
+	  res[i]=makevecteur(res[i],*quoptr);
       }
       if (debug_infolevel>1)
 	COUT << CLOCK() << " end reduce vector size " << res.size() << endl;
       return res;
     }
-    return greduce(v[0],l,eqp,order,with_cocoa,contextptr);
+    gen res=greduce(v[0],l,eqp,order,with_cocoa,contextptr,quoptr);
+    if (quoptr) 
+      return makevecteur(res,*quoptr);
+    return res;
   }
 
   static const char _greduce_s []="greduce";
