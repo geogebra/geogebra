@@ -5617,4 +5617,9 @@ public abstract class EuclidianView
 
 	}
 
+	public void focusTextField(GeoInputBox inputBox) {
+		DrawInputBox d = (DrawInputBox) getDrawableFor(inputBox);
+		d.setWidgetVisible(true);
+	}
+
 }

@@ -530,6 +530,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
+	public void removeTextField() {
+		hideWidget();
+	}
+
 	public AutoCompleteTextField getTextField() {
 		if (oneTextFieldPerEV) {
 			AutoCompleteTextField tf = view.getTextField(geoInputBox, this);

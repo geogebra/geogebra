@@ -4197,7 +4197,10 @@ public abstract class App implements UpdateSelection {
 			} else if (geo.isGeoInputBox()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
-				((DrawInputBox) d).setWidgetVisible(true);
+				Log.debug("[SPACE] geo is " + geo.getLabelSimple());
+				DrawInputBox di = ((DrawInputBox) d);
+
+				di.setWidgetVisible(true);
 			} else if (geo.isGeoList()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);

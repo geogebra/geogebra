@@ -748,6 +748,9 @@ public class SelectionManager {
 				// make sure Input Boxes lose focus on <TAB>
 				if (!(next instanceof GeoInputBox)) {
 					ev.requestFocus();
+				} else {
+					kernel.getApplication().getActiveEuclidianView()
+							.focusTextField((GeoInputBox) next);
 				}
 				break;
 			}

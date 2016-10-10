@@ -979,18 +979,23 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				|| app.getGlobalKeyDispatcher().isBadKeyEvent(e)) {
 			e.preventDefault();
 			if (keyCode == GWTKeycodes.KEY_TAB && usedForInputBox()) {
-				// setFocus(false);
-
 				AutoCompleteTextField tf = app.getActiveEuclidianView()
 						.getTextField();
 				if (tf != null) {
+					geoUsedForInputBox.setText(tf.getText());
 					tf.setVisible(false);
 				}
 
 				app.getGlobalKeyDispatcher().handleTab(e.isControlKeyDown(),
 						e.isShiftKeyDown(), true);
-
-				app.getActiveEuclidianView().requestFocus();
+				GeoElement next = app.getSelectionManager().getSelectedGeos()
+						.get(0);
+				if (next instanceof GeoInputBox) {
+					app.getActiveEuclidianView()
+							.focusTextField((GeoInputBox) next);
+				} else {
+					app.getActiveEuclidianView().requestFocus();
+				}
 			}
 		}
 	}
