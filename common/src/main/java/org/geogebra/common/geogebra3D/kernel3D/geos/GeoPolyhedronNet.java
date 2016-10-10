@@ -68,6 +68,8 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 		if (polygons != null) {
 			oldFaces = getFaces3D();
 			oldFacesIndex = 0;
+			// clear to renew
+			polygons.clear();
 		} else {
 			oldFaces = null;
 		}
@@ -75,13 +77,13 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 		// save old edges
 		if (segments != null) {
 			oldSegments = getSegments3D();
+			// clear to renew
+			segments.clear();
 		} else {
 			oldSegments = null;
 		}
 
-		// clear to renew
-		polygons.clear();
-		segments.clear();
+
 
 		super.createFaces();
 
