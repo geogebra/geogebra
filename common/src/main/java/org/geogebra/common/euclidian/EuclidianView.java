@@ -3372,6 +3372,7 @@ public abstract class EuclidianView
 	 * Get styleBar
 	 */
 	protected org.geogebra.common.euclidian.EuclidianStyleBar styleBar;
+	private DrawGrid drawGrid;
 
 	/**
 	 * Draws grid
@@ -3380,7 +3381,9 @@ public abstract class EuclidianView
 	 *            graphics
 	 */
 	final protected void drawGrid(GGraphics2D g2) {
-
+		if (drawGrid == null) {
+			drawGrid = new DrawGrid(this);
+		}
 		// vars for handling positive-only axes
 		double xCrossPix = this.getxZero() + (axisCross[1] * getXscale());
 		double yCrossPix = this.getyZero() - (axisCross[0] * getYscale());
@@ -3395,7 +3398,7 @@ public abstract class EuclidianView
 
 		case GRID_CARTESIAN:
 
-			drawCartesianGrid(g2, xCrossPix, yCrossPix);
+			drawGrid.drawCartesianGrid(g2, xCrossPix, yCrossPix);
 
 			break;
 
@@ -3553,105 +3556,7 @@ public abstract class EuclidianView
 
 	}
 
-	private void drawCartesianGrid(GGraphics2D g2, double xCrossPix,
-			double yCrossPix) {
-		// vertical grid lines
-		double tickStepX = getXscale() * gridDistances[0];
-		final double xAxisStart = (positiveAxes[0] && xCrossPix > 0) ? xCrossPix
-				+ (((xZero - xCrossPix) % tickStepX) + tickStepX) % tickStepX
-				: (getXZero() % tickStepX);
-		double tickStepY = getYscale() * gridDistances[1];
-		final double yAxisEnd = (positiveAxes[1] && yCrossPix < getHeight())
-				? yCrossPix : getHeight();
-		final double bottom = positiveAxes[1] ? yAxisEnd : getHeight();
-		double pix = xAxisStart;
-		double rw = getXmin() - (getXmin() % axesNumberingDistances[0]);
-		double rwBase = Kernel.checkDecimalFraction(rw);
-		final double left = positiveAxes[0] ? xCrossPix : 0;
 
-		if (pix < SCREEN_BORDER) {
-			pix += tickStepX;
-			if (!getXaxisLog() || getXmin() < 0)
-				rw += axesNumberingDistances[0];
-		}
-		for (int i = 0; pix <= getWidth(); i++) {
-			// don't draw the grid line x=0 if the y-axis is showing
-			// or if it's too close (eg sticky axes)
-			if (getXaxisLog()) {
-				double r = rwBase + Kernel
-						.checkDecimalFraction(axesNumberingDistances[0] * i);
-				if (Math.round(r) == r)
-					rw = Math.pow(10, r); // condition of integer power
-				else {
-					rw = Math.pow(10, (int) r);
-					double decimal = r - (int) r;
-					rw = decimal * 10 * rw;
-				}
-				pix = toScreenCoordXd(rw);
-			}
-			if (!showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
-				if (axesLabelsPositionsX.contains(
-						new Integer((int) (pix + Kernel.MIN_PRECISION)))) {
-
-					// hits axis label, draw in 2 sections
-					drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
-				} else {
-					// not hitting axis label, just draw it
-					g2.drawStraightLine(pix, 0, pix, bottom);
-
-				}
-
-			}
-
-			pix = xAxisStart + (i * tickStepX);
-		}
-
-		// horizontal grid lines
-
-		double start = getyZero() % tickStepY;
-		pix = start;
-		rw = getYmin() - (getYmin() % axesNumberingDistances[1]);
-		rwBase = Kernel.checkDecimalFraction(rw);
-		if (pix > (getHeight() - SCREEN_BORDER)) {
-			pix -= tickStepY;
-			if (!getYaxisLog() || getYmin() < 0)
-				rw += axesNumberingDistances[1];
-		}
-
-		for (int j = 0; pix <= yAxisEnd; j++) {
-			// don't draw the grid line x=0 if the y-axis is showing
-			// or if it's too close (eg sticky axes)
-			if (getYaxisLog()) {
-				double r = rwBase + Kernel
-						.checkDecimalFraction(axesNumberingDistances[1] * j);
-				if (Math.round(r) == r)
-					rw = Math.pow(10, r); // condition of integer power
-				else {
-					rw = Math.pow(10, (int) r);
-					double decimal = r - (int) r;
-					rw = decimal * 10 * rw;
-				}
-				pix = 2 * getYZero() - toScreenCoordYd(rw);
-			}
-			if (!showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
-
-				if (axesLabelsPositionsY.contains(
-						new Integer((int) (pix + Kernel.MIN_PRECISION)))) {
-
-					// hits axis label, draw in 2 sections
-					drawLineAvoidingLabelsH(g2, left, pix, getWidth(), pix,
-							xCrossPix);
-				} else {
-
-					// not hitting axis label, just draw it
-					g2.drawStraightLine(left, pix, getWidth(), pix);
-				}
-			}
-
-			pix = start + (j * tickStepY);
-		}
-
-	}
 
 	double getXAxisCrossingPixel() {
 		return getxZero() + (axisCross[1] * getXscale());
@@ -3681,38 +3586,7 @@ public abstract class EuclidianView
 	double yLabelMaxWidthNeg = 0;
 	double xLabelHeights = 0;
 
-	private void drawLineAvoidingLabelsH(GGraphics2D g2, double x1, double y1,
-			double x2, double y2, double xCrossPix) {
 
-		if (xCrossPix > x1 && xCrossPix < x2) {
-			// split in 2
-			g2.drawStraightLine(x1, y1,
-					xCrossPix
-							- (this.toRealWorldCoordY(y1) > 0
-									? yLabelMaxWidthPos : yLabelMaxWidthNeg)
-							- 10,
-					y2);
-			g2.drawStraightLine(xCrossPix, y1, x2, y2);
-
-		} else {
-			g2.drawStraightLine(x1, y1, x2, y2);
-		}
-	}
-
-	private void drawLineAvoidingLabelsV(GGraphics2D g2, double x1, double y1,
-			double x2, double y2, double yCrossPix) {
-
-		if (yCrossPix > y1 && yCrossPix < y2) {
-			// split in 2
-			g2.drawStraightLine(x1, y1, x2, yCrossPix);
-
-			g2.drawStraightLine(x1, yCrossPix + xLabelHeights + 5, x2, y2);
-
-		} else {
-			g2.drawStraightLine(x1, y1, x2, y2);
-		}
-
-	}
 
 	/*
 	 * spaceToLeft so that minus signs are more visible next to grid
@@ -4216,10 +4090,10 @@ public abstract class EuclidianView
 		if (app.has(Feature.MOBILE_NEW_EV_CENTERING)) {
 //			Log.debug(width + "x" + height);
 			if ((width <= MIN_WIDTH) && (height <= MIN_HEIGHT)) {
-				EuclidianSettings settings = getSettings();
-				if (settings != null) {
-					width = settings.getWidth();
-					height = settings.getHeight();
+				EuclidianSettings evSettings = getSettings();
+				if (evSettings != null) {
+					width = evSettings.getWidth();
+					height = evSettings.getHeight();
 				}
 			}
 //			Log.debug("after:" + width + "x" + height);
@@ -4445,7 +4319,19 @@ public abstract class EuclidianView
 
 	}
 
-	@SuppressWarnings("javadoc")
+	/**
+	 * 
+	 * @param gi
+	 *            image
+	 * @param penPoints2
+	 *            points
+	 * @param penColor
+	 *            color
+	 * @param penLineStyle
+	 *            line style
+	 * @param penSize
+	 *            line thickness
+	 */
 	protected abstract void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
 			GColor penColor, int penLineStyle, int penSize);
 
