@@ -745,13 +745,17 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		Coords ev1 = new Coords(3);
 		ev1.set(getEigenvec(1));
 
-		Coords firstPoint = midPoint.add(
-				ev0.mul(getHalfAxis(0) * Math.cos(parameters.paramStart))).add(
-				ev1.mul(getHalfAxis(1) * Math.sin(parameters.paramStart)));
+		Coords firstPoint = midPoint.copy()
+				.addInsideMul(ev0,
+						getHalfAxis(0) * Math.cos(parameters.paramStart))
+				.addInsideMul(ev1,
+						getHalfAxis(1) * Math.sin(parameters.paramStart));
 		nearestPoint.check(firstPoint);
-		Coords secondPoint = midPoint.add(
-				ev0.mul(getHalfAxis(0) * Math.cos(parameters.paramEnd))).add(
-				ev1.mul(getHalfAxis(1) * Math.sin(parameters.paramEnd)));
+		Coords secondPoint = midPoint.copy()
+				.addInsideMul(ev0,
+						getHalfAxis(0) * Math.cos(parameters.paramEnd))
+				.addInsideMul(ev1,
+						getHalfAxis(1) * Math.sin(parameters.paramEnd));
 		nearestPoint.check(secondPoint);
 
 		// check project points on segments edges

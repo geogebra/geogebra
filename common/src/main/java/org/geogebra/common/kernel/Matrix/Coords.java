@@ -1965,6 +1965,20 @@ public class Coords {
 	}
 
 	/**
+	 * @return a copy of this coords object
+	 */
+	public Coords copy() {
+
+		Coords result = new Coords(rows);
+
+		for (int i = 0; i < rows; i++) {
+			result.val[i] = val[i];
+		}
+
+		return result;
+	}
+
+	/**
 	 * 
 	 * @param val0 factor
 	 * @param res gets this * val0

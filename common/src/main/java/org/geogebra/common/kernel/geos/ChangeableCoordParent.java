@@ -98,8 +98,8 @@ public class ChangeableCoordParent {
 			return true;
 		}
 		// else: comes from mouse
-		Coords direction2 = direction.sub(viewDirection.mul(viewDirection
-				.dotproduct(direction)));
+		Coords direction2 = direction.copy().addInsideMul(viewDirection,
+				-viewDirection.dotproduct(direction));
 		double ld = direction2.dotproduct(direction2);
 		if (Kernel.isZero(ld))
 			return false;
