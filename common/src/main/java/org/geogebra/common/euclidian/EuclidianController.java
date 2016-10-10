@@ -6668,13 +6668,7 @@ public abstract class EuclidianController {
 		} else {
 			if ((event.isShiftDown() || mode == EuclidianConstants.MODE_TRANSLATEVIEW)
 					&& (hits.size() >= 1)) {
-				if (hits.hasXAxis()) {
-					view.setCursor(EuclidianCursor.RESIZE_X);
-				} else if (hits.hasYAxis()) {
-					view.setCursor(EuclidianCursor.RESIZE_Y);
-				} else {
-					setHitCursor();
-				}
+				setCursorForTranslateView(hits);
 			} else {
 				setHitCursor();
 			}
@@ -6762,6 +6756,16 @@ public abstract class EuclidianController {
 			view.repaintView();
 		}
 		stopCollectingMinorRepaints();
+	}
+
+	protected void setCursorForTranslateView(Hits hits) {
+		if (hits.hasXAxis()) {
+			view.setCursor(EuclidianCursor.RESIZE_X);
+		} else if (hits.hasYAxis()) {
+			view.setCursor(EuclidianCursor.RESIZE_Y);
+		} else {
+			setHitCursor();
+		}
 	}
 
 	protected boolean overComboBox(AbstractEvent event, GeoElement hit) {

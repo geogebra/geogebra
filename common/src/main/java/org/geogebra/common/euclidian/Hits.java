@@ -17,7 +17,6 @@ import java.util.Iterator;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.FromMeta;
-import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.HitType;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -55,7 +54,7 @@ public class Hits extends ArrayList<GeoElement> {
 	/** number of coord sys 2D */
 	private int cs2DCount;
 
-	private boolean hasXAxis, hasYAxis;
+	private boolean hasXAxis, hasYAxis, hasZAxis;
 
 	/** init the hits */
 	public void init() {
@@ -66,6 +65,7 @@ public class Hits extends ArrayList<GeoElement> {
 		cs2DCount = 0;
 		hasXAxis = false;
 		hasYAxis = false;
+		hasZAxis = false;
 	}
 
 	// Can't override and GWT don't support CLONE anyway.
@@ -82,6 +82,7 @@ public class Hits extends ArrayList<GeoElement> {
 		ret.imageCount = this.imageCount;
 		ret.hasXAxis = this.hasXAxis;
 		ret.hasYAxis = this.hasYAxis;
+		ret.hasZAxis = this.hasZAxis;
 
 		ret.cs2DCount = cs2DCount;
 
@@ -124,11 +125,17 @@ public class Hits extends ArrayList<GeoElement> {
 		} else if (geo.isGeoPolygon()) {
 			polyCount++;
 
-		} else if (geo instanceof GeoAxis) {
-			if (((GeoAxis) geo).getType() == GeoAxisND.X_AXIS) {
+		} else if (geo instanceof GeoAxisND) {
+			switch (((GeoAxisND) geo).getType()) {
+			case GeoAxisND.X_AXIS:
 				hasXAxis = true;
-			} else {
+				break;
+			case GeoAxisND.Y_AXIS:
 				hasYAxis = true;
+				break;
+			case GeoAxisND.Z_AXIS:
+				hasZAxis = true;
+				break;
 			}
 		}
 		return super.add(geo);
@@ -160,6 +167,13 @@ public class Hits extends ArrayList<GeoElement> {
 	 */
 	public boolean hasYAxis() {
 		return hasYAxis;
+	}
+
+	/**
+	 * @return true if z axis is hit
+	 */
+	public boolean hasZAxis() {
+		return hasZAxis;
 	}
 
 	/**

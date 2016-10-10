@@ -628,11 +628,18 @@ public class App3D extends AppD {
 			return;
 		}
 		if (isShiftDown) {
-			oldCursorMode = getEuclidianView3D().getCursor();
-			getEuclidianView3D().setCursor(EuclidianCursor.MOVE);
+			EuclidianCursor cursor = getEuclidianView3D()
+					.updateCursorIfNotTranslateViewCursor();
+			if (cursor != null) {
+				oldCursorMode = cursor;
+			}
+			// oldCursorMode = getEuclidianView3D().getCursor();
+			// getEuclidianView3D().setCursor(EuclidianCursor.MOVE);
+			// Log.debug(oldCursorMode);
 		} else {
-			getEuclidianView3D().setCursor(oldCursorMode);
-
+			if (oldCursorMode != null) {
+				getEuclidianView3D().setCursor(oldCursorMode);
+			}
 		}
 	}
 

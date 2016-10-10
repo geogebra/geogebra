@@ -2479,7 +2479,7 @@ GRectangle selectionRectangle) {
 	}
 
 	protected boolean moveCursorIsVisible() {
-		return cursor == EuclidianCursor.MOVE
+		return cursorIsTranslateViewCursor()
 				|| getEuclidianController().getMode() == EuclidianConstants.MODE_TRANSLATEVIEW;
 	}
 
@@ -2512,7 +2512,8 @@ GRectangle selectionRectangle) {
 		double t;
 
 		Coords v;
-		if (getEuclidianController().getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
+		if (getEuclidianController()
+				.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
 
 			switch (getCursor3DType()) {
 
@@ -2574,6 +2575,31 @@ GRectangle selectionRectangle) {
 				}
 				break;
 
+			}
+		} else if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)
+				&& moveCursorIsVisible()) {
+
+			if (cursor != EuclidianCursor.MOVE) {
+				cursorMatrix.setOrigin(
+						getCursor3D().getDrawingMatrix().getOrigin());
+				scaleXYZ(cursorMatrix.getOrigin());
+				switch (cursor) {
+				case RESIZE_X:
+					cursorMatrix.setVx(Coords.VY);
+					cursorMatrix.setVy(Coords.VZ);
+					cursorMatrix.setVz(Coords.VX);
+					break;
+				case RESIZE_Y:
+					cursorMatrix.setVx(Coords.VZ);
+					cursorMatrix.setVy(Coords.VX);
+					cursorMatrix.setVz(Coords.VY);
+					break;
+				case RESIZE_Z:
+					cursorMatrix.setVx(Coords.VX);
+					cursorMatrix.setVy(Coords.VY);
+					cursorMatrix.setVz(Coords.VZ);
+					break;
+				}
 			}
 		} else {
 			switch (getCursor3DType()) {
@@ -2856,9 +2882,28 @@ GRectangle selectionRectangle) {
 	}
 
 	protected void drawTranslateViewCursor(Renderer renderer1) {
-		renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
-		drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
-		renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+
+		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			switch (cursor) {
+			case MOVE:
+				renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
+				drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
+				renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+				break;
+			case RESIZE_X:
+			case RESIZE_Y:
+			case RESIZE_Z:
+				renderer1.setMatrix(cursorMatrix);
+				renderer.drawCursor(PlotterCursor.TYPE_ALREADY_Z);
+				renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+				break;
+			}
+		} else {
+			renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
+			drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
+			renderer1.drawCursor(PlotterCursor.TYPE_CUBE);
+		}
+
 	}
 
 	/**
@@ -3005,8 +3050,47 @@ GRectangle selectionRectangle) {
 		return cursor;
 	}
 
-	public void setCursor(EuclidianCursor cursor) {
-		switch (cursor) {
+	final private boolean cursorIsTranslateViewCursor() {
+		return cursor == EuclidianCursor.MOVE
+				|| cursor == EuclidianCursor.RESIZE_X
+				|| cursor == EuclidianCursor.RESIZE_Y
+				|| cursor == EuclidianCursor.RESIZE_Z;
+	}
+
+	public EuclidianCursor updateCursorIfNotTranslateViewCursor() {
+		if (!cursorIsTranslateViewCursor()) {
+			EuclidianCursor ret = cursor;
+			Hits hits1 = getHits();
+			if (hits1 != null && hits1.size() >= 1) {
+				setCursorForTranslateView(hits1);
+			} else {
+				cursor = EuclidianCursor.MOVE;
+			}
+			return ret;
+		}
+		return null;
+	}
+
+	public void setCursorForTranslateView(Hits hits) {
+		EuclidianCursor old = cursor;
+		if (hits.hasXAxis()) {
+			cursor = EuclidianCursor.RESIZE_X;
+		} else if (hits.hasYAxis()) {
+			cursor = EuclidianCursor.RESIZE_Y;
+		} else if (hits.hasZAxis()) {
+			cursor = EuclidianCursor.RESIZE_Z;
+		} else {
+			cursor = EuclidianCursor.MOVE;
+		}
+
+		if (cursor != EuclidianCursor.MOVE && cursor != old) {
+			// update may has failed since cursor was not correct type
+			updateCursor3D();
+		}
+	}
+
+	public void setCursor(EuclidianCursor cursor1) {
+		switch (cursor1) {
 		case HIT:
 			setHitCursor();
 			return;
@@ -3020,10 +3104,13 @@ GRectangle selectionRectangle) {
 			setDefaultCursor();
 			return;
 		case RESIZE_X:
-			setResizeXAxisCursor();
+			cursor = EuclidianCursor.RESIZE_X;
 			return;
 		case RESIZE_Y:
-			setResizeYAxisCursor();
+			cursor = EuclidianCursor.RESIZE_Y;
+			return;
+		case RESIZE_Z:
+			cursor = EuclidianCursor.RESIZE_Z;
 			return;
 		case TRANSPARENT:
 			setTransparentCursor();
@@ -3794,19 +3881,11 @@ GRectangle selectionRectangle) {
 		return getEuclidianController().getMode();
 	}
 
-	public void setResizeXAxisCursor() {
-		// TODO Auto-generated method stub
-
-	}
 
 	// ///////////////////////////////////////////////
 	// PROJECTION (ORTHO/PERSPECTIVE/...)
 	// ///////////////////////////////////////////////
 
-	public void setResizeYAxisCursor() {
-		// TODO Auto-generated method stub
-
-	}
 
 	protected void setViewChangedByZoom() {
 		viewChangedByZoom = true;

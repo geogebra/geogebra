@@ -4393,4 +4393,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return false;
 	}
 
+	@Override
+	protected void setCursorForTranslateView(Hits hits) {
+		view3D.setCursorForTranslateView(hits);
+	}
+
 }
