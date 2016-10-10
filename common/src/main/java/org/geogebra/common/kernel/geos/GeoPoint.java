@@ -2238,10 +2238,12 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	/**
-	 * initialize incidenceList
+	 * initialize incidenceList, and add the point itself to the list as the
+	 * first element.
 	 */
 	public void createIncidenceList() {
 		incidenceList = new ArrayList<GeoElement>();
+		incidenceList.add(this);
 	}
 
 	/**
