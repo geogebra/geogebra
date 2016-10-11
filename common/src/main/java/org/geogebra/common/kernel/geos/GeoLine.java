@@ -99,7 +99,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	private static boolean KEEP_LEADING_SIGN = true;
 	private static final String[] vars = { "x", "y" };
 
-	private Variable[] botanaVars; // only for an axis
+	private Variable[] botanaVars; // only for an axis or a fixed slope line
 
 	/**
 	 * Creates new line
@@ -1647,11 +1647,28 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		throw new NoSymbolicParametersException();
 	}
 
+	/**
+	 * Botana's theorem proving subsystem can handle axes and fixed slope lines
+	 * if a locus equation is requested. Otherwise (in strict/general theorem
+	 * proving) they are unsupported (because they are not synthetic).
+	 * 
+	 * @return the line has fixed slope (e.g. an axis or defined by an equation)
+	 */
+	public boolean hasFixedSlope() {
+		if (this instanceof GeoAxis) {
+			return true;
+		}
+		if (this.getParentAlgorithm() == null) {
+			return true;
+		}
+		return false;
+	}
+
 	public Variable[] getBotanaVars(GeoElementND geo) {
 		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
 			return ((SymbolicParametersBotanaAlgo) algoParent).getBotanaVars(this);
 		}
-		if (geo instanceof GeoAxis || algoParent == null) {
+		if (hasFixedSlope()) {
 			if (botanaVars == null) {
 				botanaVars = new Variable[4];
 				botanaVars[0] = new Variable(true);
@@ -1671,7 +1688,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return ((SymbolicParametersBotanaAlgo) algoParent)
 					.getBotanaPolynomials(this);
 		}
-		if (geo instanceof GeoAxis || algoParent == null) {
+		if (hasFixedSlope()) {
+			// we construct the polynomials in AlgoLocusEquation, not here
 			return null;
 		}
 		throw new NoSymbolicParametersException();

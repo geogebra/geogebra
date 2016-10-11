@@ -17,13 +17,14 @@ import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.locusequ.arith.Equation;
@@ -359,24 +360,70 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			freePoints.add(movingPoint);
 		}
 
-		/* axis support */
+		/* axis and fixed slope line support */
 		Iterator<GeoElement> geos = (implicit ? implicitLocus : locusPoint)
 				.getAllPredecessors().iterator();
 		while (geos.hasNext()) {
 			GeoElement geo = geos.next();
-			if (geo instanceof GeoAxis) {
+			if (geo instanceof GeoLine && ((GeoLine) geo).hasFixedSlope()) {
+
 				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo)
 						.getBotanaVars(geo);
-				// Coordinates for the origin:
-				substitutions.put(vars[0], 0l);
-				substitutions.put(vars[1], 0l);
-				if (((GeoAxis) geo).getY() != 0) {
-					substitutions.put(vars[2], 1l);
-					substitutions.put(vars[3], 0l);
+
+				GeoLine l = (GeoLine) geo;
+
+				/*
+				 * a0/a1*x+b0/b1*y+c0/c1=0, that is:
+				 * a0*b1*c1*x+a1*b0*c1*y+a1*b1*c0=0
+				 */
+				Coords P = l.getCoords();
+				long[] a = doubleToRational(P.get(1));
+				long[] b = doubleToRational(P.get(2));
+				long[] c = doubleToRational(P.get(3));
+
+				// Setting up two equations for the two points:
+				Polynomial a0 = new Polynomial((int) a[0]);
+				Polynomial a1 = new Polynomial((int) a[1]);
+				Polynomial b0 = new Polynomial((int) b[0]);
+				Polynomial b1 = new Polynomial((int) b[1]);
+				Polynomial c0 = new Polynomial((int) c[0]);
+				Polynomial c1 = new Polynomial((int) c[1]);
+				Polynomial xp = new Polynomial(vars[0]);
+				Polynomial yp = new Polynomial(vars[1]);
+				Polynomial xq = new Polynomial(vars[2]);
+				Polynomial yq = new Polynomial(vars[3]);
+
+				Polynomial ph = a0.multiply(b1).multiply(c1).multiply(xp)
+						.add(a1.multiply(b0).multiply(c1).multiply(yp))
+						.add(a1.multiply(b1).multiply(c0));
+				as.addPolynomial(ph);
+				ph = a0.multiply(b1).multiply(c1).multiply(xq)
+						.add(a1.multiply(b0).multiply(c1).multiply(yq))
+						.add(a1.multiply(b1).multiply(c0));
+				as.addPolynomial(ph);
+
+				if (a[0] != 0) {
+					/*
+					 * This equation is not horizontal, so y can be arbitrarily
+					 * chosen. Let's choose y=0 and y=1 for the 2 points.
+					 */
+					ph = yp;
+					as.addPolynomial(ph);
+					ph = yq.subtract(new Polynomial(1));
+					as.addPolynomial(ph);
+				} else {
+					/*
+					 * This equation is horizontal, so x can be arbitrarily
+					 * chosen. Let's choose x=0 and x=1 for the 2 points.
+					 */
+					ph = xp;
+					as.addPolynomial(ph);
+					ph = xq.subtract(new Polynomial(1));
+					as.addPolynomial(ph);
 				}
-				if (((GeoAxis) geo).getX() != 0) {
-					substitutions.put(vars[2], 0l);
-					substitutions.put(vars[3], 1l);
+				// These coordinates are no longer free.
+				for (int i = 0; i < 4; i++) {
+					vars[i].setFree(false);
 				}
 			}
 			AlgoElement algo = geo.getParentAlgorithm();

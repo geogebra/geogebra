@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -398,11 +397,12 @@ public class ProverBotanasMethod {
 				GeoElement geo = it.next();
 				if (geo instanceof SymbolicParametersBotanaAlgo) {
 					try {
-						if (geo instanceof GeoAxis
+						if (geo instanceof GeoLine
+								&& ((GeoLine) geo).hasFixedSlope()
 								&& !(geoProver.getProverEngine() == ProverEngine.LOCUS_EXPLICIT || geoProver
 										.getProverEngine() == ProverEngine.LOCUS_IMPLICIT)) {
 							Log.info(
-									"Statements containing axes are unsupported");
+									"Statements containing axes or fixed slope lines are unsupported");
 							result = ProofResult.UNKNOWN;
 							return;
 						}
@@ -424,7 +424,8 @@ public class ProverBotanasMethod {
 						} else {
 							String description = geo
 									.getAlgebraDescriptionDefault();
-							if (geo instanceof GeoAxis) {
+							if (geo instanceof GeoLine
+									&& ((GeoLine) geo).hasFixedSlope()) {
 								Log.debug(description);
 							} else if (!description.startsWith("xOyPlane")) {
 								/*
