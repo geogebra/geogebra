@@ -1952,6 +1952,7 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate[ln(0)]", result:"-\u221E", notes:"" },
 { cat:"Angle", cmd:"Angle[(1,0), (0, 0), 30deg]", result:"(sqrt(3) / 2, 1 / 2)", notes:"GGB-1222" },
 { cat:"Angle", cmd:"Angle[(1,0), (0, 0), pi/6]", result:"(sqrt(3) / 2, 1 / 2)", notes:"GGB-1222" },
+{ cat:"Evaluate", cmd:"Evaluate[cbrt(x^6)]", result:"x\u00B2", notes:"" },
 // JSONEND
 //{ 
 // 
