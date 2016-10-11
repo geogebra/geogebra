@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -74,17 +75,15 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 			if (algo instanceof AlgoIntersectFunctionNVarPlane) {
 				AlgoIntersectFunctionNVarPlane algoInter = (AlgoIntersectFunctionNVarPlane) algo;
 				GeoFunctionNVar f = algoInter.getFunction();
+				GeoPlaneND plane = algoInter.getPlane();
+				Coords eq = plane.getCoordSys().getEquationVector();
 				StringBuilder valueSb = new StringBuilder(50);
-				Coords eq = transformCoordSys.getEquationVector();
+				valueSb.append("(");
+				valueSb.append(f.getFunctionExpression().toValueString(tpl));
+				valueSb.append(" = ");
 				if (Kernel.isEpsilon(eq.getZ(), eq.getY(), eq.getX())) {
 					// can't replace z by plane equation
-					valueSb.append("(z = ");
-					valueSb.append(
-							f.getFunctionExpression().toValueString(tpl));
-					valueSb.append(",");
-					valueSb.append(GeoPlane3D.buildValueString(tpl, kernel, eq,
-							false));
-					valueSb.append(")");
+					valueSb.append("z");
 				} else {
 					// replace z by plane equation
 					if (planeEquationNumbers == null) {
@@ -93,18 +92,14 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 					planeEquationNumbers[0] = -eq.getX() / eq.getZ();
 					planeEquationNumbers[1] = -eq.getY() / eq.getZ();
 					planeEquationNumbers[2] = -eq.getW() / eq.getZ();
-					valueSb.append("(");
-					valueSb.append(
-							f.getFunctionExpression().toValueString(tpl));
-					valueSb.append(" = ");
 					valueSb.append(kernel.buildLHS(planeEquationNumbers,
 							VAR_STRING, true, false, false,
 							tpl));
-					valueSb.append(",");
-					valueSb.append(GeoPlane3D.buildValueString(tpl, kernel, eq,
-							false));
-					valueSb.append(")");
 				}
+				valueSb.append(",");
+				valueSb.append(
+						GeoPlane3D.buildValueString(tpl, kernel, eq, false));
+				valueSb.append(")");
 				return valueSb.toString();
 			}
 		}

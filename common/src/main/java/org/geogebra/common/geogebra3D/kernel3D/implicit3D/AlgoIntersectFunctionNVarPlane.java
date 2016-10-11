@@ -56,6 +56,18 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 	@Override
 	public void compute() {
 
+		if (!plane.isDefined()) {
+			curve.setUndefined();
+			return;
+		}
+
+		if (!surface.isDefined()) {
+			curve.setUndefined();
+			return;
+		}
+
+		curve.setDefined();
+
 		// a*x+b*y+c*z=d, z=d/c-a/c*x-b/c*y
 		Coords norm = plane.getCoordSys().getEquationVector();
 		FunctionVariable x = surface.getFunctionVariables()[0];
@@ -111,6 +123,10 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 
 	public GeoFunctionNVar getFunction() {
 		return surface;
+	}
+
+	public GeoPlaneND getPlane() {
+		return plane;
 	}
 
 }
