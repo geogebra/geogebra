@@ -8699,7 +8699,8 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected final void mousePressedTranslatedView(PointerEventType type) {
+	protected final void mousePressedTranslatedView(PointerEventType type,
+			boolean shiftOrMeta) {
 
 		Hits hits;
 
@@ -8710,7 +8711,7 @@ public abstract class EuclidianController {
 		hits.removePolygons();
 
 		moveMode = MOVE_VIEW;
-		if (!hits.isEmpty() && moveAxesPossible()) {
+		if (!hits.isEmpty() && moveAxesPossible(shiftOrMeta)) {
 			for (Object hit : hits) {
 				setMoveModeIfAxis(hit);
 			}
@@ -8731,8 +8732,9 @@ public abstract class EuclidianController {
 
 	}
 
-	protected boolean moveAxesPossible() {
-		return !view.isLockedAxesRatio() && view.isZoomable();
+	protected boolean moveAxesPossible(boolean shiftOrMeta) {
+		return !view.isLockedAxesRatio() && view.isZoomable()
+				&& (shiftOrMeta || !isTemporaryMode());
 	}
 
 	protected void setDragCursorIfMoveView() {
@@ -8912,7 +8914,7 @@ public abstract class EuclidianController {
 			// move drawing pad or axis
 			case EuclidianConstants.MODE_TRANSLATEVIEW:
 
-				mousePressedTranslatedView(type);
+			mousePressedTranslatedView(type, specialMoveEvent(e));
 
 				break;
 
@@ -9064,11 +9066,12 @@ public abstract class EuclidianController {
 					// translation if we have geos to paste
 					view.setMode(getModeForShallMoveView(event));
 				}
+				// if over an axis, force the correct cursor to be displayed
+				if (view.getHits().hasXAxis() || view.getHits().hasYAxis()) {
+					setCursorForTranslateView(view.getHits());
+				}
 			}
-			// if over an axis, force the correct cursor to be displayed
-			if (view.getHits().hasXAxis() || view.getHits().hasYAxis()) {
-				processMouseMoved(event);
-			}
+
 		}
 		switchModeForMousePressed(event);
 	}
@@ -9100,7 +9103,12 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean hasNoHitsDisablingModeForShallMoveView(Hits hits) {
-		return hits.isEmpty();
+		for (GeoElement geo : hits) {
+			if (!(geo instanceof GeoAxis)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private boolean needsAxisZoom(Hits hits, AbstractEvent event) {
