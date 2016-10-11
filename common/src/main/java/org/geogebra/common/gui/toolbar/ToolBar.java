@@ -1271,46 +1271,47 @@ public class ToolBar {
 
 		String def2 = definition.replaceAll(",", ""); // remove comas
 		def2 = def2.replaceAll("59", ""); // remove record to spreadsheet tool
-		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical bars
+		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical
+													// bars
 		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
 
 		String[] split = def2.split(" \\| "); // split by tool menus
 
+		// Log.debug("lengths:"+split.length+"/"+DEFAULT_TOOLBAR_PRE_5_0_280.length);
+		//
+		// for (int i = 0 ; i < DEFAULT_TOOLBAR_PRE_5_0_280.length && i <
+		// split.length; i++){
+		// String menu = split[i];
+		// String[] defaults = DEFAULT_TOOLBAR_PRE_5_0_280[i];
+		// String out = "\n"+menu+"/";
+		// for (int j = 0 ; j < defaults.length ; j++){
+		// out+=defaults[j]+",";
+		// }
+		// Log.debug(out);
+		// }
 
-//		Log.debug("lengths:"+split.length+"/"+DEFAULT_TOOLBAR_PRE_5_0_280.length);
-//
-//		for (int i = 0 ; i < DEFAULT_TOOLBAR_PRE_5_0_280.length && i < split.length; i++){
-//			String menu = split[i];
-//			String[] defaults = DEFAULT_TOOLBAR_PRE_5_0_280[i];
-//			String out = "\n"+menu+"/";
-//			for (int j = 0 ; j < defaults.length ; j++){
-//				out+=defaults[j]+",";
-//			}
-//			Log.debug(out);
-//		}
-
-		if (split.length != DEFAULT_TOOLBAR_PRE_5_0_280.length){
+		if (split.length != DEFAULT_TOOLBAR_PRE_5_0_280.length) {
 			return false;
 		}
 
-//		Log.debug("\ntest");
+		// Log.debug("\ntest");
 
-		for (int i = 0 ; i < DEFAULT_TOOLBAR_PRE_5_0_280.length; i++){
+		for (int i = 0; i < DEFAULT_TOOLBAR_PRE_5_0_280.length; i++) {
 			boolean found = false;
 			String menu = split[i];
 			String[] defaults = DEFAULT_TOOLBAR_PRE_5_0_280[i];
-			for (int j = 0 ; j < defaults.length && !found ; j++){
-//				Log.debug("\n"+menu+"/"+defaults[j]);
-				if (defaults[j].equals(menu)){
+			for (int j = 0; j < defaults.length && !found; j++) {
+				// Log.debug("\n"+menu+"/"+defaults[j]);
+				if (defaults[j].equals(menu)) {
 					found = true;
 				}
 			}
-			if(!found){
+			if (!found) {
 				return false;
 			}
 		}
 
-//		Log.debug("\n >> default toolbar");
+		// Log.debug("\n >> default toolbar");
 
 		return true;
 	}
