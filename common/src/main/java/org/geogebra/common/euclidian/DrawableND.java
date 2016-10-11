@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import com.google.j2objc.annotations.Weak;
+
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -18,6 +20,7 @@ public abstract class DrawableND {
 	/** says if this drawable is visible when draw list is visible */
 	private boolean createdByDrawListVisible = false;
 	/** drawList that has created this */
+	@Weak
 	private DrawableND drawList;
 	private boolean needsUpdate = false;
 
