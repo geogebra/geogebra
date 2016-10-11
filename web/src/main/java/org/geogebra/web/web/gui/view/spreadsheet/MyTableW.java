@@ -1643,6 +1643,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW) ((MyCellEditorW) getCellEditor(
 				        row, col)).getTableCellEditorWidget(this, ob, false,
 				        row, col);
+				app.showKeyboard(w, true);
 
 				// set height and position of the editor
 				int editorHeight = ssGrid.getCellFormatter()

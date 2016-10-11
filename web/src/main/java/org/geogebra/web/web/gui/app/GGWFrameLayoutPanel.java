@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.app;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
@@ -86,7 +87,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 					Timer timer = new Timer() {
 						@Override
 						public void run() {
-							confirmAVInput(x, y);
+							if (!app.getView(App.VIEW_SPREADSHEET).hasFocus()) {
+								confirmAVInput(x, y);
+							}
 						}
 					};
 					timer.schedule(0);
