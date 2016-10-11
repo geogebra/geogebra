@@ -452,9 +452,12 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
-	public void cmdSurfaceCartesian() {
+	public void cmdSurface() {
 		t("Surface[u*v,u+v,u^2+v^2,u,-1,1,v,1,3]",
 				"((u * v), u + v, u^(2) + v^(2))");
+		t("Surface[2x,2pi]", "(u, ((2 * u) * cos(v)), ((2 * u) * sin(v)))");
+		t("Surface[2x,2pi,yAxis]",
+				"((cos(v) * u), ((1 - cos(v) + cos(v)) * (2 * u)), ((-sin(v)) * u))");
 	}
 
 	@Test
@@ -479,15 +482,32 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdVolume() {
-		t("round(Volume[Cube[(0,0,1),(0,1,0)]],10)",
-				eval("round(sqrt(8),10)"));
-		t("Volume[Sphere[(0,0,1),4]]", eval("4/3*pi*4^3"));
+		t("Volume[Cube[(0,0,1),(0,1,0)]]", eval("round(sqrt(8),5)"),
+				StringTemplate.editTemplate);
+		t("Volume[Sphere[(0,0,1),4]]", eval("round(4/3*pi*4^3,5)"),
+				StringTemplate.editTemplate);
 	}
 
 	@Test
 	public void cmdSphere() {
 		t("Sphere[(0,0,1),4]", indices("x^2 + y^2 + (z - 1)^2 = 16"));
 		t("Sphere[(0,0,1),(0,4,1)]", indices("x^2 + y^2 + (z - 1)^2 = 16"));
+	}
+
+	@Test
+	public void cmdCone() {
+		t("Cone[x^2+y^2=9,4]", new String[] { eval("round(12*pi,5)"),
+ "X = (0, 0, 4)",
+ eval("round(pi*15,5)"), },
+				StringTemplate.editTemplate);
+		t("Cone[(0,0,0),(0,0,4),3]", new String[] { eval("round(12*pi,5)"),
+				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)",
+				eval("round(pi*15,5)"), },
+				StringTemplate.editTemplate);
+		t("Cone[(0,0,0),Vector[(0,0,4)],pi/4]",
+				new String[] {
+ indices("x^2 + y^2 - 1z^2 = 0") },
+				StringTemplate.editTemplate);
 	}
 
 	private String indices(String string) {

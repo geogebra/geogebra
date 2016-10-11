@@ -1,59 +1,12 @@
 package org.geogebra.commands;
 
-import java.util.Locale;
-
-import javax.swing.JFrame;
-
-import org.geogebra.common.kernel.commands.AlgebraProcessor;
-import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.geogebra3D.App3D;
-import org.geogebra.desktop.main.AppD;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import junit.framework.Assert;
-
 public class NoExceptions3DTest {
-	static AppD app;
-	static AlgebraProcessor ap;
-	
-	@Before
-	public void resetSyntaxes(){
-		NoExceptionsTest.syntaxes = -1000;
-	}
-	@After
-	public void checkSyntaxes(){
-		Assert.assertTrue("unchecked syntaxes: "+NoExceptionsTest.syntaxes,NoExceptionsTest.syntaxes<=0);
-	}
-	
-	private static void  t(String s){
-		//NoExceptionsTest.testSyntax(s,app,ap);
-	}
-	
-	//@BeforeClass
-	public static void setupApp() {
-		app = new App3D(new CommandLineArguments(
-new String[] { "--silent" }),
-				new JFrame(), false);
-		app.setLanguage(Locale.US);
-		// app.getKernel()
-		ap = app.getKernel().getAlgebraProcessor();
-	}
-	
-
-
 	@Test
 	public void cmdEnds() {
 		// TODO write test
 	}
-
-	@Test
-	public void cmdCone() {
-		// TODO write test
-	}
-
-
 
 	@Test
 	public void cmdBottom() {
@@ -119,13 +72,6 @@ new String[] { "--silent" }),
 	public void cmdPrism() {
 		// TODO write test
 	}
-	
-	
-
-	@Test
-	public void cmdSurface() {
-		// TODO write test
-	}
 
 	@Test
 	public void cmdTetrahedron() {
@@ -156,7 +102,6 @@ new String[] { "--silent" }),
 	public void cmdIntersectCircle(){
 		// TODO write test
 	}
-	
 
 	@Test
 	public void cmdHeight(){
