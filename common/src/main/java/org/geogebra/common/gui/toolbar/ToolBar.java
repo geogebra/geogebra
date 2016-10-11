@@ -1242,10 +1242,17 @@ public class ToolBar {
 
 	static private ToolsRemover defaultToolsRemover = new ToolsRemover();
 
-	static private final String DEFAULT_TOOLBAR_PRE_5_0_280 = "0 39 | 1 501 67 , 5 19 , 72 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71 | 30 29 54 32 31 33 | 17 26 62 73 , 14 68 | 25 52 60 61 | 40 41 42 , 27 28 35 , 6";
+	static private final String DEFAULT_TOOLBAR_PRE_5_0_280_A = "0 39 | 1 501 67 , 5 19 , 72 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71 | 30 29 54 32 31 33 | 17 26 62 73 , 14 68 | 25 52 60 61 | 40 41 42 , 27 28 35 , 6";
+	static private final String DEFAULT_TOOLBAR_PRE_5_0_280_B = "0 39 | 1 501 67 , 5 19 , 72 75 76 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71 | 30 29 54 32 31 33 | 17 26 62 73 , 14 68 | 25 52 60 61 | 40 41 42 , 27 28 35 , 6";
 
 	final static public boolean isOldDefaultToolbar(String definition){
-		return DEFAULT_TOOLBAR_PRE_5_0_280.equals(definition);
+		if (DEFAULT_TOOLBAR_PRE_5_0_280_A.equals(definition)){
+			return true;
+		}
+		if (DEFAULT_TOOLBAR_PRE_5_0_280_B.equals(definition)){
+			return true;
+		}
+		return false;
 	}
 
 }
