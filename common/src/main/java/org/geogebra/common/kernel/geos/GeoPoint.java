@@ -1072,9 +1072,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		Coords diffB = A.getInhomCoordsInD3().sub(B.getInhomCoordsInD3());
 		Coords diffC = A.getInhomCoordsInD3().sub(C.getInhomCoordsInD3());
-		Coords prod = diffB.crossProduct(diffC);
+		return !diffB.isLinearIndependent(diffC);
 
-		return prod.isZero(3);
 	}
 
 	/**
@@ -2268,7 +2267,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		} else if (geo.isGeoLine() && !isStartPoint) {
 			((GeoLineND) geo).addPointOnLine(this);
 		}
-		// TODO: if geo instanceof GeoPoint...
 	}
 
 
@@ -2287,7 +2285,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		} else if (geo.isGeoLine()) {
 			((GeoLineND) geo).removePointOnLine(this);
 		}
-		// TODO: if geo instanceof GeoPoint...
 	}
 
 	@Override

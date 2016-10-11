@@ -1809,7 +1809,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
 		else if (geo.isGeoLine() && !isStartPoint)
 			((GeoLineND) geo).addPointOnLine(this);
-		// TODO: if geo instanceof GeoPoint...
 	}
 
 	/**
@@ -1841,7 +1840,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		} else if (geo.isGeoLine()) {
 			((GeoLineND) geo).removePointOnLine(this);
 		}
-		// TODO: if geo instanceof GeoPoint...
 	}
 
 	@Override
