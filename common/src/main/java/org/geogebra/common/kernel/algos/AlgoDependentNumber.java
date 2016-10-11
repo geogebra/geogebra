@@ -296,7 +296,6 @@ public class AlgoDependentNumber extends AlgoElement
 				while (it.hasNext()) {
 					Entry<GeoElement, Variable> curr = it.next();
 					GeoSegment currGeoSeg = (GeoSegment) curr.getKey();
-					currGeoSeg.setLabelSimple(null);
 					currGeoSeg.setLabelSet(false);
 				}
 			}
@@ -320,16 +319,18 @@ public class AlgoDependentNumber extends AlgoElement
 			// set new name for segment (which giac will use later)
 			Variable currentVar = new Variable();
 			/*
-			 * This is voodoo magic here. We obviously need a different solution
-			 * since such a spell on changing a label may cause the object to be
-			 * visible in the Algebra and Graphics Views. FIXME.
+			 * This is voodoo magic here. We may need a different solution
+			 * rather than playing with the label. TODO.
 			 */
 			boolean suppress = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(false);
-			 if (((GeoSegment) node.getLeft()).getLabelSimple() == null) {
-			 ((GeoSegment) node.getLeft())
-						.setLabel(currentVar.toString());
-			 }
+			if (((GeoSegment) node.getLeft()).getLabelSimple() == null) {
+				GeoSegment left = (GeoSegment) node.getLeft();
+				left.setLabel(currentVar.toString());
+				left.setAuxiliaryObject(true);
+				left.setEuclidianVisible(false);
+				left.update();
+			}
 			cons.setSuppressLabelCreation(suppress);
 
 			Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
@@ -344,14 +345,17 @@ public class AlgoDependentNumber extends AlgoElement
 
 			Variable currentVar = new Variable();
 			/*
-			 * This is voodoo magic here. We obviously need a different solution
-			 * since such a spell on changing a label may cause the object to be
-			 * visible in the Algebra and Graphics Views. FIXME.
+			 * This is voodoo magic here. We may need a different solution
+			 * rather than playing with the label. TODO.
 			 */
 			boolean suppress = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(false);
 			if (((GeoSegment) node.getRight()).getLabelSimple() == null) {
-				((GeoSegment) node.getRight()).setLabel(currentVar.toString());
+				GeoSegment right = (GeoSegment) node.getRight();
+				right.setLabel(currentVar.toString());
+				right.setAuxiliaryObject(true);
+				right.setEuclidianVisible(false);
+				right.update();
 			}
 			cons.setSuppressLabelCreation(suppress);
 			Entry<GeoElement, Variable> pair = new AbstractMap.SimpleEntry<GeoElement, Variable>(
