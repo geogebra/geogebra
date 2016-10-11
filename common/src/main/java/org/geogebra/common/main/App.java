@@ -4059,11 +4059,11 @@ public abstract class App implements UpdateSelection {
 		//MOB-827
 		case MOBILE_ROUNDING_OPTION:
 			return true; // 5.0.276
-
+		// GGB-1178
 		case ITERATION_LIST_DOUBLE:
-			return prerelease;
+			return true;
 		case SURFACE_REVOLUTION_GENERIC:
-			return prerelease;
+			return true;
 
 		// MOB-885
 		case MOBILE_PROGRESS_DIALOG_CANCEL:
