@@ -1437,10 +1437,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		return new ErrorHandler(){
 
-			public boolean useLocalization() {
-				return true;
-			}
-
 			public void showError(String msg) {
 				if (errorLabel != null) {
 					errorLabel.setText(msg);

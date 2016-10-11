@@ -115,10 +115,6 @@ public abstract class ComboBoxPanel extends OptionPanel
 
 	}
 
-	public boolean useLocalization() {
-		return true;
-	}
-
 	@Override
 	public void showError(String msg) {
 		if (msg == null) {

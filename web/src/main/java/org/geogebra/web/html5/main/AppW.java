@@ -2869,10 +2869,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public ErrorHandler getDefaultErrorHandler() {
 		return new ErrorHandler() {
 
-			public boolean useLocalization() {
-				return true;
-			}
-
 			public void showError(String msg) {
 				Log.printStacktrace("");
 				String title = GeoGebraConstants.APPLICATION_NAME + " - "
