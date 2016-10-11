@@ -93,6 +93,7 @@ public class AlgoFractionText extends AlgoElement {
 		}
 	}
 
+	// https://web.archive.org/web/20111027100847/http://homepage.smc.edu/kennedy_john/DEC2FRAC.PDF
 	/*
 	 * Algorithm To Convert A Decimal To A Fraction by John Kennedy Mathematics
 	 * Department Santa Monica College 1900 Pico Blvd. Santa Monica, CA 90405
