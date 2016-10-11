@@ -381,7 +381,7 @@ namespace giac {
     if (c.type==_FLOAT_)
       c=get_int(c._FLOAT_val);
     if (!has_evalf(a,aa,1,contextptr)){
-      if (c.type==_INT_ && c==b && (c.val %2 ==0 || is_positive(a,contextptr)))
+      if (c.type==_INT_ && c==b && (c.val %2 ==0 || (a.is_symb_of_sommet(at_pow) && a._SYMBptr->feuille[1].type==_INT_ && a._SYMBptr->feuille[1].val % c.val==0)) )
 	return pow(a,inv(c,contextptr),contextptr);	
       return symbolic(at_NTHROOT,gen(makevecteur(b,a),_SEQ__VECT));
     }

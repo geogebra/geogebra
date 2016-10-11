@@ -4958,7 +4958,75 @@ namespace giac {
       }
   }
 
+  void LL_multilinear_combination(std::vector<longlong> & v1,int c1,std::vector<longlong> & v2,int c2,std::vector<longlong> & v3,int c3,std::vector<longlong> & v4,int c4,const std::vector<longlong> & w,int p,int cstart,int cend){
+    c1 %=p; c2 %=p; c3 %=p; c4 %=p;
+    longlong * it1=&*(v1.begin()+cstart),*it1end=&*(v1.end()),*it2=&*(v2.begin()+cstart),*it3=&*(v3.begin()+cstart),*it4=&*(v4.begin()+cstart),*it1_;
+    if (cend && cend>=cstart && cend<it1end-&v1.front())
+      it1end=&*(v1.begin()+cend);
+    it1_=it1-4;
+    const longlong * jt=&*(w.begin()+cstart);
+    for (;it1<=it1_;it1+=4,it2+=4,it3+=4,it4+=4,jt+=4){
+      longlong tmp=*jt;
+      *it1 += c1*tmp;
+      *it2 += c2*tmp;
+      *it3 += c3*tmp;
+      *it4 += c4*tmp;
+      tmp=jt[1];
+      it1[1] += c1*tmp;
+      it2[1] += c2*tmp;
+      it3[1] += c3*tmp;
+      it4[1] += c4*tmp;
+      tmp=jt[2];
+      it1[2] += c1*tmp;
+      it2[2] += c2*tmp;
+      it3[2] += c3*tmp;
+      it4[2] += c4*tmp;
+      tmp=jt[3];
+      it1[3] += c1*tmp;
+      it2[3] += c2*tmp;
+      it3[3] += c3*tmp;
+      it4[3] += c4*tmp;
+      tmp=jt[4];
+      it1[4] += c1*tmp;
+      it2[4] += c2*tmp;
+      it3[4] += c3*tmp;
+      it4[4] += c4*tmp;
+    }
+    for (;it1!=it1end;++jt,++it4,++it3,++it2,++it1){
+      longlong tmp=*jt;
+      *it1 += c1*tmp;
+      *it2 += c2*tmp;
+      *it3 += c3*tmp;
+      *it4 += c4*tmp;
+    }
+  }
+
   bool find_multi_linear_combination(vector< vector<int> > & N,int l0,int & l1,int &l2,int &l3,int pivotcol,int lexcluded,int lmax){
+    if (l0>=lmax-3)
+      return false;
+    l1=l0+1;
+    for (;l1<lmax;++l1){
+      if (l1!=lexcluded && !N[l1].empty() && N[l1][pivotcol])
+	break;
+    }
+    if (l1>=lmax-2)
+      return false;
+    l2=l1+1;
+    for (;l2<lmax;++l2){
+      if (l2!=lexcluded && !N[l2].empty() && N[l2][pivotcol])
+	break;
+    }
+    if (l2>=lmax-1)
+      return false;
+    l3=l2+1;
+    for (;l3<lmax;++l3){
+      if (l3!=lexcluded && !N[l3].empty() && N[l3][pivotcol])
+	break;
+    }
+    return l3<lmax;
+  }
+
+  bool find_multi_linear_combination(vector< vector<longlong> > & N,int l0,int & l1,int &l2,int &l3,int pivotcol,int lexcluded,int lmax){
     if (l0>=lmax-3)
       return false;
     l1=l0+1;
@@ -6467,9 +6535,12 @@ namespace giac {
 	if (!modrref(*unmod(a)._VECTptr,res,pivots,det,l,lmax,c,cmax,
 		     fullreduction,dont_swap_below,modulo,rref_or_det_or_lu))
 	  return 0;
-	// FIXME lu should not makemod the permutation
 	res=*makemod(res,modulo)._VECTptr;
+	// keep the permutation without makemod
+	gen last=pivots.back();
+	pivots.pop_back();
 	pivots=*makemod(pivots,modulo)._VECTptr;
+	pivots.push_back(last);
 	det=makemod(det,modulo);
 	return 1;
       }
@@ -7569,7 +7640,7 @@ namespace giac {
     }
   }
 
-  void do_modular_reduction(vector< vector<longlong> > & N,int l,int pivotcol,int pivotval,int linit,int lmax,int c,int effcmax,int rref_or_det_or_lu,int modulo){
+  void LL_modular_reduction(vector< vector<longlong> > & N,int l,int pivotcol,int pivotval,int linit,int lmax,int c,int effcmax,int rref_or_det_or_lu,int modulo){
 #ifndef GIAC_HAS_STO_38
     int l1,l2,l3;
 #endif
@@ -7577,13 +7648,34 @@ namespace giac {
     for (int ltemp=linit;ltemp<lmax;++ltemp){
       if (ltemp==l || N[ltemp].empty() || !N[ltemp][pivotcol])
 	continue;
+#ifndef GIAC_HAS_STO_38
+      if (!ludecomp && find_multi_linear_combination(N,ltemp,l1,l2,l3,pivotcol,l,lmax)){
+	int coeff0=(N[ltemp][pivotcol] %= modulo);
+	int coeff1=(N[l1][pivotcol] %= modulo);
+	int coeff2=(N[l2][pivotcol] %= modulo);
+	int coeff3=(N[l3][pivotcol] %= modulo);
+	if (rref_or_det_or_lu==1){
+	  coeff0 = (coeff0*longlong(pivotval)) % modulo;
+	  coeff1 = (coeff1*longlong(pivotval)) % modulo;
+	  coeff2 = (coeff2*longlong(pivotval)) % modulo;
+	  coeff3 = (coeff3*longlong(pivotval)) % modulo;
+	}
+	LL_multilinear_combination(N[ltemp],-coeff0,N[l1],-coeff1,N[l2],-coeff2,N[l3],-coeff3,N[l],modulo,c,effcmax);
+	ltemp = l3;
+	continue;
+      }
+#endif
+      int coeff;
       if (ludecomp) {
 	int tmp=N[ltemp][pivotcol] % modulo;
-	N[ltemp][pivotcol] = (longlong(tmp)*pivotval) % modulo;
+	coeff = (N[ltemp][pivotcol] = (longlong(tmp)*pivotval) % modulo);
       }
-      else
-	N[ltemp][pivotcol] %= modulo;
-      modlinear_combination(N[ltemp],-N[ltemp][pivotcol],N[l],modulo,(rref_or_det_or_lu>0)?(c+1):c,effcmax);
+      else {
+	coeff = (N[ltemp][pivotcol] %= modulo);
+	if (rref_or_det_or_lu==1)
+	  coeff = (coeff * longlong(pivotval))%modulo;
+      }
+      modlinear_combination(N[ltemp],-coeff,N[l],modulo,(rref_or_det_or_lu>0)?(c+1):c,effcmax);
     }
   }
 
@@ -7679,7 +7771,7 @@ namespace giac {
 	temp=invmod(pivot,modulo);
 	// multiply det
 	idet = (idet * pivot) % modulo ;
-	if (fullreduction || rref_or_det_or_lu<2){ // not LU decomp
+	if (fullreduction || rref_or_det_or_lu<1){ // not LU decomp
 	  vector<longlong>::iterator it=N[pivotline].begin()+c,itend=N[pivotline].end();
 	  for (;it!=itend;++it){
 	    longlong tmp=*it;
@@ -7707,7 +7799,7 @@ namespace giac {
 	}
 	++effcmax;
 	int effl=fullreduction?0:l+1;
-	do_modular_reduction(N,l,pivotcol,temp,effl,lmax,c,effcmax,rref_or_det_or_lu,modulo);
+	LL_modular_reduction(N,l,pivotcol,temp,effl,lmax,c,effcmax,rref_or_det_or_lu,modulo);
 	// increment column number if swap was allowed
 	if (l>=dont_swap_below)
 	  ++c;
