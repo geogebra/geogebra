@@ -235,15 +235,11 @@ public class AlgoDependentNumber extends AlgoElement
 				.getGeoGebraCAS();
 		
 		String exprGiacStr = "";
-		if (nrOfMaxDecimals > 0) {
-			exprGiacStr = "expand(("
-					+ definition.toString(StringTemplate.giacTemplate)
-					+ "-ggbtmpvar" + botanaVars[0] + ")*"
-					+ (Math.pow(10, nrOfMaxDecimals)) + ")";
-		} else {
-			exprGiacStr = definition.toString(StringTemplate.giacTemplate)
-					+ "-ggbtmpvar" + botanaVars[0];
-		}
+		// expand(lcm(denom(coeff(gg)))*gg);
+		// see also CASgiac.createEliminateScript()
+		String gg = definition.toString(StringTemplate.giacTemplate)
+				+ "-ggbtmpvar" + botanaVars[0];
+		exprGiacStr = "expand(lcm(denom(coeff(" + gg + ")))*(" + gg + "))";
 		
 		nrOfMaxDecimals = 0;
 
