@@ -1242,17 +1242,77 @@ public class ToolBar {
 
 	static private ToolsRemover defaultToolsRemover = new ToolsRemover();
 
-	static private final String DEFAULT_TOOLBAR_PRE_5_0_280_A = "0 39 | 1 501 67 , 5 19 , 72 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71 | 30 29 54 32 31 33 | 17 26 62 73 , 14 68 | 25 52 60 61 | 40 41 42 , 27 28 35 , 6";
-	static private final String DEFAULT_TOOLBAR_PRE_5_0_280_B = "0 39 | 1 501 67 , 5 19 , 72 75 76 | 2 15 45 , 18 65 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 | 16 51 64 , 70 | 10 34 53 11 , 24  20 22 , 21 23 | 55 56 57 , 12 | 36 46 , 38 49  50 , 71 | 30 29 54 32 31 33 | 17 26 62 73 , 14 68 | 25 52 60 61 | 40 41 42 , 27 28 35 , 6";
+	/**
+	 * any toolbar composed of a set of following menus should be considered as
+	 * default toolbar (old default toolbar)
+	 */
+	static private final String[][] DEFAULT_TOOLBAR_PRE_5_0_280 = {
+			{"0", "0 39"},
+			{"1 501 67 5 19 72", "1 501 67 5 19 72 75 76"},
+			{"2 15 45 18 65 7 37"},
+			{"4 3 8 9 13 44 58 47"},
+			{"16 51 64 70"},
+			{"10 34 53 11 24 20 22 21 23"},
+			{"55 56 57 12"},
+			{"36 46 38 49 50 71"},
+			{"30 29 54 32 31 33"},
+			{"17 26 62 73 14 68", "17 26 62 14 66 68", "17 26 62 73 14 66 68"},
+			{"25 52 60 61"},
+			{"40 41 42 27 28 35 6"}
+	};
 
 	final static public boolean isOldDefaultToolbar(String definition){
-		if (DEFAULT_TOOLBAR_PRE_5_0_280_A.equals(definition)){
-			return true;
+
+//		Log.debug("\n"+definition);
+
+		if (definition == null){
+			return false;
 		}
-		if (DEFAULT_TOOLBAR_PRE_5_0_280_B.equals(definition)){
-			return true;
+
+		String def2 = definition.replaceAll(",", ""); // remove comas
+		def2 = def2.replaceAll("59", ""); // remove record to spreadsheet tool
+		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical bars
+		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
+
+		String[] split = def2.split(" \\| "); // split by tool menus
+
+
+//		Log.debug("lengths:"+split.length+"/"+DEFAULT_TOOLBAR_PRE_5_0_280.length);
+//
+//		for (int i = 0 ; i < DEFAULT_TOOLBAR_PRE_5_0_280.length && i < split.length; i++){
+//			String menu = split[i];
+//			String[] defaults = DEFAULT_TOOLBAR_PRE_5_0_280[i];
+//			String out = "\n"+menu+"/";
+//			for (int j = 0 ; j < defaults.length ; j++){
+//				out+=defaults[j]+",";
+//			}
+//			Log.debug(out);
+//		}
+
+		if (split.length != DEFAULT_TOOLBAR_PRE_5_0_280.length){
+			return false;
 		}
-		return false;
+
+//		Log.debug("\ntest");
+
+		for (int i = 0 ; i < DEFAULT_TOOLBAR_PRE_5_0_280.length; i++){
+			boolean found = false;
+			String menu = split[i];
+			String[] defaults = DEFAULT_TOOLBAR_PRE_5_0_280[i];
+			for (int j = 0 ; j < defaults.length && !found ; j++){
+//				Log.debug("\n"+menu+"/"+defaults[j]);
+				if (defaults[j].equals(menu)){
+					found = true;
+				}
+			}
+			if(!found){
+				return false;
+			}
+		}
+
+//		Log.debug("\n >> default toolbar");
+
+		return true;
 	}
 
 }
