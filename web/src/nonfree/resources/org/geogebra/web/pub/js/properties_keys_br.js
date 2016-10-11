@@ -864,7 +864,7 @@ __GGB__keysVar.br.command = {
     "SetValue": "SetValue",
     "SetValue.Syntax": "[ <Boolean>, <0|1> ]\n[ <Object>, <Object> ]\n[ <List>, <Number>, <Object> ]",
     "SetViewDirection": "SetViewDirection",
-    "SetViewDirection.Syntax": "[ <Direction> ]\n[ <Direction>, <Boolean animate> ]",
+    "SetViewDirection.Syntax": "[ ]\n[ <Direction> ]\n[ <Direction>, <Boolean animate> ]",
     "SetVisibleInView": "SetVisibleInView",
     "SetVisibleInView.Syntax": "[ <Object>, <View Number 1|2>, <Boolean> ]",
     "Shear": "Shear",
