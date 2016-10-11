@@ -3,10 +3,12 @@ package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -19,7 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
 	private CoordSys transformCoordSys;
-	private boolean isTransformed;
+	private GeoElement parentGeo;
 
 	/**
 	 * @param c
@@ -29,7 +31,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		super(c);
 		this.transformCoordSys = new CoordSys(2);
 		transformCoordSys.set(CoordSys.Identity3D);
-		isTransformed = false;
 
 	}
 
@@ -64,16 +65,22 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		StringBuilder valueSb = new StringBuilder(50);
-		valueSb.append("(");
-		String eqn = super.toValueString(tpl);
-		valueSb.append(eqn);
-		valueSb.append(",");
-		valueSb.append(new GTemplate(tpl, kernel).buildImplicitEquation(
-				transformCoordSys,
-				GeoPlane3D.VAR_STRING, false, true));
-		valueSb.append(")");
-		return valueSb.toString();
+		AlgoElement algo = getParentAlgorithm();
+		if (algo != null) {
+			if (algo instanceof AlgoIntersectFunctionNVarPlane) {
+				AlgoIntersectFunctionNVarPlane algoInter = (AlgoIntersectFunctionNVarPlane) algo;
+				GeoFunctionNVar f = algoInter.getFunction();
+				StringBuilder valueSb = new StringBuilder(50);
+				valueSb.append("(z = ");
+				valueSb.append(f.getFunctionExpression().toValueString(tpl));
+				valueSb.append(",");
+				valueSb.append(GeoPlane3D.buildValueString(tpl, kernel, transformCoordSys.getEquationVector(), false));
+				valueSb.append(")");
+				return valueSb.toString();
+			}
+		}
+
+		return "";
 
 	}
 
@@ -130,7 +137,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	public void translate(Coords v) {
 		transformCoordSys.translate(v);
 		transformCoordSys.translateEquationVector(v);
-		isTransformed = true;
 		euclidianViewUpdate();
 	}
 

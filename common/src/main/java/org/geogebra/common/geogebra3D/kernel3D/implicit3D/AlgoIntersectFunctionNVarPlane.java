@@ -109,4 +109,8 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 		return Commands.IntersectPath;
 	}
 
+	public GeoFunctionNVar getFunction() {
+		return surface;
+	}
+
 }

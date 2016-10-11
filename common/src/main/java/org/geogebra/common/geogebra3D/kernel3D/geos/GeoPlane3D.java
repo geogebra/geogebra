@@ -418,9 +418,9 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded
 		// as a plane
-		StringBuilder ret = kernel.buildImplicitEquation(getCoordSys()
-				.getEquationVector().get(), VAR_STRING, KEEP_LEADING_SIGN,
-				true, !isLabelSet(), '=', tpl, true);
+		StringBuilder ret = buildValueString(tpl, kernel,
+				getCoordSys().getEquationVector(), !isLabelSet());
+
 		// fix for GGB-1116
 		// we don't need this since equation is already
 		// wrapped in Ggb2giac
@@ -435,6 +435,13 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 		return ret;
 
+	}
+
+	static public final StringBuilder buildValueString(StringTemplate tpl,
+			Kernel kernel,
+			Coords coords, boolean needsZ) {
+		return kernel.buildImplicitEquation(coords.get(), VAR_STRING,
+				KEEP_LEADING_SIGN, true, needsZ, '=', tpl, true);
 	}
 
 	/** to be able to fill it with an alpha value */
