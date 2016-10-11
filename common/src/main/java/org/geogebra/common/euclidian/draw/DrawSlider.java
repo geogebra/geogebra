@@ -47,7 +47,6 @@ public class DrawSlider extends Drawable {
 	// used by getSelectionDiamaterMin()
 	private static final int SELECTION_RADIUS_MIN = 12;
 
-	private static final String ADJUST = "[ADJUST] ";
 
 	// private GeoPointND P;
 
@@ -72,9 +71,7 @@ public class DrawSlider extends Drawable {
 
 	private GLine2D line = AwtFactory.prototype.newLine2D();
 
-	private double initX, initY;
 
-	private boolean adjustChecked = false;
 
 	/**
 	 * Creates new drawable for slider
@@ -90,9 +87,6 @@ public class DrawSlider extends Drawable {
 		// now hard-coded
 		number.setLineThickness(10);
 		geo = number;
-		initX = number.getSliderX();
-		initY = number.getSliderY();
-
 		update();
 	}
 
@@ -346,11 +340,5 @@ public class DrawSlider extends Drawable {
 	//
 	// this.pointSize = pointSize;
 	// }
-
-	@Override
-	public void move() {
-		this.initX = -1;
-		this.initY = -1;
-	}
 
 }

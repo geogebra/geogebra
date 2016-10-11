@@ -49,6 +49,8 @@ public class DrawLocus extends Drawable {
 	 *            view
 	 * @param locus
 	 *            locus
+	 * @param transformSys
+	 *            coord system of trnsformed locus
 	 */
 	public DrawLocus(EuclidianView view, GeoLocusND<? extends MyPoint> locus,
 			CoordSys transformSys) {

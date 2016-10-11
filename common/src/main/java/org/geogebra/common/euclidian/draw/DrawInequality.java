@@ -14,13 +14,10 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.Inequality;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
@@ -352,7 +349,7 @@ public class DrawInequality extends Drawable {
 		}
 	}
 
-	private void isRightInOrBounds(
+	private static void isRightInOrBounds(
 			ArrayList<Pair<Map<Double, Drawable>>> orBounds2,
 			DrawInequality right2) {
 		for (int i = 0; i < orBounds2.size(); i++) {
@@ -374,10 +371,6 @@ public class DrawInequality extends Drawable {
 
 	}
 
-	private boolean isNumber(ExpressionValue left2) {
-		return left2 instanceof NumberValue
-				&& !(left2 instanceof FunctionVariable);
-	}
 
 	private DrawInequality(IneqTree tree, EuclidianView view, GeoElement geo) {
 		this.view = view;
@@ -670,11 +663,5 @@ public class DrawInequality extends Drawable {
 		this.geo = geo;
 	}
 
-	public DrawInequality getLeft() {
-		return this.left;
-	}
 
-	public DrawInequality getRight() {
-		return this.right;
-	}
 }
