@@ -293,7 +293,7 @@ namespace giac {
     index_t::iterator end() { return riptr->i.end(); }
     index_t::const_iterator begin() const { return riptr->i.begin(); }
     index_t::const_iterator end() const { return riptr->i.end(); }
-#if !defined(NSPIRE) && !defined(OSX) && !defined(IOS)
+#if !defined(NSPIRE) && !defined(OSX) && !defined(IOS) && !defined(OSXIOS)
     index_t::reverse_iterator rbegin() { return riptr->i.rbegin(); }
     index_t::reverse_iterator rend() { return riptr->i.rend(); }
     index_t::const_reverse_iterator rbegin() const { return riptr->i.rbegin(); }
