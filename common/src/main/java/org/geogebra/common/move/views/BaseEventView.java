@@ -16,10 +16,8 @@ public class BaseEventView extends BaseView<EventRenderable> {
 	 *            The event that occured.
 	 */
 	public void onEvent(BaseEvent event) {
-		if (this.viewComponents != null) {
-			for (EventRenderable view : this.viewComponents) {
-				view.renderEvent(event);
-			}
+		for (EventRenderable view : viewComponents) {
+			view.renderEvent(event);
 		}
 	}
 }

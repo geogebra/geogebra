@@ -1,6 +1,7 @@
 package org.geogebra.common.move.views;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author gabor Base of all views
@@ -10,16 +11,10 @@ import java.util.ArrayList;
  */
 public abstract class BaseView<T> {
 
-	/**
-	 * 
-	 */
-	protected ArrayList<T> viewComponents = null;
+	protected List<T> viewComponents;
 
-	/**
-	 * called from child objects.
-	 */
 	protected BaseView() {
-
+		viewComponents = new ArrayList<T>();
 	}
 
 	/**
@@ -29,11 +24,7 @@ public abstract class BaseView<T> {
 	 *            Removes a view from the views list
 	 */
 	public void remove(T view) {
-		if (viewComponents != null) {
-			if (viewComponents.contains(view)) {
-				viewComponents.remove(view);
-			}
-		}
+		viewComponents.remove(view);
 	}
 
 	/**
@@ -43,11 +34,8 @@ public abstract class BaseView<T> {
 	 *            Adds new view to the view's list
 	 */
 	public final void add(T view) {
-		if (this.viewComponents == null) {
-			this.viewComponents = new ArrayList<T>();
-		}
-		if (!this.viewComponents.contains(view)) {
-			this.viewComponents.add(view);
+		if (!viewComponents.contains(view)) {
+			viewComponents.add(view);
 		}
 	}
 }

@@ -1,7 +1,5 @@
 package org.geogebra.common.move.views;
 
-import java.util.Iterator;
-
 /**
  * @author gabor
  * 
@@ -11,25 +9,14 @@ import java.util.Iterator;
 public class OfflineView extends BaseView<BooleanRenderable> {
 
 	/**
-	 * Contstructs an offline view pool
-	 */
-	public OfflineView() {
-		super();
-	}
-
-	/**
 	 * renders the given View
 	 * 
 	 * @param b
 	 *            true for online, false for offline
 	 */
 	public void render(boolean b) {
-		if (this.viewComponents == null) {
-			return;
-		}
-		Iterator<BooleanRenderable> views = this.viewComponents.iterator();
-		while (views.hasNext()) {
-			views.next().render(b);
+		for (BooleanRenderable renderable : viewComponents) {
+			renderable.render(b);
 		}
 	}
 
