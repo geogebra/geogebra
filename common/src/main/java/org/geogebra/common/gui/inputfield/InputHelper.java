@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
@@ -59,8 +60,16 @@ public class InputHelper {
 		}
 		for (int i = 0; i < geos.length; i++) {
 			if (geos[i] instanceof HasSymbolicMode) {
+				// start with numeric mode for simple fractions like 7/2
+				if (geos[i] instanceof GeoNumeric
+						&& ((GeoNumeric) geos[i]).getDefinition()
+							.isSimpleFraction()) {
+					((HasSymbolicMode) geos[i]).setSymbolicMode(false,
+								geos[i] instanceof GeoText);
+				} else {
 				((HasSymbolicMode) geos[i]).setSymbolicMode(true,
 						geos[i] instanceof GeoText);
+				}
 				((HasSymbolicMode) geos[i]).updateRepaint();
 			}
 			if (geos[i] instanceof GeoText) {
