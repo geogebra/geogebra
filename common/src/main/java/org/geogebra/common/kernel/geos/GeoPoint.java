@@ -2222,6 +2222,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	/**
 	 * @return list of objects incident by construction
 	 */
+	@Override
 	public ArrayList<GeoElement> getIncidenceList() {
 		return incidenceList;
 	}
@@ -2231,19 +2232,18 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            list of objects incident by construction
 	 */
 	public void setIncidenceList(ArrayList<GeoElement> list) {
-		if (list == null)
+		if (list == null) {
 			incidenceList = new ArrayList<GeoElement>();
-		else
+		} else {
 			incidenceList = new ArrayList<GeoElement>(list);
+		}
 	}
 
 	/**
-	 * initialize incidenceList, and add the point itself to the list as the
-	 * first element.
+	 * initialize incidenceList
 	 */
 	public void createIncidenceList() {
 		incidenceList = new ArrayList<GeoElement>();
-		incidenceList.add(this);
 	}
 
 	/**
@@ -2254,17 +2254,20 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            incident object
 	 */
 	public void addIncidence(GeoElement geo, boolean isStartPoint) {
-		if (incidenceList == null)
+		if (incidenceList == null) {
 			createIncidenceList();
-		if (!incidenceList.contains(geo))
+		}
+		if (!incidenceList.contains(geo)) {
 			incidenceList.add(geo);
+		}
 
 		// GeoConicND, GeoLine, GeoPoint are the three types who have an
 		// incidence list
-		if (geo.isGeoConic())
+		if (geo.isGeoConic()) {
 			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
-		else if (geo.isGeoLine() && !isStartPoint)
+		} else if (geo.isGeoLine() && !isStartPoint) {
 			((GeoLineND) geo).addPointOnLine(this);
+		}
 		// TODO: if geo instanceof GeoPoint...
 	}
 
@@ -2275,13 +2278,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 *            incident geo tobe removed
 	 */
 	public final void removeIncidence(GeoElement geo) {
-		if (incidenceList != null)
+		if (incidenceList != null) {
 			incidenceList.remove(geo);
+		}
 
-		if (geo.isGeoConic())
+		if (geo.isGeoConic()) {
 			((GeoConicND) geo).removePointOnConic(this);
-		else if (geo.isGeoLine())
+		} else if (geo.isGeoLine()) {
 			((GeoLineND) geo).removePointOnLine(this);
+		}
 		// TODO: if geo instanceof GeoPoint...
 	}
 

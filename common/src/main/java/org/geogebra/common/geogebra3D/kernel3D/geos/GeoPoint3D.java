@@ -1774,12 +1774,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	/**
-	 * initialize incidenceList, and add the point itself to the list as the
-	 * first element.
+	 * initialize incidenceList
 	 */
 	public void createIncidenceList() {
 		incidenceList = new ArrayList<GeoElement>();
-		incidenceList.add(this);
 	}
 
 	/**
@@ -1798,10 +1796,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 */
 	@Override
 	public void addIncidence(GeoElement geo, boolean isStartPoint) {
-		if (incidenceList == null)
+		if (incidenceList == null) {
 			createIncidenceList();
-		if (!incidenceList.contains(geo))
+		}
+		if (!incidenceList.contains(geo)) {
 			incidenceList.add(geo);
+		}
 
 		// GeoConicND, GeoLine, GeoPoint are the three types who have an
 		// incidence list
@@ -1819,25 +1819,28 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 *            object thatisnot incident by construction
 	 */
 	public void addNonIncidence(GeoElement geo) {
-		if (nonIncidenceList == null)
+		if (nonIncidenceList == null) {
 			createNonIncidenceList();
-		if (!nonIncidenceList.contains(geo))
+		}
+		if (!nonIncidenceList.contains(geo)) {
 			nonIncidenceList.add(geo);
+		}
 	}
 
 	/**
 	 * @param geo
-	 *            incident geo tobe removed
+	 *            incident geo to be removed
 	 */
 	@Override
 	public final void removeIncidence(GeoElement geo) {
 		if (incidenceList != null)
 			incidenceList.remove(geo);
 
-		if (geo.isGeoConic())
+		if (geo.isGeoConic()) {
 			((GeoConicND) geo).removePointOnConic(this);
-		else if (geo.isGeoLine())
+		} else if (geo.isGeoLine()) {
 			((GeoLineND) geo).removePointOnLine(this);
+		}
 		// TODO: if geo instanceof GeoPoint...
 	}
 
