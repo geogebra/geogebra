@@ -401,7 +401,26 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		case KeyEvent.VK_TAB:
 			if (usedForInputBox()) {
-				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+				AutoCompleteTextField tf = app.getActiveEuclidianView()
+						.getTextField();
+				if (tf != null) {
+					geoUsedForInputBox.setText(tf.getText());
+				}
+				//
+				// app.getGlobalKeyDispatcher().handleTab(e.isControlDown(),
+				// e.isShiftDown(), true);
+				GeoElement next = app.getSelectionManager().getSelectedGeos()
+						.get(0);
+				Log.debug("next is " + next);
+				if (next instanceof GeoInputBox) {
+					Log.debug("next is input");
+					app.getActiveEuclidianView()
+							.focusTextField((GeoInputBox) next);
+				} else {
+					// app.getActiveEuclidianView().requestFocus();
+				}
+				//
+				// // app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 			} else if (moveToNextArgument(true)) {
 				e.consume();
 			}
@@ -1043,6 +1062,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void hideDeferred(final GBox box) {
 		setVisible(false);
 		box.setVisible(false);
+		app.getActiveEuclidianView().remove(box);
 	}
 
 	/**

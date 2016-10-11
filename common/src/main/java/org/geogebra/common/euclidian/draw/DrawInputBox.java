@@ -476,7 +476,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		box.revalidate();
 		updateTextField();
 		if (oneTextFieldPerEV) {
-			updateTextField();
+			// updateTextField();
 		} else {
 			textField.setVisible(true);
 		}
