@@ -4106,6 +4106,7 @@ public class Kernel {
 			storeStateForModeStarting();
 			app.getEventDispatcher()
 					.dispatchEvent(new Event(EventType.REDO, null));
+			app.setUnAutoSaved();
 		}
 	}
 
@@ -4140,6 +4141,7 @@ public class Kernel {
 		app.getScriptManager().enableListeners();
 		app.getCompanion().recallViewCreators();
 		app.batchUpdateEnd();
+		app.setUnAutoSaved();
 	}
 
 	public void undo() {
@@ -4178,6 +4180,7 @@ public class Kernel {
 				storeStateForModeStarting();
 				app.getEventDispatcher()
 						.dispatchEvent(new Event(EventType.UNDO, null));
+				app.setUnAutoSaved();
 			}
 		}
 	}
