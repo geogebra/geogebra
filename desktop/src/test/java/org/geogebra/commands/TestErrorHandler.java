@@ -8,10 +8,6 @@ public class TestErrorHandler implements ErrorHandler {
 
 	public static final ErrorHandler INSTANCE = new TestErrorHandler();
 
-	public boolean useLocalization() {
-		return true;
-	}
-
 	public void showError(String msg) {
 		Assert.assertNull(msg);
 

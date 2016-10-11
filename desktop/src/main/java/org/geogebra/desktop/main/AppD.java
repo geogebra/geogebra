@@ -4261,10 +4261,6 @@ ToolbarD.getAllTools(this));
 		if (defaultErrorHandler == null) {
 			defaultErrorHandler = new ErrorHandler() {
 
-				public boolean useLocalization() {
-					return true;
-				}
-
 				public void showError(final String msg) {
 					// don't remove, useful
 					if (msg == null) {
