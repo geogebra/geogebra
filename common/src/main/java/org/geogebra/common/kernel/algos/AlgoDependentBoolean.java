@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
@@ -42,6 +43,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.prover.AlgoAreCongruent;
+import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.kernel.prover.AlgoAreParallel;
 import org.geogebra.common.kernel.prover.AlgoArePerpendicular;
 import org.geogebra.common.kernel.prover.AlgoIsOnPath;
@@ -608,9 +610,13 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 		// Easy cases: both sides are GeoElements:
 		if (root.getLeft().isGeoElement()
-				&& !(root.getLeft() instanceof GeoNumeric)
+				&& (!(root.getLeft() instanceof GeoNumeric)
+						|| ((GeoElement) root.getLeft()).getParentAlgorithm()
+								.getRelatedModeID() == EuclidianConstants.MODE_AREA)
 				&& root.getRight().isGeoElement()
-				&& !(root.getRight() instanceof GeoNumeric)) {
+				&& (!(root.getRight() instanceof GeoNumeric)
+						|| ((GeoElement) root.getRight()).getParentAlgorithm()
+								.getRelatedModeID() == EuclidianConstants.MODE_AREA)) {
 
 			GeoElement left = (GeoElement) root.getLeft();
 			GeoElement right = (GeoElement) root.getRight();
@@ -630,6 +636,26 @@ public class AlgoDependentBoolean extends AlgoElement implements
 				return ret;
 			}
 			if (root.getOperation().equals(Operation.EQUAL_BOOLEAN)) {
+				if (root.getLeft() instanceof GeoNumeric
+						&& ((GeoElement) root.getLeft()).getParentAlgorithm()
+								.getRelatedModeID() == EuclidianConstants.MODE_AREA
+						&& root.getRight() instanceof GeoNumeric
+						&& ((GeoElement) root.getLeft()).getParentAlgorithm()
+								.getRelatedModeID() == EuclidianConstants.MODE_AREA) {
+					AlgoAreEqual algo = new AlgoAreEqual(cons, left, right);
+					Polynomial[][] ret = algo.getBotanaPolynomials();
+					cons.removeFromConstructionList(algo);
+					algo.setProtectedInput(true);
+					if (leftWasDist) {
+						left.getParentAlgorithm().setProtectedInput(true);
+						left.doRemove();
+					}
+					if (rightWasDist) {
+						right.getParentAlgorithm().setProtectedInput(true);
+						right.doRemove();
+					}
+					return ret;
+				}
 				AlgoAreCongruent algo = new AlgoAreCongruent(cons, left, right);
 				Polynomial[][] ret = algo.getBotanaPolynomials();
 				cons.removeFromConstructionList(algo);
