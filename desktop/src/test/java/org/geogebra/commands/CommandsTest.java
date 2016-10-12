@@ -21,6 +21,7 @@ import org.junit.Test;
 public class CommandsTest extends Assert{
 	static AppDNoGui app;
 	static AlgebraProcessor ap;
+	private static String syntax;
 
 	private static void  t(String input, String expected){
 		testSyntax(input, new String[] { expected }, app, ap,
@@ -44,7 +45,7 @@ public class CommandsTest extends Assert{
 		if(syntaxes==-1000){
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
-			String syntax = app.getLocalization().getCommand(cmdName+".Syntax");
+			syntax = app.getLocalization().getCommand(cmdName + ".Syntax");
 			syntaxes = 0;
 			for(int i=0;i<syntax.length();i++)
 				if(syntax.charAt(i)=='[')syntaxes++;
@@ -75,12 +76,12 @@ public class CommandsTest extends Assert{
 		syntaxes--;
 		assertNull(t);
 		Assert.assertNotNull(s,result);
-
+		for (int i = 0; i < result.length; i++) {
+			String actual = result[i].toValueString(tpl);
+			System.out.println("\"" + actual + "\",");
+		}
 		Assert.assertEquals(s + " count:", expected.length, result.length);
-		// for (int i = 0; i < expected.length; i++) {
-		// String actual = result[i].toValueString(tpl);
-		// System.out.println("\"" + actual + "\",");
-		// }
+
 		for (int i = 0; i < expected.length; i++) {
 			String actual = result[i].toValueString(tpl);
 			Assert.assertEquals(s + ":" + actual, expected[i], actual);
@@ -98,7 +99,8 @@ public class CommandsTest extends Assert{
 	}
 	@After
 	public void checkSyntaxes(){
-		Assert.assertTrue("unchecked syntaxes: "+syntaxes,syntaxes<=0);
+		Assert.assertTrue("unchecked syntaxes: " + syntaxes + syntax,
+				syntaxes <= 0);
 	}
 	
 	@BeforeClass
@@ -510,6 +512,115 @@ public class CommandsTest extends Assert{
 				StringTemplate.editTemplate);
 	}
 
+	@Test
+	public void cmdCylinder() {
+		t("Cylinder[x^2+y^2=9,4]", new String[] { eval("round(36*pi,5)"),
+				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)",
+				eval("round(pi*24,5)"), },
+				StringTemplate.editTemplate);
+		t("Cylinder[(0,0,0),(0,0,4),3]", new String[] { eval("round(36*pi,5)"),
+				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)",
+				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)",
+				eval("round(pi*24,5)") }, StringTemplate.editTemplate);
+		t("Cylinder[(0,0,0),Vector[(0,0,4)],1]",
+				new String[] { indices("x^2 + y^2 + 0z^2 = 1") },
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void cmdPlaneBisector() {
+		t("PlaneBisector[(1,1),(1,1,2)]", "z = 1");
+		t("PlaneBisector[Segment[(1,1),(1,1,2)]]", "z = 1");
+	}
+
+	@Test
+	public void cmdInfiniteCylinder() {
+		t("InfiniteCylinder[(1,1),(1,1,2),1]",
+				indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"),
+				StringTemplate.editTemplate);
+		t("InfiniteCylinder[(1,1),Vector[(0,0,2)],1]",
+				indices("x^2 + y^2 + 0z^2 - 2x - 2y = -1"),
+				StringTemplate.editTemplate);
+		t("InfiniteCylinder[xAxis,1]", indices("y^2 + z^2 = 1"),
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void cmdInfiniteCone() {
+		t("InfiniteCone[(1,1),(1,1,2),45deg]",
+				indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"),
+				StringTemplate.editTemplate);
+		t("InfiniteCone[(1,1),Vector[(0,0,2)],45deg]",
+				indices("x^2 + y^2 - 1z^2 - 2x - 2y = -2"),
+				StringTemplate.editTemplate);
+		t("InfiniteCone[(1,1),xAxis,45deg]",
+				indices("-1x^2 + y^2 + z^2 + 2x - 2y = 0"),
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void cmdHeight() {
+		t("Height[Cone[x^2+y^2=9,4]]", "4");
+		t("Height[Cube[(0,0,1),(0,0,0)]]", "1");
+	}
+
+	@Test
+	public void cmdEnds() {
+		t("Ends[Cone[x^2+y^2=9,4]]", new String[] {
+				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)",
+ "X = (0, 0, 4)" });
+	}
+	@Test
+	public void cmdBottom() {
+		t("Bottom[Cone[x^2+y^2=9,4]]",
+				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)");
+	}
+
+	@Test
+	public void cmdTop() {
+		t("Top[Cone[x^2+y^2=9,4]]", "X = (0, 0, 4)");
+	}
+
+	@Test
+	public void cmdQuadricSide() {
+		t("Side[Cone[x^2+y^2=9,4]]",  eval("round(15pi,5)"),
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void cmdPerpendicularPlane() {
+		t("PerpendicularPlane[(3,2,7),Line[(1,1,1),(1,1,3)]]", "z = 7");
+		t("PerpendicularPlane[(3,2,7),Vector[(1,1,0)]]", "x + y = 5");
+	}
+
+	@Test
+	public void cmdNet() {
+		t("Net[Cube[(0,0,2),(0,0,0)],1]", new String[] { "24", "(0, 0, 2)",
+				"(0, 0, 0)", "(2, 0, 0)", "(2, 0, 2)", "(0, 0, 4)",
+				"(2, 0, 4)", "(2, 0, 6)", "(0, 0, 6)", "(-2, 0, 2)",
+				"(-2, 0, 0)", "(0, 0, -2)", "(2, 0, -2)", "(4, 0, 0)",
+				"(4, 0, 2)", "4", "4", "4", "4", "4", "4", "2", "2", "2", "2",
+				"2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2", "2",
+				"2", "2", "2" },
+				StringTemplate.editTemplate);
+		t("Net[Tetrahedron[(0,0,1),(0,1,0),(1,0,0)],Segment[(0,0,1),(0,1,0)]]",
+				new String[] { "NaN", "(NaN, NaN, NaN)", "(NaN, NaN, NaN)",
+						"(NaN, NaN, NaN)", "(NaN, NaN, NaN)",
+						"(NaN, NaN, NaN)", "(NaN, NaN, NaN)", "NaN", "NaN",
+						"NaN", "NaN",
+						"NaN", "NaN", "NaN", "NaN", "NaN", "NaN", "NaN", "NaN",
+						"NaN" });
+	}
+
+	@Test
+	public void cmdIntersectPath() {
+		t("IntersectPath[x+y+z=1,x+y-z=1]", "X = (1, 0, 0) + " + Unicode.lambda
+				+ " (-2, 2, 0)");
+		t("IntersectPath[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),4]]",
+				new String[] { "1", "(2, 2)", "(1, 2)", "(1, 1)", "(2, 1)",
+						"1", "1", "1", "1" },
+				StringTemplate.editTemplate);
+	}
 	private String indices(String string) {
 		return string.replace("^2", Unicode.Superscript_2 + "");
 	}
