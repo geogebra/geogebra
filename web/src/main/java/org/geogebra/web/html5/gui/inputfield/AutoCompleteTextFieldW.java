@@ -1235,7 +1235,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	 *         need to run the enter code again
 	 */
 	public boolean isSuggestionJustHappened() {
-		return isSuggestionJustHappened && !isSuggestionClickJustHappened;
+		return isSuggestionJustHappened;// && !isSuggestionClickJustHappened;
 	}
 
 	public void setIsSuggestionJustHappened(boolean b) {
