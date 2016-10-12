@@ -8076,9 +8076,7 @@ public abstract class EuclidianController {
 		setViewHits(e.getType());
 		Hits viewHits = view.getHits();
 
-		// make sure that eg slider takes precedence over a polygon (in the same
-		// layer)
-		viewHits.removePolygons();
+
 
 		Hits moveableList;
 
@@ -8099,10 +8097,15 @@ public abstract class EuclidianController {
 			moveableList = viewHits;
 		}
 
+
 		Hits hits = moveableList.getTopHits();
 
-		ArrayList<GeoElement> selGeos = getAppSelectedGeos();
+		// make sure that eg line takes precedence over a polygon (in the same
+		// layer)
+		hits.removePolygons();
 
+		ArrayList<GeoElement> selGeos = getAppSelectedGeos();
+		Log.debug(drag + "/" + selGeos.size() + "/" + hits.size());
 		// if object was chosen before, take it now!
 		if ((selGeos.size() == 1) && !hits.isEmpty()
 				&& hits.contains(selGeos.get(0))) {

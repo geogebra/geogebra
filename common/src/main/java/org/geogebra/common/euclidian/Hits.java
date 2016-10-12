@@ -786,6 +786,10 @@ public class Hits extends ArrayList<GeoElement> {
 			return topHitsList;
 		}
 
+		if (containsGeoNumeric()) {
+			getHits(Test.GEONUMERIC, false, topHitsList);
+			return topHitsList;
+		}
 		return cloneHits();
 	}
 
@@ -849,6 +853,15 @@ public class Hits extends ArrayList<GeoElement> {
 
 		for (int i = 0; i < size(); i++) {
 			if (get(i).isGeoPoint())
+				return true;
+		}
+		return false;
+	}
+
+	final private boolean containsGeoNumeric() {
+
+		for (int i = 0; i < size(); i++) {
+			if (get(i).isGeoNumeric())
 				return true;
 		}
 		return false;
