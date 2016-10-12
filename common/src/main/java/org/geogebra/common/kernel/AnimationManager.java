@@ -118,6 +118,11 @@ public class AnimationManager implements GTimerListener {
 	 * Starts animation
 	 */
 	public synchronized void startAnimation() {
+
+		if (kernel.getApplication().isScreenshotGenerator()) {
+			return;
+		}
+
 		if (!isRunning() && animatedGeos.size() > 0) {
 			updateNeedToShowAnimationButton();
 			startTimer();
