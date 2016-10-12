@@ -1658,6 +1658,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public boolean checkAutoCreateSliders(final String s,
 			final AsyncOperation<String[]> callback) {
+		if (!((AppW) app).enableGraphing()) {
+			callback.callback(null);
+			return false;
+		}
 		final String[] options = { loc.getMenu("Cancel"),
 				loc.getPlain("CreateSliders") };
 
