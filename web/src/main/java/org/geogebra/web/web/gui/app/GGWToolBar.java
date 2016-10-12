@@ -35,8 +35,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.event.dom.client.MouseWheelEvent;
-import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -73,7 +71,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	FlowPanel toolBarPanel;
 	//panel for toolbar (without undo-redo buttons)
 	FlowPanel toolBPanel;
-	// ScrollPanel toolBPanel;
+	// ScrollPanel ;
 	// panel for mobile submenu view
 	FlowPanel submenuPanel;
 	FlowPanel submenuScrollPanel;
@@ -128,7 +126,6 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	 */
 	public void init(AppW app1) {
 
-		Log.debug("init toolbar");
 		this.inited = true;
 		this.app = app1;
 		toolbars = new ArrayList<ToolBarW>();
@@ -139,16 +136,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			submenuPanel.addStyleName("submenuPanel");
 			submenuScrollPanel.addStyleName("submenuScrollPanel");
 			submenuScrollPanel.add(submenuPanel);
-			submenuScrollPanel.addHandler(new MouseWheelHandler() {
 
-				@Override
-				public void onMouseWheel(MouseWheelEvent event) {
-					// TODO Auto-generated method stub
-
-				}
-			}, MouseWheelEvent.getType());
 			toolBarPanel.add(submenuScrollPanel);
-			// Log.debug("submenuPanel added");
+
 			toolBar = new ToolBarW(this, submenuPanel);
 		} else {
 			toolBar = new ToolBarW(this);
@@ -1215,12 +1205,16 @@ pr.menu_header_undo(), null, 32);
 			toolbars.get(0).setMaxButtons(maxButtons);
 		}
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			if (maxButtons < toolBar.getToolbarVecSize()) {
-				toolBPanel.setWidth((maxButtons) * 45 - 20 + "px");
-				setSubmenuDimensions();
+			if (toolBar.isMobileToolbar()) {
+				int tbwidth = Math.max(toolBar.getToolbarVecSize() * 45, 45);
+				toolBar.setWidth(tbwidth + "px");
+				toolBPanel.setWidth((maxButtons) * 45 + "px");
 				toolBPanel.addStyleName("toolBPanelMobile");
 				rightButtonPanel.addStyleName("rightButtonPanelMobile");
+				setSubmenuDimensions(width);
 			} else {
+				toolBar.setWidth("");
+				toolBPanel.setWidth("");
 				toolBPanel.removeStyleName("toolBPanelMobile");
 				rightButtonPanel.removeStyleName("rightButtonPanelMobile");
 			}
@@ -1246,16 +1240,24 @@ pr.menu_header_undo(), null, 32);
 				extraButtons += 55;
 			}
 		}
-		return (appWidth - extraButtons - 20) / 45;
+		int max = (appWidth - extraButtons - 20) / 45;
+		if (max > 1) {
+			return max;
+		} else {
+			// make sure toolbar is always visible
+			return 2;
+		}
 	}
 
-	public void setSubmenuDimensions() {
-		if (toolBar.isMobileToolbar() && toolBar.hasPopupOpen()) {
-			int maxButtons = getMaxButtons((int) app.getWidth());
+	// sets the with of the submenu dynamically on resize
+	public void setSubmenuDimensions(double width) {
+		if (toolBar.isMobileToolbar() && !toolBar.isVisible()) {
+			int maxButtons = getMaxButtons((int) width);
 			int submenuButtonCount = ((ToolbarSubmenuP) submenuPanel.getWidget(0)).getButtonCount();
 
-			submenuScrollPanel.setWidth((maxButtons - 1) * 45 - 20 + "px");
+			submenuScrollPanel.setWidth((maxButtons - 1) * 45 + "px");
 			submenuPanel.setWidth((submenuButtonCount) * 45 + "px");
+
 		}
 	}
 
@@ -1279,7 +1281,7 @@ getFirstMode(),
 
 	public void closeAllSubmenu() {
 		toolBar.closeAllSubmenu();
-		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS) && toolBar.isMobileToolbar()) {
 			submenuScrollPanel.clear();
 		}
 	}

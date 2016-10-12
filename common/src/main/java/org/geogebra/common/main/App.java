@@ -3868,7 +3868,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-335
 		case TOOLBAR_ON_SMALL_SCREENS:
-			return false;
+			return prerelease;
 
 		// MOB-270
 		case ACRA:

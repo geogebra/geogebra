@@ -195,7 +195,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 * Sets the menu visible if it exists
 	 */
 	public void showMenu() {
-		Log.debug("show menu web");
 		if(this.submenu == null){
 			this.buildGui();
 		}
@@ -265,7 +264,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 		if (needsGUI) {
 			buildGui();
-			Log.debug("select mode");
 		}
 		
 		for (int i = 0; i < getItemList().getWidgetCount(); i++) {
@@ -275,7 +273,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 				if (!imageDialog) {
 					selectItem(mi);
-					Log.debug("select item");
 				}
 				
 				showToolTipBottom(mode, m);
@@ -341,7 +338,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	public void onEnd(DomEvent<?> event) {
-		// Log.debug("**************** Web onEnd");
 		int mode = Integer.parseInt(event.getRelativeElement().getAttribute(
 				"mode"));
 		if (mode < 999 || mode > 2000) {
@@ -375,7 +371,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	@Override
     public void onTouchStart(TouchStartEvent event) {
-		// Log.debug("**************** Web onTouchStart");
 		if (event.getSource() == tbutton) {
 	    	onStart(event);
 	    	CancelEventTimer.touchEventOccured();
@@ -387,14 +382,12 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	@Override
     public void onTouchEnd(TouchEndEvent event) {
-		// Log.debug("**************** Web onTouchEnd");
 		onEnd(event);
 		CancelEventTimer.touchEventOccured();
     }
 
 	@Override
     public void onMouseUp(MouseUpEvent event) {
-		// Log.debug("**************** Web onMouseUp");
 		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
@@ -413,7 +406,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 	@Override
     public void onMouseDown(MouseDownEvent event) {
-		// Log.debug("**************** Web onMouseDown");
 		if (event.getSource() == tbutton
 		        && !CancelEventTimer.cancelMouseEvent()) {
 	    	onStart(event);
@@ -431,7 +423,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 *            mouse or touch event
 	 */
 	public void onStart(HumanInputEvent<?> event) {
-		// Log.debug("**************** Web onStart");
 		event.preventDefault();
 		event.stopPropagation();
 		this.setFocus(true);
@@ -598,7 +589,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	public void addModes(Vector<Integer> menu2) {
-		Log.debug("add modes");
 		if(this.submenu == null){
 			this.buildGui();
 		}
@@ -624,8 +614,6 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	public void setMaxHeight(double d) {
 	    if(submenu != null){
 	    	this.submenu.setMaxHeight((int)d);
-	    }
-	    
+		}
     }
-
 }

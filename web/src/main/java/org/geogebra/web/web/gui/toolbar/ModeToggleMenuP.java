@@ -103,10 +103,11 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 		}
 		if (submenu != null) {
 			submenuPanel.add(submenu);
+			submenuPanel.getParent().setVisible(true);
 			submenu.setVisible(true);
 			addBackButton();
 		}
-		toolbar.getGGWToolBar().setSubmenuDimensions();
+		toolbar.getGGWToolBar().setSubmenuDimensions(app.getWidth());
 	}
 
 	@Override
@@ -115,6 +116,7 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 		if (submenu != null) {
 
 			submenuPanel.remove(submenu);
+			submenuPanel.getParent().setVisible(false);
 			submenu.setVisible(false);
 		}
 		removeBackButton();
@@ -128,6 +130,7 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 
 	@Override
 	public void onStart(HumanInputEvent<?> event) {
+
 	}
 
 	@Override
@@ -136,6 +139,18 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 			startPosition = toolbar.getAbsoluteLeft();
 		} else {
 			startPosition = submenuPanel.getAbsoluteLeft();
+		}
+		if (event.getSource() == tbutton) {
+			tbutton.addStyleName("touched");
+		}
+		Log.debug("onstart");
+		if (toolbar.isVisible()) {
+			startPosition = toolbar.getAbsoluteLeft();
+		} else {
+			startPosition = submenuPanel.getAbsoluteLeft();
+		}
+		if (event.getSource() == tbutton) {
+			tbutton.addStyleName("touched");
 		}
 	}
 
@@ -146,7 +161,9 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 		} else {
 			endPosition = submenuPanel.getAbsoluteLeft();
 		}
-
+		if (event.getSource() == tbutton) {
+			tbutton.removeStyleName("touched");
+		}
 		onEnd(event);
 		CancelEventTimer.touchEventOccured();
 	}
@@ -157,6 +174,7 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 		if (mode < 999 || mode > 2000) {
 			app.hideKeyboard();
 		}
+
 		tbutton.getElement().focus();
 		event.stopPropagation();
 
@@ -171,11 +189,13 @@ public class ModeToggleMenuP extends ModeToggleMenu {
 			}
 
 
-		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-		// if we click the toolbar button, only interpret it as real click if
-		// there is only one tool in this menu
-		app.setMode(mode, event.getSource() == tbutton && menu.size() > 1 ? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
-		ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+			// if we click the toolbar button, only interpret it as real click
+			// if
+			// there is only one tool in this menu
+			app.setMode(mode,
+					event.getSource() == tbutton && menu.size() > 1 ? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
+			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 		tbutton.getElement().focus();
 	}

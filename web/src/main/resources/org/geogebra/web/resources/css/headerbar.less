@@ -17,9 +17,7 @@
 		overflow: visible !important;
 	}
 	position: relative;
-	.GGWToolbarResponsive {
-		width: 650px;
-	}
+	
 	.toolbarPanel {
 		background-color: @color-lightgrey;
 		border-bottom: 1px solid @color-bordergrey;
@@ -31,13 +29,57 @@
 		.toolBPanelMobile {
 			overflow-x: auto;
 			overflow-y: hidden;
-			height: 47px;
+			height: 46px;
 			}	
+			::-webkit-scrollbar {
+			    height: 5px;
+			    overflow: visible;
+			    
+			}
+			::-scrollbar {
+			    height: 5px;
+			    overflow: visible;
+			   
+			}
+			::-webkit-scrollbar-button {
+			    height: 0;
+			    width: 0;
+			}
+			::-scrollbar-button {
+			    height: 0;
+			    width: 0;
+			}
+			::-scrollbar-thumb {
+		    background-color: #999999;
+		   
+			}
+			::-webkit-scrollbar-thumb {
+		    background-color: #999999;
+		   
+			}
+			
+			::-webkit-scrollbar-track {
+			    background-clip: padding-box;
+			    border: solid transparent;
+			    border-width: 0 0 0 4px;
+			}
+			::-scrollbar-track {
+			    background-clip: padding-box;
+			    border: solid transparent;
+			    border-width: 0 0 0 4px;
+			}
+			::-webkit-scrollbar-track-piece {
+				
+			}
+			
+			::-scrollbar-track-piece{
+				
+			}
+			
 			
 		.toolBPanel {
 			.float(left);
 			padding-top: 1px;
-		/*	overflow: visible;*/
 						
 			ul {
 				margin: 0px;
@@ -75,7 +117,11 @@
 					border: 2px solid @color-highlight;
 					padding: 2px;
 				}
+				
 			}
+			.touched {
+					border-color: @color-highlight !important;
+				}
 			
 			.toolbar_submenu {
 				position: absolute;
@@ -140,13 +186,7 @@
 			cursor: pointer;
 		}
 		.submenuPanel {
-		/*	float: left;*/
-			/*position: absolute;
-			top: 63px;
-			left: -35px;*/
 			margin-top: 0px;
-			/*margin-left: 15px;*/
-			
 		}
 		.submenuScrollPanel{
 			overflow-x: auto;
@@ -154,7 +194,7 @@
 			position: absolute;
 			top: 6px;
 			left: 50px;
-			height: 47px;
+			height: 46px;
 		}
 		.submenuItems {
 			margin-left: -40px;

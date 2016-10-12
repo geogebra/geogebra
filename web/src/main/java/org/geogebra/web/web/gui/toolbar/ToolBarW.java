@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class ToolBarW extends FlowPanel implements ClickHandler,
         ToolBarInterface {
 
-	protected AppW app;
+	private AppW app;
 	private int mode;
 
 	/**
@@ -43,7 +43,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 	// panels for mobile submenu view
 	private FlowPanel submenuPanel;
 
-	protected ArrayList<ModeToggleMenu> modeToggleMenus;
+	private ArrayList<ModeToggleMenu> modeToggleMenus;
 	boolean keepDown;
 	protected UnorderedList menuList;
 	private GGWToolBar tb;
@@ -58,13 +58,6 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		this.tb = tb;
 		this.addStyleName("GGWToolbar");
 		this.addDomHandler(this, ClickEvent.getType());
-		/*
-		 * this.addHandler(new BlurHandler() {
-		 * 
-		 * @Override public void onBlur(BlurEvent event) { if (isMobileToolbar)
-		 * { submenuPanel.clear(); } else { closeAllSubmenu(); } Log.debug(
-		 * "onBlur close submenu"); } }, BlurEvent.getType());
-		 */
 	}
 
 	/**
@@ -77,7 +70,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler,
 		this.tb = tb;
 		this.submenuPanel = submenuPanel;
 		this.addStyleName("GGWToolbar");
-		this.addStyleName("GGWToolbarResponsive");
+
 		this.addDomHandler(this, ClickEvent.getType());
 	}
 
