@@ -1000,11 +1000,10 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	final protected void drawAnimationButtons(
-final GGraphics2D g2) {
+	final protected void drawAnimationButtons(final GGraphics2D g2) {
 
 		// draw button in focused EV only
-		if (!drawPlayButtonInThisView()) {
+		if (!drawPlayButtonInThisView() || app.isScreenshotGenerator()) {
 			return;
 		}
 
@@ -1012,8 +1011,8 @@ final GGraphics2D g2) {
 		final int y = getHeight() - 27;
 
 		// draw pause or play button
-		final ImageElement img = kernel
-.isAnimationRunning() ? getPauseImage(highlightAnimationButtons)
+		final ImageElement img = kernel.isAnimationRunning()
+				? getPauseImage(highlightAnimationButtons)
 				: getPlayImage(highlightAnimationButtons);
 		if (img.getPropertyBoolean("complete")) {
 			((GGraphics2DW) g2).drawImage(img, x, y);
