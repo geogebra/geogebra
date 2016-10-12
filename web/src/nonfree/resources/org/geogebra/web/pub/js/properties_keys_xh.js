@@ -1822,6 +1822,7 @@ __GGB__keysVar.xh.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "Iforam ye-Geogebra",
+    "GeoGebraGraphingCalculator": "Isixhobo sokubala sokwenza igrafu",
     "GeoGebraMathApps": "GeoGebra Math Apps",
     "GeoGebraProperties": "IiMpawu zeJiyoJebra",
     "GeogebraToAsymptoteExport": "uJiyoJebra ukuya kwi Expoti yoMgcaOsondelaKwiGophe",

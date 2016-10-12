@@ -1822,6 +1822,7 @@ __GGB__keysVar.hu.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra F\xf3rum",
+    "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMathApps": "GeoGebra Math Apps",
     "GeoGebraProperties": "GeoGebra tulajdons\xe1gok",
     "GeogebraToAsymptoteExport": "Export\xe1l\xe1s Asymptote k\xf3dba",

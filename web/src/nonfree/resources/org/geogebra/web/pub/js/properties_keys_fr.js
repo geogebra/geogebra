@@ -1822,6 +1822,7 @@ __GGB__keysVar.fr.menu = {
     "GeoGebra3DGrapher": "GeoGebra Calculette 3D",
     "GeoGebra3DGrapher.short": "Calculatrice 3D",
     "GeoGebraForum": "GeoGebra Forum",
+    "GeoGebraGraphingCalculator": "GeoGebra Calculette Graphique",
     "GeoGebraMathApps": "GeoGebra Maths App",
     "GeoGebraProperties": "GeoGebra Propri\xe9t\xe9s",
     "GeogebraToAsymptoteExport": "Export GeoGebra vers Asymptote",

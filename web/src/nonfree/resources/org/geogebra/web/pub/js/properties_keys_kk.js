@@ -1822,6 +1822,7 @@ __GGB__keysVar.kk.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra \u0444\u043e\u0440\u0443\u043c\u044b",
+    "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMathApps": "GeoGebra Math Apps",
     "GeoGebraProperties": "GeoGebra \u049a\u0430\u0441\u0438\u0435\u0442\u0442\u0435\u0440\u0456",
     "GeogebraToAsymptoteExport": "\u0413\u0435\u043e\u0413\u0435\u0431\u0440\u0430\u043d\u044b \u0430\u0441\u0438\u043c\u043f\u0442\u043e\u0442\u0430\u0493\u0430 \u044d\u043a\u0441\u043f\u043e\u0440\u0442\u0442\u0430\u0443",

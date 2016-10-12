@@ -1822,6 +1822,7 @@ __GGB__keysVar.pt.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "F\xf3rum do GeoGebra",
+    "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMathApps": "GeoGebra Math Apps",
     "GeoGebraProperties": "Propriedades do GeoGebra",
     "GeogebraToAsymptoteExport": "Exportar para Asymptote",

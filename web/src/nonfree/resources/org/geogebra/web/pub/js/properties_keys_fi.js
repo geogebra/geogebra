@@ -1822,6 +1822,7 @@ __GGB__keysVar.fi.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D-ohjelma",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra Forum",
+    "GeoGebraGraphingCalculator": "GeoGebra graafinen laskin",
     "GeoGebraMathApps": "GeoGebra Math Apps",
     "GeoGebraProperties": "GeoGebran ominaisuudet",
     "GeogebraToAsymptoteExport": "Vie: GeoGebrasta Asymptote-muotoon",
