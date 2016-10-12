@@ -47,10 +47,21 @@ public class CommandsTest extends Assert{
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
 			syntax = app.getLocalization().getCommand(cmdName + ".Syntax");
 			syntaxes = 0;
-			for(int i=0;i<syntax.length();i++)
-				if(syntax.charAt(i)=='[')syntaxes++;
+			for (int i = 0; i < syntax.length(); i++) {
+				if (syntax.charAt(i) == '[')
+					syntaxes++;
+			}
+			String syntax3D = app.getLocalization().getCommand(
+					cmdName + ".Syntax3D");
+			if (syntax3D.contains("[")) {
+				syntax += "\n" + syntax3D;
+			}
+			for (int i = 0; i < syntax3D.length(); i++) {
+				if (syntax3D.charAt(i) == '[')
+					syntaxes++;
+			}
 			System.out.println();
-			System.out.print(cmdName+" ");
+			System.out.print(cmdName);
 			
 			/*
 			// This code helps to force timeout for each syntax. Not used at the moment.
@@ -76,10 +87,10 @@ public class CommandsTest extends Assert{
 		syntaxes--;
 		assertNull(t);
 		Assert.assertNotNull(s,result);
-		for (int i = 0; i < result.length; i++) {
-			String actual = result[i].toValueString(tpl);
-			System.out.println("\"" + actual + "\",");
-		}
+		// for (int i = 0; i < result.length; i++) {
+		// String actual = result[i].toValueString(tpl);
+		// System.out.println("\"" + actual + "\",");
+		// }
 		Assert.assertEquals(s + " count:", expected.length, result.length);
 
 		for (int i = 0; i < expected.length; i++) {
@@ -436,7 +447,7 @@ public class CommandsTest extends Assert{
 		t("Product[ {1,2,3,4} ]", "24");
 		t("Product[ 1..10,  5 ]", "120");
 		t("Product[ {1,2,3},  {100,1,2} ]", "18");
-		t("round(Product[ k/(k+1),k,1,7 ],5)", "0.125");
+		t("Product[ k/(k+1),k,1,7 ]", "0.125", StringTemplate.editTemplate);
 		t("Product[{x,y}]", "(x * y)");
 		t("Product[ (k,k),k,1,5 ]", "-480 - 480" + Unicode.IMAGINARY);
 
@@ -484,9 +495,9 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdVolume() {
-		t("Volume[Cube[(0,0,1),(0,1,0)]]", eval("round(sqrt(8),5)"),
+		t("Volume[Cube[(0,0,1),(0,1,0)]]", eval("sqrt(8)"),
 				StringTemplate.editTemplate);
-		t("Volume[Sphere[(0,0,1),4]]", eval("round(4/3*pi*4^3,5)"),
+		t("Volume[Sphere[(0,0,1),4]]", eval("4/3*pi*4^3"),
 				StringTemplate.editTemplate);
 	}
 
@@ -498,13 +509,13 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdCone() {
-		t("Cone[x^2+y^2=9,4]", new String[] { eval("round(12*pi,5)"),
+		t("Cone[x^2+y^2=9,4]", new String[] { eval("12*pi"),
  "X = (0, 0, 4)",
- eval("round(pi*15,5)"), },
+				eval("pi*15"), },
 				StringTemplate.editTemplate);
-		t("Cone[(0,0,0),(0,0,4),3]", new String[] { eval("round(12*pi,5)"),
+		t("Cone[(0,0,0),(0,0,4),3]", new String[] { eval("12*pi"),
 				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)",
-				eval("round(pi*15,5)"), },
+ eval("pi*15"), },
 				StringTemplate.editTemplate);
 		t("Cone[(0,0,0),Vector[(0,0,4)],pi/4]",
 				new String[] {
@@ -514,14 +525,15 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdCylinder() {
-		t("Cylinder[x^2+y^2=9,4]", new String[] { eval("round(36*pi,5)"),
+		t("Cylinder[x^2+y^2=9,4]", new String[] { eval("36*pi"),
 				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)",
-				eval("round(pi*24,5)"), },
+ eval("pi*24"), },
 				StringTemplate.editTemplate);
-		t("Cylinder[(0,0,0),(0,0,4),3]", new String[] { eval("round(36*pi,5)"),
+		t("Cylinder[(0,0,0),(0,0,4),3]", new String[] { eval("36*pi"),
 				"X = (0, 0, 0) + (3 cos(t), -3 sin(t), 0)",
 				"X = (0, 0, 4) + (3 cos(t), 3 sin(t), 0)",
-				eval("round(pi*24,5)") }, StringTemplate.editTemplate);
+ eval("pi*24") },
+				StringTemplate.editTemplate);
 		t("Cylinder[(0,0,0),Vector[(0,0,4)],1]",
 				new String[] { indices("x^2 + y^2 + 0z^2 = 1") },
 				StringTemplate.editTemplate);
@@ -583,7 +595,7 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdQuadricSide() {
-		t("Side[Cone[x^2+y^2=9,4]]",  eval("round(15pi,5)"),
+		t("Side[Cone[x^2+y^2=9,4]]", eval("15pi"),
 				StringTemplate.editTemplate);
 	}
 
@@ -614,12 +626,26 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdIntersectPath() {
+		// 3D
 		t("IntersectPath[x+y+z=1,x+y-z=1]", "X = (1, 0, 0) + " + Unicode.lambda
 				+ " (-2, 2, 0)");
-		t("IntersectPath[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),4]]",
-				new String[] { "1", "(2, 2)", "(1, 2)", "(1, 1)", "(2, 1)",
+		t("IntersectPath[x^2+y^2+z^2=4,x+y-z=1]",
+				"X = (0.33333, 0.33333, -0.33333) + (-1.35401 cos(t) - 0.78174 sin(t), 1.35401 cos(t) - 0.78174 sin(t), -1.56347 sin(t))",
+				StringTemplate.editTemplate);
+		t("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],Polygon[(1,1),(3,1),4]]",
+				new String[] { "1", "(2, 2, 0)", "(1, 2, 0)", "(1, 1, 0)",
+						"(2, 1, 0)",
 						"1", "1", "1", "1" },
 				StringTemplate.editTemplate);
+		t("IntersectPath[Polygon[(0,0),(2,0),4],x+y=3]", eval("sqrt(2)"),
+				StringTemplate.editTemplate);
+		// 2D
+		t("IntersectPath[Polygon[(0,0,0),(2,0,0),(2, 2,0),(0,2,0)],x+y=3]",
+				eval("sqrt(2)"),
+				StringTemplate.editTemplate);
+		t("IntersectPath[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),4]]",
+				new String[] { "1", "(2, 2)", "(1, 2)", "(1, 1)", "(2, 1)",
+						"1", "1", "1", "1" }, StringTemplate.editTemplate);
 	}
 	private String indices(String string) {
 		return string.replace("^2", Unicode.Superscript_2 + "");
@@ -627,6 +653,145 @@ public class CommandsTest extends Assert{
 
 	private String eval(String string) {
 		return ap.evaluateToNumeric(string, true)
-				.toValueString(StringTemplate.xmlTemplate);
+.toValueString(
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void cmdDodecahedron() {
+		String[] dodeca = new String[] { "7.66312",
+				"(1.30902, 0.95106, 0)", "(0.5, 1.53884, 0)",
+				"(-0.30902, -0.42533, 0.85065)",
+				"(1.30902, -0.42533, 0.85065)", "(1.80902, 1.11352, 0.85065)",
+				"(0.5, 2.06457, 0.85065)", "(-0.80902, 1.11352, 0.85065)",
+				"(-0.80902, 0.26287, 1.37638)", "(0.5, -0.68819, 1.37638)",
+				"(1.80902, 0.26287, 1.37638)", "(1.30902, 1.80171, 1.37638)",
+				"(-0.30902, 1.80171, 1.37638)", "(-0.30902, 0.42533, 2.22703)",
+				"(0.5, -0.16246, 2.22703)", "(1.30902, 0.42533, 2.22703)",
+				"(1, 1.37638, 2.22703)", "(0, 1.37638, 2.22703)", "1.72048",
+				"1.72048", "1.72048", "1.72048", "1.72048", "1.72048",
+				"1.72048", "1.72048", "1.72048", "1.72048", "1.72048",
+				"1.72048", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1",
+				"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1",
+				"1", "1", "1", "1", "1", "1", "1", "1" };
+		platonicTest("Dodecahedron", 108, dodeca);
+	}
+
+	private void platonicTest(String string, int deg, String[] dodeca) {
+		t(string + "[(1;" + deg + "deg),(0,0)]", dodeca,
+				StringTemplate.editTemplate);
+		t(string + "[(1;" + deg + "deg),(0,0),(1,0)]", dodeca,
+				StringTemplate.editTemplate);
+		String[] dodeca1 = new String[dodeca.length + 1];
+		dodeca1[0] = dodeca[0];
+		dodeca1[1] = "(1, 0, 0)";
+		for (int i = 2; i < dodeca1.length; i++) {
+			dodeca1[i] = dodeca[i - 1];
+		}
+		t(string + "[(1;" + deg + "deg),(0,0),Vector[(0,0,1)]]", dodeca1,
+				StringTemplate.editTemplate);
+
+	}
+
+	@Test
+	public void cmdIcosahedron() {
+		String[] dodeca = new String[] { "2.18169",
+				"(-0.30902, 0.75576, 0.57735)", "(0.5, -0.6455, 0.57735)",
+				"(1.30902, 0.75576, 0.57735)", "(0.5, 1.22285, 0.93417)",
+				"(-0.30902, -0.17841, 0.93417)",
+				"(1.30902, -0.17841, 0.93417)", "(0, 0.57735, 1.51152)",
+				"(0.5, -0.28868, 1.51152)", "(1, 0.57735, 1.51152)", "0.43301",
+				"0.43301", "0.43301", "0.43301", "0.43301", "0.43301",
+				"0.43301", "0.43301", "0.43301", "0.43301", "0.43301",
+				"0.43301", "0.43301", "0.43301", "0.43301", "0.43301",
+				"0.43301", "0.43301", "0.43301", "0.43301", "1", "1", "1", "1",
+				"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1",
+				"1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1",
+				"1", "1" };
+		platonicTest("Icosahedron", 60, dodeca);
+	}
+
+	@Test
+	public void cmdOctahedron() {
+		String[] dodeca = new String[] { "0.4714", "(0, 0.57735, 0.8165)",
+				"(0.5, -0.28868, 0.8165)", "(1, 0.57735, 0.8165)", "0.43301",
+				"0.43301", "0.43301", "0.43301", "0.43301", "0.43301",
+				"0.43301", "0.43301", "1", "1", "1", "1", "1", "1", "1", "1",
+				"1", "1", "1", "1" };
+		platonicTest("Octahedron", 60, dodeca);
+	}
+
+	@Test
+	public void cmdPyramid() {
+
+
+		t("Pyramid[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]", new String[] {
+				eval("1/6"), "0.5", "0.5", eval("sqrt(3)/2"), "0.5", "1",
+				eval("sqrt(2)"), "1", "1", eval("sqrt(2)"), eval("sqrt(2)"),
+ },
+				StringTemplate.editTemplate);
+		t("Pyramid[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]", new String[] {
+				eval("1/6"), "0.5", eval("sqrt(3)/2"), "0.5", "1",
+				eval("sqrt(2)"), eval("sqrt(2)"),
+ },
+				StringTemplate.editTemplate);
+		t("Pyramid[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]",
+				new String[] {
+ "24", "(0, 0, 4)", "9.60469", "9.60469",
+						"9.60469", "9.60469", "5", "5", "5", "5" },
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void cmdPrism() {
+		t("Prism[(0,0,0),(1,0,0),(0,1,0),(0,0,1)]", new String[] { "0.5",
+				"(1, 0, 1)", "(0, 1, 1)", "0.5", "1", eval("sqrt(2)"), "1",
+				"0.5", "1", eval("sqrt(2)"), "1", "1", "1", "1", "1",
+				eval("sqrt(2)"), "1" },
+				StringTemplate.editTemplate);
+		t("Prism[Polygon[(0,0,0),(1,0,0),(0,1,0)],(0,0,1)]", new String[] {
+				"0.5", "(1, 0, 1)", "(0, 1, 1)", "1", eval("sqrt(2)"), "1",
+				"0.5", "1", "1", "1", "1", eval("sqrt(2)"), "1" },
+				StringTemplate.editTemplate);
+		t("Prism[Polygon[(-3,0,0),(0,-3,0),(3,0,0),(0,3,0)],4]", new String[] {
+				"72", "(-3, 0, 4)", "(0, -3, 4)", "(3, 0, 4)", "(0, 3, 4)",
+				eval("12sqrt(2)"), eval("12sqrt(2)"), eval("12sqrt(2)"),
+				eval("12sqrt(2)"), "18", "4", "4",
+ "4", "4", eval("3sqrt(2)"),
+				eval("3sqrt(2)"),
+				eval("3sqrt(2)"), eval("3sqrt(2)") },
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void cmdTetrahedron() {
+		String[] dodeca = new String[] { "0.11785", "(0.5, 0.28868, 0.8165)",
+				"0.43301", "0.43301", "0.43301", "0.43301", "1", "1", "1", "1",
+				"1", "1" };
+		platonicTest("Tetrahedron", 60, dodeca);
+	}
+
+	@Test
+	public void cmdOrthogonalLine() {
+		// 2D
+		t("PerpendicularLine[ (1,2), x+y=7 ]", "-x + y = 1");
+		t("PerpendicularLine[ (1,2), Segment[(1,6),(6,1)] ]", "-x + y = 1");
+		t("PerpendicularLine[ (1,2),Vector[(1,3)]]", "-x - 3y = -7");
+		// 3D
+		t("PerpendicularLine[ (1,2,0), x+y=7 ]", "X = (1, 2, 0) + "
+				+ Unicode.lambda + " (1, 1, 0)");
+		t("PerpendicularLine[ (1,2,0), Segment[(1,6),(6,1)] ]",
+				"X = (1, 2, 0) + " + Unicode.lambda + " (-5, -5, 0)");
+		t("PerpendicularLine[ (1,2,0),Vector[(1,3)]]", "X = (1, 2, 0) + "
+				+ Unicode.lambda + " (3, -1, 0)");
+		t("PerpendicularLine[(1,1,1),z=0]", "X = (1, 1, 1) + " + Unicode.lambda
+				+ " (0, 0, -1)");
+		t("PerpendicularLine[(1,1,1),y=0,xOyPlane]", "X = (1, 1, 1) + "
+				+ Unicode.lambda + " (0, 1, 0)");
+		t("PerpendicularLine[(1,1,1),y=0,space]", "X = (1, 1, 1) + "
+				+ Unicode.lambda + " (0, 0.70711, 0.70711)",
+				StringTemplate.editTemplate);
+		t("PerpendicularLine[x=1,y=1]", "X = (1, 1, 0) + " + Unicode.lambda
+				+ " (0, 0, 1)");
 	}
 }

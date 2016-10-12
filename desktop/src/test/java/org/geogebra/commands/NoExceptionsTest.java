@@ -174,9 +174,7 @@ new String[] { "--silent" }),
 		Set<String> methodNames = new TreeSet<String>();
 		for (int i = 0; i < mtds.length; i++)
 			methodNames.add(mtds[i].getName());
-		mtds = NoExceptions3DTest.class.getMethods();
-		for (int i = 0; i < mtds.length; i++)
-			methodNames.add(mtds[i].getName());
+
 		mtds = CommandsTest.class.getMethods();
 		for (int i = 0; i < mtds.length; i++)
 			methodNames.add(mtds[i].getName());
@@ -1417,13 +1415,6 @@ new String[] { "--silent" }),
 	public void cmdLineBisector() {
 		t("PerpendicularBisector[ Pt1,Pt2 ]");
 		t("PerpendicularBisector[ seg1 ]");
-	}
-
-	@Test
-	public void cmdOrthogonalLine() {
-		t("PerpendicularLine[ Pt1, l1 ]");
-		t("PerpendicularLine[ Pt1, seg1 ]");
-		t("PerpendicularLine[ Pt1,v1]");
 	}
 
 	@Test
@@ -2770,6 +2761,20 @@ new String[] { "--silent" }),
 		t("RandomDiscrete[{1,2,3},{4,5,6}]");
 		t("RandomDiscrete[{1,2,3},{}]");
 		t("RandomDiscrete[{1,2,3},{4,5,-9}]");
+	}
+
+	@Test
+	public void cmdSetViewDirection() {
+		t("SetViewDirection[]");
+		t("SetViewDirection[(1,1,1)]");
+		t("SetViewDirection[Vector[(1,1,1)]]");
+	}
+
+	@Test
+	public void cmdCornerThreeD() {
+		for (int i = 1; i < 12; i++) {
+			t("Corner[-1," + i + "]");
+		}
 	}
 
 	@Test
