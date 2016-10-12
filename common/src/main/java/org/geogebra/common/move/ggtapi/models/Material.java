@@ -35,6 +35,11 @@ public class Material implements Comparable<Material>, Serializable {
 	 */
 	private long timestamp;
 
+	/**
+	 * UNIX timestamp of this material's last autosave time.
+	 */
+	private long autoSaveTimestamp;
+
 	private String author;
 
 	/**
@@ -114,6 +119,7 @@ public class Material implements Comparable<Material>, Serializable {
 
 		this.title = "";
 		this.timestamp = -1;
+		this.autoSaveTimestamp = -1;
 		this.author = "";
 		this.author_id = -1;
 		this.url = "";
@@ -248,6 +254,24 @@ public class Material implements Comparable<Material>, Serializable {
 
 	public void resetTimestamp() {
 		setTimestamp(0);
+		setAutosaveTimestamp(0);
+	}
+
+	public void setAutosaveTimestamp(long autoSaveTimestamp) {
+		this.autoSaveTimestamp = autoSaveTimestamp;
+	}
+
+	public void setAutosaveTimestampFromJava(long autoSaveTimestamp) {
+		setAutosaveTimestamp(autoSaveTimestamp / 1000); // JAVA USES MILLISECONDS, UNIX USES SECONDS
+	}
+
+	public long getAutosaveTimestamp() {
+		return autoSaveTimestamp;
+	}
+
+	public long getAutosaveTimestampForJava() {
+		// JAVA USES MILLISECONDS, UNIX USES SECONDS
+		return autoSaveTimestamp * 1000;
 	}
 
 	public void setAuthor(String author) {
@@ -352,7 +376,7 @@ public class Material implements Comparable<Material>, Serializable {
 		return toJson(false);
 	}
 
-	public JSONObject toJson(boolean storeLocalId) {
+	public JSONObject toJson(boolean storeLocalValues) {
 		JSONObject ret = new JSONObject();
 		putString(ret, "thumbnail", thumbnail);
 		// putString(ret,"-type", TODO);
@@ -383,8 +407,9 @@ public class Material implements Comparable<Material>, Serializable {
 		putBoolean(ret, "inputbar", this.showInputbar);
 		putBoolean(ret, "from_another_device", this.fromAnotherDevice);
 		putString(ret, "is3d", this.is3d ? "1" : "0");
-		if (storeLocalId) {
+		if (storeLocalValues) {
 			putString(ret, "localID", localID + "");
+			putString(ret, "autoSaveTimestamp", autoSaveTimestamp + "");
 		}
 		return ret;
 	}

@@ -16,7 +16,7 @@ public class JSONParserGGT {
 		return toMaterial(obj, false);
 	}
 
-	public Material toMaterial(JSONObject obj, boolean setLocalID) {
+	public Material toMaterial(JSONObject obj, boolean setLocalValues) {
 		Material.MaterialType type = MaterialType.ggb;
 		if (getString(obj, "type").length() > 0) {
 			try {
@@ -66,8 +66,9 @@ public class JSONParserGGT {
 		material.setFromAnotherDevice(
 				getBoolean(obj, "from_another_device", false));
 		material.setIs3d(getStringBoolean(obj, "is3d", false));
-		if (setLocalID) {
+		if (setLocalValues) {
 			material.setLocalID(getInt(obj, "localID", -1));
+			material.setAutosaveTimestamp(getInt(obj, "autoSaveTimestamp", 0));
 		}
 		return material;
 	}
@@ -279,7 +280,7 @@ public class JSONParserGGT {
 		return parseMaterial(item, false);
 	}
 
-	public static Material parseMaterial(String item, boolean setLocalID) {
+	public static Material parseMaterial(String item, boolean setLocalValues) {
 		JSONObject mat = null;
 		try {
 			JSONTokener tok = new JSONTokener(item);
@@ -290,6 +291,6 @@ public class JSONParserGGT {
 		if (mat == null) {
 			return null;
 		}
-		return prototype.toMaterial(mat, setLocalID);
+		return prototype.toMaterial(mat, setLocalValues);
 	}
 }
