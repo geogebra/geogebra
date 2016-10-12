@@ -642,6 +642,33 @@ public class CASInputHandler {
 					Iterator<GeoElement> it = cellVars.iterator();
 					while (it.hasNext()) {
 						GeoElement curr = it.next();
+						// if input was geoCasCell
+						if (curr instanceof GeoCasCell) {
+							// we should use only the variables from output
+							HashSet<GeoElement> currCellVars = ((GeoCasCell) curr)
+									.getOutputValidExpression().getVariables();
+							Iterator<GeoElement> currIt = currCellVars.iterator();
+							if (vars.isEmpty()) {
+								vars.addAll(currCellVars);
+							} else {
+								while (currIt.hasNext()) {
+									GeoElement currEl = currIt.next();
+									int j;
+									for (j = 0; j < vars.size(); j++) {
+										if (currEl.toString(
+											StringTemplate.defaultTemplate)
+												.equals(vars.get(j).toString(
+													StringTemplate.defaultTemplate))) {
+											break;
+										}
+									}
+									if (j == vars.size()) {
+										vars.add(currEl);
+									}
+								}
+							}
+							continue;
+						}
 						if (vars.isEmpty()) {
 							vars.add(curr);
 						} else {
@@ -655,9 +682,9 @@ public class CASInputHandler {
 								}
 							}
 							if (j == vars.size()) {
-								vars.add(curr);
-							}
+							vars.add(curr);
 						}
+					}
 					}
 					// case it is not
 					if (casResult.equals("false") || casResult.equals("0")) {
