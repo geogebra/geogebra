@@ -193,9 +193,8 @@ public class GgbAPIW extends GgbAPI {
 
 	public void getGGB(boolean includeThumbnail, JavaScriptObject callback) {
 		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
-
-		getGGBZipJs(prepareToEntrySet(archiveContent), callback,
-				zipJSworkerURL());
+		setWorkerURL(zipJSworkerURL(), false);
+		getGGBZipJs(prepareToEntrySet(archiveContent), callback);
 
 	}
 
@@ -212,7 +211,7 @@ public class GgbAPIW extends GgbAPI {
 	public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
 		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
 
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback,
+		getBase64ZipJs(prepareToEntrySet(archiveContent), callback,
 				zipJSworkerURL(), false);
 	}
 
@@ -220,7 +219,7 @@ public class GgbAPIW extends GgbAPI {
 			JavaScriptObject callback) {
 		Map<String, String> archiveContent = createMacrosArchive();
 
-		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback,
+		getBase64ZipJs(prepareToEntrySet(archiveContent), callback,
 				zipJSworkerURL(), false);
 	}
 
@@ -254,7 +253,7 @@ public class GgbAPIW extends GgbAPI {
 		if (Browser.webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 		}
-		getNativeBase64ZipJs(jso, nativeCallback(storeString), "false", true);
+		getBase64ZipJs(jso, nativeCallback(storeString), "false", true);
 		return storeString.getResult();
 
 	}
@@ -266,7 +265,7 @@ public class GgbAPIW extends GgbAPI {
 		if (Browser.webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 		}
-		getNativeBase64ZipJs(jso, nativeCallback(storeString), "false", true);
+		getBase64ZipJs(jso, nativeCallback(storeString), "false", true);
 		return storeString.getResult();
 
 	}
@@ -373,14 +372,8 @@ public class GgbAPIW extends GgbAPI {
 		ne["archive"].push(obj);
 	}-*/;
 
-	public native void getGGBZipJs(JavaScriptObject arch, JavaScriptObject clb,
-			String workerURLs) /*-{
-
-		if (workerURLs === "false") {
-			$wnd.zip.useWebWorkers = false;
-		} else {
-			$wnd.zip.workerScriptsPath = workerURLs;
-		}
+	public native void getGGBZipJs(JavaScriptObject arch,
+			JavaScriptObject clb) /*-{
 
 		function encodeUTF8(string) {
 			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
@@ -506,15 +499,14 @@ public class GgbAPIW extends GgbAPI {
 
 	}-*/;
 
-	private native void getNativeBase64ZipJs(JavaScriptObject arch,
-			JavaScriptObject clb, String workerUrls, boolean sync) /*-{
+	private void getBase64ZipJs(JavaScriptObject arch, JavaScriptObject clb,
+			String workerUrls, boolean sync) {
+		setWorkerURL(workerUrls, sync);
+		getBase64ZipJs(arch, clb);
+	}
 
-		if (workerUrls === "false" || sync) {
-			$wnd.zip.useWebWorkers = false;
-			$wnd.zip.synchronous = sync;
-		} else {
-			$wnd.zip.workerScriptsPath = workerUrls;
-		}
+	private native void getBase64ZipJs(JavaScriptObject arch,
+			JavaScriptObject clb) /*-{
 
 		function encodeUTF8(string) {
 			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
@@ -1045,5 +1037,17 @@ public class GgbAPIW extends GgbAPI {
 		});
 	}-*/;
 
+	public static native void setWorkerURL(String workerUrls,
+			boolean sync) /*-{
+		if (workerUrls === "false" || !workerUrls || sync) {
+			$wnd.zip.useWebWorkers = false;
+			$wnd.zip.synchronous = sync;
+		} else {
+			$wnd.zip.synchronous = false;
+			$wnd.zip.useWebWorkers = true;
+			$wnd.zip.workerScriptsPath = workerUrls;
+		}
+
+	}-*/;
 
 }

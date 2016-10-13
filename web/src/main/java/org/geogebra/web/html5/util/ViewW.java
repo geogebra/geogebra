@@ -213,6 +213,7 @@ public class ViewW {
 
 	private void populateArchiveContent(JavaScriptObject ggbReader) {
 		String workerUrls = prepareFileReading();
+		GgbAPIW.setWorkerURL(workerUrls, false);
 		populateArchiveContent(workerUrls, this, ggbReader);
 	}
 	private native void populateArchiveContent(String workerUrls, ViewW view,
@@ -274,13 +275,7 @@ public class ViewW {
       }		
       
       // see GGB-63
-      var imageRegex = /\.(png|jpg|jpeg|gif|bmp|tif|tiff)$/i;
-      
-      if (workerUrls === "false") {
-      	$wnd.zip.useWebWorkers = false;
-      } else {
-      	$wnd.zip.workerScriptsPath = workerUrls;
-      }
+      var imageRegex = /\.(png|jpg|jpeg|gif|bmp|tif|tiff)$/i;    
       
       var readerCallback = function(reader) {
 	      reader.getEntries(function(entries) {
