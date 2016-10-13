@@ -1555,6 +1555,14 @@ public class Kernel {
 		return max;
 	}
 
+	final public StringBuilder buildLHS(double[] numbers, String[] vars,
+			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ,
+			StringTemplate tpl) {
+
+		return buildLHS(numbers, vars, KEEP_LEADING_SIGN, CANCEL_DOWN, needsZ,
+				false, tpl);
+	}
+
 	/**
 	 * Builds lhs of lhs = 0
 	 * 
@@ -1568,26 +1576,45 @@ public class Kernel {
 	 *            true to allow canceling 2x+4y -> x+2y
 	 * @param needsZ
 	 *            whether "+0z" is needed when z is not present
+	 * @param setConstantIfNoLeading
+	 *            whether constant or 0 should be added if all var coeff are 0
 	 * @param tpl
 	 *            string template
 	 * @return string representing LHS
 	 */
 	final public StringBuilder buildLHS(double[] numbers, String[] vars,
 			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ,
+			boolean setConstantIfNoLeading,
 			StringTemplate tpl) {
 		sbBuildLHS.setLength(0);
 		double[] temp = buildImplicitVarPart(sbBuildLHS, numbers, vars,
-				KEEP_LEADING_SIGN, CANCEL_DOWN, needsZ, tpl);
+				KEEP_LEADING_SIGN, CANCEL_DOWN, needsZ, setConstantIfNoLeading,
+				tpl);
 
 		// add constant coeff
 		double coeff = temp[vars.length];
-		if ((Math.abs(coeff) >= tpl.getPrecision(nf)) || useSignificantFigures) {
-			sbBuildLHS.append(' ');
-			sbBuildLHS.append(sign(coeff));
-			sbBuildLHS.append(' ');
-			sbBuildLHS.append(format(Math.abs(coeff), tpl));
-		}
+		appendConstant(sbBuildLHS, coeff, tpl);
 		return sbBuildLHS;
+	}
+
+	/**
+	 * append +/- constant
+	 * 
+	 * @param sb
+	 *            string builder to append to
+	 * @param coeff
+	 *            constant
+	 * @param tpl
+	 *            string template
+	 */
+	public final void appendConstant(StringBuilder sb, double coeff,
+			StringTemplate tpl) {
+		if ((Math.abs(coeff) >= tpl.getPrecision(nf)) || useSignificantFigures) {
+			sb.append(' ');
+			sb.append(sign(coeff));
+			sb.append(' ');
+			sb.append(format(Math.abs(coeff), tpl));
+		}
 	}
 
 	private final StringBuilder sbBuildLHS = new StringBuilder(80);
@@ -1624,6 +1651,16 @@ public class Kernel {
 			StringBuilder sbBuildImplicitVarPart, double[] numbers,
 			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
 			boolean needsZ, StringTemplate tpl) {
+		return buildImplicitVarPart(sbBuildImplicitVarPart, numbers, vars,
+				KEEP_LEADING_SIGN, CANCEL_DOWN, needsZ, false, tpl);
+	}
+
+	// lhs of implicit equation without constant coeff
+	final private double[] buildImplicitVarPart(
+			StringBuilder sbBuildImplicitVarPart, double[] numbers,
+			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
+			boolean needsZ, boolean setConstantIfNoLeading,
+			StringTemplate tpl) {
 
 		double[] temp = new double[numbers.length];
 
@@ -1651,6 +1688,16 @@ public class Kernel {
 
 		// no left hand side
 		if (leadingNonZero == -1) {
+			if (setConstantIfNoLeading) {
+				double coeff = numbers[vars.length];
+				if ((Math.abs(coeff) >= tpl.getPrecision(nf))
+						|| useSignificantFigures) {
+					sbBuildImplicitVarPart.append(format(coeff, tpl));
+				} else {
+					sbBuildImplicitVarPart.append("0");
+				}
+				return temp;
+			}
 			sbBuildImplicitVarPart.append("0");
 			return temp;
 		}

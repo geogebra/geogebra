@@ -718,7 +718,19 @@ public class CoordSys {
 	 * @param v translation vector
 	 */
 	public void translateEquationVector(Coords v){
-		equationVector.setW(equationVector.getW()-v.dotproduct(equationVector));	
+		translateEquationVector(equationVector, v);
+	}
+
+	/**
+	 * translate equation vector
+	 * 
+	 * @param eqV
+	 *            plane equation vector
+	 * @param v
+	 *            translation vector
+	 */
+	static final public void translateEquationVector(Coords eqV, Coords v) {
+		eqV.setW(eqV.getW() - v.dotproduct(eqV));
 	}
 	
 	/**

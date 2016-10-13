@@ -67,9 +67,12 @@ public class AlgoIntersectFunctionNVarPlane extends AlgoElement {
 		}
 
 		curve.setDefined();
+		curve.setFunctionExpression(surface.getFunction());
 
 		// a*x+b*y+c*z=d, z=d/c-a/c*x-b/c*y
 		Coords norm = plane.getCoordSys().getEquationVector();
+		curve.setPlaneEquation(norm);
+
 		FunctionVariable x = surface.getFunctionVariables()[0];
 		FunctionVariable y = surface.getFunctionVariables()[1];
 		ExpressionNode exp;

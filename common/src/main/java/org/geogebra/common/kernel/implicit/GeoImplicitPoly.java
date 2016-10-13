@@ -1855,4 +1855,16 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 		return CoordSys.Identity3D;
 	}
 
+	public FunctionNVar getFunctionExpression() {
+		return getExpression();
+	}
+
+	public Coords getPlaneEquation() {
+		return Coords.VZ;
+	}
+
+	public double getTranslateZ() {
+		return 0;
+	}
+
 }

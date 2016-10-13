@@ -7,13 +7,11 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -56,6 +54,9 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		super.set(geo);
 		GeoImplicit implicit = (GeoImplicit) geo;
 		transformCoordSys.set(implicit.getTransformedCoordSys());
+		setFunctionExpression(implicit.getFunctionExpression());
+		setPlaneEquation(implicit.getPlaneEquation());
+		translateZ = implicit.getTranslateZ();
 	}
 
 	@Override
@@ -70,43 +71,36 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		AlgoElement algo = getParentAlgorithm();
-		if (algo != null) {
-			if (algo instanceof AlgoIntersectFunctionNVarPlane) {
-				AlgoIntersectFunctionNVarPlane algoInter = (AlgoIntersectFunctionNVarPlane) algo;
-				GeoFunctionNVar f = algoInter.getFunction();
-				GeoPlaneND plane = algoInter.getPlane();
-				Coords eq = plane.getCoordSys().getEquationVector();
-				StringBuilder valueSb = new StringBuilder(50);
-				valueSb.append("(");
-				valueSb.append(f.getFunctionExpression().toValueString(tpl));
-				valueSb.append(" = ");
-				if (Kernel.isEpsilon(eq.getZ(), eq.getY(), eq.getX())) {
-					// can't replace z by plane equation
-					valueSb.append("z");
-				} else {
-					// replace z by plane equation
-					if (planeEquationNumbers == null) {
-						planeEquationNumbers = new double[3];
-					}
-					planeEquationNumbers[0] = -eq.getX() / eq.getZ();
-					planeEquationNumbers[1] = -eq.getY() / eq.getZ();
-					planeEquationNumbers[2] = -eq.getW() / eq.getZ();
-					valueSb.append(kernel.buildLHS(planeEquationNumbers,
-							VAR_STRING, true, false, false,
-							tpl));
-				}
-				valueSb.append(",");
-				valueSb.append(
-						GeoPlane3D.buildValueString(tpl, kernel, eq, false));
-				valueSb.append(")");
-				return valueSb.toString();
+		StringBuilder valueSb = new StringBuilder(50);
+		valueSb.append("(");
+		valueSb.append(functionExpression.getExpression().toValueString(tpl));
+		valueSb.append(" = ");
+		if (Kernel.isEpsilon(planeEquation.getZ(), planeEquation.getY(),
+				planeEquation.getX())) {
+			// can't replace z by plane equation
+			valueSb.append("z");
+			kernel.appendConstant(valueSb, -translateZ, tpl);
+		} else {
+			// replace z by plane equation
+			if (planeEquationNumbers == null) {
+				planeEquationNumbers = new double[3];
 			}
+			planeEquationNumbers[0] = -planeEquation.getX()
+					/ planeEquation.getZ();
+			planeEquationNumbers[1] = -planeEquation.getY()
+					/ planeEquation.getZ();
+			planeEquationNumbers[2] = -planeEquation.getW()
+					/ planeEquation.getZ() - translateZ;
+			valueSb.append(kernel.buildLHS(planeEquationNumbers, VAR_STRING,
+					true, false, false, true, tpl));
 		}
-
-		return "";
-
+		valueSb.append(",");
+		valueSb.append(
+				GeoPlane3D.buildValueString(tpl, kernel, planeEquation, false));
+		valueSb.append(")");
+		return valueSb.toString();
 	}
+
 
 	@Override
 	public boolean isGeoElement3D() {
@@ -161,7 +155,38 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	public void translate(Coords v) {
 		transformCoordSys.translate(v);
 		transformCoordSys.translateEquationVector(v);
+		functionExpression.translate(v);
+		translateZ += v.getZ();
+		CoordSys.translateEquationVector(planeEquation, v);
 		euclidianViewUpdate();
+	}
+
+	private FunctionNVar functionExpression;
+
+	public void setFunctionExpression(FunctionNVar expression) {
+		this.functionExpression = expression.deepCopy(kernel);
+	}
+
+	@Override
+	public FunctionNVar getFunctionExpression() {
+		return functionExpression;
+	}
+
+	private Coords planeEquation = new Coords(4);
+
+	public void setPlaneEquation(Coords planeEquation) {
+		this.planeEquation.set(planeEquation);
+	}
+
+	@Override
+	public Coords getPlaneEquation() {
+		return this.planeEquation;
+	}
+
+	private double translateZ = 0;
+
+	public double getTranslateZ() {
+		return translateZ;
 	}
 
 }

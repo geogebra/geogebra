@@ -4,6 +4,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -68,6 +69,24 @@ public interface GeoImplicit extends GeoElementND {
 	 * @return coord sys for transformations
 	 */
 	public CoordSys getTransformedCoordSys();
+
+	/**
+	 * 
+	 * @return function expression creating this implicit curve
+	 */
+	public FunctionNVar getFunctionExpression();
+
+	/**
+	 * 
+	 * @return plane equation
+	 */
+	public Coords getPlaneEquation();
+
+	/**
+	 * 
+	 * @return z-coord translation (if exists)
+	 */
+	public double getTranslateZ();
 
 }
 

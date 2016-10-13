@@ -2259,5 +2259,17 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	final public char getLabelDelimiter() {
 		return ':';
 	}
+
+	public FunctionNVar getFunctionExpression() {
+		return expression;
+	}
+
+	public Coords getPlaneEquation() {
+		return Coords.VZ;
+	}
+
+	public double getTranslateZ() {
+		return 0;
+	}
 }
 
