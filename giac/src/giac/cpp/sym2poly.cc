@@ -2888,7 +2888,7 @@ namespace giac {
       if ( is_zero(base) || num.type!=_INT_ || den.type!=_INT_ || den.val>MAX_COMMON_ALG_EXT_ORDER_SIZE)
 	*it= pow(base,rdiv(num,den,contextptr),contextptr);
       else {
-	if (den.val>1 && (is_integer(base) || base.type==_FRAC)){
+	if (den.val>1 && (is_integer(base) || base.type==_FRAC) && is_positive(base,contextptr)){
 	  // should also handle more general base.type 
 	  vecteur vtmp(den.val+1);
 	  vtmp[0]=1;
