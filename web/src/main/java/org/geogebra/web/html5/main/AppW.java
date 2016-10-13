@@ -125,6 +125,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.gui.app.GGWToolBar;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -2464,6 +2465,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public void closePopups() {
+		Log.debug("close popups");
 		justClosedPopup = false;
 		for (Widget widget : popups) {
 			justClosedPopup = true;
@@ -2476,6 +2478,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 
 		// getActiveEuclidianView().closeDropdowns();
+		if (this.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+			if (((GGWToolBar) this.getToolbar()).getToolBar().isMobileToolbar()) {
+				((GGWToolBar) this.getToolbar()).getToolBar().closeAllSubmenu();
+			}
+		}
 	}
 
 

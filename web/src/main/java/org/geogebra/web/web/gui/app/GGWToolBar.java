@@ -1280,6 +1280,7 @@ getFirstMode(),
     }
 
 	public void closeAllSubmenu() {
+		Log.debug("close all submenu");
 		toolBar.closeAllSubmenu();
 		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS) && toolBar.isMobileToolbar()) {
 			submenuScrollPanel.clear();
