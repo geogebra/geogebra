@@ -15,6 +15,7 @@ import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -705,6 +706,17 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public GImageIconW wrapGetModeIcon(int mode) {
 		return new GImageIconW(GGWToolBar.getImageURL(mode, this));
+	}
+
+	@Override
+	public void closePopups() {
+		super.closePopups();
+		if (this.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
+			if (((GGWToolBar) this.getToolbar()).getToolBar()
+					.isMobileToolbar()) {
+				((GGWToolBar) this.getToolbar()).getToolBar().closeAllSubmenu();
+			}
+		}
 	}
 
 }
