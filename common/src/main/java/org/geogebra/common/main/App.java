@@ -3938,10 +3938,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_SAVE_BEFORE_NEW:
 			return true; // 5.0.270
 
-		// MOB-646
-		case MOBILE_NATIVE_KEYBOARD:
-			return false;
-
 		// MOB-904
 		case MOBILE_KEYBOARD_IN_POPUP:
 			return prerelease;
