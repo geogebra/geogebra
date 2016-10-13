@@ -22,6 +22,7 @@ import java.security.PrivilegedAction;
 
 import javax.swing.DefaultListSelectionModel;
 
+import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.main.App;
@@ -189,7 +190,7 @@ public class UndoManagerD extends UndoManager {
 
 		// create file
 		FileOutputStream fos = new FileOutputStream(tempFile);
-		MyXMLioD.writeZipped(fos, undoXML);
+		MyXMLioJre.writeZipped(fos, undoXML);
 		fos.close();
 
 		return tempFile;
@@ -212,8 +213,9 @@ public class UndoManagerD extends UndoManager {
 			// keep information form listSelectionModel
 			CASViewD casView = null;
 			DefaultListSelectionModel listSelModel = null;
-			if (app.getView(8) != null && app.getView(8) instanceof CASViewD)
-				casView = (CASViewD) app.getView(8);
+			if (app.getGuiManager() != null && app.getGuiManager().hasCasView()
+					&& app.getView(App.VIEW_CAS) instanceof CASViewD)
+				casView = (CASViewD) app.getView(App.VIEW_CAS);
 			if (casView != null
 					&& casView.getListSelModel() != null
 					&& casView.getListSelModel() instanceof DefaultListSelectionModel)

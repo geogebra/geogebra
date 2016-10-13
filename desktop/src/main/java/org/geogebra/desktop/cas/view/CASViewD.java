@@ -330,9 +330,6 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		return false;
 	}
 
-	public void repaint() {
-	}
-
 	public boolean isShowing() {
 		Log.debug("unimplemented");
 		return false;
@@ -354,16 +351,18 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		getConsoleTable().setOrientation();
 	}
 
+	/**
+	 * Stop editing
+	 */
 	public void resetCursor() {
 		CASTable table = getConsoleTable();
 		table.stopEditing();
 	}
 
+	/**
+	 * @return list model
+	 */
 	public ListSelectionModel getListSelModel() {
 		return listSelModel;
-	}
-
-	public void setListSelModel(ListSelectionModel listSelModel) {
-		this.listSelModel = listSelModel;
 	}
 }
