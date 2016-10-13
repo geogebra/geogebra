@@ -25,6 +25,8 @@
 
 package org.geogebra.ggbjdk.sun.awt.geom;
 
+import com.google.j2objc.annotations.Weak;
+
 final class Edge {
     static final int INIT_PARTS = 4;
     static final int GROW_PARTS = 10;
@@ -69,6 +71,7 @@ final class Edge {
         equivalence = eq;
     }
 
+    @Weak
     private Edge lastEdge;
     private int lastResult;
     private double lastLimit;

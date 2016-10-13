@@ -25,9 +25,12 @@
 
 package org.geogebra.ggbjdk.sun.awt.geom;
 
+import com.google.j2objc.annotations.Weak;
+
 final class ChainEnd {
     CurveLink head;
     CurveLink tail;
+    @Weak
     ChainEnd partner;
     int etag;
 
