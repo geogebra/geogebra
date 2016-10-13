@@ -36,9 +36,21 @@ public class ExamEnvironment {
 
 	public void checkCheating() {
 
+		String os = System.getProperty("os.name");
+		boolean delay;
+		if (os.contains("mac os")) {
+			if (maybeCheating < System.currentTimeMillis() - 100) {
+				delay = true;
+			} else {
+				delay = false;
+			}
+		} else {
+			delay = true;
+		}
+
 		// if (maybeCheating > 0 && maybeCheating < System.currentTimeMillis() -
 		// 100) {
-		if (maybeCheating > 0) {
+		if (maybeCheating > 0 && delay) {
 
 			maybeCheating = -1;
 			if (getStart() > 0) {
@@ -144,7 +156,7 @@ public class ExamEnvironment {
 			sb.append("<br>");
 		}
 
-		sb.append("<hr>");
+		// sb.append("<hr>");
 		sb.append("<br>");
 
 		// Log times
