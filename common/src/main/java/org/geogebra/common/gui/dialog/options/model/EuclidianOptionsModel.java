@@ -433,8 +433,8 @@ public class EuclidianOptionsModel {
 		}
 	}
 
-	public void applyLockRatio(Double value) {
-		view.setLockedAxesRatio(value);
+	public void applyLockRatio(double value) {
+		view.getSettings().setLockedAxesRatio(value);
 		listener.enableAxesRatio(view.isZoomable()
 				&& !view.isLockedAxesRatio());
 	}

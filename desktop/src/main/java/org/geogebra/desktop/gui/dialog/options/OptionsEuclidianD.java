@@ -821,7 +821,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 				model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
 						/ parseDouble(tfAxesRatioY.getText()));
 			} else {
-				model.applyLockRatio(null);
+				model.applyLockRatio(-1);
 			}
 
 		} else if (source == tfMinX || source == tfMaxX || source == tfMaxY
@@ -1031,7 +1031,11 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	private boolean isSelected = false;
 
 	public void setSelected(boolean flag) {
+		boolean old = isSelected;
 		isSelected = flag;
+		if (flag && !old) {
+			updateBounds();
+		}
 	}
 
 	/**

@@ -260,7 +260,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 						model.applyLockRatio(parseDouble(tfAxesRatioX.getText())
 								/ parseDouble(tfAxesRatioY.getText()));
 					} else {
-						model.applyLockRatio(null);
+						model.applyLockRatio(-1);
 					}
 
 

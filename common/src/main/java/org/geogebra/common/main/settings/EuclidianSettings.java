@@ -376,7 +376,7 @@ public class EuclidianSettings extends AbstractSettings {
 	// (due to a bug in MyXMLHandler?), and it does some speedup in Web
 	private boolean allowShowMouseCoords = false;
 
-	private Double lockedAxesRatio = null;
+	private double lockedAxesRatio = -1;
 
 	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 
@@ -840,13 +840,14 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public void setLockedAxesRatio(double ratio) {
-		if (lockedAxesRatio == ratio)
+		if (Kernel.isEqual(lockedAxesRatio, ratio)) {
 			return;
+		}
 		lockedAxesRatio = ratio;
 		settingChanged();
 	}
 
-	public Double getLockedAxesRatio() {
+	public double getLockedAxesRatio() {
 		return lockedAxesRatio;
 	}
 

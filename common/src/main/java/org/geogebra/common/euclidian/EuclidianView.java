@@ -529,7 +529,10 @@ public abstract class EuclidianView
 		}
 	}
 
-	protected Double lockedAxesRatio;
+	/**
+	 * axes ratio if locked; -1 otherwise
+	 */
+	protected double lockedAxesRatio = -1;
 	private boolean updateBackgroundOnNextRepaint;
 
 	/**
@@ -538,7 +541,7 @@ public abstract class EuclidianView
 	 * @return true if the axes ratio is 1
 	 */
 	public boolean isLockedAxesRatio() {
-		return lockedAxesRatio != null || (gridType == GRID_POLAR);
+		return lockedAxesRatio > 0 || (gridType == GRID_POLAR);
 	}
 
 	/**
@@ -547,9 +550,9 @@ public abstract class EuclidianView
 	 * @param flag
 	 *            true to set to 1, false to allow user
 	 */
-	public void setLockedAxesRatio(Double flag) {
+	public void setLockedAxesRatio(double flag) {
 		lockedAxesRatio = flag;
-		if (flag != null) {
+		if (flag > 0) {
 			updateBounds(true, true);
 		}
 	}
@@ -577,7 +580,7 @@ public abstract class EuclidianView
 		double ymax2 = ymaxObject.getDouble();
 		if (isLockedAxesRatio() && (getHeight() > 0) && (getWidth() > 0)) {
 			double ratio = gridType == GRID_POLAR ? 1
-					: lockedAxesRatio.doubleValue();
+					: lockedAxesRatio;
 			double newWidth = ratio * ((ymax2 - ymin2) * getWidth())
 					/ (getHeight() + 0.0);
 			double newHeight = 1 / ratio * ((xmax2 - xmin2) * getHeight())
@@ -4181,7 +4184,7 @@ public abstract class EuclidianView
 		sbxml.append("\" gridType=\"");
 		sbxml.append(getGridType()); // cartesian/isometric/polar
 
-		if (lockedAxesRatio != null) {
+		if (lockedAxesRatio > 0) {
 			sbxml.append("\" lockedAxesRatio=\"");
 			sbxml.append(lockedAxesRatio);
 		}
@@ -4598,7 +4601,7 @@ public abstract class EuclidianView
 		centerVisibleObjectsRect(x0RW, x1RW, y0RW, y1RW);
 		setLockedAxesRatio(getScaleRatio());
 		zoomAllVisibleObjects(x0RW, x1RW, y0RW, y1RW);
-		setLockedAxesRatio(null);
+		setLockedAxesRatio(-1);
 	}
 
 	/**
