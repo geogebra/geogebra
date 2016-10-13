@@ -31,14 +31,16 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class AlgoIntersectPathPlanePolygon3D extends
 		AlgoIntersectPathLinePolygon3D {
-
+	/** plane */
 	protected GeoPlane3D plane;
 
 	/**
 	 * common constructor
 	 * 
 	 * @param c
+	 *            construction
 	 * @param labels
+	 *            labels
 	 * @param plane
 	 *            plane
 	 * @param p
@@ -55,7 +57,7 @@ public class AlgoIntersectPathPlanePolygon3D extends
 	 * common constructor
 	 * 
 	 * @param c
-	 * @param labels
+	 *            construction
 	 * @param plane
 	 *            plane
 	 * @param p
@@ -68,6 +70,10 @@ public class AlgoIntersectPathPlanePolygon3D extends
 
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public AlgoIntersectPathPlanePolygon3D(Construction c) {
 		super(c);
 	}

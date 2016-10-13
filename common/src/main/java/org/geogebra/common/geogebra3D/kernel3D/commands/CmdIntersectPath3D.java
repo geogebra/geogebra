@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.implicit3D.AlgoIntersectFunctionNVarPlane;
@@ -89,8 +88,8 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			if ((ok[0] = (arg[0].isGeoPolygon()))
 					&& (ok[1] = (arg[1].isGeoPolygon()))) {
 				GeoElement[] result = kernelA.getManager3D().IntersectPolygons(
-						c.getLabels(), (GeoPolygon3D) arg[0],
-						(GeoPolygon3D) arg[1]);
+c.getLabels(), (GeoPolygon) arg[0],
+								(GeoPolygon) arg[1]);
 				return result;
 			}
 			// argument x=0 should be a plane, not line

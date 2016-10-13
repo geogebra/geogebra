@@ -154,10 +154,20 @@ public interface GeoLineND extends GeoDirectionND{
 	 */
 	public Coords getDirectionForEquation();
 
+	/**
+	 * Initialize startpoint to the closest point to (0,0,0)
+	 */
 	public void setStandardStartPoint();
-	
+
+	/**
+	 * @param point
+	 *            new start point
+	 */
 	public void setStartPoint(GeoPointND point);
 
+	/**
+	 * @return line origin (in 2D the same as start point)
+	 */
 	public Coords getOrigin();
 
 }

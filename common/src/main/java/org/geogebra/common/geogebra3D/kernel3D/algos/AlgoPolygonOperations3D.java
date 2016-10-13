@@ -52,8 +52,8 @@ import org.geogebra.common.util.clipper.Point.DoublePoint;
 public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 	//input
-	protected GeoPolygon3D inPoly0;
-	protected GeoPolygon3D inPoly1;
+	protected GeoPolygon inPoly0;
+	protected GeoPolygon inPoly1;
 
 	// output
 	protected OutputHandler<GeoPolygon3D> outputPolygons;
@@ -109,7 +109,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 * 
 	 */
 	public AlgoPolygonOperations3D(Construction cons, String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1) {
+			GeoPolygon inPoly0, GeoPolygon inPoly1) {
 		super(cons);
 
 		this.inPoly0 = inPoly0;
@@ -189,7 +189,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 *            XOR
 	 */
 	public AlgoPolygonOperations3D(Construction cons, String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1,
+			GeoPolygon inPoly0, GeoPolygon inPoly1,
 			PolyOperation operationType) {
 
 		this(cons, labels, inPoly0, inPoly1, operationType, null);
@@ -212,7 +212,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 *            output size (if initial occurrence null)
 	 */
 	public AlgoPolygonOperations3D(Construction cons, String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1,
+			GeoPolygon inPoly0, GeoPolygon inPoly1,
 			PolyOperation operationType, int[] outputSizes) {
 
 		super(cons);
@@ -519,9 +519,9 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 						segment.setPoints(points[pointIndex + i],
 								points[pointIndex
 							+ (i + 1) % path.size()]);
-
+						segment.setCoord(points[pointIndex + i],
+								points[pointIndex + (i + 1) % path.size()]);
 						segment.update();
-
 						polyPoints[i] = points[pointIndex + i];
 
 						polySegments[i] = segment;

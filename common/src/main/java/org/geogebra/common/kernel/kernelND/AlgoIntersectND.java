@@ -39,6 +39,12 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
         super(c);
     }
     
+	/**
+	 * @param c
+	 *            construction
+	 * @param addToConstructionList
+	 *            whether to add this to XML
+	 */
 	public AlgoIntersectND(Construction c, boolean addToConstructionList) {
 		super(c, addToConstructionList);
 	}

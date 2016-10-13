@@ -782,10 +782,7 @@ public class DrawAxis {
 
 
 		double smallTickPix;
-		double labelLengthMax = Math.max(view.estimateNumberWidth(rw,
-				view.getFontAxes()), view.estimateNumberWidth(MyMath
-				.nextMultiple(view.getXmax(), view.axesNumberingDistances[0]),
-				view.getFontAxes()));
+		// TODO use only pretty numbers when zoomed
 		String crossAtStr = ""
 				+ view.kernel.formatPiE(view.axisCross[1],
 						view.axesNumberFormat[0],
@@ -903,6 +900,15 @@ public class DrawAxis {
 				view.axesNumberFormat[axis], StringTemplate.defaultTemplate);
 	}
 
+	/**
+	 * @param view
+	 *            view
+	 * @param num
+	 *            numbr to be printed
+	 * @param axis
+	 *            0 for x,1 for y
+	 * @return description
+	 */
 	public static String tickDescriptionLog(EuclidianView view, double num,
 			int axis) {
 		return view.kernel.formatPiE(

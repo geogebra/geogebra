@@ -675,7 +675,8 @@ public interface Manager3DInterface {
 	 * intersect polygons (region)
 	 */
 	public GeoElement[] IntersectPolygons(String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1);
+ GeoPolygon inPoly0,
+			GeoPolygon inPoly1);
 
 	/**
 	 * Difference polygons (region)

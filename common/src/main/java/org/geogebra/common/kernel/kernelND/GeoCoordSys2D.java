@@ -6,7 +6,7 @@ package org.geogebra.common.kernel.kernelND;
  * @author matthieu
  *
  */
-public interface GeoCoordSys2D extends GeoCoordSys, Region3D, GeoDirectionND {
+public interface GeoCoordSys2D extends GeoCoordSys, Region3D {
 
 	//nothing specific for now
 	

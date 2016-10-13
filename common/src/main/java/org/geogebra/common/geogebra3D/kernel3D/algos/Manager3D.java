@@ -2228,7 +2228,8 @@ public class Manager3D implements Manager3DInterface {
 	 * @author thilina
 	 */
 	public GeoElement[] IntersectPolygons(String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1) {
+ GeoPolygon inPoly0,
+			GeoPolygon inPoly1) {
 
 		AlgoIntersectPathPolygons3D algo = new AlgoIntersectPathPolygons3D(
 				cons, labels, inPoly0, inPoly1);

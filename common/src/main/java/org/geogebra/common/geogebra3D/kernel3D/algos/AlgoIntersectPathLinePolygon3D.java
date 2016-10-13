@@ -41,7 +41,9 @@ public class AlgoIntersectPathLinePolygon3D extends
 	 * common constructor
 	 * 
 	 * @param c
+	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param geo
 	 *            line
 	 * @param p
@@ -58,6 +60,7 @@ public class AlgoIntersectPathLinePolygon3D extends
 	 * common constructor
 	 * 
 	 * @param c
+	 *            construction
 	 * @param geo
 	 *            line
 	 * @param p
@@ -70,6 +73,10 @@ public class AlgoIntersectPathLinePolygon3D extends
 
 	}
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public AlgoIntersectPathLinePolygon3D(Construction c) {
 		super(c);
 	}
@@ -106,9 +113,10 @@ public class AlgoIntersectPathLinePolygon3D extends
 	}
 
 	@Override
-	protected boolean checkMidpoint(GeoPolygon p, Coords a, Coords b) {
-		Coords midpoint = p.getNormalProjection(a.add(b).mul(0.5))[1];
-		return p.isInRegion(midpoint.getX(), midpoint.getY());
+	protected boolean checkMidpoint(GeoPolygon poly, Coords a, Coords b) {
+		Coords midpoint = poly.getNormalProjection(a.copy()
+				.addInsideMul(b, 0.5))[1];
+		return poly.isInRegion(midpoint.getX(), midpoint.getY());
 	}
 
 	

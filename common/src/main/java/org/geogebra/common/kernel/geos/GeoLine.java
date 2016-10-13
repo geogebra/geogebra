@@ -1437,8 +1437,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	public Coords getPointInD(int dimension, double lambda) {
-		return getStartCoordsInD(dimension).add(
-				getDirectionInD(dimension).mul(lambda));
+		return getStartCoordsInD(dimension).copy().addInsideMul(
+				getDirectionInD(dimension), lambda);
 	}
 
 	/**
