@@ -87,9 +87,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 					Timer timer = new Timer() {
 						@Override
 						public void run() {
-							if (!app.getView(App.VIEW_SPREADSHEET).hasFocus()) {
-								confirmAVInput(x, y);
-							}
+							confirmAVInput(x, y);
 						}
 					};
 					timer.schedule(0);
@@ -120,6 +118,11 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 *            click y-coordinate
 	 */
 	protected void confirmAVInput(int x, int y) {
+		if (app.getGuiManager() != null
+				&& app.getGuiManager().hasSpreadsheetView()
+				&& app.getView(App.VIEW_SPREADSHEET).hasFocus()) {
+			return;
+		}
 		boolean focusLost = true;
 		if (app.getGuiManager() != null && app.has(Feature.INPUT_BAR_PREVIEW)
 				&& app.getGuiManager().getLayout().getDockManager() != null) {
