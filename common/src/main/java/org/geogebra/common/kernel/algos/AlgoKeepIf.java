@@ -67,6 +67,7 @@ public class AlgoKeepIf extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
+		outputList.setTypeStringForXML(inputList.getTypeStringForXML());
 		input = new GeoElement[2];
 		input[0] = boolFun;
 		input[1] = inputList;
@@ -112,7 +113,7 @@ public class AlgoKeepIf extends AlgoElement {
 						outputList.add(geo.copyInternal(cons));
 					}
 				} else {
-					ExpressionNode ex = (ExpressionNode) boolFun.getFunction()
+					ExpressionNode ex = boolFun.getFunction()
 							.getExpression().deepCopy(kernel);
 					ex = ex.replace(var,
 							geo.evaluate(StringTemplate.defaultTemplate))

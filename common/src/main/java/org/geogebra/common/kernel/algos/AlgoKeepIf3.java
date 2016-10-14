@@ -66,7 +66,7 @@ public class AlgoKeepIf3 extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-
+		outputList.setTypeStringForXML(inputList.getTypeStringForXML());
 		input = new GeoElement[3];
 		input[0] = bool;
 		input[1] = var;

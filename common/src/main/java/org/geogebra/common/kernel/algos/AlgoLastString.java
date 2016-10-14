@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 
 /**
- * Take first n objects from a list
+ * Take last n objects from a text
  * 
  * @author Michael Borcherds
  * @version 2008-03-04
@@ -26,6 +26,16 @@ import org.geogebra.common.kernel.geos.GeoText;
 
 public class AlgoLastString extends AlgoFirstString {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param inputText
+	 *            input text
+	 * @param n
+	 *            number of chars
+	 */
 	public AlgoLastString(Construction cons, String label, GeoText inputText,
 			GeoNumeric n) {
 		super(cons, label, inputText, n);

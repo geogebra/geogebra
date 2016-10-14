@@ -24,10 +24,8 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.Operation;
 
 /**
- * Take first n objects from a list
+ * Take last element from a data function
  * 
- * @author Michael Borcherds
- * @version 2008-03-04
  */
 
 public class AlgoLastFunction extends AlgoElement {
@@ -35,8 +33,16 @@ public class AlgoLastFunction extends AlgoElement {
 	private GeoFunction function;
 	private GeoNumeric result;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputFn
+	 *            data function
+	 */
 	public AlgoLastFunction(Construction cons, String label,
- GeoFunction inputFn) {
+			GeoFunction inputFn) {
 		super(cons);
 		this.function = inputFn;
 		this.result = new GeoNumeric(cons);
@@ -82,6 +88,9 @@ public class AlgoLastFunction extends AlgoElement {
 		
 	}
 
+	/**
+	 * @return last element of data function
+	 */
 	public GeoNumeric getResult() {
 		return result;
 	}
