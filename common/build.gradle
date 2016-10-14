@@ -2,7 +2,7 @@ project.setDescription('Common parts of GeoGebra for various platforms')
 
 buildscript {
 	dependencies {
-		classpath "ca.coglinc:javacc-gradle-plugin:2.1.0"
+		classpath "ca.coglinc:javacc-gradle-plugin:2.3.1"
 		
 	}
 	configurations.all {
