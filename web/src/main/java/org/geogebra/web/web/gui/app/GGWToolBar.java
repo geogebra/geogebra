@@ -262,7 +262,8 @@ pr.menu_header_undo(), null, 32);
 			@Override
 			public void execute(double timestamp) {
 				if(app.getExam()!=null){
-					app.getExam().checkCheating();
+					String os = getMobileOperatingSystem();
+					app.getExam().checkCheating(os);
 					if (app.getExam().isCheating()) {
 						makeRed(getElement());
 					}
@@ -358,7 +359,8 @@ pr.menu_header_undo(), null, 32);
 	
 	private void startCheating() {
 		if (app.getExam() != null) {
-			app.getExam().startCheating();
+			String os = getMobileOperatingSystem();
+			app.getExam().startCheating(os);
 		}
 	}
 
@@ -367,6 +369,17 @@ pr.menu_header_undo(), null, 32);
 			app.getExam().stopCheating();
 		}
 	}
+
+	// check whether we have iOS op syst or not
+	private native String getMobileOperatingSystem()/*-{
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		//iOS detection from: http://sackoverflow.com/a/9039885/177710
+		if (/Mac|iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			return "iOS";
+		}
+		return "unknown";
+	}-*/;
 
 	private boolean isTablet() {
 		return app.getLAF().isTablet();

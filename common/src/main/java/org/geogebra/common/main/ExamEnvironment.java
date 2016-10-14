@@ -28,27 +28,13 @@ public class ExamEnvironment {
 
 	}
 
-	public void startCheating() {
+	public void startCheating(String os) {
 		maybeCheating = System.currentTimeMillis();
-		checkCheating(); // needed for ctr+win+down
+		checkCheating(os); // needed for ctr+win+down
 
 	}
-	
-	// check whether we have iOS op syst or not
-	private native String getMobileOperatingSystem()/*-{
-		var userAgent=navigator.userAgent||navigator.vendor||window.opera;
-		
-		//iOS detection from: http://sackoverflow.com/a/9039885/177710
-		if (/Mac|iPad|iPhone|iPod/.test(userAgent)&&!window.MSStream) {
-			return "iOS";
-		}
-		s
-		return "unknown";
-	}-*/;
 
-	public void checkCheating() {
-		
-		String os = getMobileOperatingSystem();
+	public void checkCheating(String os) {
 		
 		boolean delay;
 		// needed for GGB-1211
