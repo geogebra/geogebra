@@ -42,13 +42,16 @@ import org.geogebra.common.util.clipper.Point.DoublePoint;
  */
 public abstract class AlgoPolygonOperation extends AlgoElement {
 
-	// input
+	/** first input polygon */
 	protected GeoPolygon inPoly0;
+	/** second input polygon */
 	protected GeoPolygon inPoly1;
 
-	// output
+	/** output polygons */
 	protected OutputHandler<GeoPolygon> outputPolygons;
+	/** output points */
 	protected OutputHandler<GeoPoint> outputPoints;
+	/** output segments */
 	protected OutputHandler<GeoSegment> outputSegments;
 
 	private Path subject;
@@ -59,9 +62,9 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	 * label outputs.
 	 **/
 	private boolean silent;
-
+	/** operation type */
 	protected PolyOperation operationType;
-
+	/** output labels */
 	protected String[] labels;
 
 	/** operation type */
@@ -109,13 +112,13 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	 * after calling this call setInputOutput() for setting input output
 	 * dependencies
 	 * 
-	 * @param operationType
+	 * @param opType
 	 *            the enum type of operation INTERSECTION, UNION, DIFFERENCE,
 	 *            XOR
 	 */
-	public void initiatePolyOperation(PolyOperation operationType) {
+	public void initiatePolyOperation(PolyOperation opType) {
 
-		this.operationType = operationType;
+		this.operationType = opType;
 
 		subject = new Path(inPoly0.getPointsLength());
 		clip = new Path(inPoly1.getPointsLength());
@@ -357,23 +360,19 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		compute(!silent);
 	}
 
-	public void compute(boolean updateLabels) {
+	private void compute(boolean updateLabels) {
 
 		// add subject polygon
 		subject.clear();
 		for (int i = 0; i < inPoly0.getPointsLength(); i++) {
-			DoublePoint point = new DoublePoint(
-inPoly0.getPoint(i).getX(),
-					inPoly0.getPoint(i).getY());
+			DoublePoint point = convert(inPoly0.getPoint(i));
 			subject.add(point);
 		}
 
 		// add clip polygon
 		clip.clear();
 		for (int i = 0; i < inPoly1.getPointsLength(); i++) {
-			DoublePoint point = new DoublePoint(
-inPoly1.getPoint(i).getX(),
-					inPoly1.getPoint(i).getY());
+			DoublePoint point = convert(inPoly1.getPoint(i));
 			clip.add(point);
 		}
 
@@ -489,6 +488,11 @@ inPoly1.getPoint(i).getX(),
 			
 
 
+	}
+
+	private static DoublePoint convert(GeoPoint point) {
+		return new DoublePoint(point.getX() / point.getZ(),
+				point.getY() / point.getZ());
 	}
 
 }
