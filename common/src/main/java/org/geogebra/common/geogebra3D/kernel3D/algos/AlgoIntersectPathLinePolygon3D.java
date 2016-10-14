@@ -114,8 +114,8 @@ public class AlgoIntersectPathLinePolygon3D extends
 
 	@Override
 	protected boolean checkMidpoint(GeoPolygon poly, Coords a, Coords b) {
-		Coords midpoint = poly.getNormalProjection(a.copy()
-				.addInsideMul(b, 0.5))[1];
+		Coords midpoint = poly
+				.getNormalProjection(a.copy().addInside(b).mulInside(0.5))[1];
 		return poly.isInRegion(midpoint.getX(), midpoint.getY());
 	}
 
