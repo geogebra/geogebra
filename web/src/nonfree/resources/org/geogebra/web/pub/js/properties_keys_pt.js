@@ -437,7 +437,7 @@ __GGB__keysVar.pt.command = {
     "Intersect.SyntaxCAS": "[ <Fun\xe7\xe3o>, <Fun\xe7\xe3o> ]",
     "IntersectConic": "Interse\xe7\xe3oC\xf4nica",
     "IntersectConic.Syntax": "[ <Plano>, <Qu\xe1dica> ]\n[ <Qu\xe1drica>, <Qu\xe1drica> ]",
-    "IntersectPath": "Interse\xe7\xe3oDeCaminhos",
+    "IntersectPath": "Interse\xe7\xe3oGeom\xe9trica",
     "IntersectPath.Syntax": "[ <Reta>, <Pol\xedgono> ]\n[ <Pol\xedgono>, <Pol\xedgono> ]",
     "IntersectPath.Syntax3D": "[ <Reta>, <Pol\xedgono> ]\n[ <Pol\xedgono>, <Pol\xedgono> ]\n[ <Plano>, <Pol\xedgono> ]\n[ <Plano>, <Qu\xe1drica> ]",
     "Intersection": "Interse\xe7\xe3oDeListas",
