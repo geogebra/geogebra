@@ -1568,6 +1568,78 @@ namespace giac {
     return exp(bestg,contextptr);
   }
 
+  giac_double linfnorm(const vector<giac_double> & v){
+    giac_double res=0;
+    vector<giac_double>::const_iterator it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      giac_double tmp=std::abs(*it);
+      if (tmp>res) res=tmp;
+    }
+    return res;
+  }
+
+  giac_double linfnorm(const matrix_double & v){
+    giac_double res=0;
+    matrix_double::const_iterator it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      giac_double tmp=linfnorm(*it);
+      if (tmp>res) res=tmp;
+    }
+    return res;
+  }
+
+  bool diagonal_mult(const vector<giac_double> & d,bool invert,const vector<giac_double> & source,vector<giac_double> & target){
+    int n=d.size();
+    if (source.size()!=n) return false;
+    target.resize(n);
+    if (invert){
+      for (int i=0;i<n;++i)
+	target[i]=source[i]/d[i];
+    }
+    else {
+      for (int i=0;i<n;++i)
+	target[i]=d[i]*source[i];
+    }
+    return true;
+  }
+
+  void rand_1(vector<giac_double> & z){
+    int n=int(z.size());
+    for (int i=0;i<n;i++){
+      z[i]=(rand()<=RAND_MAX/2)?1:-1;
+    }
+  }
+
+  bool balance_krylov(matrix_double & H,vector<giac_double> & d,int niter,double cutoff){
+    int n=int(H.size());
+    if (!n || n!=H.front().size())
+      return false;
+    d=vector<giac_double>(n,1);
+    vector<giac_double> z(n,1),z1(n),z2(n),p(n),r(n);
+    rand_1(z);
+    multmatvecteur(H,z,z1);
+    giac_double Hinf=linfnorm(z1);
+    matrix_double Htran;
+    transpose_double(H,0,n,0,n,Htran);
+    for (int j=0;j<niter;++j){
+      // z=random vector of +/-1
+      rand_1(z);
+      // p:=D*H*D^-1*z
+      diagonal_mult(d,true,z,z1);
+      multmatvecteur(H,z1,z2);
+      diagonal_mult(d,false,z2,r);
+      // r:=D^-1*tran(H)*D*z
+      diagonal_mult(d,false,z,z1);
+      multmatvecteur(Htran,z1,z2);
+      diagonal_mult(d,true,z2,p);
+      for (int i=0;i<n;++i){
+	if (std::abs(p[i])>cutoff*Hinf && r[i]!=0)
+	  d[i]=d[i]*std::sqrt(std::abs(r[i]/p[i]));
+      }
+    }
+    return true;
+  }
+
   static bool schur_eigenvalues(matrix_double & H1,vecteur & res,double eps,GIAC_CONTEXT){
     int dim=int(H1.size());
     if (debug_infolevel>2){

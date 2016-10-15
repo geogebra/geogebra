@@ -197,6 +197,7 @@ namespace giac {
   // if a is a matrix and b a vecteur return matr*vect
   // otherwise returns the dot product of a and b
   gen ckmultmatvecteur(const vecteur & a,const vecteur & b);
+  void multmatvecteur(const matrix_double & H,const std::vector<giac_double> & w,std::vector<giac_double> & v);
 
   void vecteur2vector_int(const vecteur & v,int modulo,std::vector<int> & res);
   bool vecteur2vectvector_int(const vecteur & v,int modulo,std::vector< std::vector<int> > & res);
@@ -223,6 +224,7 @@ namespace giac {
   matrice mtran(const matrice & a);
   gen _tran(const gen & a,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_tran ;
+  void transpose_double(const matrix_double & a,int r0,int r1,int c0,int c1,matrix_double & at);
 
   // mmult assumes dimensions are correct
   void mmult(const matrice & a,const matrice & b,matrice &res);
@@ -368,6 +370,7 @@ namespace giac {
   gen _hessenberg(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_hessenberg ;
 
+  bool balance_krylov(matrix_double & H,std::vector<giac_double> & d,int niter=5,double cutoff=1e-8);
   bool probabilistic_pmin(const matrice & m,vecteur & w,bool check,GIAC_CONTEXT);
   bool mod_pcar(std::vector< std::vector<int> > & N,int modulo,bool & krylov,std::vector<int> & res,GIAC_CONTEXT);
   vecteur mpcar_hessenberg(const matrice & A,int modulo,GIAC_CONTEXT);

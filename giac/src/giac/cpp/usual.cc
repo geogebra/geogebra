@@ -2641,7 +2641,8 @@ namespace giac {
     gen a,b;
     if (is_algebraic_program(e,a,b))
       return symbolic(at_program,gen(makevecteur(a,0,acosh(b,contextptr)),_SEQ__VECT));
-    return ln(e+sqrt(pow(e,2)-1,contextptr),contextptr);
+    return acoshasln(e,contextptr);
+    // return ln(e+sqrt(pow(e,2)-1,contextptr),contextptr);
     // return symbolic(at_acosh,e);
   }
   static gen d_acosh(const gen & args,GIAC_CONTEXT){

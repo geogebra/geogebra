@@ -113,7 +113,7 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
 // It seems there is a bison bug when it reallocates space for the stack
-// therefore I redefine YYINITDEPTH to 1000 (max size is YYMAXDEPTH)
+// therefore I redefine YYINITDEPTH to 4000 (max size is YYMAXDEPTH)
 // instead of 200
 // Feel free to change if you need but then readjust YYMAXDEPTH
 #if defined RTOS_THREADX || defined NSPIRE
@@ -127,8 +127,8 @@ namespace giac {
 #ifdef GNUWINCE
 #define YYINITDEPTH 1000
 #else 
-#define YYINITDEPTH 1000
-#define YYMAXDEPTH 100000
+#define YYINITDEPTH 4000
+#define YYMAXDEPTH 20000
 #define YYERROR_VERBOSE 1
 #endif // GNUWINCE
 #endif // RTOS_THREADX

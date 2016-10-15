@@ -461,6 +461,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "'@'"                  index_status(yyextra)=0; (*yylval)=gen(at_compose,2); return T_QUOTED_BINARY;
 "_fconcat"                  index_status(yyextra)=0; (*yylval)=gen(at_compose,2); return T_QUOTED_BINARY;
 "&&"                    index_status(yyextra)=0; (*yylval)=gen(at_and,2); return T_AND_OP;
+"&amp;&amp;"                    index_status(yyextra)=0; (*yylval)=gen(at_and,2); return T_AND_OP;
 "AND"                   index_status(yyextra)=0; (*yylval)=gen(at_and,2); return T_AND_OP;
 "'&&'"                  index_status(yyextra)=0; (*yylval)=gen(at_and,2); return T_QUOTED_BINARY;
 "'and'"                 index_status(yyextra)=0; (*yylval)=gen(at_and,2); return T_QUOTED_BINARY;
