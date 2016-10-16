@@ -588,9 +588,39 @@ final public class GeoVec2D extends ValidExpression
 	 * @param b
 	 *            factor
 	 */
-	final public void mult(double b) {
+	final public GeoVec2D mult(double b) {
 		x = b * x;
 		y = b * y;
+		return this;
+	}
+
+	private GeoVec2D mult(GeoVec2D b) {
+		double x0 = x;
+		double y0 = y;
+		x = x0 * b.x - y0 * b.y;
+		y = x0 * b.y + y0 * b.x;
+		return this;
+	}
+
+	private static int MAXIT = 100; // Maximum number of iterations allowed.
+
+	/**
+	 * Extend definition of Ei to complex numbers
+	 * 
+	 * @return exponential integral
+	 */
+	public final GeoVec2D ei() {
+		GeoVec2D log = new GeoVec2D(kernel);
+		GeoVec2D.complexLog(this, log);
+		GeoVec2D ret = new GeoVec2D(kernel, MyMath.EULER, 0).add(log).add(this);
+		GeoVec2D add = new GeoVec2D(kernel, x, y);
+		for (int i = 2; i < MAXIT; i++) {
+			add.mult(this);
+			add.mult((i - 1) / (double) i / i);
+			ret = ret.add(add);
+
+		}
+		return ret;
 	}
 
 	/**

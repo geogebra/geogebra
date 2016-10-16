@@ -432,9 +432,7 @@ public class SpreadsheetColumnControllerW implements
 	// Renderer Class
 	// =========================================================
 
-	protected class ColumnHeaderRenderer /*extends JPanel implements
-			TableCellRenderer*/ {
-		private static final long serialVersionUID = 1L;
+	protected class ColumnHeaderRenderer {
 
 		private GColor defaultBackground;
 		/*private JLabel lblHeader;

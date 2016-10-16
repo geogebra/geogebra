@@ -62,7 +62,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MyTableW implements /* FocusListener, */MyTable {
-	private static final long serialVersionUID = 1L;
 
 	private int tableMode = MyTable.TABLE_MODE_STANDARD;
 

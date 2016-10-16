@@ -494,7 +494,7 @@ public class DrawAxis {
 		// by default we start with minor tick to the left of first major
 		// tick, exception is for positive only
 
-		double pow = MyMath.nextPrettyNumber(view.xmin, 1);
+		double pow = MyMath.nextPrettyNumber(view.ymin, 1);
 		double axisStep = view.getHeight()
 				/ (Math.log10(view.ymax) - Math.log10(view.ymin));
 		double pix = (Math.log10(view.ymax) - Math.log10(pow)) * axisStep;

@@ -37,8 +37,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener,
 		PrintableW {
 
-	private static final long serialVersionUID = 1L;
-
 	// ggb
 	private AppW app;
 	private Kernel kernel;

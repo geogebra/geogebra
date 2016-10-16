@@ -35,11 +35,7 @@ import com.google.gwt.user.client.ui.TabPanel;
  * @author Markus Hohenwarter
  */
 public class SliderPanelW extends OptionPanel implements ISliderOptionsListener {
-	/**
-	 * 
-	 */
 
-	private static final long serialVersionUID = 1L;
 	private SliderModel model;
 	private AngleTextFieldW tfMin, tfMax;
 	private AutoCompleteTextFieldW tfWidth;

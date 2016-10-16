@@ -13,7 +13,6 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class MultiVarStatPanelW extends BasicStatTableW implements
 		MultiVarStatTableListener {
-	private static final long serialVersionUID = 1L;
 
 	private boolean isMinimalTable = false;
 

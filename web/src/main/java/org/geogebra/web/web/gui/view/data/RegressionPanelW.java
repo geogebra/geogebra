@@ -33,7 +33,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
  * @author G. Sturr, Laszlo Gal
  */
 public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
-	private static final long serialVersionUID = 1L;
 
 	private AppW app;
 	private final LocalizationW loc;

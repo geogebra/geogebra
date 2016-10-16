@@ -27,8 +27,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class MyCellEditorW implements BaseCellEditor {
 
-	private static final long serialVersionUID = 1L;
-
 	protected Kernel kernel;
 	protected AppW app;
 	protected SpreadsheetViewW view;

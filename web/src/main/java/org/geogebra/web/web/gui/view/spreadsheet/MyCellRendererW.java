@@ -34,7 +34,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
-	private static final long serialVersionUID = 1L;
 
 	// ggb fields
 	private AppW app;

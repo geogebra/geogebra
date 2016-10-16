@@ -11,7 +11,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 
-	private static final long serialVersionUID = 1L;
 	private StyleBarW cpStyleBar;
 
 

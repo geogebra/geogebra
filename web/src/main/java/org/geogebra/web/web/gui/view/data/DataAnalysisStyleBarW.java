@@ -18,8 +18,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
-	private static final long serialVersionUID = 1L;
-
 	private AppW app;
 	private DataAnalysisViewW daView;
 	private Button btnRounding, btnPrint;

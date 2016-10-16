@@ -1360,6 +1360,12 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().expIntegral();
+			} else if (lt instanceof VectorValue) {
+				GeoVec2D vec = ((VectorValue) lt).getVector();
+
+
+				return vec.ei();
+
 			}
 			return ev.polynomialOrDie(lt, this, "expIntegral(");
 

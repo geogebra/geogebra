@@ -1,7 +1,7 @@
 package org.geogebra.web.web.gui.view.data;
 
-import org.geogebra.common.gui.view.data.TwoVarStatModel;
 import org.geogebra.common.gui.view.data.TwoVarInferenceModel.UpdatePanel;
+import org.geogebra.common.gui.view.data.TwoVarStatModel;
 import org.geogebra.common.gui.view.data.TwoVarStatModel.TwoVarStatListener;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.ListBox;
  * 
  */
 public class TwoVarStatPanelW extends StatTableW implements TwoVarStatListener {
-	private static final long serialVersionUID = 1L;
 	protected AppW app;
 	private Kernel kernel;
 	protected DataAnalysisViewW statDialog;

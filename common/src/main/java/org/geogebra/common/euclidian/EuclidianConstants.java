@@ -387,6 +387,11 @@ public final class EuclidianConstants {
 	/** 13 in older files */
 	public static final int DEFAULT_CHECKBOX_SIZE = 26;
 
+	/**
+	 * @param mode
+	 *            mode ID
+	 * @return tool name without the .tool suffix
+	 */
 	public static String getModeTextSimple(int mode) {
 		return getModeText(mode).replace(".Tool", "");
 	}

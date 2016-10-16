@@ -15,8 +15,6 @@ import com.google.gwt.user.client.ui.MenuItem;
 
 public class RowContentPopupMenuW extends GPopupMenuW {
 
-	private static final long serialVersionUID = 1L;
-
 	private final GeoCasCell value;
 	private final CASTableCellEditor editor;
 	private final CASTableW table;

@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.data.StatPanelSettings;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -16,11 +17,14 @@ import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TabPanel;
@@ -33,7 +37,6 @@ import com.google.gwt.user.client.ui.TabPanel;
  */
 public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandler,
 	StatPanelInterfaceW {
-	private static final long serialVersionUID = 1L;
 
 	private AppW app;
 	private DataAnalysisViewW statDialog;
@@ -85,6 +88,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	private ScrollPanel spHistogram;
 
 	private ScrollPanel spGraph;
+	private ListBox cbLogAxes;
 
 	private final static int fieldWidth = 8;
 
@@ -452,12 +456,41 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		dimPanel.add(LayoutUtilW.panelRow(lblYMax, fldYMax));
 		dimPanel.add(LayoutUtilW.panelRow(lblYInterval, fldYInterval));
 
+
+		cbLogAxes = new ListBox();
+
+
+		ckAutoWindow.addClickHandler(this);
 		// put the sub-panels together
 		graphPanel = new FlowPanel();
 		graphPanel.add(graphOptionsPanel);
 		graphPanel.add(dimPanel);
+		if (app.has(Feature.LOG_AXES)) {
+			cbLogAxes.addItem("Standard To Standard");
+			cbLogAxes.addItem("Logarithmic To Standard");
+			cbLogAxes.addItem("Standard To Logarithmic");
+			cbLogAxes.addItem("Logarithmic To Logarithmic");
+			cbLogAxes.addChangeHandler(new ChangeHandler() {
+
+				public void onChange(ChangeEvent event) {
+					onComboBoxChange();
+
+				}
+			});
+			FlowPanel modePanel = new FlowPanel();
+			modePanel.add(cbLogAxes);
+			graphPanel.add(modePanel);
+		}
 	}
 
+
+	protected void onComboBoxChange() {
+		int index = cbLogAxes.getSelectedIndex();
+		settings.setCoordMode(StatPanelSettings.CoordMode.values()[index]);
+		this.firePropertyChange("settings", true, false);
+		updateGUI();
+
+	}
 
 	public void setLabels() {
 		Localization loc = app.getLocalization();

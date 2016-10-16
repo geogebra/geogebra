@@ -3,12 +3,10 @@ package org.geogebra.web.web.gui.view.data;
 import org.apache.commons.math.MathException;
 import org.geogebra.common.gui.view.data.ANOVAStatTableModel;
 import org.geogebra.common.gui.view.data.ANOVAStatTableModel.AnovaStats;
-import org.geogebra.common.gui.view.data.StatTableModel.StatTableListener;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.web.html5.main.AppW;
 
-public class ANOVATableW extends BasicStatTableW implements StatTableListener {
-	private static final long serialVersionUID = 1L;
+public class ANOVATableW extends BasicStatTableW {
 	private static final int ROW_COUNT = 3;
 	private static final int COLUMN_COUNT = 6;
 

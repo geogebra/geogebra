@@ -11,8 +11,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 
 public class AngleTextFieldW extends GTextBox implements KeyUpHandler {
 
-	private static final long serialVersionUID = 1L;
-
 	AppW app;
 
 	public AngleTextFieldW(int columns, AppW app) {

@@ -48,12 +48,14 @@ import org.geogebra.common.util.GTimer.GTimerListener;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidian.EuclidianStaticD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
+import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.StringUtilD;
 
 public class AppDNoGui extends App {
@@ -63,6 +65,7 @@ public class AppDNoGui extends App {
 	public AppDNoGui(LocalizationD loc) {
 
 		super(Versions.DESKTOP);
+		Log.logger = new LoggerD();
 		prerelease = true;
 		initFactories();
 		this.kernel = new Kernel3D(this, new GeoFactory3D());

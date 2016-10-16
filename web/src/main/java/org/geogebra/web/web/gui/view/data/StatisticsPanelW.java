@@ -22,8 +22,6 @@ import com.google.gwt.user.client.ui.ListBox;
  */
 public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		 IStatisticsModelListener {
-	private static final long serialVersionUID = 1L;
-
 	private static final String SEPARATOR = "-------------------";
 
 	private StatisticsModel model;

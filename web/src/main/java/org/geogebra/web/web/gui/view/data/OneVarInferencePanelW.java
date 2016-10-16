@@ -41,7 +41,6 @@ import com.google.gwt.user.client.ui.RadioButton;
  * 
  */
 public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, BlurHandler, StatPanelInterfaceW {
-	private static final long serialVersionUID = 1L;
 	// ggb fields
 	private AppW app;
 	private Kernel kernel;

@@ -8,7 +8,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 public class FrequencyTablePanelW extends FlowPanel implements StatPanelInterfaceW {
-	private static final long serialVersionUID = 1L;
 
 	protected AppW app;
 	private Kernel kernel;

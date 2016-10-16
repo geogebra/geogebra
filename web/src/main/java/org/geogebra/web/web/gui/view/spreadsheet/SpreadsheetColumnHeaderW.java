@@ -50,7 +50,6 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
         KeyDownHandler, LongTouchHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler
 
 {
-	private static final long serialVersionUID = 1L;
 	private AppW app;
 	private SpreadsheetViewW view;
 	private Kernel kernel;

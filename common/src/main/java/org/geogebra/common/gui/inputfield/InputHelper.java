@@ -62,7 +62,8 @@ public class InputHelper {
 			if (geos[i] instanceof HasSymbolicMode) {
 				// start with numeric mode for simple fractions like 7/2
 				if (geos[i] instanceof GeoNumeric
-						&& ((GeoNumeric) geos[i]).getDefinition()
+						&& geos[i].getDefinition() != null
+						&& geos[i].getDefinition()
 							.isSimpleFraction()) {
 					((HasSymbolicMode) geos[i]).setSymbolicMode(false,
 								geos[i] instanceof GeoText);

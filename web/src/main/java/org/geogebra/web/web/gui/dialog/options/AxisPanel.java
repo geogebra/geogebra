@@ -26,8 +26,6 @@ import com.google.gwt.user.client.ui.ListBox;
 
 public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListener {
 
-	private static final long serialVersionUID = 1L;
-
 	private AxisModel model;
 
 	protected CheckBox cbShowAxis, cbAxisNumber, cbManualTicks,

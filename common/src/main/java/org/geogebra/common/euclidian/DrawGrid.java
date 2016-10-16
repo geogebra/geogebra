@@ -2,54 +2,100 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.MyMath;
 
+/**
+ * Helper class for drawing the grid
+ * 
+ * @author zbynek
+ *
+ */
 public class DrawGrid {
 	private EuclidianView view;
 
+	/**
+	 * 
+	 * @param euclidianView
+	 *            view
+	 */
 	public DrawGrid(EuclidianView euclidianView) {
 		view = euclidianView;
 	}
+
+	/**
+	 * 
+	 * @param g2
+	 *            graphics
+	 * @param xCrossPix
+	 *            x crossing pixel
+	 * @param yCrossPix
+	 *            y crossing pixel
+	 */
 	protected void drawCartesianGrid(GGraphics2D g2, double xCrossPix,
 			double yCrossPix) {
-		drawVerticalGrid(g2, xCrossPix, yCrossPix);
+		if (view.getXaxisLog()) {
+			drawVerticalGridLog(g2, xCrossPix, yCrossPix);
+		} else {
+			drawVerticalGridLinear(g2, xCrossPix, yCrossPix);
+		}
 
 		// horizontal grid lines
-		drawHorizontalGrid(g2, xCrossPix, yCrossPix);
+		if (view.getYaxisLog()) {
+			drawHorizontalGridLog(g2, xCrossPix, yCrossPix);
+		} else {
+			drawHorizontalGridLinear(g2, xCrossPix, yCrossPix);
+		}
 
 	}
 
-	private void drawHorizontalGrid(GGraphics2D g2, double xCrossPix,
+	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix,
 			double yCrossPix) {
 		double tickStepY = view.getYscale() * view.gridDistances[1];
 		double start = view.getyZero() % tickStepY;
 		double pix = start;
-		double rw = view.getYmin()
-				- (view.getYmin() % view.axesNumberingDistances[1]);
-		double rwBase = Kernel.checkDecimalFraction(rw);
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
 			pix -= tickStepY;
-			if (!view.getYaxisLog() || view.getYmin() < 0)
-				rw += view.axesNumberingDistances[1];
 		}
-		final double yAxisEnd = (view.positiveAxes[1]
-				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
+		final double yAxisEnd = (view.positiveAxes[1] && yCrossPix < view
+				.getHeight()) ? yCrossPix : view.getHeight();
 		for (int j = 0; pix <= yAxisEnd; j++) {
 			// don't draw the grid line x=0 if the y-axis is showing
 			// or if it's too close (eg sticky axes)
-			if (view.getYaxisLog()) {
-				double r = rwBase + Kernel
-						.checkDecimalFraction(
-								view.axesNumberingDistances[1] * j);
-				if (Math.round(r) == r)
-					rw = Math.pow(10, r); // condition of integer power
-				else {
-					rw = Math.pow(10, (int) r);
-					double decimal = r - (int) r;
-					rw = decimal * 10 * rw;
+			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
+
+				if (view.axesLabelsPositionsY.contains(new Integer(
+						(int) (pix + Kernel.MIN_PRECISION)))) {
+
+					// hits axis label, draw in 2 sections
+					drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(),
+							pix, xCrossPix);
+				} else {
+
+					// not hitting axis label, just draw it
+					g2.drawStraightLine(left, pix, view.getWidth(), pix);
 				}
-				pix = 2 * view.getYZero() - view.toScreenCoordYd(rw);
 			}
+
+			pix = start + (j * tickStepY);
+		}
+
+	}
+
+	private void drawHorizontalGridLog(GGraphics2D g2, double xCrossPix,
+			double yCrossPix) {
+		double tickStepY = view.getYscale() * view.gridDistances[1];
+		double start = view.getyZero() % tickStepY;
+		double pix = 0;
+		final double left = view.positiveAxes[0] ? xCrossPix : 0;		
+		final double yAxisEnd = (view.positiveAxes[1]
+				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
+		double pow = MyMath.nextPrettyNumber(view.ymin, 1);
+		for (int j = 0; pix <= yAxisEnd; j++) {
+			// don't draw the grid line x=0 if the y-axis is showing
+			// or if it's too close (eg sticky axes)
+
+			pix = view.toScreenCoordYd(pow);
 			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
 
 				if (view.axesLabelsPositionsY.contains(
@@ -67,10 +113,53 @@ public class DrawGrid {
 			}
 
 			pix = start + (j * tickStepY);
+			pow = pow * 10;
 		}
 
 	}
-	private void drawVerticalGrid(GGraphics2D g2, double xCrossPix,
+
+	private void drawVerticalGridLinear(GGraphics2D g2, double xCrossPix,
+			double yCrossPix) {
+		// vertical grid lines
+		double tickStepX = view.getXscale() * view.gridDistances[0];
+		final double xAxisStart = (view.positiveAxes[0] && xCrossPix > 0) ? xCrossPix
+				+ (((view.getxZero() - xCrossPix) % tickStepX) + tickStepX)
+				% tickStepX
+				: (view.getXZero() % tickStepX);
+
+		final double yAxisEnd = (view.positiveAxes[1] && yCrossPix < view
+				.getHeight()) ? yCrossPix : view.getHeight();
+		final double bottom = view.positiveAxes[1] ? yAxisEnd : view
+				.getHeight();
+		double pix = xAxisStart;
+
+		if (pix < EuclidianView.SCREEN_BORDER) {
+			pix += tickStepX;
+		}
+		for (int i = 0; pix <= view.getWidth(); i++) {
+			// don't draw the grid line x=0 if the y-axis is showing
+			// or if it's too close (eg sticky axes)
+
+			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
+				if (view.axesLabelsPositionsX.contains(new Integer(
+						(int) (pix + Kernel.MIN_PRECISION)))) {
+
+					// hits axis label, draw in 2 sections
+					drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
+				} else {
+					// not hitting axis label, just draw it
+					g2.drawStraightLine(pix, 0, pix, bottom);
+
+				}
+
+			}
+
+			pix = xAxisStart + (i * tickStepX);
+		}
+
+	}
+
+	private void drawVerticalGridLog(GGraphics2D g2, double xCrossPix,
 			double yCrossPix) {
 		// vertical grid lines
 		double tickStepX = view.getXscale() * view.gridDistances[0];
@@ -83,32 +172,14 @@ public class DrawGrid {
 				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 		final double bottom = view.positiveAxes[1] ? yAxisEnd
 				: view.getHeight();
-		double pix = xAxisStart;
-		double rw = view.getXmin()
-				- (view.getXmin() % view.axesNumberingDistances[0]);
-		double rwBase = Kernel.checkDecimalFraction(rw);
-
-
-		if (pix < EuclidianView.SCREEN_BORDER) {
-			pix += tickStepX;
-			if (!view.getXaxisLog() || view.getXmin() < 0)
-				rw += view.axesNumberingDistances[0];
-		}
+		double pix = 0;
+		double pow = MyMath.nextPrettyNumber(view.ymin, 1);
 		for (int i = 0; pix <= view.getWidth(); i++) {
 			// don't draw the grid line x=0 if the y-axis is showing
 			// or if it's too close (eg sticky axes)
-			if (view.getXaxisLog()) {
-				double r = rwBase + Kernel.checkDecimalFraction(
-						view.axesNumberingDistances[0] * i);
-				if (Math.round(r) == r)
-					rw = Math.pow(10, r); // condition of integer power
-				else {
-					rw = Math.pow(10, (int) r);
-					double decimal = r - (int) r;
-					rw = decimal * 10 * rw;
-				}
-				pix = view.toScreenCoordXd(rw);
-			}
+
+			pix = view.toScreenCoordXd(pow);
+
 			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
 				if (view.axesLabelsPositionsX.contains(
 						new Integer((int) (pix + Kernel.MIN_PRECISION)))) {
@@ -122,7 +193,7 @@ public class DrawGrid {
 				}
 
 			}
-
+			pow = pow * 10;
 			pix = xAxisStart + (i * tickStepX);
 		}
 

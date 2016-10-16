@@ -152,19 +152,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	// ===============================================================
-	// Corners
-	// ===============================================================
-
-	/*
-	 * private static class Corner extends JComponent { private static final
-	 * long serialVersionUID = -4426785169061557674L;
-	 * 
-	 * @Override protected void paintComponent(Graphics g) {
-	 * g.setColor(MyTableD.BACKGROUND_COLOR_HEADER); g.fillRect(0, 0,
-	 * getWidth(), getHeight()); } }
-	 */
-
-	// ===============================================================
 	// Defaults
 	// ===============================================================
 

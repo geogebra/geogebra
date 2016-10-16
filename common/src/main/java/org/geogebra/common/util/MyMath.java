@@ -26,10 +26,16 @@ import org.geogebra.common.kernel.roots.RealRootFunction;
  */
 public final class MyMath {
 
+	/** ln(10) */
 	public static final double LOG10 = Math.log(10);
+	/** ln(2) */
 	public static final double LOG2 = Math.log(2);
+	/** 1/3 */
 	public static final double ONE_THIRD = 1d / 3d;
+	/** one degree */
 	public static final double DEG = Math.PI / 180;
+	/** Euler's constant */
+	public static double EULER = 0.57721566;
 
 	/**
 	 * Largest integer

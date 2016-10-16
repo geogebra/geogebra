@@ -25,8 +25,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		RequiresResize
 	
 {
-	private static final long serialVersionUID = 1L;
-
 	private AppW app;
 	private DataAnalysisViewW daView;
 	private DataAnalysisControllerW statController;

@@ -569,7 +569,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	protected class ProjectionPopup extends PopupMenuButton {
-		private static final long serialVersionUID = 1L;
 
 		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,

@@ -133,7 +133,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			return macros.isEmpty();
 		}
 	}
-	private static final long serialVersionUID = 1L;
 
 	AppW app;
 	final LocalizationW loc;

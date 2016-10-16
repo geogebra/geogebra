@@ -242,8 +242,6 @@ public class MyMath2 {
 		}
 	}
 
-	/** Euler's constant */
-	public static double EULER = 0.57721566;
 	private static double TMIN = 2.0;
 	private static int MAXIT = 100; // Maximum number of iterations allowed.
 
@@ -322,7 +320,8 @@ public class MyMath2 {
 				return new Complex(Double.NaN, Double.NaN);
 		}
 
-		return new Complex(sumc + Math.log(t) + EULER, Math.signum(a2) * sums);
+		return new Complex(sumc + Math.log(t) + MyMath.EULER, Math.signum(a2)
+				* sums);
 
 	}
 
@@ -362,7 +361,7 @@ public class MyMath2 {
 	 *         http://mathworld.wolfram.com/ExponentialIntegral.html
 	 */
 	final public static double ei(double a) {
-		double ret = EULER + Math.log(Math.abs(a)) + a;
+		double ret = MyMath.EULER + Math.log(Math.abs(a)) + a;
 		double add = a;
 		for (int i = 2; i < MAXIT; i++) {
 			add = add * a * (i - 1) / i / i;

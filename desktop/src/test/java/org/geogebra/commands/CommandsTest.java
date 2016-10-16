@@ -794,4 +794,11 @@ public class CommandsTest extends Assert{
 		t("PerpendicularLine[x=1,y=1]", "X = (1, 1, 0) + " + Unicode.lambda
 				+ " (0, 0, 1)");
 	}
+
+	@Test
+	public void testExpIntegral() {
+		t("expIntegral(5)", "40.18528", StringTemplate.editTemplate);
+		t("expIntegral(5+0i)", "40.18528 + 0" + Unicode.IMAGINARY,
+				StringTemplate.editTemplate);
+	}
 }
