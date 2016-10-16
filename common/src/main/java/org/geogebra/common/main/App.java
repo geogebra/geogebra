@@ -4048,7 +4048,7 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_AUTO_SAVE:
 			return prerelease;
 
-		// realted to MOB-825
+		// related to MOB-825
 		case MOBILE_NEW_EV_CENTERING:
 			return prerelease;
 
@@ -4071,7 +4071,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-893
 		case MOBILE_SHOW_ALL_OBJECTS_ON_LOAD:
-			return prerelease;
+			return true; // 5.0.282
 
 		// GGB-1208
 		case NEW_TOOLBAR_DESKTOP_WEB:
