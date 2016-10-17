@@ -284,6 +284,7 @@ namespace giac {
       ++s;
     }
     if (s==3){
+      gen fieldvalue;
       if (v[2].type==_IDNT){
 	gen k(k__IDNT_e),g(v[2]),K(identificateur("K"));
 	if (k==g)
@@ -291,9 +292,20 @@ namespace giac {
 	make_free_variable(k,contextptr,false,0,0);
 	make_free_variable(K,contextptr,false,k,0);
 	// make_free_variable(g,contextptr,true,k,K);
+	if (v[1].type==_SYMB){
+	  gen P=_e2r(makesequence(v[1],v[2]),contextptr);;
+	  if (P.type==_VECT){
+	    fieldvalue=galois_field(v[0],P,v[2],undef);
+	  }
+	}
 	v[2]=makevecteur(k,K,g);
+	if (fieldvalue.type==_USER){
+	  galois_field *gf=dynamic_cast<galois_field *>( fieldvalue._USERptr);
+	  gf->x=v[2];
+	}
       }
-      gen fieldvalue=galois_field(gen(v,args.subtype),primitive,contextptr);
+      if (fieldvalue.type!=_USER)
+	fieldvalue=galois_field(gen(v,args.subtype),primitive,contextptr);
       if (v.back().type==_VECT && v.back()._VECTptr->size()==3 && fieldvalue.type==_USER){
 	// assign field and generator
 	gen K=(*v.back()._VECTptr)[1];

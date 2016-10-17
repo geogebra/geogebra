@@ -2334,9 +2334,12 @@ namespace giac {
 	  int p=base[i];
 	  if (lcms[p]==1)
 	    continue;
+	  gen basesp1=bases[p][1];
+	  if (basesp1.type<_IDNT)
+	    continue;
 	  // bases[p]^expo[i] is rewritten as (bases[p]^1/lcms[p])^(1/(lcms[p]/expo[i]))
 	  vabs2[i]=symb_pow(bases2[p],lcms[p]/expo[i]);
-	  vabs.push_back(bases[p][1]);
+	  vabs.push_back(basesp1);
 	  vabs2.push_back(symb_pow(bases2[p],lcms[p]));
 	}
       }

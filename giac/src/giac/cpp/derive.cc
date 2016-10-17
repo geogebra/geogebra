@@ -485,6 +485,9 @@ namespace giac {
 	}
       }
     }
+    if (s.sommet==at_re || s.sommet==at_im || s.sommet==at_conj){
+      return s.sommet(derive(s.feuille,i,contextptr),contextptr);
+    }
     // no info about derivative
     return symbolic(at_derive,gen(makevecteur(s,i),_SEQ__VECT));
     //i.dbgprint();
