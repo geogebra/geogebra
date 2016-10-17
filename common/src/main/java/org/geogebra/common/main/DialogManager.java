@@ -241,7 +241,7 @@ public abstract class DialogManager {
 			boolean clockwise, final GeoPolygon[] polys,
 			final GeoPointND[] points,
 			final GeoElement[] selGeos, final EuclidianController ec,
-			ErrorHandler eh,
+			final ErrorHandler eh,
 			final AsyncOperation<String> callback) {
 
 		final String angleText = inputText;
@@ -265,7 +265,7 @@ public abstract class DialogManager {
 					public void callback(GeoElementND[] result) {
 						cons.setSuppressLabelCreation(oldVal);
 						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
-						boolean success = result != null
+						boolean success = result != null && result.length > 0
 								&& result[0] instanceof GeoNumberValue;
 
 						if (success) {
@@ -311,9 +311,11 @@ public abstract class DialogManager {
 							}
 
 						} else {
-							app.showError(app.getLocalization().getError(
+							if (result != null && result.length > 0) {
+								eh.showError(app.getLocalization().getError(
 									"NumberExpected"));
-									}
+							}
+						}
 						if (callback != null) {
 							callback.callback(success ? defaultRotateAngle
 									: null);

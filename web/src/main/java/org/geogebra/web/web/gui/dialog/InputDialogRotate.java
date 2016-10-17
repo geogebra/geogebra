@@ -66,7 +66,7 @@ public abstract class InputDialogRotate extends AngleInputDialog implements KeyU
 					@Override
 					public void callback(String obj) {
 						// FIXME setVisibleForTools(!processInput());
-						if (obj != null) {
+						if (obj == null) {
 							// wrappedPopup.show();
 							inputPanel.getTextComponent().hideTablePopup();
 						} else {

@@ -4124,67 +4124,76 @@ public abstract class EuclidianController3D extends EuclidianController {
 			inputText = "-(" + inputText + ")";
 		}
 
-		kernel.getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(inputText, false, eh,
- true,
+		kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
+				inputText, false, eh, true,
 				new AsyncOperation<GeoElementND[]>() {
 
-							@Override
+					@Override
 					public void callback(GeoElementND[] result) {
-								String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
 
-		cons.setSuppressLabelCreation(oldVal);
+						cons.setSuppressLabelCreation(oldVal);
 
-		boolean success = result != null && result[0] instanceof GeoNumberValue;
+						boolean success = result != null && result.length > 0
+								&& result[0] instanceof GeoNumberValue;
 
-		if (success) {
-			// GeoElement circle = kernel.Circle(null, geoPoint1,
-			// ((NumberInputHandler)inputHandler).getNum());
-			GeoNumberValue num = (GeoNumberValue) result[0];
-			// geogebra.gui.AngleInputDialog dialog =
-			// (geogebra.gui.AngleInputDialog) ob[1];
+						if (success) {
+							// GeoElement circle = kernel.Circle(null,
+							// geoPoint1,
+							// ((NumberInputHandler)inputHandler).getNum());
+							GeoNumberValue num = (GeoNumberValue) result[0];
+							// geogebra.gui.AngleInputDialog dialog =
+							// (geogebra.gui.AngleInputDialog) ob[1];
 
-			// keep angle entered if it ends with 'degrees'
-			if (angleText.endsWith(Unicode.DEGREE))
-				defaultRotateAngle = angleText;
+							// keep angle entered if it ends with 'degrees'
+							if (angleText.endsWith(Unicode.DEGREE))
+								defaultRotateAngle = angleText;
 
-			if (polys.length == 1) {
+							if (polys.length == 1) {
 
-				GeoElement[] geos = ec
-						.rotateAroundLine(polys[0], num, lines[0]);
-				if (geos != null) {
-					app.storeUndoInfoAndStateForModeStarting();
-					ec.memorizeJustCreatedGeos(geos);
-				}
-				if (callback != null) {
-					callback.callback(defaultRotateAngle);
-				}
-				return;
-			}
-
-			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
-			for (int i = 0; i < selGeos.length; i++) {
-				if (selGeos[i] != lines[0]) {
-					if (selGeos[i] instanceof Transformable) {
-						ret.addAll(Arrays.asList(ec.rotateAroundLine(
-								selGeos[i], num, lines[0])));
-					} else if (selGeos[i].isGeoPolygon()) {
-						ret.addAll(Arrays.asList(ec.rotateAroundLine(
-								selGeos[i], num, lines[0])));
-					}
-				}
-			}
-			if (!ret.isEmpty()) {
-				app.storeUndoInfoAndStateForModeStarting();
-				ec.memorizeJustCreatedGeos(ret);
-			}
-		}
-		if (callback != null) {
-			callback.callback(success ? defaultRotateAngle : null);
-		}
+								GeoElement[] geos = ec.rotateAroundLine(
+										polys[0], num, lines[0]);
+								if (geos != null) {
+									app.storeUndoInfoAndStateForModeStarting();
+									ec.memorizeJustCreatedGeos(geos);
+								}
+								if (callback != null) {
+									callback.callback(defaultRotateAngle);
+								}
+								return;
 							}
 
-						});
+							ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+							for (int i = 0; i < selGeos.length; i++) {
+								if (selGeos[i] != lines[0]) {
+									if (selGeos[i] instanceof Transformable) {
+										ret.addAll(Arrays.asList(
+												ec.rotateAroundLine(selGeos[i],
+														num, lines[0])));
+									} else if (selGeos[i].isGeoPolygon()) {
+										ret.addAll(Arrays.asList(
+												ec.rotateAroundLine(selGeos[i],
+														num, lines[0])));
+									}
+								}
+							}
+							if (!ret.isEmpty()) {
+								app.storeUndoInfoAndStateForModeStarting();
+								ec.memorizeJustCreatedGeos(ret);
+							}
+						} else {
+							if (result != null && result.length > 0) {
+								eh.showError(app.getLocalization()
+										.getError("NumberExpected"));
+							}
+						}
+						if (callback != null) {
+							callback.callback(
+									success ? defaultRotateAngle : null);
+						}
+					}
+
+				});
 	}
 
 	@Override
