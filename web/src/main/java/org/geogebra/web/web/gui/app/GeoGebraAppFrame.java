@@ -14,6 +14,7 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.keyboard.KeyBoardButtonBase;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.MyHeaderPanel;
@@ -26,6 +27,7 @@ import org.geogebra.web.web.main.GDevice;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -198,8 +200,11 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 				CancelEventTimer.cancelMouseEvent();
 				int viewId = app.getGuiManager().getLayout().getDockManager()
 						.getFocusedViewId();
-				if (viewId != App.VIEW_ALGEBRA) {
-					app.getAlgebraView().resetItems(true);
+				if (viewId != App.VIEW_ALGEBRA
+						&& !(event.getSource() instanceof KeyBoardButtonBase)) {
+					if (!keyboardHit(event)) {
+						app.getAlgebraView().resetItems(true);
+					}
 				}
 
 			}
@@ -213,6 +218,25 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 		Log.debug("Done");
     }
 	
+	protected static boolean keyboardHit(ClickEvent event) {
+		try {
+			String className = Element
+					.as(event.getNativeEvent().getEventTarget())
+					.getClassName();
+			if (className.contains("KeyBoardButton")) {
+				return true;
+			}
+			className = Element.as(event.getNativeEvent().getEventTarget())
+					.getParentElement().getClassName();
+			if (className.contains("KeyBoardButton")) {
+				return true;
+			}
+		} catch (Exception e) {
+			Log.warn(e + "");
+		}
+		return false;
+	}
+
 	/**
 	 * This method will also close the menu if the event doesn't target the menu
 	 * or the menu toggle button and there is no drag in progress.
