@@ -3805,7 +3805,6 @@ public class Kernel {
 			if (!geo.isAvailableAtConstructionStep(consStep)) {
 				break;
 			}
-
 			view.add(geo);
 		}
 

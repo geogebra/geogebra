@@ -366,6 +366,8 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		case VECTOR3D:
 		case POLYGON:
 		case POLYGON3D:
+		case POLYLINE:
+		case POLYLINE3D:
 		case CONIC:
 		case CONIC3D:
 		case CONICSECTION:

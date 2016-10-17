@@ -46,6 +46,10 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		super(c, points);
 	}
 
+	public GeoPolyLine3D(Construction c) {
+		super(c);
+	}
+
 	// ///////////////////////////////////////
 	// GeoPolyLine3D
 

@@ -74,6 +74,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
@@ -3330,6 +3331,8 @@ new GPoint(row, column));
 							.setMode(((VectorNDValue) geo).getDimension() == 3
 									? Kernel.COORD_CARTESIAN_3D
 									: Kernel.COORD_CARTESIAN);
+				} else if (geo instanceof GeoPolyLine) {
+					((GeoPolyLine) geo).setVisibleInView3D(false);
 				}
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);

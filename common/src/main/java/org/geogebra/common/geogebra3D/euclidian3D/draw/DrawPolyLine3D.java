@@ -6,10 +6,12 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyLine3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for drawing 1D coord sys (lines, segments, ...)
@@ -25,7 +27,9 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	 * common constructor
 	 * 
 	 * @param a_view3D
-	 * @param cs1D
+	 *            view
+	 * @param p
+	 *            polyline
 	 */
 	public DrawPolyLine3D(EuclidianView3D a_view3D, GeoElement p) {
 
@@ -36,21 +40,20 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	 * common constructor for previewable
 	 * 
 	 * @param a_view3d
+	 *            view
+	 * @param points
+	 *            preview points
 	 */
-	public DrawPolyLine3D(EuclidianView3D a_view3d) {
+	public DrawPolyLine3D(EuclidianView3D a_view3d, ArrayList<GeoPointND> points) {
 		super(a_view3d);
+		// p.setIsPickable(false);
+		// setGeoElement(p);
 
-	}
+		setGeoElement(new GeoPolyLine3D(a_view3d.getKernel().getConstruction()));
+		this.selectedPoints = points;
 
-	/**
-	 * sets the values of drawable extremities
-	 * 
-	 * @param drawMin
-	 * @param drawMax
-	 */
-	public void setDrawMinMax(double drawMin, double drawMax) {
-		this.drawMinMax[0] = drawMin;
-		this.drawMinMax[1] = drawMax;
+		updatePreview();
+
 	}
 
 	/**
@@ -63,11 +66,13 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	// ///////////////////////////////////////
 	// DRAWING GEOMETRIES
 
+	@Override
 	public void drawGeometry(Renderer renderer) {
 		renderer.getGeometryManager().draw(getGeometryIndex());
 	}
 	
 	
+	@Override
 	protected boolean updateForItSelf() {
 
 		// updateColors();
@@ -122,24 +127,13 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	}
 
 	/**
-	 * update the drawable as a segment from p1 to p2
-	 * 
-	 * @param p1
-	 * @param p2
-	 */
-	protected void updateForItSelf(Coords p1, Coords p2) {
-
-		// TODO prevent too large values
-
-	}
-
-	/**
 	 * @return the line thickness
 	 */
 	protected int getLineThickness() {
 		return getGeoElement().getLineThickness();
 	}
 
+	@Override
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_PATH;
 	}
@@ -147,47 +141,29 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	// //////////////////////////////
 	// Previewable interface
 
-	@SuppressWarnings("unchecked")
-	private ArrayList selectedPoints;
+	private ArrayList<GeoPointND> selectedPoints;
 
-	/**
-	 * constructor for previewable
-	 * 
-	 * @param a_view3D
-	 * @param selectedPoints
-	 * @param cs1D
-	 */
-	@SuppressWarnings("unchecked")
-	public DrawPolyLine3D(EuclidianView3D a_view3D, ArrayList selectedPoints,
-			GeoPolyLine p) {
+	
 
-		super(a_view3D);
-
-		p.setIsPickable(false);
-		setGeoElement(p);
-
-		this.selectedPoints = selectedPoints;
-
-		updatePreview();
-
-	}
-
+	@Override
 	public void updateMousePos(double xRW, double yRW) {
-
+		// TODO
 	}
 
+	@Override
 	public void updatePreview() {
-
+		Log.debug(selectedPoints.size());
 		if (selectedPoints.size() > 0) {
-			GeoPointND[] points = new GeoPointND[selectedPoints.size()];
+			GeoPointND[] points = new GeoPointND[selectedPoints.size() + 1];
 
 			for (int i = 0; i < selectedPoints.size(); i++) {
-				points[i] = (GeoPointND) selectedPoints.get(i);
+				points[i] = selectedPoints.get(i);
 			}
-
+			points[selectedPoints.size()] = getView3D().getCursor3D();
 			((GeoPolyLine) getGeoElement()).setPoints(points);
-
+			((GeoPolyLine) getGeoElement()).setDefined();
 			getGeoElement().setEuclidianVisible(true);
+			getGeoElement().setVisibleInView3D(true);
 			setWaitForUpdate();
 		} else {
 			getGeoElement().setEuclidianVisible(false);
@@ -195,6 +171,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 	}
 
+	@Override
 	protected void updateForView() {
 		if (getView3D().viewChangedByZoom())
 			updateForItSelf();

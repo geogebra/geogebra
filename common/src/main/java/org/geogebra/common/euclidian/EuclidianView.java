@@ -1993,10 +1993,6 @@ public abstract class EuclidianView
 		return companion.isVisibleInThisView(geo);
 	}
 
-	final public DrawableND createDrawableND(GeoElement geo) {
-		return createDrawable(geo);
-	}
-
 	/**
 	 * adds a GeoElement to this view
 	 * 

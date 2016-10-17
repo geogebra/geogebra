@@ -23,6 +23,8 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
@@ -39,7 +41,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	private GeneralPathClipped gp;
 	private double[] coords = new double[2];
-	private ArrayList<?> points;
+	private ArrayList<? extends GeoPointND> points;
+
 
 	/**
 	 * @param view
@@ -63,7 +66,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	 * @param points
 	 *            preview points
 	 */
-	public DrawPolyLine(EuclidianView view, ArrayList<?> points) {
+	public DrawPolyLine(EuclidianView view,
+			ArrayList<? extends GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 
@@ -122,22 +126,19 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			gp.reset();
 		}
 
-		// first point
-		pts[0].getInhomCoords(coords);
-		view.toScreenCoords(coords);
-		gp.moveTo(coords[0], coords[1]);
+
 
 		// for centroid calculation (needed for label pos)
-		double xsum = coords[0];
-		double ysum = coords[1];
+		double xsum = 0;
+		double ysum = 0;
 
-		boolean skipNextPoint = false;
-
-		for (int i = 1; i < pts.length; i++) {
-
-			if (pts[i].isDefined()) {
-
-				pts[i].getInhomCoords(coords);
+		boolean skipNextPoint = true;
+		Coords v;
+		for (int i = 0; i < pts.length; i++) {
+			v = getCoords(i);
+			if (pts[i].isDefined() && Kernel.isZero(v.getZ())) {
+				coords[0] = v.getX();
+				coords[1] = v.getY();
 				view.toScreenCoords(coords);
 				if (labelVisible) {
 					xsum += coords[0];
@@ -299,6 +300,15 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			return null;
 		}
 		return gp.getBounds();
+	}
+
+	private Coords getCoords(int i) {
+		if (poly != null) {
+			return view.getCoordsForView(poly.getPointND(i)
+					.getInhomCoordsInD3());
+		}
+
+		return view.getCoordsForView(points.get(i).getInhomCoordsInD3());
 	}
 
 }

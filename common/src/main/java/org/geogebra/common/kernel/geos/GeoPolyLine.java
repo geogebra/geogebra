@@ -567,4 +567,9 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
 	}
+
+	@Override
+	public boolean hasDrawable3D() {
+		return true;
+	}
 }

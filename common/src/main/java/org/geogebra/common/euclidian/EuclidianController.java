@@ -2189,7 +2189,7 @@ public abstract class EuclidianController {
 				// build polygon
 				checkZooming();
 
-				return kernel.PolyLine(null, getSelectedPoints(), false);
+				return kernel.PolyLineND(null, getSelectedPointsND());
 			}
 		}
 

@@ -3850,8 +3850,7 @@ GRectangle selectionRectangle) {
 	@Override
 	public Previewable createPreviewPolyLine(
 			ArrayList<GeoPointND> selectedPoints) {
-		// TODO Auto-generated method stub
-		return null;
+		return new DrawPolyLine3D(this, selectedPoints);
 	}
 
 	public boolean getPositiveAxis(int i) {

@@ -24,6 +24,7 @@ public class GeoPenStroke extends GeoPolyLine {
 	 */
 	public GeoPenStroke(Construction cons1) {
 		super(cons1);
+		this.setVisibleInView3D(false);
 	}
 
 	@Override

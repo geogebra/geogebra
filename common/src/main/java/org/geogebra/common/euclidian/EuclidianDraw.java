@@ -134,6 +134,7 @@ public class EuclidianDraw {
 
 		case PENSTROKE:
 		case POLYLINE:
+		case POLYLINE3D:
 			d = new DrawPolyLine(ev, (GeoPolyLine) geo);
 			break;
 

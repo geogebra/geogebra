@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * companion for view for 3D
@@ -33,7 +34,7 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 
 	@Override
 	public DrawableND newDrawable(GeoElement geo) {
-
+		Log.debug(this.getClass() + "" + geo);
 		// first try super method
 		DrawableND d = super.newDrawable(geo);
 		if (d != null) {

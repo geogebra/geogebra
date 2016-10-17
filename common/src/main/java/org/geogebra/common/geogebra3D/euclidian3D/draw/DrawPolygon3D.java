@@ -362,14 +362,13 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	// //////////////////////////////
 	// Previewable interface
 
-	@SuppressWarnings("unchecked")
 	private ArrayList<GeoPointND> selectedPoints;
 
 	/** segments of the polygon preview */
 	private ArrayList<DrawSegment3D> segments;
 
 	@SuppressWarnings("unchecked")
-	private ArrayList<ArrayList> segmentsPoints;
+	private ArrayList<ArrayList<GeoPointND>> segmentsPoints;
 
 	private boolean isPreview = false;
 
@@ -379,7 +378,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	 * @param a_view3D
 	 * @param selectedPoints
 	 */
-	@SuppressWarnings("unchecked")
 	public DrawPolygon3D(EuclidianView3D a_view3D,
 			ArrayList<GeoPointND> selectedPoints) {
 
@@ -393,7 +391,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		this.selectedPoints = selectedPoints;
 
 		segments = new ArrayList<DrawSegment3D>();
-		segmentsPoints = new ArrayList<ArrayList>();
+		segmentsPoints = new ArrayList<ArrayList<GeoPointND>>();
 
 		setPickingType(PickingType.SURFACE);
 
@@ -408,7 +406,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updatePreview() {
 
 		// intersection curve
@@ -419,14 +416,14 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		int index = 0;
-		Iterator<ArrayList> spi = segmentsPoints.iterator();
-		Iterator i = selectedPoints.iterator();
+		Iterator<ArrayList<GeoPointND>> spi = segmentsPoints.iterator();
+		Iterator<GeoPointND> i = selectedPoints.iterator();
 		GeoPointND point = null; // current point of the selected points
-		ArrayList sp = null; // segment selected points
+		ArrayList<GeoPointND> sp = null; // segment selected points
 
 		// set points to existing segments points
 		for (; i.hasNext() && spi.hasNext();) {
-			point = (GeoPointND) i.next();
+			point = i.next();
 			if (sp != null)
 				sp.add(point); // add second point to precedent segment
 
@@ -446,9 +443,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			if (sp != null && point != null)
 				sp.add(point); // add second point to precedent segment
 
-			sp = new ArrayList();
+			sp = new ArrayList<GeoPointND>();
 			segmentsPoints.add(sp);
-			point = (GeoPointND) i.next();
+			point = i.next();
 			sp.add(point);
 			DrawSegment3D s = new DrawSegment3D(getView3D(), sp);
 			s.getGeoElement().setVisualStyle(getGeoElement());
@@ -474,8 +471,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		GeoPointND[] points = new GeoPointND[selectedPoints.size() + 1];
 
 		index = 0;
-		for (Iterator p = selectedPoints.iterator(); p.hasNext();) {
-			points[index] = (GeoPointND) p.next();
+		for (Iterator<GeoPointND> p = selectedPoints.iterator(); p.hasNext();) {
+			points[index] = p.next();
 			index++;
 		}
 
