@@ -145,7 +145,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	private ExportToPrinter3DD exportToPrinter;
 
-	final static public boolean EXPORT_TO_PRINTER_3D = true;
+	final static public boolean EXPORT_TO_PRINTER_3D = false;
 
 	@Override
 	protected void createExportToPrinter3D() {
