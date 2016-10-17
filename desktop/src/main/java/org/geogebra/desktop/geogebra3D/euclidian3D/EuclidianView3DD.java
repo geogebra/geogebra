@@ -16,7 +16,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.swing.JPanel;
@@ -30,6 +32,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.RendererType;
 import org.geogebra.common.javax.swing.GBox;
@@ -50,6 +53,7 @@ import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersionD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererShadersElements;
+import org.geogebra.desktop.geogebra3D.euclidian3D.printer3D.ExportToPrinter3DD;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.javax.swing.GBoxD;
 import org.geogebra.desktop.main.AppD;
@@ -137,6 +141,49 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		return new RendererCheckGLVersionD(this, canUseCanvas(),
 				RendererType.GL2);
 
+	}
+
+	private ExportToPrinter3DD exportToPrinter;
+
+	final static public boolean EXPORT_TO_PRINTER_3D = true;
+
+	@Override
+	protected void createExportToPrinter3D() {
+		if (EXPORT_TO_PRINTER_3D) {
+			exportToPrinter = new ExportToPrinter3DD();
+		}
+	}
+
+	private boolean doExportToPrinter3D = true;
+
+	/**
+	 * export drawables to 3D printer file
+	 */
+	public void exportToPrinter3D() {
+		if (EXPORT_TO_PRINTER_3D) {
+			if (doExportToPrinter3D) {
+				try {
+					BufferedWriter writer = new BufferedWriter(
+							new FileWriter("test.scad"));
+
+					writer.write("// Created with GeoGebra www.geogebra.org");
+
+					exportToPrinter.startFile(writer, this,
+							(ManagerShadersElementsGlobalBuffer) renderer
+									.getGeometryManager());
+
+					// Log.debug("=== Creating 3D printer file === ");
+					renderer.drawable3DLists.exportToPrinter3D(exportToPrinter);
+
+					writer.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				doExportToPrinter3D = false;
+			}
+		}
 	}
 
 

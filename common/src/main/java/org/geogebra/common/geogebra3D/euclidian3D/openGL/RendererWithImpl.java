@@ -764,14 +764,6 @@ public abstract class RendererWithImpl extends Renderer implements
 
 	}
 
-	/**
-	 * 
-	 * @return true if it has export for 3D printers
-	 */
-	public boolean hasExport3DPrinter() {
-		return false;
-	}
-
 	@Override
 	protected void selectFBO() {
 		rendererImpl.selectFBO();

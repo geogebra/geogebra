@@ -323,23 +323,6 @@ abstract public class Manager {
 
 	abstract public void drawLabel(int index);
 
-	static public enum TypeFor3DPrinter {
-		CURVE, CURVE_CLOSED, SURFACE_CLOSED, POINT
-	};
-
-	/**
-	 * draw in object format
-	 * 
-	 * @param d
-	 *            drawable
-	 * @param type
-	 *            type for 3D printer purpose (essentially close volume)
-	 */
-	public void drawInObjFormat(Drawable3D d,
-			TypeFor3DPrinter type) {
-		Log.error(".obj format not possible with this manager");
-	}
-
 	abstract public void remove(int index);
 
 	/**

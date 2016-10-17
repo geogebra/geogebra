@@ -269,22 +269,13 @@ public class RendererCheckGLVersionD extends RendererWithImpl implements
 	
 		drawScene();
 
-		if (EXPORT_3D_PRINTER) {
-			if (doObj && type == RendererType.SHADER) {
-				((RendererImplShadersD) rendererImpl).doObj();
-				doObj = false;
+		if (EuclidianView3DD.EXPORT_TO_PRINTER_3D) {
+			if (type == RendererType.SHADER) {
+				((EuclidianView3DD) view3D).exportToPrinter3D();
 			}
 		}
 	}
 
-	private boolean doObj = true;
-
-	static final private boolean EXPORT_3D_PRINTER = false;
-
-	@Override
-	public boolean hasExport3DPrinter() {
-		return EXPORT_3D_PRINTER;
-	}
 
 
 	@Override

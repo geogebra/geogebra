@@ -8,6 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -116,6 +117,7 @@ public class Drawable3DLists {
 	public Drawable3DList getList(int type) {
 		return lists[type];
 	}
+
 
 	/**
 	 * 
@@ -232,15 +234,16 @@ public class Drawable3DLists {
 	}
 
 	/**
-	 * draw in .obj format through renderer
+	 * export to 3D printer format
 	 * 
-	 * @param renderer
-	 *            renderer
+	 * @param exportToPrinter3D
+	 *            exporter
+	 * 
 	 */
-	public void drawInObjFormat(Renderer renderer) {
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
 		for (Drawable3DList list : lists) {
 			for (Drawable3D d : list) {
-				d.drawInObjFormat(renderer);
+				d.exportToPrinter3D(exportToPrinter3D);
 			}
 		}
 	}

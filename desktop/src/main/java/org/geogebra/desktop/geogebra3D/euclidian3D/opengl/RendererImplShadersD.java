@@ -1,8 +1,5 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.nio.ShortBuffer;
 
 import javax.media.opengl.GL;
@@ -17,7 +14,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
 import org.geogebra.common.geogebra3D.main.FragmentShader;
 import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJavaNio;
@@ -347,33 +343,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 	}
 
 
-
-	/**
-	 * export scene in OBJ format
-	 */
-	public void doObj() {
-
-		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(
-					"test.obj"));
-
-			writer.write("######## CREATED WITH GEOGEBRA ########");
-
-			((ManagerShadersObj) renderer.getGeometryManager())
-					.startObjFile(writer);
-
-			// Log.debug("=== Creating .OBJ === ");
-			renderer.drawable3DLists.drawInObjFormat(renderer);
-
-			writer.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-
-
 	@Override
 	final protected void glUseProgram(Object program) {
 		jogl.getGL2ES2().glUseProgram((Integer) program);
@@ -462,9 +431,6 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	@Override
 	public Manager createManager() {
-		if (((RendererWithImpl) renderer).hasExport3DPrinter()) {
-			return new ManagerShadersObj(renderer, view3D);
-		}
 		return new ManagerShadersElementsGlobalBuffer(renderer, view3D);
 	}
 

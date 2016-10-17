@@ -422,6 +422,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		renderer.setDrawable3DLists(drawable3DLists);
 
+		createExportToPrinter3D();
+
 		createPanel();
 
 		attachView();
@@ -449,6 +451,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// tells the renderer if use clipping cube
 		updateUseClippingCube();
 
+	}
+
+	protected void createExportToPrinter3D() {
+		// not implemented here
 	}
 
 	/**

@@ -4,11 +4,12 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.TypeFor3DPrinter;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -76,10 +77,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 	}
 
 	@Override
-	public void drawInObjFormat(Renderer renderer) {
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
 		if (isVisible()) {
-			renderer.getGeometryManager().drawInObjFormat(this,
-					TypeFor3DPrinter.CURVE_CLOSED);
+			exportToPrinter3D.export(this, Type.CURVE_CLOSED);
 		}
 	}
 

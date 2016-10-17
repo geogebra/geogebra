@@ -203,7 +203,7 @@ public class ManagerShadersElementsGlobalBuffer extends
 		}
 	}
 
-	protected class GeometryElementsGlobalBuffer extends Geometry {
+	public class GeometryElementsGlobalBuffer extends Geometry {
 
 		private GLBufferIndices arrayI = null;
 

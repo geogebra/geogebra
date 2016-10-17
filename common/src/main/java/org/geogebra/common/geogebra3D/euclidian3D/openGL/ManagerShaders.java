@@ -315,7 +315,7 @@ public class ManagerShaders extends Manager {
 	 * @author mathieu
 	 *
 	 */
-	protected class GeometriesSet extends ArrayList<Geometry> {
+	public class GeometriesSet extends ArrayList<Geometry> {
 
 		protected Geometry currentGeometry;
 
@@ -618,6 +618,10 @@ public class ManagerShaders extends Manager {
 
 	public Geometry getGeometry(int index) {
 		return geometriesSetList.get(index).get(0);
+	}
+
+	public GeometriesSet getGeometrySet(int index) {
+		return geometriesSetList.get(index);
 	}
 
 	@Override
