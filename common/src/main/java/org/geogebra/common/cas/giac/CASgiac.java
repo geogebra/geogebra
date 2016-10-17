@@ -1127,8 +1127,6 @@ public abstract class CASgiac implements CASGenericInterface {
 	/**
 	 * Test if Giac is up and running. Overridden in CASGiacW
 	 * 
-	 * @param kernel
-	 *            kernel
 	 * @return true if Giac is already loaded
 	 */
 	public boolean isLoaded() {
