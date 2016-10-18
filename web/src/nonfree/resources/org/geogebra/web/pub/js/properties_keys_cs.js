@@ -367,7 +367,7 @@ __GGB__keysVar.cs.command = {
     "FromBase.Syntax": "[ \"<\u010c\xedslo>\", <Soustava> ]",
     "Function": "Funkce",
     "Function.Syntax": "[ <Seznam \u010d\xedsel> ]\n[ <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnota x>, <Koncov\xe1 hodnota x> ]",
-    "Function.Syntax3D": "[ <Seznam \u010d\xedsel> ]\n[ <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnaota>, <Koncov\xe1 hodnota> ]\n[ <V\xfdraz>, <Parametr Prom\u011bnn\xe9 1>, <Po\u010d\xe1te\u010dn\xed Hodnota>, <Koncov\xe1 Hodnota>, <Parametr Prom\u011bnn\xe9 2>, <Po\u010d\xe1te\u010dn\xed Hodnota>, <Koncov\xe1 Hodnota> ]",
+    "Function.Syntax3D": "[ <Seznam \u010d\xedsel> ]\n[ <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnota>, <Koncov\xe1 hodnota> ]\n[ <V\xfdraz>, <Parametr prom\u011bnn\xe9 1>, <Po\u010d\xe1te\u010dn\xed hodnota>, <Koncov\xe1 hodnota>, <Parametr prom\u011bnn\xe9 2>, <Po\u010d\xe1te\u010dn\xed hodnota>, <Koncov\xe1 hodnota> ]",
     "Function.SyntaxCAS": "[ <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnota x>, <Koncov\xe1 hodnota x> ]",
     "FutureValue": "BudouciHodnota",
     "FutureValue.Syntax": "[ <Sazba>, <Po\u010det obdob\xed>, <Spl\xe1tka>, <Sou\u010dasn\xe1 hodnota (voliteln\xe1)>, <Typ (voliteln\xfd)> ]",
