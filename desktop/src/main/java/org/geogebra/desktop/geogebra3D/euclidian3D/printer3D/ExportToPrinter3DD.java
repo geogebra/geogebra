@@ -13,6 +13,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.Geometry
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer.GeometryElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 
@@ -24,11 +25,26 @@ public class ExportToPrinter3DD extends ExportToPrinter3D {
 
 	private EuclidianView3D view;
 
+	private StringBuilder sb;
+
+	/**
+	 * constructor
+	 */
+	public ExportToPrinter3DD() {
+		format = new FormatJscad();
+		// format = new FormatScad();
+		sb = new StringBuilder();
+	}
+
 	/**
 	 * start file
 	 * 
 	 * @param writer
 	 *            file writer
+	 * @param view
+	 *            3D view
+	 * @param manager
+	 *            geometries manager
 	 */
 	public void startFile(BufferedWriter writer, EuclidianView3D view,
 			ManagerShadersElementsGlobalBuffer manager) {
@@ -51,40 +67,41 @@ public class ExportToPrinter3DD extends ExportToPrinter3D {
 				center = null;
 			}
 			if (currentGeometriesSet != null) {
+				sb.setLength(0);
 				for (Geometry g : currentGeometriesSet) {
+
 					GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
 
 					GeoElement geo = d.getGeoElement();
-					printToFile("\n///////////////////////\n// "
-							+ geo.getGeoClassType() + ": "
-							+ geo.getLabelSimple() + "\n");
+					format.getObjectStart(sb, geo.getGeoClassType(),
+							geo.getLabelSimple());
 
 					// object is a polyhedron
-					printToFile("\npolyhedron(");
+					format.getPolyhedronStart(sb);
 
 					// vertices
 					boolean notFirst = false;
-					printToFile("\n    points = [");
+					format.getVerticesStart(sb);
 					GLBuffer fb = geometry.getVertices();
 					for (int i = 0; i < geometry.getLength(); i++) {
 						double x = fb.get();
 						double y = fb.get();
 						double z = fb.get();
-						printVertexToFile(notFirst, x, y, z);
+						getVertex(notFirst, x, y, z);
 						notFirst = true;
 					}
-					printToFile("\n    ],");
+					format.getVerticesEnd(sb);
 					fb.rewind();
 
 					// faces
 					GLBufferIndices bi = geometry.getCurrentBufferI();
-					printToFile("\n    faces = [");
+					format.getFacesStart(sb);
 					notFirst = false;
 					for (int i = 0; i < geometry.getIndicesLength() / 3; i++) {
 						int v1 = bi.get();
 						int v2 = bi.get();
 						int v3 = bi.get();
-						printFaceToFile(notFirst, v1, v2, v3);
+						getFace(notFirst, v1, v2, v3);
 						notFirst = true;
 					}
 					bi.rewind();
@@ -92,7 +109,7 @@ public class ExportToPrinter3DD extends ExportToPrinter3D {
 					if (type == Type.CURVE) {
 						// face for start
 						for (int i = 1; i < 7; i++) {
-							printFaceToFile(notFirst, 0, i, i + 1);
+							getFace(notFirst, 0, i, i + 1);
 						}
 					}
 
@@ -102,24 +119,26 @@ public class ExportToPrinter3DD extends ExportToPrinter3D {
 					if (type == Type.CURVE) {
 						// face for end
 						for (int i = 2; i < 8; i++) {
-							printFaceToFile(notFirst, l - 1, l - i, l - i - 1);
+							getFace(notFirst, l - 1, l - i, l - i - 1);
 						}
 					}
 
-					printToFile("\n    ],"); // end of faces
+					format.getFacesEnd(sb); // end of faces
 
 					// end of polyhedron
-					printToFile("\nconvexity = 10);\n");
+					format.getPolyhedronEnd(sb);
 
 				}
+
+				printToFile(sb.toString());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void printVertexToFile(boolean notFirst, double x, double y,
-			double z) throws IOException {
+	private void getVertex(boolean notFirst, double x,
+			double y, double z) {
 		if (center != null) {
 			double r = center.getW() * DrawPoint3D.DRAW_POINT_FACTOR
 					/ view.getScale();
@@ -128,17 +147,16 @@ public class ExportToPrinter3DD extends ExportToPrinter3D {
 			z = center.getZ() + z * r;
 		}
 		if (notFirst) {
-			printToFile(",");
+			format.getVerticesSeparator(sb);
 		}
-		printToFile("\n        [" + x + "," + y + "," + z + "]");
+		format.getVertices(sb, x, y, z);
 	}
 
-	private void printFaceToFile(boolean notFirst, int v1, int v2, int v3)
-			throws IOException {
+	private void getFace(boolean notFirst, int v1, int v2, int v3) {
 		if (notFirst) {
-			printToFile(",");
+			format.getFacesSeparator(sb);
 		}
-		printToFile("\n        [" + v1 + "," + v2 + "," + v3 + "]");
+		format.getFaces(sb, v1, v2, v3);
 	}
 
 	private void printToFile(String s) throws IOException {

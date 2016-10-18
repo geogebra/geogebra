@@ -163,10 +163,15 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		if (EXPORT_TO_PRINTER_3D) {
 			if (doExportToPrinter3D) {
 				try {
+					StringBuilder sb = new StringBuilder();
+					sb.append("test");
+					exportToPrinter.getFormat().getExtension(sb);
 					BufferedWriter writer = new BufferedWriter(
-							new FileWriter("test.scad"));
+							new FileWriter(sb.toString()));
 
-					writer.write("// Created with GeoGebra www.geogebra.org");
+					sb.setLength(0);
+					exportToPrinter.getFormat().getScriptStart(sb);
+					writer.write(sb.toString());
 
 					exportToPrinter.startFile(writer, this,
 							(ManagerShadersElementsGlobalBuffer) renderer
@@ -174,6 +179,10 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 					// Log.debug("=== Creating 3D printer file === ");
 					renderer.drawable3DLists.exportToPrinter3D(exportToPrinter);
+
+					sb.setLength(0);
+					exportToPrinter.getFormat().getScriptEnd(sb);
+					writer.write(sb.toString());
 
 					writer.close();
 				} catch (IOException e) {

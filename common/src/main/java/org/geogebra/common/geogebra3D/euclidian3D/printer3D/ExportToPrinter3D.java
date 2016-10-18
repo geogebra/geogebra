@@ -8,7 +8,17 @@ public abstract class ExportToPrinter3D {
 		CURVE, CURVE_CLOSED, SURFACE_CLOSED, POINT
 	}
 
+	protected Format format;
+
 	abstract public void export(Drawable3D d, Type type);
+
+	/**
+	 * 
+	 * @return 3D printer format
+	 */
+	public Format getFormat() {
+		return format;
+	}
 
 
 }
