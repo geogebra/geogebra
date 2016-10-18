@@ -836,7 +836,7 @@ public class AlgoDispatcher {
 	 * Polygon with vertices from geolist Only the polygon is labeled, segments
 	 * are not labeled
 	 */
-	final public GeoElement[] Polygon(String[] labels, GeoList pointList) {
+	public GeoElement[] Polygon(String[] labels, GeoList pointList) {
 		AlgoPolygon algo = new AlgoPolygon(cons, labels, pointList);
 		return algo.getOutput();
 	}

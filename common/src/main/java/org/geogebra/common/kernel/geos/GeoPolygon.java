@@ -595,7 +595,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		
 
 		// set values
-		updatePoints(poly.getPoints());
+		updatePoints(poly.getPointsND());
 		
 
 		setCoordSysAndPoints3D(poly);
@@ -611,24 +611,26 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * set points matching geos list, and segments
 	 * @param geos input points
 	 */
-	public void setPointsAndSegments(GeoPointND[] geos){
+	public void setPointsAndSegments(GeoPointND[] geos) {
 		updatePoints(geos);
-
 		updateSegments();
 
 	}
 
+
 	private void updatePoints(GeoPointND[] geos) {
 		setPointsLength(geos.length, null);
-		for (int i = 0; i < getPoints().length; i++) {
+		for (int i = 0; i < getPointsND().length; i++) {
 			ExpressionNode oldDef = getPoint(i).getDefinition();
 			getPoint(i).set(geos[i].toGeoElement(), false);
 			if (!getPoint(i).isIndependent()) {
 				getPoint(i).setDefinition(oldDef);
 			}
 		}
-		
+
 	}
+
+
 
 	/**
 	 * set points and segments length to arbitrary value (create new points and segments)

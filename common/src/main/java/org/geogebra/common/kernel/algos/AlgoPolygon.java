@@ -165,11 +165,11 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	/**
 	 * Update point array of polygon using the given array list
 	 * 
-	 * @param pointList
 	 */
-	private void updatePointArray(GeoList pointList) {
+	protected void updatePointArray() {
 		// check if we have a point list
-		if (!pointList.getElementType().equals(GeoClass.POINT)) {
+		if (!geoList.getElementType().equals(GeoClass.POINT)
+				&& !geoList.getElementType().equals(GeoClass.POINT3D)) {
 			poly.setUndefined();
 			return;
 		}
@@ -178,10 +178,10 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		int oldPointsLength = points == null ? 0 : points.length;
 
 		// create new points array
-		int size = pointList.size();
-		points = new GeoPoint[size];
+		int size = geoList.size();
+		points = new GeoPointND[size];
 		for (int i = 0; i < size; i++) {
-			points[i] = (GeoPoint) pointList.get(i);
+			points[i] = (GeoPointND) geoList.get(i);
 		}
 		poly.setPointsAndSegments(points);
 
@@ -324,7 +324,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		// AbstractApplication.printStacktrace("");
 
 		if (geoList != null) {
-			updatePointArray(geoList);
+			updatePointArray();
 		}
 
 		calcArea();

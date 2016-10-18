@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -387,6 +388,25 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		return true;
 	}
 
+	private void updatePointsND(GeoPointND[] geos) {
+		setPointsLength(geos.length, null);
+		setPoints3DLength();
+		for (int i = 0; i < getPointsND().length && i < geos.length; i++) {
+			ExpressionNode oldDef = getPointND(i).getDefinition();
+			getPointND(i).set(geos[i].toGeoElement(), false);
+			if (!getPointND(i).isIndependent()) {
+				getPointND(i).setDefinition(oldDef);
+			}
+		}
+
+	}
+	@Override
+	public void setPointsAndSegments(GeoPointND[] geos) {
+		updatePointsND(geos);
+		updateCoordSys();
+		updateSegments();
+
+	}
 	/**
 	 * @return true if it has worked
 	 */

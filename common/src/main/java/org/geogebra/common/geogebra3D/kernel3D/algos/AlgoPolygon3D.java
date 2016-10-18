@@ -4,6 +4,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
@@ -28,12 +29,12 @@ public class AlgoPolygon3D extends AlgoPolygon {
 	 *            names of the polygon and segments
 	 * @param points
 	 *            vertices of the polygon
-	 * @param polyhedron
-	 *            polyhedron (when segment is part of)
+	 * @param vertices
+	 *            list of vertices
 	 */
 	public AlgoPolygon3D(Construction cons, String[] label,
-			GeoPointND[] points, GeoElement polyhedron) {
-		this(cons, label, points, true, polyhedron);
+			GeoPointND[] points, GeoList vertices) {
+		this(cons, label, points, true, vertices);
 
 	}
 
@@ -46,12 +47,13 @@ public class AlgoPolygon3D extends AlgoPolygon {
 	 *            vertices of the polygon
 	 * @param createSegments
 	 *            says if the polygon has to creates its edges (3D only)
-	 * @param polyhedron
-	 *            polyhedron (when segment is part of)
+	 * @param vertices
+	 *            list of vertices
 	 */
 	public AlgoPolygon3D(Construction cons, String[] labels,
-			GeoPointND[] points, boolean createSegments, GeoElement polyhedron) {
-		super(cons, labels, points, null, null, createSegments, polyhedron,
+			GeoPointND[] points, boolean createSegments,
+			GeoList vertices) {
+		super(cons, labels, points, vertices, null, createSegments, null,
 				null);
 
 	}
@@ -80,6 +82,13 @@ public class AlgoPolygon3D extends AlgoPolygon {
 	 */
 	@Override
 	protected void createPolygon(boolean createSegments) {
+		if (points == null) {
+			int size = geoList.size();
+			points = new GeoPointND[size];
+			for (int i = 0; i < size; i++) {
+				points[i] = (GeoPointND) geoList.get(i);
+			}
+		}
 		poly = new GeoPolygon3D(cons, points, cs2D, createSegments);
 		if (polyhedron != null) {
 			((GeoPolygon3D) poly).setIsPartOfClosedSurface(true);
@@ -89,12 +98,19 @@ public class AlgoPolygon3D extends AlgoPolygon {
 
 	@Override
 	public void compute() {
+		if (geoList != null) {
+			updatePointArray();
+			calcArea();
 
-		// check if a coord sys is possible
-		if (((GeoPolygon3D) poly).updateCoordSys())
-			super.compute();
-		else
-			poly.setUndefined();
+			// update region coord sys
+			poly.updateRegionCS();
+		} else {
+			// check if a coord sys is possible
+			if (((GeoPolygon3D) poly).updateCoordSys())
+				super.compute();
+			else
+				poly.setUndefined();
+		}
 
 	}
 

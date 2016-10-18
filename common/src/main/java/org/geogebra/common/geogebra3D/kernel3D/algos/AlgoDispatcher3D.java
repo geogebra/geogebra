@@ -13,8 +13,10 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoClosestPoint;
 import org.geogebra.common.kernel.algos.AlgoDispatcher;
+import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.algos.AlgoVertexPolygon;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoly;
@@ -25,6 +27,7 @@ import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.plugin.GeoClass;
 
 /**
  * extending 2D AlgoDispatcher
@@ -306,6 +309,16 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		GeoElement[] out = algo.getIntersectionPoints();
 		algo.setLabels(labels);
 		return out;
+	}
+
+	final public GeoElement[] Polygon(String[] labels, GeoList pointList) {
+		AlgoPolygon algo;
+		if (pointList.getElementType() == GeoClass.POINT3D) {
+			algo = new AlgoPolygon3D(cons, labels, null, pointList);
+		} else {
+			algo = new AlgoPolygon(cons, labels, pointList);
+		}
+		return algo.getOutput();
 	}
 
 }
