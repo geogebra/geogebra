@@ -58,7 +58,6 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.AbstractNativeScrollbar;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -1654,11 +1653,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 				// give it the focus
 				w.requestFocus();
-
-				// Don't show default android keyboard
-				RootPanel.getBodyElement().focus();
-				w.requestFocus();
-
 				renderSelection();
 
 				return true;
