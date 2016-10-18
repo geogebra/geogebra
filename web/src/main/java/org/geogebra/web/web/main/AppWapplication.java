@@ -138,7 +138,8 @@ public class AppWapplication extends AppWFull {
 	}
 
 	private void maybeStartAutosave() {
-		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()) {
+		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()
+				|| Browser.isXWALK()) {
 			return;
 		}
 		final String materialJSON = getFileManager().getAutosaveJSON();

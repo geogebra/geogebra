@@ -423,7 +423,7 @@ public class Browser {
 	}-*/;
 
 	public static native boolean isXWALK() /*-{
-		return !!$wnd.xwalk;
+		return !!$wnd.ggbExamXWalkExtension;
 	}-*/;
 
 }
