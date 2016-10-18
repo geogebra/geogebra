@@ -1376,7 +1376,9 @@ public class Ggb2giac {
 				"[[ggbabarg0:=%0],[ggbabarg1:=%1],[B:=inter(ggbabarg0,ggbabarg1)],[eqa:=equation(ggbabarg0)],[eqb:=equation(ggbabarg1)],"
 						+ "[uva:=convert([unitV(coeff(left(eqa)-right(eqa),y,1),-coeff(left(eqa)-right(eqa),x,1))],25)],"
 						+ "[uvb:=convert([unitV(coeff(left(eqb)-right(eqb),y,1),-coeff(left(eqb)-right(eqb),x,1))],25)],"
-						+ "when(uva==uvb,[eqa],[equation(line(B[0],B[0]+uva+uvb)),equation(line(B[0],B[0]+uva-uvb))])][5]");
+						// length(B)==0 for parallel lines
+						// TODO: document when uva==uvb
+						+ "when(uva==uvb || length(B) == 0,[?,?],[equation(line(B[0],B[0]+uva-uvb)),equation(line(B[0],B[0]+uva+uvb))])][7]");
 		p("AngularBisector.3", "equation(bisector(%1,%0,%2))");
 
 		p("Angle.1", "regroup(%0 *180 / pi) * unicode0176u");
