@@ -191,7 +191,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		int pointLength = polygon.getPointsLength();
 
-		if (pointLength < 3) { // no polygon
+		if (pointLength < 2) { // no polygon
 			setSurfaceIndex(-1);
 			return true;
 		}
@@ -204,6 +204,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		if (!isPreview && !polygon.wasInitLabelsCalled()) { // no labels for
 															// segments
 			updateOutline(renderer, vertices, pointLength);
+		}
+
+		if (pointLength < 3) { // no polygon
+			setSurfaceIndex(-1);
+			return true;
 		}
 
 		// surface
