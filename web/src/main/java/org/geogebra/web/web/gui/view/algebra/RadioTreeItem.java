@@ -325,7 +325,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		public void reset() {
-			Log.debug("[CONTROLS] reset");
 			if (hasAnimPanel()) {
 				animPanel.reset();
 			}
@@ -1151,7 +1150,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 			public void execute() {
 				int width = panel.getOffsetWidth()
 						+ marblePanel.getOffsetWidth();
-				Log.debug("[AD] adjustToPanel: " + width);
 				setAVItemWidths(width);
 			}
 		});
@@ -1617,9 +1615,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 				? main.getElement()
 				.getAbsoluteTop() : getElement()
 				.getAbsoluteTop();
-		Log.debug(Feature.AV_INPUT_BUTTON_COVER, "itemTop: " + itemTop);
-		Log.debug(Feature.AV_INPUT_BUTTON_COVER,
-				"dockpaneltop: " + getAlgebraDockPanel().getAbsoluteTop());
 		return (itemTop - getAlgebraDockPanel().getAbsoluteTop() < 35);
 	}
 
@@ -1717,7 +1712,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 						- (algebraPanel.getOffsetWidth() + scrollPos);
 					 
 				if (controls != null) {
-					Log.debug("[AD] controls right: " + value);
 					controls.getElement().getStyle().setRight(value, Unit.PX);
 				}
 
@@ -1732,7 +1726,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		
 		boolean accurate = true; // used for testing the new code
 		if (styleBarCanHide()) {
-			Log.debug(Feature.AV_INPUT_BUTTON_COVER, "canhide");
 			ScrollPanel algebraPanel = ((AlgebraDockPanelW) app.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA))
 					.getAbsolutePanel();
@@ -1741,8 +1734,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 				if (app.has(Feature.AV_SCROLL)) {
 					adjustControlsPosition();
 				} else {
-					Log.debug(Feature.AV_INPUT_BUTTON_COVER,
-							"algebra panel null: " + (algebraPanel == null));
 					int scrollbarWidth = algebraPanel == null ? 0
 							: algebraPanel.getOffsetWidth() - algebraPanel
 									.getElement().getClientWidth();

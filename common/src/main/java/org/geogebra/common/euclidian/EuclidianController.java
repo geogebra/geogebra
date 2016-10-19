@@ -5140,11 +5140,9 @@ public abstract class EuclidianController {
 			// branches reordered to prefer path, and then region
 			if ((path != null) && onPathPossible) {
 				point = companion.createNewPoint(forPreviewable, path, complex);
-				// Log.debug(path);
 			} else if ((region != null) && inRegionPossible) {
 				point = companion.createNewPoint(forPreviewable, region,
 						complex);
-				// Log.debug(region);
 			} else {
 				point = companion.createNewPoint(forPreviewable, complex);
 				view.setShowMouseCoords(true);
@@ -6690,7 +6688,6 @@ public abstract class EuclidianController {
 			if (hit.isGeoNumeric()
 					&& ((GeoNumeric) hit).isSlider()
 					&& ((labelMode == GeoElement.LABEL_NAME_VALUE) || (labelMode == GeoElement.LABEL_VALUE))) {
-				Log.debug("HIT SLIDER");
 				// only do this if we are not pasting something from the
 				// clipboard right now
 				// because moving on the label of a slider might move the pasted
