@@ -84,8 +84,6 @@ public class DrawSlider extends Drawable {
 	public DrawSlider(EuclidianView view, GeoNumeric number) {
 		this.view = view;
 		this.number = number;
-		// now hard-coded
-		number.setLineThickness(10);
 		geo = number;
 		update();
 	}
@@ -161,6 +159,8 @@ public class DrawSlider extends Drawable {
 
 			}
 
+			// now hard-coded
+			number.setLineThickness(10);
 			updateStrokes(number, 10);
 		}
 	}
