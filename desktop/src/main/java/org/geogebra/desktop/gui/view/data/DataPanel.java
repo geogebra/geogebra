@@ -34,6 +34,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
+import org.geogebra.common.euclidian.draw.DrawBoolean.CheckBoxIcon;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -41,6 +42,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -140,7 +142,7 @@ public class DataPanel extends JPanel implements ActionListener,
 		scrollPane.setRowHeaderView(rowHeader);
 
 		// create enableAll button and put it in the upper left corner
-		CheckBoxIcon cbIcon = new CheckBoxIcon(13);
+		DataCheckBoxIcon cbIcon = new DataCheckBoxIcon(13);
 		ImageIcon iconUnChecked = cbIcon.createCheckBoxImageIcon(false, false);
 		ImageIcon iconChecked = cbIcon.createCheckBoxImageIcon(true, false);
 
@@ -489,7 +491,7 @@ public class DataPanel extends JPanel implements ActionListener,
 
 			RowHeaderRenderer(JTable table) {
 
-				CheckBoxIcon cbIcon = new CheckBoxIcon(13);
+				DataCheckBoxIcon cbIcon = new DataCheckBoxIcon(13);
 				iconUnChecked = cbIcon.createCheckBoxImageIcon(false, false);
 				iconChecked = cbIcon.createCheckBoxImageIcon(true, false);
 
@@ -583,85 +585,25 @@ public class DataPanel extends JPanel implements ActionListener,
 
 	}
 
-	public static class CheckBoxIcon {
+	public static class DataCheckBoxIcon {
 
-		public static Color highlightBackground = new Color(230, 230, 230);
 		public int csize;
 
-		public CheckBoxIcon(int csize) {
+		public DataCheckBoxIcon(int csize) {
 			this.csize = csize;
-		}
-
-		public void paintIcon(boolean checked, boolean highlighted, Graphics g,
-				int x, int y) {
-
-			{
-				// Outer top/left
-				g.setColor(new Color(128, 128, 128));
-				g.drawLine(x, y, x + (csize - 2), y);
-				g.drawLine(x, y + 1, x, y + (csize - 2));
-
-				// Outer bottom/right
-				g.setColor(Color.white);
-				g.drawLine(x + (csize - 1), y, x + (csize - 1), y + (csize - 1));
-				g.drawLine(x, y + (csize - 1), x + (csize - 2), y + (csize - 1));
-
-				// Inner top.left
-				g.setColor(new Color(64, 64, 64));
-				g.drawLine(x + 1, y + 1, x + (csize - 3), y + 1);
-				g.drawLine(x + 1, y + 2, x + 1, y + (csize - 3));
-
-				// Inner bottom/right
-				g.setColor(new Color(212, 208, 200));
-				g.drawLine(x + 1, y + (csize - 2), x + (csize - 2), y
-						+ (csize - 2));
-				g.drawLine(x + (csize - 2), y + 1, x + (csize - 2), y
-						+ (csize - 3));
-
-				// inside box
-				if (highlighted) {
-					g.setColor(highlightBackground);
-				} else {
-					g.setColor(Color.white);
-				}
-				g.fillRect(x + 2, y + 2, csize - 4, csize - 4);
-
-				g.setColor(new Color(0, 0, 0));
-
-				// paint check
-
-				if (checked) {
-					if (csize == 13) {
-
-						for (int i = 5; i <= 9; i++)
-							g.drawLine(x + i, y + 12 - i, x + i, y + 14 - i);
-
-						for (int i = 3; i <= 4; i++)
-							g.drawLine(x + i, y + i + 2, x + i, y + i + 4);
-
-					} else { // csize == 26
-
-						for (int i = 10; i <= 18; i++)
-							g.drawLine(x + i, y + 24 - i, x + i, y + 29 - i);
-
-						for (int i = 5; i <= 9; i++)
-							g.drawLine(x + i, y + i + 4, x + i, y + i + 9);
-
-					}
-				}
-			}
 		}
 
 		public ImageIcon createCheckBoxImageIcon(boolean checked,
 				boolean highlighted) {
 
-			CheckBoxIcon cbIcon = new CheckBoxIcon(13);
+			DataCheckBoxIcon cbIcon = new DataCheckBoxIcon(13);
 			BufferedImage image = new BufferedImage(13, 13,
 					(BufferedImage.TYPE_INT_ARGB));
 			ImageIcon icon = new ImageIcon(image);
 			Graphics2D g2d = image.createGraphics();
 
-			cbIcon.paintIcon(checked, highlighted, g2d, 0, 0);
+			CheckBoxIcon.paintIcon(checked, highlighted, new GGraphics2DD(g2d),
+					0, 0, cbIcon.csize);
 
 			return icon;
 		}
