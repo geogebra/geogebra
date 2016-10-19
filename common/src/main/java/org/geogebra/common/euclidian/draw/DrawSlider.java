@@ -161,7 +161,7 @@ public class DrawSlider extends Drawable {
 
 			}
 
-			updateStrokes(number, 2);
+			updateStrokes(number, 10);
 		}
 	}
 
@@ -301,8 +301,6 @@ public class DrawSlider extends Drawable {
 
 		double xUL = (coords[0] - pointSize);
 		double yUL = (coords[1] - pointSize);
-
-		// Florian Sonner 2008-07-17
 
 		// circle might be needed at least for tracing
 		circle.setFrame(xUL, yUL, diameter, diameter);
