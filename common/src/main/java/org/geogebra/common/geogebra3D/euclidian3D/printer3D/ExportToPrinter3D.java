@@ -9,13 +9,16 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.Geometri
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.Geometry;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer.GeometryElementsGlobalBuffer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPolygon;
 
 public abstract class ExportToPrinter3D {
 
 	static public enum Type {
-		CURVE, CURVE_CLOSED, SURFACE_CLOSED, POINT, POLYGON
+		CURVE, CURVE_CLOSED, SURFACE_CLOSED, POINT
 	}
 
 	private Format format;
@@ -27,6 +30,8 @@ public abstract class ExportToPrinter3D {
 	private StringBuilder sb;
 
 	private Coords center = null;
+
+	private boolean reverse = false;
 
 	/**
 	 * constructor
@@ -52,6 +57,8 @@ public abstract class ExportToPrinter3D {
 	}
 
 	public void export(Drawable3D d, Type type) {
+
+		reverse = false;
 
 		GeometriesSet currentGeometriesSet = manager
 				.getGeometrySet(d.getGeometryIndex());
@@ -128,6 +135,72 @@ public abstract class ExportToPrinter3D {
 		}
 	}
 
+	public void export(GeoPolygon polygon, Coords[] vertices) {
+
+		sb.setLength(0);
+
+		// check if the polygon is convex
+		Convexity convexity = polygon.getPolygonTriangulation().checkIsConvex();
+		if (convexity != Convexity.NOT) {
+
+			Coords n = polygon.getMainDirection();
+			double delta = 3 * PlotterBrush.LINE3D_THICKNESS / view.getScale();
+			double dx = n.getX() * delta;
+			double dy = n.getY() * delta;
+			double dz = n.getZ() * delta;
+			int length = polygon.getPointsLength();
+
+			reverse = polygon.getReverseNormalForDrawing()
+					^ (convexity == Convexity.CLOCKWISE);
+
+			format.getObjectStart(sb, polygon.getGeoClassType(),
+					polygon.getLabelSimple());
+
+			// object is a polyhedron
+			format.getPolyhedronStart(sb);
+
+			// vertices
+			boolean notFirst = false;
+			format.getVerticesStart(sb);
+			for (int i = 0; i < length; i++) {
+				Coords v = vertices[i];
+				getVertex(notFirst, v.getX() + dx, v.getY() + dy,
+						v.getZ() + dz);
+				notFirst = true;
+				getVertex(notFirst, v.getX() - dx, v.getY() - dy,
+						v.getZ() - dz);
+			}
+			format.getVerticesEnd(sb);
+
+			// faces
+			format.getFacesStart(sb);
+			notFirst = false;
+			for (int i = 1; i < length - 1; i++) {
+				getFace(notFirst, 0, 2 * i, 2 * (i + 1)); // bottom
+				notFirst = true;
+				getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1); // bottom
+			}
+
+			for (int i = 0; i < length; i++) { // side
+				getFace(notFirst, 2 * i, 2 * i + 1, (2 * i + 3) % (2 * length));
+				getFace(notFirst, 2 * i, (2 * i + 3) % (2 * length),
+						(2 * i + 2) % (2 * length));
+			}
+
+			format.getFacesEnd(sb); // end of faces
+
+			// end of polyhedron
+			format.getPolyhedronEnd(sb);
+
+			printToFile(sb.toString());
+
+
+		} else {
+			// TODO implement non convex polygons
+		}
+
+	}
+
 	/**
 	 * 
 	 * @return 3D printer format
@@ -156,7 +229,12 @@ public abstract class ExportToPrinter3D {
 		if (notFirst) {
 			format.getFacesSeparator(sb);
 		}
-		format.getFaces(sb, v1, v2, v3);
+
+		if (reverse) {
+			format.getFaces(sb, v1, v3, v2);
+		} else {
+			format.getFaces(sb, v1, v2, v3);
+		}
 	}
 
 

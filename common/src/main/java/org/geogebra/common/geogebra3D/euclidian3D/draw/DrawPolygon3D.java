@@ -10,6 +10,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
@@ -657,5 +658,13 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	private Coords project, globalCoords, inPlaneCoords;
 
 	private double[] parameters = new double[2];
+
+	@Override
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+		if (isVisible()) {
+			exportToPrinter3D.export((GeoPolygon) getGeoElement(),
+					vertices);
+		}
+	}
 
 }
