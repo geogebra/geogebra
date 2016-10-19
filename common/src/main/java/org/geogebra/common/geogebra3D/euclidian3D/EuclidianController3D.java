@@ -4237,7 +4237,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (app.has(Feature.DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW)) {
 			GeoElement geoLabel = view.getLabelHitCheckRefresh(mouseLoc,
 					event.getType());
-			Log.debug("ici: " + geoLabel);
 			if (geoLabel != null) {
 				return false;
 			}
