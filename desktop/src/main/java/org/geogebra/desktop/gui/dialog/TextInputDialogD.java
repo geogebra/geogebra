@@ -1185,7 +1185,7 @@ public class TextInputDialogD extends InputDialogD
 						}
 					} else {
 
-						// // Michael Borcherds 2008-04-27 changed to RealWorld
+						// changed to RealWorld
 						// not absolute
 						// startpoint contains mouse coords
 						// t.setAbsoluteScreenLoc(euclidianView.toScreenCoordX(startPoint.inhomX),

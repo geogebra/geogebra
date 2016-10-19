@@ -164,7 +164,6 @@ public class GeoGebraIcon extends BasicIcons{
 			case GeoElement.DECORATION_ANGLE_THREE_TICKS:
 				url =  GuiResources.INSTANCE.deco_angle_3strokes();
 			break;			
-//			 Michael Borcherds 2007-11-19 BEGIN
 			case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
 				url =  GuiResources.INSTANCE.deco_angle_arrow_up();
 			break;
@@ -173,7 +172,6 @@ public class GeoGebraIcon extends BasicIcons{
 			break;
 			default:
 				url =  GuiResources.INSTANCE.deco_angle_1line();
-//			 Michael Borcherds 2007-11-19 END
 		}
 		return new ImageOrText(url);
 
@@ -197,7 +195,6 @@ public class GeoGebraIcon extends BasicIcons{
 		case GeoElement.DECORATION_SEGMENT_THREE_TICKS:
 			url =  GuiResources.INSTANCE.deco_segment_3strokes();
 			break;
-		// Michael Borcherds 20071006 start
 		case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
 			url =  GuiResources.INSTANCE.deco_segment_1arrow();
 			break;
@@ -210,7 +207,6 @@ public class GeoGebraIcon extends BasicIcons{
 		default:
 			url =  GuiResources.INSTANCE.deco_segment_none();
 			break;
-		// Michael Borcherds 20071006 end
 		}
 
 		return new ImageOrText(url);

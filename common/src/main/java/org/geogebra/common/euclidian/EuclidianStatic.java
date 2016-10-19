@@ -197,8 +197,6 @@ public abstract class EuclidianStatic {
 	/**
 	 * Draw a multiline LaTeX label.
 	 * 
-	 * TODO: Improve performance (caching, etc.) Florian Sonner
-	 * 
 	 * @param app
 	 *            application
 	 * @param tempGraphics
@@ -234,8 +232,6 @@ public abstract class EuclidianStatic {
 
 	/**
 	 * Draw a multiline LaTeX label.
-	 * 
-	 * TODO: Improve performance (caching, etc.) Florian Sonner
 	 * 
 	 * @param app
 	 *            application

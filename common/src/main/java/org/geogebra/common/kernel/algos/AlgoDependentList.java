@@ -183,7 +183,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 
 		tpl.leftCurlyBracket(sb);
 
-		if (input.length > 0) { // Florian Sonner 2008-07-12
+		if (input.length > 0) {
 			for (int i = 0; i < input.length - 1; i++) {
 				sb.append(input[i].getLabel(tpl));
 				sb.append(", ");

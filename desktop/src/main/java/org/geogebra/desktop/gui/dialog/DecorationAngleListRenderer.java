@@ -29,8 +29,7 @@ public class DecorationAngleListRenderer extends JPanel implements
 	private static final long serialVersionUID = 1L;
 	private Line2D.Double tick = new Line2D.Double();
 	private Arc2D.Double arc = new Arc2D.Double();
-	private GeneralPath polygon = new GeneralPath(); // Michael Borcherds
-														// 2007-10-28
+	private GeneralPath polygon = new GeneralPath();
 	private int id = 0;
 
 	public DecorationAngleListRenderer() {
@@ -45,9 +44,7 @@ public class DecorationAngleListRenderer extends JPanel implements
 		int selectedIndex = ((Integer) value).intValue();
 		this.id = selectedIndex;
 		if (isSelected) {
-			// Michael Borcherds 2007-10-13 BEGIN
 			setBackground(Color.LIGHT_GRAY);
-			// Michael Borcherds 2007-10-13 END
 			// setForeground(list.getSelectionForeground());
 		} else {
 			setBackground(list.getBackground());
@@ -65,18 +62,16 @@ public class DecorationAngleListRenderer extends JPanel implements
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		// added by Markus Hohenwarter, BEGIN
 		Graphics2D g2 = (Graphics2D) g;
 		GGraphics2DD.setAntialiasing(g2);
 
-		// added by Markus Hohenwarter, END
-		// Michael Borcherds 2007-10-13 BEGIN
 		// g2.setColor(getBackground());
-		if (getBackground() == Color.LIGHT_GRAY)
+		if (getBackground() == Color.LIGHT_GRAY) {
 			g2.setColor(Color.LIGHT_GRAY);
-		else
+		} else {
 			g2.setColor(Color.WHITE);
-		// Michael Borcherds 2007-10-13 END
+		}
+
 		g2.fillRect(0, 0, getWidth(), getHeight());
 		g2.setColor(Color.BLACK);
 		g2.drawLine(13, 27, 67, 27);
@@ -112,7 +107,6 @@ public class DecorationAngleListRenderer extends JPanel implements
 			drawTick(Math.toRadians(16));
 			g2.draw(tick);
 			break;
-		// Michael Borcherds 2007-11-19 BEGIN
 		case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
 			polygon.reset();
 			polygon.moveTo(56, 15);
@@ -131,7 +125,6 @@ public class DecorationAngleListRenderer extends JPanel implements
 			polygon.closePath();
 			g2.fill(polygon);
 			break;
-		// Michael Borcherds 2007-11-19 END
 		}
 	}
 

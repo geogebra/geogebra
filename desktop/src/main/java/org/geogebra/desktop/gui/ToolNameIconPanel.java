@@ -170,7 +170,7 @@ public class ToolNameIconPanel extends JPanel {
 		ActionListener ac = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String fileName = ((GuiManagerD) app.getGuiManager())
-						.getImageFromFile(); // Michael Borcherds 2008-05-10
+						.getImageFromFile();
 				if (fileName != null) {
 					setIconFileName(fileName);
 				}

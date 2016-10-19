@@ -280,13 +280,12 @@ public class UtilD extends Util {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < length; i++) {
 			char c = name.charAt(i);
-			if (Character.isLetterOrDigit(c) || c == '.' || // Michael Borcherds
-															// 2007-11-23
+			if (Character.isLetterOrDigit(c) || c == '.' ||
 					c == '_') // underscore
 			{
 				sb.append(c);
 			} else {
-				sb.append('_'); // Michael Borcherds 2007-11-23
+				sb.append('_');
 			}
 		}
 

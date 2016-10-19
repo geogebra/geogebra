@@ -60,10 +60,8 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 	public Component getListCellRendererComponent(JList list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		if (isSelected)
-			// Michael Borcherds 2007-10-13 start
 			// setBackground(list.getSelectionBackground());
 			setBackground(Color.LIGHT_GRAY);
-		// Michael Borcherds 2007-10-13 end
 		else
 			setBackground(list.getBackground());
 
@@ -82,17 +80,17 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		// clear background
-		// Michael Borcherds 2007-10-13 start
 		// g2.setColor(getBackground());
-		if (getBackground() == Color.LIGHT_GRAY)
+		if (getBackground() == Color.LIGHT_GRAY) {
 			g2.setColor(Color.LIGHT_GRAY);
-		else
+		} else {
 			g2.setColor(Color.WHITE);
+		}
 		// g2.clearRect(0, 0, getWidth(), getHeight());
 		g.fillRect(0, 0, getWidth(), getHeight());
-		// Michael Borcherds 2007-10-13 end
-		if (nullValue)
+		if (nullValue) {
 			return;
+		}
 
 		// draw dashed line
 		g2.setPaint(Color.black);

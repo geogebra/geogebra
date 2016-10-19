@@ -2204,8 +2204,6 @@ ToolbarD.getAllTools(this));
 		String fileName = imageFileName;
 		MyImageD img = image;
 		try {
-			// Michael Borcherds 2007-12-10 START moved MD5 code from GeoImage
-			// to here
 			String zip_directory = img.getMD5();
 
 			String fn = fileName;
@@ -2246,7 +2244,7 @@ ToolbarD.getAllTools(this));
 					return fileName;
 				}
 				// same name but different size: change filename
-				// Michael Borcherds: this bit of code should now be
+				// this bit of code should now be
 				// redundant as it
 				// is near impossible for the filename to be the same unless
 				// the files are the same
@@ -2535,14 +2533,6 @@ ToolbarD.getAllTools(this));
 		setLabels(); // update display
 		setOrientation();
 	}
-
-	/*
-	 * removed Michael Borcherds 2008-03-31 private boolean reverseLanguage =
-	 * false; //FKH 20040822 final public boolean isReverseLanguage() { //FKH
-	 * 20041010 // for Chinese return reverseLanguage; }
-	 */
-
-	// public static char unicodeThousandsSeparator = ','; // \u066c for Arabic
 
 	StringBuilder testCharacters = new StringBuilder();
 
@@ -4362,7 +4352,6 @@ ToolbarD.getAllTools(this));
 		});
 	}
 
-	// Michael Borcherds 2008-06-22
 	public static void printStacktrace(String message) {
 		try {
 			throw new Exception(message);

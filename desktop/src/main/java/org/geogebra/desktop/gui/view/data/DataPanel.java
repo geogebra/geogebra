@@ -585,43 +585,6 @@ public class DataPanel extends JPanel implements ActionListener,
 
 	public static class CheckBoxIcon {
 
-		// Michael Borcherds 2008-05-11
-		// adapted from
-		// http://www.java2s.com/Open-Source/Java-Document/6.0-JDK-Modules-com.sun.java/swing/com/sun/java/swing/plaf/windows/WindowsIconFactory.java.htm
-		// references to XPStyle removed
-		// option for double-size added
-		// replaced UIManager.getColor() with numbers from:
-		// http://www.java2s.com/Tutorial/Java/0240__Swing/ListingUIDefaultProperties.htm
-
-		/*
-		 * Copyright 1998-2006 Sun Microsystems, Inc. All Rights Reserved. DO
-		 * NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
-		 * 
-		 * This code is free software; you can redistribute it and/or modify it
-		 * under the terms of the GNU General Public License version 2 only, as
-		 * published by the Free Software Foundation. Sun designates this
-		 * particular file as subject to the "Classpath" exception as provided
-		 * by Sun in the LICENSE file that accompanied this code.
-		 * 
-		 * This code is distributed in the hope that it will be useful, but
-		 * WITHOUT ANY WARRANTY; without even the implied warranty of
-		 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-		 * General Public License version 2 for more details (a copy is included
-		 * in the LICENSE file that accompanied this code).
-		 * 
-		 * You should have received a copy of the GNU General Public License
-		 * version 2 along with this work; if not, write to the Free Software
-		 * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301
-		 * USA.
-		 * 
-		 * Please contact Sun Microsystems, Inc., 4150 Network Circle, Santa
-		 * Clara, CA 95054 USA or visit www.sun.com if you need additional
-		 * information or have any questions.
-		 */
-		// int csize = 13;
-
-		// EuclidianView ev;
-
 		public static Color highlightBackground = new Color(230, 230, 230);
 		public int csize;
 
@@ -634,25 +597,21 @@ public class DataPanel extends JPanel implements ActionListener,
 
 			{
 				// Outer top/left
-				// g.setColor(UIManager.getColor("CheckBox.shadow"));
 				g.setColor(new Color(128, 128, 128));
 				g.drawLine(x, y, x + (csize - 2), y);
 				g.drawLine(x, y + 1, x, y + (csize - 2));
 
 				// Outer bottom/right
-				// g.setColor(UIManager.getColor("CheckBox.highlight"));
 				g.setColor(Color.white);
 				g.drawLine(x + (csize - 1), y, x + (csize - 1), y + (csize - 1));
 				g.drawLine(x, y + (csize - 1), x + (csize - 2), y + (csize - 1));
 
 				// Inner top.left
-				// g.setColor(UIManager.getColor("CheckBox.darkShadow"));
 				g.setColor(new Color(64, 64, 64));
 				g.drawLine(x + 1, y + 1, x + (csize - 3), y + 1);
 				g.drawLine(x + 1, y + 2, x + 1, y + (csize - 3));
 
 				// Inner bottom/right
-				// g.setColor(UIManager.getColor("CheckBox.light"));
 				g.setColor(new Color(212, 208, 200));
 				g.drawLine(x + 1, y + (csize - 2), x + (csize - 2), y
 						+ (csize - 2));
@@ -661,15 +620,12 @@ public class DataPanel extends JPanel implements ActionListener,
 
 				// inside box
 				if (highlighted) {
-					// g.setColor(UIManager.getColor("CheckBox.background"));
 					g.setColor(highlightBackground);
 				} else {
-					// g.setColor(UIManager.getColor("CheckBox.interiorBackground"));
 					g.setColor(Color.white);
 				}
 				g.fillRect(x + 2, y + 2, csize - 4, csize - 4);
 
-				// g.setColor(UIManager.getColor("CheckBox.foreground"));
 				g.setColor(new Color(0, 0, 0));
 
 				// paint check

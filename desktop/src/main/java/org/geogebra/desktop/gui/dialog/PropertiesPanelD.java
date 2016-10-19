@@ -197,13 +197,13 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private ColorPanel colorPanel;
 	private LabelPanel labelPanel;
 	private TooltipPanel tooltipPanel;
-	private LayerPanel layerPanel; // Michael Borcherds 2008-02-26
+	private LayerPanel layerPanel;
 	private CoordsPanel coordPanel;
 	private LineEqnPanel lineEqnPanel;
 	private SymbolicPanel symbolicPanel;
 	private ConicEqnPanel conicEqnPanel;
 	private PointSizePanel pointSizePanel;
-	private PointStylePanel pointStylePanel; // Florian Sonner 2008-07-17
+	private PointStylePanel pointStylePanel;
 	private TextOptionsPanel textOptionsPanel;
 	private ArcSizePanel arcSizePanel;
 	private LineStylePanel lineStylePanel;
@@ -287,7 +287,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			namePanel = new NamePanel(app);
 			labelPanel = new LabelPanel();
 			tooltipPanel = new TooltipPanel();
-			layerPanel = new LayerPanel(); // Michael Borcherds 2008-02-26
+			layerPanel = new LayerPanel();
 			animatingPanel = new AnimatingPanel();
 			scriptEditPanel = new ScriptEditPanel();
 			textEditPanel = new TextEditPanel();
@@ -311,7 +311,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		lineEqnPanel = new LineEqnPanel();
 		conicEqnPanel = new ConicEqnPanel();
 		pointSizePanel = new PointSizePanel();
-		pointStylePanel = new PointStylePanel(); // Florian Sonner 2008-07-12
+		pointStylePanel = new PointStylePanel();
 		ineqStylePanel = new IneqPanel();
 		textOptionsPanel = new TextOptionsPanel(this);
 		arcSizePanel = new ArcSizePanel();
@@ -526,7 +526,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			advancedTabList.add(colorFunctionPanel);
 
 			// advancedTabList.add(coordinateFunctionPanel);
-			advancedTabList.add(layerPanel); // Michael Borcherds 2008-02-26
+			advancedTabList.add(layerPanel);
 
 			advancedTabList.add(tooltipPanel);
 
@@ -1218,14 +1218,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			labelModeCB.addItem(loc.getMenu("Name")); // index 0
 			labelModeCB.addItem(loc.getMenu("NameAndValue")); // index 1
 			labelModeCB.addItem(loc.getMenu("Value")); // index 2
-			labelModeCB.addItem(loc.getMenu("Caption")); // index 3 Michael
-			// Borcherds
+			labelModeCB.addItem(loc.getMenu("Caption")); // index 3
 
 			labelModeCB.setSelectedIndex(selectedIndex);
 			labelModeCB.addActionListener(this);
 
 			// change "Show Label:" to "Show Label" if there's no menu
-			// Michael Borcherds 2008-02-18
 			updateShowLabel();
 
 			app.setComponentOrientation(this);
@@ -1302,7 +1300,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void update(boolean isEqualVal, boolean isEqualMode) {
 			// change "Show Label:" to "Show Label" if there's no menu
-			// Michael Borcherds 2008-02-18
 			updateShowLabel();
 
 			GeoElement geo0 = model.getGeoAt(0);

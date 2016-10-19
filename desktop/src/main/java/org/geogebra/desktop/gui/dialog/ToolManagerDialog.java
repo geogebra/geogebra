@@ -102,7 +102,6 @@ public class ToolManagerDialog extends javax.swing.JDialog implements
 			return;
 
 		// ARE YOU SURE ?
-		// Michael Borcherds 2008-05-04
 		Object[] options = { loc.getMenu("DeleteTool"),
 				loc.getMenu("DontDeleteTool") };
 		int returnVal = JOptionPane.showOptionDialog(this,

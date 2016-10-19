@@ -322,8 +322,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 			// check if the intersection points really are on the line
 			// this is important for segments and rays
-			// Zbynek Konecny 2010-02-12 -- following must be done for both
-			// vertical and standard
+			// following must be done for both vertical and standard
 			for (int i = 0; i < solution.curRealRoots; i++) {
 				tempPoint.setCoords(solution.curRoots[i],
 						f.evaluate(solution.curRoots[i]), 1.0);

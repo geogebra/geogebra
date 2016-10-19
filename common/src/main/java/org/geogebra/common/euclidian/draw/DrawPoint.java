@@ -192,7 +192,6 @@ public final class DrawPoint extends Drawable {
 		double xUL = (coords[0] - pointSize);
 		double yUL = (coords[1] - pointSize);
 
-		// Florian Sonner 2008-07-17
 		int pointStyle = P.getPointStyle();
 
 		if (pointStyle == -1)
@@ -425,7 +424,6 @@ public final class DrawPoint extends Drawable {
 				}
 			}
 
-			// Florian Sonner 2008-07-17
 			int pointStyle = P.getPointStyle();
 
 			if (pointStyle == -1)
@@ -495,7 +493,6 @@ public final class DrawPoint extends Drawable {
 	protected final void drawTrace(GGraphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 
-		// Florian Sonner 2008-07-17
 		int pointStyle = P.getPointStyle();
 
 		switch (pointStyle) {

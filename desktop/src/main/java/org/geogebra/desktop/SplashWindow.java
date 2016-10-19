@@ -114,7 +114,6 @@ public class SplashWindow extends Window {
 		setSize(imgWidth, imgHeight);
 		setLocationRelativeTo(null);
 
-		// Florian Sonner (24.6.09)
 		if (canDispose) {
 			// Users shall be able to close the splash window by
 			// clicking on its display area. This mouse listener

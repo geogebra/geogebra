@@ -202,7 +202,6 @@ public class DialogManagerD extends DialogManager {
 		}
 		InputHandler handler = new RenameInputHandler(app, geo, storeUndo);
 
-		// Michael Borcherds 2008-03-25
 		// a Chinese friendly version
 		InputDialogD id = new InputDialogD(((AppD) app), "<html>"
 				+ app.getLocalization().getPlain("NewNameForA",

@@ -270,7 +270,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		return addIcons;
 	}
 
-	// Michael Borcherds 2008-05-15
 	public void update() {
 		((ConstructionTableDataD) data).updateAll();
 	}

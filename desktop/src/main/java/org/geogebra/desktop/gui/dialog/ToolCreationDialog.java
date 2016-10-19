@@ -803,9 +803,10 @@ class MyCellRenderer extends DefaultListCellRenderer {
 				else
 					setText(geo.getNameDescriptionHTML(true, true));
 			}
-		} else
-			setText(" "); // Michael Borcherds 2008-02-18 bugfix: height is too
-							// small if no objects
+		} else {
+			setText(" ");
+		}
+
 		return this;
 	}
 }

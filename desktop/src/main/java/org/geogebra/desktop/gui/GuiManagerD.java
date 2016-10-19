@@ -1221,7 +1221,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	/**
-	 * gets String from clipboard Michael Borcherds 2008-04-09
+	 * gets String from clipboard
 	 */
 	public String getStringFromClipboard() {
 		String selection = null;
@@ -1682,7 +1682,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			comp = frame != null && !frame.isIconified() ? frame : null;
 		}
 
-		// Michael Borcherds 2008-05-04
 		Object[] options = { app.getMenu("Save"), app.getMenu("DontSave"),
 				app.getMenu("Cancel") };
 		int returnVal = JOptionPane.showOptionDialog(comp,
@@ -1912,9 +1911,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				// remove "*<>/\?|:
 				file = new File(file.getParent(), UtilD.processFilename(file
-						.getName())); // Michael
-										// Borcherds
-										// 2007-11-23
+						.getName()));
 
 				// add file extension
 				file = addExtension(file, fileExtension);
@@ -1924,7 +1921,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				if (promptOverwrite && file.exists()) {
 					// ask overwrite question
 
-					// Michael Borcherds 2008-05-04
 					Object[] options = { getLocalization().getMenu("Overwrite"),
 							app.getMenu("DontOverwrite") };
 					int n = JOptionPane.showOptionDialog(
@@ -3181,7 +3177,6 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 		LocalizationD loc = ((AppD) app).getLocalization();
 
-		// Michael Borcherds 2008-05-04
 		Object[] options = { loc.getMenu("CreateSliders"),
 				loc.getMenu("Cancel") };
 		int returnVal = JOptionPane.showOptionDialog(comp,

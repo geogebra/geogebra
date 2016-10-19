@@ -301,8 +301,6 @@ public abstract class MyXMLioJre extends MyXMLio {
 		Iterator<GeoElement> it = geos.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			// Michael Borcherds 2007-12-10 this line put back (not needed now
-			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
 			MyImageJre image = (MyImageJre) geo.getFillImage();
 			if (fileName != null && image != null) {
@@ -348,7 +346,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 	}
 
 	/**
-	 * Writes thumbnail to zip. Michael Borcherds 2008-04-18
+	 * Writes thumbnail to zip
 	 */
 	// private void writeThumbnail(Construction cons, ZipOutputStream zip)
 	// throws IOException {

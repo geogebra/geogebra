@@ -518,9 +518,7 @@ public class MathQuillTreeItem extends RadioTreeItem
 				? kernel.getInputPreviewHelper().getInput(newValue) : newValue;
 
 		if (input == null || input.length() == 0) {
-			app.getActiveEuclidianView().requestFocusInWindow(); // Michael
-			// Borcherds
-			// 2008-05-12
+			app.getActiveEuclidianView().requestFocusInWindow();
 			scrollIntoView();
 			return false;
 		}

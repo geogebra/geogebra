@@ -685,8 +685,6 @@ public class GgbAPIW extends GgbAPI {
 		Iterator<GeoElement> it = geos.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			// Michael Borcherds 2007-12-10 this line put back (not needed now
-			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
 			// for some reason we sometimes get null and sometimes "" if there
 			// is no image used
@@ -711,8 +709,6 @@ public class GgbAPIW extends GgbAPI {
 		Iterator<GeoElement> it = geos.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			// Michael Borcherds 2007-12-10 this line put back (not needed now
-			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
 			if (fileName != "") {
 				String url = ((ImageManagerW) app.getImageManager())

@@ -3832,7 +3832,6 @@ new GPoint(row, column));
 					break;
 				}
 
-				// Florian Sonner 2008-07-17
 				else if ("pointStyle".equals(eName)) {
 					ok = handlePointStyle(attrs);
 					break;
@@ -4409,7 +4408,6 @@ new GPoint(row, column));
 		}
 	}
 
-	// Florian Sonner 2008-07-17
 	private boolean handlePointStyle(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof PointProperties)) {
 			Log.debug("wrong element type for <pointStyle>: " + geo.getClass());

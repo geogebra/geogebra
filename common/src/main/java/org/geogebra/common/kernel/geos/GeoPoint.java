@@ -1606,7 +1606,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		sb.append(getPointSize());
 		sb.append("\"/>\n");
 
-		// point style, Florian Sonner 2008-07-17
+		// point style
 		if (pointStyle >= 0) {
 			sb.append("\t<pointStyle val=\"");
 			sb.append(pointStyle);

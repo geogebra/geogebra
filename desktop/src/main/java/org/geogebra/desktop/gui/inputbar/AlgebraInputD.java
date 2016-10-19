@@ -412,9 +412,8 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 				.getInput(getTextField().getText());
 
 		if (input == null || input.length() == 0) {
-			app.getActiveEuclidianView().requestFocus(); // Michael
-															// Borcherds
-															// 2008-05-12
+			app.getActiveEuclidianView().requestFocus();
+
 			return;
 		}
 

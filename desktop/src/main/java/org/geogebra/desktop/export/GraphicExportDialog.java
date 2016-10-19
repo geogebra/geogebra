@@ -736,7 +736,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	final private boolean exportEMF(boolean exportToClipboard,
 			boolean useEMFplus) {
 
-		// Michael Borcherds 2008-03-02 BEGIN
 		File file;
 		if (exportToClipboard) {
 			String tempDir = UtilD.getTempDir();
@@ -745,7 +744,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			file = app.getGuiManager().showSaveDialog(FileExtensions.EMF, null,
 					loc.getMenu("emf") + " " + loc.getMenu("Files"), true,
 					false);
-			// Michael Borcherds 2008-03-02 END
+
 		}
 
 		if (file == null) {
@@ -756,7 +755,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					pixelHeight, exportScale);
 
 			if (exportToClipboard) {
-				sendToClipboard(file); // Michael Borcherds 2008-03-02 END
+				sendToClipboard(file);
 			}
 
 			return true;
@@ -775,13 +774,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * Exports drawing as pdf
 	 */
 	final private boolean exportPDF(boolean exportToClipboard) {
-		// Michael Borcherds 2008-03-02 BEGIN
+
 		File file;
 		String tempDir = UtilD.getTempDir();
 		if (exportToClipboard) {
 			file = new File(tempDir + "geogebra.pdf");
 		} else {
-			// Michael Borcherds 2008-03-02 END
+
 			file = app.getGuiManager().showSaveDialog(FileExtensions.PDF, null,
 					loc.getMenu("pdf") + " " + loc.getMenu("Files"), true,
 					false);
@@ -796,7 +795,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					pixelHeight, exportScale);
 
 			if (exportToClipboard) {
-				sendToClipboard(file); // Michael Borcherds 2008-03-02 END
+				sendToClipboard(file);
 			}
 
 			return true;

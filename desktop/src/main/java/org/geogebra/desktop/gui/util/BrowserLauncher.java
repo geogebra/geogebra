@@ -44,14 +44,13 @@ public class BrowserLauncher {
 
 		// fallback
 		try {
-			if (AppD.MAC_OS) { // Michael Borcherds 2008-03-21
+			if (AppD.MAC_OS) {
 				Class<?> fileMgr = Class.forName("com.apple.eio.FileManager");
 				Method openURL = fileMgr.getDeclaredMethod("openURL",
 						new Class[] { String.class });
 				openURL.invoke(null, new Object[] { url });
-			} else if (AppD.WINDOWS) // Michael Borcherds 2008-03-21
+			} else if (AppD.WINDOWS)
 			{
-				// Michael Borcherds 2008-03-21 BEGIN
 				// replace file:/c:/Program Files/etc
 				// by file:///c:\Program Files\etc
 				String fixedURL = url;
@@ -72,7 +71,7 @@ public class BrowserLauncher {
 
 					fixedURL = "file:///" + url; // put "file:///" back in
 				}
-				// Michael Borcherds 2008-03-21 END
+
 				Runtime.getRuntime().exec(
 						"rundll32.exe url.dll,FileProtocolHandler " + fixedURL);
 			} else { // assume Unix or Linux

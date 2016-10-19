@@ -287,7 +287,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 				}
 			} else {
 
-				// // Michael Borcherds 2008-04-27 changed to
+				// changed to
 				// RealWorld
 				// not absolute
 				// startpoint contains mouse coords

@@ -31,14 +31,9 @@ public class DecorationListRenderer extends JPanel implements ListCellRenderer {
 		int selectedIndex = ((Integer) value).intValue();
 		this.id = selectedIndex;
 		if (isSelected) {
-			// Michael Borcherds 20071006 start
-			// setBackground(list.getSelectionBackground());
 			setBackground(Color.LIGHT_GRAY);
-			// Michael Borcherds 20071006 end
-			// setForeground(list.getSelectionForeground());
 		} else {
 			setBackground(list.getBackground());
-			// setForeground(list.getForeground());
 		}
 
 		setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -49,13 +44,12 @@ public class DecorationListRenderer extends JPanel implements ListCellRenderer {
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		// Michael Borcherds 20071006 start
-		// g.setColor(getBackground());
-		if (getBackground() == Color.LIGHT_GRAY)
+		if (getBackground() == Color.LIGHT_GRAY) {
 			g.setColor(Color.LIGHT_GRAY);
-		else
+		} else {
 			g.setColor(Color.WHITE);
-		// Michael Borcherds 20071006 end
+		}
+
 		g.fillRect(0, 0, getWidth(), getHeight());
 		g.setColor(Color.BLACK);
 		int mid = getHeight() / 2;
@@ -82,7 +76,6 @@ public class DecorationListRenderer extends JPanel implements ListCellRenderer {
 			g.drawLine(mid_width + 3, quart, mid_width + 3, mid + quart);
 			g.drawLine(mid_width - 3, quart, mid_width - 3, mid + quart);
 			break;
-		// Michael Borcherds 20071006 start
 		case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
 			quart = mid / 2;
 			mid_width = getWidth() / 2;
@@ -107,7 +100,6 @@ public class DecorationListRenderer extends JPanel implements ListCellRenderer {
 			g.drawLine(mid_width - 6, mid, mid_width - quart - 6, mid - quart);
 			g.drawLine(mid_width - 6, mid, mid_width - quart - 6, mid + quart);
 			break;
-		// Michael Borcherds 20071006 end
 		}
 	}
 }

@@ -41,7 +41,6 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 	// private static String HIDDEN_FILE = "Hidden File";
 
 	// changed to ArrayList as we need an ordered list (want .ggb first)
-	// Michael Borcherds 2010-03-04
 	private ArrayList<FileExtensions> filters = null;
 
 	private String description = null;
