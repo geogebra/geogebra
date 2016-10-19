@@ -209,7 +209,7 @@ public class AlgoDependentNumber extends AlgoElement
 	 *            the used Botana variables in the expression to be built
 	 */
 	public void setBotanaVars(Variable[] vars) {
-		botanaVars = vars.clone();
+		botanaVars = vars;
 	}
 
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
