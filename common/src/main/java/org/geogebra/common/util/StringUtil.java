@@ -10,6 +10,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.debug.Log;
 
@@ -1179,9 +1180,28 @@ public class StringUtil {
 	/**
 	 * @param s
 	 *            String to wrap
+	 * @param tpl
+	 *            String template
 	 * @return "exact(" + s + ")" if necessary (for Giac)
 	 */
 	public static String wrapInExact(String s, StringTemplate tpl) {
+		return wrapInExact(0, s, tpl, null);
+	}
+
+	/**
+	 * @param x
+	 *            the number to convert
+	 * @param s
+	 *            String to wrap (String representation of x)
+	 * @param tpl
+	 *            String template (Giac or GiacInternal)
+	 * @param kernel
+	 *            kernel
+	 * @return "exact(" + s + ")" if necessary (for Giac) or convert double into
+	 *         a fraction internally (for GiacInternal)
+	 */
+	public static String wrapInExact(double x, String s, StringTemplate tpl,
+			Kernel kernel) {
 		if (s.startsWith("exact(")) {
 			// nothing to do
 			return s;
@@ -1210,9 +1230,16 @@ public class StringUtil {
 		}
 
 		StringBuilder sb1 = new StringBuilder();
-		sb1.append("exact(");
-		sb1.append(s);
-		sb1.append(')');
+		if (tpl == StringTemplate.giacTemplateInternal && kernel != null) {
+			sb1.append("(");
+			long[] l = kernel.doubleToRational(x);
+			sb1.append(l[0] + "/" + l[1]);
+			sb1.append(')');
+		} else {
+			sb1.append("exact(");
+			sb1.append(s);
+			sb1.append(')');
+		}
 
 		return sb1.toString();
 	}

@@ -228,6 +228,23 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	/**
+	 * Same as giacTemplate. We check object equality to this in
+	 * StringUtil.wrapInExact which is just a hack. TODO
+	 */
+	public static final StringTemplate giacTemplateInternal = new StringTemplate(
+			"giacTemplateMini");
+	static {
+		giacTemplateInternal.internationalizeDigits = false;
+		giacTemplateInternal.numeric = false;
+		giacTemplateInternal.usePrefix = false;
+		giacTemplateInternal.forceNF = true;
+		giacTemplateInternal.localizeCmds = false;
+		giacTemplateInternal.setType(StringType.GIAC);
+		giacTemplateInternal.nf = FormatFactory.prototype
+				.getNumberFormat(15);
+	}
+
+	/**
 	 * XML string type, do not internationalize digits
 	 */
 	public static final StringTemplate xmlTemplate = new StringTemplate(

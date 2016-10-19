@@ -63,7 +63,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 * @param coeff
 	 *            the constant
 	 */
-	public Polynomial(final int coeff) {
+	public Polynomial(final long coeff) {
 		this(coeff, new Term());
 	}
 

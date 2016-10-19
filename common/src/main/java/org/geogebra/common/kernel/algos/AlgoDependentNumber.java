@@ -201,6 +201,17 @@ public class AlgoDependentNumber extends AlgoElement
 		return botanaVars;
 	}
 
+	/**
+	 * Add Botana variables manually in case of building an AlgoDependentNumber
+	 * externally.
+	 * 
+	 * @param vars
+	 *            the used Botana variables in the expression to be built
+	 */
+	public void setBotanaVars(Variable[] vars) {
+		botanaVars = vars.clone();
+	}
+
 	public Polynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 
@@ -404,12 +415,40 @@ public class AlgoDependentNumber extends AlgoElement
 		}
 	}
 
-	private void expressionNodeToPolynomial(ExpressionNode expNode,
+	/**
+	 * Attempt to create a Polynomial from a PolynomialNode by using the same
+	 * object stored as ExpressionNode as well. The output will be put into
+	 * polyNode.poly and can be retrieved by using polyNode.getPoly(). The
+	 * PolynomialNode has to be created by buildPolynomialTree(expNode,
+	 * polyNode) first. It is possible that the process will not be successful
+	 * for the first run. In such cases multiple runs should be performed until
+	 * polyNode.poly is not null.
+	 * 
+	 * @param expNode
+	 *            ExpressionNode presentation of the polynomial
+	 * @param polyNode
+	 *            PolynomialNode presentation of the polynomial
+	 * @throws NoSymbolicParametersException
+	 *             if the conversion is not possible for some reason (maybe
+	 *             because of unhandled cases)
+	 * 
+	 * @author Csilla Solyom-Gecse
+	 * @author Zoltan Kovacs
+	 * 
+	 *         TODO: Find a more elegant way to do that.
+	 */
+	public void expressionNodeToPolynomial(ExpressionNode expNode,
 			PolynomialNode polyNode) throws NoSymbolicParametersException {
 		if (polyNode.getPoly() != null) {
 			return;
 		}
-		if (polyNode.getLeft().getPoly() != null
+		if (polyNode.getLeft() != null && polyNode.getRight() == null
+				&& polyNode.getOperation() == Operation.NO_OPERATION) {
+			Polynomial leftPoly = polyNode.getLeft().getPoly();
+			polyNode.setPoly(leftPoly);
+		}
+		if (polyNode.getLeft() != null && polyNode.getLeft().getPoly() != null
+				&& polyNode.getRight() != null
 				&& polyNode.getRight().getPoly() != null) {
 			Polynomial leftPoly = polyNode.getLeft().getPoly();
 			Polynomial rightPoly = polyNode.getRight().getPoly();
@@ -442,7 +481,7 @@ public class AlgoDependentNumber extends AlgoElement
 			expressionNodeToPolynomial((ExpressionNode) expNode.getLeft(),
 					polyNode.getLeft());
 		}
-		if (expNode.getRight().isExpressionNode()
+		if (expNode.getRight() != null && expNode.getRight().isExpressionNode()
 				&& polyNode.getRight().getPoly() == null) {
 			expressionNodeToPolynomial((ExpressionNode) expNode.getRight(),
 					polyNode.getRight());
@@ -470,7 +509,7 @@ public class AlgoDependentNumber extends AlgoElement
 		}
 	}
 
-	private void buildPolynomialTree(ExpressionNode expNode,
+	public void buildPolynomialTree(ExpressionNode expNode,
 			PolynomialNode polyNode) throws NoSymbolicParametersException {
 		if (expNode == null) {
 			return;
@@ -533,7 +572,7 @@ public class AlgoDependentNumber extends AlgoElement
 				}
 				if (expNode.getLeft() instanceof MySpecialDouble) {
 					Double d = expNode.getLeft().evaluateDouble();
-					int i;
+					long i;
 					// if in the expression exists rational number with n
 					// decimals
 					// (if there's more than one rational number, then n is the
@@ -542,7 +581,7 @@ public class AlgoDependentNumber extends AlgoElement
 					if (nrOfMaxDecimals != 0) {
 						i = (int) (d * Math.pow(10, nrOfMaxDecimals));
 					} else {
-						i = d.intValue();
+						i = d.longValue();
 					}
 					polyNode.getLeft().setPoly(new Polynomial(i));
 				}

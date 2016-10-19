@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAngularBisectorPoints;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -308,7 +309,7 @@ public class ProverBotanasMethod {
 		 */
 		boolean interpretTrueAsUndefined = false;
 		
-		boolean disallowFixSecondPoint = false;
+		private boolean disallowFixSecondPoint = false;
 
 		/**
 		 * @return the polynomials
@@ -354,18 +355,25 @@ public class ProverBotanasMethod {
 		 * 
 		 * @param statement
 		 *            the statement to be proven
+		 * @param movingPoint
+		 *            use numerical approximation for this element instead of
+		 *            computing it symbolically. This can be useful if an
+		 *            element cannot be precisely described symbolically: only
+		 *            its generalized formula can be described symbolically.
 		 * @param prover
 		 *            the underlying prover
 		 */
-		public AlgebraicStatement(GeoElement statement, Prover prover) {
+
+		public AlgebraicStatement(GeoElement statement, GeoElement movingPoint,
+				Prover prover) {
 			if (statement.kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
-				algebraicTranslation(statement, prover);
+				algebraicTranslation(statement, movingPoint, prover);
 			} else {
 				result = ProofResult.PROCESSING;
 			}
 		}
 
-		private void setHypotheses() {
+		private void setHypotheses(GeoElement movingPoint) {
 			polynomials = new HashSet<Polynomial>();
 			int nHypotheses = 0;
 			TreeSet<GeoElement> predecessors = new TreeSet<GeoElement>();
@@ -375,21 +383,41 @@ public class ProverBotanasMethod {
 				allPredecessors.add(geoStatement);
 			}
 
-			Iterator<GeoElement> it = allPredecessors.iterator();
+			Iterator<GeoElement> it;
 			/*
 			 * Remove geos directly related with AlgoDependentNumber algos since
 			 * we don't want to add them twice (they will be invoked during
 			 * their occurrence on a higher level in their geos). Hopefully this
 			 * is OK in general, that is, we never need using
 			 * AlgoDependentNumber's polynomials directly. If this is still the
-			 * case, our idea here must be redesigned.
+			 * case, our idea here must be redesigned. Also remove geos which
+			 * should be computed numerically.
 			 */
-
+			TreeSet<GeoElement> numerical = new TreeSet<GeoElement>();
+			if (movingPoint != null) {
+				TreeSet<GeoElement> numericalPossible = new TreeSet<GeoElement>();
+				numericalPossible = movingPoint.getAllPredecessors();
+				it = numericalPossible.iterator();
+				while (it.hasNext()) {
+					GeoElement geo = it.next();
+					AlgoElement ae = geo.getParentAlgorithm();
+					if (ae != null && !(geo instanceof GeoLine)
+							&& (geo instanceof GeoConic)) {
+						/*
+						 * For the moment only conics are numerically computed.
+						 * This is not exactly what we want. FIXME
+						 */
+						numerical.add(geo);
+					}
+				}
+			}
+			it = allPredecessors.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
 				if (!(geo instanceof GeoNumeric && geo
-						.getParentAlgorithm() instanceof AlgoDependentNumber))
+						.getParentAlgorithm() instanceof AlgoDependentNumber)) {
 					predecessors.add(geo);
+				}
 			}
 			ProverSettings proverSettings = ProverSettings.get();
 			it = predecessors.iterator();
@@ -516,14 +544,36 @@ public class ProverBotanasMethod {
 									geo.setCaptionBotanaVars("(" + v[0].toTeX()
 											+ "," + v[1].toTeX() + ")");
 								}
+								if (geo.isEqual(movingPoint)
+										&& !numerical.isEmpty()) {
+									GeoElement path = (GeoElement) movingPoint
+											.getParentAlgorithm().getInput(0);
+									// Botana vars are ready to go
+									Variable[] w;
+									w = ((SymbolicParametersBotanaAlgo) path)
+											.getBotanaVars(path);
+									geoPolys = new Polynomial[2];
+									geoPolys[0] = new Polynomial(v[0])
+											.subtract(new Polynomial(w[0]));
+									geoPolys[1] = new Polynomial(v[1])
+											.subtract(new Polynomial(w[1]));
+								}
 							}
-							Log.debug("Hypotheses:");
-							for (Polynomial p : geoPolys) {
-								polynomials.add(p);
-								nHypotheses++;
-								Log.debug((nHypotheses) + ". " + p);
-								if (proverSettings.captionAlgebra) {
-									geo.addCaptionBotanaPolynomial(p.toTeX());
+							if (!numerical.contains(geo)) {
+								Log.debug("Hypotheses:");
+								for (Polynomial p : geoPolys) {
+									polynomials.add(p);
+									nHypotheses++;
+									Log.debug((nHypotheses) + ". " + p);
+									if (proverSettings.captionAlgebra) {
+										geo.addCaptionBotanaPolynomial(
+												p.toTeX());
+									}
+								}
+							} else {
+								if (numerical.contains(geo)) {
+									Log.debug(
+											"This object will be computed numerically");
 								}
 							}
 						}
@@ -535,6 +585,102 @@ public class ProverBotanasMethod {
 					}
 				} else {
 					Log.info(geo.getParentAlgorithm() + " unimplemented");
+					result = ProofResult.UNKNOWN;
+					return;
+				}
+			}
+			/*
+			 * Processing numerical objects. The equations computed by GeoGebra
+			 * will be used.
+			 */
+			it = numerical.iterator();
+			Log.debug("Processing numerical objects");
+			while (it.hasNext()) {
+				GeoElement geo = it.next();
+				try {
+					Polynomial[] polys = ((SymbolicParametersBotanaAlgo) geo)
+							.getBotanaPolynomials(geo);
+					/*
+					 * We don't use the symbolic polys, but just create them to
+					 * obtain the Botana vars later.
+					 */
+				} catch (NoSymbolicParametersException e) {
+					Log.error(geo.getParentAlgorithm()
+							+ " has no Botana polys (should not happen)");
+					result = ProofResult.UNKNOWN;
+				}
+				Variable[] vars = ((SymbolicParametersBotanaAlgo) geo).getBotanaVars(geo);
+				String strForGiac = geo.getFormulaString(
+						StringTemplate.giacTemplateInternal,
+						true);
+				// Log.debug(strForGiac);
+				
+				try {
+					Kernel kernel = geoStatement.kernel;
+					GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+					String giacOutput4 = "";
+					try {
+						String giacOutput = cas.getCurrentCAS()
+								.evaluateRaw(strForGiac.toString());
+						// create a poly instead of equation
+						String strForGiac2 = "lhs(" + giacOutput + ")-rhs("
+								+ giacOutput + ")";
+						String giacOutput2 = cas.getCurrentCAS()
+								.evaluateRaw(strForGiac2.toString());
+						// create a poly with integer coeffs: lcm of
+						// denominators
+						String strForGiac3 = "lcm(denom(coeff(" + giacOutput2
+								+ ")))";
+						String giacOutput3 = cas.getCurrentCAS()
+								.evaluateRaw(strForGiac3.toString());
+						// multiply with the lcm
+						String strForGiac4 = "expand((" + giacOutput2 + ") * "
+								+ giacOutput3 + ")";
+						giacOutput4 = cas.getCurrentCAS()
+								.evaluateRaw(strForGiac4.toString());
+					} catch (Throwable t) {
+						Log.debug("Unhandled case (Giac)");
+					}
+					String outputSubst = giacOutput4
+							.replaceAll("x", vars[0].toString())
+							.replaceAll("y", vars[1].toString());
+					/*
+					 * Now we have the equation in terms of the Botana
+					 * variables. Next, we have to convert the equation to a
+					 * Botana polynomial. This piece of code is borrowed from
+					 * AlgoDependentNumber.
+					 */
+					ValidExpression resultVE = cas.getCASparser()
+							.parseGeoGebraCASInputAndResolveDummyVars(
+									outputSubst, kernel, null);
+					PolynomialNode polyNode = new PolynomialNode();
+					ExpressionNode en = new ExpressionNode(kernel, resultVE);
+					AlgoDependentNumber adn = new AlgoDependentNumber(
+							geoStatement.getConstruction(),
+							en, false);
+					adn.setBotanaVars(vars);
+					adn.buildPolynomialTree(en,
+							polyNode);
+					adn.expressionNodeToPolynomial(en,
+							polyNode);
+					while (polyNode.getPoly() == null) {
+						adn.expressionNodeToPolynomial(
+								en, polyNode);
+					}
+					/* Finally we obtain the Botana polynomial. */
+					Polynomial botanaPolynomial = polyNode.getPoly();
+					/* Don't use this algo any longer. */
+					movingPoint.getConstruction().removeFromAlgorithmList(adn);
+					Log.debug("Hypothesis:");
+					polynomials.add(botanaPolynomial);
+					nHypotheses++;
+					Log.debug((nHypotheses) + ". " + botanaPolynomial);
+					if (proverSettings.captionAlgebra) {
+						geo.addCaptionBotanaPolynomial(
+								botanaPolynomial.toTeX());
+					}
+				} catch (NoSymbolicParametersException e) {
+					Log.info("Unhandled case on processing numerical objects");
 					result = ProofResult.UNKNOWN;
 					return;
 				}
@@ -834,7 +980,7 @@ public class ProverBotanasMethod {
 		}
 
 		private void algebraicTranslation(GeoElement statement,
-				Prover prover) {
+				GeoElement numerical, Prover prover) {
 			ProverSettings proverSettings = ProverSettings.get();
 			geoStatement = statement;
 			geoProver = prover;
@@ -844,7 +990,7 @@ public class ProverBotanasMethod {
 			 * redundant, it would be enough to set the prover here.
 			 */
 			prover.setStatement(statement);
-			setHypotheses();
+			setHypotheses(numerical);
 			if (result != null) {
 				return;
 			}
@@ -908,7 +1054,7 @@ public class ProverBotanasMethod {
 			}
 		}
 
-		AlgebraicStatement as = new AlgebraicStatement(statement, prover);
+		AlgebraicStatement as = new AlgebraicStatement(statement, null, prover);
 
 		/*
 		 * It's possible that we already know the answer without computing

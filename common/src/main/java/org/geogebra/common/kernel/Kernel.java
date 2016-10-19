@@ -1180,6 +1180,31 @@ public class Kernel {
 	}
 
 	/**
+	 * Converts the double into a fraction based on the current kernel rounding
+	 * precision.
+	 * 
+	 * @param x
+	 * @return
+	 */
+	public long[] doubleToRational(double x) {
+		double y;
+		long[] ret = new long[2];
+		ret[1] = 1;
+		int rounding = getPrintDecimals();
+		y = x; // Kernel.roundToScale(x, rounding);
+		while (rounding > 0) {
+			ret[1] *= 10;
+			y *= 10;
+			rounding--;
+		}
+		ret[0] = (int) Math.floor(y);
+		long gcd = gcd(ret[0], ret[1]);
+		ret[0] /= gcd;
+		ret[1] /= gcd;
+		return ret;
+	}
+
+	/**
 	 * Formats the value of x using the currently set NumberFormat or
 	 * ScientificFormat.
 	 * 
@@ -1220,10 +1245,7 @@ public class Kernel {
 			if (Double.isNaN(x)) {
 				return "?";
 			} else if (Double.isInfinite(x)) {
-				if (casPrintForm.isGiac()) {
-					return (x < 0) ? "-inf" : "inf";
-				}
-				return Double.toString(x); // "Infinity" or "-Infinity"
+				return (x < 0) ? "-inf" : "inf";
 			} else if (isLongInteger) {
 				return Long.toString(rounded);
 			} else if (Kernel.isZero(x, Kernel.MAX_PRECISION)) {
@@ -1238,9 +1260,8 @@ public class Kernel {
 
 					// convert 0.125 to 1/8 so Giac treats it as an exact number
 					// Note: exact(0.3333333333333) gives 1/3
-					if (casPrintForm.isGiac()
-							&& ret.indexOf('.') > -1) {
-						return StringUtil.wrapInExact(ret, tpl);
+					if (ret.indexOf('.') > -1) {
+						return StringUtil.wrapInExact(x, ret, tpl, this);
 					}
 
 					return ret;

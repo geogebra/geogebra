@@ -66,7 +66,7 @@ public abstract class AbstractProverReciosMethod {
 			p = UtilFactory.prototype.newProver();
 			p.setProverEngine(ProverEngine.RECIOS_PROVER);
 			ProverBotanasMethod pbm = new ProverBotanasMethod();
-			as = pbm.new AlgebraicStatement(statement, p);
+			as = pbm.new AlgebraicStatement(statement, null, p);
 
 			if (as.getResult() == ProofResult.PROCESSING) {
 				// Don't do further computations until CAS is ready:

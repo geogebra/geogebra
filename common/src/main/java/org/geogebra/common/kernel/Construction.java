@@ -913,6 +913,15 @@ public class Construction {
 	}
 
 	/**
+	 * The list of algo elements.
+	 * 
+	 * @return list of algos
+	 */
+	public ArrayList<AlgoElement> getAlgoList() {
+		return algoList;
+	}
+
+	/**
 	 * Removes the given algorithm from this construction's algorithm list
 	 * 
 	 * @param algo

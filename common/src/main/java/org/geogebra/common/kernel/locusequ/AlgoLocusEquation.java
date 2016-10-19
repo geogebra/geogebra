@@ -134,6 +134,15 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		setOutput(0, this.geoPoly.toGeoElement());
         
         setEfficientDependencies(standardInput, efficientInput);
+		// Removing extra algos manually:
+		Construction c = movingPoint.getConstruction();
+		do {
+			c.removeFromAlgorithmList(this);
+		} while (c.getAlgoList().contains(this));
+		// Adding this again:
+		c.addToAlgorithmList(this);
+		// TODO: consider moving setInputOutput() out from compute()
+
 		efficientInputFingerprint = fingerprint(efficientInput);
 	}
     
@@ -314,31 +323,13 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		return Commands.LocusEquation;
 	}
 	
-	private long[] doubleToRational(double x) {
-		double y;
-		long[] ret = new long[2];
-		ret[1] = 1;
-		int rounding = kernel.getPrintDecimals();
-		y = x; // Kernel.roundToScale(x, rounding);
-		while (rounding > 0) {
-			ret[1] *= 10;
-			y *= 10;
-			rounding--;
-		}
-		ret[0] = (int) Math.floor(y);
-		long gcd = Kernel.gcd(ret[0], ret[1]);
-		ret[0] /= gcd;
-		ret[1] /= gcd;
-		return ret;
-	}
-
 	private String getImplicitPoly(boolean implicit) throws Throwable {
 		Prover p = UtilFactory.prototype.newProver();
 		p.setProverEngine(implicit ? ProverEngine.LOCUS_IMPLICIT
 				: ProverEngine.LOCUS_EXPLICIT);
 		ProverBotanasMethod pbm = new ProverBotanasMethod();
 		AlgebraicStatement as = pbm.new AlgebraicStatement(
-				implicit ? implicitLocus : locusPoint, p);
+				implicit ? implicitLocus : locusPoint, movingPoint, p);
 		ProofResult proofresult = as.getResult();
 		if (proofresult == ProofResult.PROCESSING
 				|| proofresult == ProofResult.UNKNOWN) {
@@ -361,6 +352,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		}
 
 		/* axis and fixed slope line support */
+		Kernel k = movingPoint.getKernel();
 		Iterator<GeoElement> geos = (implicit ? implicitLocus : locusPoint)
 				.getAllPredecessors().iterator();
 		while (geos.hasNext()) {
@@ -377,9 +369,9 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 				 * a0*b1*c1*x+a1*b0*c1*y+a1*b1*c0=0
 				 */
 				Coords P = l.getCoords();
-				long[] a = doubleToRational(P.get(1));
-				long[] b = doubleToRational(P.get(2));
-				long[] c = doubleToRational(P.get(3));
+				long[] a = k.doubleToRational(P.get(1));
+				long[] b = k.doubleToRational(P.get(2));
+				long[] c = k.doubleToRational(P.get(3));
 
 				// Setting up two equations for the two points:
 				Polynomial a0 = new Polynomial((int) a[0]);
@@ -439,7 +431,9 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 				 * free points (that is, substitution of their coordinates will
 				 * be performed later), unless this point is the locus point.
 				 */
-				freePoints.add(geo);
+				if (!freePoints.contains(geo)) {
+					freePoints.add(geo);
+				}
 			}
 		}
 
@@ -464,7 +458,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 					 * Use the fraction P/Q according to the current kernel
 					 * setting. We use the P/Q=x <=> P-Q*x=0 equation.
 					 */
-					long[] q = doubleToRational(x);
+					long[] q = k.doubleToRational(x);
 					vars[0].setFree(false);
 					Polynomial ph = new Polynomial((int) q[0])
 							.subtract(new Polynomial(vars[0])
@@ -480,7 +474,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 					 * Use the fraction P/Q according to the current kernel
 					 * setting. We use the P/Q=x <=> P-Q*x=0 equation.
 					 */
-					long[] q = doubleToRational(y);
+					long[] q = k.doubleToRational(y);
 					vars[1].setFree(false);
 					Polynomial ph = new Polynomial((int) q[0])
 							.subtract(new Polynomial(vars[1])
@@ -507,7 +501,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		eliminationIdeal = Polynomial.eliminate(
 				as.getPolynomials().toArray(
 						new Polynomial[as.getPolynomials().size()]),
-				substitutions, kernel, 0, false, true);
+				substitutions, k, 0, false, true);
 
 		// We implicitly assume that there is one equation here as result.
 		Polynomial result = null;
@@ -555,7 +549,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 				.append(" od; for kk from sd to sy-1 do ee:=0; ccf:=append(ccf,ee); od; od; od],")
 				.append("[cc,ccf]][9]");
 
-		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+		GeoGebraCAS cas = (GeoGebraCAS) k.getGeoGebraCAS();
 		try {
 			String impccoeffs = cas.getCurrentCAS().evaluateRaw(
 					script.toString());
