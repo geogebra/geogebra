@@ -1924,6 +1924,34 @@ public abstract class EuclidianView
 		return null;
 	}
 
+	private boolean labelHitNeedsRefresh = true;
+	private GeoElement labelHitLastGeo = null;
+
+	/**
+	 * says that label hit needs to be refreshed
+	 */
+	public void setLabelHitNeedsRefresh() {
+		labelHitNeedsRefresh = true;
+	}
+
+	/**
+	 * WARNING: ensure setLabelHitNeedsRefresh() is
+	 * call once since last mouse event
+	 * 
+	 * @param p
+	 *            mouse position
+	 * @param type
+	 *            event type
+	 * @return geo hit on label since last refresh
+	 */
+	public GeoElement getLabelHitCheckRefresh(GPoint p, PointerEventType type) {
+		if (labelHitNeedsRefresh) {
+			labelHitLastGeo = getLabelHit(p, type);
+			labelHitNeedsRefresh = false;
+		}
+		return labelHitLastGeo;
+	}
+
 	/**
 	 * Returns the drawable for the given GeoElement.
 	 * 

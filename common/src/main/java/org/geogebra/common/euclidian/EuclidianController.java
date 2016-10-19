@@ -8059,7 +8059,9 @@ public abstract class EuclidianController {
 		}
 
 		// move label?
-		GeoElement geo = view.getLabelHit(mouseLoc, e.getType());
+		// warning: ensure that view.setLabelHitNeedsRefresh() is called e.g. at
+		// EuclidianController.wrapMousePressed() start
+		GeoElement geo = view.getLabelHitCheckRefresh(mouseLoc, e.getType());
 		if (geo != null) {
 			moveMode = MOVE_LABEL;
 			movedLabelGeoElement = geo;
@@ -8939,6 +8941,9 @@ public abstract class EuclidianController {
 
 	public void wrapMousePressed(AbstractEvent event) {
 
+		// if we need label hit, it will be recomputed
+		view.setLabelHitNeedsRefresh();
+
 		long last = event.getType() == PointerEventType.MOUSE ? this.lastMouseRelease : this.lastTouchRelease;
 		if (last + EuclidianConstants.DOUBLE_CLICK_DELAY > System
 				.currentTimeMillis()
@@ -9058,7 +9063,7 @@ public abstract class EuclidianController {
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 			dontClearSelection = !hits.isEmpty();
-			if (hasNoHitsDisablingModeForShallMoveView(hits)
+			if (hasNoHitsDisablingModeForShallMoveView(hits, event)
 					|| needsAxisZoom(hits, event) || specialMoveEvent(event)) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
@@ -9102,7 +9107,8 @@ public abstract class EuclidianController {
 				|| mode == EuclidianConstants.MODE_LOCUS;
 	}
 
-	protected boolean hasNoHitsDisablingModeForShallMoveView(Hits hits) {
+	protected boolean hasNoHitsDisablingModeForShallMoveView(Hits hits,
+			AbstractEvent event) {
 		for (GeoElement geo : hits) {
 			if (!(geo instanceof GeoAxis)) {
 				return false;
