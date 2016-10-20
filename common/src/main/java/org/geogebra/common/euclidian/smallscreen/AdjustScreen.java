@@ -234,28 +234,31 @@ public class AdjustScreen {
 			GeoInputBox input2 = inputBoxes.get(idx + 1);
 			DrawInputBox d1 = (DrawInputBox) view.getDrawableFor(input1);
 			DrawInputBox d2 = (DrawInputBox) view.getDrawableFor(input2);
-			GDimension t1 = d1.getTotalSize();
-			GDimension t2 = d2.getTotalSize();
+			if (d1 != null && d2 != null) {
+				GDimension t1 = d1.getTotalSize();
+				GDimension t2 = d2.getTotalSize();
 
-			GRectangle rect1 = AwtFactory.prototype.newRectangle(
-					input1.getAbsoluteScreenLocX(), input1.getAbsoluteScreenLocY(),
- t1.getWidth(),
-					t1.getHeight());
-			GRectangle rect2 = AwtFactory.prototype.newRectangle(
-					input2.getAbsoluteScreenLocX(), input2.getAbsoluteScreenLocY(),
- t2.getWidth(),
-					t2.getHeight());
+				GRectangle rect1 = AwtFactory.prototype.newRectangle(
+						input1.getAbsoluteScreenLocX(),
+						input1.getAbsoluteScreenLocY(), t1.getWidth(),
+						t1.getHeight());
+				GRectangle rect2 = AwtFactory.prototype.newRectangle(
+						input2.getAbsoluteScreenLocX(),
+						input2.getAbsoluteScreenLocY(), t2.getWidth(),
+						t2.getHeight());
 
-			boolean overlap = rect1.intersects(rect2)
-					|| rect2.intersects(rect1);
+				boolean overlap = rect1.intersects(rect2)
+						|| rect2.intersects(rect1);
 
-			Log.debug("[AS] " + input1 + " - " + input2 + " overlaps: " + overlap);
+				Log.debug("[AS] " + input1 + " - " + input2 + " overlaps: "
+						+ overlap);
 
-			if (overlap) {
-				input2.setAbsoluteScreenLoc(input2.getAbsoluteScreenLocX(),
-						input1.getAbsoluteScreenLocY() + t1.getHeight()
-								+ BUTTON_GAP);
-				input2.update();
+				if (overlap) {
+					input2.setAbsoluteScreenLoc(input2.getAbsoluteScreenLocX(),
+							input1.getAbsoluteScreenLocY() + t1.getHeight()
+									+ BUTTON_GAP);
+					input2.update();
+				}
 			}
 		}
 
