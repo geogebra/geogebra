@@ -92,6 +92,11 @@ public class AdjustSlider extends AdjustWidget {
 			adjustToTop();
 		}
 
+		int maxY = view.getHeight() - MARGIN_Y;
+		if (y > maxY) {
+			y = maxY;
+		}
+
 		if (width > view.getViewWidth() || width != origWidth) {
 			width = Math.round(origWidth * ratio);
 			number.setSliderWidth(width);
@@ -105,14 +110,21 @@ public class AdjustSlider extends AdjustWidget {
 	}
 	private void adjustToRight() {
 		if (x + width > view.getViewWidth()) {
-			x = view.getViewWidth() - width - MARGIN_Y;
+			x = view.getViewWidth() - width - MARGIN_X;
 		}
+
+
 	}
 
 	private void adjustToTop() {
 		if (y - width < 0) {
 			y = width + MARGIN_Y;
 		}
+
+		if (x + width > view.getViewWidth()) {
+			x = view.getViewWidth() - width - MARGIN_X;
+		}
+
 	}
 	/**
 	 * Makes a slider onScreen with no scaling enabled.

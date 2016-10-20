@@ -288,7 +288,6 @@ public class AdjustScreen {
 			return false;
 		}
 
-
 		return true;
 	}
 }
