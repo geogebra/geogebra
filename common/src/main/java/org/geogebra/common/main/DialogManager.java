@@ -356,6 +356,8 @@ public abstract class DialogManager {
 				if (!success) {
 					handler.showError(
 							app.getLocalization().getError("NumberExpected"));
+					cb.callback(false);
+					return;
 				}
 
 				GeoElement[] geos = ec.getCompanion().regularPolygon(geoPoint1,
