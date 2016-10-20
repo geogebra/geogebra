@@ -1961,7 +1961,6 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	z-index: 1000;
 	position: absolute;
-	left: 50%;
 	color: #FFFFFF;
 }
 

@@ -270,9 +270,13 @@ public class ToolTipManagerW {
 			// Helps to align the InfoTooltip in the center of the screen:
 
 		Style style = bottomInfoTipPanel.getElement().getStyle();
-		style.setLeft(
-				((app.getWidth() - bottomInfoTipPanel.getOffsetWidth())) / 2,
-				Unit.PX);
+		style.setLeft(0, Unit.PX);
+
+		double left = (app.getWidth() - bottomInfoTipPanel.getOffsetWidth()) / 2;
+		if (left < 0) {
+			left = 0;
+		}
+		style.setLeft(left, Unit.PX);
 
 		style.setTop((app.getHeight() - (kb ? 250 : 70)), Unit.PX);
 
