@@ -27,6 +27,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
@@ -42,15 +43,27 @@ public class GlobalKeyDispatcherW extends
 	private static boolean shiftDown = false;
 	private boolean keydownPreventsDefaultKeypressTAB = false;
 
+	/**
+	 * @return whether ctrll is pressed
+	 */
 	public static boolean getControlDown() {
 		return controlDown;
 	}
 
+	/**
+	 * @return whether shift is pressed
+	 */
 	public static boolean getShiftDown() {
 		return shiftDown;
 	}
 
-	public static void setDownKeys(KeyEvent ev) {
+	/**
+	 * Update ctrl, shift flags
+	 * 
+	 * @param ev
+	 *            key event
+	 */
+	public static void setDownKeys(KeyEvent<? extends EventHandler> ev) {
 		controlDown = ev.isControlKeyDown();
 		shiftDown = ev.isShiftKeyDown();
 	}
@@ -61,6 +74,14 @@ public class GlobalKeyDispatcherW extends
 	private boolean inFocus = false;
 
 	private static boolean isHandlingTab;
+
+	/**
+	 * @param tab
+	 *            whether tab event was registered by preview handler
+	 */
+	static void setHandlingTab(boolean tab) {
+		isHandlingTab = tab;
+	}
 
 	/**
 	 * @param app
@@ -96,7 +117,7 @@ public class GlobalKeyDispatcherW extends
 						
 						if (!appfocused) {
 							event.cancel();
-							isHandlingTab = true;
+							setHandlingTab(true);
 
 							// TODO - set border in an other place...
 							GeoGebraFrameW.useDataParamBorder(targetArticle,
@@ -134,10 +155,20 @@ public class GlobalKeyDispatcherW extends
 		});
 	}
 
+	/**
+	 * @return whether tab is handled
+	 */
 	public static boolean getIsHandlingTab() {
 		return isHandlingTab;
 	}
 
+	/**
+	 * @param parent
+	 *            parent
+	 * @param childName
+	 *            class name of child
+	 * @return children with given class name
+	 */
 	public Element getChildElementByStyleName(Element parent,
 			String childName){
 		NodeList<Element> elements = Dom.getElementsByClassName(childName);
@@ -149,6 +180,11 @@ public class GlobalKeyDispatcherW extends
 		return null;
 	}
 
+	/**
+	 * @param ggbapp
+	 *            current article
+	 * @return next article
+	 */
 	ArticleElement getNextArticle(ArticleElement ggbapp) {
 		ArrayList<ArticleElement> mobileTags = ArticleElement
 				.getGeoGebraMobileTags();
@@ -172,6 +208,11 @@ public class GlobalKeyDispatcherW extends
 		return null;
 	}
 
+	/**
+	 * @param el
+	 *            child
+	 * @return parent article element corresponding to applet
+	 */
 	ArticleElement getGGBArticle(Element el) {
 		if (el.getClassName().indexOf("geogebraweb-dummy-invisible") >= 0) {
 			return null;
@@ -196,10 +237,10 @@ public class GlobalKeyDispatcherW extends
 
 	}
 
-	// TODO - not only parent element
-	private Element getParentWithClassName(Element el, String className) {
+	private static Element getParentWithClassName(Element child,
+			String className) {
+		Element el = child;
 		do {
-
 			List<String> classnames = Arrays.asList(el.getClassName()
 					.split(" "));
 			if (classnames.contains(className)) {
@@ -211,10 +252,17 @@ public class GlobalKeyDispatcherW extends
 		return null;
 	}
 
-	public void setFocused(boolean f) {
-		inFocus = f;
+	/**
+	 * @param focus
+	 *            whether this applet has focus
+	 */
+	public void setFocused(boolean focus) {
+		inFocus = focus;
 	}
 
+	/**
+	 * Set to focus unless we are handlin tab key
+	 */
 	public void setFocusedIfNotTab(){
 		if (isHandlingTab) {
 			isHandlingTab = false;
@@ -223,6 +271,9 @@ public class GlobalKeyDispatcherW extends
 		}
 	}
 
+	/**
+	 * @return whether this applet has focus
+	 */
 	public boolean isFocused() {
 		return inFocus;
 	}
@@ -345,15 +396,12 @@ public class GlobalKeyDispatcherW extends
 
 	}
 
-	private boolean handleSelectedGeosKeys(KeyUpEvent event,
-	        ArrayList<GeoElement> geos) {
-
-		return handleSelectedGeosKeys(
-		        KeyCodes.translateGWTcode(event.getNativeKeyCode()), geos,
-		        event.isShiftKeyDown(), event.isControlKeyDown(),
-		        event.isAltKeyDown(), false);
-	}
-
+	/**
+	 * 
+	 * @param event
+	 *            native event
+	 * @return whether it was handled
+	 */
 	public boolean handleSelectedGeosKeysNative(NativeEvent event) {
 		return handleSelectedGeosKeys(
 		        org.geogebra.common.main.KeyCodes.translateGWTcode(event
@@ -450,19 +498,20 @@ public class GlobalKeyDispatcherW extends
 
 	}
 
-	private boolean preventBrowserCtrl(KeyCodes kc) {
+	private static boolean preventBrowserCtrl(KeyCodes kc) {
 		return kc == KeyCodes.S || kc == KeyCodes.O;
 	}
 
-	public static native void printActiveElement() /*-{
-		$wnd.console.log($wnd.document.activeElement);
-	}-*/;
+	// public static native void printActiveElement() /*-{
+	// $wnd.console.log($wnd.document.activeElement);
+	// }-*/;
 
 	/**
 	 * This method is almost the same as GlobalKeyDispatcher.handleTab, just is
 	 * also return a value whether the operation was successful in case of no
 	 * cycle
 	 */
+	@Override
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
 		app.getActiveEuclidianView().closeDropdowns();
 		
@@ -538,9 +587,8 @@ public class GlobalKeyDispatcherW extends
 		case GWTKeycodes.KEY_P:
 			if (shiftDown) {
 				return Unicode.Pi + "";
-			} else {
-				return Unicode.pi + "";
 			}
+			return Unicode.pi + "";
 
 		case GWTKeycodes.KEY_I:
 			return Unicode.IMAGINARY;
@@ -548,30 +596,26 @@ public class GlobalKeyDispatcherW extends
 		case GWTKeycodes.KEY_A:
 			if (shiftDown) {
 				return Unicode.Alpha + "";
-			} else {
-				return Unicode.alpha + "";
 			}
+			return Unicode.alpha + "";
 
 		case GWTKeycodes.KEY_B:
 			if (shiftDown) {
 				return Unicode.Beta + "";
-			} else {
-				return Unicode.beta + "";
 			}
+			return Unicode.beta + "";
 
 		case GWTKeycodes.KEY_G:
 			if (shiftDown) {
 				return Unicode.Gamma + "";
-			} else {
-				return Unicode.gamma + "";
 			}
+			return Unicode.gamma + "";
 
 		case GWTKeycodes.KEY_T:
 			if (shiftDown) {
 				return Unicode.Theta + "";
-			} else {
-				return Unicode.theta + "";
 			}
+			return Unicode.theta + "";
 
 		case GWTKeycodes.KEY_U:
 			// U, euro sign is shown on HU
@@ -581,24 +625,21 @@ public class GlobalKeyDispatcherW extends
 			// L, \u0141 sign is shown on HU
 			if (shiftDown) {
 				return Unicode.Lambda + "";
-			} else {
-				return Unicode.lambda + "";
 			}
+			return Unicode.lambda + "";
 
 		case GWTKeycodes.KEY_M:
 			if (shiftDown) {
 				return Unicode.Mu + "";
-			} else {
-				return Unicode.mu + "";
 			}
+			return Unicode.mu + "";
 
 		case GWTKeycodes.KEY_W:
 			// Alt-W is | needed for abs()
 			if (shiftDown) {
 				return Unicode.Omega + "";
-			} else {
-				return Unicode.omega + "";
 			}
+			return Unicode.omega + "";
 
 		case GWTKeycodes.KEY_R:
 			return Unicode.SQUARE_ROOT + "";
@@ -655,7 +696,7 @@ public class GlobalKeyDispatcherW extends
 	 *            The KeyEvent
 	 * @return true if unwanted key combination has pressed.
 	 */
-	public static boolean isBadKeyEvent(KeyEvent e) {
+	public static boolean isBadKeyEvent(KeyEvent<? extends EventHandler> e) {
 		return e.isAltKeyDown() && !e.isControlKeyDown()
 				&& e.getNativeEvent().getCharCode() > 128;
 	}

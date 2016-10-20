@@ -24,10 +24,12 @@ public interface HasAppletProperties {
 	public void setHeight(int height);
 
 	/**
-	 * @param width
-	 * @param height
+	 * sets the geogebra-web applet size (width, height)
 	 * 
-	 *            sets the geogebra-web applet size (width, height)
+	 * @param width
+	 *            width in px
+	 * @param height
+	 *            height in px
 	 */
 	public void setSize(int width, int height);
 
