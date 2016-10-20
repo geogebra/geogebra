@@ -544,7 +544,7 @@ public class ProverBotanasMethod {
 									geo.setCaptionBotanaVars("(" + v[0].toTeX()
 											+ "," + v[1].toTeX() + ")");
 								}
-								if (geo.isEqual(movingPoint)
+								if (movingPoint != null && geo.isEqual(movingPoint)
 										&& !numerical.isEmpty()) {
 									GeoElement path = (GeoElement) movingPoint
 											.getParentAlgorithm().getInput(0);
