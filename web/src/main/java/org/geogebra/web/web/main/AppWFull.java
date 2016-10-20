@@ -712,8 +712,8 @@ public abstract class AppWFull extends AppW {
 	public void closePopups() {
 		super.closePopups();
 		if (this.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			if (((GGWToolBar) this.getToolbar()).getToolBar()
-					.isMobileToolbar()) {
+			if (this.getToolbar() != null
+					&& this.getToolbar().isMobileToolbar()) {
 				((GGWToolBar) this.getToolbar()).getToolBar().closeAllSubmenu();
 			}
 		}

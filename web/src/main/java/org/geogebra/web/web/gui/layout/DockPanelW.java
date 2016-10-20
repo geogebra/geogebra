@@ -393,7 +393,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * Create the UI
 	 */
 	protected void buildDockPanel() {
-
 		// guard against repeated call
 		// while creating DockPanel based GUI (problem with early init of EV)
 		if (dockPanel != null) {
@@ -831,7 +830,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	private void setStyleBarLongVisibility(boolean value) {
 		// in applets title bar may be null and view menu still enabled
-		if (app.allowStylebar() && titleBarPanel != null) {
+		if (app.allowStylebar() && titleBarPanel != null
+				&& titleBarPanel.getLayoutData() != null) {
 			dockPanel.setWidgetSize(titleBarPanel, value ? 44 : 0);
 			titleBarPanel.setStyleName("TitleBarPanel-open", value);
 			setLongStyleBar(value);

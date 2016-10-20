@@ -115,7 +115,7 @@ public final class DrawBoolean extends Drawable {
 			int posX = geoBool.labelOffsetX + checkBoxIcon.getIconWidth() + 5;
 			int posY = geoBool.labelOffsetY;
 
-			checkBoxIcon.paintIcon(geoBool.getBoolean(),
+			CheckBoxIcon.paintIcon(geoBool.getBoolean(),
 					geoBool.doHighlighting(), g2, geoBool.labelOffsetX + 5,
 					geoBool.labelOffsetY + 5, view.getBooleanSize());
 
@@ -274,6 +274,8 @@ public final class DrawBoolean extends Drawable {
 		 *            x coordinate (left edge)
 		 * @param y
 		 *            y coordinate (upper edge)
+		 * @param csize
+		 *            size in px
 		 */
 		static public void paintIcon(boolean checked, boolean highlighted,
 				GGraphics2D g, int x, int y, int csize) {
