@@ -147,9 +147,13 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 				if (selRows.length > 0) {
 					// update list of selected objects in the stylebar
 					ArrayList<GeoElement> targetCells = new ArrayList<GeoElement>();
-					for (int i = 0; i < getConsoleTable().getRowCount(); i++)
-						targetCells.add(getConsoleTable().getGeoCasCell(
-								selRows[0]));
+					for (int i = 0; i < getConsoleTable().getRowCount(); i++) {
+						GeoElement cell = getConsoleTable()
+								.getGeoCasCell(selRows[0]);
+						if (cell != null) {
+							targetCells.add(cell);
+						}
+					}
 					if (styleBar != null) {
 						styleBar.setSelectedRows(targetCells);
 					}
