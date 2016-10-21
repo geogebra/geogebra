@@ -312,6 +312,7 @@ public class AppWapplication extends AppWFull {
 		((GGWToolBar) this.getToolbar()).updateToolbarPanel();
 		onOpenFile();
 		setAltText();
+		getGuiManager().getLayout().getDockManager().adjustViews();
 		kernel.notifyScreenChanged();
 	}
 

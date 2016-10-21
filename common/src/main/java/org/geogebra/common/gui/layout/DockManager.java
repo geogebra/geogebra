@@ -24,6 +24,9 @@ public abstract class DockManager implements SetLabels {
 
 	public void ensureFocus() {
 		// TODO Auto-generated method stub
+	}
 
+	// GGB-1288
+	public void adjustViews() {
 	}
 }

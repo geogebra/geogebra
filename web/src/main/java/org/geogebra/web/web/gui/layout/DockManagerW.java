@@ -17,6 +17,7 @@ import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -1870,4 +1871,64 @@ public class DockManagerW extends DockManager {
 		return app;
 	}
 	
+	public void adjustViews() {
+		if (!app.has(Feature.ADJUST_VIEWS)) {
+			return;
+		}
+
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				adjustViews(app.getWidth() < app.getHeight());
+			}
+		});
+	}
+
+	public void adjustViews(boolean portrait) {
+		if (!app.has(Feature.ADJUST_VIEWS)) {
+			return;
+		}
+
+		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
+		if (avPanel == null) {
+			Log.debug("[WGT] No AV panel to flip.");
+			return;
+		}
+
+		DockPanelW evPanel = getPanel(App.VIEW_EUCLIDIAN);
+		if (evPanel == null) {
+			evPanel = getPanel(App.VIEW_EUCLIDIAN2);
+		}
+
+		if (evPanel == null) {
+			Log.debug("[WGT] No EV panel to flip.");
+			return;
+		}
+
+		DockSplitPaneW split = evPanel.getParentSplitPane();
+		Widget opposite = split.getOpposite(evPanel);
+
+		if (opposite != avPanel) {
+			Log.debug("[WGT] Opposite is not AV panel.");
+			return;
+		}
+
+		double dividerLocation = 0.0;
+		if (portrait) {
+			split.clear();
+			split.setLeftComponent(evPanel);
+			split.setRightComponent(avPanel);
+			split.setOrientation(SwingConstants.VERTICAL_SPLIT);
+			dividerLocation = 0.8;
+		} else {
+			split.clear();
+			split.setLeftComponent(avPanel);
+			split.setRightComponent(evPanel);
+			split.setOrientation(SwingConstants.HORIZONTAL_SPLIT);
+			dividerLocation = 0.2;
+
+		}
+
+		setDividerLocation(split, dividerLocation);
+	}
 }

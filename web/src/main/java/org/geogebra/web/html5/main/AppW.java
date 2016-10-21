@@ -985,6 +985,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
 
+		getGuiManager().getLayout().getDockManager().adjustViews();
 	}
 
 	/**

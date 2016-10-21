@@ -19,7 +19,6 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -55,6 +54,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
@@ -3981,6 +3981,10 @@ public abstract class App implements UpdateSelection {
 		case ADJUST_WIDGETS:
 			return prerelease;
 
+		// GGB-1288
+		case ADJUST_VIEWS:
+			return prerelease;
+
 		// GGB-798
 		case AV_SCROLL:
 			return prerelease;
@@ -4194,12 +4198,7 @@ public abstract class App implements UpdateSelection {
 				geoBool.setValue(!geoBool.getBoolean());
 				geoBool.updateRepaint();
 			} else if (geo.isGeoInputBox()) {
-				Drawable d = (Drawable) getActiveEuclidianView()
-						.getDrawableFor(geo);
-				Log.debug("[SPACE] geo is " + geo.getLabelSimple());
-				DrawInputBox di = ((DrawInputBox) d);
-
-				di.setWidgetVisible(true);
+				getActiveEuclidianView().focusTextField((GeoInputBox) geo);
 			} else if (geo.isGeoList()) {
 				Drawable d = (Drawable) getActiveEuclidianView()
 						.getDrawableFor(geo);
