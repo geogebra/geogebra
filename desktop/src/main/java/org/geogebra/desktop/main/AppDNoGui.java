@@ -62,10 +62,12 @@ public class AppDNoGui extends App {
 	private GgbAPI ggbapi;
 	private LocalizationD loc;
 
-	public AppDNoGui(LocalizationD loc) {
+	public AppDNoGui(LocalizationD loc, boolean silent) {
 
 		super(Versions.DESKTOP);
-		Log.logger = new LoggerD();
+		if (!silent) {
+			Log.logger = new LoggerD();
+		}
 		prerelease = true;
 		initFactories();
 		this.kernel = new Kernel3D(this, new GeoFactory3D());

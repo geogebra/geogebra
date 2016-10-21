@@ -6,24 +6,21 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Locale;
 
-import javax.swing.JFrame;
-
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.main.LocalizationD;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ParserTest {
-	static AppD app;
+	static AppDNoGui app;
 	static AlgebraProcessor ap;
 
 	@BeforeClass
 	public static void setupCas() {
-		app = new AppD(new CommandLineArguments(
-				new String[]{}), new JFrame(), false);
+		app = new AppDNoGui(new LocalizationD(3), true);
 		app.setLanguage(Locale.US);
 	}
 	

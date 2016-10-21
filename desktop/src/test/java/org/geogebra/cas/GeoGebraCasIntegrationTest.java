@@ -7,8 +7,6 @@ import static org.junit.Assert.assertThat;
 import java.util.HashSet;
 import java.util.Locale;
 
-import javax.swing.JFrame;
-
 import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
@@ -23,9 +21,8 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.geogebra3D.App3D;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.main.LocalizationD;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -46,7 +43,7 @@ public class GeoGebraCasIntegrationTest {
 
   static GeoGebraCasInterface cas;
   static Kernel kernel;
-  static AppD app;
+	static AppDNoGui app;
 
   /**
    * Logs all tests which don't give the expected but a valid result.
@@ -57,9 +54,7 @@ public class GeoGebraCasIntegrationTest {
 
   @BeforeClass
   public static void setupCas () {
-		app = new App3D(new CommandLineArguments(silent ? new String[] {
-				"--silent", "--giac" } : new String[] { "--giac" }),
-				new JFrame(), false);
+		app = new AppDNoGui(new LocalizationD(3), false);
 
     if (silent) {
       Log.logger = null;

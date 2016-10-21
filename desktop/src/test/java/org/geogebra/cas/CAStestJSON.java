@@ -10,8 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
 
-import javax.swing.JFrame;
-
 import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -28,8 +26,8 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.main.LocalizationD;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -39,7 +37,7 @@ public class CAStestJSON {
 
 	  static GeoGebraCasInterface cas;
 	  static Kernel kernel;
-	  static AppD app;
+	static AppDNoGui app;
 	  static CASTestLogger logger;
 	  static HashMap<String,HashMap<String, String>> testcases = new HashMap<String,HashMap<String,String>>();
 
@@ -66,8 +64,7 @@ public class CAStestJSON {
 	
 	@BeforeClass
 	  public static void setupCas () {
-		app = new AppD(new CommandLineArguments(new String[] { "--giac" }),
-				new JFrame(), false);
+		app = new AppDNoGui(new LocalizationD(3), false);
 	    // Set language to something else than English to test automatic translation.
 	    app.setLanguage(Locale.GERMANY);
 	    // app.fillCasCommandDict();
@@ -183,7 +180,9 @@ public class CAStestJSON {
 			}
 			try {
 				result = result.replaceAll("c_[0-9]", "c_0")
+						.replaceAll("k_[0-9]", "k_0")
 						.replaceAll("c_\\{[0-9]+\\}", "c_0")
+						.replaceAll("k_\\{[0-9]+\\}", "k_0")
 						.replace("arccos", "acos").replace("arctan", "atan")
 						.replace("Wenn[", "If[")
 						.replace("arcsin", "asin")
@@ -191,7 +190,8 @@ public class CAStestJSON {
 				assertThat(
 						result,
 						equalToIgnoreWhitespaces(logger, input,
-								expectedResult[i].replaceAll("c_[0-9]+", "c_0"),
+								expectedResult[i].replaceAll("c_[0-9]+", "c_0")
+										.replaceAll("n_[0-9]+", "k_0"),
 								validResults));
 				return;
 			} catch (Throwable t) {

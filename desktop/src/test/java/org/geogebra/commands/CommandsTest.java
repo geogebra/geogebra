@@ -116,7 +116,7 @@ public class CommandsTest extends Assert{
 	
 	@BeforeClass
 	public static void setupApp() {
-		app = new AppDNoGui(new LocalizationD(3));
+		app = new AppDNoGui(new LocalizationD(3), true);
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
 		// make sure x=y is a line, not plane

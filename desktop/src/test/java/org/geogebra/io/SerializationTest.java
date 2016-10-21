@@ -1,15 +1,13 @@
 package org.geogebra.io;
 import java.util.Locale;
 
-import javax.swing.JFrame;
-
 import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,8 +16,7 @@ public class SerializationTest {
 	
 	@Test
 	public void testSerializationSpeed(){
-		AppD app = new AppD(new CommandLineArguments(
-				new String[]{"--silent"}), new JFrame(), false);
+		AppDNoGui app = new AppDNoGui(new LocalizationD(3), true);
 		app.setLanguage(Locale.US);
 		long l = System.currentTimeMillis();
 		StringBuilder sb = new StringBuilder(1000);
