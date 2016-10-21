@@ -11,8 +11,8 @@ public class AdjustSlider extends AdjustWidget {
 	private GeoNumeric number;
 	private boolean horizontal;
 
-	private static final int MARGIN_X = 15;
-	private static final int MARGIN_Y = 15;
+	static final int MARGIN_X = 15;
+	static final int MARGIN_Y = 15;
 
 	/**
 	 * @param num
@@ -92,10 +92,6 @@ public class AdjustSlider extends AdjustWidget {
 			adjustToTop();
 		}
 
-		int maxY = view.getHeight() - MARGIN_Y;
-		if (y > maxY) {
-			y = maxY;
-		}
 
 		if (width > view.getViewWidth() || width != origWidth) {
 			width = Math.round(origWidth * ratio);
@@ -113,6 +109,10 @@ public class AdjustSlider extends AdjustWidget {
 			x = view.getViewWidth() - width - MARGIN_X;
 		}
 
+		int maxY = view.getViewHeight() - AdjustSlider.MARGIN_Y;
+		if (y > maxY) {
+			y = maxY;
+		}
 
 	}
 

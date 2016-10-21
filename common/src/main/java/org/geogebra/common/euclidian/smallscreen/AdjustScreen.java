@@ -175,6 +175,17 @@ public class AdjustScreen {
 				slider2.update();
 			}
 		}
+
+		GeoNumeric lastSlider = hSliders.get(hSliders.size() - 1);
+		int maxY = view.getViewHeight() - AdjustSlider.MARGIN_Y;
+		if (lastSlider.getSliderY() > maxY) {
+			double dY = lastSlider.getSliderY() - maxY;
+			for (int idx = 0; idx < hSliders.size(); idx++) {
+				GeoNumeric slider = hSliders.get(idx);
+				slider.setSliderLocation(slider.getSliderX(),
+						slider.getSliderY() - dY, true);
+			}		
+		}
 	}
 
 	@SuppressWarnings("unchecked")
