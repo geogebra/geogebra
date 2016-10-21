@@ -147,8 +147,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		FACTOR_SQR_FREE("factorsqrfree",
 				"factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end"),
 		// remove zeroes from a list (workaround for buggy eliminate)
-		REMOVE_ZERO("remove0",
-				"remove0(x):=begin local ret,ii; ret:=[]; for ii from 0 to size(x)-1 do if (x[ii]!=0) ret:=append(ret,x[ii]); od return ret end;");
+		ELIMINATE2("eliminate2",
+				"eliminate2(x,y):=eliminate(eliminate(x,y),y);");
 
 		public String functionName;
 		public String definitionString;
@@ -555,8 +555,8 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		StringBuilder script = new StringBuilder();
 
-		String eliminateCommand = "remove0(eliminate([" + constructRestrictions
-				+ "],[" + varsToEliminate + "]))";
+		String eliminateCommand = "eliminate2([" + constructRestrictions + "],["
+				+ varsToEliminate + "])";
 
 		return script.append("[").append("[aa:=").append(eliminateCommand)
 				.append("],").
@@ -646,8 +646,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * .toString();
 		 */
 
-		String eliminateCommand = "remove0(eliminate([" + polys + "],revlist(["
-				+ elimVars + "])))";
+		String eliminateCommand = "eliminate2([" + polys + "],revlist(["
+				+ elimVars + "]))";
 
 		return script.append("[" + "[ff:=\"\"],[aa:=").append(eliminateCommand)
 				.append("],")
@@ -679,8 +679,8 @@ public abstract class CASgiac implements CASGenericInterface {
 	public String createEliminateScript(String polys, String elimVars,
 			boolean oneCurve) {
 		if (!oneCurve) {
-			return "primpoly(remove0(eliminate([" + polys + "],revlist(["
-					+ elimVars + "]))))";
+			return "primpoly(eliminate2([" + polys + "],revlist([" + elimVars
+					+ "])))";
 		}
 
 		/*
@@ -708,9 +708,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * approximation. TODO: Check how giac implements fsolve and use a
 		 * different method if needed (and available).
 		 */
-		retval = "primpoly([[ee:=remove0(eliminate([" + polys + "],revlist(["
+		retval = "primpoly([[ee:=eliminate2([" + polys + "],revlist(["
 				+ elimVars
-				+ "])))],[ll:=lvar(ee)],[if(size(ee)>1) begin ff:=round(fsolve(ee,ll)*"
+				+ "]))],[ll:=lvar(ee)],[if(size(ee)>1) begin ff:=round(fsolve(ee,ll)*"
 				+ FAKE_PRECISION + ")/" + FAKE_PRECISION + ";"
 				+ "gg:=1;for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2));"
 				+ "od ee:=[lcm(denom(coeff(gg)))*gg]; end],ee][3])";
