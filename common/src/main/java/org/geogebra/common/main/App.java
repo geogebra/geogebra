@@ -4092,6 +4092,9 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_TOOLBAR_FROM_FILE:
 			return true;
 
+		case FOLD_POLYHEDRON_NET_BY_DRAGGING:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

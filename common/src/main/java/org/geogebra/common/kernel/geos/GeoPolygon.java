@@ -17,6 +17,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
@@ -2210,7 +2211,18 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		changeableCoordParent = new ChangeableCoordParent(this, number, direction);
 	}
 
-
+	/**
+	 * sets the parents for changing coords. Polygon itself is used for
+	 * direction
+	 * 
+	 * @param number
+	 *            number
+	 * 
+	 */
+	final public void setChangeableCoordParent(GeoNumeric number,
+			GeoPolyhedron parent) {
+		changeableCoordParent = new ChangeableCoordParent(this, number, parent);
+	}
 
 
 	@Override

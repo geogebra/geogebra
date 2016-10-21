@@ -15,7 +15,9 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
@@ -126,10 +128,13 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			if (netComplete) {
 
 				GeoPolyhedronNet net = getNet();
-				Collection<GeoPolygon3D> faces = net.getFacesCollection();
 
-				for (GeoPolygon polygon : net.getFacesCollection()) {
-					outputPolygons.addOutput((GeoPolygon3D) polygon, false);
+				GeoNumeric num = ChangeableCoordParent.getGeoNumeric(v);
+
+				Collection<GeoPolygon3D> faces = net.getFacesCollection();
+				for (GeoPolygon3D polygon : faces) {
+					ChangeableCoordParent.setPolyhedronNet(polygon, num, p);
+					outputPolygons.addOutput(polygon, false);
 				}
 
 				for (GeoSegment3D segment : net.getSegments3D()) {
