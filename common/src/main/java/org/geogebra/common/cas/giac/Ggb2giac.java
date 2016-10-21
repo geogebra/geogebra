@@ -758,7 +758,8 @@ public class Ggb2giac {
 						"subst(right(revlist([op(solve(tmpvar=ggbinvarg,lname(ggbinvarg)[0]))])[0]),tmpvar,lname(ggbinvarg)[0])"
 						+ "," +
 						// invert matrix
-						"inv(ggbinvarg))" + "],ggbinvans][3]");
+						"when(when(length(ggbinvarg)>0,length(ggbinvarg) ==length(ggbinvarg[0]),false),inv(ggbinvarg),?))"
+						+ "],ggbinvans][3]");
 
 		p("IsPrime.1", "isprime(%0)");
 
