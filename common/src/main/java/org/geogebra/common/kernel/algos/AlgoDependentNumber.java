@@ -81,7 +81,7 @@ public class AlgoDependentNumber extends AlgoElement
 
 	public AlgoDependentNumber(Construction cons, ExpressionNode root,
 			boolean isAngle) {
-		this(cons, root, isAngle, null, false);
+		this(cons, root, isAngle, null, true);
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class AlgoDependentNumber extends AlgoElement
 	 */
 	public AlgoDependentNumber(Construction cons, ExpressionNode root,
 			boolean isAngle, ExpressionValue evaluate) {
-		this(cons, root, isAngle, evaluate, false);
+		this(cons, root, isAngle, evaluate, true);
 	}
 
 	/**
