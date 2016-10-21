@@ -146,7 +146,8 @@ public abstract class CASgiac implements CASGenericInterface {
 				// FIXME)
 		FACTOR_SQR_FREE("factorsqrfree",
 				"factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end"),
-		// remove zeroes from a list (workaround for buggy eliminate)
+		// remove zeroes or linear dependencies from a list (workaround for
+		// buggy eliminate)
 		ELIMINATE2("eliminate2",
 				"eliminate2(x,y):=eliminate(eliminate(x,y),y);");
 
