@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.main.App;
 
 /**
  *
@@ -108,10 +109,17 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 
 		initForNearToRelationship();
 		computeNoPermutation();
-		if (Q[1].isDefined() && !Q[0].isDefined()) {
-			permuted = true;
-		} else {
+
+		if (cons.getApplication()
+				.fileVersionBefore(App.getSubValues("5.0.281.0"))) {
+			// was not permuted at that time
 			permuted = false;
+		} else {
+			if (Q[1].isDefined() && !Q[0].isDefined()) {
+				permuted = true;
+			} else {
+				permuted = false;
+			}
 		}
 		setPermutation();
 
@@ -335,6 +343,10 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		// will be correctly labeled
 		if (permuted) {
 			if (P[1].isLabelSet()) {
+				return P[1 - i];
+			}
+		} else {
+			if (!P[0].isDefined()) {
 				return P[1 - i];
 			}
 		}
