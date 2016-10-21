@@ -640,12 +640,6 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	}
 
 	@Override
-	public void setAltText() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void repaintView() {
 		// done by FPS animator
 	}

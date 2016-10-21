@@ -20,11 +20,6 @@ public class EuclidianView3DNoGui extends EuclidianView3D
 		super(ec, settings);
 	}
 
-	public void zoom(double px, double py, double zoomFactor, int steps,
-			boolean storeUndo) {
-		// TODO Auto-generated method stub
-
-	}
 
 	public void repaint() {
 		// TODO Auto-generated method stub
@@ -64,11 +59,6 @@ public class EuclidianView3DNoGui extends EuclidianView3D
 	public boolean isShowing() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	public void setAltText() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

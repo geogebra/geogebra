@@ -83,4 +83,6 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	public void requestFocus();
 
 	public void updateFirstAndLast(boolean attach, boolean anyway);
+
+	public void setAltText();
 }

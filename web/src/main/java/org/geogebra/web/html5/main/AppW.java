@@ -91,6 +91,7 @@ import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianStaticW;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.factories.AwtFactoryW;
 import org.geogebra.web.html5.factories.FactoryW;
@@ -3371,7 +3372,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			getEuclidianView2(1).setAltText();
 		}
 		if (isEuclidianView3Dinited()) {
-			getEuclidianView3D().setAltText();
+			((EuclidianViewWInterface) getEuclidianView3D()).setAltText();
 		}
 	}
 

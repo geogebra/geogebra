@@ -98,7 +98,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * 
 	 * @param flag
 	 *            flag
-	 * @return
+	 * @return whether it changed
 	 */
 	public boolean setShowGrid(boolean flag);
 
@@ -121,10 +121,12 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	/**
 	 * sets the rotation matrix
 	 * 
-	 * @param a
-	 * @param b
+	 * @param theta
+	 *            argument
+	 * @param phi
+	 *            alt angle
 	 */
-	public void setRotXYinDegrees(double a, double b);
+	public void setRotXYinDegrees(double theta, double phi);
 
 	/**
 	 * sets the origin
@@ -178,10 +180,17 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 */
 	public Coords getEyePosition();
 
+	/**
+	 * @param boundsMin2
+	 *            real world view min
+	 * @param boundsMax2
+	 *            real world view max
+	 */
 	public void zoomRW(Coords boundsMin2, Coords boundsMax2);
 
-	public void setAltText();
-
+	/**
+	 * @return whether stylebar exists
+	 */
 	public boolean hasStyleBar();
 
 }
