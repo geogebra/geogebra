@@ -342,12 +342,15 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		// position so that on reload the two points created
 		// will be correctly labeled
 		if (permuted) {
-			if (P[1].isLabelSet()) {
+			if (P[1].isLabelSet() && P[1].isDefined()) {
 				return P[1 - i];
 			}
 		} else {
-			if (!P[0].isDefined()) {
-				return P[1 - i];
+			if (cons.getApplication()
+					.fileVersionBefore(App.getSubValues("5.0.281.0"))) {
+				if (!P[0].isDefined()) {
+					return P[1 - i];
+				}
 			}
 		}
 		return super.getOutputForCmdXML(i);
