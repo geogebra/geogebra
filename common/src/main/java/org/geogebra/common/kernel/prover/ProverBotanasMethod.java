@@ -537,7 +537,19 @@ public class ProverBotanasMethod {
 											+ "," + v[1].toTeX() + ")");
 								}
 							}
-							if (!geo.equals(numerical)) {
+							boolean useThisPoly = true;
+							if (algo != null
+									&& algo.getInput(0).equals(numerical)) {
+								// don't use this poly since is a point on a
+								// numerical path
+								useThisPoly = false;
+							}
+							if (geo.equals(numerical)) {
+								// don't create the symbolic equation for a
+								// numerically used object
+								useThisPoly = false;
+							}
+							if (useThisPoly) {
 								Log.debug("Hypotheses:");
 								for (Polynomial p : geoPolys) {
 									polynomials.add(p);
@@ -618,7 +630,8 @@ public class ProverBotanasMethod {
 					PolynomialNode polyNode = new PolynomialNode();
 					ExpressionNode en = new ExpressionNode(kernel, resultVE);
 					AlgoDependentNumber adn = new AlgoDependentNumber(
-							geoStatement.getConstruction(), en, false);
+							geoStatement.getConstruction(), en, false, null,
+							false);
 					adn.setBotanaVars(vars);
 					adn.buildPolynomialTree(en, polyNode);
 					adn.expressionNodeToPolynomial(en, polyNode);

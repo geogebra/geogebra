@@ -68,7 +68,7 @@ public class AlgoDependentNumber extends AlgoElement
 	private int nrOfMaxDecimals = 0;
 
 	/**
-	 * Creates new AlgoJoinPoints
+	 * Creates new AlgoDependentNumber
 	 * 
 	 * @param cons
 	 *            construction
@@ -77,12 +77,28 @@ public class AlgoDependentNumber extends AlgoElement
 	 *            expression defining the result
 	 * @param isAngle
 	 *            true for angles
-	 * */
+	 */
 
 	public AlgoDependentNumber(Construction cons, ExpressionNode root,
 			boolean isAngle) {
-		this(cons, root, isAngle, null);
+		this(cons, root, isAngle, null, false);
+	}
 
+	/**
+	 * Creates new AlgoDependentNumber
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param root
+	 *            expression defining the result
+	 * @param isAngle
+	 *            true for angles
+	 * @param evaluate
+	 *            pre-evaluated result
+	 */
+	public AlgoDependentNumber(Construction cons, ExpressionNode root,
+			boolean isAngle, ExpressionValue evaluate) {
+		this(cons, root, isAngle, evaluate, false);
 	}
 
 	/**
@@ -90,17 +106,19 @@ public class AlgoDependentNumber extends AlgoElement
 	 * 
 	 * @param cons
 	 *            construction
-	 * 
 	 * @param root
 	 *            expression defining the result
 	 * @param isAngle
 	 *            true for angles
 	 * @param evaluate
 	 *            pre-evaluated result
-	 * */
+	 * @param addToConstructionList
+	 *            add object to the construction list
+	 */
 	public AlgoDependentNumber(Construction cons, ExpressionNode root,
-			boolean isAngle, ExpressionValue evaluate) {
-		super(cons);
+			boolean isAngle, ExpressionValue evaluate,
+			boolean addToConstructionList) {
+		super(cons, addToConstructionList);
 		// simplify constant integers, e.g. -1 * 300 becomes -300
 		root.simplifyConstantIntegers();
 		if (evaluate instanceof GeoNumberValue) {
