@@ -50,10 +50,11 @@ public class CASInputHandler {
 	/**
 	 * Process input of current row.
 	 * 
-	 * @param ggbcmd
+	 * @param command
 	 *            command like "Factor" or "Integral"
 	 */
-	public void processCurrentRow(String ggbcmd) {
+	public void processCurrentRow(String command) {
+		String ggbcmd = command;
 		int selRow = consoleTable.getSelectedRow();
 		if (selRow < 0)
 			return;
@@ -214,10 +215,13 @@ public class CASInputHandler {
 			}
 
 			if ("NSolve".equals(ggbcmd)) {
-				StringBuilder sb = new StringBuilder();
+				String inputStrForNSolve = handleNSolve(cellValue, evalText);
+
 				// get input string for NSolve
-				String inputStrForNSolve = handleNSolve(cellValue,evalText);
-				sb.append(inputStrForNSolve);
+
+				if (inputStrForNSolve != null) {
+					StringBuilder sb = new StringBuilder();
+					sb.append(inputStrForNSolve);
 
 				// sb.append("]");
 				if (!cellValue.getInput(StringTemplate.defaultTemplate).equals(
@@ -226,6 +230,7 @@ public class CASInputHandler {
 					cellValue.setInput(sb.toString());
 					selRowInput = sb.toString();
 					evalText = sb.toString();
+				}
 				}
 			}
 
@@ -397,9 +402,13 @@ public class CASInputHandler {
 					.getGeoCasCell(row - 1);
 			expandValidExp = geoCasCell.getInputVE();
 		} else {
-			expandValidExp = (kernel.getGeoGebraCAS())
-				.getCASparser().parseGeoGebraCASInput(evalText, null)
-				.traverse(FunctionExpander.getCollector());
+			try {
+				expandValidExp = (kernel.getGeoGebraCAS()).getCASparser()
+						.parseGeoGebraCASInput(evalText, null)
+						.traverse(FunctionExpander.getCollector());
+			} catch (Exception e) {
+				return null;
+			}
 		}
 
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
