@@ -3662,25 +3662,25 @@ public abstract class EuclidianController {
 		if (selConics() == 1) {
 			if (selPolygons() == 1) {
 				GeoPolygon[] polys = getSelectedPolygons();
-				GeoConic[] lines = getSelectedCircles();
+				GeoConic circle = getSelectedCircles()[0];
 				checkZooming();
 
-				return getAlgoDispatcher().Mirror(null, polys[0], lines[0]);
+				return getAlgoDispatcher().Mirror(null, polys[0], circle);
 			} else if (selGeos() > 0) {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
-				GeoConic line = getSelectedCircles()[0];
+				GeoConic circle = getSelectedCircles()[0];
 				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 				checkZooming();
 
 				for (int i = 0; i < geos.length; i++) {
-					if (geos[i] != line) {
+					if (geos[i] != circle && circle != null) {
 						if (geos[i] instanceof Transformable) {
 							ret.addAll(Arrays.asList(getAlgoDispatcher()
-									.Mirror(null, geos[i], line)));
+									.Mirror(null, geos[i], circle)));
 						} else if (geos[i].isGeoPolygon()) {
 							ret.addAll(Arrays.asList(getAlgoDispatcher()
-									.Mirror(null, geos[i], line)));
+									.Mirror(null, geos[i], circle)));
 						}
 					}
 				}
@@ -9107,6 +9107,10 @@ public abstract class EuclidianController {
 				|| mode == EuclidianConstants.MODE_LOCUS;
 	}
 
+	/**
+	 * @param event
+	 *            needed for 3D
+	 */
 	protected boolean hasNoHitsDisablingModeForShallMoveView(Hits hits,
 			AbstractEvent event) {
 		for (GeoElement geo : hits) {
