@@ -62,7 +62,8 @@ public class AdjustSlider extends AdjustWidget {
 			return true;
 		}
 
-		if (x == origX && origX < view.getWidth() && y == origY
+		if (x == origX && origX < view.getViewWidth() - MARGIN_X && y == origY
+				&& origY < view.getViewHeight() - MARGIN_Y
 				&& origY - origWidth > 0 
 				&& origWidth == width) {
 			Log.debug("VSlider " + number.getLabelSimple() + " is ON screen");
@@ -121,8 +122,9 @@ public class AdjustSlider extends AdjustWidget {
 			y = width + MARGIN_Y;
 		}
 
-		if (x + width > view.getViewWidth()) {
-			x = view.getViewWidth() - width - MARGIN_X;
+		int maxX = view.getViewWidth() - MARGIN_X;
+		if (x > maxX) {
+			x = maxX;
 		}
 
 	}
