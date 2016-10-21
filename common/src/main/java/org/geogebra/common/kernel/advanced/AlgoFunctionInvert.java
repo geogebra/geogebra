@@ -109,6 +109,17 @@ public class AlgoFunctionInvert extends AlgoElement {
 	}
 
 
+	/**
+	 * @param root0
+	 *            root element
+	 * @param oldFV
+	 *            x variable of invered function
+	 * @param x
+	 *            x variable of target
+	 * @param kernel
+	 *            kernel
+	 * @return inverted expression
+	 */
 	public static ExpressionNode invert(ExpressionValue root0,
 			FunctionVariable oldFV,
 			FunctionVariable x, Kernel kernel) {
@@ -222,10 +233,15 @@ public class AlgoFunctionInvert extends AlgoElement {
 				if ((fvLeft = left.contains(oldFV)) && (right.contains(oldFV))) {
 					return null;
 				}
-
+				if (fvLeft) {
+					newRoot = new ExpressionNode(kernel, right, Operation.POWER,
+							new ExpressionNode(kernel, 1).divide(newRoot));
+					root = left;
+				} else {
 				newRoot = new ExpressionNode(kernel, left, Operation.POWER,
-						right);
-				root = left;
+						newRoot);
+				root = right;
+				}
 				break;
 
 			case POWER:
