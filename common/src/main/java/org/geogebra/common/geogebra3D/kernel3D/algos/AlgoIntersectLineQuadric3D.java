@@ -336,23 +336,42 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 
 	@Override
 	protected GeoElement getOutputForCmdXML(int i) {
-		// if points have been permuted at start because
-		// first point was not defined, and now this point
-		// is defined, we need to store this point in second
-		// position so that on reload the two points created
-		// will be correctly labeled
+		// we need to anticipate next loading in what order points will be
+		// re-created to make them correctly labeled
+		// * if permuted we need to set P[1] first
+		// * if first point set is undefined but not second point, we need to
+		// permute them since on next load they will be
 		if (permuted) {
-			if (P[1].isLabelSet() && P[1].isDefined()) {
-				return P[1 - i];
-			}
-		} else {
-			if (cons.getApplication()
-					.fileVersionBefore(App.getSubValues("5.0.281.0"))) {
-				if (!P[0].isDefined()) {
+			if (P[0].isDefined()) {
+				// else: P[0] and P[1] are defined, so remove permutation
+				if (P[1].isDefined()) {
 					return P[1 - i];
 				}
+				// else: P[0] is defined and not P[1], so keep permutation
+				return super.getOutputForCmdXML(i);
 			}
+			// P[0] is undefined
+			if (P[1].isDefined()) {
+				// P[1] is defined and not P[0], so remove permutation
+				return P[1 - i];
+			}
+			// else
+			if (P[1].isLabelSet()) {
+				// P[1] is undefined but labeled and P[0] undefined, so remove
+				// permutation
+				return P[1 - i];
+			}
+			// only P[0] is labeled, so keep permutation
+			return super.getOutputForCmdXML(i);
 		}
+
+		//// else: not permuted
+		if (!P[0].isDefined() && P[1].isDefined()) {
+			// P[1] is defined and not P[0], so permute
+			return P[1 - i];
+		}
+
+		// else: P[0] is defined (or P[1] is undefined): keep as is
 		return super.getOutputForCmdXML(i);
 	}
 
