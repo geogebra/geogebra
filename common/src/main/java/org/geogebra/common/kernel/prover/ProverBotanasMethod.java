@@ -394,7 +394,8 @@ public class ProverBotanasMethod {
 			 * should be computed numerically.
 			 */
 			GeoElement numerical = null;
-			if (movingPoint != null) {
+			if (movingPoint != null
+					&& movingPoint.getParentAlgorithm() != null) {
 				numerical = (GeoElement) movingPoint.getParentAlgorithm()
 						.getInput(0);
 				if (!(numerical instanceof GeoConic)) {
