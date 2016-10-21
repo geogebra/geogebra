@@ -1,6 +1,8 @@
 package org.geogebra.common.jre.plugin;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GgbAPI;
 
@@ -43,6 +45,27 @@ public abstract class GgbAPIJre extends GgbAPI {
 		}
 
 		return base64encodePNG(transparent, DPI, exportScale, ev);
+	}
+
+	@Override
+	public void drawToImage(String label, double[] x, double[] y) {
+		GeoElement ge = kernel.lookupLabel(label);
+
+		if (ge == null) {
+			ge = new GeoImage(kernel.getConstruction());
+			if (label == null || label.length() == 0) {
+				ge.setLabel(null);
+			} else {
+				ge.setLabel(label);
+			}
+		}
+		if (!ge.isGeoImage()) {
+			debug("Bad drawToImage arguments");
+			return;
+		}
+
+		app.getEuclidianView1().drawPoints((GeoImage) ge, x, y);
+
 	}
 
 	abstract protected void exportPNGClipboard(boolean transparent, int DPI,

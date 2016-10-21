@@ -78,12 +78,14 @@ public class App3DCompanionD extends App3DCompanion {
 			panelForPlaneList = new ArrayList<EuclidianDockPanelForPlaneD>();
 		else
 			panelForPlaneList.clear();
-
-		DockPanelD[] panels = ((LayoutD) app.getGuiManager().getLayout())
-				.getDockManager().getPanels();
-		for (int i = 0; i < panels.length; i++) {
-			if (panels[i] instanceof EuclidianDockPanelForPlaneD) {
-				panelForPlaneList.add((EuclidianDockPanelForPlaneD) panels[i]);
+		if (app.getGuiManager() != null) {
+			DockPanelD[] panels = ((LayoutD) app.getGuiManager().getLayout())
+					.getDockManager().getPanels();
+			for (int i = 0; i < panels.length; i++) {
+				if (panels[i] instanceof EuclidianDockPanelForPlaneD) {
+					panelForPlaneList
+							.add((EuclidianDockPanelForPlaneD) panels[i]);
+				}
 			}
 		}
 

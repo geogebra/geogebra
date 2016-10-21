@@ -5,15 +5,12 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
-import javax.swing.JFrame;
-
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.geogebra3D.App3D;
-import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.io.XmlTest;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -23,14 +20,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class NoExceptionsTest {
-	static AppD app;
+	static AppDNoGui app;
 	static AlgebraProcessor ap;
 
 	@BeforeClass
 	public static void setupApp() {
-		app = new App3D(new CommandLineArguments(
-new String[] { "--silent" }),
-				new JFrame(), false);
+		app = new AppDNoGui(new LocalizationD(3), true);
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
 	    // Setting the general timeout to 11 seconds. Feel free to change this.

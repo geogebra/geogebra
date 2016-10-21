@@ -2,6 +2,7 @@ package org.geogebra.desktop.main;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.util.debug.Log;
 
@@ -28,7 +29,7 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 	 * @param columns
 	 *            number of columns
 	 */
-	public SpreadsheetTableModelD(AppD app, int rows, int columns) {
+	public SpreadsheetTableModelD(App app, int rows, int columns) {
 		super(app, rows, columns);
 		defaultTableModel = new DefaultTableModel(rows, columns);
 		attachView();

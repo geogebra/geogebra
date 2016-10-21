@@ -419,7 +419,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		Log.debug("create gl renderer");
 		renderer = createRenderer();
-
+		if (renderer == null) {
+			return;
+		}
 		renderer.setDrawable3DLists(drawable3DLists);
 
 		createExportToPrinter3D();

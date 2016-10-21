@@ -12,15 +12,21 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.desktop.euclidian.MyZoomerD;
 
 public class EuclidianViewNoGui extends EuclidianView {
+
+	private GColor backgroundColor = GColor.WHITE;
 
 	public EuclidianViewNoGui(EuclidianController ec, int viewNo,
 			EuclidianSettings settings) {
 		super(ec, viewNo, settings);
+		setAxesColor(GColor.BLACK);
+		setGridColor(GColor.GRAY);
 	}
 
 	public void repaint() {
@@ -28,9 +34,16 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	}
 
-	public GColor getBackgroundCommon() {
-		// TODO Auto-generated method stub
-		return null;
+	@Override
+	public final GColor getBackgroundCommon() {
+		return backgroundColor;
+	}
+
+	@Override
+	public final void setBackground(GColor bgColor) {
+		if (bgColor != null)
+			backgroundColor = AwtFactory.prototype.newColor(bgColor.getRed(),
+					bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
 	}
 
 	public boolean hitAnimationButton(int x, int y) {
@@ -154,12 +167,6 @@ public class EuclidianViewNoGui extends EuclidianView {
 	}
 
 	@Override
-	public void setBackground(GColor bgColor) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void setPreferredSize(GDimension preferredSize) {
 		// TODO Auto-generated method stub
 
@@ -174,8 +181,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	protected MyZoomer newZoomer() {
-		// TODO Auto-generated method stub
-		return null;
+		return new MyZoomerD(this);
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -34,6 +35,7 @@ import org.geogebra.common.main.AlgoCubicSwitchParams;
 import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GlobalKeyDispatcher;
@@ -42,6 +44,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
+import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimer.GTimerListener;
@@ -54,13 +57,20 @@ import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
+import org.geogebra.desktop.geogebra3D.App3DCompanionD;
+import org.geogebra.desktop.io.MyXMLioD;
+import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
+import org.geogebra.desktop.plugin.ScriptManagerD;
+import org.geogebra.desktop.plugin.UDPLoggerD;
+import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.StringUtilD;
 
 public class AppDNoGui extends App {
 	private GgbAPI ggbapi;
 	private LocalizationD loc;
+	private SpreadsheetTableModelD tableModel;
 
 	public AppDNoGui(LocalizationD loc, boolean silent) {
 
@@ -68,6 +78,7 @@ public class AppDNoGui extends App {
 		if (!silent) {
 			Log.logger = new LoggerD();
 		}
+
 		prerelease = true;
 		initFactories();
 		this.kernel = new Kernel3D(this, new GeoFactory3D());
@@ -76,8 +87,14 @@ public class AppDNoGui extends App {
 		loc.setLocale(Locale.US);
 		loc.setApp(this);
 		Layout.initializeDefaultPerspectives(this, 0.2);
+		myXMLio = new MyXMLioD(kernel, kernel.getConstruction());
 		initEuclidianViews();
 
+	}
+
+	@Override
+	protected AppCompanion newAppCompanion() {
+		return new App3DCompanionD(this);
 	}
 
 	private void initFactories() {
@@ -147,8 +164,10 @@ public class AppDNoGui extends App {
 
 	@Override
 	public ScriptManager getScriptManager() {
-		// TODO Auto-generated method stub
-		return null;
+		if (scriptManager == null) {
+			scriptManager = new ScriptManagerD(this);
+		}
+		return scriptManager;
 	}
 
 	@Override
@@ -286,8 +305,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public UndoManager getUndoManager(Construction cons) {
-		// TODO Auto-generated method stub
-		return null;
+		return new UndoManagerD(cons);
 	}
 
 	@Override
@@ -315,8 +333,11 @@ public class AppDNoGui extends App {
 
 	@Override
 	public SpreadsheetTableModel getSpreadsheetTableModel() {
-		// TODO Auto-generated method stub
-		return null;
+		if (tableModel == null) {
+			tableModel = new SpreadsheetTableModelD(this, SPREADSHEET_INI_ROWS,
+					SPREADSHEET_INI_COLS);
+		}
+		return tableModel;
 	}
 
 	@Override
@@ -360,11 +381,6 @@ public class AppDNoGui extends App {
 						double exportScale, boolean transparent, double DPI) {
 					// TODO Auto-generated method stub
 					return false;
-				}
-
-				public void drawToImage(String label, double[] x, double[] y) {
-					// TODO Auto-generated method stub
-
 				}
 
 				public void clearImage(String label) {
@@ -448,14 +464,12 @@ public class AppDNoGui extends App {
 
 	@Override
 	protected int getWindowWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 800;
 	}
 
 	@Override
 	protected int getWindowHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 600;
 	}
 
 	@Override
@@ -573,8 +587,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public MyXMLio getXMLio() {
-		// TODO Auto-generated method stub
-		return null;
+		return myXMLio;
 	}
 
 	@Override
@@ -650,8 +663,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public GTimer newTimer(GTimerListener listener, int delay) {
-		// TODO Auto-generated method stub
-		return null;
+		return new GTimerD(listener, delay);
 	}
 
 	@Override
@@ -689,6 +701,7 @@ public class AppDNoGui extends App {
 	// public static char unicodeThousandsSeparator = ','; // \u066c for Arabic
 
 	StringBuilder testCharacters = new StringBuilder();
+	private SensorLogger udpLogger;
 
 	public void setLocale(Locale locale) {
 		if (locale == loc.getLocale()) {
@@ -713,5 +726,20 @@ public class AppDNoGui extends App {
 
 		getLocalization().updateLanguageFlags(locale.getLanguage());
 
+	}
+
+	@Override
+	public SensorLogger getSensorLogger() {
+		if (udpLogger == null) {
+			udpLogger = new UDPLoggerD(getKernel());
+		}
+		return udpLogger;
+	}
+
+	@Override
+	public EuclidianView3DInterface getEuclidianView3D() {
+		return new EuclidianView3DNoGui(
+				new EuclidianController3DNoGui(this, kernel),
+				this.getSettings().getEuclidian(3));
 	}
 }

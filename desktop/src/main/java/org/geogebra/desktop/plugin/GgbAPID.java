@@ -305,26 +305,7 @@ public class GgbAPID extends GgbAPIJre {
 		}
 	}
 
-	@Override
-	public void drawToImage(String label, double[] x, double[] y) {
-		GeoElement ge = kernel.lookupLabel(label);
 
-		if (ge == null) {
-			ge = new GeoImage(kernel.getConstruction());
-			if (label == null || label.length() == 0) {
-				ge.setLabel(null);
-			} else {
-				ge.setLabel(label);
-			}
-		}
-		if (!ge.isGeoImage()) {
-			debug("Bad drawToImage arguments");
-			return;
-		}
-
-		((AppD) app).getEuclidianView1().drawPoints((GeoImage) ge, x, y);
-
-	}
 
 	@Override
 	public void clearImage(String label) {
