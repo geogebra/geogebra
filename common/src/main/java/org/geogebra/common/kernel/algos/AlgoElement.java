@@ -1527,7 +1527,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	 * @return input length
 	 */
 	final public int getInputLength() {
-		return input.length;
+		return input == null ? 0 : input.length;
 	}
 
 	/**

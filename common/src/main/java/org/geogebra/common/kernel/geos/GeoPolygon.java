@@ -593,11 +593,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			return;
 		}
 
-		
-
 		// set values
-		updatePoints(poly.getPointsND());
-		
+		updatePoints(poly.getPoints());
 
 		setCoordSysAndPoints3D(poly);
 		updateSegments();
@@ -621,7 +618,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 	private void updatePoints(GeoPointND[] geos) {
 		setPointsLength(geos.length, null);
-		for (int i = 0; i < getPointsND().length; i++) {
+		for (int i = 0; i < getPoints().length; i++) {
 			ExpressionNode oldDef = getPoint(i).getDefinition();
 			getPoint(i).set(geos[i].toGeoElement(), false);
 			if (!getPoint(i).isIndependent()) {
@@ -2217,6 +2214,8 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * 
 	 * @param number
 	 *            number
+	 * @param parent
+	 *            parent polyhedron
 	 * 
 	 */
 	final public void setChangeableCoordParent(GeoNumeric number,
