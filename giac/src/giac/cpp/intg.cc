@@ -3149,7 +3149,7 @@ namespace giac {
       }
     }
 #ifdef NO_STDEXCEPT
-    if (contextptr && contextptr->quoted_global_vars){
+    if (contextptr && contextptr->quoted_global_vars && !is_assumed_real(x,contextptr)){
       contextptr->quoted_global_vars->push_back(x);
       gen tmp=eval(v[0],eval_level(contextptr),contextptr); 
       tmp=Heavisidetopiecewise(tmp,contextptr);
@@ -3158,11 +3158,12 @@ namespace giac {
     }
     else {
       gen tmp=eval(v[0],eval_level(contextptr),contextptr); 
+      tmp=Heavisidetopiecewise(tmp,contextptr);
       if (!is_undef(tmp)) v[0]=tmp;
     }
 #else
     try {
-      if (contextptr && contextptr->quoted_global_vars){
+      if (contextptr && contextptr->quoted_global_vars && !is_assumed_real(x,contextptr)){
 	contextptr->quoted_global_vars->push_back(x);
 	gen tmp=eval(v[0],eval_level(contextptr),contextptr); 
 	tmp=Heavisidetopiecewise(tmp,contextptr);
@@ -3171,6 +3172,7 @@ namespace giac {
       }
       else {
 	gen tmp=eval(v[0],eval_level(contextptr),contextptr); 
+	tmp=Heavisidetopiecewise(tmp,contextptr);
 	if (!is_undef(tmp)) v[0]=tmp;
       }
     } catch (std::runtime_error & err){

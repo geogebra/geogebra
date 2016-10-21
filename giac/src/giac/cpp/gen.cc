@@ -11927,6 +11927,8 @@ namespace giac {
       return "DOM_FUNC";
     case _REAL:
       return "DOM_LONGFLOAT";
+    case _MAP:
+      return "DOM_MAP";
     }
     return print_INT_(val);
   }

@@ -180,7 +180,7 @@ namespace giac {
   }
 
   vecteur find_irreducible_primitive(int p,int m,bool primitive,GIAC_CONTEXT){
-#ifdef HAVE_LIBPARI
+#if 0 // def HAVE_LIBPARI
     if (!primitive){
       gen pari=pari_ffinit(p,m);
       pari=unmod(pari);
@@ -188,13 +188,20 @@ namespace giac {
 	return *pari._VECTptr;
     }
 #endif
-    // First check m*20 random polynomials
+    // First check M random polynomials
     int M=100*m;
+    // start coefficients near the end if only irreducible minpoly required
+    // this make division by minpoly faster
+    int start=primitive?1:m-2,nextpow2=1;
     for (int k=0;k<M;++k){
+      if (start>1 && k==nextpow2){
+	--start;
+	nextpow2 *=2;
+      }
       vecteur test(m+1),test2;
       test[0]=1;
       // random
-      for (int j=1;j<=m;++j){
+      for (int j=start;j<=m;++j){
 	if (p==2)
 	  test[j]=(giac_rand(contextptr)>>29)%2;
 	else

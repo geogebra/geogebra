@@ -821,6 +821,19 @@ namespace giac {
       a=algebraic_EXTension(makevecteur(1,0),a);
       return tmp;
     }
+    // special handling if both extensions are cyclotomic
+    int ac=is_cyclotomic(*a__VECT._VECTptr,epsilon(contextptr)),bc;
+    if (ac && (bc=is_cyclotomic(*b__VECT._VECTptr,epsilon(contextptr))) ){
+      int cc=ac*bc/gcd(ac,bc);
+      gen res=gen(cyclotomic(cc),_POLY1__VECT);
+      a__VECT=gen(vecteur(cc/ac+1),_POLY1__VECT);
+      a__VECT._VECTptr->front()=1;
+      a=algebraic_EXTension(a__VECT,res);
+      b__VECT=gen(vecteur(cc/bc+1),_POLY1__VECT);
+      b__VECT._VECTptr->front()=1;
+      b=algebraic_EXTension(b__VECT,res);
+      return res;
+    }
     // reduce extension degree by factorizing b__VECT over Q[a]
     polynome p(poly12polynome(*b__VECT._VECTptr));
     polynome p_content(p.dim);

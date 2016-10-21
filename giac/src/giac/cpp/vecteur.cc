@@ -1610,6 +1610,7 @@ namespace giac {
     }
   }
 
+  // Balancing sparse matrices for computing eigenvalues, Tzu-Yi Chen, James W. Demme, Linear Algebra and its Application, 309 (2000) 261–287
   bool balance_krylov(matrix_double & H,vector<giac_double> & d,int niter,double cutoff){
     int n=int(H.size());
     if (!n || n!=H.front().size())
@@ -1627,11 +1628,11 @@ namespace giac {
       // p:=D*H*D^-1*z
       diagonal_mult(d,true,z,z1);
       multmatvecteur(H,z1,z2);
-      diagonal_mult(d,false,z2,r);
-      // r:=D^-1*tran(H)*D*z
+      diagonal_mult(d,false,z2,p);
+      // r:=tran(D*H*D^-1)*z=D^-1*tran(H)*D*z
       diagonal_mult(d,false,z,z1);
       multmatvecteur(Htran,z1,z2);
-      diagonal_mult(d,true,z2,p);
+      diagonal_mult(d,true,z2,r);
       for (int i=0;i<n;++i){
 	if (std::abs(p[i])>cutoff*Hinf && r[i]!=0)
 	  d[i]=d[i]*std::sqrt(std::abs(r[i]/p[i]));
@@ -1764,9 +1765,13 @@ namespace giac {
       std_matrix_gen2std_matrix_giac_double(P,P1,true);
       if (lapack_schur(H1,P1,false,res))
 	return true;
+#if 0
+      return balanced_eigenvalues(H1,res,2*SOLVER_MAX_ITERATE,eps,true,contextptr);
+#else
       bool ans=francis_schur(H1,0,dim,P1,2*SOLVER_MAX_ITERATE,eps,true,false);
       // CERR << P << endl << H1 << endl;
       return ans && schur_eigenvalues(H1,res,eps,contextptr);
+#endif
     }
     matrix_complex_double H2,P2;
     if (matrice2std_matrix_complex_double(m,H2,
@@ -2286,289 +2291,292 @@ namespace giac {
     vecteur v_accurate(accurate_evalf(v,nbits));
     v_accurate=divvecteur(v_accurate,v_accurate.front());
     // compute roots with companion matrix
+    bool precis=true;
     if (crystalball.empty() && !in_proot(v,eps,rprec,crystalball,true,contextptr)){
       // initial guess not precise enough, DKW disabled
       if (0 && int(crystalball.size())==deg && dkw(v_accurate,crystalball,nbits,eps)){
 	proot_cache(v,eps,crystalball);
 	return crystalball;
       }
+      precis=false;
       if (crystalball.size()!=v.size()-1)
 	CERR << "Francis algorithm failure for" << v << endl;
       else
 	CERR << "Francis algorithm not precise enough for" << v << endl;
     }
-    else {
-      int epsbits=-std::log(eps)/std::log(2.);
-      if (int(crystalball.size())==deg 
+    int epsbits=-std::log(eps)/std::log(2.);
+    if (precis && int(crystalball.size())==deg 
 #ifndef EMCC
-	  && dkw(v_accurate,crystalball,nbits,eps)
+	&& dkw(v_accurate,crystalball,nbits,eps)
 #endif
-	  ){
-	proot_cache(v,eps,crystalball);
-	return crystalball;
-      }
-      if ( (rprec<50 || rprec<epsbits+3) && int(crystalball.size())==deg){
-	vecteur dv(derivative(v_accurate));
-	vector<short int> done(deg);
-	for (int j=0;j<deg;++j){
-	  if (done[j])
-	    continue;
-	  // find nearest root
-	  gen cur=crystalball[j],mindist=plus_inf,mindist2=plus_inf;
-	  vector<double> distances(deg);
-	  int k2=-1,k3=-1;
-	  for (int k=0;k<deg;k++){
-	    if (k==j) continue;
-	    gen curdist=abs(cur-crystalball[k],contextptr);
-	    distances[k]=evalf_double(curdist,1,contextptr)._DOUBLE_val;
-	    if (is_strictly_greater(mindist,curdist,contextptr)){
-	      mindist2=mindist;
-	      k3=k2;
-	      mindist=curdist;
-	      k2=k;
-	    }
+	){
+      proot_cache(v,eps,crystalball);
+      return crystalball;
+    }
+    if ( (rprec<50 || rprec<epsbits+3) && int(crystalball.size())==deg){
+      vecteur dv(derivative(v_accurate));
+      vector<short int> done(deg);
+      for (int j=0;j<deg;++j){
+	if (done[j])
+	  continue;
+	// find nearest root
+	gen cur=crystalball[j],mindist=plus_inf,mindist2=plus_inf;
+	vector<double> distances(deg);
+	int k2=-1,k3=-1;
+	for (int k=0;k<deg;k++){
+	  if (k==j) continue;
+	  gen curdist=abs(cur-crystalball[k],contextptr);
+	  distances[k]=evalf_double(curdist,1,contextptr)._DOUBLE_val;
+	  if (is_strictly_greater(mindist,curdist,contextptr)){
+	    mindist2=mindist;
+	    k3=k2;
+	    mindist=curdist;
+	    k2=k;
 	  }
-	  gen tmp=accurate_evalf(crystalball[j],nbits);
-	  gen decal=0;
-	  for (unsigned k=0;int(k)<SOLVER_MAX_ITERATE;++k){
-	    gen num=horner(v_accurate,tmp),den=horner(dv,tmp),ratio=num/den;
-	    decal += ratio;
-	    gen prec=abs(ratio,contextptr);
-	    if (is_greater(eps*deg*10,prec,contextptr)){
-	      done[j]=1;
-	      tmp -= ratio;
-	      num=horner(v_accurate,tmp);
-	      den=horner(dv,tmp);
-	      ratio=num/den;
-	      prec=abs(ratio,contextptr);
-	      int precbits=60;
-	      if (is_exactly_zero(prec))
-		precbits=2*epsbits;
-	      else
-		precbits=_floor(-ln(prec,contextptr)/std::log(2.0),contextptr).val;
-	      if (precbits>2*epsbits)
-		precbits=2*epsbits;
-	      if (precbits<=48)
-		crystalball[j]=evalf_double(tmp,1,contextptr);
-	      else
-		crystalball[j] =accurate_evalf(tmp,precbits);
-	      if (debug_infolevel)
-		CERR << "Root " << j << " " << crystalball[j] << endl;
-	      break;
+	}
+	gen tmp=accurate_evalf(crystalball[j],nbits);
+	gen decal=0;
+	for (unsigned k=0;int(k)<SOLVER_MAX_ITERATE;++k){
+	  gen num=horner(v_accurate,tmp),den=horner(dv,tmp),ratio=num/den;
+	  decal += ratio;
+	  gen prec=abs(ratio,contextptr);
+	  if (is_greater(eps*deg*10,prec,contextptr)){
+	    done[j]=1;
+	    tmp -= ratio;
+	    num=horner(v_accurate,tmp);
+	    den=horner(dv,tmp);
+	    ratio=num/den;
+	    prec=abs(ratio,contextptr);
+	    int precbits=60;
+	    if (is_exactly_zero(prec))
+	      precbits=2*epsbits;
+	    else
+	      precbits=_floor(-ln(prec,contextptr)/std::log(2.0),contextptr).val;
+	    if (precbits>2*epsbits)
+	      precbits=2*epsbits;
+	    if (precbits<=48)
+	      crystalball[j]=evalf_double(tmp,1,contextptr);
+	    else
+	      crystalball[j] =accurate_evalf(tmp,precbits);
+	    if (debug_infolevel)
+	      CERR << "Root " << j << " " << crystalball[j] << endl;
+	    break;
+	  }
+	  if (is_greater(2.5*abs(decal,contextptr),mindist,contextptr)){
+	    // if decal is small wrt mindist2 
+	    // we have roots that are almost equal 
+	    // sort distance, and find a cluster of roots around
+	    vector<double> dists(distances);
+	    sort(distances.begin(),distances.end());
+	    unsigned dd=1; double coeff=2.0;
+	    for (;dd<distances.size()-1;++dd){
+	      if (distances[dd+1]>=coeff*distances[dd])
+		break;
+	      coeff *= .9;
 	    }
-	    if (is_greater(2.5*abs(decal,contextptr),mindist,contextptr)){
-	      // if decal is small wrt mindist2 
-	      // we have roots that are almost equal 
-	      // sort distance, and find a cluster of roots around
-	      vector<double> dists(distances);
-	      sort(distances.begin(),distances.end());
-	      unsigned dd=1; double coeff=2.0;
-	      for (;dd<distances.size()-1;++dd){
-		if (distances[dd+1]>=coeff*distances[dd])
-		  break;
-		coeff *= .9;
-	      }
 #if 1
-	      if (dd<=distances.size()/3){
-		vector<int> positions; vecteur roots;
-		for (unsigned i=0;i<dists.size();++i){
-		  if (done[i])
-		    continue;
-		  if (dists[i]<=distances[dd]){
-		    positions.push_back(i);
-		    roots.push_back(accurate_evalf(crystalball[i],nbits));
-		    if (i+1<dists.size() && add_conjugate && !is_exactly_zero(im(crystalball[i],contextptr))){
-		      positions.push_back(i+1);
-		      roots.push_back(accurate_evalf(crystalball[i+1],nbits));
-		      ++i;
-		    }
+	    if (dd<=distances.size()/3){
+	      vector<int> positions; vecteur roots;
+	      for (unsigned i=0;i<dists.size();++i){
+		if (done[i])
+		  continue;
+		if (dists[i]<=distances[dd]){
+		  positions.push_back(i);
+		  roots.push_back(accurate_evalf(crystalball[i],nbits));
+		  if (i+1<dists.size() && add_conjugate && !is_exactly_zero(im(crystalball[i],contextptr))){
+		    positions.push_back(i+1);
+		    roots.push_back(accurate_evalf(crystalball[i+1],nbits));
+		    ++i;
 		  }
 		}
-		if (roots.size()>=10)
-		  k=SOLVER_MAX_ITERATE;
-		if (debug_infolevel)
-		  CERR << CLOCK() << "Entering generalized Bairstow " << dd << " roots " << positions << endl;
-		vecteur current=pcoeff(roots),dcurrent;
-		for (;int(k)<SOLVER_MAX_ITERATE;++k){
-		  modpoly Q,R,dR;
-		  DivRem(v_accurate,current,0,Q,R);
-		  // find partial derivatives
-		  matrice m;
-		  for (unsigned i=0;i<roots.size();++i){
-		    dR=Q % current;
-		    if (dR.size()<roots.size())
-		      dR=mergevecteur(vecteur(roots.size()-dR.size()),dR);
-		    m.push_back(dR);
-		    Q.push_back(0); // multiply Q by x for next partial derivative
-		  }
-		  // invert jacobian matrix
-		  reverse(m.begin(),m.end());
-		  m=mtran(m);
-		  while (R.size()<m.size())
-		    R.insert(R.begin(),accurate_evalf(zero,nbits));
-		  // solve system
-		  dcurrent=linsolve(m,R,contextptr);
-		  vecteur dcurrentv=lidnt(dcurrent);
-		  if (!dcurrentv.empty()){
-		    if (debug_infolevel)
-		      CERR << "non invertible jacobian" << endl;
-		    break;
-		  }
-		  dcurrent.insert(dcurrent.begin(),0);
-		  // termination test
-		  gen ck=0;
-		  for (unsigned i=1;i<dcurrent.size();++i){
-		    if (!is_exactly_zero(current[i]))
-		      ck+=abs(dcurrent[i]/current[i],contextptr);
-		  }
-		  current=addvecteur(current,dcurrent);
-		  if (is_greater(eps,ck,contextptr))
-		    break;
+	      }
+	      if (roots.size()>=10)
+		k=SOLVER_MAX_ITERATE;
+	      if (debug_infolevel)
+		CERR << CLOCK() << "Entering generalized Bairstow " << dd << " roots " << positions << endl;
+	      vecteur current=pcoeff(roots),dcurrent;
+	      for (;int(k)<SOLVER_MAX_ITERATE;++k){
+		modpoly Q,R,dR;
+		DivRem(v_accurate,current,0,Q,R);
+		// find partial derivatives
+		matrice m;
+		for (unsigned i=0;i<roots.size();++i){
+		  dR=Q % current;
+		  if (dR.size()<roots.size())
+		    dR=mergevecteur(vecteur(roots.size()-dR.size()),dR);
+		  m.push_back(dR);
+		  Q.push_back(0); // multiply Q by x for next partial derivative
 		}
-		if (int(k)>=SOLVER_MAX_ITERATE){
-		  CERR << "Unable to isolate roots number "<< positions << endl << accurate_evalf(roots,50) << endl;
-		  for (unsigned i=0;i<positions.size();++i)
-		    done[positions[i]]=-1;
-		  cache=false;
+		// invert jacobian matrix
+		reverse(m.begin(),m.end());
+		m=mtran(m);
+		while (R.size()<m.size())
+		  R.insert(R.begin(),accurate_evalf(zero,nbits));
+		// solve system
+		dcurrent=linsolve(m,R,contextptr);
+		vecteur dcurrentv=lidnt(dcurrent);
+		if (!dcurrentv.empty()){
+		  if (debug_infolevel)
+		    CERR << "non invertible jacobian" << endl;
 		  break;
+		}
+		dcurrent.insert(dcurrent.begin(),0);
+		// termination test
+		gen ck=0;
+		for (unsigned i=1;i<dcurrent.size();++i){
+		  if (!is_exactly_zero(current[i]))
+		    ck+=abs(dcurrent[i]/current[i],contextptr);
+		}
+		current=addvecteur(current,dcurrent);
+		if (is_greater(eps,ck,contextptr))
+		  break;
+	      }
+	      if (int(k)>=SOLVER_MAX_ITERATE){
+		CERR << "Unable to isolate roots number "<< positions << endl << accurate_evalf(roots,50) << endl;
+		for (unsigned i=0;i<positions.size();++i)
+		  done[positions[i]]=-1;
+		cache=false;
+		break;
+	      }
+	      else {
+		// proot recursive call, and stores roots
+		// check if current has a multiple root up to precision eps
+		int curdeg=current.size()-1;
+		gen multi=-current[1]/(curdeg*current[0]);
+		roots=vecteur(curdeg,multi);
+		vecteur test=pcoeff(roots);
+		test=subvecteur(current,test);
+		gen testn=l2norm(test,contextptr);
+		if (curdeg>1 && is_greater(eps,testn,contextptr)){
+		  int precbits=48;
+		  if (testn!=0)
+		    _floor(-ln(testn,contextptr)/std::log(2.0),contextptr).val;
+		  multi=accurate_evalf(multi,precbits);
+		  for (unsigned i=0;i<positions.size();++i){
+		    done[positions[i]]=1;
+		    crystalball[positions[i]] =multi;
+		  }
 		}
 		else {
-		  // proot recursive call, and stores roots
-		  // check if current has a multiple root up to precision eps
-		  int curdeg=current.size()-1;
-		  gen multi=-current[1]/(curdeg*current[0]);
-		  roots=vecteur(curdeg,multi);
-		  vecteur test=pcoeff(roots);
-		  test=subvecteur(current,test);
-		  gen testn=l2norm(test,contextptr);
-		  if (curdeg>1 && is_greater(eps,testn,contextptr)){
-		    int precbits=_floor(-ln(testn,contextptr)/std::log(2.0),contextptr).val;
-		    multi=accurate_evalf(multi,precbits);
-		    for (unsigned i=0;i<positions.size();++i){
-		      done[positions[i]]=1;
-		      crystalball[positions[i]] =multi;
-		    }
-		  }
-		  else {
-		    double eps1=std::pow(2.0,-nbits);
-		    roots=proot(current,eps1,nbits);
-		    for (unsigned i=0;i<positions.size();++i){
-		      // -> Set precision
-		      roots[i]=accurate_evalf(roots[i],nbits);
-		      num=horner(v_accurate,roots[i]);
-		      den=horner(dv,roots[i]);
-		      ratio=num/den;
-		      prec=abs(ratio,contextptr);
-		      int precbits=60;
-		      if (is_exactly_zero(prec))
-			precbits=2*epsbits;
-		      else
-			precbits=_floor(-ln(prec,contextptr)/std::log(2.0),contextptr).val;
-		      if (precbits>2*epsbits)
-			precbits=2*epsbits;
-		      done[positions[i]]=1;
-		      if (precbits<=48)
-			crystalball[positions[i]]=evalf_double(roots[i],1,contextptr);
-		      else
-			crystalball[positions[i]] =accurate_evalf(roots[i],precbits);
-		    }
-		  }
-		  break;
-		}
-	      }
-#else
-	      // the second one is crystalball[k2]
-	      if (is_greater(mindist2,3*abs(ratio,contextptr),contextptr)){
-		if (debug_infolevel)
-		  CERR << "Entering Bairstow " << j << " " << k2 << endl;
-		tmp=accurate_evalf(crystalball[j],nbits);
-		if (crystalball[j]==conj(crystalball[j+1],contextptr)) k2=j+1;
-		gen tmp2=accurate_evalf(crystalball[k2],nbits);
-		modpoly current(3,1); current[1]=-tmp-tmp2; current[2]=tmp*tmp2;
-		for (;k<SOLVER_MAX_ITERATE;++k){
-		  modpoly Q,R,dsR,dpR;
-		  DivRem(v_accurate,current,0,Q,R);
-		  dpR=Q % current;
-		  if (dpR.empty() || is_zero(dpR.back()))
-		    break;
-		  Q.push_back(0);
-		  dsR=Q % current;
-		  if (dsR.empty() || is_zero(dsR.back()))
-		    break;
-		  gen A,B,C(dsR.back()),D(dpR.back()),R0,R1;
-		  if (dpR.size()==2)
-		    B=dpR[0];
-		  if (dsR.size()==2)
-		    A=dsR[0];
-		  gen delta=A*D-B*C;
-		  if (is_zero(delta))
-		    break;
-		  if (!R.empty()){
-		    R1=R.back();
-		    if (R.size()==2)
-		      R0=R.front();
-		  }
-		  gen dc1=(D*R0-B*R1)/delta,dc2=(A*R1-C*R0)/delta;
-		  current[1] += dc1;
-		  current[2] += dc2;
-		  if (is_greater(eps*deg*10,abs(dc1/current[1],contextptr)+abs(dc2/current[2],contextptr),contextptr)){
-		    // recompute crystalball[j]/k2 and tmp/tmp2
-		    gen s=current[1],p=current[2];
-		    delta=s*s-4*p;
-		    delta=sqrt(delta,contextptr);
-		    if (is_positive(s,contextptr)){
-		      tmp=(-s-delta)/2; 
-		      tmp2=p/tmp; 
-		    }
-		    else {
-		      tmp2=(-s+delta)/2; 
-		      tmp=p/tmp2; 
-		    }
-		    decal=0;
-		    ratio=0;
-		    if (eps<1e-14){
-		      crystalball[j]=accurate_evalf(tmp,-3.2*std::log(eps));
-		      crystalball[k2]=accurate_evalf(tmp2,-3.2*std::log(eps));
-		    }
-		    else {
-		      crystalball[j]=evalf_double(tmp,1,contextptr);
-		      crystalball[k2]=evalf_double(tmp2,1,contextptr);
-		    }
-		    break;
+		  double eps1=std::pow(2.0,-nbits);
+		  roots=proot(current,eps1,nbits);
+		  for (unsigned i=0;i<positions.size();++i){
+		    // -> Set precision
+		    roots[i]=accurate_evalf(roots[i],nbits);
+		    num=horner(v_accurate,roots[i]);
+		    den=horner(dv,roots[i]);
+		    ratio=num/den;
+		    prec=abs(ratio,contextptr);
+		    int precbits=60;
+		    if (is_exactly_zero(prec))
+		      precbits=2*epsbits;
+		    else
+		      precbits=_floor(-ln(prec,contextptr)/std::log(2.0),contextptr).val;
+		    if (precbits>2*epsbits)
+		      precbits=2*epsbits;
+		    done[positions[i]]=1;
+		    if (precbits<=48)
+		      crystalball[positions[i]]=evalf_double(roots[i],1,contextptr);
+		    else
+		      crystalball[positions[i]] =accurate_evalf(roots[i],precbits);
 		  }
 		}
-	      }	    
-#endif
-	      if (is_greater(3*abs(decal,contextptr),mindist,contextptr)){
-		cache=false;
-		done[j]=false;
-		CERR << "Bad conditionned root j= " << j << " value " << crystalball[j] << " ratio " << evalf_double(abs(ratio,contextptr),1,contextptr) << " mindist " << mindist << endl;
 		break;
 	      }
 	    }
-	    tmp -= ratio;
+#else
+	    // the second one is crystalball[k2]
+	    if (is_greater(mindist2,3*abs(ratio,contextptr),contextptr)){
+	      if (debug_infolevel)
+		CERR << "Entering Bairstow " << j << " " << k2 << endl;
+	      tmp=accurate_evalf(crystalball[j],nbits);
+	      if (crystalball[j]==conj(crystalball[j+1],contextptr)) k2=j+1;
+	      gen tmp2=accurate_evalf(crystalball[k2],nbits);
+	      modpoly current(3,1); current[1]=-tmp-tmp2; current[2]=tmp*tmp2;
+	      for (;k<SOLVER_MAX_ITERATE;++k){
+		modpoly Q,R,dsR,dpR;
+		DivRem(v_accurate,current,0,Q,R);
+		dpR=Q % current;
+		if (dpR.empty() || is_zero(dpR.back()))
+		  break;
+		Q.push_back(0);
+		dsR=Q % current;
+		if (dsR.empty() || is_zero(dsR.back()))
+		  break;
+		gen A,B,C(dsR.back()),D(dpR.back()),R0,R1;
+		if (dpR.size()==2)
+		  B=dpR[0];
+		if (dsR.size()==2)
+		  A=dsR[0];
+		gen delta=A*D-B*C;
+		if (is_zero(delta))
+		  break;
+		if (!R.empty()){
+		  R1=R.back();
+		  if (R.size()==2)
+		    R0=R.front();
+		}
+		gen dc1=(D*R0-B*R1)/delta,dc2=(A*R1-C*R0)/delta;
+		current[1] += dc1;
+		current[2] += dc2;
+		if (is_greater(eps*deg*10,abs(dc1/current[1],contextptr)+abs(dc2/current[2],contextptr),contextptr)){
+		  // recompute crystalball[j]/k2 and tmp/tmp2
+		  gen s=current[1],p=current[2];
+		  delta=s*s-4*p;
+		  delta=sqrt(delta,contextptr);
+		  if (is_positive(s,contextptr)){
+		    tmp=(-s-delta)/2; 
+		    tmp2=p/tmp; 
+		  }
+		  else {
+		    tmp2=(-s+delta)/2; 
+		    tmp=p/tmp2; 
+		  }
+		  decal=0;
+		  ratio=0;
+		  if (eps<1e-14){
+		    crystalball[j]=accurate_evalf(tmp,-3.2*std::log(eps));
+		    crystalball[k2]=accurate_evalf(tmp2,-3.2*std::log(eps));
+		  }
+		  else {
+		    crystalball[j]=evalf_double(tmp,1,contextptr);
+		    crystalball[k2]=evalf_double(tmp2,1,contextptr);
+		  }
+		  break;
+		}
+	      }
+	    }	    
+#endif
+	    if (is_greater(3*abs(decal,contextptr),mindist,contextptr)){
+	      cache=false;
+	      done[j]=false;
+	      CERR << "Bad conditionned root j= " << j << " value " << crystalball[j] << " ratio " << evalf_double(abs(ratio,contextptr),1,contextptr) << " mindist " << mindist << endl;
+	      break;
+	    }
 	  }
+	  tmp -= ratio;
 	}
-	if (!cache && pari_polroots(v,crystalball,14,contextptr))
-	  cache=true;
-	if (0 && !cache){ // could be improved via Hensel lifting
-	  vecteur good;
-	  for (unsigned i=0;i<crystalball.size();++i){
-	    if (done[i]==1)
-	      good.push_back(crystalball[i]);
-	  }
-	  good=pcoeff(good);
-	  vecteur rem=operator_div(v,good,0);
-	  if (rem.size()<=crystalball.size()/2){
-	    rem=*_proot(rem,contextptr)._VECTptr;
-	    CERR << rem << endl;
-	  }
-	}
-	if (cache)
-	  proot_cache(v,eps,crystalball);
-	return crystalball;
       }
-    }
+      if (!cache && pari_polroots(v,crystalball,14,contextptr))
+	cache=true;
+      if (0 && !cache){ // could be improved via Hensel lifting
+	vecteur good;
+	for (unsigned i=0;i<crystalball.size();++i){
+	  if (done[i]==1)
+	    good.push_back(crystalball[i]);
+	}
+	good=pcoeff(good);
+	vecteur rem=operator_div(v,good,0);
+	if (rem.size()<=crystalball.size()/2){
+	  rem=*_proot(rem,contextptr)._VECTptr;
+	  CERR << rem << endl;
+	}
+      }
+      if (cache)
+	proot_cache(v,eps,crystalball);
+      return crystalball;
+    } // if rprec<50 ...
+
 #else // HAVE_LIBMPFR
     int nbits=45;
     rprec = 37;
@@ -2643,7 +2651,7 @@ namespace giac {
 	  break;
       }
       if (j==vsize)
-	return vecteur(1,gensizeerr(gettext("Proot error : no root found")));
+	return vecteur(1,gensizeerr(gettext("Proot error : no root found for ")+gen(v).print(contextptr)));
       if (debug_infolevel)
 	CERR << "Root found " << evalf_double(r,1,contextptr) << endl;
       if (add_conjugate && is_greater(abs(im(r,contextptr),contextptr),eps,contextptr) ){ // ok
@@ -10756,7 +10764,7 @@ namespace giac {
 	temp.push_back(v[0]);
       }
       w=reverse_rsolve(temp,false);
-      // End new algorith�
+      // End new algorithù
       */
       if (signed(w.size())!=n+1 && !p.empty())
 	w=lcm(w,p,0);
@@ -17475,6 +17483,28 @@ namespace giac {
       francis_iterate2(H,n1,n2,P,eps,compute_P,Haux,T,in_recursion,oper);
     } // end for loop on niter
     return false;
+  }
+
+  // Francis algo on H after balance
+  bool balanced_eigenvalues(matrix_double & H,vecteur & res,int maxiter,double eps,bool is_hessenberg,GIAC_CONTEXT){
+    vector<giac_double> d;
+    if (!balance_krylov(H,d,5,1e-8))
+      return false;
+    int n1=0,n2=H.size();
+    // compute d*H*d^-1: H_jk <- d_jj*H_jk/d_kk
+    for (int j=n1;j<n2;++j){
+      vector<giac_double> & Hj=H[j];
+      for (int k=n1;k<n2;++k){
+	Hj[k]=d[j]*Hj[k]/d[k];
+      }
+    }
+    // schur on d*H*d^-1
+    matrix_double P;
+    if (!francis_schur(H,n1,n2,P,maxiter,eps,is_hessenberg,false))
+      return false;
+    // Invariant if compute_P was true trn(P)*d*H*d^-1*P=orig matrix
+    // same eigenvalues, but different eigenvectors
+    return schur_eigenvalues(H,res,eps,contextptr);
   }
 
   // Francis algorithm on submatrix rows and columns n1..n2-1

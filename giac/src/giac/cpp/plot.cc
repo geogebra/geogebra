@@ -140,7 +140,7 @@ namespace giac {
 #if defined RTOS_THREADX || defined EMCC
   int gnuplot_pixels_per_eval=128;
 #else
-  int gnuplot_pixels_per_eval=400;
+  int gnuplot_pixels_per_eval=401;
 #endif
   bool autoscale=true;
 

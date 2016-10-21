@@ -108,6 +108,7 @@ namespace giac {
     void dbgprint() const ;
   };
   
+  bool balanced_eigenvalues(matrix_double & H,vecteur & res,int maxiter,double eps,bool is_hessenberg,GIAC_CONTEXT);
   bool francis_schur(matrix_double & H,int n1,int n2,matrix_double & P,int maxiter,double eps,bool is_hessenberg,bool compute_P);
   bool francis_schur(matrix_complex_double & H,int n1,int n2,matrix_complex_double & P,int maxiter,double eps,bool is_hessenberg,bool compute_P);
 

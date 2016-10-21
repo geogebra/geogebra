@@ -2514,6 +2514,8 @@ namespace giac {
 	break;
       eps=eps*d*d;
     }
+    if (res.empty())
+      return gensizeerr(gettext("Stopped by user interruption.")); 
     reverse(res.begin(),res.end());
     vector<int>::const_iterator it=res.begin(),itend=res.end();
     gen x(*it);
