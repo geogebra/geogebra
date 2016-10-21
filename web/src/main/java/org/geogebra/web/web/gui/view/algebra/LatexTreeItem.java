@@ -285,6 +285,9 @@ public class LatexTreeItem extends RadioTreeItem
 				? kernel.getInputPreviewHelper().getInput(newValue) : newValue;
 		final boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
 				|| input.equals(newValue);
+
+		app.setScrollToShow(true);
+		
 		AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
 
 			@Override
