@@ -14,7 +14,9 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
@@ -28,6 +30,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 
 	protected GeoPolyhedron p;
 	protected NumberValue v;
+	private GeoNumeric vNum = null;
 
 	protected OutputHandler<GeoPolyhedronNet> outputNet;
 
@@ -50,6 +53,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		super(c);
 		this.p = p;
 		this.v = v;
+		vNum = ChangeableCoordParent.getGeoNumeric(v);
 
 		outputNet = new OutputHandler<GeoPolyhedronNet>(
 				new elementFactory<GeoPolyhedronNet>() {
@@ -174,9 +178,21 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 					public GeoPolygon3D newElement() {
 						GeoPolygon3D p = new GeoPolygon3D(cons);
 						// p.setParentAlgorithm(AlgoPolyhedron.this);
+						setChangeableCoordParent(p);
 						return p;
 					}
-				});
+				}) {
+			@Override
+			public void addOutput(GeoPolygon3D polygon,
+					boolean setDependencies) {
+				setChangeableCoordParent(polygon);
+				super.addOutput(polygon, setDependencies);
+			}
+		};
+	}
+
+	final void setChangeableCoordParent(GeoPolygon3D polygon) {
+		ChangeableCoordParent.setPolyhedronNet(polygon, vNum, p, false);
 	}
 
 	/**

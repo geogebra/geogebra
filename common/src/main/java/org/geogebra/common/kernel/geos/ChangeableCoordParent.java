@@ -22,6 +22,7 @@ public class ChangeableCoordParent {
 	private double startValue;
 	private Coords direction, direction2;
 	private boolean forPolyhedronNet = false;
+	private boolean reverse = false;
 	private GeoPolyhedron parent;
 	
 	/**
@@ -57,9 +58,11 @@ public class ChangeableCoordParent {
 	 *            polyhedron parent
 	 */
 	static public void setPolyhedronNet(GeoPolygon polygon, GeoNumeric num,
-			GeoPolyhedron polyhedron) {
+			GeoPolyhedron polyhedron, boolean reverse) {
 		if (num != null) {
-			polygon.setChangeableCoordParent(num, polyhedron);
+			polygon.setChangeableCoordParent(
+					new ChangeableCoordParent(polygon, num, polyhedron,
+							reverse));
 		}
 	}
 
@@ -69,7 +72,8 @@ public class ChangeableCoordParent {
 	 * @param number number
 	 * @param director director
 	 */
-	public ChangeableCoordParent(GeoElement child, GeoNumeric number, GeoElement director){
+	public ChangeableCoordParent(GeoElement child, GeoNumeric number,
+			GeoElement director) {
 		changeableCoordNumber = number;
 		changeableCoordDirector = director;
 		forPolyhedronNet = false;
@@ -86,11 +90,12 @@ public class ChangeableCoordParent {
 	 *            parent polyhedron
 	 */
 	public ChangeableCoordParent(GeoElement child, GeoNumeric number,
-			GeoPolyhedron parent) {
+			GeoPolyhedron parent, boolean reverse) {
 		changeableCoordNumber = number;
 		changeableCoordDirector = child;
 		forPolyhedronNet = true;
 		this.parent = parent;
+		this.reverse = reverse;
 	}
 
 	/**
@@ -180,7 +185,10 @@ public class ChangeableCoordParent {
 		if (forPolyhedronNet) {
 			// use parent polyhedron volume as base scale for translation vector
 			double scale = Math.pow(parent.getVolume(), 1.0 / 3.0);
-			ld = -ld * scale * 2;
+			ld = ld * scale * 2;
+			if (reverse) {
+				ld = -ld;
+			}
 		}
 
 		double val = getStartValue() + direction2.dotproduct(rwTransVec) / ld;
