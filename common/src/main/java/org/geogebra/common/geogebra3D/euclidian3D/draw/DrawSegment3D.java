@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 
 /**
@@ -21,7 +22,9 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	 * Common constructor
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param segment
+	 *            segment
 	 */
 	public DrawSegment3D(EuclidianView3D a_view3D, GeoSegmentND segment) {
 
@@ -56,10 +59,12 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	 * Constructor for previewable
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param selectedPoints
+	 *            endpoints
 	 */
-	@SuppressWarnings("unchecked")
-	public DrawSegment3D(EuclidianView3D a_view3D, ArrayList selectedPoints) {
+	public DrawSegment3D(EuclidianView3D a_view3D,
+			ArrayList<GeoPointND> selectedPoints) {
 
 		super(a_view3D, selectedPoints, new GeoSegment3D(a_view3D.getKernel()
 				.getConstruction()));

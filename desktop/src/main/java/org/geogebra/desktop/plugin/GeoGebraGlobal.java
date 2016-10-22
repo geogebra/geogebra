@@ -1,8 +1,9 @@
 package org.geogebra.desktop.plugin;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.main.AppD;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdFunctionCall;
 import org.mozilla.javascript.IdFunctionObject;
@@ -16,15 +17,15 @@ import org.mozilla.javascript.ScriptableObject;
 
 public class GeoGebraGlobal implements IdFunctionCall {
 
-	final AppD app;
+	final App app;
 	final Localization loc;
 
-	GeoGebraGlobal(AppD app) {
+	GeoGebraGlobal(App app) {
 		this.app = app;
 		this.loc = app.getLocalization();
 	}
 
-	public static void init(AppD app, Scriptable scope, boolean sealed) {
+	public static void init(App app, Scriptable scope, boolean sealed) {
 		GeoGebraGlobal obj = new GeoGebraGlobal(app);
 
 		for (int id = 1; id <= LAST_SCOPE_FUNCTION_ID; ++id) {
@@ -77,7 +78,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 				Object value = (args.length != 0) ? args[0]
 						: "";
 
-				app.getGgbApi().alert(value.toString());
+				((GgbAPID) app.getGgbApi()).alert(value.toString());
 
 				return "";
 			}
@@ -89,7 +90,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 				 * app.getFrame(), value0, "GeoGebra",
 				 * JOptionPane.PLAIN_MESSAGE, null, null, value1);
 				 */
-				return app.getGgbApi().prompt(value0, value1);
+				return ((GgbAPID) app.getGgbApi()).prompt(value0, value1);
 			}
 			case Id_clearInterval:
 			case Id_clearTimeout:
@@ -141,9 +142,9 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		return sb.toString();
 	}
 
-	public static void initStandardObjects(AppD app, Scriptable scope,
+	public static void initStandardObjects(App app, Scriptable scope,
 			String arg, boolean sealed) {
-		GgbAPID ggbApi = app.getGgbApi();
+		GgbAPI ggbApi = app.getGgbApi();
 		Object wrappedOut = Context.javaToJS(ggbApi, scope);
 		ScriptableObject.putProperty(scope, "ggbApplet", wrappedOut);
 

@@ -1,7 +1,6 @@
 package org.geogebra.desktop.plugin;
 
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.main.AppD;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -29,11 +28,11 @@ public class CallJavaScript {
 		Scriptable scope = cx.initStandardObjects();
 
 		// Initialize GgbApi functions, eg ggbApplet.evalCommand()
-		GeoGebraGlobal.initStandardObjects((AppD) app, scope, null, false);
+		GeoGebraGlobal.initStandardObjects(app, scope, null, false);
 
 		// Evaluate the global string
 		try {
-			Object result = cx.evaluateString(scope, ((AppD) app).getKernel()
+			Object result = cx.evaluateString(scope, app.getKernel()
 					.getLibraryJavaScript(),
 					app.getLocalization().getMenu("ErrorAtLine"), 1,
 					null);
