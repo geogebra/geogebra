@@ -115,7 +115,7 @@ public final class FunctionSoundW extends FunctionSound implements
 		waw.stop();
 	}
 
-	public double evaluate(double t) {
+	public double getValueAt(double t) {
 		double value = getF().evaluate(t + 1.0 * getSamplePeriod());
 
 		if (value > 1.0)

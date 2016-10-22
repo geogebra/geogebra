@@ -6,7 +6,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 
 public class WebAudioWrapper {
 	public interface FunctionAudioListener {
-		double evaluate(double t);
+		double getValueAt(double t);
 	}
 	public static final WebAudioWrapper INSTANCE = new WebAudioWrapper();
 	private FunctionAudioListener listener = null;
@@ -48,8 +48,15 @@ public class WebAudioWrapper {
 		$wnd.processorConnected = true;
 	}-*/;
 
-	public double eval(double t) {
-		return listener.evaluate(t);
+	/**
+	 * Gets the value of a sound function at given time
+	 * 
+	 * @param t
+	 *            the time for function value
+	 * @return the sound value.
+	 */
+	public double getValueAt(double t) {
+		return listener.getValueAt(t);
 	}
 
 
@@ -57,7 +64,7 @@ public class WebAudioWrapper {
 		var data = e.outputBuffer.getChannelData(0);
 		for (var i = 0; i < data.length; i++) {
 
-			data[i] = $wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::eval(D)($wnd.time);
+			data[i] = $wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::getValueAt(D)($wnd.time);
 			$wnd.time = $wnd.time + $wnd.deltaTime;
 		}
 		if ($wnd.time >= $wnd.stopTime) {
