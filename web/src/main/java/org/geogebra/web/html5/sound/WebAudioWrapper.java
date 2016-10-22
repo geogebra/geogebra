@@ -11,6 +11,12 @@ public class WebAudioWrapper {
 	public static final WebAudioWrapper INSTANCE = new WebAudioWrapper();
 	private FunctionAudioListener listener = null;
 	private boolean supported;
+	private static double time;
+	private static double deltaTime;
+	private static double stopTime;
+	private static JavaScriptObject context;
+	private static JavaScriptObject processor;
+
 	private WebAudioWrapper() {
 		supported = !Browser.isIE() && !Browser.isFirefox();
 		init();
@@ -24,11 +30,15 @@ public class WebAudioWrapper {
 				|| $wnd.mozAudioContext || $wnd.oAudioContext || $wnd.msAudioContext);
 		if (contextClass) {
 			// Web Audio API is available.
-			$wnd.context = new contextClass();
-			$wnd.deltaTime = 1 / $wnd.context.sampleRate;
-			$wnd.ins = this;
-			$wnd.processor = $wnd.context.createScriptProcessor(2048, 0, 1);
-			$wnd.processor.onaudioprocess = @org.geogebra.web.html5.sound.WebAudioWrapper::onAudioProcess(Lcom/google/gwt/core/client/JavaScriptObject;);
+			@org.geogebra.web.html5.sound.WebAudioWrapper::context = new contextClass();
+			@org.geogebra.web.html5.sound.WebAudioWrapper::deltaTime = 
+				1 / @org.geogebra.web.html5.sound.WebAudioWrapper::context.sampleRate;
+		
+			@org.geogebra.web.html5.sound.WebAudioWrapper::processor
+			 	= @org.geogebra.web.html5.sound.WebAudioWrapper::context.createScriptProcessor(2048, 0, 1);
+			
+			@org.geogebra.web.html5.sound.WebAudioWrapper::processor.onaudioprocess 
+				= @org.geogebra.web.html5.sound.WebAudioWrapper::onAudioProcess(Lcom/google/gwt/core/client/JavaScriptObject;);
 		
 			return true;
 		} else {
@@ -42,10 +52,10 @@ public class WebAudioWrapper {
 			return;
 		}
 		// TODO: use sampleRate somehow as well
-		$wnd.time = min;
-		$wnd.stopTime = max;
-		$wnd.processor.connect($wnd.context.destination);
-		$wnd.processorConnected = true;
+		@org.geogebra.web.html5.sound.WebAudioWrapper::time = min;
+		@org.geogebra.web.html5.sound.WebAudioWrapper::stopTime = max;
+		@org.geogebra.web.html5.sound.WebAudioWrapper::processor
+				.connect(@org.geogebra.web.html5.sound.WebAudioWrapper::context.destination);
 	}-*/;
 
 	/**
@@ -62,13 +72,18 @@ public class WebAudioWrapper {
 
 	private static native void onAudioProcess(JavaScriptObject e) /*-{
 		var data = e.outputBuffer.getChannelData(0);
+
 		for (var i = 0; i < data.length; i++) {
 
-			data[i] = $wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::getValueAt(D)($wnd.time);
-			$wnd.time = $wnd.time + $wnd.deltaTime;
+			data[i] = @org.geogebra.web.html5.sound.WebAudioWrapper::INSTANCE
+					.@org.geogebra.web.html5.sound.WebAudioWrapper::getValueAt(
+							D)
+					(@org.geogebra.web.html5.sound.WebAudioWrapper::time);
+			@org.geogebra.web.html5.sound.WebAudioWrapper::time = @org.geogebra.web.html5.sound.WebAudioWrapper::time
+					+ @org.geogebra.web.html5.sound.WebAudioWrapper::deltaTime;
 		}
-		if ($wnd.time >= $wnd.stopTime) {
-			$wnd.ins.@org.geogebra.web.html5.sound.WebAudioWrapper::stop()();
+		if (@org.geogebra.web.html5.sound.WebAudioWrapper::time >= @org.geogebra.web.html5.sound.WebAudioWrapper::stopTime) {
+			@org.geogebra.web.html5.sound.WebAudioWrapper::INSTANCE.@org.geogebra.web.html5.sound.WebAudioWrapper::stop()();
 		}
 
 	}-*/;
@@ -77,7 +92,7 @@ public class WebAudioWrapper {
 		if (!this.@org.geogebra.web.html5.sound.WebAudioWrapper::isSupported()()) {
 			return;
 		}
-		$wnd.processor.disconnect();
+		@org.geogebra.web.html5.sound.WebAudioWrapper::processor.disconnect();
 	}-*/;
 
 	public FunctionAudioListener getListener() {
