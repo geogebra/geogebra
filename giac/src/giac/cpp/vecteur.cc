@@ -2450,7 +2450,7 @@ namespace giac {
 		if (curdeg>1 && is_greater(eps,testn,contextptr)){
 		  int precbits=48;
 		  if (testn!=0)
-		    _floor(-ln(testn,contextptr)/std::log(2.0),contextptr).val;
+		    precbits=_floor(-ln(testn,contextptr)/std::log(2.0),contextptr).val;
 		  multi=accurate_evalf(multi,precbits);
 		  for (unsigned i=0;i<positions.size();++i){
 		    done[positions[i]]=1;

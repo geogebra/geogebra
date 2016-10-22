@@ -931,7 +931,7 @@ namespace giac {
 #endif
 	  withsqrt(b,contextptr);
 	  complex_mode(bc,contextptr);
-	  if (isolate_mode & 16==0)
+	  if ((isolate_mode & 16)==0)
 	    solve_ckrange(x,newv,isolate_mode,contextptr);
 	  v=mergevecteur(v,newv);
 	  return ;

@@ -408,7 +408,7 @@ namespace giac {
       gen & f=g._SYMBptr->feuille;
       if (f.type!=_VECT || f._VECTptr->size()!=2)
 	return;
-      if (eval(f._VECTptr->front(),1,contextptr)!=f._VECTptr->front())
+      if (protecteval(f._VECTptr->front(),1,contextptr)!=f._VECTptr->front())
 	check_local_assign(f._VECTptr->back(),prog_args,res1,res2,res3,res4,false,contextptr);
       else
 	check_local_assign(f,prog_args,res1,res2,res3,res4,false,contextptr);
