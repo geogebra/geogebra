@@ -108,37 +108,6 @@ public class GgbAPID extends GgbAPIJre {
 		}
 	}
 
-	/**
-	 * Returns current construction in Base64 format. May be used for saving.
-	 */
-	@Override
-	public synchronized String getBase64(boolean includeThumbnail) {
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try {
-			((AppD) app).getXMLio().writeGeoGebraFile(baos, includeThumbnail);
-			return Base64.encodeToString(baos.toByteArray(), false);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/**
-	 * Opens construction given in XML format. May be used for loading
-	 * constructions.
-	 */
-	@Override
-	public synchronized void setBase64(String base64) {
-		byte[] zipFile;
-		try {
-			zipFile = Base64.decode(base64);
-		} catch (Exception e) {
-
-			e.printStackTrace();
-			return;
-		}
-		((AppD) app).loadXML(zipFile);
-	}
 
 	/**
 	 * Turns showing of error dialogs on (true) or (off). Note: this is

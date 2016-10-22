@@ -357,11 +357,6 @@ public class AppDNoGui extends App {
 					return null;
 				}
 
-				public void setBase64(String base64) {
-					// TODO Auto-generated method stub
-
-				}
-
 				public void setErrorDialogsActive(boolean flag) {
 					// TODO Auto-generated method stub
 
@@ -409,11 +404,6 @@ public class AppDNoGui extends App {
 					return null;
 				}
 
-				@Override
-				public String getBase64(boolean includeThumbnail) {
-					// TODO Auto-generated method stub
-					return null;
-				}
 			};
 		}
 

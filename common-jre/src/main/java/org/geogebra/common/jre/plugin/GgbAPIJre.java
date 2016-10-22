@@ -1,6 +1,11 @@
 package org.geogebra.common.jre.plugin;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.jre.io.MyXMLioJre;
+import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
@@ -66,6 +71,40 @@ public abstract class GgbAPIJre extends GgbAPI {
 
 		app.getEuclidianView1().drawPoints((GeoImage) ge, x, y);
 
+	}
+
+	/**
+	 * Opens construction given in XML format. May be used for loading
+	 * constructions.
+	 */
+
+	public void setBase64(String base64) {
+		byte[] zipFile;
+		try {
+			zipFile = Base64.decode(base64);
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			return;
+		}
+		app.loadXML(zipFile);
+
+	}
+
+	/**
+	 * Returns current construction in Base64 format. May be used for saving.
+	 */
+	@Override
+	public String getBase64(boolean includeThumbnail) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			((MyXMLioJre) app.getXMLio()).writeGeoGebraFile(baos,
+					includeThumbnail);
+			return Base64.encodeToString(baos.toByteArray(), false);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	abstract protected void exportPNGClipboard(boolean transparent, int DPI,
