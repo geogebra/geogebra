@@ -3390,7 +3390,7 @@ namespace giac {
 	if (tmp.type==_FRAC)
 	  tmp1=tmp=tmp._FRACptr->num;
 	tmp=evalf(tmp,eval_level(contextptr),contextptr);
-	if (tmp.type==_VECT){
+	if (tmp.type==_VECT && tmp._VECTptr->size()<1024){
 	  // call realroot? this would be more accurate
 	  gen res=complex_mode(contextptr)?proot(*tmp._VECTptr,epsilon(contextptr)):(lvar(tmp1).empty()?_realroot(gen(makevecteur(tmp1,epsilon(contextptr),at_evalf),_SEQ__VECT),contextptr):real_proot(*tmp._VECTptr,epsilon(contextptr),contextptr));
 	  if (res.type==_VECT && res._VECTptr->size()==1)
