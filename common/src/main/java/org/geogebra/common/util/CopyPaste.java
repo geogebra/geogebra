@@ -20,7 +20,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
@@ -772,7 +771,8 @@ public class CopyPaste {
 						app.removeFromViews3D(geo);
 					}
 				} else if (app
-						.getActiveEuclidianView() instanceof EuclidianView3D) {
+						.getActiveEuclidianView()
+						.getViewID() == App.VIEW_EUCLIDIAN3D) {
 					app.removeFromEuclidianView(geo);
 					if (app.isEuclidianView3Dinited()) {
 						app.addToViews3D(geo);
