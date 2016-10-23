@@ -1959,6 +1959,8 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate[cbrt(x^6)]", result:"x\u00B2", notes:"" },
 { cat:"Evaluate", cmd:"Evaluate[nroot(b^6,3)]", result:"b\u00B2", notes:"" },
 { cat:"Evaluate", cmd:"Evaluate[(b^6)^(1/3)]", result:"b\u00B2", notes:"" },
+{ cat:"NSolve", cmd:"NSolve[x^5730=1/2]", result:"{x = -0.999879039222, x = 0.999879039222}", round:"{x = -1, x = 1}", notes:"GGB-1310" },
+{ cat:"NSolve", cmd:"NSolve[x^5730=0.5]", result:"{x = -0.999879039222, x = 0.999879039222}", round:"{x = -1, x = 1}", notes:"GGB-1310" },
 // JSONEND
 //{ 
 // 
