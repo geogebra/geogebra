@@ -3,10 +3,10 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -23,7 +23,7 @@ public class ChangeableCoordParent {
 	private Coords direction, direction2;
 	private boolean forPolyhedronNet = false;
 	private boolean reverse = false;
-	private GeoPolyhedron parent;
+	private HasVolume parent;
 	
 	/**
 	 * 
@@ -58,7 +58,7 @@ public class ChangeableCoordParent {
 	 *            polyhedron parent
 	 */
 	static public void setPolyhedronNet(GeoPolygon polygon, GeoNumeric num,
-			GeoPolyhedron polyhedron, boolean reverse) {
+			HasVolume polyhedron, boolean reverse) {
 		if (num != null) {
 			polygon.setChangeableCoordParent(
 					new ChangeableCoordParent(polygon, num, polyhedron,
@@ -88,9 +88,11 @@ public class ChangeableCoordParent {
 	 *            number
 	 * @param parent
 	 *            parent polyhedron
+	 * @param reverse
+	 *            should reverse normal
 	 */
 	public ChangeableCoordParent(GeoElement child, GeoNumeric number,
-			GeoPolyhedron parent, boolean reverse) {
+			HasVolume parent, boolean reverse) {
 		changeableCoordNumber = number;
 		changeableCoordDirector = child;
 		forPolyhedronNet = true;
