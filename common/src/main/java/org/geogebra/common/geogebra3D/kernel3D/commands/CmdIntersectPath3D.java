@@ -88,7 +88,7 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 			if ((ok[0] = (arg[0].isGeoPolygon()))
 					&& (ok[1] = (arg[1].isGeoPolygon()))) {
 				GeoElement[] result = kernelA.getManager3D().IntersectPolygons(
-c.getLabels(), (GeoPolygon) arg[0],
+						c.getLabels(), (GeoPolygon) arg[0],
 								(GeoPolygon) arg[1]);
 				return result;
 			}

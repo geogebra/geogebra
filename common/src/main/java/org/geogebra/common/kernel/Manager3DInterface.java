@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSurfaceFinite;
 import org.geogebra.common.kernel.geos.ParametricCurve;
@@ -675,8 +676,7 @@ public interface Manager3DInterface {
 	 * intersect polygons (region)
 	 */
 	public GeoElement[] IntersectPolygons(String[] labels,
- GeoPolygon inPoly0,
-			GeoPolygon inPoly1);
+			GeoPoly inPoly0, GeoPoly inPoly1);
 
 	/**
 	 * Difference polygons (region)
@@ -693,8 +693,8 @@ public interface Manager3DInterface {
 	/**
 	 * Union polygons (region)
 	 */
-	public GeoElement[] UnionPolygons(String[] labels, GeoPolygon3D inPoly0,
-			GeoPolygon3D inPoly1);
+	public GeoElement[] UnionPolygons(String[] labels,
+			GeoPoly inPoly0, GeoPoly inPoly1);
 
 	public GeoElement IntersectPlanes(GeoPlaneND cs1, GeoPlaneND cs2);
 

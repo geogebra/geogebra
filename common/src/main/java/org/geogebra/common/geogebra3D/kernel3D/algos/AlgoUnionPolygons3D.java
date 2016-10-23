@@ -1,9 +1,9 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoPoly;
 
 /**
  * AlgoElement class for finding UNION (region union) of two 3D polygons
@@ -25,7 +25,7 @@ public class AlgoUnionPolygons3D extends AlgoPolygonOperations3D {
 	 *            input polygons
 	 */
 	public AlgoUnionPolygons3D(Construction cons, String[] labels,
-			GeoPolygon3D inPoly0, GeoPolygon3D inPoly1) {
+			GeoPoly inPoly0, GeoPoly inPoly1) {
 
 		super(cons, labels, inPoly0, inPoly1, PolyOperation.UNION);
 	}

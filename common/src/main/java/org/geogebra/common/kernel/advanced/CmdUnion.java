@@ -1,12 +1,13 @@
 package org.geogebra.common.kernel.advanced;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.kernelND.GeoPolygon3DInterface;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -41,10 +42,10 @@ public class CmdUnion extends CommandProcessor {
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (arg[0].isGeoPolygon() && arg[1].isGeoPolygon()) {
-				if (arg[0] instanceof GeoPolygon3D
-						&& arg[1] instanceof GeoPolygon3D) {
-					return union3D(c.getLabels(), (GeoPolygon3D) arg[0],
-							(GeoPolygon3D) arg[1]);
+				if (arg[0] instanceof GeoPolygon3DInterface
+						&& arg[1] instanceof GeoPolygon3DInterface) {
+					return union3D(c.getLabels(),
+							(GeoPoly) arg[0], (GeoPoly) arg[1]);
 				}
 				return union(c.getLabels(), (GeoPolygon) arg[0],
 						(GeoPolygon) arg[1]);
@@ -83,8 +84,8 @@ public class CmdUnion extends CommandProcessor {
 	 *            input polygon3D 2
 	 * @return resulting polygons
 	 */
-	protected GeoElement[] union3D(String[] labels, GeoPolygon3D poly1,
-			GeoPolygon3D poly2) {
+	protected GeoElement[] union3D(String[] labels, GeoPoly poly1,
+			GeoPoly poly2) {
 		return kernelA.getManager3D().UnionPolygons(labels, poly1, poly2);
 	}
 }

@@ -3,7 +3,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.GeoPoly;
 
 /**
  * AlgoElement class for finding intersection path(region) between two 3D
@@ -27,7 +27,7 @@ public class AlgoIntersectPathPolygons3D extends AlgoPolygonOperations3D {
 	 *            second input polygon
 	 */
 	public AlgoIntersectPathPolygons3D(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1) {
+			GeoPoly inPoly0, GeoPoly inPoly1) {
 
 		super(cons, labels, inPoly0, inPoly1, PolyOperation.INTERSECTION);
 	}

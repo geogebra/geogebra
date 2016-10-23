@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -189,7 +190,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 *            XOR
 	 */
 	public AlgoPolygonOperations3D(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1,
+			GeoPoly inPoly0, GeoPoly inPoly1,
 			PolyOperation operationType) {
 
 		this(cons, labels, inPoly0, inPoly1, operationType, null);
@@ -212,19 +213,19 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 *            output size (if initial occurrence null)
 	 */
 	public AlgoPolygonOperations3D(Construction cons, String[] labels,
-			GeoPolygon inPoly0, GeoPolygon inPoly1,
+			GeoPoly inPoly0, GeoPoly inPoly1,
 			PolyOperation operationType, int[] outputSizes) {
 
 		super(cons);
 
 		this.operationType = operationType;
-		this.inPoly0 = inPoly0;
-		this.inPoly1 = inPoly1;
+		this.inPoly0 = (GeoPolygon) inPoly0;
+		this.inPoly1 = (GeoPolygon) inPoly1;
 
 		tmpCoord = new Coords(4);
 
-		subject = new Path(inPoly0.getPointsLength());
-		clip = new Path(inPoly1.getPointsLength());
+		subject = new Path(this.inPoly0.getPointsLength());
+		clip = new Path(this.inPoly1.getPointsLength());
 		solution = new Paths();
 
 		planeIntsctGeoLine3D = new GeoLine3D(getConstruction());

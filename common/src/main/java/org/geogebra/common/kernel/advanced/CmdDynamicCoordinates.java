@@ -1,12 +1,13 @@
 package org.geogebra.common.kernel.advanced;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+//import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -53,13 +54,13 @@ public class CmdDynamicCoordinates extends CommandProcessor {
 
 		case 4:
 			ok = new boolean[3];
-			if ((ok[0] = (arg[0] instanceof GeoPoint3D && arg[0].isMoveable()))
+			if ((ok[0] = (arg[0] instanceof GeoPointND && arg[0].isMoveable()))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (arg[3] instanceof GeoNumberValue)) {
 
 				AlgoDynamicCoordinates3D algo = new AlgoDynamicCoordinates3D(
-						cons, c.getLabel(), (GeoPoint3D) arg[0],
+						cons, c.getLabel(), (GeoPointND) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3]);
 

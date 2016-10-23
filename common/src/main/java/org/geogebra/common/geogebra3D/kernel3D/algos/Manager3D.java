@@ -59,6 +59,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoSurfaceFinite;
@@ -2228,8 +2229,7 @@ public class Manager3D implements Manager3DInterface {
 	 * @author thilina
 	 */
 	public GeoElement[] IntersectPolygons(String[] labels,
- GeoPolygon inPoly0,
-			GeoPolygon inPoly1) {
+			GeoPoly inPoly0, GeoPoly inPoly1) {
 
 		AlgoIntersectPathPolygons3D algo = new AlgoIntersectPathPolygons3D(
 				cons, labels, inPoly0, inPoly1);
@@ -2267,8 +2267,8 @@ public class Manager3D implements Manager3DInterface {
 	 * 
 	 * @author thilina
 	 */
-	public GeoElement[] UnionPolygons(String[] labels, GeoPolygon3D inPoly0,
-			GeoPolygon3D inPoly1) {
+	public GeoElement[] UnionPolygons(String[] labels,
+			GeoPoly inPoly0, GeoPoly inPoly1) {
 		AlgoUnionPolygons3D algo = new AlgoUnionPolygons3D(cons, labels,
 				inPoly0, inPoly1);
 		return algo.getOutput();

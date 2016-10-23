@@ -30,11 +30,12 @@ public class AlgoDynamicCoordinates3D extends AlgoElement implements
 		AlgoDynamicCoordinatesInterface {
 
 	private GeoNumberValue x, y, z; // input
-	private GeoPoint3D P; // input
+	private GeoPointND P; // input
 	private GeoPoint3D M; // output
 
 	public AlgoDynamicCoordinates3D(Construction cons, String label,
-			GeoPoint3D arg, GeoNumberValue x, GeoNumberValue y, GeoNumberValue z) {
+			GeoPointND arg, GeoNumberValue x, GeoNumberValue y,
+			GeoNumberValue z) {
 		super(cons);
 		this.P = arg;
 		this.x = x;
@@ -57,7 +58,7 @@ public class AlgoDynamicCoordinates3D extends AlgoElement implements
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[4];
-		input[0] = P;
+		input[0] = P.toGeoElement();
 		input[1] = x.toGeoElement();
 		input[2] = y.toGeoElement();
 		input[3] = z.toGeoElement();
