@@ -23,6 +23,7 @@ import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
+import org.geogebra.common.euclidian.smallscreen.AdjustViews;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.factories.AwtFactory;
@@ -1474,6 +1475,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	private boolean isAutoSaved = false;
+	private AdjustViews adjustViews = null;
 
 	public final boolean isAutoSaved() {
 		return isAutoSaved;
@@ -4499,6 +4501,27 @@ public abstract class App implements UpdateSelection {
 		return new AdjustScreen(getActiveEuclidianView());
 
 	}
+
+	/**
+	 * Adjusts Algebra and Euclidian View next to or bellow each other
+	 * (Portrait) according to app size.
+	 * 
+	 * @return if screen became portrait or not.
+	 */
+	public boolean adjustViews() {
+		if (!has(Feature.ADJUST_VIEWS)) {
+			return false;
+		}
+
+		if (adjustViews == null) {
+			adjustViews = new AdjustViews(this);
+		}
+
+		adjustViews.apply();
+
+		return adjustViews.isPortait();
+	}
+
 
 	protected Versions getVersion(){
 		return version;

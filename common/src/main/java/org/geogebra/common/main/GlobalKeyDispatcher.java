@@ -289,9 +289,12 @@ public abstract class GlobalKeyDispatcher {
 		// toggle boolean or run script when Spacebar pressed
 		case SPACE:
 			// check not spreadsheet
+
 			if (!fromSpreadsheet) {
 				consumed = app.handleSpaceKey();
 			}
+			app.adjustViews();
+
 			break;
 
 		case TAB:

@@ -1876,10 +1876,12 @@ public class DockManagerW extends DockManager {
 			return;
 		}
 
+		final boolean portrait = app.getWidth() < app.getHeight();
+
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			public void execute() {
-				adjustViews(app.getWidth() < app.getHeight());
+				adjustViews(portrait);
 			}
 		});
 	}
@@ -1888,6 +1890,7 @@ public class DockManagerW extends DockManager {
 		if (!app.has(Feature.ADJUST_VIEWS)) {
 			return;
 		}
+
 
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel == null) {

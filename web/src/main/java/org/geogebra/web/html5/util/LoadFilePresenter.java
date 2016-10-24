@@ -236,8 +236,6 @@ public class LoadFilePresenter {
 		// TODO this should probably go to default XML
 		app.getSettings().getAlgebra().setTreeMode(SortMode.ORDER);
 
-			// }
-		// }
 		app.updateToolBar();
 		app.focusLost(null, null);
 
@@ -247,9 +245,13 @@ public class LoadFilePresenter {
 			}
 			app.setActivePerspective(p.getDefaultID() - 1);
 		}
+
+		// no Feature.ADJUST_VIEWS: returns false.
+		boolean portrait = app.adjustViews();
+
 		if (app.getArticleElement().getDataParamShowAppsPicker()
-				&& app.getExam() == null) {
-				app.showPerspectivesPopup();
+				&& app.getExam() == null && !portrait) {
+			app.showPerspectivesPopup();
 			}
 
 		app.updateRounding();
