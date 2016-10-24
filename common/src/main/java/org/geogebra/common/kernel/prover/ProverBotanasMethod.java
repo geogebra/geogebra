@@ -538,7 +538,7 @@ public class ProverBotanasMethod {
 								}
 							}
 							boolean useThisPoly = true;
-							if (algo != null
+							if (algo != null && algo instanceof AlgoPointOnPath
 									&& algo.getInput(0).equals(numerical)) {
 								// don't use this poly since is a point on a
 								// numerical path
