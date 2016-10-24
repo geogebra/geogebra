@@ -340,6 +340,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		this(0, app);
 	}
 
+	public void setEnabled(boolean b) {
+		this.textField.setEnabled(b);
+	}
+
 	private void init() {
 		textField.getValueBox().addMouseUpHandler(new MouseUpHandler() {
 			@Override

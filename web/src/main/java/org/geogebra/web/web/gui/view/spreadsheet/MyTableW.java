@@ -1645,6 +1645,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				        row, col);
 				// w.getElement().setAttribute("display", "none");
 				if (app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)) {
+					if (isAndroid()) {
+						w.setEnabled(false);
+					}
 					app.showKeyboard(w, true);
 				}
 
@@ -1681,6 +1684,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			mce.cancelCellEditing();
 		return false;// TODO: implementation needed
 	}
+
+	private native boolean isAndroid()/*-{
+		var userAgent = navigator.userAgent;
+		if (userAgent) {
+			return navigator.userAgent.indexOf("Android") != -1;
+		}
+		return false;
+	}-*/;
 
 	private SpreadsheetController getEditorController() {
 		if (controller == null) {
