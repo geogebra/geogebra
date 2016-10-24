@@ -1989,9 +1989,9 @@ namespace giac {
     bool ans=proot_real1(v,eps,rprec,res,contextptr);
     for (unsigned i=0;i<res.size();++i)
       res[i] += shift;
-    res=multvecteur(prefact,res);
     for (unsigned i=0;i<mult0;++i)
-      res.push_back(0);
+      res.push_back(shift);
+    res=multvecteur(prefact,res);
     return ans;
   }
 
