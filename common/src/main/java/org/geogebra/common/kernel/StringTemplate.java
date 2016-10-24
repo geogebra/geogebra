@@ -2842,7 +2842,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		// in XML we write the original to avoid brackets and priority problems
 		// #4764
-		if (hasType(StringType.GEOGEBRA_XML)) {
+		if (!isPrintLocalizedCommandNames() || hasType(StringType.GEOGEBRA_XML)) {
 			return scientificStr;
 		}
 
