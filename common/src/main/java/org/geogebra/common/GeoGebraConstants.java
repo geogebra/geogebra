@@ -34,7 +34,7 @@ public interface GeoGebraConstants {
 
 		IOS_WEBVIEW("iw"),
 
-		WEB_FOR_DESKTOP("3D"),
+		WEB_FOR_DESKTOP("offline"),
 
 		WINDOWS_STORE("win"),
 

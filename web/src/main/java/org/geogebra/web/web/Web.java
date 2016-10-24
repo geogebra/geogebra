@@ -16,6 +16,7 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
 import org.geogebra.web.web.gui.applet.AppletFactory;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.web.gui.laf.BundleLookAndFeel;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.laf.OfficeLookAndFeel;
 import org.geogebra.web.web.gui.laf.SmartLookAndFeel;
@@ -241,6 +242,11 @@ public class Web implements EntryPoint {
 					.equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
 				return new OfficeLookAndFeel();
 			}
+
+			if ("bundle"
+					.equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
+				return new BundleLookAndFeel();
+			}
 		}
 		if (!((CASFactory) GWT.create(CASFactory.class)).isEnabled()) {
 			return new GLookAndFeel() {
@@ -249,13 +255,7 @@ public class Web implements EntryPoint {
 				}
 			};
 		}
-		if (Browser.isXWALK()) {
-			return new GLookAndFeel() {
-				public Versions getVersion(int dim) {
-					return Versions.WEB_FOR_DESKTOP;
-				}
-			};
-		}
+
 		return new GLookAndFeel();
 
 	}
