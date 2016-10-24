@@ -5,18 +5,29 @@ import org.geogebra.common.cas.giac.CASgiac;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Unicode;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.gwt.regexp.shared.RegExp;
+
 public class SerializationTest {
-	
+	static AppDNoGui app;
+
+	@BeforeClass
+	public static void initialize() {
+		app = new AppDNoGui(new LocalizationD(3), true);
+	}
 	@Test
 	public void testSerializationSpeed(){
-		AppDNoGui app = new AppDNoGui(new LocalizationD(3), true);
+
 		app.setLanguage(Locale.US);
 		long l = System.currentTimeMillis();
 		StringBuilder sb = new StringBuilder(1000);
@@ -42,6 +53,37 @@ public class SerializationTest {
 		Assert.assertEquals("0", StringUtil.cannonicNumber(".0"));
 		Assert.assertEquals("1.0E2", StringUtil.cannonicNumber("1.0E2"));
 		Assert.assertEquals("1", StringUtil.cannonicNumber("1.00"));
+	}
+
+	@Test
+	public void testConditionalLatex() {
+		String caseSimple = "x, \\;\\;\\;\\; \\left(x > 0 \\right)";
+		tcl("If[x>0,x]", caseSimple);
+		tcl("If[x>0,x,-x]",
+				"\\left\\{\\begin{array}{ll} x& : x > 0\\\\ -x& : \\text{otherwise} \\end{array}\\right. ");
+		String caseThree = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\ -x& : x < 0\\\\ 7& : \\text{otherwise} \\end{array}\\right. ";
+		tcl("If[x>1,x,If[x<0,-x,7]]", caseThree);
+		tcl("If[x>1,x,x<0,-x,7]", caseThree);
+		String caseTwo = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\ -x& : x <= 0 \\end{array}\\right. ";
+		tcl("If[x>1,x,If[x<=0,-x]]", caseTwo);
+		tcl("If[x>1,x,x<=0,-x]", caseTwo);
+		// x>2 is impossible for x<=0
+		tcl("If[x>0,x,If[x>2,-x]]", caseSimple);
+		String caseImpossible = "\\left\\{\\begin{array}{ll} x& : x > 1\\\\ -x& : x <= 1 \\end{array}\\right. ";
+		// x>1 and x<=2 cover the whole axis, further conditions are irrelevant
+		tcl("If[x>1,x,If[x<=2,-x,If[x>3,x^2,x^3]]]", caseImpossible);
+		tcl("If[x>1,x,If[x<=2,-x]]", caseImpossible);
+
+	}
+
+	private void tcl(String string, String string2) {
+		AlgebraProcessor ap =app.getKernel().getAlgebraProcessor();
+		GeoElementND[] result =  ap.processAlgebraCommand(string, false);
+		Assert.assertTrue(result[0] instanceof GeoFunction);
+		Assert.assertEquals(((GeoFunction) result[0]).conditionalLaTeX(false,
+				StringTemplate.latexTemplate), string2.replace("<=",
+				Unicode.LESS_EQUAL + ""));
+
 	}
 
 	@Test

@@ -2504,12 +2504,12 @@ CasEvaluableFunction, ParametricCurve,
 				}
 				sbLaTeX.append(" } } ");
 			} else {
-				int lastValid = cases.size()-1;
+				int lastValid = conditions.size() - 1;
 				while (lastValid >= 0 && !conditions.get(lastValid).isValid()) {
 					lastValid--;
 				}
 				int firstValid = 0;
-				while (firstValid < cases.size()
+				while (firstValid < conditions.size()
 						&& !conditions.get(firstValid).isValid()) {
 					firstValid++;
 				}
@@ -2567,6 +2567,9 @@ CasEvaluableFunction, ParametricCurve,
 			MyList fns = (MyList) condRoot.getRight().unwrap();
 			for(int i = 0; i < fns.size();i++){
 				cases.add(fns.getListElement(i).wrap());
+			}
+			if (fns.size() > conds.size()) {
+				conditions.add(parentCond);
 			}
 			return fns.size() > conds.size();
 		}
