@@ -4099,6 +4099,9 @@ public abstract class App implements UpdateSelection {
 		case FOLD_POLYHEDRON_NET_BY_DRAGGING:
 			return prerelease;
 
+		case ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
