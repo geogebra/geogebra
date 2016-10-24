@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTableModel;
@@ -1642,7 +1643,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW) ((MyCellEditorW) getCellEditor(
 				        row, col)).getTableCellEditorWidget(this, ob, false,
 				        row, col);
-				app.showKeyboard(w, true);
+				// w.getElement().setAttribute("display", "none");
+				if (app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)) {
+					app.showKeyboard(w, true);
+				}
 
 				// set height and position of the editor
 				int editorHeight = ssGrid.getCellFormatter()
