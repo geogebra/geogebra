@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -39,7 +40,19 @@ public class CAStestJSON {
 	  static Kernel kernel;
 	static AppDNoGui app;
 	  static CASTestLogger logger;
-	  static HashMap<String,HashMap<String, String>> testcases = new HashMap<String,HashMap<String,String>>();
+
+	static class CasTest {
+		public CasTest(String input, String output, String rounding) {
+			this.input = input;
+			this.output = output;
+			this.rounding = rounding;
+		}
+		protected String input;
+		protected String output;
+		protected String rounding;
+	}
+
+	static HashMap<String, ArrayList<CasTest>> testcases = new HashMap<String, ArrayList<CasTest>>();
 
 	  private static String readFileAsString(String filePath) throws IOException {
 	        StringBuffer fileData = new StringBuffer();
@@ -104,13 +117,15 @@ public class CAStestJSON {
 				System.out.println("	testCat(\""+cat+"\");");
 				System.out.println("}\n");*/
 				
-				testcases.put(cat, new HashMap<String,String>());
+					testcases.put(cat, new ArrayList<CasTest>());
 			}
 				if (test.has("round")) {
-					testcases.get(cat).put(test.getString("cmd"),
-							test.getString("round"));
+					testcases.get(cat).add(new CasTest(test.getString("cmd"),
+							test.getString("round"), null));
 				} else {
-			testcases.get(cat).put(test.getString("cmd"),test.getString("result"));
+					testcases.get(cat).add(new CasTest(test.getString("cmd"),
+							test.getString("result"),
+							test.optString("rounding")));
 			}
 			}
 		} catch (Throwable e) {
@@ -235,11 +250,15 @@ public class CAStestJSON {
 		if (testcases.get(name) == null) {
 			return;
 		}
-		HashMap<String, String> cases = testcases.get(name);
+		ArrayList<CasTest> cases = testcases.get(name);
 		Assert.assertNotEquals(0, cases.size());
 		testcases.remove(name);
-		for (String cmd : cases.keySet()) {
-			t(cmd, cases.get(cmd));
+		for (CasTest cmd : cases) {
+			if (cmd.rounding != null) {
+				app.setRounding(cmd.rounding);
+			}
+
+			t(cmd.input, cmd.output);
 		}
 
 
@@ -633,6 +652,11 @@ public class CAStestJSON {
 	@Test
 	public void testNSolve(){
 		testCat("NSolve");
+	}
+
+	@Test
+	public void testNSolve1310() {
+		testCat("NSolve1310");
 	}
 
 	@Test
