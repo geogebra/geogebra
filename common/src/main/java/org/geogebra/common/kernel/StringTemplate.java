@@ -2842,13 +2842,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 		}
 		// in XML we write the original to avoid brackets and priority problems
 		// #4764
-		if (!isPrintLocalizedCommandNames() || hasType(StringType.GEOGEBRA_XML)) {
+		if (hasType(StringType.GEOGEBRA_XML)) {
 			return scientificStr;
 		}
 
 		StringBuilder sb = new StringBuilder(scientificStr.length() * 2);
 		boolean Efound = false;
-
 		for (int i = 0; i < scientificStr.length(); i++) {
 			char ch = scientificStr.charAt(i);
 			if (ch == 'E') {
@@ -2868,6 +2867,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 			} else {
 				sb.append(")");
 			}
+		}
+		if (Efound && !this.isPrintLocalizedCommandNames()) {
+			sb.insert(0, '(');
+			sb.append(')');
 		}
 
 		return sb.toString();

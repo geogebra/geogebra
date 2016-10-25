@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -167,16 +168,20 @@ public class CAStestJSON {
 	          includesNumericCommand = includesNumericCommand || ("Numeric".equals(cmdName) && cmd.getArgumentNumber() > 1);
 	        }
 	      }
-			if (f.getOutputValidExpression().unwrap() instanceof GeoElement) {
+			if (f.getOutputValidExpression() == null) {
+				result = f.getOutput(StringTemplate.testTemplate);
+			} else if (f.getOutputValidExpression()
+					.unwrap() instanceof GeoElement) {
 				result = f.getOutputValidExpression().toValueString(
 						StringTemplate.testTemplateJSON);
 			} else {
-				result = f.getOutputValidExpression() != null ? f
+				result = f
 						.getOutputValidExpression()
 						.traverse(getGGBVectAdder())
-
 						.toString(
-	          includesNumericCommand ? StringTemplate.testNumeric : StringTemplate.testTemplateJSON) : f.getOutput(StringTemplate.testTemplate);
+								includesNumericCommand
+										? StringTemplate.testNumeric
+										: StringTemplate.testTemplateJSON);
 			}
 	    } catch (Throwable t) {
 	      String sts = "";
@@ -254,10 +259,12 @@ public class CAStestJSON {
 		Assert.assertNotEquals(0, cases.size());
 		testcases.remove(name);
 		for (CasTest cmd : cases) {
-			if (cmd.rounding != null) {
+			if (!StringUtil.empty(cmd.rounding)) {
 				app.setRounding(cmd.rounding);
+			} else {
+				app.setRounding("2");
 			}
-
+			Log.debug(cmd.input);
 			t(cmd.input, cmd.output);
 		}
 
