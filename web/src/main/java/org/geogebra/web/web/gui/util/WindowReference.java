@@ -46,8 +46,8 @@ public class WindowReference implements EventRenderable {
 	
 	public native void close() /*-{
 		var wnd = this.@org.geogebra.web.web.gui.util.WindowReference::wnd;
-		if($wnd.debug){
-	    	$wnd.debug("closing");
+		if ($wnd.debug) {
+			$wnd.debug("closing");
 		}
 		if (wnd) {
 			wnd.close();
@@ -58,15 +58,14 @@ public class WindowReference implements EventRenderable {
 	 * @param app Application
 	 * @return reference to this object
 	 */
-	public static WindowReference createSignInWindow(App app) {
+	public static WindowReference createSignInWindow(App app, String callback) {
 		if (instance == null) {
 			instance = new WindowReference();
-			int  width = 900;
-			int height = 500;
-			int left = (Window.getClientWidth() / 2) - (width / 2);
-			int top = (Window.getClientHeight() / 2) - (height / 2);
 			lOW = ((LoginOperationW) app.getLoginOperation());
-					instance.wnd =createWindowReference("GeoGebraTube", lOW.getLoginURL(((AppW) app).getLocalization().getLanguage()), 900, 500);
+			instance.wnd = createWindowReference("GeoGebraTube",
+					lOW.getLoginURL(
+							((AppW) app).getLocalization().getLanguage()),
+					callback, 900, 500);
 					lOW.getView().add(instance);
 					instance.initClosedCheck();
 			}
@@ -127,13 +126,14 @@ public class WindowReference implements EventRenderable {
 	    lOW = null;
     }
 
-	private static JavaScriptObject createWindowReference(String name, String redirect, int width, int height) {
+	private static JavaScriptObject createWindowReference(String name,
+			String redirect, String callback, int width, int height) {
 		int left = (Window.getClientWidth() / 2) - (width / 2);
 		int top = (Window.getClientHeight() / 2) - (height / 2);
 		return WindowW.open(BASEURL.getOpenerUrl() +
 				
 						"?redirect=" + redirect +
-						"&callback=" + BASEURL.getCallbackUrl(),
+				"&callback=" + callback,
 						
 						name,
 						

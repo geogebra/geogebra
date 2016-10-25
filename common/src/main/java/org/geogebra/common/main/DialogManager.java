@@ -412,9 +412,7 @@ public abstract class DialogManager {
 
 	public abstract void showToolbarConfigDialog();
 
-	public abstract void showLogInDialog();
 
-	public abstract void showLogOutDialog();
 
 	public static boolean doDilate(Kernel kernel, GeoNumberValue num,
 			GeoPointND[] points, GeoElement[] selGeos, EuclidianController ec) {

@@ -8,7 +8,7 @@ import com.google.gwt.user.client.Window.Location;
 public class SmartSignInButton extends SignInButton{
 	
 	public SmartSignInButton(App app) {
-	    super(app, 0);
+		super(app, 0, null);
     }
 
 	public void login(){

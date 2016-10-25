@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.laf;
 
+import java.util.Date;
+
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
@@ -14,16 +16,24 @@ import org.geogebra.web.web.gui.menubar.MainMenu;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Represents different designs/platforms of GeoGebra deployment
+ */
 public class GLookAndFeel implements GLookAndFeelI{
-
+	/** width of menu */
 	public static final int MENUBAR_WIDTH = 270; //TODO make it smaller - wordWrap
+	/** height of header in browse gui */
 	public static final int BROWSE_HEADER_HEIGHT = 61;
+	/** width of panle with file sources in browse gui (GDrive, MAT) */
 	public static final int PROVIDER_PANEL_WIDTH = 70;
+	/** toolbar height */
 	public static final int TOOLBAR_OFFSET = 61;
+	/** size of icons in view submenu of stylebar */
 	public static final int VIEW_ICON_SIZE = 20;
 	private HandlerRegistration windowClosingHandler;
 	private HandlerRegistration windowCloseHandler;
@@ -107,12 +117,21 @@ public class GLookAndFeel implements GLookAndFeelI{
 	    return false;
     }
 
+	/**
+	 * @param m
+	 *            material
+	 * @param app
+	 *            app
+	 * @param isLocal
+	 *            whether his is a local file
+	 * @return panel with material preview + actions
+	 */
 	public MaterialListElement getMaterialElement(Material m, AppW app, boolean isLocal) {
 	    return new MaterialListElement(m, app, isLocal);
     }
 
 	public SignInButton getSignInButton(App app) {
-		return new SignInButton(app, Browser.isIE9() ? 2000 : 0);
+		return new SignInButton(app, Browser.isIE9() ? 2000 : 0, null);
     }
 
 	@Override
@@ -159,6 +178,12 @@ public class GLookAndFeel implements GLookAndFeelI{
 
 	public boolean supportsFullscreen() {
 		return true;
+	}
+
+	public void storeLanguage(String s) {
+		Date exp = new Date(
+				System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
+		Cookies.setCookie("GeoGebraLangUI", s, exp, "geogebra.org", "/", false);
 	}
 
 }

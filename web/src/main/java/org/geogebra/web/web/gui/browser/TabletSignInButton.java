@@ -6,7 +6,7 @@ import org.geogebra.web.html5.main.AppW;
 public class TabletSignInButton extends SignInButton {
 
 	public TabletSignInButton(App app) {
-		super(app, 0);
+		super(app, 0, null);
 	}
 
 	@Override

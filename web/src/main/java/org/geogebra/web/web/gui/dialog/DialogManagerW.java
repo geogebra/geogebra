@@ -45,7 +45,6 @@ import org.geogebra.web.web.export.AnimationExportDialogW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.web.gui.util.SaveDialogW;
-import org.geogebra.web.web.gui.util.WindowReference;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.web.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.web.main.AppWapplication;
@@ -420,26 +419,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		        GOptionPane.OK_OPTION, GOptionPane.INFORMATION_MESSAGE, null);
 	}
 
-	private WindowReference signInDialog = null;
-
-	@Override
-    public void showLogInDialog() {
-	    if (signInDialog == null || signInDialog.closed()) {
-	    	signInDialog = WindowReference.createSignInWindow(app);
-	    } else {
-	    	signInDialog.close();
-	    	signInDialog = null;
-	    }
-    }
 	
-	private WindowReference openFromGGT = null;
-
-
-	@Override
-    public void showLogOutDialog() {
-	    // TODO Auto-generated method stub
-	    
-    }
 
 	@Override
     public void renderEvent(BaseEvent event) {

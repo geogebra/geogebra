@@ -14,6 +14,7 @@ import org.geogebra.common.gui.dialog.TextInputDialog;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -91,7 +92,8 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool) {
+	public void showBooleanCheckboxCreationDialog(GPoint screenLoc,
+			GeoBoolean bool) {
 		// TODO Auto-generated method stub
 
 	}
@@ -105,7 +107,7 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public void showNumberInputDialog(String title, String message,
-			String initText, AsyncOperation callback) {
+			String initText, AsyncOperation<GeoNumberValue> callback) {
 		// TODO Auto-generated method stub
 	}
 
@@ -149,7 +151,7 @@ public class DialogManagerMinimal extends DialogManager {
 	@Override
 	public void showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText,
-			AsyncOperation callback) {
+			AsyncOperation<GeoNumberValue> callback) {
 		// TODO Auto-generated method stub
 
 	}
@@ -166,13 +168,11 @@ public class DialogManagerMinimal extends DialogManager {
 
 	}
 
-	@Override
 	public void showLogInDialog() {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void showLogOutDialog() {
 		// TODO Auto-generated method stub
 
@@ -197,7 +197,7 @@ public class DialogManagerMinimal extends DialogManager {
 
 	@Override
 	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint, boolean rw) {
-		return (TextInputDialog) new TextInputDialogD(app,
+		return new TextInputDialogD(app,
  loc.getMenu("Text"),
 				text, startPoint, rw, 30, 6,
 				app.getMode() == EuclidianConstants.MODE_TEXT);

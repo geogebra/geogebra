@@ -2178,10 +2178,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	public String getLanguageFromCookie() {
 		String lCookieValue = Location.getParameter("GeoGebraLangUI");
-		if (lCookieValue == null || lCookieValue.length() == 0) {
+		if (StringUtil.empty(lCookieValue)) {
 			lCookieValue = Cookies.getCookie("GeoGebraLangUI");
 		}
-		if (lCookieValue == null) {
+		if (StringUtil.empty(lCookieValue)
+				&& Browser.supportsSessionStorage()) {
+			lCookieValue = Storage.getLocalStorageIfSupported()
+					.getItem("GeoGebraLangUI");
+		}
+		if (StringUtil.empty(lCookieValue)) {
 			lCookieValue = Browser.navigatorLanguage();
 		}
 		return lCookieValue;

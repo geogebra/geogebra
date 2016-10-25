@@ -55,4 +55,6 @@ public interface GLookAndFeelI {
 
 	boolean supportsFullscreen();
 
+	void storeLanguage(String s);
+
 }

@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
@@ -12,7 +11,6 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -135,10 +133,8 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 			public void onClick(ClickEvent event) {
 				boolean newDirRTL = Localization
 				        .rightToLeftReadingOrder(current.localeGWT);
-				Date exp = new Date(System.currentTimeMillis() + 1000 * 60 * 60
-				        * 24 * 365);
-				Cookies.setCookie("GeoGebraLangUI", current.localeGWT, exp,
-				        "geogebra.org", "/", false);
+
+				app.getLAF().storeLanguage(current.localeGWT);
 				if (app.getLoginOperation().isLoggedIn()) {
 					app.getLoginOperation()
 					        .getGeoGebraTubeAPI()

@@ -141,6 +141,7 @@ import org.geogebra.desktop.gui.view.spreadsheet.SpreadsheetViewD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
 import org.geogebra.desktop.gui.virtualkeyboard.WindowsUnicodeKeyboard;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.DialogManagerMinimal;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.GuiManagerInterfaceD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -3214,11 +3215,11 @@ FileExtensions.GEOGEBRA_TOOL)) {
 
 
 	public void login() {
-		app.getDialogManager().showLogInDialog();
+		((DialogManagerMinimal) app.getDialogManager()).showLogInDialog();
 	}
 
 	public void logout() {
-		app.getDialogManager().showLogOutDialog();
+		((DialogManagerMinimal) app.getDialogManager()).showLogOutDialog();
 	}
 
 	@Override
