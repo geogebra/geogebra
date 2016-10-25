@@ -73,26 +73,32 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	public String toValueString(StringTemplate tpl) {
 		StringBuilder valueSb = new StringBuilder(50);
 		valueSb.append("(");
-		valueSb.append(functionExpression.getExpression().toValueString(tpl));
-		valueSb.append(" = ");
-		if (Kernel.isEpsilon(planeEquation.getZ(), planeEquation.getY(),
-				planeEquation.getX())) {
-			// can't replace z by plane equation
-			valueSb.append("z");
-			kernel.appendConstant(valueSb, -translateZ, tpl);
-		} else {
-			// replace z by plane equation
-			if (planeEquationNumbers == null) {
-				planeEquationNumbers = new double[3];
+		if (functionExpression != null) {
+			valueSb.append(
+					functionExpression.getExpression().toValueString(tpl));
+			valueSb.append(" = ");
+			if (Kernel.isEpsilon(planeEquation.getZ(), planeEquation.getY(),
+					planeEquation.getX())) {
+				// can't replace z by plane equation
+				valueSb.append("z");
+				kernel.appendConstant(valueSb, -translateZ, tpl);
+			} else {
+				// replace z by plane equation
+				if (planeEquationNumbers == null) {
+					planeEquationNumbers = new double[3];
+				}
+				planeEquationNumbers[0] = -planeEquation.getX()
+						/ planeEquation.getZ();
+				planeEquationNumbers[1] = -planeEquation.getY()
+						/ planeEquation.getZ();
+				planeEquationNumbers[2] = -planeEquation.getW()
+						/ planeEquation.getZ() - translateZ;
+				valueSb.append(kernel.buildLHS(planeEquationNumbers, VAR_STRING,
+						true, false, false, true, tpl));
 			}
-			planeEquationNumbers[0] = -planeEquation.getX()
-					/ planeEquation.getZ();
-			planeEquationNumbers[1] = -planeEquation.getY()
-					/ planeEquation.getZ();
-			planeEquationNumbers[2] = -planeEquation.getW()
-					/ planeEquation.getZ() - translateZ;
-			valueSb.append(kernel.buildLHS(planeEquationNumbers, VAR_STRING,
-					true, false, false, true, tpl));
+		} else {
+			valueSb.append(getExpression().toValueString(tpl));
+			valueSb.append(" = 0");
 		}
 		valueSb.append(",");
 		valueSb.append(
