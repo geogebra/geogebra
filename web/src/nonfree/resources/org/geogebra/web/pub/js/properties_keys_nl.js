@@ -1142,7 +1142,7 @@ __GGB__keysVar.nl.error = {
     "InvalidEquation": "Ongeldige vergelijking:\ngeef een veeltermvergelijking in x en y",
     "InvalidFunction": "Ongeldig functievoorschrift:\nvoer een expliciet functievoorschrift in x in",
     "InvalidInequality": "Ongeldige ongelijkheid:\nVoer een ongelijkheid van de eerste graad in x and y in.",
-    "InvalidInput": "Sorry, de input wordt niet aanvaard",
+    "InvalidInput": "Controleer a.u.b. je invoer",
     "LengthMustBeConstant": "Elke lengte moet constant zijn",
     "LoadFileFailed": "Openen van het bestand is mislukt",
     "NameUsed": "Deze naam is reeds in gebruik",
