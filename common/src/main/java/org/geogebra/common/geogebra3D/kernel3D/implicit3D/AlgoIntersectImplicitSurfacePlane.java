@@ -57,30 +57,36 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement {
 		VariableReplacer vr = VariableReplacer.getReplacer(kernel);
 		// a*x+b*y+c*z=d, z=d/c-a/c*x-b/c*y
 		Coords norm = plane.getCoordSys().getEquationVector();
+		curve.setPlaneEquation(norm);
 		FunctionVariable x = surface.getExpression().getFunctionVariables()[0];
 		FunctionVariable y = surface.getExpression().getFunctionVariables()[1];
 		if (!Kernel.isZero(norm.getZ())) {
-			ExpressionNode substZ = x.wrap()
-					.multiply(-norm.getX() / norm.getZ())
-					.plus(y.wrap().multiply(-norm.getY() / norm.getZ())
-							.plus(-norm.getW() / norm.getZ()));
+			double a = norm.getX() / norm.getZ();
+			double b = norm.getY() / norm.getZ();
+			double d = norm.getW() / norm.getZ();
+			ExpressionNode substZ = x.wrap().multiply(a)
+					.plus(y.wrap().multiply(b).plus(d));
 			VariableReplacer.addVars("z", substZ);
+			curve.getTransformedCoordSys().setZequal(a, b, 1, d);
 		} else {
 			if (Kernel.isZero(norm.getY())) {
-				ExpressionNode substX = new ExpressionNode(kernel,
-						norm.getW() / norm.getX());
+				double a = norm.getW() / norm.getX();
+				ExpressionNode substX = new ExpressionNode(kernel, a);
 				VariableReplacer.addVars("x", substX);
-				VariableReplacer.addVars("y",
-						new FunctionVariable(kernel, "x"));
-				VariableReplacer.addVars("z",
-						new FunctionVariable(kernel, "y"));
+				VariableReplacer
+						.addVars("y", new FunctionVariable(kernel, "x"));
+				VariableReplacer
+						.addVars("z", new FunctionVariable(kernel, "y"));
+				curve.getTransformedCoordSys().setXequal(a);
 
 			} else {
-			ExpressionNode substY = x.wrap()
-					.multiply(-norm.getX() / norm.getY())
-					.plus(-norm.getW() / norm.getY());
-			VariableReplacer.addVars("y", substY);
-			VariableReplacer.addVars("z", new FunctionVariable(kernel, "y"));
+				double a = norm.getX() / norm.getY();
+				double b = norm.getW() / norm.getY();
+				ExpressionNode substY = x.wrap().multiply(a).plus(b);
+				VariableReplacer.addVars("y", substY);
+				VariableReplacer
+						.addVars("z", new FunctionVariable(kernel, "y"));
+				curve.getTransformedCoordSys().setYequal(a, 1, b);
 			}
 		}
 		ExpressionNode exp = surface.getExpression().getFunctionExpression()

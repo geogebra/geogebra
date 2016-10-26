@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -21,7 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
 	private CoordSys transformCoordSys;
-	private GeoElement parentGeo;
+	private FunctionNVar functionExpression;
 
 	/**
 	 * @param c
@@ -34,6 +33,12 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
 	}
 
+	/**
+	 * Copy constructor
+	 * 
+	 * @param geo
+	 *            curve to copy
+	 */
 	public GeoImplicitCurve3D(GeoImplicitCurve geo) {
 		this(geo.getConstruction());
 		set(geo);
@@ -44,6 +49,10 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		return transformCoordSys;
 	}
 
+	/**
+	 * @param sys
+	 *            transformed system
+	 */
 	public void setTransformedCoordSys(CoordSys sys) {
 		transformCoordSys.set(sys);
 	}
@@ -167,8 +176,12 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 		euclidianViewUpdate();
 	}
 
-	private FunctionNVar functionExpression;
 
+
+	/**
+	 * @param expression
+	 *            defining expression
+	 */
 	public void setFunctionExpression(FunctionNVar expression) {
 		this.functionExpression = expression.deepCopy(kernel);
 	}
@@ -180,6 +193,10 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
 	private Coords planeEquation = new Coords(4);
 
+	/**
+	 * @param planeEquation
+	 *            normal vector of the plane
+	 */
 	public void setPlaneEquation(Coords planeEquation) {
 		this.planeEquation.set(planeEquation);
 	}
@@ -191,6 +208,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
 	private double translateZ = 0;
 
+	@Override
 	public double getTranslateZ() {
 		return translateZ;
 	}
