@@ -175,7 +175,9 @@ public class AdjustScreen {
 				slider2.update();
 			}
 		}
-
+		if (hSliders.size() < 1) {
+			return;
+		}
 		GeoNumeric lastSlider = hSliders.get(hSliders.size() - 1);
 		int maxY = view.getViewHeight() - AdjustSlider.MARGIN_Y;
 		if (lastSlider.getSliderY() > maxY) {

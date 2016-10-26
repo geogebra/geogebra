@@ -5195,8 +5195,60 @@ public abstract class EuclidianView
 
 	private OptionsEuclidian optionPanel = null;
 	private DrawList openedComboBox = null;
-	private AutoCompleteTextField textField;
 
+	class ViewTextField {
+		private AutoCompleteTextField textField;
+		private GBox box;
+		public ViewTextField() {
+			textField = null;
+			box = null;
+		}
+		
+		public AutoCompleteTextField getTextField(int length,
+				DrawInputBox drawInputBox) {
+			if (textField == null) {
+				textField = app.getSwingFactory()
+						.newAutoCompleteTextField(length, app, drawInputBox);
+			textField.setAutoComplete(false);
+			textField.enableColoring(false);
+			textField.setFocusTraversalKeysEnabled(false);
+				createBox();
+				box.add(textField);
+				EuclidianView.this.add(box);
+		} else {
+			textField.setDrawTextField(drawInputBox);
+			}
+			return textField;
+		}
+
+		public AutoCompleteTextField getTextField() {
+			return textField;
+		}
+
+		public void focusTo(GeoInputBox inputBox) {
+			DrawInputBox d = (DrawInputBox) getDrawableFor(inputBox);
+			textField.setDrawTextField(d);
+			d.setFocus(inputBox.getText());
+			textField.setText(inputBox.getText());
+			d.setWidgetVisible(true);
+		}
+
+		public GBox getBox() {
+			createBox();
+			return box;
+		}
+
+		private void createBox() {
+			if (box == null) {
+				box = app.getSwingFactory()
+						.createHorizontalBox(getEuclidianController());
+			}
+
+		}
+
+	}
+	
+	private ViewTextField viewTextField = new ViewTextField();
 	/**
 	 * sets the option panel for gui update
 	 * 
@@ -5623,30 +5675,19 @@ public abstract class EuclidianView
 	}
 
 	public AutoCompleteTextField getTextField() {
-		return textField;
+		return viewTextField.getTextField();
 	}
 
 	public AutoCompleteTextField getTextField(GeoInputBox input,
 			DrawInputBox drawInputBox) {
-		if (textField == null) {
-			textField = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(
-					input.getLength(), kernel.getApplication(), drawInputBox);
-			textField.setAutoComplete(false);
-			textField.enableColoring(false);
-			textField.setFocusTraversalKeysEnabled(false);
-
-		} else {
-			textField.setDrawTextField(drawInputBox);
-		}
-
-
-		return textField;
-
+		return viewTextField.getTextField(input.getLength(), drawInputBox);
 	}
 
 	public void focusTextField(GeoInputBox inputBox) {
-		DrawInputBox d = (DrawInputBox) getDrawableFor(inputBox);
-		d.setWidgetVisible(true);
+		viewTextField.focusTo(inputBox);
 	}
 
+	public GBox getBoxForTextField() {
+		return viewTextField.getBox();
+	}
 }

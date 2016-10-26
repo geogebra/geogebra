@@ -57,14 +57,12 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Localization;
@@ -1043,11 +1041,4 @@ public class EuclidianViewD extends EuclidianView implements
 
 	}
 
-	@Override
-	public void focusTextField(GeoInputBox inputBox) {
-		DrawInputBox d = (DrawInputBox) getDrawableFor(inputBox);
-		d.setWidgetVisible(true);
-		Log.debug("input " + inputBox);
-
-	}
 }

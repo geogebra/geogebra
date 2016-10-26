@@ -1681,7 +1681,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 				setVisible(false);
 				box.setVisible(false);
-				app.getActiveEuclidianView().remove(box);
+				// app.getActiveEuclidianView().remove(box);
 				return false;
 			}
 		});

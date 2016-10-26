@@ -81,29 +81,24 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		oneTextFieldPerEV = view.getApplication()
 				.has(Feature.ONE_TEXTFIELD_PER_EV);
 
-		box = geo.getKernel().getApplication().getSwingFactory()
-				.createHorizontalBox(view.getEuclidianController());
 		// action listener for checkBox
 		// bl = new ButtonListener();
 		ifListener = new InputFieldListener();
 		ifKeyListener = new InputFieldKeyListener();
 
 		if (!oneTextFieldPerEV) {
-			textField = geoInputBox.getTextField(view.getViewID(), this);// SwingFactory.prototype.newAutoCompleteTextField(geo.getLength(),
+			textField = geoInputBox.getTextField(view.getViewID(), this);
+			box = geo.getKernel().getApplication().getSwingFactory()
+					.createHorizontalBox(view.getEuclidianController());
 			getTextField().setDeferredFocus(true);
 
-			// view.getApplication(),
-			// this);
 			// this will be set in update():
 			// textField.showPopupSymbolButton(true);
 			getTextField().setAutoComplete(false);
 			getTextField().enableColoring(false);
 
-			// label.setLabelFor(textField); <- next row
-			// textField.setLabel(label);
-
 			getTextField().setVisible(true);
-			box.add(getTextField());
+			getBox().add(getTextField());
 		}
 		// ((geogebra.gui.inputfield.AutoCompleteTextField)
 		// textField).addFocusListener(bl);
@@ -219,6 +214,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		 */
 		public void keyReleased(KeyEvent e) {
 			if (!isSelectedForInput()) {
+				Log.debug("[DF] keyReleased NOT " + "for " + labelDesc);
 				return;
 			}
 			Log.debug("[DF] keyReleased for " + labelDesc);
@@ -281,7 +277,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		isVisible = geo.isEuclidianVisible();
 		if (!forView) {
 			getTextField().setVisible(false);
-			box.setVisible(false);
+			getBox().setVisible(false);
 		}
 
 		int length = geoInputBox.getLength();
@@ -329,14 +325,14 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		getTextField().setEditable(true);
 
 		geoInputBox.updateText(getTextField());
-		box.revalidate();
+		getBox().revalidate();
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
 
 		labelRectangle.setBounds(xLabel, yLabel, getPreferredSize().getWidth(),
 				getPreferredSize().getHeight());
-		box.setBounds(labelRectangle);
+		getBox().setBounds(labelRectangle);
 	}
 
 	public GDimension getTotalSize() {
@@ -402,7 +398,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		labelRectangle.setBounds(boxLeft - 1, boxTop - 1, boxWidth,
 				boxHeight - 3);
-		box.setBounds(labelRectangle);
+		if (isSelectedForInput()) {
+			getBox().setBounds(labelRectangle);
+		}
 		GColor bgColor = geo.getBackgroundColor() != null
 				? geo.getBackgroundColor() : view.getBackgroundCommon();
 		getTextField().drawBounds(g2, bgColor, boxLeft, boxTop,
@@ -446,7 +444,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 * Removes button from view again
 	 */
 	final public void remove() {
-		view.remove(box);
+		if (!isSelectedForInput()) {
+			return;
+		}
+		view.remove(getBox());
 	}
 
 	/**
@@ -454,43 +455,47 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 *            input string
 	 */
 	public void setFocus(final String str) {
-		Log.debug("[DrawTextFied] setFocus");
-		getTextField().requestFocus();
+		Log.debug("[DrawTextFied] setFocus: " + str);
 		if (str != null && !str.equals("\t")) {
 			getTextField().wrapSetText(str);
 		}
+		getTextField().requestFocus();
 
 	}
 
 	private void updateBoxPosition() {
-		box.revalidate();
+		if (!isSelectedForInput()) {
+			return;
+		}
+
+		getBox().revalidate();
 		measureLabel(view.getGraphicsForPen(), geoInputBox, labelDesc);
 		labelRectangle.setBounds(boxLeft, boxTop, getPreferredSize().getWidth(),
 				getPreferredSize().getHeight());
-		box.setBounds(labelRectangle);
+		getBox().setBounds(labelRectangle);
 	}
 
 	@Override
 	protected void showWidget() {
 		view.cancelBlur();
-		box.revalidate();
+		getBox().revalidate();
 		updateTextField();
 		if (oneTextFieldPerEV) {
 			// updateTextField();
 		} else {
 			textField.setVisible(true);
 		}
-		box.setVisible(true);
+		getBox().setVisible(true);
 		if (!view.getEuclidianController().isTemporaryMode()) {
 			getTextField().requestFocus();
 		}
 	}
 
 	private void updateTextField() {
+
 		AutoCompleteTextField tf = getTextField();
-		box.add(tf);
-		view.add(box);
-		updateBoxPosition();
+		// getBox().add(tf);
+		// view.add(getBox());
 
 		tf.setUsedForInputBox(geoInputBox);
 		tf.setVisible(true);
@@ -522,11 +527,16 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		} else {
 			tf.prepareShowSymbolButton(true);
 		}
+		updateBoxPosition();
+
 	}
 
 	@Override
 	protected void hideWidget() {
-		getTextField().hideDeferred(box);
+		if (!isSelectedForInput()) {
+			return;
+		}
+		getTextField().hideDeferred(getBox());
 
 	}
 
@@ -541,5 +551,11 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 		return textField;
 	}
+
+	private GBox getBox() {
+		return oneTextFieldPerEV ? view.getBoxForTextField() : box;
+	}
+
+
 
 }
