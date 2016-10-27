@@ -1075,4 +1075,14 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		return false;
 		// only for web
 	}
+
+	public void scrollIfNeeded(GeoElement geo, String labelNew) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public boolean getScrollToShow() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

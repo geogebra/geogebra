@@ -273,6 +273,9 @@ public class LatexTreeItem extends RadioTreeItem
 			@Override
 			public void callback(GeoElementND obj) {
 				if (obj != null && !keepFocus) {
+					if (app.has(Feature.AUTOSCROLLING_SPREADSHEET)) {
+						app.setScrollToShow(true);
+					}
 					obj.update();
 				}
 			}

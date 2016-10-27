@@ -10,8 +10,10 @@ import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -219,15 +221,23 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		// Application.debug(new Date() + " ADD: " + geo);
 
 		update(geo);
+		scrollIfNeeded(geo, null);
+
+		// scheduleRepaint();
+	}
+
+	public void scrollIfNeeded(GeoElement geo, String labelNew) {
 		GPoint location = geo.getSpreadsheetCoords();
+
+		if (labelNew != null && location == null) {
+			location = GeoElementSpreadsheet.spreadsheetIndices(labelNew);
+		}
 
 		// autoscroll to new cell's location
 		if (scrollToShow && location != null) {
 			table.scrollRectToVisible(table.getCellRect(location.y, location.x,
 			        true));
 		}
-
-		// scheduleRepaint();
 	}
 
 	public void remove(GeoElement geo) {
@@ -400,6 +410,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	public void setScrollToShow(boolean scrollToShow) {
 		this.scrollToShow = scrollToShow;
+	}
+
+	public boolean getScrollToShow() {
+		return this.scrollToShow;
 	}
 
 	// =====================================================

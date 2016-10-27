@@ -37,6 +37,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -81,6 +82,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.locusequ.EquationScope;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
@@ -2735,6 +2737,17 @@ public abstract class GeoElement extends ConstructionElement implements
 		// Application.printStacktrace(newLabel);
 
 		if (cons.isSuppressLabelsActive()) {
+			if (kernel.getApplication().has(Feature.AUTOSCROLLING_SPREADSHEET)) {
+				// TODO: check if redefine GEo like this: A100 = 3 ???
+				if (kernel.getApplication().getGuiManager() != null
+						&& kernel.getApplication().getGuiManager()
+								.hasSpreadsheetView()) {
+					kernel.getApplication().setScrollToShow(true);
+					((SpreadsheetViewInterface) kernel.getApplication()
+							.getGuiManager().getSpreadsheetView())
+							.scrollIfNeeded(this, labelNew);
+				}
+			}
 			return;
 		}
 		

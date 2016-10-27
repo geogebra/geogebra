@@ -4104,6 +4104,9 @@ public abstract class App implements UpdateSelection {
 		case ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS:
 			return prerelease;
 
+		case AUTOSCROLLING_SPREADSHEET:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
