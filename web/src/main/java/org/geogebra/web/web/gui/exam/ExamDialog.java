@@ -190,9 +190,9 @@ public class ExamDialog {
 		app.getLAF().removeWindowClosingHandler();
 		app.fileNew();
 		app.updateRounding();
-		boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
 		if (app.enableGraphing()) {
-			if (supportsCAS) {
+			// don't check for CAS supported but for data param
+			if (app.getArticleElement().getDataParamEnableCAS(false)) {
 				// set CAS start view for Exam CAS
 				app.getGgbApi().setPerspective("4");
 			} else {
@@ -211,7 +211,7 @@ public class ExamDialog {
 		guiManager.updateMenubar();
 		guiManager.resetMenu();
 		DockPanelW dp = ((DockManagerW) guiManager.getLayout().getDockManager()).getPanelForKeyboard();
-		if (dp != null && dp.getKeyboardListener().needsAutofocus()) { // dp.getKeyboardListener().setFocus(true);
+		if (dp != null && dp.getKeyboardListener().needsAutofocus()) {
 
 			app.showKeyboard(dp.getKeyboardListener(), true);
 		}

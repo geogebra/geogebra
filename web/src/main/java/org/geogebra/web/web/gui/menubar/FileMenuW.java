@@ -89,6 +89,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			String buttonText = examFile ? loc.getPlain("Restart")
 					: null;
 			AsyncOperation<String[]> handler = null;
+
 			if (examFile) {
 				handler = new AsyncOperation<String[]>() {
 					@Override
@@ -97,8 +98,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						ExamDialog.startExam(null, app);
 					}
 				};
-			}
-			if (app.getArticleElement().hasDataParamEnableGraphing()) {
 				app.getExam().setHasGraph(true);
 				boolean supportsCAS = app.getSettings().getCasSettings()
 						.isEnabled();
@@ -136,6 +135,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			app.setExam(null);
 			Layout.initializeDefaultPerspectives(app, 0.2);
 			app.getLAF().addWindowClosingHandler(app);
+			app.resetViewsEnabled();
 			app.fireViewsChangedEvent();
 			app.getGuiManager().updateToolbarActions();
 			app.getGuiManager().setGeneralToolBarDefinition(

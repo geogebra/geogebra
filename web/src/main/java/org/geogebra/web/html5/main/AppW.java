@@ -3483,4 +3483,15 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		}
 	}
 
+	public void resetViewsEnabled() {
+		// reset cas and 3d settings for restart of exam
+		// needed for GGB-1015
+		this.getSettings().getCasSettings().resetEnabled();
+		this.getSettings().getEuclidian(-1).resetEnabled();
+		getSettings().getEuclidian(1).resetEnabled();
+		getSettings().getEuclidian(2).resetEnabled();
+		setViewsEnabled();
+
+	}
+
 }
