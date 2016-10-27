@@ -2,7 +2,6 @@ package org.geogebra.web.web.main;
 
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -79,7 +78,7 @@ public class AppWapplication extends AppWFull {
 			removeSplash();
 		}
 		appFrame.app = this;
-		App.useFullAppGui = true;
+		this.useFullAppGui = true;
 		this.useFullGui = true;
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
