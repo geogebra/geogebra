@@ -244,7 +244,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	private void setActiveToolbarIfNecessary() {
 		if ((app.getGuiManager() != null)
-		        && (app.showToolBar() || App.isFullAppGui())) {
+				&& app.showToolBar()) {
 			((GuiManagerW) app.getGuiManager())
 			        .setActiveToolbarId(App.VIEW_SPREADSHEET);
 		}

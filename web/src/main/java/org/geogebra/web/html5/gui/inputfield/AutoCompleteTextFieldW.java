@@ -1179,7 +1179,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			if (e.isAltKeyDown()) {
 
 				String s = AltKeys.getAltSymbols(keyCode,
-						e.isShiftKeyDown());
+						e.isShiftKeyDown(), true);
 
 				if (s != null) {
 					insertString(s);

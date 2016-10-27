@@ -89,7 +89,7 @@ public class LayoutW extends Layout implements SettingListener {
 
 		// override the previous command with the data-param-customToolBar
 		// setting
-		if (!App.isFullAppGui() && app.isApplet()) {
+		if (!app.isFullAppGui() && app.isApplet()) {
 			app.setCustomToolBar();
 
 			app.setShowToolBarNoUpdate(

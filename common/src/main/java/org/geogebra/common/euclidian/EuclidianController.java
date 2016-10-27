@@ -7663,7 +7663,7 @@ public abstract class EuclidianController {
 	 */
 	private boolean isCheckboxFixed(GeoBoolean geoBool) {
 		return geoBool.isCheckboxFixed()
-				|| (app.isHTML5Applet() && !App.isFullAppGui());
+				|| (app.isHTML5Applet() && !app.isFullAppGui());
 	}
 
 	/**

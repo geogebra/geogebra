@@ -17,7 +17,6 @@ import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -261,7 +260,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	public void focusGained() {
-		if (!isInFocus && !App.isFullAppGui()) {
+		if (!isInFocus && !app.isFullAppGui()) {
 			this.isInFocus = true;
 			if (getCanvas() != null) {
 				((AppW) this.app).focusGained(this, getCanvas().getElement());

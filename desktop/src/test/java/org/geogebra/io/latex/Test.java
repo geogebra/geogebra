@@ -65,7 +65,7 @@ public class Test {
 			}
 
 			public String alt(int unicodeKeyChar, boolean shift) {
-				return AltKeys.getAltSymbols(unicodeKeyChar, shift);
+				return AltKeys.getAltSymbols(unicodeKeyChar, shift, true);
 			}
 		});
 		JFrame frame = new JFrame();

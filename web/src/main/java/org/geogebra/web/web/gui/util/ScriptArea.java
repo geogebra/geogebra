@@ -33,7 +33,7 @@ public class ScriptArea extends TextArea
 		if (e.isAltKeyDown() && !e.isControlKeyDown()) {
 
 			String s = AltKeys.getAltSymbols((char) e.getNativeKeyCode(),
-					e.isShiftKeyDown());
+					e.isShiftKeyDown(), true);
 
 			if (s != null) {
 				insertString(s);

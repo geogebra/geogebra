@@ -50,7 +50,7 @@ public class RetexKeyboardListener implements MathKeyboardListener {
 	}
 
 	public String alt(int unicodeKeyChar, boolean shift) {
-		return AltKeys.getAltSymbols(unicodeKeyChar, shift);
+		return AltKeys.getAltSymbols(unicodeKeyChar, shift, true);
 	}
 
 }

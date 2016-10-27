@@ -91,10 +91,10 @@ public class LoadFilePresenter {
 		// app.getGuiManager().setToolBarDefinition(customToolBar);
 		// app.setMaxIconSize(maxIconSize);
 
-		boolean showToolBar = view.getDataParamShowToolBar(App.isFullAppGui());
-		boolean showMenuBar = view.getDataParamShowMenuBar(App.isFullAppGui());
-		boolean showAlgebraInput = view.getDataParamShowAlgebraInput(App
-		        .isFullAppGui());
+		boolean showToolBar = view.getDataParamShowToolBar(app.isFullAppGui());
+		boolean showMenuBar = view.getDataParamShowMenuBar(app.isFullAppGui());
+		boolean showAlgebraInput = view
+				.getDataParamShowAlgebraInput(app.isFullAppGui());
 
 		app.setShowMenuBar(showMenuBar);
 		app.setShowAlgebraInput(showAlgebraInput, false);

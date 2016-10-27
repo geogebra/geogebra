@@ -1468,7 +1468,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			inputPanelLatex = createInputPanel();
 			forceKeyboard = GuiManagerW.mayForceKeyboard(app);
 
-			appletHack = !App.isFullAppGui();
+			appletHack = !app.isFullAppGui();
 		} else {
 			inputPanelLatex.removeFromParent();
 		}
@@ -1541,7 +1541,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			// open the keyboard (or show the keyboard-open-button) at
 			// when the application is started
 
-			appletHack = !App.isFullAppGui();
+			appletHack = !app.isFullAppGui();
 		} else {
 			inputPanelLatex.removeFromParent();
 		}

@@ -351,7 +351,7 @@ public class DockManagerW extends DockManager {
 
 			int windowWidth;
 			int windowHeight;
-			if (app.isApplet() || !App.isFullAppGui()) {
+			if (app.isApplet()) {
 
 				// Emulate the way split panes in Java applets are sized:
 				// 2) Use the ggb xml window size to set dividers
@@ -533,7 +533,8 @@ public class DockManagerW extends DockManager {
 			}
 		}
 
-		if (App.isFullAppGui() || app.getArticleElement().getDataParamShowMenuBar(false)){
+		if (app.isFullAppGui()
+				|| app.getArticleElement().getDataParamShowMenuBar(false)) {
 			DockGlassPaneW glassPane = ((AppWFull) app).getGlassPane();
 			if (glassPane.getArticleElement() == null) {
 				glassPane.setArticleElement(app

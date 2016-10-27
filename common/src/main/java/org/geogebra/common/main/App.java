@@ -162,6 +162,7 @@ public abstract class App implements UpdateSelection {
 	public static final int VIEW_ASSIGNMENT = 8192;
 	/** id for spreadsheet table model */
 	public static final int VIEW_TABLE_MODEL = 9000;
+	/** data collection view (web only) */
 	public static final int VIEW_DATA_COLLECTION = 43;
 	public static final int DEFAULT_THRESHOLD = 3;
 	/**
@@ -194,7 +195,7 @@ public abstract class App implements UpdateSelection {
 	/** Singular web service (CAS) */
 	public static SingularWebService singularWS;
 
-	protected static boolean useFullAppGui = false;
+	protected boolean useFullAppGui = false;
 	private static String CASVersionString = "";
 	private static boolean CASViewEnabled = true;
 	private static boolean _3DViewEnabled = true;
@@ -474,7 +475,7 @@ public abstract class App implements UpdateSelection {
 		return ret;
 	}
 
-	public static boolean isFullAppGui() {
+	public boolean isFullAppGui() {
 		return useFullAppGui;
 	}
 
