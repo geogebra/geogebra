@@ -409,18 +409,19 @@ public class AutoCompleteTextFieldD extends MathTextField
 				//
 				// app.getGlobalKeyDispatcher().handleTab(e.isControlDown(),
 				// e.isShiftDown(), true);
+				app.getGlobalKeyDispatcher().handleGeneralKeys(e);
+
 				GeoElement next = app.getSelectionManager().getSelectedGeos()
 						.get(0);
 				Log.debug("next is " + next);
 				if (next instanceof GeoInputBox) {
-					Log.debug("next is input");
+					GeoInputBox input = (GeoInputBox) next;
 					app.getActiveEuclidianView()
-							.focusTextField((GeoInputBox) next);
+							.focusTextField(input);
 				} else {
 					// app.getActiveEuclidianView().requestFocus();
 				}
 				//
-				// // app.getGlobalKeyDispatcher().handleGeneralKeys(e);
 			} else if (moveToNextArgument(true)) {
 				e.consume();
 			}
@@ -1062,7 +1063,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void hideDeferred(final GBox box) {
 		setVisible(false);
 		box.setVisible(false);
-		app.getActiveEuclidianView().remove(box);
 	}
 
 	/**
