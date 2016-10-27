@@ -102,6 +102,19 @@ public class Browser {
 		return false;
 	}-*/;
 
+	/**
+	 * @return whether we are running under iOS
+	 */
+	public static native String getMobileOperatingSystem()/*-{
+		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+		//iOS detection from: http://sackoverflow.com/a/9039885/177710
+		if (/Mac|iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+			return "iOS";
+		}
+		return "unknown";
+	}-*/;
+
 	private static boolean float64supported = true;
 
 	/**

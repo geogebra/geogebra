@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.NoDragImage;
@@ -262,7 +263,7 @@ pr.menu_header_undo(), null, 32);
 			@Override
 			public void execute(double timestamp) {
 				if(app.getExam()!=null){
-					String os = getMobileOperatingSystem();
+					String os = Browser.getMobileOperatingSystem();
 					app.getExam().checkCheating(os);
 					if (app.getExam().isCheating()) {
 						makeRed(getElement());
@@ -359,7 +360,7 @@ pr.menu_header_undo(), null, 32);
 	
 	private void startCheating() {
 		if (app.getExam() != null) {
-			String os = getMobileOperatingSystem();
+			String os = Browser.getMobileOperatingSystem();
 			app.getExam().startCheating(os);
 		}
 	}
@@ -370,16 +371,7 @@ pr.menu_header_undo(), null, 32);
 		}
 	}
 
-	// check whether we have iOS op syst or not
-	private native String getMobileOperatingSystem()/*-{
-		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-		//iOS detection from: http://sackoverflow.com/a/9039885/177710
-		if (/Mac|iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-			return "iOS";
-		}
-		return "unknown";
-	}-*/;
 
 	private boolean isTablet() {
 		return app.getLAF().isTablet();
@@ -495,9 +487,6 @@ pr.menu_header_undo(), null, 32);
 	// Undo, redo, open, menu (and exam mode)
 	private void addRightButtonPanel(){
 
-
-
-		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		this.rightButtonPanel = new FlowPanel();
 		this.rightButtonPanel.setStyleName("rightButtonPanel");
 
@@ -505,6 +494,9 @@ pr.menu_header_undo(), null, 32);
 		toolBarPanel.add(rightButtonPanel);
 	}
 
+	/**
+	 * Updates the toolbar to match current settings (exam / no exam)
+	 */
 	public void updateActionPanel() {
 		rightButtonPanel.clear();
 		boolean exam = app.isExam();
@@ -1286,8 +1278,7 @@ pr.menu_header_undo(), null, 32);
 		if (((GGWToolBar)app.getToolbar()).getToolBar() == null) return;
 		
 		app.setMode(((GGWToolBar)app.getToolbar()).
-				getToolBar().
-getFirstMode(),
+				getToolBar().getFirstMode(),
 		        ModeSetter.DOCK_PANEL);
 	    
     }

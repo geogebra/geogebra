@@ -9810,7 +9810,8 @@ public abstract class EuclidianController {
 			} else {
 				kernel.getAnimatonManager().startAnimation();
 			}
-			if (app.getGuiManager().hasAlgebraView()) {
+			if (app.getGuiManager() != null
+					&& app.getGuiManager().hasAlgebraView()) {
 				for (GeoElement geo : kernel.getConstruction()
 						.getGeoSetConstructionOrder()) {
 					if (geo instanceof GeoNumeric) {
