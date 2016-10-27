@@ -685,6 +685,41 @@ public class Polynomial implements Comparable<Polynomial> {
 		return new Polynomial(result);
 	}
 
+	/**
+	 * Substitutes a variable in the polynomial by another variable.
+	 * 
+	 * @param oldVar
+	 *            old variable
+	 * @param newVar
+	 *            new variable
+	 *
+	 * @return a new polynomial with the variable substituted.
+	 */
+	public Polynomial substitute(Variable oldVar, Variable newVar) {
+
+		TreeMap<Term, Long> result = new TreeMap<Term, Long>();
+		Iterator<Term> it = terms.keySet().iterator();
+		while (it.hasNext()) {
+			Term t1 = it.next();
+			TreeMap<Variable, Integer> term = new TreeMap<Variable, Integer>(
+					t1.getTerm());
+			Integer oldExponent = term.get(oldVar);
+			if (oldExponent != null) {
+				Integer newExponent = term.get(newVar);
+				if (newExponent == null) {
+					newExponent = 0;
+				} else {
+					term.remove(newVar);
+				}
+				term.remove(oldVar);
+				term.put(newVar, oldExponent + newExponent);
+			}
+			long coeff = BigInteger.valueOf(terms.get(t1)).longValue();
+			Term t = new Term(term);
+			result.put(t, coeff);
+		}
+		return new Polynomial(result);
+	}
 	
 	
 	@Override

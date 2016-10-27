@@ -539,9 +539,14 @@ public class ProverBotanasMethod {
 							}
 							boolean useThisPoly = true;
 							if (algo != null && algo instanceof AlgoPointOnPath
-									&& algo.getInput(0).equals(numerical)) {
-								// don't use this poly since is a point on a
-								// numerical path
+									&& geoProver
+											.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
+								/*
+								 * Skip this object for now: it is a point on a
+								 * path. Its coordinates will be used directly
+								 * (with substitution) or---for the moving
+								 * point---the numerical poly will be used.
+								 */
 								useThisPoly = false;
 							}
 							if (geo.equals(numerical)) {

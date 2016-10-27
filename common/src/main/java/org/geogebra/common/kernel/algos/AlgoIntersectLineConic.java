@@ -914,19 +914,25 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				if (botanaVars.containsKey(geo)) {
 					botanaVarsThis = botanaVars.get(geo);
 				} else {
-					botanaVarsThis = new Variable[6];
-					botanaVarsThis[0] = vc[0];
-					botanaVarsThis[1] = vc[1];
-					botanaVarsThis[2] = vg[0];
-					botanaVarsThis[3] = vg[1];
-					botanaVarsThis[4] = vg[2];
-					botanaVarsThis[5] = vg[3];
+					botanaVarsThis = new Variable[2];
+					botanaVarsThis[0] = new Variable();
+					botanaVarsThis[1] = new Variable();
 					botanaVars.put(geo, botanaVarsThis);
 				}
 
-				Polynomial[] botanaPolynomialsThis = new Polynomial[1];
+				Polynomial[] conicPolys = c.getBotanaPolynomials(c);
+				Variable[] conicVars = c.getBotanaVars(c);
+				int conicPolysNo = conicPolys.length;
+				Polynomial[] botanaPolynomialsThis = new Polynomial[conicPolysNo
+						+ 1];
 
-				botanaPolynomialsThis[0] = Polynomial.collinear(vc[0], vc[1],
+				for (int i = 0; i < conicPolysNo; i++) {
+					botanaPolynomialsThis[i] = conicPolys[i]
+							.substitute(conicVars[0], botanaVarsThis[0])
+							.substitute(conicVars[1], botanaVarsThis[1]);
+				}
+				botanaPolynomialsThis[conicPolysNo] = Polynomial.collinear(
+						botanaVarsThis[0], botanaVarsThis[1],
 						vg[0], vg[1], vg[2], vg[3]);
 
 				if (botanaPolynomials == null) {
