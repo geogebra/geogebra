@@ -1468,6 +1468,12 @@ public class Coords {
 		return result;
 	}
 
+	public double getInhom(int i) {
+		int r = rows;
+		double wdiv = 1 / val[r - 1];
+		return val[i] * wdiv;
+	}
+
 	/**
 	 * If v={x1,x2,xn}, this gets {x1/xn,x2/xn,...,x(n-1)}
 	 * 

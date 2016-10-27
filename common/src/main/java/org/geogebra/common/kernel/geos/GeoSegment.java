@@ -637,13 +637,13 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 				return false;
 		}
 
-		double x1 = segStart.getInhomCoords().get(1);
-		double x2 = segEnd.getInhomCoords().get(1);
-		double x = point.getInhomCoords().get(1);
+		double x1 = segStart.getInhom(0);
+		double x2 = segEnd.getInhom(0);
+		double x = point.getInhom(0);
 		if ( x1-eps <= x2 && x2 <= x1 + eps ) {
-			double y1 = segStart.getInhomCoords().get(2);
-			double y2 = segEnd.getInhomCoords().get(2);
-			double y = point.getInhomCoords().get(2);
+			double y1 = segStart.getInhom(1);
+			double y2 = segEnd.getInhom(1);
+			double y = point.getInhom(1);
 
 			if (y1-eps <= y2 && y2 <= y1 + eps) {
 				return true;

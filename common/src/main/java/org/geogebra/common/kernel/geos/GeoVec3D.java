@@ -353,26 +353,25 @@ implements Traceable, CoordStyle {
 			    g.setUndefined();
 			} else { 
 				// through point B
-				Coords BInhom = B.getInhomCoords();
 				g.setCoords(A.getY() , 
 						-A.getX(),
-						A.getX() * BInhom.getY() - A.getY() * BInhom.getX());
+						A.getX() * B.getInhom(1) - A.getY() * B.getInhom(0));
 			}
     	}
     	else { // through point A
 			if (Kernel.isZero(B.getZ())) { 
 				// B is direction
-				Coords AInhom = A.getInhomCoords();
 				g.setCoords(B.getY() , 
 						-B.getX(),
-						B.getX() * AInhom.getY() - B.getY() * AInhom.getX());
+						B.getX() * A.getInhom(1) - B.getY() * A.getInhom(0));
 			} else { 
 				// through point B
-				Coords AInhom = A.getInhomCoords();
-				Coords BInhom = B.getInhomCoords();
-				g.setCoords(AInhom.getY() - BInhom.getY(), 
-						BInhom.getX() - AInhom.getX(),
-						AInhom.getX() * BInhom.getY() - AInhom.getY() * BInhom.getX());
+				double aInhomX = A.getInhom(0);
+				double aInhomY = A.getInhom(1);
+				double bInhomX = B.getInhom(0);
+				double bInhomY = B.getInhom(1);
+				g.setCoords(aInhomY - bInhomY, bInhomX - aInhomX,
+						aInhomX * bInhomY - aInhomY * bInhomX);
 			}
     	}            
     }  
