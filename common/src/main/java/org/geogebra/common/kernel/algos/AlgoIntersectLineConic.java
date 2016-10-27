@@ -880,7 +880,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				 */
 				if (excludePoint > 0) {
 					botanaVarsOther = ((GeoPoint) existingIntersection)
-							.getBotanaVars((GeoPoint) existingIntersection);
+							.getBotanaVars(existingIntersection);
 					botanaPolynomialsThis[botanaPolynomialsThis.length - 1] = (Polynomial
 							.sqrDistance(botanaVarsThis[0], botanaVarsThis[1],
 									botanaVarsOther[0], botanaVarsOther[1])
@@ -905,7 +905,6 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 			if (g != null && c != null) {
 
 				Variable[] vg = g.getBotanaVars(g);
-				Variable[] vc = c.getBotanaVars(c);
 
 				Variable[] botanaVarsThis = new Variable[2];
 				if (botanaVars == null) {
