@@ -109,4 +109,9 @@ public class Editor implements EntryPoint, MathFieldListener {
 		return unicodeKeyChar + "";
 	}
 
+	public void onDownKeyPressed() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

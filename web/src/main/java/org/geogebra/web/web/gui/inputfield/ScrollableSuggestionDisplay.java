@@ -103,4 +103,9 @@ public final class ScrollableSuggestionDisplay extends
 	public void accessMoveSelectionUp() {
 		this.moveSelectionUp();
 	}
+
+	public void setFocus(boolean b) {
+		getSuggestionMenu().getElement().focus();
+	}
+
 }

@@ -35,6 +35,11 @@ public class JlmEditorLib extends JlmLib {
 					public String alt(int unicodeKeyChar, boolean shift) {
 						return unicodeKeyChar + "";
 					}
+
+					public void onDownKeyPressed() {
+						// TODO Auto-generated method stub
+
+					}
 				});
 		fld.requestViewFocus();
 	}

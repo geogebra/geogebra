@@ -44,6 +44,7 @@ public class InputSuggestions implements HasSuggestions {
 		public void onSuggestionsReady(SuggestOracle.Request req,
 				SuggestOracle.Response res) {
 			updateSuggestions(res);
+
 		}
 	};
 
@@ -224,6 +225,9 @@ public class InputSuggestions implements HasSuggestions {
 		return completions;
 	}
 
+	public void setFocus() {
+		sug.setFocus(true);
+	}
 	public boolean isSuggesting() {
 		return sug.isSuggestionListShowing();
 	}

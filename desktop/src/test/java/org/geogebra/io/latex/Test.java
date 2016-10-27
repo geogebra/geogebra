@@ -67,6 +67,11 @@ public class Test {
 			public String alt(int unicodeKeyChar, boolean shift) {
 				return AltKeys.getAltSymbols(unicodeKeyChar, shift, true);
 			}
+
+			public void onDownKeyPressed() {
+				// TODO Auto-generated method stub
+
+			}
 		});
 		JFrame frame = new JFrame();
 		frame.setPreferredSize(new Dimension(200, 200));

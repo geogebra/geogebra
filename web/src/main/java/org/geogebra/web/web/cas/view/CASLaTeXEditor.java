@@ -269,4 +269,9 @@ public class CASLaTeXEditor extends SimplePanel
 		return retexListener.alt(unicodeKeyChar, shift);
 	}
 
+	public void onDownKeyPressed() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

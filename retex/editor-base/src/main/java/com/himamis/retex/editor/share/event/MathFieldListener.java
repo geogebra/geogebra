@@ -7,5 +7,7 @@ public interface MathFieldListener {
 
 	public void onCursorMove();
 
+	public void onDownKeyPressed();
+	
 	public String alt(int unicodeKeyChar, boolean shift);
 }

@@ -390,6 +390,9 @@ public class LatexTreeItem extends RadioTreeItem
 		updatePreview();
 		popupSuggestions();
 		updateLineHeight();
+		if (sug.isSuggesting()) {
+			sug.setFocus();
+		}
 		onCursorMove();
 	}
 
@@ -543,6 +546,14 @@ public class LatexTreeItem extends RadioTreeItem
 
 	public String alt(int unicodeKeyChar, boolean shift) {
 		return retexListener.alt(unicodeKeyChar, shift);
+	}
+
+	public void onDownKeyPressed() {
+		if (isSuggesting()) {
+			Log.debug("[SUG] suggesting");
+			sug.setFocus();
+		}
+
 	}
 
 }
