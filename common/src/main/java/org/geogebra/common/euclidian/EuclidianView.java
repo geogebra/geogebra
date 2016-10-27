@@ -5227,6 +5227,10 @@ public abstract class EuclidianView
 
 		public void focusTo(GeoInputBox inputBox) {
 			DrawInputBox d = (DrawInputBox) getDrawableFor(inputBox);
+			if (d == null) {
+				Log.debug("[TF] d is null!!!");
+				return;
+			}
 			textField.setDrawTextField(d);
 			d.setFocus(inputBox.getText());
 			textField.setText(inputBox.getText());

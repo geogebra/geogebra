@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Keeps lists of selected geos (global, per type)
@@ -749,6 +750,7 @@ public class SelectionManager {
 				if (!(next instanceof GeoInputBox)) {
 					ev.requestFocus();
 				} else {
+					Log.debug("[TF][TAB] next: " + next);
 					kernel.getApplication().getActiveEuclidianView()
 							.focusTextField((GeoInputBox) next);
 				}

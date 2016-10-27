@@ -19,6 +19,7 @@ public class AlgebraSettings extends AbstractSettings {
 
 	private boolean showAuxiliaryObjects = false;
 	private boolean modeChanged = false;
+
 	private int[] collapsedNodes = null;
 
 	private static List<Integer> styleModes = Arrays.asList(
