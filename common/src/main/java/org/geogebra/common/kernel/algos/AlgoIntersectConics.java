@@ -1333,7 +1333,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				return ret;
 		}
 
-		// We can handle only specific cases (TODO: add more cases):
+		// Special cases first.
+
 		if (A != null && B != null && A.isCircle() && B.isCircle()) {
 			Variable[] botanaVarsThis = new Variable[2];
 			if (botanaVars == null) {
@@ -1357,11 +1358,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			if (!this.isInConstructionList() && existingIntersections() == 1) {
 				/*
 				 * This case is present if we explicitly point to one
-				 * intersection point of a line and a circle. If the line and
-				 * the circle already have a common point, then the user may
-				 * point to the other intersection point. In this case we
-				 * explicitly claim that the intersection point differs from the
-				 * common point.
+				 * intersection point of a line and a circle. If the circles
+				 * already have a common point, then the user may point to the
+				 * other intersection point. In this case we explicitly claim
+				 * that the intersection point differs from the common point.
 				 */
 				excludePoint = 1;
 			}
@@ -1436,43 +1436,59 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 			 */
 			return botanaPolynomialsThis;
 		}
-		/* Intersection of two parabolas. */
-		if (A != null && B != null && A.isParabola() && B.isParabola()) {
-			Variable[] botanaVarsThis = new Variable[2];
-			if (botanaVars == null) {
-				botanaVars = new HashMap<GeoElementND, Variable[]>();
-			}
-			if (botanaVars.containsKey(geo)) {
-				botanaVarsThis = botanaVars.get(geo);
-			} else {
-				// Intersection point (we create only one):
-				botanaVarsThis = new Variable[2];
-				botanaVarsThis[0] = new Variable();
-				botanaVarsThis[1] = new Variable();
-				botanaVars.put(geo, botanaVarsThis);
-			}
-			if (botanaPolynomials == null) {
-				botanaPolynomials = new HashMap<GeoElementND, Polynomial[]>();
-				Variable[] botanaVarsParabola1 = new Variable[10];
-				Variable[] botanaVarsParabola2 = new Variable[10];
-				botanaVarsParabola1 = A.getBotanaVars(A);
-				botanaVarsParabola2 = B.getBotanaVars(B);
-				/* Equality of coordinates. */
-				Polynomial[] botanaPolynomialsThis = new Polynomial[4];
-				botanaPolynomialsThis[0] = new Polynomial(botanaVarsThis[0])
-						.subtract(new Polynomial(botanaVarsParabola1[0]));
-				botanaPolynomialsThis[1] = new Polynomial(botanaVarsThis[0])
-						.subtract(new Polynomial(botanaVarsParabola2[0]));
-				botanaPolynomialsThis[2] = new Polynomial(botanaVarsThis[1])
-						.subtract(new Polynomial(botanaVarsParabola1[1]));
-				botanaPolynomialsThis[3] = new Polynomial(botanaVarsThis[1])
-						.subtract(new Polynomial(botanaVarsParabola2[1]));
+		
+
+		/* General case */
+		Variable[] botanaVarsThis = new Variable[2];
+		if (botanaVars == null) {
+			botanaVars = new HashMap<GeoElementND, Variable[]>();
+		}
+		if (botanaVars.containsKey(geo)) {
+			botanaVarsThis = botanaVars.get(geo);
+		} else {
+			// Intersection point (we create only one):
+			botanaVarsThis = new Variable[2];
+			botanaVarsThis[0] = new Variable();
+			botanaVarsThis[1] = new Variable();
+			botanaVars.put(geo, botanaVarsThis);
+		}
+		if (botanaPolynomials == null) {
+			
+			if (A != null && B != null) {
+
+				Polynomial[] conic1Polys = A.getBotanaPolynomials(A);
+				Variable[] conic1Vars = A.getBotanaVars(A);
+				Polynomial[] conic2Polys = B.getBotanaPolynomials(B);
+				Variable[] conic2Vars = B.getBotanaVars(B);
+
+				int conic1PolysNo = conic1Polys.length;
+				int conic2PolysNo = conic2Polys.length;
+
+				Polynomial[] botanaPolynomialsThis = new Polynomial[conic1PolysNo
+						+ conic2PolysNo];
+
+				for (int i = 0; i < conic1PolysNo; i++) {
+					botanaPolynomialsThis[i] = conic1Polys[i]
+							.substitute(conic1Vars[0], botanaVarsThis[0])
+							.substitute(conic1Vars[1], botanaVarsThis[1]);
+				}
+				for (int i = 0; i < conic2PolysNo; i++) {
+					botanaPolynomialsThis[conic1PolysNo + i] = conic2Polys[i]
+							.substitute(conic2Vars[0], botanaVarsThis[0])
+							.substitute(conic2Vars[1], botanaVarsThis[1]);
+				}
+
+				if (botanaPolynomials == null) {
+					botanaPolynomials = new HashMap<GeoElementND, Polynomial[]>();
+				}
 				botanaPolynomials.put(geo, botanaPolynomialsThis);
+
 				return botanaPolynomialsThis;
 			}
-		}
+			throw new NoSymbolicParametersException();
 
-		throw new NoSymbolicParametersException();
+		}
+		return null;
 	}
 
 	@Override
