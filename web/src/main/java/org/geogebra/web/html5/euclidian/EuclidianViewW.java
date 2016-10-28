@@ -317,6 +317,8 @@ public class EuclidianViewW extends EuclidianView implements
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().clearAbsolutePanels();
 		}
+		removeTextField();
+
 	}
 
 	@Override

@@ -899,6 +899,7 @@ public class EuclidianViewD extends EuclidianView implements
 	public void clearView() {
 		evjpanel.removeAll(); // remove hotEqns
 		resetLists();
+		removeTextField();
 		updateBackgroundImage(); // clear traces and images
 		// We call this on file loading, so we don't want to mess up the settings we have just loaded using initView
 	}

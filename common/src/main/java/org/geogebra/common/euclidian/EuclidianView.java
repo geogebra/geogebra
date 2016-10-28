@@ -5209,15 +5209,16 @@ public abstract class EuclidianView
 			if (textField == null) {
 				textField = app.getSwingFactory()
 						.newAutoCompleteTextField(length, app, drawInputBox);
-			textField.setAutoComplete(false);
-			textField.enableColoring(false);
-			textField.setFocusTraversalKeysEnabled(false);
+				textField.setAutoComplete(false);
+				textField.enableColoring(false);
+				textField.setFocusTraversalKeysEnabled(false);
 				createBox();
 				box.add(textField);
 				EuclidianView.this.add(box);
-		} else {
-			textField.setDrawTextField(drawInputBox);
+			} else {
+				textField.setDrawTextField(drawInputBox);
 			}
+
 			return textField;
 		}
 
@@ -5246,8 +5247,14 @@ public abstract class EuclidianView
 			if (box == null) {
 				box = app.getSwingFactory()
 						.createHorizontalBox(getEuclidianController());
+				box.add(textField);
 			}
 
+		}
+
+		public void remove() {
+			textField = null;
+			box = null;
 		}
 
 	}
@@ -5693,5 +5700,9 @@ public abstract class EuclidianView
 
 	public GBox getBoxForTextField() {
 		return viewTextField.getBox();
+	}
+
+	public void removeTextField() {
+		viewTextField.remove();
 	}
 }
