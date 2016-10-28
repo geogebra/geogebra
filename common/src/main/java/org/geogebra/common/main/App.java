@@ -3080,7 +3080,7 @@ public abstract class App implements UpdateSelection {
 		}
 
 		// fallback in case version not set properly
-		return GeoGebraConstants.VERSION_STRING + getVersionSuffix();
+		return GeoGebraConstants.VERSION_STRING + "?";
 	}
 
 	public abstract NormalizerMinimal getNormalizer();
@@ -4292,15 +4292,6 @@ public abstract class App implements UpdateSelection {
 			c.run(App.VIEW_DATA_ANALYSIS, "DataAnalysis");
 		}
 
-	}
-
-	/**
-	 *
-	 * @return a for Android native app, -3D for desktop, w for web + WebView
-	 *         apps, i for iOS native
-	 */
-	public String getVersionSuffix() {
-		return "";
 	}
 
 	public String getInput3DType() {

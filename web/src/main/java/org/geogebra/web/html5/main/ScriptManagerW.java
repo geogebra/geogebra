@@ -49,6 +49,7 @@ public class ScriptManagerW extends ScriptManager {
 		try {
 			// Log.debug("almost there" + app.useBrowserForJavaScript());
 			// assignGgbApplet();
+			tryTabletOnInit();
 			boolean standardJS = app.getKernel().getLibraryJavaScript()
 			        .equals(Kernel.defaultLibraryJavaScript);
 			if (!standardJS && !app.useBrowserForJavaScript()) {
@@ -78,6 +79,13 @@ public class ScriptManagerW extends ScriptManager {
 			runCallback(((AppW) app).getAppletFrame().getOnLoadCallback());
 		}
 	}
+
+	private native void tryTabletOnInit() /*-{
+		if ($wnd.android && $wnd.android.callPlugin) {
+			$wnd.android.callPlugin('GgbOnInit', [ 1 ]);
+		}
+
+	}-*/;
 
 	@Override
 	public void callJavaScript(String jsFunction, Object[] args) {

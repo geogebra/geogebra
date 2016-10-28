@@ -820,9 +820,4 @@ public class App3D extends AppD {
 		return size;
 	}
 
-	@Override
-	public String getVersionSuffix() {
-		return "-3D";
-	}
-
 }

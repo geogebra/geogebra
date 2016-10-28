@@ -51,7 +51,7 @@ public interface GLookAndFeelI {
 
 	boolean printSupported();
 
-	public Versions getVersion(int dim);
+	public Versions getVersion(int dim, boolean app);
 
 	boolean supportsFullscreen();
 

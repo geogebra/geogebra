@@ -14,7 +14,7 @@ import com.google.gwt.storage.client.Storage;
  */
 public class BundleLookAndFeel extends GLookAndFeel {
 	@Override
-	public Versions getVersion(int dim) {
+	public Versions getVersion(int dim, boolean app) {
 		return Versions.WEB_FOR_DESKTOP;
 	}
 

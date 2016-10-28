@@ -1,5 +1,7 @@
 package org.geogebra.web.tablet;
 
+import org.geogebra.common.GeoGebraConstants.Versions;
+
 /**
  * LAF for Windows Store app
  *
@@ -24,6 +26,11 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 	@Override
 	public String getFrameStyleName() {
 		return "TabletWin";
+	}
+
+	@Override
+	public Versions getVersion(int dim, boolean app) {
+		return Versions.WINDOWS_STORE;
 	}
 
 }

@@ -34,7 +34,7 @@ public class OfficeLookAndFeel extends SmartLookAndFeel{
     }
 
 	@Override
-	public Versions getVersion(int dim) {
+	public Versions getVersion(int dim, boolean app) {
 		return Versions.POWERPOINT;
 	}
 }

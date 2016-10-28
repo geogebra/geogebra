@@ -242,13 +242,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	private static Versions getVersion(ArticleElement ae, int dimension,
 			GLookAndFeelI laf2) {
-		if (ae.getDataParamApp() && laf2 != null) {
-			return laf2.getVersion(dimension) == Versions.WEB_FOR_DESKTOP
-					? Versions.WEB_FOR_DESKTOP
-					: Versions.WEB_APP_FOR_BROWSER_3D;
-		}
 		return laf2 == null ? Versions.WEB_FOR_BROWSER_SIMPLE
-				: laf2.getVersion(dimension);
+				: laf2.getVersion(dimension, ae.getDataParamApp());
 	}
 
 	protected final void windowResized() {
@@ -3386,14 +3381,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	@Override
 	public GImageIcon wrapGetModeIcon(int mode) {
 		return null;
-	}
-
-
-	public String getVersionSuffix() {
-		if (getLAF() != null) {
-			return getLAF().getVersion(this.is3D() ? 3 : 2).toString();
-		}
-		return "w";
 	}
 
 	public boolean showAutoCreatedSlidersInEV() {

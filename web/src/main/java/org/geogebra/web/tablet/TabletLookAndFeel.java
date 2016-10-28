@@ -91,7 +91,7 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	}
 
 	@Override
-	public Versions getVersion(int dim) {
+	public Versions getVersion(int dim, boolean app) {
 		return Versions.ANDROID_WEBVIEW;
 	}
 

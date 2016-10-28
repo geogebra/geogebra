@@ -5339,11 +5339,6 @@ ToolbarD.getAllTools(this));
 	public static final int HUGE_UNDO_BUTTON_SIZE = 36;
 
 	@Override
-	public String getVersionSuffix() {
-		return "-2D";
-	}
-
-	@Override
 	public void closePopups() {
 		// TODO Auto-generated method stub
 

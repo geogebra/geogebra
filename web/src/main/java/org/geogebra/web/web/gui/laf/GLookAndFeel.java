@@ -171,7 +171,11 @@ public class GLookAndFeel implements GLookAndFeelI{
 		return true;
 	}
 
-	public Versions getVersion(int dim) {
+	public Versions getVersion(int dim, boolean app) {
+		if (app) {
+			return dim > 2 ? Versions.WEB_APP_FOR_BROWSER_3D
+					: Versions.WEB_FOR_BROWSER_2D;
+		}
 		return dim > 2 ? Versions.WEB_FOR_BROWSER_3D
 				: Versions.WEB_FOR_BROWSER_2D;
 	}

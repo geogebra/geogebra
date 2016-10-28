@@ -250,7 +250,8 @@ public class Web implements EntryPoint {
 		}
 		if (!((CASFactory) GWT.create(CASFactory.class)).isEnabled()) {
 			return new GLookAndFeel() {
-				public Versions getVersion(int dim) {
+				@Override
+				public Versions getVersion(int dim, boolean app) {
 					return Versions.NO_CAS;
 				}
 			};
