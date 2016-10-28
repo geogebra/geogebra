@@ -1486,9 +1486,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				return botanaPolynomialsThis;
 			}
 			throw new NoSymbolicParametersException();
-
 		}
-		return null;
+		throw new NoSymbolicParametersException();
 	}
 
 	@Override
