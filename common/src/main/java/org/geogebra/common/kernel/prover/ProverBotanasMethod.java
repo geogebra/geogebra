@@ -385,6 +385,31 @@ public class ProverBotanasMethod {
 
 			Iterator<GeoElement> it;
 			/*
+			 * The algo of the moving point will be computed numerically after
+			 * the end of the symbolic computations. This is not ideal since
+			 * some symbolic algos e.g. AlgoIntersectLineConic want to use
+			 * existing equations and those will be symbolic in all cases, that
+			 * is, it would be better to compute all numerical equations first
+			 * or (even better) during the symbolic process.
+			 */
+			GeoElement numerical = null;
+			if (movingPoint != null
+					&& movingPoint.getParentAlgorithm() != null) {
+				numerical = (GeoElement) movingPoint.getParentAlgorithm()
+						.getInput(0);
+
+				/*
+				 * Normally we don't want to use the numerical formula for
+				 * linear objects. Now we still compute the numerical formula
+				 * always. If you uncomment this, please add a check below at
+				 * useThisPoly.
+				 */
+				if (!(numerical instanceof GeoConic)) {
+					// numerical = null;
+				}
+
+			}
+			/*
 			 * Remove geos directly related with AlgoDependentNumber algos since
 			 * we don't want to add them twice (they will be invoked during
 			 * their occurrence on a higher level in their geos). Hopefully this
@@ -393,16 +418,6 @@ public class ProverBotanasMethod {
 			 * case, our idea here must be redesigned. Also remove geos which
 			 * should be computed numerically.
 			 */
-			GeoElement numerical = null;
-			if (movingPoint != null
-					&& movingPoint.getParentAlgorithm() != null) {
-				numerical = (GeoElement) movingPoint.getParentAlgorithm()
-						.getInput(0);
-				if (!(numerical instanceof GeoConic)) {
-					// No need to use numerical formula for linear objects
-					numerical = null;
-				}
-			}
 			it = allPredecessors.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
@@ -539,13 +554,10 @@ public class ProverBotanasMethod {
 							}
 							boolean useThisPoly = true;
 							if (algo != null && algo instanceof AlgoPointOnPath
-									&& geoProver
-											.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
-								/*
-								 * Skip this object for now: it is a point on a
-								 * path. Its coordinates will be used directly
-								 * (with substitution) or---for the moving
-								 * point---the numerical poly will be used.
+									&& geoProver.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
+								/* Skip this object for now: it is a point on a path.
+								 * Its coordinates will be used directly (with substitution)
+								 * or---for the moving point---the numerical poly will be used.
 								 */
 								useThisPoly = false;
 							}
