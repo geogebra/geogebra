@@ -4108,6 +4108,9 @@ public abstract class App implements UpdateSelection {
 		case AUTOSCROLLING_SPREADSHEET:
 			return prerelease;
 
+		case SPLINE_WEIGHT:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -32,14 +33,15 @@ public class AlgoSpline extends AlgoElement {
 	private GeoList inputList;
 	private GeoCurveCartesianND spline;
 	private GeoNumberValue degree;
-	private float[][] floatPoints;
-	private float[][] parameters;
+	private double[][] floatPoints;
+	private double[][] parameters;
 	private int length;
-	private float[] cumulativeValueOfParameter;
+	private double[] cumulativeValueOfParameter;
 	private int degreeValue;
-	private float[] parametersValues;
-	private float[] parameterIntervalLimits;
+	private double[] parametersValues;
+	private double[] parameterIntervalLimits;
 	private int dimension = 2;
+	private GeoFunctionNVar weight;
 
 	/**
 	 * @param cons
@@ -50,7 +52,7 @@ public class AlgoSpline extends AlgoElement {
 	 *            list of points
 	 */
 	public AlgoSpline(Construction cons, String label, GeoList inputList) {
-		this(cons, label, inputList, new GeoNumeric(cons, 3));
+		this(cons, label, inputList, new GeoNumeric(cons, 3), null);
 	}
 
 	/**
@@ -64,23 +66,25 @@ public class AlgoSpline extends AlgoElement {
 	 *            grade of polynoms
 	 */
 	public AlgoSpline(final Construction cons, final String label,
-			final GeoList inputList, final GeoNumberValue degree) {
+			final GeoList inputList, final GeoNumberValue degree,
+			GeoFunctionNVar weight) {
 		super(cons);
 		this.degree = degree;
+		this.weight = weight;
 		this.inputList = inputList;
 		for (int i = 0; i < inputList.size() && dimension == 2; i++) {
 			GeoPointND p = (GeoPointND) inputList.get(i);
 			dimension = p.getDimension();
 		}
-		parameters = new float[dimension][];
-		floatPoints = new float[inputList.size()][dimension];
+		parameters = new double[dimension][];
+		floatPoints = new double[inputList.size()][dimension];
 		if (dimension == 3) {
 			spline = new GeoCurveCartesian3D(cons);
 		} else {
 			spline = new GeoCurveCartesian(cons);
 		}
 		spline.setEuclidianVisible(true);
-		parametersValues = new float[inputList.size()];
+		parametersValues = new double[inputList.size()];
 		compute();
 		setInputOutput();
 		spline.setLabel(label);
@@ -88,9 +92,14 @@ public class AlgoSpline extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
+		if (weight != null) {
+			input = new GeoElement[] { inputList, degree.toGeoElement(),
+					weight };
+		} else {
 		input = new GeoElement[2];
 		input[0] = inputList;
 		input[1] = degree.toGeoElement();
+		}
 		super.setOutputLength(1);
 		super.setOutput(0, spline);
 		setDependencies();
@@ -110,8 +119,8 @@ public class AlgoSpline extends AlgoElement {
 
 	private void calculateParameterValues() {
 		int j = 0;
-		float parameterValue = 0;
-		float[] lx = getParameterIntervalLimits();
+		double parameterValue = 0;
+		double[] lx = getParameterIntervalLimits();
 		for (float p = 0; p <= 1; p = p + 0.01f) {
 			parameterValue = calculate(p, lx);
 			if (Arrays.binarySearch(parametersValues, parameterValue) < 0) {
@@ -124,7 +133,7 @@ public class AlgoSpline extends AlgoElement {
 		parametersValues[length - 1] = 1;
 	}
 
-	private static float calculate(float x, float[] m) {
+	private static double calculate(float x, double[] m) {
 		for (int i = m.length - 1; i > -1; i--) {
 			if (x > m[i]) {
 				return m[i];
@@ -133,9 +142,9 @@ public class AlgoSpline extends AlgoElement {
 		return 0;
 	}
 
-	public float[] getParameterIntervalLimits() {
+	public double[] getParameterIntervalLimits() {
 		length = cumulativeValueOfParameter.length;
-		parameterIntervalLimits = new float[length];
+		parameterIntervalLimits = new double[length];
 		for (int i = 1; i < length; i++) {
 			parameterIntervalLimits[i] = cumulativeValueOfParameter[i]
 					/ cumulativeValueOfParameter[cumulativeValueOfParameter.length - 1];
@@ -210,11 +219,11 @@ public class AlgoSpline extends AlgoElement {
 		this.spline.setInterval(0, 1);
 	}
 
-	private float[] getSystemSolution(float[][] matrix) {
+	private double[] getSystemSolution(double[][] matrix) {
 		boolean nok = false;
 		length = matrix.length;
-		float[] solution = new float[length];
-		float[] temp = new float[matrix[0].length];
+		double[] solution = new double[length];
+		double[] temp = new double[matrix[0].length];
 		int column;
 		int row;
 		int i;
@@ -237,7 +246,7 @@ public class AlgoSpline extends AlgoElement {
 			for (row = column; row < length && matrix[row][column] == 0; row++) {
 				// do nothing
 			}
-			float value;
+			double value;
 			if (row != length - 1) {
 				for (i = column; i < length; i++) {
 					if (matrix[i][column] != 0 && i != row) {
@@ -263,7 +272,7 @@ public class AlgoSpline extends AlgoElement {
 		}
 		solution[solution.length - 1] = matrix[length - 1][length]
 				/ matrix[length - 1][length - 1];
-		float buffer;
+		double buffer;
 		int ii;
 		for (i = length - 2; i > -1; i--) {
 			buffer = 0;
@@ -275,26 +284,39 @@ public class AlgoSpline extends AlgoElement {
 		return solution;
 	}
 
-	private float[][] getLinearSystemParametric(int c) {
+	private double[][] getLinearSystemParametric(int c) {
 		int row = 0;
 		int col = 0;
 		int pointIndex;
-		float currentValueFromZeroToOne;
+		double currentValueFromZeroToOne;
 		length = floatPoints.length;
-		cumulativeValueOfParameter = new float[length];
+		cumulativeValueOfParameter = new double[length];
 		int i;
 		for (col = 1; col < length; col++) {
-			for (row = 1; row <= col; row++) {
-				float value = 0;
-				for (i = 0; i < dimension; i++) {
-					value += (floatPoints[row][i] - floatPoints[row - 1][i])
-							* (floatPoints[row][i] - floatPoints[row - 1][i]);
+			if (weight != null) {
+				for (row = 1; row <= col; row++) {
+					double value[] = new double[dimension];
+					for (i = 0; i < dimension; i++) {
+						value[i] = floatPoints[row][i]
+								- floatPoints[row - 1][i];
+					}
+					cumulativeValueOfParameter[col] = cumulativeValueOfParameter[col]
+							+ weight.evaluate(value);
 				}
-				cumulativeValueOfParameter[col] = cumulativeValueOfParameter[col]
-						+ (float) Math.sqrt(value);
+			} else {
+				for (row = 1; row <= col; row++) {
+					float value = 0;
+					for (i = 0; i < dimension; i++) {
+						value += (floatPoints[row][i] - floatPoints[row - 1][i])
+								* (floatPoints[row][i]
+										- floatPoints[row - 1][i]);
+					}
+					cumulativeValueOfParameter[col] = cumulativeValueOfParameter[col]
+							+ (float) Math.sqrt(value);
+					}
 			}
 		}
-		float[][] matrix = new float[(length - 1) * degreeValue][(length - 1)
+		double[][] matrix = new double[(length - 1) * degreeValue][(length - 1)
 				* degreeValue + 1];
 		row = 0;
 		col = 0;
@@ -364,15 +386,15 @@ public class AlgoSpline extends AlgoElement {
 		return f;
 	}
 
-	private void calcDerivative(float[] row, int col, int currentDerivative,
-			float currentValueFromZeroToOne) {
+	private void calcDerivative(double[] row, int col, int currentDerivative,
+			double currentValueFromZeroToOne) {
 		for (int i = col; i < col + degreeValue; i++) {
 			row[i] = calcCoeff(i, currentDerivative, currentValueFromZeroToOne);
 			row[i + degreeValue] = -row[i];
 		}
 	}
 
-	private void calcExtremesDerivative(float[] row, int col,
+	private void calcExtremesDerivative(double[] row, int col,
 			int currentDerivative) {
 		for (int i = col; i < col + degreeValue; i++) {
 			row[i] = calcCoeff(i, currentDerivative, 0);
@@ -381,8 +403,8 @@ public class AlgoSpline extends AlgoElement {
 		}
 	}
 
-	private float calcCoeff(int col, int currentDerivative,
-			float currentValueFromZeroToOne) {
+	private double calcCoeff(int col, int currentDerivative,
+			double currentValueFromZeroToOne) {
 		int exp = col % degreeValue;
 		exp = degreeValue - exp - 1;
 		float coeff = (float) Math.pow(currentValueFromZeroToOne, exp - 1);
@@ -396,13 +418,13 @@ public class AlgoSpline extends AlgoElement {
 		return coeff;
 	}
 
-	private float evalForPoint(float[][] matrix, int row, int col,
-			float currentValueFromZeroToOne) {
+	private double evalForPoint(double[][] matrix, int row, int col,
+			double currentValueFromZeroToOne) {
 		double value = 0;
 		for (int j = degreeValue - 1; j > -1; j--) {
 			matrix[row][col + degreeValue - j - 1] = (float) Math.pow(
 					currentValueFromZeroToOne, j);
 		}
-		return (float) value;
+		return value;
 	}
 }
