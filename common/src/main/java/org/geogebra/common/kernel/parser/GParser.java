@@ -15,7 +15,7 @@ public class GParser extends Parser {
 	 *            construction
 	 */
 	public GParser(Kernel kernel, Construction cons) {
-		super(kernel, cons);
+		super(kernel);
 	}
 
 	@Override
