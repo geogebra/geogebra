@@ -1197,7 +1197,7 @@ public class PlotterBrush implements PathPlotter {
 		ret[1] = point.y;
 		ret[2] = point.getZ();// maybe 0 if 2D point
 
-		if (transformSys != CoordSys.Identity3D) {
+		if (transformSys != CoordSys.XOY) {
 			if (tmpCopyCoords == null) {
 				tmpCopyCoords = Coords.createInhomCoorsInD3();
 			}

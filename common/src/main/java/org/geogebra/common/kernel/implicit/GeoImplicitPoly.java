@@ -1852,7 +1852,7 @@ public class GeoImplicitPoly extends GeoUserInputElement implements Path,
 	}
 
 	public CoordSys getTransformedCoordSys() {
-		return CoordSys.Identity3D;
+		return CoordSys.XOY;
 	}
 
 	public FunctionNVar getFunctionExpression() {

@@ -1928,7 +1928,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			coords2D = new Coords(new double[] { x, y, z });
 		}
 
-		if (coordSys == null || coordSys == CoordSys.Identity3D) {
+		if (coordSys == null || coordSys == CoordSys.Identity3D
+				|| coordSys == CoordSys.XOY) {
 			coords2D.set(1, x / z);
 			coords2D.set(2, y / z);
 			coords2D.set(3, 1);

@@ -183,7 +183,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 			CoordSys transformSys) {
 		
 		Coords coords = new Coords(point.x, point.y, point.getZ(), 1);
-		if (transformSys != CoordSys.Identity3D) {
+		if (transformSys != CoordSys.XOY) {
 			transformSys.getPointFromOriginVectors(coords, tmpCoords);
 			coords.set(tmpCoords);
 		}

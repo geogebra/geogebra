@@ -29,7 +29,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	public GeoImplicitCurve3D(Construction c) {
 		super(c);
 		this.transformCoordSys = new CoordSys(2);
-		transformCoordSys.set(CoordSys.Identity3D);
+		transformCoordSys.set(CoordSys.XOY);
 
 	}
 

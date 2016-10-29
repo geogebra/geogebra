@@ -2072,7 +2072,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	public CoordSys getTransformedCoordSys() {
-		return CoordSys.Identity3D;
+		return CoordSys.XOY;
 	}
 
 	/**

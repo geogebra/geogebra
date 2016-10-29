@@ -73,18 +73,31 @@ public class CoordSys {
 	}
 
 	/**
-	 * @return "identity" coord sys
+	 * "identity" coord sys
 	 */
 	public static final CoordSys Identity3D;
 	
 	static{
 		Identity3D = new CoordSys(2);
+		Identity3D.makeCoordSys(new double[] { 0, 0, 1, 0 }); // equation z=0
+		Identity3D.makeOrthoMatrix(true, true);
+
+	}
+
+	/**
+	 * "xOy" coord sys (with vx, vy for first vectors)
+	 */
+	public static final CoordSys XOY;
+	static {
+		XOY = new CoordSys(2);
+
 		// equation z=0
-		Identity3D.getEquationVector().set(new double[] { 0, 0, 1, 0 });
-		Identity3D.addPoint(Coords.O);
-		Identity3D.addVectorWithoutCheckMadeCoordSys(Coords.VX);
-		Identity3D.addVectorWithoutCheckMadeCoordSys(Coords.VY);
-		Identity3D.makeOrthoMatrix(false, false);
+		XOY.getEquationVector().set(new double[] { 0, 0, 1, 0 });
+		XOY.addPoint(Coords.O);
+		XOY.addVectorWithoutCheckMadeCoordSys(Coords.VX);
+		XOY.addVectorWithoutCheckMadeCoordSys(Coords.VY);
+		XOY.makeOrthoMatrix(false, false);
+
 	}
 
 	public CoordMatrix getMatrix() {

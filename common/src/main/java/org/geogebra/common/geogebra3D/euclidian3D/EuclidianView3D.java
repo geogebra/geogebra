@@ -666,7 +666,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 				case LOCUS:
 				d = new DrawLocus3D(this, (GeoLocusND) geo, geo,
-						CoordSys.Identity3D);
+						CoordSys.XOY);
 					break;
 				case IMPLICIT_POLY:
 					d = new DrawImplicitCurve3D(this, (GeoImplicit) geo);

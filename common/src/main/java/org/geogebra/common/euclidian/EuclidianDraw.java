@@ -287,7 +287,7 @@ public class EuclidianDraw {
 
 		case LOCUS:
 			d = new DrawLocus(ev, ((GeoLocusNDInterface) geo).getLocus(),
-					CoordSys.Identity3D);
+					CoordSys.XOY);
 			break;
 
 		case CURVE_CARTESIAN:
