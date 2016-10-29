@@ -130,6 +130,9 @@ public class Variable extends ValidExpression {
 	final public ExpressionValue resolveAsExpressionValue() {
 		GeoElement geo = resolve(false);
 		if (geo == null) {
+			if (kernel.getConstruction().isRegistredFunctionVariable(name)) {
+				return new FunctionVariable(kernel, name);
+			}
 			ExpressionValue ret = replacement(kernel, name);
 			return ret instanceof Variable ? resolve(true) : ret;
 		}
@@ -153,6 +156,7 @@ public class Variable extends ValidExpression {
 			// build an expression node that wraps the resolved geo
 			return new ExpressionNode(kernel, geo, operation, null);
 		}
+
 		// standard case: no dollar sign
 		return geo;
 	}
@@ -261,7 +265,8 @@ public class Variable extends ValidExpression {
 		}
 
 		if (geo != null && (geo.isGeoFunction() || geo.isGeoCurveCartesian())) {
-			return FunctionParser.derivativeNode(kernel, geo, order, false,
+			return FunctionParser.derivativeNode(kernel, geo, order,
+					geo.isGeoCurveCartesian(),
 					new FunctionVariable(kernel));
 		}
 		return null;

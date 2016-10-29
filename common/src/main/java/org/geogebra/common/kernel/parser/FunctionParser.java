@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.parser;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -16,6 +17,7 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.parser.cashandlers.CommandDispatcherGiac;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyParseError;
@@ -143,9 +145,13 @@ public class FunctionParser {
 
 		if (order > 0) { // derivative
 							// n-th derivative of geo
-			ExpressionNode derivative = new ExpressionNode(kernel, geoExp,
-					Operation.DERIVATIVE, new MyDouble(kernel, order));
 			if (geo.isGeoFunction() || geo.isGeoCurveCartesian()) {// function
+
+					kernel.getConstruction()
+							.registerFunctionVariable(
+						((ParametricCurve) geo).getFunctionVariables()[0]
+								.toString(StringTemplate.defaultTemplate));
+
 				return derivativeNode(kernel, geoExp, order,
 						geo.isGeoCurveCartesian(), myList.getListElement(0));
 			}
@@ -153,9 +159,15 @@ public class FunctionParser {
 			throw new MyParseError(kernel.getLocalization(), str);
 
 		}
-		if (geo instanceof Evaluatable) // function
+		if (geo instanceof Evaluatable) {// function
+			if (geo instanceof ParametricCurve) {
+				kernel.getConstruction().registerFunctionVariable(
+						((ParametricCurve) geo).getFunctionVariables()[0]
+								.toString(StringTemplate.defaultTemplate));
+			}
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION,
 					myList.getListElement(0));
+		}
 		else if (geo instanceof GeoFunctionNVar) {
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR,
 					myList);
