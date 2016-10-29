@@ -46,9 +46,18 @@ public class FunctionParser {
 		GeoElement cell = null;
 		// check for derivative using f'' notation
 		int order = 0;
-		int index = funcName.length() - 1;
+
 		String label = funcName;
 		if (!forceCommand) {
+
+			// f(t)=t(t+1)
+			if (kernel.getConstruction().isRegistredFunctionVariable(funcName)) {
+				ExpressionNode expr = new ExpressionNode(kernel, new Variable(
+						kernel, funcName), Operation.MULTIPLY_OR_FUNCTION,
+						myList.getListElement(0));
+				undecided.add(expr);
+				return expr;
+			}
 
 			geo = kernel.lookupLabel(funcName);
 			cell = kernel.lookupCasCellLabel(funcName);
@@ -67,6 +76,7 @@ public class FunctionParser {
 					return new ExpressionNode(kernel, new MyDouble(kernel,
 							indexVal), Operation.LOGB, myList.getListElement(0));
 				}
+				int index = funcName.length() - 1;
 				while (index >= 0 && cimage.charAt(index) == '\'') {
 					order++;
 					index--;
@@ -87,16 +97,6 @@ public class FunctionParser {
 					index++;
 				}
 			}
-
-			// f(t)=t(t+1)
-			if (kernel.getConstruction().isRegistredFunctionVariable(funcName)) {
-				ExpressionNode expr = new ExpressionNode(kernel, new Variable(
-						kernel, funcName), Operation.MULTIPLY_OR_FUNCTION,
-						myList.getListElement(0));
-				undecided.add(expr);
-				return expr;
-			}
-
 		}
 
 		if (forceCommand || (geo == null && cell == null)) {
@@ -111,17 +111,11 @@ public class FunctionParser {
 			}
 			return new ExpressionNode(kernel, cmd);
 
-			// String [] str = { "UndefinedVariable", funcName };
-			// throw new MyParseError(loc, str);
 		}
 		// make sure we don't send 0th derivative to CAS
 		if (cell != null && order > 0) {
 
-			ExpressionNode derivative = new ExpressionNode(kernel, cell,
-					Operation.DERIVATIVE, new MyDouble(kernel, order));
-
-			return new ExpressionNode(kernel, derivative, Operation.FUNCTION,
-					myList.getListElement(0));
+			return derivativeNode(kernel, cell, order, false, myList.getItem(0));
 
 		}
 		boolean list = geo != null && geo.isGeoList();
@@ -151,16 +145,13 @@ public class FunctionParser {
 							// n-th derivative of geo
 			ExpressionNode derivative = new ExpressionNode(kernel, geoExp,
 					Operation.DERIVATIVE, new MyDouble(kernel, order));
-			if (geo.isGeoFunction()) {// function
-				return new ExpressionNode(kernel, derivative,
-						Operation.FUNCTION, myList.getListElement(0));
-			} else if (geo.isGeoCurveCartesian()) {// Cartesian curve
-				return new ExpressionNode(kernel, derivative,
-						Operation.VEC_FUNCTION, myList.getListElement(0));
-			} else {
-				String[] str = { "FunctionExpected", funcName };
-				throw new MyParseError(kernel.getLocalization(), str);
+			if (geo.isGeoFunction() || geo.isGeoCurveCartesian()) {// function
+				return derivativeNode(kernel, geoExp, order,
+						geo.isGeoCurveCartesian(), myList.getListElement(0));
 			}
+			String[] str = { "FunctionExpected", funcName };
+			throw new MyParseError(kernel.getLocalization(), str);
+
 		}
 		if (geo instanceof Evaluatable) // function
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION,
@@ -236,5 +227,13 @@ public class FunctionParser {
 		default:
 			return null;
 		}
+	}
+
+	public static ExpressionNode derivativeNode(Kernel kernel2,
+			ExpressionValue geo, int order, boolean curve, ExpressionValue at) {
+		return new ExpressionNode(kernel2, new ExpressionNode(kernel2, geo,
+				Operation.DERIVATIVE, new MyDouble(kernel2, order)),
+				curve ? Operation.VEC_FUNCTION : Operation.FUNCTION,
+ at);
 	}
 }

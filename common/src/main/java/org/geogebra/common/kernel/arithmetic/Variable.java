@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
@@ -239,14 +239,30 @@ public class Variable extends ValidExpression {
 						.multiply(piDegTo(exponents[4], degPower, kernel));
 	}
 
-	private static ExpressionValue asDerivative(Kernel kernel, String name) {
-		GeoElement fn = kernel
-				.lookupLabel(name.substring(0, name.length() - 1));
-		if (fn instanceof GeoFunction) {
-			return new ExpressionNode(kernel,
-					new ExpressionNode(kernel, fn, Operation.DERIVATIVE,
-							new MyDouble(kernel, 1)),
-					Operation.FUNCTION, new FunctionVariable(kernel));
+	private static ExpressionValue asDerivative(Kernel kernel, String funcName) {
+		int index = funcName.length() - 1;
+		int order = 0;
+		while (index >= 0 && funcName.charAt(index) == '\'') {
+			order++;
+			index--;
+		}
+		GeoElement geo = null;
+		while (index < funcName.length()) {
+			String label = funcName.substring(0, index + 1);
+			geo = kernel.lookupLabel(label);
+			// stop if f' is defined but f is not defined, see #1444
+			if (geo != null
+					&& (geo.isGeoFunction() || geo.isGeoCurveCartesian())) {
+				break;
+			}
+
+			order--;
+			index++;
+		}
+
+		if (geo != null && (geo.isGeoFunction() || geo.isGeoCurveCartesian())) {
+			return FunctionParser.derivativeNode(kernel, geo, order, false,
+					new FunctionVariable(kernel));
 		}
 		return null;
 	}
@@ -271,10 +287,9 @@ public class Variable extends ValidExpression {
 			Kernel kernel2) {
 		ExpressionNode piExp = piPower > 0 ? new MySpecialDouble(kernel2, Math.PI, Unicode.PI_STRING).wrap()
 		.power(piPower) : null;
-		ExpressionNode degExp = degPower > 0 ?
- new MyDouble(kernel2, MyMath.DEG)
-				.setAngle()
-.wrap().power(degPower) : null;
+		ExpressionNode degExp = degPower > 0 ? new MyDouble(kernel2, MyMath.DEG)
+				.setAngle().wrap().power(degPower)
+				: null;
 		return degExp == null ? piExp : (piExp == null ? degExp : piExp
 				.multiply(degExp));
 	}
