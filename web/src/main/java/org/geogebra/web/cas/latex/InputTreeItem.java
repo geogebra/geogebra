@@ -111,9 +111,7 @@ public class InputTreeItem extends MathQuillTreeItem
 		}
 
 
-		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
-			content.getElement().addClassName("tempHasCursorPermanent");
-		}
+		content.getElement().addClassName("tempHasCursorPermanent");
 
 		getElement().getStyle().setWidth(100, Style.Unit.PCT);
 
@@ -827,15 +825,13 @@ public class InputTreeItem extends MathQuillTreeItem
 	}
 
 	private void updatePreview() {
-		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
-			String text = getText();
-			app.getKernel()
-					.getInputPreviewHelper()
-					.updatePreviewFromInputBar(EquationEditor.stopCommon(text),
-							AlgebraInputW.getWarningHandler(this, app));
-			if (text != null) {
-				this.getEquationEditor().setLaTeX(text, getEditorValue(true));
-			}
+		String text = getText();
+		app.getKernel()
+				.getInputPreviewHelper()
+				.updatePreviewFromInputBar(EquationEditor.stopCommon(text),
+						AlgebraInputW.getWarningHandler(this, app));
+		if (text != null) {
+			this.getEquationEditor().setLaTeX(text, getEditorValue(true));
 		}
 
 	}
@@ -907,15 +903,12 @@ public class InputTreeItem extends MathQuillTreeItem
 	@Override
 	public void onResize() {
 		super.onResize();
-		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
 			if (helpPopup != null && helpPopup.isShowing()) {
 				InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
 						.getGuiManager().getInputHelpPanel();
 				updateHelpPosition(helpPanel);
 
 			}
-
-		}
 	}
 
 	@Deprecated

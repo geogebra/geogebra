@@ -5,7 +5,6 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -253,8 +252,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 									.showView(App.VIEW_EUCLIDIAN)
 									|| app.getGuiManager().showView(
 											App.VIEW_EUCLIDIAN2)
-									|| app.has(Feature.WEB_PRINT_CP_VIEW)
-									&& app.getGuiManager().showView(
+									|| app.getGuiManager().showView(
+											App.VIEW_ALGEBRA)
+									|| app.getGuiManager().showView(
 											App.VIEW_CONSTRUCTION_PROTOCOL)) {
 								new PrintPreviewW(app).show();
 							}

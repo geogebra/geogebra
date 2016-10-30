@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.app;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -124,7 +123,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			return;
 		}
 		boolean focusLost = true;
-		if (app.getGuiManager() != null && app.has(Feature.INPUT_BAR_PREVIEW)
+		if (app.getGuiManager() != null
 				&& app.getGuiManager().getLayout().getDockManager() != null) {
 			DockPanelW panel = ((DockManagerW) app.getGuiManager().getLayout()
 					.getDockManager()).getPanelForKeyboard();

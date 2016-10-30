@@ -36,7 +36,6 @@ import javax.swing.event.DocumentListener;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -161,9 +160,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		inputLabel = new JLabel();
 		inputPanel = new InputPanelD(null, app, 30, true);
 
-		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
-			addPreviewListener();
-		}
+		addPreviewListener();
 
 		// create and set up the input field
 		inputField = (AutoCompleteTextFieldD) inputPanel.getTextComponent();
@@ -406,8 +403,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		}
 		autoInput = null;
 		app.getKernel().clearJustCreatedGeosInViews();
-		boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
-				|| app.getKernel().getInputPreviewHelper().isValid();
+		boolean valid = app.getKernel().getInputPreviewHelper().isValid();
 		String input = app.getKernel().getInputPreviewHelper()
 				.getInput(getTextField().getText());
 
@@ -509,9 +505,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 	}
 
 	public void focusLost(FocusEvent arg0) {
-		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
-			onEnterPressed(false);
-		}
+		onEnterPressed(false);
 	}
 
 	public void mouseClicked(MouseEvent e) {

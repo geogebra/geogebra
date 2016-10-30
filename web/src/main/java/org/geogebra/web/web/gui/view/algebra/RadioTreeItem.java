@@ -697,35 +697,31 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		outputPanel.clear();
-		if (app.has(Feature.FRACTIONS)) {
-			if (isSymbolicDiffers()) {
-				final MyToggleButton2 btnSymbolic = new MyToggleButton2(
-						GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),
-						GuiResourcesSimple.INSTANCE.modeToggleNumeric());
-				btnSymbolic.addStyleName("symbolicButton");
-				if (getOutputPrefix() == Unicode.CAS_OUTPUT_NUMERIC) {
-					btnSymbolic.setSelected(true);
-				}
-				if (getOutputPrefix() == Unicode.CAS_OUTPUT_PREFIX) {
-					btnSymbolic.setSelected(false);
-					btnSymbolic.addStyleName("btn-prefix");
-				}
+		if (isSymbolicDiffers()) {
+			final MyToggleButton2 btnSymbolic = new MyToggleButton2(
+					GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),
+					GuiResourcesSimple.INSTANCE.modeToggleNumeric());
+			btnSymbolic.addStyleName("symbolicButton");
+			if (getOutputPrefix() == Unicode.CAS_OUTPUT_NUMERIC) {
+				btnSymbolic.setSelected(true);
+			}
+			if (getOutputPrefix() == Unicode.CAS_OUTPUT_PREFIX) {
+				btnSymbolic.setSelected(false);
+				btnSymbolic.addStyleName("btn-prefix");
+			}
 			btnSymbolic.addClickHandler(new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
-						toggleSymbolic(btnSymbolic);
+					toggleSymbolic(btnSymbolic);
 				}
 			});
 			outputPanel.add(btnSymbolic);
-			} else {
-				addPrefixLabel(kernel.getLocalization().rightToLeftReadingOrder
-						? Unicode.CAS_OUTPUT_PREFIX_RTL
-						: Unicode.CAS_OUTPUT_PREFIX);
-			}
-
 		} else {
-			addPrefixLabel(getOutputPrefix());
+			addPrefixLabel(kernel.getLocalization().rightToLeftReadingOrder ? Unicode.CAS_OUTPUT_PREFIX_RTL
+					: Unicode.CAS_OUTPUT_PREFIX);
 		}
+
+
 
 		valuePanel.clear();
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
@@ -822,8 +818,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 											// inequalities
 		}
 
-		if (app.has(Feature.FRACTIONS)
-				&& previewGeo instanceof HasSymbolicMode) {
+		if (previewGeo instanceof HasSymbolicMode) {
 			((HasSymbolicMode) previewGeo).setSymbolicMode(true, false);
 		}
 		createDVPanels();
@@ -2442,39 +2437,35 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private SimplePanel helpButtonPanel;
 	protected final void insertHelpToggle() {
-		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV)) {
-			helpButtonPanel = new SimplePanel();
-			updateIcons(false);
-			btnHelpToggle.addClickHandler(new ClickHandler() {
+		helpButtonPanel = new SimplePanel();
+		updateIcons(false);
+		btnHelpToggle.addClickHandler(new ClickHandler() {
 
-				@Override
-				public void onClick(ClickEvent event) {
-					if (btnHelpToggle.isDown()) {
-						app.hideKeyboard();
-						Scheduler.get().scheduleDeferred(
-								new Scheduler.ScheduledCommand() {
-									@Override
-									public void execute() {
-										setShowInputHelpPanel(true);
-										((InputBarHelpPanelW) app
-												.getGuiManager()
-												.getInputHelpPanel())
-														.focusCommand(
-																getCommand());
-									}
-								});
-					} else {
-						setShowInputHelpPanel(false);
-					}
-
+			@Override
+			public void onClick(ClickEvent event) {
+				if (btnHelpToggle.isDown()) {
+					app.hideKeyboard();
+					Scheduler.get().scheduleDeferred(
+							new Scheduler.ScheduledCommand() {
+								@Override
+								public void execute() {
+									setShowInputHelpPanel(true);
+									((InputBarHelpPanelW) app.getGuiManager()
+											.getInputHelpPanel())
+											.focusCommand(getCommand());
+								}
+							});
+				} else {
+					setShowInputHelpPanel(false);
 				}
 
-			});
-			helpButtonPanel.setStyleName("avHelpButtonParent");
-			helpButtonPanel.setWidget(btnHelpToggle);
-			btnHelpToggle.addStyleName("algebraHelpButton");
-			main.insert(helpButtonPanel, 0);
-		}
+			}
+
+		});
+		helpButtonPanel.setStyleName("avHelpButtonParent");
+		helpButtonPanel.setWidget(btnHelpToggle);
+		btnHelpToggle.addStyleName("algebraHelpButton");
+		main.insert(helpButtonPanel, 0);
 
 	}
 

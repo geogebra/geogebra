@@ -14,7 +14,6 @@ package org.geogebra.web.web.gui.dialog;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
@@ -26,7 +25,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 
@@ -44,8 +42,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 	private ScriptArea textArea;
 	private AppW app;
 	private FlowPanel btPanel;
-	private Button btOk;
-	private Button btCancel;
 	private String inputText;
 	/**
 	 * Input Dialog for a GeoButton object
@@ -66,22 +62,17 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 		inputPanel = new FlowPanel();
 		textArea = new ScriptArea();
-		if (app.has(Feature.SCRIPT_AUTOSAVE)) {
 			textArea.addKeyUpHandler(new KeyUpHandler() {
 				public void onKeyUp(KeyUpEvent event) {
 					applyScript();
 				}
 			});
-		}
 		inputPanel.add(textArea);
 		// init dialog using text
 
 		btPanel = new FlowPanel();
 		btPanel.setStyleName("optionsPanel");
-		if (!app.has(Feature.SCRIPT_AUTOSAVE)) {
-			btOk = new Button();
-			btCancel = new Button();
-		}
+
 		
 		languageSelector = new ListBox();
 		for (ScriptType type : ScriptType.values()) {
@@ -98,23 +89,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 		btPanel.add(languageSelector);
 
-		if (!app.has(Feature.SCRIPT_AUTOSAVE)) {
-			btOk.addClickHandler(new ClickHandler() {
 
-				public void onClick(ClickEvent event) {
-					applyScript();
-				}
-			});
-
-			btCancel.addClickHandler(new ClickHandler() {
-
-				public void onClick(ClickEvent event) {
-					model.setGeo(model.getGeo());
-
-				}
-			});
-
-		}
 
 
 		textArea.addClickHandler(new ClickHandler(){
@@ -129,20 +104,13 @@ public class ScriptInputPanelW extends FlowPanel implements
 				model.setScriptType(ScriptType.values()[languageSelector
 				                						.getSelectedIndex()]);
             }});
-		if (!app.has(Feature.SCRIPT_AUTOSAVE)) {
-			btPanel.add(btOk);
-			btPanel.add(btCancel);
-		}
+
 
 		
 		add(inputPanel);
 		add(btPanel);
 	}
 
-	public void setLabels(String ok, String cancel) {
-		btOk.setText(ok);
-		btCancel.setText(cancel);
-	}
 
 	/**
 	 * Returns the inputPanel and sets its preferred size from the given row and

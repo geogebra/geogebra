@@ -514,16 +514,14 @@ public class MathQuillTreeItem extends RadioTreeItem
 		}
 
 		app.getKernel().clearJustCreatedGeosInViews();
-		final String input = app.has(Feature.INPUT_BAR_PREVIEW)
-				? kernel.getInputPreviewHelper().getInput(newValue) : newValue;
+		final String input = kernel.getInputPreviewHelper().getInput(newValue);
 
 		if (input == null || input.length() == 0) {
 			app.getActiveEuclidianView().requestFocusInWindow();
 			scrollIntoView();
 			return false;
 		}
-		final boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
-				|| input.equals(newValue);
+		final boolean valid = input.equals(newValue);
 		final String newValueF = newValue;
 		app.setScrollToShow(true);
 

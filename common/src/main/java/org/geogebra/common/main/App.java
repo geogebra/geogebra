@@ -3859,12 +3859,6 @@ public abstract class App implements UpdateSelection {
 		case DIFFERENT_AXIS_RATIO_3D:
 			return prerelease;
 			
-		case WEB_PRINT_ALGEBRA_VIEW:
-			return true;
-
-		case WEB_PRINT_CP_VIEW:
-			return true;
-
 		// GGB-335
 		case TOOLBAR_ON_SMALL_SCREENS:
 			return prerelease;
@@ -3878,10 +3872,6 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case HANDWRITING:
 			return false;
-
-		// MOB-321
-		case INPUT_BAR_PREVIEW:
-			return true;
 
 		// GGB-1121
 		case AV_PREVIEW:
@@ -3897,13 +3887,6 @@ public abstract class App implements UpdateSelection {
 			}
 			return true;
 
-		// GGB-639
-		case FRACTIONS:
-			return true;
-
-		case INPUTHELP_SHOWN_IN_AV:
-			return true;
-		
 		// MOB-356 and MOB-503
 		case MOBILE_PROPERTIES_VIEW:
 			return true;
@@ -4011,10 +3994,6 @@ public abstract class App implements UpdateSelection {
 
 		case MOBILE_DIALOG_FORMULA_INPUT:
 				return prerelease;
-
-		//GGB-982
-		case SCRIPT_AUTOSAVE:
-			return true;
 
 		// MOB-787
 		case MOBILE_ALWAYS_LOAD_FEATURED_MATERIALS:

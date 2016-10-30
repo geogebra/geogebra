@@ -284,10 +284,8 @@ public class LatexTreeItem extends RadioTreeItem
 
 	private void createGeoFromInput(final boolean keepFocus) {
 		String newValue = getText();
-		final String input = app.has(Feature.INPUT_BAR_PREVIEW)
-				? kernel.getInputPreviewHelper().getInput(newValue) : newValue;
-		final boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
-				|| input.equals(newValue);
+		final String input = kernel.getInputPreviewHelper().getInput(newValue);
+		final boolean valid = input.equals(newValue);
 
 		app.setScrollToShow(true);
 		
@@ -421,13 +419,11 @@ public class LatexTreeItem extends RadioTreeItem
 	}
 
 	private void updatePreview() {
-		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
-			String text = getText();
-			Log.debug("LATEX INPUT:" + text);
-			app.getKernel().getInputPreviewHelper().updatePreviewFromInputBar(
-					text, AlgebraInputW.getWarningHandler(this, app));
-		}
-
+		String text = getText();
+		app.getKernel()
+				.getInputPreviewHelper()
+				.updatePreviewFromInputBar(text,
+						AlgebraInputW.getWarningHandler(this, app));
 	}
 
 	@Override

@@ -4,7 +4,6 @@ import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -257,9 +256,7 @@ public class AlgebraInputW extends FlowPanel
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
 		this.focused = false;
-		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
-			onEnterPressed(false);
-		}
+		onEnterPressed(false);
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
@@ -268,11 +265,10 @@ public class AlgebraInputW extends FlowPanel
 		//then it don't come here if (e.isConsumed()) return;
 
 		int keyCode = event.getNativeKeyCode();
-		if (app.has(Feature.INPUT_BAR_PREVIEW)) {
-			app.getKernel().getInputPreviewHelper()
+		app.getKernel()
+				.getInputPreviewHelper()
 					.updatePreviewFromInputBar(inputField.getText(),
 							getWarningHandler(this, app));
-		}
 		if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
 			onEnterPressed(true);
 
@@ -290,8 +286,7 @@ public class AlgebraInputW extends FlowPanel
 		app.getKernel().clearJustCreatedGeosInViews();
 		final String input = app.getKernel().getInputPreviewHelper()
 				.getInput(getTextField().getText());
-		boolean valid = !app.has(Feature.INPUT_BAR_PREVIEW)
-				|| app.getKernel().getInputPreviewHelper().isValid();
+		boolean valid = app.getKernel().getInputPreviewHelper().isValid();
 
 		if (input == null || input.length() == 0) {
 			app.getActiveEuclidianView().requestFocusInWindow();

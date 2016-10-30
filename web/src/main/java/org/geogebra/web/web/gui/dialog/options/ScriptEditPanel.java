@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.dialog.options;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.ScriptInputPanelW;
@@ -10,6 +9,9 @@ import org.geogebra.web.web.gui.properties.OptionPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TabPanel;
 
+/**
+ * Scripting editor for Web
+ */
 class ScriptEditPanel extends OptionPanel {
 
 
@@ -21,6 +23,13 @@ class ScriptEditPanel extends OptionPanel {
 	private FlowPanel clickScriptPanel, updateScriptPanel, globalScriptPanel;
 	private Localization loc;
 
+	/**
+	 * 
+	 * @param model0
+	 *            model
+	 * @param app
+	 *            application
+	 */
 	public ScriptEditPanel(ScriptEditorModel model0, final AppW app) {
 		this.loc = app.getLocalization();
 		int row = 35;
@@ -34,8 +43,7 @@ class ScriptEditPanel extends OptionPanel {
 				null, row, column, false, false);
 		updateDialog = new ScriptInputPanelW(app,
 				null, row, column, true, false);
-		globalDialog = new ScriptInputPanelW(app,
- null, row, column, false,
+		globalDialog = new ScriptInputPanelW(app, null, row, column, false,
 				true);
 		// add(td.getInputPanel(), BorderLayout.NORTH);
 		// add(td2.getInputPanel(), BorderLayout.CENTER);
@@ -54,9 +62,6 @@ class ScriptEditPanel extends OptionPanel {
 		globalScriptPanel.add(globalDialog.getButtonPanel());
 		setWidget(tabbedPane);
 
-		if (!app.has(Feature.SCRIPT_AUTOSAVE)) {
-			setLabels();
-		}
 	}
 
 	/**
@@ -71,12 +76,6 @@ class ScriptEditPanel extends OptionPanel {
 	@Override
 	public void setLabels() {
 		// setBorder(BorderFactory.createTitledBorder(app.getPlain("JavaScript")));
-		String ok = loc.getPlain("OK");
-		String cancel = loc.getMenu("Cancel");
-
-		clickDialog.setLabels(ok, cancel);
-		updateDialog.setLabels(ok, cancel);
-		globalDialog.setLabels(ok, cancel);
 
 
 	}

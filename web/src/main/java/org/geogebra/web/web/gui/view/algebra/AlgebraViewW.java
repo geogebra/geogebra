@@ -1411,8 +1411,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			this.styleBar.setLabels();
 		}
 
-		if (app.has(Feature.INPUTHELP_SHOWN_IN_AV) && inputPanelLatex != null
-				&& inputPanelLatex.hasHelpPopup()) {
+		if (inputPanelLatex != null && inputPanelLatex.hasHelpPopup()) {
 			app.getGuiManager().getInputHelpPanel().setLabels();
 		}
 	}
