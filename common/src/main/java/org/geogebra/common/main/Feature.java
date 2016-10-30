@@ -100,9 +100,6 @@ public enum Feature {
 
 	MOBILE_FRACTIONS,
 
-	//MOB-695
-	MOBILE_RELATION_TOOL,
-
 	// GGB-1121
 	AV_PREVIEW,
 

@@ -882,11 +882,11 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_DILATE_FROM_POINT);
 
-		if (app.has(Feature.MOBILE_RELATION_TOOL)) {
-			//
-			sb.append(" | ");
-			sb.append(EuclidianConstants.MODE_RELATION);
-		}
+
+		//
+		sb.append(" | ");
+		sb.append(EuclidianConstants.MODE_RELATION);
+
 
 		// objects with actions
 		sb.append(" | ");
