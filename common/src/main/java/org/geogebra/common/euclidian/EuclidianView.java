@@ -3615,15 +3615,7 @@ public abstract class EuclidianView
 
 
 
-	/*
-	 * spaceToLeft so that minus signs are more visible next to grid
-	 */
-	void drawString(GGraphics2D g2, String text, double x, double y) {
 
-		g2.setColor(axesColor);
-		g2.drawString(text, (int) (x), (int) y);
-
-	}
 
 	/**
 	 * @param g
@@ -5196,70 +5188,7 @@ public abstract class EuclidianView
 	private OptionsEuclidian optionPanel = null;
 	private DrawList openedComboBox = null;
 
-	class ViewTextField {
-		private AutoCompleteTextField textField;
-		private GBox box;
-		public ViewTextField() {
-			textField = null;
-			box = null;
-		}
-		
-		public AutoCompleteTextField getTextField(int length,
-				DrawInputBox drawInputBox) {
-			if (textField == null) {
-				textField = app.getSwingFactory()
-						.newAutoCompleteTextField(length, app, drawInputBox);
-				textField.setAutoComplete(false);
-				textField.enableColoring(false);
-				textField.setFocusTraversalKeysEnabled(false);
-				createBox();
-				box.add(textField);
-				EuclidianView.this.add(box);
-			} else {
-				textField.setDrawTextField(drawInputBox);
-			}
-
-			return textField;
-		}
-
-		public AutoCompleteTextField getTextField() {
-			return textField;
-		}
-
-		public void focusTo(GeoInputBox inputBox) {
-			DrawInputBox d = (DrawInputBox) getDrawableFor(inputBox);
-			if (d == null) {
-				Log.debug("[TF] d is null!!!");
-				return;
-			}
-			textField.setDrawTextField(d);
-			d.setFocus(inputBox.getText());
-			textField.setText(inputBox.getText());
-			d.setWidgetVisible(true);
-		}
-
-		public GBox getBox() {
-			createBox();
-			return box;
-		}
-
-		private void createBox() {
-			if (box == null) {
-				box = app.getSwingFactory()
-						.createHorizontalBox(getEuclidianController());
-				box.add(textField);
-			}
-
-		}
-
-		public void remove() {
-			textField = null;
-			box = null;
-		}
-
-	}
-	
-	private ViewTextField viewTextField = new ViewTextField();
+	protected ViewTextField viewTextField;
 	/**
 	 * sets the option panel for gui update
 	 * 
@@ -5686,23 +5615,28 @@ public abstract class EuclidianView
 	}
 
 	public AutoCompleteTextField getTextField() {
-		return viewTextField.getTextField();
+		return viewTextField == null ? null : viewTextField.getTextField();
 	}
 
 	public AutoCompleteTextField getTextField(GeoInputBox input,
 			DrawInputBox drawInputBox) {
-		return viewTextField.getTextField(input.getLength(), drawInputBox);
+		return viewTextField == null ? null : viewTextField.getTextField(
+				input.getLength(), drawInputBox);
 	}
 
 	public void focusTextField(GeoInputBox inputBox) {
-		viewTextField.focusTo(inputBox);
+		if (viewTextField != null) {
+			viewTextField.focusTo(inputBox);
+		}
 	}
 
 	public GBox getBoxForTextField() {
-		return viewTextField.getBox();
+		return viewTextField == null ? null : viewTextField.getBox();
 	}
 
 	public void removeTextField() {
-		viewTextField.remove();
+		if (viewTextField != null) {
+			viewTextField.remove();
+		}
 	}
 }

@@ -13,6 +13,7 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
+import org.geogebra.common.euclidian.ViewTextField;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
@@ -142,7 +143,7 @@ public class EuclidianViewW extends EuclidianView implements
 	        boolean showGrid, int evNo, EuclidianSettings settings) {
 
 		super(euclidiancontroller, evNo, settings);
-
+		viewTextField = new ViewTextField(this);
 		EVPanel = euclidianViewPanel;
 
 		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo,
@@ -197,7 +198,7 @@ public class EuclidianViewW extends EuclidianView implements
 	public EuclidianViewW(EuclidianController euclidiancontroller, int viewNo,
 	        EuclidianSettings settings) {
 		super(euclidiancontroller, viewNo, settings);
-
+		viewTextField = new ViewTextField(this);
 		EVPanel = newMyEuclidianViewPanel();
 
 		// It seems this constructor is only called from PlotPanelEuclidianViewW

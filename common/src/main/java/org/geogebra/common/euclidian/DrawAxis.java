@@ -428,7 +428,7 @@ public class DrawAxis {
 							y = (int) (pix + yoffset);
 						}
 						// draw number
-						view.drawString(g2, sb.toString(), x, y);
+						drawString(g2, sb.toString(), x, y);
 						// measure width, so grid line can avoid it
 						// use same (max) for all labels
 						if (sb.charAt(0) == minusSign
@@ -582,7 +582,7 @@ public class DrawAxis {
 							y = (int) (pix + yoffset);
 						}
 						// draw number
-						view.drawString(g2, sb.toString(), x, y);
+						drawString(g2, sb.toString(), x, y);
 						// measure width, so grid line can avoid it
 						// use same (max) for all labels
 						if (sb.charAt(0) == minusSign
@@ -619,6 +619,16 @@ public class DrawAxis {
 			}
 
 		}
+
+	}
+
+	/*
+	 * spaceToLeft so that minus signs are more visible next to grid
+	 */
+	private void drawString(GGraphics2D g2, String text, double x, double y) {
+
+		g2.setColor(view.axesColor);
+		g2.drawString(text, (int) (x), (int) y);
 
 	}
 
@@ -717,7 +727,7 @@ public class DrawAxis {
 											view.getFontAxes()) / 2));
 						}
 
-						view.drawString(g2, sb.toString(), x, y);
+						drawString(g2, sb.toString(), x, y);
 
 						// store position of number, so grid line can avoid
 						// it
@@ -837,7 +847,7 @@ public class DrawAxis {
 											view.getFontAxes()) / 2));
 						}
 
-						view.drawString(g2, sb.toString(), x, y);
+					drawString(g2, sb.toString(), x, y);
 
 						// store position of number, so grid line can avoid
 						// it

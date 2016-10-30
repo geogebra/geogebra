@@ -57,6 +57,7 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.euclidian.ViewTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
@@ -151,7 +152,7 @@ public class EuclidianViewD extends EuclidianView implements
 			boolean showGrid, int evno, EuclidianSettings settings) {
 
 		super(ec, evno, settings);
-
+		viewTextField = new ViewTextField(this);
 		evjpanel = new EuclidianViewJPanelD(this);
 
 		setApplication(ec.getApplication());
