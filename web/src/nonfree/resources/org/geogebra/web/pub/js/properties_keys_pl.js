@@ -573,7 +573,7 @@ __GGB__keysVar.pl.command = {
     "NDerivative": "NDerivative",
     "NDerivative.Syntax": "[ <Function> ]",
     "NIntegral": "NCa\u0142ka",
-    "NIntegral.Syntax": "[ <Function> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
+    "NIntegral.Syntax": "[ <Funkcja> ]\n[ <Funkcja>, <x- warto\u015b\u0107 pocz\u0105tkowa>, <x - warto\u015b\u0107 ko\u0144cowa> ]",
     "NIntegral.SyntaxCAS": "[ <Funkcja>, <Warto\u015b\u0107 Pocz\u0105tkowa x>, <Warto\u015b\u0107 Ko\u0144cowa x> ]\n[ <Funkcja>, <Zmienna>, <Warto\u015b\u0107 Pocz\u0105tkowa Zmiennej>, <Warto\u015b\u0107 Ko\u0144cowa Zmiennej> ]",
     "NSolutions": "NRozwi\u0105zania",
     "NSolutions.SyntaxCAS": "[ <R\xf3wnanie> ]\n[ <R\xf3wnanie>, <Zmienna> ]\n[ <R\xf3wnanie>, <Zmienna = warto\u015b\u0107 pocz\u0105tkowa> ]\n[ <Lista R\xf3wna\u0144>, <Lista Zmiennych> ]",
