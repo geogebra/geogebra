@@ -10639,14 +10639,11 @@ public abstract class EuclidianController {
 		oldCenterX = (int) (x1 + x2) / 2;
 		oldCenterY = (int) (y1 + y2) / 2;
 
-		if (app.has(Feature.MOBILE_SMOOTH_PINCH)) {
-			twoTouchStartX = (x1 + x2) / 2;
-			twoTouchStartY = (y1 + y2) / 2;
-			twoTouchStartDistance = MyMath.length(x1 - x2, y1 - y2);
+		twoTouchStartX = (x1 + x2) / 2;
+		twoTouchStartY = (y1 + y2) / 2;
+		twoTouchStartDistance = MyMath.length(x1 - x2, y1 - y2);
 
-			view.rememberOrigins();
-		}
-
+		view.rememberOrigins();
 
 		if (hits1.hasYAxis() && hits2.hasYAxis()) {
 			multitouchMode = scaleMode.zoomY;
@@ -10804,25 +10801,9 @@ public abstract class EuclidianController {
 				break;
 			default:
 				// pinch
-				if (app.has(Feature.MOBILE_SMOOTH_PINCH)) {
-					double distance = MyMath.length(x1 - x2, y1 - y2);
-					onPinchPhone((x1 + x2) / 2, (y1 + y2) / 2, distance
-							/ twoTouchStartDistance);
-				} else {
-					twoTouchMoveCommon(x1, y1, x2, y2);
-
-					int centerX = (x1 + x2) / 2;
-					int centerY = (y1 + y2) / 2;
-
-					if (MyMath.length(oldCenterX - centerX, oldCenterY - centerY) > MIN_MOVE) {
-						view.rememberOrigins();
-						view.translateCoordSystemInPixels(centerX - oldCenterX, centerY - oldCenterY, 0,
-								EuclidianConstants.MODE_TRANSLATEVIEW);
-
-						oldCenterX = centerX;
-						oldCenterY = centerY;
-					}
-				}
+				double distance = MyMath.length(x1 - x2, y1 - y2);
+				onPinchPhone((x1 + x2) / 2, (y1 + y2) / 2, distance
+						/ twoTouchStartDistance);
 		}
 	}
 
