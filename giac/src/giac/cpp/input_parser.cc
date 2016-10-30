@@ -5151,7 +5151,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 280 "input_parser.yy"
-    {(yyval) = polynome_or_sparse_poly1((yyvsp[(2) - (5)]),(yyvsp[(4) - (5)]));}
+    {(yyval) = polynome_or_sparse_poly1(eval((yyvsp[(2) - (5)]),1, giac_yyget_extra(scanner)),(yyvsp[(4) - (5)]));}
     break;
 
   case 57:

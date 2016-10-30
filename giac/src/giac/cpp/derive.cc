@@ -657,6 +657,16 @@ namespace giac {
 	  res=ratnormal(derive(res,w[i],contextptr),contextptr);
 	return res;
       }
+      if (v[0].type==_SPOL1){
+	sparse_poly1 res=*v[0]._SPOL1ptr;
+	sparse_poly1::iterator it=res.begin(),itend=res.end();
+	for (;it!=itend;++it){
+	  gen e=it->exponent;
+	  it->coeff=it->coeff*e;
+	  it->exponent=e-1;
+	}
+	return res;
+      }
       if (args.type!=_VECT && v[0].type==_VECT && v[0].subtype==_POLY1__VECT)
 	return gen(derivative(*v[0]._VECTptr),_POLY1__VECT);
       return derive(v[0],v[1],contextptr);

@@ -3012,6 +3012,18 @@ namespace giac {
     vecteur v(gen2vecteur(args));
     if (v.size()==1){
       gen a,b,c=eval(args,1,contextptr);
+      if (c.type==_SPOL1){
+	sparse_poly1 res=*c._SPOL1ptr;
+	sparse_poly1::iterator it=res.begin(),itend=res.end();
+	for (;it!=itend;++it){
+	  gen e=it->exponent+1;
+	  if (e==0)
+	    return sparse_poly1(1,monome(undef,undef));
+	  it->coeff=it->coeff/e;
+	  it->exponent=e;
+	}
+	return res;
+      }
       if (c.type==_VECT && c.subtype==_POLY1__VECT){
 	vecteur v=*c._VECTptr;
 	reverse(v.begin(),v.end());

@@ -41,7 +41,14 @@ namespace giac {
   sparse_poly1 vecteur2sparse_poly1(const vecteur & v);
   bool ptruncate(sparse_poly1 & p,const gen & ordre,GIAC_CONTEXT);
 
+  bool series(const sparse_poly1 & s,const unary_function_ptr & u,int direction,sparse_poly1 & res,GIAC_CONTEXT); // example series(s,at_sin,0,res,contextptr);
+  sparse_poly1 series(const sparse_poly1 & s,const unary_function_ptr & u,int direction,GIAC_CONTEXT); // example series(s,at_sin,0,res,contextptr);
 
+  gen sparse_poly12gen(const sparse_poly1 & p,const gen & x,gen & remains,bool with_order_size);
+  sparse_poly1 vecteur2sparse_poly1(const vecteur & v);
+  void vecteur2sparse_poly1(const vecteur & v,sparse_poly1 & p);
+  bool sparse_poly12vecteur(const sparse_poly1 & p,vecteur & v,int & shift);
+  sparse_poly1 gen2spol1(const gen &g);
   bool padd(const sparse_poly1 & a,const sparse_poly1 &b, sparse_poly1 & res,GIAC_CONTEXT);
   sparse_poly1 spadd(const sparse_poly1 & a,const sparse_poly1 &b,GIAC_CONTEXT);
   sparse_poly1 spsub(const sparse_poly1 & a,const sparse_poly1 &b,GIAC_CONTEXT);
@@ -60,6 +67,7 @@ namespace giac {
   sparse_poly1 spdiv(const sparse_poly1 & a,const gen &b,GIAC_CONTEXT);  
   bool ppow(const sparse_poly1 & base,int m,int ordre,sparse_poly1 & res,GIAC_CONTEXT); // m>=0
   bool ppow(const sparse_poly1 & base,const gen & e,int ordre,int direction,sparse_poly1 & res,GIAC_CONTEXT);
+  sparse_poly1 sppow(const sparse_poly1 & a,const gen &b,GIAC_CONTEXT);
   bool pcompose(const vecteur & v,const sparse_poly1 & p, sparse_poly1 & res,GIAC_CONTEXT);
   void lcmdeno(vecteur &v,gen & e,GIAC_CONTEXT);
   void lcmdeno_converted(vecteur &v,gen & e,GIAC_CONTEXT);

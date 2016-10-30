@@ -1167,7 +1167,8 @@ namespace giac {
     monome():coeff(0),exponent(0) {};
     monome(const gen & mycoeff) : coeff(mycoeff),exponent(zero) {};
     monome(const gen &mycoeff,const gen &myexponent) : coeff(mycoeff),exponent(myexponent) {};
-    std::string print() const ;
+    // std::string print() const ;
+    std::string print(GIAC_CONTEXT) const ;
     const char * dbgprint() const ;
   };
 #ifdef NSPIRE

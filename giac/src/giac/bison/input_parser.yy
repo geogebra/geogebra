@@ -277,7 +277,7 @@ exp	: T_NUMBER		{$$ = $1;}
 					else
 						$$ = $2;
 				}
-	| T_SPOLY1_BEGIN exp T_VIRGULE exp T_SPOLY1_END {$$ = polynome_or_sparse_poly1($2,$4);}
+	| T_SPOLY1_BEGIN exp T_VIRGULE exp T_SPOLY1_END {$$ = polynome_or_sparse_poly1(eval($2,1, giac_yyget_extra(scanner)),$4);}
 	| T_ROOTOF_BEGIN exp T_ROOTOF_END { 
            if ( ($2.type==_SYMB) && ($2._SYMBptr->sommet==at_deuxpoints) )
              $$ = algebraic_EXTension($2._SYMBptr->feuille._VECTptr->front(),$2._SYMBptr->feuille._VECTptr->back());

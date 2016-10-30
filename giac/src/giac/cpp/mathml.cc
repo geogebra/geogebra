@@ -193,6 +193,17 @@ namespace giac {
     return s;
   }
 
+  static string _SPOL12mathml(const sparse_poly1 & p, string &svg,GIAC_CONTEXT){
+    string t;
+    t = t+series_variable_name(contextptr);
+    identificateur tt(t);
+    gen T(tt),remains;
+    gen g=sparse_poly12gen(p,T,remains,false);
+    if (!is_zero(remains))
+      g += remains*order_size(T,context0);
+    return gen2mathml(g,svg,contextptr);
+  }
+
   static string _VECT2mathml(const vecteur & v, unsigned char type,string &svg,GIAC_CONTEXT){
 #if 1
     string s(begin_VECT_string(type,false,contextptr));
@@ -1356,6 +1367,8 @@ namespace giac {
       if (e.subtype!=_SEQ__VECT && ckmatrix(*e._VECTptr))
 	return matrix2mathml(*e._VECTptr,contextptr);
       return _VECT2mathml(*e._VECTptr,e.subtype, svg,contextptr);
+    case _SPOL1:
+      return _SPOL12mathml(*e._SPOL1ptr,svg,contextptr);
     case _POLY:
       return string("<mi>polynome</mi>");
     case _FRAC:                        

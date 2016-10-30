@@ -415,8 +415,8 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "%%}"                   index_status(yyextra)=1; return T_ROOTOF_END;
 "%%%{"                  index_status(yyextra)=0; return T_SPOLY1_BEGIN;
 "%%%}"                  index_status(yyextra)=1; return T_SPOLY1_END;
-"<<"                    index_status(yyextra)=0; ++in_rpn(yyextra); return T_RPN_BEGIN;
-">>"                    index_status(yyextra)=0; --in_rpn(yyextra); return T_RPN_END;
+"<<"                    index_status(yyextra)=0; if (abs_calc_mode(yyextra)!=38)return T_SPOLY1_BEGIN; ++in_rpn(yyextra); return T_RPN_BEGIN;
+">>"                    index_status(yyextra)=0; if (abs_calc_mode(yyextra)!=38)return T_SPOLY1_END; --in_rpn(yyextra); return T_RPN_END;
 
     /* binary operators */
 "->"                    index_status(yyextra)=0; return T_MAPSTO;

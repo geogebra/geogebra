@@ -113,7 +113,34 @@ namespace giac {
       return plus_inf;
   }
 
-  static void vecteur2sparse_poly1(const vecteur & v,sparse_poly1 & p){
+  bool sparse_poly12vecteur(const sparse_poly1 & p,vecteur & v,int & shift){
+    sparse_poly1::const_iterator it=p.begin(),itend=p.end();
+    v.clear();
+    if (p.empty())
+      return true;
+    if (p.back().exponent.type!=_INT_)
+      return false;
+    int n1=p.front().exponent.val,n2=p.back().exponent.val;
+    if (n1>n2 || (n2-n1)+1<0) // if n==RAND_MAX, n+1<0
+      return false;
+    if (n1<0)
+      shift=n1;
+    else 
+      shift=n1=0;
+    v.resize(n2-n1+1);
+    for (;it!=itend;++it){
+      if (it->exponent.type!=_INT_)
+	return false;
+      int m=it->exponent.val;
+      if (m<n1 || m>n2) 
+	return false;
+      v[m-n1]=it->coeff;
+    }
+    reverse(v.begin(),v.end());
+    return true;
+  }
+
+  void vecteur2sparse_poly1(const vecteur & v,sparse_poly1 & p){
     p.clear();
     vecteur::const_iterator it=v.begin(),itend=v.end();
     p.reserve(itend-it);
@@ -123,13 +150,19 @@ namespace giac {
     }
   }
 
+  sparse_poly1 gen2spol1(const gen &g){
+    if (g.type!=_VECT)
+      return sparse_poly1(1,monome(g,0));
+    sparse_poly1 p;
+    vecteur2sparse_poly1(*g._VECTptr,p);
+    return p;
+  }
+
   sparse_poly1 vecteur2sparse_poly1(const vecteur & v){
     sparse_poly1 p;
     vecteur2sparse_poly1(v,p);
     return p;
   }
-
-  static gen sparse_poly12gen(const sparse_poly1 & p,const gen & x,gen & remains,bool with_order_size);
 
   static gen spol12gen(const gen & coeff,const gen & x){
     if (coeff.type==_VECT){
@@ -149,7 +182,7 @@ namespace giac {
     return symbolic(coeff._SYMBptr->sommet,spol12gen(coeff._SYMBptr->feuille,x));
   }
 
-  static gen sparse_poly12gen(const sparse_poly1 & p,const gen & x,gen & remains,bool with_order_size){
+  gen sparse_poly12gen(const sparse_poly1 & p,const gen & x,gen & remains,bool with_order_size){
     gen res;
     remains=0;
     sparse_poly1::const_iterator it=p.begin(),itend=p.end();
@@ -1034,6 +1067,13 @@ namespace giac {
     return pmul(res,normalize_sqrt(pow(first.coeff,e,contextptr),contextptr),res,contextptr);
   }
 
+  sparse_poly1 sppow(const sparse_poly1 & a,const gen &b,GIAC_CONTEXT){
+    sparse_poly1 res;
+    if (!ppow(a,b,series_default_order,0,res,contextptr))
+      res=sparse_poly1(1,monome(1,undef));
+    return res;
+  }
+
   bool pintegrate(sparse_poly1 & p,const gen & t,GIAC_CONTEXT){
     sparse_poly1::iterator it=p.begin(),itend=p.end();
     for (;it!=itend;++it){
@@ -1272,7 +1312,45 @@ namespace giac {
   static bool mrv_lead_term(const gen & e,const identificateur & x,gen & coeff, gen & mrv_var, gen & exponent,sparse_poly1 & q,int begin_ordre,GIAC_CONTEXT,bool series);
 
   vecteur integrate(const vecteur & p,const gen & shift_coeff);
-  
+
+  bool series(const sparse_poly1 & s_,const unary_function_ptr & u,int direction,sparse_poly1 & res,GIAC_CONTEXT){
+    sparse_poly1 s(s_);
+    if (s.empty())
+      return false;
+    gen shift_coeff=0;
+    gen o=porder(s);
+    if (o==plus_inf)
+      o=5; // series_default_order;
+    else
+      o=_floor(o,contextptr);
+    if (o.type!=_INT_)
+      return false;
+    gen exponent=s.front().exponent;
+    gen c=s.front().coeff;
+    if (is_undef(c) || is_strictly_positive(-exponent,contextptr))
+      return false;
+    if (exponent==0)
+      s.erase(s.begin());
+    else
+      c=0;
+    gen se=u.ptr()->series_expansion(c,o.val,u,direction,shift_coeff,contextptr);
+    if (se.type==_SPOL1){
+      return false;
+    }
+    if (se.type!=_VECT || shift_coeff!=0)
+      return false;
+    if (!pcompose(*se._VECTptr,s,res,contextptr))
+      return false;
+    return true;
+  }
+
+  sparse_poly1 series(const sparse_poly1 & s,const unary_function_ptr & u,int direction,GIAC_CONTEXT){
+    sparse_poly1 res;
+    if (!series(s,u,direction,res,contextptr))
+      return sparse_poly1(1,monome(undef,undef));
+    return res;
+  }
+
   bool series__SPOL1(const gen & e_orig,const identificateur & x,const gen & lim_point,int ordre,int direction,sparse_poly1 & s,GIAC_CONTEXT){
     gen e(e_orig);
     // fast check first
@@ -1331,6 +1409,14 @@ namespace giac {
 	return false; // settypeerr();
       // test for a^b
       symbolic temp__SYMB=*lvx_it->_SYMBptr;
+      if (temp__SYMB.sommet==at_order_size){
+	if (!is_zero(lim_point))
+	  return false;
+	sparse_poly1 tmp;
+	tmp.push_back(monome(undef,0));
+	lvx_s.push_back(tmp);
+	continue;
+      }
       if ( (temp__SYMB.sommet==at_pow) && (!contains((*temp__SYMB.feuille._VECTptr)[1],x) ) ){
 	if (!in_series__SPOL1((*temp__SYMB.feuille._VECTptr)[0],x,lvx,lvx_s,ordre,direction,s,contextptr)||
 	    !ppow(s,(*temp__SYMB.feuille._VECTptr)[1],ordre,direction,s,contextptr))
@@ -2988,6 +3074,8 @@ namespace giac {
 	return gensizeerr(contextptr);
 #endif
       }
+      if (series_flags(contextptr) & (1<<4) ) 
+	return s; // no back conversion if bit 4 is set
       return sparse_poly12gen_expand(s,x,mrv_var,ordre,remains,true,contextptr);
     }
     if (lim_point==minus_inf){
@@ -2995,6 +3083,8 @@ namespace giac {
       sparse_poly1 s;
       if (!mrv_lead_term(subst(e,x,-x,false,contextptr),x,coeff,mrv_var,exponent,s,ordre,contextptr,true))
 	return gensizeerr(contextptr);
+      if (series_flags(contextptr) & (1<<4) ) 
+	return s; // no back conversion if bit 4 is set
       return subst(sparse_poly12gen_expand(s,x,mrv_var,ordre,remains,true,contextptr),x,-x,false,contextptr);
     }
     if (direction==1){
@@ -3003,6 +3093,8 @@ namespace giac {
       sparse_poly1 s;
       if (!mrv_lead_term(ecopy,x,coeff,mrv_var,exponent,s,ordre,contextptr,true))
 	return gensizeerr(contextptr);
+      if (series_flags(contextptr) & (1<<4) ) 
+	return s; // no back conversion if bit 4 is set
       return subst(sparse_poly12gen_expand(s,x,mrv_var,ordre,remains,true,contextptr),x,inv(x-lim_point,contextptr),false,contextptr);
     }
     if (direction==-1){
@@ -3011,6 +3103,8 @@ namespace giac {
       sparse_poly1 s;
       if (!mrv_lead_term(ecopy,x,coeff,mrv_var,exponent,s,ordre,contextptr,true))
 	return gensizeerr(contextptr);
+      if (series_flags(contextptr) & (1<<4) ) 
+	return s; // no back conversion if bit 4 is set
       return subst(sparse_poly12gen_expand(s,x,mrv_var,ordre,remains,true,contextptr),x,inv(lim_point-x,contextptr),false,contextptr);
     }
     gen remains;
@@ -3022,8 +3116,13 @@ namespace giac {
 	return lim_point+(x-lim_point)*order_size(x-lim_point,contextptr);
       else
 	return e;
-    case _SYMB:
-      return sparse_poly12gen(ck_series__SPOL1(e,x,lim_point,ordre,direction,contextptr),x-lim_point,remains,true);
+    case _SYMB: {
+      sparse_poly1 s;
+      s=ck_series__SPOL1(e,x,lim_point,ordre,direction,contextptr);
+      if (series_flags(contextptr) & (1<<4) ) 
+	return s; // no back conversion if bit 4 is set
+      return sparse_poly12gen(s,x-lim_point,remains,true);
+    }
     default:
       return symbolic(at_series,makesequence(e,x,lim_point,ordre));
     }
@@ -3109,6 +3208,27 @@ namespace giac {
   static const char _series_s []="series";
   gen _series(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_SPOL1)
+      return args;
+    if (args.type==_STRNG && args._STRNGptr->size()==1){
+      char ch=(*args._STRNGptr)[0];
+      gen h(*args._STRNGptr,contextptr);
+      series_variable_name(ch,contextptr);
+      sparse_poly1 s(1,monome(1,1));
+      sto(s,h,contextptr);
+      series_flags(contextptr) = series_flags(contextptr) | (1<<5);
+      *logptr(contextptr) << "Setting " << ch << " as series variable name" << endl;
+      gen O("O",contextptr);
+      if (eval(O,1,contextptr)!=O)
+	*logptr(contextptr) << "Purge O if you want to use O("<< h <<"^...) notation"<< endl;
+      else {
+	gen prog=symb_program(vx_var,0,vx_var*symbolic(at_order_size,h),contextptr);
+	*logptr(contextptr) << "Assigning O so that you can use use O("<< h<<"^...) notation"<< endl;
+	sto(prog,O,contextptr);
+	series_flags(contextptr)=series_flags(contextptr) | (1<<6) ;
+      }
+      return s;
+    }
     if (args.type!=_VECT)
       return series(args,vx_var,0,5,0,contextptr);
     vecteur v=*args._VECTptr;
@@ -3127,8 +3247,11 @@ namespace giac {
       toofewargs(_series_s);
     if (s==1)
       return series( v[0],vx_var,0,5,0,contextptr);
-    if (s==2)
+    if (s==2){
+      if (v[1].type==_INT_)
+	return series( v[0],vx_var,0,v[1],contextptr);	
       return series( v[0],v[1],0,5,contextptr);
+    }
     if (s==3){
       if ( (v[1].type==_VECT && v[2].type==_VECT) ||
 	   ( v[1].type==_IDNT || ( v[1].type==_SYMB && (v[1]._SYMBptr->sommet==at_equal || v[1]._SYMBptr->sommet==at_equal2 || v[1]._SYMBptr->sommet==at_at ) ) )
@@ -3149,6 +3272,15 @@ namespace giac {
   static const char _revert_s []="revert";
   gen _revert(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_SPOL1){
+      const sparse_poly1 & s=*args._SPOL1ptr;
+      if (s.empty() || s.front().exponent==0)
+	return gensizeerr("Not invertible for composition");
+      sparse_poly1 res;
+      if (!prevert(s,res,contextptr))
+	return gensizeerr("Not invertible for composition");
+      return res;
+    }
     vecteur v=gen2vecteur(args);
     if (v.empty())
       return gensizeerr(contextptr);

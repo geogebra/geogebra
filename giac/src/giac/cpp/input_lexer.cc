@@ -2548,12 +2548,12 @@ index_status(yyextra)=1; return T_SPOLY1_END;
 case 123:
 YY_RULE_SETUP
 #line 418 "input_lexer.ll"
-index_status(yyextra)=0; ++in_rpn(yyextra); return T_RPN_BEGIN;
+index_status(yyextra)=0; if (abs_calc_mode(yyextra)!=38)return T_SPOLY1_BEGIN; ++in_rpn(yyextra); return T_RPN_BEGIN;
 	YY_BREAK
 case 124:
 YY_RULE_SETUP
 #line 419 "input_lexer.ll"
-index_status(yyextra)=0; --in_rpn(yyextra); return T_RPN_END;
+index_status(yyextra)=0; if (abs_calc_mode(yyextra)!=38)return T_SPOLY1_END; --in_rpn(yyextra); return T_RPN_END;
 	YY_BREAK
 /* binary operators */
 case 125:

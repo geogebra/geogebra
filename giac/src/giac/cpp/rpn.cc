@@ -846,8 +846,19 @@ namespace giac {
       return gensizeerr("Invalid purgenoassume "+args.print(contextptr));
     if (!contextptr)
       return _purge(args,0);
+    const char * ch=args._IDNTptr->id_name;
+    if (strlen(ch)==1){
+      if (ch[0]=='O' && (series_flags(contextptr) & (1<<6)) )
+	series_flags(contextptr) ^= (1<<6);
+      if (ch[0]==series_variable_name(contextptr)){
+	if (series_flags(contextptr) & (1<<5))
+	  series_flags(contextptr) ^= (1<<5);
+	if (series_flags(contextptr) & (1<<6))
+	  series_flags(contextptr) ^= (1<<6);
+      }
+    }
     // purge a global variable
-    sym_tab::iterator it=contextptr->tabptr->find(args._IDNTptr->id_name),itend=contextptr->tabptr->end();
+    sym_tab::iterator it=contextptr->tabptr->find(ch),itend=contextptr->tabptr->end();
     if (it==itend)
       return string2gen("No such variable "+args.print(contextptr),false);
     gen res=it->second;

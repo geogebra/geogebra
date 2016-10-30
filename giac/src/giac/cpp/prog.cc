@@ -3973,6 +3973,32 @@ namespace giac {
   }
   gen _compose(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()==2&& args._VECTptr->back().type==_SPOL1){
+      gen g=args._VECTptr->front();
+      gen s=args._VECTptr->back();
+      sparse_poly1 res;
+      int shift=0;
+      if (g.type==_SPOL1){
+	vecteur v;
+	if (sparse_poly12vecteur(*g._SPOL1ptr,v,shift))
+	  g=v;
+      }
+      if (g.type==_VECT){
+	vecteur v=*g._VECTptr;
+	reverse(v.begin(),v.end());
+	if (!pcompose(v,*s._SPOL1ptr,res,contextptr))
+	  return sparse_poly1(1,monome(1,undef));
+	if (shift==0)
+	  return res;
+	return spmul(res,sppow(*s._SPOL1ptr,shift,contextptr),contextptr);
+      }
+    }
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()==2){
+      gen g=args._VECTptr->front();
+      gen s=args._VECTptr->back();
+      if (g.type==_VECT && (g.subtype==_POLY1__VECT || s.type==_SPOL1 || (s.type==_VECT && s.subtype==_POLY1__VECT)) )
+	return horner(*g._VECTptr,s,contextptr);
+    }
     return symb_compose(args);
   }
   static const char _compose_s []="@";
@@ -3981,6 +4007,43 @@ namespace giac {
 
   gen _composepow(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()==2){
+      gen base=args._VECTptr->front();
+      gen expo=args._VECTptr->back();
+      if (expo.type==_INT_){
+	if (base.type==_SPOL1){
+	  int n=expo.val;
+	  sparse_poly1 s=*base._SPOL1ptr;
+	  if (n<0){
+	    gen tmp=_revert(s,contextptr);
+	    if (tmp.type!=_SPOL1)
+	      return tmp;
+	    s=*tmp._SPOL1ptr;
+	    n=-n;
+	  }
+	  gen res=sparse_poly1(1,monome(1,1)); // identity
+	  for (;n>0;n/=2){
+	    if (n%2) res=_compose(makesequence(res,s),contextptr);
+	    gen tmp=_compose(makesequence(s,s),contextptr);
+	    if (tmp.type!=_SPOL1)
+	      return tmp;
+	    s=*tmp._SPOL1ptr;
+	  }
+	  return res;
+	}
+	if (base.type==_VECT && base.subtype==_POLY1__VECT && expo.val>=0){
+	  int n=expo.val;
+	  vecteur v(2); v[0]=1;
+	  gen res=gen(v,_POLY1__VECT);
+	  gen s=base;
+	  for (;n>0;n/=2){
+	    if (n%2) res=horner(*res._VECTptr,s,contextptr);
+	    s=horner(*s._VECTptr,s,contextptr);
+	  }
+	  return res;
+	}
+      }
+    }
     return symbolic(at_composepow,args);
   }
   static const char _composepow_s []="@@";
@@ -5965,7 +6028,7 @@ namespace giac {
 	return _convert(vecteur(1,args),contextptr);
       return gensizeerr(contextptr);
     }
-    vecteur & v=*args._VECTptr;
+    vecteur v=*args._VECTptr;
     int s=int(v.size());
     if (s>=1 && v.front().type==_POLY){
       int dim=v.front()._POLYptr->dim;
@@ -6000,6 +6063,20 @@ namespace giac {
       return convert_interval(g,int(decimal_digits(contextptr)*3.2),contextptr);
     if (s==2 && f==at_real)
       return convert_real(g,contextptr);
+    if (s>=2 && f==at_series){
+      if (g.type==_VECT){
+	sparse_poly1 res=vecteur2sparse_poly1(*g._VECTptr);
+	if (s>=3 && v[2].type==_INT_ && v[2].val>=0)
+	  res.push_back(monome(undef,v[2].val));
+	return res;
+      }
+      int s=series_flags(contextptr);
+      series_flags(contextptr) = s | (1<<4);
+      v.erase(v.begin()+1);
+      gen res=_series(gen(v,args.subtype),contextptr);
+      series_flags(contextptr) = s ;
+      return res;
+    }
     if (s==3 && f==at_interval && v[2].type==_INT_)
       return convert_interval(g,int(v[2].val*3.2),contextptr);
     if (s==3 && f.type==_INT_ ){
@@ -6118,6 +6195,17 @@ namespace giac {
       if (f.val==_FRAC && f.subtype==_INT_TYPE)
 	return exact(g,contextptr);
       if (f.val==_POLY1__VECT && f.subtype==_INT_MAPLECONVERSION){ // remove order_size
+	if (g.type==_SPOL1){
+	  vecteur v; int shift;
+	  if (sparse_poly12vecteur(*g._SPOL1ptr,v,shift)){
+	    if (is_undef(v.front()))
+	      v.erase(v.begin());
+	    if (shift)
+	      return makesequence(gen(v,_POLY1__VECT),shift);
+	    return gen(v,_POLY1__VECT);
+	  }
+	  return gensizeerr(contextptr);
+	}
 	if (g.type==_VECT && !g._VECTptr->empty()){
 	  // check if g is a list of [coeff,[index]]
 	  vecteur & w=*g._VECTptr;
@@ -7090,8 +7178,11 @@ namespace giac {
 	docond.push_back(*it);
 	continue;
       }
-      if (g._VECTptr->front().type==_IDNT)
-	vars.push_back(g._VECTptr->front());
+      gen gf=g._VECTptr->front();
+      if (gf.type==_IDNT)
+	vars.push_back(gf);
+      if (gf.type==_SYMB && gf._SYMBptr->feuille.type==_VECT && gf._SYMBptr->feuille._VECTptr->size()==2 && gf._SYMBptr->feuille._VECTptr->front().type==_IDNT)
+	vars.push_back(gf._SYMBptr->feuille._VECTptr->front());
       if (it->type==_SYMB && it->_SYMBptr->sommet!=at_superieur_strict && it->_SYMBptr->sommet!=at_superieur_egal && it->_SYMBptr->sommet!=at_inferieur_strict && it->_SYMBptr->sommet!=at_inferieur_egal &&it->_SYMBptr->sommet!=at_and)
 	return gensizeerr(gettext("Invalid |"));
       docond.push_back(symbolic(at_assume,*it));

@@ -531,7 +531,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     bool _keep_algext_;
     int _angle_mode_;
     int _bounded_function_no_;
-    int _series_flags_; // bit1= full simplify, bit2=1 for truncation, bit3=atan does not rewrite sin/cos to tan
+    int _series_flags_; // bit1= full simplify, bit2=1 for truncation, bit3=atan does not rewrite sin/cos to tan, bit4=no back conversion, bit5=write<<1,1>> with series_variable_name, bit 6=write O() instead of order_size
     int _step_infolevel_; 
     int _default_color_;
     double _epsilon_;
@@ -576,6 +576,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     double _total_time_;
     void * _evaled_table_;
     void * _extra_ptr_;
+    char _series_variable_name_;
     global();  
     ~global();
     global & operator = (const global & g);
@@ -703,6 +704,9 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
 
   bool & approx_mode(GIAC_CONTEXT);
   void approx_mode(bool b,GIAC_CONTEXT);
+
+  char & series_variable_name(GIAC_CONTEXT);
+  void series_variable_name(char b,GIAC_CONTEXT);
 
   vecteur & history_in(GIAC_CONTEXT);
   vecteur & history_out(GIAC_CONTEXT);
