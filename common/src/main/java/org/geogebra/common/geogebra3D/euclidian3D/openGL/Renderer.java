@@ -120,6 +120,13 @@ public abstract class Renderer {
 	}
 
 	/**
+	 * dummy renderer (when no GL available)
+	 */
+	public Renderer() {
+
+	}
+
+	/**
 	 * 
 	 * @return canvas (for desktop version at least)
 	 */

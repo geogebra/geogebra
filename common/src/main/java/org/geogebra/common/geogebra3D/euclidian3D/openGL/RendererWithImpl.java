@@ -44,6 +44,13 @@ public abstract class RendererWithImpl extends Renderer implements
 		}
 	}
 
+	/**
+	 * dummy renderer (when no GL available)
+	 */
+	public RendererWithImpl() {
+		super();
+	}
+
 	@Override
 	final public void setClipPlanes(double[][] minMax) {
 		if (rendererImpl != null) {

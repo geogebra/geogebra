@@ -29,7 +29,7 @@ import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 public class RendererWithImplW extends RendererWithImpl implements
 		RendererWInterface {
 
-	private Canvas webGLCanvas;
+	protected Canvas webGLCanvas;
 
 	private WebGLRenderingContext glContext;
 
@@ -55,6 +55,12 @@ public class RendererWithImplW extends RendererWithImpl implements
 
 	}
 
+	/**
+	 * dummy renderer (when no GL available)
+	 */
+	public RendererWithImplW() {
+		super();
+	}
 
 
 	@Override
