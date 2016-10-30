@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.roots.RealRootDerivFunction;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -1151,8 +1150,7 @@ public class Function extends FunctionNVar implements
 
 	@Override
 	public void updateCASEvalMap(TreeMap<String, String> map) {
-		if (map == null
-				|| !kernel.getApplication().has(Feature.XML_CAS_CACHE)) {
+		if (map == null) {
 			return;
 		}
 		kernel.getConstruction().registerFunctionVariable(

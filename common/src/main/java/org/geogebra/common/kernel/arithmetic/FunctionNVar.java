@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MaxSizeHashMap;
@@ -549,12 +548,9 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 			// Derivative(g(x,y), x)
 			// where we cannot cache the derivative of g because g may have
 			// changed
-			if (kernel.getApplication().has(Feature.XML_CAS_CACHE)) {
-				useCaching = !expression.containsCasEvaluableFunction();
-			} else {
-				useCaching = symbolic
-						&& !expression.containsCasEvaluableFunction();
-			}
+
+			useCaching = !expression.containsCasEvaluableFunction();
+
 		}
 
 		// build command string for CAS
@@ -1340,8 +1336,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	 *            map from XML in the string -> string form
 	 */
 	public void updateCASEvalMap(TreeMap<String, String> map) {
-		if (map == null
-				|| !kernel.getApplication().has(Feature.XML_CAS_CACHE)) {
+		if (map == null) {
 			return;
 		}
 

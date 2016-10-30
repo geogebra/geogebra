@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -61,12 +60,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	private String oldCaption;
 	/** textfield component */
-	private AutoCompleteTextField textField;
 	// ButtonListener bl;
 	private InputFieldListener ifListener;
 	private KeyHandler ifKeyListener;
-	private GBox box;
-	private boolean oneTextFieldPerEV;
 
 	/**
 	 * @param view
@@ -78,28 +74,12 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		this.view = view;
 		this.geoInputBox = geo;
 		this.geo = geo;
-		oneTextFieldPerEV = view.getApplication()
-				.has(Feature.ONE_TEXTFIELD_PER_EV);
 
 		// action listener for checkBox
 		// bl = new ButtonListener();
 		ifListener = new InputFieldListener();
 		ifKeyListener = new InputFieldKeyListener();
 
-		if (!oneTextFieldPerEV) {
-			textField = geoInputBox.getTextField(view.getViewID(), this);
-			box = geo.getKernel().getApplication().getSwingFactory()
-					.createHorizontalBox(view.getEuclidianController());
-			getTextField().setDeferredFocus(true);
-
-			// this will be set in update():
-			// textField.showPopupSymbolButton(true);
-			getTextField().setAutoComplete(false);
-			getTextField().enableColoring(false);
-
-			getTextField().setVisible(true);
-			getBox().add(getTextField());
-		}
 		// ((geogebra.gui.inputfield.AutoCompleteTextField)
 		// textField).addFocusListener(bl);
 		getTextField().addFocusListener(
@@ -251,13 +231,13 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 	}
 
-	private boolean isSelectedForInput() {
-		if (oneTextFieldPerEV) {
-			return view.getTextField() != null
-					&& view.getTextField().getInputBox() == geoInputBox;
-		}
-
-		return true;
+	/**
+	 * @return whether this drawable is connected to the active input for the
+	 *         view
+	 */
+	boolean isSelectedForInput() {
+		return view.getTextField() != null
+				&& view.getTextField().getInputBox() == geoInputBox;
 	}
 
 	private int oldLength = 0;
@@ -335,6 +315,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		getBox().setBounds(labelRectangle);
 	}
 
+	/**
+	 * @return size of label + input
+	 */
 	public GDimension getTotalSize() {
 		measureLabel(view.getGraphicsForPen(), geoInputBox, labelDesc);
 		return new GDimension() {
@@ -480,11 +463,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		view.cancelBlur();
 		getBox().revalidate();
 		updateTextField();
-		if (oneTextFieldPerEV) {
-			// updateTextField();
-		} else {
-			textField.setVisible(true);
-		}
+
 		getBox().setVisible(true);
 		if (!view.getEuclidianController().isTemporaryMode()) {
 			getTextField().requestFocus();
@@ -540,20 +519,24 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	}
 
+	/**
+	 * Hide the widget
+	 */
 	public void removeTextField() {
 		hideWidget();
 	}
 
+	/**
+	 * @return textfield
+	 */
 	public AutoCompleteTextField getTextField() {
-		if (oneTextFieldPerEV) {
-			AutoCompleteTextField tf = view.getTextField(geoInputBox, this);
-			return tf;
-		}
-		return textField;
+		AutoCompleteTextField tf = view.getTextField(geoInputBox, this);
+		return tf;
+
 	}
 
 	private GBox getBox() {
-		return oneTextFieldPerEV ? view.getBoxForTextField() : box;
+		return view.getBoxForTextField();
 	}
 
 

@@ -3828,10 +3828,6 @@ public abstract class App implements UpdateSelection {
 		case POLYGON_TRIANGULATION:
 			return prerelease;
 
-		// GGB-621 GGB-900
-		case XML_CAS_CACHE:
-			return true;
-
 			// when moved to stable, move Difference[] from TABLE_ENGLISH in
 			// Command.Java
 		case POLYGON_OPS:
@@ -3906,10 +3902,6 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case INPUTHELP_SHOWN_IN_AV:
-			return true;
-	
-		// GGB-986
-		case ONE_TEXTFIELD_PER_EV:
 			return true;
 		
 		// MOB-356 and MOB-503
