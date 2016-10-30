@@ -3887,10 +3887,6 @@ public abstract class App implements UpdateSelection {
 			}
 			return true;
 
-		// MOB-369
-		case MOBILE_WEB_VIEW:
-			return true;
-
 		// MOB-524
 		case MOBILE_CLEAR_INPUT_BUTTON:
 			return true;
