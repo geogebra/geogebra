@@ -1,7 +1,5 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 
 /**
@@ -68,20 +66,6 @@ public class GLBufferIndicesW implements GLBufferIndices {
 
 	public void rewind() {
 		index = 0;
-	}
-
-
-	public void set(ArrayList<Short> array, int length) {
-
-		allocate(length);
-		if (impl == null) {
-			return;
-		}
-		for (int i = 0; i < length; i++) {
-			impl.set(i, array.get(i));
-		}
-
-		setLimit(length);
 	}
 
 	public int capacity() {

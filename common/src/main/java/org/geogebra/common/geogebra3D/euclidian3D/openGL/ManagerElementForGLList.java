@@ -229,11 +229,6 @@ public class ManagerElementForGLList extends Manager {
 
 		}
 
-		public void set(ArrayList<Short> array, int length) {
-			// TODO Auto-generated method stub
-
-		}
-
 		public int capacity() {
 			// TODO Auto-generated method stub
 			return 0;

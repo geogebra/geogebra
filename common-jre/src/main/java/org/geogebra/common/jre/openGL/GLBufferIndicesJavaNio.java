@@ -1,7 +1,6 @@
 package org.geogebra.common.jre.openGL;
 
 import java.nio.ShortBuffer;
-import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 
@@ -64,17 +63,6 @@ public class GLBufferIndicesJavaNio implements GLBufferIndices {
 
 	public void rewind() {
 		impl.rewind();
-	}
-
-	public void set(ArrayList<Short> array, int length) {
-
-		allocate(length);
-		
-		for (int i = 0; i < length; i++) {
-			put(array.get(i));
-		}
-		
-		setLimit(length);
 	}
 
 	public int capacity() {

@@ -1,7 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
-import java.util.ArrayList;
-
 /**
  * interface for indices buffers
  * 
@@ -44,16 +42,6 @@ public interface GLBufferIndices {
 	 * rewind the buffer
 	 */
 	public void rewind();
-
-	/**
-	 * set this buffer with first values of array
-	 * 
-	 * @param array
-	 *            values array
-	 * @param length
-	 *            length to copy
-	 */
-	public void set(ArrayList<Short> array, int length);
 
 	/**
 	 * 
