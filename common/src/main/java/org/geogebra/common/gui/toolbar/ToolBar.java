@@ -785,10 +785,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_JOIN);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SEGMENT);
-		if (app.has(Feature.MOBILE_SEGMENT_FIXED_TOOL)) {
-			sb.append(" ");
-			sb.append(EuclidianConstants.MODE_SEGMENT_FIXED);
-		}
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SEGMENT_FIXED);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_RAY);
 		sb.append(" ");

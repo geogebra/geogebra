@@ -3887,11 +3887,6 @@ public abstract class App implements UpdateSelection {
 			}
 			return true;
 
-		// MOB-311
-		case MOBILE_SEGMENT_FIXED_TOOL:
-			// add if you want to enable these tools for Android app:
-			return true;
-
 		// MOB-527
 		case MOBILE_LANDSCAPE_FULLSCREEN_INPUT:
 			return false;
