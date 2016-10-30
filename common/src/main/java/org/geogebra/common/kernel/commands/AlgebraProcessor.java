@@ -1067,7 +1067,12 @@ public class AlgebraProcessor {
 					.evaluate(StringTemplate.defaultTemplate);
 			if (forGeo != null) {
 				forGeo.setValue(nv.getDouble());
-				forGeo.setDefinition(en);
+
+				// if forGeo is a slider, the value might be out of range
+				// in which case we mustn't set the definition
+				if (forGeo.getDouble() == nv.getDouble()) {
+					forGeo.setDefinition(en);
+				}
 			}
 			return nv.getDouble();
 		} catch (Exception e) {
