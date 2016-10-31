@@ -875,9 +875,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 		} else {
 			glUniform1i(enableLightLocation, 0);
 		}
-		if (view3D.getApplication().has(Feature.SHINY_3D)) {
-			glUniform1i(enableShineLocation, 0);
-		}
+		
+		glUniform1i(enableShineLocation, 0);
+		
 	}
 
 	@Override
@@ -889,19 +889,15 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	@Override
 	public void disableShine() {
-		if (view3D.getApplication().has(Feature.SHINY_3D)) {
-			if (view3D.getUseLight()) {
-				glUniform1i(enableShineLocation, 0);
-			}
+		if (view3D.getUseLight()) {
+			glUniform1i(enableShineLocation, 0);
 		}
 	}
 
 	@Override
 	public void enableShine() {
-		if (view3D.getApplication().has(Feature.SHINY_3D)) {
-			if (view3D.getUseLight()) {
-				glUniform1i(enableShineLocation, 1);
-			}
+		if (view3D.getUseLight()) {
+			glUniform1i(enableShineLocation, 1);
 		}
 	}
 
@@ -1002,10 +998,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		ambiantDiffuseLocation = glGetUniformLocation("ambiantDiffuse");
 		eyePositionLocation = glGetUniformLocation("eyePosition");
 		enableLightLocation = glGetUniformLocation("enableLight");
-		if (view3D.getApplication().has(Feature.SHINY_3D)) {
-			enableShineLocation = glGetUniformLocation("enableShine");
-		}
-
 		cullingLocation = glGetUniformLocation("culling");
 
 		dashValuesLocation = glGetUniformLocation("dashValues");

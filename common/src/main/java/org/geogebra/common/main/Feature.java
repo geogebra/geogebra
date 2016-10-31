@@ -38,8 +38,6 @@ public enum Feature {
 	// GGB-790
 	AV_INPUT_BUTTON_COVER,
 
-	SHINY_3D,
-
 	ACRA,
 
 	ANALYTICS,
@@ -72,9 +70,6 @@ public enum Feature {
 
 	// GGB-334, TRAC-3401
 	ADJUST_WIDGETS,
-
-	// GGB-886
-	MULTIROW_TAB_PROPERTIES,
 
 	// GGB-944
 	EXPORT_ANIMATED_PDF,

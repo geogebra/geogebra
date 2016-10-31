@@ -1,6 +1,6 @@
 package org.geogebra.web.web.gui.dialog.options;
 
-import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
+import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -11,5 +11,6 @@ public interface OptionPanelW {
 	public void updateGUI();
 	public Widget getWrappedPanel();
 	public void onResize(int height, int width);
-	public TabPanelInterface getTabPanel();
+
+	public MultiRowsTabPanel getTabPanel();
 }

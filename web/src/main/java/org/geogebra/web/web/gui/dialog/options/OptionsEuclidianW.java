@@ -15,7 +15,6 @@ import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEucli
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
@@ -26,8 +25,6 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
-import org.geogebra.web.html5.util.tabpanel.MyTabPanel;
-import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.GeoGebraIcon;
 import org.geogebra.web.web.gui.util.ImageOrText;
@@ -50,8 +47,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TabBar;
-import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -59,7 +54,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	IEuclidianOptionsListener {
 
 	protected AppW app;
-	protected TabPanelInterface tabPanel;
+	protected MultiRowsTabPanel tabPanel;
 	protected EuclidianView view;
 	public EuclidianOptionsModel model;
 	protected BasicTab basicTab;
@@ -1114,8 +1109,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 
 	private void initGUI() {
-		tabPanel = app.has(Feature.MULTIROW_TAB_PROPERTIES) ? new MultiRowsTabPanel()
-				: new MyTabPanel();
+		tabPanel = new MultiRowsTabPanel();
 		addTabs();
 		updateGUI();
 	    tabPanel.selectTab(0);
@@ -1193,22 +1187,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	 */
 	protected void setLabels(Widget tabBar2, int gridIndex) {
 
-		if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
-			MultiRowsTabBar tabBar = (MultiRowsTabBar) tabBar2;
+		MultiRowsTabBar tabBar = (MultiRowsTabBar) tabBar2;
 
-			tabBar.setTabText(0, loc.getMenu("Properties.Basic"));
-			tabBar.setTabText(1, loc.getMenu("xAxis"));
-			tabBar.setTabText(2, loc.getMenu("yAxis"));
-			tabBar.setTabText(gridIndex, loc.getMenu("Grid"));
+		tabBar.setTabText(0, loc.getMenu("Properties.Basic"));
+		tabBar.setTabText(1, loc.getMenu("xAxis"));
+		tabBar.setTabText(2, loc.getMenu("yAxis"));
+		tabBar.setTabText(gridIndex, loc.getMenu("Grid"));
 
-		} else {
-			TabBar tabBar = (TabBar) tabBar2;
-
-			tabBar.setTabText(0, loc.getMenu("Properties.Basic"));
-			tabBar.setTabText(1, loc.getMenu("xAxis"));
-			tabBar.setTabText(2, loc.getMenu("yAxis"));
-			tabBar.setTabText(gridIndex, loc.getMenu("Grid"));
-		}
 
 
 		basicTab.setLabels();
@@ -1221,11 +1206,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	 * set labels
 	 */
 	public void setLabels() {
-		if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
 			setLabels(((MultiRowsTabPanel) tabPanel).getTabBar(), 3);
-		} else {
-			setLabels(((TabPanel) tabPanel).getTabBar(), 3);
-		}
 
 	}
 
@@ -1374,7 +1355,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	}
 
-	public TabPanelInterface getTabPanel() {
+	public MultiRowsTabPanel getTabPanel() {
 		return tabPanel;
 	}
 }

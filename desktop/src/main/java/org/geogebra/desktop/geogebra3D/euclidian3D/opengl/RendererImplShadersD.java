@@ -17,8 +17,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.geogebra3D.main.FragmentShader;
 import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJavaNio;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.main.AppD;
@@ -78,20 +76,12 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 		String vertexShaderString, fragmentShaderString;
 
-		App app = view3D.getApplication();
-
-		if (app.has(Feature.SHINY_3D)) {
-			vertexShaderString = VertexShader.getVertexShaderShiny(false);
+		vertexShaderString = VertexShader.getVertexShaderShiny(false);
 			// vertexShaderString = loadTextFile("vertexShaderSpecular");
-			fragmentShaderString = FragmentShader.getFragmentShaderShiny(0.2f,
+		fragmentShaderString = FragmentShader.getFragmentShaderShiny(0.2f,
 					false);
 			// fragmentShaderString = loadTextFile("fragmentShaderSpecular");
-		} else {
-			vertexShaderString = VertexShader.getVertexShader(false);
-			// vertexShaderString = loadTextFile("vertexShader");
-			fragmentShaderString = FragmentShader.getFragmentShader(false);
-			// fragmentShaderString = loadTextFile("fragmentShader");
-		}
+
 
 
 		if (jogl.getGL2ES2().isGL3core()) {

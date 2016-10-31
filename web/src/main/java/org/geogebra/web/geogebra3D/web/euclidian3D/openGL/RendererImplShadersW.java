@@ -12,7 +12,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.GpuBlacklist;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
@@ -93,14 +92,13 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 		boolean needsSmallFragmentShader = GpuBlacklist
 				.isCurrentGpuBlacklisted(glContext);
-		boolean shiny = view3D.getApplication().has(Feature.SHINY_3D);
 		fragShader = getShader(
 				WebGLRenderingContext.FRAGMENT_SHADER,
 				ShaderProvider.getFragmentShader(needsSmallFragmentShader,
-						shiny));
+						true));
 		vertShader = getShader(
 				WebGLRenderingContext.VERTEX_SHADER,
-				ShaderProvider.getVertexShader(needsSmallFragmentShader, shiny));
+				ShaderProvider.getVertexShader(needsSmallFragmentShader, true));
 
 
 

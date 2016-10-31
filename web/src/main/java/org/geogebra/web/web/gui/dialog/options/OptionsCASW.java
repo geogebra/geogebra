@@ -4,7 +4,7 @@ import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
+import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -101,7 +101,7 @@ public class OptionsCASW extends OptionsCAS implements OptionPanelW,
 
 	}
 
-	public TabPanelInterface getTabPanel() {
+	public MultiRowsTabPanel getTabPanel() {
 		// TODO Auto-generated method stub
 		return null;
 	}

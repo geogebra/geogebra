@@ -3847,9 +3847,6 @@ public abstract class App implements UpdateSelection {
 		case PARAMETRIC_SURFACE_IS_REGION:
 			return prerelease;
 
-		case SHINY_3D:
-			return true;
-
 		case CONVEX_HULL_3D:
 			return false;
 
@@ -3938,14 +3935,6 @@ public abstract class App implements UpdateSelection {
 		// GGB-798
 		case AV_SCROLL:
 			return prerelease;
-
-			// GGB-886
-			// After removing this feature flag, MyTabPanel and
-			// TabPanelInterface classes can be removed too with cleaning the
-			// code, and remove the old code from OptionsTab.update(Object[]
-			// geos).
-		case MULTIROW_TAB_PROPERTIES:
-			return true;
 
 			// GGB-944
 		case EXPORT_ANIMATED_PDF:

@@ -24,6 +24,7 @@ public class RendererWnoWebGL extends RendererWithImplW {
 	 */
 	public RendererWnoWebGL(EuclidianView3DW view) {
 		super();
+		this.view3D = view;
 		webGLCanvas = Canvas.createIfSupported();
 		Log.debug("WebGL is not enabled");
 	}

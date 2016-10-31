@@ -58,7 +58,6 @@ import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
-import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.ComboBoxPanel;
@@ -84,8 +83,6 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.TabBar;
-import com.google.gwt.user.client.ui.TabPanel;
 
 public class OptionsTab extends FlowPanel {
 	/**
@@ -95,12 +92,12 @@ public class OptionsTab extends FlowPanel {
 	private String titleId;
 	private int index;
 	private List<OptionsModel> models;
-	private TabPanelInterface tabPanel;
+	private MultiRowsTabPanel tabPanel;
 	Localization loc;
 	private boolean inited = false;
 	private boolean focused = false, updated = true;
 	
-	public OptionsTab(Localization loc, TabPanelInterface tabPanel,
+	public OptionsTab(Localization loc, MultiRowsTabPanel tabPanel,
 			final String title) {
 		super();
 		// this.optionsObjectW = optionsObjectW;
@@ -132,24 +129,14 @@ public class OptionsTab extends FlowPanel {
 		boolean enabled = updateGUI(geos);
 
 		// if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
-		if (tabPanel instanceof MultiRowsTabPanel) { // new code for multirow
-														// tab
-														// prop. view.
 
-			MultiRowsTabBar tabBar = ((MultiRowsTabPanel) this.tabPanel).getTabBar();
-			tabBar.setTabText(index, getTabText());
-			tabBar.setTabEnabled(index, enabled);
-			if (!enabled && tabBar.getSelectedTab() == index) {
-				tabBar.selectTab(0);
-			}
-		} else { // old code - all tabs in one row
-			TabBar tabBar = ((TabPanel) this.tabPanel).getTabBar();
-			tabBar.setTabText(index, getTabText());
-			tabBar.setTabEnabled(index, enabled);
-			if (!enabled && tabBar.getSelectedTab() == index) {
-				tabBar.selectTab(0);
-			}
+		MultiRowsTabBar tabBar = this.tabPanel.getTabBar();
+		tabBar.setTabText(index, getTabText());
+		tabBar.setTabEnabled(index, enabled);
+		if (!enabled && tabBar.getSelectedTab() == index) {
+			tabBar.selectTab(0);
 		}
+
 		return enabled;
 	}
 

@@ -7,13 +7,10 @@ import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
-import org.geogebra.web.html5.util.tabpanel.MyTabPanel;
-import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAdvancedW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAlgebraW;
@@ -95,9 +92,7 @@ public class PropertiesViewW extends PropertiesView
 		
 		contentsPanel = new FlowPanel();
 		contentsPanel.addStyleName("contentsPanel");
-		if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
-			contentsPanel.addStyleName("contentsPanel2");
-		}
+		contentsPanel.addStyleName("contentsPanel2");
 		//wrappedPanel.addStyleName("propertiesView");
 		//mainPanel.add(contentsPanel);
 		wrappedPanel.add(contentsPanel);
@@ -370,15 +365,10 @@ public class PropertiesViewW extends PropertiesView
 	protected void setOptionPanelWithoutCheck(OptionType type) {
 		int sType = 0;
 		if (type == OptionType.OBJECTS && this.objectPanel != null) {
-			TabPanelInterface tabPanel = ((OptionsObjectW) this.objectPanel)
+			MultiRowsTabPanel tabPanel = ((OptionsObjectW) this.objectPanel)
 					.getTabPanel();
-			if (tabPanel instanceof MultiRowsTabPanel) {
-				sType = ((MultiRowsTabPanel) tabPanel).getTabBar()
-						.getSelectedTab();
-			} else { // Remove after Feature.MULTIROW_TAB_PROPERTIES will be
-						// released
-				sType = ((MyTabPanel) tabPanel).getTabBar().getSelectedTab();
-			}
+			sType = tabPanel.getTabBar().getSelectedTab();
+
 		}
 		setOptionPanel(type, sType);
 	}
@@ -538,11 +528,7 @@ public class PropertiesViewW extends PropertiesView
     	if(height > 0 && width > 0) {
     		contentsPanel.setWidth(width + "px");
     		
-			if (!app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
-				// -30px for Tabs, -27px for padding, -26px for paddings
-				optionPanel.onResize((height - 30 - 27),
-						Math.max(0, width - 26));
-			}
+
     	}
     }
     

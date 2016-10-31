@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
+import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -203,7 +203,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		return app.getSettings().getSpreadsheet();
 	}
 
-	public TabPanelInterface getTabPanel() {
+	public MultiRowsTabPanel getTabPanel() {
 		// TODO Auto-generated method stub
 		return null;
 	}

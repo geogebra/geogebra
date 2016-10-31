@@ -65,7 +65,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
@@ -74,8 +73,6 @@ import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
-import org.geogebra.web.html5.util.tabpanel.MyTabPanel;
-import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
 import org.geogebra.web.web.gui.properties.GroupOptionsPanel;
 import org.geogebra.web.web.gui.properties.ListBoxPanel;
 import org.geogebra.web.web.gui.properties.OptionPanel;
@@ -99,7 +96,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	Localization loc;
 
-	TabPanelInterface tabPanel;
+	MultiRowsTabPanel tabPanel;
 
 	private FlowPanel wrappedPanel;
 	private OptionsTab basicTab;
@@ -1246,11 +1243,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		// TODO after release MULTIROW_TAB_PROPERTIES feature: propertiesPanel
 		// and propertiesPanel2 classes should be merged
-		if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
-			wrappedPanel.addStyleName("propertiesPanel2");
-		}
-		tabPanel = app.has(Feature.MULTIROW_TAB_PROPERTIES) ? new MultiRowsTabPanel()
-				: new MyTabPanel();
+		wrappedPanel.addStyleName("propertiesPanel2");
+		tabPanel = new MultiRowsTabPanel();
 
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 
 				{			
@@ -1269,9 +1263,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		// TODO after release MULTIROW_TAB_PROPERTIES feature:
 		// propertiesTabPanel
 		// and propertiesTabPanel2 classes should be merged
-		if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
-			((Widget) tabPanel).addStyleName("propertiesTabPanel2");
-		}
+		((Widget) tabPanel).addStyleName("propertiesTabPanel2");
 
 		beforeTabs = System.currentTimeMillis();
 		createBasicTab();
@@ -1296,7 +1288,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			tab.addToTabPanel();
 		}
 
-		wrappedPanel.add((Widget) tabPanel);
+		wrappedPanel.add(tabPanel);
 		wrappedPanel.addAttachHandler(new AttachEvent.Handler() {
 
 			@Override
@@ -1583,7 +1575,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	}
 
-	public TabPanelInterface getTabPanel() {
+	public MultiRowsTabPanel getTabPanel() {
 		return tabPanel;
 	}
 }

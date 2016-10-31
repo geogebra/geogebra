@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.util.tabpanel;
 
+import com.google.gwt.event.logical.shared.HasSelectionHandlers;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -9,7 +10,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
-public class MultiRowsTabPanel extends Composite implements TabPanelInterface {
+public class MultiRowsTabPanel extends Composite
+		implements HasSelectionHandlers<Integer> {
 
 	MultiRowsTabBar tabBar;
 	DeckPanel deck = new DeckPanel();

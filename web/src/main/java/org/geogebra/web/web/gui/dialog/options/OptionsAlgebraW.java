@@ -12,7 +12,7 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.tabpanel.TabPanelInterface;
+import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -145,7 +145,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 
 	}
 
-	public TabPanelInterface getTabPanel() {
+	public MultiRowsTabPanel getTabPanel() {
 		return null;
 	}
 }
