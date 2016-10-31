@@ -76,8 +76,7 @@ public abstract class Layout {
 
 		int i = 0; // current perspective
 
-		defaultPerspectives[i] = new Perspective(
-1, spData, dpData, defToolbar,
+		defaultPerspectives[i] = new Perspective(1, spData, dpData, defToolbar,
 				true, false, true, true, true, InputPosition.algebraView);
 
 

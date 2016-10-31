@@ -15,7 +15,6 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
-import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
@@ -561,12 +560,6 @@ public class AppDNoGui extends App {
 	@Override
 	public CASFactory getCASFactory() {
 		return new CASFactoryD();
-	}
-
-	@Override
-	public SwingFactory getSwingFactory() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

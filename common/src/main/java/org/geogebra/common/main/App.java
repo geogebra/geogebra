@@ -29,7 +29,6 @@ import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
-import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -3190,8 +3189,6 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public abstract CASFactory getCASFactory();
-
-	public abstract SwingFactory getSwingFactory();
 
 	public abstract Factory getFactory();
 

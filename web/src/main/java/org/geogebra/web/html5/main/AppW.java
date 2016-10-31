@@ -22,7 +22,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
-import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -96,7 +95,6 @@ import org.geogebra.web.html5.euclidian.MouseTouchGestureControllerW;
 import org.geogebra.web.html5.factories.AwtFactoryW;
 import org.geogebra.web.html5.factories.FactoryW;
 import org.geogebra.web.html5.factories.FormatFactoryW;
-import org.geogebra.web.html5.factories.SwingFactoryW;
 import org.geogebra.web.html5.factories.UtilFactoryW;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -320,11 +318,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return normalizerMinimal;
 	}
 
-	@Override
-	public final SwingFactory getSwingFactory() {
-		return SwingFactory.getPrototype();
-	}
-
 	/**
 	 * inits factories
 	 */
@@ -332,7 +325,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		FormatFactory.prototype = new FormatFactoryW();
 		AwtFactory.prototype = new AwtFactoryW();
 		EuclidianStatic.prototype = new EuclidianStaticW();
-		SwingFactory.setPrototype(new SwingFactoryW());
 		StringUtil.prototype = new StringUtil();
 		CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
 		if (!is3D()) {

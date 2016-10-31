@@ -4,15 +4,17 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
-public class ViewTextField {
+public abstract class ViewTextField {
 	/**
 	 * 
 	 */
 	private final EuclidianView euclidianView;
 	private AutoCompleteTextField textField;
 	private GBox box;
+
 	public ViewTextField(EuclidianView euclidianView) {
 		this.euclidianView = euclidianView;
 		textField = null;
@@ -22,8 +24,8 @@ public class ViewTextField {
 	public AutoCompleteTextField getTextField(int length,
 			DrawInputBox drawInputBox) {
 		if (textField == null) {
-			textField = this.euclidianView.app.getSwingFactory()
-					.newAutoCompleteTextField(length, this.euclidianView.app, drawInputBox);
+			textField = newAutoCompleteTextField(length, this.euclidianView.app,
+							drawInputBox);
 			textField.setAutoComplete(false);
 			textField.enableColoring(false);
 			textField.setFocusTraversalKeysEnabled(false);
@@ -42,7 +44,8 @@ public class ViewTextField {
 	}
 
 	public void focusTo(GeoInputBox inputBox) {
-		DrawInputBox d = (DrawInputBox) this.euclidianView.getDrawableFor(inputBox);
+		DrawInputBox d = (DrawInputBox) this.euclidianView
+				.getDrawableFor(inputBox);
 		if (d == null) {
 			Log.debug("[TF] d is null!!!");
 			return;
@@ -60,12 +63,17 @@ public class ViewTextField {
 
 	private void createBox() {
 		if (box == null) {
-			box = this.euclidianView.app.getSwingFactory()
-					.createHorizontalBox(this.euclidianView.getEuclidianController());
+			box = createHorizontalBox(
+					this.euclidianView.getEuclidianController());
 			box.add(textField);
 		}
 
 	}
+
+	public abstract AutoCompleteTextField newAutoCompleteTextField(int length,
+			App application, Drawable drawTextField);
+
+	public abstract GBox createHorizontalBox(EuclidianController style);
 
 	public void remove() {
 		textField = null;

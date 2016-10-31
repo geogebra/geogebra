@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Construction;
@@ -14,7 +13,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -360,53 +358,6 @@ public class GeoInputBox extends GeoButton {
 	 */
 	public void textSubmitted() {
 		runClickScripts(getText());
-	}
-	
-	/**
-	 * @param viewID view ID (AbstractApplication.VIEW_EUCLIDIAN2 or AbstractApplication.VIEW_EUCLIDIAN)
-	 * @param drawTextField drawable
-	 * @return autocomplete textfield
-	 */
-	public AutoCompleteTextField getTextField(int viewID, DrawInputBox drawTextField) {
-		
-		if (textField == null) {
-			textField = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(getLength(), kernel.getApplication(), drawTextField);
-			// don't show symbol popup when TextField linked to free text 
-			if (linkedGeo instanceof GeoText) { 
-				textField.removeSymbolTable(); 
-			} else { 
-				//textField.showPopupSymbolButton(true); 
-			}	
-			textField.setAutoComplete(false);
-			textField.enableColoring(false);		
-					// we want to handle TAB ourselves
-					textField.setFocusTraversalKeysEnabled(false);
-					textField.setUsedForInputBox(this);
-			
-		}
-		
-		if (viewID != App.VIEW_EUCLIDIAN2) {
-			return textField;			
-		}
-		
-		if (textField2 == null) {
-			textField2 = kernel.getApplication().getSwingFactory().newAutoCompleteTextField(getLength(), kernel.getApplication(), drawTextField);
-			// don't show symbol popup when TextField linked to free text 
-			if (linkedGeo instanceof GeoText) { 
-				textField2.removeSymbolTable(); 
-			} else { 
-				textField2.prepareShowSymbolButton(true); 
-			}	
-			textField2.setAutoComplete(false);
-			textField2.enableColoring(false);		
-					// we want to handle TAB ourselves
-					textField.setFocusTraversalKeysEnabled(false);
-					textField.setUsedForInputBox(this);
-			
-		}
-		
-		return textField2;
-		
 	}
 	
 	@Override

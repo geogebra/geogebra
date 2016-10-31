@@ -123,7 +123,6 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
-import org.geogebra.common.factories.SwingFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -188,7 +187,6 @@ import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.FactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
-import org.geogebra.desktop.factories.SwingFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.MyImageD;
@@ -4880,19 +4878,6 @@ ToolbarD.getAllTools(this));
 		if (ret == null) {
 			ret = new CASFactoryD();
 			CASFactory.setPrototype(ret);
-		}
-
-		return ret;
-
-	}
-
-	@Override
-	public SwingFactory getSwingFactory() {
-		SwingFactory ret = SwingFactory.getPrototype();
-
-		if (ret == null) {
-			ret = new SwingFactoryD();
-			SwingFactory.setPrototype(ret);
 		}
 
 		return ret;
