@@ -6518,14 +6518,14 @@ namespace giac {
       return a;
     if (is_undef(b))
       return b;
-    if (is_inequality(a)){
+    if (is_inequality(a) && !is_equal(a)){
       int bs=fastsign(b,contextptr);
       if (bs==-1)
 	return new_ref_symbolic(symbolic(a._SYMBptr->sommet,makesequence(a._SYMBptr->feuille._VECTptr->back()*b,a._SYMBptr->feuille._VECTptr->front()*b)));
       if (bs==1)
 	return new_ref_symbolic(symbolic(a._SYMBptr->sommet,makesequence(a._SYMBptr->feuille._VECTptr->front()*b,a._SYMBptr->feuille._VECTptr->back()*b)));
     }
-    if (is_inequality(b)){
+    if (is_inequality(b) && !is_equal(b)){
       int bs=fastsign(a,contextptr);
       if (bs==-1)
 	return new_ref_symbolic(symbolic(b._SYMBptr->sommet,makesequence(a*b._SYMBptr->feuille._VECTptr->back(),a*b._SYMBptr->feuille._VECTptr->front())));
