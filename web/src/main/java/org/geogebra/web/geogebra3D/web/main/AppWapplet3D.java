@@ -24,7 +24,6 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.dialog.DialogManager3DW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
-import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.web.main.AppWapplet;
 import org.geogebra.web.web.main.BrowserDevice;
 
@@ -64,14 +63,11 @@ public class AppWapplet3D extends AppWapplet {
 		return App3DW.newGuiManager(this, new BrowserDevice());
 	}
 
-	private GCheckBoxMenuItem itemEuclidian3D;
 
 	@Override
 	public boolean supportsView(int viewID) {
 		if (viewID == App.VIEW_EUCLIDIAN3D) {
-			if (Browser.supportsWebGL()) {
-				return getSettings().getEuclidian(-1).isEnabled();
-			}
+			return Browser.supportsWebGL() && getSettings().getEuclidian(-1).isEnabled();
 		}
 		return super.supportsView(viewID);
 	}
