@@ -999,6 +999,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		eyePositionLocation = glGetUniformLocation("eyePosition");
 		enableLightLocation = glGetUniformLocation("enableLight");
 		cullingLocation = glGetUniformLocation("culling");
+		enableShineLocation = glGetUniformLocation("enableShine");
 
 		dashValuesLocation = glGetUniformLocation("dashValues");
 
