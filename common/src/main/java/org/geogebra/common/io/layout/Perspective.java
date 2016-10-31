@@ -90,10 +90,12 @@ public class Perspective {
 	final public static String[] perspectiveNames = new String[] { "Custom",
 			"GraphingCalculator", "Perspective.Geometry",
 			"Perspective.Spreadsheet", "Perspective.CAS",
-			"GeoGebra3DGrapher.short", "Perspective.Probability" };
+			"GeoGebra3DGrapher.short", "Perspective.Probability",
+			"Whiteboard" };
 	/** slugs for web app url / tutorials url */
 	final public static String[] perspectiveSlugs = new String[] {
-			"graphing", "geometry", "spreadsheet", "cas", "3d", "probability"
+			"graphing", "geometry", "spreadsheet", "cas", "3d", "probability",
+			"whiteboard"
  };
 	/**
 	 * 14.7.2016 when the feature flag "NEW_START_SCREEN" is removed, the

@@ -325,12 +325,27 @@ public abstract class MyXMLio {
 				clearAll, settingsBatch);
 	}
 
-	final protected void doParseXML(XMLStream stream, boolean clearConstruction,
+	/**
+	 * @param stream
+	 *            XML stream
+	 * @param clearAll
+	 *            true to clear construction before processing
+	 * @param isGGTOrDefaults
+	 *            true for macro files and defaults
+	 * @param mayZoom
+	 *            whether zoom may happen
+	 * @param settingsBatch
+	 *            true to process ettings changes as a batch
+	 * @throws Exception
+	 *             if XML is invalid or there was a problem while processing
+	 */
+	final protected void doParseXML(XMLStream stream, boolean clearAll,
 			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch)
 			throws Exception {
-		doParseXML(stream, clearConstruction, isGGTOrDefaults, mayZoom,
+		doParseXML(stream, clearAll, isGGTOrDefaults, mayZoom,
 				settingsBatch, true);
 	}
+	
 	/**
 	 * @param stream
 	 *            xml stream
@@ -342,6 +357,8 @@ public abstract class MyXMLio {
 	 *            true if reading the string may change the zoom
 	 * @param settingsBatch
 	 *            true if we should use batch mode for settings
+	 * @param randomize
+	 *            whether to randomize random numbers
 	 * @throws Exception
 	 *             if a problem occurs
 	 */

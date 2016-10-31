@@ -19,8 +19,8 @@
 	position: relative;
 	
 	.toolbarPanel {
+		position:relative;
 		background-color: @color-lightgrey;
-		border-bottom: 1px solid @color-bordergrey;
 		.box-shadow(@shadow);
 		padding: 5px;
 		.box-sizing(border-box);
@@ -140,7 +140,7 @@
 				
 				.submenuContent {
 					position: absolute;
-					top: 15px;	
+						
 					z-index: 250;
 					.border-radius(10px);
 					padding-top: 3px !important;
@@ -265,6 +265,28 @@
 		}
 	}
 	
+	.toolbarPanelSouth {
+		border-top: 1px solid @color-bordergrey;
+		
+		.submenuArrow{
+				bottom: 45px;
+    			transform: scale(-1);
+    			-webkit-transform: scale(-1);
+			}
+
+		
+		.submenuContent{
+			bottom: 60px;
+		}
+	}
+	
+	.toolbarPanelNorth{
+		border-bottom: 1px solid @color-bordergrey;
+		
+		.submenuContent{
+			top: 15px;
+		}
+	}
 	
 	/**
 	 * GeoGebra Menu

@@ -10,8 +10,10 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GSplitPane;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.LayoutSettings;
 import org.geogebra.common.util.debug.Log;
 
@@ -34,7 +36,7 @@ public abstract class Layout {
 	 */
 	public static void initializeDefaultPerspectives(App app,
 			double AVpercent) {
-		int n = 6;
+		int n = 7;
 
 		defaultPerspectives = new Perspective[n];
 
@@ -213,12 +215,9 @@ public abstract class Layout {
 			// Note: toolbar definition is always for EV1, for 3D we use
 			// definition from the 3D dock panel classes
 
-			defaultPerspectives[++i] = new Perspective(
-5, spData, dpData,
-					defToolbar, true,
- false, true, true, true,
+			defaultPerspectives[++i] = new Perspective(5, spData, dpData,
+					defToolbar, true, false, true, true, true,
 					InputPosition.algebraView);
-			;
 		} else {
 			i++;
 		}
@@ -257,34 +256,47 @@ public abstract class Layout {
 		defaultPerspectives[++i] = new Perspective(6,
 				spData, dpData, defToolbar, false, false, true, false, true,
 				InputPosition.algebraView);
+		if (app.has(Feature.WHITEBOARD_APP)) {
+			dpData = new DockPanelData[6];
+			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
+					false,
+					AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1",
+					500);
+			dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false,
+					false,
+					AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3",
+					200);
+			dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false,
+					false, false,
+					AwtFactory.prototype.newRectangle(100, 100, 600, 400),
+					"1,1", 300);
+			dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false,
+					false,
+					AwtFactory.prototype.newRectangle(100, 100, 600, 400),
+					"1,3", 300);
+			dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false,
+					true, true,
+					AwtFactory.prototype.newRectangle(100, 100, 700, 550),
+					"1,1,1,1", 400);
+			dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false,
+					false, false,
+					AwtFactory.prototype.newRectangle(100, 100, 600, 400),
+					"1,1,1", 500);
 
-		// // Python Scripting & Graphics ** Doesn't work **
-		// dpData = new DockPanelData[6];
-		// dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
-		// false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1",
-		// 500);
-		// dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false,
-		// false, AwtFactory.prototype.newRectangle(100, 100, 250, 400), "3",
-		// 200);
-		// dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false,
-		// false, false, AwtFactory.prototype.newRectangle(100, 100, 600, 400),
-		// "1,1", 300);
-		// dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false,
-		// false, AwtFactory.prototype.newRectangle(100, 100, 600, 400), "1,3",
-		// 300);
-		// dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true,
-		// false, AwtFactory.prototype.newRectangle(100, 100, 700, 550),
-		// "1,1,1", 400);
-		// dpData[5] = new DockPanelData(App.VIEW_PYTHON, null, true, false,
-		// false, AwtFactory.prototype.newRectangle(100, 100, 600, 600), "3,1",
-		// 500);
-		//
-		// defaultPerspectives[++i] = new Perspective("PythonAndGraphics",
-		// spData, dpData, defToolbar, true, false, true, false, true,
-		// InputPositon.algebraView);
+			String wbToolbar = "0 | 1 501 5 19 | 2 15 45 , 18 65 | 4 3 , 8 9 | 16 | 51 | 10 53 , 24 20 , 21 | 36 46 , 38 49 | 30 32 31 33 | 26 17 62 | 25 | 40 41 42 27 , 6";
+			Perspective whiteboard = new Perspective(7, spData, dpData,
+					wbToolbar, true, false, false, false, true,
+					InputPosition.algebraView);
+			whiteboard.setToolBarPosition(SwingConstants.SOUTH);
+			// whiteboard
+			defaultPerspectives[++i] = whiteboard;
+		}
 
 	}
 
+	/**
+	 * Perspectives used by current file (usually only "tmp")
+	 */
 	protected ArrayList<Perspective> perspectives;
 
 	/**
@@ -342,8 +354,9 @@ public abstract class Layout {
 			Perspective perspective) {
 		boolean changed = false;
 		if (!perspective.getId().equals("tmp")) {
+			Log.debug("App is" + app);
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-
+			Log.debug("Ev is" + ev);
 			if (app.getEuclidianView1() == ev)
 				changed |= app
 						.getSettings()
@@ -382,6 +395,7 @@ public abstract class Layout {
 
 			// ev.setUnitAxesRatio(perspective.isUnitAxesRatio());
 		}
+
 		return changed;
 	}
 

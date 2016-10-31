@@ -231,7 +231,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public int rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
 	public AlgoKimberlingWeightsInterface kimberlingw = null;
-	;
 	public AlgoCubicSwitchInterface cubicw = null;
 	/**
 	 * whether transparent cursor should be used while dragging
@@ -4039,6 +4038,9 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case SPLINE_WEIGHT:
+			return prerelease;
+
+		case WHITEBOARD_APP:
 			return prerelease;
 
 		default:

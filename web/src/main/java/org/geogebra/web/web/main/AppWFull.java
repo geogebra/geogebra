@@ -708,4 +708,14 @@ public abstract class AppWFull extends AppW {
 		}
 	}
 
+	@Override
+	public void setToolbarPosition(int position, boolean update) {
+		Log.debug("TOOLBAR POSITION " + position);
+		toolbarPosition = position;
+		if (update) {
+			updateApplicationLayout();
+			// updateMenubar(); TODO check if needed
+		}
+	}
+
 }

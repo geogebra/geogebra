@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.Feature;
@@ -97,7 +98,6 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		toolBarPanel.addStyleName("ggbtoolbarpanel");
 		//this makes it draggable on SMART board
 		toolBarPanel.addStyleName("smart-nb-draggable");
-
 		//For app we set this also in GGWFrameLayoutPanel, but for applets we must set it here 
 		toolBarPanel.setHeight(GLookAndFeelI.TOOLBAR_HEIGHT+"px");
 		initWidget(toolBarPanel);
@@ -143,6 +143,12 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			toolBar = new ToolBarW(this, submenuPanel);
 		} else {
 			toolBar = new ToolBarW(this);
+		}
+
+		if (app.getToolbarPosition() == SwingConstants.SOUTH) {
+			addStyleName("toolbarPanelSouth");
+		} else {
+			addStyleName("toolbarPanelNorth");
 		}
 		toolBPanel = new FlowPanel();
 		toolBarPanel.add(toolBar);

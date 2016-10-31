@@ -1,5 +1,7 @@
 package org.geogebra.web.web.main;
 
+import javax.swing.SwingConstants;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -208,12 +210,13 @@ public class AppWapplet extends AppWFull {
 		if (articleElement.getDataParamShowMenuBar(showMenuBar)) {
 			frame.attachMenubar(this);
 		}
-
+		Log.debug("GET TOOLBAR" + this.getToolbarPosition());
 		// showToolBar should come from data-param,
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
-		if (articleElement.getDataParamShowToolBar(showToolBar)) {
-			frame.attachToolbar(this);
+		if (articleElement.getDataParamShowToolBar(showToolBar)
+				&& this.getToolbarPosition() != SwingConstants.SOUTH) {
+			frame.attachToolbar(this, false);
 		}
 		if (this.getInputPosition() == InputPosition.top
 				&& articleElement
@@ -230,7 +233,10 @@ public class AppWapplet extends AppWFull {
 						.getDataParamShowAlgebraInput(showAlgebraInput)) {
 			attachAlgebraInput();
 		}
-
+		if (articleElement.getDataParamShowToolBar(showToolBar)
+				&& this.getToolbarPosition() == SwingConstants.SOUTH) {
+			frame.attachToolbar(this, true);
+		}
 		frame.attachGlass();
 	}
 

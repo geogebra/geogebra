@@ -106,6 +106,9 @@ public class GlobalKeyDispatcherW extends
 
 				HashMap<String, AppW> articleMap = GeoGebraFrameW
 						.getArticleMap();
+				if (articleMap.get(targetArticle.getId()) == null) {
+					return;
+				}
 				boolean appfocused = articleMap.get(targetArticle.getId())
 						.getGlobalKeyDispatcher().isFocused();
 

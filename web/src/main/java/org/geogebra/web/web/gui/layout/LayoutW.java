@@ -86,7 +86,7 @@ public class LayoutW extends Layout implements SettingListener {
 
 		app.getGuiManager().setGeneralToolBarDefinition(
 		        perspective.getToolbarDefinition());
-
+		app.setToolbarPosition(perspective.getToolBarPosition(), false);
 		// override the previous command with the data-param-customToolBar
 		// setting
 		if (!app.isFullAppGui() && app.isApplet()) {

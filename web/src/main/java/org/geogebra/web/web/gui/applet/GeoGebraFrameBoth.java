@@ -467,13 +467,17 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * @param app1
 	 *            application
 	 */
-	public void attachToolbar(AppW app1) {
+	public void attachToolbar(AppW app1, boolean south) {
 		// reusing old toolbar is probably a good decision
 		if (ggwToolBar == null) {
 			ggwToolBar = new GGWToolBar();
 			ggwToolBar.init(app1);
 		}
-		insert(ggwToolBar, 0);
+		if (south) {
+			add(ggwToolBar);
+		} else {
+			insert(ggwToolBar, 0);
+		}
 	}
 
 	public GGWToolBar getToolbar() {
