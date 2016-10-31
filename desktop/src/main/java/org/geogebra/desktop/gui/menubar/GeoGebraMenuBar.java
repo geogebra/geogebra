@@ -156,7 +156,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 				this.getClass().getClassLoader()
 						.loadClass("javafx.embed.swing.JFXPanel");
 				javaFx22Available = true;
-			} catch (ClassNotFoundException e) {
+			} catch (Throwable e) {
 				Log.error("JavaFX 2.2 not available");
 			}
 
