@@ -87,11 +87,6 @@ public enum Feature {
 
 	MOBILE_DIALOG_FORMULA_INPUT,
 
-	/** MOB-777 */
-	MOBILE_OUTPUT_ROW,
-
-	MOBILE_FRACTIONS,
-
 	/** GGB-1121 */
 	AV_PREVIEW,
 

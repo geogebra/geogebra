@@ -3956,14 +3956,6 @@ public abstract class App implements UpdateSelection {
 
 		case MOBILE_DIALOG_FORMULA_INPUT:
 				return prerelease;
-
-		// MOB-777
-		case MOBILE_OUTPUT_ROW:
-			return true; // 5.0.269
-
-		case MOBILE_FRACTIONS:
-			return true; // 5.0.269
-
 		//MOB-788
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;
