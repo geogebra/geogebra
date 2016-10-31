@@ -55,7 +55,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.jre.util.DownloadManager;
@@ -71,8 +70,6 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.AppId;
 import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.awt.GFontD;
-import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
@@ -534,11 +531,12 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			// app.initializeSingularWSD();
 
 			// init JLaTeXMath
-			Graphics2D g2d = this.app.getEuclidianView1().getTempGraphics2D();
-			app.getDrawEquation().drawEquation(this.app, null,
-					new GGraphics2DD(g2d), 0, 0, "x^{2}",
-					new GFontD(g2d.getFont()), false,
-					GColor.BLACK, GColor.WHITE, false, false, null);
+			// Graphics2D g2d =
+			// this.app.getEuclidianView1().getTempGraphics2D();
+			// app.getDrawEquation().drawEquation(this.app, null,
+			// new GGraphics2DD(g2d), 0, 0, "x^{2}",
+			// new GFontD(g2d.getFont()), false,
+			// GColor.BLACK, GColor.WHITE, false, false, null);
 
 			// check if newer version is available
 			// must be done last as internet may not be available
