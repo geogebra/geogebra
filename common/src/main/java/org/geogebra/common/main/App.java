@@ -3957,10 +3957,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_DIALOG_FORMULA_INPUT:
 				return prerelease;
 
-		// MOB-787
-		case MOBILE_ALWAYS_LOAD_FEATURED_MATERIALS:
-			return true; // 5.0.269
-
 		// MOB-777
 		case MOBILE_OUTPUT_ROW:
 			return true; // 5.0.269
