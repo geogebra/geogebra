@@ -18,6 +18,7 @@ import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
+//import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;

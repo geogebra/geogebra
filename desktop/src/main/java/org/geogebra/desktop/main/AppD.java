@@ -701,9 +701,6 @@ ToolbarD.getAllTools(this));
 
 		EuclidianStatic.prototype = new EuclidianStaticD();
 
-		if (!is3D()) {
-			CopyPaste.INSTANCE = new CopyPaste();
-		}
 	}
 
 	private static void handleHelpVersionArgs(CommandLineArguments args) {
@@ -5163,12 +5160,12 @@ ToolbarD.getAllTools(this));
 		// afterwards, the file is loaded into "ad" in theory,
 		// so we have to use the CopyPaste class to copy it
 
-		CopyPaste.INSTANCE.copyToXML(ad, new ArrayList<GeoElement>(ad
+		getCopyPaste().copyToXML(ad, new ArrayList<GeoElement>(ad
 				.getKernel().getConstruction()
 				.getGeoSetWithCasCellsConstructionOrder()), true);
 
 		// and paste
-		CopyPaste.INSTANCE.pasteFromXML(this, true);
+		getCopyPaste().pasteFromXML(this, true);
 
 		// forgotten something important!
 		// ad should be closed!
@@ -5450,6 +5447,15 @@ ToolbarD.getAllTools(this));
 
 	public boolean isDesktop() {
 		return true;
+	}
+
+	public CopyPaste getCopyPaste() {
+
+		if (copyPaste == null) {
+			copyPaste = new CopyPaste();
+		}
+
+		return copyPaste;
 	}
 
 }

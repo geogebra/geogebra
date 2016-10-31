@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.menubar;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.common.util.CopyPaste;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -71,7 +70,7 @@ public class EditMenuW extends GMenuBar {
 			public void doExecute() {
 				if (!selection.getSelectedGeos().isEmpty()) {
 					app.setWaitCursor();
-					CopyPaste.INSTANCE.copyToXML(app,
+							app.getCopyPaste().copyToXML(app,
 					        selection.getSelectedGeos(), false);
 					initActions(); // app.updateMenubar(); - it's needn't to
 					               // update the all menubar here
@@ -87,9 +86,9 @@ public class EditMenuW extends GMenuBar {
 
 			@Override
 			public void doExecute() {
-				if (!CopyPaste.INSTANCE.isEmpty()) {
+						if (!app.getCopyPaste().isEmpty()) {
 					app.setWaitCursor();
-					CopyPaste.INSTANCE.pasteFromXML(app, false);
+							app.getCopyPaste().pasteFromXML(app, false);
 					app.setDefaultCursor();
 				}
 

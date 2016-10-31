@@ -13,7 +13,6 @@ import javax.swing.event.MenuEvent;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.common.util.CopyPaste;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -228,7 +227,7 @@ public class EditMenuD extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
-				CopyPaste.INSTANCE.copyToXML(app, selection.getSelectedGeos(),
+				app.getCopyPaste().copyToXML(app, selection.getSelectedGeos(),
 						false);
 				app.updateMenubar();
 				app.setDefaultCursor();
@@ -241,7 +240,7 @@ public class EditMenuD extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
-				CopyPaste.INSTANCE.pasteFromXML(app, false);
+				app.getCopyPaste().pasteFromXML(app, false);
 				app.setDefaultCursor();
 			}
 		};
@@ -324,7 +323,7 @@ public class EditMenuD extends BaseMenu {
 				.getEuclidianController().getJustCreatedGeos().isEmpty());
 
 		copyAction.setEnabled(!selection.getSelectedGeos().isEmpty());
-		pasteAction.setEnabled(!CopyPaste.INSTANCE.isEmpty());
+		pasteAction.setEnabled(!app.getCopyPaste().isEmpty());
 
 		deleteAction.setEnabled(layer != -1 || justCreated);
 		deleteItem.setVisible(layer != -1 || justCreated);

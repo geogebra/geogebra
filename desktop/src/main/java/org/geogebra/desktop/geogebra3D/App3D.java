@@ -49,14 +49,12 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
-import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
-import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
@@ -738,8 +736,6 @@ public class App3D extends AppD {
 		super.initFactories();
 
 		GLFactory.prototype = new GLFactoryD();
-		CopyPaste.INSTANCE = new CopyPaste3D();
-
 	}
 
 	@Override

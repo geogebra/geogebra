@@ -29,6 +29,7 @@ import org.geogebra.common.euclidian3D.Input3D;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
+import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -76,6 +77,7 @@ import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.CommandInputField;
+import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimer.GTimerListener;
 import org.geogebra.common.util.ImageManager;
@@ -4468,5 +4470,17 @@ public abstract class App implements UpdateSelection {
 			default:
 				return "";
 		}
+	}
+
+	protected CopyPaste copyPaste = null;
+
+	public CopyPaste getCopyPaste() {
+
+		// return 2D version in AppD, AppW, AppWSimple
+		if (copyPaste == null) {
+			copyPaste = new CopyPaste3D();
+		}
+
+		return copyPaste;
 	}
 }

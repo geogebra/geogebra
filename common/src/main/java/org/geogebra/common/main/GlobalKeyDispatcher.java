@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -789,7 +788,7 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	protected void handleCtrlV() {
 		app.setWaitCursor();
-		CopyPaste.INSTANCE.pasteFromXML(app, false);
+		app.getCopyPaste().pasteFromXML(app, false);
 		app.setDefaultCursor();
 	}
 
@@ -807,7 +806,7 @@ public abstract class GlobalKeyDispatcher {
 	protected void handleCtrlC() {
 		// Copy selected geos
 		app.setWaitCursor();
-		CopyPaste.INSTANCE.copyToXML(app, selection.getSelectedGeos(), false);
+		app.getCopyPaste().copyToXML(app, selection.getSelectedGeos(), false);
 		app.updateMenubar();
 		app.setDefaultCursor();
 	}

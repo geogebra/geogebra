@@ -73,7 +73,6 @@ import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimer.GTimerListener;
@@ -327,9 +326,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		EuclidianStatic.prototype = new EuclidianStaticW();
 		StringUtil.prototype = new StringUtil();
 		CASFactory.setPrototype((CASFactory) GWT.create(CASFactory.class));
-		if (!is3D()) {
-			CopyPaste.INSTANCE = new CopyPaste();
-		}
+
 	}
 
 	protected void afterCoreObjectsInited() {

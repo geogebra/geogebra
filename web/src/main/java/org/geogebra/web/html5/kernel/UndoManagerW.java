@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 
@@ -73,7 +72,7 @@ public class UndoManagerW extends UndoManager {
 		// @Override
 		// public void run() {
 		doStoreUndoInfo(currentUndoXML);
-		CopyPaste.INSTANCE.pastePutDownCallback(app);
+		app.getCopyPaste().pastePutDownCallback(app);
 		// }
 		// };
 		// undoSaverThread.start();
