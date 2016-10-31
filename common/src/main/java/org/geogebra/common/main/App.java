@@ -4028,7 +4028,7 @@ public abstract class App implements UpdateSelection {
 
 			// GGB-1212
 		case MORE_DISPLAY_FORMS:
-			return prerelease;
+			return true;
 
 		case DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW:
 			return true;
