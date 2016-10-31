@@ -7,6 +7,7 @@ import org.geogebra.common.util.URLEncoder;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.util.HttpRequestD;
 import org.geogebra.desktop.util.LoggerD;
+import org.geogebra.desktop.util.ProverD;
 import org.geogebra.desktop.util.URLEncoderD;
 
 /**
@@ -32,7 +33,7 @@ public class UtilFactoryD extends UtilFactory {
 
 	@Override
 	public Prover newProver() {
-		return new org.geogebra.desktop.util.ProverD();
+		return new ProverD();
 	}
 
 }
