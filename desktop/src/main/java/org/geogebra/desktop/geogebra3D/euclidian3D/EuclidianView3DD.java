@@ -82,8 +82,6 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 		super(ec, settings);
 
-		Log.printStacktrace("");
-
 		initView(false);
 
 		EuclidianSettings es = null;
