@@ -4462,7 +4462,10 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	protected CopyPaste copyPaste = null;
+	/**
+	 * static so that you can copy & paste between instances
+	 */
+	public static CopyPaste copyPaste = null;
 
 	public CopyPaste getCopyPaste() {
 
