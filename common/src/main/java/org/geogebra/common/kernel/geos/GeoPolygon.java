@@ -64,9 +64,9 @@ import org.geogebra.common.util.MyMath;
  * @author Markus Hohenwarter
  */
 public class GeoPolygon extends GeoElement implements GeoNumberValue,
-GeoSurfaceFinite, Traceable, PointRotateable, MatrixTransformable,
-Mirrorable, Translateable, Dilateable, GeoCoordSys2D,
-GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
+		GeoSurfaceFinite, Traceable, PointRotateable, MatrixTransformable,
+		Mirrorable, Translateable, Dilateable, GeoCoordSys2D, GeoPoly,
+		Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta {
 
 	/** maximal number of vertices for polygon tool */
 	public static final int POLYGON_MAX_POINTS = 1000;

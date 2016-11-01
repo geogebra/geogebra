@@ -36,8 +36,7 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
-		Functional2Var, Traceable, CasEvaluableFunction,
-		Region {
+		Functional2Var, Traceable, CasEvaluableFunction, Region {
 
 	/**
 	 * empty constructor (for ConstructionDefaults3D)

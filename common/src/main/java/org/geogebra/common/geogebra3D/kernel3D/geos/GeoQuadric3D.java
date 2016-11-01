@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathNormalizer;
+import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -49,7 +50,7 @@ import org.geogebra.common.util.debug.Log;
 public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		Region3D, Translateable, RotateableND, MirrorableAtPlane,
 		Transformable, Dilateable, HasVolume, GeoQuadric3DInterface,
-		EquationValue {
+		EquationValue, Region {
 
 	private static String[] vars3D = { "x\u00b2", "y\u00b2", "z\u00b2", "x y",
 			"x z", "y z", "x", "y", "z" };

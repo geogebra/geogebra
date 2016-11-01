@@ -72,10 +72,9 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Markus Hohenwarter
  */
-public class GeoFunction extends GeoElement implements VarString,
-Translateable, Functional, FunctionalNVar, GeoFunctionable, Region,
-CasEvaluableFunction, ParametricCurve,
- RealRootFunction, Dilateable,
+public class GeoFunction extends GeoElement implements VarString, Translateable,
+		Functional, FunctionalNVar, GeoFunctionable, Region,
+		CasEvaluableFunction, ParametricCurve, RealRootFunction, Dilateable,
 		Transformable, InequalityProperties, SurfaceEvaluable {
 
 	/** inner function representation */

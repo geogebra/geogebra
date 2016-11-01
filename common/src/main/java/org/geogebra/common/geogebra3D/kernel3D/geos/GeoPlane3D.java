@@ -5,6 +5,7 @@ import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCom
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -34,7 +35,7 @@ import org.geogebra.common.plugin.GeoClass;
 public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		ViewCreator, GeoCoords4D, GeoPlaneND, Translateable, Traceable,
 		RotateableND, MirrorableAtPlane, Transformable, Dilateable,
-		EquationValue {
+		EquationValue, Region {
 
 	/** default labels */
 	private static final char[] Labels = { 'p', 'q', 'r' };
