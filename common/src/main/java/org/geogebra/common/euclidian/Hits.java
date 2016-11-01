@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -671,9 +670,7 @@ public class Hits extends ArrayList<GeoElement> {
 	public final Hits getRegionHits(Hits result) {
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
-			// check instanceof for "belt and braces"
-			// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android.g3d&et=CRASH&sh=false&lr=LAST_7_DAYS&ecn=java.lang.ClassCastException:+org.geogebra.a.m.j.n+cannot+be+cast+to+org.geogebra.a.m.az&tf=SourceFile&tc=%2509at+org.geogebra.common.euclidian.EuclidianController.updateNewPoint(EuclidianController.java:5005)&tm=a&nid&an&c&s=new_status_desc&ed=1477960201001
-			if (get(i) instanceof Region && get(i).isRegion()) {
+			if (get(i).isRegion()) {
 				result.add(get(i));
 			}
 		}
