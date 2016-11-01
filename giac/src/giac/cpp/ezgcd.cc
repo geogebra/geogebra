@@ -296,7 +296,7 @@ namespace giac {
 	break;
       unknowns += int(vit->fact.coord.size())-1; // lcoeff is known
     }
-    if (unknowns>=pcur.lexsorted_degree()/2 || unknowns==0)
+    if (unknowns>=giacmax(5,pcur.lexsorted_degree()/2) || unknowns==0)
       return false;
     polynome lcp(Tfirstcoeff(pcur));
     int dim=pcur.dim;
@@ -343,7 +343,8 @@ namespace giac {
       int N=int(syst.size());
       vecteur linear;
       for (int i=0;i<N;++i){
-	if (is_zero(derive(derive(syst[i],la,context0),la,context0)))
+	gen d1=derive(syst[i],la,context0);
+	if (is_zero(derive(d1,la,context0)))
 	  linear.push_back(syst[i]);
       }
       if (linear.empty())

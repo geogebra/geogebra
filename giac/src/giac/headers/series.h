@@ -44,6 +44,7 @@ namespace giac {
   bool series(const sparse_poly1 & s,const unary_function_ptr & u,int direction,sparse_poly1 & res,GIAC_CONTEXT); // example series(s,at_sin,0,res,contextptr);
   sparse_poly1 series(const sparse_poly1 & s,const unary_function_ptr & u,int direction,GIAC_CONTEXT); // example series(s,at_sin,0,res,contextptr);
 
+  gen spol12gen(const sparse_poly1 & p,GIAC_CONTEXT);
   gen sparse_poly12gen(const sparse_poly1 & p,const gen & x,gen & remains,bool with_order_size);
   sparse_poly1 vecteur2sparse_poly1(const vecteur & v);
   void vecteur2sparse_poly1(const vecteur & v,sparse_poly1 & p);

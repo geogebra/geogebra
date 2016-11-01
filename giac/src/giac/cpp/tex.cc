@@ -1254,6 +1254,8 @@ namespace giac {
 	return _VECT2tex(*e._VECTptr,e.subtype,contextptr);
     case _POLY:
       return mbox_begin+string("polynome")+mbox_end+" "; 
+    case _SPOL1:
+      return gen2tex(spol12gen(*e._SPOL1ptr,contextptr),contextptr);
     case _FRAC:
       return string("\\frac{")+gen2tex(e._FRACptr->num,contextptr)+"}{"+gen2tex(e._FRACptr->den,contextptr)+'}';
     case _EXT: 

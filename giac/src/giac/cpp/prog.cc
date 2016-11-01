@@ -6200,6 +6200,7 @@ namespace giac {
 	  if (sparse_poly12vecteur(*g._SPOL1ptr,v,shift)){
 	    if (is_undef(v.front()))
 	      v.erase(v.begin());
+	    v=trim(v,0);
 	    if (shift)
 	      return makesequence(gen(v,_POLY1__VECT),shift);
 	    return gen(v,_POLY1__VECT);

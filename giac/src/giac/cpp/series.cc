@@ -97,7 +97,8 @@ namespace giac {
     }
     identificateur x(" ");
     vecteur v;
-    if (taylor(f(x,contextptr),x,lim_point,ordre,v,contextptr)) 
+    gen fx=f(x,contextptr);
+    if (taylor(fx,x,lim_point,ordre,v,contextptr)) 
       return v;
     else
       return undef;
@@ -162,6 +163,17 @@ namespace giac {
     sparse_poly1 p;
     vecteur2sparse_poly1(v,p);
     return p;
+  }
+
+  gen spol12gen(const sparse_poly1 & p,GIAC_CONTEXT){
+    string t;
+    t = t+series_variable_name(contextptr);
+    identificateur tt(t);
+    gen T(tt),remains;
+    gen g=sparse_poly12gen(p,T,remains,false);
+    if (!is_zero(remains))
+      g += remains*order_size(T,contextptr);
+    return g;
   }
 
   static gen spol12gen(const gen & coeff,const gen & x){

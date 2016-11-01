@@ -194,14 +194,7 @@ namespace giac {
   }
 
   static string _SPOL12mathml(const sparse_poly1 & p, string &svg,GIAC_CONTEXT){
-    string t;
-    t = t+series_variable_name(contextptr);
-    identificateur tt(t);
-    gen T(tt),remains;
-    gen g=sparse_poly12gen(p,T,remains,false);
-    if (!is_zero(remains))
-      g += remains*order_size(T,context0);
-    return gen2mathml(g,svg,contextptr);
+    return gen2mathml(spol12gen(p,contextptr),svg,contextptr);
   }
 
   static string _VECT2mathml(const vecteur & v, unsigned char type,string &svg,GIAC_CONTEXT){
