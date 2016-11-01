@@ -235,17 +235,23 @@ public abstract class GeoCurveCartesianND extends GeoElement implements
 			sbTemp.setLength(0);
 			sbTemp.append('(');
 
-			for (int i=0; i< fun.length;i++){
-				sbTemp.append(fun[i].toValueString(tpl));
-				if (i<fun.length-1)
-					sbTemp.append(", ");
+			for (int i = 0; i < fun.length; i++) {
+
+				// quick fix for NPE
+				// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android.g3d&et=CRASH&sh=false&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=%2509at+org.geogebra.common.kernel.kernelND.GeoCurveCartesianND.toValueString(GeoCurveCartesianND.java:239)&tm=b&nid&an&c&s=new_status_desc&ed=1477717276985
+				if (fun[i] != null) {
+					sbTemp.append(fun[i].toValueString(tpl));
+					if (i < fun.length - 1) {
+						sbTemp.append(", ");
+					}
+				}
 			}
 
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
 		return "?";
-	}	
+	}
 
 	/**
 	 * @param tpl string template
