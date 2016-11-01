@@ -5,7 +5,6 @@ import java.util.List;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 
 public class ConicEqnModel extends MultipleOptionsModel {
@@ -97,11 +96,11 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		implicitIndex = ++counter;
 		getListener().addItem(loc
 				.getPlain("ImplicitConicEquation"));
-		if (vertexformPossible && app.has(Feature.MORE_DISPLAY_FORMS)) {
+		if (vertexformPossible) {
 			getListener().addItem(loc.getPlain("ParabolaVertexForm"));
 			vertexformIndex = ++counter;
 		}
-		if (conicformPossible && app.has(Feature.MORE_DISPLAY_FORMS)) {
+		if (conicformPossible) {
 			getListener().addItem(loc.getPlain("ParabolaConicForm"));
 			conicformIndex = ++counter;
 		}

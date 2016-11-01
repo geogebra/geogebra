@@ -3982,8 +3982,7 @@ public abstract class App implements UpdateSelection {
 		// GGB-1178
 		case ITERATION_LIST_DOUBLE:
 			return true;
-		case SURFACE_REVOLUTION_GENERIC:
-			return true;
+
 
 		// MOB-885
 		case MOBILE_PROGRESS_DIALOG_CANCEL:
@@ -3996,14 +3995,6 @@ public abstract class App implements UpdateSelection {
 		// MOB-893
 		case MOBILE_SHOW_ALL_OBJECTS_ON_LOAD:
 			return true; // 5.0.282
-
-		// GGB-1208
-		case NEW_TOOLBAR_DESKTOP_WEB:
-			return true;
-
-			// GGB-1212
-		case MORE_DISPLAY_FORMS:
-			return true;
 
 		case DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW:
 			return true;

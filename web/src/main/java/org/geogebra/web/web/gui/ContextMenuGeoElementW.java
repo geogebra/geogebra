@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.HasCoordsMode;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -441,10 +440,8 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 		// if you can't select the specific equation
 		boolean specificPossible = conic.isSpecificPossible();
 		boolean explicitPossible = conic.isExplicitPossible();
-		boolean vertexformPossible = (app.has(Feature.MORE_DISPLAY_FORMS)) ? conic
-				.isVertexformPossible() : false;
-		boolean conicformPossible = app.has(Feature.MORE_DISPLAY_FORMS) ? conic
-				.isConicformPossible() : false;
+		boolean vertexformPossible = conic.isVertexformPossible();
+		boolean conicformPossible = conic.isConicformPossible();
 		if (!(specificPossible || explicitPossible))
 			return;
 
@@ -578,8 +575,7 @@ AppResources.INSTANCE.objectFixed().getSafeUri().asString(),
 			addAction(action, null, loc.getMenu("ParametricForm"));
 		}
 
-		if (mode != GeoLine.EQUATION_GENERAL
-				&& app.has(Feature.MORE_DISPLAY_FORMS)) {
+		if (mode != GeoLine.EQUATION_GENERAL) {
 			sb.setLength(0);
 			sb.append(loc.getMenu("Equation"));
 			sb.append(' ');
