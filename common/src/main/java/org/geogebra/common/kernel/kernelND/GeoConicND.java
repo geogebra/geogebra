@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
-import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -66,7 +65,7 @@ import org.geogebra.common.util.debug.Log;
 public abstract class GeoConicND extends GeoQuadricND
 		implements Path, Translateable, GeoConicNDConstants,
 		MatrixTransformable, PointRotateable, Transformable, Mirrorable,
-		Dilateable, GeoCoordSys2D, FromMeta, Region
+		Dilateable, GeoCoordSys2D, FromMeta
 {
 	/** avoid very large and small coefficients for numerical stability */	
 	protected static final double MAX_COEFFICIENT_SIZE = 100000;
