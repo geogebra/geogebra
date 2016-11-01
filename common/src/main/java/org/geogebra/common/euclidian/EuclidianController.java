@@ -843,8 +843,10 @@ public abstract class EuclidianController {
 		view.repaintView();
 	}
 
+	protected Hits tempRegionHitsArrayList = new Hits();
+
 	protected Hits getRegionHits(Hits hits) {
-		return hits.getRegionHits(tempArrayList);
+		return hits.getRegionHits(tempRegionHitsArrayList);
 	}
 
 	protected GeoPointND getSingleIntersectionPoint(Hits hits) {

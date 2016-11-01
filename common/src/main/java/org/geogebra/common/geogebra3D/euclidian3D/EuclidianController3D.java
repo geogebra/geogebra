@@ -472,8 +472,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// ////////////////////////////////////////////
 	// creating a new point
 
-	private Hits tempRegionHitsArrayList = new Hits();
-
 	@Override
 	protected Hits getRegionHits(Hits hits) {
 		return hits.getHits(Test.REGION3D, tempRegionHitsArrayList);
