@@ -234,8 +234,6 @@ public abstract class EuclidianController {
 	protected ArrayList<GeoElement> translateableGeos;
 	protected Coords translationVec;
 	protected Hits tempArrayList = new Hits();
-	protected Hits tempArrayList2 = new Hits();
-	protected Hits tempArrayList3 = new Hits();
 	protected Hits highlightedGeos = new Hits();
 	protected ArrayList<GeoElement> justCreatedGeos = new ArrayList<GeoElement>();
 	protected boolean temporaryMode = false;
