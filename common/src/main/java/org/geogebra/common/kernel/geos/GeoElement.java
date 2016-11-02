@@ -1082,6 +1082,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (geo.isDefined()) {
 				final double val = ((NumberValue) geo).getDouble();
 				switch (i) {
+				default:
 				case 0:
 					redD = val;
 					break;
@@ -2535,6 +2536,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	final public void setAnimationType(final int type) {
 		switch (type) {
+		default:
 		case ANIMATION_INCREASING_ONCE:
 		case ANIMATION_INCREASING:
 		case ANIMATION_OSCILLATING:
@@ -3047,10 +3049,6 @@ public abstract class GeoElement extends ConstructionElement implements
 				if (geo instanceof GeoNumeric
 						&& !((GeoNumeric) geo).isDependentConst()) {
 					((GeoNumeric) geo).setIsDependentConst(true);
-				}
-				if (this instanceof GeoNumeric
-						&& !((GeoNumeric) this).isDependentConst()) {
-					((GeoNumeric) this).setIsDependentConst(true);
 				}
 				addToConstr = false;
 			}
@@ -5171,6 +5169,9 @@ public abstract class GeoElement extends ConstructionElement implements
 					startPos = i + 1;
 					depth--;
 				}
+				break;
+			default:
+				//
 				break;
 			}
 		}
