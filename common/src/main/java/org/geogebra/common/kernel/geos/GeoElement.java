@@ -5980,7 +5980,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	public boolean isRegion3D() {
-		return isGeoElement3D();
+		return false;
 	}
 
 	/**

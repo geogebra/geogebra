@@ -1124,4 +1124,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	public ValidExpression toValidExpression() {
 		return getNumber();
 	}
+
+	@Override
+	public boolean isRegion3D() {
+		return true;
+	}
 }

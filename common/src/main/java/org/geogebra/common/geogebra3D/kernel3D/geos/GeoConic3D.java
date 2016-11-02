@@ -677,4 +677,9 @@ public class GeoConic3D extends GeoConicND implements RotateableND,
 
 	}
 
+	@Override
+	public boolean isRegion3D() {
+		return true;
+	}
+
 }

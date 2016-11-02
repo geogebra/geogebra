@@ -235,7 +235,7 @@ public interface GeoElementND extends ExpressionValue {
 
 	/**
 	 * 
-	 * @return true if is 3D region
+	 * @return true if is region that produces 3D points
 	 */
 	public boolean isRegion3D();
 

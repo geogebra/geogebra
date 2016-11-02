@@ -850,5 +850,9 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return kernel.getAlgebraProcessor().parseEquation(this);
 	}
 
+	@Override
+	public boolean isRegion3D() {
+		return true;
+	}
 
 }

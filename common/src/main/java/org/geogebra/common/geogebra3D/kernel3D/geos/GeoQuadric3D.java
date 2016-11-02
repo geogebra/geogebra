@@ -2250,6 +2250,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return true;
 	}
 
+	@Override
+	public boolean isRegion3D() {
+		return true;
+	}
+
 	protected void getNormalProjectionParameters(Coords coords,
 			double[] parameters) {
 
