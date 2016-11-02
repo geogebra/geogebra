@@ -314,14 +314,14 @@ public class SimpleCharStream
   public SimpleCharStream(java.io.InputStream dstream, String encoding, int startline,
   int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException
   {
-    this(encoding == null ? new java.io.InputStreamReader(dstream) : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);
+    this(encoding == null ? new java.io.InputStreamReader(dstream, "UTF-8") : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);
   }
 
   /** Constructor. */
   public SimpleCharStream(java.io.InputStream dstream, int startline,
-  int startcolumn, int buffersize)
+  int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException
   {
-    this(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);
+    this(new java.io.InputStreamReader(dstream, "UTF-8"), startline, startcolumn, buffersize);
   }
 
   /** Constructor. */
@@ -333,7 +333,7 @@ public class SimpleCharStream
 
   /** Constructor. */
   public SimpleCharStream(java.io.InputStream dstream, int startline,
-                          int startcolumn)
+                          int startcolumn) throws java.io.UnsupportedEncodingException
   {
     this(dstream, startline, startcolumn, 4096);
   }
@@ -345,7 +345,7 @@ public class SimpleCharStream
   }
 
   /** Constructor. */
-  public SimpleCharStream(java.io.InputStream dstream)
+  public SimpleCharStream(java.io.InputStream dstream) throws java.io.UnsupportedEncodingException
   {
     this(dstream, 1, 1, 4096);
   }
@@ -354,14 +354,14 @@ public class SimpleCharStream
   public void ReInit(java.io.InputStream dstream, String encoding, int startline,
                           int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException
   {
-    ReInit(encoding == null ? new java.io.InputStreamReader(dstream) : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);
+    ReInit(encoding == null ? new java.io.InputStreamReader(dstream, "UTF-8") : new java.io.InputStreamReader(dstream, encoding), startline, startcolumn, buffersize);
   }
 
   /** Reinitialise. */
   public void ReInit(java.io.InputStream dstream, int startline,
-                          int startcolumn, int buffersize)
+                          int startcolumn, int buffersize) throws java.io.UnsupportedEncodingException
   {
-    ReInit(new java.io.InputStreamReader(dstream), startline, startcolumn, buffersize);
+    ReInit(new java.io.InputStreamReader(dstream, "UTF-8"), startline, startcolumn, buffersize);
   }
 
   /** Reinitialise. */
@@ -371,7 +371,7 @@ public class SimpleCharStream
   }
 
   /** Reinitialise. */
-  public void ReInit(java.io.InputStream dstream)
+  public void ReInit(java.io.InputStream dstream) throws java.io.UnsupportedEncodingException
   {
     ReInit(dstream, 1, 1, 4096);
   }
@@ -383,7 +383,7 @@ public class SimpleCharStream
   }
   /** Reinitialise. */
   public void ReInit(java.io.InputStream dstream, int startline,
-                     int startcolumn)
+                     int startcolumn) throws java.io.UnsupportedEncodingException
   {
     ReInit(dstream, startline, startcolumn, 4096);
   }

@@ -65,7 +65,7 @@ public class OFFReader {
 		try {
 			InputStream stream = new FileInputStream(file);
 			BufferedReader br = new BufferedReader(
-					new InputStreamReader(stream));
+					new InputStreamReader(stream, "UTF-8"));
 			parse(br, handler);
 
 			Log.debug(String.format("Off file has ben load:(v=%d;e=%d;f=%d)",
