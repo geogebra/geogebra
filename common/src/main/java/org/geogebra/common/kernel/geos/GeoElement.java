@@ -5222,21 +5222,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	}
 
 	/**
-	 * Returns whether the str contains any indices (i.e. '_' chars).
+	 * Returns whether the label contains any indices (i.e. '_' chars).
 	 * 
-	 * @return whether the str contains any indices (i.e. '_' chars).
+	 * @return whether the label contains any indices (i.e. '_' chars).
 	 */
 	final public boolean hasIndexLabel() {
-		if (strHasIndexLabel != label) {
-			hasIndexLabel = ((label == null) || (label.indexOf('_') > -1));
-			strHasIndexLabel = label;
-		}
+		return ((label == null) || (label.indexOf('_') > -1));
 
-		return hasIndexLabel;
 	}
-
-	private String strHasIndexLabel;
-	private boolean hasIndexLabel = false;
 
 	/**
 	 * returns type and label of a GeoElement as html string (for tooltips and
@@ -8147,7 +8140,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * 
 	 * @param geo
 	 *            other geo
-	 * @return wheter this and geo are congruent
+	 * @return whether this and geo are congruent
 	 */
 	public Boolean isCongruent(GeoElement geo) {
 		return isEqual(geo) ? true : null;
