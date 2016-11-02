@@ -308,19 +308,19 @@ pr.menu_header_undo(), null, 32);
 						app.showMessage(true,
 								app.getExam().getLog(app.getLocalization(),
 										app.getSettings()),
-								app.getMenu("exam_custom_header") + " " + app.getMenu("CAS"), null, null);
+								app.getMenu("ExamCAS"), null, null);
 					} else if (!supports3D && !supportsCAS) {
 						if (app.enableGraphing()) {
 							app.showMessage(true,
 									app.getExam().getLog(app.getLocalization(),
 											app.getSettings()),
-									app.getMenu("exam_custom_header") + " " + app.getMenu("GraphingCalculator"), null,
+									app.getMenu("ExamGraphingCalc.long"), null,
 									null);
 						} else {
 							app.showMessage(true,
 									app.getExam().getLog(app.getLocalization(),
 											app.getSettings()),
-									app.getMenu("exam_custom_header") + " " + app.getMenu("SimpleCalculator"), null,
+									app.getMenu("ExamSimpleCalc.long"), null,
 									null);
 						}
 					}

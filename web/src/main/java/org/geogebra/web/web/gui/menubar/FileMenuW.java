@@ -106,20 +106,20 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					app.showMessage(true,
 							app.getExam().getLog(app.getLocalization(),
 									app.getSettings()),
-							loc.getMenu("exam_custom_header") + " " + loc.getMenu("CAS"), buttonText, handler);
+							loc.getMenu("ExamCAS"), buttonText, handler);
 				} else if (!supports3D && !supportsCAS) {
 					if (app.enableGraphing()) {
 						app.showMessage(true,
 								app.getExam().getLog(app.getLocalization(),
 										app.getSettings()),
-								loc.getMenu("exam_custom_header") + " " + loc.getMenu("GraphingCalculator"),
+								loc.getMenu("ExamGraphingCalc.long"),
 								buttonText,
 								handler);
 					} else {
 						app.showMessage(true,
 								app.getExam().getLog(app.getLocalization(),
 										app.getSettings()),
-								loc.getMenu("exam_custom_header") + " " + loc.getMenu("SimpleCalculator"),
+								loc.getMenu("ExamSimpleCalc.long"),
 								buttonText,
 								handler);
 					}
