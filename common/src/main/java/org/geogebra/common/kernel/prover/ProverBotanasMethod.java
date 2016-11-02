@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
+import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgoAre;
@@ -393,21 +394,21 @@ public class ProverBotanasMethod {
 			 * or (even better) during the symbolic process.
 			 */
 			GeoElement numerical = null;
+			AlgoElement numAlgo;
 			if (movingPoint != null
-					&& movingPoint.getParentAlgorithm() != null) {
-				numerical = (GeoElement) movingPoint.getParentAlgorithm()
-						.getInput(0);
+					&& (numAlgo = movingPoint.getParentAlgorithm()) != null) {
+				numerical = (GeoElement) numAlgo.getInput(0);
 
 				/*
 				 * Normally we don't want to use the numerical formula for
 				 * linear objects. Now we still compute the numerical formula
-				 * always. If you uncomment this, please add a check below at
-				 * useThisPoly.
+				 * for most of the cases.
 				 */
-				if (!(numerical instanceof GeoConic)) {
-					// numerical = null;
+				if (numerical
+						.getParentAlgorithm() instanceof AlgoJoinPointsSegment) {
+					// we don't want the equation of the length
+					numerical = null;
 				}
-
 			}
 			/*
 			 * Remove geos directly related with AlgoDependentNumber algos since
@@ -565,6 +566,11 @@ public class ProverBotanasMethod {
 								// don't create the symbolic equation for a
 								// numerically used object
 								useThisPoly = false;
+							}
+							if (numerical == null) {
+								// there is no numerical object,
+								// so we still use this poly
+								useThisPoly = true;
 							}
 							if (useThisPoly) {
 								Log.debug("Hypotheses:");
