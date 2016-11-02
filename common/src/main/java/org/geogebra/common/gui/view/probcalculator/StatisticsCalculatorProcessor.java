@@ -290,6 +290,8 @@ public class StatisticsCalculatorProcessor {
 
 			sc.se = ((AlgoZProportion2Test) algo).getSE();
 
+			break;
+
 		case ZPROP2_CI:
 
 			algo = new AlgoZProportion2Estimate(cons, proportion, n,
