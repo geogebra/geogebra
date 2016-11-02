@@ -265,7 +265,7 @@ public class UndoManagerD extends UndoManager {
 		construction.setFileLoading(true);
 		construction.setCasCellUpdate(true);
 		((MyXMLioD) construction.getXMLio()).processXMLString(
-				strXML, true, false, true);
+				strXML, true, false, true, true);
 		construction.setFileLoading(false);
 		construction.setCasCellUpdate(false);
 	}

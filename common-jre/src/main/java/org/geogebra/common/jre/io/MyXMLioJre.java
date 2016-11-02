@@ -115,7 +115,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 		XMLStreamInputStream ir = new XMLStreamInputStream(bs);
 
 		// process xml file
-		doParseXML(ir, clearConstruction, isGGTOrDefaults, true, true);
+		doParseXML(ir, clearConstruction, isGGTOrDefaults, true, true, true);
 
 		bs.close();
 	}

@@ -159,6 +159,10 @@ public abstract class MyXMLio {
 		return sb;
 	}
 
+	public void processXMLString(String xml, boolean clearConstruction,
+			boolean isGgtFile) throws Exception {
+		processXMLString(xml, clearConstruction, isGgtFile, true);
+	}
 	/**
 	 * @param xml
 	 *            XML string
@@ -170,11 +174,11 @@ public abstract class MyXMLio {
 	 *             if XML is invalid or there was a problem while processing
 	 */
 	public void processXMLString(String xml, boolean clearConstruction,
-			boolean isGgtFile) throws Exception {
+			boolean isGgtFile, boolean randomize) throws Exception {
 		if (cons != null) {
 			cons.setFileLoading(true);
 		}
-		processXMLString(xml, clearConstruction, isGgtFile, true);
+		processXMLString(xml, clearConstruction, isGgtFile, true, randomize);
 		if (cons != null) {
 			cons.setFileLoading(false);
 		}
@@ -320,30 +324,10 @@ public abstract class MyXMLio {
 	 *             if XML is invalid or there was a problem while processing
 	 */
 	final public void processXMLString(String str, boolean clearAll,
-			boolean isGGTOrDefaults, boolean settingsBatch) throws Exception {
-		doParseXML(createXMLStreamString(str), clearAll, isGGTOrDefaults,
-				clearAll, settingsBatch);
-	}
-
-	/**
-	 * @param stream
-	 *            XML stream
-	 * @param clearAll
-	 *            true to clear construction before processing
-	 * @param isGGTOrDefaults
-	 *            true for macro files and defaults
-	 * @param mayZoom
-	 *            whether zoom may happen
-	 * @param settingsBatch
-	 *            true to process ettings changes as a batch
-	 * @throws Exception
-	 *             if XML is invalid or there was a problem while processing
-	 */
-	final protected void doParseXML(XMLStream stream, boolean clearAll,
-			boolean isGGTOrDefaults, boolean mayZoom, boolean settingsBatch)
+			boolean isGGTOrDefaults, boolean settingsBatch, boolean randomize)
 			throws Exception {
-		doParseXML(stream, clearAll, isGGTOrDefaults, mayZoom,
-				settingsBatch, true);
+		doParseXML(createXMLStreamString(str), clearAll, isGGTOrDefaults,
+				clearAll, settingsBatch, randomize);
 	}
 	
 	/**
