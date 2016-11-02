@@ -114,8 +114,7 @@ public class AppWsimple extends AppW {
 			requestFocusInWindow();
 		}
 		setDefaultCursor();
-		GeoGebraFrameW.useDataParamBorder(getArticleElement(),
- frame);
+		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
 		GeoGebraProfiler.getInstance().profileEnd();
 		setAltText();
 	}
