@@ -1294,6 +1294,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			case Kernel.COORD_STYLE_FRENCH:
 				// no equal sign
 				sbToString.append(": ");
+				break;
 
 			case Kernel.COORD_STYLE_AUSTRIAN:
 				// no equal sign
@@ -2422,7 +2423,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			variables.add(variableCoordinate2);
 			return;
 		}
-		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			((SymbolicParametersAlgo) algoParent).getFreeVariables(variables);
 			return;
 		}
@@ -2488,7 +2489,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 					new Polynomial(variableCoordinate2), new Polynomial(1) };
 			return ret;
 		}
-		if (algoParent != null && algoParent instanceof SymbolicParametersAlgo) {
+		if (algoParent instanceof SymbolicParametersAlgo) {
 			return ((SymbolicParametersAlgo) algoParent).getPolynomials();
 		}
 		throw new NoSymbolicParametersException();

@@ -979,7 +979,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 
 		if (var == null) {
-			assignmentVar = var;
+			assignmentVar = null;
 
 			// make sure we are using an unused label
 		} else if (cons.isFreeLabel(var)) {
@@ -1475,8 +1475,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				if (!constList.isEmpty()) {
 					for (GeoNumeric geoNum : constList) {
 						geoNum.setSendValueToCas(true);
-						GeoDummyReplacer replacer = new GeoDummyReplacer();
-						replacer = GeoDummyReplacer.getReplacer(
+						GeoDummyReplacer replacer = GeoDummyReplacer
+								.getReplacer(
 								geoNum.getLabelSimple(),
 								geoNum, false);
 						outputVE.traverse(replacer);

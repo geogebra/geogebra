@@ -62,7 +62,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * @return array of all decoration types
 	 */
 	public static final Integer[] getDecoTypes() {
-		Integer[] ret = { new Integer(SEGMENT_DECORATION_NONE),
+		Integer[] ret = { Integer.valueOf(SEGMENT_DECORATION_NONE),
 				Integer.valueOf(SEGMENT_DECORATION_ONE_TICK),
 				Integer.valueOf(SEGMENT_DECORATION_TWO_TICKS),
 				Integer.valueOf(SEGMENT_DECORATION_THREE_TICKS),
