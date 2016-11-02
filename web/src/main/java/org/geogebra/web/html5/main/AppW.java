@@ -229,6 +229,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 			@Override
 			public void onResize(ResizeEvent event) {
+				if (getArticleElement().getDataParamFitToScreen()) {
+					AppW.this.getGgbApi().setSize(Window.getClientWidth(),
+							Window.getClientHeight());
+				}
 				windowResized();
 			}
 		});

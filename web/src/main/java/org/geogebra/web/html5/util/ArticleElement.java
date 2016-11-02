@@ -303,73 +303,28 @@ public final class ArticleElement extends Element {
 	 * @return integer value of the data-param-width, 0 if not present
 	 */
 	public int getDataParamWidth() {
-		String width = this.getAttribute("data-param-width");
-		return (width != null && !width.equals("")) ? Integer.parseInt(width,
-		        10) : 0;
+		return getIntegerAttribute("data-param-width", 0);
+
+	}
+
+	private int getIntegerAttribute(String string, int fallback) {
+		String val = this.getAttribute(string);
+		if(val == null || val.isEmpty()){
+			return fallback;
+		}
+		try{
+			return Integer.parseInt(val, 10);
+		} catch (Exception e) {
+			Log.warn("Invalid value of " + string + ":" + val);
+		}
+		return fallback;
 	}
 
 	/**
 	 * @return integer value of the data-param-height, 0 if not present
 	 */
 	public int getDataParamHeight() {
-		String height = this.getAttribute("data-param-height");
-		return (height != null && !height.equals("")) ? Integer.parseInt(
-		        height, 10) : 0;
-	}
-
-	/**
-	 * @return integer value of the data-param-minwidth, 0 if not present
-	 */
-	public int getDataParamMinWidth() {
-		String width = this.getAttribute("data-param-minwidth");
-		return (width != null && !width.equals("")) ? Integer.parseInt(width,
-		        10) : 0;
-	}
-
-	/**
-	 * @return integer value of the data-param-minheight, 0 if not present
-	 */
-	public int getDataParamMinHeight() {
-		String height = this.getAttribute("data-param-minheight");
-		return (height != null && !height.equals("")) ? Integer.parseInt(
-		        height, 10) : 0;
-	}
-
-	/**
-	 * @return integer value of the data-param-maxwidth, 0 if not present
-	 */
-	public int getDataParamMaxWidth() {
-		String width = this.getAttribute("data-param-maxwidth");
-		return (width != null && !width.equals("")) ? Integer.parseInt(width,
-		        10) : 0;
-	}
-
-	/**
-	 * @return the array containing the minwidth and minheight as integers
-	 */
-	public int[] getDataParamMinDimensions() {
-		String minDimensions = this.getAttribute("data-param-mindimensions");
-		int[] result = null;
-		if (minDimensions != null && !"".equals(minDimensions)) {
-			result = new int[2];
-			result[0] = Integer.parseInt(minDimensions.split(",")[0]);
-			result[1] = Integer.parseInt(minDimensions.split(",")[1]);
-		}
-		return result;
-	}
-
-	/**
-	 * @return the array containing the maxwidth and maxheight as integers
-	 */
-	public int[] getDataParamMaxDimensions() {
-		String maxDimensions = this.getAttribute("data-param-maxdimensions");
-		int[] result = null;
-		if (maxDimensions != null && !"".equals(maxDimensions)) {
-			result = new int[2];
-			result[0] = Integer.parseInt(maxDimensions.split(",")[0]);
-			result[1] = Integer.parseInt(maxDimensions.split(",")[1]);
-		}
-		return result;
+		return getIntegerAttribute("data-param-height", 0);
 	}
 
 	/**
@@ -377,15 +332,6 @@ public final class ArticleElement extends Element {
 	 */
 	public boolean getDataParamFitToScreen() {
 		return "true".equals(this.getAttribute("data-param-fittoscreen"));
-	}
-
-	/**
-	 * @return integer value of the data-param-maxheight, 0 if not present
-	 */
-	public int getDataParamMaxHeight() {
-		String height = this.getAttribute("data-param-maxheight");
-		return (height != null && !height.equals("")) ? Integer.parseInt(
-		        height, 10) : 0;
 	}
 
 	public String getDataParamBorder() {
@@ -492,25 +438,7 @@ public final class ArticleElement extends Element {
 		return Float.parseFloat(this.getAttribute("data-scaley"));
 	}
 
-	/**
-	 * @return the data-param-heightcrop attribute, that will be cropped from
-	 *         the applet height
-	 */
-	public int getDataParamHeightCrop() {
-		String crop = this.getAttribute("data-param-heightcrop");
-		return (crop != null && !crop.equals("")) ? Integer.parseInt(crop, 10)
-		        : 0;
-	}
 
-	/**
-	 * @return the data-param-widthcrop attribute, taht will be cropped from the
-	 *         applet width
-	 */
-	public int getDataParamWidthCrop() {
-		String crop = this.getAttribute("data-param-widthcrop");
-		return (crop != null && !crop.equals("")) ? Integer.parseInt(crop, 10)
-		        : 0;
-	}
 
 	/**
 	 * @return default false

@@ -184,8 +184,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		int splashHeight = 120;
 
 		// to not touch the DOM twice when computing widht and height
-		computeMinDim();
-		computeMaxDim();
 		preProcessFitToSceen();
 
 		int width = computeWidth();
@@ -228,30 +226,20 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private void preProcessFitToSceen() {
 		if (ae.getDataParamFitToScreen()) {
 			Document.get().getDocumentElement().getStyle()
-			        .setHeight(99, Unit.PCT);
-			RootPanel.getBodyElement().getStyle().setHeight(99, Unit.PCT);
+					.setHeight(100, Unit.PCT);
+			RootPanel.getBodyElement().getStyle().setHeight(100, Unit.PCT);
 			RootPanel.getBodyElement().getStyle().setOverflow(Overflow.HIDDEN);
-			ae.getStyle().setHeight(99, Unit.PCT);
+			ae.getStyle().setHeight(100, Unit.PCT);
 		}
 
 	}
 
-	private int[] minDim;
-	private int[] maxDim;
 
-	private void computeMinDim() {
-		minDim = ae.getDataParamMinDimensions();
-	}
 
-	private void computeMaxDim() {
-		maxDim = ae.getDataParamMaxDimensions();
-	}
 
 	private int computeHeight() {
 		// do we have data-param-height?
 		int height = ae.getDataParamHeight();
-		int minHeight = ae.getDataParamMinHeight();
-		int maxHeight = ae.getDataParamMaxHeight();
 		if (height > 0) {
 			return height;
 		}
@@ -259,52 +247,25 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// do we have fit to screen?
 
 		if (ae.getDataParamFitToScreen()) {
-			height = ae.getOffsetHeight() - ae.getDataParamHeightCrop();
-		}
-		if (minHeight > 0 && height < minHeight) {
-			height = minHeight;
-		}
-		if (maxHeight > 0 && height > maxHeight) {
-			height = maxHeight;
-		}
-		if (minDim != null && height < minDim[1]) {
-			height = minDim[1];
+			height = ae.getOffsetHeight();
 		}
 
-		if (maxDim != null && height > maxDim[1]) {
-			height = maxDim[1];
-		}
 		return height;
 	}
 
 	private int computeWidth() {
 		// do we have data-param-width?
 		int width = ae.getDataParamWidth();
-		int minWidth = ae.getDataParamMinWidth();
-		int maxWidth = ae.getDataParamMaxWidth();
+
 		if (width > 0) {
 			return width;
 		}
 
 		// do we have fit to screen?
 		if (ae.getDataParamFitToScreen()) {
-			width = RootPanel.getBodyElement().getOffsetWidth()
-			        - ae.getDataParamWidthCrop();
-		}
-		if (minWidth > 0 && width < minWidth) {
-			width = minWidth;
-		}
-		if (maxWidth > 0 && width > maxWidth) {
-			width = maxWidth;
+			width = RootPanel.getBodyElement().getOffsetWidth();
 		}
 
-		if (minDim != null && width < minDim[0]) {
-			width = minDim[0];
-		}
-
-		if (maxDim != null && width > maxDim[0]) {
-			width = maxDim[0];
-		}
 		return width;
 	}
 
@@ -638,9 +599,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * 
 	 */
 	public void setSize(int width, int height) {
-		setPixelSize(width, height);
+		// setPixelSize(width, height);
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(width, height);
+			setWidth(width - BORDER_WIDTH + "px");
+			setHeight(height - BORDER_WIDTH + "px");
 		}
 
 	}
