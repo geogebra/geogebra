@@ -327,7 +327,8 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		}
 		String inputFingerprintPrev = inputFingerprint;
 		setInputOutput();
-		if (!inputFingerprintPrev.equals(inputFingerprint)) {
+		if (inputFingerprintPrev == null
+				|| !inputFingerprintPrev.equals(inputFingerprint)) {
 			Log.trace(inputFingerprintPrev + " -> " + inputFingerprint);
 			initialCompute();
 		}

@@ -98,6 +98,7 @@ import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.EquationEditorListener;
+import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
@@ -176,6 +177,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	private Localization loc;
 
+	/**
+	 * 
+	 * @param app
+	 *            app
+	 * @param device
+	 *            device (browser / tablet)
+	 */
 	public GuiManagerW(final AppW app, GDevice device) {
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -753,6 +761,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	/**
 	 * Register panels for the layout manager.
+	 * 
+	 * @return whether it was successful
 	 */
 	protected boolean initLayoutPanels() {
 
@@ -1250,6 +1260,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		};
 	}
 
+	/**
+	 * Clear data analysis
+	 */
 	public void clearDataAnalysisView() {
 		dataAnalysisView = null;
 	}
@@ -2204,10 +2217,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return fn;
 	}
 
-	public String getToolImageURL(int mode, AppW app) {
-		return GGWToolBar.getImageURL(mode, app);
-	}
-
 	public static boolean mayForceKeyboard(AppW app) {
 		return !app.isStartedWithFile()
 				&& (app.getExam() == null || app.getExam().getStart() > 0);
@@ -2227,12 +2236,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (app.showView(App.VIEW_ALGEBRA)
 				&& ((AlgebraViewW) app.getAlgebraView())
 						.getInputTreeItem() != null) {
-			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
-					.autocomplete(string);
-			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
-					.setFocus(true, true);
-			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
-					.ensureEditing();
+			RadioTreeItem input = ((AlgebraViewW) app.getAlgebraView())
+					.getInputTreeItem();
+			input.autocomplete(string);
+			input.setFocus(true, true);
+			input.ensureEditing();
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().getTextField().autocomplete(string);
 			getAlgebraInput().getTextField().setFocus(true);
@@ -2240,17 +2248,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	}
 
+	@Override
 	public void setInputText(String string) {
 		if (app.showView(App.VIEW_ALGEBRA)
 				&& ((AlgebraViewW) app.getAlgebraView())
 						.getInputTreeItem() != null
 				&& app.getInputPosition() == InputPosition.algebraView) {
-			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
-					.setText(string);
-			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
-					.setFocus(true, true);
-			((AlgebraViewW) app.getAlgebraView()).getInputTreeItem()
-					.ensureEditing();
+			RadioTreeItem input = ((AlgebraViewW) app.getAlgebraView())
+					.getInputTreeItem();
+			input.setText(string);
+			input.setFocus(true, true);
+			input.ensureEditing();
 		} else if (getAlgebraInput() != null) {
 			getAlgebraInput().setText(string);
 			getAlgebraInput().getTextField().setFocus(true);
