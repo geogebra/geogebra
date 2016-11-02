@@ -206,4 +206,9 @@ public class AppWsimple extends AppW {
 	public boolean isSelectionRectangleAllowed() {
 		return getToolbar() != null;
 	}
+
+	@Override
+	public void setLanguage(final String browserLang) {
+		// no localization support needed in webSimple
+	}
 }
