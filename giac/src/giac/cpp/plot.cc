@@ -10011,6 +10011,8 @@ namespace giac {
   define_unary_function_ptr5( at_parameter ,alias_at_parameter,&__parameter,0,true);
 
   gen plotfield(const gen & xp,const gen & yp,const gen & x,const gen & y,double xmin,double xmax,double xstep,double ymin,double ymax,double ystep,double scaling,vecteur & attributs,bool normalize,const context * contextptr){
+    if (xstep<=0 || ystep<=0)
+      return gensizeerr("Invalid xstep or ystep");
     bool old_iograph=io_graph(contextptr);
     if (old_iograph){
 #ifdef HAVE_LIBPTHREAD
@@ -10031,8 +10033,10 @@ namespace giac {
     if (xstep<ystep) minxstepystep=xstep; else minxstepystep=ystep;
     echelle=minxstepystep;
     for (double curx=xmin;curx<=xmax;curx+=scaling*xstep){
+      if (ctrl_c || interrupted) break;
       curxcury[0]=curx;
       for (double cury=ymin;cury<=ymax;cury+=scaling*ystep){
+	if (ctrl_c || interrupted) break;
 	curxcury[1]=cury;
 	xp_eval=subst(xp,xy,curxcury,false,contextptr).evalf2double(eval_level(contextptr),contextptr);
 	yp_eval=subst(yp,xy,curxcury,false,contextptr).evalf2double(eval_level(contextptr),contextptr);
