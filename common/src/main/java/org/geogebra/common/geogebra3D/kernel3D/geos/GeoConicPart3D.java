@@ -706,18 +706,22 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 		Coords ev1 = new Coords(3);
 		ev1.set(getEigenvec(1));
 
-		Coords firstPoint = midPoint.add(
-				ev0.mul(getHalfAxis(0) * Math.cos(parameters.paramStart))).add(
-				ev1.mul(getHalfAxis(1) * Math.sin(parameters.paramStart)));
+		Coords firstPoint = midPoint.copy()
+				.addInsideMul(ev0,
+						getHalfAxis(0) * Math.cos(parameters.paramStart))
+				.addInsideMul(ev1,
+						getHalfAxis(1) * Math.sin(parameters.paramStart));
 		nearestPoint.check(firstPoint);
-		Coords secondPoint = midPoint.add(
-				ev0.mul(getHalfAxis(0) * Math.cos(parameters.paramEnd))).add(
-				ev1.mul(getHalfAxis(1) * Math.sin(parameters.paramEnd)));
+		Coords secondPoint = midPoint.copy()
+				.addInsideMul(ev0,
+						getHalfAxis(0) * Math.cos(parameters.paramEnd))
+				.addInsideMul(ev1,
+						getHalfAxis(1) * Math.sin(parameters.paramEnd));
 		nearestPoint.check(secondPoint);
 
 		// check project points on segments edges
 		if (getConicPartType() == CONIC_PART_SECTOR) {
-			coords.projectLine(midPoint, firstPoint.sub(midPoint), tmpCoords,
+			coords.projectLineSub(midPoint, firstPoint, tmpCoords,
 					tmpParameters);
 			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) // check if
 																// the
@@ -726,7 +730,7 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 																// on the
 																// segment
 				nearestPoint.check(tmpCoords);
-			coords.projectLine(midPoint, secondPoint.sub(midPoint), tmpCoords,
+			coords.projectLineSub(midPoint, secondPoint, tmpCoords,
 					tmpParameters);
 			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) // check if
 																// the
@@ -736,7 +740,7 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND,
 																// segment
 				nearestPoint.check(tmpCoords);
 		} else {
-			coords.projectLine(firstPoint, secondPoint.sub(firstPoint),
+			coords.projectLineSub(firstPoint, secondPoint,
 					tmpCoords, tmpParameters);
 			if (tmpParameters[0] > 0 && tmpParameters[0] < 1) // check if
 																// the

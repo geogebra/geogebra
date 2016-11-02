@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
@@ -590,7 +592,7 @@ public final class ArticleElement extends Element {
 	}
 
 	public boolean isEnableUsageStats() {
-		return false;
+		return ((CASFactory) GWT.create(CASFactory.class)).isEnabled();
 	}
 
 	public String getMaterialsAPIurl() {
@@ -603,6 +605,10 @@ public final class ArticleElement extends Element {
 
 	public boolean getDataParamShowAppsPicker() {
 		return this.getBoolParam("data-param-showAppsPicker", false);
+	}
+
+	public int getBorderThickness() {
+		return getDataParamFitToScreen() ? 0 : 2;
 	}
 
 }

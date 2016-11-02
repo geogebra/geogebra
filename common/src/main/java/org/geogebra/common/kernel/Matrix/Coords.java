@@ -1335,6 +1335,38 @@ public class Coords {
 	 * 
 	 * @param O
 	 *            origin of the line
+	 * @param P
+	 *            point on the line
+	 * @param H
+	 *            point projected
+	 * @param parameters
+	 *            {parameter on the line, normalized parameter}
+	 */
+	public void projectLineSub(Coords O, Coords P, Coords H,
+			double[] parameters) {
+		this.sub(O, H); // OM
+		Coords V = P.sub(O);
+		double vn = V.norm();
+		Coords N = V.normalize();
+		double parameter = H.dotproduct(N); // OM.N
+		N.mul(parameter, H); // OH
+		O.add(H, H);
+
+		if (parameters == null) {
+			return;
+		}
+
+		parameters[0] = parameter / vn;
+		parameters[1] = parameter;
+
+	}
+
+	/**
+	 * calculates projection of this on the 3D-line represented by the matrix {V
+	 * O}.
+	 * 
+	 * @param O
+	 *            origin of the line
 	 * @param V
 	 *            direction of the line
 	 * @param H point projected 

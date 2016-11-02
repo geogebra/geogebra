@@ -202,11 +202,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			splashWidth = width;
 			splashHeight = height;
 		}
+		int borderWidth = articleElement.getBorderThickness();
 		if (width > 0 && height > 0) {
-			setWidth((width - BORDER_WIDTH) + "px"); // 2: border
+			setWidth((width - borderWidth) + "px"); // 2: border
 			setComputedWidth(width);
 			setComputedHeight(height);
-			setHeight((height - BORDER_HEIGHT) + "px"); // 2: border
+			setHeight((height - borderWidth) + "px"); // 2: border
 			// Styleshet not loaded yet, add CSS directly
 			splash.getElement().getStyle().setPosition(Position.RELATIVE);
 			splash.getElement().getStyle()
@@ -357,11 +358,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public static void useDataParamBorder(ArticleElement ae, GeoGebraFrameW gf) {
 		// Log.debug("useDataParamBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
+		int thickness = ae.getBorderThickness() / 2;
 		if (dpBorder != null) {
 			if (dpBorder.equals("none")) {
-				setBorder(ae, gf, "transparent", 1);
+				setBorder(ae, gf, "transparent", thickness);
 			} else {
-				setBorder(ae, gf, dpBorder, 1);
+				setBorder(ae, gf, dpBorder, thickness);
 			}
 		}
 		gf.getElement().removeClassName(
@@ -373,11 +375,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public static void useDataParamBorder(ArticleElement ae, Element gfE) {
 		// Log.debug("useDataParamBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
+		int thickness = ae.getBorderThickness() / 2;
 		if (dpBorder != null) {
 			if (dpBorder.equals("none")) {
-				setBorder(ae, gfE, "transparent", 1);
+				setBorder(ae, gfE, "transparent", thickness);
 			} else {
-				setBorder(ae, gfE, dpBorder, 1);
+				setBorder(ae, gfE, dpBorder, thickness);
 			}
 		}
 		gfE.removeClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
@@ -400,8 +403,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		        GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
 		gf.getElement()
 		        .addClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
+		int thickness = ae.getBorderThickness() / 2;
 		if (dpBorder != null && dpBorder.equals("none")) {
-			setBorder(ae, gf, "transparent", 1);
+			setBorder(ae, gf, "transparent", thickness);
 			return;
 		}
 	}
@@ -411,8 +415,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		String dpBorder = ae.getDataParamBorder();
 		gfE.removeClassName(GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
 		gfE.addClassName(GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
+		int thickness = ae.getBorderThickness() / 2;
 		if (dpBorder != null && dpBorder.equals("none")) {
-			setBorder(ae, gfE, "transparent", 1);
+			setBorder(ae, gfE, "transparent", thickness);
 			return;
 		}
 	}
@@ -578,9 +583,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public void setHeight(int height) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(getOffsetWidth(), height);
-			setHeight(height - BORDER_HEIGHT + "px");
+			setHeight(height - app.getArticleElement().getBorderThickness()
+					+ "px");
 		} else {
-			setHeight(height - BORDER_HEIGHT + "px");
+			setHeight(height - app.getArticleElement().getBorderThickness()
+					+ "px");
 			app.getEuclidianViewpanel().setPixelSize(getOffsetWidth(), height);
 
 			// maybe onResize is OK too
@@ -602,8 +609,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// setPixelSize(width, height);
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(width, height);
-			setWidth(width - BORDER_WIDTH + "px");
-			setHeight(height - BORDER_WIDTH + "px");
+			setWidth(width - app.getArticleElement().getBorderThickness()
+					+ "px");
+			setHeight(height - app.getArticleElement().getBorderThickness()
+					+ "px");
 		}
 
 	}

@@ -3014,7 +3014,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		Coords mp = getMidpoint3D();
 		mp.projectLine(point, direction, tmpCoords, null);
 		mp.mulInside(-1);
-		mp.addInside(tmpCoords.mul(2));
+		mp.addInsideMul(tmpCoords, 2);
 		setMidpoint(mp.get());
 
 		// eigen vectors
@@ -3022,7 +3022,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			Coords v = eigenvecND[i];
 			double a = 2 * v.dotproduct(direction);
 			v.mulInside(-1);
-			v.addInside(direction.mul(a));
+			v.addInsideMul(direction, a);
 		}
 
 		// symetric matrix

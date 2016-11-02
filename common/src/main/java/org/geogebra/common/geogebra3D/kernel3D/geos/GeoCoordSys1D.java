@@ -814,12 +814,14 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 		}
 		point.projectLine(o1, vn, tmpCoords1, null); // point projected on the
 														// line
-		point = point.mul(-1);
-		point.addInside(tmpCoords1.mul(2));
+		point.mulInside(-1);
+		point.addInsideMul(tmpCoords1, 2);
 
 		double l = vn.getNorm();
 		Coords v = getCoordSys().getVx();
-		setCoord(point, vn.mul(2 * v.dotproduct(vn) / (l * l)).add(v.mul(-1)));
+		setCoord(point,
+				vn.copy().mulInside(2 * v.dotproduct(vn) / (l * l))
+						.addInsideMul(v, -1));
 
 	}
 

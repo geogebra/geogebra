@@ -50,7 +50,6 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.AlgebraInput;
-import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -654,16 +653,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		widthChanged = width - geogebraFrame.getOffsetWidth();
 		heightChanged = height - geogebraFrame.getOffsetHeight();
-
+		int borderThickness = ((AppW) app).getArticleElement()
+				.getBorderThickness();
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
 			final Widget root = getLayout().getRootComponent();
 			root.setPixelSize(root.getOffsetWidth() + widthChanged,
 			        root.getOffsetHeight() + heightChanged);
 		} else {
 			geogebraFrame.getStyle().setProperty("height",
-					height - GeoGebraFrameW.BORDER_HEIGHT + "px");
+					height - borderThickness + "px");
 			geogebraFrame.getStyle().setProperty("width",
-					width - GeoGebraFrameW.BORDER_HEIGHT + "px");
+					width - borderThickness + "px");
 			((AppW) app).getEuclidianViewpanel().setPixelSize(width,
 					height);
 
@@ -671,8 +671,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			((AppW) app).getEuclidianViewpanel().deferredOnResize();
 		}
 		if (this.algebraInput != null) {
-			this.algebraInput.setWidth((width - 2) + "px");
-			this.algebraInput.setInputFieldWidth(width - 2);
+			this.algebraInput.setWidth((width - borderThickness)
+					+ "px");
+			this.algebraInput.setInputFieldWidth(width - borderThickness);
 		}
 		if (this.toolbarPanel != null) {
 			toolbarPanel.setToolbarWidth(width);
