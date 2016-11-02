@@ -149,6 +149,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private String strCustomToolbarDefinition;
 	private boolean draggingViews;
 	private final ObjectPool objectPool;
+	/** device: tbalet / browser */
 	protected final GDevice device;
 	private int toolbarID = App.VIEW_EUCLIDIAN;
 	private ConstructionProtocolView constructionProtocolView;
@@ -1180,7 +1181,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void attachAssignmentView() {
 		Log.debug("unimplemented");
 	}
-	
+
+	/**
+	 * @return Data collection view
+	 */
 	public DataCollectionView getDataCollectionView() {
 		if (dataCollectionView == null) {
 			dataCollectionView = new DataCollectionView((AppW) app);
@@ -1189,6 +1193,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return dataCollectionView;
 	}
 
+	/**
+	 * Update lists in data collection view
+	 */
 	public void updateDataCollectionView() {
 		this.dataCollectionView.updateGeoList();
 	}
@@ -1375,8 +1382,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public boolean hasEuclidianView2(final int idx) {
-		if (euclidianView2.size() <= idx || euclidianView2.get(idx) == null)
+		if (!this.hasEuclidianView2EitherShowingOrNot(idx)) {
 			return false;
+		}
+		if (idx == 1) {
+			return showView(App.VIEW_EUCLIDIAN2);
+		}
 		if (!euclidianView2.get(idx).isShowing())
 			return false;
 		return true;

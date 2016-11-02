@@ -1,6 +1,5 @@
 package org.geogebra.web.phone.gui.view.algebra;
 
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.phone.gui.view.AbstractView;
 import org.geogebra.web.phone.gui.view.HeaderPanel;
@@ -14,7 +13,7 @@ import com.google.gwt.resources.client.ImageResource;
 /**
  * @see AbstractView
  */
-public class AlgebraView extends AbstractView {
+public class AlgebraPhoneView extends AbstractView {
 
 	private AlgebraViewW algebraView;
 
@@ -22,7 +21,7 @@ public class AlgebraView extends AbstractView {
 	 * @param app
 	 *            {@link AppW}
 	 */
-	public AlgebraView(AppW app) {
+	public AlgebraPhoneView(AppW app) {
 		super(app);
 		this.algebraView = (AlgebraViewW) app.getAlgebraView();
 	}
@@ -30,10 +29,6 @@ public class AlgebraView extends AbstractView {
 	@Override
 	protected ImageResource createViewIcon() {
 		return GuiResources.INSTANCE.algebraView();
-	}
-
-	public GeoElement getDraggedGeo() {
-		return null;
 	}
 
 	@Override

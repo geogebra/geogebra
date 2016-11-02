@@ -1751,7 +1751,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 			
 			}
 		} else {
-			Log.debug("canNOT hide");
 			if (accurate) {
 				adjustControlsPosition();
 				// controls.getElement().getStyle().setRight(visibleRight,
