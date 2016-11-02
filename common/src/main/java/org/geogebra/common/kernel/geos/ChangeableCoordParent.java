@@ -200,6 +200,7 @@ public class ChangeableCoordParent {
 			case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
 				// TODO
 				break;
+			default:
 			case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
 				if (!view.isGridOrAxesShown()) {
 					break;

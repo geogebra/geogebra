@@ -192,12 +192,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	GeoImplicit iPoly;
 	/** substitute functions for composite function */
 	GeoFunction[] substituteFunctions;
-	/** direct function */
-	static int FUNCTION_DIRECT = 1;
-	/** composite of implicit poly and functions */
-	static int FUNCTION_COMPOSITE_IPOLY_FUNCS = 3;
-	/** function type (direct or composite) */
-	int geoFunctionType = FUNCTION_DIRECT;
 
 	// Currently, the composite function is only for internal use
 	// The expression is not correct but it is not to be shown anyway.
@@ -212,7 +206,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			GeoFunction g) {  
 		this(c);
 		this.iPoly = iPoly;
-		geoFunctionType = FUNCTION_COMPOSITE_IPOLY_FUNCS;
 
 		substituteFunctions = new GeoFunction[2];
 		substituteFunctions[0] = f;

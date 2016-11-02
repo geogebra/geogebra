@@ -115,8 +115,7 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		this(c, false);
 		setFunction(f);
 		fun.initFunction(simplifyInt);
-		if (fun != null)
-			isInequality = fun.initIneqs(this.getFunctionExpression(), this);
+		isInequality = fun.initIneqs(this.getFunctionExpression(), this);
 
 		setConstructionDefaults();
 	}
@@ -1014,9 +1013,9 @@ public class GeoFunctionNVar extends GeoElement implements FunctionalNVar,
 		double ymax = kernel.getViewsYMax(P);
 		for (int i = 0; !found && i < SEARCH_SAMPLES; i++)
 			for (int j = 0; !found && j < SEARCH_SAMPLES; j++) {
-				double p = i / SEARCH_SAMPLES;
+				double p = i / (double) SEARCH_SAMPLES;
 				double rx = p * xmin + (1 - p) * xmax;
-				double q = i / SEARCH_SAMPLES;
+				double q = i / (double) SEARCH_SAMPLES;
 				double ry = q * ymin + (1 - q) * ymax;
 				if (isInRegion(rx, ry)) {
 					P.setCoords(new Coords(rx, ry, 0, 1), false);

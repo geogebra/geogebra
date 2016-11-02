@@ -42,6 +42,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		setStartPoint(origin);
 
 		switch (type) {
+		default:
 		case X_AXIS:
 			setCoords(0, 1, 0);
 			label = "xAxis";
