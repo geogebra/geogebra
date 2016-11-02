@@ -130,6 +130,12 @@ public class GColorW extends GColor {
 	}
 
 	@Override
+	public int hashCode() {
+		assert false : "hashCode not designed";
+		return 42; // any arbitrary constant will do
+	}
+
+	@Override
 	public void getRGBColorComponents(float[] rgb) {
 		rgb[0] = (float) (getRed() / 255.0);
 		rgb[1] = (float) (getGreen() / 255.0);

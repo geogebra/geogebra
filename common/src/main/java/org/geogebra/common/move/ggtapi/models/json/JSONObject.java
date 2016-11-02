@@ -846,4 +846,11 @@ public class JSONObject {
         }
 		return null;
     }
+
+	@Override
+	public int hashCode() {
+		assert false : "hashCode not designed";
+		return 42; // any arbitrary constant will do
+	}
+
 }

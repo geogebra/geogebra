@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.discrete.delaunay;
 
 import java.util.Comparator;
 
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -309,4 +308,11 @@ class Compare implements Comparator{
 	public boolean equals(Object ob) {
 		return false;
 	}
+
+	@Override
+	public int hashCode() {
+		assert false : "hashCode not designed";
+		return 42; // any arbitrary constant will do
+	}
+
 }

@@ -57,12 +57,13 @@ public abstract class Point<T extends Number & Comparable<T>> {
     }
 
     static double distanceFromLineSqrd( Point<? extends Number> pt, Point<? extends Number> ln1, Point<? extends Number> ln2 ) {
-        //The equation of a line in general form (Ax + By + C = 0)
-        //given 2 points (x�,y�) & (x�,y�) is ...
-        //(y� - y�)x + (x� - x�)y + (y� - y�)x� - (x� - x�)y� = 0
-        //A = (y� - y�); B = (x� - x�); C = (y� - y�)x� - (x� - x�)y�
-        //perpendicular distance of point (x�,y�) = (Ax� + By� + C)/Sqrt(A� + B�)
-        //see http://en.wikipedia.org/wiki/Perpendicular_distance
+		// The equation of a line in general form (a x + b y + c = 0)
+		// given 2 points (x1,y1) & (x2,y2) is ...
+		// (y1 - y2)x + (x2 - x1)y + (y2 - y1)x1 - (x2 - x1)y1 = 0
+		// A = (y1 - y2); B = (x2 - x1); c = (y2 - y1)x1 - (x2 - x1)y1
+		// perpendicular distance of point (x0,y0) is
+		// (a x0 + b y0 + c) / sqrt(a^2 + b^2)
+		// see https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
         final double A = ln1.y.doubleValue() - ln2.y.doubleValue();
         final double B = ln2.x.doubleValue() - ln1.x.doubleValue();
         double C = A * ln1.x.doubleValue() + B * ln1.y.doubleValue();
@@ -174,10 +175,14 @@ public abstract class Point<T extends Number & Comparable<T>> {
             final Point<?> a = (Point<?>) obj;
             return NUMBER_COMPARATOR.compare( x, a.x ) == 0 && NUMBER_COMPARATOR.compare( y, a.y ) == 0;
         }
-        else {
-            return false;
-        }
+		return false;
     }
+
+	@Override
+	public int hashCode() {
+		assert false : "hashCode not designed";
+		return 42; // any arbitrary constant will do
+	}
 
     public void set( Point<T> other ) {
         x = other.x;
