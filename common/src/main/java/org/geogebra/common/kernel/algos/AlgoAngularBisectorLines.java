@@ -324,83 +324,87 @@ public class AlgoAngularBisectorLines extends AlgoElement implements
 		
 		GeoLine lg = getg();
 		GeoLine lh = geth();
-		GeoPoint A, B, C;
 
 		if (lg != null && lh != null) {
-			A = this.B;
-			GeoPoint gStart = lg.getStartPoint();
-			GeoPoint gEnd = lg.getEndPoint();
-			GeoPoint hStart = lh.getStartPoint();
-			GeoPoint hEnd = lh.getEndPoint();
+			/*
+			 * We need to compute this.B symbolically since it is not computed
+			 * automatically in this class.
+			 */
+			Variable[] varsB = new Variable[2];
+			Variable[] varsLg = new Variable[4];
+			Variable[] varsLh = new Variable[4];
+			varsB = (this.B).getBotanaVars(this.B);
+			varsLg = lg.getBotanaVars(lg);
+			varsLh = lh.getBotanaVars(lh);
+			Polynomial[] polysB = (this.B).getBotanaPolynomials(this.B);
+
+			if (polysB == null) {
+				// if already exists, let's use it, if not, create a new one
+				polysB = new Polynomial[2];
+				polysB[0] = Polynomial.collinear(varsB[0], varsB[1], varsLg[0],
+						varsLg[1], varsLg[2], varsLg[3]);
+				polysB[1] = Polynomial.collinear(varsB[0], varsB[1], varsLh[0],
+						varsLh[1], varsLh[2], varsLh[3]);
+			}
 			
-			if (gStart.isEqual(this.B)) {
-				B = gEnd;
-				A = gStart;
-			} else {
-				B = gStart;
-				A = gEnd;
+			Variable[] vA = new Variable[2];
+			vA[0] = varsLg[0];
+			vA[1] = varsLg[1];
+			Variable[] vB = new Variable[2];
+			vB[0] = varsLh[0];
+			vB[1] = varsLh[1];
+			Variable[] vC = varsB;
+
+			botanaPolynomials = new Polynomial[4];
+			botanaPolynomials[2] = polysB[0];
+			botanaPolynomials[3] = polysB[1];
+
+			// from now on we use the equations from
+			// AlgoAngularBisectorPoints
+
+			if (botanaVars == null) {
+				botanaVars = new Variable[4];
+				// M
+				botanaVars[0] = new Variable();
+				botanaVars[1] = new Variable();
+				// A
+				botanaVars[2] = vC[0];
+				botanaVars[3] = vC[1];
 			}
 
-			if (hStart.isEqual(this.B)) {
-				C = hEnd;
-			} else {
-				C = hStart;
-			}
-		
-		
-			if (A != null && B != null && C != null) {
-				Variable[] vA = B.getBotanaVars(B);
-				Variable[] vB = C.getBotanaVars(C);
-				Variable[] vC = A.getBotanaVars(A);
+			Polynomial a1 = new Polynomial(vA[0]);
+			Polynomial a2 = new Polynomial(vA[1]);
+			Polynomial b1 = new Polynomial(vB[0]);
+			Polynomial b2 = new Polynomial(vB[1]);
+			Polynomial c1 = new Polynomial(vC[0]);
+			Polynomial c2 = new Polynomial(vC[1]);
+			Polynomial m1 = new Polynomial(botanaVars[0]); // d1
+			Polynomial m2 = new Polynomial(botanaVars[1]); // d2
 
-				if (botanaVars == null) {
-					botanaVars = new Variable[4];
-					// M
-					botanaVars[0] = new Variable();
-					botanaVars[1] = new Variable();
-					// A
-					botanaVars[2] = vC[0];
-					botanaVars[3] = vC[1];
-				}
+			// A,M,B collinear (needed for easing computations)
+			botanaPolynomials[0] = Polynomial.collinear(vA[0], vA[1], vB[0],
+					vB[1], botanaVars[0], botanaVars[1]);
 
-				botanaPolynomials = new Polynomial[2];
+			// (b1-c1)*(c1-d1)
+			Polynomial p1 = b1.subtract(c1).multiply(c1.subtract(m1));
+			// (b2-c2)*(c2-d2)
+			Polynomial p2 = b2.subtract(c2).multiply(c2.subtract(m2));
+			// (a1-c1)^2+(a2-c2)^2
+			Polynomial p3 = (Polynomial.sqr(a1.subtract(c1)))
+					.add(Polynomial.sqr(a2.subtract(c2)));
+			// (a1-c1)*(c1-d1)
+			Polynomial p4 = a1.subtract(c1).multiply(c1.subtract(m1));
+			// (a2-c2)*(c2-d2)
+			Polynomial p5 = a2.subtract(c2).multiply(c2.subtract(m2));
+			// (b1-c1)^2+(b2-c2)^2
+			Polynomial p6 = Polynomial.sqr(b1.subtract(c1))
+					.add(Polynomial.sqr(b2.subtract(c2)));
+			// ((b1-c1)*(c1-d1)+(b2-c2)*(c2-d2))^2*((a1-c1)^2+(a2-c2)^2)
+			// -((a1-c1)*(c1-d1)+(a2-c2)*(c2-d2))^2*((b1-c1)^2+(b2-c2)^2)
+			botanaPolynomials[1] = Polynomial.sqr((p1.add(p2))).multiply(p3)
+					.subtract(Polynomial.sqr(p4.add(p5)).multiply(p6));
 
-				Polynomial a1 = new Polynomial(vA[0]);
-				Polynomial a2 = new Polynomial(vA[1]);
-				Polynomial b1 = new Polynomial(vB[0]);
-				Polynomial b2 = new Polynomial(vB[1]);
-				Polynomial c1 = new Polynomial(vC[0]);
-				Polynomial c2 = new Polynomial(vC[1]);
-				Polynomial m1 = new Polynomial(botanaVars[0]); // d1
-				Polynomial m2 = new Polynomial(botanaVars[1]); // d2
-
-				// A,M,B collinear (needed for easing computations)
-				botanaPolynomials[0] = Polynomial.collinear(vA[0], vA[1],
-						vB[0], vB[1], botanaVars[0], botanaVars[1]);
-
-				// (b1-c1)*(c1-d1)
-				Polynomial p1 = b1.subtract(c1).multiply(c1.subtract(m1));
-				// (b2-c2)*(c2-d2)
-				Polynomial p2 = b2.subtract(c2).multiply(c2.subtract(m2));
-				// (a1-c1)^2+(a2-c2)^2
-				Polynomial p3 = (Polynomial.sqr(a1.subtract(c1)))
-						.add(Polynomial.sqr(a2.subtract(c2)));
-				// (a1-c1)*(c1-d1)
-				Polynomial p4 = a1.subtract(c1).multiply(c1.subtract(m1));
-				// (a2-c2)*(c2-d2)
-				Polynomial p5 = a2.subtract(c2).multiply(c2.subtract(m2));
-				// (b1-c1)^2+(b2-c2)^2
-				Polynomial p6 = Polynomial.sqr(b1.subtract(c1)).add(
-						Polynomial.sqr(b2.subtract(c2)));
-				// ((b1-c1)*(c1-d1)+(b2-c2)*(c2-d2))^2*((a1-c1)^2+(a2-c2)^2)
-				// -((a1-c1)*(c1-d1)+(a2-c2)*(c2-d2))^2*((b1-c1)^2+(b2-c2)^2)
-				botanaPolynomials[1] = Polynomial.sqr((p1.add(p2)))
-						.multiply(p3)
-						.subtract(Polynomial.sqr(p4.add(p5)).multiply(p6));
-
-			}
 			return botanaPolynomials;
-
 		}
 		throw new NoSymbolicParametersException();
 
