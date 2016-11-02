@@ -2877,12 +2877,21 @@ public abstract class App implements UpdateSelection {
 
 	public abstract void fileNew();
 
+	/**
+	 * Remove references to dynamic bounds, reset selection rectangle
+	 */
 	protected void resetEVs() {
+		if (kernel.getConstruction() != null) {
+			kernel.getConstruction().setIgnoringNewTypes(true);
+		}
 		getEuclidianView1().resetXYMinMaxObjects();
 		getEuclidianView1().setSelectionRectangle(null);
 		if (hasEuclidianView2EitherShowingOrNot(1)) {
 			getEuclidianView2(1).resetXYMinMaxObjects();
 			getEuclidianView2(1).setSelectionRectangle(null);
+		}
+		if (kernel.getConstruction() != null) {
+			kernel.getConstruction().setIgnoringNewTypes(false);
 		}
 	}
 
