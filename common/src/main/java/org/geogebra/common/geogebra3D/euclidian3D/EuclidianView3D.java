@@ -1932,7 +1932,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *            speed of rotation
 	 */
 	public void setRotContinueAnimation(double delay, double rotSpeed) {
-		// Application.debug("delay="+delay+", rotSpeed="+rotSpeed);
+		// Log.debug("delay=" + delay + ", rotSpeed=" + rotSpeed);
 
 		if (Double.isNaN(rotSpeed)) {
 			Log.error("NaN values for setRotContinueAnimation");
