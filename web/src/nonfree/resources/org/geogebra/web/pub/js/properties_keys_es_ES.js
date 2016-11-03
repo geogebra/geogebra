@@ -1769,8 +1769,6 @@ __GGB__keysVar.es_ES.menu = {
     "FractionTotal": "Fracci\xf3n total",
     "FrakturLetters": "Letras Fraktur",
     "FreeObjects": "Objetos libres",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Funci\xf3n a mano alzada",
     "FreehandFunction.Help": "Arrastra el rat\xf3n para esbozar la gr\xe1fica de una funci\xf3n",
     "FreehandFunctionOnIntervalAB": "Funci\xf3n a mano alzada en el intervalo [%0, %1]",

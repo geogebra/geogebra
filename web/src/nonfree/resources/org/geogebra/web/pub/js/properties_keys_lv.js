@@ -1769,8 +1769,6 @@ __GGB__keysVar.lv.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "Fraktur Burti",
     "FreeObjects": "Br\u012bvi objekti",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Br\u012bv\u0101s rokas funkcija",
     "FreehandFunction.Help": "Skic\u0113 br\u012bv\u0101s rokas funkciju, izmantojot vilk\u0161anu",
     "FreehandFunctionOnIntervalAB": "Br\u012bvroku funkcija interv\u0101l\u0101 [%0, %1]",

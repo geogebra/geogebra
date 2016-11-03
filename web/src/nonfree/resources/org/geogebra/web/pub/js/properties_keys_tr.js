@@ -1769,8 +1769,6 @@ __GGB__keysVar.tr.menu = {
     "FractionTotal": "Tam Kesir",
     "FrakturLetters": "Frakt\xfcr Harflari",
     "FreeObjects": "Serbest nesneler",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Taslak Fonksiyon",
     "FreehandFunction.Help": "\xc7ekerek taslak bir fonksiyon \xe7iz-",
     "FreehandFunctionOnIntervalAB": "[%0, %1] aral\u0131\u011f\u0131nda taslak fonksiyon",

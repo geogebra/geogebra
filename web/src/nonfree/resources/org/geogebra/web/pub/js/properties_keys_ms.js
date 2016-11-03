@@ -1769,8 +1769,6 @@ __GGB__keysVar.ms.menu = {
     "FractionTotal": "Jumlah Pecahan",
     "FrakturLetters": "Huruf-huruf Fraktur",
     "FreeObjects": "Objek-objek Bebas",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Fungsi Gaya Bebas",
     "FreehandFunction.Help": "Lakar fungsi gaya bebas dengan mengheret",
     "FreehandFunctionOnIntervalAB": "Fungsi Gaya Bebas pada selang [%0, %1]",

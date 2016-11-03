@@ -1769,8 +1769,6 @@ __GGB__keysVar.cy.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "Llythrennau Fraktur",
     "FreeObjects": "Gwrthrychau rhydd",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Freehand Function",
     "FreehandFunction.Help": "Sketch a freehand function by dragging\nDarluniwch ffwythiant llaw-rhydd drwy lusgo",
     "FreehandFunctionOnIntervalAB": "Freehand function on interval [%0, %1]",

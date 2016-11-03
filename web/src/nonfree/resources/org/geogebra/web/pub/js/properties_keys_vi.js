@@ -1769,8 +1769,6 @@ __GGB__keysVar.vi.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "K\xed t\u1ef1 ki\u1ec3u ch\u1eef in \u1edf \u0110\u1ee9c",
     "FreeObjects": "C\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng t\u1ef1 do",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "H\xe0m v\u1ebd t\u1ef1 do",
     "FreehandFunction.Help": "V\u1ebd c\xe1c h\xe0m s\u1ed1 t\u1ef1 do b\u1eb1ng c\xe1ch k\xe9o th\u1ea3",
     "FreehandFunctionOnIntervalAB": "H\xe0m v\u1ebd t\u1ef1 do trong kho\u1ea3ng [%0, %1]",

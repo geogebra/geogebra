@@ -1769,8 +1769,6 @@ __GGB__keysVar.ko.menu = {
     "FractionTotal": "\ucd1d \ub4dd\uc810\ube44\uc728",
     "FrakturLetters": "\ub3c5\uc77c\uccb4(Fractur)",
     "FreeObjects": "\uc790\uc720\ub85c\uc6b4 \ub300\uc0c1",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "\ud504\ub9ac\ud578\ub4dc \ud568\uc218",
     "FreehandFunction.Help": "\ub4dc\ub798\uadf8\ud558\uc5ec \ud504\ub9ac\ud578\ub4dc \ud568\uc218\ub97c \uc2a4\ucf00\uce58\ud558\uc138\uc694.",
     "FreehandFunctionOnIntervalAB": "\uad6c\uac04 [%0, %1]\uc5d0\uc11c\uc758 \ud504\ub9ac\ud578\ub4dc \ud568\uc218",

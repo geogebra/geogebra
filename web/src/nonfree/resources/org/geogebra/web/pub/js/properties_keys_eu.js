@@ -1769,8 +1769,6 @@ __GGB__keysVar.eu.menu = {
     "FractionTotal": "Zatiki Osoa",
     "FrakturLetters": "Fraktur Letrak",
     "FreeObjects": "Objektu libreak",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Eskuz egindako Funtzioa",
     "FreehandFunction.Help": "Eskuz egindako funtzioa zirriborratu, arrastatuz",
     "FreehandFunctionOnIntervalAB": "Esku hutsezko funtzioa [%0, %1] tartean",

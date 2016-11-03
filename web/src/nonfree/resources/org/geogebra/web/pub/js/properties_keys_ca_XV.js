@@ -1769,8 +1769,6 @@ __GGB__keysVar.ca_XV.menu = {
     "FractionTotal": "Fracci\xf3 total",
     "FrakturLetters": "Lletres Fraktur",
     "FreeObjects": "Objectes lliures",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Ferramenta de m\xe0 al\xe7ada (funcions, segments, circumfer\xe8ncies)",
     "FreehandFunction.Help": "Premeu un dels botons del ratol\xed i arrossegueu per a dibuixar a m\xe0 al\xe7ada una funci\xf3, un segment o una circumfer\xe8ncia",
     "FreehandFunctionOnIntervalAB": "Funci\xf3 a m\xe0 al\xe7ada en l'interval [%0, %1]",

@@ -1769,8 +1769,6 @@ __GGB__keysVar.pl.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "Czcionka Fraktur",
     "FreeObjects": "Obiekty swobodne",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Odr\u0119czny Wykres Funkcji",
     "FreehandFunction.Help": "Naszkicuj funkcj\u0119 odr\u0119cznie przez przeci\u0105ganie",
     "FreehandFunctionOnIntervalAB": "Odr\u0119czna funkcja w przedziale [%0, %1]",

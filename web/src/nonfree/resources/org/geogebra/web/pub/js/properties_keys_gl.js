@@ -1769,8 +1769,6 @@ __GGB__keysVar.gl.menu = {
     "FractionTotal": "Fracci\xf3n total",
     "FrakturLetters": "Letras Fraktur",
     "FreeObjects": "Obxectos libres",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Funci\xf3n a man alzada",
     "FreehandFunction.Help": "Debuxar, arrastrando, unha funci\xf3n a man alzada",
     "FreehandFunctionOnIntervalAB": "Funci\xf3n a man alzada no intervalo [%0, %1]",

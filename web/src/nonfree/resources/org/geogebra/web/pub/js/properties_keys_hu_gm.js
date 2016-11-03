@@ -1769,8 +1769,6 @@ __GGB__keysVar.hu_gm.menu = {
     "FractionTotal": "T\xf6rtek \xf6sszege",
     "FrakturLetters": "G\xf3t karakterek",
     "FreeObjects": "Szabad alakzatok",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "F\xfcggv\xe9ny szabadk\xe9zzel",
     "FreehandFunction.Help": "F\xfcggv\xe9ny rajzol\xe1sa szabadk\xe9zzel",
     "FreehandFunctionOnIntervalAB": "Szabadk\xe9zzel rajzolt f\xfcggv\xe9ny [%0, %1] intervallumon",

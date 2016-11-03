@@ -1769,8 +1769,6 @@ __GGB__keysVar.no_NN.menu = {
     "FractionTotal": "Total del utf\xf8rt",
     "FrakturLetters": "Gotiske bokstavar",
     "FreeObjects": "Frie objekt",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Frihand",
     "FreehandFunction.Help": "Teikn ein frihandsgraf",
     "FreehandFunctionOnIntervalAB": "Frihandsgraf i intervallet [%0, %1]",

@@ -1769,8 +1769,6 @@ __GGB__keysVar.am.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "Fraktur Letters",
     "FreeObjects": "\u1290\u1343 \u1290\u1308\u122e\u127d",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "\u1290\u133b \u12a5\u1305 \u1270\u130d\u1263\u122d",
     "FreehandFunction.Help": "Sketch a freehand function by dragging",
     "FreehandFunctionOnIntervalAB": "Freehand function on interval [%0, %1]",

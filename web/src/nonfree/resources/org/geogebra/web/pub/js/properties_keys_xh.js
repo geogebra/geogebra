@@ -1769,8 +1769,6 @@ __GGB__keysVar.xh.menu = {
     "FractionTotal": "iQhezu eliPheleleyo",
     "FrakturLetters": "oonobumba beFraktur",
     "FreeObjects": "iiFree Objects",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "iFunction EyenzweNgesandla",
     "FreehandFunction.Help": "Zoba igrafu EyenzweNgesandla ngokuTsala iMawsi",
     "FreehandFunctionOnIntervalAB": "iFankshini yeSandlaSendalo kwiSithuba esingu [%0, %1]",

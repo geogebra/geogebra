@@ -1769,8 +1769,6 @@ __GGB__keysVar.is.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "Fraktur stafir",
     "FreeObjects": "Frj\xe1lsir hlutir",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Fr\xedhendis fall",
     "FreehandFunction.Help": "Teikna falli\xf0 fall fr\xedhendis me\xf0 \xfev\xed a\xf0 draga m\xfas",
     "FreehandFunctionOnIntervalAB": "Fr\xedhendis fall \xe1 bilinu [%0, %1]",

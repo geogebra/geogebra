@@ -1769,8 +1769,6 @@ __GGB__keysVar.ta.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "Fraktur Letters",
     "FreeObjects": "\u0b87\u0bb2\u0bb5\u0b9a\u0baa\u0bcd \u0baa\u0bca\u0bb0\u0bc1\u0b9f\u0bcd\u0b95\u0bb3\u0bcd",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Freehand Function",
     "FreehandFunction.Help": "Sketch a freehand function by dragging",
     "FreehandFunctionOnIntervalAB": "Freehand function on interval [%0, %1]",

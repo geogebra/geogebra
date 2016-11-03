@@ -1769,8 +1769,6 @@ __GGB__keysVar.sv.menu = {
     "FractionTotal": "Total andel",
     "FrakturLetters": "Fraktur",
     "FreeObjects": "Fria objekt",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Frihand",
     "FreehandFunction.Help": "Skissa en funktion p\xe5 frihand genom att dra med musen",
     "FreehandFunctionOnIntervalAB": "Frihandsfunktion i intervallet [%0, %1]",

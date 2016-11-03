@@ -1769,8 +1769,6 @@ __GGB__keysVar.tl.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "Fraktur Letters",
     "FreeObjects": "Malayang mga bagay",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Freehand Function",
     "FreehandFunction.Help": "Gumuhit ng freehand function gamit ang mouse",
     "FreehandFunctionOnIntervalAB": "Freehand function on interval [%0, %1]",

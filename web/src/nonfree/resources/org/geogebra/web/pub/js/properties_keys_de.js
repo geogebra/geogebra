@@ -1769,8 +1769,6 @@ __GGB__keysVar.de.menu = {
     "FractionTotal": "Gesamt-Anteil",
     "FrakturLetters": "Fraktur",
     "FreeObjects": "Freie Objekte",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Freihand",
     "FreehandFunction.Help": "Skizzieren Sie eine Freihandfunktion, indem Sie die (linke) Maustaste gedr\xfcckt halten.",
     "FreehandFunctionOnIntervalAB": "Freihandfunktion im Intervall [%0, %1]",

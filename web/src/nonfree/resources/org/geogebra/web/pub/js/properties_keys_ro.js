@@ -1769,8 +1769,6 @@ __GGB__keysVar.ro.menu = {
     "FractionTotal": "Frac\u0163ie total\u0103",
     "FrakturLetters": "Litere Fraktur",
     "FreeObjects": "Obiecte libere",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Func\u021bie liber\u0103",
     "FreehandFunction.Help": "Deseneaz\u0103 o func\u021bie cu m\xe2na liber\u0103",
     "FreehandFunctionOnIntervalAB": "Func\u021bie de m\xe2n\u0103 liber\u0103 \xeen intervalul [%0, %1]",

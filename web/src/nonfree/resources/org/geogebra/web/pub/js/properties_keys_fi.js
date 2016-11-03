@@ -1769,8 +1769,6 @@ __GGB__keysVar.fi.menu = {
     "FractionTotal": "Kokonaisosuus",
     "FrakturLetters": "Fraktuuri merkist\xf6",
     "FreeObjects": "Vapaat objektit",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Funktion piirto vapaalla k\xe4dell\xe4",
     "FreehandFunction.Help": "Piirr\xe4 vapaan k\xe4den funktio vet\xe4m\xe4ll\xe4 hiirell\xe4",
     "FreehandFunctionOnIntervalAB": "Vapaan k\xe4den funktio v\xe4lill\xe4 [%0, %1]",

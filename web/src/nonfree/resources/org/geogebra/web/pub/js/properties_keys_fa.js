@@ -1769,8 +1769,6 @@ __GGB__keysVar.fa.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "\u062d\u0631\u0648\u0641 \u0641\u0631\u0627\u06a9\u062a\u0648\u0631",
     "FreeObjects": "\u0627\u0634\u06cc\u0627\u0621 \u0622\u0632\u0627\u062f",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "\u062a\u0627\u0628\u0639 \u062a\u0631\u0633\u06cc\u0645 \u0622\u0632\u0627\u062f",
     "FreehandFunction.Help": "\u06a9\u0634\u06cc\u062f\u0646 \u062a\u0627\u0628\u0639 \u062a\u0631\u0633\u06cc\u0645 \u0622\u0632\u0627\u062f \u0628\u0627 \u06af\u0631\u0641\u062a\u0646 \u0648 \u062c\u0627\u0628\u062c\u0627 \u06a9\u0631\u062f\u0646",
     "FreehandFunctionOnIntervalAB": "\u062a\u0627\u0628\u0639 \u062a\u0631\u0633\u06cc\u0645 \u0622\u0632\u0627\u062f \u062f\u0631 \u0628\u0627\u0632\u0647 [%0, %1]",

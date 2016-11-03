@@ -1769,8 +1769,6 @@ __GGB__keysVar.bs.menu = {
     "FractionTotal": "Ukupni razlomak",
     "FrakturLetters": "Fraktura slova",
     "FreeObjects": "Nezavisne figure",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Slobodni stil",
     "FreehandFunction.Help": "Skicirajte funkciju slobodnim stilom",
     "FreehandFunctionOnIntervalAB": "Skicirana funkcija na intervalu [%0, %1]",

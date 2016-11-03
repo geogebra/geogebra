@@ -1769,8 +1769,6 @@ __GGB__keysVar.cs.menu = {
     "FractionTotal": "Celkov\xfd pod\xedl",
     "FrakturLetters": "Fraktura (p\xedsmo)",
     "FreeObjects": "Voln\xe9 objekty",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Funkce od ruky",
     "FreehandFunction.Help": "Nakreslete funkci ta\u017een\xedm my\u0161i",
     "FreehandFunctionOnIntervalAB": "Funkce od ruky na intervalu [%0, %1]",

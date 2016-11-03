@@ -1769,8 +1769,6 @@ __GGB__keysVar.zh_CN.menu = {
     "FractionTotal": "\u603b\u5206",
     "FrakturLetters": "\u6b4c\u5fb7\u4f53\u5b57\u6bcd",
     "FreeObjects": "\u81ea\u7531\u5bf9\u8c61",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "\u624b\u7ed8\u51fd\u6570",
     "FreehandFunction.Help": "\u5728\u7ed8\u56fe\u533a\u62d6\u52a8\u7ed8\u5236\u51fd\u6570",
     "FreehandFunctionOnIntervalAB": "\u533a\u95f4 [%0, %1] \u4e0a\u7684\u624b\u7ed8\u51fd\u6570",

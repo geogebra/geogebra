@@ -1769,8 +1769,6 @@ __GGB__keysVar.nl_NL.menu = {
     "FractionTotal": "Totale breuk",
     "FrakturLetters": "Gebroken letters",
     "FreeObjects": "Vrije objecten",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Vrij Tekenen",
     "FreehandFunction.Help": "Schets een functie uit de vrije hand.",
     "FreehandFunctionOnIntervalAB": "Freehand functie in interval [%0, %1]",

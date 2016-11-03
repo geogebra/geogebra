@@ -1769,8 +1769,6 @@ __GGB__keysVar.ar_TN.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "\u062d\u0631\u0648\u0641 \u0641\u0631\u0627\u0643\u062a\u0648\u0631\u064a\u0629",
     "FreeObjects": "\u0627\u0644\u0639\u0646\u0627\u0635\u0631 \u0627\u0644\u062d\u0631\u0651\u0629",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "\u0639\u0645\u0644\u064a\u0629 \u0631\u0633\u0645 \u064a\u062f\u0648\u064a",
     "FreehandFunction.Help": "\u0631\u0633\u0645 \u064a\u062f\u0648\u064a \u0639\u0646 \u0637\u0631\u064a\u0642 \u0627\u0644\u0633\u062d\u0628",
     "FreehandFunctionOnIntervalAB": "[%0, %1]\u062f\u0627\u0644\u0629 \u062d\u0631\u0629 \u0641\u064a \u0627\u0644\u0645\u062c\u0627\u0644",

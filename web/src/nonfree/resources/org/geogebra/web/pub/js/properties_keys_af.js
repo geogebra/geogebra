@@ -1769,8 +1769,6 @@ __GGB__keysVar.af.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "Fraktur Letters",
     "FreeObjects": "Free Objects",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Freehand Function",
     "FreehandFunction.Help": "Sketch a freehand function by dragging",
     "FreehandFunctionOnIntervalAB": "Freehand function on interval [%0, %1]",

@@ -1769,8 +1769,6 @@ __GGB__keysVar.sk.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "Frakt\xfar",
     "FreeObjects": "Vo\u013en\xe9 objekty",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "N\xe1\u010drt funkcie",
     "FreehandFunction.Help": "Na\u010drtnite funkciu s kurzorom",
     "FreehandFunctionOnIntervalAB": "Ru\u010dn\xfd n\xe1\u010drt funkcie na intervale [%0, %1]",

@@ -1769,8 +1769,6 @@ __GGB__keysVar.et.menu = {
     "FractionTotal": "Osade summa",
     "FrakturLetters": "Fraktuurt\xe4hed",
     "FreeObjects": "Vabad objektid",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Vabak\xe4eline funktsioon",
     "FreehandFunction.Help": "Skitseerige lohistades vabak\xe4eline funktsioon",
     "FreehandFunctionOnIntervalAB": "Vabak\xe4eline funktsioon intervallis [%0, %1]",

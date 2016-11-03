@@ -1769,8 +1769,6 @@ __GGB__keysVar.sq.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "Shkronja Frakture",
     "FreeObjects": "Objekte te Varura",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Funksion i Dores se Lire",
     "FreehandFunction.Help": "Skico me zvarritje nje Funksion te Dores se Lire",
     "FreehandFunctionOnIntervalAB": "Funksion i dores se lire ne intervalin [%0, %1]",

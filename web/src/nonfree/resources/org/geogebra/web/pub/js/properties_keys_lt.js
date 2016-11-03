@@ -1769,8 +1769,6 @@ __GGB__keysVar.lt.menu = {
     "FractionTotal": "Total Fraction",
     "FrakturLetters": "Raid\u0117s",
     "FreeObjects": "Nepriklausomi objektai",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Pie\u0161imo ranka funkcija",
     "FreehandFunction.Help": "Pie\u0161kite funkcij\u0105 tempdami pel\u0119",
     "FreehandFunctionOnIntervalAB": "Pie\u0161imas ranka intervale [%0, %1]",

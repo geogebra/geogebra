@@ -1769,8 +1769,6 @@ __GGB__keysVar.sl.menu = {
     "FractionTotal": "Vsota ulomkov",
     "FrakturLetters": "\u010crke preloma",
     "FreeObjects": "Prosti objekti",
-    "FreehandCircle": "Freehand Circle",
-    "FreehandCircle.Help": "Sketch a circle by dragging",
     "FreehandFunction": "Prostoro\u010dna funkcija",
     "FreehandFunction.Help": "Skiciraj prostoro\u010dno funkcijo tako da povle\u010de\u0161 z mi\u0161ko",
     "FreehandFunctionOnIntervalAB": "Prostoro\u010dna funkcija na intervalu [%0, %1]",
