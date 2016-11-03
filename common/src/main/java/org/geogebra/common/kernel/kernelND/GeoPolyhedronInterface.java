@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.kernelND;
 
+import org.geogebra.common.kernel.Matrix.Coords;
+
 /**
  * @author mathieu
  *
@@ -10,4 +12,9 @@ public interface GeoPolyhedronInterface extends GeoElementND {
 	 * @param size new point size
 	 */
 	public void setPointSizeOrVisibility(int size);
+
+	/**
+	 * calc pseudo centroid coords (based on points average)
+	 */
+	public void pseudoCentroid(Coords coords);
 }

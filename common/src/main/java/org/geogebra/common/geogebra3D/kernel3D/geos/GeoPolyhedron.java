@@ -2094,4 +2094,20 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		return ValueType.NUMBER;
 	}
 
+	public void pseudoCentroid(Coords coords) {
+		coords.set(0, 0, 0);
+		int n = 0;
+		if (pointsLinked != null) {
+			for (GeoPointND p : pointsLinked) {
+				coords.setAdd3(coords, p.getInhomCoordsInD3());
+				n++;
+			}
+		}
+		for (GeoPointND p : pointsCreated) {
+			coords.setAdd3(coords, p.getInhomCoordsInD3());
+			n++;
+		}
+		coords.mulInside(1.0 / n);
+	}
+
 }

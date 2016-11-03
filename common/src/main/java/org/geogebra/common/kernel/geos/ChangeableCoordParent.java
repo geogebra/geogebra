@@ -5,14 +5,15 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Parent (number+direction) for changing coords of prism, cylinder, etc.
@@ -24,7 +25,7 @@ public class ChangeableCoordParent {
 	private GeoNumeric changeableCoordNumber = null;
 	private GeoElement changeableCoordDirector = null;
 	private double startValue;
-	private Coords direction, direction2;
+	private Coords direction, direction2, centroid;
 	private boolean forPolyhedronNet = false;
 	private boolean reverse = false;
 	private HasVolume parent;
@@ -189,11 +190,39 @@ public class ChangeableCoordParent {
 		// else: comes from mouse
 		double val = getStartValue();
 		if (forPolyhedronNet) {
-			CoordMatrix4x4 m = ((EuclidianView3D) view).getToScreenMatrix();
-			double dx = m.getVx().getX() * rwTransVec.getX()
-					+ m.getVy().getX() * rwTransVec.getY()
-					+ m.getVz().getX() * rwTransVec.getZ();
-			val += dx / 100;
+			// CoordMatrix4x4 m = ((EuclidianView3D) view).getToScreenMatrix();
+			// double dx = m.getVx().getX() * rwTransVec.getX()
+			// + m.getVy().getX() * rwTransVec.getY()
+			// + m.getVz().getX() * rwTransVec.getZ();
+			// val += dx / 100;
+
+			if (centroid == null) {
+				centroid = new Coords(4);
+			}
+			((GeoPolyhedronInterface) parent).pseudoCentroid(centroid);
+			// centroid.set(0, 0, 1);
+
+			// Log.debug("\n" + ((EuclidianView3D) view).getCursor3D()
+			// .getInhomCoordsInD3() + "\ncentroid:+\n" + centroid);
+
+			direction.setSub(centroid, ((EuclidianView3D) view).getCursor3D()
+					.getInhomCoordsInD3());
+			if (direction2 == null) {
+				direction2 = new Coords(4);
+			}
+			direction2.setAdd(direction, direction2.setMul(viewDirection,
+					-viewDirection.dotproduct3(direction)));
+			double ld = direction2.dotproduct3(direction2);
+
+			if (Kernel.isZero(ld))
+				return false;
+
+			double shift = direction2.dotproduct(rwTransVec) / ld;
+
+			Log.debug(shift);
+
+			val -= shift;
+
 		} else {
 			if (direction2 == null) {
 				direction2 = new Coords(4);
