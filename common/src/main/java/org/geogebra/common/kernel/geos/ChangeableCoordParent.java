@@ -129,10 +129,19 @@ public class ChangeableCoordParent {
 	 * record number value
 	 */
 	final public void record(){
-		startValue = getValue();
 		if (direction == null) {
 			direction = new Coords(4);
 		}
+
+		if (forPolyhedronNet) {
+			oldShift = 0;
+			oldRwTransVec.set(0, 0, 0);
+		}
+		recordInternal();
+	}
+
+	private void recordInternal() {
+		startValue = getValue();
 		direction.set(changeableCoordDirector.getMainDirection());
 	}
 	
@@ -144,6 +153,8 @@ public class ChangeableCoordParent {
 		return startValue;
 	}
 	
+	private double oldShift;
+	private Coords oldRwTransVec = new Coords(3);
 	
 	/**
 	 * @param rwTransVec real world translation vector
@@ -192,8 +203,23 @@ public class ChangeableCoordParent {
 				ld = -ld;
 			}
 		}
+		
+		double shift = direction2.dotproduct(rwTransVec) / ld;
 
-		double val = getStartValue() + direction2.dotproduct(rwTransVec) / ld;
+		if (forPolyhedronNet) {
+			// if value shift changes direction but user hasn't, do nothing
+			if (shift * oldShift < 0) {
+				double dot = oldRwTransVec.dotproduct3(rwTransVec);
+				if (dot > 0) {
+					recordInternal();
+					return false;
+				}
+			}
+			oldShift = shift;
+			oldRwTransVec.set3(rwTransVec);
+		}
+
+		double val = getStartValue() + shift;
 
 		if (!forPolyhedronNet) {
 			switch (view.getPointCapturingMode()) {
@@ -225,7 +251,7 @@ public class ChangeableCoordParent {
 
 		if (forPolyhedronNet) {
 			view.getEuclidianController().setStartPointLocation();
-			record();
+			recordInternal();
 		}
 
 		return true;
