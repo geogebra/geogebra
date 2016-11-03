@@ -3,11 +3,10 @@ package org.geogebra.web.web.gui.images;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
+/**
+ * PNG implementation of image files
+ */
 public interface PngPerspectiveResources extends PerspectiveResources, ClientBundle{
-	/*@Source("org/geogebra/web/web/gui/images/view_close.png")
-	ImageResource view_close();*/
-	
-	
 	
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu_view_algebra.png")
 	ImageResource menu_icon_algebra();
@@ -68,6 +67,12 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 	
 	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_probability.png")
 	ImageResource menu_icon_probability24();
+
+	@Source("org/geogebra/common/icons/png/web/menu_icons/menu_view_whiteboard.png")
+	ImageResource menu_icon_whiteboard();
+
+	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_whiteboard.png")
+	ImageResource menu_icon_whiteboard24();
 		
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu_view_exam.png")
 	ImageResource menu_icon_exam();

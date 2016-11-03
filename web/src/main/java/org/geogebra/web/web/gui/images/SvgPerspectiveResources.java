@@ -92,5 +92,11 @@ public interface SvgPerspectiveResources extends PerspectiveResources, ClientBun
 	@Source("org/geogebra/common/icons/svg/web/stylingbar/stylebar_icon_graphics_extra.svg")
 	SVGResource styleBar_graphics_extra();
 
+	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_whiteboard.svg")
+	SVGResource menu_icon_whiteboard();
+
+	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_whiteboard.svg")
+	SVGResource menu_icon_whiteboard24();
+
 
 }

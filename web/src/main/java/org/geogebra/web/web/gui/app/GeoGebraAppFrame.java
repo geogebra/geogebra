@@ -11,7 +11,6 @@ import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.keyboard.KeyBoardButtonBase;
@@ -52,8 +51,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class GeoGebraAppFrame extends ResizeComposite implements
 		HeaderPanelDeck {
 	
-	/** Loads file into active GeoGebraFrame */
-	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
 	
 	public GGWToolBar ggwToolBar;
 	private final GGWCommandLine ggwCommandLine;
@@ -309,8 +306,8 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	private static void handleLoadFile(final ArticleElement articleElement,
 			final AppW app) {
 		final ViewW view = new ViewW(articleElement, app);
-		fileLoader.setView(view);
-		fileLoader.onPageLoad();
+		ViewW.fileLoader.setView(view);
+		ViewW.fileLoader.onPageLoad();
 	}
 	
 	

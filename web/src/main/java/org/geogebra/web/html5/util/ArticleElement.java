@@ -177,9 +177,13 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-showMenuBar (default: false)
 	 */
 	public boolean getDataParamShowMenuBar(boolean def) {
-		return getBoolParam("data-param-showMenuBar", def);
+		return getBoolParam("data-param-showMenuBar",
+				def) || getDataParamApp();
 	}
 
+	public boolean getDataParamShowMenuBar2(boolean def) {
+		return getBoolParam("data-param-showMenuBar", def);
+	}
 	public boolean getDataParamAllowStyleBar(boolean def) {
 		return getBoolParam("data-param-allowStyleBar", def);
 	}
@@ -188,7 +192,7 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-showToolBar (default: false)
 	 */
 	public boolean getDataParamShowToolBar(boolean def) {
-		if (getDataParamShowMenuBar(false)) {
+		if (getDataParamShowMenuBar(false) || getDataParamApp()) {
 			return true;
 		}
 		return getBoolParam("data-param-showToolBar", def);
@@ -333,7 +337,8 @@ public final class ArticleElement extends Element {
 	 * @return wheter the applet should fit to screen
 	 */
 	public boolean getDataParamFitToScreen() {
-		return "true".equals(this.getAttribute("data-param-fittoscreen"));
+		return "true".equals(this.getAttribute("data-param-fittoscreen"))
+				|| getDataParamApp();
 	}
 
 	public String getDataParamBorder() {
@@ -555,7 +560,9 @@ public final class ArticleElement extends Element {
 		NodeList<Element> nodes = Dom
 				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
-			if ("true".equals(nodes.getItem(i).getAttribute("data-param-app"))) {
+			if ("true".equals(nodes.getItem(i).getAttribute("data-param-app"))
+					&& !"canary".equals(nodes.getItem(i)
+							.getAttribute("data-param-prerelease"))) {
 				return true;
 			}
 		}

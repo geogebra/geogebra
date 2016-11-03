@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.main.AppWapplication;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -16,7 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class RecoverAutoSavedDialog extends DialogBoxW {
 	
-	private AppWapplication app;
+	private AppWFull app;
 	private Button deleteButton = new Button();
 	private Button recoverButton = new Button();
 	private VerticalPanel dialogPanel;
@@ -28,7 +29,7 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 * only used from {@link AppWapplication}
 	 * @param app {@link AppW}
 	 */
-	public RecoverAutoSavedDialog(AppWapplication app) {
+	public RecoverAutoSavedDialog(AppWFull app) {
 		super(app.getPanel());
 		this.addStyleName("RecoverAutoSavedDialog");
 		this.app = app;

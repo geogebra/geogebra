@@ -6,11 +6,11 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.app.GeoGebraAppFrame;
-import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.move.ggtapi.models.AuthenticationModelW;
@@ -19,7 +19,6 @@ import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -30,13 +29,13 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class AppWapplication extends AppWFull {
 
-	private final int AUTO_SAVE_PERIOD = 2000;
+
 	private GeoGebraAppFrame appFrame = null;
 	// TODO remove GUI stuff from appW
 	private AuthenticationModelW authenticationModel = null;
 	private boolean menuInited = false;
 	/** Device (browser / tablet / ...) */
-	protected final GDevice device;
+
 	private boolean macroRestored;
 	/********************************************************
 	 * Constructs AppW for full GUI based GeoGebraWeb
@@ -57,10 +56,7 @@ public class AppWapplication extends AppWFull {
 	public AppWapplication(ArticleElement article,
 	        GeoGebraAppFrame geoGebraAppFrame, boolean undoActive,
 	        int dimension, GLookAndFeel laf, GDevice device) {
-		super(article, dimension, laf);
-		this.device = device;
-
-		maybeStartAutosave();
+		super(article, dimension, laf, device);
 
 		this.appFrame = geoGebraAppFrame;
 		if (this.getLAF().isSmart()) {
@@ -136,29 +132,7 @@ public class AppWapplication extends AppWFull {
 
 	}
 
-	private void maybeStartAutosave() {
-		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()
-				|| Browser.isXWALK()) {
-			return;
-		}
-		final String materialJSON = getFileManager().getAutosaveJSON();
-		if (materialJSON != null
-				&& !this.isStartedWithFile()
-				&& this.getExam() == null) {
 
-			afterLocalizationLoaded(new Runnable() {
-
-				public void run() {
-					((DialogManagerW) getDialogManager())
-							.showRecoverAutoSavedDialog(AppWapplication.this,
-									materialJSON);
-				}
-			});
-		} else {
-			this.startAutoSave();
-		}
-
-	}
 
 	private native void nativeLoggedIn() /*-{
 		if (typeof ggbOnLoggedIn == "function") {
@@ -194,37 +168,9 @@ public class AppWapplication extends AppWFull {
 		return appFrame;
 	}
 
-	/**
-	 * if there are unsaved changes, the file is saved to the localStorage.
-	 */
-	public void startAutoSave() {
-		Timer timer = new Timer() {
-			private int counter = 0;
-			@Override
-			public void run() {
-				counter++;
-				if (!isSaved()) {
-					getFileManager().autoSave(counter);
-				}
-				getFileManager().refreshAutosaveTimestamp();
-			}
-		};
-		timer.scheduleRepeating(AUTO_SAVE_PERIOD);
 
-	}
 
-	@Override
-	public void setSaved() {
-		super.setSaved();
-		getFileManager().deleteAutoSavedFile();
-		getLAF().removeWindowClosingHandler();
-	}
 
-	@Override
-	public void setUnsaved() {
-		super.setUnsaved();
-		getLAF().addWindowClosingHandler(this);
-	}
 
 	@Override
 	protected final void afterCoreObjectsInited() {
@@ -262,7 +208,7 @@ public class AppWapplication extends AppWFull {
 
 		if (filename != null) {
 			Log.debug("loading file: " + filename);
-			GeoGebraAppFrame.fileLoader.getView().processFileName(filename);
+			ViewW.fileLoader.getView().processFileName(filename);
 		}
 
 	}
@@ -382,13 +328,6 @@ public class AppWapplication extends AppWFull {
 		getAppFrame().onResize();
 	}
 
-
-
-	@Override
-	public void loadURL_GGB(String ggburl) {
-		GeoGebraAppFrame.fileLoader.getView().processFileName(ggburl);
-	}
-
 	@Override
 	public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
 		// this method is overridden in each subclass of AppW,
@@ -434,10 +373,5 @@ public class AppWapplication extends AppWFull {
 	@Override
 	public Panel getPanel() {
 		return RootPanel.get();
-	}
-
-	@Override
-	protected GDevice getDevice() {
-		return device;
 	}
 }

@@ -5,6 +5,7 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -78,6 +79,9 @@ public class PerspectivesPopup {
 		}
 		addPerspective(2, pr.menu_icon_spreadsheet24());
 		addPerspective(5, pr.menu_icon_probability24());
+		if (app.has(Feature.WHITEBOARD_APP)) {
+			addPerspective(6, pr.menu_icon_whiteboard24());
+		}
 
 		// add exam mode
 		HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam24(),

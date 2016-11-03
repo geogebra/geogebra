@@ -2004,7 +2004,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	@Override
 	public boolean isApplet() {
-		return !articleElement.getDataParamApp();
+		return !getArticleElement().getDataParamApp();
 	}
 
 	public Material getActiveMaterial() {
@@ -3383,7 +3383,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public boolean allowStylebar() {
-		return (getArticleElement().getDataParamApp()
+		return (!isApplet()
 				&& enableGraphing())
 				|| getArticleElement().getDataParamShowMenuBar(false)
 				|| getArticleElement().getDataParamAllowStyleBar(false);

@@ -38,6 +38,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -92,7 +93,7 @@ public class AppWapplet extends AppWFull {
 	 */
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf,
 			final boolean undoActive, int dimension, GLookAndFeel laf) {
-		super(ae, dimension, laf);
+		super(ae, dimension, laf, null);
 		this.frame = gf;
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());
@@ -119,6 +120,9 @@ public class AppWapplet extends AppWFull {
 		afterCoreObjectsInited();
 		resetFonts();
 		Browser.removeDefaultContextMenu(this.getArticleElement());
+		if (ae.getDataParamApp() && !this.getLAF().isSmart()) {
+			RootPanel.getBodyElement().addClassName("application");
+		}
 		if (this.showMenuBar()) {
 			this.initSignInEventFlow(new LoginOperationW(this),
 					ae.isEnableUsageStats());
@@ -273,7 +277,7 @@ public class AppWapplet extends AppWFull {
 		if (oldSplitLayoutPanel != null) {
 			if (getArticleElement().getDataParamShowMenuBar(false)) {
 				this.splitPanelWrapper = new HorizontalPanel();
-
+				// TODO
 				splitPanelWrapper.add(oldSplitLayoutPanel);
 				if (this.menuShowing) {
 					splitPanelWrapper.add(frame.getMenuBar(this));
@@ -644,10 +648,5 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public Panel getPanel() {
 		return frame;
-	}
-
-	@Override
-	protected GDevice getDevice() {
-		return new BrowserDevice();
 	}
 }

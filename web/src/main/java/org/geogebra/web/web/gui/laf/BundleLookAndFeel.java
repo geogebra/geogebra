@@ -34,4 +34,8 @@ public class BundleLookAndFeel extends GLookAndFeel {
 				BASEURL.getCallbackUrl().replace("file://", "app://"));
 	}
 
+	public boolean autoSaveSupported() {
+		return false;
+	}
+
 }

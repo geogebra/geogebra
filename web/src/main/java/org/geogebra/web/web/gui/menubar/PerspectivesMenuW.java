@@ -52,6 +52,9 @@ public class PerspectivesMenuW extends GMenuBar {
 		addPerspective(4, pr.menu_icon_graphics3D());
 		addPerspective(2, pr.menu_icon_spreadsheet());
 		addPerspective(5, pr.menu_icon_probability());
+		if (app.has(Feature.WHITEBOARD_APP)) {
+			addPerspective(6, pr.menu_icon_whiteboard());
+		}
 
 
 		if (!app.isExam()) {

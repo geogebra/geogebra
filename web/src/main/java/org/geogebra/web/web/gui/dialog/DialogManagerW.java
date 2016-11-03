@@ -47,6 +47,7 @@ import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.web.gui.view.functioninspector.FunctionInspectorW;
+import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.main.AppWapplication;
 import org.geogebra.web.web.main.GDevice;
 import org.geogebra.web.web.move.googledrive.events.GoogleLoginEvent;
@@ -133,7 +134,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	 * shows the {@link RecoverAutoSavedDialog}
 	 * @param app2 {@link AppWapplication}
 	 */
-	public void showRecoverAutoSavedDialog(AppWapplication app2, String json) {
+	public void showRecoverAutoSavedDialog(AppWFull app2, String json) {
 		if (this.autoSavedDialog == null) {
 			this.autoSavedDialog = new RecoverAutoSavedDialog(app2);
 		}

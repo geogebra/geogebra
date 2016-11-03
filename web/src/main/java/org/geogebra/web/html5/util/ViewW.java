@@ -20,6 +20,9 @@ public class ViewW {
 	private Element container;
 	private AppW app;
 
+	/** Loads file into active GeoGebraFrame */
+	public static final LoadFilePresenter fileLoader = new LoadFilePresenter();
+
 	public ViewW(Element container, AppW app) {
 		this.app = app;
 		this.container = container;

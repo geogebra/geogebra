@@ -12,7 +12,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.LoadFilePresenter;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
@@ -44,8 +43,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<GeoGebraFrameW>();
 	private static GeoGebraFrameW activeInstance;
 
-	/** Loads file into active GeoGebraFrame */
-	public static final LoadFilePresenter fileLoader = new LoadFilePresenter();
+
 
 	/** The application */
 	public AppW app;
@@ -459,8 +457,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private static void handleLoadFile(ArticleElement articleElement, AppW app) {
 		ViewW view = new ViewW(articleElement, app);
-		fileLoader.setView(view);
-		fileLoader.onPageLoad();
+		ViewW.fileLoader.setView(view);
+		ViewW.fileLoader.onPageLoad();
 	}
 
 	/**
@@ -721,7 +719,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		this.ae.removeFromParent();
 		this.ae = null;
 		this.app = null;
-		fileLoader.setView(null);
+		ViewW.fileLoader.setView(null);
 		if (GeoGebraFrameW.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();
 		}

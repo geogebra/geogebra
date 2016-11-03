@@ -9,6 +9,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  *         properties, so behaves like an applet.
  */
 public interface HasAppletProperties {
+
 	/**
 	 * @param width
 	 * 

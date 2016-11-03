@@ -46,6 +46,10 @@ public interface PerspectiveResources {
 
 	ResourcePrototype menu_icon_probability24();
 	
+	ResourcePrototype menu_icon_whiteboard();
+
+	ResourcePrototype menu_icon_whiteboard24();
+
 	ResourcePrototype menu_icon_exam();
 
 	ResourcePrototype menu_icon_exam24();

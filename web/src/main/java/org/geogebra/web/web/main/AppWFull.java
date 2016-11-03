@@ -38,6 +38,7 @@ import org.geogebra.web.html5.main.FileManagerI;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.URL;
+import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.CustomizeToolbarGUI;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -65,6 +66,7 @@ import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -75,6 +77,8 @@ import com.google.gwt.user.client.ui.MenuBar;
  */
 public abstract class AppWFull extends AppW {
 
+	private final int AUTO_SAVE_PERIOD = 2000;
+
 	private DataCollection dataCollection;
 	private GuiManagerInterfaceW guiManager = null;
 	private LanguageGUI lg;
@@ -84,7 +88,7 @@ public abstract class AppWFull extends AppW {
 	boolean focusGainedRunning = false;
 	private ArrayList<Runnable> waitingForLocalization;
 	private boolean localizationLoaded;
-
+	protected GDevice device;
 	/**
 	 * 
 	 * @param ae
@@ -94,9 +98,10 @@ public abstract class AppWFull extends AppW {
 	 * @param laf
 	 *            look and feel
 	 */
-	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf) {
+	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf,
+			GDevice device) {
 		super(ae, dimension, laf);
-		
+		this.device = device;
 
 		if (this.isExam()) {
 			afterLocalizationLoaded(new Runnable() {
@@ -107,6 +112,8 @@ public abstract class AppWFull extends AppW {
 				}
 			});
 		}
+		maybeStartAutosave();
+
 	}
 
 	@Override
@@ -164,10 +171,7 @@ public abstract class AppWFull extends AppW {
 		return new GuiManagerW(AppWFull.this, getDevice());
 	}
 
-	/**
-	 * @return device (tablet / Win store device / browser)
-	 */
-	protected abstract GDevice getDevice();
+
 
 	@Override
 	public void hideKeyboard() {
@@ -716,6 +720,84 @@ public abstract class AppWFull extends AppW {
 			updateApplicationLayout();
 			// updateMenubar(); TODO check if needed
 		}
+	}
+
+	/**
+	 * @return device (tablet / Win store device / browser)
+	 */
+	public final GDevice getDevice() {
+		if (device == null) {
+			return new BrowserDevice();
+		}
+		return device;
+	}
+
+	@Override
+	public final void loadURL_GGB(String ggburl) {
+		ViewW.fileLoader.getView().processFileName(ggburl);
+	}
+
+	@Override
+	public final void setSaved() {
+		super.setSaved();
+		if (hasAutosave()) {
+			getFileManager().deleteAutoSavedFile();
+			getLAF().removeWindowClosingHandler();
+		}
+	}
+
+	private boolean hasAutosave() {
+		return articleElement.getDataParamApp();
+	}
+
+	@Override
+	public final void setUnsaved() {
+		super.setUnsaved();
+		if (hasAutosave()) {
+			getLAF().addWindowClosingHandler(this);
+		}
+	}
+
+	private void maybeStartAutosave() {
+		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()) {
+			return;
+		}
+		final String materialJSON = getFileManager().getAutosaveJSON();
+		if (materialJSON != null && !this.isStartedWithFile()
+				&& this.getExam() == null) {
+
+			afterLocalizationLoaded(new Runnable() {
+
+				public void run() {
+					((DialogManagerW) getDialogManager())
+							.showRecoverAutoSavedDialog(AppWFull.this,
+									materialJSON);
+				}
+			});
+		} else {
+			this.startAutoSave();
+		}
+
+	}
+
+	/**
+	 * if there are unsaved changes, the file is saved to the localStorage.
+	 */
+	public void startAutoSave() {
+		Timer timer = new Timer() {
+			private int counter = 0;
+
+			@Override
+			public void run() {
+				counter++;
+				if (!isSaved()) {
+					getFileManager().autoSave(counter);
+				}
+				getFileManager().refreshAutosaveTimestamp();
+			}
+		};
+		timer.scheduleRepeating(AUTO_SAVE_PERIOD);
+
 	}
 
 }
