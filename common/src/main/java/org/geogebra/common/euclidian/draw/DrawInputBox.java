@@ -430,7 +430,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		if (!isSelectedForInput()) {
 			return;
 		}
-		view.remove(getBox());
+		// view.remove(getBox());
 	}
 
 	/**
