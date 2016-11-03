@@ -72,6 +72,11 @@ public class Test {
 				// TODO Auto-generated method stub
 
 			}
+
+			public void onUpKeyPressed() {
+				// TODO Auto-generated method stub
+
+			}
 		});
 		JFrame frame = new JFrame();
 		frame.setPreferredSize(new Dimension(200, 200));

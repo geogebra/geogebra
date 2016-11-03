@@ -40,6 +40,11 @@ public class JlmEditorLib extends JlmLib {
 						// TODO Auto-generated method stub
 
 					}
+
+					public void onUpKeyPressed() {
+						// TODO Auto-generated method stub
+
+					}
 				});
 		fld.requestViewFocus();
 	}

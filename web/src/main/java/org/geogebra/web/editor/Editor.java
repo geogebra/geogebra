@@ -114,4 +114,9 @@ public class Editor implements EntryPoint, MathFieldListener {
 
 	}
 
+	public void onUpKeyPressed() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

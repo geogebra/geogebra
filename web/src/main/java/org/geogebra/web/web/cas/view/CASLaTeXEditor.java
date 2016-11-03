@@ -274,4 +274,9 @@ public class CASLaTeXEditor extends SimplePanel
 
 	}
 
+	public void onUpKeyPressed() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -239,4 +239,13 @@ public class InputSuggestions implements HasSuggestions {
 		}
 		return false;
 	}
+
+	public void onKeyDown() {
+		sug.moveSelectionDown();
+	}
+
+	public void onKeyUp() {
+		sug.moveSelectionUp();
+	}
+
 }

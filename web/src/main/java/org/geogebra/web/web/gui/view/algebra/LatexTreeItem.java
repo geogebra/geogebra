@@ -184,7 +184,10 @@ public class LatexTreeItem extends RadioTreeItem
 
 	@Override
 	public void onEnter() {
-
+		if (isSuggesting()) {
+			sug.needsEnterForSuggestion();
+			return;
+		}
 		onEnter(geo == null);
 		
 	}
@@ -388,9 +391,6 @@ public class LatexTreeItem extends RadioTreeItem
 		updatePreview();
 		popupSuggestions();
 		updateLineHeight();
-		if (sug.isSuggesting()) {
-			sug.setFocus();
-		}
 		onCursorMove();
 	}
 
@@ -544,10 +544,15 @@ public class LatexTreeItem extends RadioTreeItem
 		return retexListener.alt(unicodeKeyChar, shift);
 	}
 
+	public void onUpKeyPressed() {
+		if (isSuggesting()) {
+			sug.onKeyUp();
+		}
+
+	}
 	public void onDownKeyPressed() {
 		if (isSuggesting()) {
-			Log.debug("[SUG] suggesting");
-			sug.setFocus();
+			sug.onKeyDown();
 		}
 
 	}

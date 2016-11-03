@@ -171,7 +171,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			arrow = true;
 			if (listener != null) {
 				listener.onCursorMove();
-				if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
+				if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
+					listener.onUpKeyPressed();
+				} else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
 					listener.onDownKeyPressed();
 				}
 			}
