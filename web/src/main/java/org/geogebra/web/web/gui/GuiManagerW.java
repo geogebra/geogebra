@@ -808,15 +808,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		//register data collection view
 		layout.registerPanel(new DataCollectionDockPanelW((AppW) app));
 		
-		if (!app.isApplet()) {
-			// register python view
-			// layout.registerPanel(new PythonDockPanel(app));
-		}
 
-		/*
-		 * if (!app.isWebstart() || app.is3D()) { // register Assignment view
-		 * layout.registerPanel(new AssignmentDockPanel(app)); }
-		 */
 
 		return true;
 	}
