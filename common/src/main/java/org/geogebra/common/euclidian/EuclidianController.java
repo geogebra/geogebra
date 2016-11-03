@@ -128,7 +128,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
 public abstract class EuclidianController {
@@ -8108,10 +8107,9 @@ public abstract class EuclidianController {
 
 		// make sure that eg line takes precedence over a polygon (in the same
 		// layer)
-		hits.removePolygons();
+		hits.removePolygonsIfNotOnlyCS2D();
 
 		ArrayList<GeoElement> selGeos = getAppSelectedGeos();
-		Log.debug(drag + "/" + selGeos.size() + "/" + hits.size());
 		// if object was chosen before, take it now!
 		if ((selGeos.size() == 1) && !hits.isEmpty()
 				&& hits.contains(selGeos.get(0))) {
