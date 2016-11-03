@@ -1433,6 +1433,7 @@ namespace giac {
 	tmp1=integrate_id_rem(tmp1,gx,remains,contextptr,0);
 	if (is_undef(tmp1)) return false;
 	tmp1=tmp1-limit(tmp1,*gx._IDNTptr,0,1,contextptr);
+	if (is_inf(tmp1)) return false; // for sum(1/((n+1)*(2*n-1)),n,0,inf);
 	tmp1=ratnormal(tmp1*pow(gx,n,contextptr),contextptr);
 	tmp1=ratnormal(subst(tmp1,gx,pow(gx,inv(d,contextptr),contextptr),false,contextptr),contextptr);
       }
