@@ -3,7 +3,9 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -173,8 +175,10 @@ public class ChangeableCoordParent {
 
 		GeoNumeric var = getNumber();
 
-		if (var == null)
+		if (var == null) {
 			return false;
+		}
+
 		if (endPosition == null) { // comes from arrows keys -- all is added
 			var.setValue(var.getValue() + rwTransVec.getX() + rwTransVec.getY()
 					+ rwTransVec.getZ());
@@ -183,31 +187,27 @@ public class ChangeableCoordParent {
 			return true;
 		}
 		// else: comes from mouse
-		// Coords direction2 = direction.copy().addInsideMul(viewDirection,
-		// -viewDirection.dotproduct(direction));
-		if (direction2 == null) {
-			direction2 = new Coords(4);
-		}
-		direction2.setAdd(direction, direction2.setMul(viewDirection,
-				-viewDirection.dotproduct3(direction)));
-
-		double ld = direction2.dotproduct3(direction2);
-
-		if (Kernel.isZero(ld))
-			return false;
-
+		double val = getStartValue();
 		if (forPolyhedronNet) {
-			// use parent polyhedron volume as base scale for translation vector
-			double scale = Math.pow(parent.getVolume(), 1.0 / 3.0);
-			ld = ld * scale * 2;
-			if (reverse) {
-				ld = -ld;
+			CoordMatrix4x4 m = ((EuclidianView3D) view).getToScreenMatrix();
+			double dx = m.getVx().getX() * rwTransVec.getX()
+					+ m.getVy().getX() * rwTransVec.getY()
+					+ m.getVz().getX() * rwTransVec.getZ();
+			val += dx / 100;
+		} else {
+			if (direction2 == null) {
+				direction2 = new Coords(4);
 			}
-		}
-		
-		double val = getStartValue() + direction2.dotproduct(rwTransVec) / ld;
+			direction2.setAdd(direction, direction2.setMul(viewDirection,
+					-viewDirection.dotproduct3(direction)));
 
-		if (!forPolyhedronNet) {
+			double ld = direction2.dotproduct3(direction2);
+
+			if (Kernel.isZero(ld))
+				return false;
+
+			val += direction2.dotproduct(rwTransVec) / ld;
+
 			switch (view.getPointCapturingMode()) {
 			case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
 				// TODO
