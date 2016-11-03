@@ -1705,17 +1705,12 @@ public abstract class App implements UpdateSelection {
 		getEuclidianView1().getXML(sb, asPreference);
 
 		// save euclidian view 2 settings
-		if (hasEuclidianView2(1)) {
-			getEuclidianView2(1).getXML(sb, asPreference);
-		} else if (asPreference && (getGuiManager() != null)) {
-			// TODO: the EV preferences should be serialized using
-			// app.getSettings(), not the view
-			if (this.hasEuclidianView2EitherShowingOrNot(1)
-					|| !this.isHTML5Applet()) {
-				EuclidianView ev2 = getEuclidianView2(1);
-				if (ev2 != null) {
-					ev2.getXML(sb, true);
-				}
+		// TODO: the EV preferences should be serialized using
+		// app.getSettings(), not the view
+		if (hasEuclidianView2EitherShowingOrNot(1)) {
+			EuclidianView ev2 = getEuclidianView2(1);
+			if (ev2 != null) {
+				ev2.getXML(sb, asPreference);
 			}
 		}
 

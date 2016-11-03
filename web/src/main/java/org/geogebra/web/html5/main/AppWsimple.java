@@ -210,4 +210,15 @@ public class AppWsimple extends AppW {
 	public void setLanguage(final String browserLang) {
 		// no localization support needed in webSimple
 	}
+
+	@Override
+	public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
+		return false;
+	}
+
+	@Override
+	public boolean hasEuclidianView2(int idx) {
+		return false;
+	}
+
 }
