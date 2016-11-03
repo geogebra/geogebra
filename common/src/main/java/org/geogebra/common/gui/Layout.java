@@ -283,7 +283,10 @@ public abstract class Layout {
 					AwtFactory.prototype.newRectangle(100, 100, 600, 400),
 					"1,1,1", 500);
 
-			String wbToolbar = "0 | 1 501 5 19 | 2 15 45 , 18 65 | 4 3 , 8 9 | 16 | 51 | 10 53 , 24 20 , 21 | 36 46 , 38 49 | 30 32 31 33 | 26 17 62 | 25 | 40 41 42 27 , 6";
+			// tring wbToolbar = "0 | 1 501 5 19 | 2 15 45 , 18 65 | 4 3 , 8 9 |
+			// 16 | 51 | 10 53 , 24 20 , 21 | 36 46 , 38 49 | 30 32 31 33 | 26
+			// 17 62 | 25 | 40 41 42 27 , 6";
+			String wbToolbar = "0 | 62 73 | 2 16 51 10 55 | 17 26";
 			Perspective whiteboard = new Perspective(7, spData, dpData,
 					wbToolbar, true, false, false, false, true,
 					InputPosition.algebraView);
