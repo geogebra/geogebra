@@ -1965,10 +1965,10 @@ var __giac = [ {},
 { cat:"NSolve1310", cmd:"NSolve[x^5=0.5]", result:"{x = 0.8705505632961}", rounding:"13", notes:"GGB-1310" },
 { cat:"NSolve1310", cmd:"NSolve[x^547=1/2,x=1]", result:"{x = 0.9987336230438}", rounding:"13", notes:"GGB-1310" },
 { cat:"NSolve1310", cmd:"NSolve[x^547=0.5,x=1]", result:"{x = 0.9987336230438}", rounding:"13", notes:"GGB-1310" },
-{ cat:"Evaluate", cmd:"(x=y)+(x=y)*(-1)", result:"0=0", notes:"GGB-1313" },
-{ cat:"Evaluate", cmd:"(x=y)-(x=y)", result:"0=0", notes:"GGB-1313" },
-{ cat:"Evaluate", cmd:"(x=y)+3*(x=y)*(-1)", result:"x - 3x = y - 3y", notes:"GGB-1313" },
-{ cat:"Evaluate", cmd:"(x=y)+(x=y)*(-3)", result:"x - x 3 = y - y 3", notes:"GGB-1313" },
+{ cat:"Evaluate", cmd:"Evaluate[(x=y)+(x=y)*(-1)]", result:"0=0", notes:"GGB-1313" },
+{ cat:"Evaluate", cmd:"Evaluate[(x=y)-(x=y)]", result:"0=0", notes:"GGB-1313" },
+{ cat:"Evaluate", cmd:"Evaluate[(x=y)+3*(x=y)*(-1)]", result:"-2 x = -2 y", notes:"GGB-1313" },
+{ cat:"Evaluate", cmd:"Evaluate[(x=y)+(x=y)*(-3)]", result:"-2 x = -2 y", notes:"GGB-1313" },
 
 // JSONEND
 //{ 
