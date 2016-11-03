@@ -139,6 +139,8 @@ public class AlgoDependentNumber extends AlgoElement
 				// answer
 				((GeoAngle) number).setAngleStyle(AngleStyle.UNBOUNDED);
 			}
+			// dependent angles are not drawable
+			((GeoAngle) number).setDrawable(false, false);
 		} else {
 			number = new GeoNumeric(cons);
 		}
