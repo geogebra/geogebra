@@ -1647,6 +1647,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				if (app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)) {
 					if (isAndroid()) {
 						w.setEnabled(false);
+						w.insertString("|");
+						w.setCaretPosition(w.getCaretPosition() - 1);
 					}
 					app.showKeyboard(w, true);
 				}

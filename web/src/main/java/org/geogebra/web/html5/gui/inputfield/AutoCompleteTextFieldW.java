@@ -144,6 +144,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	private int actualFontSize = 14;
 	private boolean deferredFocus = false;
+
+	private boolean hasDummyCursor = false;
+
 	/**
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
 	 * given Application for autocomplete look up. A default model is created
@@ -680,7 +683,28 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void setCaretPosition(int caretPos) {
+		if(hasDummyCursor()){
+			removeDummyCursor();
+			String text = textField.getText();
+			text = text.substring(0, caretPos) + '|'
+				+ text.substring(caretPos, text.length() - 1);
+			textField.setValue(text);
+			hasDummyCursor = true;
+		}
 		textField.getValueBox().setCursorPos(caretPos);
+	}
+
+	public void removeDummyCursor() {
+		String text = textField.getText();
+		int cpos = getCaretPosition();
+		text = text.substring(0, cpos - 1)
+				+ text.substring(cpos, text.length() - 1);
+		textField.setValue(text);
+		hasDummyCursor = false;
+	}
+
+	public boolean hasDummyCursor() {
+		return hasDummyCursor;
 	}
 
 	@Override
