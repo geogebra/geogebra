@@ -69,6 +69,7 @@ public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 	public void hide(boolean autoClosed) {
 		super.hide(autoClosed);
 		textField.toggleSymbolButton(false);
+		AutoCompleteTextFieldW.showSymbolButtonFocused = false;
 	}
 
 }
