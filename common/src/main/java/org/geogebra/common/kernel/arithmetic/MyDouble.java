@@ -174,10 +174,11 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	@Override
 	public String toString(StringTemplate tpl) {
 		if (angleDim == 1) {
-			// convert to angle value first, see issue 87
-			// http://code.google.com/p/geogebra/issues/detail?id=87
-			double angleVal = Kernel.convertToAngleValue(val);
-			return kernel.formatAngle(angleVal, tpl, false).toString();
+			// // convert to angle value first, see issue 87
+			// // http://code.google.com/p/geogebra/issues/detail?id=87
+			// double angleVal = Kernel.convertToAngleValue(val);
+			// return kernel.formatAngle(angleVal, tpl, false).toString();
+			return kernel.formatAngle(val, tpl, true).toString();
 		}
 
 		// String ret = kernel.format(Kernel.checkDecimalFraction(val), tpl);
