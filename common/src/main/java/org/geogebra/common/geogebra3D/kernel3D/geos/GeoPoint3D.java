@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.Animatable;
+import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -1212,6 +1213,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public int getMoveMode() {
+		if (changeableCoordParent != null) {
+			return MOVE_MODE_NONE;
+		}
 		if (this.hasChangeableCoordParentNumbers()) {
 			return moveMode;
 		}
@@ -1971,6 +1975,27 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	}
 
 	/**
+	 * Used for polyhedron net: first polygon set it
+	 * 
+	 * @param ccp
+	 *            changeable coord parent
+	 * 
+	 */
+	final public void setChangeableCoordParentIfNull(
+			ChangeableCoordParent ccp) {
+		if (changeableCoordParent == null) {
+			changeableCoordParent = ccp;
+		}
+	}
+
+	private ChangeableCoordParent changeableCoordParent = null;
+
+	@Override
+	public void recordChangeableCoordParentNumbers() {
+		changeableCoordParent.record();
+	}
+
+	/**
 	 * Returns whether this point has three changeable numbers as coordinates,
 	 * e.g. point A = (a, b, c) where a, b and c are free GeoNumeric objects.
 	 */
@@ -1979,6 +2004,10 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		if (isFixed()) {
 			return false;
+		}
+
+		if (changeableCoordParent != null) {
+			return true;
 		}
 
 		ArrayList<NumberValue> coords = getCoordParentNumbers();
@@ -2024,6 +2053,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			Coords targetPosition, Coords viewDirection,
 			ArrayList<GeoElement> updateGeos,
 			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
+
+		if (changeableCoordParent != null) {
+			return changeableCoordParent.move(rwTransVec, targetPosition,
+					viewDirection, updateGeos, tempMoveObjectList, view);
+		}
+
 		Coords endPosition = targetPosition;
 		if (!hasChangeableCoordParentNumbers())
 			return false;

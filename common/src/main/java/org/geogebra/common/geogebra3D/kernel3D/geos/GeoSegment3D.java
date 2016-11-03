@@ -1,5 +1,8 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import java.util.ArrayList;
+
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -11,6 +14,7 @@ import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -556,5 +560,51 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	public Coords getOrigin() {
 		return getCoordSys().getOrigin();
+	}
+
+	// ////////////////////////////////////////////////////
+	// PARENT NUMBER (HEIGHT OF A PRISM, ...)
+	// ////////////////////////////////////////////////////
+
+	private ChangeableCoordParent changeableCoordParent = null;
+
+	/**
+	 * Used for polyhedron net: first polygon set it
+	 * 
+	 * @param ccp
+	 *            changeable coord parent
+	 * 
+	 */
+	final public void setChangeableCoordParentIfNull(
+			ChangeableCoordParent ccp) {
+		if (changeableCoordParent == null) {
+			changeableCoordParent = ccp;
+		}
+	}
+
+
+	@Override
+	public boolean hasChangeableCoordParentNumbers() {
+		return (changeableCoordParent != null);
+	}
+
+	@Override
+	public void recordChangeableCoordParentNumbers() {
+		changeableCoordParent.record();
+	}
+
+	@Override
+	public boolean moveFromChangeableCoordParentNumbers(Coords rwTransVec,
+			Coords endPosition, Coords viewDirection,
+			ArrayList<GeoElement> updateGeos,
+			ArrayList<GeoElement> tempMoveObjectList, EuclidianView view) {
+
+		if (changeableCoordParent == null) {
+			return false;
+		}
+
+		return changeableCoordParent.move(rwTransVec, endPosition,
+				viewDirection, updateGeos, tempMoveObjectList, view);
+
 	}
 }

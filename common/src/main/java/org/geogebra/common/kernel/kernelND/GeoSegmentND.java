@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -77,6 +78,12 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue, Fr
 	GeoElement copyFreeSegment();
 
 
-
+	/**
+	 * used for GeoSegment3D
+	 * 
+	 * @param ccp
+	 *            changeable coord parent
+	 */
+	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp);
 
 }

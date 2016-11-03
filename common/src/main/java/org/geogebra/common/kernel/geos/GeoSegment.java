@@ -837,4 +837,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 
 
+	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp) {
+		// used for GeoPoint3D
+	}
 }

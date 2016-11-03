@@ -2609,4 +2609,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		M.setCoords(cM, false);
 
 	}
+
+	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp) {
+		// used for GeoPoint3D
+	}
 }

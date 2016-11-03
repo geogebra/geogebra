@@ -6,6 +6,8 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -60,9 +62,19 @@ public class ChangeableCoordParent {
 	static public void setPolyhedronNet(GeoPolygon polygon, GeoNumeric num,
 			HasVolume polyhedron, boolean reverse) {
 		if (num != null) {
-			polygon.setChangeableCoordParent(
-					new ChangeableCoordParent(polygon, num, polyhedron,
-							reverse));
+			ChangeableCoordParent ccp = new ChangeableCoordParent(polygon, num,
+					polyhedron, reverse);
+			polygon.setChangeableCoordParent(ccp);
+
+			// set segments (if not already done)
+			for (GeoSegmentND segment : polygon.getSegments()) {
+				segment.setChangeableCoordParentIfNull(ccp);
+			}
+
+			// set points (if not already done)
+			for (GeoPointND point : polygon.getPointsND()) {
+				point.setChangeableCoordParentIfNull(ccp);
+			}
 		}
 	}
 

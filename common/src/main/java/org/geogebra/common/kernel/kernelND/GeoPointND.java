@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
+import org.geogebra.common.kernel.geos.ChangeableCoordParent;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
@@ -353,4 +354,12 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public long getID();
 
 	public void removePath();
+
+	/**
+	 * used for GeoPoint3D
+	 * 
+	 * @param ccp
+	 *            changeable coord parent
+	 */
+	public void setChangeableCoordParentIfNull(ChangeableCoordParent ccp);
 }
