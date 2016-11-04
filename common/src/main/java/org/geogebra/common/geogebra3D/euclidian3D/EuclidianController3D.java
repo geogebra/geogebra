@@ -4241,34 +4241,32 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (geoLabel != null) {
 				return false;
 			}
-		}
 
-		GeoElement geo = hits.get(0);
-		if (app.has(Feature.DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW)) {
-
-			// if geo is moveable, no spin
-			if (geo.isMoveable(view3D)) {
-				return false;
-			}
-
-			// if geo has translate parent algo, no spin
-			if (geo.isTranslateable()) {
-				AlgoElement algo = geo.getParentAlgorithm();
-				if (algo instanceof AlgoTranslate) {
+			for (GeoElement geo : hits) {
+				// if geo is moveable, no spin
+				if (geo.isMoveable(view3D)) {
 					return false;
 				}
-			}
 
-			// e.g. for extruded pyramid, no spin
-			if (geo.hasChangeableCoordParentNumbers()) {
-				return false;
+				// if geo has translate parent algo, no spin
+				if (geo.isTranslateable()) {
+					AlgoElement algo = geo.getParentAlgorithm();
+					if (algo instanceof AlgoTranslate) {
+						return false;
+					}
+				}
+
+				// e.g. for extruded pyramid, no spin
+				if (geo.hasChangeableCoordParentNumbers()) {
+					return false;
+				}
 			}
 
 			// ok, let's spin the view
 			return true;
 
 		}
-		return geo == kernel.getXOYPlane();
+		return hits.get(0) == kernel.getXOYPlane();
 	}
 
 	@Override
