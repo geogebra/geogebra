@@ -29,6 +29,7 @@ import org.geogebra.web.web.gui.layout.panels.Euclidian2DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.web.main.AppWFull;
+import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -351,7 +352,9 @@ public class DockManagerW extends DockManager {
 
 			int windowWidth;
 			int windowHeight;
-			if (app.isApplet()) {
+			// TODO this is how the layout should work in all cases, only the
+			// old AppWApplication needs the other way
+			if (app instanceof AppWapplet) {
 
 				// Emulate the way split panes in Java applets are sized:
 				// 2) Use the ggb xml window size to set dividers

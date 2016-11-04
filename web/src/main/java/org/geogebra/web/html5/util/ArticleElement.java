@@ -562,6 +562,8 @@ public final class ArticleElement extends Element {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			if ("true".equals(nodes.getItem(i).getAttribute("data-param-app"))
 					&& !"canary".equals(nodes.getItem(i)
+							.getAttribute("data-param-prerelease"))
+					&& !"true".equals(nodes.getItem(i)
 							.getAttribute("data-param-prerelease"))) {
 				return true;
 			}
