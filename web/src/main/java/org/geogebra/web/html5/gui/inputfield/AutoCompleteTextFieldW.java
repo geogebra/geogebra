@@ -145,7 +145,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	private int actualFontSize = 14;
 	private boolean deferredFocus = false;
 
-	private boolean hasDummyCursor = false;
+	private boolean dummyCursor = false;
 
 	/**
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
@@ -345,6 +345,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	public void setEnabled(boolean b) {
 		this.textField.setEnabled(b);
+	}
+
+	public boolean isEnabled() {
+		return this.textField.isEnabled();
 	}
 
 	private void init() {
@@ -683,28 +687,40 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void setCaretPosition(int caretPos) {
-		if(hasDummyCursor()){
+		if (dummyCursor) {
 			removeDummyCursor();
-			String text = textField.getText();
-			text = text.substring(0, caretPos) + '|'
-				+ text.substring(caretPos, text.length() - 1);
-			textField.setValue(text);
-			hasDummyCursor = true;
+			addDummyCursor(caretPos);
+		} else {
+			textField.getValueBox().setCursorPos(caretPos);
 		}
+
+	}
+
+	public void addDummyCursor(int caretPos) {
+		String text = textField.getText();
+		// Log.debug("add dummy cursor for: " + text + ", caretpos: " +
+		// caretPos);
+		text = text.substring(0, caretPos) + '|'
+				+ text.substring(caretPos, text.length() - 1);
+		textField.setValue(text);
 		textField.getValueBox().setCursorPos(caretPos);
+		dummyCursor = true;
+		// Log.debug("the text: " + text);
 	}
 
 	public void removeDummyCursor() {
 		String text = textField.getText();
+		// Log.debug("removeDummyCursor from " + text);
 		int cpos = getCaretPosition();
 		text = text.substring(0, cpos - 1)
 				+ text.substring(cpos, text.length() - 1);
+		// Log.debug("text: " + text);
 		textField.setValue(text);
-		hasDummyCursor = false;
+		dummyCursor = false;
 	}
 
 	public boolean hasDummyCursor() {
-		return hasDummyCursor;
+		return dummyCursor;
 	}
 
 	@Override
