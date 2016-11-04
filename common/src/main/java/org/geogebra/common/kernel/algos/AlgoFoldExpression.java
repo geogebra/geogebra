@@ -50,8 +50,13 @@ public class AlgoFoldExpression extends AlgoElement {
 	 *            output label
 	 * @param expression
 	 *            list
+	 * @param var
+	 *            variable
+	 * @param from
+	 *            min variable value
 	 * @param truncate
 	 *            number of elements to take
+	 * @param op
 	 */
 	public AlgoFoldExpression(Construction cons, String label,
 			GeoElement expression, GeoNumeric var,
@@ -116,10 +121,13 @@ public class AlgoFoldExpression extends AlgoElement {
 	@Override
 	public final void compute() {
 		// Sum[{x^2,x^3}]
+		var.setValue(from.getDouble());
+		updateLocalVar();
 		GeoElement fn = expression.copyInternal(cons);
 		if (fn instanceof CasEvaluableFunction) {
 			((GeoFunction) fn).replaceChildrenByValues(var);
 		}
+
 		foldComputer.setFrom(fn, kernel);
 		for (int i = (int) from.getDouble() + 1; i <= to.getDouble(); i++) {
 			var.setValue(i);
