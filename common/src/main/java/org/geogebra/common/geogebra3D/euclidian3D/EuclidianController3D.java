@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianControllerCompanion;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.draw.DrawList;
@@ -4243,21 +4244,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			}
 
 			for (GeoElement geo : hits) {
-				// if geo is moveable, no spin
-				if (geo.isMoveable(view3D)) {
-					return false;
-				}
-
-				// if geo has translate parent algo, no spin
-				if (geo.isTranslateable()) {
-					AlgoElement algo = geo.getParentAlgorithm();
-					if (algo instanceof AlgoTranslate) {
-						return false;
-					}
-				}
-
-				// e.g. for extruded pyramid, no spin
-				if (geo.hasChangeableCoordParentNumbers()) {
+				if (isDraggable(geo, view3D)) {
 					return false;
 				}
 			}
@@ -4267,6 +4254,37 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		}
 		return hits.get(0) == kernel.getXOYPlane();
+	}
+
+	/**
+	 * 
+	 * @param geo
+	 *            geo
+	 * @param view
+	 *            view
+	 * @return true if drag on this geo does something
+	 */
+	public static boolean isDraggable(GeoElement geo,
+			EuclidianViewInterfaceSlim view) {
+		// if geo is moveable
+		if (geo.isMoveable(view)) {
+			return true;
+		}
+
+		// if geo has translate parent algo
+		if (geo.isTranslateable()) {
+			AlgoElement algo = geo.getParentAlgorithm();
+			if (algo instanceof AlgoTranslate) {
+				return true;
+			}
+		}
+
+		// e.g. for extruded pyramid or polyhedron net
+		if (geo.hasChangeableCoordParentNumbers()) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
