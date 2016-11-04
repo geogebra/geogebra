@@ -8,6 +8,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
@@ -21,6 +22,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -865,16 +867,42 @@ public abstract class Drawable3D extends DrawableND {
 		// -- ONLY when same pickorder to avoid last created geo to get the
 		// focus
 		if (this.getPickOrder() == d.getPickOrder()) {
-			if (this.getGeoElement().isSelected()
-					&& this.getGeoElement().isMoveable(getView3D())
-					&& !d.getGeoElement().isSelected()) {
-				return -1;
+
+			if (getView3D().getApplication()
+					.has(Feature.HIT_3D_MOVEABLE_FIRST_IF_NOT_SELECTED)) {
+				GeoElement thisGeo = this.getGeoElement();
+				GeoElement otherGeo = d.getGeoElement();
+				// check one (only) is selected
+				if (thisGeo.isSelected() && !otherGeo.isSelected()) {
+					return -1;
+				}
+				if (!thisGeo.isSelected() && otherGeo.isSelected()) {
+					return 1;
+				}
+				// check can drag one (only)
+				boolean thisDraggable = EuclidianController3D
+						.isDraggable(thisGeo, getView3D());
+				boolean otherDraggable = EuclidianController3D
+						.isDraggable(otherGeo, getView3D());
+				if (thisDraggable && !otherDraggable) {
+					return -1;
+				}
+				if (!thisDraggable && otherDraggable) {
+					return 1;
+				}
+			} else {
+				if (this.getGeoElement().isSelected()
+						&& this.getGeoElement().isMoveable(getView3D())
+						&& !d.getGeoElement().isSelected()) {
+					return -1;
+				}
+				if (!this.getGeoElement().isSelected()
+						&& d.getGeoElement().isSelected()
+						&& d.getGeoElement().isMoveable(getView3D())) {
+					return 1;
+				}
 			}
-			if (!this.getGeoElement().isSelected()
-					&& d.getGeoElement().isSelected()
-					&& d.getGeoElement().isMoveable(getView3D())) {
-				return 1;
-			}
+
 		}
 
 		// check if the two objects are "mixed"

@@ -4026,6 +4026,9 @@ public abstract class App implements UpdateSelection {
 		case WHITEBOARD_APP:
 			return prerelease;
 
+		case HIT_3D_MOVEABLE_FIRST_IF_NOT_SELECTED:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
