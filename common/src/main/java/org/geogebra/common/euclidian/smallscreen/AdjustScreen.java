@@ -27,7 +27,7 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class AdjustScreen {
-	private static final int HSLIDER_OVERLAP_THRESOLD = 50;
+	private static final int HSLIDER_OVERLAP_THRESOLD = 25;
 	private static final int VSLIDER_OVERLAP_THRESOLD = 50;
 	private static final int BUTTON_GAP = 10;
 	private EuclidianView view;

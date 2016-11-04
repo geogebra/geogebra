@@ -45,12 +45,15 @@ public class AdjustSlider extends AdjustWidget {
 	}
 
 	private boolean isHSliderOnScreen() {
+		Log.debug(number + " origX: " + origX + " origY: " + origY
+				+ " viewHeight: " + view.getHeight());
 		if (origX == null) {
 			return true;
 		}
 
 			if (x == origX && origX + origWidth < view.getWidth()
-				&& origWidth == width && y == origY) {
+				&& origWidth == width && y == origY
+				&& origY < view.getHeight()) {
 				return true;
 			}
 		return false;
@@ -111,10 +114,13 @@ public class AdjustSlider extends AdjustWidget {
 		}
 
 		int maxY = view.getViewHeight() - AdjustSlider.MARGIN_Y;
+
 		if (y > maxY) {
 			y = maxY;
 		}
-
+		Log.debug("[AS] slider " + number.getAlgebraDescriptionDefault()
+				+ " y: " + y
+				+ " maxY: " + maxY);
 	}
 
 	private void adjustToTop() {

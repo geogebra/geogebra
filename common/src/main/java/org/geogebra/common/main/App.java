@@ -4431,6 +4431,7 @@ public abstract class App implements UpdateSelection {
 		}
 
 		adjustViews.apply();
+		adjustScreen();
 
 		return adjustViews.isPortait();
 	}
