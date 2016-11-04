@@ -700,8 +700,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		String text = textField.getText();
 		// Log.debug("add dummy cursor for: " + text + ", caretpos: " +
 		// caretPos);
-		text = text.substring(0, caretPos) + '|'
-				+ text.substring(caretPos, text.length() - 1);
+		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
+
 		textField.setValue(text);
 		textField.getValueBox().setCursorPos(caretPos);
 		dummyCursor = true;
@@ -712,8 +712,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		String text = textField.getText();
 		// Log.debug("removeDummyCursor from " + text);
 		int cpos = getCaretPosition();
-		text = text.substring(0, cpos - 1)
-				+ text.substring(cpos, text.length() - 1);
+		// text = text.substring(0, cpos)
+		// + text.substring(cpos + 1, text.length());
+		text = text.substring(0, cpos) + text.substring(cpos + 1);
+
 		// Log.debug("text: " + text);
 		textField.setValue(text);
 		dummyCursor = false;
@@ -1349,6 +1351,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		sb.append(text);
 		sb.append(oldText.substring(pos));
 		setText(sb.toString());
+
+		if (hasDummyCursor()) {
+			textField.getValueBox().setCursorPos(getCaretPosition() - 1);
+		}
 
 		// setCaretPosition(pos + text.length());
 		final int newPos = pos + text.length();
