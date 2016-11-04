@@ -651,7 +651,6 @@ public abstract class AppWFull extends AppW {
 
 			@Override
 			public void run() {
-				Log.debug("ACTUAL PERSPECTIVE POPUP");
 				getPerspectivesPopup().showPerspectivesPopup();
 			}
 		});

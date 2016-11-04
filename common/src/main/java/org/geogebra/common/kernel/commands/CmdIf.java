@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * If[ <GeoBoolean>, <GeoElement> ] If[ <GeoBoolean>, <GeoElement>, <GeoElement>
@@ -177,7 +176,6 @@ public class CmdIf extends CommandProcessor {
 			vars = checkAdd(c, functions,
 					(GeoElement) resolveFunction(c, n - 1, fv, vars, argInfo), vars);
 		}
-		Log.printStacktrace(vars);
 		kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
 		return new GeoElement[] { If(c.getLabel(), conditions, functions, vars) };
 	}
