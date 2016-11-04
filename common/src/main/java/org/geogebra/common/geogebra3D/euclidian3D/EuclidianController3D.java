@@ -3537,7 +3537,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (handledGeo == null)
 			return;
 		setStartPointLocation();
-		handledGeo.recordChangeableCoordParentNumbers();
+		handledGeo.recordChangeableCoordParentNumbers(view3D);
 	}
 
 	@Override

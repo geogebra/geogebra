@@ -103,9 +103,6 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	/** faces linked */
 	protected ArrayList<GeoPolygon> polygonsLinked;
 
-	/** points linked to this polyhedron */
-	protected ArrayList<GeoPointND> pointsLinked;
-
 	/** points created by the algo */
 	protected ArrayList<GeoPoint3D> pointsCreated;
 
@@ -2097,17 +2094,22 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	public void pseudoCentroid(Coords coords) {
 		coords.set(0, 0, 0);
 		int n = 0;
-		if (pointsLinked != null) {
-			for (GeoPointND p : pointsLinked) {
-				coords.setAdd3(coords, p.getInhomCoordsInD3());
-				n++;
-			}
-		}
-		for (GeoPointND p : pointsCreated) {
-			coords.setAdd3(coords, p.getInhomCoordsInD3());
+		for (GeoSegment3D segment : segments.values()) {
+			pseudoCentroidAdd(coords, segment);
 			n++;
 		}
-		coords.mulInside(1.0 / n);
+		for (GeoSegmentND segment : segmentsLinked.values()) {
+			pseudoCentroidAdd(coords, segment);
+			n++;
+		}
+
+		coords.mulInside(0.5 / n);
+	}
+
+	final private static void pseudoCentroidAdd(Coords coords,
+			GeoSegmentND segment) {
+		coords.setAdd3(coords, segment.getStartInhomCoords());
+		coords.setAdd3(coords, segment.getEndInhomCoords());
 	}
 
 }

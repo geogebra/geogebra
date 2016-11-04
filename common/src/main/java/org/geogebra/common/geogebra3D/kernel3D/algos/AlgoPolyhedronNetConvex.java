@@ -133,8 +133,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 				Collection<GeoPolygon3D> faces = net.getFacesCollection();
 				for (GeoPolygon3D polygon : faces) {
-					ChangeableCoordParent.setPolyhedronNet(polygon, num, p,
-							true);
+					ChangeableCoordParent.setPolyhedronNet(polygon, num, p);
 					outputPolygons.addOutput(polygon, false);
 				}
 

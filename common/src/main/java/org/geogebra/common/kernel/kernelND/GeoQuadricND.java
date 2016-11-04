@@ -632,8 +632,8 @@ Traceable{
 
 
 		@Override
-		public void recordChangeableCoordParentNumbers() {
-			changeableCoordParent.record();
+		public void recordChangeableCoordParentNumbers(EuclidianView view) {
+			changeableCoordParent.record(view);
 		}
 
 		@Override

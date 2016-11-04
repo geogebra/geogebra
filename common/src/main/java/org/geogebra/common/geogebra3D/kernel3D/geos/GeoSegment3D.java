@@ -589,8 +589,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	}
 
 	@Override
-	public void recordChangeableCoordParentNumbers() {
-		changeableCoordParent.record();
+	public void recordChangeableCoordParentNumbers(EuclidianView view) {
+		changeableCoordParent.record(view);
 	}
 
 	@Override

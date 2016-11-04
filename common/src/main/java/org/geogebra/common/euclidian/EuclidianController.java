@@ -6941,7 +6941,7 @@ public abstract class EuclidianController {
 	protected boolean handleMovedElementDependentWithChangeableCoordParentNumbers() {
 		// geo with changeable coord parent numbers
 		if (movedGeoElement.hasChangeableCoordParentNumbers()) {
-			movedGeoElement.recordChangeableCoordParentNumbers();
+			movedGeoElement.recordChangeableCoordParentNumbers(view);
 			translateableGeos = new ArrayList<GeoElement>();
 			translateableGeos.add(movedGeoElement);
 			return true;

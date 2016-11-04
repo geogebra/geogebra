@@ -10,10 +10,8 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Parent (number+direction) for changing coords of prism, cylinder, etc.
@@ -27,8 +25,7 @@ public class ChangeableCoordParent {
 	private double startValue;
 	private Coords direction, direction2, centroid;
 	private boolean forPolyhedronNet = false;
-	private boolean reverse = false;
-	private HasVolume parent;
+	private GeoPolyhedronInterface parent;
 	
 	/**
 	 * 
@@ -63,10 +60,10 @@ public class ChangeableCoordParent {
 	 *            polyhedron parent
 	 */
 	static public void setPolyhedronNet(GeoPolygon polygon, GeoNumeric num,
-			HasVolume polyhedron, boolean reverse) {
+			GeoPolyhedronInterface polyhedron) {
 		if (num != null) {
 			ChangeableCoordParent ccp = new ChangeableCoordParent(polygon, num,
-					polyhedron, reverse);
+					polyhedron);
 			polygon.setChangeableCoordParent(ccp);
 
 			// set segments (if not already done)
@@ -107,12 +104,11 @@ public class ChangeableCoordParent {
 	 *            should reverse normal
 	 */
 	public ChangeableCoordParent(GeoElement child, GeoNumeric number,
-			HasVolume parent, boolean reverse) {
+			GeoPolyhedronInterface parent) {
 		changeableCoordNumber = number;
 		changeableCoordDirector = child;
 		forPolyhedronNet = true;
 		this.parent = parent;
-		this.reverse = reverse;
 	}
 
 	/**
@@ -142,13 +138,29 @@ public class ChangeableCoordParent {
 	
 	/**
 	 * record number value
+	 * 
+	 * @param view
+	 *            view calling
 	 */
-	final public void record(){
+	final public void record(EuclidianView view){
 		startValue = getValue();
 		if (direction == null) {
-			direction = new Coords(4);
+			direction = new Coords(3);
 		}
-		direction.set(changeableCoordDirector.getMainDirection());
+		if (forPolyhedronNet) {
+			if (view instanceof EuclidianView3D) {
+				if (centroid == null) {
+					centroid = new Coords(3);
+				}
+				parent.pseudoCentroid(centroid);
+				direction.setSub3(((EuclidianView3D) view).getCursor3D()
+						.getInhomCoordsInD3(), centroid);
+			} else {
+				direction.set(0, 0, 0);
+			}
+		} else {
+			direction.set3(changeableCoordDirector.getMainDirection());
+		}
 	}
 	
 	/**
@@ -188,55 +200,19 @@ public class ChangeableCoordParent {
 			return true;
 		}
 		// else: comes from mouse
-		double val = getStartValue();
-		if (forPolyhedronNet) {
-			// CoordMatrix4x4 m = ((EuclidianView3D) view).getToScreenMatrix();
-			// double dx = m.getVx().getX() * rwTransVec.getX()
-			// + m.getVy().getX() * rwTransVec.getY()
-			// + m.getVz().getX() * rwTransVec.getZ();
-			// val += dx / 100;
+		if (direction2 == null) {
+			direction2 = new Coords(3);
+		}
+		direction2.setAdd3(direction, direction2.setMul(viewDirection,
+				-viewDirection.dotproduct3(direction)));
+		double ld = direction2.dotproduct3(direction2);
 
-			if (centroid == null) {
-				centroid = new Coords(4);
-			}
-			((GeoPolyhedronInterface) parent).pseudoCentroid(centroid);
-			// centroid.set(0, 0, 1);
+		if (Kernel.isZero(ld))
+			return false;
 
-			// Log.debug("\n" + ((EuclidianView3D) view).getCursor3D()
-			// .getInhomCoordsInD3() + "\ncentroid:+\n" + centroid);
+		double val = getStartValue() + direction2.dotproduct3(rwTransVec) / ld;
 
-			direction.setSub(centroid, ((EuclidianView3D) view).getCursor3D()
-					.getInhomCoordsInD3());
-			if (direction2 == null) {
-				direction2 = new Coords(4);
-			}
-			direction2.setAdd(direction, direction2.setMul(viewDirection,
-					-viewDirection.dotproduct3(direction)));
-			double ld = direction2.dotproduct3(direction2);
-
-			if (Kernel.isZero(ld))
-				return false;
-
-			double shift = direction2.dotproduct(rwTransVec) / ld;
-
-			Log.debug(shift);
-
-			val -= shift;
-
-		} else {
-			if (direction2 == null) {
-				direction2 = new Coords(4);
-			}
-			direction2.setAdd(direction, direction2.setMul(viewDirection,
-					-viewDirection.dotproduct3(direction)));
-
-			double ld = direction2.dotproduct3(direction2);
-
-			if (Kernel.isZero(ld))
-				return false;
-
-			val += direction2.dotproduct(rwTransVec) / ld;
-
+		if (!forPolyhedronNet) {
 			switch (view.getPointCapturingMode()) {
 			case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
 				// TODO

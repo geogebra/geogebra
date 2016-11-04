@@ -1991,8 +1991,8 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	private ChangeableCoordParent changeableCoordParent = null;
 
 	@Override
-	public void recordChangeableCoordParentNumbers() {
-		changeableCoordParent.record();
+	public void recordChangeableCoordParentNumbers(EuclidianView view) {
+		changeableCoordParent.record(view);
 	}
 
 	/**

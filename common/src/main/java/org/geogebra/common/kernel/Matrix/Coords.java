@@ -1480,6 +1480,23 @@ public class Coords {
 	}
 
 	/**
+	 * set this to v1 - v2 (only first 3 values)
+	 * 
+	 * @param v1
+	 *            vector
+	 * @param v2
+	 *            vector
+	 * @return this
+	 */
+	public Coords setSub3(Coords v1, Coords v2) {
+		for (int i = 0; i < 3; i++) {
+			val[i] = v1.val[i] - v2.val[i];
+		}
+
+		return this;
+	}
+
+	/**
 	 * returns n-1 length vector, all coordinates divided by the n-th.
 	 * <p>
 	 * If this={x1,x2,xn}, it returns {x1/xn,x2/xn,...,x(n-1)}

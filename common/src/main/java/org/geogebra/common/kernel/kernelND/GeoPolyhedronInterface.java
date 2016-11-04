@@ -14,7 +14,7 @@ public interface GeoPolyhedronInterface extends GeoElementND {
 	public void setPointSizeOrVisibility(int size);
 
 	/**
-	 * calc pseudo centroid coords (based on points average)
+	 * calc pseudo centroid coords (based on segments average)
 	 */
 	public void pseudoCentroid(Coords coords);
 }

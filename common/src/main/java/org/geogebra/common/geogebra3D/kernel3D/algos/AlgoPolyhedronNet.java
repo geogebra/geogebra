@@ -192,7 +192,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	}
 
 	final void setChangeableCoordParent(GeoPolygon3D polygon) {
-		ChangeableCoordParent.setPolyhedronNet(polygon, vNum, p, false);
+		ChangeableCoordParent.setPolyhedronNet(polygon, vNum, p);
 	}
 
 	/**
