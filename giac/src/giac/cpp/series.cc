@@ -293,7 +293,7 @@ namespace giac {
 	if (is_undef(a_cur->coeff)){
 	  return true;
 	}
-	a_cur++;
+	++a_cur;
 	continue;
       }
       if (ck_is_strictly_greater(a_pow,b_pow,contextptr)) {
@@ -302,7 +302,7 @@ namespace giac {
 	if (is_undef(b_cur->coeff)){
 	  return true;
 	}
-	b_cur++;
+	++b_cur;
 	continue;
       }
       // Add coefficient of a and b
@@ -318,8 +318,8 @@ namespace giac {
       if (is_undef(sum)){
 	return true;
       }
-      a_cur++;
-      b_cur++;
+      ++a_cur;
+      ++b_cur;
     }
     for (;a_cur!=a_end;++a_cur)
       res.push_back(*a_cur);

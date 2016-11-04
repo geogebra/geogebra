@@ -79,7 +79,7 @@ namespace giac {
     vector<nfactor> v;
     if (is_zero(n))
       return v;
-    for (int i=0;i<100;i++){
+    for (int i=0;i<99;i++){
       gen p(primes[i]);
       if (is_zero(n % p) ){
 	int j=1;
