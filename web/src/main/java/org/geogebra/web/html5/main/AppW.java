@@ -3476,4 +3476,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
+	public boolean isPerspectivesPopupVisible() {
+		return false;
+	}
+
 }

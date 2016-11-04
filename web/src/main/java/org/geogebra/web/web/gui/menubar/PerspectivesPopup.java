@@ -38,9 +38,14 @@ public class PerspectivesPopup {
 
 	private int activePerspective;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public PerspectivesPopup(final AppW app) {
 		this.app = app;
 		box = new DialogBoxW(true, false, null, app.getPanel()){
+			@Override
 			public void setPopupPosition(int left, int top) {
 				super.setPopupPosition(left,
 						Math.max(0, (int) (app.getHeight() / 2 - 250)));
@@ -60,6 +65,9 @@ public class PerspectivesPopup {
 
 	}
 
+	/**
+	 * Show the popup!
+	 */
 	public void showPerspectivesPopup() {
 		setLabels();
 		box.show();
@@ -118,6 +126,7 @@ public class PerspectivesPopup {
 
 	}
 
+	/** tutorial links */
 	final static String[] tutorials = new String[] { "graphing/", "graphing/", "geometry/", "spreadsheet/", "cas/",
 			"3d/", "probability/", "exam/", "" };
 
@@ -193,5 +202,8 @@ public class PerspectivesPopup {
 		box.hide();
 	}
 
+	public boolean isShowing() {
+		return true;
+	}
 
 }

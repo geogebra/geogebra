@@ -241,6 +241,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		final VirtualKeyboard keyBoard = app.getGuiManager()
 				.getOnScreenKeyboard(textField, this);
 		this.keyboardShowing = true;
+
 		keyBoard.show();
 		keyBoard.setVisible(false);
 		CancelEventTimer.keyboardSetVisible();
@@ -251,8 +252,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 			@Override
 			public void run() {
-
+				final boolean showPerspectivesPopup = app
+						.isPerspectivesPopupVisible();
 				onKeyboardAdded(keyBoard);
+				if (showPerspectivesPopup) {
+					app.showPerspectivesPopup();
+				}
 			}
 		});
 	}

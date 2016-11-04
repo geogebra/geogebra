@@ -651,6 +651,7 @@ public abstract class AppWFull extends AppW {
 
 			@Override
 			public void run() {
+				Log.debug("ACTUAL PERSPECTIVE POPUP");
 				getPerspectivesPopup().showPerspectivesPopup();
 			}
 		});
@@ -660,7 +661,7 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public void closePerspectivesPopup() {
 
-		getPerspectivesPopup().closePerspectivesPopup();
+		// getPerspectivesPopup().closePerspectivesPopup();
 	}
 
 	@Override
@@ -671,11 +672,16 @@ public abstract class AppWFull extends AppW {
 	/**
 	 * @return perspectives popup
 	 */
-	PerspectivesPopup getPerspectivesPopup() {
+	final PerspectivesPopup getPerspectivesPopup() {
 		if (this.perspectivesPopup == null) {
 			this.perspectivesPopup = new PerspectivesPopup(this);
 		}
 		return perspectivesPopup;
+	}
+
+	@Override
+	public boolean isPerspectivesPopupVisible() {
+		return perspectivesPopup != null && perspectivesPopup.isShowing();
 	}
 
 	@Override

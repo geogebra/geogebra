@@ -399,7 +399,7 @@ var app = document.createElement("script");
 			return;
 		}if(location.hash.length || (location.pathname != '/apps' && location.pathname != '/chromeapp/'
 		&& location.pathname != '/apps/' && !location.pathname.match(/app.html/))){
-			var names = {'geometry':2,'spreadsheet':3,'cas':4,'3d':5,'probability':6,'graphing':1};
+			var names = {'geometry':2,'spreadsheet':3,'cas':4,'3d':5,'probability':6,'graphing':1,'whiteboard':7};
 			var pName = location.hash.length ? location.hash.replace('#','') : location.pathname.replace(/\//g,'');
 			if( pName.substring(0,6)=="search" || pName.substring(0,4) == "exam"){
 				if(e("perspectivesBox")){
