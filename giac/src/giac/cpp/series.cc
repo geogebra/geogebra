@@ -626,7 +626,7 @@ namespace giac {
     gen e0=b.front().exponent;
     gen ordre=min(min(porder(a),porder(b)-e0,contextptr),ordre_orig,contextptr);
     if (ordre==plus_inf)
-      ordre=series_default_order;
+      ordre=series_default_order(contextptr);
     // COUT << ordre << endl;
     if (ordre.type==_SYMB && ordre._SYMBptr->sommet==at_max)
       return false; // setsizeerr(gettext("series.cc/pdiv"));
@@ -658,7 +658,7 @@ namespace giac {
 
   sparse_poly1 spdiv(const sparse_poly1 & a,const sparse_poly1 &b,GIAC_CONTEXT){
     sparse_poly1 res;
-    if (!pdiv(a,b,res,series_default_order,contextptr))
+    if (!pdiv(a,b,res,series_default_order(contextptr),contextptr))
       res=sparse_poly1(1,monome(1,undef));
     return res;
   }
@@ -1081,7 +1081,7 @@ namespace giac {
 
   sparse_poly1 sppow(const sparse_poly1 & a,const gen &b,GIAC_CONTEXT){
     sparse_poly1 res;
-    if (!ppow(a,b,series_default_order,0,res,contextptr))
+    if (!ppow(a,b,series_default_order(contextptr),0,res,contextptr))
       res=sparse_poly1(1,monome(1,undef));
     return res;
   }
@@ -1332,7 +1332,7 @@ namespace giac {
     gen shift_coeff=0;
     gen o=porder(s);
     if (o==plus_inf)
-      o=5; // series_default_order;
+      o=series_default_order(contextptr);
     else
       o=_floor(o,contextptr);
     if (o.type!=_INT_)
@@ -3222,6 +3222,13 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type==_SPOL1)
       return args;
+    if (args.type==_VECT && args._VECTptr->size()==2 && args._VECTptr->front().type==_STRNG && args._VECTptr->back().type==_INT_){
+      int n=args._VECTptr->back().val;
+      if (n<=0 || n>1024)
+	return gensizeerr("Default series order must be >0 and <=1024");
+      series_default_order(n,contextptr);
+      return _series(args._VECTptr->front(),contextptr);
+    }
     if (args.type==_STRNG && args._STRNGptr->size()==1){
       char ch=(*args._STRNGptr)[0];
       gen h(*args._STRNGptr,contextptr);
@@ -3242,7 +3249,7 @@ namespace giac {
       return s;
     }
     if (args.type!=_VECT)
-      return series(args,vx_var,0,5,0,contextptr);
+      return series(args,vx_var,0,series_default_order(contextptr),0,contextptr);
     vecteur v=*args._VECTptr;
     if (v.empty())
       return gensizeerr(contextptr);
@@ -3258,18 +3265,18 @@ namespace giac {
     if (!s)
       toofewargs(_series_s);
     if (s==1)
-      return series( v[0],vx_var,0,5,0,contextptr);
+      return series( v[0],vx_var,0,series_default_order(contextptr),0,contextptr);
     if (s==2){
       if (v[1].type==_INT_)
 	return series( v[0],vx_var,0,v[1],contextptr);	
-      return series( v[0],v[1],0,5,contextptr);
+      return series( v[0],v[1],0,series_default_order(contextptr),contextptr);
     }
     if (s==3){
       if ( (v[1].type==_VECT && v[2].type==_VECT) ||
 	   ( v[1].type==_IDNT || ( v[1].type==_SYMB && (v[1]._SYMBptr->sommet==at_equal || v[1]._SYMBptr->sommet==at_equal2 || v[1]._SYMBptr->sommet==at_at ) ) )
 	   )
-	return series( v[0],v[1],v[2],5,contextptr);
-      return series( v[0],symbolic(at_equal,makesequence(vx_var,v[1])),v[2],5,contextptr);
+	return series( v[0],v[1],v[2],series_default_order(contextptr),contextptr);
+      return series( v[0],symbolic(at_equal,makesequence(vx_var,v[1])),v[2],series_default_order(contextptr),contextptr);
     }
     if (s==4)
       return series( v[0],v[1],v[2],v[3],contextptr);    
@@ -3306,7 +3313,7 @@ namespace giac {
       return _revert(subst(args,x,idx,false,contextptr),contextptr);
     }
     // find ordre
-    int ordre=series_default_order;
+    int ordre=series_default_order(contextptr);
     if (v.size()>2 && v[2].type==_INT_)
       ordre=v[2].val;
     vecteur w=lop(g,at_order_size);

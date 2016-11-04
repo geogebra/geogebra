@@ -2897,6 +2897,8 @@ namespace giac {
     d.reserve(dim);
     for (int i=0;i<dim;++i){
       d.push_back(2*(pdeg[i]+qdeg[i]+1)); 
+      if (d[i]<0)
+	return false;
       int j=1;
       // round to next power of 2
       for (;;j++){

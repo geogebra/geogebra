@@ -206,7 +206,6 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     smallint=256, // max small int to make modular oply operations with int
     max_series_expansion_order=64, // max auto order for series expansion
     max_texpand_expansion_order=64,
-    series_default_order=20,
     max_numexp=100
   };
   extern const char cas_suffixe[];
@@ -577,6 +576,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     void * _evaled_table_;
     void * _extra_ptr_;
     char _series_variable_name_;
+    unsigned short _series_default_order_;
     global();  
     ~global();
     global & operator = (const global & g);
@@ -707,6 +707,9 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
 
   char & series_variable_name(GIAC_CONTEXT);
   void series_variable_name(char b,GIAC_CONTEXT);
+
+  unsigned short & series_default_order(GIAC_CONTEXT);
+  void series_default_order(unsigned short b,GIAC_CONTEXT);
 
   vecteur & history_in(GIAC_CONTEXT);
   vecteur & history_out(GIAC_CONTEXT);

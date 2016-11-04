@@ -79,7 +79,7 @@ namespace giac {
     vector<nfactor> v;
     if (is_zero(n))
       return v;
-    for (int i=0;i<99;i++){
+    for (int i=0;i<sizeof(primes)/sizeof(int);i++){
       gen p(primes[i]);
       if (is_zero(n % p) ){
 	int j=1;
@@ -4252,7 +4252,7 @@ namespace giac {
       // int dd=p_simp.dim*p.lexsorted_degree();
       // first try ezgcd then modgcd
       if ( // false && // uncomment to cancel EZGCD 
-	  (sparsenessp<0.3 || sparsenessq<0.3 ) &&
+	  (sparsenessp<0.3 || sparsenessq<0.3 ) && psrgcdop> modop &&
 	  (p_simp.dim>3) // && (Dbdeg<=maxpqdeg0/4+1) 
 	  && ezgcd(p_simp,q_simp,d,true,true,0,minop)){
 	if (debug_infolevel)
