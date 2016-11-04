@@ -41,7 +41,6 @@ import org.geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import org.geogebra.common.kernel.algos.AlgoVector;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ConstructionElement;
-import org.geogebra.common.kernel.algos.GetPointsAlgo;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -264,7 +263,7 @@ public class CopyPaste {
 					}
 				} else if (geo instanceof GeoPolyLine) {
 					if (geo.getParentAlgorithm() instanceof AlgoPolyLine) {
-						GeoPointND[] pgeos = ((GetPointsAlgo) (geo
+						GeoPointND[] pgeos = ((AlgoPolyLine) (geo
 								.getParentAlgorithm())).getPoints();
 						for (int j = 0; j < pgeos.length; j++) {
 							if (!geos.contains(pgeos[j])) {

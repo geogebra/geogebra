@@ -2,10 +2,22 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.roots.RealRootFunction;
 
+/**
+ * Set of real numbers that are solutions to an equation
+ */
 public class Solution {
+	/** roots */
 	public double[] curRoots = new double[30]; // current roots
+	/** number of real roots */
 	public int curRealRoots;
 
+	/**
+	 * 
+	 * @param roots
+	 *            roots to be added
+	 * @param number
+	 *            number of roots to be added
+	 */
 	public void addToCurrentRoots(double[] roots, int number) {
 		int length = curRealRoots + number;
 		if (length >= curRoots.length) { // ensure space
@@ -23,6 +35,12 @@ public class Solution {
 		curRealRoots += number;
 	}
 
+	/**
+	 * Removed root at given position
+	 * 
+	 * @param pos
+	 *            position
+	 */
 	void removeRoot(int pos) {
 		for (int i = pos + 1; i < curRealRoots; i++) {
 			curRoots[i - 1] = curRoots[i];
@@ -30,10 +48,21 @@ public class Solution {
 		curRealRoots--;
 	}
 
+	/**
+	 * Remove all roots (reset the counter)
+	 */
 	public void resetRoots() {
 		curRealRoots = 0;
 	}
 
+	/**
+	 * Remove roots where sign didn't change
+	 * 
+	 * @param f
+	 *            function
+	 * @param DELTA
+	 *            half-width of the interval where we check sign
+	 */
 	void ensureSignChanged(RealRootFunction f, double DELTA) {
 		double left, right, leftEval, rightEval;
 		boolean signUnChanged;
@@ -66,6 +95,10 @@ public class Solution {
 		}
 	}
 
+	/**
+	 * @param x
+	 *            single root
+	 */
 	public void setSingleRoot(double x) {
 		curRoots[0] = x;
 		curRealRoots = 1;

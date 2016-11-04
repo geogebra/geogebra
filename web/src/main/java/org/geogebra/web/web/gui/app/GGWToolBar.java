@@ -145,11 +145,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			toolBar = new ToolBarW(this);
 		}
 
-		if (app.getToolbarPosition() == SwingConstants.SOUTH) {
-			addStyleName("toolbarPanelSouth");
-		} else {
-			addStyleName("toolbarPanelNorth");
-		}
+		updateClassname(app.getToolbarPosition());
 		toolBPanel = new FlowPanel();
 		toolBarPanel.add(toolBar);
 		toolBarPanel.add(toolBPanel);
@@ -174,26 +170,23 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		
 	}
 
-//	/**
-//	 * Build the toolbar GUI
-//	 */
-//	public void buildGui() {
-//
-//	}
+
+
+	public void updateClassname(int toolbarPosition) {
+		if (toolbarPosition == SwingConstants.SOUTH) {
+			removeStyleName("toolbarPanelNorth");
+			addStyleName("toolbarPanelSouth");
+		} else {
+			removeStyleName("toolbarPanelSouth");
+			addStyleName("toolbarPanelNorth");
+		}
+
+	}
 
 	//undo-redo buttons
 	private void addUndoPanel(){
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
-		//Image redoImage = new Image(GuiResources.INSTANCE.button_redo());
-		// redoButton = new StandardButton(pr.button_redo(), null, 32);
-		//redoButton.getElement().appendChild(redoImage.getElement());
-		// redoButton.addFastClickHandler(new FastClickHandler(){
-		// @Override
-		// public void onClick(Widget source) {
-		// app.getGuiManager().redo();
-		// app.hideKeyboard();
-		// }
-		// });
+
 
 		redoButton = new StandardButton(pr.menu_header_redo(), null, 32);
 		redoButton.getUpHoveringFace().setImage(
@@ -212,16 +205,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 		redoButton.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 
-		//Image undoImage = new Image(GuiResources.INSTANCE.button_undo());
-		// undoButton = new StandardButton(pr.button_undo(), null, 32);
-		//undoButton.getElement().appendChild(undoImage.getElement());
-		// undoButton.addFastClickHandler(new FastClickHandler(){
-		// @Override
-		// public void onClick(Widget source) {
-		// app.getGuiManager().undo();
-		// app.hideKeyboard();
-		// }
-		// });
+
 
 		undoButton = new StandardButton(
 pr.menu_header_undo(), null, 32);
@@ -1303,5 +1287,6 @@ pr.menu_header_undo(), null, 32);
 	public boolean isMobileToolbar() {
 		return toolBar != null && toolBar.isMobileToolbar();
 	}
+
 
 }

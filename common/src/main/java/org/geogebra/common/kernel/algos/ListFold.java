@@ -11,6 +11,9 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Helper for Sum[list of lists]
+ */
 public class ListFold implements FoldComputer {
 
 	private MyList sum;

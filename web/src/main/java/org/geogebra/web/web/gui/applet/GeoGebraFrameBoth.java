@@ -2,6 +2,8 @@ package org.geogebra.web.web.gui.applet;
 
 import java.util.ArrayList;
 
+import javax.swing.SwingConstants;
+
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -467,13 +469,15 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * @param app1
 	 *            application
 	 */
-	public void attachToolbar(AppW app1, boolean south) {
+	public void attachToolbar(AppW app1) {
 		// reusing old toolbar is probably a good decision
 		if (ggwToolBar == null) {
 			ggwToolBar = new GGWToolBar();
 			ggwToolBar.init(app1);
+		} else {
+			ggwToolBar.updateClassname(app1.getToolbarPosition());
 		}
-		if (south) {
+		if (app1.getToolbarPosition() == SwingConstants.SOUTH) {
 			add(ggwToolBar);
 		} else {
 			insert(ggwToolBar, 0);

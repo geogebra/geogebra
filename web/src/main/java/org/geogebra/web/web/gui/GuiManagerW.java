@@ -3,8 +3,6 @@ package org.geogebra.web.web.gui;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.SwingConstants;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -1745,8 +1743,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (((AppWFull) app).getToolbar() != null) {
 			((AppWFull) app).getToolbar().setVisible(show);
 		} else {
-			((AppWapplet) app).getAppletFrame().attachToolbar((AppW) app,
-					app.getToolbarPosition() == SwingConstants.SOUTH);
+			((AppWapplet) app).getAppletFrame().attachToolbar((AppW) app);
 		}
 		((AppW) app).closePopups();
 	}

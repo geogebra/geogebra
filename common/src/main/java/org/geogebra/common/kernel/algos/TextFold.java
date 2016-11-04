@@ -7,10 +7,12 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Helper for Sum[list of text]
+ */
 public class TextFold implements FoldComputer {
 
 	private GeoText result;
-	private double x, y, z;
 	private StringBuilder sb;
 
 	public GeoElement getTemplate(Construction cons, GeoClass listElement) {

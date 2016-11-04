@@ -30,7 +30,7 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  * @author Michael Borcherds
  */
-public class AlgoPolyLine extends AlgoElement implements GetPointsAlgo {
+public class AlgoPolyLine extends AlgoElement {
 
 	protected GeoPointND[] points; // input
 	protected GeoList geoList; // alternative input
