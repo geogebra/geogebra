@@ -18,7 +18,7 @@ public class TooltipModel extends MultipleOptionsModel {
 				loc.getMenu("on"), // index 1
 				loc.getMenu("off"), // index 2
 				loc.getPlain("Caption"), // index 3
-				loc.getPlain("NextCell") // index 4 Michael Borcherds
+				loc.getPlain("NextCell") // index 4 
 				);
 		
 		

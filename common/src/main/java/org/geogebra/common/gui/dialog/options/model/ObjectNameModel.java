@@ -38,9 +38,7 @@ public class ObjectNameModel extends OptionsModel {
 		redefinitionFailed = false;
 		setNameInputHandler(new RenameInputHandler(app, null, false));
 		// DEFINITON PANEL
-		// Michael Borcherds 2007-12-31 BEGIN added third argument
 		setDefInputHandler(new RedefineInputHandler(app, null, null));
-		// Michael Borcherds 2007-12-31 END
 
 	}
 	

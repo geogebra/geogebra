@@ -196,7 +196,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 	}
 
 	/**
-	 * FrequencyTable[dataList] Zbynek Konecny
+	 * FrequencyTable[dataList]
 	 */
 	final private GeoText FrequencyTable(String label, GeoList dataList) {
 		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, null,
@@ -206,7 +206,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 	}
 
 	/**
-	 * FrequencyTable[isCumulative, dataList] Zbynek Konecny
+	 * FrequencyTable[isCumulative, dataList]
 	 */
 	final private GeoText FrequencyTable(String label, GeoBoolean isCumulative,
 			GeoList dataList) {
@@ -239,7 +239,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 	}
 
 	/**
-	 * FrequencyTable[classList, dataList] Zbynek Konecny
+	 * FrequencyTable[classList, dataList]
 	 */
 	final private GeoText FrequencyTable(String label, GeoList classList,
 			GeoList dataList) {
@@ -250,7 +250,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 	}
 
 	/**
-	 * FrequencyTable[classList, dataList, useDensity] Zbynek Konecny
+	 * FrequencyTable[classList, dataList, useDensity]
 	 */
 	final private GeoText FrequencyTable(String label, GeoList classList,
 			GeoList dataList, GeoBoolean useDensity) {
@@ -261,8 +261,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 	}
 
 	/**
-	 * FrequencyTable[classList, dataList, useDensity, scaleFactor] Zbynek
-	 * Konecny
+	 * FrequencyTable[classList, dataList, useDensity, scaleFactor] 
 	 */
 	final private GeoText FrequencyTable(String label, GeoList classList,
 			GeoList dataList, GeoBoolean useDensity, GeoNumeric scaleFactor) {
@@ -273,7 +272,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 	}
 
 	/**
-	 * FrequencyTable[isCumulative, classList, dataList] Zbynek Konecny
+	 * FrequencyTable[isCumulative, classList, dataList] 
 	 */
 	final private GeoText FrequencyTable(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList) {
@@ -284,8 +283,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 	}
 
 	/**
-	 * FrequencyTable[isCumulative, classList, dataList, useDensity] Zbynek
-	 * Konecny
+	 * FrequencyTable[isCumulative, classList, dataList, useDensity] 
 	 */
 	final private GeoText FrequencyTable(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity) {
@@ -297,7 +295,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 
 	/**
 	 * FrequencyTable[isCumulative, classList, dataList, useDensity,
-	 * scaleFactor] Zbynek Konecny
+	 * scaleFactor] 
 	 */
 	final private GeoText FrequencyTable(String label, GeoBoolean isCumulative,
 			GeoList classList, GeoList dataList, GeoBoolean useDensity,
@@ -309,7 +307,7 @@ public class CmdFrequencyTable extends CommandProcessor {
 	}
 
 	/**
-	 * FrequencyTable[chart (Histogram or BarChart)] Zbynek Konecny
+	 * FrequencyTable[chart (Histogram or BarChart)]
 	 */
 	final private GeoText FrequencyTable(String label, GeoNumeric chart) {
 		AlgoFrequencyTable algo = new AlgoFrequencyTable(cons, label, chart);

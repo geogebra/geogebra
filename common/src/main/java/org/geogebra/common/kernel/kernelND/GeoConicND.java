@@ -3329,12 +3329,10 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @param polar GeoLine in which the result should be stored 
 	 */
 	final public void polarLine(GeoPoint P, GeoLine polar) {
-		//<Zbynek Konecny, 2010-03-15>
 		if(!isDefined()){
 			polar.setUndefined();
 		}
 		else{
-		//</Zbynek>	
 			polar.x = matrix[0] * P.x + matrix[3] * P.y + matrix[4] * P.z;
 			polar.y = matrix[3] * P.x + matrix[1] * P.y + matrix[5] * P.z;
 			polar.z = matrix[4] * P.x + matrix[5] * P.y + matrix[2] * P.z;

@@ -1226,7 +1226,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	/**
 	 * Returns the smallest possible parameter value for this path (may be
-	 * Double.NEGATIVE_INFINITY) Last change by Zbynek Konecny, see #5
+	 * Double.NEGATIVE_INFINITY) see TRAC-3
 	 * 
 	 * @version 2010-05-14
 	 * @return smallest possible parameter value (may be
@@ -1241,7 +1241,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	/**
 	 * Returns the largest possible parameter value for this path (may be
-	 * Double.POSITIVE_INFINITY) Last change by Zbynek Konecny, see #5
+	 * Double.POSITIVE_INFINITY) see TRAC-3
 	 * 
 	 * @version 2010-05-14
 	 * @return largest possible parameter value (may be
