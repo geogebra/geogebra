@@ -688,6 +688,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	@Override
 	public void setCaretPosition(int caretPos) {
 		if (dummyCursor) {
+			if (caretPos == textField.getText().length()) {
+				return;
+			}
 			removeDummyCursor();
 			addDummyCursor(caretPos);
 		} else {
