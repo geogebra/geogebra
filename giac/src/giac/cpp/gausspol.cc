@@ -4646,6 +4646,19 @@ namespace giac {
     }
     d.dim=p.dim;
     d.coord.clear();
+    index_t pback=p.coord.back().index.iref(),qback=q.coord.back().index.iref();
+    if (!is_zero(pback))
+      pback=p.gcddeg();
+    if (!is_zero(qback))
+      qback=q.gcddeg();
+    if (!is_zero(pback) || !is_zero(qback)){
+      index_t dback=index_gcd(pback,qback);
+      polynome pshift=p.shift(-pback), qshift=q.shift(-qback);
+      gcd(pshift,qshift,d);
+      if (!is_zero(dback))
+	d=d.shift(dback);
+      return;
+    }
     polynome p_simp(p.dim),q_simp(p.dim);
     index_t pdeg=p.degree(),qdeg=q.degree();
     gen d_content,np_simp,nq_simp;
