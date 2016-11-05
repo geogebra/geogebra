@@ -1748,6 +1748,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	/**
 	 * Register file drop handlers for the canvas of this application
+	 * 
+	 * @param ce
+	 *            Element that listens to the drop events
 	 */
 	native void registerFileDropHandlers(Element ce) /*-{
 
@@ -2045,8 +2048,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	public EuclidianController newEuclidianController(Kernel kernel) {
-		return new EuclidianControllerW(kernel);
+	public EuclidianController newEuclidianController(Kernel kernel1) {
+		return new EuclidianControllerW(kernel1);
 
 	}
 
@@ -2992,7 +2995,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	// ============================================
 
 	@Override
-	public boolean showAlgebraInput() {
+	public final boolean showAlgebraInput() {
 		return showAlgebraInput;
 	}
 

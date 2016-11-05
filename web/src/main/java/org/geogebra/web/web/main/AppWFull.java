@@ -77,7 +77,7 @@ import com.google.gwt.user.client.ui.MenuBar;
  */
 public abstract class AppWFull extends AppW {
 
-	private final int AUTO_SAVE_PERIOD = 2000;
+	private final static int AUTO_SAVE_PERIOD = 2000;
 
 	private DataCollection dataCollection;
 	private GuiManagerInterfaceW guiManager = null;
@@ -88,7 +88,9 @@ public abstract class AppWFull extends AppW {
 	boolean focusGainedRunning = false;
 	private ArrayList<Runnable> waitingForLocalization;
 	private boolean localizationLoaded;
+	/** browser / tablet / win store device */
 	protected GDevice device;
+	
 	/**
 	 * 
 	 * @param ae
@@ -97,6 +99,8 @@ public abstract class AppWFull extends AppW {
 	 *            2 or 3 (for 2D or 3D app)
 	 * @param laf
 	 *            look and feel
+	 * @param device
+	 *            browser / tablet / win store device
 	 */
 	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf,
 			GDevice device) {

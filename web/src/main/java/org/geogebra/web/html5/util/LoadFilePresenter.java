@@ -82,19 +82,16 @@ public class LoadFilePresenter {
 			specialPerspective = openEmptyApp(app);
 		}
 
-		// app.setUseBrowserForJavaScript(useBrowserForJavaScript);
-		// app.setRightClickEnabled(enableRightClick);
 		// app.setChooserPopupsEnabled(enableChooserPopups);
 		// app.setErrorDialogsActive(errorDialogsActive);
 		// if (customToolBar != null && customToolBar.length() > 0 &&
 		// showToolBar)
 		// app.getGuiManager().setToolBarDefinition(customToolBar);
 		// app.setMaxIconSize(maxIconSize);
-
-		boolean showToolBar = view.getDataParamShowToolBar(app.isFullAppGui());
-		boolean showMenuBar = view.getDataParamShowMenuBar(app.isFullAppGui());
-		boolean showAlgebraInput = view
-				.getDataParamShowAlgebraInput(app.isFullAppGui());
+		boolean fullApp = !app.isApplet();
+		boolean showToolBar = view.getDataParamShowToolBar(fullApp);
+		boolean showMenuBar = view.getDataParamShowMenuBar(fullApp);
+		boolean showAlgebraInput = view.getDataParamShowAlgebraInput(fullApp);
 
 		app.setShowMenuBar(showMenuBar);
 		app.setShowAlgebraInput(showAlgebraInput, false);

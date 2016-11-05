@@ -247,6 +247,7 @@ public abstract class App implements UpdateSelection {
 	 * geogebra.common.euclidian.DrawPoint)
 	 */
 	protected int capturingThreshold = DEFAULT_THRESHOLD;
+	/** on touch devices we want larger threshold for point hit testing */
 	protected int capturingThresholdTouch = 3 * DEFAULT_THRESHOLD;
 
 	/* Font settings */
@@ -287,7 +288,7 @@ public abstract class App implements UpdateSelection {
 	protected LogInOperation loginOperation = null;
 	/** XML input / output handler */
 	protected MyXMLio myXMLio;
-	// gui / menu fontsize (-1 = use appFontSize)
+	/** gui / menu fontsize (-1 = use appFontSize) */
 	protected int guiFontSize = -1;
 	/** kernel */
 	protected Kernel kernel;
@@ -295,6 +296,7 @@ public abstract class App implements UpdateSelection {
 	protected boolean isOnTheFlyPointCreationActive = true;
 	/** Settings object */
 	protected Settings settings;
+	/** Selections in this app */
 	protected SelectionManager selection;
 	/** whether we should use antialisaing in EV */
 	protected boolean antialiasing = true;
@@ -475,6 +477,12 @@ public abstract class App implements UpdateSelection {
 		return ret;
 	}
 
+	/**
+	 * Please use !app.isApplet() where appropriate
+	 * 
+	 * @return whether app is an instance of AppWapplication.
+	 */
+	@Deprecated
 	public boolean isFullAppGui() {
 		return useFullAppGui;
 	}
@@ -495,6 +503,14 @@ public abstract class App implements UpdateSelection {
 		_3DViewEnabled = false;
 	}
 
+	/**
+	 * Gets max scale based on EV size; scale down if EV too big to avoid
+	 * clipboard errors
+	 * 
+	 * @param ev
+	 *            view
+	 * @return maximum scale for clipboard images; default 2
+	 */
 	public static double getMaxScaleForClipBoard(EuclidianView ev) {
 		double size = ev.getExportWidth() * ev.getExportHeight();
 
@@ -545,6 +561,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
+	 * @param type
+	 *            mouse or touch
 	 * @return capturing threshold
 	 */
 	public int getCapturingThreshold(PointerEventType type) {
@@ -1429,6 +1447,9 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
+	/**
+	 * @return whether undo / redo are possible
+	 */
 	public boolean isUndoRedoEnabled() {
 		return undoRedoEnabled;
 	}
@@ -2466,6 +2487,8 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * Returns font manager
+	 * 
+	 * @return font manager
 	 */
 	protected abstract FontManager getFontManager();
 
@@ -2629,6 +2652,12 @@ public abstract class App implements UpdateSelection {
 		return kernel.isUndoActive();
 	}
 
+	/**
+	 * (De)activate undo and redo, update toolbar
+	 * 
+	 * @param undoActive
+	 *            whether undo should be active
+	 */
 	public void setUndoActive(boolean undoActive) {
 		boolean flag = undoActive;
 		// don't allow undo when data-param-EnableUndoRedo = false
