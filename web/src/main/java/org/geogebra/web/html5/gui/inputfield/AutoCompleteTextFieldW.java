@@ -687,7 +687,19 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void setCaretPosition(int caretPos) {
-		if (dummyCursor) {
+		setCaretPosition(caretPos, true);
+	}
+
+	/**
+	 * Sets the position of caret.
+	 * 
+	 * @param caretPos
+	 *            new position
+	 * @param moveDummyCursor
+	 *            true, if needed to change the dummy cursor position too
+	 */
+	public void setCaretPosition(int caretPos, boolean moveDummyCursor) {
+		if (dummyCursor && moveDummyCursor) {
 			if (caretPos == textField.getText().length()) {
 				return;
 			}
@@ -701,25 +713,18 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	public void addDummyCursor(int caretPos) {
 		String text = textField.getText();
-		// Log.debug("add dummy cursor for: " + text + ", caretpos: " +
-		// caretPos);
 		text = text.substring(0, caretPos) + '|' + text.substring(caretPos);
 
 		textField.setValue(text);
 		textField.getValueBox().setCursorPos(caretPos);
 		dummyCursor = true;
-		// Log.debug("the text: " + text);
 	}
 
 	public void removeDummyCursor() {
 		String text = textField.getText();
-		// Log.debug("removeDummyCursor from " + text);
 		int cpos = getCaretPosition();
-		// text = text.substring(0, cpos)
-		// + text.substring(cpos + 1, text.length());
 		text = text.substring(0, cpos) + text.substring(cpos + 1);
 
-		// Log.debug("text: " + text);
 		textField.setValue(text);
 		dummyCursor = false;
 	}
@@ -1344,7 +1349,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			sb.append(oldText.substring(0, start));
 			sb.append(oldText.substring(end));
 			setText(sb.toString());
-			setCaretPosition(start);
+			setCaretPosition(start, false);
 		}
 
 		int pos = getCaretPosition();
@@ -1355,10 +1360,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		sb.append(oldText.substring(pos));
 		setText(sb.toString());
 
-		if (hasDummyCursor()) {
-			textField.getValueBox().setCursorPos(getCaretPosition() - 1);
-		}
-
 		// setCaretPosition(pos + text.length());
 		final int newPos = pos + text.length();
 
@@ -1368,7 +1369,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			tf.updateCurrentWord(false);
 		}
 
-		setCaretPosition(newPos);
+		setCaretPosition(newPos, false);
 
 		// TODO: tried to keep the Mac OS from auto-selecting the field by
 		// resetting the
