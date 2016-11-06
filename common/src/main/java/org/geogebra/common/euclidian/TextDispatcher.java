@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -359,6 +360,20 @@ public class TextDispatcher {
 			text.setLabel(removeUnderscoresAndBraces(
 					l10n.getPlain("Text")
 					+ poly.getLabelSimple()));
+		}
+		text.checkVisibleIn3DViewNeeded();
+		GeoElement[] ret = { text };
+		return ret;
+	}
+
+	public GeoElement[] createPerimeterText(GeoPolyLine poly, GPoint mouseLoc) {
+		// text
+		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA", poly, poly,
+				mouseLoc);
+
+		if (poly.isLabelSet()) {
+			text.setLabel(removeUnderscoresAndBraces(
+					l10n.getPlain("Text") + poly.getLabelSimple()));
 		}
 		text.checkVisibleIn3DViewNeeded();
 		GeoElement[] ret = { text };

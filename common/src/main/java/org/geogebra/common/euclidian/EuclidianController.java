@@ -4637,8 +4637,12 @@ public abstract class EuclidianController {
 			addSelectedPolygon(hits, 2, false, selPreview);
 		}
 		if (count == 0) {
+			addSelectedPolyLine(hits, 2, false, selPreview);
+		}
+		if (count == 0) {
 			addSelectedSegment(hits, 2, false, selPreview);
 		}
+
 		// quit here, see #3885
 		if (selPreview) {
 			return null;
@@ -4712,8 +4716,18 @@ public abstract class EuclidianController {
 
 			return getTextDispatcher().createPerimeterText(poly[0], mouseLoc);
 		}
+		// perimeter of POLYLINE
+		else if (selPolylines() == 1) {
+			GeoPolyLine[] poly = getSelectedPolyLines();
+
+			return getTextDispatcher().createPerimeterText(poly[0], mouseLoc);
+		}
 
 		return null;
+	}
+
+	private int selPolylines() {
+		return getSelectedPolyLineList().size();
 	}
 
 	protected final boolean showCheckBox(boolean selPreview) {
