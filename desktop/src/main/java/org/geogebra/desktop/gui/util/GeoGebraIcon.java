@@ -619,6 +619,7 @@ public class GeoGebraIcon {
 	 */
 	public static ImageIcon createLatexIcon(AppD app, String latex, Font font,
 			boolean serif, Color fgColor, Color bgColor) {
+		app.getDrawEquation().checkFirstCall(app);
 		return new ImageIcon(
 				(BufferedImage) TeXFormula.createBufferedImage(latex,
 						TeXConstants.STYLE_DISPLAY, font.getSize() + 3,
@@ -627,6 +628,7 @@ public class GeoGebraIcon {
 
 	public static ImageIcon createLatexIcon(AppD app, String latex,
 			boolean serif, Color fgColor, Color bgColor, int height) {
+		app.getDrawEquation().checkFirstCall(app);
 		ImageIcon ic = new ImageIcon(
 				(BufferedImage) TeXFormula.createBufferedImage(latex,
 						TeXConstants.STYLE_DISPLAY, height - 6,
