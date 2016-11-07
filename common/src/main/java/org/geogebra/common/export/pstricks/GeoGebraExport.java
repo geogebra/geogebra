@@ -1606,4 +1606,24 @@ public abstract class GeoGebraExport {
 			drawSingleCurveCartesian((GeoCurveCartesian) geo, true);
 		}
 	}
+
+	protected double firstDefinedValue(GeoFunction f, double a, double b) {
+		double x = a;
+		double step = (b - a) / 100;
+		while (x <= b) {
+			double y = f.evaluate(x);
+			if (!Double.isNaN(y)) {
+				if (Kernel.isEqual(x, a)) {
+					return a;
+				} else if (step < PRECISION_XRANGE_FUNCTION) {
+					return x;
+				} else {
+					return firstDefinedValue(f, x - step, x);
+				}
+			}
+			x += step;
+		}
+		return b;
+	}
+
 }

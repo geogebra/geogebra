@@ -240,7 +240,8 @@ public class AlgoContinuedFraction extends AlgoElement {
 				break;
 			}
 
-		} while ((maxSteps == 0 || steps < maxSteps) && Z != Math.floor(Z)
+		} while ((maxSteps == 0 || steps < maxSteps)
+				&& !Kernel.isEqual(Z, Math.floor(Z))
 				&& steps < denominators.length);
 		return steps;
 	}

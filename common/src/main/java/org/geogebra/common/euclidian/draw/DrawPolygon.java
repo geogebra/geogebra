@@ -562,9 +562,9 @@ AwtFactory.prototype.newArea(gp));
 						}
 
 						for (double ang2 = 0; ang2 < 180; ang2 += 15) {
-							if (ang2 == angle) {
+							if (Kernel.isEqual(ang2, angle)) {
 								continue;
-							} else if (ang2 == 90) {
+							} else if (Kernel.isEqual(ang2, 90)) {
 								l2.setCoords(1.0, 0, -px2);
 							} else {
 								double gradient2 = Math.tan(ang2 * Math.PI

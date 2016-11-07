@@ -13,6 +13,8 @@ import java.awt.print.Printable;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
 
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.main.AppD;
 
@@ -64,7 +66,7 @@ class PagePreview extends JPanel {
 
 	public void setScale(int scale) {
 		double newScale = scale / 100.0;
-		if (newScale != this.scale) {
+		if (MyDouble.exactEqual(newScale, this.scale)) {
 			this.scale = newScale;
 			m_w = (int) (format.getWidth() * this.scale);
 			m_h = (int) (format.getHeight() * this.scale);
@@ -94,8 +96,10 @@ class PagePreview extends JPanel {
 		Graphics2D g2 = img.createGraphics();
 		g2.setColor(getBackground());
 		g2.fillRect(0, 0, m_w, m_h);
-		if (scale != 1.0)
+		if (!Kernel.isEqual(scale, 1.0)) {
 			g2.scale(scale, scale);
+		}
+
 		try {
 			String scaleStr = null;
 			if (!(target instanceof EuclidianViewD)) {
@@ -103,7 +107,7 @@ class PagePreview extends JPanel {
 				int height = EuclidianViewD.printTitle(g2, scaleStr,
 						this.format, this.app);
 				g2.setTransform(new AffineTransform());
-				if (scale != 1.0) {
+				if (!Kernel.isEqual(scale, 1.0)) {
 					g2.scale(scale, scale);
 				}
 				if (height > 0) {

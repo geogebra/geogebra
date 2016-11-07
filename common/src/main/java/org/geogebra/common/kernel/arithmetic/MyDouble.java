@@ -195,10 +195,10 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		// eg Input Bar: f(x)=x^-0.5
 		// CAS View: Integral[f,1,Infinity]
 
-		if (val == Math.PI) {
+		if (exactEqual(val, Math.PI)) {
 			return "pi";
 		}
-		if (val == Math.E) {
+		if (exactEqual(val, Math.E)) {
 			return "e";
 		}
 

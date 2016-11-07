@@ -17,6 +17,8 @@
 
 package org.geogebra.common.kernel.roots;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+
 public class RealRootUtil {
 
 	private static int ITER_MAX = 100; // maximum number of iterations allowed
@@ -81,7 +83,7 @@ public class RealRootUtil {
 		boolean leftDef = false, rightDef;
 
 		int iter = 0;
-		while (iter < ITER_MAX && left != right) {
+		while (iter < ITER_MAX && !MyDouble.exactEqual(left, right)) {
 			double fleft = f.evaluate(left);
 			double fright = f.evaluate(right);
 			leftDef = !(Double.isNaN(fleft) || Double.isInfinite(fleft));

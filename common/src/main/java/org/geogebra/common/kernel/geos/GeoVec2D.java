@@ -114,7 +114,8 @@ final public class GeoVec2D extends ValidExpression
 	 * @return true for imaginary unit
 	 */
 	public boolean isImaginaryUnit() {
-		return mode == Kernel.COORD_COMPLEX && x == 0 && y == 1;
+		return mode == Kernel.COORD_COMPLEX && MyDouble.exactEqual(x, 0)
+				&& MyDouble.exactEqual(y, 1);
 	}
 
 	@Override

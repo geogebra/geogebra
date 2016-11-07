@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -171,7 +172,7 @@ public class AlgoFractionText extends AlgoElement {
 																					// Function
 		} while (Math
 				.abs((decimal - (FractionNumerator / FractionDenominator))) > AccuracyFactor
-				&& Z != Math.floor(Z));
+				&& !MyDouble.exactEqual(Z, Math.floor(Z)));
 		FractionNumerator = DecimalSign * FractionNumerator;
 
 		ret[0] = FractionNumerator;

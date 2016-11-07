@@ -27,6 +27,7 @@ import org.geogebra.common.awt.GPoint2D;
 //import java.awt.geom.Point2D;
 //import geogebra.common.awt.Point2D;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.kernel.Kernel;
 
 /**
  * Clipping of lines to the inside of a rectangle. This is useful as a
@@ -228,7 +229,7 @@ public class ClipLine {
 				}
 			}
 		}
-		if (p1 != null && p1.getY() == (ymin + yhack)) {
+		if (p1 != null && Kernel.isEqual(p1.getY(), (ymin + yhack))) {
 			// use different sequence if a lower corner of clipping rectangle is
 			// hit
 

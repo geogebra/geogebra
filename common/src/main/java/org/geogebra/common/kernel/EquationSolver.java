@@ -21,6 +21,7 @@ import org.apache.commons.math.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
 import org.apache.commons.math.complex.Complex;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.roots.RealRootAdapter;
 import org.geogebra.common.kernel.roots.RealRootDerivAdapter;
@@ -470,9 +471,10 @@ public class EquationSolver implements EquationSolverInterface {
 				return (delta > 0 ? (target + java.lang.Double.MIN_VALUE)
 						: (target - java.lang.Double.MIN_VALUE));
 			double newt = t + delta;
-			if (t == newt)
+			if (MyDouble.exactEqual(t, newt)) {
 				// The deltas are so small that we aren't moving...
 				return t;
+			}
 			if (delta * origdelta < 0) {
 				// We have reversed our path.
 				int tag = (origt < t ? getTag(target, origt, t) : getTag(
@@ -840,7 +842,7 @@ public class EquationSolver implements EquationSolverInterface {
 					u[0] = -rc / 3;
 					u[1] = -rc / 3;
 					u[2] = -rc / 3;
-				} else if (CR2 == CQ3) {
+				} else if (MyDouble.exactEqual(CR2, CQ3)) {
 					double sqrtQ = Math.sqrt(Q);
 					if (R > 0) {
 						u[0] = -2 * sqrtQ - rc / 3;

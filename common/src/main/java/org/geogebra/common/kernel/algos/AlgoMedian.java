@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.TreeMap;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -116,7 +117,8 @@ public class AlgoMedian extends AlgoElement {
 			// do the sorting
 			Arrays.sort(sortList);
 
-			if (Math.floor((double) size / 2) == size / 2.0) {
+			if (MyDouble.exactEqual(Math.floor((double) size / 2),
+					size / 2.0)) {
 				median.setValue((sortList[size / 2] + sortList[size / 2 - 1]) / 2);
 			} else {
 				median.setValue(sortList[(size - 1) / 2]);
@@ -163,7 +165,7 @@ public class AlgoMedian extends AlgoElement {
 			}
 
 			// find the median
-			if (Math.floor((double) n / 2) == n / 2.0) {
+			if (MyDouble.exactEqual(Math.floor((double) n / 2), n / 2.0)) {
 				median.setValue((getValueAt(n / 2, v, f) + getValueAt(
 						n / 2 - 1, v, f)) / 2);
 			} else {

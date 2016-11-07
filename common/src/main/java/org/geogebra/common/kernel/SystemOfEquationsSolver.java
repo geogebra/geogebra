@@ -3,6 +3,8 @@ package org.geogebra.common.kernel;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+
 /**
  * Class for solving system of equations a1 x^2 + b1 xy + c1 y^2 + d1 x + e1 y +
  * d1 = 0 a2 x^2 + b2 xy + c2 y^2 + d2 x + e2 y + d2 = 0
@@ -63,8 +65,9 @@ public class SystemOfEquationsSolver {
 		ArrayList<Double> xs = new ArrayList<Double>();
 		ArrayList<Double> ys = new ArrayList<Double>();
 
-		if (eqn1[0] == 0 || eqn2[0] == 0 || eqn1[2] == 0 || eqn2[2] == 0)
+		if (eqn1[0] == 0 || eqn2[0] == 0 || eqn1[2] == 0 || eqn2[2] == 0) {
 			return -1;
+		}
 
 		double a20 = 1;
 		double a11 = eqn1[1] / eqn1[0];
@@ -80,8 +83,12 @@ public class SystemOfEquationsSolver {
 		double b01 = eqn2[4] / eqn2[0];
 		double b00 = eqn2[5] / eqn2[0];
 
-		if (a11 == b11 && a02 == b02 && a10 == b10 && a01 == b01 && a00 == b00)
+		if (MyDouble.exactEqual(a11, b11) && MyDouble.exactEqual(a02, b02)
+				&& MyDouble.exactEqual(a10, b10)
+				&& MyDouble.exactEqual(a01, b01)
+				&& MyDouble.exactEqual(a00, b00)) {
 			return -1;
+		}
 
 		double d00 = a20 * b10 - b20 * a10;
 		double d01 = a20 * b11 - b20 * a11;

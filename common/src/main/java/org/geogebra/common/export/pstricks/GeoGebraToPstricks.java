@@ -1219,23 +1219,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		return b;
 	}
 
-	private double firstDefinedValue(GeoFunction f, double a, double b) {
-		double x = a;
-		double step = (b - a) / 100;
-		while (x <= b) {
-			double y = f.evaluate(x);
-			if (!Double.isNaN(y)) {
-				if (x == a)
-					return a;
-				else if (step < PRECISION_XRANGE_FUNCTION)
-					return x;
-				else
-					return firstDefinedValue(f, x - step, x);
-			}
-			x += step;
-		}
-		return b;
-	}
 
 	@Override
 	protected void drawGeoVector(GeoVector geo) {

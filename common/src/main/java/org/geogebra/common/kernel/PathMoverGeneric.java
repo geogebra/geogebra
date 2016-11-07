@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -346,7 +347,7 @@ public class PathMoverGeneric implements PathMover {
 			return true;
 		} else if (abs_new_step > max_step_width) {
 			if (new_step >= 0.0d) {
-				if (step_width == max_step_width) {
+				if (MyDouble.exactEqual(step_width, max_step_width)) {
 					return false;
 				}
 				step_width = max_step_width;

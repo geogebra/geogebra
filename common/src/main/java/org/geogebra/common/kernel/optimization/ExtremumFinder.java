@@ -55,6 +55,7 @@ Date        Translator        Changes
 
 package org.geogebra.common.kernel.optimization;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.roots.RealRootFunction;
 
 /**
@@ -348,7 +349,7 @@ public class ExtremumFinder {
 				// brace below corresponds to statement 170
 			} else {
 
-				if ((fu <= fw) || (w == x)) {
+				if ((fu <= fw) || (MyDouble.exactEqual(w, x))) {
 
 					v = w;
 					fv = fw;
@@ -359,7 +360,8 @@ public class ExtremumFinder {
 					tol1 = eps * Math.abs(x) + tol3;
 					t2 = 2.0 * tol1;
 
-				} else if ((fu > fv) && (v != x) && (v != w)) {
+				} else if ((fu > fv) && !MyDouble.exactEqual(v, x)
+						&& !MyDouble.exactEqual(v, w)) {
 
 					xm = .5 * (a + b);
 					tol1 = eps * Math.abs(x) + tol3;

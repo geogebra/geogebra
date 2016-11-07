@@ -4406,7 +4406,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			double oldSum = sum + 1;
 
 			// stop when there's no change, or after 20
-			while (sum != oldSum && n < 40) {
+			while (!MyDouble.exactEqual(sum, oldSum) && n < 40) {
 				n += 2;
 
 				// eg (1^2*3^2*5)/(2^2*4^2*6)
@@ -4453,8 +4453,8 @@ public abstract class GeoConicND extends GeoQuadricND
 
 			hn = hn * h2;
 
-			// stop when answer has converged to 15 sig figs
-			if (lastAnswer == ret) {
+			// stop early if answer has converged to 15 sig figs
+			if (MyDouble.exactEqual(lastAnswer, ret)) {
 				break;
 			}
 
