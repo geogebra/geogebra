@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoVec2D;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
@@ -55,7 +56,7 @@ public class Command extends ValidExpression implements
 
 	private Kernel kernel;
 	private App app;
-	private GeoElement[] evalGeos; // evaluated Elements
+	private GeoElementND[] evalGeos; // evaluated Elements
 	private Macro macro; // command may correspond to a macro
 	private boolean allowEvaluationForTypeCheck = true;
 
@@ -412,8 +413,8 @@ public class Command extends ValidExpression implements
 	 *            context for evaluation
 	 * @return array of resulting geos
 	 */
-	public GeoElement[] evaluateMultiple(EvalInfo info) {
-		GeoElement[] geos = null;
+	public GeoElementND[] evaluateMultiple(EvalInfo info) {
+		GeoElementND[] geos = null;
 		geos = kernel.getAlgebraProcessor().processCommand(this, info);
 		return geos;
 	}

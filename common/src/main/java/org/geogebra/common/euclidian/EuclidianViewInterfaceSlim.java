@@ -72,6 +72,12 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 
 	/**
 	 * Update bounds from bound objects
+	 * 
+	 * @param updateDrawables
+	 *            whether drawables need updating
+	 * @param updateSettings
+	 *            whether the settings object should be changed (to prevent
+	 *            infinte recursion)
 	 */
 	void updateBounds(boolean updateDrawables, boolean updateSettings);
 
@@ -207,12 +213,26 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 */
 	public int getSliderOffsetY();
 
+	/**
+	 * @return minimal x-distance (maximal x-resolution) for function plotting
+	 */
 	public double getMinPixelDistance();
 
+	/**
+	 * @return settings
+	 */
 	public EuclidianSettings getSettings();
 
+	/**
+	 * @return y-offset of first combobox
+	 */
 	public int getComboOffsetY();
 
+	/**
+	 * @param sys
+	 *            coord system
+	 * @return whether the system is incident with the one of this view
+	 */
 	public boolean isInPlane(CoordSys sys);
 
 }

@@ -203,7 +203,7 @@ public class MyXMLHandler implements DocHandler {
 	protected final Localization loc;
 
 	private String[] macroInputLabels, macroOutputLabels;
-	private GeoElement[] cmdOutput;
+	private GeoElementND[] cmdOutput;
 	private boolean startAnimation;
 
 	/**
