@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
 public class AlgebraController {
@@ -119,9 +120,10 @@ public class AlgebraController {
 	/**
 	 * Evaluate the text entered in input. Used in Android and iOS.
 	 * @param input input string
+	 * @param errorHandler interface to handle errors from evaluating the input
 	 * @return evaluation was successful
      */
-	public boolean onTextEntered(String input) {
+	public boolean onTextEntered(String input, ErrorHandler errorHandler) {
 		GeoElementND[] geos;
 		try {
 
@@ -175,17 +177,17 @@ public class AlgebraController {
 			};
 
 			geos = kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
-					input, true, app.getErrorHandler(), true, callback);
+					input, true, errorHandler, true, callback);
 
 			if (geos != null && geos.length == 1 && !geos[0].isLabelSet()) {
 				geos[0].setLabel(geos[0].getDefaultLabel());
 			}
 
 		} catch (Exception ee) {
-			app.showError(ee, null);
+			errorHandler.showError(app.getLocalization().getError("InvalidInput"));
 			return false;
 		} catch (Error ee) {
-			app.showError(ee.getMessage());
+			errorHandler.showError(ee.getLocalizedMessage());
 			return false;
 		}
 
