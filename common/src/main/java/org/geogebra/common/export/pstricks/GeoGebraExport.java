@@ -1626,4 +1626,28 @@ public abstract class GeoGebraExport {
 		return b;
 	}
 
+	protected double maxDefinedValue(GeoFunction f, double a, double b) {
+		double x = a;
+		double step1 = (b - a) / 100;
+		while (x <= b) {
+			double y = f.evaluate(x);
+			if (Double.isNaN(y)) {
+				if (step1 < PRECISION_XRANGE_FUNCTION)
+					return x - step1;
+				return maxDefinedValue(f, x - step1, x);
+			}
+			x += step1;
+		}
+		return b;
+	}
+
+	protected static void renameFunc(StringBuilder sb, String nameFunc,
+			String nameNew) {
+		int ind = sb.indexOf(nameFunc);
+		while (ind > -1) {
+			sb.replace(ind, ind + nameFunc.length(), nameNew);
+			ind = sb.indexOf(nameFunc);
+		}
+	}
+
 }

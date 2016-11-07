@@ -1386,30 +1386,6 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		}
 	}
 
-	private static void renameFunc(StringBuilder sb, String nameFunc,
-			String nameNew) {
-		int ind = sb.indexOf(nameFunc);
-		while (ind > -1) {
-			sb.replace(ind, ind + nameFunc.length(), nameNew);
-			ind = sb.indexOf(nameFunc);
-		}
-	}
-
-	private double maxDefinedValue(GeoFunction f, double a, double b) {
-		double x = a;
-		double step = (b - a) / 100;
-		while (x <= b) {
-			double y = f.evaluate(x);
-			if (Double.isNaN(y)) {
-				if (step < PRECISION_XRANGE_FUNCTION)
-					return x - step;
-				return maxDefinedValue(f, x - step, x);
-			}
-			x += step;
-		}
-		return b;
-	}
-
 	// draw vector with EndArrow(6)
 	@Override
 	protected void drawGeoVector(GeoVector geo) {
