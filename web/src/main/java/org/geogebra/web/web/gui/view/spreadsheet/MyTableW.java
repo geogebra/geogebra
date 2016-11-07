@@ -1645,7 +1645,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				        row, col);
 				// w.getElement().setAttribute("display", "none");
 				if (app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)) {
-					if (isAndroid()) {
+					if (isAndroid() || isIPad()) {
 						w.setEnabled(false);
 						w.addDummyCursor(w.getCaretPosition());
 					}
@@ -1690,6 +1690,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		var userAgent = navigator.userAgent;
 		if (userAgent) {
 			return navigator.userAgent.indexOf("Android") != -1;
+		}
+		return false;
+	}-*/;
+
+	private native boolean isIPad()/*-{
+		var userAgent = navigator.userAgent;
+		if (userAgent) {
+			return navigator.userAgent.indexOf("iPad") != -1;
 		}
 		return false;
 	}-*/;
