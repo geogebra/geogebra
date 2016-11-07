@@ -60,12 +60,13 @@ import org.geogebra.desktop.util.GuiResourcesD;
  */
 public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
-	private static final long serialVersionUID = 1L;
 	/** background color */
 	protected final static Color bgColor = Color.white;
 	/** foreground color */
 	protected final static Color fgColor = Color.black;
+	/** the actual menu */
 	protected JPopupMenu wrappedPopup;
+	/** localization */
 	protected final Localization loc;
 
 	/**
@@ -108,10 +109,12 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
 			addCoordsModeItems();
-			addLineItems();
-			addConicItems();
-			addNumberItems();
-			addUserInputItem();
+			if (app.getSettings().getCasSettings().isEnabled()) {
+				addLineItems();
+				addConicItems();
+				addNumberItems();
+				addUserInputItem();
+			}
 
 		}
 
@@ -690,7 +693,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-					if (justOneGeo) {
+					if (isJustOneGeo()) {
 						app.getSelectionManager().setSelectedGeos(
 								checkOneGeo(), true);
 					}
@@ -700,7 +703,13 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		}
 	}
 
-	// private ArrayList tempArrayList = new ArrayList();
+
+	/**
+	 * @return whether just one geo is selected
+	 */
+	protected boolean isJustOneGeo() {
+		return justOneGeo;
+	}
 
 	/**
 	 * Adds given action to this menu

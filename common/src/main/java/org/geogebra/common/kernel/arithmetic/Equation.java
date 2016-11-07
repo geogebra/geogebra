@@ -785,4 +785,15 @@ public class Equation extends ValidExpression implements EquationValue {
 				|| rhs.containsFreeFunctionVariable(name);
 	}
 
+	/**
+	 * @param sb
+	 * @param string
+	 */
+	public static void appendType(StringBuilder sb, String string) {
+		sb.append("\t<eqnStyle style=\"");
+		sb.append(string);
+		sb.append("\"/>\n");
+
+	}
+
 } // end of class Equation

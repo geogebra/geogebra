@@ -21,6 +21,9 @@ public class ConicEqnModel extends MultipleOptionsModel {
 
 	@Override
 	public boolean isValidAt(int index) {
+		if (!app.getSettings().getCasSettings().isEnabled()) {
+			return false;
+		}
 		return (getObjectAt(index) instanceof GeoConic);
 	}
 

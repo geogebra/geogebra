@@ -18,12 +18,15 @@ public class LineEqnModel extends MultipleOptionsModel {
 
 		eqnValues = Arrays.asList(GeoLine.EQUATION_IMPLICIT,
 					GeoLine.EQUATION_EXPLICIT, GeoLine.PARAMETRIC,
-					GeoLine.EQUATION_GENERAL);
+				GeoLine.EQUATION_GENERAL, GeoLine.EQUATION_USER);
 
 	}
 
 	@Override
 	public boolean isValidAt(int index) {
+		if (!app.getSettings().getCasSettings().isEnabled()) {
+			return false;
+		}
 		boolean valid = true;
 		Object geo = getObjectAt(index);
 		if (!(geo instanceof GeoLine)
@@ -58,7 +61,8 @@ public class LineEqnModel extends MultipleOptionsModel {
 		return Arrays.asList(loc.getPlain("ImplicitLineEquation"), // index 0
 				loc.getPlain("ExplicitLineEquation"), // index 1
 				loc.getPlain("ParametricForm"), // index 2
-				loc.getPlain("GeneralLineEquation") // index 3
+				loc.getPlain("GeneralLineEquation"), // index 3
+				loc.getPlain("InputForm")
 				);
 
 	}

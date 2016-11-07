@@ -100,8 +100,6 @@ public class ChangeableCoordParent {
 	 *            number
 	 * @param parent
 	 *            parent polyhedron
-	 * @param reverse
-	 *            should reverse normal
 	 */
 	public ChangeableCoordParent(GeoElement child, GeoNumeric number,
 			GeoPolyhedronInterface parent) {

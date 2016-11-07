@@ -170,4 +170,10 @@ public interface GeoLineND extends GeoDirectionND{
 	 */
 	public Coords getOrigin();
 
+	/** Force user input form */
+	public void setToUser();
+
+	/** set to general equation */
+	public void setToGeneral();
+
 }

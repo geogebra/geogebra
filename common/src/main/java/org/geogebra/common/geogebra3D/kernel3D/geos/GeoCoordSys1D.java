@@ -865,4 +865,13 @@ public abstract class GeoCoordSys1D extends GeoElement3D implements Path,
 
 	}
 
+	public void setToUser() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void setToGeneral() {
+		// no general line type in 3D
+	}
+
 }

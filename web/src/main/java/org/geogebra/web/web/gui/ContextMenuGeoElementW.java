@@ -92,12 +92,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 
 	public void addOtherItems() {
 		if (app.getGuiManager() != null
-		        && app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
+				&& app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
 			addCoordsModeItems();
-			addLineItems();
-			addConicItems();
-			addNumberItems();
-			addUserInputItem();
+			if (app.getSettings().getCasSettings().isEnabled()) {
+				addLineItems();
+				addConicItems();
+				addNumberItems();
+				addUserInputItem();
+			}
 
 		}
 

@@ -4182,6 +4182,10 @@ new GPoint(row, column));
 			} else if (style.equals("parametric")) {
 				String parameter = attrs.get("parameter");
 				line.setToParametric(parameter);
+			} else if (style.equals("user")) {
+				line.setToUser();
+			} else if (style.equals("general")) {
+				line.setToGeneral();
 			} else {
 				Log.error("unknown style for line in <eqnStyle>: " + style);
 				return false;
@@ -4201,6 +4205,8 @@ new GPoint(row, column));
 				conic.setToParametric();
 			} else if (style.equals("user")) {
 				conic.setToUser();
+			} else if (style.equals("vertex")) {
+				conic.setToVertexform();
 			} else {
 				Log.error("unknown style for conic in <eqnStyle>: " + style);
 				return false;

@@ -86,7 +86,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public static final int EQUATION_IMPLICIT_NON_CANONICAL = 3;
 	/** general form **/
 	public static final int EQUATION_GENERAL = 4;
-
+	/** user input **/
+	public static final int EQUATION_USER = 5;
 	private boolean showUndefinedInAlgebraView = false;
 
 	private String parameter = "\u03bb";
@@ -849,6 +850,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		setMode(EQUATION_IMPLICIT);
 	}
 
+	final public void setToUser() {
+		setMode(EQUATION_USER);
+	}
+
 	@Override
 	final public void setMode(int mode) {
 		switch (mode) {
@@ -866,6 +871,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		case EQUATION_GENERAL:
 			toStringMode = EQUATION_GENERAL;
+			break;
+		case EQUATION_USER:
+			toStringMode = EQUATION_USER;
 			break;
 
 		default:
@@ -942,6 +950,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			}
 			return sb;
 		}
+		if (!kernel.getApplication().getSettings().getCasSettings()
+				.isEnabled()) {
+			toStringMode = GeoLine.EQUATION_USER;
+		}
 		double[] P = new double[2];
 		double[] g = new double[3];
 		char op = '=';
@@ -990,23 +1002,31 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
 					false, false, op, tpl,
 					EQUATION_IMPLICIT_NON_CANONICAL == toStringMode);
-
-
+		case EQUATION_USER:
+			if (getDefinition() != null) {
+				return new StringBuilder(getDefinition().toValueString(tpl));
+			}
+			return buildImplicitEquation(g, tpl, op);
 		default: // EQUATION_IMPLICIT
-			g[0] = x;
-			g[1] = y;
-			g[2] = z;
-			if (Kernel.isZero(x) || Kernel.isZero(y)) {
-				return kernel.buildExplicitEquation(g, vars, op,
-						tpl, true);
-			}
-			if (kernel.getAlgebraProcessor().getDisableGcd()) {
-				return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
-						false, false, op, tpl, true);
-			}
-			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
-					true, false, op, tpl, true);
+			return buildImplicitEquation(g, tpl, op);
 		}
+	}
+
+	private StringBuilder buildImplicitEquation(double[] g, StringTemplate tpl,
+			char op) {
+		g[0] = x;
+		g[1] = y;
+		g[2] = z;
+		if (Kernel.isZero(x) || Kernel.isZero(y)) {
+			return kernel.buildExplicitEquation(g, vars, op, tpl, true);
+		}
+		if (kernel.getAlgebraProcessor().getDisableGcd()) {
+			return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN,
+					false, false, op, tpl, true);
+		}
+		return kernel.buildImplicitEquation(g, vars, KEEP_LEADING_SIGN, true,
+				false, op, tpl, true);
+
 	}
 
 	private StringBuilder sbBuildValueString = new StringBuilder(50);
@@ -1059,7 +1079,13 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			break;
 
 		case GeoLine.EQUATION_EXPLICIT:
-			sb.append("\t<eqnStyle style=\"explicit\"/>\n");
+			Equation.appendType(sb, "explicit");
+			break;
+		case GeoLine.EQUATION_GENERAL:
+			Equation.appendType(sb, "general");
+			break;
+		case GeoLine.EQUATION_USER:
+			Equation.appendType(sb, "user");
 			break;
 
 		case GeoLine.EQUATION_IMPLICIT_NON_CANONICAL:
@@ -1067,7 +1093,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			break;
 
 		default:
-			sb.append("\t<eqnStyle style=\"implicit\"/>\n");
+			Equation.appendType(sb, "implicit");
 		}
 
 	}
@@ -1831,5 +1857,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			}
 		}
 		return my;
+	}
+
+	public void setToGeneral() {
+		this.toStringMode = GeoLine.EQUATION_GENERAL;
 	}
 }

@@ -3469,21 +3469,24 @@ public abstract class GeoConicND extends GeoQuadricND
 		// implicit or specific mode
 		switch (toStringMode) {
 			case GeoConicND.EQUATION_SPECIFIC :
-				sb.append("\t<eqnStyle style=\"specific\"/>\n");
+			Equation.appendType(sb, "specific");
 				break;
 
 			case GeoConicND.EQUATION_EXPLICIT :
-				sb.append("\t<eqnStyle style=\"explicit\"/>\n");
+			Equation.appendType(sb, "explicit");
 				break;
 		case GeoConicND.EQUATION_USER:
-			sb.append("\t<eqnStyle style=\"user\"/>\n");
+			Equation.appendType(sb, "user");
+			break;
+		case GeoConicND.EQUATION_VERTEX:
+			Equation.appendType(sb, "vertex");
 			break;
 		case GeoConicND.EQUATION_PARAMETRIC:
 			sb.append("\t<eqnStyle style=\"parametric\"/>\n");
 			break;
 				
 			default :
-				sb.append("\t<eqnStyle style=\"implicit\"/>\n");
+			Equation.appendType(sb, "parametric");
 		}
 
 	}
