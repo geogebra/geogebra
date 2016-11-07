@@ -201,11 +201,11 @@ public class LoadFilePresenter {
 	 * 
 	 * @param app
 	 *            application
-	 * @param p
+	 * @param p0
 	 *            perspective
 	 */
-	void finishEmptyLoading(AppW app, Perspective p) {
-
+	void finishEmptyLoading(AppW app, Perspective p0) {
+		Perspective p = p0;
 		// code moved here from AppWapplication.afterCoreObjectsInited - end
 		Storage stockStore = null;
 
@@ -218,6 +218,9 @@ public class LoadFilePresenter {
 		} else {
 			app.setXML(GeoGebraPreferencesXML.getXML(app),
 					false);
+			if (app.getTmpPerspectives().size() > 0) {
+				p = app.getTmpPerspectives().get(0);
+			}
 		}
 
 		readObjectDefaults(app, stockStore);

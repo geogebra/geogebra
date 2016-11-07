@@ -1913,6 +1913,10 @@ public class DockManagerW extends DockManager {
 		}
 
 		DockSplitPaneW split = evPanel.getParentSplitPane();
+		if (split == null) {
+			Log.debug("[WGT] No opposite");
+			return;
+		}
 		Widget opposite = split.getOpposite(evPanel);
 
 		if (opposite != avPanel) {

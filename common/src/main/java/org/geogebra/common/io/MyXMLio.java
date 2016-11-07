@@ -159,10 +159,6 @@ public abstract class MyXMLio {
 		return sb;
 	}
 
-	public void processXMLString(String xml, boolean clearConstruction,
-			boolean isGgtFile) throws Exception {
-		processXMLString(xml, clearConstruction, isGgtFile, true);
-	}
 	/**
 	 * @param xml
 	 *            XML string
@@ -170,6 +166,23 @@ public abstract class MyXMLio {
 	 *            true to clear construction before processing
 	 * @param isGgtFile
 	 *            true for macro files
+	 * @throws Exception
+	 *             if XML is invalid or there was a problem while processing
+	 */
+	public void processXMLString(String xml, boolean clearConstruction,
+			boolean isGgtFile) throws Exception {
+		processXMLString(xml, clearConstruction, isGgtFile, true);
+	}
+	
+	/**
+	 * @param xml
+	 *            XML string
+	 * @param clearConstruction
+	 *            true to clear construction before processing
+	 * @param isGgtFile
+	 *            true for macro files
+	 * @param randomize
+	 *            whether to randomize numbers
 	 * @throws Exception
 	 *             if XML is invalid or there was a problem while processing
 	 */
@@ -320,6 +333,8 @@ public abstract class MyXMLio {
 	 *            true for macro files and defaults
 	 * @param settingsBatch
 	 *            true to process ettings changes as a batch
+	 * @param randomize
+	 *            whether to randomize numbers afterwards
 	 * @throws Exception
 	 *             if XML is invalid or there was a problem while processing
 	 */
