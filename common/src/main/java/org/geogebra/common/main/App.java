@@ -3976,7 +3976,7 @@ public abstract class App implements UpdateSelection {
 
 		//MOB-601
 		case MOBILE_LOCAL_SAVE:
-			return prerelease;
+			return false;
 		case RETEX_EDITOR:
 			return prerelease;
 
