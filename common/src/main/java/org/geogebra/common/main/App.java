@@ -3995,19 +3995,19 @@ public abstract class App implements UpdateSelection {
 
 		//MOB-823, MOB-824
 		case MOBILE_APPS_CONNECTION:
-			return prerelease;
+			return true; // 5.0.290
 
 		// MOB-821
 		case MOBILE_MATERIAL_RELEVANT_APP_TAG:
-			return prerelease;
+			return true; // 5.0.290
 
 		// MOB-825
 		case MOBILE_AUTO_SAVE:
-			return prerelease;
+			return true; // 5.0.290
 
 		// related to MOB-825
 		case MOBILE_NEW_EV_CENTERING:
-			return prerelease;
+			return true; // 5.0.290
 
 		//MOB-827
 		case MOBILE_ROUNDING_OPTION:
@@ -4019,7 +4019,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-885
 		case MOBILE_PROGRESS_DIALOG_CANCEL:
-			return prerelease;
+			return true; // 5.0.290
 
 		// MOB-779
 		case MOBILE_COPY_3D_VIEW_TO_IMAGE_VIEW_FOR_ANIMATIONS:
