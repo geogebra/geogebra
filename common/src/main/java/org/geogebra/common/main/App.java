@@ -3976,7 +3976,7 @@ public abstract class App implements UpdateSelection {
 
 		//MOB-601
 		case MOBILE_LOCAL_SAVE:
-			return false;
+			return prerelease;
 		case RETEX_EDITOR:
 			return prerelease;
 
@@ -4057,6 +4057,9 @@ public abstract class App implements UpdateSelection {
 
 		case HIT_3D_MOVEABLE_FIRST_IF_NOT_SELECTED:
 			return prerelease;
+
+		case MOBILE_CACHE_FEATURED:
+			return false;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
