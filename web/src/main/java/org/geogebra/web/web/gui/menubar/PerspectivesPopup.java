@@ -203,7 +203,7 @@ public class PerspectivesPopup {
 	}
 
 	public boolean isShowing() {
-		return true;
+		return box.isShowing();
 	}
 
 }
