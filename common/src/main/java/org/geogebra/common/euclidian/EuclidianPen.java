@@ -155,6 +155,7 @@ public class EuclidianPen {
 	private boolean startNewStroke = false;
 
 	private int penSize;
+	private static int lineThickness;
 
 	/**
 	 * start point of the gesture
@@ -238,6 +239,13 @@ public class EuclidianPen {
 	}
 
 	/**
+	 * @return pen size + 1
+	 */
+	public static int getLineThickness() {
+		return lineThickness + 1;
+	}
+
+	/**
 	 * @param penSize
 	 *            pen size
 	 */
@@ -246,6 +254,7 @@ public class EuclidianPen {
 			startNewStroke = true;
 		}
 		this.penSize = penSize;
+		lineThickness = penSize;
 	}
 
 	/**
@@ -445,7 +454,8 @@ public class EuclidianPen {
 										   GPoint point2) {
 		GLine2D line = AwtFactory.prototype.newLine2D();
 		line.setLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
-		g2D.setStroke(AwtFactory.prototype.newBasicStroke(12,
+		// use for line the thickness from properties
+		g2D.setStroke(AwtFactory.prototype.newBasicStroke(getLineThickness(),
 				GBasicStroke.CAP_ROUND,
 				GBasicStroke.JOIN_ROUND));
 		g2D.setColor(GColor.GRAY);
