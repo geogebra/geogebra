@@ -208,6 +208,6 @@ public class AlgebraController {
 				}
 			}
 		}
-		return true;
+		return geos != null;
 	}
 }
