@@ -151,6 +151,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	@Override
 	public void showBrowser(HeaderPanel bg) {
+		keyBoardNeeded(false, null);
 		GeoGebraFrameW frameLayout = this;
 		final int count = frameLayout.getWidgetCount();
 		final int oldHeight = this.getOffsetHeight();

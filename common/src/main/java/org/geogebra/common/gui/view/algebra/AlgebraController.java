@@ -127,28 +127,21 @@ public class AlgebraController {
 		GeoElementND[] geos;
 		try {
 
-			AsyncOperation callback = new AsyncOperation() {
+			AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
 
 				@Override
-				public void callback(Object obj) {
+				public void callback(GeoElementND[] newGeos) {
 
-					if (!(obj instanceof GeoElement[])) {
+					if (newGeos == null) {
 						// no GeoElements were created
 						return;
 					}
-					GeoElement[] geos = (GeoElement[]) obj;
-
-					// need label if we type just eg lnx
-					if (geos.length == 1 && !geos[0].isLabelSet()) {
-						geos[0].setLabel(geos[0].getDefaultLabel());
-					}
-
 					// create texts in the middle of the visible view
 					// we must check that size of geos is not 0 (ZoomIn,
 					// ZoomOut, ...)
-					if (geos.length > 0 && geos[0] != null
-							&& geos[0].isGeoText()) {
-						GeoText text = (GeoText) geos[0];
+					if (newGeos.length > 0 && newGeos[0] != null
+							&& newGeos[0].isGeoText()) {
+						GeoText text = (GeoText) newGeos[0];
 						if (!text.isTextCommand()
 								&& text.getStartPoint() == null) {
 

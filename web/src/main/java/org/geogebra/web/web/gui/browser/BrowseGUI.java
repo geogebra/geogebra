@@ -46,10 +46,12 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
         EventRenderable, OpenFileListener, BrowseViewI {
-
+	/** children that need resizing */
 	protected final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
+	/** pane with materials */
 	protected MaterialListPanel materialListPanel;
+	/** container */
 	protected HorizontalPanel container;
 
 	private FlowPanel providerPanel;
@@ -57,13 +59,16 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	private StandardButton locationDrive;
 	private StandardButton locationSkyDrive;
 	private Widget locationLocal;
+	/** application */
 	protected final AppW app;
 
 
 
 	/**
-	 * 
 	 * @param app
+	 *            application
+	 * @param fileButton
+	 *            button to open loacl files
 	 */
 	public BrowseGUI(final AppW app, Widget fileButton) {
 		this.setStyleName("browsegui");
@@ -77,8 +82,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		this.app.getLoginOperation().getView().add(this);
 		this.container = new HorizontalPanel();
 		this.container.setPixelSize((int) app.getWidth(),
- (int) app.getHeight()
-				- GLookAndFeel.BROWSE_HEADER_HEIGHT);
+				(int) app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		this.container.setStyleName("content");
 
 		initMaterialListPanel();

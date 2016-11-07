@@ -51,7 +51,12 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 
 	private DragSource ds;
 
-	/** Creates new CommandProcessor */
+	/**
+	 * Creates new Algebra controller
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public AlgebraControllerD(Kernel kernel) {
 		super(kernel);
 	}
