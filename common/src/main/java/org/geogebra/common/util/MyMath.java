@@ -390,19 +390,25 @@ public final class MyMath {
 	 * @return (n choose k)
 	 */
 	public static double binomial(double n, double k) {
-		double INFINITY = Double.POSITIVE_INFINITY;
 		try {
 			if (n == 0d && k == 0d)
 				return 1d;
 			double r = k > n / 2 ? n - k : k;
-			if (n < 1d || r < 0d || n < r)
+			if (n < 1d || r < 0d || n < r) {
 				return 0d;
-			if (Math.floor(n) != n || Math.floor(r) != r)
+			}
+			if (!Kernel.isEqual(Math.round(n), n)
+					|| !Kernel.isEqual(Math.round(r), r)) {
 				return 0d;
+			}
+
+			n = Math.round(n);
+			r = Math.round(r);
 
 			double ncr = binomLog(n, r);
-			if (ncr == INFINITY)
-				return INFINITY; // check to stop needless slow calculations
+			if (ncr == Double.POSITIVE_INFINITY)
+				return Double.POSITIVE_INFINITY; // check to stop needless slow
+													// calculations
 
 			// BinomLog is not exact for some values
 			// (determined by trial and error)
@@ -415,7 +421,7 @@ public final class MyMath {
 			// significant digits)
 			return binomBig(n, r);
 		} catch (Exception e) {
-			return INFINITY;
+			return Double.POSITIVE_INFINITY;
 		}
 	}
 
