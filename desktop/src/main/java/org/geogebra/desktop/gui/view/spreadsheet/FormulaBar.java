@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
+import org.geogebra.desktop.gui.inputfield.KeyNavigation;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -70,11 +71,11 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 		btnAcceptFormula.setFocusable(false);
 		btnAcceptFormula.setBorder(BorderFactory.createEmptyBorder(0,4,0,4));	
 
-		fldFormula = new AutoCompleteTextFieldD(-1, app, false);  
+		fldFormula = new AutoCompleteTextFieldD(-1, app, KeyNavigation.IGNORE);
 		fldFormula.addActionListener(this);
 		fldFormula.addFocusListener(this);
 		fldFormula.setShowSymbolTableIcon(true);
-		fldCellName = new AutoCompleteTextFieldD(5, app, false);
+		fldCellName = new AutoCompleteTextFieldD(5, app, KeyNavigation.IGNORE);
 		fldCellName.setAutoComplete(false);
 		//fldCellName.setEditable(false);
 		Dimension d = fldCellName.getMaximumSize();

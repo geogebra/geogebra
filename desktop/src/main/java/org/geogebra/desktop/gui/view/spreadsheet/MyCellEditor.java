@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
+import org.geogebra.desktop.gui.inputfield.KeyNavigation;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
 import org.geogebra.desktop.main.AppD;
 
@@ -68,7 +69,7 @@ public class MyCellEditor extends DefaultCellEditor implements FocusListener {
 	public MyCellEditor(Kernel kernel, SpreadsheetController controller) {
 
 		super(new AutoCompleteTextFieldD(0, (AppD) kernel.getApplication(),
-				false));
+				KeyNavigation.IGNORE));
 		this.kernel = kernel;
 		this.controller = controller;
 		app = (AppD) kernel.getApplication();

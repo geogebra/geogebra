@@ -62,7 +62,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	private int historyIndex;
 	private ArrayList<String> history;
 
-	private boolean handleEscapeKey = false;
+	private KeyNavigation handleEscapeKey = KeyNavigation.IGNORE;
 
 	private List<String> completions;
 	private String cmdPrefix;
@@ -100,7 +100,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 * 
 	 */
 	public AutoCompleteTextFieldD(int columns, App app) {
-		this(columns, (AppD) app, true);
+		this(columns, (AppD) app, KeyNavigation.BLUR);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	 *            dictionary
 	 */
 	public AutoCompleteTextFieldD(int columns, AppD app,
-			boolean handleEscapeKey, boolean forCAS) {
+			KeyNavigation handleEscapeKey, boolean forCAS) {
 		super(app);
 		// allow dynamic width with columns = -1
 		if (columns > 0)
@@ -138,7 +138,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 		enableLabelColoring(isCASInput);
 	}
 
-	public AutoCompleteTextFieldD(int columns, AppD app, boolean handleEscapeKey) {
+	public AutoCompleteTextFieldD(int columns, AppD app,
+			KeyNavigation handleEscapeKey) {
 		this(columns, app, handleEscapeKey, true);
 		// setDictionary(app.getAllCommandsDictionary());
 	}
@@ -342,8 +343,11 @@ public class AutoCompleteTextFieldD extends MathTextField
 		// process input
 
 		case KeyEvent.VK_ESCAPE:
-			if (!handleEscapeKey) {
+			if (handleEscapeKey == KeyNavigation.IGNORE) {
 				break;
+			}
+			if (handleEscapeKey == KeyNavigation.HISTORY) {
+				setText("");
 			}
 
 			Component comp = SwingUtilities.getRoot(this);
@@ -361,7 +365,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		// break;
 
 		case KeyEvent.VK_UP:
-			if (!handleEscapeKey) {
+			if (handleEscapeKey == KeyNavigation.IGNORE) {
 				break;
 			}
 			if (historyPopup == null) {
@@ -374,7 +378,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 			break;
 
 		case KeyEvent.VK_DOWN:
-			if (!handleEscapeKey) {
+			if (handleEscapeKey == KeyNavigation.IGNORE) {
 				break;
 			}
 			if (historyPopup != null && historyPopup.isDownPopup()) {

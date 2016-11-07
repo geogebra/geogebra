@@ -28,6 +28,7 @@ import org.geogebra.desktop.gui.DynamicTextInputPane;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.editor.GeoGebraEditorPane;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
+import org.geogebra.desktop.gui.inputfield.KeyNavigation;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.TextLineNumber;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboard;
@@ -101,7 +102,8 @@ public class InputPanelD extends JPanel implements FocusListener, VirtualKeyboar
 			
 		} else{
 			
-			textComponent = new AutoCompleteTextFieldD(columns, app);	
+			textComponent = new AutoCompleteTextFieldD(columns, app,
+					KeyNavigation.HISTORY);
 			((MyTextFieldD)textComponent).setShowSymbolTableIcon(showSymbolPopup);
 		}
 		

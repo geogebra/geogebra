@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
+import org.geogebra.desktop.gui.inputfield.KeyNavigation;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -34,7 +35,8 @@ public class CASInputPanel extends JPanel {
 
 		// use autocomplete text field from input bar
 		// but ignore Escape, Up, Down keys
-		inputArea = new AutoCompleteTextFieldD(1, app, false, true);
+		inputArea = new AutoCompleteTextFieldD(1, app, KeyNavigation.IGNORE,
+				true);
 		inputArea.setCASInput(true);
 		inputArea.setAutoComplete(true);
 		inputArea.setShowSymbolTableIcon(true);
