@@ -422,13 +422,9 @@ public abstract class KBBase extends PopupPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				// if (KBBase.this.processField instanceof
-				// AutocompleteProcessing) {
-				// if (((AutocompleteProcessing) KBBase.this.processField)
-				// .isSVCell()) {
-				// hideInSV = true;
-				// }
-				// }
+				if (KBBase.this.processField.isSVCell()) {
+						hideInSV = true;
+				}
 				keyboardWanted = false;
 				updateKeyBoardListener.keyBoardNeeded(false, null);
 			}

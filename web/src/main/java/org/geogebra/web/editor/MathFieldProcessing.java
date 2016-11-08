@@ -84,4 +84,8 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	}
 
+	public boolean isSVCell() {
+		return false;
+	}
+
 }

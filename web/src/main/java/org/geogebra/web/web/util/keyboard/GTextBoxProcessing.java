@@ -114,4 +114,8 @@ public class GTextBoxProcessing implements KeyboardListener {
 	public void updateForNewLanguage(KeyboardLocale localization) {
 		// overridden for RTI
 	}
+
+	public boolean isSVCell() {
+		return false;
+	}
 }

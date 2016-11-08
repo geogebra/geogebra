@@ -196,4 +196,8 @@ public class MathQuillProcessing implements KeyboardListener {
 				|| text.equals(Unicode.MULTIPLY + "")
 				|| text.equals(Unicode.DIVIDE);
 	}
+
+	public boolean isSVCell() {
+		return false;
+	}
 }

@@ -73,4 +73,6 @@ public interface KeyboardListener {
 	void updateForNewLanguage(KeyboardLocale localization);
 
 	public void setKeyBoardModeText(boolean text);
+
+	public boolean isSVCell();
 }
