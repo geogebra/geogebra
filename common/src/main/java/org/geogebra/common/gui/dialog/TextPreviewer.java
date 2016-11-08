@@ -258,8 +258,7 @@ public abstract class TextPreviewer {
 		}
 
 		// update the panel size to match the geo
-		if ((previewGeoIndependent != null)
-				&& previewGeoIndependent.isEuclidianVisible()) {
+		if (previewGeoIndependent.isEuclidianVisible()) {
 			updateViewportSize(previewGeoIndependent);
 		}
 		if ((previewGeoDependent != null)
