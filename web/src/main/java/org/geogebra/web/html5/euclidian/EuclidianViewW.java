@@ -845,10 +845,10 @@ public class EuclidianViewW extends EuclidianView implements
 		evPanel.addDomHandler(euclidiancontroller, DropEvent.getType());
 	}
 	// STROKES
-	protected static GBasicStrokeW standardStroke = new GBasicStrokeW(
+	final protected static GBasicStrokeW standardStroke = new GBasicStrokeW(
 	        1.0f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
-	protected static GBasicStrokeW selStroke = new GBasicStrokeW(
+	final protected static GBasicStrokeW selStroke = new GBasicStrokeW(
 			1.0f + EuclidianStyleConstants.SELECTION_ADD,
 	        GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 

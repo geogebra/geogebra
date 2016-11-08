@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
@@ -22,10 +23,6 @@ import com.ogprover.utilities.logger.ILogger;
  *         Implements desktop dependent parts of the Prover.
  */
 public class ProverD extends Prover {
-
-	static {
-		reciosProver = new ProverReciosMethodD();
-	}
 
 	/**
 	 * Starts computation of the proof, based on the defined subsystem.
@@ -196,6 +193,11 @@ public class ProverD extends Prover {
 				return ProofResult.FALSE;
 		}
 		return ProofResult.UNKNOWN;
+	}
+
+	@Override
+	protected AbstractProverReciosMethod getNewReciosProver() {
+		return new ProverReciosMethodD();
 	}
 
 }

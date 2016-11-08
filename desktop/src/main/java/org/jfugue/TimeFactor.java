@@ -33,8 +33,8 @@ import javax.sound.midi.Sequence;
 
 public final class TimeFactor
 {
-    public static double DEFAULT_BPM = 120.0d;
-    public static int QUARTER_DURATIONS_IN_WHOLE = 4;
+	final public static double DEFAULT_BPM = 120.0d;
+	final public static int QUARTER_DURATIONS_IN_WHOLE = 4;
     
     public static final double getTimeFactor(Sequence sequence, double bpm)
     {

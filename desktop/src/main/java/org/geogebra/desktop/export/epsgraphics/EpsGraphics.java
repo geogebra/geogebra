@@ -47,6 +47,7 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GFontRenderContextD;
 
 
 /**
@@ -661,6 +662,11 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 */
 	@Override
 	public GFontRenderContext getFontRenderContext() {
+
+		if (_fontRenderContext == null) {
+			_fontRenderContext = getNewFontRenderContext();
+		}
+
 		return _fontRenderContext;
 	}
 
@@ -1235,7 +1241,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 
 	private EpsDocument _document;
 
-	protected static GFontRenderContext _fontRenderContext;
+	private GFontRenderContext _fontRenderContext;
 
 	protected ColorMode colorMode = ColorMode.COLOR_RGB;
 
@@ -1295,5 +1301,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 	public void drawChars(char[] data, int offset, int length, int x, int y) {
 		drawString(new String(data).substring(offset, offset + length), x, y);
 	}
+
+	protected abstract GFontRenderContextD getNewFontRenderContext();
 
 }

@@ -13,7 +13,7 @@ import java.awt.geom.AffineTransform;
  */
 public class SVGGlyph {
 
-    public static int FONT_SIZE = 100;
+	final public static int FONT_SIZE = 100;
 
     public static int UNITS_PER_EM = 2048;
 

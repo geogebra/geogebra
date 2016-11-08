@@ -22,7 +22,7 @@ import org.freehep.util.io.TaggedInputStream;
  */
 public class EMFInputStream extends TaggedInputStream implements EMFConstants {
 
-    public static int DEFAULT_VERSION = 1;
+	final public static int DEFAULT_VERSION = 1;
 
     public EMFInputStream(InputStream is) throws IOException {
 

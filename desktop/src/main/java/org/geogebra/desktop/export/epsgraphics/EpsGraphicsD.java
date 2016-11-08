@@ -25,8 +25,9 @@ import org.geogebra.desktop.gui.MyImageD;
 
 public class EpsGraphicsD extends EpsGraphics {
 
-	static {
-		_fontRenderContext = new GFontRenderContextD(
+	@Override
+	final protected GFontRenderContextD getNewFontRenderContext() {
+		return new GFontRenderContextD(
 				new FontRenderContext(null, false, true));
 	}
 

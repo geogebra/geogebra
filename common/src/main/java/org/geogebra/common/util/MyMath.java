@@ -35,12 +35,12 @@ public final class MyMath {
 	/** one degree */
 	public static final double DEG = Math.PI / 180;
 	/** Euler's constant */
-	public static double EULER = 0.57721566;
+	final public static double EULER = 0.57721566;
 
 	/**
 	 * Largest integer
 	 */
-	public static double LARGEST_INTEGER = 9007199254740992d;
+	final public static double LARGEST_INTEGER = 9007199254740992d;
 
 	/**
 	 * Cubic root

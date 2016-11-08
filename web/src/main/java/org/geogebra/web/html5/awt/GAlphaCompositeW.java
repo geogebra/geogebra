@@ -4,7 +4,7 @@ import org.geogebra.common.awt.GAlphaComposite;
 
 public class GAlphaCompositeW implements GAlphaComposite {
 
-	public static GAlphaCompositeW Src = new GAlphaCompositeW(SRC, 1.0f);
+	final public static GAlphaCompositeW Src = new GAlphaCompositeW(SRC, 1.0f);
 	private int srcOver;
 	private float alpha;
 

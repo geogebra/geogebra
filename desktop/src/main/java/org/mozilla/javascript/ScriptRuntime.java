@@ -7,7 +7,7 @@
 package org.mozilla.javascript;
 
 import java.io.Serializable;
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -15,8 +15,8 @@ import java.util.ResourceBundle;
 import org.mozilla.javascript.ast.FunctionNode;
 import org.mozilla.javascript.v8dtoa.DoubleConversion;
 import org.mozilla.javascript.v8dtoa.FastDtoa;
-import org.mozilla.javascript.xml.XMLObject;
 import org.mozilla.javascript.xml.XMLLib;
+import org.mozilla.javascript.xml.XMLObject;
 
 /**
  * This is the class that implements the runtime.
@@ -136,7 +136,7 @@ public class ScriptRuntime {
         Scriptable.class;
 
     // Locale object used to request locale-neutral operations.
-    public static Locale ROOT_LOCALE = new Locale("");
+	final public static Locale ROOT_LOCALE = new Locale("");
 
     private static final Object LIBRARY_SCOPE_KEY = "LIBRARY_SCOPE";
 
@@ -3882,7 +3882,7 @@ public class ScriptRuntime {
         String getMessage(String messageId, Object[] arguments);
     }
 
-    public static MessageProvider messageProvider = new DefaultMessageProvider();
+	final public static MessageProvider messageProvider = new DefaultMessageProvider();
 
     public static String getMessage(String messageId, Object[] arguments)
     {

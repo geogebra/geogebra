@@ -128,7 +128,7 @@ public abstract class Prover {
 	/**
 	 * Recio's prover.
 	 */
-	protected static AbstractProverReciosMethod reciosProver;
+	protected AbstractProverReciosMethod reciosProver;
 
 	/**
 	 * Gives the current statement to prove
@@ -1070,4 +1070,15 @@ public abstract class Prover {
 		}
 
 	}
+
+	AbstractProverReciosMethod getReciosProver() {
+
+		if (reciosProver == null) {
+			reciosProver = getNewReciosProver();
+		}
+
+		return reciosProver;
+	}
+
+	protected abstract AbstractProverReciosMethod getNewReciosProver();
 }

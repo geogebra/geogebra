@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.util;
 
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.kernel.ProverReciosMethodW;
@@ -11,8 +12,9 @@ import org.geogebra.web.html5.kernel.ProverReciosMethodW;
  */
 public class ProverW extends Prover {
 
-	static {
-		reciosProver = new ProverReciosMethodW();
+	@Override
+	protected AbstractProverReciosMethod getNewReciosProver() {
+		return new ProverReciosMethodW();
 	}
 
 	@Override

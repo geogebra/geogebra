@@ -55,7 +55,7 @@ public class ColorChooserButton extends JButton {
 	 * Spreadsheet mode. Preview icon shows a table with four cells, the upper
 	 * row will have the current color as background.
 	 */
-	public static int MODE_SPREADSHEET = 2;
+	final public static int MODE_SPREADSHEET = 2;
 
 	/**
 	 * Current setting for the mode.

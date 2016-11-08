@@ -22,7 +22,7 @@ public class GenericTagHandler extends TagHandler {
     /**
      * TextAttribute for overline, not a standard
      */
-    public static Integer UNDERLINE_OVERLINE = new Integer(128);
+	final public static Integer UNDERLINE_OVERLINE = new Integer(128);
 
     /**
      * context to draw AttributedString
