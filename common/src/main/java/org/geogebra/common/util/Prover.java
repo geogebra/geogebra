@@ -562,7 +562,7 @@ public abstract class Prover {
 			result = override(pbm.prove(this));
 			return;
 		} else if (currentEngine == ProverEngine.RECIOS_PROVER) {
-			result = override(reciosProver.prove(this));
+			result = override(getReciosProver().prove(this));
 			return;
 		} else if (currentEngine == ProverEngine.PURE_SYMBOLIC_PROVER) {
 			result = override(ProverPureSymbolicMethod.prove(this));
@@ -724,14 +724,15 @@ public abstract class Prover {
 
 	private static class StatementFeatures {
 
-		String[] rules = { "Intersect", "Segment", "Midpoint",
+		static final String[] rules = { "Intersect", "Segment", "Midpoint",
 				"OrthogonalLine", "Circle", "Line", "Point", "Free Point",
 				"Ray", "Area", "Distance", "LineBisector", "Expression",
 				"Translate", "Vector", "Polygon", "Tangent", "Parabola",
 				"Mirror", "Ellipse", "AngularBisector", "Rotate", "Angle",
 				"Hyperbola" };
 
-		String[] obj_types = { "Point", "Circle", "Line", "Segment",
+		static final String[] obj_types = { "Point", "Circle", "Line",
+				"Segment",
 				"Triangle", "Numeric", "Pentagon", "Angle", "Triangle",
 				"Parabola", "Ray", "Ellipse", "Hyperbola", "Quadrilateral",
 				"Vector" };
