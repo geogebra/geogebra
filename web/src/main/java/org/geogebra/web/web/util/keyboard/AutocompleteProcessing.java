@@ -58,6 +58,10 @@ public class AutocompleteProcessing implements KeyboardListener {
 
 		}
 
+	public boolean isSVCell() {
+		return field.getStyleName().indexOf("SpreadsheetEditorCell") >= 0;
+	}
+
 	@Override
 	public void insertString(String text) {
 

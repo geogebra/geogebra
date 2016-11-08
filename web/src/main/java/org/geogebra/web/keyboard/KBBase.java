@@ -13,6 +13,7 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
+import org.geogebra.web.web.util.keyboard.AutocompleteProcessing;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -236,6 +237,8 @@ public abstract class KBBase extends PopupPanel {
 
 	private boolean isSmallKeyboard = false;
 
+	static boolean hideInSV;
+
 	protected void initAccentAcuteLetters() {
 		accentAcute.put("a", "\u00e1");
 		accentAcute.put("A", "\u00c1");
@@ -420,6 +423,12 @@ public abstract class KBBase extends PopupPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				if (KBBase.this.processField instanceof AutocompleteProcessing) {
+					if (((AutocompleteProcessing) KBBase.this.processField)
+							.isSVCell()) {
+						hideInSV = true;
+					}
+				}
 				keyboardWanted = false;
 				updateKeyBoardListener.keyBoardNeeded(false, null);
 			}
@@ -1107,6 +1116,10 @@ public abstract class KBBase extends PopupPanel {
 	 */
 	public boolean shouldBeShown() {
 		return this.keyboardWanted;
+	}
+
+	public static boolean shouldBeHideInSV() {
+		return hideInSV;
 	}
 
 	public void showOnFocus() {
