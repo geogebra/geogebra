@@ -30,7 +30,7 @@ public class MyMathExact {
 		public MyDecimal(int significance, double val) {
 			// super(val);
 			// super.setScale(significance, roundingMode);
-			impl = (new BigDecimal(0)).setScale(significance);
+			impl = (new BigDecimal(val)).setScale(significance);
 			fixedScale = significance;
 		}
 
