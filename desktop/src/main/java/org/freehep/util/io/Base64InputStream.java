@@ -115,10 +115,13 @@ public class Base64InputStream extends InputStream {
             encoding = base64toInt[ch & 0x7f];
             switch (encoding) {
             case ILLEGAL:
-                if (ch < 0)
-                    throw new EncodingException(
-                            "Illegal character in Base64 encoding '" + ch
-                                    + "'.");
+				// removed, ch can't be negative here
+				// if (ch < 0)
+				// throw new EncodingException(
+				// "Illegal character in Base64 encoding '" + ch
+				// + "'.");
+
+				// fall through
             case EQUALS:
                 // ignore, but keep reading padding
                 i++;

@@ -93,18 +93,13 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand,
 
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
-	// over-ridden in LimitAbove/Below
 	@Override
 	public void compute() {
-		if (!f.isDefined() || !input[1].isDefined()) {
+		if (f == null || !f.isDefined() || !input[1].isDefined()) {
 			outNum.setUndefined();
 			return;
 		}
 		limitString = f.getLimit(num.getDouble(), getDirection());
-		if (f == null) {
-			outNum.setUndefined();
-			return;
-		}
 
 		try {
 			String numStr = kernel.evaluateCachedGeoGebraCAS(limitString,

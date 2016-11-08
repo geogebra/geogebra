@@ -421,7 +421,7 @@ public final class MusicStringParser extends Parser
         String definition = s.substring(indexOfEquals+1,s.length());
         // Replace tilde's with spaces.  I don't think this will work, though, since the
         // MusicString has already been tokenized.
-        definition.replace('~', ' ');
+		// definition.replace('~', ' ');
         word = word.toUpperCase();
         trace("Dictionary Definition element: word = ",word,", value = ",definition);
         dictionaryMap.put(word, definition);

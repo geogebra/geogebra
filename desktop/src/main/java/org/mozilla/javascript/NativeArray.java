@@ -6,8 +6,6 @@
 
 package org.mozilla.javascript;
 
-import org.mozilla.javascript.regexp.NativeRegExp;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
@@ -849,13 +847,14 @@ public class NativeArray extends IdScriptableObject implements List
 
                     } else if (elem instanceof String) {
                         String s = (String)elem;
-                        if (toSource) {
-                            result.append('\"');
-                            result.append(ScriptRuntime.escapeString(s));
-                            result.append('\"');
-                        } else {
+						// removed: toSource=false here
+						// if (toSource) {
+						// result.append('\"');
+						// result.append(ScriptRuntime.escapeString(s));
+						// result.append('\"');
+						// } else {
                             result.append(s);
-                        }
+						// }
 
                     } else {
                         if (toLocale) {

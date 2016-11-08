@@ -1314,8 +1314,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (newValue0 != null) {
 			String newValue = stopCommon(newValue0);
-			// // not sure why it is needed... TODO: is this needed?
-			newValue.replace(" ", "");
 
 			// Formula Hacks ended.
 			if (geo != null) {

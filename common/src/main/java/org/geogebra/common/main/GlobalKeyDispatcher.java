@@ -679,7 +679,7 @@ public abstract class GlobalKeyDispatcher {
 					// AltGr+ on Spanish keyboard is ] so
 					// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
 					// from eg Input Bar
-					if (!spanish || !isAltDown || (fromEuclidianView)) {
+					if (!spanish || (fromEuclidianView)) {
 						(app.getActiveEuclidianView())
 								.getEuclidianController()
 								.zoomInOut(

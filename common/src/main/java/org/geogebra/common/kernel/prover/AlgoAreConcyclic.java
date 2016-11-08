@@ -198,8 +198,8 @@ public class AlgoAreConcyclic extends AlgoElement implements
 	}
 
 	public int[] getDegrees() throws NoSymbolicParametersException {
-		if (inputPoint1 != null && inputPoint2 != null && inputPoint1 != null
-				&& inputPoint2 != null) {
+		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null
+				&& inputPoint4 != null) {
 			int[] degree1 = inputPoint1.getDegrees();
 			int[] degree2 = inputPoint2.getDegrees();
 			int[] degree3 = inputPoint3.getDegrees();

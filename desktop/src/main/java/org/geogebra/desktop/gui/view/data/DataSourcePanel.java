@@ -542,7 +542,7 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		if (!(source instanceof JTextField)) {
 			return;
 		}
-		((JTextField) source).getText().trim();
+		((JTextField) source).setText(((JTextField) source).getText().trim());
 
 		if (source == fldStart) {
 			dataSource.setClassStart(Validation.validateDouble(fldStart,

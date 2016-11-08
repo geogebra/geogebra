@@ -289,7 +289,7 @@ public class Kernel3D extends Kernel {
 	@Override
 	final public GeoRayND RayND(String label, GeoPointND P, GeoPointND Q) {
 		if (((GeoElement) P).isGeoElement3D()
-				|| ((GeoElement) P).isGeoElement3D())
+				|| ((GeoElement) Q).isGeoElement3D())
 			return getManager3D().Ray3D(label, P, Q);
 		return super.Ray(label, (GeoPoint) P, (GeoPoint) Q);
 	}
@@ -298,7 +298,7 @@ public class Kernel3D extends Kernel {
 	final public GeoSegmentND SegmentND(String label, GeoPointND P, GeoPointND Q) {
 
 		if (((GeoElement) P).isGeoElement3D()
-				|| ((GeoElement) P).isGeoElement3D())
+				|| ((GeoElement) Q).isGeoElement3D())
 			return getManager3D().Segment3D(label, P, Q);
 		return super.Segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}

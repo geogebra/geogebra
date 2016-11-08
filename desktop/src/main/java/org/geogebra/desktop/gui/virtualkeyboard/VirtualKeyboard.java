@@ -140,27 +140,28 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		this.windowHeight = windowHeight;
 
 		this.app = app;
-		this.loc = app.getLocalization();
 		this.setFocusableWindowState(false);
 		this.setAlwaysOnTop(true);
 
 		setFonts();
-
-		initialize();
-
-		setLabels();
-
-		windowResized();
 
 		// make sure resizing the window dynamically updates the contents
 		// doesn't seem to be needed on Java 5
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		kit.setDynamicLayout(true);
 
-		if (app != null)
+		if (app != null) {
+			this.loc = app.getLocalization();
+			initialize();
+
+			setLabels();
 			setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-		else
+		} else {
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		}
+
+		windowResized();
+
 		// setVisible(true);
 		addWindowListener(new WindowListener() {
 			public void windowClosed(WindowEvent arg0) {
