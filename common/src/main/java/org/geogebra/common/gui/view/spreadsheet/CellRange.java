@@ -26,7 +26,7 @@ import org.geogebra.common.util.debug.Log;
  * @author George Sturr, 2010-1-23
  */
 
-public class CellRange {
+public class CellRange implements Cloneable {
 
 	private int minColumn = -1;
 	private int minRow = -1;

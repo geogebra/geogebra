@@ -2,7 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.kernel.Matrix.Coords;
 
-public class TraceSettings implements Comparable<TraceSettings> {
+public class TraceSettings implements Comparable<TraceSettings>, Cloneable {
 
 	private Coords c;
 	private double a;
