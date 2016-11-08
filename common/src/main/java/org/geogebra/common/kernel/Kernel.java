@@ -2580,6 +2580,10 @@ public class Kernel {
 		setLibraryJavaScript(defaultLibraryJavaScript);
 	}
 
+	/**
+	 * @param str
+	 *            global javascript
+	 */
 	public void setLibraryJavaScript(String str) {
 		Log.debug(str);
 		libraryJavaScript = str;
@@ -2597,6 +2601,9 @@ public class Kernel {
 	// return Util.encodeXML(libraryJavaScript);
 	// }
 
+	/**
+	 * @return global JavaScript
+	 */
 	public String getLibraryJavaScript() {
 		return libraryJavaScript;
 	}
@@ -2624,14 +2631,27 @@ public class Kernel {
 
 	private boolean arcusFunctionCreatesAngle;
 
-	public void setInverseTrigReturnsAngle(boolean selected) {
-		arcusFunctionCreatesAngle = selected;
+	/**
+	 * @param returnAngle
+	 *            whether angle should be returned from asin /acos/..
+	 *            (compatibility setting for v < 5.0.290)
+	 */
+	public void setInverseTrigReturnsAngle(boolean returnAngle) {
+		arcusFunctionCreatesAngle = returnAngle;
 	}
 
+	/**
+	 * @return whether angle should be returned from asin / acos /...
+	 */
 	public boolean getInverseTrigReturnsAngle() {
 		return arcusFunctionCreatesAngle && loadingMode;
 	}
 
+	/**
+	 * 
+	 * @param unit
+	 *            Kernel.ANGLE_DEGREE or Kernel.ANGLE_RADIANT
+	 */
 	final public void setAngleUnit(int unit) {
 		angleUnit = unit;
 	}
@@ -4499,13 +4519,6 @@ public class Kernel {
 		sb.append("\t<coordStyle val=\"");
 		sb.append(getCoordStyle());
 		sb.append("\"/>\n");
-
-		// whether return angle from inverse trigonometric functions
-		if (!asPreference) {
-			sb.append("\t<angleFromInvTrig val=\"");
-			sb.append(getInverseTrigReturnsAngle());
-			sb.append("\"/>\n");
-		}
 
 		// animation
 		if (isAnimationRunning()) {
