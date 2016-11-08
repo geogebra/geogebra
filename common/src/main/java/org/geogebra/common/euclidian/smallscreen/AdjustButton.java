@@ -6,17 +6,13 @@ import org.geogebra.common.util.debug.Log;
 
 public class AdjustButton extends AdjustWidget {
 	private static final int MARGIN_X = 5;
-	private static final int MARGIN_Y = 5;
+	static final int MARGIN_Y = 5;
 	private GeoButton button;
-	private int viewWidth;
-	private int viewHeight;
 	public AdjustButton(GeoButton button, EuclidianView view) {
 		super(view);
 		this.button = button;
 		x = button.getAbsoluteScreenLocX();
 		y = button.getAbsoluteScreenLocY();
-		viewWidth = view.getViewWidth();
-		viewHeight = view.getViewHeight();
 		width = button.getWidth();
 		height = button.getHeight();
 		Log.debug(button.getLabelSimple() + " w: " + width + " h: " + height);
@@ -24,8 +20,8 @@ public class AdjustButton extends AdjustWidget {
 
 	@Override
 	public boolean isOnScreen() {
-		return x >= 0 && y >= 0 && x + width < viewWidth
-				&& y + height < viewHeight;
+		return x >= 0 && y >= 0 && x + width < view.getViewWidth()
+				&& y + height < view.getViewHeight();
 	}
 
 	@Override
@@ -39,6 +35,9 @@ public class AdjustButton extends AdjustWidget {
 		Log.debug(
 "[AS] Button " + button.getLabelSimple()
 				+ " is NOT  on screen");
+
+		int viewWidth = view.getViewWidth();
+		int viewHeight = view.getViewHeight();
 
 		if (width > viewWidth - MARGIN_X) {
 			width = viewWidth - MARGIN_X;

@@ -118,6 +118,7 @@ public class AdjustScreen {
 					GeoInputBox input = (GeoInputBox) geo;
 					inputBoxes.add(input);
 				} else {
+					Log.debug("[AS] collecting buttons: " + geo);
 					GeoButton btn = (GeoButton) geo;
 					buttons.add(btn);
 				}
@@ -147,6 +148,7 @@ public class AdjustScreen {
 			if (geo.isGeoInputBox()) {
 				adjust = new AdjustInputBox((GeoInputBox) geo, view);
 			} else {
+				Log.debug("[AS] AdjustButton for " + geo);
 				adjust = new AdjustButton((GeoButton) geo, view);
 			}
 		}
@@ -211,8 +213,14 @@ public class AdjustScreen {
 
 	@SuppressWarnings("unchecked")
 	private void checkOvelappingButtons() {
+		// No buttons at all.
+		if (buttons.size() < 1) {
+			return;
+		}
+
 		Collections.sort(buttons, new ButtonComparator());
 		Log.debug("[AS] Buttons:");
+		int overlapCount = 0;
 		for (int idx = 0; idx < buttons.size() - 1; idx++) {
 			GeoButton btn1 = buttons.get(idx);
 			GeoButton btn2 = buttons.get(idx + 1);
@@ -226,14 +234,36 @@ public class AdjustScreen {
 			boolean overlap = rect1.intersects(rect2)
 					|| rect2.intersects(rect1);
 			
-			Log.debug("[AS] " + btn1 + " - " + btn2 + " overlaps: " + overlap);
+			Log.debug("[AS] " + btn1);// + " - " + btn2 + " overlaps: " +
+										// overlap);
 
 			if (overlap) {
+				overlapCount++;
 				btn2.setAbsoluteScreenLoc(btn2.getAbsoluteScreenLocX(),
-						btn1.getAbsoluteScreenLocY() + btn1.getHeight()
+						btn1.getAbsoluteScreenLocY()
+								+ overlapCount * btn1.getHeight()
 								+ BUTTON_GAP);
 
+				buttons.set(idx + 1, btn2);
 				btn2.update();
+			}
+		}
+
+
+		Collections.sort(buttons, new ButtonComparator());
+
+		GeoButton lastBtn = buttons.get(buttons.size() - 1);
+		int maxY = view.getViewHeight();// - AdjustButton.MARGIN_Y;
+		int bottom = lastBtn.getAbsoluteScreenLocY() + lastBtn.getHeight();
+		Log.debug("lastBtn: " + lastBtn.getLabelSimple() + "bottom: " + bottom
+				+ " maxY: " + maxY);
+		if (bottom > maxY) {
+			double dY = bottom - maxY;
+			for (int idx = 0; idx < buttons.size(); idx++) {
+				GeoButton btn = buttons.get(idx);
+				btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX(),
+						(int) (btn.getAbsoluteScreenLocY() - dY));
+				btn.update();
 			}
 		}
 	}
