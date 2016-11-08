@@ -4041,7 +4041,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case FOLD_POLYHEDRON_NET_BY_DRAGGING:
-			return prerelease;
+			return true; // 5.0.290
 
 		case ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS:
 			return prerelease;
@@ -4056,7 +4056,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case HIT_3D_MOVEABLE_FIRST_IF_NOT_SELECTED:
-			return prerelease;
+			return true; // 5.0.290
 
 		case MOBILE_CACHE_FEATURED:
 			return false;
