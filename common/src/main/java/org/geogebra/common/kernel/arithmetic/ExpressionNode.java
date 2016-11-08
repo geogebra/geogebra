@@ -2119,16 +2119,31 @@ kernel, left,
 					true);
 			break;
 
+		case ARCCOSD:
+			trig(kernel, left, leftStr, sb, "<arccos/>", "\\arccos", "ACOS(",
+					"acosd", "arccos", "acosd", tpl, loc, false, true);
+			break;
+
 		case ARCSIN:
 			trig(kernel, left, leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(",
 					"asin", "arcsin", degFix("asin", kernel), tpl, loc, false,
 					true);
 			break;
 
+		case ARCSIND:
+			trig(kernel, left, leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(",
+					"asind", "arcsin", "asind", tpl, loc, false, true);
+			break;
+
 		case ARCTAN:
 			trig(kernel, left, leftStr, sb, "<arctan/>", "\\arctan", "ATAN(",
 					"atan", "arctan", degFix("atan", kernel), tpl, loc, false,
 					true);
+			break;
+
+		case ARCTAND:
+			trig(kernel, left, leftStr, sb, "<arctan/>", "\\arctan", "ATAN(",
+					"atand", "arctan", "atand", tpl, loc, false, true);
 			break;
 
 		case ARCTAN2:
@@ -2156,6 +2171,35 @@ kernel, left,
 
 				default:
 					sb.append("atan2(");
+				}
+				sb.append(leftStr);
+				sb.append(',');
+				sb.append(rightStr);
+				sb.append(tpl.rightBracket());
+			}
+			break;
+
+		case ARCTAN2D:
+			if (stringType.equals(StringType.CONTENT_MATHML)) {
+				MathmlTemplate.mathml(sb, "<atan/>", leftStr, rightStr);
+			} else {
+				switch (stringType) {
+				case LATEX:
+
+					wrapInBackslashOperatorname(sb, "atan2", tpl);
+
+					sb.append(" \\left( ");
+					break;
+				case LIBRE_OFFICE:
+					sb.append("func atan2 left( ");
+					break;
+				case PSTRICKS:
+					sb.append("ATAN2(");
+					break;
+
+				case GIAC:
+				default:
+					sb.append("atan2d(");
 				}
 				sb.append(leftStr);
 				sb.append(',');
@@ -4880,6 +4924,7 @@ kernel, left,
 			return new ExpressionNode(kernel0, left, Operation.CSCH, null)
 					.square().multiply((left).derivative(fv, kernel0)).multiply(-1);
 
+		case ARCSIND:
 		case ARCSIN:
 			return wrap(left.derivative(fv, kernel0)).divide(
 					wrap(left).square().subtractR(1).sqrt());
@@ -5391,6 +5436,7 @@ kernel, left,
 			return linearIntegral(1, Operation.EXP, fv);
 
 		case ARCSIN:
+		case ARCSIND:
 		case ARCCOS:
 		case ARCTAN:
 

@@ -120,14 +120,14 @@ public abstract class CASgiac implements CASGenericInterface {
 		// then gets decoded to degree sign in GeoGebra
 		// needed for "return angle from inverse trig function"
 		// see ExpressionNode.degFix()
-		DEG_ASIN("degasin", "degasin(x):=normal(asin(x)/pi*180)*unicode0176u"),
+		DEG_ASIN("asind", "asind(x):=normal(asin(x)/pi*180)*unicode0176u"),
 
-		DEG_ACOS("degacos", "degacos(x):=normal(acos(x)/pi*180)*unicode0176u"),
+		DEG_ACOS("acosd", "acosd(x):=normal(acos(x)/pi*180)*unicode0176u"),
 
-		DEG_ATAN("degatan", "degatan(x):=normal(atan(x)/pi*180)*unicode0176u"),
+		DEG_ATAN("atand", "atand(x):=normal(atan(x)/pi*180)*unicode0176u"),
 
-		DEG_ATAN2("degatan2",
-				"degatan2(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u"),
+		DEG_ATAN2("atan2d",
+				"atan2d(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u"),
 
 		/* subtype 27 is ggbvect[] */
 				ABS("ggbabs",

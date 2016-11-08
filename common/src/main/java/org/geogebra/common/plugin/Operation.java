@@ -670,6 +670,21 @@ public enum Operation {
 
 		}
 	},
+	/*
+	 * always returns angle in degrees
+	 */
+	ARCCOSD {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof NumberValue) {
+				return ((NumberValue) lt).getNumber().acos(true);
+			}
+			return ev.polynomialOrDie(lt, this, "acosd(");
+
+		}
+	},
 	ARCSIN {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
@@ -680,6 +695,21 @@ public enum Operation {
 						.asin(ev.getKernel().getInverseTrigReturnsAngle());
 			}
 			return ev.polynomialOrDie(lt, this, "asin(");
+
+		}
+	},
+	/*
+	 * always returns angle in degrees
+	 */
+	ARCSIND {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof NumberValue) {
+				return ((NumberValue) lt).getNumber().asin(true);
+			}
+			return ev.polynomialOrDie(lt, this, "asind(");
 
 		}
 	},
@@ -696,6 +726,21 @@ public enum Operation {
 
 		}
 	},
+	/*
+	 * always returns angle in degrees
+	 */
+	ARCTAND {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof NumberValue) {
+				return ((NumberValue) lt).getNumber().atan(true);
+			}
+			return ev.polynomialOrDie(lt, this, "atand(");
+
+		}
+	},
 	ARCTAN2 {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
@@ -708,6 +753,19 @@ public enum Operation {
 						.getNumber();
 			}
 			return ev.illegalArgument(lt, rt, "arctan2(");
+		}
+	},
+	ARCTAN2D {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof NumberValue && rt instanceof NumberValue) {
+				return ((NumberValue) lt).getNumber()
+						.atan2((NumberValue) rt, true)
+						.getNumber();
+			}
+			return ev.illegalArgument(lt, rt, "arctan2d(");
 		}
 	},
 	NROOT {
@@ -1720,6 +1778,7 @@ public enum Operation {
 		case COS:
 		case TAN:
 		case ARCSIN:
+		case ARCSIND:
 		case ARCCOS:
 		case ARCTAN:
 		case SINH:
@@ -1791,6 +1850,7 @@ public enum Operation {
 		case TAN:
 			return Operation.ARCTAN;
 		case ARCSIN:
+		case ARCSIND:
 			return Operation.SIN;
 		case ARCCOS:
 			return Operation.COS;

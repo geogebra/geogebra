@@ -137,6 +137,7 @@ public enum ValueType {
 		case ASINH:
 		case ARCCOS:
 		case ARCSIN:
+		case ARCSIND:
 		case ARCTAN:
 		case ATANH:
 		case ROUND:

@@ -135,6 +135,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 			case SIN:
 			case COS:
 			case TAN:
+			case ARCSIND:
 			case ARCSIN:
 			case ARCCOS:
 			case ARCTAN:

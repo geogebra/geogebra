@@ -79,6 +79,11 @@ public class ParserFunctions {
 		put(1, "ctgh", Operation.COTH);
 		put(1, "Ctgh", Operation.COTH, null);
 
+		put(1, "asind", Operation.ARCSIND);
+		put(1, "acosd", Operation.ARCCOSD);
+		put(1, "atand", Operation.ARCTAND);
+		put(2, "atan2d", Operation.ARCTAN2D, "( <y>, <x> )");
+
 		put(1, "asin", Operation.ARCSIN);
 		put(1, "aSin", Operation.ARCSIN, null);
 		put(1, "acos", Operation.ARCCOS);
