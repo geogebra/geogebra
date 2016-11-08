@@ -6190,6 +6190,8 @@ namespace giac {
       } // end if (sum_degrees(...)
       if (try_sparse_factor(pcur,v,mult,f))
 	continue;
+      if (try_sparse_factor_bi(pcur,mult,f))
+	continue;
       /* Try Hensel lift factorization */
       bool hensel_factored=false;
       for (unsigned hensel_try=0;hensel_try<5;++hensel_try){

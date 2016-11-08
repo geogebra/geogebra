@@ -53,6 +53,7 @@ namespace giac {
   polynome reduce_poly(const polynome & p,const vecteur & v,int degree);
 
   bool try_sparse_factor(const polynome & pcur,const factorization & v0,int mult,factorization & f);
+  bool try_sparse_factor_bi(polynome & pcur,int mult,factorization & f);
 
   bool try_hensel_lift_factor(const polynome & pcur,const polynome & F0,const factorization & v0,int mult,factorization & f);
 
