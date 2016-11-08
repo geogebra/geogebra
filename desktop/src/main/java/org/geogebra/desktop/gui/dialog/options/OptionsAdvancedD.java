@@ -16,7 +16,6 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListSelectionModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -41,7 +40,6 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -81,7 +79,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 
 	/**	 */
 	private JCheckBox cbKeyboardShowAutomatic, cbUseLocalDigits,
-			cbUseLocalLabels, cbReturnAngleInverseTrig;
+			cbUseLocalLabels;
 
 	/** */
 	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian,
@@ -310,9 +308,9 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		angleUnitPanel.add(angleUnitRadioRadian);
 		angleUnitButtonGroup.add(angleUnitRadioRadian);
 
-		cbReturnAngleInverseTrig = new JCheckBox();
-		cbReturnAngleInverseTrig.addActionListener(this);
-		angleUnitPanel.add(cbReturnAngleInverseTrig);
+		// cbReturnAngleInverseTrig = new JCheckBox();
+		// cbReturnAngleInverseTrig.addActionListener(this);
+		// angleUnitPanel.add(cbReturnAngleInverseTrig);
 
 	}
 
@@ -491,8 +489,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 
 	// needed updating things on the reset defaults button
 	public void updateAfterReset() {
-		cbReturnAngleInverseTrig.setSelected(app.getKernel()
-				.getInverseTrigReturnsAngle());
+		// cbReturnAngleInverseTrig
+		// .setSelected(app.getKernel().getInverseTrigReturnsAngle());
 
 		int selectedIndex = 0;
 		String loc = settings.getKeyboard().getKeyboardLocale();
@@ -586,48 +584,6 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 						.get(index).toString());
 		} else if (source == cbUseLocalDigits) {
 			loc.setUseLocalizedDigits(cbUseLocalDigits.isSelected(), app);
-		} else if (source == cbReturnAngleInverseTrig) {
-			app.getKernel().setInverseTrigReturnsAngle(
-					cbReturnAngleInverseTrig.isSelected());
-
-			// needed for GGB-517
-			// keep information form listSelectionModel
-			CASViewD casView = null;
-			DefaultListSelectionModel listSelModel = null;
-			if (app.getView(8) != null && app.getView(8) instanceof CASViewD)
-				casView = (CASViewD) app.getView(8);
-			if (casView != null
-					&& casView.getListSelModel() != null
-					&& casView.getListSelModel() instanceof DefaultListSelectionModel)
-				listSelModel = (DefaultListSelectionModel) casView
-						.getListSelModel();
-
-			int anchorIndex = 0;
-			int leadIndex = 0;
-			int maxIndex = 0;
-			int minIndex = 0;
-			boolean changed = false;
-
-			if (listSelModel != null) {
-				anchorIndex = listSelModel.getAnchorSelectionIndex();
-				leadIndex = listSelModel.getLeadSelectionIndex();
-				maxIndex = listSelModel.getMaxSelectionIndex();
-				minIndex = listSelModel.getMinSelectionIndex();
-				changed = true;
-			}
-			
-			// make sure all calculations fully updated
-			// app.getKernel().updateConstruction(); doesn't do what we want
-			app.getKernel().getConstruction().getUndoManager()
-					.storeUndoInfo(true);
-			
-			if (changed) {
-				listSelModel.setAnchorSelectionIndex(anchorIndex);
-				listSelModel.setLeadSelectionIndex(leadIndex);
-				listSelModel.setSelectionInterval(minIndex, maxIndex);
-			}
-
-
 		} else if (source == cbUseLocalLabels) {
 			loc.setUseLocalizedLabels(cbUseLocalLabels.isSelected());
 			/*
@@ -832,9 +788,9 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		 * cbAllowStyleBar.setText(loc.getMenu("AllowStyleBar"));
 		 */
 
-		cbReturnAngleInverseTrig.setText(loc.getMenu("ReturnAngleInverseTrig"));
-		cbReturnAngleInverseTrig.setSelected(app.getKernel()
-				.getInverseTrigReturnsAngle());
+		// cbReturnAngleInverseTrig.setText(loc.getMenu("ReturnAngleInverseTrig"));
+		// cbReturnAngleInverseTrig.setSelected(app.getKernel()
+		// .getInverseTrigReturnsAngle());
 
 		setLabelsKeyboardLanguage();
 		setLabelsGUIFontsize();
@@ -1032,7 +988,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements
 		 * cbShowTitleBar.setFont(font); cbAllowStyleBar.setFont(font);
 		 */
 
-		cbReturnAngleInverseTrig.setFont(font);
+		// cbReturnAngleInverseTrig.setFont(font);
 
 		cbKeyboardLanguage.setFont(font);
 		cbTooltipLanguage.setFont(font);

@@ -2629,7 +2629,7 @@ public class Kernel {
 	}
 
 	public boolean getInverseTrigReturnsAngle() {
-		return arcusFunctionCreatesAngle;
+		return arcusFunctionCreatesAngle && loadingMode;
 	}
 
 	final public void setAngleUnit(int unit) {

@@ -2884,6 +2884,8 @@ public abstract class App implements UpdateSelection {
 		if (pf == null) {
 			pf = new ParserFunctions();
 		}
+		pf.setInverseTrig(
+				kernel.getLoadingMode() && kernel.getInverseTrigReturnsAngle());
 		return pf;
 	}
 

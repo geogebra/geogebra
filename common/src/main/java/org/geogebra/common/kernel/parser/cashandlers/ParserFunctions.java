@@ -25,6 +25,8 @@ public class ParserFunctions {
 	private static final int MAX_ARGS = 4;
 	private boolean localeLoaded = false;
 
+	private boolean inverseTrig;
+
 	/**
 	 * Initializes the string => operation map and reserved names set
 	 */
@@ -329,7 +331,23 @@ public class ParserFunctions {
 	public Operation get(String s, int size) {
 		if (size > MAX_ARGS)
 			return null;
-		return stringToOp.get(size).get(s);
+		Operation ret = stringToOp.get(size).get(s);
+		if (!this.inverseTrig) {
+			return ret;
+		}
+		switch (ret) {
+		case ARCSIN:
+			return Operation.ARCSIND;
+		case ARCTAN:
+			return Operation.ARCTAND;
+		case ARCCOS:
+			return Operation.ARCCOSD;
+		case ARCTAN2:
+			return Operation.ARCTAN2D;
+		default:
+			return ret;
+
+		}
 	}
 	private void put(int size, String name, Operation op) {
 		put(size, name, op, "( <x> )");
@@ -411,5 +429,10 @@ public class ParserFunctions {
 			}
 		}
 		return "nroot".equals(string);
+	}
+
+	public void setInverseTrig(boolean b) {
+		this.inverseTrig = b;
+
 	}
 }
