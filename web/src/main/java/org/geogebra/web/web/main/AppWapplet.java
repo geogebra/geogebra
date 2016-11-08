@@ -392,6 +392,9 @@ public class AppWapplet extends AppWFull {
 		onOpenFile();
 		showStartTooltip(0);
 		setAltText();
+		adjustViews();
+		kernel.notifyScreenChanged();
+
 	}
 
 	private static boolean algebraVisible(Perspective p2) {
