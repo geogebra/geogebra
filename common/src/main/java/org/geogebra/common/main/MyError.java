@@ -26,22 +26,22 @@ public class MyError extends java.lang.Error {
 
 	private static final long serialVersionUID = 1L;
 	/** application */
-	protected Localization l10n;
+	protected Localization loc;
 	private String[] strs;
 	private String commandName = null;
 
 	/**
 	 * Creates new MyError
 	 * 
-	 * @param app
+	 * @param loc0
 	 *            application
 	 * @param errorName
 	 *            error name (should be a key in error.properties)
 	 */
-	public MyError(Localization app, String errorName) {
+	public MyError(Localization loc0, String errorName) {
 		// set localized message
 		super(errorName);
-		this.l10n = app;
+		this.loc = loc0;
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class MyError extends java.lang.Error {
 	public MyError(Localization app, String errorName, String commandName, Throwable cause) {
 		// set localized message
 		super(errorName, cause);
-		this.l10n = app;
+		this.loc = app;
 		this.commandName = commandName;
 	}
 
@@ -66,7 +66,7 @@ public class MyError extends java.lang.Error {
 	 *            lines of the error
 	 */
 	public MyError(Localization app, String[] strs) {
-		this.l10n = app;
+		this.loc = app;
 		// set localized message
 		this.strs = strs;
 	}
@@ -81,13 +81,13 @@ public class MyError extends java.lang.Error {
 	@Override
 	public String getLocalizedMessage() {
 		if (strs == null) {
-			return l10n.getError(getMessage());
+			return loc.getError(getMessage());
 		}
 		StringBuilder sb = new StringBuilder();
 		// space needed in case error is displayed on one line
-		sb.append(l10n.getError(strs[0]) + " \n");
+		sb.append(loc.getError(strs[0]) + " \n");
 		for (int i = 1; i < strs.length; i++) {
-			sb.append(l10n.getError(strs[i]) + " ");
+			sb.append(loc.getError(strs[i]) + " ");
 		}
 		return sb.toString();
 	}
@@ -98,10 +98,10 @@ public class MyError extends java.lang.Error {
 
 		sb.append(getClass().toString() + ": ");
 		if (strs == null)
-			sb.append(l10n.getError(getMessage()));
+			sb.append(loc.getError(getMessage()));
 		else {
 			for (int i = 0; i < strs.length; i++) {
-				sb.append(l10n.getError(strs[i]) + " : ");
+				sb.append(loc.getError(strs[i]) + " : ");
 			}
 		}
 		return sb.toString();

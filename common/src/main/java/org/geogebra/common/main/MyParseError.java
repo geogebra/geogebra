@@ -52,7 +52,7 @@ public class MyParseError extends MyError {
 
 	@Override
 	public String getLocalizedMessage() {
-		return l10n.getError("InvalidInput") + " :\n"
+		return loc.getError("InvalidInput") + " :\n"
 				+ super.getLocalizedMessage();
 	}
 }
