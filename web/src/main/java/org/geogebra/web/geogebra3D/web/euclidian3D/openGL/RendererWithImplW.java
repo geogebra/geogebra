@@ -31,7 +31,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 
 	protected Canvas webGLCanvas;
 
-	private WebGLRenderingContext glContext;
+	protected WebGLRenderingContext glContext;
 
 	/**
 	 * @param view
@@ -187,7 +187,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 	/**
 	 * create the webGL context
 	 */
-	private void createGLContext(boolean preserveDrawingBuffer) {
+	protected void createGLContext(boolean preserveDrawingBuffer) {
 		if (preserveDrawingBuffer) {
 			glContext = getBufferedContext(webGLCanvas.getElement());
 

@@ -435,12 +435,12 @@ public abstract class RendererWithImpl extends Renderer implements
 	}
 
 	@Override
-	final protected void setBufferLeft() {
+	protected void setBufferLeft() {
 		rendererImpl.setBufferLeft();
 	}
 
 	@Override
-	final protected void setBufferRight() {
+	protected void setBufferRight() {
 		rendererImpl.setBufferRight();
 	}
 
