@@ -306,7 +306,8 @@ public class Relation {
 			int condsSize = conds.size();
 			ret = new String[condsSize + 1];
 			for (int i = 0; i < condsSize; ++i) {
-				String cond = conds.get(i).toString();
+				String cond = conds.get(i)
+						.toString(StringTemplate.defaultTemplate);
 				// Removing quotes:
 				ret[i + 1] = cond.substring(1, cond.length() - 1);
 			}

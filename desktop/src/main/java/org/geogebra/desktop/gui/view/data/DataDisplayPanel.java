@@ -87,7 +87,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 	private JComboBox cbDisplayType;
 
 	// options button and sidebar panel
-	private OptionsPanel optionsPanel;
+	private OptionsPanelD optionsPanel;
 	private JToggleButton btnOptions;
 
 	// numClasses panel
@@ -254,7 +254,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		displayCardPanel.add("imagePanel", new JScrollPane(imagePanel));
 
 		// create options panel
-		optionsPanel = new OptionsPanel(app, daModel, getModel().getSettings());
+		optionsPanel = new OptionsPanelD(app, daModel, getModel().getSettings());
 		optionsPanel.addPropertyChangeListener("settings",
 				new PropertyChangeListener() {
 					public void propertyChange(PropertyChangeEvent evt) {

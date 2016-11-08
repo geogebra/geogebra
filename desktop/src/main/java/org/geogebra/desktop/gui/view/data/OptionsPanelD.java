@@ -45,7 +45,7 @@ import org.geogebra.desktop.main.LocalizationD;
  * @author G. Sturr
  * 
  */
-public class OptionsPanel extends JPanel implements PropertyChangeListener,
+public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		ActionListener, FocusListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 
@@ -111,7 +111,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 	 * @param settings
 	 *            settings
 	 */
-	public OptionsPanel(AppD app, DataAnalysisModel model,
+	public OptionsPanelD(AppD app, DataAnalysisModel model,
 			StatPanelSettings settings) {
 
 		this.app = app;

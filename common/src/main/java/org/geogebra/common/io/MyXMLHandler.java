@@ -1470,24 +1470,25 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			int width;
 			int height;
-			if (!app.isFullAppGui()) {// TODO: EV2 in Web!
-				// 2: border
-				width = (app.getAppletWidth() > 2 && !app.getUseFullGui())
-						? app.getAppletWidth() - 2
-						: Integer.parseInt(attrs.get("width"));
-				height = (app.getAppletHeight() > 2 && !app.getUseFullGui())
-						? app.getAppletHeight() - 2
-						: Integer.parseInt(attrs.get("height"));
-			} else {
-				width = app.getAppCanvasWidth();
-				height = app.getAppCanvasHeight();
+			if (!isPreferencesXML) {
+				if (!app.isFullAppGui()) {// TODO: EV2 in Web!
+					// 2: border
+					width = (app.getAppletWidth() > 2 && !app.getUseFullGui())
+							? app.getAppletWidth() - 2
+							: Integer.parseInt(attrs.get("width"));
+					height = (app.getAppletHeight() > 2 && !app.getUseFullGui())
+							? app.getAppletHeight() - 2
+							: Integer.parseInt(attrs.get("height"));
+				} else {
+					width = app.getAppCanvasWidth();
+					height = app.getAppCanvasHeight();
+				}
+				ev.setPreferredSize(
+						AwtFactory.prototype.newDimension(width, height));
+				ev.setSizeFromFile(AwtFactory.prototype.newDimension(
+						Integer.parseInt(attrs.get("width")),
+						Integer.parseInt(attrs.get("height"))));
 			}
-			ev.setPreferredSize(
-					AwtFactory.prototype
-							.newDimension(width, height));
-			ev.setSizeFromFile(AwtFactory.prototype
-					.newDimension(Integer.parseInt(attrs.get("width")),
-							Integer.parseInt(attrs.get("height"))));
 			return true;
 		} catch (Exception e) {
 			return false;

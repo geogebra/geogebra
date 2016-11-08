@@ -817,10 +817,17 @@ public class Macro {
 		return copyCaptions;
 	}
 
+	/**
+	 * @return to which view's toolbar this belongs
+	 */
 	public Integer getViewId() {
 		return viewId;
 	}
 
+	/**
+	 * @param viewId
+	 *            to which view's toolbar this belongs
+	 */
 	public void setViewId(Integer viewId) {
 		this.viewId = viewId;
 	}

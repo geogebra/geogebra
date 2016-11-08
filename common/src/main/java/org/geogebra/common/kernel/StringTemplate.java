@@ -3114,7 +3114,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	}
 
-	private String wrapInTexttt(String s) {
+	/**
+	 * @param s
+	 *            input
+	 * @return input wrapped in texttt{}
+	 */
+	private static String wrapInTexttt(String s) {
 		return "\\texttt{" + s + "}";
 	}
 
@@ -3126,7 +3131,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 *            string to wrap
 	 * @return wrapped string
 	 */
-	private String wrapInPhantom(String s, String prefix) {
+	private static String wrapInPhantom(String s, String prefix) {
 		return prefix + "\\phantom{\\texttt{" + s + "}}";
 	}
 

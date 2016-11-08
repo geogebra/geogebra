@@ -234,8 +234,9 @@ public class MacroKernel extends Kernel {
 	}
 
 	@Override
-	public ConstructionCompanion createConstructionCompanion(Construction cons) {
-		return parentKernel.createConstructionCompanion(cons);
+	public ConstructionCompanion createConstructionCompanion(
+			Construction cons1) {
+		return parentKernel.createConstructionCompanion(cons1);
 	}
 
 }
