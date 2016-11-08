@@ -775,15 +775,18 @@ public class EuclidianPen {
 			GeoPoint corner3 = new GeoPoint(kernelA.getConstruction());
 			GeoPoint screenCorner1 = new GeoPoint(kernelA.getConstruction());
 			GeoPoint screenCorner3 = new GeoPoint(kernelA.getConstruction());
+
+			int viewNo = 1;
+
 			if (ev != null) {
 				corner1.setCoords(ev.getXmin(), ev.getYmin(), 1);
 				corner3.setCoords(ev.getXmax(), ev.getYmax(), 1);
 				screenCorner1.setCoords(0, ev.getHeight(), 1);
 				screenCorner3.setCoords(ev.getWidth(), 0, 1);
+				viewNo = ev.getEuclidianViewNo();
 			}
 
-			GeoNumeric evNo = new GeoNumeric(kernelA.getConstruction(),
-					ev.getEuclidianViewNo());
+			GeoNumeric evNo = new GeoNumeric(kernelA.getConstruction(), viewNo);
 
 			cons.removeFromConstructionList(newPolyLine);
 

@@ -3828,7 +3828,7 @@ public abstract class EuclidianController {
 						: "";
 
 				// deatch
-				if (movedGeoPoint != null && detachFrom != null
+				if (detachFrom != null
 						&& !hits.contains(detachFrom)) {
 					String name = movedGeoPoint
 							.getLabel(StringTemplate.defaultTemplate);
@@ -3840,8 +3840,8 @@ public abstract class EuclidianController {
 							.geoTableVarLookup(name);
 				}
 
-				// attch
-				if (movedGeoPoint != null && needsAttach) {
+				// attach
+				if (needsAttach) {
 					if (!attachTo.equals("")) {
 						Path path = (Path) this.kernel.getConstruction()
 								.geoTableVarLookup(attachTo);
@@ -6934,7 +6934,7 @@ public abstract class EuclidianController {
 		moveMode = MOVE_NONE;
 
 		// multiple geos selected
-		if ((movedGeoElement != null) && multiple) {
+		if (multiple) {
 			handleMovedElementMultiple();
 		}
 
@@ -9012,7 +9012,7 @@ public abstract class EuclidianController {
 			if (view instanceof PlotPanelEuclidianViewInterface) {
 				setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 			}
-		} else if (app.isHTML5Applet() && view != null) {
+		} else if (app.isHTML5Applet()) {
 			if (!isComboboxFocused()) {
 				view.requestFocus();
 			}
