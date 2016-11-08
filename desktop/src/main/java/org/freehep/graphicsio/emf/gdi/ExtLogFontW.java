@@ -93,7 +93,7 @@ public class ExtLogFontW implements EMFConstants {
                 + "\n" + "    fullname: " + fullName + "\n" + "    style: "
                 + style + "\n" + "    version: " + version + "\n"
                 + "    stylesize: " + styleSize + "\n" + "    match: " + match
-                + "\n" + "    vendorID: " + vendorID + "\n" + "    culture: "
+				+ "\n" + "    culture: "
                 + culture + "\n" + panose.toString();
     }
 }

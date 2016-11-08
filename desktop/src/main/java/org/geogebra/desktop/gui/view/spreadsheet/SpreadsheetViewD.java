@@ -340,7 +340,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		case BOOLEAN:
 		case BUTTON:
 		case LIST:
-			table.oneClickEditMap.remove(geo);
+			table.oneClickEditMap.remove(location);
 		}
 	}
 

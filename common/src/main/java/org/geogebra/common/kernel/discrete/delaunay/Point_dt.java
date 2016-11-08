@@ -305,14 +305,5 @@ class Compare implements Comparator{
 		return ans;
 	}
 
-	public boolean equals(Object ob) {
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		assert false : "hashCode not designed";
-		return 42; // any arbitrary constant will do
-	}
 
 }

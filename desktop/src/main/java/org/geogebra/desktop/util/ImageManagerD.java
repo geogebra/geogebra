@@ -118,7 +118,7 @@ public class ImageManagerD extends ImageManager {
 	 */
 	public MyImageD getInternalImage(ImageResourceD fileName) {
 		MyImageD img = null;
-		MyImageD ob = internalImageTable.get(fileName);
+		MyImageD ob = internalImageTable.get(fileName.getFilename());
 		if (ob != null) {
 			// image already loaded
 			img = ob;

@@ -84,8 +84,11 @@ public final class PitchBend implements JFugueElement
     public String getVerifyString()
     {
         StringBuffer buffy = new StringBuffer();
-        buffy.append("PitchBend: bend=");
-        buffy.append(getBend());
+		buffy.append("PitchBend: bend={");
+		buffy.append(lsb);
+		buffy.append(',');
+		buffy.append(msb);
+		buffy.append('}');
         return buffy.toString();
     }
 
