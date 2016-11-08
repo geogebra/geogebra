@@ -30,7 +30,6 @@ public abstract class EquationGenericLine extends EquationElement {
 
 	private SymbolicVector vector;
 	private EquationPoint pequ;
-	private EquationGenericLine lequ;
 	private EquationExpression a,b,c;
 
 	/**
@@ -46,8 +45,6 @@ public abstract class EquationGenericLine extends EquationElement {
 	public EquationGenericLine(final GeoElement line, final EquationScope scope) {
 		super(line, scope);
 	}
-
-	public EquationGenericLine getEquationLine() { return this.lequ; }
 
 	/**
 	 * @param point in line.
