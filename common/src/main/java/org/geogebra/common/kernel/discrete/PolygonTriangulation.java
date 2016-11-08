@@ -42,6 +42,7 @@ public class PolygonTriangulation {
 		/**
 		 * we have to implement that for gwt
 		 */
+		@Override
 		public E higher(E e) {
 			SortedSet<E> set = tailSet(e);
 			Iterator<E> it = set.iterator();
@@ -63,6 +64,7 @@ public class PolygonTriangulation {
 		/**
 		 * we have to implement that for gwt
 		 */
+		@Override
 		public E lower(E e) {
 
 			SortedSet<E> set = headSet(e);
@@ -131,6 +133,7 @@ public class PolygonTriangulation {
 
 	final private Comparator<Point> nonSelfIntersectingPolygonPointComparator = new Comparator<Point>() {
 
+		@Override
 		public int compare(Point p1, Point p2) {
 
 			if (p1 == p2) {
@@ -182,7 +185,7 @@ public class PolygonTriangulation {
 	final static double POINT_DELTA = Kernel.STANDARD_PRECISION;
 	final static double ORIENTATION_DELTA = Kernel.STANDARD_PRECISION;
 
-	private class Point implements Comparable<Point> {
+	private class Point implements Comparable<Point>, Cloneable {
 		public double x, y;
 		public int id;
 		public String name;
@@ -257,6 +260,7 @@ public class PolygonTriangulation {
 					&& (toRight == null || toRight.isEmpty());
 		}
 
+		@Override
 		final public int compareTo(Point p2) {
 
 			if (id == p2.id) {
@@ -384,7 +388,7 @@ public class PolygonTriangulation {
 
 	protected Segment comparedSameSegment;
 
-	private class Segment implements Comparable<Segment> {
+	private class Segment implements Comparable<Segment>, Cloneable {
 		double orientation;
 		Point leftPoint, rightPoint;
 		Segment above, below;
@@ -472,6 +476,7 @@ public class PolygonTriangulation {
 			return newRight && newLeft;
 		}
 
+		@Override
 		public int compareTo(Segment seg) {
 
 			if (this == seg) {
