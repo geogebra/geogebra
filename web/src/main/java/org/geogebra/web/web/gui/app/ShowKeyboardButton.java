@@ -5,6 +5,7 @@ import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
+import org.geogebra.web.keyboard.KBBase;
 import org.geogebra.web.keyboard.KeyboardResources;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -53,6 +54,8 @@ public class ShowKeyboardButton extends SimplePanel {
 				final MathKeyboardListener mathKeyboardListener = panel
 						.getKeyboardListener();
 				listener.doShowKeyBoard(true, mathKeyboardListener);
+
+				KBBase.doHideInSV(false);
 
 				if ((dm.getApp() == null)
 						|| (dm.getApp().getGuiManager() == null)) {

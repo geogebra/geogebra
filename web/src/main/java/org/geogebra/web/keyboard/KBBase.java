@@ -1122,6 +1122,10 @@ public abstract class KBBase extends PopupPanel {
 		return hideInSV;
 	}
 
+	public static void doHideInSV(boolean b) {
+		hideInSV = b;
+	}
+
 	public void showOnFocus() {
 		this.keyboardWanted = true;
 	}
