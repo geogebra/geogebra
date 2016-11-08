@@ -664,7 +664,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber()
-						.acos(ev.getKernel().getInverseTrigReturnsAngle());
+						.acos(false);
 			}
 			return ev.polynomialOrDie(lt, this, "acos(");
 
@@ -691,8 +691,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
-				return ((NumberValue) lt).getNumber()
-						.asin(ev.getKernel().getInverseTrigReturnsAngle());
+				return ((NumberValue) lt).getNumber().asin(false);
 			}
 			return ev.polynomialOrDie(lt, this, "asin(");
 
@@ -720,7 +719,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber()
-						.atan(ev.getKernel().getInverseTrigReturnsAngle());
+						.atan(false);
 			}
 			return ev.polynomialOrDie(lt, this, "atan(");
 
@@ -748,8 +747,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber()
-						.atan2((NumberValue) rt,
-								ev.getKernel().getInverseTrigReturnsAngle())
+						.atan2((NumberValue) rt, false)
 						.getNumber();
 			}
 			return ev.illegalArgument(lt, rt, "arctan2(");

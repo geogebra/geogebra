@@ -801,4 +801,15 @@ public class CommandsTest extends Assert{
 		t("expIntegral(5+0i)", "40.18528 + 0" + Unicode.IMAGINARY,
 				StringTemplate.editTemplate);
 	}
+
+	@Test
+	public void testInverseTrigDegree(){
+		t("asind(0.5)", "30\u00B0", StringTemplate.editTemplate);
+		t("acosd(0.5)", "60\u00B0", StringTemplate.editTemplate);
+		t("atand(1)", "45\u00B0", StringTemplate.editTemplate);
+		t("asind(0.317)", "18.48159\u00B0", StringTemplate.editTemplate);
+		t("acosd(0.317)", "71.51841\u00B0", StringTemplate.editTemplate);
+		t("atand(0.317)", "17.58862\u00B0", StringTemplate.editTemplate);
+	
+	}
 }
