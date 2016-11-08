@@ -35,8 +35,8 @@ public class MyParseError extends MyError {
 	 * @param errorName
 	 *            error name (should be a key in error.properties)
 	 */
-	public MyParseError(Localization app, String errorName) {
-		super(app, errorName);
+	public MyParseError(Localization loc, String errorName) {
+		super(loc, errorName);
 	}
 
 	/**
@@ -45,9 +45,9 @@ public class MyParseError extends MyError {
 	 * @param strs
 	 *            lines of the error
 	 */
-	public MyParseError(Localization app, String[] strs) {
+	public MyParseError(Localization loc, String[] strs) {
 		// set localized message
-		super(app, strs);
+		super(loc, strs);
 	}
 
 	@Override
