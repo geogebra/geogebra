@@ -56,8 +56,9 @@ public class AlgoPoissonBarChart extends AlgoBarChart {
 	@Override
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
-		if (b != null)
-			b = (GeoBoolean) b.copy();
+		if (b != null) {
+			b = b.copy();
+		}
 		return new AlgoPoissonBarChart(
 				(GeoNumberValue) this.getP1().deepCopy(kernel), b,
 				(GeoNumberValue) this.getA().deepCopy(kernel),

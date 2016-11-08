@@ -396,7 +396,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 			GeoNumberValue b,
 			double[] vals, double[] borders, int N) {
 
-		super(isCumulative.getConstruction(), false);
+		super(p1.getConstruction(), false);
 
 		this.type = type;
 		this.p1 = p1;
