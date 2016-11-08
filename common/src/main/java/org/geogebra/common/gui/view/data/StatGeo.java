@@ -215,7 +215,8 @@ public class StatGeo {
 	}
 
 	public GeoElementND createHistogram(GeoList dataList,
-			StatPanelSettings settings, boolean isFrequencyPolygon) {
+			StatPanelSettings settings, boolean isFrequencyPolygon)
+			throws Exception {
 
 		AlgoElement al = null, algoHistogram = null;
 		histogramRight = !settings.isLeftRule();
@@ -284,6 +285,10 @@ public class StatGeo {
 			// histogram constructed from classes and frequencies
 			algoHistogram = new AlgoHistogram(cons, (GeoList) dataList.get(0),
 					(GeoList) dataList.get(1), histogramRight);
+		} else {
+			throw new Exception(
+					"unexpected groupType: " + settings.groupType());
+
 		}
 
 		if (isFrequencyPolygon) {
@@ -433,9 +438,10 @@ public class StatGeo {
 	 * @param dataList
 	 * @param settings
 	 * @return
+	 * @throws Exception
 	 */
 	public GeoElementND createBarChartText(GeoList dataList,
-			StatPanelSettings settings) {
+			StatPanelSettings settings) throws Exception {
 
 		GeoElementND geo = null;
 		AlgoBarChart algoBarChart = null;
@@ -451,6 +457,9 @@ public class StatGeo {
 			algoBarChart = new AlgoBarChart(cons, (GeoList) dataList.get(0),
 					(GeoList) dataList.get(1), new GeoNumeric(cons,
 							settings.getBarWidth()));
+		} else {
+			throw new Exception(
+					"unexpected groupType: " + settings.groupType());
 		}
 		removeFromConstructionList(algoBarChart);
 		geo = algoBarChart.getOutput(0);
@@ -468,9 +477,10 @@ public class StatGeo {
 	 * @param dataList
 	 * @param settings
 	 * @return
+	 * @throws Exception
 	 */
 	public GeoElement createBarChartNumeric(GeoList dataList,
-			StatPanelSettings settings) {
+			StatPanelSettings settings) throws Exception {
 
 		GeoElement geo = null;
 		AlgoBarChart algoBarChart = null;
@@ -500,6 +510,10 @@ public class StatGeo {
 							settings.getBarWidth()));
 			removeFromConstructionList(algoBarChart);
 			geo = algoBarChart.getOutput(0);
+		} else {
+			throw new Exception(
+					"unexpected groupType: " + settings.groupType());
+
 		}
 
 		geo.setObjColor(listener.createColor(
@@ -544,7 +558,7 @@ public class StatGeo {
 	}
 
 	public GeoElement createFrequencyTableGeo(GeoNumeric chart,
-			PlotType plotType) {
+			PlotType plotType) throws Exception {
 
 		AlgoFrequencyTable al = null;
 		switch (plotType) {
@@ -554,6 +568,8 @@ public class StatGeo {
 		case BARCHART:
 			al = new AlgoFrequencyTable(cons, chart);
 			break;
+		default:
+			throw new Exception("unexpected plotType: " + plotType);
 		}
 
 		removeFromConstructionList(al);
@@ -592,7 +608,8 @@ public class StatGeo {
 
 	}
 
-	public GeoElement createBoxPlot(GeoList dataList, StatPanelSettings settings) {
+	public GeoElement createBoxPlot(GeoList dataList,
+			StatPanelSettings settings) throws Exception {
 
 		GeoElement geo = null;
 		AlgoBoxPlot algoBoxPlot = null;
@@ -611,6 +628,9 @@ public class StatGeo {
 							settings.isShowOutliers()));
 			removeFromConstructionList(algoBoxPlot);
 			geo = algoBoxPlot.getOutput(0);
+		} else {
+			throw new Exception(
+					"unexpected groupType: " + settings.groupType());
 		}
 
 		geo.setObjColor(listener.createColor(
@@ -621,14 +641,17 @@ public class StatGeo {
 		return geo;
 	}
 
-	public void getBoxPlotSettings(GeoList dataList, StatPanelSettings settings) {
+	public void getBoxPlotSettings(GeoList dataList, StatPanelSettings settings)
+			throws Exception {
 		if (settings.groupType() == GroupType.RAWDATA) {
 			getDataBounds(dataList);
+		} else if (settings.groupType() == GroupType.FREQUENCY) {
+			getDataBounds((GeoList) dataList.get(0));
 		} else {
-			if (settings.groupType() == GroupType.FREQUENCY) {
-				getDataBounds((GeoList) dataList.get(0));
-			}
+			throw new Exception(
+					"unexpected groupType: " + settings.groupType());
 		}
+
 		if (settings.isAutomaticWindow()) {
 			double buffer = .25 * (xMaxData - xMinData);
 			settings.xMin = xMinData - buffer;
