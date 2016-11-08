@@ -4087,6 +4087,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	private TreeSet<GeoElement> metas;
+	private String parameter = "t";
 
 	/**
 	 * add the limited quadric has meta geo for this
@@ -4232,17 +4233,18 @@ public abstract class GeoConicND extends GeoQuadricND
 		switch (getType()) {
 		case CONIC_CIRCLE:
 		case CONIC_ELLIPSE:
-			buildValueStringMidpointConic(false, "cos(t)", "sin(t)", tpl,
+			buildValueStringMidpointConic(false, "cos(", "sin(", tpl,
 					sbBuildValueString, dim);
 			break;
 
 		case CONIC_HYPERBOLA:
-			buildValueStringMidpointConic(true, "cosh(t)", "sinh(t)", tpl,
+			buildValueStringMidpointConic(true, "cosh(", "sinh(", tpl,
 					sbBuildValueString, dim);
 			break;
 
 		case CONIC_PARABOLA:
-			buildValueString(false, "t\u00b2", "t", linearEccentricity,
+			buildValueString(false, parameter + "\u00b2", parameter,
+					linearEccentricity,
 					2 * linearEccentricity, tpl, sbBuildValueString, dim);
 			break;
 
@@ -4346,7 +4348,8 @@ public abstract class GeoConicND extends GeoQuadricND
 	private void buildValueStringMidpointConic(boolean plusMinusX, String s1,
 			String s2, StringTemplate tpl, StringBuilder sbBuildValueString,
 			int dim) {
-		buildValueString(plusMinusX, s1, s2, getHalfAxis(0), getHalfAxis(1),
+		buildValueString(plusMinusX, s1 + parameter + ")", s2 + parameter + ")",
+				getHalfAxis(0), getHalfAxis(1),
 				tpl, sbBuildValueString, dim);
 	}
 
@@ -4389,20 +4392,23 @@ public abstract class GeoConicND extends GeoQuadricND
 		sbBuildValueString.append(')');
 	}
 
+	/**
+	 * @return circumfernece assuming this is an ellipse
+	 */
 	public double getEllipseCircumference() {
 		
-		double a = halfAxes[0];
-		double b = halfAxes[1];
+		double semiMajor = halfAxes[0];
+		double semiMinor = halfAxes[1];
 
 		// Gauss-KummerSeries doesn't converge fast so use Cayley in this case
 		// http://www.geogebra.org/help/topic/inaccurate-circumference-of-ellipse
 		if (eccentricity > 0.92) {
 
-			double k = b / a;
+			double k = semiMinor / semiMajor;
 			double q = Math.log(4 / k) - 0.5;
 			k = k * k;
-			double p = 0.5 * k;
-			double sum = 1 + p * q;
+			double pVal = 0.5 * k;
+			double sum = 1 + pVal * q;
 			double n = 1;
 			double r = 0.5;
 			double s = 0.5;
@@ -4413,9 +4419,9 @@ public abstract class GeoConicND extends GeoQuadricND
 				n += 2;
 
 				// eg (1^2*3^2*5)/(2^2*4^2*6)
-				p = p * r;
+				pVal = pVal * r;
 				r = n / (n + 1);
-				p = p * k * r;
+				pVal = pVal * k * r;
 
 				// eg ln(k/4) - (2)/(1*2) - (2)/(3*4) - (1)/(5*6)
 				q = q - s;
@@ -4423,15 +4429,15 @@ public abstract class GeoConicND extends GeoQuadricND
 				q = q - s;
 
 				oldSum = sum;
-				sum = sum + p * q;
+				sum = sum + pVal * q;
 			}
 
 			// Log.debug("Cayley = " + 4 * a * sum + " after " + i);
-			return 4 * a * sum;
+			return 4 * semiMajor * sum;
 		}
 
 		
-		double h = (a - b) / (a + b);
+		double h = (semiMajor - semiMinor) / (semiMajor + semiMinor);
 		double h2 = h * h;
 		double hn = h2;
 		
@@ -4463,9 +4469,19 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		}
 
-		ret *= (a + b) * Math.PI;
+		ret *= (semiMajor + semiMinor) * Math.PI;
 		// Log.debug("GK = " + ret);
 		return ret;
+	}
+
+	/**
+	 * @param param
+	 *            parameter name
+	 */
+	public void toParametric(String param) {
+		this.toStringMode = GeoConicND.EQUATION_PARAMETRIC;
+		this.parameter = param;
+
 	}
 
 }

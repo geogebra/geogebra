@@ -77,17 +77,16 @@ public class ParametricProcessor3D extends ParametricProcessor {
 							&& expr(coefZ[i]).isConstant();
 				}
 				if (constant) {
-				GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
-				updateTrigConic(conic, coefX, coefY, coefZ);
-				conic.setDefinition(buildParamEq(exp));
-				conic.setLabel(label);
+					GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
+					updateTrigConic(conic, coefX, coefY, coefZ);
+					conic.toParametric(fv[0].getSetVarString());
+					conic.setDefinition(buildParamEq(exp));
+					conic.setLabel(label);
 
 				return new GeoElement[] { conic };
 				}
-				AlgoDependentConic3D ellipseHyperbolaAlgo = new AlgoDependentConic3D(
-						cons, buildParamEq(exp), coefX, coefY, coefZ, true);
-				ellipseHyperbolaAlgo.getConic3D().setLabel(label);
-				return new GeoElement[] { ellipseHyperbolaAlgo.getConic3D() };
+				return dependentConic(cons, exp, coefX, coefY, coefZ, label,
+						fv[0]);
 			}
 			for (int i = 0; i < coefX.length; i++) {
 				coefX[i] = new ExpressionNode(kernel, 0);
@@ -158,15 +157,14 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				if (constant) {
 					GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
 					updateParabola(conic, coefX, coefY, coefZ);
+					conic.toParametric(fv[0].getSetVarString());
 					conic.setDefinition(buildParamEq(exp));
 					conic.setLabel(label);
 					return new GeoElement[] { conic };
 				}
 				//
-				AlgoDependentConic3D paraAlgo = new AlgoDependentConic3D(cons,
-						buildParamEq(exp), coefX, coefY, coefZ, false);
-				paraAlgo.getConic3D().setLabel(label);
-				return new GeoElement[] { paraAlgo.getConic3D() };
+				return dependentConic(cons, exp, coefX, coefY, coefZ, label,
+						fv[0]);
 
 			}
 			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
@@ -185,6 +183,16 @@ public class ParametricProcessor3D extends ParametricProcessor {
 		}
 		return super.processParametricFunction(exp, ev, fv, label, info);
 
+	}
+
+	private GeoElement[] dependentConic(Construction cons, ExpressionNode exp,
+			ExpressionValue[] coefX, ExpressionValue[] coefY,
+			ExpressionValue[] coefZ, String label, FunctionVariable fv0) {
+		AlgoDependentConic3D ellipseHyperbolaAlgo = new AlgoDependentConic3D(
+				cons, buildParamEq(exp), coefX, coefY, coefZ, true);
+		ellipseHyperbolaAlgo.getConic3D().setLabel(label);
+		ellipseHyperbolaAlgo.getConic3D().toParametric(fv0.getSetVarString());
+		return new GeoElement[] { ellipseHyperbolaAlgo.getConic3D() };
 	}
 
 	/**

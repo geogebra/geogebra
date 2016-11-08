@@ -242,8 +242,7 @@ public class ParametricProcessor {
 			if (ap.getTrigCoeffs(cx, coefX, new ExpressionNode(kernel, 1.0),
 					locVar)
 					&& ap.getTrigCoeffs(cy, coefY,
- new ExpressionNode(kernel,
-							1.0), locVar)) {
+							new ExpressionNode(kernel, 1.0), locVar)) {
 
 				ExpressionNode a, b, c, d, xx, xy, yy;
 
@@ -283,7 +282,7 @@ public class ParametricProcessor {
 										.multiply(2));
 				Equation eq = new Equation(kernel, xx.plus(xy).plus(yy).wrap(),
 						den);
-				return paramConic(eq, exp, label);
+				return paramConic(eq, exp, label, fv[0].getSetVarString());
 			}
 
 			coefX = ap.arrayOfZeros(coefX.length);
@@ -348,7 +347,7 @@ public class ParametricProcessor {
 										.plus(coefX[0].wrap()
 												.multiply(coefX[2])))));
 
-				return paramConic(eq, exp, label);
+				return paramConic(eq, exp, label, fv[0].getSetVarString());
 			}
 			return cartesianCurve(cons, label, exp, locVar, cx, cy, null);
 		} else if (ev instanceof Function) {
@@ -449,12 +448,12 @@ public class ParametricProcessor {
 	}
 
 	private GeoElement[] paramConic(Equation eq, ExpressionNode exp,
-			String label) {
+			String label, String param) {
 		eq.initEquation();
 		eq.setForceConic();
 		eq.setLabel(label);
 		GeoElement[] ret = ap.processConic(eq, buildParamEq(exp));
-		((GeoConicND) ret[0]).setToStringMode(GeoConicND.EQUATION_PARAMETRIC);
+		((GeoConicND) ret[0]).toParametric(param);
 		((GeoConicND) ret[0]).update();
 		return ret;
 	}
