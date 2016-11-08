@@ -13,7 +13,6 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
-import org.geogebra.web.web.util.keyboard.AutocompleteProcessing;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -423,12 +422,13 @@ public abstract class KBBase extends PopupPanel {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (KBBase.this.processField instanceof AutocompleteProcessing) {
-					if (((AutocompleteProcessing) KBBase.this.processField)
-							.isSVCell()) {
-						hideInSV = true;
-					}
-				}
+				// if (KBBase.this.processField instanceof
+				// AutocompleteProcessing) {
+				// if (((AutocompleteProcessing) KBBase.this.processField)
+				// .isSVCell()) {
+				// hideInSV = true;
+				// }
+				// }
 				keyboardWanted = false;
 				updateKeyBoardListener.keyBoardNeeded(false, null);
 			}
