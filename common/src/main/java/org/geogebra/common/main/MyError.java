@@ -82,13 +82,13 @@ public class MyError extends java.lang.Error {
 	@Override
 	public String getLocalizedMessage() {
 		if (strs == null) {
-			return loc.getError(getMessage());
+			return getError(getMessage());
 		}
 		StringBuilder sb = new StringBuilder();
 		// space needed in case error is displayed on one line
-		sb.append(loc.getError(strs[0]) + " \n");
+		sb.append(getError(strs[0]) + " \n");
 		for (int i = 1; i < strs.length; i++) {
-			sb.append(loc.getError(strs[i]) + " ");
+			sb.append(getError(strs[i]) + " ");
 		}
 		return sb.toString();
 	}
@@ -99,13 +99,20 @@ public class MyError extends java.lang.Error {
 
 		sb.append(getClass().toString() + ": ");
 		if (strs == null)
-			sb.append(loc.getError(getMessage()));
+			sb.append(getError(getMessage()));
 		else {
 			for (int i = 0; i < strs.length; i++) {
-				sb.append(loc.getError(strs[i]) + " : ");
+				sb.append(getError(strs[i]) + " : ");
 			}
 		}
 		return sb.toString();
+	}
+
+	protected String getError(String s) {
+		if (loc == null) {
+			return s;
+		}
+		return loc.getError(s);
 	}
 
 }
