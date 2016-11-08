@@ -534,7 +534,7 @@ public class Pattern implements Serializable
             if ((tokens[i].length() > 0) && (tokens[i].charAt(0) == '@')) {
                 String timeNumberString = tokens[i].substring(1,tokens[i].length());
                 if (timeNumberString.indexOf("[") == -1) {
-                    long timeNumber = new Long(timeNumberString).longValue();
+					long timeNumber = Long.parseLong(timeNumberString);
                     long newTime = timeNumber + offsetTime;
                     if (newTime < 0) newTime = 0;
                     buffy.append("@" + newTime);

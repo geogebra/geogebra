@@ -268,7 +268,7 @@ public class UserProperties extends Properties {
 
     public int getPropertyInt(String key, int def) {
         // FIXME: Yow!, two unnecessary object creations for each key lookup.
-        return new Integer(getProperty(key, Integer.toString(def))).intValue();
+		return Integer.parseInt(getProperty(key, Integer.toString(def)));
     }
 
     public double getPropertyDouble(String key) {
