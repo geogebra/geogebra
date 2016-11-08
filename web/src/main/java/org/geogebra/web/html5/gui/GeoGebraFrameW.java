@@ -38,8 +38,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 public abstract class GeoGebraFrameW extends FlowPanel implements
         HasAppletProperties {
 
-	public static final int BORDER_WIDTH = 2;
-	public static final int BORDER_HEIGHT = 2;
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<GeoGebraFrameW>();
 	private static GeoGebraFrameW activeInstance;
 
@@ -563,9 +561,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public void setWidth(int width) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(width, getOffsetHeight());
-			setWidth(width - BORDER_WIDTH + "px");
+			setWidth(width - app.getArticleElement().getBorderThickness()
+					+ "px");
+			app.persistWidthAndHeight();
 		} else {
-			setWidth(width - BORDER_WIDTH + "px");
+			setWidth(width - app.getArticleElement().getBorderThickness()
+					+ "px");
 			app.getEuclidianViewpanel().setPixelSize(width, getOffsetHeight());
 
 			// maybe onResize is OK too
@@ -583,6 +584,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			app.getGuiManager().resize(getOffsetWidth(), height);
 			setHeight(height - app.getArticleElement().getBorderThickness()
 					+ "px");
+			app.persistWidthAndHeight();
 		} else {
 			setHeight(height - app.getArticleElement().getBorderThickness()
 					+ "px");
@@ -611,6 +613,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 					+ "px");
 			setHeight(height - app.getArticleElement().getBorderThickness()
 					+ "px");
+			app.persistWidthAndHeight();
 		}
 
 	}
