@@ -82,9 +82,6 @@ public class Perspective {
 
 	private boolean isDockBarEast;
 
-	private String iconString = null;
-
-
 	private int defaultID;
 	/** translation keys for perspective names */
 	final public static String[] perspectiveNames = new String[] { "Custom",
@@ -516,13 +513,6 @@ public class Perspective {
 	 */
 	public boolean isUnitAxesRatio() {
 		return unitAxesRatio;
-	}
-
-	/**
-	 * @return name of the icon file used for the side bar
-	 */
-	public String getIconString() {
-		return iconString;
 	}
 
 	/**

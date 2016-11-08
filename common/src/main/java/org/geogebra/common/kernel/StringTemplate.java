@@ -488,9 +488,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// }
 
 			// check for degree sign or 1degree or degree1 (eg for Arabic)
-			else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.DEGREE_CHAR) && (rightStr
-					.charAt(1) == (loc.unicodeZero + 1))) || ((rightStr
-					.charAt(0) == Unicode.DEGREE_CHAR) && (rightStr.charAt(1) == (loc.unicodeZero + 1)))))
+			else if ((rightStr.length() == 2 &&
+
+					((rightStr.charAt(0) == Unicode.DEGREE_CHAR
+							&& rightStr.charAt(1) == (loc.unicodeZero + 1))
+
+							|| (rightStr.charAt(1) == Unicode.DEGREE_CHAR
+									&& rightStr.charAt(0) == loc.unicodeZero
+											+ 1)))
+
 					|| rightStr.equals(Unicode.DEGREE)) {
 
 				boolean rtl = loc.isRightToLeftDigits(this);
@@ -1804,9 +1810,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// }
 
 			// check for degree sign or 1degree or degree1 (eg for Arabic)
-			else if (((rightStr.length() == 2) && (((rightStr.charAt(0) == Unicode.DEGREE_CHAR) && (rightStr
-					.charAt(1) == (loc.unicodeZero + 1))) || ((rightStr
-					.charAt(0) == Unicode.DEGREE_CHAR) && (rightStr.charAt(1) == (loc.unicodeZero + 1)))))
+			else if ((rightStr.length() == 2 &&
+
+					((rightStr.charAt(0) == Unicode.DEGREE_CHAR
+							&& rightStr.charAt(1) == (loc.unicodeZero + 1))
+
+							|| (rightStr.charAt(1) == Unicode.DEGREE_CHAR
+									&& rightStr.charAt(0) == loc.unicodeZero
+											+ 1)))
+
 					|| rightStr.equals(Unicode.DEGREE)) {
 
 				boolean rtl = loc.isRightToLeftDigits(this);

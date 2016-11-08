@@ -102,6 +102,7 @@ public class DataItem {
 	 */
 	public DataItem(String[] internalData) {
 		this.sourceType = SourceType.INTERNAL;
+		this.strInternal = internalData;
 	}
 
 	/**

@@ -62,7 +62,7 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 
 		setModel(new FunctionInspectorModel(app, selectedGeo, this));
 		// create the GUI
-		createGeoElementSlectionListener();
+		createGeoElementSelectionListener();
 		createGUI();
 
 		// load selected function
@@ -234,9 +234,9 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	// Geo Selection Listener
 	// ====================================================
 
-	private void createGeoElementSlectionListener() {
+	private void createGeoElementSelectionListener() {
 		if (sl == null) {
-			GeoElementSelectionListener sl = new GeoElementSelectionListener() {
+			sl = new GeoElementSelectionListener() {
 				public void geoElementSelected(GeoElement geo,
 						boolean addToSelection) {
 					insertGeoElement(geo);

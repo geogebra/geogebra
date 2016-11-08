@@ -436,12 +436,11 @@ public abstract class GeoGebraExport {
 					.getParentAlgorithm();
 			drawHistogramOrBarChartBox(algo.getValues(), algo.getLeftBorder(),
 					algo.getValues().length - 1, 0, g);
-		} else {
-			AlgoBarChart algo = null;
-			if (g.getParentAlgorithm() instanceof AlgoBarChart)
-				algo = (AlgoBarChart) g.getParentAlgorithm();
+		} else if (g.getParentAlgorithm() instanceof AlgoBarChart) {
+			AlgoBarChart algo = (AlgoBarChart) g.getParentAlgorithm();
 			drawHistogramOrBarChartBox(algo.getValues(), algo.getLeftBorder(),
 					algo.getValues().length, algo.getWidth(), g);
+
 		}
 
 	}

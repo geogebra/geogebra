@@ -1724,9 +1724,10 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 
 		if (ret != null) {
 			cons.removeFromConstructionList((AlgoElement) ret);
+			return ret.getResult();
 		}
 
-		return ret.getResult();
+		return null;
 
 	}
 	
