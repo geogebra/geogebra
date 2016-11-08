@@ -1591,7 +1591,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			for (int i = 0; i < n; i++) {
 				x_full[i] = x_full[i].divide(xNorm);
-				x_double[i] = new MyDecimal(lessScale1, x_full[i]);
+				x_double[i] = new MyDecimal(lessScale1, x_full[i].getImpl());
 			}
 
 			// partial sums of squares
@@ -1613,7 +1613,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// pre-calculate ss[j]*ss[j+1]
 			MyDecimal[] Pss = new MyDecimal[n - 1];
 			for (int i = 0; i < n - 1; i++) {
-				Pss[i] = new MyDecimal(fullScale1, ss[i].multiply(ss[i + 1]));
+				Pss[i] = new MyDecimal(fullScale1,
+						ss[i].multiply(ss[i + 1]).getImpl());
 			}
 
 			// initialize Matrix H (lower trapezoidal
@@ -1670,7 +1671,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			for (int i = 0; i < n; i++) {
 				for (int j = 0; j < n - 1; j++) {
 					H.setEntry(i, j,
-							new MyDecimal(lessScale1, H_full.getEntry(i, j)));
+							new MyDecimal(lessScale1,
+									H_full.getEntry(i, j).getImpl()));
 				}
 			}
 

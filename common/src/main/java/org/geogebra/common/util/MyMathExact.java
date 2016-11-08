@@ -1,6 +1,7 @@
 package org.geogebra.common.util;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.apache.commons.math.MathRuntimeException;
 import org.apache.commons.math.linear.AnyMatrix;
@@ -13,36 +14,47 @@ import org.apache.commons.math.linear.AnyMatrix;
 
 public class MyMathExact {
 
-	public static class MyDecimal extends BigDecimal {
+	public static class MyDecimal {
 
 		int fixedScale;
-		int roundingMode = ROUND_HALF_EVEN;
+		int roundingMode = BigDecimal.ROUND_HALF_EVEN;
+
+		BigDecimal impl;
 
 		public MyDecimal(int significance) {
-			super(0);
-			this.setScale(significance);
+			// super(0);
+			impl = (new BigDecimal(0)).setScale(significance);
 			fixedScale = significance;
 		}
 
 		public MyDecimal(int significance, double val) {
-			super(val);
-			super.setScale(significance, roundingMode);
+			// super(val);
+			// super.setScale(significance, roundingMode);
+			impl = (new BigDecimal(0)).setScale(significance);
 			fixedScale = significance;
 		}
 
 		public MyDecimal(MyDecimal md) {
-			super(md.unscaledValue(), md.scale());
+			impl = new BigDecimal(md.unscaledValue(), md.scale());
 			fixedScale = md.scale();
 		}
 
+		private int scale() {
+			return impl.scale();
+		}
+
+		private BigInteger unscaledValue() {
+			return impl.unscaledValue();
+		}
+
 		public MyDecimal(BigDecimal bd) {
-			super(bd.unscaledValue(), bd.scale());
+			impl = new BigDecimal(bd.unscaledValue(), bd.scale());
 			fixedScale = bd.scale();
 		}
 
 		public MyDecimal(int significance, BigDecimal bd) {
-			super(bd.unscaledValue(), bd.scale());
-			this.setScale(significance, roundingMode);
+			impl = new BigDecimal(bd.unscaledValue(), bd.scale())
+					.setScale(significance, roundingMode);
 			fixedScale = significance;
 		}
 
@@ -51,27 +63,31 @@ public class MyMathExact {
 		}
 
 		public MyDecimal copy() {
-			return new MyDecimal(this.getScale(), this);
+			return new MyDecimal(this.getScale(), impl);
 		}
 
 		public MyDecimal negate() {
-			return new MyDecimal(this.getScale(), super.negate());
+			return new MyDecimal(this.getScale(), impl.negate());
 		}
 
 		public MyDecimal add(MyDecimal md) {
-			return new MyDecimal(this.getScale(), super.add(md));
+			return new MyDecimal(this.getScale(), impl.add(md.getImpl()));
+		}
+
+		public BigDecimal getImpl() {
+			return impl;
 		}
 
 		public MyDecimal multiply(MyDecimal md) {
-			return new MyDecimal(this.getScale(), super.multiply(md));
+			return new MyDecimal(this.getScale(), impl.multiply(md.getImpl()));
 		}
 
 		public MyDecimal subtract(MyDecimal md) {
-			return new MyDecimal(this.getScale(), super.subtract(md));
+			return new MyDecimal(this.getScale(), impl.subtract(md.getImpl()));
 		}
 
 		public MyDecimal divide(MyDecimal md) {
-			return new MyDecimal(this.getScale(), super.divide(md,
+			return new MyDecimal(this.getScale(), impl.divide(md.getImpl(),
 					this.getScale(), BigDecimal.ROUND_HALF_EVEN));
 		}
 
@@ -82,13 +98,13 @@ public class MyMathExact {
 			}
 
 			MyDecimal TWO = new MyDecimal(BigDecimal.ONE.add(BigDecimal.ONE));
-			double lower_bound = Math.sqrt(this.doubleValue());
+			double lower_bound = Math.sqrt(impl.doubleValue());
 
 			int thisScale = this.getScale();
 			int thisScalePlusOne = thisScale + 1;
 
 			MyDecimal ret = new MyDecimal(thisScalePlusOne, lower_bound);
-			MyDecimal radicand = new MyDecimal(thisScalePlusOne, this);
+			MyDecimal radicand = new MyDecimal(thisScalePlusOne, impl);
 
 			int iterCount = 0;
 			while (ret.multiply(ret).subtract(radicand).divide(radicand)
@@ -99,7 +115,23 @@ public class MyMathExact {
 				iterCount++;
 			}
 
-			return new MyDecimal(thisScale, ret);
+			return new MyDecimal(thisScale, ret.getImpl());
+		}
+
+		public BigDecimal abs() {
+			return impl.abs();
+		}
+
+		public double doubleValue() {
+			return impl.doubleValue();
+		}
+
+		public int intValue() {
+			return impl.intValue();
+		}
+
+		public int signum() {
+			return impl.signum();
 		}
 	}
 
@@ -139,7 +171,7 @@ public class MyMathExact {
 		}
 
 		public void setEntry(int i, int j, MyDecimal md) {
-			data[i][j] = new MyDecimal(fixedScale, md);
+			data[i][j] = new MyDecimal(fixedScale, md.getImpl());
 		}
 
 		public MyDecimalMatrix copy() {
