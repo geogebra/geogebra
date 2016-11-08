@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.laf;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.browser.SignInButton;
@@ -20,8 +21,25 @@ public class BundleLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public void addWindowClosingHandler(final AppW app) {
-		// no handler
+		Localization loc = app.getLocalization();
+		addNativeHandler(loc.getPlain("CloseApplicationLoseUnsavedData"),
+				loc.getMenu("Save"), loc.getMenu("DontSave"),
+				loc.getMenu("Cancel"));
 	}
+
+	private native void addNativeHandler(String message, String save,
+			String noSave, String cancel) /*-{
+		if ($wnd.setUnsavedMessage) {
+			$wnd.setUnsavedMessage(message, save, noSave, cancel);
+		}
+	}-*/;
+
+	@Override
+	public native void removeWindowClosingHandler() /*-{
+		if ($wnd.setUnsavedMessage) {
+			$wnd.setUnsavedMessage(null);
+		}
+	}-*/;
 
 	@Override
 	public void storeLanguage(String s) {

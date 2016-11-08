@@ -762,7 +762,8 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public final void setUnsaved() {
 		super.setUnsaved();
-		if (hasAutosave()) {
+		if (hasAutosave() && kernel != null && kernel.getConstruction() != null
+				&& kernel.getConstruction().isStarted()) {
 			getLAF().addWindowClosingHandler(this);
 		}
 	}

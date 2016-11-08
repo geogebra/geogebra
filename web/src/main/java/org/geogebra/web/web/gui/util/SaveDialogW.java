@@ -216,6 +216,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 					app.getKernel().getConstruction().setTitle(title.getText());
 					((FileManager) app.getFileManager()).saveFile(base64,
 							modified, new SaveCallback(app, state));
+				} else {
+					app.setSaved();
 				}
 			}
 		};
