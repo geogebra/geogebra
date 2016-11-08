@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -48,6 +49,7 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -689,8 +691,17 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 
 	public void onFocus(FocusEvent event) {
 		Object source = event.getSource();
-	    if (source instanceof TextBox) {	    	
-	    	((TextBox)event.getSource()).selectAll();
+
+		if (source instanceof TextBox) {
+			TextBox tb = (TextBox) event.getSource();
+			tb.selectAll();
+			if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
+				Widget parent = tb.getParent().getParent();
+				if (parent instanceof AutoCompleteTextFieldW) {
+					((AppW) app).showKeyboard((AutoCompleteTextFieldW) parent,
+							true);
+				}
+			}
 	    }
     }
 	
