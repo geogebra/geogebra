@@ -94,8 +94,8 @@ public class FilterEffects extends SVGElement
     {
         super.build();
 
-        StyleAttribute sty = new StyleAttribute();
-        String strn;
+		// StyleAttribute sty = new StyleAttribute();
+		// String strn;
         /*
          if (getPres(sty.setName("filterUnits")))
          {

@@ -2922,13 +2922,14 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 			return b2 * c2 * (-V) * U * (a4 - 2 * a2 * b2 + Q)
 					* (a4 - 2 * a2 * c2 + Q);
 		case 848:
-			return Math.sin((2 * a * 3.1415926) / (a + b + c))
+			return Math.sin((2 * a * Math.PI) / (a + b + c))
 					* ((a4 + Q - 2 * a2 * R)
-							* Math.cos((2 * b * 3.1415926) / (a + b + c)) + V
-							* S * Math.sin((2 * b * 3.1415926) / (a + b + c)))
+							* Math.cos((2 * b * Math.PI) / (a + b + c))
+							+ V * S * Math.sin((2 * b * Math.PI) / (a + b + c)))
 					* ((a4 + Q - 2 * a2 * R)
-							* Math.cos((2 * c * 3.1415926) / (a + b + c)) + U
-							* S * Math.sin((2 * c * 3.1415926) / (a + b + c)));
+							* Math.cos((2 * c * Math.PI) / (a + b + c))
+							+ U * S * Math
+									.sin((2 * c * Math.PI) / (a + b + c)));
 		case 849:
 			return a3 * p(a + b, 2) * p(a + c, 2);
 		case 850:
@@ -3858,7 +3859,7 @@ public class AlgoKimberlingWeights implements AlgoKimberlingWeightsInterface {
 					* u(a6 - a4 * b2 - a2 * b4 + b6 - a4 * c2 + 3 * a2 * b2
 							* c2 - b4 * c2 - a2 * c4 - b2 * c4 + c6);
 		case 1115:
-			return -angleA + 3.1415926;
+			return -angleA + Math.PI;
 		case 1116:
 			return -((b2 - c2) * (-2 * a8 + p(b2 - c2, 4) + 5 * a6 * R - a4
 					* (3 * b4 + 8 * b2 * c2 + 3 * c4) - a2

@@ -130,17 +130,17 @@ public class SelectionTableD extends JTable {
 		// rows = -1, cols = -1 ==> square table to fit data
 		if (rows == -1 && columns == -1) {
 			rows = (int) Math.floor(Math.sqrt(data.length));
-			columns = (int) Math.ceil(1.0 * data.length / rows);
+			columns = (int) Math.ceil(data.length / (double) rows);
 		}
 
 		// rows = -1 ==> fixed cols, rows added to fit data
 		else if (rows == -1) {
-			rows = (int) (Math.ceil(1.0 * data.length / columns));
+			rows = (int) (Math.ceil(data.length / (double) columns));
 		}
 
 		// cols = -1 ==> fixed rows, cols added to fit data
 		else if (columns == -1) {
-			columns = (int) (1.0 * Math.ceil(data.length / rows));
+			columns = (int) (Math.ceil(data.length / (double) rows));
 		}
 
 		numRows = rows;

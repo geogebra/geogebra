@@ -97,7 +97,7 @@ abstract public class ShapeElement extends RenderableElement
 
     void pick(Rectangle2D pickArea, AffineTransform ltw, boolean boundingBox, List retVec) throws SVGException
     {
-        StyleAttribute styleAttrib = new StyleAttribute();
+		// StyleAttribute styleAttrib = new StyleAttribute();
 //        if (getStyle(styleAttrib.setName("fill")) && getShape().contains(point))
         if (ltw.createTransformedShape((boundingBox ? getBoundingBox() : getShape())).intersects(pickArea))
         {

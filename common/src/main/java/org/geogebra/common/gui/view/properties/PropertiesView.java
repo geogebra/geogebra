@@ -29,11 +29,10 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public abstract class PropertiesView implements View {
-	protected static HashMap<Integer, OptionType> viewMap = new HashMap<Integer, OptionType>();
+	final protected static HashMap<Integer, OptionType> viewMap = new HashMap<Integer, OptionType>();
 	// map to match view ID with OptionType
 	static {
 
-		viewMap = new HashMap<Integer, OptionType>();
 		viewMap.put(App.VIEW_CAS, OptionType.CAS);
 		viewMap.put(App.VIEW_SPREADSHEET, OptionType.SPREADSHEET);
 		viewMap.put(App.VIEW_EUCLIDIAN, OptionType.EUCLIDIAN);

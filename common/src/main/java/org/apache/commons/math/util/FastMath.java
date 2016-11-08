@@ -2661,7 +2661,7 @@ public class FastMath {
             double remA;
             double remB;
             while (true) {
-                double a = -k * 1.570796251296997;
+				double a = -k * (Math.PI / 2);
                 remA = xa + a;
                 remB = -(remA - xa - a);
 
@@ -2746,7 +2746,7 @@ public class FastMath {
             double remA;
             double remB;
             while (true) {
-                double a = -k * 1.570796251296997;
+				double a = -k * (Math.PI / 2);
                 remA = xa + a;
                 remB = -(remA - xa - a);
 
@@ -2841,7 +2841,7 @@ public class FastMath {
             double remA;
             double remB;
             while (true) {
-                double a = -k * 1.570796251296997;
+				double a = -k * (Math.PI) / 2;
                 remA = xa + a;
                 remB = -(remA - xa - a);
 

@@ -144,12 +144,13 @@ public class TagHandler {
         return text;
     }
 
-    public static void main(String[] args) {
-        String text = "&lt;Vector<sup><b>Graphics</b></sup> &amp; Card<i><sub>Adapter</sub></i>&gt;";
-
-        TagString s = new TagString(text);
-        TagHandler handler = new TagHandler();
-		// System.out.println("\"" + s + "\"");
-		// System.out.println(handler.parse(s));
-    }
+	// public static void main(String[] args) {
+	// String text = "&lt;Vector<sup><b>Graphics</b></sup> &amp;
+	// Card<i><sub>Adapter</sub></i>&gt;";
+	//
+	// TagString s = new TagString(text);
+	// TagHandler handler = new TagHandler();
+	// // System.out.println("\"" + s + "\"");
+	// // System.out.println(handler.parse(s));
+	// }
 }

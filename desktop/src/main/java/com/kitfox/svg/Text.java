@@ -383,7 +383,7 @@ public class Text extends ShapeElement
 //        float fontScale = fontSize / (float)ascent;
 
 //        AffineTransform oldXform = g.getTransform();
-        AffineTransform xform = new AffineTransform();
+		// AffineTransform xform = new AffineTransform();
 
         for (Iterator it = content.iterator(); it.hasNext();)
         {
