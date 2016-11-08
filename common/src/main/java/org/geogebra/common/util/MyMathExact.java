@@ -16,8 +16,8 @@ public class MyMathExact {
 
 	public static class MyDecimal {
 
-		int fixedScale;
-		int roundingMode = BigDecimal.ROUND_HALF_EVEN;
+		private final int fixedScale;
+		private static final int roundingMode = BigDecimal.ROUND_HALF_EVEN;
 
 		BigDecimal impl;
 
