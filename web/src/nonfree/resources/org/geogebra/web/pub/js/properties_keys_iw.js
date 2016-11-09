@@ -1689,7 +1689,6 @@ __GGB__keysVar.iw.menu = {
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing",
     "ExamSimpleCalc.long": "GeoGebra Exam Simple Calculator",
-    "ExamSimpleCalc.short": "Exam Simple Calc",
     "Exercise.CreateNew": "\u05ea\u05e8\u05d2\u05d9\u05dc \u05d7\u05d3\u05e9",
     "Exit": "\u05d9\u05e6\u05d9\u05d0\u05d4",
     "ExitExamShutDown": "\u05db\u05d9\u05d1\u05d5\u05d9",

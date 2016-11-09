@@ -1689,7 +1689,6 @@ __GGB__keysVar.nl_NL.menu = {
     "ExamGraphingCalc.long": "GeoGebra Exam Grafisch rekenapparaat",
     "ExamGraphingCalc.short": "Exam Grafieken",
     "ExamSimpleCalc.long": "GeoGebra Exam Rekenapparaat",
-    "ExamSimpleCalc.short": "Exam Rekenapparaat",
     "Exercise.CreateNew": "Nieuwe oefening",
     "Exit": "Afsluiten",
     "ExitExamShutDown": "Afsluiten",

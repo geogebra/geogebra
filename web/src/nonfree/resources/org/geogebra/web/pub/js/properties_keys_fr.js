@@ -1689,7 +1689,6 @@ __GGB__keysVar.fr.menu = {
     "ExamGraphingCalc.long": "GeoGebra Examen Graphique",
     "ExamGraphingCalc.short": "Examen Graphique",
     "ExamSimpleCalc.long": "GeoGebra Examen Calculatrice",
-    "ExamSimpleCalc.short": "Examen Calculatrice",
     "Exercise.CreateNew": "Nouvel exercice",
     "Exit": "Quitter",
     "ExitExamShutDown": "Arr\xeater",

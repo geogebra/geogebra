@@ -1689,7 +1689,6 @@ __GGB__keysVar.eu.menu = {
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing",
     "ExamSimpleCalc.long": "GeoGebra Exam Simple Calculator",
-    "ExamSimpleCalc.short": "Exam Simple Calc",
     "Exercise.CreateNew": "Ariketa Berria",
     "Exit": "Irten",
     "ExitExamShutDown": "Itzali",

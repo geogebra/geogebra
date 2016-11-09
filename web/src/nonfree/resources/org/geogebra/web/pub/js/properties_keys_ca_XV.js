@@ -1689,7 +1689,6 @@ __GGB__keysVar.ca_XV.menu = {
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing",
     "ExamSimpleCalc.long": "GeoGebra Exam Simple Calculator",
-    "ExamSimpleCalc.short": "Exam Simple Calc",
     "Exercise.CreateNew": "Nou exercici",
     "Exit": "Ix",
     "ExitExamShutDown": "Desconnexi\xf3",

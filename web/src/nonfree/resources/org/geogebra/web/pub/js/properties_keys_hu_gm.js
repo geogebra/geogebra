@@ -1689,7 +1689,6 @@ __GGB__keysVar.hu_gm.menu = {
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing",
     "ExamSimpleCalc.long": "GeoGebra Exam Simple Calculator",
-    "ExamSimpleCalc.short": "Exam Simple Calc",
     "Exercise.CreateNew": "\xdaj feladat",
     "Exit": "Kil\xe9p\xe9s",
     "ExitExamShutDown": "Le\xe1ll\xedt\xe1s",

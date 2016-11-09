@@ -1689,7 +1689,6 @@ __GGB__keysVar.no_NB.menu = {
     "ExamGraphingCalc.long": "GeoGebra grafisk kalkulator for pr\xf8ver",
     "ExamGraphingCalc.short": "Grafisk til pr\xf8ver",
     "ExamSimpleCalc.long": "GeoGebra enkel kalkulator for pr\xf8ver",
-    "ExamSimpleCalc.short": "Kalkulator for pr\xf8ver",
     "Exercise.CreateNew": "Ny oppgave",
     "Exit": "Avslutt",
     "ExitExamShutDown": "Sl\xe5 av",

@@ -1689,7 +1689,6 @@ __GGB__keysVar.pt_PT.menu = {
     "ExamGraphingCalc.long": "Calculadora Gr\xe1fica para Exame GeoGebra",
     "ExamGraphingCalc.short": "Gr\xe1fico para Exame",
     "ExamSimpleCalc.long": "Calculadora B\xe1sica para Exame GeoGebra",
-    "ExamSimpleCalc.short": "Calculadora B\xe1sica para Exame",
     "Exercise.CreateNew": "Novo Exerc\xedcio",
     "Exit": "Sair",
     "ExitExamShutDown": "Desligar",
