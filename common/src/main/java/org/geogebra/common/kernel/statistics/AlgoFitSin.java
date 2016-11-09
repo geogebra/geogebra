@@ -104,7 +104,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	private static double[] xd, yd; // datapoints
 	private static int size; // data arrays
 	private static int iterations; // LM iterations
-	private static boolean error = false; // General catch-all
+	private boolean error = false; // General catch-all
 
 	// / --- GeoGebra obligatory: --- ///
 
@@ -190,7 +190,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	// / ============= IMPLEMENTATION
 	// =============================================================///
 	/** Does the math part of the regression */
-	public final static void doReg() {
+	public final void doReg() {
 		findParameters(); // Find initial parameters a,b,c,d
 		sinus_Reg(); // Run LM nonlinear iteration
 	}// doReg()
@@ -326,7 +326,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}// findParameters()
 
 	/** Doing LM iteration */
-	public final static void sinus_Reg() {
+	public final void sinus_Reg() {
 		double lambda = 0.0d; // LM-damping coefficient
 		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
 		double residual, old_residual = beta2(xd, yd, a, b, c, d);

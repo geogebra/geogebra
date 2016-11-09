@@ -89,14 +89,14 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	private final static double EPSSING = 1E-20d;
 
 	// Properties
-	private static double a, b, c; // c/(1+a*exp(-bx))
-	private static double[] xd, yd; // datapoints
-	private static int size; // of xd and yd
-	private static int iterations; // LM iterations
-	private static boolean error = false; // general error flag
+	private double a, b, c; // c/(1+a*exp(-bx))
+	private double[] xd, yd; // datapoints
+	private int size; // of xd and yd
+	private int iterations; // LM iterations
+	private boolean error = false; // general error flag
 
 	// Flags:
-	private static boolean allplus, allneg; // flags for y-values, set by
+	private boolean allplus, allneg; // flags for y-values, set by
 											// getPoints();
 
 	// GeoGebra obligatory:
@@ -193,12 +193,12 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	// / ============= IMPLEMENTATION
 	// =============================================================///
-	private final static void doReg() {
+	private final void doReg() {
 		findParameters(); // Find initial parameters a,b,c,d
 		Logistic_Reg(); // Run LM nonlinear iteration
 	}// doReg()
 
-	private final static void findParameters() {
+	private final void findParameters() {
 		double err, err_old;
 		double lambda = 0.01d; //
 		int sign = 1;
@@ -276,7 +276,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		}// 20.11:if one is undefined, everything is undefined
 	}// findParameters()
 
-	private final static void Logistic_Reg() {
+	private final void Logistic_Reg() {
 
 		double lambda = 0.0d; // LM-damping coefficient
 		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
@@ -456,7 +456,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	}// bet(x,y,b)
 
 	// Sum of squared errors, using last a,b and c
-	private final static double beta2(double[] x, double[] y, double a1,
+	private final double beta2(double[] x, double[] y, double a1,
 			double b1, double c1) {
 		double sum = 0.0d, beta;
 		for (int i = 0; i < size; i++) {
@@ -469,7 +469,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	// Sum of squared errors, using b(=k). a and c are calculated from first and
 	// last datapoint.
-	private final static double beta2(double k1) {
+	private final double beta2(double k1) {
 		double beta = 0.0d, sum = 0.0d;
 		for (int i = 0; i < size; i++) {
 			beta = beta(xd[i], yd[i], k1);
