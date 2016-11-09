@@ -94,7 +94,7 @@ var __giac = [ {},
 { cat:"Covariance", cmd:"Covariance[{1,2,3},{5,16,1}]", result:"(-4)/3" },
 { cat:"Covariance", cmd:"Covariance[{(1,5),(2,16),(3,1)}]", result:"(-4)/3" },
 { cat:"Cross", cmd:"Cross[(2,3,1),(4,5,0)]", result:"(-5, 4, -2)" },
-{ cat:"ComplexRoot", cmd:"ComplexRoot[x^3-1]", result:"{1, (\u03AF sqrt(3) - 1) / 2, (-\u03AF sqrt(3) - 1) / 2}" },
+{ cat:"ComplexRoot", cmd:"ComplexRoot[x^3-1]", result:"{-0.5 + 0.8660254037844\u03AF, -0.5 - 0.8660254037844\u03AF, 1}", round:"{-0.5 + 0.87\u03AF, -0.5 - 0.87\u03AF, 1}", notes:"changed to numeric" },
 { cat:"CSolutions", cmd:"CSolutions[x^2=-1]", result:"{-\u03AF, \u03AF}|OR|{\u03AF, -\u03AF}" },
 { cat:"CSolutions", cmd:"CSolutions[x^2=-3]", result:"{\u03AF sqrt(3), -\u03AF sqrt(3)}|OR|{-\u03AF sqrt(3), \u03AF sqrt(3)}" },
 { cat:"CSolutions", cmd:"CSolutions[x^2=\u03AF]", result:"{(1 + \u03AF) sqrt(2) / 2, (-1 - \u03AF) sqrt(2) / 2}|OR|{(-1 - \u03AF) sqrt(2) / 2, (1 + \u03AF) sqrt(2) / 2}" },
@@ -1974,6 +1974,7 @@ var __giac = [ {},
 { cat:"Numeric", cmd:"Numeric[asind(0.317)]", result:"18.48159427073\u00B0", round:"18.48\u00B0", notes:"GGB-1353" },
 { cat:"Numeric", cmd:"Numeric[acosd(0.317)]", result:"71.51840572927\u00B0", notes:"GGB-1353" },
 { cat:"Numeric", cmd:"Numeric[atand(0.317)]", result:"17.58861508681\u00B0", notes:"GGB-1353" },
+{ cat:"ComplexRoot", cmd:"ComplexRoot[sqrt(3)*x^2+sqrt(5)*x+sqrt(7)]", result:"{-0.6454972243679 - 1.053972753436\u03AF, -0.6454972243679 + 1.053972753436\u03AF}", round:"{-0.65 - 1.05\u03AF, -0.65 + 1.05\u03AF}" },
 
 // JSONEND
 //{ 

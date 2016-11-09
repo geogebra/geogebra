@@ -131,7 +131,10 @@ public class Ggb2giac {
 		p("Cross.2",
 				"[[[ggbcrossarg0:=%0], [ggbcrossarg1:=%1]],when(is3dpoint(ggbcrossarg0)||is3dpoint(ggbcrossarg1),point(cross(ggbcrossarg0,ggbcrossarg1)),cross(ggbcrossarg0,ggbcrossarg1))][1]");
 
-		p("ComplexRoot.1", "normal(cZeros(%0,x))");
+		// changed to give approximate answer (consistent with Input Bar)
+		// needed for eg ComplexRoot[sqrt(3)*x^2+sqrt(5)*x+sqrt(7)]
+		p("ComplexRoot.1", "cfsolve(%0)");
+
 		p("CSolutions.1",
 				"ggbsort([[[ggbcsans:=0/0],[ggbcsans:=%0],[ggbvars:=lname(ggbcsans)]],"
 						+ "normal(cZeros(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])");
