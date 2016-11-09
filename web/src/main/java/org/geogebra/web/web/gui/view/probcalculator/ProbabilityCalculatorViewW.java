@@ -20,6 +20,7 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.util.MyToggleButton2;
 import org.geogebra.web.web.gui.view.data.PlotPanelEuclidianViewW;
+import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.web.main.FileManagerW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -698,6 +699,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 			if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
 				Widget parent = tb.getParent().getParent();
 				if (parent instanceof AutoCompleteTextFieldW) {
+					if (MyTableW.isAndroid() || MyTableW.isIPad()) {
+						((AutoCompleteTextFieldW) parent).setEnabled(false);
+						((AutoCompleteTextFieldW) parent)
+								.addDummyCursor(((AutoCompleteTextFieldW) parent)
+										.getCaretPosition());
+					}
 					((AppW) app).showKeyboard((AutoCompleteTextFieldW) parent,
 							true);
 				}

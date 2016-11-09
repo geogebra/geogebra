@@ -1689,7 +1689,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return false;// TODO: implementation needed
 	}
 
-	private native boolean isAndroid()/*-{
+	public native static boolean isAndroid()/*-{
 		var userAgent = navigator.userAgent;
 		if (userAgent) {
 			return navigator.userAgent.indexOf("Android") != -1;
@@ -1697,7 +1697,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return false;
 	}-*/;
 
-	private native boolean isIPad()/*-{
+	public native static boolean isIPad()/*-{
 		var userAgent = navigator.userAgent;
 		if (userAgent) {
 			return navigator.userAgent.indexOf("iPad") != -1;
