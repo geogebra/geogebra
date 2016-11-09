@@ -1552,7 +1552,8 @@ public class GeoGebraCasIntegrationTest {
   public void Factor_Variables_6 () {
     // t("Factor[5 a x+5 b x-2 b y-2 a y]", "(a + b) * (5 * x - 2 * y)");
     // Giac
-    t("Factor[5 a x+5 b x-2 b y-2 a y]", "(b + a) * (5 * x - 2 * y)");
+		t("Factor[5 a x+5 b x-2 b y-2 a y]", "(b + a) * (5 * x - 2 * y)",
+				"(-b - a) * (-5 * x + 2 * y)");
   }
 
   @Test
