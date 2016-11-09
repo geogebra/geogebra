@@ -273,7 +273,7 @@ public class GgbScript extends Script {
 				// but better to check...
 				if (i + 1 < work.size() && work.get(i + 1) != null) {
 					if ((work.get(i + 1).length() > 0)
-							&& "[".equals(work.get(i + 1).charAt(0))) {
+							&& '[' == work.get(i + 1).charAt(0)) {
 						// Now it's still possible that oldLabel
 						// is used as a command name here,
 						// so we have to rule out that possibility first.
