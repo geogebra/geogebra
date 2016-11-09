@@ -16,7 +16,7 @@ public class TraceSettings implements Comparable<TraceSettings>, Cloneable {
 		this.a = a;
 	}
 
-	public TraceSettings clone() {
+	final public TraceSettings clone() {
 		Coords c1 = this.c.copyVector();
 		return new TraceSettings(c1, a);
 	}
