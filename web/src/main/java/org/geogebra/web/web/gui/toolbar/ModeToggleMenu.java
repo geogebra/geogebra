@@ -300,7 +300,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		
 		final String miMode = mi.getElement().getAttribute("mode");
 		// check if the menu item is already selected
-		if (tbutton.getElement().getAttribute("isSelected").equals(true)
+		if (tbutton.getElement().getAttribute("isSelected").equals("true")
 				&& tbutton.getElement().getAttribute("mode").equals(miMode)) {
 			return;
 		}
