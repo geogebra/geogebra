@@ -4066,6 +4066,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_CACHE_FEATURED:
 			return false;
 
+			// MOB-961, MOB-962
+			case BIND_ANDROID_TO_EXAM_APP:
+				return false;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
@@ -4477,7 +4481,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 
-	protected Versions getVersion(){
+	public Versions getVersion() {
 		return version;
 	}
 

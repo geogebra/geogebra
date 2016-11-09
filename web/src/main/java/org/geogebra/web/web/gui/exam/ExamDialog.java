@@ -4,7 +4,10 @@ import java.util.Date;
 
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.GTimer;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
@@ -26,19 +29,27 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class ExamDialog {
 	private AppW app;
 
+	private DialogBoxW box;
+
+	private Localization loc;
+
+	private Label instruction;
+
+	private Button btnOk;
+
 	public ExamDialog(AppW app) {
 		this.app = app;
 	}
 
 	public void show() {
-		Localization loc = app.getLocalization();
+		loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
-		final DialogBoxW box = new DialogBoxW(false, true, null, app.getPanel());
+		box = new DialogBoxW(false, true, null, app.getPanel());
 		VerticalPanel mainWidget = new VerticalPanel();
 		FlowPanel btnPanel = new FlowPanel();
 		FlowPanel cbxPanel = new FlowPanel();
 
-		Button btnOk = new Button();
+		btnOk = new Button();
 		Button btnCancel = new Button();
 		Button btnHelp = new Button();
 		// mainWidget.add(btnPanel);
@@ -49,13 +60,13 @@ public class ExamDialog {
 			btnPanel.add(btnCancel);
 			btnPanel.add(btnHelp);
 			box.addStyleName("boxsize");
+			btnCancel.setText(loc.getMenu("Cancel"));
+			btnHelp.setText(loc.getMenu("Help"));
 		} else {
 			box.addStyleName("ExamTabletBoxsize");
 		}
 
-		btnOk.setText(loc.getMenu("exam_start_button"));
-		btnCancel.setText(loc.getMenu("Cancel"));
-		btnHelp.setText(loc.getMenu("Help"));
+
 
 		// description.addStyleName("padding");
 
@@ -116,7 +127,6 @@ public class ExamDialog {
 				else if (!supports3D && !supportsCAS) {
 					if (app.enableGraphing()) {
 						Label description = new Label(loc.getMenu("GraphingCalculator"));
-						mainWidget.add(description);
 					} else {
 						// set algebra view in background of start dialog
 						// for tablet Exam Simple Calc
@@ -137,6 +147,21 @@ public class ExamDialog {
 			 */
 		}
 
+
+		if (app.has(Feature.BIND_ANDROID_TO_EXAM_APP) && runsOnAndroid()) {
+			startExamForAndroidWebview(mainWidget);
+		} else {
+			// start exam button
+			btnOk.setText(loc.getMenu("exam_start_button"));
+			btnOk.addClickHandler(new ClickHandler() {
+				@Override
+				public void onClick(ClickEvent event) {
+					startExam(box, app);
+				}
+			});
+		}
+
+
 		mainWidget.add(btnPanel);
 		box.setWidget(mainWidget);
 		box.getCaption().setText(loc.getMenu("exam_custom_header"));
@@ -146,13 +171,6 @@ public class ExamDialog {
 		}
 		box.center();
 
-		// start exam button
-		btnOk.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				startExam(box, app);
-			}
-		});
 		// Cancel button
 		btnCancel.addStyleName("cancelBtn");
 		btnCancel.addClickHandler(new ClickHandler() {
@@ -178,6 +196,7 @@ public class ExamDialog {
 			}
 		});
 	}
+
 
 	public static void startExam(DialogBoxW box, AppW app) {
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
@@ -219,4 +238,204 @@ public class ExamDialog {
 			box.hide();
 		}
 	}
+
+
+	////////////////////////////////////
+	// ANDROID TABLETS
+	////////////////////////////////////
+
+	final private boolean runsOnAndroid() {
+		return app.getVersion().isAndroidWebview();
+	}
+
+	final private void startExamForAndroidWebview(VerticalPanel mainWidget) {
+		// bind methods to javascript
+		setJavascriptTargetToExamDialog();
+		exportGeoGebraAndroidMethods();
+
+		// needs a label for airplane mode / lock task instructions
+		instruction = new Label();
+		mainWidget.add(instruction);
+
+		// button
+		btnOk.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				onButtonOk();
+			}
+		});
+
+		// task locking available?
+		lockTaskIsAvailable = checkLockTaskAvailable();
+		Log.debug("Task locking available: " + lockTaskIsAvailable);
+
+		// start airplane mode / lock task check
+		startCheckAirplaneMode();
+	}
+
+	private boolean lockTaskIsAvailable;
+
+	private enum DialogState {WAIT_FOR_AIRPLANE_MODE, WAIT_FOR_TASK_LOCK, CAN_START_EXAM}
+
+	private DialogState dialogState;
+
+	private void onButtonOk() {
+		switch (dialogState) {
+			case WAIT_FOR_TASK_LOCK:
+				// airplane mode off: ask again
+				if (!isAirplaneModeOn()) {
+					setAirplaneModeDialog();
+					return;
+				}
+				// ask Android to lock
+				askForTaskLock();
+				break;
+			case CAN_START_EXAM:
+				// airplane mode off: ask again
+				if (!isAirplaneModeOn()) {
+					setAirplaneModeDialog();
+					return;
+				}
+				// task not locked: ask again
+				if (lockTaskIsAvailable && !checkTaskLocked()) {
+					setLockTaskDialog();
+					return;
+				}
+				// all set: start exam
+				startExam(box, app);
+				break;
+		}
+	}
+
+	private boolean wasAirplaneModeOn;
+
+	private void startCheckAirplaneMode() {
+		if (isAirplaneModeOn()) {
+			Log.debug("Airplane mode is on");
+			wasAirplaneModeOn = true;
+			setLockTaskDialog();
+		} else {
+			Log.debug("Airplane mode is off");
+			wasAirplaneModeOn = false;
+			setAirplaneModeDialog();
+		}
+	}
+
+	private void setAirplaneModeDialog() {
+		instruction.setText(loc.getMenu("exam_set_airplane_mode_on"));
+		instruction.setVisible(true);
+
+		btnOk.setVisible(false);
+
+		dialogState = DialogState.WAIT_FOR_AIRPLANE_MODE;
+	}
+
+	private void setLockTaskDialog() {
+
+		// if task locking is not available, go to start exam dialog
+		if (!lockTaskIsAvailable) {
+			setStartExamDialog();
+			return;
+		}
+
+		instruction.setText(loc.getMenu("exam_accept_lock"));
+		instruction.setVisible(true);
+
+		btnOk.setText(loc.getMenu("exam_lock"));
+		btnOk.setVisible(true);
+
+		dialogState = DialogState.WAIT_FOR_TASK_LOCK;
+	}
+
+	private void setStartExamDialog() {
+
+		instruction.setVisible(false);
+
+		btnOk.setText(loc.getMenu("exam_start_button"));
+		btnOk.setVisible(true);
+
+		dialogState = DialogState.CAN_START_EXAM;
+	}
+
+	private GTimer checkTaskLockTimer = null;
+
+	private void askForTaskLock() {
+		Log.debug("ask for task lock");
+		startLockTask();
+
+		// set timer to check continuously if task is locked
+		if (checkTaskLockTimer != null && checkTaskLockTimer.isRunning()) {
+			checkTaskLockTimer.stop();
+		}
+		checkTaskLockTimer = app.newTimer(new GTimer.GTimerListener() {
+			@Override
+			public void onRun() {
+				Log.debug("check task lock");
+				if (!isAirplaneModeOn()) {
+					Log.debug("(check) airplane mode off");
+					checkTaskLockTimer.stop();
+					setAirplaneModeDialog();
+					return;
+				}
+				if (checkTaskLocked()) {
+					Log.debug("(check) task is locked");
+					checkTaskLockTimer.stop();
+					setStartExamDialog();
+				} else {
+					Log.debug("(check) task is NOT locked");
+				}
+			}
+		}, 100);
+		checkTaskLockTimer.startRepeat();
+	}
+
+
+	private static native boolean checkLockTaskAvailable() /*-{
+		return $wnd.GeoGebraExamAndroidJsBinder.checkLockTaskAvailable();
+    }-*/;
+
+	private static native boolean checkTaskLocked() /*-{
+		return $wnd.GeoGebraExamAndroidJsBinder.checkTaskLocked();
+    }-*/;
+
+	private static native void startLockTask() /*-{
+		$wnd.GeoGebraExamAndroidJsBinder.startLockTask();
+    }-*/;
+
+
+	private static native boolean setJavascriptTargetToExamDialog() /*-{
+		return $wnd.GeoGebraExamAndroidJsBinder.setJavascriptTargetToExamDialog();
+    }-*/;
+
+
+	private static native boolean isAirplaneModeOn() /*-{
+		return $wnd.GeoGebraExamAndroidJsBinder.isAirplaneModeOn();
+    }-*/;
+
+	private native void exportGeoGebraAndroidMethods() /*-{
+		var that = this;
+        $wnd.examDialog_airplaneModeTurnedOn = $entry(function() {
+          that.@org.geogebra.web.web.gui.exam.ExamDialog::airplaneModeTurnedOn()();
+        });
+        $wnd.examDialog_airplaneModeTurnedOff = $entry(function() {
+          that.@org.geogebra.web.web.gui.exam.ExamDialog::airplaneModeTurnedOff()();
+        });
+    }-*/;
+
+	public void airplaneModeTurnedOn() {
+		Log.debug("airplane mode turned on");
+		if (!wasAirplaneModeOn) {
+			setLockTaskDialog();
+			wasAirplaneModeOn = true;
+		}
+	}
+
+	public void airplaneModeTurnedOff() {
+		Log.debug("airplane mode turned off");
+		if (wasAirplaneModeOn) {
+			setAirplaneModeDialog();
+			wasAirplaneModeOn = false;
+		}
+	}
+
 }

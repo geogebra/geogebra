@@ -77,6 +77,15 @@ public interface GeoGebraConstants {
 
 		}
 
+		public boolean isAndroidWebview() {
+			switch (this) {
+				case ANDROID_WEBVIEW:
+				case ANDROID_WEBVIEW_EXAM:
+					return true;
+			}
+			return false;
+		}
+
 
 
 	}
