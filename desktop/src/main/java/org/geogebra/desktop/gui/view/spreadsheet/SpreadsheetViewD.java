@@ -322,7 +322,6 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		if (scrollToShow && location != null)
 			table.scrollRectToVisible(table.getCellRect(location.y, location.x,
 					true));
-
 	}
 
 	public void remove(GeoElement geo) {
@@ -1079,10 +1078,5 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	public void scrollIfNeeded(GeoElement geo, String labelNew) {
 		// TODO Auto-generated method stub
 
-	}
-
-	public boolean getScrollToShow() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 }

@@ -17,8 +17,5 @@ public interface SpreadsheetViewInterface extends View {
 
 	public void scrollIfNeeded(GeoElement geo, String labelNew);
 
-	public boolean getScrollToShow();
-
-
 	public void showTraceDialog(GeoElement geo, CellRange traceCell);
 }

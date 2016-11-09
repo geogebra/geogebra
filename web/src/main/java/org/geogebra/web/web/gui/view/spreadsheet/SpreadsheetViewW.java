@@ -415,10 +415,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		this.scrollToShow = scrollToShow;
 	}
 
-	public boolean getScrollToShow() {
-		return this.scrollToShow;
-	}
-
 	// =====================================================
 	// Formula Bar
 	// =====================================================
