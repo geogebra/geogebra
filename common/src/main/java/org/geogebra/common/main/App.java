@@ -2931,6 +2931,17 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
+	 * @param a
+	 *            low value of distribution interval
+	 * @param b
+	 *            high value of distribution interval
+	 * @return random number from Uniform Distribution[a,b]
+	 */
+	public double randomUniform(double a, double b) {
+		return a + getRandomNumber() * (b - a);
+	}
+
+	/**
 	 * allows use of seeds to generate the same sequence for a ggb file
 	 *
 	 * @param low

@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.RandomUtil;
 
 /**
  * Computes a list of random numbers using a uniform distribution.
@@ -96,7 +95,8 @@ public class AlgoRandomUniformList extends AlgoElement implements
 		ensureListSize((int) length.getDouble());
 
 		for (int i = 0; i < list.size(); i++) {
-			((GeoNumeric) list.get(i)).setValue(RandomUtil.randomUniform(
+			((GeoNumeric) list.get(i)).setValue(cons.getApplication()
+					.randomUniform(
 					a.getDouble(), b.getDouble()));
 		}
 
