@@ -173,10 +173,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				Log.debug("cas cell ");
 				this.kernel.notifyUpdatePreviewFromInputBar(null);
 			}
-			if (validation != null && previewGeos != null
-					&& validInput.equals(input)) {
-				validation.showError(null);
-			}
 			this.kernel.setSilentMode(silentModeOld);
 
 		} catch (Throwable ee) {
