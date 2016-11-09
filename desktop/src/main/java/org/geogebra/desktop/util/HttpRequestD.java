@@ -29,7 +29,8 @@ public class HttpRequestD extends HttpRequest {
 			huc.setRequestMethod("GET");
 			huc.connect();
 			BufferedReader in;
-			in = new BufferedReader(new InputStreamReader(huc.getInputStream()));
+			in = new BufferedReader(new InputStreamReader(huc.getInputStream(),
+					Charsets.UTF_8));
 			String s = "";
 			answer = in.readLine(); // the last line will never get a "\n" on
 									// its end
@@ -89,7 +90,7 @@ public class HttpRequestD extends HttpRequest {
 			osw.write(post);
 			osw.flush();
 			BufferedReader in = new BufferedReader(new InputStreamReader(
-					huc.getInputStream()));
+					huc.getInputStream(), Charsets.UTF_8));
 			String s = "";
 			answer = in.readLine(); // the last line will never get a "\n" on
 									// its end

@@ -55,15 +55,18 @@ import java.awt.image.BufferedImage;
 import java.awt.image.MemoryImageSource;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -1456,7 +1459,11 @@ ToolbarD.getAllTools(this));
 			return;
 		}
 		File regressionFile = new File(regressionFileName);
-		FileWriter regressionFileWriter = new FileWriter(regressionFile);
+
+		BufferedWriter regressionFileWriter = new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream(regressionFile),
+						"UTF-8"));
+
 		kernel.updateConstruction();
 		regressionFileWriter.append(getXMLio().getConstructionRegressionOut());
 		regressionFileWriter.close();
@@ -1549,8 +1556,8 @@ ToolbarD.getAllTools(this));
 								}
 							}
 						}
-					} else if (ext.equals(FileExtensions.HTM.ext)
-							|| ext.equals(FileExtensions.HTML.ext)) {
+					} else if (ext.equals(FileExtensions.HTM)
+							|| ext.equals(FileExtensions.HTML)) {
 						loadBase64File(new File(fileArgument));
 						success = true;
 					} else {
@@ -1756,7 +1763,8 @@ ToolbarD.getAllTools(this));
 	private static String fetchPage(URL url) throws IOException {
 		BufferedReader reader = null;
 		try {
-			reader = new BufferedReader(new InputStreamReader(url.openStream()));
+			reader = new BufferedReader(
+					new InputStreamReader(url.openStream(), Charsets.UTF_8));
 			StringBuilder page = new StringBuilder();
 			String line;
 			while (null != (line = reader.readLine())) {
@@ -3626,7 +3634,7 @@ ToolbarD.getAllTools(this));
 			if (bis.markSupported()) {
 				bis.mark(Integer.MAX_VALUE);
 				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(bis));
+						new InputStreamReader(bis, Charsets.UTF_8));
 				String str = reader.readLine();
 
 				// check if .ggb file is actually a base64 file from 4.2 Chrome
@@ -4446,11 +4454,16 @@ ToolbarD.getAllTools(this));
 
 		logger = Logger.getLogger("stdout");
 		los = new LoggingOutputStream(logger, StdOutErrLevel.STDOUT);
-		System.setOut(new PrintStream(los, true));
 
-		logger = Logger.getLogger("stderr");
-		los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
-		System.setErr(new PrintStream(los, true));
+		try {
+			System.setOut(new PrintStream(los, true, Charsets.UTF_8));
+			logger = Logger.getLogger("stderr");
+			los = new LoggingOutputStream(logger, StdOutErrLevel.STDERR);
+			System.setErr(new PrintStream(los, true, Charsets.UTF_8));
+		} catch (UnsupportedEncodingException e) {
+			// do nothing
+		}
+
 		// show stdout going to logger
 		// System.out.println("Hello world!");
 

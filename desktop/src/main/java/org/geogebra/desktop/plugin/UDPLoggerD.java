@@ -1,6 +1,7 @@
 package org.geogebra.desktop.plugin;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
@@ -12,6 +13,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.SensorLogger;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -56,7 +58,8 @@ public class UDPLoggerD extends SensorLogger {
 			boolean quicker) {
 		// TODO: convert to-from string by a specific encoding, e.g. UTF-8
 		try {
-			JSONArray ja = new JSONArray(new String(buffer, 0, length));
+			JSONArray ja = new JSONArray(
+					new String(buffer, 0, length, Charsets.UTF_8));
 			JSONObject jo;
 			String key;
 
@@ -179,7 +182,12 @@ public class UDPLoggerD extends SensorLogger {
 			// https://play.google.com/store/apps/details?id=jp.ac.ehime_u.cite.sasaki.SensorUdp
 			Log.debug("Assume data is from Android/SensorUDP");
 
-			String msg = new String(buffer, 0, length);
+			String msg;
+			try {
+				msg = new String(buffer, 0, length, Charsets.UTF_8);
+			} catch (UnsupportedEncodingException e) {
+				return;
+			}
 
 			Log.debug(msg);
 
@@ -367,18 +375,25 @@ public class UDPLoggerD extends SensorLogger {
 
 							// SwingUtilities.invokeLater(new Runnable() {
 							// public void run() {
-							if ("[".getBytes()[0] == buffer[0]) {
-								handleJSON(buffer, length, packet.getAddress()
-										.getHostAddress()
-										+ " "
-										+ packet.getAddress().getHostName(),
-										false);
-							} else {
-								handle(buffer, length, packet.getAddress()
-										.getHostAddress()
-										+ " "
-										+ packet.getAddress().getHostName(),
-										false);
+							try {
+								if ("[".getBytes(
+										Charsets.UTF_8)[0] == buffer[0]) {
+									handleJSON(buffer, length,
+											packet.getAddress().getHostAddress()
+													+ " "
+													+ packet.getAddress()
+															.getHostName(),
+											false);
+								} else {
+									handle(buffer, length,
+											packet.getAddress().getHostAddress()
+													+ " "
+													+ packet.getAddress()
+															.getHostName(),
+											false);
+								}
+							} catch (UnsupportedEncodingException e) {
+								// do nothing
 							}
 							// }
 							// });

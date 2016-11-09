@@ -276,6 +276,10 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 				File[] options = ((AppD) app).getCurrentPath().listFiles(
 						fileFilter);
 
+				if (options == null) {
+					return false;
+				}
+
 				// no current file, just load the first file in the
 				// folder
 				if (((AppD) app).getCurrentFile() == null) {

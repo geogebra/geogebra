@@ -82,12 +82,8 @@ public class ImageManagerD extends ImageManager {
 
 	// if borderColor == null no border is added
 	public ImageIcon getImageIcon(ImageResourceD fileName, Color borderColor) {
-		ImageIcon icon = null;
-		Object ob = iconTable.get(fileName);
-		if (ob != null) {
-			// icon already loaded
-			icon = (ImageIcon) ob;
-		} else {
+		ImageIcon icon = iconTable.get(fileName);
+		if (icon == null) {
 			// load the icon
 			Image im = getImageResourceGeoGebra(fileName);
 			if (im != null) {

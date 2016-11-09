@@ -366,7 +366,8 @@ public class MidiSoundD implements MetaEventListener {
 
 		try {
 			reader = file == null ? new BufferedReader(new InputStreamReader(
-					url.openStream())) : new BufferedReader(
+					url.openStream(), Charsets.UTF_8))
+					: new BufferedReader(
 							new InputStreamReader(new FileInputStream(file),
 									Charsets.UTF_8));
 			String text = null;
