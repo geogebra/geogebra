@@ -108,7 +108,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	}
 	
 	public void setActiveToolbar(Integer viewID){
-		if (activeToolbar == viewID){
+		if (activeToolbar.equals(viewID)) {
 			return;
 		}
 		activeToolbar = viewID;
