@@ -1099,13 +1099,13 @@ public abstract class EuclidianView
 	}
 
 	/** minimal visible real world x */
-	public double xmin;
+	private double xmin;
 	/** maximal visible real world x */
-	public double xmax;
+	private double xmax;
 	/** minimal visible real world y */
-	public double ymin;
+	private double ymin;
 	/** maximal visible real world y */
-	public double ymax;
+	private double ymax;
 
 	private double invXscale;
 

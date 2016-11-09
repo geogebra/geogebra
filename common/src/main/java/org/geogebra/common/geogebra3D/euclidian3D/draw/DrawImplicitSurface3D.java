@@ -62,8 +62,8 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 	protected boolean updateForItSelf() {
 		GeoImplicitSurface geo = (GeoImplicitSurface) getGeoElement();
 		EuclidianView3D v3d = getView3D();
-		geo.updateSurface(new double[] { v3d.xmin, v3d.xmax,
-				v3d.ymin, v3d.ymax, v3d.getZmin(), v3d.getZmax(),
+		geo.updateSurface(new double[] { v3d.getXmin(), v3d.getXmax(),
+				v3d.getYmin(), v3d.getYmax(), v3d.getZmin(), v3d.getZmax(),
 				v3d.getXscale(), v3d.getYscale(), v3d.getZscale() });
 		GeoTriangulatedSurface3D surf = geo.getSurface3D();
 		SurfaceMover surfaceMover = surf.getSurfaceMover();

@@ -90,7 +90,7 @@ public class DrawGrid {
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;		
 		final double yAxisEnd = (view.positiveAxes[1]
 				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
-		double pow = MyMath.nextPrettyNumber(view.ymin, 1);
+		double pow = MyMath.nextPrettyNumber(view.getYmin(), 1);
 		for (int j = 0; pix <= yAxisEnd; j++) {
 			// don't draw the grid line x=0 if the y-axis is showing
 			// or if it's too close (eg sticky axes)
@@ -173,7 +173,7 @@ public class DrawGrid {
 		final double bottom = view.positiveAxes[1] ? yAxisEnd
 				: view.getHeight();
 		double pix = 0;
-		double pow = MyMath.nextPrettyNumber(view.ymin, 1);
+		double pow = MyMath.nextPrettyNumber(view.getYmin(), 1);
 		for (int i = 0; pix <= view.getWidth(); i++) {
 			// don't draw the grid line x=0 if the y-axis is showing
 			// or if it's too close (eg sticky axes)

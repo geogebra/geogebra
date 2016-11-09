@@ -494,10 +494,10 @@ public class DrawAxis {
 		// by default we start with minor tick to the left of first major
 		// tick, exception is for positive only
 
-		double pow = MyMath.nextPrettyNumber(view.ymin, 1);
+		double pow = MyMath.nextPrettyNumber(view.getYmin(), 1);
 		double axisStep = view.getHeight()
-				/ (Math.log10(view.ymax) - Math.log10(view.ymin));
-		double pix = (Math.log10(view.ymax) - Math.log10(pow)) * axisStep;
+				/ (Math.log10(view.getYmax()) - Math.log10(view.getYmin()));
+		double pix = (Math.log10(view.getYmax()) - Math.log10(pow)) * axisStep;
 		if (view.getPositiveAxes()[1]
 				&& (Kernel.isGreaterEqual(rw, view.getYmin()))) {
 			// start labels at the y-axis instead of screen border
@@ -805,11 +805,11 @@ public class DrawAxis {
 			ySmall2++;
 		}
 
-		double pow = MyMath.nextPrettyNumber(view.xmin, 1);
+		double pow = MyMath.nextPrettyNumber(view.getXmin(), 1);
 		double axisStep = view.getWidth()
-				/ (Math.log10(view.xmax) - Math.log10(view.xmin));
-		double pix = (Math.log10(pow) - Math.log10(view.xmin)) * axisStep;
-		while (pow < view.xmax) {
+				/ (Math.log10(view.getXmax()) - Math.log10(view.getXmin()));
+		double pix = (Math.log10(pow) - Math.log10(view.getXmin())) * axisStep;
+		while (pow < view.getXmax()) {
 
 
 
