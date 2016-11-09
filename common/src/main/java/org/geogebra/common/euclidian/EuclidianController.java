@@ -9178,14 +9178,12 @@ public abstract class EuclidianController {
 		if (app.showView(App.VIEW_PROPERTIES)) {
 			return;
 		}
-		// make sure that Input Boxes lose focus (and so update) before running
-		// scripts
-		if (view.getHits().size() > 0
-				&& view.getHits().get(0) instanceof GeoInputBox) {
-			view.requestFocusInWindow();
-		}
+
 		// GeoTextField: click scripts run when user presses <Enter>
 		if (!scriptsHaveRun && !geo1.isGeoInputBox()) {
+			// make sure that Input Boxes lose focus (and so update) before
+			// running scripts GGB-1351
+			view.requestFocusInWindow();
 			scriptsHaveRun = true;
 			app.runScripts(geo1, (String) null);
 		}
