@@ -131,8 +131,8 @@ public class GColorW extends GColor {
 
 	@Override
 	public int hashCode() {
-		assert false : "hashCode not designed";
-		return 42; // any arbitrary constant will do
+		return ((((getRed() * 256) + getGreen()) * 256) + getBlue()) * 256
+				+ getAlpha();
 	}
 
 	@Override
