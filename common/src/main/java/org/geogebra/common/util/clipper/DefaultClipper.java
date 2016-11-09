@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 public class DefaultClipper extends ClipperBase {
@@ -1792,7 +1793,7 @@ public class DefaultClipper extends ClipperBase {
         double b1, b2;
         //nb: with very large coordinate values, it's possible for SlopesEqual() to
         //return false but for the edge.Dx value be equal due to double precision rounding.
-        if (edge1.deltaX == edge2.deltaX) {
+		if (MyDouble.exactEqual(edge1.deltaX, edge2.deltaX)) {
             ip.setY( edge1.getCurrent().getY() );
             ip.setX( Edge.topX( edge1, ip.getY() ) );
             return;

@@ -3,6 +3,7 @@ package org.geogebra.common.util.clipper;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 public abstract class ClipperBase implements Clipper {
@@ -370,7 +371,8 @@ public abstract class ClipperBase implements Clipper {
                 while (e.getTop().getY() == e.next.getBot().getY()) {
                     e = e.next;
                 }
-                while (e != result && e.deltaX == Edge.HORIZONTAL) {
+				while (e != result
+						&& equalsEdgeHorizontal(e.deltaX)) {
                     e = e.prev;
                 }
             }
@@ -378,7 +380,8 @@ public abstract class ClipperBase implements Clipper {
                 while (e.getTop().getY() == e.prev.getBot().getY()) {
                     e = e.prev;
                 }
-                while (e != result && e.deltaX == Edge.HORIZONTAL) {
+				while (e != result
+						&& equalsEdgeHorizontal(e.deltaX)) {
                     e = e.next;
                 }
             }
@@ -410,7 +413,7 @@ public abstract class ClipperBase implements Clipper {
             return result;
         }
 
-        if (e.deltaX == Edge.HORIZONTAL) {
+		if (equalsEdgeHorizontal(e.deltaX)) {
             //We need to be careful with open paths because this may not be a
             //true local minima (ie E may be following a skip edge).
             //Also, consecutive horz. edges may start heading left before going right.
@@ -421,7 +424,9 @@ public abstract class ClipperBase implements Clipper {
                 EStart = e.next;
             }
             if (EStart.outIdx != Edge.SKIP) {
-                if (EStart.deltaX == Edge.HORIZONTAL) //ie an adjoining horizontal skip edge
+				if (equalsEdgeHorizontal(EStart.deltaX)) // ie an adjoining
+															// horizontal skip
+															// edge
                 {
                     if (EStart.getBot().getX() != e.getBot().getX() && EStart.getTop().getX() != e.getBot().getX()) {
                         e.reverseHorizontal();
@@ -438,12 +443,13 @@ public abstract class ClipperBase implements Clipper {
             while (result.getTop().getY() == result.next.getBot().getY() && result.next.outIdx != Edge.SKIP) {
                 result = result.next;
             }
-            if (result.deltaX == Edge.HORIZONTAL && result.next.outIdx != Edge.SKIP) {
+			if (equalsEdgeHorizontal(result.deltaX)
+					&& result.next.outIdx != Edge.SKIP) {
                 //nb: at the top of a bound, horizontals are added to the bound
                 //only when the preceding edge attaches to the horizontal's left vertex
                 //unless a Skip edge is encountered when that becomes the top divide
                 Horz = result;
-                while (Horz.prev.deltaX == Edge.HORIZONTAL) {
+				while (equalsEdgeHorizontal(Horz.prev.deltaX)) {
                     Horz = Horz.prev;
                 }
                 if (Horz.prev.getTop().getX() == result.next.getTop().getX()) {
@@ -459,12 +465,14 @@ public abstract class ClipperBase implements Clipper {
             }
             while (e != result) {
                 e.nextInLML = e.next;
-                if (e.deltaX == Edge.HORIZONTAL && e != EStart && e.getBot().getX() != e.prev.getTop().getX()) {
+				if (equalsEdgeHorizontal(e.deltaX) && e != EStart
+						&& e.getBot().getX() != e.prev.getTop().getX()) {
                     e.reverseHorizontal();
                 }
                 e = e.next;
             }
-            if (e.deltaX == Edge.HORIZONTAL && e != EStart && e.getBot().getX() != e.prev.getTop().getX()) {
+			if (equalsEdgeHorizontal(e.deltaX) && e != EStart
+					&& e.getBot().getX() != e.prev.getTop().getX()) {
                 e.reverseHorizontal();
             }
             result = result.next; //move to the edge just beyond current bound
@@ -473,9 +481,10 @@ public abstract class ClipperBase implements Clipper {
             while (result.getTop().getY() == result.prev.getBot().getY() && result.prev.outIdx != Edge.SKIP) {
                 result = result.prev;
             }
-            if (result.deltaX == Edge.HORIZONTAL && result.prev.outIdx != Edge.SKIP) {
+			if (equalsEdgeHorizontal(result.deltaX)
+					&& result.prev.outIdx != Edge.SKIP) {
                 Horz = result;
-                while (Horz.next.deltaX == Edge.HORIZONTAL) {
+				while (equalsEdgeHorizontal(Horz.next.deltaX)) {
                     Horz = Horz.next;
                 }
                 if (Horz.next.getTop().getX() == result.prev.getTop().getX()) {
@@ -490,12 +499,14 @@ public abstract class ClipperBase implements Clipper {
 
             while (e != result) {
                 e.nextInLML = e.prev;
-                if (e.deltaX == Edge.HORIZONTAL && e != EStart && e.getBot().getX() != e.next.getTop().getX()) {
+				if (equalsEdgeHorizontal(e.deltaX) && e != EStart
+						&& e.getBot().getX() != e.next.getTop().getX()) {
                     e.reverseHorizontal();
                 }
                 e = e.prev;
             }
-            if (e.deltaX == Edge.HORIZONTAL && e != EStart && e.getBot().getX() != e.next.getTop().getX()) {
+			if (equalsEdgeHorizontal(e.deltaX) && e != EStart
+					&& e.getBot().getX() != e.next.getTop().getX()) {
                 e.reverseHorizontal();
             }
             result = result.prev; //move to the edge just beyond current bound
@@ -503,7 +514,11 @@ public abstract class ClipperBase implements Clipper {
         return result;
     }
 
-    protected void reset() {
+	private boolean equalsEdgeHorizontal(double d) {
+		return MyDouble.exactEqual(d, Edge.HORIZONTAL);
+	}
+
+	protected void reset() {
         currentLM = minimaList;
         if (currentLM == null) {
             return; //ie nothing to process
