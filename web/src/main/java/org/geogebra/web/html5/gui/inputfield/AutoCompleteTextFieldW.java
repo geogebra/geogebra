@@ -172,7 +172,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		textField = new ScrollableSuggestBox(completionsPopup, this) {
 			@Override
 			public void setText(String s) {
-				String oldText = getText();
+				String oldText = super.getText();
 				int pos = getValueBox().getCursorPos();
 				StringBuilder sb = new StringBuilder();
 				int wp = InputHelper.updateCurrentWord(false,

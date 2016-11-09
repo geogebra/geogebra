@@ -47,12 +47,15 @@ import java.awt.image.ImageObserver;
 import java.awt.image.PixelGrabber;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.zip.CRC32;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
+
+import org.geogebra.common.util.Charsets;
 
 public class PNGEncoder extends Object implements ImageObserver {
     /** Constant specifying that alpha channel should be encoded. */
@@ -426,7 +429,11 @@ public class PNGEncoder extends Object implements ImageObserver {
      * @see java.lang.String#getBytes()
      */
     protected int writeString(String s, int offset) {
-        return writeBytes(s.getBytes(), offset);
+        try {
+			return writeBytes(s.getBytes(Charsets.UTF_8), offset);
+		} catch (UnsupportedEncodingException e) {
+			return -1;
+		}
     }
 
     /**
@@ -617,7 +624,7 @@ public class PNGEncoder extends Object implements ImageObserver {
             crc.reset();
             bytePos = writeInt4(nCompressed, bytePos);
             bytePos = writeString("IDAT", bytePos);
-            crc.update("IDAT".getBytes());
+			crc.update("IDAT".getBytes(Charsets.UTF_8));
             bytePos = writeBytes(compressedLines, nCompressed, bytePos);
             crc.update(compressedLines, 0, nCompressed);
 
@@ -638,7 +645,11 @@ public class PNGEncoder extends Object implements ImageObserver {
         bytePos = writeInt4(0, bytePos);
         bytePos = writeString("IEND", bytePos);
         crc.reset();
-        crc.update("IEND".getBytes());
+		try {
+			crc.update("IEND".getBytes(Charsets.UTF_8));
+		} catch (UnsupportedEncodingException e) {
+			// do nothing
+		}
         crcValue = crc.getValue();
         bytePos = writeInt4((int) crcValue, bytePos);
     }

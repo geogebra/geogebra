@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
@@ -49,6 +50,7 @@ import org.freehep.util.io.Base64OutputStream;
 import org.freehep.util.io.WriterOutputStream;
 import org.freehep.xml.util.XMLWriter;
 import org.geogebra.common.jre.util.ScientificFormat;
+import org.geogebra.common.util.Charsets;
 
 /**
  * This class implements the Scalable Vector Graphics output. SVG specifications
@@ -260,7 +262,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			ros = new GZIPOutputStream(ros);
 		}
 
-		os = new PrintWriter(ros, true);
+		os = new PrintWriter(new OutputStreamWriter(ros, Charsets.UTF_8), true);
 		fontTable = new SVGFontTable();
 
 		// Do the bounding box calculation.

@@ -657,7 +657,7 @@ public class GgbAPIW extends GgbAPI {
 
 					MyImageW img = new MyImageW(
 							ImageElement.as((new Image(url)).getElement()),
-							"svg".equals(ext));
+							FileExtensions.SVG.equals(ext));
 
 					addImageToArchive("", fileName, url, ext, img, archive);
 				}

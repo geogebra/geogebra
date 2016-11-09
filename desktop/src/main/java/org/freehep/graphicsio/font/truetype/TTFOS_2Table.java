@@ -2,6 +2,9 @@
 package org.freehep.graphicsio.font.truetype;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+import org.geogebra.common.util.Charsets;
 
 /**
  * OS/2 Table.
@@ -93,7 +96,11 @@ public class TTFOS_2Table extends TTFVersionTable {
     }
 
     public String getAchVendID() {
-        return new String(achVendID);
+		try {
+			return new String(achVendID, Charsets.UTF_8);
+		} catch (UnsupportedEncodingException e) {
+			return null;
+		}
     }
 
     public String toString() {

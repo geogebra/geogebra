@@ -3,9 +3,12 @@ package org.freehep.util.io;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.geogebra.common.util.Charsets;
 
 /**
  * The RoutedInputStream allows the user to add a listener for a certain
@@ -215,39 +218,53 @@ public class RoutedInputStream extends InputStream {
      * @param listener listener to inform about the route
      */
     public void addRoute(String start, String end, RouteListener listener) {
-        addRoute(start.getBytes(), (end == null) ? null : end.getBytes(),
-                listener);
+		try {
+			addRoute(start.getBytes(Charsets.UTF_8),
+					(end == null) ? null : end.getBytes(Charsets.UTF_8),
+					listener);
+		} catch (UnsupportedEncodingException e) {
+			// do nothing
+		}
     }
 
     /**
-     * Adds a route for given start and end marker.
-     * 
-     * If the end marker is null, the route is indefinite, and can be read until
-     * the main stream ends.
-     * 
-     * If the start and end marker are equal, the route can be read for exactly
-     * their length.
-     * 
-     * @param start start marker
-     * @param end end marker
-     * @param listener listener to inform about the route
-     */
-    public void addRoute(byte[] start, byte[] end, RouteListener listener) {
-        for (Iterator i = routes.keySet().iterator(); i.hasNext();) {
-            String key = new String((byte[]) i.next());
-            String name = new String(start);
-            if (key.startsWith(name) || name.startsWith(key)) {
-                throw new IllegalArgumentException("Route '" + name
-                        + "' cannot be added since it overlaps with '" + key
-                        + "'.");
-            }
-        }
+	 * Adds a route for given start and end marker.
+	 * 
+	 * If the end marker is null, the route is indefinite, and can be read until
+	 * the main stream ends.
+	 * 
+	 * If the start and end marker are equal, the route can be read for exactly
+	 * their length.
+	 * 
+	 * @param start
+	 *            start marker
+	 * @param end
+	 *            end marker
+	 * @param listener
+	 *            listener to inform about the route
+	 */
+	public void addRoute(byte[] start, byte[] end, RouteListener listener) {
+		for (Iterator i = routes.keySet().iterator(); i.hasNext();) {
+			String key;
+			try {
+				key = new String((byte[]) i.next(), Charsets.UTF_8);
+				String name = new String(start, Charsets.UTF_8);
+				if (key.startsWith(name) || name.startsWith(key)) {
+					throw new IllegalArgumentException("Route '" + name
+							+ "' cannot be added since it overlaps with '" + key
+							+ "'.");
+				}
+			} catch (UnsupportedEncodingException e) {
+				// do nothing
+			}
 
-        routes.put(start, end);
-        listeners.put(start, listener);
-        // we make the buffer one longer than the longest start marker, so that
-        // read() can always return a byte before a marker.
-        if (start.length > buffer.length - 1) {
+		}
+
+		routes.put(start, end);
+		listeners.put(start, listener);
+		// we make the buffer one longer than the longest start marker, so that
+		// read() can always return a byte before a marker.
+		if (start.length > buffer.length - 1) {
             byte[] tmp = new byte[start.length + 1];
             System.arraycopy(buffer, 0, tmp, 0, buffer.length);
             buffer = tmp;

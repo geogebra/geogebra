@@ -300,8 +300,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 			final Canvas invoker = ((EuclidianViewWInterface) view).getCanvas();
 			// clear highlighting and selections in views
-			final GPoint screenPos = (invoker == null) ? new GPoint(0, 0)
-			        : new GPoint(invoker.getAbsoluteLeft() + p.x,
+			final GPoint screenPos = new GPoint(invoker.getAbsoluteLeft() + p.x,
 			                invoker.getAbsoluteTop() + p.y);
 
 			app.getActiveEuclidianView().resetMode();
