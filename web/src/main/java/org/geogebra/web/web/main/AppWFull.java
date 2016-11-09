@@ -810,4 +810,10 @@ public abstract class AppWFull extends AppW {
 
 	}
 
+	@Override
+	public void loadPreferences(Perspective p) {
+		GeoGebraPreferencesW.getPref().loadForApp(this, p);
+
+	}
+
 }

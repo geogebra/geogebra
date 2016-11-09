@@ -27,6 +27,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.Construction;
@@ -3485,6 +3486,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public boolean isPerspectivesPopupVisible() {
 		return false;
+	}
+
+	public void loadPreferences(Perspective p) {
+		// GeoGebraPreferencesW.getPref().loadForApp(app, p);
+
 	}
 
 }

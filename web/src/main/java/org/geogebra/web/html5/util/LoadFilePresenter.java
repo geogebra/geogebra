@@ -8,7 +8,6 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.main.GeoGebraPreferencesW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.storage.client.Storage;
@@ -203,7 +202,7 @@ public class LoadFilePresenter {
 	 *            perspective
 	 */
 	void finishEmptyLoading(AppW app, Perspective p) {
-		GeoGebraPreferencesW.getPref().loadForApp(app, p);
+		app.loadPreferences(p);
 		// default layout doesn't have a Graphics View 2
 		app.getEuclidianViewpanel().deferredOnResize();
 
