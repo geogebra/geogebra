@@ -208,7 +208,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			Log.debug("[CUSTOMIZE] branch: " + branchTool.getTitle());
 			Log.debug("[CUSTOMIZE] first: " + firstTool.getTitle());
 
-			if (branchTool.getMode() != firstTool.getMode()) {
+			if (!branchTool.getMode().equals(firstTool.getMode())) {
 				Log.debug("[CUSTOMIZE] branch and first tool does not match");
 				branchTool.setMode(firstTool.getMode());
 			}
