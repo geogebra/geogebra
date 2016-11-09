@@ -127,6 +127,7 @@ public class ExamDialog {
 				else if (!supports3D && !supportsCAS) {
 					if (app.enableGraphing()) {
 						Label description = new Label(loc.getMenu("GraphingCalculator"));
+						mainWidget.add(description);
 					} else {
 						// set algebra view in background of start dialog
 						// for tablet Exam Simple Calc
@@ -240,6 +241,27 @@ public class ExamDialog {
 	}
 
 
+//	static final public String getExamAppName(AppW app, Localization loc){
+//		boolean supportsCAS = app.getSettings().getCasSettings()
+//				.isEnabled();
+//		boolean supports3D = app.getSettings().getEuclidian(-1)
+//				.isEnabled();
+//
+//		if (!supports3D && supportsCAS) {
+//			if (supportsCAS) {
+//				return loc.getMenu("ExamCAS");
+//			}
+//
+//			if (app.enableGraphing()) {
+//				return loc.getMenu("ExamGraphingCalc.long");
+//			}
+//
+//			return loc.getMenu("ExamSimpleCalc.long");
+//		}
+//
+//		return null;
+//	}
+
 	////////////////////////////////////
 	// ANDROID TABLETS
 	////////////////////////////////////
@@ -322,37 +344,50 @@ public class ExamDialog {
 	}
 
 	private void setAirplaneModeDialog() {
-		instruction.setText(loc.getMenu("exam_set_airplane_mode_on"));
+		updateFullscreenStatusOff();
+
+		//instruction.setText(loc.getMenu("exam_set_airplane_mode_on"));
+		instruction.setText("Please turn on airplane mode now");
 		instruction.setVisible(true);
 
 		btnOk.setVisible(false);
+
+		box.center();
 
 		dialogState = DialogState.WAIT_FOR_AIRPLANE_MODE;
 	}
 
 	private void setLockTaskDialog() {
-
 		// if task locking is not available, go to start exam dialog
 		if (!lockTaskIsAvailable) {
 			setStartExamDialog();
 			return;
 		}
 
-		instruction.setText(loc.getMenu("exam_accept_lock"));
+		updateFullscreenStatusOn();
+
+//		instruction.setText(loc.getMenu("exam_accept_lock"));
+		instruction.setText("Please accept to lock your device to start the exam");
 		instruction.setVisible(true);
 
-		btnOk.setText(loc.getMenu("exam_lock"));
+//		btnOk.setText(loc.getMenu("exam_lock"));
+		btnOk.setText("Lock");
 		btnOk.setVisible(true);
+
+		box.center();
 
 		dialogState = DialogState.WAIT_FOR_TASK_LOCK;
 	}
 
 	private void setStartExamDialog() {
+		updateFullscreenStatusOn();
 
 		instruction.setVisible(false);
 
 		btnOk.setText(loc.getMenu("exam_start_button"));
 		btnOk.setVisible(true);
+
+		box.center();
 
 		dialogState = DialogState.CAN_START_EXAM;
 	}
@@ -389,6 +424,13 @@ public class ExamDialog {
 		checkTaskLockTimer.startRepeat();
 	}
 
+	private static native boolean updateFullscreenStatusOn() /*-{
+		return $wnd.GeoGebraExamAndroidJsBinder.updateFullscreenStatusOn();
+    }-*/;
+
+	private static native boolean updateFullscreenStatusOff() /*-{
+		return $wnd.GeoGebraExamAndroidJsBinder.updateFullscreenStatusOff();
+    }-*/;
 
 	private static native boolean checkLockTaskAvailable() /*-{
 		return $wnd.GeoGebraExamAndroidJsBinder.checkLockTaskAvailable();
@@ -400,6 +442,10 @@ public class ExamDialog {
 
 	private static native void startLockTask() /*-{
 		$wnd.GeoGebraExamAndroidJsBinder.startLockTask();
+    }-*/;
+
+	private static native void stopLockTask() /*-{
+		$wnd.GeoGebraExamAndroidJsBinder.stopLockTask();
     }-*/;
 
 
@@ -422,6 +468,9 @@ public class ExamDialog {
         });
     }-*/;
 
+	/**
+	 * this method is called through js (see exportGeoGebraAndroidMethods())
+	 */
 	public void airplaneModeTurnedOn() {
 		Log.debug("airplane mode turned on");
 		if (!wasAirplaneModeOn) {
@@ -430,6 +479,9 @@ public class ExamDialog {
 		}
 	}
 
+	/**
+	 * this method is called through js (see exportGeoGebraAndroidMethods())
+	 */
 	public void airplaneModeTurnedOff() {
 		Log.debug("airplane mode turned off");
 		if (wasAirplaneModeOn) {
@@ -437,5 +489,16 @@ public class ExamDialog {
 			wasAirplaneModeOn = false;
 		}
 	}
+
+	public static void exitApp() {
+		if (checkLockTaskAvailable()){
+			stopLockTask();
+		}
+		exitAppJs();
+	}
+
+	public static native void exitAppJs()/*-{
+		$wnd.GeoGebraExamAndroidJsBinder.exitApp();
+    }-*/;
 
 }

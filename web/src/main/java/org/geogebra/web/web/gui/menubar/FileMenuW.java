@@ -5,6 +5,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -85,18 +86,30 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			app.getExam().exit();
 			boolean examFile = app.getArticleElement()
 					.hasDataParamEnableGraphing();
-			String buttonText = examFile ? loc.getPlain("Restart")
-					: null;
+			String buttonText = null;
 			AsyncOperation<String[]> handler = null;
 
 			if (examFile) {
-				handler = new AsyncOperation<String[]>() {
-					@Override
-					public void callback(String[] dialogResult) {
-						app.setExam(new ExamEnvironment());
-						ExamDialog.startExam(null, app);
-					}
-				};
+				if (app.has(Feature.BIND_ANDROID_TO_EXAM_APP) && app.getVersion().isAndroidWebview()) {
+					handler = new AsyncOperation<String[]>() {
+						@Override
+						public void callback(String[] dialogResult) {
+							app.setExam(new ExamEnvironment());
+							// for android tablets we just want to exit app
+							ExamDialog.exitApp();
+						}
+					};
+					buttonText = loc.getPlain("Exit");
+				} else {
+					handler = new AsyncOperation<String[]>() {
+						@Override
+						public void callback(String[] dialogResult) {
+							app.setExam(new ExamEnvironment());
+							ExamDialog.startExam(null, app);
+						}
+					};
+					buttonText = loc.getPlain("Restart");
+				}
 				app.getExam().setHasGraph(true);
 				boolean supportsCAS = app.getSettings().getCasSettings()
 						.isEnabled();
