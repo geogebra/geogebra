@@ -232,12 +232,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			location = GeoElementSpreadsheet.spreadsheetIndices(labelNew);
 		}
 
-		if (location.x == -1 && location.y == -1) {
+		if (location == null || location.x == -1 && location.y == -1) {
 			return;
 		}
 
 		// autoscroll to new cell's location
-		if (scrollToShow && location != null) {
+		if (scrollToShow) {
 			table.scrollRectToVisible(table.getCellRect(location.y, location.x,
 			        true));
 		}

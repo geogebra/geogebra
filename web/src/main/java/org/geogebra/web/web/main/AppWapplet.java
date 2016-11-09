@@ -28,6 +28,7 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
@@ -532,6 +533,11 @@ public class AppWapplet extends AppWFull {
 		// hidden
 		this.oldSplitLayoutPanel.getElement().getStyle()
 				.setPosition(Position.RELATIVE);
+		if (getGuiManager().hasAlgebraView()) {
+			((AlgebraViewW) getAlgebraView())
+					.setShowAlgebraInput(showAlgebraInput()
+							&& getInputPosition() == InputPosition.algebraView);
+		}
 
 	}
 
