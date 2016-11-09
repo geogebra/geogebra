@@ -2,8 +2,8 @@ package org.geogebra.desktop.sound;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -22,6 +22,7 @@ import javax.sound.midi.Synthesizer;
 import javax.swing.JFileChooser;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.jfugue.Pattern;
@@ -366,7 +367,8 @@ public class MidiSoundD implements MetaEventListener {
 		try {
 			reader = file == null ? new BufferedReader(new InputStreamReader(
 					url.openStream())) : new BufferedReader(
-					new FileReader(file));
+							new InputStreamReader(new FileInputStream(file),
+									Charsets.UTF_8));
 			String text = null;
 			while ((text = reader.readLine()) != null) {
 				contents.append(text);

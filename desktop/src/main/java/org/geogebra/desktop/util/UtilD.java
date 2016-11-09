@@ -46,6 +46,7 @@ import javax.swing.JDialog;
 import javax.swing.JRootPane;
 import javax.swing.KeyStroke;
 
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 
@@ -231,7 +232,7 @@ public class UtilD extends Util {
 	 */
 	public static String loadIntoString(InputStream is) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is,
-				"UTF8"));
+				Charsets.UTF_8));
 		StringBuilder sb = new StringBuilder();
 
 		String line = null;

@@ -159,6 +159,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
@@ -942,7 +943,7 @@ ToolbarD.getAllTools(this));
 			try {
 				fstream = new FileInputStream(filename);
 				BufferedReader br = new BufferedReader(new InputStreamReader(
-						fstream, "UTF8"));
+						fstream, Charsets.UTF_8));
 
 				String strLine;
 
@@ -2294,7 +2295,7 @@ ToolbarD.getAllTools(this));
 		try {
 			InputStream is = AppD.class.getResourceAsStream(s);
 			BufferedReader br = new BufferedReader(new InputStreamReader(is,
-					"UTF8"));
+					Charsets.UTF_8));
 			String thisLine;
 			while ((thisLine = br.readLine()) != null) {
 				sb.append(thisLine);

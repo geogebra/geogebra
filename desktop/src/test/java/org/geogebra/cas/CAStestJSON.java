@@ -4,8 +4,9 @@ import static org.geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnor
 import static org.junit.Assert.assertThat;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
@@ -58,7 +60,8 @@ public class CAStestJSON {
 	  private static String readFileAsString(String filePath) throws IOException {
 	        StringBuffer fileData = new StringBuffer();
 	        BufferedReader reader = new BufferedReader(
-	                new FileReader(filePath));
+				new InputStreamReader(new FileInputStream(filePath),
+						Charsets.UTF_8));
 	        char[] buf = new char[1024];
 	        int numRead=0;
 	        while((numRead=reader.read(buf)) != -1){

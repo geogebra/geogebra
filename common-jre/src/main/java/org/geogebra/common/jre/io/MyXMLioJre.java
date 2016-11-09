@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -176,7 +177,8 @@ public abstract class MyXMLioJre extends MyXMLio {
 		try {
 			// zip stream
 			ZipOutputStream zip = new ZipOutputStream(os);
-			OutputStreamWriter osw = new OutputStreamWriter(zip, "UTF8");
+			OutputStreamWriter osw = new OutputStreamWriter(zip,
+					Charsets.UTF_8);
 
 			// write construction images
 			writeConstructionImages(kernel.getConstruction(), zip);
@@ -267,7 +269,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			throws IOException {
 		// zip stream
 		ZipOutputStream zip = new ZipOutputStream(os);
-		OutputStreamWriter osw = new OutputStreamWriter(zip, "UTF8");
+		OutputStreamWriter osw = new OutputStreamWriter(zip, Charsets.UTF_8);
 
 		// write images
 		writeMacroImages(macros, zip);
@@ -310,7 +312,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 					try {
 						zip.putNextEntry(new ZipEntry(filePath + fileName));
 						OutputStreamWriter osw = new OutputStreamWriter(zip,
-								"UTF8");
+								Charsets.UTF_8);
 						osw.write(image.getSVG());
 						osw.flush();
 						zip.closeEntry();
@@ -450,7 +452,8 @@ public abstract class MyXMLioJre extends MyXMLio {
 			throws IOException {
 		ZipOutputStream z = new ZipOutputStream(os);
 		z.putNextEntry(new ZipEntry(XML_FILE));
-		BufferedWriter w = new BufferedWriter(new OutputStreamWriter(z, "UTF8"));
+		BufferedWriter w = new BufferedWriter(
+				new OutputStreamWriter(z, Charsets.UTF_8));
 		for (int i = 0; i < xmlString.length(); i++) {
 			w.write(xmlString.charAt(i));
 		}
@@ -512,7 +515,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 		}
 
 		public Reader getReader() throws Exception {
-			reader = new InputStreamReader(is, "UTF8");
+			reader = new InputStreamReader(is, Charsets.UTF_8);
 			return reader;
 		}
 

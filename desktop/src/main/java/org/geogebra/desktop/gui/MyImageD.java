@@ -7,9 +7,10 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
@@ -22,6 +23,7 @@ import javax.imageio.ImageIO;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
@@ -115,7 +117,8 @@ public class MyImageD implements MyImageJre {
 
 			svg = new StringBuilder((int) imageFile.length());
 			BufferedReader reader = new BufferedReader(
-					new FileReader(imageFile));
+					new InputStreamReader(new FileInputStream(imageFile),
+							Charsets.UTF_8));
 			for (String line = reader.readLine(); line != null; line = reader
 					.readLine()) {
 				svg.append(line);
