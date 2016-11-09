@@ -10,7 +10,6 @@ import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -232,6 +231,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		if (labelNew != null && location == null) {
 			location = GeoElementSpreadsheet.spreadsheetIndices(labelNew);
 		}
+
+		if (location.x == -1 && location.y == -1) {
+			return;
+		}
+
+		app.setScrollToShow(true);
 
 		// autoscroll to new cell's location
 		if (scrollToShow && location != null) {

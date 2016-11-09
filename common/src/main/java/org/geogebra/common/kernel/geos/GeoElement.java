@@ -2739,12 +2739,11 @@ public abstract class GeoElement extends ConstructionElement implements
 		// Application.printStacktrace(newLabel);
 
 		if (cons.isSuppressLabelsActive()) {
-			if (kernel.getApplication().has(Feature.AUTOSCROLLING_SPREADSHEET)) {
-				// TODO: check if redefine GEo like this: A100 = 3 ???
+			if (kernel.getApplication().has(
+					Feature.AUTOSCROLLING_SPREADSHEET)) {
 				if (kernel.getApplication().getGuiManager() != null
 						&& kernel.getApplication().getGuiManager()
 								.hasSpreadsheetView()) {
-					kernel.getApplication().setScrollToShow(true);
 					((SpreadsheetViewInterface) kernel.getApplication()
 							.getGuiManager().getSpreadsheetView())
 							.scrollIfNeeded(this, labelNew);
