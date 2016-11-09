@@ -473,36 +473,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	@Override
 	protected void updateSizeKeepDrawables() {
-
-		// record the old coord system
-
-		setWidth(getWidth());
-		setHeight(getHeight());
-		if ((getWidth() <= 0) || (getHeight() <= 0)) {
-			return;
-		}
-
-		// real world values
-		companion.setXYMinMaxForUpdateSize();
-		setRealWorldBounds();
-
-		// ================================================
-		// G.Sturr 8/27/10: test: rescale on window resize
-		//
-		// reset the coord system so that our view dimensions are restored
-		// using the new scaling factors.
-
-		// setRealWorldCoordSystem(xminTemp, xmaxTemp, yminTemp, ymaxTemp);
-
-		GraphicsConfiguration gconf = evjpanel.getGraphicsConfiguration();
-		try {
-			createImage(gconf);
-		} catch (OutOfMemoryError e) {
-			bgImage = null;
-			bgGraphics = null;
-		}
-
-		updateBackgroundImage();
+		// not needed for 3D
 	}
 
 	private void createImage(GraphicsConfiguration gc) {
