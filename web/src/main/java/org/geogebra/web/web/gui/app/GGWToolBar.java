@@ -1275,9 +1275,6 @@ pr.menu_header_undo(), null, 32);
 
 	public void closeAllSubmenu() {
 		toolBar.closeAllSubmenu();
-		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS) && toolBar.isMobileToolbar()) {
-			submenuScrollPanel.clear();
-		}
 	}
 
 	public FlowPanel getToolBarPanel() {
