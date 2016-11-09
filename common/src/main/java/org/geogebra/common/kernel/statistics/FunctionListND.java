@@ -1,9 +1,11 @@
 package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math.linear.RealMatrix;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -19,10 +21,6 @@ public interface FunctionListND {
 	public class XY implements FunctionListND {
 
 		private GeoFunctionable[] array;
-
-		public XY(int size) {
-			array = new GeoFunctionable[size];
-		}
 
 		public boolean set(int i, GeoElement geo) {
 			if (!(geo instanceof GeoFunctionable)) {
@@ -65,21 +63,27 @@ public interface FunctionListND {
 			return fitfunction2;
 		}
 
+		public CasEvaluableFunction getTemplate(Construction cons) {
+			return new GeoFunction(cons);
+		}
+
+		public void setSize(int size) {
+			array = new GeoFunctionable[size];
+
+		}
+
 	}
 
 	public class XYZ implements FunctionListND {
 
-		private GeoFunctionNVar[] array;
+		private FunctionalNVar[] array;
 
-		public XYZ(int size) {
-			array = new GeoFunctionNVar[size];
-		}
 
 		public boolean set(int i, GeoElement geo) {
-			if (!(geo instanceof GeoFunctionNVar)) {
+			if (!(geo instanceof FunctionalNVar)) {
 				return false;
 			}
-			array[i] = (GeoFunctionNVar) geo;
+			array[i] = (FunctionalNVar) geo;
 			return true;
 		}
 
@@ -91,12 +95,10 @@ public interface FunctionListND {
 			return point.getInhomZ();
 		}
 
-		public CasEvaluableFunction makeFunction(
-CasEvaluableFunction template,
-				GeoList functionlist,
-				RealMatrix P) {
+		public CasEvaluableFunction makeFunction(CasEvaluableFunction template,
+				GeoList functionlist, RealMatrix P) {
 			double p;
-			GeoFunctionNVar gf = null;
+			FunctionalNVar gf = null;
 			GeoFunctionNVar product = new GeoFunctionNVar(
 					template.getConstruction());
 
@@ -135,8 +137,8 @@ CasEvaluableFunction template,
 
 		}
 
-		private void mult(GeoFunctionNVar res, double lt,
-				GeoFunctionNVar rt, Operation op) {
+		private void mult(GeoFunctionNVar res, double lt, FunctionalNVar rt,
+				Operation op) {
 			Kernel kernel1 = res.getKernel();
 			FunctionNVar fRes = GeoFunction.applyNumberSymb(op, rt,
 					new MyDouble(kernel1, lt), false).deepCopy(kernel1);
@@ -144,6 +146,15 @@ CasEvaluableFunction template,
 					.expandFunctionDerivativeNodes(fRes.getExpression(), true)
 					.wrap());
 			res.setFunction(fRes);
+		}
+
+		public CasEvaluableFunction getTemplate(Construction cons) {
+			return new GeoFunctionNVar(cons);
+		}
+
+		public void setSize(int size) {
+			array = new FunctionalNVar[size];
+
 		}
 
 	}
@@ -156,5 +167,9 @@ CasEvaluableFunction template,
 
 	CasEvaluableFunction makeFunction(CasEvaluableFunction fitfunction,
 			GeoList functionlist, RealMatrix p);
+
+	CasEvaluableFunction getTemplate(Construction cons);
+
+	void setSize(int functionsize);
 
 }

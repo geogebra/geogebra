@@ -2986,6 +2986,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	public double evaluate(double x, double y) {
+		if (isFunctionOfY()) {
+			return evaluate(y);
+		}
 		return fun.evaluate(x);
 	}
 

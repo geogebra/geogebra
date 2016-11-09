@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.algos.AlgoNumeratorDenominatorFun;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
@@ -236,8 +235,6 @@ public class AlgoSlopeField extends AlgoElement {
 					* 0.5;
 			// double yLength = yStep * length * 0.5;
 
-			boolean funcOfJustY = func instanceof GeoFunction
-					&& ((GeoFunction) func).isFunctionOfY();
 
 			// AbstractApplication.debug(xStep+" "+yStep+" "+step);
 
@@ -253,17 +250,10 @@ public class AlgoSlopeField extends AlgoElement {
 						// quotient function like x / y
 
 						// make sure eg SlopeField[(2 - y) / 2] works
-						boolean numfuncOfJustY = funcOfJustY
-								|| num instanceof GeoFunction
-								&& ((GeoFunction) num).isFunctionOfY();
-						boolean denfuncOfJustY = funcOfJustY
-								|| den instanceof GeoFunction
-								&& ((GeoFunction) den).isFunctionOfY();
 
-						double numD = numfuncOfJustY ? ((GeoFunction) num)
-								.evaluate(yy) : num.evaluate(xx, yy);
-						double denD = denfuncOfJustY ? ((GeoFunction) den)
-								.evaluate(yy) : den.evaluate(xx, yy);
+
+						double numD = num.evaluate(xx, yy);
+						double denD = den.evaluate(xx, yy);
 
 						if (Kernel.isZero(denD)) {
 							if (Kernel.isZero(numD)) {
@@ -284,13 +274,8 @@ public class AlgoSlopeField extends AlgoElement {
 						// non-quotient function like x y
 						double gradient;
 
-						if (funcOfJustY) {
-							// eg SlopeField[y]
-							gradient = ((GeoFunction) func).evaluate(yy);
-						} else {
-							// standard case
-							gradient = func.evaluate(xx, yy);
-						}
+						gradient = func.evaluate(xx, yy);
+
 						drawLine(1, gradient, length, xx, yy);
 
 					}
@@ -304,16 +289,16 @@ public class AlgoSlopeField extends AlgoElement {
 
 	}
 
-	private void drawLine(double dx, double dy, double length, double xx,
+	private void drawLine(double dx0, double dy0, double length, double xx,
 			double yy) {
 		/*
 		 * double theta = Math.atan(gradient); double dx = Math.cos(theta);
 		 * double dy = Math.sin(theta);
 		 */
-		double dyScaled = dy * mainView.getScaleRatio();
-		double coeff = Math.sqrt(dx * dx + dyScaled * dyScaled);
-		dx *= length / coeff;
-		dy *= length / coeff;
+		double dyScaled = dy0 * mainView.getScaleRatio();
+		double coeff = Math.sqrt(dx0 * dx0 + dyScaled * dyScaled);
+		double dx = dx0 * length / coeff;
+		double dy = dy0 * length / coeff;
 		al.add(new MyPoint(xx - dx, yy - dy, false));
 		al.add(new MyPoint(xx + dx, yy + dy, true));
 

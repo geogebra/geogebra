@@ -21,11 +21,10 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * AlgoFit A general linear curvefit: Fit[<List of Points>,<List of Functions>]
@@ -72,8 +71,13 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 		this.pointlist = pointlist;
 		this.functionlist = functionlist;
-		fitfunction = functionlist.getElementType() == GeoClass.FUNCTION_NVAR ? new GeoFunctionNVar(
-				cons) : new GeoFunction(cons);
+		if (functionlist.getElementType() == GeoClass.FUNCTION_NVAR
+				|| pointlist.getElementType() == GeoClass.POINT3D) {
+			functionarray = new FunctionListND.XYZ();
+		} else {
+			functionarray = new FunctionListND.XY();
+		}
+		fitfunction = functionarray.getTemplate(cons);
 		setInputOutput();
 		compute();
 		fitfunction.setLabel(label);
@@ -106,8 +110,8 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		GeoElement geo2 = null;
 		datasize = pointlist.size(); // rows in M and Y
 		functionsize = functionlist.size(); // cols in M
-		functionarray = functionlist.getElementType() == GeoClass.FUNCTION_NVAR ? new FunctionListND.XYZ(
-				functionsize) : new FunctionListND.XY(functionsize);
+		functionarray.setSize(functionsize);
+		Log.debug(functionsize);
 		M = new Array2DRowRealMatrix(datasize, functionsize);
 		Y = new Array2DRowRealMatrix(datasize, 1);
 		P = new Array2DRowRealMatrix(functionsize, 1); // Solution parameters
