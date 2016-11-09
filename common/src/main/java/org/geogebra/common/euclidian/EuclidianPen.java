@@ -156,11 +156,13 @@ public class EuclidianPen {
 
 	private int penSize;
 	private static int lineThickness;
+	private static GColor lineDrawingColor;
 
 	/**
 	 * start point of the gesture
 	 */
 	protected GeoPoint initialPoint = null;
+
 	/**
 	 * delete initialPoint if no shape is found
 	 */
@@ -458,7 +460,7 @@ public class EuclidianPen {
 		g2D.setStroke(AwtFactory.prototype.newBasicStroke(getLineThickness(),
 				GBasicStroke.CAP_ROUND,
 				GBasicStroke.JOIN_ROUND));
-		g2D.setColor(GColor.GRAY);
+		g2D.setColor(lineDrawingColor);
 		g2D.fill(line);
 		g2D.draw(line);
 	}
@@ -1727,7 +1729,7 @@ public class EuclidianPen {
 			startNewStroke = true;
 		}
 		this.penColor = color;
-
+		lineDrawingColor = color;
 	}
 
 	/**
