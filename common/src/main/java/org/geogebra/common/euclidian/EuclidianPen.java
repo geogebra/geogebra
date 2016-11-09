@@ -155,7 +155,7 @@ public class EuclidianPen {
 	private boolean startNewStroke = false;
 
 	private int penSize;
-	private static int lineThickness;
+	private int lineThickness;
 	private static GColor lineDrawingColor;
 
 	/**
@@ -243,7 +243,7 @@ public class EuclidianPen {
 	/**
 	 * @return pen size + 1
 	 */
-	public static int getLineThickness() {
+	public int getLineThickness() {
 		return lineThickness + 1;
 	}
 
@@ -452,7 +452,7 @@ public class EuclidianPen {
 		}
 	}
 
-	private static void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
+	private void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
 										   GPoint point2) {
 		GLine2D line = AwtFactory.prototype.newLine2D();
 		line.setLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
