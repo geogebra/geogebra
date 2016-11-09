@@ -9,12 +9,23 @@ import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.Window;
 
+/**
+ * Handles mouse events in row headers
+ */
 public class RowHeaderHandler implements MouseUpHandler {
 
 	private AppW app;
 	private RowHeaderWidget rowHeader;
 	private CASTableW table;
 
+	/**
+	 * @param appl
+	 *            app
+	 * @param casTableW
+	 *            CAS table
+	 * @param rowHeaderWidget
+	 *            row headers
+	 */
 	public RowHeaderHandler(AppW appl, CASTableW casTableW,
 	        RowHeaderWidget rowHeaderWidget) {
 		super();
@@ -38,7 +49,7 @@ public class RowHeaderHandler implements MouseUpHandler {
 				// way the popup will hide
 				// when a newer popup will be shown.
 				RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app
-				        .getGuiManager()).getCASContextMenu(rowHeader, table);
+						.getGuiManager()).getCASContextMenu(table);
 				popupMenu.show(new GPoint(event.getClientX()
 				        + Window.getScrollLeft(), event.getClientY()
 				        + Window.getScrollTop()));

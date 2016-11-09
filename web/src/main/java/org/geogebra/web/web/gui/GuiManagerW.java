@@ -64,7 +64,6 @@ import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.cas.view.CASViewW;
 import org.geogebra.web.web.cas.view.RowHeaderPopupMenuW;
-import org.geogebra.web.web.cas.view.RowHeaderWidget;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -127,6 +126,7 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+@SuppressWarnings("javadoc")
 public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
         EventRenderable {
 
@@ -266,8 +266,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return contextMenu;
 	}
 
-	public RowHeaderPopupMenuW getCASContextMenu(
-	        final RowHeaderWidget rowHeader, final CASTableW table) {
+	public RowHeaderPopupMenuW getCASContextMenu(final CASTableW table) {
 		removePopup();
 		currentPopup = new RowHeaderPopupMenuW(table, (AppW) app);
 		return (RowHeaderPopupMenuW) currentPopup;
@@ -371,7 +370,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	public void loadImage(final GeoPoint loc, final Object object,
+	public void loadImage(final GeoPoint imageLoc, final Object object,
 			final boolean altDown, EuclidianView ev) {
 		((AppW) app).getToolbar().closeAllSubmenu();
 
@@ -408,14 +407,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 						pngBase64end);
 
 				((AppW) app).imageDropHappened("pastedFromClipboard.png",
-						base64, "", loc, 0, 0);
+						base64, "", imageLoc, 0, 0);
 
 				return;
 			}
 
 		}
 
-		((DialogManagerW) getDialogManager()).showImageInputDialog(loc,
+		((DialogManagerW) getDialogManager()).showImageInputDialog(imageLoc,
 				this.device);
 	}
 
@@ -968,11 +967,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	/**
 	 * 
-	 * @param app
+	 * @param app1
+	 *            application
 	 * @return new properties view
 	 */
-	protected PropertiesViewW newPropertiesViewW(final AppW app, OptionType ot) {
-		return new PropertiesViewW(app, ot);
+	protected PropertiesViewW newPropertiesViewW(final AppW app1,
+			OptionType ot) {
+		return new PropertiesViewW(app1, ot);
 	}
 
 	@Override
@@ -1276,7 +1277,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void detachDataAnalysisView() {
-
+		if (dataAnalysisView != null) {
+			dataAnalysisView.detachView();
+		}
 	}
 
 	@Override
@@ -1344,14 +1347,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void showURLinBrowser(final String strURL) {
 		Log.debug("unimplemented");
-	}
-
-	@Override
-	public void updateMenuWindow() {
-	}
-
-	@Override
-	public void updateMenuFile() {
 	}
 
 	@Override

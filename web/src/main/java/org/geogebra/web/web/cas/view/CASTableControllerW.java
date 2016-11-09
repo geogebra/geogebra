@@ -77,7 +77,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		if (table.getSelectedRows().length > 0) {
 			// TODO select cells for copy
 			RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app.getGuiManager())
-			        .getCASContextMenu(null, table);
+					.getCASContextMenu(table);
 			popupMenu.show(new GPoint(x, y));
 			contextOpened = true;
 		}
@@ -159,9 +159,7 @@ public class CASTableControllerW extends CASTableCellController implements
 					// CASTableCellEditor tableCellEditor = table.getEditor();
 					Widget wid = table.getWidget(point.y, 0);
 					RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app
-							.getGuiManager()).getCASContextMenu(
-							((RowHeaderWidget) wid),
-							table);
+					.getGuiManager()).getCASContextMenu(table);
 					popupMenu.show(new GPoint(event.getClientX()
 							+ Window.getScrollLeft(), event.getClientY()
 							+ Window.getScrollTop()));

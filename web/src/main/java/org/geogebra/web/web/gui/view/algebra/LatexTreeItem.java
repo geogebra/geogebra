@@ -93,7 +93,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 		renderLatex(text, true);
 		mf.setFocus(true);
-
+		app.getGlobalKeyDispatcher().setFocused(true);
 		canvas.addBlurHandler(this);
 
 		CancelEventTimer.keyboardSetVisible();
