@@ -26,6 +26,7 @@ import org.geogebra.common.export.GeoGebraTubeExport;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 
@@ -325,7 +326,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 	@Override
 	protected String encode(String str) {
 		try {
-			return URLEncoder.encode(str, "UTF-8");
+			return URLEncoder.encode(str, Charsets.UTF_8);
 		} catch (UnsupportedEncodingException e) {
 			Log.debug("error from GeoGebraTubeExport.encode()");
 			return str;

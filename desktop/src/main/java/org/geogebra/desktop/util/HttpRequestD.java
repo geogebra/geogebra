@@ -9,6 +9,7 @@ import java.net.URL;
 import javax.swing.SwingWorker;
 
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
 
@@ -84,7 +85,7 @@ public class HttpRequestD extends HttpRequest {
 			// uc.setDoInput(true);
 			huc.setDoOutput(true);
 			OutputStreamWriter osw = new OutputStreamWriter(
-					huc.getOutputStream());
+					huc.getOutputStream(), Charsets.UTF_8);
 			osw.write(post);
 			osw.flush();
 			BufferedReader in = new BufferedReader(new InputStreamReader(
@@ -101,7 +102,7 @@ public class HttpRequestD extends HttpRequest {
 			osw.close();
 
 			// Convert the answer string to UTF-8
-			responseText = new String(answer.getBytes(), "UTF-8");
+			responseText = new String(answer.getBytes(), Charsets.UTF_8);
 			success = true;
 			processed = true;
 			if (callback != null) {

@@ -58,7 +58,7 @@ public class MyImageD implements MyImageJre {
 
 		InputStream stream = null;
 		try {
-			stream = new ByteArrayInputStream(svgStr.getBytes("UTF-8"));
+			stream = new ByteArrayInputStream(svgStr.getBytes(Charsets.UTF_8));
 		} catch (UnsupportedEncodingException e1) {
 		}
 

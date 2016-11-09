@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.geogebra.common.io.OFFHandler;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.opencsv.CSVException;
 
@@ -65,7 +66,7 @@ public class OFFReader {
 		try {
 			InputStream stream = new FileInputStream(file);
 			BufferedReader br = new BufferedReader(
-					new InputStreamReader(stream, "UTF-8"));
+					new InputStreamReader(stream, Charsets.UTF_8));
 			parse(br, handler);
 
 			Log.debug(String.format("Off file has ben load:(v=%d;e=%d;f=%d)",

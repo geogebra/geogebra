@@ -12,6 +12,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -47,7 +48,8 @@ public class Service {
             BufferedReader reader = null;
             try {
 	            input = url.openStream();
-	            reader = new BufferedReader(new InputStreamReader(input, "utf-8"));
+				reader = new BufferedReader(
+						new InputStreamReader(input, Charsets.UTF_8));
 	            String line = reader.readLine();
 	            while (line != null) {
 	                int ci = line.indexOf('#');

@@ -33,6 +33,8 @@ package org.geogebra.desktop.sound.mp3transform;
 
 import java.io.IOException;
 
+import org.geogebra.common.util.Charsets;
+
 /**
  * Class for extracting information from a frame header.
  */
@@ -157,7 +159,7 @@ public final class Header {
         }
         try {
             System.arraycopy(firstFrame, offset, tmp, 0, 4);
-            if ("Xing".equals(new String(tmp))) {
+			if ("Xing".equals(new String(tmp, Charsets.UTF_8))) {
                 vbr = true;
             }
         } catch (ArrayIndexOutOfBoundsException e) {

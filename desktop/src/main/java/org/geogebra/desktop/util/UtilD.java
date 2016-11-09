@@ -361,7 +361,7 @@ public class UtilD extends Util {
 		try {
 
 			out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(filename), "UTF-8"));
+					new FileOutputStream(filename), Charsets.UTF_8));
 
 			try {
 				out.write(s);
@@ -391,7 +391,7 @@ public class UtilD extends Util {
 		try {
 
 			out = new BufferedWriter(new OutputStreamWriter(
-					new FileOutputStream(file), "UTF-8"));
+					new FileOutputStream(file), Charsets.UTF_8));
 
 			try {
 				out.write(s);

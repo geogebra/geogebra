@@ -29,6 +29,7 @@ import org.geogebra.common.export.pstricks.GeoGebraExport;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.main.AppD;
 
@@ -206,7 +207,8 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 					 * s=en.nextElement().toString();
 					 * System.out.println(s+" "+System.getProperty(s)); }
 					 */
-					OutputStreamWriter osw = new OutputStreamWriter(b, "UTF-8");
+					OutputStreamWriter osw = new OutputStreamWriter(b,
+							Charsets.UTF_8);
 					StringBuilder sb = new StringBuilder(textarea.getText());
 					if (isLaTeX()) {
 						int id = sb.indexOf("\\usepackage{");
