@@ -205,6 +205,10 @@ public class MyCellEditorW implements BaseCellEditor {
 		errorOnStopEditing = true; // flag to handle column resizing during
 		                           // editing (see focusLost method)
 
+		if (autoCompleteTextField.hasDummyCursor()) {
+			autoCompleteTextField.removeDummyCursor();
+		}
+
 		// try to redefine or create the cell geo with the current editing
 		// string
 		if (!processGeo())

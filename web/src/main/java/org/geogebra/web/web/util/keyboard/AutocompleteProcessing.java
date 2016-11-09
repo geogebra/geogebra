@@ -35,10 +35,6 @@ public class AutocompleteProcessing implements KeyboardListener {
 	@Override
 	public void onEnter() {
 
-		if (field.hasDummyCursor()) {
-			field.removeDummyCursor();
-		}
-
 		NativeEvent event = Document.get().createKeyDownEvent(false, false,
 				false, false, ENTER);
 		field.getTextField().onBrowserEvent(Event.as(event));
