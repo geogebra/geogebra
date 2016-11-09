@@ -253,9 +253,7 @@ public interface GuiManagerInterface {
 
 	public void showURLinBrowser(String strURL);
 
-	public void updateMenuWindow();
 
-	public void updateMenuFile();
 
 	public void exitAll();
 
