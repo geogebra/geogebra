@@ -1971,7 +1971,7 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"Evaluate[asind(0.5)]", result:"30\u00B0", notes:"GGB-1353" },
 { cat:"Evaluate", cmd:"Evaluate[acosd(0.5)]", result:"60\u00B0", notes:"GGB-1353" },
 { cat:"Evaluate", cmd:"Evaluate[atand(1)]", result:"45\u00B0", notes:"GGB-1353" },
-{ cat:"Numeric", cmd:"Numeric[asind(0.317)]", result:"18.48159427073\u00B0", notes:"GGB-1353" },
+{ cat:"Numeric", cmd:"Numeric[asind(0.317)]", result:"18.48159427073\u00B0", round:"18.48\u00B0", notes:"GGB-1353" },
 { cat:"Numeric", cmd:"Numeric[acosd(0.317)]", result:"71.51840572927\u00B0", notes:"GGB-1353" },
 { cat:"Numeric", cmd:"Numeric[atand(0.317)]", result:"17.58861508681\u00B0", notes:"GGB-1353" },
 
