@@ -353,7 +353,7 @@ public class DrawAxis {
 			labelno = Math.round(rw / view.axesNumberingDistances[1]);
 		}
 
-		double pix = view.getyZero() - (rw * view.getYscale());
+		double pix = view.getYZero() - (rw * view.getYscale());
 
 		double tickStep = axesStep / 2;
 
@@ -660,7 +660,7 @@ public class DrawAxis {
 			labelno = Math.round(rw / view.axesNumberingDistances[0]);
 		}
 		int maxX = view.getWidth() - EuclidianView.SCREEN_BORDER;
-		double pix = view.getxZero() + (rw * view.getXscale());
+		double pix = view.getXZero() + (rw * view.getXscale());
 
 		double smallTickPix;
 		double tickStep = axesStep / 2;

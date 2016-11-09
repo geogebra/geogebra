@@ -155,7 +155,7 @@ public abstract class MyZoomer {
 			switch (mode) {
 			case AXES:
 				factor = 1.0 + ((counter * add) / oldScale);
-				view.setCoordSystem(view.getxZero(), view.getyZero(),
+				view.setCoordSystem(view.getXZero(), view.getYZero(),
 						view.getXscale(), oldScale * factor);
 				break;
 			case ZOOM:
@@ -186,7 +186,7 @@ public abstract class MyZoomer {
 		// setDrawMode(DRAW_MODE_BACKGROUND_IMAGE);
 		switch (mode) {
 		case AXES:
-			view.setCoordSystem(view.getxZero(), view.getyZero(),
+			view.setCoordSystem(view.getXZero(), view.getYZero(),
 					view.getXscale(), newScale);
 			break;
 		case ZOOM:
@@ -242,12 +242,12 @@ public abstract class MyZoomer {
 			break;
 		case ZOOM:
 			add = (newScale - oldScale) / steps;
-			dx = view.getxZero() - px;
-			dy = view.getyZero() - py;
+			dx = view.getXZero() - px;
+			dy = view.getYZero() - py;
 			break;
 		case MOVE:
-			dx = view.getxZero() - px;
-			dy = view.getyZero() - py;
+			dx = view.getXZero() - px;
+			dy = view.getYZero() - py;
 			if (Kernel.isZero(dx) && Kernel.isZero(dy)) {
 				return;
 			}

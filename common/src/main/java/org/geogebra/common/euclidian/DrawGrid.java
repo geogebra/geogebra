@@ -51,7 +51,7 @@ public class DrawGrid {
 	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix,
 			double yCrossPix) {
 		double tickStepY = view.getYscale() * view.gridDistances[1];
-		double start = view.getyZero() % tickStepY;
+		double start = view.getYZero() % tickStepY;
 		double pix = start;
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
@@ -85,7 +85,7 @@ public class DrawGrid {
 	private void drawHorizontalGridLog(GGraphics2D g2, double xCrossPix,
 			double yCrossPix) {
 		double tickStepY = view.getYscale() * view.gridDistances[1];
-		double start = view.getyZero() % tickStepY;
+		double start = view.getYZero() % tickStepY;
 		double pix = 0;
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;		
 		final double yAxisEnd = (view.positiveAxes[1]
@@ -123,7 +123,7 @@ public class DrawGrid {
 		// vertical grid lines
 		double tickStepX = view.getXscale() * view.gridDistances[0];
 		final double xAxisStart = (view.positiveAxes[0] && xCrossPix > 0) ? xCrossPix
-				+ (((view.getxZero() - xCrossPix) % tickStepX) + tickStepX)
+				+ (((view.getXZero() - xCrossPix) % tickStepX) + tickStepX)
 				% tickStepX
 				: (view.getXZero() % tickStepX);
 
@@ -164,7 +164,7 @@ public class DrawGrid {
 		// vertical grid lines
 		double tickStepX = view.getXscale() * view.gridDistances[0];
 		final double xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)
-				? xCrossPix + (((view.getxZero() - xCrossPix) % tickStepX)
+				? xCrossPix + (((view.getXZero() - xCrossPix) % tickStepX)
 						+ tickStepX) % tickStepX
 				: (view.getXZero() % tickStepX);
 

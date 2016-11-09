@@ -256,7 +256,7 @@ public class DrawInequality1Var extends Drawable {
 				yLabel = (int) x[numOfX - 2] - 5;
 			else
 				yLabel = 10;
-			xLabel = (int) view.getxZero() + 6;
+			xLabel = (int) view.getXZero() + 6;
 			initGP(numOfX);
 			int j = ineq.getFunBorder().evaluate(
 					view.toRealWorldCoordY(view.getHeight() + 10)) <= 0 ? 1 : 0;
@@ -298,7 +298,7 @@ public class DrawInequality1Var extends Drawable {
 				xLabel = (int) x[numOfX - 2] - 10;
 			else
 				xLabel = 10;
-			yLabel = (int) view.getyZero() + 15;
+			yLabel = (int) view.getYZero() + 15;
 
 			initGP(numOfX);
 

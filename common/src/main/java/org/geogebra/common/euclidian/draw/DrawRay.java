@@ -317,8 +317,8 @@ public class DrawRay extends Drawable implements Previewable {
 				view.getEuclidianController().setLineEndPoint(endPoint);
 
 				// don't use view.toScreenCoordX/Y() as we don't want rounding
-				xx = view.getxZero() + xRW * view.getXscale();
-				yy = view.getyZero() - yRW * view.getYscale();
+				xx = view.getXZero() + xRW * view.getXscale();
+				yy = view.getYZero() - yRW * view.getYscale();
 
 			} else
 				view.getEuclidianController().setLineEndPoint(null);

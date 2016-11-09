@@ -105,8 +105,8 @@ public final class DrawText extends Drawable {
 		} else {
 			loc = text.getStartPoint();
 			if (loc == null) {
-				xLabel = (int) view.getxZero();
-				yLabel = (int) view.getyZero();
+				xLabel = (int) view.getXZero();
+				yLabel = (int) view.getYZero();
 			} else {
 				if (!loc.isDefined()) {
 					isVisible = false;

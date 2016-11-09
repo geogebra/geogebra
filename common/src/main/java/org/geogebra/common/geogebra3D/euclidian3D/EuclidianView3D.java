@@ -192,9 +192,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	// distances between grid lines
 	protected boolean automaticGridDistance = true;
 	// viewing values
-	protected double XZero = XZERO_SCENE_STANDARD;
-	protected double YZero = YZERO_SCENE_STANDARD;
-	protected double ZZero = ZZERO_SCENE_STANDARD;
+	protected double zZero;
 	protected double zZeroOld = 0;
 	protected double aOld, bOld;
 	// picking and hits
@@ -1129,7 +1127,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 */
 	@Override
 	public double getXZero() {
-		return XZero;
+		return xZero;
 	}
 
 	/**
@@ -1138,12 +1136,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param val
 	 */
 	public void setXZero(double val) {
-		XZero = val;
+		xZero = val;
 	}
 
 	@Override
 	public double getYZero() {
-		return YZero;
+		return yZero;
 	}
 
 	/**
@@ -1152,14 +1150,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param val
 	 */
 	public void setYZero(double val) {
-		YZero = val;
+		yZero = val;
 	}
 
 	/**
 	 * @return the z-coord of the origin
 	 */
 	public double getZZero() {
-		return ZZero;
+		return zZero;
 	}
 
 	/**
@@ -1168,7 +1166,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param val
 	 */
 	public void setZZero(double val) {
-		ZZero = val;
+		zZero = val;
 	}
 
 	public void setZeroFromXML(double x, double y, double z) {

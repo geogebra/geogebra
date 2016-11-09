@@ -736,7 +736,7 @@ public abstract class EuclidianView
 	 * @return screen equivalent of real world x-coord
 	 */
 	final public int toScreenCoordX(double xRW) {
-		return (int) Math.round(getxZero() + xRW * getXscale());
+		return (int) Math.round(getXZero() + xRW * getXscale());
 	}
 
 	/**
@@ -747,7 +747,7 @@ public abstract class EuclidianView
 	 * @return screen equivalent of real world y-coord
 	 */
 	final public int toScreenCoordY(double yRW) {
-		return (int) Math.round(getyZero() - (yRW * getYscale()));
+		return (int) Math.round(getYZero() - (yRW * getYscale()));
 	}
 
 	/**
@@ -762,7 +762,7 @@ public abstract class EuclidianView
 			return getWidth() * (Math.log10(xRW) - Math.log10(xmin))
 					/ (Math.log10(xmax) - Math.log10(xmin));
 		}
-		return getxZero() + (xRW * getXscale());
+		return getXZero() + (xRW * getXscale());
 	}
 
 	/**
@@ -777,7 +777,7 @@ public abstract class EuclidianView
 			return getHeight() * (1 - (Math.log10(yRW) - Math.log10(ymin))
 					/ (Math.log10(ymax) - Math.log10(ymin)));
 		}
-		return getyZero() - (yRW * getYscale());
+		return getYZero() - (yRW * getYscale());
 	}
 
 	/**
@@ -840,14 +840,14 @@ public abstract class EuclidianView
 					* (Math.log10(inOut[0]) - Math.log10(xmin))
 					/ (Math.log10(xmax) - Math.log10(xmin));
 		} else
-			inOut[0] = getxZero() + (inOut[0] * getXscale());
+			inOut[0] = getXZero() + (inOut[0] * getXscale());
 
 		if (getYaxisLog()) {
 			inOut[1] = getHeight()
 					* (1 - (Math.log10(inOut[1]) - Math.log10(ymin))
 							/ (Math.log10(ymax) - Math.log10(ymin)));
 		} else
-			inOut[1] = getyZero() - (inOut[1] * getYscale());
+			inOut[1] = getYZero() - (inOut[1] * getYscale());
 
 		// check if (x, y) is on screen
 		boolean onScreen = true;
@@ -966,7 +966,7 @@ public abstract class EuclidianView
 	 * @return real world equivalent of screen x-coord
 	 */
 	final public double toRealWorldCoordX(double x) {
-		return (x - getxZero()) * getInvXscale();
+		return (x - getXZero()) * getInvXscale();
 	}
 
 	/**
@@ -977,7 +977,7 @@ public abstract class EuclidianView
 	 * @return real world equivalent of screen y-coord
 	 */
 	final public double toRealWorldCoordY(double y) {
-		return (getyZero() - y) * getInvYscale();
+		return (getYZero() - y) * getInvYscale();
 	}
 
 	/**
@@ -1111,9 +1111,9 @@ public abstract class EuclidianView
 
 	private double invYscale;
 
-	private double xZero;
+	protected double xZero;
 
-	private double yZero;
+	protected double yZero;
 
 	private double xscale;
 
@@ -1200,32 +1200,19 @@ public abstract class EuclidianView
 		this.fontSize = fontSize;
 	}
 
-	/**
-	 * @return x-coord of origin
-	 */
-	public double getxZero() {
-		return xZero;
-	}
-
-	/**
-	 * @return y-coord of origin
-	 */
-	public double getyZero() {
-		return yZero;
-	}
 
 	/**
 	 * Returns x coordinate of axes origin.
 	 */
 	public double getXZero() {
-		return getxZero();
+		return xZero;
 	}
 
 	/**
 	 * Returns y coordinate of axes origin.
 	 */
 	public double getYZero() {
-		return getyZero();
+		return yZero;
 	}
 
 	/**
@@ -1355,10 +1342,10 @@ public abstract class EuclidianView
 	 * Updates xmin, xmax, ... for setCoordSystem()
 	 */
 	protected void setXYMinMaxForSetCoordSystem() {
-		xmin = (-getxZero() * getInvXscale());
-		xmax = ((getWidth() - getxZero()) * getInvXscale());
-		ymax = (getyZero() * getInvYscale());
-		ymin = ((getyZero() - getHeight()) * getInvYscale());
+		xmin = (-getXZero() * getInvXscale());
+		xmax = ((getWidth() - getXZero()) * getInvXscale());
+		ymax = (getYZero() * getInvYscale());
+		ymin = ((getYZero() - getHeight()) * getInvYscale());
 	}
 
 	/**
@@ -1379,9 +1366,9 @@ public abstract class EuclidianView
 		// setScaleRatio(getYscale() / getXscale());
 
 		xZero = -getXmin() * getXscale();
-		setWidth((int) ((getXmax() * getXscale()) + getxZero()));
+		setWidth((int) ((getXmax() * getXscale()) + getXZero()));
 		yZero = getYmax() * getYscale();
-		setHeight((int) (getyZero() - (getYmin() * getYscale())));
+		setHeight((int) (getYZero() - (getYmin() * getYscale())));
 
 		setAxesIntervals(getXscale(), 0);
 		setAxesIntervals(getYscale(), 1);
@@ -3412,8 +3399,8 @@ public abstract class EuclidianView
 			drawGrid = new DrawGrid(this);
 		}
 		// vars for handling positive-only axes
-		double xCrossPix = this.getxZero() + (axisCross[1] * getXscale());
-		double yCrossPix = this.getyZero() - (axisCross[0] * getYscale());
+		double xCrossPix = this.getXZero() + (axisCross[1] * getXscale());
+		double yCrossPix = this.getYZero() - (axisCross[0] * getYscale());
 
 		// this needs to be after setClip()
 		// bug in FreeHEP (PDF export)
@@ -3437,28 +3424,28 @@ public abstract class EuclidianView
 
 			// find minimum grid radius
 			double min;
-			if ((getxZero() > 0) && (getxZero() < getWidth())
-					&& (getyZero() > 0) && (getyZero() < getHeight())) {
+			if ((getXZero() > 0) && (getXZero() < getWidth())
+					&& (getYZero() > 0) && (getYZero() < getHeight())) {
 				// origin onscreen: min = 0
 				min = 0;
 			} else {
 				// origin offscreen: min = distance to closest screen border
-				double minW = Math.min(Math.abs(getxZero()),
-						Math.abs(getxZero() - getWidth()));
-				double minH = Math.min(Math.abs(getyZero()),
-						Math.abs(getyZero() - getHeight()));
+				double minW = Math.min(Math.abs(getXZero()),
+						Math.abs(getXZero() - getWidth()));
+				double minH = Math.min(Math.abs(getYZero()),
+						Math.abs(getYZero() - getHeight()));
 				min = Math.min(minW, minH);
 			}
 
 			// find maximum grid radius
 			// max = max distance of origin to screen corners
-			double d1 = MyMath.length(getxZero(), getyZero()); // upper left
-			double d2 = MyMath.length(getxZero(), getyZero() - getHeight()); // lower
+			double d1 = MyMath.length(getXZero(), getYZero()); // upper left
+			double d2 = MyMath.length(getXZero(), getYZero() - getHeight()); // lower
 																				// left
-			double d3 = MyMath.length(getxZero() - getWidth(), getyZero()); // upper
+			double d3 = MyMath.length(getXZero() - getWidth(), getYZero()); // upper
 																			// right
-			double d4 = MyMath.length(getxZero() - getWidth(),
-					getyZero() - getHeight()); // lower
+			double d4 = MyMath.length(getXZero() - getWidth(),
+					getYZero() - getHeight()); // lower
 			// right
 			double max = Math.max(Math.max(d1, d2), Math.max(d3, d4));
 
@@ -3468,7 +3455,7 @@ public abstract class EuclidianView
 			double tickStepR = getXscale() * gridDistances[0];
 			double r = min - (min % tickStepR);
 			while (r <= max) {
-				circle.setFrame(getxZero() - r, getyZero() - r, 2 * r, 2 * r);
+				circle.setFrame(getXZero() - r, getYZero() - r, 2 * r, 2 * r);
 				g2.draw(circle);
 				r = r + tickStepR;
 
@@ -3479,7 +3466,7 @@ public abstract class EuclidianView
 			double y1, y2, m;
 
 			// horizontal axis
-			tempLine.setLine(0, getyZero(), getWidth(), getyZero());
+			tempLine.setLine(0, getYZero(), getWidth(), getYZero());
 			g2.draw(tempLine);
 
 			// radial lines
@@ -3487,11 +3474,11 @@ public abstract class EuclidianView
 
 				if (Math.abs(a - (Math.PI / 2)) < 0.0001) {
 					// vertical axis
-					tempLine.setLine(getxZero(), 0, getxZero(), getHeight());
+					tempLine.setLine(getXZero(), 0, getXZero(), getHeight());
 				} else {
 					m = Math.tan(a);
-					y1 = (m * (getxZero())) + getyZero();
-					y2 = (m * (getxZero() - getWidth())) + getyZero();
+					y1 = (m * (getXZero())) + getYZero();
+					y2 = (m * (getXZero() - getWidth())) + getYZero();
 					tempLine.setLine(0, y1, getWidth(), y2);
 				}
 				g2.draw(tempLine);
@@ -3518,10 +3505,10 @@ public abstract class EuclidianView
 		// set the clipping region to the region defined by the axes
 
 		double tickStepX = getXscale() * gridDistances[0] * Math.sqrt(3.0);
-		double startX = getxZero() % (tickStepX);
-		double startX2 = getxZero() % (tickStepX / 2);
+		double startX = getXZero() % (tickStepX);
+		double startX2 = getXZero() % (tickStepX / 2);
 		double tickStepY = getYscale() * gridDistances[0];
-		double startY = getyZero() % tickStepY;
+		double startY = getYZero() % tickStepY;
 
 		// vertical
 		double pix = startX2;
@@ -3586,11 +3573,11 @@ public abstract class EuclidianView
 
 
 	double getXAxisCrossingPixel() {
-		return getxZero() + (axisCross[1] * getXscale());
+		return getXZero() + (axisCross[1] * getXscale());
 	}
 
 	double getYAxisCrossingPixel() {
-		return this.getyZero() - (axisCross[0] * getYscale());
+		return this.getYZero() - (axisCross[0] * getYscale());
 	}
 
 	boolean xAxisOnscreen() {
@@ -3920,12 +3907,12 @@ public abstract class EuclidianView
 
 		g2.setFont(getFontAxes());
 
-		int yAxisHeight = positiveAxes[1] ? (int) getyZero() : getHeight();
-		int maxY = positiveAxes[1] ? (int) getyZero()
+		int yAxisHeight = positiveAxes[1] ? (int) getYZero() : getHeight();
+		int maxY = positiveAxes[1] ? (int) getYZero()
 				: getHeight() - SCREEN_BORDER;
 
 		double rw = getYmax() - (getYmax() % axesNumberingDistances[1]);
-		double pix = getyZero() - (rw * getYscale());
+		double pix = getYZero() - (rw * getYscale());
 		double axesStep = getYscale() * axesNumberingDistances[1]; // pixelstep
 
 		axesNumberingDistances[1] = Kernel
@@ -4150,10 +4137,10 @@ public abstract class EuclidianView
 		} else {
 			sbxml.append("\t<coordSystem");
 			sbxml.append(" xZero=\"");
-			sbxml.append(getxZero());
+			sbxml.append(getXZero());
 			sbxml.append("\"");
 			sbxml.append(" yZero=\"");
-			sbxml.append(getyZero());
+			sbxml.append(getYZero());
 			sbxml.append("\"");
 			sbxml.append(" scale=\"");
 			sbxml.append(getXscale());
@@ -4771,8 +4758,8 @@ public abstract class EuclidianView
 			export2.getInhomCoords(xy2);
 			double x1 = xy1[0];
 			double x2 = xy2[0];
-			x1 = (x1 / getInvXscale()) + getxZero();
-			x2 = (x2 / getInvXscale()) + getxZero();
+			x1 = (x1 / getInvXscale()) + getXZero();
+			x2 = (x2 / getInvXscale()) + getXZero();
 
 			return (int) Math.abs(x1 - x2) + 2;
 		} catch (Exception e) {
@@ -4798,8 +4785,8 @@ public abstract class EuclidianView
 			export2.getInhomCoords(xy2);
 			double y1 = xy1[1];
 			double y2 = xy2[1];
-			y1 = getyZero() - (y1 / getInvYscale());
-			y2 = getyZero() - (y2 / getInvYscale());
+			y1 = getYZero() - (y1 / getInvYscale());
+			y2 = getYZero() - (y2 / getInvYscale());
 
 			return (int) Math.abs(y1 - y2) + 2;
 		} catch (Exception e) {
@@ -4963,8 +4950,8 @@ public abstract class EuclidianView
 		if (!Kernel.isEqual(getXscale(), newScale)) {
 			// different scales: zoom back to standard view
 			double factor = newScale / getXscale();
-			zoom((ox - (getxZero() * factor)) / (1.0 - factor),
-					(oy - (getyZero() * factor)) / (1.0 - factor), factor,
+			zoom((ox - (getXZero() * factor)) / (1.0 - factor),
+					(oy - (getYZero() * factor)) / (1.0 - factor), factor,
 					steps, storeUndo);
 		} else {
 			// same scales: translate view to standard origin
@@ -5374,10 +5361,10 @@ public abstract class EuclidianView
 				double x2 = xy2[0];
 				double y1 = xy1[1];
 				double y2 = xy2[1];
-				x1 = (x1 / getInvXscale()) + getxZero();
-				y1 = getyZero() - (y1 / getInvYscale());
-				x2 = (x2 / getInvXscale()) + getxZero();
-				y2 = getyZero() - (y2 / getInvYscale());
+				x1 = (x1 / getInvXscale()) + getXZero();
+				y1 = getYZero() - (y1 / getInvYscale());
+				x2 = (x2 / getInvXscale()) + getXZero();
+				y2 = getYZero() - (y2 / getInvYscale());
 				int x = (int) Math.min(x1, x2);
 				int y = (int) Math.min(y1, y2);
 				int exportWidth = (int) Math.abs(x1 - x2) + 2;

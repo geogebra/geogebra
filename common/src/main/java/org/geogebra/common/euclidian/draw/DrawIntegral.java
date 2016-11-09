@@ -125,7 +125,7 @@ public class DrawIntegral extends Drawable {
 
 		double ax = view.toScreenCoordXd(aRW);
 		double bx = view.toScreenCoordXd(bRW);
-		float y0 = (float) view.getyZero();
+		float y0 = (float) view.getYZero();
 
 		// plot definite integral
 
@@ -151,7 +151,7 @@ public class DrawIntegral extends Drawable {
 
 		if (labelVisible) {
 			xLabel = (int) Math.round((ax + bx) / 2) - 6;
-			yLabel = (int) view.getyZero() - view.getFontSize();
+			yLabel = (int) view.getYZero() - view.getFontSize();
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}

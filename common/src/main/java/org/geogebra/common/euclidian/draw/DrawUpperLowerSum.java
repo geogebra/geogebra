@@ -97,7 +97,7 @@ public class DrawUpperLowerSum extends Drawable {
 
 		double ax = view.toScreenCoordXd(aRW);
 		double bx = view.toScreenCoordXd(bRW);
-		double y0 = view.getyZero();
+		double y0 = view.getYZero();
 
 		// plot upper/lower sum rectangles
 		int N = algo.getIntervals();
@@ -158,7 +158,7 @@ public class DrawUpperLowerSum extends Drawable {
 
 		if (labelVisible) {
 			xLabel = (int) Math.round((ax + bx) / 2) - 6;
-			yLabel = (int) view.getyZero() - view.getFontSize();
+			yLabel = (int) view.getYZero() - view.getFontSize();
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}
@@ -166,7 +166,7 @@ public class DrawUpperLowerSum extends Drawable {
 
 	private void updateBarChart() {
 		gp.reset();
-		double base = view.getyZero();
+		double base = view.getYZero();
 
 		int N = algo.getIntervals();
 		double[] leftBorder = algo.getLeftBorder();
@@ -198,7 +198,7 @@ public class DrawUpperLowerSum extends Drawable {
 		if (labelVisible) {
 			xLabel = (view.toScreenCoordX(leftBorder[0]) + view
 					.toScreenCoordX(leftBorder[N - 1])) / 2 - 6;
-			yLabel = (int) view.getyZero() - view.getFontSize();
+			yLabel = (int) view.getYZero() - view.getFontSize();
 			labelDesc = geo.getLabelDescription();
 			addLabelOffset();
 		}

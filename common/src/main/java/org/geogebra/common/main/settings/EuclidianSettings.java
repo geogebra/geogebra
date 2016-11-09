@@ -978,7 +978,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 * @return real world equivalent of screen x-coord
 	 */
 	final public double toRealWorldCoordX(double x) {
-		//return (x - getxZero()) * getInvXscale();
 		return (x - xZero) / xscale;
 	}
 
@@ -990,7 +989,6 @@ public class EuclidianSettings extends AbstractSettings {
 	 * @return real world equivalent of screen y-coord
 	 */
 	final public double toRealWorldCoordY(double y) {
-		//return (getyZero() - y) * getInvYscale();
 		return (yZero - y) / yscale;
 	}
 

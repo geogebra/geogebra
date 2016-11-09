@@ -242,8 +242,8 @@ public class DrawLine extends Drawable implements Previewable {
 		if (Math.abs(gx) * view.getScaleRatio() < Math.abs(gy)) {
 			// calc points on line in screen coords
 			k = gx / gy * view.getScaleRatio();
-			d = view.getyZero() + gz / gy * view.getYscale() - k
-					* view.getxZero();
+			d = view.getYZero() + gz / gy * view.getYscale() - k
+					* view.getXZero();
 
 			x1 = -EuclidianStatic.CLIP_DISTANCE;
 			y1 = k * x1 + d;
@@ -259,8 +259,8 @@ public class DrawLine extends Drawable implements Previewable {
 		else {
 			// calc points on line in screen coords
 			k = gy / (gx * view.getScaleRatio());
-			d = view.getxZero() - gz / gx * view.getXscale() - k
-					* view.getyZero();
+			d = view.getXZero() - gz / gx * view.getXscale() - k
+					* view.getYZero();
 
 			y1 = view.getHeight() + EuclidianStatic.CLIP_DISTANCE;
 			x1 = k * y1 + d;

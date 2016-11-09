@@ -99,8 +99,8 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 				.getXscale();
 		double w = view.getWidth() / 2;
 		double h = view.getHeight() / 2;
-		double dx = (w - view.getxZero()) * newScale / view.getXscale();
-		double dy = (h - view.getyZero()) * newScale / view.getYscale();
+		double dx = (w - view.getXZero()) * newScale / view.getXscale();
+		double dy = (h - view.getYZero()) * newScale / view.getYscale();
 
 		setCoordSystem(w - dx, h - dy, newScale, newScale);
 
@@ -149,8 +149,8 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion 
 		int x = view.toScreenCoordX(tmpCoords.getX());
 		int y = view.toScreenCoordY(tmpCoords.getY());
 
-		setCoordSystem(view.getWidth() / 2 - x + view.getxZero(),
-				view.getHeight() / 2 - y + view.getyZero(), view.getXscale(),
+		setCoordSystem(view.getWidth() / 2 - x + view.getXZero(),
+				view.getHeight() / 2 - y + view.getYZero(), view.getXscale(),
 				view.getYscale());
 
 	}

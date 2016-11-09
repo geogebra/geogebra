@@ -633,8 +633,8 @@ public class DrawConic extends Drawable implements Previewable {
 					}
 				}
 			}
-			mx = M.getX() * view.getXscale() + view.getxZero();
-			my = -M.getY() * view.getYscale() + view.getyZero();
+			mx = M.getX() * view.getXscale() + view.getXZero();
+			my = -M.getY() * view.getYscale() + view.getYZero();
 			ellipse.setFrame(mx - radius, my - yradius, 2.0 * radius,
 					2.0 * yradius);
 		} else {
@@ -654,8 +654,8 @@ public class DrawConic extends Drawable implements Previewable {
 					return;
 				}
 			}
-			mx = M.getX() * view.getXscale() + view.getxZero();
-			my = -M.getY() * view.getYscale() + view.getyZero();
+			mx = M.getX() * view.getXscale() + view.getXZero();
+			my = -M.getY() * view.getYscale() + view.getYZero();
 
 			angSt = Double.NaN;
 			// left
