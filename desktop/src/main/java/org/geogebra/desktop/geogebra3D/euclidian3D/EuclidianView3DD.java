@@ -18,8 +18,9 @@ import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -167,7 +168,9 @@ public class EuclidianView3DD extends EuclidianView3D implements
 					sb.append("test");
 					exportToPrinter.getFormat().getExtension(sb);
 					BufferedWriter writer = new BufferedWriter(
-							new FileWriter(sb.toString()));
+							new OutputStreamWriter(
+									new FileOutputStream(sb.toString()),
+									"UTF-8"));
 
 					sb.setLength(0);
 					exportToPrinter.getFormat().getScriptStart(sb);

@@ -23,9 +23,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -279,7 +281,9 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 			Log.debug(export);
 
 
-			FileWriter fw = new FileWriter(file);
+			BufferedWriter fw = new BufferedWriter(
+					new OutputStreamWriter(new FileOutputStream(file),
+							"UTF-8"));
 			fw.write(export);
 			fw.close();
 

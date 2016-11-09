@@ -1,5 +1,6 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.ShortBuffer;
 
 import javax.media.opengl.GL;
@@ -17,6 +18,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.geogebra3D.main.FragmentShader;
 import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJavaNio;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 import org.geogebra.desktop.main.AppD;
@@ -127,8 +129,12 @@ public class RendererImplShadersD extends RendererImplShaders {
 					logLength[0],
 					(int[]) null, 0, log, 0);
 
-			Log.error("Error compiling the vertex shader: "
-					+ new String(log));
+			try {
+				Log.error("Error compiling the vertex shader: "
+						+ new String(log, Charsets.UTF_8));
+			} catch (UnsupportedEncodingException e) {
+				// do nothing
+			}
 			System.exit(1);
 		}
 

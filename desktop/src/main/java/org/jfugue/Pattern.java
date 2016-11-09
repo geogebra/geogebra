@@ -26,9 +26,10 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.EventListener;
@@ -430,7 +431,8 @@ public class Pattern implements Serializable
      */
     public void savePattern(File file) throws IOException
     {
-        BufferedWriter out = new BufferedWriter(new FileWriter(file));
+		BufferedWriter out = new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream(file), "UTF-8"));
         if ((getProperties().size() > 0) || (getTitle() != null)) {
             out.write("#\n");
             if (getTitle() != null) {

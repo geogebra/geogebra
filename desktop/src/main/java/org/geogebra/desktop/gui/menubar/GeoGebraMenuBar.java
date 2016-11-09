@@ -42,6 +42,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.export.PrintPreview;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -671,7 +672,8 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			String NL = System.getProperty("line.separator");
 			Scanner scanner = null;
 			try {
-				scanner = new Scanner(new File(app.logFile.toString()));
+				scanner = new Scanner(new File(app.logFile.toString()),
+						Charsets.UTF_8);
 				while (scanner.hasNextLine()) {
 					sb.append(scanner.nextLine() + NL);
 				}

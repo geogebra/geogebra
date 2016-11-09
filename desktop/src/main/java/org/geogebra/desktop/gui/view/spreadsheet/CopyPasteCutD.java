@@ -17,6 +17,7 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.Charsets;
 
 public class CopyPasteCutD extends CopyPasteCut {
 
@@ -168,7 +169,8 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 		try {
 			InputStream is = url.openStream();
-			BufferedReader input = new BufferedReader(new InputStreamReader(is));
+			BufferedReader input = new BufferedReader(
+					new InputStreamReader(is, Charsets.UTF_8));
 			try {
 				String line = null;
 				while ((line = input.readLine()) != null) {

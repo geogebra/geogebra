@@ -15,7 +15,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URL;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
 import java.util.UUID;
 
@@ -80,10 +79,10 @@ public class MyImageD implements MyImageJre {
 			try {
 				md = MessageDigest.getInstance("MD5");
 				byte[] md5hash = new byte[32];
-				md.update(svg.toString().getBytes());
+				md.update(svg.toString().getBytes(Charsets.UTF_8));
 				md5hash = md.digest();
 				return StringUtil.convertToHex(md5hash);
-			} catch (NoSuchAlgorithmException e) {
+			} catch (Exception e) {
 				Log.error("MD5 Error");
 				return "svg" + UUID.randomUUID();
 			}

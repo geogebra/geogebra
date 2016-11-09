@@ -1,5 +1,6 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
 import java.util.Stack;
@@ -26,6 +27,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
@@ -175,8 +177,12 @@ public class RendererShaders extends RendererD implements
 			jogl.getGL2ES2().glGetShaderInfoLog(vertShader, logLength[0],
 					(int[]) null, 0, log, 0);
 
-			Log.error("Error compiling the vertex shader: "
-					+ new String(log));
+			try {
+				Log.error("Error compiling the vertex shader: "
+						+ new String(log, Charsets.UTF_8));
+			} catch (UnsupportedEncodingException e) {
+				// do nothing
+			}
 			System.exit(1);
 		}
 

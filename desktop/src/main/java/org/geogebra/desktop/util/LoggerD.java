@@ -1,8 +1,10 @@
 package org.geogebra.desktop.util;
 
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -15,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
 public class LoggerD extends Log {
 
 	private File logFile = null; // default
-	private FileWriter logFileWriter = null;
+	private BufferedWriter logFileWriter = null;
 
 	/**
 	 * Constructor
@@ -61,7 +63,8 @@ public class LoggerD extends Log {
 		}
 		logFile = new File(logFileName);
 		try {
-			logFileWriter = new FileWriter(logFile);
+			logFileWriter = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(logFile), "UTF-8"));
 		} catch (IOException e) {
 			log(WARN, "Log file " + logFileName + "cannot be opened", 1);
 		}
