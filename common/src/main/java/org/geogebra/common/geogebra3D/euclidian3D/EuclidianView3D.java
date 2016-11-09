@@ -4851,4 +4851,9 @@ GRectangle selectionRectangle) {
 		// no need in 3D
 	}
 
+	@Override
+	protected void setXYMinMaxForSetCoordSystem() {
+		// no need in 3D
+	}
+
 }
