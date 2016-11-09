@@ -4,13 +4,11 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
-import org.geogebra.common.main.App;
-import org.geogebra.common.main.GeoGebraPreferences;
-import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.main.GeoGebraPreferencesW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.storage.client.Storage;
@@ -201,34 +199,11 @@ public class LoadFilePresenter {
 	 * 
 	 * @param app
 	 *            application
-	 * @param p0
+	 * @param p
 	 *            perspective
 	 */
-	void finishEmptyLoading(AppW app, Perspective p0) {
-		Perspective p = p0;
-		// code moved here from AppWapplication.afterCoreObjectsInited - end
-		Storage stockStore = null;
-
-		stockStore = Storage.getLocalStorageIfSupported();
-		// if (stockStore != null) {
-		String xml = stockStore == null ? null : stockStore
-			        .getItem(GeoGebraPreferences.XML_USER_PREFERENCES);
-		if (xml != null) {
-				app.setXML(xml, false);
-		} else {
-			app.setXML(GeoGebraPreferencesXML.getXML(app),
-					false);
-			if (app.getTmpPerspectives().size() > 0) {
-				p = app.getTmpPerspectives().get(0);
-			}
-		}
-
-		readObjectDefaults(app, stockStore);
-
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().getLayout()
-					.setPerspectives(app.getTmpPerspectives(), p);
-		}
+	void finishEmptyLoading(AppW app, Perspective p) {
+		GeoGebraPreferencesW.getPref().loadForApp(app, p);
 		// default layout doesn't have a Graphics View 2
 		app.getEuclidianViewpanel().deferredOnResize();
 
@@ -258,20 +233,7 @@ public class LoadFilePresenter {
 
 	}
 
-	private static void readObjectDefaults(App app, Storage stockStore) {
-		if (stockStore == null) {
-			return;
-		}
-		String xmlDef = stockStore
-				.getItem(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES);
-		boolean eda = app.getKernel().getElementDefaultAllowed();
-		app.getKernel().setElementDefaultAllowed(true);
-		if (xmlDef != null) {
-			app.setXML(xmlDef, false);
-		}
-		app.getKernel().setElementDefaultAllowed(eda);
 
-	}
 
 	private boolean isReloadDataInStorage() {
 		if (!Browser.supportsSessionStorage()) {

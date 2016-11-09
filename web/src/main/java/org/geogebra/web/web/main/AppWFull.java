@@ -352,7 +352,7 @@ public abstract class AppWFull extends AppW {
 		// remove all Macros before loading preferences
 		kernel.removeAllMacros();
 		// reload the saved/(default) preferences
-		GeoGebraPreferencesW.getPref().loadXMLPreferences(this);
+		GeoGebraPreferencesW.getPref().loadForApp(this, null);
 
 		resetAllToolbars();
 	}
