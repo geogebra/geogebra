@@ -287,25 +287,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				* geoInputBox.getFontSizeMultiplier()));
 		App app = view.getApplication();
 
-		GFont vFont = view.getFont();
-		textFont = app.getFontCanDisplay(getTextField().getText(), false,
-				vFont.getStyle(), getLabelFontSize());
-
-		getTextField().setOpaque(true);
-		getTextField().setFont(textFont);
-
-		GColor bgCol = view.getBackgroundCommon();
-
-		if (geo != null) {
-			getTextField().setForeground(geo.getObjectColor());
-			bgCol = geo.getBackgroundColor();
-		}
-		if (bgCol != null) {
-			getTextField().setBackground(bgCol);
-		}
-
-		getTextField().setFocusable(true);
-		getTextField().setEditable(true);
+		updateStyle();
 
 		geoInputBox.updateText(getTextField());
 		getBox().revalidate();
@@ -485,6 +467,22 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		setLabelFontSize((int) (view.getFontSize()
 				* geoInputBox.getFontSizeMultiplier()));
 
+		updateStyle();
+		tf.showPopupSymbolButton(false);
+
+		if (geoInputBox
+				.getLength() < EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
+				|| geoInputBox.getLinkedGeo() instanceof GeoText) {
+			tf.prepareShowSymbolButton(false);
+		} else {
+			tf.prepareShowSymbolButton(true);
+		}
+		updateBoxPosition();
+
+	}
+
+	private void updateStyle() {
+		AutoCompleteTextField tf = getTextField();
 		GFont vFont = view.getFont();
 		textFont = view.getApplication().getFontCanDisplay(tf.getText(), false,
 				vFont.getStyle(), getLabelFontSize());
@@ -505,16 +503,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		tf.setFocusable(true);
 		tf.setEditable(true);
-		tf.showPopupSymbolButton(false);
-
-		if (geoInputBox
-				.getLength() < EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH
-				|| geoInputBox.getLinkedGeo() instanceof GeoText) {
-			tf.prepareShowSymbolButton(false);
-		} else {
-			tf.prepareShowSymbolButton(true);
-		}
-		updateBoxPosition();
 
 	}
 

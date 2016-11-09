@@ -48,4 +48,8 @@ public interface GuiManagerInterfaceD extends GuiManagerInterface {
 	void exitAllCurrent();
 
 	void openURL();
+
+	public void updateMenuWindow();
+
+	public void updateMenuFile();
 }
