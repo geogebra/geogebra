@@ -29,7 +29,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public abstract class PropertiesView implements View {
-	final protected static HashMap<Integer, OptionType> viewMap = new HashMap<Integer, OptionType>();
+	final private static HashMap<Integer, OptionType> viewMap = new HashMap<Integer, OptionType>();
 	// map to match view ID with OptionType
 	static {
 

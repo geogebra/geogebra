@@ -3,7 +3,6 @@ package org.jfugue;
 import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Receiver;
 
 /**
  * Represents an attached MIDI device, such as a keyboard.  This class
@@ -14,7 +13,7 @@ import javax.sound.midi.Receiver;
  */
 public class ReceiverDevice 
 {
-    private Receiver receiver;
+	// private Receiver receiver;
     
     public ReceiverDevice(MidiDevice.Info info) throws MidiUnavailableException
     {
@@ -25,7 +24,7 @@ public class ReceiverDevice
           device.open();
         }
 
-        this.receiver = device.getReceiver();
+		// this.receiver = device.getReceiver();
     }
     
     /**

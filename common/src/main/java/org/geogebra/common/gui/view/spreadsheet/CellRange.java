@@ -505,7 +505,7 @@ public class CellRange implements Cloneable {
 				&& (maxColumn >= -1 && maxColumn < Kernel.MAX_SPREADSHEET_COLUMNS_DESKTOP);
 	}
 
-	public CellRange clone() {
+	final public CellRange clone() {
 		CellRange cr = new CellRange(app);
 		cr.anchorColumn = anchorColumn;
 		cr.anchorRow = anchorRow;
