@@ -130,66 +130,72 @@ public class GeoGebraColorConstants {
 	 * HashMap recording RGB color values with named colors key = color name
 	 * from colors.properties value = RBG color
 	 */
-	private static HashMap<String, GColor> geogebraColor = null;// new
-																// HashMap<String,
-																// Color>();
+	private static volatile HashMap<String, GColor> geogebraColor = null; // must
+																			// be
+																			// declared
+																			// volatile
+	private static final Object lock = new Object();
 
-	// static
 	/**
+	 * initialize (once) only if needed
+	 * 
 	 * @return map of internal lowercase strings to GColors
 	 */
 	public static HashMap<String, GColor> getGeoGebraColors() {
+		if (geogebraColor == null) { // avoid sync penalty if we can
+			synchronized (lock) { // declare a private static Object to use for
+									// mutex
+				if (geogebraColor == null) { // have to do this inside the sync
+					geogebraColor = new HashMap<String, GColor>();
 
-		if (geogebraColor != null)
-			return geogebraColor;
+					// primary
+					geogebraColor.put("red", GColor.RED);
+					geogebraColor.put("orange", GColor.ORANGE);
+					geogebraColor.put("yellow", GColor.YELLOW);
+					geogebraColor.put("green", GColor.GREEN);
+					geogebraColor.put("cyan", GColor.CYAN);
+					geogebraColor.put("blue", GColor.BLUE);
+					geogebraColor.put("violet", VIOLET);
+					geogebraColor.put("magenta", GColor.MAGENTA);
+					geogebraColor.put("lime", LIME);
 
-		geogebraColor = new HashMap<String, GColor>();
+					// light primary
+					geogebraColor.put("pink", PINK);
+					geogebraColor.put("lightorange", LIGHTORANGE);
+					geogebraColor.put("lightyellow", LIGHTYELLOW);
+					geogebraColor.put("aqua", AQUA);
+					geogebraColor.put("lightpurple", LIGHTPURPLE);
+					geogebraColor.put("lightviolet", LIGHTVIOLET);
+					geogebraColor.put("turquoise", TURQUOISE);
+					geogebraColor.put("lightgreen", LIGHTGREEN);
+					geogebraColor.put("darkblue", DARKBLUE);
 
-		// primary
-		geogebraColor.put("red", GColor.RED);
-		geogebraColor.put("orange", GColor.ORANGE);
-		geogebraColor.put("yellow", GColor.YELLOW);
-		geogebraColor.put("green", GColor.GREEN);
-		geogebraColor.put("cyan", GColor.CYAN);
-		geogebraColor.put("blue", GColor.BLUE);
-		geogebraColor.put("violet", VIOLET);
-		geogebraColor.put("magenta", GColor.MAGENTA);
-		geogebraColor.put("lime", LIME);
+					// dark primary
+					geogebraColor.put("maroon", MAROON);
+					geogebraColor.put("brown", GGB_BROWN);
+					geogebraColor.put("gold", GOLD);
+					geogebraColor.put("darkgreen", GGB_GREEN);
+					geogebraColor.put("lightblue", LIGHTBLUE);
+					geogebraColor.put("indigo", INDIGO);
+					geogebraColor.put("purple", PURPLE);
+					geogebraColor.put("crimson", CRIMSON);
 
-		// light primary
-		geogebraColor.put("pink", PINK);
-		geogebraColor.put("lightorange", LIGHTORANGE);
-		geogebraColor.put("lightyellow", LIGHTYELLOW);
-		geogebraColor.put("aqua", AQUA);
-		geogebraColor.put("lightpurple", LIGHTPURPLE);
-		geogebraColor.put("lightviolet", LIGHTVIOLET);
-		geogebraColor.put("turquoise", TURQUOISE);
-		geogebraColor.put("lightgreen", LIGHTGREEN);
-		geogebraColor.put("darkblue", DARKBLUE);
-
-		// dark primary
-		geogebraColor.put("maroon", MAROON);
-		geogebraColor.put("brown", GGB_BROWN);
-		geogebraColor.put("gold", GOLD);
-		geogebraColor.put("darkgreen", GGB_GREEN);
-		geogebraColor.put("lightblue", LIGHTBLUE);
-		geogebraColor.put("indigo", INDIGO);
-		geogebraColor.put("purple", PURPLE);
-		geogebraColor.put("crimson", CRIMSON);
-
-		// white/gray/black
-		geogebraColor.put("white", GColor.WHITE);
-		geogebraColor.put("black", GColor.BLACK);
-		geogebraColor.put("gray7", GRAY7);
-		geogebraColor.put("gray6", GRAY6);
-		geogebraColor.put("gray5", GRAY5);
-		geogebraColor.put("gray", GRAY4);
-		geogebraColor.put("gray3", GRAY3);
-		geogebraColor.put("gray2", GRAY2);
-		geogebraColor.put("gray1", GRAY1);
-		geogebraColor.put("darkgray", DARKGRAY);
-		geogebraColor.put("lightgray", LIGHTGRAY);
-		geogebraColor.put("silver", SILVER);
+					// white/gray/black
+					geogebraColor.put("white", GColor.WHITE);
+					geogebraColor.put("black", GColor.BLACK);
+					geogebraColor.put("gray7", GRAY7);
+					geogebraColor.put("gray6", GRAY6);
+					geogebraColor.put("gray5", GRAY5);
+					geogebraColor.put("gray", GRAY4);
+					geogebraColor.put("gray3", GRAY3);
+					geogebraColor.put("gray2", GRAY2);
+					geogebraColor.put("gray1", GRAY1);
+					geogebraColor.put("darkgray", DARKGRAY);
+					geogebraColor.put("lightgray", LIGHTGRAY);
+					geogebraColor.put("silver", SILVER);
+				}
+			}
+		}
 
 		return geogebraColor;
 	}
