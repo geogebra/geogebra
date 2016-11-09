@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -316,12 +317,25 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		// Application.debug(new Date() + " ADD: " + geo);
 
 		update(geo);
+		scrollIfNeeded(geo, null);
+	}
+
+	public void scrollIfNeeded(GeoElement geo, String labelNew) {
 		GPoint location = geo.getSpreadsheetCoords();
+
+		if (labelNew != null && location == null) {
+			location = GeoElementSpreadsheet.spreadsheetIndices(labelNew);
+		}
+
+		if (location.x == -1 && location.y == -1) {
+			return;
+		}
 
 		// autoscroll to new cell's location
 		if (scrollToShow && location != null)
 			table.scrollRectToVisible(table.getCellRect(location.y, location.x,
 					true));
+
 	}
 
 	public void remove(GeoElement geo) {
@@ -1073,10 +1087,5 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 	public boolean suggestRepaint() {
 		return false;
 		// only for web
-	}
-
-	public void scrollIfNeeded(GeoElement geo, String labelNew) {
-		// TODO Auto-generated method stub
-
 	}
 }
