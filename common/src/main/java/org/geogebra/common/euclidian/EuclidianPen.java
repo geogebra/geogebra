@@ -155,8 +155,8 @@ public class EuclidianPen {
 
 	private int penSize;
 	private int lineThickness;
-	private static GColor lineDrawingColor;
-	private static int lineDrawingStyle;
+	private GColor lineDrawingColor;
+	private int lineDrawingStyle;
 
 	/**
 	 * start point of the gesture
