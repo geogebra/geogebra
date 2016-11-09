@@ -33,7 +33,7 @@ public class NumberInputHandler implements InputHandler {
 	public void processInput(String inputString, final ErrorHandler handler,
 			final AsyncOperation<Boolean> callback0) {
 		try {
-			handler.showError(null);
+			handler.resetError();
 			algebraProcessor.processAlgebraCommandNoExceptionHandling(
 					inputString, false, handler, true,
 					new AsyncOperation<GeoElementND[]>() {

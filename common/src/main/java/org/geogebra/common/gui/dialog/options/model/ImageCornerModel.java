@@ -66,7 +66,7 @@ public class ImageCornerModel extends MultipleGeosModel {
 	
 	public void applyChanges(final String strLoc, ErrorHandler handler) {
 		GeoPointND newLoc = null;
-		handler.showError(null);
+		handler.resetError();
 		if (strLoc == null || strLoc.trim().length() == 0) {
 			// newLoc = null;
 		} else {

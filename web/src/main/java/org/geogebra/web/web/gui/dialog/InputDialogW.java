@@ -362,4 +362,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	public void onKeyPress(KeyPressEvent event) {
 
 	}
+
+	public void resetError() {
+		showError(null);
+	}
 }

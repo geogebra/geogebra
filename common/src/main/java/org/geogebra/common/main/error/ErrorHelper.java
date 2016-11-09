@@ -69,6 +69,10 @@ public class ErrorHelper {
 
 			}
 
+			public void resetError() {
+				// do nothing
+			}
+
 			public void showCommandError(String command, String message) {
 				Log.warn(command + ":" + message);
 

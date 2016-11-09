@@ -105,7 +105,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		cleanOldSliders();
 		if (input.length() == 0) {
 			if (validation != null) {
-				validation.showError(null);
+				validation.resetError();
 			}
 			this.kernel.notifyUpdatePreviewFromInputBar(null);
 			return;
@@ -172,6 +172,10 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			} else {
 				Log.debug("cas cell ");
 				this.kernel.notifyUpdatePreviewFromInputBar(null);
+			}
+			if (validation != null && previewGeos != null
+					&& validInput.equals(input)) {
+				validation.resetError();
 			}
 			this.kernel.setSilentMode(silentModeOld);
 

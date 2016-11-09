@@ -1437,6 +1437,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 				
 			}
 
+			public void resetError() {
+				showError(null);
+			}
+
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
 				if (valid) {

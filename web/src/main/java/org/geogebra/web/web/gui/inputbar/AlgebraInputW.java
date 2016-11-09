@@ -369,6 +369,10 @@ public class AlgebraInputW extends FlowPanel
 
 			}
 
+			public void resetError() {
+				showError(null);
+			}
+
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
 				return false;
@@ -408,6 +412,10 @@ public class AlgebraInputW extends FlowPanel
 					app.getDefaultErrorHandler().showError(msg);
 				}
 
+			}
+
+			public void resetError() {
+				showError(null);
 			}
 
 			public boolean onUndefinedVariables(String string,

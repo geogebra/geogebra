@@ -338,7 +338,7 @@ public class LatexTreeItem extends RadioTreeItem
 
 		};
 		ErrorHandler err = getErrorHandler(valid);
-		err.showError(null);
+		err.resetError();
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, true,
 						err, true, callback);

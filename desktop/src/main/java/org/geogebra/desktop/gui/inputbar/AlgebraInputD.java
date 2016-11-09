@@ -109,7 +109,9 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 								.updatePreviewFromInputBar(
 										inputField.getText(),
 										new ErrorHandler() {
-
+											public void resetError() {
+												showError(null);
+											}
 											public void showError(String msg) {
 												updateIcons(msg != null);
 												btnHelpToggle.setToolTipText(
@@ -455,6 +457,10 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 					storeFaultyInput();
 				}
 
+			}
+
+			public void resetError() {
+				showError(null);
 			}
 
 			public void showCommandError(String command, String message) {

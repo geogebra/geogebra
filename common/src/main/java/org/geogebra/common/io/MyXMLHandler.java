@@ -5337,6 +5337,10 @@ new GPoint(row, column));
 
 		}
 
+		public void resetError() {
+			showError(null);
+		}
+
 		public void showCommandError(String command, String message) {
 			errors.add(message);
 

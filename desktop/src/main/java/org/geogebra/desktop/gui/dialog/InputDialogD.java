@@ -583,4 +583,8 @@ public class InputDialogD extends InputDialog
 		return app.getGuiManager().checkAutoCreateSliders(string, callback);
 	}
 
+	public void resetError() {
+		showError(null);
+	}
+
 }

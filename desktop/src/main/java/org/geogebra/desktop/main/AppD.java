@@ -4280,6 +4280,10 @@ ToolbarD.getAllTools(this));
 
 				}
 
+				public void resetError() {
+					showError(null);
+				}
+
 				public boolean onUndefinedVariables(String string,
 						AsyncOperation<String[]> callback) {
 					return getGuiManager().checkAutoCreateSliders(string,

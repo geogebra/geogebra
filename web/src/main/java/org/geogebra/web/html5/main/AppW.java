@@ -2883,6 +2883,10 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 			}
 
+			public void resetError() {
+				// do nothing
+			}
+
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
 				return getGuiManager().checkAutoCreateSliders(string, callback);

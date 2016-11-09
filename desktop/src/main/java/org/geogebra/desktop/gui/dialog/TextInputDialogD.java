@@ -1105,7 +1105,7 @@ public class TextInputDialogD extends InputDialogD
 
 			// create new text
 			boolean createText = editGeo == null;
-			handler.showError(null);
+			handler.resetError();
 			if (createText) {
 				kernel.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(inputValue,

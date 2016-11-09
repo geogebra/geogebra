@@ -65,7 +65,7 @@ public class DialogBoxW extends GDialogBox {
 	public void show(){ 
 		super.show();
 		if(eh != null){
-			eh.showError(null);
+			eh.resetError();
 		}
 	}
 

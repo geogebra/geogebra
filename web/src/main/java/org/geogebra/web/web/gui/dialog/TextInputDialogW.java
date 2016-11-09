@@ -202,7 +202,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 			}
 			// create new GeoText
 			boolean createText = editGeo == null;
-			handler.showError(null);
+			handler.resetError();
 			if (createText) {
 				kernel.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(inputValue,

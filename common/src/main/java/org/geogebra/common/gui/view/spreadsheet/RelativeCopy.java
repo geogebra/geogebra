@@ -1002,6 +1002,10 @@ public class RelativeCopy {
 
 			}
 
+			public void resetError() {
+				showError(null);
+			}
+
 			public void handleThrowable() {
 				 
 					// if exception is thrown treat the input as text and try to update

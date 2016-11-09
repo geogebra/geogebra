@@ -301,6 +301,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			setWidget(mainPanel);
 		}
 
+		public void resetError() {
+			showError(null);
+		}
 		@Override
 		public void showError(String msg) {
 			if (msg == null) {
@@ -499,6 +502,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			captionPanel.setStyleName("optionsInput");
 			setWidget(mainWidget);
 			updateGUI(true, true);
+		}
+
+		public void resetError() {
+			showError(null);
 		}
 
 		void doCaptionChanged() {

@@ -31,6 +31,10 @@ public class ScriptErrorHandler implements ErrorHandler {
 
 	}
 
+	public void resetError() {
+		// nothing to do
+	}
+
 	public boolean onUndefinedVariables(String string,
 			AsyncOperation<String[]> callback) {
 		return false;

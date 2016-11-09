@@ -28,4 +28,9 @@ public class TestErrorHandler implements ErrorHandler {
 		return null;
 	}
 
+	public void resetError() {
+		// nothing to do
+
+	}
+
 }

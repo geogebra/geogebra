@@ -129,6 +129,10 @@ public abstract class ComboBoxPanel extends OptionPanel
 
 	}
 
+	public void resetError() {
+		errorPanel.clear();
+	}
+
 	public void showCommandError(String command, String message) {
 		app.getDefaultErrorHandler().showCommandError(command, message);
 
