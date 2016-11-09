@@ -300,8 +300,9 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			getTextField().setForeground(geo.getObjectColor());
 			bgCol = geo.getBackgroundColor();
 		}
-
-		getTextField().setBackground(bgCol);
+		if (bgCol != null) {
+			getTextField().setBackground(bgCol);
+		}
 
 		getTextField().setFocusable(true);
 		getTextField().setEditable(true);

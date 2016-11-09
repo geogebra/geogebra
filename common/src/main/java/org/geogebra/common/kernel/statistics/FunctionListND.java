@@ -119,7 +119,7 @@ public interface FunctionListND {
 				add(fTemplate, fTemplate,
 						product, Operation.PLUS); // fit(x)=...+p*func
 			}
-
+			fTemplate.setDefined(true);
 			return template;
 		}
 

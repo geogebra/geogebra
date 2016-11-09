@@ -176,7 +176,7 @@ public abstract class CommandDispatcher {
 			throw e;
 		} catch (Exception e) {
 			cons.setSuppressLabelCreation(oldMacroMode);
-			e.printStackTrace();
+			Log.debug(e);
 			throw new MyError(app.getLocalization(), "CAS.GeneralErrorMessage",
 					c.getName(), e);
 		} finally {
