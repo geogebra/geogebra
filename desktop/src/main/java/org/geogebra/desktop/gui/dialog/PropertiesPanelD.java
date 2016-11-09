@@ -3269,7 +3269,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				this.latexArray = data;
 				this.popupButton = popupButton;
 				setHorizontalAlignment(SwingConstants.CENTER);
-				setSelectedIndex(0);
+				super.setSelectedIndex(0);
 				this.setShowGrid(true);
 				this.setGridColor(GColorD
 						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
@@ -3353,8 +3353,16 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		public void setFillingImage(String imageFileName) {
 			if (imageFileName != null) {
-				int idx = imgFileNameList.lastIndexOf(imageFileName);
-				btnImage.setSelectedIndex(idx > 0 ? idx : 0);
+
+				int idx = 0;
+
+				for (int i = imgFileNameList.size() - 1; i >= 0; i--) {
+					if (imageFileName.equals(imgFileNameList.get(i))) {
+						idx = i;
+						break;
+					}
+				}
+				btnImage.setSelectedIndex(idx);
 			} else {
 				btnImage.setSelectedIndex(-1);
 			}
