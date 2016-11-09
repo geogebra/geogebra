@@ -3055,10 +3055,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			distanceSlider.addChangeListener(this);
 
 			if (model.hasGeoButton()) {
-				int index = imgFileNameList.lastIndexOf(model.getGeoAt(0)
-						.getImageFileName());
 
-				btnImage.setSelectedIndex(index > 0 ? index : 0);
+				int index = 0;
+				String imageFileName = model.getGeoAt(0).getImageFileName();
+
+				for (int i = imgFileNameList.size() - 1; i >= 0; i--) {
+					if (imageFileName.equals(imgFileNameList.get(i))) {
+						index = i;
+						break;
+					}
+				}
+
+				btnImage.setSelectedIndex(index);
 			} else {
 				btnImage.setSelectedIndex(0);
 			}
