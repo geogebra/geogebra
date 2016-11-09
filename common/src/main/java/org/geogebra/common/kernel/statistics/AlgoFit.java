@@ -19,12 +19,13 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoFunctionable;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.plugin.GeoClass;
 
 /**
  * AlgoFit A general linear curvefit: Fit[<List of Points>,<List of Functions>]
@@ -44,12 +45,13 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 	private GeoList pointlist; // input
 	private GeoList functionlist; // output
-	private GeoFunction fitfunction; // output
+	private CasEvaluableFunction fitfunction; // output
 
 	// variables:
 	private int datasize = 0; // rows in M and Y
 	private int functionsize = 0; // cols in M
-	private GeoFunctionable[] functionarray = null;
+	// private GeoFunctionable[] functionarray = null;
+	private FunctionListND functionarray;
 	private RealMatrix M = null;
 	private RealMatrix Y = null;
 	private RealMatrix P = null;
@@ -70,7 +72,8 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 		this.pointlist = pointlist;
 		this.functionlist = functionlist;
-		fitfunction = new GeoFunction(cons);
+		fitfunction = functionlist.getElementType() == GeoClass.FUNCTION_NVAR ? new GeoFunctionNVar(
+				cons) : new GeoFunction(cons);
 		setInputOutput();
 		compute();
 		fitfunction.setLabel(label);
@@ -89,22 +92,22 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 		setOnlyOutput(fitfunction);
 		setDependencies();
-	}// setInputOutput()
+	}
 
 	/**
 	 * @return resulting Fit function
 	 */
-	public GeoFunction getFit() {
+	public CasEvaluableFunction getFit() {
 		return fitfunction;
 	}
 
 	@Override
 	public final void compute() {
-		GeoElement geo1 = null;
 		GeoElement geo2 = null;
 		datasize = pointlist.size(); // rows in M and Y
 		functionsize = functionlist.size(); // cols in M
-		functionarray = new GeoFunctionable[functionsize];
+		functionarray = functionlist.getElementType() == GeoClass.FUNCTION_NVAR ? new FunctionListND.XYZ(
+				functionsize) : new FunctionListND.XY(functionsize);
 		M = new Array2DRowRealMatrix(datasize, functionsize);
 		Y = new Array2DRowRealMatrix(datasize, 1);
 		P = new Array2DRowRealMatrix(functionsize, 1); // Solution parameters
@@ -122,9 +125,8 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		}
 		// We are in business...
 		// Best to also check:
-		geo1 = functionlist.get(0);
 		geo2 = pointlist.get(0);
-		if (!(geo1 instanceof GeoFunctionable) || !geo2.isGeoPoint()) {
+		if (!geo2.isGeoPoint()) {
 			fitfunction.setUndefined();
 			return;
 		}// if wrong contents in lists
@@ -141,7 +143,8 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 			if (solver.isNonSingular()) {
 				P = solver.solve(Y);
 
-				fitfunction = makeFunction();
+				fitfunction = functionarray.makeFunction(fitfunction,
+						functionlist, P);
 
 			} else {
 				fitfunction.setUndefined();
@@ -155,7 +158,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 		} catch (Throwable t) {
 			fitfunction.setUndefined();
-			// t.printStackTrace();
+			t.printStackTrace();
 		}
 
 	}// compute()
@@ -163,17 +166,14 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 	// Get info from lists into matrixes and functionarray
 	private final boolean makeMatrixes() {
 		GeoElement geo = null;
-		GeoPoint point = null;
-		double x, y;
+		GeoPointND point = null;
 
 		// Make array of functions:
 		for (int i = 0; i < functionsize; i++) {
 			geo = functionlist.get(i);
-			if (!(geo instanceof GeoFunctionable)) {
-				// throw (new Exception("Not functions in function list..."));
+			if (!functionarray.set(i, geo)) {
 				return false;
-			}// if not function
-			functionarray[i] = (GeoFunctionable) functionlist.get(i);
+			}
 		}// for all functions
 			// Make matrixes with the right values: M*P=Y
 		M = new Array2DRowRealMatrix(datasize, functionsize);
@@ -184,12 +184,10 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 				// throw (new Exception("Not points in function list..."));
 				return false;
 			}// if not point
-			point = (GeoPoint) geo;
-			x = point.getX();
-			y = point.getY();
-			Y.setEntry(r, 0, y);
+			point = (GeoPointND) geo;
+			Y.setEntry(r, 0, functionarray.extractValueCoord(point));
 			for (int c = 0; c < functionsize; c++) {
-				M.setEntry(r, c, functionarray[c].getGeoFunction().evaluate(x));
+				M.setEntry(r, c, functionarray.evaluate(c, point));
 			}
 		}// for rows (=datapoints)
 			// mprint("M:",M);
@@ -199,29 +197,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 
 	}
 
-	// Making GeoFunction fit(x)= p1*f(x)+p2*g(x)+p3*h(x)+...
-	private final GeoFunction makeFunction() {
-		double p;
-		GeoFunction gf = null;
-		GeoFunction product = new GeoFunction(cons);
 
-		// First product:
-		p = P.getEntry(0, 0); // parameter
-		gf = ((GeoFunctionable) functionlist.get(0)).getGeoFunction(); // Checks
-																		// done
-																		// in
-		// makeMatrixes...
-		fitfunction = GeoFunction.mult(fitfunction, p, gf); // p1*f(x)
-		for (int i = 1; i < functionsize; i++) {
-			p = P.getEntry(i, 0);
-			gf = ((GeoFunctionable) functionlist.get(i)).getGeoFunction();
-			product = GeoFunction.mult(product, p, gf); // product= p*func
-			fitfunction = GeoFunction.add(fitfunction, fitfunction, product,
-					Operation.PLUS); // fit(x)=...+p*func
-		}
-
-		return fitfunction;
-	}
 
 	public double[] getCoeffs() {
 		double[] ret = new double[functionsize];

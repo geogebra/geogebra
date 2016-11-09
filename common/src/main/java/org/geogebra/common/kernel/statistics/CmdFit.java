@@ -49,7 +49,7 @@ public class CmdFit extends CommandProcessor {
 				AlgoFit algo = new AlgoFit(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1]);
 
-				GeoElement[] ret = { algo.getFit() };
+				GeoElement[] ret = { algo.getFit().toGeoElement() };
 				return ret;
 			} else if ((arg[0].isGeoList()) && (arg[1].isGeoFunction())) {
 
