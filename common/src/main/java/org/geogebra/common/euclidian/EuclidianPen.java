@@ -8,7 +8,6 @@ import org.apache.commons.math.linear.RealMatrix;
 import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.SingularValueDecomposition;
 import org.apache.commons.math.linear.SingularValueDecompositionImpl;
-import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
@@ -157,6 +156,7 @@ public class EuclidianPen {
 	private int penSize;
 	private int lineThickness;
 	private static GColor lineDrawingColor;
+	private static int lineDrawingStyle;
 
 	/**
 	 * start point of the gesture
@@ -275,6 +275,7 @@ public class EuclidianPen {
 			startNewStroke = true;
 		}
 		this.penLineStyle = penLineStyle;
+		lineDrawingStyle = penLineStyle;
 	}
 
 	/**
@@ -457,9 +458,11 @@ public class EuclidianPen {
 		GLine2D line = AwtFactory.prototype.newLine2D();
 		line.setLine(point1.getX(), point1.getY(), point2.getX(), point2.getY());
 		// use for line the thickness from properties
-		g2D.setStroke(AwtFactory.prototype.newBasicStroke(getLineThickness(),
-				GBasicStroke.CAP_ROUND,
-				GBasicStroke.JOIN_ROUND));
+		// g2D.setStroke(AwtFactory.prototype.newBasicStroke(getLineThickness(),
+		// GBasicStroke.CAP_ROUND,
+		// GBasicStroke.JOIN_ROUND));
+		g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),
+				lineDrawingStyle));
 		g2D.setColor(lineDrawingColor);
 		g2D.fill(line);
 		g2D.draw(line);
