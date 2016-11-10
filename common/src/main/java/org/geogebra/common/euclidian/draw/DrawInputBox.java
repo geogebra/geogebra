@@ -34,7 +34,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -285,7 +284,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		setLabelFontSize((int) (view.getFontSize()
 				* geoInputBox.getFontSizeMultiplier()));
-		App app = view.getApplication();
 
 		updateStyle();
 

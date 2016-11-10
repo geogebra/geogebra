@@ -157,7 +157,6 @@ public class CASTableControllerW extends CASTableCellController implements
 			}
 
 					// CASTableCellEditor tableCellEditor = table.getEditor();
-					Widget wid = table.getWidget(point.y, 0);
 					RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app
 					.getGuiManager()).getCASContextMenu(table);
 					popupMenu.show(new GPoint(event.getClientX()

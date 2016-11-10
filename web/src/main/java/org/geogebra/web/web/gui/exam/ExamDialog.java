@@ -303,6 +303,7 @@ public class ExamDialog {
 
 	private void onButtonOk() {
 		switch (dialogState) {
+		default:
 			case WAIT_FOR_TASK_LOCK:
 				// airplane mode off: ask again
 				if (!isAirplaneModeOn()) {
@@ -426,47 +427,48 @@ public class ExamDialog {
 
 	private static native boolean updateFullscreenStatusOn() /*-{
 		return $wnd.GeoGebraExamAndroidJsBinder.updateFullscreenStatusOn();
-    }-*/;
+	}-*/;
 
 	private static native boolean updateFullscreenStatusOff() /*-{
 		return $wnd.GeoGebraExamAndroidJsBinder.updateFullscreenStatusOff();
-    }-*/;
+	}-*/;
 
 	private static native boolean checkLockTaskAvailable() /*-{
 		return $wnd.GeoGebraExamAndroidJsBinder.checkLockTaskAvailable();
-    }-*/;
+	}-*/;
 
 	private static native boolean checkTaskLocked() /*-{
 		return $wnd.GeoGebraExamAndroidJsBinder.checkTaskLocked();
-    }-*/;
+	}-*/;
 
 	private static native void startLockTask() /*-{
 		$wnd.GeoGebraExamAndroidJsBinder.startLockTask();
-    }-*/;
+	}-*/;
 
 	private static native void stopLockTask() /*-{
 		$wnd.GeoGebraExamAndroidJsBinder.stopLockTask();
-    }-*/;
+	}-*/;
 
 
 	private static native boolean setJavascriptTargetToExamDialog() /*-{
-		return $wnd.GeoGebraExamAndroidJsBinder.setJavascriptTargetToExamDialog();
-    }-*/;
+		return $wnd.GeoGebraExamAndroidJsBinder
+				.setJavascriptTargetToExamDialog();
+	}-*/;
 
 
 	private static native boolean isAirplaneModeOn() /*-{
 		return $wnd.GeoGebraExamAndroidJsBinder.isAirplaneModeOn();
-    }-*/;
+	}-*/;
 
 	private native void exportGeoGebraAndroidMethods() /*-{
 		var that = this;
-        $wnd.examDialog_airplaneModeTurnedOn = $entry(function() {
-          that.@org.geogebra.web.web.gui.exam.ExamDialog::airplaneModeTurnedOn()();
-        });
-        $wnd.examDialog_airplaneModeTurnedOff = $entry(function() {
-          that.@org.geogebra.web.web.gui.exam.ExamDialog::airplaneModeTurnedOff()();
-        });
-    }-*/;
+		$wnd.examDialog_airplaneModeTurnedOn = $entry(function() {
+			that.@org.geogebra.web.web.gui.exam.ExamDialog::airplaneModeTurnedOn()();
+		});
+		$wnd.examDialog_airplaneModeTurnedOff = $entry(function() {
+			that.@org.geogebra.web.web.gui.exam.ExamDialog::airplaneModeTurnedOff()();
+		});
+	}-*/;
 
 	/**
 	 * this method is called through js (see exportGeoGebraAndroidMethods())
@@ -499,6 +501,6 @@ public class ExamDialog {
 
 	public static native void exitAppJs()/*-{
 		$wnd.GeoGebraExamAndroidJsBinder.exitApp();
-    }-*/;
+	}-*/;
 
 }
