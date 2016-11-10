@@ -3077,20 +3077,21 @@ public abstract class App implements UpdateSelection {
 		sb.append("var views = {");
 		sb.append("'is3D': "
 				+ (kernel.getConstruction().has3DObjects() ? "1" : "0"));
-		sb.append(",'AV': "
-				+ (gui.hasAlgebraView() && gui.getAlgebraView().isShowing() ? "1"
-				: "0"));
-		sb.append(",'SV': "
-				+ (gui.hasSpreadsheetView()
-				&& gui.getSpreadsheetView().isShowing() ? "1" : "0"));
-		sb.append(",'CV': " + (gui.hasCasView() ? "1" : "0"));
-		sb.append(",'EV2': " + (hasEuclidianView2(1) ? "1" : "0"));
-		sb.append(",'CP': " + (gui.isUsingConstructionProtocol() ? "1" : "0"));
-		sb.append(",'PC': " + (gui.hasProbabilityCalculator() ? "1" : "0"));
-		sb.append(",'DA': " + (gui.hasDataAnalysisView() ? "1" : "0"));
-		sb.append(",'FI': "
-				+ (getDialogManager().hasFunctionInspector() ? "1" : "0"));
-		sb.append(",'PV': 0");
+		if (gui != null) {
+			sb.append(",'AV': "
+					+ (gui.hasAlgebraView() && gui.getAlgebraView().isShowing()
+							? "1" : "0"));
+			sb.append(",'SV': " + (gui.hasSpreadsheetView()
+					&& gui.getSpreadsheetView().isShowing() ? "1" : "0"));
+			sb.append(",'CV': " + (gui.hasCasView() ? "1" : "0"));
+			sb.append(",'EV2': " + (hasEuclidianView2(1) ? "1" : "0"));
+			sb.append(",'CP': "
+					+ (gui.isUsingConstructionProtocol() ? "1" : "0"));
+			sb.append(",'PC': " + (gui.hasProbabilityCalculator() ? "1" : "0"));
+			sb.append(",'DA': " + (gui.hasDataAnalysisView() ? "1" : "0"));
+			sb.append(",'FI': "
+					+ (getDialogManager().hasFunctionInspector() ? "1" : "0"));
+		}
 		// TODO
 		sb.append(",'macro': " + (false ? "1" : "0"));
 		sb.append("};\n");

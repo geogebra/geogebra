@@ -238,7 +238,6 @@ public abstract class ScriptManager implements EventListener {
 		if (listenerList != null) {
 			listenerList.add(JsScript.fromName(app, jSFunctionName));
 		}
-		Log.debug(string + " (" + listenerList.size() + ") : " + jSFunctionName);
 
 	}
 

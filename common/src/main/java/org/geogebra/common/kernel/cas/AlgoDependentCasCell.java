@@ -158,12 +158,11 @@ public class AlgoDependentCasCell extends AlgoElement implements
 
 	@Override
 	public String getDefinition(StringTemplate tpl) {
-		if (input == null)
+		if (input == null) {
 			return null;
+		}
 		if (getCasCell() != null && getCasCell().getInputVE() != null) {
-			if (getCasCell().getInputVE() != null) {
-				return getCasCell().getInputVE().toString(tpl);
-			}
+			return getCasCell().getInputVE().toString(tpl);
 		}
 		return "super" + super.getDefinition(tpl);
 
