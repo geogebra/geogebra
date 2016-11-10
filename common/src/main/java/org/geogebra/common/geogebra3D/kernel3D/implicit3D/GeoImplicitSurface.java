@@ -108,6 +108,10 @@ public class GeoImplicitSurface extends GeoElement3D implements
 		return true;
 	}
 
+	/**
+	 * @param eqn
+	 *            surface equation
+	 */
 	void fromEquation(Equation eqn) {
 		setDefinition(eqn.wrap());
 
@@ -795,7 +799,7 @@ public class GeoImplicitSurface extends GeoElement3D implements
 					evaluateNormalAt(p1, n1);
 					evaluateNormalAt(p2, n2);
 					evaluateNormalAt(p3, n3);
-					det = p4.crossProduct(p5).dotproduct(n1);
+					det = p4.dotCrossProduct(n1, p5);
 					if (det < 0) {
 						surf.insertPoint(p1.val, n1.val);
 						surf.insertPoint(p2.val, n2.val);

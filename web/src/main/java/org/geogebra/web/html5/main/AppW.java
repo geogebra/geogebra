@@ -3493,4 +3493,30 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
+	public void ensureEvSizeSet(EuclidianSettings evSet) {
+
+		GDimension gd = evSet.getPreferredSize();
+		if (gd.getWidth() == 0 || gd.getHeight() == 0) {
+			int width = 0;
+			int height = 0;
+			if (!isFullAppGui()) {
+				width = getAppletWidth() - 2; // 2: border
+				height = getAppletHeight() - 2; // 2: border
+				if (width == 0 || height == 0) {
+					// setting a standard size, like in
+					// compabilityLayout
+					// fixing a real bug of height 0
+					width = 598; // 2: border
+					height = 438; // 2: border
+				}
+			} else {
+				width = getAppCanvasWidth();
+				height = getAppCanvasHeight();
+			}
+			evSet.setPreferredSize(
+					AwtFactory.prototype.newDimension(width, height));
+		}
+
+	}
+
 }

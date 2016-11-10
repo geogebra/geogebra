@@ -620,30 +620,7 @@ public class MyXMLHandler implements DocHandler {
 		switch (mode) {
 		case MODE_EUCLIDIAN_VIEW:
 			// we should set the EV sizes if they were not yet set
-			if (app.isHTML5Applet()) {
-				GDimension gd = evSet.getPreferredSize();
-				if (gd.getWidth() == 0 || gd.getHeight() == 0) {
-					int width = 0;
-					int height = 0;
-					if (!app.isFullAppGui()) {
-						width = app.getAppletWidth() - 2; // 2: border
-						height = app.getAppletHeight() - 2; // 2: border
-						if (width == 0 || height == 0) {
-							// setting a standard size, like in
-							// compabilityLayout
-							// fixing a real bug of height 0
-							width = 598; // 2: border
-							height = 438; // 2: border
-						}
-					} else {
-						width = app.getAppCanvasWidth();
-						height = app.getAppCanvasHeight();
-					}
-					evSet.setPreferredSize(
-							AwtFactory.prototype
-									.newDimension(width, height));
-				}
-			}
+			app.ensureEvSizeSet(evSet);
 
 			if ("euclidianView".equals(eName)) {
 				evSet = null;
@@ -4436,7 +4413,6 @@ new GPoint(row, column));
 		}
 	}
 
-	// Michael Borcherds 2008-02-26
 	private boolean handleLayer(LinkedHashMap<String, String> attrs) {
 
 		try {
