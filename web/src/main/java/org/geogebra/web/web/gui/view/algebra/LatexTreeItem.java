@@ -557,4 +557,9 @@ public class LatexTreeItem extends RadioTreeItem
 
 	}
 
+	@Override
+	protected void updateButtonPanelPosition() {
+		super.updateButtonPanelPosition();
+		getAlgebraDockPanel().scrollToBottom();
+	}
 }
