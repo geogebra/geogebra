@@ -352,7 +352,11 @@ public abstract class AppWFull extends AppW {
 		// remove all Macros before loading preferences
 		kernel.removeAllMacros();
 		// reload the saved/(default) preferences
-		GeoGebraPreferencesW.getPref().loadForApp(this, null);
+		Perspective p = null;
+		if (getGuiManager() != null) {
+			p = getGuiManager().getLayout().createPerspective("tmp");
+		}
+		GeoGebraPreferencesW.getPref().loadForApp(this, p);
 
 		resetAllToolbars();
 	}

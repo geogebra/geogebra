@@ -22,6 +22,8 @@ public class GeoGebraPreferencesXML {
 	public static String getXML(App app) {
 
 		int rightAngleStyle = app.getLocalization().getRightAngleStyle();
+		boolean xAxis = app.getSettings().getEuclidian(1).getShowAxis(0);
+		boolean yAxis = app.getSettings().getEuclidian(1).getShowAxis(1);
 
 		return "<?xml version=\"1.0\" encoding=\"utf-8\"?>"
 				+ "<geogebra format=\"5.0\" xsi:noNamespaceSchemaLocation=\"http://www.geogebra.org/ggb.xsd\" xmlns=\"\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" >"
@@ -62,8 +64,10 @@ public class GeoGebraPreferencesXML {
 				+ "<axesColor r=\"0\" g=\"0\" b=\"0\"/>"
 				+ "<gridColor r=\"192\" g=\"192\" b=\"192\"/>"
 				+ "<lineStyle axes=\"1\" grid=\"0\"/>"
-				+ "<axis id=\"0\" show=\"true\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\" axisCross=\"0.0\" positiveAxis=\"false\"/>"
-				+ "<axis id=\"1\" show=\"true\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\" axisCross=\"0.0\" positiveAxis=\"false\"/>"
+				+ "<axis id=\"0\" show=\"" + xAxis
+				+ "\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\" axisCross=\"0.0\" positiveAxis=\"false\"/>"
+				+ "<axis id=\"1\" show=\"" + yAxis
+				+ "\" label=\"\" unitLabel=\"\" tickStyle=\"1\" showNumbers=\"true\" axisCross=\"0.0\" positiveAxis=\"false\"/>"
 				+ "</euclidianView>"
 
 				+ "<kernel>"

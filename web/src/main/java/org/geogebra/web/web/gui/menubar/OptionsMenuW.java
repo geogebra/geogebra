@@ -106,10 +106,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	 */
 	protected void resetDefault() {
 		GeoGebraPreferencesW.getPref().clearPreferences();
-		boolean oldAxisX = app.getSettings().getEuclidian(1)
-				.getShowAxis(0);
-		boolean oldAxisY = app.getSettings().getEuclidian(1)
-				.getShowAxis(1);
+
 		// reset defaults for GUI, views etc
 		// this has to be called before load XML preferences,
 		// in order to avoid overwrite
@@ -117,8 +114,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 
 		// for geoelement defaults, this will do nothing, so it is
 		// OK here
-		GeoGebraPreferencesW.getPref().loadXMLPreferences(app);
-		app.getSettings().getEuclidian(1).setShowAxes(oldAxisX, oldAxisY);
+		GeoGebraPreferencesW.getPref().resetPreferences(app);
 
 		// reset default line thickness etc
 		app.getKernel().getConstruction().getConstructionDefaults()

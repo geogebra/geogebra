@@ -460,7 +460,7 @@ public abstract class Layout {
 
 	}
 
-	protected abstract Perspective createPerspective(String string);
+	public abstract Perspective createPerspective(String string);
 
 	public abstract boolean applyPerspective(Perspective perspective);
 
