@@ -89,7 +89,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	private GeoList list1, list2;
 
 	// local fields
-	private GeoElement ageo, bgeo, ngeo, widthGeo, isCumulative, isHorizontal,
+	private GeoElement ageo, bgeo, widthGeo, isCumulative, isHorizontal,
 			p1geo, p2geo, p3geo, hasJoin, pointType;
 	private int type;
 	private int N; // # of intervals
@@ -434,11 +434,12 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 
 	}
 
-	private AlgoBarChart(Construction cons, GeoNumeric a, double[] vals,
+	private AlgoBarChart(Construction cons, GeoNumeric width, double[] vals,
 			double[] borders, int N) {
 		super(cons, false);
 		type = TYPE_BARCHART_RAWDATA;
 
+		this.widthGeo = width;
 		this.yval = vals;
 		this.leftBorder = borders;
 		this.N = N;
@@ -651,13 +652,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 	 */
 	public double[] getValues() {
 		return yval;
-	}
-
-	/**
-	 * @return n
-	 */
-	public GeoNumeric getN() {
-		return (GeoNumeric) ngeo;
 	}
 
 	/**
@@ -1185,7 +1179,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements
 					(GeoNumberValue) getA().deepCopy(kernel),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
 		default: // TYPE_BARCHART_RAWDATA
-			return new AlgoBarChart(cons, getN().copy(),
+			return new AlgoBarChart(cons,
+					(GeoNumberValue) widthGeo.deepCopy(kernel),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()), N);
 		}
 	}

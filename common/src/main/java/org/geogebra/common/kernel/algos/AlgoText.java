@@ -141,7 +141,6 @@ public class AlgoText extends AlgoElement {
 
 		// undefined text
 		if (!geo.isDefined() || (startPoint != null && !startPoint.isDefined())
-				|| (substituteVars != null && !substituteVars.isDefined())
 				|| (substituteVars != null && !substituteVars.isDefined())) {
 			text.setUndefined();
 			return;

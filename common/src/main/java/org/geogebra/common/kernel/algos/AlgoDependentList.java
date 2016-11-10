@@ -34,7 +34,6 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	private GeoList geoList; // output
 
 	private boolean isCellRange;
-	private String cellRangeString;
 
 	/**
 	 * Creates a new algorithm that takes a list of GeoElements to build a
@@ -170,10 +169,6 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-
-		if (isCellRange && cellRangeString != null) {
-			return cellRangeString;
-		}
 
 		if (sb == null)
 			sb = new StringBuilder();

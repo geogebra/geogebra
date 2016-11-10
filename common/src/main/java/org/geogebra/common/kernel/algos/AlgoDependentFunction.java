@@ -240,7 +240,12 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	 */
 	public static ExpressionValue expandFunctionDerivativeNodes(
 			ExpressionValue ev, boolean fast) {
-		if (ev != null && ev.isExpressionNode()) {
+
+		if (ev == null) {
+			return null;
+		}
+
+		if (ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;
 			ExpressionValue leftValue = node.getLeft().unwrap();
 

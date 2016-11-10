@@ -4732,10 +4732,14 @@ public class Kernel {
 
 		};
 		if (!geo.isLabelSet() && algo != null
- && algo instanceof DependentAlgo) {
+				&& algo instanceof DependentAlgo) {
 			DependentAlgo algoDep = (DependentAlgo) algo;
-			return algoDep.getExpression().getCopy(this).traverse(ifReplacer)
-					.wrap();
+
+			if (algoDep.getExpression() != null) {
+
+				return algoDep.getExpression().getCopy(this)
+						.traverse(ifReplacer).wrap();
+			}
 		}
 
 		if (!geo.isLabelSet() && algo != null && algo instanceof AlgoIf) {

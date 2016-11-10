@@ -38,7 +38,6 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint,
 
 	private Equation equation;
 	private ExpressionValue[] ev = new ExpressionValue[3]; // input
-	private ExpressionNode root;
 	private GeoLine g; // output
 
 	/**
@@ -142,8 +141,7 @@ public class AlgoDependentLine extends AlgoElement implements EvaluateAtPoint,
 	}
 
 	public ExpressionNode getExpression() {
-		return root;
+		return null;
 	}
-	// TODO Consider locusequability
 
 }
