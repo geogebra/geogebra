@@ -78,7 +78,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	private Label lblBetween;
 	private Label lblEndProbOf;
 	private AutoCompleteTextFieldW fldLow;
-	AutoCompleteTextFieldW fldHigh;
+	private AutoCompleteTextFieldW fldHigh;
 	private AutoCompleteTextFieldW fldResult;
 	private Label lblMeanSigma;
 	FlowPanel controlPanel;
@@ -95,8 +95,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	private boolean valueChanged;
 	private MenuBar btnExport;
 	private MyToggleButton2 btnNormalOverlay;
-
-	boolean isEditing = false;
 	
 	/**
 	 * @param app creates new probabilitycalculatorView
@@ -389,54 +387,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    fldHigh = new AutoCompleteTextFieldW(app);
 	    fldHigh.setColumns(4);
 	    fldHigh.addKeyUpHandler(this);
-		if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
-			fldHigh.addFocusHandler(new FocusHandler() {
-
-				public void onFocus(FocusEvent event) {
-
-					// if (!isEditing) {
-					// isEditing = true;
-					// }
-					// fldHigh.fireEvent(new BlurEvent() {
-					// });
-
-					fldHigh.getTextBox().setFocus(false);
-
-					// isEditing = false;
-
-					event.preventDefault();
-					Object source = event.getSource();
-
-					if (source instanceof TextBox) {
-						TextBox tb = (TextBox) event.getSource();
-						if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
-							Widget parent = tb.getParent().getParent();
-							if (parent instanceof AutoCompleteTextFieldW) {
-								if (MyTableW.isAndroid() || MyTableW.isIPad()) {
-									((AutoCompleteTextFieldW) parent)
-											.setEnabled(false);
-									((AutoCompleteTextFieldW) parent)
-											.addDummyCursor(((AutoCompleteTextFieldW) parent)
-													.getCaretPosition());
-								} else {
-									tb.selectAll();
-								}
-								((AppW) app).showKeyboard(
-										(AutoCompleteTextFieldW) parent, true);
-							}
-						} else {
-							tb.selectAll();
-						}
-					}
-
-					fldHigh.getTextBox().setFocus(true);
-
-				}
-
-			});
-		} else {
-			fldHigh.addFocusHandler(this);
-		}
+	    fldHigh.addFocusHandler(this);
 	    fldHigh.addBlurHandler(this);
 	    fldHigh.getTextBox().setTabIndex(maxParameterCount + 1);
 
@@ -748,10 +699,17 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 				Widget parent = tb.getParent().getParent();
 				if (parent instanceof AutoCompleteTextFieldW) {
 					if (MyTableW.isAndroid() || MyTableW.isIPad()) {
+						if (MyTableW.isIPad()) {
+							tb.setFocus(false);
+							event.preventDefault();
+						}
 						((AutoCompleteTextFieldW) parent).setEnabled(false);
 						((AutoCompleteTextFieldW) parent)
 								.addDummyCursor(((AutoCompleteTextFieldW) parent)
 										.getCaretPosition());
+						if (MyTableW.isIPad()) {
+							// fldHigh.getTextBox().setFocus(true);
+						}
 					} else {
 						tb.selectAll();
 					}
@@ -1045,8 +1003,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 
 	@Override
     public void onBlur(BlurEvent event) {
-		if (isEditing)
-			return;
 		TextBox source = (TextBox) event.getSource();
 		doTextFieldActionPerformed(source, true);
 	    updateGUI();
