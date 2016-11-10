@@ -146,53 +146,55 @@ public class GeoGebraColorConstants {
 			synchronized (lock) { // declare a private static Object to use for
 									// mutex
 				if (geogebraColor == null) { // have to do this inside the sync
-					geogebraColor = new HashMap<String, GColor>();
+					HashMap<String, GColor> geogebraColor0 = new HashMap<String, GColor>();
 
 					// primary
-					geogebraColor.put("red", GColor.RED);
-					geogebraColor.put("orange", GColor.ORANGE);
-					geogebraColor.put("yellow", GColor.YELLOW);
-					geogebraColor.put("green", GColor.GREEN);
-					geogebraColor.put("cyan", GColor.CYAN);
-					geogebraColor.put("blue", GColor.BLUE);
-					geogebraColor.put("violet", VIOLET);
-					geogebraColor.put("magenta", GColor.MAGENTA);
-					geogebraColor.put("lime", LIME);
+					geogebraColor0.put("red", GColor.RED);
+					geogebraColor0.put("orange", GColor.ORANGE);
+					geogebraColor0.put("yellow", GColor.YELLOW);
+					geogebraColor0.put("green", GColor.GREEN);
+					geogebraColor0.put("cyan", GColor.CYAN);
+					geogebraColor0.put("blue", GColor.BLUE);
+					geogebraColor0.put("violet", VIOLET);
+					geogebraColor0.put("magenta", GColor.MAGENTA);
+					geogebraColor0.put("lime", LIME);
 
 					// light primary
-					geogebraColor.put("pink", PINK);
-					geogebraColor.put("lightorange", LIGHTORANGE);
-					geogebraColor.put("lightyellow", LIGHTYELLOW);
-					geogebraColor.put("aqua", AQUA);
-					geogebraColor.put("lightpurple", LIGHTPURPLE);
-					geogebraColor.put("lightviolet", LIGHTVIOLET);
-					geogebraColor.put("turquoise", TURQUOISE);
-					geogebraColor.put("lightgreen", LIGHTGREEN);
-					geogebraColor.put("darkblue", DARKBLUE);
+					geogebraColor0.put("pink", PINK);
+					geogebraColor0.put("lightorange", LIGHTORANGE);
+					geogebraColor0.put("lightyellow", LIGHTYELLOW);
+					geogebraColor0.put("aqua", AQUA);
+					geogebraColor0.put("lightpurple", LIGHTPURPLE);
+					geogebraColor0.put("lightviolet", LIGHTVIOLET);
+					geogebraColor0.put("turquoise", TURQUOISE);
+					geogebraColor0.put("lightgreen", LIGHTGREEN);
+					geogebraColor0.put("darkblue", DARKBLUE);
 
 					// dark primary
-					geogebraColor.put("maroon", MAROON);
-					geogebraColor.put("brown", GGB_BROWN);
-					geogebraColor.put("gold", GOLD);
-					geogebraColor.put("darkgreen", GGB_GREEN);
-					geogebraColor.put("lightblue", LIGHTBLUE);
-					geogebraColor.put("indigo", INDIGO);
-					geogebraColor.put("purple", PURPLE);
-					geogebraColor.put("crimson", CRIMSON);
+					geogebraColor0.put("maroon", MAROON);
+					geogebraColor0.put("brown", GGB_BROWN);
+					geogebraColor0.put("gold", GOLD);
+					geogebraColor0.put("darkgreen", GGB_GREEN);
+					geogebraColor0.put("lightblue", LIGHTBLUE);
+					geogebraColor0.put("indigo", INDIGO);
+					geogebraColor0.put("purple", PURPLE);
+					geogebraColor0.put("crimson", CRIMSON);
 
 					// white/gray/black
-					geogebraColor.put("white", GColor.WHITE);
-					geogebraColor.put("black", GColor.BLACK);
-					geogebraColor.put("gray7", GRAY7);
-					geogebraColor.put("gray6", GRAY6);
-					geogebraColor.put("gray5", GRAY5);
-					geogebraColor.put("gray", GRAY4);
-					geogebraColor.put("gray3", GRAY3);
-					geogebraColor.put("gray2", GRAY2);
-					geogebraColor.put("gray1", GRAY1);
-					geogebraColor.put("darkgray", DARKGRAY);
-					geogebraColor.put("lightgray", LIGHTGRAY);
-					geogebraColor.put("silver", SILVER);
+					geogebraColor0.put("white", GColor.WHITE);
+					geogebraColor0.put("black", GColor.BLACK);
+					geogebraColor0.put("gray7", GRAY7);
+					geogebraColor0.put("gray6", GRAY6);
+					geogebraColor0.put("gray5", GRAY5);
+					geogebraColor0.put("gray", GRAY4);
+					geogebraColor0.put("gray3", GRAY3);
+					geogebraColor0.put("gray2", GRAY2);
+					geogebraColor0.put("gray1", GRAY1);
+					geogebraColor0.put("darkgray", DARKGRAY);
+					geogebraColor0.put("lightgray", LIGHTGRAY);
+					geogebraColor0.put("silver", SILVER);
+
+					geogebraColor = geogebraColor0;
 				}
 			}
 		}
@@ -218,13 +220,15 @@ public class GeoGebraColorConstants {
 				if (geogebraColorReverse == null) { // have to do this inside
 													// the sync
 
-					geogebraColorReverse = new HashMap<GColor, String>();
+					HashMap<GColor, String> geogebraColorReverse0 = new HashMap<GColor, String>();
 
 					for (Entry<String, GColor> entry : getGeoGebraColors()
 							.entrySet()) {
-						geogebraColorReverse.put(entry.getValue(),
+						geogebraColorReverse0.put(entry.getValue(),
 								entry.getKey());
 					}
+
+					geogebraColorReverse = geogebraColorReverse0;
 				}
 			}
 		}
@@ -297,16 +301,18 @@ public class GeoGebraColorConstants {
 
 					getGeoGebraColors();
 
-					primaryColors = new GColor[9];
-					primaryColors[0] = geogebraColor.get("red");
-					primaryColors[1] = geogebraColor.get("orange");
-					primaryColors[2] = geogebraColor.get("yellow");
-					primaryColors[3] = geogebraColor.get("lime");
-					primaryColors[4] = geogebraColor.get("green");
-					primaryColors[5] = geogebraColor.get("cyan");
-					primaryColors[6] = geogebraColor.get("blue");
-					primaryColors[7] = geogebraColor.get("violet");
-					primaryColors[8] = geogebraColor.get("magenta");
+					GColor[] primaryColors0 = new GColor[9];
+					primaryColors0[0] = geogebraColor.get("red");
+					primaryColors0[1] = geogebraColor.get("orange");
+					primaryColors0[2] = geogebraColor.get("yellow");
+					primaryColors0[3] = geogebraColor.get("lime");
+					primaryColors0[4] = geogebraColor.get("green");
+					primaryColors0[5] = geogebraColor.get("cyan");
+					primaryColors0[6] = geogebraColor.get("blue");
+					primaryColors0[7] = geogebraColor.get("violet");
+					primaryColors0[8] = geogebraColor.get("magenta");
+
+					primaryColors = primaryColors0;
 
 				}
 			}
@@ -327,18 +333,20 @@ public class GeoGebraColorConstants {
 
 					getGeoGebraColors();
 
-					lightPrimaryColors = new GColor[9];
-					lightPrimaryColors[0] = null; // for the null icon symbol
+					GColor[] lightPrimaryColors0 = new GColor[9];
+					lightPrimaryColors0[0] = null; // for the null icon symbol
 													// (for removing
 													// bgcolor)
-					lightPrimaryColors[1] = geogebraColor.get("pink");
-					lightPrimaryColors[2] = geogebraColor.get("lightorange");
-					lightPrimaryColors[3] = geogebraColor.get("lightyellow");
-					lightPrimaryColors[4] = geogebraColor.get("lightgreen");
-					lightPrimaryColors[5] = geogebraColor.get("turquoise");
-					lightPrimaryColors[6] = geogebraColor.get("aqua");
-					lightPrimaryColors[7] = geogebraColor.get("lightpurple");
-					lightPrimaryColors[8] = geogebraColor.get("lightviolet");
+					lightPrimaryColors0[1] = geogebraColor.get("pink");
+					lightPrimaryColors0[2] = geogebraColor.get("lightorange");
+					lightPrimaryColors0[3] = geogebraColor.get("lightyellow");
+					lightPrimaryColors0[4] = geogebraColor.get("lightgreen");
+					lightPrimaryColors0[5] = geogebraColor.get("turquoise");
+					lightPrimaryColors0[6] = geogebraColor.get("aqua");
+					lightPrimaryColors0[7] = geogebraColor.get("lightpurple");
+					lightPrimaryColors0[8] = geogebraColor.get("lightviolet");
+
+					lightPrimaryColors = lightPrimaryColors0;
 
 				}
 			}
@@ -359,16 +367,18 @@ public class GeoGebraColorConstants {
 
 					getGeoGebraColors();
 
-					darkPrimaryColors = new GColor[9];
-					darkPrimaryColors[0] = geogebraColor.get("maroon");
-					darkPrimaryColors[1] = geogebraColor.get("brown");
-					darkPrimaryColors[2] = geogebraColor.get("gold");
-					darkPrimaryColors[3] = geogebraColor.get("darkgreen");
-					darkPrimaryColors[4] = geogebraColor.get("lightblue");
-					darkPrimaryColors[5] = geogebraColor.get("purple");
-					darkPrimaryColors[6] = geogebraColor.get("indigo");
-					darkPrimaryColors[7] = geogebraColor.get("crimson");
-					darkPrimaryColors[8] = geogebraColor.get("pink");
+					GColor[] darkPrimaryColors0 = new GColor[9];
+					darkPrimaryColors0[0] = geogebraColor.get("maroon");
+					darkPrimaryColors0[1] = geogebraColor.get("brown");
+					darkPrimaryColors0[2] = geogebraColor.get("gold");
+					darkPrimaryColors0[3] = geogebraColor.get("darkgreen");
+					darkPrimaryColors0[4] = geogebraColor.get("lightblue");
+					darkPrimaryColors0[5] = geogebraColor.get("purple");
+					darkPrimaryColors0[6] = geogebraColor.get("indigo");
+					darkPrimaryColors0[7] = geogebraColor.get("crimson");
+					darkPrimaryColors0[8] = geogebraColor.get("pink");
+
+					darkPrimaryColors = darkPrimaryColors0;
 				}
 			}
 		}
@@ -386,16 +396,18 @@ public class GeoGebraColorConstants {
 									// mutex
 				if (grayColors == null) { // have to do this inside the sync
 
-					grayColors = new GColor[9];
-					grayColors[0] = getGeoGebraColors().get("white");
-					grayColors[1] = grayN(1);
-					grayColors[2] = grayN(2);
-					grayColors[3] = grayN(3);
-					grayColors[4] = grayN(4);
-					grayColors[5] = grayN(5);
-					grayColors[6] = grayN(6);
-					grayColors[7] = grayN(7);
-					grayColors[8] = getGeoGebraColors().get("black");
+					GColor[] grayColors0 = new GColor[9];
+					grayColors0[0] = getGeoGebraColors().get("white");
+					grayColors0[1] = grayN(1);
+					grayColors0[2] = grayN(2);
+					grayColors0[3] = grayN(3);
+					grayColors0[4] = grayN(4);
+					grayColors0[5] = grayN(5);
+					grayColors0[6] = grayN(6);
+					grayColors0[7] = grayN(7);
+					grayColors0[8] = getGeoGebraColors().get("black");
+
+					grayColors = grayColors0;
 				}
 			}
 		}
@@ -608,148 +620,151 @@ public class GeoGebraColorConstants {
 									// mutex
 				if (colors == null) { // have to do this inside the sync
 
-					colors = new HashMap<String, GColor>();
+					// findbugs DC_PARTIALLY_CONSTRUCTED
+					HashMap<String, GColor> colors0 = new HashMap<String, GColor>();
 
 					// HTML 3.2
-					// colors.put("AQUA", rgb(0x00FFFF));
-					// colors.put("BLACK", rgb(0x000000));
-					// colors.put("BLUE", rgb(0x0000FF));
-					colors.put("FUCHSIA", rgb(0xFF00FF));
-					// colors.put("GRAY", rgb(0x808080));
-					// colors.put("GREEN", rgb(0x008000));
-					// colors.put("LIME", rgb(0x00FF00));
-					// colors.put("MAROON", rgb(0x800000));
-					colors.put("NAVY", rgb(0x000080));
-					colors.put("OLIVE", rgb(0x808000));
-					// colors.put("PURPLE", rgb(0x800080));
-					// colors.put("RED", rgb(0xFF0000));
-					// colors.put("SILVER", rgb(0xC0C0C0));
-					colors.put("TEAL", rgb(0x008080));
-					// colors.put("WHITE", rgb(0xFFFFFF));
-					// colors.put("YELLOW", rgb(0xFFFF00));
+					// colors0.put("AQUA", rgb(0x00FFFF));
+					// colors0.put("BLACK", rgb(0x000000));
+					// colors0.put("BLUE", rgb(0x0000FF));
+					colors0.put("FUCHSIA", rgb(0xFF00FF));
+					// colors0.put("GRAY", rgb(0x808080));
+					// colors0.put("GREEN", rgb(0x008000));
+					// colors0.put("LIME", rgb(0x00FF00));
+					// colors0.put("MAROON", rgb(0x800000));
+					colors0.put("NAVY", rgb(0x000080));
+					colors0.put("OLIVE", rgb(0x808000));
+					// colors0.put("PURPLE", rgb(0x800080));
+					// colors0.put("RED", rgb(0xFF0000));
+					// colors0.put("SILVER", rgb(0xC0C0C0));
+					colors0.put("TEAL", rgb(0x008080));
+					// colors0.put("WHITE", rgb(0xFFFFFF));
+					// colors0.put("YELLOW", rgb(0xFFFF00));
 
-					colors.put("ALICEBLUE", rgb(0xEFF7FF));
-					colors.put("ANTIQUEWHITE", rgb(0xF9E8D2));
-					colors.put("AQUAMARINE", rgb(0x43B7BA));
-					colors.put("AZURE", rgb(0xEFFFFF));
-					colors.put("BEIGE", rgb(0xF5F3D7));
-					colors.put("BISQUE", rgb(0xFDE0BC));
-					colors.put("BLANCHEDALMOND", rgb(0xFEE8C6));
-					colors.put("BLUEVIOLET", rgb(0x7931DF));
-					// colors.put("BROWN", rgb(0x980516));
-					colors.put("BURLYWOOD", rgb(0xEABE83));
-					colors.put("CADETBLUE", rgb(0x578693));
-					colors.put("CHARTREUSE", rgb(0x8AFB17));
-					colors.put("CHOCOLATE", rgb(0xC85A17));
-					colors.put("CORAL", rgb(0xF76541));
-					colors.put("CORNFLOWERBLUE", rgb(0x151B8D));
-					colors.put("CORNSILK", rgb(0xFFF7D7));
-					// colors.put("CRIMSON", rgb(0xE41B17));
-					colors.put("CYAN", rgb(0x00FFFF));
-					// colors.put("DARKBLUE", rgb(0x2F2F4F));
-					colors.put("DARKCYAN", rgb(0x57FEFF));
-					colors.put("DARKGOLDENROD", rgb(0xAF7817));
-					// colors.put("DARKGRAY", rgb(0x7A7777));
-					// colors.put("DARKGREEN", rgb(0x254117));
-					colors.put("DARKKHAKI", rgb(0xB7AD59));
-					colors.put("DARKMAGENTA", rgb(0xF43EFF));
-					colors.put("DARKOLIVEGREEN", rgb(0xCCFB5D));
-					colors.put("DARKORANGE", rgb(0xF88017));
-					colors.put("DARKORCHID", rgb(0x7D1B7E));
-					colors.put("DARKRED", rgb(0xE41B17));
-					colors.put("DARKSALMON", rgb(0xE18B6B));
-					colors.put("DARKSEAGREEN", rgb(0x8BB381));
-					colors.put("DARKSLATEBLUE", rgb(0x2B3856));
-					colors.put("DARKSLATEGRAY", rgb(0x253856));
-					colors.put("DARKTURQUOISE", rgb(0x3B9C9C));
-					colors.put("DARKVIOLET", rgb(0x842DCE));
-					colors.put("DEEPPINK", rgb(0xF52887));
-					colors.put("DEEPSKYBLUE", rgb(0x3BB9FF));
-					colors.put("DIMGRAY", rgb(0x463E41));
-					colors.put("DODGERBLUE", rgb(0x1589FF));
-					colors.put("FIREBRICK", rgb(0x800517));
-					colors.put("FLORALWHITE", rgb(0xFFF9EE));
-					colors.put("FORESTGREEN", rgb(0x4E9258));
-					colors.put("GAINSBORO", rgb(0xD8D9D7));
-					colors.put("GHOSTWHITE", rgb(0xF7F7FF));
-					// colors.put("GOLD", rgb(0xD4A017));
-					colors.put("GOLDENROD", rgb(0xEDDA74));
-					colors.put("GREENYELLOW", rgb(0xB1FB17));
-					colors.put("HONEYDEW", rgb(0xF0FEEE));
-					colors.put("INDIANRED", rgb(0x5E2217));
-					// colors.put("INDIGO", rgb(0x307D7E));
-					colors.put("IVORY", rgb(0xFFFFEE));
-					colors.put("KHAKI", rgb(0xADA96E));
-					colors.put("LAVENDER", rgb(0xE3E4FA));
-					colors.put("LAVENDERBLUSH", rgb(0xFDEEF4));
-					colors.put("LAWNGREEN", rgb(0x87F717));
-					colors.put("LEMONCHIFFON", rgb(0xFFF8C6));
-					// colors.put("LIGHTBLUE", rgb(0xADDFFF));
-					colors.put("LIGHTCORAL", rgb(0xE77471));
-					colors.put("LIGHTCYAN", rgb(0xE0FFFF));
-					colors.put("LIGHTGOLDENRODYELLOW", rgb(0xFAF8CC));
-					// colors.put("LIGHTGREEN", rgb(0xCCFFCC));
-					// colors.put("LIGHTGRAY", Color.LIGHT_GRAY);
-					colors.put("LIGHTPINK", rgb(0xFAAFBA));
-					colors.put("LIGHTSALMON", rgb(0xF9966B));
-					colors.put("LIGHTSEAGREEN", rgb(0x3EA99F));
-					colors.put("LIGHTSKYBLUE", rgb(0x82CAFA));
-					colors.put("LIGHTSLATEGRAY", rgb(0x6D7B8D));
-					colors.put("LIGHTSTEELBLUE", rgb(0x728FCE));
-					// colors.put("LIGHTYELLOW", rgb(0xFFFEDC));
-					colors.put("LIMEGREEN", rgb(0x41A317));
-					colors.put("LINEN", rgb(0xF9EEE2));
-					// colors.put("MAGENTA", rgb(0xFF00FF));
-					colors.put("MEDIUMAQUAMARINE", rgb(0x348781));
-					colors.put("MEDIUMBLUE", rgb(0x152DC6));
-					colors.put("MEDIUMORCHID", rgb(0xB048B5));
-					colors.put("MEDIUMPURPLE", rgb(0x8467D7));
-					colors.put("MEDIUMSEAGREEN", rgb(0x306754));
-					colors.put("MEDIUMSLATEBLUE", rgb(0x5E5A80));
-					colors.put("MEDIUMSPRINGGREEN", rgb(0x348017));
-					colors.put("MEDIUMTURQUOISE", rgb(0x48CCCD));
-					colors.put("MEDIUMVIOLETRED", rgb(0xCA226B));
-					colors.put("MIDNIGHTBLUE", rgb(0x151B54));
-					colors.put("MINTCREAM", rgb(0xF5FFF9));
-					colors.put("MISTYROSE", rgb(0xFDE1DD));
-					colors.put("MOCCASIN", rgb(0xFDE0AC));
-					colors.put("NAVAJOWHITE", rgb(0xFDDAA3));
-					colors.put("OLDLACE", rgb(0xFCF3E2));
-					colors.put("OLIVEDRAB", rgb(0x658017));
-					// colors.put("ORANGE", rgb(0xF87A17));
-					colors.put("ORANGERED", rgb(0xF63817));
-					colors.put("ORCHID", rgb(0xE57DED));
-					colors.put("PALEGOLDENROD", rgb(0xEDE49E));
-					colors.put("PALETURQUOISE", rgb(0xAEEBEC));
-					colors.put("PALEVIOLETRED", rgb(0xD16587));
-					colors.put("PAPAYAWHIP", rgb(0xFEECCF));
-					colors.put("PEACHPUFF", rgb(0xFCD5B0));
-					colors.put("PERU", rgb(0xC57726));
-					// colors.put("PINK", rgb(0xFAAFBE));
-					colors.put("PLUM", rgb(0xB93B8F));
-					colors.put("POWDERBLUE", rgb(0xADDCE3));
-					colors.put("ROSYBROWN", rgb(0xB38481));
-					colors.put("ROYALBLUE", rgb(0x2B60DE));
-					colors.put("SADDLEBROWN", rgb(0xF63526));
-					colors.put("SALMON", rgb(0xF88158));
-					colors.put("SANDYBROWN", rgb(0xEE9A4D));
-					colors.put("SEAGREEN", rgb(0x4E8975));
-					colors.put("SEASHELL", rgb(0xFEF3EB));
-					colors.put("SIENNA", rgb(0x8A4117));
-					colors.put("SKYBLUE", rgb(0x6698FF));
-					colors.put("SLATEBLUE", rgb(0x737CA1));
-					colors.put("SLATEGRAY", rgb(0x657383));
-					colors.put("SNOW", rgb(0xFFF9FA));
-					colors.put("SPRINGGREEN", rgb(0x4AA02C));
-					colors.put("STEELBLUE", rgb(0x4863A0));
-					colors.put("TAN", rgb(0xD8AF79));
-					colors.put("THISTLE", rgb(0xD2B9D3));
-					colors.put("TOMATO", rgb(0xF75431));
-					// colors.put("TURQUOISE", rgb(0x43C6DB));
-					// colors.put("VIOLET", rgb(0x8D38C9));
-					colors.put("WHEAT", rgb(0xF3DAA9));
-					colors.put("WHITESMOKE", rgb(0xFFFFFF));
-					colors.put("YELLOWGREEN", rgb(0x52D017));
+					colors0.put("ALICEBLUE", rgb(0xEFF7FF));
+					colors0.put("ANTIQUEWHITE", rgb(0xF9E8D2));
+					colors0.put("AQUAMARINE", rgb(0x43B7BA));
+					colors0.put("AZURE", rgb(0xEFFFFF));
+					colors0.put("BEIGE", rgb(0xF5F3D7));
+					colors0.put("BISQUE", rgb(0xFDE0BC));
+					colors0.put("BLANCHEDALMOND", rgb(0xFEE8C6));
+					colors0.put("BLUEVIOLET", rgb(0x7931DF));
+					// colors0.put("BROWN", rgb(0x980516));
+					colors0.put("BURLYWOOD", rgb(0xEABE83));
+					colors0.put("CADETBLUE", rgb(0x578693));
+					colors0.put("CHARTREUSE", rgb(0x8AFB17));
+					colors0.put("CHOCOLATE", rgb(0xC85A17));
+					colors0.put("CORAL", rgb(0xF76541));
+					colors0.put("CORNFLOWERBLUE", rgb(0x151B8D));
+					colors0.put("CORNSILK", rgb(0xFFF7D7));
+					// colors0.put("CRIMSON", rgb(0xE41B17));
+					colors0.put("CYAN", rgb(0x00FFFF));
+					// colors0.put("DARKBLUE", rgb(0x2F2F4F));
+					colors0.put("DARKCYAN", rgb(0x57FEFF));
+					colors0.put("DARKGOLDENROD", rgb(0xAF7817));
+					// colors0.put("DARKGRAY", rgb(0x7A7777));
+					// colors0.put("DARKGREEN", rgb(0x254117));
+					colors0.put("DARKKHAKI", rgb(0xB7AD59));
+					colors0.put("DARKMAGENTA", rgb(0xF43EFF));
+					colors0.put("DARKOLIVEGREEN", rgb(0xCCFB5D));
+					colors0.put("DARKORANGE", rgb(0xF88017));
+					colors0.put("DARKORCHID", rgb(0x7D1B7E));
+					colors0.put("DARKRED", rgb(0xE41B17));
+					colors0.put("DARKSALMON", rgb(0xE18B6B));
+					colors0.put("DARKSEAGREEN", rgb(0x8BB381));
+					colors0.put("DARKSLATEBLUE", rgb(0x2B3856));
+					colors0.put("DARKSLATEGRAY", rgb(0x253856));
+					colors0.put("DARKTURQUOISE", rgb(0x3B9C9C));
+					colors0.put("DARKVIOLET", rgb(0x842DCE));
+					colors0.put("DEEPPINK", rgb(0xF52887));
+					colors0.put("DEEPSKYBLUE", rgb(0x3BB9FF));
+					colors0.put("DIMGRAY", rgb(0x463E41));
+					colors0.put("DODGERBLUE", rgb(0x1589FF));
+					colors0.put("FIREBRICK", rgb(0x800517));
+					colors0.put("FLORALWHITE", rgb(0xFFF9EE));
+					colors0.put("FORESTGREEN", rgb(0x4E9258));
+					colors0.put("GAINSBORO", rgb(0xD8D9D7));
+					colors0.put("GHOSTWHITE", rgb(0xF7F7FF));
+					// colors0.put("GOLD", rgb(0xD4A017));
+					colors0.put("GOLDENROD", rgb(0xEDDA74));
+					colors0.put("GREENYELLOW", rgb(0xB1FB17));
+					colors0.put("HONEYDEW", rgb(0xF0FEEE));
+					colors0.put("INDIANRED", rgb(0x5E2217));
+					// colors0.put("INDIGO", rgb(0x307D7E));
+					colors0.put("IVORY", rgb(0xFFFFEE));
+					colors0.put("KHAKI", rgb(0xADA96E));
+					colors0.put("LAVENDER", rgb(0xE3E4FA));
+					colors0.put("LAVENDERBLUSH", rgb(0xFDEEF4));
+					colors0.put("LAWNGREEN", rgb(0x87F717));
+					colors0.put("LEMONCHIFFON", rgb(0xFFF8C6));
+					// colors0.put("LIGHTBLUE", rgb(0xADDFFF));
+					colors0.put("LIGHTCORAL", rgb(0xE77471));
+					colors0.put("LIGHTCYAN", rgb(0xE0FFFF));
+					colors0.put("LIGHTGOLDENRODYELLOW", rgb(0xFAF8CC));
+					// colors0.put("LIGHTGREEN", rgb(0xCCFFCC));
+					// colors0.put("LIGHTGRAY", Color.LIGHT_GRAY);
+					colors0.put("LIGHTPINK", rgb(0xFAAFBA));
+					colors0.put("LIGHTSALMON", rgb(0xF9966B));
+					colors0.put("LIGHTSEAGREEN", rgb(0x3EA99F));
+					colors0.put("LIGHTSKYBLUE", rgb(0x82CAFA));
+					colors0.put("LIGHTSLATEGRAY", rgb(0x6D7B8D));
+					colors0.put("LIGHTSTEELBLUE", rgb(0x728FCE));
+					// colors0.put("LIGHTYELLOW", rgb(0xFFFEDC));
+					colors0.put("LIMEGREEN", rgb(0x41A317));
+					colors0.put("LINEN", rgb(0xF9EEE2));
+					// colors0.put("MAGENTA", rgb(0xFF00FF));
+					colors0.put("MEDIUMAQUAMARINE", rgb(0x348781));
+					colors0.put("MEDIUMBLUE", rgb(0x152DC6));
+					colors0.put("MEDIUMORCHID", rgb(0xB048B5));
+					colors0.put("MEDIUMPURPLE", rgb(0x8467D7));
+					colors0.put("MEDIUMSEAGREEN", rgb(0x306754));
+					colors0.put("MEDIUMSLATEBLUE", rgb(0x5E5A80));
+					colors0.put("MEDIUMSPRINGGREEN", rgb(0x348017));
+					colors0.put("MEDIUMTURQUOISE", rgb(0x48CCCD));
+					colors0.put("MEDIUMVIOLETRED", rgb(0xCA226B));
+					colors0.put("MIDNIGHTBLUE", rgb(0x151B54));
+					colors0.put("MINTCREAM", rgb(0xF5FFF9));
+					colors0.put("MISTYROSE", rgb(0xFDE1DD));
+					colors0.put("MOCCASIN", rgb(0xFDE0AC));
+					colors0.put("NAVAJOWHITE", rgb(0xFDDAA3));
+					colors0.put("OLDLACE", rgb(0xFCF3E2));
+					colors0.put("OLIVEDRAB", rgb(0x658017));
+					// colors0.put("ORANGE", rgb(0xF87A17));
+					colors0.put("ORANGERED", rgb(0xF63817));
+					colors0.put("ORCHID", rgb(0xE57DED));
+					colors0.put("PALEGOLDENROD", rgb(0xEDE49E));
+					colors0.put("PALETURQUOISE", rgb(0xAEEBEC));
+					colors0.put("PALEVIOLETRED", rgb(0xD16587));
+					colors0.put("PAPAYAWHIP", rgb(0xFEECCF));
+					colors0.put("PEACHPUFF", rgb(0xFCD5B0));
+					colors0.put("PERU", rgb(0xC57726));
+					// colors0.put("PINK", rgb(0xFAAFBE));
+					colors0.put("PLUM", rgb(0xB93B8F));
+					colors0.put("POWDERBLUE", rgb(0xADDCE3));
+					colors0.put("ROSYBROWN", rgb(0xB38481));
+					colors0.put("ROYALBLUE", rgb(0x2B60DE));
+					colors0.put("SADDLEBROWN", rgb(0xF63526));
+					colors0.put("SALMON", rgb(0xF88158));
+					colors0.put("SANDYBROWN", rgb(0xEE9A4D));
+					colors0.put("SEAGREEN", rgb(0x4E8975));
+					colors0.put("SEASHELL", rgb(0xFEF3EB));
+					colors0.put("SIENNA", rgb(0x8A4117));
+					colors0.put("SKYBLUE", rgb(0x6698FF));
+					colors0.put("SLATEBLUE", rgb(0x737CA1));
+					colors0.put("SLATEGRAY", rgb(0x657383));
+					colors0.put("SNOW", rgb(0xFFF9FA));
+					colors0.put("SPRINGGREEN", rgb(0x4AA02C));
+					colors0.put("STEELBLUE", rgb(0x4863A0));
+					colors0.put("TAN", rgb(0xD8AF79));
+					colors0.put("THISTLE", rgb(0xD2B9D3));
+					colors0.put("TOMATO", rgb(0xF75431));
+					// colors0.put("TURQUOISE", rgb(0x43C6DB));
+					// colors0.put("VIOLET", rgb(0x8D38C9));
+					colors0.put("WHEAT", rgb(0xF3DAA9));
+					colors0.put("WHITESMOKE", rgb(0xFFFFFF));
+					colors0.put("YELLOWGREEN", rgb(0x52D017));
+
+					colors = colors0;
 
 				}
 			}
