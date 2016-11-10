@@ -476,7 +476,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 				this.repaintTimer
 				        .schedule(EuclidianViewW.DELAY_UNTIL_MOVE_FINISH);
 			}
-			if (ec.view.getMode() != EuclidianConstants.MODE_PEN)
+			if (ec.view.getMode() != EuclidianConstants.MODE_FREEHAND_SHAPE
+					&& ec.view.getMode() != EuclidianConstants.MODE_PEN)
 				return;
 		}
 
