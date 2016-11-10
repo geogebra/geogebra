@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -91,7 +90,6 @@ public class GeoInputBox extends GeoButton {
 	private GeoElementND linkedGeo = null;
 
 	private String text = null;
-	private AutoCompleteTextField textField, textField2;
 	
 	@Override
 	public String toValueString(StringTemplate tpl1) {
@@ -358,19 +356,6 @@ public class GeoInputBox extends GeoButton {
 	 */
 	public void textSubmitted() {
 		runClickScripts(getText());
-	}
-	
-	@Override
-	public void setSelected(boolean flag) {
-		super.setSelected(flag);
-
-		if (flag && textField != null && !textField.hasFocus()) {
-			textField.requestFocus();
-		}
-		
-		if (flag && textField2 != null && !textField2.hasFocus()) {
-			textField2.requestFocus();
-		}
 	}
 	
 	private void updateTemplate() {
