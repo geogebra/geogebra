@@ -150,6 +150,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@SuppressWarnings("javadoc")
 public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
 	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
@@ -510,6 +511,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 					}
 				}
 
+				@Override
 				public void onError() {
 					LocalizationW.loadPropertiesFromStorage(lang, "");
 					doSetLanguage(lang);
@@ -880,7 +882,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	public ImageManagerW getImageManager() {
+	public final ImageManagerW getImageManager() {
 		return imageManager;
 	}
 
@@ -1919,6 +1921,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	protected abstract void updateTreeUI();
 
 	public void buildApplicationPanel() {
+		// overridden in AppWApplet
 	}
 
 	public void appSplashCanNowHide() {
@@ -2024,12 +2027,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	protected EuclidianView newEuclidianView(boolean[] showAxes,
-	        boolean showGrid) {
+	protected EuclidianView newEuclidianView(boolean[] showEvAxes,
+			boolean showEvGrid) {
 
 		return euclidianView = newEuclidianView(euclidianViewPanel,
-		        euclidianController, showAxes, showGrid, 1, getSettings()
-		                .getEuclidian(1));
+				euclidianController, showEvAxes, showEvGrid, 1,
+				getSettings().getEuclidian(1));
 	}
 
 	/**
@@ -2240,34 +2243,29 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public ImageElement getRefreshViewImage() {
-		// don't need to load gui jar as reset image is in main jar
-		ImageElement imgE = getImageManager().getInternalImage(
+		ImageElement imgE = ImageManagerW.getInternalImage(
 		        GuiResourcesSimple.INSTANCE.viewRefresh());
 		attachNativeLoadHandler(imgE);
 		return imgE;
 	}
 
 	public ImageElement getPlayImage() {
-		// don't need to load gui jar as reset image is in main jar
-		return getImageManager().getInternalImage(
+		return ImageManagerW.getInternalImage(
 				GuiResourcesSimple.INSTANCE.icons_play_circle());
 	}
 
 	public ImageElement getPauseImage() {
-		// don't need to load gui jar as reset image is in main jar
-		return getImageManager().getInternalImage(
+		return ImageManagerW.getInternalImage(
 				GuiResourcesSimple.INSTANCE.icons_play_pause_circle());
 	}
 
 	public ImageElement getPlayImageHover() {
-		// don't need to load gui jar as reset image is in main jar
-		return getImageManager().getInternalImage(
+		return ImageManagerW.getInternalImage(
 				GuiResourcesSimple.INSTANCE.icons_play_circle_hover());
 	}
 
 	public ImageElement getPauseImageHover() {
-		// don't need to load gui jar as reset image is in main jar
-		return getImageManager().getInternalImage(
+		return ImageManagerW.getInternalImage(
 				GuiResourcesSimple.INSTANCE.icons_play_pause_circle_hover());
 	}
 
@@ -2279,18 +2277,16 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	protected int getWindowWidth() {
 		if (getWidth() > 0) {
 			return (int) getWidth();
-		} else {
-			return 800;
 		}
+		return 800;
 	}
 
 	@Override
 	protected int getWindowHeight() {
 		if (getHeight() > 0) {
 			return (int) getHeight();
-		} else {
-			return 600;
 		}
+		return 600;
 	}
 
 	@Override
@@ -2466,6 +2462,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		popups.add(widget);
 	}
 
+	@Override
 	public void closePopups() {
 		Log.debug("close popups");
 		justClosedPopup = false;
@@ -2515,7 +2512,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public int getWidthForSplitPanel(int fallback) {
-		int ret = getAppletWidth() - 2; // 2: border
+		int ret = getAppletWidth() - articleElement.getBorderThickness(); // 2:
+																			// border
 
 		// if it is not 0, there will be some scaling later
 		if (ret <= 0) {
@@ -2530,7 +2528,8 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	public int getHeightForSplitPanel(int fallback) {
-		int windowHeight = getAppletHeight() - 2; // 2: border
+		int windowHeight = getAppletHeight()
+				- articleElement.getBorderThickness(); // 2: border
 		// but we want to know the available height for the rootPane
 		// so we either use the above as a heuristic,
 		// or we should substract the height(s) of
@@ -2870,9 +2869,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
+	@Override
 	public ErrorHandler getDefaultErrorHandler() {
 		return new ErrorHandler() {
 
+			@Override
 			public void showError(String msg) {
 				Log.printStacktrace("");
 				String title = GeoGebraConstants.APPLICATION_NAME + " - "
@@ -2884,15 +2885,18 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 			}
 
+			@Override
 			public void resetError() {
 				// do nothing
 			}
 
+			@Override
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
 				return getGuiManager().checkAutoCreateSliders(string, callback);
 			}
 
+			@Override
 			public void showCommandError(final String command, String message) {
 				String title = GeoGebraConstants.APPLICATION_NAME + " - "
 						+ getLocalization().getError("Error");
@@ -2916,6 +2920,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 			}
 
+			@Override
 			public String getCurrentCommand() {
 				// TODO Auto-generated method stub
 				return null;
@@ -2981,7 +2986,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 
 	public void attachNativeLoadHandler(ImageElement img) {
-		addNativeLoadHandler(img, (EuclidianView) getActiveEuclidianView());
+		addNativeLoadHandler(img, getActiveEuclidianView());
 	}
 
 	private native void addNativeLoadHandler(ImageElement img,
@@ -3160,6 +3165,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		// Overwritten in subclass - nothing to do here
 	}
 
+	@Override
 	public void updateKeyboardHeight() {
 		// Overwritten in subclass - nothing to do here
 	}
@@ -3223,7 +3229,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return false;
 	}
 
-	public void addToHeight(int i) {
+	/**
+	 * @param heightDiff
+	 *            height difference
+	 */
+	public void addToHeight(int heightDiff) {
 		// for applets with keyboard only
 	}
 
@@ -3231,6 +3241,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	private boolean keyboardNeeded;
 	private String externalPath;
 
+	@Override
 	public SensorLogger getSensorLogger() {
 		if (webSocketLogger == null) {
 			webSocketLogger = new WebsocketLogger(getKernel());
@@ -3354,7 +3365,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	 */
 	public float getPixelRatio() {
 		return Browser.getPixelRatio()
-				* (float) articleElement.readScaleX();
+				* articleElement.readScaleX();
 	}
 
 	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<MouseTouchGestureControllerW>();
@@ -3371,6 +3382,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return RootPanel.get();
 	}
 	
+	@Override
 	public void setAltText() {
 		getEuclidianView1().setAltText();
 		if (hasEuclidianView2(1)) {
@@ -3386,6 +3398,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return null;
 	}
 
+	@Override
 	public boolean showAutoCreatedSlidersInEV() {
 		return false;
 	}
@@ -3488,11 +3501,16 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return false;
 	}
 
+	/**
+	 * @param p
+	 *            perspective to be forced after settings
+	 */
 	public void loadPreferences(Perspective p) {
 		// GeoGebraPreferencesW.getPref().loadForApp(app, p);
 
 	}
 
+	@Override
 	public void ensureEvSizeSet(EuclidianSettings evSet) {
 
 		GDimension gd = evSet.getPreferredSize();
