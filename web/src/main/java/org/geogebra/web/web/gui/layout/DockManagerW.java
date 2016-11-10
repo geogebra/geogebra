@@ -1887,6 +1887,11 @@ public class DockManagerW extends DockManager {
 	
 	@Override
 	public void adjustViews() {
+		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
+		if (avPanel != null) {
+			avPanel.onResize();
+		}
+
 		if (!app.has(Feature.ADJUST_VIEWS) || panelsMoved) {
 			return;
 		}
