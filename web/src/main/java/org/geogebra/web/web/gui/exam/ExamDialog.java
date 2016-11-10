@@ -11,6 +11,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.ExamEnvironmentW;
 import org.geogebra.web.html5.main.ExamUtil;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
@@ -112,40 +113,33 @@ public class ExamDialog {
 			mainWidget.add(cbxPanel);
 			cbxPanel.addStyleName("ExamCheckboxPanel");
 			btnPanel.addStyleName("DialogButtonPanel");
+			box.getCaption().setText(loc.getMenu("exam_custom_header"));
 		} else {
 			if (app.getArticleElement().hasDataParamEnableGraphing()) {
 				boolean supportsCAS = app.getSettings().getCasSettings().isEnabled();
 				boolean supports3D = app.getSettings().getEuclidian(-1).isEnabled();
+				Log.debug(supportsCAS + "," + supports3D + "," + app.enableGraphing());
 				// CAS EXAM: cas && !3d && ev
 				if (!supports3D && supportsCAS) {
 					// set CAS background view for Exam CAS
 					app.getGgbApi().setPerspective("4");
-					Label description = new Label(loc.getMenu("CAS"));
-					mainWidget.add(description);
+					box.getCaption().setText(loc.getMenu("ExamCAS"));
 				}
 				// GRAPH EXAM: !cas && !3d && ev
 				else if (!supports3D && !supportsCAS) {
 					if (app.enableGraphing()) {
-						Label description = new Label(loc.getMenu("GraphingCalculator"));
-						mainWidget.add(description);
+						box.getCaption().setText(loc.getMenu("ExamGraphingCalc.long"));
 					} else {
 						// set algebra view in background of start dialog
 						// for tablet Exam Simple Calc
 						// needed for GGB-1176
 						app.getGgbApi().setPerspective("A");
-						Label description = new Label(loc.getMenu("SimpleCalculator"));
-						mainWidget.add(description);
+						box.getCaption().setText(loc.getMenu("ExamSimpleCalc.long"));
 					}
 				}
+			} else {
+				box.getCaption().setText(loc.getMenu("exam_custom_header"));
 			}
-			// SIMPLE EXAM: !cas && !3d && !ev
-			/*
-			 * if (!app.getSettings().getCasSettings().isEnabledSet() &&
-			 * !app.getSettings().getEuclidian(-1).isEnabledSet() &&
-			 * app.getArticleElement().hasDataParamEnableGraphing()) else {
-			 * Label description = new Label("Simple Calc");
-			 * mainWidget.add(description); }
-			 */
 		}
 
 
@@ -165,7 +159,7 @@ public class ExamDialog {
 
 		mainWidget.add(btnPanel);
 		box.setWidget(mainWidget);
-		box.getCaption().setText(loc.getMenu("exam_custom_header"));
+
 
 		if ((app.getArticleElement().hasDataParamEnableGraphing())) {
 			btnOk.addStyleName("ExamTabletStartButton");
@@ -240,28 +234,6 @@ public class ExamDialog {
 		}
 	}
 
-
-//	static final public String getExamAppName(AppW app, Localization loc){
-//		boolean supportsCAS = app.getSettings().getCasSettings()
-//				.isEnabled();
-//		boolean supports3D = app.getSettings().getEuclidian(-1)
-//				.isEnabled();
-//
-//		if (!supports3D && supportsCAS) {
-//			if (supportsCAS) {
-//				return loc.getMenu("ExamCAS");
-//			}
-//
-//			if (app.enableGraphing()) {
-//				return loc.getMenu("ExamGraphingCalc.long");
-//			}
-//
-//			return loc.getMenu("ExamSimpleCalc.long");
-//		}
-//
-//		return null;
-//	}
-
 	////////////////////////////////////
 	// ANDROID TABLETS
 	////////////////////////////////////
@@ -325,6 +297,7 @@ public class ExamDialog {
 					return;
 				}
 				// all set: start exam
+				ExamEnvironmentW.setJavascriptTargetToNone();
 				startExam(box, app);
 				break;
 		}
@@ -347,8 +320,7 @@ public class ExamDialog {
 	private void setAirplaneModeDialog() {
 		updateFullscreenStatusOff();
 
-		//instruction.setText(loc.getMenu("exam_set_airplane_mode_on"));
-		instruction.setText("Please turn on airplane mode now");
+		instruction.setText(loc.getMenu("exam_set_airplane_mode_on"));
 		instruction.setVisible(true);
 
 		btnOk.setVisible(false);
@@ -365,14 +337,13 @@ public class ExamDialog {
 			return;
 		}
 
-		updateFullscreenStatusOn();
+		updateFullscreenStatusOff();
 
-//		instruction.setText(loc.getMenu("exam_accept_lock"));
-		instruction.setText("Please accept to lock your device to start the exam");
+		instruction.setText(loc.getMenu("exam_accept_pin"));
 		instruction.setVisible(true);
 
-//		btnOk.setText(loc.getMenu("exam_lock"));
-		btnOk.setText("Lock");
+		btnOk.setText(loc.getMenu("exam_pin"));
+		btnOk.setFocus(false);
 		btnOk.setVisible(true);
 
 		box.center();
@@ -386,6 +357,7 @@ public class ExamDialog {
 		instruction.setVisible(false);
 
 		btnOk.setText(loc.getMenu("exam_start_button"));
+		btnOk.setFocus(false);
 		btnOk.setVisible(true);
 
 		box.center();

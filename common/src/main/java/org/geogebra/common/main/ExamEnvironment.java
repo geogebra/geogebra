@@ -12,10 +12,14 @@ import org.geogebra.common.util.debug.Log;
 
 public class ExamEnvironment {
 	long examStartTime = -1;
-	private LinkedList<Long> cheatingTimes = null;
-	private LinkedList<Boolean> cheatingEvents = null;
+	protected LinkedList<Long> cheatingTimes = null;
+
+	protected enum CheatingEvent {WINDOWS_LEFT, WINDOW_ENTERED, AIRPLANE_MODE_OFF, AIRPLANE_MODE_ON}
+
+	protected LinkedList<CheatingEvent> cheatingEvents = null;
 	private long closed = -1;
 	private long maybeCheating = -1;
+	private boolean lastCheatingEventWindowWasLeft;
 
 	private boolean hasGraph = false;
 
@@ -25,7 +29,7 @@ public class ExamEnvironment {
 
 	public void setStart(long time) {
 		examStartTime = time;
-
+		lastCheatingEventWindowWasLeft = false;
 	}
 
 	public void startCheating(String os) {
@@ -55,10 +59,10 @@ public class ExamEnvironment {
 			maybeCheating = -1;
 			if (getStart() > 0) {
 				initLists();
-				if (cheatingEvents.size() == 0 || !cheatingEvents
-						.get(cheatingEvents.size() - 1).booleanValue()) {
+				if (cheatingEvents.size() == 0 || !lastCheatingEventWindowWasLeft) {
 					cheatingTimes.add(System.currentTimeMillis());
-					cheatingEvents.add(true);
+					cheatingEvents.add(CheatingEvent.WINDOWS_LEFT);
+					lastCheatingEventWindowWasLeft = true;
 					Log.debug("STARTED CHEATING");
 				}
 
@@ -72,18 +76,18 @@ public class ExamEnvironment {
 			return;
 		}
 
-		if (cheatingEvents.size() > 0 && cheatingEvents
-				.get(cheatingEvents.size() - 1).booleanValue()) {
+		if (cheatingEvents.size() > 0 && lastCheatingEventWindowWasLeft) {
 			cheatingTimes.add(System.currentTimeMillis());
-			cheatingEvents.add(false);
+			cheatingEvents.add(CheatingEvent.WINDOW_ENTERED);
+			lastCheatingEventWindowWasLeft = false;
 			Log.debug("STOPPED CHEATING");
 		}
 	}
 
-	private void initLists() {
+	protected void initLists() {
 		if (cheatingTimes == null) {
 			cheatingTimes = new LinkedList<Long>();
-			cheatingEvents = new LinkedList<Boolean>();
+			cheatingEvents = new LinkedList<CheatingEvent>();
 		}
 
 	}
@@ -170,13 +174,7 @@ public class ExamEnvironment {
 			for (int i = 0; i < cheatingTimes.size(); i++) {
 				sb.append(timeToString(cheatingTimes.get(i)));
 				sb.append(' ');
-				sb.append(cheatingEvents.get(i)
- ? loc.getMenu("exam_log_window_left") // CHEATING
-																								// ALERT:
-																// exam left
-						: loc.getMenu("exam_log_window_entered")); // exam
-																	// active
-																	// again
+				sb.append(getCheatingString(cheatingEvents.get(i), loc));
 				sb.append("<br>");
 			}
 		}
@@ -186,6 +184,20 @@ public class ExamEnvironment {
 			sb.append(loc.getMenu("exam_ended"));
 		}
 		return sb.toString();
+	}
+
+	static private String getCheatingString(CheatingEvent cheatingEvent, Localization loc) {
+		switch (cheatingEvent) {
+			case WINDOWS_LEFT: // CHEATING ALERT: exam left
+				return loc.getMenu("exam_log_window_left");
+			case WINDOW_ENTERED: // exam active again
+				return loc.getMenu("exam_log_window_entered");
+			case AIRPLANE_MODE_OFF:
+				return loc.getMenu("exam_log_airplane_mode_off");
+			case AIRPLANE_MODE_ON:
+				return loc.getMenu("exam_log_airplane_mode_on");
+		}
+		return "";
 	}
 
 	public boolean getHasGraph() {

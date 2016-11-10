@@ -1524,8 +1524,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return;
 		}
 		if ("exam".equals(code)) {
-			ExamEnvironment exam = new ExamEnvironment();
-			app.setExam(exam);
+			app.setNewExam();
 			app.examWelcome();
 			return;
 		}

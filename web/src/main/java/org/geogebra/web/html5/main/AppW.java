@@ -215,7 +215,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 				&& (laf == null || laf.undoRedoSupported()));
 
 		if (ae.getDataParamPerspective().startsWith("exam")) {
-			setExam(new ExamEnvironment());
+			setNewExam();
 			ae.setAttribute("data-param-perspective", "");
 		}
 		this.loc = new LocalizationW(dimension);
@@ -3505,6 +3505,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 					AwtFactory.prototype.newDimension(width, height));
 		}
 
+	}
+
+	@Override
+	public void setNewExam() {
+		setExam(new ExamEnvironmentW(this));
 	}
 
 }

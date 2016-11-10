@@ -111,7 +111,7 @@ public class PerspectivesMenuW extends GMenuBar {
 				if (app.getLAF().supportsFullscreen()) {
 					ExamUtil.toggleFullscreen(true);
 				}
-				app.setExam(new ExamEnvironment());
+				app.setNewExam();
 				((AppWFull) app).examWelcome();
 
 			}

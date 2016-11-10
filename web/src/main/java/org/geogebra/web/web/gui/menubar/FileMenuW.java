@@ -94,7 +94,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					handler = new AsyncOperation<String[]>() {
 						@Override
 						public void callback(String[] dialogResult) {
-							app.setExam(new ExamEnvironment());
 							// for android tablets we just want to exit app
 							ExamDialog.exitApp();
 						}
@@ -104,7 +103,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					handler = new AsyncOperation<String[]>() {
 						@Override
 						public void callback(String[] dialogResult) {
-							app.setExam(new ExamEnvironment());
+							app.setNewExam();
 							ExamDialog.startExam(null, app);
 						}
 					};
@@ -394,7 +393,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				if (app.getLAF().supportsFullscreen()) {
 					ExamUtil.toggleFullscreen(true);
 				}
-				app.setExam(new ExamEnvironment());
+				app.setNewExam();
 				((AppWFull) app).examWelcome();
 
 			}
