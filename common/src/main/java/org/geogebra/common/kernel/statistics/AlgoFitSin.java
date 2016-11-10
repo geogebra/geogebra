@@ -100,10 +100,10 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	private final static double TWO_PI = PI * 2;
 
 	// Properties
-	private static double a, b, c, d; // a+bsin(cx+d)
-	private static double[] xd, yd; // datapoints
-	private static int size; // data arrays
-	private static int iterations; // LM iterations
+	private double a, b, c, d; // a+bsin(cx+d)
+	private double[] xd, yd; // datapoints
+	private int size; // data arrays
+	private int iterations; // LM iterations
 	private boolean error = false; // General catch-all
 
 	// / --- GeoGebra obligatory: --- ///
@@ -196,7 +196,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}// doReg()
 
 	/** Tries to find good initial values for a,b,c,d */
-	public final static void findParameters() {
+	public final void findParameters() {
 		double y;
 		double min_max_distance; // Distance between x-values of found(?)
 									// extrema
@@ -621,7 +621,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	// To be used if DFT is used in finding good initial values
 	// Finds the number of halfperiods between abs max and abs min that gives
 	// the least SSE
-	private final static int findNumberOfHalfPeriods(int k, int xmin, int xmax) {
+	private final int findNumberOfHalfPeriods(int k, int xmin, int xmax) {
 		double min_error = Double.MAX_VALUE;
 		double error;
 		double period, c;

@@ -410,7 +410,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	// --- The Logistic Function and its derivates --- //
 
 	// Variables in calcultions that tries to prevent rounding off errors:
-	private static double x1, y1, x2, y2, ymult, e1, e2, emult, ydiff;
+	private double x1, y1, x2, y2, ymult, e1, e2, emult, ydiff;
 
 	/** Logistic function f(x)=c/(1+ae^(-bx)) */
 	private final static double f(double x, double a1, double b1, double c1) {
@@ -420,7 +420,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	// Adjusted f, used in findParameters(), when a and c are calculated from
 	// first and last datapoint
 	// Also tries to avoid rounding off errors
-	private final static double f(double x, double k) { // k=b
+	private final double f(double x, double k) { // k=b
 		double e1k = Math.pow(e1, k), e2k = Math.pow(e2, k);
 		double efrac = Math.pow(emult / Math.exp(x), k);
 		return ymult * (e1k - e2k) / (y2 * e1k - y1 * e2k + ydiff * efrac);
@@ -451,7 +451,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	}// beta(x,y,a,b,c)
 
 	// beta = yd-f(x,b) for use in findParameters(). (a and c calculated)
-	private final static double beta(double x, double y, double b1) {
+	private final double beta(double x, double y, double b1) {
 		return y - f(x, b1);
 	}// bet(x,y,b)
 
