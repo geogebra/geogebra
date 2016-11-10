@@ -75,8 +75,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 
 		if (((GeoElement) g).isGeoElement3D()
 				|| ((GeoElement) h).isGeoElement3D()) {
-			return (GeoPointND) getManager3D().Intersect(label, (GeoElement) g,
-					(GeoElement) h);
+			return (GeoPointND) getManager3D().Intersect(label, g, h);
 		}
 
 		return super.IntersectLines(label, g, h);

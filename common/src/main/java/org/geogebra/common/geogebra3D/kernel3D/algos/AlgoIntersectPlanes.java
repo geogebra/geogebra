@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 
@@ -55,14 +54,14 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 	public AlgoIntersectPlanes(Construction cons, String label,
 			GeoPlaneND cs1, GeoPlaneND cs2) {
 
-		super(cons, label, (GeoElement) cs1, (GeoElement) cs2);
+		super(cons, label, cs1, cs2, false);
 
 	}
 
 	public AlgoIntersectPlanes(Construction cons, GeoPlaneND cs1,
 			GeoPlaneND cs2) {
 
-		super(cons, (GeoElement) cs1, (GeoElement) cs2);
+		super(cons, cs1, cs2, false);
 
 	}
 	

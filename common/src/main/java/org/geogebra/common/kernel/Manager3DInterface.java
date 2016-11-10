@@ -418,18 +418,23 @@ public interface Manager3DInterface {
 	// //////////////////////////////////////////////
 	// INTERSECTION (POINTS)
 
+
+	public GeoElement Intersect(String label, GeoLineND cs1, GeoCoordSys2D cs2,
+			boolean swapInputs);
+
+
 	/**
-	 * Calculate the intersection of two coord sys (eg line and plane).
+	 * Calculate the intersection of two lines
 	 * 
 	 * @param label
 	 *            name of the point
 	 * @param cs1
-	 *            first coord sys
+	 *            first line
 	 * @param cs2
-	 *            second coord sys
+	 *            second line
 	 * @return point intersection
 	 */
-	public GeoElement Intersect(String label, GeoElement cs1, GeoElement cs2);
+	public GeoElement Intersect(String label, GeoLineND cs1, GeoLineND cs2);
 
 	/**
 	 * Calculate the intersection of the line g with the region of p

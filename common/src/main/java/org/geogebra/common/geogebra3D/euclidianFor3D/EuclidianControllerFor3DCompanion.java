@@ -237,7 +237,7 @@ public class EuclidianControllerFor3DCompanion extends
 				 * .IntersectLines(null, (GeoLine) a, (GeoLine) b); }
 				 */
 				point = (GeoPoint3D) ec.kernel.getManager3D().Intersect(null,
-						a, b);
+						(GeoLineND) a, (GeoLineND) b);
 			} else if (b.isGeoConic()) {
 				point = ec.kernel.getManager3D().IntersectLineConicSingle(null,
 						(GeoLineND) a, (GeoConicND) b, ec.xRW, ec.yRW,

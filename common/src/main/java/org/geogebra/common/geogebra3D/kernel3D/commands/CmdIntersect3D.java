@@ -166,11 +166,24 @@ public class CmdIntersect3D extends CmdIntersect {
 							(GeoPolygon) arg[1]);
 
 				// intersection line/planar objects
-				else if ((arg[0] instanceof GeoLineND && arg[1] instanceof GeoCoordSys2D)
-						|| (arg[1] instanceof GeoLineND && arg[0] instanceof GeoCoordSys2D)) {
+				else if (arg[0] instanceof GeoLineND
+						&& arg[1] instanceof GeoCoordSys2D) {
 
 					GeoPoint3D point = (GeoPoint3D) kernelA.getManager3D()
-							.Intersect(c.getLabel(), arg[0], arg[1]);
+							.Intersect(c.getLabel(), (GeoLineND) arg[0],
+									(GeoCoordSys2D) arg[1], false);
+
+					kernelA.setStringMode(point);
+
+					return new GeoElement[] { point };
+
+					// intersection line/planar objects
+				} else if (arg[1] instanceof GeoLineND
+						&& arg[0] instanceof GeoCoordSys2D) {
+
+					GeoPoint3D point = (GeoPoint3D) kernelA.getManager3D()
+							.Intersect(c.getLabel(), (GeoLineND) arg[1],
+									(GeoCoordSys2D) arg[0], true);
 
 					kernelA.setStringMode(point);
 
@@ -181,7 +194,8 @@ public class CmdIntersect3D extends CmdIntersect {
 						&& arg[1] instanceof GeoLineND) {
 
 					GeoPoint3D point = (GeoPoint3D) kernelA.getManager3D()
-							.Intersect(c.getLabel(), arg[0], arg[1]);
+							.Intersect(c.getLabel(), (GeoLineND) arg[0],
+									(GeoLineND) arg[1]);
 
 					kernelA.setStringMode(point);
 

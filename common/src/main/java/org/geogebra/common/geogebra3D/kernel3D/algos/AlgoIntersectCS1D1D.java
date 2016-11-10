@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 
 /**
@@ -52,7 +51,7 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 	public AlgoIntersectCS1D1D(Construction cons, String label, GeoLineND cs1,
 			GeoLineND cs2) {
 
-		super(cons, label, (GeoElement) cs1, (GeoElement) cs2);
+		super(cons, label, cs1, cs2, false);
 
 	}
 

@@ -20,6 +20,7 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  *
@@ -33,13 +34,14 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 
 	// inputs
 	/** first coord sys */
-	private GeoElement cs1;
+	private GeoElementND cs1;
 	/** second coord sys */
-	private GeoElement cs2;
+	private GeoElementND cs2;
 
 	// output
 	/** intersection */
 	private GeoElement3D intersection;
+
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
@@ -52,40 +54,34 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 	 *            first coord sys
 	 * @param cs2
 	 *            second coord sys
+	 * @param swapInputs
+	 *            may swap inputs order
 	 */
-	AlgoIntersectCoordSys(Construction cons, String label, GeoElement cs1,
-			GeoElement cs2) {
+	AlgoIntersectCoordSys(Construction cons, String label, GeoElementND cs1,
+			GeoElementND cs2, boolean swapInputs) {
 
-		this(cons, cs1, cs2);
+		this(cons, cs1, cs2, swapInputs);
 		intersection.setLabel(label);
 
 	}
 
-	AlgoIntersectCoordSys(Construction cons, GeoElement cs1, GeoElement cs2) {
+	AlgoIntersectCoordSys(Construction cons, GeoElementND cs1,
+			GeoElementND cs2, boolean swapInputs) {
 
 		super(cons);
 
-		setCoordSys(cs1, cs2);
+		this.cs1 = cs1;
+		this.cs2 = cs2;
 
 		intersection = createIntersection(cons);// new GeoPoint3D(cons);
 
-		setInputOutput(new GeoElement[] { cs1, cs2 },
+		setInputOutput(swapInputs
+				? new GeoElement[] { (GeoElement) cs2, (GeoElement) cs1 }
+				: new GeoElement[] { (GeoElement) cs1, (GeoElement) cs2 },
 				new GeoElement[] { intersection });
 
 	}
 
-	/**
-	 * set cs1 and cs2 as the 2 coord sys on inputs if one is 1D and the second
-	 * 2D, 1D must be taken for cs1
-	 * 
-	 * @param cs1
-	 * @param cs2
-	 */
-	protected void setCoordSys(GeoElement cs1, GeoElement cs2) {
-
-		this.cs1 = cs1;
-		this.cs2 = cs2;
-	}
 
 	/**
 	 * return new intersection (default is 3D point)
@@ -104,7 +100,7 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 	 * 
 	 * @return the first coord sys
 	 */
-	GeoElement getCS1() {
+	GeoElementND getCS1() {
 		return cs1;
 	}
 
@@ -113,7 +109,7 @@ public abstract class AlgoIntersectCoordSys extends AlgoElement3D {
 	 * 
 	 * @return the second coord sys
 	 */
-	GeoElement getCS2() {
+	GeoElementND getCS2() {
 		return cs2;
 	}
 

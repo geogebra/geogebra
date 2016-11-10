@@ -23,7 +23,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 
@@ -37,6 +36,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
  */
 public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 
+
 	/**
 	 * Creates new AlgoIntersectLinePlane
 	 * 
@@ -45,27 +45,20 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 	 * @param label
 	 *            name of point
 	 * @param cs1
-	 *            first coord sys
+	 *            line
 	 * @param cs2
-	 *            second coord sys
+	 *            plane / ...
+	 * 
+	 * @param swapInputs
+	 *            may swap inputs order
 	 */
-	public AlgoIntersectCS1D2D(Construction cons, String label, GeoElement cs1,
-			GeoElement cs2) {
+	public AlgoIntersectCS1D2D(Construction cons, String label, GeoLineND cs1,
+			GeoCoordSys2D cs2, boolean swapInputs) {
 
-		super(cons, label, cs1, cs2);
-
-	}
-
-	// sets the 1D coord sys as cs1
-	@Override
-	protected void setCoordSys(GeoElement cs1, GeoElement cs2) {
-
-		if (cs1 instanceof GeoLineND)
-			super.setCoordSys(cs1, cs2);
-		else
-			super.setCoordSys(cs2, cs1);
+		super(cons, label, cs1, cs2, swapInputs);
 
 	}
+
 
 	// /////////////////////////////////////////////
 	// COMPUTE

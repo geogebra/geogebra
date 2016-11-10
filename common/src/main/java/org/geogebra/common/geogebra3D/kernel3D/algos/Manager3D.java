@@ -810,36 +810,22 @@ public class Manager3D implements Manager3DInterface {
 	// //////////////////////////////////////////////
 	// INTERSECTION (POINTS)
 
-	/**
-	 * Calculate the intersection of two coord sys (eg line and plane) or the
-	 * intersection of two 2D coord sys (eg two planes).
-	 * 
-	 * @param label
-	 *            name of the point
-	 * @param cs1
-	 *            first coord sys
-	 * @param cs2
-	 *            second coord sys
-	 * @return point intersection
-	 */
-	final public GeoElement Intersect(String label, GeoElement cs1,
-			GeoElement cs2) {
 
-		AlgoIntersectCoordSys algo = null;
+	final public GeoElement Intersect(String label, GeoLineND cs1,
+			GeoCoordSys2D cs2, boolean swapInputs) {
 
-		if (cs1 instanceof GeoLineND) {
-			if (cs2 instanceof GeoLineND)
-				algo = new AlgoIntersectCS1D1D(cons, label, (GeoLineND) cs1,
-						(GeoLineND) cs2);
-			else if (cs2 instanceof GeoCoordSys2D)
-				algo = new AlgoIntersectCS1D2D(cons, label, cs1, cs2);
-		} else if (cs1 instanceof GeoCoordSys2D) {
-			if (cs2 instanceof GeoLineND)
-				algo = new AlgoIntersectCS1D2D(cons, label, cs1, cs2);
-			// else
-			// algo = new AlgoIntersectCS2D2D(cons,label, (GeoCoordSys2D) cs1,
-			// (GeoCoordSys2D) cs2);
-		}
+		AlgoIntersectCoordSys algo = new AlgoIntersectCS1D2D(cons, label, cs1,
+				cs2, swapInputs);
+
+		return algo.getIntersection();
+	}
+
+
+	final public GeoElement Intersect(String label, GeoLineND cs1,
+			GeoLineND cs2) {
+
+		AlgoIntersectCoordSys algo = new AlgoIntersectCS1D1D(cons, label, cs1,
+				cs2);
 
 		return algo.getIntersection();
 	}
