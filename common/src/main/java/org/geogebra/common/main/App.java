@@ -4231,6 +4231,10 @@ public abstract class App implements UpdateSelection {
 
 	}
 
+	public void setNewExam(){
+		setExam(new ExamEnvironment());
+	}
+
 	public void setLanguage(String s) {
 		// overridden in subtypes
 	}
