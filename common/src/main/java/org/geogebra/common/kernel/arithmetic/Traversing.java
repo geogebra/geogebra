@@ -1457,8 +1457,7 @@ public interface Traversing {
 								: ve.wrap();
 
 						en2 = en2.traverse(this).wrap();
-						if (en2 != null && en2
-								.getLeft() instanceof GeoSurfaceCartesian3D) {
+						if (en2.getLeft() instanceof GeoSurfaceCartesian3D) {
 							FunctionNVar[] fun = ((GeoSurfaceCartesian3D) en2
 									.getLeft()).getFunctions();
 							MyVec3DNode vect = new MyVec3DNode(
