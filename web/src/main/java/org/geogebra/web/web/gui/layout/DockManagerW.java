@@ -46,6 +46,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public class DockManagerW extends DockManager {
+	private static final double AV_LANDSCAPE_RATIO = 0.2;
 	private static final int DEFAULT_KEYBOARD_HEIGHT = 186;
 	AppW app;
 	private LayoutW layout;
@@ -80,6 +81,7 @@ public class DockManagerW extends DockManager {
 	 * List of DockPanelListeners, informed when some dockpanel is shown.
 	 */
 	private List<ShowDockPanelListener> showDockPanelListener;
+	private boolean panelsMoved;
 	
 	
 	
@@ -433,6 +435,7 @@ public class DockManagerW extends DockManager {
 			
 		}
 		
+		panelsMoved = false;
 		// update all labels at once
 		setLabels();
 		
@@ -692,7 +695,7 @@ public class DockManagerW extends DockManager {
 		
 		unmarkAlonePanels();
 		markAlonePanel();
-
+		panelsMoved = true;
 		// Manually dispatch a resize event as the size of the 
 		// euclidian view isn't updated all the time.
 		// TODO What does the resize do which will update the component ?!
@@ -1880,7 +1883,7 @@ public class DockManagerW extends DockManager {
 	
 	@Override
 	public void adjustViews() {
-		if (!app.has(Feature.ADJUST_VIEWS)) {
+		if (!app.has(Feature.ADJUST_VIEWS) || panelsMoved) {
 			return;
 		}
 		calculateKeyboardHeight();
@@ -1898,7 +1901,6 @@ public class DockManagerW extends DockManager {
 		if (!app.has(Feature.ADJUST_VIEWS)) {
 			return;
 		}
-
 
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel == null) {
@@ -1934,7 +1936,8 @@ public class DockManagerW extends DockManager {
 		double portraitDivider = avHeight / app.getHeight();
 
 		split.clear();
-		setDividerLocation(split, portrait ? 1 - portraitDivider : 0.3);
+		setDividerLocation(split,
+				portrait ? 1 - portraitDivider : AV_LANDSCAPE_RATIO);
 
 		split.setOrientation(portrait ? SwingConstants.VERTICAL_SPLIT
 				: SwingConstants.HORIZONTAL_SPLIT);
