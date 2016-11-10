@@ -7,6 +7,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -229,7 +230,8 @@ public class LoadFilePresenter {
 			}
 
 		app.updateRounding();
-
+		app.setPreferredSize(
+				new GDimensionW((int) app.getWidth(), (int) app.getHeight()));
 	}
 
 

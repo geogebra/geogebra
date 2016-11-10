@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
@@ -677,6 +678,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// update view sizes
 		((AppW) app).updateViewSizes();
 		((AppW) app).recalculateEnvironments();
+		app.setPreferredSize(AwtFactory.prototype.newDimension(width, height));
 	}
 
 	public ToolBarW getGeneralToolbar() {

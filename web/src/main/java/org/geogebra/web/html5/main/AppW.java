@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.MissingResourceException;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
@@ -117,7 +116,6 @@ import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.DynamicScriptElement;
 import org.geogebra.web.html5.util.ImageManagerW;
-import org.geogebra.web.html5.util.MyDictionary;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
@@ -448,8 +446,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	void doSetLanguage(String lang) {
-		resetCommandDictionary();
-
 		((LocalizationW) getLocalization()).setLanguage(lang);
 
 		// make sure digits are updated in all numbers
@@ -2211,28 +2207,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		return true;
 	}
 
-	MyDictionary commandDictionary = null;
-
-	private MyDictionary getCommandDict() {
-		if (commandDictionary == null) {
-			try {
-				// commandDictionary =
-				// Dictionary.getDictionary("__GGB__dictionary_"+language);
-				commandDictionary = MyDictionary.getDictionary("command",
-				        getLocalization().getLanguage());
-			} catch (MissingResourceException e) {
-				// commandDictionary =
-				// Dictionary.getDictionary("__GGB__dictionary_en");
-				commandDictionary = MyDictionary.getDictionary("command", "en");
-				Log.error("Missing Dictionary "
-				        + getLocalization().getLanguage());
-			}
-		}
-
-		return commandDictionary;
-
-	}
-
 	// ============================================
 	// IMAGES
 	// ============================================
@@ -2420,10 +2394,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	}
 
-	protected void resetCommandDictionary() {
-		this.commandDictionary = null;
-
-	}
 
 	public abstract void afterLoadFileAppOrNot();
 
