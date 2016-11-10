@@ -25,6 +25,8 @@ public class AlgoTrigCombine extends AlgoCasBase {
 	 *            function
 	 * @param target
 	 *            target function (ie sin or cos)
+	 * @param info
+	 *            evaluation flags
 	 */
 	public AlgoTrigCombine(Construction cons, String label,
 			CasEvaluableFunction f, GeoFunction target, EvalInfo info) {

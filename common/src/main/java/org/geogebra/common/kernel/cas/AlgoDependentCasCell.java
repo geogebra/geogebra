@@ -164,7 +164,7 @@ public class AlgoDependentCasCell extends AlgoElement implements
 		if (getCasCell() != null && getCasCell().getInputVE() != null) {
 			return getCasCell().getInputVE().toString(tpl);
 		}
-		return "super" + super.getDefinition(tpl);
+		return super.getDefinition(tpl);
 
 	}
 

@@ -34,15 +34,15 @@ import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * @author lightest
+ * @author Tam
  *
  */
 public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 	// private DfpField decFull = new DfpField(64);
 	// DfpField decLess = new DfpField(16);
-	int fullScale = 64;
-	int lessScale = 16;
+	private final static int fullScale = 64;
+	private final static int lessScale = 16;
 
 	private GeoNumberValue num; // input
 	private GeoList list; // input
@@ -252,9 +252,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 	}
 
-	private void Fractionappend(StringBuilder sb, int numer, int denom,
+	private void Fractionappend(StringBuilder sBuilder, int numer0, int denom0,
 			StringTemplate tpl) {
-
+		int numer = numer0;
+		int denom = denom0;
 		if (denom < 0) {
 			denom = -denom;
 			numer = -numer;
@@ -268,24 +269,24 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		}
 
 		if (denom == 1) { // integer
-			sb.append(kernel.format(numer, tpl));
+			sBuilder.append(kernel.format(numer, tpl));
 		} else if (denom == 0) { // 1 / 0 or -1 / 0
 			if (numer < 0) {
-				DrawEquation.appendMinusInfinity(sb, tpl);
+				DrawEquation.appendMinusInfinity(sBuilder, tpl);
 			} else {
-				DrawEquation.appendInfinity(sb, tpl);
+				DrawEquation.appendInfinity(sBuilder, tpl);
 			}
 		} else {
 			boolean negative = numer < 0;
 			if (negative) {
 				numer = -numer;
-				DrawEquation.appendNegation(sb, tpl);
+				DrawEquation.appendNegation(sBuilder, tpl);
 			}
-			DrawEquation.appendFractionStart(sb, tpl);
-			sb.append(kernel.format(numer, tpl));
-			DrawEquation.appendFractionMiddle(sb, tpl);
-			sb.append(kernel.format(denom, tpl));
-			DrawEquation.appendFractionEnd(sb, tpl);
+			DrawEquation.appendFractionStart(sBuilder, tpl);
+			sBuilder.append(kernel.format(numer, tpl));
+			DrawEquation.appendFractionMiddle(sBuilder, tpl);
+			sBuilder.append(kernel.format(denom, tpl));
+			DrawEquation.appendFractionEnd(sBuilder, tpl);
 		}
 	}
 
@@ -293,16 +294,19 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * Goal: modifies a StringBuilder object sb to be a radical up to quartic
 	 * roots The precision is adapted, according to setting
 	 * 
-	 * @param sb
-	 * @param num
+	 * @param sBuilder
+	 *            string builder
+	 * @param number
+	 *            number to be converted
 	 * @param tpl
+	 *            template for CAS and formal solution
 	 */
-	protected void PSLQappendGeneral(StringBuilder sb, double num,
+	protected void PSLQappendGeneral(StringBuilder sBuilder, double number,
 			StringTemplate tpl) {
 
 		// Zero Test: Is num 0?
-		if (Kernel.isZero(num)) {
-			sb.append(kernel.format(0, tpl));
+		if (Kernel.isZero(number)) {
+			sBuilder.append(kernel.format(0, tpl));
 			return;
 		}
 
@@ -311,13 +315,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		AlgebraicFit fitter = new AlgebraicFit(null, null,
 				AlgebraicFittingType.RATIONAL_NUMBER, tpl);
 		fitter.setCoeffBound(1000);
-		fitter.compute(num);
+		fitter.compute(number);
 
 		ValidExpression ve = sbToCAS(fitter.formalSolution);
 
 		if (fitter.formalSolution.length() > 0
-				&& Kernel.isEqual(ve.evaluateDouble(), num)) {
-			sb.append(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve, null,
+				&& Kernel.isEqual(ve.evaluateDouble(), number)) {
+			sBuilder.append(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve,
+					null,
 					tpl, null, kernel));
 			return;
 		}
@@ -397,14 +402,15 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					"sqrt(6)", "sqrt(7)", "sqrt(10)", "pi" };
 		}
 
-		boolean success = fitLinearComb(num, testNames, testValues, 100, sb,
+		boolean success = fitLinearComb(number, testNames, testValues, 100,
+				sBuilder,
 				tpl);
 
 		if (success) {
 			return;
 		}
 
-		sb.append(kernel.format(num, StringTemplate.maxPrecision));
+		sBuilder.append(kernel.format(number, StringTemplate.maxPrecision));
 
 	}
 
@@ -445,19 +451,35 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 	}
 
-	private ValidExpression sbToCAS(StringBuilder sb) {
-		if (sb != null) {
+	private ValidExpression sbToCAS(StringBuilder sBuilder) {
+		if (sBuilder != null) {
 			return kernel
 					.getGeoGebraCAS()
 					.getCASparser()
-					.parseGeoGebraCASInputAndResolveDummyVars(sb.toString(),
+					.parseGeoGebraCASInputAndResolveDummyVars(
+							sBuilder.toString(),
 							getKernel(),null);
 		}
 		return null;
 	}
 
-	// returns the sum of constValue[j] * coeffs[offset+j*step] over j
-	static double evaluateCombination(int n, double[] constValue, int[] coeffs,
+	/**
+	 * returns the sum of constValue[j] * coeffs[offset+j*step] over j
+	 * 
+	 * @param n
+	 *            number of summands
+	 * @param constValue
+	 *            values
+	 * @param coeffs
+	 *            coefficient
+	 * @param offset
+	 *            coeffs offset
+	 * @param step
+	 *            coefficients index step
+	 * @return linear combination
+	 */
+	static double evaluateCombination(int n, double[] constValue,
+			int[] coeffs,
 			int offset, int step) {
 		double sum = 0;
 
@@ -472,14 +494,21 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	// StringBuilder sb
 	/**
 	 * @param sbToCAS
+	 *            cas string builder
 	 * @param numOfTerms
+	 *            number of terms
 	 * @param vars
+	 *            variables
 	 * @param coeffs
+	 *            coefficients
 	 * @param offset
+	 *            coefficients index offset
 	 * @param step
+	 *            coefficients index step
 	 * @param tpl
+	 *            template sending numbers to CAS
 	 */
-	public void appendCombination(StringBuilder sbToCAS, int numOfTerms,
+	void appendCombination(StringBuilder sbToCAS, int numOfTerms,
 			String[] vars, int[] coeffs, int offset, int step,
 			StringTemplate tpl) {
 
@@ -516,6 +545,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 	}
 
+	/**
+	 * @param tpl
+	 *            TODO unused
+	 */
 	private void appendUndefined(StringBuilder sb1, StringTemplate tpl,
 			double num1) {
 
@@ -527,11 +560,14 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * Goal: modifies a StringBuilder object sb to be a radical up to quartic
 	 * roots The precision is adapted, according to setting
 	 * 
-	 * @param sb
+	 * @param sBuilder
+	 *            string builder
 	 * @param num1
+	 *            converted number
 	 * @param tpl
+	 *            output template
 	 */
-	protected void PSLQappendQuartic(StringBuilder sb, double num1,
+	protected void PSLQappendQuartic(StringBuilder sBuilder, double num1,
 			StringTemplate tpl) {
 		double[] numPowers = new double[5];
 		double temp = 1.0;
@@ -547,12 +583,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		if (coeffs[0] == 0 && coeffs[1] == 0) {
 
 			if (coeffs[2] == 0 && coeffs[3] == 0 && coeffs[4] == 0) {
-				appendUndefined(sb, tpl, num1);
+				appendUndefined(sBuilder, tpl, num1);
 			} else if (coeffs[2] == 0) {
 				// coeffs[1]: denominator; coeffs[2]: numerator
 				int denom = coeffs[3];
 				int numer = -coeffs[4];
-				Fractionappend(sb, numer, denom, tpl);
+				Fractionappend(sBuilder, numer, denom, tpl);
 
 			} else {
 
@@ -567,7 +603,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				int c = 2 * coeffs[2];
 
 				if (b2 <= 0) { // should not happen!
-					appendUndefined(sb, tpl, num1);
+					appendUndefined(sBuilder, tpl, num1);
 					return;
 				}
 
@@ -629,30 +665,30 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 				en = en.divide(c);
 
-				sb.append(en.toString(tpl));
+				sBuilder.append(en.toString(tpl));
 
 			}
 		} else if (coeffs[0] == 0) {
-			sb.append("Root of a cubic equation: ");
-			sb.append(kernel.format(coeffs[1], tpl));
-			sb.append("x^3 + ");
-			sb.append(kernel.format(coeffs[2], tpl));
-			sb.append("x^2 + ");
-			sb.append(kernel.format(coeffs[3], tpl));
-			sb.append("x + ");
-			sb.append(kernel.format(coeffs[4], tpl));
+			sBuilder.append("Root of a cubic equation: ");
+			sBuilder.append(kernel.format(coeffs[1], tpl));
+			sBuilder.append("x^3 + ");
+			sBuilder.append(kernel.format(coeffs[2], tpl));
+			sBuilder.append("x^2 + ");
+			sBuilder.append(kernel.format(coeffs[3], tpl));
+			sBuilder.append("x + ");
+			sBuilder.append(kernel.format(coeffs[4], tpl));
 
 		} else {
-			sb.append("Root of a quartic equation: ");
-			sb.append(kernel.format(coeffs[0], tpl));
-			sb.append("x^4 + ");
-			sb.append(kernel.format(coeffs[1], tpl));
-			sb.append("x^3 + ");
-			sb.append(kernel.format(coeffs[2], tpl));
-			sb.append("x^2 + ");
-			sb.append(kernel.format(coeffs[3], tpl));
-			sb.append("x + ");
-			sb.append(kernel.format(coeffs[4], tpl));
+			sBuilder.append("Root of a quartic equation: ");
+			sBuilder.append(kernel.format(coeffs[0], tpl));
+			sBuilder.append("x^4 + ");
+			sBuilder.append(kernel.format(coeffs[1], tpl));
+			sBuilder.append("x^3 + ");
+			sBuilder.append(kernel.format(coeffs[2], tpl));
+			sBuilder.append("x^2 + ");
+			sBuilder.append(kernel.format(coeffs[3], tpl));
+			sBuilder.append("x + ");
+			sBuilder.append(kernel.format(coeffs[4], tpl));
 
 		}
 
@@ -662,15 +698,18 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	 * Quadratic Case. modifies a StringBuilder object sb to be the
 	 * quadratic-radical expression of num, within certain precision.
 	 * 
-	 * @param sb
+	 * @param sBuilder
+	 *            string builder
 	 * @param num1
+	 *            number
 	 * @param tpl
+	 *            output template
 	 */
-	protected void PSLQappendQuadratic(StringBuilder sb, double num1,
+	protected void PSLQappendQuadratic(StringBuilder sBuilder, double num1,
 			StringTemplate tpl) {
 
 		if (Kernel.isZero(num1)) {
-			sb.append("0");
+			sBuilder.append("0");
 			return;
 		}
 
@@ -678,7 +717,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		int[] coeffs = PSLQ(numPowers, 1E-10, 10);
 
 		if (coeffs == null) {
-			appendUndefined(sb, tpl, num1);
+			appendUndefined(sBuilder, tpl, num1);
 			return;
 		}
 
@@ -695,12 +734,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				|| Math.abs(coeffs[0]) > 570 || Math.abs(coeffs[1]) > 729
 				|| Math.abs(coeffs[2]) > 465) {
 			// Log.debug(coeffs[0]+" "+coeffs[1]+" "+coeffs[2]);
-			appendUndefined(sb, tpl, num1);
+			appendUndefined(sBuilder, tpl, num1);
 		} else if (coeffs[0] == 0) {
 			// coeffs[1]: denominator; coeffs[2]: numerator
 			int denom = coeffs[1];
 			int numer = -coeffs[2];
-			Fractionappend(sb, numer, denom, tpl);
+			Fractionappend(sBuilder, numer, denom, tpl);
 
 		} else {
 
@@ -715,7 +754,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			int c = 2 * coeffs[0];
 
 			if (b2 <= 0) { // should not happen!
-				appendUndefined(sb, tpl, num1);
+				appendUndefined(sBuilder, tpl, num1);
 				return;
 			}
 
@@ -775,160 +814,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 			en = en.divide(c);
 
-			sb.append(en.toString(tpl));
+			sBuilder.append(en.toString(tpl));
 		}
 
 	}
 
-	/**
-	 * @param n
-	 * @param x
-	 * @param AccuracyFactor
-	 * @param bound
-	 * @return
-	 */
-	int[][] mPSLQ(int n, double[] x, double AccuracyFactor, int bound) {
 
-		MyDecimalMatrix r2;
-
-		int rCols = 0; // tracks the number of solutions globally
-
-		// int[] orthoIndices = new int[n];
-		// int[][] B1 = new int[n][n];
-		// int[][] M = new int[n][n];
-		// int[][] B2 = new int[n][n];
-		// double[] xB2 = new double[n];
-		MyDecimalMatrix B_comp;
-		MyDecimalMatrix result2;
-
-		// now n>=2.
-		int p = n; // length of current x
-
-		/*
-		 * for (int i=0; i<n; i++) { B2[i][i] = 1; }
-		 */
-
-		// First cycle of the loop has something different to do, so it is
-		// explicitly written here.
-		int oldp = p;
-		int q;
-
-		IntRelationFinder irf = new IntRelationFinder(oldp, x, fullScale,
-				lessScale, AccuracyFactor, bound);
-
-		if (irf.result.size() == 0) {
-			return null;
-		}
-
-		IntRelationFinder.IntRelation m = irf.result.get(0); // the most
-																// significant
-																// resulting
-																// relations
-
-		// r2 stores all possible results. Numbers are initialized here because
-		// we need the correct field.
-		r2 = new MyDecimalMatrix(m.getBMatrix().getScale(), n, n);
-
-		result2 = m.getBSolMatrix();
-		if (result2 != null)
-			q = result2.getColumnDimension();
-		else
-			q = 0;
-
-		// store the results to r2
-		for (int j = 0; j < q; j++) {
-			for (int i = 0; i < n; i++) {
-				r2.setEntry(i, rCols, result2.getEntry(i, j));
-			}
-			if (rCols == n - 1)
-				Log.warn("There should not be that many solutions.");
-			rCols++;
-		}
-
-		p = 0;
-		for (int j = 0; j < oldp; j++) {
-			if (m.orthoIndices[j] == 0) {
-				x[p++] = new Double(m.xB1.getEntry(0, j).toString());
-			}
-		}
-
-		B_comp = m.getBRestMatrix();
-
-		// second and more cycles. If p<oldp means at least one solution has
-		// been found in the last cycle.
-		// also the dimension of x should be at least 2.
-		while (oldp >= 2 && p < oldp && rCols < n - 1) {
-
-			oldp = p;
-			p = 0;
-			irf = new IntRelationFinder(oldp, x, fullScale, lessScale,
-					AccuracyFactor, bound);
-			if (irf.result.size() == 0) {
-				break;
-			}
-			m = irf.result.get(0);
-
-			if (m.getBSolMatrix() == null) {
-				break;
-			}
-
-			result2 = B_comp.multiply(m.getBSolMatrix());
-			q = result2.getColumnDimension();
-
-			// store the resulting columns B_comp.result2 to r2
-			for (int j = 0; j < q; j++) {
-
-				// we don't accept all zeros as a relation
-				boolean allZero = true;
-				for (int i = 0; i < n; i++)
-					allZero = allZero && result2.getEntry(i, j).intValue() == 0;
-				if (allZero)
-					break;
-
-				// we don't accept any entry's absolute value being larger than
-				// bound
-				boolean tooLargeEntry = false;
-				for (int i = 0; i < n; i++)
-					tooLargeEntry = tooLargeEntry
-							|| result2.getEntry(i, j).abs().intValue() > bound;
-				if (tooLargeEntry)
-					break;
-
-				for (int i = 0; i < n; i++) {
-					r2.setEntry(i, rCols, result2.getEntry(i, j));
-				}
-				if (rCols == n - 1) {
-					Log.warn("There should not be that many solutions.");
-				}
-				rCols++;
-			}
-
-			// x<-the non-zero elements of new xB
-			p = 0;
-			for (int j = 0; j < oldp; j++) {
-				if (m.orthoIndices[j] == 0) {
-					x[p++] = new Double(m.xB1.getEntry(0, j).toString());
-				}
-			}
-
-			// B_comp <- B_comp . the new B_rest (nxq,qxq')
-			if (m.getBRestMatrix() != null)
-				B_comp = B_comp.multiply(m.getBRestMatrix());
-
-		}
-		/*
-		 * result = new int[n][rCols]; for (int i=0; i<n; i++){ for (int j=0;
-		 * j<rCols; j++) { result[i][j]=r[i][j]; } }
-		 */
-
-		int[][] result = new int[n][rCols];
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < rCols; j++) {
-				result[i][j] = r2.getEntry(i, j).intValue();
-			}
-		}
-		return result;
-	}
 
 	private static int[] PSLQ(double[] x, double AccuracyFactor, int bound) {
 		return PSLQ(x.length, x, AccuracyFactor, bound, null, null, null);
@@ -1349,7 +1240,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// parameters
 		private double tau, rho, gamma;
 		double err; // error bound for x
-		private double M; // norm bound;
 
 		// input
 		private int n;
@@ -1385,7 +1275,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			this.lessScale1 = lessScale_input;
 			this.n = n;
 			this.err = err;
-			this.M = bound;
 			result = new ArrayList<IntRelation>();
 
 			int digitsNeeded = (int) Math.ceil(-Math.log10(err));
@@ -1454,7 +1343,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 					* (n + 1)
 					/ 2.0
 					* ((n - 1) * Math.log(gamma) + 0.5 * Math.log(n) + Math
-							.log(M)) / Math.log(tau);
+							.log(bound)) / Math.log(tau);
 
 			while (iterCount < iterBound) {
 
@@ -1968,7 +1857,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		 * @param constValues
 		 *            the double value of them
 		 * @param aft
+		 *            fitting type
 		 * @param tpl
+		 *            template for CAS and formal solution
 		 */
 		public AlgebraicFit(String[] constStrings, double[] constValues,
 				AlgebraicFittingType aft, StringTemplate tpl) {
@@ -2339,6 +2230,156 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		}
 
+		/**
+		 * @param bound
+		 *            norm bound for coefficients
+		 */
+		private int[][] mPSLQ(int n, double[] x, double accuracyFactor,
+				int bound) {
+
+			MyDecimalMatrix r2;
+
+			int rCols = 0; // tracks the number of solutions globally
+
+			// int[] orthoIndices = new int[n];
+			// int[][] B1 = new int[n][n];
+			// int[][] M = new int[n][n];
+			// int[][] B2 = new int[n][n];
+			// double[] xB2 = new double[n];
+			MyDecimalMatrix B_comp;
+			MyDecimalMatrix result2;
+
+			// now n>=2.
+			int p = n; // length of current x
+
+			/*
+			 * for (int i=0; i<n; i++) { B2[i][i] = 1; }
+			 */
+
+			// First cycle of the loop has something different to do, so it is
+			// explicitly written here.
+			int oldp = p;
+			int q;
+
+			IntRelationFinder irf = new IntRelationFinder(oldp, x, fullScale,
+					lessScale, accuracyFactor, bound);
+
+			if (irf.result.size() == 0) {
+				return null;
+			}
+
+			IntRelationFinder.IntRelation m = irf.result.get(0); // the most
+																	// significant
+																	// resulting
+																	// relations
+
+			// r2 stores all possible results. Numbers are initialized here
+			// because
+			// we need the correct field.
+			r2 = new MyDecimalMatrix(m.getBMatrix().getScale(), n, n);
+
+			result2 = m.getBSolMatrix();
+			if (result2 != null)
+				q = result2.getColumnDimension();
+			else
+				q = 0;
+
+			// store the results to r2
+			for (int j = 0; j < q; j++) {
+				for (int i = 0; i < n; i++) {
+					r2.setEntry(i, rCols, result2.getEntry(i, j));
+				}
+				if (rCols == n - 1)
+					Log.warn("There should not be that many solutions.");
+				rCols++;
+			}
+
+			p = 0;
+			for (int j = 0; j < oldp; j++) {
+				if (m.orthoIndices[j] == 0) {
+					x[p++] = new Double(m.xB1.getEntry(0, j).toString());
+				}
+			}
+
+			B_comp = m.getBRestMatrix();
+
+			// second and more cycles. If p<oldp means at least one solution has
+			// been found in the last cycle.
+			// also the dimension of x should be at least 2.
+			while (oldp >= 2 && p < oldp && rCols < n - 1) {
+
+				oldp = p;
+				p = 0;
+				irf = new IntRelationFinder(oldp, x, fullScale, lessScale,
+						accuracyFactor, bound);
+				if (irf.result.size() == 0) {
+					break;
+				}
+				m = irf.result.get(0);
+
+				if (m.getBSolMatrix() == null) {
+					break;
+				}
+
+				result2 = B_comp.multiply(m.getBSolMatrix());
+				q = result2.getColumnDimension();
+
+				// store the resulting columns B_comp.result2 to r2
+				for (int j = 0; j < q; j++) {
+
+					// we don't accept all zeros as a relation
+					boolean allZero = true;
+					for (int i = 0; i < n; i++)
+						allZero = allZero
+								&& result2.getEntry(i, j).intValue() == 0;
+					if (allZero)
+						break;
+
+					// we don't accept any entry's absolute value being larger
+					// than
+					// bound
+					boolean tooLargeEntry = false;
+					for (int i = 0; i < n; i++)
+						tooLargeEntry = tooLargeEntry
+								|| result2.getEntry(i, j).abs().intValue() > bound;
+					if (tooLargeEntry)
+						break;
+
+					for (int i = 0; i < n; i++) {
+						r2.setEntry(i, rCols, result2.getEntry(i, j));
+					}
+					if (rCols == n - 1) {
+						Log.warn("There should not be that many solutions.");
+					}
+					rCols++;
+				}
+
+				// x<-the non-zero elements of new xB
+				p = 0;
+				for (int j = 0; j < oldp; j++) {
+					if (m.orthoIndices[j] == 0) {
+						x[p++] = new Double(m.xB1.getEntry(0, j).toString());
+					}
+				}
+
+				// B_comp <- B_comp . the new B_rest (nxq,qxq')
+				if (m.getBRestMatrix() != null)
+					B_comp = B_comp.multiply(m.getBRestMatrix());
+
+			}
+			/*
+			 * result = new int[n][rCols]; for (int i=0; i<n; i++){ for (int
+			 * j=0; j<rCols; j++) { result[i][j]=r[i][j]; } }
+			 */
+
+			int[][] result = new int[n][rCols];
+			for (int i = 0; i < n; i++) {
+				for (int j = 0; j < rCols; j++) {
+					result[i][j] = r2.getEntry(i, j).intValue();
+				}
+			}
+			return result;
+		}
 		/**
 		 * Assume that number = A/B, then we need to find relation (B,-A) to the
 		 * vector (number,1)

@@ -26,6 +26,8 @@ public class AlgoTrigExpand extends AlgoCasBase {
 	 *            function
 	 * @param target
 	 *            target function (ie sin or cos)
+	 * @param info
+	 *            evaluation flags
 	 */
 	public AlgoTrigExpand(Construction cons, String label,
 			CasEvaluableFunction f, GeoFunction target, EvalInfo info) {

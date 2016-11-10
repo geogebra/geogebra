@@ -21,6 +21,8 @@ public class CmdCASCommand1Arg extends CommandProcessor {
 	 * 
 	 * @param kernel
 	 *            kernel
+	 * @param cmd
+	 *            command to be applied
 	 */
 	public CmdCASCommand1Arg(Kernel kernel, Commands cmd) {
 		super(kernel);

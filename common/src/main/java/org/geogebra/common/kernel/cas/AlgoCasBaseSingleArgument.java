@@ -34,6 +34,10 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase {
 	 *            label for output
 	 * @param f
 	 *            function
+	 * @param cmd
+	 *            command
+	 * @param info
+	 *            evaluation flags
 	 */
 	public AlgoCasBaseSingleArgument(Construction cons, String label,
 			CasEvaluableFunction f, Commands cmd, EvalInfo info) {

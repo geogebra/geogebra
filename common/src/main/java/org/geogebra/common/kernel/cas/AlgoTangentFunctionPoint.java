@@ -87,8 +87,9 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements
 		// check if P is defined as a point of the function's graph
 		pointOnFunction = false;
 		if (P.getParentAlgorithm() instanceof AlgoPointOnPath) {
-			AlgoPointOnPath algo = (AlgoPointOnPath) P.getParentAlgorithm();
-			pointOnFunction = algo.getPath() == f;
+			AlgoPointOnPath algoPoint = (AlgoPointOnPath) P
+					.getParentAlgorithm();
+			pointOnFunction = algoPoint.getPath() == f;
 		}
 
 		if (pointOnFunction)

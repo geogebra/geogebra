@@ -32,6 +32,8 @@ public class AlgoPartialFractions extends AlgoCasBase {
 	 *            label for output
 	 * @param f
 	 *            function
+	 * @param info
+	 *            evaluation flags
 	 */
 	public AlgoPartialFractions(Construction cons, String label,
 			CasEvaluableFunction f, EvalInfo info) {
