@@ -25,8 +25,8 @@ import org.geogebra.web.web.gui.app.GGWCommandLine;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
+import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
-import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
@@ -325,9 +325,8 @@ public class AppWapplet extends AppWFull {
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
 		} else {
-			// a small thing to fix a rare bug
-			((LayoutW) getGuiManager().getLayout()).getDockManager()
-					.kickstartRoot(frame);
+			((DockManagerW) getGuiManager().getLayout().getDockManager())
+					.init(frame);
 			Perspective p = null;
 			if (perspective != null) {
 				p = PerspectiveDecoder.decode(perspective, this.getKernel()

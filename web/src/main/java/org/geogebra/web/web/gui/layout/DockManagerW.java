@@ -1708,13 +1708,17 @@ public class DockManagerW extends DockManager {
 	}
 
 	/**
-	 * A small hack to fix a rare bug
+	 * re-initializes root panel if needed
+	 * 
+	 * @param panel
+	 *            The app frame
 	 */
-	public void kickstartRoot(Panel panel) {
+	public void init(Panel panel) {
 		if (rootPane == null)
 			rootPane = new DockSplitPaneW(app);
 		if (rootPane.getParent() == null)
 			panel.add(rootPane);
+		panelsMoved = false;
 	}
 
 	/**
