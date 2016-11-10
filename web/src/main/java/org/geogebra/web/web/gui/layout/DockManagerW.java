@@ -28,6 +28,7 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.panels.Euclidian2DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.main.AppWapplet;
 
@@ -45,6 +46,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public class DockManagerW extends DockManager {
+	private static final int DEFAULT_KEYBOARD_HEIGHT = 186;
 	AppW app;
 	private LayoutW layout;
 	
@@ -1779,6 +1781,7 @@ public class DockManagerW extends DockManager {
 	 * temporarily displays a single dock panel
 	 */
 	private boolean isMaximized = false;
+	private double kbHeight = 0;
 	
 	
 	/**
@@ -1875,11 +1878,12 @@ public class DockManagerW extends DockManager {
 		return app;
 	}
 	
+	@Override
 	public void adjustViews() {
 		if (!app.has(Feature.ADJUST_VIEWS)) {
 			return;
 		}
-
+		calculateKeyboardHeight();
 		final boolean portrait = app.getWidth() < app.getHeight();
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -1890,7 +1894,7 @@ public class DockManagerW extends DockManager {
 		});
 	}
 
-	public void adjustViews(boolean portrait) {
+	private void adjustViews(boolean portrait) {
 		if (!app.has(Feature.ADJUST_VIEWS)) {
 			return;
 		}
@@ -1924,22 +1928,33 @@ public class DockManagerW extends DockManager {
 			return;
 		}
 
-		double dividerLocation = 0.0;
+		double avHeight = kbHeight + ((AlgebraViewW) app.getAlgebraView())
+				.getInputTreeItem().getOffsetHeight();
+
+		double portraitDivider = avHeight / app.getHeight();
+
+		split.clear();
+		setDividerLocation(split, portrait ? 1 - portraitDivider : 0.3);
+
+		split.setOrientation(portrait ? SwingConstants.VERTICAL_SPLIT
+				: SwingConstants.HORIZONTAL_SPLIT);
 		if (portrait) {
-			split.clear();
-			split.setLeftComponent(evPanel);
 			split.setRightComponent(avPanel);
-			split.setOrientation(SwingConstants.VERTICAL_SPLIT);
-			dividerLocation = 0.8;
+			split.setLeftComponent(evPanel);
 		} else {
-			split.clear();
 			split.setLeftComponent(avPanel);
 			split.setRightComponent(evPanel);
-			split.setOrientation(SwingConstants.HORIZONTAL_SPLIT);
-			dividerLocation = 0.2;
+		}
+	}
 
+	private void calculateKeyboardHeight() {
+		double kh = app.getAppletFrame().getKeyboardHeight();
+		if (kh == 0) {
+			kh = DEFAULT_KEYBOARD_HEIGHT;
 		}
 
-		setDividerLocation(split, dividerLocation);
+		if (kbHeight < kh) {
+			kbHeight = kh;
+		}
 	}
 }

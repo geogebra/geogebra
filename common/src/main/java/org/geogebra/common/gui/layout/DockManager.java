@@ -26,7 +26,11 @@ public abstract class DockManager implements SetLabels {
 		// TODO Auto-generated method stub
 	}
 
-	// GGB-1288
+	/**
+	 * Puts AV bellow to EV if app height is bigger than width (portrait), or EV
+	 * next to AV otherwise (landscape).
+	 * 
+	 */
 	public void adjustViews() {
 	}
 }
