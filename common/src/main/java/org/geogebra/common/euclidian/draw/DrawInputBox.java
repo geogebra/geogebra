@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -284,8 +285,24 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		setLabelFontSize((int) (view.getFontSize()
 				* geoInputBox.getFontSizeMultiplier()));
+		App app = view.getApplication();
 
-		updateStyle();
+		GFont vFont = view.getFont();
+		textFont = app.getFontCanDisplay(getTextField().getText(), false,
+				vFont.getStyle(), getLabelFontSize());
+
+		getTextField().setOpaque(true);
+		getTextField().setFont(textFont);
+		if (geo != null) {
+			getTextField().setForeground(geo.getObjectColor());
+		}
+
+		GColor bgCol = geo.getBackgroundColor();
+		getTextField().setBackground(
+				bgCol != null ? bgCol : view.getBackgroundCommon());
+
+		getTextField().setFocusable(true);
+		getTextField().setEditable(true);
 
 		geoInputBox.updateText(getTextField());
 		getBox().revalidate();
@@ -465,7 +482,21 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		setLabelFontSize((int) (view.getFontSize()
 				* geoInputBox.getFontSizeMultiplier()));
 
-		updateStyle();
+		GFont vFont = view.getFont();
+		textFont = view.getApplication().getFontCanDisplay(tf.getText(), false,
+				vFont.getStyle(), getLabelFontSize());
+
+		tf.setOpaque(true);
+		tf.setFont(textFont);
+		if (geo != null) {
+			tf.setForeground(geo.getObjectColor());
+		}
+
+		GColor bgCol = geo.getBackgroundColor();
+		tf.setBackground(bgCol != null ? bgCol : view.getBackgroundCommon());
+
+		tf.setFocusable(true);
+		tf.setEditable(true);
 		tf.showPopupSymbolButton(false);
 
 		if (geoInputBox
@@ -476,31 +507,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			tf.prepareShowSymbolButton(true);
 		}
 		updateBoxPosition();
-
-	}
-
-	private void updateStyle() {
-		AutoCompleteTextField tf = getTextField();
-		GFont vFont = view.getFont();
-		textFont = view.getApplication().getFontCanDisplay(tf.getText(), false,
-				vFont.getStyle(), getLabelFontSize());
-
-		tf.setOpaque(true);
-		tf.setFont(textFont);
-
-		GColor bgCol = view.getBackgroundCommon();
-
-		if (geo != null) {
-			tf.setForeground(geo.getObjectColor());
-			bgCol = geo.getBackgroundColor();
-		}
-
-		if (bgCol != null) {
-			tf.setBackground(bgCol);
-		}
-
-		tf.setFocusable(true);
-		tf.setEditable(true);
 
 	}
 
