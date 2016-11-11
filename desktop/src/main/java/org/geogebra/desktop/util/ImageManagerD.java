@@ -80,9 +80,16 @@ public class ImageManagerD extends ImageManager {
 		return getImageIcon(fileName, null);
 	}
 
-	// if borderColor == null no border is added
+	/**
+	 * 
+	 * @param fileName
+	 *            icon filename
+	 * @param borderColor
+	 *            if borderColor == null no border is added
+	 * @return icon
+	 */
 	public ImageIcon getImageIcon(ImageResourceD fileName, Color borderColor) {
-		ImageIcon icon = iconTable.get(fileName);
+		ImageIcon icon = iconTable.get(fileName.getFilename());
 		if (icon == null) {
 			// load the icon
 			Image im = getImageResourceGeoGebra(fileName);
