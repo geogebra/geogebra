@@ -38,8 +38,11 @@ public class GPolygonD implements GPolygon {
 	}
 
 	public GPathIterator getPathIterator(GAffineTransform affineTransform) {
-		return new GPathIteratorD(
+		if (affineTransform instanceof AffineTransform) {
+			return new GPathIteratorD(
 				polygon.getPathIterator((AffineTransform) affineTransform));
+		}
+		return new GPathIteratorD(polygon.getPathIterator(null));
 	}
 
 	public boolean intersects(GRectangle2D r) {

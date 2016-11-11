@@ -50,7 +50,9 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	}
 
 	public void setStroke(Stroke stroke) {
-		impl.setStroke(new GBasicStrokeD((BasicStroke) stroke));
+		if (stroke instanceof BasicStroke) {
+			impl.setStroke(new GBasicStrokeD((BasicStroke) stroke));
+		}
 	}
 
 	public Stroke getStroke() {
@@ -58,7 +60,9 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	}
 
 	public void setColor(Color color) {
-		impl.setColor(new GColorD((java.awt.Color) color));
+		if (color instanceof java.awt.Color) {
+			impl.setColor(new GColorD((java.awt.Color) color));
+		}
 	}
 
 	public Color getColor() {
