@@ -164,11 +164,12 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 					this.kernel.notifyUpdatePreviewFromInputBar(previewGeos);
 				} else {
 					Log.debug("existing geo: " + existingGeo);
-					this.kernel.notifyUpdatePreviewFromInputBar(null);
+					kernel.notifyUpdatePreviewFromInputBar(null);
+					validation.resetError();
 				}
 			} else {
 				Log.debug("cas cell ");
-				this.kernel.notifyUpdatePreviewFromInputBar(null);
+				kernel.notifyUpdatePreviewFromInputBar(null);
 			}
 			if (validation != null && previewGeos != null
 					&& validInput.equals(input)) {
