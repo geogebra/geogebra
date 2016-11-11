@@ -121,10 +121,10 @@ public class ProverBotanasMethod {
 					center[1] = vars[1];
 					GeoElement centerGeo = botanaVarsInv.get(Arrays
 							.asList(center));
-					if (centerGeo != null) /*
-											 * it may be a virtual center (TODO:
-											 * handle somehow)
-											 */
+					if (centerGeo != null)
+						/*
+						 * it may be a virtual center (TODO: handle somehow)
+						 */
 						circleCenters.add(centerGeo);
 				}
 			}
