@@ -2939,7 +2939,7 @@ __GGB__keysVar.iw.menu = {
     "emf": "emf",
     "eps": "eps",
     "equal": "\u05e9\u05d5\u05d5\u05d9\u05dd",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "\u05d0\u05e0\u05d0 \u05d4\u05d7\u05dc\u05d9\u05d8\u05d9 \u05d0\u05dd \u05d7\u05dc\u05d5\u05e0\u05d5\u05ea \u05d2\u05d0\u05d5\u05d2\u05d1\u05e8\u05d4 \u05d4\u05d1\u05d0\u05d9\u05dd \u05d9\u05d4\u05d9\u05d5 \u05de\u05d5\u05e6\u05d2\u05d9\u05dd \u05d1\u05de\u05e6\u05d1 \u05d1\u05d7\u05d9\u05e0\u05d4.",
     "exam_custom_header": "\u05de\u05e6\u05d1 \u05de\u05d1\u05d7\u05df",
     "exam_end_time": "\u05e9\u05e2\u05ea \u05e1\u05d9\u05d5\u05dd \u05d4\u05de\u05d1\u05d7\u05df",

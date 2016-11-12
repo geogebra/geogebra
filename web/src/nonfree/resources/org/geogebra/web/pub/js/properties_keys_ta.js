@@ -2939,7 +2939,7 @@ __GGB__keysVar.ta.menu = {
     "emf": "\u0bae\u0bbf\u0b95\u0bc8\u0baa\u0bcd\u0baa\u0b9f\u0bc1\u0ba4\u0bcd\u0ba4\u0baa\u0bcd\u0baa\u0b9f\u0bcd\u0b9f Metafile",
     "eps": "Encapsulated Postscript",
     "equal": "\u0b9a\u0bae\u0ba9\u0bcd",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "Please decide whether the following GeoGebra Views should be available during the exam.",
     "exam_custom_header": "GeoGebra Exam",
     "exam_end_time": "Exam End Time",

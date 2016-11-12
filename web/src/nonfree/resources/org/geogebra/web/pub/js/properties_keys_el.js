@@ -2939,7 +2939,7 @@ __GGB__keysVar.el.menu = {
     "emf": "\u039c\u03bf\u03c1\u03c6\u03ae EMF(Enhanced Metafile)",
     "eps": "\u03bc\u03bf\u03c1\u03c6\u03ae EPS (Encapsulated Postscript)",
     "equal": "\u03af\u03c3\u03bf",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "\u03a0\u03b1\u03c1\u03b1\u03ba\u03b1\u03bb\u03ce \u03b1\u03c0\u03bf\u03c6\u03b1\u03c3\u03af\u03c3\u03c4\u03b5 \u03c0\u03bf\u03b9\u03b5\u03c2 \u03b1\u03c0\u03cc \u03c4\u03b9\u03c2 \u03c0\u03b1\u03c1\u03b1\u03ba\u03ac\u03c4\u03c9 \u038c\u03c8\u03b5\u03b9\u03c2 \u03c4\u03bf\u03c5 GeoGebra \u03b8\u03b1 \u03b5\u03af\u03bd\u03b1\u03b9 \u03b4\u03b9\u03b1\u03b8\u03ad\u03c3\u03b9\u03bc\u03b5\u03c2 \u03c3\u03c4\u03b7\u03bd \u0395\u03be\u03ad\u03c4\u03b1\u03c3\u03b7",
     "exam_custom_header": "\u0395\u03be\u03ad\u03c4\u03b1\u03c3\u03b7 GeoGebra",
     "exam_end_time": "\u03a7\u03c1\u03cc\u03bd\u03bf\u03c2 \u03bb\u03ae\u03be\u03b7\u03c2 \u0395\u03be\u03ad\u03c4\u03b1\u03c3\u03b7\u03c2",

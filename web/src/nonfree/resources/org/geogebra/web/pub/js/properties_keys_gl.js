@@ -2939,7 +2939,7 @@ __GGB__keysVar.gl.menu = {
     "emf": "Meta formato enriquecido",
     "eps": "Postscript encapsulado",
     "equal": "igual",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "Indica cales das seguintes Vistas de GeoGebra estar\xe1n dispo\xf1ibles no Modo Exame.",
     "exam_custom_header": "Modo Exame de GeoGebra",
     "exam_end_time": "Hora para finalizar o Exame",

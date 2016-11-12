@@ -2939,7 +2939,7 @@ __GGB__keysVar.cs.menu = {
     "emf": "roz\u0161\xed\u0159en\xfd metaform\xe1t",
     "eps": "Encapsulated Postscript",
     "equal": "rovno",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "Pros\xedm vyberte kter\xe1 okna maj\xed b\xfdt dostupn\xe1 p\u0159i zkou\u0161ce.",
     "exam_custom_header": "GeoGebra Zkou\u0161ky",
     "exam_end_time": "\u010cas konce zkou\u0161ky",

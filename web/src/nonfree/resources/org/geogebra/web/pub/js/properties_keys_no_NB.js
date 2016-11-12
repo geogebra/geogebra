@@ -2939,7 +2939,7 @@ __GGB__keysVar.no_NB.menu = {
     "emf": "Enhanced Meta Format",
     "eps": "Encapsulated Postscript",
     "equal": "er lik",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "Avgj\xf8r om f\xf8lgende GeoGerbra-vinduer skal v\xe6re tilgjengelige i pr\xf8vemodulen.",
     "exam_custom_header": "Pr\xf8vemodul i GeoGebra",
     "exam_end_time": "Tid for avsluttet pr\xf8ve",

@@ -2939,7 +2939,7 @@ __GGB__keysVar.eu.menu = {
     "emf": "Enhanced Metafile formatua",
     "eps": "Encapsulated Postcript formatua",
     "equal": "berdin",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "Erabaki hurrengo GeoGebra-ikuspegiak Azterketa-moduan ikusgai egon behar diren ala ez, mesedez.",
     "exam_custom_header": "GeoGebra-azterketa",
     "exam_end_time": "Azterketaren Amaiera-ordua",

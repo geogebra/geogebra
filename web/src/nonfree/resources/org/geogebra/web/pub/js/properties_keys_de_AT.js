@@ -2939,7 +2939,7 @@ __GGB__keysVar.de_AT.menu = {
     "emf": "Enhanced Metafile",
     "eps": "Encapsulated Postscript",
     "equal": "gleich",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "Entscheiden Sie bitte, welche der folgenden GeoGebra Ansichten w\xe4hrend der Pr\xfcfung verf\xfcgbar sein sollen.",
     "exam_custom_header": "GeoGebra Pr\xfcfung",
     "exam_end_time": "Ende der Pr\xfcfung",

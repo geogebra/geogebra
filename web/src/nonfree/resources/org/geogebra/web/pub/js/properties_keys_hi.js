@@ -2939,7 +2939,7 @@ __GGB__keysVar.hi.menu = {
     "emf": "\u0938\u0902\u0935\u0930\u094d\u0927\u093f\u0924 \u092e\u0947\u091f\u093e\u092b\u093e\u0907\u0932",
     "eps": "\u090f\u0928\u0915\u0947\u092a\u094d\u0938\u0941\u0932\u0947\u091f\u0947\u0921 \u092a\u094b\u0938\u094d\u091f\u0938\u094d\u0915\u094d\u0930\u093f\u092a\u094d\u091f",
     "equal": "\u092c\u0930\u093e\u092c\u0930",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "Please decide whether the following GeoGebra Views should be available during the exam.",
     "exam_custom_header": "GeoGebra Exam",
     "exam_end_time": "Exam End Time",

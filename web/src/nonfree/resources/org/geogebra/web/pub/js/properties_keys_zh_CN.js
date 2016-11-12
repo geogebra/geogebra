@@ -2939,7 +2939,7 @@ __GGB__keysVar.zh_CN.menu = {
     "emf": "\u589e\u5f3a\u578b\u56fe\u5143\u6587\u4ef6",
     "eps": "\u5c01\u88c5\u5f0f PostScript",
     "equal": "\u76f8\u7b49",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "\u8bf7\u51b3\u5b9a\u4e0b\u5217 GeoGebra \u89c6\u56fe\u5728\u68c0\u6d4b\u6a21\u5f0f\u4e0b\u662f\u5426\u53ef\u7528.",
     "exam_custom_header": "GeoGebra \u68c0\u6d4b",
     "exam_end_time": "\u68c0\u6d4b\u7ed3\u675f\u65f6\u95f4",

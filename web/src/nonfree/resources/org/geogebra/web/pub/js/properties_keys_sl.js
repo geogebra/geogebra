@@ -2939,7 +2939,7 @@ __GGB__keysVar.sl.menu = {
     "emf": "Raz\u0161irjen meta format",
     "eps": "Encapsulated Postscript",
     "equal": "enako",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "Ali bodo nasledni pogledi omogo\u010deni v na\u010dinu preverjanja.",
     "exam_custom_header": "GeoGebra na\u010din za preverjanje",
     "exam_end_time": "Konec preverjanja",

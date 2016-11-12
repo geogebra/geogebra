@@ -2939,7 +2939,7 @@ __GGB__keysVar.tr.menu = {
     "emf": "Geli\u015ftirilmi\u015f Meta Bi\xe7im (emf)",
     "eps": "Postscript hali",
     "equal": "e\u015fit",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "L\xfctfen a\u015fa\u011f\u0131daki GeoGebra G\xf6r\xfcn\xfcmlerinin, S\u0131nav Modunda bulunup bulunmamas\u0131 gerekti\u011fine karar veriniz.",
     "exam_custom_header": "GeoGebra S\u0131nav Modu",
     "exam_end_time": "S\u0131nav Biti\u015f Zaman\u0131",

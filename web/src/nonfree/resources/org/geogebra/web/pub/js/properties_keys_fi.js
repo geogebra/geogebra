@@ -2939,7 +2939,7 @@ __GGB__keysVar.fi.menu = {
     "emf": "Enhanced Metafile",
     "eps": "Encapsulated Postscript",
     "equal": "yht\xe4 suuri kuin",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "Valitse mitk\xe4 seuraavista GeoGebran n\xe4kymist\xe4 ovat k\xe4ytett\xe4viss\xe4 koetilassa.",
     "exam_custom_header": "GeoGebra Koetila",
     "exam_end_time": "Kokeen p\xe4\xe4tt\xe4misaika",

@@ -2939,7 +2939,7 @@ __GGB__keysVar.fr.menu = {
     "emf": "Enhanced Meta Format",
     "eps": "Postscript encapsul\xe9",
     "equal": "\xe9gaux",
-    "exam_accept_pin": "GeoGebra Examen a besoin d\'\"\xe9pingler\" l\'application avant le d\xe9but de l\'examen",
+    "exam_accept_pin": "Vous devez accepter \"\xc9cran \xe9pingl\xe9\" avant de d\xe9marrer l\'examen",
     "exam_custom_description": "Autoriser pour Examen.",
     "exam_custom_header": "GeoGebra Examen",
     "exam_end_time": "Fin Examen",

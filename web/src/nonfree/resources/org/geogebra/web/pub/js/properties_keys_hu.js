@@ -2939,7 +2939,7 @@ __GGB__keysVar.hu.menu = {
     "emf": "Enhanced Metafile (.emf)",
     "eps": "Encapsulated Postscript (.eps)",
     "equal": "egyenl\u0151",
-    "exam_accept_pin": "GeoGebra Exam needs to \"Pin\" the app before the exam starts",
+    "exam_accept_pin": "Please allow \"Screen Pinning\" before starting the exam",
     "exam_custom_description": "V\xe1lassza ki, mely ablakok legyenek el\xe9rhet\u0151ek a vizsga \xfczemm\xf3dban!",
     "exam_custom_header": "GeoGebra vizsga \xfczemm\xf3d",
     "exam_end_time": "Vizsga \xfczemm\xf3d v\xe9ge",
