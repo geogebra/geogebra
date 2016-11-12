@@ -4081,7 +4081,7 @@ public abstract class App implements UpdateSelection {
 
 			// MOB-961, MOB-962
 			case BIND_ANDROID_TO_EXAM_APP:
-				return false;
+			return true;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
