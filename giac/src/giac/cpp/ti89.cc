@@ -1914,7 +1914,7 @@ namespace giac {
 	}
       }
     }
-    if (v.size()>2 && v[1].type==_VECT && v[1]._VECTptr->size()==2 && v[2].type==_VECT && v[2].type==_VECT){
+    if (v.size()>2 && v[1].type==_VECT && v[1]._VECTptr->size()==2 && v[2].type==_VECT && v[2]._VECTptr->size()==2){
       gen f1=v[1]._VECTptr->front();
       gen f2=v[1]._VECTptr->back();
       gen f3=v[2]._VECTptr->front();

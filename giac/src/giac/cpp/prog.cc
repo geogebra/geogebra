@@ -6486,6 +6486,7 @@ namespace giac {
       string s;
       while (!feof(f))
 	s += char(fgetc(f));
+      fclose(f);
       return string2gen(s,false);
     }
     if (args.type!=_STRNG)

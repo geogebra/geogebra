@@ -9102,7 +9102,7 @@ namespace giac {
       v.push_back(a);
       return new_ref_symbolic(symbolic(at_and,v));
     }
-    if ( ((a.type==_IDNT) || (a.type==_SYMB)) || ((a.type==_IDNT) || (a.type==_SYMB)) )
+    if ( ((a.type==_IDNT) || (a.type==_SYMB)) || ((b.type==_IDNT) || (b.type==_SYMB)) )
       return symb_and(a,b);
     if ( (a.type==_DOUBLE_) || (b.type==_DOUBLE_) )
       return 1.0;
@@ -9128,7 +9128,7 @@ namespace giac {
       v.push_back(a);
       return new_ref_symbolic(symbolic(at_ou,v));
     }
-    if ( ((a.type==_IDNT) || (a.type==_SYMB)) || ((a.type==_IDNT) || (a.type==_SYMB)) )
+    if ( ((a.type==_IDNT) || (a.type==_SYMB)) || ((b.type==_IDNT) || (b.type==_SYMB)) )
       return symb_ou(a,b);
     if ( (a.type==_DOUBLE_) || (b.type==_DOUBLE_) )
       return 1.0;
