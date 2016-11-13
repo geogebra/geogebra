@@ -217,7 +217,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 		if (app.isMacOS()) {
 			signInButton = new JMenuItem(signInAction);
-			JMenu m = new BaseMenu(app, loc.getMenu("GeoGebraTube")) {
+			JMenu m = new BaseMenu(app, loc.getMenu("GeoGebraMaterials")) {
 
 				@Override
 				public void update() {
