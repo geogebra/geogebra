@@ -77,10 +77,12 @@ public class AdjustScreen {
 		app = view.getApplication();
 		kernel = app.getKernel();
 		enabled = true;// needsAdjusting();
-		apply();
 	}
 
-	private void apply() {
+	/**
+	 * Collect widgets, ensures they are on the screen and does not overlap.
+	 */
+	public void apply() {
 		if (!enabled) {
 			return;
 		}
@@ -90,8 +92,9 @@ public class AdjustScreen {
 		checkOvelappingVSliders();
 		checkOvelappingButtons();
 		checkOvelappingInputs();
-
+		view.repaintView();
 	}
+
 
 	private void collectWidgets() {
 		hSliders.clear();
@@ -249,25 +252,38 @@ public class AdjustScreen {
 			}
 		}
 
+		tileButtons(buttons);
 
+
+	}
+
+	private void tileButtons(List<? extends GeoButton> buttons) {
+		if (buttons.size() < 1) {
+			return;
+		}
 		Collections.sort(buttons, new ButtonComparator());
 
-		GeoButton lastBtn = buttons.get(buttons.size() - 1);
-		int maxY = view.getViewHeight();// - AdjustButton.MARGIN_Y;
-		int bottom = lastBtn.getAbsoluteScreenLocY() + lastBtn.getHeight();
-		Log.debug("lastBtn: " + lastBtn.getLabelSimple() + "bottom: " + bottom
-				+ " maxY: " + maxY);
-		if (bottom > maxY) {
-			double dY = bottom - maxY;
+		GeoButton last = buttons.get(buttons.size() - 1);
+		int lastBottom = last.getAbsoluteScreenLocY() + last.getHeight();
+
+		int maxBottom = view.getViewHeight() - AdjustButton.MARGIN_Y;
+
+		Log.debug("[TILE] last: " + last.getLabelSimple() + " bottom: "
+				+ lastBottom + " maxBottom: " + maxBottom);
+		if (lastBottom >= maxBottom) {
+			double dY = lastBottom - maxBottom;
 			for (int idx = 0; idx < buttons.size(); idx++) {
 				GeoButton btn = buttons.get(idx);
 				btn.setAbsoluteScreenLoc(btn.getAbsoluteScreenLocX(),
 						(int) (btn.getAbsoluteScreenLocY() - dY));
 				btn.update();
+				Log.debug("[TILE] " + btn.getLabelSimple() + " updatedt to  ("
+						+ btn.getAbsoluteScreenLocX() + ", "
+						+ btn.getAbsoluteScreenLocY() + ")");
+
 			}
 		}
 	}
-
 	@SuppressWarnings("unchecked")
 	private void checkOvelappingInputs() {
 		Collections.sort(inputBoxes, new ButtonComparator());
@@ -304,6 +320,8 @@ public class AdjustScreen {
 				}
 			}
 		}
+
+		tileButtons(inputBoxes);
 
 	}
 

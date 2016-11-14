@@ -4467,13 +4467,13 @@ public abstract class App implements UpdateSelection {
 		// used in android
 	}
 
-	public AdjustScreen adjustScreen() {
+	public void adjustScreen() {
 		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
-			return null;
+			return;
 		}
 		Log.debug("[AS] adjustScreen()");
-		return new AdjustScreen(getActiveEuclidianView());
-
+		final AdjustScreen as = new AdjustScreen(getActiveEuclidianView());
+		as.apply();
 	}
 
 	/**
