@@ -536,6 +536,7 @@ public class MyXMLHandler implements DocHandler {
 
 		case MODE_DATA_ANALYSIS:
 			startDataAnalysisElement(eName, attrs);
+			break;
 
 		case MODE_INVALID:
 			// is this a geogebra file?
@@ -672,6 +673,7 @@ public class MyXMLHandler implements DocHandler {
 			if ("dataAnalysis".equals(eName)) {
 				mode = MODE_GUI;
 			}
+			break;
 		case MODE_GUI_PERSPECTIVES:
 			if ("perspectives".equals(eName))
 				mode = MODE_GUI;
@@ -2027,6 +2029,7 @@ new GPoint(row, column));
 			if ("dataAnalysis".equals(eName)) {
 				ok = handleDataAnalysis(attrs);
 			}
+			break;
 		case 'f':
 			if ("font".equals(eName))
 				ok = handleFont(app, attrs);

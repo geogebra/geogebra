@@ -378,11 +378,12 @@ public class AlgoDispatcher {
 		if (labels != null) {
 			switch (labels.length) {
 			case 2:
+				segmentLabel = labels[0];
 				pointLabel = labels[1];
-
+				break;
 			case 1:
 				segmentLabel = labels[0];
-
+				break;
 			default:
 			}
 		}

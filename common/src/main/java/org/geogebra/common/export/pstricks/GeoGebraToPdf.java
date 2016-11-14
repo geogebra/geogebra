@@ -1198,6 +1198,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			case 1:
 			case 2:
 				code.append("}");
+			break;
 			case 3:
 				code.append("}}");
 				break;

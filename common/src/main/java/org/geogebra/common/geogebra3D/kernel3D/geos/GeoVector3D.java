@@ -235,6 +235,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		case Kernel.COORD_STYLE_FRENCH:
 			// no equal sign
 			sbToString.append(": ");
+			break;
 
 		case Kernel.COORD_STYLE_AUSTRIAN:
 			// no equal sign

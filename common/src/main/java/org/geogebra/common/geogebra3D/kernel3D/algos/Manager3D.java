@@ -1462,11 +1462,12 @@ public class Manager3D implements Manager3DInterface {
 		if (labels != null) {
 			switch (labels.length) {
 			case 2:
+				angleLabel = labels[0];
 				pointLabel = labels[1];
-
+				break;
 			case 1:
 				angleLabel = labels[0];
-
+				break;
 			default:
 			}
 		}

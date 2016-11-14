@@ -567,7 +567,8 @@ public class CommandDispatcherGiac {
 
 			case rootof: // rootof should get removed by evalfa()
 				Log.warn("'rootof()' returned from giac");
-				// fall through
+				ret = new ExpressionNode(kernel, Double.NaN);
+				break;
 			case binomial_cdf:
 			case binomial_icdf:
 			case fisher_cdf:
