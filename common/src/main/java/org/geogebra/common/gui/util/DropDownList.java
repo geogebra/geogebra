@@ -1,7 +1,5 @@
 package org.geogebra.common.gui.util;
 
-import com.google.j2objc.annotations.Weak;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPolygon;
@@ -10,6 +8,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimer.GTimerListener;
+
+import com.google.j2objc.annotations.Weak;
 
 public class DropDownList {
 	public interface DropDownListener {
@@ -140,28 +140,50 @@ public class DropDownList {
 
 	public void startClickTimer(int x, int y) {
 		setMouse(x, y);
-		clickTimer.start();
+
+		// might be null eg Android, iOS
+		if (clickTimer != null) {
+			clickTimer.start();
+		}
 	}
 
 	public void startScrollTimer(int x, int y) {
 		setMouse(x, y);
-		scrollTimer.startRepeat();
+		if (scrollTimer != null) {
+			scrollTimer.startRepeat();
+		}
 	}
 
 	public void stopClickTimer() {
-		clickTimer.stop();
+		// might be null eg Android, iOS
+		if (clickTimer != null) {
+			clickTimer.stop();
+		}
 	}
 
 	public void stopScrollTimer() {
-		scrollTimer.stop();
+		// might be null eg Android, iOS
+		if (scrollTimer != null) {
+			scrollTimer.stop();
+		}
 	}
 
 	public boolean isClickTimerRunning() {
-		return clickTimer.isRunning();
+		// might be null eg Android, iOS
+		if (clickTimer != null) {
+			return clickTimer.isRunning();
+		}
+
+		return false;
 	}
 
 	public boolean isScrollTimerRunning() {
-		return scrollTimer.isRunning();
+		// might be null eg Android, iOS
+		if (scrollTimer != null) {
+			return scrollTimer.isRunning();
+		}
+
+		return false;
 	}
 
 }
