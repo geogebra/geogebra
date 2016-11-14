@@ -431,7 +431,7 @@ public class Polynomial implements Comparable<Polynomial> {
 	 */
 	public String getSingularMultiplication(String ringVariable, Polynomial p1, Polynomial p2) {
 		String vars = getVarsAsCommaSeparatedString(new Polynomial[] {p1, p2}, null, null);
-		if (vars != "")
+		if (!"".equals(vars))
 			return "ring " + ringVariable + "=0,(" 
 				+ vars
 				+ "),dp;" // ring definition in Singular
@@ -926,7 +926,7 @@ public class Polynomial implements Comparable<Polynomial> {
 			vars = vars.substring(0, vars.length() - 1);
 		}
 		
-		if (vars != "") {
+		if (!"".equals(vars)) {
 			ret.append(vars);
 			if (dependentVariables.isEmpty()) {
 				ret.append(",").append(dummyVar);

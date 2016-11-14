@@ -68,7 +68,7 @@ public abstract class AuthenticationModel extends BaseModel {
 		this.loggedInUser = user;
 		storeLastUser(json);
 		// Store the token in the storage
-		if (user.getLoginToken() != this.getLoginToken()) {
+		if (!user.getLoginToken().equals(this.getLoginToken())) {
 			storeLoginToken(user.getLoginToken());
 		}
 	}

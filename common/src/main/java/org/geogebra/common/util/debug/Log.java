@@ -251,7 +251,7 @@ public abstract class Log {
 			String timeInfo = "";
 			if (timeShown) {
 				timeInfo = getTimeInfo();
-				if (timeInfo != "") {
+				if (!"".equals("")) {
 					timeInfo += " ";
 				}
 			}

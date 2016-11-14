@@ -1,13 +1,13 @@
 package org.geogebra.common.move.ggtapi.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class JSONParserGGT {
 	public static final JSONParserGGT prototype = new JSONParserGGT();
@@ -31,13 +31,13 @@ public class JSONParserGGT {
 
 		material.setTitle(getString(obj, "title"));
 		material.setDescription(getString(obj, "description"));
-		if (getString(obj, "timestamp") != "") {
+		if (!"".equals(getString(obj, "timestamp"))) {
 			material.setTimestamp(Long.parseLong(getString(obj, "timestamp")));
 		}
-		if (getString(obj, "modified") != "") {
+		if (!"".equals(getString(obj, "modified"))) {
 			material.setModified(Long.parseLong(getString(obj, "modified")));
 		}
-		if (getString(obj, "syncstamp") != "") {
+		if (!"".equals(getString(obj, "syncstamp"))) {
 			material.setSyncStamp(Long.parseLong(getString(obj, "syncstamp")));
 		}
 		material.setVisibility(getString(obj, "visibility"));

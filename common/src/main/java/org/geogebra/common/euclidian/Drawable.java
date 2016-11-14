@@ -226,7 +226,7 @@ public abstract class Drawable extends DrawableND {
 		}
 
 		// label changed: check for bold or italic tags in caption
-		if (oldLabelDesc != labelDesc
+		if (!labelDesc.equals(oldLabelDesc)
 				|| (labelDesc.length() > 0 && labelDesc.charAt(0) == '<')) {
 			boolean italic = false;
 
@@ -289,7 +289,7 @@ public abstract class Drawable extends DrawableND {
 		int heightEstimate = (int) labelRectangle.getHeight();
 		boolean roughEstimate = false;
 
-		if (oldLabelDesc != labelDesc || lastFontSize != font.getSize()) {
+		if (!labelDesc.equals(oldLabelDesc) || lastFontSize != font.getSize()) {
 			if (labelDesc.startsWith("$")) {
 				// for LaTeX we need proper repaint
 				drawLabel(view.getTempGraphics2D(font));
@@ -372,7 +372,7 @@ public abstract class Drawable extends DrawableND {
 			return;
 
 		// no index in text
-		if (oldLabelDesc == labelDesc && !labelHasIndex) {
+		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex) {
 
 			labelRectangle.setBounds(EuclidianStatic.drawMultiLineText(
 					view.getApplication(), labelDesc, xLabel, yLabel, g2,

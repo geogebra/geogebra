@@ -542,17 +542,17 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			public void execute() {
 				// if the user enters something meaningful, spare an additional
 				// entering
-				String ch = "";
+				String str = "";
 				if (charcode > 0)
-					ch = new String(Character.toChars(charcode));
+					str = new String(Character.toChars(charcode));
 
 				Object ce = table.getCellEditor(table.getSelectedRow(),
 				        table.getSelectedColumn());
 				GeoClass ceType = table.getCellEditorType(
 				        table.getSelectedRow(), table.getSelectedColumn());
 				if (ce instanceof MyCellEditorW && ceType == GeoClass.DEFAULT
-				        && ch != "") {
-					((MyCellEditorW) ce).setText(ch);
+						&& !"".equals(str)) {
+					((MyCellEditorW) ce).setText(str);
 					((AutoCompleteTextFieldW) ((MyCellEditorW) ce)
 					        .getTextfield())
 					        .setCaretPosition(((MyCellEditorW) ce)

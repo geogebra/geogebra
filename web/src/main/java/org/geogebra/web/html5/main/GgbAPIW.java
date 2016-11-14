@@ -710,7 +710,7 @@ public class GgbAPIW extends GgbAPI {
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			String fileName = geo.getImageFileName();
-			if (fileName != "") {
+			if (!"".equals(fileName)) {
 				String url = ((ImageManagerW) app.getImageManager())
 						.getExternalImageSrc(fileName);
 				FileExtensions ext = StringUtil.getFileExtension(fileName);

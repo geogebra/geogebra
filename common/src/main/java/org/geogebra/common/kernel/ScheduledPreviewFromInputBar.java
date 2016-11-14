@@ -72,8 +72,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			maxLength = str.length();
 			validInput = null;
 		} else {
-			Log.debug(str + (validInput == input ? "OK" : "INVALID") + " time "
-					+ (System.currentTimeMillis() - start));
 			maxLength = DEFAULT_MAX_LENGTH;
 		}
 	}

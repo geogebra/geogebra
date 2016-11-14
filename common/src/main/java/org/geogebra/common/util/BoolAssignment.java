@@ -128,7 +128,7 @@ public class BoolAssignment extends Assignment {
 		boolean ret = false;
 		if (geo instanceof GeoBoolean) {
 			geoBoolean = (GeoBoolean) geo;
-			if (geoBooleanLabel != geoBoolean.getLabelSimple()) {
+			if (!geoBooleanLabel.equals(geoBoolean.getLabelSimple())) {
 				geoBooleanOldLabel = geoBooleanLabel;
 				geoBooleanLabel = geoBoolean.getLabelSimple();
 			}

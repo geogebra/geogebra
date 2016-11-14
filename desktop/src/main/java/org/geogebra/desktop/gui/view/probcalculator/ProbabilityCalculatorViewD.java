@@ -624,10 +624,12 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		// set distribution combo box
 		comboDistribution.removeActionListener(this);
-		if (comboDistribution.getSelectedItem() != distributionMap
-				.get(selectedDist))
+		if (!comboDistribution.getSelectedItem()
+				.equals(distributionMap.get(selectedDist))) {
 			comboDistribution
 					.setSelectedItem(distributionMap.get(selectedDist));
+		}
+
 		comboDistribution.addActionListener(this);
 
 		btnIntervalLeft.removeActionListener(this);
