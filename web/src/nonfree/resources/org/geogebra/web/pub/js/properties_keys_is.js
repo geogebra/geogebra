@@ -1825,6 +1825,7 @@ __GGB__keysVar.is.menu = {
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "Spjallbor\xf0 GeoGebra",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
+    "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraMathApps": "GeoGebra Math Apps",
     "GeoGebraProperties": "GeoGebrueiginleikar",
     "GeogebraToAsymptoteExport": "GeoGebra \xed \xfatflutning sem vigurmynd",

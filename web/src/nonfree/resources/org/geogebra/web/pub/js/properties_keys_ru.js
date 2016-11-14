@@ -1825,6 +1825,7 @@ __GGB__keysVar.ru.menu = {
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra \u0424\u043e\u0440\u0443\u043c",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
+    "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraMathApps": "GeoGebra Math Apps",
     "GeoGebraProperties": "\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438",
     "GeogebraToAsymptoteExport": "Asymptote",

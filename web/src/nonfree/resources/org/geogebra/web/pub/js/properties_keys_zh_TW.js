@@ -1825,6 +1825,7 @@ __GGB__keysVar.zh_TW.menu = {
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra \u8a0e\u8ad6\u5340",
     "GeoGebraGraphingCalculator": "GeoGebra \u7e6a\u5716\u8a08\u7b97\u6a5f",
+    "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraMathApps": "GeoGebra Math Apps",
     "GeoGebraProperties": "GeoGebra \u5c6c\u6027",
     "GeogebraToAsymptoteExport": "\u532f\u51fa\u81f3 Asymptote",

@@ -1825,6 +1825,7 @@ __GGB__keysVar.no_NN.menu = {
     "GeoGebra3DGrapher.short": "3D-grafteiknar",
     "GeoGebraForum": "GeoGebra Forum",
     "GeoGebraGraphingCalculator": "GeoGebra grafisk kalkulator",
+    "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraMathApps": "GeoGebra Matte-appar",
     "GeoGebraProperties": "GeoGebra-eigenskapar",
     "GeogebraToAsymptoteExport": "GeoGebra til Asymptote-eksport",

@@ -1825,6 +1825,7 @@ __GGB__keysVar.cs.menu = {
     "GeoGebra3DGrapher.short": "3D Grafy",
     "GeoGebraForum": "Forum GeoGebra",
     "GeoGebraGraphingCalculator": "GeoGebra grafick\xfd kalkul\xe1tor",
+    "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraMathApps": "GeoGebra matematick\xe9 aplikace",
     "GeoGebraProperties": "Vlastnosti GeoGebry",
     "GeogebraToAsymptoteExport": "Exportovat Asymptotu",
