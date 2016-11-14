@@ -14,5 +14,8 @@ public interface GeoLocusNDInterface {
 	 */
 	GeoLocusND<? extends MyPoint> getLocus();
 
+	/**
+	 * @return locus points
+	 */
 	ArrayList<? extends MyPoint> getPoints();
 }

@@ -6659,6 +6659,10 @@ public abstract class GeoElement extends ConstructionElement implements
 				GeoElement[] input = algo.getInput();
 				GeoElement in = input[1];
 				if (in.isGeoVector()) {
+				ArrayList<GeoElement> tempMoveObjectList = kernel
+						.getApplication().getSelectionManager()
+						.getTempMoveGeoList();
+
 					if (in.isIndependent()) {
 						movedGeo = in.moveVector(rwTransVec, endPosition);
 						addParentToUpdateList(in, updateGeos,
@@ -6678,6 +6682,9 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 		
 		else {
+			ArrayList<GeoElement> tempMoveObjectList = kernel.getApplication()
+					.getSelectionManager().getTempMoveGeoList();
+
 			movedGeo = moveFromChangeableCoordParentNumbers(rwTransVec,
 					endPosition, viewDirection, updateGeos, tempMoveObjectList, view);
 		}
@@ -6752,7 +6759,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 	}
 
-	private ArrayList<GeoElement> tempMoveObjectList;
+	//private ArrayList<GeoElement> tempMoveObjectList;
 
 	/**
 	 * Returns the position of this GeoElement in GeoGebra's spreadsheet view.

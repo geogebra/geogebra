@@ -81,6 +81,8 @@ public class SelectionManager {
 
 	private boolean geoToggled = false;
 
+	private ArrayList<GeoElement> tempMoveGeoList;
+
 	/**
 	 * @param kernel
 	 *            kernel
@@ -932,6 +934,13 @@ public class SelectionManager {
 
 	public ArrayList<GeoList> getSelectedListList() {
 		return selectedLists;
+	}
+
+	public ArrayList<GeoElement> getTempMoveGeoList() {
+		if (tempMoveGeoList == null) {
+			tempMoveGeoList = new ArrayList<GeoElement>();
+		}
+		return tempMoveGeoList;
 	}
 
 	public <T> int addToSelectionList(ArrayList<T> selectionList,

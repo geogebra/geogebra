@@ -54,6 +54,12 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 		myPointList.add(new MyPoint(x, y, lineTo));
 	}
 
+	/**
+	 * @param coords
+	 *            changed point
+	 * @param pp
+	 *            path parameter
+	 */
 	public void pointChanged(Coords coords, PathParameter pp) {
 		changingPoint = coords;
 		// this updates closestPointParameter and closestPointIndex
