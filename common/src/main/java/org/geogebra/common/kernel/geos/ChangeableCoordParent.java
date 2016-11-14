@@ -208,7 +208,11 @@ public class ChangeableCoordParent {
 		if (Kernel.isZero(ld))
 			return false;
 
-		double val = getStartValue() + direction2.dotproduct3(rwTransVec) / ld;
+		double shift = direction2.dotproduct3(rwTransVec) / ld;
+		if (!Double.isFinite(shift)) {
+			return false;
+		}
+		double val = getStartValue() + shift;
 
 		if (!forPolyhedronNet) {
 			switch (view.getPointCapturingMode()) {
