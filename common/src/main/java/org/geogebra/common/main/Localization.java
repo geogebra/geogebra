@@ -1026,9 +1026,11 @@ public abstract class Localization implements KeyboardLocale {
 	}
 
 	/**
-	 * @return tooltip language
+	 * @return tooltip language (or null where not supported)
 	 */
-	public abstract String getTooltipLanguageString();
+	public String getTooltipLanguageString() {
+		return null;
+	}
 
 	/**
 	 * @return whether language of command bundle changed since we last updated
