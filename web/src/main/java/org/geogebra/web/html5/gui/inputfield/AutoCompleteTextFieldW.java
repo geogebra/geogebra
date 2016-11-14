@@ -1363,11 +1363,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		// setCaretPosition(pos + text.length());
 		final int newPos = pos + text.length();
 
-		// make sure AutoComplete works
-		if (this instanceof AutoCompleteTextFieldW) {
-			AutoCompleteTextFieldW tf = this;
-			tf.updateCurrentWord(false);
-		}
+		this.updateCurrentWord(false);
 
 		setCaretPosition(newPos, false);
 

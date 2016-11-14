@@ -499,8 +499,8 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * BasicStroke).
 	 */
 	public void appendStroke() {
-		if (currentStroke instanceof GBasicStroke) {
-			_stroke = (GBasicStroke) currentStroke;
+		if (currentStroke != null) {
+			_stroke = currentStroke;
 			append(_stroke.getLineWidth() + " setlinewidth");
 			double miterLimit = _stroke.getMiterLimit();
 			if (miterLimit < 1.0f) {
@@ -543,6 +543,9 @@ abstract public class EpsGraphics implements GGraphics2D {
 	/**
 	 * Concatenates the current EpsGraphics2D Transform with a rotation
 	 * transform.
+	 * 
+	 * @param theta
+	 *            anglein radians
 	 */
 	// @Override
 	public void rotate(double theta) {

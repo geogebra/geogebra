@@ -60,7 +60,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 		String initString = model.getInitString();
 		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);				
 		tfCaption = ip.getTextComponent();
-		if (tfCaption instanceof AutoCompleteTextFieldW) {
+		if (tfCaption != null) {
 			AutoCompleteTextFieldW atf = (AutoCompleteTextFieldW) tfCaption;
 			atf.setAutoComplete(false);
 		}

@@ -3045,8 +3045,7 @@ public abstract class GeoElement extends ConstructionElement implements
 					e.printStackTrace();
 				}
 				geo = this;
-				if (geo instanceof GeoNumeric
-						&& !((GeoNumeric) geo).isDependentConst()) {
+				if (!((GeoNumeric) geo).isDependentConst()) {
 					((GeoNumeric) geo).setIsDependentConst(true);
 				}
 				addToConstr = false;

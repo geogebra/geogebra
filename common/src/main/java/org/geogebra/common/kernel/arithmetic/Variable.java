@@ -180,10 +180,10 @@ public class Variable extends ValidExpression {
 		}
 		int[] exponents = new int[] { 0, 0, 0, 0, 0 };
 		int i;
-		ExpressionValue geo2 = null;
+		GeoElement geo2 = null;
 		String nameNoX = name;
 		int degPower = 0;
-		while (nameNoX.length() > 0 && !(geo2 instanceof GeoElement)
+		while (nameNoX.length() > 0 && (geo2 == null)
 				&& nameNoX.endsWith("deg")) {
 			int length = nameNoX.length();
 			degPower++;

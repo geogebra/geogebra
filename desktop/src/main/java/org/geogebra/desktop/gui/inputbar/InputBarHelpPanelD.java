@@ -761,7 +761,8 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 				if (isSelected) {
 					setBackgroundSelectionColor(selectionColor);
-				} else if (row == ((MyJTree) tree).rollOverRow) {
+				} else if ((tree instanceof MyJTree)
+						&& row == ((MyJTree) tree).rollOverRow) {
 					setBackgroundNonSelectionColor(rollOverColor);
 				} else {
 					setBackgroundSelectionColor(bgColor);

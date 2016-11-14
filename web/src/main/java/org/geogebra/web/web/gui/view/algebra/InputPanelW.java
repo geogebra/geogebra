@@ -39,7 +39,7 @@ public class InputPanelW extends FlowPanel {
 	        boolean showSymbolPopupIcon) {
 		this(initText, app, rows, columns, showSymbolPopupIcon,
 		        false/* , null */, DialogType.GeoGebraEditor);
-		if (textComponent instanceof AutoCompleteTextFieldW) {
+		if (textComponent != null) {
 			AutoCompleteTextFieldW atf = (AutoCompleteTextFieldW) textComponent;
 			atf.setAutoComplete(false);
 		}

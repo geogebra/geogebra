@@ -987,10 +987,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return menuBar;
 	}
 
-	public void setMenubar(JMenuBar newMenuBar) {
-		menuBar = (GeoGebraMenuBar) newMenuBar;
-	}
-
 	public void updateMenuBarLayout() {
 		if ((app).showMenuBar()) {
 			Component comp = ((AppD) app).getMainComponent();

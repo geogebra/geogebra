@@ -17,7 +17,6 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.smallscreen.AdjustScreen;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
@@ -50,6 +49,7 @@ import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.ExamEnvironment;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
@@ -129,7 +129,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
@@ -3513,20 +3512,4 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		setExam(new ExamEnvironmentW(this));
 	}
 
-	@Override
-	public void adjustScreen() {
-		if (!kernel.getApplication().has(Feature.ADJUST_WIDGETS)) {
-			return;
-		}
-		Log.debug("[AS] adjustScreen()");
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			public void execute() {
-				final AdjustScreen as = new AdjustScreen(
-						getActiveEuclidianView());
-				as.apply();
-			}
-		});
-	}
 }
-

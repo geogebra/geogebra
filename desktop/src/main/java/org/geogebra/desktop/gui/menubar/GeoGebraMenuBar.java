@@ -57,8 +57,10 @@ import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	private static final long serialVersionUID = 1736020764918189176L;
 
-	private BaseMenu fileMenu, editMenu, viewMenu, optionsMenu, toolsMenu,
+	private BaseMenu fileMenu, editMenu, optionsMenu, toolsMenu,
 			windowMenu, helpMenu, languageMenu;
+
+	ViewMenuApplicationD viewMenu;
 
 	private final AppD app;
 	private LayoutD layout;
@@ -98,7 +100,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * @return whether 3D View is switched on
 	 */
 	public boolean is3DViewShown() {
-		return ((ViewMenuD) viewMenu).is3DViewShown();
+		return viewMenu.is3DViewShown();
 	}
 
 	/**
@@ -370,9 +372,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * @param visible
 	 */
 	public void updateCPView(boolean visible) {
-		if (viewMenu instanceof ViewMenuApplicationD) {
-			((ViewMenuApplicationD) viewMenu).updateCPView(visible);
-		}
+		viewMenu.updateCPView(visible);
 	}
 
 	/**

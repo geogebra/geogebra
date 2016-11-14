@@ -88,13 +88,17 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	}
 
 	public void fill(Rectangle2D rectangle) {
-		impl.fill(new GGenericRectangle2DD(
-				(java.awt.geom.Rectangle2D) rectangle));
+		if (rectangle instanceof java.awt.geom.Rectangle2D) {
+			impl.fill(new GGenericRectangle2DD(
+					(java.awt.geom.Rectangle2D) rectangle));
+		}
 	}
 
 	public void draw(Rectangle2D rectangle) {
-		impl.draw(new GGenericRectangle2DD(
-				(java.awt.geom.Rectangle2D) rectangle));
+		if (rectangle instanceof java.awt.geom.Rectangle2D) {
+			impl.draw(new GGenericRectangle2DD(
+					(java.awt.geom.Rectangle2D) rectangle));
+		}
 	}
 
 	public void draw(RoundRectangle2D rectangle) {
@@ -103,7 +107,9 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	}
 
 	public void draw(Line2D line) {
-		impl.draw(new GLine2DD((java.awt.geom.Line2D) line));
+		if (line instanceof java.awt.geom.Line2D) {
+			impl.draw(new GLine2DD((java.awt.geom.Line2D) line));
+		}
 	}
 
 	public void drawChars(char[] data, int offset, int length, int x, int y) {
@@ -140,7 +146,9 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 	}
 
 	public void drawImage(Image image, int x, int y) {
-		impl.drawImage(new GBufferedImageD(((BufferedImage) image)), x, y);
+		if (image instanceof BufferedImage) {
+			impl.drawImage(new GBufferedImageD(((BufferedImage) image)), x, y);
+		}
 	}
 
 	public void drawImage(Image image, Transform transform) {

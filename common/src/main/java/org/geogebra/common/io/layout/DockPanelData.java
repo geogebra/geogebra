@@ -11,7 +11,7 @@ import org.geogebra.common.factories.AwtFactory;
  * 
  * @author Florian Sonner
  */
-public class DockPanelData {
+public class DockPanelData implements Cloneable {
 	private int viewId;
 	private boolean isVisible;
 	private boolean openInFrame;

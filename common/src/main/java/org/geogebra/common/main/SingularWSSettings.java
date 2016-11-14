@@ -51,7 +51,7 @@ public class SingularWSSettings {
 		if ("auto".equals(s.toLowerCase())) {
 			useCaching = null;
 		}
-		useCaching = Boolean.valueOf(s).booleanValue();
+		useCaching = Boolean.parseBoolean(s);
 	}
 
 }
