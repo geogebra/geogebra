@@ -30,7 +30,7 @@ public class LocalizationD extends Localization {
 	private ResourceBundle rbmenu, rbmenuTT, rbcommand, rbcommandOld, rberror,
 			rbcolors, rbsymbol;
 
-	private Locale currentLocale;
+	private Locale currentLocale = Locale.ENGLISH;
 	private Locale tooltipLocale = null;
 	private App app;
 
