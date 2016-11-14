@@ -130,65 +130,6 @@ public abstract class EuclidianStatic {
 				standardStroke.getMiterLimit(), dash, 0.0f);
 	}
 
-	/**
-	 * Adds \\- to positions where the line can be broken. Now it only breaks at
-	 * +, -, * and spaces.
-	 * 
-	 * @param latex
-	 *            String
-	 * @return The LaTeX string with breaks
-	 */
-	protected static String addPossibleBreaks(String latex) {
-		StringBuilder latexTmp = new StringBuilder(latex);
-		int depth = 0;
-		boolean no_addition = true;
-		for (int i = 0; i < latexTmp.length() - 2; i++) {
-			char character = latexTmp.charAt(i);
-			switch (character) {
-			case '(':
-			case '[':
-			case '{':
-				depth++;
-				break;
-			case ')':
-			case ']':
-			case '}':
-				depth--;
-				break;
-			case '\\':
-				if (latexTmp.charAt(i + 1) != ';')
-					break;
-				i++;
-				latexTmp.insert(i + 1, "\\?");
-				i = i + 2;
-				break;
-			case ' ':
-				if (latexTmp.charAt(i + 1) != ' ')
-					break;
-				i++;
-			case '*':
-				if (depth != 0)
-					break;
-				latexTmp.insert(i + 1, "\\?");
-				i = i + 2;
-				break;
-			case '+':
-			case '-':
-				if (depth != 0)
-					break;
-				latexTmp.insert(i + 1, "\\-");
-				i = i + 2;
-				no_addition = false;
-			}
-		}
-		// no addition happened at depth zero so it can be broken
-		// on * and space too.
-		if (no_addition) {
-			return latexTmp.toString().replaceAll("\\?", "\\-");
-		}
-		return latexTmp.toString().replaceAll("\\?", "");
-	}
-
 	/*
 	 * public abstract float textWidth(String str, Font font, FontRenderContext
 	 * frc);
