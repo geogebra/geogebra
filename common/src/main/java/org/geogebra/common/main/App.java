@@ -3930,6 +3930,10 @@ public abstract class App implements UpdateSelection {
 			}
 			return true;
 
+		// GGB-1357
+		case AV_SINGLE_TAP_EDITING:
+			return prerelease;
+
 		// MOB-527
 		case MOBILE_LANDSCAPE_FULLSCREEN_INPUT:
 			return false;
