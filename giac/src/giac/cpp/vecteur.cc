@@ -6522,6 +6522,25 @@ namespace giac {
   } // end modular/padic algorithm
 #endif // GIAC_HAS_STO_38
 
+  // find lvar after doing halftan/tsimplify
+  void alg_lvar_halftan_tsimplify(vecteur & res,vecteur & lv,GIAC_CONTEXT){
+    lv=alg_lvar(res);
+    if (!lv.empty() && lv.front().type==_VECT && lv.front()._VECTptr->size()>1){
+      vecteur lw=*halftan(lv.front(),contextptr)._VECTptr;
+      if (lvar(lw).size()<lv.front()._VECTptr->size()){
+	res=*subst(gen(res),lv.front(),lw,false,contextptr)._VECTptr;
+	lv=alg_lvar(res);
+      }
+      if (!lv.empty() && lv.front().type==_VECT && lv.front()._VECTptr->size()>1){
+	lw=*tsimplify(lv.front(),contextptr)._VECTptr;
+	if (lvar(lw).size()<lv.front()._VECTptr->size()){
+	  res=*subst(gen(res),lv.front(),lw,false,contextptr)._VECTptr;
+	  lv=alg_lvar(res);
+	}
+      }
+    }
+  }
+
   // row reduction from line l and column c to line lmax and column cmax
   // lmax and cmax are not included
   // line are numbered starting from 0
@@ -6667,21 +6686,7 @@ namespace giac {
       res=a;
     if (convert_internal){
       // convert a to internal form
-      lv=alg_lvar(res);
-      if (!lv.empty() && lv.front().type==_VECT && lv.front()._VECTptr->size()>1){
-	vecteur lw=*halftan(lv.front(),contextptr)._VECTptr;
-	if (lvar(lw).size()<lv.front()._VECTptr->size()){
-	  res=*subst(gen(res),lv.front(),lw,false,contextptr)._VECTptr;
-	  lv=alg_lvar(res);
-	}
-	if (!lv.empty() && lv.front().type==_VECT && lv.front()._VECTptr->size()>1){
-	  lw=*tsimplify(lv.front(),contextptr)._VECTptr;
-	  if (lvar(lw).size()<lv.front()._VECTptr->size()){
-	    res=*subst(gen(res),lv.front(),lw,false,contextptr)._VECTptr;
-	    lv=alg_lvar(res);
-	  }
-	}
-      }
+      alg_lvar_halftan_tsimplify(res,lv,contextptr);
       res = *(e2r(res,lv,contextptr)._VECTptr);
     }
     int lvs=int(lv.size());
@@ -13213,7 +13218,8 @@ namespace giac {
       }
     } // end if (numeric_matrix)
     int taille=int(m.size());
-    vecteur lv(alg_lvar(m));
+    vecteur lv;
+    alg_lvar_halftan_tsimplify(m,lv,contextptr);
     numeric_matrix=has_num_coeff(m) && is_fully_numeric(evalf(m,1,contextptr));
     matrice mr=*(e2r(numeric_matrix?exact(m,contextptr):m,lv,contextptr)._VECTptr); // convert to internal form
     // vecteur lv;
