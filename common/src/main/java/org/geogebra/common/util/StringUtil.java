@@ -12,6 +12,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
 public class StringUtil {
@@ -1599,5 +1600,28 @@ public class StringUtil {
 		}
 
 		return (inputText + Unicode.DEGREE);
+	}
+
+	public static String getGrayString(char c, Localization loc) {
+		switch (c) {
+		case '0':
+			return loc.getColor("white");
+		case '1':
+			return loc.getPlain("AGray", Unicode.fraction1_8);
+		case '2':
+			return loc.getPlain("AGray", Unicode.fraction1_4); // silver
+		case '3':
+			return loc.getPlain("AGray", Unicode.fraction3_8);
+		case '4':
+			return loc.getPlain("AGray", Unicode.fraction1_2);
+		case '5':
+			return loc.getPlain("AGray", Unicode.fraction5_8);
+		case '6':
+			return loc.getPlain("AGray", Unicode.fraction3_4);
+		case '7':
+			return loc.getPlain("AGray", Unicode.fraction7_8);
+		default:
+			return loc.getColor("black");
+		}
 	}
 }

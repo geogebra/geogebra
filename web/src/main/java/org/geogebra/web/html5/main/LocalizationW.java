@@ -7,7 +7,6 @@ import java.util.MissingResourceException;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
@@ -123,44 +122,6 @@ public final class LocalizationW extends Localization {
 
 	}
 
-	/**
-	 * @param key
-	 *            String
-	 * @param arg0
-	 *            String
-	 * @return String
-	 */
-	public String getMenu(String key, String arg0) {
-		String str = getMenu(key);
-		StringBuffer menuStr = new StringBuffer();
-		menuStr.setLength(0);
-		boolean found = false;
-		for (int i = 0; i < str.length(); i++) {
-			char ch = str.charAt(i);
-			if (ch == '%') {
-				// get number after %
-				i++;
-				menuStr.append(arg0);
-				found = true;
-			} else {
-				menuStr.append(ch);
-			}
-		}
-
-		if (!found) {
-			/*
-			 * If no parameters were found in key, this key is missing for some
-			 * reason (maybe it is not added to the ggbtrans database yet). In
-			 * this case all parameters are appended to the displayed string to
-			 * help the developers.
-			 */
-			menuStr.append(" ");
-			menuStr.append(arg0);
-		}
-
-		return menuStr.toString();
-	}
-
 	@Override
 	public String getError(String key) {
 
@@ -260,26 +221,9 @@ public final class LocalizationW extends Localization {
 
 		if ((key.length() == 5)
 		        && StringUtil.toLowerCase(key).startsWith("gray")) {
-			switch (key.charAt(4)) {
-			case '0':
-				return getColor("white");
-			case '1':
-				return getMenu("AGray", Unicode.fraction1_8);
-			case '2':
-				return getMenu("AGray", Unicode.fraction1_4); // silver
-			case '3':
-				return getMenu("AGray", Unicode.fraction3_8);
-			case '4':
-				return getMenu("AGray", Unicode.fraction1_2);
-			case '5':
-				return getMenu("AGray", Unicode.fraction5_8);
-			case '6':
-				return getMenu("AGray", Unicode.fraction3_4);
-			case '7':
-				return getMenu("AGray", Unicode.fraction7_8);
-			default:
-				return getColor("black");
-			}
+
+			return StringUtil.getGrayString(key.charAt(4), this);
+
 		}
 
 		return key;
@@ -348,21 +292,6 @@ public final class LocalizationW extends Localization {
 				.inject(rightToLeftReadingOrder ? GuiResourcesSimple.INSTANCE
 						.avStyleRTL() : GuiResourcesSimple.INSTANCE
 						.avStyleLTR());
-	}
-
-	@Override
-	public String getTooltipLanguageString() {
-
-		// secondary languages not supported in HTML5
-
-		return null;
-
-	}
-
-	@Override
-	public String getMenuTooltip(String string) {
-		// secondary languages not supported in HTML5
-		return getMenu(string);
 	}
 
 	@Override

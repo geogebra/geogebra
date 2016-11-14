@@ -7,7 +7,6 @@ import java.util.ResourceBundle;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.Unicode;
 
 /**
  * common jre localization
@@ -277,26 +276,7 @@ public abstract class LocalizationJre extends Localization {
 
 		if ((key.length() == 5)
 				&& StringUtil.toLowerCase(key).startsWith("gray")) {
-			switch (key.charAt(4)) {
-			case '0':
-				return getColor("white");
-			case '1':
-				return getPlain("AGray", Unicode.fraction1_8);
-			case '2':
-				return getPlain("AGray", Unicode.fraction1_4); // silver
-			case '3':
-				return getPlain("AGray", Unicode.fraction3_8);
-			case '4':
-				return getPlain("AGray", Unicode.fraction1_2);
-			case '5':
-				return getPlain("AGray", Unicode.fraction5_8);
-			case '6':
-				return getPlain("AGray", Unicode.fraction3_4);
-			case '7':
-				return getPlain("AGray", Unicode.fraction7_8);
-			default:
-				return getColor("black");
-			}
+			return StringUtil.getGrayString(key.charAt(4), this);
 		}
 
 		if (rbcolors == null) {
