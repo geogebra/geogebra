@@ -58,7 +58,9 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		for (int i = 0; i < rows * columns; i++) {
 			defaultTableModel.add(null);
 		}
-		listener.dimensionChange();
+		if (listener != null) {
+			listener.dimensionChange();
+		}
 		attachView();
 		isIniting = false;
 	}
