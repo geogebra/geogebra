@@ -42,6 +42,16 @@ public interface MathField {
      */
     boolean showKeyboard();
 
+    /**
+     * show keyboard, should be called on pointer down
+     */
+    void showKeyboardOnDown();
+
+    /**
+     * show keyboard, should be called on pointer up
+     */
+    void showKeyboardOnUp();
+
     void showCopyPasteButtons();
 
     void requestViewFocus();
