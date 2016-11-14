@@ -25,7 +25,11 @@ public abstract class LocalizationJre extends Localization {
 	 *            3 for 3D
 	 */
 	public LocalizationJre(int dimension) {
-		super(dimension, 15);
+		this(dimension, 15);
+	}
+
+	public LocalizationJre(int dimension, int maxFigures) {
+		super(dimension,maxFigures);
 	}
 
 	/**
@@ -332,7 +336,6 @@ public abstract class LocalizationJre extends Localization {
 
 	@Override
 	final protected boolean isCommandChanged() {
-		// TODO Auto-generated method stub
 		return rbcommandOld != rbcommand;
 	}
 
