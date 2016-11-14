@@ -5,7 +5,6 @@ import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.EventRenderable;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.WindowW;
 import org.geogebra.web.web.move.ggtapi.operations.BASEURL;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
@@ -62,9 +61,9 @@ public class WindowReference implements EventRenderable {
 		if (instance == null) {
 			instance = new WindowReference();
 			lOW = ((LoginOperationW) app.getLoginOperation());
-			instance.wnd = createWindowReference("GeoGebraTube",
-					lOW.getLoginURL(
-							((AppW) app).getLocalization().getLanguage()),
+			instance.wnd = createWindowReference(
+					app.getLocalization().getMenu("GeoGebraMaterials"),
+					lOW.getLoginURL(app.getLocalization().getLanguage()),
 					callback, 900, 500);
 					lOW.getView().add(instance);
 					instance.initClosedCheck();
