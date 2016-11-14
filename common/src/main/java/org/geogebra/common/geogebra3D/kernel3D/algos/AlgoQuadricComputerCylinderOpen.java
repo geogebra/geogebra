@@ -28,7 +28,7 @@ public class AlgoQuadricComputerCylinderOpen extends
 
 		quadric.setCylinder(origin, direction.mul(1 / altitude), eigen, r, r2);
 
-		((GeoQuadric3DPart) quadric).setLimits(0, altitude);
+		quadric.setLimits(0, altitude);
 	}
 
 }

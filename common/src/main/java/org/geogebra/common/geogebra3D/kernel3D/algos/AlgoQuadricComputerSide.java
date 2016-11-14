@@ -22,7 +22,7 @@ public class AlgoQuadricComputerSide extends AlgoQuadricComputer {
 	public void setQuadric(GeoQuadric3D quadric, Coords origin,
 			Coords direction, Coords eigen, double r, double r2) {
 
-		((GeoQuadric3DPart) quadric).set(origin, direction, eigen, r, r2);
+		quadric.set(origin, direction, eigen, r, r2);
 
 	}
 

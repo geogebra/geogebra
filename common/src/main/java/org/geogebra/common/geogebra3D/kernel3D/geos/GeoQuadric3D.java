@@ -3280,4 +3280,31 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return kernel.getAlgebraProcessor().parseEquation(this);
 	}
 
+	/**
+	 * 
+	 * @param origin
+	 *            origin
+	 * @param direction
+	 *            direction
+	 * @param eigen
+	 *            first eigen vector
+	 * @param r
+	 *            first radius
+	 * @param r2
+	 *            second radius
+	 */
+	public void set(Coords origin, Coords direction, Coords eigen, double r,
+			double r2) {
+		// implemented in GeoQuadric3DPart
+	}
+
+	/**
+	 * sets the min and max values for limits
+	 * 
+	 * @param min
+	 * @param max
+	 */
+	public void setLimits(double min, double max) {
+		// implemented in GeoQuadric3DPart
+	}
 }

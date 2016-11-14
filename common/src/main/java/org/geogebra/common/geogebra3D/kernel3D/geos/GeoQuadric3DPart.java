@@ -55,6 +55,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	 * @param min
 	 * @param max
 	 */
+	@Override
 	public void setLimits(double min, double max) {
 
 		bottom = min;
@@ -96,6 +97,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		return super.getMaxParameter(index);
 	}
 
+	@Override
 	public void set(Coords origin, Coords direction, Coords eigen, double r,
 			double r2) {
 		switch (type) {
@@ -108,7 +110,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		case QUADRIC_PARABOLIC_CYLINDER:
 			setParabolicCylinder(origin, direction, eigen, r, r2);
 			break;
-
 		case QUADRIC_CONE:
 			setCone(origin, direction, eigen, r, r2);
 			break;
