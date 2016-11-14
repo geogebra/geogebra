@@ -431,4 +431,14 @@ public final class LocalizationW extends Localization {
 
 	}
 
+	protected String getLanguage(Locale locale) {
+		// TODO: implement if LocalizationW uses Locale rather than String
+		return "en";
+	}
+
+	protected String getCountry(Locale locale) {
+		// TODO: implement if LocalizationW uses Locale rather than String
+		return "US";
+	}
+
 }

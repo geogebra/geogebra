@@ -438,4 +438,14 @@ public class LocalizationD extends Localization {
 		return "East";
 	}
 
+	@Override
+	protected String getLanguage(Locale locale) {
+		return locale.getLanguage();
+	}
+
+	@Override
+	protected String getCountry(Locale locale) {
+		return locale.getCountry();
+	}
+
 }

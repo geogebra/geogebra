@@ -506,7 +506,7 @@ public abstract class Localization implements KeyboardLocale {
 	 * @return 2 letter language name, eg "en"
 	 */
 	public String getLanguage() {
-		return getLocale().getLanguage();
+		return getLanguage(getLocale());
 	}
 
 	/**
@@ -1131,13 +1131,14 @@ public abstract class Localization implements KeyboardLocale {
 		int size = getSupportedLocales().size();
 
 		// try to find country and and language
-		String country = locale.getCountry();
-		String language = locale.getLanguage();
+		String country = getCountry(locale);
+		String language = getLanguage(locale);
 
 		if (country.length() > 0) {
 			for (int i = 0; i < size; i++) {
 				Locale loc = getSupportedLocales().get(i);
-				if (country.equals(loc.getCountry()) && language.equals(loc.getLanguage())) {
+				if (country.equals(getCountry(loc))
+						&& language.equals(getLanguage(loc))) {
 					// found supported country locale
 					return loc;
 				}
@@ -1147,7 +1148,7 @@ public abstract class Localization implements KeyboardLocale {
 		// try to find only language
 		for (int i = 0; i < size; i++) {
 			Locale loc = getSupportedLocales().get(i);
-			if (language.equals(loc.getLanguage())) {
+			if (language.equals(getLanguage(loc))) {
 				// found supported country locale
 				return loc;
 			}
@@ -1164,4 +1165,8 @@ public abstract class Localization implements KeyboardLocale {
 	}
 
 	abstract protected void updateResourceBundles();
+
+	protected abstract String getLanguage(Locale locale);
+
+	protected abstract String getCountry(Locale locale);
 }
