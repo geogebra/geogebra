@@ -226,7 +226,14 @@ public final class LocalizationW extends Localization {
 
 		}
 
-		return key;
+		String ret = getPropertyNative(localeStr, key, "color");
+
+		if (ret == null || "".equals(ret)) {
+			Log.debug("error key not found: " + key);
+			return key;
+		}
+
+		return ret;
 
 	}
 
