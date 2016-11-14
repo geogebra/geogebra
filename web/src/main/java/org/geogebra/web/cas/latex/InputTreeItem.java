@@ -381,10 +381,8 @@ public class InputTreeItem extends MathQuillTreeItem
 
 		try{
 			btnDelete.setFocus(false);
-			if (plusButton != null) {
-				plusButton.setFocus(false);
-			}
-		}catch(Throwable t){
+			plusButton.setFocus(false);
+		} catch (Throwable t) {
 			// TRY-CATCH needed for Win8 app //TODO find better solution
 		}
 		// add(textField);// done in super()

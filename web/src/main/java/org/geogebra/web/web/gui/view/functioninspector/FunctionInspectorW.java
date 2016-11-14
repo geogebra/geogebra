@@ -521,8 +521,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		try {
 
 			String inputText = source.getText().trim();
-			if (inputText == null)
-				return;
 
 			// allow input such as sqrt(2)
 			NumberValue nv;
@@ -639,10 +637,6 @@ public class FunctionInspectorW extends FunctionInspector {
 	protected void doCopyToSpreadsheet() {
 		SpreadsheetViewW sp = ((GuiManagerW) getAppW().getGuiManager())
 		        .getSpreadsheetView();
-
-		if (sp == null) {
-			return;
-		}
 
 		if (isIntervalTabSelected()) {
 			getModel().copyIntervalsToSpreadsheet(2, 9);// modelInterval.getColumnCount(),

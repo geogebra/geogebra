@@ -58,12 +58,7 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 
 			GeoElement[] ret = process4(c, arg, ok);
 
-			if (ret != null) {
-				return ret;
-			}
-
-			// syntax error
-			throw argErr(app, c.getName(), getBadArg(ok, arg));
+			return ret;
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -79,9 +79,7 @@ public class AlgoIntersectCS1D1D extends AlgoIntersectCoordSys {
 
 		GeoPoint3D p = (GeoPoint3D) getIntersection();
 
-		if (project == null)
-			p.setUndefined();
-		else if (Double.isNaN(project[2].get(1))) { // infinite point
+		if (Double.isNaN(project[2].get(1))) { // infinite point
 			if (getCS1().isGeoSegment() || getCS1().isGeoRay()
 					|| getCS2().isGeoSegment() || getCS2().isGeoRay())
 				p.setUndefined();

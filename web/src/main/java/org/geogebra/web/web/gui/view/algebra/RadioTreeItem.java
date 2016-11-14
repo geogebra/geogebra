@@ -190,9 +190,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 		public void update() {
 			marble.setEnabled(geo.isEuclidianShowable()
 					&& (!app.isExam() || app.enableGraphing()));
-			if (marble != null) {
-				marble.setChecked(geo.isEuclidianVisible());
-			}
+
+			marble.setChecked(geo.isEuclidianVisible());
+
 			setHighlighted(selected);
 		}
 
@@ -731,10 +731,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 			valCanvas = DrawEquationW.paintOnCanvas(geo1, text, valCanvas,
 					getFontSize());
 			valCanvas.addStyleName("canvasVal");
-			if (valCanvas != null) {
-				valuePanel.clear();
-				valuePanel.add(valCanvas);
-			}
+			valuePanel.clear();
+			valuePanel.add(valCanvas);
 		}
 
 		return true;
@@ -840,10 +838,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 			valCanvas = DrawEquationW.paintOnCanvas(previewGeo, text, valCanvas,
 					getFontSize());
 			valCanvas.addStyleName("canvasVal");
-			if (valCanvas != null) {
-				valuePanel.clear();
-				valuePanel.add(valCanvas);
-			}
+			valuePanel.clear();
+			valuePanel.add(valCanvas);
 		}
 
 		if (outputPanel.getWidgetIndex(valuePanel) == -1) {
@@ -1500,7 +1496,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
 					.getGuiManager().getInputHelpPanel();
 
-			if (helpPopup == null && app != null) {
+			if (helpPopup == null) {
 				helpPopup = new InputBarHelpPopup(this.app, this,
 						"helpPopupAV");
 				helpPopup.addAutoHidePartner(this.getElement());

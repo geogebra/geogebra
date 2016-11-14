@@ -165,11 +165,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 			try { // To catch eventual wrong indexes in arrays...
 				do { // debug("doing samples: "+m);
 					extremums = findExtremums(rrfunc, l, r, m);
-					if (extremums == null) {
-						numberOfExtremums = 0;
-					} else {
-						numberOfExtremums = extremums.length;
-					}
+					numberOfExtremums = extremums.length;
 
 					if (numberOfExtremums < m / 2) {
 						break;

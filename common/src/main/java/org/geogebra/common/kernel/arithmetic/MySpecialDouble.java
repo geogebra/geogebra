@@ -52,8 +52,7 @@ public class MySpecialDouble extends MyDouble {
 		originalString = StringUtil.cannonicNumber(str);
 
 		strToString = originalString;
-		if (strToString == null)
-			strToString = "0";
+
 		// check if this is a letter constant, e.g. Pi or Euler number
 		char firstChar = strToString.charAt(0);
 		isLetterConstant = StringUtil.isLetter(firstChar)

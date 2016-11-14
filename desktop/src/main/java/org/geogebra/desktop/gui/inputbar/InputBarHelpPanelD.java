@@ -75,9 +75,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	private InputBarHelpPanelD thisPanel;
 	private Color bgColor = Color.WHITE;
 
-	// TODO remove?
-	private Color titleColor;
-
 	private MyJTree cmdTree;
 	private DefaultMutableTreeNode functionTitleNode, rootSubCommands,
 			rootAllCommands;
@@ -115,8 +112,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		thisPanel = this;
 		this.setOpaque(true);
 		// this.setBackground(Color.blue);
-		titleColor = GColorD.getAwtColor(
-				GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
 		bgColor = this.getBackground().brighter();
 
 		createFunctionPanel();
@@ -462,9 +457,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	 */
 	private void addNodeInSortedOrder(DefaultMutableTreeNode parent,
 			DefaultMutableTreeNode child) {
-
-		if (child.toString() == null)
-			return;
 
 		int n = parent.getChildCount();
 		if (n == 0) {

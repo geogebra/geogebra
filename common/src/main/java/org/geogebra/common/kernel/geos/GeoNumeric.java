@@ -330,21 +330,16 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		TreeSet<GeoElement> numbers = cons
 				.getGeoSetLabelOrder(GeoClass.NUMERIC);
 		TreeSet<GeoElement> angles = cons.getGeoSetLabelOrder(GeoClass.ANGLE);
-		if (numbers != null) {
-			if (angles != null)
-				numbers.addAll(angles);
-		} else {
-			numbers = angles;
+
+		numbers.addAll(angles);
+
+		Iterator<GeoElement> it = numbers.iterator();
+		while (it.hasNext()) {
+			GeoNumeric num = (GeoNumeric) it.next();
+			if (num.isSlider())
+				count++;
 		}
 
-		if (numbers != null) {
-			Iterator<GeoElement> it = numbers.iterator();
-			while (it.hasNext()) {
-				GeoNumeric num = (GeoNumeric) it.next();
-				if (num.isSlider())
-					count++;
-			}
-		}
 
 		return count;
 	}

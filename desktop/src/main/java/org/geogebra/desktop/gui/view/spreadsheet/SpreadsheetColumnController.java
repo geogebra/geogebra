@@ -231,9 +231,7 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 
 			int width = table.getColumnModel().getColumn(column).getWidth();
 			int[] selected = table.getSelectedColumns();
-			if (selected == null) {
-				return;
-			}
+
 			boolean in = false;
 			for (int i = 0; i < selected.length; ++i) {
 				if (column == selected[i])

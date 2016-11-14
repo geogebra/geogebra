@@ -4063,8 +4063,7 @@ kernel, left,
 
 		}
 
-		Double lc = getLeftTree() == null ? null : getLeftTree()
-				.getCoefficient(fv);
+		Double lc = getLeftTree().getCoefficient(fv);
 		Double rc = getRightTree() == null ? null : getRightTree()
 				.getCoefficient(fv);
 		if ((lc == null) || (rc == null)) {

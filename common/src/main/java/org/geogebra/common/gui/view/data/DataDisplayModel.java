@@ -255,18 +255,18 @@ public class DataDisplayModel {
 	
 			try {
 				switch (selectedPlot) {
-	
+
 				case HISTOGRAM:
-	
+
 					if (doCreate) {
 						if (histogram != null) {
 							histogram.remove();
 						}
-						if (dataListSelected != null) {
+
 						histogram = statGeo.createHistogram(dataListSelected,
 								settings, false);
-						plotGeoList.add(histogram);}
-	
+					plotGeoList.add(histogram);
+
 						if (frequencyPolygon != null) {
 							frequencyPolygon.remove();
 						}
@@ -275,7 +275,7 @@ public class DataDisplayModel {
 									dataListSelected, settings, true);
 							plotGeoList.add(frequencyPolygon);
 						}
-	
+
 						if (normalCurve != null) {
 							normalCurve.remove();
 						}
@@ -284,7 +284,7 @@ public class DataDisplayModel {
 									.createNormalCurveOverlay(dataListSelected);
 							plotGeoList.add(normalCurve);
 						}
-	
+
 						if (freqTableGeo != null) {
 							freqTableGeo.remove();
 						}
@@ -294,33 +294,34 @@ public class DataDisplayModel {
 							plotGeoList.add(freqTableGeo);
 						}
 					}
-					
+
 					// update the frequency table
 					if (settings.isShowFrequencyTable()) {
 						listener.setTableFromGeoFrequencyTable(
 								(AlgoFrequencyTable) freqTableGeo
-										.getParentAlgorithm(), true);
+									.getParentAlgorithm(),
+							true);
 					} else {
 						listener.removeFrequencyTable();
 					}
-	
+
 					// update settings
 					if (dataListSelected != null) {
 						statGeo.getHistogramSettings(dataListSelected, histogram, settings);
 
 					}
-							
+
 					listener.updatePlotPanelSettings();
-				
+
 					if (hasControlPanel
 							&& settings.getDataSource().getGroupType() != GroupType.CLASS)
 						if (settings.isUseManualClasses()) {
 							listener.showManualClassesPanel();
 						} else {
 							listener.showNumClassesPanel();
-							
+
 						}
-					
+
 					listener.showPlotPanel();
 					break;
 	

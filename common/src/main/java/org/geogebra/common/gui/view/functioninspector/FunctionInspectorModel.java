@@ -414,15 +414,12 @@ public class FunctionInspectorModel {
 		}
 		StringTemplate highPrecision;
 		// override the default decimal place setting
-		if(getPrintDecimals() >= 0)
+		if (getPrintDecimals() >= 0) {
 			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, getPrintDecimals(),false);
-		else
+		} else {
 			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, getPrintFigures(),false);
-
-		// get the formatted string
-		if (highPrecision == null) {
-			return "";
 		}
+
 		String result = app.getKernel().format(x,highPrecision);
 
 		return result;

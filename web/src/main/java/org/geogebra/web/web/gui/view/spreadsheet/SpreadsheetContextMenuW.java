@@ -65,13 +65,8 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		String html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
 
 		MenuItem mi;
-		if (html != null) {
-			mi = new MenuItem(html, true, getCommand(cmdString));
-			mi.addStyleName("mi_with_image"); // TEMP
-		} else {
-			mi = new MenuItem(text, getCommand(cmdString));
-			mi.addStyleName("mi_no_image"); // TEMP
-		}
+		mi = new MenuItem(html, true, getCommand(cmdString));
+		mi.addStyleName("mi_with_image");
 
 		mi.setEnabled(enabled);
 

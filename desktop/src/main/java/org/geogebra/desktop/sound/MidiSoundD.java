@@ -69,10 +69,7 @@ public class MidiSoundD implements MetaEventListener {
 			sequencer.addMetaEventListener(this);
 
 			if (synthesizer == null) {
-				if ((synthesizer = MidiSystem.getSynthesizer()) == null) {
-					Log.debug("getSynthesizer() failed!");
-					return false;
-				}
+				synthesizer = MidiSystem.getSynthesizer();
 
 				Soundbank sb = synthesizer.getDefaultSoundbank();
 				if (sb != null) {

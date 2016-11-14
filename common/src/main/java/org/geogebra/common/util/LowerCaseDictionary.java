@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.geogebra.common.util.debug.Log;
-
 /**
  * A default implementation of the autocomplete dictionary. This implementation
  * is based upon the TreeSet collection class to provide quick lookups and
@@ -56,21 +54,7 @@ public class LowerCaseDictionary extends HashMap<String, String> implements
 		String lowerCase = normalizer.transform(s);
 		put(lowerCase, s);
 
-		// fix problem in Mobile
-		// java.lang.NullPointerException
-		// at java.util.TreeMap.rotateRight(TreeMap.java:553)
-		// at java.util.TreeMap.rebalance(TreeMap.java:493)
-		// at java.util.TreeMap.find(TreeMap.java:324)
-		// at java.util.TreeMap.putInternal(TreeMap.java:240)
-		// at java.util.TreeMap.put(TreeMap.java:186)
-		// at java.util.TreeSet.add(TreeSet.java:113)
-		// at
-		// org.geogebra.common.util.LowerCaseDictionary.addEntry(LowerCaseDictionary.java:58)
-		if (lowerCase != null) {
-			treeSet.add(lowerCase);
-		} else {
-			Log.error("lowerCase is null");
-		}
+		treeSet.add(lowerCase);
 	}
 
 	/**

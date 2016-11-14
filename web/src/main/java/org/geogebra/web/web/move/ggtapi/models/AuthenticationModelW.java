@@ -55,10 +55,8 @@ public class AuthenticationModelW extends AuthenticationModel {
 		app.getLoginOperation().getGeoGebraTubeAPI().logout(this.authToken);
 		this.authToken = null;
 		// this should log the user out of other systems too
-		if (this.app != null) {
-			ensureInited();
-			this.app.dispatchEvent(new Event(EventType.LOGIN, null, ""));
-		}
+		ensureInited();
+		this.app.dispatchEvent(new Event(EventType.LOGIN, null, ""));
 		if (storage == null) {
 			return;
 		}

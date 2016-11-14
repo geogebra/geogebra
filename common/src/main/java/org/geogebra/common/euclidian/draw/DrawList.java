@@ -18,8 +18,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
-import com.google.j2objc.annotations.WeakOuter;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +42,8 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+
+import com.google.j2objc.annotations.WeakOuter;
 
 /**
  * Draw a GeoList containing drawable objects
@@ -1086,7 +1086,7 @@ public final class DrawList extends CanvasDrawable
 		// don't need to worry about labeling options, just check if caption
 		// set or not
 
-		if (geo.getRawCaption() != null) {
+		if (!"".equals(geo.getRawCaption())) {
 			String caption = geo.getCaption(StringTemplate.defaultTemplate);
 			return caption;
 

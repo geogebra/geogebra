@@ -795,8 +795,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		TextBox source = (TextBox) event.getSource();
 		String value = source.getValue();
 		char last = value.charAt(value.length() - 1);
-		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT && event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) && 
- value != null && !value.equals("") && !value.equals("-")
+		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT
+				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT)
+				&& !"".equals(value) && !"-".equals(value)
 				&& last != '.' && last != '0') {
 			doTextFieldActionPerformed();
 		}

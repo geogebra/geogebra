@@ -459,8 +459,6 @@ public class FunctionInspectorD extends FunctionInspector implements
 		try {
 
 			String inputText = source.getText().trim();
-			if (inputText == null)
-				return;
 
 			// allow input such as sqrt(2)
 			NumberValue nv;
@@ -659,10 +657,6 @@ public class FunctionInspectorD extends FunctionInspector implements
 
 		SpreadsheetViewD sp = ((GuiManagerD) getAppD().getGuiManager())
 				.getSpreadsheetView();
-
-		if (sp == null) {
-			return;
-		}
 
 		if (tabPanel.getSelectedComponent() == pointTabPanel) {
 			getModel().copyPointsToSpreadsheet(tableXY.getColumnCount(),

@@ -791,30 +791,27 @@ public class MathMLParser {
 		strBuf1 = strBuf1.replaceAll("<mtd.*?>", "<mtd> <mrow>");
 		strBuf1 = strBuf1.replace("</mtd>", "</mrow> </mtd>");
 
-		if (strBuf1 != null) {
-			this.strBuf = strBuf1;
-			this.wrappedEntities = wrappedEntities1;
-			this.skipUnknownEntities = skipUnknownEntities1;
+		this.strBuf = strBuf1;
+		this.wrappedEntities = wrappedEntities1;
+		this.skipUnknownEntities = skipUnknownEntities1;
 
-			// usually the MathML input should have more characters as the
-			// output
-			StringBuilder result = new StringBuilder(strBuf.length());
+		// usually the MathML input should have more characters as the
+		// output
+		StringBuilder result = new StringBuilder(strBuf.length());
 
-			pos = 0;
-			try {
-				while (strBuf.indexOf("<", pos) != -1) {
-					parseBlock(getNextTag(), result, true);
-					skipFollowingTag();
-				}
-				// TODO besser result stutzen? -> return new
-				// StringBuilder(result) o. result.toString()
-				return result.toString();
-			} catch (Exception e) {
-				e.printStackTrace();
+		pos = 0;
+		try {
+			while (strBuf.indexOf("<", pos) != -1) {
+				parseBlock(getNextTag(), result, true);
+				skipFollowingTag();
 			}
-			return null; // TODO statt exception, speter lo(umlaut)schen
+			// TODO besser result stutzen? -> return new
+			// StringBuilder(result) o. result.toString()
+			return result.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return null;
+		return null; // TODO statt exception, speter lo(umlaut)schen
 	}
 
 	/**
@@ -1081,11 +1078,7 @@ public class MathMLParser {
 
 				pos = getBlockEnd(startTag, endTag);
 
-				if (endTag != null) {
-					pos = pos + endTag.length();
-				} else {
-					pos = pos + startTag.length();
-				}
+				pos = pos + endTag.length();
 			}
 		} else if (blocksToSkip < 0) {
 

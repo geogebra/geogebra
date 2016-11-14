@@ -1145,9 +1145,7 @@ OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
 			}
 
 			if (app.has(Feature.AV_SCROLL)) {
-				if (node != null) {// && getOffsetWidth() < maxItemWidth) {
-					RadioTreeItem.as(node).setItemWidth(getMaxItemWidth());
-				}
+				RadioTreeItem.as(node).setItemWidth(getMaxItemWidth());
 			}
 
 			boolean wasEmpty = isNodeTableEmpty();

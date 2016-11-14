@@ -227,9 +227,7 @@ public class SpreadsheetColumnControllerW implements
 
 			int width = table.getGrid().getColumnFormatter().getElement(column).getOffsetWidth();
 			int[] selected = table.getSelectedColumns();
-			if (selected == null) {
-				return;
-			}
+
 			boolean in = false;
 			for (int i = 0; i < selected.length; ++i) {
 				if (column == selected[i])
