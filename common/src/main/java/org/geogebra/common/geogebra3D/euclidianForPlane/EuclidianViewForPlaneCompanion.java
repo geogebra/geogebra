@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidianFor3D.CurveEvaluableForPlane;
 import org.geogebra.common.geogebra3D.euclidianFor3D.DrawAngleFor3D;
@@ -39,7 +40,8 @@ import org.geogebra.common.util.debug.Log;
  * @author mathieu
  *
  */
-public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion {
+public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
+		implements EuclidianViewForPlaneCompanionInterface {
 
 	private ViewCreator plane;
 
