@@ -310,13 +310,14 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		tf.setOpaque(true);
 		tf.setFont(textFont);
+		
 		if (geo != null) {
 			tf.setForeground(geo.getObjectColor());
+			tf.setBackground(geo.getBackgroundColor());
+		} else {
+			tf.setForeground(GColor.BLACK);
+			tf.setBackground(view.getBackgroundCommon());
 		}
-
-		GColor bgCol = geo.getBackgroundColor();
-		tf.setBackground(
-				bgCol != null ? bgCol : view.getBackgroundCommon());
 
 		tf.setFocusable(true);
 		tf.setEditable(true);
