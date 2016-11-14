@@ -425,9 +425,11 @@ public abstract class KBBase extends PopupPanel {
 			public void onClick(ClickEvent event) {
 				if (KBBase.this.processField.isSVCell()) {
 					// hideInSV = true;
-					((SpreadsheetViewW) ((AppW) app)
-							.getView(App.VIEW_SPREADSHEET))
-							.setKeyboardEnabled(false);
+
+//					((SpreadsheetViewW) ((AppW) app)
+//							.getView(App.VIEW_SPREADSHEET))
+//							.setKeyboardEnabled(false);
+
 				}
 				keyboardWanted = false;
 				updateKeyBoardListener.keyBoardNeeded(false, null);
