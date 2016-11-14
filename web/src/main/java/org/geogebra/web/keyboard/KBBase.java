@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.common.util.Language;
@@ -15,7 +16,6 @@ import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
-import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetViewW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -426,9 +426,9 @@ public abstract class KBBase extends PopupPanel {
 				if (KBBase.this.processField.isSVCell()) {
 					// hideInSV = true;
 
-//					((SpreadsheetViewW) ((AppW) app)
-//							.getView(App.VIEW_SPREADSHEET))
-//							.setKeyboardEnabled(false);
+					((SpreadsheetViewInterface)((AppW) app)
+							.getView(App.VIEW_SPREADSHEET))
+							.setKeyboardEnabled(false);
 
 				}
 				keyboardWanted = false;

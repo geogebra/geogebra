@@ -1089,4 +1089,9 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		return false;
 		// only for web
 	}
+
+	public void setKeyboardEnabled(boolean enable) {
+		// only for web
+
+	}
 }
