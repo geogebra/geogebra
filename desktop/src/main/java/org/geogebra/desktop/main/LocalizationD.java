@@ -92,15 +92,6 @@ public class LocalizationD extends LocalizationJre {
 		return MyResourceBundle.createBundle(key, locale);
 	}
 
-	@Override
-	protected String getLanguage(Locale locale) {
-		return locale.getLanguage();
-	}
-
-	@Override
-	protected String getCountry(Locale locale) {
-		return locale.getCountry();
-	}
 
 	@Override
 	protected String getMenuRessourcePath() {

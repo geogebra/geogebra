@@ -379,4 +379,14 @@ public abstract class LocalizationJre extends Localization {
 		return "East";
 	}
 
+	@Override
+	final protected String getLanguage(Locale locale) {
+		return locale.getLanguage();
+	}
+
+	@Override
+	final protected String getCountry(Locale locale) {
+		return locale.getCountry();
+	}
+
 }
