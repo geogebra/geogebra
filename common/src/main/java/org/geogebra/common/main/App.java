@@ -3931,7 +3931,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		// GGB-1357
-		case AV_SINGLE_TAP_EDITING:
+		case AV_SINGLE_TAP_EDIT:
 			return prerelease;
 
 		// MOB-527

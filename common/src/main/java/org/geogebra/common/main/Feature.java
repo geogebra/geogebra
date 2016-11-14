@@ -160,6 +160,6 @@ public enum Feature {
 	MOBILE_CACHE_FEATURED,
 
 	/** GGB-1357 */
-	AV_SINGLE_TAP_EDITING
+	AV_SINGLE_TAP_EDIT
 
 	}
