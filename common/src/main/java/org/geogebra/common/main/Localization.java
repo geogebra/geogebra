@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -504,7 +505,9 @@ public abstract class Localization implements KeyboardLocale {
 	 * 
 	 * @return 2 letter language name, eg "en"
 	 */
-	public abstract String getLanguage();
+	public String getLanguage() {
+		return getLocale().getLanguage();
+	}
 
 	/**
 	 * @param lang
@@ -1069,7 +1072,13 @@ public abstract class Localization implements KeyboardLocale {
 		return ret;
 	}
 
-	public abstract String getLocaleStr();
+	public String getLocaleStr() {
+		return getLocale().toString();
+	}
+
+	public Locale getLocale() {
+		return currentLocale;
+	}
 
 	public int getRightAngleStyle() {
 		return Language.getRightAngleStyle(getLanguage());
@@ -1110,4 +1119,49 @@ public abstract class Localization implements KeyboardLocale {
 	public String getKeyboardRow(int row) {
 		return getPlain("Keyboard.row" + row);
 	}
+
+	abstract protected ArrayList<Locale> getSupportedLocales();
+
+	/**
+	 * Returns a locale object that has the same country and/or language as
+	 * locale. If the language of locale is not supported an English locale is
+	 * returned.
+	 */
+	protected Locale getClosestSupportedLocale(Locale locale) {
+		int size = getSupportedLocales().size();
+
+		// try to find country and and language
+		String country = locale.getCountry();
+		String language = locale.getLanguage();
+
+		if (country.length() > 0) {
+			for (int i = 0; i < size; i++) {
+				Locale loc = getSupportedLocales().get(i);
+				if (country.equals(loc.getCountry()) && language.equals(loc.getLanguage())) {
+					// found supported country locale
+					return loc;
+				}
+			}
+		}
+
+		// try to find only language
+		for (int i = 0; i < size; i++) {
+			Locale loc = getSupportedLocales().get(i);
+			if (language.equals(loc.getLanguage())) {
+				// found supported country locale
+				return loc;
+			}
+		}
+
+		// we didn't find a matching country or language,
+		// so we take English
+		return Locale.ENGLISH;
+	}
+
+	public void setLocale(Locale locale) {
+		currentLocale = getClosestSupportedLocale(locale);
+		updateResourceBundles();
+	}
+
+	abstract protected void updateResourceBundles();
 }
