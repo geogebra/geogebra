@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
@@ -209,7 +210,7 @@ public class ChangeableCoordParent {
 			return false;
 
 		double shift = direction2.dotproduct3(rwTransVec) / ld;
-		if (!Double.isFinite(shift)) {
+		if (!MyDouble.isFinite(shift)) {
 			return false;
 		}
 		double val = getStartValue() + shift;
