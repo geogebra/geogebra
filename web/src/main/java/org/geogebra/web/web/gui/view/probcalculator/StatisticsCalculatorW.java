@@ -4,6 +4,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -11,8 +12,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -32,7 +31,9 @@ import com.google.gwt.user.client.ui.TextBox;
  * Statistics calculator for web
  *
  */
-public class StatisticsCalculatorW extends StatisticsCalculator implements ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>, FocusHandler, BlurHandler, KeyUpHandler {
+public class StatisticsCalculatorW extends StatisticsCalculator implements
+		ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>, BlurHandler,
+		KeyUpHandler {
 
 	private FlowPanel wrappedPanel;
 	private FlowPanel resultPane;
@@ -513,6 +514,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 	
 	}
 	private void createGUIElements() {
+		FieldFocusHandler focusHandler = new FieldFocusHandler((AppW) app);
+
 		tabIndex = 1; // 0 as first tabindex does not work.
 	    //resultPane = new RichTextArea();
 		resultPane = new FlowPanel();
@@ -565,14 +568,14 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		fldNullHyp = new AutoCompleteTextFieldW(app);
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.addKeyUpHandler(this);
-		fldNullHyp.addFocusHandler(this);
+		fldNullHyp.addFocusHandler(focusHandler);
 		addNextTabIndex(fldNullHyp);
 		
 		lblConfLevel = new Label();
 		fldConfLevel = new AutoCompleteTextFieldW(app);
 		fldConfLevel.setColumns(fieldWidth);
 		fldConfLevel.addKeyUpHandler(this);
-		fldConfLevel.addFocusHandler(this);
+		fldConfLevel.addFocusHandler(focusHandler);
 
 		addNextTabIndex(fldConfLevel);
 		
@@ -580,7 +583,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 		fldSigma = new AutoCompleteTextFieldW(app);
 		fldSigma.setColumns(fieldWidth);
 		fldSigma.addKeyUpHandler(this);
-		fldSigma.addFocusHandler(this);
+		fldSigma.addFocusHandler(focusHandler);
 		
 		addNextTabIndex(fldSigma);
 		
@@ -597,7 +600,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			fldSampleStat1[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat1[i].setColumns(fieldWidth);
 			fldSampleStat1[i].addKeyUpHandler(this);
-			fldSampleStat1[i].addFocusHandler(this);
+			fldSampleStat1[i].addFocusHandler(focusHandler);
 			addNextTabIndex(fldSampleStat1[i]);
 		}
 
@@ -613,7 +616,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 			fldSampleStat2[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat2[i].setColumns(fieldWidth);
 			fldSampleStat2[i].addKeyUpHandler(this);
-			fldSampleStat2[i].addFocusHandler(this);
+			fldSampleStat2[i].addFocusHandler(focusHandler);
 			addNextTabIndex(fldSampleStat2[i]);
 
 		}	    
@@ -797,12 +800,6 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements Chang
 				&& last != '.' && last != '0') {
 			doTextFieldActionPerformed();
 		}
-    }
-
-	public void onFocus(FocusEvent event) {
-	   if (event.getSource() instanceof TextBox) {
-		   ((TextBox) event.getSource()).selectAll();
-	   }
     }
 
 	public void onBlur(BlurEvent event) {
