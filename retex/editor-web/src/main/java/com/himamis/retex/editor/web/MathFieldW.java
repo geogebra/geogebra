@@ -405,4 +405,12 @@ public class MathFieldW implements MathField, IsWidget {
 		el.focus();
 		return contents;
 	}-*/;
+
+	public void showKeyboardOnDown() {
+		showKeyboard();
+	}
+
+	public void showKeyboardOnUp() {
+		// TODO Auto-generated method stub
+	}
 }
