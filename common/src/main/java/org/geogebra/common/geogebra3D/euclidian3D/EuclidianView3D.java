@@ -4500,7 +4500,7 @@ GRectangle selectionRectangle) {
 		setProjectionPerspectiveEyeDistance(
 				evs.getProjectionPerspectiveEyeDistance(),
 				evs.getProjectionPerspectiveEyeDistance());
-		eyeX[0] = -evs.getEyeSep() / 2;
+		eyeX[0] = -evs.getEyeSep() / 2.0;
 		eyeX[1] = -eyeX[0];
 		eyeY[0] = 0;
 		eyeY[1] = 0;

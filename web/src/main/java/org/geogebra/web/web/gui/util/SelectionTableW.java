@@ -83,7 +83,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		int row, column;
 		for (int i = 0; i < selecteditems.length; i++) {
 			if (selecteditems[i]) {
-				row = (int) Math.floor(i / getColumnCount());
+				row = i / getColumnCount();
 				column = i - (row * getColumnCount());
 				Widget w = getWidget(row, column);
 				if (w != null) {
@@ -150,7 +150,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 			this.clearSelection();
 			return;
 		}
-		int row = (int) Math.floor(index / getColumnCount()) ;
+		int row = index / getColumnCount();
 		int column = index - (row * getColumnCount());
 		this.changeSelection(row, column);
 	}
@@ -161,7 +161,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	 *            {@code int}
 	 */
 	public void changeMultiSelection(int index, boolean selected) {
-		selectedRow = (int) Math.floor(index / getColumnCount());
+		selectedRow = index / getColumnCount();
 		selectedColumn = index - (selectedRow * getColumnCount());
 
 		Widget w = getWidget(selectedRow, selectedColumn);

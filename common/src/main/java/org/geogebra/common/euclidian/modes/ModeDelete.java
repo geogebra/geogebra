@@ -104,7 +104,9 @@ public class ModeDelete {
 										Math.abs(eventX
 												- view.toScreenCoordXd(p.inhomX)),
 										Math.abs(eventY
-												- view.toScreenCoordYd(p.inhomY))) <= deleteSize / 2) {
+												- view.toScreenCoordYd(
+														p.inhomY))) <= deleteSize
+																/ 2.0) {
 							dataPoints[i].setUndefined();
 							dataPoints[i].resetDefinition();
 							if (as == null) {

@@ -258,7 +258,7 @@ public class DrawTurtle extends Drawable {
 				// desktop for SVG images
 				if (turtle.getFillImage().isSVG()
 						&& !turtle.kernel.getApplication().isHTML5Applet())
-					g2.translate(-imgWidth / 2, -imgHeight / 2);
+					g2.translate(-imgWidth / 2.0, -imgHeight / 2.0);
 				g2.drawImage(turtle.getFillImage(), -imgWidth / 2,
 						-imgHeight / 2);
 				g2.restoreTransform();

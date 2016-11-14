@@ -305,7 +305,7 @@ public class SelectionTableD extends JTable {
 			this.clearSelection();
 			return;
 		}
-		int row = (int) Math.floor(index / getColumnCount());
+		int row = index / getColumnCount();
 		int column = index - (row * getColumnCount());
 		this.changeSelection(row, column, false, false);
 		rollOverRow = -1;

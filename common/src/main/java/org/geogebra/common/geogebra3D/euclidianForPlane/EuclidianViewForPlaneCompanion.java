@@ -99,8 +99,8 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 
 		double newScale = view.getApplication().getEuclidianView3D()
 				.getXscale();
-		double w = view.getWidth() / 2;
-		double h = view.getHeight() / 2;
+		double w = view.getWidth() / 2.0;
+		double h = view.getHeight() / 2.0;
 		double dx = (w - view.getXZero()) * newScale / view.getXscale();
 		double dy = (h - view.getYZero()) * newScale / view.getYscale();
 

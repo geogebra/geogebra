@@ -514,7 +514,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		int numOfAllTerms = vars.length;
 		if (numOfAllTerms - 1 > Math.floor((coeffs.length - 1 - step - offset)
-				/ step)) { // checksum
+				/ (double) step)) { // checksum
 			// appendUndefined();
 			return;
 		}

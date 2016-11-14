@@ -628,7 +628,7 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 			dataDisplayPanel1.resize(w, h/2, true);
 			dataDisplayPanel1.resize(w, h/2, true);
-			comboPanelSplit.addNorth(dataDisplayPanel1,  h/2);
+			comboPanelSplit.addNorth(dataDisplayPanel1, h / 2.0);
 			comboPanelSplit.add(dataDisplayPanel2);
 
 		} else {

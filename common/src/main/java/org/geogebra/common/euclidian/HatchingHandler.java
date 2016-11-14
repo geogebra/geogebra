@@ -340,7 +340,7 @@ public class HatchingHandler {
 	private void drawBricks(double angle, int xInt, int yInt,
 			GGraphics2D g2d) {
 		if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)) {
-			rect.setRect(xInt / 2, yInt,
+			rect.setRect(xInt / 2.0, yInt,
 					2 * xInt, yInt);
 			g2d.draw(rect);
 			g2d.drawLine(xInt + xInt / 2, yInt / 2, xInt + xInt / 2, yInt);

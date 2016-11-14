@@ -114,8 +114,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		// screen dimensions
 		GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getDefaultScreenDevice();
-		screenHalfWidth = gd.getDisplayMode().getWidth() / 2;
-		screenHalfHeight = gd.getDisplayMode().getHeight() / 2;
+		screenHalfWidth = gd.getDisplayMode().getWidth() / 2.0;
+		screenHalfHeight = gd.getDisplayMode().getHeight() / 2.0;
 
 		// robot
 		robot = null;

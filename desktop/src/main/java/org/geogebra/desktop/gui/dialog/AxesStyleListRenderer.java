@@ -81,14 +81,15 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
 
 			// left arrow
-			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
+			tempLine.setLine(0, HEIGHT / 2.0, WIDTH, HEIGHT / 2.0);
 			g2.draw(tempLine);
 
-			tempLine.setLine(0, HEIGHT / 2, 0 + arrowSize, HEIGHT / 2
+			tempLine.setLine(0, HEIGHT / 2.0, 0 + arrowSize, HEIGHT / 2.0
 					+ arrowSize);
 			g2.draw(tempLine);
 
-			tempLine.setLine(0, HEIGHT / 2, 0 + arrowSize, HEIGHT / 2
+			tempLine.setLine(0, HEIGHT / 2.0, 0 + arrowSize,
+					HEIGHT / 2.0
 					- arrowSize);
 			g2.draw(tempLine);
 

@@ -472,7 +472,7 @@ public abstract class GeoGebraExport {
 	}
 
 	protected int resizePt(int size) {
-		double height_geogebra = euclidianView.getHeight() / 30;
+		double height_geogebra = euclidianView.getHeight() / 30.0;
 		double height_latex = frame.getLatexHeight();
 		double ratio = height_latex / height_geogebra;
 		int tmp = (int) Math.round(ratio * size);

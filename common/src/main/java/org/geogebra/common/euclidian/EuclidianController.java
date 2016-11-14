@@ -10414,8 +10414,8 @@ public abstract class EuclidianController {
 			px = mouseLoc.x;
 			py = mouseLoc.y;
 		} else {
-			px = view.getWidth() / 2;
-			py = view.getHeight() / 2;
+			px = view.getWidth() / 2.0;
+			py = view.getHeight() / 2.0;
 		}
 		zoomInOut(factor, steps, px, py);
 	}

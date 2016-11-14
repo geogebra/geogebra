@@ -2408,8 +2408,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 						StringUtil.toLaTeXString(geo.getLabelDescription(),
 								true), euclidianView.getFont()));
 				double translation[] = new double[2];
-				translation[0] = euclidianView.getXZero() + width / 2;
-				translation[1] = euclidianView.getYZero() - height / 2;
+				translation[0] = euclidianView.getXZero() + width / 2.0;
+				translation[1] = euclidianView.getYZero() - height / 2.0;
 				translation[0] = euclidianView
 						.toRealWorldCoordX(translation[0]);
 				translation[1] = euclidianView

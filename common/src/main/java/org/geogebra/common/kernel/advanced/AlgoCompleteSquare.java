@@ -99,11 +99,13 @@ public class AlgoCompleteSquare extends AlgoElement {
 		if (lastDeg != degInt) {
 			ExpressionNode squareE;
 			ExpressionValue fvPower;
-			if (degInt == 2)
+			if (degInt == 2) {
 				fvPower = fv;
-			else
+			} else {
+				int power = degInt / 2;
 				fvPower = new ExpressionNode(kernel, fv, Operation.POWER,
-						new MyDouble(kernel, degInt / 2));
+						new MyDouble(kernel, power));
+			}
 			squareE = new ExpressionNode(kernel,
 					new ExpressionNode(kernel, a, Operation.MULTIPLY,
 							new ExpressionNode(kernel, fvPower,

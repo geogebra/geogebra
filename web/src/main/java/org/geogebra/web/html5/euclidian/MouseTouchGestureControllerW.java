@@ -106,7 +106,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.view;
 		if (v.getG2P().getOffsetWidth() != 0) {
 			return v.getG2P().getCoordinateSpaceWidth()
-			        / v.getG2P().getOffsetWidth();
+					/ (float) v.getG2P().getOffsetWidth();
 		}
 		return 0;
 	}
@@ -115,7 +115,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		EuclidianViewWInterface v = (EuclidianViewWInterface) ec.view;
 		if (v.getG2P().getOffsetHeight() != 0) {
 			return v.getG2P().getCoordinateSpaceHeight()
-			        / v.getG2P().getOffsetHeight();
+					/ (float) v.getG2P().getOffsetHeight();
 		}
 		return 0;
 	}

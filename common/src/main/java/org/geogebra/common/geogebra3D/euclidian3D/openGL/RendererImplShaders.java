@@ -746,7 +746,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 										// * perspFocus);
 		projectionMatrix.set(2, 4, 0);// (perspTop+perspBottom)/(perspTop-perspBottom)
 										// * perspFocus);
-		projectionMatrix.set(3, 4, renderer.getVisibleDepth() / 2);
+		projectionMatrix.set(3, 4, renderer.getVisibleDepth() / 2.0);
 		projectionMatrix.set(4, 4, -renderer.perspFocus[renderer.eye]);
 
 	}

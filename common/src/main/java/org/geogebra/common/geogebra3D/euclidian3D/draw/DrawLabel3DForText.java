@@ -74,7 +74,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			// draw bounds if highlighted
 			renderer.disableTextures();
 			renderer.disableMultisample();
-			renderer.setLineWidth(geo.getLineThickness() / 2);
+			renderer.setLineWidth(geo.getLineThickness() / 2.0);
 			renderer.setColor(DrawText.HIGHLIGHT_COLOR);
 			renderer.getGeometryManager().draw(highLightIndex);
 			renderer.enableMultisample();
@@ -123,14 +123,14 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			}
 			
 			drawX = (int) (origin.getX() 
-					- drawable.getView3D().getWidth()/2 
+					- drawable.getView3D().getWidth() / 2.0
 					+ xOffset2 / getFontScale());
-			drawY = (int) (drawable.getView3D().getHeight()/2 
+			drawY = (int) (drawable.getView3D().getHeight() / 2.0
 					- origin.getY()
 					+ yOffset2 / getFontScale());
 			drawZ = 0;
 			
-		}else{
+		} else {
 			super.updateDrawPosition();
 		}
 
