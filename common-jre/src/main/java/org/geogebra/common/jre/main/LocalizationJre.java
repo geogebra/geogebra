@@ -13,16 +13,6 @@ import org.geogebra.common.util.Unicode;
  * common jre localization
  */
 public abstract class LocalizationJre extends Localization {
-	/** path to menu */
-	public static final String RB_MENU = "/org/geogebra/desktop/properties/menu";
-	/** path to commands */
-	public static final String RB_COMMAND = "/org/geogebra/desktop/properties/command";
-	private static final String RB_ERROR = "/org/geogebra/desktop/properties/error";
-	private static final String RB_PLAIN = "/org/geogebra/desktop/properties/plain";
-	private static final String RB_SYMBOL = "/org/geogebra/desktop/properties/symbols";
-	/** path to javaui properties (without extension) */
-	public static final String RB_JAVA_UI = "/org/geogebra/desktop/properties/javaui";
-	private static final String RB_COLORS = "/org/geogebra/desktop/properties/colors";
 
 	private ResourceBundle rbmenu, rbmenuTT, rbcommand, rbcommandOld, rberror,
 			rbcolors, rbsymbol;
@@ -73,7 +63,7 @@ public abstract class LocalizationJre extends Localization {
 		}
 
 		if (rbmenu == null) {
-			rbmenu = createBundle(RB_MENU, currentLocale);
+			rbmenu = createBundle(getMenuRessourcePath(), currentLocale);
 		}
 
 		try {
@@ -93,6 +83,18 @@ public abstract class LocalizationJre extends Localization {
 	 */
 	abstract protected ResourceBundle createBundle(String key, Locale locale);
 
+	abstract protected String getMenuRessourcePath();
+
+	abstract protected String getCommandRessourcePath();
+
+	abstract protected String getColorRessourcePath();
+
+	abstract protected String getErrorRessourcePath();
+
+	abstract protected String getPlainRessourcePath();
+
+	abstract protected String getSymbolRessourcePath();
+
 	@Override
 	final public String getMenuTooltip(String key) {
 
@@ -101,7 +103,7 @@ public abstract class LocalizationJre extends Localization {
 		}
 
 		if (rbmenuTT == null) {
-			rbmenuTT = createBundle(RB_MENU, tooltipLocale);
+			rbmenuTT = createBundle(getMenuRessourcePath(), tooltipLocale);
 		}
 
 		try {
@@ -114,7 +116,7 @@ public abstract class LocalizationJre extends Localization {
 	@Override
 	final public String getError(String key) {
 		if (rberror == null) {
-			rberror = createBundle(RB_ERROR, currentLocale);
+			rberror = createBundle(getErrorRessourcePath(), currentLocale);
 		}
 
 		try {
@@ -176,37 +178,37 @@ public abstract class LocalizationJre extends Localization {
 
 
 	private void initSymbolResourceBundle() {
-		rbsymbol = createBundle(RB_SYMBOL, currentLocale);
+		rbsymbol = createBundle(getSymbolRessourcePath(), currentLocale);
 	}
 
 	@Override
 	final public void initCommand() {
 		if (rbcommand == null) {
-			rbcommand = createBundle(RB_COMMAND, currentLocale);
+			rbcommand = createBundle(getCommandRessourcePath(), currentLocale);
 		}
 
 	}
 
 	private void initColorsResourceBundle() {
-		rbcolors = createBundle(RB_COLORS, currentLocale);
+		rbcolors = createBundle(getColorRessourcePath(), currentLocale);
 	}
 
 	final protected void updateResourceBundles() {
 		if (rbmenu != null) {
-			rbmenu = createBundle(RB_MENU, currentLocale);
+			rbmenu = createBundle(getMenuRessourcePath(), currentLocale);
 		}
 		if (rberror != null) {
-			rberror = createBundle(RB_ERROR, currentLocale);
+			rberror = createBundle(getErrorRessourcePath(), currentLocale);
 		}
 
 		if (rbcommand != null) {
-			rbcommand = createBundle(RB_COMMAND, currentLocale);
+			rbcommand = createBundle(getCommandRessourcePath(), currentLocale);
 		}
 		if (rbcolors != null) {
-			rbcolors = createBundle(RB_COLORS, currentLocale);
+			rbcolors = createBundle(getColorRessourcePath(), currentLocale);
 		}
 		if (rbsymbol != null) {
-			rbsymbol = createBundle(RB_SYMBOL, currentLocale);
+			rbsymbol = createBundle(getSymbolRessourcePath(), currentLocale);
 		}
 	}
 

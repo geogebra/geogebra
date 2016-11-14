@@ -14,6 +14,16 @@ import org.geogebra.common.util.Language;
  */
 public class LocalizationD extends LocalizationJre {
 
+	/** path to menu */
+	static final String RB_MENU = "/org/geogebra/desktop/properties/menu";
+	/** path to commands */
+	static final String RB_COMMAND = "/org/geogebra/desktop/properties/command";
+	private static final String RB_ERROR = "/org/geogebra/desktop/properties/error";
+	private static final String RB_PLAIN = "/org/geogebra/desktop/properties/plain";
+	private static final String RB_SYMBOL = "/org/geogebra/desktop/properties/symbols";
+	/** path to javaui properties (without extension) */
+	public static final String RB_JAVA_UI = "/org/geogebra/desktop/properties/javaui";
+	private static final String RB_COLORS = "/org/geogebra/desktop/properties/colors";
 	private App app;
 
 	/**
@@ -90,6 +100,36 @@ public class LocalizationD extends LocalizationJre {
 	@Override
 	protected String getCountry(Locale locale) {
 		return locale.getCountry();
+	}
+
+	@Override
+	protected String getMenuRessourcePath() {
+		return RB_MENU;
+	}
+
+	@Override
+	protected String getCommandRessourcePath() {
+		return RB_COMMAND;
+	}
+
+	@Override
+	protected String getColorRessourcePath() {
+		return RB_COLORS;
+	}
+
+	@Override
+	protected String getErrorRessourcePath() {
+		return RB_ERROR;
+	}
+
+	@Override
+	protected String getPlainRessourcePath() {
+		return RB_PLAIN;
+	}
+
+	@Override
+	protected String getSymbolRessourcePath() {
+		return RB_SYMBOL;
 	}
 
 }
