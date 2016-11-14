@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -20,6 +21,8 @@ public abstract class Localization implements KeyboardLocale {
 	/** used when a secondary language is being used for tooltips. */
 	protected boolean tooltipFlag = false;
 	private String[] fontSizeStrings = null;
+
+	protected Locale currentLocale = Locale.ENGLISH;
 
 	// Giac works to 13 sig digits (for "double" calculations)
 	private int maxFigures = 15;
@@ -984,11 +987,16 @@ public abstract class Localization implements KeyboardLocale {
 	}
 
 	/**
+	 * can be over-ridden if required to provide tooltips in another language
+	 * 
 	 * @param string
 	 *            key
 	 * @return translation of key from menu bundle in tooltip language
 	 */
-	public abstract String getMenuTooltip(String string);
+	public String getMenuTooltip(String key) {
+
+		return getMenu(key);
+	}
 
 	/**
 	 * @param string
