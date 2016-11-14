@@ -2025,8 +2025,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		// System.out.println(geo.isFillable()+" "+transparency+" "+geo.getObjectType());
 		if (geo.isFillable() && transparency) {
-			boolean dotted = false;
-			String style = ",fillstyle=hlines,hatchangle=";
 			switch (info.getFillType()) {
 			case STANDARD:
 				if (info.getAlpha() > 0.0f) {
@@ -2049,35 +2047,46 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			case BRICK:
 			case WEAVING:
 			case DOTTED:
-				dotted = true;
+				bracket = appendHatch(sb, info, ",fillstyle=dots*,hatchangle=",
+						bracket, coma);
+				break;
 			case CROSSHATCHED:
-				style = ",fillstyle=crosshatch,hatchangle=";
+				bracket = appendHatch(sb, info,
+						",fillstyle=crosshatch,hatchangle=",
+						bracket, coma);
+				break;
 			case HATCH:
-				if (coma)
-					sb.append(",");
-				else
-					coma = true;
-				if (!bracket)
-					sb.append("[");
-				bracket = true;
-				sb.append("hatchcolor=");
-				ColorCode(info.getLinecolor(), sb);
-				if (dotted) {
-					style = ",fillstyle=dots*,hatchangle=";
-				}
-				sb.append(style);
-				sb.append(info.getAngle());
-				sb.append(",hatchsep=");
-				// double x0=euclidianView.toRealWorldCoordX(0);
-				double y0 = euclidianView.toRealWorldCoordY(0);
-				double y = euclidianView.toRealWorldCoordY(info.getY());
-				sb.append(format(Math.abs((y - y0))));
+				bracket = appendHatch(sb, info,
+						",fillstyle=hlines,hatchangle=", bracket,
+						coma);
 				break;
 			}
 		}
 		if (bracket)
 			sb.append("]");
 		return new String(sb);
+	}
+
+	private boolean appendHatch(StringBuilder sb, Info info, String style,
+			boolean bracket, boolean coma) {
+		if (coma) {
+			sb.append(",");
+		}
+
+		if (!bracket)
+			sb.append("[");
+
+		sb.append("hatchcolor=");
+		ColorCode(info.getLinecolor(), sb);
+
+		sb.append(style);
+		sb.append(info.getAngle());
+		sb.append(",hatchsep=");
+		// double x0=euclidianView.toRealWorldCoordX(0);
+		double y0 = euclidianView.toRealWorldCoordY(0);
+		double y = euclidianView.toRealWorldCoordY(info.getY());
+		sb.append(format(Math.abs((y - y0))));
+		return true;
 	}
 
 	// Append the linestyle to PSTricks code
