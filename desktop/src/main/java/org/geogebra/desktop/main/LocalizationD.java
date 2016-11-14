@@ -185,7 +185,7 @@ public class LocalizationD extends Localization {
 		rbcolors = MyResourceBundle.createBundle(RB_COLORS, currentLocale);
 	}
 
-	private void updateResourceBundles() {
+	protected void updateResourceBundles() {
 		if (rbmenu != null) {
 			rbmenu = MyResourceBundle.createBundle(RB_MENU, currentLocale);
 		}
@@ -205,48 +205,11 @@ public class LocalizationD extends Localization {
 		}
 	}
 
-	/**
-	 * Returns a locale object that has the same country and/or language as
-	 * locale. If the language of locale is not supported an English locale is
-	 * returned.
-	 */
-	private Locale getClosestSupportedLocale(Locale locale) {
-		int size = getSupportedLocales().size();
-
-		// try to find country and variant
-		String country = locale.getCountry();
-		String variant = locale.getVariant();
-
-		if (country.length() > 0) {
-			for (int i = 0; i < size; i++) {
-				Locale loc = getSupportedLocales().get(i);
-				if (country.equals(loc.getCountry())
-						&& variant.equals(loc.getVariant())) {
-					// found supported country locale
-					return loc;
-				}
-			}
-		}
-
-		// try to find language
-		String language = locale.getLanguage();
-		for (int i = 0; i < size; i++) {
-			Locale loc = getSupportedLocales().get(i);
-			if (language.equals(loc.getLanguage())) {
-				// found supported country locale
-				return loc;
-			}
-		}
-
-		// we didn't find a matching country or language,
-		// so we take English
-		return Locale.ENGLISH;
-	}
 
 	// supported GUI languages (from properties files)
 	private static ArrayList<Locale> supportedLocales = null;
 
-	private ArrayList<Locale> getSupportedLocales() {
+	protected ArrayList<Locale> getSupportedLocales() {
 		return getSupportedLocales(
 				app != null && app.has(Feature.ALL_LANGUAGES));
 	}

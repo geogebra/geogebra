@@ -1,6 +1,8 @@
 package org.geogebra.web.html5.main;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.MissingResourceException;
 
 import org.geogebra.common.main.Localization;
@@ -416,5 +418,17 @@ public final class LocalizationW extends Localization {
 			$wnd.localStorage.translation = JSON.stringify(obj);
 		}
 	}-*/;
+
+	@Override
+	protected ArrayList<Locale> getSupportedLocales() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void updateResourceBundles() {
+		// TODO Auto-generated method stub
+
+	}
 
 }
