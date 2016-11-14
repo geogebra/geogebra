@@ -35,7 +35,6 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
-import org.geogebra.web.keyboard.KBBase;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -1650,7 +1649,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 						w.setEnabled(false);
 						w.addDummyCursor(w.getCaretPosition());
 					}
-					if (!KBBase.shouldBeHideInSV()) {
+					if (view.isKeyboardEnabled()) {
 						app.showKeyboard(w, true);
 					}
 				}

@@ -4,15 +4,18 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.NoDragImage;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
+import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetViewW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -236,8 +239,6 @@ public abstract class KBBase extends PopupPanel {
 
 	private boolean isSmallKeyboard = false;
 
-	static boolean hideInSV;
-
 	protected void initAccentAcuteLetters() {
 		accentAcute.put("a", "\u00e1");
 		accentAcute.put("A", "\u00c1");
@@ -423,7 +424,10 @@ public abstract class KBBase extends PopupPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (KBBase.this.processField.isSVCell()) {
-						hideInSV = true;
+					// hideInSV = true;
+					((SpreadsheetViewW) ((AppW) app)
+							.getView(App.VIEW_SPREADSHEET))
+							.setKeyboardEnabled(false);
 				}
 				keyboardWanted = false;
 				updateKeyBoardListener.keyBoardNeeded(false, null);
@@ -1112,14 +1116,6 @@ public abstract class KBBase extends PopupPanel {
 	 */
 	public boolean shouldBeShown() {
 		return this.keyboardWanted;
-	}
-
-	public static boolean shouldBeHideInSV() {
-		return hideInSV;
-	}
-
-	public static void doHideInSV(boolean b) {
-		hideInSV = b;
 	}
 
 	public void showOnFocus() {

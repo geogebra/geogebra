@@ -75,6 +75,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	private AbsolutePanel spreadsheet;
 
 	GPoint scrollPos = new GPoint();
+	
+	//false, if user close keyboard with X button, in this case, keyboard won't appear if a user click in a cell later, he should open it with keyboard button
+	private boolean keyboardEnabled = true;
 
 	/******************************************************
 	 * Construct spreadsheet view as a split panel. Left panel holds file tree
@@ -1230,5 +1233,13 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 	public void getPrintable(FlowPanel pPanel, Button btPrint) {
 		// pPanel.add(table.);
+	}
+
+	public boolean isKeyboardEnabled() {
+		return keyboardEnabled;
+	}
+
+	public void setKeyboardEnabled(boolean b) {
+		keyboardEnabled = b;
 	}
 }
