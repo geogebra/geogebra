@@ -349,6 +349,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private boolean needsUpdate;
 	protected Label errorLabel;
 
+	private boolean singleTapEdit;
+
 	/** Clears input only when editing */
 	protected PushButton btnClearInput;
 
@@ -445,6 +447,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		loc = app.getLocalization();
 		av = app.getAlgebraView();
 		definitionAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
+		singleTapEdit = app.has(Feature.AV_SINGLE_TAP_EDIT);
 
 		main = new FlowPanel();
 		content = new FlowPanel();
@@ -1535,6 +1538,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
 
+		if (singleTapEdit) {
+			return;
+		}
+
 		if (marblePanel != null
 				&& marblePanel.isHit(evt.getClientX(), evt.getClientY())) {
 			return;
@@ -1546,10 +1553,10 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (commonEditingCheck())
 			return;
 
-		onDoubleClickAction(evt.isControlKeyDown());
+		edit(evt.isControlKeyDown());
 	}
 
-	protected void onDoubleClickAction(boolean ctrl) {
+	protected void edit(boolean ctrl) {
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		selectionCtrl.clear();
 		ev.resetMode();
@@ -1671,6 +1678,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
 		this.updateButtonPanelPosition();
+		if (singleTapEdit) {
+			edit(event.isControlKeyDown());
+		}
 	}
 
 	@Override
@@ -1835,7 +1845,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 			// ctrl key, shift key for TouchEndEvent? interesting...
 			latestTouchEndTime = time;
 			if (!commonEditingCheck()) {
-				onDoubleClickAction(false // event.isControlKeyDown(),
+				edit(false // event.isControlKeyDown(),
 				// event.isShiftKeyDown()
 				);
 			}
@@ -1928,7 +1938,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (geo != null && event.isAltDown() && app.showAlgebraInput()) {
 			// F3 key: copy definition to input bar
 			if (!commonEditingCheck()) {
-				onDoubleClickAction(event.isControlDown());
+				edit(event.isControlDown());
 				return;
 			}
 		}
