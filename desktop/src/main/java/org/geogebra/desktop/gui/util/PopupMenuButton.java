@@ -176,8 +176,9 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 					return;
 
 				Point locButton = getLocation();
-				final int clicDownArrowWidth = (int)Math.round(
-						(CLICK_DOWN_ARROW_WIDTH * (app.getScaledIconSize() / 16)));
+				final int clicDownArrowWidth = (int) Math
+						.round((CLICK_DOWN_ARROW_WIDTH
+								* (app.getScaledIconSize() / 16.0)));
 				// trigger popup
 				// default: trigger only when the mouse is over the right side
 				// of the button

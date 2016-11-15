@@ -714,7 +714,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 		for (int i = 0; i < numberOfOutputLines; i++) {
 			seg[i] = outputSegments.getElement(i);
 		}
-		return null;
+		return seg;
 	}
 
 	/**

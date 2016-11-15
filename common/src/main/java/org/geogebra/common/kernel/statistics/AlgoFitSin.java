@@ -240,7 +240,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 				if (state == 0) { // just started:
 					state = current; // set first state
 				} else { // we are on our way...
-					if ((current != state) && (current != 0)) { // Update
+					if (current != state) { // Update
 																// eventual
 																// change
 						if (nearmaxmin(a, b, state, current, max, min)) {// Kill

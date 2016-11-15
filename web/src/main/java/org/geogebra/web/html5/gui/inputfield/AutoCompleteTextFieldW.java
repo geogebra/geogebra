@@ -1165,25 +1165,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		case GWTKeycodes.KEY_F1:
 
 			if (autoComplete) {
-				if (getText().equals("")) {
-
-					Object[] options = { loc.getPlain("OK"),
-							loc.getPlain("ShowOnlineHelp") };
-					/*
-					 * AG not yet... int n =
-					 * JOptionPane.showOptionDialog(app.getMainComponent(),
-					 * app.getPlain("InputFieldHelp"),
-					 * GeoGebraConstants.APPLICATION_NAME) + " - " +
-					 * app.getMenu("Help"), JOptionPane.YES_NO_OPTION,
-					 * JOptionPane.QUESTION_MESSAGE, null, // do not use a
-					 * custom Icon options, // the titles of buttons
-					 * options[0]); // default button title
-					 * 
-					 * if (n == 1)
-					 * app.getGuiManager().openHelp(AbstractApplication
-					 * .WIKI_MANUAL);
-					 */
-				} else {
+				if (!"".equals(getText())) {
 					int pos = getCaretPosition();
 					while (pos > 0 && getText().charAt(pos - 1) == '[') {
 						pos--;

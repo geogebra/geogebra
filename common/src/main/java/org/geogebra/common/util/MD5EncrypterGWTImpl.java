@@ -138,7 +138,7 @@ public class MD5EncrypterGWTImpl {
 
 			if (c < 128) {
 				utftext.append(c);
-			} else if ((c > 127) && (c < 2048)) {
+			} else if (c < 2048) {
 				utftext.append((c >> 6) | 192);
 				utftext.append((c & 63) | 128);
 			} else {

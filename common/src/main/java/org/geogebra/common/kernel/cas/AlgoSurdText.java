@@ -840,13 +840,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// returning single solution
 		int[] coeffs = new int[n];
 
-		// mutable outputs
-		int[] orthoIndices;
-		if (orthoIndices_mutable == null)
-			orthoIndices = new int[n];
-		else
-			orthoIndices = orthoIndices_mutable;
-
 		double[] xB;
 		if (xB_mutable == null)
 			xB = new double[n];
@@ -870,7 +863,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		for (int i = 0; i < n; i++) {
 			coeffs[i] = 0;
-			orthoIndices[i] = 0;
 		}
 
 		if (n <= 1)
@@ -969,12 +961,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		 */
 
 		// matrix P = In - x.x
-		P = new double[n][n];
-		for (int i = 0; i < n; i++)
-			for (int j = 0; j < n; j++)
-				P[i][j] = -x[i] * x[j];
-		for (int i = 0; i < n; i++)
-			P[i][i] += 1;
+		// P = new double[n][n];
+		// for (int i = 0; i < n; i++)
+		// for (int j = 0; j < n; j++)
+		// P[i][j] = -x[i] * x[j];
+		// for (int i = 0; i < n; i++)
+		// P[i][i] += 1;
 
 		// debug: |P|^2=|H|^2 = n-1
 		// AbstractApplication.debug("Frobenius Norm Squares: \n"
@@ -1031,7 +1023,6 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				if (Kernel.isEqual(xB[i], 0, AccuracyFactor / normX)) {
 
 					solutionFound = true;
-					orthoIndices[i] = 1;
 
 					if (!firstSolutionRecorded) {
 						for (int k = 0; k < n; k++)

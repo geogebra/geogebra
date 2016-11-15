@@ -302,7 +302,7 @@ public class DockPanelData implements Cloneable {
 	 * perspective automatically otherwise.
 	 */
 	@SuppressWarnings("all")
-	public Object clone() {
+	final public Object clone() {
 		return new DockPanelData(viewId, toolbarString, isVisible, openInFrame,
 				showStyleBar, frameBounds, embeddedDef, embeddedSize, plane);
 	}

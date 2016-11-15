@@ -446,7 +446,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private void updateFontSizeStyleElement() {
 
 		final String fontsizeString = app.getGUIFontSize() + "px";
-		final int imagesize = Math.round(app.getGUIFontSize() * 4 / 3);
+		final int imagesize = (int) Math
+				.round(app.getGUIFontSize() * 4.0 / 3.0);
 		int toolbariconSize = 2 * app.getGUIFontSize();
 
 		// until we have no enough place for the big icons in the toolbar, don't

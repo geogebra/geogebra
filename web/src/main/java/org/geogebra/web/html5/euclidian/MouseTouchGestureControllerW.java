@@ -123,10 +123,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private int getEnvXoffset() {
 		// return EuclidianViewXOffset;
 		// the former solution doesn't update on scrolling
-		return Math
-.round((((EuclidianViewWInterface) ec.view)
-		        .getAbsoluteLeft() - Window
-		        .getScrollLeft()));
+		return (((EuclidianViewWInterface) ec.view).getAbsoluteLeft()
+				- Window.getScrollLeft());
 
 	}
 

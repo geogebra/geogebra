@@ -606,10 +606,6 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 						sb.append(app.getLocalization().getCommandSyntax(cmd));
 						// helpTextArea.setText(sb.toString());
 
-					} else {
-						// clear the help text
-						// rollOverCommand = null;
-						// helpTextArea.setText("");
 					}
 				}
 

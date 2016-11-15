@@ -22,7 +22,7 @@ public class MsZoomer {
 
 		@Override
 		public int mouseEventX(int clientX) {
-			return Math.round(clientX + (zoom() - 1));
+			return clientX + (zoom() - 1);
 		}
 
 		private native int zoom() /*-{
@@ -31,7 +31,7 @@ public class MsZoomer {
 
 		@Override
 		public int mouseEventY(int clientY) {
-			return Math.round(clientY + (zoom() - 1));
+			return clientY + (zoom() - 1);
 		}
 
 		@Override

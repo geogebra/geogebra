@@ -415,7 +415,7 @@ public class RendererShaders extends RendererD implements
 
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
-		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2,
+		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2L,
 				ShortBuffer.wrap(fb), RendererJogl.GL_STREAM_DRAW);
 
 	}
@@ -590,7 +590,7 @@ public class RendererShaders extends RendererD implements
 
 		// transfer data to VBO, this perform the copy of data from CPU -> GPU
 		// memory
-		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2,
+		jogl.getGL2ES2().glBufferData(GL.GL_ELEMENT_ARRAY_BUFFER, length * 2L,
 				((GLBufferIndicesJavaNio) arrayI).getBuffer(),
 				RendererJogl.GL_STREAM_DRAW);
 

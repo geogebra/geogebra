@@ -2375,10 +2375,9 @@ public abstract class EuclidianController {
 		else if ((selLines() >= 1) && (selPolyLines() >= 1)) {
 			GeoLine line = getSelectedLines()[0];
 			GeoPolyLine polyLine = getSelectedPolyLines()[0];
-			GeoElement[] ret = { null };
 			checkZooming();
 
-			ret = getAlgoDispatcher().IntersectLinePolyLine(
+			GeoElement[] ret = getAlgoDispatcher().IntersectLinePolyLine(
 					new String[] { null }, line, polyLine);
 			return ret;
 		}
