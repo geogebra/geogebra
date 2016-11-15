@@ -112,14 +112,17 @@ def warDirAbs = file(warDirRel).toURI()
 task cleanWar(type: Delete){
 	delete warDirRel + '/web3d', warDirRel + '/web', warDirRel + '/webSimple', warDirRel + '/tablet', warDirRel + '/tablet3d'
 }
-
-task deployIntoWar(type: Copy, dependsOn: cleanWar) {
+task copyHtml << {
+ String html = file("war/app-release.html").text;
+ file("war/app.html").text = html;
+}
+task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
 	description 'Copies/updates the GWT production compilation directory (web3d, ...) to the war directory.'
 	from compileGwt
 	into warDirRel
 }
 
-task symlinkIntoWar {
+task symlinkIntoWar(dependsOn: ['copyHtml']) {
 	description 'Creates a symbolic link to the GWT production compilation directory (web3d, ...) in the war directory. [UNUSED]'
 	doLast {
 	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
@@ -128,7 +131,7 @@ task symlinkIntoWar {
 	}
 }
 
-task draftSymlinkIntoWar {
+task draftSymlinkIntoWar(dependsOn: ['copyHtml']) {
 	description 'Creates a symbolic link to the GWT draft compilation directory (web3d) in the war directory.'
 	doLast {
 	    ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d'].each { folder ->
@@ -137,7 +140,7 @@ task draftSymlinkIntoWar {
 	}
 }
 
-task draftDeployIntoWar(type: Copy, dependsOn: cleanWar) {
+task draftDeployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
 	description 'Copies/updates the GWT draft compilation directory (web3d) to the war directory.'
 	from draftCompileGwt
 	into warDirRel
@@ -163,7 +166,7 @@ task draftRun(dependsOn: 'draftDeployIntoWar') {
 // As now this task doesn't finish until the java process exits.
 // This causes some problems as the IDE cannot run any other tasks.
 // https://issues.gradle.org/browse/GRADLE-1254
-task runSuperDev(type: JavaExec, dependsOn: 'jar') {
+task runSuperDev(type: JavaExec, dependsOn: ['jar','copyHtml']) {
 	description 'Starts a codeserver, and a simple webserver for development'
 	main 'com.google.gwt.dev.DevMode'
 	maxHeapSize '2048m'
