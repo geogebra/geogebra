@@ -89,6 +89,15 @@ abstract public class MathContainer extends MathComponent {
 		arguments.remove(i);
 	}
 
+    public void clearArguments() {
+        if (arguments == null) {
+            arguments = new ArrayList<MathComponent>();
+        }
+        for (int i = 0; i < arguments.size(); i++) {
+            removeArgument(i);
+        }
+    }
+
     public void addArgument(MathComponent argument) {
         if (arguments == null) {
             arguments = new ArrayList<MathComponent>(1);
