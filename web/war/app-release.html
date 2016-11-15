@@ -15,6 +15,7 @@ var latestVersion="5.0.282.0";
 var module = "web3d";
 var lookAndFeel = "";
 var prerelease = false;
+var startDelay = 0;
 </script>
 <!--PLATFORM SPECIFIC CODE-->
 <script>			
@@ -260,7 +261,9 @@ var app = document.createElement("script");
 		
 		app = document.createElement("script");
 		app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
-		document.head.appendChild(app);	
+		window.setTimeout(function(){
+		document.head.appendChild(app);
+			},startDelay);
 }
 	function isLocalhost(){
 		return location.protocol.match(/(app|file):/) || location.host.match(/^([0-9:.]*|(autotest|deploy).geogebra.org|localhost)$/);
