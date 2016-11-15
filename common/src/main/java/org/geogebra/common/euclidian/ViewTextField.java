@@ -50,9 +50,15 @@ public abstract class ViewTextField {
 			Log.debug("[TF] d is null!!!");
 			return;
 		}
+		String text = inputBox.getText();
+
+		Log.debug(
+				"[TF] focusTo " + inputBox.getLabelSimple() + " text: " + text);
 		textField.setDrawTextField(d);
-		d.setFocus(inputBox.getText());
-		textField.setText(inputBox.getText());
+		textField.setText(text);
+		textField.prepareShowSymbolButton(inputBox
+				.getLength() > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH);
+		textField.requestFocus();
 		d.setWidgetVisible(true);
 	}
 

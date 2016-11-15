@@ -1736,9 +1736,7 @@ public abstract class EuclidianView
 				GeoElement geo = d.getGeoElement();
 				if (geo.isEuclidianVisible()) {
 					((CanvasDrawable) d).setWidgetVisible(true);
-					// if (d instanceof DrawList) {
-					// ((DrawList) d).onControlClick(x, y);
-					// }
+					focusTextField((GeoInputBox) geo);
 					return true;
 				}
 
